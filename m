@@ -1,48 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C0A6C597
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 302CB6C10F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2018 15:22:58 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id e12so12604807otl.5
+	Mon, 26 Nov 2018 15:27:48 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id q26so18863943wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2018 07:22:59 -0800 (PST)
+	Mon, 26 Nov 2018 07:27:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=efhJ+Mr6I7qnGPxp98j/ng7fROH1r4R//rc/LDg2hdI=;
-	b=ZwsZY4INNUEdIz4Ps6FFs//WsCUAvvmwSvoFKmqRyKWhTm9uFkSsMxQt7ky9teAXee
-	buOzxD1CqWfj7gw9/OVJgWylS29OyCsBQXeNCf6XUZuQo5YkB0W23uEifynTa39IVoVa
-	RHmUC69k4lcZxg80fEqdkYS4FbLwt2//InUNHCoQku8pOKOpSWxtdId+b8ZbZphbq4Zw
-	MkjhZIgc233tbqqVJe2XD9sdCuy0WXvOnOclowpybkLFlTBBVmQ8ceXjtlNUk4y9yGrv
-	f//8NggSAqKAmnj4LZzbCgdLwW6FsCsqRvZtrQ44ftJDBook66QBtewgfVyIAlJYJ8Sg
-	rbGg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sTRdu/SMO2cRPJq9TalmLGv9cDBKQOU/4NKSHiqm9GM=;
+	b=ZRBufI1bEItF3roRsnG3mPg7+rSpDLxbD2qoccM570cMp/kr4jBXCqGAlByHdj1XrG
+	CgxEgzlYj1oF7ru0sIsNZcuS/ZdbvMILkjyVb2KfdYw2kVLAZSSFoI9r1vQyHAAN41BV
+	na5vNL3qIA0sTUec0ttjY7sjeZNqQbMotnWJJHYIk56TL6jiLppIWoMHLpungTmExED8
+	KUwgwFgJCNR59E/MFggJJv1rf0RSRrZ1f0X2SgVuyJFU0Di7omIOCMiFAGM/Ctmja8b2
+	9zFwJYNUjR0k01dBy0k8Jk7uTUUnVRNrJrKUzvzh+O3EjzKNX1M1DiipZ+r+xT0+lKlv
+	WvyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=efhJ+Mr6I7qnGPxp98j/ng7fROH1r4R//rc/LDg2hdI=;
-	b=H0/B0ULxRD6kZflkJRnDiDAILTkyqIsT1vL7TMniaSVSxf96qbHMs6JurP6x8FWHUq
-	kZilLvLErocfloIx1CMyiYWOgxRQccCEMHAo0acw9NlM/6nzz4Nzxh2blixTEBNC4wsO
-	VGv+aERQGpyhMiawqacahiWEeZzbwiBbGfx11yvkJT7vPfbHtVKCdu5l/1ubHEALF/9O
-	/Yywg80pM1Z+ZgVMtNEf6AxAfjl7Rcp3BN9gY2N1r3p3dB7RQfcGJg9/L990KxRMWNhx
-	DL3J7egj03MKL7uHVWt8q1ucRTqwMmFBmdjxsj/DOuIHTBdJFUla9a5JzawqWq4oM9Ev
-	YTag==
-X-Gm-Message-State: AA+aEWaN1X4piGkHYwjgXN4ovudba7hESYgHq5Pn19DtqzhWTniiXemJ
-	L5gkRLO/CPxTkiRrhWw5Noo3TdYf5/EEYJb0vD0=
-X-Google-Smtp-Source: AFSGD/XX3kTL5WaUhpYdxbv2kRFOuUYJktJkRpA7nMN2DRvzz6DF90NIA5qllgTL1MZtZ7FB2pvbclwHPMLWkbgZ69I=
-X-Received: by 2002:a9d:5090:: with SMTP id b16mr13923704oth.96.1543245779305; 
-	Mon, 26 Nov 2018 07:22:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20181126144308.13862-1-sno@netbsd.org>
-	<CANNYZj8gJiXCBBqFb-gLvV83RhO7StKxGiaTnjE_iuMK7ZGG-Q@mail.gmail.com>
-	<F8563831-C398-42EA-87CD-9C1A50A1F5A8@netbsd.org>
-In-Reply-To: <F8563831-C398-42EA-87CD-9C1A50A1F5A8@netbsd.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sTRdu/SMO2cRPJq9TalmLGv9cDBKQOU/4NKSHiqm9GM=;
+	b=ZnQr7gzqPZOEuSWXeP8e+mkUMCSNDUSVSb0gQS6/aD+g+igb0Y9qnys+sz4diVnBTV
+	HsK6wCtXKwhJmDgJhpBBjMI3S2vfSpCe1hF4gXWdeI4n1LS1hOVdVtGmjwHlAt8jNZZ9
+	o2wM8wupr+LWHstrrXCZYsJq1bL6JNJu7jsQfaUe6tj4Uqipt4OGdx2tO54EHkZiFNc4
+	krAlPg2QoZGbRK4+1leC5mu4t6N2dDJaBH9KPPW9rOUxp2N/1c04Dq8Z0978JXNQdBNy
+	fjdCk9hjZgPREuCjBsz5wrA/s1XgP4f3GXIhW640vc18g1IY1IUajFOE7MizOOQUSULy
+	Ygeg==
+X-Gm-Message-State: AGRZ1gInG9RV8fYVQOP98KprG8YL5sdBRYlafddqRai0u29/PjYpU4Zy
+	FX5H2918l/geheAohr97F0OZXDbO
+X-Google-Smtp-Source: AJdET5de5Ix5ewuOrn+fgCG3FUQsFnYkvUEz2RarTF0ILOXJh2KU/uMeZ15CwOiRuSyKf7UBpbV4pw==
+X-Received: by 2002:a1c:7a03:: with SMTP id
+	v3-v6mr23723201wmc.108.1543246066740; 
+	Mon, 26 Nov 2018 07:27:46 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id o15sm841001wrp.12.2018.11.26.07.27.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Nov 2018 07:27:45 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Nov 2018 16:22:47 +0100
-Message-ID: <CANNYZj_6NPPkiS1FGNpnWq4AWrxSioyKSLofzXJH_-muJTbTug@mail.gmail.com>
-To: Jens Rehsack <sno@netbsd.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perl{,-native}: Update 5.24.4 -> 5.28.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Nov 2018 16:27:38 +0100
+Message-Id: <20181126152738.67442-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Subject: [PATCH] perl: rewrite the recipe using perl-cross, and update to 5.28.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,20 +58,9359 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2018 15:22:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 26 Nov 2018 15:27:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 26 Nov 2018 at 16:17, Jens Rehsack <sno@netbsd.org> wrote:
-> Even if I'm not a meta-perl maintainer - checking whether it works and
-> how it handles meta-cpan would nice to know.
->
-> That it's not submitted - does it means it has Q/A quirks or just unsure?
-> Maybe I find a tuit before next contract to finish then ...
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-Basically I only just got oe-core to build without issues with it. So
-nothing else is tested, and RDEPENDS generator is missing, but as you
-came out with the patch, I thought I'd bring mine forward as well,
-otherwise I'd let it cook some more time.
+perl-cross is a build system overlay from buildroot project that aims to bring
+a bit of sanity to cross-building perl. The advantage of using that is that we
+can drop a lot of custom patches (that no one really understands), and simplify
+the perl recipe as well. Also the build time goes down from several minutes to
+about 30 seconds. The whole thing becomes maintainable again, in my opinion.
 
-Alex
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/perl-version.bbclass             |    3 +-
+ .../docbook-xsl-stylesheets_1.79.1.bb         |    1 +
+ .../intltool/intltool_0.51.0.bb               |    2 +-
+ ...er-add-LDFLAGS-when-linking-binary-m.patch |   26 +
+ ...ule-breaks-through-the-perl-wrapper-.patch |   34 +
+ ...h-do-not-quote-the-argument-to-comma.patch |   29 +
+ .../files}/errno_ver.diff                     |    0
+ .../files}/native-perlinc.patch               |    0
+ .../files}/perl-configpm-switch.patch         |    0
+ .../perl => perl-sanity/files}/run-ptest      |    0
+ .../{perl => perl-sanity}/perl-ptest.inc      |    4 +-
+ .../perl-sanity/perl_5.28.0.bb                |  167 ++
+ .../perl/perl-native_5.24.4.bb                |  140 -
+ .../perl/perl-rdepends_5.24.4.inc             | 2575 -----------------
+ meta/recipes-devtools/perl/perl.inc           |   10 -
+ ...-fstack-protector-strong-for-native-.patch |  103 -
+ ...-ExtUtils-MM_Unix.pm-fix-race-issues.patch |   52 -
+ ...tests-if-PERL_BUILD_PACKAGING-is-set.patch |  126 -
+ .../perl/perl/CVE-2018-12015.patch            |   48 -
+ .../perl/perl/Configure-multilib.patch        |   17 -
+ .../perl/perl/MM_Unix.pm.patch                |   22 -
+ .../perl/perl/Makefile.SH.patch               |  383 ---
+ .../recipes-devtools/perl/perl/Makefile.patch |   58 -
+ meta/recipes-devtools/perl/perl/config.sh     | 1249 --------
+ meta/recipes-devtools/perl/perl/config.sh-32  |   38 -
+ .../perl/perl/config.sh-32-be                 |    1 -
+ .../perl/perl/config.sh-32-le                 |    1 -
+ meta/recipes-devtools/perl/perl/config.sh-64  |   38 -
+ .../perl/perl/config.sh-64-be                 |    1 -
+ .../perl/perl/config.sh-64-le                 |    1 -
+ .../perl/perl/cross-generate_uudmap.patch     |   15 -
+ .../perl/debian/cpan-missing-site-dirs.diff   |   63 -
+ .../perl/perl/debian/cpan_definstalldirs.diff |   38 -
+ .../perl/perl/debian/db_file_ver.diff         |   35 -
+ .../perl/perl/debian/deprecate-with-apt.diff  |   57 -
+ .../perl/perl/debian/doc_info.diff            |   36 -
+ .../perl/perl/debian/enc2xs_inc.diff          |   71 -
+ .../debian/extutils_set_libperl_path.diff     |   38 -
+ .../perl/perl/debian/fakeroot.diff            |   43 -
+ .../perl/perl/debian/find_html2text.diff      |   36 -
+ .../fixes/document_makemaker_ccflags.diff     |   32 -
+ .../debian/fixes/memoize_storable_nstore.diff |  111 -
+ .../perl/perl/debian/fixes/net_smtp_docs.diff |   26 -
+ .../perl/perl/debian/fixes/perl-Cnn.diff      |   74 -
+ .../fixes/pod_man_reproducible_date.diff      |  171 --
+ .../perl/debian/fixes/podman-empty-date.diff  |   52 -
+ .../perl/perl/debian/fixes/podman-pipe.diff   |  110 -
+ .../perl/debian/fixes/podman-utc-docs.diff    |   87 -
+ .../perl/perl/debian/fixes/podman-utc.diff    |   34 -
+ .../perl/perl/debian/fixes/respect_umask.diff |  154 -
+ .../perl/perl/debian/instmodsh_doc.diff       |   28 -
+ .../perl/perl/debian/ld_run_path.diff         |   25 -
+ .../perl/perl/debian/libnet_config_path.diff  |   38 -
+ .../perl/perl/debian/libperl_embed_doc.diff   |   27 -
+ .../perl/perl/debian/locale-robustness.diff   |   53 -
+ .../perl/perl/debian/makemaker-pasthru.diff   |   31 -
+ .../perl/debian/makemaker_customized.diff     |   43 -
+ .../perl/perl/debian/mod_paths.diff           |  100 -
+ .../perl/debian/no_packlist_perllocal.diff    |   93 -
+ .../perl/perl/debian/patchlevel.diff          |   31 -
+ .../debian/perl5db-x-terminal-emulator.patch  |   30 -
+ .../perl/perl/debian/perlivp.diff             |   40 -
+ .../perl/perl/debian/pod2man-customized.diff  |   24 -
+ .../perl/perl/debian/prefix_changes.diff      |  119 -
+ .../perl/perl/debian/prune_libs.diff          |   43 -
+ .../perl/perl/debian/regen-skip.diff          |   28 -
+ .../perl/perl/debian/skip-kfreebsd-crash.diff |   41 -
+ .../perl/debian/skip-upstream-git-tests.diff  |   29 -
+ .../perl/debian/squelch-locale-warnings.diff  |   57 -
+ .../perl/perl/debian/writable_site_dirs.diff  |   37 -
+ .../perl/perl/dynaloaderhack.patch            |   35 -
+ ...e-hints-linux.pl-link-libgdbm_compat.patch |   35 -
+ ...odbm.t-fix-the-path-of-dbmt_common.p.patch |   33 -
+ .../perl/perl/fix_bad_rpath.patch             |   24 -
+ .../perl/perl/generate-sh.patch               |   56 -
+ .../perl/perl/installperl.patch               |   17 -
+ .../perl/perl/letgcc-find-errno.patch         |   46 -
+ ...regenerate-makefile-failed-while-cc-.patch |   27 -
+ .../perl/perl/native-nopacklist.patch         |   91 -
+ .../perl-5.26.1-guard_old_libcrypt_fix.patch  |   28 -
+ ...Tools-don-t-filter-out-blib-from-INC.patch |   33 -
+ .../perl/perl/perl-archlib-exp.patch          |   40 -
+ .../perl/perl/perl-configure.sh               |   43 -
+ .../perl/perl/perl-dynloader.patch            |   34 -
+ .../perl/perl-errno-generation-gcc5.patch     |   37 -
+ ...ix-conflict-between-skip_all-and-END.patch |  181 --
+ .../perl/perl/perl-moreconfig.patch           |   18 -
+ .../perl/t-run-switches.t-perl5-perl.patch    |   30 -
+ ...st-threads-t-join.t-adjust-ps-option.patch |   38 -
+ ...-DynaLoader.t-fix-calling-dl_findfil.patch |   26 -
+ meta/recipes-devtools/perl/perl_5.24.4.bb     |  353 ---
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |    1 +
+ meta/recipes-extended/groff/groff_1.22.3.bb   |    1 +
+ meta/recipes-extended/texinfo/texinfo_6.5.bb  |    1 +
+ 94 files changed, 265 insertions(+), 8292 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+ create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+ create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+ rename meta/recipes-devtools/{perl/perl/debian => perl-sanity/files}/errno_ver.diff (100%)
+ rename meta/recipes-devtools/{perl/perl => perl-sanity/files}/native-perlinc.patch (100%)
+ rename meta/recipes-devtools/{perl/perl => perl-sanity/files}/perl-configpm-switch.patch (100%)
+ rename meta/recipes-devtools/{perl/perl => perl-sanity/files}/run-ptest (100%)
+ rename meta/recipes-devtools/{perl => perl-sanity}/perl-ptest.inc (93%)
+ create mode 100644 meta/recipes-devtools/perl-sanity/perl_5.28.0.bb
+ delete mode 100644 meta/recipes-devtools/perl/perl-native_5.24.4.bb
+ delete mode 100644 meta/recipes-devtools/perl/perl-rdepends_5.24.4.inc
+ delete mode 100644 meta/recipes-devtools/perl/perl.inc
+ delete mode 100644 meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/0001-Skip-various-tests-if-PERL_BUILD_PACKAGING-is-set.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/Configure-multilib.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/Makefile.SH.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/Makefile.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-32
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-32-be
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-32-le
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-64
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-64-be
+ delete mode 100644 meta/recipes-devtools/perl/perl/config.sh-64-le
+ delete mode 100644 meta/recipes-devtools/perl/perl/cross-generate_uudmap.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/cpan-missing-site-dirs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/cpan_definstalldirs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/db_file_ver.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/deprecate-with-apt.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/doc_info.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/enc2xs_inc.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/extutils_set_libperl_path.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fakeroot.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/find_html2text.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/document_makemaker_ccflags.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/memoize_storable_nstore.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/net_smtp_docs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/perl-Cnn.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/pod_man_reproducible_date.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/podman-empty-date.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/podman-pipe.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/podman-utc-docs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/podman-utc.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/fixes/respect_umask.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/instmodsh_doc.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/ld_run_path.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/libnet_config_path.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/libperl_embed_doc.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/locale-robustness.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/makemaker-pasthru.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/makemaker_customized.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/mod_paths.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/no_packlist_perllocal.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/patchlevel.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/perl5db-x-terminal-emulator.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/perlivp.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/pod2man-customized.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/prefix_changes.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/prune_libs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/regen-skip.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/skip-kfreebsd-crash.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/skip-upstream-git-tests.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/squelch-locale-warnings.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/debian/writable_site_dirs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl/dynaloaderhack.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/fix_bad_rpath.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/generate-sh.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/installperl.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/letgcc-find-errno.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/make_ext.pl-fix-regenerate-makefile-failed-while-cc-.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/native-nopacklist.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-archlib-exp.patch
+ delete mode 100755 meta/recipes-devtools/perl/perl/perl-configure.sh
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-dynloader.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-fix-conflict-between-skip_all-and-END.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/perl-moreconfig.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/t-run-switches.t-perl5-perl.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/test/dist-threads-t-join.t-adjust-ps-option.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl_5.24.4.bb
+
+diff --git a/meta/classes/perl-version.bbclass b/meta/classes/perl-version.bbclass
+index fafe68a775f..5bddd63219b 100644
+--- a/meta/classes/perl-version.bbclass
++++ b/meta/classes/perl-version.bbclass
+@@ -1,4 +1,5 @@
+-PERL_OWN_DIR = "${@["", "/perl-native"][(bb.data.inherits_class('native', d))]}"
++#PERL_OWN_DIR = "${@["", "/perl-native"][(bb.data.inherits_class('native', d))]}"
++PERL_OWN_DIR = ""
+ 
+ # Determine the staged version of perl from the perl configuration file
+ # Assign vardepvalue, because otherwise signature is changed before and after
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+index 07d32ce9795..f4ff4241d9c 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+@@ -59,5 +59,6 @@ do_install_append_class-native () {
+ }
+ 
+ RDEPENDS_${PN} += "perl"
++RDEPENDS_${PN}_class-native = ""
+ FILES_${PN} = "${datadir}/xml/* ${sysconfdir}/xml/docbook-xsl.xml"
+ FILES_${PN}-doc = "${datadir}/doc/*"
+diff --git a/meta/recipes-devtools/intltool/intltool_0.51.0.bb b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+index ecff2faf253..f2f8bb511ce 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.51.0.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
+@@ -21,7 +21,7 @@ DEPENDS_class-native = "libxml-parser-perl-native gettext-native"
+ inherit autotools pkgconfig perlnative
+ 
+ export PERL = "${bindir}/env perl"
+-PERL_class-native = "/usr/bin/env nativeperl"
++PERL_class-native = "/usr/bin/env perl"
+ PERL_class-nativesdk = "/usr/bin/env perl"
+ 
+ # gettext is assumed to exist on the host
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch b/meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+new file mode 100644
+index 00000000000..7d5c079b2d0
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+@@ -0,0 +1,26 @@
++From 2f74a899474f428a4a5368a94accf801c5f97ae4 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 4 Jun 2018 18:33:50 +0300
++Subject: [PATCH] ExtUtils-MakeMaker: add $(LDFLAGS) when linking binary
++ modules
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index fe53be1..249c048 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -1050,7 +1050,7 @@ sub xs_make_dynamic_lib {
++     }
++ 
++     push @m, sprintf <<'MAKE', $ld_run_path_shell, $ldrun, $dlsyms_arg, $ldfrom, $self->xs_obj_opt('$@'), $libs, $exportlist;
++-	%s$(LD) %s $(LDDLFLAGS) %s %s $(OTHERLDFLAGS) %s $(MYEXTLIB) \
+++	%s$(LD) %s $(LDDLFLAGS) %s %s $(LDFLAGS) $(OTHERLDFLAGS) %s $(MYEXTLIB) \
++ 	  $(PERL_ARCHIVE) %s $(PERL_ARCHIVE_AFTER) %s \
++ 	  $(INST_DYNAMIC_FIX)
++ 	$(CHMOD) $(PERM_RWX) $@
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch b/meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+new file mode 100644
+index 00000000000..ed8ec1d4168
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+@@ -0,0 +1,34 @@
++From e8e095b9c71c58f8197d6315359446b6b084cb2b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 5 Jun 2018 14:58:42 +0300
++Subject: [PATCH] Somehow this module breaks through the perl wrapper and
++ declares perl binary to be 'perl.real'. This patch forces it back to perl.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index 948c476..f537526 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -1110,6 +1110,9 @@ WARNING
++     }
++ 
++     foreach my $name (@$names){
+++        # Getting MakeMaker.pm use perl wrapper instead of 'perl.real' directly
+++        $name =~ s/perl\.real/perl/ if ($name =~ /perl\.real/);
+++
++         my ($abs, $use_dir);
++         if ($self->file_name_is_absolute($name)) {     # /foo/bar
++             $abs = $name;
++@@ -2006,6 +2009,7 @@ sub init_PERL {
++ 
++     $self->{PERL} ||=
++         $self->find_perl(5.0, \@perls, \@defpath, $Verbose );
+++    
++ 
++     my $perl = $self->{PERL};
++     $perl =~ s/^"//;
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch b/meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+new file mode 100644
+index 00000000000..0aaeaa29ebb
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+@@ -0,0 +1,29 @@
++From a66811c487ecf8ba8724879c253bb10dfa82aeb5 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 1 Jun 2018 19:57:32 +0300
++Subject: [PATCH] configure_tool.sh: do not quote the argument to 'command'
++
++As it seems to break things if the argument has spaces and arguments in it.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ cnf/configure_tool.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cnf/configure_tool.sh b/cnf/configure_tool.sh
++index 32201c0..461bc68 100644
++--- a/cnf/configure_tool.sh
+++++ b/cnf/configure_tool.sh
++@@ -2,7 +2,7 @@
++ 
++ tryprog() {
++ 	log "trying $1=$2"
++-	if command -v "$2" 1>/dev/null 2>/dev/null; then
+++	if command -v $2 1>/dev/null 2>/dev/null; then
++ 		define "$1" "$2"
++ 		result "$2"
++ 		return 0
++-- 
++2.17.0
++
+diff --git a/meta/recipes-devtools/perl/perl/debian/errno_ver.diff b/meta/recipes-devtools/perl-sanity/files/errno_ver.diff
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl/debian/errno_ver.diff
+rename to meta/recipes-devtools/perl-sanity/files/errno_ver.diff
+diff --git a/meta/recipes-devtools/perl/perl/native-perlinc.patch b/meta/recipes-devtools/perl-sanity/files/native-perlinc.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl/native-perlinc.patch
+rename to meta/recipes-devtools/perl-sanity/files/native-perlinc.patch
+diff --git a/meta/recipes-devtools/perl/perl/perl-configpm-switch.patch b/meta/recipes-devtools/perl-sanity/files/perl-configpm-switch.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl/perl-configpm-switch.patch
+rename to meta/recipes-devtools/perl-sanity/files/perl-configpm-switch.patch
+diff --git a/meta/recipes-devtools/perl/perl/run-ptest b/meta/recipes-devtools/perl-sanity/files/run-ptest
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl/run-ptest
+rename to meta/recipes-devtools/perl-sanity/files/run-ptest
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl-sanity/perl-ptest.inc
+similarity index 93%
+rename from meta/recipes-devtools/perl/perl-ptest.inc
+rename to meta/recipes-devtools/perl-sanity/perl-ptest.inc
+index 8d46448566b..5d4422053c8 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl-sanity/perl-ptest.inc
+@@ -7,7 +7,7 @@ do_install_ptest () {
+ 	sed -e "s:\/usr\/local:${bindir}:g" -i cpan/version/t/*
+ 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
+ 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
+-	tar -c --exclude='*.o' --exclude=libperl.so --exclude=Makefile --exclude=makefile --exclude=hostperl \
++	tar -c --exclude=try --exclude=a.out --exclude='*.o' --exclude=libperl.so --exclude=Makefile --exclude=makefile --exclude=hostperl \
+ 	    --exclude=cygwin --exclude=os2 --exclude=djgpp --exclude=qnx --exclude=symbian --exclude=haiku \
+ 	    --exclude=vms --exclude=vos --exclude=NetWare --exclude=amigaos4  --exclude=buildcustomize.pl \
+ 	    --exclude='win32/config.*' --exclude=plan9 --exclude=README.plan9 --exclude=perlplan9.pod --exclude=Configure \
+@@ -50,7 +50,7 @@ python populate_packages_prepend() {
+             '${PN}-ptest%s', '%s', recursive=True, match_path=True)
+ }
+ 
+-RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc ${PN}-misc sed"
++RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc sed"
+ 
+ # The perl-ptest package contains Perl internal modules and generating file
+ # dependencies for it causes problems.
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.0.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.0.bb
+new file mode 100644
+index 00000000000..56390cd86bd
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.0.bb
+@@ -0,0 +1,167 @@
++SUMMARY = "Perl scripting language"
++HOMEPAGE = "http://www.perl.org/"
++SECTION = "devel"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
++                    file://Artistic;md5=71a4d5d9acc18c0952a6df2218bb68da \
++                    "
++
++
++SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
++           https://github.com/arsv/perl-cross/releases/download/1.2/perl-cross-1.2.tar.gz;name=perl-cross \
++           file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
++           file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
++           file://0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch \
++           file://perl-configpm-switch.patch \
++           file://errno_ver.diff \
++           file://native-perlinc.patch \
++           "
++
++SRC_URI[perl.md5sum] = "c7c63781745e280e08401a306a83bfb8"
++SRC_URI[perl.sha256sum] = "7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8"
++SRC_URI[perl-cross.md5sum] = "2d702f8fa1dba84d0a62de30e8a9c263"
++SRC_URI[perl-cross.sha256sum] = "599077beb86af5e6097da8922a84474a5484f61475d2899eae0f8634e9619109"
++
++S = "${WORKDIR}/perl-${PV}"
++
++inherit upstream-version-is-even
++
++do_patch_prepend() {
++    bb.build.exec_func('do_copy_perlcross', d)
++}
++
++do_copy_perlcross() {
++    cp -rf ${WORKDIR}/perl-cross*/* ${S}
++}
++
++do_configure_class-target() {
++    ./configure --prefix=${prefix} \
++    --target=${TARGET_SYS} \
++    -Dvendorprefix=${prefix} \
++    -Darchlib=${libdir}/perl/${PV} \
++    -Dprivlib=${libdir}/perl/${PV} \
++    -Darchlibexp=${STAGING_LIBDIR}/perl/${PV} \
++    -Dsitelib_stem=${libdir}/perl/site_perl \
++    -Dvendorlib_stem=${libdir}/perl/vendor_perl
++}
++
++do_configure_class-nativesdk() {
++    ./configure --prefix=${prefix} --target=${TARGET_SYS} -Dvendorprefix=${prefix}
++}
++
++do_configure_class-native() {
++    ./configure --prefix=${prefix} \
++    -Dvendorprefix=${prefix} \
++    -Darchlib=${libdir}/perl/${PV} \
++    -Dprivlib=${libdir}/perl/${PV} \
++    -Darchlibexp=${STAGING_LIBDIR}/perl/${PV} \
++    -Dsitelib_stem=${libdir}/perl/site_perl \
++    -Dvendorlib_stem=${libdir}/perl/vendor_perl
++}
++
++do_compile() {
++    oe_runmake miniperl
++    oe_runmake config-pm
++    oe_runmake
++}
++
++do_install() {
++    oe_runmake 'DESTDIR=${D}' install
++
++    install -d ${D}${libdir}/perl
++    install -d ${D}${libdir}/perl/${PV}/
++    install -d ${D}${libdir}/perl/${PV}/ExtUtils/
++
++    # Save native config
++    install config.sh ${D}${libdir}/perl
++    install lib/Config.pm ${D}${libdir}/perl/${PV}/
++    install lib/ExtUtils/typemap ${D}${libdir}/perl/${PV}/ExtUtils/
++}
++
++do_install_append_class-target() {
++    # This is used to substitute target configuration when running native perl via perl-configpm-switch.patch
++    ln -s Config_heavy.pl ${D}${libdir}/perl/${PV}/Config_heavy-target.pl
++
++    # This is to keep compatibility with older perl recipe; I have no idea why it's like this
++    #ln -s perl5 ${D}${libdir}/perl
++}
++
++do_install_append_class-native () {
++    # Those wrappers mean that perl installed from sstate (which may change
++    # path location) works and that in the nativesdk case, the SDK can be
++    # installed to a different location from the one it was built for.
++    create_wrapper ${D}${bindir}/perl PERL5LIB='$PERL5LIB:${STAGING_LIBDIR}/perl/site_perl/${PV}:${STAGING_LIBDIR}/perl/vendor_perl/${PV}:${STAGING_LIBDIR}/perl/${PV}'
++    create_wrapper ${D}${bindir}/perl${PV} PERL5LIB='$PERL5LIB:${STAGING_LIBDIR}/perl/site_perl/${PV}:${STAGING_LIBDIR}/perl/vendor_perl/${PV}:${STAGING_LIBDIR}/perl/${PV}'
++}
++
++require perl-ptest.inc
++
++FILES_${PN}_append = " ${libdir}/perl/site_perl \
++               ${libdir}/perl/${PV}/Config.pm \
++               ${libdir}/perl/${PV}/strict.pm \
++               ${libdir}/perl/${PV}/warnings.pm \
++               ${libdir}/perl/${PV}/warnings \
++               ${libdir}/perl/${PV}/vars.pm \
++               ${libdir}/perl5/site_perl \
++               "
++
++FILES_${PN}-staticdev_append = " ${libdir}/perl/${PV}/CORE/libperl.a"
++
++FILES_${PN}-dev_append = " ${libdir}/perl/${PV}/CORE"
++
++FILES_${PN}-doc_append = " ${libdir}/perl/${PV}/Unicode/Collate/*.txt \
++                           ${libdir}/perl/${PV}/*/.packlist \
++                           ${libdir}/perl/${PV}/ExtUtils/MANIFEST.SKIP \
++                           ${libdir}/perl/${PV}/ExtUtils/xsubpp \
++                           ${libdir}/perl/${PV}/ExtUtils/typemap \
++                           ${libdir}/perl/${PV}/Encode/encode.h \
++                         "
++
++PACKAGES_append = " ${PN}-pod"
++
++FILES_${PN}-pod = "${libdir}/perl/${PV}/pod \
++                   ${libdir}/perl/${PV}/*.pod \
++                   ${libdir}/perl/${PV}/*/*.pod \
++                   ${libdir}/perl/${PV}/*/*/*.pod \ 
++                   ${libdir}/perl/${PV}/*/*/*/*.pod \ 
++                  "
++RDEPENDS_${PN}-pod += "perl"
++
++PACKAGES_append = " ${PN}-module-cpan ${PN}-module-unicore"
++
++FILES_${PN}-module-cpan += "${libdir}/perl/${PV}/CPAN \
++                          "
++FILES_${PN}-module-unicore += "${libdir}/perl/${PV}/unicore"
++
++# Create a perl-modules package recommending all the other perl
++# packages (actually the non modules packages and not created too)
++ALLOW_EMPTY_${PN}-modules = "1"
++PACKAGES_append = " ${PN}-modules "
++
++PACKAGESPLITFUNCS_prepend = "split_perl_packages "
++
++python split_perl_packages () {
++    libdir = d.expand('${libdir}/perl/${PV}')
++    do_split_packages(d, libdir, '.*/auto/([^.]*)/[^/]*\.(so|ld|ix|al)', '${PN}-module-%s', 'perl module %s', recursive=True, match_path=True, prepend=False)
++    do_split_packages(d, libdir, '.*linux/([^\/]*)\.pm', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, 'Module/([^\/]*)\.pm', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, 'Module/([^\/]*)/.*', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, '.*linux/([^\/].*)\.(pm|pl|e2x)', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/)[^\/]).*)\.(pm|pl|e2x)', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++
++    # perl-modules should recommend every perl module, and only the
++    # modules. Don't attempt to use the result of do_split_packages() as some
++    # modules are manually split (eg. perl-module-unicore).
++    packages = filter(lambda p: '${PN}-module-' in p, d.getVar('PACKAGES').split())
++    d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
++}
++
++PACKAGES_DYNAMIC_class-target += "^${PN}-module-.*"
++PACKAGES_DYNAMIC_class-nativesdk += "^${PN}-module-.*"
++
++PACKAGES_append = " ${PN}-misc"
++RDEPENDS_${PN}-misc += "perl perl-modules"
++
++BBCLASSEXTEND = "native nativesdk"
++
++SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
+diff --git a/meta/recipes-devtools/perl/perl-native_5.24.4.bb b/meta/recipes-devtools/perl/perl-native_5.24.4.bb
+deleted file mode 100644
+index 81d3fd48980..00000000000
+--- a/meta/recipes-devtools/perl/perl-native_5.24.4.bb
++++ /dev/null
+@@ -1,140 +0,0 @@
+-require perl.inc
+-
+-# We need gnugrep (for -I)
+-DEPENDS = "db-native grep-native gdbm-native zlib-native"
+-
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
+-
+-SRC_URI += "\
+-           file://Configure-multilib.patch \
+-           file://perl-configpm-switch.patch \
+-           file://native-nopacklist.patch \
+-           file://native-perlinc.patch \
+-           file://MM_Unix.pm.patch \
+-           file://debian/errno_ver.diff \
+-           file://dynaloaderhack.patch \
+-           file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
+-           file://0001-Configure-Remove-fstack-protector-strong-for-native-.patch \
+-           file://perl-5.26.1-guard_old_libcrypt_fix.patch \
+-           file://0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch \
+-          "
+-
+-SRC_URI[md5sum] = "04622bc4d3941dc7eb571c52b7c02993"
+-SRC_URI[sha256sum] = "7f080287ff64750270689843ae945f02159a33cb8f2fc910248c15befba5db84"
+-
+-inherit native
+-
+-NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+-
+-export LD="${CCLD}"
+-
+-do_configure () {
+-	./Configure \
+-		-Dcc="${CC}" \
+-		-Dcflags="${CFLAGS}" \
+-		-Dldflags="${LDFLAGS}" \
+-		-Dlddlflags="${LDFLAGS} -shared" \
+-		-Dcf_by="Open Embedded" \
+-		-Dprefix=${prefix} \
+-		-Dvendorprefix=${prefix} \
+-		-Dsiteprefix=${prefix} \
+-		\
+-		-Dbin=${STAGING_BINDIR}/${PN} \
+-		-Dprivlib=${STAGING_LIBDIR}/perl/${PV} \
+-		-Darchlib=${STAGING_LIBDIR}/perl/${PV} \
+-		-Dvendorlib=${STAGING_LIBDIR}/perl/vendor_perl/${PV} \
+-		-Dvendorarch=${STAGING_LIBDIR}/perl/vendor_perl/${PV} \
+-		-Dsitelib=${STAGING_LIBDIR}/perl/site_perl/${PV} \
+-		-Dsitearch=${STAGING_LIBDIR}/perl/site_perl/${PV} \
+-		\
+-		-Duseshrplib \
+-		-Dusethreads \
+-		-Duseithreads \
+-		-Duselargefiles \
+-		-Dnoextensions=ODBM_File \
+-		-Ud_dosuid \
+-		-Ui_db \
+-		-Ui_ndbm \
+-		-Ui_gdbm \
+-		-Ui_gdbm_ndbm \
+-		-Ui_gdbmndbm \
+-		-Di_shadow \
+-		-Di_syslog \
+-		-Duseperlio \
+-		-Dman3ext=3pm \
+-		-Dsed=/bin/sed \
+-		-Uafs \
+-		-Ud_csh \
+-		-Uusesfio \
+-		-Uusenm -des
+-}
+-
+-do_install () {
+-	oe_runmake 'DESTDIR=${D}' install
+-
+-	# We need a hostperl link for building perl
+-	ln -sf perl${PV} ${D}${bindir}/hostperl
+-
+-        ln -sf perl ${D}${libdir}/perl5
+-
+-	install -d ${D}${libdir}/perl/${PV}/CORE \
+-	           ${D}${datadir}/perl/${PV}/ExtUtils
+-
+-	# Save native config 
+-	install config.sh ${D}${libdir}/perl
+-	install lib/Config.pm ${D}${libdir}/perl/${PV}/
+-	install lib/ExtUtils/typemap ${D}${libdir}/perl/${PV}/ExtUtils/
+-
+-	# perl shared library headers
+-	# reference perl 5.20.0-1 in debian:
+-	# https://packages.debian.org/experimental/i386/perl/filelist
+-	for i in av.h bitcount.h charclass_invlists.h config.h cop.h cv.h dosish.h \
+-		embed.h embedvar.h EXTERN.h fakesdio.h feature.h form.h git_version.h \
+-		gv.h handy.h hv_func.h hv.h inline.h INTERN.h intrpvar.h iperlsys.h \
+-		keywords.h l1_char_class_tab.h malloc_ctl.h metaconfig.h mg_data.h \
+-		mg.h mg_raw.h mg_vtable.h mydtrace.h nostdio.h opcode.h op.h \
+-		opnames.h op_reg_common.h overload.h pad.h parser.h patchlevel.h \
+-		perlapi.h perl.h perlio.h perliol.h perlsdio.h perlvars.h perly.h \
+-		pp.h pp_proto.h proto.h reentr.h regcharclass.h regcomp.h regexp.h \
+-		regnodes.h scope.h sv.h thread.h time64_config.h time64.h uconfig.h \
+-		unicode_constants.h unixish.h utf8.h utfebcdic.h util.h uudmap.h \
+-		vutil.h warnings.h XSUB.h
+-	do
+-		install $i ${D}${libdir}/perl/${PV}/CORE
+-	done
+-
+-	# Those wrappers mean that perl installed from sstate (which may change
+-	# path location) works and that in the nativesdk case, the SDK can be
+-	# installed to a different location from the one it was built for.
+-	create_wrapper ${D}${bindir}/perl PERL5LIB='$PERL5LIB:${STAGING_LIBDIR}/perl/site_perl/${PV}:${STAGING_LIBDIR}/perl/vendor_perl/${PV}:${STAGING_LIBDIR}/perl/${PV}'
+-	create_wrapper ${D}${bindir}/perl${PV} PERL5LIB='$PERL5LIB:${STAGING_LIBDIR}/perl/site_perl/${PV}:${STAGING_LIBDIR}/perl/vendor_perl/${PV}:${STAGING_LIBDIR}/perl/${PV}'
+-
+-	# Use /usr/bin/env nativeperl for the perl script.
+-	for f in `grep -Il '#! *${bindir}/perl' ${D}/${bindir}/*`; do
+-		sed -i -e 's|${bindir}/perl|/usr/bin/env nativeperl|' $f
+-	done
+-
+-	# The packlist is large with hardcoded paths meaning it needs relocating
+-	# so just remove it.
+-	rm ${D}${libdir}/perl/${PV}/.packlist
+-}
+-
+-SYSROOT_PREPROCESS_FUNCS += "perl_sysroot_create_wrapper"
+-
+-perl_sysroot_create_wrapper () {
+-	mkdir -p ${SYSROOT_DESTDIR}${bindir}
+-	# Create a wrapper that /usr/bin/env perl will use to get perl-native.
+-	# This MUST live in the normal bindir.
+-	cat > ${SYSROOT_DESTDIR}${bindir}/../nativeperl << EOF
+-#!/bin/sh
+-realpath=\`readlink -fn \$0\`
+-exec \`dirname \$realpath\`/perl-native/perl "\$@"
+-EOF
+-	chmod 0755 ${SYSROOT_DESTDIR}${bindir}/../nativeperl
+-	cat ${SYSROOT_DESTDIR}${bindir}/../nativeperl
+-}
+-
+-# Fix the path in sstate
+-SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
+-
+-PACKAGES_DYNAMIC_class-native = "^perl-module-.*native$"
+diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.24.4.inc b/meta/recipes-devtools/perl/perl-rdepends_5.24.4.inc
+deleted file mode 100644
+index 10e3c0429f1..00000000000
+--- a/meta/recipes-devtools/perl/perl-rdepends_5.24.4.inc
++++ /dev/null
+@@ -1,2575 +0,0 @@
+-# To create/update the perl-rdepends_${PV}.inc use this piece of ugly script (modified for your arch/paths etc):
+-
+-#jiahongxu:5.20.0-r1$ pwd
+-#/home/jiahongxu/yocto/build-20140618-perl/tmp/work/i586-poky-linux/perl/5.20.0-r1
+-
+-#1 cp -r packages-split packages-split.new && cd packages-split.new
+-#2 find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
+-#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" 
+-#| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] 
+-#| awk '{if ($3 != "\x22"$1"\x22"){ print $0}}'
+-#| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix 
+-#| sort -u 
+-#| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
+-#| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/perl-rdepends
+-
+-RDEPENDS_perl-misc += "perl perl-modules"
+-RDEPENDS_${PN}-pod += "perl"
+-
+-# Some additional dependencies that the above doesn't manage to figure out
+-RDEPENDS_${PN}-module-file-spec += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-math-bigint-calc"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-attributes"
+-RDEPENDS_${PN}-module-overload += "${PN}-module-overloading"
+-
+-# Depends list
+-# copy contents of /tmp/perl-rdepends in this file
+-RDEPENDS_${PN}-module-anydbm-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-anydbm-file += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-config"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-cpan"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-getopt-std"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-if"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-net-ping"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-user-pwent"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-app-cpan += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-app-prove-state"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-base"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-getopt-long"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-tap-harness"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-tap-harness-env"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-app-prove += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-app-prove-state-result"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-base"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-tap-parser-yamlish-reader"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-tap-parser-yamlish-writer"
+-RDEPENDS_${PN}-module-app-prove-state += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-app-prove-state-result += "${PN}-module-app-prove-state-result-test"
+-RDEPENDS_${PN}-module-app-prove-state-result += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-app-prove-state-result += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-app-prove-state-result += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-app-prove-state-result += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-app-prove-state-result-test += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-app-prove-state-result-test += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-archive-tar-constant += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-archive-tar-constant += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-archive-tar-constant += "${PN}-module-io-compress-bzip2"
+-RDEPENDS_${PN}-module-archive-tar-constant += "${PN}-module-time-local"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-archive-tar"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-archive-tar-constant"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-archive-tar-file += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-archive-tar-constant"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-archive-tar-file"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-config"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-io-zlib"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-archive-tar += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-arybase += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-attribute-handlers += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-attribute-handlers += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-attribute-handlers += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-attribute-handlers += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-attributes += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-attributes += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-attributes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-attributes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-attributes += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-fatal"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-exception += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-exception-system += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autodie-exception-system += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-autodie-exception-system += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-exception-system += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-hints += "${PN}-module-b"
+-RDEPENDS_${PN}-module-autodie-hints += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autodie-hints += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-autodie-hints += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-hints += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-lib"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-scope-guard += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-scope-guard += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-scope-guardstack += "${PN}-module-autodie-scope-guard"
+-RDEPENDS_${PN}-module-autodie-scope-guardstack += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-scope-guardstack += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-skip += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-skip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autodie-util += "${PN}-module-autodie-scope-guardstack"
+-RDEPENDS_${PN}-module-autodie-util += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-autodie-util += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autodie-util += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-autoloader += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autoloader += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-config"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-autosplit += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-autouse += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-base += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-base += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-b-op-private"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-config"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b-concise += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-b-debug += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-debug += "${PN}-module-config"
+-RDEPENDS_${PN}-module-b-debug += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-feature"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-overloading"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-re"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-b-deparse += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-benchmark += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-benchmark += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-benchmark += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-math-bigint-trace"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-bigint += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-bigint"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-math-bigfloat-trace"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-math-bigint-trace"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-bignum += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-bigint"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-math-bigint-trace"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-math-bigrat"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-bigrat += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-blib += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-blib += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-blib += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-b += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-b += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-b-showlex += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-showlex += "${PN}-module-b-concise"
+-RDEPENDS_${PN}-module-b-showlex += "${PN}-module-b-terse"
+-RDEPENDS_${PN}-module-b-showlex += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b-terse += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-terse += "${PN}-module-b-concise"
+-RDEPENDS_${PN}-module-b-terse += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-b-terse += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-b-xref += "${PN}-module-b"
+-RDEPENDS_${PN}-module-b-xref += "${PN}-module-config"
+-RDEPENDS_${PN}-module-b-xref += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-bytes += "${PN}-module-bytes-heavy"
+-RDEPENDS_${PN}-module-bytes += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-carp-heavy += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-carp += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-carp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-carp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-charnames += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-charnames += "${PN}-module--charnames"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-re"
+-RDEPENDS_${PN}-module-charnames += "${PN}-module-re"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-charnames += "${PN}-module-strict"
+-RDEPENDS_${PN}-module--charnames += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-charnames += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-class-struct += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-class-struct += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-class-struct += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-class-struct += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-bytes "
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-warnings "
+-RDEPENDS_${PN}-module-compress-raw-bzip2 += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-bytes "
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-warnings "
+-RDEPENDS_${PN}-module-compress-raw-zlib += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-bytes "
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-io-compress-gzip"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-io-compress-gzip-constants"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-io-handle "
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-io-uncompress-gunzip"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-compress-zlib += "${PN}-module-warnings "
+-RDEPENDS_${PN}-module-config-extensions += "${PN}-module-config"
+-RDEPENDS_${PN}-module-config-extensions += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-config-extensions += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-config-extensions += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-config-perl-v += "${PN}-module-config"
+-RDEPENDS_${PN}-module-config-perl-v += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-config-perl-v += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-config-perl-v += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-config-perl-v += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-constant += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-constant += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-constant += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-corelist"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-version"
+-RDEPENDS_${PN}-module-corelist += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-b"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-config"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-dirhandle"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-extutils-manifest"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-file-copy"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-lib"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-net-ping"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-safe"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-sys-hostname"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-term-readline"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-text-wrap"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-time-local"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-cpan += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-cwd += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-b-deparse"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-config"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-data-dumper += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-dbm-filter-compress += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dbm-filter-compress += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter-compress += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dbm-filter-encode += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dbm-filter-encode += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter-encode += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dbm-filter-int32 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter-int32 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dbm-filter-null += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter-null += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dbm-filter += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dbm-filter += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dbm-filter-utf8 += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dbm-filter-utf8 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-dbm-filter-utf8 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-db += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-deprecate += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-deprecate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-deprecate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-devel-peek += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-devel-peek += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-devel-ppport += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-devel-ppport += "${PN}-module-getopt-long"
+-RDEPENDS_${PN}-module-devel-ppport += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-devel-ppport += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-devel-selfstubber += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-devel-selfstubber += "${PN}-module-selfloader"
+-RDEPENDS_${PN}-module-diagnostics += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-diagnostics += "${PN}-module-config"
+-RDEPENDS_${PN}-module-diagnostics += "${PN}-module-getopt-std"
+-RDEPENDS_${PN}-module-diagnostics += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-diagnostics += "${PN}-module-text-tabs"
+-RDEPENDS_${PN}-module-digest-base += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-digest-base += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-digest-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-digest-base += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-digest-file += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-digest-file += "${PN}-module-digest"
+-RDEPENDS_${PN}-module-digest-file += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-digest-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-digest-file += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-digest-md5 += "${PN}-module-digest-base"
+-RDEPENDS_${PN}-module-digest-md5 += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-digest-md5 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-digest-md5 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-digest-md5 += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-digest += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-digest += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-digest-base"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-digest-sha += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-dirhandle += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dirhandle += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-dynaloader += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-dynaloader += "${PN}-module-config"
+-RDEPENDS_${PN}-module-encode-alias += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode-alias += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-alias += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-encode-alias += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-alias += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-byte += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-byte += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-byte += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-byte += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-cjkconstants += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-cjkconstants += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-encode-cjkconstants += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-cjkconstants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-encode-cn-hz += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-cn += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-cn += "${PN}-module-encode-cn-hz"
+-RDEPENDS_${PN}-module-encode-cn += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-cn += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-cn += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-config += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-config += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-ebcdic += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-ebcdic += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-ebcdic += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-ebcdic += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-encoder += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-encoding += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-encoding += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-encoding += "${PN}-module-encode-mime-name"
+-RDEPENDS_${PN}-module-encode-encoding += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-encoding += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-encode-gsm0338 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-encode-unicode"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-guess += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-jp-h2z += "${PN}-module-encode-cjkconstants"
+-RDEPENDS_${PN}-module-encode-jp-h2z += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-jp-h2z += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-encode-jp-h2z += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-encode-cjkconstants"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-encode-jp-h2z"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-jp-jis7 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-jp += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-jp += "${PN}-module-encode-jp-jis7"
+-RDEPENDS_${PN}-module-encode-jp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-jp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-jp += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-kr-2022-kr += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-kr-2022-kr += "${PN}-module-encode-cjkconstants"
+-RDEPENDS_${PN}-module-encode-kr-2022-kr += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-kr-2022-kr += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-kr-2022-kr += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-kr += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-kr += "${PN}-module-encode-kr-2022-kr"
+-RDEPENDS_${PN}-module-encode-kr += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-kr += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-kr += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-mime-header-iso-2022-jp += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode-mime-header-iso-2022-jp += "${PN}-module-encode-cjkconstants"
+-RDEPENDS_${PN}-module-encode-mime-header-iso-2022-jp += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-mime-header-iso-2022-jp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-mime-header-iso-2022-jp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-encode-mime-header += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-mime-name += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-mime-name += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-encode-alias"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-encode-config"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-encode-configlocal-pm"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-encode-encoding"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-symbol += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-symbol += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-symbol += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-symbol += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-tw += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-tw += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-tw += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-tw += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-unicode += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-unicode += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-unicode += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-unicode += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encode-unicode += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-re"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encode-unicode-utf7 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-config"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-filter-util-call"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-i18n-langinfo"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-encoding += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-encoding-warnings += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-encoding-warnings += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-encoding-warnings += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-english += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-english += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-env += "${PN}-module-config"
+-RDEPENDS_${PN}-module-env += "${PN}-module-tie-array"
+-RDEPENDS_${PN}-module-errno += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-errno += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-errno += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-experimental += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-experimental += "${PN}-module-feature"
+-RDEPENDS_${PN}-module-experimental += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-experimental += "${PN}-module-version"
+-RDEPENDS_${PN}-module-experimental += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-exporter-heavy += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-exporter-heavy += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-exporter-heavy += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-exporter += "${PN}-module-exporter-heavy"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-extutils-mksymlists"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-file-temp"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-ipc-cmd"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-extutils-cbuilder-base += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-aix += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-aix += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-aix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-aix += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-aix += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-android += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-cygwin += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-cygwin += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-cygwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-cygwin += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-cygwin += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-darwin += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-darwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-darwin += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-darwin += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-dec-osf += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-dec-osf += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-dec-osf += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-dec-osf += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-dec-osf += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-os2 += "${PN}-module-extutils-cbuilder-platform-unix"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-os2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-os2 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-os2 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-unix += "${PN}-module-extutils-cbuilder-base"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-unix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-unix += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-unix += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-extutils-cbuilder-base"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-vms += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-bcc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-bcc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-gcc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-gcc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-msvc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows-msvc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-extutils-cbuilder-base"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-cbuilder-platform-windows += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-extutils-command"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-extutils-install"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-getopt-long"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-test-harness"
+-RDEPENDS_${PN}-module-extutils-command-mm += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-file-copy"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-command += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-extutils-constant-utils"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-text-wrap"
+-RDEPENDS_${PN}-module-extutils-constant-base += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-extutils-constant-proxysubs"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-extutils-constant-utils"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-extutils-constant-xs"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-constant += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-constant-proxysubs += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-constant-proxysubs += "${PN}-module-extutils-constant-utils"
+-RDEPENDS_${PN}-module-extutils-constant-proxysubs += "${PN}-module-extutils-constant-xs"
+-RDEPENDS_${PN}-module-extutils-constant-proxysubs += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-constant-proxysubs += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-constant-utils += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-constant-utils += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-extutils-constant-utils += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-extutils-constant-utils += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-constant-utils += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-extutils-constant"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-extutils-constant-base"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-extutils-constant-utils"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-constant-xs += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-extutils-liblist"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-getopt-std"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-embed += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-extutils-packlist"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-installed += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-autosplit"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-extutils-packlist"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-compare"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-copy"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-install += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-extutils-liblist-kid += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-liblist += "${PN}-module-extutils-liblist-kid"
+-RDEPENDS_${PN}-module-extutils-liblist += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-liblist += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-makemaker-config += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-makemaker-config += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-makemaker-locale += "${PN}-module-base"
+-RDEPENDS_${PN}-module-extutils-makemaker-locale += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-extutils-makemaker-locale += "${PN}-module-encode-alias"
+-RDEPENDS_${PN}-module-extutils-makemaker-locale += "${PN}-module-i18n-langinfo"
+-RDEPENDS_${PN}-module-extutils-makemaker-locale += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-b"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-extutils-makemaker-version"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-extutils-manifest"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-extutils-mm"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-extutils-my"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-makemaker += "${PN}-module-version"
+-RDEPENDS_${PN}-module-extutils-makemaker-version += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-makemaker-version += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-file-copy"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-manifest += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-miniperl += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-miniperl += "${PN}-module-extutils-embed"
+-RDEPENDS_${PN}-module-extutils-miniperl += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-miniperl += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-mkbootstrap += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-mkbootstrap += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-extutils-mkbootstrap += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-mkbootstrap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mksymlists += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-mksymlists += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-mksymlists += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-mksymlists += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-aix += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-aix += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-aix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-autosplit"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-cpan"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-data-dumper"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-any += "${PN}-module-version"
+-RDEPENDS_${PN}-module-extutils-mm-beos += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-beos += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-beos += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-beos += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-mm-beos += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-cygwin += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-cygwin += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-cygwin += "${PN}-module-extutils-mm-win32"
+-RDEPENDS_${PN}-module-extutils-mm-cygwin += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-mm-cygwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-darwin += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-darwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-dos += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-dos += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-dos += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-macos += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-nw5 += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-nw5 += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-nw5 += "${PN}-module-extutils-mm-win32"
+-RDEPENDS_${PN}-module-extutils-mm-nw5 += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-mm-nw5 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-os2 += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-os2 += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-os2 += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-os2 += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-mm-os2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm += "${PN}-module-extutils-liblist"
+-RDEPENDS_${PN}-module-extutils-mm += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-qnx += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-qnx += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-dirhandle"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-extutils-liblist"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-mm-unix += "${PN}-module-version"
+-RDEPENDS_${PN}-module-extutils-mm-uwin += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-uwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-extutils-liblist-kid"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-extutils-mm-vms += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-vos += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-vos += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-extutils-mm-any"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-extutils-mm-unix"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-mm-win32 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-mm-win95 += "${PN}-module-extutils-makemaker-config"
+-RDEPENDS_${PN}-module-extutils-mm-win95 += "${PN}-module-extutils-mm-win32"
+-RDEPENDS_${PN}-module-extutils-mm-win95 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-my += "${PN}-module-extutils-mm"
+-RDEPENDS_${PN}-module-extutils-my += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-packlist += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-extutils-parsexs-constants += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-parsexs-constants += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-extutils-parsexs-constants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-parsexs-countlines += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-parsexs-eval += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-parsexs-eval += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-config"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-extutils-parsexs-constants"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-extutils-parsexs-countlines"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-extutils-parsexs-eval"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-extutils-parsexs-utilities"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-re"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-parsexs += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-extutils-parsexs-constants"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-extutils-typemaps"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-parsexs-utilities += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-testlib += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-extutils-testlib += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-extutils-testlib += "${PN}-module-lib"
+-RDEPENDS_${PN}-module-extutils-testlib += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-testlib += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-typemaps-cmd += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-extutils-typemaps-cmd += "${PN}-module-extutils-typemaps"
+-RDEPENDS_${PN}-module-extutils-typemaps-cmd += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-typemaps-cmd += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-typemaps-inputmap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-typemaps-inputmap += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-typemaps-outputmap += "${PN}-module-re"
+-RDEPENDS_${PN}-module-extutils-typemaps-outputmap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-typemaps-outputmap += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-extutils-parsexs"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-extutils-parsexs-constants"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-extutils-typemaps-inputmap"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-extutils-typemaps-outputmap"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-extutils-typemaps-type"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-typemaps += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-extutils-typemaps-type += "${PN}-module-extutils-typemaps"
+-RDEPENDS_${PN}-module-extutils-typemaps-type += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-extutils-typemaps-type += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-autodie"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-autodie-exception-system"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-autodie-hints"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-autodie-util"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-config"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-tie-refhash"
+-RDEPENDS_${PN}-module-fatal += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-fcntl += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-fcntl += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-fcntl += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-feature += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-fields += "${PN}-module-base"
+-RDEPENDS_${PN}-module-fields += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-fields += "${PN}-module-hash-util"
+-RDEPENDS_${PN}-module-fields += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-fields += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-basename += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-basename += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-basename += "${PN}-module-re"
+-RDEPENDS_${PN}-module-file-basename += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-basename += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-filecache += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-filecache += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-filecache += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-filecache += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-compare += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-compare += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-compare += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-compare += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-config"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-copy += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-dosglob += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-dosglob += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-file-dosglob += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-dosglob += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-copy"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-file-temp"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-ipc-cmd"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-locale-maketext-simple"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-load"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-params-check"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-fetch += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-config"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-find += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-file-globmapper += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-globmapper += "${PN}-module-file-glob"
+-RDEPENDS_${PN}-module-file-globmapper += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-globmapper += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-glob += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-glob += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-glob += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-filehandle += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-filehandle += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-filehandle += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-filehandle += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-path += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-amigaos += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-amigaos += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-amigaos += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-cygwin += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-cygwin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-cygwin += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-epoc += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-epoc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-epoc += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-functions += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-spec-functions += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-spec-functions += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-functions += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-functions += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-mac += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-mac += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-mac += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-os2 += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-os2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-os2 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-unix += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-file-spec-vms += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-file-spec-vms += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-vms += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-vms += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-spec-win32 += "${PN}-module-cwd "
+-RDEPENDS_${PN}-module-file-spec-win32 += "${PN}-module-file-spec-unix"
+-RDEPENDS_${PN}-module-file-spec-win32 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-spec-win32 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-overload "
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-file-stat += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-io-seekable"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-file-temp += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-filter-simple += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-filter-simple += "${PN}-module-filter-util-call"
+-RDEPENDS_${PN}-module-filter-simple += "${PN}-module-text-balanced"
+-RDEPENDS_${PN}-module-filter-simple += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-filter-util-call += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-findbin += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-findbin += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-findbin += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-findbin += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-findbin += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-pod-usage"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-getopt-long += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-getopt-std += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-hash-util-fieldhash += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-hash-util-fieldhash += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-hash-util-fieldhash += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-hash-util-fieldhash += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-hash-util-fieldhash += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-hash-util-fieldhash"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-hash-util += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-i18n-collate += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-i18n-collate += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-i18n-collate += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-i18n-collate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-i18n-collate += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-i18n-langinfo += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-i18n-langinfo += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-i18n-langinfo += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-i18n-langinfo += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-i18n-langinfo += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-i18n-langtags-detect += "${PN}-module-i18n-langtags"
+-RDEPENDS_${PN}-module-i18n-langtags-detect += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-i18n-langtags-detect += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-i18n-langtags-list += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-i18n-langtags-list += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-i18n-langtags += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-compress-raw-bzip2"
+-RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-compress-adapter-bzip2 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-compress-adapter-deflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-adapter-identity += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-adapter-identity += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-adapter-identity += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-compress-adapter-identity += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-file-globmapper"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-io-compress-base-common += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-io-handle "
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-compress-base += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-io-compress-adapter-bzip2"
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-io-compress-base"
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-bzip2 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-io-compress-adapter-deflate"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-io-compress-rawdeflate"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-io-compress-zlib-constants"
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-deflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-gzip-constants += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-gzip-constants += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-compress-gzip-constants += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-compress-gzip-constants += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-gzip-constants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-io-compress-adapter-deflate"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-io-compress-gzip-constants"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-io-compress-rawdeflate"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-io-compress-zlib-extra"
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-gzip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-io-compress-adapter-deflate"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-io-compress-base"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-rawdeflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-zip-constants += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-compress-zip-constants += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-compress-zip-constants += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-zip-constants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-config"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-adapter-deflate"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-adapter-identity"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-bzip2"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-rawdeflate"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-zip-constants"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-io-compress-zlib-extra"
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-zip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-zlib-constants += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-zlib-constants += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-compress-zlib-constants += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-compress-zlib-constants += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-zlib-constants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-compress-zlib-extra += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-compress-zlib-extra += "${PN}-module-io-compress-gzip-constants"
+-RDEPENDS_${PN}-module-io-compress-zlib-extra += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-compress-zlib-extra += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-file-stat"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-dir += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-io-seekable"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-selectsaver"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-file += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-io"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-selectsaver"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-handle += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-io-pipe += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-pipe += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-pipe += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-io-pipe += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-pipe += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-poll += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-poll += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-io-poll += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-seekable += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-seekable += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-seekable += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-seekable += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-io-seekable += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-select += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-select += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-select += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-io-select += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-io-socket-inet += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-base"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-socket-ip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-io-select"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-io-socket-inet"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-io-socket-unix"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-io-socket += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-socket-unix += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-socket-unix += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-io-socket-unix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-bunzip2 += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-bunzip2 += "${PN}-module-compress-raw-bzip2"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-bunzip2 += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-bunzip2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-bunzip2 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-io-compress-zip-constants "
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-identity += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-inflate += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-inflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-inflate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-adapter-inflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-adapter-inflate"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-base"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-gunzip"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-inflate"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-rawinflate"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-io-uncompress-unzip"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-anyinflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-io-uncompress-base"
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-uncompress-anyuncompress += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-carp "
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-io-file "
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-uncompress-base += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-io-uncompress-adapter-bunzip2"
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-io-uncompress-base"
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-bunzip2 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-io-compress-gzip-constants"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-io-compress-zlib-extra"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-io-uncompress-rawinflate"
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-gunzip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-io-compress-zlib-constants"
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-io-uncompress-rawinflate"
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-inflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-io-uncompress-adapter-inflate"
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-io-uncompress-base"
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-rawinflate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-compress-raw-zlib"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-exporter "
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-compress-base-common"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-compress-zip-constants"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-compress-zlib-extra"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-uncompress-adapter-identity"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-uncompress-adapter-inflate"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-io-uncompress-rawinflate"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-strict "
+-RDEPENDS_${PN}-module-io-uncompress-unzip += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-tie-handle"
+-RDEPENDS_${PN}-module-io-zlib += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-extutils-makemaker"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-io-select"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-ipc-open3"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-locale-maketext-simple"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-load"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-params-check"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-time-hires"
+-RDEPENDS_${PN}-module-ipc-cmd += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-ipc-msg += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-msg += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-ipc-msg += "${PN}-module-ipc-sysv"
+-RDEPENDS_${PN}-module-ipc-msg += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-msg += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-ipc-open2 += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-ipc-open2 += "${PN}-module-ipc-open3"
+-RDEPENDS_${PN}-module-ipc-open2 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-io-pipe"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-open3 += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-ipc-semaphore += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-semaphore += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-ipc-semaphore += "${PN}-module-ipc-sysv"
+-RDEPENDS_${PN}-module-ipc-semaphore += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-semaphore += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-ipc-sharedmem += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-sharedmem += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-ipc-sharedmem += "${PN}-module-ipc-sysv"
+-RDEPENDS_${PN}-module-ipc-sharedmem += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-sharedmem += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-config"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ipc-sysv += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-json-pp-boolean += "${PN}-module-json-pp"
+-RDEPENDS_${PN}-module-json-pp-boolean += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-b"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-base"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-bytes"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-json-pp += "${PN}-module-subs"
+-RDEPENDS_${PN}-module-less += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-less += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-lib += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-lib += "${PN}-module-config"
+-RDEPENDS_${PN}-module-lib += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-list-util += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-list-util += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-list-util += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-list-util-xs += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-list-util-xs += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-loaded += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-loaded += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-loaded += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-load += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-load += "${PN}-module-config"
+-RDEPENDS_${PN}-module-load += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-load += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-load += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-load += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-load += "${PN}-module-locale-maketext-simple"
+-RDEPENDS_${PN}-module-load += "${PN}-module-corelist"
+-RDEPENDS_${PN}-module-load += "${PN}-module-load"
+-RDEPENDS_${PN}-module-load += "${PN}-module-params-check"
+-RDEPENDS_${PN}-module-load += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-load += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-load += "${PN}-module-version"
+-RDEPENDS_${PN}-module-load += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-constants += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-locale-codes-constants += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-constants += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-constants += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-country-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-country-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-country-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-locale-codes-country-codes"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-locale-codes-country-retired"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-country += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-country-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-country-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-country-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-currency-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-currency-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-currency-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-locale-codes-currency-codes"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-locale-codes-currency-retired"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-currency += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-currency-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-currency-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-currency-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langext-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langext-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-langext-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-locale-codes-langext-codes"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-locale-codes-langext-retired"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langext += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langext-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langext-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-langext-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langfam-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langfam-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-langfam-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-locale-codes-langfam-codes"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-locale-codes-langfam-retired"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langfam += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langfam-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langfam-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-language-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-language-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-language-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-locale-codes-language-codes"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-locale-codes-language-retired"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-language += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-language-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-language-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-language-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langvar-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langvar-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-langvar-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-locale-codes-langvar-codes"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-locale-codes-langvar-retired"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langvar += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-langvar-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-langvar-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-langvar-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-script-codes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-script-codes += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-script-codes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-locale-codes"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-locale-codes-constants"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-locale-codes-script-codes"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-locale-codes-script-retired"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-script += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-codes-script-retired += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-codes-script-retired += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-locale-codes-script-retired += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-country += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-country += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-country += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-currency += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-currency += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-currency += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-language += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-language += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-language += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-locale-maketext-gutsloader += "${PN}-module-locale-maketext"
+-RDEPENDS_${PN}-module-locale-maketext-guts += "${PN}-module-locale-maketext"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-i18n-langtags"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-i18n-langtags-detect"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-maketext += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-locale-maketext-simple += "${PN}-module-base"
+-RDEPENDS_${PN}-module-locale-maketext-simple += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-locale += "${PN}-module-config"
+-RDEPENDS_${PN}-module-locale-script += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-locale-script += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-locale-script += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-math-complex"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigfloat += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigfloat-trace += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-bigfloat-trace += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-math-bigfloat-trace += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-bigfloat-trace += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigfloat-trace += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigint-calcemu += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigint-calcemu += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigint-calc += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-math-bigint-calc += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-math-bigint-calc += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-math-bigint-calc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigint-calc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigint-fastcalc += "${PN}-module-math-bigint-calc"
+-RDEPENDS_${PN}-module-math-bigint-fastcalc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigint-fastcalc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigint-fastcalc += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-math-complex"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigint += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigint-trace += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-bigint-trace += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-math-bigint-trace += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-bigint-trace += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigint-trace += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-math-bigfloat"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-math-bigint"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-bigrat += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-config"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-math-complex += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-math-trig += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-math-trig += "${PN}-module-math-complex"
+-RDEPENDS_${PN}-module-math-trig += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-memoize-anydbm-file += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-memoize-expirefile += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-memoize-expire += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-memoize += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-memoize += "${PN}-module-config"
+-RDEPENDS_${PN}-module-memoize += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-memoize += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-memoize += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-memoize-sdbm-file += "${PN}-module-sdbm-file"
+-RDEPENDS_${PN}-module-memoize-storable += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-memoize-storable += "${PN}-module-storable"
+-RDEPENDS_${PN}-module-meta-notation += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-meta-notation += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-mime-base64 += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-mime-base64 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-mime-base64 += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-mime-base64 += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-mime-quotedprint += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-mime-quotedprint += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-mime-quotedprint += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-mime-quotedprint += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-mro += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-mro += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-mro += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-net-cmd += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-config += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-config += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-config += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-config += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-domain += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp-a += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-ftp-a += "${PN}-module-net-ftp-dataconn"
+-RDEPENDS_${PN}-module-net-ftp-a += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp-a += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp-dataconn += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-ftp-dataconn += "${PN}-module-errno"
+-RDEPENDS_${PN}-module-net-ftp-dataconn += "${PN}-module-net-cmd"
+-RDEPENDS_${PN}-module-net-ftp-dataconn += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp-dataconn += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp-e += "${PN}-module-net-ftp-i"
+-RDEPENDS_${PN}-module-net-ftp-e += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp-e += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp-i += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-ftp-i += "${PN}-module-net-ftp-dataconn"
+-RDEPENDS_${PN}-module-net-ftp-i += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp-i += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp-l += "${PN}-module-net-ftp-i"
+-RDEPENDS_${PN}-module-net-ftp-l += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp-l += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-io-socket-ip"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-net-cmd"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-net-ftp-a"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-net-netrc"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-time-local"
+-RDEPENDS_${PN}-module-net-ftp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-hostent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-net-hostent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-hostent += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-hostent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-hostent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-net-netent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-net-netent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-netent += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-netent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-netent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-net-netrc += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-netrc += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-net-netrc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-netrc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-io-socket-ip"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-net-cmd"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-time-local"
+-RDEPENDS_${PN}-module-net-nntp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-filehandle"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-time-hires"
+-RDEPENDS_${PN}-module-net-ping += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-io-socket-ip"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-net-cmd"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-net-netrc"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-pop3 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-protoent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-net-protoent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-protoent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-protoent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-net-servent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-net-servent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-servent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-servent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-io-socket-ip"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-mime-base64"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-net-cmd"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-smtp += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-io-select"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-io-socket"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-net-config"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-net-time += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-next += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-next += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-next += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-odbm-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-odbm-file += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-odbm-file += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-odbm-file += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-ok += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-ok += "${PN}-module-test-more"
+-RDEPENDS_${PN}-module-opcode += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-opcode += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-opcode += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-opcode += "${PN}-module-subs"
+-RDEPENDS_${PN}-module-opcode += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-open += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-open += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-open += "${PN}-module-encoding"
+-RDEPENDS_${PN}-module-open += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-o += "${PN}-module-b"
+-RDEPENDS_${PN}-module-o += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-ops += "${PN}-module-opcode"
+-RDEPENDS_${PN}-module-overloading += "${PN}-module-overload-numbers"
+-RDEPENDS_${PN}-module-overloading += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-overload += "${PN}-module-mro"
+-RDEPENDS_${PN}-module-overload += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-overload += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-params-check += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-params-check += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-params-check += "${PN}-module-locale-maketext-simple"
+-RDEPENDS_${PN}-module-params-check += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-params-check += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-parent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-parent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-perlfaq += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-perlfaq += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-perlio-encoding += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-perlio-encoding += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-perlio-mmap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-perlio-mmap += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-perlio-mmap += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-perlio-scalar += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-perlio-via += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-perlio-via-quotedprint += "${PN}-module-mime-quotedprint"
+-RDEPENDS_${PN}-module-perlio-via-quotedprint += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-pod-parser"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-pod-parseutils"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-checker += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-escapes += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-escapes += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-escapes += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-escapes += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-config"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-file-find"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-find += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-functions += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-functions += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-inputobjects += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-inputobjects += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-subs"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-man += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-parselink += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-parselink += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-parselink += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-parselink += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-pod-inputobjects"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-parser += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-parseutils += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-parseutils += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-parseutils += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-config"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-baseto += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-getoptsoo += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-getoptsoo += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-config"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-file-temp"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-pod-perldoc-getoptsoo"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-toansi += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-toansi += "${PN}-module-pod-text-color"
+-RDEPENDS_${PN}-module-pod-perldoc-toansi += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-toansi += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-toansi += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-tochecker += "${PN}-module-pod-checker"
+-RDEPENDS_${PN}-module-pod-perldoc-tochecker += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-tochecker += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-tochecker += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-file-spec-functions"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-io-select"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-ipc-open3"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-pod-man"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-pod-perldoc-topod"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-toman += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-tonroff += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-tonroff += "${PN}-module-pod-man"
+-RDEPENDS_${PN}-module-pod-perldoc-tonroff += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-tonroff += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-tonroff += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-topod += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-topod += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-topod += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-topod += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-tortf += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-tortf += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-tortf += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-tortf += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-toterm += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-toterm += "${PN}-module-pod-text-termcap"
+-RDEPENDS_${PN}-module-pod-perldoc-toterm += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-toterm += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-toterm += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-totext += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-totext += "${PN}-module-pod-text"
+-RDEPENDS_${PN}-module-pod-perldoc-totext += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-totext += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-totext += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-perldoc-toxml += "${PN}-module-parent"
+-RDEPENDS_${PN}-module-pod-perldoc-toxml += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-perldoc-toxml += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-perldoc-toxml += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-plaintext += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-plaintext += "${PN}-module-pod-select"
+-RDEPENDS_${PN}-module-pod-plaintext += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-plaintext += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-plaintext += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-select += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-select += "${PN}-module-pod-parser"
+-RDEPENDS_${PN}-module-pod-select += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-select += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-pod-simple-transcode"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-blackbox += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-pod-simple-methody"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-text-wrap"
+-RDEPENDS_${PN}-module-pod-simple-checker += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-debug += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-debug += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-debug += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-debug += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-dumpastext += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-dumpastext += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-dumpastext += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-dumpasxml += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-dumpasxml += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-dumpasxml += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-dumpasxml += "${PN}-module-text-wrap"
+-RDEPENDS_${PN}-module-pod-simple-linksection += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-pod-simple-linksection += "${PN}-module-pod-simple-blackbox"
+-RDEPENDS_${PN}-module-pod-simple-linksection += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-linksection += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-methody += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-methody += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-methody += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-pod-escapes"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-pod-simple-blackbox"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-pod-simple-linksection"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-pod-simple-tiedoutfh"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-simple += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-progress += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-pullparserendtoken += "${PN}-module-pod-simple-pullparsertoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparserendtoken += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-pullparserendtoken += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-pod-simple-pullparserendtoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-pod-simple-pullparserstarttoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-pod-simple-pullparsertexttoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparser += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-pullparserstarttoken += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-pullparserstarttoken += "${PN}-module-pod-simple-pullparsertoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparserstarttoken += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-pullparserstarttoken += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-pullparsertexttoken += "${PN}-module-pod-simple-pullparsertoken"
+-RDEPENDS_${PN}-module-pod-simple-pullparsertexttoken += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-pullparsertexttoken += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-pullparsertoken += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-rtf += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-rtf += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-pod-simple-rtf += "${PN}-module-pod-simple-pullparser"
+-RDEPENDS_${PN}-module-pod-simple-rtf += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-rtf += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-config"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-cwd"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-search += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-simpletree += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-simpletree += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-simpletree += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-simpletree += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-textcontent += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-textcontent += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-textcontent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-textcontent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-pod-simple-methody"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-text-wrap"
+-RDEPENDS_${PN}-module-pod-simple-text += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-tiedoutfh += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-tiedoutfh += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-tiedoutfh += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-pod-simple-tiedoutfh += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-transcodedumb += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-transcodedumb += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-transcode += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-transcode += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-transcodesmart += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-pod-simple-transcodesmart += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-transcodesmart += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-transcodesmart += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-simple-xmloutstream += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-simple-xmloutstream += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-simple-xmloutstream += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-simple-xmloutstream += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-text-color += "${PN}-module-pod-text"
+-RDEPENDS_${PN}-module-pod-text-color += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-text-color += "${PN}-module-term-ansicolor"
+-RDEPENDS_${PN}-module-pod-text-color += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-text-color += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-text-overstrike += "${PN}-module-pod-text"
+-RDEPENDS_${PN}-module-pod-text-overstrike += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-text-overstrike += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-text-overstrike += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-encode"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-pod-simple"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-text += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-pod-text"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-term-cap"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-pod-text-termcap += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-config"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-pod-usage += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-posix += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-re += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-re += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-re += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-re += "${PN}-module-term-cap"
+-RDEPENDS_${PN}-module-re += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-re += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-b"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-carp-heavy"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-opcode"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-safe += "${PN}-module-utf8"
+-RDEPENDS_${PN}-module-scalar-util += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-scalar-util += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-scalar-util += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-scalar-util += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-sdbm-file += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-sdbm-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-sdbm-file += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-sdbm-file += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-sdbm-file += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-search-dict += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-search-dict += "${PN}-module-feature"
+-RDEPENDS_${PN}-module-search-dict += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-selectsaver += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-selectsaver += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-selfloader += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-selfloader += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-selfloader += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-selfloader += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-sigtrap += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-sigtrap += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-socket += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-sort += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-sort += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-config"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-io-file"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-storable += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-sub-util += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-sub-util += "${PN}-module-list-util"
+-RDEPENDS_${PN}-module-sub-util += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-sub-util += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-symbol += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-sys-hostname += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-sys-hostname += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-sys-hostname += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-sys-hostname += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-sys-hostname += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-socket"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-sys-hostname"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-sys-syslog += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-tap-base += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-base += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-base += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-base += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-base += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-tap-formatter-base += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-base += "${PN}-module-tap-formatter-color"
+-RDEPENDS_${PN}-module-tap-formatter-base += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-color += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-color += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-formatter-color += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-color += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-console-parallelsession += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-console += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-console += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-tap-formatter-console += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-console += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-console-session += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-console-session += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-console-session += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-file += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-file += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-tap-formatter-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-file += "${PN}-module-tap-formatter-file-session"
+-RDEPENDS_${PN}-module-tap-formatter-file += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-file-session += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-file-session += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-file-session += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-formatter-session += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-formatter-session += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-formatter-session += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-harness-env += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-harness-env += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-harness-env += "${PN}-module-tap-object"
+-RDEPENDS_${PN}-module-tap-harness-env += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-tap-harness-env += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-file-path"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-harness += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-object += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-object += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-object += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-aggregator += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-aggregator += "${PN}-module-benchmark"
+-RDEPENDS_${PN}-module-tap-parser-aggregator += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-aggregator += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-aggregator += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-tap-parser-resultfactory"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-tap-parser-yamlish-reader"
+-RDEPENDS_${PN}-module-tap-parser-grammar += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-iterator-array += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-iterator-array += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-iterator-array += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-iteratorfactory += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-iterator += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-iterator += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-iterator += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-iterator += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-iterator-process += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-iterator-process += "${PN}-module-config"
+-RDEPENDS_${PN}-module-tap-parser-iterator-process += "${PN}-module-io-handle"
+-RDEPENDS_${PN}-module-tap-parser-iterator-process += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-iterator-process += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-iterator-stream += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-iterator-stream += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-iterator-stream += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-multiplexer += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-multiplexer += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-multiplexer += "${PN}-module-io-select"
+-RDEPENDS_${PN}-module-tap-parser-multiplexer += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-multiplexer += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-grammar"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-iterator"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-result"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-resultfactory"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-source"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-sourcehandler-executable"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-sourcehandler-file"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-sourcehandler-handle"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-sourcehandler-perl"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-tap-parser-sourcehandler-rawtap"
+-RDEPENDS_${PN}-module-tap-parser += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-bailout += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-bailout += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-bailout += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-comment += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-comment += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-comment += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-bailout"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-comment"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-plan"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-pragma"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-test"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-unknown"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-version"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-tap-parser-result-yaml"
+-RDEPENDS_${PN}-module-tap-parser-resultfactory += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-plan += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-plan += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-plan += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-pragma += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-pragma += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-pragma += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-test += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-test += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-test += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-unknown += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-unknown += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-unknown += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-version += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-version += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-version += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-result-yaml += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-result-yaml += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-result-yaml += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-job += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-job += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-job += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-scheduler += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-scheduler += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-scheduler += "${PN}-module-tap-parser-scheduler-job"
+-RDEPENDS_${PN}-module-tap-parser-scheduler += "${PN}-module-tap-parser-scheduler-spinner"
+-RDEPENDS_${PN}-module-tap-parser-scheduler += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-spinner += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-spinner += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-scheduler-spinner += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-tap-parser-iterator-process"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-executable += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-tap-parser-iterator-stream"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-file += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-tap-parser-iterator-stream"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-handle += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler += "${PN}-module-tap-parser-iterator"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-config"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-tap-parser-iterator-process"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-perl += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-rawtap += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-rawtap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-rawtap += "${PN}-module-tap-parser-iterator-array"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-rawtap += "${PN}-module-tap-parser-iteratorfactory"
+-RDEPENDS_${PN}-module-tap-parser-sourcehandler-rawtap += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-source += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-source += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-tap-parser-source += "${PN}-module-file-basename"
+-RDEPENDS_${PN}-module-tap-parser-source += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-source += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-reader += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-reader += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-reader += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-writer += "${PN}-module-base"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-writer += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tap-parser-yamlish-writer += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-term-ansicolor += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-term-ansicolor += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-term-ansicolor += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-term-ansicolor += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-term-cap += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-term-cap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-term-cap += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-term-complete += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-term-complete += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-term-readline += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-term-readline += "${PN}-module-term-cap"
+-RDEPENDS_${PN}-module-test-builder-module += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-test-builder-module += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-builder-module += "${PN}-module-test-builder"
+-RDEPENDS_${PN}-module-test-builder += "${PN}-module-config"
+-RDEPENDS_${PN}-module-test-builder += "${PN}-module-perlio"
+-RDEPENDS_${PN}-module-test-builder += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-builder += "${PN}-module-threads-shared"
+-RDEPENDS_${PN}-module-test-builder += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-test-builder-tester-color += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-builder-tester-color += "${PN}-module-test-builder-tester"
+-RDEPENDS_${PN}-module-test-builder-tester += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-test-builder-tester += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-test-builder-tester += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-builder-tester += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-test-builder-tester += "${PN}-module-test-builder"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-base"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-config"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-tap-harness"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-tap-parser-aggregator"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-tap-parser-source"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-tap-parser-sourcehandler-perl"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-text-parsewords"
+-RDEPENDS_${PN}-module-test-harness += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-test-more += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-test-more += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-more += "${PN}-module-test-builder-module"
+-RDEPENDS_${PN}-module-test-more += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-test += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-test += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-test += "${PN}-module-file-temp"
+-RDEPENDS_${PN}-module-test += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-test-simple += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-simple += "${PN}-module-test-builder-module"
+-RDEPENDS_${PN}-module-test-tester-capture += "${PN}-module-config"
+-RDEPENDS_${PN}-module-test-tester-capture += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-tester-capture += "${PN}-module-test-builder"
+-RDEPENDS_${PN}-module-test-tester-capture += "${PN}-module-threads-shared"
+-RDEPENDS_${PN}-module-test-tester-capture += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-test-tester-capturerunner += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-test-tester-capturerunner += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-tester-capturerunner += "${PN}-module-test-tester-capture"
+-RDEPENDS_${PN}-module-test-tester-delegate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-tester-delegate += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-test-tester-delegate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-test-builder"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-test-tester-capturerunner"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-test-tester-delegate"
+-RDEPENDS_${PN}-module-test-tester += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-text-abbrev += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-selfloader"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-text-balanced += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-text-parsewords += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-text-parsewords += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-text-parsewords += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-text-tabs += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-text-tabs += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-text-tabs += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-re"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-text-tabs"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-text-wrap += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-config"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-threads"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-threads-shared"
+-RDEPENDS_${PN}-module-thread += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-threads-shared"
+-RDEPENDS_${PN}-module-thread-queue += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-thread-semaphore += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-thread-semaphore += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-thread-semaphore += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-thread-semaphore += "${PN}-module-threads-shared"
+-RDEPENDS_${PN}-module-thread-semaphore += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-config"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-threads += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-threads-shared += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-threads-shared += "${PN}-module-scalar-util"
+-RDEPENDS_${PN}-module-threads-shared += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-threads-shared += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-threads-shared += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-tie-array += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-array += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-array += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-tie-file += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-file += "${PN}-module-fcntl"
+-RDEPENDS_${PN}-module-tie-file += "${PN}-module-posix"
+-RDEPENDS_${PN}-module-tie-file += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-file += "${PN}-module-symbol"
+-RDEPENDS_${PN}-module-tie-handle += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-handle += "${PN}-module-tie-stdhandle"
+-RDEPENDS_${PN}-module-tie-handle += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-tie-hash-namedcapture += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-hash-namedcapture += "${PN}-module-xsloader"
+-RDEPENDS_${PN}-module-tie-hash += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-hash += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-tie-memoize += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-memoize += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-config"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-tie-hash"
+-RDEPENDS_${PN}-module-tie-refhash += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-tie-scalar += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-scalar += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-tie-stdhandle += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-tie-stdhandle += "${PN}-module-tie-handle"
+-RDEPENDS_${PN}-module-tie-stdhandle += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-tie-substrhash += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-tie-substrhash += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-time-gmtime += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-gmtime += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-gmtime += "${PN}-module-time-tm"
+-RDEPENDS_${PN}-module-time-gmtime += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-time-hires += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-time-hires += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-time-hires += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-hires += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-config"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-local += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-time-localtime += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-localtime += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-localtime += "${PN}-module-time-tm"
+-RDEPENDS_${PN}-module-time-localtime += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-time-local"
+-RDEPENDS_${PN}-module-time-piece += "${PN}-module-time-seconds"
+-RDEPENDS_${PN}-module-time-seconds += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-time-seconds += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-time-seconds += "${PN}-module-overload"
+-RDEPENDS_${PN}-module-time-seconds += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-time-tm += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-time-tm += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-big5 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-big5 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-gb2312 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-gb2312 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-jisx0208 += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-jisx0208 += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-korean += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-korean += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-pinyin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-pinyin += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-stroke += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-stroke += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-zhuyin += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-cjk-zhuyin += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate-locale += "${PN}-module-base"
+-RDEPENDS_${PN}-module-unicode-collate-locale += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-unicode-collate-locale += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate-locale += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-constant"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-collate += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-normalize += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-unicode-normalize += "${PN}-module-dynaloader"
+-RDEPENDS_${PN}-module-unicode-normalize += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-unicode-normalize += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-normalize += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-charnames"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-feature"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-file-spec"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-if"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-unicode-normalize"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-unicore"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-utf8-heavy"
+-RDEPENDS_${PN}-module-unicode-ucd += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-unicore += "${PN}-module-integer"
+-RDEPENDS_${PN}-module-universal += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-user-grent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-user-grent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-user-grent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-user-grent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-class-struct"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-config"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-exporter"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-user-pwent += "${PN}-module-warnings"
+-RDEPENDS_${PN}-module-utf8 += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-utf8 += "${PN}-module-utf8-heavy"
+-RDEPENDS_${PN}-module-version += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-version += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-version += "${PN}-module-version-regex"
+-RDEPENDS_${PN}-module-version += "${PN}-module-warnings-register"
+-RDEPENDS_${PN}-module-version-regex += "${PN}-module-strict"
+-RDEPENDS_${PN}-module-version-regex += "${PN}-module-vars"
+-RDEPENDS_${PN}-module-xsloader += "${PN}-module-carp"
+-RDEPENDS_${PN}-module-xsloader += "${PN}-module-dynaloader"
+diff --git a/meta/recipes-devtools/perl/perl.inc b/meta/recipes-devtools/perl/perl.inc
+deleted file mode 100644
+index 3313a9436b9..00000000000
+--- a/meta/recipes-devtools/perl/perl.inc
++++ /dev/null
+@@ -1,10 +0,0 @@
+-SUMMARY = "Perl scripting language"
+-HOMEPAGE = "http://www.perl.org/"
+-SECTION = "devel"
+-LICENSE = "Artistic-1.0 | GPL-1.0+"
+-LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
+-		    file://Artistic;md5=2e6fd2475335af892494fe1f7327baf3"
+-
+-SRC_URI = "http://www.cpan.org/src/5.0/${BP}.tar.xz"
+-
+-inherit upstream-version-is-even
+diff --git a/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch b/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
+deleted file mode 100644
+index 14a05d291b6..00000000000
+--- a/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-Some distributions (like opensuse421) supported by the project
+-comes with older gcc releases, -fstack-protector=strong is supported
+-by GCC>=4.9.
+-
+-This causes a build failure when install perl-native from a sstate that
+-comes from a machine supporting -fstack-protector=strong [1].
+-
+-So disable usage of this flag in perl-native builds, this patch could
+-be removed when all supported distros comes with GCC>=4.9.
+-
+-[YOCTO #10338]
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-[1] http://errors.yoctoproject.org/Errors/Details/109589/
+-
+-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+----
+- Configure | 54 ------------------------------------------------------
+- 1 file changed, 54 deletions(-)
+-
+-diff --git a/Configure b/Configure
+-index efbdcfd..d5bd98c 100755
+---- a/Configure
+-+++ b/Configure
+-@@ -5468,30 +5468,6 @@ default|recommended)
+- 		eval $checkccflag
+- 		;;
+- 	esac
+--
+--	# on x86_64 (at least) we require an extra library (libssp) in the
+--	# link command line. This library is not named, so I infer that it is
+--	# an implementation detail that may change. Hence the safest approach
+--	# is to add the flag to the flags passed to the compiler at link time,
+--	# as that way the compiler can do the right implementation dependant
+--	# thing. (NWC)
+--	case "$osname" in
+--	amigaos) ;; # -fstack-protector builds but doesn't work
+--	*)	case "$gccversion" in
+--		?*)	set stack-protector-strong -fstack-protector-strong
+--			eval $checkccflag
+--			case "$dflt" in
+--			*-fstack-protector-strong*) ;; # It got added.
+--			*) # Try the plain/older -fstack-protector.
+--			   set stack-protector -fstack-protector
+--			   eval $checkccflag
+--			   ;;
+--			esac
+--			;;
+--		esac
+--		;;
+--	esac
+--	;;
+- esac
+- 
+- case "$mips_type" in
+-@@ -5634,21 +5610,6 @@ case "$ldflags" in
+- 	;;
+- *) dflt="$ldflags";;
+- esac
+--# See note above about -fstack-protector
+--case "$ccflags" in
+--*-fstack-protector-strong*)
+--	case "$dflt" in
+--	*-fstack-protector-strong*) ;; # Don't add it again
+--	*) dflt="$dflt -fstack-protector-strong" ;;
+--	esac
+--	;;
+--*-fstack-protector*)
+--	case "$dflt" in
+--	*-fstack-protector*) ;; # Don't add it again
+--	*) dflt="$dflt -fstack-protector" ;;
+--	esac
+--	;;
+--esac
+- 
+- : Try to guess additional flags to pick up local libraries.
+- for thislibdir in $libpth; do
+-@@ -8571,21 +8532,6 @@ EOM
+- 	    ''|' ') dflt='none' ;;
+- 	esac
+- 
+--	case "$ldflags" in
+--	    *-fstack-protector-strong*)
+--		case "$dflt" in
+--		    *-fstack-protector-strong*) ;; # Don't add it again
+--		    *) dflt="$dflt -fstack-protector-strong" ;;
+--		esac
+--		;;
+--	    *-fstack-protector*)
+--		case "$dflt" in
+--		    *-fstack-protector*) ;; # Don't add it again
+--		    *) dflt="$dflt -fstack-protector" ;;
+--		esac
+--		;;
+--	esac
+--
+- 	rp="Any special flags to pass to $ld to create a dynamically loaded library?"
+- 	. ./myread
+- 	case "$ans" in
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/perl/perl/0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch b/meta/recipes-devtools/perl/perl/0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch
+deleted file mode 100644
+index a43fbba0b60..00000000000
+--- a/meta/recipes-devtools/perl/perl/0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 40702abf3156fa92ef70ee5d445fe52dd6cfbc7d Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 20 Sep 2018 18:48:48 +0800
+-Subject: [PATCH] ExtUtils/MM_Unix.pm: fix race issues
+-
+-Fixed a race issue when compile libhtml-parser-perl and others who use MakeMaker:
+-[snip]
+-chmod 755 blib/arch/auto/HTML/Parser/Parser.so 
+-chmod 644 "Parser.bs"
+-[snip]
+-
+-The rule INST_DYNAMIC removes '.bs' file which are generated by BOOTSTRAP, but
+-the have no dependencies, so there is a race issue:
+-
+-BOOTSTRAP:
+-    touch foo.bs
+-    chmod 755 foo.bs
+-
+-INST_DYNAMIC:
+-    rm -fr foo.bs
+-
+-The error would happen when INST_DYNAMIC removes foo.bs after BOOTSTRAP touched
+-it but before chmod on it.
+-
+-Upstream-Status: Backport [https://github.com/Perl-Toolchain-Gang/ExtUtils-MakeMaker/commit/44e95e717372abe2b0a6ee55de4b686760b65360]
+-
+-Note, This is not a real backport, upstream has totally refactored it in one
+-patch, please see the link above, it's not a good idea to backport such a big
+-patch, I just referred it to fix the problem in a simple way. I mark it as
+-backport is because we can drop the patch after upgrade perl to 5.26 or 5.28.
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 95d9761..9cabe2d 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -933,7 +933,7 @@ OTHERLDFLAGS = '.$ld_opt.$otherldflags.'
+- INST_DYNAMIC_DEP = '.$inst_dynamic_dep.'
+- INST_DYNAMIC_FIX = '.$ld_fix.'
+- 
+--$(INST_DYNAMIC): $(OBJECT) $(MYEXTLIB) $(INST_ARCHAUTODIR)$(DFSEP).exists $(EXPORT_LIST) $(PERL_ARCHIVEDEP) $(PERL_ARCHIVE_AFTER) $(INST_DYNAMIC_DEP)
+-+$(INST_DYNAMIC): $(OBJECT) $(MYEXTLIB) $(INST_ARCHAUTODIR)$(DFSEP).exists $(EXPORT_LIST) $(PERL_ARCHIVEDEP) $(PERL_ARCHIVE_AFTER) $(INST_DYNAMIC_DEP) $(BOOTSTRAP)
+- ');
+-     if ($armaybe ne ':'){
+- 	$ldfrom = 'tmp$(LIB_EXT)';
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/perl/perl/0001-Skip-various-tests-if-PERL_BUILD_PACKAGING-is-set.patch b/meta/recipes-devtools/perl/perl/0001-Skip-various-tests-if-PERL_BUILD_PACKAGING-is-set.patch
+deleted file mode 100644
+index c5db1b7060d..00000000000
+--- a/meta/recipes-devtools/perl/perl/0001-Skip-various-tests-if-PERL_BUILD_PACKAGING-is-set.patch
++++ /dev/null
+@@ -1,126 +0,0 @@
+-From ba6733216202523a95b0b7ee2e534b8e30b6d7df Mon Sep 17 00:00:00 2001
+-From: Dominic Hargreaves <dom@earth.li>
+-Date: Sat, 14 Oct 2017 16:27:53 +0200
+-Subject: [PATCH] Skip various tests if PERL_BUILD_PACKAGING is set
+-
+-These are tests which tend not to be useful for downstream packagers
+-
+-t/porting/customized.t change originally from Todd Rinaldo
+-
+-Upstream-Status: Backport[https://perl5.git.perl.org/perl.git/ba6733216202523a95b0b7ee2e534b8e30b6d7df]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- INSTALL                |  3 ++-
+- MANIFEST               |  1 +
+- PACKAGING              | 30 ++++++++++++++++++++++++++++++
+- regen/lib_cleanup.pl   |  5 +++++
+- t/porting/customized.t |  1 +
+- t/test.pl              |  3 +++
+- 6 files changed, 42 insertions(+), 1 deletion(-)
+- create mode 100644 PACKAGING
+-
+-diff --git a/INSTALL b/INSTALL
+-index 636f4bd52f..1285fc69a2 100644
+---- a/INSTALL
+-+++ b/INSTALL
+-@@ -2714,4 +2714,5 @@ This document is part of the Perl package and may be distributed under
+- the same terms as perl itself, with the following additional request:
+- If you are distributing a modified version of perl (perhaps as part of
+- a larger package) please B<do> modify these installation instructions
+--and the contact information to match your distribution.
+-+and the contact information to match your distribution. Additional
+-+information for packagers is in F<PACKAGING>.
+-diff --git a/MANIFEST b/MANIFEST
+-index b3207030a9..32de824ca1 100644
+---- a/MANIFEST
+-+++ b/MANIFEST
+-@@ -4932,6 +4932,7 @@ os2/perlrexx.c			Support perl interpreter embedded in REXX
+- os2/perlrexx.cmd		Test perl interpreter embedded in REXX
+- overload.h			generated overload enum (public)
+- overload.inc			generated overload name table (implementation)
+-+PACKAGING			notes and best practice for packaging perl 5
+- packsizetables.inc		The generated packprops array used in pp_pack.c
+- pad.c				Scratchpad functions
+- pad.h				Scratchpad headers
+-diff --git a/PACKAGING b/PACKAGING
+-new file mode 100644
+-index 0000000000..0c69b87ba6
+---- /dev/null
+-+++ b/PACKAGING
+-@@ -0,0 +1,30 @@
+-+If you read this file _as_is_, just ignore the funny characters you
+-+see.  It is written in the POD format (see pod/perlpod.pod) which is
+-+specifically designed to be readable as is.
+-+
+-+=head1 NAME
+-+
+-+PACKAGING - notes and best practice for packaging perl 5
+-+
+-+=head1 SYNOPSIS
+-+
+-+This document is aimed at anyone who is producing their own version of
+-+perl for distribution to other users. It is intended as a collection
+-+of useful tips, advice and best practice, rather than being a complete
+-+packaging manual. The starting point for installing perl remains
+-+F<INSTALL>.
+-+
+-+=head1 Customizing test running
+-+
+-+A small number of porting tests (those in t/porting) are not well suited
+-+to typical distribution packaging scenarios. For example, they assume
+-+they are working in a git clone of the upstream Perl repository, or
+-+enforce rules which are not relevant to downstream packagers. These can
+-+be skipped by setting the environment variable PERL_BUILD_PACKAGING.
+-+A complete list of tests which this applied to can be found by searching
+-+the codebase for this string.
+-+
+-+An alternative strategy would be to skip all porting tests, but many of
+-+them are useful if additional patches might be applied.
+-+
+-+=cut
+-diff --git a/regen/lib_cleanup.pl b/regen/lib_cleanup.pl
+-index 5e40b405a4..6caf74a563 100644
+---- a/regen/lib_cleanup.pl
+-+++ b/regen/lib_cleanup.pl
+-@@ -164,6 +164,11 @@ if ($TAP && !-d '.git' && !-f 'lib/.gitignore') {
+-     exit 0;
+- }
+- 
+-+if ($ENV{'PERL_BUILD_PACKAGING'}) {
+-+    print "ok # skip explicitly disabled git tests by PERL_BUILD_PACKAGING\n";
+-+    exit 0;
+-+}
+-+
+- $fh = open_new('lib/.gitignore', '>',
+-                { by => $0,
+-                  from => 'MANIFEST and parsing files in cpan/ dist/ and ext/'});
+-diff --git a/t/porting/customized.t b/t/porting/customized.t
+-index 45fcafb100..5c3739198c 100644
+---- a/t/porting/customized.t
+-+++ b/t/porting/customized.t
+-@@ -13,6 +13,7 @@ BEGIN {
+-     @INC = qw(lib Porting t);
+-     require 'test.pl';
+-     skip_all("pre-computed SHA1 won't match under EBCDIC") if $::IS_EBCDIC;
+-+    skip_all("This distro may have modified some files in cpan/. Skipping validation.") if $ENV{'PERL_BUILD_PACKAGING'};
+- }
+- 
+- use strict;
+-diff --git a/t/test.pl b/t/test.pl
+-index 79e6e25e95..1782dcf73c 100644
+---- a/t/test.pl
+-+++ b/t/test.pl
+-@@ -212,6 +212,9 @@ sub find_git_or_skip {
+-     } else {
+- 	$reason = 'not being run from a git checkout';
+-     }
+-+    if ($ENV{'PERL_BUILD_PACKAGING'}) {
+-+	$reason = 'PERL_BUILD_PACKAGING is set';
+-+    }
+-     skip_all($reason) if $_[0] && $_[0] eq 'all';
+-     skip($reason, @_);
+- }
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch b/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
+deleted file mode 100644
+index a33deaff6a8..00000000000
+--- a/meta/recipes-devtools/perl/perl/CVE-2018-12015.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From ae65651eab053fc6dc4590dbb863a268215c1fc5 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar@redhat.com>
+-Date: Fri, 8 Jun 2018 11:45:40 +0100
+-Subject: [PATCH] [PATCH] Remove existing files before overwriting them
+-
+-Archive should extract only the latest same-named entry.
+-Extracted regular file should not be writtent into existing block
+-device (or any other one).
+-
+-https://rt.cpan.org/Ticket/Display.html?id=125523
+-
+-CVE: CVE-2018-12015
+-Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/ae65651eab053fc6dc4590dbb863a268215c1fc5]
+-
+-Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+----
+- lib/Archive/Tar.pm | 14 ++++++++++++++
+- 1 file changed, 14 insertions(+)
+-
+-diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
+-index 6244369..a83975f 100644
+---- a/cpan/Archive-Tar/lib/Archive/Tar.pm
+-+++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
+-@@ -845,6 +845,20 @@ sub _extract_file {
+-         return;
+-     }
+- 
+-+    ### If a file system already contains a block device with the same name as
+-+    ### the being extracted regular file, we would write the file's content
+-+    ### to the block device. So remove the existing file (block device) now.
+-+    ### If an archive contains multiple same-named entries, the last one
+-+    ### should replace the previous ones. So remove the old file now.
+-+    ### If the old entry is a symlink to a file outside of the CWD, the new
+-+    ### entry would create a file there. This is CVE-2018-12015
+-+    ### <https://rt.cpan.org/Ticket/Display.html?id=125523>.
+-+    if (-l $full || -e _) {
+-+	if (!unlink $full) {
+-+	    $self->_error( qq[Could not remove old file '$full': $!] );
+-+	    return;
+-+	}
+-+    }
+-     if( length $entry->type && $entry->is_file ) {
+-         my $fh = IO::File->new;
+-         $fh->open( '>' . $full ) or (
+--- 
+-2.13.3
+-
+diff --git a/meta/recipes-devtools/perl/perl/Configure-multilib.patch b/meta/recipes-devtools/perl/perl/Configure-multilib.patch
+deleted file mode 100644
+index 9625b0b84e2..00000000000
+--- a/meta/recipes-devtools/perl/perl/Configure-multilib.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status:Pending
+-
+-Index: perl-5.12.3/Configure
+-===================================================================
+---- perl-5.12.3.orig/Configure
+-+++ perl-5.12.3/Configure
+-@@ -1316,8 +1316,9 @@ loclibpth="/usr/local/lib /opt/local/lib
+- loclibpth="$loclibpth /opt/gnu/lib /usr/GNU/lib /opt/GNU/lib"
+- 
+- : general looking path for locating libraries
+--glibpth="/lib /usr/lib $xlibpth"
+-+glibpth="/lib /usr/lib /lib64 /usr/lib64 $xlibpth"
+- glibpth="$glibpth /usr/ccs/lib /usr/ucblib /usr/local/lib"
+-+test -f /usr/lib/*-linux-gnu/libc.so && glibpth="/usr/lib/*-linux-gnu $glibpth"
+- test -f /usr/shlib/libc.so && glibpth="/usr/shlib $glibpth"
+- test -f /shlib/libc.so     && glibpth="/shlib $glibpth"
+- test -d /usr/lib64         && glibpth="$glibpth /lib64 /usr/lib64 /usr/local/lib64"
+diff --git a/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch b/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
+deleted file mode 100644
+index eb92ccb678e..00000000000
+--- a/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status:Pending
+-
+-The perl-native should be relocatable while re-use sstate-cache from
+-another build, especially the original build was renamed/removed.
+-
+-To get the MakeMaker.pm works in this case, we need perl wrapper here
+-instead of real perl binary.
+-
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-===================================================================
+---- perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm.orig	2011-08-12 16:07:30.000000000 +0800
+-+++ perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm	2011-08-12 16:08:56.000000000 +0800
+-@@ -1019,6 +1019,9 @@
+-     }
+- 
+-     foreach my $name (@$names){
+-+        # Getting MakeMaker.pm use perl wrapper instead of 'perl.real' directly
+-+        $name =~ s/perl\.real/perl/ if ($name =~ /perl\.real/);
+-+
+-         foreach my $dir (@$dirs){
+-             next unless defined $dir; # $self->{PERL_SRC} may be undefined
+-             my ($abs, $val);
+diff --git a/meta/recipes-devtools/perl/perl/Makefile.SH.patch b/meta/recipes-devtools/perl/perl/Makefile.SH.patch
+deleted file mode 100644
+index e4c3426b7fb..00000000000
+--- a/meta/recipes-devtools/perl/perl/Makefile.SH.patch
++++ /dev/null
+@@ -1,383 +0,0 @@
+-From 4dd9f3f81d8c81c96ff1ea0890ea55685f28b7e9 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Tue, 1 Jul 2014 15:51:53 +0800
+-Subject: [PATCH 28/49] perl, perl-native, perl-ptest: upgrade from 5.14.3 to
+- 5.20.0
+-
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+----
+- Makefile.SH | 147 ++++++++++++++++++++++++++++--------------------------------
+- 1 file changed, 68 insertions(+), 79 deletions(-)
+-
+-Index: perl-5.24.4/Makefile.SH
+-===================================================================
+---- perl-5.24.4.orig/Makefile.SH
+-+++ perl-5.24.4/Makefile.SH
+-@@ -48,10 +48,10 @@ case "$useshrplib" in
+- true)
+- 	# Prefix all runs of 'miniperl' and 'perl' with
+- 	# $ldlibpth so that ./perl finds *this* shared libperl.
+--	case "$LD_LIBRARY_PATH" in
+--	'')  ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `" ;;
+--	*)   ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `:` quote "$LD_LIBRARY_PATH" `" ;;
+--	esac
+-+	#case "$LD_LIBRARY_PATH" in
+-+	#'')  ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `" ;;
+-+	#*)   ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `:` quote "$LD_LIBRARY_PATH" `" ;;
+-+	#esac
+- 
+- 	pldlflags="$cccdlflags"
+- 	static_ldflags=''
+-@@ -131,10 +131,11 @@ true)
+- 	    *)
+- 		eval "ldlibpthval=\"\$$ldlibpthname\""
+- 
+--		case "$ldlibpthval" in
+--		'')  ldlibpth="$ldlibpthname=` quote "$pwd" `" ;;
+--		*)   ldlibpth="$ldlibpthname=` quote "$pwd" `:` quote "$ldlibpthval" `" ;;
+--		esac
+-+# We compile in the library path in OE from cross-compile, so lets not do this
+-+#		case "$ldlibpthval" in
+-+#		'')  ldlibpth="$ldlibpthname=` quote "$pwd" `" ;;
+-+#		*)   ldlibpth="$ldlibpthname=` quote "$pwd" `:` quote "$ldlibpthval" `" ;;
+-+#		esac
+- 
+- 		;;
+- 	    esac
+-@@ -150,18 +151,7 @@ true)
+- 	    # INSTALL file, under "Building a shared perl library".
+- 	    # If there is no pre-existing $libperl, we don't need
+- 	    # to do anything further.
+--	    if test -f $archlib/CORE/$libperl; then
+--		rm -f preload
+--		cat <<'EOT' > preload
+--#! /bin/sh
+--lib=$1
+--shift
+--test -r $lib && export LD_PRELOAD="$lib $LD_PRELOAD"
+--exec "$@"
+--EOT
+--		chmod 755 preload
+--		ldlibpth="$ldlibpth `pwd`/preload `pwd`/$libperl"
+--	    fi
+-+	    echo linux libraries overwritten by cross-compile patches
+- 	    ;;
+- 	os390)	test -f /bin/env && ldlibpth="/bin/env $ldlibpth"
+- 		;;
+-@@ -596,13 +586,23 @@ splintfiles = $(c1)
+- 	@echo `$(CCCMDSRC)` -S $*.c
+- 	@`$(CCCMDSRC)` -S $*.c
+- 
+--all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) $(generated_pods) $(private) $(unidatafiles) $(public) $(dynamic_ext) $(nonxs_ext) extras.make $(MANIFEST_SRT)
+--	@echo " ";
+--	@echo "	Everything is up to date. Type '$(MAKE) test' to run test suite."
+--
+--$(MANIFEST_SRT):	MANIFEST $(PERL_EXE)
+--	@$(RUN_PERL) Porting/manisort -q || (echo "WARNING: re-sorting MANIFEST"; \
+--	    $(RUN_PERL) Porting/manisort -q -o MANIFEST; sh -c true)
+-+#all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) $(generated_pods) $(private) $(unidatafiles) $(public) $(dynamic_ext) $(nonxs_ext) extras.make $(MANIFEST_SRT)
+-+#	@echo " ";
+-+#	@echo "	Everything is up to date. Type '$(MAKE) test' to run test suite."
+-+
+-+all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) miniperl $(unidatafiles)
+-+
+-+more: $(generated_pods) $(private) $(public)
+-+
+-+more2: $(dynamic_ext)
+-+
+-+more3: $(nonxs_ext)
+-+
+-+more4: extras.make $(MANIFEST_SRT)
+-+
+-+$(MANIFEST_SRT):	MANIFEST
+-+	@$(MINIPERL) Porting/manisort -q || (echo "WARNING: re-sorting MANIFEST"; \
+-+	    $(MINIPERL) Porting/manisort -q -o MANIFEST; sh -c true)
+- 	@touch $(MANIFEST_SRT)
+- 
+- .PHONY: all utilities
+-@@ -611,7 +611,7 @@ $(MANIFEST_SRT):	MANIFEST $(PERL_EXE)
+- # by make_patchnum.pl.
+- git_version.h: lib/Config_git.pl
+- 
+--lib/Config_git.pl: $(MINIPERL_EXE) make_patchnum.pl
+-+lib/Config_git.pl: make_patchnum.pl
+- 	$(MINIPERL) make_patchnum.pl
+- 
+- # make sure that we recompile perl.c if the git version changes
+-@@ -624,7 +624,7 @@ perl$(OBJ_EXT): git_version.h
+- # loading, we need to build perl first.
+- case "$usedl$static_cwd" in
+- defineundef)
+--    util_deps='$(MINIPERL_EXE) $(CONFIGPM) lib/auto/Cwd/Cwd$(DLSUFFIX) FORCE'
+-+    util_deps='$(CONFIGPM) lib/auto/Cwd/Cwd$(DLSUFFIX) FORCE'
+-     ;;
+- definedefine)
+-     util_deps='$(PERL_EXE) $(CONFIGPM) FORCE'
+-@@ -634,7 +634,7 @@ definedefine)
+- esac
+- 
+- $spitshell >>$Makefile <<!GROK!THIS!
+--utils/Makefile: \$(MINIPERL_EXE) \$(CONFIGPM) utils/Makefile.PL
+-+utils/Makefile: \$(CONFIGPM) utils/Makefile.PL
+- 	\$(MINIPERL) -Ilib utils/Makefile.PL
+- 
+- utilities:	utils/Makefile $util_deps
+-@@ -743,7 +743,7 @@ ext.libs: $(static_ext)
+- ;;
+- *)
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+--perlmain.c: $(MINIPERL_EXE) ext/ExtUtils-Miniperl/pm_to_blib
+-+perlmain.c: ext/ExtUtils-Miniperl/lib/ExtUtils/Miniperl.pm
+- 	$(MINIPERL) -Ilib -MExtUtils::Miniperl -e 'writemain(\"perlmain.c", @ARGV)' DynaLoader $(static_ext)
+- 
+- # The file ext.libs is a list of libraries that must be linked in
+-@@ -806,7 +806,7 @@ PERLEXPORT		= perl.exp
+- 	;;
+- 	esac
+- 	$spitshell >>$Makefile <<'!NO!SUBS!'
+--perl.exp: $(MINIPERLEXP) makedef.pl $(CONFIGPM) $(SYM) $(SYMH)
+-+perl.exp: makedef.pl $(CONFIGPM) $(SYM) $(SYMH)
+- 	./$(MINIPERLEXP) makedef.pl --sort-fold PLATFORM=aix CC_FLAGS="$(OPTIMIZE)" > perl.exp
+- 
+- !NO!SUBS!
+-@@ -815,7 +815,7 @@ os2)
+- 	$spitshell >>$Makefile <<'!NO!SUBS!'
+- MINIPERLEXP		= miniperl
+- 
+--perl5.def: $(MINIPERLEXP) makedef.pl $(CONFIGPM) $(SYM) $(SYMH) miniperl.map
+-+perl5.def: makedef.pl $(CONFIGPM) $(SYM) $(SYMH) miniperl.map
+- 	./$(MINIPERLEXP) makedef.pl PLATFORM=os2 -DPERL_DLL=$(PERL_DLL) CC_FLAGS="$(OPTIMIZE)" > perl5.def
+- 
+- !NO!SUBS!
+-@@ -878,7 +878,7 @@ $(LIBPERL): $& $(perllib_objs) $(DYNALOA
+- 	true)
+- 		$spitshell >>$Makefile <<'!NO!SUBS!'
+- 	rm -f $@
+--	$(LD) -o $@ $(SHRPLDFLAGS) $(perllib_objs) $(DYNALOADER) $(libs)
+-+	$(LD) -o $@ $(SHRPLDFLAGS) $(perllib_objs) $(DYNALOADER) $(libs) -Wl,-soname,libperl.so.5
+- !NO!SUBS!
+- 		case "$osname" in
+- 		aix)
+-@@ -936,15 +936,19 @@ lib/buildcustomize.pl: $& $(miniperl_obj
+- 		$spitshell >>$Makefile <<'!NO!SUBS!'
+- lib/buildcustomize.pl: $& $(miniperl_objs)
+- 	$(CC) -o $(MINIPERL_EXE) $(CLDFLAGS) $(miniperl_objs) $(libs)
+--	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+-+	mv -f miniperl miniperl-target
+-+	ln -s hostperl miniperl
+-+	#$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+- 	$(MINIPERL) -f write_buildcustomize.pl
+- !NO!SUBS!
+- 		;;
+- 	next4*)
+- 		$spitshell >>$Makefile <<'!NO!SUBS!'
+- lib/buildcustomize.pl: $& $(miniperl_objs) write    ldcustomize.pl
+--	$(CC) -o $(MINIPERL_EXE) $(miniperl_objs    libs)
+--	$(LDLIBPTH) ./miniperl$(HOST    _EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+-+	$(CC) -o $(MINIPERL_EXE) $(miniperl_objs   libs)
+-+	mv -f miniperl miniperl-target
+-+	ln -s hostperl miniperl
+-+	#$(LDLIBPTH) ./miniperl$(HOST    _EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+- 	$(MINIPERL) -f write_buildcustomize.pl    
+- !NO!SUBS!
+- 		;;
+-@@ -966,7 +970,9 @@ lib/buildcustomize.pl: $& $(miniperl_obj
+- 	-@rm -f miniperl.xok
+- 	$(CC) $(CLDFLAGS) $(NAMESPACEFLAGS) -o $(MINIPERL_EXE) \
+- 	    $(miniperl_objs) $(libs)
+--	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+-+	mv -f miniperl miniperl-target
+-+	ln -s hostperl miniperl
+-+	#$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+- 	$(MINIPERL) -f write_buildcustomize.pl
+- !NO!SUBS!
+- 		;;
+-@@ -977,7 +983,9 @@ lib/buildcustomize.pl: \$& \$(miniperl_o
+- 	-@rm -f miniperl.xok
+- 	-@rm \$(MINIPERL_EXE)
+- 	\$(LNS) \$(HOST_PERL) \$(MINIPERL_EXE)
+--	\$(LDLIBPTH) ./miniperl\$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+-+	mv -f miniperl miniperl-target
+-+	ln -s hostperl miniperl
+-+	#\$(LDLIBPTH) ./miniperl\$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+- 	\$(MINIPERL) -f write_buildcustomize.pl 'osname' "$osname"
+- !GROK!THIS!
+- 		else
+-@@ -986,7 +994,9 @@ lib/buildcustomize.pl: $& $(miniperl_obj
+- 	-@rm -f miniperl.xok
+- 	$(CC) $(CLDFLAGS) -o $(MINIPERL_EXE) \
+- 	    $(miniperl_objs) $(libs)
+--	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+-+	mv -f miniperl miniperl-target
+-+	ln -s hostperl miniperl
+-+	#$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+- 	$(MINIPERL) -f write_buildcustomize.pl
+- !NO!SUBS!
+- 		fi
+-@@ -1036,7 +1046,7 @@ case "${osname}" in
+- catamount)
+- $spitshell >>$Makefile <<!GROK!THIS!
+- .PHONY: makeppport
+--makeppport: \$(MINIPERL_EXE) \$(CONFIGPM)
+-+makeppport: \$(CONFIGPM)
+- 	-@for f in Makefile.PL PPPort_pm.PL PPPort_xs.PL ppport_h.PL; do \
+- 	(cd ext/Devel-PPPort && `pwd`/run.sh ../../$(MINIPERL_EXE) -I../../lib \$\$f); \
+- 	done
+-@@ -1046,7 +1056,7 @@ makeppport: \$(MINIPERL_EXE) \$(CONFIGPM
+- *)
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- .PHONY: makeppport
+--makeppport: $(MINIPERL_EXE) $(CONFIGPM) $(nonxs_ext)
+-+makeppport: $(CONFIGPM) $(nonxs_ext)
+- 	$(MINIPERL) mkppport
+- 
+- !NO!SUBS!
+-@@ -1056,16 +1066,16 @@ esac
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- 
+- .PHONY: preplibrary
+--preplibrary: $(MINIPERL_EXE) $(CONFIGPM) $(PREPLIBRARY_LIBPERL)
+-+preplibrary: $(CONFIGPM) $(PREPLIBRARY_LIBPERL)
+- 
+- $(CONFIGPM_FROM_CONFIG_SH): $(CONFIGPOD)
+- 
+--$(CONFIGPOD): config.sh $(MINIPERL_EXE) configpm Porting/Glossary lib/Config_git.pl
+-+$(CONFIGPOD): config.sh configpm Porting/Glossary lib/Config_git.pl
+- 	$(MINIPERL) configpm
+- 
+- unidatafiles $(unidatafiles) pod/perluniprops.pod: uni.data
+- 
+--uni.data: $(MINIPERL_EXE) $(CONFIGPM) lib/unicore/mktables $(nonxs_ext)
+-+uni.data: $(CONFIGPM) lib/unicore/mktables $(nonxs_ext)
+- 	$(MINIPERL) lib/unicore/mktables -C lib/unicore -P pod -maketest -makelist -p
+- #	Commented out so always runs, mktables looks at far more files than we
+- #	can in this makefile to decide if needs to run or not
+-@@ -1074,12 +1084,12 @@ uni.data: $(MINIPERL_EXE) $(CONFIGPM) li
+- # $(PERL_EXE) and ext because pod_lib.pl needs Digest::MD5
+- # But also this ensures that all extensions are built before we try to scan
+- # them, which picks up Devel::PPPort's documentation.
+--pod/perltoc.pod: $(perltoc_pod_prereqs)  $(PERL_EXE) $(ext) pod/buildtoc
+--	$(RUN_PERL) -f pod/buildtoc -q
+-+pod/perltoc.pod: $(perltoc_pod_prereqs) $(ext) pod/buildtoc
+-+	$(MINIPERL) -f pod/buildtoc -q
+- 
+- pod/perlapi.pod: pod/perlintern.pod
+- 
+--pod/perlintern.pod: $(MINIPERL_EXE) autodoc.pl embed.fnc
+-+pod/perlintern.pod: autodoc.pl embed.fnc
+- 	$(MINIPERL) autodoc.pl
+- 
+- pod/perlmodlib.pod: $(MINIPERL_EXE) pod/perlmodlib.PL MANIFEST
+-@@ -1089,7 +1099,7 @@ pod/perl5244delta.pod: pod/perldelta.pod
+- 	$(RMS) pod/perl5244delta.pod
+- 	$(LNS) perldelta.pod pod/perl5244delta.pod
+- 
+--extra.pods: $(MINIPERL_EXE)
+-+extra.pods:
+- 	-@test ! -f extra.pods || rm -f `cat extra.pods`
+- 	-@rm -f extra.pods
+- 	-@for x in `grep -l '^=[a-z]' README.* | grep -v README.vms` ; do \
+-@@ -1133,8 +1143,7 @@ EOT
+-         $spitshell >>$Makefile <<EOT
+- 
+- install_$name install-$name: \$(INSTALL_DEPENDENCE) installperl all installman
+--	\$(RUN_PERL) installperl --destdir=\$(DESTDIR) $flags \$(INSTALLFLAGS) \$(STRIPFLAGS)
+--	\$(RUN_PERL) installman --destdir=\$(DESTDIR) $flags
+-+	./hostperl -Ifake_config_library -Ilib -MConfig installperl --destdir=\$(DESTDIR) $flags  \$(INSTALLFLAGS) \$(STRIPFLAGS)
+- EOT
+-     fi
+- 
+-@@ -1144,11 +1153,7 @@ done
+- if test "X$hostperl" != X; then
+- 	$spitshell >>$Makefile <<'!NO!SUBS!'
+- install.perl:	$(INSTALL_DEPENDENCE) installperl
+--	$(HOST_PERL) installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
+--	-@test ! -s extras.lst || $(MAKE) extras.install
+--
+--install.man:	all installman
+--	$(HOST_PERL) installman --destdir=$(DESTDIR) $(INSTALLFLAGS)
+-+	./hostperl -Ifake_config_library -Ilib -MConfig installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
+- 
+- # XXX Experimental. Hardwired values, but useful for testing.
+- # Eventually Configure could ask for some of these values.
+-@@ -1166,24 +1171,8 @@ install.html: all installhtml
+- else
+- 	$spitshell >>$Makefile <<'!NO!SUBS!'
+- install.perl:	$(INSTALL_DEPENDENCE) installperl
+--	$(RUN_PERL) installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
+--	-@test ! -s extras.lst || PATH="`pwd`:\${PATH}" PERL5LIB="`pwd`/lib" \$(RUN_PERL) -Ilib -MCPAN -e '@ARGV&&install(@ARGV)' `cat extras.lst`
+--
+--install.man:	all installman
+--	$(RUN_PERL) installman --destdir=$(DESTDIR) $(INSTALLFLAGS)
+-+	./hostperl -Ifake_config_library -Ilib -MConfig installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
+- 
+--# XXX Experimental. Hardwired values, but useful for testing.
+--# Eventually Configure could ask for some of these values.
+--install.html: all installhtml
+--	-@test -f README.vms && cd vms && $(LNS) ../README.vms README_vms.pod && cd ..
+--	$(RUN_PERL) installhtml   \
+--      --podroot=. --podpath=. --recurse  \
+--      --htmldir=$(privlib)/html   \
+--      --htmlroot=$(privlib)/html  \
+--      --splithead=pod/perlipc     \
+--      --splititem=pod/perlfunc    \
+--      --ignore=Porting/Maintainers.pm,Porting/pumpkin.pod,Porting/repository.pod \
+--      --verbose
+- !NO!SUBS!
+- fi
+- 
+-@@ -1275,13 +1264,13 @@ manicheck:	FORCE
+- #
+- # DynaLoader may be needed for extensions that use Makefile.PL.
+- 
+--$(DYNALOADER):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary FORCE $(nonxs_ext)
+-+$(DYNALOADER): lib/buildcustomize.pl preplibrary FORCE $(nonxs_ext)
+- 	$(MINIPERL) make_ext.pl $@ $(MAKE_EXT_ARGS) MAKE="$(MAKE)" LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+--d_dummy $(dynamic_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE $(PERLEXPORT) $(LIBPERL)
+-+d_dummy $(dynamic_ext):	lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE $(PERLEXPORT) $(LIBPERL)
+- 	$(MINIPERL) make_ext.pl $@ $(MAKE_EXT_ARGS) MAKE="$(MAKE)" LIBPERL_A=$(LIBPERL) LINKTYPE=dynamic
+- 
+--s_dummy $(static_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE
+-+s_dummy $(static_ext):	lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE
+- 	$(MINIPERL) make_ext.pl $@ $(MAKE_EXT_ARGS) MAKE="$(MAKE)" LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+- n_dummy $(nonxs_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary FORCE
+-@@ -1479,14 +1468,14 @@ test_prep_pre: preplibrary utilities $(n
+- 
+- case "$targethost" in
+- '') $spitshell >>$Makefile <<'!NO!SUBS!'
+--test_prep test-prep: test_prep_pre $(MINIPERL_EXE) $(unidatafiles) $(PERL_EXE) \
+-+test_prep test-prep: test_prep_pre $(unidatafiles) $(PERL_EXE) \
+- 	$(dynamic_ext) $(TEST_PERL_DLL) runtests $(generated_pods)
+- 	cd t && (rm -f $(PERL_EXE); $(LNS) ../$(PERL_EXE) $(PERL_EXE))
+- 
+- !NO!SUBS!
+- ;;
+- *) $spitshell >>$Makefile <<!GROK!THIS!
+--test_prep test-prep: test_prep_pre \$(MINIPERL_EXE) \$(unidatafiles) \$(PERL_EXE) \
+-+test_prep test-prep: test_prep_pre \$(unidatafiles) \$(PERL_EXE) \
+- 	\$(dynamic_ext) \$(TEST_PERL_DLL) runtests \
+- 	\$(generated_pods)
+- 	$to libperl.*
+-@@ -1539,7 +1528,7 @@ test_prep test-prep: test_prep_pre \$(MI
+- esac
+- 
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+--test_prep_reonly: $(MINIPERL_EXE) $(PERL_EXE) $(dynamic_ext_re) $(TEST_PERL_DLL)
+-+test_prep_reonly: $(PERL_EXE) $(dynamic_ext_re) $(TEST_PERL_DLL)
+- 	$(MINIPERL) make_ext.pl $(dynamic_ext_re) MAKE="$(MAKE)" LIBPERL_A=$(LIBPERL) LINKTYPE=dynamic
+- 	cd t && (rm -f $(PERL_EXE); $(LNS) ../$(PERL_EXE) $(PERL_EXE))
+- !NO!SUBS!
+-@@ -1600,7 +1589,7 @@ minitest_prep:
+- 
+- MINITEST_TESTS = base/*.t comp/*.t cmd/*.t run/*.t io/*.t re/*.t opbasic/*.t op/*.t uni/*.t perf/*.t
+- 
+--minitest: $(MINIPERL_EXE) minitest_prep
+-+minitest: minitest_prep
+- 	- cd t && $(RUN_PERL) TEST $(MINITEST_TESTS) <$(devtty)
+- 
+- minitest-notty minitest_notty: $(MINIPERL_EXE) minitest_prep
+diff --git a/meta/recipes-devtools/perl/perl/Makefile.patch b/meta/recipes-devtools/perl/perl/Makefile.patch
+deleted file mode 100644
+index 858e2e10fb8..00000000000
+--- a/meta/recipes-devtools/perl/perl/Makefile.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Index: perl-5.14.2/Cross/Makefile
+-===================================================================
+---- perl-5.14.2.orig/Cross/Makefile
+-+++ perl-5.14.2/Cross/Makefile
+-@@ -1,6 +1,7 @@
+- ## Toplevel Makefile for cross-compilation of perl
+- 
+--export TOPDIR=${shell pwd}
+-+override TOPDIR=${shell pwd}
+-+export TOPDIR
+- include $(TOPDIR)/config
+- export CFLAGS
+- export SYS=$(ARCH)-$(OS)
+-@@ -10,7 +11,7 @@ export OPTIMIZATION = -O2
+- 
+- export CC = $(CROSS)gcc
+- export CXX = $(CROSS)g++
+--export LD = $(CROSS)ld
+-+export LD = $(CC)
+- export STRIP = $(CROSS)strip
+- export AR = $(CROSS)ar
+- export RANLIB = $(CROSS)ranlib
+-@@ -32,17 +33,6 @@ CFLAGS+=$(FULL_OPTIMIZATION)
+- all:
+- 	@echo Please read the README file before doing anything else.
+- 
+--gen_patch:
+--	diff -Bbur ../Makefile.SH Makefile.SH > Makefile.SH.patch
+--	diff -Bbur ../installperl installperl > installperl.patch
+--
+--patch:
+--	cd .. ; if [ ! -e ./CROSS_PATCHED ] ; then \
+--		patch -p1 < Cross/Makefile.SH.patch; \
+--		patch -p1 < Cross/installperl.patch ; mv installperl installperl-patched; \
+--		sed -e 's/XXSTRIPXX/$(SYS)/' installperl-patched > installperl; \
+--		touch CROSS_PATCHED ; fi
+--
+- perl:
+- 	@echo Perl cross-build directory is $(TOPDIR)
+- 	@echo Target arch is $(SYS)
+-@@ -52,11 +42,11 @@ perl:
+- 	$(TOPDIR)/generate_config_sh config.sh-$(SYS) > $(TOPDIR)/../config.sh
+- 	cd $(TOPDIR)/.. ; ./Configure -S ; make depend ; make ; make more
+- 	cd $(TOPDIR)/.. ; mkdir -p fake_config_library ; cp lib/Config.pm lib/Config_heavy.pl fake_config_library
+--	cd $(TOPDIR)/.. ; $(MAKE) more2 "PERLRUN=/usr/bin/perl -I$(TOPDIR)/../fake_config_library -MConfig"
+--	cd $(TOPDIR)/.. ; $(MAKE) more3 "PERLRUN=/usr/bin/perl -I$(TOPDIR)/../fake_config_library -MConfig"
+--	cd $(TOPDIR)/.. ; $(MAKE) more4 "PERLRUN=/usr/bin/perl -I$(TOPDIR)/../fake_config_library -MConfig"
+-+	cd $(TOPDIR)/.. ; $(MAKE) more2 "PERLRUN=hostperl -I$(TOPDIR)/../fake_config_library -MConfig"
+-+	cd $(TOPDIR)/.. ; $(MAKE) more3 "PERLRUN=hostperl -I$(TOPDIR)/../fake_config_library -MConfig"
+-+	cd $(TOPDIR)/.. ; $(MAKE) more4 "PERLRUN=hostperl -I$(TOPDIR)/../fake_config_library -MConfig"
+- 	cd $(TOPDIR)/.. ; rm -rf install_me_here
+--	cd $(TOPDIR)/.. ; make install-strip
+-+#	cd $(TOPDIR)/.. ; make install-strip
+- 	cd $(TOPDIR)/.. ; sh -x Cross/warp
+- 
+- 
+diff --git a/meta/recipes-devtools/perl/perl/config.sh b/meta/recipes-devtools/perl/perl/config.sh
+deleted file mode 100644
+index b1b5834c71a..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh
++++ /dev/null
+@@ -1,1249 +0,0 @@
+-#!/bin/sh
+-#
+-# This file was produced by running the Configure script. It holds all the
+-# definitions figured out by Configure. Should you modify one of these values,
+-# do not forget to propagate your changes by running "Configure -der". You may
+-# instead choose to run each of the .SH files by yourself, or "Configure -S".
+-#
+-
+-# Package name      : perl5
+-# Source directory  : .
+-# Configuration time: Fri May  6 20:13:46 PDT 2016
+-# Configured by     : Open Embedded
+-# Target system     : linux qemux86-64 3.19.5-yocto-standard #1 smp preempt tue jun 16 00:28:17 pdt 2015 x86_64 gnulinux
+-
+-: Configure command line arguments.
+-config_arg0='Configure'
+-config_args='-des -Doptimize=-O2 -Dmyhostname=localhost -Dperladmin=root@localhost -Dcc=gcc -Dcf_by=Open Embedded -Dinstallprefix=@EXECPREFIX@ -Dprefix=@EXECPREFIX@ -Dvendorprefix=@EXECPREFIX@ -Dsiteprefix=@EXECPREFIX@ -Dotherlibdirs=@LIBDIR@/perl/5.24.4 -Duseshrplib -Dusethreads -Duseithreads -Duselargefiles -Ud_dosuid -Dd_semctl_semun -Ui_db -Ui_ndbm -Ui_gdbm -Di_shadow -Di_syslog -Dman3ext=3pm -Duseperlio -Dinstallusrbinperl -Ubincompat5005 -Uversiononly -Dpager=@USRBIN@/less -isr'
+-config_argc=28
+-config_arg1='-des'
+-config_arg2='-Doptimize=-O2'
+-config_arg3='-Dmyhostname=localhost'
+-config_arg4='-Dperladmin=root@localhost'
+-config_arg5='-Dcc=gcc'
+-config_arg6='-Dcf_by=Open Embedded'
+-config_arg7='-Dinstallprefix=@EXECPREFIX@'
+-config_arg8='-Dprefix=@EXECPREFIX@'
+-config_arg9='-Dvendorprefix=@EXECPREFIX@'
+-config_arg10='-Dsiteprefix=@EXECPREFIX@'
+-config_arg11='-Dotherlibdirs=@LIBDIR@/perl/5.24.4'
+-config_arg12='-Duseshrplib'
+-config_arg13='-Dusethreads'
+-config_arg14='-Duseithreads'
+-config_arg15='-Duselargefiles'
+-config_arg16='-Ud_dosuid'
+-config_arg17='-Dd_semctl_semun'
+-config_arg18='-Ui_db'
+-config_arg19='-Ui_ndbm'
+-config_arg20='-Ui_gdbm'
+-config_arg21='-Di_shadow'
+-config_arg22='-Di_syslog'
+-config_arg23='-Dman3ext=3pm'
+-config_arg24='-Duseperlio'
+-config_arg25='-Dinstallusrbinperl'
+-config_arg26='-Ubincompat5005'
+-config_arg27='-Uversiononly'
+-config_arg28='-Dpager=@USRBIN@/less -isr'
+-
+-Author=''
+-Date=''
+-Header=''
+-Id=''
+-Locker=''
+-Log=''
+-RCSfile=''
+-Revision=''
+-Source=''
+-State=''
+-_a='.a'
+-_exe=''
+-_o='.o'
+-afs='false'
+-afsroot='/afs'
+-alignbytes='8'
+-ansi2knr=''
+-aphostname=''
+-api_revision='5'
+-api_subversion='4'
+-api_version='24'
+-api_versionstring='5.24.4'
+-ar='ar'
+-archlib='@LIBDIR@/perl/5.24.4/@ARCH@-thread-multi'
+-archlibexp='@STAGINGDIR@@LIBDIR@/perl/5.24.4/@ARCH@-thread-multi'
+-archlib_exp='@LIBDIR@/perl/5.24.4/@ARCH@-thread-multi'
+-archname64=''
+-archname='@ARCH@-thread-multi'
+-archobjs=''
+-asctime_r_proto='REENTRANT_PROTO_B_SB'
+-awk='awk'
+-baserev='5.0'
+-bash=''
+-bin='@USRBIN@'
+-bin_ELF='define'
+-binexp='@USRBIN@'
+-bison='bison'
+-byacc='byacc'
+-c=''
+-castflags='0'
+-cat='cat'
+-cc='gcc'
+-cccdlflags='-fPIC'
+-ccdlflags='-Wl,-E -Wl,-rpath,@LIBDIR@/perl/5.24.4/@ARCH@-thread-multi/CORE'
+-ccflags='-D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2'
+-ccflags_uselargefiles='-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+-ccname='gcc'
+-ccsymbols=''
+-ccversion=''
+-cf_by='Open Embedded'
+-cf_email='Open Embedded@localhost.localdomain'
+-cf_time='Fri May  6 20:13:46 PDT 2016'
+-charbits='8'
+-charsize='1'
+-chgrp=''
+-chmod='chmod'
+-chown=''
+-clocktype='clock_t'
+-comm='comm'
+-compress=''
+-contains='grep'
+-cp='cp'
+-cpio=''
+-cpp='cpp'
+-cpp_stuff='42'
+-cppccsymbols=''
+-cppflags='-D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe'
+-cpplast='-'
+-cppminus='-'
+-cpprun='gcc  -E'
+-cppstdin='gcc  -E'
+-crypt_r_proto='REENTRANT_PROTO_B_CCS'
+-cryptlib=''
+-csh='csh'
+-ctermid_r_proto='0'
+-ctime_r_proto='REENTRANT_PROTO_B_SB'
+-d_Gconvert='gcvt((x),(n),(b))'
+-d_PRIEUldbl='define'
+-d_PRIFUldbl='define'
+-d_PRIGUldbl='define'
+-d_PRIXU64='define'
+-d_PRId64='define'
+-d_PRIeldbl='define'
+-d_PRIfldbl='define'
+-d_PRIgldbl='define'
+-d_PRIi64='define'
+-d_PRIo64='define'
+-d_PRIu64='define'
+-d_PRIx64='define'
+-d_SCNfldbl='define'
+-d__fwalk='undef'
+-d_access='define'
+-d_accessx='undef'
+-d_acosh='define'
+-d_aintl='undef'
+-d_alarm='define'
+-d_archlib='define'
+-d_asctime64='undef'
+-d_asctime_r='define'
+-d_asinh='define'
+-d_atanh='define'
+-d_atolf='undef'
+-d_atoll='define'
+-d_attribute_deprecated='define'
+-d_attribute_format='define'
+-d_attribute_malloc='define'
+-d_attribute_nonnull='define'
+-d_attribute_noreturn='define'
+-d_attribute_pure='define'
+-d_attribute_unused='define'
+-d_attribute_warn_unused_result='define'
+-d_backtrace='define'
+-d_bcmp='define'
+-d_bcopy='define'
+-d_bsd='undef'
+-d_bsdgetpgrp='undef'
+-d_bsdsetpgrp='undef'
+-d_builtin_choose_expr='define'
+-d_builtin_expect='define'
+-d_bzero='define'
+-d_c99_variadic_macros='define'
+-d_casti32='define'
+-d_castneg='define'
+-d_cbrt='define'
+-d_charvspr='undef'
+-d_chown='define'
+-d_chroot='define'
+-d_chsize='undef'
+-d_class='undef'
+-d_clearenv='define'
+-d_closedir='define'
+-d_cmsghdr_s='define'
+-d_const='define'
+-d_copysign='define'
+-d_copysignl='define'
+-d_cplusplus='undef'
+-d_crypt='define'
+-d_crypt_r='define'
+-d_csh='undef'
+-d_ctermid='define'
+-d_ctermid_r='undef'
+-d_ctime64='undef'
+-d_ctime_r='define'
+-d_cuserid='define'
+-d_dbl_dig='define'
+-d_dbminitproto='define'
+-d_difftime64='undef'
+-d_difftime='define'
+-d_dir_dd_fd='undef'
+-d_dirfd='define'
+-d_dirnamlen='undef'
+-d_dladdr='define'
+-d_dlerror='define'
+-d_dlopen='define'
+-d_dlsymun='undef'
+-d_dosuid='undef'
+-d_drand48_r='define'
+-d_drand48proto='define'
+-d_dup2='define'
+-d_eaccess='define'
+-d_endgrent='define'
+-d_endgrent_r='undef'
+-d_endhent='define'
+-d_endhostent_r='undef'
+-d_endnent='define'
+-d_endnetent_r='undef'
+-d_endpent='define'
+-d_endprotoent_r='undef'
+-d_endpwent='define'
+-d_endpwent_r='undef'
+-d_endsent='define'
+-d_endservent_r='undef'
+-d_eofnblk='define'
+-d_erf='define'
+-d_erfc='define'
+-d_eunice='undef'
+-d_exp2='define'
+-d_expm1='define'
+-d_faststdio='undef'
+-d_fchdir='define'
+-d_fchmod='define'
+-d_fchown='define'
+-d_fcntl='define'
+-d_fcntl_can_lock='define'
+-d_fd_macros='define'
+-d_fd_set='define'
+-d_fdim='define'
+-d_fds_bits='define'
+-d_fegetround='define'
+-d_fgetpos='define'
+-d_finite='define'
+-d_finitel='define'
+-d_flexfnam='define'
+-d_flock='define'
+-d_flockproto='define'
+-d_fma='define'
+-d_fmax='define'
+-d_fmin='define'
+-d_fork='define'
+-d_fp_class='undef'
+-d_fp_classify='undef'
+-d_fp_classl='undef'
+-d_fpathconf='define'
+-d_fpclass='undef'
+-d_fpclassify='define'
+-d_fpclassl='undef'
+-d_fpgetround='undef'
+-d_fpos64_t='undef'
+-d_frexpl='define'
+-d_fs_data_s='undef'
+-d_fseeko='define'
+-d_fsetpos='define'
+-d_fstatfs='define'
+-d_fstatvfs='define'
+-d_fsync='define'
+-d_ftello='define'
+-d_ftime='undef'
+-d_futimes='define'
+-d_gdbm_ndbm_h_uses_prototypes='undef'
+-d_gdbmndbm_h_uses_prototypes='define'
+-d_getaddrinfo='define'
+-d_getcwd='define'
+-d_getespwnam='undef'
+-d_getfsstat='undef'
+-d_getgrent='define'
+-d_getgrent_r='define'
+-d_getgrgid_r='define'
+-d_getgrnam_r='define'
+-d_getgrps='define'
+-d_gethbyaddr='define'
+-d_gethbyname='define'
+-d_gethent='define'
+-d_gethname='define'
+-d_gethostbyaddr_r='define'
+-d_gethostbyname_r='define'
+-d_gethostent_r='define'
+-d_gethostprotos='define'
+-d_getitimer='define'
+-d_getlogin='define'
+-d_getlogin_r='define'
+-d_getmnt='undef'
+-d_getmntent='define'
+-d_getnameinfo='define'
+-d_getnbyaddr='define'
+-d_getnbyname='define'
+-d_getnent='define'
+-d_getnetbyaddr_r='define'
+-d_getnetbyname_r='define'
+-d_getnetent_r='define'
+-d_getnetprotos='define'
+-d_getpagsz='define'
+-d_getpbyname='define'
+-d_getpbynumber='define'
+-d_getpent='define'
+-d_getpgid='define'
+-d_getpgrp2='undef'
+-d_getpgrp='define'
+-d_getppid='define'
+-d_getprior='define'
+-d_getprotobyname_r='define'
+-d_getprotobynumber_r='define'
+-d_getprotoent_r='define'
+-d_getprotoprotos='define'
+-d_getprpwnam='undef'
+-d_getpwent='define'
+-d_getpwent_r='define'
+-d_getpwnam_r='define'
+-d_getpwuid_r='define'
+-d_getsbyname='define'
+-d_getsbyport='define'
+-d_getsent='define'
+-d_getservbyname_r='define'
+-d_getservbyport_r='define'
+-d_getservent_r='define'
+-d_getservprotos='define'
+-d_getspnam='define'
+-d_getspnam_r='define'
+-d_gettimeod='define'
+-d_gmtime64='undef'
+-d_gmtime_r='define'
+-d_gnulibc='define'
+-d_grpasswd='define'
+-d_hasmntopt='define'
+-d_htonl='define'
+-d_hypot='define'
+-d_ilogb='define'
+-d_ilogbl='define'
+-d_inc_version_list='undef'
+-d_index='undef'
+-d_inetaton='define'
+-d_inetntop='define'
+-d_inetpton='define'
+-d_int64_t='define'
+-d_ip_mreq='define'
+-d_ip_mreq_source='define'
+-d_ipv6_mreq='define'
+-d_ipv6_mreq_source='undef'
+-d_isascii='define'
+-d_isblank='define'
+-d_isfinite='define'
+-d_isfinitel='undef'
+-d_isinf='define'
+-d_isinfl='define'
+-d_isless='undef'
+-d_isnan='define'
+-d_isnanl='define'
+-d_isnormal='define'
+-d_j0='define'
+-d_j0l='define'
+-d_killpg='define'
+-d_lc_monetary_2008='define'
+-d_lchown='define'
+-d_ldbl_dig='define'
+-d_ldexpl='define'
+-d_lgamma='define'
+-d_lgamma_r='define'
+-d_libm_lib_version='undef'
+-d_libname_unique='undef'
+-d_link='define'
+-d_llrint='define'
+-d_llrintl='define'
+-d_llround='define'
+-d_llroundl='define'
+-d_localtime64='undef'
+-d_localtime_r='define'
+-d_localtime_r_needs_tzset='define'
+-d_locconv='define'
+-d_lockf='define'
+-d_log1p='define'
+-d_log2='define'
+-d_logb='define'
+-d_longdbl='define'
+-d_longlong='define'
+-d_lrint='define'
+-d_lrintl='define'
+-d_lround='define'
+-d_lroundl='define'
+-d_lseekproto='define'
+-d_lstat='define'
+-d_madvise='define'
+-d_malloc_good_size='undef'
+-d_malloc_size='undef'
+-d_mblen='define'
+-d_mbstowcs='define'
+-d_mbtowc='define'
+-d_memchr='define'
+-d_memcmp='define'
+-d_memcpy='define'
+-d_memmove='define'
+-d_memset='define'
+-d_mkdir='define'
+-d_mkdtemp='define'
+-d_mkfifo='define'
+-d_mkstemp='define'
+-d_mkstemps='define'
+-d_mktime64='undef'
+-d_mktime='define'
+-d_mmap='define'
+-d_modfl='define'
+-d_modfl_pow32_bug='undef'
+-d_modflproto='define'
+-d_mprotect='define'
+-d_msg='define'
+-d_msg_ctrunc='define'
+-d_msg_dontroute='define'
+-d_msg_oob='define'
+-d_msg_peek='define'
+-d_msg_proxy='define'
+-d_msgctl='define'
+-d_msgget='define'
+-d_msghdr_s='define'
+-d_msgrcv='define'
+-d_msgsnd='define'
+-d_msync='define'
+-d_munmap='define'
+-d_mymalloc='undef'
+-d_nan='define'
+-d_ndbm='define'
+-d_ndbm_h_uses_prototypes='undef'
+-d_nearbyint='define'
+-d_nextafter='define'
+-d_nexttoward='define'
+-d_nice='define'
+-d_nl_langinfo='define'
+-d_nv_preserves_uv='undef'
+-d_nv_zero_is_allbits_zero='define'
+-d_off64_t='define'
+-d_old_pthread_create_joinable='undef'
+-d_oldpthreads='undef'
+-d_oldsock='undef'
+-d_open3='define'
+-d_pathconf='define'
+-d_pause='define'
+-d_perl_otherlibdirs='define'
+-d_phostname='undef'
+-d_pipe='define'
+-d_poll='define'
+-d_portable='define'
+-d_prctl='define'
+-d_prctl_set_name='define'
+-d_printf_format_null='undef'
+-d_procselfexe='define'
+-d_pseudofork='undef'
+-d_pthread_atfork='define'
+-d_pthread_attr_setscope='define'
+-d_pthread_yield='define'
+-d_ptrdiff_t='define'
+-d_pwage='undef'
+-d_pwchange='undef'
+-d_pwclass='undef'
+-d_pwcomment='undef'
+-d_pwexpire='undef'
+-d_pwgecos='define'
+-d_pwpasswd='define'
+-d_pwquota='undef'
+-d_qgcvt='define'
+-d_quad='define'
+-d_random_r='define'
+-d_re_comp='undef'
+-d_readdir64_r='define'
+-d_readdir='define'
+-d_readdir_r='define'
+-d_readlink='define'
+-d_readv='define'
+-d_recvmsg='define'
+-d_regcmp='undef'
+-d_regcomp='define'
+-d_remainder='define'
+-d_remquo='define'
+-d_rename='define'
+-d_rewinddir='define'
+-d_rint='define'
+-d_rmdir='define'
+-d_round='define'
+-d_safebcpy='undef'
+-d_safemcpy='undef'
+-d_sanemcmp='define'
+-d_sbrkproto='define'
+-d_scalbn='define'
+-d_scalbnl='define'
+-d_sched_yield='define'
+-d_scm_rights='define'
+-d_seekdir='define'
+-d_select='define'
+-d_sem='define'
+-d_semctl='define'
+-d_semctl_semid_ds='define'
+-d_semctl_semun='define'
+-d_semget='define'
+-d_semop='define'
+-d_sendmsg='define'
+-d_setegid='define'
+-d_seteuid='define'
+-d_setgrent='define'
+-d_setgrent_r='undef'
+-d_setgrps='define'
+-d_sethent='define'
+-d_sethostent_r='undef'
+-d_setitimer='define'
+-d_setlinebuf='define'
+-d_setlocale='define'
+-d_setlocale_r='undef'
+-d_setnent='define'
+-d_setnetent_r='undef'
+-d_setpent='define'
+-d_setpgid='define'
+-d_setpgrp2='undef'
+-d_setpgrp='define'
+-d_setprior='define'
+-d_setproctitle='undef'
+-d_setprotoent_r='undef'
+-d_setpwent='define'
+-d_setpwent_r='undef'
+-d_setregid='define'
+-d_setresgid='define'
+-d_setresuid='define'
+-d_setreuid='define'
+-d_setrgid='undef'
+-d_setruid='undef'
+-d_setsent='define'
+-d_setservent_r='undef'
+-d_setsid='define'
+-d_setvbuf='define'
+-d_shm='define'
+-d_shmat='define'
+-d_shmatprototype='define'
+-d_shmctl='define'
+-d_shmdt='define'
+-d_shmget='define'
+-d_sigaction='define'
+-d_signbit='define'
+-d_sigprocmask='define'
+-d_sigsetjmp='define'
+-d_sin6_scope_id='define'
+-d_sitearch='define'
+-d_snprintf='define'
+-d_sockaddr_in6='define'
+-d_sockaddr_sa_len='undef'
+-d_sockatmark='define'
+-d_sockatmarkproto='define'
+-d_socket='define'
+-d_socklen_t='define'
+-d_sockpair='define'
+-d_socks5_init='undef'
+-d_sprintf_returns_strlen='define'
+-d_sqrtl='define'
+-d_srand48_r='define'
+-d_srandom_r='define'
+-d_sresgproto='define'
+-d_sresuproto='define'
+-d_stat='define'
+-d_statblks='define'
+-d_statfs_f_flags='define'
+-d_statfs_s='define'
+-d_static_inline='define'
+-d_statvfs='define'
+-d_stdio_cnt_lval='undef'
+-d_stdio_ptr_lval='undef'
+-d_stdio_ptr_lval_nochange_cnt='undef'
+-d_stdio_ptr_lval_sets_cnt='undef'
+-d_stdio_stream_array='undef'
+-d_stdiobase='undef'
+-d_stdstdio='undef'
+-d_strchr='define'
+-d_strcoll='define'
+-d_strctcpy='define'
+-d_strerrm='strerror(e)'
+-d_strerror='define'
+-d_strerror_r='define'
+-d_strftime='define'
+-d_strlcat='undef'
+-d_strlcpy='undef'
+-d_strtod='define'
+-d_strtol='define'
+-d_strtold='define'
+-d_strtoll='define'
+-d_strtoq='define'
+-d_strtoul='define'
+-d_strtoull='define'
+-d_strtouq='define'
+-d_strxfrm='define'
+-d_suidsafe='undef'
+-d_symlink='define'
+-d_syscall='define'
+-d_syscallproto='define'
+-d_sysconf='define'
+-d_sysernlst=''
+-d_syserrlst='define'
+-d_system='define'
+-d_tcgetpgrp='define'
+-d_tcsetpgrp='define'
+-d_telldir='define'
+-d_telldirproto='define'
+-d_tgamma='define'
+-d_time='define'
+-d_timegm='define'
+-d_times='define'
+-d_tm_tm_gmtoff='define'
+-d_tm_tm_zone='define'
+-d_tmpnam_r='define'
+-d_trunc='define'
+-d_truncate='define'
+-d_truncl='define'
+-d_ttyname_r='define'
+-d_tzname='define'
+-d_u32align='define'
+-d_ualarm='define'
+-d_umask='define'
+-d_uname='define'
+-d_union_semun='undef'
+-d_unordered='undef'
+-d_unsetenv='define'
+-d_usleep='define'
+-d_usleepproto='define'
+-d_ustat='define'
+-d_vendorarch='define'
+-d_vendorbin='define'
+-d_vendorlib='define'
+-d_vendorscript='define'
+-d_vfork='undef'
+-d_void_closedir='undef'
+-d_voidsig='define'
+-d_voidtty=''
+-d_volatile='define'
+-d_vprintf='define'
+-d_vsnprintf='define'
+-d_wait4='define'
+-d_waitpid='define'
+-d_wcscmp='define'
+-d_wcstombs='define'
+-d_wcsxfrm='define'
+-d_wctomb='define'
+-d_writev='define'
+-d_xenix='undef'
+-date='date'
+-db_hashtype='u_int32_t'
+-db_prefixtype='size_t'
+-db_version_major=''
+-db_version_minor=''
+-db_version_patch=''
+-direntrytype='struct dirent'
+-dlext='so'
+-dlsrc='dl_dlopen.xs'
+-doubleinfbytes='0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x7f'
+-doublekind='3'
+-doublemantbits='52'
+-doublenanbytes='0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0xff'
+-doublesize='8'
+-drand01='Perl_drand48()'
+-drand48_r_proto='REENTRANT_PROTO_I_ST'
+-dtrace=''
+-dtraceobject=''
+-dynamic_ext='B Compress/Raw/Bzip2 Compress/Raw/Zlib Cwd Data/Dumper Devel/PPPort Devel/Peek Digest/MD5 Digest/SHA Encode Fcntl File/DosGlob File/Glob Filter/Util/Call Hash/Util Hash/Util/FieldHash I18N/Langinfo IO IPC/SysV List/Util MIME/Base64 Math/BigInt/FastCalc NDBM_File ODBM_File Opcode POSIX PerlIO/encoding PerlIO/mmap PerlIO/scalar PerlIO/via SDBM_File Socket Storable Sys/Hostname Sys/Syslog Tie/Hash/NamedCapture Time/HiRes Time/Piece Unicode/Collate XS/APItest XS/Typemap arybase attributes mro re threads threads/shared'
+-eagain='EAGAIN'
+-ebcdic='undef'
+-echo='echo'
+-egrep='egrep'
+-emacs=''
+-endgrent_r_proto='0'
+-endhostent_r_proto='0'
+-endnetent_r_proto='0'
+-endprotoent_r_proto='0'
+-endpwent_r_proto='0'
+-endservent_r_proto='0'
+-eunicefix=':'
+-exe_ext=''
+-expr='expr'
+-extensions='B Compress/Raw/Bzip2 Compress/Raw/Zlib Cwd Data/Dumper Devel/PPPort Devel/Peek Digest/MD5 Digest/SHA Encode Fcntl File/DosGlob File/Glob Filter/Util/Call Hash/Util Hash/Util/FieldHash I18N/Langinfo IO IPC/SysV List/Util MIME/Base64 Math/BigInt/FastCalc NDBM_File ODBM_File Opcode POSIX PerlIO/encoding PerlIO/mmap PerlIO/scalar PerlIO/via SDBM_File Socket Storable Sys/Hostname Sys/Syslog Tie/Hash/NamedCapture Time/HiRes Time/Piece Unicode/Collate XS/APItest XS/Typemap arybase attributes mro re threads threads/shared Archive/Tar Attribute/Handlers AutoLoader B/Debug CPAN CPAN/Meta CPAN/Meta/Requirements CPAN/Meta/YAML Carp Config/Perl/V Devel/SelfStubber Digest Dumpvalue Env Errno Exporter ExtUtils/CBuilder ExtUtils/Command ExtUtils/Constant ExtUtils/Install ExtUtils/MakeMaker ExtUtils/Manifest ExtUtils/Miniperl ExtUtils/ParseXS File/Fetch File/Find File/Path File/Temp FileCache Filter/Simple Getopt/Long HTTP/Tiny I18N/Collate I18N/LangTags IO/Compress IO/Socket/IP IO/Zlib IPC/Cmd IPC/Open3 JSON/PP Locale/Codes Locale/Maketext Locale/Maketext/Simple Math/BigInt Math/BigRat Math/Complex Memoize Module/CoreList Module/Load Module/Load/Conditional Module/Loaded Module/Metadata NEXT Net/Ping Params/Check Parse/CPAN/Meta Perl/OSType PerlIO/via/QuotedPrint Pod/Checker Pod/Escapes Pod/Functions Pod/Html Pod/Parser Pod/Perldoc Pod/Simple Pod/Usage Safe Search/Dict SelfLoader Term/ANSIColor Term/Cap Term/Complete Term/ReadLine Test Test/Harness Test/Simple Text/Abbrev Text/Balanced Text/ParseWords Text/Tabs Thread/Queue Thread/Semaphore Tie/File Tie/Memoize Tie/RefHash Time/Local Unicode/Normalize XSLoader autodie autouse base bignum constant encoding/warnings experimental if lib libnet parent perlfaq podlators version'
+-extern_C='extern'
+-extras=''
+-fflushNULL='define'
+-fflushall='undef'
+-find=''
+-firstmakefile='makefile'
+-flex=''
+-fpossize='16'
+-fpostype='fpos_t'
+-freetype='void'
+-from=':'
+-full_ar='ar'
+-full_csh='csh'
+-full_sed='sed'
+-gccansipedantic=''
+-gccosandvers=''
+-gccversion='4.9.2'
+-getgrent_r_proto='REENTRANT_PROTO_I_SBWR'
+-getgrgid_r_proto='REENTRANT_PROTO_I_TSBWR'
+-getgrnam_r_proto='REENTRANT_PROTO_I_CSBWR'
+-gethostbyaddr_r_proto='REENTRANT_PROTO_I_TsISBWRE'
+-gethostbyname_r_proto='REENTRANT_PROTO_I_CSBWRE'
+-gethostent_r_proto='REENTRANT_PROTO_I_SBWRE'
+-getlogin_r_proto='REENTRANT_PROTO_I_BW'
+-getnetbyaddr_r_proto='REENTRANT_PROTO_I_uISBWRE'
+-getnetbyname_r_proto='REENTRANT_PROTO_I_CSBWRE'
+-getnetent_r_proto='REENTRANT_PROTO_I_SBWRE'
+-getprotobyname_r_proto='REENTRANT_PROTO_I_CSBWR'
+-getprotobynumber_r_proto='REENTRANT_PROTO_I_ISBWR'
+-getprotoent_r_proto='REENTRANT_PROTO_I_SBWR'
+-getpwent_r_proto='REENTRANT_PROTO_I_SBWR'
+-getpwnam_r_proto='REENTRANT_PROTO_I_CSBWR'
+-getpwuid_r_proto='REENTRANT_PROTO_I_TSBWR'
+-getservbyname_r_proto='REENTRANT_PROTO_I_CCSBWR'
+-getservbyport_r_proto='REENTRANT_PROTO_I_ICSBWR'
+-getservent_r_proto='REENTRANT_PROTO_I_SBWR'
+-getspnam_r_proto='REENTRANT_PROTO_I_CSBWR'
+-gidformat='"u"'
+-gidsign='1'
+-gidsize='4'
+-gidtype='gid_t'
+-glibpth='@EXECPREFIX@/shlib  @BASELIBDIR@ @LIBDIR@ @LIBDIR@/386 @BASELIBDIR@386 @EXECPREFIX@/ccs@BASELIBDIR@ @EXECPREFIX@/ucblib @EXECPREFIX@/local@BASELIBDIR@ @BASELIBDIR@ @LIBDIR@ @EXECPREFIX@/local@BASELIBDIR@ '
+-gmake='gmake'
+-gmtime_r_proto='REENTRANT_PROTO_S_TS'
+-gnulibc_version='2.21'
+-grep='grep'
+-groupcat='cat /etc/group'
+-groupstype='gid_t'
+-gzip='gzip'
+-h_fcntl='false'
+-h_sysfile='true'
+-hint='recommended'
+-hostcat='cat /etc/hosts'
+-hostgenerate=''
+-hostosname=''
+-hostperl=''
+-html1dir=' '
+-html1direxp=''
+-html3dir=' '
+-html3direxp=''
+-i16size='2'
+-i16type='short'
+-i32size='4'
+-i32type='int'
+-i64size='8'
+-i64type='long'
+-i8size='1'
+-i8type='signed char'
+-i_arpainet='define'
+-i_assert='define'
+-i_bfd='define'
+-i_bsdioctl=''
+-i_crypt='define'
+-i_db='undef'
+-i_dbm='define'
+-i_dirent='define'
+-i_dlfcn='define'
+-i_execinfo='define'
+-i_fcntl='undef'
+-i_fenv='define'
+-i_float='define'
+-i_fp='undef'
+-i_fp_class='undef'
+-i_gdbm='undef'
+-i_gdbm_ndbm='undef'
+-i_gdbmndbm='define'
+-i_grp='define'
+-i_ieeefp='undef'
+-i_inttypes='define'
+-i_langinfo='define'
+-i_libutil='undef'
+-i_limits='define'
+-i_locale='define'
+-i_machcthr='undef'
+-i_malloc='define'
+-i_mallocmalloc='undef'
+-i_math='define'
+-i_memory='undef'
+-i_mntent='define'
+-i_ndbm='undef'
+-i_netdb='define'
+-i_neterrno='undef'
+-i_netinettcp='define'
+-i_niin='define'
+-i_poll='define'
+-i_prot='undef'
+-i_pthread='define'
+-i_pwd='define'
+-i_quadmath='undef'
+-i_rpcsvcdbm='undef'
+-i_sgtty='undef'
+-i_shadow='define'
+-i_socks='undef'
+-i_stdarg='define'
+-i_stdbool='define'
+-i_stddef='define'
+-i_stdint='define'
+-i_stdlib='define'
+-i_string='define'
+-i_sunmath='undef'
+-i_sysaccess='undef'
+-i_sysdir='define'
+-i_sysfile='define'
+-i_sysfilio='undef'
+-i_sysin='undef'
+-i_sysioctl='define'
+-i_syslog='define'
+-i_sysmman='define'
+-i_sysmode='undef'
+-i_sysmount='define'
+-i_sysndir='undef'
+-i_sysparam='define'
+-i_syspoll='define'
+-i_sysresrc='define'
+-i_syssecrt='undef'
+-i_sysselct='define'
+-i_syssockio='undef'
+-i_sysstat='define'
+-i_sysstatfs='define'
+-i_sysstatvfs='define'
+-i_systime='define'
+-i_systimek='undef'
+-i_systimes='define'
+-i_systypes='define'
+-i_sysuio='define'
+-i_sysun='define'
+-i_sysutsname='define'
+-i_sysvfs='define'
+-i_syswait='define'
+-i_termio='undef'
+-i_termios='define'
+-i_time='define'
+-i_unistd='define'
+-i_ustat='define'
+-i_utime='define'
+-i_values='define'
+-i_varargs='undef'
+-i_varhdr='stdarg.h'
+-i_vfork='undef'
+-ignore_versioned_solibs='y'
+-inc_version_list=' '
+-inc_version_list_init='0'
+-incpath=''
+-inews=''
+-initialinstalllocation='@USRBIN@'
+-installarchlib='@LIBDIR@/perl/5.24.4/@ARCH@-thread-multi'
+-installbin='@USRBIN@'
+-installhtml1dir=''
+-installhtml3dir=''
+-installman1dir=''
+-installman3dir=''
+-installprefix='@EXECPREFIX@'
+-installprefixexp='@EXECPREFIX@'
+-installprivlib='@LIBDIR@/perl/5.24.4'
+-installscript='@USRBIN@'
+-installsitearch='@LIBDIR@/perl/site_perl/5.24.4/@ARCH@-thread-multi'
+-installsitebin='@USRBIN@'
+-installsitehtml1dir=''
+-installsitehtml3dir=''
+-installsitelib='@LIBDIR@/perl/site_perl/5.24.4'
+-installsiteman1dir=''
+-installsiteman3dir=''
+-installsitescript='@USRBIN@'
+-installstyle='lib/perl'
+-installusrbinperl='define'
+-installvendorarch='@LIBDIR@/perl/vendor_perl/5.24.4/@ARCH@-thread-multi'
+-installvendorbin='@USRBIN@'
+-installvendorhtml1dir=''
+-installvendorhtml3dir=''
+-installvendorlib='@LIBDIR@/perl/vendor_perl/5.24.4'
+-installvendorman1dir=''
+-installvendorman3dir=''
+-installvendorscript='@USRBIN@'
+-intsize='4'
+-issymlink='test -h'
+-ivdformat='"ld"'
+-ivsize='8'
+-ivtype='long'
+-known_extensions='Archive/Tar Attribute/Handlers AutoLoader B B/Debug CPAN CPAN/Meta CPAN/Meta/Requirements CPAN/Meta/YAML Carp Compress/Raw/Bzip2 Compress/Raw/Zlib Config/Perl/V Cwd DB_File Data/Dumper Devel/PPPort Devel/Peek Devel/SelfStubber Digest Digest/MD5 Digest/SHA Dumpvalue Encode Env Errno Exporter ExtUtils/CBuilder ExtUtils/Command ExtUtils/Constant ExtUtils/Install ExtUtils/MakeMaker ExtUtils/Manifest ExtUtils/Miniperl ExtUtils/ParseXS Fcntl File/DosGlob File/Fetch File/Find File/Glob File/Path File/Temp FileCache Filter/Simple Filter/Util/Call GDBM_File Getopt/Long HTTP/Tiny Hash/Util Hash/Util/FieldHash I18N/Collate I18N/LangTags I18N/Langinfo IO IO/Compress IO/Socket/IP IO/Zlib IPC/Cmd IPC/Open3 IPC/SysV JSON/PP List/Util Locale/Codes Locale/Maketext Locale/Maketext/Simple MIME/Base64 Math/BigInt Math/BigInt/FastCalc Math/BigRat Math/Complex Memoize Module/CoreList Module/Load Module/Load/Conditional Module/Loaded Module/Metadata NDBM_File NEXT Net/Ping ODBM_File Opcode POSIX Params/Check Parse/CPAN/Meta Perl/OSType PerlIO/encoding PerlIO/mmap PerlIO/scalar PerlIO/via PerlIO/via/QuotedPrint Pod/Checker Pod/Escapes Pod/Functions Pod/Html Pod/Parser Pod/Perldoc Pod/Simple Pod/Usage SDBM_File Safe Search/Dict SelfLoader Socket Storable Sys/Hostname Sys/Syslog Term/ANSIColor Term/Cap Term/Complete Term/ReadLine Test Test/Harness Test/Simple Text/Abbrev Text/Balanced Text/ParseWords Text/Tabs Thread/Queue Thread/Semaphore Tie/File Tie/Hash/NamedCapture Tie/Memoize Tie/RefHash Time/HiRes Time/Local Time/Piece Unicode/Collate Unicode/Normalize VMS/DCLsym VMS/Filespec VMS/Stdio Win32 Win32API/File Win32CORE XS/APItest XS/Typemap XSLoader arybase attributes autodie autouse base bignum constant encoding/warnings experimental if lib libnet mro parent perlfaq podlators re threads threads/shared version '
+-ksh=''
+-ld='gcc'
+-ld_can_script='define'
+-lddlflags='-shared -O2'
+-ldflags=''
+-ldflags_uselargefiles=''
+-ldlibpthname='LD_LIBRARY_PATH'
+-less='less'
+-lib_ext='.a'
+-libc='libc-2.21.so'
+-libperl='libperl.so'
+-libpth='@LIBDIR@ @BASELIBDIR@'
+-libs='-lpthread -lnsl -lgdbm -ldb -ldl -lm -lcrypt -lutil -lc -lgdbm_compat'
+-libsdirs=' @LIBDIR@'
+-libsfiles=' libpthread.so libnsl.so libgdbm.so libdb.so libdl.so libm.so libcrypt.so libutil.so libc.so libgdbm_compat.so'
+-libsfound=' @LIBDIR@/libpthread.so @LIBDIR@/libnsl.so @LIBDIR@/libgdbm.so @LIBDIR@/libdb.so @LIBDIR@/libdl.so @LIBDIR@/libm.so @LIBDIR@/libcrypt.so @LIBDIR@/libutil.so @LIBDIR@/libc.so @LIBDIR@/libgdbm_compat.so'
+-libspath=' @LIBDIR@ @BASELIBDIR@'
+-libswanted='cl pthread socket inet nsl nm gdbm dbm db malloc dl ld sun m crypt sec util c cposix posix ucb BSD gdbm_compat'
+-libswanted_uselargefiles=''
+-line=''
+-lint=''
+-lkflags=''
+-ln='ln'
+-lns='/bin/ln -s'
+-localtime_r_proto='REENTRANT_PROTO_S_TS'
+-locincpth='@EXECPREFIX@/local/include /opt/local/include @EXECPREFIX@/gnu/include /opt/gnu/include @EXECPREFIX@/GNU/include /opt/GNU/include'
+-loclibpth='@EXECPREFIX@/local@BASELIBDIR@ /opt/local@BASELIBDIR@ @EXECPREFIX@/gnu@BASELIBDIR@ /opt/gnu@BASELIBDIR@ @EXECPREFIX@/GNU@BASELIBDIR@ /opt/GNU@BASELIBDIR@'
+-longdblinfbytes='0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0xff, 0x7f, 0x00, 0x00'
+-longdblkind='3'
+-longdblmantbits='64'
+-longdblnanbytes='0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0xff, 0xff, 0x32, 0xf7'
+-longdblsize='16'
+-longlongsize='8'
+-longsize='8'
+-lp=''
+-lpr=''
+-ls='ls'
+-lseeksize='8'
+-lseektype='off_t'
+-mail=''
+-mailx=''
+-make='make'
+-make_set_make='#'
+-mallocobj=''
+-mallocsrc=''
+-malloctype='void *'
+-man1dir=' '
+-man1direxp=''
+-man1ext='0'
+-man3dir=' '
+-man3direxp=''
+-man3ext='0'
+-mips_type=''
+-mistrustnm=''
+-mkdir='mkdir'
+-mmaptype='void *'
+-modetype='mode_t'
+-more='more'
+-multiarch='undef'
+-mv=''
+-myarchname='@ARCH@'
+-mydomain='.localdomain'
+-myhostname='localhost'
+-myuname='linux qemux86-64 3.19.5-yocto-standard #1 smp preempt tue jun 16 00:28:17 pdt 2015 x86_64 gnulinux '
+-n='-n'
+-need_va_copy='define'
+-netdb_hlen_type='size_t'
+-netdb_host_type='char *'
+-netdb_name_type='const char *'
+-netdb_net_type='in_addr_t'
+-nm='nm'
+-nm_opt=''
+-nm_so_opt='--dynamic'
+-nonxs_ext='Archive/Tar Attribute/Handlers AutoLoader B/Debug CPAN CPAN/Meta CPAN/Meta/Requirements CPAN/Meta/YAML Carp Config/Perl/V Devel/SelfStubber Digest Dumpvalue Env Errno Exporter ExtUtils/CBuilder ExtUtils/Command ExtUtils/Constant ExtUtils/Install ExtUtils/MakeMaker ExtUtils/Manifest ExtUtils/Miniperl ExtUtils/ParseXS File/Fetch File/Find File/Path File/Temp FileCache Filter/Simple Getopt/Long HTTP/Tiny I18N/Collate I18N/LangTags IO/Compress IO/Socket/IP IO/Zlib IPC/Cmd IPC/Open3 JSON/PP Locale/Codes Locale/Maketext Locale/Maketext/Simple Math/BigInt Math/BigRat Math/Complex Memoize Module/CoreList Module/Load Module/Load/Conditional Module/Loaded Module/Metadata NEXT Net/Ping Params/Check Parse/CPAN/Meta Perl/OSType PerlIO/via/QuotedPrint Pod/Checker Pod/Escapes Pod/Functions Pod/Html Pod/Parser Pod/Perldoc Pod/Simple Pod/Usage Safe Search/Dict SelfLoader Term/ANSIColor Term/Cap Term/Complete Term/ReadLine Test Test/Harness Test/Simple Text/Abbrev Text/Balanced Text/ParseWords Text/Tabs Thread/Queue Thread/Semaphore Tie/File Tie/Memoize Tie/RefHash Time/Local Unicode/Normalize XSLoader autodie autouse base bignum constant encoding/warnings experimental if lib libnet parent perlfaq podlators version'
+-nroff='nroff'
+-nvEUformat='"E"'
+-nvFUformat='"F"'
+-nvGUformat='"G"'
+-nv_overflows_integers_at='256.0*256.0*256.0*256.0*256.0*256.0*2.0*2.0*2.0*2.0*2.0'
+-nv_preserves_uv_bits='53'
+-nveformat='"e"'
+-nvfformat='"f"'
+-nvgformat='"g"'
+-nvmantbits='52'
+-nvsize='8'
+-nvtype='double'
+-o_nonblock='O_NONBLOCK'
+-obj_ext='.o'
+-old_pthread_create_joinable=''
+-optimize='-O2'
+-orderlib='false'
+-osname='linux'
+-osvers='3.19.5-yocto-standard'
+-otherlibdirs='@LIBDIR@/perl/5.24.4'
+-package='perl'
+-pager='/usr/bin/less -isr'
+-passcat='cat /etc/passwd'
+-patchlevel='24'
+-path_sep=':'
+-perl5='@USRBIN@/perl'
+-perl='perl'
+-perl_patchlevel=''
+-perl_static_inline='static __inline__'
+-perladmin='root@localhost'
+-perllibs='-lpthread -lnsl -ldl -lm -lcrypt -lutil -lc'
+-perlpath='@USRBIN@/perl'
+-pg='pg'
+-phostname=''
+-pidtype='pid_t'
+-plibpth='@LIBDIR@ @BASELIBDIR@'
+-pmake=''
+-pr=''
+-prefix='@EXECPREFIX@'
+-prefixexp='@EXECPREFIX@'
+-privlib='@LIBDIR@/perl/5.24.4'
+-privlibexp='@LIBDIR@/perl/5.24.4'
+-procselfexe='"/proc/self/exe"'
+-prototype='define'
+-ptrsize='8'
+-quadkind='2'
+-quadtype='long'
+-randbits='48'
+-randfunc='Perl_drand48'
+-random_r_proto='REENTRANT_PROTO_I_St'
+-randseedtype='U32'
+-ranlib=':'
+-rd_nodata='-1'
+-readdir64_r_proto='REENTRANT_PROTO_I_TSR'
+-readdir_r_proto='REENTRANT_PROTO_I_TSR'
+-revision='5'
+-rm='rm'
+-rm_try='/bin/rm -f try try a.out .out try.[cho] try..o core core.try* try.core*'
+-rmail=''
+-run=''
+-runnm='false'
+-sGMTIME_max='67768036191676799'
+-sGMTIME_min='-62167219200'
+-sLOCALTIME_max='67768036191676799'
+-sLOCALTIME_min='-62167219200'
+-sPRIEUldbl='"LE"'
+-sPRIFUldbl='"LF"'
+-sPRIGUldbl='"LG"'
+-sPRIXU64='"lX"'
+-sPRId64='"ld"'
+-sPRIeldbl='"Le"'
+-sPRIfldbl='"Lf"'
+-sPRIgldbl='"Lg"'
+-sPRIi64='"li"'
+-sPRIo64='"lo"'
+-sPRIu64='"lu"'
+-sPRIx64='"lx"'
+-sSCNfldbl='"Lf"'
+-sched_yield='sched_yield()'
+-scriptdir='@USRBIN@'
+-scriptdirexp='@USRBIN@'
+-sed='sed'
+-seedfunc='Perl_drand48_init'
+-selectminbits='64'
+-selecttype='fd_set *'
+-sendmail=''
+-setgrent_r_proto='0'
+-sethostent_r_proto='0'
+-setlocale_r_proto='0'
+-setnetent_r_proto='0'
+-setprotoent_r_proto='0'
+-setpwent_r_proto='0'
+-setservent_r_proto='0'
+-sh='/bin/sh'
+-shar=''
+-sharpbang='#!'
+-shmattype='void *'
+-shortsize='2'
+-shrpenv=''
+-shsharp='true'
+-sig_count='65'
+-sig_name='ZERO HUP INT QUIT ILL TRAP ABRT BUS FPE KILL USR1 SEGV USR2 PIPE ALRM TERM STKFLT CHLD CONT STOP TSTP TTIN TTOU URG XCPU XFSZ VTALRM PROF WINCH IO PWR SYS NUM32 NUM33 RTMIN NUM35 NUM36 NUM37 NUM38 NUM39 NUM40 NUM41 NUM42 NUM43 NUM44 NUM45 NUM46 NUM47 NUM48 NUM49 NUM50 NUM51 NUM52 NUM53 NUM54 NUM55 NUM56 NUM57 NUM58 NUM59 NUM60 NUM61 NUM62 NUM63 RTMAX IOT CLD POLL UNUSED '
+-sig_name_init='"ZERO", "HUP", "INT", "QUIT", "ILL", "TRAP", "ABRT", "BUS", "FPE", "KILL", "USR1", "SEGV", "USR2", "PIPE", "ALRM", "TERM", "STKFLT", "CHLD", "CONT", "STOP", "TSTP", "TTIN", "TTOU", "URG", "XCPU", "XFSZ", "VTALRM", "PROF", "WINCH", "IO", "PWR", "SYS", "NUM32", "NUM33", "RTMIN", "NUM35", "NUM36", "NUM37", "NUM38", "NUM39", "NUM40", "NUM41", "NUM42", "NUM43", "NUM44", "NUM45", "NUM46", "NUM47", "NUM48", "NUM49", "NUM50", "NUM51", "NUM52", "NUM53", "NUM54", "NUM55", "NUM56", "NUM57", "NUM58", "NUM59", "NUM60", "NUM61", "NUM62", "NUM63", "RTMAX", "IOT", "CLD", "POLL", "UNUSED", 0'
+-sig_num='0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 6 17 29 31 '
+-sig_num_init='0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 6, 17, 29, 31, 0'
+-sig_size='69'
+-signal_t='void'
+-sitearch='@LIBDIR@/perl/site_perl/5.24.4/@ARCH@-thread-multi'
+-sitearchexp='@LIBDIR@/perl/site_perl/5.24.4/@ARCH@-thread-multi'
+-sitebin='@USRBIN@'
+-sitebinexp='@USRBIN@'
+-sitehtml1dir=''
+-sitehtml1direxp=''
+-sitehtml3dir=''
+-sitehtml3direxp=''
+-sitelib='@LIBDIR@/perl/site_perl/5.24.4'
+-sitelib_stem='@LIBDIR@/perl/site_perl'
+-sitelibexp='@LIBDIR@/perl/site_perl/5.24.4'
+-siteman1dir=''
+-siteman1direxp=''
+-siteman3dir=''
+-siteman3direxp=''
+-siteprefix='@EXECPREFIX@'
+-siteprefixexp='@EXECPREFIX@'
+-sitescript='@USRBIN@'
+-sitescriptexp='@USRBIN@'
+-sizesize='8'
+-sizetype='size_t'
+-sleep=''
+-smail=''
+-so='so'
+-sockethdr=''
+-socketlib=''
+-socksizetype='socklen_t'
+-sort='sort'
+-spackage='Perl5'
+-spitshell='cat'
+-srand48_r_proto='REENTRANT_PROTO_I_LS'
+-srandom_r_proto='REENTRANT_PROTO_I_TS'
+-src='.'
+-ssizetype='ssize_t'
+-st_ino_sign='1'
+-st_ino_size='8'
+-startperl='#!@USRBIN@/perl'
+-startsh='#!/bin/sh'
+-static_ext=' '
+-stdchar='char'
+-stdio_base='((fp)->_IO_read_base)'
+-stdio_bufsiz='((fp)->_IO_read_end - (fp)->_IO_read_base)'
+-stdio_cnt='((fp)->_IO_read_end - (fp)->_IO_read_ptr)'
+-stdio_filbuf=''
+-stdio_ptr='((fp)->_IO_read_ptr)'
+-stdio_stream_array=''
+-strerror_r_proto='REENTRANT_PROTO_B_IBW'
+-strings='@INCLUDEDIR@/string.h'
+-submit=''
+-subversion='4'
+-sysman='@EXECPREFIX@/share/man/man1'
+-sysroot=''
+-tail=''
+-tar=''
+-targetarch=''
+-targetdir=''
+-targetenv=''
+-targethost=''
+-targetmkdir=''
+-targetport=''
+-targetsh='/bin/sh'
+-tbl=''
+-tee=''
+-test='test'
+-timeincl='@INCLUDEDIR@/sys/time.h @INCLUDEDIR@/time.h '
+-timetype='time_t'
+-tmpnam_r_proto='REENTRANT_PROTO_B_B'
+-to=':'
+-touch='touch'
+-tr='tr'
+-trnl='\n'
+-troff=''
+-ttyname_r_proto='REENTRANT_PROTO_I_IBW'
+-u16size='2'
+-u16type='unsigned short'
+-u32size='4'
+-u32type='unsigned int'
+-u64size='8'
+-u64type='unsigned long'
+-u8size='1'
+-u8type='unsigned char'
+-uidformat='"u"'
+-uidsign='1'
+-uidsize='4'
+-uidtype='uid_t'
+-uname='uname'
+-uniq='uniq'
+-uquadtype='unsigned long'
+-use5005threads='undef'
+-use64bitall='undef'
+-use64bitint='undef'
+-usecbacktrace='undef'
+-usecrosscompile='define'
+-usedevel='undef'
+-usedl='define'
+-usedtrace='undef'
+-usefaststdio='undef'
+-useithreads='define'
+-usekernprocpathname='undef'
+-uselargefiles='define'
+-uselongdouble='undef'
+-usemallocwrap='define'
+-usemorebits='undef'
+-usemultiplicity='define'
+-usemymalloc='n'
+-usenm='false'
+-usensgetexecutablepath='undef'
+-useopcode='true'
+-useperlio='define'
+-useposix='true'
+-usequadmath='undef'
+-usereentrant='undef'
+-userelocatableinc='undef'
+-useshrplib='true'
+-usesitecustomize='undef'
+-usesocks='undef'
+-usethreads='define'
+-usevendorprefix='define'
+-useversionedarchname='undef'
+-usevfork='false'
+-usrinc='@INCLUDEDIR@'
+-uuname=''
+-uvXUformat='"lX"'
+-uvoformat='"lo"'
+-uvsize='8'
+-uvtype='unsigned long'
+-uvuformat='"lu"'
+-uvxformat='"lx"'
+-vaproto='define'
+-vendorarch='@LIBDIR@/perl/vendor_perl/5.24.4/@ARCH@-thread-multi'
+-vendorarchexp='@LIBDIR@/perl/vendor_perl/5.24.4/@ARCH@-thread-multi'
+-vendorbin='@USRBIN@'
+-vendorbinexp='@USRBIN@'
+-vendorhtml1dir=' '
+-vendorhtml1direxp=''
+-vendorhtml3dir=' '
+-vendorhtml3direxp=''
+-vendorlib='@LIBDIR@/perl/vendor_perl/5.24.4'
+-vendorlib_stem='@LIBDIR@/perl/vendor_perl'
+-vendorlibexp='@LIBDIR@/perl/vendor_perl/5.24.4'
+-vendorman1dir=' '
+-vendorman1direxp=''
+-vendorman3dir=' '
+-vendorman3direxp=''
+-vendorprefix='@EXECPREFIX@'
+-vendorprefixexp='@EXECPREFIX@'
+-vendorscript='@USRBIN@'
+-vendorscriptexp='@USRBIN@'
+-version='5.24.4'
+-version_patchlevel_string='version 24 subversion 4'
+-versiononly='undef'
+-vi=''
+-xlibpth='@LIBDIR@/386 @BASELIBDIR@386'
+-yacc='yacc'
+-yaccflags=''
+-zcat=''
+-zip='zip'
+-PERL_REVISION=5
+-PERL_VERSION=24
+-PERL_SUBVERSION=4
+-PERL_API_REVISION=5
+-PERL_API_VERSION=24
+-PERL_API_SUBVERSION=4
+-PERL_PATCHLEVEL=''
+-PERL_CONFIG_SH=true
+-: Variables propagated from previous config.sh file.
+-libdb_needs_pthread='N'
+-
+-# for Time-HiRes
+-d_clock_nanosleep='define'
+-d_clock_gettime='define'
+-d_clock_getres='define'
+-d_clock='define'
+-d_nanosleep='define'
+-
+-# for Signinfo
+-d_siginfo_si_errno='define'
+-d_siginfo_si_pid='define'
+-d_siginfo_si_uid='define'
+-d_siginfo_si_addr='define'
+-d_siginfo_si_status='define'
+-d_siginfo_si_band='define'
+-d_siginfo_si_value='define'
+-
+-# don't support fdclose
+-d_fdclose='undef'
+-
+-# support memmem
+-d_memmem='define'
+-
+-# for locale
+-d_newlocale='define'
+-d_freelocale='define'
+-d_uselocale='define'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-32 b/meta/recipes-devtools/perl/perl/config.sh-32
+deleted file mode 100644
+index 7259a0c6ae0..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-32
++++ /dev/null
+@@ -1,38 +0,0 @@
+-alignbytes='4'
+-cf_time='Thu Dec 23 03:57:51 UTC 2010'
+-cppsymbols='_FILE_OFFSET_BITS=64 _GNU_SOURCE=1 _LARGEFILE64_SOURCE=1 _LARGEFILE_SOURCE=1 _POSIX_C_SOURCE=200809L _POSIX_SOURCE=1 _REENTRANT=1 _XOPEN_SOURCE=700 _XOPEN_SOURCE_EXTENDED=1 __BIGGEST_ALIGNMENT__=16 __CHAR16_TYPE__=short\ unsigned\ int __CHAR32_TYPE__=unsigned\ int __CHAR_BIT__=8 __DBL_DENORM_MIN__=((double)4.94065645841246544177e-324L) __DBL_DIG__=15 __DBL_EPSILON__=((double)2.22044604925031308085e-16L) __DBL_HAS_DENORM__=1 __DBL_HAS_INFINITY__=1 __DBL_HAS_QUIET_NAN__=1 __DBL_MANT_DIG__=53 __DBL_MAX_10_EXP__=308 __DBL_MAX_EXP__=1024 __DBL_MAX__=((double)1.79769313486231570815e+308L) __DBL_MIN_10_EXP__=(-307) __DBL_MIN_EXP__=(-1021) __DBL_MIN__=((double)2.22507385850720138309e-308L) __DEC128_EPSILON__=1E-33DL __DEC128_MANT_DIG__=34 __DEC128_MAX_EXP__=6145 __DEC128_MAX__=9.999999999999999999999999999999999E6144DL __DEC128_MIN_EXP__=(-6142) __DEC128_MIN__=1E-6143DL __DEC128_SUBNORMAL_MIN__=0.000000000000000000000000000000001E-6143DL __DEC32_EPSILON__=1E-6DF __DEC32_MANT_DIG__=7 __DEC32_MAX_EXP__=97 __DEC32_MAX__=9.999999E96DF __DEC32_MIN_EXP__=(-94) __DEC32_MIN__=1E-95DF __DEC32_SUBNORMAL_MIN__=0.000001E-95DF __DEC64_EPSILON__=1E-15DD __DEC64_MANT_DIG__=16 __DEC64_MAX_EXP__=385 __DEC64_MAX__=9.999999999999999E384DD __DEC64_MIN_EXP__=(-382) __DEC64_MIN__=1E-383DD __DEC64_SUBNORMAL_MIN__=0.000000000000001E-383DD __DECIMAL_BID_FORMAT__=1 __DECIMAL_DIG__=21 __DEC_EVAL_METHOD__=2 __ELF__=1 __FINITE_MATH_ONLY__=0 __FLT_DENORM_MIN__=1.40129846432481707092e-45F __FLT_DIG__=6 __FLT_EPSILON__=1.19209289550781250000e-7F __FLT_EVAL_METHOD__=2 __FLT_HAS_DENORM__=1 __FLT_HAS_INFINITY__=1 __FLT_HAS_QUIET_NAN__=1 __FLT_MANT_DIG__=24 __FLT_MAX_10_EXP__=38 __FLT_MAX_EXP__=128 __FLT_MAX__=3.40282346638528859812e+38F __FLT_MIN_10_EXP__=(-37) __FLT_MIN_EXP__=(-125) __FLT_MIN__=1.17549435082228750797e-38F __FLT_RADIX__=2 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8=1 __GLIBC_MINOR__=12 __GLIBC__=2 __GNUC_GNU_INLINE__=1 __GNUC_MINOR__=5 __GNUC_PATCHLEVEL__=1 __GNUC__=4 __GNU_LIBRARY__=6 __GXX_ABI_VERSION=1002 __INT16_C(c)=c __INT16_MAX__=32767 __INT16_TYPE__=short\ int __INT32_C(c)=c __INT32_MAX__=2147483647 __INT32_TYPE__=int __INT64_C(c)=cLL __INT64_MAX__=9223372036854775807LL __INT64_TYPE__=long\ long\ int __INT8_C(c)=c __INT8_MAX__=127 __INT8_TYPE__=signed\ char __INTMAX_C(c)=cLL __INTMAX_MAX__=9223372036854775807LL __INTMAX_TYPE__=long\ long\ int __INTPTR_MAX__=2147483647 __INTPTR_TYPE__=int __INT_FAST16_MAX__=2147483647 __INT_FAST16_TYPE__=int __INT_FAST32_MAX__=2147483647 __INT_FAST32_TYPE__=int __INT_FAST64_MAX__=9223372036854775807LL __INT_FAST64_TYPE__=long\ long\ int __INT_FAST8_MAX__=127 __INT_FAST8_TYPE__=signed\ char __INT_LEAST16_MAX__=32767 __INT_LEAST16_TYPE__=short\ int __INT_LEAST32_MAX__=2147483647 __INT_LEAST32_TYPE__=int __INT_LEAST64_MAX__=9223372036854775807LL __INT_LEAST64_TYPE__=long\ long\ int __INT_LEAST8_MAX__=127 __INT_LEAST8_TYPE__=signed\ char __INT_MAX__=2147483647 __LDBL_DENORM_MIN__=3.64519953188247460253e-4951L __LDBL_DIG__=18 __LDBL_EPSILON__=1.08420217248550443401e-19L __LDBL_HAS_DENORM__=1 __LDBL_HAS_INFINITY__=1 __LDBL_HAS_QUIET_NAN__=1 __LDBL_MANT_DIG__=64 __LDBL_MAX_10_EXP__=4932 __LDBL_MAX_EXP__=16384 __LDBL_MAX__=1.18973149535723176502e+4932L __LDBL_MIN_10_EXP__=(-4931) __LDBL_MIN_EXP__=(-16381) __LDBL_MIN__=3.36210314311209350626e-4932L __LONG_LONG_MAX__=9223372036854775807LL __LONG_MAX__=2147483647L __PRAGMA_REDEFINE_EXTNAME=1 __PTRDIFF_MAX__=2147483647 __PTRDIFF_TYPE__=int __REGISTER_PREFIX__= __SCHAR_MAX__=127 __SHRT_MAX__=32767 __SIG_ATOMIC_MAX__=2147483647 __SIG_ATOMIC_MIN__=(-2147483647\ -\ 1) __SIG_ATOMIC_TYPE__=int __SIZEOF_DOUBLE__=8 __SIZEOF_FLOAT__=4 __SIZEOF_INT__=4 __SIZEOF_LONG_DOUBLE__=12 __SIZEOF_LONG_LONG__=8 __SIZEOF_LONG__=4 __SIZEOF_POINTER__=4 __SIZEOF_PTRDIFF_T__=4 __SIZEOF_SHORT__=2 __SIZEOF_SIZE_T__=4 __SIZEOF_WCHAR_T__=4 __SIZEOF_WINT_T__=4 __SIZE_MAX__=4294967295U __SIZE_TYPE__=unsigned\ int __STDC_HOSTED__=1 __STDC__=1 __UINT16_C(c)=c __UINT16_MAX__=65535 __UINT16_TYPE__=short\ unsigned\ int __UINT32_C(c)=cU __UINT32_MAX__=4294967295U __UINT32_TYPE__=unsigned\ int __UINT64_C(c)=cULL __UINT64_MAX__=18446744073709551615ULL __UINT64_TYPE__=long\ long\ unsigned\ int __UINT8_C(c)=c __UINT8_MAX__=255 __UINT8_TYPE__=unsigned\ char __UINTMAX_C(c)=cULL __UINTMAX_MAX__=18446744073709551615ULL __UINTMAX_TYPE__=long\ long\ unsigned\ int __UINTPTR_MAX__=4294967295U __UINTPTR_TYPE__=unsigned\ int __UINT_FAST16_MAX__=4294967295U __UINT_FAST16_TYPE__=unsigned\ int __UINT_FAST32_MAX__=4294967295U __UINT_FAST32_TYPE__=unsigned\ int __UINT_FAST64_MAX__=18446744073709551615ULL __UINT_FAST64_TYPE__=long\ long\ unsigned\ int __UINT_FAST8_MAX__=255 __UINT_FAST8_TYPE__=unsigned\ char __UINT_LEAST16_MAX__=65535 __UINT_LEAST16_TYPE__=short\ unsigned\ int __UINT_LEAST32_MAX__=4294967295U __UINT_LEAST32_TYPE__=unsigned\ int __UINT_LEAST64_MAX__=18446744073709551615ULL __UINT_LEAST64_TYPE__=long\ long\ unsigned\ int __UINT_LEAST8_MAX__=255 __UINT_LEAST8_TYPE__=unsigned\ char __USER_LABEL_PREFIX__= __USE_BSD=1 __USE_FILE_OFFSET64=1 __USE_GNU=1 __USE_LARGEFILE64=1 __USE_LARGEFILE=1 __USE_MISC=1 __USE_POSIX199309=1 __USE_POSIX199506=1 __USE_POSIX2=1 __USE_POSIX=1 __USE_REENTRANT=1 __USE_SVID=1 __USE_UNIX98=1 __USE_XOPEN=1 __USE_XOPEN_EXTENDED=1 __VERSION__="4.5.1" __WCHAR_MAX__=2147483647L __WCHAR_MIN__=(-2147483647L\ -\ 1) __WCHAR_TYPE__=long\ int __WINT_MAX__=4294967295U __WINT_MIN__=0U __WINT_TYPE__=unsigned\ int __gnu_linux__=1 __i386=1 __i386__=1 __i586=1 __i586__=1 __linux=1 __linux__=1 __pentium=1 __pentium__=1 __tune_i586__=1 __tune_pentium__=1 __unix=1 __unix__=1 i386=1 linux=1 unix=1'
+-d_nv_preserves_uv='define'
+-d_printf_format_null='define'
+-d_u32align='undef'
+-gidformat='"lu"'
+-i32type='long'
+-i64type='long long'
+-ivsize='4'
+-longdblsize='12'
+-longsize='4'
+-myuname='linux qemux86 2.6.37-rc5-yocto-standard+ #1 preempt mon dec 20 14:21:27 pst 2010 i686 gnulinux '
+-need_va_copy='undef'
+-netdb_host_type='const void *'
+-nv_preserves_uv_bits='32'
+-ptrsize='4'
+-quadkind='3'
+-quadtype='long long'
+-sGMTIME_max='2147483647'
+-sGMTIME_min='-2147483648'
+-sLOCALTIME_max='2147483647'
+-sLOCALTIME_min='-2147483648'
+-sPRIXU64='"LX"'
+-sPRId64='"Ld"'
+-sPRIi64='"Li"'
+-sPRIo64='"Lo"'
+-sPRIu64='"Lu"'
+-sPRIx64='"Lx"'
+-selectminbits='32'
+-sizesize='4'
+-u32type='unsigned long'
+-u64type='unsigned long long'
+-uidformat='"lu"'
+-uquadtype='unsigned long long'
+-use64bitall='undef'
+-use64bitint='undef'
+-uvsize='4'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-32-be b/meta/recipes-devtools/perl/perl/config.sh-32-be
+deleted file mode 100644
+index a59a9abb5e0..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-32-be
++++ /dev/null
+@@ -1 +0,0 @@
+-byteorder='4321'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-32-le b/meta/recipes-devtools/perl/perl/config.sh-32-le
+deleted file mode 100644
+index 10e4226567d..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-32-le
++++ /dev/null
+@@ -1 +0,0 @@
+-byteorder='1234'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-64 b/meta/recipes-devtools/perl/perl/config.sh-64
+deleted file mode 100644
+index 6929d3a09dd..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-64
++++ /dev/null
+@@ -1,38 +0,0 @@
+-alignbytes='8'
+-cf_time='Thu Dec 23 02:06:42 UTC 2010'
+-cppsymbols='_FILE_OFFSET_BITS=64 _GNU_SOURCE=1 _LARGEFILE64_SOURCE=1 _LARGEFILE_SOURCE=1 _LP64=1 _POSIX_C_SOURCE=200809L _POSIX_SOURCE=1 _REENTRANT=1 _XOPEN_SOURCE=700 _XOPEN_SOURCE_EXTENDED=1 __BIGGEST_ALIGNMENT__=16 __CHAR16_TYPE__=short\ unsigned\ int __CHAR32_TYPE__=unsigned\ int __CHAR_BIT__=8 __DBL_DENORM_MIN__=((double)4.94065645841246544177e-324L) __DBL_DIG__=15 __DBL_EPSILON__=((double)2.22044604925031308085e-16L) __DBL_HAS_DENORM__=1 __DBL_HAS_INFINITY__=1 __DBL_HAS_QUIET_NAN__=1 __DBL_MANT_DIG__=53 __DBL_MAX_10_EXP__=308 __DBL_MAX_EXP__=1024 __DBL_MAX__=((double)1.79769313486231570815e+308L) __DBL_MIN_10_EXP__=(-307) __DBL_MIN_EXP__=(-1021) __DBL_MIN__=((double)2.22507385850720138309e-308L) __DEC128_EPSILON__=1E-33DL __DEC128_MANT_DIG__=34 __DEC128_MAX_EXP__=6145 __DEC128_MAX__=9.999999999999999999999999999999999E6144DL __DEC128_MIN_EXP__=(-6142) __DEC128_MIN__=1E-6143DL __DEC128_SUBNORMAL_MIN__=0.000000000000000000000000000000001E-6143DL __DEC32_EPSILON__=1E-6DF __DEC32_MANT_DIG__=7 __DEC32_MAX_EXP__=97 __DEC32_MAX__=9.999999E96DF __DEC32_MIN_EXP__=(-94) __DEC32_MIN__=1E-95DF __DEC32_SUBNORMAL_MIN__=0.000001E-95DF __DEC64_EPSILON__=1E-15DD __DEC64_MANT_DIG__=16 __DEC64_MAX_EXP__=385 __DEC64_MAX__=9.999999999999999E384DD __DEC64_MIN_EXP__=(-382) __DEC64_MIN__=1E-383DD __DEC64_SUBNORMAL_MIN__=0.000000000000001E-383DD __DECIMAL_BID_FORMAT__=1 __DECIMAL_DIG__=21 __DEC_EVAL_METHOD__=2 __ELF__=1 __FINITE_MATH_ONLY__=0 __FLT_DENORM_MIN__=1.40129846432481707092e-45F __FLT_DIG__=6 __FLT_EPSILON__=1.19209289550781250000e-7F __FLT_EVAL_METHOD__=0 __FLT_HAS_DENORM__=1 __FLT_HAS_INFINITY__=1 __FLT_HAS_QUIET_NAN__=1 __FLT_MANT_DIG__=24 __FLT_MAX_10_EXP__=38 __FLT_MAX_EXP__=128 __FLT_MAX__=3.40282346638528859812e+38F __FLT_MIN_10_EXP__=(-37) __FLT_MIN_EXP__=(-125) __FLT_MIN__=1.17549435082228750797e-38F __FLT_RADIX__=2 __GCC_HAVE_DWARF2_CFI_ASM=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4=1 __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8=1 __GLIBC_MINOR__=12 __GLIBC__=2 __GNUC_GNU_INLINE__=1 __GNUC_MINOR__=5 __GNUC_PATCHLEVEL__=1 __GNUC__=4 __GNU_LIBRARY__=6 __GXX_ABI_VERSION=1002 __INT16_C(c)=c __INT16_MAX__=32767 __INT16_TYPE__=short\ int __INT32_C(c)=c __INT32_MAX__=2147483647 __INT32_TYPE__=int __INT64_C(c)=cL __INT64_MAX__=9223372036854775807L __INT64_TYPE__=long\ int __INT8_C(c)=c __INT8_MAX__=127 __INT8_TYPE__=signed\ char __INTMAX_C(c)=cL __INTMAX_MAX__=9223372036854775807L __INTMAX_TYPE__=long\ int __INTPTR_MAX__=9223372036854775807L __INTPTR_TYPE__=long\ int __INT_FAST16_MAX__=9223372036854775807L __INT_FAST16_TYPE__=long\ int __INT_FAST32_MAX__=9223372036854775807L __INT_FAST32_TYPE__=long\ int __INT_FAST64_MAX__=9223372036854775807L __INT_FAST64_TYPE__=long\ int __INT_FAST8_MAX__=127 __INT_FAST8_TYPE__=signed\ char __INT_LEAST16_MAX__=32767 __INT_LEAST16_TYPE__=short\ int __INT_LEAST32_MAX__=2147483647 __INT_LEAST32_TYPE__=int __INT_LEAST64_MAX__=9223372036854775807L __INT_LEAST64_TYPE__=long\ int __INT_LEAST8_MAX__=127 __INT_LEAST8_TYPE__=signed\ char __INT_MAX__=2147483647 __LDBL_DENORM_MIN__=3.64519953188247460253e-4951L __LDBL_DIG__=18 __LDBL_EPSILON__=1.08420217248550443401e-19L __LDBL_HAS_DENORM__=1 __LDBL_HAS_INFINITY__=1 __LDBL_HAS_QUIET_NAN__=1 __LDBL_MANT_DIG__=64 __LDBL_MAX_10_EXP__=4932 __LDBL_MAX_EXP__=16384 __LDBL_MAX__=1.18973149535723176502e+4932L __LDBL_MIN_10_EXP__=(-4931) __LDBL_MIN_EXP__=(-16381) __LDBL_MIN__=3.36210314311209350626e-4932L __LONG_LONG_MAX__=9223372036854775807LL __LONG_MAX__=9223372036854775807L __LP64__=1 __MMX__=1 __PRAGMA_REDEFINE_EXTNAME=1 __PTRDIFF_MAX__=9223372036854775807L __PTRDIFF_TYPE__=long\ int __REGISTER_PREFIX__= __SCHAR_MAX__=127 __SHRT_MAX__=32767 __SIG_ATOMIC_MAX__=2147483647 __SIG_ATOMIC_MIN__=(-2147483647\ -\ 1) __SIG_ATOMIC_TYPE__=int __SIZEOF_DOUBLE__=8 __SIZEOF_FLOAT__=4 __SIZEOF_INT__=4 __SIZEOF_LONG_DOUBLE__=16 __SIZEOF_LONG_LONG__=8 __SIZEOF_LONG__=8 __SIZEOF_POINTER__=8 __SIZEOF_PTRDIFF_T__=8 __SIZEOF_SHORT__=2 __SIZEOF_SIZE_T__=8 __SIZEOF_WCHAR_T__=4 __SIZEOF_WINT_T__=4 __SIZE_MAX__=18446744073709551615UL __SIZE_TYPE__=long\ unsigned\ int __SSE2_MATH__=1 __SSE2__=1 __SSE_MATH__=1 __SSE__=1 __STDC_HOSTED__=1 __STDC__=1 __UINT16_C(c)=c __UINT16_MAX__=65535 __UINT16_TYPE__=short\ unsigned\ int __UINT32_C(c)=cU __UINT32_MAX__=4294967295U __UINT32_TYPE__=unsigned\ int __UINT64_C(c)=cUL __UINT64_MAX__=18446744073709551615UL __UINT64_TYPE__=long\ unsigned\ int __UINT8_C(c)=c __UINT8_MAX__=255 __UINT8_TYPE__=unsigned\ char __UINTMAX_C(c)=cUL __UINTMAX_MAX__=18446744073709551615UL __UINTMAX_TYPE__=long\ unsigned\ int __UINTPTR_MAX__=18446744073709551615UL __UINTPTR_TYPE__=long\ unsigned\ int __UINT_FAST16_MAX__=18446744073709551615UL __UINT_FAST16_TYPE__=long\ unsigned\ int __UINT_FAST32_MAX__=18446744073709551615UL __UINT_FAST32_TYPE__=long\ unsigned\ int __UINT_FAST64_MAX__=18446744073709551615UL __UINT_FAST64_TYPE__=long\ unsigned\ int __UINT_FAST8_MAX__=255 __UINT_FAST8_TYPE__=unsigned\ char __UINT_LEAST16_MAX__=65535 __UINT_LEAST16_TYPE__=short\ unsigned\ int __UINT_LEAST32_MAX__=4294967295U __UINT_LEAST32_TYPE__=unsigned\ int __UINT_LEAST64_MAX__=18446744073709551615UL __UINT_LEAST64_TYPE__=long\ unsigned\ int __UINT_LEAST8_MAX__=255 __UINT_LEAST8_TYPE__=unsigned\ char __USER_LABEL_PREFIX__= __USE_BSD=1 __USE_FILE_OFFSET64=1 __USE_GNU=1 __USE_LARGEFILE64=1 __USE_LARGEFILE=1 __USE_MISC=1 __USE_POSIX199309=1 __USE_POSIX199506=1 __USE_POSIX2=1 __USE_POSIX=1 __USE_REENTRANT=1 __USE_SVID=1 __USE_UNIX98=1 __USE_XOPEN=1 __USE_XOPEN_EXTENDED=1 __VERSION__="4.5.1" __WCHAR_MAX__=2147483647 __WCHAR_MIN__=(-2147483647\ -\ 1) __WCHAR_TYPE__=int __WINT_MAX__=4294967295U __WINT_MIN__=0U __WINT_TYPE__=unsigned\ int __amd64=1 __amd64__=1 __gnu_linux__=1 __k8=1 __k8__=1 __linux=1 __linux__=1 __unix=1 __unix__=1 __x86_64=1 __x86_64__=1 linux=1 unix=1'
+-d_nv_preserves_uv='undef'
+-d_printf_format_null='undef'
+-d_u32align='define'
+-gidformat='"u"'
+-i32type='int'
+-i64type='long'
+-ivsize='8'
+-longdblsize='16'
+-longsize='8'
+-myuname='linux qemux86-64 2.6.37-rc5-yocto-standard+ #1 smp preempt mon dec 20 17:19:50 pst 2010 x86_64 gnulinux '
+-need_va_copy='define'
+-netdb_host_type='char *'
+-nv_preserves_uv_bits='53'
+-ptrsize='8'
+-quadkind='2'
+-quadtype='long'
+-sGMTIME_max='67768036191676799'
+-sGMTIME_min='-62167219200'
+-sLOCALTIME_max='67768036191676799'
+-sLOCALTIME_min='-62167219200'
+-sPRIXU64='"lX"'
+-sPRId64='"ld"'
+-sPRIi64='"li"'
+-sPRIo64='"lo"'
+-sPRIu64='"lu"'
+-sPRIx64='"lx"'
+-selectminbits='64'
+-sizesize='8'
+-u32type='unsigned int'
+-u64type='unsigned long'
+-uidformat='"u"'
+-uquadtype='unsigned long'
+-use64bitall='define'
+-use64bitint='define'
+-uvsize='8'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-64-be b/meta/recipes-devtools/perl/perl/config.sh-64-be
+deleted file mode 100644
+index c08ce3c4316..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-64-be
++++ /dev/null
+@@ -1 +0,0 @@
+-byteorder='87654321'
+diff --git a/meta/recipes-devtools/perl/perl/config.sh-64-le b/meta/recipes-devtools/perl/perl/config.sh-64-le
+deleted file mode 100644
+index 277d2a9bee2..00000000000
+--- a/meta/recipes-devtools/perl/perl/config.sh-64-le
++++ /dev/null
+@@ -1 +0,0 @@
+-byteorder='12345678'
+diff --git a/meta/recipes-devtools/perl/perl/cross-generate_uudmap.patch b/meta/recipes-devtools/perl/perl/cross-generate_uudmap.patch
+deleted file mode 100644
+index 33e222259f7..00000000000
+--- a/meta/recipes-devtools/perl/perl/cross-generate_uudmap.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Index: perl-5.24.1/Makefile.SH
+-===================================================================
+---- perl-5.24.1.orig/Makefile.SH
+-+++ perl-5.24.1/Makefile.SH
+-@@ -710,7 +710,7 @@ bitcount.h: generate_uudmap\$(HOST_EXE_E
+- 
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- generate_uudmap$(HOST_EXE_EXT): generate_uudmap$(OBJ_EXT)
+--	$(CC) -o generate_uudmap$(EXE_EXT) $(LDFLAGS) generate_uudmap$(OBJ_EXT) $(libs)
+-+	$(BUILD_CC) -o generate_uudmap$(EXE_EXT) generate_uudmap.c
+- 
+- !NO!SUBS!
+- ;;
+diff --git a/meta/recipes-devtools/perl/perl/debian/cpan-missing-site-dirs.diff b/meta/recipes-devtools/perl/perl/debian/cpan-missing-site-dirs.diff
+deleted file mode 100644
+index c597701cad5..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/cpan-missing-site-dirs.diff
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From d33d46963035ef726144dc66be2ae9c00aec0333 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Tue, 16 Oct 2012 23:07:56 +0300
+-Subject: Fix CPAN::FirstTime defaults with nonexisting site dirs if a parent
+- is writable
+-
+-The site directories do not exist on a typical Debian system.  The build
+-systems will create them when necessary, so there's no need for a prompt
+-suggesting local::lib if the first existing parent directory is writable.
+-
+-Also, writability of the core directories is not interesting as we
+-explicitly tell CPAN not to touch those with INSTALLDIRS=site.
+-
+-Bug-Debian: http://bugs.debian.org/688842
+-Patch-Name: debian/cpan-missing-site-dirs.diff
+-Upstream-Status: Pending
+----
+- cpan/CPAN/lib/CPAN/FirstTime.pm | 31 +++++++++++++++++++++++++++----
+- 1 file changed, 27 insertions(+), 4 deletions(-)
+-
+-diff --git a/cpan/CPAN/lib/CPAN/FirstTime.pm b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-index 33054cd..7b0becf 100644
+---- a/cpan/CPAN/lib/CPAN/FirstTime.pm
+-+++ b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-@@ -2057,11 +2057,34 @@ sub _print_urllist {
+-     };
+- }
+- 
+-+# Debian modification: return true if this directory
+-+# or the first existing one upwards is writable
+-+sub _can_write_to_this_or_parent {
+-+    my ($dir) = @_;
+-+    my @parts = File::Spec->splitdir($dir);
+-+    while (@parts) {
+-+        my $cur = File::Spec->catdir(@parts);
+-+        return 1 if -w $cur;
+-+        return 0 if -e _;
+-+        pop @parts;
+-+    }
+-+    return 0;
+-+}
+-+
+-+# Debian specific modification: the site directories don't necessarily
+-+# exist on the system, but the build systems create them when necessary,
+-+# so return true if the first existing directory upwards is writable
+-+#
+-+# Furthermore, on Debian, only test the site directories
+-+# (installsite*, expanded to /usr/local/{share,lib}/perl),
+-+# not the core ones 
+-+# (install*lib, expanded to /usr/{share,lib}/perl).
+-+# We pass INSTALLDIRS=site by default to keep CPAN from touching
+-+# the core directories.
+-+
+- sub _can_write_to_libdirs {
+--    return -w $Config{installprivlib}
+--        && -w $Config{installarchlib}
+--        && -w $Config{installsitelib}
+--        && -w $Config{installsitearch}
+-+    return _can_write_to_this_or_parent($Config{installsitelib})
+-+        && _can_write_to_this_or_parent($Config{installsitearch})
+- }
+- 
+- sub _using_installbase {
+diff --git a/meta/recipes-devtools/perl/perl/debian/cpan_definstalldirs.diff b/meta/recipes-devtools/perl/perl/debian/cpan_definstalldirs.diff
+deleted file mode 100644
+index 572f1495142..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/cpan_definstalldirs.diff
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 5ff1f21484aab68efe321ff4ba5d35928f72af96 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Provide a sensible INSTALLDIRS default for modules installed from
+- CPAN.
+-
+-Some modules which are included in core set INSTALLDIRS => 'perl'
+-explicitly in Makefile.PL or Build.PL.  This makes sense for the normal @INC
+-ordering, but not ours.
+-
+-Patch-Name: debian/cpan_definstalldirs.diff
+-Upstream-Status: Pending
+----
+- cpan/CPAN/lib/CPAN/FirstTime.pm | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/cpan/CPAN/lib/CPAN/FirstTime.pm b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-index 918e009..33054cd 100644
+---- a/cpan/CPAN/lib/CPAN/FirstTime.pm
+-+++ b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-@@ -1024,7 +1024,7 @@ sub init {
+-     my_prompt_loop(prefer_installer => 'MB', $matcher, 'MB|EUMM|RAND');
+- 
+-     if (!$matcher or 'makepl_arg make_arg' =~ /$matcher/) {
+--        my_dflt_prompt(makepl_arg => "", $matcher);
+-+        my_dflt_prompt(makepl_arg => "INSTALLDIRS=site", $matcher);
+-         my_dflt_prompt(make_arg => "", $matcher);
+-         if ( $CPAN::Config->{makepl_arg} =~ /LIBS=|INC=/ ) {
+-             $CPAN::Frontend->mywarn(
+-@@ -1056,7 +1056,7 @@ sub init {
+-     my_dflt_prompt(make_install_arg => $CPAN::Config->{make_arg} || "",
+-                    $matcher);
+- 
+--    my_dflt_prompt(mbuildpl_arg => "", $matcher);
+-+    my_dflt_prompt(mbuildpl_arg => "--installdirs site", $matcher);
+-     my_dflt_prompt(mbuild_arg => "", $matcher);
+- 
+-     if (exists $CPAN::HandleConfig::keys{mbuild_install_build_command}
+diff --git a/meta/recipes-devtools/perl/perl/debian/db_file_ver.diff b/meta/recipes-devtools/perl/perl/debian/db_file_ver.diff
+deleted file mode 100644
+index 0861650eb6b..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/db_file_ver.diff
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 01421f8a80d5c623959695ba2b8167f30112d333 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 16 Dec 2005 01:32:14 +1100
+-Subject: Remove overly restrictive DB_File version check.
+-
+-Bug-Debian: http://bugs.debian.org/340047
+-
+-Package dependencies ensure the correct library is linked at run-time.
+-
+-Patch-Name: debian/db_file_ver.diff
+-Upstream-Status: Pending
+----
+- cpan/DB_File/version.c | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/cpan/DB_File/version.c b/cpan/DB_File/version.c
+-index e01f6f6..544e6ee 100644
+---- a/cpan/DB_File/version.c
+-+++ b/cpan/DB_File/version.c
+-@@ -48,6 +48,7 @@ __getBerkeleyDBInfo()
+- 
+-     (void)db_version(&Major, &Minor, &Patch) ;
+- 
+-+#ifndef DEBIAN
+-     /* Check that the versions of db.h and libdb.a are the same */
+-     if (Major != DB_VERSION_MAJOR || Minor != DB_VERSION_MINOR )
+- 		/* || Patch != DB_VERSION_PATCH) */
+-@@ -55,6 +56,7 @@ __getBerkeleyDBInfo()
+- 	croak("\nDB_File was build with libdb version %d.%d.%d,\nbut you are attempting to run it with libdb version %d.%d.%d\n",
+- 		DB_VERSION_MAJOR, DB_VERSION_MINOR, DB_VERSION_PATCH, 
+- 		Major, Minor, Patch) ;
+-+#endif /* DEBIAN */
+-     
+-     /* check that libdb is recent enough  -- we need 2.3.4 or greater */
+-     if (Major == 2 && (Minor < 3 || (Minor ==  3 && Patch < 4)))
+diff --git a/meta/recipes-devtools/perl/perl/debian/deprecate-with-apt.diff b/meta/recipes-devtools/perl/perl/debian/deprecate-with-apt.diff
+deleted file mode 100644
+index c2ac4a3bdfe..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/deprecate-with-apt.diff
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From def4aa3817f98aae625e601b791ef068276f05d5 Mon Sep 17 00:00:00 2001
+-From: Dominic Hargreaves <dom@earth.li>
+-Date: Mon, 17 May 2010 13:23:07 +0300
+-Subject: Point users to Debian packages of deprecated core modules
+-
+-Bug-Debian: http://bugs.debian.org/747628
+-
+-Several modules are being deprecated with perl 5.20.
+-To get a clean transition, perl/perl-modules is going to recommend the
+-separate Debian packages of these for one release cycle so that they will be
+-pulled in by default on upgrades. This is taking place for perl 5.20/jessie.
+-
+-However, on systems configured to ignore recommendations the deprecation
+-warnings will still be useful, so modify them slightly to point to the
+-separate packages instead.
+-
+-Patch-Name: debian/deprecate-with-apt.diff
+-Upstream-Status: Pending
+----
+- lib/deprecate.pm | 15 ++++++++++++++-
+- 1 file changed, 14 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/deprecate.pm b/lib/deprecate.pm
+-index 47bc112..b0c61df 100644
+---- a/lib/deprecate.pm
+-+++ b/lib/deprecate.pm
+-@@ -7,6 +7,13 @@ our $VERSION = 0.03;
+- our %Config;
+- unless (%Config) { require Config; *Config = \%Config::Config; }
+- 
+-+# Debian-specific change: recommend the separate Debian packages of
+-+# deprecated modules where available
+-+
+-+our %DEBIAN_PACKAGES = (
+-+    # None for the perl 5.22 cycle
+-+);
+-+
+- # This isn't a public API. It's internal to code maintained by the perl-porters
+- # If you would like it to be a public API, please send a patch with
+- # documentation and tests. Until then, it may change without warning.
+-@@ -58,9 +65,15 @@ EOM
+- 	if (defined $callers_bitmask
+- 	    && (vec($callers_bitmask, $warnings::Offsets{deprecated}, 1)
+- 		|| vec($callers_bitmask, $warnings::Offsets{all}, 1))) {
+--	    warn <<"EOM";
+-+		if (my $deb = $DEBIAN_PACKAGES{$package}) {
+-+		    warn <<"EOM";
+-+$package will be removed from the Perl core distribution in the next major release. Please install the separate $deb package. It is being used at $call_file, line $call_line.
+-+EOM
+-+		} else {
+-+		    warn <<"EOM";
+- $package will be removed from the Perl core distribution in the next major release. Please install it from CPAN. It is being used at $call_file, line $call_line.
+- EOM
+-+		}
+- 	}
+-     }
+- }
+diff --git a/meta/recipes-devtools/perl/perl/debian/doc_info.diff b/meta/recipes-devtools/perl/perl/debian/doc_info.diff
+deleted file mode 100644
+index 4662ecdaa7b..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/doc_info.diff
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From e18f81e69c55d698abd293e71063d6b6b275cc07 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 18 Mar 2005 22:22:25 +1100
+-Subject: Replace generic man(1) instructions with Debian-specific information.
+-
+-Indicate that the user needs to install the perl-doc package.
+-
+-Patch-Name: debian/doc_info.diff
+-Upstream-Status: Pending
+----
+- pod/perl.pod | 12 ++++++++++--
+- 1 file changed, 10 insertions(+), 2 deletions(-)
+-
+-diff --git a/pod/perl.pod b/pod/perl.pod
+-index 364e957..f97e103 100644
+---- a/pod/perl.pod
+-+++ b/pod/perl.pod
+-@@ -291,8 +291,16 @@ aux c2ph h2ph h2xs perlbug pl2pm pod2html pod2man splain xsubpp
+- 
+- =for buildtoc __END__
+- 
+--On a Unix-like system, these documentation files will usually also be
+--available as manpages for use with the F<man> program.
+-+On Debian systems, you need to install the B<perl-doc> package which
+-+contains the majority of the standard Perl documentation and the
+-+F<perldoc> program.
+-+
+-+Extensive additional documentation for Perl modules is available, both
+-+those distributed with Perl and third-party modules which are packaged
+-+or locally installed.
+-+
+-+You should be able to view Perl's documentation with your man(1)
+-+program or perldoc(1).
+- 
+- Some documentation is not available as man pages, so if a
+- cross-reference is not found by man, try it with L<perldoc>.  Perldoc can
+diff --git a/meta/recipes-devtools/perl/perl/debian/enc2xs_inc.diff b/meta/recipes-devtools/perl/perl/debian/enc2xs_inc.diff
+deleted file mode 100644
+index b3bd58c1d10..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/enc2xs_inc.diff
++++ /dev/null
+@@ -1,71 +0,0 @@
+-From 7fe59a3d0601c6d8634eae4f99dae3024cd02a92 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Tweak enc2xs to follow symlinks and ignore missing @INC directories.
+-
+-Bug-Debian: http://bugs.debian.org/290336
+-
+-- ignore missing directories,
+-- follow symlinks (/usr/share/perl/5.8 -> 5.8.4).
+-- filter "." out when running "enc2xs -C", it's unnecessary and causes
+-  issues with follow => 1 (see #603686 and [rt.cpan.org #64585])
+-
+-Patch-Name: debian/enc2xs_inc.diff
+-Upstream-Status: Pending
+----
+- cpan/Encode/bin/enc2xs | 8 ++++----
+- t/porting/customized.t | 3 +++
+- 2 files changed, 7 insertions(+), 4 deletions(-)
+-
+-diff --git a/cpan/Encode/bin/enc2xs b/cpan/Encode/bin/enc2xs
+-index 19f2b2b..4d64e38 100644
+---- a/cpan/Encode/bin/enc2xs
+-+++ b/cpan/Encode/bin/enc2xs
+-@@ -944,11 +944,11 @@ use vars qw(
+- sub find_e2x{
+-     eval { require File::Find; };
+-     my (@inc, %e2x_dir);
+--    for my $inc (@INC){
+-+    for my $inc (grep -d, @INC){
+-     push @inc, $inc unless $inc eq '.'; #skip current dir
+-     }
+-     File::Find::find(
+--         sub {
+-+         { wanted => sub {
+-          my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+-              $atime,$mtime,$ctime,$blksize,$blocks)
+-              = lstat($_) or return;
+-@@ -958,7 +958,7 @@ sub find_e2x{
+-              $e2x_dir{$File::Find::dir} ||= $mtime;
+-          }
+-          return;
+--         }, @inc);
+-+         }, follow => 1}, @inc);
+-     warn join("\n", keys %e2x_dir), "\n";
+-     for my $d (sort {$e2x_dir{$a} <=> $e2x_dir{$b}} keys %e2x_dir){
+-     $_E2X = $d;
+-@@ -1025,7 +1025,7 @@ sub make_configlocal_pm {
+- 	    $LocalMod{$enc} ||= $mod;
+- 	}
+-     };
+--    File::Find::find({wanted => $wanted}, @INC);
+-+    File::Find::find({wanted => $wanted, follow => 1}, grep -d && !/^\./, @INC);
+-     $_ModLines = "";
+-     for my $enc ( sort keys %LocalMod ) {
+-         $_ModLines .=
+-diff --git a/t/porting/customized.t b/t/porting/customized.t
+-index 45fcafb..3bd6adb 100644
+---- a/t/porting/customized.t
+-+++ b/t/porting/customized.t
+-@@ -101,8 +101,11 @@ foreach my $module ( sort keys %Modules ) {
+-       print $data_fh join(' ', $module, $file, $id), "\n";
+-       next;
+-     }
+-+SKIP: {
+-+    skip("$file modified for Debian", 1) if $file eq 'cpan/Encode/bin/enc2xs';
+-     my $should_be = $customised{ $module }->{ $file };
+-     is( $id, $should_be, "SHA for $file matches stashed SHA" );
+-+}
+-   }
+- }
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/extutils_set_libperl_path.diff b/meta/recipes-devtools/perl/perl/debian/extutils_set_libperl_path.diff
+deleted file mode 100644
+index e023038f048..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/extutils_set_libperl_path.diff
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 431275078b0490d2e092442d9582be06bb95b354 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sat, 10 May 2014 23:34:14 +0300
+-Subject: EU:MM: set location of libperl.a under /usr/lib
+-
+-The Debian packaging moves libperl.a a couple of levels up from the
+-CORE directory to match other static libraries.
+-
+-Patch-Name: debian/extutils_set_libperl_path.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 2 +-
+- pp.c                                            | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 5f1b87f..570a631 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2505,7 +2505,7 @@ MAP_PRELIBS   = $Config{perllibs} $Config{cryptlib}
+- 	($lperl = $libperl) =~ s/\$\(A\)/$self->{LIB_EXT}/;
+-     }
+-     unless ($libperl && -f $lperl) { # Ilya's code...
+--	my $dir = $self->{PERL_SRC} || "$self->{PERL_ARCHLIB}/CORE";
+-+	my $dir = $self->{PERL_SRC} || "$self->{PERL_ARCHLIB}/../..";
+- 	$dir = "$self->{PERL_ARCHLIB}/.." if $self->{UNINSTALLED_PERL};
+- 	$libperl ||= "libperl$self->{LIB_EXT}";
+- 	$libperl   = "$dir/$libperl";
+-diff --git a/pp.c b/pp.c
+-index 42f156a..77c1279 100644
+---- a/pp.c
+-+++ b/pp.c
+-@@ -1,4 +1,4 @@
+--/*    pp.c
+-+ /*    pp.c
+-  *
+-  *    Copyright (C) 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
+-  *    2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 by Larry Wall and others
+diff --git a/meta/recipes-devtools/perl/perl/debian/fakeroot.diff b/meta/recipes-devtools/perl/perl/debian/fakeroot.diff
+deleted file mode 100644
+index bdf34d18596..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fakeroot.diff
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 27ae7b18078d801a2c943aa6de2f7e9808177251 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 18 Mar 2005 22:22:25 +1100
+-Subject: Postpone LD_LIBRARY_PATH evaluation to the binary targets.
+-
+-Modify the setting of LD_LIBRARY_PATH to append pre-existing values at the
+-time the rule is evaluated rather than when the Makefile is created.
+-
+-This is required when building packages with dpkg-buildpackage and fakeroot,
+-since fakeroot (which now sets LD_LIBRARY_PATH) is not used for the "build"
+-rule where the Makefile is created, but is for the clean/binary* targets.
+-
+-Patch-Name: debian/fakeroot.diff
+-Upstream-Status: Pending
+----
+- Makefile.SH | 7 ++-----
+- 1 file changed, 2 insertions(+), 5 deletions(-)
+-
+-diff --git a/Makefile.SH b/Makefile.SH
+-index 034d812..04dd7d5 100755
+---- a/Makefile.SH
+-+++ b/Makefile.SH
+-@@ -39,10 +39,7 @@ case "$useshrplib" in
+- true)
+- 	# Prefix all runs of 'miniperl' and 'perl' with
+- 	# $ldlibpth so that ./perl finds *this* shared libperl.
+--	case "$LD_LIBRARY_PATH" in
+--	'')  ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `" ;;
+--	*)   ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `:` quote "$LD_LIBRARY_PATH" `" ;;
+--	esac
+-+	ldlibpth="LD_LIBRARY_PATH=` quote "$pwd" `"'$${LD_LIBRARY_PATH:+:}$$LD_LIBRARY_PATH'
+- 
+- 	pldlflags="$cccdlflags"
+- 	static_ldflags=''
+-@@ -113,7 +110,7 @@ true)
+- 	    ;;
+- 	esac
+- 	case "$ldlibpthname" in
+--	'') ;;
+-+	''|LD_LIBRARY_PATH) ;;
+- 	*)
+- 	    case "$osname" in
+- 	    os2)
+diff --git a/meta/recipes-devtools/perl/perl/debian/find_html2text.diff b/meta/recipes-devtools/perl/perl/debian/find_html2text.diff
+deleted file mode 100644
+index 082709140d2..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/find_html2text.diff
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From c81dbdedff9e9b4fb75ac028aa718838c0292d2f Mon Sep 17 00:00:00 2001
+-From: Andreas Marschke <andreas.marschke@googlemail.com>
+-Date: Sat, 17 Sep 2011 11:38:42 +0100
+-Subject: Configure CPAN::Distribution with correct name of html2text
+-
+-Bug-Debian: http://bugs.debian.org/640479
+-Patch-Name: debian/find_html2text.diff
+-
+-If you use cpan from Debian you usually wind up trying to read online
+-documentation through it. Unfortunately cpan can't find the
+-html2text.pl script even though it is installed using the Debian
+-package 'html2text'.
+-
+-Please see the attached patch for a quick fix of this issue.
+-
+-[Maintainer's note: html2text in Debian is not the same implementation
+-as the html2text.pl which is expected, but should provide similar
+-functionality].
+-Upstream-Status: Pending
+----
+- cpan/CPAN/lib/CPAN/Distribution.pm | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/cpan/CPAN/lib/CPAN/Distribution.pm b/cpan/CPAN/lib/CPAN/Distribution.pm
+-index 092b781..5c2bae1 100644
+---- a/cpan/CPAN/lib/CPAN/Distribution.pm
+-+++ b/cpan/CPAN/lib/CPAN/Distribution.pm
+-@@ -4099,7 +4099,7 @@ sub _display_url {
+-       if $CPAN::DEBUG;
+- 
+-     # should we define it in the config instead?
+--    my $html_converter = "html2text.pl";
+-+    my $html_converter = "html2text";
+- 
+-     my $web_browser = $CPAN::Config->{'lynx'} || undef;
+-     my $web_browser_out = $web_browser
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/document_makemaker_ccflags.diff b/meta/recipes-devtools/perl/perl/debian/fixes/document_makemaker_ccflags.diff
+deleted file mode 100644
+index f3d92583e3f..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/document_makemaker_ccflags.diff
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 9faf6dcc3a5c4154484d812eb3cc3dd78b35563b Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Mon, 30 May 2011 22:54:24 +0300
+-Subject: Document that CCFLAGS should include $Config{ccflags}
+-
+-Bug: https://rt.cpan.org/Public/Bug/Display.html?id=68613
+-Bug-Debian: http://bugs.debian.org/628522
+-
+-Compiling XS extensions without $Config{ccflags} can break the
+-binary interface on some platforms.
+-
+-Patch-Name: fixes/document_makemaker_ccflags.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
+-index fe95b27..90403e8 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
+-@@ -1774,6 +1774,10 @@ currently used by MakeMaker but may be handy in Makefile.PLs.
+- String that will be included in the compiler call command line between
+- the arguments INC and OPTIMIZE.
+- 
+-+The default value is taken from $Config{ccflags}. When overriding
+-+CCFLAGS, make sure to include the $Config{ccflags} settings to avoid
+-+binary incompatibilities.
+-+
+- =item CONFIG
+- 
+- Arrayref. E.g. [qw(archname manext)] defines ARCHNAME & MANEXT from
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/memoize_storable_nstore.diff b/meta/recipes-devtools/perl/perl/debian/fixes/memoize_storable_nstore.diff
+deleted file mode 100644
+index d9b36f6d237..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/memoize_storable_nstore.diff
++++ /dev/null
+@@ -1,111 +0,0 @@
+-From 55d430eb02fc116581847304ca20321687978269 Mon Sep 17 00:00:00 2001
+-From: Jonathan Nieder <jrnieder@gmail.com>
+-Date: Fri, 27 Jul 2012 10:35:07 -0500
+-Subject: Memoize::Storable: respect 'nstore' option not respected
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Memoize(3perl) says:
+-
+-                tie my %cache => 'Memoize::Storable', $filename, 'nstore';
+-                memoize 'function', SCALAR_CACHE => [HASH => \%cache];
+-
+-        Include the ‘nstore’ option to have the "Storable" database
+-        written in ‘network order’.  (See Storable for more details
+-        about this.)
+-
+-In fact the "nstore" option does no such thing.  Option parsing looks
+-like this:
+-
+-        @options{@_} = ();
+-
+-$self->{OPTIONS}{'nstore'} is accordingly set to undef.  Later
+-Memoize::Storable checks if the option is true, and since undef is
+-not true, the "else" branch is always taken.
+-
+-        if ($self->{OPTIONS}{'nstore'}) {
+-                Storable::nstore($self->{H}, $self->{FILENAME});
+-        } else {
+-                Storable::store($self->{H}, $self->{FILENAME});
+-        }
+-
+-Correcting the condition to (exists $self->{OPTIONS}{'nstore'}) fixes
+-it.
+-
+-Noticed because git-svn, which uses the 'nstore' option for its
+-on-disk caches, was producing
+-
+-        Byte order is not compatible at ../../lib/Storable.pm
+-
+-when run using a perl with a different integer size (and hence
+-byteorder).
+-
+-Reported by Tim Retout (RT#77790)
+-
+-Bug-Debian: http://bugs.debian.org/587650
+-Bug: https://rt.cpan.org/Public/Bug/Display.html?id=77790
+-Forwarded: https://rt.cpan.org/Public/Bug/Display.html?id=77790
+-Patch-Name: fixes/memoize_storable_nstore.diff
+-Upstream-Status: Pending
+----
+- cpan/Memoize/Memoize/Storable.pm |  2 +-
+- cpan/Memoize/t/tie_storable.t    | 24 ++++++++++++++++++++----
+- 2 files changed, 21 insertions(+), 5 deletions(-)
+-
+-diff --git a/cpan/Memoize/Memoize/Storable.pm b/cpan/Memoize/Memoize/Storable.pm
+-index 1314797..87876f2 100644
+---- a/cpan/Memoize/Memoize/Storable.pm
+-+++ b/cpan/Memoize/Memoize/Storable.pm
+-@@ -55,7 +55,7 @@ sub DESTROY {
+-   require Carp if $Verbose;
+-   my $self= shift;
+-   print STDERR "Memoize::Storable::DESTROY(@_)\n" if $Verbose;
+--  if ($self->{OPTIONS}{'nstore'}) {
+-+  if (exists $self->{OPTIONS}{'nstore'}) {
+-     Storable::nstore($self->{H}, $self->{FILENAME});
+-   } else {
+-     Storable::store($self->{H}, $self->{FILENAME});
+-diff --git a/cpan/Memoize/t/tie_storable.t b/cpan/Memoize/t/tie_storable.t
+-index de3b8dc..a624238 100644
+---- a/cpan/Memoize/t/tie_storable.t
+-+++ b/cpan/Memoize/t/tie_storable.t
+-@@ -31,18 +31,34 @@ if ($@) {
+-   exit 0;
+- }
+- 
+--print "1..4\n";
+-+print "1..9\n";
+- 
+- $file = "storable$$";
+- 1 while unlink $file;
+- tryout('Memoize::Storable', $file, 1);  # Test 1..4
+- 1 while unlink $file;
+-+tryout('Memoize::Storable', $file, 5, 'nstore');  # Test 5..8
+-+assert_netorder($file, 9);  # Test 9
+-+1 while unlink $file;
+-+
+-+
+-+sub assert_netorder {
+-+  my ($file, $testno) = @_;
+-+
+-+  my $netorder = Storable::file_magic($file)->{'netorder'};
+-+  print ($netorder ? "ok $testno\n" : "not ok $testno\n");
+-+}
+- 
+- sub tryout {
+--  my ($tiepack, $file, $testno) = @_;
+-+  my ($tiepack, $file, $testno, $option) = @_;
+- 
+--  tie my %cache => $tiepack, $file
+--    or die $!;
+-+  if (defined $option) {
+-+    tie my %cache => $tiepack, $file, $option
+-+      or die $!;
+-+  } else {
+-+    tie my %cache => $tiepack, $file
+-+      or die $!;
+-+  }
+- 
+-   memoize 'c5', 
+-   SCALAR_CACHE => [HASH => \%cache],
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/net_smtp_docs.diff b/meta/recipes-devtools/perl/perl/debian/fixes/net_smtp_docs.diff
+deleted file mode 100644
+index afcf7fb0128..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/net_smtp_docs.diff
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From fa085fedd9c406edcd4a1a256c025d5ff7f6c6de Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Thu, 20 Sep 2007 19:47:14 +1000
+-Subject: Document the Net::SMTP 'Port' option
+-
+-Bug-Debian: http://bugs.debian.org/100195
+-Bug: http://rt.cpan.org/Public/Bug/Display.html?id=36038
+-
+-Patch-Name: fixes/net_smtp_docs.diff
+-Upstream-Status: Pending
+----
+- cpan/libnet/lib/Net/SMTP.pm | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/cpan/libnet/lib/Net/SMTP.pm b/cpan/libnet/lib/Net/SMTP.pm
+-index afd017a..6ae7d9e 100644
+---- a/cpan/libnet/lib/Net/SMTP.pm
+-+++ b/cpan/libnet/lib/Net/SMTP.pm
+-@@ -738,6 +738,7 @@ Net::SMTP will attempt to extract the address from the value passed.
+- 
+- B<Debug> - Enable debugging information
+- 
+-+B<Port> - Select a port on the remote host to connect to (default is 25)
+- 
+- Example:
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/perl-Cnn.diff b/meta/recipes-devtools/perl/perl/debian/fixes/perl-Cnn.diff
+deleted file mode 100644
+index 9bdf41b47d6..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/perl-Cnn.diff
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 0ecf83f259db09cb38cb37c9b22e72be185afa8f Mon Sep 17 00:00:00 2001
+-From: Hugo van der Sanden <hv@crypt.org>
+-Date: Thu, 11 Jun 2015 12:25:40 +0100
+-Subject: fix -Cnn parsing
+-
+-Commit 22ff313068 for [perl #123814] inadvertently changed the logic when
+-parsing a numeric parameter to the -C option, such that the successfully
+-parsed number was not saved as the option value if it parsed to the end
+-of the argument.
+-
+-Bug: https://rt.perl.org/Ticket/Display.html?id=125381
+-Bug-Debian: https://bugs.debian.org/788636
+-Origin: upstream, http://perl5.git.perl.org/perl.git/commit/89d84ff965
+-Patch-Name: fixes/perl-Cnn.diff
+-Upstream-Status: Pending
+----
+- t/run/switchC.t |  7 ++++++-
+- util.c          | 17 ++++++++---------
+- 2 files changed, 14 insertions(+), 10 deletions(-)
+-
+-diff --git a/t/run/switchC.t b/t/run/switchC.t
+-index f6aa868..4f63c3b 100644
+---- a/t/run/switchC.t
+-+++ b/t/run/switchC.t
+-@@ -11,7 +11,7 @@ BEGIN {
+-     skip_all_if_miniperl('-C and $ENV{PERL_UNICODE} are disabled on miniperl');
+- }
+- 
+--plan(tests => 13);
+-+plan(tests => 14);
+- 
+- my $r;
+- 
+-@@ -25,6 +25,11 @@ $r = runperl( switches => [ '-CO', '-w' ],
+-               stderr   => 1 );
+- like( $r, qr/^$b(?:\r?\n)?$/s, '-CO: no warning on UTF-8 output' );
+- 
+-+$r = runperl( switches => [ '-C2', '-w' ],
+-+	      prog     => 'print chr(256)',
+-+              stderr   => 1 );
+-+like( $r, qr/^$b(?:\r?\n)?$/s, '-C2: no warning on UTF-8 output' );
+-+
+- SKIP: {
+-     if (exists $ENV{PERL_UNICODE} &&
+- 	($ENV{PERL_UNICODE} eq "" || $ENV{PERL_UNICODE} =~ /[SO]/)) {
+-diff --git a/util.c b/util.c
+-index 8cf62f5..ee23314 100644
+---- a/util.c
+-+++ b/util.c
+-@@ -4420,16 +4420,15 @@ Perl_parse_unicode_opts(pTHX_ const char **popt)
+-        if (isDIGIT(*p)) {
+-             const char* endptr;
+-             UV uv;
+--            if (grok_atoUV(p, &uv, &endptr)
+--                && uv <= U32_MAX
+--                && (p = endptr)
+--                && *p && *p != '\n' && *p != '\r'
+--            ) {
+-+            if (grok_atoUV(p, &uv, &endptr) && uv <= U32_MAX) {
+-                 opt = (U32)uv;
+--                if (isSPACE(*p))
+--                    goto the_end_of_the_opts_parser;
+--                else
+--                    Perl_croak(aTHX_ "Unknown Unicode option letter '%c'", *p);
+-+                p = endptr;
+-+                if (p && *p && *p != '\n' && *p != '\r') {
+-+                    if (isSPACE(*p))
+-+                        goto the_end_of_the_opts_parser;
+-+                    else
+-+                        Perl_croak(aTHX_ "Unknown Unicode option letter '%c'", *p);
+-+                }
+-             }
+-         }
+-         else {
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/pod_man_reproducible_date.diff b/meta/recipes-devtools/perl/perl/debian/fixes/pod_man_reproducible_date.diff
+deleted file mode 100644
+index d23573f188a..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/pod_man_reproducible_date.diff
++++ /dev/null
+@@ -1,171 +0,0 @@
+-From 9057adc106d6bbef53c9e706523cd94f1a7a08d4 Mon Sep 17 00:00:00 2001
+-From: Russ Allbery <rra@debian.org>
+-Date: Sat, 30 Aug 2014 15:10:41 -0700
+-Subject: Support POD_MAN_DATE in Pod::Man for the left-hand footer
+-
+-Honor the environment variable POD_MAN_DATE and use its contents, if
+-set, as the value of the left-hand footer if the date option is not
+-set, overriding the timestamp of the input file.  This is primarily
+-useful to ensure reproducible builds of the same output file given the
+-same souce and Pod::Man version, even when file timestamps may not be
+-consistent.  Thanks, Niko Tyni.
+-
+-Bug-Debian: http://bugs.debian.org/759405
+-Origin: upstream
+-Patch-Name: fixes/pod_man_reproducible_date.diff
+-Upstream-Status: Pending
+----
+- cpan/podlators/lib/Pod/Man.pm  | 69 +++++++++++++++++++++++++++++++-----------
+- cpan/podlators/t/devise-date.t | 29 +++++++++++++-----
+- 2 files changed, 72 insertions(+), 26 deletions(-)
+-
+-diff --git a/cpan/podlators/lib/Pod/Man.pm b/cpan/podlators/lib/Pod/Man.pm
+-index 72ca9ff..0536662 100644
+---- a/cpan/podlators/lib/Pod/Man.pm
+-+++ b/cpan/podlators/lib/Pod/Man.pm
+-@@ -876,25 +876,42 @@ sub devise_title {
+- }
+- 
+- # Determine the modification date and return that, properly formatted in ISO
+--# format.  If we can't get the modification date of the input, instead use the
+--# current time.  Pod::Simple returns a completely unuseful stringified file
+--# handle as the source_filename for input from a file handle, so we have to
+--# deal with that as well.
+-+# format.
+-+#
+-+# If POD_MAN_DATE is set, that overrides anything else.  This can be used for
+-+# reproducible generation of the same file even if the input file timestamps
+-+# are unpredictable or the POD coms from standard input.
+-+#
+-+# Otherwise, use the modification date of the input if we can stat it.  Be
+-+# aware that Pod::Simple returns the stringification of the file handle as
+-+# source_filename for input from a file handle, so we'll stat some random ref
+-+# string in that case.  If that fails, instead use the current time.
+-+#
+-+# $self - Pod::Man object, used to get the source file
+-+#
+-+# Returns: YYYY-MM-DD date suitable for the left-hand footer
+- sub devise_date {
+-     my ($self) = @_;
+-+
+-+    # If POD_MAN_DATE is set, always use it.
+-+    if ($ENV{POD_MAN_DATE}) {
+-+        return $ENV{POD_MAN_DATE};
+-+    }
+-+
+-+    # Otherwise, get the input filename and try to stat it.  If that fails,
+-+    # use the current time.
+-     my $input = $self->source_filename;
+-     my $time;
+-     if ($input) {
+--        $time = (stat $input)[9] || time;
+-+        $time = (stat($input))[9] || time();
+-     } else {
+--        $time = time;
+-+        $time = time();
+-     }
+- 
+--    # Can't use POSIX::strftime(), which uses Fcntl, because MakeMaker
+--    # uses this and it has to work in the core which can't load dynamic
+--    # libraries.
+--    my ($year, $month, $day) = (localtime $time)[5,4,3];
+--    return sprintf ("%04d-%02d-%02d", $year + 1900, $month + 1, $day);
+-+    # Can't use POSIX::strftime(), which uses Fcntl, because MakeMaker uses
+-+    # this and it has to work in the core which can't load dynamic libraries.
+-+    my ($year, $month, $day) = (localtime($time))[5,4,3];
+-+    return sprintf("%04d-%02d-%02d", $year + 1900, $month + 1, $day);
+- }
+- 
+- # Print out the preamble and the title.  The meaning of the arguments to .TH
+-@@ -1632,6 +1649,15 @@ argument.
+- Sets the centered page header to use instead of "User Contributed Perl
+- Documentation".
+- 
+-+=item date
+-+
+-+Sets the left-hand footer.  If this option is not set, the contents of the
+-+environment variable POD_MAN_DATE, if set, will be used.  Failing that,
+-+the modification date of the input file will be used, or the current time
+-+if stat() can't find that file (which will be the case if the input is
+-+from C<STDIN>).  If obtained from the file modification date or the
+-+current time, he date will be formatted as C<YYYY-MM-DD>.
+-+
+- =item errors
+- 
+- How to report errors.  C<die> says to throw an exception on any POD
+-@@ -1642,13 +1668,6 @@ POD errors entirely, as much as possible.
+- 
+- The default is C<pod>.
+- 
+--=item date
+--
+--Sets the left-hand footer.  By default, the modification date of the input
+--file will be used, or the current date if stat() can't find that file (the
+--case if the input is from C<STDIN>), and the date will be formatted as
+--C<YYYY-MM-DD>.
+--
+- =item fixed
+- 
+- The fixed-width font to use for verbatim text and code.  Defaults to
+-@@ -1810,6 +1829,20 @@ option was set to C<die>.
+- 
+- =back
+- 
+-+=head1 ENVIRONMENT
+-+
+-+=over 4
+-+
+-+=item POD_MAN_DATE
+-+
+-+If set, this will be used as the value of the left-hand footer unless the
+-+C<date> option is explicitly set, overriding the timestamp of the input
+-+file or the current time.  This is primarily useful to ensure reproducible
+-+builds of the same output file given the same souce and Pod::Man version,
+-+even when file timestamps may not be consistent.
+-+
+-+=back
+-+
+- =head1 BUGS
+- 
+- Encoding handling assumes that PerlIO is available and does not work
+-diff --git a/cpan/podlators/t/devise-date.t b/cpan/podlators/t/devise-date.t
+-index 3cce9f5..c610dd9 100644
+---- a/cpan/podlators/t/devise-date.t
+-+++ b/cpan/podlators/t/devise-date.t
+-@@ -1,15 +1,28 @@
+--#!/usr/bin/perl -w
+--
+--# In order for MakeMaker to build in the core, nothing can use
+--# Fcntl which includes POSIX.  devise_date()'s use of strftime()
+--# was replaced.  This tests that it's identical.
+-+#!/usr/bin/perl
+-+#
+-+# In order for MakeMaker to build in the core, nothing can use Fcntl which
+-+# includes POSIX.  devise_date()'s use of strftime() was replaced.  This tests
+-+# that it's identical.  It also tests special handling of the POD_MAN_DATE
+-+# environment variable.
+- 
+-+use 5.006;
+- use strict;
+--
+--use Test::More tests => 1;
+-+use warnings;
+- 
+- use Pod::Man;
+- use POSIX qw(strftime);
+- 
+-+use Test::More tests => 2;
+-+
+-+# Check that the results of device_date matches strftime.  There is no input
+-+# file name, so this will use the current time.
+- my $parser = Pod::Man->new;
+--is $parser->devise_date, strftime("%Y-%m-%d", localtime);
+-+is(
+-+    $parser->devise_date,
+-+    strftime('%Y-%m-%d', localtime()),
+-+    'devise_date matches strftime'
+-+);
+-+
+-+# Set the override environment variable and ensure that it's honored.
+-+local $ENV{POD_MAN_DATE} = '2014-01-01';
+-+is($parser->devise_date, '2014-01-01', 'devise_date honors POD_MAN_DATE');
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/podman-empty-date.diff b/meta/recipes-devtools/perl/perl/debian/fixes/podman-empty-date.diff
+deleted file mode 100644
+index 9de29b86542..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/podman-empty-date.diff
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 183bb4af7ad862a2cf31d0dcb3dd45c100f76776 Mon Sep 17 00:00:00 2001
+-From: Russ Allbery <rra@cpan.org>
+-Date: Wed, 15 Apr 2015 22:21:25 -0700
+-Subject: Support an empty POD_MAN_DATE environment variable
+-
+-One may want to set this to an empty string.  Handle that correctly.
+-
+-(backported to Perl 5.20.2 by Niko Tyni <ntyni@debian.org>)
+-
+-Origin: upstream, http://git.eyrie.org/?p=perl/podlators.git;a=commitdiff;h=e0e9fcb53e8fc954b2b1955385eea18c27f869af
+-Bug-Debian: https://bugs.debian.org/780259
+-Patch-Name: fixes/podman-empty-date.diff
+-Upstream-Status: Pending
+----
+- cpan/podlators/lib/Pod/Man.pm  | 2 +-
+- cpan/podlators/t/devise-date.t | 6 +++++-
+- 2 files changed, 6 insertions(+), 2 deletions(-)
+-
+-diff --git a/cpan/podlators/lib/Pod/Man.pm b/cpan/podlators/lib/Pod/Man.pm
+-index 365892e..8997a15 100644
+---- a/cpan/podlators/lib/Pod/Man.pm
+-+++ b/cpan/podlators/lib/Pod/Man.pm
+-@@ -894,7 +894,7 @@ sub devise_date {
+-     my ($self) = @_;
+- 
+-     # If POD_MAN_DATE is set, always use it.
+--    if ($ENV{POD_MAN_DATE}) {
+-+    if (defined($ENV{POD_MAN_DATE})) {
+-         return $ENV{POD_MAN_DATE};
+-     }
+- 
+-diff --git a/cpan/podlators/t/devise-date.t b/cpan/podlators/t/devise-date.t
+-index 9da9d1b..27271d9 100644
+---- a/cpan/podlators/t/devise-date.t
+-+++ b/cpan/podlators/t/devise-date.t
+-@@ -12,7 +12,7 @@ use warnings;
+- use Pod::Man;
+- use POSIX qw(strftime);
+- 
+--use Test::More tests => 2;
+-+use Test::More tests => 3;
+- 
+- # Check that the results of device_date matches strftime.  There is no input
+- # file name, so this will use the current time.
+-@@ -26,3 +26,7 @@ is(
+- # Set the override environment variable and ensure that it's honored.
+- local $ENV{POD_MAN_DATE} = '2014-01-01';
+- is($parser->devise_date, '2014-01-01', 'devise_date honors POD_MAN_DATE');
+-+
+-+# Check that an empty environment variable is honored.
+-+local $ENV{POD_MAN_DATE} = q{};
+-+is($parser->devise_date, q{}, 'devise_date honors empty POD_MAN_DATE');
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/podman-pipe.diff b/meta/recipes-devtools/perl/perl/debian/fixes/podman-pipe.diff
+deleted file mode 100644
+index d8858d8a692..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/podman-pipe.diff
++++ /dev/null
+@@ -1,110 +0,0 @@
+-From 7671d101baa75d7a79bfbd8c75c1595fbb3f53ba Mon Sep 17 00:00:00 2001
+-From: Russ Allbery <rra@cpan.org>
+-Date: Sat, 7 Feb 2015 19:03:34 -0800
+-Subject: Better errors for man pages from standard input
+-
+-[Pod::Man] Attempt to detect if the input came from a pipe and
+-therefore has a completely unhelpful (and nonreproducible) source file
+-name, and diagnose this as an error.  Document that the name option
+-(--name to pod2man) is required when processing POD source from
+-standard input.  (Debian Bug#777405)
+-
+-(backported to Perl 5.20.2 by Niko Tyni <ntyni@debian.org>)
+-
+-Origin: upstream, http://git.eyrie.org/?p=perl/podlators.git;a=commitdiff;h=d98872e46c93861b7aba14949e1258712087dc55
+-Bug-Debian: https://bugs.debian.org/777405
+-Patch-Name: fixes/podman-pipe.diff
+-Upstream-Status: Pending
+----
+- cpan/podlators/lib/Pod/Man.pm     | 15 +++++++++++++++
+- cpan/podlators/scripts/pod2man.PL |  4 ++++
+- cpan/podlators/t/devise-title.t   | 32 ++++++++++++++++++++++++++++++++
+- 3 files changed, 51 insertions(+)
+- create mode 100755 cpan/podlators/t/devise-title.t
+-
+-diff --git a/cpan/podlators/lib/Pod/Man.pm b/cpan/podlators/lib/Pod/Man.pm
+-index 8997a15..969eaff 100644
+---- a/cpan/podlators/lib/Pod/Man.pm
+-+++ b/cpan/podlators/lib/Pod/Man.pm
+-@@ -828,6 +828,17 @@ sub devise_title {
+-     $section = 3 if (!$$self{section} && $name =~ /\.pm\z/i);
+-     $name =~ s/\.p(od|[lm])\z//i;
+- 
+-+    # If Pod::Parser gave us an IO::File reference as the source file name,
+-+    # convert that to the empty string as well.  Then, if we don't have a
+-+    # valid name, emit a warning and convert it to STDIN.
+-+    if ($name =~ /^IO::File(?:=\w+)\(0x[\da-f]+\)$/i) {
+-+        $name = '';
+-+    }
+-+    if ($name eq '') {
+-+        $self->whine (1, 'No name given for document');
+-+        $name = 'STDIN';
+-+    }
+-+
+-     # If the section isn't 3, then the name defaults to just the basename of
+-     # the file.  Otherwise, assume we're dealing with a module.  We want to
+-     # figure out the full module name from the path to the file, but we don't
+-@@ -1705,6 +1716,10 @@ module path.  If it is, a path like C<.../lib/Pod/Man.pm> is converted into
+- a name like C<Pod::Man>.  This option, if given, overrides any automatic
+- determination of the name.
+- 
+-+If generating a manual page from standard input, this option is required,
+-+since there's otherwise no way for Pod::Man to know what to use for the
+-+manual page name.
+-+
+- =item nourls
+- 
+- Normally, LZ<><> formatting codes with a URL but anchor text are formatted
+-diff --git a/cpan/podlators/scripts/pod2man.PL b/cpan/podlators/scripts/pod2man.PL
+-index 38695f8..43e35df 100644
+---- a/cpan/podlators/scripts/pod2man.PL
+-+++ b/cpan/podlators/scripts/pod2man.PL
+-@@ -236,6 +236,10 @@ Note that this option is probably not useful when converting multiple POD
+- files at once.  The convention for Unix man pages for commands is for the
+- man page title to be in all-uppercase even if the command isn't.
+- 
+-+When converting POD source from standard input, this option is required,
+-+since there's otherwise no way to know what to use as the name of the
+-+manual page.
+-+
+- =item B<--nourls>
+- 
+- Normally, LZ<><> formatting codes with a URL but anchor text are formatted
+-diff --git a/cpan/podlators/t/devise-title.t b/cpan/podlators/t/devise-title.t
+-new file mode 100755
+-index 0000000..8639441
+---- /dev/null
+-+++ b/cpan/podlators/t/devise-title.t
+-@@ -0,0 +1,32 @@
+-+#!/usr/bin/perl
+-+#
+-+# Tests for the automatic determination of the manual page title if not
+-+# specified via options to pod2man or the Pod::Man constructor.
+-+
+-+use 5.006;
+-+use strict;
+-+use warnings;
+-+
+-+use File::Spec;
+-+use IO::File;
+-+use Test::More tests => 3;
+-+
+-+BEGIN {
+-+    use_ok('Pod::Man');
+-+}
+-+
+-+# Create a parser and set it up with an input source.  There isn't a way to do
+-+# this in Pod::Simple without actually parsing the document, so send the
+-+# output to a string that we'll ignore.
+-+my $path = File::Spec->catdir('t', 'data', 'basic.pod');
+-+my $handle = IO::File->new($path, 'r');
+-+my $parser = Pod::Man->new(errors => 'pod');
+-+my $output;
+-+$parser->output_string(\$output);
+-+$parser->parse_file($handle);
+-+
+-+# Check the results of devise_title for this.  We should get back STDIN, and
+-+# we should have reported an error.
+-+my ($name, $section) = $parser->devise_title;
+-+is($name, 'STDIN', 'devise_title uses STDIN for file handle input');
+-+ok($parser->errors_seen, '...and errors were seen');
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc-docs.diff b/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc-docs.diff
+deleted file mode 100644
+index b6ae409ac02..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc-docs.diff
++++ /dev/null
+@@ -1,87 +0,0 @@
+-From 6198856b5323d6204094293f01b890472618f182 Mon Sep 17 00:00:00 2001
+-From: Russ Allbery <rra@cpan.org>
+-Date: Wed, 15 Apr 2015 20:49:07 -0700
+-Subject: Documentation and test suite updates for UTC fix
+-
+-Update the Pod::Man and pod2man documentation and the test suite
+-for the new UTC-based default page footer, and add a Changes
+-entry.
+-
+-(backported to Perl 5.20.2 by Niko Tyni <ntyni@debian.org>)
+-
+-Origin: upstream, http://git.eyrie.org/?p=perl/podlators.git;a=commitdiff;h=52db93bf80e4a06f8497e4ebade0506b6ee0e70d
+-Bug-Debian: https://bugs.debian.org/780259
+-Patch-Name: fixes/podman-utc-docs.diff
+-Upstream-Status: Pending
+----
+- cpan/podlators/lib/Pod/Man.pm     |  6 +++++-
+- cpan/podlators/scripts/pod2man.PL | 11 ++++++-----
+- cpan/podlators/t/devise-date.t    |  2 +-
+- 3 files changed, 12 insertions(+), 7 deletions(-)
+-
+-diff --git a/cpan/podlators/lib/Pod/Man.pm b/cpan/podlators/lib/Pod/Man.pm
+-index c3ba201..365892e 100644
+---- a/cpan/podlators/lib/Pod/Man.pm
+-+++ b/cpan/podlators/lib/Pod/Man.pm
+-@@ -910,6 +910,8 @@ sub devise_date {
+- 
+-     # Can't use POSIX::strftime(), which uses Fcntl, because MakeMaker uses
+-     # this and it has to work in the core which can't load dynamic libraries.
+-+    # Use gmtime instead of localtime so that the generated man page does not
+-+    # depend on the local time zone setting and is more reproducible
+-     my ($year, $month, $day) = (gmtime($time))[5,4,3];
+-     return sprintf("%04d-%02d-%02d", $year + 1900, $month + 1, $day);
+- }
+-@@ -1656,7 +1658,9 @@ environment variable POD_MAN_DATE, if set, will be used.  Failing that,
+- the modification date of the input file will be used, or the current time
+- if stat() can't find that file (which will be the case if the input is
+- from C<STDIN>).  If obtained from the file modification date or the
+--current time, he date will be formatted as C<YYYY-MM-DD>.
+-+current time, the date will be formatted as C<YYYY-MM-DD> and will be based
+-+on UTC (so that the output will be reproducible regardless of local time
+-+zone).
+- 
+- =item errors
+- 
+-diff --git a/cpan/podlators/scripts/pod2man.PL b/cpan/podlators/scripts/pod2man.PL
+-index 6af3474..38695f8 100644
+---- a/cpan/podlators/scripts/pod2man.PL
+-+++ b/cpan/podlators/scripts/pod2man.PL
+-@@ -174,9 +174,10 @@ Contributed Perl Documentation", but also see B<--official> below.
+- 
+- =item B<-d> I<string>, B<--date>=I<string>
+- 
+--Set the left-hand footer string to this value.  By default, the modification
+--date of the input file will be used, or the current date if input comes from
+--C<STDIN>.
+-+Set the left-hand footer string to this value.  By default, the
+-+modification date of the input file will be used, or the current date if
+-+input comes from C<STDIN>, and will be based on UTC (so that the output
+-+will be reproducible regardless of local time zone).
+- 
+- =item B<-errors>=I<style>
+- 
+-@@ -383,8 +384,8 @@ B<pod2man> by Larry Wall and Tom Christiansen.
+- 
+- =head1 COPYRIGHT AND LICENSE
+- 
+--Copyright 1999, 2000, 2001, 2004, 2006, 2008, 2010, 2012, 2013 Russ
+--Allbery <rra@stanford.edu>.
+-+Copyright 1999, 2000, 2001, 2004, 2006, 2008, 2010, 2012, 2013, 2014,
+-+2015 Russ Allbery <rra@cpan.org>.
+- 
+- This program is free software; you may redistribute it and/or modify it
+- under the same terms as Perl itself.
+-diff --git a/cpan/podlators/t/devise-date.t b/cpan/podlators/t/devise-date.t
+-index c610dd9..9da9d1b 100644
+---- a/cpan/podlators/t/devise-date.t
+-+++ b/cpan/podlators/t/devise-date.t
+-@@ -19,7 +19,7 @@ use Test::More tests => 2;
+- my $parser = Pod::Man->new;
+- is(
+-     $parser->devise_date,
+--    strftime('%Y-%m-%d', localtime()),
+-+    strftime('%Y-%m-%d', gmtime()),
+-     'devise_date matches strftime'
+- );
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc.diff b/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc.diff
+deleted file mode 100644
+index 3fb7c20ddeb..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/podman-utc.diff
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From c796775cdbd2cce06acbb7ac355187d4063017a2 Mon Sep 17 00:00:00 2001
+-From: Chris Lamb <lamby@debian.org>
+-Date: Wed, 15 Apr 2015 20:42:53 -0700
+-Subject: Make the embedded date from Pod::Man reproducible
+-
+-While working on the "reproducible builds" effort, we have noticed
+-that Pod::Man generates output that varies depending on the current
+-timezone.
+-
+-The attached patch fixes this by using GMT (~UTC) dates instead.
+-
+-(backported to Perl 5.20.2 by Niko Tyni <ntyni@debian.org>)
+-
+-Origin: upstream, http://git.eyrie.org/?p=perl/podlators.git;a=commitdiff;h=913fbb2bd2ce071e20128629302ae2852554cad4
+-Bug-Debian: https://bugs.debian.org/780259
+-Patch-Name: fixes/podman-utc.diff
+-Upstream-Status: Pending
+----
+- cpan/podlators/lib/Pod/Man.pm | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/cpan/podlators/lib/Pod/Man.pm b/cpan/podlators/lib/Pod/Man.pm
+-index 0536662..c3ba201 100644
+---- a/cpan/podlators/lib/Pod/Man.pm
+-+++ b/cpan/podlators/lib/Pod/Man.pm
+-@@ -910,7 +910,7 @@ sub devise_date {
+- 
+-     # Can't use POSIX::strftime(), which uses Fcntl, because MakeMaker uses
+-     # this and it has to work in the core which can't load dynamic libraries.
+--    my ($year, $month, $day) = (localtime($time))[5,4,3];
+-+    my ($year, $month, $day) = (gmtime($time))[5,4,3];
+-     return sprintf("%04d-%02d-%02d", $year + 1900, $month + 1, $day);
+- }
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/fixes/respect_umask.diff b/meta/recipes-devtools/perl/perl/debian/fixes/respect_umask.diff
+deleted file mode 100644
+index c8663f5357b..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/fixes/respect_umask.diff
++++ /dev/null
+@@ -1,154 +0,0 @@
+-From d9d535ef97f57af6e9728075944c33f3b0b5372f Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Respect umask during installation
+-
+-This is needed to satisfy Debian policy regarding group-writable
+-site directories.
+-
+-Patch-Name: fixes/respect_umask.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-Install/lib/ExtUtils/Install.pm   | 18 +++++++++---------
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 18 +++++++++---------
+- 2 files changed, 18 insertions(+), 18 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-Install/lib/ExtUtils/Install.pm b/cpan/ExtUtils-Install/lib/ExtUtils/Install.pm
+-index 1e8ac4c..3e79121 100644
+---- a/cpan/ExtUtils-Install/lib/ExtUtils/Install.pm
+-+++ b/cpan/ExtUtils-Install/lib/ExtUtils/Install.pm
+-@@ -451,7 +451,7 @@ sub _can_write_dir {
+- 
+- =pod
+- 
+--=item _mkpath($dir,$show,$mode,$verbose,$dry_run)
+-+=item _mkpath($dir,$show,$verbose,$dry_run)
+- 
+- Wrapper around File::Path::mkpath() to handle errors.
+- 
+-@@ -468,13 +468,13 @@ writable.
+- =cut
+- 
+- sub _mkpath {
+--    my ($dir,$show,$mode,$verbose,$dry_run)=@_;
+-+    my ($dir,$show,$verbose,$dry_run)=@_;
+-     if ( $verbose && $verbose > 1 && ! -d $dir) {
+-         $show= 1;
+--        printf "mkpath(%s,%d,%#o)\n", $dir, $show, $mode;
+-+        printf "mkpath(%s,%d)\n", $dir, $show;
+-     }
+-     if (!$dry_run) {
+--        if ( ! eval { File::Path::mkpath($dir,$show,$mode); 1 } ) {
+-+        if ( ! eval { File::Path::mkpath($dir,$show); 1 } ) {
+-             _choke("Can't create '$dir'","$@");
+-         }
+- 
+-@@ -783,7 +783,7 @@ sub install { #XXX OS-SPECIFIC
+-         _chdir($cwd);
+-     }
+-     foreach my $targetdir (sort keys %check_dirs) {
+--        _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+-+        _mkpath( $targetdir, 0, $verbose, $dry_run );
+-     }
+-     foreach my $found (@found_files) {
+-         my ($diff, $ffd, $origfile, $mode, $size, $atime, $mtime,
+-@@ -797,7 +797,7 @@ sub install { #XXX OS-SPECIFIC
+-                     $targetfile= _unlink_or_rename( $targetfile, 'tryhard', 'install' )
+-                         unless $dry_run;
+-                 } elsif ( ! -d $targetdir ) {
+--                    _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+-+                    _mkpath( $targetdir, 0, $verbose, $dry_run );
+-                 }
+-                 print "Installing $targetfile\n";
+- 
+-@@ -837,7 +837,7 @@ sub install { #XXX OS-SPECIFIC
+- 
+-     if ($pack{'write'}) {
+-         $dir = install_rooted_dir(dirname($pack{'write'}));
+--        _mkpath( $dir, 0, 0755, $verbose, $dry_run );
+-+        _mkpath( $dir, 0, $verbose, $dry_run );
+-         print "Writing $pack{'write'}\n" if $verbose;
+-         $packlist->write(install_rooted_file($pack{'write'})) unless $dry_run;
+-     }
+-@@ -1180,7 +1180,7 @@ environment variable will silence this output.
+- sub pm_to_blib {
+-     my($fromto,$autodir,$pm_filter) = @_;
+- 
+--    _mkpath($autodir,0,0755);
+-+    _mkpath($autodir,0);
+-     while(my($from, $to) = each %$fromto) {
+-         if( -f $to && -s $from == -s $to && -M $to < -M $from ) {
+-             print "Skip $to (unchanged)\n" unless $INSTALL_QUIET;
+-@@ -1203,7 +1203,7 @@ sub pm_to_blib {
+-             # we wont try hard here. its too likely to mess things up.
+-             forceunlink($to);
+-         } else {
+--            _mkpath(dirname($to),0,0755);
+-+            _mkpath(dirname($to),0);
+-         }
+-         if ($need_filtering) {
+-             run_filter($pm_filter, $from, $to);
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index f63145c..197f102 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2118,7 +2118,7 @@ doc__install : doc_site_install
+- 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
+- 
+- pure_perl_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+-+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- };
+- 
+-     push @m,
+-@@ -2138,7 +2138,7 @@ q{		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
+- 
+- 
+- pure_site_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+-+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- };
+-     push @m,
+- q{		read "}.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+-@@ -2156,7 +2156,7 @@ q{		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
+- 		"}.$self->catdir('$(PERL_ARCHLIB)','auto','$(FULLEXT)').q{"
+- 
+- pure_vendor_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+-+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- };
+-     push @m,
+- q{		read "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+-@@ -2188,8 +2188,8 @@ doc_vendor_install :: all
+-     push @m, q{
+- doc_perl_install :: all
+- 	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) $(DOC_INSTALL) \
+-+	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLPRIVLIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+-@@ -2199,8 +2199,8 @@ doc_perl_install :: all
+- 
+- doc_site_install :: all
+- 	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) $(DOC_INSTALL) \
+-+	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLSITELIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+-@@ -2210,8 +2210,8 @@ doc_site_install :: all
+- 
+- doc_vendor_install :: all
+- 	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) $(DOC_INSTALL) \
+-+	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLVENDORLIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+diff --git a/meta/recipes-devtools/perl/perl/debian/instmodsh_doc.diff b/meta/recipes-devtools/perl/perl/debian/instmodsh_doc.diff
+deleted file mode 100644
+index 7e1fd697cac..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/instmodsh_doc.diff
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 26209b55201a1b2d25252ac3b425bc49081299de Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Debian policy doesn't install .packlist files for core or vendor.
+-
+-Patch-Name: debian/instmodsh_doc.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/bin/instmodsh | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/bin/instmodsh b/cpan/ExtUtils-MakeMaker/bin/instmodsh
+-index 8b9aa95..e551434 100644
+---- a/cpan/ExtUtils-MakeMaker/bin/instmodsh
+-+++ b/cpan/ExtUtils-MakeMaker/bin/instmodsh
+-@@ -18,9 +18,11 @@ instmodsh - A shell to examine installed modules
+- 
+- =head1 DESCRIPTION
+- 
+--A little interface to ExtUtils::Installed to examine installed modules,
+-+A little interface to ExtUtils::Installed to examine locally* installed modules,
+- validate your packlists and even create a tarball from an installed module.
+- 
+-+*On Debian system, B<core> and B<vendor> modules are managed by C<dpkg>.
+-+
+- =head1 SEE ALSO
+- 
+- ExtUtils::Installed
+diff --git a/meta/recipes-devtools/perl/perl/debian/ld_run_path.diff b/meta/recipes-devtools/perl/perl/debian/ld_run_path.diff
+deleted file mode 100644
+index ff0b2871f66..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/ld_run_path.diff
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From 53ce69085918232a1b7e26e7762c1b2f70b1eb4a Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 18 Mar 2005 22:22:25 +1100
+-Subject: Remove standard libs from LD_RUN_PATH as per Debian policy.
+-
+-Patch-Name: debian/ld_run_path.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-index 37bcfd4..bd66e65 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-@@ -56,6 +56,9 @@ sub _unix_os2_ext {
+-     my ( $pwd )   = cwd();    # from Cwd.pm
+-     my ( $found ) = 0;
+- 
+-+    # Debian-specific: don't use LD_RUN_PATH for standard dirs
+-+    $ld_run_path_seen{$_}++ for @libpath;
+-+
+-     foreach my $thislib ( split ' ', $potential_libs ) {
+-         my ( $custom_name ) = '';
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/libnet_config_path.diff b/meta/recipes-devtools/perl/perl/debian/libnet_config_path.diff
+deleted file mode 100644
+index d5347422dc2..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/libnet_config_path.diff
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From a7f6d453e60256d329469a75b642cca854cebea1 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Set location of libnet.cfg to /etc/perl/Net as /usr may not be
+- writable.
+-
+-Patch-Name: debian/libnet_config_path.diff
+-Upstream-Status: Pending
+----
+- cpan/libnet/lib/Net/Config.pm | 7 +++----
+- 1 file changed, 3 insertions(+), 4 deletions(-)
+-
+-diff --git a/cpan/libnet/lib/Net/Config.pm b/cpan/libnet/lib/Net/Config.pm
+-index 953a826..61ba12a 100644
+---- a/cpan/libnet/lib/Net/Config.pm
+-+++ b/cpan/libnet/lib/Net/Config.pm
+-@@ -68,9 +68,8 @@ my %nc = (
+- TRY_INTERNET_CONFIG
+- }
+- 
+--my $file = __FILE__;
+-+my $file = '/etc/perl/Net/libnet.cfg';
+- my $ref;
+--$file =~ s/Config.pm/libnet.cfg/;
+- if (-f $file) {
+-   $ref = eval { local $SIG{__DIE__}; do $file };
+-   if (ref($ref) eq 'HASH') {
+-@@ -142,8 +141,8 @@ Net::Config - Local configuration data for libnet
+- C<Net::Config> holds configuration data for the modules in the libnet
+- distribution. During installation you will be asked for these values.
+- 
+--The configuration data is held globally in a file in the perl installation
+--tree, but a user may override any of these values by providing their own. This
+-+The configuration data is held globally in C</etc/perl/Net/libnet.cfg>,
+-+but a user may override any of these values by providing their own. This
+- can be done by having a C<.libnetrc> file in their home directory. This file
+- should return a reference to a HASH containing the keys described below.
+- For example
+diff --git a/meta/recipes-devtools/perl/perl/debian/libperl_embed_doc.diff b/meta/recipes-devtools/perl/perl/debian/libperl_embed_doc.diff
+deleted file mode 100644
+index 0cdc0d3e391..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/libperl_embed_doc.diff
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From fb8bdbb4bf56382de099e62c2564286b9dfda46d Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Note that libperl-dev package is required for embedded linking
+-
+-Bug-Debian: http://bugs.debian.org/186778
+-
+-Patch-Name: debian/libperl_embed_doc.diff
+-Upstream-Status: Pending
+----
+- lib/ExtUtils/Embed.pm | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/lib/ExtUtils/Embed.pm b/lib/ExtUtils/Embed.pm
+-index 3f983c1..0ec8a67 100644
+---- a/lib/ExtUtils/Embed.pm
+-+++ b/lib/ExtUtils/Embed.pm
+-@@ -296,6 +296,9 @@ and extensions in your C/C++ applications.
+- Typically, an application F<Makefile> will invoke C<ExtUtils::Embed>
+- functions while building your application.  
+- 
+-+Note that on Debian systems the B<libperl-dev> package is required for
+-+compiling applications which embed an interpreter.
+-+
+- =head1 @EXPORT
+- 
+- C<ExtUtils::Embed> exports the following functions:
+diff --git a/meta/recipes-devtools/perl/perl/debian/locale-robustness.diff b/meta/recipes-devtools/perl/perl/debian/locale-robustness.diff
+deleted file mode 100644
+index 7cf1242c0a4..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/locale-robustness.diff
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 289eaf87f8de4d9ebfd661d4e4299c2952435243 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Fri, 10 Apr 2015 10:19:51 +0300
+-Subject: Make t/run/locale.t survive missing locales masked by LC_ALL
+-
+-If LC_ALL is set to a valid locale but another LC_* setting like LC_CTYPE
+-isn't, t/run/locale.t would fail because it explicitly unsets LC_ALL,
+-unmasking the problem underneath. All the other tests survive such
+-a scenario.
+-
+-While this is clearly an error in the build environment, it's easy to make
+-the test more robust by first clearing all the locale relevant variables.
+-
+-Bug: https://rt.perl.org/Ticket/Display.html?id=124310
+-Bug-Debian: https://bugs.debian.org/782068
+-Patch-Name: debian/locale-robustness.diff
+-Upstream-Status: Pending
+----
+- t/run/locale.t | 7 +++----
+- 1 file changed, 3 insertions(+), 4 deletions(-)
+-
+-diff --git a/t/run/locale.t b/t/run/locale.t
+-index bd1a034..2105339 100644
+---- a/t/run/locale.t
+-+++ b/t/run/locale.t
+-@@ -27,6 +27,9 @@ my @locales = eval { find_locales( [ &LC_ALL, &LC_CTYPE, &LC_NUMERIC ],
+-                                  ) };
+- skip_all("no locales available") unless @locales;
+- 
+-+# reset the locale environment
+-+local @ENV{'LANG', (grep /^LC_/, keys %ENV)};
+-+
+- plan tests => &last;
+- 
+- my $non_C_locale;
+-@@ -58,9 +61,6 @@ EOF
+- SKIP: {
+-     skip("Windows stores locale defaults in the registry", 1 )
+-                                                             if $^O eq 'MSWin32';
+--    local $ENV{LC_NUMERIC}; # So not taken as a default
+--    local $ENV{LC_ALL}; # so it never overrides LC_NUMERIC
+--    local $ENV{LANG};   # So not taken as a default
+-     fresh_perl_is("for (qw(@locales)) {\n" . <<'EOF',
+-         use POSIX qw(locale_h);
+-         use locale;
+-@@ -348,7 +348,6 @@ EOF
+- 
+-     {
+- 	local $ENV{LC_NUMERIC} = $different;
+--	local $ENV{LC_ALL}; # so it never overrides LC_NUMERIC
+- 	fresh_perl_is(<<"EOF",
+- 	    use POSIX qw(locale_h);
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/makemaker-pasthru.diff b/meta/recipes-devtools/perl/perl/debian/makemaker-pasthru.diff
+deleted file mode 100644
+index 5f071808935..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/makemaker-pasthru.diff
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 593dd52f535b1f439dfd0afe52211ae8960e980a Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sun, 24 Aug 2014 12:56:11 -0700
+-Subject: Pass LD settings through to subdirectories
+-
+-[rt.cpan.org #28632] fixed most issues with passing LD down to
+-subdirectory Makefile.PL files. However, there are some distributions
+-(including Wx, Par::Packer, and Verilog-Perl) that explicitly set
+-LD. Those still can't be overridden from the command line. Adding LD to
+-the PASTHRU list fixes this.
+-
+-Bug-Debian: https://bugs.debian.org/758471
+-Patch-Name: debian/makemaker-pasthru.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 4a8e14c..548d98e 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2793,7 +2793,7 @@ sub pasthru {
+-     my($sep) = $Is{VMS} ? ',' : '';
+-     $sep .= "\\\n\t";
+- 
+--    foreach my $key (qw(LIB LIBPERL_A LINKTYPE OPTIMIZE
+-+    foreach my $key (qw(LIB LIBPERL_A LINKTYPE OPTIMIZE LD
+-                      PREFIX INSTALL_BASE)
+-                  )
+-     {
+diff --git a/meta/recipes-devtools/perl/perl/debian/makemaker_customized.diff b/meta/recipes-devtools/perl/perl/debian/makemaker_customized.diff
+deleted file mode 100644
+index d870b608cf3..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/makemaker_customized.diff
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 634449066a9c810e81506425d2ca925b2fd72ab2 Mon Sep 17 00:00:00 2001
+-From: Dominic Hargreaves <dom@earth.li>
+-Date: Sat, 23 May 2015 21:15:06 +0200
+-Subject: Update t/porting/customized.dat for files patched in Debian
+-
+-Patch-Name: debian/makemaker_customized.diff
+-Upstream-Status: Pending
+----
+- t/porting/customized.dat | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/t/porting/customized.dat b/t/porting/customized.dat
+-index 7df398d..f857bd2 100644
+---- a/t/porting/customized.dat
+-+++ b/t/porting/customized.dat
+-@@ -1,7 +1,7 @@
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Command/MM.pm 7f4dfd0fe884bd42412bcf04ca80ef97b39c1d54
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist.pm bef099988b15fb0b2a1f5ac48c01af1f7f36d329
+--ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm 8168e18f0e3ce3ece4bb7e7c72d57ec07c67c402
+--ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm 7115e97a53559cb3ec061dd6f7f344e522724c4a
+-+ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm 3493ae6f93264e967f58dedaa3dbf3dbcb249853
+-+ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm 3d7abd674b15ed323f743594ef0bd09db76b1aee
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker/Config.pm f8db8d4245bf0684b8210c811f50d7cfb1a27d78
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker/FAQ.pod 757bffb47857521311f8f3bde43ebe165f8d5191
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker/Locale.pm 82be06851deb84c6419ad003ce9b6d1957f395f3
+-@@ -13,7 +13,7 @@ ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Mkbootstrap.pm 58872d66
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/Mksymlists.pm ab80029ab16d38d4f2e41dc88d2ceb9f3790e477
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM.pm 453e0abbc4bb38db4c0820ad5c4846f313b66291
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_AIX.pm c1b1babda8f43ae7a2caba1cb4f70f92af5a0e34
+--ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm 6f90d94ad3e7aa0045a3b1a10a1bb18391f89f57
+-+ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm 21bde53290bf1a4da4457290b65bd1b0ca6f1d16
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_BeOS.pm cab2b3ce08b71a4ce89aa630f236eb08b852439d
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Cygwin.pm 61fced0faf518bf87c265fcb51ed330ba354623f
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Darwin.pm ae0ef51a7b6dd0b05aa61c779df7167dda5f5119
+-@@ -22,7 +22,7 @@ ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_MacOS.pm 0544301f712
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_NW5.pm 433135eecb85b4b1d90d3027432f329436c78447
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_OS2.pm 1fbb5605bfb47feee4083feba8aa85e659628f70
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_QNX.pm 5b66d1f485a6034d96fc24ba1665b1bad9e447f1
+--ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm 8cef99a9bd370ecfd07ddb0efbdcbb4101255e45
+-+ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm c455c915fb7dc3eeb1200ed1cd19048e6f21e6b1
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_UWIN.pm 939572fde3d59ba77c2e677fe2df2bed4bed5898
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_VMS.pm 09c2049bfd25b735e2a5bcf56a6cff7b4827f9c8
+- ExtUtils::MakeMaker cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_VOS.pm d65d63f8217a55c36f62e249814988974f593c79
+diff --git a/meta/recipes-devtools/perl/perl/debian/mod_paths.diff b/meta/recipes-devtools/perl/perl/debian/mod_paths.diff
+deleted file mode 100644
+index 7e224840387..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/mod_paths.diff
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 6c6cf14e204f3c031372bfd9604ad524d5691186 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 18 Mar 2005 22:22:25 +1100
+-Subject: Tweak @INC ordering for Debian
+-
+-Our order is:
+-
+-    etc (for config files)
+-    site (5.8.1)
+-    vendor (all)
+-    core (5.8.1)
+-    site (version-indep)
+-    site (pre-5.8.1)
+-
+-The rationale being that an admin (via site), or module packager
+-(vendor) can chose to shadow core modules when there is a newer
+-version than is included in core.
+-
+-Patch-Name: debian/mod_paths.diff
+-Upstream-Status: Pending
+----
+- perl.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 58 insertions(+)
+-
+-diff --git a/perl.c b/perl.c
+-index 086645b..e64f1f4 100644
+---- a/perl.c
+-+++ b/perl.c
+-@@ -4373,6 +4373,11 @@ S_init_perllib(pTHX)
+- 		      INCPUSH_ADD_SUB_DIRS|INCPUSH_CAN_RELOCATE);
+- #endif
+- 
+-+#ifdef DEBIAN
+-+    /* for configuration where /usr is mounted ro (CPAN::Config, Net::Config) */
+-+    S_incpush_use_sep(aTHX_ STR_WITH_LEN("/etc/perl"), 0x0);
+-+#endif
+-+
+- #ifdef SITEARCH_EXP
+-     /* sitearch is always relative to sitelib on Windows for
+-      * DLL-based path intuition to work correctly */
+-@@ -4490,6 +4495,59 @@ S_init_perllib(pTHX)
+- 		      INCPUSH_ADD_OLD_VERS|INCPUSH_CAN_RELOCATE);
+- #endif
+- 
+-+#ifdef DEBIAN
+-+    /* Non-versioned site directory for local modules and for
+-+       compatability with the previous packages' site dirs */
+-+    S_incpush_use_sep(aTHX_ STR_WITH_LEN("/usr/local/lib/site_perl"),
+-+		      INCPUSH_ADD_SUB_DIRS);
+-+
+-+#ifdef PERL_INC_VERSION_LIST
+-+    {
+-+	struct stat s;
+-+
+-+	/* add small buffer in case old versions are longer than the
+-+	   current version */
+-+	char sitearch[sizeof(SITEARCH_EXP)+16] = SITEARCH_EXP;
+-+	char sitelib[sizeof(SITELIB_EXP)+16] = SITELIB_EXP;
+-+	char const *vers[] = { PERL_INC_VERSION_LIST };
+-+	char const **p;
+-+
+-+	char *arch_vers = strrchr(sitearch, '/');
+-+	char *lib_vers = strrchr(sitelib, '/');
+-+
+-+	if (arch_vers && isdigit(*++arch_vers))
+-+	    *arch_vers = 0;
+-+	else
+-+	    arch_vers = 0;
+-+
+-+	if (lib_vers && isdigit(*++lib_vers))
+-+	    *lib_vers = 0;
+-+	else
+-+	    lib_vers = 0;
+-+
+-+	/* there is some duplication here as incpush does something
+-+	   similar internally, but required as sitearch is not a
+-+	   subdirectory of sitelib */
+-+	for (p = vers; *p; p++)
+-+	{
+-+	    if (arch_vers)
+-+	    {
+-+		strcpy(arch_vers, *p);
+-+		if (PerlLIO_stat(sitearch, &s) >= 0 && S_ISDIR(s.st_mode))
+-+		    S_incpush_use_sep(aTHX_ sitearch, strlen(sitearch), 0x0);
+-+	    }
+-+
+-+	    if (lib_vers)
+-+	    {
+-+		strcpy(lib_vers, *p);
+-+		if (PerlLIO_stat(sitelib, &s) >= 0 && S_ISDIR(s.st_mode))
+-+		    S_incpush_use_sep(aTHX_ sitelib, strlen(sitelib), 0x0);
+-+	    }
+-+	}
+-+    }
+-+#endif
+-+#endif
+-+
+- #ifdef PERL_OTHERLIBDIRS
+-     S_incpush_use_sep(aTHX_ STR_WITH_LEN(PERL_OTHERLIBDIRS),
+- 		      INCPUSH_ADD_OLD_VERS|INCPUSH_ADD_ARCHONLY_SUB_DIRS
+diff --git a/meta/recipes-devtools/perl/perl/debian/no_packlist_perllocal.diff b/meta/recipes-devtools/perl/perl/debian/no_packlist_perllocal.diff
+deleted file mode 100644
+index 7484bec4131..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/no_packlist_perllocal.diff
++++ /dev/null
+@@ -1,93 +0,0 @@
+-From 240f2f4aeb3850bc0c5370b9fbc3909573bed9b3 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Don't install .packlist or perllocal.pod for perl or vendor
+-
+-Patch-Name: debian/no_packlist_perllocal.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 35 +++----------------------
+- 1 file changed, 3 insertions(+), 32 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 570a631..391dc22 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2122,11 +2122,6 @@ pure_perl_install :: all
+- };
+- 
+-     push @m,
+--q{		read "}.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{" \
+--		write "}.$self->catfile('$(DESTINSTALLARCHLIB)','auto','$(FULLEXT)','.packlist').q{" \
+--} unless $self->{NO_PACKLIST};
+--
+--    push @m,
+- q{		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
+- 		"$(INST_ARCHLIB)" "$(DESTINSTALLARCHLIB)" \
+- 		"$(INST_BIN)" "$(DESTINSTALLBIN)" \
+-@@ -2158,10 +2153,6 @@ q{		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
+- pure_vendor_install :: all
+- 	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- };
+--    push @m,
+--q{		read "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+--		write "}.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{" \
+--} unless $self->{NO_PACKLIST};
+- 
+-     push @m,
+- q{		"$(INST_LIB)" "$(DESTINSTALLVENDORLIB)" \
+-@@ -2187,37 +2178,19 @@ doc_vendor_install :: all
+- 
+-     push @m, q{
+- doc_perl_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLPRIVLIB) \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+- 
+- doc_site_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) umask 02; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLSITEARCH)/perllocal.pod"
+-+	-$(NOECHO) umask 02; $(MKPATH) "$(DESTINSTALLSITEARCH)"
+- 	-$(NOECHO) umask 02; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLSITELIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+- 		VERSION "$(VERSION)" \
+- 		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+-+		>> "}.$self->catfile('$(DESTINSTALLSITEARCH)','perllocal.pod').q{"
+- 
+- doc_vendor_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLVENDORLIB) \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+- 
+- } unless $self->{NO_PERLLOCAL};
+- 
+-@@ -2226,13 +2199,11 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
+- 	$(NOECHO) $(NOOP)
+- 
+- uninstall_from_perldirs ::
+--	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{"
+- 
+- uninstall_from_sitedirs ::
+- 	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{"
+- 
+- uninstall_from_vendordirs ::
+--	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{"
+- };
+- 
+-     join("",@m);
+diff --git a/meta/recipes-devtools/perl/perl/debian/patchlevel.diff b/meta/recipes-devtools/perl/perl/debian/patchlevel.diff
+deleted file mode 100644
+index 2d05ae54862..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/patchlevel.diff
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From b517c5e15d0871e36d0f1187661fe1dd28ddf820 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sun, 15 May 2011 19:35:58 +0300
+-Subject: List packaged patches in patchlevel.h
+-
+-Origin: vendor
+-Bug-Debian: http://bugs.debian.org/567489
+-
+-The list of packaged patches is in patchlevel-debian.h, which is generated
+-from the debian/patches/ directory when building the package.
+-
+-Patch-Name: debian/patchlevel.diff
+-Upstream-Status: Pending
+----
+- patchlevel.h | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/patchlevel.h b/patchlevel.h
+-index a0ad78b..01367b7 100644
+---- a/patchlevel.h
+-+++ b/patchlevel.h
+-@@ -137,6 +137,9 @@ static const char * const local_patches[] = {
+- 	,"uncommitted-changes"
+- #endif
+- 	PERL_GIT_UNPUSHED_COMMITS    	/* do not remove this line */
+-+#ifdef DEBIAN
+-+#include "patchlevel-debian.h"
+-+#endif
+- 	,NULL
+- };
+- 
+diff --git a/meta/recipes-devtools/perl/perl/debian/perl5db-x-terminal-emulator.patch b/meta/recipes-devtools/perl/perl/debian/perl5db-x-terminal-emulator.patch
+deleted file mode 100644
+index 6f1625bb1c8..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/perl5db-x-terminal-emulator.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From c99c61e8f863a508a0793168011c98dc74abbd05 Mon Sep 17 00:00:00 2001
+-From: Dominic Hargreaves <dom@earth.li>
+-Date: Sat, 14 Apr 2012 11:34:05 +0100
+-Subject: Invoke x-terminal-emulator rather than xterm in perl5db.pl
+-
+-In Debian systems, xterm might not exist or might not be the preferred
+-terminal emulator. Use x-terminal-emulator instead
+-
+-Bug-Debian: http://bugs.debian.org/668490
+-Forwarded: not-needed
+-
+-Patch-Name: debian/perl5db-x-terminal-emulator.patch
+-Upstream-Status: Pending
+----
+- lib/perl5db.pl | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/perl5db.pl b/lib/perl5db.pl
+-index 7e7194e..c466bf3 100644
+---- a/lib/perl5db.pl
+-+++ b/lib/perl5db.pl
+-@@ -6960,7 +6960,7 @@ properly set up.
+- sub xterm_get_fork_TTY {
+-     ( my $name = $0 ) =~ s,^.*[/\\],,s;
+-     open XT,
+--qq[3>&1 xterm -title "Daughter Perl debugger $pids $name" -e sh -c 'tty 1>&3;\
+-+qq[3>&1 x-terminal-emulator -T "Daughter Perl debugger $pids $name" -e sh -c 'tty 1>&3;\
+-  sleep 10000000' |];
+- 
+-     # Get the output from 'tty' and clean it up a little.
+diff --git a/meta/recipes-devtools/perl/perl/debian/perlivp.diff b/meta/recipes-devtools/perl/perl/debian/perlivp.diff
+deleted file mode 100644
+index 5c7413b9657..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/perlivp.diff
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From fbfbeb7a690d703a3cdc56f923e89eb7b7997d31 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Fri, 9 Jan 2009 18:54:47 +0200
+-Subject: Make perlivp skip include directories in /usr/local
+-
+-Bug-Debian: http://bugs.debian.org/510895
+-
+-On Sat, Jan 10, 2009 at 12:37:18AM +1100, Brendan O'Dea wrote:
+-> On Wed, Jan 7, 2009 at 12:21 AM, Niko Tyni <ntyni@debian.org> wrote:
+-
+-> > We could create the directories in a postinst script, but I'm not sure
+-> > I see the point. They will be created automatically when installing
+-> > CPAN modules.
+->
+-> The directories are intentionally not created, as this way they are
+-> excluded from the search path at start-up, saving a bunch of wasted
+-> stats at use/require time in the common case that the user has not
+-> installed any local packages.  As Niko points out, they will be
+-> created as required.
+-
+-Signed-off-by: Niko Tyni <ntyni@debian.org>
+-
+-Patch-Name: debian/perlivp.diff
+-Upstream-Status: Pending
+----
+- utils/perlivp.PL | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/utils/perlivp.PL b/utils/perlivp.PL
+-index c2f0a11..cc49f96 100644
+---- a/utils/perlivp.PL
+-+++ b/utils/perlivp.PL
+-@@ -153,6 +153,7 @@ my $INC_total = 0;
+- my $INC_there = 0;
+- foreach (@INC) {
+-     next if $_ eq '.'; # skip -d test here
+-+    next if m|/usr/local|; # not shipped on Debian
+-     if (-d $_) {
+-         print "## Perl \@INC directory '$_' exists.\n" if $opt{'v'};
+-         $INC_there++;
+diff --git a/meta/recipes-devtools/perl/perl/debian/pod2man-customized.diff b/meta/recipes-devtools/perl/perl/debian/pod2man-customized.diff
+deleted file mode 100644
+index 47075625c66..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/pod2man-customized.diff
++++ /dev/null
+@@ -1,24 +0,0 @@
+-From 27a4952c2e531947dc9f2f02e2063d117e2e699a Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sat, 18 Apr 2015 17:39:32 +0300
+-Subject: Update porting/customized.dat for pod2man modifications
+-
+-Patch-Name: debian/pod2man-customized.diff
+-Upstream-Status: Pending
+----
+- t/porting/customized.dat | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/t/porting/customized.dat b/t/porting/customized.dat
+-index 0eed9f7..7df398d 100644
+---- a/t/porting/customized.dat
+-+++ b/t/porting/customized.dat
+-@@ -42,7 +42,7 @@ Win32API::File cpan/Win32API-File/Makefile.PL 605d0aee31aebe84a99408f9ab5f644db5
+- Win32API::File cpan/Win32API-File/t/file.t 124e64aa77e755235eb297644a87fac5388d3d78
+- Win32API::File cpan/Win32API-File/t/tie.t 712ea7edd0cc805ce1c0b8172c01b03dd19b583d
+- Win32API::File cpan/Win32API-File/typemap 24bff088babeadac0873e8df390d1666d9d9db4a
+--podlators cpan/podlators/scripts/pod2man.PL f81acf53f3ff46cdcc5ebdd661c5d13eb35d20d6
+-+podlators cpan/podlators/scripts/pod2man.PL 761f35d3fcf91c1bc2f9e024a9fa5c62fd3fc338
+- podlators cpan/podlators/scripts/pod2text.PL b4693fcfe4a0a1b38a215cfb8985a65d5d025d69
+- version cpan/version/lib/version.pm d0923b895d57f1d669ae36fcf85c87b16db341d1
+- version vutil.c 668f17ca43e2527645674d29ba772b86330d5663
+diff --git a/meta/recipes-devtools/perl/perl/debian/prefix_changes.diff b/meta/recipes-devtools/perl/perl/debian/prefix_changes.diff
+deleted file mode 100644
+index b681c3e892a..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/prefix_changes.diff
++++ /dev/null
+@@ -1,119 +0,0 @@
+-From 914948f026efce02cf0abff8b0312aaad96592ed Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Fiddle with *PREFIX and variables written to the makefile
+-
+-Fiddle with *PREFIX and variables written to the makefile so that
+-install directories may be changed when make is run by passing
+-PREFIX= to the "make install" command (used when packaging
+-modules).
+-
+-Patch-Name: debian/prefix_changes.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm  | 12 ++++++------
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |  3 +--
+- cpan/ExtUtils-MakeMaker/t/INST.t                |  4 +---
+- cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t         | 10 +++++-----
+- 4 files changed, 13 insertions(+), 16 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-index 4c00129..1ea2035 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-@@ -902,8 +902,6 @@ all POD files in MAN1PODS and MAN3PODS.
+- sub manifypods_target {
+-     my($self) = shift;
+- 
+--    my $man1pods      = '';
+--    my $man3pods      = '';
+-     my $dependencies  = '';
+- 
+-     # populate manXpods & dependencies:
+-@@ -919,7 +917,7 @@ END
+-     foreach my $section (qw(1 3)) {
+-         my $pods = $self->{"MAN${section}PODS"};
+-         my $p2m = sprintf <<CMD, $] > 5.008 ? " -u" : "";
+--	\$(NOECHO) \$(POD2MAN) --section=$section --perm_rw=\$(PERM_RW)%s
+-+	\$(NOECHO) \$(POD2MAN) --section=\$(MAN${section}EXT) --perm_rw=\$(PERM_RW)%s
+- CMD
+-         push @man_cmds, $self->split_command($p2m, map {($_,$pods->{$_})} sort keys %$pods);
+-     }
+-@@ -1875,9 +1873,11 @@ sub init_INSTALL_from_PREFIX {
+-         $self->{SITEPREFIX}   ||= $sprefix;
+-         $self->{VENDORPREFIX} ||= $vprefix;
+- 
+--        # Lots of MM extension authors like to use $(PREFIX) so we
+--        # put something sensible in there no matter what.
+--        $self->{PREFIX} = '$('.uc $self->{INSTALLDIRS}.'PREFIX)';
+-+	my $p = $self->{PREFIX} = $self->{PERLPREFIX};
+-+	for my $t (qw/PERL SITE VENDOR/)
+-+	{
+-+	    $self->{"${t}PREFIX"} =~ s!^\Q$p\E(?=/|$)!\$(PREFIX)!;
+-+	}
+-     }
+- 
+-     my $arch    = $Config{archname};
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 391dc22..4a8e14c 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -3077,8 +3077,7 @@ sub prefixify {
+-     warn "  prefixify $var => $path\n" if $Verbose >= 2;
+-     warn "    from $sprefix to $rprefix\n" if $Verbose >= 2;
+- 
+--    if( $self->{ARGS}{PREFIX} &&
+--        $path !~ s{^\Q$sprefix\E\b}{$rprefix}s )
+-+    if( $path !~ s{^\Q$sprefix\E\b}{$rprefix}s && $self->{ARGS}{PREFIX} )
+-     {
+- 
+-         warn "    cannot prefix, using default.\n" if $Verbose >= 2;
+-diff --git a/cpan/ExtUtils-MakeMaker/t/INST.t b/cpan/ExtUtils-MakeMaker/t/INST.t
+-index 91058bb..e399ced 100644
+---- a/cpan/ExtUtils-MakeMaker/t/INST.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/INST.t
+-@@ -65,9 +65,7 @@ isa_ok( $mm, 'ExtUtils::MakeMaker' );
+- is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
+- is( $mm->{VERSION}, 0.01,            'VERSION' );
+- 
+--my $config_prefix = $Config{installprefixexp} || $Config{installprefix} ||
+--                    $Config{prefixexp}        || $Config{prefix};
+--is( $mm->{PERLPREFIX}, $config_prefix,   'PERLPREFIX' );
+-+is( $mm->{PERLPREFIX}, '$(PREFIX)',   'PERLPREFIX' );
+- 
+- is( !!$mm->{PERL_CORE}, !!$ENV{PERL_CORE}, 'PERL_CORE' );
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-index e8de7c6..3fb3f12 100644
+---- a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-@@ -10,7 +10,7 @@ BEGIN {
+- }
+- 
+- use strict;
+--use Test::More tests => 52;
+-+use Test::More tests => 47;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::BFD;
+- use ExtUtils::MakeMaker;
+-@@ -62,16 +62,16 @@ like( $stdout->read, qr{
+-                         (?:Writing\ MYMETA.yml\ and\ MYMETA.json\n)?
+- }x );
+- 
+--is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
+-+#is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
+- 
+- isa_ok( $mm, 'ExtUtils::MakeMaker' );
+- 
+- is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
+- is( $mm->{VERSION}, 0.01,            'VERSION' );
+- 
+--foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
+--    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
+--}
+-+#foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
+-+#    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
+-+#}
+- 
+- 
+- my $PREFIX = File::Spec->catdir('foo', 'bar');
+diff --git a/meta/recipes-devtools/perl/perl/debian/prune_libs.diff b/meta/recipes-devtools/perl/perl/debian/prune_libs.diff
+deleted file mode 100644
+index a2ed52ab2ec..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/prune_libs.diff
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From c4538f966c49e356599358def7d1febf61bca21f Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Fri, 18 Mar 2005 22:22:25 +1100
+-Subject: [PATCH 15/49] Prune the list of libraries wanted to what we actually
+- need.
+-
+-Bug-Debian: http://bugs.debian.org/128355
+-
+-We want to keep the dependencies on perl-base as small as possible,
+-and some of the original list may be present on buildds (see Bug#128355).
+-
+-Patch-Name: debian/prune_libs.diff
+-Upstream-Status: Pending
+----
+- Configure | 5 ++---
+- 1 file changed, 2 insertions(+), 3 deletions(-)
+-
+-diff --git a/Configure b/Configure
+-index 5a353d6..a00df64 100755
+---- a/Configure
+-+++ b/Configure
+-@@ -1479,8 +1479,7 @@ archname=''
+- usereentrant='undef'
+- : List of libraries we want.
+- : If anyone needs extra -lxxx, put those in a hint file.
+--libswanted="cl pthread socket bind inet nsl ndbm gdbm dbm db malloc dl ld"
+--libswanted="$libswanted sun m crypt sec util c cposix posix ucb bsd BSD"
+-+libswanted='gdbm gdbm_compat db dl m c crypt'
+- : We probably want to search /usr/shlib before most other libraries.
+- : This is only used by the lib/ExtUtils/MakeMaker.pm routine extliblist.
+- glibpth=`echo " $glibpth " | sed -e 's! /usr/shlib ! !'`
+-@@ -24007,7 +24006,7 @@ sunos*X4*)
+-     ;;
+- *) case "$usedl" in
+-     $define|true|[yY]*)
+--	    set X `echo " $libs " | sed -e 's@ -lndbm @ @' -e 's@ -lgdbm @ @' -e 's@ -lgdbm_compat @ @' -e 's@ -ldbm @ @' -e 's@ -ldb @ @'`
+-+	    set X `echo " $libs " | sed -e 's@ -lgdbm @ @' -e 's@ -lgdbm_compat @ @' -e 's@ -ldb @ @'`
+- 	    shift
+- 	    perllibs="$*"
+- 	    ;;
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/perl/perl/debian/regen-skip.diff b/meta/recipes-devtools/perl/perl/debian/regen-skip.diff
+deleted file mode 100644
+index 5d9a7c4b46e..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/regen-skip.diff
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From cb3e98e17a666896150b109694e9eb9278620845 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sat, 17 May 2014 14:57:01 +0300
+-Subject: Skip a regeneration check in unrelated git repositories
+-
+-If the test is run in a git repository without lib/.gitignore,
+-for instance because the repository only imported the Perl tarball,
+-the regeneration check is broken because lib/.gitignore is missing.
+-
+-Patch-Name: debian/regen-skip.diff
+-Upstream-Status: Pending
+----
+- regen/lib_cleanup.pl | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/regen/lib_cleanup.pl b/regen/lib_cleanup.pl
+-index c9d6e43..fece1ed 100644
+---- a/regen/lib_cleanup.pl
+-+++ b/regen/lib_cleanup.pl
+-@@ -159,7 +159,7 @@ foreach ('win32/Makefile', 'win32/makefile.mk') {
+- }
+- 
+- # This must come last as it can exit early:
+--if ($TAP && !-d '.git' && !-f 'lib/.gitignore') {
+-+if ($TAP && !-d '.git' || !-f 'lib/.gitignore') {
+-     print "ok # skip not being run from a git checkout, hence no lib/.gitignore\n";
+-     exit 0;
+- }
+diff --git a/meta/recipes-devtools/perl/perl/debian/skip-kfreebsd-crash.diff b/meta/recipes-devtools/perl/perl/debian/skip-kfreebsd-crash.diff
+deleted file mode 100644
+index 3b3745238d1..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/skip-kfreebsd-crash.diff
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 42853af65a28066b119d23d96e964e94b55a8541 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Fri, 5 Aug 2011 10:50:18 +0300
+-Subject: Skip a crashing test case in t/op/threads.t on GNU/kFreeBSD
+-
+-Bug: http://rt.perl.org/rt3/Ticket/Display.html?id=96272
+-Bug-Debian: http://bugs.debian.org/628493
+-
+-The crash is not a regression in 5.14, it just gets triggered there by
+-a new unrelated test case.
+-
+-Skip the test until the culprit is found.
+-
+-Patch-Name: debian/skip-kfreebsd-crash.diff
+-Upstream-Status: Pending
+----
+- t/op/threads.t | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/t/op/threads.t b/t/op/threads.t
+-index e76c956..bec210b 100644
+---- a/t/op/threads.t
+-+++ b/t/op/threads.t
+-@@ -376,6 +376,9 @@ EOF
+- }
+- 
+- 
+-+SKIP: {
+-+    skip "[perl #96272] avoid crash on GNU/kFreeBSD", 1
+-+        if $^O eq 'gnukfreebsd';
+- # [perl #78494] Pipes shared between threads block when closed
+- {
+-   my $perl = which_perl;
+-@@ -384,6 +387,7 @@ EOF
+-   threads->create(sub { })->join;
+-   ok(1, "Pipes shared between threads do not block when closed");
+- }
+-+}
+- 
+- # [perl #105208] Typeglob clones should not be cloned again during a join
+- {
+diff --git a/meta/recipes-devtools/perl/perl/debian/skip-upstream-git-tests.diff b/meta/recipes-devtools/perl/perl/debian/skip-upstream-git-tests.diff
+deleted file mode 100644
+index 279f4ab76f9..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/skip-upstream-git-tests.diff
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From ae9b645d6da2990fd055368eca2c67c449474e38 Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Fri, 22 Apr 2011 11:15:32 +0300
+-Subject: Skip tests specific to the upstream Git repository
+-
+-These tests fail if run from a different git repository than
+-upstream. This complicates things needlessly for downstream packagers.
+-
+-Skip the tests altogether even if the .git directory exists.
+-
+-Patch-Name: debian/skip-upstream-git-tests.diff
+-Upstream-Status: Pending
+----
+- t/test.pl | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/t/test.pl b/t/test.pl
+-index cda3840..af579a2 100644
+---- a/t/test.pl
+-+++ b/t/test.pl
+-@@ -174,7 +174,7 @@ sub skip_all_without_unicode_tables { # (but only under miniperl)
+- 
+- sub find_git_or_skip {
+-     my ($source_dir, $reason);
+--    if (-d '.git') {
+-+    if (-d '.git' && ! -d 'debian') {
+- 	$source_dir = '.';
+-     } elsif (-l 'MANIFEST' && -l 'AUTHORS') {
+- 	my $where = readlink 'MANIFEST';
+diff --git a/meta/recipes-devtools/perl/perl/debian/squelch-locale-warnings.diff b/meta/recipes-devtools/perl/perl/debian/squelch-locale-warnings.diff
+deleted file mode 100644
+index 4964e480c7f..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/squelch-locale-warnings.diff
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 487a6d6ada0b08e6a7276520ebc61cd851005e7c Mon Sep 17 00:00:00 2001
+-From: Niko Tyni <ntyni@debian.org>
+-Date: Sun, 3 Oct 2010 21:36:17 +0300
+-Subject: Squelch locale warnings in Debian package maintainer scripts
+-
+-Bug-Debian: http://bugs.debian.org/508764
+-
+-The system locales are rather frequently out of sync with the C library
+-during package upgrades, causing a huge amount of useless Perl locale
+-warnings. Squelch them when running package maintainer scripts, detected
+-by the DPKG_RUNNING_VERSION environment variable.
+-
+-Any real locale problem will show up after the system upgrade too, and
+-the warning will be triggered normally again at that point.
+-
+-Patch-Name: debian/squelch-locale-warnings.diff
+-Upstream-Status: Pending
+----
+- locale.c           | 5 ++++-
+- pod/perllocale.pod | 8 ++++++++
+- 2 files changed, 12 insertions(+), 1 deletion(-)
+-
+-diff --git a/locale.c b/locale.c
+-index 7a4a418..fdf911d 100644
+---- a/locale.c
+-+++ b/locale.c
+-@@ -674,7 +674,10 @@ Perl_init_i18nl10n(pTHX_ int printwarn)
+- 
+-     const bool locwarn = (printwarn > 1
+-                           || (printwarn
+--                              && (! bad_lang_use_once
+-+                              &&
+-+                                 /* Debian specific change - see http://bugs.debian.org/508764 */
+-+                                 (!PerlEnv_getenv("DPKG_RUNNING_VERSION")) &&
+-+                                 (! bad_lang_use_once
+-                                   || (
+-                                     /* disallow with "" or "0" */
+-                                     *bad_lang_use_once
+-diff --git a/pod/perllocale.pod b/pod/perllocale.pod
+-index 701b422..58cabaf 100644
+---- a/pod/perllocale.pod
+-+++ b/pod/perllocale.pod
+-@@ -1217,6 +1217,14 @@ B<NOTE>: C<PERL_BADLANG> only gives you a way to hide the warning message.
+- The message tells about some problem in your system's locale support,
+- and you should investigate what the problem is.
+- 
+-+=item DPKG_RUNNING_VERSION
+-+
+-+On Debian systems, if the DPKG_RUNNING_VERSION environment variable is
+-+set (to any value), the locale failure warnings will be suppressed just
+-+like with a zero PERL_BADLANG setting. This is done to avoid floods
+-+of spurious warnings during system upgrades.
+-+See L<http://bugs.debian.org/508764>.
+-+
+- =back
+- 
+- The following environment variables are not specific to Perl: They are
+diff --git a/meta/recipes-devtools/perl/perl/debian/writable_site_dirs.diff b/meta/recipes-devtools/perl/perl/debian/writable_site_dirs.diff
+deleted file mode 100644
+index ab373b333cb..00000000000
+--- a/meta/recipes-devtools/perl/perl/debian/writable_site_dirs.diff
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 591c1f9b7d4755bfc59d9665bab1f2ca410de765 Mon Sep 17 00:00:00 2001
+-From: Brendan O'Dea <bod@debian.org>
+-Date: Tue, 8 Mar 2005 19:30:38 +1100
+-Subject: Set umask approproately for site install directories
+-
+-Policy requires group writable site directories
+-
+-Patch-Name: debian/writable_site_dirs.diff
+-Upstream-Status: Pending
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 197f102..5f1b87f 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2138,7 +2138,7 @@ q{		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
+- 
+- 
+- pure_site_install :: all
+--	$(NOECHO) umask 022; $(MOD_INSTALL) \
+-+	$(NOECHO) umask 02; $(MOD_INSTALL) \
+- };
+-     push @m,
+- q{		read "}.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+-@@ -2199,8 +2199,8 @@ doc_perl_install :: all
+- 
+- doc_site_install :: all
+- 	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) umask 022; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+-+	-$(NOECHO) umask 02; $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	-$(NOECHO) umask 02; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLSITELIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+diff --git a/meta/recipes-devtools/perl/perl/dynaloaderhack.patch b/meta/recipes-devtools/perl/perl/dynaloaderhack.patch
+deleted file mode 100644
+index 719f07c9cc4..00000000000
+--- a/meta/recipes-devtools/perl/perl/dynaloaderhack.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 2e0ce5d27e70defd66ace0661af7c24daae34f8b Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Sat, 19 Jan 2013 23:49:24 +0000
+-Subject: [PATCH 7/8] perl: Add dyanloader build hack
+-
+-Hack the dynamic module loader so that we use native modules since we can't load
+-the target ones.
+-
+-Upstream-Status: Inappropriate
+-
+-RP
+-2013/01/13
+-
+----
+- ext/DynaLoader/DynaLoader_pm.PL | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/ext/DynaLoader/DynaLoader_pm.PL b/ext/DynaLoader/DynaLoader_pm.PL
+-index e828f35..4021559 100644
+---- a/ext/DynaLoader/DynaLoader_pm.PL
+-+++ b/ext/DynaLoader/DynaLoader_pm.PL
+-@@ -343,6 +343,10 @@ sub bootstrap {
+-     foreach (@INC) {
+- 	<<$^O-eq-VMS>>chop($_ = VMS::Filespec::unixpath($_));<</$^O-eq-VMS>>
+- 	    $dir = "$_/auto/$modpname";
+-+
+-+	if (defined $ENV{PERL_LIB} and defined $ENV{PERLHOSTLIB}) {
+-+	    $dir =~ s/$ENV{PERL_LIB}/$ENV{PERLHOSTLIB}/g;
+-+	}
+- 	
+- 	next unless -d $dir; # skip over uninteresting directories
+- 	
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/perl/perl/ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch b/meta/recipes-devtools/perl/perl/ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch
+deleted file mode 100644
+index 994ef7013ce..00000000000
+--- a/meta/recipes-devtools/perl/perl/ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From ba4ed0b5b7baad5353c1e65b655f41d45e01c990 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 22 Jun 2015 20:00:11 -0700
+-Subject: [PATCH] ext/ODBM_File/hints/linux.pl: link libgdbm_compat
+-
+-Fixed for test case ../ext/ODBM_File/t/odbm.t:
+-ok 1 - use ODBM_File;
+-ok 2 - use Fcntl;
+-./perl: symbol lookup error: /usr/lib/perl/5.22.0/auto/ODBM_File/ODBM_File.so: undefined symbol: dbminit
+-
+-The checking "if -e $_.'/libgdbm_compat.so'" doesn't work when cross
+-build, so always link libgdbm_compat, since perl depends on gdbm and we
+-always have libgdbm_compat.
+-
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- ext/ODBM_File/hints/linux.pl |    6 ------
+- 1 file changed, 6 deletions(-)
+-
+-diff --git a/ext/ODBM_File/hints/linux.pl b/ext/ODBM_File/hints/linux.pl
+-index 204bba0..9271b45 100644
+---- a/ext/ODBM_File/hints/linux.pl
+-+++ b/ext/ODBM_File/hints/linux.pl
+-@@ -1,8 +1,2 @@
+- # uses GDBM dbm compatibility feature - at least on SuSE 8.0
+--$self->{LIBS} = ['-lgdbm'];
+--
+--# Debian/Ubuntu have libgdbm_compat.so but not this file,
+--# so linking may fail
+--foreach (split / /, $Config{libpth}) {
+--    $self->{LIBS}->[0] .= ' -lgdbm_compat' if -e $_.'/libgdbm_compat.so';
+--}
+-+$self->{LIBS} = ['-lgdbm -lgdbm_compat'];
+diff --git a/meta/recipes-devtools/perl/perl/ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch b/meta/recipes-devtools/perl/perl/ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch
+deleted file mode 100644
+index b85b50cea99..00000000000
+--- a/meta/recipes-devtools/perl/perl/ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From b842e1de7798a1f7df770bb3f185ad3356e490e6 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 22 Jun 2015 20:06:56 -0700
+-Subject: [PATCH] ext/ODBM_File/t/odbm.t: fix the  path of dbmt_common.pl
+-
+-It should be lib/dbmt_common.pl when run by run-ptest.
+-
+-Fixed:
+-Can't locate ../../t/lib/dbmt_common.pl in @INC
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-Upstream-Status: Pending
+----
+- ext/ODBM_File/t/odbm.t |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/ext/ODBM_File/t/odbm.t b/ext/ODBM_File/t/odbm.t
+-index 079b9f1..250b991 100644
+---- a/ext/ODBM_File/t/odbm.t
+-+++ b/ext/ODBM_File/t/odbm.t
+-@@ -2,7 +2,7 @@
+- 
+- our $DBM_Class = 'ODBM_File';
+- 
+--require '../../t/lib/dbmt_common.pl';
+-+require 'lib/dbmt_common.pl';
+- 
+- if ($^O eq 'hpux') {
+-     print <<EOM;
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/perl/perl/fix_bad_rpath.patch b/meta/recipes-devtools/perl/perl/fix_bad_rpath.patch
+deleted file mode 100644
+index 49efcbeefcd..00000000000
+--- a/meta/recipes-devtools/perl/perl/fix_bad_rpath.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011/07/01
+-
+-Fix these Package QA warnings before they are converted into fetal errors:
+-
+-WARNING: QA Issue: package perl-module-compress contains bad RPATH /build_disk/poky_build/build0/tmp/sysroots/qemux86/usr/lib in file /build_disk/poky_build/build0/tmp/work/i586-poky-linux/perl-5.12.3-r1/packages-split/perl-module-compress/usr/lib/perl/5.12.3/auto/Compress/Raw/Zlib/Zlib.so
+-
+-This fixes this warning for perl recipe as well as libxml-parser-perl recipe. 
+-It is a fix to MakeMaker within perl, so all such perl recipes will get 
+-fixed with this perl fix.
+-
+-Index: perl-5.24.1/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-===================================================================
+---- perl-5.24.1.orig/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-+++ perl-5.24.1/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-@@ -57,6 +57,7 @@ sub _unix_os2_ext {
+-     my ( $found ) = 0;
+- 
+-     # Debian-specific: don't use LD_RUN_PATH for standard dirs
+-+    push(@libpath, "SYSROOTLIB");
+-     $ld_run_path_seen{$_}++ for @libpath;
+- 
+-     foreach my $thislib ( split ' ', $potential_libs ) {
+diff --git a/meta/recipes-devtools/perl/perl/generate-sh.patch b/meta/recipes-devtools/perl/perl/generate-sh.patch
+deleted file mode 100644
+index 27f6e691c0f..00000000000
+--- a/meta/recipes-devtools/perl/perl/generate-sh.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Use the ld flags from the supplied configuration file. For sh we need the
+-flags that specify to build PIC code so that the shared libraries work.
+-
+-Index: perl-5.14.2/Cross/generate_config_sh
+-===================================================================
+---- perl-5.14.2.orig/Cross/generate_config_sh	2010-12-30 04:07:14.000000000 +0200
+-+++ perl-5.14.2/Cross/generate_config_sh	2012-11-22 15:58:49.852852805 +0200
+-@@ -19,10 +19,10 @@
+- $callbacks->{'ar'} = [\&simple_process, ["AR", "arm-linux-ar"]];
+- $callbacks->{'archname'} = [\&simple_process, ["SYS", "armv4l-linux"]];
+- $callbacks->{'cc'} = [\&simple_process, ["CC", "arm-linux-gcc"]];
+--$callbacks->{'cccdlflags'} = [\&simple_process, ["CFLAGS", ""]];
+--$callbacks->{'ccdlflags'} = [\&simple_process, ["CFLAGS", ""]];
+--$callbacks->{'ccflags'} = [\&simple_process, ["CFLAGS", "-fno-strict-aliasing -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"]];
+--$callbacks->{'ccflags_uselargefiles'} = [\&simple_process, ["CFLAGS", "-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"]];
+-+#$callbacks->{'cccdlflags'} = [\&simple_process, ["CFLAGS", ""]];
+-+#$callbacks->{'ccdlflags'} = [\&simple_process, ["CFLAGS", ""]];
+-+$callbacks->{'ccflags'} = [\&simple_process_insert, ["CFLAGS", "-fno-strict-aliasing -D_GNU_SOURCE -DTHREADS_HAVE_PIDS -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"]];
+-+$callbacks->{'ccflags_uselargefiles'} = [\&simple_process_insert, ["CFLAGS", "-D_GNU_SOURCE -DTHREADS_HAVE_PIDS -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"]];
+- $callbacks->{'ccname'} = [\&simple_process, ["CC", "arm-linux-gcc"]];
+- $callbacks->{'cpp'} = [\&simple_process, ["CCP", "arm-linux-cpp"]];
+- $callbacks->{'cppflags'} = [\&simple_process, ["CCPFLAGS", "-fno-strict-aliasing"]];
+-@@ -30,6 +30,7 @@
+- $callbacks->{'cppstdin'} = [\&simple_process_append, ["CC", "arm-linux-gcc -E", "-E"]];
+- $callbacks->{'full_ar'} = [\&backtick, ["AR", "which $ENV{AR}", "/usr/local/arm/2.95.3/bin/arm-linux-ar"]];
+- $callbacks->{'ld'} = [\&simple_process, ["LD", "arm-linux-ld"]];
+-+$callbacks->{'lddlflags'} = [\&simple_process, ["LDDLFLAGS", ""]];
+- $callbacks->{'ldflags'} = [\&simple_process, ["LDFLAGS", ""]];
+- $callbacks->{'ldflags_uselargefiles'} = [\&simple_process, ["LDFLAGS", ""]];
+- $callbacks->{'myarchname'} = [\&simple_process, ["SYS", "armv4l-linux"]];
+-@@ -105,6 +106,23 @@
+- 
+- }
+- 
+-+# Insert env var into the variables value
+-+sub simple_process_insert {
+-+	my $key = shift;
+-+	my $value = shift;
+-+	my $envvar = $callbacks->{$key}->[1][0];
+-+
+-+	if ($ENV{$envvar}) {
+-+		# Strip quotes from value
+-+		$value =~ s/^\'//;
+-+		$value =~ s/\'$//;
+-+		# Remove -I/usr/local/... from the value
+-+		$value =~ s#\W-I/usr/local/\w+\W# #g;
+-+		# Prepend env var (OE setting) to value
+-+		print("$key=\'$ENV{$envvar} $value\'\n");
+-+	}
+-+}
+-+
+- sub library_munge {
+- 	my $key = shift;
+- 	my $value = shift;
+diff --git a/meta/recipes-devtools/perl/perl/installperl.patch b/meta/recipes-devtools/perl/perl/installperl.patch
+deleted file mode 100644
+index 7fd1f50144e..00000000000
+--- a/meta/recipes-devtools/perl/perl/installperl.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Index: perl-5.24.1/installperl
+-===================================================================
+---- perl-5.24.1.orig/installperl
+-+++ perl-5.24.1/installperl
+-@@ -2,8 +2,8 @@
+- 
+- BEGIN {
+-     chdir '..' if !-d 'lib' and -d '../lib';
+--    @INC = 'lib';
+--    $ENV{PERL5LIB} = 'lib';
+-+#    @INC = 'lib';
+-+#    $ENV{PERL5LIB} = 'lib';
+- 
+-     # This needs to be at BEGIN time, before any use of Config
+-     # install_lib itself loads and imports Config into main::
+diff --git a/meta/recipes-devtools/perl/perl/letgcc-find-errno.patch b/meta/recipes-devtools/perl/perl/letgcc-find-errno.patch
+deleted file mode 100644
+index 5161e4c8b6c..00000000000
+--- a/meta/recipes-devtools/perl/perl/letgcc-find-errno.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-This removes all the logic that perl uses to locate an appropriate
+-errno.h for the target. Instead we simple create a file that does
+-
+-  #include "errno.h"
+-
+-and use that as the file to parse. This is needed when using an
+-external toolchain since perl will search in ${STAGING_INCDIR} for
+-errno.h (when using gcc) and that isn't where it's located - its
+-wherever the external toolchain keeps it's headers.
+-
+-Index: perl-5.12.3/ext/Errno/Errno_pm.PL
+-===================================================================
+---- perl-5.12.3.orig/ext/Errno/Errno_pm.PL
+-+++ perl-5.12.3/ext/Errno/Errno_pm.PL
+-@@ -17,8 +17,18 @@ unlink "Errno.tmp" if -f "Errno.tmp";
+- open OUT, ">Errno.tmp" or die "Cannot open Errno.tmp: $!";
+- select OUT;
+- my $file;
+--my @files = get_files();
+--if ($Config{gccversion} ne '' && $^O eq 'MSWin32') {
+-+#my @files = get_files();
+-+my @files = ("errno.h");
+-+
+-+if (1) {
+-+    open INCS, '>includes.c' or
+-+	die "Cannot open includes.c";
+-+    print INCS qq[#include "errno.h"\n];
+-+    close INCS;
+-+    process_file('includes.c');
+-+    unlink 'includes.c';
+-+}
+-+elsif ($Config{gccversion} ne '' && $^O eq 'MSWin32') {
+-     # MinGW complains "warning: #pragma system_header ignored outside include
+-     # file" if the header files are processed individually, so include them
+-     # all in .c file and process that instead.
+-@@ -53,7 +63,7 @@ sub process_file {
+-         chomp($file = `cygpath -w "$file"`);
+-     }
+- 
+--    return unless defined $file and -f $file;
+-+#    return unless defined $file and -f $file;
+- #    warn "Processing $file\n";
+- 
+-     local *FH;
+diff --git a/meta/recipes-devtools/perl/perl/make_ext.pl-fix-regenerate-makefile-failed-while-cc-.patch b/meta/recipes-devtools/perl/perl/make_ext.pl-fix-regenerate-makefile-failed-while-cc-.patch
+deleted file mode 100644
+index b2c597974e2..00000000000
+--- a/meta/recipes-devtools/perl/perl/make_ext.pl-fix-regenerate-makefile-failed-while-cc-.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-make_ext.pl: fix regenerate makefile failed while $cc changed
+-
+-While $cc changed, the existance of 'xdefine' caused makefile
+-regeneration failed.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- make_ext.pl | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-Index: perl-5.24.1/make_ext.pl
+-===================================================================
+---- perl-5.24.1.orig/make_ext.pl
+-+++ perl-5.24.1/make_ext.pl
+-@@ -335,6 +335,10 @@ sub build_extension {
+-                 print "Deleting non-Cross makefile\n";
+-                 close $mfh or die "close $makefile: $!";
+-                 _unlink($makefile);
+-+                if(-e 'xdefine') {
+-+                    print "Deleting xdefine for regenerate makefile\n";
+-+                    _unlink('xdefine');
+-+                }
+-             }
+-         }
+-     } else {
+diff --git a/meta/recipes-devtools/perl/perl/native-nopacklist.patch b/meta/recipes-devtools/perl/perl/native-nopacklist.patch
+deleted file mode 100644
+index 5482dcb79c9..00000000000
+--- a/meta/recipes-devtools/perl/perl/native-nopacklist.patch
++++ /dev/null
+@@ -1,91 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Part of 52_debian_extutils_hacks.patch just to exclude the installation of .packlist files
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |   35 ++---------------------
+- 1 file changed, 3 insertions(+), 32 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index f63145c..a589710 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2122,11 +2122,6 @@ pure_perl_install :: all
+- };
+- 
+-     push @m,
+--q{		read "}.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{" \
+--		write "}.$self->catfile('$(DESTINSTALLARCHLIB)','auto','$(FULLEXT)','.packlist').q{" \
+--} unless $self->{NO_PACKLIST};
+--
+--    push @m,
+- q{		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
+- 		"$(INST_ARCHLIB)" "$(DESTINSTALLARCHLIB)" \
+- 		"$(INST_BIN)" "$(DESTINSTALLBIN)" \
+-@@ -2158,10 +2153,6 @@ q{		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
+- pure_vendor_install :: all
+- 	$(NOECHO) $(MOD_INSTALL) \
+- };
+--    push @m,
+--q{		read "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+--		write "}.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{" \
+--} unless $self->{NO_PACKLIST};
+- 
+-     push @m,
+- q{		"$(INST_LIB)" "$(DESTINSTALLVENDORLIB)" \
+-@@ -2187,37 +2178,19 @@ doc_vendor_install :: all
+- 
+-     push @m, q{
+- doc_perl_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLPRIVLIB) \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+- 
+- doc_site_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+-+	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLSITEARCH)/perllocal.pod"
+-+	-$(NOECHO) $(MKPATH) "$(DESTINSTALLSITEARCH)"
+- 	-$(NOECHO) $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLSITELIB) \
+- 		LINKTYPE "$(LINKTYPE)" \
+- 		VERSION "$(VERSION)" \
+- 		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+-+		>> "}.$self->catfile('$(DESTINSTALLSITEARCH)','perllocal.pod').q{"
+- 
+- doc_vendor_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
+--	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+--	-$(NOECHO) $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLVENDORLIB) \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> "}.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{"
+- 
+- } unless $self->{NO_PERLLOCAL};
+- 
+-@@ -2226,13 +2199,11 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
+- 	$(NOECHO) $(NOOP)
+- 
+- uninstall_from_perldirs ::
+--	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{"
+- 
+- uninstall_from_sitedirs ::
+- 	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{"
+- 
+- uninstall_from_vendordirs ::
+--	$(NOECHO) $(UNINSTALL) "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{"
+- };
+- 
+-     join("",@m);
+diff --git a/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch b/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
+deleted file mode 100644
+index ff3d6dc0997..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-commit 13e70b397dcb0d1bf4a869b670f041c1d7b730d0
+-Author: Bjรถrn Esser <besser82@fedoraproject.org>
+-Date:   Sat Jan 20 20:22:53 2018 +0100
+-
+-    pp: Guard fix for really old bug in glibc libcrypt
+-
+-Upstream-Status: Pending
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-diff --git a/pp.c b/pp.c
+-index d50ad7ddbf..6510c7b15c 100644
+---- a/pp.c
+-+++ b/pp.c
+-@@ -3650,8 +3650,12 @@ PP(pp_crypt)
+- #if defined(__GLIBC__) || defined(__EMX__)
+- 	if (PL_reentrant_buffer->_crypt_struct_buffer) {
+- 	    PL_reentrant_buffer->_crypt_struct_buffer->initialized = 0;
+--	    /* work around glibc-2.2.5 bug */
+-+#if (defined(__GLIBC__) && __GLIBC__ == 2) && \
+-+    (defined(__GLIBC_MINOR__) && __GLIBC_MINOR__ >= 2 && __GLIBC_MINOR__ < 4)
+-+	    /* work around glibc-2.2.5 bug, has been fixed at some
+-+	     * time in glibc-2.3.X */
+- 	    PL_reentrant_buffer->_crypt_struct_buffer->current_saltbits = 0;
+-+#endif
+- 	}
+- #endif
+-     }
+-
+diff --git a/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch b/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
+deleted file mode 100644
+index 7dd904140ad..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 90c252cecc38aed5d5faedb30485dd6eee2e54eb Mon Sep 17 00:00:00 2001
+-From: Wenzong Fan <wenzong.fan@windriver.com>
+-Date: Wed, 11 Feb 2015 15:14:40 +0800
+-Subject: [PATCH] perl / PathTools: don't filter out blib from @INC
+-
+-If $TOPDIR includes the string "blib", filter it out from @INC may empty
+-the @INC and cause build errors like:
+-
+-  Can't locate ExtUtils/MakeMaker.pm in @INC \
+-  (you may need to install the ExtUtils::MakeMaker module) \
+-  (@INC contains: .) at Makefile.PL
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+----
+- dist/PathTools/Makefile.PL | 3 ---
+- 1 file changed, 3 deletions(-)
+-
+-diff --git a/dist/PathTools/Makefile.PL b/dist/PathTools/Makefile.PL
+-index 1b21de4..f562cb2 100644
+---- a/dist/PathTools/Makefile.PL
+-+++ b/dist/PathTools/Makefile.PL
+-@@ -1,6 +1,3 @@
+--
+--BEGIN { @INC = grep {!/blib/} @INC }
+--
+- require 5.005;
+- use ExtUtils::MakeMaker;
+- WriteMakefile
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/perl/perl/perl-archlib-exp.patch b/meta/recipes-devtools/perl/perl/perl-archlib-exp.patch
+deleted file mode 100644
+index 37bf5233571..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-archlib-exp.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-perl: add archlib_exp variable used to generate ARCHLIB_EXP in config.h
+-    
+-perl.c uses an ARCHLIB_EXP define to generate compile-time code that
+-adds the archlibexp path to @INC during run-time initialization of a
+-new perl interpreter.
+-    
+-Because we've changed this value in a temporary way to make it
+-possible to use ExtUtils::Embed in the target build (the temporary
+-value in config.sh gets re-stripped out during packaging), the
+-ARCHLIB_EXP value that gets generated still uses the temporary version
+-instead of the original expected version (i.e. becauses it's in the
+-generated config.h, it doesn't get stripped out during packaging like
+-the others in config.sh).
+-
+-This creates an unmodified version called archlib_exp that gets used
+-by a modified config_h.SH to get the correct value into config.h
+-    
+-This patch uses an unmodified version of archlibexp called
+-archlib_exp, introduced to config.sh, which is used to generate the
+-correct value of ARCHLIB_EXP into config.h
+-  
+-See YOCTO #3099 for more info.
+-
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+-
+-Index: perl-5.24.1/config_h.SH
+-===================================================================
+---- perl-5.24.1.orig/config_h.SH
+-+++ perl-5.24.1/config_h.SH
+-@@ -1434,7 +1434,7 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#und
+-  *	in programs that are not prepared to deal with ~ expansion at run-time.
+-  */
+- #$d_archlib ARCHLIB "$archlib"		/**/
+--#$d_archlib ARCHLIB_EXP "$archlibexp"		/**/
+-+#$d_archlib ARCHLIB_EXP "$archlib_exp"		/**/
+- 
+- /* BIN:
+-  *	This symbol holds the path of the bin directory where the package will
+diff --git a/meta/recipes-devtools/perl/perl/perl-configure.sh b/meta/recipes-devtools/perl/perl/perl-configure.sh
+deleted file mode 100755
+index 25e7f8b96b8..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-configure.sh
++++ /dev/null
+@@ -1,43 +0,0 @@
+-#! /bin/sh
+-
+-#
+-# Generate the common perl configuration
+-# Needs to be run on a host that matches the bitsize of the target platform
+-#
+-
+-echo sh Configure -des \
+-        -Doptimize=-O2 \
+-        -Dmyhostname=localhost \
+-        -Dperladmin=root@localhost \
+-        -Dcc=gcc \
+-        -Dcf_by='Open Embedded' \
+-        -Dinstallprefix=@DESTDIR@ \
+-        -Dprefix=/usr \
+-        -Dvendorprefix=/usr \
+-        -Dsiteprefix=/usr \
+-        -Dotherlibdirs=/usr/lib/perl5/5.22.1 \
+-        -Duseshrplib \
+-        -Dusethreads \
+-        -Duseithreads \
+-        -Duselargefiles \
+-        -Ud_dosuid \
+-        -Dd_semctl_semun \
+-        -Ui_db \
+-        -Ui_ndbm \
+-        -Ui_gdbm \
+-        -Di_shadow \
+-        -Di_syslog \
+-        -Dman3ext=3pm \
+-        -Duseperlio \
+-        -Dinstallusrbinperl \
+-        -Ubincompat5005 \
+-        -Uversiononly \
+-        -Dpager='/usr/bin/less -isr'
+-
+-cp -f config.sh config.sh.COMMON
+-
+-TARGETOS=$(grep myarchname config.sh.COMMON | sed "s#.*'\(.*\)'.*#\1#")
+-
+-sed -r -i config.sh.COMMON \
+-	-e "s#(install.*=')(/usr)/local(.*')#\1@DESTDIR@\2\3#g" \
+-	-e 's#'$TARGETOS'#@ARCH@#g'
+diff --git a/meta/recipes-devtools/perl/perl/perl-dynloader.patch b/meta/recipes-devtools/perl/perl/perl-dynloader.patch
+deleted file mode 100644
+index 2572067a6e1..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-dynloader.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Allow the location that .so files are searched for for dynamic
+-loading to be changed via an environment variable. This is to allow
+-us to load .so's from the host system while building for the target
+-system.
+-
+-Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
+-
+-Index: perl-5.24.1/dist/XSLoader/XSLoader_pm.PL
+-===================================================================
+---- perl-5.24.1.orig/dist/XSLoader/XSLoader_pm.PL
+-+++ perl-5.24.1/dist/XSLoader/XSLoader_pm.PL
+-@@ -52,6 +52,20 @@ sub load {
+-     my ($caller, $modlibname) = caller();
+-     my $module = $caller;
+- 
+-+    # OE: Allow env to form dynamic loader to look in a different place
+-+    # This is so it finds the host .so files, not the targets
+-+    if (defined $ENV{PERLHOSTLIB})
+-+    {
+-+        my $hostlib = $ENV{PERLHOSTLIB};
+-+        print STDERR "*** Module name IN: $modlibname\n";
+-+        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib\w*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
+-+        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
+-+        if ( $p1 ne "" ) {
+-+            $modlibname = $hostlib.$p5;
+-+        }
+-+        print STDERR "*** Module name OUT: $modlibname\n";
+-+    }
+-+
+-     if (@_) {
+-         $module = $_[0];
+-     } else {
+diff --git a/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+deleted file mode 100644
+index 7379d8b8141..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-The upstream code assumes that the compiler version used to compiler miniperl/perl-native
+-is the same as the one being used to build the perl binary. Since most people are not running
+-systems with gcc 5, it is unlikely that it will work on any supported host. Switch out gccversion
+-for the version extracted from $CC --version.
+-
+-Jeremy Puhlman <jpuhlman@mvista.com>
+-
+-Fix spaces in brackets while running $CC --version
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- ext/Errno/Errno_pm.PL | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/ext/Errno/Errno_pm.PL b/ext/Errno/Errno_pm.PL
+-index 1fd29d0..7976ea2 100644
+---- a/ext/Errno/Errno_pm.PL
+-+++ b/ext/Errno/Errno_pm.PL
+-@@ -224,9 +224,13 @@ sub write_errno_pm {
+- 
+-     {	# BeOS (support now removed) did not enter this block
+-     # invoke CPP and read the output
+-+        my $compiler = $ENV{'CC'};
+-+        my $compiler_out = `$compiler --version`;
+-+        $compiler_out =~ s/\(.*\)/;/;
+-+        my @compiler_version = split / /,$compiler_out; 
+- 
+- 	my $inhibit_linemarkers = '';
+--	if ($Config{gccversion} =~ /\A(\d+)\./ and $1 >= 5) {
+-+	if (@compiler_version[2] =~ /\A(\d+)\./ and $1 >= 5) {
+- 	    # GCC 5.0 interleaves expanded macros with line numbers breaking
+- 	    # each line into multiple lines. RT#123784
+- 	    $inhibit_linemarkers = ' -P';
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/perl/perl/perl-fix-conflict-between-skip_all-and-END.patch b/meta/recipes-devtools/perl/perl/perl-fix-conflict-between-skip_all-and-END.patch
+deleted file mode 100644
+index de946dbec70..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-fix-conflict-between-skip_all-and-END.patch
++++ /dev/null
+@@ -1,181 +0,0 @@
+-Some Perl tests fail when run on a cross-compiled target machine. Apply
+-a slightly tweaked upstream patch to fix the problems. Notes:
+-    1. as of 2 Jun 2016, the original patch has been applied to the current
+-       EUMM releases, but has not made it into perl core yet.
+-    2. when the base perl package is upgraded in Yocto, this patch may need
+-       to be replaced by the original upstream version to correctly apply
+-       to the current version of ExtUtils-MakeMaker at that time.
+-
+-[YOCTO #8656]
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Bill Randle <william.c.randle@intel.com>
+-
+-From 4a07a3bd18363986112cf2b39dec3c2985353ffb Mon Sep 17 00:00:00 2001
+-From: Francois Perrad <francois.perrad@gadz.org>
+-Date: Mon, 22 Dec 2014 19:04:34 +0100
+-Subject: [PATCH] fix conflict between skip_all and END section
+-
+-since the commit 430de781809a6be3bcd25a349dc40ce54405ab53
+-the test suite fails in cross-compil environment (perl-5.21.6 & perl-5.21.7)
+-like this :
+-
+-    $ ./perl harness -v ../cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t
+-    ../cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t ..
+-    1..0 # SKIP cross-compiling and make not available
+-    ok 1 - chdir updir
+-    ok 2 - teardown
+-    # Looks like you planned 0 tests but ran 2.
+-    skipped: cross-compiling and make not available
+-
+-this commit restores the implicit call of plan() at import time of Test::More
+-
+-Signed-off-by: Francois Perrad <francois.perrad@gadz.org>
+----
+- cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t     | 7 ++++---
+- cpan/ExtUtils-MakeMaker/t/PL_FILES.t         | 4 ++--
+- cpan/ExtUtils-MakeMaker/t/basic.t            | 4 ++--
+- cpan/ExtUtils-MakeMaker/t/echo.t             | 6 +++---
+- cpan/ExtUtils-MakeMaker/t/min_perl_version.t | 4 ++--
+- cpan/ExtUtils-MakeMaker/t/pm_to_blib.t       | 4 ++--
+- cpan/ExtUtils-MakeMaker/t/recurs.t           | 4 ++--
+- cpan/ExtUtils-MakeMaker/t/several_authors.t  | 4 ++--
+- 8 files changed, 19 insertions(+), 18 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t b/cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t
+-index f27b62c..3bbb3a6 100644
+---- a/cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/INSTALL_BASE.t
+-@@ -15,12 +15,13 @@ $CLEANUP &&= 1; # so always 1 or numerically 0
+- 
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::BFD;
+--use Test::More;
+- use Config;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+--    : (tests => 3 + $CLEANUP + @INSTDIRS * (15 + $CLEANUP));
+-+    : ();
+-+plan tests => 3 + $CLEANUP + @INSTDIRS * (15 + $CLEANUP);
+- 
+- my $Is_VMS = $^O eq 'VMS';
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/PL_FILES.t b/cpan/ExtUtils-MakeMaker/t/PL_FILES.t
+-index 0779dbb..85d53a5 100644
+---- a/cpan/ExtUtils-MakeMaker/t/PL_FILES.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/PL_FILES.t
+-@@ -11,9 +11,9 @@ use File::Temp qw[tempdir];
+- use MakeMaker::Test::Setup::PL_FILES;
+- use MakeMaker::Test::Utils;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : (tests => 9);
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/basic.t b/cpan/ExtUtils-MakeMaker/t/basic.t
+-index 3dd66ad..eddf2e9 100644
+---- a/cpan/ExtUtils-MakeMaker/t/basic.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/basic.t
+-@@ -20,9 +20,9 @@ use utf8;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::BFD;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : (tests => 171);
+- use File::Find;
+-diff --git a/cpan/ExtUtils-MakeMaker/t/echo.t b/cpan/ExtUtils-MakeMaker/t/echo.t
+-index 789b85f..c43bc47 100644
+---- a/cpan/ExtUtils-MakeMaker/t/echo.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/echo.t
+-@@ -14,11 +14,11 @@ use MakeMaker::Test::Utils;
+- use File::Temp;
+- use Cwd 'abs_path';
+- 
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+--    : ();
+-+    : (tests => 18);
+- 
+- #--------------------- Setup
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/min_perl_version.t b/cpan/ExtUtils-MakeMaker/t/min_perl_version.t
+-index c5d78d6..2ef118d 100644
+---- a/cpan/ExtUtils-MakeMaker/t/min_perl_version.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/min_perl_version.t
+-@@ -13,9 +13,9 @@ use TieOut;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::MPV;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : (tests => 36);
+- use File::Path;
+-diff --git a/cpan/ExtUtils-MakeMaker/t/pm_to_blib.t b/cpan/ExtUtils-MakeMaker/t/pm_to_blib.t
+-index f1e348e..ebfa26c 100644
+---- a/cpan/ExtUtils-MakeMaker/t/pm_to_blib.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/pm_to_blib.t
+-@@ -12,9 +12,9 @@ use ExtUtils::MakeMaker;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::BFD;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : 'no_plan';
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/recurs.t b/cpan/ExtUtils-MakeMaker/t/recurs.t
+-index 84c09a2..661e0db 100644
+---- a/cpan/ExtUtils-MakeMaker/t/recurs.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/recurs.t
+-@@ -14,9 +14,9 @@ use File::Temp qw[tempdir];
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::Recurs;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : (tests => 26);
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/several_authors.t b/cpan/ExtUtils-MakeMaker/t/several_authors.t
+-index 1a75a3e..869e9f0 100644
+---- a/cpan/ExtUtils-MakeMaker/t/several_authors.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/several_authors.t
+-@@ -13,9 +13,9 @@ use TieOut;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::SAS;
+- use Config;
+--use Test::More;
+- use ExtUtils::MM;
+--plan !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-+use Test::More
+-+    !MM->can_run(make()) && $ENV{PERL_CORE} && $Config{'usecrosscompile'}
+-     ? (skip_all => "cross-compiling and make not available")
+-     : (tests => 20);
+- use File::Path;
+diff --git a/meta/recipes-devtools/perl/perl/perl-moreconfig.patch b/meta/recipes-devtools/perl/perl/perl-moreconfig.patch
+deleted file mode 100644
+index 59ce85a7a3a..00000000000
+--- a/meta/recipes-devtools/perl/perl/perl-moreconfig.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-We need ld in the fake config library, but it's not included by default. So
+-expand the number of items included. While this works it indicates that the
+-rest of the config items are not being picked up and/or are being picked up
+-from the host. More investigation needed.
+-
+---- perl-5.8.8/configpm	2007/04/20 09:48:05	1.1
+-+++ perl-5.8.8/configpm	2007/04/20 09:57:12
+-@@ -2,7 +2,7 @@
+- use strict;
+- use vars qw(%Config $Config_SH_expanded);
+- 
+--my $how_many_common = 22;
+-+my $how_many_common = 50;
+- 
+- # commonly used names to precache (and hence lookup fastest)
+- my %Common;
+diff --git a/meta/recipes-devtools/perl/perl/t-run-switches.t-perl5-perl.patch b/meta/recipes-devtools/perl/perl/t-run-switches.t-perl5-perl.patch
+deleted file mode 100644
+index 03fdf4ab984..00000000000
+--- a/meta/recipes-devtools/perl/perl/t-run-switches.t-perl5-perl.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 1561549ea36e37cc25706f094a195de4928f4211 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Fri, 19 Jun 2015 01:23:46 -0700
+-Subject: [PATCH] t/run/switches.t: perl5 -> perl
+-
+-We call it perl rather than perl5 in oe.
+-
+-Upstream-Status: Inappropriate [oe specific]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- t/run/switches.t |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/t/run/switches.t b/t/run/switches.t
+-index 78915e0..e9e4b45 100644
+---- a/t/run/switches.t
+-+++ b/t/run/switches.t
+-@@ -269,7 +269,7 @@ is runperl(stderr => 1, prog => '#!perl -M'),
+-           '-V generates 20+ lines' );
+- 
+-     like( runperl( switches => ['-V'] ),
+--	  qr/\ASummary of my perl5 .*configuration:/,
+-+	  qr/\ASummary of my perl .*configuration:/,
+-           '-V looks okay' );
+- 
+-     # lookup a known config var
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/perl/perl/test/dist-threads-t-join.t-adjust-ps-option.patch b/meta/recipes-devtools/perl/perl/test/dist-threads-t-join.t-adjust-ps-option.patch
+deleted file mode 100644
+index c8293c3d6a3..00000000000
+--- a/meta/recipes-devtools/perl/perl/test/dist-threads-t-join.t-adjust-ps-option.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-dist/threads/t/join.t: adjust ps option
+-
+-The ps's option '-f' is not supported by busybox in oe.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- dist/threads/t/join.t | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/dist/threads/t/join.t b/dist/threads/t/join.t
+---- a/dist/threads/t/join.t
+-+++ b/dist/threads/t/join.t
+-@@ -118,7 +118,7 @@ if ($^O eq 'linux') {
+-                  })->join;
+-     #print "# mainthread: \$0 = $0\n";
+-     #print "# pid = $$\n";
+--    if (open PS, "ps -f |") { # Note: must work in (all) systems.
+-+    if (open PS, "ps |") { # Note: must work in (all) systems.
+-         my ($sawpid, $sawexe);
+-         while (<PS>) {
+-             chomp;
+-@@ -135,10 +135,10 @@ if ($^O eq 'linux') {
+-         if ($sawpid) {
+-             ok($sawpid && $sawexe, 'altering $0 is effective');
+-         } else {
+--            skip("\$0 check: did not see pid $$ in 'ps -f |'");
+-+            skip("\$0 check: did not see pid $$ in 'ps |'");
+-         }
+-     } else {
+--        skip("\$0 check: opening 'ps -f |' failed: $!");
+-+        skip("\$0 check: opening 'ps |' failed: $!");
+-     }
+- } else {
+-     skip("\$0 check: only on Linux");
+--- 
+-1.8.1.2
+-
+diff --git a/meta/recipes-devtools/perl/perl/test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch b/meta/recipes-devtools/perl/perl/test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch
+deleted file mode 100644
+index ce577fe5f8c..00000000000
+--- a/meta/recipes-devtools/perl/perl/test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-ext/DynaLoader/t/DynaLoader.t: fix calling dl_findfile() failed
+-
+-Use '$Config{libc}' as the libc file name
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- ext/DynaLoader/t/DynaLoader.t | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/ext/DynaLoader/t/DynaLoader.t b/ext/DynaLoader/t/DynaLoader.t
+-index ade1f8e..3567afe 100644
+---- a/ext/DynaLoader/t/DynaLoader.t
+-+++ b/ext/DynaLoader/t/DynaLoader.t
+-@@ -106,7 +106,7 @@ ok( defined $dlerr, "dl_error() returning an error message: '$dlerr'" );
+- # ... dl_findfile()
+- SKIP: {
+-     my @files = ();
+--    eval { @files = DynaLoader::dl_findfile("c") };
+-+    eval { @files = DynaLoader::dl_findfile($Config{libc}) };
+-     is( $@, '', "calling dl_findfile()" );
+-     # Some platforms are known to not have a "libc"
+-     # (not at least by that name) that the dl_findfile()
+--- 
+-1.8.1.2
+-
+diff --git a/meta/recipes-devtools/perl/perl_5.24.4.bb b/meta/recipes-devtools/perl/perl_5.24.4.bb
+deleted file mode 100644
+index a6449701925..00000000000
+--- a/meta/recipes-devtools/perl/perl_5.24.4.bb
++++ /dev/null
+@@ -1,353 +0,0 @@
+-require perl.inc
+-
+-# We need gnugrep (for -I)
+-DEPENDS = "db grep-native gdbm zlib virtual/crypt"
+-
+-# Pick up patches from debian
+-# http://ftp.de.debian.org/debian/pool/main/p/perl/perl_5.22.0-1.debian.tar.xz
+-SRC_URI += " \
+-	file://debian/cpan_definstalldirs.diff \
+-	file://debian/db_file_ver.diff \
+-	file://debian/doc_info.diff \
+-	file://debian/enc2xs_inc.diff \
+-	file://debian/errno_ver.diff \
+-	file://debian/libperl_embed_doc.diff \
+-	file://debian/fixes/respect_umask.diff \
+-	file://debian/writable_site_dirs.diff \
+-	file://debian/extutils_set_libperl_path.diff \
+-	file://debian/no_packlist_perllocal.diff \
+-	file://debian/prefix_changes.diff \
+-	file://debian/instmodsh_doc.diff \
+-	file://debian/ld_run_path.diff \
+-	file://debian/libnet_config_path.diff \
+-	file://debian/mod_paths.diff \
+-	file://debian/prune_libs.diff \
+-	file://debian/fixes/net_smtp_docs.diff \
+-	file://debian/perlivp.diff \
+-	file://debian/squelch-locale-warnings.diff \
+-	file://debian/skip-upstream-git-tests.diff \
+-	file://debian/skip-kfreebsd-crash.diff \
+-	file://debian/fixes/document_makemaker_ccflags.diff \
+-	file://debian/find_html2text.diff \
+-	file://debian/perl5db-x-terminal-emulator.patch \
+-	file://debian/cpan-missing-site-dirs.diff \
+-	file://debian/fixes/memoize_storable_nstore.diff \
+-	file://debian/regen-skip.diff \
+-"
+-
+-SRC_URI += " \
+-        file://Makefile.patch \
+-        file://Makefile.SH.patch \
+-        file://installperl.patch \
+-        file://perl-archlib-exp.patch \
+-        file://perl-dynloader.patch \
+-        file://perl-moreconfig.patch \
+-        file://letgcc-find-errno.patch \
+-        file://generate-sh.patch \
+-        file://native-perlinc.patch \
+-        file://cross-generate_uudmap.patch \
+-        file://fix_bad_rpath.patch \
+-        file://dynaloaderhack.patch \
+-        file://config.sh \
+-        file://config.sh-32 \
+-        file://config.sh-32-le \
+-        file://config.sh-32-be \
+-        file://config.sh-64 \
+-        file://config.sh-64-le \
+-        file://config.sh-64-be \
+-        file://make_ext.pl-fix-regenerate-makefile-failed-while-cc-.patch \
+-        file://t-run-switches.t-perl5-perl.patch \
+-        file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch \
+-        file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
+-        file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
+-        file://perl-errno-generation-gcc5.patch \
+-        file://perl-fix-conflict-between-skip_all-and-END.patch \
+-        file://perl-5.26.1-guard_old_libcrypt_fix.patch \
+-        file://CVE-2018-12015.patch \
+-        file://0001-ExtUtils-MM_Unix.pm-fix-race-issues.patch \
+-"
+-
+-# Fix test case issues
+-SRC_URI_append_class-target = " \
+-            file://test/dist-threads-t-join.t-adjust-ps-option.patch \
+-            file://test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch \
+-            file://0001-Skip-various-tests-if-PERL_BUILD_PACKAGING-is-set.patch \
+-           "
+-
+-SRC_URI[md5sum] = "04622bc4d3941dc7eb571c52b7c02993"
+-SRC_URI[sha256sum] = "7f080287ff64750270689843ae945f02159a33cb8f2fc910248c15befba5db84"
+-
+-inherit perlnative siteinfo
+-
+-# Where to find the native perl
+-HOSTPERL = "${STAGING_BINDIR_NATIVE}/perl-native/perl${PV}"
+-
+-# Where to find .so files - use the -native versions not those from the target build
+-export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
+-
+-# Where to find perl @INC/#include files
+-# - use the -native versions not those from the target build
+-export PERL_LIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
+-export PERL_ARCHLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
+-
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
+-
+-# LDFLAGS for shared libraries
+-export LDDLFLAGS = "${LDFLAGS} -shared"
+-
+-LDFLAGS_append = " -fstack-protector"
+-
+-# We're almost Debian, aren't we?
+-CFLAGS += "-DDEBIAN"
+-
+-do_configure() {
+-        # Make hostperl in build directory be the native perl
+-        ln -sf ${HOSTPERL} hostperl
+-
+-	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+-		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a -e Makefile ]; then
+-			${MAKE} clean
+-		fi
+-		find ${S} -name *.so -delete
+-	fi
+-	if [ -n "${CONFIGURESTAMPFILE}" ]; then
+-		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
+-	fi
+-
+-        # Do our work in the cross subdir
+-        cd Cross
+-
+-        # Generate configuration
+-        rm -f config.sh-${TARGET_ARCH}-${TARGET_OS}
+-        for i in ${WORKDIR}/config.sh \
+-                 ${WORKDIR}/config.sh-${SITEINFO_BITS} \
+-                 ${WORKDIR}/config.sh-${SITEINFO_BITS}-${SITEINFO_ENDIANNESS}; do
+-            cat $i >> config.sh-${TARGET_ARCH}-${TARGET_OS}
+-        done
+-
+-        # Fixups for musl
+-        if [ "${TARGET_OS}" = "linux-musl" -o "${TARGET_OS}" = "linux-musleabi" -o "${TARGET_OS}" = "linux-muslx32" ]; then
+-                sed -i -e "s,\(d_libm_lib_version=\)'define',\1'undef',g" \
+-                       -e "s,\(d_stdio_ptr_lval=\)'define',\1'undef',g" \
+-                       -e "s,\(d_stdio_ptr_lval_sets_cnt=\)'define',\1'undef',g" \
+-                       -e "s,\(d_stdiobase=\)'define',\1'undef',g" \
+-                       -e "s,\(d_stdstdio=\)'define',\1'undef',g" \
+-                       -e "s,\(d_getnetbyname_r=\)'define',\1'undef',g" \
+-                       -e "s,\(d_finitel=\)'define',\1'undef',g" \
+-                       -e "s,\(getprotobyname_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getpwent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getservent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(gethostent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getnetent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getnetbyaddr_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getprotoent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getprotobynumber_r=\)'define',\1'undef',g" \
+-                       -e "s,\(getgrent_r=\)'define',\1'undef',g" \
+-                       -e "s,\(i_fcntl=\)'undef',\1'define',g" \
+-                       -e "s,\(h_fcntl=\)'false',\1'true',g" \
+-                       -e "s,-fstack-protector,-fno-stack-protector,g" \
+-                    config.sh-${TARGET_ARCH}-${TARGET_OS}
+-        fi
+-
+-        # Update some paths in the configuration
+-        sed -i -e 's,@ARCH@-thread-multi,,g' \
+-               -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
+-               -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
+-               -e "s,@INCLUDEDIR@,${STAGING_INCDIR},g" \
+-               -e "s,@LIBDIR@,${libdir},g" \
+-               -e "s,@BASELIBDIR@,${base_libdir},g" \
+-               -e "s,@EXECPREFIX@,${exec_prefix},g" \
+-               -e 's,@USRBIN@,${bindir},g' \
+-               -e "s,-lnsl,,g" \
+-            config.sh-${TARGET_ARCH}-${TARGET_OS}
+-
+-	case "${TARGET_ARCH}" in
+-		x86_64 | powerpc | s390)
+-			sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \
+-				config.sh-${TARGET_ARCH}-${TARGET_OS}
+-			;;
+-		arm)
+-			sed -i -e "s,\(d_u32align=\)'undef',\1'define',g" \
+-				config.sh-${TARGET_ARCH}-${TARGET_OS}
+-			;;
+-	esac
+-        # These are strewn all over the source tree
+-        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" --exclude="Glossary" -m1 "/usr/include/.*\.h" ${S}/* -r -l` ${S}/utils/h2xs.PL ; do
+-            echo Fixing: $foo
+-            sed -e 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i $foo
+-        done
+-
+-        rm -f config
+-        echo "ARCH = ${TARGET_ARCH}" > config
+-        echo "OS = ${TARGET_OS}" >> config
+-}
+-
+-do_compile() {
+-        # Fix to avoid recursive substitution of path
+-        sed -i -e 's|(@libpath, ".*"|(@libpath, "${STAGING_LIBDIR}"|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-
+-        cd Cross
+-        oe_runmake perl LD="${CCLD}"
+-}
+-
+-do_compile_append_class-target() {
+-        # Remove build host references from numerous comments...
+-        find "${S}/cpan/Encode" -type f \
+-            \( -name '*.exh' -o -name '*.c' -o -name '*.h' \)\
+-            -exec sed -i -e 's:${RECIPE_SYSROOT_NATIVE}::g' {} +
+-        sed -i -e 's:${RECIPE_SYSROOT}::g' ${S}/perl.h ${S}/pp.h
+-        sed -i -e 's:${RECIPE_SYSROOT_NATIVE}/usr/bin/perl-native/perl${PV}.real:/usr/bin/perl${PV}:g'  \
+-            ${S}/cpan/Compress-Raw-Bzip2/constants.h \
+-            ${S}/cpan/Compress-Raw-Zlib/constants.h \
+-            ${S}/cpan/IPC-SysV/const-c.inc \
+-            ${S}/dist/Time-HiRes/const-c.inc
+-}
+-
+-do_install() {
+-	#export hostperl="${STAGING_BINDIR_NATIVE}/perl-native/perl${PV}"
+-	oe_runmake install DESTDIR=${D}
+-        # Add perl pointing at current version
+-        ln -sf perl${PV} ${D}${bindir}/perl
+-
+-        ln -sf perl ${D}/${libdir}/perl5
+-
+-        # Remove unwanted file and empty directories
+-        rm -f ${D}/${libdir}/perl/${PV}/.packlist
+-	rmdir ${D}/${libdir}/perl/site_perl/${PV}
+-	rmdir ${D}/${libdir}/perl/site_perl
+-
+-        # Fix up shared library
+-        mv ${D}/${libdir}/perl/${PV}/CORE/libperl.so ${D}/${libdir}/libperl.so.${PV}
+-        ln -sf libperl.so.${PV} ${D}/${libdir}/libperl.so.5
+-        ln -sf ../../../libperl.so.${PV} ${D}/${libdir}/perl/${PV}/CORE/libperl.so
+-
+-        # target config, used by cpan.bbclass to extract version information
+-        install config.sh ${D}${libdir}/perl
+-
+-        ln -s Config_heavy.pl ${D}${libdir}/perl/${PV}/Config_heavy-target.pl
+-}
+-
+-do_install_append_class-nativesdk () {
+-        create_wrapper ${D}${bindir}/perl \
+-            PERL5LIB='$PERL5LIB:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/site_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/vendor_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/${PV}'
+-}
+-
+-PACKAGE_PREPROCESS_FUNCS += "perl_package_preprocess"
+-
+-perl_package_preprocess () {
+-        # Fix up installed configuration
+-        sed -i -e "s,${D},,g" \
+-               -e "s,${DEBUG_PREFIX_MAP},,g" \
+-               -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
+-               -e "s,-isystem${STAGING_INCDIR} ,,g" \
+-               -e "s,${STAGING_LIBDIR},${libdir},g" \
+-               -e "s,${STAGING_BINDIR},${bindir},g" \
+-               -e "s,${STAGING_INCDIR},${includedir},g" \
+-               -e "s,${STAGING_BINDIR_NATIVE}/perl-native/,${bindir}/,g" \
+-               -e "s,${STAGING_BINDIR_NATIVE}/,,g" \
+-               -e "s,${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX},${bindir},g" \
+-               -e 's:${RECIPE_SYSROOT}::g' \
+-            ${PKGD}${bindir}/h2xs \
+-            ${PKGD}${bindir}/h2ph \
+-            ${PKGD}${bindir}/pod2man \
+-            ${PKGD}${bindir}/pod2text \
+-            ${PKGD}${bindir}/pod2usage \
+-            ${PKGD}${bindir}/podchecker \
+-            ${PKGD}${bindir}/podselect \
+-            ${PKGD}${libdir}/perl/${PV}/CORE/config.h \
+-            ${PKGD}${libdir}/perl/${PV}/CORE/perl.h \
+-            ${PKGD}${libdir}/perl/${PV}/CORE/pp.h \
+-            ${PKGD}${libdir}/perl/${PV}/Config.pm \
+-            ${PKGD}${libdir}/perl/${PV}/Config.pod \
+-            ${PKGD}${libdir}/perl/${PV}/Config_heavy.pl \
+-            ${PKGD}${libdir}/perl/${PV}/ExtUtils/Liblist/Kid.pm \
+-            ${PKGD}${libdir}/perl/${PV}/FileCache.pm \
+-            ${PKGD}${libdir}/perl/${PV}/pod/*.pod \
+-            ${PKGD}${libdir}/perl/config.sh
+-}
+-
+-PACKAGES = "perl-dbg perl perl-misc perl-dev perl-pod perl-doc perl-lib \
+-            perl-module-cpan perl-module-cpanplus perl-module-unicore"
+-FILES_${PN} = "${bindir}/perl ${bindir}/perl${PV} \
+-               ${libdir}/perl/${PV}/Config.pm \
+-               ${libdir}/perl/${PV}/strict.pm \
+-               ${libdir}/perl/${PV}/warnings.pm \
+-               ${libdir}/perl/${PV}/warnings \
+-               ${libdir}/perl/${PV}/vars.pm \
+-              "
+-FILES_${PN}_append_class-nativesdk = " ${bindir}/perl.real"
+-RPROVIDES_${PN} += "perl-module-strict perl-module-vars perl-module-config perl-module-warnings \
+-                    perl-module-warnings-register"
+-FILES_${PN}-dev = "${libdir}/perl/${PV}/CORE"
+-FILES_${PN}-lib = "${libdir}/libperl.so* \
+-                   ${libdir}/perl5 \
+-                   ${libdir}/perl/config.sh \
+-		   ${libdir}/perl/${PV}/Config_git.pl \
+-                   ${libdir}/perl/${PV}/Config_heavy.pl \
+-                   ${libdir}/perl/${PV}/Config_heavy-target.pl"
+-FILES_${PN}-pod = "${libdir}/perl/${PV}/pod \
+-		   ${libdir}/perl/${PV}/*.pod \
+-                   ${libdir}/perl/${PV}/*/*.pod \
+-                   ${libdir}/perl/${PV}/*/*/*.pod "
+-FILES_perl-misc = "${bindir}/*"
+-FILES_${PN}-doc = "${libdir}/perl/${PV}/*/*.txt \
+-                   ${libdir}/perl/${PV}/*/*/*.txt \
+-                   ${libdir}/perl/${PV}/auto/XS/Typemap \
+-                   ${libdir}/perl/${PV}/B/assemble \
+-                   ${libdir}/perl/${PV}/B/cc_harness \
+-                   ${libdir}/perl/${PV}/B/disassemble \
+-                   ${libdir}/perl/${PV}/B/makeliblinks \
+-                   ${libdir}/perl/${PV}/CGI/eg \
+-                   ${libdir}/perl/${PV}/CPAN/PAUSE2003.pub \
+-                   ${libdir}/perl/${PV}/CPAN/SIGNATURE \
+-		   ${libdir}/perl/${PV}/CPANPLUS/Shell/Default/Plugins/HOWTO.pod \
+-                   ${libdir}/perl/${PV}/Encode/encode.h \
+-                   ${libdir}/perl/${PV}/ExtUtils/MANIFEST.SKIP \
+-                   ${libdir}/perl/${PV}/ExtUtils/NOTES \
+-                   ${libdir}/perl/${PV}/ExtUtils/PATCHING \
+-                   ${libdir}/perl/${PV}/ExtUtils/typemap \
+-                   ${libdir}/perl/${PV}/ExtUtils/xsubpp \
+-		   ${libdir}/perl/${PV}/ExtUtils/Changes_EU-Install \
+-                   ${libdir}/perl/${PV}/Net/*.eg \
+-                   ${libdir}/perl/${PV}/unicore/mktables \
+-                   ${libdir}/perl/${PV}/unicore/mktables.lst \
+-                   ${libdir}/perl/${PV}/unicore/version "
+-
+-FILES_perl-module-cpan += "${libdir}/perl/${PV}/CPAN \
+-                           ${libdir}/perl/${PV}/CPAN.pm"
+-FILES_perl-module-cpanplus += "${libdir}/perl/${PV}/CPANPLUS \
+-                               ${libdir}/perl/${PV}/CPANPLUS.pm"
+-FILES_perl-module-unicore += "${libdir}/perl/${PV}/unicore"
+-
+-# Create a perl-modules package recommending all the other perl
+-# packages (actually the non modules packages and not created too)
+-ALLOW_EMPTY_perl-modules = "1"
+-PACKAGES_append = " perl-modules "
+-
+-PACKAGESPLITFUNCS_prepend = "split_perl_packages "
+-
+-python split_perl_packages () {
+-    libdir = d.expand('${libdir}/perl/${PV}')
+-    do_split_packages(d, libdir, 'auto/([^.]*)/[^/]*\.(so|ld|ix|al)', 'perl-module-%s', 'perl module %s', recursive=True, match_path=True, prepend=False)
+-    do_split_packages(d, libdir, 'Module/([^\/]*)\.pm', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+-    do_split_packages(d, libdir, 'Module/([^\/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+-    do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/|auto\/)[^\/]).*)\.(pm|pl|e2x)', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+-
+-    # perl-modules should recommend every perl module, and only the
+-    # modules. Don't attempt to use the result of do_split_packages() as some
+-    # modules are manually split (eg. perl-module-unicore).
+-    packages = filter(lambda p: 'perl-module-' in p, d.getVar('PACKAGES').split())
+-    d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
+-}
+-
+-PACKAGES_DYNAMIC += "^perl-module-.*(?<!\-native)$"
+-PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-perl-module-.*"
+-
+-RPROVIDES_perl-lib = "perl-lib"
+-
+-require perl-rdepends_${PV}.inc
+-require perl-ptest.inc
+-
+-SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
+-
+-BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+index ef5d631917c..a0883c59525 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+@@ -141,6 +141,7 @@ FILES_python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
+ RPROVIDES_${PN} += "rpm-build"
+ 
+ RDEPENDS_${PN} = "bash perl python3-core"
++RDEPENDS_${PN}_class-native = ""
+ 
+ PACKAGE_PREPROCESS_FUNCS += "rpm_package_preprocess"
+ 
+diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
+index ba90cadd88c..35d737c09b4 100644
+--- a/meta/recipes-extended/groff/groff_1.22.3.bb
++++ b/meta/recipes-extended/groff/groff_1.22.3.bb
+@@ -20,6 +20,7 @@ SRC_URI[sha256sum] = "3a48a9d6c97750bfbd535feeb5be0111db6406ddb7bb79fc680809cda6
+ DEPENDS = "groff-native"
+ DEPENDS_class-native = ""
+ RDEPENDS_${PN} += "perl sed"
++RDEPENDS_${PN}_class-native = ""
+ 
+ inherit autotools texinfo multilib_script
+ 
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.5.bb b/meta/recipes-extended/texinfo/texinfo_6.5.bb
+index f966457f881..866c20fd9c3 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.5.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.5.bb
+@@ -77,6 +77,7 @@ FILES_info-doc = "${infodir}/info.info* ${infodir}/dir ${infodir}/info-*.info* \
+ 
+ FILES_${PN} = "${bindir}/makeinfo ${bindir}/texi* ${bindir}/pdftexi2dvi ${bindir}/pod2texi ${datadir}/texinfo"
+ RDEPENDS_${PN} = "perl"
++RDEPENDS_${PN}_class-native = ""
+ FILES_${PN}-doc = "${infodir}/texinfo* \
+                    ${datadir}/${tex_texinfo} \
+                    ${mandir}/man1 ${mandir}/man5"
+-- 
+2.17.1
+
 
