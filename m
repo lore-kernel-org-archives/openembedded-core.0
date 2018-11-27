@@ -1,47 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0080C600BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3346F6C586
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2018 16:03:30 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id s22so17358341ioc.8
+	Tue, 27 Nov 2018 16:55:46 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id x10so23442032wrs.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2018 08:03:32 -0800 (PST)
+	Tue, 27 Nov 2018 08:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wkPK+iQcbQTJzI5OgN88M3/cSv+ENuY8yQFgngIkR60=;
-	b=sEb3cEzeUm2msdqY1NO63nbfZP/+qq+LzaYS0Ah11Yn8ApuonCfImdO9PMWf5hp/JK
-	uhvdahvjJ9LIGG2VaPIE7Ek5gv2PBum7CSQWDQpUYB0/i/4FgcPXUXJGxItN+gt8aUhZ
-	LMBIpF1DM/YbbIqJDSMXdQ89GRb2oo7xONUyBxiN0wrejDHK1ZLOvnVMRRQQvffkDwjr
-	Y8x+SPBf72tgi+o4AM5bYZckNBs/I/dnM0Lm7MuRhKRISL6+i4omgWn8wBPr0Sc72ZzR
-	FAarrIHiHoPoRB1yQWZlL30ZESE2RIPmVi9uz5GhfZ0KpoAgj+OZbIgW3vHXLFLxU6IZ
-	RLjA==
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=dxMZQ3FfAhsbE3zlgHOYtGWPihjTwmvl3MTMwcb1qQc=;
+	b=YA7W7LV40g0ZFMbGhxV9IzN8LkZKvclzufXEBDtF+a4sQD2tJ7lzOC8FpGIvqxfYQM
+	FY+XLyjnCfcFPTgkAyDV8rEsrr0FQ1RgRx26SE9YkH8gxlEpmPLp2UduEvwKWopIvaYx
+	BDvyal+e2aqoaUt8BwrXUoxVUns1fYFZZeuq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wkPK+iQcbQTJzI5OgN88M3/cSv+ENuY8yQFgngIkR60=;
-	b=JR5hNrfrJkl5F7QX5HtcPKO9YVazWwA7fgEi1e4mVyVZ6RJuE3hV2cJc8oGQApQBGi
-	W5/I1hZLOkSDzYfyaXCqPtAah0xa2yOIzvsUQWn/ehxGd9ItlxuMN0d5awwKJDx5i4eW
-	6w3bZV7iqddCB6B4I+gZxVr2KTOZv88zJh0DFhHt84u3GMj/NFW68fk4K4KCaIYolTAa
-	Vp/sy+ENTbs/FCGJA7p/W2Q6N0dfqUMPIEmTpo1Nk24S8vCqHbP8gkc+Oe6CbF+vIIR5
-	owwdwQYz4uspitfabWFsOahLVDBvXK3rYZJ6UIO0ViPcarSp00KbnlbcJ1FyZZ0zcDUJ
-	A/eg==
-X-Gm-Message-State: AA+aEWbYnXEWGjU+/o8JChSXbsfxJq5+hj7Iib1KGueqpzFLhJJ1uvk3
-	BH0WxKLeSM0YV18DSOKuFDXXdqSGPT+Dx/hkPAeeJQ==
-X-Google-Smtp-Source: AFSGD/XNca1aUCJIG3TA9MPzSpFnkMmXRNVTzk7z0j1BvDDIBqOat5Kp9r9lvNsvQmYAi/pC5N1js4FRon7cSump0bg=
-X-Received: by 2002:a6b:b844:: with SMTP id i65mr24518472iof.20.1543334611968; 
-	Tue, 27 Nov 2018 08:03:31 -0800 (PST)
-MIME-Version: 1.0
-References: <1ce120dd374a4af1e47cfc6ad6fb0d1be9132d8a.camel@linuxfoundation.org>
-In-Reply-To: <1ce120dd374a4af1e47cfc6ad6fb0d1be9132d8a.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 27 Nov 2018 16:03:20 +0000
-Message-ID: <CAJTo0LZM5o=wA64stJrfjpDVASWMcRVs4MkCusGYWRoStVqFyg@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: oe-selftest instability - help needed!
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=dxMZQ3FfAhsbE3zlgHOYtGWPihjTwmvl3MTMwcb1qQc=;
+	b=JSCeW25G6k5Z+fxc0NRRBF0I3XVrzkqN9hoSNSGXRbXuu3XXCRbVVrD/qPDkMxHM6X
+	rTB1dv6BxZdhOrInUzEY3ES6BQ438wHCgDh1RfslaPu7Jn2RKp3pGEjnhFW1niWSxLU3
+	pgpQto1R4Ijd3OX4jn+v8dtAZ67Sbnwn8D73DDYudxtjaEIsyNT+71/1ixsgNLVGx4di
+	fLilXG5YlGmWIbU8VLseP/7mt8PXnhW9o2hTnA49v7Zoma3mH/183zTlK9SlA0iOEIqh
+	BTDYmuS3vz0Onredv23suz65tiFIl6NQlyREMg8lqBW/R983LPu8ohOeV7EsEmDeCc27
+	9FxA==
+X-Gm-Message-State: AA+aEWYWLz1+j7As0Wnt2df3bPhNztlVuc3B0a5an0lrZ6QHaLKwQfky
+	t45NlXb8l++nbP7wwWq3Y7o7PJX9JaM=
+X-Google-Smtp-Source: AFSGD/XyT9CVarQ2S47Ljx5L/u0LINs2O1QELOsELMNuLVRgNwU+Dzr1ownugINygZLtsOtcrNgueg==
+X-Received: by 2002:adf:e149:: with SMTP id f9mr30451582wri.42.1543337746317; 
+	Tue, 27 Nov 2018 08:55:46 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i9sm4606005wrs.34.2018.11.27.08.55.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Nov 2018 08:55:45 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Nov 2018 16:55:43 +0000
+Message-Id: <20181127165544.20893-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] oeqa/selftest/case: Use bb.utils.remove() instead of shutil.remove()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2018 16:03:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Nov 2018 16:55:46 -0000
 
-On Tue, 27 Nov 2018 at 15:25, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> These are a problem as it means the builds go red and someone has to
-> dig through the logs and figure out what broke. Doing this repeatedly
-> for builds is quite tedious. The SWAT process isn't even really picking
-> these up or logging them in bugzilla :(.
+This avoids problems where shutil.remove will error with:
 
-As I'm on SWAT this week, I'm filing the bugs now.
+  File "/usr/lib/python3.5/shutil.py", line 436, in _rmtree_safe_fd
+    os.unlink(name, dir_fd=topfd)
+FileNotFoundError: [Errno 2] No such file or directory: 'S.gpg-agent.extra'
 
-> 2018-11-27 13:58:44,758 - oe-selftest - INFO - ERROR: runqemu.RunqemuTests.test_boot_deploy_hddimg (subunit.RemotedTestCase)
-> 2018-11-27 14:03:03,386 - oe-selftest - INFO - ERROR: runqemu.RunqemuTests.test_boot_deploy_hddimg (subunit.RemotedTestCase)
-> 2018-11-27 13:43:27,665 - oe-selftest - INFO - FAIL: runqemu.RunqemuTests.test_boot_rootfs (subunit.RemotedTestCase)
+when there are races over file deletion (gpg agent may be slow to exit).
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13043
+We already worked around speed and race issues in bb.utils.
 
-> 2018-11-27 02:16:31,246 - oe-selftest - INFO - FAIL: wic.Wic.test_rootfs_indirect_recipes (subunit.RemotedTestCase)
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13044
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/case.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 2018-11-26 16:52:24,931 - oe-selftest - INFO - ERROR: signing.Signing.test_signing_packages (subunit.RemotedTestCase)
-> 2018-11-26 16:52:24,932 - oe-selftest - INFO - ERROR: signing.Signing.test_signing_sstate_archive (subunit.RemotedTestCase)
+diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+index 7a90a6b9758..9c08d595efd 100644
+--- a/meta/lib/oeqa/selftest/case.py
++++ b/meta/lib/oeqa/selftest/case.py
+@@ -12,6 +12,8 @@ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+ from oeqa.core.case import OETestCase
+ 
++import bb.utils
++
+ class OESelftestTestCase(OETestCase):
+     def __init__(self, methodName="runTest"):
+         self._extra_tear_down_commands = []
+@@ -167,7 +169,7 @@ to ensure accurate results.")
+         if self._track_for_cleanup:
+             for path in self._track_for_cleanup:
+                 if os.path.isdir(path):
+-                    shutil.rmtree(path)
++                    bb.utils.remove(path, recurse=True)
+                 if os.path.isfile(path):
+                     os.remove(path)
+             self._track_for_cleanup = []
+-- 
+2.17.1
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13045
-
-> 2018-11-27 00:18:09,479 - oe-selftest - INFO - FAIL: imagefeatures.ImageFeatures.test_image_fstypes (subunit.RemotedTestCase)
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13042
-
-> 2018-11-27 00:18:09,479 - oe-selftest - INFO - FAIL: buildoptions.ImageOptionsTests.test_ccache_tool (subunit.RemotedTestCase)
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13046
-
-Ross
 
