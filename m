@@ -1,19 +1,19 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 5002C6D2D4
+	by mail.openembedded.org (Postfix) with SMTP id 4F7C86D2C5
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Nov 2018 04:53:26 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id A91D02205C5;
+	by smtp0.taitradio.net (Postfix) with ESMTP id 913BE2205B9;
 	Wed, 28 Nov 2018 17:53:24 +1300 (NZDT)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2018 17:53:15 +1300
-Message-Id: <20181128045316.24102-8-douglas.royds@taitradio.com>
+Date: Wed, 28 Nov 2018 17:53:14 +1300
+Message-Id: <20181128045316.24102-7-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181128045316.24102-1-douglas.royds@taitradio.com>
 References: <20181128045316.24102-1-douglas.royds@taitradio.com>
-Subject: [PATCH 7/8] attr: Strip build host paths and tool versions from ptest files
+Subject: [PATCH 6/8] acl: Strip build host tool details from installed ptest file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +28,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Nov 2018 04:53:26 -0000
 
-Using the new PTEST_BUILD_HOST_FILES mechanism.
-Specifically remove reference to build host rpm version, if any.
+Adopt the PTEST_BUILD_HOST_FILES mechanism to strip build host paths from the
+installed builddefs file. Also strip the record of the build host rpm version.
 
 Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/recipes-support/attr/attr.inc | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/recipes-support/attr/acl_2.2.52.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 9fc0f33cce..cfa38a7196 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -29,6 +29,9 @@ ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "setfattr"
- ALTERNATIVE_TARGET[setfattr] = "${bindir}/setfattr"
+diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
+index 260975d93e..82c9277c92 100644
+--- a/meta/recipes-support/attr/acl_2.2.52.bb
++++ b/meta/recipes-support/attr/acl_2.2.52.bb
+@@ -39,15 +39,12 @@ do_install_append() {
+ 
+ inherit ptest
  
 +PTEST_BUILD_HOST_FILES = "builddefs"
 +PTEST_BUILD_HOST_PATTERN = "^RPM"
-+
  do_install_ptest() {
- 	tar -c --exclude=ext test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
- 	mkdir ${D}${PTEST_PATH}/include
-@@ -36,12 +39,6 @@ do_install_ptest() {
- 	  do cp ${S}/include/$i ${D}${PTEST_PATH}/include/; \
- 	done
- 	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
--    
--	# Remove any build host references
--	sed -e "s:--sysroot=${STAGING_DIR_TARGET}::g" \
--	    -e 's:${HOSTTOOLS_DIR}/::g' \
--	    -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
--	    -i ${D}${PTEST_PATH}/include/builddefs
+     tar -c --exclude=nfs test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
+     install -d ${D}${PTEST_PATH}/include
+     install -m 644 ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+-    # Remove any build host references
+-    sed -e "s:--sysroot=${STAGING_DIR_TARGET}::g" \
+-        -e 's:${HOSTTOOLS_DIR}/::g' \
+-        -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+-        -i ${D}${PTEST_PATH}/include/builddefs
  }
  
- RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
+ RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
 -- 
 2.17.1
 
