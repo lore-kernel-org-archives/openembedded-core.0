@@ -1,19 +1,19 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 1548C6D230
+	by mail.openembedded.org (Postfix) with SMTP id 389726D296
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2018 04:53:24 +0000 (UTC)
+	Wed, 28 Nov 2018 04:53:26 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 44A6822047D;
+	by smtp0.taitradio.net (Postfix) with ESMTP id DB7C92205ED;
 	Wed, 28 Nov 2018 17:53:24 +1300 (NZDT)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2018 17:53:09 +1300
-Message-Id: <20181128045316.24102-2-douglas.royds@taitradio.com>
+Date: Wed, 28 Nov 2018 17:53:16 +1300
+Message-Id: <20181128045316.24102-9-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181128045316.24102-1-douglas.royds@taitradio.com>
 References: <20181128045316.24102-1-douglas.royds@taitradio.com>
-Subject: [PATCH 1/8] ptest: Reproducibility: Strip build host paths from any installed Makefile
+Subject: [PATCH 8/8] strace: Strip build host tool details from installed ptest Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,63 +28,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Nov 2018 04:53:26 -0000
 
-A common pattern for ptest is to install a Makefile that provides a make check
-target. These generated Makefiles are normally full of build host paths, to
-hosttools, and to files and scripts within the source or build tree. They also
-commonly include the CFLAGS and CPPFLAGS. None of these build host paths
-can possibly work on-target, so stripping them has no effect on the success of
-the resulting ptests.
-
-Stripping the HOSTTOOLS_DIR has this effect, for instance:
-
-    -MKDIR_P = /home/douglas/workspace/upstream/build/tmp/hosttools/mkdir -p
-    +MKDIR_P = mkdir -p
-
-The curious WORKDIR/*= pattern avoids non-parseable -fdebug-prefix-map patterns
-in the CFLAGS by adding an arbitrary ".", eg:
-
-    -fdebug-prefix-map=.=/usr/src/debug/rsyslog/8.37.0-r0
-
-In all other cases, we simply remove the WORKDIR, eg:
-
-    CPP = arm-tait-linux-gnueabi-gcc -E --sysroot=recipe-sysroot ...
+Adopt new PTEST_BUILD_HOST_PATTERN mechanism.
 
 Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/classes/ptest.bbclass | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/recipes-devtools/strace/strace_4.25.bb | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 9d8a79854a..fa518f6d45 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -3,6 +3,8 @@ DESCRIPTION_${PN}-ptest ?= "${DESCRIPTION}  \
- This package contains a test directory ${PTEST_PATH} for package test purposes."
+diff --git a/meta/recipes-devtools/strace/strace_4.25.bb b/meta/recipes-devtools/strace/strace_4.25.bb
+index 117ebfbf72..58f6cf6e30 100644
+--- a/meta/recipes-devtools/strace/strace_4.25.bb
++++ b/meta/recipes-devtools/strace/strace_4.25.bb
+@@ -32,6 +32,7 @@ EXTRA_OECONF += "--enable-mpers=no"
+ CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
  
- PTEST_PATH ?= "${libdir}/${BPN}/ptest"
-+PTEST_BUILD_HOST_FILES ?= "Makefile"
-+
- FILES_${PN}-ptest = "${PTEST_PATH}"
- SECTION_${PN}-ptest = "devel"
- ALLOW_EMPTY_${PN}-ptest = "1"
-@@ -45,6 +47,17 @@ do_install_ptest_base() {
-     fi
-     do_install_ptest
-     chown -R root:root ${D}${PTEST_PATH}
-+
-+    # Strip build host paths from any installed Makefile
-+    for filename in ${PTEST_BUILD_HOST_FILES}; do
-+        for installed_ptest_file in $(find ${D}${PTEST_PATH} -type f -name $filename); do
-+            bbnote "Stripping host paths from: $installed_ptest_file"
-+            sed -e 's#${HOSTTOOLS_DIR}/*##g' \
-+                -e 's#${WORKDIR}/*=#.=#g' \
-+                -e 's#${WORKDIR}/*##g' \
-+                -i $installed_ptest_file
-+        done
-+    done
+ TESTDIR = "tests"
++PTEST_BUILD_HOST_PATTERN = "^(DEB_CHANGELOGTIME|RPM_CHANGELOGTIME|WARN_CFLAGS_FOR_BUILD)"
+ 
+ do_install_append() {
+ 	# We don't ship strace-graph here because it needs perl
+@@ -46,16 +47,6 @@ do_install_ptest() {
+ 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
+ 	install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
+ 	install -m 644 ${B}/config.h ${D}${PTEST_PATH}
+-	sed -i -e '/^src/s/strace.*[1-9]/ptest/' \
+-	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+-	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+-	    -e 's:${HOSTTOOLS_DIR}/::g' \
+-	    -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+-	    -e 's:${RECIPE_SYSROOT}::g' \
+-	    -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
+-	    -e '/^DEB_CHANGELOGTIME/d' \
+-	    -e '/^RPM_CHANGELOGTIME/d' \
+-	${D}/${PTEST_PATH}/${TESTDIR}/Makefile
  }
  
- do_configure_ptest_base[dirs] = "${B}"
+ RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
 -- 
 2.17.1
 
