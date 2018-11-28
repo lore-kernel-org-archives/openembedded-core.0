@@ -1,46 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C56406C4C8
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6500C6C4C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2018 17:36:32 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id n133so3437780wmd.4
+	Wed, 28 Nov 2018 17:36:33 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y139so3492927wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2018 09:36:34 -0800 (PST)
+	Wed, 28 Nov 2018 09:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=nLoVuNeSYwI23rIB2pEhexuqFVPzr9R35I0Fk6BqlOM=;
-	b=e15BjfkaM5EPMjiyDEnhrUkLIHXtFm2BQV5EfxiYqigL55utOXnlZUJ3zItpcRdwC9
-	o22rF1wc/EiEnPNBvtZVoff4x+y/Pu0WfCd/MtocD4aSELmMn+UcYlVOCrnYDuTMublX
-	tzmpC+FEvNXonDznVZHsmkHRcMeIJ8W5Ij8PA=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=h6gTxnefaU7/iRJ7zUGQVwHV0GZ/14satUSDeeomo/s=;
+	b=FU8hm7imMSflbSXz+ZsDqU0xa7msqWzTP1BcPlnnomdjvthx8/x06r0RAHS4bzZsme
+	9G3l9ztPVEqMR3EXJQ8hlAZcnHfhBQrUxIc7sWY/60/p2Cy3klFM316WXbOf/RZqlBIQ
+	KKWV8k3vDXTEfNJ8scZ44F+ZuoBsmHJN3602E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=nLoVuNeSYwI23rIB2pEhexuqFVPzr9R35I0Fk6BqlOM=;
-	b=e6JOAISyRsBisVxLgmE7cduprxoijNix6qrkDp93jRu1WnylJD0MtYNMrz9pQjk8hy
-	CZhJX1z/veghnYHhl4khj+Zfp3wcBZXAMqJC2uJRrxnP1Ax6les+e1Eow7bD51n4z4Bj
-	eJMoTI+SJbzedIp7xx+QWMKmCy5UrIwpTM4trWY0ctVmwGpON1fG+Qnl6qP41mfVJbQD
-	ZIwBfi0EDdcRPCuvhm6Ipn9aYYvfdLvtp/AGoqTZPhvGCPHJ7+HQ7svelYsVQ2gRceBF
-	hrZYIHjyeM3raP7BAC7nakBJWTfaJ+5aAD1hpDxfvKI6gQ5w2p8m64UaeFV2pGGmuLnI
-	ozMA==
-X-Gm-Message-State: AA+aEWaT5Tps8OAFij1o9Qjt7BPbIsf6tydPQkfKyfFLKWkybuDaWK2N
-	V2PZt6ZwQGyuQXvFAzuVpomE43MQaoQ=
-X-Google-Smtp-Source: AFSGD/XHV1TCLUEQq8r/j08/7fNH0bpf/CmGeGHx18g/ORAhOvYTa3BsxxuQFAYsLBOL4TtWY55bSA==
-X-Received: by 2002:a1c:1b95:: with SMTP id b143mr3708152wmb.3.1543426593163; 
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=h6gTxnefaU7/iRJ7zUGQVwHV0GZ/14satUSDeeomo/s=;
+	b=o2v4IQEbt574XSJ8gb/JbgTsSye15U5aKcNg/XZ7sHPe0FCSXepyfZMwkSGklXiCnX
+	PgkON9u9GUHCq5YXFUbxqkxgdQfhHez+cicbi4w1KlOE4YNDINm4Xgv+ZwEmmbtw9nEV
+	WvzfWUQIce1IC1KeMi9w/PB0LwFj/RppI38IYXyB9Tknp4VLUfVGZOai1VHFReUjW9wR
+	DOj7KMufTjzSqM7mocXWMJIHmYZ3xkeC1ofLXDJ8yBsQJFY7G8bD6bawZ0tvf6dGP+pU
+	4KJJtm6sczlyfiAPyhzOPEEWRoZTQNqh1zW4WYyKAZBWEOQRNkMdv0e7VAraJTD1iKRW
+	MFZQ==
+X-Gm-Message-State: AA+aEWbd4L1ZkrEsyoE/7vR/fNbpOkXGBEpzS9FQuDnWYKJQxNRLtM4/
+	Z+PaO1mv/b4Ae3Na5OZkM07Tev73gmc=
+X-Google-Smtp-Source: AFSGD/UHhYHOh14rKSekanFj89LDP0solNg1H0APNBXhV4u9doMZ0CZXp4dNpt6yDy87raOuBD+atQ==
+X-Received: by 2002:a7b:cd97:: with SMTP id y23mr3452048wmj.129.1543426593996; 
 	Wed, 28 Nov 2018 09:36:33 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a62sm1809943wmf.47.2018.11.28.09.36.32
+	a62sm1809943wmf.47.2018.11.28.09.36.33
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Nov 2018 09:36:32 -0800 (PST)
+	Wed, 28 Nov 2018 09:36:33 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2018 17:36:30 +0000
-Message-Id: <20181128173631.18288-1-richard.purdie@linuxfoundation.org>
+Date: Wed, 28 Nov 2018 17:36:31 +0000
+Message-Id: <20181128173631.18288-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] scripts/runqemu: Tidy up lock handling code
+In-Reply-To: <20181128173631.18288-1-richard.purdie@linuxfoundation.org>
+References: <20181128173631.18288-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] scripts/runqemu: Improve lockfile handling for python with close_fd=True
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +58,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Nov 2018 17:36:34 -0000
 
-Various tweaks:
-- Balance up the aquire/release functions
-- Use debug messge for both acquiring and release message for consistency in logs
-- Use None instead of an empty string
-- Reset the value of the field if we don't have the lock any more
+On python versions with close_fds=True (python 3.2 onwards), the tap
+device lockfile isn't passed to the child process.
+
+Since this guards against use of an active interface, we really want this
+here, so pass it in pass_fds. This means if the parent exits early, the child
+still holds the lock, avoiding messages like:
+
+runqemu - ERROR - Failed to run qemu: qemu-system-x86_64: could not configure /dev/net/tun (tap0): Device or resource busy
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 3786646c5d7..d25de42f27d 100755
+index d25de42f27d..b5afa5883aa 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -220,7 +220,7 @@ class BaseConfig(object):
-         self.tcpserial_portnum = ''
-         self.custombiosdir = ''
-         self.lock = ''
--        self.lock_descriptor = ''
-+        self.lock_descriptor = None
-         self.bitbake_e = ''
-         self.snapshot = False
-         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
-@@ -254,13 +254,17 @@ class BaseConfig(object):
-                 logger.info(msg)
-             if self.lock_descriptor:
-                 self.lock_descriptor.close()
-+                self.lock_descriptor = None
-             return False
-         return True
- 
-     def release_lock(self):
--        fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
--        self.lock_descriptor.close()
--        os.remove(self.lock)
-+        if self.lock_descriptor:
-+            logger.debug("Releasing lockfile for tap device '%s'" % self.tap)
-+            fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
-+            self.lock_descriptor.close()
-+            os.remove(self.lock)
-+            self.lock_descriptor = None
- 
-     def get(self, key):
-         if key in self.d:
-@@ -1237,9 +1241,7 @@ class BaseConfig(object):
-             cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.bindir_native)
-             logger.debug('Running %s' % cmd)
-             subprocess.check_call(cmd, shell=True)
--        if self.lock_descriptor:
--            logger.info("Releasing lockfile for tap device '%s'" % self.tap)
--            self.release_lock()
-+        self.release_lock()
- 
-         if self.nfs_running:
-             logger.info("Shutting down the userspace NFS server...")
+@@ -1220,7 +1220,7 @@ class BaseConfig(object):
+         cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+         cmds = shlex.split(cmd)
+         logger.info('Running %s\n' % cmd)
+-        process = subprocess.Popen(cmds, stderr=subprocess.PIPE)
++        process = subprocess.Popen(cmds, stderr=subprocess.PIPE, pass_fds=[self.lock_descriptor.fileno()])
+         self.qemupid = process.pid
+         retcode = process.wait()
+         if retcode:
 -- 
 2.17.1
 
