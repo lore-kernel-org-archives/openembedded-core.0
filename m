@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F276D143;
-	Wed, 28 Nov 2018 21:33:19 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: douglas.royds <douglas.royds@taitradio.com>
-Date: Wed, 28 Nov 2018 21:33:20 -0000
-Message-ID: <20181128213320.2331.69919@do>
-References: <20181128045316.24102-1-douglas.royds@taitradio.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181128045316.24102-1-douglas.royds@taitradio.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHRlc3Q6IFN0cmlwIGJ1aWxkIGhvc3QgcGF0aHMgZnJvbSBhbnkgaW5zdGFsbGVkIE1ha2VmaWxlIChyZXY0KQ==?=
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id C414D6D091
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2018 21:54:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Nov 2018 13:54:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,292,1539673200"; d="scan'208";a="117411190"
+Received: from yngiam-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.142.7])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Nov 2018 13:54:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Nov 2018 10:54:07 +1300
+Message-Id: <20181128215407.13237-1-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <4366ab6172fbfc210bc85d2c8f2e3fd0c4b8248b.1543378296.git.paul.eggleton@linux.intel.com>
+References: <4366ab6172fbfc210bc85d2c8f2e3fd0c4b8248b.1543378296.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 4/4] oe-selftest: add some tests for recipeutils module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +33,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2018 21:33:19 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Nov 2018 21:54:19 -0000
 
-== Series Details ==
+Add some tests for functions in meta/lib/oe/recipeutils.py, in
+particular for a few issues I've just fixed. I haven't added tests for
+all of the functions - some of them are already being tested via devtool
+in any case.
 
-Series: ptest: Strip build host paths from any installed Makefile (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/15114/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 21387613fe)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../python/python-async-test.inc              |  16 +++
+ .../python/python3-async-test_0.6.2.bb        |   2 +
+ .../recipeutils/recipeutils-test.inc          |   5 +
+ .../recipeutils/recipeutils-test/anotherfile  |   0
+ .../recipeutils/recipeutils-test/somefile     |   0
+ .../recipeutils/recipeutils-test_1.2.bb       |  13 ++
+ meta/lib/oeqa/selftest/cases/recipeutils.py   | 135 ++++++++++++++++++
+ 7 files changed, 171 insertions(+)
+ create mode 100644 meta-selftest/recipes-devtools/python/python-async-test.inc
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-async-test_0.6.2.bb
+ create mode 100644 meta-selftest/recipes-test/recipeutils/recipeutils-test.inc
+ create mode 100644 meta-selftest/recipes-test/recipeutils/recipeutils-test/anotherfile
+ create mode 100644 meta-selftest/recipes-test/recipeutils/recipeutils-test/somefile
+ create mode 100644 meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/recipeutils.py
+
+diff --git a/meta-selftest/recipes-devtools/python/python-async-test.inc b/meta-selftest/recipes-devtools/python/python-async-test.inc
+new file mode 100644
+index 00000000000..c9602e8e52d
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/python/python-async-test.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
++HOMEPAGE = "http://github.com/gitpython-developers/async"
++SECTION = "devel/python"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
++
++inherit pypi
++
++PYPI_PACKAGE = "async"
++
++SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
++SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
++
++RDEPENDS_${PN} += "${PYTHON_PN}-threading"
++
++BBCLASSEXTEND = "nativesdk"
+diff --git a/meta-selftest/recipes-devtools/python/python3-async-test_0.6.2.bb b/meta-selftest/recipes-devtools/python/python3-async-test_0.6.2.bb
+new file mode 100644
+index 00000000000..22e241afb3c
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/python/python3-async-test_0.6.2.bb
+@@ -0,0 +1,2 @@
++inherit setuptools3
++require python-async-test.inc
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test.inc b/meta-selftest/recipes-test/recipeutils/recipeutils-test.inc
+new file mode 100644
+index 00000000000..8490b902d75
+--- /dev/null
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test.inc
+@@ -0,0 +1,5 @@
++SRC_URI = "http://xorg.freedesktop.org/releases/individual/lib/libxshmfence-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
++SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
++
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test/anotherfile b/meta-selftest/recipes-test/recipeutils/recipeutils-test/anotherfile
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test/somefile b/meta-selftest/recipes-test/recipeutils/recipeutils-test/somefile
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+new file mode 100644
+index 00000000000..f6da97b2d43
+--- /dev/null
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "Test recipe for recipeutils.patch_recipe()"
++
++require recipeutils-test.inc
++
++LICENSE = "Proprietary"
++
++DEPENDS += "virtual/libx11"
++
++BBCLASSEXTEND = "native nativesdk"
++
++SRC_URI += "file://somefile"
++
++SRC_URI_append = " file://anotherfile"
+diff --git a/meta/lib/oeqa/selftest/cases/recipeutils.py b/meta/lib/oeqa/selftest/cases/recipeutils.py
+new file mode 100644
+index 00000000000..c7036c7f04e
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/recipeutils.py
+@@ -0,0 +1,135 @@
++import os
++import re
++import time
++import logging
++import bb.tinfoil
++
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd
++from oeqa.core.decorator.oeid import OETestID
++
++
++def setUpModule():
++    global tinfoil
++    tinfoil = bb.tinfoil.Tinfoil(tracking=True)
++    tinfoil.prepare(config_only=False, quiet=2)
++
++
++def tearDownModule():
++    tinfoil.shutdown()
++
++
++class RecipeUtilsTests(OESelftestTestCase):
++    """ Tests for the recipeutils module functions """
++
++    def test_patch_recipe_varflag(self):
++        import oe.recipeutils
++        rd = tinfoil.parse_recipe('python3-async-test')
++        vals = {'SRC_URI[md5sum]': 'woot', 'LICENSE': 'something'}
++        patches = oe.recipeutils.patch_recipe(rd, rd.getVar('FILE'), vals, patch=True)
++
++        expected_patch = """
++--- a/../meta-selftest/recipes-devtools/python/python-async-test.inc
+++++ b/../meta-selftest/recipes-devtools/python/python-async-test.inc
++@@ -1,14 +1,14 @@
++ SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
++ HOMEPAGE = "http://github.com/gitpython-developers/async"
++ SECTION = "devel/python"
++-LICENSE = "BSD"
+++LICENSE = "something"
++ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
++ 
++ inherit pypi
++ 
++ PYPI_PACKAGE = "async"
++ 
++-SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
+++SRC_URI[md5sum] = "woot"
++ SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
++ 
++ RDEPENDS_${PN} += "${PYTHON_PN}-threading"
++"""
++        patchlines = []
++        for f in patches:
++            for line in f:
++                patchlines.append(line)
++        self.maxDiff = None
++        self.assertEqual(''.join(patchlines).strip(), expected_patch.strip())
++
++
++    def test_patch_recipe_singleappend(self):
++        import oe.recipeutils
++        rd = tinfoil.parse_recipe('recipeutils-test')
++        val = rd.getVar('SRC_URI', False).split()
++        del val[1]
++        val = ' '.join(val)
++        vals = {'SRC_URI': val}
++        patches = oe.recipeutils.patch_recipe(rd, rd.getVar('FILE'), vals, patch=True)
++
++        expected_patch = """
++--- a/../meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+++++ b/../meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++@@ -8,6 +8,4 @@
++ 
++ BBCLASSEXTEND = "native nativesdk"
++ 
++-SRC_URI += "file://somefile"
++-
++ SRC_URI_append = " file://anotherfile"
++"""
++        patchlines = []
++        for f in patches:
++            for line in f:
++                patchlines.append(line)
++        self.assertEqual(''.join(patchlines).strip(), expected_patch.strip())
++
++
++    def test_patch_recipe_appends(self):
++        import oe.recipeutils
++        rd = tinfoil.parse_recipe('recipeutils-test')
++        val = rd.getVar('SRC_URI', False).split()
++        vals = {'SRC_URI': val[0]}
++        patches = oe.recipeutils.patch_recipe(rd, rd.getVar('FILE'), vals, patch=True)
++
++        expected_patch = """
++--- a/../meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+++++ b/../meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++@@ -8,6 +8,3 @@
++ 
++ BBCLASSEXTEND = "native nativesdk"
++ 
++-SRC_URI += "file://somefile"
++-
++-SRC_URI_append = " file://anotherfile"
++"""
++        patchlines = []
++        for f in patches:
++            for line in f:
++                patchlines.append(line)
++        self.assertEqual(''.join(patchlines).strip(), expected_patch.strip())
++
++
++    def test_validate_pn(self):
++        import oe.recipeutils
++        expected_results = {
++            'test': '',
++            'glib-2.0': '',
++            'gtk+': '',
++            'forcevariable': 'reserved',
++            'pn-something': 'reserved',
++            'test.bb': 'file',
++            'test_one': 'character',
++            'test!': 'character',
++        }
++
++        for pn, expected in expected_results.items():
++            result = oe.recipeutils.validate_pn(pn)
++            if expected:
++                self.assertIn(expected, result)
++            else:
++                self.assertEqual(result, '')
++
++    def test_split_var_value(self):
++        import oe.recipeutils
++        res = oe.recipeutils.split_var_value('test.1 test.2 ${@call_function("hi there world", false)} test.4')
++        self.assertEqual(res, ['test.1', 'test.2', '${@call_function("hi there world", false)}', 'test.4'])
+-- 
+2.17.2
 
 
