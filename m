@@ -1,20 +1,20 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 2C82F6D120
+	by mail.openembedded.org (Postfix) with SMTP id C884D6D28F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2018 21:13:20 +0000 (UTC)
+	Wed, 28 Nov 2018 21:13:22 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 96E2F1C0681;
+	by smtp1.taitradio.net (Postfix) with ESMTP id C73561C068A;
 	Thu, 29 Nov 2018 10:13:21 +1300 (NZDT)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 10:13:14 +1300
-Message-Id: <20181128211319.16648-4-douglas.royds@taitradio.com>
+Date: Thu, 29 Nov 2018 10:13:18 +1300
+Message-Id: <20181128211319.16648-8-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181128211319.16648-1-douglas.royds@taitradio.com>
 References: <20181128045316.24102-1-douglas.royds@taitradio.com>
 	<20181128211319.16648-1-douglas.royds@taitradio.com>
-Subject: [PATCH v3 3/8] openssl ptest: Strip build host paths from configdata.pm
+Subject: [PATCH v3 7/8] acl: Strip build host tool details from installed ptest file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,28 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2018 21:13:22 -0000
+X-List-Received-Date: Wed, 28 Nov 2018 21:13:23 -0000
 
-This file contains CC, CPP, CFLAGS, CXXFLAGS and the like.
+Adopt the PTEST_BUILD_HOST_FILES mechanism to strip build host paths from the
+installed builddefs file. Also strip the record of the build host rpm version.
 
 Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/attr/acl_2.2.52.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-index 3629f7e6a1..deeb865a6f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-@@ -156,6 +156,7 @@ do_install_append_class-nativesdk () {
- 	sed 's|/usr/lib/ssl/|/usr/lib/ssl-1.1/|g' -i ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
+diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
+index 318308a009..6bc77d868d 100644
+--- a/meta/recipes-support/attr/acl_2.2.52.bb
++++ b/meta/recipes-support/attr/acl_2.2.52.bb
+@@ -39,15 +39,12 @@ do_install_append() {
+ 
+ inherit ptest
+ 
++PTEST_BUILD_HOST_FILES = "builddefs"
++PTEST_BUILD_HOST_PATTERN = "^RPM"
+ do_install_ptest() {
+ 	tar -c --exclude=nfs test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
+ 	install -d ${D}${PTEST_PATH}/include
+ 	install -m 644 ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+-	# Remove any build host references
+-	sed -e "s:--sysroot=${STAGING_DIR_TARGET}::g" \
+-	    -e 's:${HOSTTOOLS_DIR}/::g' \
+-	    -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+-	    -i ${D}${PTEST_PATH}/include/builddefs
  }
  
-+PTEST_BUILD_HOST_FILES += "configdata.pm"
- do_install_ptest () {
- 	# Prune the build tree
- 	rm -f ${B}/fuzz/*.* ${B}/test/*.*
+ RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
 -- 
 2.17.1
 
