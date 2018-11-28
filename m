@@ -1,17 +1,19 @@
 Return-Path: <douglas.royds@taitradio.com>
 Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 1455A6D197
+	by mail.openembedded.org (Postfix) with SMTP id 1548C6D230
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Nov 2018 04:53:24 +0000 (UTC)
 Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 2C3EC220479;
+	by smtp0.taitradio.net (Postfix) with ESMTP id 44A6822047D;
 	Wed, 28 Nov 2018 17:53:24 +1300 (NZDT)
 From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2018 17:53:08 +1300
-Message-Id: <20181128045316.24102-1-douglas.royds@taitradio.com>
+Date: Wed, 28 Nov 2018 17:53:09 +1300
+Message-Id: <20181128045316.24102-2-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 0/8] ptest: Strip build host paths from any installed Makefile
+In-Reply-To: <20181128045316.24102-1-douglas.royds@taitradio.com>
+References: <20181128045316.24102-1-douglas.royds@taitradio.com>
+Subject: [PATCH 1/8] ptest: Reproducibility: Strip build host paths from any installed Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,9 +26,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2018 04:53:25 -0000
-
-PTEST_BUILD_HOST_FILES
+X-List-Received-Date: Wed, 28 Nov 2018 04:53:26 -0000
 
 A common pattern for ptest is to install a Makefile that provides a make check
 target. These generated Makefiles are normally full of build host paths, to
@@ -35,37 +35,56 @@ commonly include the CFLAGS and CPPFLAGS. None of these build host paths
 can possibly work on-target, so stripping them has no effect on the success of
 the resulting ptests.
 
-PTEST_BUILD_HOST_FILES is a whitespace-separated list of filenames within the
-PTEST_PATH that should have build host paths stripped from them at
-do_install_ptest_base time. It defaults to "Makefile".
+Stripping the HOSTTOOLS_DIR has this effect, for instance:
 
-PTEST_BUILD_HOST_PATTERN
+    -MKDIR_P = /home/douglas/workspace/upstream/build/tmp/hosttools/mkdir -p
+    +MKDIR_P = mkdir -p
 
-Several packages install Makefiles or other build host
-configuration files for ptest so that they can run `make check`, for instance.
-These build host files commonly include paths and versions of build host tools,
-(eg. rpm or perl) whose presence and version depends on the build host distro.
+The curious WORKDIR/*= pattern avoids non-parseable -fdebug-prefix-map patterns
+in the CFLAGS by adding an arbitrary ".", eg:
 
-PTEST_BUILD_HOST_PATTERN is an extended regex pattern used to 
-optionally strip lines from installed PTEST_BUILD_HOST_FILES.
+    -fdebug-prefix-map=.=/usr/src/debug/rsyslog/8.37.0-r0
 
-Douglas Royds (8):
-  ptest: Reproducibility: Strip build host paths from any installed Makefile
-  ptest: Optionally strip build host tool info from installed files
-  openssl ptest: Strip build host paths from configdata.pm
-  openssl: Strip perl version from installed ptest configdata.pm file
-  acl: Use install instead of cp
-  acl: Strip build host tool details from installed ptest file
-  attr: Strip build host paths and tool versions from ptest files
-  strace: Strip build host tool details from installed ptest Makefile
+In all other cases, we simply remove the WORKDIR, eg:
 
- meta/classes/ptest.bbclass                    | 18 ++++++++++++++++
- .../openssl/openssl_1.1.1a.bb                 |  2 ++
- meta/recipes-devtools/strace/strace_4.25.bb   | 11 +---------
- meta/recipes-support/attr/acl_2.2.52.bb       | 21 ++++++++-----------
- meta/recipes-support/attr/attr.inc            |  9 +++-----
- 5 files changed, 33 insertions(+), 28 deletions(-)
+    CPP = arm-tait-linux-gnueabi-gcc -E --sysroot=recipe-sysroot ...
 
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/classes/ptest.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 9d8a79854a..fa518f6d45 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -3,6 +3,8 @@ DESCRIPTION_${PN}-ptest ?= "${DESCRIPTION}  \
+ This package contains a test directory ${PTEST_PATH} for package test purposes."
+ 
+ PTEST_PATH ?= "${libdir}/${BPN}/ptest"
++PTEST_BUILD_HOST_FILES ?= "Makefile"
++
+ FILES_${PN}-ptest = "${PTEST_PATH}"
+ SECTION_${PN}-ptest = "devel"
+ ALLOW_EMPTY_${PN}-ptest = "1"
+@@ -45,6 +47,17 @@ do_install_ptest_base() {
+     fi
+     do_install_ptest
+     chown -R root:root ${D}${PTEST_PATH}
++
++    # Strip build host paths from any installed Makefile
++    for filename in ${PTEST_BUILD_HOST_FILES}; do
++        for installed_ptest_file in $(find ${D}${PTEST_PATH} -type f -name $filename); do
++            bbnote "Stripping host paths from: $installed_ptest_file"
++            sed -e 's#${HOSTTOOLS_DIR}/*##g' \
++                -e 's#${WORKDIR}/*=#.=#g' \
++                -e 's#${WORKDIR}/*##g' \
++                -i $installed_ptest_file
++        done
++    done
+ }
+ 
+ do_configure_ptest_base[dirs] = "${B}"
 -- 
 2.17.1
 
