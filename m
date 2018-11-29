@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AB7576D583
+	by mail.openembedded.org (Postfix) with ESMTP id E931C6C253
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 12:17:48 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id j10so1677673wru.4
+	Thu, 29 Nov 2018 12:17:49 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id l9so1656899wrt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 04:17:50 -0800 (PST)
+	Thu, 29 Nov 2018 04:17:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=MCyk2jTonCXIXMiErSlrzhrkQAfZbIR3ZyJBLJG1yAk=;
-	b=Se5JZxnhjH5ipGFP1sqdtspVtwMFwwnBmYkve1tQAUzTy2ErH/Hqy+ze9ZrHqHljYr
-	CYFaTEOF+PpEuKxXrbI0Df3H1AC86I/e9f/IuraYcf3inSTbk2y4s1WIzCtTL2JRvOUo
-	bEv7+QY/6hmVKA6kmYhv3PXRPwDkJQcyDZn3E=
+	bh=6O4S0ZPO4JyvkzQbPxcaT7JtIiuZrof/+SggYUIYdJ8=;
+	b=CTRT59iwtRpcTz6IHyp3W9DZfYtqSpV018/q7uOzNjVzHeBCACbhXCQvYejrQwj3cn
+	9r/r1LdpPAtFtzUuQTAgq8rJWMWFA/OikybMCcedVMjvrF3Tmwd+xaMX4PaXj448mRkp
+	efDxuG6gmSTobpq8S8ccP9EW8AqX9CoXuVM1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=MCyk2jTonCXIXMiErSlrzhrkQAfZbIR3ZyJBLJG1yAk=;
-	b=YhpSb6EgI4a9bFGEm6mTv+OYeSEVP29NNHktIm5p0YA+j6b62SbzSPGyQ8F0etpxz5
-	o0XSj8Uya2St3Vj4MJA3AfeUYXSM5X37TmlzB3ngw+KzdhFyjrGy6jtMjo6vLM/rhtwK
-	koCUVSZ3+briB0gqfh8ihJSr627G5f8Z7c1MosYvHZD25OJGYkA6hSGSZX+2UpKBUSl6
-	g0jkbqtBh4dWp8uDapxcw4tcgwll4eGafUKYrLaU9ZKEt/D4/3yLl+9M9CiACprQ7Os/
-	Bz+iQoPfd8F7bEkdRKZ9821d7ujXI/xQjAbceBoi2uMCccrETGbeFsUdpDQPLA+8RvfY
-	mhyw==
-X-Gm-Message-State: AA+aEWaXSUtefhYmRSf66XPPUyaEpPi0CpEOQj8g0ELOiSjQEcbOtg6X
-	sRcZthK6oYNDOoku6B5RXsXEH43xHG0=
-X-Google-Smtp-Source: AFSGD/W0dwHrBW/IaWHdwCtFAzOeA0FaHfRcusNeJ8HDvEh3u4xPq9giUgG5qwfU1AFn9s5xtpnQoQ==
-X-Received: by 2002:a5d:694d:: with SMTP id r13mr1173947wrw.323.1543493869253; 
-	Thu, 29 Nov 2018 04:17:49 -0800 (PST)
+	bh=6O4S0ZPO4JyvkzQbPxcaT7JtIiuZrof/+SggYUIYdJ8=;
+	b=A4DbILw18ttpcE8KzfFD0fqunj13nAb6JRjdici76w4GENbcUSA4domYIJEYfqXtq7
+	E08sqLzZ93HceosR1W8/HgUg3W20IPy3OLpS1fwIi/q/Yq/oESiwOVfBNgiH6J+OODpr
+	oOp0R4kV790ulwt0y0jzYjC01DRmnE+GPVt8Co4L/W5wW2ejRxPjfy8EwEYqHDur+J1O
+	bqm48ruGA/YyIv/HnCzuK7uKvOoiBUoBrOg+dNGeZGqec5vcWgZPfq92pYX7bG2H2zdH
+	x0+CVvW1ltf1vFAYrnqrty2UVIj8t3GfgKvnYHvJqH49Je9YEYxRlb7mVRvusCTSB658
+	VWLQ==
+X-Gm-Message-State: AA+aEWbkXkafb4UFPnbpqqETfbe6M8Ck6LAZEgQSmEASpqqHrM9xLaqQ
+	fIn9AzfK41dwXzlJCBHywBwLt5JM8nY=
+X-Google-Smtp-Source: AFSGD/UKv44LR4LZe/68MHgrDZ+KEqlKwJAjKIEi7/GshDcGMHFKsYkGAHblrSq0IAGuwfArScVljA==
+X-Received: by 2002:adf:eec9:: with SMTP id a9mr1193612wrp.242.1543493870482; 
+	Thu, 29 Nov 2018 04:17:50 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 5sm2717625wmw.8.2018.11.29.04.17.48
+	by smtp.gmail.com with ESMTPSA id 5sm2717625wmw.8.2018.11.29.04.17.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Nov 2018 04:17:48 -0800 (PST)
+	Thu, 29 Nov 2018 04:17:49 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 12:17:43 +0000
-Message-Id: <20181129121744.10052-4-richard.purdie@linuxfoundation.org>
+Date: Thu, 29 Nov 2018 12:17:44 +0000
+Message-Id: <20181129121744.10052-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20181129121744.10052-1-richard.purdie@linuxfoundation.org>
 References: <20181129121744.10052-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] meta-selftest/error: Cleanup large trailing whitespace
+Subject: [PATCH 5/5] oeqa/selftest/context: Improve log file handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +57,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 12:17:49 -0000
+X-List-Received-Date: Thu, 29 Nov 2018 12:17:50 -0000
 Content-Transfer-Encoding: 8bit
+
+The existing logfile is simply placed in the current directory. Since the test
+changes cwd to BUILDDIR, the symlink to the log can be placed in an invalid
+directory. We also see trackbacks if the symlink is invalid.
+
+Improve things by:
+
+* Placing logs in LOG_DIR (or BUILDDIR if unset).
+* Using a full path to the log meaning the log and link are placed in the same directory.
+* Using lexists instead of exists so invalid symlinks are handled correctly.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-selftest/recipes-test/error/error.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/context.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/error/error.bb b/meta-selftest/recipes-test/error/error.bb
-index 3c22e7cbebb..65d00a46d99 100644
---- a/meta-selftest/recipes-test/error/error.bb
-+++ b/meta-selftest/recipes-test/error/error.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Error Test case that fails on do_compile"
- DESCRIPTION = "This generates a compile time error to be used to for testing."
- LICENSE = "MIT"
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index dab72688299..c5212903276 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -101,10 +101,15 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
  
--INHIBIT_DEFAULT_DEPS = "1"                                                                                                                                                                  
-+INHIBIT_DEFAULT_DEPS = "1"
- EXCLUDE_FROM_WORLD = "1"
+     def _process_args(self, logger, args):
+         args.test_start_time = time.strftime("%Y%m%d%H%M%S")
+-        args.output_log = '%s-results-%s.log' % (self.name, args.test_start_time)
+         args.test_data_file = None
+         args.CASES_PATHS = None
  
- do_compile() {
++        bbvars = get_bb_vars()
++        logdir = os.environ.get("BUILDDIR")
++        if 'LOG_DIR' in bbvars:
++            logdir = bbvars['LOG_DIR']
++        args.output_log = logdir + '/%s-results-%s.log' % (self.name, args.test_start_time)
++
+         super(OESelftestTestContextExecutor, self)._process_args(logger, args)
+ 
+         if args.list_modules:
+@@ -114,7 +119,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         elif args.list_tests:
+             args.list_tests = 'name'
+ 
+-        self.tc_kwargs['init']['td'] = get_bb_vars()
++        self.tc_kwargs['init']['td'] = bbvars
+         self.tc_kwargs['init']['machines'] = self._get_available_machines()
+ 
+         builddir = os.environ.get("BUILDDIR")
+@@ -304,7 +309,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+ 
+             output_link = os.path.join(os.path.dirname(args.output_log),
+                     "%s-results.log" % self.name)
+-            if os.path.exists(output_link):
++            if os.path.lexists(output_link):
+                 os.remove(output_link)
+             os.symlink(args.output_log, output_link)
+ 
 -- 
 2.19.1
 
