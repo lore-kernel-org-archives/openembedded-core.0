@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5353D6D447;
-	Thu, 29 Nov 2018 13:33:10 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Date: Thu, 29 Nov 2018 13:33:11 -0000
-Message-ID: <20181129133311.2330.14912@do>
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4881C6D661
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2018 14:04:46 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	wATE4Emq019240
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 29 Nov 2018 14:04:15 GMT
+Message-ID: <335a4290d941021b84a2b0447e2017774d0e5259.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@bmw.de>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Nov 2018 14:04:14 +0000
+In-Reply-To: <1543494097-19534-2-git-send-email-mikko.rapeli@bmw.de>
 References: <1543494097-19534-1-git-send-email-mikko.rapeli@bmw.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1543494097-19534-1-git-send-email-mikko.rapeli@bmw.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdmFyaW91cyBmaXhlcw==?=
+	<1543494097-19534-2-git-send-email-mikko.rapeli@bmw.de>
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Cc: Michael.Ho@bmw.de
+Subject: Re: [PATCH 1/5] RFC image_types.bbclass: add image size limit for tar image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,51 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 13:33:10 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 29 Nov 2018 14:04:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Thu, 2018-11-29 at 14:21 +0200, Mikko Rapeli wrote:
+> If IMAGE_ROOTFS_SIZE_LIMIT is defined in image configuration, then
+> build will fail if for tar image type the uncompressed tar ball size
+> exceeds the value, as reported by 'du -ks'.
+> 
+> This check could be extended to other image types as well.
+> 
+> There already exists a check with IMAGE_ROOTFS_SIZE variable
+> but I could not figure out how to actually use it. It does
+> some quite complex overhead calculations which did not seem
+> to work for me on sumo.
+> 
+> When the image size is exceeded, build fails like this:
+> 
+> ERROR: image-1.0-r0 do_image_tar: Image size 170712 of
+> /home/builder/src/base/build/tmp/work/linux/image/1.0-r0/deploy-
+> image-complete/image.rootfs.tar reported by 'du -ks' is larger than
+> limit IMAGE_ROOTFS_SIZE_LIMIT 170000
 
-Series: various fixes
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15136/
-State : failure
+What about IMAGE_ROOTFS_MAXSIZE?
 
-== Summary ==
+I think IMAGE_ROOTFS_SIZE is about adding extra space to the image, not
+limiting its size...
 
+Cheers,
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
-  Patch's path:    bitbake/lib/bb/fetch2/svn.py
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 21387613fe)
-
-* Patch            [5/5] insane.bbclass: add package specific skips to sstate hash
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Richard
 
 
