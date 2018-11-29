@@ -1,30 +1,51 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D7E86BF3E
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id EF8F86BF40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 23:41:07 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2018 15:41:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,296,1539673200"; d="scan'208";a="96980885"
-Received: from vsiribox-mobl2.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.174.172])
-	by orsmga008.jf.intel.com with ESMTP; 29 Nov 2018 15:41:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 30 Nov 2018 12:41:03 +1300
-Message-ID: <3273041.7S1xXB7S2i@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <42011d953b1350b6cc094fd0acc19d03931b092c.camel@linuxfoundation.org>
-References: <20181128215407.13237-1-paul.eggleton@linux.intel.com>
-	<5939456.jcG4z1hedJ@localhost.localdomain>
-	<42011d953b1350b6cc094fd0acc19d03931b092c.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 4/4] oe-selftest: add some tests for recipeutils module
+	Thu, 29 Nov 2018 23:59:15 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id c19-v6so3380403lja.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2018 15:59:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=njS/AJSLj7mbU3Xba5PreC0b4wCSWXbxVpFgXjFQ0IA=;
+	b=0EC01IH+RW7NQRgM3AYoq03AQK/5LZ8T6kmNdXk1gcaD5ep0J1Uj2kyS59ULIRwOUF
+	8i8HwHrjOOGOwBmLSIfV1uXNZrphxP3xAL+/9vNBVnYOQVlKkDvmEsZamhSVjThkzzlR
+	ZQQUtt/lc92Fw/X9h5Z1zWoOXa7ZxslRhBqekL6K1sArlG25LQdsSxSXUvP+RD0QoXuq
+	dBEtyHOxhwW5NDpUFEranqf4uU9taEZew9fm1RzPrBh9mvE/sybIPpEijFB124iIFZBc
+	H5nmZPdRWfsA/h4D+M4PlqVPpry0XZFQ5G0ekKB+yCs5k/RnJ33aV/hBYUq/02zTEVd8
+	jSaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=njS/AJSLj7mbU3Xba5PreC0b4wCSWXbxVpFgXjFQ0IA=;
+	b=M5QIpIkSNZW0W0KTsbwtZUxX9QNKS29xVI82jag7toU2akEEE9tj7HUQiSl1gXhL/I
+	XT4up6dfOvctdytt31TYQPyXVWRcdmWMSMUgD57E3snnpXdT9S5x9Uezm6ZcGaSC76HE
+	LNIJ9Ab8xmy/t8XvQI5/FcY0hGTX6Eps/E/N8JsZ3pX9sTF2tyUKxQih+FxFRWI/mW+O
+	ZS6YqxY1LF7C4KiuWip9BPzq0zlVmsW490WKYEebZDnwY/gzcDeJ4hwpg0yfwIdeWO84
+	WA9vULnlECo1NQGG3FMs11ZWp9REku09Kleun2gE0qbjie3o80pVTM8nMy5CaprUPu9E
+	l6kA==
+X-Gm-Message-State: AA+aEWb1KDiysoNOESNtpsPpW2uDRl4AH8HHiRpWqb/n6UBAaZUQ3sXG
+	01inW3RlLMOat9+rfLeXOuX1HJvSgBecXg==
+X-Google-Smtp-Source: AFSGD/UhOfLOt9C2d0mlGDpxlSwA2upTUoONRBJuAglp5tYg9yL8tb4SDb3o/yg9kmdICjMnw5BxLg==
+X-Received: by 2002:a2e:750a:: with SMTP id
+	q10-v6mr2621459ljc.39.1543535955829; 
+	Thu, 29 Nov 2018 15:59:15 -0800 (PST)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id x11sm590736lfd.81.2018.11.29.15.59.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Nov 2018 15:59:15 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 00:58:31 +0100
+Message-Id: <20181129235831.1361-1-dev@sashko.rv.ua>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [PATCH] nano: upgrade to 3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 23:41:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 29 Nov 2018 23:59:16 -0000
 
-On Friday, 30 November 2018 12:09:58 PM NZDT richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2018-11-30 at 08:35 +1300, Paul Eggleton wrote:
-> > On Friday, 30 November 2018 3:06:32 AM NZDT Richard Purdie wrote:
-> > > On Thu, 2018-11-29 at 22:21 +1300, Paul Eggleton wrote:
-> > > > Add some tests for functions in meta/lib/oe/recipeutils.py, in
-> > > > particular for a few issues I've just fixed. I haven't added
-> > > > tests
-> > > > for
-> > > > all of the functions - some of them are already being tested via
-> > > > devtool
-> > > > in any case.
-> > > 
-> > > Hate to say it but this still isn't working:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/28/steps/7/logs/step2d
-> > > 
-> > > probably due to it not working with the -j option :/
-> > 
-> > Right, so it seems that COREBASE isn't pointing where I'd expect it
-> > to 
-> > here - instead of the copy of the core metadata that's made for the
-> > test, it's
-> > pointing to the original layer. Is that a bug?
-> 
-> I put 
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=74b7df6ff73764e108bd81e05835c8a7d134c187
-> 
-> together to fix this. Its not a bug since the tests modify meta-
-> selftest and therefore when running in parallel, we create copies of
-> that layer per build directory.
+Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+---
+ meta-oe/recipes-support/nano/{nano_3.0.bb => nano_3.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-oe/recipes-support/nano/{nano_3.0.bb => nano_3.2.bb} (79%)
 
-OK, I've sent a fix - I discussed with RP on IRC but for others' benefit
-there's already a function in oeqa.utils.commands that gets the path
-to meta-selftest from BBLAYERS so I used that in v4 that I just sent. 
-I also tested this one with -j which I hadn't with the previous versions.
-
-> I do think we should start using the separate build directory always
-> for oe-selftest for consistency though. It would also make ensuring
-> some things like rm_work disabled easier.
-
-Probably since there are gotchas like this one.
-
-Cheers,
-Paul
-
+diff --git a/meta-oe/recipes-support/nano/nano_3.0.bb b/meta-oe/recipes-support/nano/nano_3.2.bb
+similarity index 79%
+rename from meta-oe/recipes-support/nano/nano_3.0.bb
+rename to meta-oe/recipes-support/nano/nano_3.2.bb
+index 2c7fbd549..b96a79fd0 100644
+--- a/meta-oe/recipes-support/nano/nano_3.0.bb
++++ b/meta-oe/recipes-support/nano/nano_3.2.bb
+@@ -12,8 +12,8 @@ PV_MAJOR = "${@d.getVar('PV').split('.')[0]}"
+ 
+ SRC_URI = "https://nano-editor.org/dist/v${PV_MAJOR}/nano-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "74196427a09ec2f82a88facd220d2787"
+-SRC_URI[sha256sum] = "e0a5bca354514e64762c987c200a8758b05e7bcced3b00b3e48ea0a2d383c8a0"
++SRC_URI[md5sum] = "2606dc0dc31a088f16c7d603b42d23d0"
++SRC_URI[sha256sum] = "d12773af3589994b2e4982c5792b07c6240da5b86c5aef2103ab13b401fe6349"
+ 
+ inherit autotools gettext pkgconfig
+ 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.17.1
 
 
