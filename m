@@ -1,50 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
-	[209.85.167.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A63D46BF42
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 207F06C4A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 15:21:58 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id v6so1924368oif.2
+	Thu, 29 Nov 2018 16:11:58 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id j10so2475555wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 07:22:00 -0800 (PST)
+	Thu, 29 Nov 2018 08:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Gu1IdmHUFy2LVjEFwmKtvtai32Kd48qFPYLqeNOd0d0=;
-	b=XGiihcQu8qWA/Ya83V9zCvnKY0vz0u0tkXW98Yg2QM3EP5bRVyV3RRMy+Y2Wr0glUj
-	K2Y6EaXdL/Nr7xvV/LN7EB/r/A0keUwcA/UG/oLZxwSoRgho3KhOk7D42CPtBxR3QbmP
-	TXvGjfVnY6Wy1v8j9uNhKA5odMneIYBUMBRVOSyVMWInrt/uoAqcMxLtbcauboc4S9fo
-	Ia5yIP5ld7c1ID1pu/OVH4DZfxZitDG0HEuura7UpvmVJrHXGGTlLsbE1Ix4oCFjcqJS
-	4jnrsvlYRz/cRx6Znn4tJRKpv0nE9XVfWnveQeUM7m4Oq6CnRAkSscT+Snq8tsfl7oaT
-	ap7w==
+	h=from:to:cc:subject:date:message-id;
+	bh=hXNCtf5kzyM5BVadbG19L48Aq3W6hbm37pzkDTM/yko=;
+	b=I5L4viVMkJPRGg5J0SYgNRZsCsu5x3irC4RmLLFpco90tpsuh69NcjVhX6IByxNDkF
+	hmivxryOZ2IYR6X4Z4QdP3OBrYmLcqEEjyrbQCSXPh41hu+T7pt8LW6gM6IHEhxj8vAY
+	JCrwsyAclpFP5UrSroLqA5rjYB3CprPR5aK0ODB5CHNc6rCGGA+5sa+2CQUlxne4K7rT
+	ujNr/dKPnDNPydFPT3ikFQgA++PuuBOpwKfs+AjTTNf24xR0pf+zTbMnNmXVNq6GHm22
+	ILnZToS+z99BdK1mqbweVW22t/mIJfpNj0Hd7NeteqWcqn6Q1NTEgRuYWjZ7ODn8y4Yd
+	t6mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Gu1IdmHUFy2LVjEFwmKtvtai32Kd48qFPYLqeNOd0d0=;
-	b=Ow0sNYcdd4BXRaRhqlBBH8QbZ7CLY+uCcY/CB9QMB79CC8pKKrPIMZwtFUV2tKbXSD
-	YWq1JecwNJbXIZYhk2BA9ZHT5rDKsGysr0fVc6aQbpTEjSlh4GBAZmtTXbagn6bI3fc6
-	r2pg0qLaV5kJFFK5tv+ICPrHrtcz6+WK7wOWE/HkwolF9pPBKWSDUtN+Hj+sFj6847nQ
-	G/mO3rJ5QwaEAKx4teTgw5T6cTTUJgDlrfBX0Q0yFFERjbIbP75YaXzDA7B5wWMZXwDO
-	o1Gq9I0GlLgDhWdiSkhYPTcWL7k5vJ7RVGE+zYdae4CCnisAS+xx4KdoIhrccdjkndew
-	PGdg==
-X-Gm-Message-State: AA+aEWYEenwF8iHmf/P0Gap0T7VgREY7q9KTUVBj+mvOkXVh4RrrOcv6
-	wq6qyzt4iXFITWtlzqHB461r9RIA2R+I0jh716o=
-X-Google-Smtp-Source: AFSGD/X+YypBkkZnlZgxJjDGt/gII0sY/WfXX9ytTkpzqIw08/hDQEkQsL3RBjB/Ifa/JNe+K2mvRLRcPYnyO60O9gc=
-X-Received: by 2002:aca:1716:: with SMTP id j22mr151428oii.19.1543504919357;
-	Thu, 29 Nov 2018 07:21:59 -0800 (PST)
-MIME-Version: 1.0
-References: <1543494097-19534-1-git-send-email-mikko.rapeli@bmw.de>
-	<1543494097-19534-2-git-send-email-mikko.rapeli@bmw.de>
-	<335a4290d941021b84a2b0447e2017774d0e5259.camel@linuxfoundation.org>
-	<20181129141709.GB10799@hiutale>
-In-Reply-To: <20181129141709.GB10799@hiutale>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 29 Nov 2018 08:21:47 -0700
-Message-ID: <CABcZANkfbjH=_6W819fp9-HB_81VLVbpBVoCKMTpykV-PwMyoQ@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: Michael.Ho@bmw.de, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] RFC image_types.bbclass: add image size limit for tar image type
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hXNCtf5kzyM5BVadbG19L48Aq3W6hbm37pzkDTM/yko=;
+	b=ccHiPKCnLA0uO92GViiLIOlFNDNpQnPQNMFoHQ5IgotDu6FGRu5oGOXHTXuFaH3J8c
+	8ueZhDuOv8MDrwsUtYsBxg6eZlgJ1LuH7NPe4CE8TY8xynEmH75QtZm6lUi1PBGgigsb
+	awUWRS+9LTadMSfkc/hEADpmf063z8OW/B3l27dJc7PhPxbDSoga31mqXUpyWtrHVyf7
+	kziBxTpSiKediPewNAYr8BW4ejvoW4quAr47AHYYFJgHRcZe/oYnY3Nv2VG1xYzLLUP4
+	uTdVazFu5OqMdgCpJ0xLl8NjNZSsgmx7BOpwsLKwBF9O5eFaREYzcPVjdpbZ1quH+QK4
+	hQwA==
+X-Gm-Message-State: AA+aEWYurdcM4zZxdFVvJKrC1gAkT2Db0nVLTDu4hVyGJX1bfmB+XT0z
+	uEbwrs+P/4DG+VPHmCkDDwnNNaHi
+X-Google-Smtp-Source: AFSGD/VExKEirZhsupJpSGlPABrC03bv6xCRLml3YhGzjvqEM+t3+dL+bmN/eYqUefADnCv91RB8nw==
+X-Received: by 2002:adf:d112:: with SMTP id a18mr2056335wri.17.1543507919282; 
+	Thu, 29 Nov 2018 08:11:59 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	p125-v6sm628698wmp.2.2018.11.29.08.11.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Nov 2018 08:11:58 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Nov 2018 17:11:50 +0100
+Message-Id: <20181129161150.41678-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] libc-package: fix postinst error when ENABLE_BINARY_LOCALE_GENERATION = "0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,131 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 15:21:58 -0000
-Content-Type: multipart/alternative; boundary="0000000000006d6dbe057bcf3eb6"
+X-List-Received-Date: Thu, 29 Nov 2018 16:11:59 -0000
 
---0000000000006d6dbe057bcf3eb6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[YOCTO #13028]
 
-This seems like it=E2=80=99d make a good general image qa check instead, ra=
-ther
-than being part of do_image_tar.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/classes/libc-package.bbclass | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-On Thu, Nov 29, 2018 at 7:29 AM <Mikko.Rapeli@bmw.de> wrote:
-
-> On Thu, Nov 29, 2018 at 02:04:14PM +0000, Richard Purdie wrote:
-> > On Thu, 2018-11-29 at 14:21 +0200, Mikko Rapeli wrote:
-> > > If IMAGE_ROOTFS_SIZE_LIMIT is defined in image configuration, then
-> > > build will fail if for tar image type the uncompressed tar ball size
-> > > exceeds the value, as reported by 'du -ks'.
-> > >
-> > > This check could be extended to other image types as well.
-> > >
-> > > There already exists a check with IMAGE_ROOTFS_SIZE variable
-> > > but I could not figure out how to actually use it. It does
-> > > some quite complex overhead calculations which did not seem
-> > > to work for me on sumo.
-> > >
-> > > When the image size is exceeded, build fails like this:
-> > >
-> > > ERROR: image-1.0-r0 do_image_tar: Image size 170712 of
-> > > /home/builder/src/base/build/tmp/work/linux/image/1.0-r0/deploy-
-> > > image-complete/image.rootfs.tar reported by 'du -ks' is larger than
-> > > limit IMAGE_ROOTFS_SIZE_LIMIT 170000
-> >
-> > What about IMAGE_ROOTFS_MAXSIZE?
-> >
-> > I think IMAGE_ROOTFS_SIZE is about adding extra space to the image, not
-> > limiting its size...
->
-> Yea, forgot to mention that I tried that too but got inconsisten results.
-> I know it's bad but it was easier for me to add this new test than to
-> figure
-> out what's wrong with current yocto image size checks. Hence RFC.
->
-> -Mikko
->
-> > Cheers,
-> >
-> > Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 4c694ab5e2b..6b1e84ef7e3 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -49,13 +49,7 @@ python __anonymous () {
+ 
+ OVERRIDES_append = ":${TARGET_ARCH}-${TARGET_OS}"
+ 
+-locale_base_postinst() {
+-#!/bin/sh
+-
+-if [ "x$D" != "x" ]; then
+-	exit 1
+-fi
+-
++locale_base_postinst_ontarget() {
+ localedef --inputfile=${datadir}/i18n/locales/%s --charmap=%s %s
+ }
+ 
+@@ -215,7 +209,7 @@ python package_do_split_gconvs () {
+     def output_locale_source(name, pkgname, locale, encoding):
+         d.setVar('RDEPENDS_%s' % pkgname, '%slocaledef %s-localedata-%s %s-charmap-%s' % \
+         (mlprefix, mlprefix+bpn, legitimize_package_name(locale), mlprefix+bpn, legitimize_package_name(encoding)))
+-        d.setVar('pkg_postinst_%s' % pkgname, d.getVar('locale_base_postinst') \
++        d.setVar('pkg_postinst_ontarget_%s' % pkgname, d.getVar('locale_base_postinst_ontarget') \
+         % (locale, encoding, locale))
+         d.setVar('pkg_postrm_%s' % pkgname, d.getVar('locale_base_postrm') % \
+         (locale, encoding, locale))
+-- 
+2.17.1
 
 
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---0000000000006d6dbe057bcf3eb6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This seems like it=E2=80=99d make a good general image qa =
-check instead, rather than being part of do_image_tar.</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr">On Thu, Nov 29, 2018 at 7:29 AM &lt;<a hr=
-ef=3D"mailto:Mikko.Rapeli@bmw.de">Mikko.Rapeli@bmw.de</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">On Thu, Nov 29, 2018 at 02:04:14PM +0000,=
- Richard Purdie wrote:<br>
-&gt; On Thu, 2018-11-29 at 14:21 +0200, Mikko Rapeli wrote:<br>
-&gt; &gt; If IMAGE_ROOTFS_SIZE_LIMIT is defined in image configuration, the=
-n<br>
-&gt; &gt; build will fail if for tar image type the uncompressed tar ball s=
-ize<br>
-&gt; &gt; exceeds the value, as reported by &#39;du -ks&#39;.<br>
-&gt; &gt; <br>
-&gt; &gt; This check could be extended to other image types as well.<br>
-&gt; &gt; <br>
-&gt; &gt; There already exists a check with IMAGE_ROOTFS_SIZE variable<br>
-&gt; &gt; but I could not figure out how to actually use it. It does<br>
-&gt; &gt; some quite complex overhead calculations which did not seem<br>
-&gt; &gt; to work for me on sumo.<br>
-&gt; &gt; <br>
-&gt; &gt; When the image size is exceeded, build fails like this:<br>
-&gt; &gt; <br>
-&gt; &gt; ERROR: image-1.0-r0 do_image_tar: Image size 170712 of<br>
-&gt; &gt; /home/builder/src/base/build/tmp/work/linux/image/1.0-r0/deploy-<=
-br>
-&gt; &gt; image-complete/image.rootfs.tar reported by &#39;du -ks&#39; is l=
-arger than<br>
-&gt; &gt; limit IMAGE_ROOTFS_SIZE_LIMIT 170000<br>
-&gt; <br>
-&gt; What about IMAGE_ROOTFS_MAXSIZE?<br>
-&gt;<br>
-&gt; I think IMAGE_ROOTFS_SIZE is about adding extra space to the image, no=
-t<br>
-&gt; limiting its size...<br>
-<br>
-Yea, forgot to mention that I tried that too but got inconsisten results.<b=
-r>
-I know it&#39;s bad but it was easier for me to add this new test than to f=
-igure<br>
-out what&#39;s wrong with current yocto image size checks. Hence RFC.<br>
-<br>
--Mikko<br>
-<br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
-tr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br=
->Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, M=
-entor Graphics</div></div></div></div>
-
---0000000000006d6dbe057bcf3eb6--
