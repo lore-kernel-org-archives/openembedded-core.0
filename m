@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C7B776D5B1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD526D75A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 17:39:35 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 125so3176520wmh.0
+	Thu, 29 Nov 2018 17:52:30 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id v28so1248077pgk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 09:39:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=NIuzUnnj65EikZHVtTfL47AxRDFgErGLZssgkpgQ2GY=;
-	b=LriW9lTwFM4JoUAl47N3P7BC38hWkoZj8dsQYoLefUg60rJp50QPo9fe95pv3yrMxe
-	MA7pHGmBq0FTPiRvAbR+zV1HlSpdDCL9+FmsWDrP6SUskKsbN2gHg15+iBg4DlDP67cl
-	Fk+1FbLfj3q3iooaqCk3fqeqZoaj9VtjrL2TEtukhfAmqkR1q00+mZiS3ocxaaes1Wfz
-	i20Bt20Kmddlvk2QxYAUojTpqaqxFnJSCpHYwZEbM2GYd2tbwTzVc/4ZM37tm/lA/5ou
-	qQMSR2y3mFFPh5G/OQkdPdsi++Rom4TkWkckV1TGSEmpoDRMvl0s5hqi02CYuMRTHV9t
-	3YuQ==
+	Thu, 29 Nov 2018 09:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bUW4hvdQfeAHvwEUBtJkDluWPPz+5c5OWMBaYow5D8Y=;
+	b=bSOCVX2cAEIosTjyh7P35FwsYR1EbZaPAhbz3gNc5hyfeSP0Foi13uJC2we6ruLOAw
+	+nxtrGljEKrhng47IM8qQ/u9gzF8VCLx0rE1CwbTZ+X6mhIYzYxU9fiCDkbvGILjB2Km
+	S4z03iAmLBB7D6Oq3ds8e3ztgkPoYxm7wAXTvp0EYyBt+CHD4Y29OaXJ09eMF/mHhxLJ
+	8P/CmifP5nsIgmIPxDq7iaOXP2H5CGEPEHATgKfWkGxb+msdj3NSR73wIMP392reFbDw
+	ceUoshvCc/zvXskx72RoSgsd6KCYNXe6VBtVO5j5XNrObf5nbeptkFtn74D464QxuDxC
+	qdGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=NIuzUnnj65EikZHVtTfL47AxRDFgErGLZssgkpgQ2GY=;
-	b=cSj2VOC90lu6nbh7wNpsFxPXYfVs5VGxyIUJm0XU6L9Lh1hryyXoZRQ+aaZizJ6B2r
-	AFC7+GmyLOLliPTyotK60wuTbHnJbJDQo9f8xwxqjjIigwgsjE5qK2tyyLGycQQd6HSm
-	P3dM5DjtZ3pq2Ak+SeCGYoFMx1yHNDcqR+htduVxYThY5msy8+p2998jVh5YxA7n7pmD
-	GRMTSJUtjGs5Ngtr4JSlfnNPl9rkIxE1YxZZ6s3Kl1V8lBMpiafd1ff/gkiSyIb59A6K
-	xNq0OsaAwADItDOOWpa+Hc6zupgaYhl0Y51N25OlNZ/P+xx0J/mRBdckDABVWseGHasO
-	GiVw==
-X-Gm-Message-State: AA+aEWbM9MVwnxREWpmyTzmpUU0lKa2y3i59XpsPTkgEQRvh3GiJSUyc
-	rERVfUbjO/tAcG45684jTdRNr3GQhwo=
-X-Google-Smtp-Source: AFSGD/UOLXO2CWtGiZlHOwzAVUBktpot/vZWlgIEQSuZaDsm2xA7RquO73BSsfI3Q4DwJ2PVpPwozA==
-X-Received: by 2002:a1c:d912:: with SMTP id q18mr2577992wmg.122.1543513176172; 
-	Thu, 29 Nov 2018 09:39:36 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b16sm2451941wrm.41.2018.11.29.09.39.35
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bUW4hvdQfeAHvwEUBtJkDluWPPz+5c5OWMBaYow5D8Y=;
+	b=IQAEzS6LtQyusOoBobUqwCtXnvFn4aEYOzS1dxmIBqTPGOZ0gp4IW+hU973khQhRtt
+	6d6re4sjAIb1QHrSb/lWaLboaRLninVfFIy/CBNp5w0eLMSI1zTUlwW4DHn8MeKtv+ru
+	IxNizaZi02xpuokeks59251N77rGMy/kY42pH1YTYxEtanBMFjcmZ2dA8WMJeX7Rgq/m
+	jM6vasqL9igI+wGE1avCd4T96yZ6R4IwuEeUtDRS/LcAe8gqxK4EQgev4BUkSowXat4Z
+	LVx+fNFQwxhaa2WOJutAoilzjzt1Z/E7bUjaMBKszp+0OQmCeg9ZwPyrwvx21vFA60Eo
+	0e7w==
+X-Gm-Message-State: AA+aEWbGo8N6TCkMEv1n2z1SC3dFiqXKVH6klZFTP9ib+z/khggP+wzQ
+	kjf8n//tLKsrXzJOxeYzLOgrLL+GtxQ=
+X-Google-Smtp-Source: AFSGD/Uc6O1KNqdnhaSUfwggdpLASR82O2tW7qHD+8yACnv5HAWIXevS8YXBa7KCOw/QTjuiKyAJCw==
+X-Received: by 2002:a62:32c4:: with SMTP id y187mr2389981pfy.195.1543513951178;
+	Thu, 29 Nov 2018 09:52:31 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:877f:9499::26ab])
+	by smtp.gmail.com with ESMTPSA id
+	f13sm3568866pfa.132.2018.11.29.09.52.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Nov 2018 09:39:35 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 29 Nov 2018 09:52:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 17:39:33 +0000
-Message-Id: <20181129173933.2936-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/sdk/python: add Python 2 and fix detection
+Date: Thu, 29 Nov 2018 09:52:14 -0800
+Message-Id: <20181129175214.3041-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.2
+MIME-Version: 1.0
+Subject: [PATCH V2] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 17:39:36 -0000
+X-List-Received-Date: Thu, 29 Nov 2018 17:52:31 -0000
+Content-Transfer-Encoding: 8bit
 
-Add a Python 2 form to exercise that if present, and fix the setUp() so it
-actually looks for a package that exists (nativesdk-python3 is a virtual
-package, the interpretter is in nativesdk-python3-core).
+Complete changelogs are here
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..39ef612aa193cc6e954ac5a01574300ccd4b7ef9
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/sdk/cases/python.py | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+V2: move to latest master ( 3 more commits for regressions )
 
-diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
-index 7c1d183e529..8b871414033 100644
---- a/meta/lib/oeqa/sdk/cases/python.py
-+++ b/meta/lib/oeqa/sdk/cases/python.py
-@@ -1,14 +1,28 @@
- import subprocess, unittest
- from oeqa.sdk.case import OESDKTestCase
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 0d8f8eb2a4..b416ec45bf 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
  
--class PythonTest(OESDKTestCase):
-+class Python2Test(OESDKTestCase):
-     def setUp(self):
--        if not (self.tc.hasHostPackage("nativesdk-python3") or
--                self.tc.hasHostPackage("python3-native")):
-+        if not (self.tc.hasHostPackage("nativesdk-python-core") or
-+                self.tc.hasHostPackage("python-core-native")):
-             raise unittest.SkipTest("No python package in the SDK")
+-SRCREV = "c50985d5c8e316c5c464f352e79eeebfed1121a9"
++SRCREV = "39ef612aa193cc6e954ac5a01574300ccd4b7ef9"
  
-     def test_python3(self):
-         try:
-+            cmd = "python -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
-+            output = self._run(cmd)
-+            self.assertEqual(output, "Hello, world\n")
-+        except subprocess.CalledProcessError as e:
-+            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
-+
-+class Python3Test(OESDKTestCase):
-+    def setUp(self):
-+        if not (self.tc.hasHostPackage("nativesdk-python3-core") or
-+                self.tc.hasHostPackage("python3-core-native")):
-+            raise unittest.SkipTest("No python3 package in the SDK")
-+
-+    def test_python3(self):
-+        try:
-             cmd = "python3 -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
-             output = self._run(cmd)
-             self.assertEqual(output, "Hello, world\n")
+ PV = "1.1.20+git${SRCPV}"
+ 
 -- 
-2.11.0
+2.19.2
 
 
