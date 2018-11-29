@@ -1,51 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 031F86C4A2
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+	[209.85.167.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A63D46BF42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 14:57:24 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id i7so3969186iti.2
+	Thu, 29 Nov 2018 15:21:58 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id v6so1924368oif.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 06:57:26 -0800 (PST)
+	Thu, 29 Nov 2018 07:22:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=p1iwQ6xjq35k2kiqPBzIDFCekLGMeoK7MsHn78fthcs=;
-	b=QPuO/sUvstgShcyuORmYkyCuI0W6qV+GyljNFlzIiIj/bZK0N5+pgucS9PQEulG1ml
-	fftXBgpd7EgYHywgUbOngLQJ8UcD4W+tAuwJvalscn8MBsar7PDgg7yXvITooek25DI8
-	zTaPrXtgLDFL98kkrYKIKpQXOsgXsxO0F4Q0zgkcxpKHE6SzcBp/zyeUkmrrr/3Ecbtx
-	HnyaFIliq4JhKtk9dIOhYlwJMNMWnRmj9TTj3XUucKq1vNEv/Fu7v2jaHBxr9+O0ypJU
-	P8CouYjaW9LdZZGQ9lSv7kUB1ASUGVLHiOYbL3lWNItqCqm1sJOPNsYHTjqUZ7GUkZVp
-	dyhA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Gu1IdmHUFy2LVjEFwmKtvtai32Kd48qFPYLqeNOd0d0=;
+	b=XGiihcQu8qWA/Ya83V9zCvnKY0vz0u0tkXW98Yg2QM3EP5bRVyV3RRMy+Y2Wr0glUj
+	K2Y6EaXdL/Nr7xvV/LN7EB/r/A0keUwcA/UG/oLZxwSoRgho3KhOk7D42CPtBxR3QbmP
+	TXvGjfVnY6Wy1v8j9uNhKA5odMneIYBUMBRVOSyVMWInrt/uoAqcMxLtbcauboc4S9fo
+	Ia5yIP5ld7c1ID1pu/OVH4DZfxZitDG0HEuura7UpvmVJrHXGGTlLsbE1Ix4oCFjcqJS
+	4jnrsvlYRz/cRx6Znn4tJRKpv0nE9XVfWnveQeUM7m4Oq6CnRAkSscT+Snq8tsfl7oaT
+	ap7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=p1iwQ6xjq35k2kiqPBzIDFCekLGMeoK7MsHn78fthcs=;
-	b=RnJZICuEUazd9wuqx8x1bHHXOnY7EI3NkbHUXkuXRN+nOrlG34t2bKlfjATkFI08YO
-	IF0BbU/+fi7s4GdV4e28r/y0bm4FzkKVKlUOMLif5FOj49y8EzQaRPZy/Hbjpr8OWbRk
-	+ZozKJCvkcyADj6S/6cmBm4Qho+1ipTu6+WFBogDIOGCF5gMWl/McmQ7wXr3MU9N/XSV
-	ldYMw/UOIEsYFVMCE/SavtNtUIjhrcSTpRjdMfJ/B3hFjDvuA7WTIoXJnettsK4dvl2x
-	f8ahMUW0R3cUp2ZBpXzXwFHMsl37ysP6oKjdBz25IZmYaM2/5fBxsT2062F652Ho31ne
-	rLGA==
-X-Gm-Message-State: AA+aEWboftA46/3NniDp7CHhLGfVkyiTpZcabjbjWBxSCCHyxsR48UHH
-	sRBtFO7kUYUuKxIkM3o5ao8xX7PpmRY=
-X-Google-Smtp-Source: AFSGD/WYJU8In9Cd3Y+QL59dR46pWRVAipwtj58P1yp5lqFgWHx6C/6RfLjyWP1NPJKLXq4l8IUUbA==
-X-Received: by 2002:a02:5618:: with SMTP id o24mr1576072jab.111.1543503445555; 
-	Thu, 29 Nov 2018 06:57:25 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	n198sm744206iod.76.2018.11.29.06.57.24
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 29 Nov 2018 06:57:24 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 08:57:20 -0600
-Message-Id: <20181129145720.22520-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.19.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Gu1IdmHUFy2LVjEFwmKtvtai32Kd48qFPYLqeNOd0d0=;
+	b=Ow0sNYcdd4BXRaRhqlBBH8QbZ7CLY+uCcY/CB9QMB79CC8pKKrPIMZwtFUV2tKbXSD
+	YWq1JecwNJbXIZYhk2BA9ZHT5rDKsGysr0fVc6aQbpTEjSlh4GBAZmtTXbagn6bI3fc6
+	r2pg0qLaV5kJFFK5tv+ICPrHrtcz6+WK7wOWE/HkwolF9pPBKWSDUtN+Hj+sFj6847nQ
+	G/mO3rJ5QwaEAKx4teTgw5T6cTTUJgDlrfBX0Q0yFFERjbIbP75YaXzDA7B5wWMZXwDO
+	o1Gq9I0GlLgDhWdiSkhYPTcWL7k5vJ7RVGE+zYdae4CCnisAS+xx4KdoIhrccdjkndew
+	PGdg==
+X-Gm-Message-State: AA+aEWYEenwF8iHmf/P0Gap0T7VgREY7q9KTUVBj+mvOkXVh4RrrOcv6
+	wq6qyzt4iXFITWtlzqHB461r9RIA2R+I0jh716o=
+X-Google-Smtp-Source: AFSGD/X+YypBkkZnlZgxJjDGt/gII0sY/WfXX9ytTkpzqIw08/hDQEkQsL3RBjB/Ifa/JNe+K2mvRLRcPYnyO60O9gc=
+X-Received: by 2002:aca:1716:: with SMTP id j22mr151428oii.19.1543504919357;
+	Thu, 29 Nov 2018 07:21:59 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] classes/update-alternatives: Skip alternatives when disabled
+References: <1543494097-19534-1-git-send-email-mikko.rapeli@bmw.de>
+	<1543494097-19534-2-git-send-email-mikko.rapeli@bmw.de>
+	<335a4290d941021b84a2b0447e2017774d0e5259.camel@linuxfoundation.org>
+	<20181129141709.GB10799@hiutale>
+In-Reply-To: <20181129141709.GB10799@hiutale>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 29 Nov 2018 08:21:47 -0700
+Message-ID: <CABcZANkfbjH=_6W819fp9-HB_81VLVbpBVoCKMTpykV-PwMyoQ@mail.gmail.com>
+To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
+Cc: Michael.Ho@bmw.de, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] RFC image_types.bbclass: add image size limit for tar image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,108 +57,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 14:57:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Nov 2018 15:21:58 -0000
+Content-Type: multipart/alternative; boundary="0000000000006d6dbe057bcf3eb6"
 
-Skips the update alternative steps for recipes that shouldn't have them
-enabled.
+--0000000000006d6dbe057bcf3eb6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes errors like:
+This seems like it=E2=80=99d make a good general image qa check instead, ra=
+ther
+than being part of do_image_tar.
 
- nativesdk-bzip2-1.0.6-r5 do_package: bzip2: alternative target
- (/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-mingw32/usr/bin/bunzip2
- or
- /opt/poky/2.5+snapshot/sysroots/i686-pokysdk-mingw32/usr/bin/bunzip2.bzip2)
- does not exist, skipping...
+On Thu, Nov 29, 2018 at 7:29 AM <Mikko.Rapeli@bmw.de> wrote:
 
-When building mingw SDKs
-
-[YOCTO #12962]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/update-alternatives.bbclass | 27 +++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index aa01058cf99..ee663799332 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -89,15 +89,21 @@ def ua_extend_depends(d):
-     if not 'virtual/update-alternatives' in d.getVar('PROVIDES'):
-         d.appendVar('DEPENDS', ' virtual/${MLPREFIX}update-alternatives')
- 
--python __anonymous() {
-+def update_alternatives_enabled(d):
-     # Update Alternatives only works on target packages...
-     if bb.data.inherits_class('native', d) or \
-        bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or \
-        bb.data.inherits_class('cross-canadian', d):
--        return
-+        return False
- 
-     # Disable when targeting mingw32 (no target support)
-     if d.getVar("TARGET_OS") == "mingw32":
-+        return False
-+
-+    return True
-+
-+python __anonymous() {
-+    if not update_alternatives_enabled(d):
-         return
- 
-     # compute special vardeps
-@@ -128,6 +134,11 @@ populate_packages[vardeps] += "${UPDALTVARS} ${@gen_updatealternativesvars(d)}"
- # the split and strip steps..  packagecopy seems to be the earliest reasonable
- # place.
- python perform_packagecopy_append () {
-+    if update_alternatives_enabled(d):
-+        apply_update_alternative_renames(d)
-+}
-+
-+def apply_update_alternative_renames(d):
-     # Check for deprecated usage...
-     pn = d.getVar('BPN')
-     if d.getVar('ALTERNATIVE_LINKS') != None:
-@@ -194,11 +205,13 @@ python perform_packagecopy_append () {
-                     os.unlink(src)
-                 else:
-                     bb.warn('%s: Unable to resolve dangling symlink: %s' % (pn, alt_target))
--}
- 
- PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
- 
- python populate_packages_updatealternatives () {
-+    if not update_alternatives_enabled(d):
-+        return
-+
-     pn = d.getVar('BPN')
- 
-     # Do actual update alternatives processing
-@@ -252,10 +265,15 @@ python populate_packages_updatealternatives () {
- }
- 
- python package_do_filedeps_append () {
-+    if update_alternatives_enabled(d):
-+        apply_update_alternative_provides(d)
-+}
-+
-+def apply_update_alternative_provides(d):
-     pn = d.getVar('BPN')
-     pkgdest = d.getVar('PKGDEST')
- 
--    for pkg in packages.split():
-+    for pkg in d.getVar('PACKAGES').split():
-         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
-             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
-             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
-@@ -273,5 +291,4 @@ python package_do_filedeps_append () {
-             d.appendVar('FILERPROVIDES_%s_%s' % (trans_target, pkg), " " + alt_link)
-             if not trans_target in (d.getVar('FILERPROVIDESFLIST_%s' % pkg) or ""):
-                 d.appendVar('FILERPROVIDESFLIST_%s' % pkg, " " + trans_target)
--}
- 
--- 
-2.19.1
+> On Thu, Nov 29, 2018 at 02:04:14PM +0000, Richard Purdie wrote:
+> > On Thu, 2018-11-29 at 14:21 +0200, Mikko Rapeli wrote:
+> > > If IMAGE_ROOTFS_SIZE_LIMIT is defined in image configuration, then
+> > > build will fail if for tar image type the uncompressed tar ball size
+> > > exceeds the value, as reported by 'du -ks'.
+> > >
+> > > This check could be extended to other image types as well.
+> > >
+> > > There already exists a check with IMAGE_ROOTFS_SIZE variable
+> > > but I could not figure out how to actually use it. It does
+> > > some quite complex overhead calculations which did not seem
+> > > to work for me on sumo.
+> > >
+> > > When the image size is exceeded, build fails like this:
+> > >
+> > > ERROR: image-1.0-r0 do_image_tar: Image size 170712 of
+> > > /home/builder/src/base/build/tmp/work/linux/image/1.0-r0/deploy-
+> > > image-complete/image.rootfs.tar reported by 'du -ks' is larger than
+> > > limit IMAGE_ROOTFS_SIZE_LIMIT 170000
+> >
+> > What about IMAGE_ROOTFS_MAXSIZE?
+> >
+> > I think IMAGE_ROOTFS_SIZE is about adding extra space to the image, not
+> > limiting its size...
+>
+> Yea, forgot to mention that I tried that too but got inconsisten results.
+> I know it's bad but it was easier for me to add this new test than to
+> figure
+> out what's wrong with current yocto image size checks. Hence RFC.
+>
+> -Mikko
+>
+> > Cheers,
+> >
+> > Richard
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--0000000000006d6dbe057bcf3eb6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This seems like it=E2=80=99d make a good general image qa =
+check instead, rather than being part of do_image_tar.</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr">On Thu, Nov 29, 2018 at 7:29 AM &lt;<a hr=
+ef=3D"mailto:Mikko.Rapeli@bmw.de">Mikko.Rapeli@bmw.de</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">On Thu, Nov 29, 2018 at 02:04:14PM +0000,=
+ Richard Purdie wrote:<br>
+&gt; On Thu, 2018-11-29 at 14:21 +0200, Mikko Rapeli wrote:<br>
+&gt; &gt; If IMAGE_ROOTFS_SIZE_LIMIT is defined in image configuration, the=
+n<br>
+&gt; &gt; build will fail if for tar image type the uncompressed tar ball s=
+ize<br>
+&gt; &gt; exceeds the value, as reported by &#39;du -ks&#39;.<br>
+&gt; &gt; <br>
+&gt; &gt; This check could be extended to other image types as well.<br>
+&gt; &gt; <br>
+&gt; &gt; There already exists a check with IMAGE_ROOTFS_SIZE variable<br>
+&gt; &gt; but I could not figure out how to actually use it. It does<br>
+&gt; &gt; some quite complex overhead calculations which did not seem<br>
+&gt; &gt; to work for me on sumo.<br>
+&gt; &gt; <br>
+&gt; &gt; When the image size is exceeded, build fails like this:<br>
+&gt; &gt; <br>
+&gt; &gt; ERROR: image-1.0-r0 do_image_tar: Image size 170712 of<br>
+&gt; &gt; /home/builder/src/base/build/tmp/work/linux/image/1.0-r0/deploy-<=
+br>
+&gt; &gt; image-complete/image.rootfs.tar reported by &#39;du -ks&#39; is l=
+arger than<br>
+&gt; &gt; limit IMAGE_ROOTFS_SIZE_LIMIT 170000<br>
+&gt; <br>
+&gt; What about IMAGE_ROOTFS_MAXSIZE?<br>
+&gt;<br>
+&gt; I think IMAGE_ROOTFS_SIZE is about adding extra space to the image, no=
+t<br>
+&gt; limiting its size...<br>
+<br>
+Yea, forgot to mention that I tried that too but got inconsisten results.<b=
+r>
+I know it&#39;s bad but it was easier for me to add this new test than to f=
+igure<br>
+out what&#39;s wrong with current yocto image size checks. Hence RFC.<br>
+<br>
+-Mikko<br>
+<br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; Richard<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
+tr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br=
+>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, M=
+entor Graphics</div></div></div></div>
+
+--0000000000006d6dbe057bcf3eb6--
