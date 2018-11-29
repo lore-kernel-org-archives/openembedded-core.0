@@ -1,50 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EDD526D75A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 02D6B6C483
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 17:52:30 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id v28so1248077pgk.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 09:52:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bUW4hvdQfeAHvwEUBtJkDluWPPz+5c5OWMBaYow5D8Y=;
-	b=bSOCVX2cAEIosTjyh7P35FwsYR1EbZaPAhbz3gNc5hyfeSP0Foi13uJC2we6ruLOAw
-	+nxtrGljEKrhng47IM8qQ/u9gzF8VCLx0rE1CwbTZ+X6mhIYzYxU9fiCDkbvGILjB2Km
-	S4z03iAmLBB7D6Oq3ds8e3ztgkPoYxm7wAXTvp0EYyBt+CHD4Y29OaXJ09eMF/mHhxLJ
-	8P/CmifP5nsIgmIPxDq7iaOXP2H5CGEPEHATgKfWkGxb+msdj3NSR73wIMP392reFbDw
-	ceUoshvCc/zvXskx72RoSgsd6KCYNXe6VBtVO5j5XNrObf5nbeptkFtn74D464QxuDxC
-	qdGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bUW4hvdQfeAHvwEUBtJkDluWPPz+5c5OWMBaYow5D8Y=;
-	b=IQAEzS6LtQyusOoBobUqwCtXnvFn4aEYOzS1dxmIBqTPGOZ0gp4IW+hU973khQhRtt
-	6d6re4sjAIb1QHrSb/lWaLboaRLninVfFIy/CBNp5w0eLMSI1zTUlwW4DHn8MeKtv+ru
-	IxNizaZi02xpuokeks59251N77rGMy/kY42pH1YTYxEtanBMFjcmZ2dA8WMJeX7Rgq/m
-	jM6vasqL9igI+wGE1avCd4T96yZ6R4IwuEeUtDRS/LcAe8gqxK4EQgev4BUkSowXat4Z
-	LVx+fNFQwxhaa2WOJutAoilzjzt1Z/E7bUjaMBKszp+0OQmCeg9ZwPyrwvx21vFA60Eo
-	0e7w==
-X-Gm-Message-State: AA+aEWbGo8N6TCkMEv1n2z1SC3dFiqXKVH6klZFTP9ib+z/khggP+wzQ
-	kjf8n//tLKsrXzJOxeYzLOgrLL+GtxQ=
-X-Google-Smtp-Source: AFSGD/Uc6O1KNqdnhaSUfwggdpLASR82O2tW7qHD+8yACnv5HAWIXevS8YXBa7KCOw/QTjuiKyAJCw==
-X-Received: by 2002:a62:32c4:: with SMTP id y187mr2389981pfy.195.1543513951178;
-	Thu, 29 Nov 2018 09:52:31 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::26ab])
-	by smtp.gmail.com with ESMTPSA id
-	f13sm3568866pfa.132.2018.11.29.09.52.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Nov 2018 09:52:30 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 09:52:14 -0800
-Message-Id: <20181129175214.3041-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.2
+	Thu, 29 Nov 2018 19:35:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Nov 2018 11:35:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,295,1539673200"; d="scan'208";a="278912435"
+Received: from vsiribox-mobl2.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.174.172])
+	by orsmga005.jf.intel.com with ESMTP; 29 Nov 2018 11:35:16 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 30 Nov 2018 08:35:12 +1300
+Message-ID: <5939456.jcG4z1hedJ@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <70743b99abf1bf4f41da716a698433013ea92780.camel@linuxfoundation.org>
+References: <20181128215407.13237-1-paul.eggleton@linux.intel.com>
+	<20181129092115.28502-1-paul.eggleton@linux.intel.com>
+	<70743b99abf1bf4f41da716a698433013ea92780.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH V2] musl: Update to latest trunk
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 4/4] oe-selftest: add some tests for recipeutils module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 17:52:31 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Nov 2018 19:35:18 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Complete changelogs are here
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..39ef612aa193cc6e954ac5a01574300ccd4b7ef9
+On Friday, 30 November 2018 3:06:32 AM NZDT Richard Purdie wrote:
+> On Thu, 2018-11-29 at 22:21 +1300, Paul Eggleton wrote:
+> > Add some tests for functions in meta/lib/oe/recipeutils.py, in
+> > particular for a few issues I've just fixed. I haven't added tests
+> > for
+> > all of the functions - some of them are already being tested via
+> > devtool
+> > in any case.
+> 
+> Hate to say it but this still isn't working:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/28/steps/7/logs/step2d
+> 
+> probably due to it not working with the -j option :/
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-V2: move to latest master ( 3 more commits for regressions )
+Right, so it seems that COREBASE isn't pointing where I'd expect it to 
+here - instead of the copy of the core metadata that's made for the test, it's
+pointing to the original layer. Is that a bug?
 
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+Paul
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 0d8f8eb2a4..b416ec45bf 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "c50985d5c8e316c5c464f352e79eeebfed1121a9"
-+SRCREV = "39ef612aa193cc6e954ac5a01574300ccd4b7ef9"
- 
- PV = "1.1.20+git${SRCPV}"
- 
 -- 
-2.19.2
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
