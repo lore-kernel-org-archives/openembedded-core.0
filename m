@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 665756C123
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A899D6D577
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 12:17:46 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p4so1671549wrt.7
+	Thu, 29 Nov 2018 12:17:47 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j10so1677622wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 04:17:47 -0800 (PST)
+	Thu, 29 Nov 2018 04:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=nVxcIcwJTDRz2daZbMOhJ6ca8EvVb4f6zb9axxIUcMI=;
-	b=XF6tp4c1fqoqKUIuxkYCqCHre9lZ+kZLdDIDPTcqxp8+hnW7TZ7Oq+DqRl2/vU7AZV
-	Zow9UNt+Pwl50TmdRGlXwvIdubrfpU+VTPbdfG9rZvwKOoiFYNPog8a9BLxTEyKWScqM
-	1cfOLepdmdgSVCREjoKS/sjFLgbPI3LP6Vsc0=
+	bh=uFPTCUVhcdS6PHOWHC+fkKwSe8XLpIHlx+cARqkhMOM=;
+	b=UVlDhsdEgx1g2voXw2U7+tunLlODELpiuwnYPAou/w1PV50eMy+s1soXpF9LuTQL3w
+	Yq2SlmkwUNnT9cmZSKMQeRaii47D+qIrFKK+EiJuxXa6xayiZ69aN4QX64QOauheC/ry
+	RGEsK+uZb1onWHvFiypBgHsPRiTDXbKC1KKUw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=nVxcIcwJTDRz2daZbMOhJ6ca8EvVb4f6zb9axxIUcMI=;
-	b=dc+JdD5MwGrCiHMYeLAuul40O0QsOY9eMZKMpw3fDbxRp1bhPAp9Z7KzCYC9w9AlOq
-	LJiwnOVzJVfOMmnkq3A4nGC5ks05Hzf1CPQrUXIGzU5byD36ktyW4lpaFBRocPwM5zDZ
-	JdgPtmMAkl8QjMxvKTRCentPfC538JgnAmQpwpZR498LLTUNzizn7mHvlLpO2tTn6ONK
-	nMBAY9JMCT1v1sz5Xl6+cBn4bb5g4egVDUDTGcFPyTMFS6Kdx5dhAYxkRDtJqQR5v5QA
-	37zAKE27A1T1XHS9e1SJn1/PWSTSokXUEZq9pJ9ouW3bUxvUMxG+/KzPnm5aB9zP+22a
-	73bA==
-X-Gm-Message-State: AA+aEWYiKK2B3qAvuClwGB6ILKDYqWkuwYI8sCFUS4IzDyO+TLL3fcob
-	rk4eCoGcwmam6DZeIgf/hxjmo2oXkDc=
-X-Google-Smtp-Source: AFSGD/URH1/sOP/dDPosvb692oZiQvKPl7aHLrUfe9lBJfNPUlRc1CbC2Z6GF73uFw4QlVUsBuiT4Q==
-X-Received: by 2002:a05:6000:12c4:: with SMTP id
-	l4mr1185641wrx.134.1543493866906; 
-	Thu, 29 Nov 2018 04:17:46 -0800 (PST)
+	bh=uFPTCUVhcdS6PHOWHC+fkKwSe8XLpIHlx+cARqkhMOM=;
+	b=rpXltD6bQ4OpmMshBQLEqsUon2zFjoCyA78ekWVcw0lO+NOKCMUaEJDVo3q/PfS+op
+	R/fwTO39/bz1ZA+iMjUTGk3oxuNW5DdkYRc6Gq/gjrIr0TKJ/cm1t/NgQf2dmZEyx2kh
+	RVyHZ1T3FQVzUF30GaZsevGT55/anLUGhNJwNA8UN0zMiJalbjJFeuGdVeRkuBqeMZ6T
+	YDcsTGlqoWAQHcpRgxNtQeMzySkgxRBkHaKxqg5ry16kAx0AB1yNk9PvAQvM1RJrqL32
+	Z7udPAKJX1UCGFxoTti10Fq39wD2ikCh45WVfDkeTp/iZ418E4h0fli4f11G9tGtW5fm
+	IELw==
+X-Gm-Message-State: AA+aEWYIMRL98okOxE6Kq/fwcZCHkeECEyBKv8cg6o/A/PQSpAER1QRp
+	40cPqOQ+6fiv0JEpQHJHGMOsvuk4cp4=
+X-Google-Smtp-Source: AFSGD/VOIJWSiiqIpLbq4770GNqYVgQIldU1XuKJ7WZEIaarr7GKqL2LOSYIqB4i/SFFpF5Lqjtmkw==
+X-Received: by 2002:a5d:6aca:: with SMTP id u10mr1180798wrw.310.1543493868131; 
+	Thu, 29 Nov 2018 04:17:48 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 5sm2717625wmw.8.2018.11.29.04.17.45
+	by smtp.gmail.com with ESMTPSA id 5sm2717625wmw.8.2018.11.29.04.17.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Nov 2018 04:17:46 -0800 (PST)
+	Thu, 29 Nov 2018 04:17:47 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2018 12:17:41 +0000
-Message-Id: <20181129121744.10052-2-richard.purdie@linuxfoundation.org>
+Date: Thu, 29 Nov 2018 12:17:42 +0000
+Message-Id: <20181129121744.10052-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20181129121744.10052-1-richard.purdie@linuxfoundation.org>
 References: <20181129121744.10052-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] oeqa/selftest/runcmd: Increase timeout delta
+Subject: [PATCH 3/5] oeqa/selftest/buildoptions: Ensure diskmon tests run consistently
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +57,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 12:17:46 -0000
+X-List-Received-Date: Thu, 29 Nov 2018 12:17:48 -0000
 Content-Transfer-Encoding: 8bit
 
-Expecting 1s accuracy on a 2s timeout on a heavily loaded system has proven to be
-unreliable. Update this to a 5s timeout with a 3s delta which should be achievable.
+Heartbeat events default to once a second and we need to ensure we have
+enough time in the task to see them.
+
+Add a nostamp delay task 5s long so we can have a consistently timed
+task which doesn't need cleanup or have unneeded dependencies. This
+ensures we should deterministically see the disk moinitor events
+regardless of the state of the build. This is done in a way which
+doesn't corrupt build state or need cleanup and is efficient.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/runcmd.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-selftest/recipes-test/delay/delay.bb    | 12 ++++++++++++
+ meta/lib/oeqa/selftest/cases/buildoptions.py |  6 +++---
+ 2 files changed, 15 insertions(+), 3 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/delay/delay.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
-index d76d7063c69..a1615cfd20b 100644
---- a/meta/lib/oeqa/selftest/cases/runcmd.py
-+++ b/meta/lib/oeqa/selftest/cases/runcmd.py
-@@ -24,8 +24,8 @@ class RunCmdTests(OESelftestTestCase):
+diff --git a/meta-selftest/recipes-test/delay/delay.bb b/meta-selftest/recipes-test/delay/delay.bb
+new file mode 100644
+index 00000000000..f92d3d99e28
+--- /dev/null
++++ b/meta-selftest/recipes-test/delay/delay.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "Recipe with a fixed delay task"
++DESCRIPTION = "Contains a delay task to be used to for testing."
++LICENSE = "MIT"
++
++INHIBIT_DEFAULT_DEPS = "1"
++EXCLUDE_FROM_WORLD = "1"
++
++do_delay() {
++	sleep 5
++}
++do_delay[nostamp] = "1"
++addtask delay
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index c3c90a0b0dc..f234bac0510 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -59,15 +59,15 @@ class DiskMonTest(OESelftestTestCase):
+     @OETestID(277)
+     def test_stoptask_behavior(self):
+         self.write_config('BB_DISKMON_DIRS = "STOPTASKS,${TMPDIR},100000G,100K"')
+-        res = bitbake("m4", ignore_status = True)
++        res = bitbake("delay -c delay", ignore_status = True)
+         self.assertTrue('ERROR: No new tasks can be executed since the disk space monitor action is "STOPTASKS"!' in res.output, msg = "Tasks should have stopped. Disk monitor is set to STOPTASK: %s" % res.output)
+         self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
+         self.write_config('BB_DISKMON_DIRS = "ABORT,${TMPDIR},100000G,100K"')
+-        res = bitbake("m4", ignore_status = True)
++        res = bitbake("delay -c delay", ignore_status = True)
+         self.assertTrue('ERROR: Immediately abort since the disk space monitor action is "ABORT"!' in res.output, "Tasks should have been aborted immediatelly. Disk monitor is set to ABORT: %s" % res.output)
+         self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
+         self.write_config('BB_DISKMON_DIRS = "WARN,${TMPDIR},100000G,100K"')
+-        res = bitbake("m4")
++        res = bitbake("delay -c delay")
+         self.assertTrue('WARNING: The free space' in res.output, msg = "A warning should have been displayed for disk monitor is set to WARN: %s" %res.output)
  
-     # The delta is intentionally smaller than the timeout, to detect cases where
-     # we incorrectly apply the timeout more than once.
--    TIMEOUT = 2
--    DELTA = 1
-+    TIMEOUT = 5
-+    DELTA = 3
- 
-     @OETestID(1916)
-     def test_result_okay(self):
+ class SanityOptionsTest(OESelftestTestCase):
 -- 
 2.19.1
 
