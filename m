@@ -1,54 +1,49 @@
-Return-Path: <philip@balister.org>
-X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 30 Nov 2018 12:13:14 UTC
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CAEF6BCA2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CBAA6BF43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 12:13:14 +0000 (UTC)
-Received: (qmail 7582 invoked by uid 1003); 30 Nov 2018 12:06:38 -0000
-Received: from unknown (HELO ?172.20.2.92?) (philip@opensdr.com@38.90.133.135)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted)
-	SMTP; 30 Nov 2018 12:06:38 -0000
-To: Khem Raj <raj.khem@gmail.com>, "Eggleton, Paul" <paul.eggleton@intel.com>
-References: <2403371.OeEdUFaxhe@localhost.localdomain>
-	<CAMKF1srJiBZnB42fhoYOvutDe_Pv0sBRq79p=69UWfgt4QRckg@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <f22e2865-f2be-ecd5-5a13-e69c0a8a6891@balister.org>
-Date: Fri, 30 Nov 2018 07:06:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1srJiBZnB42fhoYOvutDe_Pv0sBRq79p=69UWfgt4QRckg@mail.gmail.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Github pull requests
+	Fri, 30 Nov 2018 14:29:24 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id x10so5470943wrs.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2018 06:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=rFu9k1PfZj1QrrjQBg4FkKO4Sb1dQ1BKInjLCD42tzQ=;
+	b=T/Lz3CeLm6ye3iqOLDFYni21JeqGvTptwBKFvvfXFz5n+y8hU3DIa1vT4uHMmJ1vo9
+	jtLmuns+d+NSVDBI2RBz15clG96Ai/uPL9InPo6TJzMHgyZKu8WYTTH3fqZxBge3YRFu
+	diwRg3DGZ+NG+W7oX9KbW8Th7X4VO05lPWqNIxOE/CGQPaSG+MwETC4rWbBQQ0isy5XZ
+	WyPzn/X1mOC2ykxa2Df6SxRt7k+8PyYo6h10sUvTVP9/soZkSWCe/Udm396p3A7elENO
+	g8d2hjuwdIOP2htiu7ZG/68gA4+xoNKX/5kAQ+LfJ/P4wen+WnzgNsVuW9NosM6+nmtc
+	HFzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rFu9k1PfZj1QrrjQBg4FkKO4Sb1dQ1BKInjLCD42tzQ=;
+	b=eSpDSdYWVBljPsCKFSSArC2b4wItExOeRnReDlH3m4/mLk2sDlaG6aopmiDE7+OCIV
+	mxGGUSvmgn7NWJmv8oCYOYa3RYuLNmcIH98ZphGmZWTtuSF368BSSwpgEQen9G2HHPN2
+	Bkbg5I55pf/55aiuveuSySuiqzlm7UpIoGZYaDSNZa6ixqYNsehS5YS2Kx6NxwdYpJ9n
+	yb2mk875NkAPUl1Mx0+XhU+Xxbnu1qoaDJpy9mQQA0ptwvyGKi4gbYXNvE1kJGvKMpQm
+	DMedpIqvVbXdJdZs+H/wXspR82PcQFq5IWAsr5eIXOuLMzhOHJzW3fhZQGd/+eFnsxo4
+	dDnA==
+X-Gm-Message-State: AA+aEWZEM5CFRXET9uc1OxdCn3LMk+p7gIKCN2pYkBektPiJfLprDO8t
+	lAGnXdt0biC+T5NAD1CnlWe+cz3rCuo=
+X-Google-Smtp-Source: AFSGD/Vqh8+t3guZnFBKVj+3Ai2QoRZs7hA/WbjKtZL4D+TtHPztG98Q4QLyJIXVIb3iUrKAmCaLFA==
+X-Received: by 2002:adf:8506:: with SMTP id 6mr5412294wrh.128.1543588165489;
+	Fri, 30 Nov 2018 06:29:25 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	142sm6535927wmw.27.2018.11.30.06.29.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Nov 2018 06:29:24 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 14:29:23 +0000
+Message-Id: <20181130142923.8497-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] piglit: add missing waffle-bin dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,46 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 12:13:14 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2018 14:29:25 -0000
 
-On 11/29/2018 09:31 PM, Khem Raj wrote:
-> On Thu, Nov 29, 2018 at 5:26 PM Paul Eggleton <paul.eggleton@intel.com> wrote:
->>
->> Hi folks
->>
->> Someone pointed out that there are quite a few pull requests on github under
->> https://github.com/openembedded/. I know we don't accept these, but it seems
->> to me we ought to clean up the ones that are there in order to avoid people
->> thinking that they might be (and probably comment on the ones where we haven't
->> done so or the submitter hasn't sent them to the mailing list already). I'll
->> volunteer to clean them up, but I don't currently have access - can someone
->> grant that to me?
-> 
-> I think that will be good. I have taken care of meta-oe ones but I can not
-> close them
+The sanity test uses wflinfo, so depend on waffle-bin.
 
-Do we need to adjust github privileges so you can close them? Let's chat
-next week and see what we can do to make this easier.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Philip
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 00e830d5796..622e0462b36 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -44,7 +44,7 @@ do_configure_prepend() {
+ 
+ OECMAKE_TARGET_INSTALL = "install/strip"
+ 
+-RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
++RDEPENDS_${PN} = "waffle waffle-bin python3 python3-mako python3-json \
+ 	python3-misc \
+ 	python3-unixadmin python3-xml python3-multiprocessing \
+ 	python3-six python3-shell python3-io \
+-- 
+2.11.0
 
-
-> 
->>
->> Thanks,
->> Paul
->>
->> --
->> Paul Eggleton
->> Intel Open Source Technology Centre
->>
->>
->> --
->> _______________________________________________
->> Openembedded-devel mailing list
->> Openembedded-devel@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
