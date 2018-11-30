@@ -1,25 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D31026C0C5
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 86DA66BA22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 03:21:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAU3LjNW005083
+	Fri, 30 Nov 2018 03:26:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wAU3QcxV004374
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2018 19:21:45 -0800 (PST)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 29 Nov 2018 19:21:45 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Thu, 29 Nov 2018 19:26:48 -0800
+Received: from [128.224.163.177] (128.224.163.177) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 29 Nov 2018 19:26:27 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2018 11:39:08 +0800
-Message-ID: <7a0dc7e0666fb0c07ea7dd49f5c0aa5eb06ff87a.1543548740.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1543548740.git.liezhi.yang@windriver.com>
 References: <cover.1543548740.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <b17989f6-4ff0-af98-cc99-f22f61a7aaa1@windriver.com>
+Date: Fri, 30 Nov 2018 11:31:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
+In-Reply-To: <cover.1543548740.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 03:21:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Nov 2018 03:26:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-- d.getVar('BB_DANGLINGAPPENDS_WARNONLY', False) -> d.getVar('BB_DANGLINGAPPENDS_WARNONLY')
-  There is no reason to use 'False'.
+Sorry, wrong post, it should go to bitbake mailing list.
 
-- Use bb.utils.to_boolean for warn_only.
+// Robert
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- bitbake/lib/bb/cooker.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-index 16681ba..28a16c5 100644
---- a/bitbake/lib/bb/cooker.py
-+++ b/bitbake/lib/bb/cooker.py
-@@ -928,9 +928,8 @@ class BBCooker:
- 
-         if appends_without_recipes:
-             msg = 'No recipes available for:\n  %s' % '\n  '.join(appends_without_recipes)
--            warn_only = self.data.getVar("BB_DANGLINGAPPENDS_WARNONLY", \
--                 False) or "no"
--            if warn_only.lower() in ("1", "yes", "true"):
-+            warn_only = self.data.getVar("BB_DANGLINGAPPENDS_WARNONLY")
-+            if bb.utils.to_boolean(warn_only):
-                 bb.warn(msg)
-             else:
-                 bb.fatal(msg)
--- 
-2.7.4
-
+On 11/30/18 11:39 AM, Robert Yang wrote:
+> Hi RP,
+> 
+> I'd like to change the fatal message to be an event, the benefits are:
+> - Things like report-error.bbclass can catch the error
+> - It's easier to get bbappends list from an event message than from console log.
+> 
+> What's your opinion, please ?
+> 
+> // Robert
+> 
+> The following changes since commit 41d89552620bfbc94031d314e6b3d0324f7a330e:
+> 
+>    bitbake: fetch2: Avoid warning about incorrect character escaping in regex (2018-11-27 22:15:34 +0000)
+> 
+> are available in the git repository at:
+> 
+>    git://git.pokylinux.org/poky-contrib rbt/append
+>    http://git.pokylinux.org/cgit.cgi//log/?h=rbt/append
+> 
+> Robert Yang (1):
+>    cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
+> 
+>   bitbake/lib/bb/cooker.py | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
 
