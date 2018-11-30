@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E554F6C0CB;
-	Fri, 30 Nov 2018 03:33:08 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 30 Nov 2018 03:33:10 -0000
-Message-ID: <20181130033310.2331.69579@do>
-References: <cover.1543548740.git.liezhi.yang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1543548740.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29va2VyOiBzaW1wbGlmeSBCQl9EQU5HTElOR0FQUEVORFNfV0FSTk9OTFk=?=
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C32796D4E4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2018 07:16:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Nov 2018 23:16:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,297,1539673200"; d="scan'208";a="117399696"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.29])
+	by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2018 23:16:12 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 15:16:09 +0800
+Message-Id: <20181130071609.2515-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] gstreamer1.0-vaapi: downgrade vaapisink to marginal rank
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +30,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 03:33:09 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2018 07:16:15 -0000
 
-== Series Details ==
+Using vaapisink (which doesn't supports DRI3 [1] and uses DRI2) with
+default poky configuration currently results in an unresponsive display
+because DRI2 rendering doesn't work (as of xserver 1.20.3) in non-composited
+environments [2].
 
-Series: cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15147/
-State : failure
+Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
+and gtk-play examples) uses next best sink element and works out of box.
 
-== Summary ==
+[1] https://github.com/intel/libva/issues/122
+[2] https://gitlab.freedesktop.org/xorg/xserver/issues/13
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
-  Patch's path:    bitbake/lib/bb/cooker.py
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 21387613fe)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../0001-vaapsink-downgrade-to-marginal.patch | 46 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-vaapi_1.14.4.bb    |  3 +-
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+new file mode 100644
+index 0000000000..c861f3bed2
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+@@ -0,0 +1,46 @@
++From 0c28cf7bfa90f8947833722cddf23d513490c6c3 Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anuj.mittal@intel.com>
++Date: Wed, 28 Nov 2018 15:08:48 +0800
++Subject: [PATCH] vaapsink: downgrade to marginal
++
++Using vaapisink with default poky configuration results in an
++unresponsive display as of today because DRI2 rendering is currently broken
++in non composited environments [1] and libva doesn't support DRI3 [2].
++
++Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
++and gtk-play examples) use xvimagesink or others out of box.
++
++[1] https://gitlab.freedesktop.org/xorg/xserver/issues/13
++[2] https://github.com/intel/libva/issues/122
++
++Upstream-Status: Pending
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ gst/vaapi/gstvaapi.c | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
++
++diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
++index 9a82454..4d94f2b 100644
++--- a/gst/vaapi/gstvaapi.c
+++++ b/gst/vaapi/gstvaapi.c
++@@ -210,7 +210,6 @@ plugin_init (GstPlugin * plugin)
++ {
++   GstVaapiDisplay *display;
++   GArray *decoders;
++-  guint rank;
++ 
++   plugin_add_dependencies (plugin);
++ 
++@@ -235,10 +234,7 @@ plugin_init (GstPlugin * plugin)
++   gst_element_register (plugin, "vaapidecodebin",
++       GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
++ 
++-  rank = GST_RANK_PRIMARY;
++-  if (g_getenv ("WAYLAND_DISPLAY"))
++-    rank = GST_RANK_MARGINAL;
++-  gst_element_register (plugin, "vaapisink", rank, GST_TYPE_VAAPISINK);
+++  gst_element_register (plugin, "vaapisink", GST_RANK_MARGINAL, GST_TYPE_VAAPISINK);
++ 
++ #if USE_ENCODERS
++   gst_vaapiencode_register (plugin, display);
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+index fdca0b9565..3896434104 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
+            file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
+-          "
++           file://0001-vaapsink-downgrade-to-marginal.patch \
++           "
+ 
+ SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
+ SRC_URI[sha256sum] = "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
+-- 
+2.17.1
 
 
