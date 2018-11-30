@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D12AC6D638;
-	Fri, 30 Nov 2018 00:05:55 +0000 (UTC)
+Return-Path: <paul.eggleton@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED936C498;
+	Fri, 30 Nov 2018 01:25:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Nov 2018 17:25:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,296,1539673200"; d="scan'208";a="94311925"
+Received: from vsiribox-mobl2.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.174.172])
+	by orsmga007.jf.intel.com with ESMTP; 29 Nov 2018 17:25:43 -0800
+From: Paul Eggleton <paul.eggleton@intel.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 14:25:39 +1300
+Message-ID: <2403371.OeEdUFaxhe@localhost.localdomain>
+Organization: Intel Corporation
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Date: Fri, 30 Nov 2018 00:05:57 -0000
-Message-ID: <20181130000557.2329.72801@do>
-References: <20181129235831.1361-1-dev@sashko.rv.ua>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181129235831.1361-1-dev@sashko.rv.ua>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmFubzogdXBncmFkZSB0byAzLjI=?=
+Subject: Github pull requests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 00:05:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2018 01:25:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-== Series Details ==
+Hi folks
 
-Series: nano: upgrade to 3.2
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15143/
-State : failure
+Someone pointed out that there are quite a few pull requests on github under 
+https://github.com/openembedded/. I know we don't accept these, but it seems 
+to me we ought to clean up the ones that are there in order to avoid people 
+thinking that they might be (and probably comment on the ones where we haven't 
+done so or the submitter hasn't sent them to the mailing list already). I'll 
+volunteer to clean them up, but I don't currently have access - can someone 
+grant that to me?
 
-== Summary ==
+Thanks,
+Paul
 
+-- 
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
-  Patch's path:    meta-oe/recipes-support/nano/nano_3.0.bb
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 21387613fe)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
