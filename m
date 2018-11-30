@@ -1,23 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C32796D4E4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CCECF6C107
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 07:16:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2018 23:16:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,297,1539673200"; d="scan'208";a="117399696"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.29])
-	by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2018 23:16:12 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Fri, 30 Nov 2018 10:40:40 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j10so4793450wru.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2018 02:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=uIZHhq2NhGh30VaEgH6812Tds1ng8g9dwjkcPFUsFNA=;
+	b=aB66dNStNJnkXEqKtukjzvzsXSzIMApvZP08Iua0YmoUb57mPCPOrJJxZ93hdUv6iV
+	V3L/oaNKB3DDVl76GxNA6RErCOAZidPklxf8Refn3hIWsP7kpbM5R+8+K9pMUvgFIO5G
+	kMlym+LicFcPvH5yBCl7qGxChmpqA9hEvBCAW5GBNMZLtVk8bPXrU1sn+rn11n0aHriI
+	S49ubAbFjzW7q2fRQn8+WCV5Wwzuq9qm3ae9seo+ge5f5gsNAXW7aCGZQWW6CCw8PLcf
+	zApJ9P1okvjTx11coAe4eIjSfsZH3LNW5+Li0DUmbm4z0miDB/Pg9+cVMXczwhzOJnXq
+	+nPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=uIZHhq2NhGh30VaEgH6812Tds1ng8g9dwjkcPFUsFNA=;
+	b=r/U67SZ/1tOZLfHAONbLg/mGJjT9tYbrHRxfI5Nw1WQ3WP67oUMCYkFSGV/rFlVgiH
+	c4TvL8lcKq/KyDsxElHrXKn7GlBlwTXfEQq6JCWq/oaUE69jIquEuRpDQQ3qVqQvQ793
+	OketUSkFJcelfjtxUn2HQrD/UuVs/f1ji/8UpjTnYpGE7Xn4Sk7g0nS1tR73i8n/g4db
+	A36MHDrMw1acCxki399lyPD2wwBkPd7EYDKRF+VdLXkU+169A9ccGi7YVZkpIPoMrdvU
+	Z2dF91xmjXKyxODXkEjsjpgxAgnUr9pHNOpLyjFLTYZYXpVQYQGH1bjJtiq6oUMKY531
+	WWcw==
+X-Gm-Message-State: AA+aEWau1oACmnfpEn9LK9xM7K+4iRg8pgCrCwu52OQmDBvebilKnOrr
+	sv/2VzCheor7T3T3TZo8qTLriDKhAbM=
+X-Google-Smtp-Source: AFSGD/V4AZBmc5G4jmkw1x9BoDkAKp4Tf9fRbDdhOWJa0UfMW/mHQJ11m7jjOuQtFMGifQYOw2mwpg==
+X-Received: by 2002:adf:b30f:: with SMTP id j15mr4799511wrd.46.1543574441402; 
+	Fri, 30 Nov 2018 02:40:41 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id v6sm5199277wro.57.2018.11.30.02.40.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Nov 2018 02:40:40 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2018 15:16:09 +0800
-Message-Id: <20181130071609.2515-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gstreamer1.0-vaapi: downgrade vaapisink to marginal rank
+Date: Fri, 30 Nov 2018 10:40:38 +0000
+Message-Id: <20181130104038.3131-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] binconfig: only try to mangles files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,93 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 07:16:15 -0000
+X-List-Received-Date: Fri, 30 Nov 2018 10:40:42 -0000
 
-Using vaapisink (which doesn't supports DRI3 [1] and uses DRI2) with
-default poky configuration currently results in an unresponsive display
-because DRI2 rendering doesn't work (as of xserver 1.20.3) in non-composited
-environments [2].
+If a file matches the glob that is an absolute symlink then sed will try to
+alter files on the host, so restrict the search to just actual files.
 
-Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
-and gtk-play examples) uses next best sink element and works out of box.
-
-[1] https://github.com/intel/libva/issues/122
-[2] https://gitlab.freedesktop.org/xorg/xserver/issues/13
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../0001-vaapsink-downgrade-to-marginal.patch | 46 +++++++++++++++++++
- .../gstreamer/gstreamer1.0-vaapi_1.14.4.bb    |  3 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+ meta/classes/binconfig.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-new file mode 100644
-index 0000000000..c861f3bed2
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-@@ -0,0 +1,46 @@
-+From 0c28cf7bfa90f8947833722cddf23d513490c6c3 Mon Sep 17 00:00:00 2001
-+From: Anuj Mittal <anuj.mittal@intel.com>
-+Date: Wed, 28 Nov 2018 15:08:48 +0800
-+Subject: [PATCH] vaapsink: downgrade to marginal
-+
-+Using vaapisink with default poky configuration results in an
-+unresponsive display as of today because DRI2 rendering is currently broken
-+in non composited environments [1] and libva doesn't support DRI3 [2].
-+
-+Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
-+and gtk-play examples) use xvimagesink or others out of box.
-+
-+[1] https://gitlab.freedesktop.org/xorg/xserver/issues/13
-+[2] https://github.com/intel/libva/issues/122
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ gst/vaapi/gstvaapi.c | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
-+index 9a82454..4d94f2b 100644
-+--- a/gst/vaapi/gstvaapi.c
-++++ b/gst/vaapi/gstvaapi.c
-+@@ -210,7 +210,6 @@ plugin_init (GstPlugin * plugin)
-+ {
-+   GstVaapiDisplay *display;
-+   GArray *decoders;
-+-  guint rank;
-+ 
-+   plugin_add_dependencies (plugin);
-+ 
-+@@ -235,10 +234,7 @@ plugin_init (GstPlugin * plugin)
-+   gst_element_register (plugin, "vaapidecodebin",
-+       GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
-+ 
-+-  rank = GST_RANK_PRIMARY;
-+-  if (g_getenv ("WAYLAND_DISPLAY"))
-+-    rank = GST_RANK_MARGINAL;
-+-  gst_element_register (plugin, "vaapisink", rank, GST_TYPE_VAAPISINK);
-++  gst_element_register (plugin, "vaapisink", GST_RANK_MARGINAL, GST_TYPE_VAAPISINK);
-+ 
-+ #if USE_ENCODERS
-+   gst_vaapiencode_register (plugin, display);
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-index fdca0b9565..3896434104 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+index 39c3e2b17bb..133b9537cf0 100644
+--- a/meta/classes/binconfig.bbclass
++++ b/meta/classes/binconfig.bbclass
+@@ -31,7 +31,7 @@ BINCONFIG_GLOB ?= "*-config"
+ PACKAGE_PREPROCESS_FUNCS += "binconfig_package_preprocess"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
-            file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
--          "
-+           file://0001-vaapsink-downgrade-to-marginal.patch \
-+           "
+ binconfig_package_preprocess () {
+-	for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
++	for config in `find ${PKGD} -type f -name '${BINCONFIG_GLOB}'`; do
+ 		sed -i \
+ 		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
+ 		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
+@@ -40,7 +40,7 @@ binconfig_package_preprocess () {
+ 		    -e 's:${STAGING_DIR_HOST}${prefix}:${prefix}:' \
+                     $config
+ 	done
+-	for lafile in `find ${PKGD} -name "*.la"` ; do
++	for lafile in `find ${PKGD} -type f -name "*.la"` ; do
+ 		sed -i \
+ 		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
+ 		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
+@@ -54,7 +54,7 @@ binconfig_package_preprocess () {
+ SYSROOT_PREPROCESS_FUNCS += "binconfig_sysroot_preprocess"
  
- SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
- SRC_URI[sha256sum] = "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
+ binconfig_sysroot_preprocess () {
+-	for config in `find ${S} -name '${BINCONFIG_GLOB}'` `find ${B} -name '${BINCONFIG_GLOB}'`; do
++	for config in `find ${S} -type f -name '${BINCONFIG_GLOB}'` `find ${B} -type f -name '${BINCONFIG_GLOB}'`; do
+ 		configname=`basename $config`
+ 		install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
+ 		sed ${@get_binconfig_mangle(d)} $config > ${SYSROOT_DESTDIR}${bindir_crossscripts}/$configname
 -- 
-2.17.1
+2.11.0
 
 
