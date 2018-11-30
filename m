@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BCAAB60229;
-	Fri, 30 Nov 2018 02:33:07 +0000 (UTC)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CDBF6C0C5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2018 03:21:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAU3Lh7r024434
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2018 19:21:44 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 29 Nov 2018 19:21:43 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2018 11:39:07 +0800
+Message-ID: <cover.1543548740.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 30 Nov 2018 02:33:09 -0000
-Message-ID: <20181130023309.2330.69807@do>
-References: <cover.1543544711.git.liezhi.yang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1543544711.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdWJvb3Qtc2lnbi5iYmNsYXNzOiBmaXggc2lnbmF0dXJlIGFuZCBkZXBsb3ltZW50IChyZXYyKQ==?=
+Subject: [PATCH 0/1] cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 02:33:07 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2018 03:21:45 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Hi RP,
 
-Series: uboot-sign.bbclass: fix signature and deployment (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/15013/
-State : failure
+I'd like to change the fatal message to be an event, the benefits are:
+- Things like report-error.bbclass can catch the error
+- It's easier to get bbappends list from an event message than from console log.
 
-== Summary ==
+What's your opinion, please ?
 
+// Robert
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The following changes since commit 41d89552620bfbc94031d314e6b3d0324f7a330e:
 
+  bitbake: fetch2: Avoid warning about incorrect character escaping in regex (2018-11-27 22:15:34 +0000)
 
+are available in the git repository at:
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 21387613fe)
+  git://git.pokylinux.org/poky-contrib rbt/append
+  http://git.pokylinux.org/cgit.cgi//log/?h=rbt/append
 
+Robert Yang (1):
+  cooker: simplify BB_DANGLINGAPPENDS_WARNONLY
 
+ bitbake/lib/bb/cooker.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.7.4
 
 
