@@ -1,49 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CCECF6C107
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 30 Nov 2018 12:13:14 UTC
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CAEF6BCA2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 10:40:40 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j10so4793450wru.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 02:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=uIZHhq2NhGh30VaEgH6812Tds1ng8g9dwjkcPFUsFNA=;
-	b=aB66dNStNJnkXEqKtukjzvzsXSzIMApvZP08Iua0YmoUb57mPCPOrJJxZ93hdUv6iV
-	V3L/oaNKB3DDVl76GxNA6RErCOAZidPklxf8Refn3hIWsP7kpbM5R+8+K9pMUvgFIO5G
-	kMlym+LicFcPvH5yBCl7qGxChmpqA9hEvBCAW5GBNMZLtVk8bPXrU1sn+rn11n0aHriI
-	S49ubAbFjzW7q2fRQn8+WCV5Wwzuq9qm3ae9seo+ge5f5gsNAXW7aCGZQWW6CCw8PLcf
-	zApJ9P1okvjTx11coAe4eIjSfsZH3LNW5+Li0DUmbm4z0miDB/Pg9+cVMXczwhzOJnXq
-	+nPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=uIZHhq2NhGh30VaEgH6812Tds1ng8g9dwjkcPFUsFNA=;
-	b=r/U67SZ/1tOZLfHAONbLg/mGJjT9tYbrHRxfI5Nw1WQ3WP67oUMCYkFSGV/rFlVgiH
-	c4TvL8lcKq/KyDsxElHrXKn7GlBlwTXfEQq6JCWq/oaUE69jIquEuRpDQQ3qVqQvQ793
-	OketUSkFJcelfjtxUn2HQrD/UuVs/f1ji/8UpjTnYpGE7Xn4Sk7g0nS1tR73i8n/g4db
-	A36MHDrMw1acCxki399lyPD2wwBkPd7EYDKRF+VdLXkU+169A9ccGi7YVZkpIPoMrdvU
-	Z2dF91xmjXKyxODXkEjsjpgxAgnUr9pHNOpLyjFLTYZYXpVQYQGH1bjJtiq6oUMKY531
-	WWcw==
-X-Gm-Message-State: AA+aEWau1oACmnfpEn9LK9xM7K+4iRg8pgCrCwu52OQmDBvebilKnOrr
-	sv/2VzCheor7T3T3TZo8qTLriDKhAbM=
-X-Google-Smtp-Source: AFSGD/V4AZBmc5G4jmkw1x9BoDkAKp4Tf9fRbDdhOWJa0UfMW/mHQJ11m7jjOuQtFMGifQYOw2mwpg==
-X-Received: by 2002:adf:b30f:: with SMTP id j15mr4799511wrd.46.1543574441402; 
-	Fri, 30 Nov 2018 02:40:41 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id v6sm5199277wro.57.2018.11.30.02.40.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Nov 2018 02:40:40 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2018 10:40:38 +0000
-Message-Id: <20181130104038.3131-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] binconfig: only try to mangles files
+	Fri, 30 Nov 2018 12:13:14 +0000 (UTC)
+Received: (qmail 7582 invoked by uid 1003); 30 Nov 2018 12:06:38 -0000
+Received: from unknown (HELO ?172.20.2.92?) (philip@opensdr.com@38.90.133.135)
+	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted)
+	SMTP; 30 Nov 2018 12:06:38 -0000
+To: Khem Raj <raj.khem@gmail.com>, "Eggleton, Paul" <paul.eggleton@intel.com>
+References: <2403371.OeEdUFaxhe@localhost.localdomain>
+	<CAMKF1srJiBZnB42fhoYOvutDe_Pv0sBRq79p=69UWfgt4QRckg@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <f22e2865-f2be-ecd5-5a13-e69c0a8a6891@balister.org>
+Date: Fri, 30 Nov 2018 07:06:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srJiBZnB42fhoYOvutDe_Pv0sBRq79p=69UWfgt4QRckg@mail.gmail.com>
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] Github pull requests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +61,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 10:40:42 -0000
+X-List-Received-Date: Fri, 30 Nov 2018 12:13:14 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-If a file matches the glob that is an absolute symlink then sed will try to
-alter files on the host, so restrict the search to just actual files.
+On 11/29/2018 09:31 PM, Khem Raj wrote:
+> On Thu, Nov 29, 2018 at 5:26 PM Paul Eggleton <paul.eggleton@intel.com> wrote:
+>>
+>> Hi folks
+>>
+>> Someone pointed out that there are quite a few pull requests on github under
+>> https://github.com/openembedded/. I know we don't accept these, but it seems
+>> to me we ought to clean up the ones that are there in order to avoid people
+>> thinking that they might be (and probably comment on the ones where we haven't
+>> done so or the submitter hasn't sent them to the mailing list already). I'll
+>> volunteer to clean them up, but I don't currently have access - can someone
+>> grant that to me?
+> 
+> I think that will be good. I have taken care of meta-oe ones but I can not
+> close them
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/binconfig.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Do we need to adjust github privileges so you can close them? Let's chat
+next week and see what we can do to make this easier.
 
-diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
-index 39c3e2b17bb..133b9537cf0 100644
---- a/meta/classes/binconfig.bbclass
-+++ b/meta/classes/binconfig.bbclass
-@@ -31,7 +31,7 @@ BINCONFIG_GLOB ?= "*-config"
- PACKAGE_PREPROCESS_FUNCS += "binconfig_package_preprocess"
- 
- binconfig_package_preprocess () {
--	for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
-+	for config in `find ${PKGD} -type f -name '${BINCONFIG_GLOB}'`; do
- 		sed -i \
- 		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
- 		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
-@@ -40,7 +40,7 @@ binconfig_package_preprocess () {
- 		    -e 's:${STAGING_DIR_HOST}${prefix}:${prefix}:' \
-                     $config
- 	done
--	for lafile in `find ${PKGD} -name "*.la"` ; do
-+	for lafile in `find ${PKGD} -type f -name "*.la"` ; do
- 		sed -i \
- 		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
- 		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
-@@ -54,7 +54,7 @@ binconfig_package_preprocess () {
- SYSROOT_PREPROCESS_FUNCS += "binconfig_sysroot_preprocess"
- 
- binconfig_sysroot_preprocess () {
--	for config in `find ${S} -name '${BINCONFIG_GLOB}'` `find ${B} -name '${BINCONFIG_GLOB}'`; do
-+	for config in `find ${S} -type f -name '${BINCONFIG_GLOB}'` `find ${B} -type f -name '${BINCONFIG_GLOB}'`; do
- 		configname=`basename $config`
- 		install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
- 		sed ${@get_binconfig_mangle(d)} $config > ${SYSROOT_DESTDIR}${bindir_crossscripts}/$configname
--- 
-2.11.0
+Philip
 
+
+> 
+>>
+>> Thanks,
+>> Paul
+>>
+>> --
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-devel mailing list
+>> Openembedded-devel@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
