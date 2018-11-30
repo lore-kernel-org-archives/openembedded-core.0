@@ -1,50 +1,50 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A7F856D6DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E51A6C4B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 16:03:21 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id g85so9821946ita.3
+	Fri, 30 Nov 2018 16:56:32 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r11-v6so6486033wmb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 08:03:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Z3KnsfwgxcIzRnw1iS7NwS/nIhSaKv02Us71dgh4xV0=;
-	b=A79zQbbL/Z/UdII2JkwE2k1YSQw5+fOb8ZyumVroyjFdcZBRoJ3dXVXUqdmuU2vMfC
-	Gd99xLXV1bI2n8K0rCqB1B/xKIdrm90R6oXmvAeb1J6P7Pl0CHM2q/gIoc+lOaDODhGe
-	4rlyi1wH09qngzK7HOzfrYgINEWfED8IoVzM7YuxGNyTNbrfrhi1swLnjxpB1gELBt1s
-	aPVA51tUFIFvaDj1cK/7jEzOKv7pLAVkUgUajVAVDrrCuBfYlmDx7W0eVruR9V61Fb2s
-	e9XnaviB5kEdtN3GiMKhP61ZRhCcyvEVewbXJk7SpQqpmYQBBdk48WwvjjTIyHvtwwdU
-	oISw==
+	Fri, 30 Nov 2018 08:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=2uGWFpjm08QdFfHa7HKlAfZpUqrScs7LTNXOJrUDaSY=;
+	b=e+yZ1JHlxUmikjWQnaB7nid+8+0dfnHBYNSUo5G5mkBc0xMe5FFe9oILdKR05KsPJY
+	GI4EMKjDDFy4AG96D5kfFp2FO7tBsbH389FgFKr0PdfSw49e9D5hy41ycUAz1QCmWdFb
+	0s3hAfquK4QDq3q383LkrbaNZQ1izq7IOWDKyZdnokVQmfJc+2ja1ER8yuAb1K6h+tDA
+	EvaGW5FSm1Kb6qyag9RG/ndVn+7CdAoe5j5ut/y2KvrN7jWwuGHtZAH320RhK3Lby5sC
+	DnEgkCRrlHXSsS7qd+6VDwJgVVvEusKVOcJXdcvmhXeLgCFtWBSzQIDnQzI4O80Tg8YI
+	Yqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Z3KnsfwgxcIzRnw1iS7NwS/nIhSaKv02Us71dgh4xV0=;
-	b=LegZJpoW3CfPv4XIHejeSBp1dVg4GkymeI9QHsoQ5F5bM7tLkJNJ5xOAKJqxKqFRof
-	PAn/9Wgiv5N8AL5wS521buiyIeqk30vp/duz6M3ViMFZjzQ4Gm9039GBXnKD/0+cpTcx
-	2jzdnsYaxbZF31MFGU3gRtlHk/07Bx7gwUcIqk1m61yJ7on2LNoDJYut8noNQoAjsKNd
-	pMkVGTrBCP9dWTuWc645mUi0DlusGgOpSiyYRMYm0z5tUDqLmKbpm1K6zlEEgXAju8P5
-	hZJlxJQ8Qib8N+/8n4744Br4JLjb5e7HM/bAlwfjbiwM9fGgQGR46ALbkMoiC9grXHZX
-	zcBg==
-X-Gm-Message-State: AA+aEWbxR3JkxhI2lCbd5nsXtebGHH/o0TsfAcoVDUdf9v0htOUKH8Nn
-	y4Mpfru2hGFW+mE4R2dPt2ik1swFZD7OkwFzpv0=
-X-Google-Smtp-Source: AFSGD/W+q8w1o/scHLcl+453ePwu3j1h9h9x/sP1vcPvivcEJXmX9Spuzs42uFVZD9rtQp76crjoSYMz6Of62tarzgE=
-X-Received: by 2002:a24:50ce:: with SMTP id
-	m197-v6mr5199599itb.11.1543593802488; 
-	Fri, 30 Nov 2018 08:03:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20181127234359.2682-1-chanudete@ainfosec.com>
-	<CAJTo0LZRVNddaEXh7+y2ZY+XDh3rtCWyRn=YpkZ924ONp+O9Zw@mail.gmail.com>
-	<20181128164943.px4djfs5xqpgpvfj@legion>
-In-Reply-To: <20181128164943.px4djfs5xqpgpvfj@legion>
-From: Chris Patterson <cjp256@gmail.com>
-Date: Fri, 30 Nov 2018 11:03:11 -0500
-Message-ID: <CABZSBQdhHMBa-L0y-CD2G_ztpHBrF3gJz8LDyWtgJP2x+2VgTQ@mail.gmail.com>
-To: chanudete@ainfosec.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] licence: Add license file CC-BY-SA-4.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2uGWFpjm08QdFfHa7HKlAfZpUqrScs7LTNXOJrUDaSY=;
+	b=P/iJWXzZqqCBpctQhvG/F+zXikaTE9ZUyn/1/dLRJ2U15CYVzPYcQTR3g/9lggnvQT
+	Nm669wfo1NmR7LAa1XCLyaQwvizA6git9KTxNwl8uTuB6X30daJ7ElrfgEOx26cLbHnD
+	QcISyAvFVD3WvMcAh7DNaFhkC2SR26qcUDKz36Q8yHdaNC+LWDnq5iADw8TwBKcTTmlX
+	O/nBmsE6noCSepC4ZwW4G44RxNvyXRa0Dgdc3qfVAy6sihMkyuFsfHfE7cbXOPriZ+nf
+	Lsv/53HGlzNCih4QkgpzwtwZ3OXWeTFWguhAbDnW7VgpboJtQT2xSA2wPO1wMJiOdO++
+	QmuA==
+X-Gm-Message-State: AA+aEWbrqk75QYc6DtsmOAw19yI7gxqwQ5kSphqlK2qWbw4mTJT4GZiz
+	6T4Qm4WtSkrtip52li31xsFS2rYbrqM=
+X-Google-Smtp-Source: AFSGD/WyKYRuhJSW1qY/y5HSv1Xq4v4hA3LKIauheeCYM/HmcAP35PR5R6ZrM1axh65Zgqa4B/+kAg==
+X-Received: by 2002:a1c:48c1:: with SMTP id
+	v184-v6mr6407169wma.26.1543596993060; 
+	Fri, 30 Nov 2018 08:56:33 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e142sm3045911wmf.46.2018.11.30.08.56.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Nov 2018 08:56:32 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 16:56:30 +0000
+Message-Id: <20181130165630.27415-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] ltp: add missing patch Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 16:03:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Nov 2018 16:56:33 -0000
 
-I was able to apply the patch and mbox found at:
-https://patchwork.openembedded.org/patch/156676/
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch | 1 +
+ 1 file changed, 1 insertion(+)
 
-However, I was unable to apply the mbox from this email directly,
-getting the same error as Ross.  Whatever the issue is, patchwork
-seems to fix it.
-On Wed, Nov 28, 2018 at 11:49 AM Eric Chanudet <chanudete@ainfosec.com> wrote:
->
-> On 28/11/18 at 10:45am, Burton, Ross wrote:
-> >Your mail client has mangled the patch, can you resend this using
-> >git-send-email?
-> I used git-send-email for this, following the wiki[1]'s instructions. I
-> am confused.
->
-> I tried applying the change from the ml post both with `git am` and
-> `patch` and could not get the error you mentioned.
->
-> My apologies for the inconvenience,
->
-> [1] http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
->
-> --
-> Eric Chanudet
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch b/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
+index c4fd8d02238..140bfeb8794 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-statx-fix-compile-errors.patch
+@@ -6,6 +6,7 @@ Subject: [PATCH] statx: fix compile errors
+ struct statx is only defined in sys/stat.h when _GNU_SOURCE is defined.
+ The testcases do define _GNU_SOURCE, but not the m4 struct check.
+ 
++Upstream-Status: Backport
+ Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+ Acked-by: Cyril Hrubis <chrubis@suse.cz>
+ ---
+-- 
+2.11.0
+
 
