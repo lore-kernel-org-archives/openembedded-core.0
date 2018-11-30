@@ -1,46 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
-	[209.85.222.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 210466D64B;
-	Fri, 30 Nov 2018 02:31:35 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id o89so2380371qko.0;
-	Thu, 29 Nov 2018 18:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PFhGNXuGfGMrwh+T5cYw4f6FZ9SUQkbLQfrBzsJibGg=;
-	b=TBiw6Zgi46q0H51phCXKFXzWRen1CrCac2dcL7a6lNUVUa5N78iVbcRzBhAl1zQWgD
-	Zp5HbaS0l6n+lGregJh4lf4wIHRb35kFW/MgWaAUy1cEvWrNKrvKmqohrcI/9XsMpFvL
-	bRxBSswF3oKK56/8r0E4sMUQ+8QAvPIDlj4aQRSP1EDUtDGR5yBtIBadrHjP2Hs9JLG/
-	N/MP+BBE1b8MK9K3kYLNUZ+pmAiastxNyiuLfHt5US3iqzSrzc8dhYkEoNMYtTjvHL4B
-	QkTAYN/BCexLTTubOtYUqVTf6V65QZDVRJDRGEWUY7MHl14djylB9apgtTww5b/Rz6Kp
-	wiAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PFhGNXuGfGMrwh+T5cYw4f6FZ9SUQkbLQfrBzsJibGg=;
-	b=blacD2n14GuwCeDr68U+Q7kfoEVTMEIYLP9Deu4kJ/azJvyulybcvgSXyIsEbY/EM2
-	5BpbPSOVEIIiC1ZvyxrtmhzALeH95YOiX0UzFm5p/nnTaJJIvmtqoHDOjjJ21mfv90+V
-	K/6DzVo8wvPn+zvK7Ku85fKflo3FpOJ7ydSjmVsrChMATJGmsadHKhnKDW+fsFTQc25G
-	GrGIWNf2yse7AAOxNpSZEAwHuSVLJpmGBvd/brHJZwePR8HGwBuANAytJVMyZekNImiC
-	cW29qojIR+CzWM0gNqq/cuTYBmqlPr8PINiQQCeX+6oaEEHA8+19ReQ2s5vT0fOcLQ1X
-	XcbA==
-X-Gm-Message-State: AA+aEWbuv6H6LX0aErKaoqAH09DypGpqvlLWHToVT8po/mczOzvPdaZk
-	QgOQWsFcFcDQVbiBgyd+nq4MDj8m3Pm8nXNytzGiAwhj
-X-Google-Smtp-Source: AFSGD/XsRpqU8jWuAIkFjlO5O1nhNrmvDXtax6r4fIKv8AL+ancjsflnnDc8Pq0dBMvWJzfiAuTfQ3MsmrkdbCw+lcQ=
-X-Received: by 2002:a37:ac05:: with SMTP id e5mr3804725qkm.102.1543545095798; 
-	Thu, 29 Nov 2018 18:31:35 -0800 (PST)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BCAAB60229;
+	Fri, 30 Nov 2018 02:33:07 +0000 (UTC)
 MIME-Version: 1.0
-References: <2403371.OeEdUFaxhe@localhost.localdomain>
-In-Reply-To: <2403371.OeEdUFaxhe@localhost.localdomain>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 Nov 2018 18:31:09 -0800
-Message-ID: <CAMKF1srJiBZnB42fhoYOvutDe_Pv0sBRq79p=69UWfgt4QRckg@mail.gmail.com>
-To: "Eggleton, Paul" <paul.eggleton@intel.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Github pull requests
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 30 Nov 2018 02:33:09 -0000
+Message-ID: <20181130023309.2330.69807@do>
+References: <cover.1543544711.git.liezhi.yang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1543544711.git.liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdWJvb3Qtc2lnbi5iYmNsYXNzOiBmaXggc2lnbmF0dXJlIGFuZCBkZXBsb3ltZW50IChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 02:31:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Nov 2018 02:33:07 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 29, 2018 at 5:26 PM Paul Eggleton <paul.eggleton@intel.com> wrote:
->
-> Hi folks
->
-> Someone pointed out that there are quite a few pull requests on github under
-> https://github.com/openembedded/. I know we don't accept these, but it seems
-> to me we ought to clean up the ones that are there in order to avoid people
-> thinking that they might be (and probably comment on the ones where we haven't
-> done so or the submitter hasn't sent them to the mailing list already). I'll
-> volunteer to clean them up, but I don't currently have access - can someone
-> grant that to me?
+== Series Details ==
 
-I think that will be good. I have taken care of meta-oe ones but I can not
-close them
+Series: uboot-sign.bbclass: fix signature and deployment (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/15013/
+State : failure
 
->
-> Thanks,
-> Paul
->
-> --
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
->
-> --
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 21387613fe)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
