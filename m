@@ -1,25 +1,23 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ED936C498;
-	Fri, 30 Nov 2018 01:25:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2018 17:25:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,296,1539673200"; d="scan'208";a="94311925"
-Received: from vsiribox-mobl2.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.174.172])
-	by orsmga007.jf.intel.com with ESMTP; 29 Nov 2018 17:25:43 -0800
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2018 14:25:39 +1300
-Message-ID: <2403371.OeEdUFaxhe@localhost.localdomain>
-Organization: Intel Corporation
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 645646BE39
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2018 01:58:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAU1wZZ5004354
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2018 17:58:35 -0800 (PST)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 29 Nov 2018 17:58:34 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Nov 2018 20:58:21 -0500
+Message-ID: <cover.1543542953.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.19.0.rc2
 MIME-Version: 1.0
-Subject: Github pull requests
+Subject: [PATCH 0/1] u-boot-tools: fix compile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 01:25:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 30 Nov 2018 01:58:35 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi folks
+From: Kai Kang <kai.kang@windriver.com>
 
-Someone pointed out that there are quite a few pull requests on github under 
-https://github.com/openembedded/. I know we don't accept these, but it seems 
-to me we ought to clean up the ones that are there in order to avoid people 
-thinking that they might be (and probably comment on the ones where we haven't 
-done so or the submitter hasn't sent them to the mailing list already). I'll 
-volunteer to clean them up, but I don't currently have access - can someone 
-grant that to me?
+The following changes since commit 41d89552620bfbc94031d314e6b3d0324f7a330e:
 
-Thanks,
-Paul
+  bitbake: fetch2: Avoid warning about incorrect character escaping in regex (2018-11-27 22:15:34 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/uboot
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/uboot
+
+Kai Kang (1):
+  u-boot-tools: fix compile error
+
+ meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 -- 
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.19.0.rc2
 
 
