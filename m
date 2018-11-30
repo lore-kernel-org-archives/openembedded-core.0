@@ -1,22 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9012A6C0C5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3159E6D682
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 02:08:53 +0000 (UTC)
+	Fri, 30 Nov 2018 02:08:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAU28oQ8018648
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wAU28qwX004418
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Nov 2018 18:08:50 -0800 (PST)
+	Thu, 29 Nov 2018 18:08:52 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 29 Nov 2018 18:08:49 -0800
+	14.3.408.0; Thu, 29 Nov 2018 18:08:51 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2018 10:26:13 +0800
-Message-ID: <cover.1543544711.git.liezhi.yang@windriver.com>
+Date: Fri, 30 Nov 2018 10:26:14 +0800
+Message-ID: <47870657425588d46276944c0e0699a91f1e2ef9.1543544711.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1543544711.git.liezhi.yang@windriver.com>
+References: <cover.1543544711.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1 V2] uboot-sign.bbclass: fix signature and deployment
+Subject: [PATCH 1/1] uboot-sign.bbclass: fix signature and deployment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +31,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 02:08:53 -0000
+X-List-Received-Date: Fri, 30 Nov 2018 02:08:55 -0000
 Content-Type: text/plain
 
-* V2
-  Rebase to master-next and resend.
+Fixed:
+MACHINE = "beaglebone-yocto"
+KERNEL_CLASSES += "kernel-fitimage"
+KERNEL_IMAGETYPE_beaglebone-yocto = "fitImage"
+UBOOT_MACHINE_beaglebone-yocto = "am335x_boneblack_vboot_config"
+UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+UBOOT_SIGN_KEYDIR = "${TOPDIR}/conf"
+UBOOT_SIGN_KEYNAME = "dev"
+UBOOT_SIGN_ENABLE = "1"
+IMAGE_INSTALL_remove = "kernel-image-zimage"
 
-* V1
-  Initial version
+$ cd conf
+$ openssl genrsa -F4 -out dev.key 2048
+$ openssl req -batch -new -x509 -key dev.key -out dev.crt
+$ cd ../
+$ bitbake u-boot linux-yocto
+$ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto-2018.07-r0.dtb matches
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot-beaglebone-yocto.dtb matches
+Binary file tmp/deploy/images/beaglebone-yocto/u-boot.dtb matches
 
-The following changes since commit e821100b1ee2a023b813adb20e56fe1ccc352d42:
+And there would be no signature info when rebuild from sstate:
+$ bitbake u-boot linux-yocto -cclean
+$ bitbake u-boot linux-yocto
+$ grep signature tmp/deploy/images/beaglebone-yocto/*.dtb
+No result
 
-  musl: Update to latest trunk (2018-11-29 23:34:46 +0000)
+This s because kernel directly edit ${DEPLOY_DIR_IMAGE}/u-boot.dtb, (Note, it
+is global ${DEPLOY_DIR_IMAGE}, not recipe's DEPLOYDIR), so that the modified
+info is not in sstate, and would be lost when rebuild from sstate.
 
-are available in the git repository at:
+There are other problems in previouse code:
+- The u-boot.dtb is provided by u-boot, but edited by kernel during signing, so
+  it should be deployed by kernel rather than u-boot.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/uboot
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/uboot
+- The u-boot.do_concat_dtb directly install files to global ${DEPLOY_DIR_IMAGE},
+  this is incorrect, the ${DEPLOY_DIR_IMAGE} should be installed by do_deploy.
 
-Robert Yang (1):
-  uboot-sign.bbclass: fix signature and deployment
+- It seems that it assumes do_deploy depends on do_install according the comments,
+  but they have no relationships:
+  # do_concat_dtb is scheduled _before_ do_install as it overwrite the
+  # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
 
+- The do_concat_dtb should be run after do_compile, but it doesn't have this
+  dependency.
+
+Make u-boot install u-boot.dtb to ${datadir}, kernel copies u-boot.dtb from
+${STAGING_DATADIR} to ${B} and deploy it can fix the problem.
+
+[YOCTO #12112]
+
+Reported-by: Christian Andersen <c.andersen@kostal.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/kernel-fitimage.bbclass | 17 ++++++-
  meta/classes/uboot-sign.bbclass      | 95 ++++++++++++++++++++----------------
  meta/recipes-bsp/u-boot/u-boot.inc   |  2 +-
  3 files changed, 69 insertions(+), 45 deletions(-)
 
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 328bef4..5f6380f 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -35,7 +35,7 @@ python __anonymous () {
+         # the fitImage:
+         if d.getVar('UBOOT_SIGN_ENABLE') == "1":
+             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy' % uboot_pn)
++            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
+ }
+ 
+ # Options for the device tree compiler passed to mkimage '-D' feature:
+@@ -456,10 +456,17 @@ fitimage_assemble() {
+ 	# Step 7: Sign the image and add public key to U-Boot dtb
+ 	#
+ 	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
++		add_key_to_u_boot=""
++		if [ -n "${UBOOT_DTB_BINARY}" ]; then
++			# The u-boot.dtb is a symlink to UBOOT_DTB_IMAGE, so we need copy
++			# both of them, and don't dereference the symlink.
++			cp -P ${STAGING_DATADIR}/u-boot*.dtb ${B}
++			add_key_to_u_boot="-K ${B}/${UBOOT_DTB_BINARY}"
++		fi
+ 		uboot-mkimage \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${UBOOT_SIGN_KEYDIR}" \
+-			${@'-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}"' if len('${UBOOT_DTB_BINARY}') else ''} \
++			$add_key_to_u_boot \
+ 			-r arch/${ARCH}/boot/${2}
+ 	fi
+ }
+@@ -505,5 +512,11 @@ kernel_do_deploy_append() {
+ 			install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin
+ 			ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin ${DEPLOYDIR}/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}
+ 		fi
++		if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
++			# UBOOT_DTB_IMAGE is a realfile, but we can't use
++			# ${UBOOT_DTB_IMAGE} since it contains ${PV} which is aimed
++			# for u-boot, but we are in kernel env now.
++			install -m 0644 ${B}/u-boot-${MACHINE}*.dtb ${DEPLOYDIR}/
++		fi
+ 	fi
+ }
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index afaf46f..03100b8 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -19,11 +19,15 @@
+ # The tasks sequence is set as below, using DEPLOY_IMAGE_DIR as common place to
+ # treat the device tree blob:
+ #
+-#   u-boot:do_deploy_dtb
+-#   u-boot:do_deploy
+-#   virtual/kernel:do_assemble_fitimage
+-#   u-boot:do_concat_dtb
+-#   u-boot:do_install
++# * u-boot:do_install_append
++#   Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
++#   signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++#
++# * virtual/kernel:do_assemble_fitimage
++#   Sign the image
++#
++# * u-boot:do_deploy[postfuncs]
++#   Deploy files like UBOOT_DTB_IMAGE, UBOOT_DTB_SYMLINK and others.
+ #
+ # For more details on signature process, please refer to U-Boot documentation.
+ 
+@@ -38,58 +42,65 @@ UBOOT_NODTB_IMAGE ?= "u-boot-nodtb-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+ UBOOT_NODTB_BINARY ?= "u-boot-nodtb.${UBOOT_SUFFIX}"
+ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
+ 
+-#
+-# Following is relevant only for u-boot recipes:
+-#
++# Functions in this bbclass is for u-boot only
++UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
+ 
+-do_deploy_dtb () {
+-	mkdir -p ${DEPLOYDIR}
+-	cd ${DEPLOYDIR}
++concat_dtb() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
++		mkdir -p ${DEPLOYDIR}
++		if [ -e ${B}/${UBOOT_DTB_BINARY} ]; then
++			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
++			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
++		fi
+ 
+-	if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
+-		install ${B}/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
+-		rm -f ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_BINARY}
+-	fi
+-	if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
+-		install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-		rm -f ${UBOOT_NODTB_BINARY} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
+-	fi
+-}
++		if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
++            install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
++            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
++            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++		fi
+ 
+-do_concat_dtb () {
+-	# Concatenate U-Boot w/o DTB & DTB with public key
+-	# (cf. kernel-fitimage.bbclass for more details)
+-	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
++		# Concatenate U-Boot w/o DTB & DTB with public key
++		# (cf. kernel-fitimage.bbclass for more details)
++		deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
+ 		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
+-			[ -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
++			[ -e "$deployed_uboot_dtb_binary" ]; then
+ 			cd ${B}
+-			oe_runmake EXT_DTB=${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
++			oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
+ 			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-			install ${B}/${UBOOT_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_IMAGE}
+-		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
++		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+ 			cd ${DEPLOYDIR}
+-			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
++			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+ 		else
+ 			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
+ 		fi
+ 	fi
+ }
+ 
++# Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
++# signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++do_install_append() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
++		if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
++			install -d ${D}${datadir}
++			# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
++			# need both of them.
++			install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
++			ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
++		else
++			bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
++		fi
++	fi
++}
++
+ python () {
+-    uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-    if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == uboot_pn:
++    if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == d.getVar('UBOOT_PN'):
+         kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
+ 
+-        # u-boot.dtb and u-boot-nodtb.bin are deployed _before_ do_deploy
+-        # Thus, do_deploy_setscene will also populate them in DEPLOY_IMAGE_DIR
+-        bb.build.addtask('do_deploy_dtb', 'do_deploy', 'do_compile', d)
++        # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
++        d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
+ 
+-        # do_concat_dtb is scheduled _before_ do_install as it overwrite the
+-        # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
+-        bb.build.addtask('do_concat_dtb', 'do_install', None, d)
+-        d.appendVarFlag('do_concat_dtb', 'depends', ' %s:do_assemble_fitimage' % kernel_pn)
++        # kernerl's do_deploy is a litle special, so we can't use
++        # do_deploy_append, otherwise it would override
++        # kernel_do_deploy.
++        d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
+ }
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 48fbc57..bbdbc25 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -201,7 +201,7 @@ do_install () {
+ 
+ }
+ 
+-FILES_${PN} = "/boot ${sysconfdir}"
++FILES_${PN} = "/boot ${sysconfdir} ${datadir}"
+ 
+ do_deploy () {
+     if [ -n "${UBOOT_CONFIG}" ]
 -- 
 2.7.4
 
