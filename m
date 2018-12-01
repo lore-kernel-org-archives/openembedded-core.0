@@ -1,52 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 874EC6D435
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 45CDF6C46E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Dec 2018 18:14:23 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id gn14so4385496plb.10
+	Sat,  1 Dec 2018 22:26:48 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id m22so2244894wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Dec 2018 10:14:25 -0800 (PST)
+	Sat, 01 Dec 2018 14:26:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=rptVzVcudWWMemoJ7mp4Wrq0Htfxb84ondzhHKp3kdU=;
-	b=nDYOwX6Asus9mCcmPU3/RriRhhJVwNZk+Q3WUWHL/CWEepW/y/D7o9rzZ60MCUZ7MR
-	HUJQSuK/CPlUmlcbLyQT6KUH2lPdEBx4zxqWaDQySsy2jWeHQ0d2542zDNJQJeCjl8kM
-	6LhXYRX5RkpikjxOP+6zZRQVnM7xO2lHNev9qD0zJK9kJfe3dHsu74Q1IpuboA/Vi8gt
-	XLmS3ISOp5cwm/VTMN5TGHK8quZNFIpdWOcbCZmx/GNCubuMicuFb0IUeyo3BnrlBq5H
-	7q2shRmN/8nYQxWpuJFQrLFF+NAjWr6FKi2FnVnmUePGjbeKFstMH7FONQgHEeEcTLAA
-	aZCg==
+	h=from:to:cc:subject:date:message-id;
+	bh=mW1sXXJ/iVaNNA5Xkh3gbsHCu6e+N3hVfujESW42ctk=;
+	b=A+Y/caBZhxSDp+RNdEapgNqtm+lHftB2ygEbJEw1a0TIGuioPjgpZT9SGW+4Cp9a1e
+	z80YIsMGfcOYqSC9TVs5mzZ3C+GLvZw7U2PTUS3CzHlAI8PJrEQDoSAvpmkDnR5E20qu
+	cuvG/jnx0l5PmdBeSL88TzuYS2t1g0niSNdY308eUJVKJ6IsJ6W0WYg1qtmA/B/XA6kF
+	2gMkTuSVYU6Uura8zmXw6wwZcidemm32+A3+KM5nVdFed/7Xl4oTDJhM8Njsw8DnbRm3
+	j8k6ptENeeEh/g3Fh0uGkxtLSPGdCV+v++ybWfi6VmETb3Q9ALMUczQcSb7UveLDlbGz
+	QL8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=rptVzVcudWWMemoJ7mp4Wrq0Htfxb84ondzhHKp3kdU=;
-	b=kx9qnU1z2ZP4svkAWgavPw1Xjq8wXsjQ+vGwZyUiM2KX20nyx6jTw47+G3MR+WRt1N
-	FMXfUMoehPaMH+6fgCrpTZrTdPOQDpRSW5npW2e2N6sf7wcBFJNut1HDCmSbVjKw/QYW
-	sbncGTilNwRYjo/9JTJQYdGYUqd312iT7OayDNqWFq112OEfFhK8/Xql9n1kNoFvgsaw
-	ovl0AeToUJNXGeNH+T+sWJ6iMAx6oSjpXyefKBNGLx75uTA2fnHuiQHvzspmgDtMAcH6
-	ujwP40WhzOAJKxuKtWKO2UBFnK1OcgPsb0am7j5W9VtUE/qdTnL12LKUmvzWkvzbGp0t
-	4GVw==
-X-Gm-Message-State: AA+aEWbGWw4FgoHTckfKZKo1iOEH0ofnzgQ48Fx6CuxGJFq0ny0/sEXr
-	NCjp8VCA9Rf5DrBg6JG/Hmbz0qgNHAk=
-X-Google-Smtp-Source: AFSGD/UJc3FxKtRT7E6LDe8ib/LfBJ5hWzRQvIA1M3GiIPsn/y1Ok5OE4zwtDv3V6UF6CskiljHIHg==
-X-Received: by 2002:a17:902:e08b:: with SMTP id
-	cb11mr10203246plb.263.1543688064235; 
-	Sat, 01 Dec 2018 10:14:24 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::26ab])
-	by smtp.gmail.com with ESMTPSA id t3sm8949728pgv.31.2018.12.01.10.14.23
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=mW1sXXJ/iVaNNA5Xkh3gbsHCu6e+N3hVfujESW42ctk=;
+	b=pCC1rGGIR7sr6DDDKUGdf2yTU247PYVpeDIOq6veaLtS54LTXZ7rmuVQCANet4K2vx
+	n77XmegVxIHObLdoOnoYHjPcYpJPioD6yco3/UgPbJcWMpQbWu1V2QtU6Sct8IL7J2bv
+	4ZwdXQFPMiLUjnEOFvUaM5g5NLhWpaQoPT/Q8U74WP0M76hjA7BDXPXsWmFMJR8+mJlQ
+	Jy1RLPRwAhvpc2RImM1QLiEamlrTLJJKWG67TSihsgHS+uJmBE4W1DXCT233xTb9P+D+
+	j2jjA4zp42XAnKGqeEhWYHO+I8il4akE7nNRKEyhEhVGiTtLgH152gOMXW4r9JYi8w8B
+	JHdA==
+X-Gm-Message-State: AA+aEWYfzoy+di2ZO5dNj98oQ+tQ9Ig8z3l7si7TFpVPS4MiHSNrEKCG
+	PYF63KpD1uVS18si2lO3Xwr12QO1
+X-Google-Smtp-Source: AFSGD/VsUJWelPydxRNofRQyd+ki7TwCLTJMsGG9mAElcdyX9dDvp30HB1OVVYKbMSMhTk1HWKabjw==
+X-Received: by 2002:a1c:6508:: with SMTP id z8mr3434281wmb.28.1543703209261;
+	Sat, 01 Dec 2018 14:26:49 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	e19sm22226380wrc.25.2018.12.01.14.26.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Dec 2018 10:14:23 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Sat, 01 Dec 2018 14:26:48 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Dec 2018 10:12:54 -0800
-Message-Id: <20181201181254.42701-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20181201181254.42701-1-raj.khem@gmail.com>
-References: <20181201181254.42701-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 2/2] nfs-utils: Fix exportfs segfault on musl
+Date: Sat,  1 Dec 2018 23:26:42 +0100
+Message-Id: <20181201222642.74983-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] gobject-introspection: add a missing patch that was overlooked when adding meson support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,69 +54,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Dec 2018 18:14:23 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 01 Dec 2018 22:26:49 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This should also fix Rygel builds in meta-oe
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
-V2: Rebased
+ ...t-cross-compilation-support-to-meson.patch | 28 ++++----
+ ...pository-directory-for-native-builds.patch |  2 +-
+ ...0010-meson-add-option-gir-dir-prefix.patch | 66 +++++++++++++++++++
+ .../gobject-introspection_1.58.1.bb           |  1 +
+ 4 files changed, 82 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0010-meson-add-option-gir-dir-prefix.patch
 
- ...ot-pass-null-pointer-to-freeaddrinfo.patch | 32 +++++++++++++++++++
- .../nfs-utils/nfs-utils_2.3.3.bb              |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch
-new file mode 100644
-index 0000000000..a44d1bf2fe
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch
-@@ -0,0 +1,32 @@
-+From 4f115fc314646500f7b4178d7248a02654c7cd10 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 30 Nov 2018 16:47:57 -0800
-+Subject: [PATCH] Do not pass null pointer to freeaddrinfo()
-+
-+Passing null pointer as input parameter to freeaddrinfo() is undefined
-+behaviour, some libcs e.g. glibc might just call free() which does
-+accept null pointer but other libcs e.g. musl might not and instead
-+cause the program to segfault. Therefore do not rely on undefined
-+behaviour instead make it deterministic
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ support/export/client.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+Index: nfs-utils-2.3.2/support/export/client.c
-+===================================================================
-+--- nfs-utils-2.3.2.orig/support/export/client.c
-++++ nfs-utils-2.3.2/support/export/client.c
-+@@ -309,7 +309,8 @@ client_lookup(char *hname, int canonical
-+ 		init_addrlist(clp, ai);
-+ 
-+ out:
-+-	freeaddrinfo(ai);
-++	if (ai)
-++		freeaddrinfo(ai);
-+ 	return clp;
-+ }
-+ 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-index 35587dfb7a..572ae3146f 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://bugfix-adjust-statd-service-name.patch \
-            file://nfs-utils-musl-limits.patch \
-            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
-+           file://0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch \
- "
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Port-cross-compilation-support-to-meson.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Port-cross-compilation-support-to-meson.patch
+index 63b02fe0f3d..80c9e71ad57 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Port-cross-compilation-support-to-meson.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Port-cross-compilation-support-to-meson.patch
+@@ -1,4 +1,4 @@
+-From fabf8c505181636182a357e0c6e764b752ccf468 Mon Sep 17 00:00:00 2001
++From ea25a5a755bc839d5b504aac207f860ae68109bc Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 15 Nov 2018 15:10:05 +0100
+ Subject: [PATCH] Port cross-compilation support to meson
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 66 insertions(+), 17 deletions(-)
  
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
+ diff --git a/gir/meson.build b/gir/meson.build
+-index 607bbc45..c0e221b3 100644
++index 1cb514a..f873068 100644
+ --- a/gir/meson.build
+ +++ b/gir/meson.build
+-@@ -37,15 +37,27 @@ typelibdir = join_paths(get_option('libdir'), 'girepository-1.0')
+- girdir = join_paths(get_option('datadir'), 'gir-1.0')
++@@ -36,15 +36,27 @@ gir_files = [
++ typelibdir = join_paths(get_option('libdir'), 'girepository-1.0')
+  install_data(gir_files, install_dir: girdir)
+  
+ -scanner_command = [
+@@ -53,7 +53,7 @@ index 607bbc45..c0e221b3 100644
+  
+  dep_type = glib_dep.type_name()
+  if dep_type == 'internal'
+-@@ -58,6 +70,12 @@ if dep_type == 'internal'
++@@ -57,6 +69,12 @@ if dep_type == 'internal'
+                        '--extra-library=glib-2.0', '--extra-library=gobject-2.0']
+  endif
+  
+@@ -66,7 +66,7 @@ index 607bbc45..c0e221b3 100644
+  # Take a glob and print to newlines
+  globber = '''
+  from glob import glob
+-@@ -84,8 +102,8 @@ glib_command = scanner_command + [
++@@ -83,8 +101,8 @@ glib_command = scanner_command + [
+  
+  if dep_type == 'pkgconfig'
+    glib_command += ['--external-library', '--pkg=glib-2.0']
+@@ -77,7 +77,7 @@ index 607bbc45..c0e221b3 100644
+    glib_libincdir = join_paths(glib_libdir, 'glib-2.0', 'include')
+    glib_files += join_paths(glib_incdir, 'gobject', 'glib-types.h')
+    glib_files += join_paths(glib_libincdir, 'glibconfig.h')
+-@@ -339,7 +357,7 @@ endforeach
++@@ -338,7 +356,7 @@ endforeach
+  if giounix_dep.found()
+    if dep_type == 'pkgconfig'
+      gio_command += ['--pkg=gio-unix-2.0']
+@@ -86,7 +86,7 @@ index 607bbc45..c0e221b3 100644
+      # Get the installed gio-unix header list
+      ret = run_command(python, '-c', globber.format(join_paths(giounix_includedir, 'gio', '*.h')))
+      if ret.returncode() != 0
+-@@ -417,15 +435,24 @@ gir_files += custom_target('gir-girepository',
++@@ -416,15 +434,24 @@ gir_files += custom_target('gir-girepository',
+    ]
+  )
+  
+@@ -116,10 +116,10 @@ index 607bbc45..c0e221b3 100644
+      install_dir: typelibdir,
+    )
+ diff --git a/meson.build b/meson.build
+-index 7ec95328..9e20da57 100644
++index 17acd82..e0bb495 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -76,7 +76,9 @@ libffi_dep = dependency('libffi',
++@@ -81,7 +81,9 @@ libffi_dep = dependency('libffi',
+  subdir('girepository')
+  subdir('tools')
+  subdir('giscanner')
+@@ -131,12 +131,12 @@ index 7ec95328..9e20da57 100644
+  subdir('docs')
+  subdir('tests')
+ diff --git a/meson_options.txt b/meson_options.txt
+-index 49726be6..d557a3b6 100644
++index ee6958d..b168142 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+-@@ -21,3 +21,23 @@ option('cairo-libname', type: 'string',
+- option('python', type: 'string', value: 'python3',
+-   description: 'Path or name of the Python interpreter to build for'
++@@ -25,3 +25,23 @@ option('python', type: 'string', value: 'python3',
++ option('gir-dir-prefix', type: 'string',
++   description: 'Intermediate prefix for gir installation under ${prefix}'
+  )
+ +
+ +option('enable-host-gi', type: 'boolean', value : false,
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 17b9eac057c..fdcef3c7140 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+@@ -1,4 +1,4 @@
+-From a20b4d70f44449875b7c54750ab0f02eefb0870d Mon Sep 17 00:00:00 2001
++From 2882e091e7b905441beef51dbed968f4dd7ffd7c Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0010-meson-add-option-gir-dir-prefix.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0010-meson-add-option-gir-dir-prefix.patch
+new file mode 100644
+index 00000000000..8eec5f867ee
+--- /dev/null
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0010-meson-add-option-gir-dir-prefix.patch
+@@ -0,0 +1,66 @@
++From bbc34f00fd30a13eafc607a956de60d822260355 Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Fri, 14 Sep 2018 01:26:38 -0700
++Subject: [PATCH] meson: add option 'gir-dir-prefix'
++
++Add option 'gir-dir-prefix' for meson to make the installation path of
++.gir files could be configured which has been done for autoconf.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gobject-introspection/commit/3938b86f5289c2b28a5ec42965b8da4b509445c4]
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ gir/meson.build   | 1 -
++ meson.build       | 8 +++++++-
++ meson_options.txt | 4 ++++
++ 3 files changed, 11 insertions(+), 2 deletions(-)
++
++diff --git a/gir/meson.build b/gir/meson.build
++index 607bbc4..1cb514a 100644
++--- a/gir/meson.build
+++++ b/gir/meson.build
++@@ -34,7 +34,6 @@ gir_files = [
++ ]
++ 
++ typelibdir = join_paths(get_option('libdir'), 'girepository-1.0')
++-girdir = join_paths(get_option('datadir'), 'gir-1.0')
++ install_data(gir_files, install_dir: girdir)
++ 
++ scanner_command = [
++diff --git a/meson.build b/meson.build
++index a1432f7..17acd82 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -18,7 +18,12 @@ python = pymod.find_installation(get_option('python'))
++ cc = meson.get_compiler('c')
++ config = configuration_data()
++ config.set_quoted('GIR_SUFFIX', 'gir-1.0')
++-config.set_quoted('GIR_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'gir-1.0'))
+++gir_dir_prefix = get_option('gir-dir-prefix')
+++if gir_dir_prefix == ''
+++    gir_dir_prefix = get_option('datadir')
+++endif
+++girdir = join_paths(get_option('prefix'), gir_dir_prefix, 'gir-1.0')
+++config.set_quoted('GIR_DIR', girdir)
++ config.set_quoted('GOBJECT_INTROSPECTION_LIBDIR', join_paths(get_option('prefix'), get_option('libdir')))
++ 
++ foreach type : ['char', 'short', 'int', 'long']
++@@ -93,6 +98,7 @@ pkgconfig_conf.set('libdir', join_paths('${prefix}', get_option('libdir')))
++ pkgconfig_conf.set('datarootdir', join_paths('${prefix}', get_option('datadir')))
++ pkgconfig_conf.set('datadir', '${datarootdir}')
++ pkgconfig_conf.set('includedir', join_paths('${prefix}', get_option('includedir')))
+++pkgconfig_conf.set('GIR_DIR', join_paths('${prefix}', gir_dir_prefix, 'gir-1.0'))
++ if host_system == 'windows' or host_system == 'cygwin'
++   pkgconfig_conf.set('EXEEXT', '.exe')
++ else
++diff --git a/meson_options.txt b/meson_options.txt
++index 49726be..ee6958d 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -21,3 +21,7 @@ option('cairo-libname', type: 'string',
++ option('python', type: 'string', value: 'python3',
++   description: 'Path or name of the Python interpreter to build for'
++ )
+++
+++option('gir-dir-prefix', type: 'string',
+++  description: 'Intermediate prefix for gir installation under ${prefix}'
+++)
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.1.bb
+index 66f99185389..f4f41b61c0f 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.1.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.1.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-$
+            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
+            file://0001-configure.ac-make-GIR_DIR-configurable.patch \
+            file://0002-g-ir-tools-respect-gir_dir_prefix.patch \
++           file://0010-meson-add-option-gir-dir-prefix.patch \
+            file://0001-Port-cross-compilation-support-to-meson.patch \
+            "
+ 
 -- 
-2.19.2
+2.17.1
 
 
