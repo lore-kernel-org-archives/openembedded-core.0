@@ -1,48 +1,51 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2063B6C123
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D6D16C48A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Dec 2018 00:31:00 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id r24so2754312wmh.0
+	Sat,  1 Dec 2018 01:08:21 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id p8so3620546plo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2018 16:31:02 -0800 (PST)
+	Fri, 30 Nov 2018 17:08:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HowJJ/dZniaUOwFvElNdKyXvrZx9aBb9sjPRToCqo7Q=;
-	b=Af2dB9iGjKlqrjpMKc87wSy0KPneu3t9XsodV7PgvcwYL43Ow18uazXnuv9sRtrBFI
-	9QKGZAQ1H8XYdsSEyoC3JMoHlQxeHXej2T0mwwKxc1uG8PF+E+MW7kzVbDWN28Kkn4ss
-	0/uL8lkMj7aqK1EAB/4hymZermwHTH32fePKc/hmgV1ESMxKoSZ7iaCP48185hL7DyGp
-	/LsPiD8yvn1HPjIkBeTMxa05krdY7z30s6f1Hb6gMLmkoNfW11/iPrp18dx/qMiJcGVH
-	sqkHM1dl5tFUWenAM721hqhqLGjQejzeHmIIa6aIJkx+mYWVRNJOPE6h9OxQEwuGKoFd
-	IVIA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9krnnpJjXEiptjIf5IRpramDu1eXt21kcpPr7Vnsrw0=;
+	b=qxghj6dc62NLnsi25S6PT6fmKIijnC7Un1QQ76AzFARhETin0K3KnIE0pbvJqdtNRE
+	48Mx6z400vDfxqy5QuQhMW2rHk6NXySwXNO73Y/weYdLaSDS0/tlxGOUuTsnBrPASvAQ
+	4QVcrwYrn49ayhCwz93d9Yc6wSN0xQ3KUV4MkW0zQT/iZ7U0In3SYnG9wvneG8Enotcx
+	7g+/uz27bNYRm7pAazN9TU86Ok3KaMYXvAaXPPIbPMtuRygxMf9gnQnr1cMmipwTyaX3
+	i3vi7aQmC+CAVv1IXQtpva+BMazSaq3RwxptFh0efNCUpTTdeWDsH3Fd7lTXTMu3rRQu
+	d+Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HowJJ/dZniaUOwFvElNdKyXvrZx9aBb9sjPRToCqo7Q=;
-	b=ByuVe05eyDhj/824RKetS5J7GMqLzHx7nS+BdGoUdF02L7Ol9wmDPCClIXncx7Lolw
-	hqcv8WexadDGlMqaIdDobwJ88JTJbb7I8cRk0iBep9vaGe3XD0diqXPtEq2dJt+EBOZP
-	/xaC/Q4kYRVSQWN+HNwNczAumIT8o+CFroeSrRIRgMgYTxes7d8Kwxh+qp7Q2XzR+TWp
-	mvKJeyPctOV5dBZv+SERRXVyL9PWSviDT719KpBA5fJpj4BDlWRJX0YmP2WzQxfDTxlP
-	E1RfifnnDHkTqqUYACbP9OnseIJr8JxKdUXlAXw+0uxDXjvduSTs8i62IyNxbPGv+UgX
-	PATA==
-X-Gm-Message-State: AA+aEWbt3Q8f2rYaXzY4rwCoIm97RkE5VqRcdFEKtQat0EuedUDWOWp6
-	kmf0w2gtQ/QhePPON1MwLZFRnr4PcyLn0+kH6bo=
-X-Google-Smtp-Source: AFSGD/VNiIymzU4OEzHbwibxpiVLCgWQK4CmrWtrAn3tAy8sPEVPaCfesrGKFJWwXZL4yotx7tUXUDF6SmmlgxtWt6k=
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr684730wmd.63.1543624261654; 
-	Fri, 30 Nov 2018 16:31:01 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9krnnpJjXEiptjIf5IRpramDu1eXt21kcpPr7Vnsrw0=;
+	b=QMOPBVZmLtRTKeT8YnH1Oxf5WTt9hFfJsxAtRbmH7pgUHspgmiSC7+OvbhQcYVJ7W2
+	DSg2TS3Z8YnFnBedeQD2/h8+LIecSzPeOfoD1ML65Rv4yLLa9g/XRYsBWj5DFGfN6NEt
+	S6fiSdErAojOeUxnA41qqvl/QdcGkf9WRLfImKuN/6Yof/UxrO+8a7d6Blu1mdGLr0zx
+	1VfSF7SSEu4nH6N5Bvg5j+3DbblGodirxXXiA4wdltxNfvIU7SKxfgScL/fnUc5RWyGc
+	6JmCTCNJro3+Iy9g+bnzIRjWfZHOWc2j8DSH80tUIlrujzuSXN/8HIK9BK9+nQKByYSM
+	85FA==
+X-Gm-Message-State: AA+aEWZoIvT6dAlupXxA5LVYkgEYNt5/dVrHI0k7/amFkH8QHzF3GbYq
+	4BdZZwZH1ctaD/UcJG/1ohcQHjNVb+g=
+X-Google-Smtp-Source: AFSGD/Umf35kVPtH6FLTlqFpUSLe81aFG7h+CGzlilx+/7kVhdDv/Y8rTRYMc+9A2CFKZexrTZPkKw==
+X-Received: by 2002:a17:902:7e44:: with SMTP id
+	a4mr7768863pln.338.1543626501799; 
+	Fri, 30 Nov 2018 17:08:21 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:877f:9499::26ab])
+	by smtp.gmail.com with ESMTPSA id
+	q199sm18683422pfc.97.2018.11.30.17.08.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Nov 2018 17:08:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2018 17:08:06 -0800
+Message-Id: <20181201010807.28924-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-References: <20181130215537.29981-1-JPEWhacker@gmail.com>
-	<CAJTo0LaNDeDGKfG9p8s8PY1RQVEQg5uDk3rLqqNiPNFXO2fiaA@mail.gmail.com>
-	<CAJdd5GZEM1PYnC-aENt59TpGodgdhLXv+uXgwruvzAP7UTDG4g@mail.gmail.com>
-In-Reply-To: <CAJdd5GZEM1PYnC-aENt59TpGodgdhLXv+uXgwruvzAP7UTDG4g@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 30 Nov 2018 18:30:49 -0600
-Message-ID: <CAJdd5GYXUn5=wA2rC88SmaHOUM-ws5ZrQTT0VJCgzPNc-EYuaQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/waf: Fix builds when B != S
+Subject: [PATCH 1/2] nfs-utils: Upgrade to 2.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,86 +58,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Dec 2018 00:31:01 -0000
-Content-Type: multipart/alternative; boundary="000000000000c85ef8057beb0704"
+X-List-Received-Date: Sat, 01 Dec 2018 01:08:21 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000c85ef8057beb0704
-Content-Type: text/plain; charset="UTF-8"
+enhance the musl-only patch to degrade certain Werros into Warnings
+which helps in compiling on musl, since its checking for __GLIBC__
+defines which are undefined on musl.
 
-On Fri, Nov 30, 2018, 6:01 PM Joshua Watt <jpewhacker@gmail.com wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../nfs-utils-musl-res_querydomain.patch      | 43 +++++++++++++++++--
+ ...{nfs-utils_2.3.1.bb => nfs-utils_2.3.2.bb} |  4 +-
+ 2 files changed, 41 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.3.1.bb => nfs-utils_2.3.2.bb} (97%)
 
->
->
-> On Fri, Nov 30, 2018, 5:00 PM Burton, Ross <ross.burton@intel.com wrote:
->
->> On Fri, 30 Nov 2018 at 21:56, Joshua Watt <jpewhacker@gmail.com> wrote:
->> > +B = "${WORKDIR}/${BPN}-${PV}"
->>
->> That's the default, so redundant.
->>
->> Does waf support out-of-tree builds sufficiently well that we can
->> default  - or even mandate - out of tree?  i.e. follow meson and
->> cmake, and just set B=$WORKDIR/build in the class.
->>
->
-> Yes. This patch already does that by adding "-o ${B}" in do_configure. I
-> will change it to ${WORKDIR}/build. Out if curiosity, why is that preferred
-> over ${WORKDIR}/${BPN}-${PV} ?
->
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
+index a169e6a222..22002fadca 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
+@@ -1,17 +1,24 @@
++From caa19231196d73541445728e6813c8fa70345acb Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 26 Jun 2018 15:59:00 +0800
++Subject: [PATCH] nfs-utils: 2.1.1 -> 2.3.1
++
+ Fixed:
+ configure: error: res_querydomain needed
+ 
+-Upstream-Status: Pending [https://git.alpinelinux.org/cgit/aports/tree/main/nfs-utils/musl-res_querydomain.patch?id=f6734a77d3caee73325f8cc1f77d1b5117a75096]
++Upstream-Status: Pending [https://github.com/alpinelinux/aports/blob/master/main/nfs-utils/musl-configure_ac.patch]
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
+ ---
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
++ configure.ac | 13 ++++++-------
++ 1 file changed, 6 insertions(+), 7 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
++index 276dec3..760238b 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -401,7 +401,7 @@ if test "$enable_gss" = yes; then
++@@ -408,7 +408,7 @@ if test "$enable_gss" = yes; then
+  fi
+  
+  dnl libdnsidmap specific checks
+@@ -20,3 +27,31 @@ diff --git a/configure.ac b/configure.ac
+  
+  AC_ARG_ENABLE([ldap],
+  	[AS_HELP_STRING([--disable-ldap],[Disable support for LDAP @<:default=detect@:>@])])
++@@ -547,11 +547,11 @@ my_am_cflags="\
++  -pipe \
++  -Wall \
++  -Wextra \
++- -Werror=strict-prototypes \
++- -Werror=missing-prototypes \
++- -Werror=missing-declarations \
+++ -Wstrict-prototypes \
+++ -Wmissing-prototypes \
+++ -Wmissing-declarations \
++  -Werror=format=2 \
++- -Werror=undef \
+++ -Wundef \
++  -Werror=missing-include-dirs \
++  -Werror=strict-aliasing=2 \
++  -Werror=init-self \
++@@ -579,10 +579,9 @@ AC_DEFUN([CHECK_CCSUPPORT], [
++ 
++ CHECK_CCSUPPORT([-Werror=format-overflow=2], [flg1])
++ CHECK_CCSUPPORT([-Werror=int-conversion], [flg2])
++-CHECK_CCSUPPORT([-Werror=incompatible-pointer-types], [flg3])
++ CHECK_CCSUPPORT([-Werror=misleading-indentation], [flg4])
++ 
++-AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4"])
+++AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg4"])
++ 
++ # Make sure that $ACLOCAL_FLAGS are used during a rebuild
++ AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.2.bb
+index 6d450c7510..5c0586fa75 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.2.bb
+@@ -34,8 +34,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+ 
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
+ 
+-SRC_URI[md5sum] = "d77b182a9ee396aa6221ac2401ad7046"
+-SRC_URI[sha256sum] = "96d06b5a86b185815760d8f04c34fdface8fa8b9949ff256ac05c3ebc08335a5"
++SRC_URI[md5sum] = "01f5e6cd187aecf72b489c9c86cce865"
++SRC_URI[sha256sum] = "3cfe50805c4c9f57bec845eaa28dfbe5a8acb90a8d21d8d56d2840e424335b19"
+ 
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
+-- 
+2.19.2
 
-Hah, right. {WORKDIR}/${BPN}-${PV} is also the default value for ${S}, so
-setting to ${WORKDIR}/build ensures they are different, which we want/need
-for waf.
 
-
->> Ross
->>
->
-
---000000000000c85ef8057beb0704
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">=
-On Fri, Nov 30, 2018, 6:01 PM Joshua Watt &lt;<a href=3D"mailto:jpewhacker@=
-gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jpewhacker@gmail=
-.com</a> wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><=
-div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri, Nov 30, 201=
-8, 5:00 PM Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com" rel=3D=
-"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">ross.burton=
-@intel.com</a> wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 30 No=
-v 2018 at 21:56, Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com" re=
-l=3D"noreferrer noreferrer noreferrer noreferrer noreferrer" target=3D"_bla=
-nk">jpewhacker@gmail.com</a>&gt; wrote:<br>
-&gt; +B =3D &quot;${WORKDIR}/${BPN}-${PV}&quot;<br>
-<br>
-That&#39;s the default, so redundant.<br>
-<br>
-Does waf support out-of-tree builds sufficiently well that we can<br>
-default=C2=A0 - or even mandate - out of tree?=C2=A0 i.e. follow meson and<=
-br>
-cmake, and just set B=3D$WORKDIR/build in the class.<br></blockquote></div>=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes. This patch already=
- does that by adding &quot;-o ${B}&quot; in do_configure. I will change it =
-to ${WORKDIR}<span style=3D"font-family:sans-serif">/build. Out</span>=C2=
-=A0if curiosity, why is that<span style=3D"font-family:sans-serif">=C2=A0pr=
-eferred over=C2=A0</span><span style=3D"font-family:sans-serif">${WORKDIR}/=
-${BPN}-${PV} ?</span></div></div></blockquote></div></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Hah, right.=C2=A0<span style=3D"font-family:sa=
-ns-serif">{WORKDIR}/${BPN}-${PV} is also the default value for ${S}, so set=
-ting to=C2=A0</span><span style=3D"font-family:sans-serif">${WORKDIR}</span=
-><span style=3D"font-family:sans-serif">/build ensures they are different, =
-which we want/need for waf.</span></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div d=
-ir=3D"auto"><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-Ross<br>
-</blockquote></div></div></div>
-</blockquote></div></div></div>
-
---000000000000c85ef8057beb0704--
