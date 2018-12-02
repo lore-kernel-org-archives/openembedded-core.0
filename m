@@ -1,18 +1,19 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CF00E6BA7C;
-	Sun,  2 Dec 2018 03:03:11 +0000 (UTC)
+Return-Path: <robert.joslyn@redrectangle.org>
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+	by mail.openembedded.org (Postfix) with ESMTP id DB6EB6C2B3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  2 Dec 2018 03:15:27 +0000 (UTC)
+Received: from localhost.localdomain (unknown [134.49.240.168])
+	(Authenticated sender: robert.joslyn@redrectangle.org)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 694AF240003;
+	Sun,  2 Dec 2018 03:15:27 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Dec 2018 19:14:08 -0800
+Message-Id: <20181202031408.28161-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Date: Sun, 02 Dec 2018 03:03:13 -0000
-Message-ID: <20181202030313.2329.62116@do>
-References: <20181202023318.26387-1-robert.joslyn@redrectangle.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181202023318.26387-1-robert.joslyn@redrectangle.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGNpdXRpbHM6IE1vdmUgaGVhZGVycyBmcm9tIHBjaXV0aWxzLWRldiB0byBsaWJwY2ktZGV2?=
+Subject: [PATCH v2] pciutils: Move headers from pciutils-dev to libpci-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +26,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Dec 2018 03:03:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 02 Dec 2018 03:15:28 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+The pciutils recipe places libpci in a separate package, but the default
+package split puts the headers for the library in pciutils-dev. When
+building an SDK for an image that uses libpci, but not pciutils, the
+headers for libpci are not included.
 
-Series: pciutils: Move headers from pciutils-dev to libpci-dev
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15166/
-State : failure
+Move the headers, unversioned so symlink, and pkgconfig files from
+pciutils-dev to libpci-dev so the SDK gets those files for images using
+libpci.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            pciutils: Move headers from pciutils-dev to libpci-dev
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-bsp/pciutils/pciutils_3.6.2.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb b/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+index 413421cd8a..de1e54e5a5 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+@@ -52,9 +52,11 @@ do_install () {
+ 	oe_multilib_header pci/config.h
+ }
+ 
+-PACKAGES =+ "${PN}-ids libpci"
++PACKAGES =+ "${PN}-ids libpci libpci-dev"
+ FILES_${PN}-ids = "${datadir}/pci.ids*"
+ FILES_libpci = "${libdir}/libpci.so.*"
++FILES_libpci-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/pkgconfig"
+ SUMMARY_${PN}-ids = "PCI utilities - device ID database"
+ DESCRIPTION_${PN}-ids = "Package providing the PCI device ID database for pciutils."
+ RDEPENDS_${PN} += "${PN}-ids"
++RDEPENDS_libpci-dev = "libpci (= ${EXTENDPKGV})"
+-- 
+2.19.2
 
 
