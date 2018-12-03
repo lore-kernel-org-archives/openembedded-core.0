@@ -1,52 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 788316BE0C
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 527B06C548
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 11:49:32 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id k98so11294627otk.3
+	Mon,  3 Dec 2018 11:58:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,310,1539640800"; 
+   d="scan'208";a="5354022"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 03 Dec 2018 12:58:28 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Mon, 03 Dec 2018 12:58:28 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Mon, 03 Dec 2018 12:58:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1543838308; x=1575374308;
+	h=message-id:subject:from:to:date:in-reply-to:references:
+	mime-version:content-transfer-encoding;
+	bh=8F+fC+pU7/4wwzzDDRinjzF53rBYsGsN8S6tjhenLjk=;
+	b=RaFqHMerGBRJk0Sz6+gwSg6CK3nNm3AvUKo3QYAGkVbhr7BbO6fH9wAs
+	pMiQsa0aQv6HvGxvY/BZc2RWa8hFgSs4NMl5xR5rcUsmbNLckgQB5LExY
+	FgozbX6Ra3fDBCmWBm21Y48FOq6/Do3b7+YgDA/X3LtFeN2lCT9/xiXkn
+	HgdL3NlfzAPwMFsEsbvTDZ19ho4PqCXPOr70xQFclvvCIpjrQGGAcGBsi
+	K/wnbumGrYqIE9GsP+PCu584QUyjbk2I0ZAsfKAMYu74cIJOrXOj/uGB4
+	JPK/HFrshPdtRC6ArEEiIh7m/Gw0qHcjlgwenGJrF00HhprWkaNXDtFS/ A==;
+X-IronPort-AV: E=Sophos;i="5.56,310,1539640800"; 
+   d="scan'208";a="5354021"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 03 Dec 2018 12:58:28 +0100
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id A8E2B280073
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 03:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=89yKzIS7oNxRLcsyB3qE/jBLWdavvafQOWm4bfwMiVQ=;
-	b=qiqqmUEeqQ6c4nijSzbJMj9l/i8K7Eqoq+kql9U+QRMjEzZv6yJ1pvig5gzJEmWp29
-	pXmto7pgVo0khwMF8r7udAxbMrGziZF5vyTVJxhbUrjFGOjk9uLSA1C7kuutTP8WK8TC
-	tSyt6u3Rh2ynFPr4grkNpKxkjA4aiOOO+5fK+FZwVtAywHLpIvBJY3+VTDCzcFGH4ZaQ
-	j5XP3h7gxmuifP0jgwQkt/V6NAH6M2pGedDCdkdn9N+u06Uqv0ffQKgJkxEj2bg5liAC
-	5Fe7nex9j6LensfFYOxFS8XIPTHkEBZZ/wSeRluzKWAJBAqFwrDEktOuasc3Ng1+ieSx
-	5hbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=89yKzIS7oNxRLcsyB3qE/jBLWdavvafQOWm4bfwMiVQ=;
-	b=G6TL7JhZsToPQ6BnhZJwho4rbrKCv2m+7TVeIR97X3B7mh9Spy4ec8gCB0ZgwUPZ+w
-	r44VLcdtGRVVs1hmVkTF6vF/bZmbm1KI0I1I/JMKWUfER6MaiaMcTuerf2L1Ffhi9ZLl
-	bEyCLWDxlG2hs9j0WQAzEp1WDDaCymp8Fk1Kr0W812uDnOKezvpGQd260wKFGPHIZx/3
-	AQsD53afv2XLCLrsSUVGNshEhor5FrvBIXjM/cIXWxC3dwebt4hDkIzMmStGIJdus0uA
-	NsXnjS0ipNzrV/Bv9yAtEUv8wZ8rB1moBwhrYNWgjKtVMCEeRQfGDdhuD4hn/rDuqzFI
-	Bm8g==
-X-Gm-Message-State: AA+aEWZrJy4eiJXgN6YM8lUFzatHi05WVrlcR8RK1BZm0IaPe+505/7T
-	n4t1GU/+9DjU2LqhZbig251/u9/Auy4ZU4uHlTc=
-X-Google-Smtp-Source: AFSGD/XSWgU1NK+al5TXMygXDwTZZ/dZAYU7/9DVKgyjYSghOvHFXVjatHck/HelkiNdlz7PBrfOPzmuzQ0rr2sqAaI=
-X-Received: by 2002:a9d:2289:: with SMTP id y9mr10457708ota.326.1543837773303; 
-	Mon, 03 Dec 2018 03:49:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20181122154136.121480-1-alex.kanavin@gmail.com>
-	<CAMKF1sqst3bNey6Gwf2bTa_oKOVrFjKsWcPcM4sbAYTp3SxA3g@mail.gmail.com>
-	<CANNYZj_H=i+Oa9JKaXaAVW6_vy-9o5YgDOHE76g1Q9L5=K5Jog@mail.gmail.com>
-	<CAMKF1sr7mXJzgwbzer0=UUbUoEYgXM7x=0ZUjTQn6_c-3ZC3Vw@mail.gmail.com>
-	<CANNYZj9ug7+q0v-kVVio7_a61BRo1JEBNxFmJ33XgB=CQGd7ow@mail.gmail.com>
-	<CAMKF1srRWqu-BwcvPNSvrQD5sRkXBF57Jxm1_Dg=ZBn1icUM0A@mail.gmail.com>
-	<42f7604d9ffbd8b1347c6dd09839b349d297fc41.camel@linuxfoundation.org>
-In-Reply-To: <42f7604d9ffbd8b1347c6dd09839b349d297fc41.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Dec 2018 12:49:21 +0100
-Message-ID: <CANNYZj_GcqDgrVmOXbJ5=m0rQQ4A8Vfg6yJKV5_ymgVDq9e5tg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/16] gobject-introspection: update to 1.58.1
+	Mon,  3 Dec 2018 12:58:28 +0100 (CET)
+Message-ID: <f7b657cbf07e96d9c390a74b206414032c4687c0.camel@ew.tq-group.com>
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Dec 2018 12:58:26 +0100
+In-Reply-To: <ccdab7b0a102c6142348f3e37aa913132f02c044.camel@ew.tq-group.com>
+References: <20181106085623.19811-1-matthias.schiffer@ew.tq-group.com>
+	<ccdab7b0a102c6142348f3e37aa913132f02c044.camel@ew.tq-group.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] base.bbclass: avoid 'find -ignore_readdir_race -delete'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 11:49:32 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 11:58:28 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2 Dec 2018 at 23:22, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Fri, 2018-11-23 at 11:35 +0100, Matthias Schiffer wrote:
+> On Tue, 2018-11-06 at 09:56 +0100, matthias.schiffer@ew.tq-group.com
+> wrote:
+[...]
+> > ---
+> > 
+> > It would be great if this patch could be backported to all versions
+> > back to
+> > Rocko, as our current setup is still based on Rocko.
+> 
+> Is there any chance we can get this backported?
+> 
+> Thanks,
+> Matthias
 
-> > > I just sent a patch for this to oe-core list - thanks for
-> > > reporting.
-> > >
-> >
-> > thanks I can confirm this is fixed with this patch which is in
-> > master-next
-> >
-> > > libdazzle crash is a separate issue, I will look into it.
->
-> Oddly enough, master-next resulted in:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/48/steps/7/logs/step1b
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/68/builds/33/steps/7/logs/step1b
->
-> so I've removed the gobject-introspection patch which I'd included to
-> try and isolate the cause...
+Thanks, I saw this is in Sumo now. Can we get it into Rocko as well?
 
-This was a multilib issue where gir files are installed in libdir (and
-not datadir like in non-multilib).  I'll send an updated patch in a
-moment.
 
-Alex
+> 
+> 
+> > 
+> > v2: add comment, extend commit message
+> > 
+> > 
+> >  meta/classes/base.bbclass | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> > index df11c8b270..9efb06de5f 100644
+> > --- a/meta/classes/base.bbclass
+> > +++ b/meta/classes/base.bbclass
+> > @@ -303,7 +303,9 @@ base_do_configure() {
+> >  			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile
+> > -o -e makefile -o -e GNUmakefile \) ]; then
+> >  				oe_runmake clean
+> >  			fi
+> > -			find ${B} -ignore_readdir_race -name \*.la
+> > -delete
+> > +			# -ignore_readdir_race does not work correctly
+> > with -delete;
+> > +			# use xargs to avoid spurious build failures
+> > +			find ${B} -ignore_readdir_race -name \*.la
+> > -type f -print0 | xargs -0 rm -f
+> >  		fi
+> >  	fi
+> >  	if [ -n "${CONFIGURESTAMPFILE}" ]; then
+
 
