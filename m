@@ -1,53 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EFE36C57C
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+	[209.85.219.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5139B6C54F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 20:35:21 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id n190so4858961wmd.0
+	Mon,  3 Dec 2018 21:50:32 +0000 (UTC)
+Received: by mail-yb1-f196.google.com with SMTP id w17-v6so5963874ybl.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 12:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Ao+lfe25arfG1xPlnPveryvUUIsHbWgQ1ajr9Q8Egys=;
-	b=gweT0fFt05mpdqm6GkAcQnJ7m+GanarltKduZhT737KxTQCOtDtpDRgIbZO3m2+c3M
-	t8Ree6Ppoh31wJW0LHspTA9rWymOCn4gBm7L61bK/vOJLaUdvMgT4LrGZZOhdL204+ll
-	LSfmCMMZSNfpP4MDVtI8dJNi5lBoLgqLJP3owszU9SqPPCgpyARfyFf1ctvRlGWmw46h
-	VjpXIIRaX03Db++1mZEcjV3D11y3t0oG0l+pTy6G8GxDG2fXKuWR5f6iAQ/NC1K9NJFw
-	ENyr4GTJCkEHabqZGosKflYAmLWSSAgCli9wVCd9RXj0XnOvjIPUVG3fSWdCJIY9SYpB
-	fh3Q==
+	Mon, 03 Dec 2018 13:50:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=HCZGKqQ3MW1B4DZGpO7VTcZWhqpPzV/3AaON6q7L/LI=;
+	b=iId6lDUmCcYcxQx3Yh0PkkcHOMJV35GNtzfzMAO5udPll+Z3Bf7VkSZSNTQmVlf0nu
+	Par+tU8MnHOYOd0T6LXtCubFUZmhVYmQCyzHGvigfjHA7V04YUwOKrWqj08ukKHzCgN7
+	JUk529swO5+WoP00PtRz7VfqKvL6+2FSkawgbmHdbPc/W06JFY/JJrscvWfb6fLSiTSL
+	0C10Dr1nSc+wNZ+eVvV5S9TkCfxCR33Y9My5LhumOa9xmCs3LUGWigIWPZ7npO13SFGZ
+	R55zwskloUXSjx/HVT6PctTGgD65n6Gj9lbF+I6rSbr1x8sxKX72Q04jCINz/LAwHxy9
+	8lFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Ao+lfe25arfG1xPlnPveryvUUIsHbWgQ1ajr9Q8Egys=;
-	b=qcgJMsfzSxNP+SyoeV4JDim5qZTj/1lkBDnlhcoi2UmqVOxXYMHW6oH4dmgV2+9eYl
-	FhQ1kfO28jjC7bYe5E3/zm73pu5SroZ369nlIpI5jR83GJeoaPHcyz2TnL5dRtJkIYCe
-	uDLX2O9Uos0HvKd9XoYFf+DWvYfPwrX3mvRxdRS7x9a749xbWG0a/Cm1KU2uN3Q/zLJG
-	hS5JTjuFwGTmhpzMxkck8sb7OXqMGv6GE7YNBQxbx19P5y9bodKEPfuL9UE4O/F7LuSM
-	Pk5zAG9tlAPDSRtKe97qzcdP8EiL/nmhL9JtNggkDXx4jtPfpQ1vvkTDSSEQsZR0jCXH
-	UPRQ==
-X-Gm-Message-State: AA+aEWZUDYpQxHJZF46tw+kFFvz1rAHbMFwEYlQYaZFcRetm8tmGMsoC
-	M6aVcWzRxM2WnSSDaTFU494t1ttyQf8=
-X-Google-Smtp-Source: AFSGD/W7ee7wceuI0qgeUYCnAoNztWX51dCwQCNWboCy0Lz5m3jbsG923j3P8eEcZVJ0ZyCf4Jb5Eg==
-X-Received: by 2002:a1c:2104:: with SMTP id
-	h4-v6mr9200416wmh.130.1543869322272; 
-	Mon, 03 Dec 2018 12:35:22 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q2sm15361570wru.56.2018.12.03.12.35.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 12:35:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 20:35:16 +0000
-Message-Id: <20181203203516.26461-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181203203516.26461-1-ross.burton@intel.com>
-References: <20181203203516.26461-1-ross.burton@intel.com>
-Subject: [PATCH 3/3] insane: clarify GNU_HASH warning
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=HCZGKqQ3MW1B4DZGpO7VTcZWhqpPzV/3AaON6q7L/LI=;
+	b=Fv8JvFzw2FQFXA4LRf0AxX9kc3FMyAWKVol57I5NGvXXJWUUhiXa9nTEKoFaDlsp3d
+	5Wy4X9p6KvmX604Pc4BzlUj6h2yPOF6L0QRH8sMCplDgC908A+l4SW0VFui0eSnGXINH
+	qYuIgFLNS/XmMOYVD3ozFd1bqjle0g7PR2fmSoM585nQBhZr49e+uzHZJa9So0fvG2l5
+	Bqs2zLST8vexyjyA1lWE6UKDUM1rkx1c9hNxEqOP08ifa2qalFybTWdJoTrWJAekwsCQ
+	LIDlQVe0+D1y/gpWiQfZfGfVUxzs8FwdfLmpPGKnLB75N8MrXTBiAUPN0Mzx/vPdLQr9
+	AfIA==
+X-Gm-Message-State: AA+aEWZ2N7qJoHJ8u4N4QsLmlobtylC3DYvHUmxWIYHVevRokoVkkf8s
+	HUSzkqlPeVZibsmaxWgT7v+0VHwKBR8qJS4DgOBevA==
+X-Google-Smtp-Source: AFSGD/VasQuNi9p4d5av6QPvI0+C4I838WgiCR1Rwt0GRG270J2ixF7gWNK4OTCgongaG5Pdp/99rS9zS02vhRGSiTM=
+X-Received: by 2002:a25:5a46:: with SMTP id o67mr9386807ybb.215.1543873833072; 
+	Mon, 03 Dec 2018 13:50:33 -0800 (PST)
+MIME-Version: 1.0
+References: <20181130215537.29981-1-JPEWhacker@gmail.com>
+	<20181201030142.9385-1-JPEWhacker@gmail.com>
+	<c492b503-696b-9cad-0f69-9bd9129a6e14@gmail.com>
+	<CAMKF1soDs+MZ3G5e2_MDvO2r+bPy+ofLn5UEEvUQ3jcteU=Y3A@mail.gmail.com>
+In-Reply-To: <CAMKF1soDs+MZ3G5e2_MDvO2r+bPy+ofLn5UEEvUQ3jcteU=Y3A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 3 Dec 2018 22:50:20 +0100
+Message-ID: <CALbNGRT1=wNg2DrGYT8xq2gCVU4jgaF91Ex0ea56on7SfVvBFw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] classes/waf: Fix builds when B != S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +57,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 20:35:22 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 21:50:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-We have a fatal error if ELF objects don't have GNU_HASH segments don't don't
-explain what the problem is.  At least give a hint to users by suggesting that
-LDFLAGS wasn't passed to the compiler.
+On Mon, Dec 3, 2018 at 9:14 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Sat, Dec 1, 2018 at 4:09 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Hi Joshua
+> >
+> > There is a build failure for a2jmidid see
+> >
+> > http://errors.yoctoproject.org/Errors/Details/202833/
+> >
+> > Seem to be related can you validate
+> >
+> > On 11/30/18 7:01 PM, Joshua Watt wrote:
+> > > Waf requires that the current working directory be ${S} (the location of
+> > > the wscript) when building. Most of the time, this was true only because
+> > > B defaults to S. However, anything that changed that behavior (notably,
+> > > using externalsrc) would break the recipe. Remedy this by explicitly
+> > > changing cwd to ${S} when running waf commands. As a happy side effect,
+> > > B can be set up for "out of tree" builds to keep the source directory
+> > > clean.
+>
+> I have sent a workaround for a2jmidid to ml which means we can go
+> ahead with this change in OE-Core
+>
+> > >
+> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > ---
+> > >   meta/classes/waf.bbclass | 8 +++++---
+> > >   1 file changed, 5 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+> > > index 19e93761b39..8e6d754c299 100644
+> > > --- a/meta/classes/waf.bbclass
+> > > +++ b/meta/classes/waf.bbclass
+> > > @@ -1,6 +1,8 @@
+> > >   # avoids build breaks when using no-static-libs.inc
+> > >   DISABLE_STATIC = ""
+> > >
+> > > +B = "${WORKDIR}/build"
+> > > +
+> > >   EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
+> > >
+> > >   python waf_preconfigure() {
+> > > @@ -22,16 +24,16 @@ python waf_preconfigure() {
+> > >   do_configure[prefuncs] += "waf_preconfigure"
+> > >
+> > >   waf_do_configure() {
+> > > -     ${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF}
+> > > +     (cd ${S} && ./waf configure -o ${B} --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF})
+> > >   }
+> > >
+> > >   do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
+> > >   waf_do_compile()  {
+> > > -     ${S}/waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)}
+> > > +     (cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)})
+> > >   }
+> > >
+> > >   waf_do_install() {
+> > > -     ${S}/waf install --destdir=${D}
+> > > +     (cd ${S} && ./waf install --destdir=${D})
+> > >   }
+> > >
+> > >   EXPORT_FUNCTIONS do_configure do_compile do_install
+> > >
+> --
+Hmm - the a2jmidid shows what's going to happen: All packets shipping
+older waf need workaround hacks. This should not be the way to go
+because then we can remove waf.bbclass entirely.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 4644221bc6b..6718feb3af5 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -383,7 +383,7 @@ def package_qa_hash_style(path, name, d, elf, messages):
-             sane = True
- 
-     if has_syms and not sane:
--        package_qa_add_message(messages, "ldflags", "No GNU_HASH in the elf binary: '%s'" % path)
-+        package_qa_add_message(messages, "ldflags", "No GNU_HASH in the ELF binary %s, didn't pass LDFLAGS?" % path)
- 
- 
- QAPATHTEST[buildpaths] = "package_qa_check_buildpaths"
--- 
-2.11.0
-
+Andreas
 
