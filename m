@@ -1,48 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5CA6C657
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+	[209.85.222.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 358486C56D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 16:40:11 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id g85so10272219ita.3
+	Mon,  3 Dec 2018 20:14:36 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id 189so8177911qkj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 08:40:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=9pLj+eFQiqVf/pjxBerbrbUsxjUsykdxfrhoEN/httk=;
-	b=g0w9adNAgD0Pc4Z3rIq8mOrYuIpRN9T+hsddi67uu6FEEl8a9n6WLihXGrmL0V6II0
-	XlgZVsWFecKf51EAgvOMXi8+AvTITfY92/kh7TYUiWQ4QRWOk7K5YjVrEiJdhk4kd3BF
-	S+wGIGsC/0ahDbrlSNiRT8PXg8wn+3rGNchtt9b2kSknw5dG+QGZDcddPE9gsDqnDDlc
-	6OIQTCR5VzmFCEzuO3upGEaaDUAf1p/k3xH+QCutWZITTzrTYBw2PfEjEYkIAEtrGLfv
-	Gv4x6H6N80K68+1E6bMFKfLrrbYCYFx+WgfvIu1sgWE23RCbZv8fQ8dELBpLaxmyjnAo
-	gJHg==
+	Mon, 03 Dec 2018 12:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=hTKjjX93ih+9CdjTS02QLRqg7Uwu+V7PNEO39XWYuBw=;
+	b=PLGgXLQkCZSyp8pRNfgBTspnfER/AkJha0fJ45YU1+BVQmBlxzJAKhcjDQemZfxmt6
+	Wweg4VTE+TNud5fGdfoJjGxHFxCBcrewHK4D8Fw07FrTvG6qrb0lQJRQLVjFadht37fb
+	hghmvmzjawCBoUxBiOqYq2bXKHNSDSMD1ehakibvmEfy6YboCsnu8w9duTgkCef3+XBn
+	UAReyMDW5ExW60Y6nrO31P21EHrfxrUA5rwO+2UI5A9OxHiDKAFMAbBeasEPOsAwkhO1
+	n3tsGHx85U6U2Rg23TOyHqJLaPOgTPqSfkUTZv9DkLpLIx4sjliPiUhPH8z5l04NghsW
+	qq0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=9pLj+eFQiqVf/pjxBerbrbUsxjUsykdxfrhoEN/httk=;
-	b=uMto69OqjwaKxG6bMoJzyteXNzL/xCaRvSEa9FZHBGCcJbj6e5VjYHP7wsecy9Fb4u
-	EBrfCTS95CVfbun85Bhetbu7QXYTziNnew0KYGj3mDbFwtJjxOpffINNyRFzQ6ot7WUd
-	Z2buuPypNtYMG0YDvluWssuktZGupdvVc09IAp7cgSu11DkVvjylKWvpMB4zeODYzL1S
-	f2NYEBi8lpzA3GGsJDIGheE2tqmsdNgUdo18aEPsUrnPU+gyDHlAhC+KoZNXSEzUHRNT
-	UhO6WSup1A/S9bPIy3JfBN7ovu24OGJMgTcCq5ggiqFOwy2TsIoF0V72rS6EkYPxsCPp
-	lBwA==
-X-Gm-Message-State: AA+aEWYHbwgQ22CSoCNMf8Cje//FGTvEcTNTcO7nQhao7k79NacNQJw1
-	gXEWqCNE+lRBYIu+QhIkxciBvLFngl2pzbAqq1TWdjLq
-X-Google-Smtp-Source: AFSGD/V1FGmzDZ7KlZ5xRzFO6rBPRWypx+hH6SLRPUwkqGjkxlqCOqxqjLYmBvBGd7YrDk0f0c81LaGG/tqlkrxAf70=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr1838959itg.130.1543855212061; 
-	Mon, 03 Dec 2018 08:40:12 -0800 (PST)
+	:message-id:subject:to;
+	bh=hTKjjX93ih+9CdjTS02QLRqg7Uwu+V7PNEO39XWYuBw=;
+	b=bhP2tkwhmGnBcyg6fYox6RCGkjU4E+vmCDWDeY3UZthfpIUJ2dwFRImqIreNO8S2H1
+	QDJlz07nCd4ezLvesW9GQ3/pRHp09PlxF2iU2bW7B9zKZ5WqkaWCorZnubYe0pgLG7v7
+	dSRCxnbsoMUmPki0q/Kof2wKceoSBJinCUwo6DGowI0tModE2ZH0Rge0fCR64GTTSrvo
+	j11rkvL0TuttpESsKpkTcHqBvjk4kZtDseEPnqiXXdoiONmjhvR4D+LiYmo832tjf2dW
+	72k8J4Tyak4/K3Tjont9eslcIsXB1g9GstzVFxxa/QFzFIrY1BULJChZ5vcgPn8BUBqB
+	fXsQ==
+X-Gm-Message-State: AA+aEWaQx3t3VHorEb0MLk+hB9Ziq9tTIVFBu6+aMfsKmG5gyurzZuXT
+	tm4rxH+I8b7Ez3QVRi3J1K6/w1WLryDNy+h2KyE=
+X-Google-Smtp-Source: AFSGD/Vt0xU971Njw1Vis2xfChsbD0lkkhblYdF9m3Eq/rvpB9LwGaPmB6mlhQez8pjFfpU4hI5Don9aBQ7yyqog5cc=
+X-Received: by 2002:a37:ac05:: with SMTP id e5mr16506315qkm.102.1543868077818; 
+	Mon, 03 Dec 2018 12:14:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20181203152815.6623-1-git@andred.net>
-In-Reply-To: <20181203152815.6623-1-git@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Dec 2018 16:40:00 +0000
-Message-ID: <CAJTo0LYwiZ57t7zZBSYO51Tn2AwObKYJ6xqBExDCKr7LLssdqg@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] util-linux: split out blkdiscard into its own package
+References: <20181130215537.29981-1-JPEWhacker@gmail.com>
+	<20181201030142.9385-1-JPEWhacker@gmail.com>
+	<c492b503-696b-9cad-0f69-9bd9129a6e14@gmail.com>
+In-Reply-To: <c492b503-696b-9cad-0f69-9bd9129a6e14@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Dec 2018 12:14:11 -0800
+Message-ID: <CAMKF1soDs+MZ3G5e2_MDvO2r+bPy+ofLn5UEEvUQ3jcteU=Y3A@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] classes/waf: Fix builds when B != S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,75 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 16:40:11 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 20:14:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-When do we just programatically split instead of doing it piece by piece? :=
-)
+On Sat, Dec 1, 2018 at 4:09 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Hi Joshua
+>
+> There is a build failure for a2jmidid see
+>
+> http://errors.yoctoproject.org/Errors/Details/202833/
+>
+> Seem to be related can you validate
+>
+> On 11/30/18 7:01 PM, Joshua Watt wrote:
+> > Waf requires that the current working directory be ${S} (the location of
+> > the wscript) when building. Most of the time, this was true only because
+> > B defaults to S. However, anything that changed that behavior (notably,
+> > using externalsrc) would break the recipe. Remedy this by explicitly
+> > changing cwd to ${S} when running waf commands. As a happy side effect,
+> > B can be set up for "out of tree" builds to keep the source directory
+> > clean.
 
-Ross
-On Mon, 3 Dec 2018 at 15:28, Andr=C3=A9 Draszik <git@andred.net> wrote:
->
-> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
->
-> For systems that don't otherwise depend on the full
-> util-linux package, blkdiscard is a mere 18k (on
-> cortexa7t2hf-neon).
->
-> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index a05c1cabbe..b5f77f7b6b 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -27,7 +27,7 @@ DEPENDS_append_class-nativesdk =3D " lzo-native"
->  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION=
-}/util-linux-${PV}.tar.xz \
->             "
->
-> -PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util=
--linux-sfdisk \
-> +PACKAGES =3D+ "util-linux-agetty util-linux-blkdiscard util-linux-fdisk =
-util-linux-cfdisk util-linux-sfdisk \
->               util-linux-swaponoff util-linux-losetup util-linux-umount \
->               util-linux-mount util-linux-readprofile util-linux-uuidd \
->               util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs =
-util-linux-fsck \
-> @@ -74,6 +74,7 @@ FILES_${PN}-doc +=3D "${datadir}/getopt/getopt-*.*"
->  FILES_${PN}-dev +=3D "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
->
->  FILES_util-linux-agetty =3D "${base_sbindir}/agetty"
-> +FILES_util-linux-blkdiscard =3D "${sbindir}/blkdiscard"
->  FILES_util-linux-fdisk =3D "${base_sbindir}/fdisk.${BPN}"
->  FILES_util-linux-fstrim =3D "${base_sbindir}/fstrim.${BPN}"
->  FILES_util-linux-cfdisk =3D "${base_sbindir}/cfdisk"
-> @@ -126,7 +127,7 @@ RDEPENDS_util-linux-su +=3D "libpam"
->  RDEPENDS_${PN} =3D "util-linux-umount util-linux-swaponoff util-linux-lo=
-setup util-linux-sulogin util-linux-lsblk"
->  RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'uti=
-l-linux-runuser util-linux-su', '', d)}"
->
-> -RRECOMMENDS_${PN} =3D "util-linux-fdisk util-linux-cfdisk util-linux-sfd=
-isk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-moun=
-tpoint util-linux-prlimit util-linux-ionice util-linux-switch-root"
-> +RRECOMMENDS_${PN} =3D "util-linux-blkdiscard util-linux-fdisk util-linux=
--cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linu=
-x-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice util-linu=
-x-switch-root"
->
->  RRECOMMENDS_${PN}_class-native =3D ""
->  RRECOMMENDS_${PN}_class-nativesdk =3D ""
-> --
-> 2.20.0.rc1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I have sent a workaround for a2jmidid to ml which means we can go
+ahead with this change in OE-Core
+
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >   meta/classes/waf.bbclass | 8 +++++---
+> >   1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+> > index 19e93761b39..8e6d754c299 100644
+> > --- a/meta/classes/waf.bbclass
+> > +++ b/meta/classes/waf.bbclass
+> > @@ -1,6 +1,8 @@
+> >   # avoids build breaks when using no-static-libs.inc
+> >   DISABLE_STATIC = ""
+> >
+> > +B = "${WORKDIR}/build"
+> > +
+> >   EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
+> >
+> >   python waf_preconfigure() {
+> > @@ -22,16 +24,16 @@ python waf_preconfigure() {
+> >   do_configure[prefuncs] += "waf_preconfigure"
+> >
+> >   waf_do_configure() {
+> > -     ${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF}
+> > +     (cd ${S} && ./waf configure -o ${B} --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF})
+> >   }
+> >
+> >   do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
+> >   waf_do_compile()  {
+> > -     ${S}/waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)}
+> > +     (cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)})
+> >   }
+> >
+> >   waf_do_install() {
+> > -     ${S}/waf install --destdir=${D}
+> > +     (cd ${S} && ./waf install --destdir=${D})
+> >   }
+> >
+> >   EXPORT_FUNCTIONS do_configure do_compile do_install
+> >
 
