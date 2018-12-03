@@ -1,41 +1,44 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
-	[209.85.161.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 401C26C660
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 320736C54B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 15:30:53 +0000 (UTC)
-Received: by mail-yw1-f68.google.com with SMTP id x2so5523005ywc.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 07:30:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hhtasKp0fa5D/vRByLffIX/e9EOAGxU8Z5mN963htwk=;
-	b=sJevJFrre8T3/DAsoy4yyLFGqrGPSKelX7eGObzfzRBQph5YuenQ0YBAY6JObgjkt+
-	HCMxoVVHFLXHQaeyZf5gkD3RJ5jkWwu54SoTAuO3OpbZ1N9lOKiWTTq1rOxxYQl0bYZP
-	UMoiNtlNJtZY5AnsTfsCXTPxSneIeInL9NCtB+ZRbrd4Os7ebZufYlxMaIFXQkq3YtYl
-	yN0v/H86jK5h31MwKGo0NeJ0blMWzjnM7hv3TTY69P2BvQWOy6LQmQzQ/3KPoxZS8lPx
-	dytqoob0R/tMyhVyLNZDk8MBnWVNqAycpWQ5PmOQwcFcGAPJKskLZ8BzkpyptKZlORzC
-	S7ug==
-X-Gm-Message-State: AA+aEWbxCUNYrBAHTgaymiEyUtDyefiiA7K+lEfRTuAmv4uMizYcIAE2
-	61L94AZUPtYu8X0HYn9QksumSzMM
-X-Google-Smtp-Source: AFSGD/WEaBprTu+xA/XrdiZsl27I+3cnimdKW8ehbuY9R8CYTU1o86HjXr66LV+i+NmUFxb7Tsb7+Q==
-X-Received: by 2002:a81:26d4:: with SMTP id
-	m203-v6mr15922253ywm.327.1543851054073; 
-	Mon, 03 Dec 2018 07:30:54 -0800 (PST)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id y1sm4658215ywe.86.2018.12.03.07.30.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 07:30:53 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 15:30:51 +0000
-Message-Id: <20181203153051.7141-1-git@andred.net>
-X-Mailer: git-send-email 2.20.0.rc1
+	Mon,  3 Dec 2018 16:08:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Dec 2018 08:09:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,311,1539673200"; 
+	d="scan'208,217";a="106621169"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+	by fmsmga008.fm.intel.com with ESMTP; 03 Dec 2018 08:09:00 -0800
+Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.408.0; Mon, 3 Dec 2018 08:08:59 -0800
+Received: from fmsmsx124.amr.corp.intel.com ([169.254.8.91]) by
+	FMSMSX114.amr.corp.intel.com ([169.254.6.69]) with mapi id
+	14.03.0415.000; Mon, 3 Dec 2018 08:08:59 -0800
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdRUG3den5c8kH6JR5OKxqhg9AfC3w==
+Date: Mon, 3 Dec 2018 16:08:59 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155ECFD483C2@fmsmsx124.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.107]
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmNlNDYxYTEtMTdmZC00OGVhLTk3MDgtNTk1OTY4OGJkM2M0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDVVbFNtUVFKNGJheHBqZGk0T0ViMUpRdm5wSkxGRmNZXC9GYWtSc1FcL1dKUlM4QkM4WGlyZWk0ZlJINmhcL1RRWCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
 MIME-Version: 1.0
-Subject: [PATCH] linux-firmware: better packaging for TI wl12xx & wl18xx firmwares
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,83 +51,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 15:30:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Dec 2018 16:08:59 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD483C2fmsmsx124amrcor_"
 
-From: André Draszik <andre.draszik@jci.com>
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD483C2fmsmsx124amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, the linux-firmware-wl12xx contains all wl12xx and
-wl18xx firmwares, except for the wl18xx compatibility symlinks
-for old kernels and the linux-firmware-wl18xx contains just
-those compatibility symlinks and nothing else. This doesn't
-make sense...
-
-Be more specific about what to package into each package, in
-particular because the existing wl12xx package is specific
-about symlinks already.
-
-At the same time, we split the common bits into a -wlcommon
-package, so that the wl18xx package doesn't need to depend
-on all the wl12xx firmwares, saving several MiB in the file
-system.
-
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-
----
-Note that this patch has only been tested on a wl18xx based board
----
- .../linux-firmware/linux-firmware_git.bb        | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 2525545bdd..3a4076e153 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -237,7 +237,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
-              ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
-              ${PN}-usb8997 \
--             ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
-+             ${PN}-ti-connectivity-license ${PN}-wlcommon ${PN}-wl12xx ${PN}-wl18xx \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8168 \
-@@ -521,24 +521,27 @@ RDEPENDS_${PN}-rtl8821 += "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8168 += "${PN}-whence-license"
- 
- # For ti-connectivity
-+LICENSE_${PN}-wlcommon = "Firmware-ti-connectivity"
- LICENSE_${PN}-wl12xx = "Firmware-ti-connectivity"
- LICENSE_${PN}-wl18xx = "Firmware-ti-connectivity"
- LICENSE_${PN}-ti-connectivity-license = "Firmware-ti-connectivity"
- 
- FILES_${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.ti-connectivity"
-+FILES_${PN}-wlcommon = " \
-+  ${nonarch_base_libdir}/firmware/TI* \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity/TI* \
-+"
- FILES_${PN}-wl12xx = " \
-   ${nonarch_base_libdir}/firmware/wl12* \
--  ${nonarch_base_libdir}/firmware/TI* \
--  ${nonarch_base_libdir}/firmware/ti-connectivity \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity/wl12* \
- "
- FILES_${PN}-wl18xx = " \
-   ${nonarch_base_libdir}/firmware/wl18* \
--  ${nonarch_base_libdir}/firmware/TI* \
--  ${nonarch_base_libdir}/firmware/ti-connectivity \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity/wl18* \
- "
- 
--RDEPENDS_${PN}-wl12xx = "${PN}-ti-connectivity-license"
--RDEPENDS_${PN}-wl18xx = "${PN}-ti-connectivity-license"
-+RDEPENDS_${PN}-wl12xx = "${PN}-ti-connectivity-license ${PN}-wlcommon"
-+RDEPENDS_${PN}-wl18xx = "${PN}-ti-connectivity-license ${PN}-wlcommon"
- 
- # For vt6656
- LICENSE_${PN}-vt6656 = "Firmware-via_vt6656"
--- 
-2.20.0.rc1
+All,
 
 
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The number of people attending that meeting has fallen, =
+as have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage team) a=
+re therefore going to start reporting out the currently 297 unassigned bugs=
+.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly four different "priority" classes right now, "2.7", =
+"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7" =
+and then "2.8".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com<mailto:Stephen.k.jolley@intel.com>) an e-mail with the bug number you w=
+ould like and I will assign it to you (please make sure you have a bugzilla=
+ account).
+
+
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD483C2fmsmsx124amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:2 11 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The number of people attending=
+ that meeting has fallen, as have the number of people available to help fi=
+x bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 297 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly four different &quot;prior=
+ity&quot; classes right now, &#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.=
+99&quot; and &quot;Future&quot;, the more pressing/urgent issues being in &=
+quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (<a href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com=
+</a>) an e-mail with the bug number
+ you would like and I will assign it to you (please make sure you have a bu=
+gzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
+lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
+serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155ECFD483C2fmsmsx124amrcor_--
