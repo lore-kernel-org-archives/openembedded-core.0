@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E75D6C52E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C23DD6C534
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 09:56:05 +0000 (UTC)
+	Mon,  3 Dec 2018 09:56:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wB39u48h018229
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wB39uXVM026933
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Dec 2018 01:56:05 -0800 (PST)
+	Mon, 3 Dec 2018 01:56:33 -0800 (PST)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 3 Dec 2018 01:56:04 -0800
+	14.3.408.0; Mon, 3 Dec 2018 01:56:33 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Mon, 3 Dec 2018 18:13:28 +0800
-Message-ID: <1543832010-8787-2-git-send-email-hongxu.jia@windriver.com>
+Date: Mon, 3 Dec 2018 18:13:30 +0800
+Message-ID: <1543832010-8787-4-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1543832010-8787-1-git-send-email-hongxu.jia@windriver.com>
 References: <1543832010-8787-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] initramfs-module-setup-live: add realroot
+Subject: [PATCH 4/4] initrdscripts/init-live.sh: umount extra mount points
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,64 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 09:56:05 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 09:56:32 -0000
 Content-Type: text/plain
 
-The setup-live module of initramfs-framework is introduced to integrate
-the functionality of init-live.sh, but it missed to create /media/realroot
+Just umount these mount points. After switch_root, let udev/fstab in
+rootfs to process these partition. It aligns the principle that `Initrd
+is used to mount the root file system at boot time'[1]
 
-Refer init-live.sh, add scriptlet named `realroot' after scriptlet `union-fs'
+[1] https://en.wikipedia.org/wiki/Initial_ramdisk
+
+Umount dev rather mount point to avoid `spaces in the mount points to
+actual ASCII char'
+
+Here are test steps:
+$ echo 'INITRAMFS_SCRIPTS = "initramfs-live-boot initramfs-live-install \
+    initramfs-live-install-efi"' >> conf/local.conf
+$ echo 'IMAGE_FSTYPES_pn-core-image-minimal_append = " live"' >> conf/local.conf
+$ echo 'KERNEL_FEATURES_append = " features/overlayfs/overlayfs.scc"' >> conf/local.conf
+$ bitbake core-image-minimal
+$ runqemu core-image-minimal slirp iso
+qemux86-64 login: root
+root@qemux86-64:~# touch /abc
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../initrdscripts/initramfs-framework/realroot             | 14 ++++++++++++++
- .../initrdscripts/initramfs-module-setup-live_1.0.bb       |  3 +++
- 2 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/realroot
+ meta/recipes-core/initrdscripts/files/init-live.sh | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/realroot b/meta/recipes-core/initrdscripts/initramfs-framework/realroot
-new file mode 100644
-index 0000000..19ff855
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/realroot
-@@ -0,0 +1,14 @@
-+realroot_enabled() {
-+    return 0
-+}
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 65183d7..068e049 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -92,15 +92,11 @@ boot_live_root() {
+     mkdir -p  ${ROOT_MOUNT}/media/realroot
+     mount -n --move "/run/media/${ROOT_DISK}" ${ROOT_MOUNT}/media/realroot
+ 
+-    # Move the mount points of some filesystems over to
+-    # the corresponding directories under the real root filesystem.
+-    for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
+-        # Parse any OCT or HEX encoded chars such as spaces
+-        # in the mount points to actual ASCII chars
+-        dir=`printf $dir`
+-        mkdir -p "${ROOT_MOUNT}/media/${dir##*/}"
+-        mount -n --move "$dir" "${ROOT_MOUNT}/media/${dir##*/}"
++    # Umount available mount points
++    for dev in `awk '/\/dev.* \/run\/media/{print $1}' /proc/mounts`; do
++        umount $dev
+     done
 +
-+realroot_run() {
-+    for i in `ls /run/media 2>/dev/null`; do
-+        if [ -f /run/media/$i/rootfs.img -o -f /run/media/$i/isolinux/rootfs.img ] ; then
-+            echo "Move /run/media/$i to /media/realroot"
-+            mkdir -p  $ROOTFS_DIR/media/realroot
-+            mount -n --move "/run/media/$i" $ROOTFS_DIR/media/realroot
-+            break
-+        fi
-+    done
-+}
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-index 30831c2..c0ebd40 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -10,6 +10,7 @@ inherit allarch
- FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
- SRC_URI = "file://setup-live \
-            file://union-fs \
-+           file://realroot \
- "
- 
- S = "${WORKDIR}"
-@@ -18,8 +19,10 @@ do_install() {
-     install -d ${D}/init.d
-     install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-     install -m 0755 ${WORKDIR}/union-fs ${D}/init.d/91-union-fs
-+    install -m 0755 ${WORKDIR}/realroot ${D}/init.d/92-realroot
- }
- 
- FILES_${PN} = "/init.d/80-setup-live \
-                /init.d/91-union-fs \
-+               /init.d/92-realroot \
-               "
+     mount -n --move /proc ${ROOT_MOUNT}/proc
+     mount -n --move /sys ${ROOT_MOUNT}/sys
+     mount -n --move /dev ${ROOT_MOUNT}/dev
 -- 
 2.7.4
 
