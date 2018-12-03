@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5670C6C57A
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A5CA6C657
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 16:34:15 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id y139so6517953wmc.5
+	Mon,  3 Dec 2018 16:40:11 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id g85so10272219ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 08:34:16 -0800 (PST)
+	Mon, 03 Dec 2018 08:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Ao+lfe25arfG1xPlnPveryvUUIsHbWgQ1ajr9Q8Egys=;
-	b=TkHEPpguyLwVWsqJPji9rwtzfROvExBRC2oVJ3IJoKUSR8TI3m5Z2jsT4yNA/n6iIw
-	+soC0mgDYcvGLvm5AxSE9gFCHpOpKbwY0WjQ/HLWrnfXJIUVhKyR2/ArMFkNHFDwfB2b
-	zs1boIFEQXp53k9ujZFdd/0JUAPOtT0U6xA48o8j18T+MSnud7FDf5oAo2cyiK86HnN6
-	9fYpia2QpD+mM6Izmld//J1LM/o+xpAoWQJraJIr7t4ZT+KSfHwlBD4E2BIVAqEXD9ar
-	pufrjprz8opoCPwM/bWmEXt52LtDz9KfZDfqGIRZgj8EH831+ww4mFTjiRh4O/ePGwFb
-	b6og==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=9pLj+eFQiqVf/pjxBerbrbUsxjUsykdxfrhoEN/httk=;
+	b=g0w9adNAgD0Pc4Z3rIq8mOrYuIpRN9T+hsddi67uu6FEEl8a9n6WLihXGrmL0V6II0
+	XlgZVsWFecKf51EAgvOMXi8+AvTITfY92/kh7TYUiWQ4QRWOk7K5YjVrEiJdhk4kd3BF
+	S+wGIGsC/0ahDbrlSNiRT8PXg8wn+3rGNchtt9b2kSknw5dG+QGZDcddPE9gsDqnDDlc
+	6OIQTCR5VzmFCEzuO3upGEaaDUAf1p/k3xH+QCutWZITTzrTYBw2PfEjEYkIAEtrGLfv
+	Gv4x6H6N80K68+1E6bMFKfLrrbYCYFx+WgfvIu1sgWE23RCbZv8fQ8dELBpLaxmyjnAo
+	gJHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Ao+lfe25arfG1xPlnPveryvUUIsHbWgQ1ajr9Q8Egys=;
-	b=KBJwtuDUtHNklgBEnE/+fMRBJbYyRYfnNlI2EbGjARguD5/yvbiOSUZpKoNtSu7Lo4
-	U0CtkWMzJvbkEXjowL+1Oq7ie54kGMdZDvIFGdQZu6IKWe0DU6PF5aJOdxJBB3eJ99UC
-	IxSCt3nxxEfkxCQOoJFVIejy7/bRyJn2TL0aSEWPPYxJNnNGiU4MicUJ9CAU/gGLnVJ3
-	lSd3AEVAxsSce+hc1ySlDk/YRtrOfDYPSKmMnKx9cAanPT0AHrytyJiJ2MS0hwzVhzuk
-	Lxfxhb4PeurjDSys+D4WxWvaDT+b0GLR+q5Tt1hKCISR/73P4ns7gjpApq8g2c6ULPH4
-	0Ubw==
-X-Gm-Message-State: AA+aEWZh8THXlkZj0a3bs48g89pKO7kiKJNijO5MR1vHQJ6J5S4Q7Nbw
-	WFFe7fSBeTCPnYtFQgpjsmI6r2Bmki0=
-X-Google-Smtp-Source: AFSGD/UG0JPz4VLLgp3jppHLiP1Z6xB5n/u3XWSAOySbhQz9NNXGVTVHX5qKXQBxKyG/5Bsj/DA7YA==
-X-Received: by 2002:a1c:df46:: with SMTP id w67mr9291271wmg.51.1543854855739; 
-	Mon, 03 Dec 2018 08:34:15 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	j20sm6288372wme.20.2018.12.03.08.34.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 08:34:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 16:34:12 +0000
-Message-Id: <20181203163412.25214-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] insane: clarify GNU_HASH warning
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=9pLj+eFQiqVf/pjxBerbrbUsxjUsykdxfrhoEN/httk=;
+	b=uMto69OqjwaKxG6bMoJzyteXNzL/xCaRvSEa9FZHBGCcJbj6e5VjYHP7wsecy9Fb4u
+	EBrfCTS95CVfbun85Bhetbu7QXYTziNnew0KYGj3mDbFwtJjxOpffINNyRFzQ6ot7WUd
+	Z2buuPypNtYMG0YDvluWssuktZGupdvVc09IAp7cgSu11DkVvjylKWvpMB4zeODYzL1S
+	f2NYEBi8lpzA3GGsJDIGheE2tqmsdNgUdo18aEPsUrnPU+gyDHlAhC+KoZNXSEzUHRNT
+	UhO6WSup1A/S9bPIy3JfBN7ovu24OGJMgTcCq5ggiqFOwy2TsIoF0V72rS6EkYPxsCPp
+	lBwA==
+X-Gm-Message-State: AA+aEWYHbwgQ22CSoCNMf8Cje//FGTvEcTNTcO7nQhao7k79NacNQJw1
+	gXEWqCNE+lRBYIu+QhIkxciBvLFngl2pzbAqq1TWdjLq
+X-Google-Smtp-Source: AFSGD/V1FGmzDZ7KlZ5xRzFO6rBPRWypx+hH6SLRPUwkqGjkxlqCOqxqjLYmBvBGd7YrDk0f0c81LaGG/tqlkrxAf70=
+X-Received: by 2002:a24:c601:: with SMTP id j1mr1838959itg.130.1543855212061; 
+	Mon, 03 Dec 2018 08:40:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20181203152815.6623-1-git@andred.net>
+In-Reply-To: <20181203152815.6623-1-git@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Dec 2018 16:40:00 +0000
+Message-ID: <CAJTo0LYwiZ57t7zZBSYO51Tn2AwObKYJ6xqBExDCKr7LLssdqg@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux: split out blkdiscard into its own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +55,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 16:34:15 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 16:40:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We have a fatal error if ELF objects don't have GNU_HASH segments don't don't
-explain what the problem is.  At least give a hint to users by suggesting that
-LDFLAGS wasn't passed to the compiler.
+When do we just programatically split instead of doing it piece by piece? :=
+)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 4644221bc6b..6718feb3af5 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -383,7 +383,7 @@ def package_qa_hash_style(path, name, d, elf, messages):
-             sane = True
- 
-     if has_syms and not sane:
--        package_qa_add_message(messages, "ldflags", "No GNU_HASH in the elf binary: '%s'" % path)
-+        package_qa_add_message(messages, "ldflags", "No GNU_HASH in the ELF binary %s, didn't pass LDFLAGS?" % path)
- 
- 
- QAPATHTEST[buildpaths] = "package_qa_check_buildpaths"
--- 
-2.11.0
-
+Ross
+On Mon, 3 Dec 2018 at 15:28, Andr=C3=A9 Draszik <git@andred.net> wrote:
+>
+> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+>
+> For systems that don't otherwise depend on the full
+> util-linux package, blkdiscard is a mere 18k (on
+> cortexa7t2hf-neon).
+>
+> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index a05c1cabbe..b5f77f7b6b 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -27,7 +27,7 @@ DEPENDS_append_class-nativesdk =3D " lzo-native"
+>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION=
+}/util-linux-${PV}.tar.xz \
+>             "
+>
+> -PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util=
+-linux-sfdisk \
+> +PACKAGES =3D+ "util-linux-agetty util-linux-blkdiscard util-linux-fdisk =
+util-linux-cfdisk util-linux-sfdisk \
+>               util-linux-swaponoff util-linux-losetup util-linux-umount \
+>               util-linux-mount util-linux-readprofile util-linux-uuidd \
+>               util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs =
+util-linux-fsck \
+> @@ -74,6 +74,7 @@ FILES_${PN}-doc +=3D "${datadir}/getopt/getopt-*.*"
+>  FILES_${PN}-dev +=3D "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+>
+>  FILES_util-linux-agetty =3D "${base_sbindir}/agetty"
+> +FILES_util-linux-blkdiscard =3D "${sbindir}/blkdiscard"
+>  FILES_util-linux-fdisk =3D "${base_sbindir}/fdisk.${BPN}"
+>  FILES_util-linux-fstrim =3D "${base_sbindir}/fstrim.${BPN}"
+>  FILES_util-linux-cfdisk =3D "${base_sbindir}/cfdisk"
+> @@ -126,7 +127,7 @@ RDEPENDS_util-linux-su +=3D "libpam"
+>  RDEPENDS_${PN} =3D "util-linux-umount util-linux-swaponoff util-linux-lo=
+setup util-linux-sulogin util-linux-lsblk"
+>  RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'uti=
+l-linux-runuser util-linux-su', '', d)}"
+>
+> -RRECOMMENDS_${PN} =3D "util-linux-fdisk util-linux-cfdisk util-linux-sfd=
+isk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-moun=
+tpoint util-linux-prlimit util-linux-ionice util-linux-switch-root"
+> +RRECOMMENDS_${PN} =3D "util-linux-blkdiscard util-linux-fdisk util-linux=
+-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linu=
+x-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice util-linu=
+x-switch-root"
+>
+>  RRECOMMENDS_${PN}_class-native =3D ""
+>  RRECOMMENDS_${PN}_class-nativesdk =3D ""
+> --
+> 2.20.0.rc1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
