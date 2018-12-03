@@ -1,49 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
-	[209.85.222.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 358486C56D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7876C543
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 20:14:36 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id 189so8177911qkj.8
+	Mon,  3 Dec 2018 20:35:19 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id y1so7276112wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 12:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=hTKjjX93ih+9CdjTS02QLRqg7Uwu+V7PNEO39XWYuBw=;
-	b=PLGgXLQkCZSyp8pRNfgBTspnfER/AkJha0fJ45YU1+BVQmBlxzJAKhcjDQemZfxmt6
-	Wweg4VTE+TNud5fGdfoJjGxHFxCBcrewHK4D8Fw07FrTvG6qrb0lQJRQLVjFadht37fb
-	hghmvmzjawCBoUxBiOqYq2bXKHNSDSMD1ehakibvmEfy6YboCsnu8w9duTgkCef3+XBn
-	UAReyMDW5ExW60Y6nrO31P21EHrfxrUA5rwO+2UI5A9OxHiDKAFMAbBeasEPOsAwkhO1
-	n3tsGHx85U6U2Rg23TOyHqJLaPOgTPqSfkUTZv9DkLpLIx4sjliPiUhPH8z5l04NghsW
-	qq0Q==
+	Mon, 03 Dec 2018 12:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=MckTPQe0gDBiTt+2lEsjgxc5g/sSQfHSeW52NJWUSM4=;
+	b=DlmrKc+qRcZXS1KxKWTmagc54XAIwD6x91x4QEIxORDOFUOJGIFl+/4BzdqoTp9uoO
+	SgRSVjqBFuj8FDW2Fz+uAxnIUlnhOUevEuhM47khhWg6kmrZXZFlIaq8Iyay8ipyN+s+
+	ptH9mEBSPlFkfReMVwitjwYgijAvysZt/D+KMJ98n3UCF4IMfgJtlwoNlGtRIoYb/0H3
+	Q4TUBUwoD9dSO2JaqVjgbkmZ8ITNkLWk1m2eiquoH8g5VFDme0HZgqjguZoqcWT+oSkW
+	d3gW+m53YUhnHTTcMzJs7Lsk47Ok2cusMA3UePW9f2/QuK9P5q/DARkkKyc+hNLc2f2v
+	7KXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=hTKjjX93ih+9CdjTS02QLRqg7Uwu+V7PNEO39XWYuBw=;
-	b=bhP2tkwhmGnBcyg6fYox6RCGkjU4E+vmCDWDeY3UZthfpIUJ2dwFRImqIreNO8S2H1
-	QDJlz07nCd4ezLvesW9GQ3/pRHp09PlxF2iU2bW7B9zKZ5WqkaWCorZnubYe0pgLG7v7
-	dSRCxnbsoMUmPki0q/Kof2wKceoSBJinCUwo6DGowI0tModE2ZH0Rge0fCR64GTTSrvo
-	j11rkvL0TuttpESsKpkTcHqBvjk4kZtDseEPnqiXXdoiONmjhvR4D+LiYmo832tjf2dW
-	72k8J4Tyak4/K3Tjont9eslcIsXB1g9GstzVFxxa/QFzFIrY1BULJChZ5vcgPn8BUBqB
-	fXsQ==
-X-Gm-Message-State: AA+aEWaQx3t3VHorEb0MLk+hB9Ziq9tTIVFBu6+aMfsKmG5gyurzZuXT
-	tm4rxH+I8b7Ez3QVRi3J1K6/w1WLryDNy+h2KyE=
-X-Google-Smtp-Source: AFSGD/Vt0xU971Njw1Vis2xfChsbD0lkkhblYdF9m3Eq/rvpB9LwGaPmB6mlhQez8pjFfpU4hI5Don9aBQ7yyqog5cc=
-X-Received: by 2002:a37:ac05:: with SMTP id e5mr16506315qkm.102.1543868077818; 
-	Mon, 03 Dec 2018 12:14:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20181130215537.29981-1-JPEWhacker@gmail.com>
-	<20181201030142.9385-1-JPEWhacker@gmail.com>
-	<c492b503-696b-9cad-0f69-9bd9129a6e14@gmail.com>
-In-Reply-To: <c492b503-696b-9cad-0f69-9bd9129a6e14@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Dec 2018 12:14:11 -0800
-Message-ID: <CAMKF1soDs+MZ3G5e2_MDvO2r+bPy+ofLn5UEEvUQ3jcteU=Y3A@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] classes/waf: Fix builds when B != S
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=MckTPQe0gDBiTt+2lEsjgxc5g/sSQfHSeW52NJWUSM4=;
+	b=kr6aLUMqV+ibJkprw/atEJP5ubIBKrOsMC2C6mQMjVXR72UPV4Pw3QbexgQXeIshVf
+	yBSvrD2ALyx4RIWlBd4ZCbq+3OmKA8HTzhX3oQ6ZRNfmSQSsBnoRFpNVXozwD/LPBm66
+	9eR9c72ghfkMbZ73f6Wkqvs3aphSFTlhbO7MeNeEX1BHoYW/V2JlerXTMjhveMNz6GFZ
+	DUFJ7b2n427Vs4o1gQ/JeesqqsKoCI6ZVu4QviT95OtVqj32L+7XMlrSnt9+tWfh3BMm
+	aA5SFSPfDwPl0bLwyLO0pJxVHZZeK+9EO/AYwB70rFv3sfTzTg9Ck0vDX5VCXnjpjHc6
+	LBuA==
+X-Gm-Message-State: AA+aEWbda6+nObt+4uR/X7xrsbtKlIqfhYjlVdkRzeOIYknGU9PnXjHz
+	+UfkFCOjqWinmGRT/8/2+FjIZXuoUC8=
+X-Google-Smtp-Source: AFSGD/WA+s0VS6Mm/VBTsrsoIVRSvBbf9TdpC35W9D+KTwxGMYHOb9GmsvMDvWBSqMPP1cYx7cDnmg==
+X-Received: by 2002:a1c:c543:: with SMTP id v64mr9219711wmf.123.1543869320165; 
+	Mon, 03 Dec 2018 12:35:20 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	q2sm15361570wru.56.2018.12.03.12.35.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Dec 2018 12:35:19 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Dec 2018 20:35:14 +0000
+Message-Id: <20181203203516.26461-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] oeqa: don't litter /tmp with temporary directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 20:14:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 03 Dec 2018 20:35:20 -0000
 
-On Sat, Dec 1, 2018 at 4:09 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Hi Joshua
->
-> There is a build failure for a2jmidid see
->
-> http://errors.yoctoproject.org/Errors/Details/202833/
->
-> Seem to be related can you validate
->
-> On 11/30/18 7:01 PM, Joshua Watt wrote:
-> > Waf requires that the current working directory be ${S} (the location of
-> > the wscript) when building. Most of the time, this was true only because
-> > B defaults to S. However, anything that changed that behavior (notably,
-> > using externalsrc) would break the recipe. Remedy this by explicitly
-> > changing cwd to ${S} when running waf commands. As a happy side effect,
-> > B can be set up for "out of tree" builds to keep the source directory
-> > clean.
+If we need to create a temporary directory in targetbuild or buildproject use
+tempfile.TemporaryDirectory so that when the test case is finished, the
+directory is deleted.
 
-I have sent a workaround for a2jmidid to ml which means we can go
-ahead with this change in OE-Core
+Also synchronise the logic and don't possibly store the temporary directory in
+self.tmpdir as nothing uses that.
 
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >   meta/classes/waf.bbclass | 8 +++++---
-> >   1 file changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> > index 19e93761b39..8e6d754c299 100644
-> > --- a/meta/classes/waf.bbclass
-> > +++ b/meta/classes/waf.bbclass
-> > @@ -1,6 +1,8 @@
-> >   # avoids build breaks when using no-static-libs.inc
-> >   DISABLE_STATIC = ""
-> >
-> > +B = "${WORKDIR}/build"
-> > +
-> >   EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
-> >
-> >   python waf_preconfigure() {
-> > @@ -22,16 +24,16 @@ python waf_preconfigure() {
-> >   do_configure[prefuncs] += "waf_preconfigure"
-> >
-> >   waf_do_configure() {
-> > -     ${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF}
-> > +     (cd ${S} && ./waf configure -o ${B} --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF})
-> >   }
-> >
-> >   do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
-> >   waf_do_compile()  {
-> > -     ${S}/waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)}
-> > +     (cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)})
-> >   }
-> >
-> >   waf_do_install() {
-> > -     ${S}/waf install --destdir=${D}
-> > +     (cd ${S} && ./waf install --destdir=${D})
-> >   }
-> >
-> >   EXPORT_FUNCTIONS do_configure do_compile do_install
-> >
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/utils/buildproject.py | 5 ++++-
+ meta/lib/oeqa/utils/targetbuild.py  | 5 +++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
+index 7e9b84955f5..524015ede4b 100644
+--- a/meta/lib/oeqa/utils/buildproject.py
++++ b/meta/lib/oeqa/utils/buildproject.py
+@@ -17,7 +17,10 @@ class BuildProject(metaclass=ABCMeta):
+         self.uri = uri
+         self.archive = os.path.basename(uri)
+         if not tmpdir:
+-            tmpdir = tempfile.mkdtemp(prefix='buildproject')
++            tmpdir = self.d.getVar('WORKDIR')
++            if not tmpdir:
++                self.tempdirobj = tempfile.TemporaryDirectory(prefix='buildproject-')
++                tmpdir = self.tempdirobj.name
+         self.localarchive = os.path.join(tmpdir, self.archive)
+         self.dl_dir = dl_dir
+         if foldername:
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index 1202d579fb0..b8db7b2aca0 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -20,8 +20,9 @@ class BuildProject(metaclass=ABCMeta):
+         if not tmpdir:
+             tmpdir = self.d.getVar('WORKDIR')
+             if not tmpdir:
+-                tmpdir = tempfile.mkdtemp(prefix='buildproject')
+-        self.localarchive = os.path.join(tmpdir,self.archive)
++                self.tempdirobj = tempfile.TemporaryDirectory(prefix='buildproject-')
++                tmpdir = self.tempdirobj.name
++        self.localarchive = os.path.join(tmpdir, self.archive)
+         if foldername:
+             self.fname = foldername
+         else:
+-- 
+2.11.0
+
 
