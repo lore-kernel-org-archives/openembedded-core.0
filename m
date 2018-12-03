@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1C56BE0C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 788316BE0C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 11:48:00 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a18so5359730wmj.1
+	Mon,  3 Dec 2018 11:49:32 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id k98so11294627otk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 03:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DNBzH6z8CPAwYAKJF00Ean2aEC1conxgibmzjZiiiLg=;
-	b=GHFhSNAXPZwdcHKLRN/mJ3tmZ/uNo+zHgZ1PeDL9pjD/sqWh/Ak/vDPKIT4UbpsgaH
-	LcMIHCAJyQmxlZIffb5hxpkm3QMqBwoiy3QKgm819Btr+3OZj1wwl7JNzxQxvX87RmvP
-	cmxBFH8ueIj2qh3gstmSxrWdP7NdoDZ/9sjy5BT20rQWquARSatWrBnWk3fVA8yl/VAR
-	kU7Vn3SfbodItgmOI/u9SXZSHRfyeTVuLo4QHEev68w79WGo6tA3APrhRPXmOSHBdTQI
-	cxXecrcmQZyeRvYZVuFXTOS1pB4h2HiYOsv0bbai/y0isU/ZaleMBCBQ53rZM1A5cD5q
-	+uKA==
+	Mon, 03 Dec 2018 03:49:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=89yKzIS7oNxRLcsyB3qE/jBLWdavvafQOWm4bfwMiVQ=;
+	b=qiqqmUEeqQ6c4nijSzbJMj9l/i8K7Eqoq+kql9U+QRMjEzZv6yJ1pvig5gzJEmWp29
+	pXmto7pgVo0khwMF8r7udAxbMrGziZF5vyTVJxhbUrjFGOjk9uLSA1C7kuutTP8WK8TC
+	tSyt6u3Rh2ynFPr4grkNpKxkjA4aiOOO+5fK+FZwVtAywHLpIvBJY3+VTDCzcFGH4ZaQ
+	j5XP3h7gxmuifP0jgwQkt/V6NAH6M2pGedDCdkdn9N+u06Uqv0ffQKgJkxEj2bg5liAC
+	5Fe7nex9j6LensfFYOxFS8XIPTHkEBZZ/wSeRluzKWAJBAqFwrDEktOuasc3Ng1+ieSx
+	5hbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DNBzH6z8CPAwYAKJF00Ean2aEC1conxgibmzjZiiiLg=;
-	b=HoNl7kaPyVrqhT0Wo1FTdFPFWRC0nsUczWmAyOzKINaIYVRlsqXDxNeJO1IfFk+Ed+
-	mH+irLX9iAKAweWOI9mTv8vtoYbiwnPZyeoaPlnY8vxYuZIHOD3QfpOnsCOeqo8EoQAe
-	cjYd+3P3l7QsCXyjYwi3RVe4q0dayVJr9NPkURytQ7kRxodkHyoNq/wf4rduYoOokyYr
-	QX5nRzkpOpLHZ0TQo6zGx09GUq+sPcFu05GRARe1ecQRA4d/pHL4wvsx5h7ehgt4oauX
-	a0apWJC3UdySC1bmABEW0JXSTNxAS/kf3znH3yDKzwQ3yJYN0PHRroXTdJoi2OCEORtx
-	FV6g==
-X-Gm-Message-State: AA+aEWa6J4i0X7Tgb68558n00vJOQuEJ7lLcyJ+Z7cWqqN4+i/IfMPLj
-	sNv828N2wIlByNn6ifUr0Doq7vjt5Zw=
-X-Google-Smtp-Source: AFSGD/Ux8daRQTuPpCjPSgt0hlNV0sKKgtuFrv76+0GToT6kuseFqF7GojI7n7RIVqpkx5okfuGnKw==
-X-Received: by 2002:a1c:c303:: with SMTP id t3mr7552790wmf.94.1543837680902;
-	Mon, 03 Dec 2018 03:48:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id t4sm14785842wrm.6.2018.12.03.03.47.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 03:48:00 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 11:47:58 +0000
-Message-Id: <20181203114758.11474-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/oelib/path: don't leak temporary directories
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=89yKzIS7oNxRLcsyB3qE/jBLWdavvafQOWm4bfwMiVQ=;
+	b=G6TL7JhZsToPQ6BnhZJwho4rbrKCv2m+7TVeIR97X3B7mh9Spy4ec8gCB0ZgwUPZ+w
+	r44VLcdtGRVVs1hmVkTF6vF/bZmbm1KI0I1I/JMKWUfER6MaiaMcTuerf2L1Ffhi9ZLl
+	bEyCLWDxlG2hs9j0WQAzEp1WDDaCymp8Fk1Kr0W812uDnOKezvpGQd260wKFGPHIZx/3
+	AQsD53afv2XLCLrsSUVGNshEhor5FrvBIXjM/cIXWxC3dwebt4hDkIzMmStGIJdus0uA
+	NsXnjS0ipNzrV/Bv9yAtEUv8wZ8rB1moBwhrYNWgjKtVMCEeRQfGDdhuD4hn/rDuqzFI
+	Bm8g==
+X-Gm-Message-State: AA+aEWZrJy4eiJXgN6YM8lUFzatHi05WVrlcR8RK1BZm0IaPe+505/7T
+	n4t1GU/+9DjU2LqhZbig251/u9/Auy4ZU4uHlTc=
+X-Google-Smtp-Source: AFSGD/XSWgU1NK+al5TXMygXDwTZZ/dZAYU7/9DVKgyjYSghOvHFXVjatHck/HelkiNdlz7PBrfOPzmuzQ0rr2sqAaI=
+X-Received: by 2002:a9d:2289:: with SMTP id y9mr10457708ota.326.1543837773303; 
+	Mon, 03 Dec 2018 03:49:33 -0800 (PST)
+MIME-Version: 1.0
+References: <20181122154136.121480-1-alex.kanavin@gmail.com>
+	<CAMKF1sqst3bNey6Gwf2bTa_oKOVrFjKsWcPcM4sbAYTp3SxA3g@mail.gmail.com>
+	<CANNYZj_H=i+Oa9JKaXaAVW6_vy-9o5YgDOHE76g1Q9L5=K5Jog@mail.gmail.com>
+	<CAMKF1sr7mXJzgwbzer0=UUbUoEYgXM7x=0ZUjTQn6_c-3ZC3Vw@mail.gmail.com>
+	<CANNYZj9ug7+q0v-kVVio7_a61BRo1JEBNxFmJ33XgB=CQGd7ow@mail.gmail.com>
+	<CAMKF1srRWqu-BwcvPNSvrQD5sRkXBF57Jxm1_Dg=ZBn1icUM0A@mail.gmail.com>
+	<42f7604d9ffbd8b1347c6dd09839b349d297fc41.camel@linuxfoundation.org>
+In-Reply-To: <42f7604d9ffbd8b1347c6dd09839b349d297fc41.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 3 Dec 2018 12:49:21 +0100
+Message-ID: <CANNYZj_GcqDgrVmOXbJ5=m0rQQ4A8Vfg6yJKV5_ymgVDq9e5tg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/16] gobject-introspection: update to 1.58.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 11:48:00 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 11:49:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-setUp() is used to populate a directory of temporary files, and deleted in
-__del__.  However setUp() is called once *per test* so __del__ would only be
-able to remove the last directory created.
+On Sun, 2 Dec 2018 at 23:22, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-Fix the code by using the natural counterpart to setUp, tearDown(), to clean up.
+> > > I just sent a patch for this to oe-core list - thanks for
+> > > reporting.
+> > >
+> >
+> > thanks I can confirm this is fixed with this patch which is in
+> > master-next
+> >
+> > > libdazzle crash is a separate issue, I will look into it.
+>
+> Oddly enough, master-next resulted in:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/48/steps/7/logs/step1b
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/68/builds/33/steps/7/logs/step1b
+>
+> so I've removed the gobject-introspection patch which I'd included to
+> try and isolate the cause...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/cases/oelib/path.py | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+This was a multilib issue where gir files are installed in libdir (and
+not datadir like in non-multilib).  I'll send an updated patch in a
+moment.
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/path.py b/meta/lib/oeqa/selftest/cases/oelib/path.py
-index 75a27c06f77..e0eb8134a90 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/path.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/path.py
-@@ -38,13 +38,6 @@ class TestRealPath(TestCase):
-         ( "b/test", errno.ENOENT ),
-     ]
- 
--    def __del__(self):
--        try:
--            #os.system("tree -F %s" % self.tmpdir)
--            shutil.rmtree(self.tmpdir)
--        except:
--            pass
--
-     def setUp(self):
-         self.tmpdir = tempfile.mkdtemp(prefix = "oe-test_path")
-         self.root = os.path.join(self.tmpdir, "R")
-@@ -59,6 +52,9 @@ class TestRealPath(TestCase):
-         for l in self.LINKS:
-             os.symlink(l[1], os.path.join(self.root, l[0]))
- 
-+    def tearDown(self):
-+        shutil.rmtree(self.tmpdir)
-+
-     def __realpath(self, file, use_physdir, assume_dir = True):
-         return oe.path.realpath(os.path.join(self.root, file), self.root,
-                                 use_physdir, assume_dir = assume_dir)
--- 
-2.11.0
-
+Alex
 
