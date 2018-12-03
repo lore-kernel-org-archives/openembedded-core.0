@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 209CB6C52A
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 087786BBF8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Dec 2018 10:26:35 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id 96so11555547wrb.2
+	Mon,  3 Dec 2018 10:26:36 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id y139so5135221wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 02:26:37 -0800 (PST)
+	Mon, 03 Dec 2018 02:26:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=/IYQQ7XsnB8lyeDIgYgjZqs4T8lWIxYwfhB2SifaZGs=;
-	b=1zcc1xlVp1GdSR4pGWmVF2uJWDt1dsbZIEXsvTAS7zHf82TaBddopsSF+aIFDpcNU1
-	G8zi44L/G4FuG7+648z1evhbc2iwYiGWDWFV4FxY+tZzDa8IZ10aaY9GxqFquE7eokju
-	ZA6cJJ5Ik3dFZaGPFgQFBWlMBx8p/0Oi3z5nWi/PHEpGWFYJIkp8qYYQX6WAG62826M4
-	ZetEvLC0sPFKXAJ2roFSswOHEKZlKoLuvQtavHGg+K1OChOJ7h40WiztjA8KE3uv5NwA
-	YiS4QGMb/5l07zcgsPcXhp1mlrqfzPcFmGiDoN7Fgt0rYIrOWCyHaQknUkW/u0ir4dMd
-	JedQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=pmRR0LloNZSuze/NvgkPezbYpK6I6FzM6TiDD9/yPzw=;
+	b=CxWITPBYa3ya3WlUO852e6U/eXeefqcmKfV21nSIQ50tglzaLnzy6Ah9t5v/bYW5+f
+	4dTPpoMp3uV83k7ZwhUZGtSd86a3iihJDO/5oz5MYAmX+u5oiWBLu1DmiSK4xyWKHJ1Q
+	jouQB2jcTJlHr1lX0JXGRN0PJxZrnU9ceeBo+gv5amRtRFevpaWXgCJi379lNYuv+jUG
+	Z9gI1oh1rIgjjvigNUuVNJg+bTnFW3RaFyBpG5Et887inrsj/eTzn/cnIVBcjetcmXag
+	mYMG7Iz/EajiEyTLv96gnFSgCbSZoXFg2zN4XqBXv3LRe65tahZYBguUxqnZbwNjAE1m
+	teqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/IYQQ7XsnB8lyeDIgYgjZqs4T8lWIxYwfhB2SifaZGs=;
-	b=kBKDXU2HLdyTA1fQJx7P0WW3AtRZQP2B7lzuItgAepXTynQHbfXHQ1n2r0jo+iAvwb
-	BNCAJjuTNpE3mTJhTUFwn7FjYr1t55mvnVhlimx9aE0Su/RWSYUivUY/ZKyL4qscwAtV
-	wHYlFQueHjh0XrrP700J0N1qFpyEx5bkL7hUcy8YMv1/vQcyMEu7Ud8zAkEPjkAs+0Nh
-	ecb/nGOHHfzGVrS0j/EXZXVj07gdv8IY9sXUsiDe1U1MhNnbaCBLCRUdh6KYVaYAWfRK
-	qasfkCOgpEzQJUknUjQyYHxp3/VXmZr2UbKPgI39bji5g5LrvMkwTm/crK7DkqKhxvZg
-	HJrA==
-X-Gm-Message-State: AA+aEWaPkdYWgYEMrcdlibJi6lqPF1BWb6b5VcBO4GMD9wAAPTMG4DcS
-	LSAvLro2tt/ncjKB8KVcbo4WxWMbXTw=
-X-Google-Smtp-Source: AFSGD/X7dBX87wED8BubKh740/556VH4wgDElKgbGFpNlvEAXkv1lvdH2vUF13BrdOQa2Gb3gReF3w==
-X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr13131058wrs.75.1543832796397; 
-	Mon, 03 Dec 2018 02:26:36 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=pmRR0LloNZSuze/NvgkPezbYpK6I6FzM6TiDD9/yPzw=;
+	b=a4nVG4dyX5v2kRY5UVux5o01Rig61yrdUDvRB7QA6Jt6JxYb7d7mIk38xbucgmGe4e
+	hCZxESluFDUP5nPqqUU4GqJzMaBLzkYfvtAoeOLLAX0EmkudbSUt87mpNWVc3QKd1Qg1
+	qkqBmK69VBLKJXZJjvxEufZlIMElJvXJdQYrknONmb0bu6rhV/Fv8MZ1xJjfIiD9zM+P
+	MMKp5LNs2diUJ22Jh15jFzlRCHdwRfUmsUZW9rRbRqTtE/g65kvggTNn6os+kg8AmcIH
+	KafrQ3BegvIuIouGNYu81Qgg1Gzjp/eUP52vzh7xk7uoJ6GqU7AxggmjEkn7gsiTgF1h
+	YJiQ==
+X-Gm-Message-State: AA+aEWaHCSoXnLyQI+iv9MX7VszGgu4oDtN9aCyRzQDGz0ZDVqDj3Gyh
+	wzMB6Iq5SAYQjdOFEP0oXrb12jcZtq8=
+X-Google-Smtp-Source: AFSGD/U8YwDiJSMsu4pEMYVEFbBc3oIG3hCC4tYsX58iNdy0V535nqFJ9H+dVjrtmCC7E7bc0PZqOw==
+X-Received: by 2002:a1c:f112:: with SMTP id p18mr7172662wmh.83.1543832797501; 
+	Mon, 03 Dec 2018 02:26:37 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	k26sm2977930wmi.28.2018.12.03.02.26.35
+	k26sm2977930wmi.28.2018.12.03.02.26.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 02:26:35 -0800 (PST)
+	Mon, 03 Dec 2018 02:26:36 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 10:26:33 +0000
-Message-Id: <20181203102634.4850-1-ross.burton@intel.com>
+Date: Mon,  3 Dec 2018 10:26:34 +0000
+Message-Id: <20181203102634.4850-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/2] patchreview: various fixes
+In-Reply-To: <20181203102634.4850-1-ross.burton@intel.com>
+References: <20181203102634.4850-1-ross.burton@intel.com>
+Subject: [PATCH 2/2] mdadm: add back lost Upstream-Status tags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,115 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2018 10:26:36 -0000
+X-List-Received-Date: Mon, 03 Dec 2018 10:26:37 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/contrib/patchreview.py | 46 ++++++++++++++++++++++++++++++++----------
- 1 file changed, 35 insertions(+), 11 deletions(-)
+ .../0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch     | 2 +-
+ .../files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch | 2 +-
+ .../mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch   | 2 +-
+ .../mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
-index a4d5ba68676..072166504da 100755
---- a/scripts/contrib/patchreview.py
-+++ b/scripts/contrib/patchreview.py
-@@ -5,6 +5,7 @@
- # - test suite
- # - validate signed-off-by
+diff --git a/meta/recipes-extended/mdadm/files/0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch b/meta/recipes-extended/mdadm/files/0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch
+index 72368cb17b1..12bf6a59207 100644
+--- a/meta/recipes-extended/mdadm/files/0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch
++++ b/meta/recipes-extended/mdadm/files/0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch
+@@ -8,7 +8,7 @@ its possible that build host gcc is version 7+ but the
+ cross compile used for compiling mdadm is < version 7
  
-+status_values = ("accepted", "pending", "inappropriate", "backport", "submitted", "denied")
- 
- class Result:
-     # Whether the patch has an Upstream-Status or not
-@@ -35,25 +36,26 @@ def blame_patch(patch):
-                                     "--format=%s (%aN <%aE>)",
-                                     "--", patch)).decode("utf-8").splitlines()
- 
--def patchreview(patches):
--    import re
-+def patchreview(path, patches):
-+    import re, os.path
- 
-     # General pattern: start of line, optional whitespace, tag with optional
-     # hyphen or spaces, maybe a colon, some whitespace, then the value, all case
-     # insensitive.
-     sob_re = re.compile(r"^[\t ]*(Signed[-_ ]off[-_ ]by:?)[\t ]*(.+)", re.IGNORECASE | re.MULTILINE)
-     status_re = re.compile(r"^[\t ]*(Upstream[-_ ]Status:?)[\t ]*(\w*)", re.IGNORECASE | re.MULTILINE)
--    status_values = ("accepted", "pending", "inappropriate", "backport", "submitted", "denied")
-     cve_tag_re = re.compile(r"^[\t ]*(CVE:)[\t ]*(.*)", re.IGNORECASE | re.MULTILINE)
-     cve_re = re.compile(r"cve-[0-9]{4}-[0-9]{4,6}", re.IGNORECASE)
- 
-     results = {}
- 
-     for patch in patches:
-+
-+        fullpath = os.path.join(path, patch)
-         result = Result()
--        results[patch] = result
-+        results[fullpath] = result
- 
--        content = open(patch, encoding='ascii', errors='ignore').read()
-+        content = open(fullpath, encoding='ascii', errors='ignore').read()
- 
-         # Find the Signed-off-by tag
-         match = sob_re.search(content)
-@@ -122,6 +124,8 @@ def analyse(results, want_blame=False, verbose=True):
-             missing_status += 1
-         if r.malformed_upstream_status or r.unknown_upstream_status:
-             malformed_status += 1
-+            # Count patches with no status as pending
-+            pending_patches +=1
-         if r.missing_cve:
-             missing_cve += 1
-         if r.upstream_status == "pending":
-@@ -132,7 +136,6 @@ def analyse(results, want_blame=False, verbose=True):
-             need_blame = True
-             if verbose:
-                 print("Missing Signed-off-by tag (%s)" % patch)
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
-         if r.malformed_sob:
-             need_blame = True
-             if verbose:
-@@ -198,14 +201,35 @@ if __name__ == "__main__":
-     args.add_argument("-b", "--blame", action="store_true", help="show blame for malformed patches")
-     args.add_argument("-v", "--verbose", action="store_true", help="show per-patch results")
-     args.add_argument("-g", "--histogram", action="store_true", help="show patch histogram")
--    args.add_argument("directory", nargs="?", help="directory to scan")
-+    args.add_argument("-j", "--json", help="update JSON")
-+    args.add_argument("directory", help="directory to scan")
-     args = args.parse_args()
++Upstream-Status: Pending
+ ---
+  Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
+index bdedbb2d984..6293f9b2b37 100644
+--- a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
++++ b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
+@@ -25,7 +25,7 @@ Fixes
+ |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
--    if args.directory:
--        os.chdir(args.directory)
--    patches = subprocess.check_output(("git", "ls-files", "recipes-*/**/*.patch", "recipes-*/**/*.diff")).decode("utf-8").split()
--    results = patchreview(patches)
-+    patches = subprocess.check_output(("git", "-C", args.directory, "ls-files", "recipes-*/**/*.patch", "recipes-*/**/*.diff")).decode("utf-8").split()
-+    results = patchreview(args.directory, patches)
-     analyse(results, want_blame=args.blame, verbose=args.verbose)
-+
-+    if args.json:
-+        import json, os.path, collections
-+        if os.path.isfile(args.json):
-+            data = json.load(open(args.json))
-+        else:
-+            data = []
-+
-+        row = collections.Counter()
-+        row["total"] = len(results)
-+        row["date"] = subprocess.check_output(["git", "-C", args.directory, "show", "-s", "--pretty=format:%cd", "--date=format:%s"]).decode("utf-8").strip()
-+        for r in results.values():
-+            if r.upstream_status in status_values:
-+                row[r.upstream_status] += 1
-+            if r.malformed_upstream_status or r.missing_upstream_status:
-+                row['malformed-upstream-status'] += 1
-+            if r.malformed_sob or r.missing_sob:
-+                row['malformed-sob'] += 1
-+
-+        data.append(row)
-+        json.dump(data, open(args.json, "w"))
-+
-     if args.histogram:
-         print()
-         histogram(results)
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Upstream-Status: Pending
+ ---
+  mdadm.h | 1 +
+  1 file changed, 1 insertion(+)
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch b/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
+index e10905c63b5..a1e7e59323b 100644
+--- a/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
++++ b/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
+@@ -14,7 +14,7 @@ In file included from policy.c:25:
+ /mnt/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86/usr/include/bits/stdio2.h:145:12: note: previous definition is here
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Upstream-Status: Pending
+ ---
+  mdadm.h | 2 ++
+  1 file changed, 2 insertions(+)
+diff --git a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch b/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
+index d279fddfb6a..0bd556d4372 100644
+--- a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
++++ b/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
+@@ -10,7 +10,7 @@ compiler warnings
+ This works in cross and native compilation case
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Upstream-Status: Submitted
+ ---
+  Grow.c        | 4 ++++
+  bitmap.c      | 8 ++++++++
 -- 
 2.11.0
 
