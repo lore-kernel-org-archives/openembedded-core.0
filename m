@@ -1,50 +1,24 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 96A5B6C46B
+Return-Path: <Rui.Wang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B3796C51A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 03:15:49 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id g85so13072968ita.3
+	Tue,  4 Dec 2018 03:32:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB43W94e011285
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 19:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qBnw77OuKg8n6Y5ynPE/rbxTs149c5qH5mtCXRYUnq4=;
-	b=RlxKDaoEBK31mdKKLwCnP2chngefx1A0dhh83bjr3dQvYMA66O+KRS3C7l+B3gvf+7
-	pGUqWNQijMkIOki5getz0v8e6YR+ZU96L8z8mPdddEdjA5OGGNfnCNwSu1J2ypFb1W5U
-	zwGAdmuUlUt+LDjoc29ezCcvaWGPexOFChOmnZUoAD6B4NP/vtBtmv7fxSfrQXZdUh2+
-	Km+XfpJn+4X5e53W/gJNW5CUIHfk/krr/MgDbngwno4grcg3FW8E2DS7AuM21/lc1ZjV
-	j37ff/I1ThwCJJVNxW64mAGV477SFCLFvjfByGX++G63+++Dlw/1ee7u4rCQwKiYxagF
-	ce9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qBnw77OuKg8n6Y5ynPE/rbxTs149c5qH5mtCXRYUnq4=;
-	b=C3si3H7Ki56ts3QupRZQAauorzmZN9pApkphznxPYjubl7VSBx+Hlz1LUDqQzOIF6j
-	qh+uJL3ON/M2g0T0HeSyWWliNh2Z8qkq1S3uXdUTNjL8MJUOg+zwRVkfJgxXKsQeiv+Q
-	RbXlziW7XN4yVTctzjLw6ivJmMsYldbcs5lo5bY10ORgEhULvOGPTl2IP2m/LgNsN8xz
-	Xm/tHkTW7EEssXB9XKxV3v7wLVJK4HARokH6EgoOYdexHOw9wtbY8lhoOZMgqJpNu4g5
-	pQbnOkBZjeBXFcKiiK7RZJ5qVngsYxbOkPtHq6m6f+44Ckjf+iJrBhvOrBVSSEAfo0Mo
-	ikLA==
-X-Gm-Message-State: AA+aEWY4u5RVSYwJLKZpAvVZZ+3IHTj57EY/XjU3wNwm0Cn2fURxk2tw
-	Su9WfdD4arzb0UMDAjhSwPrQe7ft1IA=
-X-Google-Smtp-Source: AFSGD/UvMZ3kZRnUyDGBQARqeN6zOp+SwHgDYHJyfePcv7YomOZET6jSwoFolyv75lFfWpEmcc58ig==
-X-Received: by 2002:a24:2b81:: with SMTP id h123mr10943683ita.16.1543893350165;
-	Mon, 03 Dec 2018 19:15:50 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 195sm4392356itm.2.2018.12.03.19.15.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Dec 2018 19:15:49 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 21:15:36 -0600
-Message-Id: <20181204031536.24410-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.19.1
+	Mon, 3 Dec 2018 19:32:30 -0800
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 3 Dec 2018 19:32:22 -0800
+From: Rui Wang <rui.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 3 Dec 2018 19:32:21 -0800
+Message-ID: <20181204033221.4378-1-rui.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] classes/icecc.bbclass: Fix ccache disable
+Subject: [PATCH] initscripts: fix missing chkconfig header in initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +31,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 03:15:49 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Dec 2018 03:32:40 -0000
+Content-Type: text/plain
 
-The ccache disable flag was misspelled, preventing it from being
-disabled.
+chkconfig needs a specific header to work properly,
+which indicates the initial start and stop order.
+Or it will mess up the priority of init scripts while
+enable or disable service. So it will be necessary to
+add this header into init script which supports
+chkconfig.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Rui Wang <rui.wang@windriver.com>
 ---
- meta/classes/icecc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon    | 1 +
+ meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver    | 1 +
+ meta/recipes-core/busybox/files/hwclock.sh                 | 1 +
+ meta/recipes-core/busybox/files/syslog                     | 1 +
+ meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init     | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/halt         | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/reboot       | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh  | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/sendsigs     | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/umountfs     | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh | 1 +
+ meta/recipes-core/initscripts/initscripts-1.0/urandom      | 1 +
+ meta/recipes-core/sysvinit/sysvinit/bootlogd.init          | 1 +
+ meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init   | 1 +
+ meta/recipes-extended/cronie/cronie/crond.init             | 1 +
+ meta/recipes-extended/rpcbind/rpcbind/init.d               | 1 +
+ 17 files changed, 17 insertions(+)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 3f04a1b63af..2b189232cb7 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -398,7 +398,7 @@ set_icecc_env() {
-     # Don't let ccache find the icecream compiler links that have been created, otherwise
-     # it can end up invoking icecream recursively.
-     export CCACHE_PATH="$PATH"
--    export CCACHE_DISBALE="1"
-+    export CCACHE_DISABLE="1"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+index 992267d5a1..44f9e896ff 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: 2345 19 71
+ ### BEGIN INIT INFO
+ # Provides:          nfs-common
+ # Required-Start:    $portmap hwclock
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+index d5e9c38a9c..2772bb4b6c 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: 2345 20 80
+ ### BEGIN INIT INFO
+ # Provides:          nfs-kernel-server
+ # Required-Start:    $remote_fs nfs-common $portmap hwclock
+diff --git a/meta/recipes-core/busybox/files/hwclock.sh b/meta/recipes-core/busybox/files/hwclock.sh
+index be5f94d86c..706126db1d 100644
+--- a/meta/recipes-core/busybox/files/hwclock.sh
++++ b/meta/recipes-core/busybox/files/hwclock.sh
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: S 20 80
+ ### BEGIN INIT INFO
+ # Provides:          hwclock
+ # Required-Start:    
+diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
+index 89c4d12e9c..083d07c994 100644
+--- a/meta/recipes-core/busybox/files/syslog
++++ b/meta/recipes-core/busybox/files/syslog
+@@ -1,4 +1,5 @@
+ #! /bin/sh
++# chkconfig: 2345 20 80
+ ### BEGIN INIT INFO
+ # Provides:             sysklogd
+ # Required-Start:       $remote_fs $time
+diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
+index fb31c635be..1fc90bce98 100644
+--- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
++++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
+@@ -1,4 +1,5 @@
+ #!/bin/sh -e
++# chkconfig: S 10 90
+ ### BEGIN INIT INFO
+ # Provides:          networking
+ # Required-Start:    mountvirtfs $local_fs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/halt b/meta/recipes-core/initscripts/initscripts-1.0/halt
+index a56f73421b..dd0a59f25c 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/halt
++++ b/meta/recipes-core/initscripts/initscripts-1.0/halt
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: - 90 10
+ ### BEGIN INIT INFO
+ # Provides:          halt
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/reboot b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+index 087d8d5da4..6cf19f520b 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/reboot
++++ b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: - 90 10
+ ### BEGIN INIT INFO
+ # Provides:          reboot
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
+index 76de3418ac..a10139d44d 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: 2345 99 01
+ ### BEGIN INIT INFO
+ # Provides:          rmnologin
+ # Required-Start:    $remote_fs $all
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+index 1632a5f649..abcdf5db06 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: S 25 75
+ ### BEGIN INIT INFO
+ # Provides:          save-rtc
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
+index 34e1b7714b..bae2bbba01 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: - 20 80
+ ### BEGIN INIT INFO
+ # Provides:          sendsigs
+ # Required-Start:    
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountfs b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+index 7fb5c58b3e..64d94019bd 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/umountfs
++++ b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: - 40 60
+ ### BEGIN INIT INFO
+ # Provides:          umountfs
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
+index af075407fd..8ccbfee0ae 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: - 31 69
+ ### BEGIN INIT INFO
+ # Provides:          umountnfs
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+index af1625b5fd..a295931b5b 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
++++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: S 30 70
+ ### BEGIN INIT INFO
+ # Provides:          urandom
+ # Required-Start:    $local_fs mountvirtfs
+diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+index df5aa430cf..cac04de77c 100755
+--- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
++++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+@@ -1,4 +1,5 @@
+ #! /bin/sh
++# chkconfig: S 99 01
+ ### BEGIN INIT INFO
+ # Provides:          bootlogd
+ # Required-Start:
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+index f90208555b..eb0d7cc428 100755
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: 35 99 01
+ ### BEGIN INIT INFO
+ # Provides:          tcf-agent
+ # Default-Start:     3 5
+diff --git a/meta/recipes-extended/cronie/cronie/crond.init b/meta/recipes-extended/cronie/cronie/crond.init
+index 53b8514caa..6ac908eeea 100755
+--- a/meta/recipes-extended/cronie/cronie/crond.init
++++ b/meta/recipes-extended/cronie/cronie/crond.init
+@@ -1,4 +1,5 @@
+ #!/bin/sh
++# chkconfig: 2345 90 10
+ ### BEGIN INIT INFO
+ # Provides: crond crontab
+ # Default-Start:  2345
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/init.d b/meta/recipes-extended/rpcbind/rpcbind/init.d
+index 67499aa828..63c5a5084e 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind/init.d
++++ b/meta/recipes-extended/rpcbind/rpcbind/init.d
+@@ -2,6 +2,7 @@
+ #
+ # start/stop rpcbind daemon.
  
-     export ICECC_VERSION ICECC_CC ICECC_CXX
-     export PATH="$ICE_PATH:$PATH"
++# chkconfig: S2345 12 88
+ ### BEGIN INIT INFO
+ # Provides:          rpcbind
+ # Required-Start:    $network
 -- 
-2.19.1
+2.17.1
 
 
