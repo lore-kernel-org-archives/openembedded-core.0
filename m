@@ -1,47 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C447C6C4CF
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
+	[209.85.217.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 15CB46C4CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 14:24:08 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id r200so13709477iod.11
+	Tue,  4 Dec 2018 14:27:35 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id z3so9886687vsf.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2018 06:24:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 04 Dec 2018 06:27:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=00+WNj9N+1WlKNnQ+LE0dchgLrNjg73oSH8Z7HhDUHg=;
-	b=zHkmsV2ScxEgmxOYRiwSX8SukgIAtugfqqWChAFsxn9E/YuwH4/uflS5iWqA0CjZ5t
-	BC+RnBoFwEVa2HkC0aptQ9evqPgxp49qI6kzKZv1mVWIchxw2J4/ja6iaHT9Yn+zuJnV
-	WigDCtd5VgN/27JNaFSq4ANXumIog/S60usf7K0xingtBdCo+vFI9fIGt70V/FmVfAGY
-	QnV2Tbl693T4MI7CwVCgk4Uz8/VP8p3EVTlcKPrWQeAT85BKsyo4g6G1pUsCBqcBNbuQ
-	bYjG65GP9kGvzX/Uy1zjxtiAehZvUKfHiUnX7NCy8eDpWy2CRve5i1L15LScAwPjeLtQ
-	NwrA==
+	:cc; bh=WAhRV04zJCDlcGFGWybvDddnSco6Ntmw+1pYvTrp9iE=;
+	b=B7XcqIulRb/B/HfoZvCY+r8zrZVnW/RVuNJ+9QsxDT534P3bIIQO5Xr68mpFz5zf1A
+	Bj65lIsKGEbaJa33R8srK5NcBGNp8u4GW0UT5LyUoVXotlMEOiqa3zBCUZL9rL/ODZGy
+	ktKXkf11Gh4Owzq2YXY1lvWcIRgnSrLXIO++6SRXUZRzNymU/ldz9bmWjdqbTVcy0tv4
+	Nus+SaGamoPEEm8kwuQpQQW2epaNZw2OyzUS2JTBQIXQ1RaOVb0Czf6EY0rD8FqVihYW
+	YUM/NKPX4LTJLOK5HbZgsneCwdi0Wh8CWd4Kmnu9+oPypkitJUkNcgmw4pbNygZYZq6b
+	WIzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=00+WNj9N+1WlKNnQ+LE0dchgLrNjg73oSH8Z7HhDUHg=;
-	b=gX78+yf9ftPWR1cVKFHLlOKwtFd1rz2s3mUFRH0XU3URdSBACETedpVC8rXzarHws7
-	fG/kF3PBearieVAudngkY/qePyHxpczTpNDIpR8Yfszu3JA+iVG9gUyyliqKGIuln33b
-	ea7VCK9qXYW/dLu51rfrkbz/S6WjvtSCuYOzFEy3/HT0yzOlGPKRN6u3octqI2gfyUZR
-	tGq4dB/XTf6YHntVmnKSmxxzEfrOy59V+xCIYUMJQGOaH0Sa5ojnbXlYoULl+CUXFuc1
-	ZP6Sx7Uu2oGNzcMPm7anAZeA/T24p/iiCKWMOpYrMWJz5nf376enfX47Fi1+lx5an7mY
-	bRww==
-X-Gm-Message-State: AA+aEWbof7itNL/zE1VBwLAgDR/Pq2j3GocQP5oEF+tuD7oTgFJoZaNH
-	cAMoDuQh8XK6nWhbPkF0Cxn/mo8iuFB9ywmRCiIoMQ==
-X-Google-Smtp-Source: AFSGD/XpMXq7QSRRmljC0RpDb40MMPIU7j1eJKR2VY6cZrooSc0oUmGuLho2q/0A2PCTW4J8oLyrSBmpxJf1hNFYWUU=
-X-Received: by 2002:a6b:b844:: with SMTP id i65mr16861248iof.20.1543933449586; 
-	Tue, 04 Dec 2018 06:24:09 -0800 (PST)
+	bh=WAhRV04zJCDlcGFGWybvDddnSco6Ntmw+1pYvTrp9iE=;
+	b=gHOi0g5ZmDvSdFe8xK+XGWdoFqaBO9HhGuo0BvtVqPlM6fW1COpdTga4x97a1GXA7o
+	XLNUUy5/BsA4Yo4uqBPPklLdbqm81nzenDWTKAjgatWCQ8L9U73y8cTTds/fHzsmEXDq
+	TmYaX9QtIXQ9OF7vBZRSfZq6u2K5tBZrVUNjqlgI8ZWjnWvG26pRha4dAD19dfFl7/Ut
+	rcwybRy2xiTGYfBlWkxOu0ATDJKnLuSCGpIzEXrvib3QYvj8ETAo2W++Xl6pAgY98H3S
+	uvVLC19iUCP+msrMy+Nrt5T9bcyVTIDZa+xkCtqclWw525LNZW4aqHeG2clKKLvtQJ8j
+	7v0Q==
+X-Gm-Message-State: AA+aEWaohooQOmQm33TB5nwhKuiEL9g+egb3yI+XoWLrQ7QxACI8AvKS
+	fcbCCUoU+77v0OZ7TMuCgXsTl1mJwXdnRdcy5ZI=
+X-Google-Smtp-Source: AFSGD/XR7zXd7QhSiXYqNSmXb/1LB59/EKmja2wb0QNgJKK6wGXMO4B890efMLp4IHP/mGd1FbvVNcPOnmwCxHQxlyE=
+X-Received: by 2002:a67:f1d6:: with SMTP id v22mr8773935vsm.181.1543933656682; 
+	Tue, 04 Dec 2018 06:27:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20181204134233.12495-1-anders.roxell@linaro.org>
-In-Reply-To: <20181204134233.12495-1-anders.roxell@linaro.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Dec 2018 14:23:58 +0000
-Message-ID: <CAJTo0La5UGW2OVTX_6mcLZL0PuZ4w4jLg3fse6hL-3HihtOGpQ@mail.gmail.com>
-To: Anders Roxell <anders.roxell@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: add coreutils-native to the DEPENDS list
+References: <1543920528-21433-1-git-send-email-alex.kiernan@gmail.com>
+	<CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
+	<CAJTo0LZR+ZsT2hkszgLKELwJOQhLe=O2LV4LuTo14550QZ65xw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZR+ZsT2hkszgLKELwJOQhLe=O2LV4LuTo14550QZ65xw@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 4 Dec 2018 14:27:25 +0000
+Message-ID: <CAO5Uq5ThtzAvYkHFQqMem_Hq+MPuHipM2KCyPdCU0e9DDnBUnw@mail.gmail.com>
+To: ross.burton@intel.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python3-docutils: Fix shebang path to point at python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +55,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 14:24:09 -0000
+X-List-Received-Date: Tue, 04 Dec 2018 14:27:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Can't we just add this to HOSTTOOLS instead?
-On Tue, 4 Dec 2018 at 13:43, Anders Roxell <anders.roxell@linaro.org> wrote:
+On Tue, Dec 4, 2018 at 12:02 PM Burton, Ross <ross.burton@intel.com> wrote:
 >
-> In newer kernels fold gets used, see output from a build:
+> Turns out we disable this functionality in distutils.  That patch
+> should be fixed to do the right thing instead.
 >
-> .../kernel-source/scripts/atomic/atomic-tbl.sh:
->    line 183: fold: command not found
->
-> Rework so that coreutils-native is in the DEPENDS list.
->
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 880c5ef17283..8d83ca4843e3 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
->  KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
->
->  PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
-> -DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
-> +DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native coreutils-native"
->  PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
->
->  do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
-> --
-> 2.19.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+Well that explains a lot of things... I've a small bag of those
+fixups, it never occurred to me it was local to bitbake.
+
+I see that patch, but I dug into the into the distutils class too, we
+have this bit for py2 in do_install:
+
+        if test -e ${D}${bindir} ; then
+            for i in ${D}${bindir}/* ; do \
+                if [ ${PN} != "${BPN}-native" ]; then
+                        sed -i -e
+s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\
+python:g $i
+                fi
+                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+            done
+        fi
+
+And this for py3:
+
+        if test -e ${D}${bindir} ; then
+            for i in ${D}${bindir}/* ; do \
+                sed -i -e
+s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\
+${PYTHON_PN}:g $i
+                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+            done
+        fi
+
+Which look like it's trying to do this fixup, but fails for the
+'/usr/bin/env python' case (and isn't constrained to the first shebang
+line).
+
+The extra "if" in py2 is this:
+
+c54076ed8ae5 ("distutils: Replacing path to native path only to be
+done to non-native python packages")
+
+Which is in py2, but not py3 - assuming I read the commit right, it's
+to handle of the case of coreutils-native not being in the dependency
+chain, but I guess that's no longer true.
+
+I'm wondering if the right fix is to delete both the patch and the
+do_install fixups and start again?
+> Ross
+> On Tue, 4 Dec 2018 at 11:43, Burton, Ross <ross.burton@intel.com> wrote:
+> >
+> > Interestingly if you build docutils outside of bitbake, the hashbangs
+> > get rewritten automatically as part of the build...
+> > On Tue, 4 Dec 2018 at 10:49, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > >
+> > > By default we get a shebang path pointing at python; when building the
+> > > python3 version, ensure we use python3.
+> > >
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > > ---
+> > >
+> > >  meta/recipes-devtools/python/python3-docutils_0.14.bb | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-devtools/python/python3-docutils_0.14.bb b/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > > index 81a449d64604..a2880a9601d7 100644
+> > > --- a/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > > +++ b/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > > @@ -14,5 +14,8 @@ S = "${WORKDIR}/docutils-${PV}"
+> > >
+> > >  inherit distutils3
+> > >
+> > > -BBCLASSEXTEND = "native"
+> > > +do_install_append() {
+> > > +    sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' ${D}${bindir}/*
+> > > +}
+> > >
+> > > +BBCLASSEXTEND = "native"
+> > > --
+> > > 2.7.4
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+--
+Alex Kiernan
 
