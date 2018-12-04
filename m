@@ -1,25 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3B16C538
+Return-Path: <anders.roxell@linaro.org>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A937E6C50C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 12:22:57 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wB4CMufA010578
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 4 Dec 2018 12:22:57 GMT
-Message-ID: <3ff98f09aa0bd9611077109a62c85fe18e3f8715.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 04 Dec 2018 12:22:55 +0000
-In-Reply-To: <f7c5083f7a1f59bacdd55d166bb9fef20e578c8e.1543899860.git.Qi.Chen@windriver.com>
-References: <cover.1543899860.git.Qi.Chen@windriver.com>
-	<f7c5083f7a1f59bacdd55d166bb9fef20e578c8e.1543899860.git.Qi.Chen@windriver.com>
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/1] testimage: fix boolean checking for QEMU_USE_KVM
+	Tue,  4 Dec 2018 13:42:44 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id v5so11959704lfe.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Dec 2018 05:42:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=C3p52DXiapL1t16vwyLlzpYfl8ESlT8v7QQrq2YFgT0=;
+	b=bOgs0oTqNLQ9plPTF+38dA6FLeZW3zkt98Zh+Uz6wZa/sppWr3sSWvRrYpF37k+nUK
+	jp7Nd717L4hWLMIVNC2RW3ZRA6Qle9GYSVE/TkK/duqZcyeYwjoLsftf7LO8ZF0hg6VG
+	bI6OBzI6y8/RpEoJyCMtmqlYjhwSYTBB5Dx2w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=C3p52DXiapL1t16vwyLlzpYfl8ESlT8v7QQrq2YFgT0=;
+	b=YaDhCbsN/8Ok/46YI0gSa10YYVE5lVltq/eqCGF/t5AQI0lcDqVHrBRcWuA+ZYicdT
+	x7eOPthVmcqvx3rSn2hQKYvQzlbONHcPPMtfVreXamjqgG9PhVknP8rhU41sPib9e0Xj
+	kmMKwafThQ8gcvyGkV0JvqpE7B0sm6vT9Iw133e0BMT2s2wSejKSlJ9r8r2OTxNREFGj
+	lGKEEYFrbhzM2sR14eBk1HprdXeHmuyXamiH5hdVGGof2DjvvBYlvZH7Iw9gzUfrTbO6
+	3fNpzHJjSWCFBQC9xFj2UMvczc9tvEe8o2iON7qjIXNs7n+CEaJVd5tCsNvgUQcvKaJ5
+	/LFQ==
+X-Gm-Message-State: AA+aEWYlkycFERooF3EBAlfGEkLdhgCVTTIaJYAxOT585zgzd1oCvUOv
+	XxpMlB01dwOsoBYYaw1cicy9pXDu8rjmyw==
+X-Google-Smtp-Source: AFSGD/U08oroOjKJFFFhS3M5QCo1E+Vcmse8aWJ0+0nlGdM7ZJysBpuigxTelI5YPfqNeCx1myLdGw==
+X-Received: by 2002:a19:be16:: with SMTP id o22mr11502127lff.22.1543930964690; 
+	Tue, 04 Dec 2018 05:42:44 -0800 (PST)
+Received: from localhost (c-732171d5.07-21-73746f28.bbcust.telenor.se.
+	[213.113.33.115]) by smtp.gmail.com with ESMTPSA id
+	15-v6sm3428956lje.18.2018.12.04.05.42.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 04 Dec 2018 05:42:43 -0800 (PST)
+From: Anders Roxell <anders.roxell@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2018 14:42:33 +0100
+Message-Id: <20181204134233.12495-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.19.2
+MIME-Version: 1.0
+Subject: [PATCH] kernel.bbclass: add coreutils-native to the DEPENDS list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 12:22:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2018 13:42:44 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2018-12-04 at 13:04 +0800, Chen Qi wrote:
-> If QEMU_USE_KVM is set to a list of machines, when doing testimage
-> for a machine outside the list, we will get the following error.
-> 
->   Exception: ValueError: Invalid boolean value 'intel-corei7-64
-> intel-core2-32 qemux86 qemux86-64'
-> 
-> This is because oe.types.boolean raises error if the parameter
-> is not values like 'true', 'false', etc.
-> 
-> Fix the boolean checking to avoid the exception.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/testimage.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/testimage.bbclass
-> b/meta/classes/testimage.bbclass
-> index 82cbb06..80e457b 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -231,7 +231,7 @@ def testimage_main(d):
->      qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->      if qemu_use_kvm and \
->         (d.getVar('MACHINE') in qemu_use_kvm.split() or \
-> -        oe.types.boolean(qemu_use_kvm) and 'x86' in machine):
-> +        qemu_use_kvm.lower() in ('yes', 'y', 'true', 't', '1') and
-> 'x86' in machine):
->          kvm = True
->      else:
->          kvm = False
+In newer kernels fold gets used, see output from a build:
 
-Personally, I think we should just drop support for listing the
-machines in QEMU_USE_KVM and suggest people use overrides instead?
+.../kernel-source/scripts/atomic/atomic-tbl.sh:
+   line 183: fold: command not found
 
-Cheers,
+Rework so that coreutils-native is in the DEPENDS list.
 
-Richard
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 880c5ef17283..8d83ca4843e3 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
+ KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+ 
+ PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+-DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
++DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native coreutils-native"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+ do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+-- 
+2.19.2
 
 
