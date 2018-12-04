@@ -1,32 +1,48 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A2D4A607AD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 325316C480
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 11:56:56 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 6950524E1F49;
-	Tue,  4 Dec 2018 03:56:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1543924617; bh=l2iL13MKpFROUIreXeFOahWicLCEA8LqqlxtQoD2Nbw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=B8GUGde/RUfqPjxQzUl3U2+MAZkR/77jDpdtAdqaN2nyxjFV3wkcCC41PCSLephDu
-	C4ly2EhJH4MBQZ8XBHRXw2gK7mA1+WA+RX50qgoDJT7TCAod5aPC32fjn9TrE9eDdO
-	dChKKH9dtNGNI3TK7cUL2MKApeuIgVsnJ7fpwjnzigcaj00g8bkysgZRuRB1RrZC7O
-	NCYPCkT0wLy3XO1z/mTTVwyArUmgxScTIiHHwz6VwPx5l5TLAs6fJxGzC/nNap326S
-	rpjLpqFT0A0sp06T5NLxttW4ZjmtUilQNKTyv3uXXbWjOQRReC9LWiYSZEEP3oUcKN
-	mi876kegWoEBQ==
-Received: from ru20arcgnu1.internal.synopsys.com
-	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id E07285A38;
-	Tue,  4 Dec 2018 03:56:55 -0800 (PST)
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2018 14:56:53 +0300
-Message-Id: <20181204115653.28369-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <alexey.brodkin@synopsys.com>
-Subject: [PATCH] gdb: Remove long ago upstreamed patch
+	Tue,  4 Dec 2018 12:02:39 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id b5so13987315iti.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Dec 2018 04:02:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=a5UC3QSyh7OBD9tjvfmlSb9+V2QxZU6nAjWCwleb0yI=;
+	b=UzUlrlkTlWJVVcqb0gfyJotArygpZFH15GylZcT5r0ciEUaOyuwCEvS/FQtj4aCy6c
+	tzOJ5qnbDLHXy4X8Q37p+8C5mBZ2dEfR11aQq3BMDvwE3O57r/xVm+qIvGMXCvzQrp5D
+	2RrR+QuHHIGuudS1HJ4I4CqviPtSnQ5pUMq1f0fgrTxF0Lfho8XvoqJEzztqIOgM+I+g
+	f8qp+3RYo15e83nmKljaWjLjDV9eIgmpjCygQB1hK7mWrsHtJDkHScBcZchmSQ8K4LkZ
+	WOCelUexzy7hrvqvMlwEEuzLTvxrYH++qHCmIgwjTHdV4YJA3Pf9eXsDWBDjOYJUJ7Fw
+	0f5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=a5UC3QSyh7OBD9tjvfmlSb9+V2QxZU6nAjWCwleb0yI=;
+	b=LU6bjxkeimksM8rrXYLs29+2pRTfyn7opzrmoThPp6KVu250u0L1dEgWuYsiTNcSiy
+	xK9RK4glTPeaXvX3gCLLXJODpNHOmvD57TsSYfEUOkUx6GLchXnVaETvDDd7Ii74QlQi
+	olJNpFB4oFGgBPEs4vO9qPqLEHbbY3Fwdg6wfTppWZ4njbnFiulQNhNEvy1tUcc5v7bk
+	BHEcNBme+LhWEhQxRBKxbadAgXTmUj0sa4lgTqt+/yehhvx5aZxFIOsgFts+VWwSUPJB
+	LCAcSa0lXpUYOL3iX977wN+jYO1DCSXhtjG++C49lB1qubwHlYTII7hqIB65KLgGEKBk
+	XO5w==
+X-Gm-Message-State: AA+aEWbclZjl0DY4XfD7PWik47HNLg5O7WRDXGNRcAOeVQZ+mqRMzklK
+	4myh22BfG/xouVOmNYp6xmLkawYc2vr0dWf3FNOfU1OS
+X-Google-Smtp-Source: AFSGD/V+Vhw5I8xOiDsv98P3ZrUf5cBg3zdtXH0fPeyzFmbi2aqcX+/L3TyCsnXSxoSZv/gtyFgVb7Xh2AlIk8D/Tts=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr10497548itj.62.1543924961095; 
+	Tue, 04 Dec 2018 04:02:41 -0800 (PST)
+MIME-Version: 1.0
+References: <1543920528-21433-1-git-send-email-alex.kiernan@gmail.com>
+	<CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Dec 2018 12:02:30 +0000
+Message-ID: <CAJTo0LZR+ZsT2hkszgLKELwJOQhLe=O2LV4LuTo14550QZ65xw@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3-docutils: Fix shebang path to point at python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,67 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 11:56:56 -0000
+X-List-Received-Date: Tue, 04 Dec 2018 12:02:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This fix was upstreamed a long ago, see [1].
+Turns out we disable this functionality in distutils.  That patch
+should be fixed to do the right thing instead.
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=37ce4055fe907b9edd25498dcda7a133dbd19784
-
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
----
- meta/recipes-devtools/gdb/gdb-8.2.inc              |  1 -
- .../gdb/0001-include-sys-types.h-for-mode_t.patch  | 29 ----------------------
- 2 files changed, 30 deletions(-)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
-
-diff --git a/meta/recipes-devtools/gdb/gdb-8.2.inc b/meta/recipes-devtools/gdb/gdb-8.2.inc
-index dfb0059123..7e0809de72 100644
---- a/meta/recipes-devtools/gdb/gdb-8.2.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
-@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
- 
- SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
--           file://0001-include-sys-types.h-for-mode_t.patch \
-            file://0002-make-man-install-relative-to-DESTDIR.patch \
-            file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-            file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch b/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
-deleted file mode 100644
-index 2c8783e192..0000000000
---- a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 6ae0fb9b49047cef338262e30273f63139fd1261 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 19 Jan 2016 18:18:52 -0800
--Subject: [PATCH 01/11] include sys/types.h for mode_t
--
--mode_t is used in target.h, so we need to include sys/types.h to get the
--defintion
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- gdb/gdbserver/target.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/gdb/gdbserver/target.h b/gdb/gdbserver/target.h
--index fce54e05ad..278cee78a8 100644
----- a/gdb/gdbserver/target.h
--+++ b/gdb/gdbserver/target.h
--@@ -29,6 +29,7 @@
-- #include "mem-break.h"
-- #include "btrace-common.h"
-- #include <vector>
--+#include <sys/types.h>
-- 
-- struct emit_ops;
-- struct buffer;
---- 
--2.18.0
--
--- 
-2.16.2
-
+Ross
+On Tue, 4 Dec 2018 at 11:43, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> Interestingly if you build docutils outside of bitbake, the hashbangs
+> get rewritten automatically as part of the build...
+> On Tue, 4 Dec 2018 at 10:49, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >
+> > By default we get a shebang path pointing at python; when building the
+> > python3 version, ensure we use python3.
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> >  meta/recipes-devtools/python/python3-docutils_0.14.bb | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/python/python3-docutils_0.14.bb b/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > index 81a449d64604..a2880a9601d7 100644
+> > --- a/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > +++ b/meta/recipes-devtools/python/python3-docutils_0.14.bb
+> > @@ -14,5 +14,8 @@ S = "${WORKDIR}/docutils-${PV}"
+> >
+> >  inherit distutils3
+> >
+> > -BBCLASSEXTEND = "native"
+> > +do_install_append() {
+> > +    sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' ${D}${bindir}/*
+> > +}
+> >
+> > +BBCLASSEXTEND = "native"
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
