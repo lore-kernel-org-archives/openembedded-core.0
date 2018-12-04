@@ -1,30 +1,18 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C948A60053
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 09:23:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,313,1539619200"; d="scan'208";a="48988440"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Dec 2018 17:23:53 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id A58324B734CD
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 17:23:54 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 4 Dec 2018 17:23:58 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Dec 2018 02:22:50 +0800
-Message-ID: <1543947770-97931-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 63D346B8D5;
+	Tue,  4 Dec 2018 09:33:14 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: A58324B734CD.A5E7F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] nss: Fix SHA_HTONL bug for arm 32be.
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Tue, 04 Dec 2018 09:33:15 -0000
+Message-ID: <20181204093315.2330.34791@do>
+References: <1543947770-97931-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1543947770-97931-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbnNzOiBGaXggU0hBX0hUT05MIGJ1ZyBmb3IgYXJtIDMyYmUu?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 09:23:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Dec 2018 09:33:14 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Rpm use nss as digest crypto library and which will cause an error as follows:
+== Series Details ==
 
-error: test-manual-1.2.3-20181012.noarch.rpm: Header SHA1 digest: BAD (Expected
-f1deb7dc4a10742d88ccd1e967dbc62ae45095a5 !=4ad9d7dad6d70d6086eefec62612ad5d77f2fe81)  => this value is wrong
-error: test-manual-1.2.3-20181012.noarch.rpm: not an rpm package (or package manifest)
+Series: nss: Fix SHA_HTONL bug for arm 32be.
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15196/
+State : failure
 
-The error is caused by SHA_HTONL in nss, for there is no need to reverse the host value for arm 32be, so fix it.
+== Summary ==
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+  Current          Upstream Status: Pending
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch   | 34 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.40.bb               |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-
-diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-new file mode 100644
-index 0000000..7ba8d16
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-@@ -0,0 +1,34 @@
-+Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
-+
-+In arm 32be, there is no need to reverse the host value.
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+---
-+ lib/freebl/sha_fast.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/nss/lib/freebl/sha_fast.h b/nss/lib/freebl/sha_fast.h
-+index 4f37d13..8072eda 100644
-+--- a/nss/lib/freebl/sha_fast.h
-++++ b/nss/lib/freebl/sha_fast.h
-+@@ -99,6 +99,7 @@ swap4b(PRUint32 value)
-+       defined(__ARM_ARCH_7__) ||   \
-+       defined(__ARM_ARCH_7A__) ||  \
-+       defined(__ARM_ARCH_7R__)))
-++#if defined(IS_LITTLE_ENDIAN)  
-+ static __inline__ PRUint32
-+ swap4b(PRUint32 value)
-+ {
-+@@ -109,6 +110,7 @@ swap4b(PRUint32 value)
-+     return ret;
-+ }
-+ #define SHA_HTONL(x) swap4b(x)
-++#endif
-+ 
-+ #endif /* x86 family */
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/nss/nss_3.40.bb b/meta/recipes-support/nss/nss_3.40.bb
-index 23c95dd..afc5081 100644
---- a/meta/recipes-support/nss/nss_3.40.bb
-+++ b/meta/recipes-support/nss/nss_3.40.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://blank-cert9.db \
-            file://blank-key4.db \
-            file://system-pkcs11.txt \
-+           file://nss-fix-SHA_HTONL-bug-for-arm-32be.patch \
-            "
- 
- SRC_URI[md5sum] = "f7aec858d192ae03d0e9a35a730c70fa"
--- 
-2.7.4
-
-
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
