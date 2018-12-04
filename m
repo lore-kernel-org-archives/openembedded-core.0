@@ -1,47 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 098826C131
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id A2D4A607AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 11:43:56 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id x124so11115656itd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2018 03:43:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=apNajs1gvXPs1Z9lZ0Xa9Cu1gTYA9RZ2BBVziSKXzsQ=;
-	b=oT5iYRZ8kIeH2c9ca06fjOtSmH8uAB1b7oq4H+gXAn6WvT7gE2UW7JLSrtKHir9Bco
-	nWr3lIFjZxAR8hwQVa2y+vP/Nk5iuzpJ59ory/AX2hdFuDSfkF5S0T81FfxdC+r7Qxr1
-	eBpGJTVe5HJrKf99kHo03BWoI7CjemsI86v0i7iPE0c3UnegpUkQz4+cNjYCDA1yQ/cV
-	xGZboRJ/mEAeIljCYDk/vfa7+WTAIZgistiiHIUn/kYHZ21UXVitqVcHKdzzdPnKbLW1
-	oEuy6+w4tJE3MsTLVKKnIc8yD60VnR5HJJLOTIGoW5QNxvRaqb10PxVg7iEjbWy6qzbM
-	u6xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=apNajs1gvXPs1Z9lZ0Xa9Cu1gTYA9RZ2BBVziSKXzsQ=;
-	b=I3ifFVmswNlkIHEaaPJzkFe3PVGPHxnh++6b9rEAabV67gsbQJ7sG49+aVy4gQjyrp
-	FdnZlpuKkibIxEiJoY9BA5DClEcjp82gWysoAyvdp8l4ti4nXgkAD1toDFa3nAOGaokI
-	pP0BNEsAM5ZPUlUqR4p3rwylJVwVccbbjH4yVqlOjxFEpRng4Qn2tGFvCOPX9KKh2Sno
-	O5EzLhX2HZF9ePluughujmYHe0x+OxfIQUHG2ni6tmLK9F3Ez6KHGZubrtlufC3kPvWz
-	j4ZLi1Ww+7Q8w4OKKcbQw2oINXTspu0kruGf+tfTnfel1K+rOTcfxZ91Yx1ssZjmQBSi
-	sAJQ==
-X-Gm-Message-State: AA+aEWb4/TvaLcDUP7HI0SYUJ0yHM6H4Z8TSDgIJFfTiMMuWts4xdkw1
-	G3UmjcQTWW894kEyAEQ7q9dn6jzhlhocUj9iDqmgLw==
-X-Google-Smtp-Source: AFSGD/VRiTRcO1H+8WKWmZ5m2XvBdC9rcfBKAuyGGG2ga5kbh3QmsIW4bs1lGw8pfSTXpNvX+prWSr+oh+m2c8HPU9k=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr10449719itj.62.1543923837972; 
-	Tue, 04 Dec 2018 03:43:57 -0800 (PST)
-MIME-Version: 1.0
-References: <1543920528-21433-1-git-send-email-alex.kiernan@gmail.com>
-In-Reply-To: <1543920528-21433-1-git-send-email-alex.kiernan@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Dec 2018 11:43:46 +0000
-Message-ID: <CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-docutils: Fix shebang path to point at python3
+	Tue,  4 Dec 2018 11:56:56 +0000 (UTC)
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+	by smtprelay.synopsys.com (Postfix) with ESMTP id 6950524E1F49;
+	Tue,  4 Dec 2018 03:56:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1543924617; bh=l2iL13MKpFROUIreXeFOahWicLCEA8LqqlxtQoD2Nbw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=B8GUGde/RUfqPjxQzUl3U2+MAZkR/77jDpdtAdqaN2nyxjFV3wkcCC41PCSLephDu
+	C4ly2EhJH4MBQZ8XBHRXw2gK7mA1+WA+RX50qgoDJT7TCAod5aPC32fjn9TrE9eDdO
+	dChKKH9dtNGNI3TK7cUL2MKApeuIgVsnJ7fpwjnzigcaj00g8bkysgZRuRB1RrZC7O
+	NCYPCkT0wLy3XO1z/mTTVwyArUmgxScTIiHHwz6VwPx5l5TLAs6fJxGzC/nNap326S
+	rpjLpqFT0A0sp06T5NLxttW4ZjmtUilQNKTyv3uXXbWjOQRReC9LWiYSZEEP3oUcKN
+	mi876kegWoEBQ==
+Received: from ru20arcgnu1.internal.synopsys.com
+	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
+	by mailhost.synopsys.com (Postfix) with ESMTP id E07285A38;
+	Tue,  4 Dec 2018 03:56:55 -0800 (PST)
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2018 14:56:53 +0300
+Message-Id: <20181204115653.28369-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.16.2
+Cc: linux-snps-arc@lists.infradead.org,
+	Alexey Brodkin <alexey.brodkin@synopsys.com>
+Subject: [PATCH] gdb: Remove long ago upstreamed patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 11:43:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 04 Dec 2018 11:56:56 -0000
 
-Interestingly if you build docutils outside of bitbake, the hashbangs
-get rewritten automatically as part of the build...
-On Tue, 4 Dec 2018 at 10:49, Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> By default we get a shebang path pointing at python; when building the
-> python3 version, ensure we use python3.
->
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->
->  meta/recipes-devtools/python/python3-docutils_0.14.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-docutils_0.14.bb b/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> index 81a449d64604..a2880a9601d7 100644
-> --- a/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> +++ b/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> @@ -14,5 +14,8 @@ S = "${WORKDIR}/docutils-${PV}"
->
->  inherit distutils3
->
-> -BBCLASSEXTEND = "native"
-> +do_install_append() {
-> +    sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' ${D}${bindir}/*
-> +}
->
-> +BBCLASSEXTEND = "native"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This fix was upstreamed a long ago, see [1].
+
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=37ce4055fe907b9edd25498dcda7a133dbd19784
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ meta/recipes-devtools/gdb/gdb-8.2.inc              |  1 -
+ .../gdb/0001-include-sys-types.h-for-mode_t.patch  | 29 ----------------------
+ 2 files changed, 30 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+
+diff --git a/meta/recipes-devtools/gdb/gdb-8.2.inc b/meta/recipes-devtools/gdb/gdb-8.2.inc
+index dfb0059123..7e0809de72 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.2.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.2.inc
+@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+ 
+ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+-           file://0001-include-sys-types.h-for-mode_t.patch \
+            file://0002-make-man-install-relative-to-DESTDIR.patch \
+            file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+            file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch b/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+deleted file mode 100644
+index 2c8783e192..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 6ae0fb9b49047cef338262e30273f63139fd1261 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 19 Jan 2016 18:18:52 -0800
+-Subject: [PATCH 01/11] include sys/types.h for mode_t
+-
+-mode_t is used in target.h, so we need to include sys/types.h to get the
+-defintion
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gdb/gdbserver/target.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/gdb/gdbserver/target.h b/gdb/gdbserver/target.h
+-index fce54e05ad..278cee78a8 100644
+---- a/gdb/gdbserver/target.h
+-+++ b/gdb/gdbserver/target.h
+-@@ -29,6 +29,7 @@
+- #include "mem-break.h"
+- #include "btrace-common.h"
+- #include <vector>
+-+#include <sys/types.h>
+- 
+- struct emit_ops;
+- struct buffer;
+--- 
+-2.18.0
+-
+-- 
+2.16.2
+
 
