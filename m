@@ -1,24 +1,52 @@
-Return-Path: <Rui.Wang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B3796C51A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 03:32:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB43W94e011285
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Dec 2018 19:32:30 -0800
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 3 Dec 2018 19:32:22 -0800
-From: Rui Wang <rui.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Dec 2018 19:32:21 -0800
-Message-ID: <20181204033221.4378-1-rui.wang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+	[209.85.166.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 795E26BD11;
+	Tue,  4 Dec 2018 03:46:20 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id t24so12441157ioi.0;
+	Mon, 03 Dec 2018 19:46:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=y1ymACRYrZg6jhjKb4rz06iKP24lAxY1SThR/tqUDwU=;
+	b=oc5k6Q00omJvVc2RAGqmIw8oiwg+b3LGdowasSkM1BBAdKFUwqJyr3rOLtb9HvBe3v
+	hjYeoU/T78zCA2hkne7JlrNkaXNfTho0iI6J+mpUwC1U1DJ47ioNTRKFeGksc1cNBmzj
+	MWvVLoh7cboD7S8Q4VWjbRf66vCZCvPBfOHUPj3oX6YUQl8juKqZwJXoqP8iDzKJuD+6
+	+QhLIuAMejZOuZGp7xri644HgQhiVux1JcPZenFzLjuABCqCYHWYylJQSF9dZGYFSTuJ
+	HnqKYHQoUhZAorquZ/2KN6RTG2oolmlqHPT5YVyN1VkVqE8VznsBrFwCBr2eZHWhvhch
+	irRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=y1ymACRYrZg6jhjKb4rz06iKP24lAxY1SThR/tqUDwU=;
+	b=mONHD3FH9MRQyOymqNg3ncL5ltO4DK4SgEmmcA45IKkM8A2q+H/mdoIVxlQtp6qU5g
+	4DyfLpjNSi4JuTUSJ7YXYGGWbLI0rLnqxhNCwPNUrfU6hgbxM1ePlbHTLWYdE4Z1BR2J
+	/9z6bs+9ejb/bzIjFt/QPU6GQ22d4BNx+jl1LPKHd4fT6ioL7AS6Sq3IWaEK958Tw4g4
+	XiwpaF9gxALfMDnIVfmp5Q1c6TV7o2slNupjn+O3sdrUIYqEGr2FGf2Xks+9rRvmVlif
+	/MPn41wEBKo+3Yj0vpnMkkAYm6FwF5zGKtEsf0ENZyw8z6hBmho/2WPtNXJSjRkQtFsd
+	0dcQ==
+X-Gm-Message-State: AA+aEWZceYyUV8AOPhcIOLggCr2plkFK87ZxLYb1iw+CizlwagDFUuyX
+	V55E6l6wZrRzfwqDsiqBPjotMX4N6Q8=
+X-Google-Smtp-Source: AFSGD/UJVyEZe3kiCNFk2lbi8KbiXRatxLMzQBNpB6t0QnfQYP0QmByrNyIcVS5w6eCXmVc6pOebAg==
+X-Received: by 2002:a5d:9257:: with SMTP id e23mr18078955iol.112.1543895181130;
+	Mon, 03 Dec 2018 19:46:21 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	q23sm6216824ioi.66.2018.12.03.19.46.19
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 03 Dec 2018 19:46:20 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bitbake-devel@lists.openembedded.org
+Date: Mon,  3 Dec 2018 21:42:28 -0600
+Message-Id: <20181204034245.25461-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20180809220840.26697-1-JPEWhacker@gmail.com>
+References: <20180809220840.26697-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] initscripts: fix missing chkconfig header in initscript
+Subject: [PATCH v3 00/17] Hash Equivalency Server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,210 +59,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 03:32:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Dec 2018 03:46:20 -0000
+Content-Transfer-Encoding: 8bit
 
-chkconfig needs a specific header to work properly,
-which indicates the initial start and stop order.
-Or it will mess up the priority of init scripts while
-enable or disable service. So it will be necessary to
-add this header into init script which supports
-chkconfig.
+These patches are a first pass at implementing a hash equivalence server
+in bitbake & OE.
 
-Signed-off-by: Rui Wang <rui.wang@windriver.com>
----
- meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon    | 1 +
- meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver    | 1 +
- meta/recipes-core/busybox/files/hwclock.sh                 | 1 +
- meta/recipes-core/busybox/files/syslog                     | 1 +
- meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init     | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/halt         | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/reboot       | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh  | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/sendsigs     | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/umountfs     | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh | 1 +
- meta/recipes-core/initscripts/initscripts-1.0/urandom      | 1 +
- meta/recipes-core/sysvinit/sysvinit/bootlogd.init          | 1 +
- meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init   | 1 +
- meta/recipes-extended/cronie/cronie/crond.init             | 1 +
- meta/recipes-extended/rpcbind/rpcbind/init.d               | 1 +
- 17 files changed, 17 insertions(+)
+Apologies for cross-posting this to both the bitbake-devel and
+openembedded-devel; this work necessarily intertwines both places, and
+it is really necessary to look at both parts to get an idea of what is
+going on. For convenience, the bitbake patches are listed first,
+followed by the oe-core patches.
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-index 992267d5a1..44f9e896ff 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: 2345 19 71
- ### BEGIN INIT INFO
- # Provides:          nfs-common
- # Required-Start:    $portmap hwclock
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-index d5e9c38a9c..2772bb4b6c 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: 2345 20 80
- ### BEGIN INIT INFO
- # Provides:          nfs-kernel-server
- # Required-Start:    $remote_fs nfs-common $portmap hwclock
-diff --git a/meta/recipes-core/busybox/files/hwclock.sh b/meta/recipes-core/busybox/files/hwclock.sh
-index be5f94d86c..706126db1d 100644
---- a/meta/recipes-core/busybox/files/hwclock.sh
-+++ b/meta/recipes-core/busybox/files/hwclock.sh
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: S 20 80
- ### BEGIN INIT INFO
- # Provides:          hwclock
- # Required-Start:    
-diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
-index 89c4d12e9c..083d07c994 100644
---- a/meta/recipes-core/busybox/files/syslog
-+++ b/meta/recipes-core/busybox/files/syslog
-@@ -1,4 +1,5 @@
- #! /bin/sh
-+# chkconfig: 2345 20 80
- ### BEGIN INIT INFO
- # Provides:             sysklogd
- # Required-Start:       $remote_fs $time
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-index fb31c635be..1fc90bce98 100644
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-@@ -1,4 +1,5 @@
- #!/bin/sh -e
-+# chkconfig: S 10 90
- ### BEGIN INIT INFO
- # Provides:          networking
- # Required-Start:    mountvirtfs $local_fs
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/halt b/meta/recipes-core/initscripts/initscripts-1.0/halt
-index a56f73421b..dd0a59f25c 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/halt
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/halt
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: - 90 10
- ### BEGIN INIT INFO
- # Provides:          halt
- # Required-Start:
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/reboot b/meta/recipes-core/initscripts/initscripts-1.0/reboot
-index 087d8d5da4..6cf19f520b 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/reboot
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/reboot
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: - 90 10
- ### BEGIN INIT INFO
- # Provides:          reboot
- # Required-Start:
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
-index 76de3418ac..a10139d44d 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: 2345 99 01
- ### BEGIN INIT INFO
- # Provides:          rmnologin
- # Required-Start:    $remote_fs $all
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-index 1632a5f649..abcdf5db06 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: S 25 75
- ### BEGIN INIT INFO
- # Provides:          save-rtc
- # Required-Start:
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
-index 34e1b7714b..bae2bbba01 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: - 20 80
- ### BEGIN INIT INFO
- # Provides:          sendsigs
- # Required-Start:    
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountfs b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-index 7fb5c58b3e..64d94019bd 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: - 40 60
- ### BEGIN INIT INFO
- # Provides:          umountfs
- # Required-Start:
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-index af075407fd..8ccbfee0ae 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: - 31 69
- ### BEGIN INIT INFO
- # Provides:          umountnfs
- # Required-Start:
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom b/meta/recipes-core/initscripts/initscripts-1.0/urandom
-index af1625b5fd..a295931b5b 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: S 30 70
- ### BEGIN INIT INFO
- # Provides:          urandom
- # Required-Start:    $local_fs mountvirtfs
-diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-index df5aa430cf..cac04de77c 100755
---- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-+++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-@@ -1,4 +1,5 @@
- #! /bin/sh
-+# chkconfig: S 99 01
- ### BEGIN INIT INFO
- # Provides:          bootlogd
- # Required-Start:
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-index f90208555b..eb0d7cc428 100755
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: 35 99 01
- ### BEGIN INIT INFO
- # Provides:          tcf-agent
- # Default-Start:     3 5
-diff --git a/meta/recipes-extended/cronie/cronie/crond.init b/meta/recipes-extended/cronie/cronie/crond.init
-index 53b8514caa..6ac908eeea 100755
---- a/meta/recipes-extended/cronie/cronie/crond.init
-+++ b/meta/recipes-extended/cronie/cronie/crond.init
-@@ -1,4 +1,5 @@
- #!/bin/sh
-+# chkconfig: 2345 90 10
- ### BEGIN INIT INFO
- # Provides: crond crontab
- # Default-Start:  2345
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/init.d b/meta/recipes-extended/rpcbind/rpcbind/init.d
-index 67499aa828..63c5a5084e 100644
---- a/meta/recipes-extended/rpcbind/rpcbind/init.d
-+++ b/meta/recipes-extended/rpcbind/rpcbind/init.d
-@@ -2,6 +2,7 @@
- #
- # start/stop rpcbind daemon.
- 
-+# chkconfig: S2345 12 88
- ### BEGIN INIT INFO
- # Provides:          rpcbind
- # Required-Start:    $network
+The basic premise is that any given task no longer hashes a dependent
+task's taskhash to determine it's own taskhash, but instead hashes the
+dependent task's "dependency ID" (which doesn't strictly need to be a
+hash, but is for consistency. We can have the discussion as to whether
+this should be called a "dependency hash" if anyone wants). This allows
+multiple taskhashes to map to the same dependency ID, meaning that
+trivial changes to a recipe that would change the taskhash don't
+necessarily need to change the dependency ID, and thus don't need to
+cause downstream tasks to be rebuilt (with caveats, see below).
+
+In the absence of any interaction by the user, the dependency ID for a
+task is just that task's taskhash, which effectively maintains the
+current behavior. However, if the user enables the "OEEquivHash"
+signature generator, they can direct it to look at a hash equivalency
+server (of which a reference implementation is provided). The sstate
+code will provide the server with an output hash that it calculates, and
+the server will record all tasks with the same output hash as
+"equivalent" and report the same dependency ID for them when requested.
+When initializing tasks, bitbake can ask the server about the dependency
+ID for new tasks it has never seen before and potentially skip
+rebuilding, or restore the task from an equivalent sstate file. To
+facilitate restoring tasks from sstate, sstate objects are now named
+based on the tasks dependency ID instead of the taskhash (which, again
+has no effect if the server is in use).
+
+This patchset doesn't make any attempt to dynamically update task
+dependency IDs after bitbake initializes the tasks, and as such there
+are some cases where this isn't accelerating the build as much as it
+possibly could. I think it will be possible to add support for this, but
+this preliminary support needs to come first.
+
+Some patches have additional NOTEs that indicate places where I wasn't
+sure what to do.
+
+You can also see these patches (and my first attempts at dynamic task
+re-hashing) on the "jpew/hash-equivalence" branch in poky-contrib.
+
+As always, thanks for your feedback and time
+
+VERSION 2:
+
+At the core, this patch does the same thing as V1 with some very minor
+tweaks. The main things that have changed are:
+ 1) Per request, the Hash Equivalence Server reference implementation is
+    now based entirely on built in Python modules and requires no
+    external libraries. It also has a wrapper script to launch it
+    (bitbake-hashserv) and unittests.
+ 2) There is a major rework of persist_data in bitbake. I
+    think these patches could be submitted independently, but I doubt
+    anyone is clamoring for them. The general gist of them is that there
+    were a lot of strange edge cases that I found when using
+    persist_data as an IPC mechanism between the main bitbake process
+    and the bitbake-worker processes. I went ahead and added extensive
+    unit tests for this as well.
+
+VERSION 3:
+
+Minor tweak to version 2 that should fix timeout errors seen on the
+autobuilder
+
+Joshua Watt (17):
+  bitbake: fork: Add os.fork() wrappers
+  bitbake: persist_data: Fix leaking cursors causing deadlock
+  bitbake: persist_data: Add key constraints
+  bitbake: persist_data: Enable Write Ahead Log
+  bitbake: persist_data: Disable enable_shared_cache
+  bitbake: persist_data: Close databases across fork
+  bitbake: tests/persist_data: Add tests
+  bitbake: bitbake-worker: Pass taskhash as runtask parameter
+  bitbake: siggen: Split out stampfile hash fetch
+  bitbake: siggen: Split out task depend ID
+  bitbake: runqueue: Track task dependency ID
+  bitbake: runqueue: Pass dependency ID to task
+  bitbake: runqueue: Pass dependency ID to hash validate
+  classes/sstate: Handle depid in hash check
+  bitbake: hashserv: Add hash equivalence reference server
+  sstate: Implement hash equivalence sstate
+  classes/image-buildinfo: Remove unused argument
+
+ bitbake/bin/bitbake-hashserv         |  67 ++++++++
+ bitbake/bin/bitbake-selftest         |   3 +
+ bitbake/bin/bitbake-worker           |  11 +-
+ bitbake/lib/bb/fork.py               |  73 +++++++++
+ bitbake/lib/bb/persist_data.py       | 237 ++++++++++++++++++++-------
+ bitbake/lib/bb/runqueue.py           |  56 ++++---
+ bitbake/lib/bb/siggen.py             |  20 ++-
+ bitbake/lib/bb/tests/persist_data.py | 188 +++++++++++++++++++++
+ bitbake/lib/hashserv/__init__.py     | 152 +++++++++++++++++
+ bitbake/lib/hashserv/tests.py        | 141 ++++++++++++++++
+ meta/classes/image-buildinfo.bbclass |   6 +-
+ meta/classes/sstate.bbclass          | 102 +++++++++++-
+ meta/conf/bitbake.conf               |   4 +-
+ meta/lib/oe/sstatesig.py             | 166 +++++++++++++++++++
+ 14 files changed, 1120 insertions(+), 106 deletions(-)
+ create mode 100755 bitbake/bin/bitbake-hashserv
+ create mode 100644 bitbake/lib/bb/fork.py
+ create mode 100644 bitbake/lib/bb/tests/persist_data.py
+ create mode 100644 bitbake/lib/hashserv/__init__.py
+ create mode 100644 bitbake/lib/hashserv/tests.py
+
 -- 
-2.17.1
+2.19.1
 
 
