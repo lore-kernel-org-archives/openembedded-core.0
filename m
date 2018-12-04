@@ -1,48 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 325316C480
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F17686C492
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 12:02:39 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id b5so13987315iti.2
+	Tue,  4 Dec 2018 12:07:48 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id h65so13977197ith.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2018 04:02:41 -0800 (PST)
+	Tue, 04 Dec 2018 04:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=a5UC3QSyh7OBD9tjvfmlSb9+V2QxZU6nAjWCwleb0yI=;
-	b=UzUlrlkTlWJVVcqb0gfyJotArygpZFH15GylZcT5r0ciEUaOyuwCEvS/FQtj4aCy6c
-	tzOJ5qnbDLHXy4X8Q37p+8C5mBZ2dEfR11aQq3BMDvwE3O57r/xVm+qIvGMXCvzQrp5D
-	2RrR+QuHHIGuudS1HJ4I4CqviPtSnQ5pUMq1f0fgrTxF0Lfho8XvoqJEzztqIOgM+I+g
-	f8qp+3RYo15e83nmKljaWjLjDV9eIgmpjCygQB1hK7mWrsHtJDkHScBcZchmSQ8K4LkZ
-	WOCelUexzy7hrvqvMlwEEuzLTvxrYH++qHCmIgwjTHdV4YJA3Pf9eXsDWBDjOYJUJ7Fw
-	0f5A==
+	:cc:content-transfer-encoding;
+	bh=oG+nF2Dur2BO2VqCJjFNpHWo5mO3sj3b+T1YVbhZNJM=;
+	b=IM+3Lyr1FO6femTMyH3yKQN+pVY4FYMEvEeXJYZDOJ2+Hijk3vW9PbNozwEUABIt/f
+	s78CSplA4mSuQpjy0WT9EVq1N0PHcbNlbvoE4t+h58tR27Bhs6wJhiDmRO1oLMId7jKI
+	dT4VzUJqG7OhXeqBUinzEn+YuREemKPysVBXkhNqFgq2mL+i+FENi/eRD5CT2s0nCfI4
+	uaW8s+sneLuuHxOSxKSGb+CYti5ibIJVqW7mkf8QpWE9O5IcpIGxhynI7Vc8OSz6IyEa
+	P4nnuSpNY9isomDA2PfHE5YS2xsP7peZEXgy5+nuCupPgpm5HiplFl5tSAGG8rlIKe1k
+	4Vxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=a5UC3QSyh7OBD9tjvfmlSb9+V2QxZU6nAjWCwleb0yI=;
-	b=LU6bjxkeimksM8rrXYLs29+2pRTfyn7opzrmoThPp6KVu250u0L1dEgWuYsiTNcSiy
-	xK9RK4glTPeaXvX3gCLLXJODpNHOmvD57TsSYfEUOkUx6GLchXnVaETvDDd7Ii74QlQi
-	olJNpFB4oFGgBPEs4vO9qPqLEHbbY3Fwdg6wfTppWZ4njbnFiulQNhNEvy1tUcc5v7bk
-	BHEcNBme+LhWEhQxRBKxbadAgXTmUj0sa4lgTqt+/yehhvx5aZxFIOsgFts+VWwSUPJB
-	LCAcSa0lXpUYOL3iX977wN+jYO1DCSXhtjG++C49lB1qubwHlYTII7hqIB65KLgGEKBk
-	XO5w==
-X-Gm-Message-State: AA+aEWbclZjl0DY4XfD7PWik47HNLg5O7WRDXGNRcAOeVQZ+mqRMzklK
-	4myh22BfG/xouVOmNYp6xmLkawYc2vr0dWf3FNOfU1OS
-X-Google-Smtp-Source: AFSGD/V+Vhw5I8xOiDsv98P3ZrUf5cBg3zdtXH0fPeyzFmbi2aqcX+/L3TyCsnXSxoSZv/gtyFgVb7Xh2AlIk8D/Tts=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr10497548itj.62.1543924961095; 
-	Tue, 04 Dec 2018 04:02:41 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=oG+nF2Dur2BO2VqCJjFNpHWo5mO3sj3b+T1YVbhZNJM=;
+	b=eu7bMKdLnMYcolvt4+MWETGbHAiRsngw+D5k+jlK4SKV9oEgFbTz5PXfmeWUZlza5M
+	MDB6UEWwnTC/Lh2Rg8Ytzw91bN9xVGMb6QlIvT797LPaLO+9aNCXO7quKDGGn0H1lJ1a
+	P/SrXj/TprVXwSIhGGhAeNZMWbSY17c0LLCvMLmjVbOSSV7kryyf6Fao1aCn63O8E9Hd
+	0XEizIZ+XNXg/p0wbNDEK8gG/CgqR3230rpSpUHjQVsNopvIxDFkJ8XmbeaCtjj1FU0p
+	48VLFMmY6xWmxONaE31Ek7HHUvPZLtu0vn0whjcxGtvcmdkvu4DiE2ly65ewyF6g4m1z
+	ip6g==
+X-Gm-Message-State: AA+aEWayVBmAA7iLSvmt8+y+QDflwgRiNggUko4f3vYdT8N9Kk23TUBc
+	rNuRIJXohttdmXTfR5hLcrvTNTSkClc4ydsxCMbR1A==
+X-Google-Smtp-Source: AFSGD/VTxeoE8WdRE3IptmlBDnc3E8cuUNWGE2o1/45U47kTvbXQ1mZEAjZKzExaiasiWImyLvHQAr/d+uoG32xR/og=
+X-Received: by 2002:a02:57c4:: with SMTP id b65mr18371223jad.79.1543925269876; 
+	Tue, 04 Dec 2018 04:07:49 -0800 (PST)
 MIME-Version: 1.0
-References: <1543920528-21433-1-git-send-email-alex.kiernan@gmail.com>
-	<CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYsnuRBTeWZAStDNHzZHTnZt3+SH4XKgPydzDfrKF7yFA@mail.gmail.com>
+References: <20181203152815.6623-1-git@andred.net>
+	<CAJTo0LYwiZ57t7zZBSYO51Tn2AwObKYJ6xqBExDCKr7LLssdqg@mail.gmail.com>
+	<17942ed5-f221-9a69-62f8-828a44e097a9@windriver.com>
+	<df4c8f584913808f38116e52eb9fc9d53b9ba971.camel@andred.net>
+In-Reply-To: <df4c8f584913808f38116e52eb9fc9d53b9ba971.camel@andred.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Dec 2018 12:02:30 +0000
-Message-ID: <CAJTo0LZR+ZsT2hkszgLKELwJOQhLe=O2LV4LuTo14550QZ65xw@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 4 Dec 2018 12:07:37 +0000
+Message-ID: <CAJTo0LaYqZXM8TbvOQnz_PbswTFGvPnB9=ocYuqTVEUT2w9f1w@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-docutils: Fix shebang path to point at python3
+Subject: Re: [PATCH] util-linux: split out blkdiscard into its own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +58,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 12:02:40 -0000
+X-List-Received-Date: Tue, 04 Dec 2018 12:07:49 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Turns out we disable this functionality in distutils.  That patch
-should be fixed to do the right thing instead.
+Yep, staged already.
 
 Ross
-On Tue, 4 Dec 2018 at 11:43, Burton, Ross <ross.burton@intel.com> wrote:
+On Tue, 4 Dec 2018 at 08:49, Andr=C3=A9 Draszik <git@andred.net> wrote:
 >
-> Interestingly if you build docutils outside of bitbake, the hashbangs
-> get rewritten automatically as part of the build...
-> On Tue, 4 Dec 2018 at 10:49, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> Hi,
+>
+> I'd be happy to work on that, but I won't have time to do so until someti=
+me
+> early next year...
+>
+> Can this patch be applied in the meantime nevertheless please?
+>
+>
+> Cheers,
+> Andre'
+>
+>
+> On Tue, 2018-12-04 at 10:04 +0800, ChenQi wrote:
+> > I think this is a good idea. I opened a new bug in bugzilla to track it=
+,
+> > and assigned it to myself.
+> > Ross, please check the bug description to see if that's what you want.
+> > Andre, if you want to work on it, take the bug and let me know.
 > >
-> > By default we get a shebang path pointing at python; when building the
-> > python3 version, ensure we use python3.
+> > Best Regards,
+> > Chen Qi
 > >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
+> > On 12/04/2018 12:40 AM, Burton, Ross wrote:
+> > > When do we just programatically split instead of doing it piece by
+> > > piece? :)
+> > >
+> > > Ross
+> > > On Mon, 3 Dec 2018 at 15:28, Andr=C3=A9 Draszik <git@andred.net> wrot=
+e:
+> > > > From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> > > >
+> > > > For systems that don't otherwise depend on the full
+> > > > util-linux package, blkdiscard is a mere 18k (on
+> > > > cortexa7t2hf-neon).
+> > > >
+> > > > Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> > > > ---
+> > > >   meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+> > > >   1 file changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/meta/recipes-core/util-linux/util-linux.inc
+> > > > b/meta/recipes-core/util-linux/util-linux.inc
+> > > > index a05c1cabbe..b5f77f7b6b 100644
+> > > > --- a/meta/recipes-core/util-linux/util-linux.inc
+> > > > +++ b/meta/recipes-core/util-linux/util-linux.inc
+> > > > @@ -27,7 +27,7 @@ DEPENDS_append_class-nativesdk =3D " lzo-native"
+> > > >   SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-
+> > > > linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+> > > >              "
+> > > >
+> > > > -PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdis=
+k
+> > > > util-linux-sfdisk \
+> > > > +PACKAGES =3D+ "util-linux-agetty util-linux-blkdiscard util-linux-=
+fdisk
+> > > > util-linux-cfdisk util-linux-sfdisk \
+> > > >                util-linux-swaponoff util-linux-losetup util-linux-
+> > > > umount \
+> > > >                util-linux-mount util-linux-readprofile util-linux-
+> > > > uuidd \
+> > > >                util-linux-uuidgen util-linux-lscpu util-linux-
+> > > > fsck.cramfs util-linux-fsck \
+> > > > @@ -74,6 +74,7 @@ FILES_${PN}-doc +=3D "${datadir}/getopt/getopt-*.=
+*"
+> > > >   FILES_${PN}-dev +=3D
+> > > > "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+> > > >
+> > > >   FILES_util-linux-agetty =3D "${base_sbindir}/agetty"
+> > > > +FILES_util-linux-blkdiscard =3D "${sbindir}/blkdiscard"
+> > > >   FILES_util-linux-fdisk =3D "${base_sbindir}/fdisk.${BPN}"
+> > > >   FILES_util-linux-fstrim =3D "${base_sbindir}/fstrim.${BPN}"
+> > > >   FILES_util-linux-cfdisk =3D "${base_sbindir}/cfdisk"
+> > > > @@ -126,7 +127,7 @@ RDEPENDS_util-linux-su +=3D "libpam"
+> > > >   RDEPENDS_${PN} =3D "util-linux-umount util-linux-swaponoff util-l=
+inux-
+> > > > losetup util-linux-sulogin util-linux-lsblk"
+> > > >   RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pam=
+',
+> > > > 'util-linux-runuser util-linux-su', '', d)}"
+> > > >
+> > > > -RRECOMMENDS_${PN} =3D "util-linux-fdisk util-linux-cfdisk util-lin=
+ux-
+> > > > sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util=
+-
+> > > > linux-mountpoint util-linux-prlimit util-linux-ionice util-linux-
+> > > > switch-root"
+> > > > +RRECOMMENDS_${PN} =3D "util-linux-blkdiscard util-linux-fdisk util=
+-
+> > > > linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprof=
+ile
+> > > > util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux=
+-
+> > > > ionice util-linux-switch-root"
+> > > >
+> > > >   RRECOMMENDS_${PN}_class-native =3D ""
+> > > >   RRECOMMENDS_${PN}_class-nativesdk =3D ""
+> > > > --
+> > > > 2.20.0.rc1
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > >
-> >  meta/recipes-devtools/python/python3-docutils_0.14.bb | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/meta/recipes-devtools/python/python3-docutils_0.14.bb b/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> > index 81a449d64604..a2880a9601d7 100644
-> > --- a/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> > +++ b/meta/recipes-devtools/python/python3-docutils_0.14.bb
-> > @@ -14,5 +14,8 @@ S = "${WORKDIR}/docutils-${PV}"
-> >
-> >  inherit distutils3
-> >
-> > -BBCLASSEXTEND = "native"
-> > +do_install_append() {
-> > +    sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' ${D}${bindir}/*
-> > +}
-> >
-> > +BBCLASSEXTEND = "native"
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
