@@ -1,49 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 21745600B3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D7E0600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Dec 2018 04:51:45 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id g62so7560895pfd.12
+	Tue,  4 Dec 2018 04:57:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wB44vq23023944
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2018 20:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=b1+T4agqtjysBqTNDQqLUPo+x/W4AdrJzSISsnUcxfA=;
-	b=tpUXX4rOPJt4PuZazi+gMx87mwsTXMLxmedWghbyTi596UJ+zCwszaRGoe8NTgYqw2
-	PhqlZ4zQdjMqZk38QfgZzWVt5oaTTYZratacpARtu2ZnBqsu3T0gYiohCvWHc23YSZgJ
-	qPXFoufBTBbzc0mP1gq0inGXVK93qH0ueFcPIz3SbHHwqSYbtBJxVGBc+V2tz2ZaRcrX
-	ZHrh8+2DWj9m80eYweJOwvAA7Pj0QDxI9vdpV/HBburdlqbSzp5zORpibC85IDxuImKQ
-	0i293jX1tdtMBNj5GrfDWpSYCL8HfC+/9cOD+2OkwWOp6VjTkJBkWNK9RuxYwpTT2XOu
-	7MbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=b1+T4agqtjysBqTNDQqLUPo+x/W4AdrJzSISsnUcxfA=;
-	b=PdUkz5qtGLvzBCvsTyreWmfT2rN5WjO216xJLRUgNdM688bFBFAiwQkMqEdrnnBlVT
-	YSygYVIomsHFY82zl828jDDzGZ4hx7Cpvo3pKgKmFUJ5XmxlyneKgt9HRYW1uP73hrm3
-	oszXt7UJroG1sU5dHfSuV5mjYDdyc5UJh49NwnYjWdJel9+3I59WLnUXkfcPbNmwl74d
-	qmKEBLRJ+VXlM5ZiAOrUVEpRIsHbFwSjlPHWf0NAt9AR74yJjTbKNWvrQELINR+zoZxm
-	mdv4Lyb18QAvJ/W9zB+ZOh5E4sptIR7FIDfjQHBu9RdxxJqAmmCA7qTybDWuoZIaWpzN
-	OyDg==
-X-Gm-Message-State: AA+aEWa+HhWmmD2/ZUyggbKQp8lG3LTDHKTOvWArLST1Mps9Ll8+R7Ed
-	w/AFw3+Zym2/jsiK5/EYbC8e1MsoE6k=
-X-Google-Smtp-Source: AFSGD/WOapYQd3UlEdx2TpmUSTs9nPR2tXvOqw+SCddnwN/qMDeQUwtxCXkZlmn5I61AUczSZFLFfw==
-X-Received: by 2002:a62:7796:: with SMTP id s144mr18596650pfc.26.1543899106372;
-	Mon, 03 Dec 2018 20:51:46 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::5f84])
-	by smtp.gmail.com with ESMTPSA id v2sm16058914pgs.0.2018.12.03.20.51.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Dec 2018 20:51:45 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Dec 2018 20:51:35 -0800
-Message-Id: <20181204045135.24221-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.2
+	Mon, 3 Dec 2018 20:57:52 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 3 Dec 2018 20:57:51 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Dec 2018 13:04:46 +0800
+Message-ID: <f7c5083f7a1f59bacdd55d166bb9fef20e578c8e.1543899860.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1543899860.git.Qi.Chen@windriver.com>
+References: <cover.1543899860.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] valgrind: Skip vgpreload_memcheck shared object from stripping
+Subject: [PATCH 1/1] testimage: fix boolean checking for QEMU_USE_KVM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2018 04:51:46 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Dec 2018 04:57:51 -0000
+Content-Type: text/plain
 
-This is a special library for memcheck tool, where it needs to have the
-symbols intact for the stack traces to work on target, current option is
-to install valgrind-dbg ( 151 MB uncompressed ) is quite big for some
-systems which may not have space to install it all. Leaving it
-unstripped adds about 200KB to image which is much better, this alone
-gets memcheck working, as an aside we might need same solution for other
-tools e.g. helgrind etc. when needed, they also have leading libraries
-installed
+If QEMU_USE_KVM is set to a list of machines, when doing testimage
+for a machine outside the list, we will get the following error.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  Exception: ValueError: Invalid boolean value 'intel-corei7-64 intel-core2-32 qemux86 qemux86-64'
+
+This is because oe.types.boolean raises error if the parameter
+is not values like 'true', 'false', etc.
+
+Fix the boolean checking to avoid the exception.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.14.0.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/classes/testimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-index 97e58a446a..50f8221ebb 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-@@ -96,6 +96,19 @@ do_install_append () {
- 
- TUNE = "${@strip_mcpu(d)}"
- 
-+VALGRINDARCH ?= "${TARGET_ARCH}"
-+VALGRINDARCH_aarch64 = "arm64"
-+VALGRINDARCH_x86-64 = "amd64"
-+VALGRINDARCH_x86 = "x86"
-+VALGRINDARCH_mips = "mips32"
-+VALGRINDARCH_mipsel = "mips32"
-+VALGRINDARCH_mips64el = "mips64"
-+VALGRINDARCH_powerpc = "ppc"
-+VALGRINDARCH_powerpc64 = "ppc64"
-+VALGRINDARCH_powerpc64el = "ppc64le"
-+
-+INHIBIT_PACKAGE_STRIP_FILES = "${PKGD}${libdir}/valgrind/vgpreload_memcheck-${VALGRINDARCH}-linux.so"
-+
- RDEPENDS_${PN} += "perl"
- 
- # valgrind needs debug information for ld.so at runtime in order to
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 82cbb06..80e457b 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -231,7 +231,7 @@ def testimage_main(d):
+     qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+     if qemu_use_kvm and \
+        (d.getVar('MACHINE') in qemu_use_kvm.split() or \
+-        oe.types.boolean(qemu_use_kvm) and 'x86' in machine):
++        qemu_use_kvm.lower() in ('yes', 'y', 'true', 't', '1') and 'x86' in machine):
+         kvm = True
+     else:
+         kvm = False
 -- 
-2.19.2
+1.9.1
 
 
