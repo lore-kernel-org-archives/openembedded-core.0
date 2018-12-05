@@ -1,30 +1,23 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98EA46D44F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF7C6C48C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 08:13:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB58Ctbw026969
+	Wed,  5 Dec 2018 08:33:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wB58XYnq020092
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2018 00:13:05 -0800
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 5 Dec 2018 00:12:44 -0800
+	Wed, 5 Dec 2018 00:33:35 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 5 Dec 2018 00:33:28 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1540272138-339071-1-git-send-email-changqing.li@windriver.com>
-	<ccc4992b-4111-b696-1139-675263f2472c@windriver.com>
-	<c26db0f5-d8c0-acb6-e313-bc94c3519081@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <8587a5ec-3d67-0d31-38d9-76f278a11acc@windriver.com>
-Date: Wed, 5 Dec 2018 16:12:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+Date: Wed, 5 Dec 2018 16:40:42 +0800
+Message-ID: <cover.1543996242.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <c26db0f5-d8c0-acb6-e313-bc94c3519081@windriver.com>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH] python/python3: use cc_basename to replace CC for checking compiler
+Subject: [PATCH 0/4] Upgrade sudo, cups, sysstat, at
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,381 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 08:13:14 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 05 Dec 2018 08:33:34 -0000
+Content-Type: text/plain
 
-ping
+The following changes since commit 016e3dda2d6acc9b457079d11b5346a5352a431d:
 
-On 11/22/18 3:30 PM, Changqing Li wrote:
-> Ping
->
-> On 11/8/18 9:49 AM, Changqing Li wrote:
->> Ping
->>
->> On 10/23/18 1:22 PM, changqing.li@windriver.com wrote:
->>> From: Changqing Li <changqing.li@windriver.com>
->>>
->>> When working path contains "clang"/"gcc"/"icc", it might be part of $CC
->>> because of the "--sysroot" parameter. That could cause judgement error
->>> about clang/gcc/icc compilers.
->>>
->>> eg: if build under /yocto/builds/xicc/,  bitbake python,  $CC will 
->>> contains
->>> xicc, will make $CC match *icc, but actuall xicc just folder name.
->>>
->>> When "*icc" is matched, below errors are reported when
->>> compiling python/python3:
->>> x86_64-wrs-linux-gcc: error: strict: No such file or directory
->>> x86_64-wrs-linux-gcc: error: unrecognized command line option 
->>> '-fp-model'
->>>
->>> Here use cc_basename to replace CC for checking compiler to avoid such
->>> kind of issue.
->>>
->>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
->>>
->>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->>> ---
->>>   ...-cc_basename-to-replace-CC-for-checking-c.patch | 114 
->>> +++++++++++++++++
->>>   ...-cc_basename-to-replace-CC-for-checking-c.patch | 140 
->>> +++++++++++++++++++++
->>>   meta/recipes-devtools/python/python3_3.5.6.bb      |   1 +
->>>   meta/recipes-devtools/python/python_2.7.15.bb      |   1 +
->>>   4 files changed, 256 insertions(+)
->>>   create mode 100644 
->>> meta/recipes-devtools/python/python/0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch
->>>   create mode 100644 
->>> meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
->>>
->>> diff --git 
->>> a/meta/recipes-devtools/python/python/0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>> b/meta/recipes-devtools/python/python/0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>>
->>> new file mode 100644
->>> index 0000000..6e4f820
->>> --- /dev/null
->>> +++ 
->>> b/meta/recipes-devtools/python/python/0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch
->>> @@ -0,0 +1,114 @@
->>> +From 3f49be81e31c164654aeb10b65ebade982ca2ed8 Mon Sep 17 00:00:00 2001
->>> +From: Changqing Li <changqing.li@windriver.com>
->>> +Date: Mon, 22 Oct 2018 15:24:48 +0800
->>> +Subject: [PATCH] python2: use cc_basename to replace CC for 
->>> checking compiler
->>> +
->>> +When working path contains "clang"/"gcc"/"icc", it might be part of 
->>> $CC
->>> +because of the "--sysroot" parameter. That could cause judgement error
->>> +about clang/gcc/icc compilers. e.g.
->>> +When "icc" is containded in working path, below errors are reported 
->>> when
->>> +compiling python:
->>> +x86_64-wrs-linux-gcc: error: strict: No such file or directory
->>> +x86_64-wrs-linux-gcc: error: unrecognized command line option 
->>> '-fp-model'
->>> +
->>> +Here use cc_basename to replace CC for checking compiler to avoid such
->>> +kind of issue.
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
->>> +
->>> +Patch orignally from Li Zhou, I just rework it to new version
->>> +
->>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
->>> +---
->>> + configure.ac | 18 +++++++++---------
->>> + 1 file changed, 9 insertions(+), 9 deletions(-)
->>> +
->>> +diff --git a/configure.ac b/configure.ac
->>> +index db1c940..dfcd89a 100644
->>> +--- a/configure.ac
->>> ++++ b/configure.ac
->>> +@@ -684,7 +684,7 @@ AC_MSG_RESULT($with_cxx_main)
->>> + preset_cxx="$CXX"
->>> + if test -z "$CXX"
->>> + then
->>> +-        case "$CC" in
->>> ++        case "$cc_basename" in
->>> +         gcc)    AC_PATH_TOOL(CXX, [g++], [g++], [notfound]) ;;
->>> +         cc)     AC_PATH_TOOL(CXX, [c++], [c++], [notfound]) ;;
->>> +         esac
->>> +@@ -757,14 +757,14 @@ rmdir CaseSensitiveTestDir
->>> +
->>> + case $MACHDEP in
->>> + bsdos*)
->>> +-    case $CC in
->>> ++    case $cc_basename in
->>> +     gcc) CC="$CC -D_HAVE_BSDI";;
->>> +     esac;;
->>> + esac
->>> +
->>> + case $ac_sys_system in
->>> + hp*|HP*)
->>> +-    case $CC in
->>> ++    case $cc_basename in
->>> +     cc|*/cc) CC="$CC -Ae";;
->>> +     esac;;
->>> + SunOS*)
->>> +@@ -1084,7 +1084,7 @@ then
->>> +         fi
->>> +
->>> +         # Clang also needs -fwrapv
->>> +-        case $CC in
->>> ++        case $cc_basename in
->>> +             *clang*) WRAP="-fwrapv"
->>> +             ;;
->>> +         esac
->>> +@@ -1304,7 +1304,7 @@ yes)
->>> + esac
->>> +
->>> + # ICC needs -fp-model strict or floats behave badly
->>> +-case "$CC" in
->>> ++case "$cc_basename" in
->>> + *icc*)
->>> +     BASECFLAGS="$BASECFLAGS -fp-model strict"
->>> +     ;;
->>> +@@ -1443,7 +1443,7 @@ else
->>> + fi],
->>> + [AC_MSG_RESULT(no)])
->>> + if test "$Py_LTO" = 'true' ; then
->>> +-  case $CC in
->>> ++  case $cc_basename in
->>> +     *clang*)
->>> +       # Any changes made here should be reflected in the 
->>> GCC+Darwin case below
->>> +       LTOFLAGS="-flto"
->>> +@@ -1508,7 +1508,7 @@ then
->>> +   fi
->>> + fi
->>> + LLVM_PROF_ERR=no
->>> +-case $CC in
->>> ++case $cc_basename in
->>> +   *clang*)
->>> +     # Any changes made here should be reflected in the GCC+Darwin 
->>> case below
->>> +     PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
->>> +@@ -2322,7 +2322,7 @@ then
->>> +         then CCSHARED="-fPIC"
->>> +         else CCSHARED="-Kpic -belf"
->>> +         fi;;
->>> +-    IRIX*/6*)  case $CC in
->>> ++    IRIX*/6*)  case $cc_basename in
->>> +            *gcc*) CCSHARED="-shared";;
->>> +            *) CCSHARED="";;
->>> +            esac;;
->>> +@@ -2366,7 +2366,7 @@ then
->>> +         then
->>> +             LINKFORSHARED="-Wl,--export-dynamic"
->>> +         fi;;
->>> +-    SunOS/5*) case $CC in
->>> ++    SunOS/5*) case $cc_basename in
->>> +           *gcc*)
->>> +             if $CC -Xlinker --help 2>&1 | grep export-dynamic 
->>> >/dev/null
->>> +             then
->>> +--
->>> +2.7.4
->>> +
->>> diff --git 
->>> a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>> b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>>
->>> new file mode 100644
->>> index 0000000..ae47366
->>> --- /dev/null
->>> +++ 
->>> b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
->>> @@ -0,0 +1,140 @@
->>> +From 564a5cc634028970dc2f9d8ecc0e464a4fb1dcb6 Mon Sep 17 00:00:00 2001
->>> +From: Changqing Li <changqing.li@windriver.com>
->>> +Date: Mon, 22 Oct 2018 15:19:51 +0800
->>> +Subject: [PATCH] python3: use cc_basename to replace CC for 
->>> checking compiler
->>> +
->>> +When working path contains "clang"/"gcc"/"icc", it might be part of 
->>> $CC
->>> +because of the "--sysroot" parameter. That could cause judgement error
->>> +about clang/gcc/icc compilers. e.g.
->>> +When "icc" is containded in working path, below errors are reported 
->>> when
->>> +compiling python3:
->>> +x86_64-wrs-linux-gcc: error: strict: No such file or directory
->>> +x86_64-wrs-linux-gcc: error: unrecognized command line option 
->>> '-fp-model'
->>> +
->>> +Here use cc_basename to replace CC for checking compiler to avoid such
->>> +kind of issue.
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
->>> +
->>> +patch originally from Li Zhou, I just rework it to new version
->>> +
->>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
->>> +---
->>> + configure.ac | 23 ++++++++++++-----------
->>> + 1 file changed, 12 insertions(+), 11 deletions(-)
->>> +
->>> +diff --git a/configure.ac b/configure.ac
->>> +index 95c98d1..1b9589e 100644
->>> +--- a/configure.ac
->>> ++++ b/configure.ac
->>> +@@ -54,6 +54,7 @@ AC_CONFIG_HEADER(pyconfig.h)
->>> + AC_CANONICAL_HOST
->>> + AC_SUBST(build)
->>> + AC_SUBST(host)
->>> ++LT_INIT
->>> +
->>> + # pybuilddir.txt will be created by --generate-posix-vars in the 
->>> Makefile
->>> + rm -f pybuilddir.txt
->>> +@@ -716,7 +717,7 @@ AC_MSG_RESULT($with_cxx_main)
->>> + preset_cxx="$CXX"
->>> + if test -z "$CXX"
->>> + then
->>> +-        case "$CC" in
->>> ++        case "$cc_basename" in
->>> +         gcc)    AC_PATH_TOOL(CXX, [g++], [g++], [notfound]) ;;
->>> +         cc)     AC_PATH_TOOL(CXX, [c++], [c++], [notfound]) ;;
->>> +         clang|*/clang)     AC_PATH_TOOL(CXX, [clang++], [clang++], 
->>> [notfound]) ;;
->>> +@@ -978,14 +979,14 @@ rmdir CaseSensitiveTestDir
->>> +
->>> + case $MACHDEP in
->>> + bsdos*)
->>> +-    case $CC in
->>> ++    case $cc_basename in
->>> +     gcc) CC="$CC -D_HAVE_BSDI";;
->>> +     esac;;
->>> + esac
->>> +
->>> + case $ac_sys_system in
->>> + hp*|HP*)
->>> +-    case $CC in
->>> ++    case $cc_basename in
->>> +     cc|*/cc) CC="$CC -Ae";;
->>> +     esac;;
->>> + esac
->>> +@@ -1310,7 +1311,7 @@ else
->>> + fi],
->>> + [AC_MSG_RESULT(no)])
->>> + if test "$Py_LTO" = 'true' ; then
->>> +-  case $CC in
->>> ++  case $cc_basename in
->>> +     *clang*)
->>> +       # Any changes made here should be reflected in the 
->>> GCC+Darwin case below
->>> +       LTOFLAGS="-flto"
->>> +@@ -1374,7 +1375,7 @@ then
->>> +   fi
->>> + fi
->>> + LLVM_PROF_ERR=no
->>> +-case $CC in
->>> ++case $cc_basename in
->>> +   *clang*)
->>> +     # Any changes made here should be reflected in the GCC+Darwin 
->>> case below
->>> +     PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
->>> +@@ -1451,7 +1452,7 @@ then
->>> +            WRAP="-fwrapv"
->>> +         fi
->>> +
->>> +-        case $CC in
->>> ++        case $cc_basename in
->>> +             *clang*)
->>> +                 cc_is_clang=1
->>> +                 ;;
->>> +@@ -1553,7 +1554,7 @@ yes)
->>> +
->>> +     # ICC doesn't recognize the option, but only emits a warning
->>> +     ## XXX does it emit an unused result warning and can it be 
->>> disabled?
->>> +-    case "$CC" in
->>> ++    case "$cc_basename" in
->>> +     *icc*)
->>> +     ac_cv_disable_unused_result_warning=no
->>> +     ;;
->>> +@@ -1808,7 +1809,7 @@ yes)
->>> + esac
->>> +
->>> + # ICC needs -fp-model strict or floats behave badly
->>> +-case "$CC" in
->>> ++case "$cc_basename" in
->>> + *icc*)
->>> +     CFLAGS_NODIST="$CFLAGS_NODIST -fp-model strict"
->>> +     ;;
->>> +@@ -2574,7 +2575,7 @@ then
->>> +         then CCSHARED="-fPIC"
->>> +         else CCSHARED="-Kpic -belf"
->>> +         fi;;
->>> +-    IRIX*/6*)  case $CC in
->>> ++    IRIX*/6*)  case $cc_basename in
->>> +            *gcc*) CCSHARED="-shared";;
->>> +            *) CCSHARED="";;
->>> +            esac;;
->>> +@@ -2615,7 +2616,7 @@ then
->>> +         then
->>> +             LINKFORSHARED="-Wl,--export-dynamic"
->>> +         fi;;
->>> +-    SunOS/5*) case $CC in
->>> ++    SunOS/5*) case $cc_basename in
->>> +           *gcc*)
->>> +             if $CC -Xlinker --help 2>&1 | grep export-dynamic 
->>> >/dev/null
->>> +             then
->>> +@@ -5187,7 +5188,7 @@ if test "$have_gcc_asm_for_x87" = yes; then
->>> +     # Some versions of gcc miscompile inline asm:
->>> +     # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
->>> +     # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
->>> +-    case $CC in
->>> ++    case $cc_basename in
->>> +         *gcc*)
->>> +             AC_MSG_CHECKING(for gcc ipa-pure-const bug)
->>> +             saved_cflags="$CFLAGS"
->>> +--
->>> +2.7.4
->>> +
->>> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb 
->>> b/meta/recipes-devtools/python/python3_3.5.6.bb
->>> index 2a45476..944d6f3 100644
->>> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
->>> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
->>> @@ -45,6 +45,7 @@ SRC_URI += "\
->>> file://0004-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976.patch \
->>> file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
->>>               file://run-ptest \
->>> + 
->>> file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>> \
->>>              "
->>>     inherit multilib_header python3native update-alternatives qemu 
->>> ptest
->>> diff --git a/meta/recipes-devtools/python/python_2.7.15.bb 
->>> b/meta/recipes-devtools/python/python_2.7.15.bb
->>> index dd969d8..f50b43a 100644
->>> --- a/meta/recipes-devtools/python/python_2.7.15.bb
->>> +++ b/meta/recipes-devtools/python/python_2.7.15.bb
->>> @@ -33,6 +33,7 @@ SRC_URI += "\
->>>     file://float-endian.patch \
->>> file://0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch 
->>> \
->>> file://0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch 
->>> \
->>> + 
->>> file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch 
->>> \
->>>   "
->>>     S = "${WORKDIR}/Python-${PV}"
->>
+  btrfs-tools: update to 4.19 (2018-12-03 12:20:01 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/PU
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU
+
+Chen Qi (4):
+  sudo: upgrade to 1.8.26
+  cups: upgrade to 2.2.9
+  sysstat: upgrade to 12.1.1
+  at: upgrade to 3.1.23
+
+ .../at/at/fix_parallel_build_error.patch           | 15 +++++---
+ meta/recipes-extended/at/at/pam.conf.patch         | 40 +++++++++++++---------
+ .../at/{at_3.1.20.bb => at_3.1.23.bb}              |  6 ++--
+ .../0001-don-t-try-to-run-generated-binaries.patch | 29 ++++++++--------
+ .../cups/{cups_2.2.8.bb => cups_2.2.9.bb}          |  4 +--
+ meta/recipes-extended/sudo/sudo.inc                |  7 ++--
+ .../sudo/{sudo_1.8.23.bb => sudo_1.8.26.bb}        |  4 +--
+ .../{sysstat_11.7.4.bb => sysstat_12.1.1.bb}       |  4 +--
+ 8 files changed, 63 insertions(+), 46 deletions(-)
+ rename meta/recipes-extended/at/{at_3.1.20.bb => at_3.1.23.bb} (90%)
+ rename meta/recipes-extended/cups/{cups_2.2.8.bb => cups_2.2.9.bb} (40%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.23.bb => sudo_1.8.26.bb} (91%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.7.4.bb => sysstat_12.1.1.bb} (53%)
+
 -- 
-BRs
-
-Sandy(Li Changqing)
+1.9.1
 
 
