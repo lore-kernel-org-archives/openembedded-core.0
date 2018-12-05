@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DFE06C48C
+	by mail.openembedded.org (Postfix) with ESMTP id B9C776D409
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 08:33:36 +0000 (UTC)
+	Wed,  5 Dec 2018 08:34:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wB58XakI017753
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wB58Y5tW017756
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2018 00:33:37 -0800 (PST)
+	Wed, 5 Dec 2018 00:34:05 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 5 Dec 2018 00:33:36 -0800
+	14.3.408.0; Wed, 5 Dec 2018 00:34:04 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Dec 2018 16:40:43 +0800
-Message-ID: <0204ef5a9e27731b04e7f7e31733b188d187e037.1543996242.git.Qi.Chen@windriver.com>
+Date: Wed, 5 Dec 2018 16:40:46 +0800
+Message-ID: <86b5c2cc2559cac15d914d05d15e8f58e188a547.1543996242.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1543996242.git.Qi.Chen@windriver.com>
 References: <cover.1543996242.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] sudo: upgrade to 1.8.26
+Subject: [PATCH 4/4] at: upgrade to 3.1.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +32,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 08:33:36 -0000
+X-List-Received-Date: Wed, 05 Dec 2018 08:34:03 -0000
 Content-Type: text/plain
 
-License-Update: include more files to check, but license remains the same.
+The following patches are rebased.
+
+  fix_parallel_build_error.patch
+  pam.conf.patch
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                           | 7 +++++--
- meta/recipes-extended/sudo/{sudo_1.8.23.bb => sudo_1.8.26.bb} | 4 ++--
- 2 files changed, 7 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.23.bb => sudo_1.8.26.bb} (91%)
+ .../at/at/fix_parallel_build_error.patch           | 15 +++++---
+ meta/recipes-extended/at/at/pam.conf.patch         | 40 +++++++++++++---------
+ .../at/{at_3.1.20.bb => at_3.1.23.bb}              |  6 ++--
+ 3 files changed, 37 insertions(+), 24 deletions(-)
+ rename meta/recipes-extended/at/{at_3.1.20.bb => at_3.1.23.bb} (90%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 69dccde..7565503 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,8 +4,8 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
--                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=45f9838a00199411eb97075c1e6a3102 \
-+                    file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=4a162fc04b86b03f5632180fe6076cda \
-                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-@@ -13,6 +13,9 @@ LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
-                     file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
-                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-                     file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
-+                    file://lib/util/arc4random.c;beginline=3;endline=20;md5=15bdc89c1b003fa4d7353e6296ebfd68 \
-+                    file://lib/util/arc4random_uniform.c;beginline=3;endline=17;md5=31e630ac814d692fd0ab7a942659b46f \
-+                    file://lib/util/getentropy.c;beginline=1;endline=19;md5=9f1a275ecd44cc264a2a4d5e06a75292 \
-                     "
+diff --git a/meta/recipes-extended/at/at/fix_parallel_build_error.patch b/meta/recipes-extended/at/at/fix_parallel_build_error.patch
+index 100f889..30d2324 100644
+--- a/meta/recipes-extended/at/at/fix_parallel_build_error.patch
++++ b/meta/recipes-extended/at/at/fix_parallel_build_error.patch
+@@ -1,3 +1,8 @@
++From 24ef2a6544f9c7ec01bc7ae73dffa2974a1e251d Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Wed, 5 Dec 2018 09:46:22 +0800
++Subject: [PATCH] fix parallel build error
++
+ make -j was failing sometimesa like this
+ | ccache i586-poky-linux-gcc -march=i586 --sysroot=/home/nitin/build/build0/tmp/sysroots/i586-poky-linux -I. -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types -o atd atd.o daemon.o  -lfl  -lpam -Wl,-O1 -Wl,--as-needed
+ | parsetime.l:5:19: fatal error: y.tab.h: No such file or directory
+@@ -12,24 +17,24 @@ Nitin <nitin.a.kamble@intel.com>
+ Upstream-Status: Pending
  
- inherit autotools
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.23.bb b/meta/recipes-extended/sudo/sudo_1.8.26.bb
-similarity index 91%
-rename from meta/recipes-extended/sudo/sudo_1.8.23.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.26.bb
-index ce32bd1..7823675 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.23.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.26.bb
-@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ ---
+  Makefile.in | 2 ++
+  1 file changed, 2 insertions(+)
  
- PAM_SRC_URI = "file://sudo.pam"
+ diff --git a/Makefile.in b/Makefile.in
+-index dd3c2f8..7897e45 100644
++index 4c11913..18ecc23 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -82,6 +82,8 @@ y.tab.c y.tab.h: parsetime.y
++@@ -83,6 +83,8 @@ y.tab.c y.tab.h: parsetime.y
+  lex.yy.c: parsetime.l
+  	$(LEX) -i parsetime.l
+  
+ +parsetime.l: y.tab.h
+ +
+  atd.service: atd.service.in
+- 	sed -e 's![@]sbindir[@]!$(sbindir)!g' < $< > $@
++ 	cat $< | sed -e 's![@]sbindir[@]!$(sbindir)!g' | sed -e 's![@]atjobdir[@]!$(atjobdir)!g' > $@
+  
+ -- 
+-1.9.1
++2.7.4
  
--SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
--SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
-+SRC_URI[md5sum] = "833084947d98e7745b94845f4b7a8a9a"
-+SRC_URI[sha256sum] = "40da219a6f0341ccb22d04a98988e27f09b831d2561b14c6154067a49ef3fee2"
+diff --git a/meta/recipes-extended/at/at/pam.conf.patch b/meta/recipes-extended/at/at/pam.conf.patch
+index b5ceb9a..c9f337e 100644
+--- a/meta/recipes-extended/at/at/pam.conf.patch
++++ b/meta/recipes-extended/at/at/pam.conf.patch
+@@ -1,27 +1,35 @@
++From 8c8a0b6ba199327d2eafefd6611353e1c483a854 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Wed, 5 Dec 2018 10:00:36 +0800
++Subject: [PATCH] fix pam.conf
++
+ oe doesn't support "@include", use the concrete directive instead.
  
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-Index: at-3.1.15/pam.conf
+-===================================================================
+---- at-3.1.15.orig/pam.conf
+-+++ at-3.1.15/pam.conf
+-@@ -1,10 +1,11 @@
+- #
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ pam.conf | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/pam.conf b/pam.conf
++index 3674c0a..2f8d586 100644
++--- a/pam.conf
+++++ b/pam.conf
++@@ -2,9 +2,9 @@
+  # The PAM configuration file for the at daemon
+  #
+-+ 
+-+auth    required    pam_env.so
+-+auth    include     common-auth
+-+account include     common-account
+-+session include     common-session-noninteractive
+-+session required    pam_limits.so
+-+session required    pam_loginuid.so
+  
+--auth	required	pam_env.so
+ -@include common-auth
+ -@include common-account
+--session    required   pam_loginuid.so
+++auth       include    common-auth
+++acount     include    common-account
++ session    required   pam_loginuid.so
+ -@include common-session-noninteractive
+--session    required   pam_limits.so
+++session    include    common-session-noninteractive
++ session    required   pam_limits.so
++ auth	required	pam_env.so user_readenv=1
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/at/at_3.1.20.bb b/meta/recipes-extended/at/at_3.1.23.bb
+similarity index 90%
+rename from meta/recipes-extended/at/at_3.1.20.bb
+rename to meta/recipes-extended/at/at_3.1.23.bb
+index b76e83d..b74882d 100644
+--- a/meta/recipes-extended/at/at_3.1.20.bb
++++ b/meta/recipes-extended/at/at_3.1.23.bb
+@@ -22,7 +22,7 @@ PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
+ RCONFLICTS_${PN} = "atd"
+ RREPLACES_${PN} = "atd"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20180825T090248Z/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
+     file://fix_parallel_build_error.patch \
+     file://posixtm.c \
+     file://posixtm.h \
+@@ -37,8 +37,8 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/
+ PAM_SRC_URI = "file://pam.conf.patch \
+                file://configure-add-enable-pam.patch"
+ 
+-SRC_URI[md5sum] = "e7bd7b785b2cbb17e133d6bdc0fb099e"
+-SRC_URI[sha256sum] = "0871923cab73050b98ace020664eb2ddc1e669e4166b5abb64d864d02fcefab9"
++SRC_URI[md5sum] = "1cec945506b5ddf1d776c92c315fc581"
++SRC_URI[sha256sum] = "97450aa954aaa8a70218cc8e61a33df9fee9f86527e9f861de302fb7a3c81710"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/at/"
+ 
 -- 
 1.9.1
 
