@@ -1,26 +1,18 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 95A7A745B4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 13:02:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB5D1F4m002601
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2018 05:01:56 -0800
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 5 Dec 2018 05:01:52 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Dec 2018 08:00:55 -0500
-Message-ID: <7b9d6a806450eef1089958dff7b74097c0205046.1544014163.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.19.0.rc2
-In-Reply-To: <cover.1544014163.git.kai.kang@windriver.com>
-References: <cover.1544014163.git.kai.kang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 003916D458;
+	Wed,  5 Dec 2018 13:03:14 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/3] image.bbclass: respect PACKAGE_NO_GCONV
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 05 Dec 2018 13:03:16 -0000
+Message-ID: <20181205130316.2334.61710@do>
+References: <20181205123319.10452-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181205123319.10452-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYi9vZS91dGlsczogSW1wcm92ZSBtdWx0aXByby4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 13:02:05 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Dec 2018 13:03:15 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+== Series Details ==
 
-It installs locale-base-* packages according to var IMAGE_LINGUAS.
-Packages locale-base-* are split in libc-package.bbclass if variable
-PACKAGE_NO_GCONV is not set. When none of ditro features libc-charsets
-libc-locales and libc-locale-code is set, PACKAGE_NO_GCONV is set. Then
-no locale-base-* is created and fails to create image.
+Series: "lib/oe/utils: Improve multipro..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15224/
+State : failure
 
-Clear IMAGE_LINGUAS in such situation.
+== Summary ==
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 61be3cd748)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/image.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 276d0d31f4..11927f39f5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -176,6 +176,11 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- 
- LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS').split()))}"
- 
-+python () {
-+    if not bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
-+        d.setVar('IMAGE_LINGUAS', '')
-+}
-+
- # Prefer image, but use the fallback files for lookups if the image ones
- # aren't yet available.
- PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
--- 
-2.19.0.rc2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
