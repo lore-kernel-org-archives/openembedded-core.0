@@ -1,51 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E9657307F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A8D197458A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 12:33:23 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id y1so13010577wmi.3
+	Wed,  5 Dec 2018 13:01:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB5D1F4i002601
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2018 04:33:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=YTRnEmRnmIbrKYcYaznjiPx2TSBkQNfpHCZo58jJuOY=;
-	b=Nf3HmVrryzjqnrFXuhtfYrFZvFGvlQ75zIx6TCC43oMYzvwm5TI0HPEIJWTPKRkXkk
-	Q5o8fRxpT7yloSkpSUy4sEKepp7NHhhAVIMMy1y5JB4NwjOuoCScEvHDUyLoGy0zuiz3
-	YIYhSLFdnZ6htwzoAGuMCdijLIVHZTrUraOfo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YTRnEmRnmIbrKYcYaznjiPx2TSBkQNfpHCZo58jJuOY=;
-	b=NoVkgoj1jrmqG5alfxPMbkESruG23EUnbsvjvKqWlDzPVRgBXsJFPlB/oApdTUynCT
-	4Fu3peBp0cGYEiLmisrG01bpBtE3ulHEqSJrH3FJCXcnWT10hBGGCb0u265jPFzmejpj
-	N4hqMpnrAucuJo1Bsmla3dztW9hNoVtEdtss9y5lsnEDWqDVCsAn7wufGSuUVbzmI8Er
-	NNubVwol6JxJxOoWnjkEt1tdDidyYn55gLgn0R9oyZFPat2revLTlJas7yEH/rb8OuFG
-	kI/TJ3BRxO8eFrOp4f9rDwLNlFB/uHg4ep0imDksXslG3VSTtyGL+mT8j5mCKRfe9OsE
-	Xmfg==
-X-Gm-Message-State: AA+aEWbhkdW6a+tVGR/AMu8I3uwrcD9NRyunlXDO59hpTyXWHZGI+brg
-	EvgpaeusYC1CaZIZPrAI1yFH91dUAaM=
-X-Google-Smtp-Source: AFSGD/VDq8aAcBxYQVZtknFJI2xTOYVeI6xOiILJcnPWrj2ubPm6O9A9xBAx1G9KSEIF/M6FPgsLKQ==
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr16026576wma.68.1544013203655; 
-	Wed, 05 Dec 2018 04:33:23 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r77sm18048674wmd.22.2018.12.05.04.33.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Dec 2018 04:33:23 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2018 12:33:19 +0000
-Message-Id: <20181205123319.10452-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181205123319.10452-1-richard.purdie@linuxfoundation.org>
-References: <20181205123319.10452-1-richard.purdie@linuxfoundation.org>
+	Wed, 5 Dec 2018 05:01:26 -0800
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 5 Dec 2018 05:01:05 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Dec 2018 08:00:53 -0500
+Message-ID: <cover.1544014163.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.19.0.rc2
 MIME-Version: 1.0
-Subject: [PATCH 3/3] oeqa/utils/qemurunner: Avoid tracebacks on closed files
+Subject: [PATCH 0/3] Fix issue when locale related distro features missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 12:33:23 -0000
+X-List-Received-Date: Wed, 05 Dec 2018 13:01:35 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Reorder the shutdown/teardown to avoid:
+From: Kai Kang <kai.kang@windriver.com>
 
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/qemurunner.py", line 224, in launch
-    op = self.getOutput(output)
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/qemurunner.py", line 90, in getOutput
-    fl = fcntl.fcntl(o, fcntl.F_GETFL)
-ValueError: I/O operation on closed file
+The original problem is when distro features libc-charsets libc-locale-code and
+libc-locales are missing, it has installed-vs-shipped qa issue. Then fix for
+image and other packages depends on glibc locale packages too.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Build image and sdk for qemux86 and qemuarm64 with and without in local.conf:
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 409e86d4bcb..3a9ba024a98 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -207,8 +207,8 @@ class QemuRunner:
-                     # No point waiting any longer
-                     self.logger.debug('runqemu exited with code %d' % self.runqemu.returncode)
-                     self._dump_host()
--                    self.stop()
-                     self.logger.debug("Output from runqemu:\n%s" % self.getOutput(output))
-+                    self.stop()
-                     return False
-             time.sleep(0.5)
- 
-@@ -220,8 +220,8 @@ class QemuRunner:
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
-             self._dump_host()
--            self.stop()
-             op = self.getOutput(output)
-+            self.stop()
-             if op:
-                 self.logger.error("Output from runqemu:\n%s" % op)
-             else:
+DISTRO_FEATURES_remove = "libc-charsets libc-locales libc-locale-code"
+
+
+The following changes since commit 016e3dda2d6acc9b457079d11b5346a5352a431d:
+
+  btrfs-tools: update to 4.19 (2018-12-03 12:20:01 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/glibc-locale
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/glibc-locale
+
+Kai Kang (3):
+  glibc-locale: fix installed-vs-shipped qa issue
+  image.bbclass: respect PACKAGE_NO_GCONV
+  packages: respect PACKAGE_NO_GCONV
+
+ meta/classes/image.bbclass                    |  5 +++++
+ meta/classes/libc-package.bbclass             |  4 +---
+ meta/conf/distro/include/tclibc-glibc.inc     |  2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |  4 +++-
+ meta/recipes-core/glibc/glibc-locale.inc      | 15 +++++++++------
+ meta/recipes-core/libxml/libxml2_2.9.8.bb     |  4 +++-
+ meta/recipes-devtools/mtools/mtools_4.0.19.bb |  4 +++-
+ 7 files changed, 25 insertions(+), 13 deletions(-)
+
 -- 
-2.19.1
+2.19.0.rc2
 
 
