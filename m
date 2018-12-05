@@ -1,24 +1,27 @@
-Return-Path: <Changqing.Li@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A9F526BCA4
+	by mail.openembedded.org (Postfix) with ESMTP id 5DEE16C123
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 09:42:57 +0000 (UTC)
+	Wed,  5 Dec 2018 10:18:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB59gbVH029323
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2018 01:42:48 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 5 Dec 2018 01:42:27 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Dec 2018 17:42:26 +0800
-Message-ID: <1544002946-314875-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB5AHgm2030525
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 5 Dec 2018 02:18:08 -0800
+Received: from [128.224.163.204] (128.224.163.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 5 Dec 2018 02:17:41 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Bruce Ashfield
+	<bruce.ashfield@windriver.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <3fdeffd5-0d20-b50a-0d8c-8aec3715ebb2@windriver.com>
+Date: Wed, 5 Dec 2018 18:17:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Subject: [PATCH] strace: fix ptest fail and strip ptest host references
+X-Originating-IP: [128.224.163.204]
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?SXMgaXQgbmVjZXNzYXJ5IHRvIGZpeCB0aGUgQnVnemlsbGEg4oCTIEJ1ZyAxMTgwNyBhbmQgNTg3NiA/?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 09:42:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Dec 2018 10:18:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Changqing Li <changqing.li@windriver.com>
+Hi all,
 
-1. Add LDFLAGS_FOR_BUILD for strip host reference
-2. Revert one previous replace operation for fix ptest fail.
-   refer oe commit: 74b5088f1cc1708db43c33ac2dc7f01f4a4db9c1
+I don't know if it is necessary to do this enhancement.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-devtools/strace/strace_4.25.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+1. Bug 11807:
 
-diff --git a/meta/recipes-devtools/strace/strace_4.25.bb b/meta/recipes-devtools/strace/strace_4.25.bb
-index 58f6cf6..028aa71 100644
---- a/meta/recipes-devtools/strace/strace_4.25.bb
-+++ b/meta/recipes-devtools/strace/strace_4.25.bb
-@@ -32,7 +32,7 @@ EXTRA_OECONF += "--enable-mpers=no"
- CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
- 
- TESTDIR = "tests"
--PTEST_BUILD_HOST_PATTERN = "^(DEB_CHANGELOGTIME|RPM_CHANGELOGTIME|WARN_CFLAGS_FOR_BUILD)"
-+PTEST_BUILD_HOST_PATTERN = "^(DEB_CHANGELOGTIME|RPM_CHANGELOGTIME|WARN_CFLAGS_FOR_BUILD|LDFLAGS_FOR_BUILD)"
- 
- do_install_append() {
- 	# We don't ship strace-graph here because it needs perl
-@@ -47,6 +47,7 @@ do_install_ptest() {
- 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
- 	install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
- 	install -m 644 ${B}/config.h ${D}${PTEST_PATH}
-+        sed -i -e '/^src/s/strace.*[1-9]/ptest/' ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
- }
- 
- RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
--- 
-2.7.4
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11807
+
+
+'CONFIG_EXTRA_FIRMWARE' is used to be set to the names of firmware files 
+which
+
+should be provided by driver vendors.
+
+'CONFIG_EXTRA_FIRMWARE_DIR' is set to a path which contains above firmware
+
+files. The default path is /lib/firmware if the 
+'CONFIG_EXTRA_FIRMWARE_DIR' is not set.
+
+
+The path and firmware files must exist in rootfs eventually.
+
+
+2. Bug 5876:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5876
+
+
+I think it mean that bbclass should check the state of menuconfig.
+
+
+I don't know if is necessary to fix these bugs. Could you give me help?
+
+
+--Honghzi
+
 
 
