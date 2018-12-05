@@ -1,23 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D53A86D253
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 450786D340
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Dec 2018 01:54:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wB51sI6R014330
+	Wed,  5 Dec 2018 01:55:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB51sUpC016736
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Dec 2018 17:54:19 -0800 (PST)
+	Tue, 4 Dec 2018 17:54:40 -0800
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 4 Dec 2018 17:54:18 -0800
+	14.3.408.0; Tue, 4 Dec 2018 17:54:19 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Wed, 5 Dec 2018 10:11:47 +0800
-Message-ID: <1543975908-38890-1-git-send-email-hongxu.jia@windriver.com>
+Date: Wed, 5 Dec 2018 10:11:48 +0800
+Message-ID: <1543975908-38890-2-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1543975908-38890-1-git-send-email-hongxu.jia@windriver.com>
+References: <1543975908-38890-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] pulseaudio: improve reproducibility
+Subject: [PATCH 2/2] autoconf-doc: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +33,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 01:54:20 -0000
+X-List-Received-Date: Wed, 05 Dec 2018 01:55:06 -0000
 Content-Type: text/plain
 
-Remove build host paths from generated binaries, the modification
-is harmless for build time compiling and runtime executing.
+autoconf-doc package contains autoconf.info.
+This file contains date when this file was created, i.e:
 
-[YOCTO #12638]
+     "This manual (31 January 2018) .."
+
+Therefore, two builds done on two different days will show different dates for
+otherwise identical files, hence breaking reproducibility.
+The date is obtained from mtime of "autoconf.texi", unfortunately we patch this
+file and change the mtime as a consequence.
+We restore reproducibility by removing the patch modifying "autoconf.texi".
+As a consequence certain supplemental information will be not added to the documentation.
+In particular:  more details on usage, and on workarounds for non-updated projects.
+
+[YOCTO #12524]
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+
+With applying this fix:
+
+    "This manual (24 April 2012) .."
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../pulseaudio/0001-improve-reproducibility.patch  | 50 ++++++++++++++++++++++
- .../pulseaudio/pulseaudio_12.2.bb                  |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility.patch
+ .../AC_HEADER_MAJOR-port-to-glibc-2.25.patch       | 89 ++++------------------
+ 1 file changed, 14 insertions(+), 75 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility.patch
-new file mode 100644
-index 0000000..b13adb2
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility.patch
-@@ -0,0 +1,50 @@
-+From e03d1d77471ee16c149590dd97085cf54be1e261 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Tue, 4 Dec 2018 16:29:18 +0800
-+Subject: [PATCH] improve reproducibility
+diff --git a/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch b/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
+index fc37236..b2d7dc0 100644
+--- a/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
++++ b/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
+@@ -1,4 +1,4 @@
+-From e17a30e987d7ee695fb4294a82d987ec3dc9b974 Mon Sep 17 00:00:00 2001
++From b859ab1b211d348b46eca9158b7742f050c8115e Mon Sep 17 00:00:00 2001
+ From: Eric Blake <eblake@redhat.com>
+ Date: Wed, 14 Sep 2016 08:17:06 -0500
+ Subject: [PATCH] AC_HEADER_MAJOR: port to glibc 2.25
+@@ -35,85 +35,21 @@ this patch.
+ * lib/autoconf/headers.m4 (AC_HEADER_MAJOR): Drop check for
+ major within sys/types.h; it interferes with the need to check
+ sysmacros.h first.
+-* doc/autoconf.texi (Particular Headers) <AC_HEADER_MAJOR>: Expand
+-details on usage, and on workarounds for non-updated projects.
+ 
+ Signed-off-by: Eric Blake <eblake@redhat.com>
+----
 +
-+- Do not define PA_CFLAGS with $CFLAGS which contains build host path,
-+  macro PA_CFLAGS is used for debug log, the modification is harmless;
-+
-+- Tweak definition of PA_BUILDDIR and PA_SRCDIR with relative directory,
-+  it is also harmless;
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
++Remove the documentation change from the patch
+ Upstream-Status: Backport
+ 
+- doc/autoconf.texi       |   35 +++++++++++++++++++++++++++++++----
+- lib/autoconf/headers.m4 |   30 ++++++++++++++----------------
+- 2 files changed, 45 insertions(+), 20 deletions(-)
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ configure.ac    | 2 +-
-+ src/Makefile.am | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index c9c414f..94a2167 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1452,7 +1452,7 @@ AS_IF([test "x$ax_pthread_ok" = "xyes"],
-+ #            Output               #
-+ ###################################
-+ 
-+-AC_DEFINE_UNQUOTED(PA_CFLAGS, "$CFLAGS", [The CFLAGS used during compilation])
-++AC_DEFINE_UNQUOTED(PA_CFLAGS, "***", [The CFLAGS used during compilation])
-+ 
-+ # Check whether to build tests by default (as compile-test) or not
-+ AC_ARG_ENABLE([default-build-tests],
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index f4464d2..1ec0bfc 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -48,8 +48,8 @@ AM_CPPFLAGS = \
-+ 	-I$(top_builddir)/src/modules \
-+ 	-DPA_ALSA_PATHS_DIR=\"$(alsapathsdir)\" \
-+ 	-DPA_ALSA_PROFILE_SETS_DIR=\"$(alsaprofilesetsdir)\" \
-+-	-DPA_SRCDIR=\"$(abs_srcdir)\" \
-+-	-DPA_BUILDDIR=\"$(abs_builddir)\" \
-++	-DPA_SRCDIR=\"$(ac_srcdir)\" \
-++	-DPA_BUILDDIR=\"$(ac_builddir)\" \
-+ 	-DPULSE_LOCALEDIR=\"$(localedir)\"
-+ AM_CFLAGS = -std=gnu11 \
-+ 	$(PTHREAD_CFLAGS)
++ lib/autoconf/headers.m4 | 30 ++++++++++++++----------------
++ 1 file changed, 14 insertions(+), 16 deletions(-)
+ 
+-Index: autoconf-2.69/doc/autoconf.texi
+-===================================================================
+---- autoconf-2.69.orig/doc/autoconf.texi
+-+++ autoconf-2.69/doc/autoconf.texi
+-@@ -15,7 +15,7 @@
+- @c The ARG is an optional argument.  To be used for macro arguments in
+- @c their documentation (@defmac).
+- @macro ovar{varname}
+--@r{[}@var{\varname\}@r{]}@c
+-+@r{[}@var{\varname\}@r{]}
+- @end macro
+- 
+- @c @dvar(ARG, DEFAULT)
+-@@ -23,7 +23,7 @@
+- @c The ARG is an optional argument, defaulting to DEFAULT.  To be used
+- @c for macro arguments in their documentation (@defmac).
+- @macro dvar{varname, default}
+--@r{[}@var{\varname\} = @samp{\default\}@r{]}@c
+-+@r{[}@var{\varname\} = @samp{\default\}@r{]}
+- @end macro
+- 
+- @c Handling the indexes with Texinfo yields several different problems.
+-@@ -5926,10 +5926,37 @@ Also see @code{AC_STRUCT_DIRENT_D_INO} a
+- @cvindex MAJOR_IN_SYSMACROS
+- @hdrindex{sys/mkdev.h}
+- @hdrindex{sys/sysmacros.h}
+--If @file{sys/types.h} does not define @code{major}, @code{minor}, and
+--@code{makedev}, but @file{sys/mkdev.h} does, define
+--@code{MAJOR_IN_MKDEV}; otherwise, if @file{sys/sysmacros.h} does, define
+--@code{MAJOR_IN_SYSMACROS}.
+-+Detect the headers required to use @code{makedev}, @code{major}, and
+-+@code{minor}.  These functions may be defined by @file{sys/mkdev.h},
+-+@code{sys/sysmacros.h}, or @file{sys/types.h}.
+-+
+-+@code{AC_HEADER_MAJOR} defines @code{MAJOR_IN_MKDEV} if they are in
+-+@file{sys/mkdev.h}, or @code{MAJOR_IN_SYSMACROS} if they are in
+-+@file{sys/sysmacros.h}.  If neither macro is defined, they are either in
+-+@file{sys/types.h} or unavailable.
+-+
+-+To properly use these functions, your code should contain something
+-+like:
+-+
+-+@verbatim
+-+#include <sys/types.h>
+-+#ifdef MAJOR_IN_MKDEV
+-+# include <sys/mkdev.h>
+-+#elif defined MAJOR_IN_SYSMACROS
+-+# include <sys/sysmacros.h>
+-+#endif
+-+@end verbatim
+-+
+-+Note: Configure scripts built with Autoconf 2.69 or earlier will not
+-+detect a problem if @file{sys/types.h} contains definitions of
+-+@code{major}, @code{minor}, and/or @code{makedev} that trigger compiler
+-+warnings upon use.  This is known to occur with GNU libc 2.25, where
+-+those definitions are being deprecated to reduce namespace pollution.
+-+If it is not practical to use Autoconf 2.70 to regenerate the configure
+-+script of affected software, you can work around the problem by setting
+-+@samp{ac_cv_header_sys_types_h_makedev=no}, as an argument to
+-+@command{configure} or as part of a @file{config.site} site default file
+-+(@pxref{Site Defaults}).
+- @end defmac
+- 
+- @defmac AC_HEADER_RESOLV
+-Index: autoconf-2.69/lib/autoconf/headers.m4
+-===================================================================
+---- autoconf-2.69.orig/lib/autoconf/headers.m4
+-+++ autoconf-2.69/lib/autoconf/headers.m4
++diff --git a/lib/autoconf/headers.m4 b/lib/autoconf/headers.m4
++index 81a7fa2..a57d0d3 100644
++--- a/lib/autoconf/headers.m4
+++++ b/lib/autoconf/headers.m4
+ @@ -502,31 +502,29 @@ fi
+  
+  # AC_HEADER_MAJOR
+@@ -160,3 +96,6 @@ Index: autoconf-2.69/lib/autoconf/headers.m4
+  fi
+  ])# AC_HEADER_MAJOR
+  
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-index 36d92bc..9cda50a 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-@@ -2,6 +2,7 @@ require pulseaudio.inc
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
-+           file://0001-improve-reproducibility.patch \
-            file://volatiles.04_pulse \
-            "
- SRC_URI[md5sum] = "c42f1f1465e8df9859d023dc184734bf"
 -- 
 2.7.4
 
