@@ -1,31 +1,47 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1546D4AA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5946C1B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 03:33:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB63X0VK027172
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  6 Dec 2018 04:27:37 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id z16so24976304qtq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2018 19:33:30 -0800
-Received: from [128.224.163.204] (128.224.163.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Wed, 5 Dec 2018 19:33:18 -0800
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-References: <3fdeffd5-0d20-b50a-0d8c-8aec3715ebb2@windriver.com>
-	<a545e5df-65fc-1249-4fcd-d0c9b0175e27@windriver.com>
-	<b8a47a27-bc7c-8404-9133-2c036a25a930@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <e321e6c6-40e4-ecda-c738-5d6784beefee@windriver.com>
-Date: Thu, 6 Dec 2018 11:33:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Wed, 05 Dec 2018 20:27:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FhO1jTLG6ARRd+PEvlu+uloRUpQyWw4ZQSE0JRJMY4k=;
+	b=ifh/zelx1byb8aqCxsmEE2mWRBI+Rl3sPjTwhpfERFvYtgwHW3055jexMFd82kn++t
+	KcE4UFMp4g7kwOa623m/jBg6mf/OYWbOaC7v8lSjfwmMnWqJ7nzvqHsUczKQ0B9IdshX
+	6N371RETUvrcsYbksDsrajNDqH2iBH1TooI4BOUYR0sy+xNYSXKXbEXmtGjeLqeDEv+O
+	DEW5uUz2B3o1YRzDM/oRG4UTC9ySkcGf+0XPoy6MZrfMhjjqgUgREnbT+BAg5KrhAKf/
+	xs+9jbu4V3lRm2j2PBqD2IeHewkNRicbQg4PlSinAWek2qywbWgZYR3gIaKBjy/hlm/e
+	2l3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FhO1jTLG6ARRd+PEvlu+uloRUpQyWw4ZQSE0JRJMY4k=;
+	b=tkocW9LSzDhu86RPTIRi0KsofN7iQOZBIczqvy9LP0YX9jcPYDgg1h+qMi7gN33CfR
+	THu6GZCb9ErWFF1mASNTKHsy156qRV70RHcr105a6uoQkC+/Z2Giw8ahoyFaQqzsPrOR
+	Ql+fdxQQ6TFIJxiIWVMxnNQfanPeMZO0cqXaZSY1qvncmWyUcMsJXnBygorollO0YHMG
+	M1+F78sotOMOk+j11IFP1YmIUieotkt8yXV8UG3j70hKjVMv5QWpeAflvojDKeNSIHS7
+	iwyBZ3mAbw46TBovZzZveYKQoLqCuCPRjeZlkAOXx+doW/0Tj/QcyDNsbKI3uz0G4aSb
+	/pmg==
+X-Gm-Message-State: AA+aEWZXj9/wZjLblCxkpTqWETqaT6IIKkpbJN5n+98yAdItU5eGM/m7
+	CI3rP7itrk6rujOKd8BDJA1YXUBShdxkGUQWuPw=
+X-Google-Smtp-Source: AFSGD/X7ui3Rnz8bx9O/Pkj9J4LL13ta/44Y6y7su13pwxI+g801Pgt1kwICglY8dFvzJQyQ2f6RriNv4Bmbz8Zs51E=
+X-Received: by 2002:ac8:518d:: with SMTP id c13mr25264724qtn.254.1544070457925;
+	Wed, 05 Dec 2018 20:27:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b8a47a27-bc7c-8404-9133-2c036a25a930@windriver.com>
-X-Originating-IP: [128.224.163.204]
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IElzIGl0IG5lY2Vzc2FyeSB0byBmaXggdGhlIEJ1Z3ppbGxhIOKAkyBCdWcgMTE4MDcgYW5kIDU4NzYgPw==?=
+References: <20181205012132.27831-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20181205012132.27831-1-hongl.fnst@cn.fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 5 Dec 2018 20:27:11 -0800
+Message-ID: <CAMKF1spTvOq8zzVYSnFuXdc0ZE3KoeB+S+zC0uSvsgMst_oqTA@mail.gmail.com>
+To: hongl.fnst@cn.fujitsu.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [PATCH] tcl:upgrade to 8.6.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,104 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 03:33:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 06 Dec 2018 04:27:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+I think this is causing tk to fail  with missing fixstrtod
 
+see http://errors.yoctoproject.org/Errors/Details/203567/
 
-On 12/06/2018 11:04 AM, Hongzhi, Song wrote:
+Richard, please hold off to this patch until we have equivalent tk upgrade
+patch as well.
+On Tue, Dec 4, 2018 at 5:19 PM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+>
+> 1.Upgrade tcl from 8.6.8 to 8.6.9.
+>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/tcltk/{tcl_8.6.8.bb => tcl_8.6.9.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/tcltk/{tcl_8.6.8.bb => tcl_8.6.9.bb} (95%)
+>
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.8.bb b/meta/recipes-devtools/tcltk/tcl_8.6.9.bb
+> similarity index 95%
+> rename from meta/recipes-devtools/tcltk/tcl_8.6.8.bb
+> rename to meta/recipes-devtools/tcltk/tcl_8.6.9.bb
+> index 4be2e89..7f37781 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.6.8.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.9.bb
+> @@ -24,8 +24,8 @@ SRC_URI = "${BASE_SRC_URI} \
+>             file://alter-includedir.patch \
+>             file://run-ptest \
+>  "
+> -SRC_URI[md5sum] = "81656d3367af032e0ae6157eff134f89"
+> -SRC_URI[sha256sum] = "c43cb0c1518ce42b00e7c8f6eaddd5195c53a98f94adc717234a65cbcfd3f96a"
+> +SRC_URI[md5sum] = "aa0a121d95a0e7b73a036f26028538d4"
+> +SRC_URI[sha256sum] = "ad0cd2de2c87b9ba8086b43957a0de3eb2eb565c7159d5f53ccbba3feb915f4e"
+>
+>  SRC_URI_class-native = "${BASE_SRC_URI}"
+>
+> --
+> 2.7.4
 >
 >
-> On 12/05/2018 06:57 PM, Bruce Ashfield wrote:
->> On 12/5/18 5:17 AM, Hongzhi, Song wrote:
->>> Hi all,
->>>
->>> I don't know if it is necessary to do this enhancement.
->>>
->>> 1. Bug 11807:
->>>
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=11807
->>>
->>>
->>> 'CONFIG_EXTRA_FIRMWARE' is used to be set to the names of firmware 
->>> files which
->>>
->>> should be provided by driver vendors.
->>>
->>> 'CONFIG_EXTRA_FIRMWARE_DIR' is set to a path which contains above 
->>> firmware
->>>
->>> files. The default path is /lib/firmware if the 
->>> 'CONFIG_EXTRA_FIRMWARE_DIR' is not set.
->>>
->>>
->>> The path and firmware files must exist in rootfs eventually.
->>>
->>>
->>> 2. Bug 5876:
->>>
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5876
->>>
->>>
->>> I think it mean that bbclass should check the state of menuconfig.
->>>
->>>
->>> I don't know if is necessary to fix these bugs. Could you give me help?
->>
->> I have some enhancements and other things in flight that can already do
->> what these two bugs are talking about. Paul and I had discussed some of
->> the config auditing on the list about a year ago, and agreed that
->> there's no sense duplicating the functionality that already exists
->> (rather I was going to tweak a few things to make it more easily
->> accessible).
->>
->> If you want, you could assign 5876 to me, and I could take care of it.
 >
-> Hi Bruce,
->
-> Thanks, I will assign it to you.
->
->>
->> As for 11807, that is simply a kernel configuration option and it should
->> be handled like any other. I don't see the need for anything special to
->> be done.
->>
->
-> This option is different from the common options. It can only be set 
-> two types
-> of value, "" and "filename1 filename2 ...", which depends on customer.
->
-> Maybe we can add a variable containing useful firmware in kernel 
-> recipe for customer.
-> The variable will eventually set CONFIG_EXTRA_FIRMWARE in .config .
-
-How to translate the variable to CONFIG_EXTRA_FIRMWARE and set the 
-option in .config ?
-1. Append do_kernel_configme in kernel recipe with sed command inside it.
-2. or modify the bbclass.
-
-I am not sure if the requirement in the bug 11807 is reasonable and if 
-my above opinion is
-practical.
-
-Thanks,
---Hongzhi
-
->
-> --Hongzhi
->
->> Bruce
->>
->>
->>>
->>>
->>> --Honghzi
->>>
->>>
->>
->>
->
-
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
