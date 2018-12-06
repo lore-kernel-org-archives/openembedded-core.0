@@ -1,47 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f177.google.com (mail-it1-f177.google.com
-	[209.85.166.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BD9078A9A
+Return-Path: <mazliana.mohamad@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B99878A9A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 12:09:57 +0000 (UTC)
-Received: by mail-it1-f177.google.com with SMTP id z7so975201iti.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Dec 2018 04:09:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pHq3cMQ139D24pSTY7ryZo5ZdrSZcmchBWynKLyHp5o=;
-	b=ByHNVLIp2UQ1A4h8tOCkZiFy0GMjLafc+IEkxIBIoPK7rmYkjmCH2ugplHocV9IkAi
-	7zzfQETZou/CWt8QlOAxwfDYFOmpPAE6UTd3f8H+aZhfpuUGmcCfY3UlDK4MojnDOwF1
-	FrSGoybMTieQ0V1c920IHA/so5oB5UT09k/U2LSOqFwoPOiSCKQ9tQNcBGee97uMeBOc
-	NePJOxLfN4BGQPZUAVxI8ySOfwTJCm0/31PHTWtFnlFG8ipISX+kpilTh6P08CP1HtRC
-	azfKINdQDRj85mX2gm07f3aiYQ2bDbGHQnzQQVg+iWNh26BreiUEvtoU5J7mM1/18+pi
-	6JEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pHq3cMQ139D24pSTY7ryZo5ZdrSZcmchBWynKLyHp5o=;
-	b=Gig+iUVKWcSu+1so7JWjz+9Hdr6AOxZzjHEBJTyGurvaJ7clqDX9nMVD6X4JPJHDz9
-	+siOgSOovGCWKpDh8XbzJW8aKN3xv4uPD4XQBGh0aEcABBgx3zIrLYiBUFwd7tSuuoae
-	FUbCBk6x+zH0t8HwWORwrzypyHPoGR+RIDwB1MWKZVMFxNGzwXkV9Ca4uhDotayP4YNN
-	cArjHFER4rkFVj43S4k6I7hdHYnppb1wjScTn2oWirIn/uXNhQLZ8o2W0ZuByzsmz3fh
-	E13UzPVYtJr1Mfso4JIr5qNwsqYBUeDqxi+5HquY0g/AQ9UoVtUZ+RewZPXlPKbH4JhV
-	/jWg==
-X-Gm-Message-State: AA+aEWbAGvyGpRO2lkKlhfwQvXJwfHGPCkn44a1faDWT14vQfiZmMqmy
-	gtD3Ib8XlGytW9lrWyJ0tXtm+Ysu32THZ2BvSwctnQ==
-X-Google-Smtp-Source: AFSGD/VR4Up8JELZSJa8zoixaBGq7PgjxcCvfMHZ/6St5YcPue3fRrF1J4783haxazTWCMlKrgsgN1Vtc72kBy6Fm0I=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr12909648itg.130.1544098198613; 
-	Thu, 06 Dec 2018 04:09:58 -0800 (PST)
+	Thu,  6 Dec 2018 12:11:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Dec 2018 04:11:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,322,1539673200"; d="scan'208";a="107784229"
+Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
+	by orsmga003.jf.intel.com with ESMTP; 06 Dec 2018 04:11:07 -0800
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.31]) by
+	KMSMSX156.gar.corp.intel.com ([169.254.1.244]) with mapi id
+	14.03.0415.000; Thu, 6 Dec 2018 20:08:13 +0800
+From: "Mohamad, Mazliana" <mazliana.mohamad@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] scripts/test-case-mgmt: add
+	"manualexecution"	as a tool
+Thread-Index: AQHUjVUTr/u5hOsBCUihwAqiNgHeO6VxnfEg
+Date: Thu, 6 Dec 2018 12:08:12 +0000
+Message-ID: <A974252CAD7AF945AB1D34185A204505028C8DDA@PGSMSX105.gar.corp.intel.com>
+References: <1544093967-5387-1-git-send-email-mazliana.mohamad@intel.com>
+In-Reply-To: <1544093967-5387-1-git-send-email-mazliana.mohamad@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZWNiZjU3ZWQtYWMyZS00YTM0LWI5N2QtNjZhZmNjNjY4NzA1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZUFMUE5odXZzTEQwczExTU45N2xrWEdScFowYVdqRmk4UVZURkhoZVp5YllwaEl5ZkFxVEh3VDNIY0Z4Z1wvaWUifQ==
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-References: <20181206003355.18035-1-raj.khem@gmail.com>
-In-Reply-To: <20181206003355.18035-1-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Dec 2018 12:09:47 +0000
-Message-ID: <CAJTo0LaLiMd_JWeKxXS7xmvBLiFk4yavE5qSHWL6mLnu0037Hg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipeutils-test: Add missing LIC_FILES_CHKSUM
+Subject: FW: [PATCH 1/2] scripts/test-case-mgmt: add "manualexecution"	as a tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,13 +48,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 12:09:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Dec 2018 12:11:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Might be easier to change the license to CLOSED, as that skips the
-license QA entirely.
+Please ignore this patch
 
-(arguably proprietary should do the same)
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of mazliana.mohamad@intel.c=
+om
+Sent: Thursday, December 6, 2018 6:59 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 1/2] scripts/test-case-mgmt: add "manualexecution=
+" as a tool
 
-Ross
+From: Mazliana <mazliana.mohamad@intel.com>
+
+Integrated the test-case-mgmt "store", "report" with "manual execution".Man=
+ual test execution is one of an alternative test case management tool of Te=
+stopia. This script has only a bare-minimum function.
+Bare-minimum function refer to function where the user can only execute all=
+ of the test cases that component have.
+
+To use these scripts, first source oe environment, then run the entry point=
+ script to look for help.
+        $ test-case-mgmt
+
+To execute manual test cases, execute the below
+        $ test-case-mgmt manualexecution <manualjsonfile>
+
+By default testresults.json store in poky/<build_dir>/tmp/log/manual
+
+[YOCTO #12651]
+
+Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
+---
+ scripts/test-case-mgmt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/scripts/test-case-mgmt b/scripts/test-case-mgmt index b832ee2.=
+.ef69db4 100755
+--- a/scripts/test-case-mgmt
++++ b/scripts/test-case-mgmt
+@@ -17,6 +17,11 @@
+ # To store test result & log, execute the below
+ #    $ test-case-mgmt store <source_dir> <git_branch>
+ #
++# To execute manual test cases, execute the below
++#    $ test-case-mgmt manualexecution <manualjsonfile>
++#
++# By default testresults.json for manualexecution in=20
++poky/<build>/tmp/log/manual/ #
+ # Copyright (c) 2018, Intel Corporation.
+ #
+ # This program is free software; you can redistribute it and/or modify it =
+@@ -40,6 +45,7 @@ import argparse_oe  import scriptutils  import testcasemg=
+mt.store  import testcasemgmt.report
++import testcasemgmt.manualexecution
+ logger =3D scriptutils.logger_create('test-case-mgmt')
+=20
+ def _validate_user_input_arguments(args):
+@@ -74,6 +80,8 @@ def main():
+     testcasemgmt.store.register_commands(subparsers)
+     subparsers.add_subparser_group('report', 'Reporting for test result & =
+log', 200)
+     testcasemgmt.report.register_commands(subparsers)
++    subparsers.add_subparser_group('manualexecution', 'Execute manual test=
+ cases', 100)
++    testcasemgmt.manualexecution.register_commands(subparsers)
+     args =3D parser.parse_args()
+     if args.debug:
+         logger.setLevel(logging.DEBUG)
+--
+2.7.4
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
