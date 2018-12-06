@@ -1,15 +1,15 @@
 Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id E5DFB748D5
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id BF63C6BA22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 11:15:30 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id wB6BFU2Q016470
+	Thu,  6 Dec 2018 11:29:16 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id wB6BTGXG011989
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 6 Dec 2018 12:15:30 +0100
+	Thu, 6 Dec 2018 12:29:16 +0100
 Received: from [192.168.253.100] ([163.242.53.42])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id wB6BFUoT017007;
-	Thu, 6 Dec 2018 12:15:30 +0100
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id wB6BTG1t011930;
+	Thu, 6 Dec 2018 12:29:16 +0100
 To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -18,6 +18,8 @@ References: <20181120111725.4337-1-andrej.valek@siemens.com>
 	<fbb2b0ead56624464117557944906cb8ff451d57.camel@linuxfoundation.org>
 	<5f45b788-2071-fb8f-18de-a083a07b7aac@siemens.com>
 	<106213de5e5a4b41d4015287629205350ab75ca0.camel@linuxfoundation.org>
+	<3b653720-c6fa-623a-3fd0-d94704e52e82@siemens.com>
+	<996f69862b3da17433b1f02e25af5f83d9d0c7f9.camel@linuxfoundation.org>
 From: Andrej Valek <andrej.valek@siemens.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
@@ -44,12 +46,12 @@ Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
 	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
 	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
 	emYHzsJ3+vLapH+kAEI=
-Message-ID: <3b653720-c6fa-623a-3fd0-d94704e52e82@siemens.com>
-Date: Thu, 6 Dec 2018 12:15:30 +0100
+Message-ID: <9b703408-17ab-46dd-0333-2a36709df3fb@siemens.com>
+Date: Thu, 6 Dec 2018 12:29:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <106213de5e5a4b41d4015287629205350ab75ca0.camel@linuxfoundation.org>
+In-Reply-To: <996f69862b3da17433b1f02e25af5f83d9d0c7f9.camel@linuxfoundation.org>
 Subject: Re: [PATCH 1/1] nativesdk/sdk: Fix sdk dummy providers for opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -63,134 +65,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 11:15:31 -0000
+X-List-Received-Date: Thu, 06 Dec 2018 11:29:17 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hello Richie,
+Sorry I apologize to give you this naming. I didn't want to offend you.
 
-Thank you for our work. We have verified it and it's working on both
-package systems (ipk and rpm). But we're not sure about the deb packages.
+Would be great, if you can create a official commit for it.
 
-Maybe a question about the "nativesdk-sdk-provides-dummy" change. Why
-didn't you put them into "nativesdk-buildtools-perl-dummy" ? There are
-similar packages like you have added. Could you please explain it?
+Thank you,
+Andrej
 
-
-Regards
-Andrej & Peter
-
-On 12/5/18 6:38 PM, richard.purdie@linuxfoundation.org wrote:
-> On Wed, 2018-12-05 at 08:59 +0100, Andrej Valek wrote:
->> We have made some deeper analysis of this problem.
+On 12/6/18 12:20 PM, richard.purdie@linuxfoundation.org wrote:
+> On Thu, 2018-12-06 at 12:15 +0100, Andrej Valek wrote:
+>> Hello Richie,
+> 
+> Who is Richie?
+> 
+>> Thank you for our work. We have verified it and it's working on both
+>> package systems (ipk and rpm). But we're not sure about the deb
+>> packages.
 >>
->> In our opinion the code as it is now does not work for any packaging
->> method.
->> For RPM it's a silent failure (purpose of dummy class is to replace
->> tools like perl, however without RCONFLICTS clause those tools will
->> be installed instead anyway of replaced.
+>> Maybe a question about the "nativesdk-sdk-provides-dummy" change. Why
+>> didn't you put them into "nativesdk-buildtools-perl-dummy" ? There
+>> are similar packages like you have added. Could you please explain
+>> it?
 > 
-> That isn't true as for the buildtools-tarball case it *is* working with
-> rpm.
-> 
->> OPKG correctly creates a hard failure when RCONFLICTS is not set.
->>
->> The problem in RPM/DNF is that it cannot compare conflict between
->> package name and file name (e.g. perl vs. /usr/bin/perl), so it will
->> try install both.
->> For this you have implemented a "workaround" by removing the
->> RCONFLICTS which however makes the package useless for RPM and
->> breaking OPKG build.
->>
->> We ha tried to replace /usr/bin/perl by perl (which works fine),
->> however there is still /bin/sh and /bin/env which can have multiple
->> providers and we can't conflict with any possible package out there.
->>
->> Unfortunately reworking RPM/DNS is something we don't know how to.
->> Therefore we would like to at least fix OPKG that it does not crash
->> during build and leave the background problem for later (e.g. create
->> bugreport).
->>
->> Would you reconsider merging this MR
-> 
-> If I merge your patch, the autobuilder breaks and shows errors. Is that
-> acceptable?
-> 
->>  or would you accept if we create separate recipe for OPKG?
-> 
-> No, that is hacking around the problem.
-> 
-> I took a look at this myself. It seems that the patch below does work
-> for rpm. That does make me wonder about some of things you've mentioned
-> above. Basically the problem is that some recipes like nativesdk-
-> autoconf depend on more than just /usr/bin/perl. We therefore need to
-> extend the providers list to cover the various possibilities.
+> The buildtools tarball doesn't depend on the things I added to the sdk-
+> provides so didn't need them. Adding them wouldn't hurt but it wasn't
+> where we were seeing the failures, or how to fix them.
 > 
 > Cheers,
 > 
 > Richard
-> 
-> 
-> diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
-> index eafcb823ab..4d653706b1 100644
-> --- a/meta/recipes-core/meta/dummy-sdk-package.inc
-> +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-> @@ -20,7 +20,7 @@ PR[vardeps] += "DUMMYPROVIDES"
->  python populate_packages_prepend() {
->      p = d.getVar("PN")
->      d.appendVar("RPROVIDES_%s" % p, "${DUMMYPROVIDES}")
-> -    #d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
-> -    #d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
-> +    d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
-> +    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
->  }
->  
-> diff --git a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-> index 11a727d486..d33e978666 100644
-> --- a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-> +++ b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-> @@ -2,6 +2,26 @@ DUMMYARCH = "sdk-provides-dummy-${SDKPKGSUFFIX}"
->  
->  # Add /bin/sh?
->  DUMMYPROVIDES = "\
-> +    nativesdk-perl \
-> +    nativesdk-libxml-parser-perl \
-> +    nativesdk-perl-module-bytes \
-> +    nativesdk-perl-module-carp \
-> +    nativesdk-perl-module-constant \
-> +    nativesdk-perl-module-data-dumper \
-> +    nativesdk-perl-module-errno \
-> +    nativesdk-perl-module-exporter \
-> +    nativesdk-perl-module-file-basename \
-> +    nativesdk-perl-module-file-compare \
-> +    nativesdk-perl-module-file-copy \
-> +    nativesdk-perl-module-file-find \
-> +    nativesdk-perl-module-file-glob \
-> +    nativesdk-perl-module-file-path \
-> +    nativesdk-perl-module-file-stat \
-> +    nativesdk-perl-module-getopt-long \
-> +    nativesdk-perl-module-io-file \
-> +    nativesdk-perl-module-posix \
-> +    nativesdk-perl-module-thread-queue \
-> +    nativesdk-perl-module-threads \
->      /bin/bash \
->      /usr/bin/env \
->      /usr/bin/perl \
-> diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> index 714d15d8ba..57c10044f8 100644
-> --- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> +++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> @@ -1,6 +1,9 @@
->  DUMMYARCH = "sdk-provides-dummy-target"
->  
->  DUMMYPROVIDES = "\
-> +    busybox \
-> +    bash \
-> +    perl \
->      /bin/sh \
->      /bin/bash \
->      /usr/bin/env \
-> 
 > 
 
