@@ -1,30 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A69126B51A
+	by mail.openembedded.org (Postfix) with ESMTP id 188D66B89D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 02:55:22 +0000 (UTC)
+	Thu,  6 Dec 2018 03:05:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB62skse026185
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB634jbC026441
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Dec 2018 18:54:56 -0800
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 5 Dec 2018 18:54:35 -0800
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1542971171.git.liezhi.yang@windriver.com>
-	<85fe4df7c0ce3e3c8017fbf410d98498669f7363.1542971171.git.liezhi.yang@windriver.com>
-	<CA+chaQegPbZ05LK3ZMNNHDYdjsi4ba-kp4=m3BBj6EbzbaHf8A@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <01bf1405-68d4-59c1-bb14-c12e7d75cd7b@windriver.com>
-Date: Thu, 6 Dec 2018 10:59:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Wed, 5 Dec 2018 19:04:55 -0800
+Received: from [128.224.163.204] (128.224.163.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 5 Dec 2018 19:04:34 -0800
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <3fdeffd5-0d20-b50a-0d8c-8aec3715ebb2@windriver.com>
+	<a545e5df-65fc-1249-4fcd-d0c9b0175e27@windriver.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <b8a47a27-bc7c-8404-9133-2c036a25a930@windriver.com>
+Date: Thu, 6 Dec 2018 11:04:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQegPbZ05LK3ZMNNHDYdjsi4ba-kp4=m3BBj6EbzbaHf8A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] uboot-sign.bbclass: Remove tab indentations in python code
+In-Reply-To: <a545e5df-65fc-1249-4fcd-d0c9b0175e27@windriver.com>
+X-Originating-IP: [128.224.163.204]
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IElzIGl0IG5lY2Vzc2FyeSB0byBmaXggdGhlIEJ1Z3ppbGxhIOKAkyBCdWcgMTE4MDcgYW5kIDU4NzYgPw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,92 +36,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 02:55:22 -0000
+X-List-Received-Date: Thu, 06 Dec 2018 03:05:21 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 
-Hi Martin,
 
-On 12/5/18 10:40 PM, Martin Jansa wrote:
-> I wish we could have the same warning for shell code as well :).
+
+On 12/05/2018 06:57 PM, Bruce Ashfield wrote:
+> On 12/5/18 5:17 AM, Hongzhi, Song wrote:
+>> Hi all,
+>>
+>> I don't know if it is necessary to do this enhancement.
+>>
+>> 1. Bug 11807:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=11807
+>>
+>>
+>> 'CONFIG_EXTRA_FIRMWARE' is used to be set to the names of firmware 
+>> files which
+>>
+>> should be provided by driver vendors.
+>>
+>> 'CONFIG_EXTRA_FIRMWARE_DIR' is set to a path which contains above 
+>> firmware
+>>
+>> files. The default path is /lib/firmware if the 
+>> 'CONFIG_EXTRA_FIRMWARE_DIR' is not set.
+>>
+>>
+>> The path and firmware files must exist in rootfs eventually.
+>>
+>>
+>> 2. Bug 5876:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5876
+>>
+>>
+>> I think it mean that bbclass should check the state of menuconfig.
+>>
+>>
+>> I don't know if is necessary to fix these bugs. Could you give me help?
+>
+> I have some enhancements and other things in flight that can already do
+> what these two bugs are talking about. Paul and I had discussed some of
+> the config auditing on the list about a year ago, and agreed that
+> there's no sense duplicating the functionality that already exists
+> (rather I was going to tweak a few things to make it more easily
+> accessible).
+>
+> If you want, you could assign 5876 to me, and I could take care of it.
+
+Hi Bruce,
+
+Thanks, I will assign it to you.
+
+>
+> As for 11807, that is simply a kernel configuration option and it should
+> be handled like any other. I don't see the need for anything special to
+> be done.
 >
 
-According to oe's Format Guidelines:
+This option is different from the common options. It can only be set two 
+types
+of value, "" and "filename1 filename2 ...", which depends on customer.
 
-https://www.openembedded.org/wiki/Styleguide#Format_Guidelines
+Maybe we can add a variable containing useful firmware in kernel recipe 
+for customer.
+The variable will eventually set CONFIG_EXTRA_FIRMWARE in .config .
 
-- Python functions must be four space indented - no tabs.
-- Shell functions in OE-Core usually use tabs for indentation, but other layers 
-usually use consistent indentation with 4 spaces (in shell functions, python 
-functions and for indentation of multi-line variables)
+--Hongzhi
 
+> Bruce
+>
+>
+>>
+>>
+>> --Honghzi
+>>
+>>
+>
+>
 
-So I think that shell code can use either spaces or tabs as indentation.
-
-> Can you please take care of meta-gplv2 as well?
-> WARNING: meta-gplv2/recipes-core/coreutils/coreutils_6.9.bb 
-> <http://coreutils_6.9.bb>: python should use 4 spaces indentation, but found 
-> tabs in coreutils_6.9.bb <http://coreutils_6.9.bb>, line 95
-
-Thanks, I've sent a patch for it.
-
-// Robert
-
-> 
-> I've sent patch for meta-oe issue:
-> http://lists.openembedded.org/pipermail/openembedded-devel/2018-December/197803.html
-> 
-> 
-> On Fri, Nov 23, 2018 at 11:51 AM Robert Yang <liezhi.yang@windriver.com 
-> <mailto:liezhi.yang@windriver.com>> wrote:
-> 
->     Use 4 spaces to replace a tab.
-> 
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->     ---
->       meta/classes/uboot-sign.bbclass | 16 ++++++++--------
->       1 file changed, 8 insertions(+), 8 deletions(-)
-> 
->     diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
->     index 0e5e1b1..03100b8 100644
->     --- a/meta/classes/uboot-sign.bbclass
->     +++ b/meta/classes/uboot-sign.bbclass
->     @@ -93,14 +93,14 @@ do_install_append() {
->       }
-> 
->       python () {
->     -       if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') ==
->     d.getVar('UBOOT_PN'):
->     -               kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
->     +    if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') ==
->     d.getVar('UBOOT_PN'):
->     +        kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
-> 
->     -               # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
->     -               d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' %
->     kernel_pn)
->     +        # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
->     +        d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
-> 
->     -               # kernerl's do_deploy is a litle special, so we can't use
->     -               # do_deploy_append, otherwise it would override
->     -               # kernel_do_deploy.
->     -               d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
->     +        # kernerl's do_deploy is a litle special, so we can't use
->     +        # do_deploy_append, otherwise it would override
->     +        # kernel_do_deploy.
->     +        d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
->       }
->     -- 
->     2.7.4
-> 
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
