@@ -1,47 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F5946C1B4
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5654F65CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 04:27:37 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id z16so24976304qtq.4
+	Thu,  6 Dec 2018 05:43:36 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id n12so13369926qkh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2018 20:27:38 -0800 (PST)
+	Wed, 05 Dec 2018 21:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FhO1jTLG6ARRd+PEvlu+uloRUpQyWw4ZQSE0JRJMY4k=;
-	b=ifh/zelx1byb8aqCxsmEE2mWRBI+Rl3sPjTwhpfERFvYtgwHW3055jexMFd82kn++t
-	KcE4UFMp4g7kwOa623m/jBg6mf/OYWbOaC7v8lSjfwmMnWqJ7nzvqHsUczKQ0B9IdshX
-	6N371RETUvrcsYbksDsrajNDqH2iBH1TooI4BOUYR0sy+xNYSXKXbEXmtGjeLqeDEv+O
-	DEW5uUz2B3o1YRzDM/oRG4UTC9ySkcGf+0XPoy6MZrfMhjjqgUgREnbT+BAg5KrhAKf/
-	xs+9jbu4V3lRm2j2PBqD2IeHewkNRicbQg4PlSinAWek2qywbWgZYR3gIaKBjy/hlm/e
-	2l3g==
+	:cc; bh=J9AKv9XJX0+qfXSTEudY3s95H3M2eg1Gvb5KgbOowcQ=;
+	b=Ts+HO6qm731N/jEDQQ1NWmsKRv7v09aKAlDZF9fkgJ5iKwAr47faFblVYRCrCh1RRj
+	LF9HyYV+drFIKqiXpsK1rFUDXubbfuR6VwwHz7LbkATGeHuAkxAyYNyzn6JMeO7xct4c
+	8Bdxe5+ehteB4/y7dnSDqyfIPRM7l+OwLkfnzpk5/HUO6gNg+6YwN7LVZwsz7e0EZ7uy
+	4iX31aa5DZlBkI4UR/gQyyQ8sjWldkJmiQPOALjKhchjIA8js1iY7g5njEz2OPdjte4w
+	DnvwgSnDWhNd8Tc8AQzYXBthan2am2gW/JS22aFUkIwx37i89gzdBdFob9yh8etq7ADF
+	cjAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=FhO1jTLG6ARRd+PEvlu+uloRUpQyWw4ZQSE0JRJMY4k=;
-	b=tkocW9LSzDhu86RPTIRi0KsofN7iQOZBIczqvy9LP0YX9jcPYDgg1h+qMi7gN33CfR
-	THu6GZCb9ErWFF1mASNTKHsy156qRV70RHcr105a6uoQkC+/Z2Giw8ahoyFaQqzsPrOR
-	Ql+fdxQQ6TFIJxiIWVMxnNQfanPeMZO0cqXaZSY1qvncmWyUcMsJXnBygorollO0YHMG
-	M1+F78sotOMOk+j11IFP1YmIUieotkt8yXV8UG3j70hKjVMv5QWpeAflvojDKeNSIHS7
-	iwyBZ3mAbw46TBovZzZveYKQoLqCuCPRjeZlkAOXx+doW/0Tj/QcyDNsbKI3uz0G4aSb
-	/pmg==
-X-Gm-Message-State: AA+aEWZXj9/wZjLblCxkpTqWETqaT6IIKkpbJN5n+98yAdItU5eGM/m7
-	CI3rP7itrk6rujOKd8BDJA1YXUBShdxkGUQWuPw=
-X-Google-Smtp-Source: AFSGD/X7ui3Rnz8bx9O/Pkj9J4LL13ta/44Y6y7su13pwxI+g801Pgt1kwICglY8dFvzJQyQ2f6RriNv4Bmbz8Zs51E=
-X-Received: by 2002:ac8:518d:: with SMTP id c13mr25264724qtn.254.1544070457925;
-	Wed, 05 Dec 2018 20:27:37 -0800 (PST)
+	bh=J9AKv9XJX0+qfXSTEudY3s95H3M2eg1Gvb5KgbOowcQ=;
+	b=hQPaFT4f4iYwzABXeX/dOa7ZmdgDApO25+FjuF/iFmvaf/w/D2M8DDJxJATeD2xC5b
+	fgnLCjdm1q1QOeafN1hDRJ1kfyMMtcuBNJTEr3gl2vS+oordotAyLfsYUXrAo5TBYP6f
+	KmhXgsynkYspN/0SBeTVuLUP5K6kWlTy2W8Ggi9p/yWFuHVuYvSZxKu77GwglU3JDmMZ
+	rWwDWiNeZ6DnUFox8AJK3xa/cXEyjRpnm9wf9ApnLXTYpTSzVi1CBThvfJB4YZsRMw3p
+	xnfaljM9vcsrWjzh0U5r7URpRNBey8UGeb7B37jguZzOZ8EkqyL4SBcS9vA7GPWq01dl
+	n2+A==
+X-Gm-Message-State: AA+aEWYsoTLhOy7HFuubgArOh9UdWI0nfXGZ8sZCxIUOvIk3hGGgN6Oz
+	f6wQfPhILftJU2hH1AGNyBAFuJ0IlMvx7fkGGnA=
+X-Google-Smtp-Source: AFSGD/XqiJwR8ldQRHfEVRR+p2SuDqxXgLgB9ceW+wX1DYj+7umOuq5eK82Ls3KFcGFp+LrpAsKN4j0cctM48rSUv8k=
+X-Received: by 2002:a37:ac05:: with SMTP id e5mr25567294qkm.102.1544075016829; 
+	Wed, 05 Dec 2018 21:43:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20181205012132.27831-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20181205012132.27831-1-hongl.fnst@cn.fujitsu.com>
+References: <cover.1543542953.git.kai.kang@windriver.com>
+	<3fa72e2dcc40d2f20f8f4350d0a5817f90aca805.1543542953.git.kai.kang@windriver.com>
+In-Reply-To: <3fa72e2dcc40d2f20f8f4350d0a5817f90aca805.1543542953.git.kai.kang@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Dec 2018 20:27:11 -0800
-Message-ID: <CAMKF1spTvOq8zzVYSnFuXdc0ZE3KoeB+S+zC0uSvsgMst_oqTA@mail.gmail.com>
-To: hongl.fnst@cn.fujitsu.com
+Date: Wed, 5 Dec 2018 21:43:11 -0800
+Message-ID: <CAMKF1spY13oEFVMnw1mJTDq6gRr7nF9bcEyouX32OYWN98nP4Q@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] tcl:upgrade to 8.6.9
+Subject: Re: [PATCH 1/1] u-boot-tools: fix compile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 04:27:37 -0000
+X-List-Received-Date: Thu, 06 Dec 2018 05:43:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I think this is causing tk to fail  with missing fixstrtod
+Richard,
 
-see http://errors.yoctoproject.org/Errors/Details/203567/
-
-Richard, please hold off to this patch until we have equivalent tk upgrade
-patch as well.
-On Tue, Dec 4, 2018 at 5:19 PM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+Please pick this patch up. This fixes the build issue for this recipe
+on every architecture besides arm/x86
+e.g. see http://errors.yoctoproject.org/Errors/Details/203569/
+On Thu, Nov 29, 2018 at 5:59 PM <kai.kang@windriver.com> wrote:
 >
-> 1.Upgrade tcl from 8.6.8 to 8.6.9.
+> From: Kai Kang <kai.kang@windriver.com>
 >
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> It uses sandbox_defconfig to produce u-boot tools. But EFI is only
+> supported by arm and x86, then it fails to run task do_compile on other
+> arches:
+>
+> | include/config_distro_bootcmd.h:267:3: error: #error "sandbox EFI
+> | support is only supported on ARM and x86"
+>
+> Only enable EFI support for u-boot-tools on x86 and arm to fix the issue.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  meta/recipes-devtools/tcltk/{tcl_8.6.8.bb => tcl_8.6.9.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/tcltk/{tcl_8.6.8.bb => tcl_8.6.9.bb} (95%)
+>  meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.8.bb b/meta/recipes-devtools/tcltk/tcl_8.6.9.bb
-> similarity index 95%
-> rename from meta/recipes-devtools/tcltk/tcl_8.6.8.bb
-> rename to meta/recipes-devtools/tcltk/tcl_8.6.9.bb
-> index 4be2e89..7f37781 100644
-> --- a/meta/recipes-devtools/tcltk/tcl_8.6.8.bb
-> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.9.bb
-> @@ -24,8 +24,8 @@ SRC_URI = "${BASE_SRC_URI} \
->             file://alter-includedir.patch \
->             file://run-ptest \
->  "
-> -SRC_URI[md5sum] = "81656d3367af032e0ae6157eff134f89"
-> -SRC_URI[sha256sum] = "c43cb0c1518ce42b00e7c8f6eaddd5195c53a98f94adc717234a65cbcfd3f96a"
-> +SRC_URI[md5sum] = "aa0a121d95a0e7b73a036f26028538d4"
-> +SRC_URI[sha256sum] = "ad0cd2de2c87b9ba8086b43957a0de3eb2eb565c7159d5f53ccbba3feb915f4e"
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+> index 127c4c15d1..7893d2aebc 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+> @@ -17,13 +17,20 @@ EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS
+>  EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
+>  EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
 >
->  SRC_URI_class-native = "${BASE_SRC_URI}"
+> +SED_CONFIG_EFI = '-e "s/CONFIG_EFI_LOADER=.*/# CONFIG_EFI_LOADER is not set/"'
+> +SED_CONFIG_EFI_x86 = ''
+> +SED_CONFIG_EFI_x86-64 = ''
+> +SED_CONFIG_EFI_arm = ''
+> +SED_CONFIG_EFI_armeb = ''
+> +SED_CONFIG_EFI_aarch64 = ''
+> +
+>  do_compile () {
+>         oe_runmake sandbox_defconfig
 >
+>         # Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
+>         # generating it requires bin2header tool, which for target build
+>         # is built with target tools and thus cannot be executed on host.
+> -       sed -i "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" .config
+> +       sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} .config
+>
+>         oe_runmake cross_tools NO_SDL=1
+>  }
 > --
-> 2.7.4
->
->
+> 2.19.0.rc2
 >
 > --
 > _______________________________________________
