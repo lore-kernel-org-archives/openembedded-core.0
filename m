@@ -1,27 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D8D106BC7E;
-	Wed,  5 Dec 2018 22:52:23 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	wB5MqMmQ012785
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 5 Dec 2018 22:52:23 GMT
-Message-ID: <5d5b3aba3171a2fc2ef94157769ec0b0e46e49f9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	bitbake-devel@lists.openembedded.org
-Date: Wed, 05 Dec 2018 22:52:22 +0000
-In-Reply-To: <20181204034245.25461-14-JPEWhacker@gmail.com>
-References: <20180809220840.26697-1-JPEWhacker@gmail.com>
-	<20181204034245.25461-1-JPEWhacker@gmail.com>
-	<20181204034245.25461-14-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [bitbake-devel] [PATCH v3 13/17] bitbake: runqueue: Pass dependency ID to hash validate
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F3AAC71BFC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Dec 2018 00:08:02 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id b7so10810224pfi.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Dec 2018 16:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GM8x1Wx2/tjCXiRPfSyY7d2ckvSE9m7FfC9sbhLMTsk=;
+	b=Fl/1XUZR2Qezgw5F4sRkVrxaFRs+UTPHyQB5kbzgbmQGHh42p3eWZ/lzKDF4997n+L
+	Zmh2Ugqr5Cl+JBUJN5W/cOOjhtct5Kj6BqXUVX0vXDsYnyqh8SlVkLSn47uITU6xoKk0
+	TwEgN8e8W8m8NyEFusIyKRsTlYPLeCLzsgU0OtcFYRnwGwKJRqpD9aiY/zsQbMIFW6H6
+	N9HzEccSkA9h3MdktcHBMe36iVTZs3uyPse2q85ehekuENAmuwpfMg1zczkw2glbVy4h
+	ihxri4QmRN9VDocN9lF1riIMJCz1xm0biDEA1WzmC1hFU3Q2AeD/LL3bYrN0NDc+LdJV
+	JJfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GM8x1Wx2/tjCXiRPfSyY7d2ckvSE9m7FfC9sbhLMTsk=;
+	b=CerRRAP1WJPrytgunyYtpSdvXERXpSZZTPouQ1CGz2UhtI9+MK2sQaLyJxhmuSgtLL
+	81BU3VzvKHniIVd3LGyYs6C2Qk27UEMwyFqE1u3oILzt2PJNjrfXFAevyTR6Ovz4CwHD
+	ufjqNE7LsU7pcfLrPMogqKhXEhuXrRk3eNd4gF0zauLfVym6DFSMT7kBSxwGkOp7X744
+	FXvUUm71+o4iLtlYK4+gpNsD0uOY0zZ41rabaKw/i9BLZAS8uUk6Vh8ILqUwgX/JWyuR
+	clAONSI7dQdQ50QgP7yzo+vZjPLjN8RM5upuwlpl01Oa5LYimw1SMxSgIdu5otEtk1oW
+	YmpA==
+X-Gm-Message-State: AA+aEWal72FQ1LyyXqPA1ij8Sq5HelLLAKNavbG8CSz16BKpNaHe6IXJ
+	aEtNAdPLOz/g08Dhq/zI0JpG0Yv+fKc=
+X-Google-Smtp-Source: AFSGD/UC9mtZFpBSNXDQziSn32NDoDSqMxVHnciXkCUIpE2RY1keUcc0T6Y2HC8loHp6b8AmfHhRHg==
+X-Received: by 2002:a63:4b25:: with SMTP id y37mr22948323pga.181.1544054883643;
+	Wed, 05 Dec 2018 16:08:03 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:877f:9499::5f84])
+	by smtp.gmail.com with ESMTPSA id
+	t12sm31010641pfi.45.2018.12.05.16.08.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Dec 2018 16:08:03 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Dec 2018 16:07:49 -0800
+Message-Id: <20181206000749.28731-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.2
+MIME-Version: 1.0
+Subject: [PATCH] libunwind: Enable building static archive on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2018 22:52:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Dec 2018 00:08:03 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2018-12-03 at 21:42 -0600, Joshua Watt wrote:
-> If the dependency ID is being used to track task dependencies, the
-> hash
-> validation function needs to know about it in order to properly
-> validate
-> the hash.
-> 
-> TODO: This currently isn't going to be backward compatible with older
-> hashvalidate functions. Is that necessary, and if so are there any
-> suggestions for a good approach?
+This ensures that we have .a for libunwind on musl targets, this is used
+for stack unwinding infra e.g. in rust
 
-That is necessary or bitbake and the metadata need to be in lock step.
+Help compiling rust compiler and standard library from meta-rust
 
-@@ -1567,15 +1568,16 @@ class RunQueue:
->              sq_fn.append(fn)
->              sq_hashfn.append(self.rqdata.dataCaches[mc].hashfn[taskfn])
->              sq_hash.append(self.rqdata.runtaskentries[tid].hash)
-> +            sq_depid.append(self.rqdata.runtaskentries[tid].depid)
->              sq_taskname.append(taskname)
->              sq_task.append(tid)
-> -        locs = { "sq_fn" : sq_fn, "sq_task" : sq_taskname, "sq_hash" : sq_hash, "sq_hashfn" : sq_hashfn, "d" : self.cooker.data }
-> +        locs = { "sq_fn" : sq_fn, "sq_task" : sq_taskname, "sq_hash" : sq_hash, "sq_hashfn" : sq_hashfn, "sq_depid" : sq_depid, "d" : self.cooker.data }
->          try:
-> -            call = self.hashvalidate + "(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=True)"
-> +            call = self.hashvalidate + "(sq_fn, sq_task, sq_hash, sq_hashfn, sq_depid, d, siginfo=True)"
->              valid = bb.utils.better_eval(call, locs)
->          # Handle version with no siginfo parameter
->          except TypeError:
-> -            call = self.hashvalidate + "(sq_fn, sq_task, sq_hash, sq_hashfn, d)"
-> +            call = self.hashvalidate + "(sq_fn, sq_task, sq_hash, sq_hashfn, sq_depid, d)"
->              valid = bb.utils.better_eval(call, locs)
->          for v in valid:
-> 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/libunwind/libunwind_1.2.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The hint on how we've handled this before is in the code, the TypeError
-was the fallback code for older metadata (which you just broke!). We
-may need to do something similar here.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libunwind/libunwind_1.2.1.bb b/meta/recipes-support/libunwind/libunwind_1.2.1.bb
+index e7fb2b2190..c9239b695e 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.2.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.2.1.bb
+@@ -14,7 +14,7 @@ SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV
+            "
+ 
+ SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
+-EXTRA_OECONF_append_libc-musl = " --disable-documentation --disable-tests "
++EXTRA_OECONF_append_libc-musl = " --disable-documentation --disable-tests --enable-static"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20487/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+-- 
+2.19.2
 
 
