@@ -1,50 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DD8A71A74
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A69126B51A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 00:34:09 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id w73so10842698pfk.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2018 16:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0Bx/n3mKhRN0qllq3ee+fNRbVGMf7NKvc+jrXuVfgY8=;
-	b=ezOtG0goEKEJ1qHBgfYXe2TMs5pW0ayG0ws7inwaRsn4Y8zdW4W0FloI9RTjOgXtjV
-	Z3Sk+XvJchh98SL4sFhaj50JAW+nksVgJVr9XvmCs+doDzOduyz4UtCPPMtBC1BNlMYe
-	H8+skE4T10PUcKTwwiDbKDdIr09Xcyp80tZMJjHd1EMgIIs8xUJVKxuJoMm7bdi21PvR
-	HMf9OsrZex9tvP+A5vhhh0NQm27gp5lHjRRi8Vj6RS2UbkKwar5iwjTzlgcQUU3LStUa
-	/qiVyRCwPtjBU3NptiwA9xPs2lYt6efIP14biI38g1auPHHpyHcG6szHbIFFBxADHa98
-	98eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0Bx/n3mKhRN0qllq3ee+fNRbVGMf7NKvc+jrXuVfgY8=;
-	b=K4xaFnrQhq+Kwdw5+Gbbkwlnc7EEUaMqYJ+ynfcWdncJdS/5I7JQR+qLZOEhlJviVu
-	j4H+vQQxNok5xuJkH/dQXF6uVKEdje7AnMuyIzyXSQL9HT3/QCuN9ThWo5nnvk7Sfu49
-	IBeIuHzvtdj5x7KNmiXIK9VquOeRdsZxxS5GRfJcNsziXYcK365SmzX6ICvPZHo9lBMG
-	TgxEc/SwvIPjiNnwQJ4QPQ/RCKHCOPFT/t4PcfcBGhexMVm0WYKJy64fBNTyTiAcuOgf
-	m/VbmerDdSxo7cRG7TVPDUukEFOMmuGqOnMhbk7XZazUc+E0FPvnvPLTdtYAkQNxOpqt
-	ywXg==
-X-Gm-Message-State: AA+aEWYMxYMk7c+5WxS9CGBeUrngx0BpIieEiCNPP1HX/ktEtz/hWpRd
-	phkKgRG0HCfpMCnhL9i7ploWK4TsRNI=
-X-Google-Smtp-Source: AFSGD/Xgvx7fXlvN05KDbRMmcE/ZFfdc32oR1s08jNxbbw8Y1Drl9K6RTktVKkyPCWFjOwi+wHiSyA==
-X-Received: by 2002:a63:bc02:: with SMTP id q2mr22494499pge.116.1544056450023; 
-	Wed, 05 Dec 2018 16:34:10 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::5f84])
-	by smtp.gmail.com with ESMTPSA id
-	134sm23773178pgb.78.2018.12.05.16.34.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Dec 2018 16:34:09 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2018 16:33:55 -0800
-Message-Id: <20181206003355.18035-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.19.2
+	Thu,  6 Dec 2018 02:55:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB62skse026185
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 5 Dec 2018 18:54:56 -0800
+Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 5 Dec 2018 18:54:35 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1542971171.git.liezhi.yang@windriver.com>
+	<85fe4df7c0ce3e3c8017fbf410d98498669f7363.1542971171.git.liezhi.yang@windriver.com>
+	<CA+chaQegPbZ05LK3ZMNNHDYdjsi4ba-kp4=m3BBj6EbzbaHf8A@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <01bf1405-68d4-59c1-bb14-c12e7d75cd7b@windriver.com>
+Date: Thu, 6 Dec 2018 10:59:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH] recipeutils-test: Add missing LIC_FILES_CHKSUM
+In-Reply-To: <CA+chaQegPbZ05LK3ZMNNHDYdjsi4ba-kp4=m3BBj6EbzbaHf8A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] uboot-sign.bbclass: Remove tab indentations in python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +37,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 00:34:09 -0000
+X-List-Received-Date: Thu, 06 Dec 2018 02:55:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Fixes
-ERROR: QA Issue: recipeutils-test: Recipe file fetches files and does
-not have license file information (LIC_FILES_CHKSUM) [license-checksum]
+Hi Martin,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 12/5/18 10:40 PM, Martin Jansa wrote:
+> I wish we could have the same warning for shell code as well :).
+>
 
-diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-index f6da97b2d4..7c20d9a683 100644
---- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-+++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-@@ -3,7 +3,7 @@ SUMMARY = "Test recipe for recipeutils.patch_recipe()"
- require recipeutils-test.inc
- 
- LICENSE = "Proprietary"
--
-+LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
- DEPENDS += "virtual/libx11"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.19.2
+According to oe's Format Guidelines:
 
+https://www.openembedded.org/wiki/Styleguide#Format_Guidelines
+
+- Python functions must be four space indented - no tabs.
+- Shell functions in OE-Core usually use tabs for indentation, but other layers 
+usually use consistent indentation with 4 spaces (in shell functions, python 
+functions and for indentation of multi-line variables)
+
+
+So I think that shell code can use either spaces or tabs as indentation.
+
+> Can you please take care of meta-gplv2 as well?
+> WARNING: meta-gplv2/recipes-core/coreutils/coreutils_6.9.bb 
+> <http://coreutils_6.9.bb>: python should use 4 spaces indentation, but found 
+> tabs in coreutils_6.9.bb <http://coreutils_6.9.bb>, line 95
+
+Thanks, I've sent a patch for it.
+
+// Robert
+
+> 
+> I've sent patch for meta-oe issue:
+> http://lists.openembedded.org/pipermail/openembedded-devel/2018-December/197803.html
+> 
+> 
+> On Fri, Nov 23, 2018 at 11:51 AM Robert Yang <liezhi.yang@windriver.com 
+> <mailto:liezhi.yang@windriver.com>> wrote:
+> 
+>     Use 4 spaces to replace a tab.
+> 
+>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
+>     <mailto:liezhi.yang@windriver.com>>
+>     ---
+>       meta/classes/uboot-sign.bbclass | 16 ++++++++--------
+>       1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+>     diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+>     index 0e5e1b1..03100b8 100644
+>     --- a/meta/classes/uboot-sign.bbclass
+>     +++ b/meta/classes/uboot-sign.bbclass
+>     @@ -93,14 +93,14 @@ do_install_append() {
+>       }
+> 
+>       python () {
+>     -       if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') ==
+>     d.getVar('UBOOT_PN'):
+>     -               kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
+>     +    if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') ==
+>     d.getVar('UBOOT_PN'):
+>     +        kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
+> 
+>     -               # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
+>     -               d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' %
+>     kernel_pn)
+>     +        # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
+>     +        d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
+> 
+>     -               # kernerl's do_deploy is a litle special, so we can't use
+>     -               # do_deploy_append, otherwise it would override
+>     -               # kernel_do_deploy.
+>     -               d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
+>     +        # kernerl's do_deploy is a litle special, so we can't use
+>     +        # do_deploy_append, otherwise it would override
+>     +        # kernel_do_deploy.
+>     +        d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
+>       }
+>     -- 
+>     2.7.4
+> 
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
