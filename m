@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 286486C0EA
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id ED5B7600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 15:45:24 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id i7so963960qtj.10
+	Thu,  6 Dec 2018 15:47:22 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id d19so979647qtq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Dec 2018 07:45:26 -0800 (PST)
+	Thu, 06 Dec 2018 07:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PvJ9kmCFEtTJa3MG0FQZftJJv9w3DOX1ZmvNVhTbX58=;
-	b=XkxFrbPeh6jXD2g/cwpxawr8Jl0LuOgbJ9y5IHRGf6Pgf8c+u8QQkYCjGPIAMxg1YK
-	ztJuwbRfWgF3u7vQBCOSUnItXmhhJ6OV4QzYU4f3+T6Swo2ScqH3msOq/xSp8t4Z2yGg
-	v9u9JI1bTNrekA4dBsGaUocbGJdFVCneVzapfNv1w/9Eby/7f2Y/0CenqlUu9DDx73xa
-	ov3obPy188GFpTjN4NPpuQ5CDo7ijMzhOeD/uTYHqpfrl4hrFznB7HkgVO2Nz86z8U1/
-	wpS7pLkQNwhy4Wn3Qe2BfdzLAj46pd4pYKJhCZWvb2AiZKjllLZUHwtPU9OgBuhPXZ6a
-	ozNQ==
+	:cc; bh=5qD6coDIg+vNtwEfPGfH1jSOwAMFlI+5iV2DtbG6VEM=;
+	b=HuVg9O5hwy5V6difoUimw//Je2cp6wPkrXA2sIg64URrEMYgoHH5FuModDdhVbTQdj
+	mgkf5boIpJo1Lg/HoYOph6KM5ZIQA4pZQ3q1Fl1vNlE/WsFOKt1dHG47nrp7KDYstvL+
+	PZCOZ1F/jH6j54yWEodbz1VLihvdaTmd6zpalj5+tExEpfxMgI1IsdKvI/SW9YPznR3T
+	3jFcjQB262q1CemspF55rxOiR0YezrJWjFwDIRBau//YwvXow66RVyYh2MoYx/aAnNCZ
+	pMcnjdoJ1eKvOM9opVC4wlNLiamL56EEb6w0OVKqgpLKi9DfsA7Wokw1btO+pGQFGzql
+	xHbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PvJ9kmCFEtTJa3MG0FQZftJJv9w3DOX1ZmvNVhTbX58=;
-	b=OSFKqMNxU5V+MY9EV09CQao8NXFm8yPwiw11uXTf98henQBNgPB24KWnpbW7X4hFwx
-	av/XG60i1i0BYe8sdPRceNf+R2fVULoMyIqZnWfvEfwJ8YQEuRkT9UP3yc1uGJcDwqpo
-	zPLPpwzQ9PDLMGT+lC2UlKrhj393sztRjuOQyxfcN+9T23E9JpUyfIkjJYDuc8BhBuFA
-	05uIQDrm4QaWJlH02Pzby18zBnYbVIpl97j4ulhsKonbguaMMuJ9amwX5wSCUW7BqbQ8
-	1KcKl3ow3aeNaSjH+5ZxB6+SphLxO51POAUXr270w5nzBwBpBuqyL5yxy4KA+B6unTBP
-	Q86A==
-X-Gm-Message-State: AA+aEWYAkwqPOc96By/E3xwf0obAOe+gCv5GpLYd/bThbygZkf6M8GLw
-	XdoTSs9B4UZiaxiXzszax3WldW2k4buicSVl7go=
-X-Google-Smtp-Source: AFSGD/UflyPlP5reHJTzMXBG3AE+8ecAfxKdxZEUS2oJZMB/60T3JtQHlkulL6L49LtpioQeQ6926M4YwDn7pszrxEY=
-X-Received: by 2002:ac8:16d8:: with SMTP id y24mr28474711qtk.253.1544111125484;
-	Thu, 06 Dec 2018 07:45:25 -0800 (PST)
+	bh=5qD6coDIg+vNtwEfPGfH1jSOwAMFlI+5iV2DtbG6VEM=;
+	b=XLZY4u7w0wSxXYg6eCVhMZXaL880M8d2KO1C8QEvi2jF1fW3AwC+KecAKM7RfpiTXw
+	dnd5mWKZz7TF52773D6CO7sa8ZNp/Ks0sissTsiWXU6vEUiWENahQQ0bzrptMB46f1jV
+	cDi48vKE7hbYXhIQkk4hbY7Wt4Xp1yTf9A8w+Y4Su1gxz9kGCn+FycDRF+w/jXd0I8lR
+	c5jDGcoI44cbz9kIsKoEzmepc1NmPzK1Hpm9WT59u/nmUSIhxnGT618SvqWZN8tEVmnW
+	4O4UmUZATR0IS0vQTs4t5FpGYe94UQLWiF9BFNH7fcKUMQUYxy7dW/woHzbo+U38amVL
+	ZTTg==
+X-Gm-Message-State: AA+aEWaKLzeLqjTGOczIAlDzqcgPVaJ/CVOQkBLgmWPLOwDdaGnwm9IF
+	EVpksU/FZnRYcnjRbmZo3T9eUXSLx3Tjp9BurAk=
+X-Google-Smtp-Source: AFSGD/XXh8zw9yc5ljOaRWRF2bG0ZyZ9UA55k2VPi8b7w8lHUGaWbriXe48/LVu2nICgMRDu3oRE4H+FKgBOYK7PLoI=
+X-Received: by 2002:a0c:98a1:: with SMTP id f30mr27118584qvd.224.1544111243552;
+	Thu, 06 Dec 2018 07:47:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20181206000749.28731-1-raj.khem@gmail.com>
-	<CAJTo0LZi7zY+g9PKd=eUr9PnipvfTBeOXaC_y91Wm87+aP=oPw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZi7zY+g9PKd=eUr9PnipvfTBeOXaC_y91Wm87+aP=oPw@mail.gmail.com>
+References: <20181206003355.18035-1-raj.khem@gmail.com>
+	<CAJTo0LaLiMd_JWeKxXS7xmvBLiFk4yavE5qSHWL6mLnu0037Hg@mail.gmail.com>
+In-Reply-To: <CAJTo0LaLiMd_JWeKxXS7xmvBLiFk4yavE5qSHWL6mLnu0037Hg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Dec 2018 07:45:13 -0800
-Message-ID: <CAMKF1srv3AYsM8XFpOPO=A+mt-cQLxVKkU9rm17XxNeg0yMkyQ@mail.gmail.com>
+Date: Thu, 6 Dec 2018 07:47:12 -0800
+Message-ID: <CAMKF1spC-dV_pJ8F2LSfz7u3wGN=qO=gvujr_G0TYO6XRpp_yg@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libunwind: Enable building static archive on musl
+Subject: Re: [PATCH] recipeutils-test: Add missing LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,129 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 15:45:25 -0000
-Content-Type: multipart/alternative; boundary="00000000000020da74057c5c6388"
+X-List-Received-Date: Thu, 06 Dec 2018 15:47:23 -0000
+Content-Type: multipart/alternative; boundary="0000000000002a6ec3057c5c6af4"
 
---00000000000020da74057c5c6388
+--0000000000002a6ec3057c5c6af4
 Content-Type: text/plain; charset="UTF-8"
 
-Yes, they are. But for musl libunwind static lib is required for rust
-runtime to build all the time static or not
+Does that serve a better purpose? Or just a different way of achieving same
+thing
 
-On Thu, Dec 6, 2018 at 3:49 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, Dec 6, 2018 at 4:09 AM Burton, Ross <ross.burton@intel.com> wrote:
 
-> Presumably static archives are disabled by the no-static-libs include.
-> So is this really musl-specific?
+> Might be easier to change the license to CLOSED, as that skips the
+> license QA entirely.
+>
+> (arguably proprietary should do the same)
 >
 > Ross
-> On Thu, 6 Dec 2018 at 00:08, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > This ensures that we have .a for libunwind on musl targets, this is used
-> > for stack unwinding infra e.g. in rust
-> >
-> > Help compiling rust compiler and standard library from meta-rust
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-support/libunwind/libunwind_1.2.1.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/libunwind/libunwind_1.2.1.bb
-> b/meta/recipes-support/libunwind/libunwind_1.2.1.bb
-> > index e7fb2b2190..c9239b695e 100644
-> > --- a/meta/recipes-support/libunwind/libunwind_1.2.1.bb
-> > +++ b/meta/recipes-support/libunwind/libunwind_1.2.1.bb
-> > @@ -14,7 +14,7 @@ SRC_URI = "
-> http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV
-> >             "
-> >
-> >  SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
-> > -EXTRA_OECONF_append_libc-musl = " --disable-documentation
-> --disable-tests "
-> > +EXTRA_OECONF_append_libc-musl = " --disable-documentation
-> --disable-tests --enable-static"
-> >
-> >  # http://errors.yoctoproject.org/Errors/Details/20487/
-> >  ARM_INSTRUCTION_SET_armv4 = "arm"
-> > --
-> > 2.19.2
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---00000000000020da74057c5c6388
+--0000000000002a6ec3057c5c6af4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><div><div dir=3D"auto">Yes, they are. But for musl libunwind static li=
-b is required for rust runtime to build all the time static or not</div></d=
-iv></div><div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, =
-Dec 6, 2018 at 3:49 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel=
-.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">Presumably static archives are disabled by the no=
--static-libs include.<br>
-So is this really musl-specific?<br>
+<div><div dir=3D"auto">Does that serve a better purpose? Or just a differen=
+t way of achieving same thing=C2=A0</div></div><div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr">On Thu, Dec 6, 2018 at 4:09 AM Burton, Ross &lt;<a=
+ href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">Might be easier to change the lice=
+nse to CLOSED, as that skips the<br>
+license QA entirely.<br>
+<br>
+(arguably proprietary should do the same)<br>
 <br>
 Ross<br>
-On Thu, 6 Dec 2018 at 00:08, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This ensures that we have .a for libunwind on musl targets, this is us=
-ed<br>
-&gt; for stack unwinding infra e.g. in rust<br>
-&gt;<br>
-&gt; Help compiling rust compiler and standard library from meta-rust<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-support/libunwind/<a href=3D"http://libunwind_1.2.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.1.bb</a> | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/libunwind/<a href=3D"http://libunwin=
-d_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.1.bb</a> b/m=
-eta/recipes-support/libunwind/<a href=3D"http://libunwind_1.2.1.bb" rel=3D"=
-noreferrer" target=3D"_blank">libunwind_1.2.1.bb</a><br>
-&gt; index e7fb2b2190..c9239b695e 100644<br>
-&gt; --- a/meta/recipes-support/libunwind/<a href=3D"http://libunwind_1.2.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.1.bb</a><br>
-&gt; +++ b/meta/recipes-support/libunwind/<a href=3D"http://libunwind_1.2.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">libunwind_1.2.1.bb</a><br>
-&gt; @@ -14,7 +14,7 @@ SRC_URI =3D &quot;<a href=3D"http://download.savanna=
-h.nongnu.org/releases/libunwind/libunwind-$%7BPV" rel=3D"noreferrer" target=
-=3D"_blank">http://download.savannah.nongnu.org/releases/libunwind/libunwin=
-d-${PV</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;<br>
-&gt;=C2=A0 SRC_URI_append_libc-musl =3D &quot; file://musl-header-conflict.=
-patch&quot;<br>
-&gt; -EXTRA_OECONF_append_libc-musl =3D &quot; --disable-documentation --di=
-sable-tests &quot;<br>
-&gt; +EXTRA_OECONF_append_libc-musl =3D &quot; --disable-documentation --di=
-sable-tests --enable-static&quot;<br>
-&gt;<br>
-&gt;=C2=A0 # <a href=3D"http://errors.yoctoproject.org/Errors/Details/20487=
-/" rel=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Erro=
-rs/Details/20487/</a><br>
-&gt;=C2=A0 ARM_INSTRUCTION_SET_armv4 =3D &quot;arm&quot;<br>
-&gt; --<br>
-&gt; 2.19.2<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
-</div>
 
---00000000000020da74057c5c6388--
+--0000000000002a6ec3057c5c6af4--
