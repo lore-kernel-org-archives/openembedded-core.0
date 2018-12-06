@@ -1,24 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF2196C11F
+Return-Path: <mazliana.mohamad@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EBB479969
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 08:57:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wB68uSc1003749
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Dec 2018 00:56:38 -0800
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Dec 2018 00:56:17 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Thu, 6 Dec 2018 16:56:15 +0800
-Message-ID: <1544086575-9621-1-git-send-email-hongxu.jia@windriver.com>
+	Thu,  6 Dec 2018 11:14:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Dec 2018 03:14:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,322,1539673200"; d="scan'208";a="116494311"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2018 03:14:28 -0800
+From: mazliana.mohamad@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Dec 2018 18:59:26 +0800
+Message-Id: <1544093967-5387-1-git-send-email-mazliana.mohamad@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH V2] glibc: improve reproducibility with multilib
+Subject: [PATCH 1/2] scripts/test-case-mgmt: add "manualexecution" as a tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 08:57:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Dec 2018 11:14:29 -0000
 
-Multilib builds specify several loaders which will end up embedded in
-some binaries or script files. To support reproducible builds, we must
-ensure the loaders are always in deterministic order.
+From: Mazliana <mazliana.mohamad@intel.com>
 
-[YOCTO #2655]
-[YOCTO #12478]
-[YOCTO #12480]
+Integrated the test-case-mgmt "store", "report" with "manual execution".Manual test execution is one
+of an alternative test case management tool of Testopia. This script has only a bare-minimum function.
+Bare-minimum function refer to function where the user can only execute all of the test cases that
+component have.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+To use these scripts, first source oe environment, then run the entry point script to look for help.
+        $ test-case-mgmt
 
-Improve the fix and rebase it to 2.28
+To execute manual test cases, execute the below
+        $ test-case-mgmt manualexecution <manualjsonfile>
 
-Here is the log of lib32-glibc
-[log.do_compile]
-|Adjust ldd script
-|ldd "/lib64/ld-linux-x86-64.so.2 /lib/ld-linux.so.2 /lib/ld-linux.so.2
-/lib64/ld-linux-x86-64.so.2" -> "/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2"
-[log.do_compile]
+By default testresults.json store in poky/<build_dir>/tmp/log/manual
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+[YOCTO #12651]
+
+Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
 ---
- meta/recipes-core/glibc/glibc-ld.inc  | 4 ++--
- meta/recipes-core/glibc/glibc_2.28.bb | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ scripts/test-case-mgmt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc-ld.inc b/meta/recipes-core/glibc/glibc-ld.inc
-index bb167b3..041ffbb 100644
---- a/meta/recipes-core/glibc/glibc-ld.inc
-+++ b/meta/recipes-core/glibc/glibc-ld.inc
-@@ -10,8 +10,8 @@ def glibc_dl_info(d):
-         infos['ldconfig'].add('{"' + loader + '",' + "FLAG_ELF_LIBC6" + ' }')
-         infos['lddrewrite'].add(loader)
+diff --git a/scripts/test-case-mgmt b/scripts/test-case-mgmt
+index b832ee2..ef69db4 100755
+--- a/scripts/test-case-mgmt
++++ b/scripts/test-case-mgmt
+@@ -17,6 +17,11 @@
+ # To store test result & log, execute the below
+ #    $ test-case-mgmt store <source_dir> <git_branch>
+ #
++# To execute manual test cases, execute the below
++#    $ test-case-mgmt manualexecution <manualjsonfile>
++#
++# By default testresults.json for manualexecution in poky/<build>/tmp/log/manual/
++#
+ # Copyright (c) 2018, Intel Corporation.
+ #
+ # This program is free software; you can redistribute it and/or modify it
+@@ -40,6 +45,7 @@ import argparse_oe
+ import scriptutils
+ import testcasemgmt.store
+ import testcasemgmt.report
++import testcasemgmt.manualexecution
+ logger = scriptutils.logger_create('test-case-mgmt')
  
--    infos['ldconfig'] = ','.join(infos['ldconfig'])
--    infos['lddrewrite'] = ' '.join(infos['lddrewrite'])
-+    infos['ldconfig'] = ','.join(sorted(infos['ldconfig']))
-+    infos['lddrewrite'] = ' '.join(sorted(infos['lddrewrite']))
-     return infos
- 
- EGLIBC_KNOWN_INTERPRETER_NAMES = "${@glibc_dl_info(d)['ldconfig']}"
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index d072939..a107c58 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -122,10 +122,10 @@ do_compile () {
- 	if [ -n "${RTLDLIST}" ]
- 	then
- 		prevrtld=`cat ${B}/elf/ldd | grep "^RTLDLIST=" | sed 's#^RTLDLIST="\?\([^"]*\)"\?$#\1#'`
--		if [ "${prevrtld}" != "${RTLDLIST}" ]
--		then
--			sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${prevrtld} ${RTLDLIST}\"#"
--		fi
-+		# remove duplicate entries
-+		newrtld=`echo $(printf '%s\n' ${prevrtld} ${RTLDLIST} | LC_ALL=C sort -u)`
-+		echo "ldd \"${prevrtld} ${RTLDLIST}\" -> \"${newrtld}\""
-+		sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${newrtld}\"#"
- 	fi
- 
- }
+ def _validate_user_input_arguments(args):
+@@ -74,6 +80,8 @@ def main():
+     testcasemgmt.store.register_commands(subparsers)
+     subparsers.add_subparser_group('report', 'Reporting for test result & log', 200)
+     testcasemgmt.report.register_commands(subparsers)
++    subparsers.add_subparser_group('manualexecution', 'Execute manual test cases', 100)
++    testcasemgmt.manualexecution.register_commands(subparsers)
+     args = parser.parse_args()
+     if args.debug:
+         logger.setLevel(logging.DEBUG)
 -- 
 2.7.4
 
