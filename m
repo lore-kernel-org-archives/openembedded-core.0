@@ -1,47 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id ED5B7600BB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ED4B76BBEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Dec 2018 15:47:22 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id d19so979647qtq.9
+	Thu,  6 Dec 2018 16:03:52 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id i145so2110907ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Dec 2018 07:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 06 Dec 2018 08:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5qD6coDIg+vNtwEfPGfH1jSOwAMFlI+5iV2DtbG6VEM=;
-	b=HuVg9O5hwy5V6difoUimw//Je2cp6wPkrXA2sIg64URrEMYgoHH5FuModDdhVbTQdj
-	mgkf5boIpJo1Lg/HoYOph6KM5ZIQA4pZQ3q1Fl1vNlE/WsFOKt1dHG47nrp7KDYstvL+
-	PZCOZ1F/jH6j54yWEodbz1VLihvdaTmd6zpalj5+tExEpfxMgI1IsdKvI/SW9YPznR3T
-	3jFcjQB262q1CemspF55rxOiR0YezrJWjFwDIRBau//YwvXow66RVyYh2MoYx/aAnNCZ
-	pMcnjdoJ1eKvOM9opVC4wlNLiamL56EEb6w0OVKqgpLKi9DfsA7Wokw1btO+pGQFGzql
-	xHbA==
+	:cc; bh=mCKHx5g31tZt5Rx+BKNuMfutmRocGi9oDRtebCROz/o=;
+	b=gFicGTuH4NjcvMXSJzLgbtLRQ1UaxeDGiX0jQ4U3/HHVyH/wRFkYZIg1tIWfukRAOR
+	4kyENYP5QqO5mlToOAWSVe2TJsQBH8ClCjP6TDRre1pRVlscq6/fBFdHFhTCbBrzEqiG
+	q1WhuzyV+0iQFj52eKek+Bw+4026tc4hwJsFRgIDMkJENmAd92dTjqbM6slITqdxmmEu
+	pDdzr+GTnv5gA+pK336cSzwOR2Ioc7aHfHOUwM6qLTSr9IBJkMWZnUDBSxnb++lfCB1B
+	ZlH8i1yj6VDaRFccrIwztSw291kiwvrjxkHycjAu/G2qB27mLmyrr14FTvb1izDZxsqg
+	vX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5qD6coDIg+vNtwEfPGfH1jSOwAMFlI+5iV2DtbG6VEM=;
-	b=XLZY4u7w0wSxXYg6eCVhMZXaL880M8d2KO1C8QEvi2jF1fW3AwC+KecAKM7RfpiTXw
-	dnd5mWKZz7TF52773D6CO7sa8ZNp/Ks0sissTsiWXU6vEUiWENahQQ0bzrptMB46f1jV
-	cDi48vKE7hbYXhIQkk4hbY7Wt4Xp1yTf9A8w+Y4Su1gxz9kGCn+FycDRF+w/jXd0I8lR
-	c5jDGcoI44cbz9kIsKoEzmepc1NmPzK1Hpm9WT59u/nmUSIhxnGT618SvqWZN8tEVmnW
-	4O4UmUZATR0IS0vQTs4t5FpGYe94UQLWiF9BFNH7fcKUMQUYxy7dW/woHzbo+U38amVL
-	ZTTg==
-X-Gm-Message-State: AA+aEWaKLzeLqjTGOczIAlDzqcgPVaJ/CVOQkBLgmWPLOwDdaGnwm9IF
-	EVpksU/FZnRYcnjRbmZo3T9eUXSLx3Tjp9BurAk=
-X-Google-Smtp-Source: AFSGD/XXh8zw9yc5ljOaRWRF2bG0ZyZ9UA55k2VPi8b7w8lHUGaWbriXe48/LVu2nICgMRDu3oRE4H+FKgBOYK7PLoI=
-X-Received: by 2002:a0c:98a1:: with SMTP id f30mr27118584qvd.224.1544111243552;
-	Thu, 06 Dec 2018 07:47:23 -0800 (PST)
+	bh=mCKHx5g31tZt5Rx+BKNuMfutmRocGi9oDRtebCROz/o=;
+	b=niP2vpwXxZLqL/evOyf67R+KxJyoQJK6oPjqxxP/FFJBUbuF/a6r0bijKqBEpuCbDL
+	uTlXShiqa4je1HTMmNo9GQWIgyCYX6YqwhnqyekVh+4gSNdjmArp9lbkAmD8cGg/8J/w
+	1vJmVeTSiONUkYvWCJeaccT3mdn6IioQ6lX4Q8JEzdbxncb8D0jAfGxDEK9qiJQk041d
+	bSFMMbr4ET4UiVDQFZXLEwHSYpLXeQB3yRMtsVUtX1bNhRbqG30KiDfepvfk5AFGg7Od
+	zg7oTKOEdC3HElw9QfSAdxe7qmrMI1nfQBM/kR3En5D6O+LI+7RpmgexBD+A3bZSM4k2
+	rcgQ==
+X-Gm-Message-State: AA+aEWZ/qPWn1oUH2VcLNR90bnpb/5tZd2GaBBNw6nP5vs90Ymlyxu7n
+	UmkmyIjOuzusniIEzVFRoV4bJF3olQEo14wZq+aIBw==
+X-Google-Smtp-Source: AFSGD/V4sAeAj0TGrC683OazufAX1qhBfxAh1LN41GgGXb47nBQCey9fEAvrgPVhaqx08nN5xY2TWvv+n7q38bBvbK4=
+X-Received: by 2002:a02:9c53:: with SMTP id h19mr27112676jal.31.1544112234010; 
+	Thu, 06 Dec 2018 08:03:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20181206003355.18035-1-raj.khem@gmail.com>
-	<CAJTo0LaLiMd_JWeKxXS7xmvBLiFk4yavE5qSHWL6mLnu0037Hg@mail.gmail.com>
-In-Reply-To: <CAJTo0LaLiMd_JWeKxXS7xmvBLiFk4yavE5qSHWL6mLnu0037Hg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Dec 2018 07:47:12 -0800
-Message-ID: <CAMKF1spC-dV_pJ8F2LSfz7u3wGN=qO=gvujr_G0TYO6XRpp_yg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+References: <20181206000749.28731-1-raj.khem@gmail.com>
+	<CAJTo0LZi7zY+g9PKd=eUr9PnipvfTBeOXaC_y91Wm87+aP=oPw@mail.gmail.com>
+	<CAMKF1srv3AYsM8XFpOPO=A+mt-cQLxVKkU9rm17XxNeg0yMkyQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srv3AYsM8XFpOPO=A+mt-cQLxVKkU9rm17XxNeg0yMkyQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Dec 2018 16:03:42 +0000
+Message-ID: <CAJTo0Lau1hQKrPyCBiF7GA=LgUHcLh8n27KwrSQ5qo247qVK=Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipeutils-test: Add missing LIC_FILES_CHKSUM
+Subject: Re: [PATCH] libunwind: Enable building static archive on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +56,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2018 15:47:23 -0000
-Content-Type: multipart/alternative; boundary="0000000000002a6ec3057c5c6af4"
-
---0000000000002a6ec3057c5c6af4
+X-List-Received-Date: Thu, 06 Dec 2018 16:03:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Does that serve a better purpose? Or just a different way of achieving same
-thing
+On Thu, 6 Dec 2018 at 15:45, Khem Raj <raj.khem@gmail.com> wrote:
+> Yes, they are. But for musl libunwind static lib is required for rust runtime to build all the time static or not
 
-On Thu, Dec 6, 2018 at 4:09 AM Burton, Ross <ross.burton@intel.com> wrote:
+And that's a musl-specific quirk of rust?
 
-> Might be easier to change the license to CLOSED, as that skips the
-> license QA entirely.
->
-> (arguably proprietary should do the same)
->
-> Ross
->
+Ross
 
---0000000000002a6ec3057c5c6af4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto">Does that serve a better purpose? Or just a differen=
-t way of achieving same thing=C2=A0</div></div><div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr">On Thu, Dec 6, 2018 at 4:09 AM Burton, Ross &lt;<a=
- href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex">Might be easier to change the lice=
-nse to CLOSED, as that skips the<br>
-license QA entirely.<br>
-<br>
-(arguably proprietary should do the same)<br>
-<br>
-Ross<br>
-</blockquote></div></div>
-
---0000000000002a6ec3057c5c6af4--
