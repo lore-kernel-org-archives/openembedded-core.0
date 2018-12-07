@@ -1,25 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D59986C4B8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CFC4975219
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Dec 2018 06:35:46 +0000 (UTC)
+	Fri,  7 Dec 2018 08:07:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wB76ZmGB019848
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Dec 2018 22:35:48 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 6 Dec 2018 22:35:47 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Dec 2018 14:43:07 +0800
-Message-ID: <0fcf3f2435a19978e629b2903020a9a8f8a819a0.1544164496.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1544164496.git.Qi.Chen@windriver.com>
-References: <cover.1544164496.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wB7875Wb019374
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Dec 2018 00:07:05 -0800 (PST)
+Received: from [128.224.163.169] (128.224.163.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 7 Dec 2018 00:07:04 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1544078058-38009-1-git-send-email-hongxu.jia@windriver.com>
+	<CAJTo0LZcT1gs2-KMGzy6x8ni_4j0+Zv73k6wL+sQNi_gYQsNow@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <e98a4b7d-be9c-c608-16ac-6436635c6d14@windriver.com>
+Date: Fri, 7 Dec 2018 16:07:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oeqa/selftest/context: ensure log directory exists
+In-Reply-To: <CAJTo0LZcT1gs2-KMGzy6x8ni_4j0+Zv73k6wL+sQNi_gYQsNow@mail.gmail.com>
+Cc: Tanu Kaskinen <tanuk@iki.fi>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] pulseaudio: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +35,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2018 06:35:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Dec 2018 08:07:47 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Ensure log directory exists to avoid the following error.
+On 2018/12/7 上午12:18, Burton, Ross wrote:
+> Rejecting for the reasons discussed on the pulseaudio list.   Look
+> forward to a V3 :)
 
-  FileNotFoundError: [Errno 2] No such file or directory: '/.../build-selftest/tmp/log/oe-selftest-results-20181207043431.log'
+OK, I will send it to upstream first, if they are OK with it, then I 
+will send V3
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/context.py | 1 +
- 1 file changed, 1 insertion(+)
+//Hongxu
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index c521290..c56e53d 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -108,6 +108,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         logdir = os.environ.get("BUILDDIR")
-         if 'LOG_DIR' in bbvars:
-             logdir = bbvars['LOG_DIR']
-+        bb.utils.mkdirhier(logdir)
-         args.output_log = logdir + '/%s-results-%s.log' % (self.name, args.test_start_time)
- 
-         super(OESelftestTestContextExecutor, self)._process_args(logger, args)
--- 
-1.9.1
+
+> Ross
+> On Thu, 6 Dec 2018 at 06:36, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> There are two fixes, one is sent to upstream,
+>> and another is oe specific.
+>>
+>> [YOCTO #12638]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   .../0001-improve-reproducibility-build.patch       | 97 ++++++++++++++++++++++
+>>   ...lay-CLFAGS-to-improve-reproducibility-bui.patch | 30 +++++++
+>>   .../pulseaudio/pulseaudio_12.2.bb                  |  2 +
+>>   3 files changed, 129 insertions(+)
+>>   create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility-build.patch
+>>   create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
+>>
+>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility-build.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility-build.patch
+>> new file mode 100644
+>> index 0000000..2658100
+>> --- /dev/null
+>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-improve-reproducibility-build.patch
+>> @@ -0,0 +1,97 @@
+>> +From 08e2195e9d110323ebeb7bf91dcf8e3f7870423f Mon Sep 17 00:00:00 2001
+>> +From: Hongxu Jia <hongxu.jia@windriver.com>
+>> +Date: Thu, 6 Dec 2018 11:30:13 +0800
+>> +Subject: [PATCH 1/2] improve reproducibility build
+>> +
+>> +While running pulseaudio out of build dir (especially for cross
+>> +compiling), we should not expose pulseaudio build path[1], it is
+>> +helpful for reproducibility build[2].
+>> +
+>> +As commit introduced [3cae4a0 doc: Add info about running pulseaudio
+>> +from the build dir], run pulseaudio from the build dir, __OPTIMIZE__
+>> +should be diabled, so add macro checking to drop PA_SRCDIR/PA_BUILDDIR
+>> +(in which contains build path) at precompilation.
+>> +
+>> +[1] https://reproducible-builds.org/docs/build-path/
+>> +[2] https://reproducible-builds.org/
+>> +
+>> +Upstream-Status: Submitted [pulseaudio-discuss@lists.freedesktop.org]
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +---
+>> + src/daemon/daemon-conf.c      | 4 +++-
+>> + src/modules/alsa/alsa-mixer.c | 4 ++++
+>> + src/pulsecore/core-util.c     | 4 +++-
+>> + 3 files changed, 10 insertions(+), 2 deletions(-)
+>> +
+>> +diff --git a/src/daemon/daemon-conf.c b/src/daemon/daemon-conf.c
+>> +index 9883126..9d40896 100644
+>> +--- a/src/daemon/daemon-conf.c
+>> ++++ b/src/daemon/daemon-conf.c
+>> +@@ -155,12 +155,14 @@ pa_daemon_conf *pa_daemon_conf_new(void) {
+>> +     c->dl_search_path = pa_sprintf_malloc("%s" PA_PATH_SEP "lib" PA_PATH_SEP "pulse-%d.%d" PA_PATH_SEP "modules",
+>> +                                           pa_win32_get_toplevel(NULL), PA_MAJOR, PA_MINOR);
+>> + #else
+>> ++#if !defined(__OPTIMIZE__)
+>> +     if (pa_run_from_build_tree()) {
+>> +         pa_log_notice("Detected that we are run from the build tree, fixing search path.");
+>> +         c->dl_search_path = pa_xstrdup(PA_BUILDDIR);
+>> +     } else
+>> +-        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
+>> + #endif
+>> ++        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
+>> ++#endif // Endof OS_IS_WIN32
+>> +
+>> +     return c;
+>> + }
+>> +diff --git a/src/modules/alsa/alsa-mixer.c b/src/modules/alsa/alsa-mixer.c
+>> +index a524d6d..a1eae79 100644
+>> +--- a/src/modules/alsa/alsa-mixer.c
+>> ++++ b/src/modules/alsa/alsa-mixer.c
+>> +@@ -2571,9 +2571,11 @@ static int path_verify(pa_alsa_path *p) {
+>> + }
+>> +
+>> + static const char *get_default_paths_dir(void) {
+>> ++#if defined(__linux__) && !defined(__OPTIMIZE__)
+>> +     if (pa_run_from_build_tree())
+>> +         return PA_SRCDIR "/modules/alsa/mixer/paths/";
+>> +     else
+>> ++#endif
+>> +         return PA_ALSA_PATHS_DIR;
+>> + }
+>> +
+>> +@@ -4455,7 +4457,9 @@ pa_alsa_profile_set* pa_alsa_profile_set_new(const char *fname, const pa_channel
+>> +         fname = "default.conf";
+>> +
+>> +     fn = pa_maybe_prefix_path(fname,
+>> ++#if defined(__linux__) && !defined(__OPTIMIZE__)
+>> +                               pa_run_from_build_tree() ? PA_SRCDIR "/modules/alsa/mixer/profile-sets/" :
+>> ++#endif
+>> +                               PA_ALSA_PROFILE_SETS_DIR);
+>> +
+>> +     r = pa_config_parse(fn, NULL, items, NULL, false, ps);
+>> +diff --git a/src/pulsecore/core-util.c b/src/pulsecore/core-util.c
+>> +index 64e9f21..3267907 100644
+>> +--- a/src/pulsecore/core-util.c
+>> ++++ b/src/pulsecore/core-util.c
+>> +@@ -3436,15 +3436,17 @@ void pa_reset_personality(void) {
+>> + }
+>> +
+>> + bool pa_run_from_build_tree(void) {
+>> +-    char *rp;
+>> +     static bool b = false;
+>> +
+>> ++#if defined(__linux__) && !defined(__OPTIMIZE__)
+>> ++    char *rp;
+>> +     PA_ONCE_BEGIN {
+>> +         if ((rp = pa_readlink("/proc/self/exe"))) {
+>> +             b = pa_startswith(rp, PA_BUILDDIR);
+>> +             pa_xfree(rp);
+>> +         }
+>> +     } PA_ONCE_END;
+>> ++#endif
+>> +
+>> +     return b;
+>> + }
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
+>> new file mode 100644
+>> index 0000000..43add75
+>> --- /dev/null
+>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
+>> @@ -0,0 +1,30 @@
+>> +From f0ddd7c36556ad05c1398fdd132947323ad26473 Mon Sep 17 00:00:00 2001
+>> +From: Hongxu Jia <hongxu.jia@windriver.com>
+>> +Date: Thu, 6 Dec 2018 11:43:41 +0800
+>> +Subject: [PATCH 2/2] do not display CLFAGS to improve reproducibility build
+>> +
+>> +Macro PA_CFLAGS contains build path, do not use it to
+>> +display CFLAGS which could improve reproducibility build.
+>> +
+>> +Upstream-Status: Inappropriate [oe specific]
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +---
+>> + src/daemon/main.c | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/src/daemon/main.c b/src/daemon/main.c
+>> +index c80fa94..75496be 100644
+>> +--- a/src/daemon/main.c
+>> ++++ b/src/daemon/main.c
+>> +@@ -908,7 +908,7 @@ int main(int argc, char *argv[]) {
+>> +
+>> +     pa_log_info("This is PulseAudio %s", PACKAGE_VERSION);
+>> +     pa_log_debug("Compilation host: %s", CANONICAL_HOST);
+>> +-    pa_log_debug("Compilation CFLAGS: %s", PA_CFLAGS);
+>> ++    pa_log_debug("Compilation CFLAGS: ***");
+>> +
+>> + #ifdef HAVE_LIBSAMPLERATE
+>> +     pa_log_warn("Compiled with DEPRECATED libsamplerate support!");
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
+>> index 36d92bc..922da07 100644
+>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
+>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
+>> @@ -2,6 +2,8 @@ require pulseaudio.inc
+>>
+>>   SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+>>              file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+>> +           file://0001-improve-reproducibility-build.patch \
+>> +           file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
+>>              file://volatiles.04_pulse \
+>>              "
+>>   SRC_URI[md5sum] = "c42f1f1465e8df9859d023dc184734bf"
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 
