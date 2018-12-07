@@ -1,46 +1,46 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EC1774D03
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 957516D47F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Dec 2018 12:18:46 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id m22so4344370wml.3
+	Fri,  7 Dec 2018 12:39:34 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v13so3667815wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Dec 2018 04:18:47 -0800 (PST)
+	Fri, 07 Dec 2018 04:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=nVxcIcwJTDRz2daZbMOhJ6ca8EvVb4f6zb9axxIUcMI=;
-	b=Nnhlu1jvxx/5pMW9RvTNq8gmzib2wV9mfrF6T6zgQ20MvYoAQpzI2agYOJ35pSOH+i
-	EAU3DZwHMTYKR/CSEuYvSecM7dZMChhjKCwiqBviGxOPGg5t+U3fBFi3WnMzov7ZXUPf
-	HSK6DMcM/bTCrY9gIUu0KVaNspsQQXVQdyG84=
+	b=Ed0WtGRbdzqvzw7ciC7IW1hMpk2iiZkJiNjc2wbUTpjhdeTEinyTXiH9veryExWSVo
+	DPEa49xNbUxhBhZByguFjuR+UgmhWgQE3QeYRX2OO9Famc/7glVfFf0MFMxqTNtKdNV1
+	8k5MY/AQcg0612s5Oz7YLnx+RRFdF7YAmih24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=nVxcIcwJTDRz2daZbMOhJ6ca8EvVb4f6zb9axxIUcMI=;
-	b=QlUoUGaBv5baw1L6eknJtILBMeBfreTqAkSVeU3ZdK8Ri8npQatfZ8M/t3JWRYYeO7
-	dM1H+1uXdOEedSGJ2+1wsWdoclOG9smOd+ELEBjaXEUxjRB9CTgMnKkc64KfHbjyfvig
-	t9N/iGIDqwiMvk0J3r+tQMLQ3zk6mYuouaCOhIMV/r+qMLu6gQKJ3AnrvkpgrjqpmeRd
-	+pO7tFZGJ9rpqI/ufs4I/w19HT6v69XJzvphaIFAGHguUpOuZRXTG7OuW+xhBNFf7Jp3
-	evvzMRb+LTpzaCaW00m970G+IpqsYts0pPJyS80HJDGsMhGZP/7zdD87wdZUpIK2/P4I
-	5qcw==
-X-Gm-Message-State: AA+aEWbCN/n4mEmS5Gu7Bm/k+AE69QSmRHOrMQmqPD5Jk0HufYBGgdC3
-	Ei3/Gup74xJdM10Ajl0sUmuhSZ3xMBo=
-X-Google-Smtp-Source: AFSGD/WYt7SKFh8P9BiB3hk+0g5kHfqRTUlXhn1Ba4s/1RY1aeMHIbKLPwsOUow30mj8c+8cAUChdA==
-X-Received: by 2002:a1c:38c4:: with SMTP id f187mr1980866wma.90.1544185126904; 
-	Fri, 07 Dec 2018 04:18:46 -0800 (PST)
+	b=BtsG7eyTA/e/bEer8JV3eo9GlZxDTpUDJA+HSvawxCav+6Ndb9aA9LfcANi5DR8b50
+	1eVtBNht+GpIMN7YcEbUD/DrrzGL/6Bkvc8pzg6EROzuUh5PjtL1t6isYqydZQ4V46WR
+	aECk2/NTvunFRB2v5sfPgSTSd6MhaywRJ9uHh5qlj3RgxJjXpzXN0S3ebLDzwGuMci5Y
+	7IosQPEvnQBZC9sC1Mu0mxb0L1CLCwQ78SRvyc/T9MsqsmxR2/iF1uw4BN/as1L0i4gD
+	GSIsuoOwfv1dj3eEOlTDSuAWA45rYYk3IHpW+H8X/0b4knxahwJFmfVvVbmul2k43P3s
+	fFEg==
+X-Gm-Message-State: AA+aEWZfAQlJmu6dK4syomfoWXICnkmuc9sAAmFZEom0uhnya+pzW/Z4
+	554Fn0k1hMN2O5GRT2tYlmBtveCP/7k=
+X-Google-Smtp-Source: AFSGD/XKb8+UXTgJ5nqohi5/kqtEC682+Oyl8J8bJNlOkbQiDWYRqSAKiJbsHLz3G5aFYki5s9hlKg==
+X-Received: by 2002:adf:ea11:: with SMTP id q17mr1608274wrm.328.1544186375078; 
+	Fri, 07 Dec 2018 04:39:35 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o17sm5883424wmg.35.2018.12.07.04.18.45
+	c8sm2216282wrx.42.2018.12.07.04.39.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Dec 2018 04:18:46 -0800 (PST)
+	Fri, 07 Dec 2018 04:39:34 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Dec 2018 12:18:45 +0000
-Message-Id: <20181207121845.12208-1-richard.purdie@linuxfoundation.org>
+Date: Fri,  7 Dec 2018 12:39:33 +0000
+Message-Id: <20181207123933.14951-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Subject: [PATCH] oeqa/selftest/runcmd: Increase timeout delta
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2018 12:18:46 -0000
+X-List-Received-Date: Fri, 07 Dec 2018 12:39:35 -0000
 Content-Transfer-Encoding: 8bit
 
 Expecting 1s accuracy on a 2s timeout on a heavily loaded system has proven to be
