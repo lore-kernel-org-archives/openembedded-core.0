@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E313A6BC44
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 292E379D54
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Dec 2018 10:26:50 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id e5so2994382plb.5
+	Sat,  8 Dec 2018 10:26:51 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id t13so2977193ply.13
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 08 Dec 2018 02:26:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9lxgroUk/q23VAiKdiA2aZjIt6m1QgqNrOXaNhiAQw4=;
-	b=ZwQMAy3Bla7vdu3Fym6nHGcdc88c+0bubJ7wG0G469wQOfMnA+61Kf919zFWPXPuFO
-	iCfJ6VTPHOZjTs3hLRonugDdsWrRlowQOP5sqC3b7ftmkghKn1K8DSFHTWMinFNiYRFa
-	hv9qAMdZquXj/Et1/aRBc8dI0dB5WJV5Ejh2mfID8SGDOG+r56TQSjgVAJojGc4CavDi
-	O5LWdFTQnY8qXS8YW0fQrYugID3//WzcWJlWSFNqmwWq9DvD4ogkBMPpJDHlNFIa3eON
-	wqyoUNL/E60dDSqwUm1PADxwYZkZ8ZqSUNdh/FriEuaXlSivP3bW9Ssg6XISl6B8lN6S
-	ZpEQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=enou658JvJMDJ9lr7RCWohVeFdflm7/eB0X3KjF4vos=;
+	b=NSxs1ab776Zbg3mfSdtp3fJicOv/z5n88sibVkaRsOGOEnxHPvH/otiePoENHiybTo
+	e9I1su8ybhhImBZdt424sTLtiq8pHJ5aARHGeKRm62ZtDXxvR7nsHVYzw/3+ODwE45bD
+	RUHU0NK0z1pGosp5rpFY2shTzwq8ncin8OuFhj5xuzigVuvUG22V1kV8wJhu5lLF2429
+	rmzs1MdO+dn1qnDd+BL6jQSiDA34ZBVRVOXzdJ6AC8bwbTH9mv5ByTpPBAhxa72P14Ax
+	QOMdrzIOii+G39BP6LFBM0KV+9k9cJvzm4Gf6migNUO4N97QN36SQPWFKKReRKJYgH39
+	YLkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9lxgroUk/q23VAiKdiA2aZjIt6m1QgqNrOXaNhiAQw4=;
-	b=VHecoO4Zt8fCcaaJnBn8TenY/TaNBmlfF0pHchBhlVeDQ4zrNzSz7XAsuxjFu+j4Df
-	JfjCg/TrNlUJeeecEPfN+d2DHG4HZg6J5faM4YvVZDdCD5vqErhZPSl37Qa+ESgZcLPB
-	7KKt/tOubgkU7vVhiE8Zo2Y5GsXhvgcRp22XVFGgQ9mtmxcZW2CtTPDaiKL25z76ahi9
-	Zv5O/KQC7V2rN+tADY+8HE5U0EkIuVtWfDho+pUAR3DGd3CWb6iZ+1HOMPnOb8vTGJ6E
-	c6BdmbwCIipa4/Qzl/WPkFMcCf87WxiHtyU61zBJ9yCbywenp4Nce5fKMm5DW2c6sQDV
-	cdhA==
-X-Gm-Message-State: AA+aEWZC8c5FDiToiH2wBFMCnxWoUvP5Mp2rN3c9na9M9RMlmFfEHyEJ
-	99bD13t/yNTdxg4Vw1zw3YgptYmFLDc=
-X-Google-Smtp-Source: AFSGD/WOaUoK4IPZXcr63O8Eke/0AmFI+X40rV41+RwUISVy87nG6sMMehLnB7rqXhQcQSuNbsoDpg==
-X-Received: by 2002:a17:902:4025:: with SMTP id
-	b34mr5309323pld.181.1544264811009; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=enou658JvJMDJ9lr7RCWohVeFdflm7/eB0X3KjF4vos=;
+	b=Ymk7721ZD/mXllhXiec8mPjtqOPuYyL2I4zMXDPLWPmuYFzMayBcduGPSvRZGUPCIn
+	EnXk9eNxSU2JK+9m+EkUS3aZcHpMsKZF80kAcDPL9pV5JuUnWIE/713tnGGS0m7GFoEI
+	Pjzrpn5hxCZ88+rzLuO8wdmRhpXF0ZwhndJVYJVcuIWNF9B4Zq0N3Ng2m1jIoCnSfG/k
+	dAdIUnWnfnMuasWStob6TnXJCKQycLhGE/LObB+Uqx6/9HaUHVKWC9a0HLvi+1sm8A1Z
+	wW+FApeZh4dVz3fr2cnNo/9iyhVwPgEikNEwJJBAysP5ksr6sLHpWnEgeFCzxVz+It2R
+	veVw==
+X-Gm-Message-State: AA+aEWa2upKkk+pAlEKcjOaW0vchcYoFOFvLcH6j6tyuuyASbzsgtTNy
+	59kIIMLlozdVE1zZ9XpEfLAHH3h4690=
+X-Google-Smtp-Source: AFSGD/XDpBSjrRgjP/aEnZaFceEmRvSMiyGbRmhPef4IrCrCaqMKN9GhCeu4O7g2hj5C4rv8gdeZfQ==
+X-Received: by 2002:a17:902:e20b:: with SMTP id
+	ce11mr5075340plb.251.1544264811852; 
 	Sat, 08 Dec 2018 02:26:51 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:877f:9499::5f84])
 	by smtp.gmail.com with ESMTPSA id
-	h74sm9642398pfd.35.2018.12.08.02.26.49
+	h74sm9642398pfd.35.2018.12.08.02.26.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 08 Dec 2018 02:26:50 -0800 (PST)
+	Sat, 08 Dec 2018 02:26:51 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Dec 2018 02:26:37 -0800
-Message-Id: <20181208102638.44170-1-raj.khem@gmail.com>
+Date: Sat,  8 Dec 2018 02:26:38 -0800
+Message-Id: <20181208102638.44170-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.19.2
+In-Reply-To: <20181208102638.44170-1-raj.khem@gmail.com>
+References: <20181208102638.44170-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] mdadm: Drop redundant patches and fix build with clang
+Subject: [PATCH 2/2] nfs-utils: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,599 +61,219 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 08 Dec 2018 10:26:51 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-Several patches were being applied unnecessarily, the purpose they
-served at one point has either been fixed differently, or accepted
-upstream.
-
-Add a new patch to make clang's diagnostics happy
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...abs-diff-in-a-standard-compliant-way.patch |  31 ++++
- .../files/0001-Disable-gcc8-warnings.patch    | 152 ------------------
- ...smacros.h-for-major-minor-defintions.patch |  44 -----
- ...h-Undefine-dprintf-before-redefining.patch |  39 -----
- ...omment-to-indicate-valid-fallthrough.patch | 124 --------------
- .../mdadm/files/gcc-4.9.patch                 |  31 ----
- .../files/mdadm-fix-ptest-build-errors.patch  |  43 -----
- meta/recipes-extended/mdadm/mdadm_4.1.bb      |  20 +--
- 8 files changed, 39 insertions(+), 445 deletions(-)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/gcc-4.9.patch
- delete mode 100644 meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
+ .../nfs-utils/clang-format-string.patch       | 183 ++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.3.3.bb              |   2 +-
+ 2 files changed, 184 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch b/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
 new file mode 100644
-index 0000000000..803a59b3ec
+index 0000000000..1d693e4142
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
-@@ -0,0 +1,31 @@
-+From b273e892bd6aaafe448f84356abb78a6d463e784 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 7 Dec 2018 17:22:39 -0800
-+Subject: [PATCH] Compute abs diff in a standard compliant way
-+
-+This make it a bit less implementation defined and silences clang
-+warning -Wabsolute-value
-+
-+| super-intel.c:2822:20: error: taking the absolute value of unsigned type 'unsi
-+gned long long' has no effect [-Werror,-Wabsolute-value]
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
+@@ -0,0 +1,183 @@
++Clang comes up with more printf format warnings
++Correcting “format string is not a string literal” warning
++requires us to declare that parameter is a printf style 
++format using the attribute flag
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ super-intel.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/super-intel.c b/super-intel.c
-+index 6438987..10d7218 100644
-+--- a/super-intel.c
-++++ b/super-intel.c
-+@@ -2819,7 +2819,7 @@ static unsigned long long calc_component_size(struct imsm_map *map,
-+ 	 * 2048 blocks per each device. If the difference is higher it means
-+ 	 * that array size was expanded and num_data_stripes was not updated.
-+ 	 */
-+-	if ((unsigned int)abs(calc_dev_size - dev_size) >
-++	if ((unsigned int)abs((int)calc_dev_size - (int)dev_size) >
-+ 	    (1 << SECT_PER_MB_SHIFT) * member_disks) {
-+ 		component_size = dev_size / member_disks;
-+ 		dprintf("Invalid num_data_stripes in metadata; expected=%llu, found=%llu\n",
-diff --git a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch b/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
-deleted file mode 100644
-index 361d53ca6c..0000000000
---- a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
-+++ /dev/null
-@@ -1,152 +0,0 @@
--From a6c991750ae6ebd87a0b9b243bec7fd8e5a064c5 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 9 May 2018 12:56:41 -0700
--Subject: [PATCH] Disable gcc8 warnings
++Index: nfs-utils-2.3.3/support/include/xcommon.h
++===================================================================
++--- nfs-utils-2.3.3.orig/support/include/xcommon.h
+++++ nfs-utils-2.3.3/support/include/xcommon.h
++@@ -27,7 +27,7 @@
++ 
++ /* Functions in sundries.c that are used in mount.c and umount.c  */ 
++ char *canonicalize (const char *path);
++-void nfs_error (const char *fmt, ...);
+++void nfs_error (const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
++ void *xmalloc (size_t size);
++ void *xrealloc(void *p, size_t size);
++ void xfree(void *);
++@@ -36,9 +36,9 @@ char *xstrndup (const char *s, int n);
++ char *xstrconcat2 (const char *, const char *);
++ char *xstrconcat3 (const char *, const char *, const char *);
++ char *xstrconcat4 (const char *, const char *, const char *, const char *);
++-void die (int errcode, const char *fmt, ...);
+++void die (int errcode, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
++ 
++-extern void die(int err, const char *fmt, ...);
+++extern void die(int err, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
++ extern void (*at_die)(void);
++ 
++ /* exit status - bits below are ORed */
++Index: nfs-utils-2.3.3/support/include/xlog.h
++===================================================================
++--- nfs-utils-2.3.3.orig/support/include/xlog.h
+++++ nfs-utils-2.3.3/support/include/xlog.h
++@@ -43,10 +43,10 @@ void			xlog_config(int fac, int on);
++ void			xlog_sconfig(char *, int on);
++ void			xlog_from_conffile(char *);
++ int			xlog_enabled(int fac);
++-void			xlog(int fac, const char *fmt, ...);
++-void			xlog_warn(const char *fmt, ...);
++-void			xlog_err(const char *fmt, ...);
++-void			xlog_errno(int err, const char *fmt, ...);
++-void			xlog_backend(int fac, const char *fmt, va_list args);
+++void			xlog(int fac, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+++void			xlog_warn(const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
+++void			xlog_err(const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
+++void			xlog_errno(int err, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+++void			xlog_backend(int fac, const char *fmt, va_list args) __attribute__((__format__ (__printf__, 2, 0)));
++ 
++ #endif /* XLOG_H */
++Index: nfs-utils-2.3.3/support/nfs/xcommon.c
++===================================================================
++--- nfs-utils-2.3.3.orig/support/nfs/xcommon.c
+++++ nfs-utils-2.3.3/support/nfs/xcommon.c
++@@ -93,7 +93,10 @@ nfs_error (const char *fmt, ...) {
++ 
++      fmt2 = xstrconcat2 (fmt, "\n");
++      va_start (args, fmt);
+++#pragma clang diagnostic push
+++#pragma clang diagnostic ignored "-Wformat-nonliteral"
++      vfprintf (stderr, fmt2, args);
+++#pragma clang diagnostic pop
++      va_end (args);
++      free (fmt2);
++ }
++Index: nfs-utils-2.3.3/utils/exportfs/exportfs.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/exportfs/exportfs.c
+++++ nfs-utils-2.3.3/utils/exportfs/exportfs.c
++@@ -644,6 +644,7 @@ out:
++ 	return result;
++ }
++ 
+++__attribute__((__format__ (__printf__, 2, 3)))
++ static char
++ dumpopt(char c, char *fmt, ...)
++ {
++Index: nfs-utils-2.3.3/utils/statd/statd.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/statd/statd.c
+++++ nfs-utils-2.3.3/utils/statd/statd.c
++@@ -136,7 +136,7 @@ static void log_modes(void)
++ 	strcat(buf, "TI-RPC ");
++ #endif
++ 
++-	xlog_warn(buf);
+++	xlog_warn("%s", buf);
++ }
++ 
++ /*
++Index: nfs-utils-2.3.3/support/nfs/svc_create.c
++===================================================================
++--- nfs-utils-2.3.3.orig/support/nfs/svc_create.c
+++++ nfs-utils-2.3.3/support/nfs/svc_create.c
++@@ -184,7 +184,7 @@ svc_create_sock(const struct sockaddr *s
++ 		type = SOCK_STREAM;
++ 		break;
++ 	default:
++-		xlog(D_GENERAL, "%s: Unrecognized bind address semantics: %u",
+++		xlog(D_GENERAL, "%s: Unrecognized bind address semantics: %lu",
++ 			__func__, nconf->nc_semantics);
++ 		return -1;
++ 	}
++Index: nfs-utils-2.3.3/support/nsm/rpc.c
++===================================================================
++--- nfs-utils-2.3.3.orig/support/nsm/rpc.c
+++++ nfs-utils-2.3.3/support/nsm/rpc.c
++@@ -182,7 +182,7 @@ nsm_xmit_getport(const int sock, const s
++ 	uint32_t xid;
++ 	XDR xdr;
++ 
++-	xlog(D_CALL, "Sending PMAP_GETPORT for %u, %u, udp", program, version);
+++	xlog(D_CALL, "Sending PMAP_GETPORT for %lu, %lu, udp", program, version);
++ 
++ 	nsm_init_xdrmem(msgbuf, NSM_MAXMSGSIZE, &xdr);
++ 	xid = nsm_init_rpc_header(PMAPPROG, PMAPVERS,
++Index: nfs-utils-2.3.3/utils/mountd/cache.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/mountd/cache.c
+++++ nfs-utils-2.3.3/utils/mountd/cache.c
++@@ -968,8 +968,7 @@ lookup_export(char *dom, char *path, str
++ 			} else if (found_type == i && found->m_warned == 0) {
++ 				xlog(L_WARNING, "%s exported to both %s and %s, "
++ 				     "arbitrarily choosing options from first",
++-				     path, found->m_client->m_hostname, exp->m_client->m_hostname,
++-				     dom);
+++				     path, found->m_client->m_hostname, exp->m_client->m_hostname);
++ 				found->m_warned = 1;
++ 			}
++ 		}
++Index: nfs-utils-2.3.3/utils/mountd/mountd.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/mountd/mountd.c
+++++ nfs-utils-2.3.3/utils/mountd/mountd.c
++@@ -213,7 +213,7 @@ static void
++ sig_hup (int sig)
++ {
++ 	/* don't exit on SIGHUP */
++-	xlog (L_NOTICE, "Received SIGHUP... Ignoring.\n", sig);
+++	xlog (L_NOTICE, "Received SIGHUP(%d)... Ignoring.\n", sig);
++ 	return;
++ }
++ 
++Index: nfs-utils-2.3.3/utils/statd/rmtcall.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/statd/rmtcall.c
+++++ nfs-utils-2.3.3/utils/statd/rmtcall.c
++@@ -247,7 +247,7 @@ process_reply(FD_SET_TYPE *rfds)
++ 		xlog_warn("%s: service %d not registered on localhost",
++ 			__func__, NL_MY_PROG(lp));
++ 	} else {
++-		xlog(D_GENERAL, "%s: Callback to %s (for %d) succeeded",
+++		xlog(D_GENERAL, "%s: Callback to %s (for %s) succeeded",
++ 			__func__, NL_MY_NAME(lp), NL_MON_NAME(lp));
++ 	}
++ 	nlist_free(&notify, lp);
++Index: nfs-utils-2.3.3/utils/statd/svc_run.c
++===================================================================
++--- nfs-utils-2.3.3.orig/utils/statd/svc_run.c
+++++ nfs-utils-2.3.3/utils/statd/svc_run.c
++@@ -53,6 +53,7 @@
++ 
++ #include <errno.h>
++ #include <time.h>
+++#include <inttypes.h>
++ #include "statd.h"
++ #include "notlist.h"
++ 
++@@ -104,8 +105,8 @@ my_svc_run(int sockfd)
++ 
++ 			tv.tv_sec  = NL_WHEN(notify) - now;
++ 			tv.tv_usec = 0;
++-			xlog(D_GENERAL, "Waiting for reply... (timeo %d)",
++-							tv.tv_sec);
+++			xlog(D_GENERAL, "Waiting for reply... (timeo %jd)",
+++							(intmax_t)tv.tv_sec);
++ 			selret = select(FD_SETSIZE, &readfds,
++ 				(void *) 0, (void *) 0, &tv);
++ 		} else {
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+index 572ae3146f..6be2aab47c 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+@@ -32,8 +32,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-utils-musl-limits.patch \
+            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
+            file://0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch \
++           file://clang-format-string.patch \
+ "
 -
--This is needed until
--https://bugzilla.redhat.com/show_bug.cgi?id=1553958
--
--Fix super0.c issue which is triggered only in DEBUG_BUILD with -O1 (or any
--configuration without -ftree-vrp or with -fno-tree-vrp)
--
--super0.c: In function 'examine_super0':
--super0.c:238:32: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
--   snprintf(nb, sizeof(nb), "%4d", d);
--                                ^
--
--Upstream-Status: Inappropriate [Workaround]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- Monitor.c     | 4 +++-
-- mdopen.c      | 4 ++++
-- super-ddf.c   | 4 ++++
-- super-intel.c | 6 ++++++
-- super0.c      | 2 +-
-- super1.c      | 5 +++++
-- 6 files changed, 23 insertions(+), 2 deletions(-)
--
--diff --git a/Monitor.c b/Monitor.c
--index 036103f..08cbd0a 100644
----- a/Monitor.c
--+++ b/Monitor.c
--@@ -445,7 +445,8 @@ static void alert(char *event, char *dev, char *disc, struct alert_info *info)
-- 			       event, dev);
-- 	}
-- }
---
--+#pragma GCC diagnostic push
--+#pragma GCC diagnostic ignored "-Wformat-truncation"
-- static int check_array(struct state *st, struct mdstat_ent *mdstat,
-- 		       int test, struct alert_info *ainfo,
-- 		       int increments, char *prefer)
--@@ -673,6 +674,7 @@ static int check_array(struct state *st, struct mdstat_ent *mdstat,
-- 	st->err++;
-- 	goto out;
-- }
--+#pragma GCC diagnostic pop
-- 
-- static int add_new_arrays(struct mdstat_ent *mdstat, struct state **statelist,
-- 			  int test, struct alert_info *info)
--diff --git a/mdopen.c b/mdopen.c
--index 98c54e4..4f72b69 100644
----- a/mdopen.c
--+++ b/mdopen.c
--@@ -26,6 +26,9 @@
-- #include "md_p.h"
-- #include <ctype.h>
-- 
--+#pragma GCC diagnostic push
--+#pragma GCC diagnostic ignored "-Wformat-truncation"
--+
-- void make_parts(char *dev, int cnt)
-- {
-- 	/* make 'cnt' partition devices for 'dev'
--@@ -101,6 +104,7 @@ void make_parts(char *dev, int cnt)
-- 	}
-- 	free(name);
-- }
--+#pragma GCC diagnostic pop
-- 
-- int create_named_array(char *devnm)
-- {
--diff --git a/super-ddf.c b/super-ddf.c
--index 618542c..6ed4e7e 100644
----- a/super-ddf.c
--+++ b/super-ddf.c
--@@ -2828,6 +2828,9 @@ static void _set_config_size(struct phys_disk_entry *pde, const struct dl *dl)
-- 		(unsigned long long)cfs, (unsigned long long)(dl->size-cfs));
-- }
-- 
--+#pragma GCC diagnostic push
--+#pragma GCC diagnostic ignored "-Wformat-overflow"
--+
-- /* Add a device to a container, either while creating it or while
--  * expanding a pre-existing container
--  */
--@@ -2964,6 +2967,7 @@ static int add_to_super_ddf(struct supertype *st,
-- 
-- 	return 0;
-- }
--+#pragma GCC diagnostic pop
-- 
-- static int remove_from_super_ddf(struct supertype *st, mdu_disk_info_t *dk)
-- {
--diff --git a/super-intel.c b/super-intel.c
--index 1bc4b80..39d0e92 100644
----- a/super-intel.c
--+++ b/super-intel.c
--@@ -333,6 +333,11 @@ struct md_list {
-- };
-- 
-- #define pr_vrb(fmt, arg...) (void) (verbose && pr_err(fmt, ##arg))
--+#pragma GCC diagnostic push
--+# if __GNUC__ == 8
--+# pragma GCC diagnostic ignored "-Wstringop-truncation"
--+# endif
--+#pragma GCC diagnostic ignored "-Wformat-truncation"
-- 
-- static __u8 migr_type(struct imsm_dev *dev)
-- {
--@@ -12208,3 +12213,4 @@ struct superswitch super_imsm = {
-- 	.clear_bad_block  = imsm_clear_badblock,
-- 	.get_bad_blocks   = imsm_get_badblocks,
-- };
--+#pragma GCC diagnostic pop
--diff --git a/super0.c b/super0.c
--index 42989b9..f5e8031 100644
----- a/super0.c
--+++ b/super0.c
--@@ -229,7 +229,7 @@ static void examine_super0(struct supertype *st, char *homehost)
-- 	     d++) {
-- 		mdp_disk_t *dp;
-- 		char *dv;
---		char nb[11];
--+		char nb[12];
-- 		int wonly, failfast;
-- 		if (d>=0) dp = &sb->disks[d];
-- 		else dp = &sb->this_disk;
--diff --git a/super1.c b/super1.c
--index 636a286..f894cbb 100644
----- a/super1.c
--+++ b/super1.c
--@@ -1176,6 +1176,10 @@ static struct mdinfo *container_content1(struct supertype *st, char *subarray)
-- 	return info;
-- }
-- 
--+#pragma GCC diagnostic push
--+# if __GNUC__ == 8
--+# pragma GCC diagnostic ignored "-Wstringop-truncation"
--+#endif
-- static int update_super1(struct supertype *st, struct mdinfo *info,
-- 			 char *update, char *devname, int verbose,
-- 			 int uuid_set, char *homehost)
--@@ -1641,6 +1645,7 @@ static int init_super1(struct supertype *st, mdu_array_info_t *info,
-- 
-- 	return 1;
-- }
--+#pragma GCC diagnostic pop
-- 
-- struct devinfo {
-- 	int fd;
-diff --git a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
-deleted file mode 100644
-index 6293f9b2b3..0000000000
---- a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 714f2262960a7fe9e8f973629ed214023e144590 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 18 Dec 2016 08:30:51 +0000
--Subject: [PATCH] include <sys/sysmacros.h> for major/minor defintions
--
--glibc 2.25 is warning about it if applications depend on
--sys/types.h for these macros, it expects to be included
--from <sys/sysmacros.h>
--
--Fixes
--| Grow.c:3534:13: error: In the GNU C Library, "minor" is defined
--|  by <sys/sysmacros.h>. For historical compatibility, it is
--|  currently defined by <sys/types.h> as well, but we plan to
--|  remove this soon. To use "minor", include <sys/sysmacros.h>
--|  directly. If you did not intend to use a system-defined macro
--|  "minor", you should undefine it after including <sys/types.h>. [-Werror]
--| Query.c: In function 'Query':
--| Query.c:105:13: error: In the GNU C Library, "makedev" is defined
--|  by <sys/sysmacros.h>. For historical compatibility, it is
--|  currently defined by <sys/types.h> as well, but we plan to
--|  remove this soon. To use "makedev", include <sys/sysmacros.h>
--|  directly. If you did not intend to use a system-defined macro
--|  "makedev", you should undefine it after including <sys/types.h>. [-Werror]
--|           makedev((unsigned)disc.major,(unsigned)disc.minor) == stb.st_rdev)
--|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- mdadm.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/mdadm.h b/mdadm.h
--index bb943bf..79c44c6 100644
----- a/mdadm.h
--+++ b/mdadm.h
--@@ -34,6 +34,7 @@ extern __off64_t lseek64 __P ((int __fd, __off64_t __offset, int __whence));
-- #endif
-- 
-- #include	<sys/types.h>
--+#include	<sys/sysmacros.h>
-- #include	<sys/stat.h>
-- #include	<stdint.h>
-- #include	<stdlib.h>
-diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch b/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
-deleted file mode 100644
-index a1e7e59323..0000000000
---- a/meta/recipes-extended/mdadm/files/0001-mdadm.h-Undefine-dprintf-before-redefining.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From b431cb4e1ed060122fa300dc0008f74080d38f73 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 9 May 2016 22:03:57 +0000
--Subject: [PATCH] mdadm.h: Undefine dprintf before redefining
--
--dprintf is also defined in libc see
--usr/include/bits/stdio2.h, this comes into
--play especially when fortify sources is enabled
--and compilers like clang reports the override
--
--In file included from policy.c:25:
--./mdadm.h:1562:9: error: 'dprintf' macro redefined [-Werror,-Wmacro-redefined]
--        ^
--/mnt/oe/openembedded-core/build/tmp-glibc/sysroots/qemux86/usr/include/bits/stdio2.h:145:12: note: previous definition is here
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- mdadm.h | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/mdadm.h b/mdadm.h
--index 387e681..bb943bf 100644
----- a/mdadm.h
--+++ b/mdadm.h
--@@ -1649,11 +1649,13 @@ static inline char *to_subarray(struct mdstat_ent *ent, char *container)
-- }
-- 
-- #ifdef DEBUG
--+#undef dprintf
-- #define dprintf(fmt, arg...) \
-- 	fprintf(stderr, "%s: %s: "fmt, Name, __func__, ##arg)
-- #define dprintf_cont(fmt, arg...) \
-- 	fprintf(stderr, fmt, ##arg)
-- #else
--+#undef dprintf
-- #define dprintf(fmt, arg...) \
--         ({ if (0) fprintf(stderr, "%s: %s: " fmt, Name, __func__, ##arg); 0; })
-- #define dprintf_cont(fmt, arg...) \
-diff --git a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch b/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
-deleted file mode 100644
-index 0bd556d437..0000000000
---- a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
-+++ /dev/null
-@@ -1,124 +0,0 @@
--From 0c2c8ae6b3a1fb0f611f9795953a7a6ed06be38d Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 19 Apr 2017 12:04:15 -0700
--Subject: [PATCH] Add a comment to indicate valid fallthrough
--
--gcc7 warns about code with fallthroughs, this patch adds
--the comment to indicate a valid fallthrough, helps gcc7
--compiler warnings
--
--This works in cross and native compilation case
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Submitted
-----
-- Grow.c        | 4 ++++
-- bitmap.c      | 8 ++++++++
-- mdadm.c       | 2 ++
-- super-intel.c | 1 +
-- util.c        | 1 +
-- 5 files changed, 16 insertions(+)
--
--diff --git a/Grow.c b/Grow.c
--index 4436a4d..b3116e2 100644
----- a/Grow.c
--+++ b/Grow.c
--@@ -1447,6 +1447,7 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
-- 		switch (info->new_level) {
-- 		case 4:
-- 			delta_parity = 1;
--+			/* fallthrough */
-- 		case 0:
-- 			re->level = 4;
-- 			re->before.layout = 0;
--@@ -1474,10 +1475,12 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
-- 
-- 	case 4:
-- 		info->array.layout = ALGORITHM_PARITY_N;
--+		/* fallthrough */
-- 	case 5:
-- 		switch (info->new_level) {
-- 		case 0:
-- 			delta_parity = -1;
--+			/* fallthrough */
-- 		case 4:
-- 			re->level = info->array.level;
-- 			re->before.data_disks = info->array.raid_disks - 1;
--@@ -1533,6 +1536,7 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
-- 		case 4:
-- 		case 5:
-- 			delta_parity = -1;
--+			/* fallthrough */
-- 		case 6:
-- 			re->level = 6;
-- 			re->before.data_disks = info->array.raid_disks - 2;
--diff --git a/bitmap.c b/bitmap.c
--index e38cb96..10af328 100644
----- a/bitmap.c
--+++ b/bitmap.c
--@@ -82,13 +82,21 @@ static inline int count_dirty_bits_byte(char byte, int num_bits)
-- 
-- 	switch (num_bits) { /* fall through... */
-- 		case 8:	if (byte & 128) num++;
--+		/* fallthrough */
-- 		case 7:	if (byte &  64) num++;
--+		/* fallthrough */
-- 		case 6:	if (byte &  32) num++;
--+		/* fallthrough */
-- 		case 5:	if (byte &  16) num++;
--+		/* fallthrough */
-- 		case 4:	if (byte &   8) num++;
--+		/* fallthrough */
-- 		case 3: if (byte &   4) num++;
--+		/* fallthrough */
-- 		case 2:	if (byte &   2) num++;
--+		/* fallthrough */
-- 		case 1:	if (byte &   1) num++;
--+		/* fallthrough */
-- 		default: break;
-- 	}
-- 
--diff --git a/mdadm.c b/mdadm.c
--index 25a1abd..9843bc5 100644
----- a/mdadm.c
--+++ b/mdadm.c
--@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
-- 			    mode == CREATE || mode == GROW ||
-- 			    mode == INCREMENTAL || mode == MANAGE)
-- 				break; /* b means bitmap */
--+		/* fallthrough */
-- 		case Brief:
-- 			c.brief = 1;
-- 			continue;
--@@ -839,6 +840,7 @@ int main(int argc, char *argv[])
-- 
-- 		case O(INCREMENTAL,NoDegraded):
-- 			pr_err("--no-degraded is deprecated in Incremental mode\n");
--+			/* fallthrough */
-- 		case O(ASSEMBLE,NoDegraded): /* --no-degraded */
-- 			c.runstop = -1; /* --stop isn't allowed for --assemble,
-- 					 * so we overload slightly */
--diff --git a/super-intel.c b/super-intel.c
--index e726987..1bc4b80 100644
----- a/super-intel.c
--+++ b/super-intel.c
--@@ -3425,6 +3425,7 @@ static void getinfo_super_imsm_volume(struct supertype *st, struct mdinfo *info,
-- 
-- 			}
-- 		}
--+		/* fallthrough */
-- 		case MIGR_VERIFY:
-- 			/* we could emulate the checkpointing of
-- 			 * 'sync_action=check' migrations, but for now
--diff --git a/util.c b/util.c
--index c26cf5f..61cbe23 100644
----- a/util.c
--+++ b/util.c
--@@ -400,6 +400,7 @@ unsigned long long parse_size(char *size)
-- 		switch (*c) {
-- 		case 'K':
-- 			c++;
--+		/* fallthrough */
-- 		default:
-- 			s *= 2;
-- 			break;
-diff --git a/meta/recipes-extended/mdadm/files/gcc-4.9.patch b/meta/recipes-extended/mdadm/files/gcc-4.9.patch
-deleted file mode 100644
-index 473fd7821b..0000000000
---- a/meta/recipes-extended/mdadm/files/gcc-4.9.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 8804bca3de1b79a7c579783b7e3a7603f43bbb48 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 2 May 2014 16:31:17 -0700
--Subject: [PATCH] mdadm: Fix build on gcc 4.9
--
--super-intel.c:5063:2: error: right-hand operand of comma expression has no effect [-Werror=unused-value]
--  snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
--  ^
--cc1: all warnings being treated as errors
--make: *** [super-intel.o] Error 1
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--
-----
-- super-intel.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/super-intel.c b/super-intel.c
--index 6438987..e726987 100644
----- a/super-intel.c
--+++ b/super-intel.c
--@@ -5941,7 +5941,7 @@ static int write_super_imsm_spares(struct intel_super *super, int doclose)
-- 	spare->cache_size = mpb->cache_size;
-- 	spare->pwr_cycle_count = __cpu_to_le32(1);
-- 
---	snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
--+	(void)snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
-- 		 MPB_SIGNATURE MPB_VERSION_RAID0);
-- 
-- 	for (d = super->disks; d; d = d->next) {
-diff --git a/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch b/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
-deleted file mode 100644
-index 8e2a8a9043..0000000000
---- a/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 911f6ea9be0c334885aeff66853b111cbd4066df Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Wed, 10 Feb 2016 17:28:05 +0200
--Subject: [PATCH] mdadm-fix-ptest-build-errors
--
--builds fail with ptest enabled:
--
--| restripe.c: In function 'test_stripes':
--| restripe.c:845:4: error: ignoring return value of 'read', declared with
--| attribute warn_unused_result [-Werror=unused-result]
--|     read(source[i], stripes[i], chunk_size);
--|     ^
--| cc1: all warnings being treated as errors
--| Makefile:214: recipe for target 'test_stripe' failed
--
--Upstream-Status: Pending
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
--
-----
-- restripe.c | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/restripe.c b/restripe.c
--index 31b07e8..592ba5d 100644
----- a/restripe.c
--+++ b/restripe.c
--@@ -864,10 +864,14 @@ int test_stripes(int *source, unsigned long long *offsets,
-- 
-- 	while (length > 0) {
-- 		int disk;
--+        ssize_t ret;
-- 
-- 		for (i = 0 ; i < raid_disks ; i++) {
-- 			lseek64(source[i], offsets[i]+start, 0);
---			read(source[i], stripes[i], chunk_size);
--+			ret = read(source[i], stripes[i], chunk_size);
--+            if (ret == -1) {
--+			  printf("Read Failed\n");
--+            }
-- 		}
-- 		for (i = 0 ; i < data_disks ; i++) {
-- 			int disk = geo_map(i, start/chunk_size, raid_disks,
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index b9f55841cb..f4a2581308 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -9,24 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
  
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
--           file://gcc-4.9.patch \
-+           file://run-ptest \
-            file://mdadm-3.3.2_x32_abi_time_t.patch \
--           file://mdadm-fix-ptest-build-errors.patch \
-            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
--           file://run-ptest \
--           file://0001-mdadm.h-Undefine-dprintf-before-redefining.patch \
--           file://0001-include-sys-sysmacros.h-for-major-minor-defintions.patch \
--           file://0005-Add-a-comment-to-indicate-valid-fallthrough.patch \
-            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
--           file://0001-Disable-gcc8-warnings.patch \
-+           file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-            "
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
- 
--CFLAGS += "-fno-strict-aliasing"
--inherit autotools-brokensep
-+inherit autotools-brokensep ptest
-+
-+CFLAGS_append_toolchain-clang = " -Wno-error=address-of-packed-member"
- 
--EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
- # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
- # prevents 64-bit userland from seeing this definition, instead defaulting
- # to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
-@@ -35,6 +30,8 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
- 
-+EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
-+
- do_compile() {
- 	# Point to right sbindir
- 	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" ${S}/Makefile
-@@ -46,8 +43,6 @@ do_install() {
- 	autotools_do_install
- }
- 
--inherit ptest
--
- do_compile_ptest() {
- 	oe_runmake test
- }
-@@ -62,6 +57,7 @@ do_install_ptest() {
- 		install -D -m 755 $prg ${D}${PTEST_PATH}/
- 	done
- }
-+
- RDEPENDS_${PN}-ptest += "bash"
- RRECOMMENDS_${PN}-ptest += " \
-     coreutils \
+ SRC_URI[md5sum] = "b6c9c032995af1c08fea9fbcc1ce33e9"
 -- 
 2.19.2
 
