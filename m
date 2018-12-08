@@ -1,131 +1,50 @@
-Return-Path: <alejandr@xilinx.com>
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr790085.outbound.protection.outlook.com [40.107.79.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 85DAA6C50F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 37F7A79CA7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Dec 2018 18:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ejnYY+YcB1zM55OIRTS0Gm4XwkIHnWAZnDpXvR1EtOI=;
-	b=y7VxH8CJVhPBcLmrlgLTZX/SZQp7FdByExk6qbppysjhoe/212ch/riIAjNysp4XFJ3bPH+gwItvYVUaFm5VNBpYLaOxfjQjaWrOLaUY6zrQVRLxeIygq5cR/iIQB+z5r6RjKxbwq9YQiAvTQOhqQMXudg5B/iSUaRMIukayw/Q=
-Received: from MWHPR0201CA0084.namprd02.prod.outlook.com
-	(2603:10b6:301:75::25) by BYAPR02MB4456.namprd02.prod.outlook.com
-	(2603:10b6:a03:57::29) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1404.22;
-	Sat, 8 Dec 2018 01:34:16 +0000
-Received: from CY1NAM02FT006.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e45::207) by MWHPR0201CA0084.outlook.office365.com
-	(2603:10b6:301:75::25) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1404.19 via
-	Frontend Transport; Sat, 8 Dec 2018 01:34:16 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	CY1NAM02FT006.mail.protection.outlook.com (10.152.74.104) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1404.17
-	via Frontend Transport; Sat, 8 Dec 2018 01:34:15 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1gVRVW-0008HJ-PR for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2018 17:34:14 -0800
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1gVRVR-0007x0-Lz for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2018 17:34:09 -0800
-Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	wB81Y2gF022247; Fri, 7 Dec 2018 17:34:02 -0800
-Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandr@xilinx.com>)
-	id 1gVRVK-0007vt-20; Fri, 07 Dec 2018 17:34:02 -0800
-From: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Dec 2018 17:33:46 -0800
-Message-ID: <1544232826-20839-1-git-send-email-alejandr@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(39850400004)(396003)(136003)(376002)(346002)(2980300002)(189003)(199004)(5660300001)(2906002)(107886003)(6916009)(50466002)(9786002)(26005)(81156014)(8676002)(81166006)(356004)(48376002)(336012)(106002)(6666004)(4326008)(426003)(316002)(14444005)(50226002)(476003)(8936002)(63266004)(478600001)(2616005)(7696005)(126002)(305945005)(486006)(2351001)(106466001)(16586007)(186003)(47776003)(77096007)(36386004)(36756003)(51416003)(192303002)(107986001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4456; H:xsj-pvapsmtpgw01;
-	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
-X-Microsoft-Exchange-Diagnostics: 1; CY1NAM02FT006;
-	1:vYzjPklfy7/QH8LfSBkyMuvH7KEoIlOWD58qn0DJmDDVPbyX/L6aDE/r1Ly+bgcb6nRcQulHQrl//QpF4u8tnE485QcOBjrosMG3le6oKy9MpygNZmheRIWTB+wF3N+Q
+	Sat,  8 Dec 2018 20:56:16 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id b85so3537388pfc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Dec 2018 12:56:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=T8gW8IjnYnolBW6S8chTSkS4GNQ1mEaaM4rbV1OE618=;
+	b=sn0/dypU+bBSGwwNbhD8Mq//4hFE4jP7BIenHQKPFXjOWZZWMeRTQEeXh5IIXV3hW4
+	tx6gVEU29aevyfBjYF6irC8lgaPiihTVIIWBCuNEOnS8C0oBh4exIS4AZV38F+eWjtPg
+	KcUKl4lkEjO5iRBikoSvyJtmSzCWX4e7Dmix+ykLWseev3VOBEDql/pocqI6UQxHvwAo
+	EhmL0n8RvVdACs6ulfhLbxZOE467BpQhGmziTfvYrLH6tVle/v2toybuqKAhbDxZdwD3
+	JusZJhoVJq+ZunUWHW0084HjL39AJL5hnuj2/O0bGJYFRtKvLCvlURE1Vp2xAZnLXWhh
+	+hWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=T8gW8IjnYnolBW6S8chTSkS4GNQ1mEaaM4rbV1OE618=;
+	b=SfEid+UMn0I1TEeiOXWOvobfCUYrDNtQx4ocTUXHHi5PWjitytPpfCoSXVHdKUY0RC
+	zhfnqQtyP5fyc4QlmWCF4xdMA/C3JjrjbFhEkuOCw+CIeMNtijzQ0KUfClzpRptFK5zf
+	rY9DA7VsUF1KTAullgy3hOhoddUDABvIiKgBry8JRJdWPNB1g2ZVc8Beg+LaGhpf1RUB
+	RdCnH+jFH2/b/M2gji4VPFo8XudGilYFh4B0Dz/4W55UZamMpIf0DTJCPT//sJbJLRSg
+	BMc3OF7vCmZckCwUmTwS2JFcdhxhrFepUHmfqWPOmuEslgffAOC3mtV/BwpnmSzYPy/X
+	ymsQ==
+X-Gm-Message-State: AA+aEWYngqLfmPriXBEO7zK3WR24SfjItzyx+9IokTOWQbsdSBHOCNci
+	4r5QItnxoKUhJxCitsqbYLPEgdd1lmk=
+X-Google-Smtp-Source: AFSGD/VPW+SblKzxjbQIfNDi6n0xnycC0iJ6TdgfM6wrb71Jb2SFzarAQJZp+ieXLUvBJA/huhZhHg==
+X-Received: by 2002:a63:ff16:: with SMTP id k22mr6231872pgi.244.1544302577346; 
+	Sat, 08 Dec 2018 12:56:17 -0800 (PST)
+Received: from localhost.localdomain ([2601:646:877f:9499::5f84])
+	by smtp.gmail.com with ESMTPSA id
+	s2sm12394659pfa.167.2018.12.08.12.56.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 08 Dec 2018 12:56:15 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Dec 2018 12:56:02 -0800
+Message-Id: <20181208205602.25506-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c54abe0-f85d-444d-2dd7-08d65cad4403
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4608076)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060);
-	SRVR:BYAPR02MB4456; 
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4456;
-	3:TJst9X3UFQQ+9IQs5M2cgqeqijE6pCNDf1N8PoRuONFJXnGbl2saJk3wMUVh9u/00U+ekGwWxWZol08dG5OK+KO25088wkg4LcyQsrXDrBMybcvnMLzPh3Goo645V8Pr7gtGwfLRFvxDcl0LptA/I+oy3QyodIUIPMqq6MFiH1yfJORbr3nqRJWkXNVLfCsNwx6eAkiGV40jgQ8juJlBDVFTUlayBDF8uSbiqqCw2o5p4K8/yvpdoYeRVz9sYNB86pbufhKibQ4fZjYcXGsw5L9k1AyjccmD51JE46icYgYx5D+BnpMFY5W8R7+bNBKHtz+UIUHNHwEn+3nZ/LRnAFuDtREzmRSCH4bf+UtSyJc=;
-	25:u3r+xYykSWhlHhUYXPTlD7XW3UTq4GJ5qxrhOMUDnk1O2Ucieq0yfWKHYxHGJTRffa18vkgIKTPtbdD3GVbfJ7ZhYTpCU8MGMkR0SPQvY+zRMGzobBZ63gga+kekfLkXJ6t5RyfKtRC8Xodq8bGfCbNdlOANkFfaSv1pfSib5azq6vbN1Vq5v+statPQojbZKiHZy7CMjVnBJo6KdRp80B2smWtddHmKYlDnUdOCZnwjipsNTUehsBH3mNyfIlP+g8xrFhS+nBsii9SIsPV2f4UOG8EeOYNaPwWC0KKtDcK2j1P1T0OMLIVSP5qORsejDoFs9oOrnr24D4n7oiayxA==
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4456:|BYAPR02MB4456:
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4456;
-	31:sBljkPWG+CuYwzX/QLib+nzvIuO0Xga8TcX7h3mggKWhvQFHZkgVu9D/ca0hutIGaR6omITfoy3cWH/I5pTg5E/jkjJNfajhj9G/htFe3cqoeSskJaAZKTpFZqkYCnVcSDXPIS58OSCsmBOgOneNLytmONM0zPcS48kuPH7qtYOucX4csyNVnTQYg2sTUXECA7cy8SVzWdGknew52EPlc9oemkaYZ5T8Lp67bmmDLl8=;
-	20:9DRUu300Z/wZZXOTSwvbXKTCuegieJviroVtXoe6eAbCv8HBM7buRDSL/TDnkXlCkfFhz/Po2P0CSzrukwinGT/nUpcTdRcsi0+sV2vUXlx1CtANWwM6UdF4zCDr/2IgpXbAKX+FXPBdXmHop/+/SpC99y9NT1LR5UOOPNt3SHe4Y1Hbl7flkqIGUGSTH+UlZ2dulJ1+lK+d/Jdcf2zmCt0vEwH91NHkN52og1CLMKRtkM0Dl9++haoNC5uByzy+VUmpppxMPvFiXDkHe3Fqx+g4Mk0xHIA4uGSIl3YL8Bk34VUsEE0LcqiVczq8oF9RkgFXWfRI6C9B7rpmeSf2pClq7T0SRBUwHjuM55rCSqqU074tgIVjCVWgNGTmYnCbzcbywTj4CyTmOvbrOUuWFW1+ehd60AnLqOVEZONxb1O6t1FkOUCpUVhJCq1ru9fcTixrVvccLfVJ4WB9PrJWoArMbExMPrRvtcRhZJ3bZQi5IPDZ+0gZB7tpVbAciyao
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BYAPR02MB4456A2328C487F85202D8234ACAB0@BYAPR02MB4456.namprd02.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231455)(999002)(944501520)(52105112)(93006095)(93004095)(3002001)(10201501046)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(20161123560045)(20161123558120)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);
-	SRVR:BYAPR02MB4456; BCL:0; PCL:0; RULEID:; SRVR:BYAPR02MB4456; 
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4456;
-	4:Jj1s7Pu/l3gyhTqIV6SMBrG+LM32I49TtXK12kMjbE//Rcm+/d3NUSBce2GYbpQFyBsyeY4Mbwl+ShBGkLQ/qb+ETa4fILKA1Qg4sl62e6dqKfokSXtlnxwQRg2SZBdpvpYKYeQFVdsKI0z48blBfOHmrXrLe5dMlyQsSarPI2aDHTs8TVydVbcLSekusxPMI9OuCRQXzo/gxJNhbGH3T//sVB7p9YxHafSqw8buGPcqORxCkvRy2KC6HKVChub82zG4w9qGhieHR+5KYl5A6w==
-X-Forefront-PRVS: 0880FB6EC1
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4456;
-	23:ce9M3pVlsdp6tFTsuVFoGsAfTDKshIR6Oohb1Oa6T?=
-	=?us-ascii?Q?XlcFYQVORSzDVzorR2M5n/duG9RUbA7sWFvQOQceztHEp8RXTBCGL9eZ+X+k?=
-	=?us-ascii?Q?ouvBMj5eMeMV4pjLBCCzORCbzwQXpiKQc7v9TSiYUZ9yTTEik7fupNfkcbUX?=
-	=?us-ascii?Q?9rrZ6+EBQxIiC0KppUitKceYidxnBwSIXTPsAC7PFZVKQT+oT2nNLtd2GKnH?=
-	=?us-ascii?Q?qVl4BU0ANZx57ETFjN7NNzC22xw/HuhbVz5qQq7HUrPHrQgj2keh5yoi7CaE?=
-	=?us-ascii?Q?vb060mS4jI46pONr1+bVZFxtYWO6+/qY7FOT6Vxpek0km2Atk3Mmr5N1cUTZ?=
-	=?us-ascii?Q?v8w3nyWRzgasgDB1IaAR8aIHoJvP2jOtIj/hZA2SFveWn5oOSaSMRbWXAhj9?=
-	=?us-ascii?Q?HZ89y8VEHUcUzAtRMyFn/dyysEgkYM5V6tpvIanX+ydvKMBsybg03d2RGUuM?=
-	=?us-ascii?Q?m5bQAux96sEVbA/NrHlEKPX8sD5iJrpnUSnxRV0BOENxLe8zIOxRUY+YRx7U?=
-	=?us-ascii?Q?JxNdwA64jaIc+yuTfigqI9QlwThLaNZCHuWq7dOQIjcae29Xeo2h8/bETW59?=
-	=?us-ascii?Q?XSh9+aU1O406guuTd8sE5ENcqafTFoKAcqYBYvOx68NAvycrnHRsU3SkAV99?=
-	=?us-ascii?Q?s5YPjn8TP+dLLKC1JbBNpzp3Bn/kF1NwT+P2xgzs8jwLDhdUPlts9ih1Td7r?=
-	=?us-ascii?Q?T1ihb9YTdHlab9dE6pHHqxe/3rsvJYQddHid/YvLpVO2dSVC5JjCv/d48/oK?=
-	=?us-ascii?Q?uCadgAwg+vPp3Y/2mqRRRvH9QY/Ylwn9i1fga8Aom2fCAx4MU5MDUWztmLIx?=
-	=?us-ascii?Q?iUI+brWxKuhRlab4s5/xWBHDwteCx/9InXM9HvsCCxj0MtuSilfWuWGp9tC7?=
-	=?us-ascii?Q?9kMevZ8eXuhe6EsbasQqxUu78TMm10hR3r31AwAYxhZirzE5R7xKgN7/lgce?=
-	=?us-ascii?Q?FifsTNGr2JuK/3LF+41iFESvmaT7UU0TdwCQvOcasjtZE15DHxAUlJnTdpJ2?=
-	=?us-ascii?Q?UKiuN4AuD7qi68TXEBGHLvrBbcjuD4T4rzqZiMrpfXOroMTmgDzhPnayR28d?=
-	=?us-ascii?Q?l9LmAHT9PR3rYSEq/wa/nA2QMMO?=
-X-Microsoft-Antispam-Message-Info: 5545S6xhTcfmKBEklsYumRBCL6cOTpSY1aTnlhkfFwNZl8QlVQkfHqu0ili/elMd8rS7+FWE5aa/XySFKq5Ccc6E6NyTaR3wCK2JRzvmY/f0jT1UYEaCqqLZKJvF3t6n5aYAfB9WkhjEJpS9TYd2MJCRe24xwsK/18m6AN4+mqNEfroafOogGK/ijC0k5NqyVFhBPqOBn08JZbbWaTX8RI+CSI/Q84bpzSSzPxA28eRGouRZHKOTgoi6ee8n5toSeURfxH5qFreEs0IMi2bHHOzbUONwWARJvtbtQwX6tB3FJU17p3RwkXKbw2J/SbLkNh12iwv4Cx/OA4JnF/CQQkeIG4N+po9Ne44V/lLbhns=
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4456;
-	6:+t/dG7cQPr6ztR4hPRV+R4G+hx/V/J6f1JuGr9CzPoJZGd+yNC6sm//ecs1GZz7yWtW4Y/sPRvg87geq64z5MWZ864gntzYQrro8IjYkbKvBewOsKDgZekDwRr40bR0Df0lLXrMMYVHOEKfhUdWGlMF3mV4Gfr8uiz79YsAK9pzUh7fLaVwC2dAf3sLJOA+LP1SZ7Z7qaSAv8+2ljPRYwJ3FidfLpNR92cqWWBmPw1BD45C3J4op75mOqoL6xcti0Zb/IzKaK02LnByRCm7r8z20ySeV1ErTZvPVO5CKiFCdEDtIRHX4omyK/U0ATSKuDJlRmM3uxdU+9qA4BRKiFesX9RfQ3VXV66VfkQ64CxEuSJzWNdFnmCMvpfe4COImsHN/Tzx8jzWIzXbIOS0Sd1Ml5zfr2S7jJbglr6YklG5aUgfph6I2NfHZaPB2PVVZE34pBfXz1j1Ru+SvlQswMw==;
-	5:vU2sZ/D3EC2PXRBTne0BLNXwWq+pxqaS00/noSalcJ9oEWXJcgy5m9DtsiIPge3AY4xNx56a0ucwTwMwKzDZKTbAUBthi7d3MyeFcQxkWxZ9P1Nd5EWZWo0a1jFCZF07hPWbUkumuLag4LxVq2Wts/Zm9p226PYxXyBA56rnrMA=;
-	7:gLSCsq5Ttn00pCNqZjKbGXkIZQ9hJwxzJYuXZsTJp9aFXl+6MxHozsRcXRWRBx8UaspaEDj0cj3CQlfzHDHPxlMVXmpvirC95zVGpsOcdM20z8YcQGsxo1pAzpBEzBBbnrmNnk9aWrm2u6xeG6IObg==
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2018 01:34:15.5129 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c54abe0-f85d-444d-2dd7-08d65cad4403
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4456
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4456;
-	23:J9CUhHSe5gDJ8AtCcjHKpyIu/6h4v3p23MlNCP3sysSX2u7h452nOZc7zWbK18MhpXPj9EeWXPTz1j5xb5scVktzHTGbDo4EtGoNs1AlcEWoEM6cdopNjatvRX4GIsgtQPIQqzICY4+U3XhXSVwiZQ==
-X-OriginatorOrg: xilinx.com
-Subject: [PATCH 2/2] create_manifest3: Dont match filenames which contain the directory name for new manifest
+Subject: [PATCH] mdadm: Drop redundant patches and fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -138,45 +57,507 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Dec 2018 18:45:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Dec 2018 20:56:17 -0000
+Content-Transfer-Encoding: 8bit
 
-When creating a new python3 manifest, there is a corner case on which
-the filepath for a certain dependency that was found, could contain
-the path of an existing folder, e.g. ${libdir}/python3/xmlrpclib.py
-module path contains ${libdir}/python3/xml, this causes an issue where
-the dependency doesnt get eventually added on FILES for that module.
+Several patches were being applied unnecessarily, the purpose they
+served at one point has either been fixed differently, or accepted
+upstream.
 
-This patch checks if the dependency that was found is a directory, if it
-is, it checks if it matches one of the existing directories on the
-manifest, if it is not, then it checks if the dependency's path (without
-the filename) matches one of the directories.
+Add a new patch to make clang's diagnostics happy
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/python/python3/create_manifest3.py | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+V2: Keep mdadm-fix-ptest-build-errors.patch
+V3: Keep 0001-mdadm.h-Undefine-dprintf-before-redefining.patch
 
-diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/meta/recipes-devtools/python/python3/create_manifest3.py
-index f7d4587..4da02a2 100644
---- a/meta/recipes-devtools/python/python3/create_manifest3.py
-+++ b/meta/recipes-devtools/python/python3/create_manifest3.py
-@@ -310,7 +310,13 @@ for pypkg in old_manifest:
-             pymodule_dep = pymodule_dep.replace(pyversion,'${PYTHON_MAJMIN}')
-             inFolders = False
-             for folder in allfolders:
--                if folder in pymodule_dep:
-+                # The module could have a directory named after it, e.g. xml, if we take out the filename from the path
-+                # we'll end up with ${libdir}, and we want ${libdir}/xml
-+                if isFolder(pymodule_dep):
-+                    check_path = pymodule_dep
-+                else:
-+                    check_path = os.path.dirname(pymodule_dep)
-+                if folder in check_path :
-                     inFolders = True # Did we find a folder?
-                     folderFound = False # Second flag to break inner for
-                     # Loop only through packages which contain folders
+ ...abs-diff-in-a-standard-compliant-way.patch |  31 ++++
+ .../files/0001-Disable-gcc8-warnings.patch    | 152 ------------------
+ ...smacros.h-for-major-minor-defintions.patch |  44 -----
+ ...omment-to-indicate-valid-fallthrough.patch | 124 --------------
+ .../mdadm/files/gcc-4.9.patch                 |  31 ----
+ meta/recipes-extended/mdadm/mdadm_4.1.bb      |  20 ++-
+ 6 files changed, 40 insertions(+), 362 deletions(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/gcc-4.9.patch
+
+diff --git a/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch b/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+new file mode 100644
+index 0000000000..803a59b3ec
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+@@ -0,0 +1,31 @@
++From b273e892bd6aaafe448f84356abb78a6d463e784 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 7 Dec 2018 17:22:39 -0800
++Subject: [PATCH] Compute abs diff in a standard compliant way
++
++This make it a bit less implementation defined and silences clang
++warning -Wabsolute-value
++
++| super-intel.c:2822:20: error: taking the absolute value of unsigned type 'unsi
++gned long long' has no effect [-Werror,-Wabsolute-value]
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ super-intel.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/super-intel.c b/super-intel.c
++index 6438987..10d7218 100644
++--- a/super-intel.c
+++++ b/super-intel.c
++@@ -2819,7 +2819,7 @@ static unsigned long long calc_component_size(struct imsm_map *map,
++ 	 * 2048 blocks per each device. If the difference is higher it means
++ 	 * that array size was expanded and num_data_stripes was not updated.
++ 	 */
++-	if ((unsigned int)abs(calc_dev_size - dev_size) >
+++	if ((unsigned int)abs((int)calc_dev_size - (int)dev_size) >
++ 	    (1 << SECT_PER_MB_SHIFT) * member_disks) {
++ 		component_size = dev_size / member_disks;
++ 		dprintf("Invalid num_data_stripes in metadata; expected=%llu, found=%llu\n",
+diff --git a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch b/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
+deleted file mode 100644
+index 361d53ca6c..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
++++ /dev/null
+@@ -1,152 +0,0 @@
+-From a6c991750ae6ebd87a0b9b243bec7fd8e5a064c5 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 9 May 2018 12:56:41 -0700
+-Subject: [PATCH] Disable gcc8 warnings
+-
+-This is needed until
+-https://bugzilla.redhat.com/show_bug.cgi?id=1553958
+-
+-Fix super0.c issue which is triggered only in DEBUG_BUILD with -O1 (or any
+-configuration without -ftree-vrp or with -fno-tree-vrp)
+-
+-super0.c: In function 'examine_super0':
+-super0.c:238:32: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
+-   snprintf(nb, sizeof(nb), "%4d", d);
+-                                ^
+-
+-Upstream-Status: Inappropriate [Workaround]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- Monitor.c     | 4 +++-
+- mdopen.c      | 4 ++++
+- super-ddf.c   | 4 ++++
+- super-intel.c | 6 ++++++
+- super0.c      | 2 +-
+- super1.c      | 5 +++++
+- 6 files changed, 23 insertions(+), 2 deletions(-)
+-
+-diff --git a/Monitor.c b/Monitor.c
+-index 036103f..08cbd0a 100644
+---- a/Monitor.c
+-+++ b/Monitor.c
+-@@ -445,7 +445,8 @@ static void alert(char *event, char *dev, char *disc, struct alert_info *info)
+- 			       event, dev);
+- 	}
+- }
+--
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-truncation"
+- static int check_array(struct state *st, struct mdstat_ent *mdstat,
+- 		       int test, struct alert_info *ainfo,
+- 		       int increments, char *prefer)
+-@@ -673,6 +674,7 @@ static int check_array(struct state *st, struct mdstat_ent *mdstat,
+- 	st->err++;
+- 	goto out;
+- }
+-+#pragma GCC diagnostic pop
+- 
+- static int add_new_arrays(struct mdstat_ent *mdstat, struct state **statelist,
+- 			  int test, struct alert_info *info)
+-diff --git a/mdopen.c b/mdopen.c
+-index 98c54e4..4f72b69 100644
+---- a/mdopen.c
+-+++ b/mdopen.c
+-@@ -26,6 +26,9 @@
+- #include "md_p.h"
+- #include <ctype.h>
+- 
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-truncation"
+-+
+- void make_parts(char *dev, int cnt)
+- {
+- 	/* make 'cnt' partition devices for 'dev'
+-@@ -101,6 +104,7 @@ void make_parts(char *dev, int cnt)
+- 	}
+- 	free(name);
+- }
+-+#pragma GCC diagnostic pop
+- 
+- int create_named_array(char *devnm)
+- {
+-diff --git a/super-ddf.c b/super-ddf.c
+-index 618542c..6ed4e7e 100644
+---- a/super-ddf.c
+-+++ b/super-ddf.c
+-@@ -2828,6 +2828,9 @@ static void _set_config_size(struct phys_disk_entry *pde, const struct dl *dl)
+- 		(unsigned long long)cfs, (unsigned long long)(dl->size-cfs));
+- }
+- 
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-overflow"
+-+
+- /* Add a device to a container, either while creating it or while
+-  * expanding a pre-existing container
+-  */
+-@@ -2964,6 +2967,7 @@ static int add_to_super_ddf(struct supertype *st,
+- 
+- 	return 0;
+- }
+-+#pragma GCC diagnostic pop
+- 
+- static int remove_from_super_ddf(struct supertype *st, mdu_disk_info_t *dk)
+- {
+-diff --git a/super-intel.c b/super-intel.c
+-index 1bc4b80..39d0e92 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -333,6 +333,11 @@ struct md_list {
+- };
+- 
+- #define pr_vrb(fmt, arg...) (void) (verbose && pr_err(fmt, ##arg))
+-+#pragma GCC diagnostic push
+-+# if __GNUC__ == 8
+-+# pragma GCC diagnostic ignored "-Wstringop-truncation"
+-+# endif
+-+#pragma GCC diagnostic ignored "-Wformat-truncation"
+- 
+- static __u8 migr_type(struct imsm_dev *dev)
+- {
+-@@ -12208,3 +12213,4 @@ struct superswitch super_imsm = {
+- 	.clear_bad_block  = imsm_clear_badblock,
+- 	.get_bad_blocks   = imsm_get_badblocks,
+- };
+-+#pragma GCC diagnostic pop
+-diff --git a/super0.c b/super0.c
+-index 42989b9..f5e8031 100644
+---- a/super0.c
+-+++ b/super0.c
+-@@ -229,7 +229,7 @@ static void examine_super0(struct supertype *st, char *homehost)
+- 	     d++) {
+- 		mdp_disk_t *dp;
+- 		char *dv;
+--		char nb[11];
+-+		char nb[12];
+- 		int wonly, failfast;
+- 		if (d>=0) dp = &sb->disks[d];
+- 		else dp = &sb->this_disk;
+-diff --git a/super1.c b/super1.c
+-index 636a286..f894cbb 100644
+---- a/super1.c
+-+++ b/super1.c
+-@@ -1176,6 +1176,10 @@ static struct mdinfo *container_content1(struct supertype *st, char *subarray)
+- 	return info;
+- }
+- 
+-+#pragma GCC diagnostic push
+-+# if __GNUC__ == 8
+-+# pragma GCC diagnostic ignored "-Wstringop-truncation"
+-+#endif
+- static int update_super1(struct supertype *st, struct mdinfo *info,
+- 			 char *update, char *devname, int verbose,
+- 			 int uuid_set, char *homehost)
+-@@ -1641,6 +1645,7 @@ static int init_super1(struct supertype *st, mdu_array_info_t *info,
+- 
+- 	return 1;
+- }
+-+#pragma GCC diagnostic pop
+- 
+- struct devinfo {
+- 	int fd;
+diff --git a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
+deleted file mode 100644
+index 6293f9b2b3..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 714f2262960a7fe9e8f973629ed214023e144590 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 18 Dec 2016 08:30:51 +0000
+-Subject: [PATCH] include <sys/sysmacros.h> for major/minor defintions
+-
+-glibc 2.25 is warning about it if applications depend on
+-sys/types.h for these macros, it expects to be included
+-from <sys/sysmacros.h>
+-
+-Fixes
+-| Grow.c:3534:13: error: In the GNU C Library, "minor" is defined
+-|  by <sys/sysmacros.h>. For historical compatibility, it is
+-|  currently defined by <sys/types.h> as well, but we plan to
+-|  remove this soon. To use "minor", include <sys/sysmacros.h>
+-|  directly. If you did not intend to use a system-defined macro
+-|  "minor", you should undefine it after including <sys/types.h>. [-Werror]
+-| Query.c: In function 'Query':
+-| Query.c:105:13: error: In the GNU C Library, "makedev" is defined
+-|  by <sys/sysmacros.h>. For historical compatibility, it is
+-|  currently defined by <sys/types.h> as well, but we plan to
+-|  remove this soon. To use "makedev", include <sys/sysmacros.h>
+-|  directly. If you did not intend to use a system-defined macro
+-|  "makedev", you should undefine it after including <sys/types.h>. [-Werror]
+-|           makedev((unsigned)disc.major,(unsigned)disc.minor) == stb.st_rdev)
+-|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+----
+- mdadm.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/mdadm.h b/mdadm.h
+-index bb943bf..79c44c6 100644
+---- a/mdadm.h
+-+++ b/mdadm.h
+-@@ -34,6 +34,7 @@ extern __off64_t lseek64 __P ((int __fd, __off64_t __offset, int __whence));
+- #endif
+- 
+- #include	<sys/types.h>
+-+#include	<sys/sysmacros.h>
+- #include	<sys/stat.h>
+- #include	<stdint.h>
+- #include	<stdlib.h>
+diff --git a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch b/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
+deleted file mode 100644
+index 0bd556d437..0000000000
+--- a/meta/recipes-extended/mdadm/files/0005-Add-a-comment-to-indicate-valid-fallthrough.patch
++++ /dev/null
+@@ -1,124 +0,0 @@
+-From 0c2c8ae6b3a1fb0f611f9795953a7a6ed06be38d Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 19 Apr 2017 12:04:15 -0700
+-Subject: [PATCH] Add a comment to indicate valid fallthrough
+-
+-gcc7 warns about code with fallthroughs, this patch adds
+-the comment to indicate a valid fallthrough, helps gcc7
+-compiler warnings
+-
+-This works in cross and native compilation case
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Submitted
+----
+- Grow.c        | 4 ++++
+- bitmap.c      | 8 ++++++++
+- mdadm.c       | 2 ++
+- super-intel.c | 1 +
+- util.c        | 1 +
+- 5 files changed, 16 insertions(+)
+-
+-diff --git a/Grow.c b/Grow.c
+-index 4436a4d..b3116e2 100644
+---- a/Grow.c
+-+++ b/Grow.c
+-@@ -1447,6 +1447,7 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
+- 		switch (info->new_level) {
+- 		case 4:
+- 			delta_parity = 1;
+-+			/* fallthrough */
+- 		case 0:
+- 			re->level = 4;
+- 			re->before.layout = 0;
+-@@ -1474,10 +1475,12 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
+- 
+- 	case 4:
+- 		info->array.layout = ALGORITHM_PARITY_N;
+-+		/* fallthrough */
+- 	case 5:
+- 		switch (info->new_level) {
+- 		case 0:
+- 			delta_parity = -1;
+-+			/* fallthrough */
+- 		case 4:
+- 			re->level = info->array.level;
+- 			re->before.data_disks = info->array.raid_disks - 1;
+-@@ -1533,6 +1536,7 @@ char *analyse_change(char *devname, struct mdinfo *info, struct reshape *re)
+- 		case 4:
+- 		case 5:
+- 			delta_parity = -1;
+-+			/* fallthrough */
+- 		case 6:
+- 			re->level = 6;
+- 			re->before.data_disks = info->array.raid_disks - 2;
+-diff --git a/bitmap.c b/bitmap.c
+-index e38cb96..10af328 100644
+---- a/bitmap.c
+-+++ b/bitmap.c
+-@@ -82,13 +82,21 @@ static inline int count_dirty_bits_byte(char byte, int num_bits)
+- 
+- 	switch (num_bits) { /* fall through... */
+- 		case 8:	if (byte & 128) num++;
+-+		/* fallthrough */
+- 		case 7:	if (byte &  64) num++;
+-+		/* fallthrough */
+- 		case 6:	if (byte &  32) num++;
+-+		/* fallthrough */
+- 		case 5:	if (byte &  16) num++;
+-+		/* fallthrough */
+- 		case 4:	if (byte &   8) num++;
+-+		/* fallthrough */
+- 		case 3: if (byte &   4) num++;
+-+		/* fallthrough */
+- 		case 2:	if (byte &   2) num++;
+-+		/* fallthrough */
+- 		case 1:	if (byte &   1) num++;
+-+		/* fallthrough */
+- 		default: break;
+- 	}
+- 
+-diff --git a/mdadm.c b/mdadm.c
+-index 25a1abd..9843bc5 100644
+---- a/mdadm.c
+-+++ b/mdadm.c
+-@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
+- 			    mode == CREATE || mode == GROW ||
+- 			    mode == INCREMENTAL || mode == MANAGE)
+- 				break; /* b means bitmap */
+-+		/* fallthrough */
+- 		case Brief:
+- 			c.brief = 1;
+- 			continue;
+-@@ -839,6 +840,7 @@ int main(int argc, char *argv[])
+- 
+- 		case O(INCREMENTAL,NoDegraded):
+- 			pr_err("--no-degraded is deprecated in Incremental mode\n");
+-+			/* fallthrough */
+- 		case O(ASSEMBLE,NoDegraded): /* --no-degraded */
+- 			c.runstop = -1; /* --stop isn't allowed for --assemble,
+- 					 * so we overload slightly */
+-diff --git a/super-intel.c b/super-intel.c
+-index e726987..1bc4b80 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -3425,6 +3425,7 @@ static void getinfo_super_imsm_volume(struct supertype *st, struct mdinfo *info,
+- 
+- 			}
+- 		}
+-+		/* fallthrough */
+- 		case MIGR_VERIFY:
+- 			/* we could emulate the checkpointing of
+- 			 * 'sync_action=check' migrations, but for now
+-diff --git a/util.c b/util.c
+-index c26cf5f..61cbe23 100644
+---- a/util.c
+-+++ b/util.c
+-@@ -400,6 +400,7 @@ unsigned long long parse_size(char *size)
+- 		switch (*c) {
+- 		case 'K':
+- 			c++;
+-+		/* fallthrough */
+- 		default:
+- 			s *= 2;
+- 			break;
+diff --git a/meta/recipes-extended/mdadm/files/gcc-4.9.patch b/meta/recipes-extended/mdadm/files/gcc-4.9.patch
+deleted file mode 100644
+index 473fd7821b..0000000000
+--- a/meta/recipes-extended/mdadm/files/gcc-4.9.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 8804bca3de1b79a7c579783b7e3a7603f43bbb48 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 2 May 2014 16:31:17 -0700
+-Subject: [PATCH] mdadm: Fix build on gcc 4.9
+-
+-super-intel.c:5063:2: error: right-hand operand of comma expression has no effect [-Werror=unused-value]
+-  snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
+-  ^
+-cc1: all warnings being treated as errors
+-make: *** [super-intel.o] Error 1
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+----
+- super-intel.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/super-intel.c b/super-intel.c
+-index 6438987..e726987 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -5941,7 +5941,7 @@ static int write_super_imsm_spares(struct intel_super *super, int doclose)
+- 	spare->cache_size = mpb->cache_size;
+- 	spare->pwr_cycle_count = __cpu_to_le32(1);
+- 
+--	snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
+-+	(void)snprintf((char *) spare->sig, MAX_SIGNATURE_LENGTH,
+- 		 MPB_SIGNATURE MPB_VERSION_RAID0);
+- 
+- 	for (d = super->disks; d; d = d->next) {
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index b9f55841cb..9118baaf1a 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -9,24 +9,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+-           file://gcc-4.9.patch \
++           file://run-ptest \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
+            file://mdadm-fix-ptest-build-errors.patch \
+-           file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+-           file://run-ptest \
+            file://0001-mdadm.h-Undefine-dprintf-before-redefining.patch \
+-           file://0001-include-sys-sysmacros.h-for-major-minor-defintions.patch \
+-           file://0005-Add-a-comment-to-indicate-valid-fallthrough.patch \
++           file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
+-           file://0001-Disable-gcc8-warnings.patch \
++           file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+ 
+-CFLAGS += "-fno-strict-aliasing"
+-inherit autotools-brokensep
++inherit autotools-brokensep ptest
++
++CFLAGS_append_toolchain-clang = " -Wno-error=address-of-packed-member"
+ 
+-EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+ # prevents 64-bit userland from seeing this definition, instead defaulting
+ # to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
+@@ -35,6 +32,8 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
+ 
++EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
++
+ do_compile() {
+ 	# Point to right sbindir
+ 	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" ${S}/Makefile
+@@ -46,8 +45,6 @@ do_install() {
+ 	autotools_do_install
+ }
+ 
+-inherit ptest
+-
+ do_compile_ptest() {
+ 	oe_runmake test
+ }
+@@ -62,6 +59,7 @@ do_install_ptest() {
+ 		install -D -m 755 $prg ${D}${PTEST_PATH}/
+ 	done
+ }
++
+ RDEPENDS_${PN}-ptest += "bash"
+ RRECOMMENDS_${PN}-ptest += " \
+     coreutils \
 -- 
-2.7.4
+2.19.2
 
 
