@@ -1,30 +1,18 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FF206D1E5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 05:28:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,337,1539619200"; d="scan'208";a="49399795"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Dec 2018 13:28:15 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 09E394B5CD7A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 13:28:16 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Mon, 10 Dec 2018 13:28:19 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Dec 2018 22:26:40 +0800
-Message-ID: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A533A6D197;
+	Mon, 10 Dec 2018 05:37:03 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 09E394B5CD7A.A8FD6
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] createrepo-c: Fix setup of logging (log domains)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 10 Dec 2018 05:37:05 -0000
+Message-ID: <20181210053705.2331.11597@do>
+References: <1544451980-56888-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1544451980-56888-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3JlYXRlcmVwby1jOiBGaXggc2V0dXAgb2YgbG9nZ2luZyAobG9nIGRvbWFpbnMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,116 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 05:28:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Dec 2018 05:37:03 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-New debug messages were added into GLib library. These messages come
-from the "GLib" log domain and were not hidden in the standard and
-quiet mode of the application.
-This fix hides log messages regardless on source log domain.
+== Series Details ==
 
-Backport from 80810f04f2de6bae6e394f52ad9cdd2189862f74.
+Series: createrepo-c: Fix setup of logging (log domains)
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15277/
+State : failure
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch)
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
+  Current          Upstream Status: Backport
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...etup-of-logging-log-domains-RhBug-1645897.patch | 72 ++++++++++++++++++++++
- .../createrepo-c/createrepo-c_git.bb               |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
-
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
-new file mode 100644
-index 0000000..38bcdf8
---- /dev/null
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
-@@ -0,0 +1,72 @@
-+From 80810f04f2de6bae6e394f52ad9cdd2189862f74 Mon Sep 17 00:00:00 2001
-+From: Jaroslav Rohel <jrohel@redhat.com>
-+Date: Fri, 9 Nov 2018 07:35:13 +0100
-+Subject: [PATCH] Fix setup of logging (log domains) (RhBug:1645897)
-+
-+New debug messages were added into GLib library. These messages come
-+from the "GLib" log domain and were not hidden in the standard and
-+quiet mode of the application.
-+This fix hides log messages regardless on source log domain.
-+
-+Upstream Status: Backport
-+
-+---
-+ src/createrepo_shared.c | 19 ++++++-------------
-+ src/misc.c              |  5 ++++-
-+ 2 files changed, 10 insertions(+), 14 deletions(-)
-+
-+diff --git a/src/createrepo_shared.c b/src/createrepo_shared.c
-+index 8a26787..7cb8ba8 100644
-+--- a/src/createrepo_shared.c
-++++ b/src/createrepo_shared.c
-+@@ -270,24 +270,17 @@ cr_lock_repo(const gchar *repo_dir,
-+ void
-+ cr_setup_logging(gboolean quiet, gboolean verbose)
-+ {
-+-    g_log_set_default_handler (cr_log_fn, NULL);
-+-
-+     if (quiet) {
-+         // Quiet mode
-+-        GLogLevelFlags levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
-+-                                G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
-+-        g_log_set_handler(NULL, levels, cr_null_log_fn, NULL);
-+-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_null_log_fn, NULL);
-++        GLogLevelFlags hidden_levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
-++                                       G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
-++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(hidden_levels));
-+     } else if (verbose) {
-+         // Verbose mode
-+-        GLogLevelFlags levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
-+-                                G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
-+-        g_log_set_handler(NULL, levels, cr_log_fn, NULL);
-+-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_log_fn, NULL);
-++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(0));
-+     } else {
-+         // Standard mode
-+-        GLogLevelFlags levels = G_LOG_LEVEL_DEBUG;
-+-        g_log_set_handler(NULL, levels, cr_null_log_fn, NULL);
-+-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_null_log_fn, NULL);
-++        GLogLevelFlags hidden_levels = G_LOG_LEVEL_DEBUG;
-++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(hidden_levels));
-+     }
-+ }
-+diff --git a/src/misc.c b/src/misc.c
-+index 9937480..9549a44 100644
-+--- a/src/misc.c
-++++ b/src/misc.c
-+@@ -912,8 +912,11 @@ void
-+ cr_log_fn(const gchar *log_domain,
-+           GLogLevelFlags log_level,
-+           const gchar *message,
-+-          G_GNUC_UNUSED gpointer user_data)
-++          gpointer user_data)
-+ {
-++    gint hidden_log_levels = GPOINTER_TO_INT(user_data);
-++    if (log_level & hidden_log_levels)
-++        return;
-+     switch(log_level) {
-+         case G_LOG_LEVEL_ERROR:
-+             if (log_domain) g_printerr("%s: ", log_domain);
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-index 2960811..08766b3 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            file://0001-Correctly-install-the-shared-library.patch \
-+           file://0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch \
-            "
- 
- PV = "0.11.1+git${SRCPV}"
--- 
-2.7.4
-
-
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
