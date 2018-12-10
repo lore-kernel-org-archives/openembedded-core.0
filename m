@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F8B60745
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 057AD6D1E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 02:24:27 +0000 (UTC)
+	Mon, 10 Dec 2018 02:24:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBA2OSlm028185
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBA2OoUi009574
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Dec 2018 18:24:28 -0800 (PST)
+	Sun, 9 Dec 2018 18:24:50 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Sun, 9 Dec 2018 18:24:28 -0800
+	Sun, 9 Dec 2018 18:24:50 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 9 Dec 2018 18:24:21 -0800
-Message-ID: <bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+Date: Sun, 9 Dec 2018 18:24:23 -0800
+Message-ID: <d8d5c615ca2b0527b3927161c2401dc6cbe72512.1544408339.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1544408339.git.liezhi.yang@windriver.com>
 References: <cover.1544408339.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
+Subject: [PATCH 3/4] apr/openssl10: Enable ccache for them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 02:24:27 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 02:24:49 -0000
 Content-Type: text/plain
 
-The code is in setup_hosttools_dir(), it searches ccache in PATH in reverse
-order, I can't figure out what it is used for, maybe it is aimed to use host's
-ccache rather than recipe-sysroot-native/usr/bin/ccache, but the later one
-isn't in original PATH, so remove the code.
+The work well now.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/base.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb | 3 ---
+ meta/recipes-support/apr/apr_1.6.5.bb                 | 1 -
+ 2 files changed, 4 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e715ffa..36b9c15 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -122,8 +122,6 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
-         desttool = os.path.join(dest, tool)
-         if not os.path.exists(desttool):
-             srctool = bb.utils.which(path, tool, executable=True)
--            if "ccache" in srctool:
--                srctool = bb.utils.which(path, tool, executable=True, direction=1)
-             if srctool:
-                 os.symlink(srctool, desttool)
-             else:
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+index 6518dac..1986cf2 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+@@ -76,9 +76,6 @@ EXTRA_OEMAKE = "${@bb.utils.contains('PACKAGECONFIG', 'manpages', '', 'OE_DISABL
+ 
+ export OE_LDFLAGS = "${LDFLAGS}"
+ 
+-# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
+-CCACHE = ""
+-
+ TERMIO ?= "-DTERMIO"
+ TERMIO_libc-musl = "-DTERMIOS"
+ 
+diff --git a/meta/recipes-support/apr/apr_1.6.5.bb b/meta/recipes-support/apr/apr_1.6.5.bb
+index c2f5900..ed93a7e 100644
+--- a/meta/recipes-support/apr/apr_1.6.5.bb
++++ b/meta/recipes-support/apr/apr_1.6.5.bb
+@@ -40,7 +40,6 @@ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
+ # Otherwise libtool fails to compile apr-utils
+ # x86_64-linux-libtool: compile: unable to infer tagged configuration
+ # x86_64-linux-libtool:   error: specify a tag with '--tag'
+-CCACHE = ""
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 -- 
 2.10.2
 
