@@ -1,49 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C11F6B1F7
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 752936C10D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 11:35:15 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id y185so6407081wmd.1
+	Mon, 10 Dec 2018 13:05:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 43D3GG056LzKk
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 03:35:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=mvGNap8dnI1JLDffeDhu79eFrts++B+nvimGhQTtvHY=;
-	b=0WX8ZsBa/jp+6Hc2adM93rK/5D5oOTuwAj+lfsCYTLvYc8LYC8c22ZOB9T90hEg9rC
-	jg1GSqQeBuw/wSFOLNrmrWnnqVt5Ij7jysmd8Vf/6l8d3K9OdqokYZ6rtUOdMk9Y87uB
-	RQgmukD8M6DGQSeV1PBNF4VeEYeRX0MHs7Dpj8RqdiPPm/XSKj1qINbobuHB0Bwi0+3W
-	mnoTCgnpqvKOZzSBzsnYao2z2cUhm8Yu48//BRz2dEX9wpGdCFbLeQ8qJK60H82+2Ig7
-	pHPQbfcQoOOw9uQ6ZFqyG0Rsy25mgcfC6tb78l3Tv9CtYKdpzQzOcKggF8niwzFGGyeF
-	M0HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=mvGNap8dnI1JLDffeDhu79eFrts++B+nvimGhQTtvHY=;
-	b=OJaJMy48zLhy11nrbbWmEgyy4/08lpeGqYvF9RJ4VFv5AMzxOJyMlKJAePcF4cMZ9+
-	EsUSk1UuXBqcLX1rNVC80mjb1m8ZHObvmsxaENnl0V4F3IgvKQyNQwp0x0f9oA4q41D6
-	gNpyQ7Zm5J0aFZaBTLvQKxR7c4/nFg7rDyxTfpag/YBgq2u2fdAIP1a6XE6vnDuA/QKW
-	w2Cp/IBL2wy4ZCr8v19oQ6wH9Ga+wt36rcCxY6OdqcdNuSviRgU8yFdPAx41bf3X7qIF
-	yitF0TQvmCNOXobYd8377TSGcXkZ0SsveIQPre1IOwTaPupISo3BNUCogA2pkq8sa8Tg
-	jeyQ==
-X-Gm-Message-State: AA+aEWZUGfyE45ir6j3NEi0Tdwrm/zcFtW+xY36S9wzuBAaYcn/KHr37
-	LzkcdP3ye6djrdRJYvUKpcX0Gv8o3sY=
-X-Google-Smtp-Source: AFSGD/WatXmBsO3SEADqWOMeyEdy8XIWsggJqdGQOXoj9/TMePJ0x6JqPJKklATmU80e9B5edrn7Bw==
-X-Received: by 2002:a1c:3c06:: with SMTP id j6mr9377272wma.27.1544441715689;
-	Mon, 10 Dec 2018 03:35:15 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w8sm10516766wrv.7.2018.12.10.03.35.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Dec 2018 03:35:15 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 10 Dec 2018 14:05:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1544447126;
+	bh=V0CerlX8BRN/x/51U5/rsi6cF61mQmDgzxbDQXvHlIo=;
+	h=From:To:Subject:Date:From;
+	b=XomO+N2SUuPdqRpXT/3HqKo2/CVXKmxCLGGhW8Z8ORyl4IfTPqfs/cHPseH5xVMjl
+	D3saCMsZjALiHpAzdX1Ya3+RfaByTCCYWVNiFk+TfKak6CMhBhoXeU1aRA08OKsTrF
+	OapfjjZR7q3ZgyQZzMpE4oMqBFue4fDk0Shiz9DMo+vrJaogWHbZGlBZEOB1qzsV25
+	cwiolQnJHFGbXmh28Ko7vsP8/yEQ2JLZgJ4XPSNIbZ7n3EB70e2UWf0txtfIHD6Sz/
+	XSKQBHQu2C2OSNYYncqEEO4AW6kdaCUHhUFsEPIMYVd2KhWdkm8m3vwu0HjW27k8fz
+	dSs6f8LGtSuQ2dh3jC856+djzWAGpmCdYI5JLW9zb3w6GZXeYrYZJ9qQk0Vy9cr4b1
+	Hb5DP2y9k3Mg90clY8ZXT+7YGEXMOi5eK/IhREsawxdibhfSdQAT+hSeEZajT/cwbz
+	bH8dVjgdDPr7jm8fyheZUrNECaGY81Gu91OUloJdwVxxGkO4L9vT5pwMFc+upImI0j
+	tb/XFB1EV1GKanWtw/KNdCKP9dYMOynYoWdaoFjxnH+mSeNHIXxxxthmh/blpjsmCs
+	bR6ivofP2DD2eI0HDrD9h7lRxfS3NlI/je4xPe5jLrbgnp+SeKZ2YPd/Y4p4NAnzoC
+	CeJOTZ+wYIPujBinyuz548aA=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2018 11:35:13 +0000
-Message-Id: <20181210113513.3671-1-ross.burton@intel.com>
+Date: Mon, 10 Dec 2018 15:05:11 +0200
+Message-Id: <20181210130511.32200-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] nss: fix Upstream-Status format
+Subject: [thud] [PATCH] archiver.bbclass: Fix COPYLEFT_LICENSE_{IN, EX}CLUDE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 11:35:15 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 13:05:26 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Setting them to empty before inheriting copyleft_filter
+made them not getting their documented values there.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/archiver.bbclass | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-index 7ba8d16483a..bb1c6e3b345 100644
---- a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-+++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-@@ -2,7 +2,7 @@ Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 0a9fe4fd1d..e321a0e362 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -23,9 +23,6 @@
+ #    COPYLEFT_RECIPE_TYPES = 'target'
+ #
  
- In arm 32be, there is no need to reverse the host value.
- 
--Upstream Status: Pending
-+Upstream-Status: Pending
- 
- Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
- ---
+-# Don't filter the license by default
+-COPYLEFT_LICENSE_INCLUDE ?= ''
+-COPYLEFT_LICENSE_EXCLUDE ?= ''
+ # Create archive for all the recipe types
+ COPYLEFT_RECIPE_TYPES ?= 'target native nativesdk cross crosssdk cross-canadian'
+ inherit copyleft_filter
 -- 
 2.11.0
 
