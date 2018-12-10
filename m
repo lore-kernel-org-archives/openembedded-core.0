@@ -1,47 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CF9C6BE3C
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C11F6B1F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 11:02:23 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id a6so17388770itl.4
+	Mon, 10 Dec 2018 11:35:15 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y185so6407081wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 03:02:25 -0800 (PST)
+	Mon, 10 Dec 2018 03:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ETqwqBCs2YVaONJUDbD5b9n7OTK/hBlMG7goTEtcWsc=;
-	b=aO9V+u5AItBIqqPFnLaJaLVQKdS3Wbq/qemZkLPUIuVbc2dKaujsfLmAO80eeKeQru
-	bEVkvP8H38RxurUl18w+YsgV8lV8Y2cfg1OucU6NdouBySLhzpcs+ejF5E2Cz5aNQ3Ce
-	AdXT0shSkrOKO1Fh2JRcTdWUviUFqIrct5ru+0e2kuloxkJ+DbDqHIqIu3F/YZitkmX8
-	RNNXuP9FzoP0YAyq3CD1c/NzvQzMBlnLwb7b/pLQjWDj3ZakEmFpIN9nEMD7JM9CjTau
-	+QGqWMs9vGmegNkvjDJdo0Z/7InLLCsZv3l9eFqAS8BEKamd7NxqZ1d6JkoD5pwu8nKb
-	PB+g==
+	h=from:to:subject:date:message-id;
+	bh=mvGNap8dnI1JLDffeDhu79eFrts++B+nvimGhQTtvHY=;
+	b=0WX8ZsBa/jp+6Hc2adM93rK/5D5oOTuwAj+lfsCYTLvYc8LYC8c22ZOB9T90hEg9rC
+	jg1GSqQeBuw/wSFOLNrmrWnnqVt5Ij7jysmd8Vf/6l8d3K9OdqokYZ6rtUOdMk9Y87uB
+	RQgmukD8M6DGQSeV1PBNF4VeEYeRX0MHs7Dpj8RqdiPPm/XSKj1qINbobuHB0Bwi0+3W
+	mnoTCgnpqvKOZzSBzsnYao2z2cUhm8Yu48//BRz2dEX9wpGdCFbLeQ8qJK60H82+2Ig7
+	pHPQbfcQoOOw9uQ6ZFqyG0Rsy25mgcfC6tb78l3Tv9CtYKdpzQzOcKggF8niwzFGGyeF
+	M0HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ETqwqBCs2YVaONJUDbD5b9n7OTK/hBlMG7goTEtcWsc=;
-	b=b+IpaYgQrHSV7rU46we5HwHTG0l7dyE9NLtdDkGvOOCBMH1DE6DTverG5ZiAcQ6IFh
-	Idh9rr8EeIEawy06I7CtjqThri1a9h6mDuUXR9iIvORjlYlDhxkkAHYxKkLKsecpuMFT
-	P2EYOEi/EHfWfy+DMjzptx0mIoxP5xjtPzO87LIYP12Mp93qcXpNKLDRaBlVbeg1S3cu
-	8mqEANRAgLjpXyOITFgjJj1ShWdSP9mcoVM/CeHIcG7QJIoRMd6LhwQY/edWh2ywA799
-	Wqmk5kt04ZgwtsO9dhmkbwut769/h8ELAMSfKrfPucKTzy0Cn6MPUmZeoQZmVqCx4x0b
-	g4ow==
-X-Gm-Message-State: AA+aEWbuwPziTXqHsMqdyn5LCtGbjwKFAIwp1frEfe1+LwIylSApcKkT
-	MWj9O4U9KsniVZ+BnAUIKEX3MU5DrjovBseU0vd9kw==
-X-Google-Smtp-Source: AFSGD/Vz8Q+gUG54ebJHhcdXr99PZang7HcY4qOgzs01Kvuii4mAvZyvtyLD57mpDWEoJnymhlz7d/ChfC2BENynbIs=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr11565382itg.130.1544439745016; 
-	Mon, 10 Dec 2018 03:02:25 -0800 (PST)
-MIME-Version: 1.0
-References: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Dec 2018 11:02:14 +0000
-Message-ID: <CAJTo0LYEFJ9CR87ErJUETUmYZjwZFkFfT4XNQ+JXawySuGyAPQ@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] createrepo-c: Fix setup of logging (log domains)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=mvGNap8dnI1JLDffeDhu79eFrts++B+nvimGhQTtvHY=;
+	b=OJaJMy48zLhy11nrbbWmEgyy4/08lpeGqYvF9RJ4VFv5AMzxOJyMlKJAePcF4cMZ9+
+	EsUSk1UuXBqcLX1rNVC80mjb1m8ZHObvmsxaENnl0V4F3IgvKQyNQwp0x0f9oA4q41D6
+	gNpyQ7Zm5J0aFZaBTLvQKxR7c4/nFg7rDyxTfpag/YBgq2u2fdAIP1a6XE6vnDuA/QKW
+	w2Cp/IBL2wy4ZCr8v19oQ6wH9Ga+wt36rcCxY6OdqcdNuSviRgU8yFdPAx41bf3X7qIF
+	yitF0TQvmCNOXobYd8377TSGcXkZ0SsveIQPre1IOwTaPupISo3BNUCogA2pkq8sa8Tg
+	jeyQ==
+X-Gm-Message-State: AA+aEWZUGfyE45ir6j3NEi0Tdwrm/zcFtW+xY36S9wzuBAaYcn/KHr37
+	LzkcdP3ye6djrdRJYvUKpcX0Gv8o3sY=
+X-Google-Smtp-Source: AFSGD/WatXmBsO3SEADqWOMeyEdy8XIWsggJqdGQOXoj9/TMePJ0x6JqPJKklATmU80e9B5edrn7Bw==
+X-Received: by 2002:a1c:3c06:: with SMTP id j6mr9377272wma.27.1544441715689;
+	Mon, 10 Dec 2018 03:35:15 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id w8sm10516766wrv.7.2018.12.10.03.35.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Dec 2018 03:35:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Dec 2018 11:35:13 +0000
+Message-Id: <20181210113513.3671-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] nss: fix Upstream-Status format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 11:02:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Dec 2018 11:35:15 -0000
 
-On Mon, 10 Dec 2018 at 05:28, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
-> +++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
-> @@ -0,0 +1,72 @@
-> +From 80810f04f2de6bae6e394f52ad9cdd2189862f74 Mon Sep 17 00:00:00 2001
-> +From: Jaroslav Rohel <jrohel@redhat.com>
-> +Date: Fri, 9 Nov 2018 07:35:13 +0100
-> +Subject: [PATCH] Fix setup of logging (log domains) (RhBug:1645897)
-> +
-> +New debug messages were added into GLib library. These messages come
-> +from the "GLib" log domain and were not hidden in the standard and
-> +quiet mode of the application.
-> +This fix hides log messages regardless on source log domain.
-> +
-> +Upstream Status: Backport
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Upstream-Status, you need the hyphen.
+diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+index 7ba8d16483a..bb1c6e3b345 100644
+--- a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
++++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+@@ -2,7 +2,7 @@ Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
+ 
+ In arm 32be, there is no need to reverse the host value.
+ 
+-Upstream Status: Pending
++Upstream-Status: Pending
+ 
+ Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+ ---
+-- 
+2.11.0
 
-Also, add a Signed-off-by to the patch.
-
-Ross
 
