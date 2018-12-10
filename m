@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B54D6B079
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CF9C6BE3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 10:29:56 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r11-v6so10285186wmb.2
+	Mon, 10 Dec 2018 11:02:23 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id a6so17388770itl.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 02:29:58 -0800 (PST)
+	Mon, 10 Dec 2018 03:02:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=n95rb6Sp+79g4m6FcA2I1jpvtGFYjeaWfd5nABeCUNw=;
-	b=f0V9/OQyRDwm8D/xGdPLdoahOxMPHzD79x0zXVSEPB7PpRm87jDNFqZe9sS5L4YzQE
-	lkvMkjYfMflFk1E+vcD9HAILhFMP8GlDio0G55jWH1po51glDENPS+s66CGtyypicby/
-	5ZUhV7DZYLJtG/5IxL4EsSVzHEA47/WUX3Qaw=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ETqwqBCs2YVaONJUDbD5b9n7OTK/hBlMG7goTEtcWsc=;
+	b=aO9V+u5AItBIqqPFnLaJaLVQKdS3Wbq/qemZkLPUIuVbc2dKaujsfLmAO80eeKeQru
+	bEVkvP8H38RxurUl18w+YsgV8lV8Y2cfg1OucU6NdouBySLhzpcs+ejF5E2Cz5aNQ3Ce
+	AdXT0shSkrOKO1Fh2JRcTdWUviUFqIrct5ru+0e2kuloxkJ+DbDqHIqIu3F/YZitkmX8
+	RNNXuP9FzoP0YAyq3CD1c/NzvQzMBlnLwb7b/pLQjWDj3ZakEmFpIN9nEMD7JM9CjTau
+	+QGqWMs9vGmegNkvjDJdo0Z/7InLLCsZv3l9eFqAS8BEKamd7NxqZ1d6JkoD5pwu8nKb
+	PB+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=n95rb6Sp+79g4m6FcA2I1jpvtGFYjeaWfd5nABeCUNw=;
-	b=daqsAi2AGRJ5C/7LNXQEh1bNTPnb7f22XXDAuWRgsKDUWaU6WrpnFo2VGPuoXip50/
-	wEmzlg43Yge868TE3PHRYmjyr3chfHSrqT2E40B3gVtxrrIAGt0SmrxOgKFWIkPYclRR
-	n69R6UAm3u9U8vw2o5tS9KjwFXvyf/TLibnbEQ38VJ+7rWyjAzIxkny5pglKyv+AJXuD
-	+JRcQ9eR+U417wccksfDE7EhqJiMmBZqF5ZQGS/xMFWw3AI8jSSw6D1aREggtqverVlh
-	80JAwft8FN6hDH5dcIzTdSjqn12hRNDzk+H2AOj9VZ3ShA0fcMdglqdObfRNKlef4Xts
-	DEoQ==
-X-Gm-Message-State: AA+aEWbHHqzpPIa7u6OfrpYlY5pJWa/PyPTUkvvAahskPmlyQesSnjcy
-	q2IT0XxnCm8Q09epNzfC04QjkC7tZbTTJw==
-X-Google-Smtp-Source: AFSGD/Vsf5hlEc/4hZi+x7cTTw4rMNxqlR0P2kx4zzchqxcU9QSRh6WkESlnw0i9iIpdi7RUrfhS0A==
-X-Received: by 2002:a1c:8548:: with SMTP id h69mr9512326wmd.11.1544437797609; 
-	Mon, 10 Dec 2018 02:29:57 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a18sm13215271wrp.13.2018.12.10.02.29.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 10 Dec 2018 02:29:56 -0800 (PST)
-Message-ID: <37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2018 10:29:55 +0000
-In-Reply-To: <bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
-References: <cover.1544408339.git.liezhi.yang@windriver.com>
-	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ETqwqBCs2YVaONJUDbD5b9n7OTK/hBlMG7goTEtcWsc=;
+	b=b+IpaYgQrHSV7rU46we5HwHTG0l7dyE9NLtdDkGvOOCBMH1DE6DTverG5ZiAcQ6IFh
+	Idh9rr8EeIEawy06I7CtjqThri1a9h6mDuUXR9iIvORjlYlDhxkkAHYxKkLKsecpuMFT
+	P2EYOEi/EHfWfy+DMjzptx0mIoxP5xjtPzO87LIYP12Mp93qcXpNKLDRaBlVbeg1S3cu
+	8mqEANRAgLjpXyOITFgjJj1ShWdSP9mcoVM/CeHIcG7QJIoRMd6LhwQY/edWh2ywA799
+	Wqmk5kt04ZgwtsO9dhmkbwut769/h8ELAMSfKrfPucKTzy0Cn6MPUmZeoQZmVqCx4x0b
+	g4ow==
+X-Gm-Message-State: AA+aEWbuwPziTXqHsMqdyn5LCtGbjwKFAIwp1frEfe1+LwIylSApcKkT
+	MWj9O4U9KsniVZ+BnAUIKEX3MU5DrjovBseU0vd9kw==
+X-Google-Smtp-Source: AFSGD/Vz8Q+gUG54ebJHhcdXr99PZang7HcY4qOgzs01Kvuii4mAvZyvtyLD57mpDWEoJnymhlz7d/ChfC2BENynbIs=
+X-Received: by 2002:a24:c601:: with SMTP id j1mr11565382itg.130.1544439745016; 
+	Mon, 10 Dec 2018 03:02:25 -0800 (PST)
+MIME-Version: 1.0
+References: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Dec 2018 11:02:14 +0000
+Message-ID: <CAJTo0LYEFJ9CR87ErJUETUmYZjwZFkFfT4XNQ+JXawySuGyAPQ@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] createrepo-c: Fix setup of logging (log domains)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 10:29:57 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 11:02:24 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2018-12-09 at 18:24 -0800, Robert Yang wrote:
-> The code is in setup_hosttools_dir(), it searches ccache in PATH in
-> reverse order, I can't figure out what it is used for, maybe it is
-> aimed to use host's ccache rather than recipe-sysroot-
-> native/usr/bin/ccache, but the later one isn't in original PATH, so
-> remove the code.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/base.bbclass | 2 --
->  1 file changed, 2 deletions(-)
+On Mon, 10 Dec 2018 at 05:28, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
+> +++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
+> @@ -0,0 +1,72 @@
+> +From 80810f04f2de6bae6e394f52ad9cdd2189862f74 Mon Sep 17 00:00:00 2001
+> +From: Jaroslav Rohel <jrohel@redhat.com>
+> +Date: Fri, 9 Nov 2018 07:35:13 +0100
+> +Subject: [PATCH] Fix setup of logging (log domains) (RhBug:1645897)
+> +
+> +New debug messages were added into GLib library. These messages come
+> +from the "GLib" log domain and were not hidden in the standard and
+> +quiet mode of the application.
+> +This fix hides log messages regardless on source log domain.
+> +
+> +Upstream Status: Backport
 
-We should document it and I think its still needed.
+Upstream-Status, you need the hyphen.
 
-Some distros have a "gcc" which automatically wraps ccache behind the
-scenes. This code lets us find the real gcc and bypass ccache.
+Also, add a Signed-off-by to the patch.
 
-There would be oe-selftest failures on such a distro if we didn't do
-that.
-
-Cheers,
-
-Richard
-
+Ross
 
