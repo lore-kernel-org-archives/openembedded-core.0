@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F55660777
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FC496C131
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 15:07:10 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id x10so10815276wrs.8
+	Mon, 10 Dec 2018 16:16:58 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id y1so11501172wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 07:07:12 -0800 (PST)
+	Mon, 10 Dec 2018 08:16:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=12ZWXUOXFHG+wSDYsPOI8RB5AhJn8dM4OP3UDkXv2xY=;
-	b=APWcPAhhTq0v0oKoPbKwzmcQYgePbnIJkH0BuuK/WKNWzp3ejVBaGd2U1HYjS+oM6b
-	gbfWUhpGSGRY68+6VxjR80aVlH7Z5yRYF36okNEfaYniIZfAMY6oy4zeroigihu6y9Sw
-	DGxgOQH7yI3WT6KUFGbYHrryTrwSsXltw6ItjamH4Hgzkx5xC0cfFF5y4fZAru1C/7iS
-	LgK9I9piqkSTlPNE3/o6dOfVJWRzcRRH/RwRV5b/cwB7Ce7VVT3fz70WY+YX3WgFvISV
-	nOc79YZEI8EDV/Bf4Jh4R+L+AywVa4uTcXMmn2RQiZ5G1gTFoA06JsLA1u/BeoFhfVhQ
-	WUTQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=l7psRJGNYdpCEAcOG84ml2jSGTFca7Cp/21qkixXL6U=;
+	b=aqcD6J+385Z2U1LoYKnCvVvcPgdRIuygQnDvzOI7f85SId4xTwfCUNLhyV1Bbqy6UG
+	JHg0aT6s1aUmbMUrqGyHI1PfhLJQC630Cf4FDvYRjEAOqmwuUJUGZBRgIXOoL3ERD5X2
+	8BWFliWms+hnvYj0xeR4VciFiB8XvOBpvx1X0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=12ZWXUOXFHG+wSDYsPOI8RB5AhJn8dM4OP3UDkXv2xY=;
-	b=DNk3gTuPdedzasTOLWijlh41dSojC4BE+6EGPKZt7YbUJMHQqs+u2tlWChJ40Jc0l/
-	Ifvd1rkDvGTEYtGWtJi7kdSeYcQcNUDoUqybg9ngva2Ej6neZ+IG89fuLRsPULRm/ZCq
-	qUhU2/0B/FXWot+ElZ7xhShqx0ILTI05CL+qrqV70fQQxPzO3AgW44bnwdL9dbNrCCBt
-	lIURqYIgTllfz6nwm+V93gU0ZGQQT7jas9oh/o+hiUi0CgjUbM8mPTQ0xM8UyI6NaTlJ
-	ly6DauQ1jh3rWWF48NgqAB2rWSpoXZWK9CzATn9Y1Sof4tA48SGau9w7AdR2usWOr7cj
-	Up4g==
-X-Gm-Message-State: AA+aEWaRs9SFRtw6JaCLwkjN6G8kHPkoCpXEo0PI1p9l7LDlyBBVn2ak
-	Qi82gA0DRuvWa6bnIfYkaFm8ZrUpXIk=
-X-Google-Smtp-Source: AFSGD/WonZh7My1TKK0u6pY5aBZuLfaLTahGVhF7+FmItM37L0naiMMtds0oQ3Gw3cT1qfhXhh5h1Q==
-X-Received: by 2002:a5d:6808:: with SMTP id w8mr9685433wru.270.1544454431351; 
-	Mon, 10 Dec 2018 07:07:11 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t76sm16610138wme.33.2018.12.10.07.07.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Dec 2018 07:07:10 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2018 15:07:07 +0000
-Message-Id: <20181210150707.7239-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/sdk: show output if run() fails
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=l7psRJGNYdpCEAcOG84ml2jSGTFca7Cp/21qkixXL6U=;
+	b=Xk5ccjY5u6di7obydi3STlSBdhkwr4MzdHb3PiWPVsiW4GZUZVzQU3nmkeRSPUWcQr
+	WrMkZImSmaNIqO7H9mj4N9cwbbjqE8aji/C6chTiK55PbsJnHgU+OOzgcZuUvsFumEP5
+	2DucjUNoJphOIuU1BiYVbtujtXFcJzjsucV1I+Or720Skd0182VWwompVPl2q+lhL/bs
+	tjCRwt7i2KOtw/4zwjexOjhYOEAQJxEBg5bcNI64DMvTKLTH7lDUXLKByQoGgCDi/Ibo
+	Kh3WBThgP0Is/HVp9P1O1fxyOWvv658so5bg/s6OvVfm8oaedpdwz3mh2bcyouI69daQ
+	4yEA==
+X-Gm-Message-State: AA+aEWZr86soEGlNESEUy0hIC6EGUC7PoNVYl+XQ4pBZsFr2aYO4tFOy
+	o02IMDY+KvLuvMuKICiZcM5tWQ==
+X-Google-Smtp-Source: AFSGD/VRqrHTusP2SmTpmUFyDX/IkeXjg/DT2A0NBBeuomcGRySbJXQbmtpKWb7x6bIwoPbbDbXvEw==
+X-Received: by 2002:a1c:3ec6:: with SMTP id l189mr11585753wma.8.1544458618991; 
+	Mon, 10 Dec 2018 08:16:58 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r77sm23025778wmd.22.2018.12.10.08.16.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 10 Dec 2018 08:16:58 -0800 (PST)
+Message-ID: <f403e97a0a7264be26e17b0b30d2afbcf4f39196.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 10 Dec 2018 16:16:57 +0000
+In-Reply-To: <14db0a1e38be41a43e4c8ab43f744fc5d635aa54.1544408339.git.liezhi.yang@windriver.com>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<14db0a1e38be41a43e4c8ab43f744fc5d635aa54.1544408339.git.liezhi.yang@windriver.com>
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/4] ccache.bbclass: Refactor it to make it more reliable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,133 +59,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 15:07:11 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 16:16:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use oeqa.utils.subprocesstweak to monkey-patch the subprocess exception to show
-the output if available, and clean up explicit try/catch handling that would
-have hidden this.
+On Sun, 2018-12-09 at 18:24 -0800, Robert Yang wrote:
+> The previous ccache.bbclass has the following problems:
+> - It uses host's ccache for native recipes, but this may not work on some
+>   hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
+>   build failures (m4-native failed at do_configure, and others will also be
+>   failed if I disable CCACHE for m4-native)
+> 
+> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
+>   ccache-native, this may confuse user.
+> 
+> - The target recipes may use both host's ccache and ccache-native, this may
+>   cause unexpected problems and hard to debug. This is because ccache-native is
+>   in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
+>   rebuild target recipes, and then it would use hosttools/ccache, but the
+>   previous ccache files were generated by ccache-native.
+> 
+> - Target recipes can't use ccache when no ccahe is installed on the host:
+>   CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+> 
+> After refactored:
+> All types recipes (native, target and others) will use ccache-native except
+> ccache-native's dependencies, host's cache won't be used any more. It is more
+> reliable now, which will work everywhere when ccache-native can be built.
+> 
+> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
+> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
+> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
+> can't check whether CCACHE is set or not in anonymous function since it is
+> always set. Use CCACHE_DISABLE to disable it would be more clear.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/ccache.bbclass             | 25 ++++++++++++++++++++++---
+>  meta/conf/bitbake.conf                  | 21 ++++++++++++++++-----
+>  meta/conf/layer.conf                    |  1 -
+>  meta/lib/oe/utils.py                    |  3 +++
+>  meta/recipes-devtools/ccache/ccache.inc |  2 ++
+>  5 files changed, 43 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+> index 9609020..f4eefce 100644
+> --- a/meta/classes/ccache.bbclass
+> +++ b/meta/classes/ccache.bbclass
+> @@ -1,4 +1,14 @@
+> -CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+> +#
+> +# Usage:
+> +# - Enable ccache
+> +#   Add the following line to a conffile such as conf/local.conf:
+> +#   INHERIT += "ccache"
+> +#
+> +# - Disable ccache for a recipe
+> +#   Add the following line to the recipe if it can't be built with ccache:
+> +#   CCACHE_DISABLE = '1'
+> +#
+> +
+>  export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
+>  
+>  # We need to stop ccache considering the current directory or the
+> @@ -7,5 +17,14 @@ export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
+>  # ${PV} or ${PR} change.
+>  export CCACHE_NOHASHDIR ?= "1"
+>  
+> -DEPENDS_append_class-target = " ccache-native"
+> -DEPENDS[vardepvalueexclude] = " ccache-native"
+> +python() {
+> +    """
+> +    Enable ccache for the recipe if is not a dependency of ccache-native
+> +    """
+> +    ccache_native_deps = d.getVar('CCACHE_NATIVE_DEPENDS') or ''
+> +    ccache_native_deps += 'ccache-native'
+> +    if not (d.getVar('PN') in ccache_native_deps.split() or \
+> +            bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
+> +        d.appendVar('DEPENDS', ' ccache-native')
+> +        d.setVar('CCACHE', 'ccache ')
+> +}
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 6480062..cb1dba8 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -492,7 +492,7 @@ HOSTTOOLS += " \
+>  HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", "testsdk.bbclass"])) else ''}"
+>  
+>  # Link to these if present
+> -HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
+> +HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
+>  
+>  # Temporary add few more detected in bitbake world
+>  HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+> @@ -503,11 +503,22 @@ HOSTTOOLS_NONFATAL += "bzr"
+>  # Used by ssh fetcher
+>  HOSTTOOLS_NONFATAL += "scp"
+>  
+> +# This is used by both ccache.bbclass and ccahe-native recipe, these
+> +# recipes can't use ccache since ccache-native depends on them,
+> +# otherwise, there would be loop dependencies.
+> +CCACHE_NATIVE_DEPENDS ?= " \
+> +    gnu-config-native \
+> +    autoconf-native \
+> +    quilt-native \
+> +    zlib-native \
+> +    gettext-minimal-native \
+> +    texinfo-dummy-native \
+> +    m4-native \
+> +    libtool-native \
+> +    automake-native \
+> +    xz-native \
+> +"
+>  CCACHE ??= ""
+> -# ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
+> -# autogen sets HOME=/dev/null so in certain situations builds can fail.
+> -# Explicitly export CCACHE_DIR until we can assume ccache >3.1.10 on the host.
+> -export CCACHE_DIR ??= "${@os.getenv('HOME')}/.ccache"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/sdk/cases/buildcpio.py |  3 +++
- meta/lib/oeqa/sdk/cases/buildlzip.py |  2 ++
- meta/lib/oeqa/sdk/cases/gcc.py       |  3 +++
- meta/lib/oeqa/sdk/cases/perl.py      | 12 ++++++------
- meta/lib/oeqa/sdk/cases/python.py    | 21 +++++++++------------
- 5 files changed, 23 insertions(+), 18 deletions(-)
+Hardcoding a list of ccache-native dependencies is horrible and I do
+not want to do that. 
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-index f348ac5d909..6697b12de29 100644
---- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-@@ -2,6 +2,9 @@ import unittest
- from oeqa.sdk.case import OESDKTestCase
- from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
+Also, I want to stop the build up of unneeded 'stuff' in bitbake.conf.
+We should start making better use of inc files.
+
+Please also ensure that the oe-selftest ccache tests continue to work
+after these changes. I haven't checked specifically here but we've had
+a lot of trouble with that before.
+
+Cheers,
+
+Richard
  
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
- class BuildCpioTest(OESDKTestCase):
-     td_vars = ['DATETIME']
- 
-diff --git a/meta/lib/oeqa/sdk/cases/buildlzip.py b/meta/lib/oeqa/sdk/cases/buildlzip.py
-index 9d137f30ebf..b57fbbece7f 100644
---- a/meta/lib/oeqa/sdk/cases/buildlzip.py
-+++ b/meta/lib/oeqa/sdk/cases/buildlzip.py
-@@ -2,6 +2,8 @@ import unittest
- from oeqa.sdk.case import OESDKTestCase
- from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
- 
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
- 
- class BuildLzipTest(OESDKTestCase):
-     td_vars = ['DATETIME']
-diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
-index b32b01fc241..54c6fc488bc 100644
---- a/meta/lib/oeqa/sdk/cases/gcc.py
-+++ b/meta/lib/oeqa/sdk/cases/gcc.py
-@@ -5,6 +5,9 @@ import unittest
- from oeqa.core.utils.path import remove_safe
- from oeqa.sdk.case import OESDKTestCase
- 
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
- class GccCompileTest(OESDKTestCase):
-     td_vars = ['MACHINE']
- 
-diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
-index e1d2bc159a0..b8adc5ac72d 100644
---- a/meta/lib/oeqa/sdk/cases/perl.py
-+++ b/meta/lib/oeqa/sdk/cases/perl.py
-@@ -1,6 +1,9 @@
- import unittest
- from oeqa.sdk.case import OESDKTestCase
- 
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
- class PerlTest(OESDKTestCase):
-     def setUp(self):
-         if not (self.tc.hasHostPackage("nativesdk-perl") or
-@@ -8,9 +11,6 @@ class PerlTest(OESDKTestCase):
-             raise unittest.SkipTest("No perl package in the SDK")
- 
-     def test_perl(self):
--        try:
--            cmd = "perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'"
--            output = self._run(cmd)
--            self.assertEqual(output, "Hello, world")
--        except subprocess.CalledProcessError as e:
--            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
-+        cmd = "perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'"
-+        output = self._run(cmd)
-+        self.assertEqual(output, "Hello, world")
-diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
-index 2254867d455..aaab050e9ae 100644
---- a/meta/lib/oeqa/sdk/cases/python.py
-+++ b/meta/lib/oeqa/sdk/cases/python.py
-@@ -1,6 +1,9 @@
- import subprocess, unittest
- from oeqa.sdk.case import OESDKTestCase
- 
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
- class Python2Test(OESDKTestCase):
-     def setUp(self):
-         if not (self.tc.hasHostPackage("nativesdk-python-core") or
-@@ -8,12 +11,9 @@ class Python2Test(OESDKTestCase):
-             raise unittest.SkipTest("No python package in the SDK")
- 
-     def test_python2(self):
--        try:
--            cmd = "python -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
--            output = self._run(cmd)
--            self.assertEqual(output, "Hello, world\n")
--        except subprocess.CalledProcessError as e:
--            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
-+        cmd = "python -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
-+        output = self._run(cmd)
-+        self.assertEqual(output, "Hello, world\n")
- 
- class Python3Test(OESDKTestCase):
-     def setUp(self):
-@@ -22,9 +22,6 @@ class Python3Test(OESDKTestCase):
-             raise unittest.SkipTest("No python3 package in the SDK")
- 
-     def test_python3(self):
--        try:
--            cmd = "python3 -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
--            output = self._run(cmd)
--            self.assertEqual(output, "Hello, world\n")
--        except subprocess.CalledProcessError as e:
--            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
-+        cmd = "python3 -c \"import codecs; print(codecs.encocde('Uryyb, jbeyq', 'rot13'))\""
-+        output = self._run(cmd)
-+        self.assertEqual(output, "Hello, world\n")
--- 
-2.11.0
 
 
