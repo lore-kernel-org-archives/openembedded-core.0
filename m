@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
 	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 545476B074
+	by mail.openembedded.org (Postfix) with ESMTP id A1BEB6B074
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 10 Dec 2018 23:52:22 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id s198so5738369pgs.2
+Received: by mail-pg1-f196.google.com with SMTP id y4so5714842pgc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 15:52:23 -0800 (PST)
+	Mon, 10 Dec 2018 15:52:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=A0oLEZhEYXWKL7Ra3SMvp0EsCmVKCYJdYZ+S2tYoqO4=;
-	b=IErWivLvyjizFX7n0HGschOsSG5w/yxUlAILcbxovSL+XkQbLuIIL4KWtzIzn5Bxlx
-	yi/OA7wgdz2B3lz83YbYN+HtDsULjjbtMcGTQ5g1XZq9darZoeDsFZYfjGiWKbu6XQS1
-	Hcyhitqph4ph5WVPb7IKAxDGIdEzHbgc/qiaXP7IbBT0yhrhY9GyfyHsppCWsrN/zIi9
-	Bk+dZXCXQ6y/p4cT5JILcXO4RZbGchQW+i6v1ei01+2AdSyTspQTt/BVjgTY1R5FE7H9
-	3VaWxErb6JOdmpTMCMcFVsNOJpZgLChDkw2/7CfOL+lKXZaWhdCQh9gj7vbsQwLvuVl+
-	/HAA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=YMkIYTahY74g0JvwwW1ezPCvxz4VIFu/Cs8gLw7qy0s=;
+	b=pGlZaLPary19TRyIlky0jBuSOFReiLFOB6mUeUcDm/oxgWazyv7CKC6e7gtAfQJW/x
+	RckKs4fpD5borYWZ2xSVjzTRzf1uwkYUigOp7Pbl6oUQcZEC9IWIRoundbgkjWzIA779
+	BmfH2V2OwZWUi9UWrWWkDl74tf4KRrfITtm/XnNVS34EwbFwQYjv8DJaB4oyppwUURKl
+	5cdtowpvuTtLXvKnzuOgqyerTZCyWO7K+EZPATkAosQFkOmLiw8+HDhB8D9Wmrpeb90k
+	JIIvHAnHIiFHLIB1IXwltXp+wLzX9Al5UbvBmNHWOgx+HFRAxO8j+EP5u7Vy3bBg+3RE
+	CuHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=A0oLEZhEYXWKL7Ra3SMvp0EsCmVKCYJdYZ+S2tYoqO4=;
-	b=HTWHJJbNtEbPfONwmYDCWsRpuaRyIiOMGISdLtofwo5WAEwdetDeAbi37JrDPC7ORg
-	/GzoeYHENCpD3vsoa/t+Xrvii4oV5JvwBns1fYsEZK5UWSb0AZTy1dF41dLuT/ChK2ec
-	YYTFy05KsQ1GeRzeQRBEVIuY4tuyy97eEGN/dd8Ce7vyMVOFToq1nh5ksvzebz2VOB7V
-	FWwW19/jX2ELFLBniv7OHW2qqQr/zSC7s5RWZYgSxf6zF4VPkb3JLpFDZ5Dg1IuOy9CG
-	o/CmAq/PwHzjRdJiITSjXSt4INIdy6qIW9aV7EfYIWbSaljt2borcUiZY6mtMVaLzvk0
-	youA==
-X-Gm-Message-State: AA+aEWaqHN0uqx0LBw/INNfkfwF/eqJ7GnKh+K7jpNwb8GWSHRSe05oj
-	hgKpFW89grB/hePjYB0KiPBOM27m4c8=
-X-Google-Smtp-Source: AFSGD/WqVrPhm9/oZxbywwI+x1dgD86V8Rn59/IjCEClepeIzXdZi25O3eX2grZc6wpPkGfDwewOKw==
-X-Received: by 2002:a62:5793:: with SMTP id i19mr14393608pfj.49.1544485942759; 
-	Mon, 10 Dec 2018 15:52:22 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=YMkIYTahY74g0JvwwW1ezPCvxz4VIFu/Cs8gLw7qy0s=;
+	b=j2p4IZ/DvjSRBv0nklnAt5/4HQZ9xXBYmvy+iF9PAz+rEr+6HFXpl0D4+hPzFl82w9
+	9Aq1JCisMy26umR1TFibMaXfPIuPgcEsUDuiefivvQgtuahmJjhU6hxkSxrg6Z29Z3xE
+	iiUWgYxIdSebp6gOXOivwoQPjwsyeqa2osC/UMz4ydFkijhREkIcssRAm3KGK0eA+MlO
+	jyEsBW2qmIW3v2l9AI/VExP9x3tbNddyolR0nJYh5jg+qE75QdnGOJ9JS8YqvqlBtsbp
+	aaPKU97YKrvxCBj/nOXqQ3lUsczGHkSJlcDPmTjjHNQW8X7q/bCbPZ4FVBuiGvIehcSd
+	F9fw==
+X-Gm-Message-State: AA+aEWaqRivxf55Gac/QOyBJebi5avcek4vNR9lo4T/nhqPmiCN3yAYn
+	x5ohsI+ZF6JU74PPdbdIrrtwiEKcxYQ=
+X-Google-Smtp-Source: AFSGD/U688n6HhnYXz/rpGCkw+FcSxFsIVcmxWRmKg+BuWSSuQ4Sb1/oOVzqFnZSHcMgfUCX8ODkZw==
+X-Received: by 2002:a62:16d6:: with SMTP id 205mr14227205pfw.256.1544485943526;
+	Mon, 10 Dec 2018 15:52:23 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:877f:9499::6872])
 	by smtp.gmail.com with ESMTPSA id
-	p2sm18841557pgc.94.2018.12.10.15.52.21
+	p2sm18841557pgc.94.2018.12.10.15.52.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Dec 2018 15:52:22 -0800 (PST)
+	Mon, 10 Dec 2018 15:52:23 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2018 15:52:06 -0800
-Message-Id: <20181210235207.11741-1-raj.khem@gmail.com>
+Date: Mon, 10 Dec 2018 15:52:07 -0800
+Message-Id: <20181210235207.11741-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20181210235207.11741-1-raj.khem@gmail.com>
+References: <20181210235207.11741-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] insane.bbclass: BPF objects may mismatch in endianness and bitness too
+Subject: [PATCH 2/2] webkitgtk: Link compiler-rt for clang specific built-ins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +62,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 10 Dec 2018 23:52:22 -0000
 Content-Transfer-Encoding: 8bit
 
-This ensures that bitness and endianness is ignored for BPF objects
-Fixes QA issues like
+When using clang, its increasingly using its own runtime which means
+libgcc is not enough to find all primitives its using.
 
-Bit size did not match (32 to 64) kernel-selftest on
-/work/qemumips-yoe-linux/kernel-selftest/1.0-r0/packages-split/kernel-selftest/usr/kernel-selftest/bpf/test_btf_nokv.o
+Fixes errors like
+recipe-sysroot/usr/lib/libwebkit2gtk-4.0.so: undefined reference to
+`__mulodi4'
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/insane.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-sato/webkit/webkitgtk_2.22.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index dbe9cc6162..6411884f92 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -307,10 +307,10 @@ def package_qa_check_arch(path,name,d, elf, messages):
-     if not ((machine == elf.machine()) or is_32 or is_bpf):
-         package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
-                  (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
--    elif not ((bits == elf.abiSize()) or is_32):
-+    elif not ((bits == elf.abiSize()) or is_32 or is_bpf):
-         package_qa_add_message(messages, "arch", "Bit size did not match (%d to %d) %s on %s" % \
-                  (bits, elf.abiSize(), bpn, package_qa_clean_path(path,d)))
--    elif not littleendian == elf.isLittleEndian():
-+    elif not ((littleendian == elf.isLittleEndian()) or is_bpf):
-         package_qa_add_message(messages, "arch", "Endiannes did not match (%d to %d) on %s" % \
-                  (littleendian, elf.isLittleEndian(), package_qa_clean_path(path,d)))
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
+index 60f1b3ea5d..196122002b 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
+@@ -98,6 +98,8 @@ EXTRA_OECMAKE_append_x86-x32 = " -DENABLE_JIT=OFF "
+ SECURITY_CFLAGS_remove_aarch64 = "-fpie"
+ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
  
++LDFLAGS_append_toolchain-clang = " -rtlib=compiler-rt"
++
+ FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
+ 
+ RRECOMMENDS_${PN} += "ca-certificates shared-mime-info"
 -- 
 2.20.0
 
