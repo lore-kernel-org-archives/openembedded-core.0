@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A533A6D197;
-	Mon, 10 Dec 2018 05:37:03 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id AE0C56D2EA;
+	Mon, 10 Dec 2018 05:37:04 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Date: Mon, 10 Dec 2018 05:37:05 -0000
-Message-ID: <20181210053705.2331.11597@do>
-References: <1544451980-56888-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 10 Dec 2018 05:37:06 -0000
+Message-ID: <20181210053706.2329.16354@do>
+References: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1544451980-56888-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1544452000-56934-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3JlYXRlcmVwby1jOiBGaXggc2V0dXAgb2YgbG9nZ2luZyAobG9nIGRvbWFpbnMp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3JlYXRlcmVwby1jOiBGaXggc2V0dXAgb2YgbG9nZ2luZyAobG9nIGRvbWFpbnMpIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 05:37:03 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 05:37:04 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: createrepo-c: Fix setup of logging (log domains)
-Revision: 1
+Series: createrepo-c: Fix setup of logging (log domains) (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/15277/
 State : failure
 
