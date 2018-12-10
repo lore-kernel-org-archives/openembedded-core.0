@@ -1,54 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1146D193
+Return-Path: <martin@geanix.com>
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3556D13B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 08:38:36 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y1so9910747wmi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 00:38:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Dw117WI2/H2vO2b+FfG8qBB1Ay3/2RRsMgvmKaKBz2I=;
-	b=sx6D2032iXFiCzYLQx5zIekhuGybKEzTKyfIRC5qtL4yaj02olGL/U3H+FTsINohgJ
-	0Vr61A49Hxt6SzwTy0HIS45ly9zpbnyLZk+gWsklNgA2wzP4k10VqOlCDf4RV2FP/43x
-	c4nJ0TRUgkKnztRB3iyvr1T0xjVsGczzfL9m8tLyL1xtCBPTBFfAVfmBSPF+y4mkRAMV
-	atAYZlFTT2HMr3mILj8XCk8tV+gm161Zjv7z6Gl6a5/5Y38q33pFHQvXkD0RdRAKx8h2
-	1h1Mro/E6G6wk5tFtKzcC15/VyOmgbFPVwDaIOVhteLkJc3f1tQo3sUQ3M0DRJ0RJGRz
-	UpBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Dw117WI2/H2vO2b+FfG8qBB1Ay3/2RRsMgvmKaKBz2I=;
-	b=GG2CsWrjgbrjLWo+AD1t0yiRzdwVq8wvZiYtb9cmVjs/5gIsptMYGKD6zgfPR+aW17
-	VzuGM+9KpgsrNGytQGODo4tPLrIoSZELLsqfOAdRGbE/20y5EenrgU2ClDRfRhkTEMi2
-	F/9pPkMgoayU1Q/SKPbDLsgbUWDxhe0QcUqzTFt23UBEH09qai4tJs1qcFlvFoBuZ9Es
-	rlJwJQl89/MibH9dcp5RWCtUuNNwJ3/0VWXtP10Y9nv0FzHc5AqGJ9zpR2iQqD68cYHN
-	DhgKcdbx9KzTGgdKUgjrS/ROrPdx7bJ4o58gy34I1o8h4n7aAy+4wsW7N6pX+kWms38j
-	57Vg==
-X-Gm-Message-State: AA+aEWYClXPYaBVNbjsGeUMjJyNFp9eix8VeanKO/51EAmcxpyUsYICS
-	q2gGgDJIx7zoMMGvVToogw4=
-X-Google-Smtp-Source: AFSGD/UtqqdRP8IaqsOr/hy5WJBh70jymaGoQqk6SOOY1VuqTzuj4blBE4J9qpbCgOVeLm6GJmPD/w==
-X-Received: by 2002:a1c:aad2:: with SMTP id t201mr9373902wme.148.1544431116948;
-	Mon, 10 Dec 2018 00:38:36 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	w18sm8024331wru.54.2018.12.10.00.38.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 10 Dec 2018 00:38:35 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 10 Dec 2018 09:38:36 +0100
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20181210083836.GA1470@jama>
+	Mon, 10 Dec 2018 08:56:17 +0000 (UTC)
+Received: from [10.0.0.10] (unknown [85.184.147.232])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id EA18D1C1AD6;
+	Mon, 10 Dec 2018 09:56:17 +0100 (CET)
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
 References: <cover.1544408339.git.liezhi.yang@windriver.com>
-	<d8d5c615ca2b0527b3927161c2401dc6cbe72512.1544408339.git.liezhi.yang@windriver.com>
+	<14db0a1e38be41a43e4c8ab43f744fc5d635aa54.1544408339.git.liezhi.yang@windriver.com>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
+Message-ID: <b34d75ec-f76d-65ec-1f6d-6979ae9b0757@geanix.com>
+Date: Mon, 10 Dec 2018 09:55:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.3.2
 MIME-Version: 1.0
-In-Reply-To: <d8d5c615ca2b0527b3927161c2401dc6cbe72512.1544408339.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] apr/openssl10: Enable ccache for them
+In-Reply-To: <14db0a1e38be41a43e4c8ab43f744fc5d635aa54.1544408339.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 2/4] ccache.bbclass: Refactor it to make it more reliable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,79 +30,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 08:38:38 -0000
-X-Groupsio-MsgNum: 119007
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 10 Dec 2018 08:56:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 8bit
 
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Robert,
 
-On Sun, Dec 09, 2018 at 06:24:23PM -0800, Robert Yang wrote:
-> The work well now.
->=20
+Just a small nit-pick below..
+
+On 10/12/2018 03.24, Robert Yang wrote:
+> The previous ccache.bbclass has the following problems:
+> - It uses host's ccache for native recipes, but this may not work on some
+>    hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
+>    build failures (m4-native failed at do_configure, and others will also be
+>    failed if I disable CCACHE for m4-native)
+> 
+> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
+>    ccache-native, this may confuse user.
+> 
+> - The target recipes may use both host's ccache and ccache-native, this may
+>    cause unexpected problems and hard to debug. This is because ccache-native is
+>    in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
+>    rebuild target recipes, and then it would use hosttools/ccache, but the
+>    previous ccache files were generated by ccache-native.
+> 
+> - Target recipes can't use ccache when no ccahe is installed on the host:
+>    CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+> 
+> After refactored:
+> All types recipes (native, target and others) will use ccache-native except
+> ccache-native's dependencies, host's cache won't be used any more. It is more
+> reliable now, which will work everywhere when ccache-native can be built.
+> 
+> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
+> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
+> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
+> can't check whether CCACHE is set or not in anonymous function since it is
+> always set. Use CCACHE_DISABLE to disable it would be more clear.
+> 
 > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb | 3 ---
->  meta/recipes-support/apr/apr_1.6.5.bb                 | 1 -
->  2 files changed, 4 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta=
-/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> index 6518dac..1986cf2 100644
-> --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> @@ -76,9 +76,6 @@ EXTRA_OEMAKE =3D "${@bb.utils.contains('PACKAGECONFIG',=
- 'manpages', '', 'OE_DISABL
-> =20
->  export OE_LDFLAGS =3D "${LDFLAGS}"
-> =20
-> -# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.=
-cgi?id=3D12810
-> -CCACHE =3D ""
-> -
->  TERMIO ?=3D "-DTERMIO"
->  TERMIO_libc-musl =3D "-DTERMIOS"
-> =20
-> diff --git a/meta/recipes-support/apr/apr_1.6.5.bb b/meta/recipes-support=
-/apr/apr_1.6.5.bb
-> index c2f5900..ed93a7e 100644
-> --- a/meta/recipes-support/apr/apr_1.6.5.bb
-> +++ b/meta/recipes-support/apr/apr_1.6.5.bb
-> @@ -40,7 +40,6 @@ CACHED_CONFIGUREVARS +=3D "ac_cv_file__dev_zero=3Dyes"
->  # Otherwise libtool fails to compile apr-utils
->  # x86_64-linux-libtool: compile: unable to infer tagged configuration
->  # x86_64-linux-libtool:   error: specify a tag with '--tag'
-> -CCACHE =3D ""
+>   meta/classes/ccache.bbclass             | 25 ++++++++++++++++++++++---
+>   meta/conf/bitbake.conf                  | 21 ++++++++++++++++-----
+>   meta/conf/layer.conf                    |  1 -
+>   meta/lib/oe/utils.py                    |  3 +++
+>   meta/recipes-devtools/ccache/ccache.inc |  2 ++
+>   5 files changed, 43 insertions(+), 9 deletions(-)
+> 
 
-Remove the comment as well.
+<snip>
 
->  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
->  PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
-> --=20
-> 2.10.2
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+> index 8a584d6..9c41705 100644
+> --- a/meta/lib/oe/utils.py
+> +++ b/meta/lib/oe/utils.py
+> @@ -363,6 +363,9 @@ def host_gcc_version(d, taskcontextonly=False):
+>           return
+>   
+>       compiler = d.getVar("BUILD_CC")
+> +    # Get rid of ccache since it is not present when parsing.
+> +    if compiler.startswith('ccache '):
+> +        compiler = compiler[7:]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+You can avoid the if-condition and hard-coded 7-value by doing:
 
---5mCyUwZo2JvN/JJP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+   # Get rid of ccache since it is no present when parsing.
+   compiler = d.getVar("BUILD_CC").lstrip("ccache-")
 
------BEGIN PGP SIGNATURE-----
+// Martin
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXA4mDAAKCRA3VSO3ZXaA
-HK3zAKCOqCnrHkp9vE9bSbp1Dmu1mMZzswCfZ/nLBgSnNYQXYDurG0Rz3gfPvhY=
-=brh+
------END PGP SIGNATURE-----
+>       try:
+>           env = os.environ.copy()
+>           env["PATH"] = d.getVar("PATH")
+> diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+> index 6566328..259c196 100644
+> --- a/meta/recipes-devtools/ccache/ccache.inc
+> +++ b/meta/recipes-devtools/ccache/ccache.inc
+> @@ -9,6 +9,8 @@ LICENSE = "GPLv3+"
+>   
+>   DEPENDS = "zlib"
+>   
+> +DEPENDS_class-native = "${CCACHE_NATIVE_DEPENDS}"
+> +
+>   SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.xz"
+>   
+>   inherit autotools
+> 
 
---5mCyUwZo2JvN/JJP--
+-- 
+Kind regards,
+Martin Hundebøll
+Embedded Linux Consultant
+
++45 61 65 54 61
+martin@geanix.com
+
+Geanix IVS
+https://geanix.com
+DK39600706
+
