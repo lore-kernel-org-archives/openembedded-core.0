@@ -1,10 +1,10 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 057AD6D1E5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 870446D1E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 02:24:48 +0000 (UTC)
+	Mon, 10 Dec 2018 02:24:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBA2OoUi009574
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBA2Oo99028188
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 9 Dec 2018 18:24:50 -0800 (PST)
@@ -13,13 +13,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Sun, 9 Dec 2018 18:24:50 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 9 Dec 2018 18:24:23 -0800
-Message-ID: <d8d5c615ca2b0527b3927161c2401dc6cbe72512.1544408339.git.liezhi.yang@windriver.com>
+Date: Sun, 9 Dec 2018 18:24:24 -0800
+Message-ID: <70eb938213ac260917240fa2fb16aee084880164.1544408339.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1544408339.git.liezhi.yang@windriver.com>
 References: <cover.1544408339.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] apr/openssl10: Enable ccache for them
+Subject: [PATCH 4/4] cmake.bbclass/goarch.bbclass: Set CCACHE_DISABLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,40 +35,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 10 Dec 2018 02:24:49 -0000
 Content-Type: text/plain
 
-The work well now.
+They can't be built with ccache.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb | 3 ---
- meta/recipes-support/apr/apr_1.6.5.bb                 | 1 -
- 2 files changed, 4 deletions(-)
+ meta/classes/cmake.bbclass  | 4 ++--
+ meta/classes/goarch.bbclass | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-index 6518dac..1986cf2 100644
---- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-@@ -76,9 +76,6 @@ EXTRA_OEMAKE = "${@bb.utils.contains('PACKAGECONFIG', 'manpages', '', 'OE_DISABL
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index b364d2b..12fc452 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -4,8 +4,8 @@ OECMAKE_SOURCEPATH ??= "${S}"
+ DEPENDS_prepend = "cmake-native "
+ B = "${WORKDIR}/build"
  
- export OE_LDFLAGS = "${LDFLAGS}"
- 
--# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
+-# We need to unset CCACHE otherwise cmake gets too confused
 -CCACHE = ""
--
- TERMIO ?= "-DTERMIO"
- TERMIO_libc-musl = "-DTERMIOS"
++# We need to disable CCACHE otherwise cmake gets too confused
++CCACHE_DISABLE = "1"
  
-diff --git a/meta/recipes-support/apr/apr_1.6.5.bb b/meta/recipes-support/apr/apr_1.6.5.bb
-index c2f5900..ed93a7e 100644
---- a/meta/recipes-support/apr/apr_1.6.5.bb
-+++ b/meta/recipes-support/apr/apr_1.6.5.bb
-@@ -40,7 +40,6 @@ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
- # Otherwise libtool fails to compile apr-utils
- # x86_64-linux-libtool: compile: unable to infer tagged configuration
- # x86_64-linux-libtool:   error: specify a tag with '--tag'
--CCACHE = ""
+ # What CMake generator to use.
+ # The supported options are "Unix Makefiles" or "Ninja".
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index b2c94fa..1390f31 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -42,6 +42,10 @@ TUNE_CCARGS_remove = "-march=mips32r2"
+ SECURITY_CFLAGS_mipsarch = "${SECURITY_NOPIE_CFLAGS}"
+ SECURITY_NOPIE_CFLAGS ??= ""
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++# go can't be built with ccache:
++# gcc: fatal error: no input files
++CCACHE_DISABLE = "1"
++
+ def go_map_arch(a, d):
+     import re
+     if re.match('i.86', a):
 -- 
 2.10.2
 
