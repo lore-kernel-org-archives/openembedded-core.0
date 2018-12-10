@@ -1,24 +1,29 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E758E6B511
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C2936C0EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Dec 2018 21:43:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Dec 2018 13:43:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,336,1539673200"; d="scan'208";a="126455598"
-Received: from chiron.jf.intel.com ([10.54.74.39])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Dec 2018 13:43:25 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Dec 2018 13:43:22 -0800
-Message-Id: <20181209214322.35220-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.19.2
+	Mon, 10 Dec 2018 01:33:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBA1XPEd005803
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 9 Dec 2018 17:33:25 -0800 (PST)
+Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Sun, 9 Dec 2018 17:33:25 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<poky@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1544102766.git.kai.kang@windriver.com>
+	<c2e11d2a6ebb8da6177c0b0d7174a0e2047093db.1544102766.git.kai.kang@windriver.com>
+	<81b73451de8a9149beda328186cbdf4adb4452ea.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <43cb0c8d-ad86-ecf2-c55d-f5775c51fbbf@windriver.com>
+Date: Mon, 10 Dec 2018 09:31:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH] liberror-perl: upgrade 0.17026 -> 0.17027
+In-Reply-To: <81b73451de8a9149beda328186cbdf4adb4452ea.camel@linuxfoundation.org>
+Subject: Re: [poky] [meta-poky][PATCH 1/1] local.conf.sample: make systemd as default init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,90 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Dec 2018 21:43:25 -0000
+X-List-Received-Date: Mon, 10 Dec 2018 01:33:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-* add RDEPENDS
-* add RDEPENDS for ptest
-  - tested on qemux86 with glibc and musl
-* drop do_compile, not obvious why LIBC needed to be set
-* Added HOMEPAGE:
-  https://bitbucket.org/shlomif/perl-error.pm
-  - Repository used to be github.com/shlomif (deadlink)
+On 2018/12/10 上午2:12, Richard Purdie wrote:
+> On Thu, 2018-12-06 at 20:53 +0800, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Move configurations from local.conf.sample.extended to
+>> local.conf.sample
+>> to make systemd as default init manager for poky.
+>>
+>> [YOCTO #13031]
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta-poky/conf/local.conf.sample          | 8 ++++++++
+>>   meta-poky/conf/local.conf.sample.extended | 8 --------
+>>   2 files changed, 8 insertions(+), 8 deletions(-)
+> I had a feeling there would be some issues to fix before we could do
+> this by default:
+>
+> systemd fails to compile with x32:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/76
+>
+> sanity tests on qemux86-64 core-image-sato-sdk:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/77/steps/7/logs/step1c
+>
+> sanity tests on qemuarm core-image-sato-sdk with poky-lsb:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/77/steps/7/logs/step1c
+>
+> dpkg issues:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/77/steps/7/logs/step2c
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/77/steps/7/logs/step1c
+>
+> wic failure:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/33/steps/7/logs/step2d
+> (postinstall problem?)
+>
+> musl sanity test issue:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/77/steps/7/logs/step1c
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/78/steps/7/logs/step1c
 
-Upstream release notes:
-"""
-0.17027         2018-10-28
-- Documentation and examples enhancements.
-  - https://bitbucket.org/shlomif/perl-error.pm/pull-requests/1/october-prc-some-minor-mostly-doc-changes/diff
-  - Thanks to https://metacpan.org/author/JMERELO .
-"""
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- ...rl_0.17026.bb => liberror-perl_0.17027.bb} | 30 ++++++++++++++-----
- 1 file changed, 22 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/perl/{liberror-perl_0.17026.bb => liberror-perl_0.17027.bb} (55%)
+Got it. I am going to fix fix them.
 
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17026.bb b/meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-similarity index 55%
-rename from meta/recipes-devtools/perl/liberror-perl_0.17026.bb
-rename to meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-index 6f42b47298..cf1f6d685f 100644
---- a/meta/recipes-devtools/perl/liberror-perl_0.17026.bb
-+++ b/meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The Error package provides two interfaces. Firstly \
- Error provides a procedural interface to exception handling. \
- Secondly Error is a base class for errors/exceptions that can \
- either be thrown, for subsequent catch, or can simply be recorded."
--
-+HOMEPAGE = "https://bitbucket.org/shlomif/perl-error.pm"
- SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- 
-@@ -11,20 +11,34 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8f3499d09ee74a050c0319391ff9d100"
- 
- DEPENDS += "perl"
- 
-+RDEPENDS_${PN} += " \
-+    perl-module-carp \
-+    perl-module-exporter \
-+    perl-module-scalar-util \
-+    perl-module-overload \
-+    perl-module-strict \
-+    perl-module-vars \
-+    perl-module-warnings \
-+"
-+
-+RDEPENDS_${PN}-ptest += " \
-+    perl-module-base \
-+    perl-module-file-spec \
-+    perl-module-io-handle \
-+    perl-module-ipc-open3 \
-+    perl-module-lib \
-+    perl-module-test-more \
-+"
-+
- SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "0dcd94640f617df02b6d6c1e4e92018c"
--SRC_URI[sha256sum] = "37590a962cd73ae03470e1ff16459a6cbc5273fc57626b8981dab9c2433155d9"
-+SRC_URI[md5sum] = "4ef9b2890fb144d804527ba32573dd56"
-+SRC_URI[sha256sum] = "07b2ac8275dfa04144745a6c1900a596280f862b97d22bab0c5ce02682ebd3be"
- 
- S = "${WORKDIR}/Error-${PV}"
- 
- inherit cpan ptest-perl
- 
--do_compile() {
--	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
--	cpan_do_compile
--}
--
- do_install_prepend() {
- 	# test requires "-T" (taint) command line option
- 	rm -rf ${B}/t/pod-coverage.t
+Regards,
+Kai
+
+
+>
+>
+> Hopefully its a small number of issues at the heart of this but we need
+> to sort this out before it can merge.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
 -- 
-2.19.2
+Regards,
+Neil | Kai Kang
 
 
