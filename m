@@ -1,30 +1,49 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3938B6C373
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 66AC06C4D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 10:26:00 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,342,1539619200"; d="scan'208";a="49511755"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 18:26:00 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 71CED4B73497
+	Tue, 11 Dec 2018 10:42:06 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id n9so11380066ioh.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 18:25:57 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 18:26:01 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Dec 2018 03:24:20 +0800
-Message-ID: <1544556260-79137-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue, 11 Dec 2018 02:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=eieUAOiaXD6LvC9+9PtXa14AWE9Ekp4wPmJxlpANZRg=;
+	b=wzjb0y9O7vKST4tTxW3DkG7qK5JMKAJMWtWrxuKdVImcq0wOgTNsqY2oyelFmoZGe0
+	hN6fSa9LY0aFDFwzDfh8DG4pp0bea/FgllDFX2nMagukHe+JDi+IQzV2Gi4c/cyi0U9j
+	HAIoNWPxYF3bCg1Iwi9xaOsF5hr8xiQuG2FlO0eCayLHTePOJ68ORGAYB2um2VesP51R
+	GCjUlWKmv9Jk3YAHglet7gogJP0dyk6GwMWUZ0gUKi7pVM4YfnxYtJ/iUv50H6aC2KUg
+	wqbgEpxfA+Z1CrERN4zrcvK4pA9zcBlvY02pHDulr+oo7NofYNvVB2ND15h1RcDD+9x2
+	XTDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=eieUAOiaXD6LvC9+9PtXa14AWE9Ekp4wPmJxlpANZRg=;
+	b=fW1Tvo2Q3ZX36Jb4/+wH5isDbtKZvWQx/SSdaX+pCErNvylN+EsV3id9ygsmf7mH57
+	PpIPst296y97NVQBB8iFOD8hT8OxSBaVXwy11EdZ6zRF6Gv7hJYfCZ4k7HA8uUunKekP
+	eMsKgjfy3qJnijCCHY+xBGf0qqzXlB97aUljW3bTJUrmUSY8aVoHG5Bt37i6Ck+b0vzH
+	IpisHAZKfDTqXOsJAJwaSxBoJ8Ls4Ik2QOisyptEPLJrcCLiVFaTe/2ez8zDFkhWSCtc
+	Z7Hch1UqvX4HAnXU82P60meadNlms4iF+9tdwbBubR9+mtkzM+2iD6b2ekMG5QV8KZRw
+	BEBA==
+X-Gm-Message-State: AA+aEWbZhK7P6ZvF6AEgtmbLHFfuWUhZanpzLyAV10bLz9FVoOqdsRI5
+	j9xeNS4MqzxHW2hhTXakPI9aOUsqjlRMdgA+tyFxmXiH
+X-Google-Smtp-Source: AFSGD/WRkm+qhrZlmmA5lNc0W1ndp324Hik3dxyFzg3KPytuTi0JAAbr5AuB9QKI+hUgC7ANtXFEhoPEG6WDOQ4CIKc=
+X-Received: by 2002:a6b:acc5:: with SMTP id v188mr12195903ioe.20.1544524927406;
+	Tue, 11 Dec 2018 02:42:07 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 71CED4B73497.A7D40
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [thud][PATCH] nss: Fix SHA_HTONL bug for arm 32be.
+References: <20181210171141.10722-1-ross.burton@intel.com>
+	<20181210171141.10722-4-ross.burton@intel.com>
+	<2c6649dd-c527-e71c-135c-15177787c71c@windriver.com>
+In-Reply-To: <2c6649dd-c527-e71c-135c-15177787c71c@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Dec 2018 10:41:56 +0000
+Message-ID: <CAJTo0Lb+w8+zj9iSAzOMePdf_nNVz74wLoR+Z+ZSSCH73hzymQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] oeqa/sdk: rewrite lzip test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +56,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 10:26:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Dec 2018 10:42:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Rpm use nss as digest crypto library and which will cause an error as follows:
+On Tue, 11 Dec 2018 at 09:44, ChenQi <Qi.Chen@windriver.com> wrote:
+> There's a failure related to this patch.
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/80/steps/7/logs/step1c
 
-error: test-manual-1.2.3-20181012.noarch.rpm: Header SHA1 digest: BAD (Expected
-f1deb7dc4a10742d88ccd1e967dbc62ae45095a5 !=4ad9d7dad6d70d6086eefec62612ad5d77f2fe81)  => this value is wrong
-error: test-manual-1.2.3-20181012.noarch.rpm: not an rpm package (or package manifest)
+Strictly speaking the test was already broken, now it tells us. :)  Shall fix.
 
-The error is caused by SHA_HTONL in nss, for there is no need to reverse the host value for arm 32be, so fix it.
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch   | 34 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.39.bb               |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-
-diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-new file mode 100644
-index 0000000..bb1c6e3
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-@@ -0,0 +1,34 @@
-+Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
-+
-+In arm 32be, there is no need to reverse the host value.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+---
-+ lib/freebl/sha_fast.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/nss/lib/freebl/sha_fast.h b/nss/lib/freebl/sha_fast.h
-+index 4f37d13..8072eda 100644
-+--- a/nss/lib/freebl/sha_fast.h
-++++ b/nss/lib/freebl/sha_fast.h
-+@@ -99,6 +99,7 @@ swap4b(PRUint32 value)
-+       defined(__ARM_ARCH_7__) ||   \
-+       defined(__ARM_ARCH_7A__) ||  \
-+       defined(__ARM_ARCH_7R__)))
-++#if defined(IS_LITTLE_ENDIAN)  
-+ static __inline__ PRUint32
-+ swap4b(PRUint32 value)
-+ {
-+@@ -109,6 +110,7 @@ swap4b(PRUint32 value)
-+     return ret;
-+ }
-+ #define SHA_HTONL(x) swap4b(x)
-++#endif
-+ 
-+ #endif /* x86 family */
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/nss/nss_3.39.bb b/meta/recipes-support/nss/nss_3.39.bb
-index cdc95c6..3a8e5d4 100644
---- a/meta/recipes-support/nss/nss_3.39.bb
-+++ b/meta/recipes-support/nss/nss_3.39.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://blank-cert9.db \
-            file://blank-key4.db \
-            file://system-pkcs11.txt \
-+           file://nss-fix-SHA_HTONL-bug-for-arm-32be.patch \
-            "
- 
- SRC_URI[md5sum] = "10720fc70fd483de1b085402fb10ed59"
--- 
-2.7.4
-
-
-
+Ross
 
