@@ -1,30 +1,30 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A5AB6C485
+	by mail.openembedded.org (Postfix) with ESMTP id D476E6C49A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 01:58:43 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,340,1539619200"; d="scan'208";a="49470746"
+	Tue, 11 Dec 2018 01:59:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,340,1539619200"; d="scan'208";a="49470781"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 09:58:43 +0800
+	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 09:59:07 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6C6BF4B73497
+	by cn.fujitsu.com (Postfix) with ESMTP id 0C7514B5CD7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 09:58:39 +0800 (CST)
+	Tue, 11 Dec 2018 09:59:05 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 09:58:42 +0800
+	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 09:59:08 +0800
 From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Dec 2018 18:56:59 +0800
-Message-ID: <1544525819-72477-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Tue, 11 Dec 2018 18:57:28 +0800
+Message-ID: <1544525848-72525-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 6C6BF4B73497.A90D8
+X-yoursite-MailScanner-ID: 0C7514B5CD7A.A7546
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] createrepo-c: Fix setup of logging (log domains)
+Subject: [thud][PATCH v2] createrepo-c: Fix setup of logging (log domains)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 01:58:43 -0000
+X-List-Received-Date: Tue, 11 Dec 2018 01:59:07 -0000
 Content-Type: text/plain
 
 New debug messages were added into GLib library. These messages come
