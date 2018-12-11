@@ -1,52 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A1BEB6B074
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A5AB6C485
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 23:52:22 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id y4so5714842pgc.12
+	Tue, 11 Dec 2018 01:58:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,340,1539619200"; d="scan'208";a="49470746"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 09:58:43 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6C6BF4B73497
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2018 15:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=YMkIYTahY74g0JvwwW1ezPCvxz4VIFu/Cs8gLw7qy0s=;
-	b=pGlZaLPary19TRyIlky0jBuSOFReiLFOB6mUeUcDm/oxgWazyv7CKC6e7gtAfQJW/x
-	RckKs4fpD5borYWZ2xSVjzTRzf1uwkYUigOp7Pbl6oUQcZEC9IWIRoundbgkjWzIA779
-	BmfH2V2OwZWUi9UWrWWkDl74tf4KRrfITtm/XnNVS34EwbFwQYjv8DJaB4oyppwUURKl
-	5cdtowpvuTtLXvKnzuOgqyerTZCyWO7K+EZPATkAosQFkOmLiw8+HDhB8D9Wmrpeb90k
-	JIIvHAnHIiFHLIB1IXwltXp+wLzX9Al5UbvBmNHWOgx+HFRAxO8j+EP5u7Vy3bBg+3RE
-	CuHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YMkIYTahY74g0JvwwW1ezPCvxz4VIFu/Cs8gLw7qy0s=;
-	b=j2p4IZ/DvjSRBv0nklnAt5/4HQZ9xXBYmvy+iF9PAz+rEr+6HFXpl0D4+hPzFl82w9
-	9Aq1JCisMy26umR1TFibMaXfPIuPgcEsUDuiefivvQgtuahmJjhU6hxkSxrg6Z29Z3xE
-	iiUWgYxIdSebp6gOXOivwoQPjwsyeqa2osC/UMz4ydFkijhREkIcssRAm3KGK0eA+MlO
-	jyEsBW2qmIW3v2l9AI/VExP9x3tbNddyolR0nJYh5jg+qE75QdnGOJ9JS8YqvqlBtsbp
-	aaPKU97YKrvxCBj/nOXqQ3lUsczGHkSJlcDPmTjjHNQW8X7q/bCbPZ4FVBuiGvIehcSd
-	F9fw==
-X-Gm-Message-State: AA+aEWaqRivxf55Gac/QOyBJebi5avcek4vNR9lo4T/nhqPmiCN3yAYn
-	x5ohsI+ZF6JU74PPdbdIrrtwiEKcxYQ=
-X-Google-Smtp-Source: AFSGD/U688n6HhnYXz/rpGCkw+FcSxFsIVcmxWRmKg+BuWSSuQ4Sb1/oOVzqFnZSHcMgfUCX8ODkZw==
-X-Received: by 2002:a62:16d6:: with SMTP id 205mr14227205pfw.256.1544485943526;
-	Mon, 10 Dec 2018 15:52:23 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::6872])
-	by smtp.gmail.com with ESMTPSA id
-	p2sm18841557pgc.94.2018.12.10.15.52.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Dec 2018 15:52:23 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2018 15:52:07 -0800
-Message-Id: <20181210235207.11741-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20181210235207.11741-1-raj.khem@gmail.com>
-References: <20181210235207.11741-1-raj.khem@gmail.com>
+	Tue, 11 Dec 2018 09:58:39 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 09:58:42 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Dec 2018 18:56:59 +0800
+Message-ID: <1544525819-72477-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] webkitgtk: Link compiler-rt for clang specific built-ins
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 6C6BF4B73497.A90D8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] createrepo-c: Fix setup of logging (log domains)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +37,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2018 23:52:22 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Dec 2018 01:58:43 -0000
+Content-Type: text/plain
 
-When using clang, its increasingly using its own runtime which means
-libgcc is not enough to find all primitives its using.
+New debug messages were added into GLib library. These messages come
+from the "GLib" log domain and were not hidden in the standard and
+quiet mode of the application.
+This fix hides log messages regardless on source log domain.
 
-Fixes errors like
-recipe-sysroot/usr/lib/libwebkit2gtk-4.0.so: undefined reference to
-`__mulodi4'
+Backport from 80810f04f2de6bae6e394f52ad9cdd2189862f74.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.22.4.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...etup-of-logging-log-domains-RhBug-1645897.patch | 73 ++++++++++++++++++++++
+ .../createrepo-c/createrepo-c_git.bb               |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
-index 60f1b3ea5d..196122002b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
-@@ -98,6 +98,8 @@ EXTRA_OECMAKE_append_x86-x32 = " -DENABLE_JIT=OFF "
- SECURITY_CFLAGS_remove_aarch64 = "-fpie"
- SECURITY_CFLAGS_append_aarch64 = " -fPIE"
- 
-+LDFLAGS_append_toolchain-clang = " -rtlib=compiler-rt"
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
+new file mode 100644
+index 0000000..6de9c05
+--- /dev/null
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch
+@@ -0,0 +1,73 @@
++From 80810f04f2de6bae6e394f52ad9cdd2189862f74 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Fri, 9 Nov 2018 07:35:13 +0100
++Subject: [PATCH] Fix setup of logging (log domains) (RhBug:1645897)
 +
- FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
++New debug messages were added into GLib library. These messages come
++from the "GLib" log domain and were not hidden in the standard and
++quiet mode of the application.
++This fix hides log messages regardless on source log domain.
++
++Upstream-Status: Backport
++
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
++---
++ src/createrepo_shared.c | 19 ++++++-------------
++ src/misc.c              |  5 ++++-
++ 2 files changed, 10 insertions(+), 14 deletions(-)
++
++diff --git a/src/createrepo_shared.c b/src/createrepo_shared.c
++index 8a26787..7cb8ba8 100644
++--- a/src/createrepo_shared.c
+++++ b/src/createrepo_shared.c
++@@ -270,24 +270,17 @@ cr_lock_repo(const gchar *repo_dir,
++ void
++ cr_setup_logging(gboolean quiet, gboolean verbose)
++ {
++-    g_log_set_default_handler (cr_log_fn, NULL);
++-
++     if (quiet) {
++         // Quiet mode
++-        GLogLevelFlags levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
++-                                G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
++-        g_log_set_handler(NULL, levels, cr_null_log_fn, NULL);
++-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_null_log_fn, NULL);
+++        GLogLevelFlags hidden_levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
+++                                       G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
+++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(hidden_levels));
++     } else if (verbose) {
++         // Verbose mode
++-        GLogLevelFlags levels = G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO |
++-                                G_LOG_LEVEL_DEBUG | G_LOG_LEVEL_WARNING;
++-        g_log_set_handler(NULL, levels, cr_log_fn, NULL);
++-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_log_fn, NULL);
+++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(0));
++     } else {
++         // Standard mode
++-        GLogLevelFlags levels = G_LOG_LEVEL_DEBUG;
++-        g_log_set_handler(NULL, levels, cr_null_log_fn, NULL);
++-        g_log_set_handler("C_CREATEREPOLIB", levels, cr_null_log_fn, NULL);
+++        GLogLevelFlags hidden_levels = G_LOG_LEVEL_DEBUG;
+++        g_log_set_default_handler (cr_log_fn, GINT_TO_POINTER(hidden_levels));
++     }
++ }
++diff --git a/src/misc.c b/src/misc.c
++index 9937480..9549a44 100644
++--- a/src/misc.c
+++++ b/src/misc.c
++@@ -912,8 +912,11 @@ void
++ cr_log_fn(const gchar *log_domain,
++           GLogLevelFlags log_level,
++           const gchar *message,
++-          G_GNUC_UNUSED gpointer user_data)
+++          gpointer user_data)
++ {
+++    gint hidden_log_levels = GPOINTER_TO_INT(user_data);
+++    if (log_level & hidden_log_levels)
+++        return;
++     switch(log_level) {
++         case G_LOG_LEVEL_ERROR:
++             if (log_domain) g_printerr("%s: ", log_domain);
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
+index 2960811..08766b3 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0001-Correctly-install-the-shared-library.patch \
++           file://0001-Fix-setup-of-logging-log-domains-RhBug-1645897.patch \
+            "
  
- RRECOMMENDS_${PN} += "ca-certificates shared-mime-info"
+ PV = "0.11.1+git${SRCPV}"
 -- 
-2.20.0
+2.7.4
+
+
 
 
