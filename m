@@ -1,28 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7255F60234
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D67F60234
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 09:13:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBB9D1ap029499
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Dec 2018 01:13:01 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 11 Dec 2018 01:13:00 -0800
-To: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1544408339.git.liezhi.yang@windriver.com>
-	<14db0a1e38be41a43e4c8ab43f744fc5d635aa54.1544408339.git.liezhi.yang@windriver.com>
-	<b34d75ec-f76d-65ec-1f6d-6979ae9b0757@geanix.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ce344fdc-0f32-61de-a73d-1771282e387a@windriver.com>
-Date: Tue, 11 Dec 2018 17:18:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Tue, 11 Dec 2018 09:14:27 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,341,1539619200"; d="scan'208";a="49506308"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 17:14:27 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2E05B4B734C1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 17:14:25 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 17:14:29 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Dec 2018 02:12:39 +0800
+Message-ID: <1544551959-78166-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <b34d75ec-f76d-65ec-1f6d-6979ae9b0757@geanix.com>
-Subject: Re: [PATCH 2/4] ccache.bbclass: Refactor it to make it more reliable
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 2E05B4B734C1.A619E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [sumo][PATCH] nss: Fix SHA_HTONL bug for arm 32be.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,97 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 09:13:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Dec 2018 09:14:28 -0000
+Content-Type: text/plain
+
+Rpm use nss as digest crypto library and which will cause an error as follows:
+
+error: test-manual-1.2.3-20181012.noarch.rpm: Header SHA1 digest: BAD (Expected
+f1deb7dc4a10742d88ccd1e967dbc62ae45095a5 !=4ad9d7dad6d70d6086eefec62612ad5d77f2fe81)  => this value is wrong
+error: test-manual-1.2.3-20181012.noarch.rpm: not an rpm package (or package manifest)
+
+The error is caused by SHA_HTONL in nss, for there is no need to reverse the host value for arm 32be, so fix it.
+
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ .../nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch   | 34 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.35.bb               |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+
+diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+new file mode 100644
+index 0000000..bb1c6e3
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
+@@ -0,0 +1,34 @@
++Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
++
++In arm 32be, there is no need to reverse the host value.
++
++Upstream-Status: Pending
++
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
++---
++ lib/freebl/sha_fast.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/nss/lib/freebl/sha_fast.h b/nss/lib/freebl/sha_fast.h
++index 4f37d13..8072eda 100644
++--- a/nss/lib/freebl/sha_fast.h
+++++ b/nss/lib/freebl/sha_fast.h
++@@ -99,6 +99,7 @@ swap4b(PRUint32 value)
++       defined(__ARM_ARCH_7__) ||   \
++       defined(__ARM_ARCH_7A__) ||  \
++       defined(__ARM_ARCH_7R__)))
+++#if defined(IS_LITTLE_ENDIAN)  
++ static __inline__ PRUint32
++ swap4b(PRUint32 value)
++ {
++@@ -109,6 +110,7 @@ swap4b(PRUint32 value)
++     return ret;
++ }
++ #define SHA_HTONL(x) swap4b(x)
+++#endif
++ 
++ #endif /* x86 family */
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/nss/nss_3.35.bb b/meta/recipes-support/nss/nss_3.35.bb
+index 84f1916..cf7e17c 100644
+--- a/meta/recipes-support/nss/nss_3.35.bb
++++ b/meta/recipes-support/nss/nss_3.35.bb
+@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://Fix-compilation-for-X32.patch \
+            file://nss-build-hacl-poly1305-aarch64.patch \
+            file://0001-Bug-1437734-Use-snprintf-in-sign.c-r-ttaubert.patch \
++           file://nss-fix-SHA_HTONL-bug-for-arm-32be.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9467ec9e65c5aeb3254a50250490f5f7"
+-- 
+2.7.4
 
 
 
-On 12/10/18 4:55 PM, Martin Hundebøll wrote:
-> Hi Robert,
-> 
-> Just a small nit-pick below..
-> 
-> On 10/12/2018 03.24, Robert Yang wrote:
->> The previous ccache.bbclass has the following problems:
->> - It uses host's ccache for native recipes, but this may not work on some
->>    hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
->>    build failures (m4-native failed at do_configure, and others will also be
->>    failed if I disable CCACHE for m4-native)
->>
->> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
->>    ccache-native, this may confuse user.
->>
->> - The target recipes may use both host's ccache and ccache-native, this may
->>    cause unexpected problems and hard to debug. This is because ccache-native is
->>    in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
->>    rebuild target recipes, and then it would use hosttools/ccache, but the
->>    previous ccache files were generated by ccache-native.
->>
->> - Target recipes can't use ccache when no ccahe is installed on the host:
->>    CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
->>
->> After refactored:
->> All types recipes (native, target and others) will use ccache-native except
->> ccache-native's dependencies, host's cache won't be used any more. It is more
->> reliable now, which will work everywhere when ccache-native can be built.
->>
->> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
->> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
->> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
->> can't check whether CCACHE is set or not in anonymous function since it is
->> always set. Use CCACHE_DISABLE to disable it would be more clear.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/ccache.bbclass             | 25 ++++++++++++++++++++++---
->>   meta/conf/bitbake.conf                  | 21 ++++++++++++++++-----
->>   meta/conf/layer.conf                    |  1 -
->>   meta/lib/oe/utils.py                    |  3 +++
->>   meta/recipes-devtools/ccache/ccache.inc |  2 ++
->>   5 files changed, 43 insertions(+), 9 deletions(-)
->>
-> 
-> <snip>
-> 
->> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
->> index 8a584d6..9c41705 100644
->> --- a/meta/lib/oe/utils.py
->> +++ b/meta/lib/oe/utils.py
->> @@ -363,6 +363,9 @@ def host_gcc_version(d, taskcontextonly=False):
->>           return
->>       compiler = d.getVar("BUILD_CC")
->> +    # Get rid of ccache since it is not present when parsing.
->> +    if compiler.startswith('ccache '):
->> +        compiler = compiler[7:]
-> 
-> You can avoid the if-condition and hard-coded 7-value by doing:
-> 
->    # Get rid of ccache since it is no present when parsing.
->    compiler = d.getVar("BUILD_CC").lstrip("ccache-")
-
-Thanks, will fix it in V2.
-
-// Robert
-
-> 
-> // Martin
-> 
->>       try:
->>           env = os.environ.copy()
->>           env["PATH"] = d.getVar("PATH")
->> diff --git a/meta/recipes-devtools/ccache/ccache.inc 
->> b/meta/recipes-devtools/ccache/ccache.inc
->> index 6566328..259c196 100644
->> --- a/meta/recipes-devtools/ccache/ccache.inc
->> +++ b/meta/recipes-devtools/ccache/ccache.inc
->> @@ -9,6 +9,8 @@ LICENSE = "GPLv3+"
->>   DEPENDS = "zlib"
->> +DEPENDS_class-native = "${CCACHE_NATIVE_DEPENDS}"
->> +
->>   SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.xz"
->>   inherit autotools
->>
-> 
 
