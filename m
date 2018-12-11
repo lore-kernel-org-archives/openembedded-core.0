@@ -1,47 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF136C4DB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E2A6C4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 10:58:23 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id h65so3051450ith.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 02:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QI2616qKJx5LoOy9u3aitxHILqbwQkKIWuUZ7RuMiU4=;
-	b=e9ir/a9lzen6etSyGC9xp+Q7s36nhxZy3sDT3wgetU9yik3eC9xHF4035W5q/axT3l
-	zeX/gRqQgwCs2hSOIAWVkNjUxRqoyV9xMsJ8t3kh7Ei01vbk+5Ey1u5nB87e9zImIO/Y
-	fCPUNKKU1RR/Czc5u3xFj8Xju8wYxlwzGrqsDJI8NYiP3VXq+vzgFCQjSmnCpNCGipxn
-	xrcshWSMbj0Epe23q+nbAyLNj1Md3uyNHw6GpKr9mbjSahpGJzl0bz/9iYQYnaYH8q0I
-	YymDkhcM4oiPrIr2FkRaXG5Yw7teuuMB1LY2KsVVr5h9Qchnrj3yGy9sDJx5G6cdQfDs
-	1MdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QI2616qKJx5LoOy9u3aitxHILqbwQkKIWuUZ7RuMiU4=;
-	b=dD/gk0mesP+5Km4wffCfuBXVx3tacQQT+mrpFcsx3DTps7+QyEFWX0FDijnHFjwgXB
-	52cnMT4qzyf0AHuzB85AA+ir9Xe3Of4wtUKQWMjdaV0Zoypzlf45CxtlgE8eGj5lIud3
-	R4OvEU/3Bpsv3glgi+/pz7owFCqwbSlUjajKpcv0EtAhfEklocXTB9EMfRlOyGNZBZ4x
-	DtZa+RcpUMk8qz0hZ6/1KC9mZIMO3pYtfBaydd7LaW3StN+z8jJVe1md02VWGlRZVkb7
-	9YSWbW2e6BRVIfT+QeKh1WfFAiJvEnqCbDAtULVFka3z3wzrq1wpimyEnZL5uDAo/WWT
-	hGBQ==
-X-Gm-Message-State: AA+aEWbB77ej0wXNSL/q0xnFPqKoP+2B4kf+c08vUxf5xmXxnXqUh7zX
-	zLcJ+/M25f3OsaZiKNwIZW0ftaTI65+KXjHJWhawBw==
-X-Google-Smtp-Source: AFSGD/VFnPXZWFzb6yhTSdfWWyuUnybTql1CKG0Rx7483Jy5z++iJkN4jYcuvS6tLkNpnFCfrQGyGuJqwZU1SojYG7w=
-X-Received: by 2002:a02:9c53:: with SMTP id h19mr15296471jal.31.1544525904437; 
-	Tue, 11 Dec 2018 02:58:24 -0800 (PST)
+	Tue, 11 Dec 2018 10:59:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBBAxMrF012666
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Dec 2018 02:59:22 -0800 (PST)
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.138]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0415.000;
+	Tue, 11 Dec 2018 02:59:22 -0800
+From: "Yang, Liezhi" <Liezhi.Yang@windriver.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 1/4] base.bbclass: Remove invalid ccache
+	related code
+Thread-Index: AQHUkHNSmRNzQfPWdUOBePrS+zcKbaV5y74AgAAFq4CAAAfKAIAACIeA//9+g4w=
+Date: Tue, 11 Dec 2018 10:59:21 +0000
+Message-ID: <60AE6DB2-266B-4F70-891F-8282F61F9E7A@windriver.com>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+	<0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
+	<bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>,
+	<ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
+In-Reply-To: <ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 MIME-Version: 1.0
-References: <20181211085706.25762-1-olani@axis.com>
-In-Reply-To: <20181211085706.25762-1-olani@axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Dec 2018 10:58:13 +0000
-Message-ID: <CAJTo0Laa7E=sO3emE1n6vNya6V1UOdaa400qoJidxqzMeRKzig@mail.gmail.com>
-To: Ola x Nilsson <ola.x.nilsson@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/package: Correct format arguments in test_gdb_hardlink_debug
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,14 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 10:58:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 11 Dec 2018 10:59:22 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Dec 2018 at 08:58, Ola x Nilsson <ola.x.nilsson@axis.com> wrote:
-> -            self.logger.error("GDB result:\n%s: %s" % output)
-> +            self.logger.error("GDB result:\n%s: %s", status, output)
 
-Isn't status an integer so should be %d?
 
-Ross
+Sent from mobile phone
+
+> =1B$B:_=1B(B 2018=1B$BG/=1B(B12=1B$B7n=1B(B11=1B$BF|!$=1B(B18:43=1B$B!$=
+=1B(B"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.o=
+rg> =1B$B<LF;!'=1B(B
+>=20
+>> On Tue, 2018-12-11 at 18:12 +0800, Robert Yang wrote:
+>>> On 12/11/18 5:44 PM, richard.purdie@linuxfoundation.org wrote:
+>>>> On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
+>>>> On 12/10/18 6:29 PM, Richard Purdie wrote:
+>>> No, that isn't correct :(
+>>>=20
+>>> The problem is that "gcc" can be linked directly to ccache by the
+>>> host
+>>> distro. This means you end up using the host ccache just by calling
+>>> "gcc". This code is still needed if we want to control ccache and
+>>> be
+>>> able to disable it and use ccache-native for determinism.
+>>=20
+>> I did a test:
+>>=20
+>> $ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
+>> I got errors with/without the code:
+>>=20
+>> $ bitbake -p
+>> bb.BBHandledException
+>> ERROR: Error running gcc  --version:
+>>=20
+>> $ ls -l tmp/hosttools/gcc
+>> tmp/hosttools/gcc -> /folk/lyang1/bin/gcc
+>>=20
+>> $ ls -l /folk/lyang1/bin/gcc
+>> /folk/lyang1/bin/gcc -> /usr/bin/ccache
+>>=20
+>> It worked well if I run gcc --version manually:
+>> $ gcc --version
+>> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+>> Copyright (C) 2015 Free Software Foundation, Inc.
+>> $ echo $?
+>> 0
+>>=20
+>> There must be something wrong in such a case. I will fix this later.
+>>=20
+>> Let's get back to he code:
+>>=20
+>>             srctool =3D bb.utils.which(path, tool, executable=3DTrue)
+>>             if "ccache" in srctool:
+>>                 srctool =3D bb.utils.which(path, tool,
+>> executable=3DTrue, direction=3D1)
+>>             if srctool:
+>>                 os.symlink(srctool, desttool)
+>>=20
+>>=20
+>> * If tool =3D=3D "gcc", then srctool would be gcc, too.
+>> * If tool =3D=3D "ccache", then srctool would be ccache, too.
+>>=20
+>> So I think that the code doesn't help when gcc links to ccache ?
+>=20
+> https://www.unix.com/man-page/suse/1/ccache/
+>=20
+> When the distros we tested on did this they placed it in something like
+> bin/ccache/ so the code detects the "ccache" element of the path
+> returned by which() (something like /usr/bin/ccache/gcc but I don't
+> remember exactly).
+>=20
+> Try using /folk/lyang1/ccache/ or /folk/lyang1/bin/ccache/ in your
+> example.
+
+Thanks, I will try it tomorrow.
+
+// Robert
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
 
