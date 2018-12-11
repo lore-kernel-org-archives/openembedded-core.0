@@ -1,55 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F16A6C4E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 70ED16C46D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 10:42:50 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f81so1679739wmd.4
+	Tue, 11 Dec 2018 10:49:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id l9so13507446wrt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 02:42:51 -0800 (PST)
+	Tue, 11 Dec 2018 02:49:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=0YEawaBOengcyOAPu4unKppuLYWluiZbQsi385cX7Lc=;
-	b=HmtNwO0kIcZa50UCJheVMlm/b1yZQ3AhfdqfNWkSh3yT08nqbdfAGvBlfBYDqDn/lu
-	1JI7Q23fwH0tM/lPsC68o0CWkkSPxHjKTATcgnGJtxJgMcFSPqJERZtXQRq478V5zVxx
-	GqB+3PthU9X6S66Tb4VmEr52uNv2JYoCXA+XE=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Kl5b6skCtzn/kXvhg+BFWnYHOgr9k4EhIzP1ljREdBQ=;
+	b=qaxQkXWNayMYguBx0HuO9aUGN/HlJmx6ES+taoP76cO/ZaDdC+Tq2Y4FjLthCm3s58
+	X9kSS1HotaZE+YfrXVBG/qL9RnjPgHSEcsX2DThq0kX+V/mClz0YjdC1n5ArR5L6WN9v
+	f3ytF88csDj8GGnp864RD80R6jJjX0Gjurp/zyWDAqDSXs3C0OlagRapHl/uMV6r+0V+
+	lcYlfBC9YEyUgsD1wH6oBozBOkuA6+aN4FOp+e+HdwchxNjkWj9iwTzyu+eNdBHx8fro
+	U+LLs40N36JHQQaELRlLZDyqsMjBg51hfNe858hNL2CEqUe/OvB8WJG5bwhwthkCs1iS
+	aZDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=0YEawaBOengcyOAPu4unKppuLYWluiZbQsi385cX7Lc=;
-	b=hadF+bYzIT9U6zt3tepyVvmLhWHIwcEIr6kHGl1bwAIzjd309sxuWRQbUh5hW/693u
-	aVShmhWOnCVio7ppEJ19fCnI/1s19P5lIvwTdACLhFP8thQuGOUKHXzB+kidcO9vG4jr
-	dvdPDj6mUj2FcVWW03ouGjlzp2hgagy9UOC3mIPbdP2KQAK4+OtqYxvp/MyZE1sxpt50
-	NHd2KOmBnKZaexa+2ZE0HhZnQwy+quCW5laH6Ti2pd/dKuw+oznOIe3aVJApWRCxe4eM
-	ERrTplJUqtCwor0oxx0rdPiSzc4jFSl4e+MwB9/A9Gck6eZN/5XqsngJ/bjFfsto8XbO
-	4nuw==
-X-Gm-Message-State: AA+aEWbSViwbbwbnFBBUEVvZ/GwCKJJF4c/rP5nlCYPVa24XaE2MsLz5
-	nL7yDAC4Wpw5ercKl9gkcihu7ZoWhA0oCw==
-X-Google-Smtp-Source: AFSGD/UnZX1MwCvg0cb0PTw/NWwN3qPbGDAUEWKeFxgi98t92vszFsOVzYGQ0rnkiD3xCrAjOUiwzg==
-X-Received: by 2002:a1c:b607:: with SMTP id g7mr1878943wmf.97.1544524971149;
-	Tue, 11 Dec 2018 02:42:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id q9sm13502339wrp.0.2018.12.11.02.42.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 11 Dec 2018 02:42:50 -0800 (PST)
-Message-ID: <ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2018 10:42:49 +0000
-In-Reply-To: <bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
-References: <cover.1544408339.git.liezhi.yang@windriver.com>
-	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
-	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
-	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
-	<0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
-	<bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Kl5b6skCtzn/kXvhg+BFWnYHOgr9k4EhIzP1ljREdBQ=;
+	b=WC6XEFUCRqrxUPu4fGnqAIDiWoWJNpo3H2C/gasbcz/Lp0nGsg/aEoUU8pKEgPw8lq
+	Z6yrVPLhg4Q1PsiAbh8e19bQokVPjHerk1kRoCZcOdG8XdC3HpWVs27l8P79iyOXZ0hx
+	cRJq7kIqVqWk1D3H11UhiTeHsVTGpVEoZDRnPaAJ+T8W42RTUpZqBXIJc8H9f4JTUKjA
+	3otYJVtacXGPDIPtJg8L6Muo6KI8og0GV2LJFbRevXQqEn1P3U1rT215otbXz3a+s/no
+	ZegQArXLhATv/kWOvIp3YC9ZAAxbS7ahLjwILnugA+HFA7ql5KLnK8V+1MPl28JrXeH7
+	kzxQ==
+X-Gm-Message-State: AA+aEWYgKOOXKdOh10RDVQEtj+iysJ14y63qU+Jp+nPEVliptIvRzBH3
+	/8ddoxkKiTRIjgMKI0A2KzuFqKRiVVg=
+X-Google-Smtp-Source: AFSGD/UeRsWtSVa7rP99rsxswk7/VbR7fejaeSbCQSUtBEfx9W6C3BQqEA6SMwh5CWD8KuXHyVP84Q==
+X-Received: by 2002:a5d:4d11:: with SMTP id z17mr12292603wrt.209.1544525352925;
+	Tue, 11 Dec 2018 02:49:12 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	b18sm15050939wrw.83.2018.12.11.02.49.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Dec 2018 02:49:12 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2018 10:49:07 +0000
+Message-Id: <20181211104907.7400-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] lzip: clean up recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,77 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 10:42:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Dec 2018 10:49:12 -0000
 
-On Tue, 2018-12-11 at 18:12 +0800, Robert Yang wrote:
-> On 12/11/18 5:44 PM, richard.purdie@linuxfoundation.org wrote:
-> > On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
-> > > On 12/10/18 6:29 PM, Richard Purdie wrote:
-> > No, that isn't correct :(
-> > 
-> > The problem is that "gcc" can be linked directly to ccache by the
-> > host
-> > distro. This means you end up using the host ccache just by calling
-> > "gcc". This code is still needed if we want to control ccache and
-> > be
-> > able to disable it and use ccache-native for determinism.
-> 
-> I did a test:
-> 
-> $ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
-> I got errors with/without the code:
-> 
-> $ bitbake -p
-> bb.BBHandledException
-> ERROR: Error running gcc  --version:
-> 
-> $ ls -l tmp/hosttools/gcc
-> tmp/hosttools/gcc -> /folk/lyang1/bin/gcc
-> 
-> $ ls -l /folk/lyang1/bin/gcc
-> /folk/lyang1/bin/gcc -> /usr/bin/ccache
-> 
-> It worked well if I run gcc --version manually:
-> $ gcc --version
-> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
-> Copyright (C) 2015 Free Software Foundation, Inc.
-> $ echo $?
-> 0
-> 
-> There must be something wrong in such a case. I will fix this later.
-> 
-> Let's get back to he code:
-> 
->              srctool = bb.utils.which(path, tool, executable=True)
->              if "ccache" in srctool:
->                  srctool = bb.utils.which(path, tool,
-> executable=True, direction=1)
->              if srctool:
->                  os.symlink(srctool, desttool)
-> 
-> 
-> * If tool == "gcc", then srctool would be gcc, too.
-> * If tool == "ccache", then srctool would be ccache, too.
-> 
-> So I think that the code doesn't help when gcc links to ccache ?
+Use cleandirs to ensure ${B} is always empty, and remove redundant assignment of
+EXTRA_OEMAKE (presumably from when it had a non-empty default).
 
-https://www.unix.com/man-page/suse/1/ccache/
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/lzip/lzip_1.20.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-When the distros we tested on did this they placed it in something like
-bin/ccache/ so the code detects the "ccache" element of the path
-returned by which() (something like /usr/bin/ccache/gcc but I don't
-remember exactly).
-
-Try using /folk/lyang1/ccache/ or /folk/lyang1/bin/ccache/ in your
-example.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-extended/lzip/lzip_1.20.bb b/meta/recipes-extended/lzip/lzip_1.20.bb
+index d1fc2a1da80..ed648e8011a 100644
+--- a/meta/recipes-extended/lzip/lzip_1.20.bb
++++ b/meta/recipes-extended/lzip/lzip_1.20.bb
+@@ -6,10 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
+                     file://decoder.cc;beginline=3;endline=16;md5=db09fe3f9573f94d0076f7f07959e6e1"
+ 
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
+-
+ SRC_URI[md5sum] = "21c1517da2ace9689fd953918660b3c3"
+ SRC_URI[sha256sum] = "c93b81a5a7788ef5812423d311345ba5d3bd4f5ebf1f693911e3a13553c1290c"
+ 
++B = "${WORKDIR}/build"
++do_configure[cleandirs] = "${B}"
++
+ CONFIGUREOPTS = "\
+     '--srcdir=${S}' \
+     '--prefix=${prefix}' \
+@@ -23,9 +25,7 @@ CONFIGUREOPTS = "\
+     'CXXFLAGS=${CXXFLAGS}' \
+     'LDFLAGS=${LDFLAGS}' \
+ "
+-EXTRA_OEMAKE = ""
+ 
+-B = "${S}/obj"
+ do_configure () {
+     ${S}/configure ${CONFIGUREOPTS}
+ }
+-- 
+2.11.0
 
 
