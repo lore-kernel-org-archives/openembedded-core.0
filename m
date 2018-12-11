@@ -1,30 +1,28 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D67F60234
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E27B56C4BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 09:14:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,341,1539619200"; d="scan'208";a="49506308"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Dec 2018 17:14:27 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2E05B4B734C1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 17:14:25 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 11 Dec 2018 17:14:29 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Dec 2018 02:12:39 +0800
-Message-ID: <1544551959-78166-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue, 11 Dec 2018 09:18:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBB9Ilsr016851
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Dec 2018 01:18:47 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 11 Dec 2018 01:18:47 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+Date: Tue, 11 Dec 2018 17:24:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 2E05B4B734C1.A619E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [sumo][PATCH] nss: Fix SHA_HTONL bug for arm 32be.
+In-Reply-To: <37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 09:14:28 -0000
-Content-Type: text/plain
-
-Rpm use nss as digest crypto library and which will cause an error as follows:
-
-error: test-manual-1.2.3-20181012.noarch.rpm: Header SHA1 digest: BAD (Expected
-f1deb7dc4a10742d88ccd1e967dbc62ae45095a5 !=4ad9d7dad6d70d6086eefec62612ad5d77f2fe81)  => this value is wrong
-error: test-manual-1.2.3-20181012.noarch.rpm: not an rpm package (or package manifest)
-
-The error is caused by SHA_HTONL in nss, for there is no need to reverse the host value for arm 32be, so fix it.
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch   | 34 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.35.bb               |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-
-diff --git a/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-new file mode 100644
-index 0000000..bb1c6e3
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/nss-fix-SHA_HTONL-bug-for-arm-32be.patch
-@@ -0,0 +1,34 @@
-+Subject: [PATCH] Fix SHA_HTONL bug for arm 32be.
-+
-+In arm 32be, there is no need to reverse the host value.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+---
-+ lib/freebl/sha_fast.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/nss/lib/freebl/sha_fast.h b/nss/lib/freebl/sha_fast.h
-+index 4f37d13..8072eda 100644
-+--- a/nss/lib/freebl/sha_fast.h
-++++ b/nss/lib/freebl/sha_fast.h
-+@@ -99,6 +99,7 @@ swap4b(PRUint32 value)
-+       defined(__ARM_ARCH_7__) ||   \
-+       defined(__ARM_ARCH_7A__) ||  \
-+       defined(__ARM_ARCH_7R__)))
-++#if defined(IS_LITTLE_ENDIAN)  
-+ static __inline__ PRUint32
-+ swap4b(PRUint32 value)
-+ {
-+@@ -109,6 +110,7 @@ swap4b(PRUint32 value)
-+     return ret;
-+ }
-+ #define SHA_HTONL(x) swap4b(x)
-++#endif
-+ 
-+ #endif /* x86 family */
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/nss/nss_3.35.bb b/meta/recipes-support/nss/nss_3.35.bb
-index 84f1916..cf7e17c 100644
---- a/meta/recipes-support/nss/nss_3.35.bb
-+++ b/meta/recipes-support/nss/nss_3.35.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://Fix-compilation-for-X32.patch \
-            file://nss-build-hacl-poly1305-aarch64.patch \
-            file://0001-Bug-1437734-Use-snprintf-in-sign.c-r-ttaubert.patch \
-+           file://nss-fix-SHA_HTONL-bug-for-arm-32be.patch \
-            "
- 
- SRC_URI[md5sum] = "9467ec9e65c5aeb3254a50250490f5f7"
--- 
-2.7.4
+X-List-Received-Date: Tue, 11 Dec 2018 09:18:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
 
+On 12/10/18 6:29 PM, Richard Purdie wrote:
+> On Sun, 2018-12-09 at 18:24 -0800, Robert Yang wrote:
+>> The code is in setup_hosttools_dir(), it searches ccache in PATH in
+>> reverse order, I can't figure out what it is used for, maybe it is
+>> aimed to use host's ccache rather than recipe-sysroot-
+>> native/usr/bin/ccache, but the later one isn't in original PATH, so
+>> remove the code.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/base.bbclass | 2 --
+>>   1 file changed, 2 deletions(-)
+> 
+> We should document it and I think its still needed.
+> 
+> Some distros have a "gcc" which automatically wraps ccache behind the
+> scenes. This code lets us find the real gcc and bypass ccache.
+
+Ah, thanks for the explanations, I got it now. I think that we don't need the
+code any more since we don't use host's ccache, and I have removed ccache from
+HOSTTOOLS.
+
+I will update commit message and send a V2.
+
+// Robert
+
+> 
+> There would be oe-selftest failures on such a distro if we didn't do
+> that.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
