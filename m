@@ -1,49 +1,47 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C51C360197
+	by mail.openembedded.org (Postfix) with ESMTP id 7E39060197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 11:30:59 +0000 (UTC)
+	Tue, 11 Dec 2018 11:33:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 39F2A183A0;
-	Tue, 11 Dec 2018 12:31:00 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTP id 47A3A183A0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:59 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id ZOI5ZfRNc9kw; Tue, 11 Dec 2018 12:30:59 +0100 (CET)
+	port 10024) with LMTP id Grbuf7agF4z2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:58 +0100 (CET)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 76DBD182BB;
-	Tue, 11 Dec 2018 12:30:59 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0688C1846A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:58 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 387CF1A07B;
-	Tue, 11 Dec 2018 12:30:59 +0100 (CET)
+	by IMSVA (Postfix) with ESMTP id D10841A066
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2D0FF1A070;
-	Tue, 11 Dec 2018 12:30:59 +0100 (CET)
+	by IMSVA (Postfix) with ESMTP id C61111A05C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 11 Dec 2018 12:30:59 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 212D556D;
-	Tue, 11 Dec 2018 12:30:59 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 11 Dec 2018 12:30:58 +0100
-Received: from lnxolani1 (10.0.5.60) by xbox04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server id 15.0.1365.1 via Frontend Transport;
-	Tue, 11 Dec 2018 12:30:58 +0100
-References: <20181211085706.25762-1-olani@axis.com>
-	<CAJTo0Laa7E=sO3emE1n6vNya6V1UOdaa400qoJidxqzMeRKzig@mail.gmail.com>
-User-agent: mu4e 1.0; emacs 27.0.50
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
+Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
+	by seth.se.axis.com (Postfix) with ESMTP id BA7C2266
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
+Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
+	id B148F7C079; Tue, 11 Dec 2018 12:33:57 +0100 (CET)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0Laa7E=sO3emE1n6vNya6V1UOdaa400qoJidxqzMeRKzig@mail.gmail.com>
-Date: Tue, 11 Dec 2018 12:30:48 +0100
-Message-ID: <jwqftv4ti53.fsf@axis.com>
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2018 12:33:57 +0100
+Message-Id: <20181211113357.31402-1-olani@axis.com>
+X-Mailer: git-send-email 2.11.0
 X-TM-AS-GCONF: 00
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/package: Correct format arguments in test_gdb_hardlink_debug
+Subject: [PATCH v2] selftest/package: Correct format arguments in test_gdb_hardlink_debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,21 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 11:31:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Dec 2018 11:33:58 -0000
 
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+---
+ meta/lib/oeqa/selftest/cases/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Dec 11 2018, Burton, Ross wrote:
-
-> On Tue, 11 Dec 2018 at 08:58, Ola x Nilsson <ola.x.nilsson@axis.com> wrote:
->> -            self.logger.error("GDB result:\n%s: %s" % output)
->> +            self.logger.error("GDB result:\n%s: %s", status, output)
->
-> Isn't status an integer so should be %d?
->
-
-Both seem to work, but I'll resend.
-
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 0a88dc25b3..6596dabc32 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -137,7 +137,7 @@ class PackageTests(OESelftestTestCase):
+                 elif "Breakpoint 1, main () at hello.c:4" in l:
+                     return True
+ 
+-            self.logger.error("GDB result:\n%s: %s" % output)
++            self.logger.error("GDB result:\n%d: %s", status, output)
+             return False
+ 
+         with runqemu('core-image-minimal') as qemu:
 -- 
-Ola x Nilsson
+2.11.0
+
 
