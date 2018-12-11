@@ -1,47 +1,43 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E39060197
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yw1-f45.google.com (mail-yw1-f45.google.com
+	[209.85.161.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5663A6C113
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 11:33:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 47A3A183A0
+	Tue, 11 Dec 2018 13:21:15 +0000 (UTC)
+Received: by mail-yw1-f45.google.com with SMTP id x2so5402457ywc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:59 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Grbuf7agF4z2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:58 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 0688C1846A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:58 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D10841A066
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C61111A05C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
-Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by seth.se.axis.com (Postfix) with ESMTP id BA7C2266
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 12:33:57 +0100 (CET)
-Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id B148F7C079; Tue, 11 Dec 2018 12:33:57 +0100 (CET)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2018 12:33:57 +0100
-Message-Id: <20181211113357.31402-1-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH v2] selftest/package: Correct format arguments in test_gdb_hardlink_debug
+	Tue, 11 Dec 2018 05:21:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=imylIcbGXxt6PPL8Up0hCkBdUZUej3iyXwwLZh4F3q4=;
+	b=lnoXtSaK2nCSsBEfRO7CfNYkOf9cvub/t9ZOYPLcp9H81OKR6BdzNAFCMbU3AvAPA6
+	vd1REL+T4h+cp510nEm+jeqfPeX2BQGcufaxhMF8z3kVRHSMGki3qdFWNTCqA3Mima6Z
+	DJ76OUW6Rr1Z8LvYhtspTU+r3NU2fFuorY+y2ypeNyxrsobnnk7GtUozNE/D6bImqDOu
+	g3HScjkxYNX68/dLmxkl5BX8yxkbgTpHWXKCXedRVtogJB2E4KT4S/e0V3IxMyNbjsJU
+	nM42ZuqgzPbhn6wXkLZG97szbP+lecwxq8huMUDs5OfxiDpL9lW9l9clsLyXzn0AA+1Y
+	+FFQ==
+X-Gm-Message-State: AA+aEWbbeje7xirxgJ2EIJ7qHkCwEOfOsO/TEF8Y9mQa6HAKbHi5xVH0
+	2VhSzhDRmnwnbeToeY4GQG1gpO4G
+X-Google-Smtp-Source: AFSGD/XL7K8LGKH174keisyDzIweFL2iz3oesQVJCXAi2mFLbAxwVRvN9/lctR5K35iVgkTvAly4Jw==
+X-Received: by 2002:a81:3713:: with SMTP id e19mr16697967ywa.224.1544534475819;
+	Tue, 11 Dec 2018 05:21:15 -0800 (PST)
+Received: from localhost.localdomain ([181.220.84.254])
+	by smtp.gmail.com with ESMTPSA id z37sm4358362ywj.3.2018.12.11.05.21.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 11 Dec 2018 05:21:14 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 11 Dec 2018 11:21:10 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Dec 2018 11:21:09 -0200
+Message-Id: <20181211132109.26344-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] curl: Add PACKAGECONFIG to enable NSS support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 11:33:58 -0000
+X-List-Received-Date: Tue, 11 Dec 2018 13:21:15 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/lib/oeqa/selftest/cases/package.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 0a88dc25b3..6596dabc32 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -137,7 +137,7 @@ class PackageTests(OESelftestTestCase):
-                 elif "Breakpoint 1, main () at hello.c:4" in l:
-                     return True
- 
--            self.logger.error("GDB result:\n%s: %s" % output)
-+            self.logger.error("GDB result:\n%d: %s", status, output)
-             return False
- 
-         with runqemu('core-image-minimal') as qemu:
+ meta/recipes-support/curl/curl_7.62.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/curl/curl_7.62.0.bb b/meta/recipes-support/curl/curl_7.62.0.bb
+index 2baab2b503..4229fa39ca 100644
+--- a/meta/recipes-support/curl/curl_7.62.0.bb
++++ b/meta/recipes-support/curl/curl_7.62.0.bb
+@@ -42,6 +42,7 @@ PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
+ PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
+ PACKAGECONFIG[smtp] = "--enable-smtp,--disable-smtp,"
+ PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openssl"
++PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss"
+ PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
+ PACKAGECONFIG[tftp] = "--enable-tftp,--disable-tftp,"
+ PACKAGECONFIG[threaded-resolver] = "--enable-threaded-resolver,--disable-threaded-resolver"
 -- 
-2.11.0
+2.20.0
 
 
