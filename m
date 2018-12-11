@@ -1,29 +1,54 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 52E4C6C4CF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDBF6C4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 09:43:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBB9h79a026806
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Dec 2018 01:43:27 -0800
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 11 Dec 2018 01:43:13 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20181210171141.10722-1-ross.burton@intel.com>
-	<20181210171141.10722-4-ross.burton@intel.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <2c6649dd-c527-e71c-135c-15177787c71c@windriver.com>
-Date: Tue, 11 Dec 2018 17:50:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20181210171141.10722-4-ross.burton@intel.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: [PATCH 4/4] oeqa/sdk: rewrite lzip test
+	Tue, 11 Dec 2018 09:44:26 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id b14so13323600wru.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 01:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=1l1Z9IzOzdNA92ukMxQJ6yyWcTjnBr2CiGzK1MnijRg=;
+	b=Y+XA1ohlIrYZmi/X+bipAo7i+m0iQUFKdGKfUAYpiJcIh8wpPKetI5cfXpKxu3gYXQ
+	DYFpUggZ373BlHzCI0h32YI10yrav4t4X2Wvn4jz5/vwF1Fig9LzuMTGF1HtYTg1nKSL
+	JvaMfWvU4kB1wm2e3kKZ0wVjm0asGpeNczA+w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=1l1Z9IzOzdNA92ukMxQJ6yyWcTjnBr2CiGzK1MnijRg=;
+	b=P0Sv0+wmpSHXrufG9uV+QpipWpqtBMXx5BtUNF+3pwmND8gpjG8BCL8tAjr/w+yuKK
+	3GgxQIHn+Ys7T05zr06b2Q1XSxSHWXlkw6f1uBVyFp8TEI25ho2rh7AlNbjvMlvz8HMH
+	Xn4P+F+rvHfo4D/iIAEHwi5RovZinICVirA0IMS87qQJot5S8h+Ps4oQYra8OvPP2Go2
+	242wo8srMxR/US8QLuTIsjbM/EVFLftIpNDLs2YNegmornWLBbn1lu+Ho4aBbQ4bMjK6
+	Liwqg5EOZPA2Ew2dO8HI/DnH1iX7U0oSMSUDuPEtWb6VWRqPsXdzMDvxirswU697tnWb
+	esNg==
+X-Gm-Message-State: AA+aEWaUBAlqd9mp+aWjl111KISj3C/Thm2cQl1ECqhxhQE/wGVgf01M
+	3BLkVH6+joJzzzDNMV5yFAmtxA==
+X-Google-Smtp-Source: AFSGD/W2Ug58P9E0E7iVKANtGJe1t8izbusfILDaI/aWEQrDl6HVAQ+I16lJL18UZLvG7Ba+InExxQ==
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr12210143wrv.80.1544521467122; 
+	Tue, 11 Dec 2018 01:44:27 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r77sm1652868wmd.22.2018.12.11.01.44.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 11 Dec 2018 01:44:26 -0800 (PST)
+Message-ID: <0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2018 09:44:25 +0000
+In-Reply-To: <117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +61,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 09:43:57 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 11 Dec 2018 09:44:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There's a failure related to this patch.
-https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/80/steps/7/logs/step1c
+On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
+> 
+> On 12/10/18 6:29 PM, Richard Purdie wrote:
+> > On Sun, 2018-12-09 at 18:24 -0800, Robert Yang wrote:
+> > > The code is in setup_hosttools_dir(), it searches ccache in PATH
+> > > in
+> > > reverse order, I can't figure out what it is used for, maybe it
+> > > is
+> > > aimed to use host's ccache rather than recipe-sysroot-
+> > > native/usr/bin/ccache, but the later one isn't in original PATH,
+> > > so
+> > > remove the code.
+> > > 
+> > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > ---
+> > >   meta/classes/base.bbclass | 2 --
+> > >   1 file changed, 2 deletions(-)
+> > 
+> > We should document it and I think its still needed.
+> > 
+> > Some distros have a "gcc" which automatically wraps ccache behind
+> > the
+> > scenes. This code lets us find the real gcc and bypass ccache.
+> 
+> Ah, thanks for the explanations, I got it now. I think that we don't
+> need the
+> code any more since we don't use host's ccache, and I have removed
+> ccache from
+> HOSTTOOLS.
+> 
+> I will update commit message and send a V2.
 
-Best Regards,
-Chen Qi
+No, that isn't correct :(
 
-On 12/11/2018 01:11 AM, Ross Burton wrote:
-> Don't use the helper class as it gets in the way more than it helps, exercise
-> the out-of-tree paths, and verify the installed files match the expected
-> architecture.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/lib/oeqa/sdk/cases/buildlzip.py | 46 +++++++++++++-----------------------
->   1 file changed, 16 insertions(+), 30 deletions(-)
->
-> diff --git a/meta/lib/oeqa/sdk/cases/buildlzip.py b/meta/lib/oeqa/sdk/cases/buildlzip.py
-> index b57fbbece7f..d98e10fc37f 100644
-> --- a/meta/lib/oeqa/sdk/cases/buildlzip.py
-> +++ b/meta/lib/oeqa/sdk/cases/buildlzip.py
-> @@ -1,39 +1,25 @@
-> -import unittest
-> +import os, tempfile, subprocess, unittest
->   from oeqa.sdk.case import OESDKTestCase
-> -from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
-> -
->   from oeqa.utils.subprocesstweak import errors_have_output
->   errors_have_output()
->   
->   class BuildLzipTest(OESDKTestCase):
-> -    td_vars = ['DATETIME']
-> -
-> -    @classmethod
-> -    def setUpClass(self):
-> -        dl_dir = self.td.get('DL_DIR', None)
-> -
-> -        self.project = SDKBuildProject(self.tc.sdk_dir + "/lzip/", self.tc.sdk_env,
-> -                        "http://downloads.yoctoproject.org/mirror/sources/lzip-1.19.tar.gz",
-> -                        self.tc.sdk_dir, self.td['DATETIME'], dl_dir=dl_dir)
-> -        self.project.download_archive()
-> -
-> -    def setUp(self):
-> -        machine = self.td.get("MACHINE")
-> -
-> -        if not (self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine) or
-> -                self.tc.hasHostPackage("^gcc-", regex=True)):
-> -            raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
-> -
->       def test_lzip(self):
-> -        self.assertEqual(self.project.run_configure(), 0,
-> -                        msg="Running configure failed")
-> +        with tempfile.TemporaryDirectory(prefix="lzip", dir=self.tc.sdk_dir) as testdir:
-> +            dl_dir = self.td.get('DL_DIR', None)
-> +            tarball = self.fetch(testdir, dl_dir, "http://downloads.yoctoproject.org/mirror/sources/lzip-1.19.tar.gz")
-> +
-> +            dirs = {}
-> +            dirs["source"] = os.path.join(testdir, "lzip-1.19")
-> +            dirs["build"] = os.path.join(testdir, "build")
-> +            dirs["install"] = os.path.join(testdir, "install")
->   
-> -        self.assertEqual(self.project.run_make(), 0,
-> -                        msg="Running make failed")
-> +            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
-> +            self.assertTrue(os.path.isdir(dirs["source"]))
-> +            os.makedirs(dirs["build"])
->   
-> -        self.assertEqual(self.project.run_install(), 0,
-> -                        msg="Running make install failed")
-> +            self._run("cd {build} && {source}/configure --srcdir {source} $CONFIGURE_FLAGS".format(**dirs))
-> +            self._run("cd {build} && make -j".format(**dirs))
-> +            self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
->   
-> -    @classmethod
-> -    def tearDownClass(self):
-> -        self.project.clean()
-> +            self.check_elf(os.path.join(dirs["install"], "usr", "local", "bin", "lzip"))
+The problem is that "gcc" can be linked directly to ccache by the host
+distro. This means you end up using the host ccache just by calling
+"gcc". This code is still needed if we want to control ccache and be
+able to disable it and use ccache-native for determinism.
+
+Cheers,
+
+Richard
+
 
 
 
