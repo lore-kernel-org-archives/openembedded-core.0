@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B800A6C490
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8922B6C46D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2018 06:43:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBC6hE1n012992
+	Wed, 12 Dec 2018 06:43:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBC6h3ZX027014
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 22:43:15 -0800 (PST)
+	Tue, 11 Dec 2018 22:43:13 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 11 Dec 2018 22:43:14 -0800
+	14.3.408.0; Tue, 11 Dec 2018 22:42:53 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Dec 2018 15:00:00 +0800
-Message-ID: <e2c41ad50ba58269cdd18246f70ebeef828aa06a.1544597612.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Dec 2018 14:59:59 +0800
+Message-ID: <3623f754f6cd91a1721933eed0c5a50ffbdfe14b.1544597612.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544597612.git.liezhi.yang@windriver.com>
 References: <cover.1544597612.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/6] oeqa/selftest/cases: Update test_ccache_tool
+Subject: [PATCH 5/6] base.bbclass: Add comments for gcc links to ccache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2018 06:43:13 -0000
+X-List-Received-Date: Wed, 12 Dec 2018 06:43:22 -0000
 Content-Type: text/plain
-
-Now we can compile m4-native rather than target m4, this can save a lot of
-build time.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/buildoptions.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/base.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
-index f234bac..181e9a9 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -37,13 +37,13 @@ class ImageOptionsTests(OESelftestTestCase):
-         p = bb_vars['SYSROOT_DESTDIR'] + bb_vars['bindir'] + "/" + "ccache"
-         self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
-         self.write_config('INHERIT += "ccache"')
--        self.add_command_to_tearDown('bitbake -c clean m4')
--        bitbake("m4 -c clean")
--        bitbake("m4 -f -c compile")
--        log_compile = os.path.join(get_bb_var("WORKDIR","m4"), "temp/log.do_compile")
-+        self.add_command_to_tearDown('bitbake -c clean m4-native')
-+        bitbake("m4-native -c clean")
-+        bitbake("m4-native -f -c compile")
-+        log_compile = os.path.join(get_bb_var("WORKDIR","m4-native"), "temp/log.do_compile")
-         with open(log_compile, "r") as f:
-             loglines = "".join(f.readlines())
--        self.assertIn("ccache", loglines, msg="No match for ccache in m4 log.do_compile. For further details: %s" % log_compile)
-+        self.assertIn("ccache", loglines, msg="No match for ccache in m4-native log.do_compile. For further details: %s" % log_compile)
- 
-     @OETestID(1435)
-     def test_read_only_image(self):
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e715ffa..e6af673 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -122,6 +122,10 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+         desttool = os.path.join(dest, tool)
+         if not os.path.exists(desttool):
+             srctool = bb.utils.which(path, tool, executable=True)
++            # gcc/g++ may link to ccache on some hosts, e.g.,
++            # /usr/local/bin/ccache/gcc -> /usr/bin/ccache, then which(gcc)
++            # would return /usr/local/bin/ccache/gcc, but what we need is
++            # /usr/bin/gcc, this code can check and fix that.
+             if "ccache" in srctool:
+                 srctool = bb.utils.which(path, tool, executable=True, direction=1)
+             if srctool:
 -- 
 2.7.4
 
