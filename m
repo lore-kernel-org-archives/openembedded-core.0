@@ -1,33 +1,23 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1C996B8C3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AD016BF37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2018 02:54:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBC2rsnC021525
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Dec 2018 18:54:04 -0800
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 11 Dec 2018 18:53:43 -0800
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1544408339.git.liezhi.yang@windriver.com>
-	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
-	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
-	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
-	<0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
-	<bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
-	<ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
+	Wed, 12 Dec 2018 06:42:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBC6gMep001347
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Dec 2018 22:42:22 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 11 Dec 2018 22:42:22 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1356a9f5-6a95-890d-77bd-c68d038f9a71@windriver.com>
-Date: Wed, 12 Dec 2018 10:59:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Dec 2018 14:59:54 +0800
+Message-ID: <cover.1544597612.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
+Subject: [PATCH 0/6 V2] ccache.bbclass: Refactor it to make it more reliable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,88 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2018 02:54:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Dec 2018 06:42:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+* V2
+  - Fix comments from Martin Jansa and Martin Hundebøll.
+  - Fix RP's comments:
+    1) Add comments for ccache related code in base.bbclass
+    2) Remove all ccache-native's dependencies so that all recipes can depend on
+       and use it.
+  - Update test_ccache_tool in oeqa
 
-
-On 12/11/18 6:42 PM, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2018-12-11 at 18:12 +0800, Robert Yang wrote:
->> On 12/11/18 5:44 PM, richard.purdie@linuxfoundation.org wrote:
->>> On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
->>>> On 12/10/18 6:29 PM, Richard Purdie wrote:
->>> No, that isn't correct :(
->>>
->>> The problem is that "gcc" can be linked directly to ccache by the
->>> host
->>> distro. This means you end up using the host ccache just by calling
->>> "gcc". This code is still needed if we want to control ccache and
->>> be
->>> able to disable it and use ccache-native for determinism.
->>
->> I did a test:
->>
->> $ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
->> I got errors with/without the code:
->>
->> $ bitbake -p
->> bb.BBHandledException
->> ERROR: Error running gcc  --version:
->>
->> $ ls -l tmp/hosttools/gcc
->> tmp/hosttools/gcc -> /folk/lyang1/bin/gcc
->>
->> $ ls -l /folk/lyang1/bin/gcc
->> /folk/lyang1/bin/gcc -> /usr/bin/ccache
->>
->> It worked well if I run gcc --version manually:
->> $ gcc --version
->> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
->> Copyright (C) 2015 Free Software Foundation, Inc.
->> $ echo $?
->> 0
->>
->> There must be something wrong in such a case. I will fix this later.
->>
->> Let's get back to he code:
->>
->>               srctool = bb.utils.which(path, tool, executable=True)
->>               if "ccache" in srctool:
->>                   srctool = bb.utils.which(path, tool,
->> executable=True, direction=1)
->>               if srctool:
->>                   os.symlink(srctool, desttool)
->>
->>
->> * If tool == "gcc", then srctool would be gcc, too.
->> * If tool == "ccache", then srctool would be ccache, too.
->>
->> So I think that the code doesn't help when gcc links to ccache ?
-> 
-> https://www.unix.com/man-page/suse/1/ccache/
-> 
-> When the distros we tested on did this they placed it in something like
-> bin/ccache/ so the code detects the "ccache" element of the path
-> returned by which() (something like /usr/bin/ccache/gcc but I don't
-> remember exactly).
-> 
-> Try using /folk/lyang1/ccache/ or /folk/lyang1/bin/ccache/ in your
-> example.
-
-Ah, sorry, I mixed 'ccache in srctool' with 'ccache == srctool', yes, we do
-need it. I will keep the original code, and add comments for it.
+* V1
+  - Initial version
 
 // Robert
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
+The following changes since commit 8bc0d2f2197430723f8b2d0785169e48c883eedb:
+
+  mdadm: Drop redundant patches and fix build with clang (2018-12-09 11:08:07 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ccache
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ccache
+
+Robert Yang (6):
+  ccache-native: Remove dependencies
+  ccache.bbclass: Refactor it to make it more reliable
+  apr/openssl10: Enable ccache for them
+  cmake.bbclass/goarch.bbclass: Set CCACHE_DISABLE
+  base.bbclass: Add comments for gcc links to ccache
+  oeqa/selftest/cases: Update test_ccache_tool
+
+ meta/classes/base.bbclass                          |  4 ++++
+ meta/classes/ccache.bbclass                        | 25 +++++++++++++++++++---
+ meta/classes/cmake.bbclass                         |  4 ++--
+ meta/classes/goarch.bbclass                        |  4 ++++
+ meta/conf/bitbake.conf                             |  6 +-----
+ meta/conf/layer.conf                               |  1 -
+ meta/lib/oe/utils.py                               |  3 ++-
+ meta/lib/oeqa/selftest/cases/buildoptions.py       | 10 ++++-----
+ .../openssl/openssl10_1.0.2q.bb                    |  3 ---
+ meta/recipes-devtools/ccache/ccache.inc            | 13 ++++++++++-
+ meta/recipes-devtools/ccache/ccache_3.4.2.bb       |  4 ++--
+ meta/recipes-support/apr/apr_1.6.5.bb              |  5 -----
+ 12 files changed, 54 insertions(+), 28 deletions(-)
+
+-- 
+2.7.4
+
 
