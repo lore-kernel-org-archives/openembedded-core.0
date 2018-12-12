@@ -1,23 +1,33 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D80756C0ED
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B1C996B8C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2018 02:44:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBC2i9uw025991
+	Wed, 12 Dec 2018 02:54:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBC2rsnC021525
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Dec 2018 18:44:09 -0800 (PST)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 11 Dec 2018 18:43:56 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <tanuk@iki.fi>
-Date: Wed, 12 Dec 2018 10:43:54 +0800
-Message-ID: <1544582634-36575-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 11 Dec 2018 18:54:04 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 11 Dec 2018 18:53:43 -0800
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+	<0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
+	<bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
+	<ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <1356a9f5-6a95-890d-77bd-c68d038f9a71@windriver.com>
+Date: Wed, 12 Dec 2018 10:59:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH V3] pulseaudio: improve reproducibility
+In-Reply-To: <ad5b21cd26692c6a74384be336ed27e6592571e4.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,257 +40,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2018 02:44:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Dec 2018 02:54:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-There are two fixes, one is sent to upstream,
-and another is oe specific.
 
-[YOCTO #12638]
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   5 +-
- ...-special-build-flag-to-explicitly-disable.patch | 161 +++++++++++++++++++++
- ...lay-CLFAGS-to-improve-reproducibility-bui.patch |  30 ++++
- .../pulseaudio/pulseaudio_12.2.bb                  |   2 +
- 4 files changed, 196 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
+On 12/11/18 6:42 PM, richard.purdie@linuxfoundation.org wrote:
+> On Tue, 2018-12-11 at 18:12 +0800, Robert Yang wrote:
+>> On 12/11/18 5:44 PM, richard.purdie@linuxfoundation.org wrote:
+>>> On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
+>>>> On 12/10/18 6:29 PM, Richard Purdie wrote:
+>>> No, that isn't correct :(
+>>>
+>>> The problem is that "gcc" can be linked directly to ccache by the
+>>> host
+>>> distro. This means you end up using the host ccache just by calling
+>>> "gcc". This code is still needed if we want to control ccache and
+>>> be
+>>> able to disable it and use ccache-native for determinism.
+>>
+>> I did a test:
+>>
+>> $ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
+>> I got errors with/without the code:
+>>
+>> $ bitbake -p
+>> bb.BBHandledException
+>> ERROR: Error running gcc  --version:
+>>
+>> $ ls -l tmp/hosttools/gcc
+>> tmp/hosttools/gcc -> /folk/lyang1/bin/gcc
+>>
+>> $ ls -l /folk/lyang1/bin/gcc
+>> /folk/lyang1/bin/gcc -> /usr/bin/ccache
+>>
+>> It worked well if I run gcc --version manually:
+>> $ gcc --version
+>> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+>> Copyright (C) 2015 Free Software Foundation, Inc.
+>> $ echo $?
+>> 0
+>>
+>> There must be something wrong in such a case. I will fix this later.
+>>
+>> Let's get back to he code:
+>>
+>>               srctool = bb.utils.which(path, tool, executable=True)
+>>               if "ccache" in srctool:
+>>                   srctool = bb.utils.which(path, tool,
+>> executable=True, direction=1)
+>>               if srctool:
+>>                   os.symlink(srctool, desttool)
+>>
+>>
+>> * If tool == "gcc", then srctool would be gcc, too.
+>> * If tool == "ccache", then srctool would be ccache, too.
+>>
+>> So I think that the code doesn't help when gcc links to ccache ?
+> 
+> https://www.unix.com/man-page/suse/1/ccache/
+> 
+> When the distros we tested on did this they placed it in something like
+> bin/ccache/ so the code detects the "ccache" element of the path
+> returned by which() (something like /usr/bin/ccache/gcc but I don't
+> remember exactly).
+> 
+> Try using /folk/lyang1/ccache/ or /folk/lyang1/bin/ccache/ in your
+> example.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index f526690..91d9b8e 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -76,8 +76,9 @@ EXTRA_OECONF = "\
- 		--with-database=simple \
- 		--without-zsh-completion-dir \
- 		--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d \
--                ac_cv_header_valgrind_memcheck_h=no \
--                --disable-tests \
-+		ac_cv_header_valgrind_memcheck_h=no \
-+		--disable-tests \
-+		--disable-running-from-build-tree \
- "
- 
- # soxr (the SoX Resampler library) doesn't seem to be currently packaged in
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
-new file mode 100644
-index 0000000..b7e9cd8
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
-@@ -0,0 +1,161 @@
-+From 36feb98e568221e24286615730888d5f6ff323f0 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 7 Dec 2018 15:12:38 +0800
-+Subject: [PATCH] introduce a special build flag to explicitly disables running
-+ from build tree
-+
-+It is helpful to improve reproducibility build [1] since
-+PA_SRCDIR/PA_BUILDDIR contains build path, disable running
-+from build tree could drop these macros at precompilation.
-+
-+[1] https://reproducible-builds.org/
-+
-+Upstream-Status: Submitted [pulseaudio-discuss@lists.freedesktop.org]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+Acked-by: Tanu Kaskinen <tanuk@iki.fi>
-+---
-+ configure.ac                             | 10 ++++++++++
-+ src/daemon/daemon-conf.c                 |  4 +++-
-+ src/daemon/main.c                        |  6 ++++++
-+ src/modules/alsa/alsa-mixer.c            |  4 ++++
-+ src/modules/gconf/module-gconf.c         |  2 +-
-+ src/modules/gsettings/module-gsettings.c |  2 +-
-+ src/pulsecore/core-util.c                |  4 +++-
-+ 7 files changed, 28 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index c9c414f..8b345ef 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -998,6 +998,16 @@ AS_IF([test "x$enable_asyncns" = "xyes" && test "x$HAVE_LIBASYNCNS" = "x0"],
-+ AM_CONDITIONAL([HAVE_LIBASYNCNS], [test "x$HAVE_LIBASYNCNS" = x1])
-+ AS_IF([test "x$HAVE_LIBASYNCNS" = "x1"], AC_DEFINE([HAVE_LIBASYNCNS], 1, [Have libasyncns?]))
-+ 
-++#### Running from build tree (optional) ####
-++
-++AC_ARG_ENABLE([running-from-build-tree],
-++    AS_HELP_STRING([--disable-running-from-build-tree],[Disable running from build tree]))
-++
-++AS_IF([test "x$enable_running_from_build_tree" != "xno"],
-++      AC_DEFINE([HAVE_RUNNING_FROM_BUILD_TREE], 1, [Have running from build tree]))
-++
-++AC_SUBST(HAVE_RUNNING_FROM_BUILD_TREE)
-++
-+ #### TCP wrappers (optional) ####
-+ 
-+ AC_ARG_ENABLE([tcpwrap],
-+diff --git a/src/daemon/daemon-conf.c b/src/daemon/daemon-conf.c
-+index 9883126..f01eff4 100644
-+--- a/src/daemon/daemon-conf.c
-++++ b/src/daemon/daemon-conf.c
-+@@ -155,12 +155,14 @@ pa_daemon_conf *pa_daemon_conf_new(void) {
-+     c->dl_search_path = pa_sprintf_malloc("%s" PA_PATH_SEP "lib" PA_PATH_SEP "pulse-%d.%d" PA_PATH_SEP "modules",
-+                                           pa_win32_get_toplevel(NULL), PA_MAJOR, PA_MINOR);
-+ #else
-++#ifdef HAVE_RUNNING_FROM_BUILD_TREE
-+     if (pa_run_from_build_tree()) {
-+         pa_log_notice("Detected that we are run from the build tree, fixing search path.");
-+         c->dl_search_path = pa_xstrdup(PA_BUILDDIR);
-+     } else
-+-        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
-+ #endif
-++        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
-++#endif //Endof #ifdef OS_IS_WIN32
-+ 
-+     return c;
-+ }
-+diff --git a/src/daemon/main.c b/src/daemon/main.c
-+index c80fa94..1e00388 100644
-+--- a/src/daemon/main.c
-++++ b/src/daemon/main.c
-+@@ -932,6 +932,12 @@ int main(int argc, char *argv[]) {
-+ 
-+     pa_log_debug("Running in VM: %s", pa_yes_no(pa_running_in_vm()));
-+ 
-++#ifdef HAVE_RUNNING_FROM_BUILD_TREE
-++    pa_log_debug("Running from build tree: %s", pa_yes_no(pa_run_from_build_tree()));
-++#else
-++    pa_log_debug("Running from build tree: no");
-++#endif
-++
-+ #ifdef __OPTIMIZE__
-+     pa_log_debug("Optimized build: yes");
-+ #else
-+diff --git a/src/modules/alsa/alsa-mixer.c b/src/modules/alsa/alsa-mixer.c
-+index a524d6d..670f646 100644
-+--- a/src/modules/alsa/alsa-mixer.c
-++++ b/src/modules/alsa/alsa-mixer.c
-+@@ -2571,9 +2571,11 @@ static int path_verify(pa_alsa_path *p) {
-+ }
-+ 
-+ static const char *get_default_paths_dir(void) {
-++#ifdef HAVE_RUNNING_FROM_BUILD_TREE
-+     if (pa_run_from_build_tree())
-+         return PA_SRCDIR "/modules/alsa/mixer/paths/";
-+     else
-++#endif
-+         return PA_ALSA_PATHS_DIR;
-+ }
-+ 
-+@@ -4455,7 +4457,9 @@ pa_alsa_profile_set* pa_alsa_profile_set_new(const char *fname, const pa_channel
-+         fname = "default.conf";
-+ 
-+     fn = pa_maybe_prefix_path(fname,
-++#ifdef HAVE_RUNNING_FROM_BUILD_TREE
-+                               pa_run_from_build_tree() ? PA_SRCDIR "/modules/alsa/mixer/profile-sets/" :
-++#endif
-+                               PA_ALSA_PROFILE_SETS_DIR);
-+ 
-+     r = pa_config_parse(fn, NULL, items, NULL, false, ps);
-+diff --git a/src/modules/gconf/module-gconf.c b/src/modules/gconf/module-gconf.c
-+index c0f4dde..76a1f19 100644
-+--- a/src/modules/gconf/module-gconf.c
-++++ b/src/modules/gconf/module-gconf.c
-+@@ -51,7 +51,7 @@ int pa__init(pa_module*m) {
-+     u->buf_fill = 0;
-+ 
-+     if ((u->fd = pa_start_child_for_read(
-+-#if defined(__linux__) && !defined(__OPTIMIZE__)
-++#if defined(__linux__) && defined(HAVE_RUNNING_FROM_BUILD_TREE)
-+                               pa_run_from_build_tree() ? PA_BUILDDIR "/gconf-helper" :
-+ #endif
-+                  PA_GCONF_HELPER, NULL, &u->pid)) < 0)
-+diff --git a/src/modules/gsettings/module-gsettings.c b/src/modules/gsettings/module-gsettings.c
-+index 330eca1..209c857 100644
-+--- a/src/modules/gsettings/module-gsettings.c
-++++ b/src/modules/gsettings/module-gsettings.c
-+@@ -51,7 +51,7 @@ int pa__init(pa_module*m) {
-+     u->buf_fill = 0;
-+ 
-+     if ((u->fd = pa_start_child_for_read(
-+-#if defined(__linux__) && !defined(__OPTIMIZE__)
-++#if defined(__linux__) && defined(HAVE_RUNNING_FROM_BUILD_TREE)
-+                               pa_run_from_build_tree() ? PA_BUILDDIR "/gsettings-helper" :
-+ #endif
-+                  PA_GSETTINGS_HELPER, NULL, &u->pid)) < 0)
-+diff --git a/src/pulsecore/core-util.c b/src/pulsecore/core-util.c
-+index 64e9f21..f85dd20 100644
-+--- a/src/pulsecore/core-util.c
-++++ b/src/pulsecore/core-util.c
-+@@ -3436,15 +3436,17 @@ void pa_reset_personality(void) {
-+ }
-+ 
-+ bool pa_run_from_build_tree(void) {
-+-    char *rp;
-+     static bool b = false;
-+ 
-++#ifdef HAVE_RUNNING_FROM_BUILD_TREE
-++    char *rp;
-+     PA_ONCE_BEGIN {
-+         if ((rp = pa_readlink("/proc/self/exe"))) {
-+             b = pa_startswith(rp, PA_BUILDDIR);
-+             pa_xfree(rp);
-+         }
-+     } PA_ONCE_END;
-++#endif
-+ 
-+     return b;
-+ }
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
-new file mode 100644
-index 0000000..43add75
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch
-@@ -0,0 +1,30 @@
-+From f0ddd7c36556ad05c1398fdd132947323ad26473 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Thu, 6 Dec 2018 11:43:41 +0800
-+Subject: [PATCH 2/2] do not display CLFAGS to improve reproducibility build
-+
-+Macro PA_CFLAGS contains build path, do not use it to
-+display CFLAGS which could improve reproducibility build.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/daemon/main.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/daemon/main.c b/src/daemon/main.c
-+index c80fa94..75496be 100644
-+--- a/src/daemon/main.c
-++++ b/src/daemon/main.c
-+@@ -908,7 +908,7 @@ int main(int argc, char *argv[]) {
-+ 
-+     pa_log_info("This is PulseAudio %s", PACKAGE_VERSION);
-+     pa_log_debug("Compilation host: %s", CANONICAL_HOST);
-+-    pa_log_debug("Compilation CFLAGS: %s", PA_CFLAGS);
-++    pa_log_debug("Compilation CFLAGS: ***");
-+ 
-+ #ifdef HAVE_LIBSAMPLERATE
-+     pa_log_warn("Compiled with DEPRECATED libsamplerate support!");
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-index 36d92bc..c020fbd 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-@@ -2,6 +2,8 @@ require pulseaudio.inc
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
-+           file://0001-introduce-a-special-build-flag-to-explicitly-disable.patch \
-+           file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
-            file://volatiles.04_pulse \
-            "
- SRC_URI[md5sum] = "c42f1f1465e8df9859d023dc184734bf"
--- 
-2.7.4
+Ah, sorry, I mixed 'ccache in srctool' with 'ccache == srctool', yes, we do
+need it. I will keep the original code, and add comments for it.
 
+// Robert
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> 
+> 
 
