@@ -1,53 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D70B6C0ED
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E5B9C6C19B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 23:26:43 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id p4so15829062wrt.7
+	Wed, 12 Dec 2018 00:39:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,343,1539619200"; d="scan'208";a="49555654"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Dec 2018 08:39:19 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4F4854B734D7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2018 15:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DNYgDTooI6toGRXeXblb1adi6OCjcs1VdsZuUOnugso=;
-	b=nlopY0R6iwPWTl7RAV3k/tQTwDS7ZRxfHToXkgb9vEZZ8BDBDcm4GnS70G3d2LIyNC
-	V8QToX32wq/01wRPmGbY9fy8m0G7/Z60IYG/Y81c71o8nlyk/X8MjEjxMjCU37o3stvj
-	MoEgLwOPEBIcd3EHOOdrjrJ+B4SJP6E1QyV/cZCxNYi4NHVZBDN3geEhwJJjGL3UHRe+
-	pAYTAywi/TvUZN7znd/Djp5I2IJibDOFPbpudGtLut3V/Jdi+N08t3E1QDH4jqcsUsUn
-	t6ZZsgZXQPXo6c91cjDmGw/O5a1dueA2kRLFskuYIP21R90dHJ8dYweODlELZAFnJN/n
-	mxyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=DNYgDTooI6toGRXeXblb1adi6OCjcs1VdsZuUOnugso=;
-	b=bfWCED33kBKqG0n3pIVAwt+ZYFsABv4YGepRKNoyfzbefTZRUWknyLU4MyurACD0Pa
-	Y3kye5qpOjzpHYUMgx/KQ4Sb8gCg56OuHkn+7YzGeRBCgQs7sKuH1AvUJiPA62sxMugR
-	mPaDmBx5IpNtikQ0qfhSrXzzQAZvu8Wps1YNxxQP+4powqOF7yDCnDQELsdTO3S95GAO
-	CsOToAny+8Rv0oZWhnVHo27OZfAYCVxQVtYsayC2uMSKDp4ZGE68HbKFMvQvsqT8yKxC
-	kJw932ybpo6f44D0uFDehgzuFQZccxDHKgo3bbgMpcAU7kidXyWUtQwZQhMfsyEWI6Hj
-	pjRQ==
-X-Gm-Message-State: AA+aEWZtuOtF5sTroieBYNkLVU/DypE9jmT2G+4oudQKmZqzOhToUdQ/
-	u4NRT7psZd2phdIV+6RQNfW/ZfrQMOw=
-X-Google-Smtp-Source: AFSGD/W4SxgnEQX1NZK2HSgqxzVXHImlvS+bGNmv60wU1c0MPRtCz8ZWLwQ5QUZQVV9W+0L51e3saw==
-X-Received: by 2002:a05:6000:1287:: with SMTP id
-	f7mr16062697wrx.302.1544570803783; 
-	Tue, 11 Dec 2018 15:26:43 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	v19sm30194595wrd.46.2018.12.11.15.26.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Dec 2018 15:26:43 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2018 23:26:36 +0000
-Message-Id: <20181211232636.13113-5-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181211232636.13113-1-ross.burton@intel.com>
-References: <20181211232636.13113-1-ross.burton@intel.com>
-Subject: [PATCH V2 5/5] oeqa/sdk: rewrite cpio test
+	Wed, 12 Dec 2018 08:39:20 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 12 Dec 2018 08:39:24 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Dec 2018 08:39:09 +0800
+Message-ID: <20181212003909.31594-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: 4F4854B734D7.AD9C7
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] python-setuptools:upgrade to 40.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,82 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2018 23:26:43 -0000
+X-List-Received-Date: Wed, 12 Dec 2018 00:39:20 -0000
+Content-Type: text/plain
 
-Don't use the helper class as it gets in the way more than it helps, exercise
-the out-of-tree paths, and verify the installed files match the expected
-architecture.
+1.Upgrade python-setuptools from 40.0.0 to 40.6.2
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- meta/lib/oeqa/sdk/cases/buildcpio.py | 49 ++++++++++++++++--------------------
- 1 file changed, 22 insertions(+), 27 deletions(-)
+ meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+ ...ython-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} (100%)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-index 6697b12de29..ff3e1347d37 100644
---- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-@@ -1,37 +1,32 @@
-+import os
-+import tempfile
-+import subprocess
- import unittest
--from oeqa.sdk.case import OESDKTestCase
--from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 315ba31396..fc89eefffd 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
  
-+from oeqa.sdk.case import OESDKTestCase
- from oeqa.utils.subprocesstweak import errors_have_output
- errors_have_output()
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
  
- class BuildCpioTest(OESDKTestCase):
--    td_vars = ['DATETIME']
--
--    @classmethod
--    def setUpClass(self):
--        dl_dir = self.td.get('DL_DIR', None)
--
--        self.project = SDKBuildProject(self.tc.sdk_dir + "/cpio/", self.tc.sdk_env,
--                        "https://ftp.gnu.org/gnu/cpio/cpio-2.12.tar.gz",
--                        self.tc.sdk_dir, self.td['DATETIME'], dl_dir=dl_dir)
--        self.project.download_archive()
--
--    def setUp(self):
--        machine = self.td.get("MACHINE")
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
--            raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
--
-+    """
-+    Check that autotools will cross-compile correctly.
-+    """
-     def test_cpio(self):
--        self.assertEqual(self.project.run_configure(), 0,
--                        msg="Running configure failed")
-+        with tempfile.TemporaryDirectory(prefix="cpio-", dir=self.tc.sdk_dir) as testdir:
-+            dl_dir = self.td.get('DL_DIR', None)
-+            tarball = self.fetch(testdir, dl_dir, "https://ftp.gnu.org/gnu/cpio/cpio-2.12.tar.gz")
-+
-+            dirs = {}
-+            dirs["source"] = os.path.join(testdir, "cpio-2.12")
-+            dirs["build"] = os.path.join(testdir, "build")
-+            dirs["install"] = os.path.join(testdir, "install")
+-SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+-SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
++SRC_URI[md5sum] = "1c45c7d66dc84ae4ee36581dc9e5359b"
++SRC_URI[sha256sum] = "86bb4d8e1b0fabad1f4642b64c335b673e53e7a381de03c9a89fe678152c4c64"
  
--        self.assertEqual(self.project.run_make(), 0,
--                        msg="Running make failed")
-+            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
-+            self.assertTrue(os.path.isdir(dirs["source"]))
-+            os.makedirs(dirs["build"])
+ DEPENDS += "${PYTHON_PN}"
  
--        self.assertEqual(self.project.run_install(), 0,
--                        msg="Running make install failed")
-+            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
-+            self._run("cd {build} && make -j".format(**dirs))
-+            self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
- 
--    @classmethod
--    def tearDownClass(self):
--        self.project.clean()
-+            self.check_elf(os.path.join(dirs["install"], "usr", "local", "bin", "cpio"))
+diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_40.6.2.bb
 -- 
-2.11.0
+2.17.2
+
+
 
 
