@@ -1,44 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D7A6AC00
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C95576C0BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 16:23:14 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id o13so2058649ioh.2
+	Thu, 13 Dec 2018 16:25:12 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id i145so4521783ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 08:23:16 -0800 (PST)
+	Thu, 13 Dec 2018 08:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Jqg7rM/H2GaPqf8remUa5iuFjw8nDp0ZyXeJTduUjgs=;
-	b=OkEGbCS41SO8NMDZZFASgeEfylKIpZx62cAlM7RnvZXVHYUkN1b7Ko1e9TnrDKjICf
-	S1PGapGWu8A+7s2ou1hG8qzY3Y7/WkuQ+NV4B6Lpqd9xNONM9snKVCATaW6JHTlSdJE6
-	eH8mogqStgWQzsuZXs/VGtQxMDg3TnS0BUZEUTvjBSihNnRsLbUlmoCHGvhkjB9Uz4d5
-	iKKh8ZpcfcKTbWl6dfQA28gCBv7xLkaGS/v5T4J3WapdgL3W2dbq5e0QTQO/XuLaXGYx
-	D8QkYZcMLr+7tnqeEKpcFJUwslOCMoQg+Ciu2D3Ax0SQYEYVu1ipFulsamxXSH5Z3Fw6
-	OO6g==
+	:cc; bh=hQzMeR1tCesbKU1YMLNHb/Yk3HEL1nWzuu7KDHPQOwM=;
+	b=D9MmsW7w4FxQTjldr7dfoMLOF+x4UlMvpx2wUxQt+TwF1Sj10d+GAuBRiSlb/rAgEm
+	kt/O5/zcmOgpIN0CMVDWNhmd/4GoqnQyj+GLrjKN28s0jUMYdjTWyfVv1+g4GCnKoQpZ
+	MoCR6XDfRim9MNX8zsiFRRoWkQJ/BNxWy0LXu7BJV2vqXOiC3WGnHfOnihhHAZVi+W+h
+	Oe2K8KUkXggD4ezYdXjc4cpvJF3xhD3lM+rprMhWLNZ3k7dleAU9Z3RwiSFgQTEq0G6R
+	OcgvuYOx7nAnEzQIlo0hAM38YwUdNU8w1WOBElWxU5uc5sccOGXCP3Y5yvip0vgivwJU
+	je4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Jqg7rM/H2GaPqf8remUa5iuFjw8nDp0ZyXeJTduUjgs=;
-	b=GAtLym0FDmTe112I0IBt1uq8zfx97FNRKpWIyjmsR4tIQkgoTySAGAci7euE1EY9PE
-	nELjOmSWCU/CosmfrBwh7Rmtro3eJyZZ/SeX7vBfR2W/nXwBKJoCZ0U7wThSY0NbRfg/
-	qRsKu84wPn93cuzIAlTL0iN6Lv2t0kMqfbvPteEO8viUwdTpwn3wabebiewZA/mAz8zN
-	6JO+z3z+ZFhFxp+qbOR/Z2R8RJZQZ2MU5T46/cT6vx/XClhqKNKELLA3EAXzFaQTQWPL
-	WV6nVPoMGr8ZRjppXjwl6H1LQhkEhc9uJthaMXcmY82KSbKuKR/QQNtendEtqIAJImNX
-	zGiA==
-X-Gm-Message-State: AA+aEWaaRcG49qCSg6x9xUT2aIS3yM/gFjc8ZhFso/I1Aor6Hr49vg8P
-	0SAhp7wQc4ppOqnj77Jp1DNTtwvRc0s22Um1yITmZg==
-X-Google-Smtp-Source: AFSGD/VVK7a22e8V7xIgMbfB9I4P+f4LvgdOvRxdTDHr6FYN0k8xz9RfLnm1JsAcpWOd8Exd6JiHpH/jZvXpJrHzSh4=
-X-Received: by 2002:a6b:f70a:: with SMTP id k10mr7916179iog.270.1544718195617; 
-	Thu, 13 Dec 2018 08:23:15 -0800 (PST)
+	bh=hQzMeR1tCesbKU1YMLNHb/Yk3HEL1nWzuu7KDHPQOwM=;
+	b=SZF1ahjzqJjSKS/BR9L+IfSgWw5cQ0sO3+yeldKbwWoypZw1OCeJqAacsTymaGIh8W
+	ME9sXt/OUgBYqSzme7kd3ZtqT1yQhZFjZBSkmsh8BvkOuRqwocGBZ//YFUvXATMeeb9X
+	LHFCzUvUJLcsmc8CB7h9ysu3wq+WXglp21x3acoF4DXypHY1wempH/uKzA/hp79LCk9N
+	j4106Gkj0t/zqv+gxIuO9p9kaOuN34+9XHSlNSMM+kaI5HK0z3ETgSsUPPqijbm6Au1/
+	g5Gd+bEl7Wnc9q/r/25yl2oQxV2hF/gQgfD0IXBvm5CpxDSJNzbUwAg38AaVp1OureqS
+	I9DQ==
+X-Gm-Message-State: AA+aEWY7yjBj5PqmXs3Mh+jtuyQkiazaAVRFLdwzINY9OziYsbCUMWsW
+	W+L5fQ0sV9OEaU0FVR+dfBuzAUxPpDjwuPz2zv6zJrP1
+X-Google-Smtp-Source: AFSGD/VdDoSndQ1/NjCwg8ev/omJcflpWZhzhZDpXOy6TDPaGmUPDEMX1TUax1NUCYVj3nA2GcDK61LWGMaxoWNnwkE=
+X-Received: by 2002:a02:9c53:: with SMTP id h19mr24112955jal.31.1544718313764; 
+	Thu, 13 Dec 2018 08:25:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20181213141312.14587-1-andrea.adami@gmail.com>
-In-Reply-To: <20181213141312.14587-1-andrea.adami@gmail.com>
+	<CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Dec 2018 16:23:04 +0000
-Message-ID: <CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
+Date: Thu, 13 Dec 2018 16:25:02 +0000
+Message-ID: <CAJTo0LZurjPRtuPd2cv97-u_58sqOjf2HY0xhA1UgwCx9ori=A@mail.gmail.com>
 To: Andrea Adami <andrea.adami@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
@@ -54,15 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 16:23:15 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 16:25:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 13 Dec 2018 at 14:13, Andrea Adami <andrea.adami@gmail.com> wrote:
-> +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
-
-Whilst this is musl specific it doesn't break glibc, so apply it universally.
-
-Also seems that assuming !glibc == musl isn't safe, is there a better define?
+Also, why does this appear to be powerpc-specific?
 
 Ross
+On Thu, 13 Dec 2018 at 16:23, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Thu, 13 Dec 2018 at 14:13, Andrea Adami <andrea.adami@gmail.com> wrote:
+> > +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
+>
+> Whilst this is musl specific it doesn't break glibc, so apply it universally.
+>
+> Also seems that assuming !glibc == musl isn't safe, is there a better define?
+>
+> Ross
 
