@@ -1,26 +1,32 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A9306B30D
+	by mail.openembedded.org (Postfix) with ESMTP id 7F30E6B06D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 03:02:20 +0000 (UTC)
+	Thu, 13 Dec 2018 03:37:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBD321Cm026106
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2018 19:02:11 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 12 Dec 2018 19:01:50 -0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBD3aZT1027282
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Dec 2018 19:36:57 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 12 Dec 2018 19:36:36 -0800
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1544408339.git.liezhi.yang@windriver.com>
+	<bb3ede855b1af3d681a1007ccfff34be43cf6c27.1544408339.git.liezhi.yang@windriver.com>
+	<37ad7314e33e17f8d20004e609c32fb03b90dfdc.camel@linuxfoundation.org>
+	<117c2412-f698-45a5-d82a-e1ee3210ec44@windriver.com>
+	<0b4127efa7077e49230199b08757d7aa13fb518a.camel@linuxfoundation.org>
+	<bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Dec 2018 11:19:28 +0800
-Message-ID: <337e1401f58bfb235b34e6113834a51048853090.1544671104.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1544671104.git.liezhi.yang@windriver.com>
-References: <cover.1544671104.git.liezhi.yang@windriver.com>
+Message-ID: <d195944c-6a16-3d26-4af3-65c6b12c4784@windriver.com>
+Date: Thu, 13 Dec 2018 11:41:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] lib/oe/utils: Set stderr for host_gcc_version()
+In-Reply-To: <bb74d937-c676-77d2-2258-0db6037fce51@windriver.com>
+Subject: Re: [PATCH 1/4] base.bbclass: Remove invalid ccache related code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +39,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 03:02:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Dec 2018 03:37:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Fixed:
-$ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
-$ rm -fr tmp/hosttools/ && bitbake -p
+
+
+On 12/11/18 6:12 PM, Robert Yang wrote:
+> Hi RP,
+> 
+> On 12/11/18 5:44 PM, richard.purdie@linuxfoundation.org wrote:
+>> On Tue, 2018-12-11 at 17:24 +0800, Robert Yang wrote:
+
 [snip]
-ERROR: Error running gcc  --version:
 
-It didn't print the error message, now it is:
-ERROR: Error running gcc  --version: ccache: error: Could not find compiler "gcc" in PATH
+> I did a test:
+> 
+> $ ln -s /usr/bin/ccache /folk/lyang1/bin/gcc
+> I got errors with/without the code:
+> 
+> $ bitbake -p
+> bb.BBHandledException
+> ERROR: Error running gcc  --version:
 
-For the error itself, it is because ccache is not in my HOSTTOOLS, so this is
-an expected error.
+I've sent a patch to fix/explain this problem:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/utils.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+[OE-core] [PATCH 0/1] lib/oe/utils: Set stderr for host_gcc_version()
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 8a584d6..29b4115 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -366,7 +366,8 @@ def host_gcc_version(d, taskcontextonly=False):
-     try:
-         env = os.environ.copy()
-         env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, shell=True, env=env).decode("utf-8")
-+        output = subprocess.check_output("%s --version" % compiler, \
-+                    shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-     except subprocess.CalledProcessError as e:
-         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
- 
--- 
-2.7.4
 
+// Robert
+
+> 
+> $ ls -l tmp/hosttools/gcc
+> tmp/hosttools/gcc -> /folk/lyang1/bin/gcc
+> 
+> $ ls -l /folk/lyang1/bin/gcc
+> /folk/lyang1/bin/gcc -> /usr/bin/ccache
+> 
+> It worked well if I run gcc --version manually:
+> $ gcc --version
+> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+> Copyright (C) 2015 Free Software Foundation, Inc.
+> $ echo $?
+> 0
+> 
+> There must be something wrong in such a case. I will fix this later.
+> 
+> Let's get back to he code:
+> 
+>              srctool = bb.utils.which(path, tool, executable=True)
+>              if "ccache" in srctool:
+>                  srctool = bb.utils.which(path, tool, executable=True, direction=1)
+>              if srctool:
+>                  os.symlink(srctool, desttool)
+> 
+> 
+> * If tool == "gcc", then srctool would be gcc, too.
+> * If tool == "ccache", then srctool would be ccache, too.
+> 
+> So I think that the code doesn't help when gcc links to ccache ?
+> 
+> // Robert
+> 
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>>
 
