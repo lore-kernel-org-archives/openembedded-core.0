@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EE3F26D576
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA0B6D523
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:28 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id 101so1667750pld.6
+	Thu, 13 Dec 2018 21:39:30 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id b85so1741443pfc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:30 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hKBbaFN3CpsmAG/4NxCMGFhrOZBeD00m4LmJe057frs=;
-	b=FeiCnbFHgvg25WpmoIUHwSzLSrQQGLKUpTDyvwqZqo6Q7BO8CHluZVNbPM0UzpNNzE
-	0p762ZiOShDxbmkZwEeN80gkshPQVsZGyYkrnYAJW82JsJeWz+NJhIbkqCHqdTD4izRs
-	6P8gbhQKGaIEmmDVt5yHDrNjv2SimQewaBpdPGcboO2s7KqYSj7RggE9H7t7Tch5i0x5
-	/pLlIHaCGxXnCbFyLlmkH+aOGgO1YrPPgOkG3pstzZefc0RqUXbscM/XIZA7sGoOmmyz
-	MQQAaFmcX42sEh/o64VQx9FHTRl2iDgGWLsv1XZOb93tclIBGJyv1kZW6+A9ZlwsoLFW
-	CnCA==
+	bh=NpIxNzsyQhw6+7fcQD2ku1BP+AgtopYTwI1BkLeKtIQ=;
+	b=geS3k96JDdfBRX13CN7Y0UknHBSAyNBHtm4NI9e+dboNdBsxJXgvVEwmkhoWzhzNHs
+	G6vIpv/TFrvk2ReRYDlX2jbEfyTmCJuhK6zDIobnHjoN8rfUloo6MbuWZUaEqElBrQRZ
+	yOSKnk6SDiL/IePW7WQg7HoJkOtAdvXJvPVy0gz2eo5F+2yHStqktojsJ2LlM00YYNB1
+	SKm6wVfBAko2IVTP820EDlllvKk9nI/vU0eNgYqhAm2vpPZTxnbsiWEJuDIdjUqWZStl
+	fH8phqWEovoH/7+nZcwzqX5TVStfpyAth64dOTrx0GlumnibSq0fabenabLOL/9WBgCU
+	gecA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=hKBbaFN3CpsmAG/4NxCMGFhrOZBeD00m4LmJe057frs=;
-	b=FMzoaL3FrbHaQRHH+FF+D66dsx9LDtBJUAhfSfn0E5KZV0ZvEScrSugmwB2TqGU1IF
-	500BZvVU6K8/bnxDjuTK1GdtdmvG3/Q24eTH0DCCZYHqZ18NEBSiLfFxvo2/Vapi4amU
-	tggXcLdRmN3crk+n5p3pJ39A92OBzdmkhbd/lHumRrZEoiLH1l/oV1CVd1+1v+oeiu0/
-	TD7cHJEvAZJld/H6hu9INVlSMf8jPoNa/B30LTK+AdByXxlTFpQh8TkXW2K5rcHYywX7
-	PUaCMLy3mx/4wV2DAXevqcMKIc6K2lWKtLmUxoJ6hOwp1SJ1aeD9+JjTQZv9iJP95v9D
-	EWIA==
-X-Gm-Message-State: AA+aEWZEUq6+Wh1KPAMI2QKvCfNRadBNfPZnPg0QO4GXJGocQ8o5z1dP
-	wzzCHQ/fEIM9j10OM5x5GIwqs+gT
-X-Google-Smtp-Source: AFSGD/V2TTGxW9X94Ssi3da8kdobarKnXjGYcMlu5OyxYvAjqrwJmZfHf3No8VZlsDRKynIWVtnqQQ==
-X-Received: by 2002:a17:902:a50a:: with SMTP id
-	s10mr415271plq.278.1544737169805; 
-	Thu, 13 Dec 2018 13:39:29 -0800 (PST)
+	bh=NpIxNzsyQhw6+7fcQD2ku1BP+AgtopYTwI1BkLeKtIQ=;
+	b=IlRETfCdNXqZLZctBmiik//ztu6Vlc6ExgH0LWDfIfFXSynxyvOr6GARrN/l5Yj8/P
+	niUcTJIB0r5km203y1aRPB8b66qauVakW9wbkcQKW+CP/hw32nK+74x5fb46C2zTQCli
+	43k8yonY6WtiHyXSHkAbIx3VW73y14nbw+p85Wx1KbYM0jiID8RccOO/8pjkjtlzefu5
+	Gf36eVVPu4VR/cZ+ZDJF7E2901scCmH2qxMoiIz28gdCUxt5UzDWnIpmuFaQ7qw/uoT1
+	eBQARtvW417F6ny6d18V7IFuaLNucGpWzNePkjk4K1TSFieVmC6/uSnsyBw+OiH2HyzW
+	ecmg==
+X-Gm-Message-State: AA+aEWalnvjY6BXz5Gf1OjPntUVjLk9b2eqvYRYTrr2fQiNXR6EXuTzD
+	Dg6QZ3korE+jXooRQPOft0Hn1edz
+X-Google-Smtp-Source: AFSGD/WOmCaAhwAMJGuePV8oXER5x4sk7/+wYRjCXwfsIzVij5psYE35GjHZlqNzIEnPtcHj3V1anw==
+X-Received: by 2002:a62:e044:: with SMTP id f65mr408256pfh.208.1544737171054; 
+	Thu, 13 Dec 2018 13:39:31 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.28
+	b9sm3288912pfi.118.2018.12.13.13.39.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:29 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:30 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:32 -0800
-Message-Id: <31d95385348a891da5a81fa62c08eba7eaabb918.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:33 -0800
+Message-Id: <39c995ad29ceb729a4c351e737d5585527cf574f.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 24/45] oeqa/selftest/context: Improve log file handling
+Subject: [PATCH 25/45] oeqa/core/runner: Improve test case comparision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,71 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:29 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:30 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The existing logfile is simply placed in the current directory. Since the test
-changes cwd to BUILDDIR, the symlink to the log can be placed in an invalid
-directory. We also see trackbacks if the symlink is invalid.
+We can directly compare the test case IDs rather than representations,
+then if we're using subunit to split the tests, the comparisions still
+work as intended.
 
-Improve things by:
+(From OE-Core rev: 72e5f46f75454ba4c445c65c1cbc616a9e72fc6e)
 
-* Placing logs in LOG_DIR (or BUILDDIR if unset).
-* Using a full path to the log meaning the log and link are placed in the same directory.
-* Using lexists instead of exists so invalid symlinks are handled correctly.
-
-(From OE-Core rev: 750ece11bed0e62a11e0003d1d16a81f7c219761)
-
-(From OE-Core rev: 9c4c3c876dd5d224133571fcad1095af1098ae1d)
+(From OE-Core rev: 4c53aac5315f9d0a0ed95cbeb48b7704e274e3a9)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/context.py | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/core/runner.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index cac049f..33316d3 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -96,11 +96,17 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         return cases_paths
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 13cdf5b..16345fa 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -88,10 +88,10 @@ class OETestResult(_TestResult):
+                     break
+                 scase_str = scase.test_id
+             else:
+-                if case == scase:
++                if case.id() == scase.id():
+                     found = True
+                     break
+-                scase_str = str(scase)
++                scase_str = str(scase.id())
  
-     def _process_args(self, logger, args):
--        args.output_log = '%s-results-%s.log' % (self.name,
--                time.strftime("%Y%m%d%H%M%S"))
-+
-+        args.test_start_time = time.strftime("%Y%m%d%H%M%S")
-         args.test_data_file = None
-         args.CASES_PATHS = None
- 
-+        bbvars = get_bb_vars()
-+        logdir = os.environ.get("BUILDDIR")
-+        if 'LOG_DIR' in bbvars:
-+            logdir = bbvars['LOG_DIR']
-+        args.output_log = logdir + '/%s-results-%s.log' % (self.name, args.test_start_time)
-+
-         super(OESelftestTestContextExecutor, self)._process_args(logger, args)
- 
-         if args.list_modules:
-@@ -110,7 +116,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         elif args.list_tests:
-             args.list_tests = 'name'
- 
--        self.tc_kwargs['init']['td'] = get_bb_vars()
-+        self.tc_kwargs['init']['td'] = bbvars
-         self.tc_kwargs['init']['machines'] = self._get_available_machines()
- 
-         builddir = os.environ.get("BUILDDIR")
-@@ -270,7 +276,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
- 
-             output_link = os.path.join(os.path.dirname(args.output_log),
-                     "%s-results.log" % self.name)
--            if os.path.exists(output_link):
-+            if os.path.lexists(output_link):
-                 os.remove(output_link)
-             os.symlink(args.output_log, output_link)
- 
+             # When fails at module or class level the class name is passed as string
+             # so figure out to see if match
 -- 
 2.7.4
 
