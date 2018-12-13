@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FB3D79E1C
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 58C4879E2A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:42 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id g62so1718499pfd.12
+	Thu, 13 Dec 2018 21:39:43 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id m1so17538pgq.8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Dec 2018 13:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=0SH0C8slwCcBidg+ey0ufFf1aG/h+gHTi+OAxjBGZFA=;
-	b=pKfbs1MwU+oGQjV6jw7xKuY4MFieiDIsaAaxhF29Qd8pQdyXqMQ4povu4VdfBYhB4e
-	AVndsQ1Uv1ixVZk/DmYnh3rCuRZOlfA8f3nKEb8fc/MR/MgU63T9HPEsumOYrw6gOi4M
-	WWcSjepug5L8ez/0o4gZOOKc7MkWEvisPh7QekShBv9BzhXStByDKyaTPM1Ci+YEugpR
-	RmD15Zk7Lw6Jd53vOk/Jhlf7W5sdWv+9jnDLiAS1J4FBr2HRJAGm9xWr/SwbzCxLGYe4
-	1iWieWrDpRWH0/2NCtrQBtvJESHyotAxXs7OYMz5b/iPDjJ3yQftgp+ZK3EW98K1oSZj
-	OJWg==
+	bh=P3G2oHXhlG6l7T8L1qrzrZSFDy4s7s3cqJx766ToEgg=;
+	b=FYlf0sXAqpFd1L4GjM92RCogd7xyA6S7c+jwrCrvoBvbLMWPFUIsOmA1iXeMlFNE80
+	NzvYMmc4F6Ga26Cs25to/NSwVN2GxaYep1A2UQ/mY/mckkvPdif+ClYr6FYb87V+6kIW
+	I+0BJpl5Loo6flgtL9ZiHPujnRpKi83F0P5PTY3WSGfLULCgAmGyj2V/4WrUuFuBW8XT
+	RXtuTphN2ea3CELK7XyjVdQiMukfOFvqDjHBcedDf/lfoHkj9NLn9/hUkpIVxCERG5TZ
+	gRZRoLCPcPUsFs0HdfKh6PLTZLnfMGC04hJm0BrBt9zdZoaJSpByKa6Fs1lqaMa5Xybg
+	JkPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=0SH0C8slwCcBidg+ey0ufFf1aG/h+gHTi+OAxjBGZFA=;
-	b=hDOmuv6MQCqF9ZCo/d+nQU0U8mLqQ+AiKXV3EOPU0KK1JsaFISe82N/RHcDKRnySmr
-	y59T7bTspcB+Xbs3dCGYdS4rMhZOWKp/mBZmkNMxnyzUqjwzJ87exCL8+4EeqvA54zJ6
-	W9nXmpcSqhzG+OH4bpe1p58rrlHZvfQR3Yd3ft2Caz0Zn3p7CFHCI7htumKQZF+tiGlG
-	RPT0/wohoyxC8Tzl02zvSXVmqOPQ7yi6DRt7vxWONKcv3R/4H6XzkWSQrtjomjl0xcYf
-	WaQ8ERCXzk3xVIqAIjE71LcDDiw6XCISlcsBlydYtyJGUM8Uh3jsM/vj6sjWPuNzVBUd
-	2ebQ==
-X-Gm-Message-State: AA+aEWYJinHzZanmHEYzshBM8pyS5MiMrT35xN3HaQ70yUyRePVYHJlK
-	83gF7n/UX6AqxmDxz6LrHH3nQkky
-X-Google-Smtp-Source: AFSGD/VEsTu5O+oyeVnEHhRrlfRhU3inTSLJrspj/KOQw0dp2nHX53nyPMpaavtO7KhSsIrPP+fW8w==
-X-Received: by 2002:a63:6c48:: with SMTP id h69mr373867pgc.139.1544737183497; 
-	Thu, 13 Dec 2018 13:39:43 -0800 (PST)
+	bh=P3G2oHXhlG6l7T8L1qrzrZSFDy4s7s3cqJx766ToEgg=;
+	b=NKkv+0+M1aqr2uOLewusW2vaV9PJ8Dx6A+T87SZrLdaZ8HIrUDp7IXhzbWZmqGi0ZM
+	iIb8QkNXHtyNZybyAkK9rACFhDaxYo5PMx5IzSwxi4jmZW58ykHm3qYS3lbpixnvHHv9
+	zs0e5ruuJkjw7FamMVzVxpr6jixjXrmPPzCsnko8+9o2L1KqHl/Zs+GkEa/0/1EPTCdH
+	cSxTpCxwckU3RTZ7Ql6XowiKP8WaF0xzeK4bL+CJpjXYVOUxGtOdOBkB+SI3yFENclGs
+	drb+NmxHR9tMUuGpzo/eJTZhkWrxKKXCeARX562MVQ7yDbe3lFI43psjV1Hz2SoNtpqL
+	YnIQ==
+X-Gm-Message-State: AA+aEWYrhpJSRGQ1XJMo9yt1hb3RL/bi7Jk8s3D3Lvdjd5VOjHtUFCD7
+	Yq/txORNRJiUzA1MjVSepMcbsJM/
+X-Google-Smtp-Source: AFSGD/V4YmuOht/pubyZc4nMYQppdfXKbT2XpjgSJR08tk/YTN/16QuoiMgAWMA9olB/XgKdLXSbTQ==
+X-Received: by 2002:a63:e950:: with SMTP id q16mr428443pgj.138.1544737184499; 
+	Thu, 13 Dec 2018 13:39:44 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.42
+	b9sm3288912pfi.118.2018.12.13.13.39.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:42 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:43 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:43 -0800
-Message-Id: <23f4886b177baf6c30adb55669ecfefe2bbe8d9b.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:44 -0800
+Message-Id: <725b3dc5727a9b364ea7e14bd803fb51f3892b80.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 35/45] oeqa/selftest/context: write testresult to json files
+Subject: [PATCH 36/45] testimage.bbclass: write testresult to json files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,74 +64,82 @@ X-List-Received-Date: Thu, 13 Dec 2018 21:39:43 -0000
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 
 As part of the solution to replace Testopia to store testresult,
-OEQA selftest need to output testresult into json files, where
+OEQA testimage need to output testresult into json files, where
 these json testresult files will be stored into git repository
 by the future test-case-management tools.
 
 By default, json testresult file will be written to "oeqa"
-directory under the oe-selftest log directory.
+directory under the "WORKDIR" directory.
 
 To configure multiple instances of bitbake to write json testresult
 to a single testresult file at custom directory, user will define
 the variable "OEQA_JSON_RESULT_DIR" with the custom directory for
 json testresult.
 
-(From OE-Core rev: a95218525a4c8228fff9908ffbda85c6b85e101c)
+(From OE-Core rev: 2b8b47ec8ee835d2e70cc4ff3ec484f9e4e4d02d)
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/context.py | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
+ meta/classes/testimage.bbclass | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 33316d3..964a46c 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -202,6 +202,31 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         self.tc.logger.info("Running bitbake -p")
-         runCmd("bitbake -p")
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 9feb267..e95ce0c 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -2,7 +2,7 @@
+ #
+ # Released under the MIT license (see COPYING.MIT)
  
-+    def _get_json_result_dir(self, args):
-+        json_result_dir = os.path.join(os.path.dirname(os.path.abspath(args.output_log)), 'oeqa')
-+        if "OEQA_JSON_RESULT_DIR" in self.tc.td:
-+            json_result_dir = self.tc.td["OEQA_JSON_RESULT_DIR"]
-+
-+        return json_result_dir
-+
-+    def _get_configuration(self, args):
-+        import platform
-+        from oeqa.utils.metadata import metadata_from_bb
-+        metadata = metadata_from_bb()
-+        configuration = {'TEST_TYPE': 'oeselftest',
-+                        'START_TIME': args.test_start_time,
-+                        'MACHINE': self.tc.td["MACHINE"],
-+                        'HOST_DISTRO': ('-'.join(platform.linux_distribution())).replace(' ', '-'),
-+                        'HOST_NAME': metadata['hostname']}
-+        layers = metadata['layers']
-+        for l in layers:
-+            configuration['%s_BRANCH_REV' % os.path.basename(l)] = '%s:%s' % (metadata['layers'][l]['branch'],
-+                                                                              metadata['layers'][l]['commit'])
-+        return configuration
-+
-+    def _get_result_id(self, configuration):
-+        return '%s_%s_%s' % (configuration['TEST_TYPE'], configuration['HOST_DISTRO'], configuration['MACHINE'])
-+
-     def _internal_run(self, logger, args):
-         self.module_paths = self._get_cases_paths(
-                 self.tc_kwargs['init']['td']['BBPATH'].split(':'))
-@@ -218,7 +243,10 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         else:
-             self._pre_run()
-             rc = self.tc.runTests(**self.tc_kwargs['run'])
--            rc.logDetails()
-+            configuration = self._get_configuration(args)
-+            rc.logDetails(self._get_json_result_dir(args),
-+                          configuration,
-+                          self._get_result_id(configuration))
-             rc.logSummary(self.name)
+-
++inherit metadata_scm
+ # testimage.bbclass enables testing of qemu images using python unittests.
+ # Most of the tests are commands run on target image over ssh.
+ # To use it add testimage to global inherit and call your target image with -c testimage
+@@ -132,6 +132,30 @@ def testimage_sanity(d):
+         bb.fatal('When TEST_TARGET is set to "simpleremote" '
+                  'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
  
-         return rc
++def _get_testimage_configuration(d, test_type, pid, machine):
++    import platform
++    configuration = {'TEST_TYPE': test_type,
++                    'PROCESS_ID': pid,
++                    'MACHINE': machine,
++                    'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
++                    'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
++                    'HOST_DISTRO': ('-'.join(platform.linux_distribution())).replace(' ', '-')}
++    layers = (d.getVar("BBLAYERS") or "").split()
++    for l in layers:
++        configuration['%s_BRANCH_REV' % os.path.basename(l)] = '%s:%s' % (base_get_metadata_git_branch(l, None).strip(),
++                                                                          base_get_metadata_git_revision(l, None))
++    return configuration
++
++def _get_testimage_json_result_dir(d):
++    json_result_dir = os.path.join(d.getVar("WORKDIR"), 'oeqa')
++    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
++    if custom_json_result_dir:
++        json_result_dir = custom_json_result_dir
++    return json_result_dir
++
++def _get_testimage_result_id(configuration):
++    return '%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['MACHINE'])
++
+ def testimage_main(d):
+     import os
+     import json
+@@ -299,7 +323,10 @@ def testimage_main(d):
+     # Show results (if we have them)
+     if not results:
+         bb.fatal('%s - FAILED - tests were interrupted during execution' % pn, forcelog=True)
+-    results.logDetails()
++    configuration = _get_testimage_configuration(d, 'runtime', os.getpid(), machine)
++    results.logDetails(_get_testimage_json_result_dir(d),
++                       configuration,
++                       _get_testimage_result_id(configuration))
+     results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
 -- 
 2.7.4
 
