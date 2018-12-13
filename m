@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
-	[209.85.210.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F8FB6D494
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CA1356D523
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:08 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id b7so1727301pfi.8
+	Thu, 13 Dec 2018 21:39:09 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id w4so1681563plz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:09 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=l6bGBWkM/IggHRyOyq9oH+lfdQHLegXCDhmTjL/02xg=;
-	b=KfgrgEtE6mH0p6TExX1sy7mGI8GhKVvvTq4y5PJ7hr4cBqRjXldKjua4FJij5h09MI
-	0nEKqS1e8KvmxQRUmTnKYoneQXzUty8TbiIWrGh5xVi71HaJI/CK9nwqCZbz99gdI3E/
-	E5GAL9Vy0K8jUw8y/VvJX/AkbsROZzh2C3PLfFQmOr/cLsw6mT4hur62zaLfPFwVPL2Y
-	x1rcga5Tnw9BszRBaaz3pV92PU2A/WEBWQCo19eBftZQWFplzN+v5xEnSAhPVkoJq+gE
-	fBuTIzzK4Ovx7yKzWSrv5ztxBVV5JO5kdaspBXil81pIh87HbOO/ZSQNKJRTtTGzCwUB
-	rDvw==
+	bh=NZ5aPOfJDg2J6TX8sSsFZegSyZAxkGzNqfLTqmoe1No=;
+	b=Mk8kNKMK4D/h4khIsvxM3lfCVvFtxHYGLUm2cxauRslIC7OJ9OdmSUxJ+oP3ZOwpso
+	fZaiQYUBa5Bbezhq0KUodFFF+F8OZ+67RFTIVjya5X99fz4vcG+t4kF5+8FJNMrg5aZM
+	q5N+qt16V20dKXuv8ZcpRvuRFE9MuqRstbu1AWyTpCdz0KSk2JrpnpIHOmTFf2fOhaeT
+	YXKBPNlhmIV8EjRISjj589rgH3dabk6M6h/MgIRc1sYuxcTeZdFCKBAYQ3vDmIUa5PTj
+	vvMU5mUFCTWm+cxfzsO6Uw7nARntEEfi4h2P65no7XT28kDMhmHbtj+QppErBflYvO6S
+	CAFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=l6bGBWkM/IggHRyOyq9oH+lfdQHLegXCDhmTjL/02xg=;
-	b=p6H5dv/gHykgyMsAFveDyoV+t2Ms+bj/TAzspvGiewKM5+buPLP11UQGP69nmEBLhT
-	4DFgMnYx7hjJmss1djicpdntYF1NSCJ/BVjJh/CYRpjrJ0YURHaEK5pdFha3t+2+38F6
-	Kk217yhf0YSmCmokr3sRdiuKpNopMQUOfWKIbOEg7JtKt/1V/4HGrFWQihJ+jfD6rT/O
-	n/T01D7mPeHW8F9xETCnXpaeUElT1gzHJGTQA5ZiVvY/aqFUAqlMV/Mg9MZ8Umz5xF0N
-	KmV9FhbhJrL65oOOR20/M6hbypW2hhuyyyMYZe6uk/g8bEOYAfpVBIS+k+EXq5ws0LQQ
-	MBOQ==
-X-Gm-Message-State: AA+aEWbaG/AuMJcytta8XEOPx6MSQzUYWuHbF+Yfa6NCh4rnIRF7dlGF
-	KF06lPfppTUwHMZebfjqks+O3XQ/
-X-Google-Smtp-Source: AFSGD/UhJEubtds2NGWPT1NMAeuMb53fQvsjKkzDVDr4pVrVyU1YAeXwvIJe9REigCKyJY0aGGCoKA==
-X-Received: by 2002:a63:4b25:: with SMTP id y37mr404090pga.181.1544737149441; 
-	Thu, 13 Dec 2018 13:39:09 -0800 (PST)
+	bh=NZ5aPOfJDg2J6TX8sSsFZegSyZAxkGzNqfLTqmoe1No=;
+	b=SX07TBkmRJUVPy6qrbYJNmD8izbNy02RHBNMjVIkXPGfcnoYWHKAZXpd2SOcMbT+PT
+	KkEvEVpUXP6yUDpfzcoVbQKBt5IlZJQ8Jjf8IjGBP8jxycWWHdtwnNz/+LTlzSi7qfeI
+	S0gKAcwNNnaxqWYCCpBjDQNB6d/is3fd2Qg0DfoyxjYAX5GQB5Wrn/oqJoGwLp0BYwYy
+	cfECUOEASq0rM10iZ9Q/chFP+L3CQQ8OwEFsQL0SXL5pV/Yavrd/4dayUcr2MRNp/tvW
+	5lQoKM0YA8EeqwA+rA4imv4gYNK/fzoxJodeQIT2Hi9vY/cCOIBiI9vjc+J6rwHUVI1N
+	C45Q==
+X-Gm-Message-State: AA+aEWZ1kUsivJ+ppFLuuQC5/x1OwzTCUPKgQxyEIHvgvUcw+qT9HKx6
+	VEv35ENjSnznXczBnb6eMuox2AqW
+X-Google-Smtp-Source: AFSGD/XJABxpcxHid1DbQvOQMSzEJ/gBMP162VZ4WvPz1M6Q6UaqZE1A7A6suXJvEpMmix2tqd0/1A==
+X-Received: by 2002:a17:902:aa4c:: with SMTP id
+	c12mr465898plr.48.1544737150894; 
+	Thu, 13 Dec 2018 13:39:10 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.08
+	b9sm3288912pfi.118.2018.12.13.13.39.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:08 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:09 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:15 -0800
-Message-Id: <ed4b508e889e4cd97246da04b14619e502ba7d37.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:16 -0800
+Message-Id: <f491450556cb4396cccfbb0c600258c2607ac8b3.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 07/45] oeqa/selftest/case: Use bb.utils.remove() instead of shutil.remove()
+Subject: [PATCH 08/45] oeqa/selftest/buildoptions: Improve ccache test failure output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:08 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:10 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This avoids problems where shutil.remove will error with:
+The current failure mode doesn't show us what the logs actually looked like
+and later cleans can lose them. Show the whole log in case of failure
+to aid debugging intermittent problems on the autobuilder.
 
-  File "/usr/lib/python3.5/shutil.py", line 436, in _rmtree_safe_fd
-    os.unlink(name, dir_fd=topfd)
-FileNotFoundError: [Errno 2] No such file or directory: 'S.gpg-agent.extra'
+(From OE-Core rev: 7c3a0dc5978cea898b1ca51decf4d6e7cf9d519f)
 
-when there are races over file deletion (gpg agent may be slow to exit).
-
-We already worked around speed and race issues in bb.utils.
-
-(From OE-Core rev: 00a8fd5b93a5c19ce0b7498e2bc653ce8ad58aaf)
-
-(From OE-Core rev: e7c0d29e063d1a47004acdc07a63996be98c74ef)
+(From OE-Core rev: 60b58e976dcc2a45a036e18cfcc87933a8859c9f)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/case.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
-index e09915b..2e446b0 100644
---- a/meta/lib/oeqa/selftest/case.py
-+++ b/meta/lib/oeqa/selftest/case.py
-@@ -12,6 +12,8 @@ import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
- from oeqa.core.case import OETestCase
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index e60e32d..406b7e8 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -40,8 +40,9 @@ class ImageOptionsTests(OESelftestTestCase):
+         self.add_command_to_tearDown('bitbake -c clean m4')
+         bitbake("m4 -f -c compile")
+         log_compile = os.path.join(get_bb_var("WORKDIR","m4"), "temp/log.do_compile")
+-        res = runCmd("grep ccache %s" % log_compile, ignore_status=True)
+-        self.assertEqual(0, res.status, msg="No match for ccache in m4 log.do_compile. For further details: %s" % log_compile)
++        with open(log_compile, "r") as f:
++            loglines = "".join(f.readlines())
++        self.assertIn("ccache", loglines, msg="No match for ccache in m4 log.do_compile. For further details: %s" % log_compile)
  
-+import bb.utils
-+
- class OESelftestTestCase(OETestCase):
-     def __init__(self, methodName="runTest"):
-         self._extra_tear_down_commands = []
-@@ -167,7 +169,7 @@ to ensure accurate results.")
-         if self._track_for_cleanup:
-             for path in self._track_for_cleanup:
-                 if os.path.isdir(path):
--                    shutil.rmtree(path)
-+                    bb.utils.remove(path, recurse=True)
-                 if os.path.isfile(path):
-                     os.remove(path)
-             self._track_for_cleanup = []
+     @OETestID(1435)
+     def test_read_only_image(self):
 -- 
 2.7.4
 
