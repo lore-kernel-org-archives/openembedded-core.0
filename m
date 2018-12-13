@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
-	[209.85.210.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1082579E65
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 114D379E49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:47 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id y126so1738105pfb.4
+	Thu, 13 Dec 2018 21:39:48 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id t13so1638405pgr.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:49 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5bPaZC2d1LvE8xtofmjAyDXJ3jYzYg6K7MClZxIuz2w=;
-	b=qR+i1o1Asek5ayRm6nPxBU7cTtbGEXKm8sU2jYNiAF6YaH0uhlLUmz7dQwAI3YsPLo
-	8FZ3mrtm9vtS8qvf1a8NQR0et7S/N9tDkaJgBEYe8w5U7/pfOXGdWe4GS7qJSplYSU7v
-	feed6RDXBC9QkbCeCxx+o7rKn9k7qYyQZTOSeagqNxHk3kQlCtfzfJWeOra4xgiQ3QKV
-	7CnyP/P7LRRltTYB+7t3OypUmAFByx7d5Q3g8v4N+imOIP3+bGbcfnmEwnGN7cVsfL9Y
-	3eV4uI4N1fS48c7qzynRArMnxi0oWLsv18/OIYOme2KzNEYhR7v1mKQvhMKA0nJW7WfA
-	9glQ==
+	bh=l0uxifx/W+w2rL79ITRq3KQLpKFnMJQzhHzxX97THkA=;
+	b=vXsEqI/ilf0H9up6o6RKymcGMHA5T9UE/m1YYJpNMsIMz16EPXuPm9ZrQssA5sM5vD
+	lKskg0ivDkjVSCgxGt6n+Fu7nMVy/QzKLfo4qbhU3SyfDwNrntmllsVuJ/SU1Tmkz0SC
+	56Ntl87ZRH3VhISZZA1WuDcNe+9yuAWqyu2UBGVV/lmLht+ne4Pouxs7MzC0bIodVnmd
+	8tGg6wLH8yJ5VBi8GXbQBtyFjEh5Jqu4VrBofdcV9nuP06Gn0/pdTHFVsh/jI8/ATOHK
+	bnbhfg6RXsc/d9zoqfM+u1FXZ8QPeTQYJp/DauWC7qYJqMPBimChy0tQS0/+GVl1kSCV
+	XgMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=5bPaZC2d1LvE8xtofmjAyDXJ3jYzYg6K7MClZxIuz2w=;
-	b=k6vZdBcbZyIXQga4XvQxFMO4pms+LcuggvTr06EpN4oWjmTzeT6kQwf7Oibh8LXH4Z
-	OfOLdm/bOseKn19GnjFx7KLQSEO42kzRRRd2BCJ22x6c5RTYr3h7ibzcB13SBZ/EabnS
-	gzpl7mXFRrWLZMiCpCEDfCFy0GDwEewgGzjrMJSUkbUzOiabhZj9ysw1B06thFgmK0Nv
-	MyMOeoKs/fMwqiY6a+ruEi0d8oeyCZqx1hDyLYXcEVsh7fnrwvCtbdSZ4nglJydAxEDl
-	A7cHx0Ei85Cj8gm2lGzU6K3qTcwWHyVtxMoXpyJdYHhxnFHaggy4ULBceBqAc1VZhqsD
-	aANA==
-X-Gm-Message-State: AA+aEWYq0AW/etFOw+/id7bleSJ5ST0GVEaMh3qVR7S9BdwydU2El4fI
-	Kyei/llj/8qh3dKF2ya5d+CULvi0
-X-Google-Smtp-Source: AFSGD/WcyIVKdG0UGIB0vpgTmZd8908fw1axORwzt+LQ9GInO5Dwhg1zZmShHSyF8vpj0Ad9SkB+sA==
-X-Received: by 2002:a65:514c:: with SMTP id g12mr393098pgq.169.1544737189146; 
-	Thu, 13 Dec 2018 13:39:49 -0800 (PST)
+	bh=l0uxifx/W+w2rL79ITRq3KQLpKFnMJQzhHzxX97THkA=;
+	b=mqI6wVjEeG7RmXmP8p6c9cSb4senxdjcgBVl2zyqfr4g8t8/x56PtwWIjnkaXvyH+O
+	1fOlTvEDkh7hImdmjiCWf7K1IL4oDjQtMluOK2O086tyEsE3yHT5t7Z7pxgk5PmQe/GB
+	YWMbHt3IRU0tglXnpR5QpPzLLmV73JsSWopaXqJZ0Z9lr8AIVcYJFs5DquzZjcTyZinC
+	c410+HZUjO9W87rUo0EicWpLl8DFPeMHCiUKqb9RifSvTm5HRlNIUQIZG8Q/q8CUvRyn
+	Mp0L1gawlOymu7Dwe6zWqGfxzeQxJh2AippIIva4/9H8KNfki7RXLJG9hQMrAjK6KL4b
+	/Lfw==
+X-Gm-Message-State: AA+aEWZYfOz6l73t7l8698/UckSemrOoQjoUzcs53cRbF2eVZGxhd11B
+	LX8O3T/YHuEK9JJQculbas7FznmJ
+X-Google-Smtp-Source: AFSGD/V0+EkKJlA98N0y1/6T3LRRdBgh8BmzgQKFpkus4tOvMaQI50X3cZ1myMhm+nhnlY4ziZmFPw==
+X-Received: by 2002:a63:ef04:: with SMTP id u4mr395959pgh.197.1544737190129;
+	Thu, 13 Dec 2018 13:39:50 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.47
+	b9sm3288912pfi.118.2018.12.13.13.39.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:48 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:49 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:48 -0800
-Message-Id: <7189850db104ee31f0171244cb51bc6a8e846194.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:49 -0800
+Message-Id: <99170250dfbea35226b139ed5390abf668814462.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 40/45] oeqa/utils/metadata: Allow to function without the git module
+Subject: [PATCH 41/45] image-buildinfo, oeqa/selftest/containerimage: Ensure image-buildinfo doesn't break tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,52 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:48 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:49 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The python git module may or may not be enabled, allow this code to
-function without it, falling back to the same method as metadata_scm.bbclass
-uses. This will be cleaned up in the next round of feature development.
+Having image-buildinfo enabled causes containerimage.ContainerImageTests.test_expected_files
+to fail due to the presence of an unexpected file:
+  ['./',
+   './etc/',
+-  './etc/build',
+   './etc/default/',
+   './etc/default/postinst',
 
-(From OE-Core rev: 6350586ba9f4a4107a2d457590824cd4d662d5b9)
+Tweak the class to allow it to be disabled and disable it from the test just in
+case it was enabled.
 
-(From OE-Core rev: 32c9169b76e13e53b6a9ab4a59932cea7863d992)
+(From OE-Core rev: af67bf422a4df5b7e07894512ff73a5f493682ab)
+
+(From OE-Core rev: f49ab8b1610c045acaed7b964d12f07f969df856)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/metadata.py | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ meta/classes/image-buildinfo.bbclass           | 2 ++
+ meta/lib/oeqa/selftest/cases/containerimage.py | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/meta/lib/oeqa/utils/metadata.py b/meta/lib/oeqa/utils/metadata.py
-index 65bbdc6..b7def77 100644
---- a/meta/lib/oeqa/utils/metadata.py
-+++ b/meta/lib/oeqa/utils/metadata.py
-@@ -58,9 +58,22 @@ def metadata_from_data_store(d):
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
+index 213fb9c..87a6a1a 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -64,6 +64,8 @@ def buildinfo_target(d):
  
- def git_rev_info(path):
-     """Get git revision information as a dict"""
--    from git import Repo, InvalidGitRepositoryError, NoSuchPathError
--
-     info = OrderedDict()
-+
-+    try:
-+        from git import Repo, InvalidGitRepositoryError, NoSuchPathError
-+    except ImportError:
-+        import subprocess
-+        try:
-+            info['branch'] = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=path).decode('utf-8').strip()
-+        except subprocess.CalledProcessError:
-+            pass
-+        try:
-+            info['commit'] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=path).decode('utf-8').strip()
-+        except subprocess.CalledProcessError:
-+            pass
-+        return info
-+
-     try:
-         repo = Repo(path, search_parent_directories=True)
-     except (InvalidGitRepositoryError, NoSuchPathError):
+ # Write build information to target filesystem
+ python buildinfo () {
++    if not d.getVar('IMAGE_BUILDINFO_FILE'):
++        return
+     with open(d.expand('${IMAGE_ROOTFS}${IMAGE_BUILDINFO_FILE}'), 'w') as build:
+         build.writelines((
+             '''-----------------------
+diff --git a/meta/lib/oeqa/selftest/cases/containerimage.py b/meta/lib/oeqa/selftest/cases/containerimage.py
+index 99a5cc9..8deaae7 100644
+--- a/meta/lib/oeqa/selftest/cases/containerimage.py
++++ b/meta/lib/oeqa/selftest/cases/containerimage.py
+@@ -39,6 +39,7 @@ class ContainerImageTests(OESelftestTestCase):
+ IMAGE_FSTYPES = "container"
+ PACKAGE_CLASSES = "package_ipk"
+ IMAGE_FEATURES = ""
++IMAGE_BUILDINFO_FILE = ""
+ """)
+ 
+         bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
 -- 
 2.7.4
 
