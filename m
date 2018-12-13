@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A831A71BEE
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 394406C4BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:12 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id z23so1680314plo.0
+	Thu, 13 Dec 2018 21:39:14 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id q1so1737602pfi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:14 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=r+RdyOBEz2btP4r7PXrtoDSbGnIho/OQXBmAflSLHsk=;
-	b=BvjBkoDbbXS3bWyDceST4oYAY58LCykNb61mQtCOwWchMOWWwlgt9AIk6kiHkCk8JS
-	XGLOWhO5B5qAQCU+VRnN6fuMIxH+iWFhe4qR0OzUUtxeRNVkfNSEEdPuusJOY4WHk/Op
-	SEA+HkmdSDS8mSm4aS2n6rLW5Aj+ZzDVHO9rmOgoRDdCO75AOiiymJATIKAOSXbSjEPe
-	10EEhLFGOwFceJqHiU5gTcdEfyBnFYnyy7VqDq3ekbngA+LtXTsPEGbMfRCtXhqVEHut
-	SIdFlb/GoZhX0XiUU5X6zFqyRSxPxyVGWypdEFKtrB77e7DnVDU4SN+zPeCBV3IKTcIt
-	tHnQ==
+	bh=iMHsJWgxuv0EYUKig68nSS5QQJ2La48kfxs1vqxK+3c=;
+	b=hQ7LoJ/pSIXaVAuvl/23duF6SeqAkaIKL23v9Luvt7eu8vOntOxPerqKzJh+/ZOnw+
+	h9tr7HrmsoTKy/+3+AdGinbGF70etYQfK/f4ndvxcYKbuueyKPoHHtJ8PORfqVUGvJvO
+	y/Za0m6nKB+fO2ujuzH76uyPVpaXnKukGu5q79D/FKNwlchgLbt8TnThoPaRGbU5bXam
+	3k/TZp1QqhtyVkugq1/yjrIf7BETzNDJXaJEZIZ8GImC3GkXJGWbGLMYij78XBddcyN/
+	gndDXjO1iqkpY4ZxsO4SGvVzZcSjQimR9NyExCMI7fvgMUAYil1GSPpwWIOFZvheke5Z
+	pHaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=r+RdyOBEz2btP4r7PXrtoDSbGnIho/OQXBmAflSLHsk=;
-	b=A/5ml3PQSGPybsUV5a97TPFynOQTIYVRy95x4lA34rCykIt/YUeVCTsDtd+0BNzW/D
-	l0vlj1sODoUyzaRhWEL1hXTIJIu1FuUO0ig/EsgfiyCi1LMS39YchiFne+M1Y0zHckaP
-	xouhDwgxutTphjfue4tZsF6aWSTNm6gvwvJ/KI3jxA35i1lh16T22bQIt7FI+DNME24P
-	kfsJVvXmoJoSPmRuGvXaQWAwMkBlq2jExt3zFkJlLP11v0rWWNKmZkjvLl8h5WvqrFg/
-	+weERyzaJkFUb+gjOjofSjuE54J6ytHsozRxmTEK9fhtNNaZ5eFNrhsgDRqtI/LAncyi
-	GhHA==
-X-Gm-Message-State: AA+aEWZLZxmT9NuOfYCdni+ikM0F5+J/1XsNV52HZSwEqyNYr94m76oJ
-	CU8/zFyaVU6Zvi/yNHO9YeNdwsu5
-X-Google-Smtp-Source: AFSGD/X5WM4O49mao6Xa6fpKB7VruBWRRuyTyDd3Rewa4lkU3Fjh2++ici1zeZFfqWuqnu4Ljkflfg==
-X-Received: by 2002:a17:902:7d82:: with SMTP id
-	a2mr427276plm.163.1544737153841; 
-	Thu, 13 Dec 2018 13:39:13 -0800 (PST)
+	bh=iMHsJWgxuv0EYUKig68nSS5QQJ2La48kfxs1vqxK+3c=;
+	b=RT47tr1YJDxpbprUXiYIYifnev/oRsC3ByUV+H/CJMN5/lQR8OMpuj90RZGWLF2wgX
+	o5Ql0raORo46vHYIAPTWbo5JhsZFvu1quFcN60LmdCf/cxNZ3NzGKkKCFhFe5ZF5vKV4
+	ntNlWhqCQnr5av5jF6BSWJRc8kq1tiIV0avotKm72TfRHysFNPjbslUthj9/Y7w2NLWp
+	Y0aW24E2YEqtOoppJKNpOSFDRMKVc656BUbKHPGu1nJRC5ZjFp/KXVLfdSTPDrYCxKqI
+	YJtFYwdvjjMs77HeBlbxFuyCzArzgMNtppFn5nxwn6QVrdflRaWW1P5HitoWncl1KNRo
+	JDNg==
+X-Gm-Message-State: AA+aEWZTVq1fKjuydK8jIqOZ2/8N3kh05cRmZOGfqWOoglQMy9L29YmP
+	RJDpbKpnCqH6U55Y6J1bKJdU6AXx
+X-Google-Smtp-Source: AFSGD/U67aXp02R38Hf8r/mqA8t58Aqd336s6NPZNc+YoF7GaLvp6yaxAn4R6HyyIriIMPZYza0h8g==
+X-Received: by 2002:a63:a16:: with SMTP id 22mr416575pgk.318.1544737155239;
+	Thu, 13 Dec 2018 13:39:15 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.12
+	b9sm3288912pfi.118.2018.12.13.13.39.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:13 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:14 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:19 -0800
-Message-Id: <2af12843cb5efb6e2b04ac4c1661328db457e7ec.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:20 -0800
+Message-Id: <89423308f93983b9957fc87b30e33ddc801588e8.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 11/45] oeqa/utils/commands: Avoid log message duplication
+Subject: [PATCH 12/45] oeqa/qemurunner: Remove resource python warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:13 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:14 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Each time a runqemu() fails, the log handler would be left behind meaning
-messages from any subsequent run would be duplicated (or worse/more).
+If runqemu fails it would leak an unclosed socket and file. Ensure we
+close these in all cases to remove the resource warning.
 
-This ensures we remove the handler regardless and means we no longer
-have the duplication.
+(From OE-Core rev: ed80e46ccbc8fe8e9148d80723152066fa00ba28)
 
-(From OE-Core rev: 532984708436bdfa3a8cac2c684a425eb249bad0)
-
-(From OE-Core rev: 600e71ede1977c45fed1958dd5356911e4fcf272)
+(From OE-Core rev: baa8313e492cff8c31633a558792500b10493e9e)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/commands.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/qemurunner.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 933af92..da70529 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -342,11 +342,11 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
-         yield qemu
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 983c8c7..0f1c5a5 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -135,7 +135,7 @@ class QemuRunner:
  
-     finally:
-+        targetlogger.removeHandler(handler)
+     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
          try:
-             qemu.stop()
-         except:
-             pass
--    targetlogger.removeHandler(handler)
+-            threadsock, threadport = self.create_socket()
++            self.threadsock, threadport = self.create_socket()
+             self.server_socket, self.serverport = self.create_socket()
+         except socket.error as msg:
+             self.logger.error("Failed to create listening socket: %s" % msg[1])
+@@ -263,7 +263,7 @@ class QemuRunner:
+         self.logger.debug("Target IP: %s" % self.ip)
+         self.logger.debug("Server IP: %s" % self.server_ip)
  
- def updateEnv(env_file):
-     """
+-        self.thread = LoggingThread(self.log, threadsock, self.logger)
++        self.thread = LoggingThread(self.log, self.threadsock, self.logger)
+         self.thread.start()
+         if not self.thread.connection_established.wait(self.boottime):
+             self.logger.error("Didn't receive a console connection from qemu. "
+@@ -372,13 +372,19 @@ class QemuRunner:
+             self.runqemu.stdin.close()
+             self.runqemu.stdout.close()
+             self.runqemu = None
++
+         if hasattr(self, 'server_socket') and self.server_socket:
+             self.server_socket.close()
+             self.server_socket = None
++        if hasattr(self, 'threadsock') and self.threadsock:
++            self.threadsock.close()
++            self.threadsock = None
+         self.qemupid = None
+         self.ip = None
+         if os.path.exists(self.qemu_pidfile):
+             os.remove(self.qemu_pidfile)
++        if self.monitorpipe:
++            self.monitorpipe.close()
+ 
+     def stop_qemu_system(self):
+         if self.qemupid:
 -- 
 2.7.4
 
