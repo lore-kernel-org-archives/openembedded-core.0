@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 394406C4BC
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 5974171BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:14 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id q1so1737602pfi.5
+	Thu, 13 Dec 2018 21:39:15 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id s198so1660996pgs.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:15 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=iMHsJWgxuv0EYUKig68nSS5QQJ2La48kfxs1vqxK+3c=;
-	b=hQ7LoJ/pSIXaVAuvl/23duF6SeqAkaIKL23v9Luvt7eu8vOntOxPerqKzJh+/ZOnw+
-	h9tr7HrmsoTKy/+3+AdGinbGF70etYQfK/f4ndvxcYKbuueyKPoHHtJ8PORfqVUGvJvO
-	y/Za0m6nKB+fO2ujuzH76uyPVpaXnKukGu5q79D/FKNwlchgLbt8TnThoPaRGbU5bXam
-	3k/TZp1QqhtyVkugq1/yjrIf7BETzNDJXaJEZIZ8GImC3GkXJGWbGLMYij78XBddcyN/
-	gndDXjO1iqkpY4ZxsO4SGvVzZcSjQimR9NyExCMI7fvgMUAYil1GSPpwWIOFZvheke5Z
-	pHaQ==
+	bh=7EHDCwp9hvp11D4FcHFWqxi4ZjybJTnQ2ShQ17w5QcY=;
+	b=icQRfvwSloN00gUYoa5lA0sHDDbW5PLv83mb/O6MlbIae671BS8JZR0iNqMiIp+Zxl
+	tCpwM97gdkK5XyOv9UBp+feTDFGu2NPjWdTG2kYCd2eyUCRMbpn1UmLT1IdllE5oEZQO
+	d1l1DYlErKURS8faLz5PNoXoenV5624WNxLyDJCZMN6QIzo4k+HjYhFvM30RKDcT/wtZ
+	LMCbzPalQ9+/Cnd7fytzcFrWZUlB3N4EJk56y6uqcuyYG+Z/yrJ8ZRX5ASoc8dlRGPK+
+	aoYI8PjBOnQKOgMemt3rV8TS7OjKwp9YLzcKuWW7lksoiPCHT5XWubJnTDF4EQkWZ6v7
+	+Aug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=iMHsJWgxuv0EYUKig68nSS5QQJ2La48kfxs1vqxK+3c=;
-	b=RT47tr1YJDxpbprUXiYIYifnev/oRsC3ByUV+H/CJMN5/lQR8OMpuj90RZGWLF2wgX
-	o5Ql0raORo46vHYIAPTWbo5JhsZFvu1quFcN60LmdCf/cxNZ3NzGKkKCFhFe5ZF5vKV4
-	ntNlWhqCQnr5av5jF6BSWJRc8kq1tiIV0avotKm72TfRHysFNPjbslUthj9/Y7w2NLWp
-	Y0aW24E2YEqtOoppJKNpOSFDRMKVc656BUbKHPGu1nJRC5ZjFp/KXVLfdSTPDrYCxKqI
-	YJtFYwdvjjMs77HeBlbxFuyCzArzgMNtppFn5nxwn6QVrdflRaWW1P5HitoWncl1KNRo
-	JDNg==
-X-Gm-Message-State: AA+aEWZTVq1fKjuydK8jIqOZ2/8N3kh05cRmZOGfqWOoglQMy9L29YmP
-	RJDpbKpnCqH6U55Y6J1bKJdU6AXx
-X-Google-Smtp-Source: AFSGD/U67aXp02R38Hf8r/mqA8t58Aqd336s6NPZNc+YoF7GaLvp6yaxAn4R6HyyIriIMPZYza0h8g==
-X-Received: by 2002:a63:a16:: with SMTP id 22mr416575pgk.318.1544737155239;
-	Thu, 13 Dec 2018 13:39:15 -0800 (PST)
+	bh=7EHDCwp9hvp11D4FcHFWqxi4ZjybJTnQ2ShQ17w5QcY=;
+	b=KGowNFDh3tPk8bmv1b34c4lZlszY73Q+wrrrQiuaxybLkmAqXWdltcEpYt6aCrmFg6
+	7w/w2Oo1sR7Z0Zv3ADruRLmUYXCJMFDJXy2l30BrNA6rNZtnMCQsQOQ3JRMgKTtHVEzQ
+	r01M3lEOUN8YvSB1tXIgO8jUFS8lOqQEiVSuNXvfx8Xm/9MLLsanfWPnd76Azqey16gg
+	uvkv5FlFvMFFsg3R52RCOuhzSVFxb9GGUFRvSt05OZmeii39zUHDTIDwuiQX6UMsKGSC
+	aRhJ60bugDkhuao0Yzv6KtzLvN73oY4a1vtH5gZo9hBHhq46Q5OtZUki5Gsz2eWOkSDp
+	eUtQ==
+X-Gm-Message-State: AA+aEWbVmKt9YlW11kGhJ8A1cc2UhvdKIIoLwVL5V78hBPVsByL9MmU5
+	+OV95zSu7jpvamdmpspAXX0gxTzS
+X-Google-Smtp-Source: AFSGD/W2pR9mNF5D8LVR127uhlQlaGcHDErLAqCTGiWuLe5y30bry/JkE/uCKF3f3L2LFzTRZ12trg==
+X-Received: by 2002:a63:a112:: with SMTP id b18mr408554pgf.440.1544737156241; 
+	Thu, 13 Dec 2018 13:39:16 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.13
+	b9sm3288912pfi.118.2018.12.13.13.39.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:14 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:15 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:20 -0800
-Message-Id: <89423308f93983b9957fc87b30e33ddc801588e8.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:21 -0800
+Message-Id: <f93254c594512204d643ee20a967ce2a4f552637.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 12/45] oeqa/qemurunner: Remove resource python warnings
+Subject: [PATCH 13/45] oeqa/selftest/buildoptions: Improve ccache test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,64 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:14 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:15 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If runqemu fails it would leak an unclosed socket and file. Ensure we
-close these in all cases to remove the resource warning.
+This test occisionally fails as m4 doesn't recompile, meaning the logfile test
+then doesn't find mention of ccache.
 
-(From OE-Core rev: ed80e46ccbc8fe8e9148d80723152066fa00ba28)
+To ensure m4 does recompile, clean m4 before force compiling it.
 
-(From OE-Core rev: baa8313e492cff8c31633a558792500b10493e9e)
+(Reading the test is confusing due to the test cleanup also involving a clean)
+
+(From OE-Core rev: 6e0b9214a0d57ed45a5df0ba5c9887a9045b89b1)
+
+(From OE-Core rev: b729a46820cce38b3d500271df19bdaf31973140)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 983c8c7..0f1c5a5 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -135,7 +135,7 @@ class QemuRunner:
- 
-     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
-         try:
--            threadsock, threadport = self.create_socket()
-+            self.threadsock, threadport = self.create_socket()
-             self.server_socket, self.serverport = self.create_socket()
-         except socket.error as msg:
-             self.logger.error("Failed to create listening socket: %s" % msg[1])
-@@ -263,7 +263,7 @@ class QemuRunner:
-         self.logger.debug("Target IP: %s" % self.ip)
-         self.logger.debug("Server IP: %s" % self.server_ip)
- 
--        self.thread = LoggingThread(self.log, threadsock, self.logger)
-+        self.thread = LoggingThread(self.log, self.threadsock, self.logger)
-         self.thread.start()
-         if not self.thread.connection_established.wait(self.boottime):
-             self.logger.error("Didn't receive a console connection from qemu. "
-@@ -372,13 +372,19 @@ class QemuRunner:
-             self.runqemu.stdin.close()
-             self.runqemu.stdout.close()
-             self.runqemu = None
-+
-         if hasattr(self, 'server_socket') and self.server_socket:
-             self.server_socket.close()
-             self.server_socket = None
-+        if hasattr(self, 'threadsock') and self.threadsock:
-+            self.threadsock.close()
-+            self.threadsock = None
-         self.qemupid = None
-         self.ip = None
-         if os.path.exists(self.qemu_pidfile):
-             os.remove(self.qemu_pidfile)
-+        if self.monitorpipe:
-+            self.monitorpipe.close()
- 
-     def stop_qemu_system(self):
-         if self.qemupid:
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index 406b7e8..c406e95 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -38,6 +38,7 @@ class ImageOptionsTests(OESelftestTestCase):
+         self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
+         self.write_config('INHERIT += "ccache"')
+         self.add_command_to_tearDown('bitbake -c clean m4')
++        bitbake("m4 -c clean")
+         bitbake("m4 -f -c compile")
+         log_compile = os.path.join(get_bb_var("WORKDIR","m4"), "temp/log.do_compile")
+         with open(log_compile, "r") as f:
 -- 
 2.7.4
 
