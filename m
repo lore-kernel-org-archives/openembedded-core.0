@@ -1,25 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EFEF26B50B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 302A56B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 14:14:35 +0000 (UTC)
+	Thu, 13 Dec 2018 14:14:37 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBDEEadM000403
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBDEEbR2023076
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 06:14:36 -0800 (PST)
+	Thu, 13 Dec 2018 06:14:37 -0800 (PST)
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 13 Dec 2018 06:14:36 -0800
+	Thu, 13 Dec 2018 06:14:37 -0800
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Dec 2018 09:14:10 -0500
-Message-ID: <2f0c9d97ff2f889d3a9d54fa12a76ab828ac516f.1544710323.git.kai.kang@windriver.com>
+Date: Thu, 13 Dec 2018 09:14:11 -0500
+Message-ID: <2be431b15f40d86875ed77ce0073d9d20658d2ff.1544710323.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.19.0.rc2
 In-Reply-To: <cover.1544710323.git.kai.kang@windriver.com>
 References: <cover.1544710323.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] systemd: fix compile error for x32
+Subject: [PATCH 2/2] lttng-tools: fix compile error for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 14:14:36 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 14:14:37 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Backport patch to fix systemd compile error for x32:
+Fix build error of src/common/utils.c for x32:
 
-| ../git/src/timesync/timesyncd-manager.c:607:19: error: format '%lli'
-| expects argument of type 'long long int', but argument 11 has type
-| 'long int' [-Werror=format=]
+| .../src/common/utils.c: Assembler messages:
+| .../src/common/utils.c:1026: Error: register type mismatch for `bsr'
+| .../src/common/utils.c:1028: Error: operand type mismatch for `movq'
+| make[3]: *** [utils.lo] Error 1
 
-[YOCTO #13074]
+[YOCTO #13081]
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- ...hanges-type-of-drift_freq-to-int64_t.patch | 49 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb      |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
+ .../lttng/lttng-tools/x32.patch               | 28 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch b/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
-new file mode 100644
-index 0000000000..8d395c2fa3
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
-@@ -0,0 +1,49 @@
-+Backport patch to fix systemd build failure on x32.
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/x32.patch b/meta/recipes-kernel/lttng/lttng-tools/x32.patch
+index b1bb8e4930..42cebf94ac 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/x32.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/x32.patch
+@@ -1,11 +1,31 @@
+ Fix build for x32
+ 
+-Upstream-Status: Pending
+ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+ 
+---- lttng-tools-2.6.0/src/bin/lttng/utils.c~	2015-01-26 18:17:15.000000000 +0100
+-+++ lttng-tools-2.6.0/src/bin/lttng/utils.c	2015-07-30 19:45:25.632045712 +0200
+-@@ -130,7 +130,7 @@
++Fix build error of src/common/utils.c for x32.
 +
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/75ca162]
++Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/150]
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+From 75ca1621db4647a4d62d7873cd6715e28fe0f9fa Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Sat, 23 Jun 2018 09:41:55 +0900
-+Subject: [PATCH] timesync: changes type of drift_freq to int64_t
-+
-+drift_freq is used for storing timex.freq, and is a 64bit integer.
-+To support x32 ABI, this changes the type of drift_freq to int64_t.
-+
-+Fixes #9387.
-+---
-+ src/timesync/timesyncd-manager.c | 2 +-
-+ src/timesync/timesyncd-manager.h | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/timesync/timesyncd-manager.c b/src/timesync/timesyncd-manager.c
-+index 2b731af9e..404a2b189 100644
-+--- a/src/timesync/timesyncd-manager.c
-++++ b/src/timesync/timesyncd-manager.c
-+@@ -604,7 +604,7 @@ static int manager_receive_response(sd_event_source *source, int fd, uint32_t re
-+         m->dest_time = *recv_time;
-+         m->spike = spike;
++diff --git a/src/bin/lttng/utils.c b/src/bin/lttng/utils.c
++index 0e96ef0c..5c79c8c7 100644
++--- a/src/bin/lttng/utils.c
+++++ b/src/bin/lttng/utils.c
++@@ -158,7 +158,7 @@ unsigned int fls_u32(uint32_t x)
++ #define HAS_FLS_U32
++ #endif
 + 
-+-        log_debug("interval/delta/delay/jitter/drift " USEC_FMT "s/%+.3fs/%.3fs/%.3fs/%+"PRI_TIMEX"ppm%s",
-++        log_debug("interval/delta/delay/jitter/drift " USEC_FMT "s/%+.3fs/%.3fs/%.3fs/%+"PRIi64"ppm%s",
-+                   m->poll_interval_usec / USEC_PER_SEC, offset, delay, m->samples_jitter, m->drift_freq / 65536,
-+                   spike ? " (ignored)" : "");
-+ 
-+diff --git a/src/timesync/timesyncd-manager.h b/src/timesync/timesyncd-manager.h
-+index d8d97cc1e..18347416d 100644
-+--- a/src/timesync/timesyncd-manager.h
-++++ b/src/timesync/timesyncd-manager.h
-+@@ -79,7 +79,7 @@ struct Manager {
-+         /* last change */
-+         bool jumped;
-+         bool sync;
-+-        long drift_freq;
-++        int64_t drift_freq;
-+ 
-+         /* watch for time changes */
-+         sd_event_source *event_clock_watch;
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index c53ce0d78e..a40c89973a 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -34,6 +34,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
-            file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
-            file://0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch \
-+           file://0001-timesync-changes-type-of-drift_freq-to-int64_t.patch \
-            "
- 
- # patches made for musl are only applied on TCLIBC is musl
++-#if defined(__x86_64)
+++#if defined(__x86_64) && !defined(__ILP32__)
++ static inline
++ unsigned int fls_u64(uint64_t x)
++ {
++diff --git a/src/common/utils.c b/src/common/utils.c
++index 08139e5e..3c389981 100644
++--- a/src/common/utils.c
+++++ b/src/common/utils.c
++@@ -1223,7 +1223,7 @@ static inline unsigned int fls_u32(uint32_t x)
+  #define HAS_FLS_U32
+  #endif
+  
 -- 
 2.19.0.rc2
 
