@@ -1,25 +1,24 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 302A56B50B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F1F926B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 14:14:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBDEEbR2023076
+	Thu, 13 Dec 2018 14:14:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBDEEP30011286
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 06:14:37 -0800 (PST)
+	Thu, 13 Dec 2018 06:14:36 -0800
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 13 Dec 2018 06:14:37 -0800
+	Thu, 13 Dec 2018 06:14:14 -0800
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Dec 2018 09:14:11 -0500
-Message-ID: <2be431b15f40d86875ed77ce0073d9d20658d2ff.1544710323.git.kai.kang@windriver.com>
+Date: Thu, 13 Dec 2018 09:14:09 -0500
+Message-ID: <cover.1544710323.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.19.0.rc2
-In-Reply-To: <cover.1544710323.git.kai.kang@windriver.com>
-References: <cover.1544710323.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] lttng-tools: fix compile error for x32
+Subject: [PATCH 0/2] Fix build errors for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 14:14:37 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 14:14:45 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Fix build error of src/common/utils.c for x32:
+The following changes since commit e235a9e18bad4758650c11cd98133de695b72bd1:
 
-| .../src/common/utils.c: Assembler messages:
-| .../src/common/utils.c:1026: Error: register type mismatch for `bsr'
-| .../src/common/utils.c:1028: Error: operand type mismatch for `movq'
-| make[3]: *** [utils.lo] Error 1
+  bitbake: bitbake-user-manual: Added "usehead" parameter. (2018-12-10 20:32:05 +0000)
 
-[YOCTO #13081]
+are available in the Git repository at:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../lttng/lttng-tools/x32.patch               | 28 ++++++++++++++++---
- 1 file changed, 24 insertions(+), 4 deletions(-)
+  git://git.pokylinux.org/poky-contrib kangkai/systemd-req
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/systemd-req
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/x32.patch b/meta/recipes-kernel/lttng/lttng-tools/x32.patch
-index b1bb8e4930..42cebf94ac 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/x32.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/x32.patch
-@@ -1,11 +1,31 @@
- Fix build for x32
- 
--Upstream-Status: Pending
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- 
----- lttng-tools-2.6.0/src/bin/lttng/utils.c~	2015-01-26 18:17:15.000000000 +0100
--+++ lttng-tools-2.6.0/src/bin/lttng/utils.c	2015-07-30 19:45:25.632045712 +0200
--@@ -130,7 +130,7 @@
-+Fix build error of src/common/utils.c for x32.
-+
-+Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/150]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+diff --git a/src/bin/lttng/utils.c b/src/bin/lttng/utils.c
-+index 0e96ef0c..5c79c8c7 100644
-+--- a/src/bin/lttng/utils.c
-++++ b/src/bin/lttng/utils.c
-+@@ -158,7 +158,7 @@ unsigned int fls_u32(uint32_t x)
-+ #define HAS_FLS_U32
-+ #endif
-+ 
-+-#if defined(__x86_64)
-++#if defined(__x86_64) && !defined(__ILP32__)
-+ static inline
-+ unsigned int fls_u64(uint64_t x)
-+ {
-+diff --git a/src/common/utils.c b/src/common/utils.c
-+index 08139e5e..3c389981 100644
-+--- a/src/common/utils.c
-++++ b/src/common/utils.c
-+@@ -1223,7 +1223,7 @@ static inline unsigned int fls_u32(uint32_t x)
-  #define HAS_FLS_U32
-  #endif
-  
+Kai Kang (2):
+  systemd: fix compile error for x32
+  lttng-tools: fix compile error for x32
+
+ ...hanges-type-of-drift_freq-to-int64_t.patch | 49 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb      |  1 +
+ .../lttng/lttng-tools/x32.patch               | 28 +++++++++--
+ 3 files changed, 74 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
+
 -- 
 2.19.0.rc2
 
