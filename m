@@ -1,45 +1,48 @@
-Return-Path: <anders.roxell@linaro.org>
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
-	[209.85.219.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AB98D6C0C9
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 460866B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 12:39:48 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id r11so713609ybp.12
+	Thu, 13 Dec 2018 14:13:18 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t27so2169382wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 04:39:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nuGjjqQ0Eqs3H4KzQROFFyYBbLTPOVIhuGXeCVd6aQE=;
-	b=T3YrTRdH/cA/YPTsBRTSWwjX+NlPr7Vl1HaoDdRxvqNLQzXgW70OzfemzaD+Q22mwM
-	aOiJj0uI6wQlnAhUuAkVL5aVokqm+Alu/mXcu/p+4aLLUu3yeZv+RKRAvmEvt8HzOFxa
-	XFjl7wg2oLCA94R5cYAq5ZDs3M2FeQ1f6P+a8=
+	Thu, 13 Dec 2018 06:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=4tLzUO4J0nVdDsPWnFjYcLR5hv+RP1Rj3LnQ6t+BpIc=;
+	b=TgMlRKRANK3/M7u9M9NRe6pfUWak+ntUwi1pjs24ozwU7Xk1sSWWgxZzSE68IWCjG+
+	LQr7Ibva0GUtVavam+1wObAfL632Uy04WqG07InpmP3JKAC+R1lYyxUMjXLAdq281aAO
+	veAPN7+NN5UGWCPUB0Jj7iOQ39RKoOc7CJ/5Ty9f1jhoyG9ffQWVBtd2/wUiE1UkfDlV
+	b5pDgAQ1O5UcEkV9m7AOXeYDDjri3dKJ21MjGQl9RaRDVsvFy/qUkIqPHFHrM7pjecLy
+	tQttOfC95swzGEVyziTNDjicMlcGOhY5UN6nHqDBfXYt+w7x5jBBcUJX3rHMxQLcUif9
+	+c9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=nuGjjqQ0Eqs3H4KzQROFFyYBbLTPOVIhuGXeCVd6aQE=;
-	b=CThScMOkoDPUinulbGOw+Z7sMgMat46LQyus5oHMNjKxI8EbjycuA8LpfrY8uZFmdm
-	i/D9LAu25CBwQO4alk22sxPdGivlfiM3Au8GM0urnLcgok0Wk8PF3WAqjTzH8JQh+3hm
-	gqMcb+g+EMwjSJ/VHmpPFRrIwAIBRHeGj/RwStKl1uxzczwMmYA82ePhfjBcwz8gIzBW
-	CsqeprAVfyi8X6X1P2rcVBkkGNaa1ycccdZtAXx4iUMnMceZEb96YlWkOGcxIFzguvrT
-	6A8YiSMKOiJk5wPPHoZuevh2dOvsG7vggUeTj27PvKsVgqnU5SBfbZLT+z/oArOsFFWc
-	9Gvw==
-X-Gm-Message-State: AA+aEWY7fughvXlj24g9ER9UEpXFxvXx+D+hayeVr6tupKXndGQNz82j
-	ybRR/hrgs7wBijaFG2XeJX9Ywb+lH6ZVWXA7iE6AZw==
-X-Google-Smtp-Source: AFSGD/WMHowSYcPg/8uXfg6ERqXB9wxyYVM1f6doJcqpj0tFI1YEabcfsR0i5C6JRPapXVu/ghu3SjJp4ZmBB9QvqiA=
-X-Received: by 2002:a25:af04:: with SMTP id a4mr9068874ybh.195.1544704789345; 
-	Thu, 13 Dec 2018 04:39:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20181213105006.19131-1-anders.roxell@linaro.org>
-	<CAJTo0Lat5WK1ne7B0evFMWu2mTzY7j+Tt48_9ACoCnOWr939jw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lat5WK1ne7B0evFMWu2mTzY7j+Tt48_9ACoCnOWr939jw@mail.gmail.com>
-From: Anders Roxell <anders.roxell@linaro.org>
-Date: Thu, 13 Dec 2018 13:39:37 +0100
-Message-ID: <CADYN=9L-JFFH3SFLhHDhaSf1L4fa8V-5K3AedtH7wFe7BUcVOA@mail.gmail.com>
-To: ross.burton@intel.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake.conf: add coreutils to the HOSTTOOLS list
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4tLzUO4J0nVdDsPWnFjYcLR5hv+RP1Rj3LnQ6t+BpIc=;
+	b=aBRuA6cCDE0rYv6zFhrDhxCRszG/cUJpOWxa9lOCA25dSqKbH3kSirC0siqe4w511p
+	LZn0Vj9RzXJPpy/T23pi9gpFEE7FjibNP6bUVFMXApIVgcneR4xRNINgIZCj0tp81ztM
+	VCGvMRyfkC5Ij+dKoFh+3BqgeV4HN8TP/ZvcmpmkBMAsIVHzMtTAeETEGpd+7/wY8IH9
+	hpdYptlC9ealC9+WJZpQnlyZAbdVDjLP9dO4XK0+kSO5NnsfbhHlcuTg98krjCyG64mJ
+	f4HVcQKwWgnbFd7yxMOtbXczVpBYn+/eqiUMeLB1tK0H/seSv4OIkHo2zmwm1BlYHS3p
+	wmOw==
+X-Gm-Message-State: AA+aEWZGbR7lnT3/KAoK9AM6s5Bzz311UoKPXWgd1jzKjWH88n90AKzm
+	TrEmEz7La9rOLOIK1fBt/2BNxh/T
+X-Google-Smtp-Source: AFSGD/UBY4jruAU7p7iqFhRCmyy9SphP0M+rBXufjAdygYQLM0K1ArY/LTL57sGCcz0j/5MwEk0HVw==
+X-Received: by 2002:adf:82a4:: with SMTP id 33mr1229477wrc.252.1544710398485; 
+	Thu, 13 Dec 2018 06:13:18 -0800 (PST)
+Received: from andrea-ThinkPad-T520.homenet.telecomitalia.it
+	(host184-22-dynamic.15-87-r.retail.telecomitalia.it. [87.15.22.184])
+	by smtp.gmail.com with ESMTPSA id
+	a18sm3400690wrp.13.2018.12.13.06.13.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 13 Dec 2018 06:13:17 -0800 (PST)
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Dec 2018 15:13:12 +0100
+Message-Id: <20181213141312.14587-1-andrea.adami@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,65 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 12:39:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Dec 2018 14:13:18 -0000
 
-On Thu, 13 Dec 2018 at 11:58, Burton, Ross <ross.burton@intel.com> wrote:
->
-> Did you test this?
+Add the missing triplets (not considering uclibc) for do_configure.
 
-Yes, but _not_ I was in the wrong build.
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ .../python3/powerpc-musl-triplets.patch       | 43 +++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
 
-I'm sorry. =/
+diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
+new file mode 100644
+index 0000000000..477d049858
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
+@@ -0,0 +1,43 @@
++Using musl libc the task do_configure fails on powerpc*.
++
++  checking build system type... x86_64-pc-linux-gnu
++  checking host system type... powerpc-oe-linux-musl
++  checking for python3.5... python3.5
++ ...
++  checking for the platform triplet based on compiler characteristics... 
++  powerpc-linux-gnu
++  configure: error: internal configure error for the platform triplet
++
++Fix this by adding the musl triplets.
++Note: uclibc is purposedly not considered (unsupported in oe-core).
++
++Upstream-Status: Pending
++Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
++
++--- a/configure.ac	2018-12-13 14:44:55.414309610 +0100
+++++ b/configure.ac	2018-12-13 13:22:37.546497547 +0100
++@@ -831,14 +831,22 @@
++         or1k-linux-gnu
++ # elif defined(__powerpc__) && defined(__SPE__)
++         powerpc-linux-gnuspe
+++# elif defined(__powerpc__) && !defined(__GLIBC__)
+++        powerpc-linux-musl
+++# elif defined(__powerpc__)
+++        powerpc-linux-gnu
+++# elif defined(__powerpc64__) && !defined(__GLIBC__)
+++#  if defined(__LITTLE_ENDIAN__)
+++        powerpc64le-linux-musl
+++#  else
+++        powerpc64-linux-musl
+++#  endif
++ # elif defined(__powerpc64__)
++ #  if defined(__LITTLE_ENDIAN__)
++         powerpc64le-linux-gnu
++ #  else
++         powerpc64-linux-gnu
++ #  endif
++-# elif defined(__powerpc__)
++-        powerpc-linux-gnu
++ # elif defined(__s390x__)
++         s390x-linux-gnu
++ # elif defined(__s390__)
+diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
+index cd7991e7f8..2e8ae711d5 100644
+--- a/meta/recipes-devtools/python/python3_3.5.6.bb
++++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+@@ -44,6 +44,7 @@ SRC_URI += "\
+             file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
+             file://run-ptest \
+            "
++SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
+ 
+ inherit multilib_header python3native update-alternatives qemu ptest
+ 
+-- 
+2.17.1
 
-Cheers,
-Anders
-
->  HOSTTOOLS is a list of commands, not packages.
->
-> Ross
-> On Thu, 13 Dec 2018 at 10:50, Anders Roxell <anders.roxell@linaro.org> wrote:
-> >
-> > In newer kernels fold gets used, see output from a build:
-> >
-> > .../kernel-source/scripts/atomic/atomic-tbl.sh:
-> >    line 183: fold: command not found
-> >
-> > Rework so that coreutils is in the HOSTTOOLS list.
-> >
-> > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> > ---
-> >  meta/conf/bitbake.conf | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 64800623545e..a825be4628b0 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -478,14 +478,14 @@ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
-> >  # Tools needed to run builds with OE-Core
-> >  # python is special cased to point at python2
-> >  HOSTTOOLS += " \
-> > -    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-> > -    cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-> > -    fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-> > -    head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
-> > -    mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python2 \
-> > -    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
-> > -    sleep sort split stat strings strip tail tar tee test touch tr true uname \
-> > -    uniq wc wget which xargs \
-> > +    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm
-> > +    coreutils cp cpio cpp cut date dd diff diffstat dirname du echo egrep env
-> > +    expand expr false fgrep file find flock g++ gawk gcc getconf getopt git
-> > +    grep gunzip gzip head hostname id install ld ldd ln ls make makeinfo md5sum
-> > +    mkdir mknod mktemp mv nm objcopy objdump od patch perl pod2man pr printf
-> > +    pwd python2 python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed
-> > +    sh sha256sum sleep sort split stat strings strip tail tar tee test touch tr
-> > +    true uname uniq wc wget which xargs \
-> >  "
-> >
-> >  # Tools needed to run testimage runtime image testing
-> > --
-> > 2.19.2
-> >
 
