@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C95576C0BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C28E36C0BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 16:25:12 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id i145so4521783ita.4
+	Thu, 13 Dec 2018 16:26:25 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id m22so3024061wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 08:25:14 -0800 (PST)
+	Thu, 13 Dec 2018 08:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hQzMeR1tCesbKU1YMLNHb/Yk3HEL1nWzuu7KDHPQOwM=;
-	b=D9MmsW7w4FxQTjldr7dfoMLOF+x4UlMvpx2wUxQt+TwF1Sj10d+GAuBRiSlb/rAgEm
-	kt/O5/zcmOgpIN0CMVDWNhmd/4GoqnQyj+GLrjKN28s0jUMYdjTWyfVv1+g4GCnKoQpZ
-	MoCR6XDfRim9MNX8zsiFRRoWkQJ/BNxWy0LXu7BJV2vqXOiC3WGnHfOnihhHAZVi+W+h
-	Oe2K8KUkXggD4ezYdXjc4cpvJF3xhD3lM+rprMhWLNZ3k7dleAU9Z3RwiSFgQTEq0G6R
-	OcgvuYOx7nAnEzQIlo0hAM38YwUdNU8w1WOBElWxU5uc5sccOGXCP3Y5yvip0vgivwJU
-	je4w==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Tl+2LpDTpfC+8IbZTtQtD0J40ONNB8sLWmrkPYLx+Qo=;
+	b=gziCL3CddVXdd2IcnvHtRMXZPTRmSddIZqsr8fxKQdsc6gvXfoNDz6/2p1Tz+fYuco
+	BSmhPS/fefblHwD5Npee+QaVDd83sSoy9BMH3cuH/UcthnPnad8LB+svRdovy9uPi4ou
+	KiKfDsme8zoORUMqu9twTvcNwdagyiqQ3JAxo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hQzMeR1tCesbKU1YMLNHb/Yk3HEL1nWzuu7KDHPQOwM=;
-	b=SZF1ahjzqJjSKS/BR9L+IfSgWw5cQ0sO3+yeldKbwWoypZw1OCeJqAacsTymaGIh8W
-	ME9sXt/OUgBYqSzme7kd3ZtqT1yQhZFjZBSkmsh8BvkOuRqwocGBZ//YFUvXATMeeb9X
-	LHFCzUvUJLcsmc8CB7h9ysu3wq+WXglp21x3acoF4DXypHY1wempH/uKzA/hp79LCk9N
-	j4106Gkj0t/zqv+gxIuO9p9kaOuN34+9XHSlNSMM+kaI5HK0z3ETgSsUPPqijbm6Au1/
-	g5Gd+bEl7Wnc9q/r/25yl2oQxV2hF/gQgfD0IXBvm5CpxDSJNzbUwAg38AaVp1OureqS
-	I9DQ==
-X-Gm-Message-State: AA+aEWY7yjBj5PqmXs3Mh+jtuyQkiazaAVRFLdwzINY9OziYsbCUMWsW
-	W+L5fQ0sV9OEaU0FVR+dfBuzAUxPpDjwuPz2zv6zJrP1
-X-Google-Smtp-Source: AFSGD/VdDoSndQ1/NjCwg8ev/omJcflpWZhzhZDpXOy6TDPaGmUPDEMX1TUax1NUCYVj3nA2GcDK61LWGMaxoWNnwkE=
-X-Received: by 2002:a02:9c53:: with SMTP id h19mr24112955jal.31.1544718313764; 
-	Thu, 13 Dec 2018 08:25:13 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Tl+2LpDTpfC+8IbZTtQtD0J40ONNB8sLWmrkPYLx+Qo=;
+	b=Af4CdTTfZ/7oQx4g4MqxgNuNRd1YcbOP7nmDgOljyCJIrr5ihnKJ0hJ1DfV9I698AQ
+	bU/nyx4pGqD89/6LB97RaIHrS5dXlgolI4wUapJ0Cm3N28RLaEvcbqLBjb1dI6u03Lxw
+	T9pEAycrkc53dHXs5bXv3ELfVoX40wIHuMdLfB0NHXeewjIOLd/0r6ZKiiFwFl0zqYtF
+	+tIXhAbRBEYxz/T5gJw8TQsEzh4ghhvvqGtyzWpEEMGP41GMs0vLUmt9zvSak3V3Y+0f
+	7boujC15Hs6OUT0SV1zjHVFTHPT/YQIQySGFvDStBsEQ9MjU48xG790wu+vzWtqePo8z
+	xZUA==
+X-Gm-Message-State: AA+aEWZwLXB4wGF6EIrNW3sVq5jsDCvqBLXEqZyTpfN0dvPJpnaDsvtl
+	neJ7bFBL0m9WSLLZbzZBre1N6Q==
+X-Google-Smtp-Source: AFSGD/V61/8GIbbmQiE2pA9OjwgXSZOQSMa1umUDVEALPgf1+CRglpMcJAT1LxNn9+OsVYmia4jbCw==
+X-Received: by 2002:a1c:2c44:: with SMTP id s65mr12202wms.80.1544718386452;
+	Thu, 13 Dec 2018 08:26:26 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t12sm1682086wrr.65.2018.12.13.08.26.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 13 Dec 2018 08:26:25 -0800 (PST)
+Message-ID: <b7c0b17395606a87550133d858b00f76d354d1d0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrea Adami <andrea.adami@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 13 Dec 2018 16:26:24 +0000
+In-Reply-To: <20181213141312.14587-1-andrea.adami@gmail.com>
 References: <20181213141312.14587-1-andrea.adami@gmail.com>
-	<CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Dec 2018 16:25:02 +0000
-Message-ID: <CAJTo0LZurjPRtuPd2cv97-u_58sqOjf2HY0xhA1UgwCx9ori=A@mail.gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,20 +58,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 16:25:12 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 16:26:26 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Also, why does this appear to be powerpc-specific?
+On Thu, 2018-12-13 at 15:13 +0100, Andrea Adami wrote:
+> Add the missing triplets (not considering uclibc) for do_configure.
+> 
+> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> ---
+>  .../python3/powerpc-musl-triplets.patch       | 43
+> +++++++++++++++++++
+>  meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/powerpc-
+> musl-triplets.patch
+> 
+> diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-
+> triplets.patch b/meta/recipes-devtools/python/python3/powerpc-musl-
+> triplets.patch
+> new file mode 100644
+> index 0000000000..477d049858
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/powerpc-musl-
+> triplets.patch
+> @@ -0,0 +1,43 @@
+> +Using musl libc the task do_configure fails on powerpc*.
+> +
+> +  checking build system type... x86_64-pc-linux-gnu
+> +  checking host system type... powerpc-oe-linux-musl
+> +  checking for python3.5... python3.5
+> + ...
+> +  checking for the platform triplet based on compiler
+> characteristics... 
+> +  powerpc-linux-gnu
+> +  configure: error: internal configure error for the platform
+> triplet
+> +
+> +Fix this by adding the musl triplets.
+> +Note: uclibc is purposedly not considered (unsupported in oe-core).
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> +
+> +--- a/configure.ac	2018-12-13 14:44:55.414309610 +0100
+> ++++ b/configure.ac	2018-12-13 13:22:37.546497547 +0100
+> +@@ -831,14 +831,22 @@
+> +         or1k-linux-gnu
+> + # elif defined(__powerpc__) && defined(__SPE__)
+> +         powerpc-linux-gnuspe
+> ++# elif defined(__powerpc__) && !defined(__GLIBC__)
+> ++        powerpc-linux-musl
+> ++# elif defined(__powerpc__)
+> ++        powerpc-linux-gnu
+> ++# elif defined(__powerpc64__) && !defined(__GLIBC__)
+> ++#  if defined(__LITTLE_ENDIAN__)
+> ++        powerpc64le-linux-musl
+> ++#  else
+> ++        powerpc64-linux-musl
+> ++#  endif
+> + # elif defined(__powerpc64__)
+> + #  if defined(__LITTLE_ENDIAN__)
+> +         powerpc64le-linux-gnu
+> + #  else
+> +         powerpc64-linux-gnu
+> + #  endif
+> +-# elif defined(__powerpc__)
+> +-        powerpc-linux-gnu
+> + # elif defined(__s390x__)
+> +         s390x-linux-gnu
+> + # elif defined(__s390__)
+> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb
+> b/meta/recipes-devtools/python/python3_3.5.6.bb
+> index cd7991e7f8..2e8ae711d5 100644
+> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
+> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+> @@ -44,6 +44,7 @@ SRC_URI += "\
+>              file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-
+> 2305.patch \
+>              file://run-ptest \
+>             "
+> +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
+>  
+>  inherit multilib_header python3native update-alternatives qemu ptest
 
-Ross
-On Thu, 13 Dec 2018 at 16:23, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On Thu, 13 Dec 2018 at 14:13, Andrea Adami <andrea.adami@gmail.com> wrote:
-> > +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
->
-> Whilst this is musl specific it doesn't break glibc, so apply it universally.
->
-> Also seems that assuming !glibc == musl isn't safe, is there a better define?
->
-> Ross
+Do we need to make the patch application musl only? This tends to make
+it more painful for recipe upgrading and we should only do that if the
+patch would have an adverse affect on non-musl. Would also be good to
+get tweaks like this submitted upstream...
+
+Cheers,
+
+Richard
+
 
