@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 85739799A8
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 79A8D78EFF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:26 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id j10so443159pga.1
+	Thu, 13 Dec 2018 21:39:27 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id b85so1741396pfc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:27 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5KyMlv1liByjlX+W322VuqkeLTddKwhhDxZ/R/c3/Xw=;
-	b=kBakq8g3Yb4hJpQuZCZEaA5bw6bYvjWAhuierwP5E+mf9Qhs1MLFwQqDyimN9JG9xr
-	LRvhAEeE2m4/JJ4utWjrKIlDOJWpJeWC29w55bNhhJEuZuCt9xFSly1PAsCo5kunta6h
-	eNWbZblPjUa9hpCx022+nzzywCydw2wDj8If6kLkrOdrQZaOLs3b7PqkQhk8JsTSOvRV
-	5ClBWKHiuAr9ROjyZh+HJ8zwD/2Tm8cdKyD8njpWhUnbbp5nJTp/oeJSYRY0RnSTEwQ6
-	Qmuag8we0eII1Jgr23ZGp5BhrXD8nmQqE4tXqfMRd9Jzzqdcn4WNJxm2aX1je9aHZZvd
-	A97w==
+	bh=Pqu5ziGeVeIf4xEspgt2c+VAsXzyLGEvAG2AuU1ndAA=;
+	b=pl8T8gXXi8MDXAI/ZNsuadV+AYkht/4vXEfoOI7WmdzpDpYWol1LxdJOvcsPd0iKbG
+	kouD34wDh7CHyc/FVU/cAXAKDamP1X4Btx9JzM4X63SQ9zXty+RxX+KP1Car1nYnZq8p
+	4uc45+AL5OZFah5h3ZG1aVZS6W/apOe+l/eEV0GxDC4Rfdbl+695pgeJXFfmvTaUDTwC
+	oSv1w2IgomusyhpWykArCD4FeN5TlfK8i8OGOnUitGhGuGCkXHDgqZWVb65ApVCS8CRZ
+	wCfJ3bB5rRbkQd4bK4odgTcQKhTQLiJ3DilxMDye1egCNGhQfT+WkJ74Ri+wtbiMC4E3
+	aoIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=5KyMlv1liByjlX+W322VuqkeLTddKwhhDxZ/R/c3/Xw=;
-	b=ueyqYCILr1rZOJhhFRgbWeg0TX7cXibAdzX4OLVXIf3pIo5JMl+ZhCSjem/AsjnVH9
-	udim5EwEN+xIojXk9WjlxqXyurtsDeld/+rutJBv+7fIbjuicDwSIzcDd1lMpg2hpawK
-	hIns4p2odEy/UbOHAJKKQfJXjt6WMmy/d3WIiffJUJ/5pR/qQHleGtLGQXMP7lWbWfSQ
-	/o/s667tnjG9SYHHWAuWY8veio2/i+8apXK19brXqw68hB9wCwmLYUW8RIx1IuURMmrR
-	wU3YKzptYHAJusYvjwp2BfiKxPOX+ltWch4Xo2LQSH7WfvjMj48+HKoD8VAvFhEk1IMf
-	wmyg==
-X-Gm-Message-State: AA+aEWbBtFwkzOO3sxBOH89IHdyOJ7Wk9ajo3brot63vIzFchR87VR9n
-	B3Imo7G02s4wh6X4ksoXgUi3ziTB
-X-Google-Smtp-Source: AFSGD/XW0Ch9E1ayuV0Zu9TnlzueFzRjy8Czdi/t4M6TR2LvU7GXLQuTk+gV+UEfe6g+JOJC9IKDow==
-X-Received: by 2002:a65:514c:: with SMTP id g12mr392428pgq.169.1544737167309; 
-	Thu, 13 Dec 2018 13:39:27 -0800 (PST)
+	bh=Pqu5ziGeVeIf4xEspgt2c+VAsXzyLGEvAG2AuU1ndAA=;
+	b=uczYHy6reB+LxnwyvpsAV5nRGKFEeJJv8smFgKeaO52/CqycPu5ww484GlSLMS2u2A
+	lOwdxZaQwuQHlzm55E04SADp7n8YBBgiBCH1gqHP0T6W/qUDF2+is2sqC9H2NvjJMGXr
+	O58jEpQzvHEk+RepJlRs5Q9psU1ajrIyFBe1DrfCzIzIWORvQ44W3m1c9kO2cBp/rqXh
+	8kWsnWEzwmuA5+tka34kQOeCG7IpMjZuWFjbI1xPysXmox5nNcNITazUs0MiHnnPhUFG
+	w+tXogfqRQXVDTAoDI7SEFqnSMTE4UaAPMjGBpCWQVAbrB/6Pbqd5HdS0hpP3V9GRSpT
+	sSKA==
+X-Gm-Message-State: AA+aEWbMhtxu9JZcBcB/FaT4DG0piikxUWs6qSFN4KrrnfVZAw7C1wAd
+	k9EAfP8sjrblUzYIEOIoOdOY8C1V
+X-Google-Smtp-Source: AFSGD/US4HRfzFAj5HLn3QDq6g1sPSDkuuJOkSE7z+mQlQslrgJ1z6krz+rqc8N6M2PIn42iXQB3fg==
+X-Received: by 2002:a63:b543:: with SMTP id u3mr406214pgo.420.1544737168353;
+	Thu, 13 Dec 2018 13:39:28 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.26
+	b9sm3288912pfi.118.2018.12.13.13.39.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:26 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:27 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:30 -0800
-Message-Id: <fd6199ec457bbb163826945e102631c4bd26619e.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:31 -0800
+Message-Id: <9f0dcf49f9195b9e8e8de40338a595e174282037.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 22/45] oeqa/selftest/context: Replace deprecated imp module usage
+Subject: [PATCH 23/45] oeqa/utils/qemurunner.py: Fix python regex warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,44 +63,74 @@ X-List-Received-Date: Thu, 13 Dec 2018 21:39:27 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Avoid the warning:
+Fix the warnings:
 
-meta/lib/oeqa/selftest/context.py:8: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
-  import imp
+meta/lib/oeqa/utils/qemurunner.py:250: DeprecationWarning: invalid escape sequence \.
+  ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+meta/lib/oeqa/utils/qemurunner.py:343: DeprecationWarning: invalid escape sequence \-
+  if re.search("root@[a-zA-Z0-9\-]+:~#", output):
+poky/meta/lib/oeqa/utils/qemurunner.py:350: DeprecationWarning: invalid escape sequence \-
+  if re.search("root@[a-zA-Z0-9\-]+:~#", output):
+meta/lib/oeqa/utils/qemurunner.py:448: DeprecationWarning: invalid escape sequence \-
+  if re.search("[a-zA-Z0-9]+@[a-zA-Z0-9\-]+:~#", data):
 
-In this case importlib is a direct replacement.
+by correctly marking the regexs.
 
-(From OE-Core rev: db7a60c36a2d3eefc61ae6e1ede01680dc932035)
+(From OE-Core rev: 8e6987735002560fca714f77ea8ece9d4b28f7fa)
 
-(From OE-Core rev: 351a7b75959593922909d7e1929a6429a2bf94a7)
+(From OE-Core rev: 7eb1f0be82d7ee12f893cdd40384da306fa597a7)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/context.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 9e90d3c..cac049f 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -5,7 +5,7 @@ import os
- import time
- import glob
- import sys
--import imp
-+import importlib
- import signal
- from shutil import copyfile
- from random import choice
-@@ -174,7 +174,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                     self.tc.logger.info("\t%s" % l)
- 
-                 sys.path.extend(layer_libdirs)
--                imp.reload(oeqa.selftest)
-+                importlib.reload(oeqa.selftest)
- 
-         _check_required_env_variables(["BUILDDIR"])
-         _check_presence_meta_selftest()
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 4f6f1d0..b87d776 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -238,13 +238,13 @@ class QemuRunner:
+                 # because is possible to have control characters
+                 cmdline = re_control_char.sub(' ', cmdline)
+             try:
+-                ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
++                ips = re.findall(r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+                 self.ip = ips[0]
+                 self.server_ip = ips[1]
+                 self.logger.debug("qemu cmdline used:\n{}".format(cmdline))
+             except (IndexError, ValueError):
+                 # Try to get network configuration from runqemu output
+-                match = re.match('.*Network configuration: ([0-9.]+)::([0-9.]+):([0-9.]+)$.*',
++                match = re.match(r'.*Network configuration: ([0-9.]+)::([0-9.]+):([0-9.]+)$.*',
+                                  out, re.MULTILINE|re.DOTALL)
+                 if match:
+                     self.ip, self.server_ip, self.netmask = match.groups()
+@@ -331,14 +331,14 @@ class QemuRunner:
+         # If we are not able to login the tests can continue
+         try:
+             (status, output) = self.run_serial("root\n", raw=True)
+-            if re.search("root@[a-zA-Z0-9\-]+:~#", output):
++            if re.search(r"root@[a-zA-Z0-9\-]+:~#", output):
+                 self.logged = True
+                 self.logger.debug("Logged as root in serial console")
+                 if netconf:
+                     # configure guest networking
+                     cmd = "ifconfig eth0 %s netmask %s up\n" % (self.ip, self.netmask)
+                     output = self.run_serial(cmd, raw=True)[1]
+-                    if re.search("root@[a-zA-Z0-9\-]+:~#", output):
++                    if re.search(r"root@[a-zA-Z0-9\-]+:~#", output):
+                         self.logger.debug("configured ip address %s", self.ip)
+                     else:
+                         self.logger.debug("Couldn't configure guest networking")
+@@ -444,7 +444,7 @@ class QemuRunner:
+                 if answer:
+                     data += answer.decode('utf-8')
+                     # Search the prompt to stop
+-                    if re.search("[a-zA-Z0-9]+@[a-zA-Z0-9\-]+:~#", data):
++                    if re.search(r"[a-zA-Z0-9]+@[a-zA-Z0-9\-]+:~#", data):
+                         break
+                 else:
+                     raise Exception("No data on serial console socket")
 -- 
 2.7.4
 
