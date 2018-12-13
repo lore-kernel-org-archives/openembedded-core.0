@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0258671A36
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 975CB6D576
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:19 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id a14so1654850plm.12
+	Thu, 13 Dec 2018 21:39:21 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id y1so1657139plp.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:21 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=6l3IklyZ9EpYlcL1pbB+Iz1lY2cqeWV3GRtlc8v0TrQ=;
-	b=ZOwLqUNJqTj1a0ayXL1fMXqPXCqSy7aV2F/YPMK0VCoDLd08EcyGmMjcODv92+/QrJ
-	Qn5gyfmfFBh2ic4cf7MgxlPrmkeZpm3qcw0mi3FRD0FsdcCDUJd+wzh/3lMx/McdO1G4
-	pUdS0TBAWywD8EYTF/vepGg6Vv0EwfIBSak+Jl/QTksJJaSKilzCF4mTvmg8DaYZWOJA
-	bRN2VN0SJyo3AlpqVGHS+QT0W3MuOHgBnTthbsF+DJeWUktmLV0fFjQYt64w+bqYKlhR
-	LPPDW/X62DB1poimKunY3wEeT8aoe089JvoZnumj1kDubH03Hj+xZtVheET/MP8fn4lM
-	Y8Ng==
+	bh=K/5bKjVnKlCTqXuMV4c83POTaRjsiWK3hZnwUOH6U7g=;
+	b=TziNw+Yxgvah4gunt26OcttQj49H9FfM9jbEAU+4p9R3HNPpPdk+ceJG2z1gCQE28a
+	8u4vrCvCF+beUJVp4qGf2AMEQkjo1tgurpq/ekeBS9tPSyoLDRIn7IHwQhr7OsNxZGgU
+	eUpU4Kbt/5QRrRbGM6eWuFdNXjz/4gKP5GBPNQms0Z93bbBTMAO3EBXJvfVYpft52ehH
+	XEWe2Aw0FJD9lVKc5kjt1ozssS5Egp4SVMhP0INSHM0ms2qdcnp+2sFrZQAjMrhMFRrN
+	KoRV6KY4UIk1Ru+4R7KLlvt1TggghiDK6ypwKPhDQCygrjUvsj8Nq5XgA/NJrmYnkk3Q
+	gddw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=6l3IklyZ9EpYlcL1pbB+Iz1lY2cqeWV3GRtlc8v0TrQ=;
-	b=roxC1+QNO1aRlaU31HVhiCc4iWddah66/rXPV/4BgNPrBpIvMsNHMFKaG1erOhToK5
-	WIepqm6DBN4lPJH24x2qynFxiPeYriNlVu9VGbAuh54Rk5boPowG+i/gjTFLhPXzRRI/
-	QDPkXYQ6p4q294NjvK/TO0VnMsiimQ24Mr7UI5gpcQoJIfCMb2KJ+L4HE1UlenuMRIOS
-	6hX6+63KW3TZZ3oQC8PAfRovzJfFMn3o0vyWlnQhZ6s8AE7U4grUXf6S4uajeVHaLcpS
-	y6ud/7ArqBkkp5QCXBzyPQjc2J6tGKv4TOSVAyMWr08oar1lcr9lgFhtfGNeo6b5sYeP
-	f7pw==
-X-Gm-Message-State: AA+aEWZFUVE3C9pDP1fWnkgP+ybDYMUImyTMg69Uz9WmidJONm1ZLjzp
-	mO3X2yt76hpRBwctS+Eq3Wi1qxOd
-X-Google-Smtp-Source: AFSGD/UGYda6J97e2VhQp4e3bpMHjggUXYWijfce4MMouKO2ZppzjD7b7rKf5jufKS8zhMQWICDCfg==
-X-Received: by 2002:a17:902:4324:: with SMTP id
-	i33mr402941pld.227.1544737160984; 
-	Thu, 13 Dec 2018 13:39:20 -0800 (PST)
+	bh=K/5bKjVnKlCTqXuMV4c83POTaRjsiWK3hZnwUOH6U7g=;
+	b=m43oM0/yBJi8coBNngpiYEFf5dj8iwsId7CjDkVVZAU/DZ0b2WXo2/ILu0c0NYsl1K
+	7e0R8BdX6T5UBxPgK8zJQ6eK4OWYVd8DWaZbxhXyvQlb1GXh2B4LzCCb/imUzAlDw+0v
+	a6qGl1EW1GVydRLa1IzG+fDmcyHhO+6Br2MHIK0ZpPqizlfpLgfB/CtW8iQm2tdz0FLl
+	jm6gzF5z0tOOB9ZXLC80JCOlnJVOVChIL8aWWwthtciCI9P6VirSfhowgjJvwy33JNJz
+	7ZENIIr/+mnYuBcXSolxyeIv7VDzeuj7hxJubS6RILOMCGR06OvH1EMrf+c1WrE1wW9N
+	GkwA==
+X-Gm-Message-State: AA+aEWb2hauWg6osSQxsd+T9in/2Yozik2C/e4gpEyao3fd/8/tgiCuN
+	T+VsnmOHgTb9nNFGqN7bd5TxyarL
+X-Google-Smtp-Source: AFSGD/VPawAmWqmwnPDFfUhwo+ltY0zxTuFNEqNTW18HOxLgMxhg5ESZerIikm4h+w0UMkeKpVfndw==
+X-Received: by 2002:a17:902:784d:: with SMTP id
+	e13mr462463pln.188.1544737162493; 
+	Thu, 13 Dec 2018 13:39:22 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.19
+	b9sm3288912pfi.118.2018.12.13.13.39.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:20 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:21 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:25 -0800
-Message-Id: <e614aa3cf4b7b452c6bf336838ad309d1c7d9af0.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:26 -0800
+Message-Id: <0ed89f2d5860bfdcea61796de17f152f0b37fc8f.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 17/45] oeqa/utils/qemurunner: Avoid tracebacks on closed files
+Subject: [PATCH 18/45] oeqa: don't litter /tmp with temporary directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +60,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:20 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:21 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross.burton@intel.com>
 
-Reorder the shutdown/teardown to avoid:
+If we need to create a temporary directory in targetbuild or buildproject use
+tempfile.TemporaryDirectory so that when the test case is finished, the
+directory is deleted.
 
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/qemurunner.py", line 224, in launch
-    op = self.getOutput(output)
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/qemurunner.py", line 90, in getOutput
-    fl = fcntl.fcntl(o, fcntl.F_GETFL)
-ValueError: I/O operation on closed file
+Also synchronise the logic and don't possibly store the temporary directory in
+self.tmpdir as nothing uses that.
 
-(From OE-Core rev: 8e7d756862d2a8d62f3c87497d6d65ddb3c1b962)
+(From OE-Core rev: db0e658097130d146752785d0d45f46a3e0bad71)
 
-(From OE-Core rev: 48979ffbe25351f92179021a973207a71bbe7a4e)
+(From OE-Core rev: d39252324a13580cc96f0694b88bc10515e030a0)
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/buildproject.py | 3 ++-
+ meta/lib/oeqa/utils/targetbuild.py  | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 0f1c5a5..4f6f1d0 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -203,8 +203,8 @@ class QemuRunner:
-                     # No point waiting any longer
-                     self.logger.debug('runqemu exited with code %d' % self.runqemu.returncode)
-                     self._dump_host()
--                    self.stop()
-                     self.logger.debug("Output from runqemu:\n%s" % self.getOutput(output))
-+                    self.stop()
-                     return False
-             time.sleep(0.5)
- 
-@@ -216,8 +216,8 @@ class QemuRunner:
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
-             self._dump_host()
--            self.stop()
-             op = self.getOutput(output)
-+            self.stop()
-             if op:
-                 self.logger.error("Output from runqemu:\n%s" % op)
-             else:
+diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
+index 721f35d..88e7b7f 100644
+--- a/meta/lib/oeqa/utils/buildproject.py
++++ b/meta/lib/oeqa/utils/buildproject.py
+@@ -17,7 +17,8 @@ class BuildProject(metaclass=ABCMeta):
+         self.uri = uri
+         self.archive = os.path.basename(uri)
+         if not tmpdir:
+-            tmpdir = tempfile.mkdtemp(prefix='buildproject')
++            self.tempdirobj = tempfile.TemporaryDirectory(prefix='buildproject-')
++            tmpdir = self.tempdirobj.name
+         self.localarchive = os.path.join(tmpdir, self.archive)
+         self.dl_dir = dl_dir
+         if foldername:
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index 1202d57..b8db7b2 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -20,8 +20,9 @@ class BuildProject(metaclass=ABCMeta):
+         if not tmpdir:
+             tmpdir = self.d.getVar('WORKDIR')
+             if not tmpdir:
+-                tmpdir = tempfile.mkdtemp(prefix='buildproject')
+-        self.localarchive = os.path.join(tmpdir,self.archive)
++                self.tempdirobj = tempfile.TemporaryDirectory(prefix='buildproject-')
++                tmpdir = self.tempdirobj.name
++        self.localarchive = os.path.join(tmpdir, self.archive)
+         if foldername:
+             self.fname = foldername
+         else:
 -- 
 2.7.4
 
