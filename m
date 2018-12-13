@@ -1,36 +1,42 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
-	by mail.openembedded.org (Postfix) with ESMTP id 636266C46D
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+	[209.85.167.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C4D86C45E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 15:17:31 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id XSjygmVnR2XG6XSjzgYL21; Thu, 13 Dec 2018 15:17:31 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=CtuRjEwD c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=2ur7OfE09M0A:10 a=YDYnOk0jAAAA:20 a=xNf9USuDAAAA:8
-	a=4fKCripP9ZdtPvwEFRwA:9 a=CjuIK1q_8ugA:10 a=SEwjQc04WA-l_NiBhQ7s:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gXSjy-0002WD-9Z; Thu, 13 Dec 2018 15:17:30 +0000
-Date: Thu, 13 Dec 2018 15:17:30 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20181213151730.v2eb7lcyj2ypans6@mcrowe.com>
-References: <99949e3e-c252-9504-ea89-f379bab6f021@dresearch-fe.de>
-	<CAMKF1soU6M4zv6Xu4ugwheBHGO49cZSnnOD-PWSWJsCaAJC28g@mail.gmail.com>
-	<a212aa5f-27a7-3181-cab8-c07fa5eca72a@dresearch-fe.de>
-	<d45d83de-c360-6306-d35a-1388fdbd518a@dresearch-fe.de>
-	<04a430ad-567a-d9d3-8a17-77e2dd55d025@dresearch-fe.de>
-	<20181106190645.4xgvktwoyfuzgmby@mcrowe.com>
-	<20181121182831.imvsz7kheqpaswti@mcrowe.com>
+	Thu, 13 Dec 2018 15:19:37 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id i26so1868153lfc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Dec 2018 07:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=nG4zDwNQuZCYa0ko0rkmUcXXO1LkiolJ9W6/H4/Xxjg=;
+	b=Eu9sCQnRttGpbQygAHP+88flnuFVrVj+hRaVusmpKFa92M+pu85kkTV4gKHelxqtrs
+	IgmBdKsDBG5R1Z9v2XrC8e5DlhvhBLlP0jRDX4yUe5jnFYTrWXsnv+3MmbJM0QXOpixt
+	Zr+SguS1MviPUNu7hjg9LYzZZ7Sq9jRBx/2tIf/aGFYo1AATvj4DWaa8bfqPOmqHwaqe
+	5vKL1MezUuW8YG15ebWcCTQj94VBkeIw9zRWLMkmGzVTvvYpACVlekcazmQtq36218w3
+	To3OrmM2Y11KJFrgpJLIYesAto/giZrzwTBNcY0CtOL6X19A6eOWOIs/qoWy0tBW7J37
+	O5Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=nG4zDwNQuZCYa0ko0rkmUcXXO1LkiolJ9W6/H4/Xxjg=;
+	b=m5EpP5CxPh/Eh4KKS3yLq/6Ybvsmt1y5KoPyUOYsdRX+2hwh4xYDR8AFU8bic2rJO1
+	NTguM+0tZESQHWbgWgEUUvOi/ybLbobap+/0hj0wn33rmd0BP/OVsYH2pfZ2XmHs9PY8
+	YasIvoYehfz8K6JoTrCH2UKtIJ5S3gMlMYjJKcx+qWL9f8X6AQ0BhzCbkgqM/E3hs6F5
+	4v4unBX1S/X8c5FOlZR6pMxV99PMqW7yzxJhqA8PY34gCDhTt8ATj7coMqkqSJwercZE
+	IIVmHTbT2dDv0ZmT43D7FOts4mpWofyywrkylNcQc1H4vx09HXl+XgtxSziuWX3Ym7Rt
+	LLKQ==
+X-Gm-Message-State: AA+aEWZwKiKwWHQhorWXzRBWwPj2aVVCkoys8ke6+SdxiuIunDKaytIM
+	LnKwfR1vtVnd1cCFe4yXShzvo+LaUqzG09Vt3CdkYvfrXo4=
+X-Google-Smtp-Source: AFSGD/X8GttRQYwSCLM9a5U1jOg9U3FKmKFFnapWjvNxCl7MQp6S87To8AhwXBfYh9GopVxenjSTuhIexbPHYShIp78=
+X-Received: by 2002:a19:7013:: with SMTP id h19mr7344652lfc.147.1544714377638; 
+	Thu, 13 Dec 2018 07:19:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20181121182831.imvsz7kheqpaswti@mcrowe.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfERMlpxfr8asFPnmaw9bP1ErsXD6IUxC5fgaWbpKHmcWdk7n0ndKtjXCF47APd1SXpeTqKooMK+2WBjjwyqXgzVGjwTy8Kg2GRqjzm7d41fVaCpr6UnR
-	4+mlKqZZjwmnWIPiSJmECAlwbMa8scsdJSg=
-Subject: Re: devshell problems after distro upgrade openSUSE Leap 42.3 -> 15.0 (tmux only)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Thu, 13 Dec 2018 16:19:20 +0100
+Message-ID: <CAPybu_0YGwMPD1N4kfN0KUb6snAowee6MfN2+tJNVaHqrUddrA@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Multiconfig and native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,63 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 15:17:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Dec 2018 15:19:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday 21 November 2018 at 18:28:31 +0000, Mike Crowe wrote:
-> On Tuesday 06 November 2018 at 19:06:45 +0000, Mike Crowe wrote:
-> > On Monday 16 July 2018 at 08:19:11 +0200, Steffen Sledz wrote:
-> > > On 04.07.2018 13:37, Steffen Sledz wrote:
-> > > > On 03.07.2018 08:04, Steffen Sledz wrote:
-> > > >> On 02.07.2018 20:25, Khem Raj wrote:
-> > > >>> On Sun, Jul 1, 2018 at 11:39 PM Steffen Sledz <sledz@dresearch-fe.de> wrote:
-> > > >>>>
-> > > >>>> After upgrading my build system from openSUSE Leap 42.3 to openSUSE Leap 15.0 a
-> > > >>>>
-> > > >>>>   bitbake foo -c devshell
-> > > >>>>
-> > > >>>> no longer switches to the related work directory. The devshell is opened in the original directory without any error or warning instead.
-> > > >>>>
-> > > >>>> Any hints what's wrong here or how I can debug this behaviour?
-> > > >>>>
-> > > >>>
-> > > >>> which terminal are you using, probably some default behavior changes there ?
-> > > >>
-> > > >> Main terminal is xterm. No special settings for the devshell terminal, so tmux is started like before.
-> > > > 
-> > > > 
-> > > > After some more tests I can limit the problem to OE_TERMINAL="tmux". Other terminals like screen or xterm work well.
-> > > > ...
-> > > 
-> > > 
-> > > Ping!
-> > 
-> > The same problem happens with Debian Buster (currently "testing".) I was
-> > unable to reproduce the problem when running
-> >
-> >  (cd subdirectory && tmux split-window)
-> > 
-> > from a shell prompt.
+Hi
 
-This was deemed a bug by tmux upstream and fixed there:
+I have a setup with 3 multiconfigs
 
- https://github.com/tmux/tmux/issues/1549
+If I try to build:
+bitbake  multiconfig:*:erlang-native
 
-I reported the bug to Debian, who applied the fix on top of 2.8:
+Bitbake executes 3 tasks on the same workdir
+tmp/work/x86_64-linux/erlang-native/
 
- https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=914816
+which of course crashes. Is this expected behaviour? a bug? I have a
+wrong config?
 
-and the fixed version 2.8-2 has now migrated to Debian Buster:
+Thanks!
 
- https://tracker.debian.org/news/1009699/tmux-28-2-migrated-to-testing/
 
-It looks like Ubuntu Cosmic 18.10 has tmux 2.7-1, so it wasn't affected.
-Ubuntu Disco (19.04?) currently has 2.8-2 which contains the fix.
-
-It would be possible to work around the tmux 2.8 bug in oe-core by always
-passing the directory as I did in my patch, but I shall let someone who is
-affected by it decide whether that's worthwhile.
-
-Mike.
+-- 
+Ricardo Ribalda
 
