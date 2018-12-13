@@ -1,48 +1,25 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 460866B50B
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EFEF26B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 14:13:18 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t27so2169382wra.6
+	Thu, 13 Dec 2018 14:14:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBDEEadM000403
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 06:13:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4tLzUO4J0nVdDsPWnFjYcLR5hv+RP1Rj3LnQ6t+BpIc=;
-	b=TgMlRKRANK3/M7u9M9NRe6pfUWak+ntUwi1pjs24ozwU7Xk1sSWWgxZzSE68IWCjG+
-	LQr7Ibva0GUtVavam+1wObAfL632Uy04WqG07InpmP3JKAC+R1lYyxUMjXLAdq281aAO
-	veAPN7+NN5UGWCPUB0Jj7iOQ39RKoOc7CJ/5Ty9f1jhoyG9ffQWVBtd2/wUiE1UkfDlV
-	b5pDgAQ1O5UcEkV9m7AOXeYDDjri3dKJ21MjGQl9RaRDVsvFy/qUkIqPHFHrM7pjecLy
-	tQttOfC95swzGEVyziTNDjicMlcGOhY5UN6nHqDBfXYt+w7x5jBBcUJX3rHMxQLcUif9
-	+c9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4tLzUO4J0nVdDsPWnFjYcLR5hv+RP1Rj3LnQ6t+BpIc=;
-	b=aBRuA6cCDE0rYv6zFhrDhxCRszG/cUJpOWxa9lOCA25dSqKbH3kSirC0siqe4w511p
-	LZn0Vj9RzXJPpy/T23pi9gpFEE7FjibNP6bUVFMXApIVgcneR4xRNINgIZCj0tp81ztM
-	VCGvMRyfkC5Ij+dKoFh+3BqgeV4HN8TP/ZvcmpmkBMAsIVHzMtTAeETEGpd+7/wY8IH9
-	hpdYptlC9ealC9+WJZpQnlyZAbdVDjLP9dO4XK0+kSO5NnsfbhHlcuTg98krjCyG64mJ
-	f4HVcQKwWgnbFd7yxMOtbXczVpBYn+/eqiUMeLB1tK0H/seSv4OIkHo2zmwm1BlYHS3p
-	wmOw==
-X-Gm-Message-State: AA+aEWZGbR7lnT3/KAoK9AM6s5Bzz311UoKPXWgd1jzKjWH88n90AKzm
-	TrEmEz7La9rOLOIK1fBt/2BNxh/T
-X-Google-Smtp-Source: AFSGD/UBY4jruAU7p7iqFhRCmyy9SphP0M+rBXufjAdygYQLM0K1ArY/LTL57sGCcz0j/5MwEk0HVw==
-X-Received: by 2002:adf:82a4:: with SMTP id 33mr1229477wrc.252.1544710398485; 
-	Thu, 13 Dec 2018 06:13:18 -0800 (PST)
-Received: from andrea-ThinkPad-T520.homenet.telecomitalia.it
-	(host184-22-dynamic.15-87-r.retail.telecomitalia.it. [87.15.22.184])
-	by smtp.gmail.com with ESMTPSA id
-	a18sm3400690wrp.13.2018.12.13.06.13.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Dec 2018 06:13:17 -0800 (PST)
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Dec 2018 15:13:12 +0100
-Message-Id: <20181213141312.14587-1-andrea.adami@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
+	Thu, 13 Dec 2018 06:14:36 -0800 (PST)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 13 Dec 2018 06:14:36 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Dec 2018 09:14:10 -0500
+Message-ID: <2f0c9d97ff2f889d3a9d54fa12a76ab828ac516f.1544710323.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.19.0.rc2
+In-Reply-To: <cover.1544710323.git.kai.kang@windriver.com>
+References: <cover.1544710323.git.kai.kang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/2] systemd: fix compile error for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,79 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 14:13:18 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 14:14:36 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Add the missing triplets (not considering uclibc) for do_configure.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+Backport patch to fix systemd compile error for x32:
+
+| ../git/src/timesync/timesyncd-manager.c:607:19: error: format '%lli'
+| expects argument of type 'long long int', but argument 11 has type
+| 'long int' [-Werror=format=]
+
+[YOCTO #13074]
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../python3/powerpc-musl-triplets.patch       | 43 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
+ ...hanges-type-of-drift_freq-to-int64_t.patch | 49 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb      |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
 
-diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
+diff --git a/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch b/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
 new file mode 100644
-index 0000000000..477d049858
+index 0000000000..8d395c2fa3
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
-@@ -0,0 +1,43 @@
-+Using musl libc the task do_configure fails on powerpc*.
++++ b/meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
+@@ -0,0 +1,49 @@
++Backport patch to fix systemd build failure on x32.
 +
-+  checking build system type... x86_64-pc-linux-gnu
-+  checking host system type... powerpc-oe-linux-musl
-+  checking for python3.5... python3.5
-+ ...
-+  checking for the platform triplet based on compiler characteristics... 
-+  powerpc-linux-gnu
-+  configure: error: internal configure error for the platform triplet
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/75ca162]
 +
-+Fix this by adding the musl triplets.
-+Note: uclibc is purposedly not considered (unsupported in oe-core).
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+Upstream-Status: Pending
-+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
++From 75ca1621db4647a4d62d7873cd6715e28fe0f9fa Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Sat, 23 Jun 2018 09:41:55 +0900
++Subject: [PATCH] timesync: changes type of drift_freq to int64_t
 +
-+--- a/configure.ac	2018-12-13 14:44:55.414309610 +0100
-++++ b/configure.ac	2018-12-13 13:22:37.546497547 +0100
-+@@ -831,14 +831,22 @@
-+         or1k-linux-gnu
-+ # elif defined(__powerpc__) && defined(__SPE__)
-+         powerpc-linux-gnuspe
-++# elif defined(__powerpc__) && !defined(__GLIBC__)
-++        powerpc-linux-musl
-++# elif defined(__powerpc__)
-++        powerpc-linux-gnu
-++# elif defined(__powerpc64__) && !defined(__GLIBC__)
-++#  if defined(__LITTLE_ENDIAN__)
-++        powerpc64le-linux-musl
-++#  else
-++        powerpc64-linux-musl
-++#  endif
-+ # elif defined(__powerpc64__)
-+ #  if defined(__LITTLE_ENDIAN__)
-+         powerpc64le-linux-gnu
-+ #  else
-+         powerpc64-linux-gnu
-+ #  endif
-+-# elif defined(__powerpc__)
-+-        powerpc-linux-gnu
-+ # elif defined(__s390x__)
-+         s390x-linux-gnu
-+ # elif defined(__s390__)
-diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-index cd7991e7f8..2e8ae711d5 100644
---- a/meta/recipes-devtools/python/python3_3.5.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-@@ -44,6 +44,7 @@ SRC_URI += "\
-             file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
-             file://run-ptest \
++drift_freq is used for storing timex.freq, and is a 64bit integer.
++To support x32 ABI, this changes the type of drift_freq to int64_t.
++
++Fixes #9387.
++---
++ src/timesync/timesyncd-manager.c | 2 +-
++ src/timesync/timesyncd-manager.h | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/timesync/timesyncd-manager.c b/src/timesync/timesyncd-manager.c
++index 2b731af9e..404a2b189 100644
++--- a/src/timesync/timesyncd-manager.c
+++++ b/src/timesync/timesyncd-manager.c
++@@ -604,7 +604,7 @@ static int manager_receive_response(sd_event_source *source, int fd, uint32_t re
++         m->dest_time = *recv_time;
++         m->spike = spike;
++ 
++-        log_debug("interval/delta/delay/jitter/drift " USEC_FMT "s/%+.3fs/%.3fs/%.3fs/%+"PRI_TIMEX"ppm%s",
+++        log_debug("interval/delta/delay/jitter/drift " USEC_FMT "s/%+.3fs/%.3fs/%.3fs/%+"PRIi64"ppm%s",
++                   m->poll_interval_usec / USEC_PER_SEC, offset, delay, m->samples_jitter, m->drift_freq / 65536,
++                   spike ? " (ignored)" : "");
++ 
++diff --git a/src/timesync/timesyncd-manager.h b/src/timesync/timesyncd-manager.h
++index d8d97cc1e..18347416d 100644
++--- a/src/timesync/timesyncd-manager.h
+++++ b/src/timesync/timesyncd-manager.h
++@@ -79,7 +79,7 @@ struct Manager {
++         /* last change */
++         bool jumped;
++         bool sync;
++-        long drift_freq;
+++        int64_t drift_freq;
++ 
++         /* watch for time changes */
++         sd_event_source *event_clock_watch;
++-- 
++2.17.0
++
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index c53ce0d78e..a40c89973a 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -34,6 +34,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
+            file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
+            file://0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch \
++           file://0001-timesync-changes-type-of-drift_freq-to-int64_t.patch \
             "
-+SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
  
- inherit multilib_header python3native update-alternatives qemu ptest
- 
+ # patches made for musl are only applied on TCLIBC is musl
 -- 
-2.17.1
+2.19.0.rc2
 
 
