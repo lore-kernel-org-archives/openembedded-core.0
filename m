@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C300C6C4BC
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E16776D494
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:01 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id e5so1671560plb.5
+	Thu, 13 Dec 2018 21:39:02 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id a14so1654451plm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:03 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=i0Ch/S8/QYeUsFZaVRF9ZPyM5U9/b07aA+ePJyF5ChA=;
-	b=UQSJ47Xl9IujQnewcNjZMKBKidppwdiKaGRs7SqfXViG3gS8WslWKXMOVuCrYcMMaT
-	zpBlTUbwuQYsLs5aBMPrAZuAcSZbLT4GmEvxirtP41iHLBttzXv9nKiW91FcFO0Kpuz0
-	yCc3WdpTSDvWfzyoCTK+gajytINnZDW0YDWLomnN4MHglA2zFtovex0RYVQDRQlJBomi
-	qaOWqaqZAqMLmqqJ50MMaBMRPpYna3cXSQwstw8Xyv7ooTo+ubw+02ptl87HTvxSNV1K
-	PQWVsFS1NJ9zJiOb3d/EudL9oms30g5206XwaBWiJ6MzB0NLA3wAnfd97f2jHNjhZjrq
-	3bHg==
+	bh=hD3ZX8c8O/qpx/QNm7B3wB6xy02vrM+pOXKYGNGxwec=;
+	b=pCxgzCsil1Hiim9Uq06VWY4aWhwEcHiECoEihoZqSXoIBvNqsiuYMCkExxlrbUKRv8
+	qvqTHBA0fVAU3lPmyaq2p90n5X9G0UX0Ls1cIRd1FYryTJwJehDD11U6Yp0iwl93hOTI
+	dwjoNME9NtAl1IfMS9vTtMIY/l8FnbGCn1OE8zcWR9RdQCxVF219HtOX+6H6BdyTGz1Y
+	O0s0doS7Ji7EKMyWGU4pN23SGt0KIHHAnsV8swaFAE/NT5qLKVdFkNlyIytFzQHXFoGo
+	E+NqS8SvVDvh+Oh3GvR4v3oCVfmMWb0uz0/Qcrx5ZgT/EdYRUjEX9gkphTnv34M17FyC
+	C2kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=i0Ch/S8/QYeUsFZaVRF9ZPyM5U9/b07aA+ePJyF5ChA=;
-	b=GFE1Bf/4KqJUh7nAS0HjOLwh2YjSaDKYIrgh6QuGYYaIzuFAopfLfQovSX66hLf1oU
-	MNNiTrOefQgihgF93me6SukIKE0t5ZNGwcrwk+uUje0kpkZUJW2T3PIW1qzTjDLA0eYL
-	na09w0mWLp8U2O4JRMIzBc9lTGfmym8kpL+rQY4adQA2ZVwOlY7MyCl82t5QHgHjXPXg
-	hPpfo7pw49vwOmEyZiHuh7RIR1rBbJGGrzrwjYWetpUu42igMhLXgbjCOCeDoV4G/B4k
-	F7bUuIHz7aUCDTAyL8z3rEladK217DaTKwPl2+Gt298yJmcRpRXYqSvEoanJ3ZOMQCGo
-	Dz2A==
-X-Gm-Message-State: AA+aEWaFsk5eZIXuuU9TcP3mTvKx/ieUQPYj5hgbFqikFVszGKcWd28/
-	PvI7bXR513j+g7ZV7lfqNBqGNwKh
-X-Google-Smtp-Source: AFSGD/XbTvmpv3hSuy9h75eZE6wn+Th/zJ+IFWUHV+N68f7i/hd4WqBCgaTBCZRNi8qAJ4FeqYFb2Q==
-X-Received: by 2002:a17:902:e085:: with SMTP id
-	cb5mr460731plb.24.1544737142739; 
-	Thu, 13 Dec 2018 13:39:02 -0800 (PST)
+	bh=hD3ZX8c8O/qpx/QNm7B3wB6xy02vrM+pOXKYGNGxwec=;
+	b=i04NyYe6JLKu2KZQBihGqEFobHM+xQ0vpBhtWfufXPN46GWXAXZWyG0wHzUn+E/YBk
+	TO/GLjOVXWLcBGfVMJ/EsilYn7zXR+P9veNkR+pp94lVKroxVulcawm5H+Zo4LwYrp2p
+	lz2iWPVr6BI8vNbcxuV4b/0O2PkiAvAWUPT83hrJYMmuFORTWvSsaWroz41d93x5biky
+	A1vYW7tSi7FXU2YBbDjYDwIZ1QzxI31cZ9jwhnBwChvDvZ87NwUmKNuN7kfvHse8xahM
+	t8WEkr5xAX3S/qG/1yhZAew2ctHHGWInWXGnVmFjqnOYZUus3j4XuPddJ4qpkDOMdsyu
+	GtTQ==
+X-Gm-Message-State: AA+aEWb1FOY7PrScUwGh30MZahAwENfPWG3eaw3LwOOM+uc54WlMS4eh
+	HsaNti/5DhIElZTJSkYdemfgnRfD
+X-Google-Smtp-Source: AFSGD/Xv9YlzEu9FbBA+QyeqYXcxiQxHxq5DXQV7hXUfYLWPVzhdMXLfv8kRN28UPdBWQzV7dcq3cg==
+X-Received: by 2002:a17:902:720c:: with SMTP id
+	ba12mr431239plb.79.1544737143870; 
+	Thu, 13 Dec 2018 13:39:03 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.01
+	b9sm3288912pfi.118.2018.12.13.13.39.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:02 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:03 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:09 -0800
-Message-Id: <04462ef1bdda5e14cf6cc9fd141bb232fc58a622.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:10 -0800
+Message-Id: <b515971cb7f8c8aca821c4ba282067a9f5ea1b6a.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 01/45] scripts/runqemu: Replace subprocess.run() for compatibilty
+Subject: [PATCH 02/45] scripts/runqemu: Tidy up lock handling code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +60,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:01 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:03 -0000
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-subprocess.run() was introduced in Python 3.5. We currently support down to
-Python 3.4 so I've replaced it with subprocess.check_call() which is available
-in that version.
+Various tweaks:
+- Balance up the aquire/release functions
+- Use debug messge for both acquiring and release message for consistency in logs
+- Use None instead of an empty string
+- Reset the value of the field if we don't have the lock any more
 
-(From OE-Core rev: 1c61f3017a6a2d95747883c722c376763ec77c9d)
+(From OE-Core rev: d3c052e6ccd81d544b23a3bee80ba00cafaedbbd)
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/runqemu | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index bd3aee0..c9a351e 100755
+index c9a351e..a83c8a6 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -1313,7 +1313,7 @@ def main():
-             logger.info("SIGTERM received")
-             os.kill(config.qemupid, signal.SIGTERM)
-             config.cleanup()
--            subprocess.run(["tput", "smam"])
-+            subprocess.check_call(["tput", "smam"])
-         signal.signal(signal.SIGTERM, sigterm_handler)
+@@ -218,7 +218,7 @@ class BaseConfig(object):
+         self.tcpserial_portnum = ''
+         self.custombiosdir = ''
+         self.lock = ''
+-        self.lock_descriptor = ''
++        self.lock_descriptor = None
+         self.bitbake_e = ''
+         self.snapshot = False
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+@@ -252,13 +252,17 @@ class BaseConfig(object):
+                 logger.info(msg)
+             if self.lock_descriptor:
+                 self.lock_descriptor.close()
++                self.lock_descriptor = None
+             return False
+         return True
  
-         config.check_args()
-@@ -1335,7 +1335,7 @@ def main():
-         return 1
-     finally:
-         config.cleanup()
--        subprocess.run(["tput", "smam"])
-+        subprocess.check_call(["tput", "smam"])
+     def release_lock(self):
+-        fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
+-        self.lock_descriptor.close()
+-        os.remove(self.lock)
++        if self.lock_descriptor:
++            logger.debug("Releasing lockfile for tap device '%s'" % self.tap)
++            fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
++            self.lock_descriptor.close()
++            os.remove(self.lock)
++            self.lock_descriptor = None
  
- if __name__ == "__main__":
-     sys.exit(main())
+     def get(self, key):
+         if key in self.d:
+@@ -1232,9 +1236,7 @@ class BaseConfig(object):
+             cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.bindir_native)
+             logger.debug('Running %s' % cmd)
+             subprocess.check_call(cmd, shell=True)
+-        if self.lock_descriptor:
+-            logger.info("Releasing lockfile for tap device '%s'" % self.tap)
+-            self.release_lock()
++        self.release_lock()
+ 
+         if self.nfs_running:
+             logger.info("Shutting down the userspace NFS server...")
 -- 
 2.7.4
 
