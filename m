@@ -1,47 +1,49 @@
 Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D139A6D44F
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B01F6D470
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 17:01:37 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id t9-v6so2409769ljh.6
+	Thu, 13 Dec 2018 17:07:30 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id g11-v6so2439640ljk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 09:01:39 -0800 (PST)
+	Thu, 13 Dec 2018 09:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=gOgkXpFlkP1zXNApf10FM9NKHiBQNKeiTz2rW5MtTnw=;
-	b=LOY6J6XPK1jRbZ+Sd8wjzfOA/SyOO23W6O3QN+qoJXOV1sWRbGVn6yCDbxtDKefAPN
-	tEzXs8NXflTgr1ewZRYT5l3ok2nsy8zk0VkNZdj+zAhPY0hdXWVJub/f1bzrGrsWNyqX
-	xZBb129esr6pVU6rWF9V+8nMvtG+GG2ZungXGBD4mi9ugAjnnfkVOSDvQ91dH8EOugPt
-	9RN1Yi8GTPCi3oUXD4v2GtGiaKBT3JX/LE5gFPfzXD2ES3BoqrLog1iPbtNbnc62XBl1
-	jrEsSq4K9zwxp2FtzW4lhGXIyoEvziPNWJrTnOHN5eBQ59m1S+DRvZDFSsZzzwsrZPWj
-	LVDA==
+	bh=eMxcm9hny7pqw8FWHGhfnt6PYwO4DgTn7lvQ3j4Tg4U=;
+	b=KUj1gIXZyxq+BMtXh1xQ9huql2UBW83xoLr7sSFfsnUUSDcBhDt5c7Ez/M0phWN8BR
+	haTEBSfkPC7DAqvpX7sO7j5vKgf04x8u1Su3v52kmUJ3FUu5WE3t75p2DeMRHuIKxJH/
+	OieTgRtUSesO3LaCjISaW4C76cn8jsKk3Y3t9nHNvImxQ+Vm6UUMX/6e4rAowTtPb3up
+	VzOEN+zalEVxXqVaQcIgJvgCHl9smW7biK0UfzYW3YYhd7dDJmmBB7POkv+VB335SLuf
+	DZAc5UEY3Xjop745tewEOYTVCUwqWJ8yXG5oWw//duNd0YbSa44cyl4kYuycgmXElWde
+	6kWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=gOgkXpFlkP1zXNApf10FM9NKHiBQNKeiTz2rW5MtTnw=;
-	b=ko8NkLOw5DHTtdg4wwDMNYQ6GwgYPpcX6pc5wHwRTOtwF9KSrkoocA8BxyXsoaHMVM
-	uTUKyPwXRKNzvF+NL8pAPGm6UDwc9P7ZaeuEH0f1keneC3umKHgu6YdJl7dlObLKaQNn
-	rgxI5HOsRJhOpbh7fgqJHsAvVdCr8qvBBcVNpINwc/0y0es/IIioxT5QJ7Pc6j6fUQBg
-	cZdJDGuFjwdroiQ7ECHNT9dCl1JVcVpHFFj15zn1dDVyyKdcr3wQ7ThOA8jhCwqJn7io
-	eLeNUW4JrSHPHGH2az+plrmSwoJmGw3mDrah0syo0fwPLYLwltvlsRA7zw+NXVGB4yb3
-	spHA==
-X-Gm-Message-State: AA+aEWZQSw9WyjOSs5LyJXIBqlgV2CmxIdFCo9M6TTMi8E3ky6XTDyGW
-	QD+C7XkoHDuLGgTcuo6VBrA5IbwA
-X-Google-Smtp-Source: AFSGD/W20h4uqZFWZUIg7WbL4g4nbvB3x4UV5AJmlv/aPh9hXri5NzfL3DcTGKBa26EsueV2rfKXGA==
-X-Received: by 2002:a2e:9ad0:: with SMTP id
-	p16-v6mr292190ljj.102.1544720498142; 
-	Thu, 13 Dec 2018 09:01:38 -0800 (PST)
+	bh=eMxcm9hny7pqw8FWHGhfnt6PYwO4DgTn7lvQ3j4Tg4U=;
+	b=ndvEb17mASaXf04hOOzDuP99YzE9/itoyuBRYmuIi+gPObEpxIMvORVAyDl2pdbySJ
+	Ywp9l2Wc25iHlLbE406DFHrxQAEa95EWtdfbOxlpmX6uZEZU7heKO0KYlXi/89JPmfnn
+	2v9AuAjgfJqopMXQrkLNTdymg6w5LXA0SzTQypCONouLoKyQjcsjPXKDDKniPew/WIUi
+	9WfFbDpi8f3mi2k1ziuWKSiz7jkxw9HyGWhnSxrTIYGdlJd64PUhLsk6dfU9EzpnWlqA
+	0MlrLPMhJhZQgJsK+Ea71EfAW2riNDHMRkKqv6cSLqfO+ojFREmXsMVUWL7EsijGn/l9
+	weaw==
+X-Gm-Message-State: AA+aEWbLBVl1HWYDGB+X37VByYvGOjCJtP/Xk2YZ6m2PVtnVhUsNiwlN
+	v/SHIel1yN1XvNlXt9oTcQvKmZvJ
+X-Google-Smtp-Source: AFSGD/UoDXoiRUk7VIexgsupS9/f7xIll3QWSFFtVTwvjDj90JK00YUCHzNLpYN4p+mwHxB0fd8n6Q==
+X-Received: by 2002:a2e:5654:: with SMTP id
+	k81-v6mr14910069ljb.48.1544720851258; 
+	Thu, 13 Dec 2018 09:07:31 -0800 (PST)
 Received: from tuxracer.as41781.net (nat18.vpn1-no7-iev.as41781.net.
 	[193.34.155.18]) by smtp.gmail.com with ESMTPSA id
-	h12-v6sm378931ljb.80.2018.12.13.09.01.34
+	r10-v6sm392283ljj.71.2018.12.13.09.07.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Dec 2018 09:01:35 -0800 (PST)
+	Thu, 13 Dec 2018 09:07:30 -0800 (PST)
 To: Andrea Adami <andrea.adami@gmail.com>,
-	openembedded-core@lists.openembedded.org
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <20181213141312.14587-1-andrea.adami@gmail.com>
+	<b7c0b17395606a87550133d858b00f76d354d1d0.camel@linuxfoundation.org>
+	<CAAQYJAv-bETMDSAmeUnOnMseaLWkThfRvXg+NY1x+xzXcsqnZQ@mail.gmail.com>
 From: Serhey Popovych <serhe.popovych@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
@@ -73,12 +75,14 @@ Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
 	6NUBSjcQ4R6HlKsI76z6aF7sbJdUm+QYPkUlo8tCrm/fGUZsDj21D8VkgApJxjqOAucSD6m9
 	r79AKKVTUmj5hexlx8bYtpWNzXLDBlV/yvLS0ztIUrDNtGXjuNdYaBqnyqnJZgrDiaQD+Dwn
 	ZdLh9FpbQvGvjYTMQfL55xol/hzg/3m+aGAkVlKGT91pKQjItyP8CZwAFk81bQo=
-Message-ID: <14eebe58-fcec-c44d-262f-9b557fe780ef@gmail.com>
-Date: Thu, 13 Dec 2018 19:01:28 +0200
+Message-ID: <df5b90d6-3702-dfb3-ad13-fec04ea794bc@gmail.com>
+Date: Thu, 13 Dec 2018 19:07:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Firefox/52.0 SeaMonkey/2.49.1
 MIME-Version: 1.0
-In-Reply-To: <20181213141312.14587-1-andrea.adami@gmail.com>
+In-Reply-To: <CAAQYJAv-bETMDSAmeUnOnMseaLWkThfRvXg+NY1x+xzXcsqnZQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -92,117 +96,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 17:01:38 -0000
-X-Groupsio-MsgNum: 119113
+X-List-Received-Date: Thu, 13 Dec 2018 17:07:31 -0000
+X-Groupsio-MsgNum: 119114
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="gJh240e0YGS0r4pPOKWp3u2ZRKJ5417nM"
+	boundary="yThpVV1CEglvKU6o5mwlWigiUD3kjN0tc"
 
---gJh240e0YGS0r4pPOKWp3u2ZRKJ5417nM
-Content-Type: multipart/mixed; boundary="gMJwJ5OJX4aXn1ea4zHuvex3vjLwxKlsW";
+--yThpVV1CEglvKU6o5mwlWigiUD3kjN0tc
+Content-Type: multipart/mixed; boundary="4F0RYna6INPnDmVKzGKRU6HAZn9mA1YNn";
  protected-headers="v1"
 From: Serhey Popovych <serhe.popovych@gmail.com>
 To: Andrea Adami <andrea.adami@gmail.com>,
- openembedded-core@lists.openembedded.org
-Message-ID: <14eebe58-fcec-c44d-262f-9b557fe780ef@gmail.com>
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <df5b90d6-3702-dfb3-ad13-fec04ea794bc@gmail.com>
 Subject: Re: [OE-core] [PATCH] python3: fix build for powerpc-linux.musl and
  powerpc64-linux-musl
 References: <20181213141312.14587-1-andrea.adami@gmail.com>
-In-Reply-To: <20181213141312.14587-1-andrea.adami@gmail.com>
+ <b7c0b17395606a87550133d858b00f76d354d1d0.camel@linuxfoundation.org>
+ <CAAQYJAv-bETMDSAmeUnOnMseaLWkThfRvXg+NY1x+xzXcsqnZQ@mail.gmail.com>
+In-Reply-To: <CAAQYJAv-bETMDSAmeUnOnMseaLWkThfRvXg+NY1x+xzXcsqnZQ@mail.gmail.com>
 
---gMJwJ5OJX4aXn1ea4zHuvex3vjLwxKlsW
+--4F0RYna6INPnDmVKzGKRU6HAZn9mA1YNn
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 Andrea Adami wrote:
-> Add the missing triplets (not considering uclibc) for do_configure.
+> On Thu, Dec 13, 2018 at 5:26 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> On Thu, 2018-12-13 at 15:13 +0100, Andrea Adami wrote:
+>>> Add the missing triplets (not considering uclibc) for do_configure.
+>>>
+>>> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>>> ---
+>>>  .../python3/powerpc-musl-triplets.patch       | 43
+>>> +++++++++++++++++++
+>>>  meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
+>>>  2 files changed, 44 insertions(+)
+>>>  create mode 100644 meta/recipes-devtools/python/python3/powerpc-
+>>> musl-triplets.patch
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-
+>>> triplets.patch b/meta/recipes-devtools/python/python3/powerpc-musl-
+>>> triplets.patch
+>>> new file mode 100644
+>>> index 0000000000..477d049858
+>>> --- /dev/null
+>>> +++ b/meta/recipes-devtools/python/python3/powerpc-musl-
+>>> triplets.patch
+>>> @@ -0,0 +1,43 @@
+>>> +Using musl libc the task do_configure fails on powerpc*.
+>>> +
+>>> +  checking build system type... x86_64-pc-linux-gnu
+>>> +  checking host system type... powerpc-oe-linux-musl
+>>> +  checking for python3.5... python3.5
+>>> + ...
+>>> +  checking for the platform triplet based on compiler
+>>> characteristics...
+>>> +  powerpc-linux-gnu
+>>> +  configure: error: internal configure error for the platform
+>>> triplet
+>>> +
+>>> +Fix this by adding the musl triplets.
+>>> +Note: uclibc is purposedly not considered (unsupported in oe-core).
+>>> +
+>>> +Upstream-Status: Pending
+>>> +Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>>> +
+>>> +--- a/configure.ac   2018-12-13 14:44:55.414309610 +0100
+>>> ++++ b/configure.ac   2018-12-13 13:22:37.546497547 +0100
+>>> +@@ -831,14 +831,22 @@
+>>> +         or1k-linux-gnu
+>>> + # elif defined(__powerpc__) && defined(__SPE__)
+>>> +         powerpc-linux-gnuspe
+>>> ++# elif defined(__powerpc__) && !defined(__GLIBC__)
+>>> ++        powerpc-linux-musl
+>>> ++# elif defined(__powerpc__)
+>>> ++        powerpc-linux-gnu
+>>> ++# elif defined(__powerpc64__) && !defined(__GLIBC__)
+>>> ++#  if defined(__LITTLE_ENDIAN__)
+>>> ++        powerpc64le-linux-musl
+>>> ++#  else
+>>> ++        powerpc64-linux-musl
+>>> ++#  endif
+>>> + # elif defined(__powerpc64__)
+>>> + #  if defined(__LITTLE_ENDIAN__)
+>>> +         powerpc64le-linux-gnu
+>>> + #  else
+>>> +         powerpc64-linux-gnu
+>>> + #  endif
+>>> +-# elif defined(__powerpc__)
+>>> +-        powerpc-linux-gnu
+>>> + # elif defined(__s390x__)
+>>> +         s390x-linux-gnu
+>>> + # elif defined(__s390__)
+>>> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb
+>>> b/meta/recipes-devtools/python/python3_3.5.6.bb
+>>> index cd7991e7f8..2e8ae711d5 100644
+>>> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
+>>> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
+>>> @@ -44,6 +44,7 @@ SRC_URI +=3D "\
+>>>              file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-
+>>> 2305.patch \
+>>>              file://run-ptest \
+>>>             "
+>>> +SRC_URI_append_libc-musl =3D " file://powerpc-musl-triplets.patch"
+>>>
+>>>  inherit multilib_header python3native update-alternatives qemu ptest=
+
+>>
+>> Do we need to make the patch application musl only? This tends to make=
+
+>> it more painful for recipe upgrading and we should only do that if the=
+
+>> patch would have an adverse affect on non-musl. Would also be good to
+>> get tweaks like this submitted upstream...
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 >=20
-> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> ---
->  .../python3/powerpc-musl-triplets.patch       | 43 +++++++++++++++++++=
+> If you prefert I add it unconditionally.
+> This error with musl is not seen for other archs, I could not test the
+> ppc64 but imagined it would suffer as well.
 
->  meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
->  2 files changed, 44 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/powerpc-musl-t=
-riplets.patch
+I have tested on ppc64 fix based on commit cda0ef61d373
+("python3: fix do_configure check platform triplet error") and it
+works.
+
+BTW on ppc64 we have much more problems with musl. Starting from ELFv2
+ABI only support in musl and ending with broken LDSO pathes in final imag=
+e.
+
 >=20
-> diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-triplets=
-=2Epatch b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.pat=
-ch
-> new file mode 100644
-> index 0000000000..477d049858
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
-> @@ -0,0 +1,43 @@
-> +Using musl libc the task do_configure fails on powerpc*.
-> +
-> +  checking build system type... x86_64-pc-linux-gnu
-> +  checking host system type... powerpc-oe-linux-musl
-> +  checking for python3.5... python3.5
-> + ...
-> +  checking for the platform triplet based on compiler characteristics.=
-=2E.=20
-> +  powerpc-linux-gnu
-> +  configure: error: internal configure error for the platform triplet
-> +
-> +Fix this by adding the musl triplets.
-> +Note: uclibc is purposedly not considered (unsupported in oe-core).
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> +
-> +--- a/configure.ac	2018-12-13 14:44:55.414309610 +0100
-> ++++ b/configure.ac	2018-12-13 13:22:37.546497547 +0100
-> +@@ -831,14 +831,22 @@
-> +         or1k-linux-gnu
-> + # elif defined(__powerpc__) && defined(__SPE__)
-> +         powerpc-linux-gnuspe
-> ++# elif defined(__powerpc__) && !defined(__GLIBC__)
-> ++        powerpc-linux-musl
-> ++# elif defined(__powerpc__)
-> ++        powerpc-linux-gnu
-> ++# elif defined(__powerpc64__) && !defined(__GLIBC__)
-> ++#  if defined(__LITTLE_ENDIAN__)
-> ++        powerpc64le-linux-musl
-> ++#  else
-> ++        powerpc64-linux-musl
-> ++#  endif
-> + # elif defined(__powerpc64__)
-> + #  if defined(__LITTLE_ENDIAN__)
-> +         powerpc64le-linux-gnu
-> + #  else
-> +         powerpc64-linux-gnu
-> + #  endif
-> +-# elif defined(__powerpc__)
-> +-        powerpc-linux-gnu
-> + # elif defined(__s390x__)
-> +         s390x-linux-gnu
-> + # elif defined(__s390__)
-> diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recip=
-es-devtools/python/python3_3.5.6.bb
-> index cd7991e7f8..2e8ae711d5 100644
-> --- a/meta/recipes-devtools/python/python3_3.5.6.bb
-> +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-> @@ -44,6 +44,7 @@ SRC_URI +=3D "\
->              file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305=
-=2Epatch \
->              file://run-ptest \
->             "
-> +SRC_URI_append_libc-musl =3D " file://powerpc-musl-triplets.patch"
-> =20
->  inherit multilib_header python3native update-alternatives qemu ptest
-> =20
+> Does your autobuilder succeed?
+>=20
+> Cheers
+> Andrea
 >=20
 
-Have you looked at approach implemented in commit cda0ef61d373
-("python3: fix do_configure check platform triplet error")?
-
-Maybe we should add same tweak for musl?
 
 
---gMJwJ5OJX4aXn1ea4zHuvex3vjLwxKlsW--
+--4F0RYna6INPnDmVKzGKRU6HAZn9mA1YNn--
 
---gJh240e0YGS0r4pPOKWp3u2ZRKJ5417nM
+--yThpVV1CEglvKU6o5mwlWigiUD3kjN0tc
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -210,13 +250,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQEcBAEBAgAGBQJcEpBtAAoJEBTawMmQ61bBO74H/1IaJoxAiv/Q9nTP68FIH9Sf
-Y0K+EOWU59wQTK3wI6uMNTWAs4OAH7aLI+hGBSM37G14Hxo2xw8ZRzCXfWZL5Fv6
-Xb5EP79BAW8vwi4e7hpR5CrWql0GXDyn+aYu2EWVv/vh1/1YTRnFnmqIFLqT0igN
-4//B1iz7j/iClIE3W81FHgaV40C8uut4V8fMS+POJFIRk2SW5SlYQGrbS5931Cpg
-w7/0ao77ycc6EV8rl0i6AhVCLBpvjIo+5HMSSTzxWvlajb6rcJLEg43BmbP70nVi
-Jg0d4ayYkNOMcdub+UH5mNmFQjxgxeEk/12r3hDa0bRYf+XrTDPms+N2TSth88A=
-=wZsK
+iQEcBAEBAgAGBQJcEpHRAAoJEBTawMmQ61bBNEEIAJ0UpLp/LZtttZFY9lK4nZ/m
+/dMLWk60BDtM00wUUF4qT63Ji8qQv+WV1iNsPsUQaQUZcV+Ahs2Tz94UegL00Acd
+S+sAFP2pmnHR71wrT+aZcMxjKnrQnos/1VhiQkK2BKaMflTdVWdkldm2ND3h8tso
+SPjar8RAB6dltHpzm4HtIaEfOFtn1fix4k/8fMRurFtkLtwNLt3WAPbRPTK/x88B
+rE1jXJvnSGLd+E/2CTVxZIZCCkBgb5/rYdTHTMQ6ifSJRLqXklMk/zRg30NhCWAJ
+E6HKgVO7RGVj0lQJd/fKHGgeNprMPR3MHTv04Xfbmx9jDGu0HJhQ+Pd5xrKpgtQ=
+=eQDm
 -----END PGP SIGNATURE-----
 
---gJh240e0YGS0r4pPOKWp3u2ZRKJ5417nM--
+--yThpVV1CEglvKU6o5mwlWigiUD3kjN0tc--
