@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
-	[209.85.210.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EDED71CBD
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE8D79E9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:50 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id c72so1736552pfc.6
+	Thu, 13 Dec 2018 21:39:51 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id y4so1636848pgc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:51 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Y/pxz/icFEkY0L96myEe6awz/UVpyQ+2fYgQ0YE/HvU=;
-	b=KNk5RT0cc4DQYbiPajxeUzizijU5cmojtsSD99Cx/5HWt9MRStMVketLa+sjmhMV+I
-	SKngVNy2PxV7Qvu+vfgHQpWS2geVMpBMu9FH9bvjKbKKjaFTFLeLz+bNzH41lDEx2mU8
-	LdSiFtpiFvASoOM9yrn7ditx+2Yr0oBDlFuFGUzh54i+SgNr6rEvcZYyMc41AOamXnBC
-	CLgxJbzANtyo1xrfnKZqFYGkjidMpAao952nWtt04kNcGFjRh+w0RYozoclYvoKy8u+7
-	FuifTC3jqdHud5xIWnxvkYg7dcEaFOT6qaXmucQrdbIQX/uNuvYdyDdD0NgrCgVy9Yn6
-	fmYQ==
+	bh=657+sfQb4Em9gXpr+ypgS4sY54pvn6czvCFLKlF/kMg=;
+	b=ZaxmzFt0A9Kz5IEEvStfad0Na8g/84vctQi76l8quw61ImPcIdVvIXMvF7C4ZdEvHL
+	CbCCfxln/cfm7EzHVfXRYqNHxJri7Fr/c4aRlNMfkcPuPqK3QgHsXvMIw3uPMbDDNSjO
+	Gp9IKeDZ/LWEcTbZ8tkCZ35jZEKbOhq3Ytczm1lXvQxj6I2D8ZsVWnkXEEjlUgvqjLWq
+	XLGImBmZ8rAMCYqnKgbJvQTTI5NfhII7onsek0OAEBssznLAxZn2S2rfQltvPK8PDnee
+	M8zqb7LoupHTD8Puq5S2EbzwvIX/5H4HO3ltO8+0pQGHsKBZK8W2TGgheDRULMGd1gIx
+	wWdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Y/pxz/icFEkY0L96myEe6awz/UVpyQ+2fYgQ0YE/HvU=;
-	b=tTpBmpN0bsXUOgW4uNC4n/996su7QwgnIo1wXMMAK+iU9m21a5bqly6uNixj1RXgj5
-	Dde5bF3SwTKkJE/fy06jCcDFHwHMrmnDcKIJy8w4UJKFBBBgBAi5i+brcMs5oZTVg3Qt
-	ffX/a6MoN5KObQ8tzYHLViG9JP1ic64KF/p7xVpYvie3gCbLgsnIjtu69Acu3dXKjeOM
-	Swrx9Fd1x7yFqSyv+2UDvOpkdwvhrZEyqWsaV0IjXBOYaAnJEMJcsmfcuYgmr5UBT/3+
-	RAQ1mRp8p/DMD59lSRB2zlzAWMAV8rGAOzedHeJrIWiqonNBCpp4thoR+QqybZqJ3+/w
-	xLNg==
-X-Gm-Message-State: AA+aEWZSUO1nCzRLi3n4QN/aurkvWHL6+cDLct0hr8/7xxPkFh4cD/J8
-	h834KFeHMRiU1oZ8aGZI9xa1gXnc
-X-Google-Smtp-Source: AFSGD/UgS6jezAXuiaP3uOJ4hoV/d8WAq9CpT7FcG/aSEMYqfA3QB/rWhzCv5BapeHROzkBrYxY0Bw==
-X-Received: by 2002:a63:4b25:: with SMTP id y37mr405454pga.181.1544737191185; 
-	Thu, 13 Dec 2018 13:39:51 -0800 (PST)
+	bh=657+sfQb4Em9gXpr+ypgS4sY54pvn6czvCFLKlF/kMg=;
+	b=SuZ0bt9ej6Lji8fSdf95B359wbQ8G9lMKMWm9JUB5WWMVFiVaUmhrNzGSTWvrRAqum
+	0hlQgeh1Zp1SO4nzgYeStza0qQMOZcwyb/0epMnoFr4nRTnVXsW/JPb6nZtcCC//RA+4
+	Xsh2/OBRJfF3SW/txR9EC6ePXzgCd4QcebYTuCU8L8+MYWt9QaojpBgyljK90q4G2ZHi
+	ZWalyWBxTxy5jWNASGXpimvwEI/3QbAeDcAgRJD4Jl1gZ12GMRNaeoSC8vr6laaOZBlr
+	MDNbWa6nFVdKqvYoyeA/zGdzpqd2xou6XWayds1mxgpcS60WpnQJybaCDzbl5lDOSkyx
+	0gkA==
+X-Gm-Message-State: AA+aEWYu077b6KvD0LCEgwk/LczMMnEAGJxkUjrYAQCixQhHopr1KgSj
+	Amb9P41ZQsdsbVYP3f+YsQ8Tgad5
+X-Google-Smtp-Source: AFSGD/XqTEoE700uy3daHzvS/AXU+yLSCPzjDbXwOe4kn2g6GqN36gkYtRPYVOIr2qiTdYhqvbJ/yg==
+X-Received: by 2002:a65:50c1:: with SMTP id s1mr405195pgp.350.1544737192151;
+	Thu, 13 Dec 2018 13:39:52 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.50
+	b9sm3288912pfi.118.2018.12.13.13.39.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:50 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:51 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:50 -0800
-Message-Id: <c5d41ce2dea0b6218710e0be7e31b24e40503952.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:51 -0800
+Message-Id: <39e5798b8267431b3dd174108f94ee72a4a75ed5.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 42/45] oeqa/selftest/esdk: Ensure parent directory exists
+Subject: [PATCH 43/45] default-versions.inc: Make PREFERRED_VERSION_openssl* overwritable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:50 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:51 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Stefan Lendl <ste.lendl@gmail.com>
 
-INFO - ======================================================================
-INFO - ERROR: setUpClass (eSDK.oeSDKExtSelfTest)
-INFO - ----------------------------------------------------------------------
-INFO - Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/core/case.py", line 32, in _oeSetUpClass
-    clss.setUpClassMethod()
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/eSDK.py", line 76, in setUpClass
-    cls.tmpdirobj = tempfile.TemporaryDirectory(prefix="selftest-esdk-", dir=bb_vars["WORKDIR"])
-  File "/usr/lib/python3.5/tempfile.py", line 929, in __init__
-    self.name = mkdtemp(suffix, prefix, dir)
-  File "/usr/lib/python3.5/tempfile.py", line 507, in mkdtemp
-    _os.mkdir(file, 0o700)
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/oe-selftest-debian/build/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/selftest-esdk-q7ln84gc'
+defaultsetup.conf and therefore default-versions.inc is sourced pretty late in bitbake.conf.
+default-versions.inc overwrites previous assignments of PREFERRED_VERSION_openssl.
+Assigning it with ?= allows other .conf files to assign correctly.
+in particular assignment in conf/local.conf and machine config is used instead of default.
 
-(From OE-Core rev: 170a601a99836d13b69e5287bee0d3e71983dd46)
+(From OE-Core rev: c9786adf81434e2d58247f55cf80fdd3131121e7)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/eSDK.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/distro/include/default-versions.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/eSDK.py b/meta/lib/oeqa/selftest/cases/eSDK.py
-index 14f75d8..1e79d1d 100644
---- a/meta/lib/oeqa/selftest/cases/eSDK.py
-+++ b/meta/lib/oeqa/selftest/cases/eSDK.py
-@@ -73,6 +73,7 @@ CORE_IMAGE_EXTRA_INSTALL = "perl"
-         cls.image = 'core-image-minimal'
+diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
+index 8680738..3d88e8f 100644
+--- a/meta/conf/distro/include/default-versions.inc
++++ b/meta/conf/distro/include/default-versions.inc
+@@ -2,6 +2,6 @@
+ # Default preferred versions
+ #
  
-         bb_vars = get_bb_vars(['SSTATE_DIR', 'WORKDIR'], cls.image)
-+        bb.utils.mkdirhier(bb_vars["WORKDIR"])
-         cls.tmpdirobj = tempfile.TemporaryDirectory(prefix="selftest-esdk-", dir=bb_vars["WORKDIR"])
-         cls.tmpdir_eSDKQA = cls.tempdirobj.name
- 
+-PREFERRED_VERSION_openssl = "1.0.%"
+-PREFERRED_VERSION_openssl-native = "1.0.%"
+-PREFERRED_VERSION_nativesdk-openssl = "1.0.%"
++PREFERRED_VERSION_openssl ?= "1.0.%"
++PREFERRED_VERSION_openssl-native ?= "1.0.%"
++PREFERRED_VERSION_nativesdk-openssl ?= "1.0.%"
 -- 
 2.7.4
 
