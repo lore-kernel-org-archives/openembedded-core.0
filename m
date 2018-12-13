@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E23479DD9
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C704B79DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 21:39:37 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z9so1740811pfi.2
+	Thu, 13 Dec 2018 21:39:38 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id z10so1647896pgp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 13:39:39 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Puq5sgG/l3t3kRoTBNj2bB+3KDZ2D5x4+zs0MfTh7/4=;
-	b=bcGYqbCHO57xkFFs0TKx0uBhUl9mK01yFLGJZ3w1yMzKHMCaOiQ1oLhWoZXm+uKekf
-	wSL3v8H9NX6YRFV8iZyF9xt+tNAc+wNOaX2w9PIjmb329FKnTUpDBM26Ijv7ZAEiCtJd
-	aqWgZoiBTC5UcW3K1lKf+b6AELcQRWxOS8LiioVFwXhHtC2rB6IMHBbwFPQvjmS8yIMK
-	lHgDJUwbUP86HG3qV8QopIcyZVUsnxZHY7V8lIuR/ahK9Z07Wh+UC/6/80d8dlePWF8l
-	gr27/Vr6pCsVZ4qxvWwsxerBLgCryaXP0qTmq9Y8Pix+CCigyzrkozHdzkfao0oyjZNR
-	/dxQ==
+	bh=pOCugbuPXri1K23r5BLVWaMi/5wmqJNa0802Nf/aFaQ=;
+	b=SJXhW9ashuFWxS2Cw09/bKNTTOILZM56+nu4aav6Ehz/A5jXa+jhGdVxLMxXM+a0ym
+	yIKDp7VX32m02GV6S0O2ufrFGzEvQoFxjlYDe3e3EBa9eYl+5wVvodcmox0twRBOdHsT
+	8Bbdrf0mC+6z+3dfna4Jed6jm/8gI1m7p6uFBoL2IOSn6DfIxX73nCrH1PgNT9L/pd/b
+	2j+ok91nnCCgERmZTm3mEHyPmp67chkLyaUtB+BKNttA66yeIGDreG9WVEzYHrjMlA1E
+	qyVcYJY9b/w5JfissedvddhPHbnyZ5Xt7ERNIfADAyq5SBUH+ycKya/wfRkPzz/rstSW
+	DdWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Puq5sgG/l3t3kRoTBNj2bB+3KDZ2D5x4+zs0MfTh7/4=;
-	b=JEda/iA3VEWyQD+ktPlca83bjr9zYVenUUjEwC0QOQIblky/r/eFKwudBX1rRv095/
-	WVVyVcZrnkqsqPAIfQG42DeHHLLJCXhEVx6TX60PQe/Q5l216Dd28QEYHFA3CVGizxxg
-	+I0i6qsoPxdRbmF/Qmn0KL4orON1T/xhz/bDXv0uDW3zoZUlJKNg5joyz6DsV1o0idV2
-	8KCA/BrWyMpvw7zB+GooF2wP4coEL53nQn4lOkoHR7I5fy+Nu+Z3i2rlDLcseKrVNyyi
-	Aj9dzMKMjKcp+2OgdtAWEqEbA3FjvMuyDLj8XZUChZ3C7v8elNopQijJqdMacAwXTqDt
-	7Ikw==
-X-Gm-Message-State: AA+aEWZMMChadULg1hFMv0NkczBSWf387Kh+cR+NzjVg1tp7y1rpXIoZ
-	9rABsXnUN51s6cFrFc/YoHRXmq0B
-X-Google-Smtp-Source: AFSGD/WFqeqYAfZYWoQ1DuTC6l0Eq912EA9E644032MU1BQVRf3t8/5UjRlS5MPy6Ra+JD/fG69DDg==
-X-Received: by 2002:a63:594d:: with SMTP id j13mr420736pgm.210.1544737178598; 
-	Thu, 13 Dec 2018 13:39:38 -0800 (PST)
+	bh=pOCugbuPXri1K23r5BLVWaMi/5wmqJNa0802Nf/aFaQ=;
+	b=iPYrsmUiGnF9zK3hB9n/kWvHF0/kcJdjUm2dxonNGN/ABqoHuDisyQ/JSc9yuVhHRj
+	kzX9Lx1+116rRoXUXdJZql0kx8/HBPBehvF8wccNfMqXlFwWyGeDzCfRzcZc77pYcn9A
+	DXC5cUVYS7WIYUNUVCqysgbNMmVwaQgLa2RxK/0ovYkRbZLXgx1yyEgsoPAtO4TG+AnD
+	tX1S1pUL+WD1ujWUfe0Y7WCrrT8Nh7CJvOejoIO7e6hSwVqi66NOPSB0niwi793cadA2
+	1j1NHn73SRywxWVs3/MTKXbN5KkHc225h29im3c179kOOii9QMm3mlIJHUSjCjZTUQJw
+	/gMA==
+X-Gm-Message-State: AA+aEWYnyCgYdP3Lt/KKq1HWW1OLM68SEX5C5ATgDgXoWtMLgcMBCZ9j
+	EKGJMPnXe5p4kmjSzK56UterNtwU
+X-Google-Smtp-Source: AFSGD/VsBzKJdiKvgY6wMo4INfHCS79SgPGT9R/evysaGUU+QVd1s0LgU7j39+ezItyGb7KDJHiwsg==
+X-Received: by 2002:a63:4e15:: with SMTP id c21mr441095pgb.50.1544737179755;
+	Thu, 13 Dec 2018 13:39:39 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:79af:1f36:1822:3801])
 	by smtp.gmail.com with ESMTPSA id
-	b9sm3288912pfi.118.2018.12.13.13.39.37
+	b9sm3288912pfi.118.2018.12.13.13.39.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Dec 2018 13:39:37 -0800 (PST)
+	Thu, 13 Dec 2018 13:39:38 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Thu, 13 Dec 2018 13:38:39 -0800
-Message-Id: <6fecbe152f32a7902c787b37208fc895bf8e99e8.1544735897.git.akuster808@gmail.com>
+Date: Thu, 13 Dec 2018 13:38:40 -0800
+Message-Id: <4ae3782e4e498f9eb54e91c82b4a9c02abba63e9.1544735897.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1544735897.git.akuster808@gmail.com>
 References: <cover.1544735897.git.akuster808@gmail.com>
-Subject: [PATCH 31/45] oeqa/core/runner: write testresult to json files
+Subject: [PATCH 32/45] oeqa/runtime/ptest: Inject results+logs into stored json results file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,108 +59,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 21:39:37 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 21:39:39 -0000
 
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-As part of the solution to replace Testopia to store testresult,
-OEQA need to output testresult into single json file, where json
-testresult file will be stored in git repository by the future
-test-case-management tools.
+This allows the ptest results from ptest-runner, run in an image to be
+transferred over to the resulting json results output.
 
-The json testresult file will store more than one set of results,
-where each set of results was uniquely identified by the result_id.
-The result_id would be like "runtime-qemux86-core-image-sato", where
-it was a runtime test with target machine equal to qemux86 and running
-on core-image-sato image. The json testresult file will only store
-the latest test content for a given result_id. The json testresult
-file contains the configuration (eg. COMMIT, BRANCH, MACHINE, IMAGE),
-result (eg. PASSED, FAILED, ERROR), test log, and result_id.
+Each test is given a pass/skip/fail so individual results can be monitored
+and the raw log output from the ptest-runner is also dumped into the
+results json file as this means after the fact debugging becomes much easier.
 
-Based on the destination json testresult file directory provided,
-it could have multiple instances of bitbake trying to write json
-testresult to a single testresult file, using locking a lockfile
-alongside the results file directory to prevent races.
+Currently the log output is not split up per test but that would make a good
+future enhancement.
 
-Also the library class inside this patch will be reused by the future
-test-case-management tools to write json testresult for manual test
-case executed.
+I attempted to implement this as python subTests however it failed as the
+output was too confusing, subTests don't support any kind of log
+output handling, subTest successes aren't logged and it was making things
+far more complex than they needed to be.
 
-(From OE-Core rev: 00e03b5004f1eb6d59295544b3a8620504278f51)
+We mark ptest-runner as "EXPECTEDFAILURE" since its unlikely every ptest
+will pass currently and we don't want that to fail the whole image test run.
+Its assumed there would be later analysis of the json output to determine
+regressions. We do have to change the test runner code so that
+'unexpectedsuccess' is not a failure.
 
-(From OE-Core rev: 045511425577ccbe89d8eb91e2a87e385390cabf)
+Also, the test names are manipuated to remove spaces and brackets with
+"_" used as a replacement and any duplicate occurrences truncated.
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+(From OE-Core rev: a13e088942e2a3c3521e98954a394e61a15234e8)
+
+(From OE-Core rev: 526ceab9d0e43f73635bb92e8dd7763ef75ad33b)
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/runner.py | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/runner.py         |  8 ++++++++
+ meta/lib/oeqa/runtime/cases/ptest.py | 21 +++++++++++++++++++--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index a7b7463..7e0b61b 100644
+index 7e0b61b..9a64e49 100644
 --- a/meta/lib/oeqa/core/runner.py
 +++ b/meta/lib/oeqa/core/runner.py
-@@ -6,6 +6,7 @@ import time
- import unittest
- import logging
- import re
-+import json
+@@ -107,7 +107,11 @@ class OETestResult(_TestResult):
  
- from unittest import TextTestResult as _TestResult
- from unittest import TextTestRunner as _TestRunner
-@@ -104,8 +105,9 @@ class OETestResult(_TestResult):
-         self.successes.append((test, None))
-         super(OETestResult, self).addSuccess(test)
- 
--    def logDetails(self):
-+    def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
+     def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
          self.tc.logger.info("RESULTS:")
-+        result = {}
++
+         result = {}
++        if hasattr(self.tc, "extraresults"):
++            result = self.tc.extraresults
++
          for case_name in self.tc._registry['cases']:
              case = self.tc._registry['cases'][case_name]
  
-@@ -118,6 +120,11 @@ class OETestResult(_TestResult):
-                         oeid = d.oeid
+@@ -126,6 +130,10 @@ class OETestResult(_TestResult):
+             tresultjsonhelper = OETestResultJSONHelper()
+             tresultjsonhelper.dump_testresult_file(json_file_dir, configuration, result_id, result)
  
-             self.tc.logger.info("RESULTS - %s - Testcase %s: %s" % (case.id(), oeid, status))
-+            result[case.id()] = {'status': status, 'log': log}
++    def wasSuccessful(self):
++        # Override as we unexpected successes aren't failures for us
++        return (len(self.failures) == len(self.errors) == 0)
 +
-+        if json_file_dir:
-+            tresultjsonhelper = OETestResultJSONHelper()
-+            tresultjsonhelper.dump_testresult_file(json_file_dir, configuration, result_id, result)
- 
  class OEListTestsResult(object):
      def wasSuccessful(self):
-@@ -230,3 +237,29 @@ class OETestRunner(_TestRunner):
-             self._list_tests_module(suite)
+         return True
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index f60a433..77ae7b6 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -1,3 +1,6 @@
++import unittest
++import pprint
++
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.core.decorator.oeid import OETestID
+@@ -49,6 +52,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+     @OETestID(1600)
+     @skipIfNotFeature('ptest', 'Test requires ptest to be in DISTRO_FEATURES')
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @unittest.expectedFailure
+     def test_ptestrunner(self):
+         status, output = self.target.run('which ptest-runner', 0)
+         if status != 0:
+@@ -76,6 +80,11 @@ class PtestRunnerTest(OERuntimeTestCase):
+         # status != 0 is OK since some ptest tests may fail
+         self.assertTrue(status != 127, msg="Cannot execute ptest-runner!")
  
-         return OEListTestsResult()
++        if not hasattr(self.tc, "extraresults"):
++            self.tc.extraresults = {}
++        extras = self.tc.extraresults
++        extras['ptestresult.rawlogs'] = {'log': output}
 +
-+class OETestResultJSONHelper(object):
+         # Parse and save results
+         parse_result = self.parse_ptest(ptest_runner_log)
+         parse_result.log_as_files(ptest_log_dir, test_status = ['pass','fail', 'skip'])
+@@ -84,10 +93,18 @@ class PtestRunnerTest(OERuntimeTestCase):
+             os.remove(ptest_log_dir_link)
+         os.symlink(os.path.basename(ptest_log_dir), ptest_log_dir_link)
+ 
++        trans = str.maketrans("()", "__")
++        resmap = {'pass': 'PASSED', 'skip': 'SKIPPED', 'fail': 'FAILED'}
++        for section in parse_result.result_dict:
++            for test, result in parse_result.result_dict[section]:
++                testname = "ptestresult." + section + "." + "_".join(test.translate(trans).split())
++                extras[testname] = {'status': resmap[result]}
 +
-+    testresult_filename = 'testresults.json'
-+
-+    def _get_existing_testresults_if_available(self, write_dir):
-+        testresults = {}
-+        file = os.path.join(write_dir, self.testresult_filename)
-+        if os.path.exists(file):
-+            with open(file, "r") as f:
-+                testresults = json.load(f)
-+        return testresults
-+
-+    def _write_file(self, write_dir, file_name, file_content):
-+        file_path = os.path.join(write_dir, file_name)
-+        with open(file_path, 'w') as the_file:
-+            the_file.write(file_content)
-+
-+    def dump_testresult_file(self, write_dir, configuration, result_id, test_result):
-+        bb.utils.mkdirhier(write_dir)
-+        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
-+        test_results = self._get_existing_testresults_if_available(write_dir)
-+        test_results[result_id] = {'configuration': configuration, 'result': test_result}
-+        json_testresults = json.dumps(test_results, sort_keys=True, indent=4)
-+        self._write_file(write_dir, self.testresult_filename, json_testresults)
-+        bb.utils.unlockfile(lf)
+         failed_tests = {}
+         for section in parse_result.result_dict:
+-            failed_testcases = [ test for test, result in parse_result.result_dict[section] if result == 'fail' ]
++            failed_testcases = [ "_".join(test.translate(trans).split()) for test, result in parse_result.result_dict[section] if result == 'fail' ]
+             if failed_testcases:
+                 failed_tests[section] = failed_testcases
+ 
+-        self.assertFalse(failed_tests, msg = "Failed ptests: %s" %(str(failed_tests)))
++        if failed_tests:
++            self.fail("Failed ptests:\n%s" % pprint.pformat(failed_tests))
 -- 
 2.7.4
 
