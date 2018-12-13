@@ -1,50 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 107D76C49C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B1D7A6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 16:19:32 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id l9so2588524wrt.13
+	Thu, 13 Dec 2018 16:23:14 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id o13so2058649ioh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 08:19:34 -0800 (PST)
+	Thu, 13 Dec 2018 08:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=zmy0PRdBYBNyOqs0t8is0REJ34LVjliBzoWnLIT+q0A=;
-	b=B8NgGMC1YNuzJ1UXaq4WqAfCxQcf8YnnuEH2X8IQZfqwfOGwrsXFqa7qCC2oppjdZB
-	1Tth+o+ACZmU4K0mr1H8oYy/EX3sQmbg4sCNxhJG8rQW5UCoEoQxSUb71PwNCqYsrlxY
-	I1hhjKYbUBjFt2CbuXu06sPrXF2PXP5H1ZAOc=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Jqg7rM/H2GaPqf8remUa5iuFjw8nDp0ZyXeJTduUjgs=;
+	b=OkEGbCS41SO8NMDZZFASgeEfylKIpZx62cAlM7RnvZXVHYUkN1b7Ko1e9TnrDKjICf
+	S1PGapGWu8A+7s2ou1hG8qzY3Y7/WkuQ+NV4B6Lpqd9xNONM9snKVCATaW6JHTlSdJE6
+	eH8mogqStgWQzsuZXs/VGtQxMDg3TnS0BUZEUTvjBSihNnRsLbUlmoCHGvhkjB9Uz4d5
+	iKKh8ZpcfcKTbWl6dfQA28gCBv7xLkaGS/v5T4J3WapdgL3W2dbq5e0QTQO/XuLaXGYx
+	D8QkYZcMLr+7tnqeEKpcFJUwslOCMoQg+Ciu2D3Ax0SQYEYVu1ipFulsamxXSH5Z3Fw6
+	OO6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zmy0PRdBYBNyOqs0t8is0REJ34LVjliBzoWnLIT+q0A=;
-	b=VqoWHLYDUEqgA/2wmPzgOI4NoCf8q5KiU7TakvuQj/OtCmk50guIimLDOh0lWVZD1+
-	hXDXmc5sn5Dd3pmKaHoTEvAoJpwysHQjb+kuD3sEomB8dXqv7NjJqrduis1m/WHwDrEu
-	PKhZnMza7755kZfHatXxWmMXaG0Oz/ITBp+sup6ttZJagx9+LX1SaelHjFGaH/7chEMK
-	e2e8NfyK2hmJpl4Sa8z7JxeJcbporxqILuM6XhAwRcZXxjQDmefQKpjjAkGA63gD4b9g
-	doiESPPurS2CUvNUTdkEbdxvny3mi36jGY7TkfxR53tVO0/WermvuOMbqdO29jwRXNZW
-	4uPw==
-X-Gm-Message-State: AA+aEWaIz6Z8fFESZSg3JBqLgiqX5o6A6ryS7Brgw89L6W9ob+ptdcuR
-	tHBxsgRq4zReReboD3CC92m4NA==
-X-Google-Smtp-Source: AFSGD/WNg2fPE+axabJB894jQobta2hnd7jR0D2xes486uPmsEVj0XBrUCGEKQmj5zNosviuXzK9GQ==
-X-Received: by 2002:a5d:548d:: with SMTP id h13mr20755628wrv.80.1544717973654; 
-	Thu, 13 Dec 2018 08:19:33 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id h17sm901648wrt.59.2018.12.13.08.19.32
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 13 Dec 2018 08:19:32 -0800 (PST)
-Message-ID: <17edc46703e7423f1a730bdea6cc3f0e1877d9d6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Dec 2018 16:19:30 +0000
-In-Reply-To: <CAPybu_0YGwMPD1N4kfN0KUb6snAowee6MfN2+tJNVaHqrUddrA@mail.gmail.com>
-References: <CAPybu_0YGwMPD1N4kfN0KUb6snAowee6MfN2+tJNVaHqrUddrA@mail.gmail.com>
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Subject: Re: Multiconfig and native recipes
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Jqg7rM/H2GaPqf8remUa5iuFjw8nDp0ZyXeJTduUjgs=;
+	b=GAtLym0FDmTe112I0IBt1uq8zfx97FNRKpWIyjmsR4tIQkgoTySAGAci7euE1EY9PE
+	nELjOmSWCU/CosmfrBwh7Rmtro3eJyZZ/SeX7vBfR2W/nXwBKJoCZ0U7wThSY0NbRfg/
+	qRsKu84wPn93cuzIAlTL0iN6Lv2t0kMqfbvPteEO8viUwdTpwn3wabebiewZA/mAz8zN
+	6JO+z3z+ZFhFxp+qbOR/Z2R8RJZQZ2MU5T46/cT6vx/XClhqKNKELLA3EAXzFaQTQWPL
+	WV6nVPoMGr8ZRjppXjwl6H1LQhkEhc9uJthaMXcmY82KSbKuKR/QQNtendEtqIAJImNX
+	zGiA==
+X-Gm-Message-State: AA+aEWaaRcG49qCSg6x9xUT2aIS3yM/gFjc8ZhFso/I1Aor6Hr49vg8P
+	0SAhp7wQc4ppOqnj77Jp1DNTtwvRc0s22Um1yITmZg==
+X-Google-Smtp-Source: AFSGD/VVK7a22e8V7xIgMbfB9I4P+f4LvgdOvRxdTDHr6FYN0k8xz9RfLnm1JsAcpWOd8Exd6JiHpH/jZvXpJrHzSh4=
+X-Received: by 2002:a6b:f70a:: with SMTP id k10mr7916179iog.270.1544718195617; 
+	Thu, 13 Dec 2018 08:23:15 -0800 (PST)
+MIME-Version: 1.0
+References: <20181213141312.14587-1-andrea.adami@gmail.com>
+In-Reply-To: <20181213141312.14587-1-andrea.adami@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Dec 2018 16:23:04 +0000
+Message-ID: <CAJTo0LYO+o2erx14U1QVHB2YjAL3qNwELM-5ZSMyBoww5gV0LQ@mail.gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +54,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 16:19:33 -0000
+X-List-Received-Date: Thu, 13 Dec 2018 16:23:15 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-12-13 at 16:19 +0100, Ricardo Ribalda Delgado wrote:
-> Hi
-> 
-> I have a setup with 3 multiconfigs
-> 
-> If I try to build:
-> bitbake  multiconfig:*:erlang-native
-> 
-> Bitbake executes 3 tasks on the same workdir
-> tmp/work/x86_64-linux/erlang-native/
-> 
-> which of course crashes. Is this expected behaviour? a bug? I have a
-> wrong config?
-> 
-> Thanks!
+On Thu, 13 Dec 2018 at 14:13, Andrea Adami <andrea.adami@gmail.com> wrote:
+> +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
 
-You haven't said how your configurations were different.
+Whilst this is musl specific it doesn't break glibc, so apply it universally.
 
-With multiconfig you have to use it responsibly and a little caution. 
+Also seems that assuming !glibc == musl isn't safe, is there a better define?
 
-It sounds like you're using the same TMPDIR for these builds but the
-builds are differently configured. That wouldn't be expected to work.
-The builds can only share TMPDIR if the configurations are compatible
-with each other (same DISTRO type config, different MACHINE for
-example).
-
-Its hard to be specific without the configuration though.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
+Ross
 
