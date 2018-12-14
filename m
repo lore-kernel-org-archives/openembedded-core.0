@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 823DC6D2AB
+	by mail.openembedded.org (Postfix) with ESMTP id 986D779F89
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 17:08:56 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id q26so6480247wmf.5
+	Fri, 14 Dec 2018 17:09:01 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id g67so6500822wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 09:08:57 -0800 (PST)
+	Fri, 14 Dec 2018 09:09:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=ohGxemBkQAiUJqdFgw/ZqxZ0QO/Raq3u4OhuQe/D/YQ=;
-	b=H6y4Gzjia+WAtqQQN8iSRcTarqOXW52B/5WPy7Qk1UQupYwd9GNF02SN6t1CIIJStq
-	P/y9XP9hl9mWsjIG2OQCdNQ+eFfocg2F8VvdJM0vVAUaKVejPj0GVGTZSlZVgsiz+srb
-	sbVyDwfG/tHOSw68ZPXxscvpSfG+A7SJPUKKNJIMzaEgUAWVWvpSzzoSL80LweYERI5E
-	KMdIAc9+CCIBbWzN8DB1rrzwHOcdtabzYCQ0iqv5HodTDDPb27kq9sLeoVqWCwm7ZCA3
-	qmvDdoMT7cYnevS/VXv//i2HLbbyo5BP9SlqQAcNDLX7HNfLae6mgJpkwrxijqZRgX2x
-	wxhg==
+	bh=VScN2MjNWrzW5iIBJb/pEjGk8zFsHvKr2+7GEm9SqZI=;
+	b=fgNQeVWilxcvmbfXijTDvnsY6PmqnFO03OIN/ZZFvCgBRVOAZo4p4dZtU0AqaUPUf0
+	CwRDkDCd6sc8/79b2uUbMlIstvVUlOL02s1CqK4I4b7h4sUU39lLCjwGN0grnIC4I9HG
+	DeMI7lACkK3z9q7ibZy2bLqDhMVpe10kv+grdABafxTK+sMYOJffBpzmNGkTqNW5wW4e
+	hL8bLXdoC92WipuiFGtQpfqUO/u3/0rwZKoGluieay8JnGjk+rWSbfnHl/7UU2YVFdGM
+	DubdiarTIzEBo8X8p/IzCpy4hlgXkxG15gSmG9MJKO2Ny80YtNtRXcXHET2Kd3f2bP9+
+	qkiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ohGxemBkQAiUJqdFgw/ZqxZ0QO/Raq3u4OhuQe/D/YQ=;
-	b=t5cg42863IT1GB1eS5zY43u1plEk8g8in5ls2sgIQrHS3VWlVz1CBuYDykbn9JOb8D
-	JMGUoJB1rZ54v1l5k+eGsZSPiSZpY6+pTT27xDqGzOt+XcifM9xJdD6xSOrbphKx6nAl
-	aeaLAbXD+GIJ+ErWBwC7iSxF4rR/kCNNqNa+2vZCKhlTC9irL+4s9d9NVhqGDL0698wc
-	PTbLRvRTnX6VYmQS6sLJ9xAUl725nsvo/z0BEksQzD3ai1bfY8Go31PmfxckphzHzDCF
-	5mPzGkOLnllPLcj6MqBw2jSHPKYqnvtmrEz43JuOb3ADZUVfv8XduMht9ab6zpWyR6yn
-	Nlnw==
-X-Gm-Message-State: AA+aEWY7PS3f6/xELwLTGv7AUCzYlZwu7xJeGor25dY2m8toAFrMgucj
-	coJGJI/8oX4QWqS/ktVR+Bsz6lhpULk=
-X-Google-Smtp-Source: AFSGD/XIsfP/Z7B5UPlYeRX7xOCWf453QHBRmN+7UCLzCRjdp+H5AE93d6eB+LOXA7JelcqS2268pA==
-X-Received: by 2002:a1c:a6cd:: with SMTP id p196mr3929951wme.142.1544807336758;
-	Fri, 14 Dec 2018 09:08:56 -0800 (PST)
+	bh=VScN2MjNWrzW5iIBJb/pEjGk8zFsHvKr2+7GEm9SqZI=;
+	b=AhT0D6pUi8qCX1R/iGndYCNNGyZSYkssTbbOR8ZcnWyEjO/bACFYU5InVcu3H/oPCm
+	dEF/M7OJLH6nUgbeAKYxqTd0PeK+FdTrC0ENzV+BI3bdByO7lxpcZDqCFfPpq0PEFPCH
+	BjiHop6ttu8cCh8XWyy/c26OZaNlfn0g9kB4JCBQfqWJBSVPIHk+RqudYr0iIQntTnln
+	YBhzF7FK6NPASABy0h8jZPMxe0A6KOucJ7CHtHc6LDLL6NzX3qf6YnF6ZFOWiI4pfqY7
+	p4l2uN7t6NLTcnmHjnNqZr93/XZX7/7C9F2Tnmn2p2+PB9iwc50IQu/mXEVK+v78i3mi
+	ueLA==
+X-Gm-Message-State: AA+aEWaZaKDlAzDsSVu7XXGtW0dMnnHYXGhjxSvFxz6LgQ1t5fBtXRzj
+	JSxocsYZPle86WHHPM7giSq4R/f0tK8=
+X-Google-Smtp-Source: AFSGD/VBgag6mxmC3dYUx5thLaqAXyk9wcttRTV156aAS3v8q/FEu1r1Wh5UowWEp+uQTX4XKv8Epw==
+X-Received: by 2002:a1c:2856:: with SMTP id o83mr4209643wmo.45.1544807342036; 
+	Fri, 14 Dec 2018 09:09:02 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id b7sm5489022wrs.47.2018.12.14.09.08.55
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	x76sm11108844wmd.27.2018.12.14.09.09.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 14 Dec 2018 09:08:56 -0800 (PST)
+	Fri, 14 Dec 2018 09:09:01 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2018 17:08:54 +0000
-Message-Id: <20181214170854.1678-1-ross.burton@intel.com>
+Date: Fri, 14 Dec 2018 17:08:59 +0000
+Message-Id: <20181214170859.1737-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libsoup: upgrade to 2.64.2
+Subject: [PATCH] Revert "popt: update SRC_URI"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 17:08:56 -0000
+X-List-Received-Date: Fri, 14 Dec 2018 17:09:02 -0000
 
-Add new build dependency libpsl.
+Go back to use rpm5.org, as it's the canonical host for popt.  The host is back up now.
+
+This reverts commit 347ee336dcc94e6fa4e4788117013615b90abd70.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libsoup/{libsoup-2.4_2.62.3.bb => libsoup-2.4_2.64.2.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.62.3.bb => libsoup-2.4_2.64.2.bb} (89%)
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-similarity index 89%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-index aaa3cc51036..9f852d5c054 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.62.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-@@ -5,13 +5,13 @@ SECTION = "x11/gnome/libs"
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 377d1084495..478288f9bf2 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
  
--DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native"
-+DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native libpsl"
+ DEPENDS = "virtual/libiconv"
  
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[md5sum] = "dfbf30af5fb6190bfafc5aa6abcc9dce"
--SRC_URI[sha256sum] = "d312ade547495c2093ff8bda61f9b9727a98cfdae339f3263277dd39c0451172"
-+SRC_URI[md5sum] = "cac755dc6c6acd6e0c70007f547548f5"
-+SRC_URI[sha256sum] = "75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774104457b3a786c6"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
+-SRC_URI = "https://fossies.org/linux/misc/popt-${PV}.tar.gz \
++SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
 -- 
 2.11.0
 
