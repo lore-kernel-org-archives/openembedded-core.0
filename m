@@ -1,19 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3630B7BDC3;
-	Fri, 14 Dec 2018 18:35:51 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3A8737BDDB;
+	Fri, 14 Dec 2018 18:35:52 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Andrii Bordunov via Openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2018 18:35:52 -0000
-Message-ID: <20181214183552.2332.78736@do>
-References: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 14 Dec 2018 18:35:53 -0000
+Message-ID: <20181214183553.2330.79898@do>
+References: <20181214181535.9186-1-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXR0cjogdXBkYXRlZCBhY2wgKyBhdHRyIChyZXYyKQ==?=
+In-Reply-To: <20181214181535.9186-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYi9vZS9yZWNpcGV1dGlsczogQWRkIGEgbmV3IC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 18:35:51 -0000
+X-List-Received-Date: Fri, 14 Dec 2018 18:35:52 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: attr: updated acl + attr (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/15341/
+Series: "lib/oe/recipeutils: Add a new ..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15355/
 State : failure
 
 == Summary ==
@@ -46,11 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0001-use-sys-xattr.h-not-attr-xattr.h.patch
-  Current          Upstream-Status: pending
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Patch            [2/2] oeqa/selftest/distrodata: Port to use the new recipeutils.get_recipe_upgrade_status() function
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 94 characters)
 
 
 
