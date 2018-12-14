@@ -1,46 +1,48 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C22074535
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DDC36B79B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 23:09:11 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id y4so3322148pgc.12
+	Fri, 14 Dec 2018 23:37:03 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id p17so8122671qtl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 15:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=jXYuyjpnF/G/RXhT1L5UJfiMY+b1lTFcBJQKzjVKSdw=;
-	b=gKqbPQZd2IofRpqCRYihtS9CDRk0JmE3J+CE8jn70Ip7tO/m05w/TEb3WlP2Qu25Qf
-	sAzhrPH3S6MWpYuC5RtWL6l7uhHpqqhnn1zkhxUe5lJSRU2hPoL++F+zb64iJAAaiuyb
-	kLko/lzXo2c7nhNmziABkyDUpn+qL4zxC0pRU=
+	Fri, 14 Dec 2018 15:37:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xhmAidSY+7cR/hCF91cgCmcH6ZoApy7OkJzbFWyaGrQ=;
+	b=bJfNSDABGIPsgOinKl43GJqVPGkdiyafMqBhLIWY8rwcNQTJjI3jkB9QAv0wOb1xIz
+	xvtiQQnVJPhS9BLRfp005fuPG8csrIbZ52Xs+W8fXpRwZIDmoeWMbaOi0GHA85rKk2vE
+	woOvHHzptgeX/mEySzqPhk5J1bLgfawPVQtVC7Mn3lQmipD/VthtYZl2Atmn1m5rBBvl
+	K0bAaeAJBnFhN5vw7GDGIFrZcsyb3x3hHZHBwwb6UaasZvT8tFpyqoRUk56ArFwdDJfY
+	RhO6BsC1+Ja5h/rOVmwLhXWf9kNvspsOf9d9Ap5zGpoLiIgAJm62Ba4MItbj1PU01H+r
+	DSnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jXYuyjpnF/G/RXhT1L5UJfiMY+b1lTFcBJQKzjVKSdw=;
-	b=VjhoAw939I7aVMy3aCOvSN7BqrS0RkM1H7j9T9nfnTYLZfE+1O98ecs7xYOZL8jcxv
-	aw3GI7LoioNSJ0Pz2K2C473Dxd0MDCA4Sn7iyJAhYW72Hm5zj2jY6lGILFgNZ4ouTkaI
-	ZpXRS2+1Vpfa+69h+bw/jCGUoI+73IDvQiJY9W/01pTOGSNbNAiRXfgG8tTmSKFRWK44
-	Qx3WbG92D2wfM1E9LIXTJVyruzn9YqH3TTjv7Gs5pm+nGJiKBMp+DOHBGr1NHdxB0n2V
-	LiDjzRUY0XEbBfjti92G1KIYxLrBnu6SjV4SlxUyl/f9g/hzrF7F2ebZFwBFkeqSPGuY
-	6MpQ==
-X-Gm-Message-State: AA+aEWbR+d1wDaicMsr2i94pfWCjp5RyR14rMwXeteWO9DgV2IcZzs/n
-	DmHQTn3KSb+W9DgRgWO0CKjae8Cb4Z8=
-X-Google-Smtp-Source: AFSGD/WcRVxHaOsNbuUg1UmSqHFyJJ/GapJ+oiFmr4RvnvGKM+C6f0TWGPpf+tP0YGs4w5WWkJ+L0g==
-X-Received: by 2002:a62:18ce:: with SMTP id 197mr4787286pfy.88.1544828952406; 
-	Fri, 14 Dec 2018 15:09:12 -0800 (PST)
-Received: from localhost.localdomain (c-24-21-170-32.hsd1.or.comcast.net.
-	[24.21.170.32]) by smtp.gmail.com with ESMTPSA id
-	b202sm10397497pfb.88.2018.12.14.15.09.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 14 Dec 2018 15:09:11 -0800 (PST)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2018 15:08:03 -0800
-Message-Id: <20181214230803.19443-1-mhalstead@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.2
-Cc: rpurdie@linuxfoundation.org
-Subject: [PATCH] yocto-uninative: Correct sha256sum for aarch64
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xhmAidSY+7cR/hCF91cgCmcH6ZoApy7OkJzbFWyaGrQ=;
+	b=lIdJUYfXQuDnVkW8Bhq8CJDmwLx0XiSOAUUuG4AeAQQLZK0Dng0ZYeBMGbtsCNs8GL
+	s0m8rl5yZaIrxYo/I1+hCjGW5xlA+NVX6ajuxpjLsKX02L3qSwRvv0WRM4J/lHukTuL1
+	JWl2Y/Vg95q8c9nuBY85eKUlormZOQXG8JKIY/TZNMTjf/BI5xG7kolSRD81tlnfoz7O
+	coS/G9mK1oP9bBlbb4HVfERhCgj6rq3ZdtFAs/obpkqN1AoLjMdduG5pAvu9QHpRsqty
+	A4KdDU94nh83qXEkLrcUk9oTgGSMHeec7gyhlNJEWXzpy4gNKcswQha9vzEpjYd411oV
+	2Uaw==
+X-Gm-Message-State: AA+aEWZKnLYuernV12ZrgeIejg9hsTb7OohGa/HYCNk1eo7u3tItSj9c
+	LxAGznneCCYyN69aMjGrqsqhnWDtYEzGpYOEvCE=
+X-Google-Smtp-Source: AFSGD/WvEVmRJY0aIFDhHyEchgz4L+XMdiBIOTXb6EY6AG3oaAwECbELm6Zg0cVE990o2nAwwdNn+vOHdtMjcy0a6gc=
+X-Received: by 2002:a0c:d80f:: with SMTP id h15mr4908152qvj.228.1544830623956; 
+	Fri, 14 Dec 2018 15:37:03 -0800 (PST)
+MIME-Version: 1.0
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+	<1544810082-22164-6-git-send-email-serhe.popovych@gmail.com>
+In-Reply-To: <1544810082-22164-6-git-send-email-serhe.popovych@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Dec 2018 15:36:37 -0800
+Message-ID: <CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
+To: Serhey Popovych <serhe.popovych@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/13] arch-powerpc64.inc: Use elfv2 ABI when building with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 23:09:12 -0000
+X-List-Received-Date: Fri, 14 Dec 2018 23:37:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Avoid uninative checksum warnings when building on aarch64 hardware.
+On Fri, Dec 14, 2018 at 9:56 AM Serhey Popovych
+<serhe.popovych@gmail.com> wrote:
+>
+> Historically first PowerPC ABI was big-endian only (elfv1 currently). It
+> is standard ABI for both 32-bit ppc and 64-bit ppc64 architectures.
+>
+> With PowerPC little-endian support new ABI was introduced (elfv2) and it
+> is used primarily with ppc64le target only. While it has support for
+> big-endian it is not commonly used and elfv1 still preferred.
+>
+> Musl does support only elfv2 ABI for both LE and BE and does not have
+> any plans to support elfv1.
+>
+> Since then to build for powerpc64 with musl new ABI should be used. As
+> expected it is not compatible with elfv1 but that isn't problem as long
+> as there is no binary distributed software or assembly code written for
+> elfv1 ABI.
+>
+> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> ---
+>  meta/conf/machine/include/powerpc/arch-powerpc64.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> index f751c6b..d9916d4 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> @@ -7,6 +7,9 @@ TUNECONFLICTS[m64] = "m32 nf"
+>  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'm64', ' -m64', '', d)}"
+>  TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'powerpc64', '', d)}"
+>
+> +# musl only supports elfv2 ABI for ppc64
+> +TUNE_CCARGS .= "${@['', ' -mabi=elfv2']['libc-musl' in d.getVar('OVERRIDES').split(':')]}"
+> +
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
----
- meta/conf/distro/include/yocto-uninative.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I wonder if we should change gcc to use this ABI by default when
+configured for ppc64/musl ?
+This would avoid us adding compiler options here, in bad cases it may
+be that other compilers
+call it out differently.
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index c9d502ba4f..0d484f6c3c 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -9,7 +9,7 @@
- UNINATIVE_MAXGLIBCVERSION = "2.28"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.3/"
--UNINATIVE_CHECKSUM[aarch64] ?= "b7fbbaad1ec86d76eca84d83098f50525b8a4124cc8685eaed"
-+UNINATIVE_CHECKSUM[aarch64] ?= "e495046969c796b7fbbaad1ec86d76eca84d83098f50525b8a4124cc8685eaed"
- UNINATIVE_CHECKSUM[i686] ?= "44253cddbf629082568cea4fff59419106871a0cf81b4845b5d34e7014887b20"
- UNINATIVE_CHECKSUM[x86_64] ?= "c6954563dad3c95608117c6fc328099036c832bbd924ebf5fdccb622fc0a8684"
- 
--- 
-2.17.2
-
+>  # user mode qemu doesn't support ppc64
+>  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'm64', 'qemu-usermode', '', d)}"
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
