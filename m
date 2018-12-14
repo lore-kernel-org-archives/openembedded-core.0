@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B1347BD66
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 417FC6D23A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 14:03:12 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r10so5532866wrs.10
+	Fri, 14 Dec 2018 14:54:37 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id p197so9681091itp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 06:03:13 -0800 (PST)
+	Fri, 14 Dec 2018 06:54:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=aBbMTThCJ7ljUTEjvkJEdC6mFMaV4dNyOAXWae/2QrY=;
-	b=MRGch/B0eh6kVv3RxNTTeTvvJUKv6WVUBUxE7P+SPf1Oqon5Q4mvRto4ZzaDY2tCsc
-	kX1XurbieJtqARZ+z7Qc21s2O5hSdnJ3KN5Gh4R3JUrJVijaPXZ1wGolCyuLyAR6gEM5
-	VroM7X6VMCne48atnbhldvNi9NyTyHTaV5COg=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=4ZgoEKbSO0iZ75s/w+DZs3tY2jUBr7htd/Py9nAUqbc=;
+	b=lb9G3caxgSwwL8SCT8Wxv6qOfkrfxtEOJuW+vfz8NAgG6JRN8XwUUcSEL1l+ZgN0cc
+	mCB0obDqHkdwJ3WHKBbuFerIGWaBPPaRdXn60V2F+vGuSbwlVYuxVmUZ3ignXPBzeOrM
+	mNkgqOMvXzI9Ms62vIYDcycHUrpXTAExDmedejmaj8UMLq4zlFOBW6VzfrcUq1B5ihoA
+	icyqpSvqdwS1nizu1PQFcgB0pKuQ8dCkidMfAExvfVO1skS4IidFoFbfnhK036v4s0Wy
+	1YF4SRjP5Gf/VCvx/S4r0MIk3KMHAboQQ5sk5lEeOCeDG7CQWXrWOenbbYIYAW2Vp8J/
+	wKSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=aBbMTThCJ7ljUTEjvkJEdC6mFMaV4dNyOAXWae/2QrY=;
-	b=bi2BPgR3P4x9b0Zc3WctyItUp8d3Gz0gBR1oTCfL4n3E0aKE6lkp1Sr0iBLIlT+255
-	Abb1GV+EPReLvauWY/3HqyqqKByftAyaZX6FlW8zfU7ncuzknmxECEgtK/b7WG3GuNzr
-	kWvpwobE49sHGDuioWSYDqWxFz9U4bzR5svb3nQGJqsfPvzJQiPOfrV1t7l6b3XwWwSR
-	wXY0bpZi/pToRVhanEkWx2qG2pPsteQA/gmv3OZPt2u00lxIG629JBl4UG3e9en6Pk2x
-	gbN6eLaCcQ5Z4bAcUMTZ/NTTD1CbxDTNF81AXimszm7dXbCFXszFdrpmpUaQ2yJbjMhB
-	Q2+Q==
-X-Gm-Message-State: AA+aEWb08SKez/L1O4zYKsQ0yWsoKwnoVwN0XIeasCR1AGtbZUTADms+
-	tqi0OwV7K4WavcHggyzvehgJ2a8Sq9+s8Q==
-X-Google-Smtp-Source: AFSGD/XEvuQnKxCHHq7Rl64YEJwy2kd5h03BJsGtgNIF3S86aAasoRvETcMWsknXLnzGPpmE/mMNGQ==
-X-Received: by 2002:a5d:64c7:: with SMTP id y7mr2702712wrv.207.1544796192781; 
-	Fri, 14 Dec 2018 06:03:12 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d4sm3290424wmb.25.2018.12.14.06.03.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 14 Dec 2018 06:03:12 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2018 14:03:10 +0000
-Message-Id: <20181214140310.1834-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181214140310.1834-1-richard.purdie@linuxfoundation.org>
-References: <20181214140310.1834-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=4ZgoEKbSO0iZ75s/w+DZs3tY2jUBr7htd/Py9nAUqbc=;
+	b=gZv+CLSHo31VWgRTYQ71JVEBeSaajPLKKF+YFm6axVHT49EfFosAtksrVHJu57G3Vj
+	jUqm55Rk8bBnSNODES28pAj//U/pKd+rUgV0PICA0my72HW7XoCU1S7xGmmgNVphrkR4
+	5nD5EoOWwFfUNt2ow7G+iTm8HYBdcbh+OV4xf/n1wfc9I+bhqBUYovnm1+8cn6QDA1bG
+	+B94vv7fmRX9G2Ob0YH6mnZ8Nwun0p+7QZXKj9soQwKK9kyiXGm0iOY5EbWAF4F7vppg
+	YmTjRPYEaE5eeEBGs/l3DVF6PoRqXSK4zRx/sXqikbeZ2spXjlMTXRhq84qqNOqJR5/9
+	lnww==
+X-Gm-Message-State: AA+aEWZrEaOoJDfcIECcr9VeGpFOHTHZlxEEii434EeBqt8vLQ6d4cZS
+	DL8hefspVRpzc76nUAc9pcpCOiNsFbPsMeLveSseyw==
+X-Google-Smtp-Source: AFSGD/VDb2MJYpgt9Afy1PZgfjay8CLs32fYLvZx5zNIZu3fC7vx4w0y68hlplcuXa7vuRMDMtUv2i9mighqkB+0cAg=
+X-Received: by 2002:a24:8e43:: with SMTP id h64mr3228003ite.26.1544799278285; 
+	Fri, 14 Dec 2018 06:54:38 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] go-crosssdk: PN should use SDK_SYS, not TARGET_ARCH
+References: <20181214011937.16881-1-douglas.royds@taitradio.com>
+In-Reply-To: <20181214011937.16881-1-douglas.royds@taitradio.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Dec 2018 14:54:26 +0000
+Message-ID: <CAJTo0La3xLFbdsODnV9pp8_kc_GWSsCamesBmcELTvSqTh3z3w@mail.gmail.com>
+To: Douglas Royds <douglas.royds@taitradio.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] acl: trivial: whitespace only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 14:03:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 14 Dec 2018 14:54:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The crosssdk dependencies are handled using the virtual/ namespace so
-this name doesn't matter in the general sense. We want to be able to provide
-recipe maintainer information through overrides though, so this standardises it
-with the behaviour from gcc-crosssdk and ensures the maintainer overrides work.
+Enrico just submitted some upgrades to acl and attr which touch the
+recipes quite dramatically, could you rebase all these patches on top
+of that?  Several will just disappear, for example ptest support was
+removed.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/go/go-crosssdk.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
-index 4391b32424a..94f6fb8eb76 100644
---- a/meta/recipes-devtools/go/go-crosssdk.inc
-+++ b/meta/recipes-devtools/go/go-crosssdk.inc
-@@ -1,7 +1,7 @@
- inherit crosssdk
- 
- DEPENDS = "go-native virtual/${TARGET_PREFIX}gcc-crosssdk virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/${TARGET_PREFIX}binutils-crosssdk"
--PN = "go-crosssdk-${TARGET_ARCH}"
-+PN = "go-crosssdk-${SDK_SYS}"
- PROVIDES = "virtual/${TARGET_PREFIX}go-crosssdk"
- 
- export GOHOSTOS = "${BUILD_GOOS}"
--- 
-2.19.1
-
+Ross
+On Fri, 14 Dec 2018 at 01:20, Douglas Royds <douglas.royds@taitradio.com> wrote:
+>
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/recipes-support/attr/acl_2.2.52.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
+> index 6bc77d868d..7f5883a5d7 100644
+> --- a/meta/recipes-support/attr/acl_2.2.52.bb
+> +++ b/meta/recipes-support/attr/acl_2.2.52.bb
+> @@ -47,6 +47,7 @@ do_install_ptest() {
+>         install -m 644 ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+>  }
+>
+> -RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
+> +RDEPENDS_${PN}-ptest = "acl bash coreutils \
+> +                        perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
