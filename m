@@ -1,47 +1,19 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
-	[209.85.210.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B1FF7BDEA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 18:28:24 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id u16so6284827otk.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 10:28:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iMh3466XorDCeuGDoMhaCz7wmt3Uy6esXMKWxopN3vw=;
-	b=cTslrzVysrM1OkjycQC4y4bemcTFPkILSpjeAgx7FbnpKe3uh90LFFeipBaH4rUYsZ
-	BXsOApYriSMczJeJfqYSdQk7vAkPo/iospGuN7EBsh+N3dWM7EkwKSRMTLXcBzBdrsIR
-	5klqatgDry7EHlKNTGCf/BVsEOpf5Kf4nDudGPFmJfflDmzDkN5eMeEjWXaqEuOYPAgv
-	r8FzJD3/LVHL0BdHjwCZ4RuHwztBZTmKw8/YHh4XK7Wf39uGcoPWxs9kri75PmLBI4Ws
-	RS2tkmf/NzXtlguu1Y5JTYEEUJs+2mcE57X7a/84QMqXdy/aIaiE9w0gZn8z1lCU7kMp
-	pbRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=iMh3466XorDCeuGDoMhaCz7wmt3Uy6esXMKWxopN3vw=;
-	b=V/z0cltxjNzVS0cOV3KJTeB08RB4b97CEwfcRnVe+LEv23NT1K8WXTliwGadjzLUTJ
-	+BvfUmpsUI5aqSUd29sEG8RPdlNN8JoPdv1k9e6xizZ+/59y70CK7bD+hP3Svv0reUW+
-	lcZAy6GRce34xpr47WTyaMDTadXfvj9o5qZXtuPFFuLn/dStUucY7VLWoIOzntSOxxGB
-	F+GjENUzy0jpNuu5VllA+Qs+0zZSHstVCemetZXL1qbLYrwxgppZ0tsZuzliFw3TDTRt
-	YFZqT3N/OX1koGupWh6ABeNGxjj7J7X6B99MhTqIOJncijhMipOBL5aqi/XCJuIAu70U
-	qZew==
-X-Gm-Message-State: AA+aEWaUBftwi6joOOLv7GPa2cHMSleEywNazw3pTHnwStBKWEqI2WKE
-	mk5qjPscBr2LfDV9A87/xjOgfnu8EyKTGo1+rOM=
-X-Google-Smtp-Source: AFSGD/UVJPBdo7CRCPOzFhbYhBrH0YY6LWm3any+jLHkr4vudkTrR/ufrx9bTNFhHkzj9V1wiHfnVwXkRY2VkEPCr34=
-X-Received: by 2002:a9d:2289:: with SMTP id y9mr716671ota.326.1544812103976;
-	Fri, 14 Dec 2018 10:28:23 -0800 (PST)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3630B7BDC3;
+	Fri, 14 Dec 2018 18:35:51 +0000 (UTC)
 MIME-Version: 1.0
-References: <20181214181535.9186-1-richard.purdie@linuxfoundation.org>
-	<20181214181535.9186-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20181214181535.9186-2-richard.purdie@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Dec 2018 19:28:11 +0100
-Message-ID: <CANNYZj8aDC6L66bSkAgMCT5dxmWMsMAEKMsixGWCvcaoUd8fbg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oeqa/selftest/distrodata: Port to use the new recipeutils.get_recipe_upgrade_status() function
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andrii Bordunov via Openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Dec 2018 18:35:52 -0000
+Message-ID: <20181214183552.2332.78736@do>
+References: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXR0cjogdXBkYXRlZCBhY2wgKyBhdHRyIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,14 +26,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 18:28:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Dec 2018 18:35:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 14 Dec 2018 at 19:16, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> @@ -17,11 +19,11 @@ class Distrodata(OESelftestTestCase):
->          feature = 'INHERIT += "distrodata"\n'
->          feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
+== Series Details ==
 
-^^^^ These are no longer needed? Otherwise, looks fantastic!
+Series: attr: updated acl + attr (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/15341/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-use-sys-xattr.h-not-attr-xattr.h.patch
+  Current          Upstream-Status: pending
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
