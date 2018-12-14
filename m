@@ -1,50 +1,47 @@
-Return-Path: <erik.boto@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BCB407BD9C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+	[209.85.217.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 43A897BDAF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 18:54:02 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id c126so6790133wmh.0
+	Fri, 14 Dec 2018 19:10:04 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id v205so4031705vsc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 10:54:04 -0800 (PST)
+	Fri, 14 Dec 2018 11:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QwgNThzCdWzepnOeYkmlBcusZBwEWsO/IbaNRAhypHs=;
-	b=mrHnHK/FqDZbb1OkiZefusNTjAhXKW/CzFbwWbP/ZDBEEGARCFHARlVRrT29kYS/Vl
-	0x4Z+gjBexeDL03u1QMrQpjK1Gc3oYDmblpVivIwLEzkwKvSq23iNfc/P+sdwwlKvQ2b
-	f//CnhskHSf7xVOSfGEx+6Md1JCHppy/M/+xWQXeH9qVLFHFl7UR1yJqCyaH0z2wzKZ5
-	vTfdP2R0A2gMBLt6SPR0zhvXcSKHZqVZyFfk2iVMVEy+0sFXxmNidYwS4ZAhp8QZKMkX
-	G5ZkHFyPcSZKjGDgXriIe2CrYWVhbuWSbxcmBYn2vxFuIk59OLqaWTvzXnlpIltjzDs7
-	1eRQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=nB2VNi829og1PpkQC8QpD0DwiaPt2FkeS8a4xBTMbRk=;
+	b=c3dqhCsA9h26R1bfod/CUhtwsQj6mRsVWkfz1NCFCecZLuWBxKPknm7+B8AEAs5PFT
+	S+PPxbw2dtsaXcq94vWij+1afiixXrq6P9vmxt62e6hDCW/1uY5DEBxjXx1XltRR9+JV
+	H54fsX0cFVY2/tcGaNyhouAqBsR3opoRAwsxKS7GTArSN1S31bnjyLborV7NoueBGIz6
+	+0PjvhGLD+HllpuLpt07tX0kxr6HKb89mbvH7YSGIFmgDe7yRv9mAnYODDkuTaLyQl/l
+	F/FPtagFgdJvTdQRmG4n3MD5HMV4jTduGHiW/ppUm5H6KQSKPH8jftyPiBMpPKtXqCuw
+	oxUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QwgNThzCdWzepnOeYkmlBcusZBwEWsO/IbaNRAhypHs=;
-	b=tzvLEhY8PjNJ8tzG9Ad/fzBYbZNn3Rqloemb/dcn2bIjGhwYLAKtyHLD7Zgu5PntZb
-	wVgPe+Ttqi3qaVI4gSRqIZOiIHass20WQ8IvBbGIWP9Q3hXoQ8L11yuiuiKKiDFAgclr
-	57zLlw4SN6VBkmTUkOy/55JIIz8dlDSsmGx/1hkiokhFzFVmYA2vEfxIHmQ8TVdxaXDg
-	1Nx4qJHIPRPwsQ0FSiTgjUm0pWxlT6zPK34BRg0W7vfuam6sTOjIc76ZU+HIhtZ+Labc
-	1/yYhf2CeEVMRggJdf95o9ZewMMK2pD5fgjrcIjaeXeF9ODni//zr1XCw3Ue6rqVIe+1
-	8qKA==
-X-Gm-Message-State: AA+aEWbWOiMnPybqgWCJt+DBgJX8XB7R0djwbWqa3EZX9Yu7C+WocRHP
-	/FB1Cm3crriNeu5yRngzzm0+V2at
-X-Google-Smtp-Source: AFSGD/WLDPUEQwaRTnHrzaDmyYEykv9lJgwjZNmlaOV6xDfQnXtVwKh0IWHVHOL7NP49w4leLaV9sw==
-X-Received: by 2002:a1c:ca15:: with SMTP id a21mr3899392wmg.132.1544813642925; 
-	Fri, 14 Dec 2018 10:54:02 -0800 (PST)
-Received: from debbie.luxoft.com ([83.218.80.243])
-	by smtp.gmail.com with ESMTPSA id
-	k135sm7888743wmd.42.2018.12.14.10.54.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 14 Dec 2018 10:54:01 -0800 (PST)
-From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2018 19:53:42 +0100
-Message-Id: <20181214185342.11550-1-erik.boto@gmail.com>
-X-Mailer: git-send-email 2.20.0.rc2
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=nB2VNi829og1PpkQC8QpD0DwiaPt2FkeS8a4xBTMbRk=;
+	b=uFYAEDQpDKurcwe5uAD3GKpANmysm5nG7w5yCCQGbK+kdT0RaBINu+MhugC53soVvN
+	cvDzxsVQW21d6O9XEQ0bDkW02asNATtzkj88aSB0ihiKAiB6+2qK+F6kLngmcm8Dqskh
+	RjqPqdaY1wHJ9qkmIxsgSSbobu60BnkFQ1ZkzK8CocKdQF4jd+od61rDCZmhYFdoD5ho
+	ZpOA42a+fxVI/SaJMbbr6ZXqbIS0PGTnmvgb7jwDG1nJOZekmyHPZVivWIGCaHpmPyU4
+	jr0Q99cXeG6nTZSGYX3oZAgsW7BSomQ2zoALOACuY3K9JwZf5dYKFgWFDh68IsDXctIf
+	y0TQ==
+X-Gm-Message-State: AA+aEWZZyLKkt5+8T5j1AFniSazRWRN+an4VZoaotF7yZxq04AKbhqAt
+	fg/MHk+J4PDQjQbMP3DuLqaVLwtnfFeWfH7tCCk=
+X-Google-Smtp-Source: AFSGD/UUf0ZAEb/2mT/9uzs4V3mTKJOg6Le9U/w5JDR5EHrAdYzSzHu8Ptz103RVG4OArccV1sgXblsq54xFFi18x3E=
+X-Received: by 2002:a67:7c92:: with SMTP id x140mr1785710vsc.137.1544814604732;
+	Fri, 14 Dec 2018 11:10:04 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] testimage: Add possibility to pass parmeters to qemu
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+	<1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
+In-Reply-To: <1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 14 Dec 2018 11:09:53 -0800
+Message-ID: <CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
+To: serhe.popovych@gmail.com
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/13] musl: Ensure GLIBC_LDSO symlink target does not exist on reinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,50 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 18:54:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 14 Dec 2018 19:10:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Add a variable called TEST_QEMUPARAMS in testimage.bbclass to make it
-possible to pass parameters to qemu. This can be useful for e.g.
-increasing the amount of RAM available during testimage runs.
+On Fri, Dec 14, 2018 at 9:57 AM Serhey Popovych
+<serhe.popovych@gmail.com> wrote:
+>
+> Otherwise do_install task will fail on rebuild.
+>
+> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 9cc875c..4593cde 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -61,7 +61,7 @@ do_install() {
+>         oe_runmake install DESTDIR='${D}'
+>
+>         install -d ${D}${bindir}
+> -       rm -f ${D}${bindir}/ldd
+> +       rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
 
-Signed-off-by: Erik Botö <erik.boto@gmail.com>
----
- meta/classes/testimage.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The correct fix here is actually to remove this line entirely. The
+official ruling is that there should be no expectation that re-running
+do_install should work and patches to make it work are not acceptable.
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 82cbb068ed..8a15c30c79 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -31,6 +31,7 @@ TESTIMAGE_AUTO ??= "0"
- # TEST_LOG_DIR contains a command ssh log and may contain infromation about what command is running, output and return codes and for qemu a boot log till login.
- # Booting is handled by this class, and it's not a test in itself.
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
-+# TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
- 
- TEST_LOG_DIR ?= "${WORKDIR}/testimage"
- 
-@@ -63,6 +64,7 @@ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
- TEST_TARGET ?= "qemu"
-+TEST_QEMUPARAMS ?= ""
- 
- TESTIMAGEDEPENDS = ""
- TESTIMAGEDEPENDS_append_qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
-@@ -301,7 +303,8 @@ def testimage_main(d):
-     try:
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
--        tc.target.start(extra_bootparams=bootparams)
-+        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"),
-+                        extra_bootparams=bootparams)
-         results = tc.runTests()
-     except (RuntimeError, BlockingIOError) as err:
-         if isinstance(err, RuntimeError):
--- 
-2.20.0.rc2
+  http://lists.openembedded.org/pipermail/openembedded-core/2018-September/273723.html
 
+>         lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
+>         lnr ${D}${libdir}/libc.so ${D}${GLIBC_LDSO}
+>         for l in crypt dl m pthread resolv rt util xnet
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
