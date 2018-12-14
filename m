@@ -1,47 +1,37 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E48506B50B
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B12D379E36
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 04:57:07 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id i7so4901770qtj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2018 20:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rveB2935TGzqKvj0jKuSTk/tXv4bvxbMVbuJrCLSEiw=;
-	b=Ne+ZiBZoHMK3YVLST+a57fobkxdSVmcDoJXLCeXrXgen3rK6mObJYFnZGRhn8aOlvy
-	8ZVy4rIbWeF7HpFxVytTEFSLz1R698kWoivS0QceC/WZ9VdUMT0IEs6Pm01I8LOnLqZb
-	oNXp2jJw/s8T8Sy2cgEleoVroigTjzgTM0BehsEmGPxXA3CuxJ7zAWc1h7Y6FiJXmHVz
-	xPvHEyle/cn4/Qo8AwdDGZ/00brhOoBeNEHAuQEq3wWJSWDrljhWdYeGNP6FCnGkveS5
-	NAO0QOpl1KqlLp7FVhjTkMbXa7F0rqkBveT17IbL7ozNb21iG6WwcfCvx7khX74wX4fU
-	imNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rveB2935TGzqKvj0jKuSTk/tXv4bvxbMVbuJrCLSEiw=;
-	b=F7yapixG0K32+n98hf3kmbbsLKRtSuB5w5TqQGrCcKApc5ctgyi3SDFmxgVN8D/dyI
-	4YDMr9La4yVWo78BNzbL3iIbKKzTFjT3Bn5Cy5K94wFuIe1y1m9gs7oBn9S1jOd2siZe
-	4pgNhg+VFKrYHgbOx4CRefQYaXn1rOzIrvy9giR5MCiT3MtxBAgnEw8cIGJthWzhnWCu
-	rdl7kTx84edPBV8jewPj71szyi8d55GH7HG3P8WFR/Jd6eH1FBayATJhajwT9WGDBaCA
-	f6XZw6PRchoTn0//MA79a4b6puSJlD6estMLbEIzVz9edzX6xb49IyzQdiisvImi+1LF
-	yafg==
-X-Gm-Message-State: AA+aEWYwql1N58KEpCoKuE60J4egMKRBpxZ/68BBZeAEQQEvKZCLdHa3
-	PXPgSm8JxyeRgZaEV/Pppoh+ZiLPqvC8yNhZU4VfdiR0eD4=
-X-Google-Smtp-Source: AFSGD/WvaqGWwwLaWhW6vTQAo0QAxPkV2ToqWQOpGloioPLjs47UJ80+tn0hU4BgEGwGZ88v/aKnVuvYkUkYqFZuK10=
-X-Received: by 2002:aed:3c0c:: with SMTP id t12mr1466100qte.226.1544763428772; 
-	Thu, 13 Dec 2018 20:57:08 -0800 (PST)
+	Fri, 14 Dec 2018 06:20:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,351,1539619200"; d="scan'208";a="49752610"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Dec 2018 14:20:29 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id D374C4B734CC;
+	Fri, 14 Dec 2018 14:20:28 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0415.000; Fri, 14 Dec 2018 14:20:29 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Ross Burton <ross.burton@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] nss: fix Upstream-Status format
+Thread-Index: AQHUkKt9lUZsMvuguEyfTpdzRDG8LqV9yCxw
+Date: Fri, 14 Dec 2018 06:20:27 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BBB2FE@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <20181210171141.10722-1-ross.burton@intel.com>
+In-Reply-To: <20181210171141.10722-1-ross.burton@intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-References: <1544739463-14029-1-git-send-email-jaewon.lee@xilinx.com>
-In-Reply-To: <1544739463-14029-1-git-send-email-jaewon.lee@xilinx.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Fri, 14 Dec 2018 14:56:57 +1000
-Message-ID: <CA+aJhH09dR4Fe9mBF+vTTdeGAURw+LWpQPeaVdTyM+96-bQkxA@mail.gmail.com>
-To: jaewon.lee@xilinx.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] device-tree.bbclass: Add support to compile overlays separately
+X-yoursite-MailScanner-ID: D374C4B734CC.AD0A3
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH 1/4] nss: fix Upstream-Status format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 04:57:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Dec 2018 06:20:30 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On Fri, 14 Dec 2018 at 08:18, Jaewon Lee <jaewon.lee@xilinx.com> wrote:
->
-> Currently only dts files are considered when looping through files to
-> compile. Modifying the loop to compile other files that are overlays.
-> Also surrounding this check with a try block as the function to find
-> overlays parses the file for a '/plugin/' tag, and there may be files in
-> the DT_FILES_PATH directory that are not parseable.
->
-> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> ---
->  meta/classes/devicetree.bbclass | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
-> index 8fe5a5e..db10b86 100644
-> --- a/meta/classes/devicetree.bbclass
-> +++ b/meta/classes/devicetree.bbclass
-> @@ -120,9 +120,12 @@ python devicetree_do_compile() {
->      includes = expand_includes("DT_INCLUDE", d)
->      listpath = d.getVar("DT_FILES_PATH")
->      for dts in os.listdir(listpath):
-> -        if not dts.endswith(".dts"):
-> -            continue # skip non-.dts files
->          dtspath = os.path.join(listpath, dts)
-> +        try:
-> +            if not(os.path.isfile(dtspath)) or not(dts.endswith(".dts") or devicetree_source_is_overlay(dtspath)
-
-This is missing the trailing "):". Otherwise looks good.
-
-Regards,
-Nathan
-
-> +                continue # skip non-.dts files and non-overlay files
-> +        except:
-> +            continue # skip if can't determine if overlay
->          devicetree_compile(dtspath, includes, d)
->  }
->
-> --
-> 2.7.5
->
+SGkgUm9zczoNCg0KTXkgcGF0Y2ggaGFzIGJlZW4gbWVyZ2VkIGJ5IFVwc3Ry
+ZWFtIE5TUzoNCmh0dHBzOi8vaGcubW96aWxsYS5vcmcvcHJvamVjdHMvbnNz
+L3Jldi82NmNhZTZhOGY0YjY0MGJlYzVlODUxMGRjZmMyNDdlMDU0NmM5NzNj
+DQoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NClpoZW5nIFJ1b3Fpbg0KTmFuamluZyBGdWppdHN1IE5h
+bmRhIFNvZnR3YXJlIFRlY2guIENvLiwgTHRkLihGTlNUKQ0KQUREUi46IE5v
+LjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCiAgICAgICBOYW5q
+aW5nLCAyMTAwMTIsIENoaW5hDQpNQUlMIDogemhlbmdycS5mbnN0QGNuLmZ1
+amlzdHUuY29tDQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
+PiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBS
+b3NzIEJ1cnRvbg0KPiBTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAxMSwgMjAx
+OCAxOjEyIEFNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggMS80
+XSBuc3M6IGZpeCBVcHN0cmVhbS1TdGF0dXMgZm9ybWF0DQo+IA0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29t
+Pg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L25zcy9uc3MvbnNz
+LWZpeC1TSEFfSFRPTkwtYnVnLWZvci1hcm0tMzJiZS5wYXRjaCB8IDINCj4g
+Ky0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L25zcy9uc3MvbnNzLWZpeC1TSEFfSFRPTkwtYnVnLWZvci1hcm0tDQo+
+IDMyYmUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uc3MvbnNzL25z
+cy1maXgtU0hBX0hUT05MLWJ1Zy1mb3ItYXJtLQ0KPiAzMmJlLnBhdGNoDQo+
+IGluZGV4IDdiYThkMTY0ODNhLi5iYjFjNmUzYjM0NSAxMDA2NDQNCj4gLS0t
+IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnNzL25zcy9uc3MtZml4LVNIQV9I
+VE9OTC1idWctZm9yLWFybS0NCj4gMzJiZS5wYXRjaA0KPiArKysgYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9uc3MvbnNzL25zcy1maXgtU0hBX0hUT05MLWJ1
+Zy1mb3ItYXJtLQ0KPiAzMmJlLnBhdGNoDQo+IEBAIC0yLDcgKzIsNyBAQCBT
+dWJqZWN0OiBbUEFUQ0hdIEZpeCBTSEFfSFRPTkwgYnVnIGZvciBhcm0gMzJi
+ZS4NCj4gDQo+ICBJbiBhcm0gMzJiZSwgdGhlcmUgaXMgbm8gbmVlZCB0byBy
+ZXZlcnNlIHRoZSBob3N0IHZhbHVlLg0KPiANCj4gLVVwc3RyZWFtIFN0YXR1
+czogUGVuZGluZw0KPiArVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+IA0K
+PiAgU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RA
+Y24uZnVqaXRzdS5jb20+DQo+ICAtLS0NCj4gLS0NCj4gMi4xMS4wDQo+IA0K
+PiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QN
+Cj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
+PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL29wZW5lbWJlZGRlZC1jb3JlDQo+IA0KDQoKCg==
 
