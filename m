@@ -1,53 +1,50 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA0E7BDF5
+Return-Path: <erik.boto@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BCB407BD9C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 18:36:07 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	wBEIa7fw017617
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 19:36:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1544812568;
-	bh=ZRKMAFVMNtClaziT+CQfRyaUhWYCr8LC1XlaP6oHzeE=; l=1355;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=Ts30i2R4uzwjbayLMj56S2u16moTypEO+/YgC/5DMJHiXqo/uj3AxEYU9rleQJjFb
-	KSNJoktjr++gC9YIBA6Wtnst+eEAfTJIHT0u3OJD3vBYn3U8LvISqnDACSVUsPEijK
-	88GC4i9EMofSSdCQhTH4JptbrXlBhrMsDN3/dL7A=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	wBEIa04d004570 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Fri, 14 Dec 2018 19:36:01 +0100
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 5E09BDA3AAE;
-	Fri, 14 Dec 2018 19:36:41 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	wBEIZw6g004567
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Fri, 14 Dec 2018 19:35:58 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.91) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1gXsJa-006g92-Ex; Fri, 14 Dec 2018 19:35:58 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: "Burton\, Ross" <ross.burton@intel.com>
-References: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
-	<CAJTo0Lbe3Kq+xtEQu9YJAK+8kop6C1ffgTHmo6ODGL-i-wmu9A@mail.gmail.com>
-Date: Fri, 14 Dec 2018 19:35:58 +0100
-In-Reply-To: <CAJTo0Lbe3Kq+xtEQu9YJAK+8kop6C1ffgTHmo6ODGL-i-wmu9A@mail.gmail.com>
-	(Ross Burton's message of "Fri, 14 Dec 2018 17:01:49 +0000")
-Message-ID: <lyy38s6jn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	Fri, 14 Dec 2018 18:54:02 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id c126so6790133wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Dec 2018 10:54:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QwgNThzCdWzepnOeYkmlBcusZBwEWsO/IbaNRAhypHs=;
+	b=mrHnHK/FqDZbb1OkiZefusNTjAhXKW/CzFbwWbP/ZDBEEGARCFHARlVRrT29kYS/Vl
+	0x4Z+gjBexeDL03u1QMrQpjK1Gc3oYDmblpVivIwLEzkwKvSq23iNfc/P+sdwwlKvQ2b
+	f//CnhskHSf7xVOSfGEx+6Md1JCHppy/M/+xWQXeH9qVLFHFl7UR1yJqCyaH0z2wzKZ5
+	vTfdP2R0A2gMBLt6SPR0zhvXcSKHZqVZyFfk2iVMVEy+0sFXxmNidYwS4ZAhp8QZKMkX
+	G5ZkHFyPcSZKjGDgXriIe2CrYWVhbuWSbxcmBYn2vxFuIk59OLqaWTvzXnlpIltjzDs7
+	1eRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QwgNThzCdWzepnOeYkmlBcusZBwEWsO/IbaNRAhypHs=;
+	b=tzvLEhY8PjNJ8tzG9Ad/fzBYbZNn3Rqloemb/dcn2bIjGhwYLAKtyHLD7Zgu5PntZb
+	wVgPe+Ttqi3qaVI4gSRqIZOiIHass20WQ8IvBbGIWP9Q3hXoQ8L11yuiuiKKiDFAgclr
+	57zLlw4SN6VBkmTUkOy/55JIIz8dlDSsmGx/1hkiokhFzFVmYA2vEfxIHmQ8TVdxaXDg
+	1Nx4qJHIPRPwsQ0FSiTgjUm0pWxlT6zPK34BRg0W7vfuam6sTOjIc76ZU+HIhtZ+Labc
+	1/yYhf2CeEVMRggJdf95o9ZewMMK2pD5fgjrcIjaeXeF9ODni//zr1XCw3Ue6rqVIe+1
+	8qKA==
+X-Gm-Message-State: AA+aEWbWOiMnPybqgWCJt+DBgJX8XB7R0djwbWqa3EZX9Yu7C+WocRHP
+	/FB1Cm3crriNeu5yRngzzm0+V2at
+X-Google-Smtp-Source: AFSGD/WLDPUEQwaRTnHrzaDmyYEykv9lJgwjZNmlaOV6xDfQnXtVwKh0IWHVHOL7NP49w4leLaV9sw==
+X-Received: by 2002:a1c:ca15:: with SMTP id a21mr3899392wmg.132.1544813642925; 
+	Fri, 14 Dec 2018 10:54:02 -0800 (PST)
+Received: from debbie.luxoft.com ([83.218.80.243])
+	by smtp.gmail.com with ESMTPSA id
+	k135sm7888743wmd.42.2018.12.14.10.54.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Dec 2018 10:54:01 -0800 (PST)
+From: =?UTF-8?q?Erik=20Bot=C3=B6?= <erik.boto@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Dec 2018 19:53:42 +0100
+Message-Id: <20181214185342.11550-1-erik.boto@gmail.com>
+X-Mailer: git-send-email 2.20.0.rc2
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] attr: updated acl + attr
+Subject: [PATCH] testimage: Add possibility to pass parmeters to qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 18:36:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Dec 2018 18:54:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-"Burton, Ross" <ross.burton@intel.com> writes:
+Add a variable called TEST_QEMUPARAMS in testimage.bbclass to make it
+possible to pass parameters to qemu. This can be useful for e.g.
+increasing the amount of RAM available during testimage runs.
 
->> Recent acl and attr package versions changed their buildsystem to
->> standard automake so that previous buildsystem related patches are not
->> needed anymore and recipes become very simple.
->
-> pseudo-native doesn't build anymore:
+Signed-off-by: Erik Botö <erik.boto@gmail.com>
+---
+ meta/classes/testimage.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-strange... Requires an explicit '-c cleansstate pseudo-native' to show
-the error but it built fine with a removed TMPDIR
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 82cbb068ed..8a15c30c79 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -31,6 +31,7 @@ TESTIMAGE_AUTO ??= "0"
+ # TEST_LOG_DIR contains a command ssh log and may contain infromation about what command is running, output and return codes and for qemu a boot log till login.
+ # Booting is handled by this class, and it's not a test in itself.
+ # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
++# TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
+ 
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ 
+@@ -63,6 +64,7 @@ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ 
+ TEST_QEMUBOOT_TIMEOUT ?= "1000"
+ TEST_TARGET ?= "qemu"
++TEST_QEMUPARAMS ?= ""
+ 
+ TESTIMAGEDEPENDS = ""
+ TESTIMAGEDEPENDS_append_qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
+@@ -301,7 +303,8 @@ def testimage_main(d):
+     try:
+         # We need to check if runqemu ends unexpectedly
+         # or if the worker send us a SIGTERM
+-        tc.target.start(extra_bootparams=bootparams)
++        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"),
++                        extra_bootparams=bootparams)
+         results = tc.runTests()
+     except (RuntimeError, BlockingIOError) as err:
+         if isinstance(err, RuntimeError):
+-- 
+2.20.0.rc2
 
-
-> | In file included from pseudo_ports.h:15:0,
-> |                  from pseudo.h:171,
-> |                  from pseudo.c:37:
-> | ports/linux/xattr/portdefs.h:1:24: fatal error: attr/xattr.h: No such file or directory
-> |  #include <attr/xattr.h>
-
-I thnk, fixing it in pseudo is the correct way because <attr/xattr.h>
-has been removed by intention by upstream.  Most software seems to use
-this "new" header already, but there can be a problem with ENOATTR which
-requires either an #include of <attr/attributes.h>, a manual #define or
-replacement by ENODATA.
-
-
-Alternatively, we can ship -- like Fedora -- a compatibility wrapper
-like
-
--------------- 
-/* legacy wrapper; see
- * http://git.savannah.nongnu.org/cgit/attr.git/commit/include?id=7921157890d07858d092f4003ca4c6bae9fd2c38
- */
-
-#warning Using legacy <attr/xattr.h>; please update program to include <sys/xattr.h>
-
-#include <sys/xattr.h>
-#include "attributes.h"
--------------- 
-
-
-
-Enrico
 
