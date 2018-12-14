@@ -1,24 +1,23 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E0D9879E32
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1932D6D9AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 07:31:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBE7U9l4004987
+	Fri, 14 Dec 2018 08:54:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBE8sdcX001477
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Dec 2018 23:30:20 -0800
+	Fri, 14 Dec 2018 00:54:39 -0800 (PST)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 13 Dec 2018 23:29:59 -0800
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Fri, 14 Dec 2018 00:54:38 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
-Date: Fri, 14 Dec 2018 15:29:56 +0800
-Message-ID: <1544772596-35320-1-git-send-email-hongxu.jia@windriver.com>
+	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+Date: Fri, 14 Dec 2018 16:54:36 +0800
+Message-ID: <1544777676-38812-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] mdadm: fix gcc-8 format-truncation warning
+Subject: [PATCH] linux-libc-headers: workaround do_install failure while host gcc version < 4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 07:31:03 -0000
+X-List-Received-Date: Fri, 14 Dec 2018 08:54:42 -0000
 Content-Type: text/plain
 
-While compiling with `-Werror=format-truncation=', it failed
-[snip]
-|super0.c:236:32: error: 'snprintf' output may be truncated
-before the last format character [-Werror=format-truncation=]
-|   snprintf(nb, sizeof(nb), "%4d", d);
-|                                ^
-|super0.c:236:3: note: 'snprintf' output between 5 and 12 bytes
-into a destination of size 11
-|   snprintf(nb, sizeof(nb), "%4d", d);
-[snip]
+Since kernel commit [e501ce9 x86: Force asm-goto], running
+`make menuconfig (bitbake linux-yocto -cmenuconfig)' requires
+host gcc support asm-goto which gcc version >= 4.5
+
+It broke linux-libc-headers do_install even though there is no
+relation with `make menuconfig'
+
+Set CC_HAVE_ASM_GOTO="1" to workaround the checking
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e501ce957a786ecd076ea0cfb10b114e6e4d0f40
+https://unix.stackexchange.com/questions/456767/make-menuconfig-error-while-trying-to-build-kernel
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../0001-fix-gcc-8-format-truncation-warning.patch | 39 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-fix-gcc-8-format-truncation-warning.patch
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-fix-gcc-8-format-truncation-warning.patch b/meta/recipes-extended/mdadm/files/0001-fix-gcc-8-format-truncation-warning.patch
-new file mode 100644
-index 0000000..fa9c8cc
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-fix-gcc-8-format-truncation-warning.patch
-@@ -0,0 +1,39 @@
-+From 3158d3788c2e0fb75ace2c89840bd8a977fb4cb0 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 14 Dec 2018 15:12:31 +0800
-+Subject: [PATCH] fix gcc-8 format-truncation warning
-+
-+While compiling with `-Werror=format-truncation=', it failed
-+[snip]
-+|super0.c:236:32: error: 'snprintf' output may be truncated
-+before the last format character [-Werror=format-truncation=]
-+|   snprintf(nb, sizeof(nb), "%4d", d);
-+|                                ^
-+|super0.c:236:3: note: 'snprintf' output between 5 and 12 bytes
-+into a destination of size 11
-+|   snprintf(nb, sizeof(nb), "%4d", d);
-+[snip]
-+
-+Upstream-Status: Submitted [https://github.com/neilbrown/mdadm/pull/34]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ super0.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/super0.c b/super0.c
-+index 756cab5..12c28da 100644
-+--- a/super0.c
-++++ b/super0.c
-+@@ -229,7 +229,7 @@ static void examine_super0(struct supertype *st, char *homehost)
-+ 	     d++) {
-+ 		mdp_disk_t *dp;
-+ 		char *dv;
-+-		char nb[11];
-++		char nb[12];
-+ 		int wonly, failfast;
-+ 		if (d>=0) dp = &sb->disks[d];
-+ 		else dp = &sb->this_disk;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 9118baa..7663a6b 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
-            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
-            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-+           file://0001-fix-gcc-8-format-truncation-warning.patch \
-            "
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index be215af..766322e 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -51,7 +51,7 @@ UPSTREAM_CHECK_URI = "https://www.kernel.org/"
+ 
+ S = "${WORKDIR}/linux-${PV}"
+ 
+-EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}""
++EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}" CC_HAVE_ASM_GOTO="1""
+ 
+ do_configure[noexec] = "1"
+ 
 -- 
 2.7.4
 
