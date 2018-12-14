@@ -1,48 +1,48 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 414DD7BDE8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f178.google.com (mail-it1-f178.google.com
+	[209.85.166.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 127C96BCC1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 20:37:58 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id z11so3210019pgu.0
+	Fri, 14 Dec 2018 21:45:19 +0000 (UTC)
+Received: by mail-it1-f178.google.com with SMTP id c9so11741800itj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2018 12:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 14 Dec 2018 13:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JevvUsZ6fwijZyqIdXTPbVSGwH14Kb02hNOf3RK2bQ0=;
-	b=rJ4fDfTcRvznfdGqH7wyfSSqRMbXLXZet7Wh+p7AGvyXDmm6CAXHRD/oWOPQ4COZ4s
-	yq3/OQADFI9juTONlQoRDOmGCt0cSO8m5c27kOi5APNsm/jROOjohtmXWcRg6Rmdrv9t
-	QrnbBE1tNHlDDKjk+/PdV3Xzk5khyu6lFiA9z8z/eme30DdFyo/xhnBKQt65CPGXkJVF
-	sRarp1Dfn3WROJjLWrkIfXzXeaWXHo8mk7atXSEMXq2QpyG5AUWgTTSWFAhkyasLQzgj
-	zPCR/22T0GjKkuoHnIO39gFVDrRVPZvz+Tny+kdR7WHwJRechqP08LcI2s3FLyVZuuxx
-	GqGA==
+	:cc; bh=5K7DBOVieGm8LvbBxaAUWanjS4waPg5o4v1plUdpP+o=;
+	b=lCBuXl/Q8Z1r3ey2rVorgOkU50GDjhnd0KDejONBqZw0JG51pMExNC+aSgzikImD/s
+	sylTCWcS4/+Ht5H04BOJ9gRy6HJfxwQFV56pPP7N8VfLMhYJU66AmT4x9K9wd0iaE9sL
+	2+PSfYAhdJl0jmXmq62mzXPaZcjqckU70Y5uMUaaWye2i0wOwfA8zzUWkxogz5A413Nx
+	QPhaHw4r4LykEZudhTtsWwT/LsPk2Ehsrb/uBmqdheuz73fGv7P56PhoxK6hcBNo1lqY
+	MfA0v8zgsohMDRVXNSdSHwM82JXbG/tP3ILRh2y8zK65Xdj2xHqtXt1c0vyiXSzX53OQ
+	s3jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JevvUsZ6fwijZyqIdXTPbVSGwH14Kb02hNOf3RK2bQ0=;
-	b=UyV7zXMajpPInXSBS40jTaxpYeoFtd39NoKFrcZNBr7rPy1GcJI2AsVy47ypkhaUmp
-	YfzqNtvIur6omz7A/P6WgyQw/f83KLLugi2deo0v3OgxLtY2wXd4gVs7ZWQxHtEENiyq
-	oqOA/gdoc07glU9r0WLQDaZ96T6OIQ5DeFGtEq2J92XReeU2+II9Ey7NG3je4isGfrsA
-	W28hIbJiBhvmmGBFh7v2vSpXQMyL7FVYlquSNEkHwKvpS48WvfrYCxW/L7mMxmC6mJju
-	IgLTSq7k19/9Mpaxo0W6ZAy1vOvkmL6pVldCsvdSYl1ByMra5Iihw+7UfmkRbxZVZPfp
-	hCVg==
-X-Gm-Message-State: AA+aEWZvlqwQDFhHTra0Y4rha5MrycVlxE8TjgQLWtC0kl2TDST9kMfS
-	68m76RM4xK6fOAGsGZV6c/9YMIqaCHPrRdIuDcE=
-X-Google-Smtp-Source: AFSGD/X1Sy4j3RQ3FKFEk339YEZglHSurVc9TksendWVv4F3/Q1JWQlAZe81e26c8sn2e6rDmBWMuvwSzURgRhBfVos=
-X-Received: by 2002:a63:5f88:: with SMTP id t130mr4025101pgb.395.1544819879209;
-	Fri, 14 Dec 2018 12:37:59 -0800 (PST)
+	bh=5K7DBOVieGm8LvbBxaAUWanjS4waPg5o4v1plUdpP+o=;
+	b=mQB3NCja0l39Uad1Yae/NmVEzlD1Q3PMAzR1pSCnrqukKZoUDIbx1M3Xktt0m9krjy
+	ygD7xgYN0FRaS1GWUOvCjxgf59XTj3fyCY9eaM/2in9KmFfeWQnBBG0t+m/2uQgikZ3p
+	DfOVAA/RDh+JXnza5ONtzYWlCixdAEZuTcsGddwQWjiw2DxCRp6KS1QJnZBcVDOAz9nS
+	fF7pyKYceEm+9YOrXV6wy4c/IGsJSUB0BL+5oaSkBZbHvptTM8SLY2f/vYqnlKi7qya2
+	+Yi6Nogz7E1nkOhrvRtjcLNjOffK4kRZKZ1JuQDQCoxtX8y5ZkOSylISvez1/ump4G+8
+	3tmw==
+X-Gm-Message-State: AA+aEWa6bh9u5cHwVYbN/JFd0+fI4EbssfX+wMOAGi6QM64deUKg+bs5
+	CGigkh0J1s12fEgnwjU2e30okT5aygWlgnWzOXUQOA==
+X-Google-Smtp-Source: AFSGD/VtN6fohBLKjCf5EAzH7ebm6fNZRE6ngUVdmgTqMUYFcHrVLH2qZEjJ1rAaiH/iPjdAUI3FfNIQ5sZS2rrFAvE=
+X-Received: by 2002:a24:c601:: with SMTP id j1mr5109355itg.130.1544823920923; 
+	Fri, 14 Dec 2018 13:45:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20181213141312.14587-1-andrea.adami@gmail.com>
-	<CAMKF1srSoF3DJq231kSaspe0U8iVYqn1tFVtv6ABUv9eKaN+vw@mail.gmail.com>
-In-Reply-To: <CAMKF1srSoF3DJq231kSaspe0U8iVYqn1tFVtv6ABUv9eKaN+vw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Fri, 14 Dec 2018 21:37:45 +0100
-Message-ID: <CAAQYJAsZbBp6rOvr8h+MWZgGTFFJiUQBUnVKJ5KmtZvgsFOyMA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: fix build for powerpc-linux.musl and powerpc64-linux-musl
+References: <cover.1543484174.git.Qi.Chen@windriver.com>
+	<75835e51f6c88a58056350759080d5c0004562b7.1543484174.git.Qi.Chen@windriver.com>
+In-Reply-To: <75835e51f6c88a58056350759080d5c0004562b7.1543484174.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Dec 2018 21:45:09 +0000
+Message-ID: <CAJTo0LaEJ6FTnsbAydx18wKAvHa8dfSAoSo0BpXdVtszAtHn8A@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] netbase: add entry to /etc/hosts according to /etc/hostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,109 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2018 20:37:58 -0000
+X-List-Received-Date: Fri, 14 Dec 2018 21:45:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Fri, 30 Nov 2018 at 02:18, Chen Qi <Qi.Chen@windriver.com> wrote:
+> We default hostname to ${MACHINE}, but it's not in /etc/hosts,
+> resulting in commands like `hostname -f' failing due to lack
+> of entry.
+>
+> So add entry to /etc/hosts according to /etc/hostname. We do
+> this via pkg_postinst because hostname is set in base-files
+> recipe.
 
-the patch is now superseeded.
-Serhey sent a new patch-serie containing the fix for powerpc/musl,
-please review that.
-Thanks!
+RP and myself are still arguing over this so I thought I'd make my
+argument on the list for debate.
 
-Regards
-Andrea
+Updating /etc/hosts is being done with a postinst in netbase simply
+because /etc/hostname is contained in the base-files recipe. I
+advocate just moving the creation of /etc/hosts to base-files along
+with /etc/hostname, then base-files can write both files at the same
+time.  There's already a dependency on base-files from netbase so
+there will be no change in the rootfs, a file will just move between
+packages.
 
-On Fri, Dec 14, 2018 at 4:13 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Hi Andrea
->
-> Sigh, while I dont like what configury is doing here, we can probably
-> instead surgically check for
->
-> $CC --print-multiarch on ppc/musl
->
-> and then update the tweak-MULTIARCH-for-powerpc-linux-gnuspe.patch
-> patch to consider musl multiarch triplets. Maybe do it for ppc64 while here
-> but I will not hold you accountable for that.
-> On Thu, Dec 13, 2018 at 6:13 AM Andrea Adami <andrea.adami@gmail.com> wrote:
-> >
-> > Add the missing triplets (not considering uclibc) for do_configure.
-> >
-> > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> > ---
-> >  .../python3/powerpc-musl-triplets.patch       | 43 +++++++++++++++++++
-> >  meta/recipes-devtools/python/python3_3.5.6.bb |  1 +
-> >  2 files changed, 44 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
-> >
-> > diff --git a/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
-> > new file mode 100644
-> > index 0000000000..477d049858
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/python/python3/powerpc-musl-triplets.patch
-> > @@ -0,0 +1,43 @@
-> > +Using musl libc the task do_configure fails on powerpc*.
-> > +
-> > +  checking build system type... x86_64-pc-linux-gnu
-> > +  checking host system type... powerpc-oe-linux-musl
-> > +  checking for python3.5... python3.5
-> > + ...
-> > +  checking for the platform triplet based on compiler characteristics...
-> > +  powerpc-linux-gnu
-> > +  configure: error: internal configure error for the platform triplet
-> > +
-> > +Fix this by adding the musl triplets.
-> > +Note: uclibc is purposedly not considered (unsupported in oe-core).
-> > +
-> > +Upstream-Status: Pending
-> > +Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> > +
-> > +--- a/configure.ac     2018-12-13 14:44:55.414309610 +0100
-> > ++++ b/configure.ac     2018-12-13 13:22:37.546497547 +0100
-> > +@@ -831,14 +831,22 @@
-> > +         or1k-linux-gnu
-> > + # elif defined(__powerpc__) && defined(__SPE__)
-> > +         powerpc-linux-gnuspe
-> > ++# elif defined(__powerpc__) && !defined(__GLIBC__)
-> > ++        powerpc-linux-musl
-> > ++# elif defined(__powerpc__)
-> > ++        powerpc-linux-gnu
-> > ++# elif defined(__powerpc64__) && !defined(__GLIBC__)
-> > ++#  if defined(__LITTLE_ENDIAN__)
-> > ++        powerpc64le-linux-musl
-> > ++#  else
-> > ++        powerpc64-linux-musl
-> > ++#  endif
-> > + # elif defined(__powerpc64__)
-> > + #  if defined(__LITTLE_ENDIAN__)
-> > +         powerpc64le-linux-gnu
-> > + #  else
-> > +         powerpc64-linux-gnu
-> > + #  endif
-> > +-# elif defined(__powerpc__)
-> > +-        powerpc-linux-gnu
-> > + # elif defined(__s390x__)
-> > +         s390x-linux-gnu
-> > + # elif defined(__s390__)
-> > diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-> > index cd7991e7f8..2e8ae711d5 100644
-> > --- a/meta/recipes-devtools/python/python3_3.5.6.bb
-> > +++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-> > @@ -44,6 +44,7 @@ SRC_URI += "\
-> >              file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
-> >              file://run-ptest \
-> >             "
-> > +SRC_URI_append_libc-musl = " file://powerpc-musl-triplets.patch"
-> >
-> >  inherit multilib_header python3native update-alternatives qemu ptest
-> >
-> > --
-> > 2.17.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
