@@ -1,50 +1,49 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DABC37BE0E
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F15C7BE0E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 12:59:22 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id m1so8120628wml.2
+	Sat, 15 Dec 2018 12:59:31 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id j2so7953949wrw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 04:59:24 -0800 (PST)
+	Sat, 15 Dec 2018 04:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id;
-	bh=YqGmtYsjI2z7s7tSzCy8knojhX+Hao5Ev5up3wQl3eY=;
-	b=tixoY4Ci8tlYc5fPujln7aQ2NmWMkYrKIwK0NL3+Vwu1AFfGzuiltor2NRynnExPGm
-	3kzb3xkPVQ114iYRwXqJOzkND7IRWSgtLndedxn1q2Nlt5nQktMy5tArh7Z7SELVbUXW
-	75MilZvHFPEa+S6MiWG5UejNu8giGt0acZ6PI/Wzq1KReAtDlXq525uLkbmBqqfp6WPw
-	b2ys6U6VLkIgx8qz22UqM8WMBLA6KtaiGJs4MVK9N65Xk5pPubpY/qU9gTHwrKUc3wdX
-	Mb8GqIaPadlOmA+HeTtflCnN4B7iaEWoT/0VirY+gmD/BMv1TLhEufdARNR4u55tZYss
-	y5rg==
+	bh=Jgpx771pMopwyATDL3YjMAdTTGo8N+rYFBX4SIMzLzQ=;
+	b=O+pcNmCdGe9JkXyoQL2kRXNRd38KHSiTnLpGnntwoPcVc+QB+DWLx/riEyM/4IEGs0
+	owT06u7GEJa14syRmYcgEW1MuBw/7TAuFIs6iKULm8XzY+VLomAZGGmDLObawx6M9dc3
+	QM2Dn7P/fM1vVM8kMMTjZWemOz/fxj2yqiiYEkoHNVfqx/j7cmAfHO+yyeVFeI4SRRIv
+	QJDVj6TCQH7IZdG/AW3ZeOWYjV5vqqS12M8QQzvvPvt7do3GNLukKmmzjjngtbyOAWNa
+	j2zMQYFhZRnQZG0FSCLm4OphBtTdpq7KTkCUa8mUMBJCGBkZ0xLtwlgnMq14xxDY8uaU
+	fYYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=YqGmtYsjI2z7s7tSzCy8knojhX+Hao5Ev5up3wQl3eY=;
-	b=dktiY8ze9GMDbLb+9ZUpc2fSRfxQ1tpKKOMvwXFnfoeRx+jzRLK13aTui+XssQepTN
-	2IDrOQB4/ri6pii+tyCnZgiHIYEMtvfxCZkKCfaGqxasmlpJykD8f57FGkI9SnteroRQ
-	5Kkp0l9vrlmKPSylqchKfwLHVRUvE2+HSD2Lq4SBeUGyoidTuTbmOTbs/Lg6T0fSXEwa
-	ju2N/Ar8Wmiw5ilk+TypCBb5hJdAsiCoLMgVHjCJaqyoy6U1Eass4/G2Lw2mufyJS+LB
-	0qSkVrjOfdhPe52pIFKtsLlMYp/M/PZYDe/P4XqTHMArHBbN52yqxlJWvCimoxl76Cqf
-	NUgg==
-X-Gm-Message-State: AA+aEWYgpWHaPNnEZ6jQUsiSwbYLhxQet1NdAgB9Z4IIHJrV9ZZ+jwBC
-	4BWc7p5am0tqSkL3yc1NObLJhmUr
-X-Google-Smtp-Source: AFSGD/U3pn7dJObNCQiXNeKvHFWtL/SKI254VYSDqLSnGrvfNrEoGTTS40yCk50ol3roMh+KOr3qHA==
-X-Received: by 2002:a1c:4882:: with SMTP id
-	v124-v6mr6313739wma.53.1544878763169; 
-	Sat, 15 Dec 2018 04:59:23 -0800 (PST)
+	bh=Jgpx771pMopwyATDL3YjMAdTTGo8N+rYFBX4SIMzLzQ=;
+	b=hqMq6hftA0gmHXaKg3yl+3hm5srx3zlDrVB+yPPCW1APDs0L4zixKWSNP+tU7wiufw
+	qFd3ExiNQr044xQyDNwprf8RFBViDFJ9Gq2ku/Xb3KYa96fVIN9nzEpM/WugPtWsjFnY
+	MyZf9zoCGqc6KjfvK0eBV1o2d16TbbSvHvqr1ZCHge+xvXU6W6n/pClrQtEcN4BHGsfp
+	fqO47W+aG3znvP35B7LFhQKGZJsdHk4WyJw2wThe5NatCR0o6WU9WYB6i6+94mePum3p
+	ax9WQgTPCFR89GmVI/Lhid/R4LbuV2KLoesqzgJSHh6UbtE0Y7937xPWmute5pqVkWzV
+	NjiA==
+X-Gm-Message-State: AA+aEWZxUB/hMOkShw+Ksl2CrH9lmJgo2PmbRJoW5ahI8kYEmF6ZXp6F
+	QcJ9pm7HVe1Y/jxCJm/jWUVmQko3
+X-Google-Smtp-Source: AFSGD/XYggN45MJELqncCc9tGIuEj0k4aLc5vfeszAgQor9gGIC5w1Wck0iKxV/d6s7AciZpliuYMA==
+X-Received: by 2002:adf:c7cc:: with SMTP id y12mr5704662wrg.52.1544878772411; 
+	Sat, 15 Dec 2018 04:59:32 -0800 (PST)
 Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58])
-	by smtp.gmail.com with ESMTPSA id p5sm5026451wmh.16.2018.12.15.04.59.22
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	y185sm5636414wmg.34.2018.12.15.04.59.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Dec 2018 04:59:22 -0800 (PST)
+	Sat, 15 Dec 2018 04:59:31 -0800 (PST)
 Sender: Jens Rehsack <rehsack@gmail.com>
 From: Jens Rehsack <sno@netbsd.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2018 13:59:14 +0100
-Message-Id: <20181215125914.12180-1-sno@netbsd.org>
+Date: Sat, 15 Dec 2018 13:59:26 +0100
+Message-Id: <20181215125926.12227-1-sno@netbsd.org>
 X-Mailer: git-send-email 2.17.1
 Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] cpan.bbclass: allow running module tests in qemu
+Subject: [PATCH] package_deb.bbclass: report error during creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,78 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2018 12:59:23 -0000
+X-List-Received-Date: Sat, 15 Dec 2018 12:59:32 -0000
 
-For quick module tests in 99% a qemu environment is enough. Before
-developing ptest deployment, give qemu-test-wrapper a chance.
-
-This is far away from being mergable!
+Default error message -- when .deb creation fails -- is just the command
+and error code. With this piece, the error message is known, too.
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/classes/cpan.bbclass | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ meta/classes/package_deb.bbclass | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index 121643eecb..1b6f2fc47f 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -1,7 +1,9 @@
- #
- # This is for perl modules that use the old Makefile.PL build system
- #
--inherit cpan-base perlnative
-+inherit cpan-base perlnative qemu
-+
-+DEPENDS += "qemu-native qemu-helper-native perl"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 6f81591653..21b55e3cc9 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -269,9 +269,17 @@ def deb_write_pkg(pkg, d):
+             conffiles.close()
  
- EXTRA_CPANFLAGS ?= ""
- EXTRA_PERLFLAGS ?= ""
-@@ -28,6 +30,21 @@ cpan_do_configure () {
- 	[ -e Makefile ] || bbfatal "No Makefile was generated by Makefile.PL"
+         os.chdir(basedir)
+-        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
+-                                stderr=subprocess.STDOUT,
+-                                shell=True)
++        try:
++            subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
++                                    stderr=subprocess.STDOUT,
++                                    shell=True)
++        except subprocess.CalledProcessError as cpe:
++            bb.note("%s" % cpe)
++            bb.note("%s" % cpe.stdout)
++            bb.note("%s" % cpe.stderr)
++            raise
++        except:
++            raise
  
- 	if [ "${BUILD_SYS}" != "${HOST_SYS}" ]; then
-+		qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_TARGET}', ['${S}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
-+		cat > ${WORKDIR}/qemu-perl-wrapper << EOF
-+#!/bin/sh
-+set -x
-+unset PERLHOSTLIB
-+unset PERLHOSTARCHLIB
-+for test in "\$@"
-+do
-+    test -f \$test || continue
-+    $qemu_binary -E PERL5LIB="${PERL_ARCHLIB}:${PERL_LIB}" ${STAGING_DIR_TARGET}/usr/bin/perl -Mblib "\$test"
-+done
-+EOF
-+
-+		chmod +x ${WORKDIR}/qemu-perl-wrapper
-+
- 		. ${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh
- 		# Use find since there can be a Makefile generated for each Makefile.PL
- 		for f in `find -name Makefile.PL`; do
-@@ -36,6 +53,7 @@ cpan_do_configure () {
- 			sed -i -e "s:\(PERL_ARCHLIB = \).*:\1${PERL_ARCHLIB}:" \
- 				-e 's/perl.real/perl/' \
- 				-e "s|^\(CCFLAGS =.*\)|\1 ${CFLAGS}|" \
-+				-e 's,$(FULLPERLRUN) "-MExtUtils::Command::MM".* $(TEST_FILES),$(FULLPERLRUN) $(TEST_FILES),' \
- 				$f2
- 		done
- 	fi
-@@ -62,4 +80,13 @@ cpan_do_install () {
- 	done
- }
- 
--EXPORT_FUNCTIONS do_configure do_compile do_install
-+cpan_do_run_module_tests () {
-+	cd ${S}
-+	oe_runmake test FULLPERLRUN=${WORKDIR}/qemu-perl-wrapper
-+}
-+
-+addtask do_run_module_tests
-+
-+do_run_module_tests[depends] += "${PN}:do_compile"
-+
-+EXPORT_FUNCTIONS do_configure do_compile do_run_module_tests do_install
+     finally:
+         cleanupcontrol(root)
 -- 
 2.17.1
 
