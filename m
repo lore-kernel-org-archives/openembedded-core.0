@@ -1,49 +1,28 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F15C7BE0E
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 679E67BED1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 12:59:31 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j2so7953949wrw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 04:59:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=Jgpx771pMopwyATDL3YjMAdTTGo8N+rYFBX4SIMzLzQ=;
-	b=O+pcNmCdGe9JkXyoQL2kRXNRd38KHSiTnLpGnntwoPcVc+QB+DWLx/riEyM/4IEGs0
-	owT06u7GEJa14syRmYcgEW1MuBw/7TAuFIs6iKULm8XzY+VLomAZGGmDLObawx6M9dc3
-	QM2Dn7P/fM1vVM8kMMTjZWemOz/fxj2yqiiYEkoHNVfqx/j7cmAfHO+yyeVFeI4SRRIv
-	QJDVj6TCQH7IZdG/AW3ZeOWYjV5vqqS12M8QQzvvPvt7do3GNLukKmmzjjngtbyOAWNa
-	j2zMQYFhZRnQZG0FSCLm4OphBtTdpq7KTkCUa8mUMBJCGBkZ0xLtwlgnMq14xxDY8uaU
-	fYYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=Jgpx771pMopwyATDL3YjMAdTTGo8N+rYFBX4SIMzLzQ=;
-	b=hqMq6hftA0gmHXaKg3yl+3hm5srx3zlDrVB+yPPCW1APDs0L4zixKWSNP+tU7wiufw
-	qFd3ExiNQr044xQyDNwprf8RFBViDFJ9Gq2ku/Xb3KYa96fVIN9nzEpM/WugPtWsjFnY
-	MyZf9zoCGqc6KjfvK0eBV1o2d16TbbSvHvqr1ZCHge+xvXU6W6n/pClrQtEcN4BHGsfp
-	fqO47W+aG3znvP35B7LFhQKGZJsdHk4WyJw2wThe5NatCR0o6WU9WYB6i6+94mePum3p
-	ax9WQgTPCFR89GmVI/Lhid/R4LbuV2KLoesqzgJSHh6UbtE0Y7937xPWmute5pqVkWzV
-	NjiA==
-X-Gm-Message-State: AA+aEWZxUB/hMOkShw+Ksl2CrH9lmJgo2PmbRJoW5ahI8kYEmF6ZXp6F
-	QcJ9pm7HVe1Y/jxCJm/jWUVmQko3
-X-Google-Smtp-Source: AFSGD/XYggN45MJELqncCc9tGIuEj0k4aLc5vfeszAgQor9gGIC5w1Wck0iKxV/d6s7AciZpliuYMA==
-X-Received: by 2002:adf:c7cc:: with SMTP id y12mr5704662wrg.52.1544878772411; 
-	Sat, 15 Dec 2018 04:59:32 -0800 (PST)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	y185sm5636414wmg.34.2018.12.15.04.59.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Dec 2018 04:59:31 -0800 (PST)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2018 13:59:26 +0100
-Message-Id: <20181215125926.12227-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] package_deb.bbclass: report error during creation
+	Sat, 15 Dec 2018 13:16:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBFDFGBG016364
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 15 Dec 2018 05:15:56 -0800
+Received: from server.local (128.224.23.221) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Sat, 15 Dec 2018 05:15:41 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Hongzhi.Song"
+	<hongzhi.song@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1544608560-107439-1-git-send-email-hongzhi.song@windriver.com>
+	<766caeba2dcdfc09616e10e3105e3e0a3f84f194.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <dcf93a11-e9ed-8123-dc13-c3b5d23162dc@windriver.com>
+Date: Sat, 15 Dec 2018 08:15:40 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.3.3
+MIME-Version: 1.0
+In-Reply-To: <766caeba2dcdfc09616e10e3105e3e0a3f84f194.camel@linuxfoundation.org>
+Subject: Re: [PATCH] kern-tools: modify grep pattern for tools/kconf_check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +35,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2018 12:59:32 -0000
+X-List-Received-Date: Sat, 15 Dec 2018 13:16:23 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Default error message -- when .deb creation fails -- is just the command
-and error code. With this piece, the error message is known, too.
+On 2018-12-15 7:12 a.m., Richard Purdie wrote:
+> On Wed, 2018-12-12 at 04:56 -0500, Hongzhi.Song wrote:
+>> The cmd line, <grep '^[  ]*\(menu\)*config '>, can't
+>> match all expect config options.
+>>
+>> This is because that it is not always space after 'config'
+>> in kernel-source/*/.../Kconfig.
+>> e.g. "config  IP_VS_IPV6" in net/netfilter/ipvs/Kconfig
+>> 	    ^^
+>> 	These are not spaces.
+>>
+>> So we should change the cmd to grep '^[  ]*\(menu\)*config\s'.
+>>
+>> License-Update: <Since the S is changed from WORKDIR to WORKDIR/git
+>> for
+>> putting the patches to git/, the path of license should be changed
+>> too.>
+>>
+>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>> ---
+>>   ...0001-tool-kconf_check-modify-grep-pattern.patch | 37
+>> ++++++++++++++++++++++
+>>   .../kern-tools/kern-tools-native_git.bb            | 13 +++++---
+>>   2 files changed, 46 insertions(+), 4 deletions(-)
+>>   create mode 100644 meta/recipes-kernel/kern-tools/files/0001-tool-
+>> kconf_check-modify-grep-pattern.patch
+>>
+>> diff --git a/meta/recipes-kernel/kern-tools/files/0001-tool-
+>> kconf_check-modify-grep-pattern.patch b/meta/recipes-kernel/kern-
+>> tools/files/0001-tool-kconf_check-modify-grep-pattern.patch
+>> new file mode 100644
+>> index 0000000..7f9c5a2
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kern-tools/files/0001-tool-kconf_check-
+>> modify-grep-pattern.patch
+>> @@ -0,0 +1,37 @@
+>> +From 080a0662e235bb359ef06f6ba922f56a6040078f Mon Sep 17 00:00:00
+>> 2001
+>> +From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+>> +Date: Tue, 11 Dec 2018 04:54:59 -0500
+>> +Subject: [PATCH] tool/kconf_check: modify grep pattern
+>> +
+>> +The cmd line, <grep '^[  ]*\(menu\)*config '>, can't
+>> +match all expect config options.
+>> +
+>> +This is because that it is not always space after 'config'
+>> +in kernel-source/*/.../Kconfig.
+>> +e.g. "config  IP_VS_IPV6" in net/netfilter/ipvs/Kconfig
+>> +
+>> +So we should change the cmd to grep '^[  ]*\(menu\)*config\s'.
+>> +
+>> +Upstream-Status: Submitted [
+>> https://lists.yoctoproject.org/pipermail/yocto/2018-December/043564.html
+>> ]
+>> +
+>> +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>> +---
+>> + tools/kconf_check | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/tools/kconf_check b/tools/kconf_check
+>> +index aa86180..20b49cd 100755
+>> +--- a/tools/kconf_check
+>> ++++ b/tools/kconf_check
+>> +@@ -241,7 +241,7 @@ find ${kernel_source} \
+>> + # known list of all Kconfig* files.  Again, must filter dups.
+>> + rm -f ${LOGDIR}/all.cfg
+>> + for i in `cat ${LOGDIR}/all.kcf` ; do
+>> +-    cat ${kernel_source}/$i | grep '^[ 	]*\(menu\)*config ' | \
+>> ++    cat ${kernel_source}/$i | grep '^[ 	]*\(menu\)*config\s' |
+>> \
+>> + 	awk '{print "CONFIG_"$2}' >> ${LOGDIR}/all.cfg
+>> + done
+>> + mv -f ${LOGDIR}/all.cfg ${LOGDIR}/all.cfg~
+>> +--
+>> +2.8.1
+>> +
+>> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> index b353c21..682c726 100644
+>> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> @@ -1,6 +1,6 @@
+>>   SUMMARY = "Tools for managing Yocto Project style branched kernels"
+>>   LICENSE = "GPLv2"
+>> -LIC_FILES_CHKSUM =
+>> "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1bda400e28
+>> 28845ba0d06c"
+>> +LIC_FILES_CHKSUM =
+>> "file://tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1bda400e282884
+>> 5ba0d06c"
+>>   
+>>   DEPENDS = "git-native"
+>>   
+>> @@ -10,8 +10,11 @@ PV = "0.2+git${SRCPV}"
+>>   
+>>   inherit native
+>>   
+>> -SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git"
+>> -S = "${WORKDIR}"
+>> +SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git \
+>> +           file://0001-tool-kconf_check-modify-grep-pattern.patch \
+>> +"
+>> +
+>> +S = "${WORKDIR}/git"
+>>   UPSTREAM_CHECK_COMMITS = "1"
+>>   
+>>   do_compile() {
+>> @@ -19,6 +22,8 @@ do_compile() {
+>>   }
+>>   
+>>   do_install() {
+>> -	cd ${S}/git
+>> +	cd ${S}
+>>   	make DESTDIR=${D}${bindir} install
+>>   }
+>> +
+>> +FILESEXTRAPATH = "${THISDIR}/files"
+> 
+> I don't think you need to add this last line?
+> 
+> Also, since "we" maintain yocto-kernel-tools, can Bruce not apply this
+> or fix it upstream?
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/package_deb.bbclass | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Yes. We don't need this part of the patch. I'll apply the
+change to the repo and send a SRCREV update for the recipe.
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 6f81591653..21b55e3cc9 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -269,9 +269,17 @@ def deb_write_pkg(pkg, d):
-             conffiles.close()
- 
-         os.chdir(basedir)
--        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
--                                stderr=subprocess.STDOUT,
--                                shell=True)
-+        try:
-+            subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
-+                                    stderr=subprocess.STDOUT,
-+                                    shell=True)
-+        except subprocess.CalledProcessError as cpe:
-+            bb.note("%s" % cpe)
-+            bb.note("%s" % cpe.stdout)
-+            bb.note("%s" % cpe.stderr)
-+            raise
-+        except:
-+            raise
- 
-     finally:
-         cleanupcontrol(root)
--- 
-2.17.1
+Bruce
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
 
