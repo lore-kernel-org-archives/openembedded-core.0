@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 491B47BE77
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A69837BE7F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 11:55:02 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id q26so8164692wmf.5
+	Sat, 15 Dec 2018 11:57:27 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id q18so7835957wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2018 03:55:03 -0800 (PST)
+	Sat, 15 Dec 2018 03:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=+tJY9hnaoc046SC2kwoS7uJxaYMYcwP4S0ajmO2Fs4U=;
-	b=e60yCDTZubkAWQtRDYVDdsIkTlCST2O+49JiTC6mTjgBubzgmokDmH10FrS/sDZxHR
-	rGoq9GQIU/pt9MRHuPsJuhf5BMl086Pn4C3RUKAUsjzMWIEcrLwEWxBmosMTQ7VSxbX5
-	pV8CkBtdWu1T5UsD/tMCgBj+gajGP2cM2Dxpc=
+	bh=IZrxrDv5q4E5dW36ZAju4Whh+O15HmF4ejKiQrQjiiY=;
+	b=KDnYbt67NdwWn4SXWZLGVyTApaUbkNqdpwzru49G9fLvSQIaJtYUM+jwZ677+C8gn3
+	J/+QTx0SrrO7hfvwALMlgMZouw6K+xyyUbNyWY1xL8dMnnrTEMiqpoB237x09c3AAuos
+	1ZPRjtzond0PW1mKjKzgL29pPjQW+OFHxJOnk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+tJY9hnaoc046SC2kwoS7uJxaYMYcwP4S0ajmO2Fs4U=;
-	b=cBF/xQhIDPxXg9uC2fiX44Dw6Mq9ndqFjYVokGMpJjd2zSRWELn5H0f5en4NoZaAZO
-	cMJ3bWHdwowO/em14qiKn+mSLWIEbO8+POqVGHroU6XaX7j3XrBGObFMqpA3MLLuyv6x
-	jE6rkdDiLRR3LtmJtsXgPf6gGFT+h96qhjH0DQZHWTzsKU037qTgzRG9IzXd7ZS0Jhqv
-	XYMqURSQhaVJmWXLQEnbKqBLSHHl5EmvYfCvsPlf77Ke7JYHKCe+FsjMRgoJY6+G0IpN
-	gKgDbWuGQOj6YE+676gbpSKTttcP/uqWFl/UbnK66nlWvwE7HOBKz5qDkT36+zvpuvVe
-	bL3Q==
-X-Gm-Message-State: AA+aEWbqtgnndXqGWkV2mpmpj3Mlzyhy4yyOJk9WlxXO5T4M+6EOMVEB
-	y1JJKkmOyQSOREq+S1MmixgqFg==
-X-Google-Smtp-Source: AFSGD/Xi71Epoazt7rNjh7QGm2DMCw68Wa8DdyJEHId1kJyewZ3F5YifdrNoay/savMlzIusoYRbbg==
-X-Received: by 2002:a1c:91d1:: with SMTP id t200mr6077718wmd.111.1544874902688;
-	Sat, 15 Dec 2018 03:55:02 -0800 (PST)
+	bh=IZrxrDv5q4E5dW36ZAju4Whh+O15HmF4ejKiQrQjiiY=;
+	b=OBZYtqNgHXDIm9PSwWiDL5LdJ9ib4siEvGL1SMEN7hFu6LZktZNtriCndl+rOen4lA
+	PHFIC3405fPfgWt0eSL/XWnDRtel5ZcN2LfMJBo9TrjBcJdakjoBFaHJcnbDXO/fWn2h
+	0ZagToJ+7AOPOvZgP8kW2IIObq2fEZ5N56o0CyP0P4kmdpf+SJoJX+nD99NC4nu67BTM
+	8AQIXkLzDoohFuXs1cSgzVOtmrvDtj8rBMFDAojXkGgbJRH8jXpGFQSdU4qlpg4f23Eg
+	bRiKhDYYF7LUsZSZC7mKzFz1XqiYhfIkTdWPGweH3eWq11pQ5i9CcU21TL4BGe3OQpEx
+	53jA==
+X-Gm-Message-State: AA+aEWZSWLPu9bh9iTXij4y167jrGNw3vakilT86mRGiseMxq8l1hQJc
+	4B4dJ4BZVsGXvgAr4JV+LMU0+cpb+ggukg==
+X-Google-Smtp-Source: AFSGD/UJzMDSjGdFPBRvqhMsePc8GwtaFdxYh7r5s9B68zFOSaQFrhquRf/ZFhhQ1jwF7JAO7oE4AQ==
+X-Received: by 2002:adf:9b11:: with SMTP id b17mr5494969wrc.168.1544875048356; 
+	Sat, 15 Dec 2018 03:57:28 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f66sm8181390wmd.28.2018.12.15.03.55.01
+	by smtp.gmail.com with ESMTPSA id d2sm6097880wrs.97.2018.12.15.03.57.27
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 15 Dec 2018 03:55:02 -0800 (PST)
-Message-ID: <3de0daf6d2af873d18c4e8a650be961038d856ff.camel@linuxfoundation.org>
+	Sat, 15 Dec 2018 03:57:27 -0800 (PST)
+Message-ID: <aaeddd16974eda95393a5a528ee3b864c12353af.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Ross Burton <ross.burton@intel.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2018 11:55:00 +0000
-In-Reply-To: <20181214171034.1897-1-ross.burton@intel.com>
-References: <20181214171034.1897-1-ross.burton@intel.com>
+Date: Sat, 15 Dec 2018 11:57:26 +0000
+In-Reply-To: <20181214171051.2030-1-ross.burton@intel.com>
+References: <20181214171051.2030-1-ross.burton@intel.com>
 User-Agent: Evolution 3.30.2-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] runqemu: formatting cleanups suggested by PyLint
+Subject: Re: [PATCH] package_manager: don't search for binaries in $PATH explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,24 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2018 11:55:02 -0000
+X-List-Received-Date: Sat, 15 Dec 2018 11:57:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Fri, 2018-12-14 at 17:10 +0000, Ross Burton wrote:
-> Mostly whitespace fixes but also some r"" strings to clarify regular
-> expressions.
+> There's no point in looking for a command on $PATH using
+> bb.utils.which() but
+> then passing it to subprocess.check*() which will search $PATH.
+> 
+> By just using the command directly, the code is visibly neater.
 > 
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  meta/lib/oe/package_manager.py | 97 +++++++++++++++++---------------
+>  meta/lib/oe/package_manager.py | 43 +++++++++++++++++++++-----------
 > ----------
->  scripts/runqemu                | 46 ++++++++++----------
->  2 files changed, 61 insertions(+), 82 deletions(-)
+>  1 file changed, 21 insertions(+), 22 deletions(-)
 
-I think your patches got a little confused!
-
-(2 files, not 1)
+This needs refreshing once the confusion with it and the runqemu path
+is sorted!
 
 Cheers,
 
