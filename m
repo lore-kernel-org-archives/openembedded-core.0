@@ -1,33 +1,89 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id DB0337BEB8
+Return-Path: <serhe.popovych@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 993467BF0C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 14:48:57 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4FF77E00CCA; Mon, 17 Dec 2018 06:48:59 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 08E14E00E7D
+	Mon, 17 Dec 2018 15:13:38 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id c19-v6so11309636lja.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 06:48:50 -0800 (PST)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 05C27440001
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 06:48:50 -0800 (PST)
+	Mon, 17 Dec 2018 07:13:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=4FrKRskTU67VNR5TnTNf8GI6lCtcdaz8YyqBAu2Vvb0=;
+	b=l13FjsvC/CnayyKOKQEMnm1iEt2DeVKkSSNLz+20m0Toihf/eNMKvw/iDGeDC5e7Oo
+	/y47io1gXUfxYpf6oucdJmOjSxagbWYPI2hwoG+mFHFoZOQ8DBgScDrFdFAbtd8mq9jV
+	Q2iX76Ntpg3csXYXMXbKX8LeElRICs+CXCTcwOGTogwnF7+D5+190jK1OITq3IKulIsG
+	ULIbWIeum4H7aP/xgmFQRQN29T7r5NVHIbk+/auYSj94DZMFe27EEIHTgJS9rLhgq30+
+	Qpr4JPHOMbIWdIkzi5lhLRph2W+bvsZdXn5XKvKp11Qy4aNVFMNf8yldWPKLG5Nacdwj
+	/d+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=4FrKRskTU67VNR5TnTNf8GI6lCtcdaz8YyqBAu2Vvb0=;
+	b=XtzlQWo72MWELDu9pVNrtcjGansHOhylHtNJZ97PvojHp/bV8vlD6IeuYa1ZRFZV22
+	B1VQdgrBXi+dh6GKbAOjijIz18CGmbQsl/YLeFk5w/2eAmo2C82C92HKVHhK7RhB3naQ
+	XK21tJuLhRO0VRCxLHB8I8MnffFWGzz3a1FBfynqWXiYQ9ChK+sNPLlim3/17NcDXO0s
+	IbxgfcnXvNOwutEICIuAIKGQaMgAq/Y4fYq2jtEmS6bYQwN9r2gv/y+gIViiriWfgVFS
+	e6ubxYf4bjWPm8Sly2L2zGQRp6NrY6WqhkH8NidMKUMX4REw7sxR3o9K/ELmIT52el6Y
+	R9BA==
+X-Gm-Message-State: AA+aEWaY94TV3P4pE1AOQQsDAuV/PXuAG/oUoMuznmONE6/BULQtwrrz
+	kQhi7WG69zcNK0QIZLaVD2aNOpiM
+X-Google-Smtp-Source: AFSGD/Wdw6KsQyrzDvloQCOncY2t5QFtSinv5An/cVZmE+MrBDXxFIIJThtI16XewPmZ4JfWViV4Hg==
+X-Received: by 2002:a2e:8446:: with SMTP id u6-v6mr8846680ljh.74.1545059618907;
+	Mon, 17 Dec 2018 07:13:38 -0800 (PST)
+Received: from tuxracer.as41781.net (nat18.vpn1-no7-iev.as41781.net.
+	[193.34.155.18]) by smtp.gmail.com with ESMTPSA id
+	k14sm2703887lfc.70.2018.12.17.07.13.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Dec 2018 07:13:38 -0800 (PST)
+To: richard.purdie@linuxfoundation.org, Andre McCurdy <armccurdy@gmail.com>
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+	<1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
+	<CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
+	<abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
+	<5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
+	<dee546f2355d673d9364e591d56a09be975fd36f.camel@linuxfoundation.org>
+From: Serhey Popovych <serhe.popovych@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <38b79c03-a77d-bb37-9dca-e59446aaaf66@gmail.com>
+Date: Mon, 17 Dec 2018 17:13:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:51.0) Gecko/20100101
+	Firefox/51.0
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20181217144850.05C27440001@auh.yoctoproject.org>
-Date: Mon, 17 Dec 2018 06:48:50 -0800 (PST)
-Subject: [AUH] Upgrade status: 2018-12-17
+In-Reply-To: <dee546f2355d673d9364e591d56a09be975fd36f.camel@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/13] musl: Ensure GLIBC_LDSO symlink target does not exist on reinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,180 +96,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 14:48:57 -0000
-Content-Type: multipart/mixed; boundary="===============6087162024614818171=="
+X-List-Received-Date: Mon, 17 Dec 2018 15:13:38 -0000
+X-Groupsio-MsgNum: 119296
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="cmjtAsjzTHDhQFYb0NaFmpQlSiGqlM8PX"
 
---===============6087162024614818171==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+--cmjtAsjzTHDhQFYb0NaFmpQlSiGqlM8PX
+Content-Type: multipart/mixed; boundary="D6s7jXST0dBFmkVZykY0sjB57I6pwDlp4";
+ protected-headers="v1"
+From: Serhey Popovych <serhe.popovych@gmail.com>
+To: richard.purdie@linuxfoundation.org, Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <38b79c03-a77d-bb37-9dca-e59446aaaf66@gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 07/13] musl: Ensure GLIBC_LDSO symlink
+ target does not exist on reinstall
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+ <1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
+ <CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
+ <abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
+ <5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
+ <dee546f2355d673d9364e591d56a09be975fd36f.camel@linuxfoundation.org>
+In-Reply-To: <dee546f2355d673d9364e591d56a09be975fd36f.camel@linuxfoundation.org>
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMTkK
-ICAgICAgICBkcGtnLCAxLjE5LjIsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwu
-Y29tPgogICAgICAgIGkyYy10b29scywgNC4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
-ZWwuY29tPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi41OC4wLCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdudXRscywgMy42LjUsIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgYWxzYS1wbHVnaW5zLCAxLjEuNywgVGFudSBL
-YXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIGd0ayszLCAzLjI0LjIsIFJvc3MgQnVydG9u
-IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgb2Zvbm8sIDEuMjYsIFJvc3MgQnVydG9u
-IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgYWxzYS11dGlscywgMS4xLjcsIFRhbnUg
-S2Fza2luZW4gPHRhbnVrQGlraS5maT4KICAgICAgICBsaWJ4Y3J5cHQsIDQuNC4xLCBLaGVtIFJh
-aiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHByZWxpbmssIDEuMC1uZXctY29tbWl0cy1h
-dmFpbGFibGUsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICBn
-aXQsIDIuMjAuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgcHl0aG9uMy1weWNhaXJvLCAxLjE4LjAsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMu
-aW8+CiAgICAgICAgbGlic29sdiwgMC43LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
-bC5jb20+CiAgICAgICAgZ251LWVmaSwgMy4wLjksIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVy
-LmNvbT4KICAgICAgICBpcHRhYmxlcywgMS44LjIsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9r
-LmJhZUBsZ2UuY29tPgogICAgICAgIGUyZnNwcm9ncywgMS40NC40LCBSb2JlcnQgWWFuZyA8bGll
-emhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBhdC1zcGkyLWF0aywgMi4zMC4wLCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYnJlcG8sIDEuOS4zLCBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBweXRob24z
-LXB5Z29iamVjdCwgMy4zMC40LCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAg
-KiBGYWlsZWQgKGRldnRvb2wgZXJyb3IpOiA0OQogICAgICAgIHZ0ZSwgMC41NC4zLCBBbnVqIE1p
-dHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHN5c3Zpbml0LCAyLjkzLCBSb3Nz
-IEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGNyZWF0ZXJlcG8tYywgMC4x
-Mi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBs
-aWJhc3N1YW4sIDIuNS4yLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAg
-ICAgIGJpbnV0aWxzLCAyLjMxLjEsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAg
-ICAgbHNiaW5pdHNjcmlwdHMsIDEwLjAxLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwu
-Y29tPgogICAgICAgIHdnZXQsIDEuMjAsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4K
-ICAgICAgICBsaWJwY2FwLCAxLjkuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBsb2dyb3RhdGUsIDMuMTUuMCwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIu
-Y29tPgogICAgICAgIGdvLXJ1bnRpbWUsIDEuMTEuNCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KICAgICAgICBwaXhtYW4sIDAuMzYuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
-dGVsLmNvbT4KICAgICAgICBwdXp6bGVzLCAwLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHNlZCwgNC41LCBDaGVuIFFp
-IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYnVpbGQtYXBwbGlhbmNlLWltYWdlLCAy
-MC4wLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
-PgogICAgICAgIG5ldGJhc2UsIDUuNSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNv
-bT4KICAgICAgICBsaWJtb2R1bGVtZCwgMi4wLjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
-bmF2aW5AZ21haWwuY29tPgogICAgICAgIGZsZXgsIDIuNi40LCBDaGVuIFFpIDxRaS5DaGVuQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgYm9vc3QsIDEuNjkuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgYXR0ciwgMi40LjQ4LCBDaGVuIFFpIDxRaS5D
-aGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbW1jLXV0aWxzLCAwLjEtbmV3LWNvbW1pdHMtYXZh
-aWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG1lc29u
-LCAwLjQ5LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAg
-ICAgIGxpYnNkbDIsIDIuMC45LCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgY2Fpcm8sIDEuMTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
-ICAgICBidWlsZC1jb21wYXJlLCAyMDE1LjAyLjEwLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUGF1
-bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+CiAgICAgICAgZ2RrLXBp
-eGJ1ZiwgMi4zOC4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAg
-IGxpYmpwZWctdHVyYm8sIDIuMC4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIGF0aywgMi4zMC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIGx6b3AsIDEuMDQsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAg
-ICAgICAgc3F1YXNoZnMtdG9vbHMsIDQuMy1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZ
-YW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHBlcmwsIDUuMjguMSwgUm9z
-cyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBpZnVwZG93biwgMC44LjMz
-LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJpc29uLCAzLjIu
-MiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGFjbCwgMi4yLjUzLCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgZGIsIDUuMy4yOCtkZnNnMSwg
-TWFyayBIYXRsZSA8bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tPgogICAgICAgIG1lc2EsIDE4LjMu
-MSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAg
-ICAgICBhY3BpY2EsIDIwMTgxMjEzLCBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYUBsaW5hcm8u
-b3JnPgogICAgICAgIGxpYmNhcCwgMi4yNiwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29t
-PgogICAgICAgIGFwdCwgMS40LjgsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwu
-Y29tPgogICAgICAgIGZvbnRjb25maWcsIDIuMTMuMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9u
-QGludGVsLmNvbT4KICAgICAgICBtdG9vbHMsIDQuMC4yMywgQW51aiBNaXR0YWwgPGFudWoubWl0
-dGFsQGludGVsLmNvbT4KICAgICAgICBnbywgMS4xMS40LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogICAgICAgIHdwYS1zdXBwbGljYW50LCAyLjcsIENoYW5naHllb2sgQmFlIDxjaGFu
-Z2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIGxpYmljYWwsIDMuMC40LCBSb3NzIEJ1cnRvbiA8
-cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIHZ1bGthbiwgMS4xLjkyLjEsIFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMywgMy43LjEsIERlcmVr
-IFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgdXRpbC1saW51eCwgMi4zMywgQ2hl
-biBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHZ1bGthbi1kZW1vcywgZ2l0LW5l
-dy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4K
-ICAgICAgICBsaWJncGctZXJyb3IsIDEuMzMsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
-dmVyLmNvbT4KICAgICAgICBjbWFrZSwgMy4xMy4yLCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hA
-c2llbWVucy5jb20+CiAgICAqIFN1Y2NlZWRlZDogNTAKICAgICAgICBkbmYsIDQuMC4xMCwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZmlsZSwgNS4z
-NSwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGhhcmZidXp6LCAyLjIu
-MCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBhbHNhLWxpYiwg
-MS4xLjcsIFRhbnUgS2Fza2luZW4gPHRhbnVrQGlraS5maT4KICAgICAgICBweXRob24zLXBiciwg
-NS4xLjEsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbHo0LCAxLjgu
-MywgRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBhZHdhaXRhLWljb24t
-dGhlbWUsIDMuMzAuMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
-ICBsaWJkbmYsIDAuMjQuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
-b20+CiAgICAgICAgY3VybCwgNy42My4wLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwu
-Y29tPgogICAgICAgIGN1cHMsIDIuMi4xMCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29t
-PgogICAgICAgIGdzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMsIDMuMjguMSwgQW51aiBNaXR0YWwg
-PGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24tbnVtcHksIDEuMTUuNCwgRGVy
-ZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNv
-bW1pdHMtYXZhaWxhYmxlLCBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5v
-cmc+CiAgICAgICAgYnRyZnMtdG9vbHMsIDQuMTkuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
-a2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlnaHR0cGQsIDEuNC41MiwgQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgc3lzc3RhdCwgMTIuMS4yLCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3FsaXRlMywgMy4yNi4wLCBB
-bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGNjYWNoZSwgMy41LCBS
-b2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBuc3MsIDMuNDEs
-IEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgbGlicG5nLCAxLjYu
-MzYsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgc2JjLCAxLjQs
-IFRhbnUgS2Fza2luZW4gPHRhbnVrQGlraS5maT4KICAgICAgICBweXRob24zLXBpcCwgMTguMSwg
-RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBweXRob24tc2V0dXB0b29s
-cywgNDAuNi4zLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIHBrZ2Nv
-bmYsIDEuNS40LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGV1
-ZGV2LCAzLjIuNywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBn
-c3QtZXhhbXBsZXMsIDAuMC4xLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwgPGFu
-dWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE4MDcxMy1uZXctY29t
-bWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGJ1c3lib3gsIDEuMjkuMywgQW5kcmVqIFZhbGVrIDxhbmRyZWoudmFsZWtAc2llbWVu
-cy5jb20+CiAgICAgICAgaGRwYXJtLCA5LjU4LCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGku
-Y29tPgogICAgICAgIGdudXBnLCAyLjIuMTIsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
-dmVyLmNvbT4KICAgICAgICB3YXlsYW5kLXByb3RvY29scywgMS4xNywgRGVueXMgRG15dHJpeWVu
-a28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBnbGliLTIuMCwgMi41OC4xLCBBbnVqIE1pdHRhbCA8
-YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGFjcGlkLCAyLjAuMzEsIFJvc3MgQnVydG9u
-IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1zaXgsIDEuMTIuMCwgRGVy
-ZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBweXRob24zLW51bXB5LCAxLjE1
-LjQsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgc3lzdGVtZC1jb25m
-LCAyMzksIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBkYnVzLXRlc3Qs
-IDEuMTIuMTIsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnb2JqZWN0
-LWludHJvc3BlY3Rpb24sIDEuNTguMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiAgICAgICAgbGliY29tcHMsIDAuMS45LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLXNldHVwdG9vbHMsIDQwLjYuMywg
-RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB3ZWJraXRndGssIDIuMjIu
-NSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbmV0
-dGxlLCAzLjQuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBs
-aW51eC1maXJtd2FyZSwgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9y
-IDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBqc29uLWdsaWIsIDEu
-NC40LCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgZGJ1cywgMS4xMi4x
-MiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmF0b21pYy1vcHMs
-IDcuNi44LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGFsc2Et
-dG9vbHMsIDEuMS43LCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgb3BlbnNz
-aCwgNy45LiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBweXRo
-b24zLWdpdGRiLCAyLjAuNSwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAg
-ICBwaWdsaXQsIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1
-cnRvbkBpbnRlbC5jb20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD0xMTggc3VjY2VlZGVkPTUwKDQy
-LjM3JSkgZmFpbGVkPTY4KDU3LjYzJSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1h
-aW50YWluZXI6CgogICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlzOiBhdHRlbXB0ZWQ9NCBzdWNj
-ZWVkZWQ9Myg3NS4wMCUpIGZhaWxlZD0xKDI1LjAwJSkKICAgIEZhdGhpIEJvdWRyYSA8ZmF0aGku
-Ym91ZHJhOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkK
-ICAgIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbDogYXR0ZW1wdGVkPTIyIHN1Y2NlZWRlZD04KDM2
-LjM2JSkgZmFpbGVkPTE0KDYzLjY0JSkKICAgIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZzogYXR0
-ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBmYWlsZWQ9Myg2MC4wMCUpCiAgICBNYXJrIEhh
-dGxlIDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIo
-MTAwLjAwJSkKICAgIENhcmxvcyBSYWZhZWwgR2lhbmkgPGR2OiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
-ZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVt
-cHRlZD03IHN1Y2NlZWRlZD0yKDI4LjU3JSkgZmFpbGVkPTUoNzEuNDMlKQogICAgT3RhdmlvIFNh
-bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkg
-ZmFpbGVkPTEoNTAuMDAlKQogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTExIHN1Y2Nl
-ZWRlZD01KDQ1LjQ1JSkgZmFpbGVkPTYoNTQuNTUlKQogICAgQW5kcmVqIFZhbGVrIDxhbmRyZWou
-dmFsZWs6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQog
-ICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbDogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAo
-MC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9u
-OiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIERl
-cmVrIFN0cmFrYSA8ZGVyZWs6IGF0dGVtcHRlZD0xMSBzdWNjZWVkZWQ9OCg3Mi43MyUpIGZhaWxl
-ZD0zKDI3LjI3JSkKICAgIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVkPTE0IHN1
-Y2NlZWRlZD00KDI4LjU3JSkgZmFpbGVkPTEwKDcxLjQzJSkKICAgIFRhbnUgS2Fza2luZW4gPHRh
-bnVrOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9Myg2MC4wMCUpIGZhaWxlZD0yKDQwLjAwJSkKICAg
-IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW46IGF0dGVtcHRlZD0xMiBzdWNjZWVkZWQ9
-Nyg1OC4zMyUpIGZhaWxlZD01KDQxLjY3JSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1w
-dGVkPTQgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD00KDEwMC4wMCUpCiAgICBSaWNoYXJkIFB1
-cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWls
-ZWQ9MSgxMDAuMDAlKQogICAgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4OiBhdHRlbXB0ZWQ9NyBz
-dWNjZWVkZWQ9NCg1Ny4xNCUpIGZhaWxlZD0zKDQyLjg2JSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4
-dS5qaWE6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQog
-ICAgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAw
-JSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZTog
-YXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCg==
+--D6s7jXST0dBFmkVZykY0sjB57I6pwDlp4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---===============6087162024614818171==--
+richard.purdie@linuxfoundation.org wrote:
+> On Mon, 2018-12-17 at 11:49 +0200, Serhey Popovych wrote:
+>> Richard Purdie wrote:
+>>> On Fri, 2018-12-14 at 11:09 -0800, Andre McCurdy wrote:
+>>>> On Fri, Dec 14, 2018 at 9:57 AM Serhey Popovych
+>>>> <serhe.popovych@gmail.com> wrote:
+>>>>> Otherwise do_install task will fail on rebuild.
+>>>>>
+>>>>> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+>>>>> ---
+>>>>>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-
+>>>>> core/musl/musl_git.bb
+>>>>> index 9cc875c..4593cde 100644
+>>>>> --- a/meta/recipes-core/musl/musl_git.bb
+>>>>> +++ b/meta/recipes-core/musl/musl_git.bb
+>>>>> @@ -61,7 +61,7 @@ do_install() {
+>>>>>         oe_runmake install DESTDIR=3D'${D}'
+>>>>>
+>>>>>         install -d ${D}${bindir}
+>>>>> -       rm -f ${D}${bindir}/ldd
+>>>>> +       rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
+>>>>
+>>>> The correct fix here is actually to remove this line entirely.
+>>>> The
+>>>> official ruling is that there should be no expectation that re-
+>>>> running do_install should work and patches to make it work are
+>>>> not
+>>>> acceptable.
+>>>>
+>>>>  =20
+>>>> http://lists.openembedded.org/pipermail/openembedded-core/2018-Septe=
+mber/273723.html
+>>>
+>>> Lets be clear, re-running the do_install task *is* supported and
+>>> works
+>>> today. It is actually meant to work when re-run. do_install clears
+>>> out
+>>> ${D} at its start so we can assume in do_install functions that it
+>>> is
+>>> empty at the start of the function.
+>>
+>> It seems do_install does not clear ${D} or I do something wrong:
+>>
+>> $ bitbake core-image-sato
+>> <success>
+>>
+>> <Adjust gcc/musl recipe and then run>
+>>
+>> $ bitbake core-image-sato
+>>
+>> ...
+>> /image/usr/lib64/libc.so
+>> /home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/image/lib64/ld-musl-powerpc64le.so.1
+>>>> true
+>>> Traceback (most recent call last):
+>>>   File "/home/serhe/devel/git/openembedded-core/scripts/lnr", line
+>>> 21,
+>> in <module>
+>>>     os.symlink(target, linkname)
+>>> FileExistsError: [Errno 17] File exists: 'image/usr/lib64/libc.so'
+>>> ->
+>> '/home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/imageNone'
+>>> WARNING:
+>> /home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/temp/run.do_install.77856:1
+>> exit 1 from 'lnr
+>> /home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/image/usr/lib64/libc.so
+>> /home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/imageNone'
+>>> ERROR: Function failed: do_install (log file is located at
+>> /home/serhe/devel/git/openembedded-core/build/tmp-
+>> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+>> r0/temp/log.do_install.77856)
+>> ERROR: Task
+>> (/home/serhe/devel/git/openembedded-core/meta/recipes-
+>> core/musl/musl_git.bb:do_install)
+>> failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 2713 tasks of which 2703 didn't need
+>> to
+>> be rerun and 1 failed.
+>>
+>> ...
+>>
+>>> The only problem may be if you're manually re-running the
+>>> do_install
+>>> script in WORKDIR/temp. If you're doing that, you have other
+>>> problems
+>>> like the missing fakeroot environment to handle so the non-empty
+>>> directory is only one minor issue, you're missing other setup
+>>> pieces as
+>>> well.
+>>
+>> I haven't play with do_install scripts in WORKDIR/temp. Only
+>> do_configure and do_build. But anyway thank for pointing for
+>> potential
+>> problems.
+>=20
+> I just tried "bitbake musl", then "bitbake musl -c install -f" which
+> should have reproduced the above but it worked fine. Admittedly I was
+> using MACHINE=3Dqemux86-64. Do those two steps break for you?
+
+Tried for ppc: issue above not reproducible. It seems I ran into
+unsupported configuration somehow. Sorry for noise.
+
+>=20
+> Something isn't adding up here and I'd like to get to the bottom of
+> it...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+
+
+
+--D6s7jXST0dBFmkVZykY0sjB57I6pwDlp4--
+
+--cmjtAsjzTHDhQFYb0NaFmpQlSiGqlM8PX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJcF70gAAoJEBTawMmQ61bByQ8IAI38zfcb8fm43Eqxwgsp4tPr
+9Y0zR/FBTI/gB1NWS+RYPPtT+/KonJPXLcVIRZ2fab8ZGkeEfG0fP/tYxQX2N5ms
+sNDPQqPSePFMAdhNmmiWuTpH6fBAqNcNn7Ut8QA84lWOOL63oMDb+XkU9dIoTVDu
+OyXSzwB9W36g2iX5vFMFA9JrgEVA0PtUAEMETwnceKg58wKb5ssX/pN0RTNwFuot
+YOKu+rKuvOGEs9X2CfN2YdMxtfdIKeUfVoY3xmHlr5Kb5oFpuISZS938sdaFdIwy
+g7d0kLRGmlWli5Lpaw8eqaZsJqrUlOaHJbuess2O/mbPJWYz/QqRq/xDcnhAH8M=
+=ND0p
+-----END PGP SIGNATURE-----
+
+--cmjtAsjzTHDhQFYb0NaFmpQlSiGqlM8PX--
