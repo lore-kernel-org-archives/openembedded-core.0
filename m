@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
-	[209.85.166.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 48F8F6C572
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 96B147BE75
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 17:11:42 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id l3so10523967ioc.10
+	Mon, 17 Dec 2018 17:16:03 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q26so13385252wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 09:11:43 -0800 (PST)
+	Mon, 17 Dec 2018 09:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=v03SIsI14guSkBq1JWhzmlwhGlLwc7cTDV1yxoMMeSg=;
-	b=coRuDSHXGl3ZbEHHIRgMnzkkkd7hlMenQJjmPKNxtOF+4G5ZPNb1nlBRdBgRghgYrK
-	MxIdFBR7td9AdCkGUw8NAm8XSkMPss4V+A00ocP09uBVmGtKRvOJFcqxRDwX9oyq6ueX
-	/by28I5VIn0h10obTssIdMfXAOT+lZSWCASrvByXuVapsY58ziLs6iKRYysfNwRNApet
-	dFRt49JzBHNUY300Gr4PycWQbomd6ISJ8Hi6hyttDIXZ8/fa2awBEbfhAxqiAgZ/hMIc
-	d6xLZV+a9r1cdd2KDMJrKTJXHNCjwPPEgB/k0nIuU7oz2PE8c4HdBUFz3t/2KF6VlSmD
-	d+tg==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=u4KKAL7sg1jlDXtgCBco5e2sAzCQsClBAJjPo8Zn5j4=;
+	b=Y0sxC8xPbXGMUJkwdMJBg8n6SjixH/S/cPD08uHWnRfykotAFL6WGqlafd434ohxk0
+	+y0nrnz2FrRAUye9xO4qlud7DSesvrOtQ021lE0rffNoUQAJBcy1sJG9xy2wTiFpV3Et
+	oRhRoFpZ+Va8EQMBh/p274wxtoU25YFYTPlmU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=v03SIsI14guSkBq1JWhzmlwhGlLwc7cTDV1yxoMMeSg=;
-	b=ASgTbq0tXnOzEtTXlfQJxPvewahHYH8JCtfcxaVTIeP9ojOn+cls/97N5J/hd21mCX
-	V8gO1LIgaFxFa7Eo6Kz9njtKW1G4JjEYYUVjIlOshQa4jGLyWOZLS060jW0L5coCn85C
-	dOLYeutka6hP8fRveZPTDCEGjxAt9qi24aRrKRp6KRUIfSzHEskNQ0nZTFzXKg0Re4H3
-	1WCoDHbO/njKsg3veJQ7h7Z11o0YWKbgWv1bUBBEKbcXeSE+EVNG1DjWJB9j8+MdE+b1
-	MDHxDY4Q14Jzenoul6DVy0/t28Pn0cVmSc/Ja8RIuCWVqf5LQdJJzIgMZ4YDy5HoxOUz
-	1hNw==
-X-Gm-Message-State: AA+aEWa0/cfKUFBhsRg3Wfi5gFrMSZNsLHO3VBDkjq49cvwfRNHBk2Cm
-	SWIlf3zA4IyNQQJzRzbxHi/3TSnvjY5bP8ao6Ppryg==
-X-Google-Smtp-Source: AFSGD/UIom6i+GMF9dgKa6/FU6C2/+O66VrgHkEZKjE5Wct2WI2BykKcWv2bY5R4EgN/zkUXEnxWUhEcM0LTL0Ye6t4=
-X-Received: by 2002:a6b:acc5:: with SMTP id v188mr11375931ioe.20.1545066703336;
-	Mon, 17 Dec 2018 09:11:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20181215125926.12227-1-sno@netbsd.org>
-In-Reply-To: <20181215125926.12227-1-sno@netbsd.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Dec 2018 17:11:31 +0000
-Message-ID: <CAJTo0LYR+x05NHQMN_bfLgSnceiOCRznodAFza-UBkyT_NZh=w@mail.gmail.com>
-To: Jens Rehsack <sno@netbsd.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_deb.bbclass: report error during creation
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=u4KKAL7sg1jlDXtgCBco5e2sAzCQsClBAJjPo8Zn5j4=;
+	b=dXZ3LXwN9M0lq89jjkzTWP7yNxlE44K6BbG2aF8AKhcyghP18XAsYRkZH1PDERuGD6
+	LYcncgbyLcWr7a/yZe/3ABSMWV6Ae5vDE1m373m/JChGv5kVFZOLaQaIq0BRGWrGlbno
+	gp4d+7gqXE9mDbONlKma3PkPODjBYP16nBjGK1exTDh1Qv1DsVBVCj8uQ5zeJqagnaqC
+	T8JYXRWG83gc9KzK/tinonzSJae2WpDuiWmMInpIwRWjMXCIm1KTgtCmBtTq8fwzfqWJ
+	oAyJSh8O68N/0BQ6yUWLO7l6725ExAlEnhiZezqpjGpaCrE5NzMrOd1ZcVLAySiyW3GJ
+	Gfrg==
+X-Gm-Message-State: AA+aEWZnydO9hI03YYaNqirBiI9VsQZjOcpF2t7+3dXWh8vS0FuDhG9A
+	H2FsNGnYGdIijVQnRN/Lrq4a/A==
+X-Google-Smtp-Source: AFSGD/X+1X7nDAzLGITL5Y2MYSQZLAnGuUzD8tPZMp2boobe+hcf21PTDzGH6HPNR4VHLqtPMCtHqg==
+X-Received: by 2002:a1c:f613:: with SMTP id w19mr16246wmc.0.1545066964126;
+	Mon, 17 Dec 2018 09:16:04 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y34sm1331399wrd.68.2018.12.17.09.16.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 17 Dec 2018 09:16:03 -0800 (PST)
+Message-ID: <7043db17733d9237d5b3e706dd66471b34e4f54e.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 17 Dec 2018 17:16:02 +0000
+In-Reply-To: <20181217084739.115773-1-mingli.yu@windriver.com>
+References: <20181217084739.115773-1-mingli.yu@windriver.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] nfs-utils: fix build error under tests folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,24 +57,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 17:11:42 -0000
+X-List-Received-Date: Mon, 17 Dec 2018 17:16:03 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, 15 Dec 2018 at 12:59, Jens Rehsack <sno@netbsd.org> wrote:
-> +        try:
-> +            subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
-> +                                    stderr=subprocess.STDOUT,
+On Mon, 2018-12-17 at 00:47 -0800, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+> * Redefine the reference path of libnfs.a to
+>   ../support/nfs/.libs/libnfs.a to fix below
+>   error when run "make -C tests statdb_dump".
+>   | make: *** No rule to make target '../support/nfs/libnfs.a',
+> needed by 'statdb_dump'.  Stop.
+>   | make: *** No rule to make target '../../support/nfs/libnfs.a',
+> needed by 'nsm_client'.  Stop.
+> 
+> * The function generic_make_pathname is introduced in
+>   nfs-utils 2.3.1.
+>   Add the source file which defines function generic_make_pathname to
+>   libnsm_a_SOURCES of libnsm.a to fix the undefined reference
+>   when run "make -C tests statdb_dump"
+>   | ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
+>   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+> 2.3.1/support/nsm/file.c:175: undefined reference to
+> `generic_make_pathname'
+>   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+> 2.3.1/support/nsm/file.c:175: undefined reference to
+> `generic_make_pathname'
+>   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+> 2.3.1/support/nsm/file.c:175: undefined reference to
+> `generic_make_pathname'
+>   | ../support/nsm/libnsm.a(file.o): In function
+> `nsm_setup_pathnames':
+>   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+> 2.3.1/support/nsm/file.c:280: undefined reference to
+> `generic_setup_basedir'
+>   | collect2: error: ld returned 1 exit status
+> 
+> * After the logic of commit[dbb643e Removed missing-prototypes
+> warnings.]
+>   introduced, there comes below error when run
+>   "make -C tests/nsm_client nsm_client"
+>   | nlm_sm_inter_svc.c:20:1: error: no previous prototype for
+> 'nlm_sm_prog_3' [-Werror=missing-prototypes]
+> 
+>   It is because rpcgen doesn't generate -Wmissing-prototypes
+>   free code for nlm_sm_inter_svc.c with below logic
+>   in tests/nsm_client/Makefile.am
+>   [snip]
+>   GENFILES_SVC    = nlm_sm_inter_svc.c
+>   [snip]
+>   $(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
+>         test -f $@ && rm -rf $@ || true
+>         $(RPCGEN) -m -o $@ $<
+>  So add the patch to not fatalize -Wmissing-prototypes.
 
-So stderr is redirected to stdout.
+Fails on musl:
 
-> +        except subprocess.CalledProcessError as cpe:
-> +            bb.note("%s" % cpe)
-> +            bb.note("%s" % cpe.stdout)
-> +            bb.note("%s" % cpe.stderr)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/104
 
-So why display both?
+Cheers,
 
-Do this as one bb.error and you won't need to re-raise as it will fail.
+Richard
 
-Ross
 
