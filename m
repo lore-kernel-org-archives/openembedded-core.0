@@ -1,23 +1,87 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE4116C485
+Return-Path: <serhe.popovych@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A6BF479CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 08:47:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBH8ldUq002352
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Dec 2018 00:47:39 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 17 Dec 2018 00:47:39 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 17 Dec 2018 00:47:39 -0800
-Message-ID: <20181217084739.115773-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon, 17 Dec 2018 09:36:51 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id x85-v6so10362531ljb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2018 01:36:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=ifSHoFOQfuKZ9Q4+Fp6DrfL8avyUitK/GhRyS3OCRRQ=;
+	b=NTm4giMEGst5L5vprokgfbMC9+CxlXDThTqgBqdUEfqX89r+NYE53DXvK81TgWsT7H
+	VB+vwRS1oD8+V//YEfOfzxhYS0pIexT7YJzO5JlnnQ+FARQF5pfwns4N/DyzvdG3+pgc
+	AvUHCDJFsRsE35hkeKcDkQcewGmt7FYyMswm689on2Q1oO0cKQ/7cuNM15j2C46WoY2H
+	HjDcDgDbYJSGoevBsj5Xc+XAVpC0X010iKrpCnF4iPs9KiBM2BarwTsLq4JxTAdI5K+p
+	vR1OhMg3egWyx3nv2NS71opIp/iY42rLSS5WpkV7ATsjBeel69TMu36AwJoSNK5uaVE+
+	61bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=ifSHoFOQfuKZ9Q4+Fp6DrfL8avyUitK/GhRyS3OCRRQ=;
+	b=R7W3dg0nC7TEgH1J5kZsyA1iAcbiMEiKNggfOAOp46vBVi/OMfz3orVLV0rp5ivF6N
+	1Sx15Oz/JatuuUsj4HGiEfJbEQdwK9m3FMCIyL8qklTnlVsvxMbrO1ZUbBHNTcQ0X3TQ
+	DRB9zsRw/v45Dos+kDSFaxDFiRFhqmDd/4+zMPf2ZLSRk7aVgPsBl0SQIXPn0kzGgnb+
+	XhgTfigDv7sJwn0kl2hq/BU7/F1ghaz9J17uwLFZ2foHUSY7AsKJZu/z++EXhaDRuyLi
+	SeBTR1iLnmk72/DQ2Y5JmYZykzTHp8yqluxRQ7Q3tCfw1a045SD9iCJ+D34BE95W+WmK
+	JK9A==
+X-Gm-Message-State: AA+aEWaq8ZUl4iFLg2mG/ntOhrj9/TbbPOSZ7kEr3msUuMNwpgbtwubt
+	7PCrQmB9i1QQI4T/NGvgqr/SmvOE
+X-Google-Smtp-Source: AFSGD/U+8SEQNah7pBiCu4toXMi4duvaqu25w9WGIVoohOF7pUU/IoNyi920KkiNfsZp7Qs4OSj42w==
+X-Received: by 2002:a2e:9b84:: with SMTP id z4-v6mr6824431lji.93.1545039411775;
+	Mon, 17 Dec 2018 01:36:51 -0800 (PST)
+Received: from tuxracer.as41781.net (nat18.vpn1-no7-iev.as41781.net.
+	[193.34.155.18]) by smtp.gmail.com with ESMTPSA id
+	y11-v6sm2453041ljc.85.2018.12.17.01.36.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Dec 2018 01:36:50 -0800 (PST)
+To: Khem Raj <raj.khem@gmail.com>
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+	<1544810082-22164-6-git-send-email-serhe.popovych@gmail.com>
+	<CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
+From: Serhey Popovych <serhe.popovych@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <40d476be-b97b-641a-f823-25c9a162324e@gmail.com>
+Date: Mon, 17 Dec 2018 11:36:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:51.0) Gecko/20100101
+	Firefox/51.0
 MIME-Version: 1.0
-Subject: [PATCH] nfs-utils: fix build error under tests folder
+In-Reply-To: <CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/13] arch-powerpc64.inc: Use elfv2 ABI when building with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,478 +94,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 08:47:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Dec 2018 09:36:52 -0000
+X-Groupsio-MsgNum: 119277
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="ckLYfPTAMkWHLIGgMWd6nLLL0TLsPlI2y"
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+--ckLYfPTAMkWHLIGgMWd6nLLL0TLsPlI2y
+Content-Type: multipart/mixed; boundary="aGu9JvypiX3Z0SLOiAzMHBmScjLi7eMTM";
+ protected-headers="v1"
+From: Serhey Popovych <serhe.popovych@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <40d476be-b97b-641a-f823-25c9a162324e@gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 05/13] arch-powerpc64.inc: Use elfv2
+ ABI when building with musl
+References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
+ <1544810082-22164-6-git-send-email-serhe.popovych@gmail.com>
+ <CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
+In-Reply-To: <CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
 
-* Redefine the reference path of libnfs.a to
-  ../support/nfs/.libs/libnfs.a to fix below
-  error when run "make -C tests statdb_dump".
-  | make: *** No rule to make target '../support/nfs/libnfs.a', needed by 'statdb_dump'.  Stop.
-  | make: *** No rule to make target '../../support/nfs/libnfs.a', needed by 'nsm_client'.  Stop.
+--aGu9JvypiX3Z0SLOiAzMHBmScjLi7eMTM
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-* The function generic_make_pathname is introduced in
-  nfs-utils 2.3.1.
-  Add the source file which defines function generic_make_pathname to
-  libnsm_a_SOURCES of libnsm.a to fix the undefined reference
-  when run "make -C tests statdb_dump"
-  | ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
-  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-  | ../support/nsm/libnsm.a(file.o): In function `nsm_setup_pathnames':
-  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:280: undefined reference to `generic_setup_basedir'
-  | collect2: error: ld returned 1 exit status
+Khem Raj wrote:
+> On Fri, Dec 14, 2018 at 9:56 AM Serhey Popovych
+> <serhe.popovych@gmail.com> wrote:
+>>
+>> Historically first PowerPC ABI was big-endian only (elfv1 currently). =
+It
+>> is standard ABI for both 32-bit ppc and 64-bit ppc64 architectures.
+>>
+>> With PowerPC little-endian support new ABI was introduced (elfv2) and =
+it
+>> is used primarily with ppc64le target only. While it has support for
+>> big-endian it is not commonly used and elfv1 still preferred.
+>>
+>> Musl does support only elfv2 ABI for both LE and BE and does not have
+>> any plans to support elfv1.
+>>
+>> Since then to build for powerpc64 with musl new ABI should be used. As=
 
-* After the logic of commit[dbb643e Removed missing-prototypes warnings.]
-  introduced, there comes below error when run
-  "make -C tests/nsm_client nsm_client"
-  | nlm_sm_inter_svc.c:20:1: error: no previous prototype for 'nlm_sm_prog_3' [-Werror=missing-prototypes]
+>> expected it is not compatible with elfv1 but that isn't problem as lon=
+g
+>> as there is no binary distributed software or assembly code written fo=
+r
+>> elfv1 ABI.
+>>
+>> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+>> ---
+>>  meta/conf/machine/include/powerpc/arch-powerpc64.inc | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/me=
+ta/conf/machine/include/powerpc/arch-powerpc64.inc
+>> index f751c6b..d9916d4 100644
+>> --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+>> @@ -7,6 +7,9 @@ TUNECONFLICTS[m64] =3D "m32 nf"
+>>  TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'm64', ' -m64=
+', '', d)}"
+>>  TUNE_ARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'pow=
+erpc64', '', d)}"
+>>
+>> +# musl only supports elfv2 ABI for ppc64
+>> +TUNE_CCARGS .=3D "${@['', ' -mabi=3Delfv2']['libc-musl' in d.getVar('=
+OVERRIDES').split(':')]}"
+>> +
+>=20
+> I wonder if we should change gcc to use this ABI by default when
+> configured for ppc64/musl ?
+> This would avoid us adding compiler options here, in bad cases it may
+> be that other compilers
+> call it out differently.
 
-  It is because rpcgen doesn't generate -Wmissing-prototypes
-  free code for nlm_sm_inter_svc.c with below logic
-  in tests/nsm_client/Makefile.am
-  [snip]
-  GENFILES_SVC    = nlm_sm_inter_svc.c
-  [snip]
-  $(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
-        test -f $@ && rm -rf $@ || true
-        $(RPCGEN) -m -o $@ $<
- So add the patch to not fatalize -Wmissing-prototypes.
+Good point. This should be easy to do with patch applied for libc-musl
+override.
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- ...-fix-undefined-function-for-libnsm.a.patch | 295 ++++++++++++++++++
- ...efile.am-update-the-path-of-libnfs.a.patch |  50 +++
- ...-Do-not-fatalize-Wmissing-prototypes.patch |  43 +++
- .../nfs-utils/nfs-utils_2.3.3.bb              |   3 +
- 4 files changed, 391 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
-new file mode 100644
-index 00000000000..aa551ebd191
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
-@@ -0,0 +1,295 @@
-+From 690a90a5b7786e40b5447ad7c5f19a7657d27405 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Fri, 14 Dec 2018 17:44:32 +0800
-+Subject: [PATCH] Makefile.am: fix undefined function for libnsm.a
-+
-+The source file of libnsm.a uses some function
-+in ../support/misc/file.c, add ../support/misc/file.c
-+to libnsm_a_SOURCES to fix build error when run
-+"make -C tests statdb_dump":
-+| ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
-+| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-+| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-+| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
-+| ../support/nsm/libnsm.a(file.o): In function `nsm_setup_pathnames':
-+| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:280: undefined reference to `generic_setup_basedir'
-+| collect2: error: ld returned 1 exit status
-+
-+As there is already one source file named file.c
-+as support/nsm/file.c in support/nsm/Makefile.am,
-+so rename ../support/misc/file.c to ../support/misc/misc.c.
-+
-+Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154502780423058&w=2]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ support/misc/Makefile.am |   2 +-
-+ support/misc/file.c      | 111 -----------------------------------------------
-+ support/misc/misc.c      | 111 +++++++++++++++++++++++++++++++++++++++++++++++
-+ support/nsm/Makefile.am  |   2 +-
-+ 4 files changed, 113 insertions(+), 113 deletions(-)
-+ delete mode 100644 support/misc/file.c
-+ create mode 100644 support/misc/misc.c
-+
-+diff --git a/support/misc/Makefile.am b/support/misc/Makefile.am
-+index 8936b0d..d4c1f76 100644
-+--- a/support/misc/Makefile.am
-++++ b/support/misc/Makefile.am
-+@@ -1,6 +1,6 @@
-+ ## Process this file with automake to produce Makefile.in
-+ 
-+ noinst_LIBRARIES = libmisc.a
-+-libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c file.c
-++libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c misc.c
-+ 
-+ MAINTAINERCLEANFILES = Makefile.in
-+diff --git a/support/misc/file.c b/support/misc/file.c
-+deleted file mode 100644
-+index e7c3819..0000000
-+--- a/support/misc/file.c
-++++ /dev/null
-+@@ -1,111 +0,0 @@
-+-/*
-+- * Copyright 2009 Oracle.  All rights reserved.
-+- * Copyright 2017 Red Hat, Inc.  All rights reserved.
-+- *
-+- * This file is part of nfs-utils.
-+- *
-+- * nfs-utils is free software; you can redistribute it and/or modify
-+- * it under the terms of the GNU General Public License as published by
-+- * the Free Software Foundation; either version 2 of the License, or
-+- * (at your option) any later version.
-+- *
-+- * nfs-utils is distributed in the hope that it will be useful,
-+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+- * GNU General Public License for more details.
-+- *
-+- * You should have received a copy of the GNU General Public License
-+- * along with nfs-utils.  If not, see <http://www.gnu.org/licenses/>.
-+- */
-+-
-+-#include <sys/stat.h>
-+-
-+-#include <string.h>
-+-#include <libgen.h>
-+-#include <stdio.h>
-+-#include <errno.h>
-+-#include <dirent.h>
-+-#include <stdlib.h>
-+-#include <stdbool.h>
-+-#include <limits.h>
-+-
-+-#include "xlog.h"
-+-#include "misc.h"
-+-
-+-/*
-+- * Returns a dynamically allocated, '\0'-terminated buffer
-+- * containing an appropriate pathname, or NULL if an error
-+- * occurs.  Caller must free the returned result with free(3).
-+- */
-+-__attribute__((__malloc__))
-+-char *
-+-generic_make_pathname(const char *base, const char *leaf)
-+-{
-+-	size_t size;
-+-	char *path;
-+-	int len;
-+-
-+-	size = strlen(base) + strlen(leaf) + 2;
-+-	if (size > PATH_MAX)
-+-		return NULL;
-+-
-+-	path = malloc(size);
-+-	if (path == NULL)
-+-		return NULL;
-+-
-+-	len = snprintf(path, size, "%s/%s", base, leaf);
-+-	if ((len < 0) || ((size_t)len >= size)) {
-+-		free(path);
-+-		return NULL;
-+-	}
-+-
-+-	return path;
-+-}
-+-
-+-
-+-/**
-+- * generic_setup_basedir - set up basedir
-+- * @progname: C string containing name of program, for error messages
-+- * @parentdir: C string containing pathname to on-disk state, or NULL
-+- * @base: character buffer to contain the basedir that is set up
-+- * @baselen: size of @base in bytes
-+- *
-+- * This runs before logging is set up, so error messages are directed
-+- * to stderr.
-+- *
-+- * Returns true and sets up our basedir, if @parentdir was valid
-+- * and usable; otherwise false is returned.
-+- */
-+-_Bool
-+-generic_setup_basedir(const char *progname, const char *parentdir, char *base,
-+-		      const size_t baselen)
-+-{
-+-	static char buf[PATH_MAX];
-+-	struct stat st;
-+-	char *path;
-+-
-+-	/* First: test length of name and whether it exists */
-+-	if ((strlen(parentdir) >= baselen) || (strlen(parentdir) >= PATH_MAX)) {
-+-		(void)fprintf(stderr, "%s: Directory name too long: %s",
-+-				progname, parentdir);
-+-		return false;
-+-	}
-+-	if (lstat(parentdir, &st) == -1) {
-+-		(void)fprintf(stderr, "%s: Failed to stat %s: %s",
-+-				progname, parentdir, strerror(errno));
-+-		return false;
-+-	}
-+-
-+-	/* Ensure we have a clean directory pathname */
-+-	strncpy(buf, parentdir, sizeof(buf)-1);
-+-	path = dirname(buf);
-+-	if (*path == '.') {
-+-		(void)fprintf(stderr, "%s: Unusable directory %s",
-+-				progname, parentdir);
-+-		return false;
-+-	}
-+-
-+-	xlog(D_CALL, "Using %s as the state directory", parentdir);
-+-	strcpy(base, parentdir);
-+-	return true;
-+-}
-+diff --git a/support/misc/misc.c b/support/misc/misc.c
-+new file mode 100644
-+index 0000000..e7c3819
-+--- /dev/null
-++++ b/support/misc/misc.c
-+@@ -0,0 +1,111 @@
-++/*
-++ * Copyright 2009 Oracle.  All rights reserved.
-++ * Copyright 2017 Red Hat, Inc.  All rights reserved.
-++ *
-++ * This file is part of nfs-utils.
-++ *
-++ * nfs-utils is free software; you can redistribute it and/or modify
-++ * it under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 2 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * nfs-utils is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ * GNU General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with nfs-utils.  If not, see <http://www.gnu.org/licenses/>.
-++ */
-++
-++#include <sys/stat.h>
-++
-++#include <string.h>
-++#include <libgen.h>
-++#include <stdio.h>
-++#include <errno.h>
-++#include <dirent.h>
-++#include <stdlib.h>
-++#include <stdbool.h>
-++#include <limits.h>
-++
-++#include "xlog.h"
-++#include "misc.h"
-++
-++/*
-++ * Returns a dynamically allocated, '\0'-terminated buffer
-++ * containing an appropriate pathname, or NULL if an error
-++ * occurs.  Caller must free the returned result with free(3).
-++ */
-++__attribute__((__malloc__))
-++char *
-++generic_make_pathname(const char *base, const char *leaf)
-++{
-++	size_t size;
-++	char *path;
-++	int len;
-++
-++	size = strlen(base) + strlen(leaf) + 2;
-++	if (size > PATH_MAX)
-++		return NULL;
-++
-++	path = malloc(size);
-++	if (path == NULL)
-++		return NULL;
-++
-++	len = snprintf(path, size, "%s/%s", base, leaf);
-++	if ((len < 0) || ((size_t)len >= size)) {
-++		free(path);
-++		return NULL;
-++	}
-++
-++	return path;
-++}
-++
-++
-++/**
-++ * generic_setup_basedir - set up basedir
-++ * @progname: C string containing name of program, for error messages
-++ * @parentdir: C string containing pathname to on-disk state, or NULL
-++ * @base: character buffer to contain the basedir that is set up
-++ * @baselen: size of @base in bytes
-++ *
-++ * This runs before logging is set up, so error messages are directed
-++ * to stderr.
-++ *
-++ * Returns true and sets up our basedir, if @parentdir was valid
-++ * and usable; otherwise false is returned.
-++ */
-++_Bool
-++generic_setup_basedir(const char *progname, const char *parentdir, char *base,
-++		      const size_t baselen)
-++{
-++	static char buf[PATH_MAX];
-++	struct stat st;
-++	char *path;
-++
-++	/* First: test length of name and whether it exists */
-++	if ((strlen(parentdir) >= baselen) || (strlen(parentdir) >= PATH_MAX)) {
-++		(void)fprintf(stderr, "%s: Directory name too long: %s",
-++				progname, parentdir);
-++		return false;
-++	}
-++	if (lstat(parentdir, &st) == -1) {
-++		(void)fprintf(stderr, "%s: Failed to stat %s: %s",
-++				progname, parentdir, strerror(errno));
-++		return false;
-++	}
-++
-++	/* Ensure we have a clean directory pathname */
-++	strncpy(buf, parentdir, sizeof(buf)-1);
-++	path = dirname(buf);
-++	if (*path == '.') {
-++		(void)fprintf(stderr, "%s: Unusable directory %s",
-++				progname, parentdir);
-++		return false;
-++	}
-++
-++	xlog(D_CALL, "Using %s as the state directory", parentdir);
-++	strcpy(base, parentdir);
-++	return true;
-++}
-+diff --git a/support/nsm/Makefile.am b/support/nsm/Makefile.am
-+index 8f5874e..68f1a46 100644
-+--- a/support/nsm/Makefile.am
-++++ b/support/nsm/Makefile.am
-+@@ -10,7 +10,7 @@ GENFILES	= $(GENFILES_CLNT) $(GENFILES_SVC) $(GENFILES_XDR) $(GENFILES_H)
-+ EXTRA_DIST	= sm_inter.x
-+ 
-+ noinst_LIBRARIES = libnsm.a
-+-libnsm_a_SOURCES = $(GENFILES) file.c rpc.c
-++libnsm_a_SOURCES = $(GENFILES) ../misc/misc.c file.c rpc.c
-+ 
-+ BUILT_SOURCES = $(GENFILES)
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
-new file mode 100644
-index 00000000000..906ac0f9054
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
-@@ -0,0 +1,50 @@
-+From fcece65d1b713eaeef41706898440302f8ce92d9 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Thu, 12 Jul 2018 15:19:41 +0800
-+Subject: [PATCH] Makefile.am: update the path of libnfs.a
-+
-+The libnfs.a is under ../support/nfs/.libs/ now,
-+update the reference path accordingly to fix below
-+build error when run "make -C tests statdb_dump":
-+| make: *** No rule to make target '../support/nfs/libnfs.a', needed by 'statdb_dump'.  Stop.
-+
-+And below error when run "make -C tests/nsm_client nsm_client"
-+| make: *** No rule to make target '../../support/nfs/libnfs.a', needed by 'nsm_client'.  Stop.
-+
-+Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154502636522745&w=2]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ tests/Makefile.am            | 2 +-
-+ tests/nsm_client/Makefile.am | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 1f96264..74aa629 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -3,7 +3,7 @@
-+ check_PROGRAMS = statdb_dump
-+ statdb_dump_SOURCES = statdb_dump.c
-+ 
-+-statdb_dump_LDADD = ../support/nfs/libnfs.a \
-++statdb_dump_LDADD = ../support/nfs/.libs/libnfs.a \
-+ 		    ../support/nsm/libnsm.a $(LIBCAP)
-+ 
-+ SUBDIRS = nsm_client
-+diff --git a/tests/nsm_client/Makefile.am b/tests/nsm_client/Makefile.am
-+index a8fc131..43db9c2 100644
-+--- a/tests/nsm_client/Makefile.am
-++++ b/tests/nsm_client/Makefile.am
-+@@ -13,7 +13,7 @@ check_PROGRAMS	= nsm_client
-+ nsm_client_SOURCES = $(GENFILES) nsm_client.c
-+ 
-+ BUILT_SOURCES = $(GENFILES)
-+-nsm_client_LDADD = ../../support/nfs/libnfs.a \
-++nsm_client_LDADD = ../../support/nfs/.libs/libnfs.a \
-+ 		   ../../support/nsm/libnsm.a $(LIBCAP) $(LIBTIRPC)
-+ 
-+ if CONFIG_RPCGEN
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
-new file mode 100644
-index 00000000000..17aabb9e4dc
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
-@@ -0,0 +1,43 @@
-+From 66471fbf7106917da7a1536b18a0a77d07479779 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Mon, 17 Dec 2018 15:29:47 +0800
-+Subject: [PATCH] configure.ac: Do not fatalize -Wmissing-prototypes
-+
-+There comes below error when run "make -C tests/nsm_client nsm_client"
-+| nlm_sm_inter_svc.c:20:1: error: no previous prototype for 'nlm_sm_prog_3' [-Werror=missing-prototypes]
-+
-+It is because rpcgen doesn't generate -Wmissing-prototypes
-+free code for nlm_sm_inter_svc.c with below logic
-+in tests/nsm_client/Makefile.am
-+[snip]
-+GENFILES_SVC    = nlm_sm_inter_svc.c
-+[snip]
-+$(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
-+        test -f $@ && rm -rf $@ || true
-+        $(RPCGEN) -m -o $@ $<
-+
-+So add the logic not to fatalize -Wmissing-prototypes.
-+
-+Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154503260323936&w=2]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index e82ff14..d0cc5d5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -548,7 +548,7 @@ my_am_cflags="\
-+  -Wall \
-+  -Wextra \
-+  -Werror=strict-prototypes \
-+- -Werror=missing-prototypes \
-++ -Wmissing-prototypes \
-+  -Werror=missing-declarations \
-+  -Werror=format=2 \
-+  -Werror=undef \
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-index 6be2aab47c1..cabfc02c7e4 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-@@ -33,6 +33,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
-            file://0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch \
-            file://clang-format-string.patch \
-+           file://0001-Makefile.am-update-the-path-of-libnfs.a.patch \
-+           file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-+           file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch \
- "
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
- 
--- 
-2.17.1
+>=20
+>>  # user mode qemu doesn't support ppc64
+>>  MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D " ${@bb.utils.contain=
+s('TUNE_FEATURES', 'm64', 'qemu-usermode', '', d)}"
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+
+--aGu9JvypiX3Z0SLOiAzMHBmScjLi7eMTM--
+
+--ckLYfPTAMkWHLIGgMWd6nLLL0TLsPlI2y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJcF24xAAoJEBTawMmQ61bB3xsH/i/doFAAMOvs+yvUCGyuKii2
+54nmS/nJrT80C/DqDe88VaPTzuIdaszlsWl0WF0rvNkZB9UY/QjcTeHo11rTlryP
+jqD8wazHV9XF8pP/8D+HFCUh9jF77rga6ziO6H0zi5pBUKFmWThd2lWagrG85Ni+
+WU4Jj6vKOLGT4kqGIZmPDy8rOuxA7455rz0QB6c6x+DDQnZhm2TzwdSxDW2q/2Ba
+n1v68j6iXavf3ij7DTf8ftjoQ/YYgcm3gy4AR64JlIMShEFo6U5ZmNH17y1wsrTZ
+t9dDo/E/Pk+AfNBNQLJAz5pMSsxt5Hdtq8NPDrQm00ALBf7e8mZlhZjsvE/5xhk=
+=ayjN
+-----END PGP SIGNATURE-----
+
+--ckLYfPTAMkWHLIGgMWd6nLLL0TLsPlI2y--
