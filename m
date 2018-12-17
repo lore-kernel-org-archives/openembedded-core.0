@@ -1,55 +1,56 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D2FAD6B06A
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDA67BDED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 10:26:30 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c14so11694581wrr.0
+	Mon, 17 Dec 2018 10:44:28 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y1so11784036wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 02:26:32 -0800 (PST)
+	Mon, 17 Dec 2018 02:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=Ex5uaHrMQldcBKi0on9oajyHIWB37Z33A8CpwJYy4ik=;
-	b=SSAnQ2wrybfckUPiqtVPMry60zvSXqVllOi8CwV3kvbKbrdW5J3hK7xUYze5/LS1Qi
-	QDLz+boNfhO8ss0xsz9EqIGs7R7IXCxFiB8vbOR1I5Ku0s+AmYuOxwdr4i+UzEJNJ5zh
-	W5YBCyolPR9cl0kDHEfIS4yoDBSpgw+bGUzJU=
+	bh=Lsyk565NodAi6dfhvSiIeDdxgAygrw8lwltwI616TcU=;
+	b=Q7DrOnx7MIYA+8SGZkJSCm19xcZCf8beMQYHdrwZkUufzbELE81tPkARkQ8hsSMpgR
+	jy5CU3y7RlPTRbAGCKr4AkGMjYRHBpwxYuw4NFMqPhM59/qql2lXNXr4lAows0GXI2ld
+	FVmo+nXUF7Yj7F+YeqXvgzuig/au8eatdWiTQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Ex5uaHrMQldcBKi0on9oajyHIWB37Z33A8CpwJYy4ik=;
-	b=AYVtlHHzWGH3uzXfwqXRlTcasmDQJeANDwAPpPZiPk2rYnTvrlTRH2+zc5LIjRCSNT
-	eq8I22UxZk1i39EBB21NNqoLB/85uG6NzY6TrImSxuT7zQOtTKglgMaFiuxj5lngUew3
-	KhK/yNP/7KaDTF65K+pkX2ojbI6q2ug7Dsx0djxYOmGOTMZRXIXmu/2Y9GXJYUU/E1hH
-	PWP9yUQ1zQ/TDWC+2PnBz7n+X2eeCIrObBvh1Jg4Ylr971/Fd4rGG/H/eg8bZ4nncr5H
-	SHXPb7dIuI9vAkro40Rq47b8Ex2ML0s/xVdBclrYmtZQKCdWmci+CRCjLOtCznVfoptN
-	mJxg==
-X-Gm-Message-State: AA+aEWYu82MZV0E7/36b6pefgHvYxsFgT5p4x0oJCD8nrlOu19etHA3J
-	tG2z78b4hYyeIqXJmK1FfvpDLw==
-X-Google-Smtp-Source: AFSGD/XydVW/BFIwIdsR3kyiy+xmA62Zg+9U18V8xaK0ypMyjirengpoZvigb+/B1g+xdpfmXRVm9g==
-X-Received: by 2002:a5d:4303:: with SMTP id h3mr10267340wrq.273.1545042391389; 
-	Mon, 17 Dec 2018 02:26:31 -0800 (PST)
+	bh=Lsyk565NodAi6dfhvSiIeDdxgAygrw8lwltwI616TcU=;
+	b=Yf5Std36P/FSAMM26e+PyFSP8ZepIplP5E7eb3ND0bD6vAWC/rsN7LnrPV+hh2vjPw
+	2P0+r+CuKpBKWWHGzDiQlQz0I6MaVT4PqmZ3Y9Qsy+aKx0KRedwXjvvKSaKzoBT53dC2
+	W++hA37KQcHJ3NBHzzCQIQ3v29twa3iL7xxmAbVPBatJNXe9aLwUt8Ot1q4MsvMsQ4F1
+	5dE6z9omwBssrotgeVoR6y6oTMzjl9ZxDsoyQdeAFnIp6U0avy2Z3x+dxy5MdFnn5jfs
+	slDmOH/fK/K1Ypo+jUNdKCStwnqOS/LGUo2U6rc4nJocCJzRKnz2RwRzi0R4QTssiKbX
+	vcAw==
+X-Gm-Message-State: AA+aEWZeQbEuOq1fBlm1gx9imKD+KQcSJcB60J/Y/I7o0aTX7DMZxtmI
+	n91+Pp1cZ9h6nIRhAowNEzkSsQ==
+X-Google-Smtp-Source: AFSGD/X2CAX5VPfAhODD4JZ4LYzQaVuJowQ27a/qEgLeBxVygTmBsBjkIdlB+oR78gaX64aRuWqh1g==
+X-Received: by 2002:a1c:4955:: with SMTP id w82mr11681439wma.33.1545043469010; 
+	Mon, 17 Dec 2018 02:44:29 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	b18sm12578398wrr.43.2018.12.17.02.26.29
+	y185sm9376226wmg.34.2018.12.17.02.44.27
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 17 Dec 2018 02:26:30 -0800 (PST)
-Message-ID: <e46df116cd674f3073acab5b9ead068e83690d2b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Serhey Popovych <serhe.popovych@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Dec 2018 10:26:29 +0000
-In-Reply-To: <40d476be-b97b-641a-f823-25c9a162324e@gmail.com>
+	Mon, 17 Dec 2018 02:44:28 -0800 (PST)
+Message-ID: <dee546f2355d673d9364e591d56a09be975fd36f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Serhey Popovych <serhe.popovych@gmail.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+Date: Mon, 17 Dec 2018 10:44:27 +0000
+In-Reply-To: <5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
 References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
-	<1544810082-22164-6-git-send-email-serhe.popovych@gmail.com>
-	<CAMKF1spGeN_PxOKM5XC5CG6dPFSNv1H+OyDv2P9k6SoK6uAt5g@mail.gmail.com>
-	<40d476be-b97b-641a-f823-25c9a162324e@gmail.com>
+	<1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
+	<CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
+	<abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
+	<5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
 User-Agent: Evolution 3.30.2-1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/13] arch-powerpc64.inc: Use elfv2 ABI when building with musl
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/13] musl: Ensure GLIBC_LDSO symlink target does not exist on reinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,75 +63,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 10:26:31 -0000
+X-List-Received-Date: Mon, 17 Dec 2018 10:44:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-12-17 at 11:36 +0200, Serhey Popovych wrote:
-> Khem Raj wrote:
-> > On Fri, Dec 14, 2018 at 9:56 AM Serhey Popovych
-> > <serhe.popovych@gmail.com> wrote:
-> > > Historically first PowerPC ABI was big-endian only (elfv1
-> > > currently). It
-> > > is standard ABI for both 32-bit ppc and 64-bit ppc64
-> > > architectures.
+On Mon, 2018-12-17 at 11:49 +0200, Serhey Popovych wrote:
+> Richard Purdie wrote:
+> > On Fri, 2018-12-14 at 11:09 -0800, Andre McCurdy wrote:
+> > > On Fri, Dec 14, 2018 at 9:57 AM Serhey Popovych
+> > > <serhe.popovych@gmail.com> wrote:
+> > > > Otherwise do_install task will fail on rebuild.
+> > > > 
+> > > > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> > > > ---
+> > > >  meta/recipes-core/musl/musl_git.bb | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-
+> > > > core/musl/musl_git.bb
+> > > > index 9cc875c..4593cde 100644
+> > > > --- a/meta/recipes-core/musl/musl_git.bb
+> > > > +++ b/meta/recipes-core/musl/musl_git.bb
+> > > > @@ -61,7 +61,7 @@ do_install() {
+> > > >         oe_runmake install DESTDIR='${D}'
+> > > > 
+> > > >         install -d ${D}${bindir}
+> > > > -       rm -f ${D}${bindir}/ldd
+> > > > +       rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
 > > > 
-> > > With PowerPC little-endian support new ABI was introduced (elfv2)
-> > > and it
-> > > is used primarily with ppc64le target only. While it has support
-> > > for
-> > > big-endian it is not commonly used and elfv1 still preferred.
+> > > The correct fix here is actually to remove this line entirely.
+> > > The
+> > > official ruling is that there should be no expectation that re-
+> > > running do_install should work and patches to make it work are
+> > > not
+> > > acceptable.
 > > > 
-> > > Musl does support only elfv2 ABI for both LE and BE and does not
-> > > have
-> > > any plans to support elfv1.
-> > > 
-> > > Since then to build for powerpc64 with musl new ABI should be
-> > > used. As
-> > > expected it is not compatible with elfv1 but that isn't problem
-> > > as long
-> > > as there is no binary distributed software or assembly code
-> > > written for
-> > > elfv1 ABI.
-> > > 
-> > > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
-> > > ---
-> > >  meta/conf/machine/include/powerpc/arch-powerpc64.inc | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc 
-> > > b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-> > > index f751c6b..d9916d4 100644
-> > > --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-> > > +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-> > > @@ -7,6 +7,9 @@ TUNECONFLICTS[m64] = "m32 nf"
-> > >  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'm64', '
-> > > -m64', '', d)}"
-> > >  TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ],
-> > > 'powerpc64', '', d)}"
-> > > 
-> > > +# musl only supports elfv2 ABI for ppc64
-> > > +TUNE_CCARGS .= "${@['', ' -mabi=elfv2']['libc-musl' in
-> > > d.getVar('OVERRIDES').split(':')]}"
-> > > +
+> > >   
+> > > http://lists.openembedded.org/pipermail/openembedded-core/2018-September/273723.html
 > > 
-> > I wonder if we should change gcc to use this ABI by default when
-> > configured for ppc64/musl ?
-> > This would avoid us adding compiler options here, in bad cases it
-> > may
-> > be that other compilers
-> > call it out differently.
+> > Lets be clear, re-running the do_install task *is* supported and
+> > works
+> > today. It is actually meant to work when re-run. do_install clears
+> > out
+> > ${D} at its start so we can assume in do_install functions that it
+> > is
+> > empty at the start of the function.
 > 
-> Good point. This should be easy to do with patch applied for libc-
-> musl
-> override.
+> It seems do_install does not clear ${D} or I do something wrong:
+> 
+> $ bitbake core-image-sato
+> <success>
+> 
+> <Adjust gcc/musl recipe and then run>
+> 
+> $ bitbake core-image-sato
+> 
+> ...
+> /image/usr/lib64/libc.so
+> /home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/image/lib64/ld-musl-powerpc64le.so.1
+> > > true
+> > Traceback (most recent call last):
+> >   File "/home/serhe/devel/git/openembedded-core/scripts/lnr", line
+> > 21,
+> in <module>
+> >     os.symlink(target, linkname)
+> > FileExistsError: [Errno 17] File exists: 'image/usr/lib64/libc.so'
+> > ->
+> '/home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/imageNone'
+> > WARNING:
+> /home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/temp/run.do_install.77856:1
+> exit 1 from 'lnr
+> /home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/image/usr/lib64/libc.so
+> /home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/imageNone'
+> > ERROR: Function failed: do_install (log file is located at
+> /home/serhe/devel/git/openembedded-core/build/tmp-
+> musl/work/ppc64p8le-oe-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-
+> r0/temp/log.do_install.77856)
+> ERROR: Task
+> (/home/serhe/devel/git/openembedded-core/meta/recipes-
+> core/musl/musl_git.bb:do_install)
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 2713 tasks of which 2703 didn't need
+> to
+> be rerun and 1 failed.
+> 
+> ...
+> 
+> > The only problem may be if you're manually re-running the
+> > do_install
+> > script in WORKDIR/temp. If you're doing that, you have other
+> > problems
+> > like the missing fakeroot environment to handle so the non-empty
+> > directory is only one minor issue, you're missing other setup
+> > pieces as
+> > well.
+> 
+> I haven't play with do_install scripts in WORKDIR/temp. Only
+> do_configure and do_build. But anyway thank for pointing for
+> potential
+> problems.
 
-Given our gcc shared-workdir which is shared between musl and non-musl
-builds, I'm not sure this will be quite that easy. It would need to be
-build configuration time rather than source patching...
+I just tried "bitbake musl", then "bitbake musl -c install -f" which
+should have reproduced the above but it worked fine. Admittedly I was
+using MACHINE=qemux86-64. Do those two steps break for you?
+
+Something isn't adding up here and I'd like to get to the bottom of
+it...
 
 Cheers,
 
 Richard
+
+
+
 
 
