@@ -1,49 +1,47 @@
 Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 814387BDB5
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E04D745AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 09:50:06 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id u6-v6so10409466ljd.1
+	Mon, 17 Dec 2018 09:56:25 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id g11-v6so10413258ljk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 01:50:07 -0800 (PST)
+	Mon, 17 Dec 2018 01:56:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=E9iN49vLqbu36b8Vc/Txhap2kIKh/N323KWh21q46nU=;
-	b=GTGsGctExYNqC9TJFt7n9n98R1a1HingPUftwWtgty6oB4x1DnhArNOgZcfPdJz5/V
-	StRu7zuFvd9lhLPWQNCOIzZoWPvytBz78g0OdNffsviCF8wzS6pNZ7mXsBzgAN6kp5e3
-	jq+7sIYD9QeiVqwmHsA4KyqNW+98EuSbavbHtlm1YjKHDxcJFB9BWpAv3612VMpO2scZ
-	pG86PfvPXP9r1ozk9QpgHbbEgmCMLGtRBcbiq0gnrekb1umRlC2BeEhtjNXXiNv0+4PY
-	UZ63m6gIbY5RuXsCXZjSWTrD1PxwL/oFtL0eGDiT/YLsiGRIEg7sqHYV9vVR7fyoHPD2
-	MPFA==
+	bh=48SgpSNlyAubw//cTIJtMrY8QFtqVw0l1BpIk2r8GNw=;
+	b=oxxLwwcok31qKb4WS9Wp1C1NzyPctyItnMCXivxdQCut982sSYYjNXsB/R4hXWgYD6
+	bwGhSN6P/VRXfIgznWrRHlO4OFEd/+YvJOvl2rcoyVteCpurAYlvnr21WbNrv7j474PD
+	uCt6v4mw3cmdxZ/jlPrkpF2DP3uW5QhQaj9Ui9PEz6cIDttfX5bDM2XYFoVEPXDjBjc1
+	n3UEa7o9MPyujS9F7H+T4WG1g0WSUFP0B9Z39L6YoJm0EKAyOEg1qsX5D/LiuD4+HKAD
+	kAyQV0lfJGkSfhWbccPeHOCEgqrW3iFYNdGUWJXZNE+37U6JjbpA1MpRdygMLYD0LPUu
+	cghw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=E9iN49vLqbu36b8Vc/Txhap2kIKh/N323KWh21q46nU=;
-	b=gpCdEikMC8/E+z4b4LHm8I5yNsRFrBYBMpvfK/8Xthla3j+iX6+10cFM/JfUG/K+eM
-	nbXcxd4d54ilXvvIIZ9cZfRb+ZhZM04gzJa/bFGaEpIzbSU3RDI0AHq+vd3uGCh8lJcJ
-	wUJPLFPornFRLteT8hPA3JXxaTdjD8AvJ+DLJ33EDUN+07l2U+pjzB3szcqMlA8GLfb/
-	gQLx9P3q/7CtVloi7/6npGt5eAnlvhWrKsANbnsDn+qtB3SuJGCLobFO/2lb7gii6lS2
-	dCpdgJAfQ6BHH93VNb5mNR+sTjSTXMEqMTpIYN459OKO6AXQCtttg59NGdYWxCBFaM5B
-	t2mg==
-X-Gm-Message-State: AA+aEWbdxzfQIFzZ2lR6JddAulqvaMO2t7sRqbHm4unjikrOm4laN+IB
-	pdQV/Orld4b0aPBzAPtgieyl+xO8
-X-Google-Smtp-Source: AFSGD/XkmEuVULCndKbTK1+xWnG1jMjE7jIcNtrnYnIt4u7Yuwa3ID6z512b3MGpXK8ur2GuQZ8FeA==
-X-Received: by 2002:a2e:9a84:: with SMTP id p4-v6mr6869729lji.73.1545040206701;
-	Mon, 17 Dec 2018 01:50:06 -0800 (PST)
+	bh=48SgpSNlyAubw//cTIJtMrY8QFtqVw0l1BpIk2r8GNw=;
+	b=LBvIxQfNeWIYyXEZbenZMOTHcTQZ51961IOAtxrHbDbBXy80lfhvjiQD29ZyuvBl9r
+	IIkE5OxDDNThCO6QVyh0RSzoM2B6p1NkDPRgRMnyRvvM4gFhDEC9wTfGAyqZarZ5AdSW
+	tFSKDH3U2LzSWMs1AMaECxAUlRMxFhdz5VZhEPzqD9yc3bEoE6P0ouR73KOA67ERSQ8v
+	YhtMF6rOdxLgtkEc4wOEz0Z6qS5n3Ou0bS73guiQOA0TUSjmTCjsfeWMAK2GJLT2bdST
+	moc2rlDu0he6Xyo+ilpq390IpEECRIVMt4wGPN2YqZXKD6VvWmKTaAW1NNZceNlJ6wPP
+	OEeA==
+X-Gm-Message-State: AA+aEWb3U/Lp2VXklswucpZsGs2DjTHjGisvBGQffNXVTFytTbjvARgu
+	txiyUMFhQ9EgsvAOyjhA5+ZM6CCo
+X-Google-Smtp-Source: AFSGD/WtJQ863LiVxW6jvX26OPNKizQIcg6uNRNztrZCCb9wbQ99W42Aj+4fiaWKBSYI486LBYkpgw==
+X-Received: by 2002:a2e:5356:: with SMTP id
+	t22-v6mr1459244ljd.26.1545040585667; 
+	Mon, 17 Dec 2018 01:56:25 -0800 (PST)
 Received: from tuxracer.as41781.net (nat18.vpn1-no7-iev.as41781.net.
-	[193.34.155.18])
-	by smtp.gmail.com with ESMTPSA id p91sm2603736lfg.4.2018.12.17.01.50.05
+	[193.34.155.18]) by smtp.gmail.com with ESMTPSA id
+	p21sm2581345lfj.10.2018.12.17.01.56.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Dec 2018 01:50:06 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Andre McCurdy <armccurdy@gmail.com>
+	Mon, 17 Dec 2018 01:56:25 -0800 (PST)
+To: Khem Raj <raj.khem@gmail.com>
 References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
-	<1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
-	<CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
-	<abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
+	<CAMKF1spRwzV+NRwbdFDHMgX4ffP3CZ_NKoOS8QF60KJkBKbJCw@mail.gmail.com>
 From: Serhey Popovych <serhe.popovych@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
@@ -75,14 +73,15 @@ Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
 	6NUBSjcQ4R6HlKsI76z6aF7sbJdUm+QYPkUlo8tCrm/fGUZsDj21D8VkgApJxjqOAucSD6m9
 	r79AKKVTUmj5hexlx8bYtpWNzXLDBlV/yvLS0ztIUrDNtGXjuNdYaBqnyqnJZgrDiaQD+Dwn
 	ZdLh9FpbQvGvjYTMQfL55xol/hzg/3m+aGAkVlKGT91pKQjItyP8CZwAFk81bQo=
-Message-ID: <5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
-Date: Mon, 17 Dec 2018 11:49:59 +0200
+Message-ID: <f3e71912-ae24-abb8-3b48-0b9b487a372e@gmail.com>
+Date: Mon, 17 Dec 2018 11:56:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:51.0) Gecko/20100101
 	Firefox/51.0
 MIME-Version: 1.0
-In-Reply-To: <abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 07/13] musl: Ensure GLIBC_LDSO symlink target does not exist on reinstall
+In-Reply-To: <CAMKF1spRwzV+NRwbdFDHMgX4ffP3CZ_NKoOS8QF60KJkBKbJCw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/13] powerpc/powerpc64: Support build with musl as libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,138 +94,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 09:50:06 -0000
-X-Groupsio-MsgNum: 119279
+X-List-Received-Date: Mon, 17 Dec 2018 09:56:25 -0000
+X-Groupsio-MsgNum: 119280
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="W9PrRJpOpbEYeerpeLcA9cd9McTt46Ysf"
+	boundary="nz3RybzIWLoIIL3JR2MZK0mY5ZqHHHsjA"
 
---W9PrRJpOpbEYeerpeLcA9cd9McTt46Ysf
-Content-Type: multipart/mixed; boundary="DQ0ajjle0EivtodUJaY6pDlZxa55qV98b";
+--nz3RybzIWLoIIL3JR2MZK0mY5ZqHHHsjA
+Content-Type: multipart/mixed; boundary="QXpxJo73WZWIT2cxREQaB99P2vhAm8B8N";
  protected-headers="v1"
 From: Serhey Popovych <serhe.popovych@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <5ce44bd3-a1eb-a151-41e7-18dfc2789270@gmail.com>
-Subject: Re: [OE-core] [OE-Core][PATCH 07/13] musl: Ensure GLIBC_LDSO symlink
- target does not exist on reinstall
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <f3e71912-ae24-abb8-3b48-0b9b487a372e@gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 00/13] powerpc/powerpc64: Support build
+ with musl as libc
 References: <1544810082-22164-1-git-send-email-serhe.popovych@gmail.com>
- <1544810082-22164-8-git-send-email-serhe.popovych@gmail.com>
- <CAJ86T=XQqr-3Jgg1xMPkHz0Qx_KwPxpv3d8xoeKuR5YcP-o00w@mail.gmail.com>
- <abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
-In-Reply-To: <abe4d45b54c8d323e8d2f04ea01d04367a19beb2.camel@linuxfoundation.org>
+ <CAMKF1spRwzV+NRwbdFDHMgX4ffP3CZ_NKoOS8QF60KJkBKbJCw@mail.gmail.com>
+In-Reply-To: <CAMKF1spRwzV+NRwbdFDHMgX4ffP3CZ_NKoOS8QF60KJkBKbJCw@mail.gmail.com>
 
---DQ0ajjle0EivtodUJaY6pDlZxa55qV98b
+--QXpxJo73WZWIT2cxREQaB99P2vhAm8B8N
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie wrote:
-> On Fri, 2018-12-14 at 11:09 -0800, Andre McCurdy wrote:
->> On Fri, Dec 14, 2018 at 9:57 AM Serhey Popovych
->> <serhe.popovych@gmail.com> wrote:
->>> Otherwise do_install task will fail on rebuild.
->>>
->>> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
->>> ---
->>>  meta/recipes-core/musl/musl_git.bb | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-
->>> core/musl/musl_git.bb
->>> index 9cc875c..4593cde 100644
->>> --- a/meta/recipes-core/musl/musl_git.bb
->>> +++ b/meta/recipes-core/musl/musl_git.bb
->>> @@ -61,7 +61,7 @@ do_install() {
->>>         oe_runmake install DESTDIR=3D'${D}'
->>>
->>>         install -d ${D}${bindir}
->>> -       rm -f ${D}${bindir}/ldd
->>> +       rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
+Khem Raj wrote:
+> Serhey
+>=20
+> Thanks for doing this work and really a clean pull request with good
+> explanation that I have seen lately. Good work, For most parts
+> everything is in order except few places where I have replied
+> specifically to the patches
+
+Khem, thank you for quick review! I will try to address your comments
+with upstream even after this series already merged.
+
+But at the moment I'm working on series intended to improve situation
+with ppc64le support (inluding musl).
+
+There is more places to address. For example build w/o altivec support.
+Currently tune actually does nothing to avoid Altivec/VSX instructions
+in binary. This is however only may be a problem for some embedded stuff
+or very old POWER machines (i.e. before POWER6 I guess).
+
+>=20
+> On Fri, Dec 14, 2018 at 9:55 AM Serhey Popovych
+> <serhe.popovych@gmail.com> wrote:
 >>
->> The correct fix here is actually to remove this line entirely. The
->> official ruling is that there should be no expectation that re-
->> running do_install should work and patches to make it work are not
->> acceptable.
+>> Musl has support for ppc (32bit) and ppc64 (64bit). OE still missing
+>> several tricks in configuration to make builds possible:
 >>
->>  =20
->> http://lists.openembedded.org/pipermail/openembedded-core/2018-Septemb=
-er/273723.html
->=20
-> Lets be clear, re-running the do_install task *is* supported and works
-> today. It is actually meant to work when re-run. do_install clears out
-> ${D} at its start so we can assume in do_install functions that it is
-> empty at the start of the function.
+>>   1) Most important part is that musl implements elfv2 ABI only for
+>>      64bit PowerPC. That ABI is default for little-endian but supports=
 
-It seems do_install does not clear ${D} or I do something wrong:
+>>      big-endian too. Historically elfv1 ABI is used for big-endian
+>>      PowerPC.
+>>
+>>   2) Using uncommon elfv2 ABI for big-endian requires to disable all
+>>      assembler optimizations in openssl: unfortunately I can't find mo=
+re
+>>      smart way at the moment.
+>>
+>>   3) LDSO path need to be adjusted to support /lib64 path which is
+>>      default for powerpc64 (see bitbake.conf) instead of $baselibdir.
+>>
+>>   4) Default library search path is hardcoded to
+>>      "/lib:/usr/local/lib:/usr/lib": pass -DSYSLIBDIR and -DLIBDIR and=
 
-$ bitbake core-image-sato
-<success>
+>>      use them to set path.
+>>
+>>   5) Need to add more tweaks to patch that adds --with-ldbl-128 knob
+>>      to gcc configure: there is a set of functions that use TFtype in
+>>      ppc64-fp.c in libgcc. This should be compatible with glibc.
+>>
+>>   6) Disable qemu-userspace for powerpc64 bit: there is no support.
+>>      While there change qemuwrapper to exit explicitly to fix infinite=
 
-<Adjust gcc/musl recipe and then run>
+>>      execution in do_rootfs() task when building on IBM POWER8 machine=
+=2E
+>>
+>>   7) Misc fixes that map powerpc-linux-musl python3 triplet to
+>>      powerpc-linux-gnu, remove conflicting sed in do_configure() vs
+>>      patch settings in gcc and fix DEFAULTTUNE settings for various
+>>      IBM POWER platforms.
+>>
+>> Build is done on IBM POWER8 machine running RHEL7:
+>>
+>> Images:
+>> -------
+>>     core-image-sato
+>>     core-image-full-cmdline
+>>
+>> For powerpc64:
+>> --------------
+>>               glibc                musl
+>>          systemd sysvinit    systemd sysvinit
+>>   gcc-7.3   y       y           y       y
+>>   gcc-8.2   y       y           y       y
+>>
+>> For powerpc:
+>> ------------
+>>               glibc                musl
+>>          systemd sysvinit    systemd sysvinit
+>>   gcc-7.3   n       x           x       x      (*)
+>>   gcc-8.2   y       y           y       y
+>>
+>> Note that gcc-7.3 builds for 32bit powerpc fail due to:
+>>   https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11754
+>>
+>> Kernel/images are boot tested using KVM-HV on IBM POWER8.
+>>
+>> Serhey Popovych (13):
+>>   lib/oe/elf.py: Add powerpc64 architecture definition for musl
+>>   tune-power[5-7].inc: Fix DEFAULTTUNE values
+>>   tune-power[5-7].inc: Disable QEMU usermode usage
+>>   qemuwrapper: Explicitly exit in case of no qemu supported for target=
 
-$ bitbake core-image-sato
-
-=2E..
-/image/usr/lib64/libc.so
-/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe-=
-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/image/lib64/ld-musl-power=
-pc64le.so.1
-|| true
-| Traceback (most recent call last):
-|   File "/home/serhe/devel/git/openembedded-core/scripts/lnr", line 21,
-in <module>
-|     os.symlink(target, linkname)
-| FileExistsError: [Errno 17] File exists: 'image/usr/lib64/libc.so' ->
-'/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe=
--linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/imageNone'
-| WARNING:
-/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe-=
-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/temp/run.do_install.77856=
-:1
-exit 1 from 'lnr
-/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe-=
-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/image/usr/lib64/libc.so
-/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe-=
-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/imageNone'
-| ERROR: Function failed: do_install (log file is located at
-/home/serhe/devel/git/openembedded-core/build/tmp-musl/work/ppc64p8le-oe-=
-linux-musl/musl/1.1.20+gitAUTOINC+39ef612aa1-r0/temp/log.do_install.77856=
-)
-ERROR: Task
-(/home/serhe/devel/git/openembedded-core/meta/recipes-core/musl/musl_git.=
-bb:do_install)
-failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2713 tasks of which 2703 didn't need to
-be rerun and 1 failed.
-
-=2E..
-
->=20
-> The only problem may be if you're manually re-running the do_install
-> script in WORKDIR/temp. If you're doing that, you have other problems
-> like the missing fakeroot environment to handle so the non-empty
-> directory is only one minor issue, you're missing other setup pieces as=
-
-> well.
-
-I haven't play with do_install scripts in WORKDIR/temp. Only
-do_configure and do_build. But anyway thank for pointing for potential
-problems.
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
+>>   arch-powerpc64.inc: Use elfv2 ABI when building with musl
+>>   musl: Create default library search path based on configuration
+>>   musl: Ensure GLIBC_LDSO symlink target does not exist on reinstall
+>>   openssl: Skip assembler optimized code for powerpc64 with musl
+>>   python3: Fix do_configure check platform triplet error (2)
+>>   gcc: Fix preprocessor redefines for header pathes
+>>   gcc: More places to patch to disable ldbl 128 for musl on PPC
+>>   gcc: Enable secureplt for powerpc64 target too
+>>   gcc-7.3,gcc-8.2: Use variable SYSTEMLIBS_DIR instead of hardcoding i=
+t
+>>     for ppc64
+>>
+>>  .../machine/include/powerpc/arch-powerpc64.inc     |   3 +
+>>  meta/conf/machine/include/tune-power5.inc          |   5 +-
+>>  meta/conf/machine/include/tune-power6.inc          |   5 +-
+>>  meta/conf/machine/include/tune-power7.inc          |   5 +-
+>>  meta/lib/oe/elf.py                                 |   1 +
+>>  .../openssl/openssl10_1.0.2q.bb                    |   1 +
+>>  .../recipes-connectivity/openssl/openssl_1.1.1a.bb |   1 +
+>>  ...slibdir-and-libdir-as-default-pathes-to-l.patch |  61 ++++
+>>  meta/recipes-core/musl/musl_git.bb                 |   3 +-
+>>  meta/recipes-devtools/gcc/gcc-7.3.inc              |   1 +
+>>  ...Ensure-target-gcc-headers-can-be-included.patch |  36 --
+>>  ...44-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch | 391 ++++++++++++=
+++++++++-
+>>  ...werpc-powerpc64-Add-support-for-musl-ldso.patch |  31 ++
+>>  meta/recipes-devtools/gcc/gcc-8.2.inc              |   1 +
+>>  ...Ensure-target-gcc-headers-can-be-included.patch |  36 --
+>>  ...34-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch | 342 ++++++++++++=
++++++-
+>>  ...werpc-powerpc64-Add-support-for-musl-ldso.patch |  31 ++
+>>  meta/recipes-devtools/gcc/gcc-common.inc           |   2 +-
+>>  .../tweak-MULTIARCH-for-powerpc-linux-musl.patch   |  40 +++
+>>  meta/recipes-devtools/python/python3_3.5.6.bb      |   1 +
+>>  .../recipes-devtools/qemu/qemuwrapper-cross_1.0.bb |   3 +-
+>>  21 files changed, 920 insertions(+), 80 deletions(-)
+>>  create mode 100644 meta/recipes-core/musl/musl/0002-ldso-Use-syslibdi=
+r-and-libdir-as-default-pathes-to-l.patch
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0050-powerpc-pow=
+erpc64-Add-support-for-musl-ldso.patch
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0042-powerpc-pow=
+erpc64-Add-support-for-musl-ldso.patch
+>>  create mode 100644 meta/recipes-devtools/python/python3/tweak-MULTIAR=
+CH-for-powerpc-linux-musl.patch
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
---DQ0ajjle0EivtodUJaY6pDlZxa55qV98b--
+--QXpxJo73WZWIT2cxREQaB99P2vhAm8B8N--
 
---W9PrRJpOpbEYeerpeLcA9cd9McTt46Ysf
+--nz3RybzIWLoIIL3JR2MZK0mY5ZqHHHsjA
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -234,13 +276,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQEcBAEBAgAGBQJcF3FMAAoJEBTawMmQ61bBhNcH/1Fqy5EvzwlWaryvNC0kgY3n
-IbRP5fbLcgn57tRyibxb8eEntmpX+sZ0KUMU425R9DTjzzG6vFp0djUU0K8dhE8V
-01juTumpKL98occbytW/UvpttIoOLxxgY/FcjdcjJ3W1KklWBRMkD0/aFyvQMwJa
-zsrWUCwu7vUbCYBOIOlykfbd5QArWa2TyciX7o57bM8MLwH+1qEj7Oh2xx4ykOzV
-KTy9KYnnC2Id3MpH2jFjAQxVZ9wJ2ouBRDpcIecU+mkgSYcZ7+UqRwATZr5gCtZC
-9FU8tdyEU34vfiiis+p2/TVR/UViz1MMjyKuy/pv0zKr5DHWwuiBEzxgbxLAST4=
-=d0rY
+iQEcBAEBAgAGBQJcF3LIAAoJEBTawMmQ61bBNdoH/1oulwoFbu04gxRt+q5F7CIg
+uKWZTuhPriOgCzRORJrQ1kkzSIXOkNopLiDnG+0MpGyXsmmJ/QKQ6svzKtdkV81U
+/G/WoaYeXq1bU0z19DUZBGDc9ggqYDltZSRvg8RNndAD9WJJZIGp0Rngoe9SlO9e
+0IGZzZky8/pwprlIrNN809zH3WhVOxmgKaNNVXxRcLRj6+qvWZagmGP6GgRG79NW
+dF2dIVSn/muzsLzT8CWCIqCn34YJCZXvk4hAGSfXzvPH/ncQyuFrf5JF/tPEUUbR
++QFreIkin63y/5sBww4R4BpbWsltnbRyQzhdg2h7pbiXVuiB99VGRQqTKYh2Ex8=
+=ZgUv
 -----END PGP SIGNATURE-----
 
---W9PrRJpOpbEYeerpeLcA9cd9McTt46Ysf--
+--nz3RybzIWLoIIL3JR2MZK0mY5ZqHHHsjA--
