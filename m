@@ -1,40 +1,49 @@
-Return-Path: <rbilovol@cisco.com>
-X-Greylist: delayed 587 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 17 Dec 2018 13:09:39 UTC
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AB3D77BD81
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CC5526C484
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 13:09:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4446; q=dns/txt; s=iport;
-	t=1545052181; x=1546261781; h=from:to:subject:date:message-id;
-	bh=WaO+5rV0FjAXLmuWvGF557X+EoC7u4nXWS+ltnjjGKA=;
-	b=XnZGuhPVnPL9GeI0/vJWvcdHEsyMRAJ/L4Im2pS2nTDRbiexRJVLDklf
-	EInj5MgaZR2dT9aLjpcRyJE+a9ka9pUA+pk0iEefZ5ZeMwaCemqLoHGPE
-	Cziwv+tLLRpsuCYsc6wcKXQzjzvlWqQQsckdesfd1qjGgMr16587WLeXR A=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ADAAA1nRdc/xbLJq1kGgEBAQEBAgE?=
-	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCaYECJ4wVX6R8gXoNG4gINAkNAQMBAQIBAQJ?=
-	=?us-ascii?q?tHAyFPAGBKwMBAn4PEoMiAYIAqTmFQIReFIdphFiBQD+PAwKgQ1YJhw2KTQI?=
-	=?us-ascii?q?WgiqPJwGJPJAogUY4gVYzGggbFYMnCYIeF4JsizM9AzCOdgEB?=
-X-IronPort-AV: E=Sophos;i="5.56,365,1539648000"; 
-   d="scan'208";a="8929909"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
-	([173.38.203.22])
-	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Dec 2018 12:59:52 +0000
-Received: from localhost ([10.63.15.139])
-	by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id wBHCxqfC011680;
-	Mon, 17 Dec 2018 12:59:52 GMT
-From: Ruslan Bilovol <rbilovol@cisco.com>
-To: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
-Date: Mon, 17 Dec 2018 14:59:52 +0200
-Message-Id: <1545051592-12421-1-git-send-email-rbilovol@cisco.com>
-X-Mailer: git-send-email 1.9.1
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 10.63.15.139, [10.63.15.139]
-X-Outbound-Node: aer-core-4.cisco.com
-Subject: [PATCH] systemd: fix remaining issues with statx and glibc 2.28+
+	Mon, 17 Dec 2018 13:15:26 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id o13so9950702ioh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2018 05:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Hiv2uu6FNyAnYQ52kSpQNdMet2HMboQac0Tx7Wo664I=;
+	b=OEBstUjxMbMlhdQ/+jwEiNj7hZOLopQTVTp+iQtHOMENWRvDGK0r4BWBKW3A8kI6lY
+	VQny2GSfpXJWR/A7GtS2KtTZlOIStTuGGyMut65WaJoXXJTWBCMqimLaw76Vc+b/XJuI
+	7HL6PfEaYdbyr+EZArhYzZT5wwPHXE1Q5n58wUaGN7P4TxF2fITOLe6/WAsBTy1PEpXe
+	0sqtu2REcTg1GAnn94AxZiLmJn3s6gxPLLKxaXpeWcl49i3gQbMxwDtFsu/DqY19oTVX
+	PkXiq7Qy7JlCBxTSs9eMirXsh9tH4T372/M/jKSXt1zznoDzt/TIJe60VHbu4iQ3KhlQ
+	qWPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Hiv2uu6FNyAnYQ52kSpQNdMet2HMboQac0Tx7Wo664I=;
+	b=GyLnn/qaRiH8WcgGtXDPJy2SU6g3Dz0sTRLRVLktYE8WvgYVI65SWp0NlA3ObJeTwT
+	7C7plDE1YPLtIf+w/pqvzmeDyuQQlNFLtIjhsY61e3MEGfHZAavijqxdLi43G6pIfkYj
+	bR7TQDIiY2nxK5mFwifpeyv44OW6pQczHSoDARL0WDDc4npG3WL9SZ7u+bd4RoDpSKfp
+	nZoJUyYuJ/R0FUeknNUbjfcnPKVg0bdXYoq+/1qZuwL8/UBYy/l6IDYxAJD7i1ciM9bz
+	vaJM8f8C9B81zSePLJ8yr4pBdLuljtua0gsWfmbRjBXWNd1jK/jLsXCKwMCXa80msjOq
+	gnoQ==
+X-Gm-Message-State: AA+aEWYdAdgwGZtc2F1oQAr/8TTjWZF2e5lSExKKTIJ/U8O/TlYEF5df
+	JbKjMf5wgD3GN8bGUC1KbeuS/9eBKbKpzQeiXh5H0Z1kxV4=
+X-Google-Smtp-Source: AFSGD/WJ9Gffba42VVqUysjEvnpfFPaMGks/2QoYs6KkuezkUhqzEqPV50akRIsMvLcmO3BfuHYU+kLG3PtqUYuJqgk=
+X-Received: by 2002:a6b:f70a:: with SMTP id k10mr9878566iog.270.1545052527980; 
+	Mon, 17 Dec 2018 05:15:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20181214125225.3376172-1-enrico.scholz@sigma-chemnitz.de>
+	<20181214181430.1517643-1-enrico.scholz@sigma-chemnitz.de>
+In-Reply-To: <20181214181430.1517643-1-enrico.scholz@sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 17 Dec 2018 13:15:17 +0000
+Message-ID: <CAJTo0LbuYUZSMW7oLThvgLVaXi7JNi4GWpCXKPvQ0Y3qvsg4rg@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: build with recent attr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,116 +56,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 13:09:40 -0000
+X-List-Received-Date: Mon, 17 Dec 2018 13:15:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 776d14db9589 "systemd: Detect if statx struct is
-defined in sys/stat.h" did only a part of work, and systemd
-build fails on src/basic/chattr-util.c compilation due to
-same statx redefinition issue.
-Backport additional patch from systemd master
+| In file included from port_wrappers.c:8:0,
+|                  from pseudo_wrappers.c:307:
+| ports/linux/xattr/pseudo_wrappers.c: In function =E2=80=98shared_getxattr=
+=E2=80=99:
+| ports/linux/xattr/pseudo_wrappers.c:134:11: error: =E2=80=98ENOATTR=E2=80=
+=99
+undeclared (first use in this function)
+|    errno =3D ENOATTR;
+|            ^~~~~~~
+| ports/linux/xattr/pseudo_wrappers.c:134:11: note: each undeclared
+identifier is reported only once for each function it appears in
+| ports/linux/xattr/pseudo_wrappers.c: In function =E2=80=98shared_listxatt=
+r=E2=80=99:
+| ports/linux/xattr/pseudo_wrappers.c:255:11: error: =E2=80=98ENOATTR=E2=80=
+=99
+undeclared (first use in this function)
+|    errno =3D ENOATTR;
+|            ^~~~~~~
 
-Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
----
- ...-linux-stat.h-check-with-other-checks-and.patch | 76 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
+Breaks when building with old xattr.
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch b/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
-new file mode 100644
-index 0000000..24c3433
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
-@@ -0,0 +1,76 @@
-+From 9c869d08d82c73f62ab3527567858ce4b0cf1257 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Wed, 18 Jul 2018 17:26:17 +0200
-+Subject: [PATCH] meson: unify linux/stat.h check with other checks and use
-+ _GNU_SOURCE
-+
-+Using _GNU_SOURCE is better because that's how we include the headers in the
-+actual build, and some headers define different stuff when it is defined.
-+sys/stat.h for example defines 'struct statx' conditionally.
-+
-+Upstream-Status: Backport
-+---
-+ meson.build         | 20 ++++++++++++++------
-+ src/basic/missing.h |  2 +-
-+ 2 files changed, 15 insertions(+), 7 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 68423bd..99035d2 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -421,11 +421,9 @@ decl_headers = '''
-+ #include <uchar.h>
-+ #include <linux/ethtool.h>
-+ #include <linux/fib_rules.h>
-+-#include <linux/stat.h>
-+ #include <sys/stat.h>
-+ '''
-+ # FIXME: key_serial_t is only defined in keyutils.h, this is bound to fail
-+-# FIXME: these should use -D_GNU_SOURCE, since that is defined at build time
-+ 
-+ foreach decl : ['char16_t',
-+                 'char32_t',
-+@@ -436,13 +434,23 @@ foreach decl : ['char16_t',
-+                ]
-+ 
-+         # We get -1 if the size cannot be determined
-+-        have = cc.sizeof(decl, prefix : decl_headers) > 0
-++        have = cc.sizeof(decl, prefix : decl_headers, args : '-D_GNU_SOURCE') > 0
-++
-++        if decl == 'struct statx'
-++                if have
-++                        want_linux_stat_h = false
-++                else
-++                        have = cc.sizeof(decl,
-++                                         prefix : decl_headers + '#include <linux/stat.h>',
-++                                         args : '-D_GNU_SOURCE') > 0
-++                        want_linux_stat_h = have
-++                endif
-++        endif
-++
-+         conf.set10('HAVE_' + decl.underscorify().to_upper(), have)
-+ endforeach
-+ 
-+-conf.set10('HAVE_STRUCT_STATX_IN_SYS_STAT_H', cc.sizeof('struct statx', prefix : '''
-+-#include <sys/stat.h>
-+-''', args : '-D_GNU_SOURCE') > 0)
-++conf.set10('WANT_LINUX_STAT_H', want_linux_stat_h)
-+ 
-+ foreach decl : [['IFLA_INET6_ADDR_GEN_MODE',         'linux/if_link.h'],
-+                 ['IN6_ADDR_GEN_MODE_STABLE_PRIVACY', 'linux/if_link.h'],
-+diff --git a/src/basic/missing.h b/src/basic/missing.h
-+index 14ad3d4..9044683 100644
-+--- a/src/basic/missing.h
-++++ b/src/basic/missing.h
-+@@ -24,7 +24,7 @@
-+ #include <uchar.h>
-+ #include <unistd.h>
-+ 
-+-#if !HAVE_STRUCT_STATX_IN_SYS_STAT_H
-++#if WANT_LINUX_STAT_H
-+ #include <linux/stat.h>
-+ #endif
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index c53ce0d..2d5f94b 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -34,6 +34,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch \
-            file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
-            file://0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch \
-+           file://0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch \
-            "
- 
- # patches made for musl are only applied on TCLIBC is musl
--- 
-1.9.1
-
+Ross
+On Fri, 14 Dec 2018 at 18:16, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+>
+> Recent attr package removed <attr/xattr.h> which is shipped by libc
+> for a very long time already.
+>
+> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> ---
+>  ...001-use-sys-xattr.h-not-attr-xattr.h.patch | 54 +++++++++++++++++++
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+>  2 files changed, 55 insertions(+)
+>  create mode 100644 meta/recipes-devtools/pseudo/files/0001-use-sys-xattr=
+.h-not-attr-xattr.h.patch
+>
+> diff --git a/meta/recipes-devtools/pseudo/files/0001-use-sys-xattr.h-not-=
+attr-xattr.h.patch b/meta/recipes-devtools/pseudo/files/0001-use-sys-xattr.=
+h-not-attr-xattr.h.patch
+> new file mode 100644
+> index 0000000000..5eddea5ba1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pseudo/files/0001-use-sys-xattr.h-not-attr-xa=
+ttr.h.patch
+> @@ -0,0 +1,54 @@
+> +From 7132668ce2409e0919a79d6f236827665f068427 Mon Sep 17 00:00:00 2001
+> +From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> +Date: Fri, 14 Dec 2018 18:41:04 +0100
+> +Subject: [PATCH, pseudo] use <sys/xattr.h>, not <attr/xattr.h>
+> +
+> +<attr/xattr.h> has been removed from recent attr package:
+> +
+> +   The xattr syscalls are provided by glibc since ages, so there is
+> +   no need to use the indirect system call "syscall" anymore. This
+> +   removes the need for the <attr/xattr.h> header; use <sys/xattr.h>
+> +   instead.
+> +
+> +   http://git.savannah.nongnu.org/cgit/attr.git/commit/include?id=3D7921=
+157890d07858d092f4003ca4c6bae9fd2c38
+> +
+> +For Linux, we have to include <attr/attributes.h> to define ENODATA.
+> +
+> +Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> +---
+> +Upstream-Status: pending
+> +
+> + ports/linux/subports         | 4 ++--
+> + ports/linux/xattr/portdefs.h | 3 ++-
+> + 2 files changed, 4 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/ports/linux/subports b/ports/linux/subports
+> +index a29044a..44e0e9e 100755
+> +--- a/ports/linux/subports
+> ++++ b/ports/linux/subports
+> +@@ -29,11 +29,11 @@ fi
+> + if    $port_xattr; then
+> +       cat > dummy.c <<EOF
+> + #include <sys/types.h>
+> +-#include <attr/xattr.h>
+> ++#include <sys/xattr.h>
+> + int i;
+> + EOF
+> +       if ! ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
+> +-              echo >&2 "Warning: Can't compile trivial program using <a=
+ttr/xattr.h>".
+> ++              echo >&2 "Warning: Can't compile trivial program using <s=
+ys/xattr.h>".
+> +               echo >&2 "         xattr support will require that header=
+."
+> +       fi
+> +       echo "linux/xattr"
+> +diff --git a/ports/linux/xattr/portdefs.h b/ports/linux/xattr/portdefs.h
+> +index 367ca60..bb577f1 100644
+> +--- a/ports/linux/xattr/portdefs.h
+> ++++ b/ports/linux/xattr/portdefs.h
+> +@@ -1,2 +1,3 @@
+> +-#include <attr/xattr.h>
+> ++#include <sys/xattr.h>
+> ++#include <attr/attributes.h>
+> + #include <stdint.h>
+> +--
+> +2.19.2
+> +
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-de=
+vtools/pseudo/pseudo_git.bb
+> index 79e0b6bd21..a0147d2d19 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> @@ -6,6 +6,7 @@ SRC_URI =3D "git://git.yoctoproject.org/pseudo \
+>             file://fallback-group \
+>             file://moreretries.patch \
+>             file://toomanyfiles.patch \
+> +           file://0001-use-sys-xattr.h-not-attr-xattr.h.patch \
+>             "
+>
+>  SRCREV =3D "6294b344e5140f5467e6860f45a174440015304e"
+> --
+> 2.19.2
+>
 
