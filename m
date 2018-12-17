@@ -1,50 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5BE7BED2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+	[209.85.222.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B9C4C79F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 19:41:11 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z9so6878085pfi.2
+	Mon, 17 Dec 2018 20:21:29 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id d19so4880301uaq.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 11:41:12 -0800 (PST)
+	Mon, 17 Dec 2018 12:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=i10uomOMSOzLWl/nP+zR7ij/yV7RBpyD9CoASrCSYWs=;
-	b=QUrZzF0lVcZU1DN7SB7Uml357u0x5Muv5eKtp6eYJzUO9CAE5P72ji37FJzfC2M5bj
-	1ONRidyniBG3J7NIDAlEYcSTHy2tmrMWCx72BR0WY2kxY+5fOf8RY0OSUm823qAg/4y+
-	nuQgwC9dhXGzqU7kT171vLTabNLKdoqr+TsyVq46MOQdkLc/3d//eZit1MOYCjV3+SP+
-	Pyv0UjWzmwh7o9PjUv3Yl2Y34ymslvSKKdWtuMzK/THVsF8/Canu0TQSaRNbdbuBHQdB
-	ibBfkKgFPFgQ91yYGUTpy8vkONYh9J69bOCWlAzDuPSwnG+9V4Ub6tbVJMOOFGpix4Hp
-	4V+A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=t5GlssspC2JA3jFJesoktcvu025MNQbQflqxot5immk=;
+	b=uaauX3R0atiFwbXDXof2r0vFabgetGn4YIKEDykS8ZYj7lDNTFojfhwpkILeL1js4J
+	C7YcBWkmcOHNn3K3n0SIyLHpWJ59fLlSsJh7b8rRE8JKCZwlQITux2xihtake/VgoL89
+	F0sr2y2Yc964jb+dZcW6BXzdtmVqXmvY6T7e9wqKJQF11fYOtOrgqcgognMJVGQP8cSs
+	h2Al2hDSaljA8beXkM9MpzLmU2xWKyP1ltQ2bXcTOb7Bhujr/VceV7rqrcmjAY/PwAG/
+	xiWPxpxG9XisQBxF2Zz3pSk8KkTRV6WQPyDuCRCZM40jV3ohT4IDKz+StRDxAe0/e5CT
+	yFsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=i10uomOMSOzLWl/nP+zR7ij/yV7RBpyD9CoASrCSYWs=;
-	b=QCsntAZ3wxEoIpopgY5AkUrQ7ojwGjkdwJhZVFXGTe/jf8hO6aYYHL3w/hlFuxkSij
-	OSef8Qb20p5/UxiWqTVtHixAXEDn8XTQ8KEaHfn1MKX7S2hkyKtgi2b4j3m1D1Gl9pcq
-	ZLmtWTdcl+KnpMWGZdcNj/5gi3yVMDyHCcvC393kcPAZ5MXr7+mxboExbxkrU4aJNub8
-	Y/2/0zPP2p1+F20+W4Qg8/ZATEVMP8BEYDPJ80XUqt1IgSufmiWlVBz8nSqwI3iwNewp
-	La7l985p5MhN/u4RO2guOIpFUR59q4ycRDLWRbZeP413+NOIb+ejtT+3zQmNaeECG2Mx
-	grmQ==
-X-Gm-Message-State: AA+aEWZPzqFz6ibjJ+9L1OEndaKHF09GyeW0BFVjgzXqPk+Yxj4k09hu
-	Juz/s2LQ35+r0XYoD4iulJ9+w2rqW2A=
-X-Google-Smtp-Source: AFSGD/Ul6BWrmuGlKtrSA7Rwwas3208cP6YcTqGqZRMFoOLHEXbagW47PpW4Oxy0j14fChZ6f5InJQ==
-X-Received: by 2002:a65:5bc4:: with SMTP id o4mr13419639pgr.426.1545075671839; 
-	Mon, 17 Dec 2018 11:41:11 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	g136sm19162157pfb.154.2018.12.17.11.41.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Dec 2018 11:41:11 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2018 11:40:04 -0800
-Message-Id: <20181217194004.44046-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=t5GlssspC2JA3jFJesoktcvu025MNQbQflqxot5immk=;
+	b=A7B7BGgKM5H8GVttmI47PLJt5Ll5qA8m16YsaH+Sacl+U7uNNm6HW+SNgek0Z6KNtW
+	TGpJAptQErD5xLhhoZ/RUXIkv2pBgbrXeMy5QZi4k0RdZ9NFewjZwaOxZc363epolKD8
+	rX5SRPzzbhJguR2mHKJ1qH0BOnMp1f+XxGcMwAOGKuuEviZaB94hgd0Wgi8OTavJLXut
+	B57n/ygLx/A0eTnrVEylneTiktYlx0r+t1RyQqtJnQKt6rVrKqDwqj2bDs0bF11j3LJ5
+	hPniU7Ps13w0tbJwXUPku9OFMcAAIB18H2cMilHGvt0ol989Ld/y1ArTVlS4GBRdGbFS
+	YxkA==
+X-Gm-Message-State: AA+aEWbSYKTFi02HhHWmtOpiQNSVEWprwCIXi2Hu0FDGnOjxcS+Hk5nu
+	X644aOavaJC5lejbEUp5DYq8UYibegfGgJpoLPw=
+X-Google-Smtp-Source: AFSGD/VtWt3CpNLFpDJF9Iw7eSJQ6foC7sCaY/gXPCN69teLlH0vZuY0+6H5/Fm1+oq8kNXSK/QL1SupI0UIhtL6fFA=
+X-Received: by 2002:ab0:550b:: with SMTP id t11mr7208339uaa.31.1545078090512; 
+	Mon, 17 Dec 2018 12:21:30 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH V2] libxcrypt: Upgrade to 4.4.1 release
+References: <CAKf6xputiV+k9m9p1dyhZG1d0wMQoWG5tCiZjpsVVu+bXp1X6A@mail.gmail.com>
+	<08a89c71b2e3e0f4380325985541c55df00b94da.camel@linuxfoundation.org>
+	<CAKf6xptMbAqnZ34ONNXLzQMjFoDjePH8dz3bXmiTMvoBMu4wsg@mail.gmail.com>
+	<50b88771577229c99a2c9e26b6224a5f038e7bab.camel@linuxfoundation.org>
+	<CAKf6xpt_RoLVg3ou2zKL2g=0GsjDXpCk73q83pmb4Reer9YgdA@mail.gmail.com>
+	<a0e331f39da396ea39ea37539f6c1ea193b055b1.camel@linuxfoundation.org>
+In-Reply-To: <a0e331f39da396ea39ea37539f6c1ea193b055b1.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 17 Dec 2018 12:21:18 -0800
+Message-ID: <CAJ86T=V-xs=M2DfsHHtOe=j77bqsn=MgMojue5mc=2ouwwTd+A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Mis-generation of shell script (run.do_install)?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,109 +58,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 19:41:11 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Dec 2018 20:21:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-License-Update: New files added to existing list
+On Mon, Dec 17, 2018 at 6:44 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2018-12-15 at 20:19 -0500, Jason Andryuk wrote:
+> > As far as I can tell, pysh is working properly - it's just the
+> > bb_codeparser.dat which is returning the incorrect shellCacheLine
+> > entry.  It seems like I have an md5 collision between a pyro core2-64
+> > binutils do_install and core2-32 python-async distutils_do_install in
+> > the shellCacheLine.  python-async's entry got in first, so that's why
+> > binutils run.do_install doesn't include autotools_do_install - the
+> > shellCacheLine `execs` entry doesn't include it.  Or somehow the
+> > `bb_codeparser.dat` file was corrupted to have an incorrect `execs`
+> > for the binutils do_install hash.
+>
+> That is rather worrying. Looking at the known issues with md5, I can
+> see how this could happen though.
 
-Add -Wno-error=missing-attributes to compiler flags, this helps in
-compiling with gcc 9.0, eventually, the code should be fixed
+How do you see this could happen? By random bad luck?
 
-Add a patch to fix x32 build
+Despite md5 now being susceptible to targeted attacks, the chances of
+accidentally hitting a collision between two 128bit hashes is as
+unlikely as it's always been.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Add-x32-specific-inline-asm.patch    | 42 +++++++++++++++++++
- ...{libxcrypt_4.1.1.bb => libxcrypt_4.4.1.bb} |  8 ++--
- 2 files changed, 47 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-Add-x32-specific-inline-asm.patch
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.1.1.bb => libxcrypt_4.4.1.bb} (70%)
+  http://big.info/2013/04/md5-hash-collision-probability-using.html
 
-diff --git a/meta/recipes-core/libxcrypt/files/0001-Add-x32-specific-inline-asm.patch b/meta/recipes-core/libxcrypt/files/0001-Add-x32-specific-inline-asm.patch
-new file mode 100644
-index 0000000000..9e31b03561
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-Add-x32-specific-inline-asm.patch
-@@ -0,0 +1,42 @@
-+From 7d01f2acf6fde6341a68a91f9b343841cc424af7 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 17 Dec 2018 11:33:35 -0800
-+Subject: [PATCH] Add x32 specific inline asm
-+
-+Upstream-Status: Pending [https://github.com/besser82/libxcrypt/issues/74#issuecomment-447966455]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ alg-yescrypt-opt.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/alg-yescrypt-opt.c b/alg-yescrypt-opt.c
-+index 5dbd822..060caf4 100644
-+--- a/alg-yescrypt-opt.c
-++++ b/alg-yescrypt-opt.c
-+@@ -528,6 +528,11 @@ static volatile uint64_t Smask2var = Smask2;
-+ #undef MAYBE_MEMORY_BARRIER
-+ #define MAYBE_MEMORY_BARRIER \
-+ 	__asm__("" : : : "memory");
-++#ifdef __ILP32__ /* x32 */
-++#define REGISTER_PREFIX "e"
-++#else
-++#define REGISTER_PREFIX "r"
-++#endif
-+ #define PWXFORM_SIMD(X) { \
-+ 	__m128i H; \
-+ 	__asm__( \
-+@@ -537,8 +542,8 @@ static volatile uint64_t Smask2var = Smask2;
-+ 	    "pmuludq %1, %0\n\t" \
-+ 	    "movl %%eax, %%ecx\n\t" \
-+ 	    "shrq $0x20, %%rax\n\t" \
-+-	    "paddq (%3,%%rcx), %0\n\t" \
-+-	    "pxor (%4,%%rax), %0\n\t" \
-++	    "paddq (%3,%%" REGISTER_PREFIX "cx), %0\n\t" \
-++	    "pxor (%4,%%" REGISTER_PREFIX "ax), %0\n\t" \
-+ 	    : "+x" (X), "=x" (H) \
-+ 	    : "d" (Smask2), "S" (S0), "D" (S1) \
-+ 	    : "cc", "ax", "cx"); \
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
-similarity index 70%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
-index 465aa96523..5e5d7c077c 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt_4.1.1.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
-@@ -3,16 +3,18 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
- HOMEPAGE = "https://github.com/besser82/libxcrypt"
- SECTION = "libs"
- LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM ?= "file://LICENSING;md5=cb3ca4cabd2447a37bf186fad6f79852 \
-+LIC_FILES_CHKSUM ?= "file://LICENSING;md5=e28ba6195a4e39904919b78a92bcf27e \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
- "
- 
- inherit autotools pkgconfig
- 
--SRCREV ?= "21b455b68baad279e6a3936faced16c5e5634376"
-+# v4.4.1
-+SRCREV ?= "b8714d4e9e37cf0d511917bd5eea0e51e4a397d5"
- SRCBRANCH ?= "develop"
- 
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
-+           file://0001-Add-x32-specific-inline-asm.patch \
-            "
- 
- PROVIDES = "virtual/crypt"
-@@ -22,6 +24,6 @@ FILES_${PN} = "${libdir}/libcrypt*.so.* ${libdir}/libcrypt-*.so ${libdir}/libowc
- S = "${WORKDIR}/git"
- 
- BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE} -std=gnu99"
--TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
-+TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error=missing-attributes"
- 
- BBCLASSEXTEND = "nativesdk"
--- 
-2.20.1
+"It is not that easy to get hash collisions when using MD5 algorithm.
+Even after you have generated 26 trillion hash values, the probability
+of the next generated hash value to be the same as one of those 26
+trillion previously generated hash values is 1/1trillion (1 out of 1
+trillion)."
 
+It seems much more likely that there's a bug somewhere in the way the
+hashes are used. Unless we understand that then switching to a longer
+hash might not solve anything.
+
+> I think this means we need to switch to a better hash mechanism. I've
+> sent a patch changing this to sha256 on the bitbake list.
+>
+> We also probably need to change over the code in siggen for the sstate
+> hashes too but one step at a time...
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
