@@ -1,50 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 96B147BE75
+Return-Path: <jed.openxt@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BC4927BF12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 17:16:03 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q26so13385252wmf.5
+	Mon, 17 Dec 2018 18:06:56 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id a1so7828893qkc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 09:16:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=u4KKAL7sg1jlDXtgCBco5e2sAzCQsClBAJjPo8Zn5j4=;
-	b=Y0sxC8xPbXGMUJkwdMJBg8n6SjixH/S/cPD08uHWnRfykotAFL6WGqlafd434ohxk0
-	+y0nrnz2FrRAUye9xO4qlud7DSesvrOtQ021lE0rffNoUQAJBcy1sJG9xy2wTiFpV3Et
-	oRhRoFpZ+Va8EQMBh/p274wxtoU25YFYTPlmU=
+	Mon, 17 Dec 2018 10:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=TFYUyFlFZT6rRvKRZRDLODm3Rr3kUEktagcC6T4nF68=;
+	b=Jc3Sb0qZ/QBcwQWliFflUUDRAufOowZJMEA4ZNhERJv/X5/UKeq96WLiZU/3oStstg
+	jUwyjXg2nQmCiqioD1F2b/svKd/VDc/5uXX3YaBMxNLGXB/lTVF0yI3vQeC+JaFg5GEf
+	xhUmcRA5eB0CF7MYIxJCWRlIZ2EdfvntYcEwj6kKv6YSvRDO82yLFPpB5AfCyZxExYRJ
+	JJv4wBPZubuxnAN2BsE/g6gNHPystMRzqU685H6EQO2JG0PqbG/18plSDrIQRVXWeUsH
+	CxUiNdrqiStcGIrJs4kd/mJnVLT+QF7+z6JS0NVaG0nNjv/MeJn5cXmRKFE2LY/xR+eW
+	0u0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=u4KKAL7sg1jlDXtgCBco5e2sAzCQsClBAJjPo8Zn5j4=;
-	b=dXZ3LXwN9M0lq89jjkzTWP7yNxlE44K6BbG2aF8AKhcyghP18XAsYRkZH1PDERuGD6
-	LYcncgbyLcWr7a/yZe/3ABSMWV6Ae5vDE1m373m/JChGv5kVFZOLaQaIq0BRGWrGlbno
-	gp4d+7gqXE9mDbONlKma3PkPODjBYP16nBjGK1exTDh1Qv1DsVBVCj8uQ5zeJqagnaqC
-	T8JYXRWG83gc9KzK/tinonzSJae2WpDuiWmMInpIwRWjMXCIm1KTgtCmBtTq8fwzfqWJ
-	oAyJSh8O68N/0BQ6yUWLO7l6725ExAlEnhiZezqpjGpaCrE5NzMrOd1ZcVLAySiyW3GJ
-	Gfrg==
-X-Gm-Message-State: AA+aEWZnydO9hI03YYaNqirBiI9VsQZjOcpF2t7+3dXWh8vS0FuDhG9A
-	H2FsNGnYGdIijVQnRN/Lrq4a/A==
-X-Google-Smtp-Source: AFSGD/X+1X7nDAzLGITL5Y2MYSQZLAnGuUzD8tPZMp2boobe+hcf21PTDzGH6HPNR4VHLqtPMCtHqg==
-X-Received: by 2002:a1c:f613:: with SMTP id w19mr16246wmc.0.1545066964126;
-	Mon, 17 Dec 2018 09:16:04 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y34sm1331399wrd.68.2018.12.17.09.16.03
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 17 Dec 2018 09:16:03 -0800 (PST)
-Message-ID: <7043db17733d9237d5b3e706dd66471b34e4f54e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2018 17:16:02 +0000
-In-Reply-To: <20181217084739.115773-1-mingli.yu@windriver.com>
-References: <20181217084739.115773-1-mingli.yu@windriver.com>
-User-Agent: Evolution 3.30.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] nfs-utils: fix build error under tests folder
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TFYUyFlFZT6rRvKRZRDLODm3Rr3kUEktagcC6T4nF68=;
+	b=C2vv1C3PtDbr8lZQkIwDyhg+eEO0H8+y5Le7sZ5LzUzxV6dr7DsIsz6ribquVfnibp
+	sCRAXi7PyYVKISKBie3pk7b9Jr9OEeXKjA710kPs/AJRThQZIVR5vmAsOls97aJk+0Z7
+	iEqivlN9rbOU2AlPhPrQ6AeJyQM0Hvx6Hbz0i/Dkrt9O3MB74qu622w1dfFxGA24eC0v
+	B5F/yh5yH9oj+sXH80C5rLqZQG9JBRc4yVE8Xu9McDQupp/x9wr6vw7pfgkj/IL6XygX
+	O7K6bFHnkwYYMktEtqgvzxqRXWAENZL7dDWIX5VkAtFR+yyM6eMYffWVOrh+jo8jTe9a
+	e8hw==
+X-Gm-Message-State: AA+aEWY05OjkbTzezCObYl6VzZL+MlP54pV2gJn3Kyo/fWxEaweOQU3T
+	eHzer9hhUAMuxaDaJkEYuTyA72Sw
+X-Google-Smtp-Source: AFSGD/W1z6XbMt3xVFoa4Yc15v4RfqcwXf/ew7h1Uh0wA7FMm//ulvxaYw56YGrfMv0IODe1pmDieQ==
+X-Received: by 2002:a37:6f85:: with SMTP id
+	k127mr13079599qkc.240.1545070017509; 
+	Mon, 17 Dec 2018 10:06:57 -0800 (PST)
+Received: from jed.securext.net (50-205-235-218-static.hfc.comcastbusiness.net.
+	[50.205.235.218]) by smtp.gmail.com with ESMTPSA id
+	o49sm9079600qtf.60.2018.12.17.10.06.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Dec 2018 10:06:56 -0800 (PST)
+From: Jed <jed.openxt@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Dec 2018 13:06:51 -0500
+Message-Id: <20181217180651.16040-1-jed.openxt@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] gtk3: enable wayland banckend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,67 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 17:16:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Dec 2018 18:06:56 -0000
 
-On Mon, 2018-12-17 at 00:47 -0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
-> 
-> * Redefine the reference path of libnfs.a to
->   ../support/nfs/.libs/libnfs.a to fix below
->   error when run "make -C tests statdb_dump".
->   | make: *** No rule to make target '../support/nfs/libnfs.a',
-> needed by 'statdb_dump'.  Stop.
->   | make: *** No rule to make target '../../support/nfs/libnfs.a',
-> needed by 'nsm_client'.  Stop.
-> 
-> * The function generic_make_pathname is introduced in
->   nfs-utils 2.3.1.
->   Add the source file which defines function generic_make_pathname to
->   libnsm_a_SOURCES of libnsm.a to fix the undefined reference
->   when run "make -C tests statdb_dump"
->   | ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
->   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
-> 2.3.1/support/nsm/file.c:175: undefined reference to
-> `generic_make_pathname'
->   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
-> 2.3.1/support/nsm/file.c:175: undefined reference to
-> `generic_make_pathname'
->   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
-> 2.3.1/support/nsm/file.c:175: undefined reference to
-> `generic_make_pathname'
->   | ../support/nsm/libnsm.a(file.o): In function
-> `nsm_setup_pathnames':
->   | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
-> 2.3.1/support/nsm/file.c:280: undefined reference to
-> `generic_setup_basedir'
->   | collect2: error: ld returned 1 exit status
-> 
-> * After the logic of commit[dbb643e Removed missing-prototypes
-> warnings.]
->   introduced, there comes below error when run
->   "make -C tests/nsm_client nsm_client"
->   | nlm_sm_inter_svc.c:20:1: error: no previous prototype for
-> 'nlm_sm_prog_3' [-Werror=missing-prototypes]
-> 
->   It is because rpcgen doesn't generate -Wmissing-prototypes
->   free code for nlm_sm_inter_svc.c with below logic
->   in tests/nsm_client/Makefile.am
->   [snip]
->   GENFILES_SVC    = nlm_sm_inter_svc.c
->   [snip]
->   $(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
->         test -f $@ && rm -rf $@ || true
->         $(RPCGEN) -m -o $@ $<
->  So add the patch to not fatalize -Wmissing-prototypes.
+It is disabled by default, and required for things like mutter to
+be able to run under Wayland.
 
-Fails on musl:
+Signed-off-by: Jed <jed.openxt@gmail.com>
+---
+ meta/recipes-gnome/gtk+/gtk+3.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/104
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 6331a4323c..83967ccb7e 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -35,6 +35,7 @@ EXTRA_OECONF += " \
+                  --enable-modules \
+                  --disable-cups \
+                  --disable-colord \
++                 --enable-wayland-backend \
+                  ${@bb.utils.contains("DISTRO_FEATURES", "x11", "", "--disable-gtk-doc", d)} \
+                  "
+ 
+-- 
+2.11.0
 
 
