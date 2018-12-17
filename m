@@ -1,52 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 916557BE5A
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE4116C485
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 05:54:52 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id b7so5794711pfi.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Dec 2018 21:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=k9Bg8rT1HwR1IKn7NI0M65sUGpVeOzh9RWuE3s6calg=;
-	b=n03eFMKPDtGj0/K8hp4FgLPVKC/PiEUnvc7F3L2lzM+5tezjF11xNeM5cL1oIEeSMd
-	YrjivIXK6D6sBoFxEtPDcDXgkT4O7GXdVaA7SWAYvKOgy4dtKszY7zuX4GGiuya74XeB
-	T1E6cu1eJeDKQTSld1bvtXtCCMwHSJ7xNwiBFy+9IrJQqNgn3O+osbY1+KcikAjISyYZ
-	EUPqa51bOAXVu4g+1n8lP44OQaD3WQrfVoazSoyNXG3gSS4cc6W51IG1tYj31wyyrVtc
-	Ev3bBv+7h9unaDp5SXrHawlxUjQA4Og665eja6nFtb91FFaM2f8sAuSCWYchWEibQZZG
-	oAcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=k9Bg8rT1HwR1IKn7NI0M65sUGpVeOzh9RWuE3s6calg=;
-	b=KE5pHjUFbYZBEOEboXQ/bz61Lky6U1WNsaMalJ9IZL9SXgpgIogCfAWaz7bCjrqtBU
-	0Ys327ChXU7fH0FSfP95U6DHBROigD3LJAcXNHpuLyfBPmS/MwvxBI/MVCbUBC5yRGZW
-	4nKZumOiOrO9IKpghbCvoaQb+4Y1+3Jto/ypfbF58DNh1QSg6ymysrYXeU/mY7JhR1PA
-	ylTouGTqoB3pmHcPWRmxzS9rBDHunjanhoxUNlluxGIEp4QsDW2aXIOb/EDOohCjye5n
-	5RtrfO9pkMaAOvG+ZAt7rSUOoLc6RtDVkiC9lDGK4DpBOaSgPp3/t+/Dfu/DN7BO65at
-	Dz0A==
-X-Gm-Message-State: AA+aEWb2RdxhEjmG6FVBp4LsXGpffqdY6dWrqj+oZVAusVzK8XFuXAKj
-	8BaBn3ThIIQu+RABC+RHm/HzPHoybk4=
-X-Google-Smtp-Source: AFSGD/V1RQTbPgqZ8XoU0bsrTOHnZ9Wy6STMpjKSBOfBWlGis1f/hzSXtew65qbMzel7b395b8qwYA==
-X-Received: by 2002:a65:534b:: with SMTP id w11mr11185907pgr.125.1545026093108;
-	Sun, 16 Dec 2018 21:54:53 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:877f:9499::6872])
-	by smtp.gmail.com with ESMTPSA id
-	u126sm21263551pgb.2.2018.12.16.21.54.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 16 Dec 2018 21:54:52 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Dec 2018 21:54:42 -0800
-Message-Id: <20181217055442.13735-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20181217055442.13735-1-raj.khem@gmail.com>
-References: <20181217055442.13735-1-raj.khem@gmail.com>
+	Mon, 17 Dec 2018 08:47:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBH8ldUq002352
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Dec 2018 00:47:39 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 17 Dec 2018 00:47:39 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Mon, 17 Dec 2018 00:47:39 -0800
+Message-ID: <20181217084739.115773-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH 3/3] systemd: Fix memory use after free errors
+Subject: [PATCH] nfs-utils: fix build error under tests folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,120 +30,478 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 05:54:52 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Dec 2018 08:47:42 -0000
+Content-Type: text/plain
 
-Found with gcc trunk
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+* Redefine the reference path of libnfs.a to
+  ../support/nfs/.libs/libnfs.a to fix below
+  error when run "make -C tests statdb_dump".
+  | make: *** No rule to make target '../support/nfs/libnfs.a', needed by 'statdb_dump'.  Stop.
+  | make: *** No rule to make target '../../support/nfs/libnfs.a', needed by 'nsm_client'.  Stop.
+
+* The function generic_make_pathname is introduced in
+  nfs-utils 2.3.1.
+  Add the source file which defines function generic_make_pathname to
+  libnsm_a_SOURCES of libnsm.a to fix the undefined reference
+  when run "make -C tests statdb_dump"
+  | ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
+  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
+  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
+  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
+  | ../support/nsm/libnsm.a(file.o): In function `nsm_setup_pathnames':
+  | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-2.3.1/support/nsm/file.c:280: undefined reference to `generic_setup_basedir'
+  | collect2: error: ld returned 1 exit status
+
+* After the logic of commit[dbb643e Removed missing-prototypes warnings.]
+  introduced, there comes below error when run
+  "make -C tests/nsm_client nsm_client"
+  | nlm_sm_inter_svc.c:20:1: error: no previous prototype for 'nlm_sm_prog_3' [-Werror=missing-prototypes]
+
+  It is because rpcgen doesn't generate -Wmissing-prototypes
+  free code for nlm_sm_inter_svc.c with below logic
+  in tests/nsm_client/Makefile.am
+  [snip]
+  GENFILES_SVC    = nlm_sm_inter_svc.c
+  [snip]
+  $(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
+        test -f $@ && rm -rf $@ || true
+        $(RPCGEN) -m -o $@ $<
+ So add the patch to not fatalize -Wmissing-prototypes.
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- ...-t-pass-null-directive-argument-to-s.patch | 31 +++++++++++++
- ...se-after-free-case-in-load_from_path.patch | 43 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb      |  2 +
- 3 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch
+ ...-fix-undefined-function-for-libnsm.a.patch | 295 ++++++++++++++++++
+ ...efile.am-update-the-path-of-libnfs.a.patch |  50 +++
+ ...-Do-not-fatalize-Wmissing-prototypes.patch |  43 +++
+ .../nfs-utils/nfs-utils_2.3.3.bb              |   3 +
+ 4 files changed, 391 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch b/meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
 new file mode 100644
-index 0000000000..0538c7bbc8
+index 00000000000..aa551ebd191
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch
-@@ -0,0 +1,31 @@
-+From bfc4183ea995f1c211385d066cdb1fe9ce89f621 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Dec 2018 20:53:38 -0800
-+Subject: [PATCH 1/2] sysctl: Don't pass null directive argument to '%s'
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch
+@@ -0,0 +1,295 @@
++From 690a90a5b7786e40b5447ad7c5f19a7657d27405 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Fri, 14 Dec 2018 17:44:32 +0800
++Subject: [PATCH] Makefile.am: fix undefined function for libnsm.a
 +
-+value pointer here is always NULL but  subsequent use of that pointer
-+with a %s format will always be NULL, printing p instead would be a
-+valid string
++The source file of libnsm.a uses some function
++in ../support/misc/file.c, add ../support/misc/file.c
++to libnsm_a_SOURCES to fix build error when run
++"make -C tests statdb_dump":
++| ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
++| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
++| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
++| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:175: undefined reference to `generic_make_pathname'
++| ../support/nsm/libnsm.a(file.o): In function `nsm_setup_pathnames':
++| /usr/src/debug/nfs-utils/2.3.3-r0/nfs-utils-2.3.3/support/nsm/file.c:280: undefined reference to `generic_setup_basedir'
++| collect2: error: ld returned 1 exit status
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++As there is already one source file named file.c
++as support/nsm/file.c in support/nsm/Makefile.am,
++so rename ../support/misc/file.c to ../support/misc/misc.c.
++
++Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154502780423058&w=2]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 +---
-+Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/11179]
-+ src/sysctl/sysctl.c | 2 +-
++ support/misc/Makefile.am |   2 +-
++ support/misc/file.c      | 111 -----------------------------------------------
++ support/misc/misc.c      | 111 +++++++++++++++++++++++++++++++++++++++++++++++
++ support/nsm/Makefile.am  |   2 +-
++ 4 files changed, 113 insertions(+), 113 deletions(-)
++ delete mode 100644 support/misc/file.c
++ create mode 100644 support/misc/misc.c
++
++diff --git a/support/misc/Makefile.am b/support/misc/Makefile.am
++index 8936b0d..d4c1f76 100644
++--- a/support/misc/Makefile.am
+++++ b/support/misc/Makefile.am
++@@ -1,6 +1,6 @@
++ ## Process this file with automake to produce Makefile.in
++ 
++ noinst_LIBRARIES = libmisc.a
++-libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c file.c
+++libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c misc.c
++ 
++ MAINTAINERCLEANFILES = Makefile.in
++diff --git a/support/misc/file.c b/support/misc/file.c
++deleted file mode 100644
++index e7c3819..0000000
++--- a/support/misc/file.c
+++++ /dev/null
++@@ -1,111 +0,0 @@
++-/*
++- * Copyright 2009 Oracle.  All rights reserved.
++- * Copyright 2017 Red Hat, Inc.  All rights reserved.
++- *
++- * This file is part of nfs-utils.
++- *
++- * nfs-utils is free software; you can redistribute it and/or modify
++- * it under the terms of the GNU General Public License as published by
++- * the Free Software Foundation; either version 2 of the License, or
++- * (at your option) any later version.
++- *
++- * nfs-utils is distributed in the hope that it will be useful,
++- * but WITHOUT ANY WARRANTY; without even the implied warranty of
++- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++- * GNU General Public License for more details.
++- *
++- * You should have received a copy of the GNU General Public License
++- * along with nfs-utils.  If not, see <http://www.gnu.org/licenses/>.
++- */
++-
++-#include <sys/stat.h>
++-
++-#include <string.h>
++-#include <libgen.h>
++-#include <stdio.h>
++-#include <errno.h>
++-#include <dirent.h>
++-#include <stdlib.h>
++-#include <stdbool.h>
++-#include <limits.h>
++-
++-#include "xlog.h"
++-#include "misc.h"
++-
++-/*
++- * Returns a dynamically allocated, '\0'-terminated buffer
++- * containing an appropriate pathname, or NULL if an error
++- * occurs.  Caller must free the returned result with free(3).
++- */
++-__attribute__((__malloc__))
++-char *
++-generic_make_pathname(const char *base, const char *leaf)
++-{
++-	size_t size;
++-	char *path;
++-	int len;
++-
++-	size = strlen(base) + strlen(leaf) + 2;
++-	if (size > PATH_MAX)
++-		return NULL;
++-
++-	path = malloc(size);
++-	if (path == NULL)
++-		return NULL;
++-
++-	len = snprintf(path, size, "%s/%s", base, leaf);
++-	if ((len < 0) || ((size_t)len >= size)) {
++-		free(path);
++-		return NULL;
++-	}
++-
++-	return path;
++-}
++-
++-
++-/**
++- * generic_setup_basedir - set up basedir
++- * @progname: C string containing name of program, for error messages
++- * @parentdir: C string containing pathname to on-disk state, or NULL
++- * @base: character buffer to contain the basedir that is set up
++- * @baselen: size of @base in bytes
++- *
++- * This runs before logging is set up, so error messages are directed
++- * to stderr.
++- *
++- * Returns true and sets up our basedir, if @parentdir was valid
++- * and usable; otherwise false is returned.
++- */
++-_Bool
++-generic_setup_basedir(const char *progname, const char *parentdir, char *base,
++-		      const size_t baselen)
++-{
++-	static char buf[PATH_MAX];
++-	struct stat st;
++-	char *path;
++-
++-	/* First: test length of name and whether it exists */
++-	if ((strlen(parentdir) >= baselen) || (strlen(parentdir) >= PATH_MAX)) {
++-		(void)fprintf(stderr, "%s: Directory name too long: %s",
++-				progname, parentdir);
++-		return false;
++-	}
++-	if (lstat(parentdir, &st) == -1) {
++-		(void)fprintf(stderr, "%s: Failed to stat %s: %s",
++-				progname, parentdir, strerror(errno));
++-		return false;
++-	}
++-
++-	/* Ensure we have a clean directory pathname */
++-	strncpy(buf, parentdir, sizeof(buf)-1);
++-	path = dirname(buf);
++-	if (*path == '.') {
++-		(void)fprintf(stderr, "%s: Unusable directory %s",
++-				progname, parentdir);
++-		return false;
++-	}
++-
++-	xlog(D_CALL, "Using %s as the state directory", parentdir);
++-	strcpy(base, parentdir);
++-	return true;
++-}
++diff --git a/support/misc/misc.c b/support/misc/misc.c
++new file mode 100644
++index 0000000..e7c3819
++--- /dev/null
+++++ b/support/misc/misc.c
++@@ -0,0 +1,111 @@
+++/*
+++ * Copyright 2009 Oracle.  All rights reserved.
+++ * Copyright 2017 Red Hat, Inc.  All rights reserved.
+++ *
+++ * This file is part of nfs-utils.
+++ *
+++ * nfs-utils is free software; you can redistribute it and/or modify
+++ * it under the terms of the GNU General Public License as published by
+++ * the Free Software Foundation; either version 2 of the License, or
+++ * (at your option) any later version.
+++ *
+++ * nfs-utils is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ * GNU General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU General Public License
+++ * along with nfs-utils.  If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++#include <sys/stat.h>
+++
+++#include <string.h>
+++#include <libgen.h>
+++#include <stdio.h>
+++#include <errno.h>
+++#include <dirent.h>
+++#include <stdlib.h>
+++#include <stdbool.h>
+++#include <limits.h>
+++
+++#include "xlog.h"
+++#include "misc.h"
+++
+++/*
+++ * Returns a dynamically allocated, '\0'-terminated buffer
+++ * containing an appropriate pathname, or NULL if an error
+++ * occurs.  Caller must free the returned result with free(3).
+++ */
+++__attribute__((__malloc__))
+++char *
+++generic_make_pathname(const char *base, const char *leaf)
+++{
+++	size_t size;
+++	char *path;
+++	int len;
+++
+++	size = strlen(base) + strlen(leaf) + 2;
+++	if (size > PATH_MAX)
+++		return NULL;
+++
+++	path = malloc(size);
+++	if (path == NULL)
+++		return NULL;
+++
+++	len = snprintf(path, size, "%s/%s", base, leaf);
+++	if ((len < 0) || ((size_t)len >= size)) {
+++		free(path);
+++		return NULL;
+++	}
+++
+++	return path;
+++}
+++
+++
+++/**
+++ * generic_setup_basedir - set up basedir
+++ * @progname: C string containing name of program, for error messages
+++ * @parentdir: C string containing pathname to on-disk state, or NULL
+++ * @base: character buffer to contain the basedir that is set up
+++ * @baselen: size of @base in bytes
+++ *
+++ * This runs before logging is set up, so error messages are directed
+++ * to stderr.
+++ *
+++ * Returns true and sets up our basedir, if @parentdir was valid
+++ * and usable; otherwise false is returned.
+++ */
+++_Bool
+++generic_setup_basedir(const char *progname, const char *parentdir, char *base,
+++		      const size_t baselen)
+++{
+++	static char buf[PATH_MAX];
+++	struct stat st;
+++	char *path;
+++
+++	/* First: test length of name and whether it exists */
+++	if ((strlen(parentdir) >= baselen) || (strlen(parentdir) >= PATH_MAX)) {
+++		(void)fprintf(stderr, "%s: Directory name too long: %s",
+++				progname, parentdir);
+++		return false;
+++	}
+++	if (lstat(parentdir, &st) == -1) {
+++		(void)fprintf(stderr, "%s: Failed to stat %s: %s",
+++				progname, parentdir, strerror(errno));
+++		return false;
+++	}
+++
+++	/* Ensure we have a clean directory pathname */
+++	strncpy(buf, parentdir, sizeof(buf)-1);
+++	path = dirname(buf);
+++	if (*path == '.') {
+++		(void)fprintf(stderr, "%s: Unusable directory %s",
+++				progname, parentdir);
+++		return false;
+++	}
+++
+++	xlog(D_CALL, "Using %s as the state directory", parentdir);
+++	strcpy(base, parentdir);
+++	return true;
+++}
++diff --git a/support/nsm/Makefile.am b/support/nsm/Makefile.am
++index 8f5874e..68f1a46 100644
++--- a/support/nsm/Makefile.am
+++++ b/support/nsm/Makefile.am
++@@ -10,7 +10,7 @@ GENFILES	= $(GENFILES_CLNT) $(GENFILES_SVC) $(GENFILES_XDR) $(GENFILES_H)
++ EXTRA_DIST	= sm_inter.x
++ 
++ noinst_LIBRARIES = libnsm.a
++-libnsm_a_SOURCES = $(GENFILES) file.c rpc.c
+++libnsm_a_SOURCES = $(GENFILES) ../misc/misc.c file.c rpc.c
++ 
++ BUILT_SOURCES = $(GENFILES)
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
+new file mode 100644
+index 00000000000..906ac0f9054
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Makefile.am-update-the-path-of-libnfs.a.patch
+@@ -0,0 +1,50 @@
++From fcece65d1b713eaeef41706898440302f8ce92d9 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Thu, 12 Jul 2018 15:19:41 +0800
++Subject: [PATCH] Makefile.am: update the path of libnfs.a
++
++The libnfs.a is under ../support/nfs/.libs/ now,
++update the reference path accordingly to fix below
++build error when run "make -C tests statdb_dump":
++| make: *** No rule to make target '../support/nfs/libnfs.a', needed by 'statdb_dump'.  Stop.
++
++And below error when run "make -C tests/nsm_client nsm_client"
++| make: *** No rule to make target '../../support/nfs/libnfs.a', needed by 'nsm_client'.  Stop.
++
++Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154502636522745&w=2]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ tests/Makefile.am            | 2 +-
++ tests/nsm_client/Makefile.am | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 1f96264..74aa629 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -3,7 +3,7 @@
++ check_PROGRAMS = statdb_dump
++ statdb_dump_SOURCES = statdb_dump.c
++ 
++-statdb_dump_LDADD = ../support/nfs/libnfs.a \
+++statdb_dump_LDADD = ../support/nfs/.libs/libnfs.a \
++ 		    ../support/nsm/libnsm.a $(LIBCAP)
++ 
++ SUBDIRS = nsm_client
++diff --git a/tests/nsm_client/Makefile.am b/tests/nsm_client/Makefile.am
++index a8fc131..43db9c2 100644
++--- a/tests/nsm_client/Makefile.am
+++++ b/tests/nsm_client/Makefile.am
++@@ -13,7 +13,7 @@ check_PROGRAMS	= nsm_client
++ nsm_client_SOURCES = $(GENFILES) nsm_client.c
++ 
++ BUILT_SOURCES = $(GENFILES)
++-nsm_client_LDADD = ../../support/nfs/libnfs.a \
+++nsm_client_LDADD = ../../support/nfs/.libs/libnfs.a \
++ 		   ../../support/nsm/libnsm.a $(LIBCAP) $(LIBTIRPC)
++ 
++ if CONFIG_RPCGEN
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
+new file mode 100644
+index 00000000000..17aabb9e4dc
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
+@@ -0,0 +1,43 @@
++From 66471fbf7106917da7a1536b18a0a77d07479779 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Mon, 17 Dec 2018 15:29:47 +0800
++Subject: [PATCH] configure.ac: Do not fatalize -Wmissing-prototypes
++
++There comes below error when run "make -C tests/nsm_client nsm_client"
++| nlm_sm_inter_svc.c:20:1: error: no previous prototype for 'nlm_sm_prog_3' [-Werror=missing-prototypes]
++
++It is because rpcgen doesn't generate -Wmissing-prototypes
++free code for nlm_sm_inter_svc.c with below logic
++in tests/nsm_client/Makefile.am
++[snip]
++GENFILES_SVC    = nlm_sm_inter_svc.c
++[snip]
++$(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
++        test -f $@ && rm -rf $@ || true
++        $(RPCGEN) -m -o $@ $<
++
++So add the logic not to fatalize -Wmissing-prototypes.
++
++Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154503260323936&w=2]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ configure.ac | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/sysctl/sysctl.c b/src/sysctl/sysctl.c
-+index 1cfe51018..c67d79032 100644
-+--- a/src/sysctl/sysctl.c
-++++ b/src/sysctl/sysctl.c
-+@@ -115,7 +115,7 @@ static int parse_file(OrderedHashmap *sysctl_options, const char *path, bool ign
-+ 
-+                 value = strchr(p, '=');
-+                 if (!value) {
-+-                        log_error("Line is not an assignment at '%s:%u': %s", path, c, value);
-++                        log_error("Line is not an assignment at '%s:%u': %s", path, c, p);
-+ 
-+                         if (r == 0)
-+                                 r = -EINVAL;
++diff --git a/configure.ac b/configure.ac
++index e82ff14..d0cc5d5 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -548,7 +548,7 @@ my_am_cflags="\
++  -Wall \
++  -Wextra \
++  -Werror=strict-prototypes \
++- -Werror=missing-prototypes \
+++ -Wmissing-prototypes \
++  -Werror=missing-declarations \
++  -Werror=format=2 \
++  -Werror=undef \
 +-- 
-+2.20.1
++2.7.4
 +
-diff --git a/meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch b/meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch
-new file mode 100644
-index 0000000000..4da96e2920
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch
-@@ -0,0 +1,43 @@
-+From cb67aebd63d9f0077cbf3e769f0b223c5bba20ac Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Dec 2018 20:58:35 -0800
-+Subject: [PATCH 2/2] core: Fix use after free case in load_from_path()
-+
-+ensure that mfree() on filename is called after the logging function
-+which uses the string pointed by filename
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/11179]
-+ src/core/load-fragment.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/core/load-fragment.c b/src/core/load-fragment.c
-+index fc5644f48..da585786e 100644
-+--- a/src/core/load-fragment.c
-++++ b/src/core/load-fragment.c
-+@@ -4531,7 +4531,6 @@ static int load_from_path(Unit *u, const char *path) {
-+                                 r = open_follow(&filename, &f, symlink_names, &id);
-+                         if (r >= 0)
-+                                 break;
-+-                        filename = mfree(filename);
-+ 
-+                         /* ENOENT means that the file is missing or is a dangling symlink.
-+                          * ENOTDIR means that one of paths we expect to be is a directory
-+@@ -4540,9 +4539,12 @@ static int load_from_path(Unit *u, const char *path) {
-+                          */
-+                         if (r == -EACCES)
-+                                 log_debug_errno(r, "Cannot access \"%s\": %m", filename);
-+-                        else if (!IN_SET(r, -ENOENT, -ENOTDIR))
-++                        else if (!IN_SET(r, -ENOENT, -ENOTDIR)) {
-++                                filename = mfree(filename);
-+                                 return r;
-++                        }
-+ 
-++                        filename = mfree(filename);
-+                         /* Empty the symlink names for the next run */
-+                         set_clear_free(symlink_names);
-+                 }
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index a40c89973a..03acce25b7 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -35,6 +35,8 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch \
-            file://0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch \
-            file://0001-timesync-changes-type-of-drift_freq-to-int64_t.patch \
-+           file://0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch \
-+           file://0002-core-Fix-use-after-free-case-in-load_from_path.patch \
-            "
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+index 6be2aab47c1..cabfc02c7e4 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+@@ -33,6 +33,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
+            file://0001-Do-not-pass-null-pointer-to-freeaddrinfo.patch \
+            file://clang-format-string.patch \
++           file://0001-Makefile.am-update-the-path-of-libnfs.a.patch \
++           file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
++           file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch \
+ "
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
  
- # patches made for musl are only applied on TCLIBC is musl
 -- 
-2.20.1
+2.17.1
 
 
