@@ -1,46 +1,20 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
-	[209.85.210.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 95A097BE1E
+Return-Path: <richard@nod.at>
+X-Greylist: delayed 496 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 18 Dec 2018 23:37:32 UTC
+Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CEE96BA72
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 17:46:34 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id n8so16467747otl.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 09:46:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=1Q3T3tlue/zByBYTwiG9MK1F+OEK0wro2vrzf6DOyjw=;
-	b=mG+ThfH1IWZ2jHiycFvxNBbUz4Q0uIcKSrPoX5Pc+hUiirXr9G05DOrHk115ka/cnb
-	Hav5/KntepI/gHOT08aXQETjNyTuZDd6A19Jnku3SwK5/INvGpsHWXeefmFKJ1RX37MQ
-	zvWZ0KO3DsM5goDs1y0LO6o0wg4EZUFkZEjOAJKajy5MUIrL5V40sO9ZyVstgjn4yDEL
-	V3NWQz+fb9aiNNDKkIMBU+MPO589bT75LBaOI7OtkZVVjUizxk3N/zuBXz6HADD/zrfO
-	EY5VpCLZ9ojmkML1JWNbx92fT9dboattXbT3knMLjNf7Fn4VijFhLz+WoDnpp2KYHqsR
-	GIaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=1Q3T3tlue/zByBYTwiG9MK1F+OEK0wro2vrzf6DOyjw=;
-	b=VWXa4BCekjlkRJ0IiGHYk+1gxPGtsYQkUtIjsrL4cwzOITrYNRYhkonM8ao3lDip92
-	briSBl1mGRHZrjGMrRibj/B7L6SDIc4mW7eTAZA297LL/VzawClRB+TnDnbBc/alpas9
-	wpZw3VyadSSutG/rCijj6DtrTXCC/fegBDmRh2Scy2ZziUK+exDeKxcc589BXiQwnT9B
-	F9b82+fGajCLRhe09Nb3DhG4v/P16kY0YPlhCyFpLEEVdnaSk0vgGw77WctX2rFRI0v5
-	ZgNDlO7bHAJ+ACJoBX5r3vMGOwvFq5magisc0CgRuxtRQI7Jm1IhoJjNhss4CAAzL2K1
-	toRg==
-X-Gm-Message-State: AA+aEWaKW7tOCYi3Ln8GDr+9K8I+PL7m28jzs0/PADQddcJ+Uj5MJwuS
-	B5CGz8M7KNCsEnFsoO1F8Pvx6eLejbW8usig2MpZSLme
-X-Google-Smtp-Source: AFSGD/UVz0UrOuMFUrsY3bDeqUVFNC2Q7pUdjUrTn294Lx6BuLL8yyd3ytCb231mEuPH/6ZYnKka+KCvJRKUcED25fI=
-X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr12993276oti.367.1545155195384; 
-	Tue, 18 Dec 2018 09:46:35 -0800 (PST)
+	Tue, 18 Dec 2018 23:37:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by lilium.sigma-star.at (Postfix) with ESMTP id 9132718021730;
+	Wed, 19 Dec 2018 00:29:17 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Dec 2018 00:29:11 +0100
+Message-Id: <20181218232911.10855-1-richard@nod.at>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20181218163005.1330-1-alex.kanavin@gmail.com>
-	<20181218170317.2330.98898@do>
-In-Reply-To: <20181218170317.2330.98898@do>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Dec 2018 18:46:23 +0100
-Message-ID: <CANNYZj_jBUHcFhLbnrZ9Uvg2-xNm-G=L5BXJmzK13_nq35M=Hw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJidHJmcy10b29sczogdXBkYXRlIHRvIDQuMTkuMS4uLiIgYW5kIDEyIG1vcmU=?=
+Subject: [PATCH] sdk: Fix SDKIMAGE_LINGUAS handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,17 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 17:46:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Dec 2018 23:37:32 -0000
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 18 Dec 2018 at 18:03, Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at 14c291e1fb)
+Currently SDKIMAGE_LINGUAS is broken for any inputs except "all".
+In the non-"all" case, each enabled language package is installed via
+pm.install("nativesdk-glibc-binary-localedata-%s.utf-8" % lang)
+This will throw a python exception since pm.install() expects a list of
+strings and not a string.
 
-Rebased patchset is here (trivial conflict in systemd recipe):
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+Fix the problem by passing a single element list to pm.install().
 
-Alex
+Cc: richard.purdie@linuxfoundation.org
+Fixes: 67615e01751b ("rootfs_rpm.bbclass: migrate image creation to dnf")
+Signed-off-by: Richard Weinberger <richard@nod.at>
+---
+ meta/lib/oe/sdk.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index 153b07d76b40..98073cf0cac7 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -96,7 +96,7 @@ class Sdk(object, metaclass=3DABCMeta):
+                 pm.install_glob("nativesdk-glibc-binary-localedata-*.utf=
+-8", sdk=3DTrue)
+             else:
+                 for lang in linguas.split():
+-                    pm.install("nativesdk-glibc-binary-localedata-%s.utf=
+-8" % lang)
++                    pm.install(["nativesdk-glibc-binary-localedata-%s.ut=
+f-8" % lang])
+             # Generate a locale archive of them
+             target_arch =3D self.d.getVar('SDK_ARCH')
+             rootfs =3D oe.path.join(self.sdk_host_sysroot, self.sdk_nati=
+ve_path)
+--=20
+2.20.1
+
 
