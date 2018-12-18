@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
-	[209.85.166.181])
-	by mail.openembedded.org (Postfix) with ESMTP id DD6026C132
+Return-Path: <pespin.shar@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7984C6E47A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 14:50:16 +0000 (UTC)
-Received: by mail-it1-f181.google.com with SMTP id z7so4542116iti.0
+	Tue, 18 Dec 2018 15:29:33 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id l9so16284248wrt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 06:50:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=CWHMTvg2A/0oD1x31HMY+8vSP6a7PdQooCRkv9ze/48=;
-	b=zp6jJIOx4nHNqFbakiusz59ogKf4uKkfY0OpENvPKgusvBjuzySFYpy0SaKtiR25jK
-	ijkPtjKN2mxNygMdiNAx1YPpHu5ARkvXS5hmjZGyXwth0qLcLn4geu3iC6go5KQdcVDS
-	hM//3dTczPl0ZUKytd9rbkixerxhY1+swiYZL1pKuvDT7DLLrvnEhuYYzODf/brAgprS
-	C4wRYXSdkHgmfOwN7ffbAThcdgAUZqHtH9/I5UIWOlFVw3J7QlQ+hicsdNkWMApa0FtK
-	9sroe8/kQz+1K/G09tj8dCeL4ylVIqbkWQkV1ZCEPMsasuLC+dsClhxAfjeLguy8ppWO
-	PvDw==
+	Tue, 18 Dec 2018 07:29:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9lwryDHhxMqVBMPxai77DAVmZaoL7aZc9OwSqN7/pmY=;
+	b=N+jDHE/zvSvrHWvJ8A0myt/CgnPDKxPXRd/EW240Q8IV50OoPjh/7bEiNCWbnyj969
+	dC5vo5fBefXc888pRRPeBKBXWa73d82hOz5vdRN+//obMMLhsTxUW8LFDsks2ffWmokC
+	9qZnGwv59FZnfrx2+xivUwTDeNAa73RnNGQQL/Fn1dW3Kbn7tKeZRyi4qbCwDNnbvhd5
+	D+lB945sI9+3o6sC4LKkMxMLY2RJ9rCgl1HIOWWq6UHqZYMDnbsLg0t59o0pEzb6dvzT
+	rSvcMUuo9VRzTBPM1MZOS4J0y3IdQVjVYnTG2fBwtZC/3nHMK0Jt3r1Z+HPRTkKYqHVp
+	Rg3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=CWHMTvg2A/0oD1x31HMY+8vSP6a7PdQooCRkv9ze/48=;
-	b=UuktRv+2FVatQyZGwEGkLitPGjePzCDmkWxzMiAM4SVSsGfclaHoH90ppmnkpvA092
-	swGmBRPoKatfvatoQmuVtUwYhfqCE4GWUyNBZiNm5lLc3hrm0OMfDRyB3fwqAijHR+7Y
-	Szpkc27Blb52wgnMcmq4whaBzjFkUJpxMBuo58Sg2a3ohdN+F55DdbD2wCpN/Iv0ADB8
-	V6O4dnM2dKFRMe7DPHvab/loX1SyanpFgmuc13KJF4QsfpQeTBPUtFCJieOrG/gB9RQL
-	NfvZqz44ZlyHLmgxFYAI+c8mRqVWEAm6KIhEpPvbj2WSv4Is08GW8Ipadu+t559QYraA
-	VByg==
-X-Gm-Message-State: AA+aEWYiZcRdC9XZwvgGh60WPI+TeIpTPv+Y653EVvqO6xGiI3VXTICE
-	X8lPn1ItNobfeU1wvPWniKbyVdvNSWIXm+rhYUf2aw==
-X-Google-Smtp-Source: AFSGD/XzlnqqughjVayvm8agYxqmaBrk70xdwse1dYsVeauJ4Hg+vxdVNj3FxLY3HlH/JNfno2bG6tOMkDNU02kRXlw=
-X-Received: by 2002:a24:8e43:: with SMTP id h64mr2960927ite.26.1545144617855; 
-	Tue, 18 Dec 2018 06:50:17 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9lwryDHhxMqVBMPxai77DAVmZaoL7aZc9OwSqN7/pmY=;
+	b=jUYIoYjpEMmXZv4/opTo7SvMr84N1+DLDKLc7AgfJyDfz8pbtI2dVJXLmViAltyHNa
+	mdJ9aVbMxPKQwb1mLIrmmA+/CfXDfj74ErwpSADXGNy77y7oSvGSO6EcxOYiKgrhoNXx
+	SX1vvUTI1KnUV12tKa59e6dgG35QlSuwCBGP0mD1Ti/ZS5jAS6AY29Slet74Tl7X0+Td
+	3dxFcELHKUZkoQAPeCBpmkCA9l5BcWdBdJunJso/gNKfMWlmD8osgI7GMQbkAFZLuax+
+	4z2dp1/R8a65tAjhRXbZNk+PCIthKQvWknWcnwloe10q5UpSowwZRIXYNjHzzeIcUesu
+	hWJA==
+X-Gm-Message-State: AA+aEWZuJuS986V9LmeK2o5W1J5rg+PcVpBH5HJVPgicbHRYI3Bk4Xxf
+	KuB56k/Vi3xFx8nXcSC8LF7z7PZ1
+X-Google-Smtp-Source: AFSGD/XsXVQIkqwHxNP/+Wu/u4QtCgpCt+4k3WunMD+mPhs7kqe2GoLXy3YyEqoiiNfejmYlEbZO7w==
+X-Received: by 2002:a05:6000:1251:: with SMTP id
+	j17mr14799080wrx.315.1545146973614; 
+	Tue, 18 Dec 2018 07:29:33 -0800 (PST)
+Received: from pespin-thinkpad.Home ([93.176.187.83])
+	by smtp.gmail.com with ESMTPSA id
+	l37sm5338509wre.69.2018.12.18.07.29.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Dec 2018 07:29:32 -0800 (PST)
+From: pespin.shar@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Dec 2018 16:29:10 +0100
+Message-Id: <20181218152910.11276-1-pespin.shar@gmail.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-References: <1545115603-30751-1-git-send-email-yi.zhao@windriver.com>
-	<1545115603-30751-2-git-send-email-yi.zhao@windriver.com>
-In-Reply-To: <1545115603-30751-2-git-send-email-yi.zhao@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Dec 2018 14:50:06 +0000
-Message-ID: <CAJTo0LYfV4WEv7RD2e=SyFEyhrSaWiTe8gA-fpyrOfKcjYUsNg@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] json-glib: upgrade 1.4.2 -> 1.4.4
+Cc: Pau Espin Pedrol <pespin@sysmocom.de>
+Subject: [PATCH] kernel-module-split.bbclass: Fix modinfo decoding in old kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,15 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 14:50:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Dec 2018 15:29:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-packages/corei7-64-poky-linux/json-glib/json-glib-doc: FILELIST:
-removed "/usr/share/man/man1/json-glib-validate.1
-/usr/share/man/man1/json-glib-format.1"
+From: Pau Espin Pedrol <pespin@sysmocom.de>
 
-That would be https://gitlab.gnome.org/GNOME/json-glib/commit/67c5e4fb8a3b8b74bd9c62650c9ee03cdbb7553c.
-Please update the flags.
+Before linux commit d36b691077dc59c74efec0d54ed21b86f7a2a21a, some
+strings contained invalid utf-8 character which made
+split_kernel_module_packages unhappy when parsing ums-isd200.ko:
 
-Ross
+Exception: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xf6 in position 21: invalid start byte
+---
+ meta/classes/kernel-module-split.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 67ab4161da..e8996cf59b 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -48,7 +48,8 @@ python split_kernel_module_packages () {
+         tmpfile = tf[1]
+         cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
+         subprocess.check_call(cmd, shell=True)
+-        f = open(tmpfile)
++        # errors='replace': Some old kernel versions contain invalid utf-8 characters in mod descriptions (like 0xf6, 'ö')
++        f = open(tmpfile, errors='replace')
+         l = f.read().split("\000")
+         f.close()
+         os.close(tf[0])
+-- 
+2.20.0
+
 
