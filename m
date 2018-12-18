@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 796B56C126;
-	Tue, 18 Dec 2018 15:33:11 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 045BD6BDCD;
+	Tue, 18 Dec 2018 16:03:14 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Pau Espin Pedrol <pespin.shar@gmail.com>
-Date: Tue, 18 Dec 2018 15:33:13 -0000
-Message-ID: <20181218153313.2330.86086@do>
-References: <20181218152910.11276-1-pespin.shar@gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 18 Dec 2018 16:03:15 -0000
+Message-ID: <20181218160315.2330.39459@do>
+References: <20181204034245.25461-1-JPEWhacker@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20181218152910.11276-1-pespin.shar@gmail.com>
+In-Reply-To: <20181204034245.25461-1-JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLW1vZHVsZS1zcGxpdC5iYmNsYXNzOiBGaXggbW9kaW5mbyBkZWNvZGluZyBpbiBvbGQga2VybmVscw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSGFzaCBFcXVpdmFsZW5jeSBTZXJ2ZXIgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 15:33:11 -0000
+X-List-Received-Date: Tue, 18 Dec 2018 16:03:14 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: kernel-module-split.bbclass: Fix modinfo decoding in old kernels
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15398/
+Series: Hash Equivalency Server (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/15190/
 State : failure
 
 == Summary ==
@@ -45,9 +45,14 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            kernel-module-split.bbclass: Fix modinfo decoding in old kernels
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+  Patch's path:    bitbake/bin/bitbake-worker
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 20aea61385)
 
 
 
