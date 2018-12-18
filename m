@@ -1,51 +1,28 @@
-Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BAEB7BDDB
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A69EB7BF53
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 22:30:23 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id z13so10698061lfe.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 14:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=dyOosU0u3gM03odnSf3XH6sI+4nwNsgKp0uEWocKxiQ=;
-	b=LwcEP+ka9s7+rXQfGh/aFcoxIdp/xUVmHdilvmtjGQFT+AQ2ZP3eqY8YmqLP3YTJGB
-	sDMq3CFTPhxwiUKdzfSzbuRjA4HV0DCpSEicerM09XlW44g3A8l7nU3/Ip7XUdlXQApR
-	IulWJ6O+ozc0QCkEzFXLSRhM4AnF0D3IahSv3so7r68PWlSc0dO4xVZ3BmgkOyBrGQAf
-	KYwo6mvA15kEXnGiL/KSQf4LXwlJKVatNgVlyEC9Bi6oekaw5KEVzei4BT2csFcSNyVe
-	F/1ck2el8peQddeEDNil6wTykd835TbPDeqg+g8GiblPT07uRo5r+OXsqe1QX0Hs0PVA
-	wBvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=dyOosU0u3gM03odnSf3XH6sI+4nwNsgKp0uEWocKxiQ=;
-	b=bpOt4VXb4snUR3YXhHwj0FvxHHI0+5VEbQ8Qmicqok1GjYXZbyQcJOzeCWQz3CPn8q
-	DsbjFCkHvD2yO7Er4uX3MQJ8zDZiyPh77Qa3ifzgjDkovWp+nTz19dTLw/NBPx8hCYjK
-	lU8p5VIuTZAziumaL4vAJcmIN62V/RafI8Cuh9djEaTr3EmH5NK44kI9PoVpgJqgbvI0
-	GwFtXQdXLl/5Dv93uY3T0+fh8bE7GnGGgOr05VL8PDU0kZWtn85uXLspkcXziQ+LxwZz
-	ZtWtSScCHbkmmqazime+4P/nrgDLpTlx3wqtdlPJ+R0cGayETs70/zKI+LYk6EDFcsuY
-	hqpA==
-X-Gm-Message-State: AA+aEWbU5exS+PO2IzgJ2kYTSegmNs/gQlPiJEuu/F4bB5xUHgSJdOVi
-	kZcoxbVIXNsBk0eVzPKlX1/67i6h
-X-Google-Smtp-Source: AFSGD/VB611BoVNNM1EZtt5v3k9XnJn/fjnQHBXJL9BYCz0ijQIp9s76kl+hr/x78nmk7qMB1zU5+A==
-X-Received: by 2002:a19:5059:: with SMTP id z25mr8219095lfj.120.1545085823746; 
-	Mon, 17 Dec 2018 14:30:23 -0800 (PST)
-Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
-	by smtp.gmail.com with ESMTPSA id
-	v17-v6sm2691726ljg.32.2018.12.17.14.30.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 17 Dec 2018 14:30:23 -0800 (PST)
-From: Serhey Popovych <serhe.popovych@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2018 00:29:53 +0200
-Message-Id: <1545085793-30072-3-git-send-email-serhe.popovych@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1545085793-30072-1-git-send-email-serhe.popovych@gmail.com>
-References: <1545085793-30072-1-git-send-email-serhe.popovych@gmail.com>
-Subject: [PATCH 2/2] glibc: Rename ldd in multilib package
+	Tue, 18 Dec 2018 02:35:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBI2Z0Ps017265
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Dec 2018 18:35:01 -0800 (PST)
+Received: from [128.224.163.157] (128.224.163.157) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Mon, 17 Dec 2018 18:35:00 -0800
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20181217084739.115773-1-mingli.yu@windriver.com>
+	<7043db17733d9237d5b3e706dd66471b34e4f54e.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5C185C1E.5030009@windriver.com>
+Date: Tue, 18 Dec 2018 10:31:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <7043db17733d9237d5b3e706dd66471b34e4f54e.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.163.157]
+Subject: Re: [PATCH] nfs-utils: fix build error under tests folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2018 22:30:23 -0000
+X-List-Received-Date: Tue, 18 Dec 2018 02:35:02 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This is symmetrical to musl change that renames ldd to ldd.${PN} for
-multilib package to avoid filename collision on install.
 
-While there add ldd to glibc package RRECOMMENDS since it is a shell
-script not larger than 6Kb in size that costs nothing in compare with
-overall glibc binary size and utility could be useful for trivial
-debugging steps. If required recommendation can be easily dropped
-(e.g. via NO_RECOMMENDATIONS).
 
-Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+On 2018年12月18日 01:16, richard.purdie@linuxfoundation.org wrote:
+> On Mon, 2018-12-17 at 00:47 -0800, mingli.yu@windriver.com wrote:
+>> From: Mingli Yu <Mingli.Yu@windriver.com>
+>>
+>> * Redefine the reference path of libnfs.a to
+>>    ../support/nfs/.libs/libnfs.a to fix below
+>>    error when run "make -C tests statdb_dump".
+>>    | make: *** No rule to make target '../support/nfs/libnfs.a',
+>> needed by 'statdb_dump'.  Stop.
+>>    | make: *** No rule to make target '../../support/nfs/libnfs.a',
+>> needed by 'nsm_client'.  Stop.
+>>
+>> * The function generic_make_pathname is introduced in
+>>    nfs-utils 2.3.1.
+>>    Add the source file which defines function generic_make_pathname to
+>>    libnsm_a_SOURCES of libnsm.a to fix the undefined reference
+>>    when run "make -C tests statdb_dump"
+>>    | ../support/nsm/libnsm.a(file.o): In function `nsm_make_pathname':
+>>    | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+>> 2.3.1/support/nsm/file.c:175: undefined reference to
+>> `generic_make_pathname'
+>>    | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+>> 2.3.1/support/nsm/file.c:175: undefined reference to
+>> `generic_make_pathname'
+>>    | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+>> 2.3.1/support/nsm/file.c:175: undefined reference to
+>> `generic_make_pathname'
+>>    | ../support/nsm/libnsm.a(file.o): In function
+>> `nsm_setup_pathnames':
+>>    | /usr/src/debug/nfs-utils/2.3.1-r0/nfs-utils-
+>> 2.3.1/support/nsm/file.c:280: undefined reference to
+>> `generic_setup_basedir'
+>>    | collect2: error: ld returned 1 exit status
+>>
+>> * After the logic of commit[dbb643e Removed missing-prototypes
+>> warnings.]
+>>    introduced, there comes below error when run
+>>    "make -C tests/nsm_client nsm_client"
+>>    | nlm_sm_inter_svc.c:20:1: error: no previous prototype for
+>> 'nlm_sm_prog_3' [-Werror=missing-prototypes]
+>>
+>>    It is because rpcgen doesn't generate -Wmissing-prototypes
+>>    free code for nlm_sm_inter_svc.c with below logic
+>>    in tests/nsm_client/Makefile.am
+>>    [snip]
+>>    GENFILES_SVC    = nlm_sm_inter_svc.c
+>>    [snip]
+>>    $(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
+>>          test -f $@ && rm -rf $@ || true
+>>          $(RPCGEN) -m -o $@ $<
+>>   So add the patch to not fatalize -Wmissing-prototypes.
+>
+> Fails on musl:
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index a98ae1a..3ab56bd 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -19,7 +19,8 @@ libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
- INSANE_SKIP_${PN}_append_aarch64 = " libdir"
- 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
--FILES_ldd = "${bindir}/ldd"
-+RRECOMMENDS_${PN} = "ldd"
-+FILES_ldd = "${bindir}/ldd${@['.${PN}', ''][not d.getVar('MLPREFIX')]}"
- FILES_libsegfault = "${base_libdir}/libSegFault*"
- FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
- FILES_libmemusage = "${base_libdir}/libmemusage.so"
-@@ -92,6 +93,10 @@ do_install_append () {
- 		return
- 	fi
- 
-+	if [ -n "${MLPREFIX}" ]; then
-+		mv "${D}${bindir}/ldd" "${D}${bindir}/ldd.${PN}"
-+	fi
-+
- 	install -d ${D}${sysconfdir}/init.d
- 	install -d ${D}${localstatedir}/db/nscd
- 	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
--- 
-2.7.4
+Will send out V2 to fix it.
 
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/104
+>
+> Cheers,
+>
+> Richard
+>
+>
 
