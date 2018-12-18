@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA2117BFF4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2307A7BFF4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 07:02:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBI727Zr006134
+	Tue, 18 Dec 2018 07:02:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBI71uOk014100
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2018 23:02:07 -0800 (PST)
+	Mon, 17 Dec 2018 23:02:06 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 17 Dec 2018 23:02:07 -0800
+	14.3.408.0; Mon, 17 Dec 2018 23:01:45 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Dec 2018 15:18:11 +0800
-Message-ID: <ebe2f17aee1340ec01dc3a58da1bbf8b6de232cd.1545102457.git.liezhi.yang@windriver.com>
+Date: Tue, 18 Dec 2018 15:18:10 +0800
+Message-ID: <169e1a6600cd3d00b4691e6bc76532ed207ba009.1545102457.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1545102457.git.liezhi.yang@windriver.com>
 References: <cover.1545102457.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 11/11] oeqa/selftest/cases: Update test_ccache_tool
+Subject: [PATCH V3 10/11] apr/openssl10: Enable ccache for them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 07:02:06 -0000
+X-List-Received-Date: Tue, 18 Dec 2018 07:02:15 -0000
 Content-Type: text/plain
 
-Now we can compile m4-native rather than target m4, this can save a lot of
-build time.
+They work well now.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/buildoptions.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb | 3 ---
+ meta/recipes-support/apr/apr_1.6.5.bb                 | 5 -----
+ 2 files changed, 8 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
-index f234bac..181e9a9 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -37,13 +37,13 @@ class ImageOptionsTests(OESelftestTestCase):
-         p = bb_vars['SYSROOT_DESTDIR'] + bb_vars['bindir'] + "/" + "ccache"
-         self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
-         self.write_config('INHERIT += "ccache"')
--        self.add_command_to_tearDown('bitbake -c clean m4')
--        bitbake("m4 -c clean")
--        bitbake("m4 -f -c compile")
--        log_compile = os.path.join(get_bb_var("WORKDIR","m4"), "temp/log.do_compile")
-+        self.add_command_to_tearDown('bitbake -c clean m4-native')
-+        bitbake("m4-native -c clean")
-+        bitbake("m4-native -f -c compile")
-+        log_compile = os.path.join(get_bb_var("WORKDIR","m4-native"), "temp/log.do_compile")
-         with open(log_compile, "r") as f:
-             loglines = "".join(f.readlines())
--        self.assertIn("ccache", loglines, msg="No match for ccache in m4 log.do_compile. For further details: %s" % log_compile)
-+        self.assertIn("ccache", loglines, msg="No match for ccache in m4-native log.do_compile. For further details: %s" % log_compile)
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+index 9d67053..809634f 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+@@ -76,9 +76,6 @@ EXTRA_OEMAKE = "${@bb.utils.contains('PACKAGECONFIG', 'manpages', '', 'OE_DISABL
  
-     @OETestID(1435)
-     def test_read_only_image(self):
+ export OE_LDFLAGS = "${LDFLAGS}"
+ 
+-# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
+-CCACHE = ""
+-
+ TERMIO ?= "-DTERMIO"
+ TERMIO_libc-musl = "-DTERMIOS"
+ EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
+diff --git a/meta/recipes-support/apr/apr_1.6.5.bb b/meta/recipes-support/apr/apr_1.6.5.bb
+index c2f5900..432e4ed 100644
+--- a/meta/recipes-support/apr/apr_1.6.5.bb
++++ b/meta/recipes-support/apr/apr_1.6.5.bb
+@@ -37,11 +37,6 @@ CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sct
+ CACHED_CONFIGUREVARS += "ac_cv_sizeof_struct_iovec=yes"
+ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
+ 
+-# Otherwise libtool fails to compile apr-utils
+-# x86_64-linux-libtool: compile: unable to infer tagged configuration
+-# x86_64-linux-libtool:   error: specify a tag with '--tag'
+-CCACHE = ""
+-
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ 
 -- 
 2.7.4
 
