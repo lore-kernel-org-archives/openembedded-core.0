@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 703297C076
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A1817C102
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 16:30:24 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r10so16535921wrs.10
+	Tue, 18 Dec 2018 16:30:25 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id d15so3300616wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 08:30:25 -0800 (PST)
+	Tue, 18 Dec 2018 08:30:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wXZ3oYzXbeYAUKDg2PDbBAHF29WeMbWrFXaApUAkVEA=;
-	b=vNmv6YLp7l2CxQof0j73K48orf43pmUQs+z1wTMvjRG/9Qn7pozXRoYDUaEJ5WmM6s
-	7/k3Y6teit6ehsjwsOEE0VEwCRfric1XyQwvzmyDmeRB1uwQvApDWCA+l1XhTVzzd2wN
-	eIhKUZp6f0rhKo2X7rT0EunYp3RpHHX8hEtgO5PJFa4oTiqfQmwgW/V1se0wtOBPqkEX
-	B0GVCmZp8HQ+29osd+yFeF5vTvOWZpJ9NFDPI8H888joMExJ3YfEu8eI/L8+dsYvRIJ2
-	sSkNOJGoI+6U5QQREDqQD0BHkUTgoAjJr5owfBypZ0TbNeVP2yeFZIaotzuowVPb80lD
-	gNww==
+	bh=S7YW+1G7Pt1cKgyQX62FjeokIlgxNwoWoTdJXt6+rZw=;
+	b=IdLHS32VuKSeSKyBQuHy3rhMCduDj7ZYXExMwNxDbyDgrI7OB7nyqfalkSOGqXjLCp
+	4F8SDTkU/egzMEjqi1xteq2OWNHFrj8d9roTbyLXM6zzTTeG+i1xDG5MwW4yz8cWSUud
+	2znh9qnXzCO6j79raLyAXsvY7D0DlW91/Lp63O45727U3Hw7w9RSWz+y3fQjnzTWD6Qq
+	qXx/Anz2KUaBmKwW6b3TvOCbvCjoTavc8quqDut1l7kyZuXOM8yob82cpJUnOZOhubb8
+	tZ0hCq18eOMrnEN7stNfB2tJuTeznvcKMGGIXw5Tuco8jMFkOdlvO8CqD04Z5ZZyEThE
+	38Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=wXZ3oYzXbeYAUKDg2PDbBAHF29WeMbWrFXaApUAkVEA=;
-	b=nBmqGeTc5Hi9SGlls/BkI9vuGMu+TX3BC9kuKukH6xdrBxhOMU2JtWaNKRxhs5Dlw5
-	/9k7ONi7UsM2ZxFOFgO0yDRPtyV0KKmb5BY4gvao0tJ6SY7ln5dmlh0ovYoK4Ax/MSzP
-	31pLsSSRrZVa5YCZDj/V6v3OzsnK10uL/rJRQFfx8LzoUyTbKyfjWQrij7z5wjMKVps9
-	W11FhwbNhw0mpugkMGUuRXjQlZAubsKEARIgvk7cb2KN9bVNwnUfUwcFIa7Cum03agTn
-	5A3Dbton4ayCQA8S4X+buBjHZjk741bv9oEKCqPm0R/JiTWzMq0F9fqYHz0Y97qKd4Mi
-	epTg==
-X-Gm-Message-State: AA+aEWa4S9aLqEYe34VsZN6oX1Tf/eEMbyzMERonzc/C04oV4lF4r6Qg
-	xAy0LlHpJh4VDOsdxZPC/u2IFC8H
-X-Google-Smtp-Source: AFSGD/WLhoDjj72xjRR8jFH2w4lr9xjqKm5GhV8Tx19VivlqBuTdCMxLlo7HMAPCLpSWQNt1ha7dLA==
-X-Received: by 2002:a5d:448f:: with SMTP id j15mr14403159wrq.108.1545150624935;
-	Tue, 18 Dec 2018 08:30:24 -0800 (PST)
+	bh=S7YW+1G7Pt1cKgyQX62FjeokIlgxNwoWoTdJXt6+rZw=;
+	b=ZcIu2wV7tOvVbVhKCktSLMdR88YDlKg74UhMD9kElBOyF8ZonZ42i2s+QRqg8SkGaf
+	i6tt147PWCkcM/iCOn+NCkFVUM8hG13uvQxUqPCxCTixzq/J6IcwHs91BTxhwUIIMF+3
+	Ec7Mh82i91Hkr1EMsVhRxClT4vcO8LDCZK5GkiyGXaOpZZ0d2SSjL6EWWi2i6bTEnI1C
+	FFz2R0ozTnvrfDctYXxDGqqfLUTlaTSzpkAZJDw2RRjeSxMhPZFykZaRcihtOd1hCBjS
+	Qho7xofHhdECHkNbLEryBKQjs0EwKLKj0F8d9rQbM32ThvRZ8SmVlVQ4BkwCmmyTicUI
+	PuKw==
+X-Gm-Message-State: AA+aEWbjgI7KxRzzQuNENFzftKz7urQbrMJbKM6tWZhnlZOp9Y7apHBa
+	CyFQ6BO8+aa4nszp9QHMvZfxpOzs
+X-Google-Smtp-Source: AFSGD/V3RyMVUaEEmUyLm+oEmshHayu3o/oEO0zi5IS/b2x4QZgdhBAGIQm4u9gHVgMWud7NtMoZag==
+X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr3754742wml.121.1545150625995; 
+	Tue, 18 Dec 2018 08:30:25 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f18sm2237849wrs.92.2018.12.18.08.30.23
+	f18sm2237849wrs.92.2018.12.18.08.30.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Dec 2018 08:30:24 -0800 (PST)
+	Tue, 18 Dec 2018 08:30:25 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2018 17:30:03 +0100
-Message-Id: <20181218163005.1330-11-alex.kanavin@gmail.com>
+Date: Tue, 18 Dec 2018 17:30:04 +0100
+Message-Id: <20181218163005.1330-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181218163005.1330-1-alex.kanavin@gmail.com>
 References: <20181218163005.1330-1-alex.kanavin@gmail.com>
-Subject: [PATCH 11/13] libcomps: upgrade 0.1.8 -> 0.1.9
+Subject: [PATCH 12/13] webkitgtk: upgrade 2.22.4 -> 2.22.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 16:30:25 -0000
+X-List-Received-Date: Tue, 18 Dec 2018 16:30:26 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/libcomps/libcomps_git.bb | 4 ++--
+ .../webkit/{webkitgtk_2.22.4.bb => webkitgtk_2.22.5.bb}       | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.22.4.bb => webkitgtk_2.22.5.bb} (97%)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index a0b6767b3df..500d412340f 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -9,8 +9,8 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0001-Add-crc32.c-to-sources-list.patch \
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+index 196122002bb..fc56822f7aa 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.22.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://detect-gstreamer-gl.patch \
             "
  
--PV = "0.1.8+git${SRCPV}"
--SRCREV = "01a4759894cccff64d2561614a58281adf5ce859"
-+PV = "0.1.9"
-+SRCREV = "58be208122179ca6e4edc0635a26f02bf733d6a9"
+-SRC_URI[md5sum] = "9f08d09cfc21c761a431a545549f301a"
+-SRC_URI[sha256sum] = "fab5be2883802352ae0e735dd1eff4bc18abaff7ac78689cec72eb2f611943b8"
++SRC_URI[md5sum] = "96a731522b800f38e70f85c22f8de477"
++SRC_URI[sha256sum] = "99d3863f418a7c3a3e37e5062950dbf2d91fb106ec1633459b0ef6f2d5f6cb13"
  
- S = "${WORKDIR}/git"
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
  
 -- 
 2.17.1
