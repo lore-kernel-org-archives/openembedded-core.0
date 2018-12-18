@@ -1,57 +1,18 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B574D7C059;
-	Tue, 18 Dec 2018 16:31:33 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id w21so13271450ioc.1;
-	Tue, 18 Dec 2018 08:31:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=KVoNzAodnyAXRT1noZHIbRnlkdQOajDmqB7U1UpDVQI=;
-	b=ZoP79IkA/k0IdduWSU6ZLBZjRG5AwBo0ZF3hwdT50i8LktjQYGKzMeR8+cvP75iGof
-	yFrRAlOIg6HmqFVOWOxWm+aOIK90QXZuVJkDm31+n+2NvypCg/Kjxsf2Y2P+PkTY8Ujb
-	JASmflJNDC2vDvRTckxK1zM8WRhswQ5rBqw6Vh2EinDLC3okBvhho3TjtAv6qpaMmYQT
-	PGZUC6qz6s3yzTBYD0LUayfkc+Nrvfn44kwx6eUdd3umG4xIEMyYLsZi2jSMDoh/wJtM
-	RHfehI9MMKFcJhgSIClOOYbyWwWK34RBUviP24mafAyGFiLMA7NUjlG6TQUM5c24/suw
-	ogIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=KVoNzAodnyAXRT1noZHIbRnlkdQOajDmqB7U1UpDVQI=;
-	b=Hroge0ABzghVrxL/SluYI44uPhXaCKJqZ0TpZ0RPFPhUNcdUPrCq6Uta4wABhkm9XT
-	wEzXg/iQzm2dz9FynRl9KRcILHFJuF9bBKN1PiZhOPHHruIhOzBRrNnb/d+WJZENAxgs
-	LxAN7uT/Ai1DEHrFivD2VFe8TJtWBF0ZW0Utt4Ps/ywSM+SMpVYw1FcpQBzi3AG1x9Sy
-	cfpDzrU/CubJHjx+sN6KKLx08Maj5TKnggV1MREzL48bfjmtLNn60Z9D3PbizPkgT7+k
-	M8UDMDO2jkvdCsFr7q1Isl/ArbUKnmGeScCwyNNK9YbG4W2Q3ODhVCygmW6SpnJdm3Bl
-	SVww==
-X-Gm-Message-State: AA+aEWarX2yv8bMx+BKW5Seri3/5WF+8qRaQlXZU/RNgSGoMvdpSoSdV
-	BInUuW7MgVJaq3pLi08TCPE=
-X-Google-Smtp-Source: AFSGD/UwxJSWFvCNgu7y09ymML5vVHu8xcInmu01xntdUc9vD75uRdg6hXHyzSMU651EArO0kqwatw==
-X-Received: by 2002:a6b:8bc6:: with SMTP id
-	n189mr13641296iod.234.1545150694552; 
-	Tue, 18 Dec 2018 08:31:34 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	k2sm1647683itk.35.2018.12.18.08.31.33
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 18 Dec 2018 08:31:33 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <7a7dc3aa64c82995b4ebfd476b205affee988eb6.camel@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org,
-	bitbake-devel@lists.openembedded.org
-Date: Tue, 18 Dec 2018 10:31:33 -0600
-In-Reply-To: <2d3ed923953d6bd5747e2ddd510872c4f773c32f.camel@linuxfoundation.org>
-References: <20181204034245.25461-1-JPEWhacker@gmail.com>
-	<20181218153101.9212-1-JPEWhacker@gmail.com>
-	<20181218153101.9212-8-JPEWhacker@gmail.com>
-	<2d3ed923953d6bd5747e2ddd510872c4f773c32f.camel@linuxfoundation.org>
-User-Agent: Evolution 3.30.2 (3.30.2-2.fc29) 
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 07/10] bitbake: runqueue: Pass unique hash to hash validate
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 56D756C135;
+	Tue, 18 Dec 2018 17:03:16 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 18 Dec 2018 17:03:17 -0000
+Message-ID: <20181218170317.2330.98898@do>
+References: <20181218163005.1330-1-alex.kanavin@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181218163005.1330-1-alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJ0cmZzLXRvb2xzOiB1cGRhdGUgdG8gNC4xOS4xLi4uIiBhbmQgMTIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,78 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 16:31:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Dec 2018 17:03:16 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-12-18 at 16:24 +0000, Richard Purdie wrote:
-> On Tue, 2018-12-18 at 09:30 -0600, Joshua Watt wrote:
-> > If the unique hash is being used to track task dependencies, the
-> > hash
-> > validation function needs to know about it in order to properly
-> > validate
-> > the hash.
-> > 
-> > [YOCTO #13030]
-> > 
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  bitbake/lib/bb/runqueue.py | 38 +++++++++++++++++++++++++++-------
-> > ----
-> >  1 file changed, 27 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/bitbake/lib/bb/runqueue.py
-> > b/bitbake/lib/bb/runqueue.py
-> > index de57dcb37b8..161f53c7cb1 100644
-> > --- a/bitbake/lib/bb/runqueue.py
-> > +++ b/bitbake/lib/bb/runqueue.py
-> > @@ -1378,6 +1378,23 @@ class RunQueue:
-> >              cache[tid] = iscurrent
-> >          return iscurrent
-> >  
-> > +    def validate_hash(self, *, sq_fn, sq_task, sq_hash, sq_hashfn,
-> > siginfo, sq_unihash, d):
-> > +        locs = {"sq_fn" : sq_fn, "sq_task" : sq_task, "sq_hash" :
-> > sq_hash, "sq_hashfn" : sq_hashfn,
-> > +                "sq_unihash" : sq_unihash, "siginfo" : siginfo,
-> > "d" : d}
-> > +
-> > +        for hashvalidate_args in ("(sq_fn, sq_task, sq_hash,
-> > sq_hashfn, d, siginfo=siginfo, sq_unihash=sq_unihash)",
-> > +                                  "(sq_fn, sq_task, sq_hash,
-> > sq_hashfn, d, siginfo=siginfo)"):
-> > +            try:
-> > +                call = self.hashvalidate + hashvalidate_args
-> > +                return bb.utils.better_eval(call, locs)
-> > +            except TypeError:
-> > +                continue
-> > +
-> > +        # If none of the hash validate functions worked, try one
-> > more time
-> > +        # with the oldest type
-> > +        call = self.hashvalidate + "(sq_fn, sq_task, sq_hash,
-> > sq_hashfn, sq_unihash, d)"
-> > +        return bb.utils.better_eval(call, locs)
-> 
-> I think sq_unihash shouldn't be in this last fallback option. You
-> copy
-> and pasted from your updated code rather than the original (pre
-> unihash?) You could add (sq_fn, sq_task, sq_hash, sq_hashfn) to the
-> args list?
+== Series Details ==
 
-Oops, yep I'll fix that. 
+Series: "btrfs-tools: update to 4.19.1..." and 12 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15402/
+State : failure
 
-The reason I did it like this to make it not suppress the final
-TypeError if the last try failed.... I wasn't sure if there was some
-other error I should raise instead if we exit the loop when they all
-fail?
+== Summary ==
 
-> 
-> Cheers,
-> 
-> Richard
-> 
--- 
-Joshua Watt <JPEWhacker@gmail.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 14c291e1fb)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
