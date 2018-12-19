@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 488DD7BF4F
+	by mail.openembedded.org (Postfix) with ESMTP id D87F97BF4F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Dec 2018 07:29:31 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Dec 2018 23:29:32 -0800
+	18 Dec 2018 23:29:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,371,1539673200"; d="scan'208";a="119597354"
+X-IronPort-AV: E=Sophos;i="5.56,371,1539673200"; d="scan'208";a="119597355"
 Received: from anmitta2-mobl1.png.intel.com (HELO
 	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.206])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2018 23:29:31 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2018 23:29:32 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Dec 2018 15:29:21 +0800
-Message-Id: <20181219072929.5870-1-anuj.mittal@intel.com>
+Date: Wed, 19 Dec 2018 15:29:22 +0800
+Message-Id: <20181219072929.5870-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/9] eudev: upgrade 3.2.5 -> 3.2.7
+In-Reply-To: <20181219072929.5870-1-anuj.mittal@intel.com>
+References: <20181219072929.5870-1-anuj.mittal@intel.com>
+Subject: [PATCH 2/9] gsettings-desktop-schemas: upgrade 3.28.0 -> 3.28.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2018 07:29:31 -0000
+X-List-Received-Date: Wed, 19 Dec 2018 07:29:32 -0000
 
-For changes, see:
+Changes from release notes:
 
-https://github.com/gentoo/eudev/compare/v3.2.5...v3.2.7
+- Set default background image for screen lock to an existing one
+- Translation updates
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/udev/{eudev_3.2.5.bb => eudev_3.2.7.bb} | 4 ++--
+ ...-schemas_3.28.0.bb => gsettings-desktop-schemas_3.28.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/udev/{eudev_3.2.5.bb => eudev_3.2.7.bb} (95%)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.28.0.bb => gsettings-desktop-schemas_3.28.1.bb} (70%)
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.7.bb
-similarity index 95%
-rename from meta/recipes-core/udev/eudev_3.2.5.bb
-rename to meta/recipes-core/udev/eudev_3.2.7.bb
-index 592dd8f22a..1bea4ebd9f 100644
---- a/meta/recipes-core/udev/eudev_3.2.5.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.7.bb
-@@ -20,8 +20,8 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
-            file://udev.rules \
- "
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
+similarity index 70%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
+index c2b3cd8955..693c109d83 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
+@@ -9,5 +9,5 @@ DEPENDS = "glib-2.0 intltool-native"
  
--SRC_URI[md5sum] = "6ca08c0e14380f87df8e8aceac123671"
--SRC_URI[sha256sum] = "49c2d04105cad2526302627e040fa24b1916a9a3e059539bc8bb919b973890af"
-+SRC_URI[md5sum] = "c75d99910c1791dd9430d26ab76059c0"
-+SRC_URI[sha256sum] = "3004614bd253c1f98558460215027aaf60d7592c70be27fd384ec01db87bf062"
+ inherit gnomebase gsettings gettext gobject-introspection upstream-version-is-even
  
- inherit autotools update-rc.d qemu pkgconfig distro_features_check
- 
+-SRC_URI[archive.md5sum] = "370610e29b37d063ede3ef0f29c06eb9"
+-SRC_URI[archive.sha256sum] = "4cb4cd7790b77e5542ec75275237613ad22f3a1f2f41903a298cf6cc996a9167"
++SRC_URI[archive.md5sum] = "83bb19d025f126fae495ab43a2f26f40"
++SRC_URI[archive.sha256sum] = "f88ea6849ffe897c51cfeca5e45c3890010c82c58be2aee18b01349648e5502f"
 -- 
 2.17.1
 
