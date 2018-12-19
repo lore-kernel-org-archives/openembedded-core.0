@@ -1,47 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 152C06B519
+Return-Path: <bradleyb@fuzziesquirrel.com>
+X-Greylist: delayed 531 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Dec 2018 00:42:15 UTC
+Received: from bajor.fuzziesquirrel.com (mail.fuzziesquirrel.com
+	[173.167.31.197])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7896BE2B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 23:44:22 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id p197so6830303itp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2018 15:44:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=mbPxLfvrYPyMvegoVorlSogp1Ds4jOJpjom5X6+RW8s=;
-	b=BC7v+8/9WjkDDLlZfSJlNZMGe8/MkexMytj4RDaqqxUj9rhhne7Hta5VLToYprVxYz
-	NKp97TYKLix+UeYHAjTT/d1HaQoBQmcmrbDv64fyPyU+HbFNOEMI3fPHn57BbP6nQ8Mc
-	5E6esOIG+Wvu9JvJpj+DFCS+iCQllJiAli62bM1f4TZVhlPmbdcH93uKcAfe8Kx41qom
-	7cUOAohkHSurkymA0e0XTBgpLy18XbCqLb/JFMV0+kGowGlWIPHNcgqjD7y77yPimxr7
-	NjIESPXgOaaUUpbnGmJpXYHFw0R+jHwfSwDdIkbaDjELNIlgh+UgIl/r8C+CTxcUMA4e
-	5A6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=mbPxLfvrYPyMvegoVorlSogp1Ds4jOJpjom5X6+RW8s=;
-	b=KPegYjkG2A5ZpcKTAAsA77iVSsfegoUmay6a0DZHRqdKvyTUJI2H9JoZZOhqqWk7Wi
-	Ktkkdt4HKDqcnwVfYLeDrU58M3ykZ8rrsKHLNXvPrgwAUznLItXR2UWUZfC/7xKWgSa7
-	xn1CRpdTQTNk95WOyexhleLFY1DKq0OHYzYbgtyLmY97zqtj0lecx1CUtxd741KLXyWn
-	tHlhMl87UMfOij4wwvEBk8H67I4r5iocsC4gV+ToOeUO/lqC9+s5e9rEenU+oPHGMcSN
-	fKD2Q4+OfwrhTkQdQNl+0cXNLwJWI7jFv119ii5fV8nNnH3sEl+BnThLW+MMQfCYQURt
-	WXEg==
-X-Gm-Message-State: AA+aEWYZrSNo59pgf+XPxzHUvfGNP5s2mlPr2yWk143ZsPxQIoAHXDfC
-	iEqvckAG+LikCk9/AEueVeDR994579K5RmgZMVUF5+/lEEw=
-X-Google-Smtp-Source: AFSGD/WPDY3COx9c1OnYy9XpfD11Bv40m4nU2YjseNfPnnit8YY0kbJHsqnQIJGhZQjQ9t/xLVm/fUZxszSfJo4ZstE=
-X-Received: by 2002:a02:57c4:: with SMTP id b65mr17927933jad.79.1545176664116; 
-	Tue, 18 Dec 2018 15:44:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20181218232911.10855-1-richard@nod.at>
-In-Reply-To: <20181218232911.10855-1-richard@nod.at>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Dec 2018 23:43:55 +0000
-Message-ID: <CAJTo0LagVp00--ZNk4vj3_o6HnVJ=2BGS-vycEcb8HeNjn3vMQ@mail.gmail.com>
-To: richard@nod.at
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sdk: Fix SDKIMAGE_LINGUAS handling
+	Wed, 19 Dec 2018 00:42:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at fuzziesquirrel.com
+Received: from [192.168.253.30] (unknown [192.168.253.30])
+	by bajor.fuzziesquirrel.com (Postfix) with ESMTPSA id 6D53A6DC86;
+	Tue, 18 Dec 2018 19:33:23 -0500 (EST)
+Mime-Version: 1.0 (Mac OS X Mail 12.1 \(3445.101.1\))
+From: Brad Bishop <bradleyb@fuzziesquirrel.com>
+In-Reply-To: <e0464c53-3d11-884c-75bd-1e78aed97ded@linux.intel.com>
+Date: Tue, 18 Dec 2018 19:33:23 -0500
+Message-Id: <E4F39B19-40EF-4774-B2B3-6C37A2CB98DC@fuzziesquirrel.com>
+References: <e0464c53-3d11-884c-75bd-1e78aed97ded@linux.intel.com>
+To: James Feist <james.feist@linux.intel.com>
+X-Mailer: Apple Mail (2.3445.101.1)
+Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: flto automake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,18 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2018 23:44:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Dec 2018 00:42:16 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 18 Dec 2018 at 23:38, Richard Weinberger <richard@nod.at> wrote:
->                  for lang in linguas.split():
-> -                    pm.install("nativesdk-glibc-binary-localedata-%s.utf-8" % lang)
-> +                    pm.install(["nativesdk-glibc-binary-localedata-%s.utf-8" % lang])
 
-Or something like
-pm.install(("nativesdk-glibc-binary-localedata-%s.utf-8" % lang for
-lang in linguas.split()))? Should be faster as we invoke the package
-manager once.
 
-Ross
+> On Dec 18, 2018, at 1:08 PM, James Feist <james.feist@linux.intel.com> =
+wrote:
+>=20
+> If you aren't planning on enabling flto in a repo you can ignore this =
+email.
+>=20
+>=20
+> I've created a new class flto-automake =
+https://github.com/openbmc/meta-phosphor/blob/master/classes/flto-automake=
+.bbclass if you are enabling -flto in an autotools project you might be =
+interested in. When using static libraries you may run into undefined =
+references when building with Yocto. Yocto by default uses:
+>=20
+> export AR =3D "${HOST_PREFIX}ar"
+> export RANLIB =3D "${HOST_PREFIX}ranlib"
+>=20
+> for AR and RANLIB. This new class replaces these with the gcc =
+equivalent wrappers that can work with the flto object files. This =
+doesn't seem to be an issue for the CI build, it only shows up for Yocto =
+builds. Reference: =
+http://stackoverflow.com/questions/25878407/how-can-i-use-lto-with-static-=
+libraries#comment67660913_25878408
+>=20
+> For Cmake I suggest looking at the way bmcweb handles it in =
+CMakesLists:
+> https://github.com/openbmc/bmcweb/blob/master/CMakeLists.txt#L92
+>=20
+> Thanks,
+>=20
+> James
+
+Thanks James
+
+I wonder if this is something they would be interested in upstream.  =
+I=E2=80=99ve copied
+the oe-core mailing list for possible comment.
+
+-brad=
 
