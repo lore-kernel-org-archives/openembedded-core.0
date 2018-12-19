@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B61E79E24;
-	Wed, 19 Dec 2018 03:33:13 +0000 (UTC)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 369077BF7B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Dec 2018 06:33:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBJ6XYNO017462
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2018 22:33:44 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 18 Dec 2018 22:33:23 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Dec 2018 14:51:09 +0800
+Message-ID: <cover.1545202218.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 19 Dec 2018 03:33:15 -0000
-Message-ID: <20181219033315.2331.29028@do>
-References: <20181218153101.9212-1-JPEWhacker@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181218153101.9212-1-JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSGFzaCBFcXVpdmFsZW5jeSBTZXJ2ZXIgKHJldjMp?=
+Subject: [PATCH 0/1] cmake-native: Set --parallel for configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2018 03:33:13 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Dec 2018 06:33:54 -0000
+Content-Type: text/plain
 
-== Series Details ==
+The following changes since commit 14c291e1fb6324da46885b69fbd7f01b3c6b053e:
 
-Series: Hash Equivalency Server (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/15190/
-State : failure
+  gcc-runtime: Add missing libc dependency (2018-12-18 16:19:30 +0000)
 
-== Summary ==
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib rbt/cmake
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/cmake
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Robert Yang (1):
+  cmake-native: Set --parallel for configure
 
+ meta/recipes-devtools/cmake/cmake-native_3.12.2.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
-  Patch's path:    bitbake/bin/bitbake-selftest
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 14c291e1fb)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.7.4
 
 
