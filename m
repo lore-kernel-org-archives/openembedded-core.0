@@ -1,38 +1,24 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DE0747BF78
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 488DD7BF4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 07:12:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,371,1539619200"; d="scan'208";a="50130364"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Dec 2018 15:12:02 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id C1D164B75BDC
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 15:12:01 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0415.000; Wed, 19 Dec 2018 15:12:08 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][thud][PATCH v2] createrepo-c: Fix setup of logging
-	(log domains)
-Thread-Index: AQHUkPUaEEBiVzPAqUmU2jaVuIoTwaWFsdzg
-Date: Wed, 19 Dec 2018 07:12:06 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BBD245@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1544525848-72525-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1544525848-72525-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: C1D164B75BDC.A9A12
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [thud][PATCH v2] createrepo-c: Fix setup of logging (log domains)
+	Wed, 19 Dec 2018 07:29:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Dec 2018 23:29:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,371,1539673200"; d="scan'208";a="119597354"
+Received: from anmitta2-mobl1.png.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.206])
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2018 23:29:31 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Dec 2018 15:29:21 +0800
+Message-Id: <20181219072929.5870-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/9] eudev: upgrade 3.2.5 -> 3.2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,135 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2018 07:12:04 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 19 Dec 2018 07:29:31 -0000
 
-UGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Q0KPiBTZW50OiBUdWVz
-ZGF5LCBEZWNlbWJlciAxMSwgMjAxOCA2OjU3IFBNDQo+IFRvOiBvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBaaGVu
-ZywgUnVvcWluL9ajIMj0x9UgPHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNv
-bT4NCj4gU3ViamVjdDogW09FLWNvcmVdW3RodWRdW1BBVENIIHYyXSBjcmVh
-dGVyZXBvLWM6IEZpeCBzZXR1cCBvZiBsb2dnaW5nIChsb2cNCj4gZG9tYWlu
-cykNCj4gDQo+IE5ldyBkZWJ1ZyBtZXNzYWdlcyB3ZXJlIGFkZGVkIGludG8g
-R0xpYiBsaWJyYXJ5LiBUaGVzZSBtZXNzYWdlcyBjb21lIGZyb20NCj4gdGhl
-ICJHTGliIiBsb2cgZG9tYWluIGFuZCB3ZXJlIG5vdCBoaWRkZW4gaW4gdGhl
-IHN0YW5kYXJkIGFuZCBxdWlldCBtb2RlIG9mDQo+IHRoZSBhcHBsaWNhdGlv
-bi4NCj4gVGhpcyBmaXggaGlkZXMgbG9nIG1lc3NhZ2VzIHJlZ2FyZGxlc3Mg
-b24gc291cmNlIGxvZyBkb21haW4uDQo+IA0KPiBCYWNrcG9ydCBmcm9tIDgw
-ODEwZjA0ZjJkZTZiYWU2ZTM5NGY1MmFkOWNkZDIxODk4NjJmNzQuDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5zdEBj
-bi5mdWppdHN1LmNvbT4NCj4gLS0tDQo+ICAuLi5ldHVwLW9mLWxvZ2dpbmct
-bG9nLWRvbWFpbnMtUmhCdWctMTY0NTg5Ny5wYXRjaCB8IDczDQo+ICsrKysr
-KysrKysrKysrKysrKysrKysNCj4gIC4uLi9jcmVhdGVyZXBvLWMvY3JlYXRl
-cmVwby1jX2dpdC5iYiAgICAgICAgICAgICAgIHwgIDEgKw0KPiAgMiBmaWxl
-cyBjaGFuZ2VkLCA3NCBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAx
-MDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVh
-dGVyZXBvLWMvMDAwMS0NCj4gRml4LXNldHVwLW9mLWxvZ2dpbmctbG9nLWRv
-bWFpbnMtUmhCdWctMTY0NTg5Ny5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVw
-by1jLzAwMDEtRml4LXNldHVwLW9mLQ0KPiBsb2dnaW5nLWxvZy1kb21haW5z
-LVJoQnVnLTE2NDU4OTcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y3JlYXRlcmVwby0NCj4gYy9jcmVhdGVyZXBvLWMvMDAwMS1GaXgtc2V0dXAt
-b2YtbG9nZ2luZy1sb2ctZG9tYWlucy1SaEJ1Zy0xNjQ1ODk3LnBhdGNoDQo+
-IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAuLjZkZTlj
-MDUNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLUZpeC1zZXR1
-cC1vZi0NCj4gKysrIGxvZ2dpbmctbG9nLWRvbWFpbnMtUmhCdWctMTY0NTg5
-Ny5wYXRjaA0KPiBAQCAtMCwwICsxLDczIEBADQo+ICtGcm9tIDgwODEwZjA0
-ZjJkZTZiYWU2ZTM5NGY1MmFkOWNkZDIxODk4NjJmNzQgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxDQo+ICtGcm9tOiBKYXJvc2xhdiBSb2hlbCA8anJvaGVs
-QHJlZGhhdC5jb20+DQo+ICtEYXRlOiBGcmksIDkgTm92IDIwMTggMDc6MzU6
-MTMgKzAxMDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gRml4IHNldHVwIG9mIGxv
-Z2dpbmcgKGxvZyBkb21haW5zKSAoUmhCdWc6MTY0NTg5NykNCj4gKw0KPiAr
-TmV3IGRlYnVnIG1lc3NhZ2VzIHdlcmUgYWRkZWQgaW50byBHTGliIGxpYnJh
-cnkuIFRoZXNlIG1lc3NhZ2VzIGNvbWUNCj4gK2Zyb20gdGhlICJHTGliIiBs
-b2cgZG9tYWluIGFuZCB3ZXJlIG5vdCBoaWRkZW4gaW4gdGhlIHN0YW5kYXJk
-IGFuZA0KPiArcXVpZXQgbW9kZSBvZiB0aGUgYXBwbGljYXRpb24uDQo+ICtU
-aGlzIGZpeCBoaWRlcyBsb2cgbWVzc2FnZXMgcmVnYXJkbGVzcyBvbiBzb3Vy
-Y2UgbG9nIGRvbWFpbi4NCj4gKw0KPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNr
-cG9ydA0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9xaW4gPHpo
-ZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NCj4gKy0tLQ0KPiArIHNyYy9j
-cmVhdGVyZXBvX3NoYXJlZC5jIHwgMTkgKysrKysrLS0tLS0tLS0tLS0tLQ0K
-PiArIHNyYy9taXNjLmMgICAgICAgICAgICAgIHwgIDUgKysrKy0NCj4gKyAy
-IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9u
-cygtKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvc3JjL2NyZWF0ZXJlcG9fc2hh
-cmVkLmMgYi9zcmMvY3JlYXRlcmVwb19zaGFyZWQuYyBpbmRleA0KPiArOGEy
-Njc4Ny4uN2NiOGJhOCAxMDA2NDQNCj4gKy0tLSBhL3NyYy9jcmVhdGVyZXBv
-X3NoYXJlZC5jDQo+ICsrKysgYi9zcmMvY3JlYXRlcmVwb19zaGFyZWQuYw0K
-PiArQEAgLTI3MCwyNCArMjcwLDE3IEBAIGNyX2xvY2tfcmVwbyhjb25zdCBn
-Y2hhciAqcmVwb19kaXIsICB2b2lkDQo+ICtjcl9zZXR1cF9sb2dnaW5nKGdi
-b29sZWFuIHF1aWV0LCBnYm9vbGVhbiB2ZXJib3NlKSAgew0KPiArLSAgICBn
-X2xvZ19zZXRfZGVmYXVsdF9oYW5kbGVyIChjcl9sb2dfZm4sIE5VTEwpOw0K
-PiArLQ0KPiArICAgICBpZiAocXVpZXQpIHsNCj4gKyAgICAgICAgIC8vIFF1
-aWV0IG1vZGUNCj4gKy0gICAgICAgIEdMb2dMZXZlbEZsYWdzIGxldmVscyA9
-IEdfTE9HX0xFVkVMX01FU1NBR0UgfCBHX0xPR19MRVZFTF9JTkZPIHwNCj4g
-Ky0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEdfTE9HX0xFVkVM
-X0RFQlVHIHwgR19MT0dfTEVWRUxfV0FSTklORzsNCj4gKy0gICAgICAgIGdf
-bG9nX3NldF9oYW5kbGVyKE5VTEwsIGxldmVscywgY3JfbnVsbF9sb2dfZm4s
-IE5VTEwpOw0KPiArLSAgICAgICAgZ19sb2dfc2V0X2hhbmRsZXIoIkNfQ1JF
-QVRFUkVQT0xJQiIsIGxldmVscywgY3JfbnVsbF9sb2dfZm4sIE5VTEwpOw0K
-PiArKyAgICAgICAgR0xvZ0xldmVsRmxhZ3MgaGlkZGVuX2xldmVscyA9IEdf
-TE9HX0xFVkVMX01FU1NBR0UgfA0KPiBHX0xPR19MRVZFTF9JTkZPIHwNCj4g
-KysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHX0xP
-R19MRVZFTF9ERUJVRyB8IEdfTE9HX0xFVkVMX1dBUk5JTkc7DQo+ICsrICAg
-ICAgICBnX2xvZ19zZXRfZGVmYXVsdF9oYW5kbGVyIChjcl9sb2dfZm4sDQo+
-ICsrIEdJTlRfVE9fUE9JTlRFUihoaWRkZW5fbGV2ZWxzKSk7DQo+ICsgICAg
-IH0gZWxzZSBpZiAodmVyYm9zZSkgew0KPiArICAgICAgICAgLy8gVmVyYm9z
-ZSBtb2RlDQo+ICstICAgICAgICBHTG9nTGV2ZWxGbGFncyBsZXZlbHMgPSBH
-X0xPR19MRVZFTF9NRVNTQUdFIHwgR19MT0dfTEVWRUxfSU5GTyB8DQo+ICst
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHX0xPR19MRVZFTF9E
-RUJVRyB8IEdfTE9HX0xFVkVMX1dBUk5JTkc7DQo+ICstICAgICAgICBnX2xv
-Z19zZXRfaGFuZGxlcihOVUxMLCBsZXZlbHMsIGNyX2xvZ19mbiwgTlVMTCk7
-DQo+ICstICAgICAgICBnX2xvZ19zZXRfaGFuZGxlcigiQ19DUkVBVEVSRVBP
-TElCIiwgbGV2ZWxzLCBjcl9sb2dfZm4sIE5VTEwpOw0KPiArKyAgICAgICAg
-Z19sb2dfc2V0X2RlZmF1bHRfaGFuZGxlciAoY3JfbG9nX2ZuLCBHSU5UX1RP
-X1BPSU5URVIoMCkpOw0KPiArICAgICB9IGVsc2Ugew0KPiArICAgICAgICAg
-Ly8gU3RhbmRhcmQgbW9kZQ0KPiArLSAgICAgICAgR0xvZ0xldmVsRmxhZ3Mg
-bGV2ZWxzID0gR19MT0dfTEVWRUxfREVCVUc7DQo+ICstICAgICAgICBnX2xv
-Z19zZXRfaGFuZGxlcihOVUxMLCBsZXZlbHMsIGNyX251bGxfbG9nX2ZuLCBO
-VUxMKTsNCj4gKy0gICAgICAgIGdfbG9nX3NldF9oYW5kbGVyKCJDX0NSRUFU
-RVJFUE9MSUIiLCBsZXZlbHMsIGNyX251bGxfbG9nX2ZuLCBOVUxMKTsNCj4g
-KysgICAgICAgIEdMb2dMZXZlbEZsYWdzIGhpZGRlbl9sZXZlbHMgPSBHX0xP
-R19MRVZFTF9ERUJVRzsNCj4gKysgICAgICAgIGdfbG9nX3NldF9kZWZhdWx0
-X2hhbmRsZXIgKGNyX2xvZ19mbiwNCj4gKysgR0lOVF9UT19QT0lOVEVSKGhp
-ZGRlbl9sZXZlbHMpKTsNCj4gKyAgICAgfQ0KPiArIH0NCj4gK2RpZmYgLS1n
-aXQgYS9zcmMvbWlzYy5jIGIvc3JjL21pc2MuYw0KPiAraW5kZXggOTkzNzQ4
-MC4uOTU0OWE0NCAxMDA2NDQNCj4gKy0tLSBhL3NyYy9taXNjLmMNCj4gKysr
-KyBiL3NyYy9taXNjLmMNCj4gK0BAIC05MTIsOCArOTEyLDExIEBAIHZvaWQN
-Cj4gKyBjcl9sb2dfZm4oY29uc3QgZ2NoYXIgKmxvZ19kb21haW4sDQo+ICsg
-ICAgICAgICAgIEdMb2dMZXZlbEZsYWdzIGxvZ19sZXZlbCwNCj4gKyAgICAg
-ICAgICAgY29uc3QgZ2NoYXIgKm1lc3NhZ2UsDQo+ICstICAgICAgICAgIEdf
-R05VQ19VTlVTRUQgZ3BvaW50ZXIgdXNlcl9kYXRhKQ0KPiArKyAgICAgICAg
-ICBncG9pbnRlciB1c2VyX2RhdGEpDQo+ICsgew0KPiArKyAgICBnaW50IGhp
-ZGRlbl9sb2dfbGV2ZWxzID0gR1BPSU5URVJfVE9fSU5UKHVzZXJfZGF0YSk7
-DQo+ICsrICAgIGlmIChsb2dfbGV2ZWwgJiBoaWRkZW5fbG9nX2xldmVscykN
-Cj4gKysgICAgICAgIHJldHVybjsNCj4gKyAgICAgc3dpdGNoKGxvZ19sZXZl
-bCkgew0KPiArICAgICAgICAgY2FzZSBHX0xPR19MRVZFTF9FUlJPUjoNCj4g
-KyAgICAgICAgICAgICBpZiAobG9nX2RvbWFpbikgZ19wcmludGVycigiJXM6
-ICIsIGxvZ19kb21haW4pOw0KPiArLS0NCj4gKzEuOC4zLjENCj4gKw0KPiBk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8t
-Yy9jcmVhdGVyZXBvLWNfZ2l0LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfZ2l0LmJiDQo+IGluZGV4
-IDI5NjA4MTEuLjA4NzY2YjMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jX2dpdC5iYg0K
-PiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2Ny
-ZWF0ZXJlcG8tY19naXQuYmINCj4gQEAgLTcsNiArNyw3IEBAIExJQ19GSUxF
-U19DSEtTVU0gPQ0KPiAiZmlsZTovL0NPUFlJTkc7bWQ1PWIyMzRlZTRkNjlm
-NWZjZTQ0ODZhODBmZGFmNGE0MjYzIg0KPiAgU1JDX1VSSSA9ICJnaXQ6Ly9n
-aXRodWIuY29tL3JwbS1zb2Z0d2FyZS1tYW5hZ2VtZW50L2NyZWF0ZXJlcG9f
-YyBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURvLW5vdC1zZXQtUFlU
-SE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoIFwNCj4g
-ICAgICAgICAgICAgZmlsZTovLzAwMDEtQ29ycmVjdGx5LWluc3RhbGwtdGhl
-LXNoYXJlZC1saWJyYXJ5LnBhdGNoIFwNCj4gKw0KPiArIGZpbGU6Ly8wMDAx
-LUZpeC1zZXR1cC1vZi1sb2dnaW5nLWxvZy1kb21haW5zLVJoQnVnLTE2NDU4
-OTcucGF0Y2ggXA0KPiAgICAgICAgICAgICAiDQo+IA0KPiAgUFYgPSAiMC4x
-MS4xK2dpdCR7U1JDUFZ9Ig0KPiAtLQ0KPiAyLjcuNA0KDQoKCg==
+For changes, see:
+
+https://github.com/gentoo/eudev/compare/v3.2.5...v3.2.7
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-core/udev/{eudev_3.2.5.bb => eudev_3.2.7.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/udev/{eudev_3.2.5.bb => eudev_3.2.7.bb} (95%)
+
+diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.7.bb
+similarity index 95%
+rename from meta/recipes-core/udev/eudev_3.2.5.bb
+rename to meta/recipes-core/udev/eudev_3.2.7.bb
+index 592dd8f22a..1bea4ebd9f 100644
+--- a/meta/recipes-core/udev/eudev_3.2.5.bb
++++ b/meta/recipes-core/udev/eudev_3.2.7.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+            file://udev.rules \
+ "
+ 
+-SRC_URI[md5sum] = "6ca08c0e14380f87df8e8aceac123671"
+-SRC_URI[sha256sum] = "49c2d04105cad2526302627e040fa24b1916a9a3e059539bc8bb919b973890af"
++SRC_URI[md5sum] = "c75d99910c1791dd9430d26ab76059c0"
++SRC_URI[sha256sum] = "3004614bd253c1f98558460215027aaf60d7592c70be27fd384ec01db87bf062"
+ 
+ inherit autotools update-rc.d qemu pkgconfig distro_features_check
+ 
+-- 
+2.17.1
+
 
