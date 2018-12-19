@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8541460272
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2397179F1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 18:25:08 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id y126so10208845pfb.4
+	Wed, 19 Dec 2018 20:23:23 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id w4so9974136plz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 10:25:10 -0800 (PST)
+	Wed, 19 Dec 2018 12:23:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=S2vMdmkt004WQxMPh66wPfsIhwdNYukeIPJvxbMEFvQ=;
-	b=aPudHS3wOF0d5CnxIHcgn5zQQfLzDY5GHS1+MW3S+7TUxEyfsUD40W70d2blNetj3j
-	V/9CQly9HtdwVt5g7IlVxIHiSlRTROoWUT/rF0QR4OWK58now0nqe2kYXlrGPk4Bd6yQ
-	08OQfmHOehpBTHqN2ghVWhC8d0402LgjE2DA4AEeNR6MjYfN6gaD0ALsUPYFOm5qm82l
-	naVINiwIrcOSOOEXCZ/+6+a70L2MSRKlMr/gqhGJEZfBaMJscKGHVvOM5LfZDpzz7rJV
-	UzoALaH4WMPs33ZhyyXERWQhN7tsu7dopz2KQ5ExBbEdSXEDQQ5tUVyq666k0JnOgJGm
-	fYUg==
+	bh=S/3LOYw0uFZPknpYTq1dVytRXOzwFFi5ptE78cX2g84=;
+	b=osRVwWdYIlWTcvUkPxLB4+8pXbKhm9puVBujMGdPluBVWGQPBOdBk8Mn1ScH8aLfN2
+	Zgytb/xNCKr5WBXlWQt8yqFjVB1+uSi8k3aZGRYbY8LEePZ6SyTNFpAiuUB8pbPd+nHv
+	jGnKl4SkrTocDZnbC3Oro1LmUIR++XndYHdB5qRgEoBCqRoZ3emrZQdUX7wvgImPmfnF
+	p5H0IZmanqogktW6Nhb8mmLVnqisHNZsFd0KuCXAQmIJ0vw3vQ1GsD2k/XgR9Aisbn/t
+	D6X4i9+PxSJrehHVxfbyzrby7vrNjuR3X3jyPcm1obKOcbxybtbpgH7VasjuBUu+B+VQ
+	phBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=S2vMdmkt004WQxMPh66wPfsIhwdNYukeIPJvxbMEFvQ=;
-	b=fp2DGz5Ct+XlRH0SNX+ZRD6rgQAIo4ZN7gwgNJZvWrm46a9iHm+PZl2IgI1xSwNW7b
-	uaZwVTlR4fMA7ychKIT5RFWv+TKBoDI+WxiYmWlnk3pa8RJVAON0uFWtaqwpkZH1j6H6
-	+N7alxzYrqHra9ovq7uhYuOSm0pHjBe9RBpfM3AHa4Fl2/+QoaBt9Tg70RKPDj45+7UC
-	OLFqgaJkw+mMCCDRK+chrZx8lRcHmqVLdq6iPJ39AVI+4cKu6B2JpyECBN7wufYZJP80
-	2QW+o75Yx+CoTYUCZIY51lETACR0Nhicfwl5e39EHvWLChi2692EfRh3xlSE7gSYCtkW
-	DzIw==
-X-Gm-Message-State: AA+aEWbVHrFjfZw2c3N+NRC+PXDad80UJ91wS/1cIRteyAVOaoKob4OG
-	FO+rVMQ6PqbTaJMT/3QiUA9sy743lbk=
-X-Google-Smtp-Source: AFSGD/U+nDBCF1SIm8X4+myx5jgrpLIORgHhvFQQjs6zGMSukfRIaHGn5+/IS6LwxfKIXpZI0T/SIg==
-X-Received: by 2002:a62:6e07:: with SMTP id j7mr22130849pfc.135.1545243909083; 
-	Wed, 19 Dec 2018 10:25:09 -0800 (PST)
+	bh=S/3LOYw0uFZPknpYTq1dVytRXOzwFFi5ptE78cX2g84=;
+	b=dCc2pg6ijWLUlWBst7WQCx7a8OQ4BT8antZ6a2RG1Mu0f8O9egnJFkv3OCjOMbcDjg
+	A9N4Ult1h9GExuFsrWW5LfhBRllaVYEpHquXtsPCLRYaoJPQc/TFgE7apIUF7oBlOd4j
+	i8wmbAqUAV/hvbjhg/9u/8Lz+V35tqUWPSDJpM7I2yCvP1eSF2erxrQy445t08AEJ2cP
+	ohOGxk9jStYzl+OC1lR3Cf84V1emBsP2DF0KUTMdauZ8kDvqNpEvhJZjKHXwbnVQyi1M
+	iyn6GCbAKsSDhvjNQAOZOySICc/S1USCBaDP4uFaN/BtkNjtRki3LcHLOU6Be+pEd/me
+	bHyw==
+X-Gm-Message-State: AA+aEWbTI5g47Kuxn4P1lFSDOkBpOd+QWOII0XSfUQC6tUytUdt9ssTN
+	XHoxVELVudU2Quv2yvC4KVT2Y3QQBEs=
+X-Google-Smtp-Source: AFSGD/Xs+vJ3csNK22kJnJZB0fEtJ5ZdxhlnJpFCGd5VZrhiSWNx2i6ga0lelywSFh/9nSNtLXer7Q==
+X-Received: by 2002:a17:902:6b83:: with SMTP id
+	p3mr21482942plk.118.1545251003630; 
+	Wed, 19 Dec 2018 12:23:23 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:877f:9499::19ec])
 	by smtp.gmail.com with ESMTPSA id
-	r8sm23034004pgr.48.2018.12.19.10.25.08
+	y184sm24720451pgd.71.2018.12.19.12.23.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Dec 2018 10:25:08 -0800 (PST)
+	Wed, 19 Dec 2018 12:23:22 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Dec 2018 10:25:01 -0800
-Message-Id: <20181219182501.12917-1-raj.khem@gmail.com>
+Date: Wed, 19 Dec 2018 12:23:14 -0800
+Message-Id: <20181219202314.15888-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] gcc-runtime: Drop building libmpx
+Subject: [PATCH] libxcrypt: Fix nativesdk build with gcc9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +58,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2018 18:25:08 -0000
+X-List-Received-Date: Wed, 19 Dec 2018 20:23:23 -0000
 Content-Transfer-Encoding: 8bit
-
-libmpx is not supported any longer and infact has been removed
-completely from gcc-9, see
-
-https://github.com/gcc-mirror/gcc/commit/1e42d5c637e1b1f65dfddd0923dfb25676bb56e5
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 29 -----------------------
- 1 file changed, 29 deletions(-)
+ meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 95153da20c..50ecc815a5 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -29,9 +29,6 @@ RUNTIMELIBSSP_mingw32 ?= "libssp"
- RUNTIMETARGET = "${RUNTIMELIBSSP} libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
-     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
- "
--RUNTIMETARGET_append_x86 = " libmpx"
--RUNTIMETARGET_append_x86-64 = " libmpx"
--RUNTIMETARGET_remove_libc-musl = "libmpx"
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
+index 5e5d7c077c..594203a59c 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.1.bb
+@@ -25,5 +25,6 @@ S = "${WORKDIR}/git"
  
- # libiberty
- # libmudflap
-@@ -160,18 +157,6 @@ PACKAGES = "\
-     libitm-dev \
-     libitm-staticdev \
- "
--PACKAGES_append_x86 = "\
--    libmpx \
--    libmpx-dev \
--    libmpx-staticdev \
--"
--
--PACKAGES_append_x86-64 = "\
--    libmpx \
--    libmpx-dev \
--    libmpx-staticdev \
--"
--
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
+ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE} -std=gnu99"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error=missing-attributes"
++CPPFLAGS_append_class-nativesdk = " -Wno-error=missing-attributes"
  
-@@ -274,17 +259,3 @@ FILES_libitm-dev = "\
- SUMMARY_libitm-dev = "GNU transactional memory support library - development files"
- FILES_libitm-staticdev = "${libdir}/libitm.a"
- SUMMARY_libitm-staticdev = "GNU transactional memory support library - static development files"
--
--
--FILES_libmpx = "${libdir}/libmpx.so.* ${libdir}/libmpxwrappers.so.*"
--SUMMARY_libmpx = "Intel Memory Protection Extension library"
--FILES_libmpx-dev = "\
--    ${libdir}/libmpxwrappers.so \
--    ${libdir}/libmpxwrappers.la \
--    ${libdir}/libmpx.so \
--    ${libdir}/libmpx.la \
--    ${libdir}/libmpx.spec \
--"
--SUMMARY_libmpx-dev = "Intel Memory Protection Extension library - development files"
--FILES_libmpx-staticdev = "${libdir}/libmpx.a ${libdir}/libmpxwrappers.a"
--SUMMARY_libmpx-staticdev = "Intel Memory Protection Extension library - static development files"
+ BBCLASSEXTEND = "nativesdk"
 -- 
 2.20.1
 
