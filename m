@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D87F97BF4F
+	by mail.openembedded.org (Postfix) with ESMTP id E18BF7BF28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 07:29:31 +0000 (UTC)
+	Wed, 19 Dec 2018 07:29:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Dec 2018 23:29:33 -0800
+	18 Dec 2018 23:29:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,371,1539673200"; d="scan'208";a="119597355"
+X-IronPort-AV: E=Sophos;i="5.56,371,1539673200"; d="scan'208";a="119597357"
 Received: from anmitta2-mobl1.png.intel.com (HELO
 	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.21.206])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2018 23:29:32 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2018 23:29:33 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Dec 2018 15:29:22 +0800
-Message-Id: <20181219072929.5870-2-anuj.mittal@intel.com>
+Date: Wed, 19 Dec 2018 15:29:23 +0800
+Message-Id: <20181219072929.5870-3-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181219072929.5870-1-anuj.mittal@intel.com>
 References: <20181219072929.5870-1-anuj.mittal@intel.com>
-Subject: [PATCH 2/9] gsettings-desktop-schemas: upgrade 3.28.0 -> 3.28.1
+Subject: [PATCH 3/9] libatomic-ops: upgrade 7.6.6 -> 7.6.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2018 07:29:32 -0000
+X-List-Received-Date: Wed, 19 Dec 2018 07:29:33 -0000
 
-Changes from release notes:
+For changes, see:
 
-- Set default background image for screen lock to an existing one
-- Translation updates
+https://github.com/ivmai/libatomic_ops/compare/v7.6.6...v7.6.8
+
+Also switch to using tarball release instead.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...-schemas_3.28.0.bb => gsettings-desktop-schemas_3.28.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.28.0.bb => gsettings-desktop-schemas_3.28.1.bb} (70%)
+ .../{libatomic-ops_7.6.6.bb => libatomic-ops_7.6.8.bb} | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.6.bb => libatomic-ops_7.6.8.bb} (61%)
 
-diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
-similarity index 70%
-rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb
-rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
-index c2b3cd8955..693c109d83 100644
---- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.0.bb
-+++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.28.1.bb
-@@ -9,5 +9,5 @@ DEPENDS = "glib-2.0 intltool-native"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.6.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
+similarity index 61%
+rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.6.6.bb
+rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
+index 32d26a34e9..b40e567142 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.6.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
+@@ -6,13 +6,13 @@ LICENSE = "GPLv2 & MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
+                     "
+-PV .= "+git${SRCPV}"
+-SRCBRANCH ?= "release-7_6"
  
- inherit gnomebase gsettings gettext gobject-introspection upstream-version-is-even
+-SRCREV = "76ffb3b87946e4c372d112d8d00786632deab934"
+-SRC_URI = "git://github.com/ivmai/libatomic_ops;branch=${SRCBRANCH}"
++SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
  
--SRC_URI[archive.md5sum] = "370610e29b37d063ede3ef0f29c06eb9"
--SRC_URI[archive.sha256sum] = "4cb4cd7790b77e5542ec75275237613ad22f3a1f2f41903a298cf6cc996a9167"
-+SRC_URI[archive.md5sum] = "83bb19d025f126fae495ab43a2f26f40"
-+SRC_URI[archive.sha256sum] = "f88ea6849ffe897c51cfeca5e45c3890010c82c58be2aee18b01349648e5502f"
+-S = "${WORKDIR}/git"
++SRC_URI[md5sum] = "99128f05e3e3f4e0cd39aa23f23bbe0c"
++SRC_URI[sha256sum] = "1d6a279edf81767e74d2ad2c9fce09459bc65f12c6525a40b0cb3e53c089f665"
++
++S = "${WORKDIR}/libatomic_ops-${PV}"
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ 
 -- 
 2.17.1
 
