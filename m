@@ -1,51 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EC10C6C0DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A1C4A6C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 12:16:57 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id t18-v6so1353573ljd.4
+	Thu, 20 Dec 2018 12:19:33 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id r24so11802381wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 04:16:59 -0800 (PST)
+	Thu, 20 Dec 2018 04:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7GVlWN+bMPPmHcVuPeIsLvcfcLvw9J9pVX6YghYdRT4=;
-	b=dBii3EUef0MhIOoGcEV7knS1B1JD4Ng443rUu/6/IdJlL7iz0unNB4Exal7E+wowyv
-	h92QYnUW9UwRQAa1CVJmd+PeYPJ8FMwc5nWbG9+LnAL0xoxeuF+K8p5o6UZTvSORb1mS
-	zuPPydNiLb/AbobM6NjR36w0MpA+XLYANL4sOuv/3A+TuhYlM+P2yC7K+4Bd6wolBNwP
-	rXEaQPMhArygWY/Y8ym7ZXJ/83TvQ+GkHZ9wVAFQRzxaXPyMgo5qHj1qgpYrbZQ5+qBc
-	XHulpng3X+K16YyZ7cqZROJuFPus7CXTzMfkk55wFDHbrHOK+RzbgjiLfT7BRf80DILm
-	fZPw==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=grMXKNUdl5ElK9f45YzbHDXp6R+LtJWCT7+gyj44Z/M=;
+	b=eWDT6K+QEEqiam7SrT1Nkxg2DmDwV55n/3dqEkRSLNih5aGkHqd5EnFVV7z4lCwcpk
+	NKmcIHfqi/gs8k3yORfPC/FJvCyKrxjkOMkg5hkcwtRWWpxEzRMxx5LbcThLozKVPmtf
+	+FY/tZd9lrzQ/fiUfJloFt6L827+gMlvbaMAg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7GVlWN+bMPPmHcVuPeIsLvcfcLvw9J9pVX6YghYdRT4=;
-	b=VVguARMfW9fxEeE1HQuMJCkdQ/5siKmz/VPzFGfez1hjv6js9vWyrduRHrYcZ2BsJO
-	vWNats7Sb0IAGeZ4OzlkepO0ao0GGGJumLJIJNh0Ov+FwaWbovgYxyZYCMdl2atZkIDX
-	qcHYrHb5Mh1qdchl7LqNKQKIMP6OwGuonIGnXvgEL4qGpi7uRZeVargSEcy+IMd0oS1i
-	1BQ9XOoT8O4386cUzTO1vQmx/IFa10m6ecJF30SVsH58hbjrixZIcuDFNwDJ0KcIM/Fk
-	ZpC2QFSnayk+7D+cX2Zl2reDlzBuCNuLRe+mAIm6SnCxROVL1I3GwHvxBo5An15l0NhZ
-	MDYw==
-X-Gm-Message-State: AA+aEWYHHxuhEVQbqE1oqWLPxPGMOPMmfwpJ4xGk7N/9pWtQ9TRlyA1z
-	94Mx7D8RESnq6ck/qOouwhOlPzgWurI8LIqFEAPlB/q4CLo=
-X-Google-Smtp-Source: AFSGD/VMJwjldHMMl+KFUuOESU0pBhO3/2GCe/ibsZx3PRsMKMkcQGLuKn6eZr8PXNo7CT0dxZODV5dDMylYVb/L+LM=
-X-Received: by 2002:a2e:6503:: with SMTP id
-	z3-v6mr14682549ljb.153.1545308218511; 
-	Thu, 20 Dec 2018 04:16:58 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1545202218.git.liezhi.yang@windriver.com>
-	<f8c21c17d3ad2ca31c4b26b23b74ab0bdefd2c77.1545202218.git.liezhi.yang@windriver.com>
-	<CAJTo0LZOd5hFgFWqvYL2ucusTLCNymf9Jo__yf5Hd1SGeCytrA@mail.gmail.com>
-	<9bc35e55-7246-76eb-8726-bb717ad5979c@windriver.com>
-In-Reply-To: <9bc35e55-7246-76eb-8726-bb717ad5979c@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2018 12:16:45 +0000
-Message-ID: <CAJTo0La6Cbc1ANFPkYoDXQEs-LOCHgZpESt1pL=7=M=2-t7E4w@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] cmake-native: Set --parallel for configure
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=grMXKNUdl5ElK9f45YzbHDXp6R+LtJWCT7+gyj44Z/M=;
+	b=WBdkLok6gUEARHna4at75XzXOcXwDHgrqPgo+I0iHgPLQdYpphb2aAXSV7BSlf0apH
+	6/IRE3U1pdH9NUipxu82xUKAIu1WTwqGiMyHd1/j82POSVdvZj3wnzvPghVOaUtL66Mn
+	VzA9C0gVfhoc261i5ogYG4nK6+sTIzO6r2pETGszJJJbTSlbUt9YciPm5SAy9ogakMKa
+	TCYvQt0GpHz2SeSA5Gu4FOq81Mph0QvUxq1c9QoF+v4V3s1J6QMeI0XweYriiP4B/HdS
+	+q9byNQzFeR+68Rfkoo1iOe+uQEBII6I8YVpNVVG3hAW8wndmB3XMrt0KNGFwy8+SsjZ
+	Vghg==
+X-Gm-Message-State: AA+aEWZEj7S97LhMUMSNWWE1OLouwHWMMy273HTAuOE1g6ZJKvV0tbOI
+	B3pfobuTNhYqqmKL7OlPgkDFDQ==
+X-Google-Smtp-Source: AFSGD/VoL81DpLyqPECyuSCpUUAZUSEsGeLmFJfKUw+VUFXq2eSUNRlwznjj2nJbbo4/Pz6mR8xOiw==
+X-Received: by 2002:a1c:a755:: with SMTP id q82mr11739044wme.6.1545308374228; 
+	Thu, 20 Dec 2018 04:19:34 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id s8sm8973860wrn.44.2018.12.20.04.19.33
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 20 Dec 2018 04:19:33 -0800 (PST)
+Message-ID: <75d63f87f2ea25effa7707b735b2123ed2156ea4.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2018 12:19:32 +0000
+In-Reply-To: <50ccbdb3-12b8-e381-5931-b52b5b5efdf5@windriver.com>
+References: <cover.1545291716.git.liezhi.yang@windriver.com>
+	<29e6785a8b38d49961aa7f1138d664336052dca8.1545291716.git.liezhi.yang@windriver.com>
+	<53c222052c0da6a7db056bfa1318371c8b7db2dc.camel@linuxfoundation.org>
+	<50ccbdb3-12b8-e381-5931-b52b5b5efdf5@windriver.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] oeqa/concurrencytest: fix for locating meta-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +60,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 12:16:58 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 12:19:33 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 20 Dec 2018 at 06:46, Robert Yang <liezhi.yang@windriver.com> wrote:
-> +               --parallel="${@oe.utils.parallel_make_argument(d, '%d')}" \
+On Thu, 2018-12-20 at 18:43 +0800, Robert Yang wrote:
+> 
+> On 12/20/18 6:14 PM, Richard Purdie wrote:
+> > On Wed, 2018-12-19 at 23:43 -0800, Robert Yang wrote:
+> > Sorry, but this change just swaps one problem for another. meta-
+> > selftest is part of OE-Core so its position relative to bitbake
+> > isn'tfixed.
+> 
+> I always thought that bitbake must be in oe-core, otherwise it didn't
+> work, but seemed that it was incorrect?
 
-Tweaked when merging to mut to be:
+bitbake doesn't have a fixed location relative to oe-core. It may
+expose bugs but people do put it in different locations.
 
-+       ${S}/configure --verbose --prefix=${prefix} \
-+               ${@oe.utils.parallel_make_argument(d, '--parallel=%d')} \
-+               -- ${CMAKE_EXTRACONF}
+> > How about we use
+> > 
+> > from oeqa.utils.commands import get_test_layer
+> 
+> Thanks, that is much better, Updated in the repo:
+> 
+> commit 9d03cf9e726232a9df544435cadfe520020ef631
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Tue Dec 18 18:38:00 2018 -0800
+> 
+>      oeqa/concurrencytest: fix for locating meta-selftest
+> 
+>      The previous code assumed builddir and meta-selftest are in the
+> same dir, but
+>      this isn't always true, builddir can be anywhere, use
+> get_test_layer() to
+>      locate meta-selftest can fix the problem.
+> 
+>      Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> 
+> diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py 
+> b/meta/lib/oeqa/core/utils/concurrencytest.py
+> index f050289..6c403ac 100644
+> --- a/meta/lib/oeqa/core/utils/concurrencytest.py
+> +++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+> @@ -25,6 +25,7 @@ from itertools import cycle
+>   from subunit import ProtocolTestCase, TestProtocolClient
+>   from subunit.test_results import AutoTimingTestResultDecorator
+>   from testtools import ThreadsafeForwardingResult, iterate_tests
+> +from oeqa.utils.commands import get_test_layer
+> 
+>   import bb.utils
+>   import oe.path
+> @@ -166,7 +167,7 @@ def fork_for_tests(concurrency_num, suite):
+>                   if 'BUILDDIR' in os.environ:
+>                       builddir = os.environ['BUILDDIR']
+>                       newbuilddir = builddir + "-st-" + str(ourpid)
+> -                    selftestdir = os.path.abspath(builddir +
+> "/../meta-selftest")
+> +                    selftestdir = get_test_layer()
+>                       newselftestdir = newbuilddir + "/meta-selftest"
+> 
+>                       bb.utils.mkdirhier(newbuilddir)
 
-I see similar wins here, walltime for cmake-native's build goes from
-five minutes to one minute.
+This broke on our autobuilder:
 
-(!!!)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/61
 
-Ross
+It basically creates a "stampeding herd" of bitbake startups as if you
+specify -j 40, it would do this 40 times nearly all at once and that
+causes retry problems.
+
+We need to move the call outside the for loop as the value doesn't
+change.
+
+Cheers,
+
+Richard
+
+
+
 
