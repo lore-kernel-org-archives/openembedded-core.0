@@ -1,21 +1,20 @@
 Return-Path: <Ricky.Yoon@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE3AE6C494
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DFE479E93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 10:45:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBKAiqEe027314
+	Thu, 20 Dec 2018 10:45:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBKAjlgb002175
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 02:45:02 -0800
+	Thu, 20 Dec 2018 02:45:47 -0800 (PST)
 Received: from localhost.localdomain (128.224.239.137) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.408.0; Thu, 20 Dec 2018 02:44:40 -0800
+	(TLS) id 14.3.408.0; Thu, 20 Dec 2018 02:45:47 -0800
 From: "ricky.yoon" <ricky.yoon@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Dec 2018 19:44:35 +0900
-Message-ID: <20181220104435.8935-1-ricky.yoon@windriver.com>
+Date: Thu, 20 Dec 2018 19:45:42 +0900
+Message-ID: <20181220104542.9046-1-ricky.yoon@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Originating-IP: [128.224.239.137]
@@ -32,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 10:45:12 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 10:45:46 -0000
 Content-Type: text/plain
 
 License-Update: License file changes are due to updates in Version and Copyright date
