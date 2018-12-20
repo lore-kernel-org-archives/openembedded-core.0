@@ -1,51 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B3A7579F78
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 00:15:50 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id z5so21272806wrt.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2018 16:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=adROXzH26OCZwHjLD8MsIlE04UYSAaUNbxKDzO2M3ik=;
-	b=W8YMpW4Czt5gTC9+G9fezi6ldcEiEmgHjcn5EHVDDDxjLC0+CcbJLwvkcIYu7x0AKH
-	kPZbKNI1hzEAs/4RqGcgsRsWtTGQto225x/y3EY6sEGmCbvz4qpgWpNWOauaPvtNQhHI
-	YUBnSs+vJA4/JvLqZZ50vi2u/sSAP1QCk6fJE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=adROXzH26OCZwHjLD8MsIlE04UYSAaUNbxKDzO2M3ik=;
-	b=XhsHy6YXNPKSe7bdmBZuTeJ4kRR68FUnu3DL3QkLjtfIUW6OQnmBAOffq5k1GrA9zw
-	/Eiy3o8BZdlG0rw9jqyoPw6GATBxeu4IPZvP/c7i1tAcCxweYEJuCHPaFAdLGBz3ymd8
-	lki3KDTIn/ggJFHZFSFPSA6qOxycTe3x9WRi9m1a5FbHH7Fsb8qNQI2W0+HZq2LEE/8m
-	7nzW5U25p4VSNtjFux1aNpEKD4jBAXB4v7Epf8HxLjjgj7pQYbwO2AolhZmIC2McDsRv
-	SjsG5CTEk/jAdYE73I2vfAnb0NK8WPsL1OTSgQlzrzGwBo3YwbGL5GcemPFRdO9BLZr/
-	r+Sg==
-X-Gm-Message-State: AA+aEWaLbDe1c4NcI4YczLFe+/3EEBvhf6i1akntNGtTAwT64Rc7DchY
-	FtOQG6T3SkK3NkC1EWH1exYGrnqv3SYzrA==
-X-Google-Smtp-Source: AFSGD/U3MI9JNuhYcV/Qj+jFupfHqllbqMqrsQwK//osVjcBlCS20yMBd2QGigNC9mt9EPkAgCVaUg==
-X-Received: by 2002:adf:aa9c:: with SMTP id h28mr20068983wrc.216.1545264950955;
-	Wed, 19 Dec 2018 16:15:50 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o81sm10175581wmd.10.2018.12.19.16.15.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Dec 2018 16:15:50 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2018 00:15:45 +0000
-Message-Id: <20181220001545.12618-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
-References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B81127BF58;
+	Thu, 20 Dec 2018 00:33:09 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] recipes: Drop virtual/libc-for-gcc
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 20 Dec 2018 00:33:11 -0000
+Message-ID: <20181220003311.2334.77644@do>
+References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImdsaWJjOiBSZW1vdmUgc2l0ZV9jb25maWcgYW5kIC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,140 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 00:15:51 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Dec 2018 00:33:10 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-We no longer have special "libc" for gcc so we can rely on plain
-virtual/libc and reduce the complexity in the dependencies.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "glibc: Remove site_config and ..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15420/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 284596e947)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/tcmode-default.inc      | 2 --
- meta/conf/layer.conf                             | 1 -
- meta/recipes-core/glibc/glibc.inc                | 2 +-
- meta/recipes-core/musl/musl_git.bb               | 2 +-
- meta/recipes-core/newlib/newlib_3.0.0.bb         | 2 +-
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 +-
- meta/recipes-devtools/gcc/gcc-cross.inc          | 1 -
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 2 +-
- meta/recipes-devtools/go/go-cross-canadian.inc   | 2 +-
- 9 files changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index a586c63d4b9..c9fed48bce2 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -16,8 +16,6 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}g++ = "gcc-crosssdk-${SDK_SYS}"
- PREFERRED_PROVIDER_virtual/${SDK_PREFIX}compilerlibs = "nativesdk-gcc-runtime"
- 
- # Default libc config
--PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "${TCLIBC}"
--PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-for-gcc ?= "nativesdk-glibc"
- PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index c67dec49ed2..7afccdf3351 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -51,7 +51,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   *->git-native \
-   *->ccache-native \
-   *->icecc-create-env-native \
--  gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
-   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
-   ppp-dialin->ppp \
-   resolvconf->bash \
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index de692fbfd75..6aee89bb53a 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -17,7 +17,7 @@ python () {
- 
- DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
- 
--PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
-+PROVIDES = "virtual/libc"
- PROVIDES += "virtual/libintl virtual/libiconv"
- inherit autotools texinfo distro_features_check systemd
- 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 9cc875c4a61..3dc56cef851 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -17,7 +17,7 @@ SRC_URI = "git://git.musl-libc.org/musl \
- 
- S = "${WORKDIR}/git"
- 
--PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc virtual/libiconv virtual/libintl virtual/crypt"
-+PROVIDES += "virtual/libc virtual/libiconv virtual/libintl virtual/crypt"
- 
- DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-            virtual/${TARGET_PREFIX}gcc-initial \
-diff --git a/meta/recipes-core/newlib/newlib_3.0.0.bb b/meta/recipes-core/newlib/newlib_3.0.0.bb
-index 09238fe006b..db13724eb58 100644
---- a/meta/recipes-core/newlib/newlib_3.0.0.bb
-+++ b/meta/recipes-core/newlib/newlib_3.0.0.bb
-@@ -1,6 +1,6 @@
- require newlib.inc
- 
--PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc virtual/libiconv virtual/libintl"
-+PROVIDES += "virtual/libc virtual/libiconv virtual/libintl"
- 
- do_configure() {
- 	${S}/configure ${EXTRA_OECONF}
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 73f1e054463..e7c08d3a618 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -3,7 +3,7 @@ inherit cross-canadian
- SUMMARY = "GNU cc and gcc C compilers (cross-canadian for ${TARGET_ARCH} target)"
- PN = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- 
--DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext flex-native virtual/libc"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc nativesdk-gettext flex-native virtual/libc"
- 
- GCCMULTILIB = "--enable-multilib"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index add6b43017d..6222c2e8c91 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -31,7 +31,6 @@ EXTRA_OECONF += "\
-     --with-system-zlib \
- "
- 
--DEPENDS_remove_libc-baremetal := "virtual/${TARGET_PREFIX}libc-for-gcc"
- EXTRA_OECONF_append_libc-baremetal = " --without-headers"
- EXTRA_OECONF_remove_libc-baremetal = "--enable-threads=posix"
- EXTRA_OECONF_remove_libc-newlib = "--enable-threads=posix"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index 4fc6747d9da..475e4f08ef0 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -6,7 +6,7 @@ PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "gdb"
- 
- DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
--           virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc"
-+           virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc"
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- 
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index ea68b8875d9..0bc5dce8a14 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -1,7 +1,7 @@
- inherit cross-canadian
- 
- DEPENDS = "go-native virtual/${HOST_PREFIX}go-crosssdk virtual/nativesdk-${HOST_PREFIX}go-runtime \
--           virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc \
-+           virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc \
-            virtual/nativesdk-${HOST_PREFIX}compilerlibs"
- PN = "go-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- 
--- 
-2.19.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
