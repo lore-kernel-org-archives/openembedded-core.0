@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1C07964F
+	by mail.openembedded.org (Postfix) with ESMTP id 3923E7964F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 15:40:46 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id b11so2520071wmj.1
+	Thu, 20 Dec 2018 15:40:48 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id n190so2525645wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 07:40:48 -0800 (PST)
+	Thu, 20 Dec 2018 07:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=5I9JSBarx1SDpg8UMu+iQQbPaCGQX+4aRtj1aUgqP8g=;
-	b=FBZys0r0S8LK4n+2DekWnTjRDyGZLOeyqs2h9Koegn2sVPq/8U8FwH48Yk5J3DH1UF
-	sHpf6Pohj+fWTjIaU2L7Au8te/VYFo3dMtfrrOsaD/rWNnlDtZL3aP1LW/uxLsjRpTIO
-	cSl5Te30iwXjC3hzvY7j5sbw++gi1IZwKMD+PYRmUEvVFB5YeUSG4GG4Uc5pXJ7Mf/4u
-	N71oX9JAVqWJ04nmN1fwj0Wh2u18QC0kGLwA+pueQIKTJxv3kPjjHbf7yk27qpKd6EiA
-	9psRmrxB2b1bPN4D7iHHi/CKUijLrze1BAQ6ey15WHr9hhis0VwzsxUTO+gCx89Akazq
-	glOQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=tawucSA3fYyc1TIQULj68Vw+Hxvcsvp9JbesVPBQTCM=;
+	b=OYJl7mktftFCmKmk0H8gltfQ90gd7x4FgADB+xZz1JYtqFuGBsW/yMJNgkMUqSZ8ZU
+	6R5G1OeTjuiGwSotmP1fd68+HnAZ8u4H+Tx7X2jl4zjYJ7TSYqfEgoaz9OZeXlI2YM+H
+	wgI5tz49uY10NXdLI0+WnLXuk+uuXSkqRd662ltclJmm94GbgwDMT6hy4F2QLtDl0dHJ
+	js/ITuVSD8/EjxI8r3oXqlQ/3YH2hT79DJ8DerHslQfejdfyOIoe8pQ+ZBjcR9quyI3C
+	dNkh8uYph8mWOZGfJeSowIglCCQEZpEjqWRnIpD6t9tcdinvcDtCDCFitBYMtcBpymyL
+	rMwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5I9JSBarx1SDpg8UMu+iQQbPaCGQX+4aRtj1aUgqP8g=;
-	b=kzdrh/hoVuj0c9BZi1n9vq/m4CSvSEpCg5LEqo1yvNJYrC4GFVyVcelSV6/dfnyv39
-	DtoBlvYc40SfGfZTZ07VTPXQxXF8n6v3E3ThKQf93OvozztuGe22MErD++pOUuTGp+gv
-	wTCI2fpsB9fD9UJBi9kc2BlX9vYtoAiUx7bdEZ1KIzuuPSf55ZgfZ2kjpJmaUwf/Qn2F
-	pxZAu8qz5ZWsDtNdjhMJt4P4DwyaCnoiEhbvsNfkbxTGbFUkhg+7YA3ShoXDlkQRT3Bf
-	i8vvd+6VJke8oENR179lSHevbbf8DQi94xtA8FzPLeze9p6CbJdAX3fb/8yxLc0uoPXS
-	Ds4Q==
-X-Gm-Message-State: AA+aEWZYt61ljJpbcIVu3I+9Dk21BCvGTmK/Fw+1a5kxMgE4Ieoqsq/C
-	TfA8fB133dr65aZI/3g1T3o+QCyfzXs=
-X-Google-Smtp-Source: AFSGD/WEkDOI7AatDdFIh7i3ojxrpgJVSnC8OxxR8BWpkq42RKjgIZKDkSfX5SNUwCVnSi9G8lDwgA==
-X-Received: by 2002:a7b:c24c:: with SMTP id b12mr10896464wmj.29.1545320447240; 
-	Thu, 20 Dec 2018 07:40:47 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=tawucSA3fYyc1TIQULj68Vw+Hxvcsvp9JbesVPBQTCM=;
+	b=C07FSRTHtslLkwNsp8NvRZ93vgGBwJ0Hd/m7FIBJ0lpDJ0dSUIhyzH6i3gPQGCLRsK
+	ni11RiY3Ez+mZR4EoJtLz59DX3yFI4+CMm5bJlHUbp/N7jMYZPTXfm37k9XKddCrDuPH
+	ty0a5eCzGMxJUfkai4DTycIo4Qj+oiNs5ziAU+0uEOQyCaawfDohPufJgaLSgpzyE7y3
+	5HDPm4Wf6SRGuXeUOJewQWtTqw5t6HbDHQWDS7Xe0925mLNS6dGkFM4DNl2LxPRNe3vA
+	foy7N/D0rzA1arm+bs83Zl1424kDYUNBtrU1WwuEKR1cMnnIjy12m8XPWFu8GtOpPt7p
+	o81w==
+X-Gm-Message-State: AA+aEWbh83Y6aiR8MNWYU2Mxl+ojJd8D4xmtZ7lJ28+tTLHt32ZDsZoy
+	YMvaDDimQ+8h87W0VOUF+v3JwrfwORA=
+X-Google-Smtp-Source: AFSGD/X2EzEScvIYFrXhyjefoP3dCrIANSNUpg9LF1KB7Txwtp6y2kl5BbzY0J8DLR1dfW204Sn44g==
+X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr2449318wme.41.1545320448504; 
+	Thu, 20 Dec 2018 07:40:48 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h10sm8178307wmf.44.2018.12.20.07.40.46
+	h10sm8178307wmf.44.2018.12.20.07.40.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Dec 2018 07:40:46 -0800 (PST)
+	Thu, 20 Dec 2018 07:40:47 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2018 15:40:41 +0000
-Message-Id: <20181220154043.7860-1-ross.burton@intel.com>
+Date: Thu, 20 Dec 2018 15:40:42 +0000
+Message-Id: <20181220154043.7860-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/3] nativesdk-meson: add missing dependency on setuptools
+In-Reply-To: <20181220154043.7860-1-ross.burton@intel.com>
+References: <20181220154043.7860-1-ross.burton@intel.com>
+Subject: [PATCH 2/3] nativesdk-packagegroup-sdk-host: add Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +61,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Dec 2018 15:40:48 -0000
 
-Meson uses pkg_resources, which is part of setuptools.
+Meson is growing in popularity, so add it to the SDK packagegroup.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/meson/nativesdk-meson_0.49.0.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.49.0.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.49.0.bb
-index 53503aa9988..721ee8c8f12 100644
---- a/meta/recipes-devtools/meson/nativesdk-meson_0.49.0.bb
-+++ b/meta/recipes-devtools/meson/nativesdk-meson_0.49.0.bb
-@@ -66,9 +66,8 @@ do_install_append() {
- 
- RDEPENDS_${PN} += "\
-     nativesdk-ninja \
--    nativesdk-python3-core \
--    nativesdk-python3-misc \
--    nativesdk-python3-modules \
-+    nativesdk-python3 \
-+    nativesdk-python3-setuptools \
-     "
- 
- FILES_${PN} += "${datadir}/meson ${SDKPATHNATIVE}"
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 4bf0ac04577..ae989011f48 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -22,6 +22,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-shadow \
+     nativesdk-makedevs \
+     nativesdk-cmake \
++    nativesdk-meson \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
+     nativesdk-sdk-provides-dummy \
+     nativesdk-bison \
 -- 
 2.11.0
 
