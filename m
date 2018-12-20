@@ -1,20 +1,21 @@
 Return-Path: <Ricky.Yoon@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DFE479E93
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D3D2279F3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 10:45:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBKAjlgb002175
+	Thu, 20 Dec 2018 10:48:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBKAlvD1027577
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 02:45:47 -0800 (PST)
+	Thu, 20 Dec 2018 02:48:08 -0800
 Received: from localhost.localdomain (128.224.239.137) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.408.0; Thu, 20 Dec 2018 02:45:47 -0800
+	(TLS) id 14.3.408.0; Thu, 20 Dec 2018 02:47:47 -0800
 From: "ricky.yoon" <ricky.yoon@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Dec 2018 19:45:42 +0900
-Message-ID: <20181220104542.9046-1-ricky.yoon@windriver.com>
+Date: Thu, 20 Dec 2018 19:46:51 +0900
+Message-ID: <20181220104651.9238-1-ricky.yoon@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Originating-IP: [128.224.239.137]
@@ -31,14 +32,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 10:45:46 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 10:48:17 -0000
 Content-Type: text/plain
 
 License-Update: License file changes are due to updates in Version and Copyright date
 
-(From OE-Core rev: dd46638acf5e8ad0af84cbaf5254918b42bb68ce)
-
-Change-Id: I42bda18b0e68626069795487a35a37a3e96a19c6
 Signed-off-by: ricky.yoon <ricky.yoon@windriver.com>
 ---
  .../libpng/{libpng_1.6.35.bb => libpng_1.6.36.bb}         | 8 ++++----
