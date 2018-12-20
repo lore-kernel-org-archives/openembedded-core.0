@@ -1,52 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id EB2BD7BDBE
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+	[209.85.167.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 633FA6B5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 15:40:49 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id t27so2228514wra.6
+	Thu, 20 Dec 2018 15:47:22 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id b20so1700264lfa.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 07:40:51 -0800 (PST)
+	Thu, 20 Dec 2018 07:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=z2tPgVwKI9SfZJf0/x9NrLtyiudPIyK8r1f0sjoE4eA=;
-	b=FvCJaxZJ23UHPIIs1UOGe4OHWqw93kQUUYZ/ip0LCDhBbzNjoQ25ezt0G+TNwyiPlP
-	uTHAkSay/nif0zI2e8VqU7ja9T8Tcg4v7A03xj8hLZko6fOcrBWi6cA2xdBwrt+RaLIm
-	eepxmNnk7FI6OOZdQlbLxPJaCAnnCIoexWq84NV2IiNlryfgALoInvnTdnBvSfazxw26
-	v/XX5iB/bW7R3zwxpdMUrfIHmWe2tyNNXKRJQvN51D9WRW48HhfGjv4Ka6S7DkT+N9zz
-	M0SjzR8Nsu3RwL3/bVNYfAhONCxTEjErvCMLg1++hG9LrhEieIsrXYLZzy/8G3DDrVx8
-	Mifg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=q07xltA2elmqykK1jzoNSl+3vdBvATAbeYQqt+XUXbg=;
+	b=jUyH5d63hWe6zeVMEuANx92VU1oUiK++EHSyaGu3l1MK4FytQwvctSbg0G1xINQfYs
+	3tC2lktVY3r9+9qK8oRuH9W27sw0V7Aku1XFt9pY8oGEd0jRGCiEtMnODC/KYToHgbOe
+	tzVDIdlQ3RKjZNI5ALCYpVUQHBblEI4DmBguHCChEG82+C8Vo+nH9DyYnrVg+2+n/ttp
+	JyEJ4gUSYb/Bx97tUWRKqdj7ldrJrjG0XzVCLCjVzEup/g7KhsyB5TAarxPpQrIPdn/k
+	uuyrpllzqt6yzxMQJZlZtY4S2VWdJv2fhMsa5+aGzO/evZnoiWj41v7Ii5HVAw57ceMb
+	PJgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=z2tPgVwKI9SfZJf0/x9NrLtyiudPIyK8r1f0sjoE4eA=;
-	b=B5SiU1Tvi9k6ykz9K+1AMKiRIQxmfoQUvWWbvZjTJ/lo634eYAgRC7UfPoo9p9JtDc
-	FHywpUSOtKXGZnXruJIPVQRi8bzOTCxZgDv46tpyHEw+GVCHA7lwjQLgu5PLAV8GdZcv
-	mGV3+X9HXXYwyumGfS9XWukcM5tc6JJdzYKCM0fkkUmFQw4AG+FEg9ePCSEKfsqV0vBw
-	AbDqxgqVSW5rSFpu3sbLZjmzILlKhnEh91D9rO0uS34ZuL05hZzS/82R8VCpOgcADotO
-	MRb+U3N5fKveUlQZ2NzBhj4nSCdiISk4B7N6s9zDkPd5VpOd0PWcAmnuqHXXusWps0ZV
-	FmOQ==
-X-Gm-Message-State: AA+aEWZwYRQuV2Fx9lQm0VkUjFlJDyIoK7XO29UUas0FNlqV4d9dkyCQ
-	Mmc4rZHllWQ61MgXRK7v/IWfZtk/GZE=
-X-Google-Smtp-Source: AFSGD/U39mBkwAwnlL/kOL2aI6JnF447PRMlKBykUEZuFR8oqN8MjyyMnXL6hiySwtWV6AgeJymyuw==
-X-Received: by 2002:adf:c846:: with SMTP id e6mr22245114wrh.243.1545320450107; 
-	Thu, 20 Dec 2018 07:40:50 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h10sm8178307wmf.44.2018.12.20.07.40.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Dec 2018 07:40:48 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2018 15:40:43 +0000
-Message-Id: <20181220154043.7860-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20181220154043.7860-1-ross.burton@intel.com>
-References: <20181220154043.7860-1-ross.burton@intel.com>
-Subject: [PATCH 3/3] oeqa/sdk: add test to exercise Meson
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=q07xltA2elmqykK1jzoNSl+3vdBvATAbeYQqt+XUXbg=;
+	b=jFqe5OnxUKBw8uSIRJBweVwsGs/qmuUVstsb8hrw7BLdm2u2qelPTBP0Nx65TNMkxu
+	8MzNPYacStFYiIQdZjrqK3I6cJOJLMQDT6uiZ47fWtJMb80yMmqquAQeu1a0GrAY/n0I
+	/MUSTZL/i7tHanRCaLIeHAdoiRyvceT2Lpc9HDMJKSoiHMHETTcvF9F9gi53mZF0GPTD
+	wrpLiumCa+jX1dqbwuypvOc8NeLVBM9LLz/48CUCrP6Z+i2X4QktcgA77o9pCAuCprnT
+	jTWP6gp8HDQ4q9VL+VexI5Fl0FdaR6nirGtX+3VNDmnmbbEg8q/5WazsiO6GjgIfRWTm
+	Ql2A==
+X-Gm-Message-State: AA+aEWb1+XkB9VeqyONpX24dNgXbw8EUJBR2+93vn/I395DTrn7e6sVE
+	fAp9L8SNwhJAfEMMRTUGZLNhOhQ28x4TSHzz6V19lg==
+X-Google-Smtp-Source: AFSGD/XHBug5qXlSpSnX39zpfHGYSCCueUV3I0L8d8Ysz/6gpJ4h/+G5LhDZt127NzbicpGbHv/cR5N8rvi63lbKrNs=
+X-Received: by 2002:a19:641d:: with SMTP id y29mr15249620lfb.14.1545320842771; 
+	Thu, 20 Dec 2018 07:47:22 -0800 (PST)
+MIME-Version: 1.0
+References: <e0464c53-3d11-884c-75bd-1e78aed97ded@linux.intel.com>
+	<E4F39B19-40EF-4774-B2B3-6C37A2CB98DC@fuzziesquirrel.com>
+	<CAJTo0LayfGOMkwFrLStd9_93fBBG8ZH4b806T5CCo=A1nbTCWg@mail.gmail.com>
+	<CAMKF1sp1DLQwANi8sbHp4pP-YPPMbVOOsArUoxa286QAgTx-Lw@mail.gmail.com>
+	<CAJTo0Lb1Vq7-UXWKZf5hs4L4HzKAu45HTOnxtFXkOCttA0BiiA@mail.gmail.com>
+	<CAMKF1speLVxgZXojHO5ZBNO1LQXS4CMFvhK6VEbkeJL3giyMiQ@mail.gmail.com>
+In-Reply-To: <CAMKF1speLVxgZXojHO5ZBNO1LQXS4CMFvhK6VEbkeJL3giyMiQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2018 15:47:10 +0000
+Message-ID: <CAJTo0LZUEDT48YAEGc=+XPW9b-+qJU_RYAzw85hQLwYm-J2AVQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OpenBMC <openbmc@lists.ozlabs.org>,
+	Bradley Bishop <bradleyb@fuzziesquirrel.com>, james.feist@linux.intel.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: flto automake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,57 +61,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 15:40:50 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 15:47:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/sdk/cases/buildepoxy.py | 36 +++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/cases/buildepoxy.py
+On Thu, 20 Dec 2018 at 15:37, Khem Raj <raj.khem@gmail.com> wrote:
+> > As we build the cross gcc we know what is in it.  Other toolchains be
+> > they clang, ICC, or external GCCs, can override AR just like they do
+> > the other variables.
+>
+> Yes they can, but what doe this buy us ? except we make Core toolchain
+> gcc dependent one step more.
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-new file mode 100644
-index 00000000000..47ae5e96df3
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-@@ -0,0 +1,36 @@
-+import os
-+import subprocess
-+import tempfile
-+import unittest
-+
-+from oeqa.sdk.case import OESDKTestCase
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class EpoxyTest(OESDKTestCase):
-+    """
-+    Test that Meson builds correctly.
-+    """
-+    def setUp(self):
-+        if not (self.tc.hasHostPackage("nativesdk-meson")):
-+            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain Meson")
-+
-+    def test_epoxy(self):
-+        with tempfile.TemporaryDirectory(prefix="epoxy", dir=self.tc.sdk_dir) as testdir:
-+            dl_dir = self.td.get('DL_DIR', None)
-+            tarball = self.fetch(testdir, dl_dir, "https://github.com/anholt/libepoxy/releases/download/1.5.3/libepoxy-1.5.3.tar.xz")
-+
-+            dirs = {}
-+            dirs["source"] = os.path.join(testdir, "libepoxy-1.5.3")
-+            dirs["build"] = os.path.join(testdir, "build")
-+            dirs["install"] = os.path.join(testdir, "install")
-+
-+            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
-+            self.assertTrue(os.path.isdir(dirs["source"]))
-+            os.makedirs(dirs["build"])
-+
-+            self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
-+            self._run("ninja -C {build} -v".format(**dirs))
-+            self._run("DESTDIR={install} ninja -C {build} -v install".format(**dirs))
-+
-+            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libepoxy.so"))
--- 
-2.11.0
+The core toolchain is currently GCC dependent already by definition.
+I'm actually about to start working on abstracting the core so it
+doesn't make any assumptions, like how there's no hard assumption of
+glibc in the core.
 
+Ross
 
