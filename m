@@ -1,51 +1,49 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
-	[209.85.208.177])
-	by mail.openembedded.org (Postfix) with ESMTP id EC0F36C0E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A08396C60B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 12:53:24 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id c19-v6so1452482lja.5
+	Thu, 20 Dec 2018 13:02:40 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id x85-v6so1492226ljb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 04:53:26 -0800 (PST)
+	Thu, 20 Dec 2018 05:02:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pcGh3eLfAmoq4fJ47RP5bhph6AzTDYIu5qJ+2WBnG1A=;
-	b=naeXLm0DY3Qwenr+k8alCIE8U4KUXORkkOO8mT4I62xWsJErE/y6HZ4UUlxoF+5u0L
-	vjjx82luCJ41pB3qQXIWfG5UzoJ5gp51ZTNA0tDOva/ZCEEFD7LhMcdONqP9077JVomc
-	1xroWh/itWt1C+qjl+ETJWY2jjLA2mqwaroxDs/hAS9GOJCoGXYQp9Zr1G02ojBq4ALN
-	G0/vE1kOgZkwuRt11/gJ8+rYv73swZJC5eTUMZpQeGNzhbcsDMPHnDOQ0MnVgLXsxBwF
-	pACzUI0TD7g+kShErrl+JsS+iWbXGLFtOO3+B5pQEHH2rNe3YScuao+g/9lpetuEmoPH
-	sK6w==
+	:cc; bh=GLlGoqpPR9BoModHxABLwMhupkWJ3gyAWoXaNFYd054=;
+	b=cKNZjL0Qj7IE420FoWr2XhV8sVMqi+2xKhbKF3fTsCkFQ0oHwGbsm22ONsEek5Rsqs
+	90pNHLmgPg/IsCMEfu/zErQKgIQ5bjWuWRNeDgqrv7enw89V8neLznNGS504T1EvAfDD
+	pG0o/ve2/62z1E9nr9DnRwySqz7rEFTQo691pPBuDy9+wv4wD/Kvd4pJV9gAMNYNQAm+
+	WM6ziTF8TChlCXNKW6SjfDEepdoXqem7sN+g0sQZqprr0GeyYiot1A5COPnxeixGGsto
+	PMuUi4Ju5Y8Si+jHI1ueIu5ZUz9lKF/JodWhWMfKdFFrYVN+LEE1aG5rRkUtwW2ukqEb
+	vRgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=pcGh3eLfAmoq4fJ47RP5bhph6AzTDYIu5qJ+2WBnG1A=;
-	b=O6Xbh8OxNYJf9pcqG/Rl2p3Au3O6VZ8wxhXaIBP+o/9WCmChFMxfjtRKH/cjC7nucg
-	hSziRWiEEaiothxEzMVuKKPvbyXV5EXTwzgk6W5Q9Bhyg2+EYwnx6xINCOu4u1Hwf5do
-	Myt47+HiaaQe98v98jpIHIaT+SDe+qmUB2q0Yt/1hzU+kjoxh58A3d4tzq3o+J73v7o9
-	fhd5NKroshIdSxTq8yqmY/EDETenC1/VM0eq2+Ica6sQcPq0qmVYQn+fnixy3+qkA14D
-	dNYZLFzshsGY2btbkaqLzhz0e25raDNXIKRBG2Qs1kd/rwufSWze8GNIqmk8NILYJu2W
-	6Ncg==
-X-Gm-Message-State: AA+aEWZNSUAsMxg/hCAiT2chHoaq0W/rxJ7OwWOFwwTnao06sATC5IOb
-	pkgvTYxB2ne4I44RquRqihfD2b7wKVbQ2BNBjTULsg==
-X-Google-Smtp-Source: AFSGD/X1ivGJORm5MDuzVrv1o15uSHuYjeKAf634PfpI66Sl+EfXF2gf06Cf5HlJTFueWLM9WRPeF9rqR1FamBEfk2o=
-X-Received: by 2002:a2e:8ec8:: with SMTP id
-	e8-v6mr15077590ljl.162.1545310405357; 
-	Thu, 20 Dec 2018 04:53:25 -0800 (PST)
+	bh=GLlGoqpPR9BoModHxABLwMhupkWJ3gyAWoXaNFYd054=;
+	b=dqM58aCO2FDbYZsR64M0sm8NyIMAT0yFjmnoWyFJ4cEsGOOD5kQybeq10e7yq/qPLG
+	FT9Xp0brcTVYOZjR5oxt+mVQC7/bYOoe/q5UVlE5VEoB4mVrEd4MOQtFbW3g0A+WvDvK
+	3km6kMaap0EhdpXn1cYr3bAHugeAYq72qvMXmOMg2VBSMF5dG4LRwNiZ9eKrIJoo3NVb
+	XJ64Vl1o0HWY2Ap7M7CgPhEZsM1j8WOTEwvWWJGDiIhcsnLYlXJ6Xfl5DiIwxqj8CTPq
+	vDUhmAe60RiKOWBugFhZHap/PKbkZhA8LH5f8p1yxrjhS2P4L1r8fBEkIpz419FzoEUY
+	Ancw==
+X-Gm-Message-State: AA+aEWbP6CZV9JyUrlq/jCc+sb/T4Z2u17uYb1cjG1H8Puq3ipPNQ9RB
+	zxKz4gb9QsODRI7eWvRQQyxSMjMC6Tcox5L/gC1Jqg==
+X-Google-Smtp-Source: AFSGD/WN2kyWVZuMuT+hDJFhbgz5jAp7IBIG2w4CxyUvZWEEbrrHsDySP3de0QCRdoDSve7X2m+RT+BA0cROvrRjVBE=
+X-Received: by 2002:a2e:3509:: with SMTP id z9-v6mr2651929ljz.54.1545310961077;
+	Thu, 20 Dec 2018 05:02:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20181219175040.10507-1-damien.riegel@gmail.com>
-	<CAGgRHJr+obHJrRNFCDsPJN18w0-dtQsxAa_+Kk2KBMppDSycoA@mail.gmail.com>
-	<CAL4iiOeed+At5V0hyFUEdS_JdRgG0o63dYLkiTkt0F-btK8tUw@mail.gmail.com>
-In-Reply-To: <CAL4iiOeed+At5V0hyFUEdS_JdRgG0o63dYLkiTkt0F-btK8tUw@mail.gmail.com>
-From: Matt Madison <matt@madison.systems>
-Date: Thu, 20 Dec 2018 04:53:14 -0800
-Message-ID: <CAGgRHJrg+VzfKq09yhJG6xEHkfWYXmA7fsVK_X96ozTG5z9k1A@mail.gmail.com>
-To: Damien Riegel <damien.riegel@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [RFC] go.bbclass: install dependencies under $GOPATH instead of $GOROOT
+References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
+	<d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
+In-Reply-To: <d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2018 13:02:29 +0000
+Message-ID: <CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] glibc: Remove site_config and glibc-initial
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,127 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 12:53:25 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 13:02:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Dec 19, 2018 at 5:52 PM Damien Riegel <damien.riegel@gmail.com> wrote:
+On Thu, 20 Dec 2018 at 11:59, <richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2018-12-20 at 11:50 +0000, Burton, Ross wrote:
+> > As the only users of siteconfig are now zlib and ncurses, should we
+> > just rip it out entirely leaving a gap for a fresh implementation?
 >
-> On Wed, 19 Dec 2018 at 16:41, Matt Madison <matt@madison.systems> wrote:
-> >
-> > On Wed, Dec 19, 2018 at 9:51 AM Damien Riegel <damien.riegel@gmail.com> wrote:
-> > >
-> > > To package a go application in Yocto, one needs to also package its
-> > > dependencies to keep the build reproducible and under control. The
-> > > default install task of the go class puts the source in ${libdir}/go/src.
-> > >
-> > > ${libdir}/go/src is where the standard go packages resides, aka $GOROOT.
-> > > When a go package has dependencies on other go packages, they must be
-> > > located under $GOPATH, otherwise errors like this one may happen:
-> > >
-> > >   Non-standard package <packagename> in standard package <packagename>
-> > >
-> > > This point of this patch is to trigger a discussion on how this issue
-> > > can be tackled in Yocto. Following code is working but should not be
-> > > considered for inclusion.
-> >
-> > Can you describe the context of this a bit more?  The way go.bbclass
-> > is set up, all of your recipe's dependencies (and their dependencies)
-> > should already have been installed in the per-recipe sysroot (where
-> > GOROOT lives for the current recipe's build), and should get resolved
-> > from there. GOPATH gets set to ${B} for the current recipe's build.
-> > Nothing in the GOROOT should be importing packages that reside in
-> > GOPATH, which is what that particular error message is indicating. If
-> > you're getting that error, then there might be something wrong with
-> > recipe dependencies.
+> I'm cc'ing Mark who has a lot of the history on this.
 >
-> Sure. I think the issue is because I have the following chain of
-> dependencies:
->
-> A --> B --> C
->   `-> C
->
-> Building C is fine, building B is fine, but building A triggers the
-> error I mentioned, because the Go compiler complains about B using a
-> non-standard package C. It thinks B is a standard package because it's
-> located in GOROOT.
+> I think we're at a point where we likely need to re-implement this in a
+> different way...
 
-Are the three packages in separate source repositories? If so, the go
-tool should not be finding any C files in GOPATH.
+I did some poking at this a few weeks ago, basically turned off
+siteconfig by removing the 'inherit siteconfig' from
+autotools.bbclass.
 
-If A and C are part of the same source repository, but B is separate,
-that would make the situation a bit trickier, but still solvable.
+Interestingly, at the time for core-image-minimal this actually
+resulted in the build being faster.  Some recipes were a little slower
+to configure, specifically coreutils had the biggest slowdown as it
+appears to probe for every syscall in the world (via gnulib) but that
+only took seven seconds longer.  However, as the siteconfig generation
+is done by writing a custom configure.ac and then doing the
+autoconf/configure dance, these slowdowns were balanced out by glibc
+taking an extra 30 seconds.
 
-> Regarding dependencies, I created recipes named foocorp.com-{A,B,C}.bb
-> and used DEPENDS_append = " foocorp.com-A" for instance.
+It appears that disabling siteconfig for glibc is an acceptable
+compromise if we can not build glibc and gcc twice.
 
-If A imports from B and C, you should have DEPENDS = "foocorp.com-B
-foocorp.com-C" in the recipe for A, and
-DEPENDS = "foocorp.com-C" in the recipe for B.
-
-> I understand it's convenient to install dependencies in the GOROOT
-> directory of recipes' sysroot, but we should keep in mind that when one
-> calls `go get`, dependencies are installed in GOPATH, not GOROOT. I
-> think that if we want to avoid (a bit obscure) build failures and cover
-> all use cases, we should try to mimic that behaviour as close as we can.
-
-go.bbclass does not use `go get`.  It only uses `go install`.
-
--Matt
-
->
-> >
-> > -Matt
-> > >
-> > > Signed-off-by: Damien Riegel <damien.riegel@gmail.com>
-> > > ---
-> > >  meta/classes/go.bbclass | 18 +++++++++++++++---
-> > >  1 file changed, 15 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> > > index 167d02e3fa..c0ed3211cd 100644
-> > > --- a/meta/classes/go.bbclass
-> > > +++ b/meta/classes/go.bbclass
-> > > @@ -111,9 +111,9 @@ do_compile_ptest_base() {
-> > >  do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
-> > >
-> > >  go_do_install() {
-> > > -       install -d ${D}${libdir}/go/src/${GO_IMPORT}
-> > > +       install -d ${D}/gopath/src/${GO_IMPORT} ${D}${libdir}/go
-> > >         tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' . | \
-> > > -               tar -C ${D}${libdir}/go/src/${GO_IMPORT} --no-same-owner -xf -
-> > > +               tar -C ${D}/gopath/src/${GO_IMPORT} --no-same-owner -xf -
-> > >         tar -C ${B} -cf - pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
-> > >
-> > >         if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
-> > > @@ -172,9 +172,21 @@ do_install_ptest_base() {
-> > >         chown -R root:root ${D}${PTEST_PATH}
-> > >  }
-> > >
-> > > +do_fixupdeps() {
-> > > +       gopath="${WORKDIR}/recipe-sysroot/gopath"
-> > > +       if [ -d ${gopath} ]; then
-> > > +               tar -C ${gopath} -cf - src | tar -C ${B} --no-same-owner -k -xf -
-> > > +       else
-> > > +               echo "no dependencies to fixup"
-> > > +       fi
-> > > +}
-> > > +
-> > >  EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
-> > >
-> > > -FILES_${PN}-dev = "${libdir}/go/src"
-> > > +addtask do_fixupdeps after do_configure before do_compile
-> > > +
-> > > +SYSROOT_DIRS_append = "/gopath"
-> > > +FILES_${PN}-dev = "/gopath/src"
-> > >  FILES_${PN}-staticdev = "${libdir}/go/pkg"
-> > >
-> > >  INSANE_SKIP_${PN} += "ldflags"
-> > > --
-> > > 2.19.2
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
