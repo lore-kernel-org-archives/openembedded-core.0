@@ -1,46 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1122378BE7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A1A78BE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 13:04:26 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id v5so1286192lfe.7
+	Thu, 20 Dec 2018 13:06:39 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id b11so1972273wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 05:04:28 -0800 (PST)
+	Thu, 20 Dec 2018 05:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pbvpf+OGGL3ODGt0bjfopzEjN5RbM1hl2HsnT9FUABQ=;
-	b=RynRYtS0UrN9vZGfLv5e/uk8YEOJS3bH/xfVJIMMLwaMBaQwEM9r2Ft9tkpAMwvpxr
-	grJTDJbqn6sTl3bdyp+my+ZqZCrpReihrKNrNXw/mNUewMXOM66/2AraemF+Xfxr0CSA
-	hBxdHHdGKq1785rpoWG/aLDdV/x7fUw5J3KFPGqkRHrhbn7WQfh3x7mQPxxvguCj4KEf
-	f/UGDdC6hZzv37IGrSo3s3gl63EoYsOJDtEO0r0xSQD2bENUXWp1GebGLfHiswBQr0n2
-	Eu3QMTTW6DUudmsQUOOuosF7hUwnhOiDVCoavc9UlDIuNATal6Ddp+KMfLw/eLGrYvy6
-	t+Gw==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=bns8yH5WcLmi6pmuAq9VB0MRNnaSBwsBn+dbYODTSW4=;
+	b=KBBO8yH73dTvFfCaaitehcgF6+ub3ogOhbRO+QIPj6daUmzZzq2EQqH1O/tPX/P7TB
+	apAzI4i0dDk4UuDfmcjknAPsb6CegCiI4t2atcqB9lJ4RVaw2pxvJ2mixF+lSESZloR9
+	ksIaAKLd6eoB4BaGkXvsnMP4z8B2e6d/kwEBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pbvpf+OGGL3ODGt0bjfopzEjN5RbM1hl2HsnT9FUABQ=;
-	b=qGg17QrgaL1Q7izf7uodp9nExCYPgMgygRfoAS+2i+BNszI7Fn+b4ETSoam+9G9tQv
-	qGhPiCPdzC8PvTKqKE12pcaq/8CaklewLS2kj+o/EwXmErZTYHlnACb8DzkxGIl2GZUr
-	C5VT3sSbis20mDEuIGVAuF8GlGlyG3DSOiPfJs5aUQBQ0JRLHG/IsjTywB8Ku28AxTdO
-	AmTxeaET3nci1kx1GWOSw3UXj8vqNwvqZO8PUupDEoG5xBvmHXC7P9Wnqeeb36RNEKoA
-	o7O6sxUfL1UgqgLKEy8MG0fId5XTS1ybtcmUh9iwATN7otZX7sOyiGZxCi05UxXFJbWN
-	zYoQ==
-X-Gm-Message-State: AA+aEWZAJi8F07oxT45W7c1hHsUoYfuQHHFyFmkdigl0jzLkzPFwgrPS
-	POkDXrVLHi1x43n+wAGAlLBo54Iauy0k93ab7AS21w==
-X-Google-Smtp-Source: AFSGD/XWMUvjIbS/lRPVE3diM0r5V/EREWFEJcT0A8UV1hvKwANVymmriQ/N6e1IRgDFPZL8kErar+Ljkpu4wcW72yU=
-X-Received: by 2002:a19:641d:: with SMTP id y29mr14885110lfb.14.1545311067466; 
-	Thu, 20 Dec 2018 05:04:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20181220054044.29476-1-douglas.royds@taitradio.com>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bns8yH5WcLmi6pmuAq9VB0MRNnaSBwsBn+dbYODTSW4=;
+	b=Iqzx1RKJ/d4HIK8rAXt9zZZqNlNZ0w4kFCRlkMqCWB59ktIK0jJmK6ZBNailB4/Gv7
+	v7oZ8s7Mw9nt6FgAPMEdZfAZmZyRpCZHqD6gIwUI5E2UYu3PHXVUBT5I7tvyhOkyDUK3
+	GbGOYhVEbN0RVIiOS1sCDx4Brr/zpmWQKKM8f8EyI4vwgWpHDl9XnP+JyWiBFlvuNaT5
+	qUA9/wESOneHkUxDZ9bKNrAHMh17EPZ8q3Kayqd8nFALFIQ412VDeMWp3PMrR3FN4VmN
+	+GDqPePTId70Jb2wTUwzCEmKNKLUHDZtISR9V8TAh/Kv5iQTEGD4v0+vuwdj0Q89lb0V
+	TOAg==
+X-Gm-Message-State: AA+aEWbHkdVLq73Xf20Wz2v+Ebm2/skXq8ymlFtnrEoDt8RePX2dkEV3
+	OqZHD6Pw++uuUYVPR6kc9P1OEw==
+X-Google-Smtp-Source: AFSGD/XnnFCv8uCQfYmcavYa6T7k3mNq6iHjJj+0/f8qqb01rM5tB/lB15ORph60Mv4D8kr9JQWqfg==
+X-Received: by 2002:a1c:630a:: with SMTP id x10mr11567853wmb.63.1545311199861; 
+	Thu, 20 Dec 2018 05:06:39 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l20sm17408406wrb.93.2018.12.20.05.06.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 20 Dec 2018 05:06:39 -0800 (PST)
+Message-ID: <57496d3f8ac212e1392ff6e908cd126abf111412.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Douglas Royds <douglas.royds@taitradio.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2018 13:06:38 +0000
 In-Reply-To: <20181220054044.29476-1-douglas.royds@taitradio.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2018 13:04:15 +0000
-Message-ID: <CAJTo0LZ+9K+AbMeWb5PV_0bmivHcv+2JAXtuA2ZxKJMsaL=Tbg@mail.gmail.com>
-To: Douglas Royds <douglas.royds@taitradio.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20181220054044.29476-1-douglas.royds@taitradio.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] libpam: reproducibility: Fix host umask leakage at patch-time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,45 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 13:04:27 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 13:06:39 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Why is this libpam specific and not a general issue that the umask
-needs to be set in patch.bbclass?
-
-Ross
-On Thu, 20 Dec 2018 at 05:41, Douglas Royds <douglas.royds@taitradio.com> wrote:
->
-> The patch file pam-security-abstract-securetty-handling.patch creates a new
-> file (tty_secure.c) at patch-time, so its permissions are subject to the host
-> umask. This file is later copied into the -dbg package with no change in
+On Thu, 2018-12-20 at 18:40 +1300, Douglas Royds wrote:
+> The patch file pam-security-abstract-securetty-handling.patch creates
+> a new
+> file (tty_secure.c) at patch-time, so its permissions are subject to
+> the host
+> umask. This file is later copied into the -dbg package with no change
+> in
 > permissions.
->
+> 
 > Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 > ---
 >  meta/recipes-extended/pam/libpam_1.3.0.bb | 3 +++
 >  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-> index 3aec2cdb4c..292b570e11 100644
-> --- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-> @@ -49,6 +49,9 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
->
->  inherit autotools gettext pkgconfig
->
-> +# We create a new file (tty_secure.c) from pam-security-abstract-securetty-handling.patch
-> +do_patch[umask] = "022"
-> +
->  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit,"
->
->  PACKAGES += "${PN}-runtime ${PN}-xtests"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+I've noticed you're sending a number of reproducibility patches. Would
+you have any interest in helping us develop some reproducibility tests
+for OE-Core in meta/lib/oeqa, probably as part of oe-selftest?
+
+Cheers,
+
+Richard
+
 
