@@ -1,29 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EA187C0C6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 945D76B50A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 01:17:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBK1HAdp013718
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Dec 2018 17:17:21 -0800
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 19 Dec 2018 17:17:02 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1545204865.git.kai.kang@windriver.com>
-	<922e1e9572f10bfe3d8d08f2e79f3d6505aa5b28.1545204865.git.kai.kang@windriver.com>
-	<CAJTo0LZpHKrEmYA3y__V7F=S8zM7UdOWu1BUZLGrta_g_48OVQ@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <85099b1e-e61c-89ce-2a30-1d41eab5e34c@windriver.com>
-Date: Thu, 20 Dec 2018 09:14:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Thu, 20 Dec 2018 01:19:49 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id d19so75986qtq.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Dec 2018 17:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=ymr5Lc9ZB+Emk5lU8mclfnEJTz27uHN3p+Q+Fy6ZOho=;
+	b=ZkwPWYy9ZvIn+VDQI+MvlBdSBi/B1RkyiVPPUlz0biYNOji23D91+UrW1gaPGLK6tp
+	563N0Jemp0hRXtf/2wLRXyLxUQ/gTDE0OY7d30Cst0GR2WVCgKsdATMegKkV5tV7nIUF
+	Lv+rrBUwaoZf3qq0iozGkkvuWidYHYVg8p6GcyXkPE2vhx6XAnkblU1hmc7jO+fOjI1o
+	0O/sc88zZRquN1APfdGyKq6AucO7AtWGeMR7KkOh5/6kQ1ELrx3tLoIc1I8q+nkTgwMT
+	f0eLDBYNo5OZje4H7//aeUU8Q+PI/nJDeOVLTkKeN9/8gkCQ9e7KOCySOmKE7rmZvofb
+	yJnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=ymr5Lc9ZB+Emk5lU8mclfnEJTz27uHN3p+Q+Fy6ZOho=;
+	b=JzvdCXCpfjnjV3AMCJdL4drfqynF+71OKmHmC374QMgkcmLYL1pCQZZY1DUqWQx0cv
+	ziMSM7eDQ4no2yhItGm1iX7teRC5cOKd/qfzF4uYY7kj6oSmidyy03WLSDTzh5zq05V5
+	iI9vt7Tgs43tnokZXqL1EVd/Fr4EJtlV3ZyYEXpbv4XtkzMPRN+pyPxUwb4Ka8Ccg9vp
+	eV7iB4lZ+G/+bTA3NvyXA9VEaJKnoYEDb6LHV0nNem9MKT6mR/oFmJ8fjNYTcg8rXiIU
+	7/gQnaS+KhIfuDSh7EAJiDNfKXHkmqXZn0u2TtT2Oel9VcfElXXA9VYF58VDm7mYYvan
+	Ltgg==
+X-Gm-Message-State: AA+aEWaJ1Ax/aeIAhZwaq07ApfS7UAFlCEg6QZi5wPqf1vPWy2zDowrC
+	UvJQDsVboBG0LuZ7S4SfQtupA73yltisic3DP/o=
+X-Google-Smtp-Source: AFSGD/VMPPqL+yO1HrHdvs8ez7w9WBGgPQndduCQied9ji+I7DOqCb9tOHFJ+kw6yrEXcQ4vp3XW5yXEY3o7+PzkYQ8=
+X-Received: by 2002:ad4:41d0:: with SMTP id a16mr23838747qvq.55.1545268790202; 
+	Wed, 19 Dec 2018 17:19:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZpHKrEmYA3y__V7F=S8zM7UdOWu1BUZLGrta_g_48OVQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] grub-efi-native: workaround for fedora 29
+References: <e0464c53-3d11-884c-75bd-1e78aed97ded@linux.intel.com>
+	<E4F39B19-40EF-4774-B2B3-6C37A2CB98DC@fuzziesquirrel.com>
+	<CAJTo0LayfGOMkwFrLStd9_93fBBG8ZH4b806T5CCo=A1nbTCWg@mail.gmail.com>
+In-Reply-To: <CAJTo0LayfGOMkwFrLStd9_93fBBG8ZH4b806T5CCo=A1nbTCWg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Dec 2018 17:19:24 -0800
+Message-ID: <CAMKF1sp1DLQwANi8sbHp4pP-YPPMbVOOsArUoxa286QAgTx-Lw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OpenBMC <openbmc@lists.ozlabs.org>,
+	Bradley Bishop <bradleyb@fuzziesquirrel.com>,
+	James Feist <james.feist@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: flto automake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +59,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 01:17:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 20 Dec 2018 01:19:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2018/12/19 下午6:43, Burton, Ross wrote:
-> On Wed, 19 Dec 2018 at 07:43, <kai.kang@windriver.com> wrote:
->> +Upstream-Status: Inappropriate [native]
-> If we're going to mark this as inappropriate then please make it clear
-> in the patch that its a workaround for a specific binutils and when
-> that stops being used we can remove it.
+On Tue, Dec 18, 2018 at 5:07 PM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Wed, 19 Dec 2018 at 00:42, Brad Bishop <bradleyb@fuzziesquirrel.com> w=
+rote:
+>
+> > I wonder if this is something they would be interested in upstream.  I=
+=E2=80=99ve copied
+> > the oe-core mailing list for possible comment.
+>
+> Thanks for forwarding this to us.  The class is very simple and just does=
+:
+>
+> PACKAGECONFIG_CONFARGS +=3D " AR=3D${TARGET_PREFIX}gcc-ar \
+> RANLIB=3D${TARGET_PREFIX}gcc-ranlib"
+>
+> That's quite an abuse of PACKAGECONFIG_CONFARGS, I'd recommend just
+> setting AR and RANLIB directly in the class, they'll override the
+> defaults in bitbake.conf.
+>
+> That however leads to the question of should we just change the
+> defaults? Does anything break if we use gcc-ar instead of ar?
 
-binutils version has been addressed in the patch. I'll update with 
-workaround info.
-
-
-> However isn't this a problem
-> when building grub on F29, even outside of Yocto?  If so then it's not
-> inappropriate, it's an upstream bug and they should have the fix.
-
-
-It is native build related, so grub is not affected that no grub-native 
-is provided. I have created a defect on RedHat bugzilla:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=1660279
-
-
-Regards,
-Kai
-
+Dont think that is a good idea in general since gcc-ar is a wrapper
+around normal ar
+passing --plugin=3D/path/to/lto/plugin/so and that may not be right
+thing to do always.
 
 >
 > Ross
->
-
--- 
-Kai Kang
-
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
