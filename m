@@ -1,49 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A08396C60B
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1122378BE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 13:02:40 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id x85-v6so1492226ljb.2
+	Thu, 20 Dec 2018 13:04:26 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id v5so1286192lfe.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 05:02:42 -0800 (PST)
+	Thu, 20 Dec 2018 05:04:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GLlGoqpPR9BoModHxABLwMhupkWJ3gyAWoXaNFYd054=;
-	b=cKNZjL0Qj7IE420FoWr2XhV8sVMqi+2xKhbKF3fTsCkFQ0oHwGbsm22ONsEek5Rsqs
-	90pNHLmgPg/IsCMEfu/zErQKgIQ5bjWuWRNeDgqrv7enw89V8neLznNGS504T1EvAfDD
-	pG0o/ve2/62z1E9nr9DnRwySqz7rEFTQo691pPBuDy9+wv4wD/Kvd4pJV9gAMNYNQAm+
-	WM6ziTF8TChlCXNKW6SjfDEepdoXqem7sN+g0sQZqprr0GeyYiot1A5COPnxeixGGsto
-	PMuUi4Ju5Y8Si+jHI1ueIu5ZUz9lKF/JodWhWMfKdFFrYVN+LEE1aG5rRkUtwW2ukqEb
-	vRgQ==
+	:cc; bh=pbvpf+OGGL3ODGt0bjfopzEjN5RbM1hl2HsnT9FUABQ=;
+	b=RynRYtS0UrN9vZGfLv5e/uk8YEOJS3bH/xfVJIMMLwaMBaQwEM9r2Ft9tkpAMwvpxr
+	grJTDJbqn6sTl3bdyp+my+ZqZCrpReihrKNrNXw/mNUewMXOM66/2AraemF+Xfxr0CSA
+	hBxdHHdGKq1785rpoWG/aLDdV/x7fUw5J3KFPGqkRHrhbn7WQfh3x7mQPxxvguCj4KEf
+	f/UGDdC6hZzv37IGrSo3s3gl63EoYsOJDtEO0r0xSQD2bENUXWp1GebGLfHiswBQr0n2
+	Eu3QMTTW6DUudmsQUOOuosF7hUwnhOiDVCoavc9UlDIuNATal6Ddp+KMfLw/eLGrYvy6
+	t+Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=GLlGoqpPR9BoModHxABLwMhupkWJ3gyAWoXaNFYd054=;
-	b=dqM58aCO2FDbYZsR64M0sm8NyIMAT0yFjmnoWyFJ4cEsGOOD5kQybeq10e7yq/qPLG
-	FT9Xp0brcTVYOZjR5oxt+mVQC7/bYOoe/q5UVlE5VEoB4mVrEd4MOQtFbW3g0A+WvDvK
-	3km6kMaap0EhdpXn1cYr3bAHugeAYq72qvMXmOMg2VBSMF5dG4LRwNiZ9eKrIJoo3NVb
-	XJ64Vl1o0HWY2Ap7M7CgPhEZsM1j8WOTEwvWWJGDiIhcsnLYlXJ6Xfl5DiIwxqj8CTPq
-	vDUhmAe60RiKOWBugFhZHap/PKbkZhA8LH5f8p1yxrjhS2P4L1r8fBEkIpz419FzoEUY
-	Ancw==
-X-Gm-Message-State: AA+aEWbP6CZV9JyUrlq/jCc+sb/T4Z2u17uYb1cjG1H8Puq3ipPNQ9RB
-	zxKz4gb9QsODRI7eWvRQQyxSMjMC6Tcox5L/gC1Jqg==
-X-Google-Smtp-Source: AFSGD/WN2kyWVZuMuT+hDJFhbgz5jAp7IBIG2w4CxyUvZWEEbrrHsDySP3de0QCRdoDSve7X2m+RT+BA0cROvrRjVBE=
-X-Received: by 2002:a2e:3509:: with SMTP id z9-v6mr2651929ljz.54.1545310961077;
-	Thu, 20 Dec 2018 05:02:41 -0800 (PST)
+	bh=pbvpf+OGGL3ODGt0bjfopzEjN5RbM1hl2HsnT9FUABQ=;
+	b=qGg17QrgaL1Q7izf7uodp9nExCYPgMgygRfoAS+2i+BNszI7Fn+b4ETSoam+9G9tQv
+	qGhPiCPdzC8PvTKqKE12pcaq/8CaklewLS2kj+o/EwXmErZTYHlnACb8DzkxGIl2GZUr
+	C5VT3sSbis20mDEuIGVAuF8GlGlyG3DSOiPfJs5aUQBQ0JRLHG/IsjTywB8Ku28AxTdO
+	AmTxeaET3nci1kx1GWOSw3UXj8vqNwvqZO8PUupDEoG5xBvmHXC7P9Wnqeeb36RNEKoA
+	o7O6sxUfL1UgqgLKEy8MG0fId5XTS1ybtcmUh9iwATN7otZX7sOyiGZxCi05UxXFJbWN
+	zYoQ==
+X-Gm-Message-State: AA+aEWZAJi8F07oxT45W7c1hHsUoYfuQHHFyFmkdigl0jzLkzPFwgrPS
+	POkDXrVLHi1x43n+wAGAlLBo54Iauy0k93ab7AS21w==
+X-Google-Smtp-Source: AFSGD/XWMUvjIbS/lRPVE3diM0r5V/EREWFEJcT0A8UV1hvKwANVymmriQ/N6e1IRgDFPZL8kErar+Ljkpu4wcW72yU=
+X-Received: by 2002:a19:641d:: with SMTP id y29mr14885110lfb.14.1545311067466; 
+	Thu, 20 Dec 2018 05:04:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
-	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
-	<d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
-In-Reply-To: <d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
+References: <20181220054044.29476-1-douglas.royds@taitradio.com>
+In-Reply-To: <20181220054044.29476-1-douglas.royds@taitradio.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2018 13:02:29 +0000
-Message-ID: <CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Date: Thu, 20 Dec 2018 13:04:15 +0000
+Message-ID: <CAJTo0LZ+9K+AbMeWb5PV_0bmivHcv+2JAXtuA2ZxKJMsaL=Tbg@mail.gmail.com>
+To: Douglas Royds <douglas.royds@taitradio.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] glibc: Remove site_config and glibc-initial
+Subject: Re: [PATCH] libpam: reproducibility: Fix host umask leakage at patch-time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 13:02:40 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 13:04:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 20 Dec 2018 at 11:59, <richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2018-12-20 at 11:50 +0000, Burton, Ross wrote:
-> > As the only users of siteconfig are now zlib and ncurses, should we
-> > just rip it out entirely leaving a gap for a fresh implementation?
->
-> I'm cc'ing Mark who has a lot of the history on this.
->
-> I think we're at a point where we likely need to re-implement this in a
-> different way...
-
-I did some poking at this a few weeks ago, basically turned off
-siteconfig by removing the 'inherit siteconfig' from
-autotools.bbclass.
-
-Interestingly, at the time for core-image-minimal this actually
-resulted in the build being faster.  Some recipes were a little slower
-to configure, specifically coreutils had the biggest slowdown as it
-appears to probe for every syscall in the world (via gnulib) but that
-only took seven seconds longer.  However, as the siteconfig generation
-is done by writing a custom configure.ac and then doing the
-autoconf/configure dance, these slowdowns were balanced out by glibc
-taking an extra 30 seconds.
-
-It appears that disabling siteconfig for glibc is an acceptable
-compromise if we can not build glibc and gcc twice.
+Why is this libpam specific and not a general issue that the umask
+needs to be set in patch.bbclass?
 
 Ross
+On Thu, 20 Dec 2018 at 05:41, Douglas Royds <douglas.royds@taitradio.com> wrote:
+>
+> The patch file pam-security-abstract-securetty-handling.patch creates a new
+> file (tty_secure.c) at patch-time, so its permissions are subject to the host
+> umask. This file is later copied into the -dbg package with no change in
+> permissions.
+>
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/recipes-extended/pam/libpam_1.3.0.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
+> index 3aec2cdb4c..292b570e11 100644
+> --- a/meta/recipes-extended/pam/libpam_1.3.0.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
+> @@ -49,6 +49,9 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
+>
+>  inherit autotools gettext pkgconfig
+>
+> +# We create a new file (tty_secure.c) from pam-security-abstract-securetty-handling.patch
+> +do_patch[umask] = "022"
+> +
+>  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit,"
+>
+>  PACKAGES += "${PN}-runtime ${PN}-xtests"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
