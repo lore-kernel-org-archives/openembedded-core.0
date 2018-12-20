@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B51D174583
+	by mail.openembedded.org (Postfix) with ESMTP id 4577E7BDCF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 00:15:47 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s12so20878345wrt.4
+	Thu, 20 Dec 2018 00:15:48 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c14so21332131wrr.0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Dec 2018 16:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Zlo/rFLE/DBXO9Wi+SLkv3EvStQnOoCBgPuIho1bMp0=;
-	b=QikkEE/SoB5JbDPERpjKpWe0HYkfD9xXw0goy1Gp2YMdgTJAyKvQ/Hp587NbK3dW51
-	Zn6KG+YBwY7fKNdjhA8asD8ymZV/sGSWfQUyAsy5/If3+qRKvfH48SZA2WG//QUO9SmZ
-	mv4qlpApLvTxzbIwTeG5ey00vcO0STB2bf8TE=
+	bh=RsV7dEBncMQofBM5iA3xJL/X19HawQE5dW+16mEBEXM=;
+	b=WeeoyBYRzdjVaMMA/vugvP5em4jgn36bv5K5jRcLYBLJVL7GbN5W8GIaceH8ZYNHrn
+	2ZWlBe50xK9fpY7t+73lUeSXhnP61zxUweemaA2axOqoBR4X8GcN9Caktlz48t4i9oxX
+	BJNFtpiKpHQmCYkXURvMBOJ40BdumjeyE4Bp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Zlo/rFLE/DBXO9Wi+SLkv3EvStQnOoCBgPuIho1bMp0=;
-	b=Y8qljegEVYpreo8jiRoN6B0eUKrNYmadYMi2zg5Gr7Y3XczcNXazWJ3mEWD1vEuGQe
-	t1B9a6zCBZKJ+aGTWa8guYnbI6i+L7nVr9Dtvr32VQFnztQc63cxaquV+V/PLVV2uVJw
-	6WqFTAlYtVzwXFvoEqZqf+C5fIUA5Km1QhYp527REKua2Qpun/B1dofDQhNBURKCCdc5
-	U6Yq7Z+SzVAPZsdNRiiCwHAI4qEm/HZeAFfWD5d4TQib3l0B8YN6uAGoObBKLunPTU0y
-	UXNOtu97J0y/nlS+W5prMd3IMK7JFwfXFF8eYsvrKkoCfHx9U6w9jJBfwQAUo8fUlb3q
-	GzQA==
-X-Gm-Message-State: AA+aEWZlx2X2yh47zJmoadoQ27BsEpMaxcX/+m9RWmj3yI4HtUKiux1V
-	uDYJ13zCyBWhU1LcCEdqRcNdIr96sJTS0w==
-X-Google-Smtp-Source: AFSGD/UEWmm+R9DqnhmC3zUEeIdCXUqhh6PgE2kr+PYs+rRPNk/0np3ozOgYfBosLU2q9w8i1RuBhQ==
-X-Received: by 2002:adf:a14d:: with SMTP id r13mr19669844wrr.169.1545264947687;
-	Wed, 19 Dec 2018 16:15:47 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=RsV7dEBncMQofBM5iA3xJL/X19HawQE5dW+16mEBEXM=;
+	b=Lq61W2rvOGnVx+1xbpi5+SX8taFWdxGL24RVzikxFDd3frO9zECNczc/PkJ1O2b9ti
+	/cgZOCclqKZA+7HNdt7CQGKs/z1hSDrZHPcid1xPcUo2VLsC7eMLtb/++VZBQoVjm5n8
+	zyzl+7WokitVor4+KuY9bQkxOtBlOdom0immaEu3klU282RjL6k9TZW1F/uQLOkpqu7y
+	IXzRW60Cf2CPwflxYo3pkjzMqiydY+s+Z1lF2iWwydhIOPM5Dr1US/RVq/sc9mGyuKTF
+	XD9OuAXKf9gOVEJbE/oujES/DDVTzq9gHOGc8IbVlJg8yEE+pKismv7xWMNZC9q4QWkq
+	rfRg==
+X-Gm-Message-State: AA+aEWbpDbNeL1BLIf9eieaP3YMGumME8Pzza5HRiDRzYfI/5dEMqpPq
+	Tu5F+hSb+T0MOeI6tV0zV1czJKAz+xlWLw==
+X-Google-Smtp-Source: AFSGD/VI2IILO1rypswBKoXNFSXK7xUhuSJ7S4hB/jSwN6gUMVVQA713EWX17AEE397MeRMCTNeizw==
+X-Received: by 2002:a5d:5443:: with SMTP id w3mr18961331wrv.4.1545264948680;
+	Wed, 19 Dec 2018 16:15:48 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o81sm10175581wmd.10.2018.12.19.16.15.46
+	o81sm10175581wmd.10.2018.12.19.16.15.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Dec 2018 16:15:47 -0800 (PST)
+	Wed, 19 Dec 2018 16:15:48 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2018 00:15:42 +0000
-Message-Id: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 20 Dec 2018 00:15:43 +0000
+Message-Id: <20181220001545.12618-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] glibc: Remove site_config and glibc-initial
+Subject: [PATCH 2/4] gcc: Drop gcc-cross-initial and use gcc-cross instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,809 +61,217 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 20 Dec 2018 00:15:48 -0000
 Content-Transfer-Encoding: 8bit
 
-The only reason we appear to need glibc-initial at this time is to support
-the site_config code. The site_config code compiles and therefore needs
-at least some level of working C library to link against.
+We need a libgcc to build glibc. Tranditionally we therefore build
+a non-threaded and non-shared compiler (gcc-cross-initial), then use
+that to build libgcc-initial which is used to build glibc which we can
+then build gcc-cross and libgcc against.
 
-This isn't a good reason to keep the complexity of glibc-initial around
-so remove it, and the site_config support which then breaks.
+Firstly, we can drop the glibc dependency from gcc-cross, *if* we make
+two changes:
 
-Performance benchmarks suggest the time spent just rerunning configure
-for site_config just about equals any performance benefit for OE-Core
-image builds excluding the time spent adding glibc-initial to the
-dependency chain.
+a) specify the minimum glibc version to support in a configure option
+b) create a dummy limits.h file so that later when glibc creates one,
+   the headers structure has support for it. We can do this with a simple
+   empty file
 
-I'm not opposed to readding some other form of site_config support
-but it needs to be rethought.
+Once gcc-cross is libc independent, we can use it to build both
+libgcc-initial and then later libgcc.
+
+libgcc-initial is tricky as we need to imitate the non-threaded and
+non-shared case. We can do that by hacking the threading mode back to
+"single" even if gcc reports "posix" and disable libc presence for the
+libgcc-intial build. We have to create the dummy limits.h to avoid
+compiler errors from a missing header.
+
+glibc will fail to link with libgcc-initial due to a missing "exception
+handler" capable libgcc (libgcc_eh.a). Since we know glibc doesn't need
+any exception handler, we can safely symlink to libgcc.a.
+
+With those changes, gcc-cross can be used in all places and we only need
+one build of gcc for each architecture.
+
+For some reason ifunc was being disabled on mips prior to these changes
+but afterwards became enabled but caused assertion failures. This is
+therefore disabled until we can debug that.
+
+The glibc version is a minimum and only used on ppc in the gcc code, it
+doesn't need to be rigerously kept exactly up to date.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glibc/glibc-initial.inc     |  57 ---
- meta/recipes-core/glibc/glibc-initial_2.28.bb |   9 -
- meta/recipes-core/glibc/glibc.inc             |  16 +-
- meta/recipes-core/glibc/site_config/funcs     | 474 ------------------
- meta/recipes-core/glibc/site_config/headers   | 155 ------
- meta/recipes-core/glibc/site_config/types     |  21 -
- 6 files changed, 1 insertion(+), 731 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc-initial.inc
- delete mode 100644 meta/recipes-core/glibc/glibc-initial_2.28.bb
- delete mode 100644 meta/recipes-core/glibc/site_config/funcs
- delete mode 100644 meta/recipes-core/glibc/site_config/headers
- delete mode 100644 meta/recipes-core/glibc/site_config/types
+ meta/recipes-core/glibc/glibc.inc             |  5 +-
+ .../gcc/gcc-configure-common.inc              |  3 ++
+ .../gcc/gcc-cross-canadian.inc                |  2 +-
+ meta/recipes-devtools/gcc/gcc-cross.inc       |  8 ++-
+ meta/recipes-devtools/gcc/libgcc-initial.inc  | 52 ++++++++++++++++---
+ meta/recipes-devtools/gcc/libgcc.inc          |  2 +-
+ 6 files changed, 61 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
-deleted file mode 100644
-index acd0d6b1dc5..00000000000
---- a/meta/recipes-core/glibc/glibc-initial.inc
-+++ /dev/null
-@@ -1,57 +0,0 @@
--DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial make-native bison-native"
--PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
--
--PACKAGES = ""
--PACKAGES_DYNAMIC = ""
--
--STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
--STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
--
--do_configure () {
--	(cd ${S} && gnu-configize) || die "failure in running gnu-configize"
--	find ${S} -name "configure" | xargs touch
--	cfgscript=`python3 -c "import os; print(os.path.relpath('${S}', '.'))"`/configure
--	$cfgscript --host=${TARGET_SYS} --build=${BUILD_SYS} \
--		--prefix=/usr \
--		--disable-sanity-checks \
--		--with-headers=${STAGING_DIR_TARGET}${includedir} \
--		--enable-hacker-mode
--}
--
--do_compile () {
--	:
--}
--
--do_install () {
--	oe_runmake cross-compiling=yes install_root=${D} \
--	includedir='${includedir}' prefix='${prefix}' \
--	install-bootstrap-headers=yes install-headers
--
--	oe_runmake csu/subdir_lib
--	mkdir -p ${D}${libdir}/
--	install -m 644 csu/crt[1in].o ${D}${libdir}
--
--	# Two headers -- stubs.h and features.h -- aren't installed by install-headers,
--	# so do them by hand.  We can tolerate an empty stubs.h for the moment.
--	# See e.g. http://gcc.gnu.org/ml/gcc/2002-01/msg00900.html
--	mkdir -p ${D}${includedir}/gnu/
--	touch ${D}${includedir}/gnu/stubs.h
--	cp ${S}/include/features.h ${D}${includedir}/features.h
--
--	if [ -e ${B}/bits/stdio_lim.h ]; then
--		cp ${B}/bits/stdio_lim.h  ${D}${includedir}/bits/
--	fi
--}
--
--do_stash_locale() {
--	:
--}
--
--do_siteconfig () {
--	:
--}
--
--inherit nopackages
--
--# We really only want this built by things that need it, not any recrdeptask
--deltask do_build
-diff --git a/meta/recipes-core/glibc/glibc-initial_2.28.bb b/meta/recipes-core/glibc/glibc-initial_2.28.bb
-deleted file mode 100644
-index e86770e12d4..00000000000
---- a/meta/recipes-core/glibc/glibc-initial_2.28.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require glibc_${PV}.bb
--require glibc-initial.inc
--
--# main glibc recipes muck with TARGET_CPPFLAGS to point into
--# final target sysroot but we
--# are not there when building glibc-initial
--# so reset it here
--
--TARGET_CPPFLAGS = ""
 diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 99c92ce46e4..43e71337eef 100644
+index 43e71337eef..de692fbfd75 100644
 --- a/meta/recipes-core/glibc/glibc.inc
 +++ b/meta/recipes-core/glibc/glibc.inc
-@@ -15,21 +15,7 @@ python () {
+@@ -15,7 +15,7 @@ python () {
          bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN'), opt_effective))
  }
  
--# siteconfig.bbclass runs configure which needs a working compiler
--# For the compiler to work we need a working libc yet libc isn't
--# in the sysroots directory at this point. This means the libc.so
--# linker script won't work as the --sysroot setting isn't correct.
--# Here we create a hacked up libc linker script and pass in the right
--# flags to let configure work. Ugly.
--EXTRASITECONFIG = "CFLAGS='${CFLAGS} -Wl,-L${WORKDIR}/site_config_libc -L${WORKDIR}/site_config_libc -L${SYSROOT_DESTDIR}${libdir} -L${SYSROOT_DESTDIR}${base_libdir} -Wl,-L${SYSROOT_DESTDIR}${libdir} -Wl,-L${SYSROOT_DESTDIR}${base_libdir}'"
--siteconfig_do_siteconfig_gencache_prepend = " \
--	mkdir -p ${WORKDIR}/site_config_libc; \
--	cp ${SYSROOT_DESTDIR}${libdir}/libc.so ${WORKDIR}/site_config_libc; \
--	sed -i -e 's# ${base_libdir}# ${SYSROOT_DESTDIR}${base_libdir}#g' -e 's# ${libdir}# ${SYSROOT_DESTDIR}${libdir}#g' ${WORKDIR}/site_config_libc/libc.so; \
--"
--
--# nptl needs unwind support in gcc, which can't be built without glibc.
--DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers"
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
  
  PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
  PROVIDES += "virtual/libintl virtual/libiconv"
-diff --git a/meta/recipes-core/glibc/site_config/funcs b/meta/recipes-core/glibc/site_config/funcs
-deleted file mode 100644
-index ccc85392d7f..00000000000
---- a/meta/recipes-core/glibc/site_config/funcs
-+++ /dev/null
-@@ -1,474 +0,0 @@
--a64l
--abs
--access
--__adjtimex
--alarm
--alphasort
--argz_append
--__argz_count
--argz_create_sep
--argz_insert
--__argz_next
--argz_next
--__argz_stringify
--argz_stringify
--asprintf
--atexit
--atof
--atoi
--bcmp
--bcopy
--bindresvport
--bind_textdomain_codeset
--btowc
--bzero
--calloc
--canonicalize_file_name
--catgets
--cfgetospeed
--cfsetispeed
--cfsetspeed
--chmod
--chown
--chroot
--clock
--close
--closedir
--closelog
--confstr
--connect
--daemon
--dcgettext
--difftime
--dirfd
--dirname
--dngettext
--dup2
--ecvt
--endgrent
--endmntent
--endpwent
--endutent
--endutxent
--epoll_ctl
--err
--ether_hostton
--ether_ntohost
--euidaccess
--execv
--fchdir
--fchmod
--fchmodat
--fchown
--fchownat
--fcntl
--fcvt
--fdatasync
--fdopendir
--feof_unlocked
--fgets_unlocked
--fgetxattr
--finite
--flistxattr
--flock
--flockfile
--fnmatch
--fork
--fpathconf
--__fpending
--fprintf
--free
--freeaddrinfo
--freeifaddrs
--fseeko
--__fsetlocking
--fsetxattr
--fstat64
--fstat
--fstatfs
--fsync
--ftello
--ftime
--ftruncate
--funlockfile
--futimes
--futimesat
--gai_strerror
--gcvt
--getaddrinfo
--getc_unlocked
--getcwd
--getdelim
--getdomainname
--getdtablesize
--getegid
--getenv
--geteuid
--getgid
--getgrent
--getgrent_r
--getgrgid_r
--getgrnam
--getgrnam_r
--getgrouplist
--getgroups
--gethostbyaddr_r
--gethostbyname2
--gethostbyname
--gethostbyname_r
--gethostent
--gethostid
--gethostname
--getifaddrs
--getline
--getloadavg
--getmntent
--getmsg
--getnameinfo
--getnetbyaddr_r
--getnetgrent_r
--getopt
--getopt_long
--getopt_long_only
--getpagesize
--getpass
--getpeername
--getpgrp
--getpid
--getppid
--getprotoent_r
--getpwent
--getpwent_r
--getpwnam
--getpwnam_r
--getpwuid
--getpwuid_r
--getresuid
--getrlimit
--getrusage
--getservbyname
--getservbyname_r
--getservbyport_r
--getservent
--getservent_r
--getspnam
--getspnam_r
--gettimeofday
--getttyent
--getttynam
--getuid
--getusershell
--getutent
--getutid
--getutline
--getutmp
--getutmpx
--getutxent
--getutxid
--getutxline
--getwd
--getxattr
--glob
--gmtime
--gmtime_r
--grantpt
--group_member
--herror
--hstrerror
--iconv
--iconv_open
--if_freenameindex
--if_indextoname
--if_nameindex
--if_nametoindex
--index
--inet_addr
--inet_aton
--inet_ntoa
--inet_ntop
--inet_pton
--initgroups
--innetgr
--iruserok
--isascii
--isatty
--isblank
--isgraph
--isinf
--isnan
--isprint
--isspace
--iswalnum
--iswcntrl
--iswctype
--iswprint
--iswspace
--iswupper
--isxdigit
--kill
--killpg
--lchown
--lckpwdf
--lgetxattr
--link
--listxattr
--llistxattr
--localtime
--localtime_r
--lockf
--lrand48
--lsearch
--lseek64
--lsetxattr
--lstat
--mallinfo
--malloc
--mblen
--mbrlen
--mbrtowc
--mbsinit
--mbsrtowcs
--mbtowc
--memalign
--memchr
--memcmp
--memcpy
--memmove
--mempcpy
--memrchr
--memset
--mkdir
--mkdirat
--mkdtemp
--mkfifo
--mknod
--mkstemp64
--mkstemp
--mktime
--mlock
--mmap
--mtrace
--munlock
--munmap
--nanosleep
--nice
--nl_langinfo
--ntp_adjtime
--ntp_gettime
--_obstack_free
--on_exit
--open64
--open
--openat
--opendir
--openlog
--pathconf
--pipe
--poll
--popen
--posix_memalign
--prctl
--pread
--printf
--__progname
--pselect
--pthread_mutex_lock
--ptsname
--putenv
--putgrent
--putpwent
--putspent
--pututline
--pututxline
--putwc
--pwrite
--qsort
--raise
--rand
--random
--rand_r
--read
--readdir
--readdir_r
--readlink
--realloc
--realpath
--re_comp
--recvmsg
--re_exec
--regcomp
--regexec
--remove
--rename
--re_search
--rmdir
--rpmatch
--rresvport_af
--ruserok
--ruserok_af
--sbrk
--scandir
--sched_setscheduler
--sched_yield
--__secure_getenv
--select
--semctl
--semget
--sendmsg
--setbuf
--setbuffer
--setegid
--setenv
--seteuid
--setgid
--setgroups
--sethostname
--setitimer
--_setjmp
--setjmp
--setlinebuf
--setlocale
--setmntent
--setpgid
--setpgrp
--setpriority
--setregid
--setresgid
--setresuid
--setreuid
--setrlimit
--setsid
--setsockopt
--settimeofday
--setuid
--setutent
--setutxent
--setvbuf
--setxattr
--sgetspent
--shmat
--shmctl
--shmdt
--shmget
--shutdown
--sigaction
--sigaddset
--sigaltstack
--sigblock
--sigemptyset
--sighold
--siginterrupt
--signal
--sigprocmask
--sigset
--sigsetmask
--sigstack
--sigsuspend
--sigvec
--snprintf
--socket
--socketpair
--sprintf
--srand48
--srand
--srandom
--sscanf
--stat
--statfs
--statvfs
--stime
--stpcpy
--strcasecmp
--strcasestr
--strchr
--strchrnul
--strcmp
--strcspn
--strdup
--strerror
--strerror_r
--strftime
--strlen
--strncasecmp
--strncmp
--strndup
--strnlen
--strpbrk
--strptime
--strrchr
--strsep
--strsignal
--strspn
--strstr
--strtod
--strtoimax
--strtok_r
--strtol
--strtoll
--strtoul
--strtoull
--strtoumax
--strverscmp
--strxfrm
--symlink
--sync
--sysconf
--sysctl
--sysinfo
--syslog
--_sys_siglist
--sys_siglist
--system
--tcgetattr
--tcgetpgrp
--tcsetattr
--tcsetpgrp
--time
--timegm
--times
--timezone
--tmpnam
--towlower
--towupper
--truncate
--tsearch
--ttyname
--tzset
--ulimit
--umask
--uname
--unlink
--unsetenv
--unshare
--updwtmp
--updwtmpx
--usleep
--ustat
--utime
--utimes
--utmpname
--utmpxname
--valloc
--vasprintf
--verrx
--vfork
--vfprintf
--vfscanf
--vhangup
--vprintf
--vsnprintf
--vsprintf
--wait3
--wait4
--waitpid
--wcrtomb
--wcscoll
--wcsdup
--wcslen
--wctob
--wctomb
--wctype
--wcwidth
--wmemchr
--wmemcpy
--wmempcpy
-diff --git a/meta/recipes-core/glibc/site_config/headers b/meta/recipes-core/glibc/site_config/headers
-deleted file mode 100644
-index 69fedea4e1a..00000000000
---- a/meta/recipes-core/glibc/site_config/headers
-+++ /dev/null
-@@ -1,155 +0,0 @@
--aio.h
--alloca.h
--argz.h
--arpa/inet.h
--arpa/nameser.h
--asm/byteorder.h
--asm/ioctls.h
--asm/page.h
--asm/types.h
--assert.h
--byteswap.h
--ctype.h
--dirent.h
--dlfcn.h
--elf.h
--endian.h
--err.h
--errno.h
--execinfo.h
--fcntl.h
--features.h
--float.h
--fstab.h
--ftw.h
--getopt.h
--glob.h
--grp.h
--iconv.h
--ifaddrs.h
--inttypes.h
--langinfo.h
--lastlog.h
--libgen.h
--libintl.h
--limits.h
--linux/capability.h
--linux/fd.h
--linux/fs.h
--linux/hayesesp.h
--linux/hdreg.h
--linux/icmp.h
--linux/in6.h
--linux/joystick.h
--linux/ptrace.h
--linux/serial.h
--linux/sonypi.h
--linux/unistd.h
--linux/utsname.h
--linux/version.h
--locale.h
--malloc.h
--math.h
--mcheck.h
--memory.h
--mntent.h
--mqueue.h
--netdb.h
--net/if.h
--netinet/ether.h
--netinet/in.h
--netinet/ip6.h
--netinet/ip.h
--netinet/tcp.h
--netinet/udp.h
--netipx/ipx.h
--net/route.h
--paths.h
--poll.h
--pthread.h
--pty.h
--pwd.h
--regex.h
--resolv.h
--rpc/rpc.h
--rpc/types.h
--sched.h
--scsi/scsi.h
--search.h
--semaphore.h
--setjmp.h
--sgtty.h
--shadow.h
--signal.h
--stdarg.h
--stdbool.h
--stdc
--stddef.h
--stdint.h
--stdio.h
--stdlib.h
--string.h
--strings.h
--stropts.h
--sys/bitypes.h
--sys/cdefs.h
--sys/dir.h
--sys/epoll.h
--sysexits.h
--sys/fcntl.h
--sys/file.h
--sys/fsuid.h
--sys/ioctl.h
--sys/ipc.h
--syslog.h
--sys/mman.h
--sys/mount.h
--sys/mtio.h
--sys/param.h
--sys/poll.h
--sys/prctl.h
--sys/ptrace.h
--sys/queue.h
--sys/reg.h
--sys/resource.h
--sys/select.h
--sys/sem.h
--sys/shm.h
--sys/signal.h
--sys/socket.h
--sys/socketvar.h
--sys/soundcard.h
--sys/statfs.h
--sys/stat.h
--sys/statvfs.h
--sys/stropts.h
--sys/swap.h
--sys/sysctl.h
--sys/sysinfo.h
--sys/sysmacros.h
--sys/termios.h
--sys/timeb.h
--sys/time.h
--sys/times.h
--sys/timex.h
--sys/types.h
--sys/uio.h
--sys/un.h
--sys/unistd.h
--sys/user.h
--sys/utsname.h
--sys/vfs.h
--sys/wait.h
--termio.h
--termios.h
--time.h
--ttyent.h
--ulimit.h
--unistd.h
--ustat.h
--utime.h
--utmp.h
--utmpx.h
--values.h
--wchar.h
--wctype.h
-diff --git a/meta/recipes-core/glibc/site_config/types b/meta/recipes-core/glibc/site_config/types
-deleted file mode 100644
-index 178bd85a00b..00000000000
---- a/meta/recipes-core/glibc/site_config/types
-+++ /dev/null
-@@ -1,21 +0,0 @@
--char
--char *
--double
--float
--int
--long
--long double
--long int
--long long
--long long int
--short
--short int
--signed char
--unsigned char
--unsigned int
--unsigned long
--unsigned long int
--unsigned long long int
--unsigned short
--unsigned short int
--void *
+@@ -33,6 +33,9 @@ CACHED_CONFIGUREVARS += " \
+   libc_cv_ssp=no \
+ "
+ 
++# ifunc doesn't appear to work on mips, casuses libbfd assertion failures
++CACHED_CONFIGUREVARS_append_mipsarch = " libc_cv_ld_gnu_indirect_function=no"
++
+ GLIBC_EXTRA_OECONF ?= ""
+ GLIBC_EXTRA_OECONF_class-nativesdk = ""
+ INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index e2ce234aa14..009ab111683 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -24,6 +24,8 @@ GCCTHREADS ?= "posix"
+ 
+ GCCPIE ??= ""
+ 
++# glibc version is a minimum and doesn't need to track glibc exactly
++# only governs ppc specific features in much older glibc versions
+ EXTRA_OECONF = "\
+     ${@['--enable-clocale=generic', ''][d.getVar('USE_NLS') != 'no']} \
+     --with-gnu-ld \
+@@ -38,6 +40,7 @@ EXTRA_OECONF = "\
+     --enable-libstdcxx-pch \
+     --program-prefix=${TARGET_PREFIX} \
+     --without-local-prefix \
++    --with-glibc-version=2.28 \
+     ${EXTRA_OECONF_BASE} \
+     ${EXTRA_OECONF_GCC_FLOAT} \
+     ${EXTRA_OECONF_PATHS} \
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 2f32d3407fb..73f1e054463 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -3,7 +3,7 @@ inherit cross-canadian
+ SUMMARY = "GNU cc and gcc C compilers (cross-canadian for ${TARGET_ARCH} target)"
+ PN = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ 
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext flex-native"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext flex-native virtual/libc"
+ 
+ GCCMULTILIB = "--enable-multilib"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index 89b19684bef..63a196e2e99 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -2,7 +2,7 @@ inherit cross
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ EXTRADEPENDS = ""
+-DEPENDS = "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}libc-for-gcc ${EXTRADEPENDS} ${NATIVEDEPS}"
++DEPENDS = "virtual/${TARGET_PREFIX}binutils ${EXTRADEPENDS} ${NATIVEDEPS}"
+ PROVIDES = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
+ python () {
+     if d.getVar("TARGET_OS").startswith("linux"):
+@@ -44,6 +44,12 @@ EXTRA_OECONF_PATHS = "\
+ 
+ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_DIR_TARGET}${target_includedir}"
+ 
++
++do_configure_prepend () {
++	install -d ${RECIPE_SYSROOT}${target_includedir}
++	touch ${RECIPE_SYSROOT}${target_includedir}/limits.h
++}
++
+ do_compile () {
+ 	export CC="${BUILD_CC}"
+ 	export AR_FOR_TARGET="${TARGET_SYS}-ar"
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial.inc b/meta/recipes-devtools/gcc/libgcc-initial.inc
+index 950ad861e7e..06bf224f734 100644
+--- a/meta/recipes-devtools/gcc/libgcc-initial.inc
++++ b/meta/recipes-devtools/gcc/libgcc-initial.inc
+@@ -1,20 +1,58 @@
++#
++# Notes on the way the OE cross toolchain now works
++#
++# We need a libgcc to build glibc. Tranditionally we therefore built
++# a non-threaded and non-shared compiler (gcc-cross-initial), then use
++# that to build libgcc-initial which is used to build glibc which we can
++# then build gcc-cross and libgcc against.
++#
++# We were able to drop the glibc dependency from gcc-cross, with two tweaks:
++
++# a) specify the minimum glibc version to support in a configure option
++# b) create a dummy limits.h file so that later when glibc creates one,
++#    the headers structure has support for it. We can do this with a simple
++#    empty file
++#
++# Once gcc-cross is libc independent, we can use it to build both
++# libgcc-initial and then later libgcc.
++#
++# libgcc-initial is tricky as we need to imitate the non-threaded and
++# non-shared case. We can do that by hacking the threading mode back to
++# "single" even if gcc reports "posix" and disable libc presence for the
++# libgcc-intial build. We have to create the dummy limits.h to avoid
++# compiler errors from a missing header.
++#
++# glibc will fail to link with libgcc-initial due to a missing "exception
++# handler" capable libgcc (libgcc_eh.a). Since we know glibc doesn't need
++# any exception handler, we can safely symlink to libgcc.a.
++#
++
+ require libgcc-common.inc
+ 
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc"
+ 
+ LICENSE = "GPL-3.0-with-GCC-exception"
+ 
+-STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
+-STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
+-PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
+-
+ PACKAGES = ""
+ 
+ EXTRA_OECONF += "--disable-shared"
+ 
+-COMPILERINITIAL = "-initial"
+-
+ inherit nopackages
+ 
+ # We really only want this built by things that need it, not any recrdeptask
+ deltask do_build
++
++do_configure_prepend () {
++	install -d ${STAGING_INCDIR}
++	touch ${STAGING_INCDIR}/limits.h
++	sed -i -e 's#INHIBIT_LIBC_CFLAGS =.*#INHIBIT_LIBC_CFLAGS = -Dinhibit_libc#' ${B}/gcc/libgcc.mvars
++	sed -i -e 's#inhibit_libc = false#inhibit_libc = true#' ${B}/gcc/Makefile
++}
++
++do_configure_append () {
++	sed -i -e 's#thread_header = .*#thread_header = gthr-single.h#' ${B}/${BPN}/Makefile
++}
++
++do_install_append () {
++	ln -s libgcc.a ${D}${libdir}/${TARGET_SYS}/${BINV}/libgcc_eh.a
++}
+diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+index 5f1dff609c0..e4e0c480076 100644
+--- a/meta/recipes-devtools/gcc/libgcc.inc
++++ b/meta/recipes-devtools/gcc/libgcc.inc
+@@ -1,6 +1,6 @@
+ require libgcc-common.inc
+ 
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++ virtual/${MLPREFIX}libc"
+ 
+ do_install_append_class-target () {
+ 	if [ "${TCLIBC}" != "glibc" ]; then
 -- 
 2.19.1
 
