@@ -1,53 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 42F7D79EE9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EC10C6C0DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 11:58:58 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id m22so1857701wml.3
+	Thu, 20 Dec 2018 12:16:57 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id t18-v6so1353573ljd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 03:58:59 -0800 (PST)
+	Thu, 20 Dec 2018 04:16:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=YNAkKdoMI/N4TJzeZSA+y2OPeZvWlebH7jfeX4p3Pfk=;
-	b=gfNtB0uLU1yqIhzpmUwJT5jx0xNdNeheI2nLk+z++hCU+u1U7q99Gfc9KWBgYERojQ
-	v7xAmUWWoOii73TE8h8pAohHsyHtoFdcnGCgX+fKBcT7Wfy6PRlAAvS5t+ivK102iPtP
-	7HwLdq5rckT6Z25PuOue1FqbnLyk8Pqb6f07k=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7GVlWN+bMPPmHcVuPeIsLvcfcLvw9J9pVX6YghYdRT4=;
+	b=dBii3EUef0MhIOoGcEV7knS1B1JD4Ng443rUu/6/IdJlL7iz0unNB4Exal7E+wowyv
+	h92QYnUW9UwRQAa1CVJmd+PeYPJ8FMwc5nWbG9+LnAL0xoxeuF+K8p5o6UZTvSORb1mS
+	zuPPydNiLb/AbobM6NjR36w0MpA+XLYANL4sOuv/3A+TuhYlM+P2yC7K+4Bd6wolBNwP
+	rXEaQPMhArygWY/Y8ym7ZXJ/83TvQ+GkHZ9wVAFQRzxaXPyMgo5qHj1qgpYrbZQ5+qBc
+	XHulpng3X+K16YyZ7cqZROJuFPus7CXTzMfkk55wFDHbrHOK+RzbgjiLfT7BRf80DILm
+	fZPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=YNAkKdoMI/N4TJzeZSA+y2OPeZvWlebH7jfeX4p3Pfk=;
-	b=dOswlt7DftqytfSPh4ENYeG+hpG4B620TTv0hkv/KPuI6d9wnNfcs/S/JAWVuKzDvp
-	nIAFGXXfuBMHqYSZOvhrm+MOZ+jSFnxP/wvTRO/Hcv3v9YvHmZDAWTUgilJPC7rNes3W
-	4zJ39yqQYOxfg/hHtOcoxTYGdIioL6WBhp06zAyLx8gT6iZkg/NalcYo87I9nqPLNqvL
-	K7CyvQuIJZXA8ha9NzTPr73UCkH0JEl55L4vqYd7PxbSz6OWE40csBddQvDVCD/K6IRH
-	ygLgkfSpipTfWZd1VpNUWlodLIhxlFKaWXNIff+GybDTO2+E+e9qaEFyKvE05yNEMnLc
-	2vAQ==
-X-Gm-Message-State: AA+aEWZcpQ79aI9BhkGs/j82AVag3cJTCso1Ze/RpKnQ0/7CTkjrpZD/
-	V/U4QKt75lBnw6eIf64fojusgg==
-X-Google-Smtp-Source: AFSGD/XXmcwqdmMjeXUiG08x0ZuyU8aL3dnrq3dGMakhLcQSVktKv2Fkxtin5yaNS7YTLrINMoiHUw==
-X-Received: by 2002:a1c:5fd7:: with SMTP id
-	t206mr11705878wmb.145.1545307138916; 
-	Thu, 20 Dec 2018 03:58:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y13sm8687772wme.2.2018.12.20.03.58.57
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 20 Dec 2018 03:58:58 -0800 (PST)
-Message-ID: <d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Burton, Ross" <ross.burton@intel.com>, Mark Hatle
-	<mark.hatle@windriver.com>
-Date: Thu, 20 Dec 2018 11:58:57 +0000
-In-Reply-To: <CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
-References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
-	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
-User-Agent: Evolution 3.30.2-1 
-Mime-Version: 1.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7GVlWN+bMPPmHcVuPeIsLvcfcLvw9J9pVX6YghYdRT4=;
+	b=VVguARMfW9fxEeE1HQuMJCkdQ/5siKmz/VPzFGfez1hjv6js9vWyrduRHrYcZ2BsJO
+	vWNats7Sb0IAGeZ4OzlkepO0ao0GGGJumLJIJNh0Ov+FwaWbovgYxyZYCMdl2atZkIDX
+	qcHYrHb5Mh1qdchl7LqNKQKIMP6OwGuonIGnXvgEL4qGpi7uRZeVargSEcy+IMd0oS1i
+	1BQ9XOoT8O4386cUzTO1vQmx/IFa10m6ecJF30SVsH58hbjrixZIcuDFNwDJ0KcIM/Fk
+	ZpC2QFSnayk+7D+cX2Zl2reDlzBuCNuLRe+mAIm6SnCxROVL1I3GwHvxBo5An15l0NhZ
+	MDYw==
+X-Gm-Message-State: AA+aEWYHHxuhEVQbqE1oqWLPxPGMOPMmfwpJ4xGk7N/9pWtQ9TRlyA1z
+	94Mx7D8RESnq6ck/qOouwhOlPzgWurI8LIqFEAPlB/q4CLo=
+X-Google-Smtp-Source: AFSGD/VMJwjldHMMl+KFUuOESU0pBhO3/2GCe/ibsZx3PRsMKMkcQGLuKn6eZr8PXNo7CT0dxZODV5dDMylYVb/L+LM=
+X-Received: by 2002:a2e:6503:: with SMTP id
+	z3-v6mr14682549ljb.153.1545308218511; 
+	Thu, 20 Dec 2018 04:16:58 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1545202218.git.liezhi.yang@windriver.com>
+	<f8c21c17d3ad2ca31c4b26b23b74ab0bdefd2c77.1545202218.git.liezhi.yang@windriver.com>
+	<CAJTo0LZOd5hFgFWqvYL2ucusTLCNymf9Jo__yf5Hd1SGeCytrA@mail.gmail.com>
+	<9bc35e55-7246-76eb-8726-bb717ad5979c@windriver.com>
+In-Reply-To: <9bc35e55-7246-76eb-8726-bb717ad5979c@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2018 12:16:45 +0000
+Message-ID: <CAJTo0La6Cbc1ANFPkYoDXQEs-LOCHgZpESt1pL=7=M=2-t7E4w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] glibc: Remove site_config and glibc-initial
+Subject: Re: [PATCH 1/1] cmake-native: Set --parallel for configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,47 +58,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 11:58:58 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 12:16:58 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-12-20 at 11:50 +0000, Burton, Ross wrote:
-> As the only users of siteconfig are now zlib and ncurses, should we
-> just rip it out entirely leaving a gap for a fresh implementation?
+On Thu, 20 Dec 2018 at 06:46, Robert Yang <liezhi.yang@windriver.com> wrote:
+> +               --parallel="${@oe.utils.parallel_make_argument(d, '%d')}" \
 
-I'm cc'ing Mark who has a lot of the history on this.
+Tweaked when merging to mut to be:
 
-I think we're at a point where we likely need to re-implement this in a
-different way...
++       ${S}/configure --verbose --prefix=${prefix} \
++               ${@oe.utils.parallel_make_argument(d, '--parallel=%d')} \
++               -- ${CMAKE_EXTRACONF}
 
-Cheers,
+I see similar wins here, walltime for cmake-native's build goes from
+five minutes to one minute.
 
-Richard
+(!!!)
 
-
-> Ross
-> On Thu, 20 Dec 2018 at 00:16, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > The only reason we appear to need glibc-initial at this time is to
-> > support
-> > the site_config code. The site_config code compiles and therefore
-> > needs
-> > at least some level of working C library to link against.
-> > 
-> > This isn't a good reason to keep the complexity of glibc-initial
-> > around
-> > so remove it, and the site_config support which then breaks.
-> > 
-> > Performance benchmarks suggest the time spent just rerunning
-> > configure
-> > for site_config just about equals any performance benefit for OE-
-> > Core
-> > image builds excluding the time spent adding glibc-initial to the
-> > dependency chain.
-> > 
-> > I'm not opposed to readding some other form of site_config support
-> > but it needs to be rethought.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
+Ross
 
