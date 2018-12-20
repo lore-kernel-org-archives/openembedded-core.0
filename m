@@ -1,56 +1,52 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4442A6C5D1
+Return-Path: <damien.riegel@gmail.com>
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E9F2606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 18:02:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBKI1oIw006373
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Dec 2018 10:02:00 -0800
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 20 Dec 2018 10:01:39 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, "Purdie, Richard"
-	<richard.purdie@linuxfoundation.org>
-References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
-	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
-	<d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
-	<CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <d9129255-2d1d-3b13-de3f-6dd0f299448b@windriver.com>
-Date: Thu, 20 Dec 2018 12:01:38 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.3.3
+	Thu, 20 Dec 2018 19:17:11 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id c25so1325722pgb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Dec 2018 11:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Dlje+I0AzHU0QqlEb7KIculEoGGk4uRV8hJ6T6GG8tU=;
+	b=U8ey4tsVtTwwCUJT3C8rBvHISTAcy0ZcmnaFifoJjUz8iW9psN2lUNtg9CONn+OucQ
+	Cat6gwR28QUaztSCxr0zccAvbmtDOdIfJRQzxZQdUl67uBfsBJhDGdI9ZQMDy1/y7stv
+	m/XBVgAJGrK1/zn5AoEFP2qYs4YO/JBCH0FJje68Mwfjd/VPB5441dpZj9kFR/ZIsPas
+	D68E7bt6CsbLoAT/YOQjWRBJ3OfEW4GdOT8E8No1zUrL8wPcMifESZrU8ee/MVZSZ8Mr
+	YCvrsGDgsqEjBe6X+L1fGcz/UaBkVPShK0PERVu/HFcl7kQ1/vgeHoxvGSOCQFTuxOzI
+	+TCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Dlje+I0AzHU0QqlEb7KIculEoGGk4uRV8hJ6T6GG8tU=;
+	b=gNhshnzfJybmIp15jj0b5UXiLpBkVODZSIkhER9CVauLujIpeKgPMH1hy0jEGZF2vU
+	CKcuhaBRgEkp93bPbbYif1jPFYk/m535s1tEv3EHWbhL+VjJnfpIGK6tMxBQhqtfjj6g
+	38FL8nTJATsPUapUhvbg8TWikJW+IV59qu4XcLzgshNYvx24pLVCWxBrwZl2t9fBNDII
+	/KJ+b8XESB6UkFOLN8Bda+rmF0UzxVPRv2fRbsP42vxIkBLW6/HcCTpwdPOnSt8MMFrf
+	dHl+nIYI0dEeazxAZ9YHjJrtQVKb3niQXWk0GefOPWllQV25e/mp/ucgB6Ci0O0CbOna
+	0Ymg==
+X-Gm-Message-State: AA+aEWbbBJ1diG3f09wjVT2eGkFFNWcyVCa0v02ylB/br0QtFJ1XNsH+
+	/1/BQJhIVZ7tACtP/Rw32Pd9DsYEu5p4HdG6s6s=
+X-Google-Smtp-Source: AFSGD/VZSnqylAQ7MhxbUrJNFgYfWVsvjjQEMy5H2q4OuHlbCiUmLi1pWbp7832CcjBVgWxoAO6vtFT+WfEEmlCseCU=
+X-Received: by 2002:a63:2b01:: with SMTP id r1mr23901767pgr.432.1545333432293; 
+	Thu, 20 Dec 2018 11:17:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] glibc: Remove site_config and glibc-initial
+References: <20181219175040.10507-1-damien.riegel@gmail.com>
+	<CAGgRHJr+obHJrRNFCDsPJN18w0-dtQsxAa_+Kk2KBMppDSycoA@mail.gmail.com>
+	<CAL4iiOeed+At5V0hyFUEdS_JdRgG0o63dYLkiTkt0F-btK8tUw@mail.gmail.com>
+	<CAGgRHJrg+VzfKq09yhJG6xEHkfWYXmA7fsVK_X96ozTG5z9k1A@mail.gmail.com>
+	<CAL4iiOd3YC9-12r5gPF78_6edXRUzctmzWq4bBcv2XQf-Q2CBw@mail.gmail.com>
+	<CAGgRHJphjj3Bzu5FVjw8m-uFivAJ-k5fqZiNQ++s+w8hk3QCcg@mail.gmail.com>
+In-Reply-To: <CAGgRHJphjj3Bzu5FVjw8m-uFivAJ-k5fqZiNQ++s+w8hk3QCcg@mail.gmail.com>
+From: Damien Riegel <damien.riegel@gmail.com>
+Date: Thu, 20 Dec 2018 14:17:01 -0500
+Message-ID: <CAL4iiOcibL0=wknC_UdSmpvsyMbB1H4xQ7UymvZpZLaU+g6EBg@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [RFC] go.bbclass: install dependencies under $GOPATH instead of $GOROOT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,86 +59,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 18:02:43 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Dec 2018 19:17:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/20/18 7:02 AM, Burton, Ross wrote:
-> On Thu, 20 Dec 2018 at 11:59, <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2018-12-20 at 11:50 +0000, Burton, Ross wrote:
->>> As the only users of siteconfig are now zlib and ncurses, should we
->>> just rip it out entirely leaving a gap for a fresh implementation?
->>
->> I'm cc'ing Mark who has a lot of the history on this.
->>
->> I think we're at a point where we likely need to re-implement this in a
->> different way...
+On Thu, 20 Dec 2018 at 11:00, Matt Madison <matt@madison.systems> wrote:
+>
+> On Thu, Dec 20, 2018 at 6:02 AM Damien Riegel <damien.riegel@gmail.com> wrote:
+> >
+> > On Thu, 20 Dec 2018 at 07:53, Matt Madison <matt@madison.systems> wrote:
+> > >
+> > > On Wed, Dec 19, 2018 at 5:52 PM Damien Riegel <damien.riegel@gmail.com> wrote:
+> > > >
+> > > > On Wed, 19 Dec 2018 at 16:41, Matt Madison <matt@madison.systems> wrote:
+> > > > >
+> > > > > On Wed, Dec 19, 2018 at 9:51 AM Damien Riegel <damien.riegel@gmail.com> wrote:
+> > > > > >
+> > > > > > To package a go application in Yocto, one needs to also package its
+> > > > > > dependencies to keep the build reproducible and under control. The
+> > > > > > default install task of the go class puts the source in ${libdir}/go/src.
+> > > > > >
+> > > > > > ${libdir}/go/src is where the standard go packages resides, aka $GOROOT.
+> > > > > > When a go package has dependencies on other go packages, they must be
+> > > > > > located under $GOPATH, otherwise errors like this one may happen:
+> > > > > >
+> > > > > >   Non-standard package <packagename> in standard package <packagename>
+> > > > > >
+> > > > > > This point of this patch is to trigger a discussion on how this issue
+> > > > > > can be tackled in Yocto. Following code is working but should not be
+> > > > > > considered for inclusion.
+> > > > >
+> > > > > Can you describe the context of this a bit more?  The way go.bbclass
+> > > > > is set up, all of your recipe's dependencies (and their dependencies)
+> > > > > should already have been installed in the per-recipe sysroot (where
+> > > > > GOROOT lives for the current recipe's build), and should get resolved
+> > > > > from there. GOPATH gets set to ${B} for the current recipe's build.
+> > > > > Nothing in the GOROOT should be importing packages that reside in
+> > > > > GOPATH, which is what that particular error message is indicating. If
+> > > > > you're getting that error, then there might be something wrong with
+> > > > > recipe dependencies.
+> > > >
+> > > > Sure. I think the issue is because I have the following chain of
+> > > > dependencies:
+> > > >
+> > > > A --> B --> C
+> > > >   `-> C
+> > > >
+> > > > Building C is fine, building B is fine, but building A triggers the
+> > > > error I mentioned, because the Go compiler complains about B using a
+> > > > non-standard package C. It thinks B is a standard package because it's
+> > > > located in GOROOT.
+> > >
+> > > Are the three packages in separate source repositories? If so, the go
+> > > tool should not be finding any C files in GOPATH.
+> > >
+> > > If A and C are part of the same source repository, but B is separate,
+> > > that would make the situation a bit trickier, but still solvable.
+> >
+> > They are three separate repositories. The issue is precisely that C
+> > files are not in GOPATH but in GOROOT. C files _should be_ in GOPATH or
+> > that will break Go tools.
+>
+> Go does allow for non-"standard" packages to be in GOROOT as well.
+> The way the go tool marks a package as "standard" is if it resides in
+> GOROOT _and_ starts with a prefix that does not look like a domain
+> name (specifically, does not contain a dot '.').  The Go convention,
+> though, is to use a domain name as the first element of the import
+> path for anything that isn't part of the base runtime (std, cmd).
 
-I do think it's still needed/desired.  However, I absolutely agree we need to
-rethink/reimplement the generation aspect of the site-config part.
+Damn, I think that's the issue, some packages don't use a domain name
+as the first element of the import path.
 
-> I did some poking at this a few weeks ago, basically turned off
-> siteconfig by removing the 'inherit siteconfig' from
-> autotools.bbclass.
-> 
-> Interestingly, at the time for core-image-minimal this actually
-> resulted in the build being faster.  Some recipes were a little slower
-> to configure, specifically coreutils had the biggest slowdown as it
-> appears to probe for every syscall in the world (via gnulib) but that
-> only took seven seconds longer.  However, as the siteconfig generation
-> is done by writing a custom configure.ac and then doing the
-> autoconf/configure dance, these slowdowns were balanced out by glibc
-> taking an extra 30 seconds.
-> 
-> It appears that disabling siteconfig for glibc is an acceptable
-> compromise if we can not build glibc and gcc twice.
+> If you do have a situation where you have multiple interdependent
+> packages that for some reason have import paths that do not start with
+> a domain name, you could build them all using a single recipe, rather
+> than splitting them up into separate recipes.  I've had to do that for
+> cases where there were circular dependencies between two (or more)
+> packages; the same technique could work this, though, too.
 
-glibc is something we've never been concerned with 'doing the wrong thing'.
-It's also very possible that we could use glibc's autoconf output as a basis for
-the site-config items.
+Okay, got it. There are no circular dependencies here, it's really a
+straightforward situation "A needs B", so fixing the package names
+should solve the issue.
 
-Before the way the system worked is that it tried to determine the 'stupid
-defaults(*)' that autoconf is always looking for, as well as many of the
-syscalls/headers that are common.
-
-As far as zlib/ncurses being the only things that augmented them, when this was
-originally implemented many years ago -- those items were the most commonly used
-by other configure scripts.  So adding those defaults when zlib and/or ncurses
-was provided by the system offered a measurable difference in the performance of
-configure.
-
-We expected over time additional things would be added (but obviously they never
-were).  Stuff like gnome, glib, etc...
+On a side note, it would be nice to have documentation somewhere on
+how to use the go class, especially for GO_IMPORT and GO_INSTALL.
+Does that belong in the class file itself? Or should that be put in the doc
+repository?
 
 
-So my recommendation is that the siteconfig is something (new recipe) that
-either runs right after the system libc (and everything else depends on that
-uses autoconf) -- or runs at the end of the libc command.
-
-The goal of this is to provide a core set of system wide definitions in a way we
-know will produce a consistent set for any autoconf user.  (If other systems,
-like cmake could make use of this type of thing -- it's something to consider as
-well.)
-
-We also still want a way that manual definitions can be setup on a global basis
-for a given architecture.  (We do want these limited for the most part, since
-maintenance is overlooked -- but we've certainly seen cases in the past where
-configure works like this:  Yes, No, Cross -- where cross defines 'No' and never
-checks.   This functions, but ends up in a significantly less optimized
-situation, and these are incredibly difficult to identify.  [Using QEMU isn't an
-option, as QEMU doesn't know -all- potential architectures...]
-
-* stupid defaults - sizeof char, short, int, long, void, long long, etc...
-
-
-Anyway, my 2 cents.  I'd like to see how this goes with it stripped out for the
-next few weeks.. and I'll back back early January where we can evaluate my
-assumptions/experiences above and see how this tracks with current reality.
-
---Mark
-
-> Ross
-> 
-
+Thank your very much for your help!
+ --
+Damien
 
