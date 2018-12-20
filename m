@@ -1,26 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 562877C0E9
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 515E479DB4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 08:05:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBK8568X023486
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 00:05:17 -0800
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 20 Dec 2018 00:04:56 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Dec 2018 00:04:54 -0800
-Message-ID: <3d6fbb3825ef92b93f0e99d4ff06af2156ecac71.1545293075.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1545293075.git.liezhi.yang@windriver.com>
-References: <cover.1545293075.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] create-pull-request: fix sed command for SUBJECT
+	Thu, 20 Dec 2018 08:43:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Dec 2018 00:43:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,376,1539673200"; 
+	d="scan'208,223";a="112046152"
+Received: from lwong-mobl2.gar.corp.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.255.137.224])
+	by orsmga003.jf.intel.com with ESMTP; 20 Dec 2018 00:43:38 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2018 16:43:32 +0800
+Message-Id: <20181220084336.7294-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/5] libsolv: upgrade 0.7.1 -> 0.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 08:05:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Dec 2018 08:43:38 -0000
 
-Fixed when SUBJECT contains slash(/):
-sed: -e expression #1, char 35: unknown option to `s'
+From NEWS:
 
-Use '#' as separator to fix the problem.
+- bug fixes:
+  * do not autouninstall packages because of forcebest updates
+- new features:
+  * support rpm's new '^' version separator
+  * support set/get_considered_list in bindings
+  * new experimental SOLVER_FLAG_ONLY_NAMESPACE_RECOMMENDED flag
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/create-pull-request | 2 +-
+ .../libsolv/{libsolv_0.7.1.bb => libsolv_0.7.2.bb}              | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libsolv/{libsolv_0.7.1.bb => libsolv_0.7.2.bb} (95%)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 280880b..ff0f7e6 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -278,7 +278,7 @@ fi
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.1.bb b/meta/recipes-extended/libsolv/libsolv_0.7.2.bb
+similarity index 95%
+rename from meta/recipes-extended/libsolv/libsolv_0.7.1.bb
+rename to meta/recipes-extended/libsolv/libsolv_0.7.2.bb
+index 9e0952128e..6e3993b05e 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.1.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.2.bb
+@@ -12,7 +12,7 @@ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation
+                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
+                            "
  
- # Replace the SUBJECT token with it.
- if [ -n "$SUBJECT" ]; then
--	sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
-+	sed -i -e "s#\*\*\* SUBJECT HERE \*\*\*#$SUBJECT#" "$CL"
- fi
+-SRCREV = "aae08b819742abba7c44510797077c5f25f3ed00"
++SRCREV = "1c0141962a9eef7f4bc1fdcac7099f3f6a95ec23"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
- 
+ S = "${WORKDIR}/git"
 -- 
-2.10.2
+2.17.1
 
 
