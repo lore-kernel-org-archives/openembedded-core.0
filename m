@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FC4979585
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E0E79C81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 11:12:58 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id y1so1254810oie.12
+	Thu, 20 Dec 2018 11:49:10 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id i26so1118268lfc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2018 03:12:59 -0800 (PST)
+	Thu, 20 Dec 2018 03:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=LxOPYJSef0TwYU79whiUjW+TTnYtvST9gd6UWib8/IQ=;
-	b=eo2WGnm3QjGII5VqL8dqfkcvG5SAj1YQrj5D1bcxO5M4FEEslaWwrzVo6gQ18NZ1hw
-	/FcMFu1V5Wk4uA53DeKCRuCi8rH0Pn7T+zJpjgd69D/gB4XdpmnH7gvN4TtcpWdG++qJ
-	jwJKXzBFOppoYdsS0lEyuWLB2D3LhBBNL7rPeu5VAixf8AZ3kZ/RAWvEkmfTM7E86e1+
-	8XI7OuGoclWwFuf4Zy/Eb5QqSW60pow6FYy6CODj+apq/p0a50/UJ3KBJKD1TLenKQVz
-	pL+oYDpc5CYEmKe4YMb93a2qlllG46xRwyqYlsrvaes/2u6zo0C4yNxu3wde2zelohMw
-	Bx9A==
+	:cc; bh=W9WGm8A0wYjujYLy56izI403BlksygDfHyfdgsy45ro=;
+	b=a8oqI2rwy9aHbK7NvZCA+jArVVyFu6CaO48+pCQDET3ScN4RppzLvEtNoJ+G2l0oke
+	LBl/KS8PteeQDJL5qYdmZcwXoS0TFTqdBY/m0MTS6QXHyRNw1hZNh1SIEotD0NcVn71G
+	AwnRXX+1tn1IYnIBYHdaUcPU7Eiyp+HvaY9fJ2WLwDYxCrVE5Q4CbslS+gWn+BJYWxSY
+	nf5mL3BKKM46OKT+h6F8LM97KYVRK8/+rKBAd7/yr54QUf0yEA2VimHDEhNlbysdIj56
+	SEzoexikPmFxOYmmzFB6LvFGL0SRM29YW3xLI3fiK331j+x1Rwy431l09EAQsb4agkDU
+	dI/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=LxOPYJSef0TwYU79whiUjW+TTnYtvST9gd6UWib8/IQ=;
-	b=lW0QD2S3rrYcKdkCr4fh+uIftFXmwQTLYXakguMddZMJ9TyTfTQhD9kzCS2eOhFIJW
-	sNM92hkcKQMZA2A29+MZKoRhSeMqQZgj75ecEzwU7cKzVIQh7p3yN6I3CeqP72oxo4cf
-	7Jm8gvD15c+NKaBm6yGCdgyI4pBYnSVkSKRItNTYRWZT4+JiFRKEcd6ZJ+lU66MQ6oxi
-	jr7rGlGMDSohQYZOVey6C2tgA6bCbcvUWfPHkJU/j+PFjZDBCAiyEENNmLIK20YQ0M5o
-	tWV1ZxydWRw8K3mBuYpuRi9IwsMJVhOoSxdox+fk3kANyCCYQiDsI2CcHTcH/rEI9t/T
-	zsMw==
-X-Gm-Message-State: AA+aEWbBElcSNJfqUz6XEkxBFSUlhhaT2k9ZJ+VOjp5Xh/pM1QUTNepr
-	HHxDhh3pykusEpfca2scS9zziTpQgXJ1K737enaTTQ==
-X-Google-Smtp-Source: AFSGD/Xpzeo3YAJa//FTWpUJELSyiVVEvhnIe0MRey4Hg1/+Ia7zuZ8COZcpoZvvme1k+82PxPeyPJHQKHJDb4u8YuU=
-X-Received: by 2002:aca:4586:: with SMTP id s128mr1860092oia.182.1545304379020;
-	Thu, 20 Dec 2018 03:12:59 -0800 (PST)
+	bh=W9WGm8A0wYjujYLy56izI403BlksygDfHyfdgsy45ro=;
+	b=H1Ks5lmsfDLdXwIAGHbQb9ZkIAr60HP0aTJWU5HHpLhgf/JCaCJu8/X488ERuzHlsr
+	JVI78jA6qlFSNUs5yG1UJu85jd44QtKphgEgMAeik+boVJ+XJr2erKUZ914C+h1U/x1g
+	0JrWJlPj8p/3v8O4duJqpePbLMSbOsKVqi23xjtV4ChRsD5WUCiwgt01Lva6Lq/G2oSB
+	9zr72zG1MdOEwZTA/rt9vs3gaYMKI0dIJeg5GFwkboAYufeav1zd+IXR4o6ueKr6VDDB
+	7Ec6KuBSLEGVZCQZuDTonL2RPmXAWJvPMsKa9ulYMD0SV6RDh+6WFCBY8tU+gN3AjukZ
+	zA0A==
+X-Gm-Message-State: AA+aEWZ10tGbgRMyvGcN+zejB/P/5925fYOqaHcHA5GD9IAKyK6+tF3l
+	QUcAhXieG6i2c/Kf0qy3S1ViWpPbWUGEm5vHC9eRUptM
+X-Google-Smtp-Source: AFSGD/XapBGPvxvUWeOqlg08RXVTYBvHkeSDkWHfeEJQvjZRUqeejueuzV1YKOXbvnGs7Td0MwT2NPez/xUPmPcj950=
+X-Received: by 2002:a19:9c92:: with SMTP id f140mr14423157lfe.41.1545306550702;
+	Thu, 20 Dec 2018 03:49:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20181220104651.9238-1-ricky.yoon@windriver.com>
-In-Reply-To: <20181220104651.9238-1-ricky.yoon@windriver.com>
+References: <cover.1545293075.git.liezhi.yang@windriver.com>
+	<3d6fbb3825ef92b93f0e99d4ff06af2156ecac71.1545293075.git.liezhi.yang@windriver.com>
+In-Reply-To: <3d6fbb3825ef92b93f0e99d4ff06af2156ecac71.1545293075.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2018 11:12:46 +0000
-Message-ID: <CAJTo0Lb5zT5EMHZ=EY=Z-=v8=smaBAEXDgUZX2ga+-zQ1GSnsg@mail.gmail.com>
-To: ricky.yoon@windriver.com
+Date: Thu, 20 Dec 2018 11:48:58 +0000
+Message-ID: <CAJTo0LZE6v5A5ioR1B0iYiuaHiosK=BYpW4-0KqqGW-FT1MS=g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libpng: Upgrade 1.6.35 -> 1.6.36
+Subject: Re: [PATCH 1/1] create-pull-request: fix sed command for SUBJECT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2018 11:12:58 -0000
+X-List-Received-Date: Thu, 20 Dec 2018 11:49:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-This upgrade is already on the list.
+So if I sent a patch with the subject "Fix #1234" it fails?
+
+Sounds like a good reason to rewrite create-pull-request in Python to
+avoid this nonsense.
 
 Ross
-On Thu, 20 Dec 2018 at 10:48, ricky.yoon <ricky.yoon@windriver.com> wrote:
+On Thu, 20 Dec 2018 at 08:05, Robert Yang <liezhi.yang@windriver.com> wrote:
 >
-> License-Update: License file changes are due to updates in Version and Copyright date
+> Fixed when SUBJECT contains slash(/):
+> sed: -e expression #1, char 35: unknown option to `s'
 >
-> Signed-off-by: ricky.yoon <ricky.yoon@windriver.com>
+> Use '#' as separator to fix the problem.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  .../libpng/{libpng_1.6.35.bb => libpng_1.6.36.bb}         | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-multimedia/libpng/{libpng_1.6.35.bb => libpng_1.6.36.bb} (74%)
+>  scripts/create-pull-request | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.35.bb b/meta/recipes-multimedia/libpng/libpng_1.6.36.bb
-> similarity index 74%
-> rename from meta/recipes-multimedia/libpng/libpng_1.6.35.bb
-> rename to meta/recipes-multimedia/libpng/libpng_1.6.36.bb
-> index 5ae0a91a74..3cf4f7249c 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.35.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.36.bb
-> @@ -2,16 +2,16 @@ SUMMARY = "PNG image format decoding library"
->  HOMEPAGE = "http://www.libpng.org/"
->  SECTION = "libs"
->  LICENSE = "Libpng"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=4791381a76f106ac4699f6261c65ee29 \
-> -                    file://png.h;endline=144;md5=090ba5769782e8a1663a45fab1c2b36c \
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=12b4ec50384c800bc568f519671b120c \
-> +                    file://png.h;endline=144;md5=15ae15f53376306868259924a9db4e05 \
->                      "
->  DEPENDS = "zlib"
+> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+> index 280880b..ff0f7e6 100755
+> --- a/scripts/create-pull-request
+> +++ b/scripts/create-pull-request
+> @@ -278,7 +278,7 @@ fi
 >
->  LIBV = "16"
+>  # Replace the SUBJECT token with it.
+>  if [ -n "$SUBJECT" ]; then
+> -       sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
+> +       sed -i -e "s#\*\*\* SUBJECT HERE \*\*\*#$SUBJECT#" "$CL"
+>  fi
 >
->  SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz"
-> -SRC_URI[md5sum] = "678b7e696a62a193ed3503b04bf449d6"
-> -SRC_URI[sha256sum] = "23912ec8c9584917ed9b09c5023465d71709dce089be503c7867fec68a93bcd7"
-> +SRC_URI[md5sum] = "df2be2d29c40937fe1f5349b16bc2826"
-> +SRC_URI[sha256sum] = "eceb924c1fa6b79172fdfd008d335f0e59172a86a66481e09d4089df872aa319"
->
->  MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/${PV}/"
 >
 > --
-> 2.17.1
+> 2.10.2
 >
 > --
 > _______________________________________________
