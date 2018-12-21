@@ -1,47 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
-	[209.85.222.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 251E36C118
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D4657BD8C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2018 14:52:37 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id o125so3214678qkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2018 06:52:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZQkgwDYUKgJePyPc9JhmSJl1vjp/5dV2k4LoHdYY3hQ=;
-	b=sRAvkHmhFFIJnX9QbGKvXyhD+2SyR5MuPxaHurmY8zFGZgILgg2wS9hBkdjW8lG6EZ
-	6M1BDSGCGc18nHt/SsEoS7I9jbV4r2SM5eISxtbPcLn0htK/qg5Ze7o7mXA3LqXORpyr
-	Z9lQQEorKS0dLkEkkXFoYkCrRPESt2A2U20NsaNICah8G+sV+pxwLUYMsJ907R3OwGLu
-	AYeARLe9X+jBPeZHEGvDuw/vVFP7+QkwCrmAQA5CozM0UFoTNa1dJQwIQ51Q0DUSVwfk
-	3lFZZwNA+1gjReE4qNqbqGK9IMTO2wAIS1176Cv24I1PklO4hrgJxXCWFEEZQZHeU8ww
-	p1Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZQkgwDYUKgJePyPc9JhmSJl1vjp/5dV2k4LoHdYY3hQ=;
-	b=HljSJGGydap6K4NjzYyq2hVEz2QKuRcY0OZT8XUUrAwBYKjEVsjUHaqvZNBeQO6xjA
-	UXSKFLmxJFOOe5jOYwg1qWh/ZMWLhtyQ8B5VUb4OKAgt5gM5CUmvjP3OQQx66uGQU+jC
-	7Lcku6m/ml7hSVQDdGU858oJoprLEep61LlQ10EW0fCnDHJsgVU0T7upfKlIBObK8k4G
-	sqoEJ20Y17vxL015pkijxEhchAlixHRPJ4uJVBq/d8a4l8dYLtFcs8r7VnUvBE0+38x+
-	mTf6zy4kQ9w5fBCYEv6hiMVe4R5y8vPmZ+76vLduWjzB9G6ogniiGPGdaYPA1IV+PD3I
-	C+SQ==
-X-Gm-Message-State: AJcUukehrs4m622rTQOwWCNDUH+LzkeMNTZhWdbvvt4UWDQrkw5Et6CI
-	lY9PiWf1UHjisdwhCd5G+umZbaLHkhRG1kkAhsc=
-X-Google-Smtp-Source: ALg8bN5rCPfqSBYVQsbVp3+BRu0Wk3tJQ0ll+Udgjdcd4S1WpKkQ7kAMF2zOBme7zL7F6Z0zftL/NDRMvK7MsRL/atw=
-X-Received: by 2002:a37:d408:: with SMTP id l8mr2553529qki.315.1545403958646; 
-	Fri, 21 Dec 2018 06:52:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20181221142351.71820-1-alex.kanavin@gmail.com>
-In-Reply-To: <20181221142351.71820-1-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Dec 2018 06:52:12 -0800
-Message-ID: <CAMKF1sqY8tVKDuqof1D7J33-hPxh_3dN2Ngb+X1k=U1gGeww5w@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: add --enable-new-dtags to linker
+	Fri, 21 Dec 2018 19:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4579; q=dns/txt; s=iport;
+	t=1545421532; x=1546631132;
+	h=from:to:cc:subject:date:message-id;
+	bh=zjf4u5PG44sMYzXj6GYP2Q+VcCnbh8/k+OsHJBzcCTo=;
+	b=cpAd6gT78gLKBQLiv5tFNKQVdkrm4Sg3J6L7a5GW5kH6c2+HvPpmbsgn
+	+mYbj6c3PAg8ZwDQlz4ZHOwn11XDBLJu9QhfwV6SK97NiPgSC1v7tXvkP
+	H5WFE6jN35bVnxG+EUNQ4hejeGwI8nlQA/1E3LE0bJKc7r815gd8ud48k Y=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AEAABWQh1c/xbLJq1kGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCaXASJ4wWX6UJgXsNG4RRgxI0CQ0BAwEBAgE?=
+	=?us-ascii?q?BAm0cDIVKAX8sAwECfg4BEoMiAYIBp02KLRSHaoRYgUA/jwMCoGtaCYcSilc?=
+	=?us-ascii?q?CFoItjzKJU5BJgUY4gVYzGggbFYMnCYIeF4JsizM9AzCPNQEB?=
+X-IronPort-AV: E=Sophos;i="5.56,382,1539648000"; 
+   d="scan'208";a="8963501"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
+	([173.38.203.22])
+	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Dec 2018 19:45:30 +0000
+Received: from localhost ([10.63.15.139])
+	by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id wBLJjUcA002873;
+	Fri, 21 Dec 2018 19:45:30 GMT
+From: Ruslan Bilovol <rbilovol@cisco.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org, 
+	xe-linux-external@cisco.com
+Date: Fri, 21 Dec 2018 21:45:30 +0200
+Message-Id: <1545421530-7972-1-git-send-email-rbilovol@cisco.com>
+X-Mailer: git-send-email 1.9.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.63.15.139, [10.63.15.139]
+X-Outbound-Node: aer-core-1.cisco.com
+Subject: [PATCH v3] systemd: fix remaining issues with statx and glibc 2.28+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +47,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2018 14:52:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Dec 2018 19:45:31 -0000
 
-On Fri, Dec 21, 2018 at 6:24 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Various versions of ld have different defaults for this
-> (even between e.g. Ubuntu 16.04 and 18.04). This has the
-> consequence of putting either RPATH or RUNPATH into the binary,
-> depending on the linker, which have different priorities
-> vs LD_LIBRARY_PATH env var. Also, I think, the original
-> executable binary is looked up for the tags when resolving
-> a dependency of a shared library when using RPATH, but not
-> RUNPATH.
->
-> Let's make this deterministic.
->
+Commit 776d14db9589 "systemd: Detect if statx struct is
+defined in sys/stat.h" did only a part of work, and systemd
+build fails on src/basic/chattr-util.c compilation due to
+same statx redefinition issue.
+Backport additional patch from systemd master
 
-this change is fine in general. What we have to understand is that
---enable-new-dtags actually sets DT_RUNPATH instead of DT_RPATH.
-DT_RPATH has higher precedence than LD_LIBRARY_PATH; DT_RUNPATH has
-lower precedence.
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+---
 
-with this change we will let LD_LIBRARY_PATH override our
-settings. So look for case where we might have assumed that
-we are setting DT_RPATH so no environment can affect us
+v3: rebased to recent OE master (again)
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/bitbake.conf | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 64800623545..732e4f93328 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -573,6 +573,7 @@ export TARGET_CXXFLAGS = "${TARGET_CFLAGS}"
->
->  export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
->                          -L${STAGING_BASE_LIBDIR_NATIVE} \
-> +                        -Wl,--enable-new-dtags \
->                          -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} \
->                          -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} \
->                          -Wl,-rpath,${STAGING_LIBDIR_NATIVE} \
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+v2: rebased to recent OE master, added signoff
+
+ ...-linux-stat.h-check-with-other-checks-and.patch | 78 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb           |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch b/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
+new file mode 100644
+index 0000000..0db7fce
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch
+@@ -0,0 +1,78 @@
++From 9c869d08d82c73f62ab3527567858ce4b0cf1257 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Wed, 18 Jul 2018 17:26:17 +0200
++Subject: [PATCH] meson: unify linux/stat.h check with other checks and use
++ _GNU_SOURCE
++
++Using _GNU_SOURCE is better because that's how we include the headers in the
++actual build, and some headers define different stuff when it is defined.
++sys/stat.h for example defines 'struct statx' conditionally.
++
++Upstream-Status: Backport
++
++Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
++---
++ meson.build         | 20 ++++++++++++++------
++ src/basic/missing.h |  2 +-
++ 2 files changed, 15 insertions(+), 7 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 68423bd..99035d2 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -421,11 +421,9 @@ decl_headers = '''
++ #include <uchar.h>
++ #include <linux/ethtool.h>
++ #include <linux/fib_rules.h>
++-#include <linux/stat.h>
++ #include <sys/stat.h>
++ '''
++ # FIXME: key_serial_t is only defined in keyutils.h, this is bound to fail
++-# FIXME: these should use -D_GNU_SOURCE, since that is defined at build time
++ 
++ foreach decl : ['char16_t',
++                 'char32_t',
++@@ -436,13 +434,23 @@ foreach decl : ['char16_t',
++                ]
++ 
++         # We get -1 if the size cannot be determined
++-        have = cc.sizeof(decl, prefix : decl_headers) > 0
+++        have = cc.sizeof(decl, prefix : decl_headers, args : '-D_GNU_SOURCE') > 0
+++
+++        if decl == 'struct statx'
+++                if have
+++                        want_linux_stat_h = false
+++                else
+++                        have = cc.sizeof(decl,
+++                                         prefix : decl_headers + '#include <linux/stat.h>',
+++                                         args : '-D_GNU_SOURCE') > 0
+++                        want_linux_stat_h = have
+++                endif
+++        endif
+++
++         conf.set10('HAVE_' + decl.underscorify().to_upper(), have)
++ endforeach
++ 
++-conf.set10('HAVE_STRUCT_STATX_IN_SYS_STAT_H', cc.sizeof('struct statx', prefix : '''
++-#include <sys/stat.h>
++-''', args : '-D_GNU_SOURCE') > 0)
+++conf.set10('WANT_LINUX_STAT_H', want_linux_stat_h)
++ 
++ foreach decl : [['IFLA_INET6_ADDR_GEN_MODE',         'linux/if_link.h'],
++                 ['IN6_ADDR_GEN_MODE_STABLE_PRIVACY', 'linux/if_link.h'],
++diff --git a/src/basic/missing.h b/src/basic/missing.h
++index 14ad3d4..9044683 100644
++--- a/src/basic/missing.h
+++++ b/src/basic/missing.h
++@@ -24,7 +24,7 @@
++ #include <uchar.h>
++ #include <unistd.h>
++ 
++-#if !HAVE_STRUCT_STATX_IN_SYS_STAT_H
+++#if WANT_LINUX_STAT_H
++ #include <linux/stat.h>
++ #endif
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index 03acce2..91a026d 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-timesync-changes-type-of-drift_freq-to-int64_t.patch \
+            file://0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch \
+            file://0002-core-Fix-use-after-free-case-in-load_from_path.patch \
++           file://0001-meson-unify-linux-stat.h-check-with-other-checks-and.patch \
+            "
+ 
+ # patches made for musl are only applied on TCLIBC is musl
+-- 
+1.9.1
+
 
