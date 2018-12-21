@@ -1,36 +1,35 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 61FFF79DAB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CD5B36C4D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2018 06:46:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBL6kIGd000545
+	Fri, 21 Dec 2018 06:54:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBL6saAt005311
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Dec 2018 22:46:19 -0800 (PST)
+	Thu, 20 Dec 2018 22:54:36 -0800 (PST)
 Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.138]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0415.000;
-	Thu, 20 Dec 2018 22:46:18 -0800
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0415.000;
+	Thu, 20 Dec 2018 22:54:36 -0800
 From: "Yang, Liezhi" <Liezhi.Yang@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/1] oeqa/concurrencytest: fix for locating
-	meta-selftest
-Thread-Index: AQHUmEy/w4ZomjSEkUGOXlJiPDSfr6WH9x4AgAAa6gCAAC6agIAAgIRw
-Date: Fri, 21 Dec 2018 06:46:18 +0000
-Message-ID: <07C4F012-C254-4757-8E18-A2042A893226@windriver.com>
-References: <cover.1545291716.git.liezhi.yang@windriver.com>
-	<29e6785a8b38d49961aa7f1138d664336052dca8.1545291716.git.liezhi.yang@windriver.com>
-	<53c222052c0da6a7db056bfa1318371c8b7db2dc.camel@linuxfoundation.org>
-	<50ccbdb3-12b8-e381-5931-b52b5b5efdf5@windriver.com>
-	<75d63f87f2ea25effa7707b735b2123ed2156ea4.camel@linuxfoundation.org>,
-	<7f4d5364472280b622057a82fbf9dcfd11dfc17b.camel@linuxfoundation.org>
-In-Reply-To: <7f4d5364472280b622057a82fbf9dcfd11dfc17b.camel@linuxfoundation.org>
+To: "Hatle, Mark" <mark.hatle@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/4] glibc: Remove site_config and glibc-initial
+Thread-Index: AQHUmGRSgrVBDMl6EUeghnwaKYxbXqWIcW4AgAAeTgCAAG2fgP//xe0s
+Date: Fri, 21 Dec 2018 06:54:35 +0000
+Message-ID: <87A7668A-2E55-4ED4-8805-195FDA88336B@windriver.com>
+References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
+	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
+	<d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
+	<CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
+	<d9129255-2d1d-3b13-de3f-6dd0f299448b@windriver.com>
+	<CAJTo0La6d5HX0dZUUs38t2WZcvr3WFFxnzQPOHa9Avy_2mw0nQ@mail.gmail.com>,
+	<b4f41ae2-eafa-de74-06c6-6b870f2c2707@windriver.com>
+In-Reply-To: <b4f41ae2-eafa-de74-06c6-6b870f2c2707@windriver.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] oeqa/concurrencytest: fix for locating meta-selftest
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] glibc: Remove site_config and	glibc-initial
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,81 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2018 06:46:20 -0000
+X-List-Received-Date: Fri, 21 Dec 2018 06:54:41 -0000
 Content-Language: zh-CN
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
 
-Hi RP,
+Hi Randy,
 
-Sorry, I am on vacation today, will do more investigations next week.
+Sorry, I am OOO today, will do it next week.
+BTW, I have looked into siteconfig and siteinfo recently, and have some cra=
+zy ideas on them, which seems can save a lot of configure time, I will try =
+to send them out next week.
 
 // Robert
 
 Sent from mobile phone
 
-> =1B$B:_=1B(B 2018=1B$BG/=1B(B12=1B$B7n=1B(B20=1B$BF|!$=1B(B23:06=1B$B!$=
-=1B(BRichard Purdie <richard.purdie@linuxfoundation.org> =1B$B<LF;!'=1B(B
+> =1B$B:_=1B(B 2018=1B$BG/=1B(B12=1B$B7n=1B(B21=1B$BF|!$=1B(B10:22=1B$B!$=
+=1B(BMark Hatle <mark.hatle@windriver.com> =1B$B<LF;!'=1B(B
 >=20
-> On Thu, 2018-12-20 at 12:19 +0000, richard.purdie@linuxfoundation.org
-> wrote:
->> On Thu, 2018-12-20 at 18:43 +0800, Robert Yang
->> wrote:                    bb.utils.mkdirhier(newbuilddir)
+>> On 12/20/18 1:50 PM, Burton, Ross wrote:
+>>> On Thu, 20 Dec 2018 at 18:02, Mark Hatle <mark.hatle@windriver.com> wro=
+te:
+>>> As far as zlib/ncurses being the only things that augmented them, when =
+this was
+>>> originally implemented many years ago -- those items were the most comm=
+only used
+>>> by other configure scripts.  So adding those defaults when zlib and/or =
+ncurses
+>>> was provided by the system offered a measurable difference in the perfo=
+rmance of
+>>> configure.
 >>=20
->> This broke on our autobuilder:
+>> Do you know what the zlib and ncurses siteconfig files were doing?
+>> Just short-circuiting the AC_CHECK_HEADER call, which is basically
+>> stat(includedir + header.h).  I'd call that the definition of
+>> premature optimisation. :)
+>=20
+> In the original AC_CHECK_HEADER stuff, it was more then just a simple sta=
+t.  The
+> system would compile a small executable that included the header and then
+> attempted to execute a pass/fail -- or in the cross compile case would do
+> something with the output binary.
+>=20
+> This very well may have changed from a compilation step to a simple stat =
+in
+> configure in the the last 4 or 5 years.  It's that compilation/execution =
+step
+> (both that and the various sizeof) that were hideously slow in the origin=
+al
+> implementation and being avoided by the special contents.
+>=20
+> The assumption we were making of course was that zlib, ncurses (or anythi=
+ng
+> else) actually worked with those headers.. so we skipped the compilation =
+and
+> just did a stat based on the headers to fill things out.
+>=20
+> The systems that did the sizeof and header identification in the site-con=
+fig
+> bbclass were written to do things in a dynamic way so that if the system
+> behavior changed we wouldn't have incorrect defaults "until someone notic=
+ed".
+>=20
+> The behavior of using the compiler to identify a sizeof and using tools t=
+o
+> return the result is actually very efficient -- but does require a functi=
+oning
+> compiler (and headers).  If I remember correctly, we're not fully compili=
+ng, but
+> putting out an intermediate object which we can then query for the values=
+ of the
+> various pieces.  (In one iteration at least, we processed all of the size=
+of in a
+> single pass making it even more efficient.)
+>=20
+> --Mark
+>=20
+>> Ross
 >>=20
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/61
->>=20
->> It basically creates a "stampeding herd" of bitbake startups as if
->> you
->> specify -j 40, it would do this 40 times nearly all at once and that
->> causes retry problems.
->>=20
->> We need to move the call outside the for loop as the value doesn't
->> change.
 >=20
-> I fixed the patch but it raises some questions about the way bitbake is
-> behaving. I wrote a test script:
->=20
-> #!/usr/bin/env python3
->=20
-> import os
-> import sys
-> import subprocess
->=20
-> for i in range(50):
->    sys.stdout.flush()
->    sys.stderr.flush()
->    pid =3D os.fork()
->    if pid =3D=3D 0:
->        ourpid =3D os.getpid()
->        print("Starting %s" % ourpid)
->        sys.stdout.flush()
->        newsi =3D os.open(os.devnull, os.O_RDWR)
->        os.dup2(newsi, sys.stdin.fileno())
->        try:
->            output =3D subprocess.check_output("bitbake -e bash | grep PN=
-=3D", shell=3DTrue, stderr=3Dsubprocess.STDOUT).decode("utf-8")
->        except subprocess.CalledProcessError as e:
->            print("output: %s" % e.output.decode("utf-8"))
->            os._exit(e.returncode)
->        print("output: %s" % output)
->        os._exit(0)
->=20
-> which is a bit crazy shows some errors both on the console and in the
-> bitbake-cookerdaemon log and shows that closing the UI connections when
-> we have a client is not the right thing to be doing.
->=20
-> This may give some insight into some of the oe-selftest failures and
-> I'm looking at how to improve this behaviour...
->=20
-> (added Chen Qi+Randy to cc as well)
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
->=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
