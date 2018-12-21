@@ -1,39 +1,39 @@
 Return-Path: <rbilovol@cisco.com>
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 335EF79D7D
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CCA16BA81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2018 21:32:59 +0000 (UTC)
+	Fri, 21 Dec 2018 22:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1506; q=dns/txt; s=iport;
-	t=1545427982; x=1546637582; h=from:to:subject:date:message-id;
-	bh=RxWcUS+N9+SF9mIsVz8cZLwu7yI1EmGu74JlWnJubRM=;
-	b=ZeasOMcY9OXQm9m4nAvgsf2RUFPqEwP2UGOV1CCYiIdJaNbAY3G+ppAH
-	bxlp4JlegfCrLmCmvmYVzEs6KRiB68d6VO7y61plb9BdPNh2CHjIZthmW
-	10+HQd6qYkJs3m2F95iMDH2PDionvXTRUjDCmp6gWB2KVyJeltpK/yd+D w=;
+	d=cisco.com; i=@cisco.com; l=1318; q=dns/txt; s=iport;
+	t=1545432033; x=1546641633; h=from:to:subject:date:message-id;
+	bh=YIiNvW8EBsznA24Ynx7nOWvowuUl/n2wJ8EZxzBqP6c=;
+	b=SOMSbWzGt+7OVJ0/d8YPSbZW2QUUIapu2U0FmLrbqnF2Ftcm42G3APXU
+	hgQCQiZO39UWZcH2gHx750FV0+ynVFsA6Exsw+7OAokeqSK5TqKUo0jQF
+	MONK/+oPgTV2ztvQx5lTQyML2qh2GER4p2HjctTzUilhjQry2l5i8zG+q g=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ALAAAmWx1c/xbLJq1kGwEBAQEDAQE?=
-	=?us-ascii?q?BBwMBAQGBUQYBAQELAYJpcBInjBZfjiaWY4F7DR+HXzQJDQEDAQECAQECbRw?=
-	=?us-ascii?q?MhnOBFQESgyIBggGnV4osFIdqhFiBQD+BEYJdhH+GFgKhRQmHEopXAhaCLY8?=
-	=?us-ascii?q?xAYlTkEmBRjiBVjMaCBsVgycJi0eFDT0DMAGMZ4JNAQE?=
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ALAADxah1c/xbLJq1kGwEBAQEDAQE?=
+	=?us-ascii?q?BBwMBAQGBUQYBAQELAYJpcBInjBZfpQiBew0bh2M0CQ0BAwEBAgEBAm0ohhw?=
+	=?us-ascii?q?BVoEVARKDIgGCAadNg3sBhiwUh2qEWIFAP48DAqFFCYcSilcCFpFeAYlTkEm?=
+	=?us-ascii?q?BRjiBVjMaCBsVgycJkFQ9AzABjzQBAQ?=
 X-IronPort-AV: E=Sophos;i="5.56,383,1539648000"; 
-   d="scan'208";a="8964693"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+   d="scan'208";a="9023101"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
 	([173.38.203.22])
-	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Dec 2018 21:33:00 +0000
+	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Dec 2018 22:40:32 +0000
 Received: from localhost ([10.63.15.139])
-	by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id wBLLX0lU001218;
-	Fri, 21 Dec 2018 21:33:00 GMT
+	by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id wBLMeVmh030795;
+	Fri, 21 Dec 2018 22:40:31 GMT
 From: Ruslan Bilovol <rbilovol@cisco.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
 	openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
-Date: Fri, 21 Dec 2018 23:33:00 +0200
-Message-Id: <1545427980-17876-1-git-send-email-rbilovol@cisco.com>
+Date: Sat, 22 Dec 2018 00:40:31 +0200
+Message-Id: <1545432031-27272-1-git-send-email-rbilovol@cisco.com>
 X-Mailer: git-send-email 1.9.1
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-SMTP-Client: 10.63.15.139, [10.63.15.139]
-X-Outbound-Node: aer-core-4.cisco.com
-Subject: [PATCH] openssl: pass PERL=perl environment variable to configurator
+X-Outbound-Node: aer-core-1.cisco.com
+Subject: [PATCH] gdbm: depend on readline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2018 21:33:00 -0000
+X-List-Received-Date: Fri, 21 Dec 2018 22:40:32 -0000
 
-In our build environment we use wrapper script
-for perl in non-standard configuration with
-extra variables set (provided by custom
-buildtools-tarball).
+This package depends on readline recipe.
+In traditional OE build readline is a dependency
+of python3 and few other packages, thus at the time
+of gdbm build it is available.
 
-In this case openssl fails to build because
-by default it's Configure script detects and uses
-perl executable directly (with absolute path)
-obviously missing extra settings from wrapper
-script.
+However, if some custom set of recipes is build,
+there is a race between gdbm and python3 build
+and availability of readline isn't deterministic,
+causing next build error:
+| ../../gdbm-1.18/src/input-rl.c:18:31: fatal error: readline/readline.h: No such file or directory
+|  #include <readline/readline.h>
+|                                ^
+| compilation terminated.
 
-Pass PERL=perl environment variable to Configure,
-so it won't try to use perl executable directly
-but will use what is provided from environment.
+Thus add readline dependency explicitly.
+
+Cudos to Kostiantyn Iarmak <kiarmak@cisco.com> who
+found this issue.
 
 Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/gdbm/gdbm_1.18.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-index 5c4e69c..6a72b5c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-@@ -112,7 +112,7 @@ do_configure () {
- 	fi
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
--	PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
-+	PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
- 	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
- 	perl ${B}/configdata.pm --dump
- }
+diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+index 16ecc50..215ae47 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+@@ -15,6 +15,8 @@ SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f74
+ 
+ inherit autotools gettext texinfo lib_package ptest
+ 
++DEPENDS += "readline"
++
+ # Needed for dbm python module
+ EXTRA_OECONF = "-enable-libgdbm-compat"
+ 
 -- 
 1.9.1
 
