@@ -1,35 +1,109 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CD5B36C4D9
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B3B326C106
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2018 06:54:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBL6saAt005311
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Dec 2018 22:54:36 -0800 (PST)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.138]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0415.000;
-	Thu, 20 Dec 2018 22:54:36 -0800
-From: "Yang, Liezhi" <Liezhi.Yang@windriver.com>
-To: "Hatle, Mark" <mark.hatle@windriver.com>
-Thread-Topic: [OE-core] [PATCH 1/4] glibc: Remove site_config and glibc-initial
-Thread-Index: AQHUmGRSgrVBDMl6EUeghnwaKYxbXqWIcW4AgAAeTgCAAG2fgP//xe0s
-Date: Fri, 21 Dec 2018 06:54:35 +0000
-Message-ID: <87A7668A-2E55-4ED4-8805-195FDA88336B@windriver.com>
-References: <20181220001545.12618-1-richard.purdie@linuxfoundation.org>
-	<CAJTo0LZ=Q8EuXqh0s79poWhw0gcrVRouJLyaF0OxgadWqFejMA@mail.gmail.com>
-	<d796d8b521000f3fce1b514cedebe1476c57df1c.camel@linuxfoundation.org>
-	<CAJTo0LYTwZ-srE+zO-Y2vnW_FhhoH-kPMDSLP78zkd=qbSHGNw@mail.gmail.com>
-	<d9129255-2d1d-3b13-de3f-6dd0f299448b@windriver.com>
-	<CAJTo0La6d5HX0dZUUs38t2WZcvr3WFFxnzQPOHa9Avy_2mw0nQ@mail.gmail.com>,
-	<b4f41ae2-eafa-de74-06c6-6b870f2c2707@windriver.com>
-In-Reply-To: <b4f41ae2-eafa-de74-06c6-6b870f2c2707@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
+	Fri, 21 Dec 2018 08:03:55 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id u4so4223862wrp.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Dec 2018 00:03:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=eEer6u/gEomAgcfOhiOjB/FlHCfzbKSQlByyw0Kstyk=;
+	b=TJxOqPvd4Kdn6SM4v8ncx0llFNYZ6Npg4lbk5+TtI4BCIXujIIDDFZhYO9COOUKjgO
+	6RqkOqxJcS4Mx7qdiA6yH2LEbVSvLOCSdaGv5fOkL/dXSpKcRBlyHQsuys0CFXPv583l
+	Fs0zXjHIlLWETS4gnwXkFjy2gii7OFPyoOshOmdDOwsHTnD4rmh2aHTO/IPoY0IX6lu0
+	bv8tSrMg17Sn3TIFyd38LINBQlR5ZHV8G+tfFONxm+CN3tkvydf+eIKh6ibskfKstUrA
+	gZa3fVcadlkBnT21uqN/6NSlO8fMOeuXR11LNx62YI58ku/zzCTy3cCB7syPiaBimueW
+	nz8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=eEer6u/gEomAgcfOhiOjB/FlHCfzbKSQlByyw0Kstyk=;
+	b=NZPE4T4LE2ab7cguHYeixFPfSRdEF3cbQohPFdJBoOVkc4BKGuC6incjWFZLJn+RMh
+	ar04Z2AyfdXa+7dk5NGRZ8WqBY8nwfR0UokOcWme4PmLgitHh7VizQTloRfmNX7dSNYk
+	ZJevMBvkzWNY3gYxQfHLcEMXloQi4ND/zQgzxVRZ3NDSE0fyU72sdRsGrsi7OSA+bGWQ
+	+otOvoCJOEdPsmZAAbrglZg4MPrYdya+dG+Lg7nO5hWjltLM29Ih1viw9Rcg0W7fSStz
+	nnShfhHNWGucUtf7DUi6Zeyi0A1cG0ITk8PZit/Iux8WDcgWDF6glubhTpx73uuREcOn
+	yaaQ==
+X-Gm-Message-State: AJcUukfcqr0oAYKnnitLLa/JeHd9hjNA6Q1mMYf4n5HzOHGBSPCG873A
+	0urizbgPSpFqfmCTRqqGT8Uku+ihepxcyQ==
+X-Google-Smtp-Source: ALg8bN48KW2cVOsX3lciaIKC6QZo54tkjQoBM3QwI7KTcRvAi5NyanSbwnRGS8Gb4Mx9kbmKlj2UGg==
+X-Received: by 2002:a5d:4586:: with SMTP id p6mr1374644wrq.69.1545379436057;
+	Fri, 21 Dec 2018 00:03:56 -0800 (PST)
+Received: from ?IPv6:2003:a:31:4300::46? ([2003:a:31:4300::46])
+	by smtp.googlemail.com with ESMTPSA id
+	q14sm8963349wrw.39.2018.12.21.00.03.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Dec 2018 00:03:55 -0800 (PST)
+To: Mike Crowe <mac@mcrowe.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <99949e3e-c252-9504-ea89-f379bab6f021@dresearch-fe.de>
+	<CAMKF1soU6M4zv6Xu4ugwheBHGO49cZSnnOD-PWSWJsCaAJC28g@mail.gmail.com>
+	<a212aa5f-27a7-3181-cab8-c07fa5eca72a@dresearch-fe.de>
+	<d45d83de-c360-6306-d35a-1388fdbd518a@dresearch-fe.de>
+	<04a430ad-567a-d9d3-8a17-77e2dd55d025@dresearch-fe.de>
+	<20181106190645.4xgvktwoyfuzgmby@mcrowe.com>
+	<20181121182831.imvsz7kheqpaswti@mcrowe.com>
+	<20181213151730.v2eb7lcyj2ypans6@mcrowe.com>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=sledz@dresearch-fe.de; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <03153a6d-f0c7-4eee-0b45-774f208fbe1b@dresearch-fe.de>
+Date: Fri, 21 Dec 2018 09:03:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.3.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] glibc: Remove site_config and	glibc-initial
+In-Reply-To: <20181213151730.v2eb7lcyj2ypans6@mcrowe.com>
+Subject: Re: devshell problems after distro upgrade openSUSE Leap 42.3 -> 15.0 (tmux only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,89 +116,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2018 06:54:41 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 21 Dec 2018 08:03:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Randy,
+On 13.12.18 16:17, Mike Crowe wrote:
+> This was deemed a bug by tmux upstream and fixed there:
+> 
+>  https://github.com/tmux/tmux/issues/1549
+> 
+> I reported the bug to Debian, who applied the fix on top of 2.8:
+> 
+>  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=914816
 
-Sorry, I am OOO today, will do it next week.
-BTW, I have looked into siteconfig and siteinfo recently, and have some cra=
-zy ideas on them, which seems can save a lot of configure time, I will try =
-to send them out next week.
+Filed a bug for openSUSE Leap 15.0 too.
 
-// Robert
-
-Sent from mobile phone
-
-> =1B$B:_=1B(B 2018=1B$BG/=1B(B12=1B$B7n=1B(B21=1B$BF|!$=1B(B10:22=1B$B!$=
-=1B(BMark Hatle <mark.hatle@windriver.com> =1B$B<LF;!'=1B(B
->=20
->> On 12/20/18 1:50 PM, Burton, Ross wrote:
->>> On Thu, 20 Dec 2018 at 18:02, Mark Hatle <mark.hatle@windriver.com> wro=
-te:
->>> As far as zlib/ncurses being the only things that augmented them, when =
-this was
->>> originally implemented many years ago -- those items were the most comm=
-only used
->>> by other configure scripts.  So adding those defaults when zlib and/or =
-ncurses
->>> was provided by the system offered a measurable difference in the perfo=
-rmance of
->>> configure.
->>=20
->> Do you know what the zlib and ncurses siteconfig files were doing?
->> Just short-circuiting the AC_CHECK_HEADER call, which is basically
->> stat(includedir + header.h).  I'd call that the definition of
->> premature optimisation. :)
->=20
-> In the original AC_CHECK_HEADER stuff, it was more then just a simple sta=
-t.  The
-> system would compile a small executable that included the header and then
-> attempted to execute a pass/fail -- or in the cross compile case would do
-> something with the output binary.
->=20
-> This very well may have changed from a compilation step to a simple stat =
-in
-> configure in the the last 4 or 5 years.  It's that compilation/execution =
-step
-> (both that and the various sizeof) that were hideously slow in the origin=
-al
-> implementation and being avoided by the special contents.
->=20
-> The assumption we were making of course was that zlib, ncurses (or anythi=
-ng
-> else) actually worked with those headers.. so we skipped the compilation =
-and
-> just did a stat based on the headers to fill things out.
->=20
-> The systems that did the sizeof and header identification in the site-con=
-fig
-> bbclass were written to do things in a dynamic way so that if the system
-> behavior changed we wouldn't have incorrect defaults "until someone notic=
-ed".
->=20
-> The behavior of using the compiler to identify a sizeof and using tools t=
-o
-> return the result is actually very efficient -- but does require a functi=
-oning
-> compiler (and headers).  If I remember correctly, we're not fully compili=
-ng, but
-> putting out an intermediate object which we can then query for the values=
- of the
-> various pieces.  (In one iteration at least, we processed all of the size=
-of in a
-> single pass making it even more efficient.)
->=20
-> --Mark
->=20
->> Ross
->>=20
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ https://bugzilla.opensuse.org/show_bug.cgi?id=1120170
 
