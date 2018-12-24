@@ -1,26 +1,18 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D3956C4A1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Dec 2018 08:53:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Dec 2018 00:53:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,391,1539673200"; d="scan'208";a="120772832"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Dec 2018 00:53:02 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Dec 2018 16:21:39 +0800
-Message-Id: <1545639699-43516-2-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1545639699-43516-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1545639699-43516-1-git-send-email-ee.peng.yeoh@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F5D26AC00;
+	Mon, 24 Dec 2018 09:03:19 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] script/lib/testcasemgmt/manualexecution.py : manual helper script with bare-minimum function
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Date: Mon, 24 Dec 2018 09:03:20 -0000
+Message-ID: <20181224090320.2330.51435@do>
+References: <1545639699-43516-1-git-send-email-ee.peng.yeoh@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1545639699-43516-1-git-send-email-ee.peng.yeoh@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInNjcmlwdHMvdGVzdC1jYXNlLW1nbXQ6IHN0b3JlIC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,245 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Dec 2018 08:53:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Dec 2018 09:03:19 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mazliana <mazliana.mohamad@intel.com>
+== Series Details ==
 
-Manual execution script is a helper script to execute all manual test cases in baseline command,
-which consists of user guideline steps and the expected results. The last step will ask user to
-provide their input to execute result. The input options are passed/failed/blocked/skipped status.
-The result given will be written in testresults.json including log error from the user input
-and configuration if there is any. The output test result for json file is created by using
-OEQA library.
- 
-The configuration part is manually key-in by the user. The system allow user to specify how many
-configuration they want to add and they need to define the required configuration name and value
-pair. In QA perspective, "configuration" means the test environments and parameters used during
-QA setup before testing can be carry out. Example of configurations: image used for boot up, host
-machine distro used, poky configurations, etc.
- 
-The purpose of adding the configuration is to standardize the output test result format between
-automation and manual execution.
+Series: "scripts/test-case-mgmt: store ..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15457/
+State : failure
 
-scripts/test-case-mgmt: add "manualexecution" as a tool
+== Summary ==
 
-Integrated the test-case-mgmt "store", "report" with "manual execution".Manual test execution
-is one of an alternative test case management tool of Testopia. This script has only a
-bare-minimum function. Bare-minimum function refer to function where the user can only execute all of the
-test cases that component have.
 
-To use these scripts, first source oe environment, then run the entry point
-script to look for help.
-        $ test-case-mgmt
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-To execute manual test cases, execute the below
-        $ test-case-mgmt manualexecution <manualjsonfile>
 
-By default testresults.json store in <build_dir>/tmp/log/manual
 
-[YOCTO #12651]
+* Patch            [2/2] script/lib/testcasemgmt/manualexecution.py : manual helper script with bare-minimum function
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 92 characters)
 
-Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/testcasemgmt/manualexecution.py | 142 ++++++++++++++++++++++++++++
- scripts/test-case-mgmt                      |  11 ++-
- 2 files changed, 152 insertions(+), 1 deletion(-)
- create mode 100644 scripts/lib/testcasemgmt/manualexecution.py
-
-diff --git a/scripts/lib/testcasemgmt/manualexecution.py b/scripts/lib/testcasemgmt/manualexecution.py
-new file mode 100644
-index 0000000..c6c450f
---- /dev/null
-+++ b/scripts/lib/testcasemgmt/manualexecution.py
-@@ -0,0 +1,142 @@
-+# test case management tool - manual execution from testopia test cases
-+#
-+# Copyright (c) 2018, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import argparse
-+import json
-+import os
-+import sys
-+import datetime
-+import re
-+from oeqa.core.runner import OETestResultJSONHelper
-+
-+class ManualTestRunner(object):
-+    def __init__(self):
-+        self.jdata = ''
-+        self.test_module = ''
-+        self.test_suite = ''
-+        self.test_case = ''
-+        self.configuration = ''
-+        self.starttime = ''
-+        self.result_id = ''
-+        self.write_dir = ''
-+
-+    def _read_json(self, file):
-+        self.jdata = json.load(open('%s' % file))
-+        self.test_case = []
-+        self.test_module = self.jdata[0]['test']['@alias'].split('.', 2)[0]
-+        self.test_suite = self.jdata[0]['test']['@alias'].split('.', 2)[1]
-+        for i in range(0, len(self.jdata)):
-+            self.test_case.append(self.jdata[i]['test']['@alias'].split('.', 2)[2])
-+    
-+    def _get_input(self, config):
-+        while True:
-+            output = input('{} = '.format(config))
-+            if re.match('^[a-zA-Z0-9_]+$', output):
-+                break
-+            print('Only alphanumeric and underscore are allowed. Please try again')
-+        return output
-+
-+    def _create_config(self):
-+        self.configuration = {}
-+        while True:
-+            try:
-+                conf_total = int(input('\nPlease provide how many configuration you want to save \n'))
-+                break
-+            except ValueError:
-+                print('Invalid input. Please provide input as a number not character.')
-+        for i in range(conf_total):
-+            print('---------------------------------------------')
-+            print('This is configuration #%s ' % (i + 1) + '. Please provide configuration name and its value')
-+            print('---------------------------------------------')
-+            name_conf = self._get_input('Configuration Name')
-+            value_conf = self._get_input('Configuration Value')
-+            print('---------------------------------------------\n')
-+            self.configuration[name_conf.upper()] = value_conf
-+        current_datetime = datetime.datetime.now()
-+        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
-+        self.configuration['STARTTIME'] = self.starttime
-+        self.configuration['TEST_TYPE'] = self.test_module
-+
-+    def _create_result_id(self):
-+        self.result_id = 'manual_' + self.test_module + '_' + self.starttime
-+
-+    def _execute_test_steps(self, test_id):
-+        test_result = {}
-+        testcase_id = self.test_module + '.' + self.test_suite + '.' + self.test_case[test_id]
-+        total_steps = len(self.jdata[test_id]['test']['execution'].keys())
-+        print('------------------------------------------------------------------------')
-+        print('Executing test case:' + '' '' + self.test_case[test_id])
-+        print('------------------------------------------------------------------------')
-+        print('You have total ' + str(total_steps) + ' test steps to be executed.')
-+        print('------------------------------------------------------------------------\n')
-+        
-+        for step in range (1, (total_steps + 1)):
-+            print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
-+            print('Expected output: ' + self.jdata[test_id]['test']['execution']['%s' % step]['expected_results'])
-+            if step == total_steps:
-+                while True:
-+                    try:
-+                        done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n')
-+                        done = done.lower()
-+                        if done == 'p':
-+                            res = 'PASSED'
-+                        elif done == 'f':
-+                            res = 'FAILED'
-+                            log_input = input('\nPlease enter the error and the description of the log: (Ex:log:211 Error Bitbake)\n')
-+                        elif done == 'b':
-+                            res = 'BLOCKED'
-+                        elif done == 's':
-+                            res = 'SKIPPED'
-+                          
-+                        if res == 'FAILED':
-+                            test_result.update({testcase_id: {'status': '%s' % res, 'log': '%s' % log_input}})
-+                        else:
-+                            test_result.update({testcase_id: {'status': '%s' % res}})
-+                        break
-+                    except:
-+                        print('Invalid input!')
-+            else:
-+                done = input('\nPlease press ENTER when you are done to proceed to next step.\n')
-+        return test_result
-+
-+    def _create_write_dir(self):
-+        basepath = os.environ['BUILDDIR']
-+        self.write_dir = basepath + '/tmp/log/manual/'
-+
-+    def run_test(self, file):
-+        self._read_json(file)
-+        self._create_config()
-+        self._create_result_id()
-+        self._create_write_dir()
-+        test_results = {}
-+        print('\nTotal number of test cases in this test suite: ' + '%s\n' % len(self.jdata))
-+        for i in range(0, len(self.jdata)):
-+            test_result = self._execute_test_steps(i)
-+            test_results.update(test_result)
-+        return self.configuration, self.result_id, self.write_dir, test_results
-+
-+def manualexecution(args, logger):
-+    testrunner = ManualTestRunner()
-+    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
-+    resultjsonhelper = OETestResultJSONHelper()
-+    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id,
-+                                          get_test_results)
-+    return 0
-+
-+def register_commands(subparsers):
-+    """Register subcommands from this plugin"""
-+    parser_build = subparsers.add_parser('manualexecution', help='Helper script for results populating during manual test execution.',
-+                                         description='Helper script for results populating during manual test execution. You can find manual test case JSON file in meta/lib/oeqa/manual/',
-+                                         group='manualexecution')
-+    parser_build.set_defaults(func=manualexecution)
-+    parser_build.add_argument('file', help='Specify path to manual test case JSON file.Note: Please use \"\" to encapsulate the file path.')
-diff --git a/scripts/test-case-mgmt b/scripts/test-case-mgmt
-index 0df305d..5c1d435 100755
---- a/scripts/test-case-mgmt
-+++ b/scripts/test-case-mgmt
-@@ -8,7 +8,7 @@
- # test-case-mgmt script was designed as part of the helper script for below purpose:
- # 1. To store test result inside git repository
- # 2. To report text-based test result summary
--# 3. (Future) To execute manual test cases
-+# 3. To execute manual test cases
- #
- # To look for help information.
- #    $ test-case-mgmt
-@@ -19,6 +19,12 @@
- # To report test result summary, execute the below
- #     $ test-case-mgmt report <git_branch>
- #
-+# To execute manual test cases, execute the below
-+#    $ test-case-mgmt manualexecution <manualjsonfile>
-+#
-+# By default testresults.json for manualexecution store in <build_dir>/tmp/log/manual/
-+#
-+#
- # Copyright (c) 2018, Intel Corporation.
- #
- # This program is free software; you can redistribute it and/or modify it
-@@ -42,6 +48,7 @@ import argparse_oe
- import scriptutils
- import testcasemgmt.store
- import testcasemgmt.report
-+import testcasemgmt.manualexecution
- logger = scriptutils.logger_create('test-case-mgmt')
- 
- def _validate_user_input_arguments(args):
-@@ -72,6 +79,8 @@ def main():
-     parser.add_argument('-q', '--quiet', help='print only errors', action='store_true')
-     subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
-     subparsers.required = True
-+    subparsers.add_subparser_group('manualexecution', 'execute manual test cases', 300)
-+    testcasemgmt.manualexecution.register_commands(subparsers)
-     subparsers.add_subparser_group('store', 'store test result', 200)
-     testcasemgmt.store.register_commands(subparsers)
-     subparsers.add_subparser_group('report', 'report test result summary', 100)
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
