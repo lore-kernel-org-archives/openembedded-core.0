@@ -1,20 +1,26 @@
-Return-Path: <zhe.he@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 812D86B79B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC4D760721
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 01:45:45 +0000 (UTC)
-Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id wBQ1ji3b015924;
-	Tue, 25 Dec 2018 17:45:44 -0800 (PST)
-Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Tue, 25 Dec 2018 17:45:44 -0800
-From: He Zhe <zhe.he@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Dec 2018 17:45:44 -0800
-Message-Id: <20181226014544.1991-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.11.0
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH] linux-libc-headers: Fix build failure with fixed input and output files instead of pipe
+	Wed, 26 Dec 2018 02:02:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBQ21av5026818
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Dec 2018 18:01:47 -0800
+Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Tue, 25 Dec 2018 18:01:26 -0800
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
+Date: Wed, 26 Dec 2018 10:09:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+X-Originating-IP: [128.224.163.141]
+Subject: gdb failure on simplest hello world program -- oe-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,95 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Dec 2018 01:45:45 -0000
+X-List-Received-Date: Wed, 26 Dec 2018 02:02:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is an amendment for
-2322dc4 "linux-libc-headers: Fix build failure by using fixed temporary file instead of pipe"
-which moves just the temporary input file from /tmp to build directory. But the
-build directory may not in the same file system with the output file,
-/dev/null, either and thus make it possible to trigger that bug, 67f846b, in
-binutil v2.31.
+Hi All,
 
-This patch puts both the input and output files into build directory for good.
+'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug' fails.
+I did the tests on both my Fedora27 and ubuntu16.04 servers. They both 
+failed.
+I can also reproduce this issue manually.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...fixed-input-and-output-files-instead-of-.patch} | 22 ++++++++++------------
- .../linux-libc-headers/linux-libc-headers_4.18.bb  |  2 +-
- 2 files changed, 11 insertions(+), 13 deletions(-)
- rename meta/recipes-kernel/linux-libc-headers/linux-libc-headers/{0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch => 0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch} (83%)
+I did some investigation. No clue how to fix this it. So I want to seek 
+help from community.
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-similarity index 83%
-rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
-rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-index 0d8fa80939..9ba1c076e8 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-@@ -1,7 +1,7 @@
--From 3bbea65e11918f8753e8006a2198b999cdb0af58 Mon Sep 17 00:00:00 2001
-+From 694eba7bb974f6b8bd308804cb24350150108b2b Mon Sep 17 00:00:00 2001
- From: He Zhe <zhe.he@windriver.com>
- Date: Wed, 21 Nov 2018 15:12:43 +0800
--Subject: [PATCH] scripts: Use fixed temporary file instead of pipe for
-+Subject: [PATCH] scripts: Use fixed input and output files instead of pipe for
-  here-doc
- 
- There was a bug of "as" in binutils that when it checks if the input file and
-@@ -40,31 +40,29 @@ Upstream-Status: Inappropriate [A work around for binutils v2.31]
- 
- Signed-off-by: He Zhe <zhe.he@windriver.com>
- ---
-- scripts/gcc-goto.sh | 7 ++++++-
-- 1 file changed, 6 insertions(+), 1 deletion(-)
-+ scripts/gcc-goto.sh | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
- 
- diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
--index 083c526..0aaf1b4 100755
-+index 083c526..8dfac55 100755
- --- a/scripts/gcc-goto.sh
- +++ b/scripts/gcc-goto.sh
--@@ -3,7 +3,9 @@
-+@@ -3,7 +3,7 @@
-  # Test for gcc 'asm goto' support
-  # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
-  
- -cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
--+TMPFILE=`mktemp -p .`
--+
--+cat << "END" > ${TMPFILE}
-++cat << "END" > ./input
-  int main(void)
-  {
-  #if defined(__arm__) || defined(__aarch64__)
--@@ -20,3 +22,6 @@ entry:
-+@@ -20,3 +20,6 @@ entry:
-  	return 0;
-  }
-  END
- +
--+$@ -x c ${TMPFILE} -c -o /dev/null && echo "y"
--+rm ${TMPFILE}
-++$@ -x c ./input -c -o ./output && echo "y"
-++rm ./input ./output
- -- 
- 2.7.4
- 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-index 00420aa6f7..229a0027d7 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
-@@ -10,7 +10,7 @@ SRC_URI_append_libc-musl = "\
-    "
- 
- SRC_URI_append = "\
--    file://0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch \
-+    file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
- "
- 
- SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
--- 
-2.11.0
+Below is some output from oe-selftest.
+[snip]
+2018-12-26 09:27:58,440 - oe-selftest - INFO - test_gdb_hardlink_debug 
+(package.PackageTests)
+2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest /usr/bin/hello1
+2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
+1: Reading symbols from /usr/bin/hello1...Reading symbols from 
+/usr/bin/.debug/hello4...done.
+done.
+(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.
+(gdb) Starting program: /usr/bin/hello1
 
+Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
+107    /usr/include/bits/stdio2.h: No such file or directory.
+(gdb) Continuing.
+Hello World!
+[Inferior 1 (process 312) exited normally]
+(gdb)
+2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
+[snip]
+
+The hello world problem is as follows.
+$ cat 
+meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
+#include <stdio.h>
+
+int main() {
+     printf("Hello World!\n");
+}
+
+Some extra information:
+1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
+2. Adding some system call like daemon(0,0) before printf also works.
+3. Reverting poky repo to 1c048479af7cc98e30f9a33d1f3bef03711544aa, 
+which adds this selftest case, does not work. It still fails.
+4. Hongxu confirms that things work on his host.
+5. I also don't see failure about this test case on yocto's autobuilder.
+
+Could somebody help to provide some suggestions?
+
+Best Regards,
+Chen Qi
 
