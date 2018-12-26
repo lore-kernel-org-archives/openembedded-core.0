@@ -1,56 +1,51 @@
-Return-Path: <andrej.valek@siemens.com>
-X-Greylist: delayed 322 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 26 Dec 2018 08:44:52 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 3022E6B074
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B74F606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 08:44:51 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id wBQ8dMsq020713
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 26 Dec 2018 09:39:22 +0100
-Received: from [192.168.253.100] ([139.22.32.81])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id wBQ8dLQ8027014;
-	Wed, 26 Dec 2018 09:39:21 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
+	Wed, 26 Dec 2018 11:06:48 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id t200so2985442wmt.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Dec 2018 03:06:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=4h1fS05TKiSRz1QHOHWqT2+SkH731oS8jI2NMjqwZW0=;
+	b=RPkl+Js2/uletheBUTm4+IYik+PhHPqRK7e1uhSh9VArhCKqv1Y0xy86iJGoALm4M6
+	oveoMd3oAGlZZ4zi+ItvykLzkcPkU47CRTgOuw7vFHfLupklBAqMH0wgdltStSJKFMl2
+	nUg10aShY72RLGyK/MMUAO7wMFfhzRpmKlGVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=4h1fS05TKiSRz1QHOHWqT2+SkH731oS8jI2NMjqwZW0=;
+	b=DyGgqfZVfPL9DN+RO+KJL2xYicL9ntAVh2QSmXotP/eR6lzDvix6XwIt6EOY1w1SOV
+	Qu0P7If5DPkojarbDQahkeGJJkEBj0xzSmB8S7bfU1YbCxFsWxfUjLTjxfaT1/iXQg0w
+	mtcc7RDSBHCXq1H8CzWw5y1dG2fe3j5yojKnRlT605GMc2lsrN+rVXF7lyAs9PmEX5KV
+	si4KfZ9MU0JJqfXjB+wLqEhsM478faWOZ9LzwAxxZPw+PnmqhkQkXLXC0t+G518yeq2u
+	/pJ0/Sl7yl8mrl14UJJjaYECSM0OGb3nGTNvAiDnguQdNQJjFqJafVx6ljQ4mgVhsv49
+	h9xg==
+X-Gm-Message-State: AA+aEWZBDknU0ZpPIJEgEIBTCnDw+PoqjhpWGqJDia1Ip5xAw052l1oi
+	Kw+DB9g1HOAI0zkoiUMEVWBIAw==
+X-Google-Smtp-Source: ALg8bN4wlfZZvtRgu/t6WkGMi2o+pqOP3JSSgM/EzPbJ8HC4PYIlx5ZwRFqVGtSUpLHUedKbkq4AsQ==
+X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr18251842wme.41.1545822409385; 
+	Wed, 26 Dec 2018 03:06:49 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y138sm32510801wmc.16.2018.12.26.03.06.47
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 26 Dec 2018 03:06:48 -0800 (PST)
+Message-ID: <8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: ChenQi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <20181207120605.11344-1-richard.purdie@linuxfoundation.org>
-	<20181207120605.11344-2-richard.purdie@linuxfoundation.org>
-	<fae0fb29acedc0c26cf9d5860e053d1427316cb8.camel@linuxfoundation.org>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <857809ce-49de-16c2-f26d-805acc3601c2@siemens.com>
-Date: Wed, 26 Dec 2018 09:39:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.3.0
-MIME-Version: 1.0
-In-Reply-To: <fae0fb29acedc0c26cf9d5860e053d1427316cb8.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
+Date: Wed, 26 Dec 2018 11:06:46 +0000
+In-Reply-To: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
+References: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: gdb failure on simplest hello world program -- oe-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,48 +58,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Dec 2018 08:44:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Wed, 26 Dec 2018 11:06:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello Richard
+On Wed, 2018-12-26 at 10:09 +0800, ChenQi wrote:
+> Hi All,
+> 
+> 'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug' fails.
+> I did the tests on both my Fedora27 and ubuntu16.04 servers. They both 
+> failed.
+> I can also reproduce this issue manually.
+> 
+> I did some investigation. No clue how to fix this it. So I want to seek 
+> help from community.
+> 
+> Below is some output from oe-selftest.
+> [snip]
+> 2018-12-26 09:27:58,440 - oe-selftest - INFO - test_gdb_hardlink_debug 
+> (package.PackageTests)
+> 2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest /usr/bin/hello1
+> 2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
+> 1: Reading symbols from /usr/bin/hello1...Reading symbols from 
+> /usr/bin/.debug/hello4...done.
+> done.
+> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.
+> (gdb) Starting program: /usr/bin/hello1
+> 
+> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
+> 107    /usr/include/bits/stdio2.h: No such file or directory.
+> (gdb) Continuing.
+> Hello World!
+> [Inferior 1 (process 312) exited normally]
+> (gdb)
+> 2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
+> [snip]
+> 
+> The hello world problem is as follows.
+> $ cat 
+> meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
+> #include <stdio.h>
+> 
+> int main() {
+>      printf("Hello World!\n");
+> }
+> 
+> Some extra information:
+> 1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
+> 2. Adding some system call like daemon(0,0) before printf also works.
+> 3. Reverting poky repo to 1c048479af7cc98e30f9a33d1f3bef03711544aa, 
+> which adds this selftest case, does not work. It still fails.
+> 4. Hongxu confirms that things work on his host.
+> 5. I also don't see failure about this test case on yocto's autobuilder.
+> 
+> Could somebody help to provide some suggestions?
 
-Did you have some time to take a look on it?
-What about just list all perl's deps and add these packages? Or is there
-something more behind it?
+This is strange and there must be some difference between your
+configuration and what what we test on the autobuilder or on Hongxu's
+setup.
 
-Regards,
-Andrej
+Which DISTRO and MACHINE are you using?
 
-On 12/8/18 1:07 AM, Richard Purdie wrote:
-> On Fri, 2018-12-07 at 12:06 +0000, Richard Purdie wrote:
->> opkg needs the replaces/conflicts/provides in order for this package
->> to function as intended. When enabled, this code caused failures for
->> core-image-sato -c populate_sdk.
->>
->> The reason is that nativesdk-autoconf has several perl dependencies.
->> We
->> need to list more of the things which this package provides/conflicts
->> with in order for it to function correctly. Therefore add the missing
->> entries.
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>  meta/recipes-core/meta/dummy-sdk-package.inc  |  4 ++--
->>  .../meta/nativesdk-sdk-provides-dummy.bb      | 20
->> +++++++++++++++++++
->>  .../meta/target-sdk-provides-dummy.bb         |  3 +++
->>  3 files changed, 25 insertions(+), 2 deletions(-)
-> 
-> Sadly this breaks the SDK on machines without libxml-parser-perl:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/68
-> 
-> so a resolution will need to be found to that before it can merge.
-> 
-> Cheers,
-> 
-> Richard
-> 
+I think the key to resolving this is will be to understanding how to
+reproduce it...
+
+I think its worth investigating and figuring out...
+
+Cheers,
+
+Richard
+
+
+
 
