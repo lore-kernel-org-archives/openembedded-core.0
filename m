@@ -1,50 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF9A6BB13
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BBA166BB13
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Dec 2018 20:10:21 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id u6so7875504plm.8
+Received: by mail-pl1-f194.google.com with SMTP id b5so7886062plr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 12:10:22 -0800 (PST)
+	Wed, 26 Dec 2018 12:10:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B/bPFq5xgOVwpyIjUtlnx/AJcTwmf38ipwqWaAKGeE8=;
-	b=Pm4rrkbXZxhW8F5LlokmnfhstV6/58RZgCM3ZTXISSzrBmIMvvvzq+WQYSb6MzrpJU
-	gkjOPkUpZsLE4lWt2bwP8HARWa3cRZaTuBfquVXQlPgSANQKtFBDBPGeddrd0119mvg3
-	oGBupzKtqcqORhlfwTlY0Vrq6naxjlNKXYLIB8hOpb1OMJ1HR3wvPBX7J/K5WZ2lkRG8
-	tMtu679TUeLt6pdGdsftCYoVloI8UwcGZ/9hjocvTKg9Z2jW7S/7alzW0wrGL8Wv2pPx
-	2uDa60f0uNv0ztxUImOSVOijfoYrnxQie8goFufi2wPT2Ub5sj43NhFFT2FHB4Fqc9PS
-	R+/g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=43DeZ6b8+XqPFYGhPbHpk6QrERAi0y02ZOvXI3yd7VU=;
+	b=ZaMbyh+B5idNistAUmSEhe5xtaNhbxGocp+VoD82ZMUM1qZkuDkkRwBGc0RGdQ6FV1
+	r/NiURoVffPyAzlENdtKtemRuMFNO5WlwDKeanA5RXO85sqw0rAv1ffRZqg0kuCeUdH+
+	Djjgw37nPzK8azYAC4NqKgK2pro81+g3LJHvtpVVExQulZbi5LummXXOrvzA/izItlLM
+	Sm2XKzN6EqD1+dU9/oaFVBqHCSfAEsUobtHIdwK7uE7OwyuAMlGoSqWysFfyQ7r/XAKH
+	5Vq1fR8bNu5zlvHyEgMDsoyvSjIVlqLsxYlFS2xqKCxRt1bC4aHTllHI94IpyiIek9S7
+	2wHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B/bPFq5xgOVwpyIjUtlnx/AJcTwmf38ipwqWaAKGeE8=;
-	b=TZs0QrWJbCCWy5wPf8/kfmxIZ4GNIIFq01unfFsaEKNW+hWP6liw5e2f+RH3S+ZgtU
-	TVK/rJez1QHRPGe7dELs0G9FWmKFeh1mJ1OZIHsBh42cBVxSuDzy8Aaj4j7+MQmRXSSQ
-	rG/x+uwuRCpjb4Cas1XkSsf3j4VSVJvRd+j8yGb1yrYPvdPKsGCmpA000ZgK8NCdJSip
-	nj01E14G7lHvMUDySRmL/nrRB1YgXgioMkrUvMfHEsliELnYX9CjEvYmzQ9Fol5cJuRa
-	Sv9yNCPp9Sh+E1uNNCfWPgQQYP+qOAPWzy3Gi3Wy1BjKD5yJHx3QrdH1Nmc2UIz6I4aN
-	Zisw==
-X-Gm-Message-State: AJcUukeIxzurJXVJVNo4gA9sMM7JlsCzglDF57ycgf+AUx6dnecaacP4
-	3MLq1rWktHwSvlAFB7MbOsXPBPsyvDA=
-X-Google-Smtp-Source: ALg8bN5ZuGxFIFDdh7LNSNQyT8OXPfPySbjCI1YpwH+VajYHXw7UEWwppv3bwU3G5tpBtl3jeBd0Hg==
-X-Received: by 2002:a17:902:48:: with SMTP id 66mr20485490pla.68.1545855021569;
-	Wed, 26 Dec 2018 12:10:21 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=43DeZ6b8+XqPFYGhPbHpk6QrERAi0y02ZOvXI3yd7VU=;
+	b=iWskpZRZCwXZ289ntq/irRfH99WovG0tupT2S9SrnCV3ol7cc2SfOk/BZqfsS4OcVh
+	BFyciaX40rEqsFETali8CUlydoqtFsIVIdIz3ELzQhEYqnGyvmDh3cpQIbho+ucEZdHP
+	CdEuUAL9RN+F+/HmEzHS2Df9XxQafXQ8BwgBkCO4d+Ya+47ua7RHK6AMWgmvW3sW7YZ7
+	EWwrXk0k0XYiKSUS4mNCahKAjl9QC40W1lm5s2PgCINVptZ5wDDgBrQnIVA0jvnVTxaB
+	jDrdAfOXQA+IF8Jxiy4Y/8p86UE4DBqaEQ8TD49p9vz7D9+ddfeb2UYsrF2jGN3QqEpa
+	rXdw==
+X-Gm-Message-State: AJcUukdfrjgDyvBbQ41nUgMPMTPFNVK+9IrUDJQEDAAKyzvdvVKWHIKQ
+	2fs2j2xoE3nZbyXrG4Yxg684rDbthBA=
+X-Google-Smtp-Source: ALg8bN6F4vyRTaIzZeF5BP1xvZbKAasYgPXSX0SpZaNmXXTWHhYaxbHHw8HCIIuRQ16JwZab0iC7oA==
+X-Received: by 2002:a17:902:6113:: with SMTP id
+	t19mr20485669plj.248.1545855022324; 
+	Wed, 26 Dec 2018 12:10:22 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:877f:9499::6e98])
 	by smtp.gmail.com with ESMTPSA id
-	l3sm60029493pga.92.2018.12.26.12.10.20
+	l3sm60029493pga.92.2018.12.26.12.10.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Dec 2018 12:10:20 -0800 (PST)
+	Wed, 26 Dec 2018 12:10:21 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Dec 2018 12:09:45 -0800
-Message-Id: <20181226200954.5267-1-raj.khem@gmail.com>
+Date: Wed, 26 Dec 2018 12:09:46 -0800
+Message-Id: <20181226200954.5267-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20181226200954.5267-1-raj.khem@gmail.com>
+References: <20181226200954.5267-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] grub2: Fix passing null to printf formats
+Subject: [PATCH 02/10] gnupg: Upgrade to 2.2.12 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,68 +63,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 26 Dec 2018 20:10:21 -0000
 Content-Transfer-Encoding: 8bit
 
-Backport a patch that helps with this error which is found
-by gcc9
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...001-grub-setup-Debug-message-cleanup.patch | 34 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
+ ...nfigure.ac-use-a-custom-value-for-the-location-of-.patch | 6 +++---
+ meta/recipes-support/gnupg/gnupg/relocate.patch             | 2 +-
+ .../gnupg/{gnupg_2.2.11.bb => gnupg_2.2.12.bb}              | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.11.bb => gnupg_2.2.12.bb} (92%)
 
-diff --git a/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch b/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
-new file mode 100644
-index 0000000000..e01fcdffb0
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
-@@ -0,0 +1,34 @@
-+From 4e9d9358e0cda6d01020005eb6343e3b69f7201a Mon Sep 17 00:00:00 2001
-+From: Cao jin <caoj.fnst@cn.fujitsu.com>
-+Date: Tue, 3 Jul 2018 18:51:13 +0800
-+Subject: [PATCH] grub-setup: Debug message cleanup
-+
-+Variable "root" is initialized after root device probing and is null in
-+current place, so, drop it.
-+
-+Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+---
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/grub.git/commit/?id=4e9d9358e0cda6d01020005eb6343e3b69f7201a]
-+
-+ util/setup.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/util/setup.c b/util/setup.c
-+index 80363075d..9c1e1b7da 100644
-+--- a/util/setup.c
-++++ b/util/setup.c
-+@@ -305,9 +305,8 @@ SETUP (const char *dir,
-+   bl.first_block = (struct grub_boot_blocklist *) (core_img
-+ 						   + GRUB_DISK_SECTOR_SIZE
-+ 						   - sizeof (*bl.block));
-+-  grub_util_info ("root is `%s', dest is `%s'", root, dest);
-+ 
-+-  grub_util_info ("Opening dest");
-++  grub_util_info ("Opening dest `%s'", dest);
-+   dest_dev = grub_device_open (dest);
-+   if (! dest_dev)
-+     grub_util_error ("%s", grub_errmsg);
-+-- 
-+2.17.2 (Apple Git-113)
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 325eca25bb..8e0f86217c 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://fix.build.with.gcc-7.patch \
-            file://gcc8.patch \
-            file://0001-x86-64-Treat-R_X86_64_PLT32-as-R_X86_64_PC32.patch \
-+           file://0001-grub-setup-Debug-message-cleanup.patch \
- "
- SRC_URI[md5sum] = "1116d1f60c840e6dbd67abbc99acb45d"
- SRC_URI[sha256sum] = "660ee136fbcee08858516ed4de2ad87068bfe1b6b8b37896ce3529ff054a726d"
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index ab0b6dccc4..3f1c3abaeb 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 5f38f1276a3651c30bddc508122da2e7d2d3ca92 Mon Sep 17 00:00:00 2001
++From 8eb4d25c25a1c1323797d94e0727a3e42b7f3287 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 8c80377..a66d393 100644
++index 4d66af9..b9ef235 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1841,7 +1841,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1848,7 +1848,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 860f7f1d96..c494ef80b7 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From 1eaf630343cc77d8b5d41d0b0a3551fa193c5fcf Mon Sep 17 00:00:00 2001
++From f9fc214b0bf2f67b515ca8a5333f39c497d1b518 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.11.bb b/meta/recipes-support/gnupg/gnupg_2.2.12.bb
+similarity index 92%
+rename from meta/recipes-support/gnupg/gnupg_2.2.11.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.12.bb
+index d259ed5324..1f381c2d91 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.11.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.12.bb
+@@ -19,8 +19,8 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ 
+ 
+-SRC_URI[md5sum] = "e23a896d634e8b81681314780f5158a4"
+-SRC_URI[sha256sum] = "496c3e123ef53f35436ddccca58e82acaa901ca4e21174e77386c0cea0c49cd9"
++SRC_URI[md5sum] = "421b17028878b253c5acfef056bc6141"
++SRC_URI[sha256sum] = "db030f8b4c98640e91300d36d516f1f4f8fe09514a94ea9fc7411ee1a34082cb"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.20.1
 
