@@ -1,48 +1,50 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B0F7E60229
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AF9A6BB13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 17:12:36 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id c9so20859644itj.1
+	Wed, 26 Dec 2018 20:10:21 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id u6so7875504plm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 09:12:38 -0800 (PST)
+	Wed, 26 Dec 2018 12:10:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fp8hOdCMNCAn8M+yKPZX9fO4CWTkUU9tYZBw9pbe4Z8=;
-	b=nTv5h3xnEsMK4ePzwkGoGuJ8zsMDbmw7qMdvm00VaKidLq/yHyTYES+E6xUyaD59SF
-	ddaO0Bb/lsskl2lOfLNGONCfMa33RbFBVlVE4xyQwY6t+/+CLxiJ0DICKRJyjvUHaLwk
-	kaywWpZQfSIP/1FBtAsONRbkahdutJofc2RkMen0cT+xhuTzXPNVQrtSp0t4VAq+BNeM
-	i3/1+6w2wYCQAbWreblrAuZJQ9TBNeik8PIboLzT2YKB7BDrj1HFhE+K8t9Hyme0gqwe
-	lpF1tO4QOaUH8KHLRRo1cUWXjA8qgHERzW8hi9EqrprdgwuJ+uZxPLNuuBdQ2meBxfAS
-	G7pg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B/bPFq5xgOVwpyIjUtlnx/AJcTwmf38ipwqWaAKGeE8=;
+	b=Pm4rrkbXZxhW8F5LlokmnfhstV6/58RZgCM3ZTXISSzrBmIMvvvzq+WQYSb6MzrpJU
+	gkjOPkUpZsLE4lWt2bwP8HARWa3cRZaTuBfquVXQlPgSANQKtFBDBPGeddrd0119mvg3
+	oGBupzKtqcqORhlfwTlY0Vrq6naxjlNKXYLIB8hOpb1OMJ1HR3wvPBX7J/K5WZ2lkRG8
+	tMtu679TUeLt6pdGdsftCYoVloI8UwcGZ/9hjocvTKg9Z2jW7S/7alzW0wrGL8Wv2pPx
+	2uDa60f0uNv0ztxUImOSVOijfoYrnxQie8goFufi2wPT2Ub5sj43NhFFT2FHB4Fqc9PS
+	R+/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fp8hOdCMNCAn8M+yKPZX9fO4CWTkUU9tYZBw9pbe4Z8=;
-	b=JmgDfuMY26kF09EweU/uX5i3WX5lx875ZJhZw1hBqH7cifeo5m7tlzoa4X6N4g8Ysp
-	4cQO89VaZVcEZVDz5WwJQR8tsSXtTlBnUdEw41Z2/0b6LZCEzOvDme3SEn+PFmkmUsIg
-	OI+lBr+HNrGOziLTbbo26LoxGpJ89ys4eDf9YAfptV7jkziE5SEoFjYyOn5rf/TsyClF
-	e6TE/cQVHWAGI877oTcADT8XF8zJiqOrrOdslv3n5RNcDerYbiZocUlewQKr40xLe4oY
-	eIkDpdC0amdOXocMWz+TOtwax0i2xwnkqKgHIHutNh3D8lFlMka2K75Qx1m/fEiWNrIS
-	bfYg==
-X-Gm-Message-State: AJcUukccf7QBv7i6997u8W6kXUsFq6U4Aj7d3qxxovC21SgkTmByf++j
-	Q8Je6LiXOUPfbrVH2ev9i+QERD/OucdctgArBrs=
-X-Google-Smtp-Source: ALg8bN43YuuqXPQaomUQf8HArnl4UvDVg/Hlblbl36wNXj9mvNkozXkdd+3eRxLJ0rZQsPm/IsrSOE599Bzj2cOtUhM=
-X-Received: by 2002:a24:214a:: with SMTP id e71mr10985079ita.60.1545844357637; 
-	Wed, 26 Dec 2018 09:12:37 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B/bPFq5xgOVwpyIjUtlnx/AJcTwmf38ipwqWaAKGeE8=;
+	b=TZs0QrWJbCCWy5wPf8/kfmxIZ4GNIIFq01unfFsaEKNW+hWP6liw5e2f+RH3S+ZgtU
+	TVK/rJez1QHRPGe7dELs0G9FWmKFeh1mJ1OZIHsBh42cBVxSuDzy8Aaj4j7+MQmRXSSQ
+	rG/x+uwuRCpjb4Cas1XkSsf3j4VSVJvRd+j8yGb1yrYPvdPKsGCmpA000ZgK8NCdJSip
+	nj01E14G7lHvMUDySRmL/nrRB1YgXgioMkrUvMfHEsliELnYX9CjEvYmzQ9Fol5cJuRa
+	Sv9yNCPp9Sh+E1uNNCfWPgQQYP+qOAPWzy3Gi3Wy1BjKD5yJHx3QrdH1Nmc2UIz6I4aN
+	Zisw==
+X-Gm-Message-State: AJcUukeIxzurJXVJVNo4gA9sMM7JlsCzglDF57ycgf+AUx6dnecaacP4
+	3MLq1rWktHwSvlAFB7MbOsXPBPsyvDA=
+X-Google-Smtp-Source: ALg8bN5ZuGxFIFDdh7LNSNQyT8OXPfPySbjCI1YpwH+VajYHXw7UEWwppv3bwU3G5tpBtl3jeBd0Hg==
+X-Received: by 2002:a17:902:48:: with SMTP id 66mr20485490pla.68.1545855021569;
+	Wed, 26 Dec 2018 12:10:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:877f:9499::6e98])
+	by smtp.gmail.com with ESMTPSA id
+	l3sm60029493pga.92.2018.12.26.12.10.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Dec 2018 12:10:20 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Dec 2018 12:09:45 -0800
+Message-Id: <20181226200954.5267-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1543484174.git.Qi.Chen@windriver.com>
-	<75835e51f6c88a58056350759080d5c0004562b7.1543484174.git.Qi.Chen@windriver.com>
-	<CAPbeDCk-GccokSj9tNUj6CGpQ-U946C-emM48=ANdOZATORiCA@mail.gmail.com>
-In-Reply-To: <CAPbeDCk-GccokSj9tNUj6CGpQ-U946C-emM48=ANdOZATORiCA@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Wed, 26 Dec 2018 18:12:25 +0100
-Message-ID: <CAPbeDC=unS=7wKvd5Ac+YSHLmakYC0EYxLAE49Z3k3qGSEXyCw@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] netbase: add entry to /etc/hosts according to /etc/hostname
+Subject: [PATCH 01/10] grub2: Fix passing null to printf formats
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +57,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Dec 2018 17:12:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 26 Dec 2018 20:10:21 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 26, 2018 at 5:06 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->
-> On Fri, Nov 30, 2018 at 3:18 AM Chen Qi <Qi.Chen@windriver.com> wrote:
-> >
-> > We default hostname to ${MACHINE}, but it's not in /etc/hosts,
-> > resulting in commands like `hostname -f' failing due to lack
-> > of entry.
-> >
-> > So add entry to /etc/hosts according to /etc/hostname. We do
-> > this via pkg_postinst because hostname is set in base-files
-> > recipe.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/recipes-core/netbase/netbase_5.4.bb | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/netbase/netbase_5.4.bb b/meta/recipes-core/netbase/netbase_5.4.bb
-> > index 5ab0c58..da9255a 100644
-> > --- a/meta/recipes-core/netbase/netbase_5.4.bb
-> > +++ b/meta/recipes-core/netbase/netbase_5.4.bb
-> > @@ -23,3 +23,14 @@ do_install () {
-> >  }
-> >
-> >  CONFFILES_${PN} = "${sysconfdir}/hosts"
-> > +
-> > +RDEPENDS_${PN} += "base-files"
-> > +
-> > +pkg_postinst_${PN} () {
-> > +       if [ -s $D${sysconfdir}/hostname ]; then
-> > +               hostname=`cat $D${sysconfdir}/hostname`
-> > +               if ! grep -q "[[:space:]]$hostname[[:space:]]*" $D${sysconfdir}/hosts; then
-> > +                       echo "127.0.1.1 $hostname" >> $D${sysconfdir}/hosts
->
-> Shouldn't that be "127.0.0.1" ?
->
+Backport a patch that helps with this error which is found
+by gcc9
 
-I thought it was a typo, but apparently there are reasons for using 127.0.1.1:
-https://serverfault.com/questions/363095/why-does-my-hostname-appear-with-the-address-127-0-1-1-rather-than-127-0-0-1-in
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...001-grub-setup-Debug-message-cleanup.patch | 34 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
 
-Sorry for the noise.
+diff --git a/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch b/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
+new file mode 100644
+index 0000000000..e01fcdffb0
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-grub-setup-Debug-message-cleanup.patch
+@@ -0,0 +1,34 @@
++From 4e9d9358e0cda6d01020005eb6343e3b69f7201a Mon Sep 17 00:00:00 2001
++From: Cao jin <caoj.fnst@cn.fujitsu.com>
++Date: Tue, 3 Jul 2018 18:51:13 +0800
++Subject: [PATCH] grub-setup: Debug message cleanup
++
++Variable "root" is initialized after root device probing and is null in
++current place, so, drop it.
++
++Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++---
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/grub.git/commit/?id=4e9d9358e0cda6d01020005eb6343e3b69f7201a]
++
++ util/setup.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/util/setup.c b/util/setup.c
++index 80363075d..9c1e1b7da 100644
++--- a/util/setup.c
+++++ b/util/setup.c
++@@ -305,9 +305,8 @@ SETUP (const char *dir,
++   bl.first_block = (struct grub_boot_blocklist *) (core_img
++ 						   + GRUB_DISK_SECTOR_SIZE
++ 						   - sizeof (*bl.block));
++-  grub_util_info ("root is `%s', dest is `%s'", root, dest);
++ 
++-  grub_util_info ("Opening dest");
+++  grub_util_info ("Opening dest `%s'", dest);
++   dest_dev = grub_device_open (dest);
++   if (! dest_dev)
++     grub_util_error ("%s", grub_errmsg);
++-- 
++2.17.2 (Apple Git-113)
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 325eca25bb..8e0f86217c 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "https://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://fix.build.with.gcc-7.patch \
+            file://gcc8.patch \
+            file://0001-x86-64-Treat-R_X86_64_PLT32-as-R_X86_64_PC32.patch \
++           file://0001-grub-setup-Debug-message-cleanup.patch \
+ "
+ SRC_URI[md5sum] = "1116d1f60c840e6dbd67abbc99acb45d"
+ SRC_URI[sha256sum] = "660ee136fbcee08858516ed4de2ad87068bfe1b6b8b37896ce3529ff054a726d"
+-- 
+2.20.1
 
-> > +               fi
-> > +       fi
-> > +}
-> > --
-> > 1.9.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
