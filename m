@@ -1,53 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C12A6C1BE
+Return-Path: <sungwon.pino@gmail.com>
+Received: from mail-yw1-f45.google.com (mail-yw1-f45.google.com
+	[209.85.161.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 531F36C102
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2018 16:36:28 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id r10so18747127wrs.10
+	Thu, 27 Dec 2018 18:40:17 +0000 (UTC)
+Received: by mail-yw1-f45.google.com with SMTP id h193so7604287ywc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2018 08:36:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=LS1RNlxMawMDMj99mM9GMw1HWNkO2rsyRHWaPhU/iec=;
-	b=JHqBslrjr1nhCOssGZqyu6Du8MsobFqzvI2cP+Q0LZY8tipAdJLObeTxn2bVKbwevv
-	Kmq3BTBC0T3xU1Mj+H9IFTnR1+tetnPOpfIcTGFk3ad2JaAChcN7ePxs1ptZOE+rGe7q
-	ugnaatkFkWnU2cwtpqLJqmRy2pzrE1tzUJFwA=
+	Thu, 27 Dec 2018 10:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=P4gHfUT9sCXh9U8ZbWQQ9s7e0CDAaXAmSmKap/RdSAQ=;
+	b=FJ20fcYvU8ysUBlDVnAri+P6HZOA1oUNvoqRgPXYEnzd/sUew9IOn5a9u2aeoRe0z0
+	Ik2L9ksrwC31jn6pz4zuUXAIco0hjywwNUGuDbKlmyIOwU15u0blg4xa4xRDC5Wf/jHo
+	bqNTgjzUR/98/HsLbqm0ZB3FavJM5vK+eyu3q6SpxD4xcuT/z2BuxBJ9XqeteOWDbqhS
+	rokmZ+17LZmGJsnq/j28Zmh/7ujvsfWbTjhwhxFPt+PjrJhQapdSZF6mUiyITqgCvIe8
+	HHcItW1P7OizXybxWRohA4PoNAJF81EUkbsxKBTu08kuiWm8mODy4KcordGD24UHMGkE
+	yAcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=LS1RNlxMawMDMj99mM9GMw1HWNkO2rsyRHWaPhU/iec=;
-	b=t23v/h6e5BSak9Sc1JkWHS4L1HHciqc88anRwmxVjoIFRUTFcfccmA81XxW4fUg2xX
-	Fzz7/NlhqduYJP6JdJH9dfG67FQ8x4VqVguM3KoarQKsfq/T545ObmuZYktbzkTA+vOZ
-	FYEnLfXoFdfPh4xytzNs/SrHhTfhNH5IhDnZwEjNhKapkcK9g9vlmGukyDFEkb1BKy4O
-	THNlIOPDaiiGyOBowvpydcJGN5Ma2DwsWA1GnEZLj5BW2QezTvSoPVX/sPpu7UzKz36f
-	B7gdzNtqMf08u0KQMbvBcCI4DaX3AzZ6xaOgfe1QdHWPYe6glUw7t7q0MgdGY87QeMIf
-	462Q==
-X-Gm-Message-State: AJcUukcq2NXfygJGfn3BXt1mdyIMaoS0ZoJ8sGnu/3ue7jM0P8+yY1u2
-	tHvRPj8FfnfI0FVLLHBSJHqiBA==
-X-Google-Smtp-Source: ALg8bN4IyEWWedaldNNYMSqM1des58qs1dgPxLdn7449/iXjjI+eKXDepx5r3zhQGq++1g0ft4nUUA==
-X-Received: by 2002:adf:9d85:: with SMTP id p5mr21520656wre.41.1545928589571; 
-	Thu, 27 Dec 2018 08:36:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o16sm34601178wrn.11.2018.12.27.08.36.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 27 Dec 2018 08:36:28 -0800 (PST)
-Message-ID: <d7081e176206bbec40ed91e86aa393709ab5e28c.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: sungwon kim <sungwon.pino@gmail.com>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Dec 2018 16:36:28 +0000
-In-Reply-To: <CAE7Z+X16BbOzxNBbaWw-B7qdfttuNki+oR7j1S-ebDyYwvo3-g@mail.gmail.com>
-References: <CAE7Z+X0fWR4LtY+iCPGqsGX8atqK+W42SL+MCha1jcjtyt-DHg@mail.gmail.com>
-	<0b838a187e20329b17029308181b31a99c73c720.camel@linuxfoundation.org>
-	<CAE7Z+X16BbOzxNBbaWw-B7qdfttuNki+oR7j1S-ebDyYwvo3-g@mail.gmail.com>
-User-Agent: Evolution 3.30.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] gdb-cross-canadian: Add bison-native for gdb-cross-canadian
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=P4gHfUT9sCXh9U8ZbWQQ9s7e0CDAaXAmSmKap/RdSAQ=;
+	b=bdxY40JuG8vqnrewjUQ4mGpjh8o/NC5K6uRgejxzbJpHwtRifp0FTbvPFHWHnnsgU9
+	neEo5akoq0VHVHNazg+BMujzlQOTrZJifZv7nPFvZuUAjo3Wi+U2ve4LUb5OtGF80D0U
+	7YDArHG1AmJBPx5JJplgaxSd4sXOPXyiqHoRz1aRiRgxOwu5N7/Z2yy73QpqYpUjAumw
+	b4ZYOnYu3JY591nvh6EDErpu6pLNGFDxerq6XAiHD5CYyPT3jcfHUSu+b44Vd0PVkCxu
+	YR6piDIWm3Ft7V55xF/4M9a4AgvadCeOW3QHKIEFifSzNsiwUIB71wcDq6B1GrtpStia
+	cTxw==
+X-Gm-Message-State: AA+aEWa9lFwgRVhLyZ+A01+BLLPm2itP0G03F2WTe/ymcwlgYFUkJyqv
+	bvvvfqb3l/MXaQp7ZflZiByHa8jzQvOkhpxbZXGwmQ==
+X-Google-Smtp-Source: AFSGD/U+fv7RWl7h3+A3SsSjCNSTH1RB+hQvXJSgVA8UjZcbryS2+JIFocRngkG0R6AxiPj6UvYPICqzjgx89EAorbk=
+X-Received: by 2002:a81:a70a:: with SMTP id e10mr24661603ywh.233.1545936018054;
+	Thu, 27 Dec 2018 10:40:18 -0800 (PST)
+MIME-Version: 1.0
+From: sungwon kim <sungwon.pino@gmail.com>
+Date: Fri, 28 Dec 2018 03:40:07 +0900
+Message-ID: <CAE7Z+X3A0pB8fLvgE7fLzAAVB--Bngy5rR5w_J=VmpEpH4HtiA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2] gdb-cross-canadian: Add bison-native for gdb-cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +51,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2018 16:36:29 -0000
+X-List-Received-Date: Thu, 27 Dec 2018 18:40:17 -0000
+Content-Type: multipart/alternative; boundary="00000000000033a3d3057e05472f"
+
+--00000000000033a3d3057e05472f
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-12-28 at 01:18 +0900, sungwon kim wrote:
-> To. Richard
-> 
-> Thank to comment it.
-> When I build `bitbake meta-toolchain` at riscv64 architecture.
-> when gdb-cross-canadian return the error message can't find `bison`
-> 
-> > /home/pino/workspace/Opensource/riscv-yocto/build/tmp-
-> > glibc/work/x86_64-nativesdk-oesdk-linux/gdb-cross-canadian-
-> > riscv64/riscv-r0/git/missing: line 81: bison: command not found
-> > WARNING: 'bison' is missing on your system.
-> > You should only need it if you modified a '.y' file.
-> > You may want to install the GNU Bison package:
-> > http://www.gnu.org/software/bison/
-> 
-> ...
-> 
-> > Makefile:849: recipe for target 'all' failed
-> > make: *** [all] Error 2
-> > ERROR: oe_runmake failed
-> > WARNING: /home/pino/workspace/Opensource/riscv-yocto/build/tmp-
-> > glibc/work/x86_64-nativesdk-oesdk-linux/gdb-cross-canadian-
-> > riscv64/riscv-r0/temp/run.do_compile.21026:1 exit 1 from 'exit 1'
-> > ERROR: Function failed: do_compile (log file is located at
-> > /home/pino/workspace/Opensource/riscv-yocto/build/tmp-
-> > glibc/work/x86_64-nativesdk-oesdk-linux/gdb-cross-canadian-
-> > riscv64/riscv-r0/temp/log.do_compile.21026)
-> 
-> To fix this add native-bison at DEPENDS  at gdb-cross-canadian.inc
+This fixes RISC-V gdb-cross-canadian cross compile configure failure
+on missing bison.
 
-Are you adding a riscv layer which adds patches to gdb? If so I suspect
-this dependency is due to those patches and belongs with them.
+Signed-off-by: pino-kim <sungwon.pino@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+index 475e4f08ef..4977a66c32 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+@@ -5,7 +5,7 @@ SUMMARY = "GNU debugger (cross-canadian gdb for
+${TARGET_ARCH} target)"
+ PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ BPN = "gdb"
 
-Richard
+-DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
++DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext bison-native \
+            virtual/${HOST_PREFIX}gcc-crosssdk
+virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc"
 
+ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+-- 
+2.17.1
 
+--00000000000033a3d3057e05472f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><pre cl=
+ass=3D"gmail-content" style=3D"box-sizing:border-box;overflow:auto;padding:=
+9.5px;margin-top:0px;margin-bottom:10px;line-height:14.3px;word-break:break=
+-all;border:0px;border-radius:0px">This fixes RISC-V gdb-cross-canadian cro=
+ss compile configure failure on missing bison.</pre><pre class=3D"gmail-con=
+tent" style=3D"box-sizing:border-box;overflow:auto;padding:9.5px;margin-top=
+:0px;margin-bottom:10px;line-height:14.3px;word-break:break-all;border:0px;=
+border-radius:0px"><font color=3D"#333333" face=3D"Menlo, Monaco, Consolas,=
+ Courier New, monospace"><span style=3D"font-size:13px">Signed-off-by: pino=
+-kim &lt;<a href=3D"mailto:sungwon.pino@gmail.com">sungwon.pino@gmail.com</=
+a>&gt;
+---
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipe=
+s-devtools/gdb/gdb-cross-canadian.inc
+index 475e4f08ef..4977a66c32 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+@@ -5,7 +5,7 @@ SUMMARY =3D &quot;GNU debugger (cross-canadian gdb for ${TA=
+RGET_ARCH} target)&quot;
+ PN =3D &quot;gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}&quot;
+ BPN =3D &quot;gdb&quot;
+=20
+-DEPENDS =3D &quot;nativesdk-ncurses nativesdk-expat nativesdk-gettext \
++DEPENDS =3D &quot;nativesdk-ncurses nativesdk-expat nativesdk-gettext biso=
+n-native \
+            virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binuti=
+ls-crosssdk virtual/nativesdk-libc&quot;
+=20
+ GDBPROPREFIX =3D &quot;--program-prefix=3D&#39;${TARGET_PREFIX}&#39;&quot;
+--=20
+2.17.1</span></font><br></pre></div></div></div></div>
+
+--00000000000033a3d3057e05472f--
