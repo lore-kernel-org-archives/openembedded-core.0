@@ -1,48 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CD4076BD1C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD13A6C125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2018 02:33:58 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id t13so18939395qtn.3
+	Thu, 27 Dec 2018 03:02:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBR32S1p029660
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2018 18:34:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ocCVsogmDuUwo6KW4913MC3JqeJtcsWdJXR9ec+w2Wo=;
-	b=Sq79I4ZveuKBtso4+IMNC0GZJn9Jdrf9+MfHKMnDMS8rOb0PHE+65dbtruX7jWr3Z1
-	xKr7Pti55CjPJcoKBDS2ELbTxiMUgXbIbd9/7szkGr8RaCfNSUsv0Scr5NIf+ucLADuy
-	WOBosI3mSlYRSVeOcoTbh/0YQyjD+gbr4GH3u0cMg5zSJpt1ny1wqYWD2kibYaFNvrKR
-	ZDEnQ2yHhK4n+nqjH8yMnW/wQMNDDfcKWNhW4/31sxLLqZp9V9MIJIgxIu0iZLpL2NNH
-	LyDnjV8Ymeck0eleyNB9QW+AWtALIXJ5T+8jD71Zr0CR+gImTFBEsDdGNUpu5TMkbhvg
-	f+hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ocCVsogmDuUwo6KW4913MC3JqeJtcsWdJXR9ec+w2Wo=;
-	b=XX5zptw//K1vLPSNTmx6vemN7pbTzbBDbrf8LiF1cRS3ACpdsQTGgLa8UzaAIqG7Ol
-	fBeh1VaRSMvpyhalgknp3f1428PU5i8UyGkPv2ggeHlE7wBv4M6maXPDVBQt7OCiMq/z
-	aGngUiG26LfE1/jTTr4DfSIYnjXz2EPVXO1xPn8kdWdvHS+Xtcm0L5ULs0WiPPuz8JTc
-	1uEmtri8qvsrUZbPB6LM4ZQf6thIICzYdVbLL14YWtqUz4kmPasP0Rk7io/S2ijkqfyN
-	W+0gkMvkMxZP2igGw7M4KaOHup8hxyVNLsmR2AUWNccgg2HNMzVYWcy+QC/E/ffWpl2X
-	r72w==
-X-Gm-Message-State: AJcUukci/AlHJhRn88ncvi186O+GyXVYSI0XoUCUX58m9797dnMG1uaC
-	8OQoAiOZcRSMBp3dn0dfHSxhmi3V+uSevy7/JRY=
-X-Google-Smtp-Source: AFSGD/X3WwR4fD60ySw3ctaW/X6sEMMjpdVH0dtCQKsFYph3qkufoFJaOjCSbLj55zKk6HEQFo4K4J5bYmSfAv5skto=
-X-Received: by 2002:ac8:16d8:: with SMTP id y24mr20974586qtk.253.1545878039388;
-	Wed, 26 Dec 2018 18:33:59 -0800 (PST)
+	Wed, 26 Dec 2018 19:02:38 -0800
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 26 Dec 2018 19:02:17 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <1541756554-194955-1-git-send-email-changqing.li@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <1cde5575-80c7-eeb2-3d62-9d7231966247@windriver.com>
+Date: Thu, 27 Dec 2018 11:02:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20181226235906.22007-1-alejandro.delcastillo@ni.com>
-	<20181226235906.22007-4-alejandro.delcastillo@ni.com>
-In-Reply-To: <20181226235906.22007-4-alejandro.delcastillo@ni.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 26 Dec 2018 18:33:33 -0800
-Message-ID: <CAMKF1srgZnSdeikUO0TvBk4vVrzU4vVMps_=VJ+7Se7A3AOPdQ@mail.gmail.com>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] package_ip.bbclass: add xz threading
+In-Reply-To: <1541756554-194955-1-git-send-email-changqing.li@windriver.com>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH] update-rc.d.bbclass: remove preinst and remove -f for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +35,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2018 02:33:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 27 Dec 2018 03:02:47 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, Dec 26, 2018 at 4:44 PM Alejandro del Castillo
-<alejandro.delcastillo@ni.com> wrote:
+ping
+
+On 11/9/18 5:42 PM, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> Before, threading was enabled via a patch to opkg-build. Now that
-> opkg-build provides a hook for extra arguments, use that.
+> *preinst use "-f remove" to remove any links in the /etc/rcrunlevel.d
+>   but this will make user cannot keep previous config by default after
+>   upgrade
 >
-> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+>   eg: user disable one service before upgrade, after upgrade, service
+>   could be started since during preinst, all link have been deleted, so
+>   postinst may create the link to start service.
+>
+>   remove preinst to keep previous links, so that after upgrade, if any
+>   link existed for the package, postinst will not create new start/stop
+>   links.
+>
+>   (note: patch of support enable/disable function of update-rc.d send
+>   to yocto mail list today)
+>
+> *remove -f for postinst, previously, recipe keepalived use remove during
+>   postinst, so need this -f, but remove in postinst is not proper, recipe
+>   keepalived have fixed this problem, so remove -f.
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  meta/classes/package_ipk.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   meta/classes/update-rc.d.bbclass | 28 ++++------------------------
+>   1 file changed, 4 insertions(+), 24 deletions(-)
 >
-> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> index 5eb910ca31..991ecac7e4 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -8,7 +8,7 @@ IPKGCONF_SDK =  "${WORKDIR}/opkg-sdk.conf"
->  PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
->
->  # Program to be used to build opkg packages
-> -OPKGBUILDCMD ??= "opkg-build -Z xz"
-> +OPKGBUILDCMD ??= "opkg-build -Z xz -a "--threads 0""
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+> index 265c4be..1366fee 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -20,28 +20,14 @@ def use_updatercd(d):
+>           return '[ -n "$D" -o ! -d /run/systemd/system ]'
+>       return 'true'
+>   
+> -updatercd_preinst() {
+> -if ${@use_updatercd(d)} && [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+> -	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
+> -fi
+> -if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+> -	if [ -n "$D" ]; then
+> -		OPT="-f -r $D"
+> -	else
+> -		OPT="-f"
+> -	fi
+> -	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+> -fi
+> -}
+> -
+>   PACKAGE_WRITE_DEPS += "update-rc.d-native"
+>   
+>   updatercd_postinst() {
+>   if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+>   	if [ -n "$D" ]; then
+> -		OPT="-f -r $D"
+> +		OPT="-r $D"
+>   	else
+> -		OPT="-f -s"
+> +		OPT="-s"
+>   	fi
+>   	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+>   fi
+> @@ -79,7 +65,7 @@ python __anonymous() {
+>   PACKAGESPLITFUNCS_prepend = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
+>   PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
+>   
+> -populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
+> +populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
+>   populate_packages_updatercd[vardepsexclude] += "OVERRIDES"
+>   
+>   python populate_packages_updatercd () {
+> @@ -95,7 +81,7 @@ python populate_packages_updatercd () {
+>               d.appendVar('RDEPENDS_' + pkg, ' %sinitd-functions' % (mlprefix))
+>   
+>       def update_rcd_package(pkg):
+> -        bb.debug(1, 'adding update-rc.d calls to preinst/postinst/prerm/postrm for %s' % pkg)
+> +        bb.debug(1, 'adding update-rc.d calls to postinst/prerm/postrm for %s' % pkg)
+>   
+>           localdata = bb.data.createCopy(d)
+>           overrides = localdata.getVar("OVERRIDES")
+> @@ -103,12 +89,6 @@ python populate_packages_updatercd () {
+>   
+>           update_rcd_auto_depend(pkg)
+>   
+> -        preinst = d.getVar('pkg_preinst_%s' % pkg)
+> -        if not preinst:
+> -            preinst = '#!/bin/sh\n'
+> -        preinst += localdata.getVar('updatercd_preinst')
+> -        d.setVar('pkg_preinst_%s' % pkg, preinst)
+> -
+>           postinst = d.getVar('pkg_postinst_%s' % pkg)
+>           if not postinst:
+>               postinst = '#!/bin/sh\n'
 
-double strings look confusing, may be use single quotes here ?
+-- 
+BRs
 
->
->  OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
->  OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Sandy(Li Changqing)
+
 
