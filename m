@@ -1,30 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DBAA6BF3D
+Return-Path: <Noor_Ahsan@mentor.com>
+X-Greylist: delayed 1112 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 28 Dec 2018 13:07:24 UTC
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id F3D206BA53
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2018 09:42:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBS9fjjM013186
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Dec 2018 01:41:55 -0800
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Fri, 28 Dec 2018 01:41:34 -0800
-To: <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
-	<8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <298dd0b5-f2f8-23dc-3a0d-cf05958e038c@windriver.com>
-Date: Fri, 28 Dec 2018 17:49:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 28 Dec 2018 13:07:24 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1gcrZM-0005NI-4v from Noor_Ahsan@mentor.com ;
+	Fri, 28 Dec 2018 04:48:52 -0800
+Received: from svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Fri, 28 Dec 2018 12:48:48 +0000
+Received: from svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce]) by
+	svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce%22]) with
+	mapi id 15.00.1320.000; Fri, 28 Dec 2018 12:48:48 +0000
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Thread-Topic: ovmf fails when python sqlite module is not installed on host
+Thread-Index: AdSeq6toOWjhGqzmTn63l6b62z5VMQ==
+Date: Fri, 28 Dec 2018 12:48:48 +0000
+Message-ID: <321cb5cd28684311ba3f3c0dba168baf@svr-ies-mbx-01.mgc.mentorg.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
 MIME-Version: 1.0
-In-Reply-To: <8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: gdb failure on simplest hello world program -- oe-selftest
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: ovmf fails when python sqlite module is not installed on host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,313 +43,377 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Dec 2018 09:42:52 -0000
+X-List-Received-Date: Fri, 28 Dec 2018 13:07:25 -0000
+Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="------------8D6FB67C9F5CA505DAE32D82"
+	boundary="_000_321cb5cd28684311ba3f3c0dba168bafsvriesmbx01mgcmentorgco_"
 
---------------8D6FB67C9F5CA505DAE32D82
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--_000_321cb5cd28684311ba3f3c0dba168bafsvriesmbx01mgcmentorgco_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/26/2018 07:06 PM, richard.purdie@linuxfoundation.org wrote:
-> On Wed, 2018-12-26 at 10:09 +0800, ChenQi wrote:
->> Hi All,
->>
->> 'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug' fails.
->> I did the tests on both my Fedora27 and ubuntu16.04 servers. They both
->> failed.
->> I can also reproduce this issue manually.
->>
->> I did some investigation. No clue how to fix this it. So I want to seek
->> help from community.
->>
->> Below is some output from oe-selftest.
->> [snip]
->> 2018-12-26 09:27:58,440 - oe-selftest - INFO - test_gdb_hardlink_debug
->> (package.PackageTests)
->> 2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest /usr/bin/hello1
->> 2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
->> 1: Reading symbols from /usr/bin/hello1...Reading symbols from
->> /usr/bin/.debug/hello4...done.
->> done.
->> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.
->> (gdb) Starting program: /usr/bin/hello1
->>
->> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
->> 107    /usr/include/bits/stdio2.h: No such file or directory.
->> (gdb) Continuing.
->> Hello World!
->> [Inferior 1 (process 312) exited normally]
->> (gdb)
->> 2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
->> [snip]
->>
->> The hello world problem is as follows.
->> $ cat
->> meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
->> #include <stdio.h>
->>
->> int main() {
->>       printf("Hello World!\n");
->> }
->>
->> Some extra information:
->> 1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
->> 2. Adding some system call like daemon(0,0) before printf also works.
->> 3. Reverting poky repo to 1c048479af7cc98e30f9a33d1f3bef03711544aa,
->> which adds this selftest case, does not work. It still fails.
->> 4. Hongxu confirms that things work on his host.
->> 5. I also don't see failure about this test case on yocto's autobuilder.
->>
->> Could somebody help to provide some suggestions?
-> This is strange and there must be some difference between your
-> configuration and what what we test on the autobuilder or on Hongxu's
-> setup.
+Hello,
 
-Hi Richard,
+While building ovmf recipe I faced one issue regarding sqlite python module=
+. The recipe is trying to access host python packages in order to build it.=
+ On my system I had multiple puthon version installed and the one which Ovm=
+f was picking did not had sqlite module installed so I got this error
 
-I have talked with Hongxu and we can now both confirm that there does 
-exist some problem.
-
-> Which DISTRO and MACHINE are you using?
-
-DISTRO is poky
-MACHINE is qemux86.
-
-It seems that if MACHINE is qemux86-64, the test case could pass. But 
-that's just because the test case only checks 'Breakpoint 1, main () at 
-hello.c:4'. See the console output below.
-(gdb) b main
-*Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h, line 107.*
-(gdb) r
-Starting program: /usr/bin/hello1
-
-*Breakpoint 1, main () at hello.c:4*
-4        printf("Hello World!\n");
-(gdb) c
-Continuing.
-Hello World!
-[Inferior 1 (process 156) exited normally]
-(gdb) q
-
-Even in this case, the 'b main' does not give correct result. The test 
-case passes because 'Breakpoint 1, main () at hello.c:4' is there.
-
-On qemux86, we have:
-*(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.*
-(gdb) Starting program: /usr/bin/hello1
-
-*Breakpoint 1, main () at /usr/include/bits/stdio2.h:107*
-107    /usr/include/bits/stdio2.h: No such file or directory.
-(gdb) Continuing.
-Hello World!
-[Inferior 1 (process 156) exited normally]
-(gdb)
-
-> I think the key to resolving this is will be to understanding how to
-> reproduce it...
-
-Two ways to reproduce the problem:
-
-I) reproduce it via oe-selftest
-1) . oe-init-build-env build-selftest
-2) SANITY_TESTED_DISTROS = ""
-3) oe-selftest -r package.PackageTests.test_gdb_hardlink_debug
-
-II) reproduce it manually
-1) add meta-selftest to bblayers.conf
-2) IMAGE_INSTALL_append = " selftest-hardlink selftest-hardlink-dbg 
-selftest-hardlink-gdb"
-3) bitbake core-image-minimal
-4) On target:
-      gdb /usr/bin/hello1
-      (gdb) b main
-
-Best Regards,
-Chen Qi
-
-> I think its worth investigating and figuring out...
+Copying $EDK_TOOLS_PATH/Conf/target.template
+     to /var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/git/Conf/target.txt
+using prebuilt tools
+Running edk2 build for OvmfPkgX64
+Traceback (most recent call last):
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/BinWrappers/PosixLike/../../Source/Python/build/build.p=
+y", line 42, in <module>
+    from AutoGen.AutoGen import *
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/AutoGen/AutoGen.py", line 36, in <module>
+    from GenFds.FdfParser import *
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/FdfParser.py", line 21, in <module=
 >
-> Cheers,
+    import Fd
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/Fd.py", line 19, in <module>
+    import Fv
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/Fv.py", line 24, in <module>
+    import AprioriSection
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/AprioriSection.py", line 21, in <m=
+odule>
+    import FfsFileStatement
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/FfsFileStatement.py", line 29, in =
+<module>
+    from GuidSection import GuidSection
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/GuidSection.py", line 30, in <modu=
+le>
+    from GenFds import FindExtendTool
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/GenFds/GenFds.py", line 25, in <module>
+    from Workspace.WorkspaceDatabase import WorkspaceDatabase
+  File "/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/workspace/build/t=
+mp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/usr/bin/edk2_=
+basetools/BaseTools/Source/Python/Workspace/WorkspaceDatabase.py", line 18,=
+ in <module>
+    import sqlite3
+  File "/usr/local/lib/python2.7/sqlite3/__init__.py", line 24, in <module>
+    from dbapi2 import *
+  File "/usr/local/lib/python2.7/sqlite3/dbapi2.py", line 28, in <module>
+    from _sqlite3 import *
+ImportError: No module named _sqlite3
+WARNING: exit code 1 from a shell command.
+
+I also inherited the recipe with  python3native but it is still accessing h=
+ost python. Can you guide me how we can modify this recipe so that it start=
+ using build system python3 packages.
+
+Noor
+
+--_000_321cb5cd28684311ba3f3c0dba168bafsvriesmbx01mgcmentorgco_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Richard
->
->
->
->
-
-
---------------8D6FB67C9F5CA505DAE32D82
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 12/26/2018 07:06 PM,
-      <a class="moz-txt-link-abbreviated" href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a> wrote:<br>
-    </div>
-    <blockquote
-cite="mid:8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">On Wed, 2018-12-26 at 10:09 +0800, ChenQi wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Hi All,
-
-'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug' fails.
-I did the tests on both my Fedora27 and ubuntu16.04 servers. They both 
-failed.
-I can also reproduce this issue manually.
-
-I did some investigation. No clue how to fix this it. So I want to seek 
-help from community.
-
-Below is some output from oe-selftest.
-[snip]
-2018-12-26 09:27:58,440 - oe-selftest - INFO - test_gdb_hardlink_debug 
-(package.PackageTests)
-2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest /usr/bin/hello1
-2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
-1: Reading symbols from /usr/bin/hello1...Reading symbols from 
-/usr/bin/.debug/hello4...done.
-done.
-(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.
-(gdb) Starting program: /usr/bin/hello1
-
-Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
-107    /usr/include/bits/stdio2.h: No such file or directory.
-(gdb) Continuing.
-Hello World!
-[Inferior 1 (process 312) exited normally]
-(gdb)
-2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
-[snip]
-
-The hello world problem is as follows.
-$ cat 
-meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
-#include &lt;stdio.h&gt;
-
-int main() {
-     printf("Hello World!\n");
-}
-
-Some extra information:
-1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
-2. Adding some system call like daemon(0,0) before printf also works.
-3. Reverting poky repo to 1c048479af7cc98e30f9a33d1f3bef03711544aa, 
-which adds this selftest case, does not work. It still fails.
-4. Hongxu confirms that things work on his host.
-5. I also don't see failure about this test case on yocto's autobuilder.
-
-Could somebody help to provide some suggestions?
-</pre>
-      </blockquote>
-      <pre wrap="">
-This is strange and there must be some difference between your
-configuration and what what we test on the autobuilder or on Hongxu's
-setup.
-</pre>
-    </blockquote>
-    <br>
-    Hi Richard,<br>
-    <br>
-    I have talked with Hongxu and we can now both confirm that there
-    does exist some problem.<br>
-    <br>
-    <blockquote
-cite="mid:8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">
-Which DISTRO and MACHINE are you using?
-</pre>
-    </blockquote>
-    <br>
-    DISTRO is poky<br>
-    MACHINE is qemux86.<br>
-    <br>
-    It seems that if MACHINE is qemux86-64, the test case could pass.
-    But that's just because the test case only checks 'Breakpoint 1,
-    main () at hello.c:4'. See the console output below.<br>
-    (gdb) b main<br>
-    <b>Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h, line
-      107.</b><br>
-    (gdb) r<br>
-    Starting program: /usr/bin/hello1 <br>
-    <br>
-    <b>Breakpoint 1, main () at hello.c:4</b><br>
-    4        printf("Hello World!\n");<br>
-    (gdb) c<br>
-    Continuing.<br>
-    Hello World!<br>
-    [Inferior 1 (process 156) exited normally]<br>
-    (gdb) q<br>
-    <br>
-    Even in this case, the 'b main' does not give correct result. The
-    test case passes because 'Breakpoint 1, main () at hello.c:4' is
-    there.<br>
-    <br>
-    On qemux86, we have:<br>
-    <b>(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
-      line 107.</b><br>
-    (gdb) Starting program: /usr/bin/hello1 <br>
-    <br>
-    <b>Breakpoint 1, main () at /usr/include/bits/stdio2.h:107</b><br>
-    107    /usr/include/bits/stdio2.h: No such file or directory.<br>
-    (gdb) Continuing.<br>
-    Hello World!<br>
-    [Inferior 1 (process 156) exited normally]<br>
-    (gdb)<br>
-    <br>
-    <blockquote
-cite="mid:8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">
-I think the key to resolving this is will be to understanding how to
-reproduce it...
-</pre>
-    </blockquote>
-    <br>
-    Two ways to reproduce the problem:<br>
-    <br>
-    I) reproduce it via oe-selftest<br>
-    1) . oe-init-build-env build-selftest<br>
-    2) SANITY_TESTED_DISTROS = ""<br>
-    3) oe-selftest -r package.PackageTests.test_gdb_hardlink_debug<br>
-    <br>
-    II) reproduce it manually<br>
-    1) add meta-selftest to bblayers.conf<br>
-    2) IMAGE_INSTALL_append = " selftest-hardlink selftest-hardlink-dbg
-    selftest-hardlink-gdb"<br>
-    3) bitbake core-image-minimal<br>
-    4) On target:<br>
-         gdb /usr/bin/hello1<br>
-         (gdb) b main<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote
-cite="mid:8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org"
-      type="cite">
-      <pre wrap="">
-I think its worth investigating and figuring out...
-
-Cheers,
-
-Richard
-
-
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted";
+	font-family:"Courier New";}
+span.code-keyword
+	{mso-style-name:code-keyword;}
+span.code-quote
+	{mso-style-name:code-quote;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">While building ovmf recipe I faced one issue regardi=
+ng sqlite python module. The recipe is trying to access host python package=
+s in order to build it. On my system I had multiple puthon version installe=
+d and the one which Ovmf was picking
+ did not had sqlite module installed so I got this error<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">Copying $EDK_=
+TOOLS_PATH/Conf/target.template<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;&nbsp; to /</span><span style=3D"font-size:9.0pt;font-family:&quot;Cou=
+rier New&quot;;color:#910091">var</span><span style=3D"font-size:9.0pt;font=
+-family:&quot;Courier New&quot;;color:#333333">/mentor/sfarooq/MEL/181206_1=
+816/myproject_uno/workspace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/=
+git/Conf/target.txt<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">using prebuil=
+t tools<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">Running edk2 =
+build
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">for</span><span style=3D"font-size:9.0pt;font-family:&quot;Co=
+urier New&quot;;color:#333333"> OvmfPkgX64<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">Traceback (mo=
+st recent call last):<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/BinWrappers/PosixLike/../../Source/Python/b=
+uild/build.py&quot;</span><span style=3D"font-size:9.0pt;font-family:&quot;=
+Courier New&quot;;color:#333333">,
+ line 42, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from AutoGen.AutoGen
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> *<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/AutoGen.py&quot;</spa=
+n><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:=
+#333333">,
+ line 36, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from GenFds.FdfParser
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> *<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/FdfParser.py&quot;</sp=
+an><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color=
+:#333333">,
+ line 21, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> Fd<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/Fd.py&quot;</span><spa=
+n style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:#33333=
+3">,
+ line 19, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> Fv<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/Fv.py&quot;</span><spa=
+n style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:#33333=
+3">,
+ line 24, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> AprioriSection<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/AprioriSection.py&quot=
+;</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;=
+color:#333333">,
+ line 21, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> FfsFileStatement<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/FfsFileStatement.py&qu=
+ot;</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot=
+;;color:#333333">,
+ line 29, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from GuidSection
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> GuidSection<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/GuidSection.py&quot;</=
+span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;col=
+or:#333333">,
+ line 30, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from GenFds
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> FindExtendTool<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/GenFds/GenFds.py&quot;</span>=
+<span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:#3=
+33333">,
+ line 25, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from Workspace.WorkspaceDatabase
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> WorkspaceDatabase<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/var/mentor/sfarooq/MEL/181206_1816/myproject_uno/works=
+pace/build/tmp/work/corei7-64-mel-linux/ovmf/git-r0/recipe-sysroot-native/u=
+sr/bin/edk2_basetools/BaseTools/Source/Python/Workspace/WorkspaceDatabase.p=
+y&quot;</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&=
+quot;;color:#333333">,
+ line 18, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> sqlite3<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/usr/local/lib/python2.7/sqlite3/__init__.py&quot;</spa=
+n><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:=
+#333333">, line 24, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from dbapi2
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> *<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp; File
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#009100">&quot;/usr/local/lib/python2.7/sqlite3/dbapi2.py&quot;</span>=
+<span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;color:#3=
+33333">, line 28, in &lt;module&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">&nbsp;&nbsp;&=
+nbsp; from _sqlite3
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Courier New&quot;;c=
+olor:#910091">import</span><span style=3D"font-size:9.0pt;font-family:&quot=
+;Courier New&quot;;color:#333333"> *<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">ImportError: =
+No module named _sqlite3<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:whitesmoke"><span style=3D"font-=
+size:9.0pt;font-family:&quot;Courier New&quot;;color:#333333">WARNING: exit=
+ code 1 from a shell command.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I also inherited the recipe with &nbsp;python3native=
+ but it is still accessing host python. Can you guide me how we can modify =
+this recipe so that it start using build system python3 packages.<o:p></o:p=
+></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Noor<o:p></o:p></p>
+</div>
+</body>
 </html>
 
---------------8D6FB67C9F5CA505DAE32D82--
+--_000_321cb5cd28684311ba3f3c0dba168bafsvriesmbx01mgcmentorgco_--
