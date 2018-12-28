@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F21DF6BA11
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 87FC76BAAB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2018 09:02:09 +0000 (UTC)
+	Fri, 28 Dec 2018 09:02:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wBS92BEf004349
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBS92BoJ010039
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 28 Dec 2018 01:02:11 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 28 Dec 2018 01:02:10 -0800
+	Fri, 28 Dec 2018 01:02:11 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Dec 2018 01:01:47 -0800
-Message-ID: <265b83e973b38982365f810b240e403f966ea465.1545987662.git.liezhi.yang@windriver.com>
+Date: Fri, 28 Dec 2018 01:01:48 -0800
+Message-ID: <9d76d528a82a49e0d524475c4a02c701b43eed3c.1545987662.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1545987662.git.liezhi.yang@windriver.com>
 References: <cover.1545987662.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] valgrind: Fix a race issue for libcoregrind.a
+Subject: [PATCH 2/3] bluez5: Fix a race issue for tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,88 +35,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 28 Dec 2018 09:02:10 -0000
 Content-Type: text/plain
 
-The libnolto_coregrind_a_OBJECTS is in libcoregrind_a_LIBADD, so the objects
-should be ready before generate libcoregrind.a, otherwise there would be
-failures:
-
-i586-poky-linux-ar: libnolto_coregrind_x86_linux_a-m_libcsetjmp.o: No such file or directory
-make[3]: *** [libcoregrind-x86-linux.a] Error 1
-
-Add libnolto_coregrind_a_OBJECTS to EXTRA_libcoregrind_DEPENDENCIES to fix the
-problem.
-
-This is a race issue during parallel build.
+Fixed:
+cp ../bluez-5.50/tools/hid2hci.rules tools/97-hid2hci.rules
+cp: cannot create regular file tools/97-hid2hci.rules: No such file or directory
+make[1]: *** [tools/97-hid2hci.rules] Error 1
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...ncies-between-libcoregrind-.a-and-m_main..patch | 45 ++++++++++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.14.0.bb  |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+ ...01-Makefile.am-Fix-a-race-issue-for-tools.patch | 32 ++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-Fix-a-race-issue-for-tools.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 7708e7c..6d62f52 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -52,6 +52,7 @@ SRC_URI = "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+     file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+     file://0001-test-gatt-Fix-hung-issue.patch \
++    file://0001-Makefile.am-Fix-a-race-issue-for-tools.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-Fix-a-race-issue-for-tools.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-Fix-a-race-issue-for-tools.patch
 new file mode 100644
-index 0000000..bedf1c1
+index 0000000..3c227a8
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
-@@ -0,0 +1,45 @@
-+From 7820fc268fae4353118b6355f1d4b9e1b7eeebec Mon Sep 17 00:00:00 2001
-+From: Philippe Waroquiers <philippe.waroquiers@skynet.be>
-+Date: Sun, 28 Oct 2018 18:35:11 +0100
-+Subject: [PATCH] Fix dependencies between libcoregrind*.a and
-+ *m_main.o/*m_libcsetjmp.o
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-Fix-a-race-issue-for-tools.patch
+@@ -0,0 +1,32 @@
++From 048e1844092cb4b3afd23f16fc2cc70dd2e122b7 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Mon, 24 Dec 2018 17:57:14 -0800
++Subject: [PATCH] Makefile.am: Fix a race issue for tools
 +
-+The primary and secondary coregrind libraries must be updated
-+when m_main.c or m_libcsetjmp.c are changed.
++Fixed:
++cp ../bluez-5.50/tools/hid2hci.rules tools/97-hid2hci.rules
++cp: cannot create regular file tools/97-hid2hci.rules: No such file or directory
++make[1]: *** [tools/97-hid2hci.rules] Error 1
 +
-+A dependency was missing between libcoregrind*.a and libnolto_coregrind*.a,
-+and so tools were not relinked when m_main.c or m_libcsetjmp.c were
-+changed.
-+
-+Upstream-Status: Backport[git://sourceware.org/git/valgrind.git 7820fc268fae4353118b6355f1d4b9e1b7eeebec]
++Upstream-Status: Submitted[https://www.spinics.net/lists/linux-bluetooth/msg78361.html]
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ coregrind/Makefile.am | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/coregrind/Makefile.am b/coregrind/Makefile.am
-+index 914a270..8de1996 100644
-+--- a/coregrind/Makefile.am
-++++ b/coregrind/Makefile.am
-+@@ -511,6 +511,8 @@ libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_CFLAGS += \
-+ endif
-+ libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_LIBADD = \
-+     $(libnolto_coregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_OBJECTS)
-++libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_DEPENDENCIES = \
-++    libnolto_coregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@.a
++diff --git a/Makefile.am b/Makefile.am
++index 6d1ff11..35a01f2 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -504,6 +504,7 @@ src/builtin.h: src/genbuiltin $(builtin_sources)
++ 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
 + 
-+ if VGCONF_HAVE_PLATFORM_SEC
-+ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_SOURCES = \
-+@@ -531,6 +533,8 @@ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_CFLAGS += \
-+ endif
-+ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_LIBADD = \
-+     $(libnolto_coregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_OBJECTS)
-++libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_DEPENDENCIES = \
-++    libnolto_coregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
-+ endif
++ tools/%.rules:
+++	[ -e tools ] || $(MKDIR_P) tools
++ 	$(AM_V_GEN)cp $(srcdir)/$(subst 97-,,$@) $@
 + 
-+ #----------------------------------------------------------------------------
++ $(lib_libbluetooth_la_OBJECTS): $(local_headers)
 +-- 
 +2.10.2
 +
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-index bbbc3bf..4d15a50 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://0001-Guard-against-__GLIBC_PREREQ-for-musl-libc.patch \
-            file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
-            file://0001-tests-amd64-Do-not-clobber-rsp-register.patch \
-+           file://0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch \
-            "
- SRC_URI[md5sum] = "74175426afa280184b62591b58c671b3"
- SRC_URI[sha256sum] = "037c11bfefd477cc6e9ebe8f193bb237fe397f7ce791b4a4ce3fa1c6a520baa5"
 -- 
 2.10.2
 
