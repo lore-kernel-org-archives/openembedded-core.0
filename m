@@ -1,51 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 436356BA9C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C4FA3600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2018 20:04:06 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id y126so10857372pfb.4
+	Fri, 28 Dec 2018 23:09:26 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id z5so22104759wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2018 12:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UyMhPhh9oHz00t9WXDxwgO02aZmB8cc/BWw1kzrUIpo=;
-	b=QGAlUa69guwmppd3oz2iWRRaaxXL46HASVM6mssPlhtLL6LH4H6+FCQFHp74ODbJUN
-	ElBj9Z50q2cKXC96/oLPl+a1gomKTiZHWwO7unQGnCku9hibwiUhBM31vQnm+MvG1Fif
-	yIJaji2NIDp/nBjaMO0uiYYTOJTGDRI5x06bGFfIu1srcBbvwP89G7hdIpFrXnkB5f0t
-	Krkjd2Yj0OefD363PYytfiYRm0kuKWYeqqjNAyt7PAcU4jChUkg9KpppwDjxHgx6apW7
-	dkEpXU3aCx59OcdCcgDMkioBLdywOAMl8ifxpGtlJHwuquwl3jym3Ar1laz5JmSU7jmo
-	xxQA==
+	Fri, 28 Dec 2018 15:09:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Hbo04nrjlusXcYs1jxKVvnVwK9wLCjpgY5d157D9pHM=;
+	b=QCUjI4Ug1UsST3yZcgMzEfcgjYjsm8U19ixRFVkAbsWPEpYmSaps40hrt3dzAYmZnI
+	TLZfVnpuSTvRrVI75HpkTcemcHrgWP665l/2O7EjofKdkwobFjIhO7udXvyej+tk0IHE
+	a9OP6ZY62BjEPU/1jAkclkyJ0K9uwea8pXhSI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UyMhPhh9oHz00t9WXDxwgO02aZmB8cc/BWw1kzrUIpo=;
-	b=buSNU9lCJ+iQxz6/XQH5HPx654CZCkl5ftU+VA87D/PKc0pXoXdjxK/unJOrs/MSLd
-	TW6AkLPlumk+oj64nOG3lZhQrgf0sHJF3Q0qFYvIAYMbg4E53ucRlPQ584gMs4Itt0We
-	EU2G0YnF98kIltUGAFUZslGy1dlkgVL//3Aq0qVa2Tbn7J4XNlGnMPT0B7z+V5xOUeG3
-	jX+DB5oOuM18jvQk9S7Qa7uu8WV5PzFbrlSQUDvUePnN6nTLoyhRd+A6/Gg1ay1Ja+u4
-	TEbZM6e+g04KIs/kQI+QmnkEuE6t2UnRLPTjy29L2LLBZ9yOTOZ5YnXKJJC+9HK2srmB
-	OKQg==
-X-Gm-Message-State: AA+aEWYWR5cegVM4pQMV9hVvSwzr1t+C5o0n0gItfzp87gnfap9mWMJB
-	FOqn7TPMeCRgzPHSz++o/m6/MWfzvUU=
-X-Google-Smtp-Source: AFSGD/VPP5sekV5HaXkBXUM2TVltfP5L2BObY5u9k7xcIl9aC1m8pfAmJKpSG0x13K50j8NZ4s2YVg==
-X-Received: by 2002:aa7:85d7:: with SMTP id z23mr30476284pfn.205.1546027446393;
-	Fri, 28 Dec 2018 12:04:06 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net
-	([2601:646:877f:9499:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	k186sm21923814pge.13.2018.12.28.12.04.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Dec 2018 12:04:05 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Dec 2018 12:03:49 -0800
-Message-Id: <20181228200349.41303-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] gcc: Fix riscv multilibs for OE way
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Hbo04nrjlusXcYs1jxKVvnVwK9wLCjpgY5d157D9pHM=;
+	b=MNeN3jDeqXXPbG36y18Py4nOLmZUD0utw8nCNwQ6/Aeni0bwRwhNloprY1XcEnio2M
+	NkHVSk0p80vPtodBQBFPesbfg5GmxHeWdra8Adfqr8L5iNeBWlO20xXR9/GkMWGI3gf7
+	rOHN25rf2gOjoMGMiuR2E26eeQb1lRSOMqjIQkTIdLt/bL7wFfwwrt1xIXbGmuZESbGD
+	eln6y/u5SdsSU+M7pVL8351qzg8+uVX6a5vwPYZdGfaiTpVggFxEvBgeliWGQthp7nd3
+	yeYAfECqGUTAaURyb8YmQ7e4f+aZ0gjiLfnAfIPdwTtGqCTJuqWDjlDVogb+etcaTH+o
+	X+Tw==
+X-Gm-Message-State: AJcUukdlzEf82J/PAbgJwCta8FH0d+p7Q4oQoOurS6PSGt8y0lb1O+Kh
+	DkQJupP4h47sXnDOLHCsB3JDrQ==
+X-Google-Smtp-Source: ALg8bN7r3hVohpAqZ8NpRZRKMOwLirOZ+t95Kg21iF45JoMF1ND3qong9LvnINNytylx25fFn0J+Pg==
+X-Received: by 2002:a05:6000:11c3:: with SMTP id
+	i3mr28279116wrx.221.1546038567283; 
+	Fri, 28 Dec 2018 15:09:27 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 3sm34310859wmw.46.2018.12.28.15.09.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 28 Dec 2018 15:09:26 -0800 (PST)
+Message-ID: <5d6426bdf5c63bbce39ef01e26144798bb663f53.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 28 Dec 2018 23:09:24 +0000
+In-Reply-To: <0158f93e-f6f7-f1cf-dccf-b3eb4a328b15@windriver.com>
+References: <cover.1545901142.git.liezhi.yang@windriver.com>
+	<7b35228f2a7f688f6c1a6ecdbcefd6dd436c4b25.1545901142.git.liezhi.yang@windriver.com>
+	<e2a93209edc2390de536dd34fdd405ea9ab5b8ab.camel@linuxfoundation.org>
+	<0158f93e-f6f7-f1cf-dccf-b3eb4a328b15@windriver.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/3] oeqa: make it work for multiple users
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +61,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Dec 2018 20:04:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Dec 2018 23:09:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In OE we do not build mutlib like gcc does it by default, this ensures
-that mutlilib is virtually disabled for OE, since we hardly use same gcc
-to build for multiple ABIs
+On Fri, 2018-12-28 at 15:57 +0800, Robert Yang wrote:
+> 
+> On 12/27/18 7:37 PM, Richard Purdie wrote:
+> > On Thu, 2018-12-27 at 00:59 -0800, Robert Yang wrote:
+> > > There are failures when multiple users run oe-selftest on the
+> > > same
+> > > host:
+> > > 
+> > > PermissionError: [Errno 13] Permission denied: '/tmp/oe-saved-
+> > > tests/201812250324_qemu'
+> > > 
+> > > This is because /tmp/oe-saved-tests was created by user A, while
+> > > user
+> > > B tries
+> > > to write data in it, then the error will happen. This patch can
+> > > fix
+> > > the problem.
+> > > 
+> > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > ---
+> > >   meta/classes/testimage.bbclass   | 2 +-
+> > >   meta/lib/oeqa/runtime/context.py | 7 +++----
+> > >   meta/lib/oeqa/utils/dump.py      | 5 ++++-
+> > >   3 files changed, 8 insertions(+), 6 deletions(-)
+> > 
+> > Putting this into /tmp isn't good. Why don't we move this to
+> > LOG_DIR/runtime-hostdump/?
+> 
+> I'm afraid that we can't do this, the problem is that we need call
+> get_bb_vars()
+> to get LOG_DIR (d.getVar('LOG_DIR') doesn't work), but get_bb_vars()
+> runs
+> "bitbake -e" which doesn't work when "bitbake <image> -ctestimage"
+> since there
+> is a bitbake server running. We can only get BUILDDIR if we don't
+> call
+> get_bb_vars(), so I think that we have the following 2 solutions:
+> 
+> 1) Save it to /tmp/runtime-hostdump
+> 
+> Or:
+> 
+> 2) Save it to BUILDDIR/runtime-hostdump
+> 
+> What's your opinion, please ?
 
-This fixes cases in SDK where g++ is not able to find standard c++
-include headers
+I think it should be possible to use LOG_DIR for most of the usecases.
+It won't work for the "on target" mode but it should be possible
+elsewhere even if we have to tweak the code a bit to ensure the right
+variables are passed around?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-8.2.inc         |  1 +
- .../0043-riscv-Disable-multilib-for-OE.patch  | 27 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0043-riscv-Disable-multilib-for-OE.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.2.inc b/meta/recipes-devtools/gcc/gcc-8.2.inc
-index b6568a046e..b21c605e81 100644
---- a/meta/recipes-devtools/gcc/gcc-8.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.2.inc
-@@ -71,6 +71,7 @@ SRC_URI = "\
-            file://0040-Re-introduce-spe-commandline-options.patch \
-            file://0041-ARC-fix-spec-gen.patch \
-            file://0042-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
-+           file://0043-riscv-Disable-multilib-for-OE.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-8.2/0043-riscv-Disable-multilib-for-OE.patch b/meta/recipes-devtools/gcc/gcc-8.2/0043-riscv-Disable-multilib-for-OE.patch
-new file mode 100644
-index 0000000000..dc28d1bfd8
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-8.2/0043-riscv-Disable-multilib-for-OE.patch
-@@ -0,0 +1,27 @@
-+From ca0a6e035eef0cdbd0ef3a222c75d4b9f873c512 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 28 Dec 2018 09:59:53 -0800
-+Subject: [PATCH 39/39] riscv: Disable multilib for OE
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gcc/config/riscv/t-linux | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/gcc/config/riscv/t-linux b/gcc/config/riscv/t-linux
-+index 216d2776a18..e4d817621fc 100644
-+--- a/gcc/config/riscv/t-linux
-++++ b/gcc/config/riscv/t-linux
-+@@ -1,3 +1,5 @@
-+ # Only XLEN and ABI affect Linux multilib dir names, e.g. /lib32/ilp32d/
-+-MULTILIB_DIRNAMES := $(patsubst rv32%,lib32,$(patsubst rv64%,lib64,$(MULTILIB_DIRNAMES)))
-+-MULTILIB_OSDIRNAMES := $(patsubst lib%,../lib%,$(MULTILIB_DIRNAMES))
-++#MULTILIB_DIRNAMES := $(patsubst rv32%,lib32,$(patsubst rv64%,lib64,$(MULTILIB_DIRNAMES)))
-++MULTILIB_DIRNAMES := . .
-++#MULTILIB_OSDIRNAMES := $(patsubst lib%,../lib%,$(MULTILIB_DIRNAMES))
-++MULTILIB_OSDIRNAMES := ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
-+-- 
-+2.20.1
-+
--- 
-2.20.1
+Richard
 
 
