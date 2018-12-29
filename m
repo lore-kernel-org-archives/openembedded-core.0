@@ -1,32 +1,81 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B50F60807
+Return-Path: <Rasmus.Villemoes@prevas.se>
+X-Greylist: delayed 82804 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 30 Dec 2018 00:39:27 UTC
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr130101.outbound.protection.outlook.com [40.107.13.101])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AE826B005
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Dec 2018 03:19:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id wBT3Ixlv020827
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Dec 2018 19:18:59 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Fri, 28 Dec 2018 19:18:58 -0800
-To: Khem Raj <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
+	Sun, 30 Dec 2018 00:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.se; s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=JpJXXUVEtyD6LSRvNazZamsJlNweGM7fCo2hw6UWJfY=;
+	b=EskddjY4epLF0Bhxm2U70ki5EcdlfflrEiU1kbfXpaoY2cNEJPZL+hO8MuvCp/obR258F5Zrx4lB7O1QX3GK83uEvZDr+N719zVYPhCDAHk7NRJ1r24kx3Q7AcIV/trC2/lwX5XctjsRO/fwNonGWCYSJ4niujs5w//5l3MlL/s=
+Received: from VI1PR10MB2736.EURPRD10.PROD.OUTLOOK.COM (20.178.127.202) by
+	VI1PR10MB2272.EURPRD10.PROD.OUTLOOK.COM (20.177.62.32) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1446.26; Sat, 29 Dec 2018 00:06:59 +0000
+Received: from VI1PR10MB2736.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::b416:4e82:94ef:1391]) by
+	VI1PR10MB2736.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::b416:4e82:94ef:1391%4]) with mapi id 15.20.1471.019;
+	Sat, 29 Dec 2018 00:06:59 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
-	<8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org>
-	<298dd0b5-f2f8-23dc-3a0d-cf05958e038c@windriver.com>
-	<cc3405fd6c7f18dfa7dc9f545ae33e4515b7b856.camel@linuxfoundation.org>
-	<ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <90c78052-ac1a-cf6c-f252-28a074e029e3@windriver.com>
-Date: Sat, 29 Dec 2018 11:26:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Thread-Topic: [PATCH resend^2] wic: allow bitbake variables in kickstarter
+	files
+Thread-Index: AQHUnwpquhLMeV6xGkCDGVeOoumouQ==
+Date: Sat, 29 Dec 2018 00:06:59 +0000
+Message-ID: <20181229000646.23975-1-rasmus.villemoes@prevas.dk>
+References: <20180703125414.28470-1-rasmus.villemoes@prevas.dk>
+In-Reply-To: <20180703125414.28470-1-rasmus.villemoes@prevas.dk>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR1001CA0013.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:3:f7::23) To VI1PR10MB2736.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:803:e7::10)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [5.186.119.68]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; VI1PR10MB2272;
+	6:OR4n0OeH/RDTiefXjxKG4TgRqE8bD6M25BO0o6AGdLEQxz2dp19KzO6NaPkVE6/31Y9fUJUeI/lYNhPbm07vzh9MCO5IqzgAVkCSfTw4toBcH5XpiAahqLjBmgvMySXXWpnYDLWeW+zow91gO2c1yNtpuO3NvEev1C1/OrtbFDvV6B1xBWFPtYoKYeoaTVUwueWlyJEOVy7pCm9xNNAcdfd6fIpqDYZ93CWV7iTPwtO1dWiAIPfGGrU/jvWpxNzvOO2Q+GEqqVuvQIJNM6Y0emhTu0wcNi63CVo8VTASBBgFOoQRod+ekZKkIyNi9do5YG332+nqljb8WloR0L1FjqlIWb+iK5JZvRlNG+NtV+yO7GfOIp4SxPkVgou7nHJwNqjAKM/nIIbfw0gbzY5zKAAc4qSTZNRL0SI2N6+QYR2izoC7MxfCYwPX3yOGCIAAppIiO58K4SNdpRXreAyvnQ==;
+	5:mvX17D1lKo/2LE4KStADz64hv4DzvR0iG9jCE4hNj24M8z8MDlcuyCuRyDHOnO+pBruzf9GCpJj+G5RLyGhRk1FdLgfRJWSF1TlddsJXIQRYVVwCl40KgvRkv564eIO4CF4iTEDqFdWIHr1MIKIymXP7gFszSsiTL7/mxb2fms4=;
+	7:043Q2vR5ykyo/oTQwYRIhdrQNJyn+MzLZjsYUeM+Mw5Oo+bc4xNvNR3KQ/DfFtGKwfhJyEBUOG0teRUhlZt4iMyvux578sXRlorcD16rE3jyewq3yOaWSzHjMAYhKFtItT379X5DdwygqULhwKLi0A==
+x-ms-office365-filtering-correlation-id: 34659d35-6695-4159-8f8b-08d66d218d1f
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR10MB2272; 
+x-ms-traffictypediagnostic: VI1PR10MB2272:
+x-microsoft-antispam-prvs: <VI1PR10MB2272BDAC8D31957EC1474AC68AB00@VI1PR10MB2272.EURPRD10.PROD.OUTLOOK.COM>
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(3230021)(908002)(999002)(5005026)(6040522)(8220055)(2401047)(8121501046)(3002001)(10201501046)(93006095)(3231475)(944501520)(52105112)(6041310)(20161123564045)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);
+	SRVR:VI1PR10MB2272; BCL:0; PCL:0; RULEID:; SRVR:VI1PR10MB2272; 
+x-forefront-prvs: 09011458FC
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(346002)(376002)(396003)(366004)(136003)(39840400004)(189003)(199004)(71200400001)(71190400001)(102836004)(53936002)(76176011)(8936002)(8676002)(7736002)(8976002)(305945005)(97736004)(107886003)(99286004)(44832011)(256004)(14444005)(81156014)(6512007)(72206003)(486006)(478600001)(316002)(2906002)(54906003)(52116002)(68736007)(71446004)(81166006)(36756003)(476003)(386003)(14454004)(4326008)(66066001)(6506007)(2351001)(106356001)(3846002)(6436002)(6116002)(11346002)(446003)(5640700003)(6486002)(105586002)(42882007)(2616005)(6916009)(1076003)(26005)(2501003)(74482002)(25786009)(5660300001)(186003)(81973001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR10MB2272;
+	H:VI1PR10MB2736.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: prevas.se does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: +jh25rz6dm0vqctk2Z3+f4xavCvaYJ7/MEQcCTZcQIHDy5QdeSP3enLLKDWKsZecawQ5FxuOs24HiS5YVTtXva8trKQTGjmI2ngBWK9guTUznkRJhDLOFBYdRIHmmjBVZ8lzHqQnovrUjTHVQC5v2VMd3mj7IFQweIMWmA/rLLg0EkuPxIstniia/OwGMD+LjGPtxQFBn41/dT1a5xTLouZti0veoyzF5qoMJgECXISsiOWBtBWP9N1VgSChK25nRxSfQkJOyHmj+BuFLAWEukS1IInUOOEkJb1e8xuhKBhA3obnqEpSTBoyVSc+m6T+
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: gdb failure on simplest hello world program -- oe-selftest
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34659d35-6695-4159-8f8b-08d66d218d1f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2018 00:06:59.1440 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2272
+Cc: Rasmus Villemoes <Rasmus.Villemoes@prevas.se>,
+	Ed Bartosh <ed.bartosh@linux.intel.com>
+Subject: [PATCH resend^2] wic: allow bitbake variables in kickstarter files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,532 +88,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Dec 2018 03:19:04 -0000
-Content-Type: multipart/alternative;
-	boundary="------------BBAACA2059EABF7FC3B1D656"
+X-List-Received-Date: Sun, 30 Dec 2018 00:39:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
---------------BBAACA2059EABF7FC3B1D656
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+image_types_wic.bbclass has a mechanism for doing variable substitution
+on .wks files by simply letting the input file be called
+.wks.in. However, that doesn't allow using variables in files included
+via the include directive. This is unfortunate, because lacking either
+the ability to include other files or variable substitution leads to
+fragile and error-prone duplication between kickstarter files and
+recipes/configuration files used for various boards.
 
-On 12/29/2018 01:09 AM, Khem Raj wrote:
->
->
-> On 12/28/18 8:31 AM, richard.purdie@linuxfoundation.org wrote:
->> On Fri, 2018-12-28 at 17:49 +0800, ChenQi wrote:
->>> On 12/26/2018 07:06 PM, richard.purdie@linuxfoundation.org wrote:
->>>> On Wed, 2018-12-26 at 10:09 +0800, ChenQi wrote:
->>>>> Hi All,
->>>>>
->>>>> 'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug'
->>>>> fails.
->>>>> I did the tests on both my Fedora27 and ubuntu16.04 servers. They
->>>>> both
->>>>> failed.
->>>>> I can also reproduce this issue manually.
->>>>>
->>>>> I did some investigation. No clue how to fix this it. So I want
->>>>> to seek
->>>>> help from community.
->>>>>
->>>>> Below is some output from oe-selftest.
->>>>> [snip]
->>>>> 2018-12-26 09:27:58,440 - oe-selftest - INFO -
->>>>> test_gdb_hardlink_debug
->>>>> (package.PackageTests)
->>>>> 2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest
->>>>> /usr/bin/hello1
->>>>> 2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
->>>>> 1: Reading symbols from /usr/bin/hello1...Reading symbols from
->>>>> /usr/bin/.debug/hello4...done.
->>>>> done.
->>>>> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
->>>>> line 107.
->>>>> (gdb) Starting program: /usr/bin/hello1
->>>>>
->>>>> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
->>>>> 107    /usr/include/bits/stdio2.h: No such file or directory.
->>>>> (gdb) Continuing.
->>>>> Hello World!
->>>>> [Inferior 1 (process 312) exited normally]
->>>>> (gdb)
->>>>> 2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
->>>>> [snip]
->>>>>
->>>>> The hello world problem is as follows.
->>>>> $ cat
->>>>> meta-selftest/recipes-test/selftest-hardlink/selftest-
->>>>> hardlink/hello.c
->>>>> #include <stdio.h>
->>>>>
->>>>> int main() {
->>>>>       printf("Hello World!\n");
->>>>> }
->>>>>
->>>>> Some extra information:
->>>>> 1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
->>>>> 2. Adding some system call like daemon(0,0) before printf also
->>>>> works.
->>>>> 3. Reverting poky repo to
->>>>> 1c048479af7cc98e30f9a33d1f3bef03711544aa,
->>>>> which adds this selftest case, does not work. It still fails.
->>>>> 4. Hongxu confirms that things work on his host.
->>>>> 5. I also don't see failure about this test case on yocto's
->>>>> autobuilder.
->>>>>
->>>>> Could somebody help to provide some suggestions?
->>>>
->>>> This is strange and there must be some difference between your
->>>> configuration and what what we test on the autobuilder or on
->>>> Hongxu's
->>>> setup.
->>>   Hi Richard,
->>>
->>> I have talked with Hongxu and we can now both confirm that there does
->>> exist some problem.
->>>
->>>> Which DISTRO and MACHINE are you using?
->>>   DISTRO is poky
->>> MACHINE is qemux86.
->>>
->>> It seems that if MACHINE is qemux86-64, the test case could pass. But
->>> that's just because the test case only checks 'Breakpoint 1, main ()
->>> at hello.c:4'. See the console output below.
->>> (gdb) b main
->>> Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h, line 107.
->>> (gdb) r
->>> Starting program: /usr/bin/hello1
->>>
->>> Breakpoint 1, main () at hello.c:4
->>> 4        printf("Hello World!\n");
->>> (gdb) c
->>> Continuing.
->>> Hello World!
->>> [Inferior 1 (process 156) exited normally]
->>> (gdb) q
->>>
->>> Even in this case, the 'b main' does not give correct result. The
->>> test case passes because 'Breakpoint 1, main () at hello.c:4' is
->>> there.
->>>
->>> On qemux86, we have:
->>> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line
->>> 107.
->>> (gdb) Starting program: /usr/bin/hello1
->>>
->>> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
->>> 107    /usr/include/bits/stdio2.h: No such file or directory.
->>> (gdb) Continuing.
->>> Hello World!
->>> [Inferior 1 (process 156) exited normally]
->>> (gdb)
->>>
->>>> I think the key to resolving this is will be to understanding how
->>>> to
->>>> reproduce it...
->>>   Two ways to reproduce the problem:
->>>
->>> I) reproduce it via oe-selftest
->>> 1) . oe-init-build-env build-selftest
->>> 2) SANITY_TESTED_DISTROS = ""
->>> 3) oe-selftest -r package.PackageTests.test_gdb_hardlink_debug
->>>
->>> II) reproduce it manually
->>> 1) add meta-selftest to bblayers.conf
->>> 2) IMAGE_INSTALL_append = " selftest-hardlink selftest-hardlink-dbg
->>> selftest-hardlink-gdb"
->>> 3) bitbake core-image-minimal
->>> 4) On target:
->>>       gdb /usr/bin/hello1
->>>       (gdb) b main
->>
->> I confirmed I could also reproduce it. We've just been lucky with the
->> configuration the autobuilder tests.
->>
->> I think we need to improve the test case. Does installing the libc
->> headers/dev package so that stdio2.h is there help?
->
-> This is not exported API so libc headers may not work but installing 
-> libc dev package should help here.
->
+This adds (somewhat naive) support for variable substitution in all
+files parsed by wic. The user should add all required variables to
+WICVARS to get them exported appropriately.
 
-Hi Richard and Khem,
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+scripts/lib/wic/ksparser.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Unfortunately installing libc-dev package does not help.
-
-On qemux86:
-1: Reading symbols from /usr/bin/hello1...Reading symbols from 
-/usr/bin/.debug/hello4...done.
-done.
-*(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.*
-(gdb) Starting program: /usr/bin/hello1
-
-*Breakpoint 1, main () at /usr/include/bits/stdio2.h:107**
-**107      return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, 
-__va_arg_pack ());*
-(gdb) Continuing.
-Hello World!
-[Inferior 1 (process 309) exited normally]
-(gdb)
-2018-12-29 10:58:11,538 - oe-selftest - INFO -  ... FAIL
-
-For qemux86-64, things are the same.
-
-Best Regards,
-Chen Qi
-
->>
->> Cheers,
->>
->> Richard
->>
->
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 7e5a9c5092..08baf76123 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -28,14 +28,30 @@
+ import os
+ import shlex
+ import logging
++import re
+=20
+ from argparse import ArgumentParser, ArgumentError, ArgumentTypeError
+=20
+ from wic.engine import find_canned
+ from wic.partition import Partition
++from wic.misc import get_bitbake_var
+=20
+ logger =3D logging.getLogger('wic')
+=20
++__expand_var_regexp__ =3D re.compile(r"\${[^{}@\n\t :]+}")
++
++def expand_line(line):
++    while True:
++        m =3D __expand_var_regexp__.search(line)
++        if not m:
++            return line
++        key =3D m.group()[2:-1]
++        val =3D get_bitbake_var(key)
++        if val is None:
++            logger.warning("cannot expand variable %s" % key)
++            return line
++        line =3D line[:m.start()] + val + line[m.end():]
++
+ class KickStartError(Exception):
+     """Custom exception."""
+     pass
+@@ -190,6 +206,7 @@ class KickStart():
+                 line =3D line.strip()
+                 lineno +=3D 1
+                 if line and line[0] !=3D '#':
++                    line =3D expand_line(line)
+                     try:
+                         line_args =3D shlex.split(line)
+                         parsed =3D parser.parse_args(line_args)
+--=20
+2.19.1.6.gbde171bbf5
 
 
---------------BBAACA2059EABF7FC3B1D656
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 12/29/2018 01:09 AM, Khem Raj wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com"
-      type="cite">
-      <br>
-      <br>
-      On 12/28/18 8:31 AM, <a class="moz-txt-link-abbreviated" href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a> wrote:
-      <br>
-      <blockquote type="cite">On Fri, 2018-12-28 at 17:49 +0800, ChenQi
-        wrote:
-        <br>
-        <blockquote type="cite">On 12/26/2018 07:06 PM,
-          <a class="moz-txt-link-abbreviated" href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a> wrote:
-          <br>
-          <blockquote type="cite">On Wed, 2018-12-26 at 10:09 +0800,
-            ChenQi wrote:
-            <br>
-            <blockquote type="cite">Hi All,
-              <br>
-              <br>
-              'oe-selftest -r
-              package.PackageTests.test_gdb_hardlink_debug'
-              <br>
-              fails.
-              <br>
-              I did the tests on both my Fedora27 and ubuntu16.04
-              servers. They
-              <br>
-              both
-              <br>
-              failed.
-              <br>
-              I can also reproduce this issue manually.
-              <br>
-              <br>
-              I did some investigation. No clue how to fix this it. So I
-              want
-              <br>
-              to seek
-              <br>
-              help from community.
-              <br>
-              <br>
-              Below is some output from oe-selftest.
-              <br>
-              [snip]
-              <br>
-              2018-12-26 09:27:58,440 - oe-selftest - INFO -
-              <br>
-              test_gdb_hardlink_debug
-              <br>
-              (package.PackageTests)
-              <br>
-              2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest
-              <br>
-              /usr/bin/hello1
-              <br>
-              2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB
-              result:
-              <br>
-              1: Reading symbols from /usr/bin/hello1...Reading symbols
-              from
-              <br>
-              /usr/bin/.debug/hello4...done.
-              <br>
-              done.
-              <br>
-              (gdb) Breakpoint 1 at 0x1060: file
-              /usr/include/bits/stdio2.h,
-              <br>
-              line 107.
-              <br>
-              (gdb) Starting program: /usr/bin/hello1
-              <br>
-              <br>
-              Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
-              <br>
-              107    /usr/include/bits/stdio2.h: No such file or
-              directory.
-              <br>
-              (gdb) Continuing.
-              <br>
-              Hello World!
-              <br>
-              [Inferior 1 (process 312) exited normally]
-              <br>
-              (gdb)
-              <br>
-              2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
-              <br>
-              [snip]
-              <br>
-              <br>
-              The hello world problem is as follows.
-              <br>
-              $ cat
-              <br>
-              meta-selftest/recipes-test/selftest-hardlink/selftest-
-              <br>
-              hardlink/hello.c
-              <br>
-              #include &lt;stdio.h&gt;
-              <br>
-              <br>
-              int main() {
-              <br>
-                    printf("Hello World!\n");
-              <br>
-              }
-              <br>
-              <br>
-              Some extra information:
-              <br>
-              1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works
-              correctly.
-              <br>
-              2. Adding some system call like daemon(0,0) before printf
-              also
-              <br>
-              works.
-              <br>
-              3. Reverting poky repo to
-              <br>
-              1c048479af7cc98e30f9a33d1f3bef03711544aa,
-              <br>
-              which adds this selftest case, does not work. It still
-              fails.
-              <br>
-              4. Hongxu confirms that things work on his host.
-              <br>
-              5. I also don't see failure about this test case on
-              yocto's
-              <br>
-              autobuilder.
-              <br>
-              <br>
-              Could somebody help to provide some suggestions?
-              <br>
-            </blockquote>
-            <br>
-            This is strange and there must be some difference between
-            your
-            <br>
-            configuration and what what we test on the autobuilder or on
-            <br>
-            Hongxu's
-            <br>
-            setup.
-            <br>
-          </blockquote>
-            Hi Richard,
-          <br>
-          <br>
-          I have talked with Hongxu and we can now both confirm that
-          there does
-          <br>
-          exist some problem.
-          <br>
-          <br>
-          <blockquote type="cite">Which DISTRO and MACHINE are you
-            using?
-            <br>
-          </blockquote>
-            DISTRO is poky
-          <br>
-          MACHINE is qemux86.
-          <br>
-          <br>
-          It seems that if MACHINE is qemux86-64, the test case could
-          pass. But
-          <br>
-          that's just because the test case only checks 'Breakpoint 1,
-          main ()
-          <br>
-          at hello.c:4'. See the console output below.
-          <br>
-          (gdb) b main
-          <br>
-          Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h, line
-          107.
-          <br>
-          (gdb) r
-          <br>
-          Starting program: /usr/bin/hello1
-          <br>
-          <br>
-          Breakpoint 1, main () at hello.c:4
-          <br>
-          4        printf("Hello World!\n");
-          <br>
-          (gdb) c
-          <br>
-          Continuing.
-          <br>
-          Hello World!
-          <br>
-          [Inferior 1 (process 156) exited normally]
-          <br>
-          (gdb) q
-          <br>
-          <br>
-          Even in this case, the 'b main' does not give correct result.
-          The
-          <br>
-          test case passes because 'Breakpoint 1, main () at hello.c:4'
-          is
-          <br>
-          there.
-          <br>
-          <br>
-          On qemux86, we have:
-          <br>
-          (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
-          line
-          <br>
-          107.
-          <br>
-          (gdb) Starting program: /usr/bin/hello1
-          <br>
-          <br>
-          Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
-          <br>
-          107    /usr/include/bits/stdio2.h: No such file or directory.
-          <br>
-          (gdb) Continuing.
-          <br>
-          Hello World!
-          <br>
-          [Inferior 1 (process 156) exited normally]
-          <br>
-          (gdb)
-          <br>
-          <br>
-          <blockquote type="cite">I think the key to resolving this is
-            will be to understanding how
-            <br>
-            to
-            <br>
-            reproduce it...
-            <br>
-          </blockquote>
-            Two ways to reproduce the problem:
-          <br>
-          <br>
-          I) reproduce it via oe-selftest
-          <br>
-          1) . oe-init-build-env build-selftest
-          <br>
-          2) SANITY_TESTED_DISTROS = ""
-          <br>
-          3) oe-selftest -r package.PackageTests.test_gdb_hardlink_debug
-          <br>
-          <br>
-          II) reproduce it manually
-          <br>
-          1) add meta-selftest to bblayers.conf
-          <br>
-          2) IMAGE_INSTALL_append = " selftest-hardlink
-          selftest-hardlink-dbg
-          <br>
-          selftest-hardlink-gdb"
-          <br>
-          3) bitbake core-image-minimal
-          <br>
-          4) On target:
-          <br>
-                gdb /usr/bin/hello1
-          <br>
-                (gdb) b main
-          <br>
-        </blockquote>
-        <br>
-        I confirmed I could also reproduce it. We've just been lucky
-        with the
-        <br>
-        configuration the autobuilder tests.
-        <br>
-        <br>
-        I think we need to improve the test case. Does installing the
-        libc
-        <br>
-        headers/dev package so that stdio2.h is there help?
-        <br>
-      </blockquote>
-      <br>
-      This is not exported API so libc headers may not work but
-      installing libc dev package should help here.
-      <br>
-      <br>
-    </blockquote>
-    <br>
-    Hi Richard and Khem,<br>
-    <br>
-    Unfortunately installing libc-dev package does not help.<br>
-    <br>
-    On qemux86:<br>
-    1: Reading symbols from /usr/bin/hello1...Reading symbols from
-    /usr/bin/.debug/hello4...done.<br>
-    done.<br>
-    <b>(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
-      line 107.</b><br>
-    (gdb) Starting program: /usr/bin/hello1 <br>
-    <br>
-    <b>Breakpoint 1, main () at /usr/include/bits/stdio2.h:107</b><b><br>
-    </b><b>107      return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt,
-      __va_arg_pack ());</b><br>
-    (gdb) Continuing.<br>
-    Hello World!<br>
-    [Inferior 1 (process 309) exited normally]<br>
-    (gdb) <br>
-    2018-12-29 10:58:11,538 - oe-selftest - INFO -  ... FAIL<br>
-    <br>
-    For qemux86-64, things are the same.<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote
-      cite="mid:ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com"
-      type="cite">
-      <blockquote type="cite">
-        <br>
-        Cheers,
-        <br>
-        <br>
-        Richard
-        <br>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------BBAACA2059EABF7FC3B1D656--
