@@ -1,51 +1,47 @@
-Return-Path: <pespin.shar@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 594886BE2C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 26EE1607AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Dec 2018 00:05:01 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p6so23479390wmc.1
+	Mon, 31 Dec 2018 09:58:36 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t27so26114756wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Dec 2018 16:05:02 -0800 (PST)
+	Mon, 31 Dec 2018 01:58:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3oEDFqwAL43WIlwbCjDzsKLCHZzvWHn3waWzh/D0ikY=;
-	b=GDfOTmZMkG46EirwQSsK3aohqTTPS24T6LiBncOuLp3SZB5l6QnRKt14hBV1avpM6p
-	1mw6aXWd0yI8iVQ5KlwMgbzGb8RF+CmlZN/ubdwH9HTOmSt/kfTsg1vUxwnznjwBtM7j
-	31TACyDh8DH2akIdYunLM3oVtKypQWuV3y0T4jTtpmtUvj+rS3WiCHXh08b1gw7GF0Yq
-	kRSWvdBwEvgtx86VwLx+s+AiBP5D4+hiyIgqSnUwV4ta84wmfPF1Q81LILl8WCLT4j14
-	hH6rIj2WSr2Ijj4CjJu8q3UUMvlZuGWY9/dw6W4PZ7OF0a+nafcWc8whAuYnSFGtWj2F
-	Hjwg==
+	h=from:to:cc:subject:date:message-id;
+	bh=46/Ufsc9Wz+yKJOb0goQDP3xEfaV4jNMVLGb++tZKzo=;
+	b=R2813w8T2YZliFhOC+CfsC29e494hDySLQWdSAPAEE5sJw75s0I3Eaart8ug790o6r
+	Y1zg+kBLAKtVv4Ko83MFpxWHKbLlKZLLNTsFnvZ5o5I/yaBEmK94eYRB4OWO6AGblJei
+	LdPzfO/UQRu1bRsqxGGgpyzewpzNFmFdsRtDdeBI6kfB5A5RLdQ3HdCbR0yLpWVRUkFk
+	PtipkriIjnEfAHHvusdbfKlzT/ctO8ZJsdWkfXftTzIByd2HvjDdDbiTWiavnHDDLTep
+	+E5LOzd6iBMTd828NfGrWdcaAvg0xZbCXROvbOnqSVI3S2JPGq8je5HR/8NZpSkAzC8t
+	2/Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3oEDFqwAL43WIlwbCjDzsKLCHZzvWHn3waWzh/D0ikY=;
-	b=SyXzFmIE5CwVJsXiLytZrTlkstcMe72DKvN0vr4Js6Etib2JAzx7H66FJ0W8v/ds4l
-	Ud8pCi0MziDHDRTvIhLrSV/RcLlixHc/hK/yzJMvRy6Xa2MnDmhsQGrDKZvwmSke5CVh
-	QUPWURMm+2SBR2WgDLSwUFwYRgoDc5TjGExl2itgO4wO5YVeA5wfsHFcExh/rn1YClsg
-	zj7s2UNWtvgHtaLEaqsX3b2qWTKS/FHTNmGYJ3Pb0cO/BSKeCsgEDGchKn2F/LBAgrrz
-	PnnOBTR3ex6J9sxgKPCLcCtzaVmtyHpW2C3/gj43LefR2YXauCXVcP+ufMqXWu6N+v1T
-	wbzw==
-X-Gm-Message-State: AJcUukergzxFKgmu4SYlMx9XxO7uPGoXBuRY7b+wHJJWz6YHPgcfToLJ
-	zQF2eMdTxH2WZ30nBK/STX/SKaze
-X-Google-Smtp-Source: ALg8bN6AE43MmF/S+8DC17S0G/3x+p7GOq5mTJUI+QkxnFyWcXyZMhSVDnHFWOWjLhCkCUbyTHvUmg==
-X-Received: by 2002:a1c:c008:: with SMTP id q8mr27224953wmf.99.1546214701652; 
-	Sun, 30 Dec 2018 16:05:01 -0800 (PST)
-Received: from pespin-thinkpad.Home ([93.176.187.83])
-	by smtp.gmail.com with ESMTPSA id
-	p4sm30743732wrs.74.2018.12.30.16.04.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 30 Dec 2018 16:05:00 -0800 (PST)
-From: pespin.shar@gmail.com
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=46/Ufsc9Wz+yKJOb0goQDP3xEfaV4jNMVLGb++tZKzo=;
+	b=hpK34bg8rN4MuZmlm2lKYRdUXgNiJELZWQLLC8UzMtj+2+Famcr01k4XqU7jhiINcW
+	hvtKyt6eKQriyP6o5Nj+gj/GuPiPaR3LEfaz1XrZOot8MOU1YlitO2NBVLciD1UxC7R+
+	HCe/n39Qe+Ac5B1JgSodSlMdlj4FiKK/OgUut2lpIIo9PJLB5fYDRF80aoNus9WLhtF6
+	JAVD55N9tDjGulrIpqjrZLiGnR/SQKK7jVObvgEt1KcTUPrDKz+EK6x3q7jcEHFJRUC2
+	FYWLkscIRVdHfCxLzcRna9m6J4AMeClfWfuIl+8pKkVm3vj7Vdr9OAp/e3fjGWcmsD6h
+	6eRw==
+X-Gm-Message-State: AJcUukfCk4gmsbU5bngGaNzFmwzIEWJT3+o5mdA8SbM40XKpeLK2zuyt
+	1JzJelQ4Dn8s7fxx4B8eHXjwVkOx
+X-Google-Smtp-Source: ALg8bN7R0xYfNF84Z1whD+JlEgQfdOKoazXtRaUrAzjVtB2OMEjPzwAeE6mCW6Kh3mHdRdyhRG7IZA==
+X-Received: by 2002:adf:d1d2:: with SMTP id m18mr34030343wri.138.1546250317528;
+	Mon, 31 Dec 2018 01:58:37 -0800 (PST)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id m4sm42378317wmi.3.2018.12.31.01.58.36
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 31 Dec 2018 01:58:36 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Dec 2018 01:04:50 +0100
-Message-Id: <20181231000450.4992-1-pespin.shar@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Cc: Pau Espin Pedrol <pespin@sysmocom.de>
-Subject: [PATCH v2] kernel-module-split.bbclass: Fix modinfo decoding in old kernels
+Date: Mon, 31 Dec 2018 09:58:35 +0000
+Message-Id: <20181231095835.21196-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] sstate.bbclass: catch ValueError from incorrectly written sstate manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2018 00:05:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 31 Dec 2018 09:58:37 -0000
 
-From: Pau Espin Pedrol <pespin@sysmocom.de>
+* in some rare cases the file format might be broken, e.g. when you run
+  out of disk space while writing to it (hint: make sure to use
+  BB_DISKMON_DIRS on _all_ the builds, to make sure that they can stop
+  gracefully before this happens).
 
-Before linux commit d36b691077dc59c74efec0d54ed21b86f7a2a21a, some
-strings contained invalid utf-8 character which made
-split_kernel_module_packages unhappy when parsing ums-isd200.ko:
+* will show error like this:
+  ERROR: Invalid line '/OE/build/luneos-thud/webos-ports' in sstate manifest '/OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/index-allarch'
+  when the file isn't complete, like in my case:
+  $ tail -n 2 /OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/index-allarch
+  /OE/build/luneos-thud/webos-ports/tmp-glibc/stamps/all-webos-linux/org.webosports.app.calculator/0.1.1+gitrAUTOINC+9e9eb67c28-r0 /OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/manifest-allarch-org.webosports.app.calculator /OE/build/luneos-thud/webos-ports/tmp-glibc/work/all-webos-linux/org.webosports.app.calculator/0.1.1+gitrAUTOINC+9e9eb67c28-r0
+  /OE/build/luneos-thud/webos-ports
 
-Exception: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xf6 in position 21: invalid start byte
+* instead of much longer exception which doesn't really show what's
+  wrong to selectively fix that (other than removing while TMPDIR):
 
-Signed-off-by: Pau Espin Pedrol <pespin@sysmocom.de>
+  ERROR: Command execution failed: Traceback (most recent call last):
+  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/command.py", line 113, in runAsyncCommand
+    self.cooker.updateCache()
+  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/cooker.py", line 1562, in updateCache
+    bb.event.fire(event, self.databuilder.mcdata[mc])
+  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 225, in fire
+    fire_class_handlers(event, d)
+  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 134, in fire_class_handlers
+    execute_handler(name, handler, event, d)
+  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 106, in execute_handler
+    ret = handler(event)
+  File "/OE/build/luneos-thud/webos-ports/openembedded-core/meta/classes/sstate.bbclass", line 1083, in sstate_eventhandler2
+    (stamp, manifest, workdir) = l.split()
+  ValueError: not enough values to unpack (expected 3, got 1)
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel-module-split.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/sstate.bbclass | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 67ab4161da..e8996cf59b 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -48,7 +48,8 @@ python split_kernel_module_packages () {
-         tmpfile = tf[1]
-         cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-         subprocess.check_call(cmd, shell=True)
--        f = open(tmpfile)
-+        # errors='replace': Some old kernel versions contain invalid utf-8 characters in mod descriptions (like 0xf6, 'ö')
-+        f = open(tmpfile, errors='replace')
-         l = f.read().split("\000")
-         f.close()
-         os.close(tf[0])
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 8b48ab465f..be5f19b33e 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -1081,12 +1081,15 @@ python sstate_eventhandler2() {
+         with open(i, "r") as f:
+             lines = f.readlines()
+             for l in lines:
+-                (stamp, manifest, workdir) = l.split()
+-                if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
+-                    toremove.append(l)
+-                    if stamp not in seen:
+-                        bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
+-                        seen.append(stamp)
++                try:
++                    (stamp, manifest, workdir) = l.split()
++                    if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
++                        toremove.append(l)
++                        if stamp not in seen:
++                            bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
++                            seen.append(stamp)
++                except ValueError:
++                    bb.fatal("Invalid line '%s' in sstate manifest '%s'" % (l, i))
+ 
+         if toremove:
+             msg = "Removing %d recipes from the %s sysroot" % (len(toremove), a)
 -- 
-2.20.1
+2.17.1
 
 
