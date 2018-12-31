@@ -1,47 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 26EE1607AD
+Return-Path: <jonas@norrbonn.se>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 420A16058C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Dec 2018 09:58:36 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id t27so26114756wra.6
+	Mon, 31 Dec 2018 12:06:01 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id k15-v6so23483405ljc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Dec 2018 01:58:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=46/Ufsc9Wz+yKJOb0goQDP3xEfaV4jNMVLGb++tZKzo=;
-	b=R2813w8T2YZliFhOC+CfsC29e494hDySLQWdSAPAEE5sJw75s0I3Eaart8ug790o6r
-	Y1zg+kBLAKtVv4Ko83MFpxWHKbLlKZLLNTsFnvZ5o5I/yaBEmK94eYRB4OWO6AGblJei
-	LdPzfO/UQRu1bRsqxGGgpyzewpzNFmFdsRtDdeBI6kfB5A5RLdQ3HdCbR0yLpWVRUkFk
-	PtipkriIjnEfAHHvusdbfKlzT/ctO8ZJsdWkfXftTzIByd2HvjDdDbiTWiavnHDDLTep
-	+E5LOzd6iBMTd828NfGrWdcaAvg0xZbCXROvbOnqSVI3S2JPGq8je5HR/8NZpSkAzC8t
-	2/Jg==
+	Mon, 31 Dec 2018 04:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=KHuI4/dcsXMSFZDjqXqFM1tmZJsvvv4x/EudA3+Re5I=;
+	b=wHPHDpX/k4wS+x11dGyO4ucif+9OICZWqbuS2KEOyx57scTosXHYx1oxkgE5LyHwRi
+	fG4/GJDHeRpGNIOgayhFTdJ3UR4y97y7V/x3eT583HMlQ23xsHvdTX9MRNbB/Lci5XWz
+	aB8Ev8efsgAnQPR8obNLTbRbtiAY9WdMAApZleFb746tXSDLDlagyGHdRkAkkUct7Qhy
+	aHJFSQdvY+Ss9okTnmMSYlI3rWxCbvajcuqs/OqQQOcK4OZow4Id9xZPdRvW7y/vIvrc
+	qsWMhWeDEdT02D/rkIKysRx3oxr74kTMmqw8w1EfxifUVkzjt/EE8nO6i2pQFkbB58vL
+	bPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=46/Ufsc9Wz+yKJOb0goQDP3xEfaV4jNMVLGb++tZKzo=;
-	b=hpK34bg8rN4MuZmlm2lKYRdUXgNiJELZWQLLC8UzMtj+2+Famcr01k4XqU7jhiINcW
-	hvtKyt6eKQriyP6o5Nj+gj/GuPiPaR3LEfaz1XrZOot8MOU1YlitO2NBVLciD1UxC7R+
-	HCe/n39Qe+Ac5B1JgSodSlMdlj4FiKK/OgUut2lpIIo9PJLB5fYDRF80aoNus9WLhtF6
-	JAVD55N9tDjGulrIpqjrZLiGnR/SQKK7jVObvgEt1KcTUPrDKz+EK6x3q7jcEHFJRUC2
-	FYWLkscIRVdHfCxLzcRna9m6J4AMeClfWfuIl+8pKkVm3vj7Vdr9OAp/e3fjGWcmsD6h
-	6eRw==
-X-Gm-Message-State: AJcUukfCk4gmsbU5bngGaNzFmwzIEWJT3+o5mdA8SbM40XKpeLK2zuyt
-	1JzJelQ4Dn8s7fxx4B8eHXjwVkOx
-X-Google-Smtp-Source: ALg8bN7R0xYfNF84Z1whD+JlEgQfdOKoazXtRaUrAzjVtB2OMEjPzwAeE6mCW6Kh3mHdRdyhRG7IZA==
-X-Received: by 2002:adf:d1d2:: with SMTP id m18mr34030343wri.138.1546250317528;
-	Mon, 31 Dec 2018 01:58:37 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id m4sm42378317wmi.3.2018.12.31.01.58.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 31 Dec 2018 01:58:36 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=KHuI4/dcsXMSFZDjqXqFM1tmZJsvvv4x/EudA3+Re5I=;
+	b=UF3/afREYd/sqNZj9UzFj8tUa7rPkER0LZ5gG7u54Rt9O+NIRHncZqH5YpkCUB1XN3
+	5iAve1JYRP+VlaLrYc8ki0CJmavNOgXT6QXVPaVb7Yubs9NCsa3Hrt0/KTw2J4aPLoZn
+	NK+GU6Ou72sbwC4GXi6P/2lvz1wu/mhMnLVuxJbtT/X+p0Pp5H9zADWQrFgfzqXrqyBO
+	MPVqe8UWLr22YvhajiV41QLbM5d9lh2t+HLx/H2B5YurxA0uMlKIuJMTl9DyrEP//E7d
+	m5EXM5oI2b5RhAPrQ12rWIB5NE262+tQMzMU/UPd7nCVPP+vCGkCPGQ4BXSj3GblsLEu
+	ydHQ==
+X-Gm-Message-State: AJcUukfJ3UUQNFNp6x/pfFC/dER6pedBu/OjgjsBCrbNGdTo534Z/TmW
+	OzMnPBUP/QQNW0iT+VgdNZF4DtlK7Ik=
+X-Google-Smtp-Source: ALg8bN7HXXQbd5E/x90NYedjHn7bVBtFjQAFZMmFofPf4+K824vqx0+TPfPp9H5C12dTgXDLqi7Trw==
+X-Received: by 2002:a2e:20c3:: with SMTP id
+	g64-v6mr23421005lji.101.1546257961961; 
+	Mon, 31 Dec 2018 04:06:01 -0800 (PST)
+Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
+	by smtp.gmail.com with ESMTPSA id
+	r76-v6sm10246379ljr.83.2018.12.31.04.06.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Dec 2018 04:06:01 -0800 (PST)
+From: Jonas Bonn <jonas@norrbonn.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Dec 2018 09:58:35 +0000
-Message-Id: <20181231095835.21196-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] sstate.bbclass: catch ValueError from incorrectly written sstate manifests
+Date: Mon, 31 Dec 2018 13:05:52 +0100
+Message-Id: <20181231120559.25470-1-jonas@norrbonn.se>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Subject: [PATCH 0/7] systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,70 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2018 09:58:37 -0000
+X-List-Received-Date: Mon, 31 Dec 2018 12:06:02 -0000
+Content-Transfer-Encoding: 8bit
 
-* in some rare cases the file format might be broken, e.g. when you run
-  out of disk space while writing to it (hint: make sure to use
-  BB_DISKMON_DIRS on _all_ the builds, to make sure that they can stop
-  gracefully before this happens).
+These patches make some modifications to systemd with the long-term goal
+of being able to run OE in systemd's "stateless" configuration.
+"Stateless" boils down to building an image with empty /etc and /var
+directories so that volatile (tmpfs) filesystems can be mounted there;
+this requires that the system subsequently be able to populate these
+directories dynamically, which systemd mostly takes care of if things
+are done right.
 
-* will show error like this:
-  ERROR: Invalid line '/OE/build/luneos-thud/webos-ports' in sstate manifest '/OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/index-allarch'
-  when the file isn't complete, like in my case:
-  $ tail -n 2 /OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/index-allarch
-  /OE/build/luneos-thud/webos-ports/tmp-glibc/stamps/all-webos-linux/org.webosports.app.calculator/0.1.1+gitrAUTOINC+9e9eb67c28-r0 /OE/build/luneos-thud/webos-ports/tmp-glibc/sstate-control/manifest-allarch-org.webosports.app.calculator /OE/build/luneos-thud/webos-ports/tmp-glibc/work/all-webos-linux/org.webosports.app.calculator/0.1.1+gitrAUTOINC+9e9eb67c28-r0
-  /OE/build/luneos-thud/webos-ports
+In these patches:
+i)    Don't include machine-id in writable images so that systemd can run
+its first-boot machinery
+ii)   Move systemd configuration files out of /etc
+iii)  Allow systemd to dynamically enable services and populate
+/etc/systemd/system via the presets mechanism
 
-* instead of much longer exception which doesn't really show what's
-  wrong to selectively fix that (other than removing while TMPDIR):
+There's a long way to go to get to a working "stateless" configuration.
+Getting to a "volatile" system (just empty /var) should be easier and
+I'll post patches moving things in that direction shortly.
 
-  ERROR: Command execution failed: Traceback (most recent call last):
-  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/command.py", line 113, in runAsyncCommand
-    self.cooker.updateCache()
-  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/cooker.py", line 1562, in updateCache
-    bb.event.fire(event, self.databuilder.mcdata[mc])
-  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 225, in fire
-    fire_class_handlers(event, d)
-  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 134, in fire_class_handlers
-    execute_handler(name, handler, event, d)
-  File "/OE/build/luneos-thud/webos-ports/bitbake/lib/bb/event.py", line 106, in execute_handler
-    ret = handler(event)
-  File "/OE/build/luneos-thud/webos-ports/openembedded-core/meta/classes/sstate.bbclass", line 1083, in sstate_eventhandler2
-    (stamp, manifest, workdir) = l.split()
-  ValueError: not enough values to unpack (expected 3, got 1)
+/Jonas
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sstate.bbclass | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Jonas Bonn (7):
+  systemd: do not create machine-id
+  systemd-conf: simplify creation of configuration
+  systemd: move additional conffiles to systemd-conf
+  systemd: create preset files instead of installing in image
+  systemd-systemctl-native: simplify and support preset-all
+  rootfs-postcommands: call preset-all for read-only-rootfs
+  systemd: do not pre-enable services, rely on presets
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 8b48ab465f..be5f19b33e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1081,12 +1081,15 @@ python sstate_eventhandler2() {
-         with open(i, "r") as f:
-             lines = f.readlines()
-             for l in lines:
--                (stamp, manifest, workdir) = l.split()
--                if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
--                    toremove.append(l)
--                    if stamp not in seen:
--                        bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
--                        seen.append(stamp)
-+                try:
-+                    (stamp, manifest, workdir) = l.split()
-+                    if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
-+                        toremove.append(l)
-+                        if stamp not in seen:
-+                            bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
-+                            seen.append(stamp)
-+                except ValueError:
-+                    bb.fatal("Invalid line '%s' in sstate manifest '%s'" % (l, i))
- 
-         if toremove:
-             msg = "Removing %d recipes from the %s sysroot" % (len(toremove), a)
+ meta/classes/rootfs-postcommands.bbclass      |  8 ++++
+ meta/classes/systemd.bbclass                  | 33 +++++++-------
+ meta/recipes-core/systemd/systemd-conf.bb     | 45 +++++++------------
+ .../systemd/systemd-systemctl/systemctl       | 36 +++------------
+ meta/recipes-core/systemd/systemd_239.bb      |  4 ++
+ 5 files changed, 52 insertions(+), 74 deletions(-)
+
 -- 
-2.17.1
+2.19.1
 
 
