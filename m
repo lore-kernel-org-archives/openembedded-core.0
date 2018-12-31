@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B9C06B30D;
-	Mon, 31 Dec 2018 12:33:20 +0000 (UTC)
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B666B51A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Dec 2018 19:56:31 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id wBVJuRtB015923
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Mon, 31 Dec 2018 20:56:28 +0100
+Received: from [192.168.253.100] ([139.22.32.24])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id wBVJuQsT019870;
+	Mon, 31 Dec 2018 20:56:27 +0100
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20181207120605.11344-1-richard.purdie@linuxfoundation.org>
+	<20181207120605.11344-2-richard.purdie@linuxfoundation.org>
+	<fae0fb29acedc0c26cf9d5860e053d1427316cb8.camel@linuxfoundation.org>
+	<857809ce-49de-16c2-f26d-805acc3601c2@siemens.com>
+	<31abffa69bca5ee313a7d6c30dd7fc06011a14e5.camel@linuxfoundation.org>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <8ac88775-35f9-e3f6-a0c6-f218aa697e70@siemens.com>
+Date: Mon, 31 Dec 2018 20:56:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.3.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jonas Bonn <jonas@norrbonn.se>
-Date: Mon, 31 Dec 2018 12:33:21 -0000
-Message-ID: <20181231123321.2331.48844@do>
-References: <20181231120559.25470-1-jonas@norrbonn.se>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20181231120559.25470-1-jonas@norrbonn.se>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZCBwYXRjaGVz?=
+In-Reply-To: <31abffa69bca5ee313a7d6c30dd7fc06011a14e5.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +38,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2018 12:33:20 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 31 Dec 2018 19:56:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Your previous solution is working for me, so I was not working on fixing
+this. I thought, that You will just add missing packages, and that is.
+I don't have setup for failing machine.
 
-Series: systemd patches
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15497/
-State : failure
+Is there any simple way to get all missing perl packages?
 
-== Summary ==
+Regards,
+Andrej
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/7] systemd: do not create machine-id
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Issue             LIC_FILES_CHKSUM changed on target systemd-conf but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
-  Current checksum file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c
-  New checksum     None
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+On 12/26/18 12:09 PM, richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2018-12-26 at 09:39 +0100, Andrej Valek wrote:
+>> Hello Richard
+>>
+>> Did you have some time to take a look on it?
+>> What about just list all perl's deps and add these packages? Or is
+>> there something more behind it?
+> 
+> I got this far with it but it then got placed on the "needs more work"
+> pile and I got distracted by other problems.
+> 
+> I suspect a solution is comparatively close and it would be nice to get
+> this one fixed...
+> 
+> Did you have a solution to the problem below in mind?
+> 
+> Cheers,
+> 
+> Richard
+> 
+>> Regards,
+>> Andrej
+>>
+>> On 12/8/18 1:07 AM, Richard Purdie wrote:
+>>> On Fri, 2018-12-07 at 12:06 +0000, Richard Purdie wrote:
+>>>> opkg needs the replaces/conflicts/provides in order for this
+>>>> package
+>>>> to function as intended. When enabled, this code caused failures
+>>>> for
+>>>> core-image-sato -c populate_sdk.
+>>>>
+>>>> The reason is that nativesdk-autoconf has several perl
+>>>> dependencies.
+>>>> We
+>>>> need to list more of the things which this package
+>>>> provides/conflicts
+>>>> with in order for it to function correctly. Therefore add the
+>>>> missing
+>>>> entries.
+>>>>
+>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
+>>>>>
+>>>> ---
+>>>>  meta/recipes-core/meta/dummy-sdk-package.inc  |  4 ++--
+>>>>  .../meta/nativesdk-sdk-provides-dummy.bb      | 20
+>>>> +++++++++++++++++++
+>>>>  .../meta/target-sdk-provides-dummy.bb         |  3 +++
+>>>>  3 files changed, 25 insertions(+), 2 deletions(-)
+>>>
+>>> Sadly this breaks the SDK on machines without libxml-parser-perl:
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/68
+>>>
+>>> so a resolution will need to be found to that before it can merge.
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+> 
 
