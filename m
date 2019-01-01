@@ -1,49 +1,30 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9956A6B3D2
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39FD46B43D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jan 2019 17:38:56 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id k15-v6so25391298ljc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Jan 2019 09:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=8iyZGL5Kz1fz2gyTRK7PXoociKpzctnRnrqGvZgGJJU=;
-	b=bivjQB1sZUO/GGL2r3oCy9ctBgeyP7pzXr7jndIWb05elBIaoPNrfQrTncJ2EutAJC
-	3Yll6a4FpI+NDXE6k11iS/O6n1T+izM0lbUtVBQhRa6WM9Ppnt5ucT5bYDh6RAPLGUZ9
-	7Z5f/f5YriaOeCcqc7saPkNsMMzKS9TkyvrCh0PR//oyjXjx+4/NRvioD6IdL2/4mKbf
-	eVO36aWPeNjLQqmN/xrObPpAj1E0vaeB3O7E/5N6FVG9HgMr1zq1YG1Slf1ekqWWznsi
-	miC7qwUCtuaYGDfBQT+yFqJGBpLrFIEtlKvMYkX1xc2pV529AkriFK1Zq0OixUfMmjbn
-	+4zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=8iyZGL5Kz1fz2gyTRK7PXoociKpzctnRnrqGvZgGJJU=;
-	b=fsB0IiFoSR+4Mf6ydi5v42NFLhXdyCQW2MOnBx9cpBnQC58NhMQ43nXK9xJ4yUI5tW
-	3rPqGy0YIPVbHT0NOo+2gGUJJmbL+PwsHxE5gGeEhVIUGGAJ0AfZlef/bLCznx1AhFou
-	qI01+bA/Xlz7DHBl1JEJG8pZZVtbbo7t2Tk12qzpTp+1vLgk+dP2nsAuTf5AQdy8/vsb
-	8+8kFLZ4B06Z7b7mwTfLij95C9wam3n966EKwWp+Re+g597M5kdK16BH0/Sighbih8Pe
-	rByhZef7Uz08Uwj0IdLM5G8ji06mOn79FPPdevNWAL79kV7MHzn7JROr3d0HnVgA6F6r
-	daww==
-X-Gm-Message-State: AJcUukfcLXZtws7N7U2O2Iw8SdsCSt0x7KaVa5+XupfIla5nepnpWVuv
-	0L4i0sPDWH+lE+jz4p+WiNrc96oN
-X-Google-Smtp-Source: ALg8bN44+jsZHhqn7wLCSiWx589qjlA/G7e/mfvd/0GouhDZGLit4oifV2sUL3bfZANh9MBlrcL5BQ==
-X-Received: by 2002:a2e:94ce:: with SMTP id
-	r14-v6mr23134233ljh.34.1546364336612; 
-	Tue, 01 Jan 2019 09:38:56 -0800 (PST)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
-	c5-v6sm10662642lja.62.2019.01.01.09.38.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Jan 2019 09:38:55 -0800 (PST)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Jan 2019 18:38:44 +0100
-Message-Id: <20190101173844.15373-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] os-release: don't import shutil
+	Tue,  1 Jan 2019 20:17:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x01KHGSX030882
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Jan 2019 12:17:32 -0800
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 1 Jan 2019 12:17:05 -0800
+To: Jonas Bonn <jonas@norrbonn.se>, <openembedded-core@lists.openembedded.org>
+References: <20181231120559.25470-1-jonas@norrbonn.se>
+	<20181231120559.25470-3-jonas@norrbonn.se>
+	<08f2090e-75cd-2551-5c01-5f22e5f2574d@windriver.com>
+	<dc905b3a-ef1b-410a-c670-e849c9a8e6a2@norrbonn.se>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <b29c6e70-f606-3f4e-aad0-5f998b333a25@windriver.com>
+Date: Tue, 1 Jan 2019 15:17:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <dc905b3a-ef1b-410a-c670-e849c9a8e6a2@norrbonn.se>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 2/7] systemd-conf: simplify creation of configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +37,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jan 2019 17:38:56 -0000
+X-List-Received-Date: Tue, 01 Jan 2019 20:17:52 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-The line was added in
+On 1/1/19 12:03 PM, Jonas Bonn wrote:
+> Hi Randy,
+> 
+> Thanks for looking at this.
+> 
+> On 01/01/2019 16:29, Randy MacLeod wrote:
+>> On 12/31/18 7:05 AM, Jonas Bonn wrote:
+>>> The configuration files that systemd installs are just skeletons
+>>> detailing the available options and their default values.  The
+>>> recommended means of changing the configuration is to provide snippets
+>>> in configuration directories.  For example, journald.conf settings are
+>>> best set in /usr/lib/journald.conf.d/ and can be overridden by the user
+>>> by providing overriding snippets in /etc/systemd/journald.conf.d/.
+>>>
+>>> The base configuration files have the lowest priority; they will always
+>>> be overridden by any snippets.  As such, it's probably best to not
+>>> provide them at all.  This also moves us a step closer to an empty /etc
+>>> which is should be a long term goal in order to allow running OE as a
+>>> "stateless system".
+>>>
+>>> This patch moves the systemd configuration to snippets in
+>>> /usr/lib/*.conf.d.  This simplifies the recipe considerably since it now
+>>> just sets up a couple of text files and doesn't even need access to the
+>>> systemd source anymore.
+>>> ---
+>>>   meta/recipes-core/systemd/systemd-conf.bb | 34 +++++++++--------------
+>>>   1 file changed, 13 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-core/systemd/systemd-conf.bb 
+>>> b/meta/recipes-core/systemd/systemd-conf.bb
+>>> index 7fe2e1105b..a504afe3e7 100644
+>>> --- a/meta/recipes-core/systemd/systemd-conf.bb
+>>> +++ b/meta/recipes-core/systemd/systemd-conf.bb
+>>> @@ -1,9 +1,8 @@
+>>> -require systemd.inc
+>>> -
+>>>   SUMMARY = "Systemd system configuration"
+>>>   DESCRIPTION = "Systemd may require slightly different configuration 
+>>> for \
+>>>   different machines.  For example, qemu machines require a longer \
+>>>   DefaultTimeoutStartSec setting."
+>>> +LICENSE = "GPLv2"
+>>
+>> Systemd claims that these conf files are: LGPLv2.1+ licensed.
+> 
+> The configuration files from systemd may be LGPLv2 licensed, but this 
+> package now only creates some configuration snippets which are 
+> independent of systemd (it's just data, now).  As such, one could 
+> certainly put whatever license one wanted on this.  Honestly, GPLv2 is 
+> probably a stretch... I can hardly see that any license applies to this, 
+> to be honest.  Consider that:
+> 
+> /usr/lib/journald.conf.d/systemd-conf.conf
+> 
+> contains
+> 
+> ForwardToSyslog=yes
+> RuntimeMaxUse=64M
+> 
+> Just configuration data that the package creates dynamically.
 
-  os-release: add the public package-signing key
-  f7359ad6bec82d4aa761287a6c6d53cbc25adab3
+I agree, maybe it's best to just use:
+LICENSE = "MIT"
+or as you say, no license tag at all.
 
-but the actual usage was removed in
+> 
+>>
+>> https://github.com/systemd/systemd/blob/master/sysusers.d/systemd.conf.m4
+>>
+>> https://github.com/systemd/systemd/blob/master/modprobe.d/systemd.conf
+>>
+>>>   PACKAGE_ARCH = "${MACHINE_ARCH}"
+>>> @@ -13,36 +12,29 @@ ${sysconfdir}/systemd/logind.conf \
+>>>   ${sysconfdir}/systemd/system.conf \
+>>>   ${sysconfdir}/systemd/user.conf"
+>>> -FILES_${PN} = "${sysconfdir}/systemd"
+>>> -
+>>> -do_configure[noexec] = '1'
+>>> -do_compile[noexec] = '1'
+>>> +FILES_${PN} = "/usr/lib/journald.conf.d/* \
+>>> +/usr/lib/logind.conf.d/* \
+>>> +/usr/lib/system.conf.d/* \
+>>> +"
+>>>   do_install() {
+>>> -    rm -rf ${D}/${sysconfdir}/systemd
+>>> -    install -d ${D}/${sysconfdir}/systemd
+>>> -
+>>> -    install -m 0644 ${S}/src/coredump/coredump.conf 
+>>> ${D}${sysconfdir}/systemd/coredump.conf
+>>> -
+>>> -    install -m 0644 ${S}/src/journal/journald.conf 
+>>> ${D}${sysconfdir}/systemd/journald.conf
+>>> +    install -d ${D}/usr/lib/journald.conf.d
+>>
+>> Should the recipe use /usr/lib or is / should there be a
+>> 'systemdconfdir' var?
+> 
+> So, I looked into the systemd source and, as far as I can see, it seems 
+> that systemd hardcodes the paths to configuration files, tmpfiles, 
+> presets, etc.  It's all really /usr/lib/... with no method of specifying 
+> any other location.  For this reason, I've used these explicit paths 
+> above, strange though it may appear...
 
-  signing-keys: Make signing keys the only publisher of keys
-  1e38068ac38dfd067655dfd41464e28439179306
+I thought that might be the case. Thanks for looking into it.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/recipes-core/os-release/os-release.bb | 1 -
- 1 file changed, 1 deletion(-)
+Some people might want to use a variable name for the path so
+that it's uniquely identified should they want to patch systemd's
+definition but I don't think that's required.
 
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index 7f3d9cba00..d5793c6fed 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -30,7 +30,6 @@ def sanitise_version(ver):
-     return ret.lower()
- 
- python do_compile () {
--    import shutil
-     with open(d.expand('${B}/os-release'), 'w') as f:
-         for field in d.getVar('OS_RELEASE_FIELDS').split():
-             value = d.getVar(field)
+../Randy
+
+> 
+> /Jonas
+
+
 -- 
-2.11.0
-
+# Randy MacLeod
+# Wind River Linux
 
