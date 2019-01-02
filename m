@@ -1,54 +1,54 @@
 Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 422766BC7D
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+	[209.85.208.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 726AC6BB2D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jan 2019 16:11:53 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id c19-v6so27406961lja.5
+	Wed,  2 Jan 2019 16:11:54 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id x85-v6so27419856ljb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2019 08:11:54 -0800 (PST)
+	Wed, 02 Jan 2019 08:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=Jxo++u6KzDXRpHu/Tn5YZx//anvx5dGG0C5wctp8arI=;
-	b=BXwHKm82SqRJfmtg3pBluQz1YNwKnHLICK9svrQK4asBQpb/sK+O0t66O0jjcpfAui
-	3dBePis7FxeIvA90JrSANOUTI0x+NQBWviirpPWNQKrUY1RONra0hJy2hV2nGugQkFbL
-	6wUjuv16VCv0DOVfJU7xnDbYgcFKgvKySofapCS3zkTbnTBbbCj/qdpLifYvMj/l4p9j
-	0yiepw2K6WqhnStAQN33TmjxdpXeVd/aKd7X9qNpnCMqfH3zH8A++MNaw52RlFn00X7u
-	6tbbkyxC6svmKlp5e6Q9tpmVXLGUnBA0A2gNuvH1ayA9nVZ/D4OiMXTpsJrS3YfojPFg
-	0QaA==
+	bh=m4TplUmXLmUFTUx1cYHsbA1jP8gf1/eon/FLVVeglDQ=;
+	b=seV6FneEg4ZXgrsbYB+RF5ZPUkSMEi2f3TU2sNTcPQ0l1RrCeUWd254H8O+0BE10ej
+	utu1u5GWkwNy8erCjXIA8Ig15CYbry9FM679u25Q0ba8Ui+RyEtixqjSVFqSwOBm75i+
+	hcInWGWljfrbTQFUbNOvDQI7+W14CUkN4M60BLkgt+SG9uDVJKMiaSg3wj1hyuu8Lvq2
+	PxMoD+HPIf8+cFdNaBkvbaiSl2F8BvauHriGaK1rNJBRiJKlGRrOHOyUYESP7dy7A7h5
+	0WoRV8t7aSjgm67jh+vS7dVp/5UMw8ChuhueLC+D90mrkxq3xijKZHaxQsNeroMRSCzT
+	8VIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Jxo++u6KzDXRpHu/Tn5YZx//anvx5dGG0C5wctp8arI=;
-	b=CUIDw3PAeWcE2bRRs5PT1LCGxztG6iEbwLPpEJcHfz0nqV9yx7BtDxBhZ0oBMD9BF1
-	wbsAvlbI0GX+BP3BKYByKksr1bSSTXoX2Sr4OdZOQkgbEYdp7DatUzCnSSlMxHTf81RY
-	cWrEEJv0srJkNn/9LCvtdu7wlQyxzdAN2HfTIfEOyGFLMpvodH8GNHqYsldgAldxcEiw
-	DraolbSxN/w4uiRxAw2nvpMxazh6Mx001QOs52na/GvIxKFP+52AmPNuoADD2nLgIxHK
-	MU7d5L1V5eEPbzl5UDYOMIVNiSo1yZwksdqLUVz5Q4YncKI8Z1CQep2Otm7CNLJ0LDcp
-	HmTg==
-X-Gm-Message-State: AJcUukdlmvcO3D84Ms8ssOm4r2uUMb8cl2OaZ9qkpUHCViq/rfVcDyc/
-	T2n1joytbL5nYctw8oGrGalhji3IXBc=
-X-Google-Smtp-Source: ALg8bN5LMx8iZ2v7tSTz8HMD8gO53xOSyXKLtHKx3aqiky41OGwTR0PuhDvHe0KRNRmKhnh9j05acA==
-X-Received: by 2002:a2e:8643:: with SMTP id
-	i3-v6mr21153145ljj.43.1546445513541; 
-	Wed, 02 Jan 2019 08:11:53 -0800 (PST)
+	bh=m4TplUmXLmUFTUx1cYHsbA1jP8gf1/eon/FLVVeglDQ=;
+	b=E0FL1isc2N3L0DQ49Okz0OuEwE4TqWjhGEwdhvKcEFzL09KyYZzG4mlSnlEYy/B86O
+	EjE7gXBzdmNKU0D8ox0qW9NN2TtguPIS3GAu6erTps+EsOS1S/sHXsUjcPUuaqukwbEW
+	K4fp1UHZ8ek2NZUOoMaPKXbz8N/ODnTSvN2xIunlzIinYRizk/QhSVEjP9X89vbkcKEi
+	bzxnRJS3ACtP7bRcB2U0+Gp7vcIbB8hDT1hxM3bXRayvbv7RUvAnwsVBb2CKMCY17a/J
+	reB/VV1BOxRA0eRYPtmZOGtLnzB7+t1NuSzMJdfWpUQAZIIda52Tx2VuenaYJOBwQ6vt
+	VHEw==
+X-Gm-Message-State: AJcUukcGwJT1O7219R3NU+32kUagqWbVQtjVUbUToscWM3ddQTkRXJEA
+	i1WwoITfcNGoICMLg4Z6iBlK86zhNl4=
+X-Google-Smtp-Source: ALg8bN5Fn5VuAoQKtz8L/HDbVcBWr55CzCJcJSbeLWa/ftPSY2tP5X6auzKoC65Xywk0VZ8cBozixA==
+X-Received: by 2002:a2e:b00a:: with SMTP id
+	y10-v6mr9040854ljk.109.1546445514558; 
+	Wed, 02 Jan 2019 08:11:54 -0800 (PST)
 Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
 	by smtp.gmail.com with ESMTPSA id
-	o17sm10040195lff.77.2019.01.02.08.11.52
+	o17sm10040195lff.77.2019.01.02.08.11.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Wed, 02 Jan 2019 08:11:53 -0800 (PST)
 From: Jonas Bonn <jonas@norrbonn.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Jan 2019 17:11:42 +0100
-Message-Id: <20190102161144.11264-4-jonas@norrbonn.se>
+Date: Wed,  2 Jan 2019 17:11:43 +0100
+Message-Id: <20190102161144.11264-5-jonas@norrbonn.se>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190102161144.11264-1-jonas@norrbonn.se>
 References: <20190102161144.11264-1-jonas@norrbonn.se>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/5] systemd: create preset files instead of installing in image
+Subject: [PATCH v2 4/5] systemd-systemctl-native: simplify and support preset-all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,102 +61,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2019 16:11:53 -0000
+X-List-Received-Date: Wed, 02 Jan 2019 16:11:55 -0000
 Content-Transfer-Encoding: 8bit
 
-At first boot, systemd will create the /etc/systemd/system directory
-from service preset files.  As such, for a normal, writable /etc
-(writable rootfs), there is no need to set up this directory at image
-creation time.
+Now that the systemd class sets up service presets instead of actively
+enabling services, the 'enable' and 'disable' subcommands for systemctl
+are not actually used anywhere.  As such, we can remove these to make
+sure that nobody inadvertently introduces new uses of them.
 
-This patch changes the systemd machinery to create preset files and to
-rely on systemd to do the service enablement.
+We do, however, one case where the enable/disable machinery is still
+required; that is for the read-only-rootfs case where the 'preset-all'
+command can not be called at runtime but needs to be called when creatng
+the image.  For this case, we implement 'preset-all' here.
 
-This breaks the read-only-rootfs case; there's a fix for this in a
-follow-up patch.
+There was also a previous implement of 'preset'... not sure that this
+ever worked as the implementation looks bogus and there aren't any users
+anyway.  This patch removes the 'preset' subcommand, as well.
 
 Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
 ---
- meta/classes/systemd.bbclass | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ .../systemd/systemd-systemctl/systemctl       | 36 ++++---------------
+ 1 file changed, 7 insertions(+), 29 deletions(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index c7b784dea8..cf3b5de4a1 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -16,43 +16,32 @@ python __anonymous() {
-     # from doing any work so that pure-systemd images don't have redundant init
-     # files.
-     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
--        d.appendVar("DEPENDS", " systemd-systemctl-native")
--        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-systemctl-native")
-         if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-             d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 2bc6489617..ce50352018 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -9,22 +9,6 @@ while [ $# != 0 ]; do
+ 	opt="$1"
  
- systemd_postinst() {
--OPTS=""
+ 	case "$opt" in
+-		enable)
+-			shift
 -
- if [ -n "$D" ]; then
--    OPTS="--root=$D"
-+	exit 0
- fi
- 
- if type systemctl >/dev/null 2>/dev/null; then
--	if [ -z "$D" ]; then
--		systemctl daemon-reload
--	fi
+-			action="$opt"
+-			services="$1"
+-			cmd_args="1"
+-			shift
+-			;;
+-		disable)
+-			shift
 -
--	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE_ESCAPED}
-+	systemctl daemon-reload
-+	systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
+-			action="$opt"
+-			services="$1"
+-			cmd_args="1"
+-			shift
+-			;;
+ 		mask)
+ 			shift
  
--	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
- 		systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
- 	fi
- fi
- }
+@@ -33,13 +17,11 @@ while [ $# != 0 ]; do
+ 			cmd_args="1"
+ 			shift
+ 			;;
+-		preset)
++		preset-all)
+ 			shift
  
- systemd_prerm() {
--OPTS=""
--
- if [ -n "$D" ]; then
--    OPTS="--root=$D"
-+	exit 0
- fi
- 
- if type systemctl >/dev/null 2>/dev/null; then
--	if [ -z "$D" ]; then
--		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
--	fi
-+	systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
- 
- 	systemctl $OPTS disable ${SYSTEMD_SERVICE_ESCAPED}
- fi
-@@ -177,12 +166,22 @@ python systemd_populate_packages() {
-                 else:
-                     bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist" % (pkg_systemd, service))
- 
-+    def systemd_create_presets(pkg):
-+        action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
-+        presetf = oe.path.join(d.getVar("PKGD"), "/lib/systemd/system-preset/98-%s.preset" % pkg)
-+        bb.utils.mkdirhier(os.path.dirname(presetf))
-+        with open(presetf, 'a') as fd:
-+            for service in d.getVar('SYSTEMD_SERVICE_%s' % pkg).split():
-+                fd.write("%s %s\n" % (action,service))
-+        d.appendVar("FILES_%s" % pkg, " /lib/systemd/system-preset/98-%s.preset" % pkg)
+ 			action="$opt"
+-			services="$1"
+-			cmd_args="1"
+-			shift
++			cmd_args="0"
+ 			;;
+ 		--root=*)
+ 			ROOT=${opt##--root=}
+@@ -57,16 +39,12 @@ while [ $# != 0 ]; do
+ 			;;
+ 	esac
+ done
+-if [ "$action" = "preset" -a "$service_file" = "" ]; then
 +
-     # Run all modifications once when creating package
-     if os.path.exists(d.getVar("D")):
-         for pkg in d.getVar('SYSTEMD_PACKAGES').split():
-             systemd_check_package(pkg)
-             if d.getVar('SYSTEMD_SERVICE_' + pkg):
-                 systemd_generate_package_scripts(pkg)
-+                systemd_create_presets(pkg)
-         systemd_check_services()
- }
++if [ "$action" = "preset-all" ]; then
+ 	services=$(for f in `find $ROOT/etc/systemd/system $ROOT/lib/systemd/system $ROOT/usr/lib/systemd/system -type f 2>1`; do basename $f; done)
+-	services="$services $opt"
+-	presetall=1
+ fi
  
+ for service in $services; do
+-	if [ "$presetall" = "1" ]; then
+-		action="preset"
+-	fi
+ 	if [ "$action" = "mask" ]; then
+ 		if [ ! -d $ROOT/etc/systemd/system/ ]; then
+ 			mkdir -p $ROOT/etc/systemd/system/
+@@ -105,10 +83,10 @@ for service in $services; do
+ 	# If any new unit types are added to systemd they should be added
+ 	# to this regular expression.
+ 	unit_types_re='\.\(service\|socket\|device\|mount\|automount\|swap\|target\|target\.wants\|path\|timer\|snapshot\)\s*$'
+-	if [ "$action" = "preset" ]; then
+-		action=`egrep -sh  $service $ROOT/etc/systemd/user-preset/*.preset | cut -f1 -d' '`
++	if [ "$action" = "preset-all" ]; then
++		action=`egrep -sh  $service $ROOT/usr/lib/systemd/system-preset/*.preset | cut -f1 -d' '`
+ 		if [ -z "$action" ]; then
+-			globalpreset=`egrep -sh  '\*'  $ROOT/etc/systemd/user-preset/*.preset | cut -f1 -d' '`
++			globalpreset=`egrep -sh  '\*'  $ROOT/usr/lib/systemd/system-preset/*.preset | cut -f1 -d' '`
+ 			if [ -n "$globalpreset" ]; then
+ 				action="$globalpreset"
+ 			else
 -- 
 2.19.1
 
