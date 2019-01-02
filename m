@@ -1,46 +1,47 @@
 Return-Path: <anibal.limon@linaro.org>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 609526B899
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 581416B96C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jan 2019 16:07:21 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id w72so6664725vkd.5
+	Wed,  2 Jan 2019 16:08:19 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id 32so27008501ota.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2019 08:07:22 -0800 (PST)
+	Wed, 02 Jan 2019 08:08:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oiLHJgq9289nrdB5PvL8mMgC1Xwk86wnpJHsvnXs9zI=;
-	b=bwNtuaeHWIULC6hMCda5lTuaaBIg1nFGjdi6/c/1URLQROYFikRn1xgTf1NG1LxwTX
-	ijJFMdSpU5M6qO+F4NyZcnzYq+N0MSkEs54ytyqj4atp4e0DBZb7EAuZX63c7b8M8Ut9
-	DvdHI4uSPYgewoFNA1pOhBPBDf9AmCwxrr8Cg=
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0i06UE75OSMK5ENyfQ2MP3Ql5LZMneps8X3YPH1wzHk=;
+	b=Id/Dus782+qBt2pY2xaT7TRziJY7VHugw3Jd3Kx3wWlGIzYXo6GfVXJO1uHMMkJCZG
+	fxP1iUv2phE99+3qrSW7KS2khWWvIT9C1i4BzOtFeCGE57TGjk4uSeCCu13eRL5m2kwV
+	VAhXBs1dCy8538u6L4oHdog4qs+fZtWZf0to4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oiLHJgq9289nrdB5PvL8mMgC1Xwk86wnpJHsvnXs9zI=;
-	b=qeECKfPsFq0NG74VVrIq+fvGALgYW0YUpL4PCv+460CZ3F/fTDJWCXMJuUldsxonK7
-	r6yCJCpfIdMXrbBuvoJ0xxPPgzb4wJTahjBjqX01ujfwwC+p90tYjJiuAAcapuyGaeEK
-	c5npOti8I5UMdD2+pWMs2OtCVHlUzSLpxg+uU9FWqel2XhaJxXaPz739hLxJW0m3FGfV
-	yuCa4tDFzL2++WHTIioUJtl2NJ3LAmR3N8qbUptVVxZ5OoFTYKURGiVOs8B0llnLw8AE
-	kXmp0T5rvLPE5yvVrgaOOsRKg8C1sKj40Y+ZyTCxPWiHRua0NBUVak+AuNPI7MDymrad
-	jfAw==
-X-Gm-Message-State: AJcUuke44K6a7HjMt4tBPC4mu5FB5kSODGN/G2B5V9tI4Qn1cWyWaNnI
-	dPrSoYHFQ/PKRr+3t2SUwxK3IDEjm5lZN3axXkB2hQ==
-X-Google-Smtp-Source: ALg8bN7QyQAoxrJwReBWLK7NcQclaKQo5b6uPtOEl/BgLN6dupzMl9V4rcSob4Pk8Gh8JITDLmoTRYws8J0PB8e9UoY=
-X-Received: by 2002:a1f:9604:: with SMTP id y4mr15467674vkd.28.1546445242015; 
-	Wed, 02 Jan 2019 08:07:22 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0i06UE75OSMK5ENyfQ2MP3Ql5LZMneps8X3YPH1wzHk=;
+	b=Y0ZlrC686u5K/gdxWwi2wTnvhid7eqICoiCSMSVw5wSeYv9zqIYi83vBnksAw3llpk
+	DTMqVICKS+ecBLySdm2MMEOrbD+eJ5cOMI++qV3emJr0Xv5XxufUccEZtnY650IixLxV
+	FlcpjL+0il7DSyKeFt11C1Jw4TlywXkpevp4iKQD9Tq/IezvaIfGLTHAsZiG7qlqP8JI
+	3q3oKBV4RylWbWo4AuftuWU1X7zkQpL/f4hlsefj9cZD0LXPWuTxkzHxxLCPxQ+i6Vnb
+	7bMrPwU+g9ITCh4s6GzEqDUPk3OEt/6NCEzlkdHM+FCl9pZRt8+DwwdgwZyP+WwJ6Qcn
+	RWmA==
+X-Gm-Message-State: AJcUukeZg6SoRl0pMJGgK4Rsy6bc/k0wZ3an+8/bbqBWwIDzvtnPA16r
+	/l7KXpCpNzXdhU1ml7p+ZGlAqM8vPio=
+X-Google-Smtp-Source: ALg8bN4DdZYFilpNR6FIOFYiSeQfPfSToBgT/rNL69JXPF7yuPgCnyD2RrWySp/kEMXBpCH2+OQN7w==
+X-Received: by 2002:a9d:67ce:: with SMTP id c14mr29046232otn.341.1546445299942;
+	Wed, 02 Jan 2019 08:08:19 -0800 (PST)
+Received: from blackbox.Home ([200.68.140.47])
+	by smtp.gmail.com with ESMTPSA id
+	e6sm25275454otp.68.2019.01.02.08.08.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Jan 2019 08:08:19 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Jan 2019 10:08:13 -0600
+Message-Id: <20190102160813.25934-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-References: <20181016232143.5016-1-anibal.limon@linaro.org>
-	<6b883ed64458a2153437d7519adefb513556864c.camel@linuxfoundation.org>
-	<CA+_AqisrOphM_bZ=jkfX1boP2aSA-8YR_bAT08EZo5RDHweLtA@mail.gmail.com>
-	<CAJTo0LZENsJUFBWgE_P_Zs8GWQy-FUxyeK6u-Jutnd53xgoKnw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZENsJUFBWgE_P_Zs8GWQy-FUxyeK6u-Jutnd53xgoKnw@mail.gmail.com>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Wed, 2 Jan 2019 10:07:10 -0600
-Message-ID: <CA+_Aqitng=1jKXLiLvu47F+dbUfSMBk8toxpSTWYt_1dq00UAQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/classes/testimage.bbclass: Only validate IMAGE_FSTYPES when is QEMU
+Subject: [PATCHv3] meta/classes/testimage.bbclass: Only validate IMAGE_FSTYPES when is QEMU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,62 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2019 16:07:21 -0000
-Content-Type: multipart/alternative; boundary="00000000000050c347057e7bd7e2"
+X-List-Received-Date: Wed, 02 Jan 2019 16:08:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---00000000000050c347057e7bd7e2
-Content-Type: text/plain; charset="UTF-8"
+When use simpleremote target the flash/boot process is executed
+manually, the IMAGE_FSTYPES validation is only needed when execute
+testimage against qemu.
 
-On Thu, 15 Nov 2018 at 07:08, Burton, Ross <ross.burton@intel.com> wrote:
+The supported_fstypes comes from oeqa.core.target.qemu module.
 
-> On Tue, 23 Oct 2018 at 01:38, Anibal Limon <anibal.limon@linaro.org>
-> wrote:
-> >> > -    fstypes = [fs for fs in d.getVar('IMAGE_FSTYPES').split(' ')
->
-> >> > +    fstypes = d.getVar('IMAGE_FSTYPES')
-> >> > +        fstypes = [fs for fs in fstypes if fs in supported_fstypes]
->
-> That's the problem, the old code takes IMAGE_FSTYPES and splits it on
-> whitespace, the new code iterates over each *character*
->
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ meta/classes/testimage.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-I sent an old version, sorry for that, sending v3...
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index e8fa4a3b32..3c2209af91 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -201,12 +201,13 @@ def testimage_main(d):
+     machine = d.getVar("MACHINE")
+ 
+     # Get rootfs
+-    fstypes = [fs for fs in d.getVar('IMAGE_FSTYPES').split(' ')
+-                  if fs in supported_fstypes]
+-    if not fstypes:
+-        bb.fatal('Unsupported image type built. Add a comptible image to '
+-                 'IMAGE_FSTYPES. Supported types: %s' %
+-                 ', '.join(supported_fstypes))
++    fstypes = d.getVar('IMAGE_FSTYPES').split()
++    if d.getVar("TEST_TARGET") == "qemu":
++        fstypes = [fs for fs in fstypes if fs in supported_fstypes]
++        if not fstypes:
++            bb.fatal('Unsupported image type built. Add a comptible image to '
++                     'IMAGE_FSTYPES. Supported types: %s' %
++                     ', '.join(supported_fstypes))
+     rootfs = '%s.%s' % (image_name, fstypes[0])
+ 
+     # Get tmpdir (not really used, just for compatibility)
+-- 
+2.19.2
 
-Anibal
 
-
->
-> Ross
->
-
---00000000000050c347057e7bd7e2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr">On Thu, 15 Nov 2018 at 07:08, Burton, Ross &lt;<a href=3D"=
-mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 23 Oct 2018 at 0=
-1:38, Anibal Limon &lt;<a href=3D"mailto:anibal.limon@linaro.org" target=3D=
-"_blank">anibal.limon@linaro.org</a>&gt; wrote:<br>
-&gt;&gt; &gt; -=C2=A0 =C2=A0 fstypes =3D [fs for fs in d.getVar(&#39;IMAGE_=
-FSTYPES&#39;).split(&#39; &#39;)<br>
-<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 fstypes =3D d.getVar(&#39;IMAGE_FSTYPES&#39;)<=
-br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fstypes =3D [fs for fs in fstype=
-s if fs in supported_fstypes]<br>
-<br>
-That&#39;s the problem, the old code takes IMAGE_FSTYPES and splits it on<b=
-r>
-whitespace, the new code iterates over each *character*<br></blockquote><di=
-v><br></div><div>I sent an old version, sorry for that, sending v3...</div>=
-<div><br></div><div>Anibal</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-Ross<br>
-</blockquote></div></div>
-
---00000000000050c347057e7bd7e2--
