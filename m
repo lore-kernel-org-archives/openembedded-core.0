@@ -1,52 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CFB6BD4E
+	by mail.openembedded.org (Postfix) with ESMTP id 723916C0AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jan 2019 21:24:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id t27so31817205wra.6
+	Wed,  2 Jan 2019 21:31:41 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id l9so31791474wrt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2019 13:24:02 -0800 (PST)
+	Wed, 02 Jan 2019 13:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=MFxTe+h3wh+5YNRvT+OQnfCT38VChBkrPMZIoWkb1N4=;
-	b=aYogx7g/NijW/X2F3/eWObqjpwl9NDHEm6FO83sKqSyAKL2AsRybk6LqV7sXM6ajGu
-	BhsoPwtGuhbAYFV+Z1pdqwOJG6ZCeqU1HOz/WhkDGVqXEkyUhGLK2Ivw3jwd7kofPmXg
-	8VFyCSFRjgf9bZworW6EBJNr7gE0BqoKv97ho=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=KW+zI5D2eo6odYv8cUY/PVNsF7o1Z/NyRgDbojT6Bas=;
+	b=dq+XZ+hlUv49HmpTLliTDGb+jJ8xn7IIBtr2SnxzhnrZczRqbRSIFpZw+Z6ROwwXFg
+	nCOU0lWqsdWmJF1M339Wbo0ReJohsmN3atUlN678yL30Mv6sS5tKqr4y0lRvSQgNCX2B
+	KqRP8rZwYWoMAZmucHOxWJRoURJ/Du8hkj81Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MFxTe+h3wh+5YNRvT+OQnfCT38VChBkrPMZIoWkb1N4=;
-	b=eDquGvv5d9t/QuNX9UVwe0lWnH70VsDjrdealM1Uy3bQUJ2uy67lsvfsXylkYdzY+A
-	Wcljo7sxJOrp36hWF6B83rRljdt1VdHYjHFU9Plrsxj9TmPRTurjrUjUC1pth9lRbsgf
-	MX2nB7OcsyQqWvEp0MX23B5ToaDRa4uUI1R/HlH2WRKu2sjsFVwW9skidRrQ2LydOHVk
-	Tc3rmwtDQXdGb1ooNmoH5E+j34HU+zh9oIc6YePxuoEfAVutbpkRSMbtYt4bqfB1n69z
-	XNMmo9sBDuxqnSk0YFnUmny0A+0sQEvQwJH8bbDG5h4KMgfROVbxoExXNtLqA+yWixOI
-	lMbw==
-X-Gm-Message-State: AJcUukcUZP0tXbWyv8a1qH/lo9FeeqAZaz/1J1zmsJjq/n4jWKZrZzhZ
-	8A4GUiuTCYAjVAemtdfEswIv6g==
-X-Google-Smtp-Source: ALg8bN4QV26TRFvurJ2G+mrbVY/7U0CLx3sHBul7BuRgXthS/B61MckDkKQCTGfuUv7RpepG/4oUqQ==
-X-Received: by 2002:adf:f984:: with SMTP id f4mr39856129wrr.234.1546464241360; 
-	Wed, 02 Jan 2019 13:24:01 -0800 (PST)
+	bh=KW+zI5D2eo6odYv8cUY/PVNsF7o1Z/NyRgDbojT6Bas=;
+	b=pYi8IADWbXD6SA0kimbh5qQrB5jz8tCO5QPbVZBlcqxbwa+JF8AiQscLC72bEe+8gt
+	kCEH5z1pedjcmtlGU1JJmR2QEmoKyiBNdH8Nw7cY7yrx8qXQzJocwlQmmQyAHhIY7KAj
+	pM4pQ4TQ49vNdYgNLI4QuDhI2Ag27FBv6INmPKYXNlVWBkcPg9fieYVqANnaSWNkdrXg
+	uQVeHzrHfQMyAKkBh/xbm2OLYf4zL+pxmz6fMJTGcuFmynwmH2t8yS7bvUDQOVT0bjri
+	KNnMvf01HlOrtSZhyExkgWeGQw9vcBV3ZXASHfdTiJtbnWXocuO97Y/L/dG7qv5XvLJq
+	aUZg==
+X-Gm-Message-State: AJcUukflH3yPdW6oC1Crj6Tru3ybkxdfOEfbyqrVu6uW7gnXelf3R7Ml
+	D4l1ajAmg0rmKhu/+PaKbN2N7Q==
+X-Google-Smtp-Source: ALg8bN78RBxbhiM+tSKfdmhmtcwENSEppHrYWhjja34DTcq+fPTq5uwIDxzF+4zF4/W6VVAz3Ryhow==
+X-Received: by 2002:a5d:5409:: with SMTP id g9mr40324591wrv.88.1546464702142; 
+	Wed, 02 Jan 2019 13:31:42 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	143sm51800482wml.14.2019.01.02.13.24.00
+	by smtp.gmail.com with ESMTPSA id m4sm48380508wmi.3.2019.01.02.13.31.35
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 02 Jan 2019 13:24:00 -0800 (PST)
-Message-ID: <269a8e278b182ff55dc88913edc4848e4d0dc436.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mark Asselstine <mark.asselstine@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 02 Jan 2019 21:23:58 +0000
-In-Reply-To: <25783268.MQFnVprAOB@yow-masselst-lx1>
-References: <1545320094-21504-1-git-send-email-mark.asselstine@windriver.com>
-	<25783268.MQFnVprAOB@yow-masselst-lx1>
+	Wed, 02 Jan 2019 13:31:39 -0800 (PST)
+Message-ID: <a4363be9273e627354f245ec4a2490a216e74c86.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>
+Date: Wed, 02 Jan 2019 21:31:29 +0000
+In-Reply-To: <CAMKF1so9UFQCtP_F8HZdopREaR1rp8poUyeCpr7yZj43xESnxQ@mail.gmail.com>
+References: <20190102192111.33587-1-raj.khem@gmail.com>
+	<CAPbeDCm6H0C=nKk=z_uB+SAP_3fJya5UDJKKGSQq9oA6wVdJAA@mail.gmail.com>
+	<CAMKF1so9UFQCtP_F8HZdopREaR1rp8poUyeCpr7yZj43xESnxQ@mail.gmail.com>
 User-Agent: Evolution 3.30.2-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] man-pages: use alternatives to resolve crypt.3 conflict
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] gdb-cross-canadian: Add bison-native for gdb-cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2019 21:24:00 -0000
+X-List-Received-Date: Wed, 02 Jan 2019 21:31:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-01-02 at 13:39 -0500, Mark Asselstine wrote:
-> On Thursday, December 20, 2018 10:34:54 AM EST Mark Asselstine wrote:
-> > From: mark asselstine <masselst@yow-cube2.wrs.com>
+On Wed, 2019-01-02 at 11:42 -0800, Khem Raj wrote:
+> On Wed, Jan 2, 2019 at 11:32 AM Jacob Kroon <jacob.kroon@gmail.com>
+> wrote:
+> > On Wed, Jan 2, 2019 at 8:21 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > From: pino-kim <sungwon.pino@gmail.com>
+> > > 
+> > > This fixes RISC-V gdb-cross-canadian cross compile configure
+> > > failure on missing bison.
+> > > 
+> > > Signed-off-by: pino-kim <sungwon.pino@gmail.com>
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > index 475e4f08ef..e54766bbb2 100644
+> > > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > @@ -6,7 +6,8 @@ PN = "gdb-cross-canadian-
+> > > ${TRANSLATED_TARGET_ARCH}"
+> > >  BPN = "gdb"
+> > > 
+> > >  DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
+> > > -           virtual/${HOST_PREFIX}gcc-crosssdk
+> > > virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc"
+> > > +           virtual/${HOST_PREFIX}gcc-crosssdk
+> > > virtual/${HOST_PREFIX}binutils-crosssdk \
+> > > +           virtual/nativesdk-libc bison-native"
+> > > 
 > > 
-> > To fix:
-> > 
-> >   Error: Transaction check error:
-> >     file /usr/share/man/man3/crypt.3 conflicts between attempted
-> > installs
-> >     of libcrypt-doc-4.4.1-r0.core2_64 and man-pages-4.16-
-> > r0.core2_64
-> > 
-> > This issue came about after commit 59be9254df9f [libxcrypt: Upgrade
-> > to
-> > 4.4.1 release].
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
+> > Would it make sense to restrict this to DEPENDS_append_riscv32/64 ?
 > 
-> This issue is still persisting. Any reason for this not being picked
-> up yet?
+> Its not particular to riscv, it just happens to unearth the problem
+> for us since its building gdb from upstream
+> master, we are going to land into this problem eventually when we
+> upgrade.
 
-Vacation and being human :)
-
-Its queued in -next, I thought I'd picked it up previously...
+Is this not a tarball verses source control issue (the git version
+needs the dependency, the tarball doesn't)?
 
 Cheers,
 
 Richard
+
+
 
 
