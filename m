@@ -1,47 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A3D96BA81
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C90016BD4E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jan 2019 19:43:23 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id y20so34630101qtm.13
+	Wed,  2 Jan 2019 21:10:30 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r10so31759225wrs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2019 11:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5hqRwQgTT3c9FZRusWBDGQtDPvhkWe883QqxgXE44QY=;
-	b=p/fGZfRg0jxPm6vuvikjsVTDJ45EQMw192g38lTX9eniixjokD/0JNLJEzCuLWcXt7
-	ZJmF0KHGACLaE3zw208ynHBzlhgsoTbtn6oJU8U0bAWkWDUVsDWGZgitw2TT2zbylMnE
-	64TCzbNsBrddoPP4aEJ/PnGdRBga2syMR66b10hEzj+5W8zDd4qxzS1phN7uuhHQGSUm
-	5TYnKB022aRTGBDEN3IybxN9gX7NgdfPj/hKyap0TtnPJbRs9ExI+rZGI3TXg3lGWRUW
-	XLoq4hqUw+2+hGE1/Q2p3b86mnrnz4Ors5Biu11zuiGBqVD86kACUi34DHTZUOTzkIqn
-	X0eA==
+	Wed, 02 Jan 2019 13:10:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Shb89X/7JfcTpUDIlpU0R8miCIEfrQzWz2KQtaA9ocI=;
+	b=T2UPl3BCKVKJ1E7o0CzAh4WdMo3/KzPPP8kZQSmTWaAPTieDNL8JAIop579UZvixZZ
+	uJXScYL6G03WUCzdxQ3uI634L1h1qOLSdMlao7W2t5KZMKLi1HXtKf0qaMqG7SknMBRX
+	oVgc+EzZPgVEg1lCgpym9sZQAmX7nP7lS7czg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=5hqRwQgTT3c9FZRusWBDGQtDPvhkWe883QqxgXE44QY=;
-	b=JErWrDdOW0YcFvpvpc0PjD+lX62D0ds4JOyw4F9o/zVnh6HfSnEDsh2hHUpFRyXLbX
-	IMjtOohRntvPMXzdlmUEJ+VCKzy/ilZ4IgVPxXhNjpdxyP03CuJmWO93uhu/zWazQcqn
-	aUCXKpVPbCGX2e6uQ+vc5Iio5cC7PFiOHl5r6oE/U8TTFdCR+X16Gbg8qnbWL4ZYrpwl
-	I4vfGtuM12wG2HHfgmQzHiYuI/Hp4+MwzY8V6J7eOWWklAscrc0ArmP1tAiBFmdu2Q8Y
-	JYh9F0momRcMJY3aSRxkmQoqIKKaBhztHUhetqJNaaxodNO4aukTTFphFt6e+0yH/jN5
-	FO+w==
-X-Gm-Message-State: AJcUukdLLwNWn9AV9ZTNwvoujwkAnf1XkHBXmuIa8R/aQ0Zv1g7YeE/T
-	d2BwNEfEklqfrOBE2KI3Uwvx69x0Z1m4Q69iR+c=
-X-Google-Smtp-Source: ALg8bN65gfyCJvcavbhayCQT9hwNQLG4EE0IMRITUA78vYWTgXpbnJPrk6cdZwE0L58qtZcBEEn5uM1pB35FQ9kSn3M=
-X-Received: by 2002:a0c:98a1:: with SMTP id f30mr42734068qvd.224.1546458203840;
-	Wed, 02 Jan 2019 11:43:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20190102192111.33587-1-raj.khem@gmail.com>
-	<CAPbeDCm6H0C=nKk=z_uB+SAP_3fJya5UDJKKGSQq9oA6wVdJAA@mail.gmail.com>
-In-Reply-To: <CAPbeDCm6H0C=nKk=z_uB+SAP_3fJya5UDJKKGSQq9oA6wVdJAA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Jan 2019 11:42:57 -0800
-Message-ID: <CAMKF1so9UFQCtP_F8HZdopREaR1rp8poUyeCpr7yZj43xESnxQ@mail.gmail.com>
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] gdb-cross-canadian: Add bison-native for gdb-cross-canadian
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Shb89X/7JfcTpUDIlpU0R8miCIEfrQzWz2KQtaA9ocI=;
+	b=tjNnIvr/P4TIlA39AE85VW+f5pixyWBjQSsVtLVeZ93To3KynAttX77Hq6ONBEWxHK
+	tEMP0n/IOxUBwpmLookWGP7Pk2DG0qhJlx2mtjbMPnct6PlPLhWok6hd5fSyisfh5Lbv
+	TU00OojoNVA2mtZV4Cfgd45RoevKnxxPS1zrs2gYmfD2Ge1aUOgFq487OzkJKhgNYa6Q
+	7WAZqO28/EEVEaMkmuwVHOSEo0+1TKW1D2wNB7b+fUTiccPEU+eZIeL3NKHhKgH7PElE
+	3tUI8MS88CCqcuIECgwgaslOq9Lw9ZhpNiqUCaD4SfMNn9sAFfJcIQWKUgMpqP4oVknW
+	t+Lw==
+X-Gm-Message-State: AJcUukfbSIan3s2U1Wldq689h9ZWCt/PbZcjDJXwcsQTTe4ZHX04PdhZ
+	qWcOFapTmMZqogeFn4t696tEug==
+X-Google-Smtp-Source: ALg8bN5hwCcGAPLx6WiyC/5Y59calZjTbygVlx6PD7KvopbM4L9zWgSuhMM2RZXbAFTgV1WmetOh/g==
+X-Received: by 2002:adf:ee89:: with SMTP id b9mr40836100wro.246.1546463431235; 
+	Wed, 02 Jan 2019 13:10:31 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b129sm27825480wmd.24.2019.01.02.13.10.29
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 02 Jan 2019 13:10:30 -0800 (PST)
+Message-ID: <2901bb5e08ab0951951579651c52b2970066d2f5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: roman.stratiienko@globallogic.com, 
+	openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Date: Wed, 02 Jan 2019 21:10:28 +0000
+In-Reply-To: <20181227123849.5532-2-roman.stratiienko@globallogic.com>
+References: <20181227123849.5532-1-roman.stratiienko@globallogic.com>
+	<20181227123849.5532-2-roman.stratiienko@globallogic.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/2] eglinfo: add wayland receipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2019 19:43:23 -0000
+X-List-Received-Date: Wed, 02 Jan 2019 21:10:31 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 2, 2019 at 11:32 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->
-> On Wed, Jan 2, 2019 at 8:21 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > From: pino-kim <sungwon.pino@gmail.com>
-> >
-> > This fixes RISC-V gdb-cross-canadian cross compile configure failure on missing bison.
-> >
-> > Signed-off-by: pino-kim <sungwon.pino@gmail.com>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > index 475e4f08ef..e54766bbb2 100644
-> > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > @@ -6,7 +6,8 @@ PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-> >  BPN = "gdb"
-> >
-> >  DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
-> > -           virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc"
-> > +           virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk \
-> > +           virtual/nativesdk-libc bison-native"
-> >
->
-> Would it make sense to restrict this to DEPENDS_append_riscv32/64 ?
+On Thu, 2018-12-27 at 14:38 +0200, Roman Stratienko via Openembedded-
+core wrote:
+> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+> 
+> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+> ---
+>  .../eglinfo/eglinfo-wayland_1.0.0.bb                | 13
+> +++++++++++++
+>  1 file changed, 13 insertions(+)
+>  create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-
+> wayland_1.0.0.bb
 
-Its not particular to riscv, it just happens to unearth the problem
-for us since its building gdb from upstream
-master, we are going to land into this problem eventually when we upgrade.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/83
 
->
-> >  GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
-> >
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+2019-01-02 17:48:44,799 - oe-selftest - INFO - ======================================================================
+2019-01-02 17:48:44,799 - oe-selftest - INFO - FAIL: distrodata.Distrodata.test_maintainers (subunit.RemotedTestCase)
+2019-01-02 17:48:44,799 - oe-selftest - INFO - ----------------------------------------------------------------------
+2019-01-02 17:48:44,799 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest/build/meta/lib/oeqa/selftest/cases/distrodata.py", line 82, in test_maintainers
+    """ + "\n".join(['%s (%s)' % i for i in no_maintainer_list]))
+  File "/usr/lib/python3.6/unittest/case.py", line 670, in fail
+    raise self.failureException(msg)
+AssertionError: 
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+eglinfo-wayland (/home/pokybuild/yocto-worker/oe-selftest/build/meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb)
+
+Cheers,
+
+Richard
+
 
