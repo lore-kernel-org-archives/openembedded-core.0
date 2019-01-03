@@ -1,50 +1,49 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
-	[209.85.167.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 76EE1747E7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 23:20:44 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id y11so24283973lfj.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 15:20:45 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BD627BDB1;
+	Thu,  3 Jan 2019 23:21:36 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id c21so4684081qkl.6;
+	Thu, 03 Jan 2019 15:21:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KIQJhGfH6t35MAIKFzbRn69D77lOfho7yDiDxgvJikA=;
-	b=j0sTrQOb4LuGaYMYEbyoGeiQBonR2Y51f/XDwmzF7r15xhogdAxbreIueO/Tkn/1xl
-	8QW/cfZxZyiSOsoKUiSSUOMNVo0lkHKDBxpZMHtGxu9gQHdVqZCb/93WCrjfSOrXnbdb
-	6qUl21JGoq7xXilmXIPE87oyvDNAdcgNXM1D2kHKryJDpE6V8FQAhYUqXUy0UOhM5cQK
-	00XAn2liECZ/WS3Sl7k2cauGdM7cO18AxUoVF7vbIryyGHJuxT88ByeSd9DGv3YUx4Ba
-	6vtr6xhS38orMqZ45Ar/m3RCeIQY2nDfZh1GveEvRv0x+0/6TuXdgltJIc++6EcqUbAT
-	uHSQ==
+	:cc; bh=WvVDdGYiHJOi+gKag2tmLZPxTu1//oH9tpca0/Qg5mY=;
+	b=JEvmigDJRD60CztcyzsjzV150x6gfpwCGgJXa2KsfXLMCLE1Bjfy7ROyUFnyaRll/Y
+	OsDsnG2R5uiqcxNZCy0BoWHNdhpR+90RYGPYp/b/FnNqmQlB8x12gAneAtj6y90Fy04g
+	AT193BoLALcWc2USDEPWBNxsV+AWsK7UxMrYwtXNNXZIJSMP5wh45UC14Cd2lliYFLku
+	yZbJ1Od7TXfUCcp4Up/UO3ovYXw2vxB1M8qaKRhsy7DbgJNijg7Stb7h44o+3acK6u+Y
+	wl6+GCEDxJ/B/7wr2RcQH+0oVsl09OyMLjCzg5kldeg86+krC9uBatnrPPSl5+5nLuvT
+	bscw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KIQJhGfH6t35MAIKFzbRn69D77lOfho7yDiDxgvJikA=;
-	b=hCHwd17bo4+3uqG7xguEhawW45wQxChV7OougaqQRBu7JQqi2A04XTcruGnDt2+A0E
-	iWgBdSL+LA01hFInqVVV/ThW7pOxQNyOrnoAYV4agzlOlxNHlQsdvbHBeRP3Kw2HBucx
-	TqDAr7T1hZwHnGw16wuqaAcGvgIGjKYlF8KLs8GFjm/HJLm/KoIASCWoYZJwwTKAD03U
-	ZurrPdbOmyiyoWks4NFAZaT+Jb/4UwApaUEcB+LRee1jBW1g5GlO1JDBManVIH5hmYQA
-	h9oUuBOAsqNBsF2fq0/dSYnjrrlAB9eAKA56zu8L3JDCTHSYMWajo8WR1eykEdypO76N
-	YrPQ==
-X-Gm-Message-State: AA+aEWacK8PoTZV7PeD/mYgKb8FyNOkmIfmBv424HgYSRp3z9bdn92qX
-	4NgrJJZjFIi2itm9zys2Zc2GPUTchFlXP6SC6Qk=
-X-Google-Smtp-Source: AFSGD/XwVg6S0/QkfLaj3827I4UVM/k7ZQesUciZx7RfQzvVHFpzog5CogSBr/E+2fJ0ZfQm7I8zpF7aMeBqd8R9rpw=
-X-Received: by 2002:a19:2755:: with SMTP id n82mr23012093lfn.94.1546557645009; 
-	Thu, 03 Jan 2019 15:20:45 -0800 (PST)
+	bh=WvVDdGYiHJOi+gKag2tmLZPxTu1//oH9tpca0/Qg5mY=;
+	b=h/llX57/vvjD6l1uaapc+fbfSo2CUApYESqn1BUz61gIvbtsoWqJn2Efk4VdLpR0MF
+	b3oTped1oQUVbSEcdooyrMZXscFYwE8BhEQ96shJ06zcAF/l9Lv6YR741+W6NscsxiDx
+	gcvmnAnryhyjc0c73tOExyJ3qegutR7oPDWThc41ZNEtSwKN4CKXDUycy/7qBO4hMZbR
+	YuNu6mOOhrkW9yORS6O1ZhNt/NvN5m/r3HEtho6DN8/aVo1XRSIeMhpXJcD5aZDcUdss
+	ma4UKYAcUHoYobHdtHUOPs5t4/RyR+FdHmL0V5O/22KVrg69hq7yhVZ2B7P96qQX0xQD
+	3+GQ==
+X-Gm-Message-State: AJcUukeerTAg7PcuPYa1iq1NCaTmUPVIweuYKwzgajqAumI7iXhIf1GS
+	zxpXon24433fCKNESmPSIZlK/FW8+GsFZjHS1HI=
+X-Google-Smtp-Source: ALg8bN6cNwk6kk6xyH1q1UdWzGk4bKWCYWF6bgUSyrGj4Th2Bnr4ebQbxy/04FrtRfWsMUmztKMvxboUP7sYON/D+Rs=
+X-Received: by 2002:a37:4c41:: with SMTP id z62mr45328456qka.206.1546557697105;
+	Thu, 03 Jan 2019 15:21:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20190103223211.23531-1-alistair.francis@wdc.com>
-	<CAMKF1soQ4jSBtSXCZVHDtk6nHcyKTSG9UFK6-vLETxmoSwkeQw@mail.gmail.com>
-	<CAKmqyKN99yaSkjXVMCjt+HFC+QR-N+yJkrjzVTDSwUaZkcsh2A@mail.gmail.com>
-	<CAMKF1srUDMrZ=T_UsSab-k91PVi3oML+L2OXoyfCLPdJKS7=cQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srUDMrZ=T_UsSab-k91PVi3oML+L2OXoyfCLPdJKS7=cQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Jan 2019 15:20:18 -0800
-Message-ID: <CAKmqyKMbyjPycFmdB+a9gbZ4KFxNPaZQJ38DMkC4VQWg6wPQ=A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
+References: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
+	<20190103225915.GB29139@localhost>
+In-Reply-To: <20190103225915.GB29139@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 Jan 2019 15:21:11 -0800
+Message-ID: <CAMKF1sqhDzQL9P1Vaw5Xczo0co_=NcP1-efnzW=tDnJT9cAq_A@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Yocto Project <yocto@yoctoproject.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fts: Bump FTS to version 1.2.7
+Subject: Re: [Openembedded-architecture] Dropping armv5 and armv5e tunes in 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,109 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 23:20:46 -0000
+X-List-Received-Date: Thu, 03 Jan 2019 23:21:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 3, 2019 at 3:15 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On Thu, Jan 3, 2019 at 2:51 PM Alistair Francis <alistair23@gmail.com> wrote:
->>
->> On Thu, Jan 3, 2019 at 2:46 PM Khem Raj <raj.khem@gmail.com> wrote:
->> >
->> > On Thu, Jan 3, 2019 at 2:42 PM Alistair Francis
->> > <Alistair.Francis@wdc.com> wrote:
->> > >
->> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> > > ---
->> > >  meta/recipes-core/fts/fts.bb       | 22 ----------------------
->> > >  meta/recipes-core/fts/fts_1.2.7.bb | 18 ++++++++++++++++++
->> > >  2 files changed, 18 insertions(+), 22 deletions(-)
->> > >  delete mode 100644 meta/recipes-core/fts/fts.bb
->> > >  create mode 100644 meta/recipes-core/fts/fts_1.2.7.bb
->> > >
->> > > diff --git a/meta/recipes-core/fts/fts.bb b/meta/recipes-core/fts/fts.bb
->> > > deleted file mode 100644
->> > > index 02f54086a3..0000000000
->> > > --- a/meta/recipes-core/fts/fts.bb
->> > > +++ /dev/null
->> > > @@ -1,22 +0,0 @@
->> > > -# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
->> > > -# Released under the MIT license (see COPYING.MIT for the terms)
->> > > -
->> >
->> > I am sad you took this out :)
->>
->> Do you want me to keep it in?
->
->
-> Usually yes
+Thanks Adrian
 
-V2 sent!
+On Thu, Jan 3, 2019 at 2:59 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Thu, Jan 03, 2019 at 02:01:42PM -0800, Khem Raj wrote:
+> > Hello All
+> >
+> > You might have noticed a recent commit in gcc trunk
+> >
+> > https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=b232e6b58e3766bc66fe08fdb7bcba1bdadda8a2
+> >
+> > Which removed support for deprecated -march=armv5 and armv5e, this
+> > will be released along with gcc-9 release which is upcoming and we
+> > might be able to add gcc9 to 2.7 release or 2.8 release for sure.
+> >
+> > We still have non-thumb tunes for armv5 and armv4 in our tune pack, I
+> > would like to propose a patch to remove them.
+> >...
+>
+> Note that gcc 9 does *not* remove non-thumb armv4 support.
+>
 
-Alistair
+yes that's right. However, I was taking this time to find out if we can drop all
+the ones besides armv5te even if gcc supported it unless there were OE users
+who are still interested in supporting them and had devices running OE
+which need them
 
->>
->>
->>
->> Alistair
->>
->> >
->> > > -SUMMARY = "POSIX file tree stream operations library"
->> > > -HOMEPAGE = "https://sites.google.com/a/bostic.com/keithbostic"
->> > > -LICENSE = "BSD-3-Clause"
->> > > -LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
->> > > -SECTION = "libs"
->> > > -
->> > > -SRCREV = "944333aed9dc24cfa76cc64bfe70c75d25652753"
->> > > -PV = "1.2+git${SRCPV}"
->> > > -
->> > > -SRC_URI = "git://github.com/voidlinux/musl-fts \
->> > > -"
->> > > -S = "${WORKDIR}/git"
->> > > -
->> > > -inherit autotools pkgconfig
->> > > -#
->> > > -# We will skip parsing for non-musl systems
->> > > -#
->> > > -COMPATIBLE_HOST = ".*-musl.*"
->> > > -
->> > > diff --git a/meta/recipes-core/fts/fts_1.2.7.bb b/meta/recipes-core/fts/fts_1.2.7.bb
->> > > new file mode 100644
->> > > index 0000000000..7ede6550f6
->> > > --- /dev/null
->> > > +++ b/meta/recipes-core/fts/fts_1.2.7.bb
->> > > @@ -0,0 +1,18 @@
->> > > +SUMMARY = "Implementation of ftsfor musl libc packages"
->> > > +HOMEPAGE = "https://github.com/pullmoll/musl-fts"
->> > > +LICENSE = "BSD-3-Clause"
->> > > +LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
->> > > +SECTION = "libs"
->> > > +
->> > > +SRCREV = "0bde52df588e8969879a2cae51c3a4774ec62472"
->> > > +
->> > > +SRC_URI = "git://github.com/pullmoll/musl-fts.git"
->> > > +
->> > > +S = "${WORKDIR}/git"
->> > > +
->> > > +inherit autotools pkgconfig
->> > > +#
->> > > +# We will skip parsing for non-musl systems
->> > > +#
->> > > +COMPATIBLE_HOST = ".*-musl.*"
->> > > +
->> > > --
->> > > 2.19.1
->> > >
->> > > --
->> > > _______________________________________________
->> > > Openembedded-core mailing list
->> > > Openembedded-core@lists.openembedded.org
->> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Non-thumb armv5/armv5e have been removed due to
+> "have no known implementations".
+>
+> Non-thumb armv4 support was deprecated in gcc 6 together with armv2/armv3,
+> but there are still people using recent gcc on StrongARM - which is
+> non-thumb armv4.
+
+OK, that's a fair point, however, in OE's case I only have reports from users
+with armv4t devices, but it we can keep the armv4 arm-only tunes around along
+with the arm-thumb v4 ones
+
+>
+> > Thanks
+> > -Khem
+>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
