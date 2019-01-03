@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A1F006C3B6
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 333556C397
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 07:47:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x037l9ZQ017424
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Jan 2019 23:47:25 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 2 Jan 2019 23:47:20 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Jan 2019 16:05:00 +0800
-Message-ID: <3724890350f65ec18b5906ce28dfdcedc61b1381.1546502650.git.liezhi.yang@windriver.com>
+	Thu,  3 Jan 2019 07:54:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Jan 2019 23:54:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,434,1539673200"; d="scan'208";a="307091593"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga006.fm.intel.com with ESMTP; 02 Jan 2019 23:54:33 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Jan 2019 15:23:12 +0800
+Message-Id: <1546500195-57586-1-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1546502650.git.liezhi.yang@windriver.com>
-References: <cover.1546502650.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/selftest/runqemu: enable kvm when QEMU_USE_KVM is set
+Subject: [PATCH 0/3] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 07:47:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 03 Jan 2019 07:54:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oeqa/selftest/cases/runqemu.py | 5 +++++
- 1 file changed, 5 insertions(+)
+v1:
+  Face key error from oe-git-archive
+  Undesirable behavior when storing to multiple git branch
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 4e35bb9..0b664b4 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -5,6 +5,7 @@
- import re
- import tempfile
- import time
-+import oe.types
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
- from oeqa.core.decorator.oeid import OETestID
-@@ -22,6 +23,10 @@ class RunqemuTests(OESelftestTestCase):
-         self.fstypes = "ext4 iso hddimg wic.vmdk wic.qcow2 wic.vdi"
-         self.cmd_common = "runqemu nographic"
- 
-+        kvm = oe.types.qemu_use_kvm(get_bb_var('QEMU_USE_KVM'), self.machine)
-+        if kvm:
-+            self.cmd_common += " kvm"
-+
-         self.write_config(
- """
- MACHINE = "%s"
+v2: 
+  Include fix for oe-git-archive
+  Include fix for store result to multiple git branch
+  Improve git commit message   
+
+Mazliana (1):
+  scripts/test-case-mgmt: enable manual execution and result creation
+
+Yeoh Ee Peng (2):
+  scripts/oe-git-archive: fix non-existent key referencing error
+  scripts/test-case-mgmt: store test result and reporting
+
+ scripts/lib/testcasemgmt/__init__.py               |   0
+ scripts/lib/testcasemgmt/gitstore.py               | 172 +++++++++++++++++++++
+ scripts/lib/testcasemgmt/manualexecution.py        | 142 +++++++++++++++++
+ scripts/lib/testcasemgmt/report.py                 | 136 ++++++++++++++++
+ scripts/lib/testcasemgmt/store.py                  |  40 +++++
+ .../template/test_report_full_text.txt             |  33 ++++
+ scripts/oe-git-archive                             |  28 +++-
+ scripts/test-case-mgmt                             | 105 +++++++++++++
+ 8 files changed, 650 insertions(+), 6 deletions(-)
+ create mode 100644 scripts/lib/testcasemgmt/__init__.py
+ create mode 100644 scripts/lib/testcasemgmt/gitstore.py
+ create mode 100644 scripts/lib/testcasemgmt/manualexecution.py
+ create mode 100644 scripts/lib/testcasemgmt/report.py
+ create mode 100644 scripts/lib/testcasemgmt/store.py
+ create mode 100644 scripts/lib/testcasemgmt/template/test_report_full_text.txt
+ create mode 100755 scripts/test-case-mgmt
+
 -- 
 2.7.4
 
