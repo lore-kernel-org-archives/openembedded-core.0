@@ -1,52 +1,31 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6178C6E499
+Return-Path: <clemens.lang@bmw-carit.de>
+X-Greylist: delayed 310 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 03 Jan 2019 16:00:59 UTC
+Received: from cit-hm8-mail01.bmw-carit.de (cit-hm8-mail01.bmw-carit.de
+	[212.118.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 51A696D563
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 15:46:58 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id e5so37247439qtr.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 07:46:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=uywQlV9Ar8wPPYEhBo3joxaxVUbmtTLGA6KqljYTAoM=;
-	b=SlOmkFFrJG6JsWQUqy+LBp3jN7/hbBjGO8VyvLfQbCFO7pDoSgZwdSGQILJo6Y7SON
-	sEqrOTYZZD+fcDCIf+GnBXUvpuhARpAI0pst1rD8t7jDBxcUzmxh1xp+RyeeP540HXL2
-	iPwj+4bx5Dlbx/Oq3DkDXT1pYbriMr1lXq36o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=uywQlV9Ar8wPPYEhBo3joxaxVUbmtTLGA6KqljYTAoM=;
-	b=A1OaM5psio6MEt1c1wcH5/kqheC/V9b2mskTwMW6yC/+2S249H2hAhEFlNiWYeqgWV
-	yj/9d28cKbkjGz2GQBWhaCvKlZFbx0aZR8w5UnvjD2y0paTmOMmca7A0kGXNfTp+1kki
-	gISMrmc6qiiNW4qsMQnd+p5NwWZerSjj+JMZDgQFUHRtWZWlbR8n5ZxUFI59TBjFyTJz
-	9nFsBdbqy8OaLsepSrDCNPXEkAw0V5bt+SdKY4b5jwy8SG8DG8bu0zAPr/o0pwiZp1JY
-	3md5wa80MvHVL1f3+HdIE15HLCiRVOe8gAQmYkQR3x3zd+zbIHFQXzUFlEdOsAEYHART
-	bMNw==
-X-Gm-Message-State: AJcUukd1Q1MCv8qoPSSnJ9OEn3Fr1K3ctuFB5wGG6aTaeMYN100Chcx7
-	A4P1fY2p3tmBDY61jftxQT9UNg==
-X-Google-Smtp-Source: ALg8bN4oRJUvC+AXQcta9vZrQwOICB4SKYgpEHvmrnbmF5dDPTDynNoZ9g5ZPlTUiKRSf9tC81NMOQ==
-X-Received: by 2002:a0c:d792:: with SMTP id z18mr47698549qvi.183.1546530419059;
-	Thu, 03 Jan 2019 07:46:59 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-82A1-8CC9-CD5F-C65E-833E.dyn6.twc.com.
-	[2606:a000:1401:82a1:8cc9:cd5f:c65e:833e])
-	by smtp.gmail.com with ESMTPSA id
-	r1sm29059979qte.28.2019.01.03.07.46.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Jan 2019 07:46:58 -0800 (PST)
-Date: Thu, 3 Jan 2019 10:46:56 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-Message-ID: <20190103154656.GP16433@bill-the-cat>
-References: <1546408097-27055-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	Thu,  3 Jan 2019 16:00:59 +0000 (UTC)
+Received: from [10.40.100.13] (port=7157 helo=exchange.bmw-carit.de)
+	by cit-hm8-mail01.bmw-carit.de with esmtps (TLSv1.2:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
+	id 1gf5LT-0006F0-1g for openembedded-core@lists.openembedded.org;
+	Thu, 03 Jan 2019 16:55:43 +0100
+Received: from clang-buildvm.bmw-carit.intra (172.20.20.106) by
+	CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) with Microsoft SMTP Server
+	(TLS) id 15.0.1178.4; Thu, 3 Jan 2019 16:55:43 +0100
+X-CTCH-RefID: str=0001.0A0C020D.5C2E307F.0066, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+From: Clemens Lang <clemens.lang@bmw-carit.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Jan 2019 16:55:29 +0100
+Message-ID: <20190103155529.11335-1-clemens.lang@bmw-carit.de>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-In-Reply-To: <1546408097-27055-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot.inc: Support menuconfig for u-boot
+X-Originating-IP: [172.20.20.106]
+X-ClientProxiedBy: CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) To
+	CIT-HM8-EX01.bmw-carit.intra (10.40.100.13)
+Subject: [PATCH] update-alternatives.bbclass: Stabilize iteration order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +38,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 15:46:58 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Jan 2019 16:00:59 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Jan 01, 2019 at 09:48:17PM -0800, Manjukumar Matha wrote:
+The use of a dictionary for link_rename causes problems for higher-order
+alternatives, i.e. when an alternative link points to another
+alternative link, since these links must be processed in the order in
+which they were originally added for symlink correction to work.
 
-> u-boot mainline supports menuconfig, this patch enables menuconfig for
-> u-boot using cml1.
-> 
-> u-boot recipe in OE-core handles multi configuration of u-boot using
-> UBOOT_CONFIG. Since we cannot determine on which u-boot config the
-> menuconfig should run, the patch limits when UBOOT_CONFIG is not
-> defined.
-> 
-> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+Switch from a dict to a list of tuples to ensure processing happens in
+the original order.
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
+---
+ meta/classes/update-alternatives.bbclass | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index ee66379933..1362274d4d 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -148,7 +148,7 @@ def apply_update_alternative_renames(d):
+     pkgdest = d.getVar('PKGD')
+     for pkg in (d.getVar('PACKAGES') or "").split():
+         # If the src == dest, we know we need to rename the dest by appending ${BPN}
+-        link_rename = {}
++        link_rename = []
+         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
+             if not alt_link:
+@@ -174,7 +174,7 @@ def apply_update_alternative_renames(d):
+                 elif os.path.lexists(src):
+                     if os.path.islink(src):
+                         # Delay rename of links
+-                        link_rename[alt_target] = alt_target_rename
++                        link_rename.append((alt_target, alt_target_rename))
+                     else:
+                         bb.note('%s: Rename %s -> %s' % (pn, alt_target, alt_target_rename))
+                         os.rename(src, dest)
+@@ -185,22 +185,21 @@ def apply_update_alternative_renames(d):
+ 
+         # Process delayed link names
+         # Do these after other renames so we can correct broken links
+-        for alt_target in link_rename:
++        for (alt_target, alt_target_rename) in link_rename:
+             src = '%s/%s' % (pkgdest, alt_target)
+-            dest = '%s/%s' % (pkgdest, link_rename[alt_target])
+-            link = os.readlink(src)
++            dest = '%s/%s' % (pkgdest, alt_target_rename)
+             link_target = oe.path.realpath(src, pkgdest, True)
+ 
+             if os.path.lexists(link_target):
+                 # Ok, the link_target exists, we can rename
+-                bb.note('%s: Rename (link) %s -> %s' % (pn, alt_target, link_rename[alt_target]))
++                bb.note('%s: Rename (link) %s -> %s' % (pn, alt_target, alt_target_rename))
+                 os.rename(src, dest)
+             else:
+                 # Try to resolve the broken link to link.${BPN}
+                 link_maybe = '%s.%s' % (os.readlink(src), pn)
+                 if os.path.lexists(os.path.join(os.path.dirname(src), link_maybe)):
+                     # Ok, the renamed link target exists.. create a new link, and remove the original
+-                    bb.note('%s: Creating new link %s -> %s' % (pn, link_rename[alt_target], link_maybe))
++                    bb.note('%s: Creating new link %s -> %s' % (pn, alt_target_rename, link_maybe))
+                     os.symlink(link_maybe, dest)
+                     os.unlink(src)
+                 else:
 -- 
-Tom
+2.19.2
+
 
