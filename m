@@ -1,52 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D3ADF6D728
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 17:49:08 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id r24so35290151wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 09:49:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=f9uZ3xc+ywE3ILGpPkjXE1PtapdL7z2ipeCwZXbtZP4=;
-	b=LYcpu90yvG+g4erJdTyQ78tvFcIM4FsngFg0s2ctkNPtrv6jiWgUop5DMkLvmUmk21
-	FKgTf9N2Ox3LVE4wNCFdankrXOBLgWIxwPeBbq3t+lTqbWuTgjnWb8u1kbw/MIR+cGCz
-	6ifNlg5JfOcPVHM0OgcATRnWPZkOoIu4vwdTA=
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 246AA79F39;
+	Thu,  3 Jan 2019 22:02:07 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id k12so38532106qtf.7;
+	Thu, 03 Jan 2019 14:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=UKC7/hVLoLid7jbPTHjVBXuZIAPTIr5FMrfog+UcSt8=;
+	b=m0aAN0pVeNQpKfkwLaqTGHhw+GvYvnswtlBvCrMvjK/ldcNuwvmSYp8lPkJ4CHAEOQ
+	dkrHNulTTMLr15scyH7BlUdoIyYeNEBp350gw2GTrM8Zkvn/K8ZGnGYxaZTL1B32HBoj
+	UcWo2DbNEoRKZRV+6bEWvCPVxwBr8IR/W3sN+8iJpc55bKJkqVKw9zp+OEnSE9FlhxlE
+	op5nyR973KUSTDnbVVJN9mVMpFzujVJurOcWVNA43XebQ6rrg5OptLF0EDsnfAHPSTNr
+	onnBgV5CIkrOJ9djtbosHEQsqQuXMlVGxyAxdDgEQsS5+95K931PUaHrPLA5RC9NZ2ks
+	6ikQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=f9uZ3xc+ywE3ILGpPkjXE1PtapdL7z2ipeCwZXbtZP4=;
-	b=AMxSK2c3tn703zxQb7TTUkJnrOIXr8ZYYHY/Mtv4gfGOTbrhOKhhczsDrc1e2YcZiM
-	sQODLek4nviyiGPFiFgN54fYMW61nl2naIiHq04pP8l8+lzaMJEeaNhcf0LoUukmeZbE
-	4E5Tqnaitt/aAH0EAhyJq+WbJOCAeGd10UXIjb7UxuvznYT2VpzX9xbkz2kFrKmBWquB
-	aLMrEUKMe6v/QSoPyZpDS+2pSf0ZLEn9DDKw8kRsewMVlCQjzSoCB95oVxJgl9FVTcZm
-	B2/pO5AMVp81JemyPdEXZQp/dyEFRMoqVPM9m5+VMwruEpPpAqUc3pNlxVRsMS5GCrrw
-	Y2cQ==
-X-Gm-Message-State: AA+aEWaDieU7BLJUm26986hZzqYcZr1BueQOUBlWbnO1fPuPMcp69iBa
-	fGcWvUT6BTKgw48SZxn14vTULQ==
-X-Google-Smtp-Source: ALg8bN48lvUbmCX0MarqxTl/NOJ3ZKONQRTuAe4n6kS9TbE6vRscbYBtf3CQsWAQN2VVVe6y5+rR3g==
-X-Received: by 2002:a1c:bd86:: with SMTP id n128mr38374018wmf.22.1546537749227;
-	Thu, 03 Jan 2019 09:49:09 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c8sm37609210wrx.42.2019.01.03.09.49.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 03 Jan 2019 09:49:08 -0800 (PST)
-Message-ID: <1a4c8e17282847375def4206dda77101598a1794.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 03 Jan 2019 17:49:07 +0000
-In-Reply-To: <20181220154043.7860-3-ross.burton@intel.com>
-References: <20181220154043.7860-1-ross.burton@intel.com>
-	<20181220154043.7860-3-ross.burton@intel.com>
-User-Agent: Evolution 3.30.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 3/3] oeqa/sdk: add test to exercise Meson
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=UKC7/hVLoLid7jbPTHjVBXuZIAPTIr5FMrfog+UcSt8=;
+	b=Cs7nr8DgpZnU34j4SZdutF5M13jP5g0U0QUyGGkzpguXx3BEGYUesIOuw9HD87wfeG
+	hXZvH+omITi1CByPblbFANfkLYV7pPOE4fGjFcWHYU1iDU+TF1bcgHYns8FX5xy41btB
+	YB1MIJFNjLTcaUohXerlFh2+l3GVxoKNC6D+7PE4zzKm2UaMoI6ehYkIHxyZxeuzJafx
+	pI2yo4X2P3j4+DJoMT38RvceXy69emQrkgmKotasjvAH3koHTwQIW/t4PdK6EspOnaFA
+	Cg3VQ30vS8XFBWfvNimPsTY+OffIa+7AviIe83AQeYKl0ymKAb90PrOMjCr9KxkZXiMP
+	BGsw==
+X-Gm-Message-State: AJcUukdZ6/u33D1eoJKgyAVtvWxIwBwRHwgsKpdOLlEHFIErtusBlqD3
+	uXEcxJ8ylYwlgXHzstTNZjWWq8og6NfzEK8SJpg64O/ah9k=
+X-Google-Smtp-Source: AFSGD/XSBMxKhwDeUeDNgwCmpwRfiNfdccDGwTQ4a3InB+3dktQE5vFCJvcNZpRMPirGW3gZwsvmJCsxDk6Y6XF5i+w=
+X-Received: by 2002:aed:3eac:: with SMTP id n41mr47642289qtf.196.1546552928200;
+	Thu, 03 Jan 2019 14:02:08 -0800 (PST)
+MIME-Version: 1.0
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 Jan 2019 14:01:42 -0800
+Message-ID: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>, 
+	Yocto Project <yocto@yoctoproject.org>, 
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Dropping armv5 and armv5e tunes in 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +51,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 17:49:09 -0000
+X-List-Received-Date: Thu, 03 Jan 2019 22:02:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-12-20 at 15:40 +0000, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/lib/oeqa/sdk/cases/buildepoxy.py | 36
-> +++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 meta/lib/oeqa/sdk/cases/buildepoxy.py
+Hello All
 
-Fails on the autobuilder sadly:
+You might have noticed a recent commit in gcc trunk
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/84
+https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=b232e6b58e3766bc66fe08fdb7bcba1bdadda8a2
 
-Cheers,
+Which removed support for deprecated -march=armv5 and armv5e, this
+will be released along with gcc-9 release which is upcoming and we
+might be able to add gcc9 to 2.7 release or 2.8 release for sure.
 
-Richard
+We still have non-thumb tunes for armv5 and armv4 in our tune pack, I
+would like to propose a patch to remove them.
 
+Secondly, I would also like to drop armv4t, and keep armv5te as lowest
+supported tune, I know some of us do have machines using armv4t, if
+you still maintain them and have need to keep armv4t going, please
+chime into this thread.
+
+I have also already posted a related patch here
+
+https://patchwork.openembedded.org/patch/157529/
+
+which uses 't' variants for -mtune explicitly for armv4 and armv5 tunes.
+
+I will prepare patches if there is agreement here, and a no reply is
+deemed to be 'yes' :)
+
+Thanks
+-Khem
 
