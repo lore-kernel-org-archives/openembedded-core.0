@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 776B96C463
+Return-Path: <roman.stratiienko@globallogic.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B7972EB7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 13:33:53 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id r200so26963049iod.11
+	Thu,  3 Jan 2019 13:38:06 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id i26so23208358lfc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 05:33:54 -0800 (PST)
+	Thu, 03 Jan 2019 05:38:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=neQn1jtAvoM9DoJp/ZGoSYsdJu/HkTgP2TvbC1TTt2o=;
-	b=OYQyJtuVRNlelqvN9Cqk+XSR28n7kWd3T6TtG71piNYQ9f0n0potF5aJdWnPzuzfQz
-	McxRzB5JFl6IMMC4L2gXnkV+O7TKU3KV436SLdbm10ymQ/kyRVHarc0/Btgynr92Kb8D
-	yFwqRPGS4ukVLVLr71beMFAByu46wgN4aHCbGqgyNZYlFPMRGN+DpVMEYOGxXDo2FYtL
-	WJvanP4Z1XdVLagLSZH1T5wJopms2uZotvtEa0zFnfZjoKG63xG1QFgPkP0yMGGRwcFA
-	UJ/HkF0BT76eUXaJdTdvumSpW8V9lltkUHYkOdwklFNgHh73G5G10B8aZJWaVXThTmaB
-	nBfA==
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=B7CR3KxoSqyLvbli3cktuOPXr5ycVAbfGWVnwArHbaI=;
+	b=T9ha5nFCqXZAJm+jei1jrgQ8hdppuJPkyo3eAaXE8uxKW9D19DCZqbYRo605aCI+Pa
+	kRLVK3Cl79hN7EJ9YkZVssIqlVeUynZWYD5Qzs0b8k8oGdVAalW5vt69Zx7nW3e1TbrL
+	m5aocr+wA0WYG/p+31SqpUA8Lr+6Xp1ZM5bdc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=neQn1jtAvoM9DoJp/ZGoSYsdJu/HkTgP2TvbC1TTt2o=;
-	b=c/z60acIIzPRgdXswcgZ1pqcVAE8vxGljPt5MVfnXnnxv5f3dXxPnh33kr31lYC7+5
-	Ld8c9U03nlTz8DeH9DkP4IignRd0vszhLD7YHShW2yw05+uPBgGMLJn/t8OGvX2q1/Ps
-	ykiBEqZSfzUsDgwLU4NrGfDHVFWFSa2q/Shn9UPeX+KNXxLLfDeMzYjmnW6HFzdFu25X
-	APMBJsszSw/MAijwUfHx/94528x+zdriiREE8DVvvENPZutByzegi/m3Oa70WzJrFDNP
-	pv66RClsoshtRVM+EgrH5BVm+nYrGUN997eBWKQb9za0p4Aeq7KwwPSHmjgnaBXzwIVz
-	6ORA==
-X-Gm-Message-State: AJcUukegSQTMFzi/Cy7FcPJcM/WG/MZ0eXosuGPr0p+oRXiCxSbcVVRl
-	T3oW1geyrfKda8ttAx35obBswxU2mDKMuOo0xT5eNQ==
-X-Google-Smtp-Source: ALg8bN5+bq6SzLkIWVnGN7o/SpGZGleafrzrc1lzuJIiAbOSuJgN024caYf39mpP0juH+fO16mIPoAI1FwwEQVF/8/c=
-X-Received: by 2002:a6b:acc5:: with SMTP id v188mr31771896ioe.20.1546522434566;
-	Thu, 03 Jan 2019 05:33:54 -0800 (PST)
-MIME-Version: 1.0
-References: <321cb5cd28684311ba3f3c0dba168baf@svr-ies-mbx-01.mgc.mentorg.com>
-In-Reply-To: <321cb5cd28684311ba3f3c0dba168baf@svr-ies-mbx-01.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Jan 2019 13:33:43 +0000
-Message-ID: <CAJTo0LZq7oWLQZJ2wv+3BeJRJL+vYjNCwvqDyAe5fbMHYntuOg@mail.gmail.com>
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: ovmf fails when python sqlite module is not installed on host
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=B7CR3KxoSqyLvbli3cktuOPXr5ycVAbfGWVnwArHbaI=;
+	b=A+GdQK397pV/RoawlT9dApwYtxFfUptoNlCdMs6XtjgBxbQzAgqHgXJpsol26hVkDy
+	c/ZgGqe1j7I+6XZzWiqkqjoPooPtBTiADnx+TO99yRA83gqnx3pTlQmD3O79C+MOvkCF
+	+28RbmXLgOx+ylTRLmTn1CKGAWERrXLUtCXgXXKtAbPuDSOyxHW3AYoTKhkCKdNGYlv1
+	dsxvsvTfS31poX4+r8QSlOUCYKBY25AxdDN5Lys9W246ufbW4+EDgMhDEqKaT9uJGfc1
+	eQq0da8lKpqY//XNTUZmV9vGI2tEK/SFIUA+Dq1HFN/hRB7Dnzj0EG2UsMbrsmYta9MF
+	Q8eQ==
+X-Gm-Message-State: AJcUukclBvreuDWRvFkZmWenadGSQwYepYsMx4HDc5YTnQimoKr/F0JP
+	ECDSbwVQygkVR2VPNwxSas5deXyaITZJFg==
+X-Google-Smtp-Source: ALg8bN4ckCrGK30sjIkr+zqqoiM9QipdeDQGEhS/8GyKpwHSGicUv6/ku0eKi/4riPYwbXy8ce+31A==
+X-Received: by 2002:a19:c413:: with SMTP id u19mr16931708lff.100.1546522686522;
+	Thu, 03 Jan 2019 05:38:06 -0800 (PST)
+Received: from roman-VirtualBox.synapse.com ([195.238.92.107])
+	by smtp.gmail.com with ESMTPSA id
+	q10-v6sm8177519ljj.3.2019.01.03.05.38.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Jan 2019 05:38:05 -0800 (PST)
+From: roman.stratiienko@globallogic.com
+To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
+	alex.kanavin@gmail.com
+Date: Thu,  3 Jan 2019 15:37:56 +0200
+Message-Id: <20190103133756.13355-2-roman.stratiienko@globallogic.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2 2/2] eglinfo: add wayland receipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 13:33:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Jan 2019 13:38:06 -0000
 
-On Fri, 28 Dec 2018 at 13:07, Ahsan, Noor <Noor_Ahsan@mentor.com> wrote:
-> While building ovmf recipe I faced one issue regarding sqlite python modu=
-le. The recipe is trying to access host python packages in order to build i=
-t. On my system I had multiple puthon version installed and the one which O=
-vmf was picking did not had sqlite module installed so I got this error
+From: Roman Stratiienko <roman.stratiienko@globallogic.com>
 
-sqlite3 is part of the standard library, so what host distro are you
-using where this isn't installed?
+Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+---
+Changes since version 1:
+Added maintainer for egl info-wayland recipe
+ meta/conf/distro/include/maintainers.inc            |  1 +
+ .../eglinfo/eglinfo-wayland_1.0.0.bb                | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb
 
-Ross
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 8e6648d0f8..8d6eb1afc0 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -163,6 +163,7 @@ RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb
+new file mode 100644
+index 0000000000..87a131aa7b
+--- /dev/null
++++ b/meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb
+@@ -0,0 +1,13 @@
++EGLINFO_PLATFORM ?= "wayland"
++EGLINFO_BINARY_NAME ?= "eglinfo-wayland"
++
++require eglinfo.inc
++
++DEPENDS += "wayland"
++
++inherit distro_features_check
++
++# depends on wayland
++REQUIRED_DISTRO_FEATURES += "wayland"
++
++SUMMARY += "(Wayland version)"
+-- 
+2.17.1
+
 
