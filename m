@@ -1,47 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A096879F4C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DEE7279F78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 22:33:10 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id e5so38564426qtr.12
+	Thu,  3 Jan 2019 22:33:16 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id f188so31623904wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 14:33:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oB84FKMcPYS4od/fwq9iFHB/HiU3E6pr+ajzQntsJgM=;
-	b=S6CVhmZE9PryD2h6Ryvlh9RyzOTDA4vx9M0VR7nlviQ429v0nuhbcs2yt6YzTxT0dS
-	+cjNDnSyxi0a0mi4Ad1CjL33Kj9iVwY30CAcXhVvz13tQNdeyipCb5detljyDEQrKGFo
-	QJDVX34FEFTvMDzvpNd0JNhyW8MDleFhTfYIK6DXBdr+AbMfQHue8SmUXZ+VhGFBC8hk
-	ivWfeL1FIkOx9YsKzcJhIuuGRAxI4zBqtcRN7knF6wh7SvyEZizZOew6c60iTwVO6OVX
-	xoNyePQqJngiNGSXRvuThV9dcjUzJoOqeJ82MR+wosVjwNSTMmFauvDSkAWZwtulPii2
-	kqjA==
+	Thu, 03 Jan 2019 14:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=bscMHiu/70iTqG9z7Rr/sFgt31x+AJUpZN3GDVswwTk=;
+	b=O11bHEgA+WlyBNeGXbVMvDjbGPAXusv+dD6afVBe15bN8lKCkn3IDKEOb9qvd46qae
+	GJjmoFLkaaIssG0FBxiimCcy96PoTgGiWs8OdaIcRne+FO1HRKzug6/QiFddHbsFFW9l
+	wNldNfeAK+WVZ7xKealNavv0ymRDK2W7x7ico=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oB84FKMcPYS4od/fwq9iFHB/HiU3E6pr+ajzQntsJgM=;
-	b=To/cVCQRMjWnaLvZ6G8yWhydwhXlyRKVfnpf3kVatSzyIUIZl24X179OsQwLRegCTq
-	KtFCDYcROv76r2LSzSAWEBGnwc+fSl9Tpdf672tz5cfxO7MH2c7zOPAuhrApkm2kz9kZ
-	1p60MJePVs4UJFJn34INUulsc1GHKJV5BMEsSAiv/9Qyjxq7ckTAzIomX5dKsKn0ks/y
-	I6bB3991gPgdJTJMRwLkw+B8ZVRv4VWhjUr4vgOYYUqjpzsniI5GCJ+c52PhMIi7fNsv
-	2aFEc9uhtkGMV+LJHb9vUuK9bupR32vVSeY8akPOdOjRDIH+gpEOJDM1fObm1kykyf/o
-	pEfw==
-X-Gm-Message-State: AJcUukc5oul7yYU8wJRnhhiZWePnUl2rq3bwaGjru0Hb+x73cSUwIEXz
-	LyDgNqVZTKeqX1qEc7dcwLo9SwqjiIyci+xxo7w=
-X-Google-Smtp-Source: AFSGD/V5IKMJTiqZmyLy0mdiXCtofoVF9+UMs4GoAcV+mBEuHRK2U/tXWv3KwDplf07gdNUT6mWcOHj6nw+iTNsyTDM=
-X-Received: by 2002:aed:3a22:: with SMTP id n31mr48336340qte.29.1546554791354; 
-	Thu, 03 Jan 2019 14:33:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20190103223016.17799-1-alistair.francis@wdc.com>
-In-Reply-To: <20190103223016.17799-1-alistair.francis@wdc.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 3 Jan 2019 14:32:45 -0800
-Message-ID: <CAMKF1sqHkyX6dvC6WWZW-LtDthFDCvFEfd5VP2d1STSeamx+EQ@mail.gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] swig: Fix the build
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bscMHiu/70iTqG9z7Rr/sFgt31x+AJUpZN3GDVswwTk=;
+	b=gUefl14EtDpVtjKmWX2uZPdiy+LPjNILpvELTVAQgpBKufmW5t6u4wUn/NY/8lf2z5
+	cNGWKwMysco0f2wkfBJtbj6J+P4Is5Gr1NoW6C6c0zR8qXTtZUE1RENq2dwDS/pB6VZi
+	ygA3AO4SPAnLjGNPozJnxL8mdnDUaRPI1dQ875ZptaiQomBXyYJBGCRcNRhPsQqEUQoL
+	xGQTHdifPAp7Yw0tDWQsL32IldeX4KwNGE/Fn7F6dlFMQsYuYeqSH8GqZLTkY/8nwJwV
+	jpBT1eq9buZk7mELe/v/B5rMCFROYfEM2gRzLBstD60dPImbJXbJhedIcVw51WvxRAdi
+	U8Ng==
+X-Gm-Message-State: AJcUukdtzaFDPtXCzpsb1xsSode2LMEGs5O24gUKtlBIW1161O3WsznI
+	bA9OpNOfFSMtjpQ1QQMJ7YYh9Q==
+X-Google-Smtp-Source: AFSGD/UjQsNh8tRBWMaFwNE1z0neNmoGxgb96ot+tBQ//yXPiV7wK+CoyvlW6tGoK9LyiUGnuKjU/Q==
+X-Received: by 2002:a1c:4301:: with SMTP id q1mr38630295wma.44.1546554797560; 
+	Thu, 03 Jan 2019 14:33:17 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d4sm53390840wrp.89.2019.01.03.14.33.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 03 Jan 2019 14:33:16 -0800 (PST)
+Message-ID: <73fe35aa5d0da46e8d88d4ca5e4371654adcbb0f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Jan 2019 22:33:16 +0000
+In-Reply-To: <326e95f58fdba6db0602999725580a837eed549a.1546502650.git.liezhi.yang@windriver.com>
+References: <cover.1546502650.git.liezhi.yang@windriver.com>
+	<326e95f58fdba6db0602999725580a837eed549a.1546502650.git.liezhi.yang@windriver.com>
+User-Agent: Evolution 3.30.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] oeqa: Fix for QEMU_USE_KVM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +59,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 22:33:10 -0000
+X-List-Received-Date: Thu, 03 Jan 2019 22:33:17 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 3, 2019 at 2:30 PM Alistair Francis
-<Alistair.Francis@wdc.com> wrote:
->
-> Fix the swig build by calling autogen.sh before running configure.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Thu, 2019-01-03 at 16:04 +0800, Robert Yang wrote:
+> Fixed:
+> MACHINE = "qemux86"
+> QEMU_USE_KVM = "qemux86"
+> IMAGE_CLASSES += "testimage"
+> 
+> $ oe-selftest -r runqemu.RunqemuTests.test_boot_rootfs
+> 
+> [snip]
+>   File "/buildarea1/lyang1/poky/meta/lib/oe/types.py", line 122, in
+> boolean
+>     raise ValueError("Invalid boolean value '%s'" % value)
+> ValueError: Invalid boolean value 'qemux86'
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  meta/recipes-devtools/swig/swig.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
-> index aec544997f..49da68c544 100644
-> --- a/meta/recipes-devtools/swig/swig.inc
-> +++ b/meta/recipes-devtools/swig/swig.inc
-> @@ -11,7 +11,7 @@ DEPENDS = "libpcre"
->
->  SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
->
-> -inherit autotools python3native pkgconfig
-> +inherit autotools-brokensep python3native pkgconfig
+>  meta/classes/testimage.bbclass |  8 +-------
+>  meta/lib/oe/types.py           | 18 ++++++++++++++++++
+>  meta/lib/oeqa/targetcontrol.py |  8 +-------
+>  3 files changed, 20 insertions(+), 14 deletions(-)
+> 
+> diff --git a/meta/classes/testimage.bbclass
+> b/meta/classes/testimage.bbclass
+> index e8fa4a3..82aef9f 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -230,13 +230,7 @@ def testimage_main(d):
+>      boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT"))
+>  
+>      # Get use_kvm
+> -    qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+> -    if qemu_use_kvm and \
+> -       (d.getVar('MACHINE') in qemu_use_kvm.split() or \
+> -        oe.types.boolean(qemu_use_kvm) and 'x86' in machine):
+> -        kvm = True
+> -    else:
+> -        kvm = False
+> +    kvm = oe.types.qemu_use_kvm(d.getVar('QEMU_USE_KVM'),
+> d.getVar('MACHINE'))
+>  
+>      slirp = False
+>      if d.getVar("QEMU_USE_SLIRP"):
+> diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
+> index f401713..a153f2c 100644
+> --- a/meta/lib/oe/types.py
+> +++ b/meta/lib/oe/types.py
+> @@ -156,3 +156,21 @@ def path(value, relativeto='', normalize='true',
+> mustexist='false'):
+>                  raise ValueError("{0}: {1}".format(value,
+> os.strerror(errno.ENOENT)))
+>  
+>      return value
+> +
+> +def qemu_use_kvm(kvm, machine):
+> +    """
+> +    kvm can be:
+> +    - bool: 0, yes, ...
+> +    - MACHINEs: qemux86 qemux86-64 ...
+> +    """
+> +    use_kvm = False
+> +    if kvm:
+> +        kvm_boolean = False
+> +        try:
+> +            kvm_boolean = boolean(kvm)
+> +        except ValueError:
+> +            pass
+> +        if (kvm_boolean and "x86" in machine) or (machine in
+> kvm.split()):
+> +            use_kvm = True
+> +    return use_kvm
+> +
+> diff --git a/meta/lib/oeqa/targetcontrol.py
+> b/meta/lib/oeqa/targetcontrol.py
+> index 59a9c35..980d6a2 100644
+> --- a/meta/lib/oeqa/targetcontrol.py
+> +++ b/meta/lib/oeqa/targetcontrol.py
+> @@ -107,13 +107,7 @@ class QemuTarget(BaseTarget):
+>          dump_target_cmds = d.getVar("testimage_dump_target")
+>          dump_host_cmds = d.getVar("testimage_dump_host")
+>          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+> -        qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+> -        if qemu_use_kvm and \
+> -           (oe.types.boolean(qemu_use_kvm) and "x86" in
+> d.getVar("MACHINE") or \
+> -            d.getVar("MACHINE") in qemu_use_kvm.split()):
+> -            use_kvm = True
+> -        else:
+> -            use_kvm = False
+> +        use_kvm = oe.types.qemu_use_kvm(d.getVar('QEMU_USE_KVM'),
+> d.getVar('MACHINE'))
+>  
+>          # Log QemuRunner log output to a file
+>          import oe.path
 
-this seems to be going backwards.
 
->
->  EXTRA_OECONF = " \
->      --with-python3=${PYTHON} \
-> @@ -45,6 +45,7 @@ do_configure() {
->      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/Tools/config
->      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
->      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
-> +    ./autogen.sh
+There have been a few patches related to this floating around. I'd like
+to fix this once and for all but we don't have a patch which quite gets
+this to where it needs to be.
 
-may be just (cd ${S} && ./autogen.sh)
+I'd suggest we:
 
->      oe_runconf
->  }
->
-> --
-> 2.19.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+a) drop the approach of having MACHINE in the variable and simply have
+it either set to enabled or disabled
+
+b) only enable KVM if the target arch matches the host arch
+
+
+For b) I'd like to cover the case where qemuarm64 is being run on an
+aarch64 server.
+
+This way we'd automatically enable KVM where the arch matches rather
+than needing to code it for each MACHINE.
+
+Does that make sense?
+
+Cheers,
+
+Richard
+
+
+
 
