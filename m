@@ -1,133 +1,46 @@
-Return-Path: <MANJUKUM@xilinx.com>
-X-Greylist: delayed 72640 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 03 Jan 2019 13:04:39 UTC
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-eopbgr780082.outbound.protection.outlook.com [40.107.78.82])
-	by mail.openembedded.org (Postfix) with ESMTP id AF69B71A74
+Return-Path: <roman.stratiienko@globallogic.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+	[209.85.167.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C6EBD74583
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 13:04:39 +0000 (UTC)
+	Thu,  3 Jan 2019 13:24:41 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id u18so23142635lff.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Jan 2019 05:24:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=0dZzSfVrwCpwTNwM6QOJ8LJ2GtAnRDSabkzoSInAcuk=;
-	b=p8//WhBpAVofXVdjivboOFE1NBArTeTBqUNBQMHn9osRujAdVB2AllLK0PxEW7W8qj46+7ztnIu7PygucIbLAGNHeZz6ej9R94bz/xWiHZTI4zMorUz624rKSUa0orTYjltzavngc3wxnRupX1eKuaGVfZP8ki8MbZ4brq0G26M=
-Received: from SN6PR02CA0033.namprd02.prod.outlook.com (2603:10b6:805:a2::46)
-	by BLUPR0201MB1891.namprd02.prod.outlook.com
-	(2a01:111:e400:58af::21) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1495.6;
-	Thu, 3 Jan 2019 04:51:55 +0000
-Received: from BL2NAM02FT045.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e46::208) by SN6PR02CA0033.outlook.office365.com
-	(2603:10b6:805:a2::46) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1495.6 via
-	Frontend Transport; Thu, 3 Jan 2019 04:51:54 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BL2NAM02FT045.mail.protection.outlook.com (10.152.77.16) with Microsoft
-	SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1471.13
-	via Frontend Transport; Thu, 3 Jan 2019 04:51:53 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1geuz2-000444-O5 for openembedded-core@lists.openembedded.org;
-	Wed, 02 Jan 2019 20:51:52 -0800
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1geuyx-0007Iy-Fy for openembedded-core@lists.openembedded.org;
-	Wed, 02 Jan 2019 20:51:47 -0800
-Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	x034pfDI022939; Wed, 2 Jan 2019 20:51:42 -0800
-Received: from [172.19.2.216] (helo=xsjmanjukum50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
-	id 1geuyr-0007Ii-Oy; Wed, 02 Jan 2019 20:51:41 -0800
-From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Jan 2019 20:51:40 -0800
-Message-ID: <1546491100-4909-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(136003)(396003)(376002)(346002)(39860400002)(2980300002)(199004)(189003)(305945005)(106002)(4326008)(51416003)(7696005)(36386004)(63266004)(106466001)(5660300001)(16586007)(107886003)(316002)(72206003)(478600001)(476003)(36756003)(77096007)(2616005)(486006)(26005)(2906002)(126002)(6916009)(186003)(336012)(426003)(2351001)(50226002)(47776003)(356004)(50466002)(48376002)(81156014)(81166006)(8676002)(9786002)(8936002)(107986001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR0201MB1891;
-	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; LANG:en;
-	PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
-X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT045;
-	1:6/D13qFF7A+zyCiKoAe2v+32CWFxzF9NOUbDLSrEzAYA7O957ut/esI2czgM11Q2M6D8r3Ap6dDIIgRpPpfITV1fmw3KbS9mUZ2QK5+hNZt0u3monvUNhhNYpMRYfkJI
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1e6a2a35-a554-4a30-0858-08d671372ebd
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(4608076)(4709027)(2017052603328)(7153060);
-	SRVR:BLUPR0201MB1891; 
-X-Microsoft-Exchange-Diagnostics: 1; BLUPR0201MB1891;
-	3:oQMIoNwUvgLnCgr8P1IdlzZQBR5sqgf30BHrrac8chDOR8/+NVLEM2C0n5/fLXtQuVUujufNksibf+bRmqNSl1Uh8mLUC2ADuXMaA2bZ53flWTE8iGtHczubByVdeo1/zYl+gfzR+GJPN1NTLkC2H+HuFoz/9mEhoBua4xh83QB/BeP8D4JXlrstgopgCOrIQA0tv3S1dgYqI4D6lIf6Z00MTs4oNPjMRymu0huiIo+tPYq1KEsJpAmJlkVvCu3eZC3Phz4X0L3fBJ5qyjWaC5+o/Aacji6GEa3KziN0MqDtvOnvqTj7L4v1SzmBmlbuaSH4JnO0LgoA3wOyOqP0to/Kxhm6s7lFgvnWVF2hL9scUcxQilHheq97LrgEkKhS;
-	25:oJWypQ4UTRt6eLmVOsLrv23Eg8EGgWi4WpAmb6c1WKTkQFNaOWAM25I8HEIj2Uy5KJcBEIicvsrP2oC248O8bbirhdigWQN/eroAdxHzGzQmDufSC3nVI2peGbjb23V+SOh37VnU8Nz94IdLTBwx9dfyfHrV2BNhKY7DgQQas20XH1nAnbLwch4cwRg0yxb/ytci5CsYJJBnjnVG4IkPYuiamc8tiaN56sPbaTQvX0YeRrHohOZlR639L82WebOlwsaKLozGxA6K3SHgBUasqXISq7Y+oy0Zk6CWsJ5lZ0g98NMYvF36tspIOY/yEWHYCsP9ZklMmlHFcl4ThaO+Pw==
-X-MS-TrafficTypeDiagnostic: BLUPR0201MB1891:|BLUPR0201MB1891:
-X-Microsoft-Exchange-Diagnostics: 1; BLUPR0201MB1891;
-	31:nlQ2QQ38HPHDaAEowL4id3qFIMln7+4d22NakGh+rO6QsOqn6LXBJrBYLrCac3zrhm3upDiimAzRxtJPXc3tc0rlGiZisMFzyeUb6uOtaELgNAOWaE05oeECxXMTvNPS0Ny+VprFZL59sAqJMOrkkHqO8/y2UKXg1yKYJj9p5wDnIfg5cHAnFkAWd9hSSnhZSVRLCX2SOoPUiWrcFroY04RTmrJ4pfLGHnxGwyLOLcA=;
-	20:NPuv6AF/zRYxK7str1UmOq3UBPs8BroniyRXRVwqBSWy8/RK7i5dNmIP3EaXc+7tHHaArUECQm5Af5sxthh2Z8xWcqtQn/xRUkZnVPZpwNF/9O0Y9++FYX3RhqY05eVR8SqvoMaizqWLow+y3/D5DFgP33dzlFZLKcwKNOeGPgwnLcdvNrc8LKQx28pImPigMli6gASYkdNnAeh3gGrof06SNIAAnTYUEe91pAikHwGGL7USPacfNGZ9lIftB+y9wGEmjM2ZTelCioplq9uAsABz7dkCKu/Eo9kLzaOPB8+7euWzyy98hJ52I6pDaEx815rDXjkstCvq1Rynm0/NZkI9dqYTtKSkKYXuXfRr6kdpd5ubNC5JuT8rOcMjrMcbsMy9TEAXSZtwQ0jHhHFmK8S+URv9NJeoIN6E7HjI08PhTg3OIEC0qHSBsf/K47MvzU+CdoPITJ6WL74mL+KrrHej2DVkqUIz8R7apG8XpjWrVyXIxaJmsXfuj0mTqZuF
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BLUPR0201MB1891A5E83AEB6C5E583F0600B98D0@BLUPR0201MB1891.namprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(8211001083)(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(3002001)(3231475)(944501520)(52105112)(10201501046)(93006095)(93004095)(6055026)(6041310)(20161123558120)(20161123560045)(20161123562045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);
-	SRVR:BLUPR0201MB1891; BCL:0; PCL:0; RULEID:;
-	SRVR:BLUPR0201MB1891; 
-X-Microsoft-Exchange-Diagnostics: 1; BLUPR0201MB1891;
-	4:9KBWkONvWCxKowj8JnVSB75Ch5pguY/ml6PFirKZ8qJgC3QlutkkALDr5LcvFQJPVbTU/VGbTcw411yU2Io7LOKzqS8YFIQcyvDAYZePVTzcUJvjqlOY7c4mUo4yJ11ePtwWNKggkhj9Cx5nO9nG8FV+UqoQzugBK8R6N3WxCSuCA7As8uEswaJ1U+Z3eGVoIqGS+NW/DWykQYlaNtnVG2fp8GuqwWHfvfXJ3pcMfgRY74cQondg7yxaRYwG+wh/ksj57yMGM7fQFge6v3KKY32t0wAiCwrjL1quVuc4jc6p8yfv9JkghTD8SqvOrnHa
-X-Forefront-PRVS: 0906E83A25
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BLUPR0201MB1891;
-	23:n9lmr+tXY0mvFsnouGd6VKgCQTuru9u0yKb261X?=
-	=?us-ascii?Q?IjeHZnOgqoHlooJVeJnI7bGvyrrSIiq9+lU34/Gv0rwawn5xjP6p6vBL6N4T?=
-	=?us-ascii?Q?aLsSVljn1Rwc8pWjWShryodPHt92BRMOlGrTKn3VASDMQ1SyQleP4718hHSQ?=
-	=?us-ascii?Q?HSHrGTux/vp5vBT2gQBWkQAjIrxZvH4pNSNS2XmRAlSTNvzWaw4ricP5aWZG?=
-	=?us-ascii?Q?eHOtGFcHGh1YkzEG8JbiZqa3WSXBFd9uYimRxoiufIq4cYBZe72XkDgtCEHG?=
-	=?us-ascii?Q?0az4gKU/mKCQaYKOtehYaoGZnaJyYlnuxM1QVWpQVpFfYfUy+nFNm1rFCDoA?=
-	=?us-ascii?Q?I/XoYQd6FIVtKsup6iidQFfabSPklSK6D+bjYN9lZZteUDdZ71iBA9svdUQ5?=
-	=?us-ascii?Q?b5htDKVBR4VZ3XZKTlUgHoI5u8e7Fe5pjpVN2yg1LXGCKm9FrnYWMQtYh66X?=
-	=?us-ascii?Q?7BiPNHo/E71dkXpJJekvAAZ3sbobLvYwExGhqc/6Ien04RxVOULJS4oI2+sW?=
-	=?us-ascii?Q?7uOVqcJPODuPdDI+IvUBOFUsAHUJKLKP7+Xj/3hw79lgco3RqrAReXq8ERUJ?=
-	=?us-ascii?Q?ZcNmchpd1Koi1peth11zSMGZOJWEJsF3nP6vyjE46kGfkEwvejaJznsc+R+L?=
-	=?us-ascii?Q?0Te0ieiirLFZrysAAlOdb+E1jrximeQBwF+n9CfKP8dU7UV/wsxLtUVkg4+m?=
-	=?us-ascii?Q?I58MEE2plvnZqQs+u3bjPWuM+q7YenLCKmYdbKTfAWYR2zJt4WyIlOjzIaSW?=
-	=?us-ascii?Q?EGZSpTc7ooQJ+gSa7sbjAJMPzlgQRt/r/vT107CoWo3RN2MX5zw1SLc3cMLD?=
-	=?us-ascii?Q?XOLMrVycpwNJMfF8SvEC/EMwnFx/jhJKGOIFx+w/Q2gUsiXlh3OYQmBpOIr7?=
-	=?us-ascii?Q?dGLSy+KRUC92MPhX0ffES8SSR46yTV859UVZ1sp6V4XLjE9Cc0RHmIGtjLXr?=
-	=?us-ascii?Q?uHr4zuu4/uzaSo+lHgLi+au5Du74b15/WLaW3NvMdjc504m6LCiLKA2nFIkn?=
-	=?us-ascii?Q?PDiTpZxsoRpGyVdbHvrnutHl8h1mXnUDODY+yzeBf0vFXlA=3D=3D?=
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: vVnGN6CMmdEUa3BgyszwCDMnaDDNDQskFgLA6Qh3XHGqQP3UWo4m8DUUnUTkidBwCadqctE2MHPM3GH+dOkA7ggQ36KJUm+dFHcvZQM+BprbQnUmeMZs6OPu7qSS8y6E5UT5hbP5reYuCskefeZb7DWnEpvUaTzVdp0nGTbt8mwIuvqp6V94ildoLe7gic5Nuz9GnDb5NfW2BLMmqROBCfSWrDUrKW4n2f3Sn512EFtPo28eSvCCXG9E4RxyxKQL2q5MWuaX7wMJ2xM27kuMHu5/Jmxgbqi3wNNNNatIjcMmmiYCosJAQ1SAXs72fZ6c
-X-Microsoft-Exchange-Diagnostics: 1; BLUPR0201MB1891;
-	6:lKPJV2s/JsGSHXuLNbCv8dxG8TDLxr0sYCfBicvA+zsyt2Y3CfgZGk8M7uFTUwkZSWY24EizFzo0pps6k2oxqXRzY+cOoeIyAmHG1uiRwCvCksKcebBB5BFWs5cls9ibxVbKYo75WrvTG69jXo4sLyCHSliAsYsO/UGTuN7bFjnaNdUy+/9XpcuCNoxI34zFm9Us2N0bnHfxe/d8Y8nV0QazG3jPtOx94QNvDU2AajWSiETqJCWYoy2W6i8jLtP3bdrq9qh35W+H6hfgfgdZmXWzrUNQCi0VPukskpQMA29QkKdDhKVZr8YTDobBVfqILSg+TC0/e5/nTOB50wxdK0n195ihbNAbTaZ8E2MNAt13PgB63nl4epmX/CR63o0g+7hOQQ/6huE9X8ix/6QOQ8ULaz4OV15fFc5hXm+VZciSslgWL6inCzK6i4jIlMwz/1+0tzRxqjOxyiBLiZrEQg==;
-	5:73F4vUbDFQxV4LJxE6ALdOlaTgioeiwPnvGPnr9pANGND8sApw1pLJYmKDm+2HSd9DhYeyHxYkjBp1Lf8vzVEFH+tNJqS5oDnHQsyi+6qS7QvwCczXRYsRQH9y/nJEAWHaqWlkZ4+NpgVzIhYhIbH3ZY8oUiD70MDncUceMtVyf45gf9U71d9eSnPZyffjVtIvQze8sFvp3qpGpT25jUVg==;
-	7:oP0lE19Ji6S6QhLik5abi9BRCykQ3GpKT/DvPD0fluhn2qwIIrgB1TrEpi63JB9PQRYXuzuUFoc00bUdbgKoabVb52S+9KPL7Gcgr+CC5fZb9w+QdDsvuxaMoh53AKuwLVnxyPNPN84EafJWeoeMmw==
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2019 04:51:53.5940 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e6a2a35-a554-4a30-0858-08d671372ebd
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR0201MB1891
-X-Microsoft-Exchange-Diagnostics: 1; BLUPR0201MB1891;
-	23:msMt9R6mBKnNgTDHt52uRWjaovnfEjpoL//cM2jbya/RhL+yMeakfglBRb5kuS3Mja8xMI6+hp48Ck6M52meqUzwuhZIzl60H8DLhjgJL1WNP5u11eQV4eMR4DQYeY+lb8TtN3yAtYNovrBwPCFmcw==
-X-OriginatorOrg: xilinx.com
-Subject: [PATCH] kernel.bbclass: Fix incorrect deploying of fitimage.initramfs
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=FFmP2Q4C7Qh59Vk0lJ/fvZe2TZaWSS+bFWxvOQgvyHo=;
+	b=MwcSJvejWFHWAhSYxGYJt3/qNnI9qF25B0aKvItzIkMcGoAGvUEE+thwl8Qw8VJySc
+	f8Rg262smKsiq7uyV+qlGPBXJGiWNiHrW1ZZ6cwOVF2gHPmnuzj/XD0LEDvkG+FDnVHf
+	JBOi1plNGzB6fE48u+2E6wjQMXmKIMmtdFEic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FFmP2Q4C7Qh59Vk0lJ/fvZe2TZaWSS+bFWxvOQgvyHo=;
+	b=scOuu9O3aQWJvGNzml6VYlFsSEIOClVe9cApzZAibMT7agCtq0ET6paAcE4TmdsPiX
+	AOdlAkqxzcBR0ECecbtonhxZtYQAh8aXaXF3OcNbZy1B36s7xr043YnW/Hm9dlM8pBGk
+	t6QKhAbbJzhPcAAQusJapRK+0kQeWx+eqDGPqYTlodzp2zcwY7H9Z5KQWk0l2OS9/AAY
+	zYuThEfgvjmgTWK/HQZzK4YFpkgoEkFQb8GCibeIMvgalFtOJWEJe3z+sRQYwkk94JSy
+	lq/gEtn7Wk1c1Ri4JkxutSixSolxr/s5FjtdGhyCuzxQt2K0+yKBrXY/duKUuEPJP09W
+	ntBQ==
+X-Gm-Message-State: AA+aEWa8bFLufaHnCDjwKfUX6IyVPEmDTnUjZHQGzD5HW2AufCESCNOG
+	Xnsc9UfzBuhST0hSfo2R+88FD7PBTeSECw==
+X-Google-Smtp-Source: AFSGD/Vw1UrQjhHecDLam+fVnwd+RepszzdtBKq5f8rP+LiUrH8+5w6tt01Pmh1oqz0IBWa40fQkwA==
+X-Received: by 2002:a19:4849:: with SMTP id v70mr22605671lfa.62.1546521881259; 
+	Thu, 03 Jan 2019 05:24:41 -0800 (PST)
+Received: from roman-VirtualBox.synapse.com ([195.238.92.107])
+	by smtp.gmail.com with ESMTPSA id
+	m10-v6sm11856495ljj.34.2019.01.03.05.24.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Jan 2019 05:24:40 -0800 (PST)
+From: roman.stratiienko@globallogic.com
+To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
+	alex.kanavin@gmail.com
+Date: Thu,  3 Jan 2019 15:24:27 +0200
+Message-Id: <20190103132428.12574-1-roman.stratiienko@globallogic.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2 1/2] eglinfo: upgrade SRCREV to 223817ee3798
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -140,39 +53,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 13:04:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 03 Jan 2019 13:24:42 -0000
 
-When kernel-fitimage and initramfs is enabled using
-INITRAMFS_IMAGE_BUNDLE = "1", kernel do_deploy tries to deploy
-fitImage.initramfs with following error
+From: Roman Stratiienko <roman.stratiienko@globallogic.com>
 
-| install: cannot stat 'arch/arm64/boot/fitImage.initramfs': No such
-file or directory
+SRCREV upgraded to 223817ee3798 ("Add Wayland support")
+Additional patches rebased to this version
 
-Skip deploying fitimage.initramfs, since fitimage does not
-create fitimage.initramfs
-
-Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
 ---
- meta/classes/kernel.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+No changes since v1
+ meta/recipes-graphics/eglinfo/eglinfo.inc     |  2 +-
+ ...INCDIR-to-searchpath-for-egl-headers.patch |  9 +++----
+ ...01-Check-for-libegl-using-pkg-config.patch | 27 +++++++++++--------
+ 3 files changed, 21 insertions(+), 17 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e04d2fe..60382bf 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -682,6 +682,9 @@ kernel_do_deploy() {
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
+index 07ad07220b..6dcb0c5a19 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo.inc
++++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
+@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master \
+            file://0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch \
+            file://0001-Check-for-libegl-using-pkg-config.patch \
+            "
+-SRCREV = "4b317648ec6cf39556a9e5d8078f605bc0edd5de"
++SRCREV = "223817ee37988042db7873cfb5b2e899dfe35c10"
  
- 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
- 		for imageType in ${KERNEL_IMAGETYPES} ; do
-+			if [ "$imageType" == "fitImage" ] ; then
-+				continue
-+			fi
- 			initramfs_base_name=${imageType}-${INITRAMFS_NAME}
- 			initramfs_symlink_name=${imageType}-${INITRAMFS_LINK_NAME}
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${initramfs_base_name}.bin
+ CVE_PRODUCT = "eglinfo"
+ 
+diff --git a/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch b/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
+index ca9f55c189..61327eb36b 100644
+--- a/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
++++ b/meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
+@@ -1,4 +1,4 @@
+-From 94b1e6daf7d70550b0e32fbb269fcf6887948d3f Mon Sep 17 00:00:00 2001
++From 99a5784d33ad5e0e6fa00338d2732cbccad7661c Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 13 Jan 2016 16:08:22 -0800
+ Subject: [PATCH] Add STAGING_INCDIR to searchpath for egl headers
+@@ -14,10 +14,10 @@ Upstream-Status: Submitted
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/wscript b/wscript
+-index fcbb55b..cece8bf 100644
++index 195e247..0f6ec53 100644
+ --- a/wscript
+ +++ b/wscript
+-@@ -163,9 +163,10 @@ def configure_raspberrypi_device(conf, platform):
++@@ -177,9 +177,10 @@ def configure_raspberrypi_device(conf, platform):
+  	conf.check_cxx(mandatory = 1, lib = ['GLESv2', 'EGL', 'bcm_host'], uselib_store = 'EGL')
+  	import os
+  	sysroot = conf.options.sysroot + conf.options.prefix
+@@ -30,5 +30,4 @@ index fcbb55b..cece8bf 100644
+  	conf.env['WITH_APIS'] = []
+  	if check_gles2(conf):
+ -- 
+-2.7.0
+-
++2.19.1
+diff --git a/meta/recipes-graphics/eglinfo/files/0001-Check-for-libegl-using-pkg-config.patch b/meta/recipes-graphics/eglinfo/files/0001-Check-for-libegl-using-pkg-config.patch
+index 0289ac228c..572c8014ca 100644
+--- a/meta/recipes-graphics/eglinfo/files/0001-Check-for-libegl-using-pkg-config.patch
++++ b/meta/recipes-graphics/eglinfo/files/0001-Check-for-libegl-using-pkg-config.patch
+@@ -1,22 +1,25 @@
+-From 58d51d941d3f4dfa38be18282d3e285d76d9020d Mon Sep 17 00:00:00 2001
++From 17f5d2f574236f8c3459f9efadef2f0f6220a4dd Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Aug 2018 15:46:53 -0700
+ Subject: [PATCH] Check for libegl using pkg-config
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++[Roman: patch has been rebased to 223817ee3798 ("Add Wayland support")
++ trivial merge conflicts resolved]
++Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+ ---
+- wscript | 1 +
+- 1 file changed, 1 insertion(+)
++ wscript | 7 +------
++ 1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+-Index: git/wscript
+-===================================================================
+---- git.orig/wscript
+-+++ git/wscript
+-@@ -160,14 +160,9 @@ def configure_raspberrypi_device(conf, p
+- 		conf.env['PLATFORM_USELIBS'] += ["X11"]
+- 	elif platform == "fb":
+- 		conf.env['PLATFORM_SOURCE'] = ['src/platform_fb_raspberrypi.cpp']
++diff --git a/wscript b/wscript
++index 0f6ec53..401f62e 100644
++--- a/wscript
+++++ b/wscript
++@@ -174,14 +174,9 @@ def configure_raspberrypi_device(conf, platform):
++ 	else:
++ 		conf.fatal('Unsupported Raspberry Pi platform "%s"' % platform)
++ 		return
+ -	conf.check_cxx(mandatory = 1, lib = ['GLESv2', 'EGL', 'bcm_host'], uselib_store = 'EGL')
+ +	conf.check_cfg(package='egl', args='--libs --cflags')
+  	import os
+@@ -29,3 +32,5 @@ Index: git/wscript
+  	conf.env['WITH_APIS'] = []
+  	if check_gles2(conf):
+  		conf.env['WITH_APIS'] += ['GLES1', 'GLES2']
++-- 
++2.19.1
 -- 
-2.7.4
+2.17.1
 
 
