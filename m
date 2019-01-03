@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B29E6069C
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 268E560125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 06:35:52 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id r14so35999370qtp.1
+	Thu,  3 Jan 2019 07:10:22 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id g62so16268058pfd.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2019 22:35:53 -0800 (PST)
+	Wed, 02 Jan 2019 23:10:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GyLObW3iGoxoTd35oHSkZQEb/DYzs1OS8KwcqItvEF8=;
-	b=hJtx5EHt6daqDw6O0gkuCnHte+0WzxfUCCL7eenNeAHvZlADUjWbHxCCbt05Y0/EQz
-	g1LnUovJ5iHBhAnXJifw9wZn+yLj29nD+63CQD+6lgBzmdLWXXdiI0uoFEvPuLIeCGjd
-	PkD6k2Nnv5qtlMiKyOFrzisjSukN8ciUBS44xco41yHiFgW3U+CFkk+l+c1+9D/Onq0u
-	EXPifVXqW+sF8s9jUQftdvWLE138S1ZhicEHVUCswTzi3ZuxNpcmik1aWGfVblrfYe2B
-	tOduNmWkobum52w+F6Hw9C7sFOF7GlswsrD83IEHa/NwDWIgyaZJLbp8dtWA0PowmviT
-	qnmQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oTB6RDRTMLZLDVXdvctRzNC1Nb1otm2TVnTC5JkCSKg=;
+	b=GR7sKSGgnEd3XAiYMPJ9HWeDzLuAKnhPzZ/0qMHkuoyd5G3LJLpHs4KBqXhxQKYRGp
+	t7pKiFo/auDNzFSDiTQPQO1pjRZeqGDNjKmDRQeyFYrVSRYNTj2R31NKSKRW0ejitPbU
+	Bw36tX2vzKAyGW9pcE7WRjJS4Cuh8dvITJAmi0QmkjIZdRsdlawF7TWQmPmopMfmNZDX
+	dybcac21rskwFCIe0cr7w30epY1PAkVHfzg4u3ufqoRgjJWMgWy3FndGWaOiddPybR2W
+	hncSLj8wLGlArfjcI+c1hf+pdPc/qhNnt8gl9ctcJgYWEL8bXssBUDQnLNah8cw3FSLg
+	L3Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GyLObW3iGoxoTd35oHSkZQEb/DYzs1OS8KwcqItvEF8=;
-	b=bFkYlu4GB5zXxZ9dOx9PSJx6FO8Gh1bvpdIVHAGVBBbsvJGLLor4Bq0k5gpXuqBHz5
-	O06v6i1gnaMtvdkbx07MkMMY0bVNULRqjuIYZhD3RglD5guZFp1jsIuzRTWlS4kOavT4
-	xO3RWVcwEYe8z6ONuVrwlSdOGXhWm+oyOnQWLocZnIGqYaBFItTFteyuHanKBvXW5Jwn
-	gSfzV69Ql/8+V1p94orsD3CIVP7+MPtUGjOPMVZUGQDphJhBntWM+9alqSIj3tqiDPgv
-	wkTu89XHWy0K6/Bg68jqgcJBllzWRhgTcriiyNTGRHERpjFdQZ+M7QtBINRDu+868Zsu
-	ThWg==
-X-Gm-Message-State: AJcUukephXiv6qqRRcNB0iRe33O/tq9BYs+iN4pxySrE6qa+Q2dREp8/
-	QdoBZ+klpvilm1gqb51ZJdhmGwn/9qGG2LoRVWs=
-X-Google-Smtp-Source: ALg8bN7Hi+Kt+XvlzoD5mmVMHhpDSqWsE5nt4HdsVfy8zgs8qHZuFNPPZosii22TNiKnoauc9uIAY/+3ChTVjKs4OQI=
-X-Received: by 2002:a0c:a144:: with SMTP id d62mr46231040qva.50.1546497353184; 
-	Wed, 02 Jan 2019 22:35:53 -0800 (PST)
-MIME-Version: 1.0
-References: <1546446977-27510-1-git-send-email-akuster808@gmail.com>
-	<1546446977-27510-3-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1546446977-27510-3-git-send-email-akuster808@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oTB6RDRTMLZLDVXdvctRzNC1Nb1otm2TVnTC5JkCSKg=;
+	b=R6P109JFjGsI5ePfPT/y5cFKzrI0E63FWLPVcBCfNSfBDjkIV9vhSeOfsJfipBGrlt
+	EOb3qSbu8I7oiplvnnMZbeS7hDSRy/TdNSBfltUfTfcH4GPn26/TeOnnMHd7BvXuI0Wg
+	ywn23ZB8/g0p5kWTJEf3wXHzoXISfjUMt60qHwfZ6m+EEgy8vN35LDRaMHiWpAngTdZ3
+	swrP/sR2qOnyvTYcC5n0WAN7SztqE7fQmeRVcA5UnVWZ0/AKr2l5TmOcsD9w1elhlIrH
+	5789nFXUyxvtgxeFGsnyBACNvKJZZ+nOkB9DrxfGtUeHl8MFexNI0wpFb1tl+3oRSVfR
+	6GkQ==
+X-Gm-Message-State: AA+aEWZpS33oz6xCjMEt6zATDPS3cT3rA5qVTmBURaaIbqKpw7HFhfZ9
+	rQVNYeAVLdeJ6nJLkv14sf6OqiKAY0I=
+X-Google-Smtp-Source: AFSGD/UzXvpZUSUTQ4SUGCFPU+kmAt667OTuKA5Ogg3TJmDIxWyhEzN3Ip6mkHA2+j2A2tIHo8aPNQ==
+X-Received: by 2002:a62:2606:: with SMTP id m6mr46264212pfm.133.1546499423471; 
+	Wed, 02 Jan 2019 23:10:23 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:877f:9499::6ee7])
+	by smtp.gmail.com with ESMTPSA id
+	m67sm107071487pfb.25.2019.01.02.23.10.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Jan 2019 23:10:22 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Jan 2019 22:35:27 -0800
-Message-ID: <CAMKF1spP0b_U5S_5hEbM6rZsj1DCiyyc9eYzEC8NN-mgCk5ELA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] nettle: update to 3.4.1
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Jan 2019 23:10:08 -0800
+Message-Id: <20190103071008.5065-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] feature-arm-thumb.inc: Do not tie generating thumb ISA to -march
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,82 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 06:35:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Jan 2019 07:10:23 -0000
+Content-Transfer-Encoding: 8bit
 
-native version fails on ubuntu 14.04, seems like we need to pass
--std=c99 explicitly via cflags see
+-march=armv5't'e means that CPU can execute thumb ISA, we do not need to
+tie this to exclusively generating thumb ISA, this change means that
+when we have thumb in tune features then it can use 't' in -march
+options irrespective of ISA being thumb or arm.
 
-http://errors.yoctoproject.org/Errors/Details/214590/
+This fixes derivative of armv5 tunes and paves way for gcc9 where e.g.
+armv5e is dropped and minimum arch supported is armv5te
 
-On Wed, Jan 2, 2019 at 8:36 AM Armin Kuster <akuster808@gmail.com> wrote:
->
-> Bug fix only release
->
-> Include:
->
->   CVE-2018-16868 gnutls: Bleichenbacher-like side channel leakage in
->   PKCS#1 1.5 verification and padding oracle verification
->
->   CVE-2018-16869 nettle: Leaky data conversion exposing a manager oracle
->
-> For full details see:
-> http://lists.lysator.liu.se/pipermail/nettle-bugs/2018/007369.html
->
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  .../Add-target-to-only-build-tests-not-run-them.patch                 | 0
->  .../check-header-files-of-openssl-only-if-enable_.patch               | 0
->  .../nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch             | 0
->  meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest    | 0
->  meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb}        | 4 ++--
->  5 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/Add-target-to-only-build-tests-not-run-them.patch (100%)
->  rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/check-header-files-of-openssl-only-if-enable_.patch (100%)
->  rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch (100%)
->  rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest (100%)
->  rename meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb} (91%)
->
-> diff --git a/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
-> similarity index 100%
-> rename from meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
-> rename to meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
-> diff --git a/meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
-> similarity index 100%
-> rename from meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
-> rename to meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
-> diff --git a/meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-> similarity index 100%
-> rename from meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch
-> rename to meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-> diff --git a/meta/recipes-support/nettle/nettle-3.4/run-ptest b/meta/recipes-support/nettle/nettle-3.4.1/run-ptest
-> similarity index 100%
-> rename from meta/recipes-support/nettle/nettle-3.4/run-ptest
-> rename to meta/recipes-support/nettle/nettle-3.4.1/run-ptest
-> diff --git a/meta/recipes-support/nettle/nettle_3.4.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> similarity index 91%
-> rename from meta/recipes-support/nettle/nettle_3.4.bb
-> rename to meta/recipes-support/nettle/nettle_3.4.1.bb
-> index ca8450e..33de928 100644
-> --- a/meta/recipes-support/nettle/nettle_3.4.bb
-> +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> @@ -20,8 +20,8 @@ SRC_URI_append_class-target = "\
->              file://dlopen-test.patch \
->              "
->
-> -SRC_URI[md5sum] = "dc0f13028264992f58e67b4e8915f53d"
-> -SRC_URI[sha256sum] = "ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94"
-> +SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
-> +SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
->
->  UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 0b47ccad02..36bda6c67a 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -24,7 +24,7 @@ python () {
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}', '', d)}"
+ 
+ # Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
+-ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d) if d.getVar('ARM_M_OPT') == 'thumb' else ''}"
++ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d)}"
+ 
+ # what about armv7m devices which don't support -marm (e.g. Cortex-M3)?
+ TARGET_CC_KERNEL_ARCH += "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '-mno-thumb-interwork -marm', '', d)}"
+-- 
+2.20.1
+
 
