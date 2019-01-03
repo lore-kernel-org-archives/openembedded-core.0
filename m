@@ -1,49 +1,49 @@
 Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 535D579D4B
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 867E2747E7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jan 2019 22:51:54 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id n18-v6so31030162lji.7
+	Thu,  3 Jan 2019 22:57:15 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id t18-v6so31039222ljd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 14:51:55 -0800 (PST)
+	Thu, 03 Jan 2019 14:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5pxxgCn8RA3AYToDegBh8qfDARIr8Ex7ZZbCUXOd3PQ=;
-	b=E8YHTWsYsk5WOFboLWbqimS5bF9i+/WXWOGt9TEEDDovgzOhNOR07jxWCG19maKDkW
-	g//ifmtcQz2BBD23U8SlKkNCikeH/yaPQ5PKpdx9GxwBwSuDfRpIKqPjrDtJsxE8PZes
-	hKB3HyOPJAEeAU7axVo7UpBzaXLKi7m5RWTHAoiA0zyH2hSw79uekpZ9bPWEHKjDuUyx
-	pN0M2t9QsAS6L4IrZCZsTFZRKwFpGO3H99xPjBrwISBxpCofgtJe1I+XbknZZ2nXJqJ4
-	DtQW01641uIDg9gkOBFJ1gdkQGW8dlT1L97UIxAlUhMqZdfcV014MiNP8KKwV/2U+tJO
-	sZXg==
+	:cc; bh=2X4/0TAm23z4c0kiUvzz+3lZDLLCdZXekXuyA3k4Dzg=;
+	b=rJcW/mCz8coyxIK8zykaakJoVZl1pG/x+yCeLPmn15TKIkfMrBR87su5RKZn51gIqF
+	jw10dXjPLz06NETB9BSCn55ot3pJjM6pjWhxL42TE5swwo4XKkuNSnPxKcQooWxgtXRh
+	YNwKtbSsSwONs597qkbfwKHlgROVgfo9KqNFAaLg4PdfzDkfmIJ+1n8m1m+mRcTYLinu
+	czCeKwQXUBx7r1W5KbjTmFuWZFwwBdKebUM9pGlPk0rvkr/00AglZdHi+Pxg6hCN/wZF
+	a/k8Iu85Xxbq+lJlR1kqP07nTnMki90YZ44mM3ydgsQFHIyoynLHDdUioArivTP8HJJI
+	vC5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5pxxgCn8RA3AYToDegBh8qfDARIr8Ex7ZZbCUXOd3PQ=;
-	b=XNBDTIMLmLan7xtubHOopDuVpJT/VVDF9SaCzKpzwaJZE0d/j9jjArQ5O3XzsDM5Ma
-	k2Vle0RbVLGOudUWRM4N3fhivBygkWRXDJCQ2WKlyErQGk3TBowQmr4Ss2PANT6pCR43
-	XD4dNitVlmvBjlPjZOTbRryrS8pvrWadAQbH7BUk9nSxxNoucC+s01BHISqoHFI5WLH9
-	e0kXUpF60PCOH+xF42Wtb8r8EYJC9zBYMmIaSwhStEtf8etFReK73kTbOTEiSfMuUjMt
-	TcCAqhdjQsH3RKA2iV7VmDRjidYSyDtI9HefNASlhV72nxVEWyYoazxJJWU2PLppNmn3
-	7Fow==
-X-Gm-Message-State: AJcUukfr0h7amj3x2eh+XmYrJ0yW7WGT/HMKtaEoOfSuJ6NiWY0gcg1z
-	bN85PLwbovf/fTWwkjdhrGgMIsZDBcarvxA1DKY=
-X-Google-Smtp-Source: ALg8bN44xAL/gb1GFfXoSS6h2VVaF/EWRNwgI8aHmP4YxuNRGx9MBTDJT0T3yvaB8yvMq3TkF70OH9IbMuR4VOT9h1E=
-X-Received: by 2002:a2e:4601:: with SMTP id
-	t1-v6mr30276084lja.111.1546555914645; 
-	Thu, 03 Jan 2019 14:51:54 -0800 (PST)
+	bh=2X4/0TAm23z4c0kiUvzz+3lZDLLCdZXekXuyA3k4Dzg=;
+	b=F1xfCEgmktdasKHFSZyi2hGctX/Qbok8wCePFWNB6lmDCqEgz7yPCxW2biMUvLdoY7
+	i7BJ1sD3MvWmlvCahUlqfHXUdytx6yy2TeU30P6GtZ+wxob8WxN0y5d47GySpAbXX0td
+	PNdIAFuxQt+AP/s/k17EBrenBIcAsXpdy6uy9uD36T22JZR3mAfIe4spjjDokctlZ01c
+	xuncZWn1JhpgR248rEiXRUUQT5urH5WuYfo41qUtfFXroPBmZP7f3hC7yuKTXuyJgzkt
+	weJECALSfk9aMRZ1TBB0bg8ro2ZqiEAdb5gXlx8p/WVvW0Oja4/DVsTRmcGR1o3Bx/WC
+	4wAw==
+X-Gm-Message-State: AJcUukcNiOd4cRyo/27Xqxq7s5HzYRjlSDU2GPuKiHMiGhe8iSX2Z/SO
+	qGhbgZyp4hACHBAODazWqIurv0tINiVTgXcQvKQ=
+X-Google-Smtp-Source: ALg8bN7tjNhcVHCgguDW5ffdnnSJcLsNpnjQ96rN1z9a6RaWcewB+/YEqHcx/Y5uXQqyhU2iICkDgyBw51gTKbif2es=
+X-Received: by 2002:a2e:449b:: with SMTP id
+	b27-v6mr26915164ljf.47.1546556235995; 
+	Thu, 03 Jan 2019 14:57:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20190103223211.23531-1-alistair.francis@wdc.com>
-	<CAMKF1soQ4jSBtSXCZVHDtk6nHcyKTSG9UFK6-vLETxmoSwkeQw@mail.gmail.com>
-In-Reply-To: <CAMKF1soQ4jSBtSXCZVHDtk6nHcyKTSG9UFK6-vLETxmoSwkeQw@mail.gmail.com>
+References: <20190103223016.17799-1-alistair.francis@wdc.com>
+	<CAMKF1sqHkyX6dvC6WWZW-LtDthFDCvFEfd5VP2d1STSeamx+EQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqHkyX6dvC6WWZW-LtDthFDCvFEfd5VP2d1STSeamx+EQ@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Jan 2019 14:51:28 -0800
-Message-ID: <CAKmqyKN99yaSkjXVMCjt+HFC+QR-N+yJkrjzVTDSwUaZkcsh2A@mail.gmail.com>
+Date: Thu, 3 Jan 2019 14:56:47 -0800
+Message-ID: <CAKmqyKOjrjFKuqx6vhL=J1bY+Li1Cd28j6hYRFu=XUv+E=796A@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fts: Bump FTS to version 1.2.7
+Subject: Re: [PATCH] swig: Fix the build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 22:51:54 -0000
+X-List-Received-Date: Thu, 03 Jan 2019 22:57:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 3, 2019 at 2:46 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Jan 3, 2019 at 2:33 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Thu, Jan 3, 2019 at 2:42 PM Alistair Francis
+> On Thu, Jan 3, 2019 at 2:30 PM Alistair Francis
 > <Alistair.Francis@wdc.com> wrote:
+> >
+> > Fix the swig build by calling autogen.sh before running configure.
 > >
 > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > > ---
-> >  meta/recipes-core/fts/fts.bb       | 22 ----------------------
-> >  meta/recipes-core/fts/fts_1.2.7.bb | 18 ++++++++++++++++++
-> >  2 files changed, 18 insertions(+), 22 deletions(-)
-> >  delete mode 100644 meta/recipes-core/fts/fts.bb
-> >  create mode 100644 meta/recipes-core/fts/fts_1.2.7.bb
+> >  meta/recipes-devtools/swig/swig.inc | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/meta/recipes-core/fts/fts.bb b/meta/recipes-core/fts/fts.bb
-> > deleted file mode 100644
-> > index 02f54086a3..0000000000
-> > --- a/meta/recipes-core/fts/fts.bb
-> > +++ /dev/null
-> > @@ -1,22 +0,0 @@
-> > -# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
-> > -# Released under the MIT license (see COPYING.MIT for the terms)
-> > -
+> > diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
+> > index aec544997f..49da68c544 100644
+> > --- a/meta/recipes-devtools/swig/swig.inc
+> > +++ b/meta/recipes-devtools/swig/swig.inc
+> > @@ -11,7 +11,7 @@ DEPENDS = "libpcre"
+> >
+> >  SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+> >
+> > -inherit autotools python3native pkgconfig
+> > +inherit autotools-brokensep python3native pkgconfig
 >
-> I am sad you took this out :)
+> this seems to be going backwards.
+>
+> >
+> >  EXTRA_OECONF = " \
+> >      --with-python3=${PYTHON} \
+> > @@ -45,6 +45,7 @@ do_configure() {
+> >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/Tools/config
+> >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
+> >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
+> > +    ./autogen.sh
+>
+> may be just (cd ${S} && ./autogen.sh)
 
-Do you want me to keep it in?
+That seems to work, I'll send a v2.
 
 Alistair
 
 >
-> > -SUMMARY = "POSIX file tree stream operations library"
-> > -HOMEPAGE = "https://sites.google.com/a/bostic.com/keithbostic"
-> > -LICENSE = "BSD-3-Clause"
-> > -LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
-> > -SECTION = "libs"
-> > -
-> > -SRCREV = "944333aed9dc24cfa76cc64bfe70c75d25652753"
-> > -PV = "1.2+git${SRCPV}"
-> > -
-> > -SRC_URI = "git://github.com/voidlinux/musl-fts \
-> > -"
-> > -S = "${WORKDIR}/git"
-> > -
-> > -inherit autotools pkgconfig
-> > -#
-> > -# We will skip parsing for non-musl systems
-> > -#
-> > -COMPATIBLE_HOST = ".*-musl.*"
-> > -
-> > diff --git a/meta/recipes-core/fts/fts_1.2.7.bb b/meta/recipes-core/fts/fts_1.2.7.bb
-> > new file mode 100644
-> > index 0000000000..7ede6550f6
-> > --- /dev/null
-> > +++ b/meta/recipes-core/fts/fts_1.2.7.bb
-> > @@ -0,0 +1,18 @@
-> > +SUMMARY = "Implementation of ftsfor musl libc packages"
-> > +HOMEPAGE = "https://github.com/pullmoll/musl-fts"
-> > +LICENSE = "BSD-3-Clause"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
-> > +SECTION = "libs"
-> > +
-> > +SRCREV = "0bde52df588e8969879a2cae51c3a4774ec62472"
-> > +
-> > +SRC_URI = "git://github.com/pullmoll/musl-fts.git"
-> > +
-> > +S = "${WORKDIR}/git"
-> > +
-> > +inherit autotools pkgconfig
-> > +#
-> > +# We will skip parsing for non-musl systems
-> > +#
-> > +COMPATIBLE_HOST = ".*-musl.*"
-> > +
+> >      oe_runconf
+> >  }
+> >
 > > --
 > > 2.19.1
 > >
