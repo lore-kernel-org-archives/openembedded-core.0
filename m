@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B8D596BD4E
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 475017BE17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2019 17:37:31 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id y126so18610984pfb.4
+	Fri,  4 Jan 2019 17:39:04 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id w7so17749954pgp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2019 09:37:33 -0800 (PST)
+	Fri, 04 Jan 2019 09:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:references:to:from:openpgp:autocrypt:message-id:date
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=8RoR5jlRyTq/Mms3nJHmDtPnqWgK7MLVVjEELMlmDhI=;
-	b=O1QPSx64I2O5ctnfCJTwPJ5LTB2jtXs5TSsa+laSCg5l2Mb2TSB279Iw0DG55SK1px
-	mq4nKe6leVZ+GgCndMGapAngtruqGN1+Y//whIPP7vzCOdJb7okc7FZJJVa56JduIj+P
-	w8E7sc82IXb7ZBN0q0R3JEFAysVGpkaoSHXbQ9ULRp3CYjmYRrU21Vod8DUldrlrE3pC
-	RS0d2Y/rvvni5XDK7kvXimQjoA/k2HUboS3QxeLVb0+FZsAsLBPr2io9hq5eumQkc2XJ
-	WrvB3PT2i5leEPdXEmaYVtJ7hitSkQ4O3Fpy8D+jLy2c4DDqTiDnI9PW9M0liPHLqWgj
-	5exw==
+	bh=7DxAG7LZzsdGu8fBhhOfdMVbR9nFW58mcTsXaS1a8MI=;
+	b=agkhXXo9J/piRR3LH/jRbcWVrZ8Tnmos28E0hOuBk4hm0JvSpkkBS8SPv9u6qhTLfT
+	nC10MhcUZPTAfAX+FtNP4RphbOcDw6QVdzUGb2suykkM+MAs0yzGePpV8DPshFEZy1Rm
+	kgHg7ohHEWcl/On53uHQH1O4mAnyK707G8evWwQqGQBv9SDC/svrccmKH3cgaZkPB7mn
+	zenb48rVjW8APWTlasbYXMmmhL4/z0FC5dTndNOIJSZ1/jkJHFxJfc155Gg0CNTbUx3/
+	q21G7FSp3QTOLRe0K2UbCVLAh0/GkHwteESBWntrQc344UdT859qBAPEsJ3FyJ0ohHxE
+	O00A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:references:to:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=8RoR5jlRyTq/Mms3nJHmDtPnqWgK7MLVVjEELMlmDhI=;
-	b=Anb1+f1ySvQnDl1qDCD+PXZivxk9VkKAAZArjdgiOGCQ8mBJv90vZSaAkhnI7s7ZTb
-	LGc+DzIs8T8uauDZAwgoXN/iryd+h2HkrJ9nwzib4D+DrRDzROJnSFe8+rydzHyf8UiJ
-	j++Gp1gHtdNjFRr6xRzSLpwXd3uaX0XaWC9eOMmaN23DSC+onMpiaEONfp6QM5E8uLzk
-	VkejrA2ruOHxz1PSPj+bhVx9OkjThesDt2gUfmwxp0mxs4TvNTc8NZ7To+ANnSGrtMMt
-	xv7ZjirbD87KO5LJAgoEdUBTTh/7/tmWAn7PwNaHHRx0r7TQ1xwNYY9eZcfsyT1sakZP
-	yC2A==
-X-Gm-Message-State: AJcUukd438j4R8CkhdKczL56bG1JjrtEjd4eWvniPxKhJhlJ0c+faaBz
-	12AZWxRie1LxRr2YISrCAR4piYv5
-X-Google-Smtp-Source: ALg8bN5Tfa/TdC6zxkqrS2LI+DKgVf5yIHP6F4I50m+FrXSiDgcfqnt/jXyoolcitidySCaj3m1ogQ==
-X-Received: by 2002:a63:8e43:: with SMTP id k64mr49119096pge.346.1546623452229;
-	Fri, 04 Jan 2019 09:37:32 -0800 (PST)
+	bh=7DxAG7LZzsdGu8fBhhOfdMVbR9nFW58mcTsXaS1a8MI=;
+	b=peJmQDxSvazVgKhojKhUiCegFpQZuadtgl7+2WSn6I0tkUz1t4+ADH1zof7Rr/KD1E
+	Lsf05can0I0zMUcDoIeuyDwZ2xHQmYqBDq+6kaES97Kb8XhIQUwWMVNowieyWNj0oEQm
+	zsgQluXzDX48/ctJoGUuo49TwRrZORtxRKa1XxmjBeTka9O+Nopcfl3nWV+BzYQmza+H
+	oSFO/58WtGJNDl5XMYnW+Da8AXgqGyOaz8tr/+OBAFpfi1ORqEKmDd2fUDMt4qbjMiAt
+	a3o3gHVbXaA4mpo7lSma5mZIJAZOpi3xUg6kpqZPmpHE75euQ49SYNZ85rZ69iZgQZ/n
+	n+iQ==
+X-Gm-Message-State: AJcUukeOrrjNHAyT6CktV9Jgydz+EyEtsiQC131zDpY3FVzya2+HOxpD
+	fKvZAhqz6wQCEn8c8wKH48KfLNcO
+X-Google-Smtp-Source: ALg8bN4H7qfGJENgbTPLcCiJbKkk/G1TryWsdr4yVqRAnSwMeXuanN9Fef+rtpzN+xrqNDqrohmyYQ==
+X-Received: by 2002:a63:304:: with SMTP id 4mr19682620pgd.99.1546623545082;
+	Fri, 04 Jan 2019 09:39:05 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:c33:7513:b68a:6d2a:56d9?
 	([2601:202:4180:c33:7513:b68a:6d2a:56d9])
 	by smtp.gmail.com with ESMTPSA id
-	u29sm80943136pgn.23.2019.01.04.09.37.31
+	m3sm99227115pff.173.2019.01.04.09.39.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Jan 2019 09:37:31 -0800 (PST)
-References: <1546446977-27510-1-git-send-email-akuster808@gmail.com>
+	Fri, 04 Jan 2019 09:39:04 -0800 (PST)
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+References: <1546446977-27510-1-git-send-email-akuster808@gmail.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -90,8 +90,8 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <cc0495de-43f3-7b0b-5580-ec3a2eefab91@gmail.com>
-Date: Fri, 4 Jan 2019 09:37:30 -0800
+Message-ID: <070f20c3-0015-909a-e5b9-3dbc51245a53@gmail.com>
+Date: Fri, 4 Jan 2019 09:39:03 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
@@ -109,7 +109,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2019 17:37:31 -0000
+X-List-Received-Date: Fri, 04 Jan 2019 17:39:04 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -128,11 +128,9 @@ On 1/2/19 8:36 AM, Armin Kuster wrote:
 >     from +01 to +00 on 2019-01-01 at 02:00.  (Thanks to Vadim
 >     Nasardinov and Michael Deckers.)
 
-Is there any issue with this update? I notice some of my update got in
-but no feedback on this one.
+Never mind. just say them.
 
-- Armin
->
+-armin
 > 2018h:
 > Briefly:
 >     Qyzylorda, Kazakhstan moved from +06 to +05 on 2018-12-21.
