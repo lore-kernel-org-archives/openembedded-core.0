@@ -1,49 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BD627BDB1;
-	Thu,  3 Jan 2019 23:21:36 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id c21so4684081qkl.6;
-	Thu, 03 Jan 2019 15:21:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E080C7BDAD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  4 Jan 2019 00:02:36 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id t24so28374609ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Jan 2019 16:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WvVDdGYiHJOi+gKag2tmLZPxTu1//oH9tpca0/Qg5mY=;
-	b=JEvmigDJRD60CztcyzsjzV150x6gfpwCGgJXa2KsfXLMCLE1Bjfy7ROyUFnyaRll/Y
-	OsDsnG2R5uiqcxNZCy0BoWHNdhpR+90RYGPYp/b/FnNqmQlB8x12gAneAtj6y90Fy04g
-	AT193BoLALcWc2USDEPWBNxsV+AWsK7UxMrYwtXNNXZIJSMP5wh45UC14Cd2lliYFLku
-	yZbJ1Od7TXfUCcp4Up/UO3ovYXw2vxB1M8qaKRhsy7DbgJNijg7Stb7h44o+3acK6u+Y
-	wl6+GCEDxJ/B/7wr2RcQH+0oVsl09OyMLjCzg5kldeg86+krC9uBatnrPPSl5+5nLuvT
-	bscw==
+	:cc; bh=XJ6cpVNm+6BlBYBv26dN8lt0EposB2amQvFDvwgfJws=;
+	b=lGR32iBacRtgsMqnbfQd/ZklM2ip+bl22TeJmV+wAEtGVUZFtdwHOKBy1icWr5g3Gv
+	ghD1+relkc1AI6Hu5e6epNKT42Yqg8IgkhVYN6mkuovXtKs/BfYzuLg8euc6M13yzDLt
+	oNk6+1dsA07E3soYB7UIPj0eKsDe83mXhc4fBR0u1s75unJla4QoqBNiwtZ6fDm5mQ0d
+	Z95o2TTLxWkqNWUjUn9ZhNLpKba7jV8Iqcpo3q1RZEnTr71nC1Xo0SqyV5g+QfWqQHRs
+	4xVupVr2qbyQsBvkphysKbfxODOfoXqioNoKLME0hxtcpAK5akNi9XZ6DsyyowcxTcCm
+	OeQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=WvVDdGYiHJOi+gKag2tmLZPxTu1//oH9tpca0/Qg5mY=;
-	b=h/llX57/vvjD6l1uaapc+fbfSo2CUApYESqn1BUz61gIvbtsoWqJn2Efk4VdLpR0MF
-	b3oTped1oQUVbSEcdooyrMZXscFYwE8BhEQ96shJ06zcAF/l9Lv6YR741+W6NscsxiDx
-	gcvmnAnryhyjc0c73tOExyJ3qegutR7oPDWThc41ZNEtSwKN4CKXDUycy/7qBO4hMZbR
-	YuNu6mOOhrkW9yORS6O1ZhNt/NvN5m/r3HEtho6DN8/aVo1XRSIeMhpXJcD5aZDcUdss
-	ma4UKYAcUHoYobHdtHUOPs5t4/RyR+FdHmL0V5O/22KVrg69hq7yhVZ2B7P96qQX0xQD
-	3+GQ==
-X-Gm-Message-State: AJcUukeerTAg7PcuPYa1iq1NCaTmUPVIweuYKwzgajqAumI7iXhIf1GS
-	zxpXon24433fCKNESmPSIZlK/FW8+GsFZjHS1HI=
-X-Google-Smtp-Source: ALg8bN6cNwk6kk6xyH1q1UdWzGk4bKWCYWF6bgUSyrGj4Th2Bnr4ebQbxy/04FrtRfWsMUmztKMvxboUP7sYON/D+Rs=
-X-Received: by 2002:a37:4c41:: with SMTP id z62mr45328456qka.206.1546557697105;
-	Thu, 03 Jan 2019 15:21:37 -0800 (PST)
+	bh=XJ6cpVNm+6BlBYBv26dN8lt0EposB2amQvFDvwgfJws=;
+	b=bRU3hH6E/Mu/0kWWqYZfj69kaLvAWidRAwfsMnzbE4bsgJnMsi2woMyv/fawFDuaxz
+	z2wa61JNrUt0bGXefVfgLo+SQPXHbMJjgkw3HKCCX2of81mjoi42woQcInKti0sSAKqC
+	JqJjx5jXdV4v6274GShN6ps9CEJpteTBHK//t6SRNvmM++zO3YwgVICF/nu+f8zL12S9
+	dMJ38eJzf16bLVgknYG2Ziap8T+NtqhnBvwxll2Qj+MQKXOHijwvCN/FQRbYKCh1kMkE
+	gHxkDdYHbMD5taMP5PDJvHjLNbxskIbDGRjjmBpyyt6dVKWJUTtlFRajfUrvyRy3hENC
+	rmkA==
+X-Gm-Message-State: AJcUukdEnMRTSe6nKtdU55DAUZ2IQBIvDLbdYMKrNnHDzirMvH9Eqrtp
+	UToPJXW0nCAGrafKOIDPtC7oBe7xrzw8KMwY34it8g==
+X-Google-Smtp-Source: ALg8bN5NV/Xrv0BuxfHj1lY9Rxh1dAZxhzGYy316nZSMzJ9m7klOh5BZ+0IXPdINhJ3Yh4APud5S3A3IZCzgBvVW29E=
+X-Received: by 2002:a5e:820d:: with SMTP id l13mr5014242iom.201.1546560157885; 
+	Thu, 03 Jan 2019 16:02:37 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
-	<20190103225915.GB29139@localhost>
-In-Reply-To: <20190103225915.GB29139@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 3 Jan 2019 15:21:11 -0800
-Message-ID: <CAMKF1sqhDzQL9P1Vaw5Xczo0co_=NcP1-efnzW=tDnJT9cAq_A@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Yocto Project <yocto@yoctoproject.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+References: <20190103231826.31290-1-alistair.francis@wdc.com>
+In-Reply-To: <20190103231826.31290-1-alistair.francis@wdc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Jan 2019 00:02:26 +0000
+Message-ID: <CAJTo0LYQH+=kx8=jmxsRB6SAgf4Un+vK_0ea+NdRbVpB9Yr47w@mail.gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Dropping armv5 and armv5e tunes in 2.7
+Subject: Re: [PATCH v2] swig: Fix configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2019 23:21:36 -0000
+X-List-Received-Date: Fri, 04 Jan 2019 00:02:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Adrian
+On Thu, 3 Jan 2019 at 23:18, Alistair Francis <Alistair.Francis@wdc.com> wrote:
+> Fix the swig build by calling autogen.sh before running configure.
 
-On Thu, Jan 3, 2019 at 2:59 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Thu, Jan 03, 2019 at 02:01:42PM -0800, Khem Raj wrote:
-> > Hello All
-> >
-> > You might have noticed a recent commit in gcc trunk
-> >
-> > https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=b232e6b58e3766bc66fe08fdb7bcba1bdadda8a2
-> >
-> > Which removed support for deprecated -march=armv5 and armv5e, this
-> > will be released along with gcc-9 release which is upcoming and we
-> > might be able to add gcc9 to 2.7 release or 2.8 release for sure.
-> >
-> > We still have non-thumb tunes for armv5 and armv4 in our tune pack, I
-> > would like to propose a patch to remove them.
-> >...
->
-> Note that gcc 9 does *not* remove non-thumb armv4 support.
->
+But...
 
-yes that's right. However, I was taking this time to find out if we can drop all
-the ones besides armv5te even if gcc supported it unless there were OE users
-who are still interested in supporting them and had devices running OE
-which need them
+> @@ -45,6 +45,7 @@ do_configure() {
+>      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/Tools/config
+>      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
+>      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
+> +    (cd ${S} && ./autogen.sh)
+>      oe_runconf
 
-> Non-thumb armv5/armv5e have been removed due to
-> "have no known implementations".
->
-> Non-thumb armv4 support was deprecated in gcc 6 together with armv2/armv3,
-> but there are still people using recent gcc on StrongARM - which is
-> non-thumb armv4.
+Now this is literally just reimplementing the default do_configure
+from autotools.  The first three lines are gnuconfigize, autogen.sh is
+generally just autoreconf in modern systems, and then oe_runconf.
 
-OK, that's a fair point, however, in OE's case I only have reports from users
-with armv4t devices, but it we can keep the armv4 arm-only tunes around along
-with the arm-thumb v4 ones
+If do_configure is just deleted, what breaks?
 
->
-> > Thanks
-> > -Khem
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+Ross
 
