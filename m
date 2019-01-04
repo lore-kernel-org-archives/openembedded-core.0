@@ -1,26 +1,50 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 370397BE0A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2019 07:17:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Jan 2019 23:17:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,437,1539673200"; d="scan'208";a="123191468"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jan 2019 23:17:30 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Jan 2019 14:46:03 +0800
-Message-Id: <1546584363-72836-4-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1546584363-72836-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1546584363-72836-1-git-send-email-ee.peng.yeoh@intel.com>
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 03F7B6E47A;
+	Fri,  4 Jan 2019 12:10:45 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id j10so17453803pga.1;
+	Fri, 04 Jan 2019 04:10:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fdvhDIRd/d3Q8Yjh6EYZW4qh37hsbk/mNOu51aDp/ZE=;
+	b=DGHDp2njMSK+0ZAV4PfIE25+HKscfSTXe2YSvFlCQwcHxbbTEsS2+LvHDbTBNqI5aW
+	oOhWXR6ViIIQZ6yFWcWzuUFUUMlhwksM65dLHhcFVaArIsAQH41kofLI2tT7h7u+U+Iw
+	qwNpWVPj2lpSIL0hcRjgMy72V0vz5XeWFw6MUpW5cQoucyUCm86QIHx47Xh0OUlBRiSQ
+	qYYJv5o/CzgZOweCgXrrnVloGQuP/JlNpV/qy/jezoE1JRKtwzSbYmw/QFZWoPyYqW+k
+	dAdlOFdPFHg1dAqv1OkPwYp3oiagUK4AsKV/NH5M1fP6evUfxvcYYW5cfaSUkR6rH/Br
+	oNfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fdvhDIRd/d3Q8Yjh6EYZW4qh37hsbk/mNOu51aDp/ZE=;
+	b=WlfXNOQs9yJQC8o2pl8ysY4i53CLeuNKlMzWbUw6irK/LvVkznFNob/zOD/DNm3sRK
+	W+euiAv56vLFRsSvo7S4843RykKDfx1iQ9YToGznL1Z1n8udFtMsK0FjwwvPj+0RNhOt
+	DgEJA3QXRchhdr9f3E/tyhon1bC5tMVE+WhsMj8ZfhMz7pRnNDtdlkOANgcR9PQcN/gI
+	SS2K1bZ99pbH8XmhytUklwHRMXANOlbhi42kbCfYlTkyqVeySucwV2Pg5ugbwGPsvqOb
+	vwMN1txnEquLURkgobvq/rvWezLr2Elaj1zjUn8U2mlWbcAtAw32U4dQ+I+PQkMs9/rT
+	hPlQ==
+X-Gm-Message-State: AJcUukfWJyEDlFpQTyv7qt5Zz3Puehyp5IOO+H3T6Mg2JMqkHAllfpk2
+	SUmqsA1fh5uIxeQBDcCzjRW86UBbKzINGKXaLo0=
+X-Google-Smtp-Source: ALg8bN7s4zTSvseJuF1c+HerrUp5vqX3sKTxecqw9XIrKbVo95XkcK5VrXabTTywK22YHmlH+FO+dsxpqcCEe1ZapmA=
+X-Received: by 2002:a63:df13:: with SMTP id u19mr1443538pgg.294.1546603846846; 
+	Fri, 04 Jan 2019 04:10:46 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 3/3 v3] scripts/test-case-mgmt: enable manual execution and result creation
+References: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
+	<20190103225915.GB29139@localhost>
+	<CAMKF1sqhDzQL9P1Vaw5Xczo0co_=NcP1-efnzW=tDnJT9cAq_A@mail.gmail.com>
+In-Reply-To: <CAMKF1sqhDzQL9P1Vaw5Xczo0co_=NcP1-efnzW=tDnJT9cAq_A@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Fri, 4 Jan 2019 13:10:33 +0100
+Message-ID: <CAAQYJAu+vBmZS731cd=0erSMMK3P6XqhkSGOH_5S=WEM90E3eg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Dropping armv5 and armv5e tunes in 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,243 +57,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2019 07:17:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 04 Jan 2019 12:10:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mazliana <mazliana.mohamad@intel.com>
+On Fri, Jan 4, 2019 at 12:21 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Thanks Adrian
+>
+> On Thu, Jan 3, 2019 at 2:59 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Thu, Jan 03, 2019 at 02:01:42PM -0800, Khem Raj wrote:
+> > > Hello All
+> > >
+> > > You might have noticed a recent commit in gcc trunk
+> > >
+> > > https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=b232e6b58e3766bc66fe08fdb7bcba1bdadda8a2
+> > >
+> > > Which removed support for deprecated -march=armv5 and armv5e, this
+> > > will be released along with gcc-9 release which is upcoming and we
+> > > might be able to add gcc9 to 2.7 release or 2.8 release for sure.
+> > >
+> > > We still have non-thumb tunes for armv5 and armv4 in our tune pack, I
+> > > would like to propose a patch to remove them.
+> > >...
+> >
+> > Note that gcc 9 does *not* remove non-thumb armv4 support.
+> >
+>
+> yes that's right. However, I was taking this time to find out if we can drop all
+> the ones besides armv5te even if gcc supported it unless there were OE users
+> who are still interested in supporting them and had devices running OE
+> which need them
+>
+> > Non-thumb armv5/armv5e have been removed due to
+> > "have no known implementations".
+> >
+> > Non-thumb armv4 support was deprecated in gcc 6 together with armv2/armv3,
+> > but there are still people using recent gcc on StrongARM - which is
+> > non-thumb armv4.
+>
+> OK, that's a fair point, however, in OE's case I only have reports from users
+> with armv4t devices, but it we can keep the armv4 arm-only tunes around along
+> with the arm-thumb v4 ones
+>
 
-Integrated “manualexecution” operation to test-case-mgmt scripts.
-Manual execution script is a helper script to execute all manual
-test cases in baseline command, which consists of user guideline
-steps and the expected results. The last step will ask user to
-provide their input to execute result. The input options are
-passed/failed/blocked/skipped status. The result given will be
-written in testresults.json including log error from the user
-input and configuration if there is any.The output test result
-for json file is created by using OEQA library.
+Khem,
 
-The configuration part is manually key-in by the user. The system
-allow user to specify how many configuration they want to add and
-they need to define the required configuration name and value pair.
-In QA perspective, "configuration" means the test environments and
-parameters used during QA setup before testing can be carry out.
-Example of configurations: image used for boot up, host machine
-distro used, poky configurations, etc.
+on the kernel side it looks like RMK will not let die amrv4 so easily...
 
-The purpose of adding the configuration is to standardize the
-output test result format between automation and manual execution.
+I still have around that Zaurus collie sa1100 armv4 and I think OE is
+the only toolchain offering EABI for armv4
+My plans were to lead it up to the upcoming linux v.5.0 so it should
+not take long.
+But all this is for fun I higly doubt there are still 'users'.
 
-To use these scripts, first source oe environment, then run the
-entry point script to look for help.
-        $ test-case-mgmt
-
-To execute manual test cases, execute the below
-        $ test-case-mgmt manualexecution <manualjsonfile>
-
-By default testresults.json store in <build_dir>/tmp/log/manual/
-
-[YOCTO #12651]
-
-Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
----
- scripts/lib/testcasemgmt/manualexecution.py | 142 ++++++++++++++++++++++++++++
- scripts/test-case-mgmt                      |  11 ++-
- 2 files changed, 152 insertions(+), 1 deletion(-)
- create mode 100644 scripts/lib/testcasemgmt/manualexecution.py
-
-diff --git a/scripts/lib/testcasemgmt/manualexecution.py b/scripts/lib/testcasemgmt/manualexecution.py
-new file mode 100644
-index 0000000..8fd378d
---- /dev/null
-+++ b/scripts/lib/testcasemgmt/manualexecution.py
-@@ -0,0 +1,142 @@
-+# test case management tool - manual execution from testopia test cases
-+#
-+# Copyright (c) 2018, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import argparse
-+import json
-+import os
-+import sys
-+import datetime
-+import re
-+from oeqa.core.runner import OETestResultJSONHelper
-+
-+class ManualTestRunner(object):
-+    def __init__(self):
-+        self.jdata = ''
-+        self.test_module = ''
-+        self.test_suite = ''
-+        self.test_case = ''
-+        self.configuration = ''
-+        self.starttime = ''
-+        self.result_id = ''
-+        self.write_dir = ''
-+
-+    def _read_json(self, file):
-+        self.jdata = json.load(open('%s' % file))
-+        self.test_case = []
-+        self.test_module = self.jdata[0]['test']['@alias'].split('.', 2)[0]
-+        self.test_suite = self.jdata[0]['test']['@alias'].split('.', 2)[1]
-+        for i in range(0, len(self.jdata)):
-+            self.test_case.append(self.jdata[i]['test']['@alias'].split('.', 2)[2])
-+
-+    def _get_input(self, config):
-+        while True:
-+            output = input('{} = '.format(config))
-+            if re.match('^[a-zA-Z0-9_]+$', output):
-+                break
-+            print('Only alphanumeric and underscore are allowed. Please try again')
-+        return output
-+
-+    def _create_config(self):
-+        self.configuration = {}
-+        while True:
-+            try:
-+                conf_total = int(input('\nPlease provide how many configuration you want to save \n'))
-+                break
-+            except ValueError:
-+                print('Invalid input. Please provide input as a number not character.')
-+        for i in range(conf_total):
-+            print('---------------------------------------------')
-+            print('This is configuration #%s ' % (i + 1) + '. Please provide configuration name and its value')
-+            print('---------------------------------------------')
-+            name_conf = self._get_input('Configuration Name')
-+            value_conf = self._get_input('Configuration Value')
-+            print('---------------------------------------------\n')
-+            self.configuration[name_conf.upper()] = value_conf
-+        current_datetime = datetime.datetime.now()
-+        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
-+        self.configuration['STARTTIME'] = self.starttime
-+        self.configuration['TEST_TYPE'] = self.test_module
-+
-+    def _create_result_id(self):
-+        self.result_id = 'manual_' + self.test_module + '_' + self.starttime
-+
-+    def _execute_test_steps(self, test_id):
-+        test_result = {}
-+        testcase_id = self.test_module + '.' + self.test_suite + '.' + self.test_case[test_id]
-+        total_steps = len(self.jdata[test_id]['test']['execution'].keys())
-+        print('------------------------------------------------------------------------')
-+        print('Executing test case:' + '' '' + self.test_case[test_id])
-+        print('------------------------------------------------------------------------')
-+        print('You have total ' + str(total_steps) + ' test steps to be executed.')
-+        print('------------------------------------------------------------------------\n')
-+
-+        for step in range (1, (total_steps + 1)):
-+            print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
-+            print('Expected output: ' + self.jdata[test_id]['test']['execution']['%s' % step]['expected_results'])
-+            if step == total_steps:
-+                while True:
-+                    try:
-+                        done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n')
-+                        done = done.lower()
-+                        if done == 'p':
-+                            res = 'PASSED'
-+                        elif done == 'f':
-+                            res = 'FAILED'
-+                            log_input = input('\nPlease enter the error and the description of the log: (Ex:log:211 Error Bitbake)\n')
-+                        elif done == 'b':
-+                            res = 'BLOCKED'
-+                        elif done == 's':
-+                            res = 'SKIPPED'
-+
-+                        if res == 'FAILED':
-+                            test_result.update({testcase_id: {'status': '%s' % res, 'log': '%s' % log_input}})
-+                        else:
-+                            test_result.update({testcase_id: {'status': '%s' % res}})
-+                        break
-+                    except:
-+                        print('Invalid input!')
-+            else:
-+                done = input('\nPlease press ENTER when you are done to proceed to next step.\n')
-+        return test_result
-+
-+    def _create_write_dir(self):
-+        basepath = os.environ['BUILDDIR']
-+        self.write_dir = basepath + '/tmp/log/manual/'
-+
-+    def run_test(self, file):
-+        self._read_json(file)
-+        self._create_config()
-+        self._create_result_id()
-+        self._create_write_dir()
-+        test_results = {}
-+        print('\nTotal number of test cases in this test suite: ' + '%s\n' % len(self.jdata))
-+        for i in range(0, len(self.jdata)):
-+            test_result = self._execute_test_steps(i)
-+            test_results.update(test_result)
-+        return self.configuration, self.result_id, self.write_dir, test_results
-+
-+def manualexecution(args, logger):
-+    testrunner = ManualTestRunner()
-+    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
-+    resultjsonhelper = OETestResultJSONHelper()
-+    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id,
-+                                          get_test_results)
-+    return 0
-+
-+def register_commands(subparsers):
-+    """Register subcommands from this plugin"""
-+    parser_build = subparsers.add_parser('manualexecution', help='Helper script for results populating during manual test execution.',
-+                                         description='Helper script for results populating during manual test execution. You can find manual test case JSON file in meta/lib/oeqa/manual/',
-+                                         group='manualexecution')
-+    parser_build.set_defaults(func=manualexecution)
-+    parser_build.add_argument('file', help='Specify path to manual test case JSON file.Note: Please use \"\" to encapsulate the file path.')
-diff --git a/scripts/test-case-mgmt b/scripts/test-case-mgmt
-index 0df305d..5c1d435 100755
---- a/scripts/test-case-mgmt
-+++ b/scripts/test-case-mgmt
-@@ -8,7 +8,7 @@
- # test-case-mgmt script was designed as part of the helper script for below purpose:
- # 1. To store test result inside git repository
- # 2. To report text-based test result summary
--# 3. (Future) To execute manual test cases
-+# 3. To execute manual test cases
- #
- # To look for help information.
- #    $ test-case-mgmt
-@@ -19,6 +19,12 @@
- # To report test result summary, execute the below
- #     $ test-case-mgmt report <git_branch>
- #
-+# To execute manual test cases, execute the below
-+#    $ test-case-mgmt manualexecution <manualjsonfile>
-+#
-+# By default testresults.json for manualexecution store in <build_dir>/tmp/log/manual/
-+#
-+#
- # Copyright (c) 2018, Intel Corporation.
- #
- # This program is free software; you can redistribute it and/or modify it
-@@ -42,6 +48,7 @@ import argparse_oe
- import scriptutils
- import testcasemgmt.store
- import testcasemgmt.report
-+import testcasemgmt.manualexecution
- logger = scriptutils.logger_create('test-case-mgmt')
- 
- def _validate_user_input_arguments(args):
-@@ -72,6 +79,8 @@ def main():
-     parser.add_argument('-q', '--quiet', help='print only errors', action='store_true')
-     subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
-     subparsers.required = True
-+    subparsers.add_subparser_group('manualexecution', 'execute manual test cases', 300)
-+    testcasemgmt.manualexecution.register_commands(subparsers)
-     subparsers.add_subparser_group('store', 'store test result', 200)
-     testcasemgmt.store.register_commands(subparsers)
-     subparsers.add_subparser_group('report', 'report test result summary', 100)
--- 
-2.7.4
-
+So IMHO it is premature to remove armv4.
+Cheers
+Andrea
+> >
+> > > Thanks
+> > > -Khem
+> >
+> > cu
+> > Adrian
+> >
+> > --
+> >
+> >        "Is there not promise of rain?" Ling Tan asked suddenly out
+> >         of the darkness. There had been need of rain for many days.
+> >        "Only a promise," Lao Er said.
+> >                                        Pearl S. Buck - Dragon Seed
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
