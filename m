@@ -1,24 +1,29 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 94B1E60229
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B24F97BD8A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2019 03:31:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x043UPOi014100
+	Fri,  4 Jan 2019 03:46:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x043kDCC010338
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 Jan 2019 19:30:35 -0800
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 3 Jan 2019 19:30:14 -0800
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 4 Jan 2019 10:49:10 +0800
-Message-ID: <20190104024910.674-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
+	Thu, 3 Jan 2019 19:46:13 -0800 (PST)
+Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 3 Jan 2019 19:46:13 -0800
+From: Kang Kai <Kai.Kang@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<poky@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1544102766.git.kai.kang@windriver.com>
+	<c2e11d2a6ebb8da6177c0b0d7174a0e2047093db.1544102766.git.kai.kang@windriver.com>
+	<81b73451de8a9149beda328186cbdf4adb4452ea.camel@linuxfoundation.org>
+Message-ID: <fa468ec4-72b3-3d6d-830d-8a38bf81a0c1@windriver.com>
+Date: Fri, 4 Jan 2019 11:43:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] wic: update test case test_qemu
+In-Reply-To: <81b73451de8a9149beda328186cbdf4adb4452ea.camel@linuxfoundation.org>
+Subject: Re: [poky] [meta-poky][PATCH 1/1] local.conf.sample: make systemd as default init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +36,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2019 03:31:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Jan 2019 03:46:14 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Kai Kang <kai.kang@windriver.com>
+On 2018/12/10 上午2:12, Richard Purdie wrote:
+> On Thu, 2018-12-06 at 20:53 +0800,kai.kang@windriver.com  wrote:
+>> From: Kai Kang<kai.kang@windriver.com>
+>>
+>> Move configurations from local.conf.sample.extended to
+>> local.conf.sample
+>> to make systemd as default init manager for poky.
+>>
+>> [YOCTO #13031]
+>>
+>> Signed-off-by: Kai Kang<kai.kang@windriver.com>
+>> ---
+>>   meta-poky/conf/local.conf.sample          | 8 ++++++++
+>>   meta-poky/conf/local.conf.sample.extended | 8 --------
+>>   2 files changed, 8 insertions(+), 8 deletions(-)
+> I had a feeling there would be some issues to fix before we could do
+> this by default:
+>
+> systemd fails to compile with x32:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/76
 
-It checks output of mount in wic test case test_qemu. But the outputs are
-different between sysvinit and systemd. Add assertion for systemd.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/lib/oeqa/selftest/cases/wic.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Fixed.
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 36ee5e5a14..a6bc566166 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -627,7 +627,10 @@ class Wic2(WicTestCase):
-         with runqemu('wic-image-minimal', ssh=False) as qemu:
-             cmd = "mount |grep '^/dev/' | cut -f1,3 -d ' ' | sort"
-             status, output = qemu.run_serial(cmd)
--            self.assertEqual(output, '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /media\r\n/dev/sda4 /mnt')
-+            if 'sysvinit' in get_bb_var('DISTRO_FEATURES'):
-+                self.assertEqual(output, '/dev/root /\r\n/dev/sda1 /boot\r\n/dev/sda3 /media\r\n/dev/sda4 /mnt')
-+            else:
-+                self.assertEqual(output, '/dev/sda1 /boot\r\n/dev/sda2 /\r\n/dev/sda3 /media\r\n/dev/sda4 /mnt')
-             cmd = "grep UUID= /etc/fstab"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+
+> sanity tests on qemux86-64 core-image-sato-sdk:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/77/steps/7/logs/step1c
+
+| RESULTS - stap.StapTest.test_stap - Testcase 1652: FAILED (674.37s)
+
+Can't reproduce.
+
+
+> sanity tests on qemuarm core-image-sato-sdk with poky-lsb:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/77/steps/7/logs/step1c
+>
+> dpkg issues:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/77/steps/7/logs/step2c
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/77/steps/7/logs/step1c
+
+| RESULTS - parselogs.ParseLogsTest.test_parselogs - Testcase 1059: 
+FAILED (36.92s)
+
+Can't reproduce
+
+
+> wic failure:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/33/steps/7/logs/step2d
+> (postinstall problem?)
+
+wic.Wic.test_iso_image: can't reproduce
+
+wic.Wic2.test_iso_image: RR sendgb
+
+
+> musl sanity test issue:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/77/steps/7/logs/step1c
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/78/steps/7/logs/step1c
+
+| RESULTS - systemd.SystemdJournalTests.test_systemd_boot_time - 
+Testcase -1: SKIPPED (0.19s)
+
+Fixed.
+
+
+Would you like to try this patch again? Thanks.
+
+
+--Kai
+
+
+>
+> Hopefully its a small number of issues at the heart of this but we need
+> to sort this out before it can merge.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
 -- 
-2.18.0
+Kai Kang
 
 
