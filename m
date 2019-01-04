@@ -1,50 +1,50 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 70A817BDC1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B16B07BD84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2019 00:15:38 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id l15-v6so31135427lja.9
+	Fri,  4 Jan 2019 00:16:54 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id g85so47749945ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2019 16:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 03 Jan 2019 16:16:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=usEFLWdi8tK6pe99G2UP+mkmF09vepHhxVM5Vcqe2+E=;
-	b=OZkq1L5fG8RT+3hi5slfEBYasABmuq3dF6Ga/7iXglxaiQem7uOLNu0Z0kZmSq8DCq
-	E4hea4LvHU+o5TqHbqHcIUGqfmbh7h4Z7vgUOiOEra0JU1dtd6ECJy4Nsung+U11WVNH
-	3iycTEWQ016ZZHRBOW1WUKyal4nUgbcQ+zBAHu3T8cyWI9ZBowfrjYh/y4FqiOglQ8R6
-	Hly8EVgMA0M0Px9xTKz6WU/bovVDURyge8prGPmKqD12vuPRLE47/Bwk8WPCJSEl/0jZ
-	arfPo/gONqoUWKdIXSR6RZmeDHAMQ75xPqEHyTcv8WkuTjjOGLZwPXHoTjKD9j7qTN/b
-	cAVw==
+	:cc; bh=Sg32pVoIdSMdAYOzqi2FInLmtC7P1tpIGzjgd8VpGy8=;
+	b=hg5ywpEY1Y48KZQ1OnZtPM2v+ThzDHas3TQa8UHUHXtKPZxHAbtwhdEtf+lRTVPQAO
+	IgoKCSrbKdEpz2abG7TXxK4juxyskV8Y3SoYTlaT2bxyIOcye/fTOdmDnOqCMpaApo9s
+	TeZPNPR3gZ3t4SaictSm1dRdpQwRUm9N8XRUh4ksKNRa6z5cLZdUz6YFZ8Q7DZFz06bU
+	xPDXjPuybfQwQJ16Rchl6rcLPo9kv94HvR0ioUG8RJIMsYIsKRWkg2SkOFPJ5qgEEQVA
+	1xhO313tz76xx50meIplahX9dlwzG6say/2ZcP1xoD4kiotGr96HQ0PnysyNQ3SF8SJo
+	mqNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=usEFLWdi8tK6pe99G2UP+mkmF09vepHhxVM5Vcqe2+E=;
-	b=AHdkPSOavUfGnBf+idZKsa+Cup0acg9e7wsn9Xu5BryMF8XMeqMz9dPGzr7IQxjXJN
-	3+W137Ot295mKAWSZr6sX+JVN919jasVxLK8N9giJY+TB0mS4jXAfmzXgkMVsx1+GAzp
-	SRnsDetZVEh6KwTxPVgLybaR0qp73mjUwnJ6s8XaAkjQlamggqpwRLrcNHqjogUODPJH
-	uKWeZrtilkI0gyUaYtoJ8XPS/LtTR/hCOFd3ZOcGfrhyzZMziSlo2ob3ruUeMoZi9jVR
-	ZQ4tnh5ZgocQVgD2bqQ21iXS4dajWm69XPANdSJlveZqT+h3NfYX2Z8/USUYvwcXzCnY
-	t4TQ==
-X-Gm-Message-State: AJcUukdPxs+i+6Ok03PrC11IzzitLVId5a8G+QLo+ZistMCyxZuQxW+7
-	/D6DxFzxujGYAOjUEJXZwaAF09G2lPvEzI8NTuo=
-X-Google-Smtp-Source: ALg8bN6IcA87rpJd88S8i57ymnWiPlRMa/CiE8AHH4b40rnjsemdix7cmPMm68pCZxMbjlygMZS6nJbe8GLR5efDycs=
-X-Received: by 2002:a2e:131a:: with SMTP id
-	26-v6mr4069130ljt.107.1546560938879; 
-	Thu, 03 Jan 2019 16:15:38 -0800 (PST)
+	bh=Sg32pVoIdSMdAYOzqi2FInLmtC7P1tpIGzjgd8VpGy8=;
+	b=c4+QT2RK4yo3urFgevPwDW7zz0G7Uo5IDWwdk9F3MnmyIPqJdPCliwT0AnXAJxvOBB
+	Fx9TJe537JqLRn17RDQpjtceTQ4lNv0qwxzcdnrPNe0E9oKVmCwFhgvubIFGEFhAcxkv
+	9UrCRKJrDkG0l0aCpHxHCRFXFfa3qzpfRA0i6n7i5D0TJ+Vq/B91aJFpHdnNDr0WyJ2v
+	6QaOQeXLF3SaMX7L+g5dyS3p+zzFHc7CLxu+2Nag5SAvImoOQmQl8aAOi/VUZv/B4t/a
+	tAAiOO1scuVPPCMhVzqgXU3awtZ/Lr7rBQRO0MUvDFyy5sfsikausad22Z/ZGbrYDEIH
+	G6hQ==
+X-Gm-Message-State: AJcUukewiGMjHTcfrtFLBgQp9n1gPLUg9zqH8W/8BfdemnMS3Ee9ZftE
+	AlwegVRhuo9UmLU2hsyTjU1UvXknfLkAoFpsBd4eIQ==
+X-Google-Smtp-Source: ALg8bN7FkCyC1XVJ3B/SrSa8Zs4pRHBHcrhmPVUsiitBdIm/bRMiWxLHQLWIHd4zTO0sUs4/Mo56kUyAARz6orbSL9w=
+X-Received: by 2002:a24:8e43:: with SMTP id h64mr259514ite.26.1546561015678;
+	Thu, 03 Jan 2019 16:16:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20180614194507.93168-1-alistair.francis@wdc.com>
-	<20180614194507.93168-3-alistair.francis@wdc.com>
-	<CADkTA4PJuHARyOg7zU4vNktpniz+OFg_1iU7_nUQYWmM2uhxoA@mail.gmail.com>
-In-Reply-To: <CADkTA4PJuHARyOg7zU4vNktpniz+OFg_1iU7_nUQYWmM2uhxoA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Jan 2019 16:15:12 -0800
-Message-ID: <CAKmqyKPVc3iTwU8aU=r=q45FeYdtegw-ZMMs=6pZ1KmL1S+ofQ@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+References: <20190103231826.31290-1-alistair.francis@wdc.com>
+	<CAJTo0LYQH+=kx8=jmxsRB6SAgf4Un+vK_0ea+NdRbVpB9Yr47w@mail.gmail.com>
+	<CAKmqyKN5sAyo64g+if-t=wp6tqkjsyMLFEcbCMoZquA378fVgw@mail.gmail.com>
+In-Reply-To: <CAKmqyKN5sAyo64g+if-t=wp6tqkjsyMLFEcbCMoZquA378fVgw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Jan 2019 00:16:44 +0000
+Message-ID: <CAJTo0LZgU9gJqDSmiNxv+zWX12Og4my4FRugVEtqdyJN2-04Ng@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] recipes-kernel/linux: Add RISC-V support
+Subject: Re: [PATCH v2] swig: Fix configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,94 +57,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2019 00:15:38 -0000
+X-List-Received-Date: Fri, 04 Jan 2019 00:16:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 14, 2018 at 3:12 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
->
->
-> On Thu, Jun 14, 2018 at 3:45 PM, Alistair Francis <alistair.francis@wdc.com> wrote:
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  meta/recipes-kernel/linux/linux-yocto.inc     | 4 ++++
->>  meta/recipes-kernel/linux/linux-yocto_4.15.bb | 5 ++++-
->>  2 files changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
->> index 95ec2a2b41..70a13cdd1e 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
->>  KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->>  KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->>
->> +DEPENDS_append_riscv64 = " libgcc"
->> +KERNEL_CC_append_riscv64 = " ${TOOLCHAIN_OPTIONS} ${SECURITY_NOPIE_CFLAGS}"
->> +KERNEL_LD_append_riscv64 = " -no-pie"
->> +
->>  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
->>
->>  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
->> index 693670c613..4ea368a011 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
->> @@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL = "2"
->>
->>  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
->>
->> -COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
->> +KBUILD_DEFCONFIG_qemuriscv64 = "defconfig"
->> +KCONFIG_MODE_qemuriscv64 = "--alldefconfig"
->
->
-> This doesn't belong in linux-yocto.
->
-> We use defined BSP and configuration fraagments, not in-tree defconfigs
->
-> I'm happy to add a BSP definition to the kernel-cache, but this isn't the way to add configuration support for the linux-yocto trees
+Try adding EXTRA_AUTORECONF += "-I Tools/config"?
 
-Hey Bruce,
+Ross
 
-I'm looking at this again as the 4.19 kernel now has full working
-RISC-V support.
-
-How can I add a BSP definition to the kernel-cache?
-
-Also, what is the reason for not using the in-tree defconfigs?
-
-Alistair
-
+On Fri, 4 Jan 2019 at 00:11, Alistair Francis <alistair23@gmail.com> wrote:
 >
-> Cheers,
+> On Thu, Jan 3, 2019 at 4:02 PM Burton, Ross <ross.burton@intel.com> wrote:
+> >
+> > On Thu, 3 Jan 2019 at 23:18, Alistair Francis <Alistair.Francis@wdc.com> wrote:
+> > > Fix the swig build by calling autogen.sh before running configure.
+> >
+> > But...
+> >
+> > > @@ -45,6 +45,7 @@ do_configure() {
+> > >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/Tools/config
+> > >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
+> > >      install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
+> > > +    (cd ${S} && ./autogen.sh)
+> > >      oe_runconf
+> >
+> > Now this is literally just reimplementing the default do_configure
+> > from autotools.  The first three lines are gnuconfigize, autogen.sh is
+> > generally just autoreconf in modern systems, and then oe_runconf.
+> >
+> > If do_configure is just deleted, what breaks?
 >
-> Bruce
+> This is the error I see:
 >
->>
->> +
->> +COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemurisc532|qemuriscv64"
->>
->>  # Functionality flags
->>  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
->> --
->> 2.17.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> ERROR: swig-native-3.0.12-r0 do_configure: autoreconf execution failed.
+> ERROR: swig-native-3.0.12-r0 do_configure: Function failed:
+> do_configure (log file is located at
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/temp/log.do_configure.9027)
+> ERROR: Logfile of failure stored in:
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/temp/log.do_configure.9027
+> Log data follows:
+> | DEBUG: Executing shell function autotools_preconfigure
+> | Previously configured separate build directory detected, cleaning
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/build
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_aclocals
+> | DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+> 'bit-64', 'x86_64-linux', 'common']
+> | DEBUG: Python function autotools_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | automake (GNU automake) 1.16.1
+> | Copyright (C) 2018 Free Software Foundation, Inc.
+> | License GPLv2+: GNU GPL version 2 or later
+> <https://gnu.org/licenses/gpl-2.0.html>
+> | This is free software: you are free to change and redistribute it.
+> | There is NO WARRANTY, to the extent permitted by law.
+> |
+> | Written by Tom Tromey <tromey@redhat.com>
+> |        and Alexandre Duret-Lutz <adl@gnu.org>.
+> | AUTOV is 1.16
+> | NOTE: Executing ACLOCAL="aclocal
+> --system-acdir=/scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/share/aclocal/
+> --automake-acdir=/scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/share/aclocal-1.16"
+> autoreconf -Wcross --verbose --install --force --exclude=autopoint
+> | autoreconf: Entering directory `.'
+> | autoreconf: configure.ac: not using Gettext
+> | autoreconf: running: aclocal
+> --system-acdir=/scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/share/aclocal/
+> --automake-acdir=/scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/share/aclocal-1.16
+> --force
+> | autoreconf: configure.ac: tracing
+> | autoreconf: configure.ac: adding subdirectory CCache to autoreconf
+> | autoreconf: Entering directory `CCache'
+> | autoreconf: configure.ac: not using Libtool
+> | autoreconf: running:
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/bin/autoconf
+> --force
+> | autoreconf: running:
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/bin/autoheader
+> --force
+> | autoreconf: configure.ac: not using Automake
+> | autoreconf: running: gnu-configize
+> | autoreconf: Leaving directory `CCache'
+> | configure.ac:35: error: possibly undefined macro: AC_COMPILE_WARNINGS
+> |       If this token and others are legitimate, please use m4_pattern_allow.
+> |       See the Autoconf documentation.
+> | configure.ac:2982: error: possibly undefined macro: AC_DEFINE_DIR
+> | autoreconf: /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/recipe-sysroot-native/usr/bin/autoconf
+> failed with exit status: 1
+> | ERROR: autoreconf execution failed.
+> | WARNING: /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/temp/run.do_configure.9027:1
+> exit 1 from 'exit 1'
+> | ERROR: Function failed: do_configure (log file is located at
+> /scratch/alistair/yocto/oe-master/build/tmp-glibc/work/x86_64-linux/swig-native/3.0.12-r0/temp/log.do_configure.9027)
+> ERROR: Task (virtual:native:/scratch/alistair/yocto/oe-master/meta/recipes-devtools/swig/swig_3.0.12.bb:do_configure)
+> failed with exit code '1'
 >
+> Alistair
 >
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> > Ross
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
