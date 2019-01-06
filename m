@@ -1,49 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 539867BE11
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+	[209.85.167.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C4696BE2D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Jan 2019 16:31:00 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id u18so28492428lff.10
+	Sun,  6 Jan 2019 18:14:22 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id y11so28593066lfj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Jan 2019 08:31:01 -0800 (PST)
+	Sun, 06 Jan 2019 10:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=di8692eV2/ks57d93Wa2q8lom72Hi0oERCXpE6zkrV8=;
-	b=DBNfxmO4ISiAMByheTRnRH72gUU6TUq4qTKzTximcYE0ldubID+1MkRuGl0ESAAwru
-	18Gn/3XhihhejXS09NW4to/I433ZXQ4za7jF6ML3qUIFgv/ylb03sGMCd2qixzdDokzl
-	t8sUuc0zEe8XGYHVXzIJkmikSFHXP545Z71IvnRE8SPFR+FkyKyoosGSIYbvn8IdiCNq
-	5bxwiQAdgKPcBGwONrDRLzHeKP3+xZOm+7uVkLRZIBtWdbx6mDad4RnkJjl1LTEkHvJu
-	x8KgW5AZDOXpEepaaIwtzlRx+oiUFWe7K+tjL2lnG/Zpis4WvdB3VJkxQGWjWT9d0Kfj
-	Jb3w==
+	h=from:to:subject:date:message-id;
+	bh=Bgt1QMb12Iaog87rhJ3Gvfu5XEkAsKrUu0e+wjMtZCo=;
+	b=iKPtos6yMXrq256fFxz91OTlozLWXTGc5Da9+82zw0SQiqkWipElg8ACylogWWkfDH
+	U1G3bsr6Wv7KOMnNCHyMbao8Hn3d8M8L8bfWkBKhTlGkulqz1mAe/IQYxm0RvP9PTzYc
+	BNep0gJWp7/+t4GLn9A42+E1rzNN2R5gQR6J8PaT+auVAhcNovVAUQtu2Ujv79T6H01Y
+	/u9MrHyXiz9WczuHYzIzbsBte4kzPxp2LM+OIfbQs2aYyVEtSHQkJducw1V+J9WifvdV
+	zGbtOjZXcQc4WWr3KwWXs24F6PkCLYaYV17636TNGildHsQv3CpCGJrKiLos0iTqESoT
+	3JEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=di8692eV2/ks57d93Wa2q8lom72Hi0oERCXpE6zkrV8=;
-	b=F6q8iU/s9tnd+q2NmgNq6MJhaNk2mdScgUesWvFYv0336+Dd2tU0R7gHg3ECTJWZMm
-	IqOszZu5pE3pDY3MuOosUNuIScfKd63/g+fOz+Dd1c1FNJXdOJR9jrEHYKcrDp5vI0QX
-	w9XwwRB37uyfgpuTAdVYHYDwmQKizY2RsBSd3qIB/6Q9KbVOiURSexAxnzDwvoKgDUsp
-	PHTA0sHTySZlQQ2F/n2jwuKqzJdXG5N8ER0ytOq2LojGRrYQtkTnQhNQVnfSzvcodDG3
-	sHUa6BPRTgVFrMN2JzfZh7BD8Rk0WxKYHx/W74I6NcURx5u2DX7iM5BeGwU+6VkhBV/I
-	tCKA==
-X-Gm-Message-State: AA+aEWZav9SYgz6y7sCVxXp63ifMvR5zl/QhWimymiWHMgbTg4/XyuVl
-	hcbz+Mj6GVLiIIE86FPb9xFNnSwO
-X-Google-Smtp-Source: AFSGD/X90O7o/ZrrFPVBlZ9wgjLiULz+ZUS/oZ+O7t9HT+wG6srI8HlzBEhg4hWTFPXqTC0Jjfm+AQ==
-X-Received: by 2002:a19:a60c:: with SMTP id p12mr31011615lfe.63.1546792260878; 
-	Sun, 06 Jan 2019 08:31:00 -0800 (PST)
-Received: from peterliu-Precision-M4800.lan
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id
-	c133sm13496489lfc.45.2019.01.06.08.31.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 06 Jan 2019 08:31:00 -0800 (PST)
-From: liu.ming50@gmail.com
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Bgt1QMb12Iaog87rhJ3Gvfu5XEkAsKrUu0e+wjMtZCo=;
+	b=S9FlGUUV7r+R09fsYtmxF45/QYLqsABOb4ZHzsIP1UGjnwGARK9ug8TWib6fJ6H1/K
+	voFCCh80dGvUnEvKWfFedZOOcjaHHkTxbrcaXv0Wqf6H6XbrLBJM9je41ChqeVMrrbx4
+	hvJwPzq0Hx1Facb1UMVui2PKgPnrS6o/7ApotNwtXlPLmg7Tuzexq3dw/+AZSPhkJRdt
+	Hce4uFcIge6jwydLeKli5G3fPiNRrkcp7IYspYQaJdDJCqxIIpS0epKtX38FBfGOKNci
+	xbiatYTB+xc1uXDfvGDXDsdLA4r+PdWHLNS4aMvjWmS02KQV1NfixGuas/sTo9rjGeB9
+	N1sw==
+X-Gm-Message-State: AJcUukePO1c64wryow5AOjxGbc71EwAEk3PqW1hwqzSyf2R3Cjh5YLNl
+	leg7vvmgDLLrw3L3I7AZERv7jEC5
+X-Google-Smtp-Source: ALg8bN5lhBn1BJMr1vuhkNnuzSmj0mtsupGWc0QkljkUBm285l2VOP3R76rIbxgMfvecqD1x1IJRhQ==
+X-Received: by 2002:a19:c413:: with SMTP id u19mr22236934lff.100.1546798462385;
+	Sun, 06 Jan 2019 10:14:22 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	w9sm12295175lfc.66.2019.01.06.10.14.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 06 Jan 2019 10:14:21 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Jan 2019 17:30:57 +0100
-Message-Id: <1546792257-4686-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by task varflags
+Date: Sun,  6 Jan 2019 19:13:49 +0100
+Message-Id: <20190106181350.25386-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [RFC][PATCH 1/2] buildhistory: simplify buildhistory_list_files()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,64 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2019 16:31:01 -0000
+X-List-Received-Date: Sun, 06 Jan 2019 18:14:22 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+Avoid duplicating shell code for the two cases, fakeroot/non-fakeroot.
 
-I found a issue that sometimes there are leftovers in IMAGE_ROOTFS
-that are generated by the previous builds. I think this is caused by
-IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in provided that
-INC_RPM_IMAGE_GEN is not set.
-
-IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some code
-in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories
-could be removed.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 ---
- meta/classes/image.bbclass | 4 ++--
- meta/lib/oe/rootfs.py      | 5 -----
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ meta/classes/buildhistory.bbclass | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 11927f3..b6bf97a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -251,8 +251,8 @@ fakeroot python do_rootfs () {
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index d1f3e6aa82..33eb1b00f6 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -519,12 +519,14 @@ buildhistory_get_sdk_installed_target() {
  
-     progress_reporter.finish()
+ buildhistory_list_files() {
+ 	# List the files in the specified directory, but exclude date/time etc.
+-	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
++	# This is somewhat messy, but handles where the size is not printed for device files under pseudo
++	( cd $1
++	find_cmd='find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n"'
+ 	if [ "$3" = "fakeroot" ] ; then
+-		( cd $1 && ${FAKEROOTENV} ${FAKEROOTCMD} find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
++		eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
+ 	else
+-		( cd $1 && find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
+-	fi
++		eval $find_cmd
++	fi | sort -k5 | sed 's/ * -> $//' > $2 )
  }
--do_rootfs[dirs] = "${TOPDIR}"
--do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
-+do_rootfs[dirs] = "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
-+do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR} ${@["${IMAGE_ROOTFS}", ""][(d.getVar('INC_RPM_IMAGE_GEN') == '1')]}"
- do_rootfs[umask] = "022"
- do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
- addtask rootfs after do_prepare_recipe_sysroot
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 4273891..945c769 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -19,7 +19,6 @@ class Rootfs(object, metaclass=ABCMeta):
-         self.d = d
-         self.pm = None
-         self.image_rootfs = self.d.getVar('IMAGE_ROOTFS')
--        self.deploydir = self.d.getVar('IMGDEPLOYDIR')
-         self.progress_reporter = progress_reporter
-         self.logcatcher = logcatcher
  
-@@ -188,10 +187,6 @@ class Rootfs(object, metaclass=ABCMeta):
-         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
-         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
- 
--        bb.utils.mkdirhier(self.image_rootfs)
--
--        bb.utils.mkdirhier(self.deploydir)
--
-         execute_pre_post_process(self.d, pre_process_cmds)
- 
-         if self.progress_reporter:
+ buildhistory_list_pkg_files() {
 -- 
-2.7.4
+2.11.0
 
 
