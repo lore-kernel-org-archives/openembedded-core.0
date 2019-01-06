@@ -1,47 +1,49 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 38FBF6D52B
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+	[209.85.167.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 539867BE11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Jan 2019 16:26:37 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id r10so40844248wrs.10
+	Sun,  6 Jan 2019 16:31:00 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id u18so28492428lff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Jan 2019 08:26:39 -0800 (PST)
+	Sun, 06 Jan 2019 08:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bDu5U3eA9AXEgcObXiHrdn5pugF6or3IsUw+gIv+eCw=;
-	b=tbQYqpUSjsdPQmd4MBQARhQHi53hUVr3KIV2zDAeFCg5OCL8ychiszz62CmAjwK08s
-	iF7tuL+l4He91NxSTDXFqOn0IBtrFOAS10HoKDgCox51ddK9RU6QxF/ulHu9r4pfB8X+
-	VGr8cZpRjgqzVaA1Hrixbpg4I3Rz3G0A/AXrqAW7Dw0J+Hn4A90GrIl9WvlRa6nEXgco
-	Mh8KJ2aqiBvhQ8T1GH5FgkeJeX9P2pDaLKkk0ojocqwlTvwTcR0kK8kNUSfQ5Q3iAAEA
-	V7EEZgH+Nas9PsABnfVR9QOfChFExPnalJg/doOtxcd6oPB5MxZ+3IV6i2udwMRaaev0
-	MqMw==
+	h=from:to:cc:subject:date:message-id;
+	bh=di8692eV2/ks57d93Wa2q8lom72Hi0oERCXpE6zkrV8=;
+	b=DBNfxmO4ISiAMByheTRnRH72gUU6TUq4qTKzTximcYE0ldubID+1MkRuGl0ESAAwru
+	18Gn/3XhihhejXS09NW4to/I433ZXQ4za7jF6ML3qUIFgv/ylb03sGMCd2qixzdDokzl
+	t8sUuc0zEe8XGYHVXzIJkmikSFHXP545Z71IvnRE8SPFR+FkyKyoosGSIYbvn8IdiCNq
+	5bxwiQAdgKPcBGwONrDRLzHeKP3+xZOm+7uVkLRZIBtWdbx6mDad4RnkJjl1LTEkHvJu
+	x8KgW5AZDOXpEepaaIwtzlRx+oiUFWe7K+tjL2lnG/Zpis4WvdB3VJkxQGWjWT9d0Kfj
+	Jb3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bDu5U3eA9AXEgcObXiHrdn5pugF6or3IsUw+gIv+eCw=;
-	b=lsCuoZU3bIuvpW9GO/WmpqraJPNhpzNkKeERyKmznRhy6Lv9wpjOO9FhionFI0VMsU
-	6DZP8UezNYjFoQiBrjYJoWgO21VkVe5C+XQWWCbhJB2Lh40gM9LzXCDs5B7y/YoIujBj
-	jkPI5leDO5z761453I4VPNP2HXB1v8pC9Fss1gqHha6wiOEtgbgXDj5L5Lhk4wgd5Y4y
-	h2yamSd15ZYo8dppaCXceAkMNM31CcR4Ru9bHzn/xfwFMWVfN6ujNNJN+kbgIGk8S+/I
-	oQflzFopNhr1gdN5XZxhoiTS5HN5KkwDiDM5MFxJGDMkqq6+ymXOoqOiQ+5hmu6IOFU6
-	UFuw==
-X-Gm-Message-State: AJcUukdulqLGu2yrvBbsSPfHYyeXgl/XokNWTppXbjhIAF1fLmgWc65z
-	q1jyN8Iru20dPryy9SkqWqJ1ne4/zkuNpj1jKbU=
-X-Google-Smtp-Source: ALg8bN7zQ4CeOuO6XtB5OIt5c09wYuFF7TAlkY5vSsWWC3QxUmN2rhn3vDq90sLtPE21FsD7xsoqpIEsOxzuq8pW9t4=
-X-Received: by 2002:a5d:6549:: with SMTP id z9mr47649937wrv.116.1546791998638; 
-	Sun, 06 Jan 2019 08:26:38 -0800 (PST)
-MIME-Version: 1.0
-References: <1546790096-31237-1-git-send-email-liu.ming50@gmail.com>
-	<fd1e797c-76c5-d5a7-be7e-9d53348ce689@gmail.com>
-In-Reply-To: <fd1e797c-76c5-d5a7-be7e-9d53348ce689@gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Sun, 6 Jan 2019 17:26:27 +0100
-Message-ID: <CALatG=70h1RHUZWCxZ=7RwWh-FmJqn1oikDo5t-0i4pWZNqxAw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by task varflags
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=di8692eV2/ks57d93Wa2q8lom72Hi0oERCXpE6zkrV8=;
+	b=F6q8iU/s9tnd+q2NmgNq6MJhaNk2mdScgUesWvFYv0336+Dd2tU0R7gHg3ECTJWZMm
+	IqOszZu5pE3pDY3MuOosUNuIScfKd63/g+fOz+Dd1c1FNJXdOJR9jrEHYKcrDp5vI0QX
+	w9XwwRB37uyfgpuTAdVYHYDwmQKizY2RsBSd3qIB/6Q9KbVOiURSexAxnzDwvoKgDUsp
+	PHTA0sHTySZlQQ2F/n2jwuKqzJdXG5N8ER0ytOq2LojGRrYQtkTnQhNQVnfSzvcodDG3
+	sHUa6BPRTgVFrMN2JzfZh7BD8Rk0WxKYHx/W74I6NcURx5u2DX7iM5BeGwU+6VkhBV/I
+	tCKA==
+X-Gm-Message-State: AA+aEWZav9SYgz6y7sCVxXp63ifMvR5zl/QhWimymiWHMgbTg4/XyuVl
+	hcbz+Mj6GVLiIIE86FPb9xFNnSwO
+X-Google-Smtp-Source: AFSGD/X90O7o/ZrrFPVBlZ9wgjLiULz+ZUS/oZ+O7t9HT+wG6srI8HlzBEhg4hWTFPXqTC0Jjfm+AQ==
+X-Received: by 2002:a19:a60c:: with SMTP id p12mr31011615lfe.63.1546792260878; 
+	Sun, 06 Jan 2019 08:31:00 -0800 (PST)
+Received: from peterliu-Precision-M4800.lan
+	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
+	by smtp.gmail.com with ESMTPSA id
+	c133sm13496489lfc.45.2019.01.06.08.31.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 06 Jan 2019 08:31:00 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  6 Jan 2019 17:30:57 +0100
+Message-Id: <1546792257-4686-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by task varflags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,180 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2019 16:26:38 -0000
-Content-Type: multipart/alternative; boundary="0000000000009ecebe057ecc9312"
+X-List-Received-Date: Sun, 06 Jan 2019 16:31:01 -0000
 
---0000000000009ecebe057ecc9312
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ming Liu <liu.ming50@gmail.com>
 
-Hi, Khem:
+I found a issue that sometimes there are leftovers in IMAGE_ROOTFS
+that are generated by the previous builds. I think this is caused by
+IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in provided that
+INC_RPM_IMAGE_GEN is not set.
 
-Arha, I think you are right, I did not noticed its impact to incremental
-build, will send a V2 soon.
+IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some code
+in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories
+could be removed.
 
-//Ming Liu
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/image.bbclass | 4 ++--
+ meta/lib/oe/rootfs.py      | 5 -----
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-Khem Raj <raj.khem@gmail.com> =E6=96=BC 2019=E5=B9=B41=E6=9C=886=E6=97=A5 =
-=E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=885:00=E5=AF=AB=E9=81=93=EF=BC=9A
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 11927f3..b6bf97a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -251,8 +251,8 @@ fakeroot python do_rootfs () {
+ 
+     progress_reporter.finish()
+ }
+-do_rootfs[dirs] = "${TOPDIR}"
+-do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
++do_rootfs[dirs] = "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
++do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR} ${@["${IMAGE_ROOTFS}", ""][(d.getVar('INC_RPM_IMAGE_GEN') == '1')]}"
+ do_rootfs[umask] = "022"
+ do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
+ addtask rootfs after do_prepare_recipe_sysroot
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4273891..945c769 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -19,7 +19,6 @@ class Rootfs(object, metaclass=ABCMeta):
+         self.d = d
+         self.pm = None
+         self.image_rootfs = self.d.getVar('IMAGE_ROOTFS')
+-        self.deploydir = self.d.getVar('IMGDEPLOYDIR')
+         self.progress_reporter = progress_reporter
+         self.logcatcher = logcatcher
+ 
+@@ -188,10 +187,6 @@ class Rootfs(object, metaclass=ABCMeta):
+         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
+         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
+ 
+-        bb.utils.mkdirhier(self.image_rootfs)
+-
+-        bb.utils.mkdirhier(self.deploydir)
+-
+         execute_pre_post_process(self.d, pre_process_cmds)
+ 
+         if self.progress_reporter:
+-- 
+2.7.4
 
->
->
-> On 1/6/19 7:54 AM, liu.ming50@gmail.com wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > I found a issue that sometimes there are leftovers in IMAGE_ROOTFS
-> > that are generated by the previous builds. I think this is caused by
-> > IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in.
-> >
-> > IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some code
-> > in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories
-> > could be removed.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >   meta/classes/image.bbclass | 4 ++--
-> >   meta/lib/oe/rootfs.py      | 5 -----
-> >   2 files changed, 2 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 11927f3..464cc5d 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -251,8 +251,8 @@ fakeroot python do_rootfs () {
-> >
-> >       progress_reporter.finish()
-> >   }
-> > -do_rootfs[dirs] =3D "${TOPDIR}"
-> > -do_rootfs[cleandirs] +=3D "${S} ${IMGDEPLOYDIR}"
-> > +do_rootfs[dirs] =3D "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
-> > +do_rootfs[cleandirs] +=3D "${S} ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}"
->
-> would it mean no incremental rootfs creation ? meaning it will generate
-> full rootfs from scratch every time
->
-> >   do_rootfs[umask] =3D "022"
-> >   do_rootfs[file-checksums] +=3D "${POSTINST_INTERCEPT_CHECKSUMS}"
-> >   addtask rootfs after do_prepare_recipe_sysroot
-> > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> > index 4273891..945c769 100644
-> > --- a/meta/lib/oe/rootfs.py
-> > +++ b/meta/lib/oe/rootfs.py
-> > @@ -19,7 +19,6 @@ class Rootfs(object, metaclass=3DABCMeta):
-> >           self.d =3D d
-> >           self.pm =3D None
-> >           self.image_rootfs =3D self.d.getVar('IMAGE_ROOTFS')
-> > -        self.deploydir =3D self.d.getVar('IMGDEPLOYDIR')
-> >           self.progress_reporter =3D progress_reporter
-> >           self.logcatcher =3D logcatcher
-> >
-> > @@ -188,10 +187,6 @@ class Rootfs(object, metaclass=3DABCMeta):
-> >           post_process_cmds =3D self.d.getVar("ROOTFS_POSTPROCESS_COMMA=
-ND")
-> >           rootfs_post_install_cmds =3D
-> self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
-> >
-> > -        bb.utils.mkdirhier(self.image_rootfs)
-> > -
-> > -        bb.utils.mkdirhier(self.deploydir)
-> > -
-> >           execute_pre_post_process(self.d, pre_process_cmds)
-> >
-> >           if self.progress_reporter:
-> >
->
 
---0000000000009ecebe057ecc9312
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi, Khem:<div><br></div><div>Arha, I think you are right, =
-I did not noticed its impact to incremental build, will send a V2 soon.</di=
-v><div><br></div><div>//Ming Liu</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr">Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khe=
-m@gmail.com</a>&gt; =E6=96=BC 2019=E5=B9=B41=E6=9C=886=E6=97=A5 =E9=80=B1=
-=E6=97=A5 =E4=B8=8B=E5=8D=885:00=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-On 1/6/19 7:54 AM, <a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank=
-">liu.ming50@gmail.com</a> wrote:<br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; I found a issue that sometimes there are leftovers in IMAGE_ROOTFS<br>
-&gt; that are generated by the previous builds. I think this is caused by<b=
-r>
-&gt; IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in.<br>
-&gt; <br>
-&gt; IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some cod=
-e<br>
-&gt; in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories<br>
-&gt; could be removed.<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/classes/image.bbclass | 4 ++--<br>
-&gt;=C2=A0 =C2=A0meta/lib/oe/rootfs.py=C2=A0 =C2=A0 =C2=A0 | 5 -----<br>
-&gt;=C2=A0 =C2=A02 files changed, 2 insertions(+), 7 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass<b=
-r>
-&gt; index 11927f3..464cc5d 100644<br>
-&gt; --- a/meta/classes/image.bbclass<br>
-&gt; +++ b/meta/classes/image.bbclass<br>
-&gt; @@ -251,8 +251,8 @@ fakeroot python do_rootfs () {<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0progress_reporter.finish()<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; -do_rootfs[dirs] =3D &quot;${TOPDIR}&quot;<br>
-&gt; -do_rootfs[cleandirs] +=3D &quot;${S} ${IMGDEPLOYDIR}&quot;<br>
-&gt; +do_rootfs[dirs] =3D &quot;${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}&q=
-uot;<br>
-&gt; +do_rootfs[cleandirs] +=3D &quot;${S} ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}&=
-quot;<br>
-<br>
-would it mean no incremental rootfs creation ? meaning it will generate <br=
->
-full rootfs from scratch every time<br>
-<br>
-&gt;=C2=A0 =C2=A0do_rootfs[umask] =3D &quot;022&quot;<br>
-&gt;=C2=A0 =C2=A0do_rootfs[file-checksums] +=3D &quot;${POSTINST_INTERCEPT_=
-CHECKSUMS}&quot;<br>
-&gt;=C2=A0 =C2=A0addtask rootfs after do_prepare_recipe_sysroot<br>
-&gt; diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py<br>
-&gt; index 4273891..945c769 100644<br>
-&gt; --- a/meta/lib/oe/rootfs.py<br>
-&gt; +++ b/meta/lib/oe/rootfs.py<br>
-&gt; @@ -19,7 +19,6 @@ class Rootfs(object, metaclass=3DABCMeta):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.d =3D d<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.pm" rel=
-=3D"noreferrer" target=3D"_blank">self.pm</a> =3D None<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.image_rootfs =3D self.d.g=
-etVar(&#39;IMAGE_ROOTFS&#39;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.deploydir =3D self.d.getVar(&#39;IMG=
-DEPLOYDIR&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.progress_reporter =3D pro=
-gress_reporter<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.logcatcher =3D logcatcher=
-<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -188,10 +187,6 @@ class Rootfs(object, metaclass=3DABCMeta):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0post_process_cmds =3D self.d.g=
-etVar(&quot;ROOTFS_POSTPROCESS_COMMAND&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rootfs_post_install_cmds =3D s=
-elf.d.getVar(&#39;ROOTFS_POSTINSTALL_COMMAND&#39;)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(self.image_rootfs)<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(self.deploydir)<br>
-&gt; -<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0execute_pre_post_process(self.=
-d, pre_process_cmds)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.progress_reporter:<br>
-&gt; <br>
-</blockquote></div>
-
---0000000000009ecebe057ecc9312--
