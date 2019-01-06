@@ -1,48 +1,48 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C14C86BC01;
-	Sun,  6 Jan 2019 03:09:51 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id p6so4500319wmc.1;
-	Sat, 05 Jan 2019 19:09:53 -0800 (PST)
+Return-Path: <twoerner@gmail.com>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B66717BDDE;
+	Sun,  6 Jan 2019 03:57:44 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id y14so8958191lfg.13;
+	Sat, 05 Jan 2019 19:57:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=m8+FnwsPRWLojVwQIJivwtSWxbwA0Intp06rWDBR8cg=;
-	b=uFB9CR2TG+256PgcSCLCjlKDKtUsaBdHlrkEUepmBnG14Cgn9tVrEj3RqI/YGyAYb8
-	41vyIQGAhQgeZohXtpEvqBm172QRYGBfBWDe7JVYWlm4pCY3U7zxfUs8N7B5Qm8A6syE
-	sNgMvqQAyKUIrFrwmbBK8LofwvAw36D+P5t7w8F9QhDTz7IBD7lhxRdVnEUmzGAETow4
-	H9x+4DTgNAgifpY7ncuGBZIja7nDnStHmy9h8Qq2HHBgFmk+Y4tSW6wTU4/Bgm5X9nLh
-	/Z70OxRHNKYp8NfCtvs0vsWJxZNpMrClaH+YfT2taYUEwrrmn3AOZwW/OsZSNMWdPCr1
-	R9lQ==
+	:cc; bh=i5I9PsN9eJN6SYxAmf/URdoPeP5WmXCjw296EX16RXI=;
+	b=h4WbKd2Cklx4e3RGMi8hUQ0urOz7yZgD7TdD9SnTvaw4ijWAirE+XQx2ZOtRYYloY9
+	BueYtyqDxmydYZv5Wq97JKWjx4uMO6osgQ4ZrwOTjdUTG9Ry+avfE8MoDN8bZoDLSWSo
+	XwrtadqZgPIgcL0ZC43iY5sJJf+UX4Vg48yxaUwRc8VJgGTrvAToPAAEOP/g/SdanNPx
+	0bszZhK8wDGSkRJLvZ6CA/Z2n7PraBduH5xDHAVjYp67By8J7X51IZXiSRg6GsQzrwj7
+	KHmxU2TsQQeZi/sac0ukiH4VQygOBRZ6fJ3uN/u+ApAMajzAz/u1nYVmsXg4cYhA3N43
+	B2wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=m8+FnwsPRWLojVwQIJivwtSWxbwA0Intp06rWDBR8cg=;
-	b=uJCmvJ4Idea/0H4hzvhO7xOWD/d71+kXaNFbdSH0DV8WRu0hqr4sSQLMAR6Z/0MHDa
-	RL4KiZostHfEHutJUtw8h8clprR2CgGy6q+sIOpGzJbgUKEVyFQJlOiBeEaP+9eJYuYG
-	qIQSCGnylUcLkroXT86krTcaAkRTqG1pb961BQGwkskGyvLZxiK+sAsT7odsxRYB97W3
-	+0/2QclgfhZgShRzgcT+hzydOaJ4fXfdQ9DaHEf58/qyaA39Wj6fjCDbcnsbjOVq4PfY
-	ICBxjq0NLF+O7vXE2QfXonIfwfwHtaldayuzm0cgUDiOIkJ2h1UxjAsUYxFdoSb1dTMC
-	76eA==
-X-Gm-Message-State: AJcUukdHhtQuiDeb9nwUDYG8TX2DTPqVJ4Ur2UfAWN8nMOFB8MsXxLHD
-	1rKG8QhD3EtcXVUMtQODuzSjwAszLffYF+ocLQw=
-X-Google-Smtp-Source: ALg8bN5YJMJuvXXolwAOckHsaeXZ/l8gKFaXvAD4AQ6+TnveLVeLGW5GH08n8f/oKUqZz1CKM6bGasVodyjD3xNpFdU=
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr4974884wmd.63.1546744192238; 
-	Sat, 05 Jan 2019 19:09:52 -0800 (PST)
+	bh=i5I9PsN9eJN6SYxAmf/URdoPeP5WmXCjw296EX16RXI=;
+	b=sqATOMQll/6x1MWEVt8tEeOIacoV2e3eE2GUQ9nVE5kBogXtilgOKmUvzj0lgl+WAT
+	Rwb+cYDJ30Xsq7AJlIvbA0dOK+6W+dxotE3X1hJf2b+wdM9naJ6dfJQliFZnOmAWgvJD
+	CV8rLzcjZA5XeSoBiYKd1ZHlPWuioTNPawPMecfhxeAgerXbOtAOG9Q/m0hR0I/0A214
+	A/iIhAnrgywq9AFAkH9zkjDizfZMspUc83wklNdWqaWzSl/sYFGwa11l2tyQGcyMIuMP
+	NOM1aO5LueHgJCvmUKJb2odvN9wRUmCK4ic9mwYopiafFGc8kdGSdgHhqy41QLUiS32m
+	iluQ==
+X-Gm-Message-State: AJcUukdNU3AK3HRaRqxgPwulRe7TUneV2NtQYclafOkMxxbs+N0JctMv
+	oO4bOpDEwsbLfMoHKI6yfrlZi8FkbuFfVpO3zNs=
+X-Google-Smtp-Source: ALg8bN7zLE4USX5j2ouJRDmIc5bzddefRQaNHAZ+HxXNUNW/dJIle170ClgHGvi8nZ0MlISEsXdvIjoPLbh5LxsxW50=
+X-Received: by 2002:a19:e01e:: with SMTP id x30mr2490214lfg.89.1546747065104; 
+	Sat, 05 Jan 2019 19:57:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20181218153101.9212-1-JPEWhacker@gmail.com>
-	<20181219031033.28045-1-JPEWhacker@gmail.com>
-	<20181219031033.28045-4-JPEWhacker@gmail.com>
-	<d41b6e89-8450-58c9-13fb-6437332f3f20@xilinx.com>
-In-Reply-To: <d41b6e89-8450-58c9-13fb-6437332f3f20@xilinx.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 5 Jan 2019 21:09:40 -0600
-Message-ID: <CAJdd5Gbik0fCVCoWYzwYF7ND6G35ADeX0UdAk1_2X7k2TcnPQw@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.enedino.hernandez-samaniego@xilinx.com>
-Cc: bitbake-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 3/8] bitbake: runqueue: Track task unique hash
+References: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
+In-Reply-To: <CAMKF1sooPOtN-Y=0_cZ=Qv2viS5mwJAsm+yVsHpOJ5gpN65eZw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Sat, 5 Jan 2019 22:57:33 -0500
+Message-ID: <CAHUNapTmVvPad7YjTt4CyLPA9tiNiTy-vF7hQ53chVV_Y3-RLA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Dropping armv5 and armv5e tunes in 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,126 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2019 03:09:52 -0000
+X-List-Received-Date: Sun, 06 Jan 2019 03:57:45 -0000
+Content-Type: multipart/alternative; boundary="0000000000005f8172057ec21d66"
+
+--0000000000005f8172057ec21d66
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 5, 2019 at 1:50 AM Alejandro Hernandez
-<alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
->
-> Hey Joshua,
->
-> This is breaking multiconfig builds with the following error (trimmed),
-> I believe it is not taking into account that the Key could contain
-> "mc:..." if it is a multiconfig build.
+Hello Khem,
 
-Hmm, yes that seems likely. I'll take a look, would you mind opening a
-bug in Bugzilla and assigning it to me? I'm not very familiar with
-multiconfig, so some instructions to help reproduce would be very
-helpful.
+Thanks for pointing this out.
 
-Does anyone know if mutliconfig is tested on the autobuilders?
+On Thu, Jan 3, 2019 at 5:02 PM Khem Raj <raj.khem@gmail.com> wrote:
 
+> Secondly, I would also like to drop armv4t, and keep armv5te as lowest
+> supported tune
 >
->
-> ERROR: Running idle function
->   File "poky/bitbake/lib/bb/runqueue.py", line 1170, in
-> RunQueueData.prepare_task_hash(tid='multiconfig:x86:poky/meta/recipes-support/attr/acl_2.2.52.bb:do_fetch'):
->               self.runtaskentries[tid].hash =
-> bb.parse.siggen.get_taskhash(taskfn, taskname, procdep, self.dataCaches[mc])
->      >        self.runtaskentries[tid].unihash =
-> bb.parse.siggen.get_unihash(fn + "." + taskname)
->
->    File "poky/bitbake/lib/bb/siggen.py", line 45, in
-> SignatureGeneratorOEBasicHash.get_unihash(task='poky/meta/recipes-support/attr/acl_2.2.52.bb.do_fetch'):
->           def get_unihash(self, task):
->      >        return self.taskhash[task]
->
-> KeyError: 'poky/meta/recipes-support/attr/acl_2.2.52.bb.do_fetch'
->
->
-> Cheers,
->
-> Alejandro
->
->
-> On 12/18/2018 7:10 PM, Joshua Watt wrote:
-> > Requests the task unique hash from siggen and tracks it
-> >
-> > [YOCTO #13030]
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >   bitbake/lib/bb/runqueue.py | 25 +++++++++++++++++--------
-> >   1 file changed, 17 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-> > index f2b95a9829b..27b188256dd 100644
-> > --- a/bitbake/lib/bb/runqueue.py
-> > +++ b/bitbake/lib/bb/runqueue.py
-> > @@ -346,6 +346,7 @@ class RunTaskEntry(object):
-> >           self.depends = set()
-> >           self.revdeps = set()
-> >           self.hash = None
-> > +        self.unihash = None
-> >           self.task = None
-> >           self.weight = 1
-> >
-> > @@ -385,6 +386,9 @@ class RunQueueData:
-> >       def get_task_hash(self, tid):
-> >           return self.runtaskentries[tid].hash
-> >
-> > +    def get_task_unihash(self, tid):
-> > +        return self.runtaskentries[tid].unihash
-> > +
-> >       def get_user_idstring(self, tid, task_name_suffix = ""):
-> >           return tid + task_name_suffix
-> >
-> > @@ -1150,18 +1154,21 @@ class RunQueueData:
-> >                   if len(self.runtaskentries[tid].depends - dealtwith) == 0:
-> >                       dealtwith.add(tid)
-> >                       todeal.remove(tid)
-> > -                    procdep = []
-> > -                    for dep in self.runtaskentries[tid].depends:
-> > -                        procdep.append(fn_from_tid(dep) + "." + taskname_from_tid(dep))
-> > -                    (mc, fn, taskname, taskfn) = split_tid_mcfn(tid)
-> > -                    self.runtaskentries[tid].hash = bb.parse.siggen.get_taskhash(taskfn, taskname, procdep, self.dataCaches[mc])
-> > -                    task = self.runtaskentries[tid].task
-> > +                    self.prepare_task_hash(tid)
-> >
-> >           bb.parse.siggen.writeout_file_checksum_cache()
-> >
-> >           #self.dump_data()
-> >           return len(self.runtaskentries)
-> >
-> > +    def prepare_task_hash(self, tid):
-> > +        procdep = []
-> > +        for dep in self.runtaskentries[tid].depends:
-> > +            procdep.append(fn_from_tid(dep) + "." + taskname_from_tid(dep))
-> > +        (mc, fn, taskname, taskfn) = split_tid_mcfn(tid)
-> > +        self.runtaskentries[tid].hash = bb.parse.siggen.get_taskhash(taskfn, taskname, procdep, self.dataCaches[mc])
-> > +        self.runtaskentries[tid].unihash = bb.parse.siggen.get_unihash(fn + "." + taskname)
-> > +
-> >       def dump_data(self):
-> >           """
-> >           Dump some debug information on the internal data structures
-> > @@ -2081,7 +2088,8 @@ class RunQueueExecuteTasks(RunQueueExecute):
-> >                   deps = self.rqdata.runtaskentries[revdep].depends
-> >                   provides = self.rqdata.dataCaches[mc].fn_provides[taskfn]
-> >                   taskhash = self.rqdata.runtaskentries[revdep].hash
-> > -                taskdepdata[revdep] = [pn, taskname, fn, deps, provides, taskhash]
-> > +                unihash = self.rqdata.runtaskentries[revdep].unihash
-> > +                taskdepdata[revdep] = [pn, taskname, fn, deps, provides, taskhash, unihash]
-> >                   for revdep2 in deps:
-> >                       if revdep2 not in taskdepdata:
-> >                           additional.append(revdep2)
-> > @@ -2524,7 +2532,8 @@ class RunQueueExecuteScenequeue(RunQueueExecute):
-> >                   deps = getsetscenedeps(revdep)
-> >                   provides = self.rqdata.dataCaches[mc].fn_provides[taskfn]
-> >                   taskhash = self.rqdata.runtaskentries[revdep].hash
-> > -                taskdepdata[revdep] = [pn, taskname, fn, deps, provides, taskhash]
-> > +                unihash = self.rqdata.runtaskentries[revdep].unihash
-> > +                taskdepdata[revdep] = [pn, taskname, fn, deps, provides, taskhash, unihash]
-> >                   for revdep2 in deps:
-> >                       if revdep2 not in taskdepdata:
-> >                           additional.append(revdep2)
 
+Fortunately I don't have any ARMv4 boards.
+
+But, just for informational purposes, I wanted to point out that I do have
+a couple ARM926EJ-S boards (i.MX233, LPC32xx) which are ARMv5TE which I am
+actively working with and maintaining. Therefore, thank you for keeping
+this one around.
+
+--0000000000005f8172057ec21d66
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello Khem,</div><div><br></div><div>Thanks for point=
+ing this out.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On T=
+hu, Jan 3, 2019 at 5:02 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.co=
+m">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">Secondly, I would also like to drop armv4t, and keep a=
+rmv5te as lowest<br>
+supported tune<br></blockquote><div><br></div><div>Fortunately I don&#39;t =
+have any ARMv4 boards.</div><div><br></div><div>But, just for informational=
+ purposes, I wanted to point out that I do have a couple ARM926EJ-S boards =
+(i.MX233, LPC32xx) which are ARMv5TE which I am actively working with and m=
+aintaining. Therefore, thank you for keeping this one around.<br></div></di=
+v></div>
+
+--0000000000005f8172057ec21d66--
