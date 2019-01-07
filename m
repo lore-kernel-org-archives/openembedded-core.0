@@ -1,59 +1,55 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CE037BEAD
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+	[209.85.166.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E02027BEAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 16:43:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1D778183C3;
-	Mon,  7 Jan 2019 17:43:15 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id H3NU6kKWz_Ul; Mon,  7 Jan 2019 17:43:14 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id F031B1830E;
-	Mon,  7 Jan 2019 17:43:13 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D51F81E079;
-	Mon,  7 Jan 2019 17:43:13 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C98D21E076;
-	Mon,  7 Jan 2019 17:43:13 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon,  7 Jan 2019 17:43:13 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id BD43C2BB6;
-	Mon,  7 Jan 2019 17:43:13 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 7 Jan 2019 17:43:13 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Mon, 7 Jan 2019 17:43:13 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jonas Bonn <jonas@norrbonn.se>
-Thread-Topic: [OE-core] [PATCH v2 3/5] systemd: create preset files instead of
-	installing in image
-Thread-Index: AQHUorXsVEXuwj4wrU+txCQyOBUa1KWkB4AQ
-Date: Mon, 7 Jan 2019 16:43:13 +0000
-Message-ID: <ea694a7d32b44158870c954912b1ecb7@XBOX04.axis.com>
-References: <20190102161144.11264-1-jonas@norrbonn.se>
-	<20190102161144.11264-4-jonas@norrbonn.se>
-In-Reply-To: <20190102161144.11264-4-jonas@norrbonn.se>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 3/5] systemd: create preset files instead of	installing in image
+	Mon,  7 Jan 2019 16:44:58 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id b23so795543ios.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Jan 2019 08:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=J4HPOJfzHdO/6Va0urOEJ1i29L+wmJ1WzQ8TQveHnXc=;
+	b=QTlvvlry0auKtmbYdA6e3NBZgAuqFVAZEEcpodA9nHVHQnM6QkuGcVkKsGsU5gW6LR
+	S5amAZrLHOD2bkKLHg4RETLLrXh1vhtGAqIhX4SDRhEjF3onuTJF1DkHyjfQGBXshZxg
+	POyVZqM7GEbcYqrRPj9Or7SWXXGiW3xfV3nKSHk88r6xgiW/yjRFBOCpmpbL0JP4u2Rp
+	gUZAqg7HUE0EfuxMyfoApWyQqWisUwWYd6kz8KVlIq3GPfCtrJYOfaTfJOLMC90vPuBK
+	IUyEIsMTA2uDWYDTxArjUB0F624IutYriz5gkr/hsUbSh7QfdYl+FyICSHEV1rFGYJYT
+	1T4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=J4HPOJfzHdO/6Va0urOEJ1i29L+wmJ1WzQ8TQveHnXc=;
+	b=KVDKQuILScgOUxkLCI+aW8JMIpL293xBr6tBO2kEiyGFpT+/b3K4pq81zWNsBdod3B
+	/tMRThlEwJJgX/wW7BYVSCd6AU8On6SO5vxH31EKYHQvXBdyMlX+GbE+jJ1uCyIqexso
+	qs3zVt8/F8cIB15HbajFTb9LsNrq48OFsAwgjGmlb7Q7iwYVTsegz2WgnDOgI6e/4vYJ
+	d5L3iY+9rV51wVuD88uYxMvG8wrrMZZOZ8anKV/dNb27Lyk2T5wH2KY/UOyrTzPOtnQY
+	AtUDvwiqb7Yu9YUw7g9+VvI9knPOIVUhO5BedAVZzTuDOqs0OChG0gjsza7CukIOBMA8
+	uHhQ==
+X-Gm-Message-State: AJcUukeRHD8OW+3Wfq1A4j7i0bDjq+kcRLBetdD8nf6GShV0o3IRcZ4x
+	zHwlVumXjgQ9S3hgHL6P1h0=
+X-Google-Smtp-Source: ALg8bN4Aw6L4/wVEApbKY+fIv0EH3owVmZn2iP4oSMVRT4bNAxL8SxJ+nJTXDAC7ysPzvD5X8fOmHw==
+X-Received: by 2002:a6b:490f:: with SMTP id u15mr42203152iob.297.1546879499662;
+	Mon, 07 Jan 2019 08:44:59 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	i21sm30441809ioo.59.2019.01.07.08.44.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 07 Jan 2019 08:44:58 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <4d020a2be7a89c50d6f29cdabc298d7c2bd80de7.camel@gmail.com>
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 07 Jan 2019 10:44:57 -0600
+In-Reply-To: <20190107163823.31816-7-ross.burton@intel.com>
+References: <20190107163823.31816-1-ross.burton@intel.com>
+	<20190107163823.31816-7-ross.burton@intel.com>
+User-Agent: Evolution 3.30.3 (3.30.3-1.fc29) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 7/7] oeqa/sdk: add test to exercise Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,133 +62,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 16:43:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Jan 2019 16:44:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Jonas Bonn
-> Sent: den 2 januari 2019 17:12
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v2 3/5] systemd: create preset files instead
-> of installing in image
->=20
-> At first boot, systemd will create the /etc/systemd/system directory
-> from service preset files.  As such, for a normal, writable /etc
-> (writable rootfs), there is no need to set up this directory at image
-> creation time.
->=20
-> This patch changes the systemd machinery to create preset files and to
-> rely on systemd to do the service enablement.
->=20
-> This breaks the read-only-rootfs case; there's a fix for this in a
-> follow-up patch.
->=20
-> Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+On Mon, 2019-01-07 at 16:38 +0000, Ross Burton wrote:
+> (From OE-Core rev: 29359493e391d68a5a6b4fa4d09ffdc1fe6db620)
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/classes/systemd.bbclass | 33 ++++++++++++++++-----------------
->  1 file changed, 16 insertions(+), 17 deletions(-)
->=20
-> diff --git a/meta/classes/systemd.bbclass
-> b/meta/classes/systemd.bbclass
-> index c7b784dea8..cf3b5de4a1 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -16,43 +16,32 @@ python __anonymous() {
->      # from doing any work so that pure-systemd images don't have redunda=
-nt init
->      # files.
->      if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-> -        d.appendVar("DEPENDS", " systemd-systemctl-native")
-> -        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-systemctl-native")
->          if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, Fa=
-lse, d):
->              d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
->  }
->=20
->  systemd_postinst() {
-> -OPTS=3D""
-> -
->  if [ -n "$D" ]; then
-> -    OPTS=3D"--root=3D$D"
-> +	exit 0
->  fi
->=20
->  if type systemctl >/dev/null 2>/dev/null; then
-> -	if [ -z "$D" ]; then
-> -		systemctl daemon-reload
-> -	fi
-> -
-> -	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE_ESCAPED}
-> +	systemctl daemon-reload
-> +	systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
->=20
-> -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
-> +	if [ "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
->  		systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
->  	fi
->  fi
->  }
->=20
->  systemd_prerm() {
-> -OPTS=3D""
-> -
->  if [ -n "$D" ]; then
-> -    OPTS=3D"--root=3D$D"
-> +	exit 0
->  fi
->=20
->  if type systemctl >/dev/null 2>/dev/null; then
-> -	if [ -z "$D" ]; then
-> -		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
-> -	fi
-> +	systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
->=20
->  	systemctl $OPTS disable ${SYSTEMD_SERVICE_ESCAPED}
->  fi
-> @@ -177,12 +166,22 @@ python systemd_populate_packages() {
->                  else:
->                      bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist=
-" % (pkg_systemd, service))
->=20
-> +    def systemd_create_presets(pkg):
-> +        action =3D get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
-> +        presetf =3D oe.path.join(d.getVar("PKGD"), "/lib/systemd/system-=
-preset/98-%s.preset" % pkg)
-
-Using "/lib" above does not take into account the usrmerge distro=20
-feature. My suggestion is to use ${nonarch_base_libdir} instead of=20
-/lib, or maybe even better is to use ${systemd_unitdir} instead of=20
-/lib/systemd, i.e.:
-
-        presetf =3D oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdi=
-r "), "/system-preset/98-%s.preset" % pkg)
-
-> +        bb.utils.mkdirhier(os.path.dirname(presetf))
-> +        with open(presetf, 'a') as fd:
-> +            for service in d.getVar('SYSTEMD_SERVICE_%s' % pkg).split():
-> +                fd.write("%s %s\n" % (action,service))
-> +        d.appendVar("FILES_%s" % pkg, " /lib/systemd/system-preset/98-%s=
-.preset" % pkg)
-
-Same here. Use "${systemd_unitdir}" instead of "/lib/systemd".
-
+>  meta/lib/oeqa/sdk/cases/buildepoxy.py | 35
+> +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>  create mode 100644 meta/lib/oeqa/sdk/cases/buildepoxy.py
+> 
+> diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py
+> b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+> new file mode 100644
+> index 00000000000..ef24b4f4ac1
+> --- /dev/null
+> +++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+> @@ -0,0 +1,35 @@
+> +import os
+> +import subprocess
+> +import tempfile
+> +import unittest
 > +
->      # Run all modifications once when creating package
->      if os.path.exists(d.getVar("D")):
->          for pkg in d.getVar('SYSTEMD_PACKAGES').split():
->              systemd_check_package(pkg)
->              if d.getVar('SYSTEMD_SERVICE_' + pkg):
->                  systemd_generate_package_scripts(pkg)
-> +                systemd_create_presets(pkg)
->          systemd_check_services()
->  }
->=20
-> --
-> 2.19.1
+> +from oeqa.sdk.case import OESDKTestCase
+> +from oeqa.utils.subprocesstweak import errors_have_output
+> +errors_have_output()
+> +
+> +class EpoxyTest(OESDKTestCase):
 
-//Peter
+FWIW: I know that is in the same style as the assimp test, but I always
+thought the test should have been called the "cmake" test, since that
+is what we actually care about (not specifically that it can build
+assimp; any cmake package could have been used AFAIK).
+
+Perhaps this should break that trend and be called the "meson" test?
+
+> +    """
+> +    Test that Meson builds correctly.
+> +    """
+> +    def setUp(self):
+> +        if not (self.tc.hasHostPackage("nativesdk-meson")):
+> +            raise unittest.SkipTest("GalculatorTest class: SDK
+> doesn't contain Meson")
+> +
+> +    def test_epoxy(self):
+> +        with tempfile.TemporaryDirectory(prefix="epoxy",
+> dir=self.tc.sdk_dir) as testdir:
+> +            tarball = self.fetch(testdir, self.td["DL_DIR"], "
+> https://github.com/anholt/libepoxy/releases/download/1.5.3/libepoxy-1.5.3.tar.xz
+> ")
+> +
+> +            dirs = {}
+> +            dirs["source"] = os.path.join(testdir, "libepoxy-1.5.3")
+> +            dirs["build"] = os.path.join(testdir, "build")
+> +            dirs["install"] = os.path.join(testdir, "install")
+> +
+> +            subprocess.check_output(["tar", "xf", tarball, "-C",
+> testdir])
+> +            self.assertTrue(os.path.isdir(dirs["source"]))
+> +            os.makedirs(dirs["build"])
+> +
+> +            self._run("meson -Degl=no -Dglx=no -Dx11=false {build}
+> {source}".format(**dirs))
+> +            self._run("ninja -C {build} -v".format(**dirs))
+> +            self._run("DESTDIR={install} ninja -C {build} -v
+> install".format(**dirs))
+> +
+> +            self.check_elf(os.path.join(dirs["install"], "usr",
+> "local", "lib", "libepoxy.so"))
+> -- 
+> 2.11.0
+> 
+-- 
+Joshua Watt <JPEWhacker@gmail.com>
 
 
