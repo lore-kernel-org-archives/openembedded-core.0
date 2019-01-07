@@ -1,21 +1,18 @@
-Return-Path: <ftoth@telfort.nl>
-Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D3537BDFE
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 11:09:28 +0000 (UTC)
-Received: from [192.168.1.22] (cust-178-250-146-69.breedbanddelft.nl
-	[178.250.146.69])
-	by radex-web.radex.nl (Postfix) with ESMTPS id 23DFC2404C;
-	Mon,  7 Jan 2019 12:09:29 +0100 (CET)
-From: Ferry Toth <ftoth@telfort.nl>
-To: openembedded-core@lists.openembedded.org
-X-Mozilla-News-Host: news://news://news://news://news.gmane.org:119
-Message-ID: <a89fb2bc-3b4f-a7a8-3c61-26210dcf5db7@telfort.nl>
-Date: Mon, 7 Jan 2019 12:09:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 87E107BE27;
+	Mon,  7 Jan 2019 11:33:10 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] libgpiod_1.2: add a dependency on python when building python bindings
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ferry Toth <ftoth@telfort.nl>
+Date: Mon, 07 Jan 2019 11:33:12 -0000
+Message-ID: <20190107113312.2331.83005@do>
+References: <a89fb2bc-3b4f-a7a8-3c61-26210dcf5db7@telfort.nl>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <a89fb2bc-3b4f-a7a8-3c61-26210dcf5db7@telfort.nl>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliZ3Bpb2RfMS4yOiBhZGQgYSBkZXBlbmRlbmN5IG9uIHB5dGhvbiB3aGVuIGJ1aWxkaW5nIHB5dGhvbiBiaW5kaW5ncw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 11:09:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 07 Jan 2019 11:33:10 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
-Commit ab54dd75 "libgpiod: Rrecommend python3 only for PN-python 
-package" also removes the build dependency on python3 however this 
-results in fatal error: Python.h: No such file or directory #include 
-<Python.h>
+== Series Details ==
 
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+Series: libgpiod_1.2: add a dependency on python when building python bindings
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15556/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line        "b6b9079c933f7c8524815437937dda6b795a16141bca202a9eec70ba58
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 65c419b8c4)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-meta-oe/recipes-support/libgpiod/libgpiod_1.2.bb | 2 +-
-1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-support/libgpiod/libgpiod_1.2.bb 
-b/meta-oe/recipes-support/libgpiod/libgpiod_1.2.bb
-index dd080ff9d..93165a0c2 100644
---- a/meta-oe/recipes-support/libgpiod/libgpiod_1.2.bb
-+++ b/meta-oe/recipes-support/libgpiod/libgpiod_1.2.bb
-@@ -7,7 +7,7 @@ SRC_URI[sha256sum] = 
-"b6b9079c933f7c8524815437937dda6b795a16141bca202a9eec70ba58
-
-PACKAGECONFIG[cxx] = "--enable-bindings-cxx,--disable-bindings-cxx"
-
--PACKAGECONFIG[python3] = 
-"--enable-bindings-python,--disable-bindings-python,"
-+PACKAGECONFIG[python3] = 
-"--enable-bindings-python,--disable-bindings-python,python3"
-inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 
-'python3native', '', d)}
-
-PACKAGES =+ "${PN}-python"
-
--- 
-2.19.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
