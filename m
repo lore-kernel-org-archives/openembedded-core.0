@@ -1,41 +1,80 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 990077BEE1
+Return-Path: <mkelly@xevo.com>
+X-Greylist: delayed 23514 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 08 Jan 2019 00:26:07 UTC
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com
+	(mail-eopbgr780078.outbound.protection.outlook.com [40.107.78.78])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CF1F7BDF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 20:43:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Jan 2019 12:43:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,451,1539673200"; 
-	d="scan'208,217";a="124113166"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2019 12:43:59 -0800
-Received: from fmsmsx123.amr.corp.intel.com ([169.254.7.98]) by
-	FMSMSX103.amr.corp.intel.com ([169.254.2.197]) with mapi id
-	14.03.0415.000; Mon, 7 Jan 2019 12:43:58 -0800
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdRUG3den5c8kH6JR5OKxqhg9AfC3w==
-Date: Mon, 7 Jan 2019 20:43:58 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EEA6CDE9F@fmsmsx123.amr.corp.intel.com>
+	Tue,  8 Jan 2019 00:26:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=7amPw2vLjg1togvKpfB1GAIeIT7PBqkdn7qsseceLSQ=;
+	b=ZTln4xW5dgqE22XH6SU92QZymTYN03/lVvu/rtvTon2vPyQlhaORUAjds3mfgcRp2FC7hPUDNjc8cnhNVLZ6LGN/arlzg2laytDtpfNmJ5b/uCRkB/s99rTMROCmIZjE5SiQZQg2Adh37aRsjzZ5aab0NaUqdwo+Vf1ijBw92Zs=
+Received: from DM5PR18MB1452.namprd18.prod.outlook.com (10.173.214.17) by
+	DM5PR18MB2104.namprd18.prod.outlook.com (52.132.143.25) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1495.6; Mon, 7 Jan 2019 17:54:12 +0000
+Received: from DM5PR18MB1452.namprd18.prod.outlook.com
+	([fe80::cc9d:a769:501e:d4a]) by DM5PR18MB1452.namprd18.prod.outlook.com
+	([fe80::cc9d:a769:501e:d4a%8]) with mapi id 15.20.1495.011;
+	Mon, 7 Jan 2019 17:54:12 +0000
+From: Martin Kelly <mkelly@xevo.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2 7/7] meson: enable nativesdk
+Thread-Index: AQHT+ev3geAPqleHUU6IZ+aFHc1yNaWlGNqAgABXRQA=
+Date: Mon, 7 Jan 2019 17:54:12 +0000
+Message-ID: <db1d1175-3104-eb1f-a3ca-66c7c362aa4a@xevo.com>
+References: <20180601210240.14969-1-mkelly@xevo.com>
+	<20180601210240.14969-8-mkelly@xevo.com>
+	<CAJTo0LY-16oCyFf-etweZq1P5=DpOtG8Qou0pQHMa0mZkXvPaA@mail.gmail.com>
+In-Reply-To: <CAJTo0LY-16oCyFf-etweZq1P5=DpOtG8Qou0pQHMa0mZkXvPaA@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmNlNDYxYTEtMTdmZC00OGVhLTk3MDgtNTk1OTY4OGJkM2M0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTDVVbFNtUVFKNGJheHBqZGk0T0ViMUpRdm5wSkxGRmNZXC9GYWtSc1FcL1dKUlM4QkM4WGlyZWk0ZlJINmhcL1RRWCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+x-clientproxiedby: MWHPR15CA0061.namprd15.prod.outlook.com
+	(2603:10b6:301:4c::23) To DM5PR18MB1452.namprd18.prod.outlook.com
+	(2603:10b6:3:bc::17)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [174.21.177.9]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; DM5PR18MB2104;
+	6:ODckNz4SuQLhKPqrK821iVs47v9ROkRl4pP0qkysQGs6Jvov9D9Gxza+0ihkH7fYluj+W0bebA81wIUhs5x5Z4TWOntHFQcUdPw7VCtOyCJIweHtO94ZaiEQ29+DS2hw9UbJw7hRrhYbCj+n75j9meTqbcR0JyXY3OS3G4awPFhDmeVvL6lK6KuyU7ZWUOGBRuIbNdeDI3uWx5Bakp6Z602NYQIqKxL0goBpysyW3N0/pqrfO93DVgPvM/He4C2y875LEPLib2omnt0R4cdQWpfUHO98ji91276jdtEkNViqFJCmyaR+4ZQiiqYLGthQvDEdeupbmJKzLr/+LRfhdAYfNMeMjZzVkFEH4lUGPWmur5tUOf5MEnIJCWPhK3ZR8o0jkGu2ysSHPXOsEJzgBV2udDvpNmraI736QZHO0EDv5wtVKov1rwOh5V0HzOSt4UBSW9pkxmkM9UhtoxVGzg==;
+	5:NFdrFNEZLI4wvJZNy1KzsZMMUU9NGuqqA+b0RkU94/JtxgPDpeuk7J0778vaJzlRTin9jbALDoDco1gilEuwDrtXzSMMMWk7VSpz4/X27yFBflpSw1mFx5fRBuO5YNpgF0lr37iBXi2NjQ+8EVC/vf6MFq8w/EX2K4NxJzfsCHGFAProlSaKV4zILjZqkByfoOa0Vp2Y+ftn7wNXY5M8Ew==;
+	7:81IUGxy++QUaRJlfUPRpR9/A18WOT/mkZIb12U4kwu4O1vhs+nkBU+Ga5ofTECXzIBDuNI+MeYmFl+Zs6nIv+cPQMQuYIMPIyDp06yOe6Cy/6h+5lNSlfP4CiKyHZcRZa946LOttNjZPMmvYoE6J4A==
+x-ms-office365-filtering-correlation-id: 14b470fa-d807-4746-ca97-08d674c921c4
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(2017052603328)(7153060)(7193020);
+	SRVR:DM5PR18MB2104; 
+x-ms-traffictypediagnostic: DM5PR18MB2104:
+x-microsoft-antispam-prvs: <DM5PR18MB2104765610B578D930F187DAAB890@DM5PR18MB2104.namprd18.prod.outlook.com>
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(10201501046)(3002001)(3231475)(944501520)(4982022)(52105112)(93006095)(93001095)(6041310)(20161123564045)(20161123560045)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);
+	SRVR:DM5PR18MB2104; BCL:0; PCL:0; RULEID:; SRVR:DM5PR18MB2104; 
+x-forefront-prvs: 0910AAF391
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(39840400004)(346002)(376002)(136003)(366004)(396003)(189003)(199004)(43544003)(7736002)(68736007)(26005)(31696002)(71200400001)(71190400001)(305945005)(14454004)(4744004)(102836004)(97736004)(36756003)(81166006)(81156014)(31686004)(8936002)(8676002)(186003)(446003)(105586002)(256004)(14444005)(66066001)(106356001)(478600001)(6486002)(2616005)(53386004)(52116002)(966005)(4326008)(5660300001)(6916009)(486006)(99286004)(6512007)(6306002)(6246003)(53936002)(6436002)(316002)(2906002)(76176011)(25786009)(86362001)(229853002)(11346002)(53546011)(386003)(476003)(6116002)(3846002)(6506007);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR18MB2104;
+	H:DM5PR18MB1452.namprd18.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: brPQ2LuE3XooueeECiLiV+0FFRy5bo+XHhaXBPyxy9zcZyeg+YQNX6HyAUkBHoTuUljYEUgqjNaIeHuZdnxmWcb8YRmSrD3pmaJBQFs92niPa3G/3ZvYlRGw+gfJ/uE0/ZisMyZWFn7tMVKRBLph6qsQaU1+8J/t6kcb5H8XSUNauD6Yq4StRVm5okHX2XCcjEa1nOK0WlErHTKdmyBe5KeePYxnBqsK4xmWZ3jfUf2L4DdeXACNDDqUN6xwy6tPLPvh9JBZR0RHwdEYHnpMAk8MzVqNjvtFlbWzOeAFwmZI4OQ9WG8TrU8sRGt9Fg/b
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14b470fa-d807-4746-ca97-08d674c921c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2019 17:54:12.7721 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR18MB2104
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 7/7] meson: enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,218 +87,200 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 20:43:58 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 00:26:07 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EEA6CDE9Ffmsmsx123amrcor_"
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <304A686FA5C1594BA8790C433FB01956@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EEA6CDE9Ffmsmsx123amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+T24gMS83LzE5IDQ6NDEgQU0sIEJ1cnRvbiwgUm9zcyB3cm90ZToNCj4gSSBhZGRlZCBhIHRlc3Qg
+Y2FzZSB0byBhY3R1YWxseSBidWlsZCBzb21ldGhpbmcgd2l0aCBNZXNvbiBvbiB0aGUNCj4gYXV0
+b2J1aWxkZXIsIGFuZCB0aGlzIGJyZWFrcyBmb3IgbXVsdGlsaWIgU0RLcy4gIFRoZXNlIHNoaXAg
+bXVsdGlwbGUNCj4gZW52aXJvbm1lbnQgZmlsZXMsIHNvIHRoZSBjcm9zcyBnZW5lcmF0aW9uIGNh
+bid0IGhhcHBlbiBhdCByZWxvY2F0ZQ0KPiB0aW1lLg0KPiANCj4gUm9zcw0KPiANCg0KQ291bGQg
+eW91IGVsYWJvcmF0ZSBvbiBleGFjdGx5IHdoYXQgaXMgYnJlYWtpbmcsIG9yIGRvIHlvdSBoYXZl
+IGEgbGluayANCnRvIHRoZSBhdXRvYnVpbGRlciBicmVha2FnZT8NCg0KVG8gZ2l2ZSBhIGJpdCBv
+ZiBiYWNrZ3JvdW5kLCBjbWFrZSBoYW5kbGVzIHRoaXMgYnkgcHV0dGluZyBlbnYgdmFycyANCmRp
+cmVjdGx5IGludG8gdGhlIHdyYXBwZXIgc2NyaXB0LiBIb3dldmVyLCBtZXNvbiBkb2VzIG5vdCBz
+dXBwb3J0IGVudiANCnZhcnMgaW4gaXRzIGNyb3NzIHRvb2xjaGFpbiBmaWxlIChhbmQgdXBzdHJl
+YW0gaXMgcmVzaXN0YW50IHRvIGFkZGluZyANCml0KSwgc28gd2UgYXJlIGxlZnQgd2l0aCBnZW5l
+cmF0aW5nIHBhdGhzIGF0IHJlbG9jYXRlIHRpbWUuDQoNCj4gT24gRnJpLCAxIEp1biAyMDE4IGF0
+IDIyOjA0LCBNYXJ0aW4gS2VsbHkgPG1rZWxseUB4ZXZvLmNvbT4gd3JvdGU6DQo+Pg0KPj4gQ3Vy
+cmVudGx5LCB3ZSBjYW4ndCBidWlsZCBtZXNvbiBpbnRvIFNES3MgYmVjYXVzZSB3ZSBkb24ndCBh
+dXRvZ2VuZXJhdGUNCj4+IHRoZSByZXF1aXJlZCBtZXNvbi5jcm9zcyBmaWxlLg0KPj4NCj4+IEVu
+YWJsZSB0aGlzIGJ5IHVzaW5nIHRoZSBwb3N0LXJlbG9jYXRlIGhvb2tzIGFuZCBnZW5lcmF0aW5n
+IGENCj4+IG1lc29uLmNyb3NzIGZpbGUgYmFzZWQgb24gdGhlIFNESyBlbnZpcm9ubWVudCBwYXNz
+ZWQgaW50byB0aGUNCj4+IHBvc3QtcmVsb2NhdGUgaG9vay4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5
+OiBNYXJ0aW4gS2VsbHkgPG1rZWxseUB4ZXZvLmNvbT4NCj4+IC0tLQ0KPj4gICBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbWVzb24vbWVzb24uaW5jICAgICAgICAgICAgICB8IDIyICsrKysrKysNCj4+
+ICAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uL21lc29uLXNldHVwLnB5ICAgfCA2
+MiArKysrKysrKysrKysrKysrKysNCj4+ICAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uL21lc29uLXdyYXBwZXIgICAgfCAxNCArKysrDQo+PiAgIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9tZXNvbi9tZXNvbl8wLjQ2LjEuYmIgICAgICAgIHwgMjIgKy0tLS0tLQ0KPj4gICAuLi4vbWVz
+b24vbmF0aXZlc2RrLW1lc29uXzAuNDYuMS5iYiAgICAgICAgICAgICAgICB8IDc0ICsrKysrKysr
+KysrKysrKysrKysrKysNCj4+ICAgNSBmaWxlcyBjaGFuZ2VkLCAxNzMgaW5zZXJ0aW9ucygrKSwg
+MjEgZGVsZXRpb25zKC0pDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvbWVzb24vbWVzb24uaW5jDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDc1NSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vbWVzb24tc2V0dXAucHkNCj4+ICAgY3JlYXRlIG1vZGUg
+MTAwNzU1IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi9tZXNvbi13cmFwcGVyDQo+
+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbmF0aXZl
+c2RrLW1lc29uXzAuNDYuMS5iYg0KPj4NCj4+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvbWVzb24vbWVzb24uaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29u
+LmluYw0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAuLjRjMTEz
+ZGNhZjcNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9t
+ZXNvbi9tZXNvbi5pbmMNCj4+IEBAIC0wLDAgKzEsMjIgQEANCj4+ICtIT01FUEFHRSA9ICJodHRw
+Oi8vbWVzb25idWlsZC5jb20iDQo+PiArU1VNTUFSWSA9ICJBIGhpZ2ggcGVyZm9ybWFuY2UgYnVp
+bGQgc3lzdGVtIg0KPj4gKw0KPj4gK0xJQ0VOU0UgPSAiQXBhY2hlLTIuMCINCj4+ICtMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0zYjgzZWY5NjM4N2YxNDY1NWZjODU0ZGRj
+M2M2YmQ1NyINCj4+ICsNCj4+ICtTUkNfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9tZXNvbmJ1
+aWxkL21lc29uL3JlbGVhc2VzL2Rvd25sb2FkLyR7UFZ9L21lc29uLSR7UFZ9LnRhci5neiBcDQo+
+PiArICAgICAgICAgICBmaWxlOi8vMDAwMS1ndGtkb2MtZml4LWlzc3Vlcy10aGF0LWFyaXNlLXdo
+ZW4tY3Jvc3MtY29tcGlsaW5nLnBhdGNoIFwNCj4+ICsgICAgICAgICAgIGZpbGU6Ly8wMDAyLWdv
+YmplY3QtaW50cm9zcGVjdGlvbi1kZXRlcm1pbmUtZy1pci1zY2FubmVyLWFuZC1nLWkucGF0Y2gg
+XA0KPj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtTGlua2VyLXJ1bGVzLW1vdmUtY3Jvc3NfYXJn
+cy1pbi1mcm9udC1vZi1vdXRwdXRfYXJncy5wYXRjaCBcDQo+PiArICAgICAgICAgICBmaWxlOi8v
+MDAwMy1uYXRpdmVfYmluZGlyLnBhdGNoIFwNCj4+ICsgICAgICAgICAgIGZpbGU6Ly8wMDA0LVBy
+ZXR0aWZ5aW5nLXNvbWUtb3V0cHV0LXdpdGgtcGF0aGxpYi5wYXRjaCBcDQo+PiArICAgICAgICAg
+ICBmaWxlOi8vMDAwNS1TZXQtdGhlLW1lc29uLWNvbW1hbmQtdG8tdXNlLXdoZW4td2Uta25vdy13
+aGF0LWl0LWlzLnBhdGNoIFwNCj4+ICsgICAgICAgICAgICINCj4+ICsNCj4+ICtTUkNfVVJJW21k
+NXN1bV0gPSAiMTY5OGY2NTI2NTc0ODM5ZGU1ZGNkYzQ1ZTNmN2Q1ODIiDQo+PiArU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjE5NDk3YTAzZTdlNWIzMDNkOGQxMWY5ODc4OWE3OWFiYTU5YjVhZDRhODFi
+ZDAwZjRkMDk5YmUwMjEyY2VlNzgiDQo+PiArVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8v
+Z2l0aHViLmNvbS9tZXNvbmJ1aWxkL21lc29uL3JlbGVhc2VzIg0KPj4gKw0KPj4gK2luaGVyaXQg
+c2V0dXB0b29sczMNCj4+ICsNCj4+ICtSREVQRU5EU18ke1BOfSA9ICJuaW5qYSBweXRob24zLWNv
+cmUgcHl0aG9uMy1tb2R1bGVzIg0KPj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9tZXNvbi9tZXNvbi9tZXNvbi1zZXR1cC5weSBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNv
+bi9tZXNvbi9tZXNvbi1zZXR1cC5weQ0KPj4gbmV3IGZpbGUgbW9kZSAxMDA3NTUNCj4+IGluZGV4
+IDAwMDAwMDAwMDAuLmE5NzQ5ZWFlOWQNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi9tZXNvbi1zZXR1cC5weQ0KPj4gQEAgLTAsMCAr
+MSw2MiBAQA0KPj4gKyMhL3Vzci9iaW4vZW52IHB5dGhvbjMNCj4+ICsNCj4+ICtpbXBvcnQgb3MN
+Cj4+ICtpbXBvcnQgc3lzDQo+PiArDQo+PiArZGVmIGJhaWwobXNnKToNCj4+ICsgICAgcHJpbnQo
+bXNnLCBmaWxlPXN5cy5zdGRlcnIpDQo+PiArICAgIHN5cy5leGl0KDEpDQo+PiArDQo+PiArX01B
+UktFUiA9ICdAQCcNCj4+ICtkZWYgdHJhbnNmb3JtX2xpbmUobGluZSk6DQo+PiArICAgICMgU3Vi
+c3RpdHV0ZSBhbnkgc3BlY2lhbCBtYXJrZXJzIG9mIHRoaXMgZm9ybToNCj4+ICsgICAgIyBAQEVO
+VkBADQo+PiArICAgICMgd2l0aCB0aGUgdmFsdWUgb2YgRU5WLCBzcGxpdCBpbnRvIG1lc29uIGFy
+cmF5IHN5bnRheC4NCj4+ICsgICAgc3RhcnQgPSBsaW5lLmZpbmQoX01BUktFUikNCj4+ICsgICAg
+aWYgc3RhcnQgPT0gLTE6DQo+PiArICAgICAgICByZXR1cm4gbGluZQ0KPj4gKw0KPj4gKyAgICBl
+bmQgPSBsaW5lLnJmaW5kKF9NQVJLRVIpDQo+PiArICAgIGlmIGVuZCA9PSBzdGFydDoNCj4+ICsg
+ICAgICAgIHJldHVybiBsaW5lDQo+PiArDQo+PiArICAgICMgTG9va3VwIHZhbHVlIG9mIHRoZSBl
+bnYgdmFyLg0KPj4gKyAgICB2YXIgPSBsaW5lW3N0YXJ0K2xlbihfTUFSS0VSKTplbmRdDQo+PiAr
+ICAgIHRyeToNCj4+ICsgICAgICAgIHZhbCA9IG9zLmVudmlyb25bdmFyXQ0KPj4gKyAgICBleGNl
+cHQgS2V5RXJyb3I6DQo+PiArICAgICAgICBiYWlsKCdjYW5ub3QgZ2VuZXJhdGUgbWVzb24uY3Jv
+c3M7IGVudiB2YXIgJXMgbm90IHNldCcgJSB2YXIpDQo+PiArDQo+PiArICAgICMgVHJhbnNmb3Jt
+IGludG8gbWVzb24gYXJyYXkuDQo+PiArICAgIHZhbCA9IFsiJyVzJyIgJSB4IGZvciB4IGluIHZh
+bC5zcGxpdCgpXQ0KPj4gKyAgICB2YWwgPSAnLCAnLmpvaW4odmFsKQ0KPj4gKyAgICB2YWwgPSAn
+WyVzXScgJSB2YWwNCj4+ICsNCj4+ICsgICAgYmVmb3JlID0gbGluZVs6c3RhcnRdDQo+PiArICAg
+IGFmdGVyID0gbGluZVtlbmQrbGVuKF9NQVJLRVIpOl0NCj4+ICsNCj4+ICsgICAgcmV0dXJuICcl
+cyVzJXMnICUgKGJlZm9yZSwgdmFsLCBhZnRlcikNCj4+ICsNCj4+ICsjIE1ha2Ugc3VyZSB0aGlz
+IGlzIHJlYWxseSBhbiBTREsgZXh0cmFjdGlvbiBlbnZpcm9ubWVudC4NCj4+ICt0cnk6DQo+PiAr
+ICAgIHN5c3Jvb3QgPSBvcy5lbnZpcm9uWydPRUNPUkVfTkFUSVZFX1NZU1JPT1QnXQ0KPj4gK2V4
+Y2VwdCBLZXlFcnJvcjoNCj4+ICsgICAgYmFpbCgnT0VDT1JFX05BVElWRV9TWVNST09UIGVudiB2
+YXIgbXVzdCBiZSBzZXQnKQ0KPj4gKw0KPj4gK2Nyb3NzX2ZpbGUgPSBvcy5wYXRoLmpvaW4oc3lz
+cm9vdCwgJ3Vzci9zaGFyZS9tZXNvbi9tZXNvbi5jcm9zcycpDQo+PiArdG1wX2Nyb3NzX2ZpbGUg
+PSAnJXMudG1wJyAlIGNyb3NzX2ZpbGUNCj4+ICsNCj4+ICsjIFJlYWQgdGhyb3VnaCBhbmQgdHJh
+bnNmb3JtIHRoZSBjdXJyZW50IG1lc29uLmNyb3NzLg0KPj4gK2xpbmVzID0gW10NCj4+ICt3aXRo
+IG9wZW4oY3Jvc3NfZmlsZSwgJ3InKSBhcyBmOg0KPj4gKyAgICBmb3IgbGluZSBpbiBmOg0KPj4g
+KyAgICAgICAgbGluZXMuYXBwZW5kKHRyYW5zZm9ybV9saW5lKGxpbmUpKQ0KPj4gKw0KPj4gKyMg
+V3JpdGUgdGhlIHRyYW5zZm9ybWVkIHJlc3VsdCB0byBhIHRtcCBmaWxlIGFuZCBhdG9taWNhbGx5
+IHJlbmFtZSBpdC4gSW4gY2FzZQ0KPj4gKyMgd2UgY3Jhc2ggZHVyaW5nIHRoZSBmaWxlIHdyaXRl
+LCB3ZSBkb24ndCB3YW50IGFuIGludmFsaWQgbWVzb24uY3Jvc3MgZmlsZS4NCj4+ICt3aXRoIG9w
+ZW4odG1wX2Nyb3NzX2ZpbGUsICd3JykgYXMgZjoNCj4+ICsgICAgZm9yIGxpbmUgaW4gbGluZXM6
+DQo+PiArICAgICAgICBmLndyaXRlKGxpbmUpDQo+PiArICAgIGYuZmx1c2goKQ0KPj4gKyAgICBv
+cy5mZGF0YXN5bmMoZi5maWxlbm8oKSkNCj4+ICtvcy5yZW5hbWUodG1wX2Nyb3NzX2ZpbGUsIGNy
+b3NzX2ZpbGUpDQo+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uL21lc29uLXdyYXBwZXIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vbWVz
+b24td3JhcHBlcg0KPj4gbmV3IGZpbGUgbW9kZSAxMDA3NTUNCj4+IGluZGV4IDAwMDAwMDAwMDAu
+LmIyZTAwZGE1MTMNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tZXNvbi9tZXNvbi9tZXNvbi13cmFwcGVyDQo+PiBAQCAtMCwwICsxLDE0IEBADQo+PiAr
+IyEvYmluL3NoDQo+PiArDQo+PiAraWYgWyAteiAiJE9FQ09SRV9OQVRJVkVfU1lTUk9PVCIgXTsg
+dGhlbg0KPj4gKyAgICBlY2hvICJPRUNPUkVfTkFUSVZFX1NZU1JPT1Qgbm90IHNldDsgYXJlIHlv
+dSBpbiBhIFlvY3RvIFNESyBlbnZpcm9ubWVudD8iID4mMg0KPj4gK2ZpDQo+PiArDQo+PiArIyBJ
+ZiB0aGVzZSBhcmUgc2V0IHRvIGEgY3Jvc3MtY29tcGlsZSBwYXRoLCBtZXNvbiB3aWxsIGdldCBj
+b25mdXNlZCBhbmQgdHJ5IHRvDQo+PiArIyB1c2UgdGhlbSBhcyBuYXRpdmUgdG9vbHMuIFVuc2V0
+IHRoZW0gdG8gcHJldmVudCB0aGlzLCBhcyBhbGwgdGhlIGNyb3NzLWNvbXBpbGUNCj4+ICsjIGNv
+bmZpZyBpcyBhbHJlYWR5IGluIG1lc29uLmNyb3NzLg0KPj4gK3Vuc2V0IENDIENYWCBDUFAgTEQg
+QVIgTk0gU1RSSVANCj4+ICsNCj4+ICtleGVjICIkT0VDT1JFX05BVElWRV9TWVNST09UL3Vzci9i
+aW4vbWVzb24ucmVhbCIgXA0KPj4gKyAgICAgLS1jcm9zcy1maWxlICIkT0VDT1JFX05BVElWRV9T
+WVNST09UL3Vzci9zaGFyZS9tZXNvbi9tZXNvbi5jcm9zcyIgXA0KPj4gKyAgICAgIiRAIg0KPj4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8wLjQ2LjEuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMC40Ni4xLmJiDQo+PiBpbmRleCA3
+N2Y2NDE2Y2MyLi44OTdmYTE0OGQ5IDEwMDY0NA0KPj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21lc29uL21lc29uXzAuNDYuMS5iYg0KPj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L21lc29uL21lc29uXzAuNDYuMS5iYg0KPj4gQEAgLTEsMjMgKzEsMyBAQA0KPj4gLUhPTUVQQUdF
+ID0gImh0dHA6Ly9tZXNvbmJ1aWxkLmNvbSINCj4+IC1TVU1NQVJZID0gIkEgaGlnaCBwZXJmb3Jt
+YW5jZSBidWlsZCBzeXN0ZW0iDQo+PiAtDQo+PiAtTElDRU5TRSA9ICJBcGFjaGUtMi4wIg0KPj4g
+LUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1
+ZmM4NTRkZGMzYzZiZDU3Ig0KPj4gLQ0KPj4gLVNSQ19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29t
+L21lc29uYnVpbGQvbWVzb24vcmVsZWFzZXMvZG93bmxvYWQvJHtQVn0vJHtCUH0udGFyLmd6IFwN
+Cj4+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWd0a2RvYy1maXgtaXNzdWVzLXRoYXQtYXJpc2Ut
+d2hlbi1jcm9zcy1jb21waWxpbmcucGF0Y2ggXA0KPj4gLSAgICAgICAgICAgZmlsZTovLzAwMDIt
+Z29iamVjdC1pbnRyb3NwZWN0aW9uLWRldGVybWluZS1nLWlyLXNjYW5uZXItYW5kLWctaS5wYXRj
+aCBcDQo+PiAtICAgICAgICAgICBmaWxlOi8vMDAwMS1MaW5rZXItcnVsZXMtbW92ZS1jcm9zc19h
+cmdzLWluLWZyb250LW9mLW91dHB1dF9hcmdzLnBhdGNoIFwNCj4+IC0gICAgICAgICAgIGZpbGU6
+Ly8wMDAzLW5hdGl2ZV9iaW5kaXIucGF0Y2ggXA0KPj4gLSAgICAgICAgICAgZmlsZTovLzAwMDQt
+UHJldHRpZnlpbmctc29tZS1vdXRwdXQtd2l0aC1wYXRobGliLnBhdGNoIFwNCj4+IC0gICAgICAg
+ICAgIGZpbGU6Ly8wMDA1LVNldC10aGUtbWVzb24tY29tbWFuZC10by11c2Utd2hlbi13ZS1rbm93
+LXdoYXQtaXQtaXMucGF0Y2ggXA0KPj4gLSAgICAgICAgICAgIg0KPj4gLVNSQ19VUklbbWQ1c3Vt
+XSA9ICIxNjk4ZjY1MjY1NzQ4MzlkZTVkY2RjNDVlM2Y3ZDU4MiINCj4+IC1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiMTk0OTdhMDNlN2U1YjMwM2Q4ZDExZjk4Nzg5YTc5YWJhNTliNWFkNGE4MWJkMDBm
+NGQwOTliZTAyMTJjZWU3OCINCj4+IC1VUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL21lc29uYnVpbGQvbWVzb24vcmVsZWFzZXMiDQo+PiAtDQo+PiAtaW5oZXJpdCBzZXR1
+cHRvb2xzMw0KPj4gLQ0KPj4gLVJERVBFTkRTXyR7UE59ID0gIm5pbmphIHB5dGhvbjMtY29yZSBw
+eXRob24zLW1vZHVsZXMiDQo+PiAraW5jbHVkZSBtZXNvbi5pbmMNCj4+DQo+PiAgIEJCQ0xBU1NF
+WFRFTkQgPSAibmF0aXZlIg0KPj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9t
+ZXNvbi9uYXRpdmVzZGstbWVzb25fMC40Ni4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21l
+c29uL25hdGl2ZXNkay1tZXNvbl8wLjQ2LjEuYmINCj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+
+PiBpbmRleCAwMDAwMDAwMDAwLi41MzUwM2FhOTk4DQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbmF0aXZlc2RrLW1lc29uXzAuNDYuMS5iYg0K
+Pj4gQEAgLTAsMCArMSw3NCBAQA0KPj4gK2luY2x1ZGUgbWVzb24uaW5jDQo+PiArDQo+PiAraW5o
+ZXJpdCBuYXRpdmVzZGsNCj4+ICsNCj4+ICtTUkNfVVJJICs9ICJmaWxlOi8vbWVzb24tc2V0dXAu
+cHkgXA0KPj4gKyAgICAgICAgICAgIGZpbGU6Ly9tZXNvbi13cmFwcGVyIg0KPj4gKw0KPj4gK2Rl
+ZiBtZXNvbl9hcnJheSh2YXIsIGQpOg0KPj4gKyAgICByZXR1cm4gIicsICciLmpvaW4oZC5nZXRW
+YXIodmFyKS5zcGxpdCgpKS5qb2luKCgiJyIsICInIikpDQo+PiArDQo+PiArIyBib3RoIGFyZSBy
+ZXF1aXJlZCBidXQgbm90IHVzZWQgYnkgbWVzb24NCj4+ICtNRVNPTl9TREtfRU5ESUFOID0gImJv
+Z3VzLWVuZGlhbiINCj4+ICtNRVNPTl9UQVJHRVRfRU5ESUFOID0gImJvZ3VzLWVuZGlhbiINCj4+
+ICsNCj4+ICtNRVNPTl9UT09MQ0hBSU5fQVJHUyA9ICIke0JVSUxEU0RLX0NDX0FSQ0h9JHtUT09M
+Q0hBSU5fT1BUSU9OU30iDQo+PiArTUVTT05fQ19BUkdTID0gIiR7TUVTT05fVE9PTENIQUlOX0FS
+R1N9ICR7QlVJTERTREtfQ0ZMQUdTfSINCj4+ICtNRVNPTl9DUFBfQVJHUyA9ICIke01FU09OX1RP
+T0xDSEFJTl9BUkdTfSAke0JVSUxEU0RLX0NYWEZMQUdTfSINCj4+ICtNRVNPTl9MSU5LX0FSR1Mg
+PSAiJHtNRVNPTl9UT09MQ0hBSU5fQVJHU30gJHtCVUlMRFNES19MREZMQUdTfSINCj4+ICsNCj4+
+ICsjIFRoaXMgbG9naWMgaXMgc2ltaWxhciBidXQgbm90IGlkZW50aWNhbCB0byB0aGF0IGluIG1l
+c29uLmJiY2xhc3MsIHNpbmNlIGl0J3MNCj4+ICsjIGdlbmVyYXRpbmcgZm9yIGFuIFNESyByYXRo
+ZXIgdGhhbiBhIGNyb3NzLWNvbXBpbGUuIEltcG9ydGFudCBkaWZmZXJlbmNlcyBhcmU6DQo+PiAr
+IyAtIFdlIGNhbid0IHNldCB2YXJzIGxpa2UgQ0MsIENYWCwgZXRjLiB5ZXQgYmVjYXVzZSB0aGV5
+IHdpbGwgYmUgZmlsbGVkIGluIHdpdGgNCj4+ICsjICAgcmVhbCBwYXRocyBieSBtZXNvbi1zZXR1
+cC5zaCB3aGVuIHRoZSBTREsgaXMgZXh0cmFjdGVkLg0KPj4gKyMgLSBTb21lIG92ZXJyaWRlcyBh
+cmVuJ3QgbmVlZGVkLCBzaW5jZSB0aGUgU0RLIGluamVjdHMgcGF0aHMgdGhhdCB0YWtlIGNhcmUg
+b2YNCj4+ICsjICAgdGhlbS4NCj4+ICthZGR0YXNrIHdyaXRlX2NvbmZpZyBiZWZvcmUgZG9faW5z
+dGFsbA0KPj4gK2RvX3dyaXRlX2NvbmZpZ1t2YXJkZXBzXSArPSAiTUVTT05fQ19BUkdTIE1FU09O
+X0NQUF9BUkdTIE1FU09OX0xJTktfQVJHUyBDQyBDWFggTEQgQVIgTk0gU1RSSVAgUkVBREVMRiIN
+Cj4+ICtkb193cml0ZV9jb25maWcoKSB7DQo+PiArICAgICMgVGhpcyBuZWVkcyB0byBiZSBQeSB0
+byBzcGxpdCB0aGUgYXJncyBpbnRvIHNpbmdsZS1lbGVtZW50IGxpc3RzDQo+PiArICAgIGNhdCA+
+JHtXT1JLRElSfS9tZXNvbi5jcm9zcyA8PEVPRg0KPj4gK1tiaW5hcmllc10NCj4+ICtjID0gQEBD
+Q0BADQo+PiArY3BwID0gQEBDWFhAQA0KPj4gK2FyID0gQEBBUkBADQo+PiArbm0gPSBAQE5NQEAN
+Cj4+ICtsZCA9IEBATERAQA0KPj4gK3N0cmlwID0gQEBTVFJJUEBADQo+PiArcGtnY29uZmlnID0g
+J3BrZy1jb25maWcnDQo+PiArDQo+PiArW3Byb3BlcnRpZXNdDQo+PiArbmVlZHNfZXhlX3dyYXBw
+ZXIgPSB0cnVlDQo+PiArY19hcmdzID0gQEBDRkxBR1NAQA0KPj4gK2NfbGlua19hcmdzID0gQEBM
+REZMQUdTQEANCj4+ICtjcHBfYXJncyA9IEBAQ1BQRkxBR1NAQA0KPj4gK2NwcF9saW5rX2FyZ3Mg
+PSBAQExERkxBR1NAQA0KPj4gKw0KPj4gK1tob3N0X21hY2hpbmVdDQo+PiArc3lzdGVtID0gJyR7
+U0RLX09TfScNCj4+ICtjcHVfZmFtaWx5ID0gJyR7U0RLX0FSQ0h9Jw0KPj4gK2NwdSA9ICcke1NE
+S19BUkNIfScNCj4+ICtlbmRpYW4gPSAnJHtNRVNPTl9TREtfRU5ESUFOfScNCj4+ICtFT0YNCj4+
+ICt9DQo+PiArDQo+PiArZG9faW5zdGFsbF9hcHBlbmQoKSB7DQo+PiArICAgIGluc3RhbGwgLWQg
+JHtEfSR7ZGF0YWRpcn0vbWVzb24NCj4+ICsgICAgaW5zdGFsbCAtbSAwNjQ0ICR7V09SS0RJUn0v
+bWVzb24uY3Jvc3MgJHtEfSR7ZGF0YWRpcn0vbWVzb24vDQo+PiArDQo+PiArICAgIGluc3RhbGwg
+LWQgJHtEfSR7U0RLUEFUSE5BVElWRX0vcG9zdC1yZWxvY2F0ZS1zZXR1cC5kDQo+PiArICAgIGlu
+c3RhbGwgLW0gMDc1NSAke1dPUktESVJ9L21lc29uLXNldHVwLnB5ICR7RH0ke1NES1BBVEhOQVRJ
+VkV9L3Bvc3QtcmVsb2NhdGUtc2V0dXAuZC8NCj4+ICsNCj4+ICsgICAgIyBXZSBuZWVkIHRvIHdy
+YXAgdGhlIHJlYWwgbWVzb24gd2l0aCBhIHRoaW4gZW52IHNldHVwIHdyYXBwZXIuDQo+PiArICAg
+IG12ICR7RH0ke2JpbmRpcn0vbWVzb24gJHtEfSR7YmluZGlyfS9tZXNvbi5yZWFsDQo+PiArICAg
+IGluc3RhbGwgLW0gMDc1NSAke1dPUktESVJ9L21lc29uLXdyYXBwZXIgJHtEfSR7YmluZGlyfS9t
+ZXNvbg0KPj4gK30NCj4+ICsNCj4+ICtSREVQRU5EU18ke1BOfSArPSAiXA0KPj4gKyAgICBuYXRp
+dmVzZGstbmluamEgXA0KPj4gKyAgICBuYXRpdmVzZGstcHl0aG9uMy1jb3JlIFwNCj4+ICsgICAg
+bmF0aXZlc2RrLXB5dGhvbjMtbWlzYyBcDQo+PiArICAgIG5hdGl2ZXNkay1weXRob24zLW1vZHVs
+ZXMgXA0KPj4gKyAgICAiDQo+PiArDQo+PiArRklMRVNfJHtQTn0gKz0gIiR7ZGF0YWRpcn0vbWVz
+b24gJHtTREtQQVRITkFUSVZFfSINCj4+IC0tDQo+PiAyLjExLjANCj4+DQo+PiAtLQ0KPj4gX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4+IE9wZW5lbWJl
+ZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KPj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
 
-All,
-
-
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the Bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 295 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly four different "priority" classes right now, "2.7", =
-"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7" =
-and then "2.8".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com<mailto:Stephen.k.jolley@intel.com>) an e-mail with the bug number you w=
-ould like and I will assign it to you (please make sure you have a Bugzilla=
- account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EEA6CDE9Ffmsmsx123amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the Bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 295 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly four different &quot;prior=
-ity&quot; classes right now, &#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.=
-99&quot; and &quot;Future&quot;, the more pressing/urgent issues being in &=
-quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (<a href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com=
-</a>) an e-mail with the bug number
- you would like and I will assign it to you (please make sure you have a Bu=
-gzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;,serif;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;,serif;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,serif">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:</span><span =
-lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;,=
-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EEA6CDE9Ffmsmsx123amrcor_--
