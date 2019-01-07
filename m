@@ -1,23 +1,49 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BDDE86BB5B
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 812156C106
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 08:06:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0786YaB022260
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  7 Jan 2019 09:38:21 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id m62so237638ith.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Jan 2019 00:06:34 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 7 Jan 2019 00:06:33 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Jan 2019 16:06:32 +0800
-Message-ID: <1546848392-296663-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 07 Jan 2019 01:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=oqTf9M5F8j7lD7rLrQw9/9OHQI3kccC4CyX+nlhT9Kg=;
+	b=qzlfZfOgapIO9JydCW4YET1PL5bh+hc2hji8LDnnIBonBSgj0RBjva5GW2FNgMLWg/
+	Uz+fPkbGFgDi8bVYYQ1UqGzwz2WIosiIu+tXU4DKy08OaKi5HOAAkJl1wmqaiVCkOTHg
+	OqGicbEdv6Ww54OvZtujPaIo0Oh7BvsvYoj/EkGzDvyy97tgrAudQS1Bjz8IZcjd4/ip
+	p2IFzIhFjqESpUm9Jz0fKF5xuHrO7vbP5BU6Uqw5BiLo3rTAF9EXxQiNbdA70EuJVTpr
+	9b5wAbTgtzfgCv2/lRpQNVZbIt3tLPWHNYW970W8CMDUMkIDrJXrtsPXLZArR+9MtKME
+	f/bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=oqTf9M5F8j7lD7rLrQw9/9OHQI3kccC4CyX+nlhT9Kg=;
+	b=BydqcgSXRoVJm5DYvAo27AdBDX2V7jlySwipsGoHyb4qjy8c0BiYSSK2f+oQFKgm+N
+	czm6k9wi0Ur65yLDrC1yzYIwtzZvaP/QMVV9yZz+9lxzl9vVVKT8po0LEQK7yj2QXyIe
+	g0aAV9n2ZsAjS5tm0OElVP07AgZIFhVBO0AwLEnfuiV54x2wK5qISxQ6wYiivck6kLZ6
+	DhX7XOu3CxpYymtmh0Hly4er2xXtlvADq+WKcnZbE8+oVrYriMRpaBpUf9V4EjvI/CO2
+	5lr4v7S5WSLe97z82MJlYgQMlZKxUdv3LO5NBVHw+CZhIEu5XhIeuDQvPLqjdx0iAL3Y
+	agIQ==
+X-Gm-Message-State: AJcUukcdvgHQ2yRwraAcLCbt6Rzm2k6AoxuEsOF5uWzGk1vHkq5Fwfr5
+	5wq0GkH2AmUOUR1u6zsJvGYOqjrckd4QT6N2G8nxIK/T
+X-Google-Smtp-Source: ALg8bN5rO9OMIjKC8s5AxqSCR49WsTcPNL1Gld+PIpqNih7gBR8BIGoOUHQIT/Sdd3BpntEstK4GH1VBlLuqo6Dq8xY=
+X-Received: by 2002:a24:1dce:: with SMTP id 197mr7281015itj.154.1546853902144; 
+	Mon, 07 Jan 2019 01:38:22 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] libsndfile1: Security fix CVE-2017-17456/17457 CVE-2018-19661/19662
+References: <20190106181350.25386-1-jacob.kroon@gmail.com>
+	<20190106181350.25386-2-jacob.kroon@gmail.com>
+	<7561c555f243ddaaa45bdd28eed97394c35d67e5.camel@andred.net>
+In-Reply-To: <7561c555f243ddaaa45bdd28eed97394c35d67e5.camel@andred.net>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Mon, 7 Jan 2019 10:38:10 +0100
+Message-ID: <CAPbeDC=vBTFU6G+CjKUwe_CjhqHqyN6mKxU3t+cr+aw+Wu+5DA@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 2/2] buildhistory: support generating md5sum of files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,141 +56,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 08:06:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Jan 2019 09:38:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Changqing Li <changqing.li@windriver.com>
+Hi Andr=C3=A9,
 
-fix 4 CVEs, which is backport from
-https://github.com/erikd/libsndfile/commit/585cc28a93be27d6938f276af0011401b9f7c0ca
+On Mon, Jan 7, 2019 at 12:09 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
+>
+> Hi,
+>
+> On Sun, 2019-01-06 at 19:13 +0100, Jacob Kroon wrote:
+> > Introduce 'md5' in BUILDHISTORY_FEATURES and enable it by default
+> > when doing reproducible builds.
+> >
+> > When enabled this will additionally create:
+> >
+> >   files-in-package-md5.txt
+> >   files-in-image-md5.txt
+> >   files-in-sdk-md5.txt
+> >
+> > containing the md5 checksums of regular files.
+> >
+> > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> > ---
+> >  meta/classes/buildhistory.bbclass | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes/buildhistory.bbclass
+> > b/meta/classes/buildhistory.bbclass
+> > index 33eb1b00f6..00f0701dec 100644
+> > --- a/meta/classes/buildhistory.bbclass
+> > +++ b/meta/classes/buildhistory.bbclass
+> > @@ -7,7 +7,8 @@
+> >  # Copyright (C) 2007-2011 Koen Kooi <koen@openembedded.org>
+> >  #
+> >
+> > -BUILDHISTORY_FEATURES ?=3D "image package sdk"
+> > +BUILDHISTORY_FEATURES ?=3D "image package sdk \
+> > +  ${@ "md5" if
+> > bb.utils.to_boolean(d.getVar('BUILD_REPRODUCIBLE_BINARIES')) else ""}"
+> >  BUILDHISTORY_DIR ?=3D "${TOPDIR}/buildhistory"
+> >  BUILDHISTORY_DIR_IMAGE =3D
+> > "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}=
+"
+> >  BUILDHISTORY_DIR_PACKAGE =3D
+> > "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
+> > @@ -526,7 +527,12 @@ buildhistory_list_files() {
+> >               eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
+> >       else
+> >               eval $find_cmd
+> > -     fi | sort -k5 | sed 's/ * -> $//' > $2 )
+> > +     fi | sort -k5 | sed 's/ * -> $//' > $2
+> > +     if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'md5', '1', '=
+0',
+> > d)}" =3D "1" ] ; then
+> > +             md5filename=3D$(echo $2 | sed 's/\.txt$/-md5.txt/')
+> > +             find -type f | xargs -I{} -n1 md5sum {} | sort -k2 >
+> > $md5filename
+>
+> Why don't you
+>   find . -type f -exec md5sum {} + | sort -sk2 > $md5filename
+> ?
+> It'll be quite a bit faster because way fewer processes will be spawned.
+>
+> Am I missing something?
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...-a-ulaw-fix-multiple-buffer-overflows-432.patch | 101 +++++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
+You're right, I will update the patch. I'm assuming I don't need the
+stable sort, -s,
+since the filenames should all be unique.
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
-new file mode 100644
-index 0000000..c3f44ca
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
-@@ -0,0 +1,101 @@
-+From 39453899fe1bb39b2e041fdf51a85aecd177e9c7 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 7 Jan 2019 15:55:03 +0800
-+Subject: [PATCH] a/ulaw: fix multiple buffer overflows (#432)
-+
-+i2ulaw_array() and i2alaw_array() fail to handle ptr [count] = INT_MIN
-+properly, leading to buffer underflow. INT_MIN is a special value
-+since - INT_MIN cannot be represented as int.
-+
-+In this case round - INT_MIN to INT_MAX and proceed as usual.
-+
-+f2ulaw_array() and f2alaw_array() fail to handle ptr [count] = NaN
-+properly, leading to null pointer dereference.
-+
-+In this case, arbitrarily set the buffer value to 0.
-+
-+This commit fixes #429 (CVE-2018-19661 and CVE-2018-19662) and
-+fixes #344 (CVE-2017-17456 and CVE-2017-17457).
-+
-+Upstream-Status: Backport[https://github.com/erikd/libsndfile/
-+commit/585cc28a93be27d6938f276af0011401b9f7c0ca]
-+
-+CVE: CVE-2017-17456 CVE-2017-17457 CVE-2018-19661 CVE-2018-19662
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/alaw.c | 9 +++++++--
-+ src/ulaw.c | 9 +++++++--
-+ 2 files changed, 14 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/alaw.c b/src/alaw.c
-+index 063fd1a..4220224 100644
-+--- a/src/alaw.c
-++++ b/src/alaw.c
-+@@ -19,6 +19,7 @@
-+ #include	"sfconfig.h"
-+ 
-+ #include	<math.h>
-++#include	<limits.h>
-+ 
-+ #include	"sndfile.h"
-+ #include	"common.h"
-+@@ -326,7 +327,9 @@ s2alaw_array (const short *ptr, int count, unsigned char *buffer)
-+ static inline void
-+ i2alaw_array (const int *ptr, int count, unsigned char *buffer)
-+ {	while (--count >= 0)
-+-	{	if (ptr [count] >= 0)
-++	{	if (ptr [count] == INT_MIN)
-++			buffer [count] = alaw_encode [INT_MAX >> (16 + 4)] ;
-++		else if (ptr [count] >= 0)
-+ 			buffer [count] = alaw_encode [ptr [count] >> (16 + 4)] ;
-+ 		else
-+ 			buffer [count] = 0x7F & alaw_encode [- ptr [count] >> (16 + 4)] ;
-+@@ -346,7 +349,9 @@ f2alaw_array (const float *ptr, int count, unsigned char *buffer, float normfact
-+ static inline void
-+ d2alaw_array (const double *ptr, int count, unsigned char *buffer, double normfact)
-+ {	while (--count >= 0)
-+-	{	if (ptr [count] >= 0)
-++	{	if (!isfinite (ptr [count]))
-++			buffer [count] = 0 ;
-++		else if (ptr [count] >= 0)
-+ 			buffer [count] = alaw_encode [lrint (normfact * ptr [count])] ;
-+ 		else
-+ 			buffer [count] = 0x7F & alaw_encode [- lrint (normfact * ptr [count])] ;
-+diff --git a/src/ulaw.c b/src/ulaw.c
-+index e50b4cb..b6070ad 100644
-+--- a/src/ulaw.c
-++++ b/src/ulaw.c
-+@@ -19,6 +19,7 @@
-+ #include	"sfconfig.h"
-+ 
-+ #include	<math.h>
-++#include	<limits.h>
-+ 
-+ #include	"sndfile.h"
-+ #include	"common.h"
-+@@ -827,7 +828,9 @@ s2ulaw_array (const short *ptr, int count, unsigned char *buffer)
-+ static inline void
-+ i2ulaw_array (const int *ptr, int count, unsigned char *buffer)
-+ {	while (--count >= 0)
-+-	{	if (ptr [count] >= 0)
-++	{	if (ptr [count] == INT_MIN)
-++			buffer [count] = ulaw_encode [INT_MAX >> (16 + 2)] ;
-++		else if (ptr [count] >= 0)
-+ 			buffer [count] = ulaw_encode [ptr [count] >> (16 + 2)] ;
-+ 		else
-+ 			buffer [count] = 0x7F & ulaw_encode [-ptr [count] >> (16 + 2)] ;
-+@@ -847,7 +850,9 @@ f2ulaw_array (const float *ptr, int count, unsigned char *buffer, float normfact
-+ static inline void
-+ d2ulaw_array (const double *ptr, int count, unsigned char *buffer, double normfact)
-+ {	while (--count >= 0)
-+-	{	if (ptr [count] >= 0)
-++	{	if (!isfinite (ptr [count]))
-++			buffer [count] = 0 ;
-++		else if (ptr [count] >= 0)
-+ 			buffer [count] = ulaw_encode [lrint (normfact * ptr [count])] ;
-+ 		else
-+ 			buffer [count] = 0x7F & ulaw_encode [- lrint (normfact * ptr [count])] ;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index b28f675..13248f5 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
-            file://CVE-2017-14245-14246.patch \
-            file://CVE-2017-14634.patch \
-            file://CVE-2018-13139.patch \
-+           file://0001-a-ulaw-fix-multiple-buffer-overflows-432.patch \
-           "
- 
- SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
--- 
-2.7.4
+> I don't know what the intended use-case of the md5 files is, but could
+> sha256 or similar maybe be more appropriate?
 
+I thought it would be a good idea to store some sort of checksum of files i=
+n the
+buildhistory when doing reproducible builds, so that it is easier to detect
+when a rebuild produces changed files, but perhaps there is some way to do
+this already that I am missing ?
+
+But I have no real motivation for choosing md5, other than that I
+assumed it would be less
+cpu intensive than sha256, and the fact I'm not too worried about collision=
+s.
+
+Thanks for the feedback,
+Jacob
+
+> Cheers,
+> Andre'
+>
+>
+> > +             [ -s $md5filename ] || rm $md5filename # remove result if
+> > empty
+> > +     fi )
+> >  }
+> >
+> >  buildhistory_list_pkg_files() {
+> > --
+> > 2.11.0
+> >
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
