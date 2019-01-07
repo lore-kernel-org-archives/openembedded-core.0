@@ -1,55 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 827B06C492
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BDF66C149
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 14:31:44 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id t6so589929wrr.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2019 06:31:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=eWIJ2Yv1YY6Y0qZUvfELRXJiGCi5CSvTedrVw2pG0Yw=;
-	b=H7JIe3lngV5F4GdBkBGxyGzTaqziacraC5h8H32zvyW3NA3hebG3rpBIOja64BHEVG
-	sr/o7aPrhbEyZBahRkPBXVAFFITdwMaD/p34TtAWNGMskyLrI1uo4rhs0FhX5txbXKL1
-	GcFqbLa6CQAykSMb3ake5Rrmi28wTanHLjZuA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=eWIJ2Yv1YY6Y0qZUvfELRXJiGCi5CSvTedrVw2pG0Yw=;
-	b=DDj/PZoKJqCvJIP6qLNx6QMbhaexPDhoF+daunWa6OfWX6OpNejrbiOAfB/NTg1LoV
-	Dh1K3okzVk+v72GQuvbHnPGSXJ50EZuawRzxs+22pp7U4fE95bQj6kEFE4s6xhniwJH7
-	6VlCOJWPF6SlRKz/RrBXrIc/eDvwSBS1xIx3TRz+0A9Jvai84MYfqfjk69o4kRAINwzf
-	fe2FWS2t1jD87k4/optbjovBg2VcbJ82t14lmZJPzhJ64ruOGt0rwP5BVSr0967S7Lvj
-	vfwZJxT6EKOT4Ou1Q4H+oPmfaqpqqrqCth65mOeFcc2KYsF6bAnI/wUnPBYuJRRWA/B5
-	yzxA==
-X-Gm-Message-State: AJcUukf03eJlWKX/wpJuJRksAPoN8ZiAQo52ANkfuIMMVLHhsJrdn9Mt
-	+tct3n5z1fOYoGkhIrNSSV9BWg==
-X-Google-Smtp-Source: ALg8bN462W6WJKQPPeDfbyjrzu481Hh4Pm+YbWAFe7uYqt3e4ik6A+uIrBh/c09vnfBE4jL6muy2vA==
-X-Received: by 2002:adf:a58a:: with SMTP id g10mr51682176wrc.3.1546871505195; 
-	Mon, 07 Jan 2019 06:31:45 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o8sm46479755wrx.15.2019.01.07.06.31.43
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 07 Jan 2019 06:31:44 -0800 (PST)
-Message-ID: <51ef24c85d664b08aa7a26d4537df4b02026bd54.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jacob Kroon <jacob.kroon@gmail.com>, =?ISO-8859-1?Q?Andr=E9?= Draszik
-	<git@andred.net>
-Date: Mon, 07 Jan 2019 14:31:43 +0000
-In-Reply-To: <CAPbeDC=vBTFU6G+CjKUwe_CjhqHqyN6mKxU3t+cr+aw+Wu+5DA@mail.gmail.com>
-References: <20190106181350.25386-1-jacob.kroon@gmail.com>
-	<20190106181350.25386-2-jacob.kroon@gmail.com>
-	<7561c555f243ddaaa45bdd28eed97394c35d67e5.camel@andred.net>
-	<CAPbeDC=vBTFU6G+CjKUwe_CjhqHqyN6mKxU3t+cr+aw+Wu+5DA@mail.gmail.com>
-User-Agent: Evolution 3.30.2-1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 2/2] buildhistory: support generating md5sum of files
+	Mon,  7 Jan 2019 14:34:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x07EYMZc006166
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Jan 2019 06:34:22 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 7 Jan 2019 06:34:21 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 7 Jan 2019 09:33:46 -0500
+Message-ID: <328fc70b9e58c5ddb4dd265721ada519daa82272.1546871336.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1546871336.git.bruce.ashfield@windriver.com>
+References: <cover.1546871336.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/3] linux-libc-headers: update to v4.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,39 +32,629 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 14:31:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Jan 2019 14:34:22 -0000
+Content-Type: text/plain
 
-On Mon, 2019-01-07 at 10:38 +0100, Jacob Kroon wrote:
-> On Mon, Jan 7, 2019 at 12:09 AM André Draszik <git@andred.net> wrote:
-> > I don't know what the intended use-case of the md5 files is, but
-> > could
-> > sha256 or similar maybe be more appropriate?
-> 
-> I thought it would be a good idea to store some sort of checksum of
-> files in the
-> buildhistory when doing reproducible builds, so that it is easier to
-> detect
-> when a rebuild produces changed files, but perhaps there is some way
-> to do
-> this already that I am missing ?
-> 
-> But I have no real motivation for choosing md5, other than that I
-> assumed it would be less
-> cpu intensive than sha256, and the fact I'm not too worried about
-> collisions.
+Updating the linux-libc-headers to match the latest reference
+kernel in oe-core.
 
-I used to lean that way as well however there is a fair bit of
-negativity associated with *any* use of md5 so I'm tempted to say use
-sha256 as we don't know how these checksums may be used in the future.
+We addtionally add three patches (identified by Khem) to fix muslc
+aarch64 build issues.
 
-I'd note there is some overlap here with the sstate hash equivalency
-work where we build a hash representing a tasks complete output. Can
-you reuse any of the functions there?
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/conf/distro/include/tcmode-default.inc        |   2 +-
+ ...all_headers.sh-Strip-_UAPI-from-if-define.patch |  39 +++
+ ...-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch |  41 +++
+ ...isentangle-uapi-asm-ptrace.h-from-uapi-as.patch | 287 +++++++++++++++++++++
+ ...-headers_4.18.bb => linux-libc-headers_4.19.bb} |   7 +-
+ meta/recipes-kernel/linux-libc-headers/x.mbox      | 174 +++++++++++++
+ 6 files changed, 547 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.18.bb => linux-libc-headers_4.19.bb} (62%)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/x.mbox
 
-Cheers,
-
-Richard
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 8c99907f0278..812b923fa200 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -23,7 +23,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.31%"
+ GDBVERSION ?= "8.2%"
+ GLIBCVERSION ?= "2.28%"
+-LINUXLIBCVERSION ?= "4.18%"
++LINUXLIBCVERSION ?= "4.19%"
+ QEMUVERSION ?= "3.1%"
+ GOVERSION ?= "1.11%"
+ 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+new file mode 100644
+index 000000000000..68ffb86f0775
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+@@ -0,0 +1,39 @@
++From 9ca6c6a510bda90954aa2532711200b89dd1df89 Mon Sep 17 00:00:00 2001
++From: Dave Martin <Dave.Martin@arm.com>
++Date: Tue, 11 Dec 2018 19:26:45 +0000
++Subject: [PATCH 1/3] kbuild: install_headers.sh: Strip _UAPI from
++ #if-defined() guards
++
++install_headers.sh knows how to strip the _UAPI prefix from #ifdef/
++ifndef and #define directives used to guard headers against multiple
++or inappropriate inclusion.  Currently this does not work for guards
++in the "#if defined()" style, which may be needed for non-trivial
++cases.
++
++This patch adds similar logic so that the _UAPI prefix is also
++stripped from guard directives written using "#if defined()" etc.
++
++This is not completely foolproof, but will work for simple cases of
++using #if defined() to guard against inappropriate header inclusion.
++
++Signed-off-by: Dave Martin <Dave.Martin@arm.com>
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ scripts/headers_install.sh | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
++index 593f8879c641..fe1d3fc0d33a 100755
++--- a/scripts/headers_install.sh
+++++ b/scripts/headers_install.sh
++@@ -38,6 +38,7 @@ do
++ 		-e 's/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g' \
++ 		-e 's/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g' \
++ 		-e 's@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @' \
+++		-e ':1;s/(#(if|elif)(.*[^A-Za-z0-9_])defined\([[:space:]]*)_UAPI/\1/;t1' \
++ 		"$SRCDIR/$i" > "$OUTDIR/$FILE.sed" || exit 1
++ 	scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ "$OUTDIR/$FILE.sed" \
++ 		> "$OUTDIR/$FILE"
++-- 
++2.5.0
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
+new file mode 100644
+index 000000000000..1f3ec07aa999
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
+@@ -0,0 +1,41 @@
++From 0dede80d25ae2005f8af7235809fc09a7c47c62e Mon Sep 17 00:00:00 2001
++From: Dave Martin <Dave.Martin@arm.com>
++Date: Tue, 11 Dec 2018 19:26:46 +0000
++Subject: [PATCH 2/3] arm64/sve: ptrace: Fix SVE_PT_REGS_OFFSET definition
++
++SVE_PT_REGS_OFFSET is supposed to indicate the offset for skipping
++over the ptrace NT_ARM_SVE header (struct user_sve_header) to the
++start of the SVE register data proper.
++
++However, currently SVE_PT_REGS_OFFSET is defined in terms of struct
++sve_context, which is wrong: that structure describes the SVE
++header in the signal frame, not in the ptrace regset.
++
++This patch fixes the definition to use the ptrace header structure
++struct user_sve_header instead.
++
++By good fortune, the to structures are the same size anyway, so
++there is no functional or ABI change.
++
++Signed-off-by: Dave Martin <Dave.Martin@arm.com>
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ arch/arm64/include/uapi/asm/ptrace.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
++index 98c4ce55d9c3..ad64d2c92ef5 100644
++--- a/arch/arm64/include/uapi/asm/ptrace.h
+++++ b/arch/arm64/include/uapi/asm/ptrace.h
++@@ -130,7 +130,7 @@ struct user_sve_header {
++ 
++ /* Offset from the start of struct user_sve_header to the register data */
++ #define SVE_PT_REGS_OFFSET					\
++-	((sizeof(struct sve_context) + (SVE_VQ_BYTES - 1))	\
+++	((sizeof(struct user_sve_header) + (SVE_VQ_BYTES - 1))	\
++ 		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
++ 
++ /*
++-- 
++2.5.0
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
+new file mode 100644
+index 000000000000..c7a3ce31c94c
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
+@@ -0,0 +1,287 @@
++From 1114697c04b9699112e78dd8fc6ec849609ca1cb Mon Sep 17 00:00:00 2001
++From: Dave Martin <Dave.Martin@arm.com>
++Date: Tue, 11 Dec 2018 19:26:47 +0000
++Subject: [PATCH 3/3] arm64/sve: Disentangle <uapi/asm/ptrace.h> from
++ <uapi/asm/sigcontext.h>
++
++Currently, <uapi/asm/sigcontext.h> provides common definitions for
++describing SVE context structures that are also used by the ptrace
++definitions in <uapi/asm/ptrace.h>.
++
++For this reason, a #include of <asm/sigcontext.h> was added in
++ptrace.h, but it this turns out that this can interact badly with
++userspace code that tries to include ptrace.h on top of the libc
++headers (which may provide their own shadow definitions for
++sigcontext.h).
++
++To make the headers easier for userspace to consume, this patch
++bounces the common definitions into an __SVE_* namespace and moves
++them to a backend header <uapi/asm/sve_context.h> that can be
++included by the other headers as appropriate.  This should allow
++ptrace.h to be used alongside libc's sigcontext.h (if any) without
++ill effects.
++
++This should make the situation unambiguous: <asm/sigcontext.h> is
++the header to include for the sigframe-specific definitions, while
++<asm/ptrace.h> is the header to include for ptrace-specific
++definitions.
++
++To avoid conflicting with existing usage, <asm/sigcontext.h>
++remains the canonical way to get the common definitions for
++SVE_VQ_MIN, sve_vq_from_vl() etc., both in userspace and in the
++kernel: relying on these being defined as a side effect of
++including just <asm/ptrace.h> was never intended to be safe.
++
++Signed-off-by: Dave Martin <Dave.Martin@arm.com>
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ arch/arm64/include/uapi/asm/ptrace.h      | 39 ++++++++++-----------
++ arch/arm64/include/uapi/asm/sigcontext.h  | 56 +++++++++++++++----------------
++ arch/arm64/include/uapi/asm/sve_context.h | 50 +++++++++++++++++++++++++++
++ 3 files changed, 96 insertions(+), 49 deletions(-)
++ create mode 100644 arch/arm64/include/uapi/asm/sve_context.h
++
++diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
++index ad64d2c92ef5..81547c3a95a3 100644
++--- a/arch/arm64/include/uapi/asm/ptrace.h
+++++ b/arch/arm64/include/uapi/asm/ptrace.h
++@@ -23,7 +23,7 @@
++ #include <linux/types.h>
++ 
++ #include <asm/hwcap.h>
++-#include <asm/sigcontext.h>
+++#include <asm/sve_context.h>
++ 
++ 
++ /*
++@@ -129,9 +129,9 @@ struct user_sve_header {
++  */
++ 
++ /* Offset from the start of struct user_sve_header to the register data */
++-#define SVE_PT_REGS_OFFSET					\
++-	((sizeof(struct user_sve_header) + (SVE_VQ_BYTES - 1))	\
++-		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
+++#define SVE_PT_REGS_OFFSET						\
+++	((sizeof(struct user_sve_header) + (__SVE_VQ_BYTES - 1))	\
+++		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
++ 
++ /*
++  * The register data content and layout depends on the value of the
++@@ -177,39 +177,36 @@ struct user_sve_header {
++  * Additional data might be appended in the future.
++  */
++ 
++-#define SVE_PT_SVE_ZREG_SIZE(vq)	SVE_SIG_ZREG_SIZE(vq)
++-#define SVE_PT_SVE_PREG_SIZE(vq)	SVE_SIG_PREG_SIZE(vq)
++-#define SVE_PT_SVE_FFR_SIZE(vq)		SVE_SIG_FFR_SIZE(vq)
+++#define SVE_PT_SVE_ZREG_SIZE(vq)	__SVE_ZREG_SIZE(vq)
+++#define SVE_PT_SVE_PREG_SIZE(vq)	__SVE_PREG_SIZE(vq)
+++#define SVE_PT_SVE_FFR_SIZE(vq)		__SVE_FFR_SIZE(vq)
++ #define SVE_PT_SVE_FPSR_SIZE		sizeof(__u32)
++ #define SVE_PT_SVE_FPCR_SIZE		sizeof(__u32)
++ 
++-#define __SVE_SIG_TO_PT(offset) \
++-	((offset) - SVE_SIG_REGS_OFFSET + SVE_PT_REGS_OFFSET)
++-
++ #define SVE_PT_SVE_OFFSET		SVE_PT_REGS_OFFSET
++ 
++ #define SVE_PT_SVE_ZREGS_OFFSET \
++-	__SVE_SIG_TO_PT(SVE_SIG_ZREGS_OFFSET)
+++	(SVE_PT_REGS_OFFSET + __SVE_ZREGS_OFFSET)
++ #define SVE_PT_SVE_ZREG_OFFSET(vq, n) \
++-	__SVE_SIG_TO_PT(SVE_SIG_ZREG_OFFSET(vq, n))
+++	(SVE_PT_REGS_OFFSET + __SVE_ZREG_OFFSET(vq, n))
++ #define SVE_PT_SVE_ZREGS_SIZE(vq) \
++-	(SVE_PT_SVE_ZREG_OFFSET(vq, SVE_NUM_ZREGS) - SVE_PT_SVE_ZREGS_OFFSET)
+++	(SVE_PT_SVE_ZREG_OFFSET(vq, __SVE_NUM_ZREGS) - SVE_PT_SVE_ZREGS_OFFSET)
++ 
++ #define SVE_PT_SVE_PREGS_OFFSET(vq) \
++-	__SVE_SIG_TO_PT(SVE_SIG_PREGS_OFFSET(vq))
+++	(SVE_PT_REGS_OFFSET + __SVE_PREGS_OFFSET(vq))
++ #define SVE_PT_SVE_PREG_OFFSET(vq, n) \
++-	__SVE_SIG_TO_PT(SVE_SIG_PREG_OFFSET(vq, n))
+++	(SVE_PT_REGS_OFFSET + __SVE_PREG_OFFSET(vq, n))
++ #define SVE_PT_SVE_PREGS_SIZE(vq) \
++-	(SVE_PT_SVE_PREG_OFFSET(vq, SVE_NUM_PREGS) - \
+++	(SVE_PT_SVE_PREG_OFFSET(vq, __SVE_NUM_PREGS) - \
++ 		SVE_PT_SVE_PREGS_OFFSET(vq))
++ 
++ #define SVE_PT_SVE_FFR_OFFSET(vq) \
++-	__SVE_SIG_TO_PT(SVE_SIG_FFR_OFFSET(vq))
+++	(SVE_PT_REGS_OFFSET + __SVE_FFR_OFFSET(vq))
++ 
++ #define SVE_PT_SVE_FPSR_OFFSET(vq)				\
++ 	((SVE_PT_SVE_FFR_OFFSET(vq) + SVE_PT_SVE_FFR_SIZE(vq) +	\
++-			(SVE_VQ_BYTES - 1))			\
++-		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
+++			(__SVE_VQ_BYTES - 1))			\
+++		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
++ #define SVE_PT_SVE_FPCR_OFFSET(vq) \
++ 	(SVE_PT_SVE_FPSR_OFFSET(vq) + SVE_PT_SVE_FPSR_SIZE)
++ 
++@@ -220,8 +217,8 @@ struct user_sve_header {
++ 
++ #define SVE_PT_SVE_SIZE(vq, flags)					\
++ 	((SVE_PT_SVE_FPCR_OFFSET(vq) + SVE_PT_SVE_FPCR_SIZE		\
++-			- SVE_PT_SVE_OFFSET + (SVE_VQ_BYTES - 1))	\
++-		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
+++			- SVE_PT_SVE_OFFSET + (__SVE_VQ_BYTES - 1))	\
+++		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
++ 
++ #define SVE_PT_SIZE(vq, flags)						\
++ 	 (((flags) & SVE_PT_REGS_MASK) == SVE_PT_REGS_SVE ?		\
++diff --git a/arch/arm64/include/uapi/asm/sigcontext.h b/arch/arm64/include/uapi/asm/sigcontext.h
++index dca8f8b5168b..5f3c0cec5af9 100644
++--- a/arch/arm64/include/uapi/asm/sigcontext.h
+++++ b/arch/arm64/include/uapi/asm/sigcontext.h
++@@ -130,6 +130,8 @@ struct sve_context {
++ 
++ #endif /* !__ASSEMBLY__ */
++ 
+++#include <asm/sve_context.h>
+++
++ /*
++  * The SVE architecture leaves space for future expansion of the
++  * vector length beyond its initial architectural limit of 2048 bits
++@@ -138,21 +140,20 @@ struct sve_context {
++  * See linux/Documentation/arm64/sve.txt for a description of the VL/VQ
++  * terminology.
++  */
++-#define SVE_VQ_BYTES		16	/* number of bytes per quadword */
+++#define SVE_VQ_BYTES		__SVE_VQ_BYTES	/* bytes per quadword */
++ 
++-#define SVE_VQ_MIN		1
++-#define SVE_VQ_MAX		512
+++#define SVE_VQ_MIN		__SVE_VQ_MIN
+++#define SVE_VQ_MAX		__SVE_VQ_MAX
++ 
++-#define SVE_VL_MIN		(SVE_VQ_MIN * SVE_VQ_BYTES)
++-#define SVE_VL_MAX		(SVE_VQ_MAX * SVE_VQ_BYTES)
+++#define SVE_VL_MIN		__SVE_VL_MIN
+++#define SVE_VL_MAX		__SVE_VL_MAX
++ 
++-#define SVE_NUM_ZREGS		32
++-#define SVE_NUM_PREGS		16
+++#define SVE_NUM_ZREGS		__SVE_NUM_ZREGS
+++#define SVE_NUM_PREGS		__SVE_NUM_PREGS
++ 
++-#define sve_vl_valid(vl) \
++-	((vl) % SVE_VQ_BYTES == 0 && (vl) >= SVE_VL_MIN && (vl) <= SVE_VL_MAX)
++-#define sve_vq_from_vl(vl)	((vl) / SVE_VQ_BYTES)
++-#define sve_vl_from_vq(vq)	((vq) * SVE_VQ_BYTES)
+++#define sve_vl_valid(vl)	__sve_vl_valid(vl)
+++#define sve_vq_from_vl(vl)	__sve_vq_from_vl(vl)
+++#define sve_vl_from_vq(vq)	__sve_vl_from_vq(vq)
++ 
++ /*
++  * If the SVE registers are currently live for the thread at signal delivery,
++@@ -205,34 +206,33 @@ struct sve_context {
++  * Additional data might be appended in the future.
++  */
++ 
++-#define SVE_SIG_ZREG_SIZE(vq)	((__u32)(vq) * SVE_VQ_BYTES)
++-#define SVE_SIG_PREG_SIZE(vq)	((__u32)(vq) * (SVE_VQ_BYTES / 8))
++-#define SVE_SIG_FFR_SIZE(vq)	SVE_SIG_PREG_SIZE(vq)
+++#define SVE_SIG_ZREG_SIZE(vq)	__SVE_ZREG_SIZE(vq)
+++#define SVE_SIG_PREG_SIZE(vq)	__SVE_PREG_SIZE(vq)
+++#define SVE_SIG_FFR_SIZE(vq)	__SVE_FFR_SIZE(vq)
++ 
++ #define SVE_SIG_REGS_OFFSET					\
++-	((sizeof(struct sve_context) + (SVE_VQ_BYTES - 1))	\
++-		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
+++	((sizeof(struct sve_context) + (__SVE_VQ_BYTES - 1))	\
+++		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
++ 
++-#define SVE_SIG_ZREGS_OFFSET	SVE_SIG_REGS_OFFSET
+++#define SVE_SIG_ZREGS_OFFSET \
+++		(SVE_SIG_REGS_OFFSET + __SVE_ZREGS_OFFSET)
++ #define SVE_SIG_ZREG_OFFSET(vq, n) \
++-	(SVE_SIG_ZREGS_OFFSET + SVE_SIG_ZREG_SIZE(vq) * (n))
++-#define SVE_SIG_ZREGS_SIZE(vq) \
++-	(SVE_SIG_ZREG_OFFSET(vq, SVE_NUM_ZREGS) - SVE_SIG_ZREGS_OFFSET)
+++		(SVE_SIG_REGS_OFFSET + __SVE_ZREG_OFFSET(vq, n))
+++#define SVE_SIG_ZREGS_SIZE(vq) __SVE_ZREGS_SIZE(vq)
++ 
++ #define SVE_SIG_PREGS_OFFSET(vq) \
++-	(SVE_SIG_ZREGS_OFFSET + SVE_SIG_ZREGS_SIZE(vq))
+++		(SVE_SIG_REGS_OFFSET + __SVE_PREGS_OFFSET(vq))
++ #define SVE_SIG_PREG_OFFSET(vq, n) \
++-	(SVE_SIG_PREGS_OFFSET(vq) + SVE_SIG_PREG_SIZE(vq) * (n))
++-#define SVE_SIG_PREGS_SIZE(vq) \
++-	(SVE_SIG_PREG_OFFSET(vq, SVE_NUM_PREGS) - SVE_SIG_PREGS_OFFSET(vq))
+++		(SVE_SIG_REGS_OFFSET + __SVE_PREG_OFFSET(vq, n))
+++#define SVE_SIG_PREGS_SIZE(vq) __SVE_PREGS_SIZE(vq)
++ 
++ #define SVE_SIG_FFR_OFFSET(vq) \
++-	(SVE_SIG_PREGS_OFFSET(vq) + SVE_SIG_PREGS_SIZE(vq))
+++		(SVE_SIG_REGS_OFFSET + __SVE_FFR_OFFSET(vq))
++ 
++ #define SVE_SIG_REGS_SIZE(vq) \
++-	(SVE_SIG_FFR_OFFSET(vq) + SVE_SIG_FFR_SIZE(vq) - SVE_SIG_REGS_OFFSET)
++-
++-#define SVE_SIG_CONTEXT_SIZE(vq) (SVE_SIG_REGS_OFFSET + SVE_SIG_REGS_SIZE(vq))
+++		(__SVE_FFR_OFFSET(vq) + __SVE_FFR_SIZE(vq))
++ 
+++#define SVE_SIG_CONTEXT_SIZE(vq) \
+++		(SVE_SIG_REGS_OFFSET + SVE_SIG_REGS_SIZE(vq))
++ 
++ #endif /* _UAPI__ASM_SIGCONTEXT_H */
++diff --git a/arch/arm64/include/uapi/asm/sve_context.h b/arch/arm64/include/uapi/asm/sve_context.h
++new file mode 100644
++index 000000000000..140f14c318a5
++--- /dev/null
+++++ b/arch/arm64/include/uapi/asm/sve_context.h
++@@ -0,0 +1,50 @@
+++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+++/* Copyright (C) 2017-2018 ARM Limited */
+++
+++#if !defined(_UAPI__ASM_PTRACE_H) && !defined(_UAPI__ASM_SIGCONTEXT_H)
+++#error "Do not include this header or use its definitions directly."
+++#endif
+++
+++#ifndef _UAPI__ASM_SVE_CONTEXT_H
+++#define _UAPI__ASM_SVE_CONTEXT_H
+++
+++#define __SVE_VQ_BYTES		16	/* number of bytes per quadword */
+++
+++#define __SVE_VQ_MIN		1
+++#define __SVE_VQ_MAX		512
+++
+++#define __SVE_VL_MIN		(__SVE_VQ_MIN * __SVE_VQ_BYTES)
+++#define __SVE_VL_MAX		(__SVE_VQ_MAX * __SVE_VQ_BYTES)
+++
+++#define __SVE_NUM_ZREGS		32
+++#define __SVE_NUM_PREGS		16
+++
+++#define __sve_vl_valid(vl)			\
+++	((vl) % __SVE_VQ_BYTES == 0 &&		\
+++	 (vl) >= __SVE_VL_MIN &&		\
+++	 (vl) <= __SVE_VL_MAX)
+++
+++#define __sve_vq_from_vl(vl)	((vl) / __SVE_VQ_BYTES)
+++#define __sve_vl_from_vq(vq)	((vq) * __SVE_VQ_BYTES)
+++
+++#define __SVE_ZREG_SIZE(vq)	((__u32)(vq) * __SVE_VQ_BYTES)
+++#define __SVE_PREG_SIZE(vq)	((__u32)(vq) * (__SVE_VQ_BYTES / 8))
+++#define __SVE_FFR_SIZE(vq)	__SVE_PREG_SIZE(vq)
+++
+++#define __SVE_ZREGS_OFFSET	0
+++#define __SVE_ZREG_OFFSET(vq, n) \
+++	(__SVE_ZREGS_OFFSET + __SVE_ZREG_SIZE(vq) * (n))
+++#define __SVE_ZREGS_SIZE(vq) \
+++	(__SVE_ZREG_OFFSET(vq, __SVE_NUM_ZREGS) - __SVE_ZREGS_OFFSET)
+++
+++#define __SVE_PREGS_OFFSET(vq) \
+++	(__SVE_ZREGS_OFFSET + __SVE_ZREGS_SIZE(vq))
+++#define __SVE_PREG_OFFSET(vq, n) \
+++	(__SVE_PREGS_OFFSET(vq) + __SVE_PREG_SIZE(vq) * (n))
+++#define __SVE_PREGS_SIZE(vq) \
+++	(__SVE_PREG_OFFSET(vq, __SVE_NUM_PREGS) - __SVE_PREGS_OFFSET(vq))
+++
+++#define __SVE_FFR_OFFSET(vq) \
+++	(__SVE_PREGS_OFFSET(vq) + __SVE_PREGS_SIZE(vq))
+++
+++#endif /* ! _UAPI__ASM_SVE_CONTEXT_H */
++-- 
++2.5.0
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
+similarity index 62%
+rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
+index 229a0027d716..8fd427efef71 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
+@@ -11,7 +11,10 @@ SRC_URI_append_libc-musl = "\
+ 
+ SRC_URI_append = "\
+     file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
++    file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
++    file://0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch \
++    file://0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch \
+ "
+ 
+-SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
+-SRC_URI[sha256sum] = "19d8bcf49ef530cd4e364a45b4a22fa70714b70349c8100e7308488e26f1eaf1"
++SRC_URI[md5sum] = "740a90cf810c2105df8ee12e5d0bb900"
++SRC_URI[sha256sum] = "0c68f5655528aed4f99dae71a5b259edc93239fa899e2df79c055275c21749a1"
+diff --git a/meta/recipes-kernel/linux-libc-headers/x.mbox b/meta/recipes-kernel/linux-libc-headers/x.mbox
+new file mode 100644
+index 000000000000..25e76e7595c1
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/x.mbox
+@@ -0,0 +1,174 @@
++From openembedded-core-bounces@lists.openembedded.org Tue Dec 25 20:46:09 2018
++Delivered-To: bruce.ashfield@gmail.com
++Received: by 2002:a2e:4c3:0:0:0:0:0 with SMTP id a64-v6csp5312962ljf;
++        Tue, 25 Dec 2018 17:46:09 -0800 (PST)
++X-Google-Smtp-Source: ALg8bN5+ydksOT9csVRJHxYDz7K6mUppK0qIlnMBsbGWz9Sq8Fdlk64bzsaJk68T9XGeIzgSwxS9
++X-Received: by 2002:a63:295:: with SMTP id 143mr16751743pgc.362.1545788769434;
++        Tue, 25 Dec 2018 17:46:09 -0800 (PST)
++ARC-Seal: i=1; a=rsa-sha256; t=1545788769; cv=none;
++        d=google.com; s=arc-20160816;
++        b=jG9fBrPvXAw8K+BjylRwE9cyo1dGTSQIXWYQAsxDXBL4sJKb/9HQ7t9CARYj48ptNC
++         PyU9C1SF8FBe8jel1WM2zKHYxcoKShkfNv92t9jrw7thhkeRGtOPIfoQXt1ma6+1MLGa
++         hdinQ5eBKdQt2AouG0A8huAMuHJfxYB9XpD5771sN0XD51Ecc8oYTYOEPmzg21EYg9EC
++         /8A+bodbKwBlIjg6x/O1ucx7W6fV5iyeyaOsJbzbPZeTdC3FqGycgSfErAkyoEJjYwAP
++         /k5PPo4vm6SU3PHJOV7a2cLbWfG6bS5K6/cxzdpXQKTGheKZOc6FFE3ptZfAwkFbVxfX
++         Siww==
++ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
++        h=errors-to:sender:content-transfer-encoding:mime-version
++         :list-subscribe:list-help:list-post:list-archive:list-unsubscribe
++         :list-id:precedence:subject:cc:message-id:date:to:from:delivered-to;
++        bh=L66KCbYgtwDc95aWv7eY3oTToexeHY5x8MVGyHJ/gPM=;
++        b=rrE3b6NDRkazf03I4sTmeHnGX/emKFRWJSUcjyKS2hmAS83KcWTj/WfkinO4w4TeuB
++         S7hPfsAA+DsVLI8Qz0Y2FpZp8dyCeDTDkJtPqZdlDhErV2b3weNNFqbiY4fjIlREkYO/
++         OIg0TgyyPGu4Ekur2dkYbdGmxIGtNsdIEQwv/zROwASqQiK/jpz7M156pGCbKYiSZz1g
++         k3Bwrg+ON72xwBpMoN/x/9Ep7UXl3dvKAkgxUgPaBnPuwDW3HV+y4a3AYyiBoXRRILvm
++         NDuAEwBRysljjsAeD1fxvwtKosRKuNfQpKDwibdgcsHjywPZKykADwYvp3Yc9bdOUwry
++         A8FA==
++ARC-Authentication-Results: i=1; mx.google.com;
++       spf=pass (google.com: best guess record for domain of openembedded-core-bounces@lists.openembedded.org designates 140.211.169.62 as permitted sender) smtp.mailfrom=openembedded-core-bounces@lists.openembedded.org
++Return-Path: <openembedded-core-bounces@lists.openembedded.org>
++Received: from mail.openembedded.org (mail.openembedded.org. [140.211.169.62])
++        by mx.google.com with ESMTP id j35si31697173pgl.223.2018.12.25.17.46.08;
++        Tue, 25 Dec 2018 17:46:09 -0800 (PST)
++Received-SPF: pass (google.com: best guess record for domain of openembedded-core-bounces@lists.openembedded.org designates 140.211.169.62 as permitted sender) client-ip=140.211.169.62;
++Authentication-Results: mx.google.com;
++       spf=pass (google.com: best guess record for domain of openembedded-core-bounces@lists.openembedded.org designates 140.211.169.62 as permitted sender) smtp.mailfrom=openembedded-core-bounces@lists.openembedded.org
++Received: from 165.28.230.35.bc.googleusercontent.com (localhost [127.0.0.1])
++	by mail.openembedded.org (Postfix) with ESMTP id 564896BEF4;
++	Wed, 26 Dec 2018 01:45:54 +0000 (UTC)
++X-Original-To: openembedded-core@lists.openembedded.org
++Delivered-To: openembedded-core@lists.openembedded.org
++Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
++	by mail.openembedded.org (Postfix) with ESMTP id 812D86B79B
++	for <openembedded-core@lists.openembedded.org>;
++	Wed, 26 Dec 2018 01:45:45 +0000 (UTC)
++Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
++	by mail.windriver.com (8.15.2/8.15.1) with SMTP id wBQ1ji3b015924;
++	Tue, 25 Dec 2018 17:45:44 -0800 (PST)
++Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
++	Tue, 25 Dec 2018 17:45:44 -0800
++From: He Zhe <zhe.he@windriver.com>
++To: openembedded-core@lists.openembedded.org
++Date: Tue, 25 Dec 2018 17:45:44 -0800
++Message-Id: <20181226014544.1991-1-zhe.he@windriver.com>
++X-Mailer: git-send-email 2.11.0
++Cc: bruce.ashfield@windriver.com
++Subject: [OE-core] [PATCH] linux-libc-headers: Fix build failure with fixed
++	input and output files instead of pipe
++X-BeenThere: openembedded-core@lists.openembedded.org
++X-Mailman-Version: 2.1.12
++Precedence: list
++List-Id: Patches and discussions about the oe-core layer
++	<openembedded-core.lists.openembedded.org>
++List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
++	<mailto:openembedded-core-request@lists.openembedded.org?subject=unsubscribe>
++List-Archive: <http://lists.openembedded.org/pipermail/openembedded-core/>
++List-Post: <mailto:openembedded-core@lists.openembedded.org>
++List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
++List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
++	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
++MIME-Version: 1.0
++Content-Type: text/plain; charset="us-ascii"
++Content-Transfer-Encoding: 7bit
++Sender: openembedded-core-bounces@lists.openembedded.org
++Errors-To: openembedded-core-bounces@lists.openembedded.org
++Status: RO
++X-Status: A
++Content-Length: 4076
++Lines: 94
++
++This is an amendment for
++2322dc4 "linux-libc-headers: Fix build failure by using fixed temporary file instead of pipe"
++which moves just the temporary input file from /tmp to build directory. But the
++build directory may not in the same file system with the output file,
++/dev/null, either and thus make it possible to trigger that bug, 67f846b, in
++binutil v2.31.
++
++This patch puts both the input and output files into build directory for good.
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ ...fixed-input-and-output-files-instead-of-.patch} | 22 ++++++++++------------
++ .../linux-libc-headers/linux-libc-headers_4.18.bb  |  2 +-
++ 2 files changed, 11 insertions(+), 13 deletions(-)
++ rename meta/recipes-kernel/linux-libc-headers/linux-libc-headers/{0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch => 0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch} (83%)
++
++diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
++similarity index 83%
++rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
++rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
++index 0d8fa80939..9ba1c076e8 100644
++--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch
+++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
++@@ -1,7 +1,7 @@
++-From 3bbea65e11918f8753e8006a2198b999cdb0af58 Mon Sep 17 00:00:00 2001
+++From 694eba7bb974f6b8bd308804cb24350150108b2b Mon Sep 17 00:00:00 2001
++ From: He Zhe <zhe.he@windriver.com>
++ Date: Wed, 21 Nov 2018 15:12:43 +0800
++-Subject: [PATCH] scripts: Use fixed temporary file instead of pipe for
+++Subject: [PATCH] scripts: Use fixed input and output files instead of pipe for
++  here-doc
++ 
++ There was a bug of "as" in binutils that when it checks if the input file and
++@@ -40,31 +40,29 @@ Upstream-Status: Inappropriate [A work around for binutils v2.31]
++ 
++ Signed-off-by: He Zhe <zhe.he@windriver.com>
++ ---
++- scripts/gcc-goto.sh | 7 ++++++-
++- 1 file changed, 6 insertions(+), 1 deletion(-)
+++ scripts/gcc-goto.sh | 5 ++++-
+++ 1 file changed, 4 insertions(+), 1 deletion(-)
++ 
++ diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
++-index 083c526..0aaf1b4 100755
+++index 083c526..8dfac55 100755
++ --- a/scripts/gcc-goto.sh
++ +++ b/scripts/gcc-goto.sh
++-@@ -3,7 +3,9 @@
+++@@ -3,7 +3,7 @@
++  # Test for gcc 'asm goto' support
++  # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
++  
++ -cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
++-+TMPFILE=`mktemp -p .`
++-+
++-+cat << "END" > ${TMPFILE}
++++cat << "END" > ./input
++  int main(void)
++  {
++  #if defined(__arm__) || defined(__aarch64__)
++-@@ -20,3 +22,6 @@ entry:
+++@@ -20,3 +20,6 @@ entry:
++  	return 0;
++  }
++  END
++ +
++-+$@ -x c ${TMPFILE} -c -o /dev/null && echo "y"
++-+rm ${TMPFILE}
++++$@ -x c ./input -c -o ./output && echo "y"
++++rm ./input ./output
++ -- 
++ 2.7.4
++ 
++diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
++index 00420aa6f7..229a0027d7 100644
++--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
+++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.18.bb
++@@ -10,7 +10,7 @@ SRC_URI_append_libc-musl = "\
++    "
++ 
++ SRC_URI_append = "\
++-    file://0001-scripts-Use-fixed-temporary-file-instead-of-pipe-for.patch \
+++    file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
++ "
++ 
++ SRC_URI[md5sum] = "bee5fe53ee1c3142b8f0c12c0d3348f9"
++-- 
++2.11.0
++
++-- 
++_______________________________________________
++Openembedded-core mailing list
++Openembedded-core@lists.openembedded.org
++http://lists.openembedded.org/mailman/listinfo/openembedded-core
++
+-- 
+2.5.0
 
 
