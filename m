@@ -1,50 +1,82 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id BE9037BDD1
+Return-Path: <mkelly@xevo.com>
+X-Greylist: delayed 28704 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 08 Jan 2019 07:35:47 UTC
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr790089.outbound.protection.outlook.com [40.107.79.89])
+	by mail.openembedded.org (Postfix) with ESMTP id D6BBC6D268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 07:14:42 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x087Ee0R012610
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 8 Jan 2019 08:14:40 +0100
-Received: from [192.168.253.100] (MD1JJJ2C.ad001.siemens.net [163.242.44.88])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x087Ed2d008144;
-	Tue, 8 Jan 2019 08:14:40 +0100
+	Tue,  8 Jan 2019 07:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=XhVmpJYdcqSyesKId3d3bUusySSFb2WP++Ix4l8YZ3M=;
+	b=PK8lGRSiV4WmSQVJkn3ydmU+SSe9ylQZ4ISqmeIqVdzA/MYNzzh16B/YD0icnFifN7golVMmmdS9lBnQyoaO3mrC5UiEon9NVBgmLYHHtRv9ZGOjWoU/uw//+I56j7Yq87MrO/2zlqJVeFabUD+5FduyJxpXAEw+zOQEB/wRF4M=
+Received: from DM5PR18MB1452.namprd18.prod.outlook.com (10.173.214.17) by
+	DM5PR18MB1644.namprd18.prod.outlook.com (10.175.224.138) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1495.9; Mon, 7 Jan 2019 19:03:40 +0000
+Received: from DM5PR18MB1452.namprd18.prod.outlook.com
+	([fe80::cc9d:a769:501e:d4a]) by DM5PR18MB1452.namprd18.prod.outlook.com
+	([fe80::cc9d:a769:501e:d4a%8]) with mapi id 15.20.1495.011;
+	Mon, 7 Jan 2019 19:03:40 +0000
+From: Martin Kelly <mkelly@xevo.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	mQENBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAG0J0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPokBPgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO57kBDQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABiQElBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
-Date: Tue, 8 Jan 2019 08:14:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+Thread-Topic: [OE-core] [PATCH v2 7/7] meson: enable nativesdk
+Thread-Index: AQHT+ev3geAPqleHUU6IZ+aFHc1yNaWlGNqA///RKACAAIagAIAAEuaA
+Date: Mon, 7 Jan 2019 19:03:40 +0000
+Message-ID: <b58692ae-91e1-f184-7c20-2a2559ffac3e@xevo.com>
+References: <20180601210240.14969-1-mkelly@xevo.com>
+	<20180601210240.14969-8-mkelly@xevo.com>
+	<CAJTo0LY-16oCyFf-etweZq1P5=DpOtG8Qou0pQHMa0mZkXvPaA@mail.gmail.com>
+	<db1d1175-3104-eb1f-a3ca-66c7c362aa4a@xevo.com>
+	<CAJTo0La_G9H-unLAJKkf_EaTqt+AvONk8wNsOw66WVO3n6Gh6A@mail.gmail.com>
+In-Reply-To: <CAJTo0La_G9H-unLAJKkf_EaTqt+AvONk8wNsOw66WVO3n6Gh6A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MWHPR19CA0089.namprd19.prod.outlook.com
+	(2603:10b6:320:1f::27) To DM5PR18MB1452.namprd18.prod.outlook.com
+	(2603:10b6:3:bc::17)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [174.21.177.9]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; DM5PR18MB1644;
+	6:z/TmtM4nc+HRsZ7hF3N4A71C2hm24Laxxv4rn7Am/be9rILv5GsK0RMzncPGYplO0YJVY3PnmMExLEMHx7ZLH9h4mtB07ZN5MidZw9/XylAQW6crtcdJCIuHfLNsatTTFiJkx0kW94S99Hw1caM7EgVS5KCCguzRgLbxGAkMaNbqW3itx4N8d7+cAfbGPfqfuuocaEW+iQCZbVsvu4zgVELttyIElFbA416zWnNHEXCFqLjWcPq+ivXSE7m8oXEeBC8qhYEO0bF6IU54vrT+1VjgmrP/+JLI35zabcJYyuBGpuH14lNHlP7iZGrGRtyDe/01UOx8luYT4R2oFgSoUFrkUp5rD1cZgMLvgjeU7gGBGcxDY1InDJzWggXIMLbS8mesIw5UAvXj8Qm+3NcvdySsnqlVKTY5nkgBJfCMQw8020OnAhzT0p3TJVdn1Z2OvfQZm7bV1vB2ySsnkhsBzg==;
+	5:enz2PIUpg/6Lu4EhIOj+zrCC7PWk7sQ0a33wld5iWgXVISl3doyEXLAGhOqqcR7WARdH0MifFYzBlqCgdyFKXN0VFxhlxa3cwHZb1iKN4IKhHsuPfF8/+y0ww0RC48iPOMiPa7kv67tgXYNTaa0QVzeWLzat2lgnAGV/6Yq1qwS2XDT5qnszrRTuJ3ifOw3C35gTfP73MET22EIB1wuIGw==;
+	7:ZDTwYjUX/QhxM3crqE+/UNClWjG18t1SDV8GEfRF3h7qGRve+hVLoP4qxn2njSV5IxbOiaMGP3O8jwyMQ2QPO+5LqTgetyopDbD37dyg62WRybdXn29yDqkwP7YlZUU3EXmx+7J2N/9HBdIPb6KLpQ==
+x-ms-office365-filtering-correlation-id: 0cb1e7a0-c314-450e-f115-08d674d2d5b3
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(2017052603328)(7153060)(7193020);
+	SRVR:DM5PR18MB1644; 
+x-ms-traffictypediagnostic: DM5PR18MB1644:
+x-microsoft-antispam-prvs: <DM5PR18MB164433ED2E3D29C2EDCCF35FAB890@DM5PR18MB1644.namprd18.prod.outlook.com>
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(10201501046)(3231475)(944501520)(52105112)(3002001)(93006095)(93001095)(6041310)(20161123562045)(20161123560045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(201708071742011)(7699051)(76991095);
+	SRVR:DM5PR18MB1644; BCL:0; PCL:0; RULEID:; SRVR:DM5PR18MB1644; 
+x-forefront-prvs: 0910AAF391
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(136003)(346002)(39840400004)(396003)(376002)(366004)(199004)(189003)(52116002)(97736004)(93886005)(31696002)(486006)(26005)(99286004)(6916009)(53546011)(6506007)(102836004)(186003)(76176011)(8936002)(386003)(6346003)(4326008)(25786009)(476003)(71200400001)(14454004)(71190400001)(105586002)(3846002)(106356001)(6116002)(316002)(446003)(11346002)(66066001)(2616005)(36756003)(229853002)(6486002)(31686004)(14444005)(68736007)(305945005)(256004)(2906002)(6512007)(8676002)(81156014)(81166006)(478600001)(53936002)(86362001)(7736002)(5660300001)(6436002)(6246003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR18MB1644;
+	H:DM5PR18MB1452.namprd18.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: S9C7Kh2NxwsaVhsJKIJDr1wDY8HYCtX8y69OOjPxyofKlFKVDcyhsPRat6fc95gQf5I0xDGMRLzznBExkiH8p5ts9QZkWMeilwY0caP8QtSX7opsgZSttCg9BJJBeTKIp+OXrlwC0sNXe0qJsxxd75svUUb87htulqnMRA9Wgptp+OAm8hXI3DdRpcWhAYvxUOFfvNXw7h9xxLQoHIBzeoA1wqW4o3wxPi10pnEBWzRUnQp7BzxkURhlSQkmFKslzdcxKsJk1Y2IevVmLpMRaHpK4LASqh/ERFx8etPHIIWJOzZjnqYnTqDX48tAG3K7
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Prelink problem
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cb1e7a0-c314-450e-f115-08d674d2d5b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2019 19:03:40.4314 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR18MB1644
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 7/7] meson: enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,94 +89,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 07:14:43 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 08 Jan 2019 07:35:48 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A7A266C3EC5A0F44B48AEAB64E780E5D@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-Hi Ross,
-
-I would like to ask You a question about your commit, which removed
-prelink dependency
-(http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/insane.bbclass?h=thud&id=659c8b5267dc2220f67bfcb4ae2df91ae5052cdc).
-Is it really necessary to remove the QADEPENDS = "prelink-native"?
-
-I was trying to build extensible SDK with multilib support, but without
-success. Here is the crash log:
-
-     0709:        if not os.path.exists(prelink_cfg):
-
-     0710:
-shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
-
- *** 0711:                        prelink_cfg)
-
-     0712:
-
-     0713:        cmd_prelink =
-self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
-
-     0714:        self._exec_shell_cmd([cmd_prelink,
-
-     0715:                              '--root',
-
-File: '/usr/lib/python3.5/shutil.py', lineno: 241, function: copy
-
-     0237:
-
-     0238:    """
-
-     0239:    if os.path.isdir(dst):
-
-     0240:        dst = os.path.join(dst, os.path.basename(src))
-
- *** 0241:    copyfile(src, dst, follow_symlinks=follow_symlinks)
-
-     0242:    copymode(src, dst, follow_symlinks=follow_symlinks)
-
-     0243:    return dst
-
-     0244:
-
-     0245:def copy2(src, dst, *, follow_symlinks=True):
-
-File: '/usr/lib/python3.5/shutil.py', lineno: 120, function: copyfile
-
-     0116:
-
-     0117:    if not follow_symlinks and os.path.islink(src):
-
-     0118:        os.symlink(os.readlink(src), dst)
-
-     0119:    else:
-
- *** 0120:        with open(src, 'rb') as fsrc:
-
-     0121:            with open(dst, 'wb') as fdst:
-
-     0122:                copyfileobj(fsrc, fdst)
-
-     0123:    return dst
-
-     0124:
-
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
-'/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
-
-
-It points into meta/lib/oe/rootfs.py:705
-
-if not os.path.exists(prelink_cfg):
-
-shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
-
-
-How it's possible to copy non-existing file, because of removed
-prelink-native dependency.
-
-Do I need to explicitly inherit some class, let say image-prelink?
-What am I doing wrong?
-
-Regards,
-Andrej
+T24gMS83LzE5IDk6NTUgQU0sIEJ1cnRvbiwgUm9zcyB3cm90ZToNCj4gT24gTW9uLCA3IEphbiAy
+MDE5IGF0IDE3OjU0LCBNYXJ0aW4gS2VsbHkgPG1rZWxseUB4ZXZvLmNvbT4gd3JvdGU6DQo+PiBD
+b3VsZCB5b3UgZWxhYm9yYXRlIG9uIGV4YWN0bHkgd2hhdCBpcyBicmVha2luZywgb3IgZG8geW91
+IGhhdmUgYSBsaW5rDQo+PiB0byB0aGUgYXV0b2J1aWxkZXIgYnJlYWthZ2U/DQo+Pg0KPj4gVG8g
+Z2l2ZSBhIGJpdCBvZiBiYWNrZ3JvdW5kLCBjbWFrZSBoYW5kbGVzIHRoaXMgYnkgcHV0dGluZyBl
+bnYgdmFycw0KPj4gZGlyZWN0bHkgaW50byB0aGUgd3JhcHBlciBzY3JpcHQuIEhvd2V2ZXIsIG1l
+c29uIGRvZXMgbm90IHN1cHBvcnQgZW52DQo+PiB2YXJzIGluIGl0cyBjcm9zcyB0b29sY2hhaW4g
+ZmlsZSAoYW5kIHVwc3RyZWFtIGlzIHJlc2lzdGFudCB0byBhZGRpbmcNCj4+IGl0KSwgc28gd2Ug
+YXJlIGxlZnQgd2l0aCBnZW5lcmF0aW5nIHBhdGhzIGF0IHJlbG9jYXRlIHRpbWUuDQo+IA0KPiBB
+IG11bHRpbGliIFNESyBoYXMgbXVsdGlwbGUgZW52aXJvbm1lbnQgc2NyaXB0cywgYW5kIGl0cyBv
+bmx5IHRoZQ0KPiBlbnZpcm9ubWVudCBzY3JpcHRzIHRoYXQgZGlmZmVycy4gIEJ5IHRoZSB0aW1l
+IEknZCBmaWd1cmVkIG91dCB3aGF0DQo+IHRoZSBwcm9ibGVtIHdhcyBJIHdhcyBjbG9zZSB0byBz
+b2x2aW5nIGl0LCBzbyB0aGVyZSdzIHBhdGNoZXMgb24gdGhlDQo+IGxpc3QgdG8gc29sdmUgdGhp
+cyBwcm9ibGVtLg0KPiANCj4gUm9zcw0KPiANCg0KR290IGl0LCB0aGFua3MhDQo=
 
