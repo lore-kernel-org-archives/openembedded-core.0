@@ -1,52 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D4C537BF0E
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F8737BEAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 16:38:38 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id f81so1533139wmd.4
+	Mon,  7 Jan 2019 16:38:40 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id y185so6513948wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2019 08:38:40 -0800 (PST)
+	Mon, 07 Jan 2019 08:38:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=wCMkiKqT7kKw9qeoRZAFsGg7VPWuG6LCe7XUKZnIyqE=;
-	b=NygoYRtbnoo/IIV57qLIH9Cgyc1Zvg/Fzm20ADaoU9KfslaDAGEAawfbhBilfOfVMr
-	kTTGzWpMW11yQKwSTo9nKT8ClWK1GCRsfDH3Eslp+Qi28Q2/ixn6+xhDbcWFlq95LSm+
-	QYX91sWseitQ8nnxqV1HjLzitgbmyt8C31GaaZ08VjeKdMxUGv1kX5qcr2yKx7dMT38/
-	j26CbSS8QL+yolL7olBr390KD/h/1g0ipSTgVFKgvNvQTK0Yc/S8bTogPmVdr7XTtOhC
-	w5E8DcZTDQXpkSkHfiR2kzEgvA/tot1j1keD9ORK0qME8bmFs0n74STMp13/Ix4uvkYp
-	deow==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4/fFP9x0vmlSYZ+oHB1lVcOV+1/2UGEDzG4PvEBNI9s=;
+	b=aVKPQr1JE7Yl4Kg2eSR6PyWnAlb5LClgODYExDyL9iJi4L+0H82chh2q8yyeQvw07V
+	zy67cJ8CbqJU++Iq2iumO8NfIXXFOKSP+TG6OQghSNDggOzwdPkl/lee1g8JB/FQPUpD
+	fzh533anD5wISomqr9s+nqOZbGyJ3KM7s8V4AlgnXBjsMK3KB1SY28/rNX2hCWuMM2Ab
+	eTxcern3SrUWOTX2jhRPCKXmnj/SyGwauUqmXuYvOAjrQm1L3M5k/sIRN6AMk3GmflVI
+	WeqD4NVWKHEqeyFEp7a7OhgSr2zfJBW2gXhg2VSAHxG/6HG7jpjY5Fx1OwB8jT2cFHqE
+	fcNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=wCMkiKqT7kKw9qeoRZAFsGg7VPWuG6LCe7XUKZnIyqE=;
-	b=pwGHS30T3AG6d4/qIs6wLA+XkVXr7h5Vj+zpu0gnzOlIwtf8l4Mys7yypSLvBHRBs/
-	rXJRHhUcAWAi8ahvNBIFWVIaI8YR6ZzM1LfTz4PQezL5pQ7mBYzdgu1EGMdC+wGgJvE6
-	mJ7TsOW+Z9bLEmM3sUx8FGn7C3Zf90RU4kXePUcZKoM7eKSdd2XMjFsGqbbn3O/UYxE+
-	o9zYckM7JiMwjheN5H+tDoXs/5/4lNA/GkuJrNsm8GhbZP+eo1fICDxiPEQmuoQgOr8N
-	iXo0OpEjtK9hjIJ55yS0aVC0VhI30uPRPC3GbhR0gsPG7rWqjWLT5YOg6AOJ+WNrvJRy
-	K95g==
-X-Gm-Message-State: AJcUukek3QqfkJMcFIE/RazI64f/ANcsErvhbo9SzI1TLyaW80D8qoDh
-	rPuGhzGGHRsr0p95Mgt81NBpMDQG1gY=
-X-Google-Smtp-Source: ALg8bN6aR35yybst+ksLZhtHZxiig8FPpc93JNHjrBFrwpVxYGTqA3O8skEhTkBDiwSodyJCLhqNDQ==
-X-Received: by 2002:a1c:ce0e:: with SMTP id e14mr9868425wmg.53.1546879119355; 
-	Mon, 07 Jan 2019 08:38:39 -0800 (PST)
+	bh=4/fFP9x0vmlSYZ+oHB1lVcOV+1/2UGEDzG4PvEBNI9s=;
+	b=PgZOTyYq1arBmqnEMPO3zzr6D3Ni+Lrd6Ol3dAKsQRNuwnJEgj18OJbpUPS6v+4w6/
+	rMW/9hkZj4AOvmMLeMlTUcuchZV90lyv+jkEN2PFcNY7GPXF5YajksUXh/T8fvm9Co2b
+	k8L9N0pahoFpkbPg2B85CC+eXg7AmB9WLJeUayqSps9yc0Paa2aMIKi813BQlM4nL6zE
+	uwTEG7S9VMqQkn0Tid8yOn54r0q3OHxZ8BEwqUFh5CFapQu8yyDMbccLR2ur81r0c/2O
+	NYOGROfaPrKhwtjY1MFKURqpMkswKForN6tkOgLUOT4jMHRbFWxzB06Q3sKROoUjVgca
+	QoCA==
+X-Gm-Message-State: AJcUukf/AYVwJR8udolS1reZMFvxS52sQWYp5oO4KXItKZWhZG7hxcY+
+	sqfchniYGb9WyVHasml2SXCecK1FSMY=
+X-Google-Smtp-Source: ALg8bN5XovEMjfmwNtezYSZVnAxzcj+i8d8gY6vbg76UDFn3ZbmQckiUDwv2zJUyTx1sP7ZcfjuLOQ==
+X-Received: by 2002:a1c:f509:: with SMTP id t9mr9935732wmh.76.1546879120648;
+	Mon, 07 Jan 2019 08:38:40 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o5sm13918958wmg.25.2019.01.07.08.38.38
-	for <openembedded-core@lists.openembedded.org>
+	o5sm13918958wmg.25.2019.01.07.08.38.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Jan 2019 08:38:38 -0800 (PST)
+	Mon, 07 Jan 2019 08:38:39 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2019 16:38:22 +0000
-Message-Id: <20190107163823.31816-6-ross.burton@intel.com>
+Date: Mon,  7 Jan 2019 16:38:23 +0000
+Message-Id: <20190107163823.31816-7-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190107163823.31816-1-ross.burton@intel.com>
 References: <20190107163823.31816-1-ross.burton@intel.com>
-Subject: [PATCH 6/7] oeqa/sdk/assimp: cleanup
+Subject: [PATCH 7/7] oeqa/sdk: add test to exercise Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,67 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 16:38:39 -0000
+X-List-Received-Date: Mon, 07 Jan 2019 16:38:41 -0000
 
-Unify style with the other tests.
+(From OE-Core rev: 29359493e391d68a5a6b4fa4d09ffdc1fe6db620)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/sdk/cases/assimp.py | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ meta/lib/oeqa/sdk/cases/buildepoxy.py | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdk/cases/buildepoxy.py
 
-diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
-index 595f3834894..a6000103993 100644
---- a/meta/lib/oeqa/sdk/cases/assimp.py
-+++ b/meta/lib/oeqa/sdk/cases/assimp.py
-@@ -1,5 +1,7 @@
--import os, subprocess, unittest
--import bb
+diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+new file mode 100644
+index 00000000000..ef24b4f4ac1
+--- /dev/null
++++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+@@ -0,0 +1,35 @@
 +import os
 +import subprocess
 +import tempfile
 +import unittest
- from oeqa.sdk.case import OESDKTestCase
- 
- from oeqa.utils.subprocesstweak import errors_have_output
-@@ -10,25 +12,25 @@ class BuildAssimp(OESDKTestCase):
-     Test case to build a project using cmake.
-     """
- 
--    td_vars = ['DATETIME', 'TARGET_OS', 'TARGET_ARCH']
--
-     def setUp(self):
-         if not (self.tc.hasHostPackage("nativesdk-cmake") or
-                 self.tc.hasHostPackage("cmake-native")):
-             raise unittest.SkipTest("Needs cmake")
- 
-     def test_assimp(self):
--        import tempfile
-         with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
-             tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
--            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
- 
--            sourcedir = os.path.join(testdir, "assimp-4.1.0") 
--            builddir = os.path.join(testdir, "build")
--            installdir = os.path.join(testdir, "install")
--            bb.utils.mkdirhier(builddir)
++
++from oeqa.sdk.case import OESDKTestCase
++from oeqa.utils.subprocesstweak import errors_have_output
++errors_have_output()
++
++class EpoxyTest(OESDKTestCase):
++    """
++    Test that Meson builds correctly.
++    """
++    def setUp(self):
++        if not (self.tc.hasHostPackage("nativesdk-meson")):
++            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain Meson")
++
++    def test_epoxy(self):
++        with tempfile.TemporaryDirectory(prefix="epoxy", dir=self.tc.sdk_dir) as testdir:
++            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/anholt/libepoxy/releases/download/1.5.3/libepoxy-1.5.3.tar.xz")
++
 +            dirs = {}
-+            dirs["source"] = os.path.join(testdir, "assimp-4.1.0")
++            dirs["source"] = os.path.join(testdir, "libepoxy-1.5.3")
 +            dirs["build"] = os.path.join(testdir, "build")
 +            dirs["install"] = os.path.join(testdir, "install")
 +
 +            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
 +            self.assertTrue(os.path.isdir(dirs["source"]))
 +            os.makedirs(dirs["build"])
- 
--            self._run("cd %s && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON %s " % (builddir, sourcedir))
--            self._run("cmake --build %s -- -j" % builddir)
--            self._run("cmake --build %s --target install -- DESTDIR=%s" % (builddir, installdir))
--            self.check_elf(os.path.join(installdir, "usr", "local", "lib", "libassimp.so.4.1.0"))
-+            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON {source}".format(**dirs))
-+            self._run("cmake --build {build} -- -j".format(**dirs))
-+            self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
-+            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.4.1.0"))
++
++            self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
++            self._run("ninja -C {build} -v".format(**dirs))
++            self._run("DESTDIR={install} ninja -C {build} -v install".format(**dirs))
++
++            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libepoxy.so"))
 -- 
 2.11.0
 
