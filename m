@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2422D7BF28
+Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
+	[209.85.166.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DF1017BE94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 17:42:43 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id v13so1325123wrw.5
+	Mon,  7 Jan 2019 17:56:05 +0000 (UTC)
+Received: by mail-it1-f180.google.com with SMTP id h65so2272956ith.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2019 09:42:44 -0800 (PST)
+	Mon, 07 Jan 2019 09:56:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=dDnMvABoEr57XkbWr8+bZTvBoYvQNqfMfZ6URZufXC8=;
-	b=z/uGa27yo1AFwAGV63nl3lTMbvNC+5f4z41hcXvCyFSGkooEZv+x3YIjB/HGP0INHw
-	KdX2Y4zvrMT+0Fr2V/gSV3aBAxobrO4VRG5QAaAa+wsV1Et/fmSA1g0HnXS+TAIEgw/j
-	N3xc+yfM3nhjghYXfTw7jDhe659d5VRdvoWohCvbHmuSrKNOR2mSbgqE9umDyRByiqku
-	vQWhZIIpvCuEj9xr2SUnpiF0N86sSYyt48f96wn7OLtOewus14/yoF9QGXG+BIKFp+mU
-	x8cLyWZAAiuqgm4EWOxOB9it3P2nU91PX1l/7qVTvaS70DSXaaZiaE4O9AdBkCUrz8+U
-	d/rg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Eln+JHoVHA4nnUrsjRv1i0Tcj8K0dwgOmVV6Zlu4rfE=;
+	b=rAIu/neppM8jgJogAEleuqNQ5LmP1fflI69ADKgtD31wm9KydejhNcqLy7e+euVnt9
+	Z0IM/5pZxyzLYC22ccEGOtcexCqXbgspA8XN33wmoxzMsQ3YFl1zqOnCYix6ipFrZlqY
+	lHPrjaS44POcqKZFUvAvbXKb4yLs6R4Pu8fG9oYkkxtJ2t/+IKVr32KKa21lwlunSyEN
+	fgpI0Ad4DAdJfZqNFRJVuub1K5zOX+/bGcazz+lDAPzdGJe4LOgE13BrFLUbWRay7/5+
+	G/H4A0Gx+xaBeKMKUMroZov7DU93k0t2V6tooadxDaNg0dNxA0pBwhO0Q/JZ+Sq4zZrQ
+	yoLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dDnMvABoEr57XkbWr8+bZTvBoYvQNqfMfZ6URZufXC8=;
-	b=EpFuzItlgcb4kU33VYitmQ3R8joZUAEiAOM0rKgmnolWfKMMnKe8SDVEFK109vUnKE
-	2Ph1Y59P5xeVCPlDyr40zJ4m3EZWQjBHDqwxA1ZckROWvS/F4fh/UncZNKdnEgBAcyNv
-	haLYfSrxhy6CG9AArXeh209cCCS08DCwMWnXbb/Vm8CzBkcyw8hL7SfsojyDThXftbng
-	/ZPsv02GlwXbz41Ft/yRjww79d6N0Xg4hp4XJ6G4IxFQ7YmCVz88ziK4WmJm3djsQdNf
-	3TxzbIqbsw6YmA4d4D0JRPXU9wf4iJ6T0LeIDOzgHXyWkp163jBRE5xxQ3kUc2cu4XUp
-	HdLw==
-X-Gm-Message-State: AJcUukdWv4PYrZSC02TxzIUSJC9e6zRkfCQngFTIu7sw6/GcaHPOFiSX
-	6IL311/3cbbDxUUnOQCT/sMC7FDVJNY=
-X-Google-Smtp-Source: ALg8bN6hdfWINpR895EaLH/cX9+/2AHJsd5cFVTtiEjbL6hvITFmhU2JjXDWk399U70EujXjK0kJqg==
-X-Received: by 2002:adf:80a9:: with SMTP id 38mr49258115wrl.137.1546882963506; 
-	Mon, 07 Jan 2019 09:42:43 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e18sm68614360wrv.88.2019.01.07.09.42.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Jan 2019 09:42:42 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2019 17:42:40 +0000
-Message-Id: <20190107174240.851-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] pulseaudio: add PACKAGECONFIGs for GConf and GSettings
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Eln+JHoVHA4nnUrsjRv1i0Tcj8K0dwgOmVV6Zlu4rfE=;
+	b=IeRw8GBt4hIIGb9tBl+3AyDXnheUYjFQ6oA7kerRqJoQg6K5Tzl9kNRIl3AB7VnXLg
+	0T63HkuNbueOSYFIXTW+HIFdEn+j+bWFMdZ7HAFA9Usbo/mRyuMVs1UduZewW3pOP4/z
+	d+IdLILD1zddAOx+OpIPCUHAne84CMFy+ymKyurtToXnlkVYK/alvU82lMZrTeVtO//k
+	T2/Bs9lwuQSudTNc9VA72A7foyT8+6VvLy6HiW5SqXAsam8E0XY/Cz6kpur+a8KJTGj8
+	tgEa7v75p6LzU71JoJCN3XbxZMqYZd/bVNWuC3QKCPJUKb0iz9cl0eXv4UPhDniwb94E
+	W7hQ==
+X-Gm-Message-State: AJcUuke3Rgco22zJhzm+gjPvvFCiGxgC3f0+ziY73xtia8d7awtqPvzg
+	NW5gBW4iQoP0T8Ij/zixgBoiTxVSJkmgoikuj4scrQ==
+X-Google-Smtp-Source: ALg8bN7zBJmn88bGasKTcp8dFFwkPjATvBo++08q3rJCGPqsOyxHSwmaz4BbCbcRRmxxcqIcqL69OXdpbuppN0SVgZE=
+X-Received: by 2002:a24:8e43:: with SMTP id h64mr4413919ite.26.1546883766980; 
+	Mon, 07 Jan 2019 09:56:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20180601210240.14969-1-mkelly@xevo.com>
+	<20180601210240.14969-8-mkelly@xevo.com>
+	<CAJTo0LY-16oCyFf-etweZq1P5=DpOtG8Qou0pQHMa0mZkXvPaA@mail.gmail.com>
+	<db1d1175-3104-eb1f-a3ca-66c7c362aa4a@xevo.com>
+In-Reply-To: <db1d1175-3104-eb1f-a3ca-66c7c362aa4a@xevo.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Jan 2019 17:55:56 +0000
+Message-ID: <CAJTo0La_G9H-unLAJKkf_EaTqt+AvONk8wNsOw66WVO3n6Gh6A@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 7/7] meson: enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,64 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 17:42:43 -0000
+X-List-Received-Date: Mon, 07 Jan 2019 17:56:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Behaviour is kept the same.
+On Mon, 7 Jan 2019 at 17:54, Martin Kelly <mkelly@xevo.com> wrote:
+> Could you elaborate on exactly what is breaking, or do you have a link
+> to the autobuilder breakage?
+>
+> To give a bit of background, cmake handles this by putting env vars
+> directly into the wrapper script. However, meson does not support env
+> vars in its cross toolchain file (and upstream is resistant to adding
+> it), so we are left with generating paths at relocate time.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+A multilib SDK has multiple environment scripts, and its only the
+environment scripts that differs.  By the time I'd figured out what
+the problem was I was close to solving it, so there's patches on the
+list to solve this problem.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 91d9b8ef832..d6123329502 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -58,7 +58,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
- 
- DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
- # optional
--DEPENDS += "udev alsa-lib glib-2.0 gconf"
-+DEPENDS += "udev alsa-lib glib-2.0"
- DEPENDS += "speexdsp libxml-parser-perl-native libcap"
- 
- inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages
-@@ -98,20 +98,18 @@ EXTRA_OECONF += "--without-fftw"
- # very good anyway, better alternatives exist (such as the webrtc canceller).
- EXTRA_OECONF += "--disable-adrian-aec"
- 
--# FIXME: The gsettings module is temporarily disabled, because adding support
--# for it is a bit complicated.
--EXTRA_OECONF += "--disable-gsettings"
--
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd x11', d)} \
--                   dbus \
-+                   dbus gconf \
-                    "
- 
- PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
- PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
- PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
-+PACKAGECONFIG[gconf] = "--enable-gconf,--disable-gconf,gconf"
-+PACKAGECONFIG[gsettings] = "--enable-gsettings,--disable-gsettings,glib-2.0-native glib-2.0"
- PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
- PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
- PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
-@@ -251,8 +249,9 @@ RDEPENDS_pulseaudio-server += "alsa-plugins-pulseaudio-conf"
- RDEPENDS_pulseaudio-module-console-kit =+ "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'consolekit', '', d)}"
- RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
- 
--FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
- FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
-+FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
-+FILES_pulseaudio-module-gsettings += "${libexecdir}/pulse/gsettings-helper ${datadir}/GConf/gsettings ${datadir}/glib-2.0/schemas"
- 
- # The console-kit module is good to have on X11 systems (it keeps PulseAudio
- # running for the duration of the user login session). The device-manager and
--- 
-2.11.0
-
+Ross
 
