@@ -1,49 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
-	[209.85.166.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3886B7BEAD
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 16:48:55 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id l14so828806ioj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2019 08:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=H9N0Nj1JtODccvHnyHWh7i5Soch1qte4os0UeAQL/bM=;
-	b=DX5ctVdxzhqN9peRsYbm+m25z5s8aJSSMzqH5edOT7wLWTlr/I+OLZXcSVI/kEovvv
-	bXk6LEt1P0X/dE00z5Bv3WhYpAWCLqIPual26ZMStLKg2N2pp6DK7BFq6IGa7uFEFEyF
-	MV5duoafCL9rI1wCven4AZg/+BwxGza5j0zVt1YZL3l6Lrv4HXA569BMO1t6gDOxhqr5
-	0Ayndduen8Qi9CiGn4wd/DC2zd2ojmZCW4i8vO5/MUxIDNN0aEdXhL+fuPK9OTiGJJXN
-	JxwSp8t5FlFZ+1ZORHS4NMf6wSd9j/vmsTxlMAW4HXg9nfO6XdHYQx5m6BlR0u60Qdvd
-	FNnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=H9N0Nj1JtODccvHnyHWh7i5Soch1qte4os0UeAQL/bM=;
-	b=TxaSUOW4xAotPVWoakSA6UJRObpF2zoVft22VvWxDFuXxhsL4kHeGEkpLT5p2XSe+h
-	qkuAvCnMRzfg4GwOToAQRJis7WHBuWuiP7kIk9QlmRUNfVE9KRsit5x5COcYclVxr1aY
-	xnzZJDgLr/UyyxxBJBWVXJOpGvMJt3xMiVwTDuce4zFIRc0uX/4EG3LO4AO6tlTo0aBQ
-	ST6AHiDIAR1N/NI5KyfXrxiieGjcuFJR7hCPStF80nNeCHqSEBBDnp09eZWkniN0wGVn
-	Q8sCMuF9VkitGws5KBDlf3PcP8gqDomyT8U8tv2MreBB6q0iRTK0wu4wsqEfPeU63yrX
-	ICUw==
-X-Gm-Message-State: AJcUukcITh+Vq1cirdD8tP4Gnfixl5OjxztcNY2NpuPKMSuxcZgYVLLF
-	W60JFal4wybFoS4LAwbwfxIONjZ7WgCgnGwJM3p+VTGn
-X-Google-Smtp-Source: ALg8bN6xFiSBtFS53RsVIrAu9DwjTFJcK1n8lmRq/TfNZHL0OXE/EVMKWyi5CXE/Cd3ILiRgnhKgUZhdtBuNb8YbtrQ=
-X-Received: by 2002:a5e:820d:: with SMTP id l13mr13105357iom.201.1546879737147;
-	Mon, 07 Jan 2019 08:48:57 -0800 (PST)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3688C7BEAD;
+	Mon,  7 Jan 2019 17:03:09 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Mon, 07 Jan 2019 17:03:10 -0000
+Message-ID: <20190107170310.2331.41503@do>
 References: <20190107163823.31816-1-ross.burton@intel.com>
-	<20190107163823.31816-7-ross.burton@intel.com>
-	<4d020a2be7a89c50d6f29cdabc298d7c2bd80de7.camel@gmail.com>
-In-Reply-To: <4d020a2be7a89c50d6f29cdabc298d7c2bd80de7.camel@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Jan 2019 16:48:45 +0000
-Message-ID: <CAJTo0LZT5V=2FYmfLjeGfRdqfkT9MRGcRNVTbk9nA9t9WkPVxg@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] oeqa/sdk: add test to exercise Meson
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190107163823.31816-1-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInRvb2xjaGFpbi1zY3JpcHRzOiBydW4gcG9zdC1yZS4uLiIgYW5kIDYgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,22 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 16:48:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 07 Jan 2019 17:03:09 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 7 Jan 2019 at 16:45, Joshua Watt <jpewhacker@gmail.com> wrote:
-> FWIW: I know that is in the same style as the assimp test, but I always
-> thought the test should have been called the "cmake" test, since that
-> is what we actually care about (not specifically that it can build
-> assimp; any cmake package could have been used AFAIK).
->
-> Perhaps this should break that trend and be called the "meson" test?
+== Series Details ==
 
-My worry was that in the future we'd add another recipe that used
-cmake/meson to exercise some other codepaths, and then we'd have the
-cmake.py and cmake2.py.
+Series: "toolchain-scripts: run post-re..." and 6 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15560/
+State : failure
 
-At least by using the upstream name, it's clear what is actually being tested.
+== Summary ==
 
-Ross
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 65c419b8c4)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
