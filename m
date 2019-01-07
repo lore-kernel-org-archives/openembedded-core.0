@@ -1,34 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98A7160102
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BDDE86BB5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 02:11:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x072ACWB015311
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 6 Jan 2019 18:10:43 -0800
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Sun, 6 Jan 2019 18:10:02 -0800
-To: Khem Raj <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <efccb653-580b-3a5f-6e3d-be5d51b6b8c1@windriver.com>
-	<8569515ec23ddf8ca122621a6f59d89b024066df.camel@linuxfoundation.org>
-	<298dd0b5-f2f8-23dc-3a0d-cf05958e038c@windriver.com>
-	<cc3405fd6c7f18dfa7dc9f545ae33e4515b7b856.camel@linuxfoundation.org>
-	<ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com>
-	<90c78052-ac1a-cf6c-f252-28a074e029e3@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <b6fcd328-da29-22db-1ee2-b0ba177ce4f0@windriver.com>
-Date: Mon, 7 Jan 2019 10:18:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Mon,  7 Jan 2019 08:06:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0786YaB022260
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Jan 2019 00:06:34 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 7 Jan 2019 00:06:33 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Jan 2019 16:06:32 +0800
+Message-ID: <1546848392-296663-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <90c78052-ac1a-cf6c-f252-28a074e029e3@windriver.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: gdb failure on simplest hello world program -- oe-selftest
+Subject: [PATCH] libsndfile1: Security fix CVE-2017-17456/17457 CVE-2018-19661/19662
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,467 +30,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 02:11:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------1A4C8AAE691EC4A277DC8EA7"
+X-List-Received-Date: Mon, 07 Jan 2019 08:06:33 -0000
+Content-Type: text/plain
 
---------------1A4C8AAE691EC4A277DC8EA7
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Changqing Li <changqing.li@windriver.com>
 
-Hi All,
+fix 4 CVEs, which is backport from
+https://github.com/erikd/libsndfile/commit/585cc28a93be27d6938f276af0011401b9f7c0ca
 
-I've filed a bug for this issue.
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...-a-ulaw-fix-multiple-buffer-overflows-432.patch | 101 +++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
 
-I could spend time to work on it, but I really don't know how to start.
-Hope some experts could help or give me some advice.
-
-Best Regards,
-Chen Qi
-
-On 12/29/2018 11:26 AM, ChenQi wrote:
-> On 12/29/2018 01:09 AM, Khem Raj wrote:
->>
->>
->> On 12/28/18 8:31 AM, richard.purdie@linuxfoundation.org wrote:
->>> On Fri, 2018-12-28 at 17:49 +0800, ChenQi wrote:
->>>> On 12/26/2018 07:06 PM, richard.purdie@linuxfoundation.org wrote:
->>>>> On Wed, 2018-12-26 at 10:09 +0800, ChenQi wrote:
->>>>>> Hi All,
->>>>>>
->>>>>> 'oe-selftest -r package.PackageTests.test_gdb_hardlink_debug'
->>>>>> fails.
->>>>>> I did the tests on both my Fedora27 and ubuntu16.04 servers. They
->>>>>> both
->>>>>> failed.
->>>>>> I can also reproduce this issue manually.
->>>>>>
->>>>>> I did some investigation. No clue how to fix this it. So I want
->>>>>> to seek
->>>>>> help from community.
->>>>>>
->>>>>> Below is some output from oe-selftest.
->>>>>> [snip]
->>>>>> 2018-12-26 09:27:58,440 - oe-selftest - INFO -
->>>>>> test_gdb_hardlink_debug
->>>>>> (package.PackageTests)
->>>>>> 2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest
->>>>>> /usr/bin/hello1
->>>>>> 2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB result:
->>>>>> 1: Reading symbols from /usr/bin/hello1...Reading symbols from
->>>>>> /usr/bin/.debug/hello4...done.
->>>>>> done.
->>>>>> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
->>>>>> line 107.
->>>>>> (gdb) Starting program: /usr/bin/hello1
->>>>>>
->>>>>> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
->>>>>> 107    /usr/include/bits/stdio2.h: No such file or directory.
->>>>>> (gdb) Continuing.
->>>>>> Hello World!
->>>>>> [Inferior 1 (process 312) exited normally]
->>>>>> (gdb)
->>>>>> 2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
->>>>>> [snip]
->>>>>>
->>>>>> The hello world problem is as follows.
->>>>>> $ cat
->>>>>> meta-selftest/recipes-test/selftest-hardlink/selftest-
->>>>>> hardlink/hello.c
->>>>>> #include <stdio.h>
->>>>>>
->>>>>> int main() {
->>>>>>       printf("Hello World!\n");
->>>>>> }
->>>>>>
->>>>>> Some extra information:
->>>>>> 1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works correctly.
->>>>>> 2. Adding some system call like daemon(0,0) before printf also
->>>>>> works.
->>>>>> 3. Reverting poky repo to
->>>>>> 1c048479af7cc98e30f9a33d1f3bef03711544aa,
->>>>>> which adds this selftest case, does not work. It still fails.
->>>>>> 4. Hongxu confirms that things work on his host.
->>>>>> 5. I also don't see failure about this test case on yocto's
->>>>>> autobuilder.
->>>>>>
->>>>>> Could somebody help to provide some suggestions?
->>>>>
->>>>> This is strange and there must be some difference between your
->>>>> configuration and what what we test on the autobuilder or on
->>>>> Hongxu's
->>>>> setup.
->>>>   Hi Richard,
->>>>
->>>> I have talked with Hongxu and we can now both confirm that there does
->>>> exist some problem.
->>>>
->>>>> Which DISTRO and MACHINE are you using?
->>>>   DISTRO is poky
->>>> MACHINE is qemux86.
->>>>
->>>> It seems that if MACHINE is qemux86-64, the test case could pass. But
->>>> that's just because the test case only checks 'Breakpoint 1, main ()
->>>> at hello.c:4'. See the console output below.
->>>> (gdb) b main
->>>> Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h, line 107.
->>>> (gdb) r
->>>> Starting program: /usr/bin/hello1
->>>>
->>>> Breakpoint 1, main () at hello.c:4
->>>> 4        printf("Hello World!\n");
->>>> (gdb) c
->>>> Continuing.
->>>> Hello World!
->>>> [Inferior 1 (process 156) exited normally]
->>>> (gdb) q
->>>>
->>>> Even in this case, the 'b main' does not give correct result. The
->>>> test case passes because 'Breakpoint 1, main () at hello.c:4' is
->>>> there.
->>>>
->>>> On qemux86, we have:
->>>> (gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line
->>>> 107.
->>>> (gdb) Starting program: /usr/bin/hello1
->>>>
->>>> Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
->>>> 107    /usr/include/bits/stdio2.h: No such file or directory.
->>>> (gdb) Continuing.
->>>> Hello World!
->>>> [Inferior 1 (process 156) exited normally]
->>>> (gdb)
->>>>
->>>>> I think the key to resolving this is will be to understanding how
->>>>> to
->>>>> reproduce it...
->>>>   Two ways to reproduce the problem:
->>>>
->>>> I) reproduce it via oe-selftest
->>>> 1) . oe-init-build-env build-selftest
->>>> 2) SANITY_TESTED_DISTROS = ""
->>>> 3) oe-selftest -r package.PackageTests.test_gdb_hardlink_debug
->>>>
->>>> II) reproduce it manually
->>>> 1) add meta-selftest to bblayers.conf
->>>> 2) IMAGE_INSTALL_append = " selftest-hardlink selftest-hardlink-dbg
->>>> selftest-hardlink-gdb"
->>>> 3) bitbake core-image-minimal
->>>> 4) On target:
->>>>       gdb /usr/bin/hello1
->>>>       (gdb) b main
->>>
->>> I confirmed I could also reproduce it. We've just been lucky with the
->>> configuration the autobuilder tests.
->>>
->>> I think we need to improve the test case. Does installing the libc
->>> headers/dev package so that stdio2.h is there help?
->>
->> This is not exported API so libc headers may not work but installing 
->> libc dev package should help here.
->>
->
-> Hi Richard and Khem,
->
-> Unfortunately installing libc-dev package does not help.
->
-> On qemux86:
-> 1: Reading symbols from /usr/bin/hello1...Reading symbols from 
-> /usr/bin/.debug/hello4...done.
-> done.
-> *(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h, line 107.*
-> (gdb) Starting program: /usr/bin/hello1
->
-> *Breakpoint 1, main () at /usr/include/bits/stdio2.h:107**
-> **107      return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, 
-> __va_arg_pack ());*
-> (gdb) Continuing.
-> Hello World!
-> [Inferior 1 (process 309) exited normally]
-> (gdb)
-> 2018-12-29 10:58:11,538 - oe-selftest - INFO -  ... FAIL
->
-> For qemux86-64, things are the same.
->
-> Best Regards,
-> Chen Qi
->
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>
->
->
->
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
+new file mode 100644
+index 0000000..c3f44ca
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
+@@ -0,0 +1,101 @@
++From 39453899fe1bb39b2e041fdf51a85aecd177e9c7 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 7 Jan 2019 15:55:03 +0800
++Subject: [PATCH] a/ulaw: fix multiple buffer overflows (#432)
++
++i2ulaw_array() and i2alaw_array() fail to handle ptr [count] = INT_MIN
++properly, leading to buffer underflow. INT_MIN is a special value
++since - INT_MIN cannot be represented as int.
++
++In this case round - INT_MIN to INT_MAX and proceed as usual.
++
++f2ulaw_array() and f2alaw_array() fail to handle ptr [count] = NaN
++properly, leading to null pointer dereference.
++
++In this case, arbitrarily set the buffer value to 0.
++
++This commit fixes #429 (CVE-2018-19661 and CVE-2018-19662) and
++fixes #344 (CVE-2017-17456 and CVE-2017-17457).
++
++Upstream-Status: Backport[https://github.com/erikd/libsndfile/
++commit/585cc28a93be27d6938f276af0011401b9f7c0ca]
++
++CVE: CVE-2017-17456 CVE-2017-17457 CVE-2018-19661 CVE-2018-19662
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ src/alaw.c | 9 +++++++--
++ src/ulaw.c | 9 +++++++--
++ 2 files changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/src/alaw.c b/src/alaw.c
++index 063fd1a..4220224 100644
++--- a/src/alaw.c
+++++ b/src/alaw.c
++@@ -19,6 +19,7 @@
++ #include	"sfconfig.h"
++ 
++ #include	<math.h>
+++#include	<limits.h>
++ 
++ #include	"sndfile.h"
++ #include	"common.h"
++@@ -326,7 +327,9 @@ s2alaw_array (const short *ptr, int count, unsigned char *buffer)
++ static inline void
++ i2alaw_array (const int *ptr, int count, unsigned char *buffer)
++ {	while (--count >= 0)
++-	{	if (ptr [count] >= 0)
+++	{	if (ptr [count] == INT_MIN)
+++			buffer [count] = alaw_encode [INT_MAX >> (16 + 4)] ;
+++		else if (ptr [count] >= 0)
++ 			buffer [count] = alaw_encode [ptr [count] >> (16 + 4)] ;
++ 		else
++ 			buffer [count] = 0x7F & alaw_encode [- ptr [count] >> (16 + 4)] ;
++@@ -346,7 +349,9 @@ f2alaw_array (const float *ptr, int count, unsigned char *buffer, float normfact
++ static inline void
++ d2alaw_array (const double *ptr, int count, unsigned char *buffer, double normfact)
++ {	while (--count >= 0)
++-	{	if (ptr [count] >= 0)
+++	{	if (!isfinite (ptr [count]))
+++			buffer [count] = 0 ;
+++		else if (ptr [count] >= 0)
++ 			buffer [count] = alaw_encode [lrint (normfact * ptr [count])] ;
++ 		else
++ 			buffer [count] = 0x7F & alaw_encode [- lrint (normfact * ptr [count])] ;
++diff --git a/src/ulaw.c b/src/ulaw.c
++index e50b4cb..b6070ad 100644
++--- a/src/ulaw.c
+++++ b/src/ulaw.c
++@@ -19,6 +19,7 @@
++ #include	"sfconfig.h"
++ 
++ #include	<math.h>
+++#include	<limits.h>
++ 
++ #include	"sndfile.h"
++ #include	"common.h"
++@@ -827,7 +828,9 @@ s2ulaw_array (const short *ptr, int count, unsigned char *buffer)
++ static inline void
++ i2ulaw_array (const int *ptr, int count, unsigned char *buffer)
++ {	while (--count >= 0)
++-	{	if (ptr [count] >= 0)
+++	{	if (ptr [count] == INT_MIN)
+++			buffer [count] = ulaw_encode [INT_MAX >> (16 + 2)] ;
+++		else if (ptr [count] >= 0)
++ 			buffer [count] = ulaw_encode [ptr [count] >> (16 + 2)] ;
++ 		else
++ 			buffer [count] = 0x7F & ulaw_encode [-ptr [count] >> (16 + 2)] ;
++@@ -847,7 +850,9 @@ f2ulaw_array (const float *ptr, int count, unsigned char *buffer, float normfact
++ static inline void
++ d2ulaw_array (const double *ptr, int count, unsigned char *buffer, double normfact)
++ {	while (--count >= 0)
++-	{	if (ptr [count] >= 0)
+++	{	if (!isfinite (ptr [count]))
+++			buffer [count] = 0 ;
+++		else if (ptr [count] >= 0)
++ 			buffer [count] = ulaw_encode [lrint (normfact * ptr [count])] ;
++ 		else
++ 			buffer [count] = 0x7F & ulaw_encode [- lrint (normfact * ptr [count])] ;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index b28f675..13248f5 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-14245-14246.patch \
+            file://CVE-2017-14634.patch \
+            file://CVE-2018-13139.patch \
++           file://0001-a-ulaw-fix-multiple-buffer-overflows-432.patch \
+           "
+ 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+-- 
+2.7.4
 
 
---------------1A4C8AAE691EC4A277DC8EA7
-Content-Type: text/html; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Hi All,<br>
-      <br>
-      I've filed a bug for this issue.<br>
-      <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123">https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123</a><br>
-      <br>
-      I could spend time to work on it, but I really don't know how to
-      start.<br>
-      Hope some experts could help or give me some advice.<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      On 12/29/2018 11:26 AM, ChenQi wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:90c78052-ac1a-cf6c-f252-28a074e029e3@windriver.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <div class="moz-cite-prefix">On 12/29/2018 01:09 AM, Khem Raj
-        wrote:<br>
-      </div>
-      <blockquote
-        cite="mid:ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com"
-        type="cite"> <br>
-        <br>
-        On 12/28/18 8:31 AM, <a moz-do-not-send="true"
-          class="moz-txt-link-abbreviated"
-          href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>
-        wrote: <br>
-        <blockquote type="cite">On Fri, 2018-12-28 at 17:49 +0800,
-          ChenQi wrote: <br>
-          <blockquote type="cite">On 12/26/2018 07:06 PM, <a
-              moz-do-not-send="true" class="moz-txt-link-abbreviated"
-              href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>
-            wrote: <br>
-            <blockquote type="cite">On Wed, 2018-12-26 at 10:09 +0800,
-              ChenQi wrote: <br>
-              <blockquote type="cite">Hi All, <br>
-                <br>
-                'oe-selftest -r
-                package.PackageTests.test_gdb_hardlink_debug' <br>
-                fails. <br>
-                I did the tests on both my Fedora27 and ubuntu16.04
-                servers. They <br>
-                both <br>
-                failed. <br>
-                I can also reproduce this issue manually. <br>
-                <br>
-                I did some investigation. No clue how to fix this it. So
-                I want <br>
-                to seek <br>
-                help from community. <br>
-                <br>
-                Below is some output from oe-selftest. <br>
-                [snip] <br>
-                2018-12-26 09:27:58,440 - oe-selftest - INFO - <br>
-                test_gdb_hardlink_debug <br>
-                (package.PackageTests) <br>
-                2018-12-26 09:37:55,333 - oe-selftest - INFO - gdbtest <br>
-                /usr/bin/hello1 <br>
-                2018-12-26 09:37:59,904 - oe-selftest - ERROR - GDB
-                result: <br>
-                1: Reading symbols from /usr/bin/hello1...Reading
-                symbols from <br>
-                /usr/bin/.debug/hello4...done. <br>
-                done. <br>
-                (gdb) Breakpoint 1 at 0x1060: file
-                /usr/include/bits/stdio2.h, <br>
-                line 107. <br>
-                (gdb) Starting program: /usr/bin/hello1 <br>
-                <br>
-                Breakpoint 1, main () at /usr/include/bits/stdio2.h:107
-                <br>
-                107    /usr/include/bits/stdio2.h: No such file or
-                directory. <br>
-                (gdb) Continuing. <br>
-                Hello World! <br>
-                [Inferior 1 (process 312) exited normally] <br>
-                (gdb) <br>
-                2018-12-26 09:38:00,907 - oe-selftest - INFO -  ... FAIL
-                <br>
-                [snip] <br>
-                <br>
-                The hello world problem is as follows. <br>
-                $ cat <br>
-                meta-selftest/recipes-test/selftest-hardlink/selftest- <br>
-                hardlink/hello.c <br>
-                #include &lt;stdio.h&gt; <br>
-                <br>
-                int main() { <br>
-                      printf("Hello World!\n"); <br>
-                } <br>
-                <br>
-                Some extra information: <br>
-                1. Remove '-O2' or '-D_FORTIFY_SOURCE=2', and it works
-                correctly. <br>
-                2. Adding some system call like daemon(0,0) before
-                printf also <br>
-                works. <br>
-                3. Reverting poky repo to <br>
-                1c048479af7cc98e30f9a33d1f3bef03711544aa, <br>
-                which adds this selftest case, does not work. It still
-                fails. <br>
-                4. Hongxu confirms that things work on his host. <br>
-                5. I also don't see failure about this test case on
-                yocto's <br>
-                autobuilder. <br>
-                <br>
-                Could somebody help to provide some suggestions? <br>
-              </blockquote>
-              <br>
-              This is strange and there must be some difference between
-              your <br>
-              configuration and what what we test on the autobuilder or
-              on <br>
-              Hongxu's <br>
-              setup. <br>
-            </blockquote>
-              Hi Richard, <br>
-            <br>
-            I have talked with Hongxu and we can now both confirm that
-            there does <br>
-            exist some problem. <br>
-            <br>
-            <blockquote type="cite">Which DISTRO and MACHINE are you
-              using? <br>
-            </blockquote>
-              DISTRO is poky <br>
-            MACHINE is qemux86. <br>
-            <br>
-            It seems that if MACHINE is qemux86-64, the test case could
-            pass. But <br>
-            that's just because the test case only checks 'Breakpoint 1,
-            main () <br>
-            at hello.c:4'. See the console output below. <br>
-            (gdb) b main <br>
-            Breakpoint 1 at 0x1050: file /usr/include/bits/stdio2.h,
-            line 107. <br>
-            (gdb) r <br>
-            Starting program: /usr/bin/hello1 <br>
-            <br>
-            Breakpoint 1, main () at hello.c:4 <br>
-            4        printf("Hello World!\n"); <br>
-            (gdb) c <br>
-            Continuing. <br>
-            Hello World! <br>
-            [Inferior 1 (process 156) exited normally] <br>
-            (gdb) q <br>
-            <br>
-            Even in this case, the 'b main' does not give correct
-            result. The <br>
-            test case passes because 'Breakpoint 1, main () at
-            hello.c:4' is <br>
-            there. <br>
-            <br>
-            On qemux86, we have: <br>
-            (gdb) Breakpoint 1 at 0x1060: file
-            /usr/include/bits/stdio2.h, line <br>
-            107. <br>
-            (gdb) Starting program: /usr/bin/hello1 <br>
-            <br>
-            Breakpoint 1, main () at /usr/include/bits/stdio2.h:107 <br>
-            107    /usr/include/bits/stdio2.h: No such file or
-            directory. <br>
-            (gdb) Continuing. <br>
-            Hello World! <br>
-            [Inferior 1 (process 156) exited normally] <br>
-            (gdb) <br>
-            <br>
-            <blockquote type="cite">I think the key to resolving this is
-              will be to understanding how <br>
-              to <br>
-              reproduce it... <br>
-            </blockquote>
-              Two ways to reproduce the problem: <br>
-            <br>
-            I) reproduce it via oe-selftest <br>
-            1) . oe-init-build-env build-selftest <br>
-            2) SANITY_TESTED_DISTROS = "" <br>
-            3) oe-selftest -r
-            package.PackageTests.test_gdb_hardlink_debug <br>
-            <br>
-            II) reproduce it manually <br>
-            1) add meta-selftest to bblayers.conf <br>
-            2) IMAGE_INSTALL_append = " selftest-hardlink
-            selftest-hardlink-dbg <br>
-            selftest-hardlink-gdb" <br>
-            3) bitbake core-image-minimal <br>
-            4) On target: <br>
-                  gdb /usr/bin/hello1 <br>
-                  (gdb) b main <br>
-          </blockquote>
-          <br>
-          I confirmed I could also reproduce it. We've just been lucky
-          with the <br>
-          configuration the autobuilder tests. <br>
-          <br>
-          I think we need to improve the test case. Does installing the
-          libc <br>
-          headers/dev package so that stdio2.h is there help? <br>
-        </blockquote>
-        <br>
-        This is not exported API so libc headers may not work but
-        installing libc dev package should help here. <br>
-        <br>
-      </blockquote>
-      <br>
-      Hi Richard and Khem,<br>
-      <br>
-      Unfortunately installing libc-dev package does not help.<br>
-      <br>
-      On qemux86:<br>
-      1: Reading symbols from /usr/bin/hello1...Reading symbols from
-      /usr/bin/.debug/hello4...done.<br>
-      done.<br>
-      <b>(gdb) Breakpoint 1 at 0x1060: file /usr/include/bits/stdio2.h,
-        line 107.</b><br>
-      (gdb) Starting program: /usr/bin/hello1 <br>
-      <br>
-      <b>Breakpoint 1, main () at /usr/include/bits/stdio2.h:107</b><b><br>
-      </b><b>107      return __printf_chk (__USE_FORTIFY_LEVEL - 1,
-        __fmt, __va_arg_pack ());</b><br>
-      (gdb) Continuing.<br>
-      Hello World!<br>
-      [Inferior 1 (process 309) exited normally]<br>
-      (gdb) <br>
-      2018-12-29 10:58:11,538 - oe-selftest - INFO -  ... FAIL<br>
-      <br>
-      For qemux86-64, things are the same.<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      <blockquote
-        cite="mid:ab613fa4-f4b8-9415-bedf-e2a2b6a52101@gmail.com"
-        type="cite">
-        <blockquote type="cite"> <br>
-          Cheers, <br>
-          <br>
-          Richard <br>
-          <br>
-        </blockquote>
-        <br>
-      </blockquote>
-      <p><br>
-      </p>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------1A4C8AAE691EC4A277DC8EA7--
