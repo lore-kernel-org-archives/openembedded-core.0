@@ -1,49 +1,50 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 812156C106
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE497BE00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2019 09:38:21 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id m62so237638ith.5
+	Mon,  7 Jan 2019 10:00:47 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id b3so304377ede.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2019 01:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=oqTf9M5F8j7lD7rLrQw9/9OHQI3kccC4CyX+nlhT9Kg=;
-	b=qzlfZfOgapIO9JydCW4YET1PL5bh+hc2hji8LDnnIBonBSgj0RBjva5GW2FNgMLWg/
-	Uz+fPkbGFgDi8bVYYQ1UqGzwz2WIosiIu+tXU4DKy08OaKi5HOAAkJl1wmqaiVCkOTHg
-	OqGicbEdv6Ww54OvZtujPaIo0Oh7BvsvYoj/EkGzDvyy97tgrAudQS1Bjz8IZcjd4/ip
-	p2IFzIhFjqESpUm9Jz0fKF5xuHrO7vbP5BU6Uqw5BiLo3rTAF9EXxQiNbdA70EuJVTpr
-	9b5wAbTgtzfgCv2/lRpQNVZbIt3tLPWHNYW970W8CMDUMkIDrJXrtsPXLZArR+9MtKME
-	f/bQ==
+	Mon, 07 Jan 2019 02:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=bgZF82wRdU+KgA6O4k8c8so6U7ytyAGtx08sguhQ0bg=;
+	b=jSFLOxxZ3SvP/KvKuhvCZRGNvOEh+EeL0mkHwhflD7oi8sctX8Pm2glkX2gSkAIlh5
+	YJsO9AlQsJK3gNqMqVXfc3FdiyrWhzbezK85vgjnstNyKP6rhobbAWktsek3OFF7gSpA
+	OhjTgdXmXgpZXJwJVHnuauHs5LSZt0g7TZq/chVMMBIQ1/L5e4v1/VJP9q3QxXQkpJ7R
+	AqNQeDe3h+yS/G4pg+mtswNWhNKxIw/4EamMpGKeWE4vtLnK14rDiYuHgEaHtZ1+8aBU
+	RC0XKF2odBFnSLriGdqVSHw07ZRgWPwsBVNVbDd6x0XgoL389UUOOSsYxueDDIAQ8zSG
+	4Rpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=oqTf9M5F8j7lD7rLrQw9/9OHQI3kccC4CyX+nlhT9Kg=;
-	b=BydqcgSXRoVJm5DYvAo27AdBDX2V7jlySwipsGoHyb4qjy8c0BiYSSK2f+oQFKgm+N
-	czm6k9wi0Ur65yLDrC1yzYIwtzZvaP/QMVV9yZz+9lxzl9vVVKT8po0LEQK7yj2QXyIe
-	g0aAV9n2ZsAjS5tm0OElVP07AgZIFhVBO0AwLEnfuiV54x2wK5qISxQ6wYiivck6kLZ6
-	DhX7XOu3CxpYymtmh0Hly4er2xXtlvADq+WKcnZbE8+oVrYriMRpaBpUf9V4EjvI/CO2
-	5lr4v7S5WSLe97z82MJlYgQMlZKxUdv3LO5NBVHw+CZhIEu5XhIeuDQvPLqjdx0iAL3Y
-	agIQ==
-X-Gm-Message-State: AJcUukcdvgHQ2yRwraAcLCbt6Rzm2k6AoxuEsOF5uWzGk1vHkq5Fwfr5
-	5wq0GkH2AmUOUR1u6zsJvGYOqjrckd4QT6N2G8nxIK/T
-X-Google-Smtp-Source: ALg8bN5rO9OMIjKC8s5AxqSCR49WsTcPNL1Gld+PIpqNih7gBR8BIGoOUHQIT/Sdd3BpntEstK4GH1VBlLuqo6Dq8xY=
-X-Received: by 2002:a24:1dce:: with SMTP id 197mr7281015itj.154.1546853902144; 
-	Mon, 07 Jan 2019 01:38:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20190106181350.25386-1-jacob.kroon@gmail.com>
-	<20190106181350.25386-2-jacob.kroon@gmail.com>
-	<7561c555f243ddaaa45bdd28eed97394c35d67e5.camel@andred.net>
-In-Reply-To: <7561c555f243ddaaa45bdd28eed97394c35d67e5.camel@andred.net>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Mon, 7 Jan 2019 10:38:10 +0100
-Message-ID: <CAPbeDC=vBTFU6G+CjKUwe_CjhqHqyN6mKxU3t+cr+aw+Wu+5DA@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 2/2] buildhistory: support generating md5sum of files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bgZF82wRdU+KgA6O4k8c8so6U7ytyAGtx08sguhQ0bg=;
+	b=ZHH94IWhmwvVkrHIiaZONaxs3nhER25TKkr+76Sa4TZRJh8vLmb5lxakxxT6ZP64A0
+	o9zxalnc0REAZLxgrkpkMKwuxZAqHkns01iNIUglAw0SvNnNRJ3kRYkN/8Q6lwjmGINz
+	mVizu4bp1pj7aZ7EK0nBC+cyLeIYXgmNwAR3tE5Zu5sItAEXvmC67hzqr8G50ZCmZyxC
+	BfSJe33eZsGjRiZzYVAiLlPdsHO5gju15LdtZyuWxIcoNdLwbyLcL4FgVHw7oPjItvHQ
+	4MtjUa/YE8cjFDKa5n+rvc8xqvh+SkeXnpNNUQbmkAUKFC+ED2LNHgdPyJNj833HkIjn
+	2OfA==
+X-Gm-Message-State: AA+aEWY6KegWzyGyeq+D1+Y9tWx0xG/gDc0yStjDFTPcOJdDa0dc+iBJ
+	+IhJYCHGm5M096Gv9+8AHdqGg1BOf5NCVEIs
+X-Google-Smtp-Source: AFSGD/X7Jaz+JMBXxb9VA+jFApHu2G6ADdT2+IVQrVxe7V4J/Q8lDtPtjHYRpL7KduJayMxmqhx7pw==
+X-Received: by 2002:aa7:cf88:: with SMTP id z8mr56126022edx.208.1546855248293; 
+	Mon, 07 Jan 2019 02:00:48 -0800 (PST)
+Received: from ip-172-31-7-228.eu-west-1.compute.internal
+	(ec2-34-247-13-138.eu-west-1.compute.amazonaws.com. [34.247.13.138])
+	by smtp.gmail.com with ESMTPSA id
+	b45sm35137943eda.34.2019.01.07.02.00.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Jan 2019 02:00:47 -0800 (PST)
+From: Diego Rondini <diego.rondini@kynetics.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jan 2019 09:58:55 +0000
+Message-Id: <1546855135-2990-1-git-send-email-diego.rondini@kynetics.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Diego Rondini <diego.rondini@kynetics.com>
+Subject: [PATCH] gtk+3: add PACKAGECONFIG for cups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,110 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2019 09:38:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Jan 2019 10:00:48 -0000
 
-Hi Andr=C3=A9,
+Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
+---
+ meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Mon, Jan 7, 2019 at 12:09 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
->
-> Hi,
->
-> On Sun, 2019-01-06 at 19:13 +0100, Jacob Kroon wrote:
-> > Introduce 'md5' in BUILDHISTORY_FEATURES and enable it by default
-> > when doing reproducible builds.
-> >
-> > When enabled this will additionally create:
-> >
-> >   files-in-package-md5.txt
-> >   files-in-image-md5.txt
-> >   files-in-sdk-md5.txt
-> >
-> > containing the md5 checksums of regular files.
-> >
-> > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> > ---
-> >  meta/classes/buildhistory.bbclass | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/classes/buildhistory.bbclass
-> > b/meta/classes/buildhistory.bbclass
-> > index 33eb1b00f6..00f0701dec 100644
-> > --- a/meta/classes/buildhistory.bbclass
-> > +++ b/meta/classes/buildhistory.bbclass
-> > @@ -7,7 +7,8 @@
-> >  # Copyright (C) 2007-2011 Koen Kooi <koen@openembedded.org>
-> >  #
-> >
-> > -BUILDHISTORY_FEATURES ?=3D "image package sdk"
-> > +BUILDHISTORY_FEATURES ?=3D "image package sdk \
-> > +  ${@ "md5" if
-> > bb.utils.to_boolean(d.getVar('BUILD_REPRODUCIBLE_BINARIES')) else ""}"
-> >  BUILDHISTORY_DIR ?=3D "${TOPDIR}/buildhistory"
-> >  BUILDHISTORY_DIR_IMAGE =3D
-> > "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}=
-"
-> >  BUILDHISTORY_DIR_PACKAGE =3D
-> > "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
-> > @@ -526,7 +527,12 @@ buildhistory_list_files() {
-> >               eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
-> >       else
-> >               eval $find_cmd
-> > -     fi | sort -k5 | sed 's/ * -> $//' > $2 )
-> > +     fi | sort -k5 | sed 's/ * -> $//' > $2
-> > +     if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'md5', '1', '=
-0',
-> > d)}" =3D "1" ] ; then
-> > +             md5filename=3D$(echo $2 | sed 's/\.txt$/-md5.txt/')
-> > +             find -type f | xargs -I{} -n1 md5sum {} | sort -k2 >
-> > $md5filename
->
-> Why don't you
->   find . -type f -exec md5sum {} + | sort -sk2 > $md5filename
-> ?
-> It'll be quite a bit faster because way fewer processes will be spawned.
->
-> Am I missing something?
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 6331a43..519a984 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -33,7 +33,6 @@ EXTRA_OECONF += " \
+                  --disable-glibtest \
+                  --disable-xinerama \
+                  --enable-modules \
+-                 --disable-cups \
+                  --disable-colord \
+                  ${@bb.utils.contains("DISTRO_FEATURES", "x11", "", "--disable-gtk-doc", d)} \
+                  "
+@@ -50,6 +49,7 @@ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fon
+ PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
+ PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+ PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
++PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,cups"
+ 
+ do_install_append() {
+ 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
+-- 
+2.7.4
 
-You're right, I will update the patch. I'm assuming I don't need the
-stable sort, -s,
-since the filenames should all be unique.
-
-> I don't know what the intended use-case of the md5 files is, but could
-> sha256 or similar maybe be more appropriate?
-
-I thought it would be a good idea to store some sort of checksum of files i=
-n the
-buildhistory when doing reproducible builds, so that it is easier to detect
-when a rebuild produces changed files, but perhaps there is some way to do
-this already that I am missing ?
-
-But I have no real motivation for choosing md5, other than that I
-assumed it would be less
-cpu intensive than sha256, and the fact I'm not too worried about collision=
-s.
-
-Thanks for the feedback,
-Jacob
-
-> Cheers,
-> Andre'
->
->
-> > +             [ -s $md5filename ] || rm $md5filename # remove result if
-> > empty
-> > +     fi )
-> >  }
-> >
-> >  buildhistory_list_pkg_files() {
-> > --
-> > 2.11.0
-> >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
