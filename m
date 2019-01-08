@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABC27605BF
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C8596605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 14:38:54 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f188so4597371wmf.5
+	Tue,  8 Jan 2019 14:38:55 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id d15so4362540wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 06:38:56 -0800 (PST)
+	Tue, 08 Jan 2019 06:38:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=vpcV7eoT+yG5rhSSbV3EYgSmqhyE2tiatylu+JLqszg=;
-	b=QmyFNsc1QK6ETAMQ3YMG5sjLFawcv6m4se9N7FHjlk7bRMVdev7JObwVgYabwXk+tf
-	Xp+qwgvOM+SMXau/Yxkptudgek4HJD/36tLfiJ4yRAlYAdgGQEov/mWbajnjlfAErDcx
-	JPXYWbUK8Bf8lD8Hycy77DQiHVETWygyUZjLZCcsAYg4DoAMor6ItuyqapjvuFIzrxwr
-	mbJWK/t5xztvW0OemRApDniNBVYHbCSZkurGXUsKU3+xgTZ+pHrUC+8eWtH04FcdgYuj
-	WaUZX5jXmv8yj/H5q8NgT64Rb12IpM3/icjkT4qyO+pgSk+KO4n9dGprPp2K/433eig3
-	+cPQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=OaCTcLhHTVobEAETOpt0tXiasukOGjfwn6nYGzXaIAA=;
+	b=sER3vdXW+vW0w5DI4v5SzN6ndusN0LenbjPhsC5j30vC21DdN0aJkF9YRQoKJqY77K
+	s3493OlwKwuYH0fHnDA5SLl2ZPahUMKmejD7eSlYsvSrHLIeDAp/Ev3AtoMluhmFYGFQ
+	a0+5OOWVmCJJiuQVckHIalNWyX9vGvF8Brac6jJOCrFjQzxkDLnseZqGlXDyFln55CYV
+	8y/+G9ym/204pLQo8ubTu3zuMWuFEtTAoMr60ZLeOymJrZjCuOWWXGpVpg1el58uR+x3
+	M3d9O+QmpePucXOIosYpGVL/w4rhZfuG/iCQo4SfOxfvayKOY6IE8IzmB7HbTRLPOcRQ
+	C6+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=vpcV7eoT+yG5rhSSbV3EYgSmqhyE2tiatylu+JLqszg=;
-	b=Gp+MzRyBErQZJ+BQ8qcW/gx532R4Xjnx8B5oRfPGXg9hjafVoYbNPdjU0TtZUtRwjp
-	jEeuridCSKpJbajF2rRNMN2qsXtAezX1dJFBZzFSY5SfK3qlv2fhGM2ehIQ1KbrBrHae
-	AfIrFIacsXNUqmkjFG+uh2VU0/DHCMN474v5Zw5oP+mnCJEBJgNelG5QqzdPF9VIv8a2
-	YiNUlwB8o144K9rTrpXcnZ/41/wFPUtY4TLV7tOSFOZ5jhGqwVCinEtalQSvqr2V5XAL
-	dV8a4XLAWO11sGgwnXDnj0gvC9D0WtDvlMliH0fd66OfSS9EXFvJ72zc2Vtw2q5X3AC+
-	mdyA==
-X-Gm-Message-State: AJcUukeLz6V7ot+i5s/d1G/Xto0/5aajMb/ITXQ6A16Hden767fwl6yX
-	R1J35xiZhJU50OjA3l6Eb7+fEKtPsgQ=
-X-Google-Smtp-Source: ALg8bN4y3fjKfSm2zF5lPlmJUHqBrvz5NSlSbvKlxKFupzo2vJYknQlw5Ww7abEslE6srOHcwYEp+g==
-X-Received: by 2002:a1c:cec1:: with SMTP id e184mr2070646wmg.75.1546958335123; 
-	Tue, 08 Jan 2019 06:38:55 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=OaCTcLhHTVobEAETOpt0tXiasukOGjfwn6nYGzXaIAA=;
+	b=Aa6Sh8yjLO4jFjc4rhZFeONW9g4UqLwNNzrQFfGCx6M5EfY6xT7hftTmBZKVvlJy+4
+	70rDa898lOIATtbOzRB1GP1Kf6l9dPG4wMZUWIsUghI14TH5LCEomJyaJdZJ/qijAWvf
+	VjvylIHqv1wsuHwS0H/9EAKaKqkWyu4LMcGZ26t0CpZpdWSEnGG0kV7VODr3YYHRHNw4
+	98TLIy5daR8/tckjOo17Nx/6Her+VOmLvmoLgS2qjEQsnCaho5pc/fgq+swZOaozzs8R
+	ozTMOctDKfry3r1jufJKl26pszOaapBIo0M6wPdZnYFezmIlgdLK2xR8Czxr+k/ZxDac
+	Rz5A==
+X-Gm-Message-State: AJcUukcSf/2ms2TPyiBfZLwciGNntl/DbZB9Nm0prIWHqBHC6Ea0s0rY
+	NDSYYn3oTzCvVo2+xXSQxRs08/7vYqA=
+X-Google-Smtp-Source: ALg8bN5Qquo9OUI8nitXTN0nTPkXxKQAegk98OXx1D2Gq+8keDhHhcEU2xsRg8C4Nn0LcNNemkqjHA==
+X-Received: by 2002:a1c:a9d4:: with SMTP id s203mr1928026wme.132.1546958336234;
+	Tue, 08 Jan 2019 06:38:56 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id m4sm11803498wmi.3.2019.01.08.06.38.54
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id m4sm11803498wmi.3.2019.01.08.06.38.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Jan 2019 06:38:54 -0800 (PST)
+	Tue, 08 Jan 2019 06:38:55 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2019 14:38:49 +0000
-Message-Id: <20190108143851.20544-1-ross.burton@intel.com>
+Date: Tue,  8 Jan 2019 14:38:50 +0000
+Message-Id: <20190108143851.20544-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/3] gsettings: allow the schemas to be in any package
+In-Reply-To: <20190108143851.20544-1-ross.burton@intel.com>
+References: <20190108143851.20544-1-ross.burton@intel.com>
+Subject: [PATCH 2/3] pulseaudio: add PACKAGECONFIGs for GConf and GSettings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +58,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 14:38:55 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 14:38:56 -0000
 
-Instead of assuming that the schemas are located in ${PN}, add a
-GSETTINGS_PACKAGE variable for the package name and default it to ${PN}.
+Behaviour is kept the same.
 
-For recipe that can conditionally ship schemas, support GSETTINGS_PACKAGE being
-empty gracefully by doing nothing.
+(From OE-Core rev: b1ea450037b3beacc7da5cbd27ad9ce895f475ff)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/gsettings.bbclass | 48 +++++++++++++++++++++++-------------------
- 1 file changed, 26 insertions(+), 22 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/gsettings.bbclass b/meta/classes/gsettings.bbclass
-index eae3dc7999f..47cf00102ec 100644
---- a/meta/classes/gsettings.bbclass
-+++ b/meta/classes/gsettings.bbclass
-@@ -7,32 +7,36 @@
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 91d9b8ef832..7498185c5f2 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -58,10 +58,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
  
- # TODO use a trigger so that this runs once per package operation run
+ DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
+ # optional
+-DEPENDS += "udev alsa-lib glib-2.0 gconf"
++DEPENDS += "udev alsa-lib glib-2.0"
+ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
  
--
--RDEPENDS_${PN} += "glib-2.0-utils"
--
--FILES_${PN} += "${datadir}/glib-2.0/schemas"
--
--PACKAGE_WRITE_DEPS += "glib-2.0-native"
-+GSETTINGS_PACKAGE ?= "${PN}"
-+
-+python __anonymous() {
-+    pkg = d.getVar("GSETTINGS_PACKAGE")
-+    if pkg:
-+        d.appendVar("PACKAGE_WRITE_DEPS", " glib-2.0-native")
-+        d.appendVar("RDEPENDS_" + pkg, " glib-2.0-utils")
-+        d.appendVar("FILES_" + pkg, " ${datadir}/glib-2.0/schemas")
-+}
+-inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages
++inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages gsettings
  
- gsettings_postinstrm () {
- 	glib-compile-schemas $D${datadir}/glib-2.0/schemas
- }
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+@@ -98,20 +98,18 @@ EXTRA_OECONF += "--without-fftw"
+ # very good anyway, better alternatives exist (such as the webrtc canceller).
+ EXTRA_OECONF += "--disable-adrian-aec"
  
- python populate_packages_append () {
--    pkg = d.getVar('PN')
--    bb.note("adding gsettings postinst scripts to %s" % pkg)
+-# FIXME: The gsettings module is temporarily disabled, because adding support
+-# for it is a bit complicated.
+-EXTRA_OECONF += "--disable-gsettings"
 -
--    postinst = d.getVar('pkg_postinst_%s' % pkg) or d.getVar('pkg_postinst')
--    if not postinst:
--        postinst = '#!/bin/sh\n'
--    postinst += d.getVar('gsettings_postinstrm')
--    d.setVar('pkg_postinst_%s' % pkg, postinst)
--
--    bb.note("adding gsettings postrm scripts to %s" % pkg)
--
--    postrm = d.getVar('pkg_postrm_%s' % pkg) or d.getVar('pkg_postrm')
--    if not postrm:
--        postrm = '#!/bin/sh\n'
--    postrm += d.getVar('gsettings_postinstrm')
--    d.setVar('pkg_postrm_%s' % pkg, postrm)
-+    pkg = d.getVar('GSETTINGS_PACKAGE')
-+    if pkg:
-+        bb.note("adding gsettings postinst scripts to %s" % pkg)
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd x11', d)} \
+-                   dbus \
++                   dbus gconf \
+                    "
+ 
+ PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+ PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
+ PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
++PACKAGECONFIG[gconf] = "--enable-gconf,--disable-gconf,gconf"
++PACKAGECONFIG[gsettings] = "--enable-gsettings,--disable-gsettings,glib-2.0-native glib-2.0"
+ PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
+ PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
+@@ -251,8 +249,11 @@ RDEPENDS_pulseaudio-server += "alsa-plugins-pulseaudio-conf"
+ RDEPENDS_pulseaudio-module-console-kit =+ "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'consolekit', '', d)}"
+ RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
+ 
+-FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
+ FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
++FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
 +
-+        postinst = d.getVar('pkg_postinst_%s' % pkg) or d.getVar('pkg_postinst')
-+        if not postinst:
-+            postinst = '#!/bin/sh\n'
-+        postinst += d.getVar('gsettings_postinstrm')
-+        d.setVar('pkg_postinst_%s' % pkg, postinst)
-+
-+        bb.note("adding gsettings postrm scripts to %s" % pkg)
-+
-+        postrm = d.getVar('pkg_postrm_%s' % pkg) or d.getVar('pkg_postrm')
-+        if not postrm:
-+            postrm = '#!/bin/sh\n'
-+        postrm += d.getVar('gsettings_postinstrm')
-+        d.setVar('pkg_postrm_%s' % pkg, postrm)
- }
++GSETTINGS_PACKAGE = "${@bb.utils.contains('PACKAGECONFIG', 'gsettings', 'pulseaudio-module-gsettings', '', d)}"
++FILES_pulseaudio-module-gsettings += "${libexecdir}/pulse/gsettings-helper ${datadir}/GConf/gsettings ${datadir}/glib-2.0/schemas"
+ 
+ # The console-kit module is good to have on X11 systems (it keeps PulseAudio
+ # running for the duration of the user login session). The device-manager and
 -- 
 2.11.0
 
