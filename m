@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 718D671A8D
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E5B4A6DA25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 10:30:56 +0000 (UTC)
-Received: by mail-it1-f173.google.com with SMTP id h193so5283895ita.5
+	Tue,  8 Jan 2019 10:36:34 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id p197so5323604itp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 02:30:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 08 Jan 2019 02:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pESA3P5lnWQaQLQ4jZtFEdhg4JwVvEYgP6Q0LKdgwUk=;
-	b=P69p40hr0DH1LH29hN7W1URqMtwJH60RP4lIrfu0WyifteEsIfxt1W+OEPKSYF5Vtb
-	jBnBM67XAhpwOPS0iH/CY2O7BGQ8WizD4Il8UTXLVF+uDT+vnxn9Hc6eG5iF7NDestfd
-	ajiHeUyi/RXwf7VvZid/GeXio9mX9PzYJ257q9bNJ7TPIKpYRcTL8mtNM9ZyS+vOE43V
-	eDCabcuHIS/0q5CrNwQe9q8q/O/9yuvzkSG5/9iQZ1+bOZ0vfkYtxdldBNeXVk2w7+1O
-	c1fjsTOnLmI6UfBGudSBIOYSxE1lm0gea+j/8d9BDSt9tJWfbFNSeNJvLtriEx3Y+1sW
-	tr1g==
+	:cc; bh=k4ltUaDAEwcz6P+JaiblY0+navUhCMbPyHSfRKQjaZU=;
+	b=rQCmXtLTOQhSFmZNUYA7gtj5/4gayvEq8lT7RcD70Ifr/wgRNVpSLQcciopUv2cceh
+	vwTgm4httOBGWzlAxKtbK41xUunNtwteW90CAGYSQ7rhfPKMYWe7WpP2eHZAV1BxkQLW
+	g08kUSuwOkiOQE/S9EVmVzdQJc7joIybWXfcHvy997/u4o3/gZgH7LmZ0vJ+hCdf/InW
+	jRyPggI+PzB4+qLOS8sBqRELY1Jjc4ijR8UjhIWfTnVx9H4I6F1SZHas+mtKyjcrvV4L
+	EFcYbSSJUNj+SriaoDs6bJnXRh8jylv+A2pJWp+S3GF9s8uU++CS57zAGMFGdtd26yjn
+	gkNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=pESA3P5lnWQaQLQ4jZtFEdhg4JwVvEYgP6Q0LKdgwUk=;
-	b=m5vZheMSK+gREU6vLa8jAqx5ID6WDYpY0FY57EG8bWKoK6xVx2NBJgZfQiGtUqOAfU
-	g2bU6diIn8FWR7pnq06lURTmbdvek3rJ5qb5Ckrn6MtX6O4KcmrlsAsiJ6bYZMGDrgWs
-	PuIUA9JkK/rIjdDHqpU4AbRszLQ43YBwZMhScdtTClAMKN/mwhmQ/rGbv85p5mi/eygT
-	jnhrULo8ZqGKMnceLo4o78gfXuFJR0ereBMYF4pZvuzZwS2B0HPoQh9iQ9kMZKq4mQTI
-	dEv8faYMxbhggRnZeK1WirS7fT4mbCzwvh/9Bh0ZV3gdFvmMVzOBPg5VhKAtzt4Pf0SR
-	ot9A==
-X-Gm-Message-State: AJcUukdDLI/8VIbKD9jUG4ctf9apDBAMceqCD6PwainYeTpSmQaM2tRg
-	dlQg77j4P23T4ZycPBzQb/v7GYasRI50zEFQFcWQnKrF
-X-Google-Smtp-Source: ALg8bN5gklJ0yjufoiAX/XBse/yZ+WqTEJi/qaVKxVIYqGhsLK6o1GtNrjkIEdP6SIlCoG/TUYudouTG2hdvDCNP6Dg=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr1004637itg.130.1546943457220; 
-	Tue, 08 Jan 2019 02:30:57 -0800 (PST)
+	bh=k4ltUaDAEwcz6P+JaiblY0+navUhCMbPyHSfRKQjaZU=;
+	b=LBtH7ymGjvtEZIYp3kst7SW/H30r9G9rzz7ApvnddLS/IsJqN6OxdqiLA+tIhUvCjs
+	/iMzn3hcejDGrhEb9LYiz2ulCZ4lmcJNgdNP+S+U8Clmc0Ynj77RIiBY+kILuHYZVgnJ
+	jN0/eeBSI/fDdIsn350yFtzZLVJEJ15SSaB9bZ5G+rAe4KNsodOeKofHGLs0tTLHvXyF
+	DIgrMih8auP85/MxkldQqEzmvJERt0uKAKgoHMchLKs5ottK5RILeKxwjZ1ClsS+jcfM
+	RT5C2esOPKk3XR7yXG88O+c25NZ1Qq2sepOoIPi/Qen6RuA+AwygG9qmm/k9+iv3+Yd1
+	/MTA==
+X-Gm-Message-State: AJcUukdtNCu/oJOqCKeh/UUSqljp+nnHFioVwGoYOXOpJc+gfJuNhJh2
+	4j/hF8CUw1xgX7QGsp+5zKCHgAsKO6wCohFEAT+RTeOH+NZqPQ==
+X-Google-Smtp-Source: ALg8bN6fRgfdeH0wJU8d8xfftzuSPY/qwwnN1+tHgf9anRyoSF5mM5Wo3RZ+/oosVDDQYYvlYZCry0sVFP3+C64MnrQ=
+X-Received: by 2002:a24:1dce:: with SMTP id 197mr995630itj.154.1546943795939; 
+	Tue, 08 Jan 2019 02:36:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20181220084336.7294-5-anuj.mittal@intel.com>
-	<20181220092838.11025-1-anuj.mittal@intel.com>
-	<C0207330DF60C5409302EC78C3FE68F3022112EB@PGSMSX105.gar.corp.intel.com>
-In-Reply-To: <C0207330DF60C5409302EC78C3FE68F3022112EB@PGSMSX105.gar.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2019 10:30:44 +0000
-Message-ID: <CAJTo0LZxymy8E5=Yaw7h6b9Rb6f5ZL-as1TFWOpnkD-ZeXk=cQ@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libpcap: upgrade 1.8.1 -> 1.9.0
+References: <20190106181350.25386-1-jacob.kroon@gmail.com>
+	<20190106181350.25386-2-jacob.kroon@gmail.com>
+	<CAPbeDCm=0X_8cN6_WCexaLBNcYrVv3zT_27g8uXW_eh-iGc=TA@mail.gmail.com>
+	<20190108103232.GS7349@hiutale>
+In-Reply-To: <20190108103232.GS7349@hiutale>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Tue, 8 Jan 2019 11:36:24 +0100
+Message-ID: <CAPbeDC=Nk0MD1Z+q0ss5TKGibPcrK335FiTr_V9qr_E_6e7OCA@mail.gmail.com>
+To: Mikko.Rapeli@bmw.de
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 2/2] buildhistory: support generating md5sum of files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,500 +56,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 10:30:56 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 10:36:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-They're in mut, but haven't been for an autobuilder spin yet.  Today, hopefully.
-
-Ross
-
-On Tue, 8 Jan 2019 at 07:47, Mittal, Anuj <anuj.mittal@intel.com> wrote:
+On Tue, Jan 8, 2019 at 11:32 AM <Mikko.Rapeli@bmw.de> wrote:
 >
-> Ping for the series.
+> On Mon, Jan 07, 2019 at 03:17:00PM +0100, Jacob Kroon wrote:
+> > On Sun, Jan 6, 2019 at 7:14 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+> > >
+> > > Introduce 'md5' in BUILDHISTORY_FEATURES and enable it by default
+> > > when doing reproducible builds.
+> > >
+> > > When enabled this will additionally create:
+> > >
+> > >   files-in-package-md5.txt
+> > >   files-in-image-md5.txt
+> > >   files-in-sdk-md5.txt
+> > >
+> > > containing the md5 checksums of regular files.
+> > >
+> > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> > > ---
+> > >  meta/classes/buildhistory.bbclass | 10 ++++++++--
+> > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> > > index 33eb1b00f6..00f0701dec 100644
+> > > --- a/meta/classes/buildhistory.bbclass
+> > > +++ b/meta/classes/buildhistory.bbclass
+> > > @@ -7,7 +7,8 @@
+> > >  # Copyright (C) 2007-2011 Koen Kooi <koen@openembedded.org>
+> > >  #
+> > >
+> > > -BUILDHISTORY_FEATURES ?= "image package sdk"
+> > > +BUILDHISTORY_FEATURES ?= "image package sdk \
+> > > +  ${@ "md5" if bb.utils.to_boolean(d.getVar('BUILD_REPRODUCIBLE_BINARIES')) else ""}"
+> > >  BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
+> > >  BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
+> > >  BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
+> > > @@ -526,7 +527,12 @@ buildhistory_list_files() {
+> > >                 eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
+> > >         else
+> > >                 eval $find_cmd
+> > > -       fi | sort -k5 | sed 's/ * -> $//' > $2 )
+> > > +       fi | sort -k5 | sed 's/ * -> $//' > $2
+> > > +       if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'md5', '1', '0', d)}" = "1" ] ; then
+> > > +               md5filename=$(echo $2 | sed 's/\.txt$/-md5.txt/')
+> > > +               find -type f | xargs -I{} -n1 md5sum {} | sort -k2 > $md5filename
+> > > +               [ -s $md5filename ] || rm $md5filename # remove result if empty
+> >
+> > I added this remove because I thought it didn't make sense to keep
+> > empty files around, but I now realize that the "files-in-package.txt"
+> > file is kept around, even if empty. Is there a preference on what to
+> > do here ?
 >
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-
-> > core-bounces@lists.openembedded.org] On Behalf Of Anuj Mittal
-> > Sent: Thursday, December 20, 2018 05:29 PM
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH v2] libpcap: upgrade 1.8.1 -> 1.9.0
-> >
-> > * For changes, see:
-> > https://www.tcpdump.org/libpcap-changes.txt
-> >
-> > * Merge inc and bb and remove unnecessary flags.
-> >
-> > * Remove all patches, they have either been upstreamed or fixed differently.
-> >
-> > * Compilation with bluez5 works just fine, enable it and remove bluez4 config.
-> >
-> > * Backport a commit to fix musl builds.
-> >
-> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > ---
-> >  ...te_t.ai-usage-when-INET6-is-not-defi.patch | 41 -----------  ...-add-missing-limits.h-
-> > for-musl-syste.patch | 29 ++++++++  ...d-missing-compiler_state_t-parameter.patch | 67
-> > -----------------
-> >  .../libpcap/libpcap/disable-remote.patch      | 36 ---------
-> >  .../libpcap/libpcap/fix-grammar-deps.patch    | 29 --------
-> >  .../libpcap/libpcap-pkgconfig-support.patch   | 73 -------------------
-> >  .../libpcap/libpcap_1.8.1.bb                  | 31 --------
-> >  .../libpcap/{libpcap.inc => libpcap_1.9.0.bb} | 29 ++++----
-> >  8 files changed, 45 insertions(+), 290 deletions(-)  delete mode 100644 meta/recipes-
-> > connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-
-> > defi.patch
-> >  create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-
-> > linux.c-add-missing-limits.h-for-musl-syste.patch
-> >  delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-
-> > compiler_state_t-parameter.patch
-> >  delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/disable-remote.patch
-> >  delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/fix-grammar-
-> > deps.patch
-> >  delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-
-> > support.patch
-> >  delete mode 100644 meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
-> >  rename meta/recipes-connectivity/libpcap/{libpcap.inc => libpcap_1.9.0.bb} (58%)
-> >
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-
-> > usage-when-INET6-is-not-defi.patch b/meta/recipes-
-> > connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-
-> > defi.patch
-> > deleted file mode 100644
-> > index edb6ae5667..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-
-> > when-INET6-is-not-defi.patch
-> > +++ /dev/null
-> > @@ -1,41 +0,0 @@
-> > -From 64aa033a061c43fc15c711f2490ae41d23b868c3 Mon Sep 17 00:00:00 2001
-> > -From: Fabio Berton <fabio.berton@ossystems.com.br>
-> > -Date: Thu, 17 Nov 2016 09:44:42 -0200
-> > -Subject: [PATCH 1/2] Fix compiler_state_t.ai usage when INET6 is not defined
-> > -Organization: O.S. Systems Software LTDA.
-> > -
-> > -Fix error:
-> > -
-> > -/
-> > -| ../libpcap-1.8.1/gencode.c: In function 'pcap_compile':
-> > -| ../libpcap-1.8.1/gencode.c:693:8: error: 'compiler_state_t {aka
-> > -| struct _compiler_state}' has no member named 'ai'
-> > -|   cstate.ai = NULL;
-> > -\
-> > -
-> > -Upstream-Status: Submitted [1]
-> > -
-> > -[1] https://github.com/the-tcpdump-group/libpcap/pull/541
-> > -
-> > -Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> > ----
-> > - gencode.c | 2 ++
-> > - 1 file changed, 2 insertions(+)
-> > -
-> > -diff --git a/gencode.c b/gencode.c
-> > -index a887f27..e103c70 100644
-> > ---- a/gencode.c
-> > -+++ b/gencode.c
-> > -@@ -690,7 +690,9 @@ pcap_compile(pcap_t *p, struct bpf_program *program,
-> > -     }
-> > -     initchunks(&cstate);
-> > -     cstate.no_optimize = 0;
-> > -+#ifdef INET6
-> > -     cstate.ai = NULL;
-> > -+#endif
-> > -     cstate.ic.root = NULL;
-> > -     cstate.ic.cur_mark = 0;
-> > -     cstate.bpf_pcap = p;
-> > ---
-> > -2.1.4
-> > -
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-
-> > missing-limits.h-for-musl-syste.patch b/meta/recipes-
-> > connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-
-> > syste.patch
-> > new file mode 100644
-> > index 0000000000..01773834c7
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-ad
-> > +++ d-missing-limits.h-for-musl-syste.patch
-> > @@ -0,0 +1,29 @@
-> > +From aafa3512b7b742f5e66a5543e41974cc5e7eebfa Mon Sep 17 00:00:00 2001
-> > +From: maxice8 <thinkabit.ukim@gmail.com>
-> > +Date: Sun, 22 Jul 2018 18:54:17 -0300
-> > +Subject: [PATCH] pcap-usb-linux.c: add missing limits.h for musl systems.
-> > +
-> > +fix compilation on musl libc systems like Void Linux and Alpine.
-> > +
-> > +Upstream-Status: Backport
-> > +[https://github.com/the-tcpdump-group/libpcap/commit/d557c98a16dc254aaf
-> > +f03762b694fe624e180bea]
-> > +
-> > +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > +---
-> > + pcap-usb-linux.c | 1 +
-> > + 1 file changed, 1 insertion(+)
-> > +
-> > +diff --git a/pcap-usb-linux.c b/pcap-usb-linux.c index
-> > +6f8adf65..b92c05ea 100644
-> > +--- a/pcap-usb-linux.c
-> > ++++ b/pcap-usb-linux.c
-> > +@@ -50,6 +50,7 @@
-> > + #include <stdlib.h>
-> > + #include <unistd.h>
-> > + #include <fcntl.h>
-> > ++#include <limits.h>
-> > + #include <string.h>
-> > + #include <dirent.h>
-> > + #include <byteswap.h>
-> > +--
-> > +2.17.1
-> > +
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-
-> > compiler_state_t-parameter.patch b/meta/recipes-connectivity/libpcap/libpcap/0002-
-> > Add-missing-compiler_state_t-parameter.patch
-> > deleted file mode 100644
-> > index 032b265f05..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-
-> > parameter.patch
-> > +++ /dev/null
-> > @@ -1,67 +0,0 @@
-> > -From 50ec0a088d5924a8305b2d70dcba71b0942dee1a Mon Sep 17 00:00:00 2001
-> > -From: Fabio Berton <fabio.berton@ossystems.com.br>
-> > -Date: Thu, 17 Nov 2016 09:47:29 -0200
-> > -Subject: [PATCH 2/2] Add missing compiler_state_t parameter
-> > -Organization: O.S. Systems Software LTDA.
-> > -
-> > -Fix error:
-> > -
-> > -/
-> > -|../libpcap-1.8.1/gencode.c: In function 'gen_gateway':
-> > -|../libpcap-1.8.1/gencode.c:4914:13: error: 'cstate' undeclared  (first
-> > -|use in this function)
-> > -|    bpf_error(cstate, "direction applied to 'gateway'");
-> > -\
-> > -
-> > -Upstream-Status: Submitted [1]
-> > -
-> > -[1] https://github.com/the-tcpdump-group/libpcap/pull/541
-> > -
-> > -Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> > ----
-> > - gencode.c | 15 ++++++++-------
-> > - 1 file changed, 8 insertions(+), 7 deletions(-)
-> > -
-> > -diff --git a/gencode.c b/gencode.c
-> > -index e103c70..f07c0be 100644
-> > ---- a/gencode.c
-> > -+++ b/gencode.c
-> > -@@ -523,7 +523,7 @@ static struct block *gen_host6(compiler_state_t *, struct
-> > in6_addr *,
-> > -     struct in6_addr *, int, int, int);
-> > - #endif
-> > - #ifndef INET6
-> > --static struct block *gen_gateway(const u_char *, bpf_u_int32 **, int, int);
-> > -+static struct block *gen_gateway(compiler_state_t *, const u_char *,
-> > -+bpf_u_int32 **, int, int);
-> > - #endif
-> > - static struct block *gen_ipfrag(compiler_state_t *);
-> > - static struct block *gen_portatom(compiler_state_t *, int, bpf_int32); -@@ -4904,11
-> > +4904,12 @@ gen_host6(compiler_state_t *cstate, struct in6_addr *addr,
-> > -
-> > - #ifndef INET6
-> > - static struct block *
-> > --gen_gateway(eaddr, alist, proto, dir)
-> > --    const u_char *eaddr;
-> > --    bpf_u_int32 **alist;
-> > --    int proto;
-> > --    int dir;
-> > -+gen_gateway(cstate, eaddr, alist, proto, dir)
-> > -+    compiler_state_t *cstate;
-> > -+    const u_char *eaddr;
-> > -+    bpf_u_int32 **alist;
-> > -+    int proto;
-> > -+    int dir;
-> > - {
-> > -     struct block *b0, *b1, *tmp;
-> > -
-> > -@@ -6472,7 +6473,7 @@ gen_scode(compiler_state_t *cstate, const char *name,
-> > struct qual q)
-> > -             alist = pcap_nametoaddr(name);
-> > -             if (alist == NULL || *alist == NULL)
-> > -                     bpf_error(cstate, "unknown host '%s'", name);
-> > --            b = gen_gateway(eaddr, alist, proto, dir);
-> > -+            b = gen_gateway(cstate, eaddr, alist, proto, dir);
-> > -             free(eaddr);
-> > -             return b;
-> > - #else
-> > ---
-> > -2.1.4
-> > -
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap/disable-remote.patch
-> > b/meta/recipes-connectivity/libpcap/libpcap/disable-remote.patch
-> > deleted file mode 100644
-> > index 7e1eea6b1e..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap/disable-remote.patch
-> > +++ /dev/null
-> > @@ -1,36 +0,0 @@
-> > -Disable bits of remote capture support inherited from the WinPCAP merge -which
-> > cause applications to FTBFS if they define HAVE_REMOTE.
-> > -
-> > -Patch from:
-> > -https://anonscm.debian.org/cgit/users/rfrancoise/libpcap.git/commit/?
-> > -id=f35949969269dfdcc3549b12fade604755e1e326
-> > -
-> > -Upstream-Status: Pending
-> > -
-> > ---- a/pcap/pcap.h
-> > -+++ b/pcap/pcap.h
-> > -@@ -506,6 +506,11 @@
-> > -   #define MODE_STAT 1
-> > -   #define MODE_MON 2
-> > -
-> > -+#ifdef HAVE_REMOTE
-> > -+  /* Includes most of the public stuff that is needed for the remote
-> > -+capture */
-> > -+  #include <remote-ext.h>
-> > -+#endif       /* HAVE_REMOTE */
-> > -+
-> > - #elif defined(MSDOS)
-> > -
-> > -   /*
-> > -@@ -526,11 +531,6 @@
-> > -
-> > - #endif /* _WIN32/MSDOS/UN*X */
-> > -
-> > --#ifdef HAVE_REMOTE
-> > --  /* Includes most of the public stuff that is needed for the remote capture */
-> > --  #include <remote-ext.h>
-> > --#endif       /* HAVE_REMOTE */
-> > --
-> > - #ifdef __cplusplus
-> > - }
-> > - #endif
-> > -
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
-> > b/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
-> > deleted file mode 100644
-> > index f40e655c44..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap/fix-grammar-deps.patch
-> > +++ /dev/null
-> > @@ -1,29 +0,0 @@
-> > -Fix a missing dependency that can result in:
-> > -
-> > -../libpcap-1.8.1/grammar.y:78:10: fatal error: scanner.h: No such file or directory
-> > -
-> > -Upstream-Status: Backport
-> > -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > -
-> > -From 0dd90a6bdbce4dca14106859eee63ef643a106e2 Mon Sep 17 00:00:00 2001
-> > -From: Alfredo Alvarez Fernandez <alfredoalvarezernandez@gmail.com>
-> > -Date: Tue, 21 Feb 2017 11:41:43 +0100
-> > -Subject: [PATCH] Makefile.in: Fix missing dependency
-> > -
-> > ----
-> > - Makefile.in | 2 +-
-> > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > -
-> > -diff --git a/Makefile.in b/Makefile.in
-> > -index 7044f043..f5d443ae 100644
-> > ---- a/Makefile.in
-> > -+++ b/Makefile.in
-> > -@@ -465,7 +465,7 @@ grammar.h: grammar.c
-> > -             $(MAKE) $(MAKEFLAGS) grammar.c; \
-> > -     fi
-> > -
-> > --grammar.o: grammar.c
-> > -+grammar.o: grammar.c scanner.h
-> > -     $(CC) $(FULL_CFLAGS) -c grammar.c
-> > -
-> > - gencode.o: $(srcdir)/gencode.c grammar.h scanner.h diff --git a/meta/recipes-
-> > connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch b/meta/recipes-
-> > connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch
-> > deleted file mode 100644
-> > index afaa3bea9b..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap/libpcap-pkgconfig-support.patch
-> > +++ /dev/null
-> > @@ -1,73 +0,0 @@
-> > -From 2796129af52901dd68595e5e88a639308541def9 Mon Sep 17 00:00:00 2001
-> > -From: Fabio Berton <fabio.berton@ossystems.com.br>
-> > -Date: Thu, 3 Nov 2016 17:56:29 -0200
-> > -Subject: [PATCH] libpcap: pkgconfig support
-> > -Organization: O.S. Systems Software LTDA.
-> > -
-> > -Adding basic structure to support pkg-config.
-> > -
-> > -Upstream-Status: Inappropriate [embedded specific]
-> > -
-> > -Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
-> > -Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> > ----
-> > - Makefile.in   |  5 +++++
-> > - configure.ac  |  1 +
-> > - libpcap.pc.in | 10 ++++++++++
-> > - 3 files changed, 16 insertions(+)
-> > - create mode 100644 libpcap.pc.in
-> > -
-> > -diff --git a/Makefile.in b/Makefile.in
-> > -index e71d973..d7004ed 100644
-> > ---- a/Makefile.in
-> > -+++ b/Makefile.in
-> > -@@ -61,6 +61,10 @@ V_RPATH_OPT = @V_RPATH_OPT@
-> > - DEPENDENCY_CFLAG = @DEPENDENCY_CFLAG@
-> > - PROG=libpcap
-> > -
-> > -+# pkgconfig support
-> > -+pkgconfigdir = $(libdir)/pkgconfig
-> > -+pkgconfig_DATA = libpcap.pc
-> > -+
-> > - # Standard CFLAGS
-> > - FULL_CFLAGS = $(CCOPT) $(INCLS) $(DEFS) $(CFLAGS)
-> > -
-> > -@@ -286,6 +290,7 @@ EXTRA_DIST = \
-> > -     lbl/os-solaris2.h \
-> > -     lbl/os-sunos4.h \
-> > -     lbl/os-ultrix4.h \
-> > -+    libpcap.pc \
-> > -     missing/getopt.c \
-> > -     missing/getopt.h \
-> > -     missing/snprintf.c \
-> > -diff --git a/configure.ac b/configure.ac -index da2f940..4fc67bf 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -1805,6 +1805,7 @@ fi
-> > - AC_PROG_INSTALL
-> > -
-> > - AC_CONFIG_HEADER(config.h)
-> > -+AC_CONFIG_FILES([libpcap.pc])
-> > -
-> > - AC_OUTPUT_COMMANDS([if test -f .devel; then
-> > -     echo timestamp > stamp-h
-> > -diff --git a/libpcap.pc.in b/libpcap.pc.in -new file mode 100644 -index
-> > 0000000..4f78ad8
-> > ---- /dev/null
-> > -+++ b/libpcap.pc.in
-> > -@@ -0,0 +1,10 @@
-> > -+prefix=@prefix@
-> > -+exec_prefix=@exec_prefix@
-> > -+libdir=@libdir@
-> > -+includedir=@includedir@
-> > -+
-> > -+Name: libpcap
-> > -+Description: System-independent interface for user-level packet capture.
-> > -+Version: @VERSION@
-> > -+Libs: -L${libdir} -lpcap
-> > -+Cflags: -I${includedir}
-> > ---
-> > -2.1.4
-> > -
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb b/meta/recipes-
-> > connectivity/libpcap/libpcap_1.8.1.bb
-> > deleted file mode 100644
-> > index 13dfbd67a8..0000000000
-> > --- a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
-> > +++ /dev/null
-> > @@ -1,31 +0,0 @@
-> > -require libpcap.inc
-> > -
-> > -SRC_URI += " \
-> > -    file://libpcap-pkgconfig-support.patch \
-> > -    file://0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch \
-> > -    file://0002-Add-missing-compiler_state_t-parameter.patch \
-> > -    file://disable-remote.patch \
-> > -    file://fix-grammar-deps.patch \
-> > -"
-> > -
-> > -SRC_URI[md5sum] = "3d48f9cd171ff12b0efd9134b52f1447"
-> > -SRC_URI[sha256sum] =
-> > "673dbc69fdc3f5a86fb5759ab19899039a8e5e6c631749e48dcd9c6f0c83541e"
-> > -
-> > -#
-> > -# make install doesn't cover the shared lib -# make install-shared is just broken (no
-> > symlinks) -#
-> > -
-> > -do_configure_prepend () {
-> > -    #remove hardcoded references to /usr/include
-> > -    sed 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i ${S}/configure.ac
-> > -}
-> > -
-> > -do_install_prepend () {
-> > -    install -d ${D}${libdir}
-> > -    install -d ${D}${bindir}
-> > -    oe_runmake install-shared DESTDIR=${D}
-> > -    oe_libinstall -a -so libpcap ${D}${libdir}
-> > -    sed "s|@VERSION@|${PV}|" -i ${B}/libpcap.pc
-> > -    install -D -m 0644 libpcap.pc ${D}${libdir}/pkgconfig/libpcap.pc
-> > -}
-> > diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-
-> > connectivity/libpcap/libpcap_1.9.0.bb
-> > similarity index 58%
-> > rename from meta/recipes-connectivity/libpcap/libpcap.inc
-> > rename to meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
-> > index e57ea87b37..78361561e6 100644
-> > --- a/meta/recipes-connectivity/libpcap/libpcap.inc
-> > +++ b/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
-> > @@ -10,33 +10,36 @@ LIC_FILES_CHKSUM =
-> > "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
-> >
-> > file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
-> >  DEPENDS = "flex-native bison-native"
-> >
-> > -INC_PR = "r5"
-> > +SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
-> > +           file://0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch \
-> > +           "
-> > +SRC_URI[md5sum] = "dffd65cb14406ab9841f421732eb0f33"
-> > +SRC_URI[sha256sum] =
-> > "2edb88808e5913fdaa8e9c1fcaf272e19b2485338742b5074b9fe44d68f37019"
-> >
-> > -SRC_URI = "http://www.tcpdump.org/release/${BP}.tar.gz"
-> > +inherit autotools binconfig-disabled pkgconfig bluetooth
-> >
-> >  BINCONFIG = "${bindir}/pcap-config"
-> >
-> > -inherit autotools binconfig-disabled pkgconfig bluetooth
-> > -
-> > -EXTRA_OECONF = "--with-pcap=linux"
-> > +# Explicitly disable dag support. We don't have recipe for it and if
-> > +enabled here, # configure script poisons the include dirs with
-> > +/usr/local/include even when the # support hasn't been detected.
-> > +EXTRA_OECONF = " \
-> > +                 --with-pcap=linux \
-> > +                 --without-dag \
-> > +                 "
-> >  EXTRA_AUTORECONF += "--exclude=aclocal"
-> >
-> >  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',
-> > '${BLUEZ}', '', d)} \
-> >                     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \  "
-> > -PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-> > -# Add a dummy PACKAGECONFIG for bluez5 since it is not supported by libpcap.
-> > -PACKAGECONFIG[bluez5] = ",,"
-> > +PACKAGECONFIG[bluez5] = "--enable-bluetooth,--disable-bluetooth,bluez5"
-> >  PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
-> >  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-> >  PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
-> >
-> > -CPPFLAGS_prepend = "-I${S} "
-> > -CFLAGS_prepend = "-I${S} "
-> > -CXXFLAGS_prepend = "-I${S} "
-> > -
-> >  do_configure_prepend () {
-> > -    sed -i -e's,^V_RPATH_OPT=.*$,V_RPATH_OPT=,' ${S}/pcap-config.in
-> > +    #remove hardcoded references to /usr/include
-> > +    sed 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i
-> > + ${S}/configure.ac
-> >  }
-> >
-> >  BBCLASSEXTEND = "native"
-> > --
-> > 2.17.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> FWIW, I'm wiping the all buildhistory data with external scripts before doing a
+> clean build. Basically a "git rm -rf *" in buildhistory directory. Otherwise
+> stale data about images, packages etc which are no longer built remain in
+> buildhistory.
+
+I think one can also do:
+
+BB_ENV_EXTRAWHITE=BUILDHISTORY_RESET BUILDHISTORY_RESET=1 bitbake <build>
+
+(see buildhistory.bbclass)
+
+> -Mikko
 
