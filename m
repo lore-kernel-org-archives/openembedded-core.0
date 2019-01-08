@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id BF36D7BF14
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 344217BE8E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 12:27:48 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id a6so5684099itl.4
+	Tue,  8 Jan 2019 12:40:46 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id f4so3009565ion.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 04:27:50 -0800 (PST)
+	Tue, 08 Jan 2019 04:40:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bHUEcA47X2yGcgKIJnL2+gxTnna5GGjpL1dxUxx7wKQ=;
-	b=eCuqSPfQ/zkJmFaWV06cTrbkOtn3vF/v0YiRuIOugxaSIzQkZ4mnDuGdBYB2mcPjBQ
-	lJxeDqHX1eXH6RMLQCDCwsD+uAX5vuVsHoBNsKd+Y3yc4k2EUEHhczFDWo3vrnpuqWiz
-	8kxSh0Och3TknP86TvyzAK/wcRbAnPVZ41OCdep4/UTAtV9/U5iiCb6ANEPEceo/+c5P
-	HD0E9Bdgcm9Cf7tru9Nh3l+xdFzinmsK/nySGLQ4OIIVIzvIo7bLpM/s0doaf+3F3enZ
-	8vc9h7CaDV5I246kqW/719x4+QRLQQJuoQYpNIW8jQlV++MvJVMX0/QeC4krbLXWE4VT
-	RgfQ==
+	:cc; bh=jy0Sp0fx8Ge8Z1PbhLb55gH5E5z2GKmMbEUGrJ/MyQ8=;
+	b=1b+lZ4zqoZ/HkZofSS0JeWMd5ZLpiRhPeLdl9uVRF9x9EBYEoqwgV05I3RsciLHupV
+	qM94U6fKs9S1eYlGKJTwnL5DogwR4xZn41rXdGBFxKpP9zg+D3I/wod+dAbLPFpkcdZr
+	oWxLzB96GCHuwdCGgtG+Wsv4OSvQMjKel0uFW/KII5PNs7RK76GcVrfQt2buq7736qt6
+	RqTNNeebPbGvjQBcXJ/9JzSBRRC1qvr5XLS0ZKsIjgWhPNi8W8qHzBjqFxjqt1AbYDfn
+	HrJ0tQI8R1teWc27R9rb9CvN861PqlutlkqCnGh9WBZWEjOgrMcqpCeyoO+kpLxlEKmY
+	s2cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=bHUEcA47X2yGcgKIJnL2+gxTnna5GGjpL1dxUxx7wKQ=;
-	b=RJK3EIGXo4oSXXZbqW/SKfcvSDQUj86C1pWJOnZOTZ8mBbN72yyEcynBWefkjsgzSR
-	4jstC5+JxZ0A1CKs9AZVBhsMeMAZ5FeZoqGFXHhrJkWQFEppYRhQWZA8rRp7dZdC5kIm
-	MUc/4fpscuoK6hucVJqa+IgBL46YNgpTPYD3+AE/3D2+2JkSZMp7COtYOakyRY4SXZTe
-	0zYmqYhXlcbOCzqvTciOEr6oeaXE1ffCL+J700Q+BZig1djWbEhARrYKXtqPr08h0dVq
-	wIC5QwJ48xAoFk5YSYkxh0S/NA9A/uM+0kFpyj98IZKjxjoYDDMDfqyIlrzieMKA8a7p
-	ZGZA==
-X-Gm-Message-State: AJcUukcvRdHVlLtOEBtu50XTfaMfdTO25XuQ3/4ABMcTm+vlDQjyqb4z
-	ubNUhDz9XmqIzDImZ8Hxgz35vD49wC65XhChPior2Q==
-X-Google-Smtp-Source: ALg8bN6PW89GeD5dVUMbTvxy1JNEHj18jOwVoUUDiyb+OYj1ix7etrPc4nDcvt6y/7gjjDueNJAZ4+9AqVj7m1InHk8=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr1038646itj.62.1546950469817;
-	Tue, 08 Jan 2019 04:27:49 -0800 (PST)
+	bh=jy0Sp0fx8Ge8Z1PbhLb55gH5E5z2GKmMbEUGrJ/MyQ8=;
+	b=rwBfj4wjMe2dJvrls7XaWCiER/xwc9F7MGp8wmg9B7B3e0VoXRx0cSX4jplEhCqPDd
+	ZFnYeEzQY3vgwAgjDlGM2b5xGmG/hMLj1ZkHRQZiimUiGNzuk6In6ubCIRq+yZGz7Po7
+	YMOsPE75CEhaZqSN7Uy2Bbg+KpShalCeen8MWeR0mMvNNeCb0/OaVmy8srUX01dXiyL2
+	qC+LJlGw5+8lH0uc5k4YipMuVsWX0QmkCpMw0nq648hDuN1dvdNtO8ape0pqAvxvI+lL
+	0/RkdDRwX7m4HrKqQsU//v4dD0RsF3ULrhegiv8L788Fk792jj9Amyk8OpqW0fDrjoP/
+	ew8Q==
+X-Gm-Message-State: AJcUukf7Y3H4trrB4n5e9EYgRXZUPb0LeZ7eiG6XKrX4XicpLPsNe9OE
+	mLiJp7FkE/mw3qe39+rEi2TevvvGPzZ8fka/ME5pNZi0
+X-Google-Smtp-Source: ALg8bN5Gkcq74yY0Rpi8baQ8D4caAq4GYBOTiy8bkiuBG84XmEp1CyQ4PYNgNhj4AIgzjrSevZeR5TgRojgXg0znBLM=
+X-Received: by 2002:a6b:acc5:: with SMTP id v188mr868803ioe.20.1546951247125; 
+	Tue, 08 Jan 2019 04:40:47 -0800 (PST)
 MIME-Version: 1.0
-References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
-In-Reply-To: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+References: <cover.1546938633.git.Qi.Chen@windriver.com>
+	<11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
+In-Reply-To: <11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2019 12:27:38 +0000
-Message-ID: <CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>,
-	Mark Hatle <mark.hatle@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Prelink problem
+Date: Tue, 8 Jan 2019 12:40:35 +0000
+Message-ID: <CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] netbase/base-files: move /etc/hosts from netbase to base-files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,102 +55,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 12:27:49 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 12:40:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-That patch removed the dependency on the QA, but your failure is at rootfs time.
+On Tue, 8 Jan 2019 at 09:06, Chen Qi <Qi.Chen@windriver.com> wrote:
+>         if [ "${hostname}" ]; then
+>                 echo ${hostname} > ${D}${sysconfdir}/hostname
+> +               echo "127.0.1.1 ${hostname}" >> ${D}${sysconfdir}/hosts
+>         fi
 
-No idea why the opkg rootfs code is doing prelink operations when RPM
-or dpkg don't.   CCing Mark who may have an idea here.  I thought the
-autobuilder exerised multilib-on-opkg, but maybe not.
+Instead of appending to the file, can you put a marker on the
+127.0.0.1 line and replace it inline?
 
 Ross
-
-On Tue, 8 Jan 2019 at 07:14, Andrej Valek <andrej.valek@siemens.com> wrote:
->
-> Hi Ross,
->
-> I would like to ask You a question about your commit, which removed
-> prelink dependency
-> (http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/insane.bbclass?h=thud&id=659c8b5267dc2220f67bfcb4ae2df91ae5052cdc).
-> Is it really necessary to remove the QADEPENDS = "prelink-native"?
->
-> I was trying to build extensible SDK with multilib support, but without
-> success. Here is the crash log:
->
->      0709:        if not os.path.exists(prelink_cfg):
->
->      0710:
-> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
->
->  *** 0711:                        prelink_cfg)
->
->      0712:
->
->      0713:        cmd_prelink =
-> self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
->
->      0714:        self._exec_shell_cmd([cmd_prelink,
->
->      0715:                              '--root',
->
-> File: '/usr/lib/python3.5/shutil.py', lineno: 241, function: copy
->
->      0237:
->
->      0238:    """
->
->      0239:    if os.path.isdir(dst):
->
->      0240:        dst = os.path.join(dst, os.path.basename(src))
->
->  *** 0241:    copyfile(src, dst, follow_symlinks=follow_symlinks)
->
->      0242:    copymode(src, dst, follow_symlinks=follow_symlinks)
->
->      0243:    return dst
->
->      0244:
->
->      0245:def copy2(src, dst, *, follow_symlinks=True):
->
-> File: '/usr/lib/python3.5/shutil.py', lineno: 120, function: copyfile
->
->      0116:
->
->      0117:    if not follow_symlinks and os.path.islink(src):
->
->      0118:        os.symlink(os.readlink(src), dst)
->
->      0119:    else:
->
->  *** 0120:        with open(src, 'rb') as fsrc:
->
->      0121:            with open(dst, 'wb') as fdst:
->
->      0122:                copyfileobj(fsrc, fdst)
->
->      0123:    return dst
->
->      0124:
->
-> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
->
->
-> It points into meta/lib/oe/rootfs.py:705
->
-> if not os.path.exists(prelink_cfg):
->
-> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
->
->
-> How it's possible to copy non-existing file, because of removed
-> prelink-native dependency.
->
-> Do I need to explicitly inherit some class, let say image-prelink?
-> What am I doing wrong?
->
-> Regards,
-> Andrej
 
