@@ -1,56 +1,49 @@
-Return-Path: <prvs=904257fbf=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 708 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 08 Jan 2019 11:14:27 UTC
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ACB76D9B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
+	[209.85.166.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BF36D7BF14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 11:14:27 +0000 (UTC)
+	Tue,  8 Jan 2019 12:27:48 +0000 (UTC)
+Received: by mail-it1-f170.google.com with SMTP id a6so5684099itl.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Jan 2019 04:27:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1546946071; x=1578482071;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=OeeoruF2kemK5iPNc0jH9OTU23yW1f/69l68BiIur9M=;
-	b=RU/N4iMx3+SBUA8dwwQ8Y3x5olAobLwGOv0eGHxzuKKJRN6s94JO4yXj
-	8wJkjcWDIkLnU3i1ksseqOez1cD7Wl93bpFoHdGu/dIEcikr7OrUHEJ+a
-	cChtj5epWHEE48Co0H9IxH05R3s0Fmcpx397dWbP67eE5x8PLcxbugd/n M=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 08 Jan 2019 12:02:25 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw4.muc with ESMTP/TLS;
-	08 Jan 2019 12:02:23 +0100
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb6.muc with ESMTP/TLS; 08 Jan 2019 12:02:22 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Tue, 8 Jan 2019 12:02:21 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1395.000;
-	Tue, 8 Jan 2019 12:02:21 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <jacob.kroon@gmail.com>
-Thread-Topic: [OE-core] [RFC][PATCH 2/2] buildhistory: support generating
-	md5sum of files
-Thread-Index: AQHUpz12xOAdBNAhIECOjxwauER7oaWlHMIAgAAHQIA=
-Date: Tue, 8 Jan 2019 11:02:21 +0000
-Message-ID: <20190108110221.GY7349@hiutale>
-References: <20190106181350.25386-1-jacob.kroon@gmail.com>
-	<20190106181350.25386-2-jacob.kroon@gmail.com>
-	<CAPbeDCm=0X_8cN6_WCexaLBNcYrVv3zT_27g8uXW_eh-iGc=TA@mail.gmail.com>
-	<20190108103232.GS7349@hiutale>
-	<CAPbeDC=Nk0MD1Z+q0ss5TKGibPcrK335FiTr_V9qr_E_6e7OCA@mail.gmail.com>
-In-Reply-To: <CAPbeDC=Nk0MD1Z+q0ss5TKGibPcrK335FiTr_V9qr_E_6e7OCA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.33]
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bHUEcA47X2yGcgKIJnL2+gxTnna5GGjpL1dxUxx7wKQ=;
+	b=eCuqSPfQ/zkJmFaWV06cTrbkOtn3vF/v0YiRuIOugxaSIzQkZ4mnDuGdBYB2mcPjBQ
+	lJxeDqHX1eXH6RMLQCDCwsD+uAX5vuVsHoBNsKd+Y3yc4k2EUEHhczFDWo3vrnpuqWiz
+	8kxSh0Och3TknP86TvyzAK/wcRbAnPVZ41OCdep4/UTAtV9/U5iiCb6ANEPEceo/+c5P
+	HD0E9Bdgcm9Cf7tru9Nh3l+xdFzinmsK/nySGLQ4OIIVIzvIo7bLpM/s0doaf+3F3enZ
+	8vc9h7CaDV5I246kqW/719x4+QRLQQJuoQYpNIW8jQlV++MvJVMX0/QeC4krbLXWE4VT
+	RgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bHUEcA47X2yGcgKIJnL2+gxTnna5GGjpL1dxUxx7wKQ=;
+	b=RJK3EIGXo4oSXXZbqW/SKfcvSDQUj86C1pWJOnZOTZ8mBbN72yyEcynBWefkjsgzSR
+	4jstC5+JxZ0A1CKs9AZVBhsMeMAZ5FeZoqGFXHhrJkWQFEppYRhQWZA8rRp7dZdC5kIm
+	MUc/4fpscuoK6hucVJqa+IgBL46YNgpTPYD3+AE/3D2+2JkSZMp7COtYOakyRY4SXZTe
+	0zYmqYhXlcbOCzqvTciOEr6oeaXE1ffCL+J700Q+BZig1djWbEhARrYKXtqPr08h0dVq
+	wIC5QwJ48xAoFk5YSYkxh0S/NA9A/uM+0kFpyj98IZKjxjoYDDMDfqyIlrzieMKA8a7p
+	ZGZA==
+X-Gm-Message-State: AJcUukcvRdHVlLtOEBtu50XTfaMfdTO25XuQ3/4ABMcTm+vlDQjyqb4z
+	ubNUhDz9XmqIzDImZ8Hxgz35vD49wC65XhChPior2Q==
+X-Google-Smtp-Source: ALg8bN6PW89GeD5dVUMbTvxy1JNEHj18jOwVoUUDiyb+OYj1ix7etrPc4nDcvt6y/7gjjDueNJAZ4+9AqVj7m1InHk8=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr1038646itj.62.1546950469817;
+	Tue, 08 Jan 2019 04:27:49 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 2/2] buildhistory: support generating md5sum of files
+References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+In-Reply-To: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jan 2019 12:27:38 +0000
+Message-ID: <CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	Mark Hatle <mark.hatle@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Prelink problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,88 +56,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 11:14:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <ED4BE2251551904F951890FC38F6E2E8@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Jan 2019 12:27:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 08, 2019 at 11:36:24AM +0100, Jacob Kroon wrote:
-> On Tue, Jan 8, 2019 at 11:32 AM <Mikko.Rapeli@bmw.de> wrote:
-> >
-> > On Mon, Jan 07, 2019 at 03:17:00PM +0100, Jacob Kroon wrote:
-> > > On Sun, Jan 6, 2019 at 7:14 PM Jacob Kroon <jacob.kroon@gmail.com> wr=
-ote:
-> > > >
-> > > > Introduce 'md5' in BUILDHISTORY_FEATURES and enable it by default
-> > > > when doing reproducible builds.
-> > > >
-> > > > When enabled this will additionally create:
-> > > >
-> > > >   files-in-package-md5.txt
-> > > >   files-in-image-md5.txt
-> > > >   files-in-sdk-md5.txt
-> > > >
-> > > > containing the md5 checksums of regular files.
-> > > >
-> > > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> > > > ---
-> > > >  meta/classes/buildhistory.bbclass | 10 ++++++++--
-> > > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/build=
-history.bbclass
-> > > > index 33eb1b00f6..00f0701dec 100644
-> > > > --- a/meta/classes/buildhistory.bbclass
-> > > > +++ b/meta/classes/buildhistory.bbclass
-> > > > @@ -7,7 +7,8 @@
-> > > >  # Copyright (C) 2007-2011 Koen Kooi <koen@openembedded.org>
-> > > >  #
-> > > >
-> > > > -BUILDHISTORY_FEATURES ?=3D "image package sdk"
-> > > > +BUILDHISTORY_FEATURES ?=3D "image package sdk \
-> > > > +  ${@ "md5" if bb.utils.to_boolean(d.getVar('BUILD_REPRODUCIBLE_BI=
-NARIES')) else ""}"
-> > > >  BUILDHISTORY_DIR ?=3D "${TOPDIR}/buildhistory"
-> > > >  BUILDHISTORY_DIR_IMAGE =3D "${BUILDHISTORY_DIR}/images/${MACHINE_A=
-RCH}/${TCLIBC}/${IMAGE_BASENAME}"
-> > > >  BUILDHISTORY_DIR_PACKAGE =3D "${BUILDHISTORY_DIR}/packages/${MULTI=
-MACH_TARGET_SYS}/${PN}"
-> > > > @@ -526,7 +527,12 @@ buildhistory_list_files() {
-> > > >                 eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
-> > > >         else
-> > > >                 eval $find_cmd
-> > > > -       fi | sort -k5 | sed 's/ * -> $//' > $2 )
-> > > > +       fi | sort -k5 | sed 's/ * -> $//' > $2
-> > > > +       if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'md5', =
-'1', '0', d)}" =3D "1" ] ; then
-> > > > +               md5filename=3D$(echo $2 | sed 's/\.txt$/-md5.txt/')
-> > > > +               find -type f | xargs -I{} -n1 md5sum {} | sort -k2 =
-> $md5filename
-> > > > +               [ -s $md5filename ] || rm $md5filename # remove res=
-ult if empty
-> > >
-> > > I added this remove because I thought it didn't make sense to keep
-> > > empty files around, but I now realize that the "files-in-package.txt"
-> > > file is kept around, even if empty. Is there a preference on what to
-> > > do here ?
-> >
-> > FWIW, I'm wiping the all buildhistory data with external scripts before=
- doing a
-> > clean build. Basically a "git rm -rf *" in buildhistory directory. Othe=
-rwise
-> > stale data about images, packages etc which are no longer built remain =
-in
-> > buildhistory.
->=20
-> I think one can also do:
->=20
-> BB_ENV_EXTRAWHITE=3DBUILDHISTORY_RESET BUILDHISTORY_RESET=3D1 bitbake <bu=
-ild>
->=20
-> (see buildhistory.bbclass)
+That patch removed the dependency on the QA, but your failure is at rootfs time.
 
-Thanks for the hint!
+No idea why the opkg rootfs code is doing prelink operations when RPM
+or dpkg don't.   CCing Mark who may have an idea here.  I thought the
+autobuilder exerised multilib-on-opkg, but maybe not.
 
--Mikko=
+Ross
+
+On Tue, 8 Jan 2019 at 07:14, Andrej Valek <andrej.valek@siemens.com> wrote:
+>
+> Hi Ross,
+>
+> I would like to ask You a question about your commit, which removed
+> prelink dependency
+> (http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/insane.bbclass?h=thud&id=659c8b5267dc2220f67bfcb4ae2df91ae5052cdc).
+> Is it really necessary to remove the QADEPENDS = "prelink-native"?
+>
+> I was trying to build extensible SDK with multilib support, but without
+> success. Here is the crash log:
+>
+>      0709:        if not os.path.exists(prelink_cfg):
+>
+>      0710:
+> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
+>
+>  *** 0711:                        prelink_cfg)
+>
+>      0712:
+>
+>      0713:        cmd_prelink =
+> self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
+>
+>      0714:        self._exec_shell_cmd([cmd_prelink,
+>
+>      0715:                              '--root',
+>
+> File: '/usr/lib/python3.5/shutil.py', lineno: 241, function: copy
+>
+>      0237:
+>
+>      0238:    """
+>
+>      0239:    if os.path.isdir(dst):
+>
+>      0240:        dst = os.path.join(dst, os.path.basename(src))
+>
+>  *** 0241:    copyfile(src, dst, follow_symlinks=follow_symlinks)
+>
+>      0242:    copymode(src, dst, follow_symlinks=follow_symlinks)
+>
+>      0243:    return dst
+>
+>      0244:
+>
+>      0245:def copy2(src, dst, *, follow_symlinks=True):
+>
+> File: '/usr/lib/python3.5/shutil.py', lineno: 120, function: copyfile
+>
+>      0116:
+>
+>      0117:    if not follow_symlinks and os.path.islink(src):
+>
+>      0118:        os.symlink(os.readlink(src), dst)
+>
+>      0119:    else:
+>
+>  *** 0120:        with open(src, 'rb') as fsrc:
+>
+>      0121:            with open(dst, 'wb') as fdst:
+>
+>      0122:                copyfileobj(fsrc, fdst)
+>
+>      0123:    return dst
+>
+>      0124:
+>
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> '/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
+>
+>
+> It points into meta/lib/oe/rootfs.py:705
+>
+> if not os.path.exists(prelink_cfg):
+>
+> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
+>
+>
+> How it's possible to copy non-existing file, because of removed
+> prelink-native dependency.
+>
+> Do I need to explicitly inherit some class, let say image-prelink?
+> What am I doing wrong?
+>
+> Regards,
+> Andrej
 
