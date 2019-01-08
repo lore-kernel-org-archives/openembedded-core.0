@@ -1,45 +1,55 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 56D8662133
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B08D7BDA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 19:54:56 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id w18so8141950ite.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 11:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=k8oP8F9c/ezaKmiPY2tyR5g6oQ9s869w6OYWOUsfWeY=;
-	b=Qr4bn5h7yu2UwL1pbU0av9P9zGMk8xn1iPkQ1GYwxUMCYaOVWpnaO+c5AapA2noTrz
-	7QclGxlnYIjW4hbqr9R0FXu/dJo+7Nsv6vdcHcm2ucDPq8VgubEOCvWUhCwASZBubb7x
-	V+LmxvbAmx/+CdufmI7KyHzItV+VWw53kKZ5GoVVquFKBnWTzGXiqKWkUNxStiRqGp/o
-	fcGzGLyTqi2nO0fApaATId8PY3gYzdKMYPbooGsCjeStUVHcLwglDYunGNnnWeh7gSaZ
-	hwJna+1gDe3yaZ5io7j3LnRfLxrB0XuPmQEMtzTFDszRVmRqq6uIrv7ct7sV7LglH/38
-	F98w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=k8oP8F9c/ezaKmiPY2tyR5g6oQ9s869w6OYWOUsfWeY=;
-	b=K5PjrY4yvbXJUDTn2PpB4bSgkMHzLzCTaugIpTcJxbsc80/F5Ev+xeCasmpIFXobJR
-	pHmjxRfVBMCX8VXKAWaUG6f10FQJol4Ap3C9n8KDks3BIrUd1D8w9Er5j3t2fntijL1W
-	v7Ya3wrWBCAY1yKx0KE+cpsh+SvtPdmuL/cwQTxvfJD1J26Gnb3Z66YhguJF1HOgS5EE
-	I/MBSPnjIo0z7+j3Srey8lAjAxqTl5HXatthSUO/A/Axd0qgdlh9CrCEX5o0oKMiw5IW
-	hyO77zkQZxrjHsQJ0i+pViD18j013lFmKCXYsh31IdzfwjcZ4i2tbXvkrVYZXDiWJjDy
-	OASw==
-X-Gm-Message-State: AJcUukdGyICWU0atTuCUNL9Tl44i/OVw76H+pNi32hv3TjqtTilypMjA
-	vbR1AE9OtKX2Apksjv08d6xvQsGIyhRlrLe7TDV6SvUR
-X-Google-Smtp-Source: ALg8bN5KKEan1Tm778V74wNTLm1Ah6vDRhmoD60QzaWJu+GFjoVTxU5uhC6C7zl6IXqWRlwME12vZ7t4j+V4WJ/06Ts=
-X-Received: by 2002:a24:214a:: with SMTP id e71mr2318468ita.60.1546977297051; 
-	Tue, 08 Jan 2019 11:54:57 -0800 (PST)
+	Tue,  8 Jan 2019 20:15:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x08KEbjK014866
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Jan 2019 12:14:58 -0800
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 8 Jan 2019 12:14:45 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, Andrej Valek
+	<andrej.valek@siemens.com>
+References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+	<CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
+Date: Tue, 8 Jan 2019 14:14:44 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20181225092034.31624-1-jacob.kroon@gmail.com>
-In-Reply-To: <20181225092034.31624-1-jacob.kroon@gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Tue, 8 Jan 2019 20:54:43 +0100
-Message-ID: <CAPbeDC=OCWZUMBgDgcmUTO4-XO=1f9MTDdVZ9fT7QjOpcu_+gA@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] initramfs-boot: create /dev/console
+In-Reply-To: <CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Prelink problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,50 +62,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 19:54:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 08 Jan 2019 20:15:35 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 25, 2018 at 10:21 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->
-> The Yocto kernel expects a proper /dev/console to exist before running init,
-> otherwise booting will fail with the message:
->
->   Kernel panic - not syncing: /dev/console is missing or not a character device!
->   Please ensure your rootfs is properly configured
->
-> Add similar fix as was done for initramfs-framework and initramfs-live-boot
-> in commits
->
->   0352841cd92f6316bcac092e2fff9d28c352b36b
->   1b64664f0c388f41084f5db6e46e3e68c53fb6d9
->
-> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> ---
->  meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-> index 7ae7969f5e..29ec5ec2ff 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-> @@ -9,8 +9,13 @@ S = "${WORKDIR}"
->
->  do_install() {
->          install -m 0755 ${WORKDIR}/init-boot.sh ${D}/init
-> +
-> +        # Create device nodes expected by some kernels in initramfs
-> +        # before even executing /init.
-> +        install -d ${D}/dev
-> +        mknod -m 622 ${D}/dev/console c 5 1
->  }
->
->  inherit allarch
->
-> -FILES_${PN} += " /init "
-> +FILES_${PN} += "/init /dev/console"
-> --
-> 2.11.0
->
+On 1/8/19 6:27 AM, Burton, Ross wrote:
+> That patch removed the dependency on the QA, but your failure is at rootfs time.
+> 
+> No idea why the opkg rootfs code is doing prelink operations when RPM
+> or dpkg don't.   CCing Mark who may have an idea here.  I thought the
+> autobuilder exerised multilib-on-opkg, but maybe not.
 
-ping
+They all should be doing prelink operations.  The operation SHOULD be
+generically implemented as part of the image-prelink class, which is where I
+would have expected that copy to exist.
+
+If any of the package types of specifically doing something, that sounds
+broken...  but the generic ones (last I looked) said to copy in the config file
+[if it didn't exist], run prelink, remove the file [if it wasn't there to start
+with].
+
+--Mark
+
+> Ross
+> 
+> On Tue, 8 Jan 2019 at 07:14, Andrej Valek <andrej.valek@siemens.com> wrote:
+>>
+>> Hi Ross,
+>>
+>> I would like to ask You a question about your commit, which removed
+>> prelink dependency
+>> (http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/insane.bbclass?h=thud&id=659c8b5267dc2220f67bfcb4ae2df91ae5052cdc).
+>> Is it really necessary to remove the QADEPENDS = "prelink-native"?
+>>
+>> I was trying to build extensible SDK with multilib support, but without
+>> success. Here is the crash log:
+>>
+>>      0709:        if not os.path.exists(prelink_cfg):
+>>
+>>      0710:
+>> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
+>>
+>>  *** 0711:                        prelink_cfg)
+>>
+>>      0712:
+>>
+>>      0713:        cmd_prelink =
+>> self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
+>>
+>>      0714:        self._exec_shell_cmd([cmd_prelink,
+>>
+>>      0715:                              '--root',
+>>
+>> File: '/usr/lib/python3.5/shutil.py', lineno: 241, function: copy
+>>
+>>      0237:
+>>
+>>      0238:    """
+>>
+>>      0239:    if os.path.isdir(dst):
+>>
+>>      0240:        dst = os.path.join(dst, os.path.basename(src))
+>>
+>>  *** 0241:    copyfile(src, dst, follow_symlinks=follow_symlinks)
+>>
+>>      0242:    copymode(src, dst, follow_symlinks=follow_symlinks)
+>>
+>>      0243:    return dst
+>>
+>>      0244:
+>>
+>>      0245:def copy2(src, dst, *, follow_symlinks=True):
+>>
+>> File: '/usr/lib/python3.5/shutil.py', lineno: 120, function: copyfile
+>>
+>>      0116:
+>>
+>>      0117:    if not follow_symlinks and os.path.islink(src):
+>>
+>>      0118:        os.symlink(os.readlink(src), dst)
+>>
+>>      0119:    else:
+>>
+>>  *** 0120:        with open(src, 'rb') as fsrc:
+>>
+>>      0121:            with open(dst, 'wb') as fdst:
+>>
+>>      0122:                copyfileobj(fsrc, fdst)
+>>
+>>      0123:    return dst
+>>
+>>      0124:
+>>
+>> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+>> '/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
+>>
+>>
+>> It points into meta/lib/oe/rootfs.py:705
+>>
+>> if not os.path.exists(prelink_cfg):
+>>
+>> shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
+>>
+>>
+>> How it's possible to copy non-existing file, because of removed
+>> prelink-native dependency.
+>>
+>> Do I need to explicitly inherit some class, let say image-prelink?
+>> What am I doing wrong?
+>>
+>> Regards,
+>> Andrej
+
 
