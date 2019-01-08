@@ -1,45 +1,47 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB767BDAE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 703BD7BDAE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 13:10:35 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id c14so4033227wrr.0
+	Tue,  8 Jan 2019 13:19:58 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id h193so5879785ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 05:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 08 Jan 2019 05:19:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IQp43q9rhWomhDJSMCmie8FLsn33QFFFXxhshdfwP1w=;
-	b=SAS9HN/1LwjQI6G0Thm8FUTi0sh5yTxTqRFHM+8I2pTzHmh24rLS3WE1eQzqR6vbKF
-	SXR/9KQU5o5Sb5jJ/cIa398ePKom8w164qBIEpWoBHB7Kz4lL+ck/45+V9njvwZQ8KEZ
-	zyK6oixBBr31yHpOegq3nzXZLmBJ6EzjrT1oMVn6VBNjJ01T0liwZ3cCUWaqxhloaa9h
-	nFw5UJi2Bopvql1MvBWbNglyWwlHlayDw8JAyd64wdcQ248hAQ2HspmvH//7jSzwbw48
-	xwln0b6QD3KwuzsY6dzZR7AjQ8Ew29ic7AKrv1k7kpQs5WBxF2wsPpqK3K6km+0K4YgH
-	2pKg==
+	:cc; bh=7eRuXEi25qRt6va6bKrwMN+W8GAZkpwFJFv3VaoS/Vk=;
+	b=pQBbtwTc5VpRShK9Vq0ldaKPHgcRVLK8ip1w+6pexHzrpx1fi1Vg90GITWtE/fcFzd
+	5rLOZJF6smcXhmPTDue5xpx4ZSnvQ5NVxzpXdJAhuxKM+GJ0M5snglefJDW1TVEz/xE0
+	3SSp9xrDLbOu36C3NX0g6bIB6s6i6bq0Nx5Udr3ZMvhnaZY2pNZ6Yu52MntzKlb6frh0
+	+GWtTFFTo6vDru6thN+7gco2Lx3A/8JeXPv1aHIVeHCCUk4P0Ov/pJI9oWm0gmD2GJUj
+	o1vnyBofkarOp3bWSwcSJgK9DKfNS8lDiuSnC8JjK01pd2QcvmyqM9guvJBxRWHPGCXF
+	iFjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=IQp43q9rhWomhDJSMCmie8FLsn33QFFFXxhshdfwP1w=;
-	b=rusQTqNsELvRZEcL+x4SYdRaClWxT41L/LDT1TYiQPp4a2qTXl6qr+3CFCFnlzGxmF
-	06IGX02xoPb45gu/MGO+ZXVtA7lJUWYpFbXjbJeAkATbSKslSKjE3G7QIKZF5ulEksra
-	2oLw0+wARrbcSTY3gKireZ3LuRF1EFqeufTHVDEmGLo/U+tZzkqHYzTJSpc/7C/GpvPk
-	xIJW2uyZ/S5OFseA74jcPhYto/aYMek0Ien5GQNe1aNIsVVL0Kw+QMApK15D/VXaZtKK
-	pwaPgoLsd/dTeoIrUbA/6zUy8WNwqANIZFaYyPYY6NysdFNVZllCSiVAVeaPWCByN3cO
-	i/Kw==
-X-Gm-Message-State: AJcUukdT94bjj2OIElYLcBJBne1Rj5gRMAJtIma14ssF0I2Gf4qXTluv
-	oJyPWWP9M7F8pAgopbN0uQJULeqWtH0OuHfT4rc=
-X-Google-Smtp-Source: ALg8bN5Xx1mrpEewyS86+CduHiPWbifT/+14Yvi0qalF9OWOio6GnJ6MiyL7ypEewEYWgP+QKWmoG1rsF72kNJ8iEFQ=
-X-Received: by 2002:a5d:5351:: with SMTP id t17mr1422168wrv.288.1546953035564; 
-	Tue, 08 Jan 2019 05:10:35 -0800 (PST)
+	bh=7eRuXEi25qRt6va6bKrwMN+W8GAZkpwFJFv3VaoS/Vk=;
+	b=KIESZdx0oKKHk1baXmz0MZ4JnLpLKndd538tc/MVayhpQgHEHxT8bsh177HiANeH9b
+	SjfTQ4tnXeNlfOdvKVhchFXp91E8U5xJ+J++6W/F0kajX2JYYxacYnVxSLvEeycMR10f
+	Blt+/Z7mE1DKik0IZ5BmtzXxrXjKnbcWmrj1Aj4kdgTevj/v1vxtJ4PrtNhQT0PazFZ7
+	IwZrTXp83q3wUuPWayp1ZprOBndGox4o/ecuOuXKGxPdd7fwDPvLjJH6iWwSX/c4f9M6
+	oJzuGOCZlkKbLdVvcD0vtvcOw+e0NPmLjO5GQFifFfTVnSKmzBKvxDPJ0qGUz/Are2Hc
+	mDmA==
+X-Gm-Message-State: AJcUukfzMDthHu7Hvrx/I0Y3bOwI9eDEGu+6wayrQ9DYIdHY/ay+e5iX
+	BekjfTjgBCY4s1BWGFW6AGZvTBGBVEwvpBgClhn+Uw==
+X-Google-Smtp-Source: ALg8bN5fdY393oMJbqQJ7BzBgehjF5P0jZsHvNybRBgHA+0c1iE9Ozan7aLw5Kc/8mN2LDzgyE25XSdBWLBp9MmyjL0=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr1140542itj.62.1546953599400;
+	Tue, 08 Jan 2019 05:19:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20190107163823.31816-1-ross.burton@intel.com>
 	<CAJTo0LZ__dsz_LuVUS6FPD+dkW7mkY+a5kMJJgTieUxwY0ZEHQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ__dsz_LuVUS6FPD+dkW7mkY+a5kMJJgTieUxwY0ZEHQ@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 8 Jan 2019 07:10:22 -0600
-Message-ID: <CAJdd5GYp38NPZkF3Ouyj8oHiKEFfvPAeQ5x=ocXLf4iroOH39w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAJdd5GYp38NPZkF3Ouyj8oHiKEFfvPAeQ5x=ocXLf4iroOH39w@mail.gmail.com>
+In-Reply-To: <CAJdd5GYp38NPZkF3Ouyj8oHiKEFfvPAeQ5x=ocXLf4iroOH39w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jan 2019 13:19:48 +0000
+Message-ID: <CAJTo0LY0s3ac9a8ZtfphrmUMQ_O-zY6BUSo9cXomDuDOMUwAHw@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/7] toolchain-scripts: run post-relocate scripts for every environment
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,59 +56,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 13:10:35 -0000
-Content-Type: multipart/alternative; boundary="0000000000002b50d2057ef212b9"
-
---0000000000002b50d2057ef212b9
+X-List-Received-Date: Tue, 08 Jan 2019 13:19:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 8, 2019, 5:02 AM Burton, Ross <ross.burton@intel.com wrote:
-
-> On Mon, 7 Jan 2019 at 16:38, Ross Burton <ross.burton@intel.com> wrote:
-> > SDKs for multilib configurations have multiple environment scripts, so
-> > re-arrange the post-relocate hook invocation so that it runs the
-> post-relocate
-> > hooks after sourcing each environment script.
+On Tue, 8 Jan 2019 at 13:10, Joshua Watt <jpewhacker@gmail.com> wrote:
+>> I think this change - whilst the right thing - exposes a problem that
+>> icecc doesn't work properly in multilib SDKs.  Can I ask you to
+>> investigate and sort this, as you submitted the icecc rewrite
+>> recently?
 >
-> I think this change - whilst the right thing - exposes a problem that
-> icecc doesn't work properly in multilib SDKs.  Can I ask you to
-> investigate and sort this, as you submitted the icecc rewrite
-> recently?
->
+> Yep, I'll take a look.
 
-Yep, I'll take a look.
+Thanks, hopefully you spotted some bug mail earlier.
 
+Ross
 
-> Ross
->
-
---0000000000002b50d2057ef212b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">=
-On Tue, Jan 8, 2019, 5:02 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton=
-@intel.com">ross.burton@intel.com</a> wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">On Mon, 7 Jan 2019 at 16:38, Ross Burton &lt;<a href=3D"mailto:ro=
-ss.burton@intel.com" target=3D"_blank" rel=3D"noreferrer">ross.burton@intel=
-.com</a>&gt; wrote:<br>
-&gt; SDKs for multilib configurations have multiple environment scripts, so=
-<br>
-&gt; re-arrange the post-relocate hook invocation so that it runs the post-=
-relocate<br>
-&gt; hooks after sourcing each environment script.<br>
-<br>
-I think this change - whilst the right thing - exposes a problem that<br>
-icecc doesn&#39;t work properly in multilib SDKs.=C2=A0 Can I ask you to<br=
->
-investigate and sort this, as you submitted the icecc rewrite<br>
-recently?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Yep, I&#39;ll take a look.</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Ross<br>
-</blockquote></div></div></div>
-
---0000000000002b50d2057ef212b9--
