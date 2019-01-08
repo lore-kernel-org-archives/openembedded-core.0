@@ -1,50 +1,56 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C08B7BDF5
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 341AE7C098
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 20:44:44 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id k19-v6so4558952lji.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 12:44:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=wVliM4ZiPWN8r6Imh3khcmBu3Vv1Kuz6e1kkXYX/VKQ=;
-	b=bPa7FZ7UH5LljNjsCtqzln4ATX6DTzO06EcxHOCl7eWFQlm4DN4tc0iD69ONNjwG4T
-	DJ+tccVlb+uiOlIRCz+yxo1V9VIV8P/YIhNtFXvvBTQxGA7O0vLSSByIwX8hD+uoRRJ4
-	vEdNcPC/pM3pkIcq2Nc7DWtmqB7G0FG4D4tAWf7YGZ+xx6RLCvcQZTGz25N1PDISulbg
-	zig4q3+vBKOUspWGH7XpY29i0S82sT+HMJesD/BpHEp3siBEeU99MNwfcLPYiMP0rWul
-	FjKztf3a3D63c+vOpj0UEDYsHEBkIvO/+Ym202aMBGeFCanXR/graLV7QAhIG/VuG/gv
-	2uIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=wVliM4ZiPWN8r6Imh3khcmBu3Vv1Kuz6e1kkXYX/VKQ=;
-	b=kX6DklgbcSAB2TDel+E+rM1s+hBmrVt8NbcM2AZ87I7bjUPsYuSrQbG+DQ1BHoMiXd
-	rSPbILn6vurG1or/dWh4pg+C4FV01jIDCD3uAY+6eO62SurAqxneLTw/P6nDU0yMRK9b
-	ZSupZySbXk543BA+ftPu40q0cMxE5pOgyN/wn9EJ+8JBDwsDxiKjATGkMF8Yk0Kh86w2
-	qtC9E2lM+ZRJJCo/wwdxBiFbJNso/Q/CoFkIaaCDPuT7w3zMgRVnVz42yHHZQWXHbyJ2
-	XHbGVdI/rysyInO1DallTgmBYQPYgMKXxtPIdINiWciJxEOMVZ9nUscps+mYedlV2rme
-	hqCA==
-X-Gm-Message-State: AJcUukeIUymJIRV22G/wYWuYWoXB6eAge5dJYJo7VH81P/Eh9aMj1Mkl
-	pF4rcpxVTqWjSCFZVcrlbMm0ed2fbORa/DjWH6tKVrxW
-X-Google-Smtp-Source: ALg8bN7vDB2uR4I0/YUyxIXKuCPMzjYnRkLpsqM05C8NKV0e9gX5GxrSuXY+VFqAWwxiUyK8QTYzLYBCepVxY4vjqTM=
-X-Received: by 2002:a2e:98c9:: with SMTP id
-	s9-v6mr1630878ljj.166.1546980284712; 
-	Tue, 08 Jan 2019 12:44:44 -0800 (PST)
+	Tue,  8 Jan 2019 20:51:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x08KoVnm015988
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Jan 2019 12:50:46 -0800
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 8 Jan 2019 12:50:34 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+	<CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
+	<d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
+	<CAJTo0LYJyuYgj2MUnKPN8X2JNOK9AGFmDbcJ=-9EjPBoMDDGXQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <7497c039-7951-ee51-7506-300a74d0b558@windriver.com>
+Date: Tue, 8 Jan 2019 14:50:33 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190108204249.8087-1-raj.khem@gmail.com>
-	<20190108204249.8087-3-raj.khem@gmail.com>
-In-Reply-To: <20190108204249.8087-3-raj.khem@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 8 Jan 2019 15:44:33 -0500
-Message-ID: <CADkTA4MirKUSf1w0dYet-iQvPKK0yazipw267MSZLHyvDQYC=A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <CAJTo0LYJyuYgj2MUnKPN8X2JNOK9AGFmDbcJ=-9EjPBoMDDGXQ@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] linux-libc-headers_4.19.bb: Backport patch to fix clockid_t in UAPI
+Subject: Re: Prelink problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,119 +63,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 20:44:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Jan 2019 20:51:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Looks good to me.
+On 1/8/19 2:37 PM, Burton, Ross wrote:
+> On Tue, 8 Jan 2019 at 20:15, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> No idea why the opkg rootfs code is doing prelink operations when RPM
+>>> or dpkg don't.   CCing Mark who may have an idea here.  I thought the
+>>> autobuilder exerised multilib-on-opkg, but maybe not.
+>>
+>> They all should be doing prelink operations.  The operation SHOULD be
+>> generically implemented as part of the image-prelink class, which is where I
+>> would have expected that copy to exist.
+>>
+>> If any of the package types of specifically doing something, that sounds
+>> broken...  but the generic ones (last I looked) said to copy in the config file
+>> [if it didn't exist], run prelink, remove the file [if it wasn't there to start
+>> with].
+> 
+> Note that it's part of the incremental code, so needs to be in the
+> rootfs code directly I suspect. Frankly I'd love to see incremental
+> images removed.  It makes promises it can't keep (the moment a rootfs
+> postprocess command is used, all bets are off) and massively
+> complicates things.
 
-Bruce
+We assume the post process command is what an 'admin' would do.  So the various
+package managers should be able to deal with it in most cases.  (Note, obviously
+it's more freeform, but I wouldn't expect everything to work in you removed a
+large part of the filesystem for instance.)
 
-On Tue, Jan 8, 2019 at 3:43 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  ...kernel_clockid_t-in-uapi-net_stamp.h.patch | 49 +++++++++++++++++++
->  .../linux-libc-headers_4.19.bb                |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-hea=
-ders/0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch
->
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/00=
-01-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch b/meta/recipes-kern=
-el/linux-libc-headers/linux-libc-headers/0001-net-Use-__kernel_clockid_t-in=
--uapi-net_stamp.h.patch
-> new file mode 100644
-> index 0000000000..3684cc21bf
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-net-=
-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch
-> @@ -0,0 +1,49 @@
-> +From e2c4cf7f98a519eb4d95532bfa06bcaf3562fed5 Mon Sep 17 00:00:00 2001
-> +From: Davide Caratti <dcaratti@redhat.com>
-> +Date: Mon, 17 Dec 2018 11:26:38 +0100
-> +Subject: [PATCH] net: Use __kernel_clockid_t in uapi net_stamp.h
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Herton reports the following error when building a userspace program tha=
-t
-> +includes net_stamp.h:
-> +
-> + In file included from foo.c:2:
-> + /usr/include/linux/net_tstamp.h:158:2: error: unknown type name
-> + =E2=80=98clockid_t=E2=80=99
-> +   clockid_t clockid; /* reference clockid */
-> +   ^~~~~~~~~
-> +
-> +Fix it by using __kernel_clockid_t in place of clockid_t.
-> +
-> +Fixes: 80b14dee2bea ("net: Add a new socket option for a future transmit=
- time.")
-> +Cc: Timothy Redaelli <tredaelli@redhat.com>
-> +Reported-by: Herton R. Krzesinski <herton@redhat.com>
-> +Signed-off-by: Davide Caratti <dcaratti@redhat.com>
-> +Tested-by: Paolo Abeni <pabeni@redhat.com>
-> +Signed-off-by: David S. Miller <davem@davemloft.net>
-> +---
-> +Upstream-Status: Backport [https://github.com/torvalds/linux/commit/e2c4=
-cf7f98a519eb4d95532bfa06bcaf3562fed5]
-> +
-> + include/uapi/linux/net_tstamp.h | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_ts=
-tamp.h
-> +index 97ff3c17ec4d..e5b39721c6e4 100644
-> +--- a/include/uapi/linux/net_tstamp.h
-> ++++ b/include/uapi/linux/net_tstamp.h
-> +@@ -155,8 +155,8 @@ enum txtime_flags {
-> + };
-> +
-> + struct sock_txtime {
-> +-      clockid_t       clockid;        /* reference clockid */
-> +-      __u32           flags;          /* as defined by enum txtime_flag=
-s */
-> ++      __kernel_clockid_t      clockid;/* reference clockid */
-> ++      __u32                   flags;  /* as defined by enum txtime_flag=
-s */
-> + };
-> +
-> + #endif /* _NET_TIMESTAMPING_H */
-> +--
-> +2.20.1
-> +
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.=
-19.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
-> index 8fd427efef..48f25ebc1a 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
-> @@ -10,6 +10,7 @@ SRC_URI_append_libc-musl =3D "\
->     "
->
->  SRC_URI_append =3D "\
-> +    file://0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch \
->      file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.pat=
-ch \
->      file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.pat=
-ch \
->      file://0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch=
- \
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+As for prelink, I'm surprised this is in the incremental code.  I'm not sure why
+it would be necessary unless the incremental work wants to UNPRELINK the rootfs
+before performing the upgrade?
 
+Prelink itself should still be run as a postprocess command that takes the
+output of the filesystem and reprocesses it.
 
+So something seems out of sync here.. (at a minimum probably should be better
+commented on why it's needed..)
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+--Mark
+
+> Ross
+> 
+
 
