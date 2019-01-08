@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 527977BD20
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BD087BD94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 15:25:37 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id j2so4487035wrw.1
+	Tue,  8 Jan 2019 15:25:38 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id s12so4477252wrt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 07:25:38 -0800 (PST)
+	Tue, 08 Jan 2019 07:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=a8tzWBA0Y/6Ou4baZ1C4CAtEuq/87l7oaeqJhQ3xpok=;
-	b=TH432BDWKdD6Eap+t8koGjw4/XLPYEl0+/sGSKaJlTzdxx1N1ExlnVKC3XXC5FoA2T
-	hbwiH8yH6SFL3Dtav+fNjOSiJ9tR07mT7Gvm5fcg/cSIgbYHbaWq88gRBb+R4cWhFrhr
-	CNQQFTvXu1frFnygFrBmyrRQRiBiJBw/gXGcYb/hZyFDANMcXB1ICxG24GLQLbrXYIkH
-	VxIdcGd+PS7yxhLF2Pn8AtkfFfAcFVd3hm2I2LzSPpU7y4QQ1f1xAl5k2Nb+8XnVpWxm
-	gOrBlg+2GzBV02wY/1YjmfvnGBts3lsb0TIbSRxLKpUhkjgTYjtKK5BSjlsTl6atu2Op
-	H+tA==
+	bh=Na77Npn4BM6FDoR2D0LPANrLnydSd1eaoRNqeuENVWM=;
+	b=p5+gZjJ2gBpMcbacXOLMVpuIlAPXduzJ2gQKtVw84xL0wpAt4yMhILdZanD4RVG/Qp
+	d4hZ7dJ4PM26nNJQAMcWqfEiuWURnD9XKs7h0W2vuHMKyArLgU8tkWdA0PJATRwXtOFJ
+	Jw+rZ8VnFOiTUVKviy2Ku6G7Hh40WXA0X6BT8Rn6snCcKpnRFsKQG3MkcxLNzFTkDoZM
+	SZ/6SZtekFbUO86mntjIIiguSMpOVxBAYOcZN8/H7SLWQIwXtHJSoaTQlh2dfgKU/N2f
+	Uh+H+73fLF985FumbHcdTWEk4iBQLGagBd0k0yQI0f/S2dd/zd4kZzYHoCYD1Dat9+qI
+	zPUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=a8tzWBA0Y/6Ou4baZ1C4CAtEuq/87l7oaeqJhQ3xpok=;
-	b=hhAMryMrUoRZq15Ff+03Ab5J6rNOd7QcwAaEb01/TnLzfkVJHrk8SIIT9GAj5g6tSU
-	WkLJIMs1qtxsjb0axapdSOJd87gaEikam9PNF0y7u037OLg9kuLB2jTuDQ1GyvlEGbOw
-	aHcz/No0UTikZDAZ0TvKtbg+U1fwGPP8bINj6ulVUKFya0b9uf092O/73+umRCNcCG6x
-	KfrbGYsFpUi4KzAQIqWMBfuSIoVPugRXjSJnu7OGvIFFv10QkGvt9Np2ZEEJZqzpuhKy
-	KGtydSL9KmwsqfLVI3qdPyGkqSsl/MEtkaHRzDQYbzmso+9aMspkfhSvV7vflwoHCsxZ
-	WHrA==
-X-Gm-Message-State: AJcUukc5plQaPQIucOyv3qN3W96RXmixXb7IZAdGEnGuFgFej5ATwsFi
-	HWngrBvecY3v4xZc9AK5AhRrKFO+rFE=
-X-Google-Smtp-Source: ALg8bN7HG5B7fBeeVg+STc05n0F+8VPPQTzFM/CC1UACkXumEWnIzFVH5bnQoV+4WKcBfPlaiJPRbw==
-X-Received: by 2002:adf:b3c3:: with SMTP id x3mr1791825wrd.294.1546961137731; 
-	Tue, 08 Jan 2019 07:25:37 -0800 (PST)
+	bh=Na77Npn4BM6FDoR2D0LPANrLnydSd1eaoRNqeuENVWM=;
+	b=jwVk7OEgJ1idaH4c1bNLdvWPETSBI5o/ithL//RdrMRonbV6kd7ZQfUL6ZiMIaDHy6
+	/jqH96nnbYAGOBUQoGk1l/gGt0loJo/rukvc4Jq/xNDOltkOWa61mg6VfnVMCo+qhDVE
+	jUbYP0xWjXYzbgo5vfN/pLHK4JfZRjl3rXED/JEYRxAGlgiaEHL6+2j6YB9Rp6nPPDHp
+	MgdUPMJ99w5SEEC4YbFvMAfSlOn2G1anXih7QljktnuW9IaLGqQAy1tSuogB1AKvVHoI
+	5YoBfItIFImlNm0pCXnFez/krzjC5xMZN5MKkxvD7CzLiGutbiDp5NA8dFY/VKHVBXs9
+	BwYA==
+X-Gm-Message-State: AJcUukcVcKzHx6aBpCGU8QVGh3thUKjwoZXr/Divr6jZOXuiv9OTnuj3
+	la79DueN9nSu8kY/mZr0690aujvBp4E=
+X-Google-Smtp-Source: ALg8bN5uJSUBn1wd3KJyJHvtqFw+OP8T5Q4o6XxlLijnwQThgRJ8fJwK6H+HbSDKSDI9KfgfLstmxA==
+X-Received: by 2002:adf:f9cb:: with SMTP id w11mr1746896wrr.201.1546961138735; 
+	Tue, 08 Jan 2019 07:25:38 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id v4sm10316825wme.6.2019.01.08.07.25.36
+	by smtp.gmail.com with ESMTPSA id v4sm10316825wme.6.2019.01.08.07.25.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Jan 2019 07:25:36 -0800 (PST)
+	Tue, 08 Jan 2019 07:25:38 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2019 16:25:28 +0100
-Message-Id: <20190108152529.55111-2-alex.kanavin@gmail.com>
+Date: Tue,  8 Jan 2019 16:25:29 +0100
+Message-Id: <20190108152529.55111-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190108152529.55111-1-alex.kanavin@gmail.com>
 References: <20190108152529.55111-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/3] selftest/distrodata: un-break the upstream version check test
+Subject: [PATCH 3/3] openssh: use tarballs instead of git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,83 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 15:25:37 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 15:25:38 -0000
 
-And fix the reported upstream check failures.
+This was change to git recently to obtain openssl 1.1 compatible pre-release code
+(before 7.9 was out), however tarballs are preferred, and with them upstream version
+checks work (openssh uses a weird git tag scheme).
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb | 1 -
- meta/lib/oeqa/selftest/cases/distrodata.py                    | 2 +-
- meta/recipes-extended/libtirpc/libtirpc_1.0.3.bb              | 3 ++-
- meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb     | 1 +
- meta/recipes-support/libpsl/libpsl_0.20.2.bb                  | 2 ++
- 5 files changed, 6 insertions(+), 3 deletions(-)
+ .../openssh/{openssh_7.9p1+git.bb => openssh_7.9p1.bb}    | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_7.9p1+git.bb => openssh_7.9p1.bb} (96%)
 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb b/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
-index b377cb76051..6bfc557060a 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
-@@ -9,7 +9,6 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/syslinux-${PV}.tar.x
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+similarity index 96%
+rename from meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb
+rename to meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+index d79ffe19710..2a23f64b894 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.9p1+git.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
- SRC_URI[md5sum] = "92a253df9211e9c20172796ecf388f13"
- SRC_URI[sha256sum] = "26d3986d2bea109d5dc0e4f8c4822a459276cf021125e8c9f23c3cca5d8c850e"
--UPSTREAM_VERSION_UNKNOWN = "1"
- 
- S = "${WORKDIR}/syslinux-${PV}"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-index 248bc7c6a21..0b454714e95 100644
---- a/meta/lib/oeqa/selftest/cases/distrodata.py
-+++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-@@ -16,7 +16,7 @@ class Distrodata(OESelftestTestCase):
-         Product:     oe-core
-         Author:      Alexander Kanavin <alex.kanavin@gmail.com>
-         """
--        feature += 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
-+        feature = 'LICENSE_FLAGS_WHITELIST += " commercial"\n'
-         self.write_config(feature)
- 
-         pkgs = oe.recipeutils.get_recipe_upgrade_status()
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.0.3.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.3.bb
-index 17bc038d671..f978c8c8ab0 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.0.3.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.3.bb
-@@ -13,7 +13,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-            file://libtirpc-1.0.4-rc1.patch \
-            file://musl.patch \
+-SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
++SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
+            file://sshd_config \
+            file://ssh_config \
+            file://init \
+@@ -25,13 +25,11 @@ SRC_URI = "git://github.com/openssh/openssh-portable;branch=master \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
             "
++SRC_URI[md5sum] = "c6af50b7a474d04726a5aa747a5dce8f"
++SRC_URI[sha256sum] = "6b4b3ba2253d84ed3771c8050728d597c91cfce898713beb7b64a305b6f11aad"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-SRCREV = "aede1c34243a6f7feae2fb2cb686ade5f9be6f3d"
 -
-+UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
-+UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- SRC_URI[md5sum] = "f8403a10695348854e71d525c4db5931"
- SRC_URI[sha256sum] = "86c3a78fc1bddefa96111dd233124c703b22a78884203c55c3e06b3be6a0fd5e"
+-S = "${WORKDIR}/git"
+-
+ inherit useradd update-rc.d update-alternatives systemd
  
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
-index b40e5671426..8292c3b3120 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     "
- 
- SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
-+UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases"
- 
- SRC_URI[md5sum] = "99128f05e3e3f4e0cd39aa23f23bbe0c"
- SRC_URI[sha256sum] = "1d6a279edf81767e74d2ad2c9fce09459bc65f12c6525a40b0cb3e53c089f665"
-diff --git a/meta/recipes-support/libpsl/libpsl_0.20.2.bb b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-index b3b0d78a8e3..89a87b67c74 100644
---- a/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-+++ b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-@@ -8,6 +8,8 @@ SRC_URI = "https://github.com/rockdaboot/${BPN}/releases/download/${BP}/${BP}.ta
- SRC_URI[md5sum] = "f604f7d30d64bc673870ecf84b860a1e"
- SRC_URI[sha256sum] = "f8fd0aeb66252dfcc638f14d9be1e2362fdaf2ca86bde0444ff4d5cc961b560f"
- 
-+UPSTREAM_CHECK_URI = "https://github.com/rockdaboot/libpsl/releases"
-+
- DEPENDS = "libidn2"
- 
- inherit autotools gettext gtk-doc manpages pkgconfig lib_package
+ USERADD_PACKAGES = "${PN}-sshd"
 -- 
 2.17.1
 
