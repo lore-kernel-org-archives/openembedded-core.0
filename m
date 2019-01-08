@@ -1,60 +1,46 @@
-Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 76A0E7BD86
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 61DA77BD20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 14:58:33 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id l15-v6so3627367lja.9
+	Tue,  8 Jan 2019 15:25:36 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id c14so4494373wrr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 06:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=MbbfYogQUcQWzayY6pZvtySKStOj3uh8A9c3Q0dGC/Q=;
-	b=XoObDwrM5gX7K/HmSlYv4NVggaMIFO27foT/1Wf6gl+uP/iLoco7oMgzJmIORxAnpZ
-	XKgNeYGyYG6bsTsC9UlNJPUp/nOB49FUHvvNBzofp92/G1DZnhAsgfPj8eeuxkVjZA35
-	2wfNEWiZT637eX5d307P4uHP3wXdLhJ9936f+oqD/75XlclfsO3CaK3aiC3lMJei5wDr
-	d+LbxhX35Z+Z3dcV6q5pg+qlOH0MS4WHwMEGfbcJCN24ZxPmEs2dCtfALT3NY3rtsqJb
-	O+GZIhkvDwvsaOP9sJr6bb7783IOuWFKCVLIc2GxP2pNPMjvH69lVgGZ12tC54VZt90x
-	NLWA==
+	Tue, 08 Jan 2019 07:25:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=E/xPVyCISal7AXqUOoOXUeXk+8WLTDmiswZvvCg5A7I=;
+	b=FTO62gFcFLq9t0m+2XR4pFKObp2Sb8eLBEbFGRnkbB30NmmTwK2OzKWlvNlIFE9eC/
+	/SVf3ukqX0n5gP8SaaeAJzqgE5YIEGeym14RtCMJXpnaY6Tt5TLsw6cmbdr8y48bB4Hi
+	Z47q9xrgHqhDkqa1rQeelbIKiFH3dZL3cH8S/S2Gcn2aSMPZB71nPwLd0hL0us/IkuV9
+	LMwAstpNcx9cSGKvkDtiVZB3sGA9Ljgl7Ag4fAIO3Bp1l/wk0ZtXjig78xjsZK0y3QE0
+	ukUJ5laVifR6cmUuOK2UrsCRAaFt3q1pRmHSnEXNn17/Jt3iXxdwqM+p+31ar5j1aVaV
+	CUxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=MbbfYogQUcQWzayY6pZvtySKStOj3uh8A9c3Q0dGC/Q=;
-	b=mkTkCZWfPt7+urh4teazNMzxtDMQYeAElXe0P7wPhTAzSkIEjq96S1owt3DoFZn0Kl
-	8vElpZJcP/TYiHn9+CAmd1Ow9LkkZ2bOjNxyOTvWC0+eHEmKFaPBEYCGoVMWVRJmW8TG
-	EwotGPiRQ0CPOV5gxHfqfkYbteAcgflQ9kbvz81qnoz+yaIYLeB32M5yDIB6ucVxshBy
-	OWbikc5h7NQ/tDgRs2PRyAJm9jFjzmnCMieJZfjAKuPuHjR3GVOM16sk+4yt2Y6tEkw4
-	EYatEtKwqPgOaKyRI832QrKA1/0xMmpHphbxfNkNavVIPfm+xuirjb2V5VNH++pzuJqi
-	R2tw==
-X-Gm-Message-State: AJcUukcGHF41CIgagEoIKvn/T8AHoKtseJJqS5XzewIKL3gz3Skcwbl7
-	BSpE71YW+0Vp/zXb5gLAoNffceLvFGI=
-X-Google-Smtp-Source: ALg8bN4p3sXCdoyjPH41PixvJmAZiB53+n+4ny12U9EFh86gJ//KA2u8NpQFxSftxoCbt+3h/kThbA==
-X-Received: by 2002:a2e:710a:: with SMTP id
-	m10-v6mr1266084ljc.66.1546959513575; 
-	Tue, 08 Jan 2019 06:58:33 -0800 (PST)
-Received: from [192.168.1.169] (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
-	by smtp.gmail.com with ESMTPSA id
-	m4-v6sm14080560ljb.58.2019.01.08.06.58.32
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=E/xPVyCISal7AXqUOoOXUeXk+8WLTDmiswZvvCg5A7I=;
+	b=D27q57TkW4G7Y9ec7IYEwD72Dh1hQTCDGZU4RXFRkPP6tzvNEATRCO4LfW39bbUicd
+	LtnTzLrjcOKMxCLEKEbBoxjEA9D5P+UeETZaziVOz7+BTPiWSCDQ/o2DQrF491upxRzH
+	9eO4od22MfQUB8ZUsDHlUZ/Zg43JXZxaQypgeUct8a7Dj3qGDoeaBIlWruYfaS5RR5OJ
+	+ScAgEQRRSItkWeo6td8aKxuqud+i88RNI8VJbbHS3+Ml9ItHy69atvyNl0qWYOloAjD
+	AnsP6VM+0bOZd7N8pKE+I/RrPqzjDq9zNhEhbVWY1kye+xEjR8UVXvm8qe119BimycUJ
+	mrbA==
+X-Gm-Message-State: AJcUukcukzreoDztE6v72DMNRS4qD9PJ2RyTcnS0tORdPmqk6J/WLK+U
+	lbopxObBf+FMEMIwJoNsXk5dcLBFD68=
+X-Google-Smtp-Source: ALg8bN4fBtwvn9uMDfJqNXbgkgWQOzETRlW+FGmcB+xNOhubyV6eZdUA0yzBKg3Gh6UIesYOQmvkWA==
+X-Received: by 2002:adf:f091:: with SMTP id n17mr1806778wro.292.1546961136678; 
+	Tue, 08 Jan 2019 07:25:36 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id v4sm10316825wme.6.2019.01.08.07.25.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Jan 2019 06:58:32 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-References: <20190102161144.11264-1-jonas@norrbonn.se>
-	<20190102161144.11264-4-jonas@norrbonn.se>
-	<ea694a7d32b44158870c954912b1ecb7@XBOX04.axis.com>
-From: Jonas Bonn <jonas@norrbonn.se>
-Message-ID: <eecec76b-0215-087a-ec8a-dd9a21dfcde9@norrbonn.se>
-Date: Tue, 8 Jan 2019 15:58:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <ea694a7d32b44158870c954912b1ecb7@XBOX04.axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 3/5] systemd: create preset files instead of installing in image
+	Tue, 08 Jan 2019 07:25:35 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2019 16:25:27 +0100
+Message-Id: <20190108152529.55111-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] bitbake.conf: add --enable-new-dtags to linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,31 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 14:58:34 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Jan 2019 15:25:36 -0000
 
-Hi Peter,
+Various versions of ld have different defaults for this
+(even between e.g. Ubuntu 16.04 and 18.04). This has the
+consequence of putting either RPATH or RUNPATH into the binary,
+depending on the linker, which have different priorities
+vs LD_LIBRARY_PATH env var. Also, I think, the original
+executable binary is looked up for the tags when resolving
+a dependency of a shared library when using RPATH, but not
+RUNPATH.
 
+Let's make this deterministic.
 
-On 07/01/2019 17:43, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Jonas Bonn
->>
->> +    def systemd_create_presets(pkg):
->> +        action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
->> +        presetf = oe.path.join(d.getVar("PKGD"), "/lib/systemd/system-preset/98-%s.preset" % pkg)
-> 
-> Using "/lib" above does not take into account the usrmerge distro
-> feature. My suggestion is to use ${nonarch_base_libdir} instead of
-> /lib, or maybe even better is to use ${systemd_unitdir} instead of
-> /lib/systemd, i.e.:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yes.  I already had this fixed up locally but using ${systemd_unitdir} 
-is smarter than what I've got so I'll do it that way before resubmitting.
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e64ce6a6dab..68700e9e7cb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -573,6 +573,7 @@ export TARGET_CXXFLAGS = "${TARGET_CFLAGS}"
+ 
+ export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
+                         -L${STAGING_BASE_LIBDIR_NATIVE} \
++                        -Wl,--enable-new-dtags \
+                         -Wl,-rpath-link,${STAGING_LIBDIR_NATIVE} \
+                         -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} \
+                         -Wl,-rpath,${STAGING_LIBDIR_NATIVE} \
+-- 
+2.17.1
 
-Thanks for the review!
-/Jonas
 
