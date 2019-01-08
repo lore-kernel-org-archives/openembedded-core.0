@@ -1,45 +1,18 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C7ABF7BD93
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 15:57:44 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id x28so2730271vsh.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 07:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=+JPVT9zHfCJe/ClRLzVj5U6zePs3QYl+Cpd6YRC+4LE=;
-	b=jBPzasqNdyRJV3g4U074etXxMrOFMLNgstPGy8wFibax+shMxOI3yYEED4OSpyjxqw
-	9hZ2VGQWtvxVi7doOIk+3A9FYNWwJ6s80e1GKi3sdFi/vg3YP1EglfA6PdrdMiUM4vFc
-	QqqvJP/SZMRIJPyQMK7bZ8vPMOtP1LFx0gE4TgHLG37gGVy627s2a1E1dWhwCGphbdq0
-	uwcub/SwRqmMruHnejGvRjToaVC+/sieVTzIT8I/IoMdxFZWMlYsgzJD7G9e7EAAUY9T
-	3fcHl81n9mlw6wiCMroVAc8jigSWMxERuSmw1jhYXZzi1HRHMN+6+mjk8OLh9o9xdJPu
-	ibyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=+JPVT9zHfCJe/ClRLzVj5U6zePs3QYl+Cpd6YRC+4LE=;
-	b=tvGzAhoGt89qdkI/p5T656a4Ia30eKMbR5wLbPRnIhp3XqO5fk2SZjLbUCmb3VcWbz
-	VjKqkffAjlFUYb9OsV+UNSQfvEkiA6OmNDtBWAZpPgtLA0TxrG5GYBziHz9xb+Aeyxhk
-	tp5112na+PpUHhjJ0kbf2nuk+7kiXBxyXNRjgVHcQLYXbw+zdu4fbB0Z5H44DgJ4/jwA
-	4qXvfyPwIK6gHFew3RijTW/hLwgVug3CciOudb3sH2EljRyXtQfkkwW6B3XAeNGorneG
-	akprF8QKjb1ZvdY7K5i6zGyvrGEuYoYDILroBEhIe1Fo87OOz/eYssmOAS1ILdd9B9U9
-	leHA==
-X-Gm-Message-State: AJcUukchW0E96d9UWjlqBYXOF3lXdcqMmWCOCWxicdefcO5D9UHhy77b
-	AVxeu1/PGTVXAt9Om6amkqkcjvrkxnSSY1zwFQmLF6Cj
-X-Google-Smtp-Source: ALg8bN7PLOPk5Yqy+to0w8DMg2lBQjgAMAmd/DLlrUW3B4jq1ArBnk67A83pR3mTcCuANtowJzF+ko8eOV5UQIVraCk=
-X-Received: by 2002:a67:f1c2:: with SMTP id v2mr907170vsm.181.1546963065618;
-	Tue, 08 Jan 2019 07:57:45 -0800 (PST)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AE1BD7BD22;
+	Tue,  8 Jan 2019 16:03:18 +0000 (UTC)
 MIME-Version: 1.0
-References: <1544645927-18002-1-git-send-email-alex.kiernan@gmail.com>
-In-Reply-To: <1544645927-18002-1-git-send-email-alex.kiernan@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 8 Jan 2019 15:57:34 +0000
-Message-ID: <CAO5Uq5RZ0gEppGrR2xu-dKbnkcj7Kznph-XgWQnPVrF7GNpt7w@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] uboot-sign.bbclass: silence warnings when UBOOT_DTB_BINARY is empty
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 08 Jan 2019 16:03:20 -0000
+Message-ID: <20190108160320.2332.42157@do>
+References: <cover.1546961583.git.alex.kanavin@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1546961583.git.alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVpbXBsZW1lbnQgcGVybCByZWNpcGUgdXNpbmcgcGVybC1jcm9zcyBhbmQgdXBkYXRlIHBlcmwgdG8gNS4yOC4x?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +25,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 15:57:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 08 Jan 2019 16:03:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 12, 2018 at 8:18 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> When UBOOT_DTB_BINARY is set to "", the keys for signed booting are
-> expected to be already present in U-Boot's DTB, so don't issue warnings
-> for this.
->
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+== Series Details ==
 
-Ping?
+Series: Reimplement perl recipe using perl-cross and update perl to 5.28.1
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15569/
+State : failure
 
-> ---
->
->  meta/classes/uboot-sign.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-> index 03100b8a5fa1..9e3d1d6fc1ad 100644
-> --- a/meta/classes/uboot-sign.bbclass
-> +++ b/meta/classes/uboot-sign.bbclass
-> @@ -70,7 +70,7 @@ concat_dtb() {
->                 elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
->                         cd ${DEPLOYDIR}
->                         cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
-> -               else
-> +               elif [ -n "${UBOOT_DTB_BINARY}" ]; then
->                         bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
->                 fi
->         fi
-> @@ -86,7 +86,7 @@ do_install_append() {
->                         # need both of them.
->                         install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
->                         ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
-> -               else
-> +               elif [ -n "${UBOOT_DTB_BINARY}" ]; then
->                         bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
->                 fi
->         fi
-> --
-> 2.7.4
->
+== Summary ==
 
 
--- 
-Alex Kiernan
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 65c419b8c4)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/perl-sanity/files/perl-configpm-switch.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
