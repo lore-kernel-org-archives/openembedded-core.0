@@ -1,46 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
-	[209.85.166.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 344217BE8E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DD6167BE8E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 12:40:46 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id f4so3009565ion.2
+	Tue,  8 Jan 2019 12:44:52 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id j2so3942589wrw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 04:40:47 -0800 (PST)
+	Tue, 08 Jan 2019 04:44:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jy0Sp0fx8Ge8Z1PbhLb55gH5E5z2GKmMbEUGrJ/MyQ8=;
-	b=1b+lZ4zqoZ/HkZofSS0JeWMd5ZLpiRhPeLdl9uVRF9x9EBYEoqwgV05I3RsciLHupV
-	qM94U6fKs9S1eYlGKJTwnL5DogwR4xZn41rXdGBFxKpP9zg+D3I/wod+dAbLPFpkcdZr
-	oWxLzB96GCHuwdCGgtG+Wsv4OSvQMjKel0uFW/KII5PNs7RK76GcVrfQt2buq7736qt6
-	RqTNNeebPbGvjQBcXJ/9JzSBRRC1qvr5XLS0ZKsIjgWhPNi8W8qHzBjqFxjqt1AbYDfn
-	HrJ0tQI8R1teWc27R9rb9CvN861PqlutlkqCnGh9WBZWEjOgrMcqpCeyoO+kpLxlEKmY
-	s2cA==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=ozMNAXsUrowU2PMd0OVhvS4AiQ35NiI0OdN+E/n2ztg=;
+	b=GKhj54vw7ojlcDJsRJukkqbjgGLCGqgDGw4YI+ZgIqRKYVDUzW2fIhxI3MqLgRVBju
+	8az9THvERUd57sCm9oUhDjIasD/97rK9No0RNB+TGSM/LyfVB9P7eLCw7jQde7PmaMrt
+	6Xq9cjQQA1yVo0T7IsIHn5UWqtO9p5Pe8/XCY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jy0Sp0fx8Ge8Z1PbhLb55gH5E5z2GKmMbEUGrJ/MyQ8=;
-	b=rwBfj4wjMe2dJvrls7XaWCiER/xwc9F7MGp8wmg9B7B3e0VoXRx0cSX4jplEhCqPDd
-	ZFnYeEzQY3vgwAgjDlGM2b5xGmG/hMLj1ZkHRQZiimUiGNzuk6In6ubCIRq+yZGz7Po7
-	YMOsPE75CEhaZqSN7Uy2Bbg+KpShalCeen8MWeR0mMvNNeCb0/OaVmy8srUX01dXiyL2
-	qC+LJlGw5+8lH0uc5k4YipMuVsWX0QmkCpMw0nq648hDuN1dvdNtO8ape0pqAvxvI+lL
-	0/RkdDRwX7m4HrKqQsU//v4dD0RsF3ULrhegiv8L788Fk792jj9Amyk8OpqW0fDrjoP/
-	ew8Q==
-X-Gm-Message-State: AJcUukf7Y3H4trrB4n5e9EYgRXZUPb0LeZ7eiG6XKrX4XicpLPsNe9OE
-	mLiJp7FkE/mw3qe39+rEi2TevvvGPzZ8fka/ME5pNZi0
-X-Google-Smtp-Source: ALg8bN5Gkcq74yY0Rpi8baQ8D4caAq4GYBOTiy8bkiuBG84XmEp1CyQ4PYNgNhj4AIgzjrSevZeR5TgRojgXg0znBLM=
-X-Received: by 2002:a6b:acc5:: with SMTP id v188mr868803ioe.20.1546951247125; 
-	Tue, 08 Jan 2019 04:40:47 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ozMNAXsUrowU2PMd0OVhvS4AiQ35NiI0OdN+E/n2ztg=;
+	b=jZXG2OmpQC2ERYBNeOaMBcpFbutCUqtiXx2M5BdmEHGt1EjncQHwsnbJFgxk5QeI8t
+	2iB42Fo9TUdQW4C9K4WR5i2E3J8rcFsZAe0mpEFnwwdGnkciY4WZavBNUXSH90RGS9c0
+	/9jJe1DD0w7MttWTd+VJe6ha24PZXqV0SVcX7Vynvdogw7InEpdPArbk7yl7cPXjbFBi
+	eySpijGdAdiEccI2ZDfT1mLfvVbdX/NJpO4aiXThoW4YoClb56sslA8dGBHGOHqjO03I
+	1jLCHms6dG1pAEPaCr4L/aklauqlwEiMU1rmQsuBMDimEuCd45garEhyn4JCskik2845
+	BcWg==
+X-Gm-Message-State: AJcUukeZy0NMkIBPx80kEQBJasYStsCS/Kwvp3cQO8btXwwFV1Lpy/2i
+	PamkZuRAktypy6SGgdaFzjEZAw==
+X-Google-Smtp-Source: ALg8bN5m9xnUabHiOnyEqvPbX2zobCG/CwQYk4QIoXhkwlwnETMQn5i6NNvX/lFtUv4cYMgmxWAaKA==
+X-Received: by 2002:adf:f5d1:: with SMTP id k17mr1466557wrp.59.1546951493471; 
+	Tue, 08 Jan 2019 04:44:53 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y13sm44025025wrn.73.2019.01.08.04.44.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 08 Jan 2019 04:44:52 -0800 (PST)
+Message-ID: <7e7292a7d955db6ae138a10af3c5894dedbd6c29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>, Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 08 Jan 2019 12:44:51 +0000
+In-Reply-To: <CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
 References: <cover.1546938633.git.Qi.Chen@windriver.com>
 	<11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
-In-Reply-To: <11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2019 12:40:35 +0000
-Message-ID: <CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+	<CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
+User-Agent: Evolution 3.30.3-1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] netbase/base-files: move /etc/hosts from netbase to base-files
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,17 +60,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 12:40:46 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 12:44:53 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 8 Jan 2019 at 09:06, Chen Qi <Qi.Chen@windriver.com> wrote:
->         if [ "${hostname}" ]; then
->                 echo ${hostname} > ${D}${sysconfdir}/hostname
-> +               echo "127.0.1.1 ${hostname}" >> ${D}${sysconfdir}/hosts
->         fi
+On Tue, 2019-01-08 at 12:40 +0000, Burton, Ross wrote:
+> On Tue, 8 Jan 2019 at 09:06, Chen Qi <Qi.Chen@windriver.com> wrote:
+> >         if [ "${hostname}" ]; then
+> >                 echo ${hostname} > ${D}${sysconfdir}/hostname
+> > +               echo "127.0.1.1 ${hostname}" >>
+> > ${D}${sysconfdir}/hosts
+> >         fi
+> 
+> Instead of appending to the file, can you put a marker on the
+> 127.0.0.1 line and replace it inline?
 
-Instead of appending to the file, can you put a marker on the
-127.0.0.1 line and replace it inline?
+Not so good if hostname isn't set?
 
-Ross
+Cheers,
+
+Richard
+
 
