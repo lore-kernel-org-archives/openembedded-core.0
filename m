@@ -1,52 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 904A07BDAE
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB767BDAE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 13:00:59 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id g76so6060199itg.2
+	Tue,  8 Jan 2019 13:10:35 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id c14so4033227wrr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 05:01:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 08 Jan 2019 05:10:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2z3XnTnK8ErDv1UsFwS0aBVRWBzrYNpMMWI3dSDXAlI=;
-	b=HN50v6Z7oQ+NXXVHCFGzbqUAqyDGqG9Z14sQrtd0sa4VoGv9n/UEp9+gTplebOK1+D
-	aksPKfM7gmMLbrhquNJBrchfdg4mpbgK7PPLxoQCDKinHPO/8+FKuhi/7bD4v5CKgPjA
-	i/OIZc2JdMi11NFHJhD/q0lFjdOHuqrkKNO0TrsMOuZjUeYBcdliG+SgU0c3kalLLOC3
-	NRPPFPh9cOCjwcJABLyEwHUJJfFWx7XOLkFpoo1aBYuCHWuRy9+vntBAysQNCte1QC73
-	7QeRU6ai7Gk5Utkyfi6sGdPjk+CK0+SezDLTuqGyjTNqFNQ6xpeHbNL3qKrrZBKyPqRS
-	jEyQ==
+	:cc; bh=IQp43q9rhWomhDJSMCmie8FLsn33QFFFXxhshdfwP1w=;
+	b=SAS9HN/1LwjQI6G0Thm8FUTi0sh5yTxTqRFHM+8I2pTzHmh24rLS3WE1eQzqR6vbKF
+	SXR/9KQU5o5Sb5jJ/cIa398ePKom8w164qBIEpWoBHB7Kz4lL+ck/45+V9njvwZQ8KEZ
+	zyK6oixBBr31yHpOegq3nzXZLmBJ6EzjrT1oMVn6VBNjJ01T0liwZ3cCUWaqxhloaa9h
+	nFw5UJi2Bopvql1MvBWbNglyWwlHlayDw8JAyd64wdcQ248hAQ2HspmvH//7jSzwbw48
+	xwln0b6QD3KwuzsY6dzZR7AjQ8Ew29ic7AKrv1k7kpQs5WBxF2wsPpqK3K6km+0K4YgH
+	2pKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=2z3XnTnK8ErDv1UsFwS0aBVRWBzrYNpMMWI3dSDXAlI=;
-	b=ql9028swSEVQSexyfu0P1g5EIyOx/BgvVoHTnTyeVdSrtgu7iJewpBMqTgoqHvgwhz
-	qIwVM+YlNLm7U+Id0CEN3Qu12e+guYo33HmrmlgGhhgPBvdQJPTA4fYRMq4SWSADOLe3
-	aEtqEWxeGPtnkP79TxhUf20AOmWLT4DT+3Y2PtpdBkwxho0DHveItZa01ZTNCy0+UjTx
-	N1hh+q8hUgMadFOYhGBHI+iXhwE/emQ5ufz3uoe3jWZdAeVOZSR7Lz7d/5weS11/cUz0
-	g31Gx/ScnjpFEJtPaw8AtMemfkjDuQamkPzDUnwA6wOq0V55aIBsFgoWuhvlFtfXOIpQ
-	qojQ==
-X-Gm-Message-State: AJcUukfoaW4hCQ790xkGay393xfAe/yM6fAS/WuNnABeo5onmfFR1zSC
-	KBXWWsN/BWyX/QSN4+Iyjps9bQsYk4h7kXH8qzWT+A==
-X-Google-Smtp-Source: ALg8bN7fa+AgDUlCs9ZX5q7BghBcEsoMcvPobBJWC6pQZh1mff9Ec+ENji3AklhksMLa2u2Oxos2Z4HHq3NXYUGHVIk=
-X-Received: by 2002:a02:9c53:: with SMTP id h19mr1004050jal.31.1546952460539; 
-	Tue, 08 Jan 2019 05:01:00 -0800 (PST)
+	bh=IQp43q9rhWomhDJSMCmie8FLsn33QFFFXxhshdfwP1w=;
+	b=rusQTqNsELvRZEcL+x4SYdRaClWxT41L/LDT1TYiQPp4a2qTXl6qr+3CFCFnlzGxmF
+	06IGX02xoPb45gu/MGO+ZXVtA7lJUWYpFbXjbJeAkATbSKslSKjE3G7QIKZF5ulEksra
+	2oLw0+wARrbcSTY3gKireZ3LuRF1EFqeufTHVDEmGLo/U+tZzkqHYzTJSpc/7C/GpvPk
+	xIJW2uyZ/S5OFseA74jcPhYto/aYMek0Ien5GQNe1aNIsVVL0Kw+QMApK15D/VXaZtKK
+	pwaPgoLsd/dTeoIrUbA/6zUy8WNwqANIZFaYyPYY6NysdFNVZllCSiVAVeaPWCByN3cO
+	i/Kw==
+X-Gm-Message-State: AJcUukdT94bjj2OIElYLcBJBne1Rj5gRMAJtIma14ssF0I2Gf4qXTluv
+	oJyPWWP9M7F8pAgopbN0uQJULeqWtH0OuHfT4rc=
+X-Google-Smtp-Source: ALg8bN5Xx1mrpEewyS86+CduHiPWbifT/+14Yvi0qalF9OWOio6GnJ6MiyL7ypEewEYWgP+QKWmoG1rsF72kNJ8iEFQ=
+X-Received: by 2002:a5d:5351:: with SMTP id t17mr1422168wrv.288.1546953035564; 
+	Tue, 08 Jan 2019 05:10:35 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1546938633.git.Qi.Chen@windriver.com>
-	<11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
-	<CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
-	<7e7292a7d955db6ae138a10af3c5894dedbd6c29.camel@linuxfoundation.org>
-	<CAJTo0Lbj10QLG-AH6YYOua1NtZfcPGKi0swnKR444bPjBrJZEQ@mail.gmail.com>
-	<6af27248c02eb709ad45c6cbfbe7e464b80cd2db.camel@linuxfoundation.org>
-In-Reply-To: <6af27248c02eb709ad45c6cbfbe7e464b80cd2db.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2019 13:00:49 +0000
-Message-ID: <CAJTo0LYtBhi3irqWJuTCsT9tw5zvXDfjN=Pt+QJ9UXzP1LhGag@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+References: <20190107163823.31816-1-ross.burton@intel.com>
+	<CAJTo0LZ__dsz_LuVUS6FPD+dkW7mkY+a5kMJJgTieUxwY0ZEHQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ__dsz_LuVUS6FPD+dkW7mkY+a5kMJJgTieUxwY0ZEHQ@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 8 Jan 2019 07:10:22 -0600
+Message-ID: <CAJdd5GYp38NPZkF3Ouyj8oHiKEFfvPAeQ5x=ocXLf4iroOH39w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] netbase/base-files: move /etc/hosts from netbase to base-files
+Subject: Re: [PATCH 1/7] toolchain-scripts: run post-relocate scripts for every environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,22 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 13:00:59 -0000
+X-List-Received-Date: Tue, 08 Jan 2019 13:10:35 -0000
+Content-Type: multipart/alternative; boundary="0000000000002b50d2057ef212b9"
+
+--0000000000002b50d2057ef212b9
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 8 Jan 2019 at 12:47, <richard.purdie@linuxfoundation.org> wrote:
-> > > Not so good if hostname isn't set?
-> >
-> > hostname = "${MACHINE}"
-> >
-> > Hostname is always set. :)
+On Tue, Jan 8, 2019, 5:02 AM Burton, Ross <ross.burton@intel.com wrote:
+
+> On Mon, 7 Jan 2019 at 16:38, Ross Burton <ross.burton@intel.com> wrote:
+> > SDKs for multilib configurations have multiple environment scripts, so
+> > re-arrange the post-relocate hook invocation so that it runs the
+> post-relocate
+> > hooks after sourcing each environment script.
 >
-> Its the kind of thing people likely bbappend and change, or set from
-> overrides. Which was one of the reasons I'm nervous about moving hosts
-> to a different package in the first place...
+> I think this change - whilst the right thing - exposes a problem that
+> icecc doesn't work properly in multilib SDKs.  Can I ask you to
+> investigate and sort this, as you submitted the icecc rewrite
+> recently?
+>
 
-In all those situation the hostname will be set, right?  Is anyone
-actually going to bbappend/override the value to ""?
+Yep, I'll take a look.
 
-Ross
 
+> Ross
+>
+
+--0000000000002b50d2057ef212b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">=
+On Tue, Jan 8, 2019, 5:02 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton=
+@intel.com">ross.burton@intel.com</a> wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">On Mon, 7 Jan 2019 at 16:38, Ross Burton &lt;<a href=3D"mailto:ro=
+ss.burton@intel.com" target=3D"_blank" rel=3D"noreferrer">ross.burton@intel=
+.com</a>&gt; wrote:<br>
+&gt; SDKs for multilib configurations have multiple environment scripts, so=
+<br>
+&gt; re-arrange the post-relocate hook invocation so that it runs the post-=
+relocate<br>
+&gt; hooks after sourcing each environment script.<br>
+<br>
+I think this change - whilst the right thing - exposes a problem that<br>
+icecc doesn&#39;t work properly in multilib SDKs.=C2=A0 Can I ask you to<br=
+>
+investigate and sort this, as you submitted the icecc rewrite<br>
+recently?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Yep, I&#39;ll take a look.</div><div dir=3D"auto"><br></div><div =
+dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Ross<br>
+</blockquote></div></div></div>
+
+--0000000000002b50d2057ef212b9--
