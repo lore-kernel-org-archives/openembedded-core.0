@@ -1,50 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8967A7C096
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 508466BE3A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2019 20:37:48 +0000 (UTC)
-Received: by mail-it1-f173.google.com with SMTP id z7so8367828iti.0
+	Tue,  8 Jan 2019 20:42:57 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id c73so2465749pfe.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2019 12:37:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zkgdwPyWBny6oQVHXD9aF5p/DUSvz8l/j20kufKD8Ic=;
-	b=laMetPCDRNnPAWh/+SWkpTSVFA27mTGBSABjzRBOQTSWNz9bD+JnD6gnns8AEJOQJw
-	J/iZO8EW/zXDS4Zgh1weL+bcQzZ3AAw6l7NfqKqQa/3jUwt3/BJOBthN0RdmjbUHecas
-	yx6utkwImjiIiE9zval4ju1CiOmA5DeWcS8LgCGNnyjVDZ0+7lwSP092fN1NKutYEFHe
-	ynHdkJJesRZXxh49QxtlXmkRCLgdsgFEVxlysmyC1bumNsdQvyGkJfxZUd5GYSOVul/2
-	9gFyw9bxFJomfnaOGGGl2LNWgGk8XTQtQHCbwrur6vQlLdCpGQn2YX3vayKdIiCS/FCp
-	c07A==
+	Tue, 08 Jan 2019 12:42:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=C+T6feZr2kTYLWllUAZFCNIEGsh1oPMs7FKXT5JE5gA=;
+	b=S118kVYHCozjD8DRLUU8qHngLJb1soXv9EXEoOSnqnOSk5iBJ1GSQdz4EOX1a4d9zI
+	W2VanqE62wtYJLJibXHUE4Y88IBS/kqJlXlJgW5uYQuGJ8IJknEMPzlaTeKM97XQ66Hy
+	Bc9R4qNm94ZD5p03+UIrOupciIg9GZLD++EiaAr9DSARQ0Ce5HugHvksbxo36F1VM1zs
+	y7hTSA86HXBRarR/olbYnGR5qznNpyXpZFTdEhyHUYZ6gBsYPpYfOvwAA3p+YueaL515
+	IeqdwXzJYElqI5a+qRIjcB/cnGpEyJPygMSiHKRrEeTj0g1sNbx7dmWBEAIwWPqmLHC+
+	5eKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zkgdwPyWBny6oQVHXD9aF5p/DUSvz8l/j20kufKD8Ic=;
-	b=H8j4A/xgh+aNT9mZwM8vOmz+iwXiWOH8gDJdKi7Zk/79STBIgAvz5RfhDT1+guhG+7
-	fV6xR1Whs2yEtYwBcl6xAKv1S6Hct9tBqkoLPMUxkUrBsNXB+m1c/d64j702VPXcEy3O
-	NDfuMO6y4IjQcyrkLuuZZr7aYPb49rbW8sujGwks6I5ZlbxXXbYocPF5FCW1tkNxaP6S
-	0Vap2HaT3ZmiTwvu0lduNKvN9YFRAvuOeJ5Vg7i8l79nktVG+0HQUxxDbO/kJlcYps8e
-	zB8pT68KVTTgAGjm7csSvK5xEhcWBX5oXS2WzBU7pWKpsgROFO1csacdAlkkMhjlSfnY
-	rhbA==
-X-Gm-Message-State: AJcUukfb4qCyuW7LSm1dAv2GzPqFRzN6cOAy1fYhO/0WGXQb7ohm1iDU
-	BO/2Ak1uYzGmqL2OinB6WJAUYQqDG9z4Jue1SZdYeQ==
-X-Google-Smtp-Source: ALg8bN7ROS/fvzykR/8KGtI3d6UZOWWo2iYPmMzSC6wPMm6HuyAIyDP87NEEqsF/x7ueqm0l8c/go8bMaEgiPdAmy+4=
-X-Received: by 2002:a02:1bc5:: with SMTP id 66mr2269024jas.105.1546979869275; 
-	Tue, 08 Jan 2019 12:37:49 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=C+T6feZr2kTYLWllUAZFCNIEGsh1oPMs7FKXT5JE5gA=;
+	b=gb2ilgeb4kIA0fSsD0giQXRY8ovYXSCu4IfWQC5QbrY+DD/YhVaNkKiTlHCjCDa5YH
+	Q2bYkP6+Eai4iFg77xnIAQIZExyfzv39raebxMXbrfPjgekpLuutv0dua4W1yDQKbcsK
+	Rd443TzvP8KEaVIssMs442p0QF56K1DXERrg3BVjjQKb/AgiQctwVB5e6dL8OoOcZZeZ
+	YLFugTBZWnUKsl8fZgrHMK+avki5NOCV6gpM51slRTsH5ULXanWTMXzI7mrJ/ToYJ85y
+	NR8QIO4WFV1giZAmaQVLpMEIhJbwDjwzDHLYxZvHS82gswpqlAZZ+/BS9PSNLYGt3xp/
+	Q7DA==
+X-Gm-Message-State: AJcUukdU2AvtBDWGC83ud6zUxY5QnkLqnO+r8ak5xY70JXpNblgrSvdC
+	x99nrRYUDUtnY7WLLjnmi6y1mV3u3B4=
+X-Google-Smtp-Source: ALg8bN66T8eNwOc5lc47+ktWSCVj5bKKu7PrEYbZIqQBOTlIk/CV3QUKfJuySRu2l2kD5JZGaVEuVQ==
+X-Received: by 2002:a63:a064:: with SMTP id u36mr2874016pgn.145.1546980177765; 
+	Tue, 08 Jan 2019 12:42:57 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:877f:9499::6e98])
+	by smtp.gmail.com with ESMTPSA id
+	t5sm109789607pfb.60.2019.01.08.12.42.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Jan 2019 12:42:56 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2019 12:42:47 -0800
+Message-Id: <20190108204249.8087-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
-	<CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
-	<d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
-In-Reply-To: <d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2019 20:37:38 +0000
-Message-ID: <CAJTo0LYJyuYgj2MUnKPN8X2JNOK9AGFmDbcJ=-9EjPBoMDDGXQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Prelink problem
+Subject: [PATCH 1/3] musl: Update to master tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 20:37:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 08 Jan 2019 20:42:57 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 8 Jan 2019 at 20:15, Mark Hatle <mark.hatle@windriver.com> wrote:
-> > No idea why the opkg rootfs code is doing prelink operations when RPM
-> > or dpkg don't.   CCing Mark who may have an idea here.  I thought the
-> > autobuilder exerised multilib-on-opkg, but maybe not.
->
-> They all should be doing prelink operations.  The operation SHOULD be
-> generically implemented as part of the image-prelink class, which is where I
-> would have expected that copy to exist.
->
-> If any of the package types of specifically doing something, that sounds
-> broken...  but the generic ones (last I looked) said to copy in the config file
-> [if it didn't exist], run prelink, remove the file [if it wasn't there to start
-> with].
+Detaild log
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=21a172dd36cae7a08492fd3a7500d7bf0daee13e..de7dc1318f493184b20f7661bc12b1829b957b67
 
-Note that it's part of the incremental code, so needs to be in the
-rootfs code directly I suspect. Frankly I'd love to see incremental
-images removed.  It makes promises it can't keep (the moment a rootfs
-postprocess command is used, all bets are off) and massively
-complicates things.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 33d6e69130..cba4d06766 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,9 +4,11 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "21a172dd36cae7a08492fd3a7500d7bf0daee13e"
++SRCREV = "de7dc1318f493184b20f7661bc12b1829b957b67"
+ 
+-PV = "1.1.20+git${SRCPV}"
++BASEVER = "1.1.20"
++
++PV = "${BASEVER}+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
+-- 
+2.20.1
+
 
