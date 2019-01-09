@@ -1,48 +1,61 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E0174813
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EF0874813
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 11:07:44 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id g76so11097641itg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 03:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8WXK7QYgO8rAg/+G0iqyOSAWbkilBV53A3ezvJjKLYw=;
-	b=nsFGULenii/oafisc9LGbCZ/4xDXFgCbBkjFm5Hxnk1AbeagqsOaKD25Uq9nLwrqvD
-	mSm5ttKsI52pdbnGJ25/St1loU5D4WvXV1C92ePATGqwrSfEc2oVD8dRaI89Y/lfw++U
-	v0R+WWtnpPH4yhoecjdZXJnx17d7bLu66ih0S/2sjMxiaTvxfLAZ1KQb4/2QIttSLMT0
-	rzhz+5w2y0fyX8LUaRkgYVJA3efCw7U+m3BPibaVNIcA1RynMIEhfq0/ym9c9KwUKEbi
-	04M5FLBWccZVXpc7rrTuDvcMc+WfBJa/lDA3UEbc94ItASHkdIJKNBkocr67/nT8wqOa
-	MoXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8WXK7QYgO8rAg/+G0iqyOSAWbkilBV53A3ezvJjKLYw=;
-	b=We2jsvOmERGUICDmHmccCCWRMD20f/XA3B5kfV8yaAeM7JOWIJLkKFuypvX6UyUal/
-	j4VcVj19u8fyO1KslrT+bTZFNHt6wbqaK5jXae41CJJQqvSBKVgImx4sAXJSW2Ho4xtu
-	cdyI3AmJ5tE4M3sS5RhqehDxcejsXpnkyAZhLugZwDA5JgsyPQNwwSjFPvqWXtKp6G7Z
-	bUK2ApSKptjSskaS9nV7F1b+rq1IcPjWWz1zHbQT4DPUzHnHAmw+lAgWTzr9an77uQL7
-	Sju4E0IgqkCU4E8DogCap73BveGG/cGfujVSdNhdR+hGN8fgvHNn1aIfm47ymbrjn5gg
-	wLYg==
-X-Gm-Message-State: AJcUukdUXhLt940QJmVX3jORUUydc7mJOJA2CHF1RT1P9aD1h+mrTvRf
-	yBzDR4UlNucuNaXB93EAtBaNB5kJg5NCIFYhLqY6lw==
-X-Google-Smtp-Source: ALg8bN6qtBqpaRksM/HFAbAxDUfQTLhvJIomiCZrh3l+riBgGH1lWw6zemhc4vlE5AgFRgVPUBBeT9A6ZaB1+3oxsJk=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr3477673itj.62.1547032066061;
-	Wed, 09 Jan 2019 03:07:46 -0800 (PST)
+	Wed,  9 Jan 2019 11:14:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 9D93618136;
+	Wed,  9 Jan 2019 12:14:31 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id OBszfVizlQ4l; Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id E14DE182D7;
+	Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D14401A072;
+	Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C61051A06F;
+	Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id BA716380;
+	Wed,  9 Jan 2019 12:14:29 +0100 (CET)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 9 Jan 2019 12:14:29 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 9 Jan 2019 12:14:29 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 9 Jan 2019 12:14:29 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "liu.ming50@gmail.com" <liu.ming50@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by
+	task	varflags
+Thread-Index: AQHUpd06sAUnZGg0fE6SPJ8dbHjlaKWmtn5w
+Date: Wed, 9 Jan 2019 11:14:29 +0000
+Message-ID: <2aa2b4c983f94e7399a1620dad482189@XBOX04.axis.com>
+References: <1546792257-4686-1-git-send-email-liu.ming50@gmail.com>
+In-Reply-To: <1546792257-4686-1-git-send-email-liu.ming50@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
-	<20190109015224.14076-3-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190109015224.14076-3-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Jan 2019 11:07:35 +0000
-Message-ID: <CAJTo0LZ_7SKdgyUUdEZzX0P7HLzLgPZKBj=-be_G0xVFefV2Hw@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] python-setuptools:upgrade to 40.6.2
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by task	varflags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,51 +68,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 11:07:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 09 Jan 2019 11:14:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This will break the python3-setuptools recipe.
-
-Ross
-
-On Wed, 9 Jan 2019 at 01:52, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> 1.Upgrade python-setuptools from 40.0.0 to 40.6.2
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of liu.ming50@gmail.com
+> Sent: den 6 januari 2019 17:31
+> To: openembedded-core@lists.openembedded.org
+> Cc: Ming Liu <liu.ming50@gmail.com>
+> Subject: [OE-core] [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by
+> task varflags
+>=20
+> From: Ming Liu <liu.ming50@gmail.com>
+>=20
+> I found a issue that sometimes there are leftovers in IMAGE_ROOTFS
+> that are generated by the previous builds. I think this is caused by
+> IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in provided that
+> INC_RPM_IMAGE_GEN is not set.
+>=20
+> IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some code
+> in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories
+> could be removed.
+>=20
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 > ---
->  meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
->  ...ython-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-> index 315ba31396..fc89eefffd 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -10,8 +10,8 @@ inherit pypi
->
->  SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
->
-> -SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
-> -SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
-> +SRC_URI[md5sum] = "1c45c7d66dc84ae4ee36581dc9e5359b"
-> +SRC_URI[sha256sum] = "86bb4d8e1b0fabad1f4642b64c335b673e53e7a381de03c9a89fe678152c4c64"
->
->  DEPENDS += "${PYTHON_PN}"
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.6.2.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
-> rename to meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+>  meta/classes/image.bbclass | 4 ++--
+>  meta/lib/oe/rootfs.py      | 5 -----
+>  2 files changed, 2 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 11927f3..b6bf97a 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -251,8 +251,8 @@ fakeroot python do_rootfs () {
+>=20
+>      progress_reporter.finish()
+>  }
+> -do_rootfs[dirs] =3D "${TOPDIR}"
+> -do_rootfs[cleandirs] +=3D "${S} ${IMGDEPLOYDIR}"
+> +do_rootfs[dirs] =3D "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
+> +do_rootfs[cleandirs] +=3D "${S} ${IMGDEPLOYDIR} ${@["${IMAGE_ROOTFS}", "=
+"][(d.getVar('INC_RPM_IMAGE_GEN') =3D=3D '1')]}"
+
+A bit more readable:
+
+do_rootfs[cleandirs] +=3D "${S} ${IMGDEPLOYDIR} ${@'${IMAGE_ROOTFS}' if d.g=
+etVar('INC_RPM_IMAGE_GEN') !=3D '1' else ''}"
+
+>  do_rootfs[umask] =3D "022"
+>  do_rootfs[file-checksums] +=3D "${POSTINST_INTERCEPT_CHECKSUMS}"
+>  addtask rootfs after do_prepare_recipe_sysroot
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index 4273891..945c769 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -19,7 +19,6 @@ class Rootfs(object, metaclass=3DABCMeta):
+>          self.d =3D d
+>          self.pm =3D None
+>          self.image_rootfs =3D self.d.getVar('IMAGE_ROOTFS')
+> -        self.deploydir =3D self.d.getVar('IMGDEPLOYDIR')
+>          self.progress_reporter =3D progress_reporter
+>          self.logcatcher =3D logcatcher
+>=20
+> @@ -188,10 +187,6 @@ class Rootfs(object, metaclass=3DABCMeta):
+>          post_process_cmds =3D self.d.getVar("ROOTFS_POSTPROCESS_COMMAND"=
+)
+>          rootfs_post_install_cmds =3D self.d.getVar('ROOTFS_POSTINSTALL_C=
+OMMAND')
+>=20
+> -        bb.utils.mkdirhier(self.image_rootfs)
+> -
+> -        bb.utils.mkdirhier(self.deploydir)
+> -
+>          execute_pre_post_process(self.d, pre_process_cmds)
+>=20
+>          if self.progress_reporter:
 > --
-> 2.17.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 2.7.4
+
+//Peter
+
 
