@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 98F996B8AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 02E0174813
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 10:02:15 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id y20so7621032qtm.13
+	Wed,  9 Jan 2019 11:07:44 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id g76so11097641itg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 02:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 09 Jan 2019 03:07:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gNRrMv5xflM4VPsCYz/MI4r8i1A4iIhpRtTVqNdl2C4=;
-	b=EVkwvmRAvomszZ+T/93s5s4y7fm5Li/3WIZ4C4BBv1jdSfbgEMxEIaF/uvsqa8Tw6V
-	ZxPq0fHN9sqQAwf3gBxxDplbyDPOlPD6vy82hm0lWzy0bafD9eWmpe6MrUg9baCTV8UG
-	vwZeV4NP3o3Pbnm+pRMIjZaZhzLff6hLOQavUyYW6rj2tdaIEjfhnehW8iFQoHHfUOMC
-	k05szUBlP+islQVo4CpZNQASP9R+6olMDKXMpUZJxg3sC/4mHpyV8b6YS2WTLt/oJ8rt
-	Q1u67AArbA3/qQYZpQrRWLcsiGF0z3AWz+jovZa88ig4BJJkQyuUGnnfBk/qnFKCuBAt
-	d0aQ==
+	:cc; bh=8WXK7QYgO8rAg/+G0iqyOSAWbkilBV53A3ezvJjKLYw=;
+	b=nsFGULenii/oafisc9LGbCZ/4xDXFgCbBkjFm5Hxnk1AbeagqsOaKD25Uq9nLwrqvD
+	mSm5ttKsI52pdbnGJ25/St1loU5D4WvXV1C92ePATGqwrSfEc2oVD8dRaI89Y/lfw++U
+	v0R+WWtnpPH4yhoecjdZXJnx17d7bLu66ih0S/2sjMxiaTvxfLAZ1KQb4/2QIttSLMT0
+	rzhz+5w2y0fyX8LUaRkgYVJA3efCw7U+m3BPibaVNIcA1RynMIEhfq0/ym9c9KwUKEbi
+	04M5FLBWccZVXpc7rrTuDvcMc+WfBJa/lDA3UEbc94ItASHkdIJKNBkocr67/nT8wqOa
+	MoXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=gNRrMv5xflM4VPsCYz/MI4r8i1A4iIhpRtTVqNdl2C4=;
-	b=q0ifNqBWW8uSquiCkLWgs+oXRIKfavAIdJTDz9HZyFaP3H2XvGK/hoMPBOXzkrw9Ig
-	RbxBy629TGCxmRkkKG14+QPUPzIzu4ATWqc1qHfGlBvEO2FNin0KVVNDsJyX36gZuhiG
-	oItWkDO6QLfVfS2g79MCIB3cad93DWEwcweLRHni/UX8bC27sjwN8zbfqvJ10NU+VVFQ
-	EitBLp1ZFCC5JNtGoJMY3KOAoBfvPZ9vI1Otv+e+/OxO0fND8RW6Q7RWq81yrwX3j3E5
-	jbQo1yzS7QNB0Pezw8kiSiY7ak8BNQ8UBYPVpjnOuTDgNqN5LdMcXngzLfR8XbU64PKJ
-	NoDw==
-X-Gm-Message-State: AJcUukeJj3BEHJTv/XtFCs2rBTb9e76nfbrSBCfU6nTWCoPyHQLmQivs
-	6j4N5AXs2YoZxl90DQbm6XZDTFmQlced/Xk+QrY=
-X-Google-Smtp-Source: ALg8bN4+D0DeWQKYuAer2UVLRdMk45mAxce5+8+0NdW0Z4/vJKmKOtqQ3nAGYZNWPsOEqzF9KNLwfsw3l0gmyeKu8sE=
-X-Received: by 2002:a0c:a144:: with SMTP id d62mr5152059qva.50.1547028136084; 
-	Wed, 09 Jan 2019 02:02:16 -0800 (PST)
+	bh=8WXK7QYgO8rAg/+G0iqyOSAWbkilBV53A3ezvJjKLYw=;
+	b=We2jsvOmERGUICDmHmccCCWRMD20f/XA3B5kfV8yaAeM7JOWIJLkKFuypvX6UyUal/
+	j4VcVj19u8fyO1KslrT+bTZFNHt6wbqaK5jXae41CJJQqvSBKVgImx4sAXJSW2Ho4xtu
+	cdyI3AmJ5tE4M3sS5RhqehDxcejsXpnkyAZhLugZwDA5JgsyPQNwwSjFPvqWXtKp6G7Z
+	bUK2ApSKptjSskaS9nV7F1b+rq1IcPjWWz1zHbQT4DPUzHnHAmw+lAgWTzr9an77uQL7
+	Sju4E0IgqkCU4E8DogCap73BveGG/cGfujVSdNhdR+hGN8fgvHNn1aIfm47ymbrjn5gg
+	wLYg==
+X-Gm-Message-State: AJcUukdUXhLt940QJmVX3jORUUydc7mJOJA2CHF1RT1P9aD1h+mrTvRf
+	yBzDR4UlNucuNaXB93EAtBaNB5kJg5NCIFYhLqY6lw==
+X-Google-Smtp-Source: ALg8bN6qtBqpaRksM/HFAbAxDUfQTLhvJIomiCZrh3l+riBgGH1lWw6zemhc4vlE5AgFRgVPUBBeT9A6ZaB1+3oxsJk=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr3477673itj.62.1547032066061;
+	Wed, 09 Jan 2019 03:07:46 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1546961583.git.alex.kanavin@gmail.com>
-	<CAMKF1spfq3brB-L+YCWY7joFC41KshZZwLzQcha3wEO3otBiQw@mail.gmail.com>
-	<CANNYZj_gZFZpJaLkSSeabMDkFAw2oO+vM80H_q6o9cBsKaeycg@mail.gmail.com>
-	<CAMKF1sp8BCRZfmBbamqobM-CoqKMG5CoWevqTAM1c83GJb+gWA@mail.gmail.com>
-In-Reply-To: <CAMKF1sp8BCRZfmBbamqobM-CoqKMG5CoWevqTAM1c83GJb+gWA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Jan 2019 02:01:50 -0800
-Message-ID: <CAMKF1srNzA0UVK+UpKtkNBi2V3S2oAWSC3WZEnJsp8sVNhtmjQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Reimplement perl recipe using perl-cross and update perl to 5.28.1
+References: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
+	<20190109015224.14076-3-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190109015224.14076-3-hongl.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Jan 2019 11:07:35 +0000
+Message-ID: <CAJTo0LZ_7SKdgyUUdEZzX0P7HLzLgPZKBj=-be_G0xVFefV2Hw@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [PATCH] python-setuptools:upgrade to 40.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 10:02:15 -0000
+X-List-Received-Date: Wed, 09 Jan 2019 11:07:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Here is run for qemumips/musl
+This will break the python3-setuptools recipe.
 
-http://errors.yoctoproject.org/Errors/Build/74739/
+Ross
 
-The perl related fails are
-postgresql
-openipmi
-adduser
-
-
-On Tue, Jan 8, 2019 at 11:15 AM Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, 9 Jan 2019 at 01:52, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
 >
-> On Tue, Jan 8, 2019 at 10:56 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > On Tue, 8 Jan 2019 at 19:49, Khem Raj <raj.khem@gmail.com> wrote:
-> > > There were several recipes in extended layers such as
-> > > meta-openembedded which failed
-> > > in last attempt, have someone considered the failures that I reported
-> > > last time ?
-> > > maybe Richard can stage it in master-next and we can give it another shot.
-> >
-> > Are you sure you are not confusing this with an alternative attempt to
-> > upgrade perl by Jens Rehsack?
+> 1.Upgrade python-setuptools from 40.0.0 to 40.6.2
 >
-> yes, I thought the problems were related to perl version rather
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+>  ...ython-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} | 0
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} (100%)
 >
-> >
-> > I did test meta-oe, and identified one recipe (adduser) that needs
-> > adjustment. I'll post the patch as soon as this is merged. If you can
-> > test meta-oe once more against the latest version of my patches, I'd
-> > appreciate.
-> > http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/perl-sanity
-> >
+> diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+> index 315ba31396..fc89eefffd 100644
+> --- a/meta/recipes-devtools/python/python-setuptools.inc
+> +++ b/meta/recipes-devtools/python/python-setuptools.inc
+> @@ -10,8 +10,8 @@ inherit pypi
 >
-> thanks for doing so. I think meta-perl is another interesting layer
-> that you can try
-> if not yet tried.
+>  SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
 >
-> > Alex
+> -SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+> -SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
+> +SRC_URI[md5sum] = "1c45c7d66dc84ae4ee36581dc9e5359b"
+> +SRC_URI[sha256sum] = "86bb4d8e1b0fabad1f4642b64c335b673e53e7a381de03c9a89fe678152c4c64"
+>
+>  DEPENDS += "${PYTHON_PN}"
+>
+> diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+> rename to meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+> --
+> 2.17.2
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
