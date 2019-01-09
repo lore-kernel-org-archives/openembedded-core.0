@@ -1,34 +1,32 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 31F0E60596
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4977B6C10B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 01:39:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x091dhgr019279
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Jan 2019 17:39:43 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 8 Jan 2019 17:39:43 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, "Purdie, Richard"
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1546938633.git.Qi.Chen@windriver.com>
-	<11e2fba7bd1e165047915f5a77cb85ba96410da4.1546938633.git.Qi.Chen@windriver.com>
-	<CAJTo0La-LVLk8OPabGePojhGMYvA6RRY-8DakEHecVUq_amELA@mail.gmail.com>
-	<7e7292a7d955db6ae138a10af3c5894dedbd6c29.camel@linuxfoundation.org>
-	<CAJTo0Lbj10QLG-AH6YYOua1NtZfcPGKi0swnKR444bPjBrJZEQ@mail.gmail.com>
-	<6af27248c02eb709ad45c6cbfbe7e464b80cd2db.camel@linuxfoundation.org>
-	<CAJTo0LYtBhi3irqWJuTCsT9tw5zvXDfjN=Pt+QJ9UXzP1LhGag@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <9bc4ea0c-32f9-f054-47c5-f0041d85cfba@windriver.com>
-Date: Wed, 9 Jan 2019 09:47:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Wed,  9 Jan 2019 01:52:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,455,1539619200"; d="scan'208";a="51597028"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Jan 2019 09:52:03 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id AFDE04BAC82F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Jan 2019 09:52:01 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 9 Jan 2019 09:52:07 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Jan 2019 09:52:24 +0800
+Message-ID: <20190109015224.14076-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
+References: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYtBhi3irqWJuTCsT9tw5zvXDfjN=Pt+QJ9UXzP1LhGag@mail.gmail.com>
-X-Originating-IP: [128.224.163.141]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] netbase/base-files: move /etc/hosts from netbase to base-files
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: AFDE04BAC82F.A1CDC
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] python-setuptools:upgrade to 40.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 01:39:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jan 2019 01:52:03 -0000
+Content-Type: text/plain
 
-On 01/08/2019 09:00 PM, Burton, Ross wrote:
-> On Tue, 8 Jan 2019 at 12:47, <richard.purdie@linuxfoundation.org> wrote:
->>>> Not so good if hostname isn't set?
->>> hostname = "${MACHINE}"
->>>
->>> Hostname is always set. :)
->> Its the kind of thing people likely bbappend and change, or set from
->> overrides. Which was one of the reasons I'm nervous about moving hosts
->> to a different package in the first place...
-> In all those situation the hostname will be set, right?  Is anyone
-> actually going to bbappend/override the value to ""?
->
-> Ross
->
+1.Upgrade python-setuptools from 40.0.0 to 40.6.2
 
-We did so maybe two or three years ago, via a distro configuration file. 
-We later removed this override.
-Also, the original codes in base-files are:
-         if [ "${hostname}" ]; then
-                 echo ${hostname} > ${D}${sysconfdir}/hostname
-         fi
-So I just put the line in the check.
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+ ...ython-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.6.2.bb} (100%)
 
-Best Regards,
-Chen Qi
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 315ba31396..fc89eefffd 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
+ 
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+-SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+-SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
++SRC_URI[md5sum] = "1c45c7d66dc84ae4ee36581dc9e5359b"
++SRC_URI[sha256sum] = "86bb4d8e1b0fabad1f4642b64c335b673e53e7a381de03c9a89fe678152c4c64"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_40.6.2.bb
+-- 
+2.17.2
+
+
+
 
