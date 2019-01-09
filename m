@@ -1,50 +1,46 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 07DD27C035
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+	[209.85.167.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 5682B7C035
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 17:24:38 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id l15-v6so7158203lja.9
+	Wed,  9 Jan 2019 17:28:09 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id m6so6917611oig.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 09:24:40 -0800 (PST)
+	Wed, 09 Jan 2019 09:28:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=OEDzMHI4f8Yp8OhBiPg5AsUrdzoVFX3exNLGjWxMOqo=;
-	b=QkfYw5YzThNiIw8oKArRpCiDxBzz9HhllGlRVFWBfar0DULrMu2MSIzEAO+JZzNFUz
-	ltgq41rJ4dO0YyYvMAFp6p18BDhAHk0xgvqljrFJzui2NIeJfs0naVPEFwDz/rLdOW76
-	LpFgLATRs52sHC/F1W4ffIr4ldpLnifulmQpgCiz8q2M0MJW+yOLRH3W0KBh/FhGRMQ2
-	o45+OnmkPso+NBh55CbYWrRsqFd94+CSqJk+Rxsvt9kmXC398nxVliQ47CK3c1mK9ecf
-	nv+a3xtsoHJ9vZiAdYkZTdXPKgsIeemawNBezS39GuBHghakgApajfovx+kleZ0ryqwV
-	MOMA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3LqwJe4feBD62AxjsJZbH3Xp9vH9XixgxY6vIsjCWHE=;
+	b=hOUhksl3wPloGeLrQf3Zkb+weM11hMW+GjZrAEepbQBF/RTB+oCFq9Ilct03bgqTZy
+	9rTKlXrFmELhgsBDX6bB4hlFGxKJipLMorC6eAtcr3LbuXx8OumUUm8CK9QuBYm0UpJ+
+	aI6yGEatAJLRGNVz308t66uSStdUOsvlElCKSkKVXrIiZQVchsJMXDUW/aUq0jYb7MWX
+	EnHk7MnscfqV0+tBsr+6NbAg9PdtaqTE30TAgbrBVGDZS7ttOdN0pf+uB0dmpuBOrzRz
+	Zx2UjFWTYebf4aS0gTaa/Xk1E6NlZ5CYArorOQgWYTThyx7C9/kifEzmCBUK+4QSQWsC
+	nVPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OEDzMHI4f8Yp8OhBiPg5AsUrdzoVFX3exNLGjWxMOqo=;
-	b=dFxKQ4bqbbDNeNOCSWUJ/GZssVgYGykUBnGQxWYLuBk5+sSzSoQF03agwu2iCEY+88
-	Pl93qa6ly5tRtQVTL2g4b4tl4TpI/HdH0jruvra7xFSJ5cF2qRmbXpeeH0pvskxxsyVm
-	OVOkJaTgApnt6Hs3Hw58lCKIYfRvip7bD7qIiDjNe13WCxX08ZRdGd+9CbkZoBWQHGYK
-	XmDP/UqQwKgngeKH5qDL81l/vS6U/0e/o5ylzC9YxmX611IlRFjnqiKWP7U1BXnXmaxb
-	rW3eXlrlYm5fzKLn6Vtl8EUvK9Mso/Bv7e9ntJ0StkY8sICp/eapPYJvi4F/c07E7NEH
-	jy9w==
-X-Gm-Message-State: AJcUukfhCUJdNmCbQa/Hi1t0uPGESt2sQPNcU/c8pLHMFYxOc6qoPN/3
-	+KrRTMHxIJiq7N6cnv6LFrPOLNGDBWs=
-X-Google-Smtp-Source: ALg8bN7aO+6rRqQmY6C41fKNDfdeAppPeAGqsi0owJWpBeIUM7CV/IcA6BvhNrD0ZM8i0S7uBPaOEA==
-X-Received: by 2002:a2e:2d11:: with SMTP id
-	t17-v6mr3890752ljt.159.1547054679401; 
-	Wed, 09 Jan 2019 09:24:39 -0800 (PST)
-Received: from peterliu-Precision-M4800.lan
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id
-	y9sm14008448lfe.75.2019.01.09.09.24.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Jan 2019 09:24:38 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2019 18:24:35 +0100
-Message-Id: <1547054675-32745-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] npm.bbclass: introduce NPM_PXORY
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3LqwJe4feBD62AxjsJZbH3Xp9vH9XixgxY6vIsjCWHE=;
+	b=tnb5g5ED++Ow8czju9l72tQWf1gtVVFGatgAqY3ncsZ1Yq4OIPC+/bYAnwkwOQEeWA
+	/y9n4p5u1QOcR0EHd0VT1Gbx9/BDjyLJDD/Yk/g4p7skJ3KXqzJYUcGILqk8ng2tcQZm
+	Ub5VfCaCYre0IV07RgHGTL+ZbSuDZ2Ma6FMtFVazL/psnW874hS5MvwbGZ2g56qj7OjA
+	fTZpJjoKUob+aVEvNI9SE3FRu3hsrlIH8EpgZuyRKtiYKv/t91myY5NQP9CHkuFuspRL
+	bfcml2R5Dl2fknkWZonMbUg+OJby7BSfMY7u7ALKC+x1c6muSHkpMaWkqQzDtTL0TwMq
+	QxcA==
+X-Gm-Message-State: AJcUukdbJu7OWRst4BVZZRI4KvHBpvUoSrCdx8mflzGplxY8AA0TpL6z
+	MAO/MoFXW8eq4TCzl56QVYHQ2OOsUdgvDMTscVU=
+X-Google-Smtp-Source: ALg8bN7X3G11me+bD6t1nHY84kqk5prBuQb/UoQ5enr8ntm5ohHp3dtlFQXE0TTXRIJ0JM7pd4si75yEOA/MVEXbkNQ=
+X-Received: by 2002:aca:b7c2:: with SMTP id h185mr4613411oif.298.1547054890269;
+	Wed, 09 Jan 2019 09:28:10 -0800 (PST)
+MIME-Version: 1.0
+References: <1547054675-32745-1-git-send-email-liu.ming50@gmail.com>
+In-Reply-To: <1547054675-32745-1-git-send-email-liu.ming50@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 9 Jan 2019 18:27:59 +0100
+Message-ID: <CANNYZj_GCJUa+ZxMfVicbH0xu_K_kQ_s4GD3ASiiDM7LbV=C9w@mail.gmail.com>
+To: liu.ming50@gmail.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] npm.bbclass: introduce NPM_PXORY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +53,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 17:24:39 -0000
+X-List-Received-Date: Wed, 09 Jan 2019 17:28:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Wed, 9 Jan 2019 at 18:24, <liu.ming50@gmail.com> wrote:
 
-This is needed to support building npm packages under environment with
-proxy setting.
+> +       if [ -n "${NPM_PROXY}" ]; then
+> +               npm config set proxy ${NPM_PROXY}
+> +               npm config set https-proxy ${NPM_PROXY}
+> +       else
+> +               npm config set proxy null
+> +               npm config set https-proxy null
+> +       fi
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/npm.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Isn't it better to set those from http[s]_proxy environment variables
+which are standard?
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 6dbae6b..0f37f30 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -24,6 +24,9 @@ def npm_oe_arch_map(target_arch, d):
- NPM_ARCH ?= "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'), d)}"
- NPM_INSTALL_DEV ?= "0"
- 
-+# Format: http://proxyhost:proxyport
-+NPM_PROXY ?= ""
-+
- npm_do_compile() {
- 	# Copy in any additionally fetched modules
- 	if [ -d ${WORKDIR}/node_modules ] ; then
-@@ -32,6 +35,13 @@ npm_do_compile() {
- 	# changing the home directory to the working directory, the .npmrc will
- 	# be created in this directory
- 	export HOME=${WORKDIR}
-+	if [ -n "${NPM_PROXY}" ]; then
-+		npm config set proxy ${NPM_PROXY}
-+		npm config set https-proxy ${NPM_PROXY}
-+	else
-+		npm config set proxy null
-+		npm config set https-proxy null
-+	fi
- 	if [  "${NPM_INSTALL_DEV}" = "1" ]; then
- 		npm config set dev true
- 	else
--- 
-2.7.4
-
+Alex
 
