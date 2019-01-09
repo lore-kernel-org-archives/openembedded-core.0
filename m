@@ -1,27 +1,27 @@
 Return-Path: <Yi.Zhao@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EE4787C088
+	by mail.openembedded.org (Postfix) with ESMTP id 847317C034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 07:21:08 +0000 (UTC)
+	Wed,  9 Jan 2019 07:21:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x097KoLS031414
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x097LJOv031425
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Jan 2019 23:21:00 -0800
+	Tue, 8 Jan 2019 23:21:29 -0800
 Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Tue, 8 Jan 2019 23:20:39 -0800
+	Tue, 8 Jan 2019 23:21:09 -0800
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Jan 2019 15:19:39 +0800
-Message-ID: <1547018383-19134-6-git-send-email-yi.zhao@windriver.com>
+Date: Wed, 9 Jan 2019 15:19:42 +0800
+Message-ID: <1547018383-19134-9-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1547018383-19134-1-git-send-email-yi.zhao@windriver.com>
 References: <1547018383-19134-1-git-send-email-yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.137]
-Subject: [PATCH 5/9] libsdl2: upgrade 2.0.8 -> 2.0.9
+Subject: [PATCH 8/9] logrotate: upgrade 3.14.0 -> 3.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,191 +34,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 07:21:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 09 Jan 2019 07:21:38 -0000
+Content-Type: text/plain
 
-Drop 0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch as it had been
-merged upstream.
+Refresh patches:
+  act-as-mv-when-rotate.patch
+  disable-check-different-filesystems.patch
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...01-GLES2-Get-sin-cos-out-of-vertex-shader.patch | 141 ---------------------
- .../libsdl2/{libsdl2_2.0.8.bb => libsdl2_2.0.9.bb} |   5 +-
- 2 files changed, 2 insertions(+), 144 deletions(-)
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.8.bb => libsdl2_2.0.9.bb} (92%)
+ .../logrotate/act-as-mv-when-rotate.patch          | 141 ++++++++++-----------
+ .../disable-check-different-filesystems.patch      |  40 +++---
+ .../{logrotate_3.14.0.bb => logrotate_3.15.0.bb}   |   6 +-
+ 3 files changed, 96 insertions(+), 91 deletions(-)
+ rename meta/recipes-extended/logrotate/{logrotate_3.14.0.bb => logrotate_3.15.0.bb} (94%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-deleted file mode 100644
-index 9b32b37..0000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch
-+++ /dev/null
-@@ -1,141 +0,0 @@
--From c215ba1d52a3d4ef03af3ab1a5baa1863f812aed Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
--Date: Fri, 24 Aug 2018 23:10:25 +0200
--Subject: [PATCH] GLES2: Get sin/cos out of vertex shader
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--The only place angle is activated and causes effect is RenderCopyEx. All other
--methods which use vertex shader, leave angle disabled and cause useless sin/cos
--calculation in shader.
--
--To get around shader's interface is changed to a vector that contains results
--of sin and cos. To behave properly when disabled, cos value is set with offset
---1.0 making 0.0 default when deactivated.
--
--As nice side effect it simplifies GLES2_UpdateVertexBuffer: All attributes are
--vectors now.
--
--Additional background:
--
--* On RaspberryPi it gives a performace win for operations. Tested with
--  [1] numbers go down for 5-10% (not easy to estimate due to huge variation).
--* SDL_RenderCopyEx was tested with [2]
--* It works around left rotated display caused by low accuracy sin implemetation
--  in RaspberryPi/VC4 [3]
--
--Upstream-Status: Accepted [4]
--
--[1] https://github.com/schnitzeltony/sdl2box
--[2] https://github.com/schnitzeltony/sdl2rendercopyex
--[3] https://github.com/anholt/mesa/issues/110
--[4] https://hg.libsdl.org/SDL/rev/e5a666405750
--
--Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-----
-- src/render/opengles2/SDL_render_gles2.c  | 17 ++++++++++++-----
-- src/render/opengles2/SDL_shaders_gles2.c | 14 +++++++++-----
-- 2 files changed, 21 insertions(+), 10 deletions(-)
--
--diff --git a/src/render/opengles2/SDL_render_gles2.c b/src/render/opengles2/SDL_render_gles2.c
--index 14671f7c8..7c54a7333 100644
----- a/src/render/opengles2/SDL_render_gles2.c
--+++ b/src/render/opengles2/SDL_render_gles2.c
--@@ -1530,7 +1530,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
--     GLES2_DriverContext *data = (GLES2_DriverContext *)renderer->driverdata;
-- 
-- #if !SDL_GLES2_USE_VBOS
---    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, vertexData);
--+    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, vertexData);
-- #else
--     if (!data->vertex_buffers[attr]) {
--         data->glGenBuffers(1, &data->vertex_buffers[attr]);
--@@ -1545,7 +1545,7 @@ GLES2_UpdateVertexBuffer(SDL_Renderer *renderer, GLES2_Attribute attr,
--         data->glBufferSubData(GL_ARRAY_BUFFER, 0, dataSizeInBytes, vertexData);
--     }
-- 
---    data->glVertexAttribPointer(attr, attr == GLES2_ATTRIBUTE_ANGLE ? 1 : 2, GL_FLOAT, GL_FALSE, 0, 0);
--+    data->glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, 0);
-- #endif
-- 
--     return 0;
--@@ -1853,6 +1853,8 @@ GLES2_RenderCopy(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *s
--     return GL_CheckError("", renderer);
-- }
-- 
--+#define PI 3.14159265f
+diff --git a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
+index 04cb588..79805b5 100644
+--- a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
++++ b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
+@@ -1,4 +1,4 @@
+-From 517cbff66c8bdbf455bc3b7c1a85a4f990d0f9a6 Mon Sep 17 00:00:00 2001
++From c637948ebab5aff5641700c5cf613321ca0a6e6b Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Tue, 17 Feb 2015 21:08:07 -0800
+ Subject: [PATCH] Act as the "mv" command when rotate log
+@@ -10,14 +10,14 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ ---
+- logrotate.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+- 1 file changed, 60 insertions(+), 12 deletions(-)
++ logrotate.c | 71 ++++++++++++++++++++++++++++++++++++++++++++---------
++ 1 file changed, 59 insertions(+), 12 deletions(-)
+ 
+ diff --git a/logrotate.c b/logrotate.c
+-index 4ad58d4..ba05884 100644
++index 54dac90..bf3ec23 100644
+ --- a/logrotate.c
+ +++ b/logrotate.c
+-@@ -1315,6 +1315,54 @@ static int findNeedRotating(struct logInfo *log, int logNum, int force)
++@@ -1360,6 +1360,53 @@ static int findNeedRotating(struct logInfo *log, int logNum, int force)
+      return 0;
+  }
+  
+@@ -68,84 +68,83 @@ index 4ad58d4..ba05884 100644
+ +    return 1;
+ +}
+ +
 -+
-- static int
-- GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect *srcrect,
--                  const SDL_FRect *dstrect, const double angle, const SDL_FPoint *center, const SDL_RendererFlip flip)
--@@ -1861,8 +1863,9 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
--     GLfloat vertices[8];
--     GLfloat texCoords[8];
--     GLfloat translate[8];
---    GLfloat fAngle[4];
--+    GLfloat fAngle[8];
--     GLfloat tmp;
--+    float radian_angle;
-- 
--     GLES2_ActivateRenderer(renderer);
-- 
--@@ -1872,7 +1875,11 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
-- 
--     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_CENTER);
--     data->glEnableVertexAttribArray(GLES2_ATTRIBUTE_ANGLE);
---    fAngle[0] = fAngle[1] = fAngle[2] = fAngle[3] = (GLfloat)(360.0f - angle);
--+
--+    radian_angle = PI * (360.0f - angle) / 180.f;
--+    fAngle[0] = fAngle[2] = fAngle[4] = fAngle[6] = (GLfloat)sin(radian_angle);
--+    /* render expects cos value - 1 (see GLES2_VertexSrc_Default_) */
--+    fAngle[1] = fAngle[3] = fAngle[5] = fAngle[7] = (GLfloat)cos(radian_angle) - 1.0f;
--     /* Calculate the center of rotation */
--     translate[0] = translate[2] = translate[4] = translate[6] = (center->x + dstrect->x);
--     translate[1] = translate[3] = translate[5] = translate[7] = (center->y + dstrect->y);
--@@ -1901,7 +1908,7 @@ GLES2_RenderCopyEx(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_Rect
--     data->glVertexAttribPointer(GLES2_ATTRIBUTE_CENTER, 2, GL_FLOAT, GL_FALSE, 0, translate);
--     data->glVertexAttribPointer(GLES2_ATTRIBUTE_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);*/
-- 
---    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 4 * sizeof(GLfloat));
--+    GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_ANGLE, fAngle, 8 * sizeof(GLfloat));
--     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_CENTER, translate, 8 * sizeof(GLfloat));
--     GLES2_UpdateVertexBuffer(renderer, GLES2_ATTRIBUTE_POSITION, vertices, 8 * sizeof(GLfloat));
-- 
--diff --git a/src/render/opengles2/SDL_shaders_gles2.c b/src/render/opengles2/SDL_shaders_gles2.c
--index b0bcdff25..f428a4945 100644
----- a/src/render/opengles2/SDL_shaders_gles2.c
--+++ b/src/render/opengles2/SDL_shaders_gles2.c
--@@ -30,20 +30,24 @@
-- /*************************************************************************************************
--  * Vertex/fragment shader source                                                                 *
--  *************************************************************************************************/
---
--+/* Notes on a_angle:
--+   * It is a vector containing sin and cos for rotation matrix
--+   * To get correct rotation for most cases when a_angle is disabled cos
--+     value is decremented by 1.0 to get proper output with 0.0 which is
--+     default value
--+*/
-- static const Uint8 GLES2_VertexSrc_Default_[] = " \
--     uniform mat4 u_projection; \
--     attribute vec2 a_position; \
--     attribute vec2 a_texCoord; \
---    attribute float a_angle; \
--+    attribute vec2 a_angle; \
--     attribute vec2 a_center; \
--     varying vec2 v_texCoord; \
--     \
--     void main() \
--     { \
---        float angle = radians(a_angle); \
---        float c = cos(angle); \
---        float s = sin(angle); \
--+        float s = a_angle[0]; \
--+        float c = a_angle[1] + 1.0; \
--         mat2 rotationMatrix = mat2(c, -s, s, c); \
--         vec2 position = rotationMatrix * (a_position - a_center) + a_center; \
--         v_texCoord = a_texCoord; \
---- 
--2.14.4
--
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-similarity index 92%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-index 812a9ab..a5ec777 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-@@ -14,13 +14,12 @@ PROVIDES = "virtual/libsdl2"
+- static int prerotateSingleLog(struct logInfo *log, int logNum,
+- 			      struct logState *state, struct logNames *rotNames)
+- {
+-@@ -1674,15 +1722,15 @@ static int prerotateSingleLog(struct logInfo *log, int logNum,
+- 		}
++ /* find the rotated file with the highest index */
++ static int findLastRotated(const struct logNames *rotNames,
++                            const char *fileext, const char *compext)
++@@ -1800,15 +1847,15 @@ static int prerotateSingleLog(struct logInfo *log, int logNum,
++             }
+  
+- 	    message(MESS_DEBUG,
+--		    "renaming %s to %s (rotatecount %d, logstart %d, i %d), \n",
+-+		    "moving %s to %s (rotatecount %d, logstart %d, i %d), \n",
+- 		    oldName, newName, rotateCount, logStart, i);
++             message(MESS_DEBUG,
++-                    "renaming %s to %s (rotatecount %d, logstart %d, i %d), \n",
+++                    "moving %s to %s (rotatecount %d, logstart %d, i %d), \n",
++                     oldName, newName, rotateCount, logStart, i);
+  
+--	    if (!debug && rename(oldName, newName)) {
+-+	    if (!debug && mvFile(oldName, newName, log, prev_acl)) {
+- 		if (errno == ENOENT) {
+- 		    message(MESS_DEBUG, "old log %s does not exist\n",
+- 			    oldName);
+- 		} else {
+--		    message(MESS_ERROR, "error renaming %s to %s: %s\n",
+-+		    message(MESS_ERROR, "error moving %s to %s: %s\n",
+- 			    oldName, newName, strerror(errno));
+- 		    hasErrors = 1;
+- 		}
+-@@ -1767,21 +1815,21 @@ static int rotateSingleLog(struct logInfo *log, int logNum,
+- 				return 1;
+- 			}
++-            if (!debug && rename(oldName, newName)) {
+++            if (!debug && mvFile(oldName, newName, log, prev_acl)) {
++                 if (errno == ENOENT) {
++                     message(MESS_DEBUG, "old log %s does not exist\n",
++                             oldName);
++                 } else {
++-                    message(MESS_ERROR, "error renaming %s to %s: %s\n",
+++                    message(MESS_ERROR, "error moving %s to %s: %s\n",
++                             oldName, newName, strerror(errno));
++                     hasErrors = 1;
++                 }
++@@ -1891,21 +1938,21 @@ static int rotateSingleLog(struct logInfo *log, int logNum,
++                     return 1;
++                 }
+  
+--			message(MESS_DEBUG, "renaming %s to %s\n", log->files[logNum],
+-+			message(MESS_DEBUG, "moving %s to %s\n", log->files[logNum],
+- 				tmpFilename);
+--			if (!debug && !hasErrors && rename(log->files[logNum], tmpFilename)) {
+--			message(MESS_ERROR, "failed to rename %s to %s: %s\n",
+-+			if (!debug && !hasErrors && mvFile(log->files[logNum], rotNames->finalName, log, prev_acl)) {
+-+			message(MESS_ERROR, "failed to move %s to %s: %s\n",
+- 				log->files[logNum], tmpFilename,
+- 				strerror(errno));
+- 				hasErrors = 1;
+- 			}
+- 		}
+- 		else {
+--			message(MESS_DEBUG, "renaming %s to %s\n", log->files[logNum],
+-+			message(MESS_DEBUG, "moving %s to %s\n", log->files[logNum],
+- 				rotNames->finalName);
+- 			if (!debug && !hasErrors &&
+--			rename(log->files[logNum], rotNames->finalName)) {
+--				message(MESS_ERROR, "failed to rename %s to %s: %s\n",
+-+			mvFile(log->files[logNum], rotNames->finalName, log, prev_acl)) {
+-+				message(MESS_ERROR, "failed to move %s to %s: %s\n",
+- 					log->files[logNum], rotNames->finalName,
+- 					strerror(errno));
+- 					hasErrors = 1;
+-@@ -2170,7 +2218,7 @@ static int rotateLogSet(struct logInfo *log, int force)
++-                message(MESS_DEBUG, "renaming %s to %s\n", log->files[logNum],
+++                message(MESS_DEBUG, "moving %s to %s\n", log->files[logNum],
++                         tmpFilename);
++-                if (!debug && !hasErrors && rename(log->files[logNum], tmpFilename)) {
++-                    message(MESS_ERROR, "failed to rename %s to %s: %s\n",
+++                if (!debug && !hasErrors && mvFile(log->files[logNum], rotNames->finalName, log, prev_acl)) {
+++                    message(MESS_ERROR, "failed to move %s to %s: %s\n",
++                             log->files[logNum], tmpFilename,
++                             strerror(errno));
++                     hasErrors = 1;
++                 }
++             }
++             else {
++-                message(MESS_DEBUG, "renaming %s to %s\n", log->files[logNum],
+++                message(MESS_DEBUG, "moving %s to %s\n", log->files[logNum],
++                         rotNames->finalName);
++                 if (!debug && !hasErrors &&
++-                        rename(log->files[logNum], rotNames->finalName)) {
++-                    message(MESS_ERROR, "failed to rename %s to %s: %s\n",
+++                        mvFile(log->files[logNum], rotNames->finalName, log, prev_acl)) {
+++                    message(MESS_ERROR, "failed to move %s to %s: %s\n",
++                             log->files[logNum], rotNames->finalName,
++                             strerror(errno));
++                     hasErrors = 1;
++@@ -2297,7 +2344,7 @@ static int rotateLogSet(struct logInfo *log, int force)
+      return hasErrors;
+  }
+  
+ -static int writeState(const char *stateFilename)
+ +static int writeState(struct logInfo *log, char *stateFilename)
+  {
+- 	struct logState *p;
+- 	FILE *f;
+-@@ -2322,7 +2370,7 @@ static int writeState(const char *stateFilename)
+- 		fclose(f);
++     struct logState *p;
++     FILE *f;
++@@ -2460,7 +2507,7 @@ static int writeState(const char *stateFilename)
++         fclose(f);
+  
+- 	if (error == 0) {
+--		if (rename(tmpFilename, stateFilename)) {
+-+		if (mvFile(tmpFilename, stateFilename, log, prev_acl)) {
+- 			unlink(tmpFilename);
+- 			error = 1;
+- 			message(MESS_ERROR, "error renaming temp state file %s\n",
+-@@ -2648,7 +2696,7 @@ int main(int argc, const char **argv)
+- 		rc |= rotateLogSet(log, force);
++     if (error == 0) {
++-        if (rename(tmpFilename, stateFilename)) {
+++        if (mvFile(tmpFilename, stateFilename, log, prev_acl)) {
++             unlink(tmpFilename);
++             error = 1;
++             message(MESS_ERROR, "error renaming temp state file %s\n",
++@@ -2805,7 +2852,7 @@ int main(int argc, const char **argv)
++         rc |= rotateLogSet(log, force);
+  
+- 	if (!debug)
+--		rc |= writeState(stateFile);
+-+		rc |= writeState(log, stateFile);
++     if (!debug)
++-        rc |= writeState(stateFile);
+++        rc |= writeState(log, stateFile);
+  
+- 	return (rc != 0);
++     return (rc != 0);
+  }
+ -- 
+-1.8.3.1
++2.18.1
  
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
--           file://0001-GLES2-Get-sin-cos-out-of-vertex-shader.patch \
- "
+diff --git a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch b/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+index 793d702..96ff098 100644
+--- a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
++++ b/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+@@ -1,4 +1,7 @@
+-Disable the check for different filesystems
++From e47796c8e8270a3d14f0b06af8a9e916c2225514 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 8 Jan 2019 06:27:06 +0000
++Subject: [PATCH] Disable the check for different filesystems
  
- S = "${WORKDIR}/SDL2-${PV}"
+ The logrotate supports rotate log across different filesystems now, so
+ disable the check for different filesystems.
+@@ -7,26 +10,29 @@ Upstream-Status: Pending
  
--SRC_URI[md5sum] = "3800d705cef742c6a634f202c37f263f"
--SRC_URI[sha256sum] = "edc77c57308661d576e843344d8638e025a7818bff73f8fbfab09c3c5fd092ec"
-+SRC_URI[md5sum] = "f2ecfba915c54f7200f504d8b48a5dfe"
-+SRC_URI[sha256sum] = "255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ ---
+- config.c |    9 ---------
++ config.c | 9 ---------
+  1 file changed, 9 deletions(-)
  
- inherit autotools lib_package binconfig pkgconfig
+ diff --git a/config.c b/config.c
+-index dbbf563..64e66f6 100644
++index 633b843..99a4a3b 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -1493,15 +1493,6 @@ static int readConfigFile(const char *configFile, struct logInfo *defConfig)
+- 							goto error;
+- 						}
+- 					}
++@@ -1765,15 +1765,6 @@ duperror:
++                                     goto error;
++                                 }
++                             }
+ -
+--					if (sb.st_dev != sb2.st_dev
+--						&& !(newlog->flags & (LOG_FLAG_COPYTRUNCATE | LOG_FLAG_COPY | LOG_FLAG_TMPFILENAME))) {
+--						message(MESS_ERROR,
+--							"%s:%d olddir %s and log file %s "
+--							"are on different devices\n", configFile,
+--							lineNum, newlog->oldDir, newlog->files[i]);
+--						goto error;
+--					}
+- 				}
+- 			}
++-                            if (sb.st_dev != sb2.st_dev
++-                                    && !(newlog->flags & (LOG_FLAG_COPYTRUNCATE | LOG_FLAG_COPY | LOG_FLAG_TMPFILENAME))) {
++-                                message(MESS_ERROR,
++-                                        "%s:%d olddir %s and log file %s "
++-                                        "are on different devices\n", configFile,
++-                                        lineNum, newlog->oldDir, newlog->files[i]);
++-                                goto error;
++-                            }
++                         }
++                     }
+  
++-- 
++2.18.1
++
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.14.0.bb b/meta/recipes-extended/logrotate/logrotate_3.15.0.bb
+similarity index 94%
+rename from meta/recipes-extended/logrotate/logrotate_3.14.0.bb
+rename to meta/recipes-extended/logrotate/logrotate_3.15.0.bb
+index ccc68ad..0f3da2b 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.14.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.15.0.bb
+@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz
+             file://disable-check-different-filesystems.patch \
+             "
  
+-SRC_URI[md5sum] = "1c0f6e6e490c4bcac0a1e77ad1310683"
+-SRC_URI[sha256sum] = "4703bdc0e2df3b322f9dff0aafc99aa9172c9e4acae28b7c924cc7d4e5b29d55"
++SRC_URI[md5sum] = "320046f0b9fc38337e8827d4c5a866a0"
++SRC_URI[sha256sum] = "313612c4776a305393454c874ef590d8acf84c9ffa648717731dfe902284ff8f"
+ 
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
+ 
+@@ -72,7 +72,7 @@ do_install(){
+     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
+     mkdir -p ${D}${sysconfdir}/logrotate.d
+     mkdir -p ${D}${localstatedir}/lib
+-    install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
++    install -p -m 644 ${S}/examples/logrotate.conf ${D}${sysconfdir}/logrotate.conf
+     install -p -m 644 ${S}/examples/btmp ${D}${sysconfdir}/logrotate.d/btmp
+     install -p -m 644 ${S}/examples/wtmp ${D}${sysconfdir}/logrotate.d/wtmp
+     touch ${D}${localstatedir}/lib/logrotate.status
 -- 
 2.7.4
 
