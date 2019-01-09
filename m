@@ -1,52 +1,19 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BA2227BE39
+Return-Path: <richard@nod.at>
+Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
+	by mail.openembedded.org (Postfix) with ESMTP id B844A7BFF8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 20:31:13 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id u89-v6so7675242lje.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 12:31:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IVxq4nPepr1V3LUmFTw7FRN7asFlHNUuBZu4Y3xE0HY=;
-	b=Z11TGml6yqXEbFN1z075cFa6E4QN98x97MjhW1sojxJkGyMt8Desav16C+rSHfr1D6
-	OkckKP0QPQT84nHtU3N93Eh14NpwDPPTmK7ksrgXUMZ1ZZe8nRJ6ZdR7+oZdvn108mSU
-	FEOX0pm3EBlWlx36C64VM6tXut30qrVTxu+TTMFZYktWf/4zVMpW0nlyL3MIFpw5IkdR
-	AUmVdy6WVMQ1n5AKoSxZdK0jjI0YyUM8eMZe7CnUCrmFuyhXl3+dvCEdy/3ipcnph0hz
-	GRmA6wekroz2TJZ8zA4R69b3b0vfdZWZDRVuVR5TYOyaaMq1mPM/tM9B6P1MTkkCfZp0
-	q3iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=IVxq4nPepr1V3LUmFTw7FRN7asFlHNUuBZu4Y3xE0HY=;
-	b=hRvsh2ABnVr2xBZzrifNVm/UykcphQsZ0XjmZJHIuxvyGBy8acw/UOTDbaf+LGPB3M
-	eO7NjoATzK7YnaZokChZR+H2NX0YETR+lRkE6OXKCRCTmZfJx3cSTSPHe1hjJ6ReQDos
-	zJMi6C0J4mAneys4XRPurMOUattIBh2H22NuI1ajhXpzoVnpm7T87SM89L/il6vadM/8
-	gJqIn10Us4SddxAm4dpZxv5TVAnjUBjTLjYol9UgbgUNWtTUzWflG0x7GlcwfXqVlQmU
-	q4kxsL0U2UoXZt20WKJaDObYSRL3sTwisUgdihHxUtFzG6OTUx5oPLlxcdzR3LSzXGA/
-	yvgA==
-X-Gm-Message-State: AJcUukdETwRAg6RWedrqDle0AeT+oluOjulUmvtsDmiQZTqLP/bSYbhv
-	8Vl9/j0va1CDGFTQzgxUVD37qNnEz0g=
-X-Google-Smtp-Source: ALg8bN7VpqAbxFfaGg5SiiS2sA+jWkTDnBBuzOkapvLCieDNn3pk55N86KnXNdPLYm0v3gTWclUIiw==
-X-Received: by 2002:a2e:9f56:: with SMTP id
-	v22-v6mr4215331ljk.114.1547065873950; 
-	Wed, 09 Jan 2019 12:31:13 -0800 (PST)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
-	q3sm13887132lff.42.2019.01.09.12.31.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Jan 2019 12:31:13 -0800 (PST)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	Wed,  9 Jan 2019 20:42:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by lilium.sigma-star.at (Postfix) with ESMTP id 4541C1802175F;
+	Wed,  9 Jan 2019 21:42:36 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2019 21:30:51 +0100
-Message-Id: <20190109203051.12258-2-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190109203051.12258-1-jacob.kroon@gmail.com>
-References: <20190109203051.12258-1-jacob.kroon@gmail.com>
-Subject: [PATCH v2 2/2] buildhistory: support generating sha256 checksums of regular files
+Date: Wed,  9 Jan 2019 21:42:19 +0100
+Message-Id: <20190109204219.2460-1-richard@nod.at>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Cc: Richard Weinberger <richard@nod.at>
+Subject: [PATCH v2] sdk: Fix SDKIMAGE_LINGUAS handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +26,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 20:31:14 -0000
+X-List-Received-Date: Wed, 09 Jan 2019 20:42:37 -0000
+Content-Transfer-Encoding: quoted-printable
 
-Introduce 'sha256' in BUILDHISTORY_FEATURES and enable it by default
-when doing reproducible builds.
+Currently SDKIMAGE_LINGUAS is broken for any inputs except "all".
+In the non-"all" case, each enabled language package is installed via
+pm.install("nativesdk-glibc-binary-localedata-%s.utf-8" % lang)
+This will throw a python exception since pm.install() expects a list of
+strings and not a string.
 
-When enabled this will additionally create:
+Fix the problem by constructing a list.
+That way it is now also possible to call the package installer just
+once.
 
-  files-in-package-sha256.txt
-  files-in-image-sha256.txt
-  files-in-sdk-sha256.txt
-
-containing the sha256 checksums of regular files.
-
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Cc: "Burton, Ross" <ross.burton@intel.com>
+Fixes: 67615e01751b ("rootfs_rpm.bbclass: migrate image creation to dnf")
+Signed-off-by: Richard Weinberger <richard@nod.at>
 ---
- meta/classes/buildhistory.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Changes since v1, http://lists.openembedded.org/pipermail/openembedded-co=
+re/2018-December/277240.html
+ - Invoke the package installer just once (Ross Burton)
 
-Changes in v2:
- * Switch to sha256
- * Let find only build the arguments and execute sha256sum once
- * Use single quotes in inline python code
+---
+ meta/lib/oe/sdk.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 33eb1b00f6..84f85da0bd 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -7,7 +7,8 @@
- # Copyright (C) 2007-2011 Koen Kooi <koen@openembedded.org>
- #
- 
--BUILDHISTORY_FEATURES ?= "image package sdk"
-+BUILDHISTORY_FEATURES ?= "image package sdk \
-+  ${@ 'sha256' if bb.utils.to_boolean(d.getVar('BUILD_REPRODUCIBLE_BINARIES')) else ''}"
- BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
- BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
- BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
-@@ -526,7 +527,12 @@ buildhistory_list_files() {
- 		eval ${FAKEROOTENV} ${FAKEROOTCMD} $find_cmd
- 	else
- 		eval $find_cmd
--	fi | sort -k5 | sed 's/ * -> $//' > $2 )
-+	fi | sort -k5 | sed 's/ * -> $//' > $2
-+	if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'sha256', '1', '0', d)}" = "1" ] ; then
-+		sha256filename=$(echo $2 | sed 's/\.txt$/-sha256.txt/')
-+		find -type f -exec sha256sum {} + | sort -k2 > $sha256filename
-+		[ -s $sha256filename ] || rm $sha256filename # remove result if empty
-+	fi )
- }
- 
- buildhistory_list_pkg_files() {
--- 
-2.11.0
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index 153b07d76b40..878ee1647ff2 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -95,8 +95,8 @@ class Sdk(object, metaclass=3DABCMeta):
+             if linguas =3D=3D "all":
+                 pm.install_glob("nativesdk-glibc-binary-localedata-*.utf=
+-8", sdk=3DTrue)
+             else:
+-                for lang in linguas.split():
+-                    pm.install("nativesdk-glibc-binary-localedata-%s.utf=
+-8" % lang)
++                pm.install(["nativesdk-glibc-binary-localedata-%s.utf-8"=
+ % \
++                           lang for lang in linguas.split()])
+             # Generate a locale archive of them
+             target_arch =3D self.d.getVar('SDK_ARCH')
+             rootfs =3D oe.path.join(self.sdk_host_sysroot, self.sdk_nati=
+ve_path)
+--=20
+2.20.1
 
 
