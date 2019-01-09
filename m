@@ -1,47 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C2296D74B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C62F6D52E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 11:59:28 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id b16so5831171ior.1
+	Wed,  9 Jan 2019 14:53:41 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id m6so6468676oig.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 03:59:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 09 Jan 2019 06:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3w+leKm3sBeouDEmylhKpjWjgUbCpx30k8DSTOIxTrE=;
-	b=XdeFeKQOrqESDZ7FAyhQIRiXbY5O0nPsgqsVvElWKo/PA4E5KdM16vzJKVC/+UKfO+
-	AVfjGn40HZ8Vvnx8Ovmb0mPiS1BbJ9zvp7EAkBdM3vSq/Qwep/6Vrfb/y2CWnZw5zdVE
-	5lnvjZNEyRwhWEkVF9C806G3cvQT0j7WXWpeW+KXr5ujbgu5G/rjPvTh7wSUALLujiSZ
-	rlXk3lIkn96SpttffR0Hixml/phR96S7C2TzQSLtDfAw/TNh6wSnU8/BSmoOeg9TTKRV
-	hfHRo3Q0GuCrwFOCaGn4CgYFoGxJAE5Js/Rzb8ABjOgdDBFMoDHCkAjBGGz5VWWW6WnB
-	7WZw==
+	:cc; bh=FbXc3zR/kSZjfMxIOw+AYzJ7QdVrAZ4l29xc4ZAfNF0=;
+	b=UfNG2Oa/n9NY4/hHxuwVGrusTiPCprKCdhKiIT85vSITUdNM+Zkw0NHR1t8D04KQo3
+	kJPMy9azj/oXjYigFuoRNu9FoD/caNzFfA37ZGDVcTw11l7QuiP82Zobqs228r2zjmpe
+	a1nJffpyRQEZKg24KEHr7EHrAt5tyJ2kMqU2vwiR+xh9BW6nY7cusJLoQCnVtzEpRrO/
+	IRfJrCjlHYbWFtyfbTHWNonFPf/B8dUbgOe9o06kEnxVGy+5mA7OAkMu9r5z/+MEZimx
+	dpQ8L39jtwCzwNtQESKEOvi6qLhNePcbw58qHoSNj1ouMqnI+BLwqlWEFsctCeDV2sRf
+	fK5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3w+leKm3sBeouDEmylhKpjWjgUbCpx30k8DSTOIxTrE=;
-	b=b9HgJcBZHfuh0EZjLSOBaGOlSkL+PK72hZjm6kunt3grDJz6eaiZdia8Gre1AYKN1i
-	H8XF1eCtvsLkQyAiBVLBWSx7d+dOw7H4URyWa2qJE9O4Y4OWHeb9pf9YS6qTyQ3eubKj
-	r7eJP4L47xGjuI43MYNGFxPVWkeMv2TO4RCRVnCwukWpkafPkbtwmVRflHYHWCm1Ms3w
-	G2z/y7Oc9YqYLBfXhBf8pqshsX4orQlNp0Ao0g6ErVcMZQKv3oZEZhUyI9Fzhhd00Wxw
-	p1ncNtvYE3IEEzltArMI7jsmQNtrESTNmMAGK8OyLBZfe2zu9HQEElv0V4xcItXHWG7e
-	sOCA==
-X-Gm-Message-State: AJcUukdF4j+dETbzYYggfqpOSeYaCAk8zoQLQ4Mc18HGDM61BBDmhqXj
-	kG/5BfOVlA8TDZ1VohnTaS0mAyy6bCR8hCqy4ieiYN3j6jI=
-X-Google-Smtp-Source: ALg8bN5w/wVbhhIer6yl5Ne55pSAElViaZ1ZhI1Nfp8JejCF0rKmkdQ01bcby9jvvBDLkmXFDDo5ZPQ06yKL1qsvi2o=
-X-Received: by 2002:a6b:f70a:: with SMTP id k10mr3168924iog.270.1547035169335; 
-	Wed, 09 Jan 2019 03:59:29 -0800 (PST)
+	bh=FbXc3zR/kSZjfMxIOw+AYzJ7QdVrAZ4l29xc4ZAfNF0=;
+	b=bBD9fA2I695bg2wJSWxlST1o4rE/WeRI8xQHKfhlVuvRoL75q0OwQxuqOVA/6C6i44
+	np97/SDzF/5fbijsrS5tLf8zCkvpr0LyXWtzYEBUvW0rHIivjjLmsta39yANA9hOBKpr
+	qQKYx/Ju1JW0zj/OP9B92vmkkvt2kO8rZTRCnCtoVCkCuF3me7WeWecb6ojXGyve9okj
+	NksCMudApqA2GhvPf4Cb8jnKSXv5a2fPPoAiEasw0qcKZ2KUm6Y9mhN/pwxYvHcj8T0E
+	/0zboWOTEOysigSrL3bYT0hSO3rFLHYZSz9lm1IwDdUCdrwiRvE2mRvO0o4BLJyjxyOW
+	LPYg==
+X-Gm-Message-State: AJcUukeCvMpyQ+1lpZ8NA67HflN3ebKng0ZFZ6M6SoQy/Q5I1FCNcvIR
+	3BSkZ+76sb3q5QUHpVhJJUZfxetm432qCXukO43FRQ==
+X-Google-Smtp-Source: ALg8bN5e5A/VXfrQTBOWmFKpCSomMqpEn2oTl8rGz6ceGxARb0V40LHRRySRmvMjgUEVl7dzbI6zbaF+nzJ/5ELRU2Q=
+X-Received: by 2002:aca:d78b:: with SMTP id o133mr3881863oig.232.1547045622406;
+	Wed, 09 Jan 2019 06:53:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Jan 2019 11:59:18 +0000
-Message-ID: <CAJTo0LaKXugCRMnqSgSOmX-DVLAAy7gpdiLDxmMzkxH6cxAdew@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] dbus:upgrade to 1.13.6
+References: <cover.1546961583.git.alex.kanavin@gmail.com>
+	<CAMKF1spfq3brB-L+YCWY7joFC41KshZZwLzQcha3wEO3otBiQw@mail.gmail.com>
+	<CANNYZj_gZFZpJaLkSSeabMDkFAw2oO+vM80H_q6o9cBsKaeycg@mail.gmail.com>
+	<CAMKF1sp8BCRZfmBbamqobM-CoqKMG5CoWevqTAM1c83GJb+gWA@mail.gmail.com>
+	<CAMKF1srNzA0UVK+UpKtkNBi2V3S2oAWSC3WZEnJsp8sVNhtmjQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srNzA0UVK+UpKtkNBi2V3S2oAWSC3WZEnJsp8sVNhtmjQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 9 Jan 2019 15:53:30 +0100
+Message-ID: <CANNYZj88ZpiQ-UaHUpMCuptU0xLd=vDd6-mOR4c_WUhGGF5Arw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Reimplement perl recipe using perl-cross and update perl to 5.28.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,79 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 11:59:28 -0000
+X-List-Received-Date: Wed, 09 Jan 2019 14:53:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-From dbus web site:
+On Wed, 9 Jan 2019 at 11:02, Khem Raj <raj.khem@gmail.com> wrote:
+> Here is run for qemumips/musl
+>
+> http://errors.yoctoproject.org/Errors/Build/74739/
+>
+> The perl related fails are
+> postgresql
+> openipmi
+> adduser
 
-"The current stable branch is dbus 1.12.x. This is the recommended
-version for most purposes. "
+Thanks, for adduser I already have a fix.
 
-"The current development branch is  dbus 1.13.x, which will lead to a
-1.14.x stable branch in future"
+I couldn't reproduce the other two, but seems like they happen because
+both recipes are built against native perl headers (which can, and do
+differ from target headers). I made patches for both.
 
-This is why the recipe inherits upstream-version-is-even.  We should
-upgrade to 1.12.12 instead.
-
-Ross
-
-On Wed, 9 Jan 2019 at 01:53, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> 1.Upgrade dbus from 1.12.10 to 1.13.6.
-> 2.Upgrade dbus-test from 1.12.10 to 1.13.6.
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../dbus/{dbus-test_1.12.10.bb => dbus-test_1.13.6.bb}        | 4 ++--
->  meta/recipes-core/dbus/{dbus_1.12.10.bb => dbus_1.13.6.bb}    | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-core/dbus/{dbus-test_1.12.10.bb => dbus-test_1.13.6.bb} (95%)
->  rename meta/recipes-core/dbus/{dbus_1.12.10.bb => dbus_1.13.6.bb} (97%)
->
-> diff --git a/meta/recipes-core/dbus/dbus-test_1.12.10.bb b/meta/recipes-core/dbus/dbus-test_1.13.6.bb
-> similarity index 95%
-> rename from meta/recipes-core/dbus/dbus-test_1.12.10.bb
-> rename to meta/recipes-core/dbus/dbus-test_1.13.6.bb
-> index 25b9395120..695e8d736d 100644
-> --- a/meta/recipes-core/dbus/dbus-test_1.12.10.bb
-> +++ b/meta/recipes-core/dbus/dbus-test_1.13.6.bb
-> @@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
->             file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
->             "
->
-> -SRC_URI[md5sum] = "c3e12b4206e2a7da39d7cc42567790ef"
-> -SRC_URI[sha256sum] = "4b693d24976258c3f2fa9cc33ad9288c5fbfa7a16481dbd9a8a429f7aa8cdcf7"
-> +SRC_URI[md5sum] = "aeee1cbbed4d0f2b57fce5bf44828bda"
-> +SRC_URI[sha256sum] = "b533693232d36d608a09f70c15440c1816319bac3055433300d88019166c1ae4"
->
->  S="${WORKDIR}/dbus-${PV}"
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
-> diff --git a/meta/recipes-core/dbus/dbus_1.12.10.bb b/meta/recipes-core/dbus/dbus_1.13.6.bb
-> similarity index 97%
-> rename from meta/recipes-core/dbus/dbus_1.12.10.bb
-> rename to meta/recipes-core/dbus/dbus_1.13.6.bb
-> index d71f7f7042..50859152a8 100644
-> --- a/meta/recipes-core/dbus/dbus_1.12.10.bb
-> +++ b/meta/recipes-core/dbus/dbus_1.13.6.bb
-> @@ -18,8 +18,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
->             file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
->  "
->
-> -SRC_URI[md5sum] = "c3e12b4206e2a7da39d7cc42567790ef"
-> -SRC_URI[sha256sum] = "4b693d24976258c3f2fa9cc33ad9288c5fbfa7a16481dbd9a8a429f7aa8cdcf7"
-> +SRC_URI[md5sum] = "aeee1cbbed4d0f2b57fce5bf44828bda"
-> +SRC_URI[sha256sum] = "b533693232d36d608a09f70c15440c1816319bac3055433300d88019166c1ae4"
->
->  inherit useradd autotools pkgconfig gettext update-rc.d upstream-version-is-even
->
-> --
-> 2.17.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
