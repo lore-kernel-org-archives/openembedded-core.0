@@ -1,47 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 747AD6D74B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ECE966D74B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2019 11:53:48 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id t6so7322011wrr.12
+	Wed,  9 Jan 2019 11:56:28 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id b16so5824942ior.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2019 03:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 09 Jan 2019 03:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MYu2O1GP/GVe9kO0vva+zX7V+XtdCOR/tgbh5fyKvqA=;
-	b=Nve20WxmUGWsf5Qsovm+jMPheLAYp5JdyxEYF28uGbSGp5+eTAq9Kxg55zdBOAsSAc
-	08qIUG7FKdl6mGg/PM3X5914ho7x0r55MYdFJ5OvVpslGjS9oLEE32Txp5fU6JS4HE6h
-	OfLTILntIt5EeLeDGPpe9ohUgcaUB+ZdUZrWzfeIhnibQfLQp+4tU9dRTxP7b4bvGo9U
-	wwtRmjqR41sTVJRHthi6Gb/+SjbFmVuR+QHiefmiInUM+klMkEut+CuXCDNmC8gmApF1
-	0tYd4GQgAQ+QiY5zmw/6WpUeRBRaS6llFaIZSnQRhHfxyTPO4xNevD30L2VhYvsr2ONF
-	mXsQ==
+	:cc; bh=ro0xyvR9oQWpZWfCnehbJ0xluPAGehONSfYwpyxrC+Q=;
+	b=yCwAZ8I4E/TB0VjTDQ/47MGJXSLS+6NnbL1r+HW8BBzVMMuOeSIihbbIS/IS35JITU
+	HPy9cZAWYebjg3bSvxaN20vgCEvyPrAd6f5cey70dMrkWuquAv6UdT5AF6zI7YQN3EXs
+	tNV4omcbyGi6qmklygiDRpHSLOCXrPlk4kV37x+keiO3kEjKV19Taep4Mh0Q9tuox/nL
+	FgJHgQv0czpIb9Gx9+1r3jLGg0pZQk2duCTUcjgAjrs1D0oE6sdLK2rNM3irx3O+QILj
+	S/L0QB0fIwhzsKpsgB2mToZOq28hRCboU8fBHEhImaDpRAJaPkBTOq9O09m8c0giQshY
+	PcAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=MYu2O1GP/GVe9kO0vva+zX7V+XtdCOR/tgbh5fyKvqA=;
-	b=iZkb9NCUNeOE+Y6E1nArDVvK8mx0WZ8ebZArHEPpaQu0fSqYBLbx5I5wpyC97MrvoK
-	Fm6Vu1xbMCufcWdatJqEYVjDBfJ41oagTkGv3tHzg0N0D43r+zEY/fMSB+z5BuYcttj/
-	5r95VP3oJdjgd8xwKgsjjtvXJI26uFXVZD9fExL26xharqOHcV5Bq+VVdTxZDp91+jza
-	EyoUlu2D24wnEelvdHsfV8BjuxUfgJU7Tj+RDYDreYpia4stanoYho3lky+nZDmKOCpY
-	7NHSHSR6PxaB7f32eUr3GqyQQDCZuWZZAjCUSJYl6jPkHrqk0zpHTPyffwthKkunUud4
-	T8vQ==
-X-Gm-Message-State: AJcUukdtXdP+gLZS1aw+SyaNKmrb3P8GMXZp5S7qHxFJ/1UxQxg/TybG
-	E/LoRfHVuqLXW5LaVCfEw5jGFNy10z97ZYahbSK+tndYdAc=
-X-Google-Smtp-Source: ALg8bN5+hYaeikPxBAbex9wSRL5/VCndVe47znckA6XhiZDlH5zqcP/OktPlBtx6J22LV4s0g9FwyYrwx5+EyZnI9Q0=
-X-Received: by 2002:adf:fc89:: with SMTP id g9mr2493676wrr.96.1547034828960;
-	Wed, 09 Jan 2019 03:53:48 -0800 (PST)
+	bh=ro0xyvR9oQWpZWfCnehbJ0xluPAGehONSfYwpyxrC+Q=;
+	b=kY218CcRu51tLwSIgiM1iDhQFIrDodPU4bnEXvX23x4FIt6rGvaBGbGGORjJZvfjL3
+	mXKTUMlUXIxp41+BC6tHUq63WLLc/KhgeJTmdgtal0AlbK4lY66LsyP08SUHUiuTRKR/
+	sETfEbDTm41XUUPoTVL7Kk0O+v/isnczVaYqmbeMuj/cPkTL2Q5QRGgZ20TRBlZiC7/R
+	NRLH2LHkgFW1k2i/7R2bar0IqZBIejLt1hssDk2hcGhPu8r8/oT0jM0eHO+zV93RBwrR
+	CYQ2wwmJFs81c3lDYta0zNE5U0zjn5lUwJZqeSHtFViGd/Fa99SjO2UkEaxAXHUtfOx4
+	QrIQ==
+X-Gm-Message-State: AJcUukfzikvGFhpqZqCovS+pWrR8eEPkgEDOajAshAav6CZowG0NN0La
+	ydafN78goTwRMp2muJkoiCUPBsyATvjoLwtckisGVg==
+X-Google-Smtp-Source: ALg8bN7E2L5XK9Zh+dc5qpeKoH1OVOYVO5oH864AxquYaJkTMVjYG3+GyuRQVhgrObwBu+lsGO7wTeKrrbrvdfNcUFw=
+X-Received: by 2002:a6b:acc5:: with SMTP id v188mr3392093ioe.20.1547034989943; 
+	Wed, 09 Jan 2019 03:56:29 -0800 (PST)
 MIME-Version: 1.0
-References: <1546792257-4686-1-git-send-email-liu.ming50@gmail.com>
-	<9f4819b992b64b38374f642e529dbaa236bf93e2.camel@linuxfoundation.org>
-In-Reply-To: <9f4819b992b64b38374f642e529dbaa236bf93e2.camel@linuxfoundation.org>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Wed, 9 Jan 2019 12:53:38 +0100
-Message-ID: <CALatG=6Yrq4awjc5inBzEazrvmjkt_DTm6PF8ZUzaMtercTvbw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1544645927-18002-1-git-send-email-alex.kiernan@gmail.com>
+	<CAO5Uq5RZ0gEppGrR2xu-dKbnkcj7Kznph-XgWQnPVrF7GNpt7w@mail.gmail.com>
+In-Reply-To: <CAO5Uq5RZ0gEppGrR2xu-dKbnkcj7Kznph-XgWQnPVrF7GNpt7w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Jan 2019 11:56:18 +0000
+Message-ID: <CAJTo0LY4KZ+7nMWWt-fSPXaQ2jCgrQgUQd_2Q1fz=49ROpyQgg@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] meta: handle IMAGE_ROOTFS/IMGDEPLOYDIR by task varflags
+Subject: Re: [PATCH] uboot-sign.bbclass: silence warnings when UBOOT_DTB_BINARY is empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,132 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 11:53:48 -0000
-Content-Type: multipart/alternative; boundary="0000000000006f77a6057f051dff"
-
---0000000000006f77a6057f051dff
+X-List-Received-Date: Wed, 09 Jan 2019 11:56:29 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-HI, Richard:
+This is queued for a build, I'll fire one shortly.
 
-Will send a V2 to do the cleaning up firstly, after I double checked the
-code, seems to me that you are correct, there are
-"bb.utils.remove(self.image_rootfs, True)" for all package backend, so I am
-wondering why I saw the leftovers, will investigate that.
+Ross
 
-//Ming Liu
-
-Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2019=E5=B9=B4=
-1=E6=9C=887=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:33=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-
-> On Sun, 2019-01-06 at 17:30 +0100, liu.ming50@gmail.com wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
+On Tue, 8 Jan 2019 at 15:57, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> On Wed, Dec 12, 2018 at 8:18 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
 > >
-> > I found a issue that sometimes there are leftovers in IMAGE_ROOTFS
-> > that are generated by the previous builds. I think this is caused by
-> > IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in provided
-> > that
-> > INC_RPM_IMAGE_GEN is not set.
+> > When UBOOT_DTB_BINARY is set to "", the keys for signed booting are
+> > expected to be already present in U-Boot's DTB, so don't issue warnings
+> > for this.
 > >
-> > IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some
-> > code
-> > in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories
-> > could be removed.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+>
+> Ping?
+>
 > > ---
-> >  meta/classes/image.bbclass | 4 ++--
-> >  meta/lib/oe/rootfs.py      | 5 -----
-> >  2 files changed, 2 insertions(+), 7 deletions(-)
+> >
+> >  meta/classes/uboot-sign.bbclass | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+> > index 03100b8a5fa1..9e3d1d6fc1ad 100644
+> > --- a/meta/classes/uboot-sign.bbclass
+> > +++ b/meta/classes/uboot-sign.bbclass
+> > @@ -70,7 +70,7 @@ concat_dtb() {
+> >                 elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+> >                         cd ${DEPLOYDIR}
+> >                         cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+> > -               else
+> > +               elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+> >                         bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
+> >                 fi
+> >         fi
+> > @@ -86,7 +86,7 @@ do_install_append() {
+> >                         # need both of them.
+> >                         install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
+> >                         ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
+> > -               else
+> > +               elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+> >                         bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
+> >                 fi
+> >         fi
+> > --
+> > 2.7.4
+> >
 >
-> Firstly, lets split the patch into two, the cleanup and the "fix".
 >
-> The cleanup is fine. The fix is more problematic as I don't want to
-> start encoding logic into the cleandirs var flag. You've missed
-> INC_IPK_IMAGE_GEN for example so the logic would need to become more
-> twisted. Looking at the code in lib/oe/rootfs.py, it does cleanup the
-> directory:
->
->         self.inc_rpm_image_gen =3D self.d.getVar('INC_RPM_IMAGE_GEN')
->         if self.inc_rpm_image_gen !=3D "1":
->             bb.utils.remove(self.image_rootfs, True)
->         else:
->             self.pm.recovery_packaging_data()
->
-> so I'm not sure this will fix the issue you're seeing anyway.
->
-> Cheers,
->
-> Richard
->
->
+> --
+> Alex Kiernan
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---0000000000006f77a6057f051dff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">HI, Richard:<div><br></div><div>Will send a V2 to do the c=
-leaning up firstly, after I double checked the code, seems to me that you a=
-re correct, there are &quot;bb.utils.remove(self.image_rootfs, True)&quot; =
-for all package backend, so I am wondering why I saw the leftovers, will in=
-vestigate that.</div><div><br></div><div>//Ming Liu</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr">Richard Purdie &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
-; =E6=96=BC 2019=E5=B9=B41=E6=9C=887=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=
-=E5=8D=884:33=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Sun, 2019-01-06 at 17:30 +0100, <a href=3D"mail=
-to:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a> wrote:<=
-br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; I found a issue that sometimes there are leftovers in IMAGE_ROOTFS<br>
-&gt; that are generated by the previous builds. I think this is caused by<b=
-r>
-&gt; IMAGE_ROOTFS is not in do_rootfs[cleandirs], so add it in provided<br>
-&gt; that<br>
-&gt; INC_RPM_IMAGE_GEN is not set.<br>
-&gt; <br>
-&gt; IMGDEPLOYDIR could be added to do_rootfs[dirs] as well, hence some<br>
-&gt; code<br>
-&gt; in rootfs.py to generate the IMAGE_ROOTFS/IMGDEPLOYDIR directories<br>
-&gt; could be removed.<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/image.bbclass | 4 ++--<br>
-&gt;=C2=A0 meta/lib/oe/rootfs.py=C2=A0 =C2=A0 =C2=A0 | 5 -----<br>
-&gt;=C2=A0 2 files changed, 2 insertions(+), 7 deletions(-)<br>
-<br>
-Firstly, lets split the patch into two, the cleanup and the &quot;fix&quot;=
-.<br>
-<br>
-The cleanup is fine. The fix is more problematic as I don&#39;t want to<br>
-start encoding logic into the cleandirs var flag. You&#39;ve missed<br>
-INC_IPK_IMAGE_GEN for example so the logic would need to become more<br>
-twisted. Looking at the code in lib/oe/rootfs.py, it does cleanup the<br>
-directory:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.inc_rpm_image_gen =3D self.d.getVar(&#39;I=
-NC_RPM_IMAGE_GEN&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.inc_rpm_image_gen !=3D &quot;1&quot;:<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(self.image_rootfs=
-, True)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.pm.recovery_packaging_data()=
-<br>
-<br>
-so I&#39;m not sure this will fix the issue you&#39;re seeing anyway.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---0000000000006f77a6057f051dff--
