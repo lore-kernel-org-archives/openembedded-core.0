@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 093C560125;
-	Thu, 10 Jan 2019 08:03:14 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 10 Jan 2019 08:03:15 -0000
-Message-ID: <20190110080315.2331.81978@do>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A7560125
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2019 08:07:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0A87Kre004013
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2019 00:07:30 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 10 Jan 2019 00:06:57 -0800
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1547106548.git.liezhi.yang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1547106548.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYTogbWFrZSBpdCB3b3JrIGZvciBtdWx0aXBsZSB1c2Vycw==?=
+	<20190110080315.2331.81978@do>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <02d93470-f103-ce3f-066d-1667cfe1c11e@windriver.com>
+Date: Thu, 10 Jan 2019 16:11:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20190110080315.2331.81978@do>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9lcWE6IG1ha2UgaXQgd29yayBmb3IgbXVsdGlwbGUgdXNlcnM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 08:03:14 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 10 Jan 2019 08:07:40 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
-
-Series: oeqa: make it work for multiple users
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15590/
-State : failure
-
-== Summary ==
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+On 1/10/19 4:03 PM, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: oeqa: make it work for multiple users
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/15590/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+>    Suggested fix    Rebase your series on top of targeted branch
+>    Targeted branch  master (currently at 65c419b8c4)
 
+I can't find 65c419b8c4 in my repo on master or master-next branch, maybe
+something is wrong with patchtest ?
 
+// Robert
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 65c419b8c4)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> 
 
