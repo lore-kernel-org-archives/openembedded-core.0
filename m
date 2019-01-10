@@ -1,47 +1,49 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EDFB37C078
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 30F226B7C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 09:03:22 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t27so10415418wra.6
+	Thu, 10 Jan 2019 13:45:06 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id r200so8933480iod.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 01:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=GMT6u2MChy45tbVdjDfSho+MoT6B1X5oJPUb5dr+ZKk=;
-	b=mbFJ0SD6OnUH9TvOjwUQp0/ZeARrM7uXlqLScRd1B3I7FR1CFOzg4DTogDetwld5sw
-	aEkcjAGDGqvbjK2yZHM5jBN5bzgg5Z/VtebNQqIbgjVKLOnXVDHuylT+qdR9bmGQqNiY
-	CuUwH+dRzXXwKrDN86LmC4qsNZ+BFUaB2QSxbgP/7/CydwISnTYRUvIHApsZuzusKL1a
-	wlVLh9KWoNuBSnFB4RwPgYMLXVX/3IOzwW43rO56OYE6Lyr81z6epBZ3nSnO5xvlbFMk
-	BdKz4hknP36w2pohHuM5Pe2zGeCMoDxJveRgeR7vle3wrhmBXFtmEstLbN1dXs5DFMA9
-	SKvw==
+	Thu, 10 Jan 2019 05:45:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ThNmsBpoqHMa1dRGoSiDC0XWztn4mPhYGOB3UW7kcr4=;
+	b=kyoMWZGfB7K/PBm9rQSy1CCBHnUpJsHuQ3+/6mr1hpe3KT6/i8oq0lzurfXBl4iDx1
+	x2kME4Vo2keNKZlTBCKgw1hkVWwYfOjGjApzriRNX61zYxOlZQXWDVpSn2V+d5+ntZIl
+	CK3XQE4CRhZtm5UlHRGU1JwtJvbQR1keCQ+pHxcFKVz9BdszO8mdPAt4F3GaAWjYlWNL
+	SO2IhNWv5iqXG7Y7/EnwAvR5U8N+qYru2yocFiK6TKpIDE4/VWyGt9IiyyqerEFVjnsp
+	GW6lUv8cdAw5jH2ywCJ0DVBbuChdRDURr2N30zgDjeEyiAb7tyEGiUjMQ6XzIeQfmdpi
+	MYnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GMT6u2MChy45tbVdjDfSho+MoT6B1X5oJPUb5dr+ZKk=;
-	b=OPyL11ihAB81YQsvRqLRQpzVCby+JPV7kr97kXU0c629nc0/A3KnS6NaMg+7s0HYAo
-	hzH2bMYMY8GCIkqQgJfEaSCb+C3Px/o18cFujQH4dGBFmuTRySXOUq/jv+x5oMjIP/RH
-	CmoZbKQFDhG/u8oKW4k94eroYjq+B98a4B7derD2rCV5YdEwz2g2vYjBAL7wNhUydUEC
-	j/nrPxcBGpWQxoWcdMQUiBDEukvUMNMYNznJ4E1s/BqxiJsxMPFC3HkxIH67OD2agfg9
-	xzYbYI40WVvE92e4vmdUbf4cVuetqaQkeXiDyZcsKLE3JIAkyaR8uuZwak1lPNTyT6t4
-	14DA==
-X-Gm-Message-State: AJcUukengtwQ56opOVkzBktXr2LCU3Z7QD3+nxt+7DOvHC9vgc7EV1Ba
-	FZBeaQ7bfLiOXeQUA2MVhUG+du+N7mU=
-X-Google-Smtp-Source: ALg8bN4xtJgbIx9au/X1CMPb0XZ4Ot9Yu963XFLDsUidnu9/jyme+pKb4bCg1/NcehV0D3nQMB4ltg==
-X-Received: by 2002:a5d:4250:: with SMTP id s16mr8345911wrr.253.1547111003226; 
-	Thu, 10 Jan 2019 01:03:23 -0800 (PST)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	t18sm11870581wmt.35.2019.01.10.01.03.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Jan 2019 01:03:22 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2019 09:03:18 +0000
-Message-Id: <1547110998-17405-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] systemd: Add PACKAGECONFIG for gnutls
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ThNmsBpoqHMa1dRGoSiDC0XWztn4mPhYGOB3UW7kcr4=;
+	b=R9kSuh1QuvPXfI7ORPeA3OQQL73KjqU9s1O9VO8RAOie1EJ9a9aUmfk4epiPA7V6Vq
+	/CwR58SCkF3Cg0UhfiTUaqAQZQJVUldHwFx5LXj+pTbqbr68B3F3sYS3/L1jwL1PdrZx
+	txGv0iG3I3iBk6mzCv++pZ9S7N6Q/zDa/6Z/41+6yiCZZiWzvEtgmOUQLQ0EYzUDwAw0
+	hh1q3lUTQ3/ZRG85DUAbWyJQPoISPhXe43u+tE+kQWLhXmrkKmBIRVtl196DVC+f0Wch
+	W3XsgW9D9AVjqG7nB904V+g3FBQ+tyaTgrDQJ7pHcI2DlubeIXXQ1Ji0bK3fjJhSVNKL
+	svsw==
+X-Gm-Message-State: AJcUukcGx+sKoiKsjhrRQXJjh5O7mOBf6ygST0RxCQBhEcWbKXfdHIOG
+	760nPUXQ76P9D4OQ6JLZOkBWHRrc49Lf35uGITK73Q==
+X-Google-Smtp-Source: ALg8bN6LC0VzTUHp5fMj1L+Dvc3sE+21dEoXgsiAxjuLwPKArLr5+acgRh/hGQo5pyBAYZ1j+BnCEJbAGMJoNfhiFQ4=
+X-Received: by 2002:a5e:820d:: with SMTP id l13mr3610539iom.201.1547127907994; 
+	Thu, 10 Jan 2019 05:45:07 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1545101991.git.liezhi.yang@windriver.com>
+	<73748ae8-f16a-43f9-0fac-d62e43b471cf@windriver.com>
+	<6ec99815-8bef-18ad-b8c3-e10858a332ec@windriver.com>
+In-Reply-To: <6ec99815-8bef-18ad-b8c3-e10858a332ec@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Jan 2019 13:44:56 +0000
+Message-ID: <CAJTo0LYQm3WQ9=2E6xmRcquczsK0g8uuoZN+BF_yMW6ibrfGLg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] package.bbclass: Don not hide cpio's error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +56,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 09:03:23 -0000
+X-List-Received-Date: Thu, 10 Jan 2019 13:45:07 -0000
+Content-Type: multipart/alternative; boundary="00000000000060e6c6057f1ac9c7"
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+--00000000000060e6c6057f1ac9c7
+Content-Type: text/plain; charset="UTF-8"
 
- meta/recipes-core/systemd/systemd_239.bb | 1 +
- 1 file changed, 1 insertion(+)
+Queued in mut already.
 
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index e0c71de01816..be836ffa42f1 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -137,6 +137,7 @@ PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
- PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "-Dgcrypt=true,-Dgcrypt=false,libgcrypt"
-+PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
- PACKAGECONFIG[gshadow] = "-Dgshadow=true,-Dgshadow=false"
- PACKAGECONFIG[hibernate] = "-Dhibernate=true,-Dhibernate=false"
- PACKAGECONFIG[hostnamed] = "-Dhostnamed=true,-Dhostnamed=false"
--- 
-2.7.4
+Ross
 
+On Thu, 10 Jan 2019 at 07:48, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+>
+>
+> On 12/18/18 11:13 AM, Robert Yang wrote:
+> > Sorry, the subject should be:
+> >
+> > package.bbclass: Do not hide cpio's error
+> >
+> > Fixed it in the repo.
+> >
+> > // Robert
+> >
+> > On 12/18/18 11:00 AM, Robert Yang wrote:
+> >> The following changes since commit
+> 20aea61385e1a53ac245353899277ba20104ed2f:
+> >>
+> >>    gcc: Drop 7.3 since 8.2 is working fine for us (2018-12-15 17:10:44
+> +0000)
+> >>
+> >> are available in the git repository at:
+> >>
+> >>    git://git.openembedded.org/openembedded-core-contrib rbt/package
+>
+> Ping.
+>
+> // Robert
+>
+> >>
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/package
+> >>
+> >> Robert Yang (1):
+> >>    package.bbclass: Don not hide cpio's error
+> >>
+> >>   meta/classes/package.bbclass | 3 ++-
+> >>   1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000060e6c6057f1ac9c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Queued in mut already.<div><br></div><div>Ross</div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, 10 Jan 2019 at 07:4=
+8, Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com">liezhi.yang=
+@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:sol=
+id;border-left-color:rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 12/18/18 11:13 AM, Robert Yang wrote:<br>
+&gt; Sorry, the subject should be:<br>
+&gt; <br>
+&gt; package.bbclass: Do not hide cpio&#39;s error<br>
+&gt; <br>
+&gt; Fixed it in the repo.<br>
+&gt; <br>
+&gt; // Robert<br>
+&gt; <br>
+&gt; On 12/18/18 11:00 AM, Robert Yang wrote:<br>
+&gt;&gt; The following changes since commit 20aea61385e1a53ac245353899277ba=
+20104ed2f:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0 gcc: Drop 7.3 since 8.2 is working fine for us (2018-=
+12-15 17:10:44 +0000)<br>
+&gt;&gt;<br>
+&gt;&gt; are available in the git repository at:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0 git://<a href=3D"http://git.openembedded.org/openembe=
+dded-core-contrib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.or=
+g/openembedded-core-contrib</a> rbt/package<br>
+<br>
+Ping.<br>
+<br>
+// Robert<br>
+<br>
+&gt;&gt; =C2=A0=C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded-=
+core-contrib/log/?h=3Drbt/package" rel=3D"noreferrer" target=3D"_blank">htt=
+p://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Drbt/package</a=
+><br>
+&gt;&gt;<br>
+&gt;&gt; Robert Yang (1):<br>
+&gt;&gt; =C2=A0=C2=A0 package.bbclass: Don not hide cpio&#39;s error<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0 meta/classes/package.bbclass | 3 ++-<br>
+&gt;&gt; =C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--00000000000060e6c6057f1ac9c7--
