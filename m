@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 60DC26C42C;
-	Thu, 10 Jan 2019 16:03:13 +0000 (UTC)
+Return-Path: <ftoth@telfort.nl>
+Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
+	by mail.openembedded.org (Postfix) with ESMTP id D013B7503B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2019 16:23:49 +0000 (UTC)
+Received: from [192.168.1.22] (cust-178-250-146-69.breedbanddelft.nl
+	[178.250.146.69])
+	by radex-web.radex.nl (Postfix) with ESMTPS id 072F12404C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2019 17:23:50 +0100 (CET)
+From: Ferry Toth <ftoth@telfort.nl>
+X-Mozilla-News-Host: news://news://news.gmane.org:119
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <bb4e7e77-fc77-d180-cf50-aecc92c42c24@telfort.nl>
+Date: Thu, 10 Jan 2019 17:23:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Thu, 10 Jan 2019 16:03:14 -0000
-Message-ID: <20190110160314.2332.79429@do>
-References: <20190110152754.22014-1-mac@mcrowe.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190110152754.22014-1-mac@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IFNlcGFyYXRlIG91dCBBQXJjaDY0IG11bHRpbGliIGxvYWRlciBzeW1saW5rIGNyZWF0aW9u?=
+Subject: Sudden errors building Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,45 +30,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 16:03:13 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 10 Jan 2019 16:23:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-== Series Details ==
+After a new checkout I am experiencing multiple errors building Sumo 
+that might be related:
+bison-3.0.4
 
-Series: glibc: Separate out AArch64 multilib loader symlink creation
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15595/
-State : failure
+cross-localedef-native_2.27
 
-== Summary ==
+coreutils-8.29
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+On another machine with slightly out-of-date Sumo these problems do not 
+occur.
 
 
-
-* Patch            glibc: Separate out AArch64 multilib loader symlink creation
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Issue             LIC_FILES_CHKSUM is missing in newly added recipe [test_lic_files_chksum_presence] 
-  Suggested fix    Specify the variable LIC_FILES_CHKSUM in glibc-loader-symlink
+Detail below.
 
 
+Any ideas how to fix?
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+Ferry
 
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-devtools/bison/bison_3.0.4.bb:do_compile
+
+| ../bison-3.0.4/lib/fseterr.c: In function 'fseterr':
+| ../bison-3.0.4/lib/fseterr.c:77:3: error: #error "Please port gnulib 
+fseterr.c to your platform! Look at the definitions of ferror and 
+clearerr on your system, then report this to bug-gnulib."
+| #error "Please port gnulib fseterr.c to your platform! Look at the 
+definitions of ferror and clearerr on your system, then report this to 
+bug-gnulib."
+| ^~~~~
+
+
+/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/glibc/cross-localedef-native_2.27.bb:do_compile
+
+| /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld: 
+argp-fmtstream.c:(.text+0x525): undefined reference to `_IO_fwide'
+| /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld: 
+argp-help.o: in function `argp_failure':
+| argp-help.c:(.text+0x20b3): undefined reference to `_IO_fwide'
+| collect2: error: ld returned 1 exit status
+
+
+virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/coreutils/coreutils_8.29.bb:do_compile
+
+| ../coreutils-8.29/lib/freadseek.c: In function 'freadptrinc':
+| ../coreutils-8.29/lib/freadseek.c:68:3: error: #error "Please port 
+gnulib freadseek.c to your platform! Look at the definition of getc, 
+getc_unlocked on your system, then report this to bug-gnulib."
+| #error "Please port gnulib freadseek.c to your platform! Look at the 
+definition of getc, getc_unlocked on your system, then report this to 
+bug-gnulib."
+| ^~~~~
 
 
