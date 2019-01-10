@@ -1,28 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58A7560125
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EDFB37C078
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 08:07:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0A87Kre004013
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 Jan 2019 09:03:22 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t27so10415418wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 00:07:30 -0800
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 10 Jan 2019 00:06:57 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1547106548.git.liezhi.yang@windriver.com>
-	<20190110080315.2331.81978@do>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <02d93470-f103-ce3f-066d-1667cfe1c11e@windriver.com>
-Date: Thu, 10 Jan 2019 16:11:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <20190110080315.2331.81978@do>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9lcWE6IG1ha2UgaXQgd29yayBmb3IgbXVsdGlwbGUgdXNlcnM=?=
+	Thu, 10 Jan 2019 01:03:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=GMT6u2MChy45tbVdjDfSho+MoT6B1X5oJPUb5dr+ZKk=;
+	b=mbFJ0SD6OnUH9TvOjwUQp0/ZeARrM7uXlqLScRd1B3I7FR1CFOzg4DTogDetwld5sw
+	aEkcjAGDGqvbjK2yZHM5jBN5bzgg5Z/VtebNQqIbgjVKLOnXVDHuylT+qdR9bmGQqNiY
+	CuUwH+dRzXXwKrDN86LmC4qsNZ+BFUaB2QSxbgP/7/CydwISnTYRUvIHApsZuzusKL1a
+	wlVLh9KWoNuBSnFB4RwPgYMLXVX/3IOzwW43rO56OYE6Lyr81z6epBZ3nSnO5xvlbFMk
+	BdKz4hknP36w2pohHuM5Pe2zGeCMoDxJveRgeR7vle3wrhmBXFtmEstLbN1dXs5DFMA9
+	SKvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=GMT6u2MChy45tbVdjDfSho+MoT6B1X5oJPUb5dr+ZKk=;
+	b=OPyL11ihAB81YQsvRqLRQpzVCby+JPV7kr97kXU0c629nc0/A3KnS6NaMg+7s0HYAo
+	hzH2bMYMY8GCIkqQgJfEaSCb+C3Px/o18cFujQH4dGBFmuTRySXOUq/jv+x5oMjIP/RH
+	CmoZbKQFDhG/u8oKW4k94eroYjq+B98a4B7derD2rCV5YdEwz2g2vYjBAL7wNhUydUEC
+	j/nrPxcBGpWQxoWcdMQUiBDEukvUMNMYNznJ4E1s/BqxiJsxMPFC3HkxIH67OD2agfg9
+	xzYbYI40WVvE92e4vmdUbf4cVuetqaQkeXiDyZcsKLE3JIAkyaR8uuZwak1lPNTyT6t4
+	14DA==
+X-Gm-Message-State: AJcUukengtwQ56opOVkzBktXr2LCU3Z7QD3+nxt+7DOvHC9vgc7EV1Ba
+	FZBeaQ7bfLiOXeQUA2MVhUG+du+N7mU=
+X-Google-Smtp-Source: ALg8bN4xtJgbIx9au/X1CMPb0XZ4Ot9Yu963XFLDsUidnu9/jyme+pKb4bCg1/NcehV0D3nQMB4ltg==
+X-Received: by 2002:a5d:4250:: with SMTP id s16mr8345911wrr.253.1547111003226; 
+	Thu, 10 Jan 2019 01:03:23 -0800 (PST)
+Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
+	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
+	t18sm11870581wmt.35.2019.01.10.01.03.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Jan 2019 01:03:22 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Jan 2019 09:03:18 +0000
+Message-Id: <1547110998-17405-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] systemd: Add PACKAGECONFIG for gnutls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 08:07:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Jan 2019 09:03:23 -0000
 
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
+ meta/recipes-core/systemd/systemd_239.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 1/10/19 4:03 PM, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: oeqa: make it work for multiple users
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/15590/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at 65c419b8c4)
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index e0c71de01816..be836ffa42f1 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -137,6 +137,7 @@ PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
+ PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
+ # Sign the journal for anti-tampering
+ PACKAGECONFIG[gcrypt] = "-Dgcrypt=true,-Dgcrypt=false,libgcrypt"
++PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+ PACKAGECONFIG[gshadow] = "-Dgshadow=true,-Dgshadow=false"
+ PACKAGECONFIG[hibernate] = "-Dhibernate=true,-Dhibernate=false"
+ PACKAGECONFIG[hostnamed] = "-Dhostnamed=true,-Dhostnamed=false"
+-- 
+2.7.4
 
-I can't find 65c419b8c4 in my repo on master or master-next branch, maybe
-something is wrong with patchtest ?
-
-// Robert
-
-> 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
-> 
 
