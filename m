@@ -1,47 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
-	[209.85.166.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 738D36D563
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A1DC7C0A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 23:04:36 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id m19so10431369ioh.3
+	Thu, 10 Jan 2019 23:14:46 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id b20so9488045lfa.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 15:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 10 Jan 2019 15:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BhCr3cKvvDohYl9EZ5dUDqxz79R0CFjsel5gbpTnIXg=;
-	b=dDcTI3MhB3nGZ0RJNGr2urpUo1qXu803ZqOxFkSxaP4g8CMz6MZq6kZaiFlTGqm7JE
-	TGfQ8jTFHixyxatNj5UQ5KYBSjJh6kauxA0w4TtS3U754gUcqccyNlD77P53KAs3G9HQ
-	WZyQAkHEmkfAMRRzw1Vqo3RC1iMWwFTbEw8SJZ67MC3iOsCm4oAviipahGIZM3hZpQYQ
-	gUVS/fvL8t1qGON7sjqRKxUS7LDIIqIZV76gX2UukZkqYIsOadQxJp8SbmlPDuqyr63V
-	rSr/8+koyANHfDm6yF84AaR9L6mfWn+IInlF+qbFiftR3Pfw6d7ZHGHS/59OVhXVIzdj
-	1hYQ==
+	:cc:content-transfer-encoding;
+	bh=HdyarXXIrzhj8YtaxMZt8db/QTCq6z73ANk10ohPD7k=;
+	b=g0fB7vtnB15ZeW/cSCF6CtE0rg2zAWozKVrllLw14QOY/yukQCgRts3uJ7M/y2KePe
+	6DrGtm82BzyjdExb9w9Ba1yxBLrSZIrA4u61vfsPVeNIJnQbrmHwJ0Qt5w/NwWFPoiPy
+	nalPTcIJLjPSSYj2NoZh66oVX+PKvGIqTFmrrjCrMfzZgJnw5UgpvXuSCnvru8oxCKN/
+	j7mQxl4Gdmy3daHLtnXZJuIKZCurbWBXM2xilzdsmHfIWn72L/JoEJqYm/E3b5fWLQ6o
+	wjKoWYTkvDjJJ0tKpsQZZjE2PZea96i51WKdmCKTfB1DAMvgTRL50/eB+W3ohoYjqoU1
+	FKqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=BhCr3cKvvDohYl9EZ5dUDqxz79R0CFjsel5gbpTnIXg=;
-	b=SS+P0+jm3ppq1DCCdVpJCFw+27SwKZssL+emQbBNc7aVruj4pCd4CBmrdWYDU9cpe3
-	y6SXKh+6NvYiQt9nIfLRWLbqa5qoe1ZF7peXq3H3ikoX/II9DFmsick9PC29/vn1u6df
-	sI3zeUMcvagIc38b3+C7LwrSram5b3da+5aKImv9zyg29v5aby5zNzH3Qvn+qehj42U+
-	KBbx8sYytGH8+pBh4hLyvzRloYVxmgwWzDUId645CWaniBI0xFsfU0IyV8hr6rK09dD+
-	6QUO3BzMLI15c/NUS8CWTrXMgskTg3mg51AWU6y6fmLuXabokqWirWSSd5CcdsCUF72i
-	9fjw==
-X-Gm-Message-State: AJcUukeyeoeAcZnc+ovMlqcr1FUGsHtliGY0dDtdIqc/v2XNjEStWYe0
-	9dEkh+fvf8IfcjVjrHalmETCew0coJTmDR1f/UF+aQ==
-X-Google-Smtp-Source: ALg8bN4xXNk6wOASjM3DZeA4sISs8en0pXZ0at1c/eKbxHwRsTIzfa8knRUvbCe1EDxkqOK8XtyW8coJNXiAD5lZVrk=
-X-Received: by 2002:a02:1bc5:: with SMTP id 66mr9042870jas.105.1547161477387; 
-	Thu, 10 Jan 2019 15:04:37 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=HdyarXXIrzhj8YtaxMZt8db/QTCq6z73ANk10ohPD7k=;
+	b=WOnZIc09jrV0gBwqSQ8Gp7Iqltcb54rOuiUARuAuXI7KUA4gpaxOPs0Iq2XftHAzvJ
+	/alyq1WwL41EimxkdiOVq1SFukzCuNMgnzxx8s5Zvv99zJy80Gg98KATJ8t1QXpziA+R
+	TqAtR3A5HG4kYTJRS68cM/cuwfveZxRAmETAaujaPkIMJwc0PcY/YZbafef733IKjZO5
+	zqUTdbuH/ImlQVTtD25Tf2XLqXBXFGkvwQe+PFywxfNRNX+QHjyqzIyiGXwbkWC49ekQ
+	rgECMqo4MXfo7D7ycwZeBSNJb6Hpz2plmI7rV/JGKRzYO47/gA0AVgcWKLxcE0WBisUz
+	U+Ww==
+X-Gm-Message-State: AJcUukcLA1hyIQUN3QSzcLXjT88Hh17XSVRf+zVtmmSrdH2DOFw7bHHa
+	SJr5TXfo5jG4ZotLASqdJYndsw9lsJ+ByjvOaR8=
+X-Google-Smtp-Source: ALg8bN6zyuZ++mbTwqrOQV8H2AOKAH45IDFyx3oenrG0bJt4sHQNLzmxgR7TGrj/WlbYcii5WPpPdgZ+OqkLixRaRj8=
+X-Received: by 2002:a19:4e59:: with SMTP id c86mr7205224lfb.132.1547162086656; 
+	Thu, 10 Jan 2019 15:14:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20190110195121.13070-1-alistair.francis@wdc.com>
 	<CAJTo0La+pRHTRkRtKUOKChgmRGtO6wp6LKiku-AMun8mgMo7UA@mail.gmail.com>
 	<CAKmqyKPEvPOrn+Xds5FOqF9+xs_KdjOLMJL=9+fT9_4bW4CKCg@mail.gmail.com>
-In-Reply-To: <CAKmqyKPEvPOrn+Xds5FOqF9+xs_KdjOLMJL=9+fT9_4bW4CKCg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Jan 2019 23:04:26 +0000
-Message-ID: <CAJTo0LavX1oxCPyK=g84LiaBsveo=n2bMOndEHWFPBhHPBRJ6w@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
+	<CAJTo0LavX1oxCPyK=g84LiaBsveo=n2bMOndEHWFPBhHPBRJ6w@mail.gmail.com>
+In-Reply-To: <CAJTo0LavX1oxCPyK=g84LiaBsveo=n2bMOndEHWFPBhHPBRJ6w@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Jan 2019 15:14:20 -0800
+Message-ID: <CAKmqyKMpV3Po2oknYimYn=u4+Cv=s9cLki+gn7_-wM1P_XynyA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] libinput: Enable gui PACKAGECONFIG by default
@@ -57,45 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 23:04:36 -0000
-Content-Type: multipart/alternative; boundary="000000000000454574057f229afc"
-
---000000000000454574057f229afc
+X-List-Received-Date: Thu, 10 Jan 2019 23:14:46 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Thu, 10 Jan 2019 at 22:09, Alistair Francis <alistair23@gmail.com> wrote:
-
-> > Whilst the assertion that people will be using libinput with a display
-> is true, this turns on a debug mode (and promptly pulled gtk+3 into the
-> dependency tree).  Is this something that is universally useful?  I'm
-> leaning towards thinking it should remain as-is.
->
-> I would argue that it is universally useful and that libinput is not
-> really useful without it.
-
-
-libinput isn't useful without a graphical debugging tool?  That seems quite
-a stretch.
-
-Ross
-
---000000000000454574057f229afc
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 10 Jan 2019 at 22:09, Alistair Fr=
-ancis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.com</a>&=
-gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-s=
-tyle:solid;border-left-color:rgb(204,204,204);padding-left:1ex">&gt; Whilst=
- the assertion that people will be using libinput with a display is true, t=
-his turns on a debug mode (and promptly pulled gtk+3 into the dependency tr=
-ee).=C2=A0 Is this something that is universally useful?=C2=A0 I&#39;m lean=
-ing towards thinking it should remain as-is.<br>
-<br>
-I would argue that it is universally useful and that libinput is not<br>
-really useful without it.</blockquote><div><br></div><div>libinput isn&#39;=
-t useful without a graphical debugging tool?=C2=A0 That seems quite a stret=
-ch. =C2=A0</div><div><br></div><div>Ross</div></div></div>
+On Thu, Jan 10, 2019 at 3:04 PM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Thu, 10 Jan 2019 at 22:09, Alistair Francis <alistair23@gmail.com> wro=
+te:
+>>
+>> > Whilst the assertion that people will be using libinput with a display=
+ is true, this turns on a debug mode (and promptly pulled gtk+3 into the de=
+pendency tree).  Is this something that is universally useful?  I'm leaning=
+ towards thinking it should remain as-is.
+>>
+>> I would argue that it is universally useful and that libinput is not
+>> really useful without it.
+>
+>
+> libinput isn't useful without a graphical debugging tool?  That seems qui=
+te a stretch.
 
---000000000000454574057f229afc--
+I meant that libinput isn't useful without the gui support.
+
+I think that this is worth having the extra packages as libinput is
+not really useful without gui support.
+
+Alistair
+
+>
+> Ross
+
