@@ -1,30 +1,18 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 452 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 10 Jan 2019 15:35:40 UTC
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FC206E499
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 15:35:39 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id hcFbg4wfJx6b6hcFcgnnxj; Thu, 10 Jan 2019 15:28:08 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=3JhidrIBZZsA:10 a=Q4-j1AaZAAAA:8 a=_20moNcF6KyCXaphWfgA:9
-	a=zUWDFFqufPUA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1ghcFa-0000Ke-K5; Thu, 10 Jan 2019 15:28:06 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2019 15:27:54 +0000
-Message-Id: <20190110152754.22014-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 60DC26C42C;
+	Thu, 10 Jan 2019 16:03:13 +0000 (UTC)
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfGDg+5fenoDCnW5nzK6d06D0dD4Q6yqYzmouU2bHZYQhsujeOzXdTFDKBCNTBL4iakfNUpaQ4paBQ3MeSGV00/Kgv9lTRtdHpWBf1K4YjmS8yarLot72
-	0hk96rcPzb/kGx16PfoXwzCn9e8G6o9IFWRRwvO4JzXT/BtbV+9ZZ991
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] glibc: Separate out AArch64 multilib loader symlink creation
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Thu, 10 Jan 2019 16:03:14 -0000
+Message-ID: <20190110160314.2332.79429@do>
+References: <20190110152754.22014-1-mac@mcrowe.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190110152754.22014-1-mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IFNlcGFyYXRlIG91dCBBQXJjaDY0IG11bHRpbGliIGxvYWRlciBzeW1saW5rIGNyZWF0aW9u?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,153 +25,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 15:35:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Jan 2019 16:03:13 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Until now, glibc was responsible for creating an AArch64 dynamic loader
-symlink if required for ABI compatibility.
+== Series Details ==
 
-Unfortunately, using multilib with AArch64 caused the rmdir in
-glibc-package.inc:do_poststash_install_cleanup to fail because that task
-did not expect to find the dynamic loader symlink in /lib.
+Series: glibc: Separate out AArch64 multilib loader symlink creation
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15595/
+State : failure
 
-Also, although glibc-package.inc:do_install_append_aarch64 made use of
-${nonarch_base_libdir} to create the dynamic loader symlink in a way that
-was compatible with usrmerge, it unfortunately explicitly added only /lib
-to libc_baselibs, so the symlink was not packaged correctly when using
-usrmerge.
+== Summary ==
 
-Attempting to fix both of these problems within glibc-package.inc in
-various ways created a bit of a mess. It seemed much simpler to invent a
-new package for the symlink and have glibc RDEPEND on that package if
-required.
 
-Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be used
-in this way. I've switched to using ${root_prefix}/lib which continues to
-work both with and without usrmerge.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Unfortunately, it appears not to be possible to specify the name of the
-loader via a variable with an override, since the _aarch64 override is
-applied even for _aarch64-be.
 
-Build-tested and inspected core-image-minimal rootfs with:
 
-* AArch64 no multilib (real loader in correct place)
- MACHINE = "qemuarm64"
+* Patch            glibc: Separate out AArch64 multilib loader symlink creation
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
-* AArch64 multilib (symlink in correct place)
- MACHINE = "qemuarm64"
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
- require conf/multilib.conf
+* Issue             LIC_FILES_CHKSUM is missing in newly added recipe [test_lic_files_chksum_presence] 
+  Suggested fix    Specify the variable LIC_FILES_CHKSUM in glibc-loader-symlink
 
-* AArch64 usrmerge (real loader in correct place)
- DISTRO_FEATURES += "usrmerge"
- MACHINE = "qemuarm64"
 
-* AArch64 multilib usrmerge (symlink in correct place)
- DISTRO_FEATURES += "usrmerge"
- MACHINE = "qemuarm64"
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
- require conf/multilib.conf
 
-* AArch64 big-endian multilib usrmerge (symlink in correct place)
- DEFAULTTUNE = "aarch64_be"
- DISTRO_FEATURES += "usrmerge"
- MACHINE = "qemuarm64"
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
- require conf/multilib.conf
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
 
-* x86 (real loader in correct place)
- MACHINE = "qemux86"
-
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2018-November/276120.html
 ---
- .../glibc/glibc-loader-symlink.bb             | 26 +++++++++++++++++++
- meta/recipes-core/glibc/glibc-package.inc     | 20 +++++---------
- 2 files changed, 33 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc-loader-symlink.bb
-
-diff --git a/meta/recipes-core/glibc/glibc-loader-symlink.bb b/meta/recipes-core/glibc/glibc-loader-symlink.bb
-new file mode 100644
-index 0000000000..b4c324f34b
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc-loader-symlink.bb
-@@ -0,0 +1,26 @@
-+# On AArch64, at least glibc will RDEPEND on this recipe in order to
-+# ensure that the dynamic loader is available in the ABI-mandated
-+# location when that location differs from where glibc installed it.
-+# This happens when multilib is enabled.
-+
-+SUMMARY = "AArch64 compatibility symlink when using multilib"
-+LICENSE = "MIT"
-+
-+INSANE_SKIP_${PN}_append_aarch64 = " libdir"
-+FILES_${PN} = "${root_prefix}/lib"
-+
-+do_install_aarch64() {
-+    if [ "${base_libdir}" != "${root_prefix}/lib" ]; then
-+        # The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
-+        install -d ${D}${root_prefix}/lib
-+        if [ "${ARMPKGARCH}" = "aarch64" ]; then
-+            ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/ld-linux-aarch64.so.1 \
-+                  ${D}${root_prefix}/lib/ld-linux-aarch64.so.1
-+        elif [ "${ARMPKGARCH}" = "aarch64_be" ]; then
-+            ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
-+                  ${D}${root_prefix}/lib/ld-linux-aarch64_be.so.1
-+        else
-+            false
-+        fi
-+    fi
-+}
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index a98ae1a29c..9c3f5bc355 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -15,8 +15,6 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
- RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
- RPROVIDES_${PN}-dbg = "eglibc-dbg"
- libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
--libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
--INSANE_SKIP_${PN}_append_aarch64 = " libdir"
- 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
- FILES_ldd = "${bindir}/ldd"
-@@ -44,6 +42,13 @@ FILES_glibc-thread-db = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthre
- RPROVIDES_${PN}-dev += "libc-dev"
- RPROVIDES_${PN}-staticdev += "libc-staticdev"
- 
-+# For AArch64 at least, we need to ensure that the dynamic loader is
-+# available by the ABI-mandated path in /lib. This will always be true
-+# if ${base_libdir} is /lib (or perhaps /usr/lib when usrmerge is
-+# enabled), but we need to depend on glibc-loader-symlink to provide
-+# it otherwise.
-+RDEPENDS_${PN}_aarch64 = "${@oe.utils.conditional('base_libdir', '${root_prefix}/lib', '', 'glibc-loader-symlink', d)}"
-+
- SUMMARY_sln = "The static ln"
- DESCRIPTION_sln = "Similar to the 'ln' utility, but statically linked.  sln is useful to make symbolic links to dynamic libraries if the dynamic linking system, for some reason, is not functional."
- SUMMARY_nscd = "Name service cache daemon"
-@@ -115,17 +120,6 @@ do_install_append () {
- }
- 
- do_install_append_aarch64 () {
--	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
--		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
--		install -d ${D}${nonarch_base_libdir}
--		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
--			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
--				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
--		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
--			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
--				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
--		fi
--	fi
- 	do_install_armmultilib
- }
- 
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
