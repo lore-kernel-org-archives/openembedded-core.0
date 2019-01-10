@@ -1,88 +1,88 @@
 Return-Path: <prvs=906996e92=Alistair.Francis@wdc.com>
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B95F77C092
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A87B7C08D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 19:51:30 +0000 (UTC)
+	Thu, 10 Jan 2019 20:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1547149892; x=1578685892;
+	t=1547150457; x=1578686457;
 	h=from:to:cc:subject:date:message-id:
 	content-transfer-encoding:mime-version;
-	bh=n3h4iTWKHE9Si/MQfL1DhrH4jIe88W63UgKYgRHpWXQ=;
-	b=CjPnfm9JnJQm070ujYjCQtTrJTPKqc4TH0f9GJvZWizvIoMmT6g3oxHI
-	0HECRwutPEEWuj7IrGDFkHyZ0EF9zuCWSF0QR4j3uOclSFZ1xvWhZVS3k
-	ugAaXhURiG+KzDkFRBiQ2NAAB/n1qV7mKaKdy0RcSQsdoTxc+gLuy3XgC
-	UpPIejH4v5fl73WT7Rswj9hlZ1v9nsZNSYtfB8aBtAGA2PP53+Cgw++B6
-	MujkAsExApedhip7JnuYaf6VfGrfPMml73WzuyV8J+G0sB9icFa9418y4
-	enTKzJYfP1t3HsocVdNB93D16yxOq9oe2vaVn0UeFJIF6RN4Jy/8A84zL g==;
-X-IronPort-AV: E=Sophos;i="5.56,462,1539619200"; d="scan'208";a="100266232"
-Received: from mail-sn1nam01lp2050.outbound.protection.outlook.com (HELO
-	NAM01-SN1-obe.outbound.protection.outlook.com) ([104.47.32.50])
-	by ob1.hgst.iphmx.com with ESMTP; 11 Jan 2019 03:51:31 +0800
+	bh=DgXoSLAJIhIEM/6PBrJikBQDf7KtMNTmHIIm6q6kx/0=;
+	b=KdhpaQG+q8u5EDQGUCIrNt2Tmgf3Ar/OTU3PHOtjD96+tB4By/qTLUYS
+	GciJzqam/WoVmjBtGyrUJvv/k0MZwfwVjAGCh/hET0iDg00ah+B8+WQFP
+	2D66lZiHkuVQ2mkxUhOAfqgnzoTpewcW4z9/oIGzwaxRFB4Ba/GoqfBme
+	f43oI+0hFux6M2BtFcnhixA6X7FNYHx8FR8boBxp8Ay2ausr6GipFSUvi
+	lRoRosHONUQUaJ0HS6AX3oR/XYMEA+QkPBw6KS5Aif8yIDrV+KqKQM2wy
+	2tb9eubwibo09f13aY5tb3rj3ZvpECkheJTronGUKdjHBEEUnIlxp5/p+ w==;
+X-IronPort-AV: E=Sophos;i="5.56,462,1539619200"; d="scan'208";a="99711437"
+Received: from mail-by2nam01lp2051.outbound.protection.outlook.com (HELO
+	NAM01-BY2-obe.outbound.protection.outlook.com) ([104.47.34.51])
+	by ob1.hgst.iphmx.com with ESMTP; 11 Jan 2019 04:00:56 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=n3h4iTWKHE9Si/MQfL1DhrH4jIe88W63UgKYgRHpWXQ=;
-	b=nPKFFpg/HnT2gazEjD7PJ8v6l/mle2EKuOLfhyWCVDLkNnlyUEcgE2/0qjbjoqnxEuY5i2u/PbS5V7poAKJPGyaH59HenXWCLIzzRHIBbfVUj3eF3+99isaH1IRx5lQhwGePTD/0lI/Idgw5wzCahdpNDYZjREDMMtgGWZaIq44=
+	bh=Le85EnBC+VIhVhRFMF6s2hVKYeEY4n2Lq4cimxbMnI8=;
+	b=S9Zc6RW7bcZBTgN2OkWlVX6AwhElHCFVVXhNAG3ZnYxG1ht8avzbXXyaKmht0b1MxNcTLGxys+B3AJm7by4y7/k9MJYs/aMkbWERT3DS48dfqkBZtI8+C2cSmJhsbrnPX4M5yC4Pdsj0LlbsvWGRW8KzFP313SaAFQImHMNdgXs=
 Received: from MWHPR04MB0401.namprd04.prod.outlook.com (10.173.48.18) by
-	MWHPR04MB0718.namprd04.prod.outlook.com (10.172.167.143) with Microsoft
+	MWHPR04MB0191.namprd04.prod.outlook.com (10.169.201.140) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1516.15; Thu, 10 Jan 2019 19:51:30 +0000
+	15.20.1516.13; Thu, 10 Jan 2019 20:00:53 +0000
 Received: from MWHPR04MB0401.namprd04.prod.outlook.com
 	([fe80::10e5:e75d:3272:2d33]) by
 	MWHPR04MB0401.namprd04.prod.outlook.com
 	([fe80::10e5:e75d:3272:2d33%7]) with mapi id 15.20.1516.016;
-	Thu, 10 Jan 2019 19:51:30 +0000
+	Thu, 10 Jan 2019 20:00:53 +0000
 From: Alistair Francis <Alistair.Francis@wdc.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] libinput: Enable gui PACKAGECONFIG by default
-Thread-Index: AQHUqR3hl9Iyq1M7hEeszQv64ERr2Q==
-Date: Thu, 10 Jan 2019 19:51:30 +0000
-Message-ID: <20190110195121.13070-1-alistair.francis@wdc.com>
+Thread-Topic: [PATCH v3] gstreamer: Add RISC-V support
+Thread-Index: AQHUqR8xrFxbCIHdakaywCnK3MSWng==
+Date: Thu, 10 Jan 2019 20:00:53 +0000
+Message-ID: <20190110200045.14152-1-alistair.francis@wdc.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-mailer: git-send-email 2.19.1
-x-clientproxiedby: BYAPR03CA0003.namprd03.prod.outlook.com
-	(2603:10b6:a02:a8::16) To MWHPR04MB0401.namprd04.prod.outlook.com
+x-clientproxiedby: BYAPR05CA0058.namprd05.prod.outlook.com
+	(2603:10b6:a03:74::35) To MWHPR04MB0401.namprd04.prod.outlook.com
 	(2603:10b6:300:70::18)
 authentication-results: spf=none (sender IP is )
 	smtp.mailfrom=Alistair.Francis@wdc.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [199.255.44.170]
+x-originating-ip: [199.255.44.250]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; MWHPR04MB0718;
-	6:Fh40IM6/PMwf3Z1gzwCUOczflYwpZ4RO4cA5AtHewXluY6iZlO3fDJZ1o+aIVlYXVzXNYvCT3x242Af959i4qe+jdaJaG9LyfhT9/ha/EN3dWmC4eagFzjyZV9q32LgpBCEp0qAEFdPEqr+nRGaJ8zlaFbkFI2q7eISbAE6enkrmTma7trzvb7DVvoX/QTgnMzfCVSCAfW/LCua4iKf+Y8vtlcPcztGPGQzi80FXg/Bxxz0thnGqSKnVFnLYNjKJ064dB/UyMAmuoRsQUOCE4NAuzf98FA+TVyqaPE4nSvK4mVtvfPIWknPWJh/n/lPvfJgHOX4Mg0jHaT6Iet46W1vr69XMBHvD3UchwmxcGzeUWOREwmdTsudB6n4q+OPvlYzxZVh8UrRi3JG9Ih2YEp2u3kC//vHiusWrf6vPsj1zJIH0WS3ml/RmINgkivq4DiIP/pir0v+oe01eq9FyQw==;
-	5:qMmCDLRurAIB2aBRr1az6h4f9JqF1vJ4ShRxwonarxC5lpgES42oYlDBVFkqavZNRhn61AwAVCgM+PDqiCLefExWi7HjVG6uGEHANIlxDZz0SOfFDONCHvTFZ5O1rNEBshJ/sxbSXAGLWK+Ur1zzst7pseiFrypztYAK9LKsqg62YKnCx4DVqnqFt453bGsbjPItFTypw7MGFy3II4ub/g==;
-	7:xohrvpUHMttQnY7Fj7Kxuds3RLyuOwV+r1gWPtFB2sMcsTBYiBQ5LPrqF+HWqip/U2TbyEoingMleyZ8bnB+c30s/+PMVILEz7NhulEmWTecWX9IR5BnZmYA4JcsuFshMpAf7GST+etG26bazv6CHQ==
-x-ms-office365-filtering-correlation-id: 21198f12-22f7-4e36-ccca-08d6773503b1
+x-microsoft-exchange-diagnostics: 1; MWHPR04MB0191;
+	6:oz/kL88qwrZV0Dh2h370c5fz2RttWm7S/50YASBAgDji1XOKBZlbVm4Uef5xx68gtPRMNuWlIU26R1hOfkYjmZWy3mAh3JFfGhqMGmOVvzZePHBMOwaem0fjPOqZTnO9tSfQe4Xs5PxCvuFKv3TiyAHXiwoarucDc3XX8cvLD24UImsykNyNdJW+UNYyDn4jVvIGU2lOru9EjrIr7SQ6oPWq/ALOcg55og/n4P7c82NUmrN++qnuXxkzfLKXTFW6Oy2WFqw8e62/ClULbRq87KEOYjiHw1bQH53Ms5RZV/8ELeMDmYGw99GU2Rlw2ZDzr/HXTbp2o0oLg7R5dAYYUWqFn421pPHizmZ+Gv6cCZX8ELZA+lj/VtULgP7wSf9C/0mVtR/o/QZGY0SlYdtP/w6gUdAXCtqG33VbFk9jVEQ2bgU2dmnFEv50vIvl/2Ys/OAZEKU27sQKqctGdxmX1Q==;
+	5:tIIOMXVjcCC5ZQNKzle7SsD+Q6g4pK212J98XLhJ+ChplPprXjlZbPICsjFCFIEST3koUqoRgfZV5EWBhKUoYAlZ3t7W8hME3V2rUr3m6JDM3itONFpCIlD/MXgi5MB0tSyatZIjoQ2P/xsuYntD+2P7YRXAZ6sStvn76laex+VU3GKks6w+TUCRQiS6MxIoxCTx2F3VG/REN9oYqbAWaA==;
+	7:VtlGSdbBPsFcswTtw2RSn71JTMISDA2+fowI84Fftus1uO/35pKanSYyh7NV+64kCQheW7y/Yzr8/UBaGLgrXQwuNxEexFQVw5saoWsZ632zYLUAf69EpwtcG5CzbS/W2ZuFQqAZnYR4mVILCL9heg==
+x-ms-office365-filtering-correlation-id: d6e91cb9-3f16-4945-2b97-08d6773653b3
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:MWHPR04MB0718; 
-x-ms-traffictypediagnostic: MWHPR04MB0718:
+	RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);
+	SRVR:MWHPR04MB0191; 
+x-ms-traffictypediagnostic: MWHPR04MB0191:
 wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <MWHPR04MB0718B5EC9E740647AC14FC1090840@MWHPR04MB0718.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <MWHPR04MB019193EE49D24B3AEC7949E390840@MWHPR04MB0191.namprd04.prod.outlook.com>
 x-forefront-prvs: 0913EA1D60
 x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(346002)(396003)(39860400002)(136003)(366004)(376002)(189003)(199004)(25786009)(4326008)(14444005)(256004)(44832011)(99286004)(105586002)(106356001)(2351001)(26005)(186003)(102836004)(386003)(2616005)(486006)(476003)(1076003)(66066001)(71200400001)(71190400001)(6506007)(478600001)(52116002)(14454004)(72206003)(5660300001)(36756003)(97736004)(6512007)(4744005)(6916009)(7736002)(50226002)(8936002)(8676002)(81156014)(81166006)(39060400002)(316002)(6486002)(3846002)(6116002)(54906003)(5640700003)(6436002)(305945005)(53936002)(68736007)(2501003)(86362001)(2906002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR04MB0718;
+	SFS:(10019020)(39860400002)(396003)(136003)(346002)(366004)(376002)(199004)(189003)(6916009)(5660300001)(54906003)(44832011)(486006)(3846002)(6116002)(39060400002)(97736004)(5640700003)(2351001)(386003)(53936002)(68736007)(52116002)(99286004)(316002)(36756003)(6306002)(72206003)(6436002)(6512007)(105586002)(2906002)(6486002)(4326008)(81166006)(6506007)(71190400001)(71200400001)(305945005)(81156014)(50226002)(14454004)(186003)(966005)(478600001)(2501003)(476003)(26005)(2616005)(102836004)(25786009)(86362001)(7736002)(8676002)(106356001)(1076003)(66066001)(8936002)(14444005)(256004);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR04MB0191;
 	H:MWHPR04MB0401.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: PvLzoKGjSlEhqebjIZ/K+gWPV6fZI6ad7J0lGkz5DljOP0w7eUdiUaXDyM5QU4bx9ViCTQHPROvwWb6vpdnpC7KKin6cP1ROGVfD2DSKe+kH3w2OmKv5hwFWCWIEGRbM1/R6Bx15uEIjBDRFSZLTJMjG7aMP2kJFa0CE3yH2RLf4NuoCcUSqTogPQhmZxFTJPoF7PTYQvpsFhqYDzG1l2pE/Hxnl42pdSrC5niDaraWE/f5X5BdYTnXRs+M5cYs6CKyh+Q5PaEN1EPxI2/dOD821bWv+M3NvgXlX6+huwnYXBGp1AYF6AKkTxSPYzWvdpUJC+YuCq3nyGJNMaL0M1BncrTLvdgfAxP3Kn5snvqLtSXzDkgSNT5Tj9GrhGrQ4ZNi4llf4LJBxwEnhfEcm/0Mxik+sILyQiTdNAUWfIvIpBdBCm8lJSrFw3vNohcCT+smKRsSsATWBgYVU7Xgs0w==
+x-microsoft-antispam-message-info: rgcGjHOOh1SauANe2p4VWd2x/WIUhmqKnxHP1V8P9vyM2Bt+5eD72xvb5P3IYMW2mMaZNymQgUN7t7Mhh5HrH3D93KAslSD5ns4JIqJOvkzPw1fNkJ9OnxNSgjtS4r2mIc6y/hQEcADlSMBSmyKbeBjq/ftAXvsIukK10gXemdTUeSmmf9AWenjbkQw7jEKkelh9WyV9coJ3zHTD1bYWLbHk502u00QZoSSVYiP8JV53/K8kMFDadfE8quRjVqzYIplD+p1M14Uu2RJCnPwiQKSt9TN/qv49/7HY/lhD4PyWO0ZHoJ1OtNXgsoSNRY5X
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21198f12-22f7-4e36-ccca-08d6773503b1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2019 19:51:30.1652 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6e91cb9-3f16-4945-2b97-08d6773653b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2019 20:00:53.8176 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB0718
-Subject: [PATCH v2] libinput: Enable gui PACKAGECONFIG by default
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB0191
+Subject: [PATCH v3] gstreamer: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,36 +95,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 19:51:30 -0000
+X-List-Received-Date: Thu, 10 Jan 2019 20:00:55 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Most users are going to be using libinput with some sort of display, so
-enable gui in the PACKAGECONFIG by default.
+Backport RISC-V support from master Gstreamer.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/recipes-graphics/wayland/libinput_1.12.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...stconfig.h.in-initial-RISC-V-support.patch | 28 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.14.4.bb          |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/0002-gstconfig.=
+h.in-initial-RISC-V-support.patch
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.12.3.bb b/meta/recipe=
-s-graphics/wayland/libinput_1.12.3.bb
-index 3d1ab59309..d3f34c5040 100644
---- a/meta/recipes-graphics/wayland/libinput_1.12.3.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.12.3.bb
-@@ -15,7 +15,7 @@ SRC_URI[sha256sum] =3D "f266ff861a2e7a97e1402c4345e3547b9=
-00efde68adbd40e56403e2617
- UPSTREAM_CHECK_REGEX =3D "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- inherit meson pkgconfig lib_package
-=20
--PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG ??=3D "gui"
- PACKAGECONFIG[libwacom] =3D "-Dlibwacom=3Dtrue,-Dlibwacom=3Dfalse,libwacom=
-"
- PACKAGECONFIG[gui] =3D "-Ddebug-gui=3Dtrue,-Ddebug-gui=3Dfalse,cairo gtk+3=
-"
-=20
+diff --git a/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-in=
+itial-RISC-V-support.patch b/meta/recipes-multimedia/gstreamer/files/0002-g=
+stconfig.h.in-initial-RISC-V-support.patch
+new file mode 100644
+index 0000000000..8d8f8dca00
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-R=
+ISC-V-support.patch
+@@ -0,0 +1,28 @@
++From 8a156d1725ecd03f2e8cdc8874e081dda2d3b43d Mon Sep 17 00:00:00 2001
++From: Aurelien Jarno <aurelien@aurel32.net>
++Date: Sun, 15 Apr 2018 00:49:55 +0200
++Subject: [PATCH] gstconfig.h.in: initial RISC-V support
++
++RISC-V supports unaligned accesses, but these might run extremely slowly
++depending on the implementation. Therefore set GST_HAVE_UNALIGNED_ACCESS
++to 0 on this architecture.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=3D795271
++Upstream-Status: Accepted [1.15.1 - https://bugzilla.gnome.org/show_bug.cg=
+i?id=3D795271]
++---
++ gst/gstconfig.h.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst/gstconfig.h.in b/gst/gstconfig.h.in
++index 6351c04da..33dfed1f6 100644
++--- a/gst/gstconfig.h.in
+++++ b/gst/gstconfig.h.in
++@@ -104,7 +104,7 @@
++  * http://docs.oracle.com/cd/E19205-01/820-4155/c++_faq.html#Vers6
++  * https://software.intel.com/en-us/node/583402
++  */
++-#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined=
+(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__)=
+ || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || de=
+fined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc)=
+ || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M=
+_IA64) || defined(__xtensa__) || defined(__e2k__)
+++#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined=
+(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__)=
+ || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || de=
+fined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc)=
+ || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M=
+_IA64) || defined(__xtensa__) || defined(__e2k__) || defined(__riscv)
++ #  define GST_HAVE_UNALIGNED_ACCESS 0
++ #elif defined(__i386__) || defined(__i386) || defined(__amd64__) || defin=
+ed(__amd64) || defined(__x86_64__) || defined(__ppc__) || defined(__ppc64__=
+) || defined(__powerpc__) || defined(__powerpc64__) || defined(__m68k__) ||=
+ defined(_M_IX86) || defined(_M_AMD64) || defined(_M_X64) || defined(__s390=
+__) || defined(__s390x__) || defined(__zarch__)
++ #  define GST_HAVE_UNALIGNED_ACCESS 1
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb b/met=
+a/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
+index 232234b888..98c9a28e39 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
+@@ -25,6 +25,7 @@ SRC_URI =3D " \
+     file://gtk-doc-tweaks.patch \
+     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch=
+ \
+     file://add-a-target-to-compile-tests.patch \
++    file://0002-gstconfig.h.in-initial-RISC-V-support.patch \
+     file://run-ptest \
+ "
+ SRC_URI[md5sum] =3D "f67fbbc42bd85a0701df119f52fb52bd"
 --=20
 2.19.1
 
