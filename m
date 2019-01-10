@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 589ED7C08D;
-	Thu, 10 Jan 2019 20:05:55 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 745017C0A7;
+	Thu, 10 Jan 2019 20:33:13 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Alistair Francis <alistair.francis@wdc.com>
-Date: Thu, 10 Jan 2019 20:05:56 -0000
-Message-ID: <20190110200556.2329.13492@do>
-References: <20190110194956.12327-1-alistair.francis@wdc.com>
+Date: Thu, 10 Jan 2019 20:33:14 -0000
+Message-ID: <20190110203314.2331.87567@do>
+References: <20190110200045.14152-1-alistair.francis@wdc.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190110194956.12327-1-alistair.francis@wdc.com>
+In-Reply-To: <20190110200045.14152-1-alistair.francis@wdc.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3N0cmVhbWVyOiBBZGQgUklTQy1WIHN1cHBvcnQgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3N0cmVhbWVyOiBBZGQgUklTQy1WIHN1cHBvcnQgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 20:05:55 -0000
+X-List-Received-Date: Thu, 10 Jan 2019 20:33:13 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: gstreamer: Add RISC-V support (rev2)
-Revision: 2
+Series: gstreamer: Add RISC-V support (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/15576/
 State : failure
 
