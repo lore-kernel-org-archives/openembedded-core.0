@@ -1,23 +1,48 @@
-Return-Path: <ftoth@telfort.nl>
-Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
-	by mail.openembedded.org (Postfix) with ESMTP id D013B7503B
+Return-Path: <dpfrey@gmail.com>
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C72079D63
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 16:23:49 +0000 (UTC)
-Received: from [192.168.1.22] (cust-178-250-146-69.breedbanddelft.nl
-	[178.250.146.69])
-	by radex-web.radex.nl (Postfix) with ESMTPS id 072F12404C
+	Thu, 10 Jan 2019 19:18:31 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id w73so5735624pfk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 17:23:50 +0100 (CET)
-From: Ferry Toth <ftoth@telfort.nl>
-X-Mozilla-News-Host: news://news://news.gmane.org:119
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <bb4e7e77-fc77-d180-cf50-aecc92c42c24@telfort.nl>
-Date: Thu, 10 Jan 2019 17:23:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-Subject: Sudden errors building Sumo
+	Thu, 10 Jan 2019 11:18:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=352VlvEOlHh3LrqvhhakgnEfaj9ntyE7UQLCcCRfKpc=;
+	b=X6DefwnUJtzUSSrCf7vSB/XZQNqhCTVfNUHqDtEHHYnuQgvYag8bM6uw4OlGdW40Tr
+	6XoLicW3UhBhvmsj93mLEMqhGtVxKfTrZN9+11618MGtE1auPdNJ/vIDuu2o8q5EqzIL
+	DcvhAs9DTaVYy3nTlmjvSzsusOYZ91yBxC580mrE8S+vKbrQM4pnxGuT696vjv9sZ74k
+	KLKkzyPxV5pmhkyjX+HG/NHGQEE7ZM1GkVBxJZ4ET87xJgsvVoPV5w+EDMMdzb6hlm/N
+	3R7wIJTVOAju8YqFdhcg9ma+BB06FYDi3gDMvRMHD+TxiH4IAwgRy9sSmq7i4Q56JWGz
+	yGAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=352VlvEOlHh3LrqvhhakgnEfaj9ntyE7UQLCcCRfKpc=;
+	b=IeS5QVU6iXugSfYcY3JDaU9jkXvPpmYNDyS6Q5GW3W8KFHsRIJ6PHdRBqVrCOkjOXF
+	RlkdanKqtnd9gJqXWzhAsQvcX1WtAyCw6zxwH3gwhF84LQdObYziWuEoWASoWv3VhXZi
+	2gjTlI3E//bNJBFUpRUzB7EUZKoPd4ECNCtEwtpShz1GezZEZeIV7qXGTuj3n9dwwz8E
+	ri7+CoHJaY+Q7Etet81YmYSX1g0Q/hMTL1sYFg6/KZSdjNKQNnOC0/G3hrk2SCWgwarx
+	Mv/GcKCHeWqX3Us9XK/5/ZXqO/yleiru+tfMWahDI8LDebzCf7xY3PwmkwD4S4UcRNvS
+	5LKQ==
+X-Gm-Message-State: AJcUukfpLA5Z2st3i7c7EDegyvjNnS+N59Ufsi5EHjnwTwlH4TtHH6yZ
+	RXqUJqfI/uIBnvG38uoFkIBNThMR
+X-Google-Smtp-Source: ALg8bN5bu+3FZcEiIF/KJv9KPGWHIbbx8h/AEzeQmY9uRyMPikciA3QUlAS2FNwgbuAK5ZDOJyfDfA==
+X-Received: by 2002:a63:db48:: with SMTP id x8mr10138766pgi.365.1547147912209; 
+	Thu, 10 Jan 2019 11:18:32 -0800 (PST)
+Received: from dfrey-debian-linux.sierrawireless.local
+	(carmd-fwm01.sierrawireless.com. [208.81.120.1])
+	by smtp.gmail.com with ESMTPSA id
+	f6sm115593021pfg.188.2019.01.10.11.18.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Jan 2019 11:18:31 -0800 (PST)
+From: David Frey <dpfrey@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Jan 2019 11:23:52 -0800
+Message-Id: <20190110192352.14188-1-dpfrey@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] bluez5: Fix status subcommand of init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 16:23:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 10 Jan 2019 19:18:31 -0000
 
-After a new checkout I am experiencing multiple errors building Sumo 
-that might be related:
-bison-3.0.4
+Update the bluez5 init script to resolve an issue where the status
+subcommand would exit without printing any message if bluez was not
+running. The early exit was caused by the fact that the init script has
+"set -e". When "pidof ${DAEMON} >/dev/null" is executed, the script
+terminates immediately if bluez isn't running because pidof returns a
+non-zero result. The fixed version does not suffer from this issue and
+makes use of the "status" function from the functions library.
 
-cross-localedef-native_2.27
+Signed-off-by: David Frey <dpfrey@gmail.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5/init | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-coreutils-8.29
-
-On another machine with slightly out-of-date Sumo these problems do not 
-occur.
-
-
-Detail below.
-
-
-Any ideas how to fix?
-
-Ferry
-
-
-virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-devtools/bison/bison_3.0.4.bb:do_compile
-
-| ../bison-3.0.4/lib/fseterr.c: In function 'fseterr':
-| ../bison-3.0.4/lib/fseterr.c:77:3: error: #error "Please port gnulib 
-fseterr.c to your platform! Look at the definitions of ferror and 
-clearerr on your system, then report this to bug-gnulib."
-| #error "Please port gnulib fseterr.c to your platform! Look at the 
-definitions of ferror and clearerr on your system, then report this to 
-bug-gnulib."
-| ^~~~~
-
-
-/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/glibc/cross-localedef-native_2.27.bb:do_compile
-
-| /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld: 
-argp-fmtstream.c:(.text+0x525): undefined reference to `_IO_fwide'
-| /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld: 
-argp-help.o: in function `argp_failure':
-| argp-help.c:(.text+0x20b3): undefined reference to `_IO_fwide'
-| collect2: error: ld returned 1 exit status
-
-
-virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/coreutils/coreutils_8.29.bb:do_compile
-
-| ../coreutils-8.29/lib/freadseek.c: In function 'freadptrinc':
-| ../coreutils-8.29/lib/freadseek.c:68:3: error: #error "Please port 
-gnulib freadseek.c to your platform! Look at the definition of getc, 
-getc_unlocked on your system, then report this to bug-gnulib."
-| #error "Please port gnulib freadseek.c to your platform! Look at the 
-definition of getc, getc_unlocked on your system, then report this to 
-bug-gnulib."
-| ^~~~~
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/init b/meta/recipes-connectivity/bluez5/bluez5/init
+index d7972f2d95..ca9fa18549 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/init
++++ b/meta/recipes-connectivity/bluez5/bluez5/init
+@@ -1,5 +1,8 @@
+ #!/bin/sh
+ 
++# Source function library
++. /etc/init.d/functions
++
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
+ DESC=bluetooth
+ 
+@@ -44,14 +47,7 @@ case $1 in
+ 	$0 start
+   ;;
+   status)
+-	 pidof ${DAEMON} >/dev/null
+-	 status=$?
+-        if [ $status -eq 0 ]; then
+-                 echo "bluetooth is running."
+-        else
+-                echo "bluetooth is not running"
+-        fi
+-        exit $status
++	status ${DAEMON} || exit $?
+    ;;
+    *)
+ 	N=/etc/init.d/bluetooth
+-- 
+2.11.0
 
 
