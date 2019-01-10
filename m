@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CAADC79ECE;
-	Wed,  9 Jan 2019 21:33:12 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EEAAE7BDC3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2019 02:29:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0A2TGr9004295
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Jan 2019 18:29:16 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 9 Jan 2019 18:29:15 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Jan 2019 10:37:31 +0800
+Message-ID: <cover.1547087830.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: C.R. Guo <chunrong.guo@nxp.com>
-Date: Wed, 09 Jan 2019 21:33:14 -0000
-Message-ID: <20190109213314.2331.25771@do>
-References: <1547027257-22272-1-git-send-email-chunrong.guo@nxp.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1547027257-22272-1-git-send-email-chunrong.guo@nxp.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzb246IGFkZCBhYXJjaDY0IGJpZyBlbmRpYW4gc3VwcG9ydA==?=
+Subject: [PATCH 0/1] target-sdk-provides-dummy: add more perl modules to avoid populate_sdk failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 21:33:13 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Jan 2019 02:29:16 -0000
+Content-Type: text/plain
 
-== Series Details ==
+*** BLURB HERE ***
+The following changes since commit 4dd51032160897be4132242d6aaaf4dd1e5167da:
 
-Series: meson: add aarch64 big endian support
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/15587/
-State : failure
+  oeqa/sdk: add test to exercise Meson (2019-01-08 11:16:45 +0000)
 
-== Summary ==
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib ChenQi/target-dummy
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/target-dummy
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Chen Qi (1):
+  target-sdk-provides-dummy: add more perl modules to avoid populate_sdk
+    failure
 
+ meta/recipes-core/meta/target-sdk-provides-dummy.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 65c419b8c4)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/meson/meson/0001-support-aarch64_be.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+1.9.1
 
 
