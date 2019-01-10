@@ -1,51 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B22527C091
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 452 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 10 Jan 2019 15:35:40 UTC
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FC206E499
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 13:53:07 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j2so11513959wrw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 05:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=GRjDnK72prMwEAO2GiVXCH5rZjmu93WeI2wzkJN1LrY=;
-	b=bMO4IkzGVLzOC9cA2dE8KurG26LK9KT9eT3Z3Z4TZqjhF8zGfDPRVDAm2outcFNV35
-	pvQuPkbOLn06mblZoExzhXrlSlRiWIp7deXoHBF8AUu5se9rXaAxy749FmkzneJSMjiQ
-	SYcsoH28RxPYGBx6MfRE8jxYxgUwYsZ2FZnV+oeX8qN9dYA/sGVN+YlP/P+BlZfCYocc
-	Kq5umlgO+Sbpf3W76SB7DiVYoUZH+vhL7H+ojeyyKCAcFyQsLkU2rfOOMv1y9iRSYSDp
-	1J8r8L1bjGBAE8Se0CwCGixxKAxswshR+WlPLTOgVQWm4XcVmtKO4k1mO/7fTQaD/Z1a
-	x7yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=GRjDnK72prMwEAO2GiVXCH5rZjmu93WeI2wzkJN1LrY=;
-	b=d5TMZ/iWJEFscWtyb5DOcgkXqoGHa14xybos5EpVpZzazXo+TLHLgGoLV1Ou0IGs4M
-	T1ddCwLI9oTe3DTe03hhpuwXhj5j6HPzIc/0kvG26evvo1vy2bG+rOysZyU23y7LGctv
-	OaVfjDal0ziFFN0+97oSx1qsyvYzyvlEBwg8diF/L98CH0zkA8r/Jz2grtIlVnErCx+F
-	VaMD0L8YgryPaNOC25oSO7+nUMkVED5k3JBbPjJ6xe7cWpipipNrbdt+BtMW/6NU3fBE
-	CP7MDdjZWhKM2f2QT4FM7NK7ChzqKegyffXZmWyAwAaTeVQVksN/goKtY6Kmz8d2mQcY
-	L+LQ==
-X-Gm-Message-State: AJcUukcdjmsSGiKy3DvhY1ocNeV/U/EiAFrw/i4DpgdOPpQooD9/o+Ad
-	mnytkFk8snNL3xOOYFwP3s3F8DnqMPU=
-X-Google-Smtp-Source: ALg8bN4tGLqWfG1KP/UoeexDDnQy70nBTlVO4rZer0N7CN63yCg5yjS+ZWd/o5C3wZI4hId6TKLPlQ==
-X-Received: by 2002:adf:de91:: with SMTP id w17mr9981218wrl.320.1547128388186; 
-	Thu, 10 Jan 2019 05:53:08 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id q9sm78248587wrp.0.2019.01.10.05.53.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Jan 2019 05:53:07 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 10 Jan 2019 15:35:39 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id hcFbg4wfJx6b6hcFcgnnxj; Thu, 10 Jan 2019 15:28:08 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=3JhidrIBZZsA:10 a=Q4-j1AaZAAAA:8 a=_20moNcF6KyCXaphWfgA:9
+	a=zUWDFFqufPUA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1ghcFa-0000Ke-K5; Thu, 10 Jan 2019 15:28:06 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2019 13:53:01 +0000
-Message-Id: <20190110135301.1888-5-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190110135301.1888-1-ross.burton@intel.com>
-References: <20190110135301.1888-1-ross.burton@intel.com>
-Subject: [PATCH 5/5] pulseaudio: switch configuration module from GConf to GSettings
+Date: Thu, 10 Jan 2019 15:27:54 +0000
+Message-Id: <20190110152754.22014-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-CMAE-Envelope: MS4wfGDg+5fenoDCnW5nzK6d06D0dD4Q6yqYzmouU2bHZYQhsujeOzXdTFDKBCNTBL4iakfNUpaQ4paBQ3MeSGV00/Kgv9lTRtdHpWBf1K4YjmS8yarLot72
+	0hk96rcPzb/kGx16PfoXwzCn9e8G6o9IFWRRwvO4JzXT/BtbV+9ZZ991
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] glibc: Separate out AArch64 multilib loader symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +37,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 13:53:08 -0000
+X-List-Received-Date: Thu, 10 Jan 2019 15:35:40 -0000
+Content-Transfer-Encoding: 8bit
 
-The only user of the configuration module is paprefs, which as of 1.0 uses GSettings not GConf.
+Until now, glibc was responsible for creating an AArch64 dynamic loader
+symlink if required for ABI compatibility.
 
-Also GConf is unmaintained, so one less recipe using it is good.
+Unfortunately, using multilib with AArch64 caused the rmdir in
+glibc-package.inc:do_poststash_install_cleanup to fail because that task
+did not expect to find the dynamic loader symlink in /lib.
 
-(From OE-Core rev: 4825ae198aedcd09c60559cb6233c0f8b6ecce32)
+Also, although glibc-package.inc:do_install_append_aarch64 made use of
+${nonarch_base_libdir} to create the dynamic loader symlink in a way that
+was compatible with usrmerge, it unfortunately explicitly added only /lib
+to libc_baselibs, so the symlink was not packaged correctly when using
+usrmerge.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Attempting to fix both of these problems within glibc-package.inc in
+various ways created a bit of a mess. It seemed much simpler to invent a
+new package for the symlink and have glibc RDEPEND on that package if
+required.
+
+Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be used
+in this way. I've switched to using ${root_prefix}/lib which continues to
+work both with and without usrmerge.
+
+Unfortunately, it appears not to be possible to specify the name of the
+loader via a variable with an override, since the _aarch64 override is
+applied even for _aarch64-be.
+
+Build-tested and inspected core-image-minimal rootfs with:
+
+* AArch64 no multilib (real loader in correct place)
+ MACHINE = "qemuarm64"
+
+* AArch64 multilib (symlink in correct place)
+ MACHINE = "qemuarm64"
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+ require conf/multilib.conf
+
+* AArch64 usrmerge (real loader in correct place)
+ DISTRO_FEATURES += "usrmerge"
+ MACHINE = "qemuarm64"
+
+* AArch64 multilib usrmerge (symlink in correct place)
+ DISTRO_FEATURES += "usrmerge"
+ MACHINE = "qemuarm64"
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+ require conf/multilib.conf
+
+* AArch64 big-endian multilib usrmerge (symlink in correct place)
+ DEFAULTTUNE = "aarch64_be"
+ DISTRO_FEATURES += "usrmerge"
+ MACHINE = "qemuarm64"
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+ require conf/multilib.conf
+
+* x86 (real loader in correct place)
+ MACHINE = "qemux86"
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2018-November/276120.html
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../glibc/glibc-loader-symlink.bb             | 26 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc-package.inc     | 20 +++++---------
+ 2 files changed, 33 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc-loader-symlink.bb
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 9093010c8d9..16b5e6b5697 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -101,7 +101,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd x11', d)} \
--                   dbus gconf \
-+                   dbus gsettings \
-                    "
+diff --git a/meta/recipes-core/glibc/glibc-loader-symlink.bb b/meta/recipes-core/glibc/glibc-loader-symlink.bb
+new file mode 100644
+index 0000000000..b4c324f34b
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc-loader-symlink.bb
+@@ -0,0 +1,26 @@
++# On AArch64, at least glibc will RDEPEND on this recipe in order to
++# ensure that the dynamic loader is available in the ABI-mandated
++# location when that location differs from where glibc installed it.
++# This happens when multilib is enabled.
++
++SUMMARY = "AArch64 compatibility symlink when using multilib"
++LICENSE = "MIT"
++
++INSANE_SKIP_${PN}_append_aarch64 = " libdir"
++FILES_${PN} = "${root_prefix}/lib"
++
++do_install_aarch64() {
++    if [ "${base_libdir}" != "${root_prefix}/lib" ]; then
++        # The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
++        install -d ${D}${root_prefix}/lib
++        if [ "${ARMPKGARCH}" = "aarch64" ]; then
++            ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/ld-linux-aarch64.so.1 \
++                  ${D}${root_prefix}/lib/ld-linux-aarch64.so.1
++        elif [ "${ARMPKGARCH}" = "aarch64_be" ]; then
++            ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
++                  ${D}${root_prefix}/lib/ld-linux-aarch64_be.so.1
++        else
++            false
++        fi
++    fi
++}
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a98ae1a29c..9c3f5bc355 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -15,8 +15,6 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+ RPROVIDES_${PN}-dbg = "eglibc-dbg"
+ libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+-libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+-INSANE_SKIP_${PN}_append_aarch64 = " libdir"
  
- PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+ FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+ FILES_ldd = "${bindir}/ldd"
+@@ -44,6 +42,13 @@ FILES_glibc-thread-db = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthre
+ RPROVIDES_${PN}-dev += "libc-dev"
+ RPROVIDES_${PN}-staticdev += "libc-staticdev"
+ 
++# For AArch64 at least, we need to ensure that the dynamic loader is
++# available by the ABI-mandated path in /lib. This will always be true
++# if ${base_libdir} is /lib (or perhaps /usr/lib when usrmerge is
++# enabled), but we need to depend on glibc-loader-symlink to provide
++# it otherwise.
++RDEPENDS_${PN}_aarch64 = "${@oe.utils.conditional('base_libdir', '${root_prefix}/lib', '', 'glibc-loader-symlink', d)}"
++
+ SUMMARY_sln = "The static ln"
+ DESCRIPTION_sln = "Similar to the 'ln' utility, but statically linked.  sln is useful to make symbolic links to dynamic libraries if the dynamic linking system, for some reason, is not functional."
+ SUMMARY_nscd = "Name service cache daemon"
+@@ -115,17 +120,6 @@ do_install_append () {
+ }
+ 
+ do_install_append_aarch64 () {
+-	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
+-		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
+-		install -d ${D}${nonarch_base_libdir}
+-		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
+-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
+-				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
+-		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
+-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
+-				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
+-		fi
+-	fi
+ 	do_install_armmultilib
+ }
+ 
 -- 
-2.11.0
+2.20.1
 
 
