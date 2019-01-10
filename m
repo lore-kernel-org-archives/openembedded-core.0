@@ -1,46 +1,49 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
-	[209.85.167.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AC927C0A4
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC3C6B005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 22:09:48 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id v5so9436167lfe.7
+	Thu, 10 Jan 2019 22:45:29 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id u89-v6so11231391lje.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2019 14:09:49 -0800 (PST)
+	Thu, 10 Jan 2019 14:45:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8O7bSChYf208DZ/UBlM45qPyiKwl+kGq/hZSKQgQ+QQ=;
-	b=LfIwhm7ae8+qCMbN5od3MdSG8bOT2bwWaDhF6sSalJZWWsfshB79Krw00cy0LiooqX
-	uXsx5IpSzYr2N+8AmFNeT6jT1yCUVL68T/ayy0yPRJUwsPf7EMIdZDGpL1BaCAx8KRkK
-	Puf72JXN48Z6u0i8JXq2F5NeSAY1a3EgcwHtKiZR1EIiAfT4mV4noTWd6fXJEsUYj/5c
-	GbjdnkEC/RhriyY3a7ereA10ii6ffxdq66vq+ZjDciDZdXcDcPDNvyU5+dqF9lPxfDxI
-	Gu+wTHu5xmufQgvvdYkrNeROSY5/nFF/57ZZNAaLCpe8+p8FjvgnutMS9IWR9Hbpb0sU
-	QR1g==
+	h=from:to:subject:date:message-id;
+	bh=zG09sZrqyHb9CBE7aeGPlzpX7RJ0NhFygnqnNYn6764=;
+	b=cY3U1ay7Rp9lgyUsZA/i2sOnNrguqiNzz9msEVHBP7V0eeHqgJwtpbh5Ctk/tgQzw4
+	zvsoB8if5vQUTjMPLdld/4ey4jlBI8AzylsLWv14P/oCElJY6RSLmFrLhNyEpXFKEThc
+	XQPpKkRb4wmoifN3flIijs+aYsOgnDqoqOG/fzU9YC35FXK8O0+qQzUcjqSreqpxjKuZ
+	ukwNNFDwWkuulCWPx3SOwmu5wa/EzjA3Tskxd2br17/f8jQT4Ha1sP29X5qn+MaXLtOU
+	rGnvgn2ftPYNQFookVTugOy1KkN5rt9vas26WVt5ZA/4ZTjdAp/gsAk+NaF1P/gdpov2
+	AgqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8O7bSChYf208DZ/UBlM45qPyiKwl+kGq/hZSKQgQ+QQ=;
-	b=sEz12ZBpM/qvB27zcCI5BmGef00atttKz8bOAUAkl4ubwJwlVcDp4qoohSfScvB1Jo
-	DiOCYQ+tcIKP1ywK6rcwU/fSfXQBmPzMXToScoHATT5zx5gctgPJJDqIYwCJ49R5KYjD
-	bJ+99/GZMABUOoxMWcqoPko+/6mcZxr9/eLW0shweA7DBb/Uwt22gm2P0TGw/0uZM9S4
-	BQ1D0vcn3cKeOnjD606KnxnCQ3S4OJjeem62z6sQEk8WfNt4ayvZ5z3kWYVw/55gKVst
-	xxsHJaMHtHDKW5FF4avKoV/C/iSVTObBejukmIGoo+wzVzjJ8Rp1G3x346lKM4YJ8l2Z
-	qqzQ==
-X-Gm-Message-State: AJcUukfCp6ww2+EwNi+Us7JrKalhjdmB3Npr2jtxlyMPQL+cARo90kwx
-	dunHeyPpY4Bx6y2V7e2WTdh0iLIazWIIAUq3iefLHA==
-X-Google-Smtp-Source: ALg8bN6AfEsSSc+mR7GR9D0Qe2FFEutowq49XIq29m6Bct1h2r+Gm/omApMwWCndizZ2CYJYB1eifAhRrGiLS96qnZE=
-X-Received: by 2002:a19:8fce:: with SMTP id s75mr6592612lfk.151.1547158188460; 
-	Thu, 10 Jan 2019 14:09:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20190110200045.14152-1-alistair.francis@wdc.com>
-	<20190110203314.2331.87567@do>
-In-Reply-To: <20190110203314.2331.87567@do>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 10 Jan 2019 14:09:21 -0800
-Message-ID: <CAKmqyKNbv0eWAkmsqTe=FnmSDEJuvUVcu=qfuxz1M=gsNaYcvQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdzdHJlYW1lcjogQWRkIFJJU0MtViBzdXBwb3J0IChyZXYzKQ==?=
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=zG09sZrqyHb9CBE7aeGPlzpX7RJ0NhFygnqnNYn6764=;
+	b=aB9ho/tw6s+/K9w3Zw8sODLkbdyTBvzHfKeXDQjs+ahIyYLUKndil8jbXSIZDp6AW5
+	DOolpIJ7Swxiy3IPcV5+UyE399Sn9+wvf2nr7hwiLpBc+dpbg8QwG03ikP2reQKkr7Oi
+	5Yd7bXdd9jU3AqiaZw+SjdHGK3b7kVEXKPtcc4wu0lu4P0ZDAjSbEYlGJSbj6LlLK+yF
+	jPJtG6cjJfI9LAg28aW2s7/qN3fX99kvQONOCX/Gqa6To3cJr2v9lS8iXP8LrRJAQNl3
+	iAshiwRevj+HY0hPDXxagHIvja5uJDlu0amQ93vNHErQTwBwKHfGviBIi6hwgVa8Dhnj
+	VFHw==
+X-Gm-Message-State: AJcUukf5+bFUyK8lFBEXU+t74itd2pSkFDexYnDCT8vEfcEY0sJhd+vY
+	KO+BucERUaYOdNO2PR7dM5KRIoafjH0=
+X-Google-Smtp-Source: ALg8bN7u37GpnVmTupMnH58jFBtLszBdwjY8ePeDRz4HimKOWHEHKjNRja20GuxoPNhX51pBmwQZ5Q==
+X-Received: by 2002:a2e:5356:: with SMTP id
+	t22-v6mr6749250ljd.26.1547160330160; 
+	Thu, 10 Jan 2019 14:45:30 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	y24sm14016702lfj.17.2019.01.10.14.45.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Jan 2019 14:45:29 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Jan 2019 23:45:16 +0100
+Message-Id: <20190110224516.11775-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] package.bbclass: Make package output files more deterministic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2019 22:09:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 10 Jan 2019 22:45:30 -0000
 
-On Thu, Jan 10, 2019 at 12:33 PM Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
->
-> == Series Details ==
->
-> Series: gstreamer: Add RISC-V support (rev3)
-> Revision: 3
-> URL   : https://patchwork.openembedded.org/series/15576/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence]
->   Suggested fix    Sign off the added patch file (meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch)
+Observing depsig.do_package for packages inbetween rebuilds indicated
+that the following variables/files content was changing order randomly.
+Make them deterministic by sorting the output:
 
-This patch is straight from the gstreamer source code, I think this
-error should be ignored.
+ RDEPENDS_<pkg>
+ RRECOMMENDS_<pkg>
+ FILERDEPENDSFLIST_<pkg>
 
-Alistair
+ packages-split/<pkg>.shlibdeps
 
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The following variable was not observed to change, but it is
+assumed that the same situation can occur, so do the same
+sorting for consistency:
+
+ FILERPROVIDESFLIST_<pkg>
+
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ meta/classes/package.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 322c4ec77f..9585835279 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1561,12 +1561,12 @@ python package_do_filedeps() {
+         if pkg not in requires_files:
+             requires_files[pkg] = []
+ 
+-        for file in provides:
++        for file in sorted(provides):
+             provides_files[pkg].append(file)
+             key = "FILERPROVIDES_" + file + "_" + pkg
+             d.appendVar(key, " " + " ".join(provides[file]))
+ 
+-        for file in requires:
++        for file in sorted(requires):
+             requires_files[pkg].append(file)
+             key = "FILERDEPENDS_" + file + "_" + pkg
+             d.appendVar(key, " " + " ".join(requires[file]))
+@@ -1867,7 +1867,7 @@ python package_do_shlibs() {
+             os.remove(deps_file)
+         if len(deps):
+             fd = open(deps_file, 'w')
+-            for dep in deps:
++            for dep in sorted(deps):
+                 fd.write(dep + '\n')
+             fd.close()
+ }
+@@ -1988,7 +1988,7 @@ python read_shlibdeps () {
+     packages = d.getVar('PACKAGES').split()
+     for pkg in packages:
+         rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg) or "")
+-        for dep in pkglibdeps[pkg]:
++        for dep in sorted(pkglibdeps[pkg]):
+             # Add the dep if it's not already there, or if no comparison is set
+             if dep not in rdepends:
+                 rdepends[dep] = []
+@@ -2021,7 +2021,7 @@ python package_depchains() {
+         #bb.note('depends for %s is %s' % (base, depends))
+         rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
+ 
+-        for depend in depends:
++        for depend in sorted(depends):
+             if depend.find('-native') != -1 or depend.find('-cross') != -1 or depend.startswith('virtual/'):
+                 #bb.note("Skipping %s" % depend)
+                 continue
+@@ -2042,7 +2042,7 @@ python package_depchains() {
+         #bb.note('rdepends for %s is %s' % (base, rdepends))
+         rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
+ 
+-        for depend in rdepends:
++        for depend in sorted(rdepends):
+             if depend.find('virtual-locale-') != -1:
+                 #bb.note("Skipping %s" % depend)
+                 continue
+-- 
+2.11.0
+
 
