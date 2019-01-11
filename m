@@ -1,25 +1,49 @@
-Return-Path: <ftoth@telfort.nl>
-Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
-	by mail.openembedded.org (Postfix) with ESMTP id D180F7C0E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E81027C13D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 11:07:03 +0000 (UTC)
-Received: from [192.168.1.22] (cust-178-250-146-69.breedbanddelft.nl
-	[178.250.146.69])
-	by radex-web.radex.nl (Postfix) with ESMTPS id 178E32404C;
-	Fri, 11 Jan 2019 12:07:04 +0100 (CET)
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <bb4e7e77-fc77-d180-cf50-aecc92c42c24@telfort.nl>
-	<af7fc6ac-01d9-8132-6ca7-1586afc3bc57@gmail.com>
-From: Ferry Toth <ftoth@telfort.nl>
-Message-ID: <d9af4168-b0d1-07f5-e2ed-32fa11305a0e@telfort.nl>
-Date: Fri, 11 Jan 2019 12:07:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <af7fc6ac-01d9-8132-6ca7-1586afc3bc57@gmail.com>
-Subject: Re: Sudden errors building Sumo
+	Fri, 11 Jan 2019 12:34:58 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id f188so2211795wmf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Jan 2019 04:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=spLZXRuhTdktd44Z7SY32mMTVh4LrTnHr3VSHowWI1A=;
+	b=ZwPKHXc+WuWFtMxAi1Uzv4y+yxynx2wycd4Hl0SIsTJBAm45npcx/LRGgScIO7XUZm
+	t1rM6Kf7RYjVQyuM7XTZdJQxADg8jkIRc/rKj4wqMgyMjk5LvYQLP0Asxl6IJc248hGE
+	2XamEdnM+nTZW/5WFJScsSqe/8b9otVSqscAdpfLfMGfu2ec78RKCJFSgzzPkL0skHTC
+	QRnyAeDXnXPT4Her3FTcq/4L51IpJGolh0fdsfKTF36MdV1VGTQnVnXtD55WM06sXM7Q
+	lqHqpaVlm50t/8xiiv10UsAFz+huJ9hsxGcBu3c0JlisXVbX1agBaNkIfFfchA+N8I6o
+	e7+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=spLZXRuhTdktd44Z7SY32mMTVh4LrTnHr3VSHowWI1A=;
+	b=dg3nGIvXxeeAzn3Y7svyOO+vMjl8vFjbhV+4ryAJH3PfF8ODJrEvuhYNpvBUj6reJ4
+	AWCAfMCQ+uLvzBvyLirikQqjm/kH119xWQ2EYYK7mHkBQQritHo5pmK3nb/wMCexan9l
+	anlZrQQAkfcsGzgiM78Hu0ObM1YeOlZcoxnrAEqoqHOTapEG2rDI67DG2zZ7SyFLu06J
+	5aj2CV6Kn3alwZ7207mNLA4d3TyNHalkoRO7JuaCZ8OJUrcKwmsnKMAFGpXqg7sb/I+a
+	Mi3HcZAfZuSqGeBEhofG6ZU6LBI6bchMDisVZkZpISOv7UdjVHjvpv6eGAx7NN85nMYS
+	oiSQ==
+X-Gm-Message-State: AJcUukdToWKHHJ9Kd5XHwgz6shaPtrFB8l55k235x2qrrVgJwCquWeJf
+	YRPFj10pSGd6H74ai8F3uqF2JJmUeWw=
+X-Google-Smtp-Source: ALg8bN6DwnObtJ1crbuuYpLR8Naz3a3J3DrqmAG18ZwPLtoVdLBY1avPMZ4DItIfNM5LaANmKVz1rA==
+X-Received: by 2002:a1c:570d:: with SMTP id l13mr2231821wmb.139.1547210099153; 
+	Fri, 11 Jan 2019 04:34:59 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	q9sm47794825wrv.26.2019.01.11.04.34.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 11 Jan 2019 04:34:57 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Jan 2019 12:34:55 +0000
+Message-Id: <20190111123455.1352-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] python3-smmap: upgrade to 2.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 11:07:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 11 Jan 2019 12:34:59 -0000
 
+The maintainer lost access to the smmap PyPi account so as with gitdb, set the
+PyPi name to smmap2.
 
-Op 10-01-19 om 21:48 schreef akuster808:
->
-> On 1/10/19 8:23 AM, Ferry Toth wrote:
->> After a new checkout I am experiencing multiple errors building Sumo
->> that might be related:
->> bison-3.0.4
->>
->> cross-localedef-native_2.27
->>
->> coreutils-8.29
->>
->> On another machine with slightly out-of-date Sumo these problems do
->> not occur.
->>
->>
->> Detail below.
->>
->>
->> Any ideas how to fix?
-> Can you provide how you are building this ie, local.conf, MACHINE and host
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python-smmap.inc                       | 6 ++++--
+ .../python/{python3-smmap_0.9.0.bb => python3-smmap_2.0.5.bb}       | 0
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-smmap_0.9.0.bb => python3-smmap_2.0.5.bb} (100%)
 
-https://github.com/edison-fw/meta-intel-edison/tree/sumo32
+diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python-smmap.inc
+index c81474e922f..1a2259e4b8e 100644
+--- a/meta/recipes-devtools/python/python-smmap.inc
++++ b/meta/recipes-devtools/python/python-smmap.inc
+@@ -9,8 +9,10 @@ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665
+ 
+ inherit pypi
+ 
+-SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
+-SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
++PYPI_PACKAGE = "smmap2"
++
++SRC_URI[md5sum] = "1c59a985be5aa645c4c5a4e063a40dd5"
++SRC_URI[sha256sum] = "29a9ffa0497e7f2be94ca0ed1ca1aa3cd4cf25a1f6b4f5f87f74b46ed91d609a"
+ 
+ RDEPENDS_${PN} += "${PYTHON_PN}-codecs \
+                    ${PYTHON_PN}-mmap \
+diff --git a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb b/meta/recipes-devtools/python/python3-smmap_2.0.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+rename to meta/recipes-devtools/python/python3-smmap_2.0.5.bb
+-- 
+2.11.0
 
-Local.conf and bblayers.conf are created by the setup.sh script.
->
-> What are your before and after commit hashes used?
-Unfortunately I don't have the last working hash available.
->
-> - armin
->> Ferry
->>
->>
->> virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-devtools/bison/bison_3.0.4.bb:do_compile
->>
->>
->> | ../bison-3.0.4/lib/fseterr.c: In function 'fseterr':
->> | ../bison-3.0.4/lib/fseterr.c:77:3: error: #error "Please port gnulib
->> fseterr.c to your platform! Look at the definitions of ferror and
->> clearerr on your system, then report this to bug-gnulib."
->> | #error "Please port gnulib fseterr.c to your platform! Look at the
->> definitions of ferror and clearerr on your system, then report this to
->> bug-gnulib."
->> | ^~~~~
->>
->>
->> /home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/glibc/cross-localedef-native_2.27.bb:do_compile
->>
->>
->> | /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld:
->> argp-fmtstream.c:(.text+0x525): undefined reference to `_IO_fwide'
->> | /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld:
->> argp-help.o: in function `argp_failure':
->> | argp-help.c:(.text+0x20b3): undefined reference to `_IO_fwide'
->> | collect2: error: ld returned 1 exit status
->>
->>
->> virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/coreutils/coreutils_8.29.bb:do_compile
->>
->>
->> | ../coreutils-8.29/lib/freadseek.c: In function 'freadptrinc':
->> | ../coreutils-8.29/lib/freadseek.c:68:3: error: #error "Please port
->> gnulib freadseek.c to your platform! Look at the definition of getc,
->> getc_unlocked on your system, then report this to bug-gnulib."
->> | #error "Please port gnulib freadseek.c to your platform! Look at the
->> definition of getc, getc_unlocked on your system, then report this to
->> bug-gnulib."
->> | ^~~~~
->>
 
