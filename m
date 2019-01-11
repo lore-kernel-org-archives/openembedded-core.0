@@ -1,47 +1,25 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8318179FAA
+Return-Path: <ftoth@telfort.nl>
+Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
+	by mail.openembedded.org (Postfix) with ESMTP id D180F7C0E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 10:43:54 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j2so14710141wrw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 02:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=8SSUDa4s2oem16ToNXrhpo7xvpWEXaGsNVpEUHN5Giw=;
-	b=ooU/G11J41WBASOQEVf2BEW5qx/GqmlWjZmU8UxRMCHyRRBlGZXZQPiSnL41wXDVTR
-	/45mTnUstTOq9B0eeyDiYfB/YyK0pJ1G69MLoJyRJubPjajcD4jju6P4UbwHwON/RmwP
-	kHdcM/ukza3JozaYyVmIzbIbkS6U2F4pO9ACcuyIyeodzDRjT6GGftM/Ypyorc4IB3y+
-	pe4kUmSqixGEG5QrCddSgOApU+Fek26h+s6BKiYl7tzMA1ulBSPnGeyLFS6AwvUBUf0O
-	ZSM6YuDtxHmSOlf5v/jd+RuVNxy7q7oLKz2eD/XORZXikNrRjCc6Np37HsWfeb13nLCd
-	lgCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8SSUDa4s2oem16ToNXrhpo7xvpWEXaGsNVpEUHN5Giw=;
-	b=X1/pUEMAe26Q0tQ38HCkUuN/+3cAaW+Y+di7kZNUUoi+OSLFGb+x9vKQvFIBLHqyVx
-	uDmkueOZAN4buBWj0j2QHFb3mHfPzWFwD1b5cKxjOR9hP0vckWaR06deiQhbrefaZ4R8
-	ZZcXD7glEirKV87zgkm+I6WmeGmI//ceYu2VT2FQB3vtFo+Mcjs+YIziasbfVBs9i6xK
-	epw7xnBs10bA9tKX/MrMfctZ2Zpo2OZ+Ybhv50FDaj4fP0JsiTTm2PzQCCXiK1x3154+
-	IGY2/Vt4zyroZxK2RMkxHjSJKE5cyXBAIc3B+NxkgU9q4O/TXlpP37o+pzoDYXTnifXm
-	28Lw==
-X-Gm-Message-State: AJcUukduHGWlHtcTTq3P3qoE6wpxjZNLTJmrdfEEW65uZQWPkusojRG/
-	5LN8lkzO2JSqy3M9n+hGh0+7+wRd
-X-Google-Smtp-Source: ALg8bN4kbfiqk5z/zvxbjBf+7D9FRCcjHFFSMSQT1/ftOdIuH782C2VaIXD/j+E+Fku7z5l3l8P3ug==
-X-Received: by 2002:adf:ce86:: with SMTP id r6mr13560142wrn.257.1547203434781; 
-	Fri, 11 Jan 2019 02:43:54 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	o3sm53433557wrs.30.2019.01.11.02.43.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Jan 2019 02:43:53 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2019 11:43:49 +0100
-Message-Id: <20190111104349.33960-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] rpm: produce sane amount of logging when creating a rootfs
+	Fri, 11 Jan 2019 11:07:03 +0000 (UTC)
+Received: from [192.168.1.22] (cust-178-250-146-69.breedbanddelft.nl
+	[178.250.146.69])
+	by radex-web.radex.nl (Postfix) with ESMTPS id 178E32404C;
+	Fri, 11 Jan 2019 12:07:04 +0100 (CET)
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <bb4e7e77-fc77-d180-cf50-aecc92c42c24@telfort.nl>
+	<af7fc6ac-01d9-8132-6ca7-1586afc3bc57@gmail.com>
+From: Ferry Toth <ftoth@telfort.nl>
+Message-ID: <d9af4168-b0d1-07f5-e2ed-32fa11305a0e@telfort.nl>
+Date: Fri, 11 Jan 2019 12:07:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <af7fc6ac-01d9-8132-6ca7-1586afc3bc57@gmail.com>
+Subject: Re: Sudden errors building Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,111 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 10:43:54 -0000
+X-List-Received-Date: Fri, 11 Jan 2019 11:07:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Previously there was lots of irrelevant noise in the logs,
-because we also wanted to be able to debug postinst issues
-easily. I have adjusted the logging levels so that
-postinst info is still written to the logs, but other
-things are not.
 
-[YOCTO #13119]
+Op 10-01-19 om 21:48 schreef akuster808:
+>
+> On 1/10/19 8:23 AM, Ferry Toth wrote:
+>> After a new checkout I am experiencing multiple errors building Sumo
+>> that might be related:
+>> bison-3.0.4
+>>
+>> cross-localedef-native_2.27
+>>
+>> coreutils-8.29
+>>
+>> On another machine with slightly out-of-date Sumo these problems do
+>> not occur.
+>>
+>>
+>> Detail below.
+>>
+>>
+>> Any ideas how to fix?
+> Can you provide how you are building this ie, local.conf, MACHINE and host
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oe/package_manager.py                |  2 +-
- ...ge-logging-level-around-scriptlets-t.patch | 55 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |  1 +
- 3 files changed, 57 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+https://github.com/edison-fw/meta-intel-edison/tree/sumo32
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 392fe7e3724..7ff76c61cdd 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -966,7 +966,7 @@ class RpmPM(PackageManager):
-         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
- 
-         dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
--        standard_dnf_args = ["-v", "--rpmverbosity=debug", "-y",
-+        standard_dnf_args = ["-v", "--rpmverbosity=info", "-y",
-                              "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
-                              "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
-                              "--installroot=%s" % (self.target_rootfs),
-diff --git a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-new file mode 100644
-index 00000000000..43e9859ef32
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-@@ -0,0 +1,55 @@
-+From 989e425d416474c191b020d0825895e3df4bd033 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 10 Jan 2019 18:14:18 +0100
-+Subject: [PATCH] rpmscript.c: change logging level around scriptlets to INFO
-+ from DEBUG
-+
-+That way we can debug scriptlet failures without writing lots of
-+irrelevant noise to rootfs logs.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmscript.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/rpmscript.c b/lib/rpmscript.c
-+index 2b0e43862..e319673f1 100644
-+--- a/lib/rpmscript.c
-++++ b/lib/rpmscript.c
-+@@ -226,7 +226,7 @@ static char * writeScript(const char *cmd, const char *script)
-+     if (Ferror(fd))
-+ 	goto exit;
-+ 
-+-    if (rpmIsDebug() && (rstreq(cmd, "/bin/sh") || rstreq(cmd, "/bin/bash"))) {
-++    if (rpmIsVerbose() && (rstreq(cmd, "/bin/sh") || rstreq(cmd, "/bin/bash"))) {
-+ 	static const char set_x[] = "set -x\n";
-+ 	/* Assume failures will be caught by the write below */
-+ 	Fwrite(set_x, sizeof(set_x[0]), sizeof(set_x)-1, fd);
-+@@ -258,7 +258,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
-+     char *mline = NULL;
-+     rpmRC rc = RPMRC_FAIL;
-+ 
-+-    rpmlog(RPMLOG_DEBUG, "%s: scriptlet start\n", sname);
-++    rpmlog(RPMLOG_INFO, "%s: scriptlet start\n", sname);
-+ 
-+     if (script) {
-+ 	fn = writeScript(*argvp[0], script);
-+@@ -310,7 +310,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
-+ 		sname, strerror(errno));
-+ 	goto exit;
-+     } else if (pid == 0) {/* Child */
-+-	rpmlog(RPMLOG_DEBUG, "%s: execv(%s) pid %d\n",
-++	rpmlog(RPMLOG_INFO, "%s: execv(%s) pid %d\n",
-+ 	       sname, *argvp[0], (unsigned)getpid());
-+ 
-+ 	fclose(in);
-+@@ -353,7 +353,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
-+ 	reaped = waitpid(pid, &status, 0);
-+     } while (reaped == -1 && errno == EINTR);
-+ 
-+-    rpmlog(RPMLOG_DEBUG, "%s: waitpid(%d) rc %d status %x\n",
-++    rpmlog(RPMLOG_INFO, "%s: waitpid(%d) rc %d status %x\n",
-+ 	   sname, (unsigned)pid, (unsigned)reaped, status);
-+ 
-+     if (reaped < 0) {
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-index ef5d631917c..66eef557dfa 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-+           file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            "
- 
- PE = "1"
--- 
-2.17.1
-
+Local.conf and bblayers.conf are created by the setup.sh script.
+>
+> What are your before and after commit hashes used?
+Unfortunately I don't have the last working hash available.
+>
+> - armin
+>> Ferry
+>>
+>>
+>> virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-devtools/bison/bison_3.0.4.bb:do_compile
+>>
+>>
+>> | ../bison-3.0.4/lib/fseterr.c: In function 'fseterr':
+>> | ../bison-3.0.4/lib/fseterr.c:77:3: error: #error "Please port gnulib
+>> fseterr.c to your platform! Look at the definitions of ferror and
+>> clearerr on your system, then report this to bug-gnulib."
+>> | #error "Please port gnulib fseterr.c to your platform! Look at the
+>> definitions of ferror and clearerr on your system, then report this to
+>> bug-gnulib."
+>> | ^~~~~
+>>
+>>
+>> /home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/glibc/cross-localedef-native_2.27.bb:do_compile
+>>
+>>
+>> | /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld:
+>> argp-fmtstream.c:(.text+0x525): undefined reference to `_IO_fwide'
+>> | /home/ferry/Develop/tmp/out/linux64/build/tmp/hosttools/ld:
+>> argp-help.o: in function `argp_failure':
+>> | argp-help.c:(.text+0x20b3): undefined reference to `_IO_fwide'
+>> | collect2: error: ld returned 1 exit status
+>>
+>>
+>> virtual:native:/home/ferry/Develop/tmp/out/linux64/poky/meta/recipes-core/coreutils/coreutils_8.29.bb:do_compile
+>>
+>>
+>> | ../coreutils-8.29/lib/freadseek.c: In function 'freadptrinc':
+>> | ../coreutils-8.29/lib/freadseek.c:68:3: error: #error "Please port
+>> gnulib freadseek.c to your platform! Look at the definition of getc,
+>> getc_unlocked on your system, then report this to bug-gnulib."
+>> | #error "Please port gnulib freadseek.c to your platform! Look at the
+>> definition of getc, getc_unlocked on your system, then report this to
+>> bug-gnulib."
+>> | ^~~~~
+>>
 
