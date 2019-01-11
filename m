@@ -1,35 +1,18 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-X-Greylist: delayed 316 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 11 Jan 2019 12:55:37 UTC
-Received: from smtprelay.synopsys.com (smtprelay2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 199EB7BE41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 12:55:37 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id BAF6E10C05CC;
-	Fri, 11 Jan 2019 04:50:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1547211022; bh=SPf1OB2Q83MraP2BrkSLq+ywcX6eWgf77qd3vo6ds8U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gne2/KJw25OO4ssI3H/5MAGTkLh24aKaRMEl7+LUiWcZJzCtRTEZeaC9KUMKO2fFw
-	bUVTKQk1JlLZvE1ZAXN8EH4bZBKfPJ2NUVxM7sn2WliiP+XT/Zo7pdnoC3sIGr/GVl
-	ApqNhA4sOlad4ZyLlLeqIhgq+N+PHW2VaMz4NGHvjg1aLTg4ulljjAHJnI/7Wz6AVy
-	Afv9PEQNHKpjXLX+/gxVIzKoDRlyvBZ3cqCdRzIMeeKqWQIRgwtvsUtWSM2NwbQS+H
-	ZEG/o/StO1CeeSFv93YONkhm2Fk6lWBh6Yoqg34jycm8mpTUsp/9O6zf9tOaRPnd8T
-	gvz75CJ5WPbrg==
-Received: from ru20arcgnu1.internal.synopsys.com
-	(ru20arcgnu1.internal.synopsys.com [10.121.9.48])
-	by mailhost.synopsys.com (Postfix) with ESMTP id B085F3A76;
-	Fri, 11 Jan 2019 04:50:19 -0800 (PST)
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2019 15:50:14 +0300
-Message-Id: <20190111125014.34593-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
-Cc: Alexey Brodkin <alexey.brodkin@synopsys.com>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH] webkitgtk: Enable building for ARC architecture
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B9CFA6074F;
+	Fri, 11 Jan 2019 13:07:29 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Date: Fri, 11 Jan 2019 13:07:31 -0000
+Message-ID: <20190111130731.2329.16905@do>
+References: <20190111125014.34593-1-abrodkin@synopsys.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190111125014.34593-1-abrodkin@synopsys.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2Via2l0Z3RrOiBFbmFibGUgYnVpbGRpbmcgZm9yIEFSQyBhcmNoaXRlY3R1cmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 12:55:38 -0000
+X-List-Received-Date: Fri, 11 Jan 2019 13:07:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-For that we need 2 things:
- 1. Disable JIT in JS as it's not supported for ARC.
+== Series Details ==
 
- 2. Compile with "-mlong-calls" so relocations with
-    offsets larger than 25 bits are used, otherwise
-    linker fails to link final binaries.
+Series: webkitgtk: Enable building for ARC architecture
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/15614/
+State : failure
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Hongxu Jia <hongxu.jia@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 65c419b8c4)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-sato/webkit/webkitgtk_2.22.5.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
-index fc56822f7a..56f69c7a30 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
-@@ -69,6 +69,13 @@ EXTRA_OECMAKE = " \
- EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
- EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
- 
-+# Javascript JIT is not supported on ARC
-+EXTRA_OECMAKE_append_arc = " -DENABLE_JIT=OFF "
-+# By default 25-bit "medium" calls are used on ARC
-+# which is not enough for binaries larger than 32 MiB
-+CFLAGS_append_arc = " -mlong-calls"
-+CXXFLAGS_append_arc = " -mlong-calls"
-+
- # Javascript JIT is not supported on powerpc
- EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
--- 
-2.16.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
