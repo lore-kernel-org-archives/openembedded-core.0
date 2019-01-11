@@ -1,56 +1,66 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A299C7C11A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 19:06:23 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id w7so6665286pgp.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 11:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=7aQq5OMPnv2rY/QoIrAwSfcrdim3eab8JK0EBsdYF9g=;
-	b=KzEhU7aXj48QLjAE8XoGeSaqI421lZEC7UIGX49ECOXwa28fPntwz3OSPyQki5/Ehc
-	4WsQaIdClLP6dDEYkQf7KhR0iZUq0vh3q/5kastQ2pl6Cda00HCuA7WUDzOFuP5PpfXO
-	3w0KCwer76KU6KGj45BFjwnAW5k5n+nFkcnnU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=7aQq5OMPnv2rY/QoIrAwSfcrdim3eab8JK0EBsdYF9g=;
-	b=Ct1li3xkrgnz9KZjI37It+wFfv4lrONB9pP0JgyumYZXamgJFFXZXpxQDsROgzz7Tt
-	g5zdU9ZbI9kMDsWwsiDYw6tugzIxx7vICj6jzFObZ5JMqYTHm2v6gBeaHqb4l0YKyGel
-	LYgLCogEOQ43F7V7T6oNLB82jrmJ5VXhlGCGCVt+HMfQ/7SGHVJ0jw33deKQBdUweWX+
-	R1iV2C1EQBffW8JvUXpN88PGz6Evu9EGFw5mWKDQKrk1/GQHVRLctxg0UTh1m/4/nxy9
-	xfQ6uQcmeViz1UYDRXsm8aAzOry2okknk5VoC4+V01jW1sOBcWjWLpJGpxfJ+t2P1e7t
-	qIrw==
-X-Gm-Message-State: AJcUukeimKYEKpwHUMXXtqma+L70AFtw041UHDW3qEANTo3V9s0qx2TB
-	kzpE4FvknZMF8CfXK6TYIVz4Yb0u7As=
-X-Google-Smtp-Source: ALg8bN4mMVEU94HsCPkMdpTvpSgUE/ncWBWtcvZCYGZsio9r9L8ZQrSH/wcY2hqSzGNZlYhlhrJFKA==
-X-Received: by 2002:a62:6799:: with SMTP id t25mr15700923pfj.139.1547233584056;
-	Fri, 11 Jan 2019 11:06:24 -0800 (PST)
-Received: from ?IPv6:2601:1c0:ce01:2bef::35fd? ([2601:1c0:ce01:2bef::35fd])
-	by smtp.gmail.com with ESMTPSA id
-	b27sm117366125pfh.113.2019.01.11.11.06.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Jan 2019 11:06:23 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20190111164438.19749-1-paul@betafive.co.uk>
-	<20190111170558.2331.12366@do>
-	<1547226989.885609.1632072120.4FE7D8CF@webmail.messagingengine.com>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Organization: Linux Foundation
-Message-ID: <09a15c6d-cb5e-7741-d718-bbee3a3e8741@linuxfoundation.org>
-Date: Fri, 11 Jan 2019 11:06:22 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.3.1
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EA017C185;
+	Fri, 11 Jan 2019 20:39:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D976D18580;
+	Fri, 11 Jan 2019 21:39:55 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id t6JOXW1sjtdc; Fri, 11 Jan 2019 21:39:54 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0CF16182B3;
+	Fri, 11 Jan 2019 21:39:54 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F05941A095;
+	Fri, 11 Jan 2019 21:39:53 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DB09A1A094;
+	Fri, 11 Jan 2019 21:39:53 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 11 Jan 2019 21:39:53 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id CF023247E;
+	Fri, 11 Jan 2019 21:39:53 +0100 (CET)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Fri, 11 Jan 2019 21:39:53 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Fri, 11 Jan 2019 21:39:53 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Fri, 11 Jan 2019 21:39:53 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Joshua Watt <jpewhacker@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Thread-Topic: [bitbake-devel] [OE-core][PATCH v7 3/3] sstate: Implement hash
+	equivalence sstate
+Thread-Index: AQHUpxuzxnOh0rMji0qLx2VZP0GqQKWnHUaAgANvBpA=
+Date: Fri, 11 Jan 2019 20:39:53 +0000
+Message-ID: <ae964dc787d041459073dd050d9978b1@XBOX04.axis.com>
+References: <20190104024217.3316-1-JPEWhacker@gmail.com>
+	<20190104162015.456-1-JPEWhacker@gmail.com>
+	<20190104162015.456-4-JPEWhacker@gmail.com>
+	<6a611fb4-c0a6-dfa8-6bea-83cd2fa82ffd@gmail.com>
+	<4cb097db5f1dc0cb1df7375cce6c03b31b34b3ff.camel@gmail.com>
+In-Reply-To: <4cb097db5f1dc0cb1df7375cce6c03b31b34b3ff.camel@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <1547226989.885609.1632072120.4FE7D8CF@webmail.messagingengine.com>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFNob3J0ZW4gZmlsZSBuYW1lcyBpbiBzc3RhdGUtY2FjaGU=?=
+X-TM-AS-GCONF: 00
+Subject: Re: [bitbake-devel] [PATCH v7 3/3] sstate: Implement hash equivalence sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,60 +73,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 19:06:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Jan 2019 20:39:55 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/11/19 9:16 AM, Paul Barker wrote:
-> On Fri, 11 Jan 2019, at 17:05, Patchwork wrote:
->> == Series Details ==
->>
->> Series: Shorten file names in sstate-cache
->> Revision: 1
->> URL   : https://patchwork.openembedded.org/series/15617/
->> State : failure
-> That's weird... the patch applies fine onto master here, I've just tested applying it to a clean clone of openembedded-core.
+> -----Original Message-----
+> From: bitbake-devel-bounces@lists.openembedded.org <bitbake-devel-
+> bounces@lists.openembedded.org> On Behalf Of Joshua Watt
+> Sent: den 9 januari 2019 18:10
+> To: Jacob Kroon <jacob.kroon@gmail.com>; openembedded-
+> core@lists.openembedded.org; bitbake-devel@lists.openembedded.org
+> Subject: Re: [bitbake-devel] [OE-core][PATCH v7 3/3] sstate: Implement
+> hash equivalence sstate
+>=20
+> On Tue, 2019-01-08 at 07:29 +0100, Jacob Kroon wrote:
+> > On 1/4/19 5:20 PM, Joshua Watt wrote:
+> > > Converts sstate so that it can use a hash equivalence server to
+> > > determine if a task really needs to be rebuilt, or if it can be
+> > > restored
+> > > from a different (equivalent) sstate object.
+> > >
+> > > The unique hashes are cached persistently using persist_data. This
+> > > has
+> > > a number of advantages:
+> > >   1) Unique hashes can be cached between invocations of bitbake to
+> > >      prevent needing to contact the server every time (which is
+> > > slow)
+> > >   2) The value of each tasks unique hash can easily be synchronized
+> > >      between different threads, which will be useful if bitbake is
+> > >      updated to do on the fly task re-hashing.
+> > >
+> > > [YOCTO #13030]
+> > >
+> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > ---
+> > >   meta/classes/sstate.bbclass | 105 +++++++++++++++++++++--
+> > >   meta/conf/bitbake.conf      |   4 +-
+> > >   meta/lib/oe/sstatesig.py    | 167
+> > > ++++++++++++++++++++++++++++++++++++
+> > >   3 files changed, 267 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/meta/classes/sstate.bbclass
+> > > b/meta/classes/sstate.bbclass
+> > > index 59ebc3ab5cc..da0807d6e99 100644
+> > > --- a/meta/classes/sstate.bbclass
+> > > +++ b/meta/classes/sstate.bbclass
+> > > @@ -11,7 +11,7 @@ def generate_sstatefn(spec, hash, d):
+> > >   SSTATE_PKGARCH    =3D "${PACKAGE_ARCH}"
+> > >   SSTATE_PKGSPEC    =3D
+> > > "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-
+> > > ${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
+> > >   SSTATE_SWSPEC     =3D
+> > > "sstate:${PN}::${PV}:${PR}::${SSTATE_VERSION}:"
+> > > -SSTATE_PKGNAME    =3D "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.get
+> > > Var('SSTATE_PKGSPEC'), d.getVar('BB_TASKHASH'), d)}"
+> > > +SSTATE_PKGNAME    =3D "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.get
+> > > Var('SSTATE_PKGSPEC'), d.getVar('BB_UNIHASH'), d)}"
+> > >   SSTATE_PKG        =3D "${SSTATE_DIR}/${SSTATE_PKGNAME}"
+> > >   SSTATE_EXTRAPATH   =3D ""
+> > >   SSTATE_EXTRAPATHWILDCARD =3D ""
+> > > @@ -82,6 +82,23 @@ SSTATE_SIG_PASSPHRASE ?=3D ""
+> > >   # Whether to verify the GnUPG signatures when extracting sstate
+> > > archives
+> > >   SSTATE_VERIFY_SIG ?=3D "0"
+> > >
+> > > +SSTATE_HASHEQUIV_METHOD ?=3D "OEOuthashBasic"
+> > > +SSTATE_HASHEQUIV_METHOD[doc] =3D "The function used to calculate the
+> > > output hash \
+> > > +    for a task, which in turn is used to determine equivalency. \
+> > > +    "
+> > > +
+> > > +SSTATE_HASHEQUIV_SERVER ?=3D ""
+> > > +SSTATE_HASHEQUIV_SERVER[doc] =3D "The hash equivalence sever. For
+> > > example, \
+> > > +    'http://192.168.0.1:5000'. Do not include a trailing slash \
+> > > +    "
+> > > +
+> > > +SSTATE_HASHEQUIV_REPORT_TASKDATA ?=3D "0"
+> > > +SSTATE_HASHEQUIV_REPORT_TASKDATA[doc] =3D "Report additional useful
+> > > data to the \
+> > > +    hash equivalency server, such as PN, PV, taskname, etc. This
+> > > information \
+> > > +    is very useful for developers looking at task data, but may
+> > > leak sensitive \
+> > > +    data if the equivalence server is public. \
+> > > +    "
+> > > +
+> > >   python () {
+> > >       if bb.data.inherits_class('native', d):
+> > >           d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH', False))
+> > > @@ -640,7 +657,7 @@ def sstate_package(ss, d):
+> > >           return
+> > >
+> > >       for f in (d.getVar('SSTATECREATEFUNCS') or '').split() + \
+> > > -             ['sstate_create_package', 'sstate_sign_package'] + \
+> > > +             ['sstate_report_unihash', 'sstate_create_package',
+> > > 'sstate_sign_package'] + \
+> > >                (d.getVar('SSTATEPOSTCREATEFUNCS') or '').split():
+> > >           # All hooks should run in SSTATE_BUILDDIR.
+> > >           bb.build.exec_func(f, d, (sstatebuild,))
+> > > @@ -764,6 +781,73 @@ python sstate_sign_package () {
+> > >                              d.getVar('SSTATE_SIG_PASSPHRASE'),
+> > > armor=3DFalse)
+> > >   }
+> > >
+> > > +def OEOuthashBasic(path, sigfile, task, d):
+> > > +    import hashlib
+> > > +    import stat
+> > > +
+> > > +    def update_hash(s):
+> > > +        s =3D s.encode('utf-8')
+> > > +        h.update(s)
+> > > +        if sigfile:
+> > > +            sigfile.write(s)
+> > > +
+> > > +    h =3D hashlib.sha256()
+> > > +    prev_dir =3D os.getcwd()
+> > > +
+> > > +    try:
+> > > +        os.chdir(path)
+> > > +
+> > > +        update_hash("OEOuthashBasic\n")
+> > > +
+> > > +        # It is only currently useful to get equivalent hashes for
+> > > things that
+> > > +        # can be restored from sstate. Since the sstate object is
+> > > named using
+> > > +        # SSTATE_PKGSPEC and the task name, those should be
+> > > included in the
+> > > +        # output hash calculation.
+> > > +        update_hash("SSTATE_PKGSPEC=3D%s\n" %
+> > > d.getVar('SSTATE_PKGSPEC'))
+> > > +        update_hash("task=3D%s\n" % task)
+> > > +
+> > > +        for root, dirs, files in os.walk('.', topdown=3DTrue):
+> > > +            # Sort directories and files to ensure consistent
+> > > ordering
+> > > +            dirs.sort()
+> > > +            files.sort()
+> > > +
+> > > +            for f in files:
+> > > +                path =3D os.path.join(root, f)
+> > > +                s =3D os.lstat(path)
+> > > +
+> > > +                # Hash file path
+> > > +                update_hash(path + '\n')
+> > > +
+> > > +                # Hash file mode
+> > > +                update_hash("\tmode=3D0x%x\n" %
+> > > stat.S_IMODE(s.st_mode))
+> > > +                update_hash("\ttype=3D0x%x\n" %
+> > > stat.S_IFMT(s.st_mode))
+> > > +
+> > > +                if stat.S_ISBLK(s.st_mode) or
+> > > stat.S_ISBLK(s.st_mode):
+> > > +                    # Hash device major and minor
+> > > +                    update_hash("\tdev=3D%d,%d\n" %
+> > > (os.major(s.st_rdev), os.minor(s.st_rdev)))
+> > > +                elif stat.S_ISLNK(s.st_mode):
+> > > +                    # Hash symbolic link
+> > > +                    update_hash("\tsymlink=3D%s\n" %
+> > > os.readlink(path))
+> > > +                else:
+> > > +                    fh =3D hashlib.sha256()
+> > > +                    # Hash file contents
+> > > +                    with open(path, 'rb') as d:
+> > > +                        for chunk in iter(lambda: d.read(4096),
+> > > b""):
+> > > +                            fh.update(chunk)
+> > > +                    update_hash("\tdigest=3D%s\n" % fh.hexdigest())
+> >
+> > Would it be a good idea to make the depsig.do_* files even more
+> > human
+> > readable, considering that they could be candidates for being stored
+> > in
+> > buildhistory ?
+> >
+> > As an example, here's what buildhistory/.../files-in-package.txt for
+> > busybox looks like:
+> >
+> > drwxr-xr-x root       root             4096 ./bin
+> > lrwxrwxrwx root       root               14 ./bin/busybox ->
+> > busybox.nosuid
+> > -rwxr-xr-x root       root           547292 ./bin/busybox.nosuid
+> > -rwsr-xr-x root       root            50860 ./bin/busybox.suid
+> > lrwxrwxrwx root       root               14 ./bin/sh ->
+> > busybox.nosuid
+> > drwxr-xr-x root       root             4096 ./etc
+> > -rw-r--r-- root       root             2339
+> > ./etc/busybox.links.nosuid
+> > -rw-r--r-- root       root               91 ./etc/busybox.links.suid
+> >
+>=20
+> I went through the effort to try this, and I'm pretty happy with the
+> results except for one important distinction: It's not reproducible in
+> all cases because of the inclusion of the owner UID/GID (I used the
+> decimal user and group IDs to prevent the dependency on the names).
+>=20
+> For any task running under fakeroot (pesudo), this works like you would
+> expect. However, for tasks not running under fakeroot (and possibly
+> others that copy files from tasks not running under fakeroot?), the
+> files are owned by the user that is running bitbake (e.g. You). This
+> makes the output hashes not shareable between different developers.
+>=20
+> I'm not sure what the best way to address this is; The UID and GID are
+> an important part of the reproducibility and *should* be included in
+> the output hash when relevant, but I don't know yet how to determine if
+> they are relevant. I'm going to dig in and see if I can use "the
+> current task is running under fakeroot" as that distinction. If anyone
+> has any other ideas please chime in.
 
-The patchtest server was stuck resetting its working repository to a 
-local merge. I've repaired the issue on the patchtest server and 
-submitted 
-https://lists.yoctoproject.org/pipermail/yocto/2019-January/043790.html 
-to prevent it from reoccurring.
+You should probably not rely on UID/GID to be stable for target. That=20
+is only the case if you have configured the build to use static IDs,=20
+otherwise they are dynamically assigned and may vary between builds.=20
+The user and group names should be stable though.
 
->> == Summary ==
->>
->>
->> Thank you for submitting this patch series to OpenEmbedded Core. This is
->> an automated response. Several tests have been executed on the proposed
->> series by patchtest resulting in the following failures:
->>
->>
->>
->> * Issue             Series does not apply on top of target branch
->> [test_series_merge_on_head]
->>    Suggested fix    Rebase your series on top of targeted branch
->>    Targeted branch  master (currently at 65c419b8c4)
-> Git can't find a commit hash starting with 65c419b8c4 in poky or oe-core.
->
->>
->>
->> If you believe any of these test results are incorrect, please reply to the
->> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
->> Otherwise we would appreciate you correcting the issues and submitting a new
->> version of the patchset if applicable. Please ensure you add/increment the
->> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
->> [PATCH v3] -> ...).
->>
->> ---
->> Guidelines:
->> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
->> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->>
->
--- 
-Michael Halstead
-Linux Foundation / SysAdmin
+//Peter
 
 
