@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
-	[209.85.166.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 468F07C15C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CE8937C147
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 13:17:04 +0000 (UTC)
-Received: by mail-it1-f176.google.com with SMTP id i145so2354633ita.4
+	Fri, 11 Jan 2019 15:32:06 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id p17so19214733qtl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 05:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 11 Jan 2019 07:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=g9C6Ck2xJx6An+er0+WByk9Iw7a4q0hqFU85nKfqlrI=;
-	b=fatSJea2CPwLgeJFZDrf5v1WLjQHR1ZvAOEGsqo/gTVzW/MSalVle+f+OYoLj+Px1A
-	XjVNExKJJwC408T4i9N45RqpD1Fj+d2hmKb5tGGUhf1m+/N7pZr4G1qsvXLbra475klu
-	hHfvrrIACyRvRfrMGvrffZ4Giu/mWM2t+d0MZ8XeddsA8CdRuxXmvLddlRjAmBYrzJrj
-	QJ57kZK5CMe1hvZANXwhSd4o1ROZhgwrXdnEBAjKHFr7SJM7NDUAHSAOwQHHzrCVHT5w
-	kvzde1mBawA3OktzwuSzE9urq6JOpuCo8S6q+PxGQ/OxdCLef8SKXWEX/flD4XxXRq9z
-	1wsA==
+	:cc; bh=lSbtiSlN6eN0wWfFM1miabnhzQn87+CCaCdUrZQsWLM=;
+	b=jXZXj/1C0+CInKEh/I7VtGz7s9d1lTWQbBlkDKlLbn6dB8QKpYp6N57F0UxoXhIHV6
+	JB9GIwvZqcUYkcGDNlIQle37d8yvbra78mPR4UKJNembAYcEiC/L3Vv98eDxmp4VqxJs
+	0LjBh61tJM0miaWYf3zqnjA/b2YP3Cq7ElnlIduGpwwxP05KhG7omN2XuRKpb5xIG9+a
+	Cxe9fQR4QyWDiLe8ayajGqYJgm3Y99nKSRpdPv2LEs2YGiKM/Pxy92u/ULOpIUQfzIrX
+	L7uz0MEISvk4TcJvpYy++rXX4Gmu/0oWsWia43w8SYRsE6rxAqPEiqz5zxiAwWIMyGl/
+	vIBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=g9C6Ck2xJx6An+er0+WByk9Iw7a4q0hqFU85nKfqlrI=;
-	b=f7FeJkHG8tXvHpQEHNl0EuxAq4Mfcre0uIQsr/ZUjJ/Uzn8dmpPL6/qFOQL6TyF0XU
-	jB4MVVQ9GS/eYQvKDW1uqnvrZkwsU/vEuk40YJWkROClU3yXBW2KkAVbSuYWTmrr0Xpa
-	vbDlC1e0rjmNOpjkea+1h4N0tkTt3+GUIoMoT83SqG23mHNrUEXX+oFUOQfVr++JvsX/
-	SJGEzoe3O2OlDo7IMUDqTL/YL4QmL4KRNKAzrx25jlCj5RGgCJU2AlAdLZ7qbRwbX2/6
-	0nD2zInfobfiQNQZhlWJyBwtTlJ8Bp/ozvnq+qXg7VCn8sgreWjCMKqq0yYX5RlArlUv
-	16TA==
-X-Gm-Message-State: AJcUukccwr1ACZbkF4PuP3KYawWuyPsGK1QCmcCetcHoCimyypm7e+Bp
-	pDDBKCVj+SOrGv2CKNTC2UzWGnDD1MEtxCN9GIVlSg==
-X-Google-Smtp-Source: ALg8bN4Ixyb7eCZX/NoBxvc0YDHsxnb4nbLodRI4t9ECT6M66klw+wgNBBLnOynzVW+/5frf9XQ5Ru/a+7zerSrzOkU=
-X-Received: by 2002:a02:57c4:: with SMTP id b65mr10389782jad.79.1547212625391; 
-	Fri, 11 Jan 2019 05:17:05 -0800 (PST)
+	bh=lSbtiSlN6eN0wWfFM1miabnhzQn87+CCaCdUrZQsWLM=;
+	b=Vflnh1HezkvMmei0kBe6Abf7vnQvwfHP7Gr7+umjHnY53LFEDZlRG/dPVBd4xZa+ls
+	jjLwWFvYROZ8+Lj4BXTbbHnMGIMz5YMn3nZ2oCrrJjBFOSZ4wWuH2QKBntzATG0xWcFH
+	TARme4A3f9/Q8d+kMOfRqjqO+BCtL3zYJj1J1cQEBAaxwkuuJ6ExNHwvg33n+cHxF6Fl
+	DeQf2WeIc2pzwcdBjrnss65lRipWJCwfV/e00v1vHEaFWjp21qELet57ocf+AY1csPEC
+	UtqGQ/NzpWmO4NQaHqIV7tSUJOtqDYCGM5n21+0CQv/ppVCHZwtKqQwQiwdqEDi3ODck
+	QZyw==
+X-Gm-Message-State: AJcUukecndeppp9Lmt1ujBeSeVr4YZEH7vrXMZIuK2ndHSAzARkTME+Z
+	FiRIpPmWjz+eYqt3jt/eOCZSzH6xzlCuBUsKyRY=
+X-Google-Smtp-Source: ALg8bN7jcq3tlY24ZICO9FJWVK6SgwFVbLVlvmQQMuUBcLm3jLPFERRcBBLYsqaGDzFH2gVRguOGYmC2qb82ZpHYeAs=
+X-Received: by 2002:aed:3eac:: with SMTP id n41mr14037481qtf.196.1547220727429;
+	Fri, 11 Jan 2019 07:32:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20190110200045.14152-1-alistair.francis@wdc.com>
-	<20190110203314.2331.87567@do>
-	<CAKmqyKNbv0eWAkmsqTe=FnmSDEJuvUVcu=qfuxz1M=gsNaYcvQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKNbv0eWAkmsqTe=FnmSDEJuvUVcu=qfuxz1M=gsNaYcvQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Jan 2019 13:16:54 +0000
-Message-ID: <CAJTo0LZyKB_UqVR1Do1Ey5MBhg82AT2_aK=9RjUJUGhFY45KpA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdzdHJlYW1lcjogQWRkIFJJU0MtViBzdXBwb3J0IChyZXYzKQ==?=
+References: <20190111125014.34593-1-abrodkin@synopsys.com>
+In-Reply-To: <20190111125014.34593-1-abrodkin@synopsys.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 Jan 2019 07:31:48 -0800
+Message-ID: <CAMKF1soxmbmcHx4ZQkyx4aqoNYSApjU0wGTEntfsTm08Rg4Y8A@mail.gmail.com>
+To: Alexey Brodkin <alexey.brodkin@synopsys.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: [PATCH] webkitgtk: Enable building for ARC architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 13:17:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000edcb1e057f2e8295"
-
---000000000000edcb1e057f2e8295
+X-List-Received-Date: Fri, 11 Jan 2019 15:32:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 10 Jan 2019 at 22:10, Alistair Francis <alistair23@gmail.com> wrote:
-
-> > * Issue             A patch file has been added, but does not have a
-> Signed-off-by tag [test_signed_off_by_presence]
-> >   Suggested fix    Sign off the added patch file
-> (meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch)
+On Fri, Jan 11, 2019 at 4:50 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
 >
-> This patch is straight from the gstreamer source code, I think this
-> error should be ignored.
+> For that we need 2 things:
+>  1. Disable JIT in JS as it's not supported for ARC.
+>
+>  2. Compile with "-mlong-calls" so relocations with
+>     offsets larger than 25 bits are used, otherwise
+>     linker fails to link final binaries.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+> Cc: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-sato/webkit/webkitgtk_2.22.5.bb | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+> index fc56822f7a..56f69c7a30 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+> @@ -69,6 +69,13 @@ EXTRA_OECMAKE = " \
+>  EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
+>  EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
+>
+> +# Javascript JIT is not supported on ARC
+> +EXTRA_OECMAKE_append_arc = " -DENABLE_JIT=OFF "
+> +# By default 25-bit "medium" calls are used on ARC
+> +# which is not enough for binaries larger than 32 MiB
+> +CFLAGS_append_arc = " -mlong-calls"
+> +CXXFLAGS_append_arc = " -mlong-calls"
 
+perhaps adding to CPPFLAGS is going to be enough for both c/c++ cases
 
-*All* patches should have the SOB of the person who sent the patch, so you
-need to sign it off.
+> +
+>  # Javascript JIT is not supported on powerpc
+>  EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
+>  EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
+> --
+> 2.16.2
+>
 
-Ross
-
---000000000000edcb1e057f2e8295
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 10 Jan 2019 at 22:10, Alistair Fr=
-ancis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.com</a>&=
-gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-s=
-tyle:solid;border-left-color:rgb(204,204,204);padding-left:1ex">&gt; * Issu=
-e=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0A patch file has been adde=
-d, but does not have a Signed-off-by tag [test_signed_off_by_presence]<br>
-&gt;=C2=A0 =C2=A0Suggested fix=C2=A0 =C2=A0 Sign off the added patch file (=
-meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-=
-support.patch)<br>
-<br>
-This patch is straight from the gstreamer source code, I think this<br>
-error should be ignored.</blockquote><div><br></div><div>*All* patches shou=
-ld have the SOB of the person who sent the patch, so you need to sign it of=
-f.</div><div><br></div><div>Ross=C2=A0</div></div></div>
-
---000000000000edcb1e057f2e8295--
