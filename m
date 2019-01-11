@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 925B97C0D0
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8196C7C0B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 08:14:44 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id u6so6439888plm.8
+	Fri, 11 Jan 2019 08:15:34 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id z11so6034103pgu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 00:14:46 -0800 (PST)
+	Fri, 11 Jan 2019 00:15:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nMXTysPrPdVOc4adSav4KyO8lDDqnrtZxxAug1o/Exk=;
-	b=ncoKyZ1dOs6Iy67ymVecPlfWq8bSAINOg8lQm4ARtkoNNH3fGKlA2RzOuMHqUJ6qK+
-	jVmBLETrjmYIfmRz7+/ZESu4zUyikRXz4D6rR8QKx9h9e6UnazkgoBjPXusVHWFhnbdl
-	Qaz3Z7TCTLQ/Xyy8a73IxXHQKXNYa1xKRCbqoRzCFK1+92IcjlUYMIKaODpf5uHn/gDq
-	azvmZmowsR9IVntGBQ53p7e1BFXxXc5GOyraurzQKaenTL0/ITiKbnzBMqI0Ujb4U5zQ
-	KxdNKF8dzBuodW5SoLytgeUA6xzdPzUgIdHQYVKtKw7+hqj7UyUrjk8OpsozGFvlLW5y
-	iitg==
+	bh=oWuvleCTmP4ia7lwpgk5f7Gbu3OQB3pFqioboeN4STA=;
+	b=PBLUCMRehPT08Pj93308zmjvt7BhSDmpI3+Ug8+15w6ZZLQ0fCr0PTSiqZJvHlsFbY
+	OdG8LUHXg1JvxqNV9MsKTQHuTi3UsXQ9ANoq+FcxLiK75wlXdwVLUcx6t4n/VTEwKXr9
+	Hydh9kd+xQdq8hMx4xyz2wpfmSAZ0aOWv1SdIUetTVnI1CyDjBsr64tJeOSUq7gmwMRA
+	WGX+IDdRQOOKuJz37pOhW8mxhP9Z8kKv4IpvhefnFVZJxy0HJotWn7CyNngz9tvw6lEA
+	0M3Iz5E40+kT1abUAbf8pW3IRwaLH19G9JC1xB51YjLMPpSA0QEuEvfsu7FJ2RpIrvJY
+	0XWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nMXTysPrPdVOc4adSav4KyO8lDDqnrtZxxAug1o/Exk=;
-	b=VOD/9RMCxb8pOQIsHrJQqNVY29aNDgi2Ow54kPK8KTCbIcaF2LUImycX1S96fPCuMJ
-	M28MFJvB42O4WEzG+XZPLB6VpilZTCHRr71HdxyERV+uQ2phFife4W5C6h7QBepLN2fB
-	LVvEINfrKmF9KhW3C7UudjIeuEGvyOmP7DfgrsmOY+eWNN/4XbJ9+FMvpD2HcUN+Qvlh
-	IERCwLU7Hp4ul28XUbqy9DqNJRxCwmcVanJsV3sSjdz4XD2vCotJa1xDeKbRZhX9ppJ+
-	P6SkV+Yavs8YkVoyVO1iyFQt4caQ+NGoGPBNr71PIW131LYKvlhgn4UNsOs3x/1mP50q
-	gA2A==
-X-Gm-Message-State: AJcUuke4iJzhud8Kcc9tVQHc6wNst0MCDP1sE3M0kOVOKzBG3Q1P9CKv
-	MdsT/UlChBASU3jthB4xfPPI4I/i6LU=
-X-Google-Smtp-Source: ALg8bN7ty9w3ccE3BGblFVIlwdYVTO4kxKREUlbM9eHEimnASG1NL2jWJLJ6F3l6uLmCBBo7PUc/yQ==
-X-Received: by 2002:a17:902:6f09:: with SMTP id
-	w9mr14000935plk.309.1547194485007; 
-	Fri, 11 Jan 2019 00:14:45 -0800 (PST)
+	bh=oWuvleCTmP4ia7lwpgk5f7Gbu3OQB3pFqioboeN4STA=;
+	b=gdwM1sD9yW4Rt2ZjXlB4EjyFpydMhxspuJoLZH3TYkMtAvQIYwCu2x+2w5/dz2XrJR
+	VLa+0/DavQ0aT31nbujo8E2jTZVqEr1+lZtia3RFSZbiTEEIrJmow9xFMRSsJs1KaOlc
+	2KtpgFzwGhde68PPVmg9+SszYk0362PxsRQl54Wo0dUgl7bHv4hTPyd+g3ec32gvSF8o
+	uHhkV7JkwPMEpwcasgVvZaHYAiZaDoXlQb9KJ53ZEBstQe1zRTHOGdqxVGnifngqyuf4
+	U+asvD85MqvrRMW2TnU30T0Ro4sjHPOlZNzY+ckbtCfUM3su16JclDYtzwjKvgBvp1JN
+	usnA==
+X-Gm-Message-State: AJcUukfX/i3NBZWWFX9+rqC/sIwdO0BagxQRIN5wfr3lhDLuZqHwm/zx
+	FPzmWIh+Z6saBx7MmvUgeV+kzcHYK2E=
+X-Google-Smtp-Source: ALg8bN5ww5dvMAKJXxkEmohwsM5pOQ6BtvXnecUAR2aytZzf+4jIvtVxQVr42oinpS2ADJbaBMyR9g==
+X-Received: by 2002:a63:f109:: with SMTP id f9mr2379520pgi.286.1547194535009; 
+	Fri, 11 Jan 2019 00:15:35 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::d11e])
 	by smtp.gmail.com with ESMTPSA id
-	n73sm124429367pfj.148.2019.01.11.00.14.44
+	c7sm108872318pfa.24.2019.01.11.00.15.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Jan 2019 00:14:44 -0800 (PST)
+	Fri, 11 Jan 2019 00:15:34 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2019 00:14:31 -0800
-Message-Id: <20190111081431.42638-1-raj.khem@gmail.com>
+Date: Fri, 11 Jan 2019 00:15:25 -0800
+Message-Id: <20190111081525.16557-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [thud][PATCH] binutils: bfd doesn't handle ELF compressed data alignment
+Subject: [PATCH] binutils: bfd doesn't handle ELF compressed data alignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 08:14:44 -0000
+X-List-Received-Date: Fri, 11 Jan 2019 08:15:34 -0000
 Content-Transfer-Encoding: 8bit
 
 Backport patches for ld/gold from master
@@ -75,18 +74,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  create mode 100644 meta/recipes-devtools/binutils/binutils/0023-gold-Get-alignment-of-uncompressed-section-from-ch_a.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
-index 0c9d4cef21..588224fd4d 100644
+index b8b2d97884..62acec500e 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.31.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
-@@ -41,6 +41,8 @@ SRC_URI = "\
-      file://0019-Improved-robustness.-Return-FALSE-in-case-of-NULL-po.patch \
-      file://0020-Make-sure-global-symbol-is-not-an-indirect-or-warnin.patch \
-      file://0021-PLT-information-was-still-being-generated-when-symbo.patch \
+@@ -37,6 +37,8 @@ SRC_URI = "\
+      file://0014-Detect-64-bit-MIPS-targets.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-add-i386pep-emulation-for-x86_64.patch \
 +     file://0022-Handle-ELF-compressed-header-alignment-correctly-by-.patch \
 +     file://0023-gold-Get-alignment-of-uncompressed-section-from-ch_a.patch \
+      file://clang-bfd-fix.patch \
       file://CVE-2018-17358.patch \
       file://CVE-2018-17360.patch \
-      file://CVE-2018-18309.patch \
 diff --git a/meta/recipes-devtools/binutils/binutils/0022-Handle-ELF-compressed-header-alignment-correctly-by-.patch b/meta/recipes-devtools/binutils/binutils/0022-Handle-ELF-compressed-header-alignment-correctly-by-.patch
 new file mode 100644
 index 0000000000..650de9b9a3
