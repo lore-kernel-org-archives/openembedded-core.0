@@ -1,57 +1,31 @@
-Return-Path: <paul@betafive.co.uk>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 11 Jan 2019 16:54:49 UTC
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BF0A7C16C
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 688527C041
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 16:54:49 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 50D7B21EAE;
-	Fri, 11 Jan 2019 11:44:52 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute1.internal (MEProxy); Fri, 11 Jan 2019 11:44:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	fm3; bh=WbGiC7hkFextmyhU9pPbL72AAfBIcIcP9lsI9aMELhI=; b=o1G000ef
-	i5JnVWS0uL5E3RbDH8yxx5PYOdxVMiuRZEBSTkc/litdUEoNABMHWRWUUiQ5WI5s
-	2gDwoOB1jo3oYoiR7uepUPKHflzKFsdav5+uVVabLdYPSF3PDpenhBaWauGWEq2K
-	5pfIeoKg5GOTBKKl6pFN5lK0PC1DyrzoLLKWykbw5zSKcICZ2Ie9JZnwyALMECW0
-	+DLe1SJR9KqNWhtbBBZOgtDWjcY5JwQk+feyg2UGfFet6C7hqz0NZ+axnaQRnPvj
-	10rLmksp/L67wZK0e99k2aRqZlFjoh0/iqTw15Beo11IW8QjbR6ZgESw/303+Ksj
-	hW6XfTffHSpy/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:in-reply-to:message-id
-	:references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; bh=WbGiC7hkFextmyhU9pPbL72AAfBIc
-	IcP9lsI9aMELhI=; b=QTikmmxUAPnn9ecMtYW8Vopo4qmR2kHruYb62NEdTBrM1
-	CD319XY+J4Zv9TH7hYigcCyM6BFgBe9AzCilOF6QrYcyFTEtNiooUZVa3G0HKJcN
-	xhMmdcUhMdQ0Ym+Ajs7Uv+iRhW9aRu20kJfdgs3wPJ1QEUrL1hxNWW+BYUdM+xeE
-	t4idu3R62aUQ32+vveNdIO5ZWOzwvcmBZ9ayqMS40aUVESxDtc+TpMWWVJEt18cs
-	6xWcy6rlOKuaqp8FNjn+j0mg64Y1yFU8/c3+p2H3baCtLHWoFNyMcILzhiO8Gzbi
-	z5PFqA1ayHPPqcktY1KyO2X9PfKMkXhFnrEKSY1dg==
-X-ME-Sender: <xms:BMg4XCpnt8-7-aafegFVOT3ac3dmkKV_mcNgyzcP7c74Tf5ugeVSuA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrfeehgdelgecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthenuceurghilhhouhhtmecufedt
-	tdenucenucfjughrpefhvffufffkofgjfhestddtredtredttdenucfhrhhomheprfgruh
-	hluceurghrkhgvrhcuoehprghulhessggvthgrfhhivhgvrdgtohdruhhkqeenucfkphep
-	keekrdelledrvdejrdelvdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsegsvg
-	htrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:BMg4XIBu0_dsxRT_MtRhZ8J7QPya7FQXqTUz-_VBBilKAbLeZoeIsw>
-	<xmx:BMg4XDNavMqb2U7hBYKgExV0OWIYVbB4x67TmlDZgHlcLt2RND9D3w>
-	<xmx:BMg4XLjOxd9JXXec0BdPBJLIMS7sLue_qhuNvQj0yKGrACTaGifgpg>
-	<xmx:BMg4XOx_abrVHl3IGwzEaxRk6xT8_AkP5ulPb-_HjgQdP7kR7tIwow>
-Received: from eng01.s01.b5net.uk (unknown [88.99.27.92])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 8DE5BE455C;
-	Fri, 11 Jan 2019 11:44:51 -0500 (EST)
-From: Paul Barker <paul@betafive.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2019 16:44:38 +0000
-Message-Id: <20190111164438.19749-2-paul@betafive.co.uk>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190111164438.19749-1-paul@betafive.co.uk>
-References: <20190111164438.19749-1-paul@betafive.co.uk>
-Subject: [PATCH 1/1] [RFC/RFT] sstate: Shorten file names in sstate-cache
+	Fri, 11 Jan 2019 16:59:45 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id i09og7GXVx6b6i09pgoPxT; Fri, 11 Jan 2019 16:59:46 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=3JhidrIBZZsA:10 a=oHok8b8WaEo66QeMqzUA:9
+	a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1gi09o-0003EE-Ov; Fri, 11 Jan 2019 16:59:44 +0000
+Date: Fri, 11 Jan 2019 16:59:44 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190111165944.gussrefs6j5o6ffq@mcrowe.com>
+References: <20190111164951.8329-1-mac@mcrowe.com>
+	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfHvJS1MtRD0gJNBuVqpJr6eeqf4XLOY/MN+dnr9ZOuWNTMX8y+7qMNhsCxeFYoYO22v3VwMUXTlf6AbL/3mun7dr/DweKtt2kAYGExrdOBDZvh7E5GHf
+	NtG+2O9cKLM6EaNlejFfTwEI1uvUuiLSzd6O3T6kW6+SWou3JhLXkWc6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,54 +38,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 16:54:49 -0000
+X-List-Received-Date: Fri, 11 Jan 2019 16:59:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-With the recent move to using sha256 checksums in sstate, the lengths of
-some file names can now exceed the 255 char limit seen in most Linux
-filesystems. When this occurs, bitbake crashes as it is unable to create
-the sstate archive or sigfile.
+On Friday 11 January 2019 at 16:53:47 +0000, Richard Purdie wrote:
+> On Fri, 2019-01-11 at 16:49 +0000, Mike Crowe wrote:
+> > Until now, glibc was responsible for creating an AArch64 dynamic
+> > loader symlink if required for ABI compatibility.
+> > 
+> > Unfortunately, using multilib with AArch64 caused the rmdir in
+> > glibc-package.inc:do_poststash_install_cleanup to fail because that
+> > task did not expect to find the dynamic loader symlink in /lib.
+> > 
+> > Also, although glibc-package.inc:do_install_append_aarch64 made use
+> > of ${nonarch_base_libdir} to create the dynamic loader symlink in a
+> > way that was compatible with usrmerge, it unfortunately explicitly
+> > added only /lib to libc_baselibs, so the symlink was not packaged
+> > correctly when using usrmerge.
+> > 
+> > Attempting to fix both of these problems within glibc-package.inc in
+> > various ways created a bit of a mess. It seemed much simpler to
+> > invent a new package for the symlink and have glibc RDEPEND on that
+> > package if required.
+> > 
+> > Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be
+> > used in this way. I've switched to using ${root_prefix}/lib which
+> > continues to work both with and without usrmerge.
+> > 
+> > Unfortunately, it appears not to be possible to specify the name of
+> > the loader via a variable with an override, since the _aarch64
+> > override is applied even for _aarch64-be.
+> 
+> I wish there was a simpler way to do this. How ugly is the patch to fix
+> this without adding the new recipe? Adding new recipes which are arch
+> specific like this is a pain for world builds and I think this patch
+> will have problems with those :(.
 
-To avoid this issue we need to shorten the length of the file names used
-in the sstate cache. We can remove the 'sstate:' prefix as these files
-already reside in a directory which only contains sstate files. We can
-also remove the target triplet (set by the expansion of
-${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}) as we also have the
-package arch later via the expansion of ${SSTATE_PKGARCH}. And for
-simplicity we can replace the expansion of ${PN}, ${PV} and ${PR} with
-${PF}.
+This is how far I got before deciding that it was too ugly. This patch
+needs some cleaning up, and similar hackery to the separate-recipe patch
+because the aarch64-be override doesn't work. :(
 
-With the above changes we may still get bitten by packages with
-exceptionally long names and/or version strings. To avoid this we limit
-the length of the expansions of ${PF} to 100 chars and ${SSTATE_PKGARCH}
-to 32 chars. Allowing a further 64 chars for the sha256 hash this leaves
-about 50 chars for the task name and extensions (in the worst case)
-which should be sufficient.
+I tried to make both patches at least slightly generic in case some other
+architecture needs something similar in the future. That's why the code has
+moved into a plain do_install_append. This isn't required though, and
+perhaps it would be clearer if the variable were actually
+AARCH64_DYNAMIC_LOADER anyway.
 
-Signed-off-by: Paul Barker <paul@betafive.co.uk>
----
- meta/classes/sstate.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Thanks.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index da0807d6e9..987218afaf 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -8,9 +8,12 @@ def generate_sstatefn(spec, hash, d):
-         hash = "INVALID"
-     return hash[:2] + "/" + spec + hash
- 
-+def limit_sstate_frag(frag, limit, d):
-+    return frag[:limit]
+Mike.
+
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a98ae1a29c..0181aa7b32 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -15,7 +15,13 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+ RPROVIDES_${PN}-dbg = "eglibc-dbg"
+ libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+-libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
++ARCH_DYNAMIC_LOADER = ""
++# The aarch64 ABI says the dynamic linker -must- be
++# /lib/ld-linux-aarch64[_be].so.1. With usrmerge, that may mean that
++# we need to install it in /usr/lib.
++ARCH_DYNAMIC_LOADER_aarch64 = "ld-linux-aarch64.so.1"
++ARCH_DYNAMIC_LOADER_aarch64_be = "ld-linux-aarch64_be.so.1"
++libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
+ INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+
+ FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+@@ -112,20 +118,20 @@ do_install_append () {
+ 		echo "d root root 0755 /var/run/nscd none" \
+ 			> ${D}${sysconfdir}/default/volatiles/98_nscd
+ 	fi
 +
- SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
--SSTATE_PKGSPEC    = "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
--SSTATE_SWSPEC     = "sstate:${PN}::${PV}:${PR}::${SSTATE_VERSION}:"
-+SSTATE_PKGSPEC    = "${@limit_sstate_frag(d.getVar('PF'), 100, d)}:${@limit_sstate_frag(d.getVar('SSTATE_PKGARCH'), 32, d)}:${SSTATE_VERSION}:"
-+SSTATE_SWSPEC     = "${@limit_sstate_frag(d.getVar('PF'), 100, d)}::${SSTATE_VERSION}:"
- SSTATE_PKGNAME    = "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC'), d.getVar('BB_UNIHASH'), d)}"
- SSTATE_PKG        = "${SSTATE_DIR}/${SSTATE_PKGNAME}"
- SSTATE_EXTRAPATH   = ""
--- 
-2.17.1
++	# The dynamic loader will have been installed into
++	# ${base_libdir}. However, if that isn't going to end up being
++	# available in the ABI-mandated location, then a symlink must
++        # be created.
++
++	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
++		install -d ${D}${root_prefix}/lib
++		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
++				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
++	fi
+ }
 
+ do_install_append_aarch64 () {
+-	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
+-		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
+-		install -d ${D}${nonarch_base_libdir}
+-		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
+-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
+-				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
+-		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
+-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
+-				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
+-		fi
+-	fi
+ 	do_install_armmultilib
+ }
+
+@@ -207,7 +213,7 @@ do_poststash_install_cleanup () {
+ 	rm -rf ${D}/${localedir}
+ 	rm -rf ${D}${datadir}/locale
+ 	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
+-		if [ -d ${D}${exec_prefix}/lib ]; then
++		if [ -d ${D}${exec_prefix}/lib -a ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+ 			# error out if directory isn't empty
+ 			# this dir should only contain locale dir
+ 			# which has been deleted in the previous step
 
