@@ -1,51 +1,52 @@
 Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
-	[209.85.208.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D3C87C199
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+	[209.85.208.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5653E7C076
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 09:22:59 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id u89-v6so15004779lje.1
+	Sat, 12 Jan 2019 09:23:00 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id n18-v6so14991522lji.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 01:23:00 -0800 (PST)
+	Sat, 12 Jan 2019 01:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DvHDPyQV96Bs+efnnLywe8E7L9oppP8b8qSjUnzchg4=;
-	b=PHvS9j3gAsU8gwVYT/NXHfVgqdZuLMV2VhX54gu128LyVy2rR6XOnDpxwlo0992W+7
-	fKSXcPczAz1QsoaEIOaH1+J5iB1+lOHBNeQ7iKxfuAAVxZA3PRJxFersZTxlIVGJM3ZU
-	d3wmATLxECDWyptc8YWahRSufC4DZY3vxjMW0pOFOiIdYmDWaE4hU1H1KeOASM5uqglb
-	fI5PHZY/TdutLowZKEJn3WvhOL7Jd3c+5Hr07DIK1tGEAWRBSBSs+SHF9GLGgSNtkRQz
-	nkuLHBO985rJJwsqujmmL7CPd+/zYRr/8DGJVhvm2NjsdHPIcmmhGajOba/U1R8olKXj
-	V9WQ==
+	bh=kjp9bI+t1liSDMsI/0qGdb7y2j77FHspKkrquCnwgHs=;
+	b=MPV2+kq10Muwl3/qMGeEiZXuRNtoAj1gWGfjad9e2kKt7J719R7SApSmvjV7ftiZkn
+	Ew7qTQxB4VcmD10NZVqoqbtB4Ud4XmxL+QV9wD1UC6E22mk1FjBZPYtDCr3GMBG8diJ4
+	5HmP5d+sGl5ITqHL7IL+AMniENLU5x1qeT5/cPYWSuLqpmOcNcUinv34djwV2KzHlQGM
+	iSHVo24aAhBD5K9hN5KjvJuuRf2ufhIkDZjCMKl55YoWECGObR47WFDpD4EBcFONIp7q
+	PmD33ZWrlN13cvv7ZdLpj+8hpVAGvp7eRBYBF9VluDzYuZu6fMnY8gHK7G1sfo8+c4Im
+	ISEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=DvHDPyQV96Bs+efnnLywe8E7L9oppP8b8qSjUnzchg4=;
-	b=XDj+kucTD/xXKp/0asxihyUzCvnKZVQV0cgs8U1OrK1K62MblPeursj4tgSB27UqeN
-	JexVOj7XfuGIpXpgaifrVVYJ4K2q0/4i29S/7JOAUS+MJ2oeFGK8N9FUyZC8MulmFD9z
-	uZqukNZuf+cgoIw998pPe69uA9KpkZ60XeyZz1GV3L+PwwDI9e/ZpAOxjISIxCtdu2lA
-	+s2BEVLXg6lMIRqrIFuP5zDTzGEVbFPH17F/tpYLveLN/4H557EH6jBmL5r3b03gDL9K
-	7zqeMjbAimIRGqiYji82cGZQc5+VUxxeJivHvEfSa6qQk00paLWXL9D9nuzEK4nC+EVr
-	gdOw==
-X-Gm-Message-State: AJcUukevU1TFj1hgvOwN/KPcgQD2DxEaHJDsegZuWcSAlRFiUDfd4+Yk
-	RiZnGLMADCVdjT6X9r5Sc50xnye8
-X-Google-Smtp-Source: ALg8bN77o1/RJgytbGt0bOZc3Kyg+tMg+hfkdKcuhFx3Y1697d/jimpLBpQME2a1RBdfnV0v5K0MuA==
-X-Received: by 2002:a2e:3a04:: with SMTP id h4-v6mr9981509lja.81.1547284980024;
+	bh=kjp9bI+t1liSDMsI/0qGdb7y2j77FHspKkrquCnwgHs=;
+	b=pJozAhD63GkpnaZTRWW8GiVWGuMU/jnxhVPiRErgl0TESwQJrfGFJFQV9OKCXvU46I
+	c7COcCJXkLa+Lj85UpKHd27bC3NGGf3LhVAR0bbTAV934AdHu86aZmXSyrDlTUnz8MlB
+	YVECTg5GHPxvTj2BScDYP5KdIje0bsjHec1B8PH6mIkJOAkdV1xSiF87zfEHZLmwD9UF
+	FHa3vDHcZ8GO2+4Ai1xoyeJU97bHTjEDoMkND8O3YDTm/hH8KHVoHRAfQf6tF+UZNCf/
+	t2yvW82VfXfdGktAJzL0qlgDyVjJXB5ouBn3/RzpL1UdjU+IF7PtJDkRLELOu+V6gniW
+	jzlw==
+X-Gm-Message-State: AJcUukeXJtGeNUP7cBnXurb+5Urcike71C0yHuZ9lK6mdJWEBinlakXZ
+	1MZoP5ECDNoLHSPs+BaylOUhq4P8
+X-Google-Smtp-Source: ALg8bN4zJUWAdUZa90v7GnvW4rEmKUxE3lWZ4AVHTHH+ZEcXRFIkT3zSTEtsfVhvePHnsck8iih1Tw==
+X-Received: by 2002:a2e:8ec8:: with SMTP id
+	e8-v6mr8430295ljl.162.1547284980849; 
 	Sat, 12 Jan 2019 01:23:00 -0800 (PST)
 Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
 	by smtp.gmail.com with ESMTPSA id
-	q11sm14933726lfc.92.2019.01.12.01.22.59
+	q11sm14933726lfc.92.2019.01.12.01.23.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Jan 2019 01:22:59 -0800 (PST)
+	Sat, 12 Jan 2019 01:23:00 -0800 (PST)
 From: Serhey Popovych <serhe.popovych@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Jan 2019 11:22:48 +0200
-Message-Id: <1547284970-20783-3-git-send-email-serhe.popovych@gmail.com>
+Date: Sat, 12 Jan 2019 11:22:49 +0200
+Message-Id: <1547284970-20783-4-git-send-email-serhe.popovych@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
 References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
-Subject: [PATCH 2/4] systemd: Use arch overrides instead of machine
+Subject: [PATCH 3/4] mpfr: Disable float128 when building with musl as libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 09:22:59 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 09:23:00 -0000
 
-With custom BSP and build with musl we still affected by undefined
-reference to stack-protector specific functions.
-
-Use arch overrides instead of machine to ensure fix applied to entire
-architecture instead of custom machine like qemux86 and qemuppc.
+Since it does not support float128 type.
 
 Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_239.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-support/mpfr/mpfr_4.0.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 0f1fa27..2e11d71 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -66,9 +66,9 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
-                file://0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch \
-                "
+diff --git a/meta/recipes-support/mpfr/mpfr_4.0.1.bb b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+index 2eee76a..ccf7fdc 100644
+--- a/meta/recipes-support/mpfr/mpfr_4.0.1.bb
++++ b/meta/recipes-support/mpfr/mpfr_4.0.1.bb
+@@ -16,4 +16,6 @@ SRC_URI[sha256sum] = "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458
  
--# Workaround undefined reference to `__stack_chk_fail_local' on qemux86 and qemuppc for musl
--SRC_URI_append_libc-musl_qemux86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
--SRC_URI_append_libc-musl_qemuppc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
-+# Workaround undefined reference to `__stack_chk_fail_local' on x86 and powerpc for musl
-+SRC_URI_append_libc-musl_x86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
-+SRC_URI_append_libc-musl_powerpc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+ UPSTREAM_CHECK_URI = "http://www.mpfr.org/mpfr-current/"
  
- PAM_PLUGINS = " \
-     pam-plugin-unix \
++EXTRA_OECONF_append_libc-musl = " --disable-float128"
++
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.7.4
 
