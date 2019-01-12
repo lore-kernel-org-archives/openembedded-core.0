@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
 	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BA6697C0F4
+	by mail.openembedded.org (Postfix) with ESMTP id 416DE7C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 18:30:51 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id e5so22384246qtr.12
+	Sat, 12 Jan 2019 18:31:49 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id t33so22430342qtt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 10:30:53 -0800 (PST)
+	Sat, 12 Jan 2019 10:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=j62NP+astsKcx+SCFphp41UPKo3dr7WUi+S4CROeUrc=;
-	b=ZRcYPeChRUcsuUpS3YyvaoqiMVW6STZ1xpXXmfPcc9hx9QBQVX8IJUcfCRdiVORvBX
-	RyMYUVtUaotQ8SriabJDsT2+p3Oth8x5z/rAoBQsC4dVpX3R19h3KdfxcVWFcRxsG5ln
-	U6zRZFT1KxOB7G7EQ7/NZfVmpBMrqs5m4qOA+zfD1ve8n0Vqa1m+wTCPQ/2R4AB1garX
-	r3AuRV6/wd1LndfKL1KtGlAx/8lghcTD9RhnX+iz7kHM5SYHX2OuaXaLFZredxKoAztK
-	jk63MEZeRtGq9nxFVrQT25OCF+c3GfRbgOWk9wwA/3vC2pyKBy3axwiCnGva9Bt7lGh2
-	sSOw==
+	:cc; bh=zQVKU4dsN5CyN8o8/i8FZiNZFPbLV2j8QQU+7RjWAM0=;
+	b=czyGvBzMf75A4/ciKiaysx6V/pzHZ7xmrFOAbJWQGaRp6GGY1lPnBDOesf9SJvrdnU
+	g2Eppo8NYiSfdTLhy8G8aIZJvDquXu+zfL5rdi4MquRyhV4Z3fThSYDc6WHLLAsIHOml
+	PQiUOjlTwEpX8Q4SzUR74sPXHhavqM6tA9C6tJRrdzMR6+qI+na+pBmnnHEDHyWGTp0p
+	/yvCXMKDWceVTPRmPfV6KCv7ifs97LcZDmlsq1hX+puYR6DF7uEeZPUrr8ZYjdUrCb6k
+	d7eVOv7pKR+/OMUDEjofVZS9VCx9nqjwo9oCn6xmOeh7WL9O3bvi6FoOCFn2M5GUUmZS
+	ZwrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=j62NP+astsKcx+SCFphp41UPKo3dr7WUi+S4CROeUrc=;
-	b=P6xlDqu8RxMdIEqSzuoSRtk/aJ3g1j3WtY43QhTERGmJ3whaXTnoPT02ddBRyAy1Be
-	qx8UW1x4h3bojOxgWBfjdO772mlyjABuSgynqNiUFkjL24fR3WAcq34DqXMp+MAkgVRF
-	IjmFVOqf/ajf5POIylg36V7q2FW7/uGxm5WLi+qi7vcg1XtIjidsZWEaQFFyt0ToYq5Q
-	Il1ml9JXWb17jPV0/MdqmkNZ14hk+rvIl4Pf2fkoxAIk2D49bF6TISzoXy2SAQl1vf3x
-	mxBFWeeQuZ0MvLDw4RBxBiLF5mkrcoE7f38DXLa67nV2uW6JQxYC5n4MoaxeIwJ+RcgM
-	9OHA==
-X-Gm-Message-State: AJcUukeH7ap8Lzj9oP7T4LLGCHI3Wn7KYgEoDkhZxEhwcEbiqWPt3k91
-	bwuwHUlSLVq8epWIOIHyrcAW1TM6hyD0JlnDv1U=
-X-Google-Smtp-Source: ALg8bN5tKOlBANU6YZpQsBuPFLM/AxLDqQ69dkTWd0r0ic7ekg9a7x+aK8gQX2exQ+3I4hSfUpkX1WddMo5oo3/V4Lw=
-X-Received: by 2002:ac8:518d:: with SMTP id c13mr17815803qtn.254.1547317852448;
-	Sat, 12 Jan 2019 10:30:52 -0800 (PST)
+	bh=zQVKU4dsN5CyN8o8/i8FZiNZFPbLV2j8QQU+7RjWAM0=;
+	b=tBT56r5n648prWWXMMb+aUXbZe6ViVyKWoIl8+o0lH1HYUySL8lFIYVRmTNO3lbWlZ
+	OHEIBa3WXUpLN7kicM5Itvipq/wQOK/hoObjF2xjAq0k4LMNKPDo8hpZzNR5OoGWxl//
+	ZlmDXTPzAm4uRn/ImxFkWA8i5t2OXAsmeKGX1mla9w/dS4Cc+F3K6TVMEG2cW6MADZgs
+	5ohEmJsI5X+HxZD/E1ns3b7iJ2DZXywTUtpqgqq2HGoESmg/lhQhrcUXSNBLWxI2nXY/
+	Cz83V10I965c9sgJfp49ubuKQ6NFgjO7t5UiLbZgIqc8kzNXV1CahfdFO8YGgcrWgbNz
+	+ezw==
+X-Gm-Message-State: AJcUukdJYJd3kImC4tblfFR85QBVzXgavLVG2Fg5cFp+N755WyiZGUDF
+	ZzICNU9PA+vS2VJJQ5qkcU6HDiBMrYzG6uvJsvE=
+X-Google-Smtp-Source: ALg8bN6hSlsib/lNPoYEVqgeXuFvA1OEIb2NUJVUlQ6qJL8DTr7TNUTkASbkPosBzu4KT/ccQdpU4KtFrXW9+19oAT0=
+X-Received: by 2002:aed:3a22:: with SMTP id n31mr18360742qte.29.1547317910111; 
+	Sat, 12 Jan 2019 10:31:50 -0800 (PST)
 MIME-Version: 1.0
-References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
-	<1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
-	<CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
-	<005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
-In-Reply-To: <005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
+References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
+	<1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
+	<beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
+	<018b5b2d-c7d4-3c29-d743-73c5e5651f5a@gmail.com>
+	<7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
+In-Reply-To: <7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Jan 2019 10:30:26 -0800
-Message-ID: <CAMKF1sqyNgcBYSkm2=cfU3=Qfeab5Mxaxk5dq+vyz8_9MsB_Cg@mail.gmail.com>
-To: Serhey Popovych <serhe.popovych@gmail.com>
+Date: Sat, 12 Jan 2019 10:31:24 -0800
+Message-ID: <CAMKF1so9Aa8xjLoJMW8Sdv28PPuQ758zXCq585+5j6pFQ6o5fQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] valgrind: Mark powerpc64 with musl as incompatible
+Subject: Re: [PATCH 1/2] libgpg-error: Support build for native on ppc host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +58,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 18:30:52 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 18:31:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 12, 2019 at 8:53 AM Serhey Popovych
-<serhe.popovych@gmail.com> wrote:
+On Sat, Jan 12, 2019 at 8:22 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Khem Raj wrote:
-> > On Sat, Jan 12, 2019 at 1:23 AM Serhey Popovych
-> > <serhe.popovych@gmail.com> wrote:
-> >>
-> >> Building musl for powerpc64 enforces elfv2 ABI since commit 68c964185519
-> >> ("arch-powerpc64.inc: Use elfv2 ABI when building with musl") that is
-> >> not compatible with valgrind.
-> >>
-> >> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
-> >> ---
-> >>  meta/recipes-devtools/valgrind/valgrind_3.14.0.bb | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> >> index 4d15a50..d882319 100644
-> >> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> >> +++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> >> @@ -58,6 +58,9 @@ COMPATIBLE_HOST_linux-muslx32 = 'null'
-> >>  COMPATIBLE_HOST_mipsarchr6 = 'null'
-> >>  COMPATIBLE_HOST_linux-gnun32 = 'null'
-> >>
-> >> +# Disable for powerpc64 with musl
-> >> +COMPATIBLE_HOST_libc-musl_powerpc64 = 'null'
+> On Sat, 2019-01-12 at 17:56 +0200, Serhey Popovych wrote:
+> > Richard Purdie wrote:
+> > > On Sat, 2019-01-12 at 12:11 +0200, Serhey Popovych wrote:
+> > > > In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit while
+> > > > kernel
+> > > > selected by the installer depending on PowerPC machine type:
+> > > >
+> > > >   * 32-bit for PowerMac G4 (ppc7400) and below
+> > > >   * 64-bit for PowerMac G5 and above
+> > > >
+> > > > Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit
+> > > > userspace
+> > > > making build impossible due to missing some of lib64 multilib
+> > > > equivalents in Ubuntu repository.
+> > > >
+> > > > Using setarch(8) override to make whole host look as PowerPC 32-
+> > > > bit
+> > > > can actually help with build but requires mapping for ppc target
+> > > > to
+> > > > their libgpg-error equivalent to fix native build.
+> > > >
+> > > > Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with
+> > > > command:
+> > > >
+> > > >   MACHINE=qemuppc setarch ppc bitbake core-image-full-cmdline
+> > > >
+> > > > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> > > > ---
+> > > >  meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/meta/recipes-support/libgpg-error/libgpg-
+> > > > error_1.33.bb
+> > > > b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > index 325529d..4153954 100644
+> > > > --- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > @@ -47,6 +47,7 @@ do_compile_prepend() {
+> > > >     mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+> > > >     mips*)      TUPLE=mips-unknown-linux-gnu ;;
+> > > >     x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
+> > > > +   ppc)        TUPLE=powerpc-unknown-linux-gnu ;;
+> > > >     ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
+> > > >     ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
+> > > >     *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+> > >
+> > > This doesn't feel correct. It only works if you're using the local
+> > > setarch workaround and I'm worried most users are never going to
+> > > find
+> > > that.
+> > >
+> > > I'm fine with adding in general fixes but this is getting very
+> > > specific
+> > > to an very uncommon usecase :(
 > >
-> > lets do it for powerpc64el too
+> > Understand your position. Doing setarch(8) to run bitbake on ppc64
+> > kernel with 32-bit user space with missing 64-bit multilib seems to
+> > be the only option.
+> >
+> > Anyway this change just maps ppc to corresponding tuple used by
+> > libgpg-error, so with this fix we hit both
+> >
+> >   a) setarch(1) when kernel is 64-bit and userspace is 32-bit and
+> >      no multilib
+> >   b) native 32-bit powerpc host that is running as virtual machine
+> > for
+> >      example).
 >
-> I guess powerpc64le is GNU standard target, not *el.
->
-> Support for powerpc64le is missing in OE. Before it is
-> added I'd prefer not to do this for powerpc64le.
+> I'd understand that if this were just libgpg-error-native but our
+> qemuppc builds work which I guess is why I don't quite understand what
+> is wrong here?
 
-IIRC there were some posts for EL in past, but OK lets not
-do it here
+this is when using ppc32 as build host :)
 
 >
-> >> +
-> >>  inherit autotools ptest multilib_header
-> >>
-> >>  EXTRA_OECONF = "--enable-tls --without-mpicc"
-> >> --
-> >> 2.7.4
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Cheers,
+>
+> Richard
 >
 >
 >
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
