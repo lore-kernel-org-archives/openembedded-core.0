@@ -1,48 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 49E4D7C161
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C601C7C17F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 15:40:06 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id e5so22083734qtr.12
+	Sat, 12 Jan 2019 15:40:13 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id d15so5017002wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 07:40:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QTb7hqjhEjdC6VaOI/p9Obnu/zPEdwHy1UNOLpxTfEg=;
-	b=TRKDkmEp1J5ZcSLHZ7ogrNSiXZC7FWmYlgKig9p7CHrxyZxgvDQwXwrat4KjscxtBr
-	6q2rgsGpq4wlFPwsmhxISOW0hoGe0XELmXNL2RgckrX7+o8GUfHgPeMPOz51c+vfo9Jb
-	yTi+TlJA9pLgqs7YAR8iM7Mu5/7yO3vo6b4yM8FxSMx2YkhYMH0Lp9QpmULASKaih6PH
-	klURFSBbxK/kRAhIH/25v1/HDMyy1lpPywAtJuuKJMuX456dGzy/aphLEmRIqGrPil4Z
-	TENM2VuWWXIc3nU/ZGVQXkpv6Oc5+NO/In0Sc3/7MtgHjA0/4Arv6jWwOnQ3Xi0Syjwz
-	xzbA==
+	Sat, 12 Jan 2019 07:40:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=JnoGMnU7mQkd0JU0lFqRWlA4r9l36ceRe7sfRp1CclQ=;
+	b=Zs9cF5eO7avuAgO8vrWU1ITGj2HAocCpMfIF5Nw4X437btGghaMfH023VOAVCLJfgY
+	491vkj3W3INwtHW2TWIvJRakVs/uPY3spePNV+ETpnvqS+OfNb1oRTornAbbMbwC5T6l
+	cuD/uWNlOiNqqPsjDYiyRvH4VzOREbl8YhrGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QTb7hqjhEjdC6VaOI/p9Obnu/zPEdwHy1UNOLpxTfEg=;
-	b=eXTV/lCdWXByLbhX0rKgwV/4NgUjyWFQav+/oPvP/WbgcQ93hLePh7o4uAFLrsRaJd
-	O3+H3nsr5GCESYdtb2Hs79CqJff4F8SwDMfplGyDSPxQdCidSdWWNrCvCfzw+IfuWdYy
-	+EaBSRSTcMpZqfJ8aEcN4unr56R1DyYzOlIwYwdHr5wBUSJSl+zXWH6YdaNHeNYNUn+6
-	EX/EGdFxYZi5cmEzykLPHR5RPGax6DhzL22xGxjSG1yFfyDS5KX3+5JjqapQttupHtE1
-	t+KUx2/Eq90viYb1vWxu7KJe+qUqg4vSCKl9JLSLiq8Dr7BqgsTsqPcJfT82Dn0Gs3bw
-	CbWw==
-X-Gm-Message-State: AJcUukfD3nmOObyowKWAnLUq8qJHb0GEsCAj1X6aooFwVhlvFotpPP4m
-	XdoEQ5NuDkTAkWvyk6AaQ6N0huXnST2XW6KBymqP2G8v5vQ=
-X-Google-Smtp-Source: ALg8bN4hSmiB6ah4zSAmth6xrmCISdq225B4Gu7V3SME8MtCUfNgi9IFMmBoHKUZsGcbgYSmM9H/RfnqmPulG140R2s=
-X-Received: by 2002:a0c:d80f:: with SMTP id h15mr18214308qvj.228.1547307606883;
-	Sat, 12 Jan 2019 07:40:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20190109015224.14076-1-hongl.fnst@cn.fujitsu.com>
-	<20190109015224.14076-2-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190109015224.14076-2-hongl.fnst@cn.fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Jan 2019 07:39:41 -0800
-Message-ID: <CAMKF1spFQ8yUS2HLdu68_Nq7x2sFXSMDUKPX7V8GzvZAWwk7wg@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] python3-pbr:Upgrade to 5.1.1
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=JnoGMnU7mQkd0JU0lFqRWlA4r9l36ceRe7sfRp1CclQ=;
+	b=KclP/ArLcmHxCYQ92H4BeWC6oQhNSW5wHKvq/Nwu9ttzeQIXcZ7CIi1cEmrnWd2r3e
+	zJmBQShWAv0Z6p4LupDyI+SwI4rmyJXOMZT0gk774CnwauplY35/K4EOpAr+d0rwis33
+	f/rlML4HtHREYMGLdgRmCKMO+ZBI8GOjXg1gyAJIrWPySUug1SeoR2YD7ia4NFb/YLaU
+	Kx257huHRSaLYpM+V61GicGSrpv9vgN3aJIpENi5m+zmi8KiHb+V00MyYI1gKIyeTIxf
+	QOMc8j7y9bdGWyeWr/luQKTUBHBwKJTcIbWxxJQvMX+UoKUM19lnupjq2TrTjxobCKm1
+	vb9w==
+X-Gm-Message-State: AJcUukdQlJ4fDXn5CizjTG9g58jSXttWhqTu8AeYX1Zu2/1etCRpCrrl
+	xwTwr6lZ1lLlp07C7S7PLuFIgQ==
+X-Google-Smtp-Source: ALg8bN7b0AHaZNH7WVtKhJJYYx91D/aqmyR50gulQDapCyQhPlKuGmPQZ55GnoC1mOKJg8FcSFqFPw==
+X-Received: by 2002:a1c:2c6:: with SMTP id 189mr5890386wmc.21.1547307614469;
+	Sat, 12 Jan 2019 07:40:14 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i192sm22413093wmg.7.2019.01.12.07.40.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 12 Jan 2019 07:40:13 -0800 (PST)
+Message-ID: <beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Serhey Popovych <serhe.popovych@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 12 Jan 2019 15:40:12 +0000
+In-Reply-To: <1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
+References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
+	<1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
+User-Agent: Evolution 3.30.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] libgpg-error: Support build for native on ppc host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 15:40:06 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 15:40:15 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-i am getting http://errors.yoctoproject.org/Errors/Details/216093/
-
-On Tue, Jan 8, 2019 at 5:52 PM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> Upgrade python3-pbr from 4.2.0 to 5.1.1.
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+On Sat, 2019-01-12 at 12:11 +0200, Serhey Popovych wrote:
+> In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit while
+> kernel
+> selected by the installer depending on PowerPC machine type:
+> 
+>   * 32-bit for PowerMac G4 (ppc7400) and below
+>   * 64-bit for PowerMac G5 and above
+> 
+> Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit userspace
+> making build impossible due to missing some of lib64 multilib
+> equivalents in Ubuntu repository.
+> 
+> Using setarch(8) override to make whole host look as PowerPC 32-bit
+> can actually help with build but requires mapping for ppc target to
+> their libgpg-error equivalent to fix native build.
+> 
+> Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with command:
+> 
+>   MACHINE=qemuppc setarch ppc bitbake core-image-full-cmdline
+> 
+> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
 > ---
->  meta/recipes-devtools/python/python-pbr.inc                   | 4 ++--
->  .../python/{python3-pbr_4.2.0.bb => python3-pbr_5.1.1.bb}     | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-pbr_4.2.0.bb => python3-pbr_5.1.1.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/python/python-pbr.inc b/meta/recipes-devtools/python/python-pbr.inc
-> index 5a295c5f33..bfe3030b07 100644
-> --- a/meta/recipes-devtools/python/python-pbr.inc
-> +++ b/meta/recipes-devtools/python/python-pbr.inc
-> @@ -5,8 +5,8 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
->
-> -SRC_URI[md5sum] = "6619780896ca81c7cd19c6e2f439b6c9"
-> -SRC_URI[sha256sum] = "1b8be50d938c9bb75d0eaf7eda111eec1bf6dc88a62a6412e33bf077457e0f45"
-> +SRC_URI[md5sum] = "dbc94417a8ff0432d6244501a7f1bd49"
-> +SRC_URI[sha256sum] = "f59d71442f9ece3dffc17bc36575768e1ee9967756e6b6535f0ee1f0054c3d68"
->
->  inherit pypi
->
-> diff --git a/meta/recipes-devtools/python/python3-pbr_4.2.0.bb b/meta/recipes-devtools/python/python3-pbr_5.1.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python/python3-pbr_4.2.0.bb
-> rename to meta/recipes-devtools/python/python3-pbr_5.1.1.bb
-> --
-> 2.17.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> index 325529d..4153954 100644
+> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> @@ -47,6 +47,7 @@ do_compile_prepend() {
+>  	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+>  	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
+>  	  x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
+> +	  ppc)        TUPLE=powerpc-unknown-linux-gnu ;;
+>  	  ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
+>  	  ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
+>  	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+
+This doesn't feel correct. It only works if you're using the local
+setarch workaround and I'm worried most users are never going to find
+that.
+
+I'm fine with adding in general fixes but this is getting very specific
+to an very uncommon usecase :(
+
+Cheers,
+
+Richard
+
 
