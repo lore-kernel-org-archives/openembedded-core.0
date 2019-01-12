@@ -1,51 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 416DE7C0F4
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 10ACB7C0C6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 18:31:49 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id t33so22430342qtt.4
+	Sat, 12 Jan 2019 18:34:41 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id t13so22462933qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 10:31:50 -0800 (PST)
+	Sat, 12 Jan 2019 10:34:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zQVKU4dsN5CyN8o8/i8FZiNZFPbLV2j8QQU+7RjWAM0=;
-	b=czyGvBzMf75A4/ciKiaysx6V/pzHZ7xmrFOAbJWQGaRp6GGY1lPnBDOesf9SJvrdnU
-	g2Eppo8NYiSfdTLhy8G8aIZJvDquXu+zfL5rdi4MquRyhV4Z3fThSYDc6WHLLAsIHOml
-	PQiUOjlTwEpX8Q4SzUR74sPXHhavqM6tA9C6tJRrdzMR6+qI+na+pBmnnHEDHyWGTp0p
-	/yvCXMKDWceVTPRmPfV6KCv7ifs97LcZDmlsq1hX+puYR6DF7uEeZPUrr8ZYjdUrCb6k
-	d7eVOv7pKR+/OMUDEjofVZS9VCx9nqjwo9oCn6xmOeh7WL9O3bvi6FoOCFn2M5GUUmZS
-	ZwrA==
+	:cc; bh=Wt2CCv8XyhBAFKbHj5HyGDkD08tZdb4ZnrqDL2H10UY=;
+	b=InSW6YT44lUVSP9KtMUbd73zA7k1GdqiEKwK6DsREmFWmbQ3mCTCsC50C6ykrj/o9g
+	Cwu3vimzuMES39NOyZtopPAcaV4m3HW3iTlyvLcFjQ77yjwosICyHx32NQKXxrtCPG3A
+	9SdU2DC/1EujC87xSaHabg1A7J/WpnB+9dYuSvjYqJ//muDspGB+xc90IB7/PJqKN5Hk
+	rzmIRZfQEkmrV4MRIwpAr78C3hJ2Axk1+vdp24ntpLOrfk0nmGQglD7pn9AoZMopAG6V
+	Ge9/wBpQF/iFcQSSnYaeuBP5j65US9jxeMjIs71+KwfxKmSi99yptRTf5LwharMzgSE2
+	m1rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=zQVKU4dsN5CyN8o8/i8FZiNZFPbLV2j8QQU+7RjWAM0=;
-	b=tBT56r5n648prWWXMMb+aUXbZe6ViVyKWoIl8+o0lH1HYUySL8lFIYVRmTNO3lbWlZ
-	OHEIBa3WXUpLN7kicM5Itvipq/wQOK/hoObjF2xjAq0k4LMNKPDo8hpZzNR5OoGWxl//
-	ZlmDXTPzAm4uRn/ImxFkWA8i5t2OXAsmeKGX1mla9w/dS4Cc+F3K6TVMEG2cW6MADZgs
-	5ohEmJsI5X+HxZD/E1ns3b7iJ2DZXywTUtpqgqq2HGoESmg/lhQhrcUXSNBLWxI2nXY/
-	Cz83V10I965c9sgJfp49ubuKQ6NFgjO7t5UiLbZgIqc8kzNXV1CahfdFO8YGgcrWgbNz
-	+ezw==
-X-Gm-Message-State: AJcUukdJYJd3kImC4tblfFR85QBVzXgavLVG2Fg5cFp+N755WyiZGUDF
-	ZzICNU9PA+vS2VJJQ5qkcU6HDiBMrYzG6uvJsvE=
-X-Google-Smtp-Source: ALg8bN6hSlsib/lNPoYEVqgeXuFvA1OEIb2NUJVUlQ6qJL8DTr7TNUTkASbkPosBzu4KT/ccQdpU4KtFrXW9+19oAT0=
-X-Received: by 2002:aed:3a22:: with SMTP id n31mr18360742qte.29.1547317910111; 
-	Sat, 12 Jan 2019 10:31:50 -0800 (PST)
+	bh=Wt2CCv8XyhBAFKbHj5HyGDkD08tZdb4ZnrqDL2H10UY=;
+	b=F9ioW2Q1JZR+3UvyC/5LPZtGU7ka721QoT43ggBtjY8vAMNi8luQsfdUUH5epVGusB
+	8e9ckwBib8+xrUteqJA9KrlNV7Fokw2mgBjx2vnMUj/g9XskUso+Ssli7YAiYjTgqLbC
+	c62U46yHyvt6wXdi4jm6hZ1IOUJHIGb1+q6U8C7EFK5krfdtSvh8BMkvAQpRvQk8aeT2
+	W3cDV3ORypcWZJtapolUUbAuXNqK5w42KMbLkx3iX/KZPhA3fwwSEwjt79x+QYKR0p0B
+	CB+w7jlzAFR/ZOG8CfQQsM5wimk1dAwFVKgIW4XyiwBvC1fVLwYfuyoLf0cbhOcZ8v8d
+	g0tQ==
+X-Gm-Message-State: AJcUukf907FbgMGZZJCC/yu+diAISYnf6p0F2sEOBLBPADrh5ENTYdzC
+	6/X0Tp7u17o6ifoOYYn+Ufx2mOWiuuqpzW8llMM=
+X-Google-Smtp-Source: ALg8bN5JZAuoKsJ1K+lDWgE/r5DgexUnu9cbXBsgLLCUldG4hOfgEf29+ono9EpsZPVqxm1Rq2pu65lsu5YqsT4B1Ro=
+X-Received: by 2002:ac8:36ba:: with SMTP id a55mr17984447qtc.236.1547318082730;
+	Sat, 12 Jan 2019 10:34:42 -0800 (PST)
 MIME-Version: 1.0
-References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
-	<1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
-	<beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
-	<018b5b2d-c7d4-3c29-d743-73c5e5651f5a@gmail.com>
-	<7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
-In-Reply-To: <7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
+References: <cover.1547316462.git.bruce.ashfield@windriver.com>
+	<a5bbd32ecd957f036a9b1e47cc4e3c813d206111.1547316462.git.bruce.ashfield@windriver.com>
+In-Reply-To: <a5bbd32ecd957f036a9b1e47cc4e3c813d206111.1547316462.git.bruce.ashfield@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Jan 2019 10:31:24 -0800
-Message-ID: <CAMKF1so9Aa8xjLoJMW8Sdv28PPuQ758zXCq585+5j6pFQ6o5fQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sat, 12 Jan 2019 10:34:16 -0800
+Message-ID: <CAMKF1sokO=RakSBuZy-o4cMBB5EYzDrEJ+R7ZtfzyddNaxqKQw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libgpg-error: Support build for native on ppc host
+Subject: Re: [PATCH 1/3] linux-yocto/4.19: introduce qemuriscv64 and qemuarma15 BSP definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,92 +55,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 18:31:49 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 18:34:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 12, 2019 at 8:22 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Sat, Jan 12, 2019 at 10:14 AM Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
 >
-> On Sat, 2019-01-12 at 17:56 +0200, Serhey Popovych wrote:
-> > Richard Purdie wrote:
-> > > On Sat, 2019-01-12 at 12:11 +0200, Serhey Popovych wrote:
-> > > > In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit while
-> > > > kernel
-> > > > selected by the installer depending on PowerPC machine type:
-> > > >
-> > > >   * 32-bit for PowerMac G4 (ppc7400) and below
-> > > >   * 64-bit for PowerMac G5 and above
-> > > >
-> > > > Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit
-> > > > userspace
-> > > > making build impossible due to missing some of lib64 multilib
-> > > > equivalents in Ubuntu repository.
-> > > >
-> > > > Using setarch(8) override to make whole host look as PowerPC 32-
-> > > > bit
-> > > > can actually help with build but requires mapping for ppc target
-> > > > to
-> > > > their libgpg-error equivalent to fix native build.
-> > > >
-> > > > Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with
-> > > > command:
-> > > >
-> > > >   MACHINE=qemuppc setarch ppc bitbake core-image-full-cmdline
-> > > >
-> > > > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
-> > > > ---
-> > > >  meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/meta/recipes-support/libgpg-error/libgpg-
-> > > > error_1.33.bb
-> > > > b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-> > > > index 325529d..4153954 100644
-> > > > --- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-> > > > +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-> > > > @@ -47,6 +47,7 @@ do_compile_prepend() {
-> > > >     mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
-> > > >     mips*)      TUPLE=mips-unknown-linux-gnu ;;
-> > > >     x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
-> > > > +   ppc)        TUPLE=powerpc-unknown-linux-gnu ;;
-> > > >     ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
-> > > >     ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
-> > > >     *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
-> > >
-> > > This doesn't feel correct. It only works if you're using the local
-> > > setarch workaround and I'm worried most users are never going to
-> > > find
-> > > that.
-> > >
-> > > I'm fine with adding in general fixes but this is getting very
-> > > specific
-> > > to an very uncommon usecase :(
-> >
-> > Understand your position. Doing setarch(8) to run bitbake on ppc64
-> > kernel with 32-bit user space with missing 64-bit multilib seems to
-> > be the only option.
-> >
-> > Anyway this change just maps ppc to corresponding tuple used by
-> > libgpg-error, so with this fix we hit both
-> >
-> >   a) setarch(1) when kernel is 64-bit and userspace is 32-bit and
-> >      no multilib
-> >   b) native 32-bit powerpc host that is running as virtual machine
-> > for
-> >      example).
+> Incorporating the BSP definitions for two new qemu targets.
 >
-> I'd understand that if this were just libgpg-error-native but our
-> qemuppc builds work which I guess is why I don't quite understand what
-> is wrong here?
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |  4 ++--
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 18 +++++++++---------
+>  3 files changed, 14 insertions(+), 14 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> index cdcdff2e1746..f823683526ee 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> @@ -11,8 +11,8 @@ python () {
+>          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+>  }
+>
+> -SRCREV_machine ?= "bd456d13d8bea4c416209a59f9e0bf50f8511c47"
+> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> +SRCREV_machine ?= "78404e3a73613f8e07c276e55112989f897cdd04"
+> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> index 89c4b9f14d4c..0a79f442a075 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -SRCREV_machine_qemuarm ?= "b8f2e8e00f8ddbdf5d7d7614c14eab52f8ee9275"
+> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> +SRCREV_machine_qemuarm ?= "2594d14d76ae2c49ad43b626662fe53da807ddca"
+> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> index bf4fec71d86c..f410cc8cdb31 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> @@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.19/standard/base"
+>  KBRANCH_qemux86-64 ?= "v4.19/standard/base"
+>  KBRANCH_qemumips64 ?= "v4.19/standard/mti-malta64"
+>
+> -SRCREV_machine_qemuarm ?= "ec8e55a97ad8a88107c5af069ece1b7f203f4ac4"
+> -SRCREV_machine_qemuarm64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_machine_qemumips ?= "3b5fba0207a870c1de76c5dd80d8d3c0e42aa1cf"
+> -SRCREV_machine_qemuppc ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_machine_qemux86 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_machine_qemux86-64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_machine_qemumips64 ?= "d21ff98864241c971c7a42a3c4f1eb940b9b8855"
+> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> +SRCREV_machine_qemuarm ?= "8b378ac8aca51207085c8df616a6fe56af19f0b4"
+> +SRCREV_machine_qemuarm64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_machine_qemumips ?= "58f59c2213a657515a158379db153ad618986235"
+> +SRCREV_machine_qemuppc ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_machine_qemux86 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_machine_qemux86-64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_machine_qemumips64 ?= "6f56a58c214379efe8949da6921b1c00c2af353a"
+> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
 
-this is when using ppc32 as build host :)
+Dont we need qemuriscv64 locks here too ?
 
 >
-> Cheers,
->
-> Richard
->
->
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+> --
+> 2.5.0
 >
 > --
 > _______________________________________________
