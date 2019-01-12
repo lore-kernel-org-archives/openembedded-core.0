@@ -1,25 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4756E7C106
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 262CA7C0C6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 18:13:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0CIDckQ013366
+	Sat, 12 Jan 2019 18:13:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0CID5ws024195
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 12 Jan 2019 10:13:38 -0800 (PST)
+	Sat, 12 Jan 2019 10:13:15 -0800
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Sat, 12 Jan 2019 10:13:37 -0800
+	14.3.408.0; Sat, 12 Jan 2019 10:12:54 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sat, 12 Jan 2019 13:12:53 -0500
-Message-ID: <3b416f88075054da1d70e4cbd21a866670dd183c.1547316462.git.bruce.ashfield@windriver.com>
+Date: Sat, 12 Jan 2019 13:12:50 -0500
+Message-ID: <cover.1547316462.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1547316462.git.bruce.ashfield@windriver.com>
-References: <cover.1547316462.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto-dev: bump to v5.0-rc
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 18:13:38 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 18:13:41 -0000
 Content-Type: text/plain
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi all,
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 23cb355b5ce7..ae8c34300836 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- 
--LINUX_VERSION ?= "4.19-rc+"
-+LINUX_VERSION ?= "5.0-rc+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+Here's the next batch of kernel updates. Nothing particular of note, but we
+do gain new BSP descriptions for qemuarma15 and qemuriscv64. Although the
+full machine definitions are not in oe-core yet, this sets the table for them
+to be made widely available.
+
+Other than that, I bumped the -dev kernel to 5.x, and have pulled in the
+latest round of -stable updates to 4.19 (also note that I updated 4.14
+with -stable updates as well, but haven't done the older branch SRCREVs
+yet).
+
+Cheers,
+
+Bruce
+
+The following changes since commit 46f6f6a5f9de5e7f8f32f6ae768af61ec20ade4a:
+
+  bitbake: bitbake: runqueue: Use multiconfig name to fetch unihash (2019-01-11 10:39:30 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/4.19: introduce qemuriscv64 and qemuarma15 BSP definitions
+  linux-yocto/4.19: update to v4.19.14
+  linux-yocto-dev: bump to v5.0-rc
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 20 ++++++++++----------
+ 4 files changed, 18 insertions(+), 18 deletions(-)
+
 -- 
 2.5.0
 
