@@ -1,30 +1,52 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CBA960402
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 252F662133
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 20:50:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0BKnhUb027030
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 12 Jan 2019 01:32:34 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id y14so12081410lfg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2019 12:49:59 -0800
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 11 Jan 2019 12:49:48 -0800
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1545102457.git.liezhi.yang@windriver.com>
-	<6777b5a2a2442988d4497678639c018f638ad86b.1545102457.git.liezhi.yang@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
-Date: Fri, 11 Jan 2019 15:49:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Fri, 11 Jan 2019 17:32:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TaY/xT+LMDnxj3/LDUepCDiIHa/noNM0poMhzjiDDt8=;
+	b=ZPU8wIQJQX6cPhnhYayX419fGW8CD+Cxeobf81EGPMrm8Dhth5zkfGbNVEhY/rHpTd
+	Ni9wk4TR/3Ypz5SfderDzZFiJZrD/T8BDy2Dq9Nl29B5QogqziqEBitdWYHpWfg6NhIq
+	u+x0qV9fFaCqi6iM/PoZal0FTqhF1GK5St1qc3hCLUfW7YtlTIHJfa3kJhZHto2SLeUZ
+	QIgeLoLim32xBleChOE5G7KG8orIX4sESvgM3wja2JroBKrkkc0ZIMwgs3Ms+qCediTH
+	Xme8KKwCg18BpKtm26ruNuX0tMU7UrtFLO8UNj8WtHofKNRNWQvmD5NeHar9CB+8GG3g
+	4tfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TaY/xT+LMDnxj3/LDUepCDiIHa/noNM0poMhzjiDDt8=;
+	b=YC45Z/hSjMHYNIDgfaCAZFL68o9aRgfr9wHDHk6F/Kt7MckKb0idpYB94PvJfhM63k
+	g0ikMJ4H7vtCFP0dbdFyxZYG7iJViAIA2Iv6Tc5xCIWmtC8dVQW3WVP1xYC7j3nkre9V
+	r3Eo8J6QJVu5HeAD00y7HsIV/6ZQCbWu6d/9QhB6J1nG0LXgRLY1cUauv+oNmQt3ligW
+	cZWzTVYlCv61UbYZDZITwQup4eWZ5hf71Qu8uxxzxxBVm8oLdIH/ujNcu9tl+8gd5cCB
+	HQ8u5eFDhr3I1g+2AfcgohO2m7SFrGE37SGtgfqWE2ENDxfp4MmbgISLPGBIEogA5Hmx
+	d7Ag==
+X-Gm-Message-State: AJcUukc8yyHG7pysRVbhBwavww/s8288UvAzKOEep/N/g4haUGL2Xdkt
+	FRMYy9go424vukiWbHFOeOHNhq6c/xOAWmlkcW4=
+X-Google-Smtp-Source: ALg8bN6YQh5CxitUpfcBT8jzlh6T0nYPPvcGdEH9BRWGL1if4sVHp1wqHDpqzJUze0Y+NueFPGtZHZ7p5zW5N2A8oOw=
+X-Received: by 2002:a19:c18d:: with SMTP id r135mr8568914lff.59.1547256755431; 
+	Fri, 11 Jan 2019 17:32:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6777b5a2a2442988d4497678639c018f638ad86b.1545102457.git.liezhi.yang@windriver.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH V3 03/11] ccache.bbclass: Refactor it to make it more reliable
+References: <20190110195121.13070-1-alistair.francis@wdc.com>
+	<CAJTo0La+pRHTRkRtKUOKChgmRGtO6wp6LKiku-AMun8mgMo7UA@mail.gmail.com>
+	<CAKmqyKPEvPOrn+Xds5FOqF9+xs_KdjOLMJL=9+fT9_4bW4CKCg@mail.gmail.com>
+	<CAJTo0LavX1oxCPyK=g84LiaBsveo=n2bMOndEHWFPBhHPBRJ6w@mail.gmail.com>
+	<CAKmqyKMpV3Po2oknYimYn=u4+Cv=s9cLki+gn7_-wM1P_XynyA@mail.gmail.com>
+	<CAJTo0LZobTXvEG1cEMyirNLz=EQcA3x6K1QDQQ-qqejA-RRHFQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZobTXvEG1cEMyirNLz=EQcA3x6K1QDQQ-qqejA-RRHFQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 11 Jan 2019 17:32:08 -0800
+Message-ID: <CAKmqyKMMWMJfPRmX=krJd5A95q25L8qTwZZor9RAVaOYrf_BWw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libinput: Enable gui PACKAGECONFIG by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,153 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2019 20:50:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Jan 2019 01:32:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-A couple of typos and grammar improvements, otherwise a good
-improvement for iterative development of a package/image where
-sstate isn't useful.
+On Thu, Jan 10, 2019 at 3:54 PM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Thu, 10 Jan 2019 at 23:14, Alistair Francis <alistair23@gmail.com> wrote:
+>>
+>> > libinput isn't useful without a graphical debugging tool?  That seems quite a stretch.
+>>
+>> I meant that libinput isn't useful without the gui support.
+>>
+>> I think that this is worth having the extra packages as libinput is
+>> not really useful without gui support.
+>
+>
+> Sure, but the gui packageconfig just does -Ddebug-gui=yes, which just builds the libinput-debug-gui binary.  Surely that isn't essential?
 
-On 12/18/18 2:18 AM, Robert Yang wrote:
-> The previous ccache.bbclass has the following problems:
-> - It uses host's ccache for native recipes, but this may not work on some
->    hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
->    build failures (m4-native failed at do_configure, and others will also be
->    failed if I disable CCACHE for m4-native)
-> 
-> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
-* host's ccache
->    ccache-native, this may confuse user.
-> 
-> - The target recipes may use both host's ccache and ccache-native, this may
->    cause unexpected problems and hard to debug. This is because ccache-native is
-* and be hard to debug
->    in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
->    rebuild target recipes, and then it would use hosttools/ccache, but the
->    previous ccache files were generated by ccache-native.
-> 
-> - Target recipes can't use ccache when no ccahe is installed on the host:
-* no ccache
+Hmm... I thought it was, but apparently it isn't. Looks like we don't
+need this then.
 
->    CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
-> 
-> After refactored:
-> All types recipes (native, target and others) will use ccache-native except
-> ccache-native itself, host's cache won't be used any more. It is more
-> reliable now, which will work everywhere when ccache-native can be built.
-> 
-> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
-* disable ccache
+Alistair
 
-../Randy
-
-
-> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
-> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
-> can't check whether CCACHE is set or not in anonymous function since it is
-> always set. Use CCACHE_DISABLE to disable it would be more clear.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/ccache.bbclass | 25 ++++++++++++++++++++++---
->   meta/conf/bitbake.conf      |  6 +-----
->   meta/conf/layer.conf        |  1 -
->   meta/lib/oe/utils.py        |  3 +++
->   4 files changed, 26 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-> index 9609020..59e1022 100644
-> --- a/meta/classes/ccache.bbclass
-> +++ b/meta/classes/ccache.bbclass
-> @@ -1,4 +1,14 @@
-> -CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
-> +#
-> +# Usage:
-> +# - Enable ccache
-> +#   Add the following line to a conffile such as conf/local.conf:
-> +#   INHERIT += "ccache"
-> +#
-> +# - Disable ccache for a recipe
-> +#   Add the following line to the recipe if it can't be built with ccache:
-> +#   CCACHE_DISABLE = '1'
-> +#
-> +
->   export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
->   
->   # We need to stop ccache considering the current directory or the
-> @@ -7,5 +17,14 @@ export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
->   # ${PV} or ${PR} change.
->   export CCACHE_NOHASHDIR ?= "1"
->   
-> -DEPENDS_append_class-target = " ccache-native"
-> -DEPENDS[vardepvalueexclude] = " ccache-native"
-> +python() {
-> +    """
-> +    Enable ccache for the recipe
-> +    """
-> +    pn = d.getVar('PN')
-> +    # quilt-native doesn't need ccache since no c files
-> +    if not (pn in ('ccache-native', 'quilt-native') or
-> +            bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
-> +        d.appendVar('DEPENDS', ' ccache-native')
-> +        d.setVar('CCACHE', 'ccache ')
-> +}
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 6480062..c88d66c 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -492,7 +492,7 @@ HOSTTOOLS += " \
->   HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", "testsdk.bbclass"])) else ''}"
->   
->   # Link to these if present
-> -HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
-> +HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
->   
->   # Temporary add few more detected in bitbake world
->   HOSTTOOLS_NONFATAL += "join nl size yes zcat"
-> @@ -504,10 +504,6 @@ HOSTTOOLS_NONFATAL += "bzr"
->   HOSTTOOLS_NONFATAL += "scp"
->   
->   CCACHE ??= ""
-> -# ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
-> -# autogen sets HOME=/dev/null so in certain situations builds can fail.
-> -# Explicitly export CCACHE_DIR until we can assume ccache >3.1.10 on the host.
-> -export CCACHE_DIR ??= "${@os.getenv('HOME')}/.ccache"
->   
->   TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
->   
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index c67dec4..4141d6c 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -49,7 +49,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->     *->quilt-native \
->     *->subversion-native \
->     *->git-native \
-> -  *->ccache-native \
->     *->icecc-create-env-native \
->     gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
->     gcc-cross-${TARGET_ARCH}->linux-libc-headers \
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index 29b4115..ee6f0e6 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -363,6 +363,9 @@ def host_gcc_version(d, taskcontextonly=False):
->           return
->   
->       compiler = d.getVar("BUILD_CC")
-> +    # Get rid of ccache since it is not present when parsing.
-> +    if compiler.startswith('ccache '):
-> +        compiler = compiler[7:]
->       try:
->           env = os.environ.copy()
->           env["PATH"] = d.getVar("PATH")
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+>
+> Ross
 
