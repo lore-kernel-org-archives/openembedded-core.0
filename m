@@ -1,51 +1,51 @@
 Return-Path: <serhe.popovych@gmail.com>
 Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
 	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ECE07BE41
+	by mail.openembedded.org (Postfix) with ESMTP id 2E5B47BE41
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 10:11:59 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id e26so12550177lfc.2
+	Sat, 12 Jan 2019 10:12:00 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id a8so12541236lfk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 02:12:00 -0800 (PST)
+	Sat, 12 Jan 2019 02:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ABRm/hWKXFXRsBEztOumNy4jAKuCCwwZr+c+sXe0ebQ=;
-	b=typPlHt9lxwuQXHkNwszFwN8JYlcOdKekeOJvuuYnIHI8RReV3HLIiCEJicuLlsDpU
-	NFQ1P+XLJe2Z+8DNpF/hx1q81rpu2JY6o/CrflbHEWa7UWw8EQgPSxRJ8pxQUGJU29+Q
-	xvLcwcB6R4VEwT3OL4aJTaCb+wmhIMBAjO2oQHvOR3qUVvwdjm9XsEJF1ajWm/M5t3Qs
-	nuEPUXAEscN602JzmjHim+SWKmFTDHZC3nItzqhg4BR3Lf8Ehz8V+UKFeKPNVvEI8Xvb
-	NKi9fpjk3om5I8AzMxNLfIzoLkGbhsBxkeXRGB8cU7J3EA+A/hxRbD2Wyd7f7yyjvnPd
-	S7OA==
+	bh=0+p9qT2wLU63GRM+CzhrAGZnUfe3mk4s/RFM2RTzJ0k=;
+	b=C3hMdWpZqLcUpN+SCWnCKuQs1Ne/ph5URNDGz7jhHEuidxyfWpmasONKlzOMNfbU6V
+	nkeaJmAZXweIg2+dgZkKJEVqg1v3y+aZZsHMu/pjX8HyF9EDbT+4oOgfYXQRAfgx1TvT
+	gX2N2G7Wv0zBosSmS//hf5P1mKPfmuEOBUepuIqxXbMzjV0giyX+HfeeVtqhCszbPoqp
+	Nd2iUzkeS1mSNFoPOwkORXikeslE/nvwx2WqnXNwrGFYTYNP6xAA8Jt+yB45AP2lPNyu
+	yhcdOVGPVK/Dbde1fZdB+fwnkDswqnCH55lF5B9s9X9i6G+IoQN8oja4I/EN9yA2gJot
+	CicQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ABRm/hWKXFXRsBEztOumNy4jAKuCCwwZr+c+sXe0ebQ=;
-	b=pre6LSEUDOTKPdKHJ5gYxSBFC9fPIBOJQq/6zYPdVUeGz2pbNwIT5OmbnyOSpoy0jm
-	HE5kk4Ej9WnaI8+9Kg8AKz0YC6S8F5Sf+Y4NvyOxdmk5ke0tG+8a4hb4TdoBsmE7jbe+
-	3BPidkPWqNAjiGI0tbetmFMwW4NivGyHjcUZa8Ry2gafWANFMwFbCHOHhhrpLYLJbKTJ
-	8+qEWg8NoQhMZrU4nA26gZfu4MHTR3xBYxG7ya53qXdv0VURLK1R4HaM5g/m7+2Kd17z
-	WDSe5ID8WhJLHiZXv/Nzs+vDkLLvn1cW6lk3EP7Q2PphXvc2f+5JDmpdf31r1fxoJOon
-	R9vw==
-X-Gm-Message-State: AJcUukfehv9SQK9NOGht9eF54fO9SbBHBtnLA08oc0mQCNtK/RmaAjp+
-	yX0vYUIdMBYo+6BamUghU2HThmqj
-X-Google-Smtp-Source: ALg8bN4bgEPsqD8dwY3hJy3G1msN9dxnHtYz4kLqKjdephIXbQ+WqcWX0rHLfjekUKnFXmkq1FdQ/w==
-X-Received: by 2002:a19:4ace:: with SMTP id x197mr9483754lfa.39.1547287919840; 
-	Sat, 12 Jan 2019 02:11:59 -0800 (PST)
+	bh=0+p9qT2wLU63GRM+CzhrAGZnUfe3mk4s/RFM2RTzJ0k=;
+	b=iIsnAiYRpntq0fD2xNJlKiFV/5BbQLMGGnlWWkTVNi9hJJhinBIeEP63hmHkU/8gLR
+	3lyj1ZHvU2lOSvo3FA2AI8ITMC5lN14AK3hO2aZL+4/kuRHJBZ0kLB9VW0/7a2PfjJre
+	FRGWjEAw90tfuAecrHVVrcsrZL+IHCpUNx2N/Ozaa1vRwqRMxbaio9nzDhWQQP1FNlZM
+	6XQVooK5p3xVdz7mdyBNgkWLw3ncU2rC8YBUIKvJzaM2B8eCCe6WVSkLiT9sYN74wbO0
+	dfcsUC8Z+gT9xWIufJ+kqGdWu4MhcYl/FZNYNvpNurQ5J1p4V3YNHokR1hE27WaDIJik
+	JXgg==
+X-Gm-Message-State: AJcUukc1pb+gtwU8ut4btyzi+ac4/iNpUR3/tC3iMhJRW1Jco6wISGdJ
+	p6u7V4PuFUi6OkfnJy03JfY+Td8G
+X-Google-Smtp-Source: ALg8bN5cKlPQdhIWnToeLGL6bxYFyrzlqvTqnJ9RxVJ0vffRVlpzSxld8Wq6oRGoTmFoVjW0+JaBsA==
+X-Received: by 2002:a19:5a05:: with SMTP id o5mr10476967lfb.140.1547287920532; 
+	Sat, 12 Jan 2019 02:12:00 -0800 (PST)
 Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
 	by smtp.gmail.com with ESMTPSA id
 	r7-v6sm16282314ljc.10.2019.01.12.02.11.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Jan 2019 02:11:59 -0800 (PST)
+	Sat, 12 Jan 2019 02:12:00 -0800 (PST)
 From: Serhey Popovych <serhe.popovych@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Jan 2019 12:11:52 +0200
-Message-Id: <1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
+Date: Sat, 12 Jan 2019 12:11:53 +0200
+Message-Id: <1547287913-25526-3-git-send-email-serhe.popovych@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
 References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
-Subject: [PATCH 1/2] libgpg-error: Support build for native on ppc host
+Subject: [PATCH 2/2] binutils: Speed up and fix native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,43 +58,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 10:11:59 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 10:12:00 -0000
 
-In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit while kernel
-selected by the installer depending on PowerPC machine type:
+We need only libbfd, libiberty and libopcodes from binutils native.
+To get them we build entire binutils with --enable-targets=all to
+include all possible output targets support and then remove all but
+these three libs.
 
-  * 32-bit for PowerMac G4 (ppc7400) and below
-  * 64-bit for PowerMac G5 and above
+This has two side effects:
 
-Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit userspace
-making build impossible due to missing some of lib64 multilib
-equivalents in Ubuntu repository.
+  1) it wastes build time
+  2) may cause errors caused by --enable-targets=all on some exotics
+     build hosts like PowerPC 32bit
 
-Using setarch(8) override to make whole host look as PowerPC 32-bit
-can actually help with build but requires mapping for ppc target to
-their libgpg-error equivalent to fix native build.
+To address both of these effects we can configure binutils in general
+and only required libs and their dependencies (zlib and intl at the
+time). Then build only build these libs and their dependencies.
 
-Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with command:
+Regarding to PowerPC 32-bit build host issues we get following errors
+when building on Ubuntu 16.04 LTS for PowerPC with command:
 
-  MACHINE=qemuppc setarch ppc bitbake core-image-full-cmdline
+  MACHINE=qemuppc setarch ppc bitbake binutils-native
+
+<output omitted>
+| /usr/lib/gcc/powerpc-linux-gnu/5/../../../powerpc-linux-gnu/crti.o: In function `_init':
+| (.init+0x22): relocation truncated to fit: R_PPC_GOT16 against undefined symbol `__gmon_start__'
+| dwarf.o: In function `parse_gnu_debuglink':
+| dwarf.c:(.text+0x482): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.o: In function `fetch_indexed_string':
+| dwarf.c:(.text+0x8fa): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.o: In function `read_debug_line_header':
+| dwarf.c:(.text+0x114a): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.c:(.text+0x12c6): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.o: In function `display_debug_ranges_list':
+| dwarf.c:(.text+0x187e): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.c:(.text+0x18a2): relocation truncated to fit: R_PPC_GOT16 against symbol `stdout@@GLIBC_2.0' defined in .sdata section in /lib/powerpc-linux-gnu/libc.so.6
+| dwarf.o: In function `display_debug_rnglists_list':
+| dwarf.c:(.text+0x1bf2): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.c:(.text+0x1c06): relocation truncated to fit: R_PPC_GOT16 against symbol `stdout@@GLIBC_2.0' defined in .sdata section in /lib/powerpc-linux-gnu/libc.so.6
+| dwarf.o: In function `display_block':
+| dwarf.c:(.text+0x2486): relocation truncated to fit: R_PPC_GOT16 against symbol `byte_get' defined in .sbss section in elfcomm.o
+| dwarf.o: In function `introduce.isra.2':
+| dwarf.c:(.text+0x2556): additional relocation overflows omitted from the output
+| collect2: error: ld returned 1 exit status
+| Makefile:909: recipe for target 'objdump' failed
+| make[4]: *** [objdump] Error 1
+| make[4]: *** Waiting for unfinished jobs....
+<output omitted>
+
+While 'byte_get' is defined in small bss section in elfcomm.o and
+generally can be fixed, symbol from host glibc 'stdout@@GLIBC_2.0' in
+small data section can't be moved without recompile of Ubuntu 16.04 LTS
+glibc.
 
 Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
 ---
- meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/binutils/binutils_2.31.bb | 33 ++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-index 325529d..4153954 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
-@@ -47,6 +47,7 @@ do_compile_prepend() {
- 	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
- 	  x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
-+	  ppc)        TUPLE=powerpc-unknown-linux-gnu ;;
- 	  ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
- 	  ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
- 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+diff --git a/meta/recipes-devtools/binutils/binutils_2.31.bb b/meta/recipes-devtools/binutils/binutils_2.31.bb
+index 51a9748..6796749 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.31.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.31.bb
+@@ -20,26 +20,31 @@ EXTRA_OECONF_class-native = "--enable-targets=all \
+                              --enable-install-libbfd \
+                              --disable-werror"
+ 
++do_configure_append_class-native () {
++	for l in zlib intl bfd libiberty opcodes; do
++		oe_runmake configure-${l}
++	done
++}
++
++do_compile_class-native () {
++	for l in zlib intl bfd libiberty opcodes; do
++		cd "${l}"
++		autotools_do_compile
++		cd - >/dev/null
++	done
++}
++
+ do_install_class-native () {
+-	autotools_do_install
++	for l in bfd libiberty opcodes; do
++		cd "${l}"
++		autotools_do_install
++		cd - >/dev/null
++	done
+ 
+ 	# Install the libiberty header
+ 	install -d ${D}${includedir}
+ 	install -m 644 ${S}/include/ansidecl.h ${D}${includedir}
+ 	install -m 644 ${S}/include/libiberty.h ${D}${includedir}
+-
+-	# We only want libiberty, libbfd and libopcodes
+-	rm -rf ${D}${bindir}
+-	rm -rf ${D}${prefix}/${TARGET_SYS}
+-	rm -rf ${D}${prefix}/lib/ldscripts
+-	rm -rf ${D}${prefix}/share/info
+-	rm -rf ${D}${prefix}/share/locale
+-	rm -rf ${D}${prefix}/share/man
+-	rmdir ${D}${prefix}/share || :
+-	rmdir ${D}/${libdir}/gcc-lib || :
+-	rmdir ${D}/${libdir}64/gcc-lib || :
+-	rmdir ${D}/${libdir} || :
+-	rmdir ${D}/${libdir}64 || :
+ }
+ 
+ # Split out libbfd-*.so so including perf doesn't include extra stuff
 -- 
 2.7.4
 
