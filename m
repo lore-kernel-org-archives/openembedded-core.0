@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF917C13C
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+	[209.85.222.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BC917C13E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 15:30:00 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z18so8250347qkj.10
+	Sat, 12 Jan 2019 15:36:10 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id g125so8273725qke.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 07:30:01 -0800 (PST)
+	Sat, 12 Jan 2019 07:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7i/LuDG9khSLrjSIILYDDd3AHWSiwxnsPM1YNkGv5bo=;
-	b=Te+UidSz706rQh1iehAnLZ6k3ADEfiTbEPtrbEojZ6px2hmquc+pWTBSYudJw+w92x
-	QoA7bqXb1gF9mHeeYzq3a1JCkbYCATnrvF2t74VFulY8VXSvN5Ni0816iVunhoYKz82h
-	LOQevA2FfgGeLlW+v7/XyvJOnsIy8KWP6d9cjWKFPTuFeM6DA32S1nB+umO8MsD5R3f2
-	k2mV+dDwFe9ocK12wnc6aTM4APItNh6A+cMAJIxyczxaBnK5FDLEmjc/j1bejUzSZgMy
-	w1aS15GZzEXx/4ZhSwCkMhCfO3OJ9TqeEbeQoK3/Tpk7TM/yzT/DLD/ZutHWy8oaycoC
-	WN9A==
+	:cc; bh=EqIjNV/5mO5Xw0gf1UKDcudnweSMwMoAIKbRxBVNRP0=;
+	b=Le1mlHxkQE7Z9dY8IypcWOrAXHzqOwzOj4/f86xyeHmFig66kz5UCIkFhoQAHKBdQS
+	RGWTXRvqyoZkw9Cq/tAgsdBGWf8QJqWMOSK16R34kFNwjbccqLdWkWPAtOxdhG/Yn9ZP
+	q4vJYnkMapCEaxu8mY8177bxUAgYDy3RLIGz6hz+dIYHJwbOoK+uAQFMEj8RFzoxB+PT
+	TAIbkXfkqgro7b9ZNtxOYH8JIxHiLDeJkipBlUhN84Asd0t2mGrfFWKLdNe7hP8YTrme
+	o4kZvZopmNhXs/c/3PyDBzVOQ0pB+ph/3V+sPGA5J4LbJsdjxXJRwpLo0iSnHTD2MrTP
+	ZSbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=7i/LuDG9khSLrjSIILYDDd3AHWSiwxnsPM1YNkGv5bo=;
-	b=hZfikY7QxKmQin5wID08VnEsRok+BHMOPo2eC3EGQdwLWDJW8a01/dC7xs/Chmilvf
-	XU5MyjhdDpNIL46xdmDrv5CbTXvQuSJBSiOap+rx8J8tsGlWMgpRdxKpAZwAtA7m0Dzg
-	MOfpWs7mpQAKhFsOks2xjr2idxWMf562tBWFF0sExHAWiC4vXJPRlgTIhGXT2AviHxaJ
-	wfyNKpx3dehTN4a90L2HFZ3iNDU4uKb59MHCCIu732cAvHJn3lCQtnS4rbg0rMskDGnC
-	pMUe81E+ZwwVewSQyzlaYWHisX8zafcR+wbol3Q/dn8BVJJ6hGXNoK0OUY84PiOb/KRu
-	WTHw==
-X-Gm-Message-State: AJcUuke/otiXyuY8EgTqNNVZeymFyifL6D5IMO+2xHhIw+uyL+Dw5YsB
-	PxqH90KTSrOqPftkEmJdgUpWD3p7uiQ5KDVs6Tnyfy0s
-X-Google-Smtp-Source: ALg8bN4Jr6wVE+YPY64mK+/nX3SPAlMr9Y3lEI4JuXgmicGpMzwMYNFACBTo1GdPwKT3hdJ/VJZb+/H2jkrgoj3kY/Q=
-X-Received: by 2002:a37:ac05:: with SMTP id e5mr17350024qkm.102.1547307001262; 
-	Sat, 12 Jan 2019 07:30:01 -0800 (PST)
+	bh=EqIjNV/5mO5Xw0gf1UKDcudnweSMwMoAIKbRxBVNRP0=;
+	b=jFNMM0YFrT602Fs8l8M0XhYVemzTO/DgY6OiNR/87AKPIbwYQzoCQF92ev1w1ALsSy
+	D1sO7MlMDspioKydr9gGDohCV4+cf9JzcL1xAjnjdpPZ6qBM00TBNszIJhA8cSi967ku
+	bNTO9Hfrh9Qfo9GlJGuHhu3xpPfE1QlAtgk5XOfAaoWT1VVqlveA3VPMZYvFmZwRl1Jx
+	oZ83inhe9VBrvlztqWkia9C1rBUm+3B6nce3gNQlZD5+/vCXbA/ztvY6PFgCPbhde533
+	XceMgD62v2gejSiNMIWWT/DIiAB/n4RrtbOska+2Jclf4vkbsD1tPk6hy/CUYsq1BKGz
+	bGXA==
+X-Gm-Message-State: AJcUukem8Lh816kuPX/VwM1HAEE87fFEGWhlcfxF1VdeY4msiFVQDQEg
+	MBi2hJ96/avKiDU/gxGI2ABRI8GciyyywtwseK0=
+X-Google-Smtp-Source: ALg8bN4mXGst1izRRLgRXsG6ccyyVYN/EufRe9jOwHNHO2AJQXHslTgbIG5v87dbPzUIALjpnYs/LotKJo7TGIod5E4=
+X-Received: by 2002:ae9:dc43:: with SMTP id q64mr16576698qkf.223.1547307371788;
+	Sat, 12 Jan 2019 07:36:11 -0800 (PST)
 MIME-Version: 1.0
 References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
-	<1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
-In-Reply-To: <1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
+	<1547284970-20783-3-git-send-email-serhe.popovych@gmail.com>
+In-Reply-To: <1547284970-20783-3-git-send-email-serhe.popovych@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Jan 2019 07:29:35 -0800
-Message-ID: <CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
+Date: Sat, 12 Jan 2019 07:35:45 -0800
+Message-ID: <CAMKF1sq8_O8Afym4aAubhAaOFcY-r2dE_XbrjkHqBtMZCA=GDg@mail.gmail.com>
 To: Serhey Popovych <serhe.popovych@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] valgrind: Mark powerpc64 with musl as incompatible
+Subject: Re: [PATCH 2/4] systemd: Use arch overrides instead of machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 15:30:00 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 15:36:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Sat, Jan 12, 2019 at 1:23 AM Serhey Popovych
 <serhe.popovych@gmail.com> wrote:
 >
-> Building musl for powerpc64 enforces elfv2 ABI since commit 68c964185519
-> ("arch-powerpc64.inc: Use elfv2 ABI when building with musl") that is
-> not compatible with valgrind.
+> With custom BSP and build with musl we still affected by undefined
+> reference to stack-protector specific functions.
+>
+> Use arch overrides instead of machine to ensure fix applied to entire
+> architecture instead of custom machine like qemux86 and qemuppc.
 >
 > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
 > ---
->  meta/recipes-devtools/valgrind/valgrind_3.14.0.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/recipes-core/systemd/systemd_239.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> index 4d15a50..d882319 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> @@ -58,6 +58,9 @@ COMPATIBLE_HOST_linux-muslx32 = 'null'
->  COMPATIBLE_HOST_mipsarchr6 = 'null'
->  COMPATIBLE_HOST_linux-gnun32 = 'null'
+> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+> index 0f1fa27..2e11d71 100644
+> --- a/meta/recipes-core/systemd/systemd_239.bb
+> +++ b/meta/recipes-core/systemd/systemd_239.bb
+> @@ -66,9 +66,9 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
+>                 file://0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch \
+>                 "
 >
-> +# Disable for powerpc64 with musl
-> +COMPATIBLE_HOST_libc-musl_powerpc64 = 'null'
+> -# Workaround undefined reference to `__stack_chk_fail_local' on qemux86 and qemuppc for musl
+> -SRC_URI_append_libc-musl_qemux86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+> -SRC_URI_append_libc-musl_qemuppc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+> +# Workaround undefined reference to `__stack_chk_fail_local' on x86 and powerpc for musl
+> +SRC_URI_append_libc-musl_x86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+> +SRC_URI_append_libc-musl_powerpc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
 
-lets do it for powerpc64el too
-> +
->  inherit autotools ptest multilib_header
+this seems wrong to me. While you are here, can we try to link with
+-lssp-nonshared instead ?
+
 >
->  EXTRA_OECONF = "--enable-tls --without-mpicc"
+>  PAM_PLUGINS = " \
+>      pam-plugin-unix \
 > --
 > 2.7.4
 >
