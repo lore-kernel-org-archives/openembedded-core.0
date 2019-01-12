@@ -1,50 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 714197C0B4
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 148D56C0F8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 20:18:10 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id v11so22635592qtc.2
+	Sat, 12 Jan 2019 20:25:32 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id y16so8527167qki.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 12:18:11 -0800 (PST)
+	Sat, 12 Jan 2019 12:25:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ahgqbv1s8KWgDcCiNknMUh3U0QlJPtUVIQ/YDI33Exc=;
-	b=UoJ3YI/VehJnzoIK89VWfxnIp+BmapPhe4sd2wDCGrJ0ugIKli8pqOVD+Lv2Z+c9Dn
-	NNjxAeo1XYjTdEs5sRytFsufU+xT5405/34OEtptl2+QMpaLaDXuWSU87ieltUJh4E5k
-	6nzosnhMoFooLexB94ILa320ECvQXoD4FliNB+pZuHXdVvv6LXWoiH+bAiJDpTIVHKnh
-	aB9ziaDDHtU6tkjRSGoV1mPH0LyxU+y20VDQ8OQgRLk5rsHkY+ItPjw/XwRre7/yETTX
-	eK3/nll15R9gcK3KW1Wk34XUZ2Rh7uN3RbWjimq6adgyMOUxdClByRmSCXEzQJeTYPif
-	rMnQ==
+	:cc; bh=yNVNnCpBuNe6/YSXP/LIpiKMkcam3sS6KV13SZQ33ck=;
+	b=IPPmylKSBWmEmnkoIIvrfzTqLdn1xDqsxPZ6Lvepd7NxAgnmXykg4tcWwhOmI8mhHp
+	rYNcTfalOeZJp0mtc1cxzixcOOqSQeyOS+7dcU6e7DYVsVT1LkpaubMm06To1qiQJBPF
+	44d4al+jggQFfs+BXjtulQL2N1zTVTvJm6aZasX5F6T0LaZkS537JhvCWVHzlXezEgw3
+	cIdSU+RFTQZIqWL+iwZuGXmH/V0SHyWjIFaIjqGhyQcZSadMMP3Hpo5V9CtDgNA444ie
+	eKZ+jtwcL/MtnanNUSliQpAWc2e8gW7hfklcP6XWeT9DgupKxt0Eq/LW/iFWKOXTop/2
+	wblQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ahgqbv1s8KWgDcCiNknMUh3U0QlJPtUVIQ/YDI33Exc=;
-	b=GolNh2PtUaAnZfnblqCvi+oxo/cBdUd1bqdqJOJCD/X58f0vjVoYlkUT2QKXA9iGfN
-	1B1bSEIg49SQfYcPGy6CHiI7Kg3jilDyTq5tnLXSVvCUJl42KwIw5wXJyqXRQ1eEGJCU
-	BVNbW+z4NnwX8OncCg490ZiRK0J6bPvykCkKg34TVSKv0bWJa7Z058iDgEXMj+JEgHl0
-	egofnrLgxxgX4IXNKmW4XXH9aA3MXE9vxwOL1z2Q91WJLeduSJXLs3jePzOUErEsmOpK
-	/5M0t04p0xr+otQTVsI1BI0Do8HGYVJrUbYpPK4L3TQMZmvkUqeortLTKijEhj/DVkcV
-	K5sA==
-X-Gm-Message-State: AJcUukc+FKWo6kgBxtRnj2E9t1bwmyQiUMZPCBxLF5y+dwB3DoR4nnX3
-	UoacBL8QgcxzYrrv3Z9M74PW7E23Qi6bs5J6bn4=
-X-Google-Smtp-Source: ALg8bN63hxpUpdrDVxXLQ4RPTZARFdXLtkDtgbfJyctdNuNSsZnGKQ++RSHYWVRb7/XazQEMspXNEjJeRNYGikQAcFE=
-X-Received: by 2002:ac8:16d8:: with SMTP id y24mr18719462qtk.253.1547324290952;
-	Sat, 12 Jan 2019 12:18:10 -0800 (PST)
+	bh=yNVNnCpBuNe6/YSXP/LIpiKMkcam3sS6KV13SZQ33ck=;
+	b=I64dSLgtay6Z1Nc6poyBz5Q8cY2bq+zLZ1hTadBn1BF59X9lyGJQHU9X1T/SLD5Z3I
+	UU9m1rwAkHcERVe6r4u4eZoC4OEXrPdd9Pzuu6ok6Ae8I87Pewoh8Wy0eaRVhnSWcWz8
+	8zhpFku9Kh6ufvGnAbrQfG2tyE3E0l7F0oXjx0P+kZ4yBtEhyHi+nYcEReDf07MmSxBr
+	4WMNaqhEXm954Ix7tstifmvq3A1fanpGbJDFyUJReEdt7zYp/j3KFXFIZF7No1TnGtOu
+	FlgMdYLlXp5mAhwzh17B1L61bOt+vCiYD4PYsGqJEZpT84g6b1xvE/pnn4RA2Wmc+Kyr
+	ruFg==
+X-Gm-Message-State: AJcUukflQdB9tDweZDhhW0HRJK8BvRvR9Fq1648lrUzz/AUD8bCDC/8Y
+	clE/pnBs+prxJCuVBQ5Aw1aX6iDajOPkllIhHvo=
+X-Google-Smtp-Source: ALg8bN5kbwCBZY6hoKIOm3WviNniqAonNw81sfJuElFfV6vAFPCJEyvK/DUD0W1t7GJ+iwsJvYE8A8tT5hQW234BvbQ=
+X-Received: by 2002:a37:a80a:: with SMTP id r10mr18166009qke.2.1547324733787; 
+	Sat, 12 Jan 2019 12:25:33 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1547316462.git.bruce.ashfield@windriver.com>
-	<a5bbd32ecd957f036a9b1e47cc4e3c813d206111.1547316462.git.bruce.ashfield@windriver.com>
-	<CAMKF1sokO=RakSBuZy-o4cMBB5EYzDrEJ+R7ZtfzyddNaxqKQw@mail.gmail.com>
-	<230139f6-ad04-7033-5da8-3617b8a7a6a9@windriver.com>
-In-Reply-To: <230139f6-ad04-7033-5da8-3617b8a7a6a9@windriver.com>
+References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
+	<1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
+	<beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
+	<018b5b2d-c7d4-3c29-d743-73c5e5651f5a@gmail.com>
+	<7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
+	<CAMKF1so9Aa8xjLoJMW8Sdv28PPuQ758zXCq585+5j6pFQ6o5fQ@mail.gmail.com>
+	<98c6f9905ba3a9eaae11ab3841e379c1ec95cc32.camel@linuxfoundation.org>
+In-Reply-To: <98c6f9905ba3a9eaae11ab3841e379c1ec95cc32.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Jan 2019 12:17:45 -0800
-Message-ID: <CAMKF1srt-KM61LaOmvorNY8SvQ98dAB36-HmMz0b3Zym1gMudA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Sat, 12 Jan 2019 12:25:07 -0800
+Message-ID: <CAMKF1sow2u8YYrDabk4EuOvs=5O+PuBBOpk0ExiU6juHZTWGQg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] linux-yocto/4.19: introduce qemuriscv64 and qemuarma15 BSP definitions
+Subject: Re: [PATCH 1/2] libgpg-error: Support build for native on ppc host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,90 +60,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 20:18:10 -0000
+X-List-Received-Date: Sat, 12 Jan 2019 20:25:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 12, 2019 at 10:45 AM Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
+On Sat, Jan 12, 2019 at 11:18 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On 2019-01-12 1:34 p.m., Khem Raj wrote:
-> > On Sat, Jan 12, 2019 at 10:14 AM Bruce Ashfield
-> > <bruce.ashfield@windriver.com> wrote:
-> >>
-> >> Incorporating the BSP definitions for two new qemu targets.
-> >>
-> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >> Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >> ---
-> >>   meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |  4 ++--
-> >>   meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |  6 +++---
-> >>   meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 18 +++++++++---------
-> >>   3 files changed, 14 insertions(+), 14 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> >> index cdcdff2e1746..f823683526ee 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> >> @@ -11,8 +11,8 @@ python () {
-> >>           raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-> >>   }
-> >>
-> >> -SRCREV_machine ?= "bd456d13d8bea4c416209a59f9e0bf50f8511c47"
-> >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
-> >> +SRCREV_machine ?= "78404e3a73613f8e07c276e55112989f897cdd04"
-> >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
-> >>
-> >>   SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-> >>              git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-> >> index 89c4b9f14d4c..0a79f442a075 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-> >> @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
-> >>   KMETA = "kernel-meta"
-> >>   KCONF_BSP_AUDIT_LEVEL = "2"
-> >>
-> >> -SRCREV_machine_qemuarm ?= "b8f2e8e00f8ddbdf5d7d7614c14eab52f8ee9275"
-> >> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
-> >> +SRCREV_machine_qemuarm ?= "2594d14d76ae2c49ad43b626662fe53da807ddca"
-> >> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
-> >>
-> >>   PV = "${LINUX_VERSION}+git${SRCPV}"
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-> >> index bf4fec71d86c..f410cc8cdb31 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-> >> @@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.19/standard/base"
-> >>   KBRANCH_qemux86-64 ?= "v4.19/standard/base"
-> >>   KBRANCH_qemumips64 ?= "v4.19/standard/mti-malta64"
-> >>
-> >> -SRCREV_machine_qemuarm ?= "ec8e55a97ad8a88107c5af069ece1b7f203f4ac4"
-> >> -SRCREV_machine_qemuarm64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_machine_qemumips ?= "3b5fba0207a870c1de76c5dd80d8d3c0e42aa1cf"
-> >> -SRCREV_machine_qemuppc ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_machine_qemux86 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_machine_qemux86-64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_machine_qemumips64 ?= "d21ff98864241c971c7a42a3c4f1eb940b9b8855"
-> >> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
-> >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
-> >> +SRCREV_machine_qemuarm ?= "8b378ac8aca51207085c8df616a6fe56af19f0b4"
-> >> +SRCREV_machine_qemuarm64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_machine_qemumips ?= "58f59c2213a657515a158379db153ad618986235"
-> >> +SRCREV_machine_qemuppc ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_machine_qemux86 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_machine_qemux86-64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_machine_qemumips64 ?= "6f56a58c214379efe8949da6921b1c00c2af353a"
-> >> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
-> >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+> On Sat, 2019-01-12 at 10:31 -0800, Khem Raj wrote:
+> > On Sat, Jan 12, 2019 at 8:22 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Sat, 2019-01-12 at 17:56 +0200, Serhey Popovych wrote:
+> > > > Richard Purdie wrote:
+> > > > > On Sat, 2019-01-12 at 12:11 +0200, Serhey Popovych wrote:
+> > > > > > In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit
+> > > > > > while
+> > > > > > kernel
+> > > > > > selected by the installer depending on PowerPC machine type:
+> > > > > >
+> > > > > >   * 32-bit for PowerMac G4 (ppc7400) and below
+> > > > > >   * 64-bit for PowerMac G5 and above
+> > > > > >
+> > > > > > Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit
+> > > > > > userspace
+> > > > > > making build impossible due to missing some of lib64 multilib
+> > > > > > equivalents in Ubuntu repository.
+> > > > > >
+> > > > > > Using setarch(8) override to make whole host look as PowerPC
+> > > > > > 32-
+> > > > > > bit
+> > > > > > can actually help with build but requires mapping for ppc
+> > > > > > target
+> > > > > > to
+> > > > > > their libgpg-error equivalent to fix native build.
+> > > > > >
+> > > > > > Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with
+> > > > > > command:
+> > > > > >
+> > > > > >   MACHINE=qemuppc setarch ppc bitbake core-image-full-cmdline
+> > > > > >
+> > > > > > Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> > > > > > ---
+> > > > > >  meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
+> > > > > >  1 file changed, 1 insertion(+)
+> > > > > >
+> > > > > > diff --git a/meta/recipes-support/libgpg-error/libgpg-
+> > > > > > error_1.33.bb
+> > > > > > b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > > > index 325529d..4153954 100644
+> > > > > > --- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > > > +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
+> > > > > > @@ -47,6 +47,7 @@ do_compile_prepend() {
+> > > > > >     mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+> > > > > >     mips*)      TUPLE=mips-unknown-linux-gnu ;;
+> > > > > >     x86_64)     TUPLE=x86_64-unknown-linux-gnu ;;
+> > > > > > +   ppc)        TUPLE=powerpc-unknown-linux-gnu ;;
+> > > > > >     ppc64)      TUPLE=powerpc64-unknown-linux-gnu ;;
+> > > > > >     ppc64le)    TUPLE=powerpc64le-unknown-linux-gnu ;;
+> > > > > >     *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;;
+> > > > >
+> > > > > This doesn't feel correct. It only works if you're using the
+> > > > > local
+> > > > > setarch workaround and I'm worried most users are never going
+> > > > > to
+> > > > > find
+> > > > > that.
+> > > > >
+> > > > > I'm fine with adding in general fixes but this is getting very
+> > > > > specific
+> > > > > to an very uncommon usecase :(
+> > > >
+> > > > Understand your position. Doing setarch(8) to run bitbake on
+> > > > ppc64
+> > > > kernel with 32-bit user space with missing 64-bit multilib seems
+> > > > to
+> > > > be the only option.
+> > > >
+> > > > Anyway this change just maps ppc to corresponding tuple used by
+> > > > libgpg-error, so with this fix we hit both
+> > > >
+> > > >   a) setarch(1) when kernel is 64-bit and userspace is 32-bit and
+> > > >      no multilib
+> > > >   b) native 32-bit powerpc host that is running as virtual
+> > > > machine
+> > > > for
+> > > >      example).
+> > >
+> > > I'd understand that if this were just libgpg-error-native but our
+> > > qemuppc builds work which I guess is why I don't quite understand
+> > > what
+> > > is wrong here?
 > >
-> > Dont we need qemuriscv64 locks here too ?
+> > this is when using ppc32 as build host :)
 >
-> Not until the machine is in oe-core and there's something I can test.
-> Right now, it is just the meta-data.
+> I appreciate that. My point is that we can build for ppc32 target
+> machines (qemuppc) so why are ppc32 target machines using a different
+> arch to native ppc32 machines?
 
-fair enough. I guess that falls on either Alistrair or myself :)
+Thats because for our ppc32 targets TARGET_ARCH is 'powerpc' and not ppc
+which has one to one mapping for target specific lock-obj-pub.h file
+
+>
+> If the native and target recipes were different I could understand it
+> but they're not.
+>
+> Could is mean we're using a non-standard name for ppc32 target builds?
+
+Not really.
+
+> or does it mean setarch should be to something else like powerpc on
+> native builds?
+
+yes historically ppc is ok they are used interchangeably
+
+Basically I worry that we're using different names for
+> the same thing.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
