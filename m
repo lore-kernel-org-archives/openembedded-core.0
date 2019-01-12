@@ -1,52 +1,49 @@
 Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C7D0B7C0D3
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D4EC7C0D3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 16:49:53 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id t18-v6so15544354ljd.4
+	Sat, 12 Jan 2019 16:53:49 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id k15-v6so15502270ljc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 08:49:55 -0800 (PST)
+	Sat, 12 Jan 2019 08:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=from:subject:to:cc:references:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=oWjWXDwy+ud2LHWBICBt+KImpHLk+/D3wHKI3zkYziA=;
-	b=nYjlyv+g1cOjRb3KVWRwINBjoIm7/8YHbpwBYlUYdA2VSXkZM6cVErNqEFEf+0TN/c
-	o86SoFW/QNIVe3rcROXmvH16O6/Efn5pHC6DWAT9zM/43G26Ue5Eq/7ur86hv4dgxj+H
-	B6nxVP2b0j6vJEsBiVyK6myzk160rJwQ0Tuh8rfBOkVEv8/s7G0L52eNSzH08tF/EJZD
-	Wf1aGh31O1asWXeh3VRwb1jWh2U7c9o95A59TsZRGbOkYTiw7q/+J2IRhDEW8XuVtV8J
-	njABdfTgovuIQAhGVJBselb9karWHrGFBvArLAe6yldk1XQ/V06982Dmt6HPvzyA7KJQ
-	ssYA==
+	bh=lxblLWS+Vc2inscNKLXRQpYcJrNaWbotFh54LQIdZrE=;
+	b=oK8t2lDYGvDRrdIAFh++l5+RSLFS79h/5OLny577PL2iUWsl2PtWlWHiCR7BqsifYC
+	6U+8vx4m+umvMskzilJVMGkk3ZwO9f7ERIPC72haUaxwv1hMU/QS2FLO2hUu+tY1dOqb
+	siwuX0UHlEhmxsHHwidjhtlxqKeeaADfyBuaMXlFQaQAeIPZa5+2r0tk4PPRCriqY3Sp
+	sgHn//IS32Iz0PrfxYyXYPIr8pELdnEgeLmar4BeL0Biezb5HoobssCmTakFMiV9fGmg
+	Zj5P0vRCxtFyRIzaE2DSsvyDeNeEwnnNZzZoZd7Rk1heKNE4uyeIgwtcDQ38nsNhVCy2
+	diag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:from:subject:to:cc:references:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=oWjWXDwy+ud2LHWBICBt+KImpHLk+/D3wHKI3zkYziA=;
-	b=tbN9xye51O13LsEfc+4lQ3ZYvrZx+ZNrOeFMBKJkwQbwt5Vh/oX+h6Sfj6s8+2vsUo
-	+utT4iOAttC3kmPBbzYceoQhRlY32Scqp61nBx4kmgwv+SmgKs5b9wyijsRqIWricG+/
-	2779yc1zDAOLabDTCIzq8G6F1ccAhaSBIQwmeyyz/icNjQVoyKidRSgIGEnSDDkSjVj2
-	Es9C9DgQrilZbepV9COCPC5jt4buZ35SZ1RE9SJHoAsKm96CM46R4u/et3c/ScTHUcx0
-	UaByHB2FT7NvwPL06/Wm4jY29ztGHtLM6+DvPD1U6AIHo1QT2o3dNCE3XZq/jm0TaT01
-	SJfw==
-X-Gm-Message-State: AJcUuke4OpJDJO4PQ0SZpm/5dOVNwM4KbuVy5QJSQ0eyqD9g+UK7GzLq
-	q4fTk/7NPabBlo+NrQfPdmFAFQN7
-X-Google-Smtp-Source: ALg8bN4PDNzgc3tXIg9N6wBY1v4qdd7LkGMV4Up7q8MBvCejMVRQ3QTJJR/Gj0hcOVx8FLtSCNBITw==
-X-Received: by 2002:a2e:2d11:: with SMTP id
-	t17-v6mr10670635ljt.159.1547311794108; 
-	Sat, 12 Jan 2019 08:49:54 -0800 (PST)
+	bh=lxblLWS+Vc2inscNKLXRQpYcJrNaWbotFh54LQIdZrE=;
+	b=RY9p0RuwFkfXi9JsJHdo4OUhJZrQC3RVdqpjGN0S6kjUl3+iE8gvDkgPlokUAqwg6y
+	dLsb7/7s7RyuLmXYIrFrAEVMKzvyRS701Z4ObPCr0bDw6dfAuy3Enf2K014gjn/wUUl6
+	tWI1YSU4Wln54EQtWx/hELwUOTKIHEvH6mhGodCWVaKKcL27y4lPjGCGytgzOTEIo+qP
+	nXAvJ1QS6uzoiCB2Qz1mX5Z7NJPF1uo8YjpBdJXTC5Mzt3up7A/4EerldygVl0AUW/lS
+	ruLjCAjEED4zDXkaaf5psChvWP+8lTVavbLo1DPNhKvtPVdaDz/xX4UwYkcEk4AtMvcu
+	LqyQ==
+X-Gm-Message-State: AJcUukcbaSo6nyWaD5M5C6Lg934FJ10bME0O3AIGdKjWd/zoJL1QFweU
+	dnJOR2n7upVupcJg679f3LKNsZU0
+X-Google-Smtp-Source: ALg8bN7E633ofasy1O8/FZjSVmZjlz2C2hemMUfMOcLXYmgPpvzFnL8aR87hHP7+B7d/l/K8EoLIwQ==
+X-Received: by 2002:a2e:9107:: with SMTP id
+	m7-v6mr10882591ljg.23.1547312029777; 
+	Sat, 12 Jan 2019 08:53:49 -0800 (PST)
 Received: from tuxracer.as41781.net (nat18.vpn1-no7-iev.as41781.net.
 	[193.34.155.18]) by smtp.gmail.com with ESMTPSA id
-	i75sm15508323lfb.58.2019.01.12.08.49.52
+	q2sm16171958lfa.63.2019.01.12.08.53.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 12 Jan 2019 08:49:53 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
-	<1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
-	<beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
-	<018b5b2d-c7d4-3c29-d743-73c5e5651f5a@gmail.com>
-	<7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
+	Sat, 12 Jan 2019 08:53:49 -0800 (PST)
 From: Serhey Popovych <serhe.popovych@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
+	<1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
+	<CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
 	mQENBFmvho4BCADMfRwAvr/tb7zXD5kYOukSIAUZz7lZY6mFiFD4+xcmHyhy4mrHzFsaQA5g
@@ -77,13 +74,15 @@ Autocrypt: addr=serhe.popovych@gmail.com; prefer-encrypt=mutual; keydata=
 	6NUBSjcQ4R6HlKsI76z6aF7sbJdUm+QYPkUlo8tCrm/fGUZsDj21D8VkgApJxjqOAucSD6m9
 	r79AKKVTUmj5hexlx8bYtpWNzXLDBlV/yvLS0ztIUrDNtGXjuNdYaBqnyqnJZgrDiaQD+Dwn
 	ZdLh9FpbQvGvjYTMQfL55xol/hzg/3m+aGAkVlKGT91pKQjItyP8CZwAFk81bQo=
-Message-ID: <747908b8-b8e4-6a75-74e8-3533cc9ed81c@gmail.com>
-Date: Sat, 12 Jan 2019 18:49:46 +0200
+Message-ID: <005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
+Date: Sat, 12 Jan 2019 18:53:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Firefox/52.0 SeaMonkey/2.49.4
 MIME-Version: 1.0
-In-Reply-To: <7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] libgpg-error: Support build for native on ppc host
+In-Reply-To: <CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] valgrind: Mark powerpc64 with musl as incompatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -96,124 +95,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 16:49:54 -0000
-X-Groupsio-MsgNum: 120004
+X-List-Received-Date: Sat, 12 Jan 2019 16:53:49 -0000
+X-Groupsio-MsgNum: 120005
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="IYKmh7bVj58rpP1sVjvJE0g0zWRbtQ7jI"
+	boundary="uVU84EFo5RTRdQToM4OZVJU5zpAaov2I2"
 
---IYKmh7bVj58rpP1sVjvJE0g0zWRbtQ7jI
-Content-Type: multipart/mixed; boundary="nsMjccqaJTfLXwzTD6ykyAljbpFGh0O5e";
+--uVU84EFo5RTRdQToM4OZVJU5zpAaov2I2
+Content-Type: multipart/mixed; boundary="NO0amY0oDTXwDqVHKHhhTAz9AVs26cTSw";
  protected-headers="v1"
 From: Serhey Popovych <serhe.popovych@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Message-ID: <747908b8-b8e4-6a75-74e8-3533cc9ed81c@gmail.com>
-Subject: Re: [OE-core] [OE-Core][PATCH 1/2] libgpg-error: Support build for
- native on ppc host
-References: <1547287913-25526-1-git-send-email-serhe.popovych@gmail.com>
- <1547287913-25526-2-git-send-email-serhe.popovych@gmail.com>
- <beceefd10bc3ba906df62abee76ecd76c80c496d.camel@linuxfoundation.org>
- <018b5b2d-c7d4-3c29-d743-73c5e5651f5a@gmail.com>
- <7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
-In-Reply-To: <7b3f3c28cc4b1f0c8eb20a84f18cf0786cdba2ca.camel@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 4/4] valgrind: Mark powerpc64 with musl
+ as incompatible
+References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
+ <1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
+ <CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
+In-Reply-To: <CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
 
---nsMjccqaJTfLXwzTD6ykyAljbpFGh0O5e
+--NO0amY0oDTXwDqVHKHhhTAz9AVs26cTSw
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie wrote:
-> On Sat, 2019-01-12 at 17:56 +0200, Serhey Popovych wrote:
->> Richard Purdie wrote:
->>> On Sat, 2019-01-12 at 12:11 +0200, Serhey Popovych wrote:
->>>> In Ubuntu 16.04 LTS userspace is build for PowerPC 32-bit while
->>>> kernel
->>>> selected by the installer depending on PowerPC machine type:
->>>>
->>>>   * 32-bit for PowerMac G4 (ppc7400) and below
->>>>   * 64-bit for PowerMac G5 and above
->>>>
->>>> Thus uname(2) returns ppc64 for 64-bit kernels and 32-bit
->>>> userspace
->>>> making build impossible due to missing some of lib64 multilib
->>>> equivalents in Ubuntu repository.
->>>>
->>>> Using setarch(8) override to make whole host look as PowerPC 32-
->>>> bit
->>>> can actually help with build but requires mapping for ppc target
->>>> to
->>>> their libgpg-error equivalent to fix native build.
->>>>
->>>> Build tested on Ubuntu 16.04 LTS host on PowerMac G5 with
->>>> command:
->>>>
->>>>   MACHINE=3Dqemuppc setarch ppc bitbake core-image-full-cmdline
->>>>
->>>> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
->>>> ---
->>>>  meta/recipes-support/libgpg-error/libgpg-error_1.33.bb | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-support/libgpg-error/libgpg-
->>>> error_1.33.bb
->>>> b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
->>>> index 325529d..4153954 100644
->>>> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
->>>> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.33.bb
->>>> @@ -47,6 +47,7 @@ do_compile_prepend() {
->>>>  	  mips*el)    TUPLE=3Dmipsel-unknown-linux-gnu ;;
->>>>  	  mips*)      TUPLE=3Dmips-unknown-linux-gnu ;;
->>>>  	  x86_64)     TUPLE=3Dx86_64-unknown-linux-gnu ;;
->>>> +	  ppc)        TUPLE=3Dpowerpc-unknown-linux-gnu ;;
->>>>  	  ppc64)      TUPLE=3Dpowerpc64-unknown-linux-gnu ;;
->>>>  	  ppc64le)    TUPLE=3Dpowerpc64le-unknown-linux-gnu ;;
->>>>  	  *)          TUPLE=3D${TARGET_ARCH}-unknown-linux-gnu ;;
->>>
->>> This doesn't feel correct. It only works if you're using the local
->>> setarch workaround and I'm worried most users are never going to
->>> find
->>> that.
->>>
->>> I'm fine with adding in general fixes but this is getting very
->>> specific
->>> to an very uncommon usecase :(
+Khem Raj wrote:
+> On Sat, Jan 12, 2019 at 1:23 AM Serhey Popovych
+> <serhe.popovych@gmail.com> wrote:
 >>
->> Understand your position. Doing setarch(8) to run bitbake on ppc64
->> kernel with 32-bit user space with missing 64-bit multilib seems to
->> be the only option.
+>> Building musl for powerpc64 enforces elfv2 ABI since commit 68c9641855=
+19
+>> ("arch-powerpc64.inc: Use elfv2 ABI when building with musl") that is
+>> not compatible with valgrind.
 >>
->> Anyway this change just maps ppc to corresponding tuple used by
->> libgpg-error, so with this fix we hit both
+>> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+>> ---
+>>  meta/recipes-devtools/valgrind/valgrind_3.14.0.bb | 3 +++
+>>  1 file changed, 3 insertions(+)
 >>
->>   a) setarch(1) when kernel is 64-bit and userspace is 32-bit and
->>      no multilib
->>   b) native 32-bit powerpc host that is running as virtual machine
->> for
->>      example).
+>> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/=
+recipes-devtools/valgrind/valgrind_3.14.0.bb
+>> index 4d15a50..d882319 100644
+>> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+>> +++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+>> @@ -58,6 +58,9 @@ COMPATIBLE_HOST_linux-muslx32 =3D 'null'
+>>  COMPATIBLE_HOST_mipsarchr6 =3D 'null'
+>>  COMPATIBLE_HOST_linux-gnun32 =3D 'null'
+>>
+>> +# Disable for powerpc64 with musl
+>> +COMPATIBLE_HOST_libc-musl_powerpc64 =3D 'null'
 >=20
-> I'd understand that if this were just libgpg-error-native but our
-> qemuppc builds work which I guess is why I don't quite understand what
-> is wrong here?
+> lets do it for powerpc64el too
 
-Problem only when PowerPC 32-bit (running in VM for example) is used as
-build host.
+I guess powerpc64le is GNU standard target, not *el.
 
-For that "uname -m" returns ppc, that mapping is missing for
-libgpg-error tuple.
+Support for powerpc64le is missing in OE. Before it is
+added I'd prefer not to do this for powerpc64le.
 
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
+>> +
+>>  inherit autotools ptest multilib_header
+>>
+>>  EXTRA_OECONF =3D "--enable-tls --without-mpicc"
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
---nsMjccqaJTfLXwzTD6ykyAljbpFGh0O5e--
 
---IYKmh7bVj58rpP1sVjvJE0g0zWRbtQ7jI
+
+--NO0amY0oDTXwDqVHKHhhTAz9AVs26cTSw--
+
+--uVU84EFo5RTRdQToM4OZVJU5zpAaov2I2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -221,13 +180,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQEcBAEBAgAGBQJcOhqvAAoJEBTawMmQ61bBKAAH/jA2DaF9geeKmM1zY7xXvot2
-ZnBVmMt74N+Jx+9XOW3U/aNcGMIMiQJ9AW62ize8rH6sdGzNm061amSd1g2g3UbL
-OOSi+mqYaunYsehl57Yp8QT3+OghU305vvOSykSxRUJvvfP1iHjeC+sISayWKxgA
-suxa28boBglEmYIDoLpgN0kClTEVv/nzJSLYA6P8nMnyrPu8b0ue3N/8DCSQHNAy
-1mBZpiW4uh1vZOL14WeLAN8HLnuPVXnDNvGVcCDzDSLHjfW8kPn7Ykyqcn+7QJ4Q
-Y1jqyRy7TkBzukENdAben+BsC0/Ad/cH2cV1wfzAAzFId0POmTKFDqQrDTgu7Qg=
-=OJ+s
+iQEcBAEBAgAGBQJcOhubAAoJEBTawMmQ61bBFr4IAJolKmRLguwFefXhroRoV30P
+huxfi4hsm0q2z8hzsAQwUxAS4H4LZBmcJKsYitWIFfFt5qjsv+UoTCuIltrqyKiF
+RlR2IbIIL8cjkpnKJ3Z4RPGMlVO9kEKpzUhFXUWDAybdqv1q9tfe92k5jEIQ7GTC
+8Py0SThRnd4cOpA0E3G1W2kw8FPnhQulakStJrU/t1TYMWI/FmIa4wor3gnCcZgL
+Ooq9ZOsrstHqqjs2Rh+a9/R4f0x4VObFWufSQXkvtlGqFMnCsp0kdJWUGcpIErZg
+lQ6Zjkg0ZV/a5090UeUVfCImdtgjsEQCsnp49ApKYn7tz2X4ICJzSGCxHgpN2C8=
+=HFMk
 -----END PGP SIGNATURE-----
 
---IYKmh7bVj58rpP1sVjvJE0g0zWRbtQ7jI--
+--uVU84EFo5RTRdQToM4OZVJU5zpAaov2I2--
