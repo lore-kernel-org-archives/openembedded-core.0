@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1878A7C0C6
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BA6697C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 18:26:54 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id c123so8464088pfb.0
+	Sat, 12 Jan 2019 18:30:51 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id e5so22384246qtr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2019 10:26:56 -0800 (PST)
+	Sat, 12 Jan 2019 10:30:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5Ykh+QCu5GFR7noDsocQAnqSCVB6DkjrEjVYgXzUWSE=;
-	b=K2QJ2r8df5UI8bVOmbZYLpOnZs0ECnC283zR4ZvWWfJzFGGsh4eGn/6i+eG+uO5n8F
-	JGn64N1mADOVgWX+EFw9ohVmsjRXzXj5mk8UIkmz/N5YfpdHC+vy3+JvYQZi3CpLe81K
-	IxdJhm1qUyaw74DTR/7DQ4HtLa1AyyFDsk8cilTQxr1gG5XICg+2k2JgquRCqz1pE2hj
-	EfXeGeNjUcUNgPpRQi95p7MsDEt+WjwvRu6gNxfbzfwvKi11ckm6z/hv0bPPbRO2N+Ua
-	lsYBjbYxTRmMlAfI0GEDbsyBeM4htveUvw53te3ypcJrm27u5Q6HogkjepYNT5Tida75
-	/8CA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=j62NP+astsKcx+SCFphp41UPKo3dr7WUi+S4CROeUrc=;
+	b=ZRcYPeChRUcsuUpS3YyvaoqiMVW6STZ1xpXXmfPcc9hx9QBQVX8IJUcfCRdiVORvBX
+	RyMYUVtUaotQ8SriabJDsT2+p3Oth8x5z/rAoBQsC4dVpX3R19h3KdfxcVWFcRxsG5ln
+	U6zRZFT1KxOB7G7EQ7/NZfVmpBMrqs5m4qOA+zfD1ve8n0Vqa1m+wTCPQ/2R4AB1garX
+	r3AuRV6/wd1LndfKL1KtGlAx/8lghcTD9RhnX+iz7kHM5SYHX2OuaXaLFZredxKoAztK
+	jk63MEZeRtGq9nxFVrQT25OCF+c3GfRbgOWk9wwA/3vC2pyKBy3axwiCnGva9Bt7lGh2
+	sSOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5Ykh+QCu5GFR7noDsocQAnqSCVB6DkjrEjVYgXzUWSE=;
-	b=PdVwOyp3mX830hY2gUx/851nF/18gxtNooAUF0UxqgTACfr0Rx0B0N++jHVCYGhz/d
-	M/wKswenEbCUazRx/FW1z5mkx7w8kcFtMSymQBT3aIv0XBSw1REmigJZqXiwa4mSBWGb
-	1W1aarcsMmDaqiz1ofhUTwihRWlm3MVmv34B7Pzlr7wvWPJAedEanRhiQXi4p1O4k15Z
-	P9DA+9xQ6RRiz0n09bKI5QAklFHmd4aHbpt4GsMRgUAQDBaQU3OZ10XzRU/tOmuM3NDT
-	4u6K3KD0b/7Z2wCsMwIHWTi/Ont68AEI5ydr9RR/dwm4/AxZg63BC6QI4kTU7RkvNmwt
-	+pmg==
-X-Gm-Message-State: AJcUukf6KToBmEoO/TxSy368AwNzaOGL4tKvJHYALWYlgaG5UNeWGw9Z
-	6Dw7pVYNUOmqRo1747+sGee7fNtiHmc=
-X-Google-Smtp-Source: ALg8bN4bimC4Agep6cFNgEvhSA8lLkZCbUlS0iGNKOzP+Rx4TTsPXI9SfKAd5pNFl7JC+pySsv+1Yw==
-X-Received: by 2002:a63:680a:: with SMTP id d10mr17746283pgc.396.1547317615404;
-	Sat, 12 Jan 2019 10:26:55 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::f58b])
-	by smtp.gmail.com with ESMTPSA id
-	z7sm104183151pga.6.2019.01.12.10.26.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 12 Jan 2019 10:26:54 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Jan 2019 10:26:46 -0800
-Message-Id: <20190112182646.4257-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=j62NP+astsKcx+SCFphp41UPKo3dr7WUi+S4CROeUrc=;
+	b=P6xlDqu8RxMdIEqSzuoSRtk/aJ3g1j3WtY43QhTERGmJ3whaXTnoPT02ddBRyAy1Be
+	qx8UW1x4h3bojOxgWBfjdO772mlyjABuSgynqNiUFkjL24fR3WAcq34DqXMp+MAkgVRF
+	IjmFVOqf/ajf5POIylg36V7q2FW7/uGxm5WLi+qi7vcg1XtIjidsZWEaQFFyt0ToYq5Q
+	Il1ml9JXWb17jPV0/MdqmkNZ14hk+rvIl4Pf2fkoxAIk2D49bF6TISzoXy2SAQl1vf3x
+	mxBFWeeQuZ0MvLDw4RBxBiLF5mkrcoE7f38DXLa67nV2uW6JQxYC5n4MoaxeIwJ+RcgM
+	9OHA==
+X-Gm-Message-State: AJcUukeH7ap8Lzj9oP7T4LLGCHI3Wn7KYgEoDkhZxEhwcEbiqWPt3k91
+	bwuwHUlSLVq8epWIOIHyrcAW1TM6hyD0JlnDv1U=
+X-Google-Smtp-Source: ALg8bN5tKOlBANU6YZpQsBuPFLM/AxLDqQ69dkTWd0r0ic7ekg9a7x+aK8gQX2exQ+3I4hSfUpkX1WddMo5oo3/V4Lw=
+X-Received: by 2002:ac8:518d:: with SMTP id c13mr17815803qtn.254.1547317852448;
+	Sat, 12 Jan 2019 10:30:52 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: Recognise svlogd as another logger
+References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
+	<1547284970-20783-5-git-send-email-serhe.popovych@gmail.com>
+	<CAMKF1spcERO0rDuBS4ynFPRaNWa34dqTcYuxgzQ=+HQ=M6tmZg@mail.gmail.com>
+	<005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
+In-Reply-To: <005a80f5-312d-9fb4-4d94-1345d61a0115@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 12 Jan 2019 10:30:26 -0800
+Message-ID: <CAMKF1sqyNgcBYSkm2=cfU3=Qfeab5Mxaxk5dq+vyz8_9MsB_Cg@mail.gmail.com>
+To: Serhey Popovych <serhe.popovych@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] valgrind: Mark powerpc64 with musl as incompatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2019 18:26:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 12 Jan 2019 18:30:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This is provided by runit
+On Sat, Jan 12, 2019 at 8:53 AM Serhey Popovych
+<serhe.popovych@gmail.com> wrote:
+>
+> Khem Raj wrote:
+> > On Sat, Jan 12, 2019 at 1:23 AM Serhey Popovych
+> > <serhe.popovych@gmail.com> wrote:
+> >>
+> >> Building musl for powerpc64 enforces elfv2 ABI since commit 68c964185519
+> >> ("arch-powerpc64.inc: Use elfv2 ABI when building with musl") that is
+> >> not compatible with valgrind.
+> >>
+> >> Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+> >> ---
+> >>  meta/recipes-devtools/valgrind/valgrind_3.14.0.bb | 3 +++
+> >>  1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+> >> index 4d15a50..d882319 100644
+> >> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+> >> +++ b/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+> >> @@ -58,6 +58,9 @@ COMPATIBLE_HOST_linux-muslx32 = 'null'
+> >>  COMPATIBLE_HOST_mipsarchr6 = 'null'
+> >>  COMPATIBLE_HOST_linux-gnun32 = 'null'
+> >>
+> >> +# Disable for powerpc64 with musl
+> >> +COMPATIBLE_HOST_libc-musl_powerpc64 = 'null'
+> >
+> > lets do it for powerpc64el too
+>
+> I guess powerpc64le is GNU standard target, not *el.
+>
+> Support for powerpc64le is missing in OE. Before it is
+> added I'd prefer not to do this for powerpc64le.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+IIRC there were some posts for EL in past, but OK lets not
+do it here
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index a92a1f2bcb..ad023fb363 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -14,7 +14,7 @@ class SyslogTest(OERuntimeTestCase):
-         msg = "Failed to execute %s" % self.tc.target_cmds['ps']
-         self.assertEqual(status, 0, msg=msg)
-         msg = "No syslog daemon process; %s output:\n%s" % (self.tc.target_cmds['ps'], output)
--        hasdaemon = "syslogd" in output or "syslog-ng" in output
-+        hasdaemon = "syslogd" in output or "syslog-ng" in output or "svlogd" in output
-         self.assertTrue(hasdaemon, msg=msg)
- 
- class SyslogTestConfig(OERuntimeTestCase):
--- 
-2.20.1
-
+>
+> >> +
+> >>  inherit autotools ptest multilib_header
+> >>
+> >>  EXTRA_OECONF = "--enable-tls --without-mpicc"
+> >> --
+> >> 2.7.4
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+>
 
