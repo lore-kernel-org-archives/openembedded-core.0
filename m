@@ -1,52 +1,51 @@
 Return-Path: <serhe.popovych@gmail.com>
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
-	[209.85.208.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2935A7C034
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D3C87C199
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 12 Jan 2019 09:22:59 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id g11-v6so15005621ljk.3
+Received: by mail-lj1-f173.google.com with SMTP id u89-v6so15004779lje.1
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 12 Jan 2019 01:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=12zC5Hqr7rQVq27wJCQIV8C+K13Sg0LkuNJOudtv6Mw=;
-	b=TclijrJ03i61aM0jxpBLyBvOTtxUiUd7dPXuVWOyXh4TIP0vDiMv3gM4/Ntd31lXri
-	PiGOTRjBcvJ98MbS2yBChkOChy2qEyRX8njRMpBgYVXlBXKNY9FhKgwwupC5CnqZAdL5
-	mGxXyVlc9d/tlmehPNoBDY0juHN0IPt+wPBQAFARSOkuNeFDbgQMnYRbGhlWwLPLWGj8
-	DmTCUkoSZiejHdPM2+4eCtfmVSOu6uxL9dQDcHxRGU+OMsHTs1SBqpjdOm8napkKQKM2
-	81unZ2Zcn8zFvkqXWrZxVkm+ZfjgslXO7spTfJlQcWtdvNUrDhE6uNYW8GivzZqhcBN9
-	4Lsw==
+	bh=DvHDPyQV96Bs+efnnLywe8E7L9oppP8b8qSjUnzchg4=;
+	b=PHvS9j3gAsU8gwVYT/NXHfVgqdZuLMV2VhX54gu128LyVy2rR6XOnDpxwlo0992W+7
+	fKSXcPczAz1QsoaEIOaH1+J5iB1+lOHBNeQ7iKxfuAAVxZA3PRJxFersZTxlIVGJM3ZU
+	d3wmATLxECDWyptc8YWahRSufC4DZY3vxjMW0pOFOiIdYmDWaE4hU1H1KeOASM5uqglb
+	fI5PHZY/TdutLowZKEJn3WvhOL7Jd3c+5Hr07DIK1tGEAWRBSBSs+SHF9GLGgSNtkRQz
+	nkuLHBO985rJJwsqujmmL7CPd+/zYRr/8DGJVhvm2NjsdHPIcmmhGajOba/U1R8olKXj
+	V9WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=12zC5Hqr7rQVq27wJCQIV8C+K13Sg0LkuNJOudtv6Mw=;
-	b=b37uwXRo2sO5JpB09jJF9ylonLvojuJ7SBpWX5Z6ALvpakYYQVriD29KNpNwsKEXQ+
-	gfuNCy4jD/v/n1WjZUvATe5LD6DCGLKH81JyPP/fgCwpVu0VQWNilG6FE6YIo/4cSqPv
-	Be/3oQ5NsFJj4E2Arwyqy6lqIc1rf6lPztUx+gGiIHSQ489a+Mx/N8XAOfftP5Cr1cnL
-	wViF2bthUbY06nhUxDEVd7lHF44sAueYAnyn1FQ6F0a8c/awb7QNqp8wevcJqyT9Xq57
-	3ifRglu1GnOHoPHM/7kFvmc0NvDVUnotbTrWiwU2prPpHUS00qlp8H8shDdRw6uHEzFa
-	ccvQ==
-X-Gm-Message-State: AJcUukfMZBp7bGbX/bPwi+KakTWmt95BdtF584lt3gwXiDFIsnNIZlC/
-	KNKcCwP1Mt4MCioPhj9b+1DqkRAS
-X-Google-Smtp-Source: ALg8bN6oeLhn5tfC3VuDcW1GMK+M5m4niU2JWcxTHSvco7ssQiDAeetQi1edkUyuEGwQh/pZ1WcBcg==
-X-Received: by 2002:a2e:2b8d:: with SMTP id
-	r13-v6mr6345397ljr.79.1547284979355; 
-	Sat, 12 Jan 2019 01:22:59 -0800 (PST)
+	bh=DvHDPyQV96Bs+efnnLywe8E7L9oppP8b8qSjUnzchg4=;
+	b=XDj+kucTD/xXKp/0asxihyUzCvnKZVQV0cgs8U1OrK1K62MblPeursj4tgSB27UqeN
+	JexVOj7XfuGIpXpgaifrVVYJ4K2q0/4i29S/7JOAUS+MJ2oeFGK8N9FUyZC8MulmFD9z
+	uZqukNZuf+cgoIw998pPe69uA9KpkZ60XeyZz1GV3L+PwwDI9e/ZpAOxjISIxCtdu2lA
+	+s2BEVLXg6lMIRqrIFuP5zDTzGEVbFPH17F/tpYLveLN/4H557EH6jBmL5r3b03gDL9K
+	7zqeMjbAimIRGqiYji82cGZQc5+VUxxeJivHvEfSa6qQk00paLWXL9D9nuzEK4nC+EVr
+	gdOw==
+X-Gm-Message-State: AJcUukevU1TFj1hgvOwN/KPcgQD2DxEaHJDsegZuWcSAlRFiUDfd4+Yk
+	RiZnGLMADCVdjT6X9r5Sc50xnye8
+X-Google-Smtp-Source: ALg8bN77o1/RJgytbGt0bOZc3Kyg+tMg+hfkdKcuhFx3Y1697d/jimpLBpQME2a1RBdfnV0v5K0MuA==
+X-Received: by 2002:a2e:3a04:: with SMTP id h4-v6mr9981509lja.81.1547284980024;
+	Sat, 12 Jan 2019 01:23:00 -0800 (PST)
 Received: from v-ubt16-x64-sonic.as41781.net ([193.34.155.16])
 	by smtp.gmail.com with ESMTPSA id
-	q11sm14933726lfc.92.2019.01.12.01.22.58
+	q11sm14933726lfc.92.2019.01.12.01.22.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Jan 2019 01:22:58 -0800 (PST)
+	Sat, 12 Jan 2019 01:22:59 -0800 (PST)
 From: Serhey Popovych <serhe.popovych@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Jan 2019 11:22:47 +0200
-Message-Id: <1547284970-20783-2-git-send-email-serhe.popovych@gmail.com>
+Date: Sat, 12 Jan 2019 11:22:48 +0200
+Message-Id: <1547284970-20783-3-git-send-email-serhe.popovych@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
 References: <1547284970-20783-1-git-send-email-serhe.popovych@gmail.com>
-Subject: [PATCH 1/4] systemd: Correctly check ENABLE_GSHADOW with if/endif
+Subject: [PATCH 2/4] systemd: Use arch overrides instead of machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,159 +60,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 12 Jan 2019 09:22:59 -0000
 
-Use commit 4f07ffa8f5ab ("Use #if instead of #ifdef for ENABLE_GSHADOW")
-from upstream to check ENABLE_GSHADOW correctly that is defined as 0
-in case of musl.
+With custom BSP and build with musl we still affected by undefined
+reference to stack-protector specific functions.
 
-While there replace specific patch with one from upstream that does
-exactly the same commit 66a5b5ce9b99 ("basic/user-util: properly protect
-use of gshadow").
+Use arch overrides instead of machine to ensure fix applied to entire
+architecture instead of custom machine like qemux86 and qemuppc.
 
 Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
 ---
- ...user-util-properly-protect-use-of-gshadow.patch | 38 ++++++++++++++++++++++
- ...clude-gshadow-only-if-ENABLE_GSHADOW-is-1.patch | 29 -----------------
- ...se-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch | 28 ++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |  3 +-
- 4 files changed, 68 insertions(+), 30 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch
+ meta/recipes-core/systemd/systemd_239.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch b/meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch
-new file mode 100644
-index 0000000..518c05b
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch
-@@ -0,0 +1,38 @@
-+From 66a5b5ce9b991327d594f7b635de16999ca54093 Mon Sep 17 00:00:00 2001
-+From: "Yann E. MORIN" <yann.morin.1998@free.fr>
-+Date: Wed, 21 Nov 2018 18:09:04 +0100
-+Subject: basic/user-util: properly protect use of gshadow
-+
-+Commit 100d5f6ee6 (user-util: add new wrappers for [...] database
-+files), ammended by commit 4f07ffa8f5 (Use #if instead of #ifdef for
-+ENABLE_GSHADOW) moved code from sysuser to basic/user-util.
-+
-+In doing so, the combination of both commits properly propagated the
-+ENABLE_GSHADOW conditions around the function manipulating gshadow, but
-+they forgot to protect the inclusion of the gshadow.h header.
-+
-+Fix that to be able to build on C libraries that do not provide gshadow
-+(e.g. uClibc-ng, where it does not exist.)
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/66a5b5ce9b991327d594f7b635de16999ca54093]
-+---
-+ src/basic/user-util.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/basic/user-util.h b/src/basic/user-util.h
-+index b6de0e423..cc899ee76 100644
-+--- a/src/basic/user-util.h
-++++ b/src/basic/user-util.h
-+@@ -2,7 +2,9 @@
-+ #pragma once
-+ 
-+ #include <grp.h>
-++#if ENABLE_GSHADOW
-+ #include <gshadow.h>
-++#endif
-+ #include <pwd.h>
-+ #include <shadow.h>
-+ #include <stdbool.h>
-+-- 
-+2.18.1
-+
-diff --git a/meta/recipes-core/systemd/systemd/0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch b/meta/recipes-core/systemd/systemd/0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch
-deleted file mode 100644
-index 6d5faf5..0000000
---- a/meta/recipes-core/systemd/systemd/0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From a2c4d46944892174930135672508389a04e191f0 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Fri, 29 Jun 2018 13:53:29 +0800
--Subject: [PATCH 05/19] include gshadow only if ENABLE_GSHADOW is 1
--
--Upstream-Status: Inappropriate [musl]
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- src/basic/user-util.h | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/src/basic/user-util.h b/src/basic/user-util.h
--index b74f16885..f9c1e29c4 100644
----- a/src/basic/user-util.h
--+++ b/src/basic/user-util.h
--@@ -2,7 +2,9 @@
-- #pragma once
-- 
-- #include <grp.h>
--+#if ENABLE_GSHADOW
-- #include <gshadow.h>
--+#endif
-- #include <pwd.h>
-- #include <shadow.h>
-- #include <stdbool.h>
---- 
--2.11.0
--
-diff --git a/meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch b/meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch
-new file mode 100644
-index 0000000..a9c1c9c
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch
-@@ -0,0 +1,28 @@
-+From 4f07ffa8f5ab85011422bb7114f1cddf49d4923d Mon Sep 17 00:00:00 2001
-+From: ChenQi1989 <40684930+ChenQi1989@users.noreply.github.com>
-+Date: Fri, 29 Jun 2018 06:54:07 +0000
-+Subject: Use #if instead of #ifdef for ENABLE_GSHADOW
-+
-+ENABLE_GSHADOW is defined to be 0 or 1. So #if should be used instead of #ifdef.
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/4f07ffa8f5ab85011422bb7114f1cddf49d4923d]
-+---
-+ src/basic/user-util.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/basic/user-util.h b/src/basic/user-util.h
-+index b74f16885..b2f198c89 100644
-+--- a/src/basic/user-util.h
-++++ b/src/basic/user-util.h
-+@@ -102,7 +102,7 @@ int fgetgrent_sane(FILE *stream, struct group **gr);
-+ int putpwent_sane(const struct passwd *pw, FILE *stream);
-+ int putspent_sane(const struct spwd *sp, FILE *stream);
-+ int putgrent_sane(const struct group *gr, FILE *stream);
-+-#ifdef ENABLE_GSHADOW
-++#if ENABLE_GSHADOW
-+ int fgetsgent_sane(FILE *stream, struct sgrp **sg);
-+ int putsgent_sane(const struct sgrp *sg, FILE *stream);
-+ #endif
-+-- 
-+2.18.1
-+
 diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index be836ff..0f1fa27 100644
+index 0f1fa27..2e11d71 100644
 --- a/meta/recipes-core/systemd/systemd_239.bb
 +++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -46,7 +46,7 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
-                file://0002-don-t-use-glibc-specific-qsort_r.patch \
-                file://0003-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch \
-                file://0004-add-fallback-parse_printf_format-implementation.patch \
--               file://0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch \
-+               file://0005-basic-user-util-properly-protect-use-of-gshadow.patch \
-                file://0006-src-basic-missing.h-check-for-missing-strndupa.patch \
-                file://0007-Include-netinet-if_ether.h.patch \
-                file://0008-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch \
-@@ -63,6 +63,7 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
-                file://0019-Do-not-disable-buffering-when-writing-to-oom_score_a.patch \
-                file://0020-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch \
-                file://0021-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch \
-+               file://0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch \
+@@ -66,9 +66,9 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
+                file://0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch \
                 "
  
- # Workaround undefined reference to `__stack_chk_fail_local' on qemux86 and qemuppc for musl
+-# Workaround undefined reference to `__stack_chk_fail_local' on qemux86 and qemuppc for musl
+-SRC_URI_append_libc-musl_qemux86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+-SRC_URI_append_libc-musl_qemuppc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
++# Workaround undefined reference to `__stack_chk_fail_local' on x86 and powerpc for musl
++SRC_URI_append_libc-musl_x86 = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
++SRC_URI_append_libc-musl_powerpc = " file://0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch"
+ 
+ PAM_PLUGINS = " \
+     pam-plugin-unix \
 -- 
 2.7.4
 
