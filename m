@@ -1,51 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 448667BE38
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+	[209.85.167.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 50FA26C498
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jan 2019 16:03:37 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q1so9206823pfi.5
+	Sun, 13 Jan 2019 17:25:00 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id l10so14013044lfh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jan 2019 08:03:38 -0800 (PST)
+	Sun, 13 Jan 2019 09:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=O+wJ4WPtMzp5wV34IjwKZplzaWT4iLPfGBeNNzlRiGA=;
-	b=fnMb3YaMe+9F/iOZgW/o5naHMZkGZEhk6fdPZQi8paZthHgtLTmGRUnnE42P4CE5OS
-	Hdv0oVkijXLxjiMdvpfJaeGSU45WQ0auIECGzR4BjlVvJPdDx63V6eEarElIy+1R9BNn
-	04LNdjutvj3ze9U1ibWG2Jwan4F1TC1NnzXb+xwqK8+NeXED+O3cFIf8pvBL75T6tmhB
-	60XlGCnr2jJA6Nxo+qBUxTDKMZ21t7qFfNA59XLVFZFtQbGbaeN3AATOKuCRQsT26eKQ
-	kuxe/XK36fKcHEF0DeCbY6H3uJdVd7eT2kwK6Fo/rKivvSYcRDNDNqs81eUSUowBZJwE
-	16qg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xhuQ2nqsgAz+8aB1I4kmoFpcyjw7QaknVvWdPNmuT0o=;
+	b=eHTLmqDPPSFzHTzfl2jCJ6NIs3kmBMzaRDIrl5bsjFdou/9crfDQlA4Kp0DNkHxDlF
+	0MDdiOFZ+8zP6JvtpKlsliKEMGX/XVT7JCJWBa1a2sqUTKjtIT8aPsnC5Orh/69KvnZG
+	/PFs3dWqKkns3UAKB6P3GBSqsWOU9ZZPry9t9e8N6qb9NiV4Te7hxrx17hGdWIDilo3w
+	JUKlUHBNQmBfAyx1n02reggA6pF4twrjTmMqP+uxJ2ov6/CzUyyn0iAol/dw236GGSxq
+	19YquS6DbS/n8ffk9W1RHq6wmXkf/qgkX3cOUkZFyDUjBOVtOqQdGSgK2sYstfd4/kmT
+	99sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=O+wJ4WPtMzp5wV34IjwKZplzaWT4iLPfGBeNNzlRiGA=;
-	b=Lh9hjWKgWUJDho9/t49/glysw4v60MBslnWvP/UK/rRFLfQ/cfPONgftR7cH4q8Hur
-	sIOmlmLx3+P6lAOlex3bzx8322wEw0PRgK73VLBTE8w5aXx1SOlkuKzdEBJ1ftvp++Rm
-	Sh8dU8U9YcObCkWUHHuD79qy79hRvEvt+3bNxKq14BPO8+pvQGvoGsY2Nyq6w75tW+PC
-	3zgsfQ7RsOcml+oseOWxWzNrL4Q2KEGEHSV3tk/bbcSAuYNyMGLnH/l1LCH7MOEcnbZ6
-	7GdtiCYZmMzWmk8xS8mZs53PSF/bzL5tD2ELZEr5VWwppNiK69yNFbnPOSm82ByA93QC
-	DyOg==
-X-Gm-Message-State: AJcUukfpcVJ6V7VlGoihWktqFWfh5yNYIt8MC+SmOwCIjcbOMWBPC6iR
-	W/XZA7WAt4w+QJF4kGFBGlMVGgrIiyM=
-X-Google-Smtp-Source: ALg8bN6k/HSZdiR6MPAFIu6WqhUVrCGRXOG23/wTmuld06vobfJVyjxC7zM0N3IcYbcOJr2q4V/PpQ==
-X-Received: by 2002:a62:31c1:: with SMTP id
-	x184mr22686619pfx.204.1547395417910; 
-	Sun, 13 Jan 2019 08:03:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::4107])
-	by smtp.gmail.com with ESMTPSA id
-	128sm126293810pfu.129.2019.01.13.08.03.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 13 Jan 2019 08:03:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Jan 2019 08:03:28 -0800
-Message-Id: <20190113160328.27660-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xhuQ2nqsgAz+8aB1I4kmoFpcyjw7QaknVvWdPNmuT0o=;
+	b=J2ID2OM3rZy9qr3R/I544BBkevRL29aBlCXEXv4GtB6KCamkWjQo5NaGF5Jp30Prgh
+	xLAIjpTGVfNz8fi9U/vSOiDR0mGLSfDKjb+XgMSpZQocIKfXHy1y7Mra8wSbbKR7J9aa
+	lv7PyuJUp938XKxBY7dgLbil41p6E7sm/2m+0Bdi1SN099qQv4vi7vajka2uN9SWxhii
+	TjkMFb3SqgyPnMxTqY/Gtk6lDaGZ0Ff+tqZgUbfHc0rQgFo2aPQkCx1GdOI+1X0N4AG+
+	t/QHeR45B1+o+PN/rfu0rMfqlOijYHP5ETXPuwrapUkGVk2Ih+/vTMn/A5Cf+m/n0iIf
+	44Zw==
+X-Gm-Message-State: AJcUukdf3hv/7NPruNvOtJBXq3/z7GpCOCNYQFaiZh8oVvmHUaQ0OL3f
+	R5+Oarer1JV/7y36K8b9K3SBE+dGQrI+VkhTM4M=
+X-Google-Smtp-Source: ALg8bN52vB0fSeq2ZCt3tder7vPYh8FWZF/TPDuobah2IllxvNOKr8px4crWDX+gyk6TUTpbr2MIerxZtFCQac4GKzU=
+X-Received: by 2002:a19:c18d:: with SMTP id r135mr10874568lff.59.1547400300189;
+	Sun, 13 Jan 2019 09:25:00 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] python3-pbr: Move src uri checksums out of .inc file
+References: <cover.1547316462.git.bruce.ashfield@windriver.com>
+	<a5bbd32ecd957f036a9b1e47cc4e3c813d206111.1547316462.git.bruce.ashfield@windriver.com>
+	<CAMKF1sokO=RakSBuZy-o4cMBB5EYzDrEJ+R7ZtfzyddNaxqKQw@mail.gmail.com>
+	<230139f6-ad04-7033-5da8-3617b8a7a6a9@windriver.com>
+	<CAMKF1srt-KM61LaOmvorNY8SvQ98dAB36-HmMz0b3Zym1gMudA@mail.gmail.com>
+In-Reply-To: <CAMKF1srt-KM61LaOmvorNY8SvQ98dAB36-HmMz0b3Zym1gMudA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sun, 13 Jan 2019 09:24:26 -0800
+Message-ID: <CAKmqyKMyqXnY3Cpmg4-_pz5WDCf3N_-obBvOKnyu=ETpQ2m2rA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-yocto/4.19: introduce qemuriscv64 and qemuarma15 BSP definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +59,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Jan 2019 16:03:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 13 Jan 2019 17:25:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-python2 version of pbr is in meta-python and uses the same inc file but
-is not updated synchronously, which ends up breaking it, either we move
-py2 version into OE-core as well and then ensure that both recipes are
-updated atomically, or we move the checksums into recipe files
+On Sat, Jan 12, 2019 at 12:18 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Sat, Jan 12, 2019 at 10:45 AM Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+> >
+> > On 2019-01-12 1:34 p.m., Khem Raj wrote:
+> > > On Sat, Jan 12, 2019 at 10:14 AM Bruce Ashfield
+> > > <bruce.ashfield@windriver.com> wrote:
+> > >>
+> > >> Incorporating the BSP definitions for two new qemu targets.
+> > >>
+> > >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > >> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> > >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > >> ---
+> > >>   meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |  4 ++--
+> > >>   meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |  6 +++---
+> > >>   meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 18 +++++++++---------
+> > >>   3 files changed, 14 insertions(+), 14 deletions(-)
+> > >>
+> > >> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > >> index cdcdff2e1746..f823683526ee 100644
+> > >> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > >> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > >> @@ -11,8 +11,8 @@ python () {
+> > >>           raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+> > >>   }
+> > >>
+> > >> -SRCREV_machine ?= "bd456d13d8bea4c416209a59f9e0bf50f8511c47"
+> > >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> > >> +SRCREV_machine ?= "78404e3a73613f8e07c276e55112989f897cdd04"
+> > >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+> > >>
+> > >>   SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+> > >>              git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+> > >> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> > >> index 89c4b9f14d4c..0a79f442a075 100644
+> > >> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> > >> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> > >> @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+> > >>   KMETA = "kernel-meta"
+> > >>   KCONF_BSP_AUDIT_LEVEL = "2"
+> > >>
+> > >> -SRCREV_machine_qemuarm ?= "b8f2e8e00f8ddbdf5d7d7614c14eab52f8ee9275"
+> > >> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> > >> +SRCREV_machine_qemuarm ?= "2594d14d76ae2c49ad43b626662fe53da807ddca"
+> > >> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+> > >>
+> > >>   PV = "${LINUX_VERSION}+git${SRCPV}"
+> > >>
+> > >> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> > >> index bf4fec71d86c..f410cc8cdb31 100644
+> > >> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> > >> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> > >> @@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.19/standard/base"
+> > >>   KBRANCH_qemux86-64 ?= "v4.19/standard/base"
+> > >>   KBRANCH_qemumips64 ?= "v4.19/standard/mti-malta64"
+> > >>
+> > >> -SRCREV_machine_qemuarm ?= "ec8e55a97ad8a88107c5af069ece1b7f203f4ac4"
+> > >> -SRCREV_machine_qemuarm64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_machine_qemumips ?= "3b5fba0207a870c1de76c5dd80d8d3c0e42aa1cf"
+> > >> -SRCREV_machine_qemuppc ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_machine_qemux86 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_machine_qemux86-64 ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_machine_qemumips64 ?= "d21ff98864241c971c7a42a3c4f1eb940b9b8855"
+> > >> -SRCREV_machine ?= "e727c70583a78cf1dc53e8e219722e2f9d1bc858"
+> > >> -SRCREV_meta ?= "ced14887c323f1cb6b3befe2b29e471e8fee1bc6"
+> > >> +SRCREV_machine_qemuarm ?= "8b378ac8aca51207085c8df616a6fe56af19f0b4"
+> > >> +SRCREV_machine_qemuarm64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_machine_qemumips ?= "58f59c2213a657515a158379db153ad618986235"
+> > >> +SRCREV_machine_qemuppc ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_machine_qemux86 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_machine_qemux86-64 ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_machine_qemumips64 ?= "6f56a58c214379efe8949da6921b1c00c2af353a"
+> > >> +SRCREV_machine ?= "1114697c04b9699112e78dd8fc6ec849609ca1cb"
+> > >> +SRCREV_meta ?= "096c8bd3bd11801f95683bbe4bcc885a2318f51d"
+> > >
+> > > Dont we need qemuriscv64 locks here too ?
+> >
+> > Not until the machine is in oe-core and there's something I can test.
+> > Right now, it is just the meta-data.
+>
+> fair enough. I guess that falls on either Alistrair or myself :)
 
-Fixes errors like
-http://errors.yoctoproject.org/Errors/Details/216253/
+Working on it! Waiting for an improved boot loader.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python-pbr.inc       | 3 ---
- meta/recipes-devtools/python/python3-pbr_5.1.1.bb | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Alistair
 
-diff --git a/meta/recipes-devtools/python/python-pbr.inc b/meta/recipes-devtools/python/python-pbr.inc
-index bfe3030b07..0e64501c32 100644
---- a/meta/recipes-devtools/python/python-pbr.inc
-+++ b/meta/recipes-devtools/python/python-pbr.inc
-@@ -5,9 +5,6 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
- 
--SRC_URI[md5sum] = "dbc94417a8ff0432d6244501a7f1bd49"
--SRC_URI[sha256sum] = "f59d71442f9ece3dffc17bc36575768e1ee9967756e6b6535f0ee1f0054c3d68"
--
- inherit pypi
- 
- RDEPENDS_${PN} += "${PYTHON_PN}-pip"
-diff --git a/meta/recipes-devtools/python/python3-pbr_5.1.1.bb b/meta/recipes-devtools/python/python3-pbr_5.1.1.bb
-index 97e7361b16..95d3d2bd4f 100644
---- a/meta/recipes-devtools/python/python3-pbr_5.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_5.1.1.bb
-@@ -1,2 +1,5 @@
- inherit setuptools3
- require python-pbr.inc
-+SRC_URI[md5sum] = "dbc94417a8ff0432d6244501a7f1bd49"
-+SRC_URI[sha256sum] = "f59d71442f9ece3dffc17bc36575768e1ee9967756e6b6535f0ee1f0054c3d68"
-+
--- 
-2.20.1
-
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
