@@ -1,51 +1,45 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B2D47C049
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD4A7A076
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 15:03:46 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a62so9254065wmh.4
+	Mon, 14 Jan 2019 15:11:43 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id y23so18116518oia.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 07:03:47 -0800 (PST)
+	Mon, 14 Jan 2019 07:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
-	b=oqoidVwgk1Po9cemBx0t8lQD/GBV8J6ddf7dgnvxWBDCpM4jCGDdUfM7M4kULUupB5
-	2byb1S8AdPghHnuIwv51hY+zm0+UHBZUKjFvoKi5lGauL480TufTfxalCnY8IC5XwZBW
-	IzUcydlGnRy8Tllx2bACTumzWWxefhfoEBiIQ3DeX//PClaRfP3BgVmj2/APOIBDoqql
-	r8pbMgVmjXCfu4e68h1rK/9gGAytgC6nx6e6XNfhd222O1NHzxpSivNA3RoOLNMspAM2
-	Y3hjhXTlmAsv/4gNIC5Ypz6AK3IVWtQTYuVeoZDY2avMio1eiWapA+7uv0/c3hzjiTft
-	hXBg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=XdZJH2GMdMrJR8uFa5V4fOaj5vcj/qBzG3ZEWNc8vtM=;
+	b=ZgTBqNQhlIEmnEoG/LMl4agJWl/6hK0PFm9yLlumR2EqqbZ4Y0ZFZPAdGGXfioNmEd
+	0waryJMukh7+RJK5V7a2lCybgncEo8wkrSbg2BBS8EX5Gb5rQiNFaQJcJQy6n1SArVvS
+	jh177qZm7QFk4QzLOCqTyZeSVljQjCXylQ5B6tR3dPWzoU05O/PzFtG+pwnVwwRZYJYv
+	tlh1vmlQcGCPfQOGzKAU8XBLcV1639PMQ1Q2eqo9XsbZie+BYrrtY/IH2YwQPGsuUkLH
+	DOZmE3w+S0RlCQfGhJ2EUSK4NIp5RuaM0KMKgSPmZFLxXfp35CI942Z0xa8Gqb2CDJVh
+	J0hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
-	b=W/OHD9AMBlAnxzdpbO4/ruOHOLzIYleKuh1jXWk9f0pf3Y+DgUSQrQ8JiTEiT1eJUi
-	591yDKIcbRhlp8DzewlWUSvhGRVWmWiaBs9mbZvm+U1JjXprH4tSBb1eY1ALgveV9fIi
-	p9lQXNtN29ifqb+DYAI7oD/2ph3YpmsOZ/Jh7su5ALNE0uIiBE9QO/bACULRPElD+ZB0
-	WYoqW4Mxj8DuVlVIjeagcqDAOE4i87Z0Jqk7FHdtPV2EW8v1wM2ysZx4CM4Sf1G5Euzp
-	sTbrtvscAsNZNEtJTOn1gtjeSffgvI0y5B04hzcFRJNH+zOBuIMifZDDIWLxBZzmIiYY
-	z7jQ==
-X-Gm-Message-State: AJcUukcJI3pVCFRZVGl3S1v3CG8l52xeQoeGHxcePWZMu81dk0KOEiYL
-	iMFTnWbVzmFyCXqv7wVzUkZnCwDr
-X-Google-Smtp-Source: ALg8bN7JMDCd7LJ8bBgdWajSbIW/PJflpQAO1V6u0NtOMH2Y2pkU4nGmFwJYdBfkH/depCF2kvr8lQ==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr12342164wmi.140.1547478226833; 
-	Mon, 14 Jan 2019 07:03:46 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	y34sm201725236wrd.68.2019.01.14.07.03.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Jan 2019 07:03:45 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2019 16:03:19 +0100
-Message-Id: <1f1307fa4633eb9691288ababe53acf67d47177e.1547477793.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1547477793.git.alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=XdZJH2GMdMrJR8uFa5V4fOaj5vcj/qBzG3ZEWNc8vtM=;
+	b=igEtPrMVCcyq6DW/3yFrXclqxKYbVUWcO6Da/7lFjGnqAL19cGRqTdgWOSB+PpCgRq
+	9kHU0+O1C6xdthrpV8MSYrbSAyeLUZWhuyYy9Rcy8YVL/YPY5uXf4T3tuu8SyJLZRWEY
+	1sC3C7Cn0R+lPEzALgfbt9yiesIkupoQg1xlOB3mAyZXid9saqXvFmaM4lu2bvp+z0F2
+	RyLm/dmhmLsw6UCiT05Z3VX52M3d4IkkOo1peZWh4cceF/CXckMvy3u2F4rLGXnTgP2C
+	xhBzQLRB1OBGuP1FXCa6/f5fLmx7LGj84iNh5hkVvbBejB5kOrad/jE4bndyza1FvvU8
+	FU/A==
+X-Gm-Message-State: AJcUukexbsT0DSoM5TOZEYjxkY+q8Q+gIJCuW5941MIjt7KusUWv4NCW
+	JEDvu0es/IKKp8MB8P4/4N0Y5QOvt10ddm2/Jxt14gal
+X-Google-Smtp-Source: ALg8bN4sAUB0nCY+Lo3BUGOLhiwJuepMPQcbhuVDOlZnomMisuO176s+ypCGw6eM11tUlGBl/Ky+Ke8MBNC3UsWx0KQ=
+X-Received: by 2002:aca:544:: with SMTP id 65mr15591277oif.302.1547478704595; 
+	Mon, 14 Jan 2019 07:11:44 -0800 (PST)
+MIME-Version: 1.0
 References: <cover.1547477793.git.alex.kanavin@gmail.com>
-Subject: [PATCH 23/23] selftest: add a test for virgl GL acceleration
+In-Reply-To: <cover.1547477793.git.alex.kanavin@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 14 Jan 2019 16:11:33 +0100
+Message-ID: <CANNYZj_1hQPAoO20Uqh4=6SDkhpoZ_hEgUm4o7h9Sw26J7u1rw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/23] Enable accelerated OpenGL in qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +52,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 15:03:46 -0000
+X-List-Received-Date: Mon, 14 Jan 2019 15:11:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Note that the test requires that the host machine has a X display
-and is able to create OpenGL contexts.
+Oh, I forgot the rationale:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 17 +++++++++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 19 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+1. I think we are heading towards a reality where some kind of working
+GL is a 'must' for any kind of UI work.
+2. Typically people build images and then transfer them to the NUC or
+even target boards for testing - using qemu would be less awkward.
+3. Current qemu configuration is basically useless here.
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-new file mode 100644
-index 00000000000..3894962eaaf
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,17 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+
-+class VirglTest(OERuntimeTestCase):
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
-+
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        status, output = self.target.run('kmscube')
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..14837fcdd68 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,25 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
- 
-+    @OETestID(1883)
-+    def test_testimage_virgl(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_QEMUPARAMS = "-vga virtio -display gtk,gl=on"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
--- 
-2.17.1
+Alex
 
+On Mon, 14 Jan 2019 at 16:03, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> 0. TLDR:
+>
+> $ . oe-init-build-env build-virgl
+> $ bitbake core-image-sato-sdk
+> $ runqemu kvm gl
+> $$ run glxgears or any other GL-capable binary inside qemu
+>
+> 1. qemu is switched over to use gtk frontend. I simply couldn't get SDL
+> frontend to work properly, it only displays a blank black window or doesn't
+> start at all. Same thing happens with qemu binaries provided by Fedora and
+> opensuse (Ubuntu's qemu lacks virgl support). Seems like SDL support has
+> regressed.
+>
+> 2. While the components are built against the most minimum necessary
+> mesa-native set (gbm, egl, dri with no drivers), libepoxy loads and uses the
+> host GL implementation (through a chrpath hack). This is both to save build
+> times, and because the host is likely to have a set of drivers more
+> appropriate for the physical machine (e.g. proprietary nvidia stack,
+> although I didn't test that).
+>
+> 3. I tested this with
+> - glamor X server
+> - weston compositor with drm backend (build core-image-weston, then edit
+>   weston.ini in the image to use drm backed instead of fbdev).
+> - kmscube
+> - glxgears
+> - https://www.geeks3d.com/gputest/
+>
+> The latter two show FPS that is similar to running them directly on the host.
+>
+> 4. Some things I am not sure about:
+>
+>  - how much of a 'default' should this be for running qemu. It works for me,
+> but other people might find it less stable compared to the existing
+> sdl-vmware-swrast setup.
+>
+> - what other tests and demos could be run
+>
+> - how could this be tested on the autobuilder. I wrote an oe-selftest for
+> this, but it does require an X session, and ability to create opengl
+> contexts on the host.
+>
+> The following changes since commit 0c9f6e9bb18b2a52b5a5e828772a9619ee4d8515:
+>
+>   strace: add lost Upstream-Status (2019-01-14 11:49:07 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib akanavin/virgl-gtk
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/virgl-gtk
+>
+> Alexander Kanavin (23):
+>   gtk+3: enable native/nativesdk variant
+>   gtk+3: remove the gtk-icon-utils-native recipe
+>   shared-mime-info: update the database also in native builds
+>   gtk+: drop support for choosing between 2.x and 3.x implementations of
+>     gtk-update-icon-cache
+>   pixbufcache.bbclass: remove a dependency loop introduced by enabling
+>     gtk+3-native
+>   meta: add native and nativesdk variants to various recipes to enable
+>     gtk+3-native/nativesdk
+>   libepoxy: enable native/nativesdk variants
+>   mesa: enable native and nativesdk variants
+>   virglrenderer: add a recipe
+>   qemu: enable virglrenderer and glx options for native/nativesdk builds
+>   qemu: drop --with-gtkabi option, as it is no longer supported
+>   mesa-gl: do not enable nativesdk variant to avoid clashes with main
+>     mesa recipe
+>   local.conf.sample: adjust the qemu config to enable gtk+ instead of
+>     sdl
+>   qemu: build target variant with gtk+, and nativesdk variant without
+>     sdl
+>   qemu: remove support for building against host sdl
+>   atk: disable gobject-introspection for nativesdk
+>   qemu: add a gettext-native dependency
+>   libjpeg-turbo: fix nativesdk build in same way as native builds are
+>   qemu: add a patch to avoid a missing include error
+>   runqemu: add support for virgl GL acceleration
+>   runqemu: do not check for GL libraries
+>   qemu: add environment variable wrappers to make qemu look good with
+>     gtk frontend
+>   selftest: add a test for virgl GL acceleration
+>
+>  meta-poky/conf/local.conf.sample              |  10 +-
+>  meta-selftest/lib/oeqa/runtime/cases/virgl.py |  17 +++
+>  meta/classes/pixbufcache.bbclass              |   2 +-
+>  meta/conf/machine/include/qemuboot-x86.inc    |   2 +-
+>  meta/lib/oeqa/selftest/cases/runtime_test.py  |  19 ++++
+>  meta/recipes-devtools/qemu/qemu.inc           |  40 ++++---
+>  .../qemu/0001-Add-a-missing-X11-include.patch |  23 ++++
+>  meta/recipes-devtools/qemu/qemu_3.1.0.bb      |   1 +
+>  .../gdk-pixbuf/gdk-pixbuf_2.36.11.bb          |   2 +-
+>  .../gnome/adwaita-icon-theme_3.28.0.bb        |   2 +
+>  meta/recipes-gnome/gtk+/gtk+.inc              |   5 +-
+>  meta/recipes-gnome/gtk+/gtk+3.inc             |  29 +++--
+>  .../gtk+/gtk-icon-utils-native_3.22.30.bb     |  63 -----------
+>  ...endency-from-gtk-encode-symbolic-svg.patch | 102 ------------------
+>  .../hicolor-icon-theme_0.17.bb                |   2 +
+>  meta/recipes-graphics/cairo/cairo_1.14.12.bb  |   2 +-
+>  .../harfbuzz/harfbuzz_2.2.0.bb                |   2 +-
+>  .../jpeg/libjpeg-turbo_2.0.1.bb               |   3 +-
+>  .../libepoxy/libepoxy_1.5.3.bb                |  12 +++
+>  meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb  |   2 +
+>  meta/recipes-graphics/mesa/mesa.inc           |  12 ++-
+>  meta/recipes-graphics/pango/pango_1.42.4.bb   |   2 +-
+>  .../ttf-fonts/liberation-fonts_2.00.1.bb      |   2 +
+>  .../virglrenderer/virglrenderer_git.bb        |  17 +++
+>  .../xorg-lib/libxcomposite_0.4.4.bb           |   2 +-
+>  .../xorg-lib/libxdamage_1.1.4.bb              |   2 +-
+>  meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb |   2 +
+>  .../xorg-lib/libxtst_1.2.3.bb                 |   1 +
+>  .../recipes-support/atk/at-spi2-atk_2.30.0.bb |   2 +
+>  .../atk/at-spi2-core_2.30.0.bb                |   1 +
+>  meta/recipes-support/atk/atk_2.30.0.bb        |   4 +-
+>  .../shared-mime-info/shared-mime-info.inc     |   2 +
+>  meta/recipes-support/vte/vte_0.52.2.bb        |   2 +
+>  scripts/runqemu                               |  46 ++------
+>  34 files changed, 193 insertions(+), 244 deletions(-)
+>  create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Add-a-missing-X11-include.patch
+>  delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb
+>  delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+>  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
+>
+> --
+> 2.17.1
+>
 
