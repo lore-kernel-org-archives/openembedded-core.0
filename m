@@ -1,49 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 269777BFBA
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+	[209.85.219.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 95EE37BF2E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 11:47:59 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a62so8571220wmh.4
+	Mon, 14 Jan 2019 12:56:39 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id x9so8560695ybj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 03:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=0Wid2TwalxMAX9ZG3ZRr4egayG7h7aar/eet8C7r30I=;
-	b=aivlbstnnprGvXafCr62Mzau2PCNHhh7rmofPUuAuRYCcgckKEpCNf6VymCRNREYJ7
-	ATMpACYH8J2hfewrgM9mRE+zvlou9WImfcPXG5vWaOn0DpThChGavwXE0Cji5E4SoLMX
-	VBc8sPJqvgYcVKPuL7kRwZQEKtQTvTjb3q2Uc3mVaQFJKrnZfFSQCAhh9mj/JCketbVV
-	poJpPGhO95ZtsCUmbYjjL5AEiBejk8oTfT4C6Hvh8FHJTsn9cDQEVMx2WrOXf/oikV1G
-	WnAMo0uKj3wX4PBcPq+t13tneJkpQUA9YdChB/fUt8GtMOp6sjnOCWCSG/pAeTZREP3s
-	Q4ZA==
+	Mon, 14 Jan 2019 04:56:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=0Wid2TwalxMAX9ZG3ZRr4egayG7h7aar/eet8C7r30I=;
-	b=ZlfcrJdfpXbw8mt/TZAFeItVEZjnhOrl48VW28YLqjAdI0HFIYhjW/Kt6NwbFCfrn4
-	MPfqIryMQtojbcxmgyucTYi4Z4CW4Pgp9aed4lv8L/7VcxO+YlUu6Ef0IUflmotGB62Q
-	63Utb9cG/KhBrPWW9g5/Dwf4whml+0ZU+k9B7rxNaoMQhJrCjCaUjOUwPl8KMUnx6AS8
-	S9qt/SvUb4AS+0x23ubnLlge5jTgzJ6pLpGH4+LDj5y5BMyTIvq21aaEF6DBwZY/lfo1
-	c9c8B/zsZHI6odhyHu1oGMqgFO/NmCZV68RQ/YtPNtEO/M0JavYEph5PD/eyPuOmpdG2
-	aZ+w==
-X-Gm-Message-State: AJcUukdycyOOR0QX7plFgBTfaXCAjug6Krdq5RjxoDL1MiuGrbW/5Tss
-	A5pnBAh61duCbtCagAKvRlR44dhxRHI=
-X-Google-Smtp-Source: ALg8bN7PI+NdmIWS4vCq/vv01WAZzxogQcJG8ZoV9lJjrVP1lup9k2Vs3dXuXCyPyOAeWYzhFgPyYw==
-X-Received: by 2002:a1c:a401:: with SMTP id n1mr12126416wme.101.1547466480362; 
-	Mon, 14 Jan 2019 03:48:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b12sm13590015wmj.3.2019.01.14.03.47.59
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=AI0Y6tSJHGQ6oifepyxcMfOZaXHCmhgAy5teJ9vAYO4=;
+	b=DrH9whfGnTV724eV1lSlfWan2zGcF+g5jqNOMiBuxefOZeNYNYfAYP2ibrn8ylGvCq
+	jc/uvYDdnboMZr2DiBUa31zsZzQ70BNtvdhaYPjGKhFcvJj65R0nr1O371KZRKS2IS0Q
+	OLdF+f+rO5evMIe2ZLeIksd2nIocCyo/xNk82ttLFrqYxgSo+uhWMgN6fnKGlHMqEPkK
+	GicVrzBYUVukno1cJiwLGow54+NKBKV1YUe0/S8LBwGGeC2q38fb/zOI7/5ASINRfx/P
+	BbOme3yeef3KK+okp0k3SMcgvSjNXARWzwXKQHoJy9oCNjebG0KoCjSVcG27v1me/Eei
+	EjZA==
+X-Gm-Message-State: AJcUukfxOR+YdY2YFW+bKkVDxIIJS4+aJ++TgeKNhb7o50Hr7Oro28gN
+	THBOy1gkRCd8y4xq0Ty85qAsI4ap
+X-Google-Smtp-Source: ALg8bN6SgJdMjqPe5wbAI8ilZgxBqktMWBz8yvlOr7jQxAOaHEnrHHl+u1LagT+KcnV2yuhBbbnnMA==
+X-Received: by 2002:a25:6652:: with SMTP id z18mr4219534ybm.242.1547470600466; 
+	Mon, 14 Jan 2019 04:56:40 -0800 (PST)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	h145sm115143ywc.72.2019.01.14.04.56.38
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Jan 2019 03:47:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 14 Jan 2019 04:56:39 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2019 11:47:57 +0000
-Message-Id: <20190114114757.5293-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] strace: add lost Upstream-Status
+Date: Mon, 14 Jan 2019 12:56:20 +0000
+Message-Id: <20190114125632.4780-1-git@andred.net>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 00/12] RFC: util-linux: one package per binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +48,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 11:48:00 -0000
+X-List-Received-Date: Mon, 14 Jan 2019 12:56:40 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch      | 1 +
- 1 file changed, 1 insertion(+)
+This series of patches changes util-linux to splitting into
+one package per binary automatically, using do_split_packages()
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch b/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
-index b17dcb1d466..becee79d1a2 100644
---- a/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
-+++ b/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
-@@ -12,6 +12,7 @@ Fixes
- | ../../strace-4.18/tests/sigaction.c:177:36: error: 'struct_set_sa {aka struct set_sa}' has no member named 'restorer'
- |  # define SA_RESTORER_ARGS , new_act->restorer
- 
-+Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- ---
--- 
-2.11.0
+* the first 5 patches are a general clean-up
+* patch 2 could be classed as avoiding a potential crash
+* patch 5 is important, as it fixes up some existing packaging
+  problems
+* the subsequent patches are the actual implementation
+
+The slight 1st problem was that update alternatives was running
+right after copying from D to PKGD, and at that point in time
+PACKAGES and ALTERNATVE_xxx were expected to be fully populated.
+So I changed this slightly, so that util-linux can generate
+PACKAGES now right after perform_packagecopy(), but before
+update-alternatives processing.
+
+The small 2nd problem was that FILES_${PN} must reference the
+renamed file name (after update-alternatives has run). Given
+this is quite hard to do automatically when populating packages
+using do_split_packages(), I updated update-alternatives to
+update the file name in FILES_${PN} if the non-renamed file
+was specified in there.
+This would also allow updating all recipes to drop knowledge
+about that renaming where this is done at the moment.
+
+Finally, I am splitting up the packages, one commit per directory.
+
+Things to note and questions:
+* it is unclear to me why util-linux RDEPENDS vs. RRECOMMENDS some
+  of the manually splitted packages before this series, and some
+  of those pre-existing packages weren't in RRECOMMENDS or RDEPENDS
+  at all.
+  For that reason, the RDEPENDS on packages from base_sbindir and
+  base_bindir that existed before this series, weren't updated,
+  only new packages from those two directories have been added
+  to RRECOMMENDS of the meta-package.
+
+  I would suggest to drop all RDEPENDS and simply have util-linux
+  RRECOMMENDS *all* the packages, but I don't know the origial
+  reasoning for that distinction.
+
+* /etc/default/mountall is the only file remaining in the util-linux
+  package. I am not sure what to do with it as I coulnd't find any
+  user anyway.
+  Can it be dropped altogether, should it be moved into the util-linux-mount
+  package instead?
+  Note that the util-linux-mount and util-linux-umount existed before
+  this series, but /etc/default/mountall was still packaged into
+  util-linux.
+
+* The pre-existing util-linux-swaponoff is a meta-package now, that
+  simply RDEPENDS on -swapon and -swapoff, simply for backwards
+  compatibility reasons, but is it really necessary, given people
+  can now add -swapon and -swapoff if they want to.
+  No harm in keeping it either, though.
+
+* the -dev package RRECOMMENDS some (but not all) of the split -dev
+  packages (which don't necessarily exist), e.g. util-linux-losetup-dev
+  Should it RPROVIDE those itself instead? Should those be made
+  ALLOW_EMPTY? Should the RRECOMMENDS be tweaked?
+  What is the preferred approach here?
+
 
 
