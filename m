@@ -1,46 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f182.google.com (mail-it1-f182.google.com
-	[209.85.166.182])
-	by mail.openembedded.org (Postfix) with ESMTP id ACFB07C080
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FED4745D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 23:07:07 +0000 (UTC)
-Received: by mail-it1-f182.google.com with SMTP id p197so1946306itp.0
+	Mon, 14 Jan 2019 23:09:24 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id z5so816077wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 15:07:09 -0800 (PST)
+	Mon, 14 Jan 2019 15:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YLfsx3YQXUfBc92vo7zUtv4FVidib4P7rZleB2WvsbU=;
-	b=bdiWuj0VKWn7iSJW4fgUqxKTyocYo2FrSrzdQ0FXne/DAZJtNXEBcbTiI+KMM7fNeB
-	ifn0fTNhLZPg0dC845qjMCykheey6LEtosZhBkRDWxwMB6D7NB1PQj9YyMDfwgws7FH0
-	oPjAIigh3dkqHRA4PVwpRQIr0QxxytwIKrdb8kS6FdJlYLNDGlM7iQco3lvRjNvQbOIk
-	yOTotRSEp1+F+fQliVzI2Lvjx8WsSGSPiQYGLm8hfu0YXHJ42U2M1XzjLxJuHBZjbqrc
-	eubdfntPOSyXW0cbLlDNOneRydxEnEvawysJ004w4P5W8/r0KO2G2mo3YO9AJNQvwrj3
-	pvCQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=CGuddOnULtcbUs9dQULrtgSF0vXQD4gOriRrCdRdOBQ=;
+	b=B9cCsDqqLiPVSUsCFNTxhjXYGiAsGa9j1VNq1SHqfVWbDr5HFNtuXP0Zubz5mmYZl3
+	DiOllFcuRhZiDXXm3tWjXEvumNSmDiHwsDaWCcKTIZv2yZBAB/RAZz0wqEm2ihkbjfO/
+	eurZXpDCUJ26Xdu+jD16n9xXsgALcICuMWHDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YLfsx3YQXUfBc92vo7zUtv4FVidib4P7rZleB2WvsbU=;
-	b=o1pvzIUK08Zn+xoA5XucszBdzBsU/9YI7Bb2DGIf3yK1EtljpZcLW+fw7Hr1kvg/Xt
-	SiheIlLQRS/zHvaspia0nQMM9PhkhtnAjl8L4NRVq4dcDPEhTuwXVRiHkeA8IWjdBq4G
-	MkpP4yDEinPRHcSvcS159KjlUEDKBzvbogOe5eR9w31HV8yaJxpwfImKcsgmVjbJNLkt
-	p9++w+16tugidLIvsWoHbBnfrvmTd/ZcY0oNKbsLWPJOUF22+0UdYwZ4x0LMzTUpUrFA
-	frLrloAUHL2aMfcn8r53TYEniKYKCw2LZ6rCbypLfDa66hXzS9EcnQUogcLhBYEcjH/+
-	Zkqw==
-X-Gm-Message-State: AJcUukfbkYXWe7t8s24Qhza0g/wc2/XZqextZfH6ezoUzOxXKOc5MLEb
-	SnsvNZQr5ITIESrqcblSvbNzYHtfAEw+sPAHsi+3coN5
-X-Google-Smtp-Source: ALg8bN4dzaEuPSZJxvOomdsqesQxHwYwvr6lF6u/cIfKqM1mvvDZUyVSMlyt8CSKf4qkJdrXT82IpC8XJLzqQvH39nk=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr903920itj.62.1547507228637;
-	Mon, 14 Jan 2019 15:07:08 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=CGuddOnULtcbUs9dQULrtgSF0vXQD4gOriRrCdRdOBQ=;
+	b=aU7MCcQdE5Jp/Va41hEqbQ3R1Nox79O6BnPPj7iuUsr01eMftiYUVxrrM7of2AjqNJ
+	5VFPQhSmotkLynsdt8Thdaea1N3Q2oumXvIzebS6JHTb/cXS8oY5F2YcpWBkU2Ebfhbp
+	KsX+3ZaQfjGAIttRk8dCe5MbGFbOuQuAuyEaIxRm5PF2SGT/CrFMOZsFKB0hvuOBNLQc
+	wpz+VziBO/SQv7yeaHeP6rSx4mv3vZdCAjf29ddw1ZzdYIrxrFr673OqLE5Dc4K1H63f
+	ZCoGwSGrKjjhBF/TATnfgPgnH9cgTV2bD1RwR4TFiMZAgmiw9Ui5bwKpjm2rTkOgwHLp
+	8nuw==
+X-Gm-Message-State: AJcUukf8hReY4MBin26Tkc5vOz700P+UY4dJ1/mOE5tj5cU3iquyzBbg
+	2PjoRrMhDl8JH+2Lin+m2C99kw==
+X-Google-Smtp-Source: ALg8bN7XRPXwt4QQZivmB0Vz/piVDCQBv+vdH7/D6dQuG6dLmka97bj4PDH0FMgwlLwre8j0NGdcyQ==
+X-Received: by 2002:a5d:4dc8:: with SMTP id f8mr603225wru.45.1547507365738;
+	Mon, 14 Jan 2019 15:09:25 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r12sm86010377wrq.3.2019.01.14.15.09.24
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 14 Jan 2019 15:09:24 -0800 (PST)
+Message-ID: <185b40016ffcc580b889b2d7ef94779e2b62417e.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Jan 2019 23:09:23 +0000
+In-Reply-To: <CAJTo0LYr5NaV1RR=99kJfdNWG7=jx1Z1nJ+sET1Kd4UAnco6ig@mail.gmail.com>
 References: <20190114230432.22116-1-richard.purdie@linuxfoundation.org>
 	<20190114230432.22116-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20190114230432.22116-2-richard.purdie@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jan 2019 23:06:57 +0000
-Message-ID: <CAJTo0LYr5NaV1RR=99kJfdNWG7=jx1Z1nJ+sET1Kd4UAnco6ig@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAJTo0LYr5NaV1RR=99kJfdNWG7=jx1Z1nJ+sET1Kd4UAnco6ig@mail.gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] meta: Fix python code quoting issues
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,44 +60,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 23:07:07 -0000
-Content-Type: multipart/alternative; boundary="000000000000a69934057f731aa7"
-
---000000000000a69934057f731aa7
+X-List-Received-Date: Mon, 14 Jan 2019 23:09:25 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 14 Jan 2019 at 23:04, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Mon, 2019-01-14 at 23:06 +0000, Burton, Ross wrote:
+> On Mon, 14 Jan 2019 at 23:04, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > -    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then
+> > echo 'Command failed.'; printf 'Press any key to continue... ';
+> > read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+> > +    oe_terminal("${SHELL} -c \"make %s; if [ \\$? -ne 0 ]; then
+> > echo 'Command failed.'; printf 'Press any key to continue... ';
+> > read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+> 
+> Would it be neater to use r"" here?
 
-> -    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo
-> 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" %
-> d.getVar('KCONFIG_CONFIG_COMMAND'),
-> +    oe_terminal("${SHELL} -c \"make %s; if [ \\$? -ne 0 ]; then echo
-> 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" %
-> d.getVar('KCONFIG_CONFIG_COMMAND'),
->
+Yes, but it doesn't show what the problem is as clearly. We should
+probably clean it up as a follow up.
 
-Would it be neater to use r"" here?
+Cheers,
 
-Ross
+Richard
 
---000000000000a69934057f731aa7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 14 Jan 2019 at 23:04, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);pad=
-ding-left:1ex">-=C2=A0 =C2=A0 oe_terminal(&quot;${SHELL} -c \&quot;make %s;=
- if [ \$? -ne 0 ]; then echo &#39;Command failed.&#39;; printf &#39;Press a=
-ny key to continue... &#39;; read r; fi\&quot;&quot; % d.getVar(&#39;KCONFI=
-G_CONFIG_COMMAND&#39;),<br>
-+=C2=A0 =C2=A0 oe_terminal(&quot;${SHELL} -c \&quot;make %s; if [ \\$? -ne =
-0 ]; then echo &#39;Command failed.&#39;; printf &#39;Press any key to cont=
-inue... &#39;; read r; fi\&quot;&quot; % d.getVar(&#39;KCONFIG_CONFIG_COMMA=
-ND&#39;),<br></blockquote><div><br></div><div>Would it be neater to use r&q=
-uot;&quot; here?</div><div><br></div><div>Ross</div></div></div>
-
---000000000000a69934057f731aa7--
