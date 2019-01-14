@@ -1,53 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FED4745D9
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A4994745D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 23:09:24 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z5so816077wrt.11
+	Mon, 14 Jan 2019 23:12:38 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id r10so836678wrs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 15:09:26 -0800 (PST)
+	Mon, 14 Jan 2019 15:12:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=CGuddOnULtcbUs9dQULrtgSF0vXQD4gOriRrCdRdOBQ=;
-	b=B9cCsDqqLiPVSUsCFNTxhjXYGiAsGa9j1VNq1SHqfVWbDr5HFNtuXP0Zubz5mmYZl3
-	DiOllFcuRhZiDXXm3tWjXEvumNSmDiHwsDaWCcKTIZv2yZBAB/RAZz0wqEm2ihkbjfO/
-	eurZXpDCUJ26Xdu+jD16n9xXsgALcICuMWHDQ=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=YBkA88gN1MQii7hWJT1WhG3d2x7je43khY9+9l+hF8E=;
+	b=TszPHuUWXxIkHWCTVftpfn+sE1tEbAzn4hN6pxTsszeIywdKk3PwvLWW806ulvpUll
+	+eoHGGm6KAanpqBqBXcnR0XHUtWLW0DslhuaV/PRK2HUoi4lMs8EOnE2F+tXDHvStugt
+	9+OyPXcKxqTHhHLraX5rqGmaBMQ8vEFDPANJo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=CGuddOnULtcbUs9dQULrtgSF0vXQD4gOriRrCdRdOBQ=;
-	b=aU7MCcQdE5Jp/Va41hEqbQ3R1Nox79O6BnPPj7iuUsr01eMftiYUVxrrM7of2AjqNJ
-	5VFPQhSmotkLynsdt8Thdaea1N3Q2oumXvIzebS6JHTb/cXS8oY5F2YcpWBkU2Ebfhbp
-	KsX+3ZaQfjGAIttRk8dCe5MbGFbOuQuAuyEaIxRm5PF2SGT/CrFMOZsFKB0hvuOBNLQc
-	wpz+VziBO/SQv7yeaHeP6rSx4mv3vZdCAjf29ddw1ZzdYIrxrFr673OqLE5Dc4K1H63f
-	ZCoGwSGrKjjhBF/TATnfgPgnH9cgTV2bD1RwR4TFiMZAgmiw9Ui5bwKpjm2rTkOgwHLp
-	8nuw==
-X-Gm-Message-State: AJcUukf8hReY4MBin26Tkc5vOz700P+UY4dJ1/mOE5tj5cU3iquyzBbg
-	2PjoRrMhDl8JH+2Lin+m2C99kw==
-X-Google-Smtp-Source: ALg8bN7XRPXwt4QQZivmB0Vz/piVDCQBv+vdH7/D6dQuG6dLmka97bj4PDH0FMgwlLwre8j0NGdcyQ==
-X-Received: by 2002:a5d:4dc8:: with SMTP id f8mr603225wru.45.1547507365738;
-	Mon, 14 Jan 2019 15:09:25 -0800 (PST)
+	bh=YBkA88gN1MQii7hWJT1WhG3d2x7je43khY9+9l+hF8E=;
+	b=mLPZFGuwpsTfYRCBeB0m6vesQIvln9Rxq6h5FPGULBpFhR0ALSCleW5Aevz9UdNyM+
+	RSPfXtpS8J4ARvkzzqqybnRSvB3ydGcl9Yc+89LaeZoxsnVXskt9gtN+tA9ZXqozKRH1
+	sC29TrT9AvhC5ie7+xCA5RL7Ua/zbuc1fZGSvKijLQOIiydfxEMU4dRKGXBEBOHUXbn2
+	GaLql2PPbPeqJ6PlCMnZ/7Uo2+Xev7ytopjlGfNua1+Vyc4Ou9ca3Dmm1ysOvm8SeuE1
+	3J6J0JLj4ZZSHkWGW/lAp5TLJ8WnEmGmBZAMsQls/p6+pmSc752yTz4r3g+xay8sP05Q
+	1MDQ==
+X-Gm-Message-State: AJcUukffesti7gLBxj9xn9JOCZLplwMPUmtoGyI+XwFQZaTFHs5yHwOk
+	x186kpBbejHNPhz/at4jG2MWtUIbzLE=
+X-Google-Smtp-Source: ALg8bN7RG1pXAS/xVHVGeWFzcH7zrBG4DYu71FKgOcfvHciVqGObRz0datw39K6qIr9zZcZWfr68yQ==
+X-Received: by 2002:adf:b3c3:: with SMTP id x3mr600725wrd.294.1547507559109;
+	Mon, 14 Jan 2019 15:12:39 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	r12sm86010377wrq.3.2019.01.14.15.09.24
+	a17sm72658246wrs.58.2019.01.14.15.12.35
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 14 Jan 2019 15:09:24 -0800 (PST)
-Message-ID: <185b40016ffcc580b889b2d7ef94779e2b62417e.camel@linuxfoundation.org>
+	Mon, 14 Jan 2019 15:12:38 -0800 (PST)
+Message-ID: <8fe4c0f740f7fc993a4939178e6c6bffb4896c83.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jan 2019 23:09:23 +0000
-In-Reply-To: <CAJTo0LYr5NaV1RR=99kJfdNWG7=jx1Z1nJ+sET1Kd4UAnco6ig@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jan 2019 23:12:33 +0000
+In-Reply-To: <20190114230432.22116-1-richard.purdie@linuxfoundation.org>
 References: <20190114230432.22116-1-richard.purdie@linuxfoundation.org>
-	<20190114230432.22116-2-richard.purdie@linuxfoundation.org>
-	<CAJTo0LYr5NaV1RR=99kJfdNWG7=jx1Z1nJ+sET1Kd4UAnco6ig@mail.gmail.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] meta: Fix python code quoting issues
+Subject: Re: [PATCH 1/2 v2] meta: Fix Deprecated warnings from regexs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 23:09:25 -0000
+X-List-Received-Date: Mon, 14 Jan 2019 23:12:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-01-14 at 23:06 +0000, Burton, Ross wrote:
-> On Mon, 14 Jan 2019 at 23:04, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > -    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then
-> > echo 'Command failed.'; printf 'Press any key to continue... ';
-> > read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-> > +    oe_terminal("${SHELL} -c \"make %s; if [ \\$? -ne 0 ]; then
-> > echo 'Command failed.'; printf 'Press any key to continue... ';
-> > read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+On Mon, 2019-01-14 at 23:04 +0000, Richard Purdie wrote:
+> Fix handling of escape characters in regexs and hence fix python
+> Deprecation warnings which will be problematic in python 3.8.
 > 
-> Would it be neater to use r"" here?
+> Note that some show up as:
+> 
+> """
+> meta/classes/package.bbclass:1293: DeprecationWarning: invalid escape
+> sequence \.  
+> 
+> """
+> 
+> where the problem isn't on 1293 in package.bbclass but in some
+> _prepend to a
+> package.bbclass function in a different file like mesa.inc, often
+> from
+> do_package_split() calls.
 
-Yes, but it doesn't show what the problem is as clearly. We should
-probably clean it up as a follow up.
+meta-oe and other layers are likely going to need this kind of cleanup
+at some point.
+
+A tip when trying to debug this is to remove the cache, tmp/cache and
+all __pycache__ directories so that you force everything to get re-
+parsed when debugging/fixing them.
 
 Cheers,
 
 Richard
+
+
 
 
