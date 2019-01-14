@@ -1,43 +1,43 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
-	[209.85.161.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DE817C049
+Received: from mail-yw1-f54.google.com (mail-yw1-f54.google.com
+	[209.85.161.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A78997BFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 12:56:47 +0000 (UTC)
-Received: by mail-yw1-f68.google.com with SMTP id f65so8539107ywc.8
+	Mon, 14 Jan 2019 12:56:48 +0000 (UTC)
+Received: by mail-yw1-f54.google.com with SMTP id i73so8551042ywg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 04:56:48 -0800 (PST)
+	Mon, 14 Jan 2019 04:56:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=uWacIkwFaA2U3hLrJHIh2q2us8UJzwxgAj3cEf7AW0c=;
-	b=UKSM6EVp4cXg/tcej1AauTYNwTB+gkE9Eh3s+bxcIl8JNlFN9fI+oiLXcugcgbzbAR
-	ClW6OTG+UtNGXdIzzyZ/zP8ALHczCsX0U0ujhgLsfZxTJhS9YHThqHGK2wwDJ4e/xN7D
-	qF7QgHUoX27UEGuT67yC0YdVZWj7KpmoungOj3Gt/sKphtMH4pfZ44+ESHxFQE1aFLmR
-	uFPfxWTZFhDAnjVd6YgHQOpRkpnKKDfHltU6dgTZQQDUCGaim7dxhewGlNxytAJ7Iarb
-	cVoOOG7UBxliGsYNxtcd6+aQAZLYsWQSh6DVK89JN+UuUBxlnCbQVaJlcGlgKomM/rix
-	8hqQ==
-X-Gm-Message-State: AJcUukc/4tYzkw6M3hlhAhpcvo/mIJdf6rok60mFYVwVJMAEnIHaY2AX
-	M8/aH7tvLI58bd9llhD16jLt8r87
-X-Google-Smtp-Source: ALg8bN6shfFKR9ABxh5ZsZx9F1DstS7TNHnVFV6+a0sCNmQbU1IVN7gZ1oHPJcaOSzX8bMavD+7J1w==
-X-Received: by 2002:a81:1c42:: with SMTP id c63mr22407081ywc.89.1547470608374; 
-	Mon, 14 Jan 2019 04:56:48 -0800 (PST)
+	bh=E1oZEqjzXdCiU9MmTX+nAkPU1QF/5bi5DJ0DTwneKWI=;
+	b=j90qUa6wt0mDJblLvDDNfGqQb4XN8BV08fjAQGEHYEEJ9THP7++kKwW+ICoeF9oykC
+	pEK1l6thGlY53ta/tHhFXbCUclBlGc/fFeFBHI/a5y8zPN+tzQtwShZ4ZWHnkZpr4Qbx
+	7QK/9T/wLDZOLkFI0sbzTYcLtd4+P+YSLeTDdCmc5mPx/Ox1B1oYrL31zDhA8ctDfwf1
+	y9n+e46zNcUiwxIZaD46rvxu7uuhYQqUwbFEUHvgUUsuKqrhe8Yp0t9gtjVwpPoq35OX
+	U9rXuZScmRd16mhCnn1chHlSayz5LmfVsApYlIxTXP6NDr+SiJBAinECCknVszviIpi9
+	GmWA==
+X-Gm-Message-State: AJcUukdZ/pe6jnRLXjDo71IWK11huUKnVsLBnQVUSlVMkbZ7FpvsuewW
+	Vq+8MP0j+PEhlw85yMna0hdTXDKH
+X-Google-Smtp-Source: ALg8bN6FBhWAG9IieKM8OIH1YdCaNGVVgA06rU5Ad9IKUQ+9qBzyO2+v1f5oVTluYPxrXxPlCheilw==
+X-Received: by 2002:a0d:e901:: with SMTP id s1mr22531560ywe.97.1547470609441; 
+	Mon, 14 Jan 2019 04:56:49 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	h145sm115143ywc.72.2019.01.14.04.56.47
+	h145sm115143ywc.72.2019.01.14.04.56.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Jan 2019 04:56:47 -0800 (PST)
+	Mon, 14 Jan 2019 04:56:48 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2019 12:56:27 +0000
-Message-Id: <20190114125632.4780-8-git@andred.net>
+Date: Mon, 14 Jan 2019 12:56:28 +0000
+Message-Id: <20190114125632.4780-9-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190114125632.4780-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 07/12] update-alternatives: try to update FILES_${PN} when renaming a file
+Subject: [PATCH 08/12] util-linux: one package per binary (pt 1: base_sbindir)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,76 +50,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 12:56:47 -0000
+X-List-Received-Date: Mon, 14 Jan 2019 12:56:48 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-When using update-alternatives, FILES_${PN} must be
-referencing the new name after update-alternatives has
-renamed files.
+Now that we have required infrastructure in place, we
+can start creating one package per binary.
 
-This is more or less OK when having static lists of files to
-be packaged into a package, but makes it quite hard to
-dynamically generate FILES_${PN}, e.g. using do_split_packages(),
-as in that case we can not easily modify what goes into
-FILES_${PN}, because that list is based on filenames as seen
-at the time do_split_packages() is executing.
+To make this process easier to follow, this is done
+in steps, starting with binaries from base_sbindir.
 
-Of couse one could explicitly specify the (renamed) file(s)
-in the recipe, but that contradicts the intended usage of
-do_split_packages().
+Existing packages (and current dependency by main package):
+* agetty
+* blkid
+* cfdisk <- RRECOMMENDS
+* fdisk <- RRECOMMENDS
+* fsck
+* fstrim
+* losetup <- RDEPENDS
+* hwclock
+* sulogin <- RDEPENDS
+* swaponoff <- RDEPENDS
+* switch-root <- RRECOMMENDS
 
-Instead, if FILES_${PN} contains the file name as it was pre
-renaming, we here modify this to reflect the new name.
+New packages:
+* blockdev
+* ctrlaltdel
+* mkswap
+* nologin
+* pivot-root
+* swapon
+* swapoff
 
-This will allow usage of do_split_packages() to populate
-FILES_${PN}.
+swaponoff is empty now and simply depends on swapon swapoff
+
+To avoid breaking existing users, all the new packages
+are added to the main package as RRECOMMENDS_${PN}, so
+they are pulled into existing images etc.
+
+The existing RDEPENDS_${PN} will need some further
+clean-up in the future, as it appears a bit random which
+packages the main package depends on vs. recommends.
+Existing packages that aren't in RDEPENDS / RRECOMMENDS
+haven't been added to RRECOMMENDS for that reason.
 
 [YOCTO #13058]
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
- meta/classes/update-alternatives.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc | 58 +++++++++------------
+ 1 file changed, 26 insertions(+), 32 deletions(-)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index ffedada2f6..a204afb060 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -139,6 +139,8 @@ python perform_packagecopy_append () {
- }
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 68534d8744..c7d6c3a039 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -28,19 +28,29 @@ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+            "
  
- python apply_update_alternative_renames () {
-+    from re import sub
+-PACKAGES =+ "util-linux-agetty util-linux-blkdiscard util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
+-             util-linux-swaponoff util-linux-losetup util-linux-umount \
++PACKAGES =+ "util-linux-blkdiscard util-linux-sfdisk \
++             util-linux-swaponoff util-linux-umount \
+              util-linux-mount util-linux-readprofile util-linux-uuidd \
+-             util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs util-linux-fsck \
+-             util-linux-blkid util-linux-mkfs util-linux-mcookie util-linux-rfkill \
+-             util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
+-             util-linux-partx util-linux-hwclock util-linux-mountpoint \
+-             util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit \
+-             util-linux-ionice util-linux-switch-root util-linux-unshare"
++             util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs \
++             util-linux-mkfs util-linux-mcookie util-linux-rfkill \
++             util-linux-lsblk util-linux-mkfs.cramfs \
++             util-linux-partx util-linux-mountpoint \
++             util-linux-findfs util-linux-getopt util-linux-prlimit \
++             util-linux-ionice util-linux-unshare"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+ PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
+ 
+-PACKAGES_DYNAMIC = "^util-linux-lib.*"
++python apply_update_alternative_renames_prepend () {
++    def pkg_hook(f, pkg, file_regex, output_pattern, modulename):
++        if d.getVar('ALTERNATIVE_' + pkg):
++            return
++        if d.getVarFlag('ALTERNATIVE_LINK_NAME', modulename):
++            d.setVar('ALTERNATIVE_' + pkg, modulename)
 +
-     # Check for deprecated usage...
-     pn = d.getVar('BPN')
-     if d.getVar('ALTERNATIVE_LINKS') != None:
-@@ -178,6 +180,10 @@ python apply_update_alternative_renames () {
-                     else:
-                         bb.note('%s: Rename %s -> %s' % (pn, alt_target, alt_target_rename))
-                         os.rename(src, dest)
-+                        f = d.getVar('FILES_' + pkg)
-+                        if f:
-+                            f = sub(r'(^|\s)%s(\s|$)' % alt_target, r'\1%s\2' % alt_target_rename, f)
-+                            d.setVar('FILES_' + pkg, f)
-                 else:
-                     bb.warn("%s: alternative target (%s or %s) does not exist, skipping..." % (pn, alt_target, alt_target_rename))
-                     continue
-@@ -204,6 +210,11 @@ python apply_update_alternative_renames () {
-                     os.unlink(src)
-                 else:
-                     bb.warn('%s: Unable to resolve dangling symlink: %s' % (pn, alt_target))
-+                    continue
-+            f = d.getVar('FILES_' + pkg)
-+            if f:
-+                f = sub(r'(^|\s)%s(\s|$)' % alt_target, r'\1%s\2' % alt_target_rename, f)
-+                d.setVar('FILES_' + pkg, f)
- }
++    do_split_packages(d, root='${base_sbindir}', file_regex='(.*)', output_pattern='${BPN}-%s', description='util-linux %s', hook=pkg_hook, extra_depends='', prepend=True)
++}
++
++PACKAGES_DYNAMIC = "^util-linux-.*"
  
- PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --disable-makeinstall-chown \
+@@ -74,14 +84,8 @@ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ 
+ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+ 
+-FILES_util-linux-agetty = "${base_sbindir}/agetty"
+ FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
+-FILES_util-linux-fdisk = "${base_sbindir}/fdisk.${BPN}"
+-FILES_util-linux-fstrim = "${base_sbindir}/fstrim.${BPN}"
+-FILES_util-linux-cfdisk = "${base_sbindir}/cfdisk"
+ FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
+-FILES_util-linux-swaponoff = "${base_sbindir}/swapon.${BPN} ${base_sbindir}/swapoff.${BPN}"
+-FILES_util-linux-losetup = "${base_sbindir}/losetup.${BPN}"
+ FILES_util-linux-mount = "${base_bindir}/mount.${BPN}"
+ FILES_util-linux-mcookie = "${bindir}/mcookie"
+ FILES_util-linux-umount = "${base_bindir}/umount.${BPN}"
+@@ -90,7 +94,6 @@ FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+ FILES_util-linux-uuidd = "${sbindir}/uuidd"
+ FILES_util-linux-rfkill = "${sbindir}/rfkill.${BPN}"
+ FILES_util-linux-partx = "${sbindir}/partx"
+-FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
+ FILES_util-linux-runuser = "${sbindir}/runuser"
+@@ -106,27 +109,24 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
+ FILES_util-linux-lsblk = "${bindir}/lsblk"
+ FILES_util-linux-lscpu = "${bindir}/lscpu"
+ 
+-FILES_util-linux-fsck = "${base_sbindir}/fsck.${BPN}"
+ FILES_util-linux-mkfs = "${sbindir}/mkfs"
+ 
+ FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
+ FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
+ 
+-FILES_util-linux-sulogin = "${base_sbindir}/sulogin.${BPN}"
+ FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
+ 
+-FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
+ FILES_util-linux-unshare = "${bindir}/unshare.${BPN}"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+-FILES_util-linux-blkid = "${base_sbindir}/blkid.${BPN}"
+ RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
+ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ 
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
+ 
+-RRECOMMENDS_${PN} = "util-linux-blkdiscard util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice util-linux-switch-root"
++RRECOMMENDS_${PN} = "util-linux-blkdiscard util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice"
++RRECOMMENDS_${PN} += "${PN}-blockdev ${PN}-cfdisk ${PN}-ctrlaltdel ${PN}-fdisk ${PN}-mkswap ${PN}-nologin ${PN}-pivot-root ${PN}-switch-root"
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN}_class-nativesdk = ""
+@@ -135,6 +135,9 @@ RDEPENDS_${PN}_class-nativesdk = ""
+ 
+ RPROVIDES_${PN}-dev = "util-linux-libblkid-dev util-linux-libmount-dev util-linux-libuuid-dev"
+ 
++RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
++ALLOW_EMPTY_${PN}-swaponoff = "1"
++
+ #SYSTEMD_PACKAGES = "${PN}-uuidd ${PN}-fstrim"
+ SYSTEMD_SERVICE_${PN}-uuidd = "uuidd.socket uuidd.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-uuidd = "disable"
+@@ -206,9 +209,9 @@ do_install_append_class-native () {
+ ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_${PN}  = " \
+-    dmesg kill more mkswap blockdev pivot_root \
++    dmesg kill more \
+     hexdump last lastb logger mesg renice wall \
+-    setsid chrt flock utmpdump eject nologin taskset fallocate \
++    setsid chrt flock utmpdump eject taskset fallocate \
+     fsfreeze nsenter cal rev \
+ "
+ 
+@@ -247,13 +250,10 @@ ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
+ ALTERNATIVE_LINK_NAME[eject.1] = "${mandir}/man1/eject.1"
+ ALTERNATIVE_LINK_NAME[logger.1] = "${mandir}/man1/logger.1"
+ 
+-ALTERNATIVE_util-linux-hwclock = "hwclock"
+ ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
+ 
+-ALTERNATIVE_util-linux-fdisk = "fdisk"
+ ALTERNATIVE_LINK_NAME[fdisk] = "${base_sbindir}/fdisk"
+ 
+-ALTERNATIVE_util-linux-fstrim = "fstrim"
+ ALTERNATIVE_LINK_NAME[fstrim] = "${base_sbindir}/fstrim"
+ 
+ ALTERNATIVE_util-linux-agetty = "getty"
+@@ -272,17 +272,13 @@ ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
+ ALTERNATIVE_util-linux-readprofile = "readprofile"
+ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ 
+-ALTERNATIVE_util-linux-losetup = "losetup"
+ ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+ 
+-ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
+ ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
+ ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
+ 
+-ALTERNATIVE_util-linux-fsck = "fsck"
+ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ 
+-ALTERNATIVE_util-linux-blkid = "blkid"
+ ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
+ 
+ ALTERNATIVE_util-linux-rfkill = "rfkill"
+@@ -291,7 +287,6 @@ ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
+ ALTERNATIVE_util-linux-getopt = "getopt"
+ ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
+ 
+-ALTERNATIVE_util-linux-sulogin = "sulogin"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ 
+ ALTERNATIVE_util-linux-mountpoint = "mountpoint"
+@@ -303,7 +298,6 @@ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_util-linux-ionice = "ionice"
+ ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
+ 
+-ALTERNATIVE_util-linux-switch-root = "switch_root"
+ ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.20.1
 
