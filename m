@@ -1,147 +1,46 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id D4D1E79F4C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 625176B512
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 20:45:17 +0000 (UTC)
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-	by smtprelay.synopsys.com (Postfix) with ESMTP id 820C010C0B68;
-	Mon, 14 Jan 2019 12:45:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1547498718; bh=mgPrCpBCBRI23Xlt+g10fV8WEgTnMOhddndg7bGYVbE=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=Vm9vxPvbq6yxlNOS1xqtJdg4ZtXcTgSyCJLZELtVDLRPqbymOwKKrjRD6y9ykMd16
-	pCnjVlYlM+Ufvj8bx0Ghta+2ynDu+fw66wjTHFR0XQeFXdF9cK+Uk1+i5aUg2MVBf0
-	8XjQUECS28PMfWw5ULLaJ1Zjk5C8/ZsokO+3qhBZNTt6I8HwvL91BoRmsBIkj3PQyk
-	LOrSmF2AlmncahEEFb646xP1PFxxTmenTU4Ysx7Nv5mh8ieoQFk/7AUE2EijwZsyy0
-	I2jYTNDrPwhF/S//HGw7pvNgyAShLf5Zr/ZGwfPygEpr7OP6GaCkBBgayoB7n6q8MT
-	yu3DuFNrVGgJQ==
-Received: from US01WEHTC2.internal.synopsys.com
-	(us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
-	by mailhost.synopsys.com (Postfix) with ESMTP id 604793FE9;
-	Mon, 14 Jan 2019 12:45:18 -0800 (PST)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Mon, 14 Jan 2019 12:45:18 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Mon, 14 Jan 2019 21:45:15 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [PATCH] webkitgtk: Enable building for ARC architecture
-Thread-Index: AQHUqaw4ZLA0reuZakq1SpceOVmIUaWqIWwAgAUesGA=
-Date: Mon, 14 Jan 2019 20:45:15 +0000
-Message-ID: <4881796E12491D4BB15146FE0209CE64681C58B2@DE02WEMBXB.internal.synopsys.com>
+	Mon, 14 Jan 2019 21:13:23 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id p17so660223qtl.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jan 2019 13:13:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UfEuZgsRtn9ovPNESLn0P5J/yQaEgHNlIVukiEZW8FE=;
+	b=XDru3vXXV3zq7gIcUZ3zlqkTXkl2HQVsf7uwR7HNzUI/fbNwFf9QgyX0VFmG8uaF45
+	uyC6fm4rHhR5tdVzQlS59h7h2KTl3OQHysh2M0wM5kLY5m767YfkSFGzZ9JM3l2PsBSx
+	hKTHwYv+upbG6W27FLv8l5Mp7HgqwglaDUeGR30c7LmKN9kJvhnMhsV8Za4d7Fz/hPMz
+	7wsHoDTlYF8Tm0n7p562yL+Z0wdMR+CdWrs4psinafKkfgsdkHrjvGgJrmKc06biKQW1
+	ghKFUGPtYKJsZOh8nxxXAQaBFRWmF1S8Tz3y3ekHBQMRTX09TED1iD4wMZ0S/NfJ6tR9
+	8DKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UfEuZgsRtn9ovPNESLn0P5J/yQaEgHNlIVukiEZW8FE=;
+	b=C2epvL9yevgV/FnFD8HQaPpFrZ13EUc1P2GYC4ED+Qm7lKLgI2b1DNXWcuJCVUvbc4
+	oAMfnA/oWzSmgCpC8GRBRxyIbp6og+vkG2sbmCDpL38UCEbdmA4fUYRUEbIwR9MzxbHe
+	vRnz2eMuhctlbszwGkv7EY/1DhSMES9u7FIZGhFBcOnwyxLxj4i4IgEnZoXkPT9yKOWa
+	1qZfyuweiixq+G60EyqYqwWXV0S7XT8flTOFt+bSDNCOm9hgdqDaQAFjcaSOUCTqvYhk
+	m0XbCSJ8CGh3fRMqnZBkCOAn+P0s6jYf/drFTNVbyaaNPQoDafVOw6lTaubf+cGqVCJZ
+	wSNw==
+X-Gm-Message-State: AJcUukcv+lRoAa7JSxAIkUDVxZ3vOduj5dnSYsOY56rJKOzUzcqg0k1U
+	aa5TrROWHjPCQ01tm2P7q+YXmuS5Atfly2mHKfo=
+X-Google-Smtp-Source: ALg8bN6y0aLjTIHqBLINT43c/3kGsbQeHWBgMDcNe947zQST9lr+bJ8U2+PI3zzVasATZtB05uvOO5azmwtElGbYIO4=
+X-Received: by 2002:ac8:518d:: with SMTP id c13mr377855qtn.254.1547500404124; 
+	Mon, 14 Jan 2019 13:13:24 -0800 (PST)
+MIME-Version: 1.0
 References: <20190111125014.34593-1-abrodkin@synopsys.com>
 	<CAMKF1soxmbmcHx4ZQkyx4aqoNYSApjU0wGTEntfsTm08Rg4Y8A@mail.gmail.com>
-In-Reply-To: <CAMKF1soxmbmcHx4ZQkyx4aqoNYSApjU0wGTEntfsTm08Rg4Y8A@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
-	=?utf-8?B?bk5jWVdKeWIyUnJhVzVjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
-	=?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
-	=?utf-8?B?elhHMXpaeTAwWVRVeE5qWXhZUzB4T0ROa0xURXhaVGt0WW1WaVl5MHdNR1V3?=
-	=?utf-8?B?TkdNMlpUQXpOREpjWVcxbExYUmxjM1JjTkdFMU1UWTJNV010TVRnelpDMHhN?=
-	=?utf-8?B?V1U1TFdKbFltTXRNREJsTURSak5tVXdNelF5WW05a2VTNTBlSFFpSUhONlBT?=
-	=?utf-8?B?SXlOREkzSWlCMFBTSXhNekU1TVRrM01qTXhOREEzTkRNMU5qUWlJR2c5SW1o?=
-	=?utf-8?B?b2IxWjFTSGt3VGpOUWMxUnVZbFZDTWtwMVFWcDZUa1ZYVVQwaUlHbGtQU0lp?=
-	=?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
-	=?utf-8?B?azVEWjFWQlFVSlJTa0ZCUTAxQllYZE5VM0Y2VlVGa2NIQkxZMUp0UjNCcE16?=
-	=?utf-8?B?SnRhM0I0UjFsaGJVeGpUMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRklRVUZCUVVOclEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGRlFVRlJRVUpCUVVGQlVEaFFjR1ZuUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
-	=?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
-	=?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
-	=?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
-	=?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
-	=?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
-	=?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
-	=?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
-	=?utf-8?B?MmRDZWtGR09FRmpkMEpvUVVjd1FXTjNRakZCUnpSQlduZENaa0ZJU1VGYVVV?=
-	=?utf-8?B?SjZRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
-	=?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
-	=?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSE1FRmhVVUpxUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
-	=?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
-	=?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNFMUJaRUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
-	=?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JC?=
-	=?utf-8?B?UW5wQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkWlFXSjNR?=
-	=?utf-8?B?akZCUnpSQldrRkNlVUZJYTBGWWQwSjNRVWRGUVdOblFqQkJSelJCV2xGQ2VV?=
-	=?utf-8?B?RklUVUZZZDBJeFFVY3dRVmwzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
-	=?utf-8?B?QlFVRmFkMEl3UVVoTlFWaDNRbmRCU0VsQlluZENhMEZJVlVGWmQwSXdRVVk0?=
-	=?utf-8?B?UVdSQlFubEJSMFZCWVZGQ2RVRkhhMEZpWjBKdVFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
-	=?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbWhCUjAxQldY?=
-	=?utf-8?B?ZENka0ZJVlVGaVowSXdRVVk0UVdOQlFuTkJSMFZCWW1kQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJXVkZDYzBGSFZVRmpkMEpt?=
-	=?utf-8?B?UVVoRlFXUlJRblpCU0ZGQldsRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
-	=?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
-	=?utf-8?B?alowSjBRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
-	=?utf-8?B?UVVKNlFVYzBRV05CUW5wQlJqaEJZa0ZDY0VGSFRVRmFVVUoxUVVoTlFWcFJR?=
-	=?utf-8?B?bVpCU0ZGQldsRkNlVUZITUVGWWQwSjZRVWhSUVdSUlFtdEJSMVZCWW1kQ01F?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
-	=?utf-8?B?RkJRVUZCYm1kQlFVRklXVUZhZDBKbVFVZHpRVnBSUWpWQlNHTkJZbmRDZVVG?=
-	=?utf-8?B?SFVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZC?=
-	=?utf-8?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: 
-x-originating-ip: [10.225.15.89]
-MIME-Version: 1.0
+	<4881796E12491D4BB15146FE0209CE64681C58B2@DE02WEMBXB.internal.synopsys.com>
+In-Reply-To: <4881796E12491D4BB15146FE0209CE64681C58B2@DE02WEMBXB.internal.synopsys.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 14 Jan 2019 13:12:58 -0800
+Message-ID: <CAMKF1spk7gEf17DAiyETbRsjsVDXfTCfi+=Y9o3Q40=0X+gBXg@mail.gmail.com>
+To: Alexey Brodkin <alexey.brodkin@synopsys.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
 	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
@@ -158,51 +57,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 20:45:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 14 Jan 2019 21:13:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgS2hlbSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJh
-aiBbbWFpbHRvOnJhai5raGVtQGdtYWlsLmNvbV0NCj4gU2VudDogRnJpZGF5LCBKYW51YXJ5IDEx
-LCAyMDE5IDY6MzIgUE0NCj4gVG86IEFsZXhleSBCcm9ka2luIDxhbGV4ZXkuYnJvZGtpbkBzeW5v
-cHN5cy5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
-ZSBsYXllciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47DQo+IFJp
-Y2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPjsgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT47IGxpbnV4LXNucHMtDQo+IGFyY0BsaXN0cy5p
-bmZyYWRlYWQub3JnOyBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT47
-IEhvbmd4dSBKaWENCj4gPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4NCj4gU3ViamVjdDogUmU6
-IFtQQVRDSF0gd2Via2l0Z3RrOiBFbmFibGUgYnVpbGRpbmcgZm9yIEFSQyBhcmNoaXRlY3R1cmUN
-Cj4gDQo+IE9uIEZyaSwgSmFuIDExLCAyMDE5IGF0IDQ6NTAgQU0gQWxleGV5IEJyb2RraW4NCj4g
-PGFsZXhleS5icm9ka2luQHN5bm9wc3lzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBGb3IgdGhhdCB3
-ZSBuZWVkIDIgdGhpbmdzOg0KPiA+ICAxLiBEaXNhYmxlIEpJVCBpbiBKUyBhcyBpdCdzIG5vdCBz
-dXBwb3J0ZWQgZm9yIEFSQy4NCj4gPg0KPiA+ICAyLiBDb21waWxlIHdpdGggIi1tbG9uZy1jYWxs
-cyIgc28gcmVsb2NhdGlvbnMgd2l0aA0KPiA+ICAgICBvZmZzZXRzIGxhcmdlciB0aGFuIDI1IGJp
-dHMgYXJlIHVzZWQsIG90aGVyd2lzZQ0KPiA+ICAgICBsaW5rZXIgZmFpbHMgdG8gbGluayBmaW5h
-bCBiaW5hcmllcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEFsZXhleSBCcm9ka2luIDxhYnJv
-ZGtpbkBzeW5vcHN5cy5jb20+DQo+ID4gQ2M6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
-aW5AZ21haWwuY29tPg0KPiA+IENjOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
-b20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi4y
-Mi41LmJiIHwgNyArKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykN
-Cj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3Rr
-XzIuMjIuNS5iYiBiL21ldGEvcmVjaXBlcy0NCj4gc2F0by93ZWJraXQvd2Via2l0Z3RrXzIuMjIu
-NS5iYg0KPiA+IGluZGV4IGZjNTY4MjJmN2EuLjU2ZjY5YzdhMzAgMTAwNjQ0DQo+ID4gLS0tIGEv
-bWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjIyLjUuYmINCj4gPiArKysgYi9t
-ZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrXzIuMjIuNS5iYg0KPiA+IEBAIC02OSw2
-ICs2OSwxMyBAQCBFWFRSQV9PRUNNQUtFID0gIiBcDQo+ID4gIEVYVFJBX09FQ01BS0VfYXBwZW5k
-X3g4NiA9ICIgLURVU0VfR1NUUkVBTUVSX0dMPU9GRiAiDQo+ID4gIEVYVFJBX09FQ01BS0VfYXBw
-ZW5kX3g4Ni14MzIgPSAiIC1EVVNFX0dTVFJFQU1FUl9HTD1PRkYgIg0KPiA+DQo+ID4gKyMgSmF2
-YXNjcmlwdCBKSVQgaXMgbm90IHN1cHBvcnRlZCBvbiBBUkMNCj4gPiArRVhUUkFfT0VDTUFLRV9h
-cHBlbmRfYXJjID0gIiAtREVOQUJMRV9KSVQ9T0ZGICINCj4gPiArIyBCeSBkZWZhdWx0IDI1LWJp
-dCAibWVkaXVtIiBjYWxscyBhcmUgdXNlZCBvbiBBUkMNCj4gPiArIyB3aGljaCBpcyBub3QgZW5v
-dWdoIGZvciBiaW5hcmllcyBsYXJnZXIgdGhhbiAzMiBNaUINCj4gPiArQ0ZMQUdTX2FwcGVuZF9h
-cmMgPSAiIC1tbG9uZy1jYWxscyINCj4gPiArQ1hYRkxBR1NfYXBwZW5kX2FyYyA9ICIgLW1sb25n
-LWNhbGxzIg0KPiANCj4gcGVyaGFwcyBhZGRpbmcgdG8gQ1BQRkxBR1MgaXMgZ29pbmcgdG8gYmUg
-ZW5vdWdoIGZvciBib3RoIGMvYysrIGNhc2VzDQoNCkp1c3QgdHJpZWQgdGhhdCAob25seSBDUFBG
-TEFHU19hcHBlbmRfYXJjID0gIiAtbWxvbmctY2FsbHMiKSBhbmQNCkkgZG9uJ3Qgc2VlICItbWxv
-bmctY2FsbHMiIHVzZWQgZHVyaW5nIGNvbXBpbGF0aW9uIGF0IGFsbA0KKEknbSBsb29raW5nIGF0
-IC4uLi9vZS9idWlsZC90bXAtZ2xpYmMvd29yay9hcmNocy1vZS1saW51eC93ZWJraXRndGsvMi4y
-Mi41LXIwL3RlbXAvbG9nLmRvX2NvbXBpbGUpLg0KDQpTbyBJIG1heSBndWVzcyB3ZWJraXRndGsg
-ZG9lc24ndCBjb3B5IENQUEZMQUdTIHRvIENGTEFHUyBhbmQgQ1hYRkxBR1MuDQoNCi1BbGV4ZXkN
-Cg==
+On Mon, Jan 14, 2019 at 12:45 PM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+>
+> Hi Khem,
+>
+> > -----Original Message-----
+> > From: Khem Raj [mailto:raj.khem@gmail.com]
+> > Sent: Friday, January 11, 2019 6:32 PM
+> > To: Alexey Brodkin <alexey.brodkin@synopsys.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>;
+> > Richard Purdie <richard.purdie@linuxfoundation.org>; Ross Burton <ross.burton@intel.com>; linux-snps-
+> > arc@lists.infradead.org; Alexander Kanavin <alex.kanavin@gmail.com>; Hongxu Jia
+> > <hongxu.jia@windriver.com>
+> > Subject: Re: [PATCH] webkitgtk: Enable building for ARC architecture
+> >
+> > On Fri, Jan 11, 2019 at 4:50 AM Alexey Brodkin
+> > <alexey.brodkin@synopsys.com> wrote:
+> > >
+> > > For that we need 2 things:
+> > >  1. Disable JIT in JS as it's not supported for ARC.
+> > >
+> > >  2. Compile with "-mlong-calls" so relocations with
+> > >     offsets larger than 25 bits are used, otherwise
+> > >     linker fails to link final binaries.
+> > >
+> > > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> > > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+> > > Cc: Hongxu Jia <hongxu.jia@windriver.com>
+> > > ---
+> > >  meta/recipes-sato/webkit/webkitgtk_2.22.5.bb | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb b/meta/recipes-
+> > sato/webkit/webkitgtk_2.22.5.bb
+> > > index fc56822f7a..56f69c7a30 100644
+> > > --- a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+> > > +++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+> > > @@ -69,6 +69,13 @@ EXTRA_OECMAKE = " \
+> > >  EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
+> > >  EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
+> > >
+> > > +# Javascript JIT is not supported on ARC
+> > > +EXTRA_OECMAKE_append_arc = " -DENABLE_JIT=OFF "
+> > > +# By default 25-bit "medium" calls are used on ARC
+> > > +# which is not enough for binaries larger than 32 MiB
+> > > +CFLAGS_append_arc = " -mlong-calls"
+> > > +CXXFLAGS_append_arc = " -mlong-calls"
+> >
+> > perhaps adding to CPPFLAGS is going to be enough for both c/c++ cases
+>
+> Just tried that (only CPPFLAGS_append_arc = " -mlong-calls") and
+> I don't see "-mlong-calls" used during compilation at all
+> (I'm looking at .../oe/build/tmp-glibc/work/archs-oe-linux/webkitgtk/2.22.5-r0/temp/log.do_compile).
+>
+> So I may guess webkitgtk doesn't copy CPPFLAGS to CFLAGS and CXXFLAGS.
+>
+
+yes its possible. Thanks for additional verifications
+
+> -Alexey
 
