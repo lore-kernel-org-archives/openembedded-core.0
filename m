@@ -1,45 +1,62 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CD4A7A076
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A7D437C082
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 15:11:43 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id y23so18116518oia.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 07:11:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=XdZJH2GMdMrJR8uFa5V4fOaj5vcj/qBzG3ZEWNc8vtM=;
-	b=ZgTBqNQhlIEmnEoG/LMl4agJWl/6hK0PFm9yLlumR2EqqbZ4Y0ZFZPAdGGXfioNmEd
-	0waryJMukh7+RJK5V7a2lCybgncEo8wkrSbg2BBS8EX5Gb5rQiNFaQJcJQy6n1SArVvS
-	jh177qZm7QFk4QzLOCqTyZeSVljQjCXylQ5B6tR3dPWzoU05O/PzFtG+pwnVwwRZYJYv
-	tlh1vmlQcGCPfQOGzKAU8XBLcV1639PMQ1Q2eqo9XsbZie+BYrrtY/IH2YwQPGsuUkLH
-	DOZmE3w+S0RlCQfGhJ2EUSK4NIp5RuaM0KMKgSPmZFLxXfp35CI942Z0xa8Gqb2CDJVh
-	J0hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=XdZJH2GMdMrJR8uFa5V4fOaj5vcj/qBzG3ZEWNc8vtM=;
-	b=igEtPrMVCcyq6DW/3yFrXclqxKYbVUWcO6Da/7lFjGnqAL19cGRqTdgWOSB+PpCgRq
-	9kHU0+O1C6xdthrpV8MSYrbSAyeLUZWhuyYy9Rcy8YVL/YPY5uXf4T3tuu8SyJLZRWEY
-	1sC3C7Cn0R+lPEzALgfbt9yiesIkupoQg1xlOB3mAyZXid9saqXvFmaM4lu2bvp+z0F2
-	RyLm/dmhmLsw6UCiT05Z3VX52M3d4IkkOo1peZWh4cceF/CXckMvy3u2F4rLGXnTgP2C
-	xhBzQLRB1OBGuP1FXCa6/f5fLmx7LGj84iNh5hkVvbBejB5kOrad/jE4bndyza1FvvU8
-	FU/A==
-X-Gm-Message-State: AJcUukexbsT0DSoM5TOZEYjxkY+q8Q+gIJCuW5941MIjt7KusUWv4NCW
-	JEDvu0es/IKKp8MB8P4/4N0Y5QOvt10ddm2/Jxt14gal
-X-Google-Smtp-Source: ALg8bN4sAUB0nCY+Lo3BUGOLhiwJuepMPQcbhuVDOlZnomMisuO176s+ypCGw6eM11tUlGBl/Ky+Ke8MBNC3UsWx0KQ=
-X-Received: by 2002:aca:544:: with SMTP id 65mr15591277oif.302.1547478704595; 
-	Mon, 14 Jan 2019 07:11:44 -0800 (PST)
-MIME-Version: 1.0
+	Mon, 14 Jan 2019 15:50:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E2C3F183C7;
+	Mon, 14 Jan 2019 16:50:46 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id ROYWASLG4dq9; Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 2A6A61831E;
+	Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 18BB31E075;
+	Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0D7641E074;
+	Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 018AD16BC;
+	Mon, 14 Jan 2019 16:50:45 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 14 Jan 2019 16:50:44 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 14 Jan 2019 16:50:44 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Mon, 14 Jan 2019 16:50:44 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 07/23] libepoxy: enable native/nativesdk
+	variants
+Thread-Index: AQHUrBqC9ObWwsH3qkK4cAe0K4Rf36Wu5o5w
+Date: Mon, 14 Jan 2019 15:50:44 +0000
+Message-ID: <3d19369484a84d2c879b580dc121a718@XBOX04.axis.com>
 References: <cover.1547477793.git.alex.kanavin@gmail.com>
-In-Reply-To: <cover.1547477793.git.alex.kanavin@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Jan 2019 16:11:33 +0100
-Message-ID: <CANNYZj_1hQPAoO20Uqh4=6SDkhpoZ_hEgUm4o7h9Sw26J7u1rw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/23] Enable accelerated OpenGL in qemu
+	<3a7a4903e87c0cd564e7652c463cbc6baead9cc6.1547477793.git.alex.kanavin@gmail.com>
+In-Reply-To: <3a7a4903e87c0cd564e7652c463cbc6baead9cc6.1547477793.git.alex.kanavin@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 07/23] libepoxy: enable native/nativesdk variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,146 +69,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 15:11:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 14 Jan 2019 15:50:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Oh, I forgot the rationale:
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Alexander Kanavin
+> Sent: den 14 januari 2019 16:03
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 07/23] libepoxy: enable native/nativesdk
+> variants
+>=20
+> libepoxy is a requirement of virglrenderer. Note that we strip
+> RPATH from the library, as this allows fall-through to the host
+> GL implementation, instead of attempting (and failing) to use
+> mesa-native.
+>=20
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+> b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+> index 92f644c039d..45995325d2c 100644
+> --- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+> @@ -14,9 +14,21 @@ UPSTREAM_CHECK_URI =3D "https://github.com/anholt/libe=
+poxy/releases"
+>  inherit meson pkgconfig distro_features_check
+>=20
+>  REQUIRED_DISTRO_FEATURES =3D "opengl"
+> +REQUIRED_DISTRO_FEATURES_class-native =3D ""
+> +REQUIRED_DISTRO_FEATURES_class-nativesdk =3D ""
+>=20
+>  PACKAGECONFIG[egl] =3D "-Degl=3Dyes, -Degl=3Dno, virtual/egl"
+>  PACKAGECONFIG[x11] =3D "-Dglx=3Dyes, -Dglx=3Dno, virtual/libx11 virtual/=
+libgl"
+>  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} eg=
+l"
+>=20
+>  EXTRA_OEMESON +=3D "-Dtests=3Dfalse"
+> +
+> +PACKAGECONFIG_class-native =3D "egl"
+> +PACKAGECONFIG_class-nativesdk =3D "egl"
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
+> +
+> +# This will ensure that dlopen will attempt only GL libraries provided b=
+y host
+> +do_install_append () {
+> +    chrpath --delete ${D}${libdir}/*.so
+> +}
 
-1. I think we are heading towards a reality where some kind of working
-GL is a 'must' for any kind of UI work.
-2. Typically people build images and then transfer them to the NUC or
-even target boards for testing - using qemu would be less awkward.
-3. Current qemu configuration is basically useless here.
+Shouldn't this only be done for native/nativesdk? I.e.:
 
-Alex
+do_install_append_class-native() {
+	chrpath --delete ${D}${libdir}/*.so
+}
 
-On Mon, 14 Jan 2019 at 16:03, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> 0. TLDR:
->
-> $ . oe-init-build-env build-virgl
-> $ bitbake core-image-sato-sdk
-> $ runqemu kvm gl
-> $$ run glxgears or any other GL-capable binary inside qemu
->
-> 1. qemu is switched over to use gtk frontend. I simply couldn't get SDL
-> frontend to work properly, it only displays a blank black window or doesn't
-> start at all. Same thing happens with qemu binaries provided by Fedora and
-> opensuse (Ubuntu's qemu lacks virgl support). Seems like SDL support has
-> regressed.
->
-> 2. While the components are built against the most minimum necessary
-> mesa-native set (gbm, egl, dri with no drivers), libepoxy loads and uses the
-> host GL implementation (through a chrpath hack). This is both to save build
-> times, and because the host is likely to have a set of drivers more
-> appropriate for the physical machine (e.g. proprietary nvidia stack,
-> although I didn't test that).
->
-> 3. I tested this with
-> - glamor X server
-> - weston compositor with drm backend (build core-image-weston, then edit
->   weston.ini in the image to use drm backed instead of fbdev).
-> - kmscube
-> - glxgears
-> - https://www.geeks3d.com/gputest/
->
-> The latter two show FPS that is similar to running them directly on the host.
->
-> 4. Some things I am not sure about:
->
->  - how much of a 'default' should this be for running qemu. It works for me,
-> but other people might find it less stable compared to the existing
-> sdl-vmware-swrast setup.
->
-> - what other tests and demos could be run
->
-> - how could this be tested on the autobuilder. I wrote an oe-selftest for
-> this, but it does require an X session, and ability to create opengl
-> contexts on the host.
->
-> The following changes since commit 0c9f6e9bb18b2a52b5a5e828772a9619ee4d8515:
->
->   strace: add lost Upstream-Status (2019-01-14 11:49:07 +0000)
->
-> are available in the Git repository at:
->
->   git://git.yoctoproject.org/poky-contrib akanavin/virgl-gtk
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/virgl-gtk
->
-> Alexander Kanavin (23):
->   gtk+3: enable native/nativesdk variant
->   gtk+3: remove the gtk-icon-utils-native recipe
->   shared-mime-info: update the database also in native builds
->   gtk+: drop support for choosing between 2.x and 3.x implementations of
->     gtk-update-icon-cache
->   pixbufcache.bbclass: remove a dependency loop introduced by enabling
->     gtk+3-native
->   meta: add native and nativesdk variants to various recipes to enable
->     gtk+3-native/nativesdk
->   libepoxy: enable native/nativesdk variants
->   mesa: enable native and nativesdk variants
->   virglrenderer: add a recipe
->   qemu: enable virglrenderer and glx options for native/nativesdk builds
->   qemu: drop --with-gtkabi option, as it is no longer supported
->   mesa-gl: do not enable nativesdk variant to avoid clashes with main
->     mesa recipe
->   local.conf.sample: adjust the qemu config to enable gtk+ instead of
->     sdl
->   qemu: build target variant with gtk+, and nativesdk variant without
->     sdl
->   qemu: remove support for building against host sdl
->   atk: disable gobject-introspection for nativesdk
->   qemu: add a gettext-native dependency
->   libjpeg-turbo: fix nativesdk build in same way as native builds are
->   qemu: add a patch to avoid a missing include error
->   runqemu: add support for virgl GL acceleration
->   runqemu: do not check for GL libraries
->   qemu: add environment variable wrappers to make qemu look good with
->     gtk frontend
->   selftest: add a test for virgl GL acceleration
->
->  meta-poky/conf/local.conf.sample              |  10 +-
->  meta-selftest/lib/oeqa/runtime/cases/virgl.py |  17 +++
->  meta/classes/pixbufcache.bbclass              |   2 +-
->  meta/conf/machine/include/qemuboot-x86.inc    |   2 +-
->  meta/lib/oeqa/selftest/cases/runtime_test.py  |  19 ++++
->  meta/recipes-devtools/qemu/qemu.inc           |  40 ++++---
->  .../qemu/0001-Add-a-missing-X11-include.patch |  23 ++++
->  meta/recipes-devtools/qemu/qemu_3.1.0.bb      |   1 +
->  .../gdk-pixbuf/gdk-pixbuf_2.36.11.bb          |   2 +-
->  .../gnome/adwaita-icon-theme_3.28.0.bb        |   2 +
->  meta/recipes-gnome/gtk+/gtk+.inc              |   5 +-
->  meta/recipes-gnome/gtk+/gtk+3.inc             |  29 +++--
->  .../gtk+/gtk-icon-utils-native_3.22.30.bb     |  63 -----------
->  ...endency-from-gtk-encode-symbolic-svg.patch | 102 ------------------
->  .../hicolor-icon-theme_0.17.bb                |   2 +
->  meta/recipes-graphics/cairo/cairo_1.14.12.bb  |   2 +-
->  .../harfbuzz/harfbuzz_2.2.0.bb                |   2 +-
->  .../jpeg/libjpeg-turbo_2.0.1.bb               |   3 +-
->  .../libepoxy/libepoxy_1.5.3.bb                |  12 +++
->  meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb  |   2 +
->  meta/recipes-graphics/mesa/mesa.inc           |  12 ++-
->  meta/recipes-graphics/pango/pango_1.42.4.bb   |   2 +-
->  .../ttf-fonts/liberation-fonts_2.00.1.bb      |   2 +
->  .../virglrenderer/virglrenderer_git.bb        |  17 +++
->  .../xorg-lib/libxcomposite_0.4.4.bb           |   2 +-
->  .../xorg-lib/libxdamage_1.1.4.bb              |   2 +-
->  meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb |   2 +
->  .../xorg-lib/libxtst_1.2.3.bb                 |   1 +
->  .../recipes-support/atk/at-spi2-atk_2.30.0.bb |   2 +
->  .../atk/at-spi2-core_2.30.0.bb                |   1 +
->  meta/recipes-support/atk/atk_2.30.0.bb        |   4 +-
->  .../shared-mime-info/shared-mime-info.inc     |   2 +
->  meta/recipes-support/vte/vte_0.52.2.bb        |   2 +
->  scripts/runqemu                               |  46 ++------
->  34 files changed, 193 insertions(+), 244 deletions(-)
->  create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
->  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Add-a-missing-X11-include.patch
->  delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb
->  delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
->  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
->
+do_install_append_class-nativesdk() {
+	chrpath --delete ${D}${libdir}/*.so
+}
+
+(I also changed the indentation to tabs as I believe that is still=20
+the official OE-Core standard for shell code in recipes.)
+
 > --
 > 2.17.1
->
+
+//Peter
+
 
