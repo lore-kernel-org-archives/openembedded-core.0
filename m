@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 757FA6BCD6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id EF4857BD20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 10:51:56 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id b23so17222275ios.10
+	Mon, 14 Jan 2019 10:53:12 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id v1-v6so18602059ljd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 02:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AzX+qt56Qb8H8WHNpXFPNLa8ACKBCAvW9YQ9D/NaZC0=;
-	b=FKkbvy8Y3mDcgQsZVEMASZZ7JCdMO+WEWXvaeft2JsxTLYqATDrXmI8y3haIe3a6rZ
-	LXTEfVksqgfghNum06MZ9/1aZhWipyhApQCCpb+Lzx0AGF1hox9vc3Frs1NvPL9Z8O1j
-	W35ex/8V6WnZUkreaNsMr4uUu9Zc3Yndb/HFFgKISi/oXBGmQSaO4Tw2ZtQp7P48ZG25
-	wGbT5l1ohvzh0fmrm4ujTgx5bRD/BPHjb2Czm+S7vS0HCB04fR9Hg8ByxVORoPmvybih
-	IkhiVvrzuXMKPhpjd/srRhJq5r/cx3p98CgyTNR7QdE6ONiTWUnENHmOt9eV1l2IbB4J
-	0gbg==
+	Mon, 14 Jan 2019 02:53:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9IEN3E8GBzlD43HrMw01vux1Q4hyh6wt8A1NvAgqpiM=;
+	b=M+pzZH8/GFe/etVFJvL3qDdM8U8vzJ4x06sOr73IxFn3PB/Bdwp9n/A9pQbmYKENTs
+	NbbLGQHGuIRDxWp4wZ8Alpkr9Twl/VxZ2IDMlK39IJS2+94s2EzDBw1daL1DNLMLVaKH
+	qF4DgKvkvRORFt6MThgGtrSD+ZXviGwcINRJaxciXqiJN+3NHmz34/FsRkidCdUF5bJe
+	+a2czMAbMauf6DQj4t0psgDHpU6b1f/YPvWl2ybpQxSk2ulFuEfEEYesQfEqJqhP9akh
+	0FffZ3Ud4lRwI3QsH9YcO2goBCUlqcpq5TCx0UPV4V6rp+qwJByGylCHedDeul2dCrAo
+	KJeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=AzX+qt56Qb8H8WHNpXFPNLa8ACKBCAvW9YQ9D/NaZC0=;
-	b=MWNFCm6DLwzDqtxxk9mqMrP5wIDO4jO0MyOyJ5sw5vtze4QEdBkhD+IxxO8Rjz0YT6
-	yz4c0WVZkcHpEHjnfWk3YdlOeNzl4dur2wss5Wel0e6E9JTc7kbqyTU+jrxu8iYIPUyB
-	AhMZyxv8R4jhkpZ9mt/lv2fQV8AWURyoEsmRw7FthZkJ9IuuuNKhiQRlTe1FaApmO4S7
-	3Rss/dCnglRloUpFdnjqw8gWOel6glEtxzVJJQAvq75Ao5NYybnsvErp3vkqsYQAhzcV
-	VOQwEWEN7ZA13HomisHgF6f3o1fTk/B4Onwr1g0CgB8etCFWhxI/zrIkWcAcQProenMA
-	U9lA==
-X-Gm-Message-State: AJcUukecbs283OF8dxFpPmEG/yL03gIHQcC4+WN3MINd2Co8MHAYjy19
-	a8KfzQSk/MFexQNpgkgymgAhoxQ+ZFlZXhNMB9q/jQ==
-X-Google-Smtp-Source: ALg8bN62dYMKzbBzn/bH7BRwCshYjwGbGyI1V/g5aDK87xJBzulZfZTaK+wPa1my+7TdbJqkY/m4E1aYQ4XrnNGU+is=
-X-Received: by 2002:a6b:f70a:: with SMTP id k10mr13989756iog.270.1547463117457;
-	Mon, 14 Jan 2019 02:51:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20190111101609.5587-1-samuli.piippo@qt.io>
-In-Reply-To: <20190111101609.5587-1-samuli.piippo@qt.io>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jan 2019 10:51:46 +0000
-Message-ID: <CAJTo0Lazeqsrp7EUoX0uZHRf5k6_yfy=M2anyFDenMAbS-iYZw@mail.gmail.com>
-To: Samuli Piippo <samuli.piippo@qt.io>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sdl2: fix sdl2.pc include paths
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9IEN3E8GBzlD43HrMw01vux1Q4hyh6wt8A1NvAgqpiM=;
+	b=ttEI3/qvNnwy0Zn5AXqM8jcOsgkppcjA8i3qGRym4LQeeKLtsz/fM5BM4RrNOQu+8N
+	hDqBo9qofkfbGxHr53Vqplh+PqQC5z7nvvDYFQ4wLmsj0parrDm0n5VV+NOn3/SMopFg
+	/ltockZ70Ixjqwi1MGAdJFuzDFCUOT23/xFvUT7hRfgWpNhTyIzYny5wGm6sOl7/g0Ki
+	oZcHxAq0eyJRDWGx/URoQuFhhD2UpYafB5Nd/aiDAa9Ak7V0vuGMOlQl556G3sZWcmAO
+	mUCQJF1fExNFsEwo3y70iw9wIjYmVINmjlTfshGG7C0ghTn33+fQVjSwWR6hVRCh/S4j
+	+yuA==
+X-Gm-Message-State: AJcUukcn1COjzU186kFoQUEffNI9Z+Um9WdyC9RLZm6rLEgsrdYRq/Lp
+	CN/AcyubqgpuaR6B/MsI1dCXvuki
+X-Google-Smtp-Source: ALg8bN7MSFyXhUmBvPJ+qQq0cBX5F7/Gv4uDAt7ru6y/rPBRBbsCZOvLhdoMOICmIzxdaL9OsPRg7w==
+X-Received: by 2002:a2e:90ca:: with SMTP id
+	o10-v6mr13761490ljg.134.1547463193302; 
+	Mon, 14 Jan 2019 02:53:13 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id 10sm15699lff.62.2019.01.14.02.53.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Jan 2019 02:53:12 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jan 2019 11:53:05 +0100
+Message-Id: <20190114105305.117535-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] perl: fix yet another race failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,109 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 10:51:56 -0000
-Content-Type: multipart/alternative; boundary="0000000000006b608f057f68d5b7"
+X-List-Received-Date: Mon, 14 Jan 2019 10:53:14 -0000
 
---0000000000006b608f057f68d5b7
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...oader-separately-as-race-failures-ha.patch | 31 +++++++++++++++++++
+ .../perl-sanity/perl_5.28.1.bb                |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-Also-build-dynaloader-separately-as-race-failures-ha.patch
 
-Would it be easier to just remove @SDL_CFLAGS@ from sdl.pc.in?  Does that
-contain other values that are needed, or are they all spurious?
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-Also-build-dynaloader-separately-as-race-failures-ha.patch b/meta/recipes-devtools/perl-sanity/files/0001-Also-build-dynaloader-separately-as-race-failures-ha.patch
+new file mode 100644
+index 00000000000..15678b83ba7
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/files/0001-Also-build-dynaloader-separately-as-race-failures-ha.patch
+@@ -0,0 +1,31 @@
++From 9c68cdd1a89f9b944edc804d7c5d000c45de7b85 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 14 Jan 2019 11:45:20 +0100
++Subject: [PATCH] Also build dynaloader separately as race failures have been
++ observed in Yocto.
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/issues/72]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 7846406..cd8d75f 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -74,10 +74,13 @@ $(CROSSPATCHED): %.applied: %.patch
++ # Force full patching before any building starts. Als, force early building
++ # of miniperl -- not really necessary, but makes the build process more logical.
++ # No reason to try CC if HOSTCC fails.
+++#
+++# Dynaloader is also built separately as race failures have been observed.
++ all:
++ 	$(MAKE) crosspatch
++ 	$(MAKE) miniperl$X
++-	$(MAKE) dynaloader perl$x nonxs_ext utilities extensions pods
+++	$(MAKE) dynaloader
+++	$(MAKE) perl$x nonxs_ext utilities extensions pods
++ 
++ config.h: config.sh config_h.SH
++ 	CONFIG_H=$@ CONFIG_SH=$< ./config_h.SH
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+index 4ce158f4f81..0df821d446a 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
+            file://fix-race-failures.patch \
+            file://fix-race-failures-2.patch \
++           file://0001-Also-build-dynaloader-separately-as-race-failures-ha.patch \
+            "
+ 
+ SRC_URI[perl.md5sum] = "838198c43d4f39d7af797e2f59c2bee5"
+-- 
+2.17.1
 
-Ross
 
-On Sat, 12 Jan 2019 at 08:43, Samuli Piippo <samuli.piippo@qt.io> wrote:
-
-> SDL2 dumps all cflags to the sdl2.pc, which might then contain paths
-> to the recipe sysroot include dirs.
->
-> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
-> ---
->  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> index 812a9abf3c..a9c5d8a443 100644
-> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> @@ -64,6 +64,10 @@ do_configure_prepend() {
->          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
->  }
->
-> +do_install_append() {
-> +    sed -i -e "s|${STAGING_INCDIR}|$\{includedir}|g"
-> ${D}${libdir}/pkgconfig/sdl2.pc
-> +}
-> +
->  FILES_${PN}-dev += "${libdir}/cmake"
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---0000000000006b608f057f68d5b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Would it be easier to just remove=C2=A0@SDL_CFLAGS@ from <=
-a href=3D"http://sdl.pc.in">sdl.pc.in</a>?=C2=A0 Does that contain other va=
-lues that are needed, or are they all spurious?<div><br></div><div>Ross</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Sat, 12 Jan 2019=
- at 08:43, Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io">samuli.=
-piippo@qt.io</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;border-left-color:rgb(204,204,204);padding-left:1ex">SDL2 dumps all cflags=
- to the sdl2.pc, which might then contain paths<br>
-to the recipe sysroot include dirs.<br>
-<br>
-Signed-off-by: Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" tar=
-get=3D"_blank">samuli.piippo@qt.io</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a> | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.=
-bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a> b/meta/recipe=
-s-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">libsdl2_2.0.8.bb</a><br>
-index 812a9abf3c..a9c5d8a443 100644<br>
---- a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a><br>
-+++ b/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a><br>
-@@ -64,6 +64,10 @@ do_configure_prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export SYSROOT=3D$PKG_CONFIG_SYSROOT_DIR<=
-br>
-=C2=A0}<br>
-<br>
-+do_install_append() {<br>
-+=C2=A0 =C2=A0 sed -i -e &quot;s|${STAGING_INCDIR}|$\{includedir}|g&quot; $=
-{D}${libdir}/pkgconfig/sdl2.pc<br>
-+}<br>
-+<br>
-=C2=A0FILES_${PN}-dev +=3D &quot;${libdir}/cmake&quot;<br>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---0000000000006b608f057f68d5b7--
