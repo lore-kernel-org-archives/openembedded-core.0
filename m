@@ -1,41 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
-	[209.85.219.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6516E6C12D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 757FA6BCD6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 10:31:45 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id i6so4803588ybo.7
+	Mon, 14 Jan 2019 10:51:56 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id b23so17222275ios.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 02:31:46 -0800 (PST)
+	Mon, 14 Jan 2019 02:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=AzX+qt56Qb8H8WHNpXFPNLa8ACKBCAvW9YQ9D/NaZC0=;
+	b=FKkbvy8Y3mDcgQsZVEMASZZ7JCdMO+WEWXvaeft2JsxTLYqATDrXmI8y3haIe3a6rZ
+	LXTEfVksqgfghNum06MZ9/1aZhWipyhApQCCpb+Lzx0AGF1hox9vc3Frs1NvPL9Z8O1j
+	W35ex/8V6WnZUkreaNsMr4uUu9Zc3Yndb/HFFgKISi/oXBGmQSaO4Tw2ZtQp7P48ZG25
+	wGbT5l1ohvzh0fmrm4ujTgx5bRD/BPHjb2Czm+S7vS0HCB04fR9Hg8ByxVORoPmvybih
+	IkhiVvrzuXMKPhpjd/srRhJq5r/cx3p98CgyTNR7QdE6ONiTWUnENHmOt9eV1l2IbB4J
+	0gbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XQ9hODQRWsElqnEMiRZHdXxuToHCeFwum5HHSkTKdcs=;
-	b=Ndu25mSKng8xGqHHbMkg3T5blgHMkmhNvXnhB61uCXtsgQwR/EnyGNkbgji0/ZDZ7P
-	+7+neSmAPXmBK2vJSWQo5F9vrejVrdTGmvRY42s46QIBii/sSTI0FTOTaIDbs0WNA2A+
-	2dY+ED3Wzvc8D3/1sC6b5DPMsKau9wkDnC1UlFW5+NAV1BwPwpESPt9faI6YiBv80VOF
-	LGAR/myLVbSMg6F0ab1mWcQPRsQZnPxdj1v7lgzormRrekzbj3jYV7nQ9IFdqq96vV0/
-	kNSEUbZwKIgqiT0SO5Q+0LjozcBQsR5Gvv386hGHf/7FggAcGfAyRxbzpt5iE6mjhLle
-	dp5w==
-X-Gm-Message-State: AJcUukeRy0zyTaevwqSdIdanCn0oTDfZeV2A5pHloq1Nq1qBKZJmhS1J
-	kQe0bOBlaiB0FMpmgN/W+QcxnrGA
-X-Google-Smtp-Source: ALg8bN4+yZ1zoPWhAxjagSIUFL8dRGhXNEZp44oYVyNA6D4Ovk5bCVLvqbBdz+WkwzuAAyvHJJknqA==
-X-Received: by 2002:a25:61c1:: with SMTP id
-	v184mr23591163ybb.471.1547461905919; 
-	Mon, 14 Jan 2019 02:31:45 -0800 (PST)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id e3sm9661ywe.63.2019.01.14.02.31.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Jan 2019 02:31:45 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2019 10:31:43 +0000
-Message-Id: <20190114103143.19356-1-git@andred.net>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=AzX+qt56Qb8H8WHNpXFPNLa8ACKBCAvW9YQ9D/NaZC0=;
+	b=MWNFCm6DLwzDqtxxk9mqMrP5wIDO4jO0MyOyJ5sw5vtze4QEdBkhD+IxxO8Rjz0YT6
+	yz4c0WVZkcHpEHjnfWk3YdlOeNzl4dur2wss5Wel0e6E9JTc7kbqyTU+jrxu8iYIPUyB
+	AhMZyxv8R4jhkpZ9mt/lv2fQV8AWURyoEsmRw7FthZkJ9IuuuNKhiQRlTe1FaApmO4S7
+	3Rss/dCnglRloUpFdnjqw8gWOel6glEtxzVJJQAvq75Ao5NYybnsvErp3vkqsYQAhzcV
+	VOQwEWEN7ZA13HomisHgF6f3o1fTk/B4Onwr1g0CgB8etCFWhxI/zrIkWcAcQProenMA
+	U9lA==
+X-Gm-Message-State: AJcUukecbs283OF8dxFpPmEG/yL03gIHQcC4+WN3MINd2Co8MHAYjy19
+	a8KfzQSk/MFexQNpgkgymgAhoxQ+ZFlZXhNMB9q/jQ==
+X-Google-Smtp-Source: ALg8bN62dYMKzbBzn/bH7BRwCshYjwGbGyI1V/g5aDK87xJBzulZfZTaK+wPa1my+7TdbJqkY/m4E1aYQ4XrnNGU+is=
+X-Received: by 2002:a6b:f70a:: with SMTP id k10mr13989756iog.270.1547463117457;
+	Mon, 14 Jan 2019 02:51:57 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] classes/buildhistory: display modified git branches
+References: <20190111101609.5587-1-samuli.piippo@qt.io>
+In-Reply-To: <20190111101609.5587-1-samuli.piippo@qt.io>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Jan 2019 10:51:46 +0000
+Message-ID: <CAJTo0Lazeqsrp7EUoX0uZHRf5k6_yfy=M2anyFDenMAbS-iYZw@mail.gmail.com>
+To: Samuli Piippo <samuli.piippo@qt.io>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sdl2: fix sdl2.pc include paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,61 +55,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2019 10:31:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 Jan 2019 10:51:56 -0000
+Content-Type: multipart/alternative; boundary="0000000000006b608f057f68d5b7"
 
-From: André Draszik <andre.draszik@jci.com>
+--0000000000006b608f057f68d5b7
+Content-Type: text/plain; charset="UTF-8"
 
-When collecting the git revision of repositories, also take
-note of whether or not that repository has uncommited
-changes.
+Would it be easier to just remove @SDL_CFLAGS@ from sdl.pc.in?  Does that
+contain other values that are needed, or are they all spurious?
 
-This makes it a bit clearer what went on when looking at
-diffs.
+Ross
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
----
- meta/classes/buildhistory.bbclass | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+On Sat, 12 Jan 2019 at 08:43, Samuli Piippo <samuli.piippo@qt.io> wrote:
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 33eb1b00f6..796f68cf8f 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -672,12 +672,29 @@ def buildhistory_get_build_id(d):
-     statusheader = d.getVar('BUILDCFG_HEADER')
-     return('\n%s\n%s\n' % (statusheader, '\n'.join(statuslines)))
- 
-+def buildhistory_get_modified(path):
-+    # copied from get_layer_git_status() in image-buildinfo.bbclass
-+    import subprocess
-+    try:
-+        subprocess.check_output("""cd %s; export PSEUDO_UNLOAD=1; set -e;
-+                                git diff --quiet --no-ext-diff
-+                                git diff --quiet --no-ext-diff --cached""" % path,
-+                                shell=True,
-+                                stderr=subprocess.STDOUT)
-+        return ""
-+    except subprocess.CalledProcessError as ex:
-+        # Silently treat errors as "modified", without checking for the
-+        # (expected) return code 1 in a modified git repo. For example, we get
-+        # output and a 129 return code when a layer isn't a git repo at all.
-+        return " -- modified"
-+
- def buildhistory_get_metadata_revs(d):
-     # We want an easily machine-readable format here, so get_layers_branch_rev isn't quite what we want
-     layers = (d.getVar("BBLAYERS") or "").split()
--    medadata_revs = ["%-17s = %s:%s" % (os.path.basename(i), \
-+    medadata_revs = ["%-17s = %s:%s%s" % (os.path.basename(i), \
-         base_get_metadata_git_branch(i, None).strip(), \
--        base_get_metadata_git_revision(i, None)) \
-+        base_get_metadata_git_revision(i, None), \
-+        buildhistory_get_modified(i)) \
-             for i in layers]
-     return '\n'.join(medadata_revs)
- 
--- 
-2.20.1
+> SDL2 dumps all cflags to the sdl2.pc, which might then contain paths
+> to the recipe sysroot include dirs.
+>
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> index 812a9abf3c..a9c5d8a443 100644
+> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> @@ -64,6 +64,10 @@ do_configure_prepend() {
+>          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+>  }
+>
+> +do_install_append() {
+> +    sed -i -e "s|${STAGING_INCDIR}|$\{includedir}|g"
+> ${D}${libdir}/pkgconfig/sdl2.pc
+> +}
+> +
+>  FILES_${PN}-dev += "${libdir}/cmake"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000006b608f057f68d5b7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Would it be easier to just remove=C2=A0@SDL_CFLAGS@ from <=
+a href=3D"http://sdl.pc.in">sdl.pc.in</a>?=C2=A0 Does that contain other va=
+lues that are needed, or are they all spurious?<div><br></div><div>Ross</di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Sat, 12 Jan 2019=
+ at 08:43, Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io">samuli.=
+piippo@qt.io</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
+;border-left-color:rgb(204,204,204);padding-left:1ex">SDL2 dumps all cflags=
+ to the sdl2.pc, which might then contain paths<br>
+to the recipe sysroot include dirs.<br>
+<br>
+Signed-off-by: Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" tar=
+get=3D"_blank">samuli.piippo@qt.io</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a> | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.=
+bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a> b/meta/recipe=
+s-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">libsdl2_2.0.8.bb</a><br>
+index 812a9abf3c..a9c5d8a443 100644<br>
+--- a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a><br>
++++ b/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">libsdl2_2.0.8.bb</a><br>
+@@ -64,6 +64,10 @@ do_configure_prepend() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export SYSROOT=3D$PKG_CONFIG_SYSROOT_DIR<=
+br>
+=C2=A0}<br>
+<br>
++do_install_append() {<br>
++=C2=A0 =C2=A0 sed -i -e &quot;s|${STAGING_INCDIR}|$\{includedir}|g&quot; $=
+{D}${libdir}/pkgconfig/sdl2.pc<br>
++}<br>
++<br>
+=C2=A0FILES_${PN}-dev +=3D &quot;${libdir}/cmake&quot;<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--0000000000006b608f057f68d5b7--
