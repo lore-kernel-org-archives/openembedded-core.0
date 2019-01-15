@@ -1,28 +1,54 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE1586C3E1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AA0C97C168
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 22:40:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0FMdOZT011732
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jan 2019 14:39:35 -0800
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 15 Jan 2019 14:39:13 -0800
-To: Stefan Agner <stefan@agner.ch>, <openembedded-core@lists.openembedded.org>
-References: <20190115222730.54560-1-stefan@agner.ch>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <34f14ff1-44d4-8aac-5fd2-acb81c95830d@windriver.com>
-Date: Tue, 15 Jan 2019 17:39:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <20190115222730.54560-1-stefan@agner.ch>
-X-Originating-IP: [172.25.44.4]
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH 0/5] Add polkit distro feature
+	Tue, 15 Jan 2019 22:40:32 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t27so4827255wra.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2019 14:40:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=T6+tZXeqiurMJJCdQPMRtvyJ8AXcZlPI8k8dg5+F4U8=;
+	b=WS9PBJpbmQCbqO6qjKorhGxeuwnDKkRAyhEh/HouXPOH1f4wj+04LwVYDRK90asE4f
+	kZ3zN7z+pDaem484tLBfym3PSBYeCn2SzAiV6vvQpTEPeFYbMDpXZtF0K+k2ujn2Qs3X
+	GcbHEZnoAhMHTkfQwBmAo5lzvu0nL5csdSsUg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=T6+tZXeqiurMJJCdQPMRtvyJ8AXcZlPI8k8dg5+F4U8=;
+	b=gRoTZUKsvscNtOfzxpkQ877ffV10qYNd0WujECpSy1B8+gv+KzfInMBd9ToFZwRbUb
+	l77XcnhPVAlH0jpW48QrNLgcouPp/ROTtSoGp4tBkHejFAg6F2sXiJ5oO0P9ooVn+Bb7
+	JXjM1sBnFb+aW48y57hi/Je4Il285dYGe7E254/++gLxkNr8C0x2Uw/wgy7Epa7GcovA
+	fiQzIVnDSDRmsWBS6a9pwTfcAOoVeKVOPz5dykBuM0EN/BMTJHEBur6OjECST9ta8Qha
+	vT/o6Cl2b9TmwHRZk/Xx4oTh8F7jDUR7+h5wzMX8ndkZUiZ7g8gZXYtzNbyfD1fcVEOE
+	Q+QA==
+X-Gm-Message-State: AJcUukcvQmgktSnZVD+pfyoCa3TN3VWoDb8PmksxRERj9+TRWQiF4n/q
+	dSxfpS/J0fH09gjfNbV+832kmw==
+X-Google-Smtp-Source: ALg8bN5JJI47Dd+NgA0afWGRBheuBWNLKWqT2HBfzYr1fYGJVYwUeIEFxCcNONd7VhljU/ZeSfav0Q==
+X-Received: by 2002:adf:b502:: with SMTP id a2mr5242240wrd.54.1547592033312;
+	Tue, 15 Jan 2019 14:40:33 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b12sm61407211wrt.17.2019.01.15.14.40.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 15 Jan 2019 14:40:32 -0800 (PST)
+Message-ID: <e43ae780cc21144a3f4afc358f54798eab6c3aa2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, Randy MacLeod
+	<randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2019 22:40:31 +0000
+In-Reply-To: <9e1430b7-e754-a6b3-70e5-848d4c4c250e@windriver.com>
+References: <cover.1545102457.git.liezhi.yang@windriver.com>
+	<6777b5a2a2442988d4497678639c018f638ad86b.1545102457.git.liezhi.yang@windriver.com>
+	<ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
+	<9e1430b7-e754-a6b3-70e5-848d4c4c250e@windriver.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH V3 03/11] ccache.bbclass: Refactor it to make it more reliable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +61,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 22:40:14 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Tue, 15 Jan 2019 22:40:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 1/15/19 5:27 PM, Stefan Agner wrote:
-> From: Stefan Agner <stefan.agner@toradex.com>
+On Tue, 2019-01-15 at 10:11 +0800, Robert Yang wrote:
+> Hi Randy,
 > 
-> This patchset adds Polkit (formerly known as PolicyKit) as a distro feature.
-> Polkit is used to centrally manage system policies and allows non-privileged
-> processes access privileged operations.
-> 
-> Since various packages such as systemd, ConnMan or NetworkManager allow building
-> with/without Polkit support it is sensible to have a global policy by using a
-> distro feature to descide whether to use Polkit.
-> 
-> Currently there is NetworkManager and xfce4 which enable polkit if systemd is
-> enabled. Using Polkit as a distro feature allows to easily prevent any Polkit
-> use while still using systemd.
-> 
-> I plan to send another patch to wire this up in various packages in
-> meta-openembedded as well as documentation update.
+> I'm sorry for the types, and thanks for the correction. I found that
+> it has
+> been merged, I will be more careful.
 
-Thanks.
+I did tweak the commit message!
 
-The patches are pretty straight-forward.
-LGTM.
+Cheers,
 
-../Randy
+Richard
 
-> 
-> --
-> Stefan
-> 
-> Stefan Agner (5):
->    systemd: only enable polkit if DISTRO_FEATURES asks for polkit
->    gconf: rename policykit to polkit
->    gconf: enable polkit if polkit distro feature is set
->    consolekit: rename policykit to polkit
->    consolekit: enable polkit if polkit distro feature is set
-> 
->   meta/recipes-core/systemd/systemd_239.bb            | 3 +--
->   meta/recipes-gnome/gnome/gconf_3.2.6.bb             | 7 +++----
->   meta/recipes-support/consolekit/consolekit_0.4.6.bb | 4 ++--
->   3 files changed, 6 insertions(+), 8 deletions(-)
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
 
