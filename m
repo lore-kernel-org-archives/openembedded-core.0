@@ -1,52 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C0BA660291
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id E49D17C12B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 22:00:37 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s12so4752545wrt.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 14:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=rfEZfvFFd2z+iIqsaF/6niB0LI3CdLY9zfbZ8uBD5mg=;
-	b=gR9bHYk1NQz78ywuU5oZkQr8gPal2R/JPUB0SMG0Zb4AGuFaIWoE6NrtEOhuO9XjJ1
-	y8AseWGJIqYmG84Gf0fANktVZ1dZtalJD4ao5O3mh0dGY4d9wjmLl1Pmdy8FP2gbKZsy
-	jHb0qtvUdlpugVsVfrAtnYFaTcaVW0IobwCzw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rfEZfvFFd2z+iIqsaF/6niB0LI3CdLY9zfbZ8uBD5mg=;
-	b=fEUzPcadNMKDjVLZEaLaOogC9BIQrowSc5cL/A2gyHNBVEBqNOgmJz0+ET4vrbGvKP
-	uDzr5W6bQnw4xovrf9E6K+I2I63dUdIe4wI1i/TO+XTi66RRswi3CJ8Hfaewm/fkkx2I
-	n4W5r33FXnAcySz/6scAUV1vNwXtnOM51uXl0OfcC4YCqaMi4J62w4sHbB/1ew8N0MUU
-	WpE9qxUma0ttevsEEqH6ULvHD2aP3VaaeDc4QGSoC++8lgSH+wkMU3mYVxrFvP58DdL/
-	09jheiLnyZceZ8Z7YYNuDrw0QpCyBx3XJeKeMwc41YiGlzbuz5hHGF2TV/i5iZMLR+pp
-	WG5w==
-X-Gm-Message-State: AJcUukf/1WND3aD2dtwK8s+9sttl2fglYRxybdT3XHSO9k0Dtg64LxDU
-	j/GTy9idr2h3GAGyhKXpMFSjeA==
-X-Google-Smtp-Source: ALg8bN6yFcqGmNLa0V9lx0rlwBbe52yj9J8JsddbmDX80p6KfjvrxZefrLq0DmnvEmXa3BExcijESg==
-X-Received: by 2002:a5d:568c:: with SMTP id f12mr4528593wrv.101.1547589638471; 
-	Tue, 15 Jan 2019 14:00:38 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j24sm89607615wrd.86.2019.01.15.14.00.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 15 Jan 2019 14:00:37 -0800 (PST)
-Message-ID: <66c714be22a43ac8bb38ae7bf735f412efe729d7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 22:00:36 +0000
-In-Reply-To: <20190115193950.25538-1-JPEWhacker@gmail.com>
-References: <20190115193950.25538-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: [PATCH] classes/sstate: Update output hash
+	Tue, 15 Jan 2019 22:27:34 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 870395C0B56;
+	Tue, 15 Jan 2019 23:27:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1547591255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=Dc7BOjFsWvU5Ixnw8Z79C5HV12IsfGcZiOSDAzCw9dw=;
+	b=D2tx0AfnVNkuJGMEZdObYUA/nxjk6QtkDO8sFIxivOEoSpOPh6B1qMUJx8kKiRi3q2IH8C
+	ZYpPnkD/IIeedG9LX4xFsoF4zXCoPBaVqT3ztkqXJOJC/eTKHpGUW+UIVVI1VkbautOGxH
+	aNgwjPeqJwle39y3C2SH+EAlv6KSED0=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2019 23:27:27 +0100
+Message-Id: <20190115222730.54560-3-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+In-Reply-To: <20190115222730.54560-1-stefan@agner.ch>
+References: <20190115222730.54560-1-stefan@agner.ch>
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH 2/5] gconf: rename policykit to polkit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 22:00:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jan 2019 22:27:35 -0000
 
-On Tue, 2019-01-15 at 13:39 -0600, Joshua Watt wrote:
-> Updates the output hash calculation for determining if tasks are
-> equivalent. The new algorithm does the following based on feedback:
->  1) All files are printed in a single line tabular format
->  2) Prints the file type and mode in a user-friendly ls-like format
->  3) Includes the file owner and group (by name, not ID). These are
-> only
->     included if the task is run under pseudo, since that is the only
->     time they can be consistently determined.
->  4) File size is included for regular files
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/sstate.bbclass | 91 +++++++++++++++++++++++++++++++--
-> ----
->  1 file changed, 76 insertions(+), 15 deletions(-)
+From: Stefan Agner <stefan.agner@toradex.com>
 
-I've not really looked at the code itself yet but could we turn this
-into a function in lib/oe/sstate*.py somewhere please?
+PolicyKit has been renamed to Polkit since quite a while. Rename
+the PACKAGECONFIG accordingly.
 
-I'd really like to start getting some of the python code into strong
-function libraries where it makes sense and this lends itself toa 
-library function.
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index 120ae3e021..1e8ca2e5d2 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -22,12 +22,12 @@ S = "${WORKDIR}/GConf-${PV}"
+ EXTRA_OECONF = "--enable-shared --disable-static \
+                 --disable-orbit --with-openldap=no --disable-gtk"
+ 
+-# Disable PolicyKit by default
++# Disable Polkit by default
+ PACKAGECONFIG ??= ""
+-# We really don't want PolicyKit for native
++# We really don't want Polkit for native
+ PACKAGECONFIG_class-native = ""
+ 
+-PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
++PACKAGECONFIG[polkit] = "--enable-defaults-service,--disable-defaults-service,polkit"
+ PACKAGECONFIG[debug] = "--enable-debug=yes, --enable-debug=minimum"
+ 
+ do_install_append() {
+-- 
+2.13.6
 
 
