@@ -1,47 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f179.google.com (mail-it1-f179.google.com
-	[209.85.166.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E5B565D00
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 370 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 15 Jan 2019 12:37:27 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id E6E4B6D749
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 10:01:57 +0000 (UTC)
-Received: by mail-it1-f179.google.com with SMTP id g76so4130270itg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 02:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wlf2nx2iuzjX2kLK53mUFw3dtv1BY3n+1IWS0jWAzZc=;
-	b=tKjlpDuVCTnCva0vwc6o8DaP8Of0ZopGGGbN1uPGO39AsBwYMzoLR8w+IyqyVRBhk4
-	IBzAeDm/BnkLDpQVYyxkIllwEWAEo/9i8T7uHomcB0WxWVB9Lf6isYwDgDiyTCveR5vQ
-	p/xh+lch4EtCJQ1PFP/iUezz783PgRD1qv0WGCGpbarIXw8VFylbHb52CJ61izT4aN/3
-	5Xx4/eIEtGw79D2CyRG/8hJTmbT4j5PObc7a7oI0EzP0ZKqKfyI/Iec9ZrBW3vNpMRcD
-	pdpoikaZLl+f+KS4UyiAqD55kAhMosb0UYAFWVcBwZtkpYS4DrShwBZQCYd+T4t9NKYK
-	edhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wlf2nx2iuzjX2kLK53mUFw3dtv1BY3n+1IWS0jWAzZc=;
-	b=PV1+4k31Q1KZAkQ8u2lHpj/IfXktFWzWexJ8gwmtXj7grIk6zVOBfCy61l3RUp8xy9
-	JmZCyTOhYEeC2syPQrBpvrUm9JSZVZZi/VraYl6v4i4BA9zpbzNsLoodGjhnRLvVOffh
-	AFztcOxPVGcZPloofX3x/DWgGpntZ5I74zVsgLFKsDKsoiK24V7cZCqxng8lawOfRiy2
-	d90dSYJ9Ddzl30sugjq7rq6shurPawxk2HcCnYowSDFawF+MVncmE96/KQZXPzOGPnK9
-	0hI4Vp5oMSc7Ouxy+synfRSHYhw54jA42bpPHwfDZ3fAAlxffxElGGDgJPe49ZeG05GS
-	A2Gg==
-X-Gm-Message-State: AJcUukeegVwGVRbQ1ukxttVj9CmtPetwXa9Y7AwJDdqWNPsJkxpDrmDv
-	Y+S4yLdPPd5OPs2/LiwkyS07lC/PhzVOhAG61fyRdZd0/rA=
-X-Google-Smtp-Source: ALg8bN4MdNKRCLgZfAAsSXJS8BTFlZMGnCxIlsTTPMNpiol6cgxYs9L/Mvj6RThkb+AsFYrF/uu3w4mOXTtUsq025co=
-X-Received: by 2002:a02:9c53:: with SMTP id h19mr1645592jal.31.1547546518158; 
-	Tue, 15 Jan 2019 02:01:58 -0800 (PST)
+	Tue, 15 Jan 2019 12:37:27 +0000 (UTC)
+Received: from trochilidae.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 5F4425C0843;
+	Tue, 15 Jan 2019 13:31:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1547555477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=IWh+SeoPnaM+gtjEXCAe8uzcdqOSQknIrjLZ6jgkUEQ=;
+	b=NjNoryaryT8KRlHPwY44pk70sZK4rQNtdg0zHgxUcjtdz+5xdWDfn5Z91nD4rkbzpYbO8h
+	y5WlV8f8+J4zYLHgms9HR4jvoG1wQ6JfYoY9dpni9TtRdJx/HV946qe4r1Nx26cjoy10oJ
+	SV9xIZET/fbQuoPm+eLwcrFFw78MONM=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org,
+	seebs@seebs.net
+Date: Tue, 15 Jan 2019 13:31:13 +0100
+Message-Id: <20190115123113.23071-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190115064546.121351-1-kai.kang@windriver.com>
-In-Reply-To: <20190115064546.121351-1-kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Jan 2019 10:01:47 +0000
-Message-ID: <CAJTo0LYwDmCkcjJFLNTj5DP9zs3=W1s2tGYgo3mnMe+HaJrMpg@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps & librepo: fix buildpaths qa warnings
+Subject: [PATCH] Handle OFD lock flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,23 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 10:01:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 15 Jan 2019 12:37:28 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 15 Jan 2019 at 06:46, <kai.kang@windriver.com> wrote:
-> Add preprocess option '-fmacro-prefix-map' to TARGET_CPPFLAGS to fix
-> buildpaths qa warnings of libcomps and librepo.
+Linux 3.15 and newer introduced new open file description locks.
+Currently pseudo prints a warning if fcntl is used with OFD locks:
+  unknown fcntl argument 37, assuming long argument.
 
-This is something we should be doing globally, not in a specific recipe.
+However, calls to fcntl with a OFC lock set need a struct flock
+pointer. Treat F_OFD_GETLK (and friends) like F_GETLK (and friends).
 
-We pass -fdebug-prefix-map already in bitbake.conf (remap debug
-paths), and macro-prefix-map is the same but for __FILE__.  This is
-good, because we've a few patches to remove __FILE__ already and this
-means we can drop it.
+This issue has been observed with ostree. Comparing strace output
+between two runs with/without this patch shows the same fcntl calls,
+hence it seems not to matter in practice.
 
-Digging further reveals that there's also -ffile-prefix-map, which
-sets debug-prefix-map and macro-prefix-map at once.  We should just
-change bitbake.conf to use that instead of debug-prefix-map.
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+Hi,
 
-Ross
+I noticed this when using meta-updater which uses ostree to commit
+the root file system. We observe this warnings on every build, but
+the last error message only rather seldom:
+
+...
+unknown fcntl argument 37, assuming long argument.
+unknown fcntl argument 37, assuming long argument.
+unknown fcntl argument 37, assuming long argument.
+error: Locking repo exclusive failed: Resource temporarily unavailable
+
+Looking at a strace it seems that with pseudo in place the fcntl
+seems to pass the argument properly nontheless:
+fcntl(7, F_OFD_SETLK, {l_type=F_WRLCK, l_whence=SEEK_SET, l_start=0, l_len=0}) = 0
+fcntl(7, F_OFD_SETLK, {l_type=F_UNLCK, l_whence=SEEK_SET, l_start=0, l_len=0}) = 0
+
+So this effectively just gets rid of the warnings.
+
+--
+Stefan
+
+ ports/linux/guts/fcntl.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ports/linux/guts/fcntl.c b/ports/linux/guts/fcntl.c
+index 639fd24..3991e25 100644
+--- a/ports/linux/guts/fcntl.c
++++ b/ports/linux/guts/fcntl.c
+@@ -50,6 +50,9 @@
+ 	case F_GETLK:
+ 	case F_SETLK:
+ 	case F_SETLKW:
++	case F_OFD_GETLK:
++	case F_OFD_SETLK:
++	case F_OFD_SETLKW:
+ 		rc = real_fcntl(fd, cmd, lock);
+ 		break;
+ #if defined(F_GETLK64) && (F_GETLK64 != F_GETLK)
+-- 
+2.20.1
+
 
