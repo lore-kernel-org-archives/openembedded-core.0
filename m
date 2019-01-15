@@ -1,51 +1,53 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 02AEA7C124
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 115807C138
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:24 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id y8so3877880wmi.4
+	Tue, 15 Jan 2019 16:45:17 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id x10so3710460wrs.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
-	b=TiN4XbjAjpmgG7Swt61p1uCddbmat4ImNnjC3wA5Ow3lmBPk7sD3F9BFN44XuGbbZt
-	hPYPPFYpCYNGz+xjQIDbqxot7BaftPdWZWwnOj2rDJz73ljCPJm1Cb4lIomBV7DhpYe5
-	uU89cK+D4ePz74c8vPoKwKtzxmvBpRwcQP+P92uuBm9EbuwTU0jkBnkA60l4GozIDYJB
-	Cmd+l3Cywvxp86F4gBcaMD1gAaA66T1G+qaquS1q7b8Z/D4DuQhwBxrXHecK/U641EUK
-	VR/fS4Jgz7N7jykuL8BH3P1ruME3MhF5vidy7SQqdzX8kUwyMqWE7ppYBIvCjeqVKgJC
-	iGnA==
+	Tue, 15 Jan 2019 08:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=ytIIaWluB504CIoECiNnwsm+gjDwwBDJvRs5g1Fa37c=;
+	b=KXmu3ODGl4/sRujIhZ+7zdXP9y0gy/rYJTeOGaj4Cy0DrOopE0VGiig9x8+ZZqYVuV
+	KYlkvqQaD2IZMyO/PkkjL05sI9PaOM27gblnohwrx8nt5jTrP/e8BxLbt8d7hPGgXugp
+	xee/GUkQO5JiKC1VEr79uoo3hqsvRAYs/6geg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
-	b=DeeNyODIfzX11BMFIQUqsq35t58/3YeEirucpHfxl9Jb9bEduDyiS/3ycTb5zTkDsy
-	te/k/N0635/7+unODNJzPB/hqBCYFCwwMmKbV6czSwAGuNQZ9ps7mgqp/drbknMMrztn
-	QLglvA5uDpB1Cj4BgBDwDu7JlIyKLP1sn56Mgxu/CEYr/KkkLTZdXM44x9DzHCOU5nc7
-	XHNRwt4IhXtNyM5UXiKiJ2HfwxdIxuBYXsYzOH7Z52ThKnuvWw2q23V0jHOurDHShZDg
-	DELPQaE+CMA2JA5uUaCpW19mIgWRr1vy5tqw5UV2iFC/Q/eQiSLvfAzacq8UXuL95nfH
-	pRQA==
-X-Gm-Message-State: AJcUukczVKa17KcH1FrVYW8cK7bg+qzKb49x3lywyDLDCLElb2LodlRb
-	G6hpxfDl7+js30d7exNFtI+K3iACif8=
-X-Google-Smtp-Source: ALg8bN7xz/WOE5Z3B9sVVRGjgHljLe+FvCkCWgir87kx0eG3/Jh5YnWZ+jwwjKEODi0Ddx1ihLEVgQ==
-X-Received: by 2002:a1c:4c0c:: with SMTP id z12mr3821647wmf.17.1547570365474; 
-	Tue, 15 Jan 2019 08:39:25 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ytIIaWluB504CIoECiNnwsm+gjDwwBDJvRs5g1Fa37c=;
+	b=Tl48G0Ia5qne4AJFeC2ya+Xb2vcv2Negm5HUb0JhzAF4CsvHY92ONyLvjB6DDT6av2
+	eN0md++qze/jxaSNPoYAi+2Qlo1gq4sAUj+AMsxeoxpFHOY3fAwrch7XXFekaMv0hz4S
+	ns6lKAMzqEmkQioIyLnxCIVR1dHxavS0uA8+PirwVBoPcJAVcKggI8lFN/a1wzLG6+Tz
+	4iuqFLqOp2kZs063w1TAgFQo/5YdLBeIFIBauRhNtBvaullbJMcMwGw2NPyWARLntGk7
+	MSj1QiVe8WybMnJRh39zkvC9zKE+iMCKQQleRNODPOkcXWToVaSxHQSWSGCvPACrxUbX
+	FwgA==
+X-Gm-Message-State: AJcUukcc9TJ+u4KxZRKbIosYMWvzFcKRei7PVFTgiv9g31MPXEdznsH5
+	+sWyi3RYZlVWVRld7SuY+0QstA==
+X-Google-Smtp-Source: ALg8bN6ETZMIh9OEc3MLs6scg/Prd7D1JPGE5GRJErEKfda66ZPywFtLdf4yuRAnRIrDI8YJC+3rYQ==
+X-Received: by 2002:adf:c711:: with SMTP id k17mr3754706wrg.197.1547570718593; 
+	Tue, 15 Jan 2019 08:45:18 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:24 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:57 +0100
-Message-Id: <8984461743cb9e7a23d85f4a926fbdbad676d07a.1547570285.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
-References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 22/22] selftest: add a test for virgl GL acceleration
+	s132sm15464390wmf.28.2019.01.15.08.45.17
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 15 Jan 2019 08:45:17 -0800 (PST)
+Message-ID: <b1951f4cee3d7d3afaa7a0b1c3fcafba7a53b695.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2019 16:45:16 +0000
+In-Reply-To: <20190115144525.29388-7-git@andred.net>
+References: <20190114125632.4780-1-git@andred.net>
+	<20190115144525.29388-1-git@andred.net>
+	<20190115144525.29388-7-git@andred.net>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 06/15] update-alternatives: allow hooks before renaming files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +60,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:25 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 16:45:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Note that the test requires that the host machine has a X display
-and is able to create OpenGL contexts.
+On Tue, 2019-01-15 at 14:45 +0000, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
+> 
+> At the moment, the update alternatives handling is happening
+> right after copying into PKGD during packaging time using
+> an _append OVERRIDE to the copy function. This means that at
+> this point the PACKAGES variable must have been fully
+> populated, as that is a prerequisite for update-alternatives.
+> 
+> In other words, this makes it impossible to e.g. populate
+> PACKAGES dynamically using do_split_packages() and still do
+> update-alternatives, as do_split_packages() can never
+> execute early enough in a deterministic way.
+> 
+> By converting the existing python function from a 'def'
+> type function to a 'python' type function, we now make it
+> possible for somebody to hook themselves between copying
+> into PKGD and execution of update-alternatives, via
+> a _prepend OVERRIDE, which is not possible with 'def' type
+> functions.
+> 
+> [YOCTO #13058]
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 17 +++++++++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 19 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+I don't think you need to do this. Can you add your function to the
+start of PACKAGEBUILDPKGD rather than using
+apply_update_alternative_renames_prepend
+?
+or maybe use PACKAGE_PREPROCESS_FUNCS?
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-new file mode 100644
-index 00000000000..3894962eaaf
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,17 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+
-+class VirglTest(OERuntimeTestCase):
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
-+
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        status, output = self.target.run('kmscube')
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..14837fcdd68 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,25 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
- 
-+    @OETestID(1883)
-+    def test_testimage_virgl(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_QEMUPARAMS = "-vga virtio -display gtk,gl=on"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
--- 
-2.17.1
+In fact we should probably fix the update-alternatives class to use
+PACKAGE_PREPROCESS_FUNCS rather than perform_packagecopy_append too.
+
+Regardless, I'd like to see us try and make this more readable rather
+than less which means separate functions and less prepend/appending and
+more use of the variables...
+
+Cheers,
+
+Richard
+
+
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
+> ---
+>  meta/classes/update-alternatives.bbclass | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/update-alternatives.bbclass
+> b/meta/classes/update-alternatives.bbclass
+> index f1250f877b..ffedada2f6 100644
+> --- a/meta/classes/update-alternatives.bbclass
+> +++ b/meta/classes/update-alternatives.bbclass
+> @@ -135,10 +135,10 @@ populate_packages[vardeps] += "${UPDALTVARS} 
+> ${@gen_updatealternativesvars(d)}"
+>  # place.
+>  python perform_packagecopy_append () {
+>      if update_alternatives_enabled(d):
+> -        apply_update_alternative_renames(d)
+> +        bb.build.exec_func('apply_update_alternative_renames', d)
+>  }
+>  
+> -def apply_update_alternative_renames(d):
+> +python apply_update_alternative_renames () {
+>      # Check for deprecated usage...
+>      pn = d.getVar('BPN')
+>      if d.getVar('ALTERNATIVE_LINKS') != None:
+> @@ -204,6 +204,7 @@ def apply_update_alternative_renames(d):
+>                      os.unlink(src)
+>                  else:
+>                      bb.warn('%s: Unable to resolve dangling symlink:
+> %s' % (pn, alt_target))
+> +}
+>  
+>  PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+>  
+> -- 
+> 2.20.1
+> 
 
 
