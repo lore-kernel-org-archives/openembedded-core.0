@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EFD57C121
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 96B5C7BFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:06 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id z5so3669455wrt.11
+	Tue, 15 Jan 2019 16:39:07 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id j2so3754751wrw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:07 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=gdWFtyit1HxD1RJ4n6U6eerKvhG5d/Vj9gkhtK7yIdc=;
-	b=AaSa6ueToscIP/ZZhWR+SWImVUWFx488jU63WgibZGpr8236SeyenMTks++GEIDt+o
-	dm8c0T4LAJA1T6HaHNq8d52uK/aZuuklXFPjX6lyjRutjYqu3j4bBoS+/A3318kXVXDZ
-	tm9XdmPRnOa6gHrOuuc4g5V1/Y1G+CoO2uD/WkwYnKykE1/PEb0fJ+KJVeM7Lr2aTP7V
-	cPD/wUVh/Q4mOVgOXaSpsJyTozJBeQgC+tS8luEZfvo5DfIgjhM5xflvya3eF9ZSM7Zl
-	XeN9mI+YnKU7BzS3KQCMEiTjq2PyEyAOnHco9luMPFAEaAQFHy+kFec21JjweZEWqxzX
-	C4HQ==
+	bh=ivjJniFb/wwbQgAX9KhfCtrW1dG8QEVlcZ7AHXCeDX0=;
+	b=QKUq6eM62dKZZoKeqoJlR4Ei7L0WomaG7tNZujnS9uNtNuxxtT7/Espdzs9RPYniy9
+	QNTEG/nRA5+p0X3rOLU76CSo5RxwdYXkfEqDIpClk4jVaPJFs8Th3int71OxmCYd+VkI
+	C4ygGhF/IJh3VqIvNeKiW02DoYcMRtEL/q1boa45Ox2LVoKxI7wdm4fG7x6lV5WXBR9H
+	HA/Riq9AscrCz/v1vKSYiBAf78uyt/fnQaPldt6uqf1xp62OqP2IgevVUhEf3pFLYBxC
+	GLmjF4cCWMHia2EaOwEKxBaLADg5YU6q20qZtVqNtq/oK/UtfGzCEgeUeiv8F9VTOJFF
+	R5zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=gdWFtyit1HxD1RJ4n6U6eerKvhG5d/Vj9gkhtK7yIdc=;
-	b=svx1Klwp/zq+0E9ngdM29qBkhP64UnFhvUODhykfcITVtyAdRge/r/VEkcVjCp2dsJ
-	PDdiV0tbbdfimDlk0NJt7jTCPdngYBbVOCOL/UM1JZSSKjozadvHvY/duEVYJieYtk/g
-	l90bKplPI2E6do+smmyrExvNqRBQY9AXh5AmLoD0MupV9q84MHai+Mw54rB/4GlsXVVN
-	T/teabEDEPNbVMAJHKXX2KpoyT4c2UZMSwNTT3ng4OOecgxRJdsJ/CwPM7LQrvO8wZNp
-	Xax/QurUNybdkmZxTrsOUv2NyJSXH27fmOnuEXv/Xv8OMTyImIK7PiXQVTJZOPL9fBb3
-	ZYpA==
-X-Gm-Message-State: AJcUukd61ZwTSThvkDMiJJpm0UhszNvkq2XfA9bB9iynZ0Dn5/X2kRgs
-	8DR76aAjAQrO0Dbyro3ZyAzgO5HP164=
-X-Google-Smtp-Source: ALg8bN7ejUtS+eN0CVen8tWX5MsgFNCu33292QRIeHweOrpPFSpd1RnACZK89cSPZ5vQcOYWv/KSiw==
-X-Received: by 2002:adf:ea81:: with SMTP id s1mr3731988wrm.309.1547570346775; 
-	Tue, 15 Jan 2019 08:39:06 -0800 (PST)
+	bh=ivjJniFb/wwbQgAX9KhfCtrW1dG8QEVlcZ7AHXCeDX0=;
+	b=mMRMky0hiJCnqer6G+Owj59HamQcmwNahIOWNBqK9gMWrbFGXMYGKE8wvCMyzqxzyA
+	aNeUbpp08DFWfCcDBHpF22YpXoeaPtZE9JDoe2Pze3BxvkhaTbuwK1pMnXPUewV6lqNs
+	GlZm5uwNfcRXbMWSmjDjYk1mYBDKDkNzA668TjAdmS9UdE+E6kGvVm3ucMJdjMXP6RZH
+	ZPaeE1stUhlU0P8MpUwOQc86ilXN3oSt4aITfw+AZRAeu5l0c7wPRc4m0P+kviYb3q4T
+	65tCIJpI3rVVMzZ9auaUhENkbBB5rJm9QwwCUQSRKV5FCucyOSGRQn9D7XLIqF04O+p9
+	Et0A==
+X-Gm-Message-State: AJcUukfFZJCE0TLCCbZ76+i+1tSrMFEHQcWZQxJgNwOLQseDu/hybUxv
+	LsEJDmlbrmYY4Qgk/95pgqDbYsbhScc=
+X-Google-Smtp-Source: ALg8bN4lTE9NP7hqnFyoW/jPddWOOrGGi4NFfTsPhVKbHFknOXYVJVgXKNv4Bd7mxObFc8j+6aIWig==
+X-Received: by 2002:adf:e34b:: with SMTP id n11mr3670941wrj.91.1547570347970; 
+	Tue, 15 Jan 2019 08:39:07 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.05
+	f15sm77594927wrt.10.2019.01.15.08.39.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:05 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:07 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:38 +0100
-Message-Id: <fc58b068b26206ebb00dfb3638a46a17fa4cc61c.1547570285.git.alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 17:38:39 +0100
+Message-Id: <f2c82e6ad83256c834f2c1614707dbdfa8b29897.1547570285.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
 References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 03/22] shared-mime-info: update the database also in native builds
+Subject: [PATCHv2 04/22] pixbufcache.bbclass: remove a dependency loop introduced by enabling gtk+3-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:06 -0000
-
-Otherwise glib-compile-resources fails when building gtk+3-native.
+X-List-Received-Date: Tue, 15 Jan 2019 16:39:07 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/shared-mime-info/shared-mime-info.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/pixbufcache.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-index 344da7ea77c..3fe1a445b0c 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-@@ -30,6 +30,8 @@ do_install () {
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 3378ff2c806..fb50cd49659 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -3,7 +3,7 @@
+ # packages.
+ #
  
- do_install_class-native () {
- 	autotools_do_install
-+
-+	${B}/update-mime-database ${D}${datadir}/mime
- }
+-DEPENDS += "qemu-native"
++DEPENDS_append_class-target = " qemu-native"
+ inherit qemu
  
- BBCLASSEXTEND = "native nativesdk"
+ PIXBUF_PACKAGES ??= "${PN}"
 -- 
 2.17.1
 
