@@ -1,48 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 53879606B2
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E46A1606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 06:15:30 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id l9so1483665wrt.13
+	Tue, 15 Jan 2019 06:24:01 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,480,1539619200"; d="scan'208";a="52040792"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Jan 2019 14:24:01 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id E5FFC4B7D681
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 22:15:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vo+VF4Q3iWoHCcTJKgJvkJYwYYt1lCv99InPyvVGOns=;
-	b=ErL7LqSgDIvPJytaVUBxrLRosjMe6T8pGTux3TRxuGsBSGOCwfwN0Nc1/+G0dqEhtH
-	Wft8RKmxAl35utvCDGfyy8TpUgBJ/9EwK3ubkvD05UDmt7GUTTKvx2NporUsnnSG/oNZ
-	tR4PmaEAbjZvAoAGdnEX80Cjn2OG8IJDggOl/QBzK6XDnKAsJWvz1gPN8/vo5eEw9N+f
-	gEmRdkZ0zCxEHxx/6XxSs3WuIyWlE9GRE5o8xM55FxkHc8jaJwbVXR+fKSYzG+5v7s2w
-	7mRGTONHCMajZcr0nJ8XAvbyc14YSxIZzq9wv911EzZz4EFBlHGRhJojPMAsOoX9TESE
-	tlwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vo+VF4Q3iWoHCcTJKgJvkJYwYYt1lCv99InPyvVGOns=;
-	b=ItfrvWFrQU+6CIKCdkG4IfDcDhVfUko6zFGNQ3knhxBuo5bkjzC3bHJZYzmYm64cNS
-	JL2eKhZYu8Xn8hvhZoWebe2p8S6ghslzskRkbEL0FWMKZHB/hRE/ATizTj8BkyLplmb0
-	gfNiZRCacioa9mufn71RnhfqfpZnqQSfos/wGeNL5GiyouSScnPpM2WHv7AtYDXtO6Od
-	//Re0HrUiTFZTgiMVOM4t7hlltAQBzI9x75I0fAd8sTXLNyXN0GduFi026JjiGg2fOvh
-	JKXo4xiEF9xER4cK0O9R/jv6pBmMSCXrB7M1mLz98c+S53G2LVsn4jwxZG+aDi2YFOLr
-	rMPQ==
-X-Gm-Message-State: AJcUukct0t/8GkJjvqdPeD4jfm+LIgAXFj6wqtDfchJ9zh+ivbpGXIDF
-	7zk1I1Wq9heS+mE2+QeTl7SA5fpy3/F6b+/84zx5XQ==
-X-Google-Smtp-Source: ALg8bN7HykBA/ND0NWzTaYTK5KaJfZhc8sPEdyrCU/arMBrXIv1zR+4DP47f8dYb75/nqXW5mXGT9wZndUmOb+Slq10=
-X-Received: by 2002:adf:93e2:: with SMTP id 89mr1590220wrp.129.1547532930999; 
-	Mon, 14 Jan 2019 22:15:30 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1547477793.git.alex.kanavin@gmail.com>
-	<b592c36a7bc200f1058adc383f9ee3338a569a98.1547477793.git.alex.kanavin@gmail.com>
-In-Reply-To: <b592c36a7bc200f1058adc383f9ee3338a569a98.1547477793.git.alex.kanavin@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 15 Jan 2019 07:15:20 +0100
-Message-ID: <CA+chaQds3QnkrhAs727A9R7GHjCP8rn6Hrw=a946G3Byeg6iww@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 15 Jan 2019 14:24:01 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0415.000; Tue, 15 Jan 2019 14:24:02 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 20/23] runqemu: add support for virgl GL acceleration
+Thread-Topic: [oe-core] [PATCH] Added armeb into meson.bbclass.
+Thread-Index: AQHUolqZ5oHIlRdlN0ietsZC4+CAWKWv8OSA
+Date: Tue, 15 Jan 2019 06:24:06 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF0945A0@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <20190102051749.26477-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190102051749.26477-1-hongl.fnst@cn.fujitsu.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.227]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: E5FFC4B7D681.AC669
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] Added armeb into meson.bbclass.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,197 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 06:15:30 -0000
-Content-Type: multipart/alternative; boundary="000000000000a16d2b057f79162d"
+X-List-Received-Date: Tue, 15 Jan 2019 06:24:02 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
---000000000000a16d2b057f79162d
-Content-Type: text/plain; charset="UTF-8"
+SGksDQoNClBsZXNzZSBtZXJnZSB0byB0aHVkIGJyYW5jaC4NCg0KDQpCZXN0
+IHJlZ2FyZHMNCkxlaQ0KDQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
+LS0tLQ0KPiBGcm9tOiBIb25nLCBMaXUvjV4gl6wNCj4gU2VudDogV2VkbmVz
+ZGF5LCBKYW51YXJ5IDAyLCAyMDE5IDE6MTggUE0NCj4gVG86IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IExlaSwg
+TWFvaHVpL5eLIJbOjGQNCj4gU3ViamVjdDogW29lLWNvcmVdIFtQQVRDSF0g
+QWRkZWQgYXJtZWIgaW50byBtZXNvbi5iYmNsYXNzLg0KPiANCj4gRnJvbTog
+TGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0c3UuY29tPg0KPiANCj4g
+U2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0
+c3UuY29tPg0KPiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy9tZXNvbi5iYmNsYXNz
+IHwgMiArKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9tZXNvbi5iYmNsYXNz
+IGIvbWV0YS9jbGFzc2VzL21lc29uLmJiY2xhc3MNCj4gaW5kZXggM2NiZGNm
+MS4uYTkyMmFlNSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzL21lc29u
+LmJiY2xhc3MNCj4gKysrIGIvbWV0YS9jbGFzc2VzL21lc29uLmJiY2xhc3MN
+Cj4gQEAgLTU0LDYgKzU0LDggQEAgZGVmIG1lc29uX2NwdV9mYW1pbHkodmFy
+LCBkKToNCj4gICAgICAgICAgcmV0dXJuICdwcGMnDQo+ICAgICAgZWxpZiBh
+cmNoID09ICdwb3dlcnBjNjQnOg0KPiAgICAgICAgICByZXR1cm4gJ3BwYzY0
+Jw0KPiArICAgIGVsaWYgYXJjaCA9PSAnYXJtZWInOg0KPiArICAgICAgICBy
+ZXR1cm4gJ2FybScNCj4gICAgICBlbGlmIGFyY2ggPT0gJ21pcHNlbCc6DQo+
+ICAgICAgICAgIHJldHVybiAnbWlwcycNCj4gICAgICBlbGlmIHJlLm1hdGNo
+KHIiaVszLTZdODYiLCBhcmNoKToNCj4gLS0NCj4gMi43LjQNCg0KCgo=
 
-You're duplicating nographic elif
-
-On Mon, Jan 14, 2019 at 4:06 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> Also, do not hardcode -vga option to qemu, set it according to command
-> line parameters.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/machine/include/qemuboot-x86.inc |  2 +-
->  scripts/runqemu                            | 11 +++++++++++
->  2 files changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/include/qemuboot-x86.inc
-> b/meta/conf/machine/include/qemuboot-x86.inc
-> index 5fdbe4df50e..574b7bbfc7d 100644
-> --- a/meta/conf/machine/include/qemuboot-x86.inc
-> +++ b/meta/conf/machine/include/qemuboot-x86.inc
-> @@ -11,7 +11,7 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
->  QB_AUDIO_DRV = "alsa"
->  QB_AUDIO_OPT = "-soundhw ac97,es1370"
->  QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE}
-> oprofile.timer=1 uvesafb.task_timeout=-1"
-> -QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
-> +QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
->  # Add the 'virtio-rng-pci' device otherwise the guest may run out of
-> entropy
->  QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0
-> -device virtio-rng-pci,rng=rng0"
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index c4a0ca811d9..fa88dc4583c 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -74,6 +74,8 @@ of the following environment variables (in any order):
->    MACHINE - the machine name (optional, autodetected from KERNEL filename
-> if unspecified)
->    Simplified QEMU command-line options can be passed with:
->      nographic - disable video console
-> +    gl - enable virgl-based GL acceleration
-> +    gl-es - enable virgl-based GL acceleration, using OpenGL ES
->      serial - enable a serial console on /dev/ttyS0
->      serialstdio - enable a serial console on the console (regardless of
-> graphics mode)
->      slirp - enable user networking, no root privileges is required
-> @@ -427,12 +429,21 @@ class BaseConfig(object):
->                  sys.argv.remove(quiet)
->
->          unknown_arg = ""
-> +        if 'gl' not in sys.argv[1:] and 'gl-es' not in sys.argv[1:]:
-> +            self.qemu_opt_script += ' -vga vmware'
->          for arg in sys.argv[1:]:
->              if arg in self.fstypes + self.vmtypes:
->                  self.check_arg_fstype(arg)
->              elif arg == 'nographic':
->                  self.qemu_opt_script += ' -nographic'
->                  self.kernel_cmdline_script += ' console=ttyS0'
-> +            elif arg == 'gl':
-> +                self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
-> +            elif arg == 'gl-es':
-> +                self.qemu_opt_script += ' -vga virtio -display gtk,gl=es'
-> +            elif arg == 'nographic':
-> +                self.qemu_opt_script += ' -nographic'
-> +                self.kernel_cmdline_script += ' console=ttyS0'
->              elif arg == 'serial':
->                  self.kernel_cmdline_script += ' console=ttyS0'
->                  self.serialconsole = True
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000a16d2b057f79162d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">You&#39;re duplicating nographic elif</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr">On Mon, Jan 14, 2019 at 4:06 PM Alexander=
- Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Also, do not hardcode -vga option to qemu, set it according to command li=
-ne parameters.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
-om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/include/qemuboot-x86.inc |=C2=A0 2 +-<br>
-=C2=A0scripts/runqemu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 11 +++++++++++<br>
-=C2=A02 files changed, 12 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine=
-/include/qemuboot-x86.inc<br>
-index 5fdbe4df50e..574b7bbfc7d 100644<br>
---- a/meta/conf/machine/include/qemuboot-x86.inc<br>
-+++ b/meta/conf/machine/include/qemuboot-x86.inc<br>
-@@ -11,7 +11,7 @@ QB_CPU_KVM_x86-64 =3D &quot;-cpu core2duo&quot;<br>
-=C2=A0QB_AUDIO_DRV =3D &quot;alsa&quot;<br>
-=C2=A0QB_AUDIO_OPT =3D &quot;-soundhw ac97,es1370&quot;<br>
-=C2=A0QB_KERNEL_CMDLINE_APPEND =3D &quot;vga=3D0 uvesafb.mode_option=3D${UV=
-ESA_MODE} oprofile.timer=3D1 uvesafb.task_timeout=3D-1&quot;<br>
--QB_OPT_APPEND =3D &quot;-vga vmware -show-cursor -usb -device usb-tablet&q=
-uot;<br>
-+QB_OPT_APPEND =3D &quot;-show-cursor -usb -device usb-tablet&quot;<br>
-=C2=A0# Add the &#39;virtio-rng-pci&#39; device otherwise the guest may run=
- out of entropy<br>
-=C2=A0QB_OPT_APPEND +=3D &quot;-object rng-random,filename=3D/dev/urandom,i=
-d=3Drng0 -device virtio-rng-pci,rng=3Drng0&quot;<br>
-<br>
-diff --git a/scripts/runqemu b/scripts/runqemu<br>
-index c4a0ca811d9..fa88dc4583c 100755<br>
---- a/scripts/runqemu<br>
-+++ b/scripts/runqemu<br>
-@@ -74,6 +74,8 @@ of the following environment variables (in any order):<br=
->
-=C2=A0 =C2=A0MACHINE - the machine name (optional, autodetected from KERNEL=
- filename if unspecified)<br>
-=C2=A0 =C2=A0Simplified QEMU command-line options can be passed with:<br>
-=C2=A0 =C2=A0 =C2=A0nographic - disable video console<br>
-+=C2=A0 =C2=A0 gl - enable virgl-based GL acceleration<br>
-+=C2=A0 =C2=A0 gl-es - enable virgl-based GL acceleration, using OpenGL ES<=
-br>
-=C2=A0 =C2=A0 =C2=A0serial - enable a serial console on /dev/ttyS0<br>
-=C2=A0 =C2=A0 =C2=A0serialstdio - enable a serial console on the console (r=
-egardless of graphics mode)<br>
-=C2=A0 =C2=A0 =C2=A0slirp - enable user networking, no root privileges is r=
-equired<br>
-@@ -427,12 +429,21 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.argv.remo=
-ve(quiet)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unknown_arg =3D &quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;gl&#39; not in sys.argv[1:] and &#39;g=
-l-es&#39; not in sys.argv[1:]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_script +=3D &#39; =
--vga vmware&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for arg in sys.argv[1:]:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if arg in self.fstypes + se=
-lf.vmtypes:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_ar=
-g_fstype(arg)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif arg =3D=3D &#39;nograp=
-hic&#39;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.qemu_opt=
-_script +=3D &#39; -nographic&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.kernel_c=
-mdline_script +=3D &#39; console=3DttyS0&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg =3D=3D &#39;gl&#39;:<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_scri=
-pt +=3D &#39; -vga virtio -display gtk,gl=3Don&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg =3D=3D &#39;gl-es&#39;:=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_scri=
-pt +=3D &#39; -vga virtio -display gtk,gl=3Des&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg =3D=3D &#39;nographic&#=
-39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_scri=
-pt +=3D &#39; -nographic&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.kernel_cmdlin=
-e_script +=3D &#39; console=3DttyS0&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif arg =3D=3D &#39;serial=
-&#39;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.kernel_c=
-mdline_script +=3D &#39; console=3DttyS0&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.serialco=
-nsole =3D True<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000a16d2b057f79162d--
