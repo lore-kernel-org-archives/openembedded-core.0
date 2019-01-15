@@ -1,30 +1,49 @@
-Return-Path: <stefan@agner.ch>
-X-Greylist: delayed 370 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 15 Jan 2019 12:37:27 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id E6E4B6D749
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 55B6C6BF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 12:37:27 +0000 (UTC)
-Received: from trochilidae.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 5F4425C0843;
-	Tue, 15 Jan 2019 13:31:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1547555477;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:
-	content-transfer-encoding:content-transfer-encoding:in-reply-to:
-	references; bh=IWh+SeoPnaM+gtjEXCAe8uzcdqOSQknIrjLZ6jgkUEQ=;
-	b=NjNoryaryT8KRlHPwY44pk70sZK4rQNtdg0zHgxUcjtdz+5xdWDfn5Z91nD4rkbzpYbO8h
-	y5WlV8f8+J4zYLHgms9HR4jvoG1wQ6JfYoY9dpni9TtRdJx/HV946qe4r1Nx26cjoy10oJ
-	SV9xIZET/fbQuoPm+eLwcrFFw78MONM=
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org,
-	seebs@seebs.net
-Date: Tue, 15 Jan 2019 13:31:13 +0100
-Message-Id: <20190115123113.23071-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] Handle OFD lock flags
+	Tue, 15 Jan 2019 13:02:11 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id t6so2811197wrr.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2019 05:02:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=pgDKf7Ey2EvxzR1mTOPBwyUbYuiM1S9j+qujY8R9xcg=;
+	b=bMC4KKWWCyuicXRes/1DUXozda2zhSBVMoPYr9lAtrb6O5ejaAZ2xLaSxjjSOXdHKw
+	KiKnRMqc3I6ROJaxFRxj03sgFBgpUKtX3YJ5pSg7SMlRmo4GDKqvEUKqbpBEhKyOJk0w
+	4lADNChTHrUnob5VxMyD+tBLlIiJb8h/Pnsfyz42eNWVhEjUBDXNav0QtGOx0JulW6eb
+	GIqreWu7/Tm5wwQJFvhbdjv/s+nlJdNI0yHh7XLrCOwBHN1d68bqXiYxRQXjxaY0azfn
+	ZMbqqwHP8IPynvkN/97+yrfjSPCsR3FcO2Ol9Aoiuuv0S6e89JcLYRGNzIDyDalu7loE
+	EWOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pgDKf7Ey2EvxzR1mTOPBwyUbYuiM1S9j+qujY8R9xcg=;
+	b=a1s4o6FjKQKwK1yiWtCREQhAjH2bOlFb2ZL9+xVPxy5mDbwarqK6M2TQct+DCGzs4F
+	jvhzIY0y6qo9pZLBpOMfyRUbXgo3OeJYmpS+g0ehCJGvK0NiywhNAnu85ymDTpp7Q/Jp
+	4fDRu7SPkV4RqI2Gvsr87g1JYnBxENDAKfS390pbJ5oOVXyRG0IP5zFt9HtqAZbDMgDk
+	5gOw6VG0ApypdD5RxWBE13LGb4V4qeaNBtfDdcL2GRh3YzQPxdFFDli6be5z4F6novaN
+	Vp6wr0Xw/TK4dzL1yc5F1NMdPXcUyWWNNC8/G4iaC5IieeJOrwnPMu5B4+LHMijRF6bq
+	jbbw==
+X-Gm-Message-State: AJcUukez20EoYH7vaYaxgv8EkT/3LSNSkzcsjJ1JQKQuK32R7JuZuur/
+	VH2te/YhTO4u+mhczdwVDeWK4AIss2o=
+X-Google-Smtp-Source: ALg8bN67R95pbC1QU+yMIMBx4h01PZsVEE9dhXLEwtsapwQOsTJehJCfSFhpBr6calVV811Ug9zNJQ==
+X-Received: by 2002:a5d:6988:: with SMTP id g8mr2939811wru.33.1547557331636;
+	Tue, 15 Jan 2019 05:02:11 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	s1sm112793721wro.9.2019.01.15.05.02.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Jan 2019 05:02:10 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2019 13:02:03 +0000
+Message-Id: <20190115130203.1829-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+Subject: [PATCH][thud] kernel: use olddefconfig as the primary target for KERNEL_CONFIG_COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 12:37:28 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 15 Jan 2019 13:02:11 -0000
 
-Linux 3.15 and newer introduced new open file description locks.
-Currently pseudo prints a warning if fcntl is used with OFD locks:
-  unknown fcntl argument 37, assuming long argument.
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-However, calls to fcntl with a OFC lock set need a struct flock
-pointer. Treat F_OFD_GETLK (and friends) like F_GETLK (and friends).
+As was warned by commit 312ee68752fa [kconfig: announce removal of
+oldnoconfig if used], oldnoconfig has been removed from the 4.20 kernel.
 
-This issue has been observed with ostree. Comparing strace output
-between two runs with/without this patch shows the same fcntl calls,
-hence it seems not to matter in practice.
+So we switch our default mode to olddefconfig.
 
-Signed-off-by: Stefan Agner <stefan@agner.ch>
+commit fb16d8912 [kconfig: replace 'oldnoconfig' with 'olddefconfig',
+and keep the old name as an alias] introduced olddefconfig in the 3.10
+kernel, we shuffle oldnoconfig to the fallback target.
+
+The fallback mode allows kernels between 3.10 and the currently listed
+oldest kernel of 3.2 to continue to configure.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-Hi,
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I noticed this when using meta-updater which uses ostree to commit
-the root file system. We observe this warnings on every build, but
-the last error message only rather seldom:
-
-...
-unknown fcntl argument 37, assuming long argument.
-unknown fcntl argument 37, assuming long argument.
-unknown fcntl argument 37, assuming long argument.
-error: Locking repo exclusive failed: Resource temporarily unavailable
-
-Looking at a strace it seems that with pseudo in place the fcntl
-seems to pass the argument properly nontheless:
-fcntl(7, F_OFD_SETLK, {l_type=F_WRLCK, l_whence=SEEK_SET, l_start=0, l_len=0}) = 0
-fcntl(7, F_OFD_SETLK, {l_type=F_UNLCK, l_whence=SEEK_SET, l_start=0, l_len=0}) = 0
-
-So this effectively just gets rid of the warnings.
-
---
-Stefan
-
- ports/linux/guts/fcntl.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/ports/linux/guts/fcntl.c b/ports/linux/guts/fcntl.c
-index 639fd24..3991e25 100644
---- a/ports/linux/guts/fcntl.c
-+++ b/ports/linux/guts/fcntl.c
-@@ -50,6 +50,9 @@
- 	case F_GETLK:
- 	case F_SETLK:
- 	case F_SETLKW:
-+	case F_OFD_GETLK:
-+	case F_OFD_SETLK:
-+	case F_OFD_SETLKW:
- 		rc = real_fcntl(fd, cmd, lock);
- 		break;
- #if defined(F_GETLK64) && (F_GETLK64 != F_GETLK)
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e04d2fe0043..880c5ef1728 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -492,7 +492,7 @@ sysroot_stage_all () {
+ 	:
+ }
+ 
+-KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
++KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
+ 
+ python check_oldest_kernel() {
+     oldest_kernel = d.getVar('OLDEST_KERNEL')
 -- 
-2.20.1
+2.11.0
 
 
