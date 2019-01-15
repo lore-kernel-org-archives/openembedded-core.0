@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3E87BFFB
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id F28E87BFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:11 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id m22so3909305wml.3
+	Tue, 15 Jan 2019 16:39:12 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v13so3715329wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:13 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MjpQuQtCi6aIXPJPr8oc9WLXfGE9XQE/3IDF9z2rsVY=;
-	b=tu9kcJBi1veygRvwxYlpAcUzFA/VROZMZOAXLxliPXClZCnawN1ld8WdaIiBFPZu7g
-	jtHc1rf9ljdkZRldZWh0imMFjxCSacG2jl3/tixqruLmTkorHbKaW4Q2XEAhQRghfB22
-	xTxZITYdBKBtC9tvOxMWre+nceLuSxBtTWWYGmj//cOey5mivGV0RkylQQv5leO8ZKB7
-	u/of7Rgc3uGFmeds1pTTHeLDm0rQgbywPJW11LDggEeOxhmK9J1tZza51E+kSSztUWuW
-	edzHdqECh4gczF8s1xFjantKY4aedY+AwfGwdXAvVsLeVHARkD3cB1ybgKolyULSZNZ/
-	Zjrg==
+	bh=E+lDLwps2kExZk1iG7J+myNm00tdEoKk3cf4Vbvrdws=;
+	b=fwr11AjwOwGS24dxpdJs+5kqf+BA1+CcYmUcsEfKX/LmTdsyEV/Nmd5OPXaEbbKjae
+	pZeHQZIK3hERoXmBtY6B7dkTGCg8Cfa1VtL8qFWHbRTg0exl7b4rwQl1ItD11aGYxUj4
+	4QHuV7aeMu+bLVayBBSzDPQpzk+2GGdnB+MNV4xLEBotm5VdzzsijW+mQfUlW1UN14br
+	rpkKxMzjKLTnxO2l7QHJ7RZu/5sSSex+5Nu3Y28mStLmwh2zM0ZsaGCWjp4gnyaqU/el
+	R6vJUKQx7iyuvr+lT79eVBFIW9YvcHqTKChuB+6cPb1KHb4cUWANF438IPoozdf6xYol
+	HnhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MjpQuQtCi6aIXPJPr8oc9WLXfGE9XQE/3IDF9z2rsVY=;
-	b=YEB3+VCou7vij6bs3mcxBbG5HsNE1IQb8m52IJQ0zW9p/mIJ+qdZ868pXhRIEagPa4
-	9bEkCRmDtNluCll2mqiQ39uDAqc1KIjP2kFlANwGyeoxh2hTmLSIJ5dPUWGTvCVqMb88
-	65+yq0qq+3wy07WgldV7dZGZS90hxkbUyhaVUj6sAYliRIjIu0sy2zKkpfodDqLQT4Wd
-	xG20pNWIvsuIs4g29FudMJird3pOCPD4ADxnlklesSszcb4QmWSCt8fNWZMYl1IBBXnj
-	r6oy/vBs4nvoDgxgojKtjXzn5Sq8WspRslRrVpRQzvYuD5JvluAk5B8ywojSsAW5H4gZ
-	pWrA==
-X-Gm-Message-State: AJcUukesbJGw4PFET1l4SN8bVDa7i+jwUsyv9PUcVsDDQUAqNTvELjQW
-	f1iUfy/OM+ljDj0Fj4qN7hdA0CXBUK0=
-X-Google-Smtp-Source: ALg8bN4yLnBeiR5xulP7K8AmAJ2T6cSMuuLVq11qtDX+E3N9bJe8GKnXedeJqYpVU7Sv+6CvlWk6fQ==
-X-Received: by 2002:a1c:26c1:: with SMTP id m184mr3868820wmm.25.1547570352357; 
-	Tue, 15 Jan 2019 08:39:12 -0800 (PST)
+	bh=E+lDLwps2kExZk1iG7J+myNm00tdEoKk3cf4Vbvrdws=;
+	b=lVv2MYn02RsHVXYMAV+hsGliE76sJMTMX8a15sWx71eyBtVZGj4eGCXmcOMOsHeHdx
+	EQGuYTxNrSa1Ol++bwG5td+jYLnm1OWQbLf9HYV3IDFVu7To7dBBmoqnqvsxxQdfzGvT
+	WiVmzv9yLGOhhqMa6aJFXIrkkcMTbA+2GYZoRVTlZ9a5GcJpC2bdcDq1+dOLRGbqW+3o
+	C7UQcA4D+6fPq3aaJHIPqEnrqVSgu370NT8pyO2a7jJj+9OB2txRVOu6Wk1UGN5X7wAl
+	SK1f1ymvnCeAyr3LCJvRi2STT0tv0ovuRrgmeLHTVaLtQv/3c1EAVDDPGem3eNPbWZTB
+	UNdA==
+X-Gm-Message-State: AJcUuke+bo+qZ6VeH2do2e5Peku+5XMU4IkdH8ihFBp32vws1qgCPfrp
+	+xdI+Hyovq4XFFaVjGMOn+7ZZiFF7mI=
+X-Google-Smtp-Source: ALg8bN63FfT+0p+WvXRSaQvQ0jrHPfmQ2cXdXFbVMQoRblgnlb6Y1Cc/2feJAXPDrCeKxiEzkIMpsg==
+X-Received: by 2002:adf:a14d:: with SMTP id r13mr3708193wrr.169.1547570353379; 
+	Tue, 15 Jan 2019 08:39:13 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.11
+	f15sm77594927wrt.10.2019.01.15.08.39.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:11 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:43 +0100
-Message-Id: <437ed385e134ba90e0041013f81f3ede01ae1e74.1547570285.git.alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 17:38:44 +0100
+Message-Id: <6dd6ca4619c4f4f320146d3940531c48c1fcad4e.1547570285.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
 References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 08/22] virglrenderer: add a recipe
+Subject: [PATCHv2 09/22] qemu: enable virglrenderer and glx options for native/nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:12 -0000
-
-This component enables hardware-accelerated GL inside QEMU guests.
-For more information, see here:
-
-https://lwn.net/Articles/767970/
-https://www.collabora.com/news-and-blog/blog/2018/02/12/virtualizing-gpu-access/
-https://www.collabora.com/news-and-blog/blog/2018/05/09/gpu-virtualization-update/
+X-List-Received-Date: Tue, 15 Jan 2019 16:39:13 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../virglrenderer/virglrenderer_git.bb          | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
+ meta/recipes-devtools/qemu/qemu.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
-new file mode 100644
-index 00000000000..60ab256aae7
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "VirGL virtual OpenGL renderer"
-+HOMEPAGE = "https://virgil3d.github.io/"
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
-+
-+DEPENDS = "libdrm mesa libepoxy"
-+PV = "0.7.0"
-+SRCREV = "402c228861c9893f64cffbbcb4cb23044b8c721c"
-+SRC_URI = "git://anongit.freedesktop.org/virglrenderer"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools pkgconfig
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index b05c1cee9eb..f943b9ee5a2 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -74,8 +74,8 @@ PACKAGECONFIG ??= " \
+     fdt sdl kvm \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+ "
+-PACKAGECONFIG_class-native ??= "fdt alsa kvm"
+-PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
++PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
++PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
+ 
+ # Handle distros such as CentOS 5 32-bit that do not have kvm support
+ PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
 -- 
 2.17.1
 
