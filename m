@@ -1,48 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 24DEE6BA0E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B91E7BE38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 09:19:22 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id v10so1461991ios.13
+	Tue, 15 Jan 2019 09:57:43 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id x202so1612620oif.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 01:19:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 15 Jan 2019 01:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lcHHjUOJ0kG3eaqyWwneBsyjdUpDcBWKE3JxNdHBf/I=;
-	b=DHBYts/rGS5S5pH4huX4InCQq/vaBLxpVdDz+DrFlHCEIrzMjHSgXPPkqGsCq1cJKV
-	ndiYrJKM/NmDZ7lkAFkd6N7EP4yK52qd4VfRpswyncwuXYU4ouWMKqP9s348ztCBingk
-	Hw5b2Q9DC4GWXPVEF+pLQQvpdUXWvi4FGMVu4/PhW6u0jI2CzQ8xoaAY2CdC+9EycNt+
-	ahxbYeSb4GUIHN/RueF0lHnNzvTLmft8WGqY+2vElQLJtR643jn3uaaMkRfGlChSR1tN
-	4TBo/Hwgo7enKbmmq2ogaX5gRTZR1jNg7nTbiZ4PYEx+z/vBEVken3qVkJRa34iFcz23
-	4cNw==
+	:cc; bh=L1vz98h1KnlsRIhPqjHIKbL1Uf5vOTRaZDdL/h3W194=;
+	b=Ok+kM2xUVcuCYu0LOZxK/oKcMQVS46oHBYWjjd1LRGPHO/awvgMzT+Q4MlV/+kqZXQ
+	QkUhgobA4iOP74Vz3XcBOTAjSgbJTO9lNa6uqgZm6a7WL9xjnda9/7Yk/oIQuf0k1oQi
+	6Bh6Zcp8PeFRi74fPwwFIB59YQyq3BoZKjrpHS69cizyYnDnC2tRFSqmYy2sFQTTrkSh
+	ndjXyMXvAeUF8kRLrwNwgovoOS3NMuLINpjL9Jss1IvQZU+R6/F+iMaxCtVxSQIyI3Xg
+	t5RPtBJhNrxTlhI++cP02jDSDVthk25xd7QYmQ7+Cz63FzCr65jSLJNcUlLvwAAOjt+m
+	ftJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=lcHHjUOJ0kG3eaqyWwneBsyjdUpDcBWKE3JxNdHBf/I=;
-	b=RhIlacU1vHduV1kBWRDtP2byINYTCTqSNol2u4Dr+Hb0Z6I+qC5ZhermE+R/Zc82Wy
-	ABhgxm6q+7VOlm3aluqmHow9FpYmKMb8cdU19XO4sYFfvHWu0AV1I3U0wnDNY42y0F3V
-	llrB7ivZevXMq8vOiRieFDKVpVJTTTQZY9rlP+hS6h07wm/botOverpyrJ+XeVrhl8E6
-	0JGtioMg4kNiaVkvqe7O5hJHDOFl1O8ry4TgqhSjA8F3PMWVImZUUwMs9p+gGVNTdYmh
-	aq0Q8mU4xb76iIEVZhCcOAy6vm80mn8SgTSJQMPkCZfBZ3d2kpdIegtPonEFt0If0fbl
-	8t7A==
-X-Gm-Message-State: AJcUukfrUt8j7ZJmkohzrgbx5MvdI/f/mCPDEwMHs6T7TSoifWmVxS1m
-	YULcsxh7nwFouko//+kpb60XzkbsWMMKOyfiFeV1Jw==
-X-Google-Smtp-Source: ALg8bN6OMC1aiKFi50/7Sqlf4jsIBNc85MzLKxjS4CWPJmFqept9oSo+R7qF3F7nZkmRxq3lVfATHC8xUKJP/vXZJSs=
-X-Received: by 2002:a5e:820d:: with SMTP id l13mr1352705iom.201.1547543963217; 
-	Tue, 15 Jan 2019 01:19:23 -0800 (PST)
+	bh=L1vz98h1KnlsRIhPqjHIKbL1Uf5vOTRaZDdL/h3W194=;
+	b=JmncYn00hikHMzECR3PTCoEM0leh4kPK1gdcu3k2NlnxVwfM2+WVNrrHQ7Ba4tDCaB
+	C1BBFk9YXhoGyAQ/zeaga7PJ1c7ZQtvT1rlhtGUf6FVzny6/keB2v0rQhfzG3GKKbzxX
+	nIpeAiWSlcG7q0MOdI4rddr2UYd9KwVDtRewtSTTS6MjUVipHv4OKs6KBh3hv6eUoBXU
+	Jm8nqlBBiqafvxGXhygnvb4Oyv+DeOgBipYJ1LPnorLM03yrQrKVxTUi/D73Jt+WLSUN
+	/XCR2Wz8aGBsSPTOob1OFPud+f8lwfOqu60foaxclsiAfCL+X+7JkADImDyH7bwR++vX
+	j2Gw==
+X-Gm-Message-State: AJcUuke39U5ca48P++S5pP/I07Z5Drzsqz1eW1vaQBZrYZ4SQWXxHSB8
+	MC+bilW7Cp/neJl+/HMwPXA1ujxzHuJO3CvqTdc=
+X-Google-Smtp-Source: ALg8bN60zcTmlTH/tNU6Ssb1nFAz8iQoETeRtl1Pzwat54Ap93x37y+6nmN2d9xgtXlQovz/KoVkM7L3RQzJvJ3UKoQ=
+X-Received: by 2002:aca:2dc9:: with SMTP id t192mr1596343oit.325.1547546264626;
+	Tue, 15 Jan 2019 01:57:44 -0800 (PST)
 MIME-Version: 1.0
-References: <1547530093-50658-1-git-send-email-changqing.li@windriver.com>
-	<1547530093-50658-3-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1547530093-50658-3-git-send-email-changqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Jan 2019 09:19:12 +0000
-Message-ID: <CAJTo0La-p53Onb4bNXJ50XJi4XXyJe+b1p6RtfCEHo-B_7R8EA@mail.gmail.com>
-To: changqing.li@windriver.com
+References: <20190115064546.121351-1-kai.kang@windriver.com>
+In-Reply-To: <20190115064546.121351-1-kai.kang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 10:57:32 +0100
+Message-ID: <CANNYZj8h07cnf9k8EiDCjd+zpEnm1urJ0FALHwE9F7fATEAafQ@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] piglit: support build piglit without x11
+Subject: Re: [PATCH] libcomps & librepo: fix buildpaths qa warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +53,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 09:19:22 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 09:57:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 15 Jan 2019 at 05:29, <changqing.li@windriver.com> wrote:
-> +X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
-> +DEPENDS = "libpng waffle libxkbcommon virtual/libgl python3-mako-native python3-numpy-native python3-six-native virtual/egl ${X11_DEPS}"
+On Tue, 15 Jan 2019 at 07:46, <kai.kang@windriver.com> wrote:
+> Add preprocess option '-fmacro-prefix-map' to TARGET_CPPFLAGS to fix
+> buildpaths qa warnings of libcomps and librepo.
 
-This...
+These warnings are not happening on the AB or on my local setup. Could
+they be happening due to something in your local config? Can you try
+with plain poky master please?
 
-> +       ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)} \
-
-...and this are basically the buildtime and runtime dependencies for
-the 'opengl' packageconfig, so they should be in the
-PACKAGECONFIG[opengl] line.
-
-Also if you rename [opengl] to [x11] and then you can just use
-bb.utils.filter().
-
-Ross
+Alex
 
