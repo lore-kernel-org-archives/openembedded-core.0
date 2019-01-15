@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id ED2CA7C124
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 02AEA7C124
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:23 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t6so3664145wrr.12
+	Tue, 15 Jan 2019 16:39:24 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id y8so3877880wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:25 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=28IJKQqOB2dcUo3ZqP31SebEclPKGQ4evGx2c8oljIk=;
-	b=bzh7DHhcq7Gfo2sijdtBc0PiDZ8J6VjfXciFBABID2PkSDn2QeMRoUcSL/pB1NX2Ib
-	RMRk0A5DginH3erxh4tqSiRHiwPkWwLjEbZtyEZsVsXlu1ubcXJpDxOsJjzSM5dqMoK6
-	yYTKLXDhKzQWWOeU4O1ua74jwhfd4axH6xaQp2YWnk95SnUdkmWXKOEfolJ51MqbQvzT
-	DIYO9i1KmpuoQD29/xSBnj3r7QBaBYjztnV6Wr0YDxLUffnz4X3GEJLxwyPg5+hRk4pJ
-	3diyZapbWYL4ixSSgqRPR5ZV8+t8pdJgf7vR1jkw25OC/7f2L5R1FJFcC0Hxxce0T8QL
-	m1gw==
+	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
+	b=TiN4XbjAjpmgG7Swt61p1uCddbmat4ImNnjC3wA5Ow3lmBPk7sD3F9BFN44XuGbbZt
+	hPYPPFYpCYNGz+xjQIDbqxot7BaftPdWZWwnOj2rDJz73ljCPJm1Cb4lIomBV7DhpYe5
+	uU89cK+D4ePz74c8vPoKwKtzxmvBpRwcQP+P92uuBm9EbuwTU0jkBnkA60l4GozIDYJB
+	Cmd+l3Cywvxp86F4gBcaMD1gAaA66T1G+qaquS1q7b8Z/D4DuQhwBxrXHecK/U641EUK
+	VR/fS4Jgz7N7jykuL8BH3P1ruME3MhF5vidy7SQqdzX8kUwyMqWE7ppYBIvCjeqVKgJC
+	iGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=28IJKQqOB2dcUo3ZqP31SebEclPKGQ4evGx2c8oljIk=;
-	b=qiHvOT63fMvDKXTgEEOuxfD4e5dOl6G14diDu1DAoEWZtzbyfjeUZhds2SEPFUCn3v
-	Ps4lbvztdyV3As68tetW3j+Zuq91oypWbpANCCKxEQkLT6A8XrklEpiGYn9R8Go6oGQv
-	EgMdADwuyZS+wOhCYXhh3tW1q240KLW2VUJ/wHB2SRhFNvdyz1JGKRTrO/R4R76RLr3K
-	JGJZPSAtgsVK+ahPn7ueg7J60d8k2rUeIRg/7pZDbYMB5f1QO7bSku+E2n4sOSAUdACP
-	fWLagLtyBvhiDbZn8evahdieDHj0hddE6krLQ3xLo6aWdPK3idIno/iKR7bl8O/Wv62u
-	bdkw==
-X-Gm-Message-State: AJcUukfTwzWomowYl7C0vD9DHVkbNmg8WJjJoDCB9KxLeBijo2r9eq89
-	rjuOrpi5nBWv2AOHVZAbz5efNXInYnE=
-X-Google-Smtp-Source: ALg8bN5rb4KaI/OQs2qt8k6bdIaLVVuOLgOy6Yu7UwIOS9QUjkgour+B+JYPMj5iYA1tVXu16iZHow==
-X-Received: by 2002:adf:9c8a:: with SMTP id d10mr3751728wre.244.1547570364379; 
-	Tue, 15 Jan 2019 08:39:24 -0800 (PST)
+	bh=3JNQneQ4VTEMMhEJtnAxlCMbHwytZzXHNF+Uy3BPT/w=;
+	b=DeeNyODIfzX11BMFIQUqsq35t58/3YeEirucpHfxl9Jb9bEduDyiS/3ycTb5zTkDsy
+	te/k/N0635/7+unODNJzPB/hqBCYFCwwMmKbV6czSwAGuNQZ9ps7mgqp/drbknMMrztn
+	QLglvA5uDpB1Cj4BgBDwDu7JlIyKLP1sn56Mgxu/CEYr/KkkLTZdXM44x9DzHCOU5nc7
+	XHNRwt4IhXtNyM5UXiKiJ2HfwxdIxuBYXsYzOH7Z52ThKnuvWw2q23V0jHOurDHShZDg
+	DELPQaE+CMA2JA5uUaCpW19mIgWRr1vy5tqw5UV2iFC/Q/eQiSLvfAzacq8UXuL95nfH
+	pRQA==
+X-Gm-Message-State: AJcUukczVKa17KcH1FrVYW8cK7bg+qzKb49x3lywyDLDCLElb2LodlRb
+	G6hpxfDl7+js30d7exNFtI+K3iACif8=
+X-Google-Smtp-Source: ALg8bN7xz/WOE5Z3B9sVVRGjgHljLe+FvCkCWgir87kx0eG3/Jh5YnWZ+jwwjKEODi0Ddx1ihLEVgQ==
+X-Received: by 2002:a1c:4c0c:: with SMTP id z12mr3821647wmf.17.1547570365474; 
+	Tue, 15 Jan 2019 08:39:25 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.23
+	f15sm77594927wrt.10.2019.01.15.08.39.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:23 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:24 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:56 +0100
-Message-Id: <8d5b8f2c8689eb5cc2f974c837f2983ce9c30df3.1547570285.git.alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 17:38:57 +0100
+Message-Id: <8984461743cb9e7a23d85f4a926fbdbad676d07a.1547570285.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
 References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 21/22] qemu: add environment variable wrappers to make qemu look good with gtk frontend
+Subject: [PATCHv2 22/22] selftest: add a test for virgl GL acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,60 +58,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:24 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 16:39:25 -0000
 
-GTK_THEME instructs gtk to use its built-in theme. Otherwise
-gtk attempts to use the theme from the host, which may be from
-a totally mismatching gtk version.
-
-On the other hand FONTCONFIG_PATH tells it to use the host fonts,
-as providing fonts in the native sysroot and instructing the components
-to use them is a lot more tricky.
-
-GDK_PIXBUF_MODULE_FILE is set, because otherwise qemu works but
-fills stdout with error messages, which eventually fill the pipe
-they go into. That pipe is read from only when qemu exits (to
-collect any error messages) by runqemu script. The pipe fill-up
-causes the qemu process to lock up.
+Note that the test requires that the host machine has a X display
+and is able to create OpenGL contexts.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py | 17 +++++++++++++++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 19 +++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 08ae9eca2bd..11f658e80ac 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -48,6 +48,28 @@ do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
- }
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+new file mode 100644
+index 00000000000..3894962eaaf
+--- /dev/null
++++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+@@ -0,0 +1,17 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++import subprocess
++
++class VirglTest(OERuntimeTestCase):
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kernel_driver(self):
++        status, output = self.target.run('dmesg|grep virgl')
++        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
++        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
++
++    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
++    def test_kmscube(self):
++        status, output = self.target.run('kmscube')
++        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
++        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 906e460d4f8..14837fcdd68 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -168,6 +168,25 @@ class TestImage(OESelftestTestCase):
+         # remove the oeqa-feed-sign temporal directory
+         shutil.rmtree(self.gpg_home, ignore_errors=True)
  
-+do_install_append_class-native() {
-+        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
++    @OETestID(1883)
++    def test_testimage_virgl(self):
++        """
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu
++        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
++                  2. Check that kmscube demo runs without crashing.
++        Product: oe-core
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
++        """
++        features = 'INHERIT += "testimage"\n'
++        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
++        features += 'TEST_SUITES = "ping ssh virgl"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'IMAGE_INSTALL_append = " kmscube"\n'
++        features += 'TEST_QEMUPARAMS = "-vga virtio -display gtk,gl=on"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
 +
-+        for tool in `ls ${D}${bindir}/qemu-system-*`; do
-+                create_wrapper $tool \
-+                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
-+                        FONTCONFIG_PATH=/etc/fonts \
-+                        GTK_THEME=Adwaita
-+        done
-+}
-+
-+do_install_append_class-nativesdk() {
-+        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
-+
-+        for tool in `ls ${D}${bindir}/qemu-system-*`; do
-+                create_wrapper $tool \
-+                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
-+                        FONTCONFIG_PATH=/etc/fonts \
-+                        GTK_THEME=Adwaita
-+        done
-+}
-+
- # The following fragment will create a wrapper for qemu-mips user emulation
- # binary in order to work around a segmentation fault issue. Basically, by
- # default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
+ class Postinst(OESelftestTestCase):
+     @OETestID(1540)
+     @OETestID(1545)
 -- 
 2.17.1
 
