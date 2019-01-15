@@ -1,44 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
-	[209.85.219.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 017547C0C1
+Received: from mail-yw1-f48.google.com (mail-yw1-f48.google.com
+	[209.85.161.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D3B67C0C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 14:45:33 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id a190so1139386ybg.3
+	Tue, 15 Jan 2019 14:45:34 +0000 (UTC)
+Received: by mail-yw1-f48.google.com with SMTP id x2so1104154ywc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 06:45:34 -0800 (PST)
+	Tue, 15 Jan 2019 06:45:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=AbV/HTO9gqTBIRbllioJm+35HHHDnd3gc6jf1XxhA8I=;
-	b=jmO+OIzfe2IvSGt628p4fnIlikvgyvlmXyPSHdePedmb1O4hSWptW9P24Cbe4WfAiY
-	zFNqzf2rWar8eYtkr20RK7ApOoGW7SMc3O7PLFWtQCX3RvE3xxG3Y+Yy5y7wE8/boQ9F
-	YHJ4/Go1SGA3P4WvTTDvijIRe7ycZLU1maORmEW9tBq+Y7SjPOJtuNXQAZKDFhNif64N
-	F3JYcA/iVhNm+tEDpTKjb6CXUajBh5Gku4YRt54H7zO1D9id7UK0LFEZ6URpqyJjXVz5
-	vs5Jf7heMGtPeOUZC5wvLYzyYkny4pUyKz7UJIDb+Q36VG97HCesIgkqot0MHOPPsrtD
-	c7nw==
-X-Gm-Message-State: AJcUukdKsCOjUTHcnbwZ1rE03FnU3CZR5mG0RtIpQB9wA5vZcpwV5X3V
-	EgrQb4o/AOhZt3fs3zsxi5rO+wN5
-X-Google-Smtp-Source: ALg8bN51DunSFfreeqDqq8PescVwSIm84q9x04ViFIvTZyEOvrhf1bdXnZJGeKYiZH0a6C0M7Dojlg==
-X-Received: by 2002:a25:818c:: with SMTP id p12mr3486213ybk.394.1547563534008; 
-	Tue, 15 Jan 2019 06:45:34 -0800 (PST)
+	bh=wkIuKG78jP5h3aDcGSthIVez0njExsSowRotBV7g1iI=;
+	b=jLT0yxev+TEM9F59C8BokdhZggGWhgOr7iFu5OYNr9ojMdN98PhEv61T5+Aj0DivqD
+	Mvv001YQkh39OwOUMW1APldooYCwaDiR7lHII7NpvzclHxIdAmkjAJgbLqSZLHa43tOb
+	LHcLysx02HLwkv+OfueETEQm/i6Sd2OfiM+SxP3+F7hDty2Dpx2M7hVvvz8CGZUSeF9V
+	IK9gj3cfjah9HU//lpRr0OvKEQa9VdZ72PKCoA6h47f/9F2T3EKa6KugDB6X7oH9IOnK
+	KX6ZnBEFMoUARLewJ4Pgpe3Z0+xx3HfZtLms3ImmxYKoRwCS1sSIf3Eu0w2Zje+R5Fxq
+	AGQg==
+X-Gm-Message-State: AJcUukehuZjfilXsLk4b/LrAlF/hPkm+TCF9UkirSwgRXmamlvxoAQXm
+	7CB2XoRuehMYekJawIPvhU70JVnD
+X-Google-Smtp-Source: ALg8bN5TYnjPwIQNezOcwQ2Xe1wUkpk610cCoKrQ3G7RW+/vjtdZzgCXB2QzPVMNN9TgNtFysUKeAQ==
+X-Received: by 2002:a0d:cb47:: with SMTP id n68mr3173230ywd.329.1547563535288; 
+	Tue, 15 Jan 2019 06:45:35 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	i13sm1261220ywe.53.2019.01.15.06.45.32
+	i13sm1261220ywe.53.2019.01.15.06.45.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 06:45:33 -0800 (PST)
+	Tue, 15 Jan 2019 06:45:34 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 14:45:13 +0000
-Message-Id: <20190115144525.29388-4-git@andred.net>
+Date: Tue, 15 Jan 2019 14:45:14 +0000
+Message-Id: <20190115144525.29388-5-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190115144525.29388-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190115144525.29388-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 03/15] util-linux: remove minix remnants
+Subject: [PATCH v2 04/15] util-linux: be more explicit about what files go into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,55 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-While commit fc66762d7c11 ("util-linux: Disable minix support.")
-(or e88cee8cc31d in poky) removed most of the bits, there are
-still references to minix remaining.
+Just using a wildcard leaves the reader wondering
+what is meant here.
 
-Remove them.
+By being explicit we can describe exactly what is
+intended, i.e. the file name as resulting from
+the ALTERNATIVE and ALTERNATIVE_LINK_NAME mechanism.
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/util-linux/util-linux.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index a1702da5b4..8c8cbde8c2 100644
+index 8c8cbde8c2..79ab302e6a 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -159,7 +159,7 @@ do_install () {
- 	mkdir -p ${D}${base_bindir}
+@@ -88,7 +88,7 @@ FILES_util-linux-umount = "${base_bindir}/umount.${BPN}"
+ FILES_util-linux-readprofile = "${sbindir}/readprofile.${BPN}"
+ FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+ FILES_util-linux-uuidd = "${sbindir}/uuidd"
+-FILES_util-linux-rfkill = "${sbindir}/rfkill*"
++FILES_util-linux-rfkill = "${sbindir}/rfkill.${BPN}"
+ FILES_util-linux-partx = "${sbindir}/partx"
+ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+@@ -105,20 +105,20 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
+ FILES_util-linux-lsblk = "${bindir}/lsblk"
+ FILES_util-linux-lscpu = "${bindir}/lscpu"
  
-         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
--        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk fsck blkid blockdev fstrim sulogin switch_root nologin"
-+        sbinprogs_a="pivot_root hwclock mkswap losetup swapon swapoff fdisk fsck blkid blockdev fstrim sulogin switch_root nologin"
-         binprogs_a="dmesg getopt kill more umount mount login su mountpoint"
+-FILES_util-linux-fsck = "${base_sbindir}/fsck*"
++FILES_util-linux-fsck = "${base_sbindir}/fsck.${BPN}"
+ FILES_util-linux-mkfs = "${sbindir}/mkfs"
  
-         if [ "${base_sbindir}" != "${sbindir}" ]; then
+ FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
+ FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
+ 
+-FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
++FILES_util-linux-sulogin = "${base_sbindir}/sulogin.${BPN}"
+ FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
+ 
+ FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
+ FILES_util-linux-unshare = "${bindir}/unshare.${BPN}"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+-FILES_util-linux-blkid = "${base_sbindir}/blkid*"
++FILES_util-linux-blkid = "${base_sbindir}/blkid.${BPN}"
+ RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
+ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ 
 -- 
 2.20.1
 
