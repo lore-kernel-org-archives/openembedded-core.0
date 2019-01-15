@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 92D146BDCD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0797A076
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 01:50:53 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id i12so501054pfo.7
+	Tue, 15 Jan 2019 02:06:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0F26Rcm023604
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 17:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hA3FI8R0mlnmaJhOW5uL5RrRPq1SjPOIST9goDMW97I=;
-	b=Qzo95kPlbKvEr58e0HKmNqPlB17tx5hUmmjqJTVYsupJpGPcDgFKu1eWDHogteuIGK
-	r9IcuozsyLJY7vdczn+yS/tZf2lV6y9j4V/P3Zesl5Qup3yp6atwwwPGtncXkPzJpPIz
-	YFMeKqGzGaqmzX7YCX2jtsJ4fFKdnC2OulZdBI3mMIjJSBEiesNTRuGjffUzlzfDmBBC
-	0P3kF9q6imwga9Yg5c0xN9c2WR5nuR3/5Cs+h/Xp/isdskIX9xnByCVqonPKpIJRh4Iw
-	65sa5S8qryjJ9bIeXBb6V0zSL2JY6PIlLmGsPSeRgszwAey/0wE7xChPKYnDEtaAhZxT
-	STlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hA3FI8R0mlnmaJhOW5uL5RrRPq1SjPOIST9goDMW97I=;
-	b=Tr9xmXagYuLacjQvwZSIxKkOXXiMu8flI3a3io1ipgEMaDYKHTma33YB/sM6jXaxa7
-	lWXe+9I9YStRYn4ry9VSouEOzidjDPdMuKOUDi2CIQ0dTBQB20XPimWrEZixyfOVWiYF
-	DUWx7tsnhtHkFgufhU1JicUcby/pi+FbZjmOB3pYZua1NGAGjaq4GuEebR/nEXTYl98q
-	Donn6BzhNvGkZ+4GRm58qtlV9dku2gNEfL1k2QlFr57FpUgvzkmrqEaz0pgW+YaBD5Gc
-	TwDJ/gFBxKlVG5XFjrtdNQXMSZ53+mvtJl6U/4TatqIO/3FrncNMfjpctA6WTA1iGVe7
-	gP4w==
-X-Gm-Message-State: AJcUukeJssbWWEn+G1VAOuzoLFG75zKWJjQEsAT6Wz30KdBgKAev6aT5
-	Qqfy8StKQeAlNlVGDSzfwi2sjTG5CYg=
-X-Google-Smtp-Source: ALg8bN7UG3YP4qDln/uH4cNYRXcZ0KojgnXdpH86Ddy5DbY/7JRV0HCAnaHAtSzQ78oJxjkICAG0lg==
-X-Received: by 2002:a63:160d:: with SMTP id w13mr1454723pgl.43.1547517053967; 
-	Mon, 14 Jan 2019 17:50:53 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::4107])
-	by smtp.gmail.com with ESMTPSA id
-	p24sm2084238pfk.155.2019.01.14.17.50.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Jan 2019 17:50:53 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2019 17:50:44 -0800
-Message-Id: <20190115015044.12892-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 14 Jan 2019 18:06:27 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 14 Jan 2019 18:06:20 -0800
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1545102457.git.liezhi.yang@windriver.com>
+	<6777b5a2a2442988d4497678639c018f638ad86b.1545102457.git.liezhi.yang@windriver.com>
+	<ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <9e1430b7-e754-a6b3-70e5-848d4c4c250e@windriver.com>
+Date: Tue, 15 Jan 2019 10:11:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH] tune-cortexa5.inc: Add tune options for vfpv4
+In-Reply-To: <ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
+Subject: Re: [PATCH V3 03/11] ccache.bbclass: Refactor it to make it more reliable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +36,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 01:50:53 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 02:06:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/tune-cortexa5.inc | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Hi Randy,
 
-diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
-index 1f0cda6640..e9eddb407f 100644
---- a/meta/conf/machine/include/tune-cortexa5.inc
-+++ b/meta/conf/machine/include/tune-cortexa5.inc
-@@ -6,31 +6,43 @@ TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
- 
- # Little Endian base configs
--AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
-+AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon cortexa5-neon-vfpv4 cortexa5t-neon-vfpv4"
- ARMPKGARCH_tune-cortexa5             = "cortexa5"
- ARMPKGARCH_tune-cortexa5t            = "cortexa5"
- ARMPKGARCH_tune-cortexa5-neon        = "cortexa5"
- ARMPKGARCH_tune-cortexa5t-neon       = "cortexa5"
-+ARMPKGARCH_tune-cortexa5-neon-vfpv4  = "cortexa5"
-+ARMPKGARCH_tune-cortexa5t-neon-vfpv4 = "cortexa5"
- TUNE_FEATURES_tune-cortexa5             = "${TUNE_FEATURES_tune-armv7a} cortexa5"
- TUNE_FEATURES_tune-cortexa5t            = "${TUNE_FEATURES_tune-armv7at} cortexa5"
- TUNE_FEATURES_tune-cortexa5-neon        = "${TUNE_FEATURES_tune-armv7a-neon} cortexa5"
- TUNE_FEATURES_tune-cortexa5t-neon       = "${TUNE_FEATURES_tune-armv7at-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7a-neon-vfpv4} cortexa5"
-+TUNE_FEATURES_tune-cortexa5t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7at-neon-vfpv4} cortexa5"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa5-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa5-vfp cortexa5-neon"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa5-vfp cortexa5-neon cortexa5t2-vfp cortexa5t2-neon"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon-vfpv4  = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4} cortexa5-vfp cortexa5-neon cortexa5-neon-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4} cortexa5-vfp cortexa5-neon cortexa5-neon-vfpv4 cortexa5t2-vfp cortexa5t2-neon cortexa5t2-neon-vfpv4"
- 
- # HF Tunes
--AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon"
-+AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon cortexa5hf-neon-vfpv4 cortexa5thf-neon-vfpv4"
- ARMPKGARCH_tune-cortexa5hf             = "cortexa5"
- ARMPKGARCH_tune-cortexa5thf            = "cortexa5"
- ARMPKGARCH_tune-cortexa5hf-neon        = "cortexa5"
- ARMPKGARCH_tune-cortexa5thf-neon       = "cortexa5"
-+ARMPKGARCH_tune-cortexa5hf-neon-vfpv4  = "cortexa5"
-+ARMPKGARCH_tune-cortexa5thf-neon-vfpv4 = "cortexa5"
- TUNE_FEATURES_tune-cortexa5hf             = "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
- TUNE_FEATURES_tune-cortexa5thf            = "${TUNE_FEATURES_tune-armv7athf} cortexa5"
- TUNE_FEATURES_tune-cortexa5hf-neon        = "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa5"
- TUNE_FEATURES_tune-cortexa5thf-neon       = "${TUNE_FEATURES_tune-armv7athf-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4} cortexa5"
-+TUNE_FEATURES_tune-cortexa5thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa5"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa5hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa5hf-vfp cortexa5hf-neon"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-neon cortexa5t2hf-vfp cortexa5t2hf-neon"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon-vfpv4  = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-neon cortexa5hf-neon-vfpv4"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-neon cortexa5hf-neon-vfpv4 cortexa5t2hf-vfp cortexa5t2hf-neon cortexa5t2hf-neon-vfpv4"
--- 
-2.20.1
+I'm sorry for the types, and thanks for the correction. I found that it has
+been merged, I will be more careful.
 
+// Robert
+
+On 1/12/19 4:49 AM, Randy MacLeod wrote:
+> A couple of typos and grammar improvements, otherwise a good
+> improvement for iterative development of a package/image where
+> sstate isn't useful.
+> 
+> On 12/18/18 2:18 AM, Robert Yang wrote:
+>> The previous ccache.bbclass has the following problems:
+>> - It uses host's ccache for native recipes, but this may not work on some
+>>    hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
+>>    build failures (m4-native failed at do_configure, and others will also be
+>>    failed if I disable CCACHE for m4-native)
+>>
+>> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
+> * host's ccache
+>>    ccache-native, this may confuse user.
+>>
+>> - The target recipes may use both host's ccache and ccache-native, this may
+>>    cause unexpected problems and hard to debug. This is because ccache-native is
+> * and be hard to debug
+>>    in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
+>>    rebuild target recipes, and then it would use hosttools/ccache, but the
+>>    previous ccache files were generated by ccache-native.
+>>
+>> - Target recipes can't use ccache when no ccahe is installed on the host:
+> * no ccache
+> 
+>>    CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+>>
+>> After refactored:
+>> All types recipes (native, target and others) will use ccache-native except
+>> ccache-native itself, host's cache won't be used any more. It is more
+>> reliable now, which will work everywhere when ccache-native can be built.
+>>
+>> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
+> * disable ccache
+> 
+> ../Randy
+> 
+> 
+>> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
+>> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
+>> can't check whether CCACHE is set or not in anonymous function since it is
+>> always set. Use CCACHE_DISABLE to disable it would be more clear.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/ccache.bbclass | 25 ++++++++++++++++++++++---
+>>   meta/conf/bitbake.conf      |  6 +-----
+>>   meta/conf/layer.conf        |  1 -
+>>   meta/lib/oe/utils.py        |  3 +++
+>>   4 files changed, 26 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+>> index 9609020..59e1022 100644
+>> --- a/meta/classes/ccache.bbclass
+>> +++ b/meta/classes/ccache.bbclass
+>> @@ -1,4 +1,14 @@
+>> -CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+>> +#
+>> +# Usage:
+>> +# - Enable ccache
+>> +#   Add the following line to a conffile such as conf/local.conf:
+>> +#   INHERIT += "ccache"
+>> +#
+>> +# - Disable ccache for a recipe
+>> +#   Add the following line to the recipe if it can't be built with ccache:
+>> +#   CCACHE_DISABLE = '1'
+>> +#
+>> +
+>>   export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
+>>   # We need to stop ccache considering the current directory or the
+>> @@ -7,5 +17,14 @@ export CCACHE_DIR ?= 
+>> "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
+>>   # ${PV} or ${PR} change.
+>>   export CCACHE_NOHASHDIR ?= "1"
+>> -DEPENDS_append_class-target = " ccache-native"
+>> -DEPENDS[vardepvalueexclude] = " ccache-native"
+>> +python() {
+>> +    """
+>> +    Enable ccache for the recipe
+>> +    """
+>> +    pn = d.getVar('PN')
+>> +    # quilt-native doesn't need ccache since no c files
+>> +    if not (pn in ('ccache-native', 'quilt-native') or
+>> +            bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
+>> +        d.appendVar('DEPENDS', ' ccache-native')
+>> +        d.setVar('CCACHE', 'ccache ')
+>> +}
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 6480062..c88d66c 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -492,7 +492,7 @@ HOSTTOOLS += " \
+>>   HOSTTOOLS += "${@'ip ping ps scp ssh stty' if 
+>> (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) 
+>> or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", 
+>> "testsdk.bbclass"])) else ''}"
+>>   # Link to these if present
+>> -HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc pigz sftp 
+>> socat ssh sudo"
+>> +HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh 
+>> sudo"
+>>   # Temporary add few more detected in bitbake world
+>>   HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+>> @@ -504,10 +504,6 @@ HOSTTOOLS_NONFATAL += "bzr"
+>>   HOSTTOOLS_NONFATAL += "scp"
+>>   CCACHE ??= ""
+>> -# ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
+>> -# autogen sets HOME=/dev/null so in certain situations builds can fail.
+>> -# Explicitly export CCACHE_DIR until we can assume ccache >3.1.10 on the host.
+>> -export CCACHE_DIR ??= "${@os.getenv('HOME')}/.ccache"
+>>   TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+>> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+>> index c67dec4..4141d6c 100644
+>> --- a/meta/conf/layer.conf
+>> +++ b/meta/conf/layer.conf
+>> @@ -49,7 +49,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+>>     *->quilt-native \
+>>     *->subversion-native \
+>>     *->git-native \
+>> -  *->ccache-native \
+>>     *->icecc-create-env-native \
+>>     gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
+>>     gcc-cross-${TARGET_ARCH}->linux-libc-headers \
+>> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+>> index 29b4115..ee6f0e6 100644
+>> --- a/meta/lib/oe/utils.py
+>> +++ b/meta/lib/oe/utils.py
+>> @@ -363,6 +363,9 @@ def host_gcc_version(d, taskcontextonly=False):
+>>           return
+>>       compiler = d.getVar("BUILD_CC")
+>> +    # Get rid of ccache since it is not present when parsing.
+>> +    if compiler.startswith('ccache '):
+>> +        compiler = compiler[7:]
+>>       try:
+>>           env = os.environ.copy()
+>>           env["PATH"] = d.getVar("PATH")
+>>
+> 
+> 
 
