@@ -1,57 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 01ACE7C0C1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 92D146BDCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 00:59:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6E0371832C;
-	Tue, 15 Jan 2019 01:59:32 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Dpvblo1inVo0; Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 6DD7118423;
-	Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1E0DD1E083;
-	Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 12A5E1E078;
-	Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 0699D2A41;
-	Tue, 15 Jan 2019 01:59:31 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 15 Jan 2019 01:59:31 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Tue, 15 Jan 2019 01:59:30 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] systemd: Correct and clean up user/group
-	definitions
-Thread-Index: AQHUrGwzMBDxaXVM9kezRJfnbq4F7qWvgG3w
-Date: Tue, 15 Jan 2019 00:59:30 +0000
-Message-ID: <de0650c05fe84ea58d3ee89fa6bfef7f@XBOX04.axis.com>
-References: <20190115004906.5256-1-pkj@axis.com>
-In-Reply-To: <20190115004906.5256-1-pkj@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 15 Jan 2019 01:50:53 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id i12so501054pfo.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jan 2019 17:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hA3FI8R0mlnmaJhOW5uL5RrRPq1SjPOIST9goDMW97I=;
+	b=Qzo95kPlbKvEr58e0HKmNqPlB17tx5hUmmjqJTVYsupJpGPcDgFKu1eWDHogteuIGK
+	r9IcuozsyLJY7vdczn+yS/tZf2lV6y9j4V/P3Zesl5Qup3yp6atwwwPGtncXkPzJpPIz
+	YFMeKqGzGaqmzX7YCX2jtsJ4fFKdnC2OulZdBI3mMIjJSBEiesNTRuGjffUzlzfDmBBC
+	0P3kF9q6imwga9Yg5c0xN9c2WR5nuR3/5Cs+h/Xp/isdskIX9xnByCVqonPKpIJRh4Iw
+	65sa5S8qryjJ9bIeXBb6V0zSL2JY6PIlLmGsPSeRgszwAey/0wE7xChPKYnDEtaAhZxT
+	STlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hA3FI8R0mlnmaJhOW5uL5RrRPq1SjPOIST9goDMW97I=;
+	b=Tr9xmXagYuLacjQvwZSIxKkOXXiMu8flI3a3io1ipgEMaDYKHTma33YB/sM6jXaxa7
+	lWXe+9I9YStRYn4ry9VSouEOzidjDPdMuKOUDi2CIQ0dTBQB20XPimWrEZixyfOVWiYF
+	DUWx7tsnhtHkFgufhU1JicUcby/pi+FbZjmOB3pYZua1NGAGjaq4GuEebR/nEXTYl98q
+	Donn6BzhNvGkZ+4GRm58qtlV9dku2gNEfL1k2QlFr57FpUgvzkmrqEaz0pgW+YaBD5Gc
+	TwDJ/gFBxKlVG5XFjrtdNQXMSZ53+mvtJl6U/4TatqIO/3FrncNMfjpctA6WTA1iGVe7
+	gP4w==
+X-Gm-Message-State: AJcUukeJssbWWEn+G1VAOuzoLFG75zKWJjQEsAT6Wz30KdBgKAev6aT5
+	Qqfy8StKQeAlNlVGDSzfwi2sjTG5CYg=
+X-Google-Smtp-Source: ALg8bN7UG3YP4qDln/uH4cNYRXcZ0KojgnXdpH86Ddy5DbY/7JRV0HCAnaHAtSzQ78oJxjkICAG0lg==
+X-Received: by 2002:a63:160d:: with SMTP id w13mr1454723pgl.43.1547517053967; 
+	Mon, 14 Jan 2019 17:50:53 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::4107])
+	by smtp.gmail.com with ESMTPSA id
+	p24sm2084238pfk.155.2019.01.14.17.50.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Jan 2019 17:50:53 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jan 2019 17:50:44 -0800
+Message-Id: <20190115015044.12892-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/2] systemd: Correct and clean up user/group	definitions
+Subject: [PATCH] tune-cortexa5.inc: Add tune options for vfpv4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,121 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 00:59:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 Jan 2019 01:50:53 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 15 januari 2019 01:49
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] systemd: Correct and clean up user/group
-> definitions
->=20
-> This makes sure that packages are only added to USERADD_PACKAGES if
-> they will create users/groups. This avoids the following error:
->=20
->   ERROR: systemd_239.bb: meta/recipes-core/systemd/systemd_239.bb
->   inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or
->   GROUPMEMS_PARAM for package systemd-journal-gateway
->=20
-> Normally this problem is not triggered even if the conditional code
-> that
-> expands in, e.g., USERADD_PARAM_${PN}-journal-gateway is empty because
-> it is assigned with +=3D and thus ends up as " ", which fools the check
-> in
-> useradd.bbclass.
->=20
-> However, if USERADDEXTENSION +=3D "useradd-staticids" and
-> INHERIT +=3D "extrausers" are used, they cause the problem to occur. The
-> reason for this is because when useradd-staticids is used, it rewrites
-> USERADD_PARAM_${PN}-journal-gateway, which strips unnecessary
-> whitespace
-> and thus USERADD_PARAM_${PN}-journal-gateway becomes empty. And
-> extrausers is needed, because otherwise the test in useradd.bbclass is
-> triggered before useradd-staticids has rewritten the variables...
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-core/systemd/systemd_239.bb | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-
-> core/systemd/systemd_239.bb
-> index be836ffa42..aa05af3beb 100644
-> --- a/meta/recipes-core/systemd/systemd_239.bb
-> +++ b/meta/recipes-core/systemd/systemd_239.bb
-> @@ -343,17 +343,21 @@ SYSTEMD_PACKAGES =3D
-> "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
->  "
->  SYSTEMD_SERVICE_${PN}-binfmt =3D "systemd-binfmt.service"
->=20
-> -USERADD_PACKAGES =3D "${PN} ${PN}-extra-utils ${PN}-journal-gateway
-> ${PN}-journal-upload ${PN}-journal-remote"
-> -USERADD_PARAM_${PN}-journal-gateway +=3D
-> "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M
-> --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-> -USERADD_PARAM_${PN}-journal-remote +=3D
-> "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M
-> --shell /bin/nologin systemd-journal-remote;', '', d)}"
-> -USERADD_PARAM_${PN}-journal-upload +=3D
-> "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d /
-> -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
-> -USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;',
-> '', d)}"
-> -USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;',
-> '', d)}"
-> +USERADD_PACKAGES =3D "${PN} ${PN}-extra-utils \
-> +                    ${@bb.utils.contains('PACKAGECONFIG',
-> 'microhttpd', '${PN}-journal-gateway', '', d)} \
-> +                    ${@bb.utils.contains('PACKAGECONFIG',
-> 'microhttpd', '${PN}-journal-remote', '', d)} \
-> +                    ${@bb.utils.contains('PACKAGECONFIG', 'journal-
-> upload', '${PN}-journal-upload', '', d)} \
-> +"
-> +GROUPADD_PARAM_${PN} =3D "-r systemd-journal"
->  USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;',
-> '', d)}"
-> -USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;',
-> '', d)}"
-> +USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;',
-> '', d)}"
->  USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'polkit', '--system --no-create-home --user-group --home-dir
-> ${sysconfdir}/polkit-1 polkitd;', '', d)}"
-> -GROUPADD_PARAM_${PN} =3D "-r systemd-journal"
-> -USERADD_PARAM_${PN}-extra-utils +=3D "--system -d / -M --shell
-> /bin/nologin systemd-bus-proxy;"
-> +USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;',
-> '', d)}"
-> +USERADD_PARAM_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
-> 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;',
-> '', d)}"
-> +USERADD_PARAM_${PN}-extra-utils =3D "--system -d / -M --shell
-> /bin/nologin systemd-bus-proxy"
-> +USERADD_PARAM_${PN}-journal-gateway =3D "--system -d / -M --shell
-> /bin/nologin systemd-journal-gateway"
-> +USERADD_PARAM_${PN}-journal-remote =3D "--system -d / -M --shell
-> /bin/nologin systemd-journal-remote"
-> +USERADD_PARAM_${PN}-journal-upload =3D "--system -d / -M --shell
-> /bin/nologin systemd-journal-upload"
->=20
->  FILES_${PN}-analyze =3D "${bindir}/systemd-analyze"
->=20
-> --
-> 2.12.0
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/tune-cortexa5.inc | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-This also needs to be cherry-picked to Thud once it has been accepted for=20
-master. I assume it is too late for 2.6.1, but one can always hope...
-
-//Peter
+diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+index 1f0cda6640..e9eddb407f 100644
+--- a/meta/conf/machine/include/tune-cortexa5.inc
++++ b/meta/conf/machine/include/tune-cortexa5.inc
+@@ -6,31 +6,43 @@ TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
+ 
+ # Little Endian base configs
+-AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
++AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon cortexa5-neon-vfpv4 cortexa5t-neon-vfpv4"
+ ARMPKGARCH_tune-cortexa5             = "cortexa5"
+ ARMPKGARCH_tune-cortexa5t            = "cortexa5"
+ ARMPKGARCH_tune-cortexa5-neon        = "cortexa5"
+ ARMPKGARCH_tune-cortexa5t-neon       = "cortexa5"
++ARMPKGARCH_tune-cortexa5-neon-vfpv4  = "cortexa5"
++ARMPKGARCH_tune-cortexa5t-neon-vfpv4 = "cortexa5"
+ TUNE_FEATURES_tune-cortexa5             = "${TUNE_FEATURES_tune-armv7a} cortexa5"
+ TUNE_FEATURES_tune-cortexa5t            = "${TUNE_FEATURES_tune-armv7at} cortexa5"
+ TUNE_FEATURES_tune-cortexa5-neon        = "${TUNE_FEATURES_tune-armv7a-neon} cortexa5"
+ TUNE_FEATURES_tune-cortexa5t-neon       = "${TUNE_FEATURES_tune-armv7at-neon} cortexa5"
++TUNE_FEATURES_tune-cortexa5-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7a-neon-vfpv4} cortexa5"
++TUNE_FEATURES_tune-cortexa5t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7at-neon-vfpv4} cortexa5"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa5-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa5-vfp cortexa5-neon"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa5-vfp cortexa5-neon cortexa5t2-vfp cortexa5t2-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon-vfpv4  = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4} cortexa5-vfp cortexa5-neon cortexa5-neon-vfpv4"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4} cortexa5-vfp cortexa5-neon cortexa5-neon-vfpv4 cortexa5t2-vfp cortexa5t2-neon cortexa5t2-neon-vfpv4"
+ 
+ # HF Tunes
+-AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon"
++AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon cortexa5hf-neon-vfpv4 cortexa5thf-neon-vfpv4"
+ ARMPKGARCH_tune-cortexa5hf             = "cortexa5"
+ ARMPKGARCH_tune-cortexa5thf            = "cortexa5"
+ ARMPKGARCH_tune-cortexa5hf-neon        = "cortexa5"
+ ARMPKGARCH_tune-cortexa5thf-neon       = "cortexa5"
++ARMPKGARCH_tune-cortexa5hf-neon-vfpv4  = "cortexa5"
++ARMPKGARCH_tune-cortexa5thf-neon-vfpv4 = "cortexa5"
+ TUNE_FEATURES_tune-cortexa5hf             = "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
+ TUNE_FEATURES_tune-cortexa5thf            = "${TUNE_FEATURES_tune-armv7athf} cortexa5"
+ TUNE_FEATURES_tune-cortexa5hf-neon        = "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa5"
+ TUNE_FEATURES_tune-cortexa5thf-neon       = "${TUNE_FEATURES_tune-armv7athf-neon} cortexa5"
++TUNE_FEATURES_tune-cortexa5hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4} cortexa5"
++TUNE_FEATURES_tune-cortexa5thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa5"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa5hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa5hf-vfp cortexa5hf-neon"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-neon cortexa5t2hf-vfp cortexa5t2hf-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon-vfpv4  = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-neon cortexa5hf-neon-vfpv4"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-neon cortexa5hf-neon-vfpv4 cortexa5t2hf-vfp cortexa5t2hf-neon cortexa5t2hf-neon-vfpv4"
+-- 
+2.20.1
 
 
