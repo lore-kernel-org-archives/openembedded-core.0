@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id EE8EA7C124
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id ED2CA7C124
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:22 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id z5so3670486wrt.11
+	Tue, 15 Jan 2019 16:39:23 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t6so3664145wrr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:24 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=B1iU48dX8ftQj+wsP2Qj56redPdVu6p0PlIfa9XdNzo=;
-	b=fNZSU2zbztJVznjB7H4fpjjjQEsKti2usOwS574fvrZVNjIXBu4gWaYCE50MNho40Z
-	S19t8Qlx9kUXuoWMfQuYAXDgKeiV+M6EX9cS28GJkt5qYhJZQ8PwbeFi8i4Xufa+o77U
-	5pLIQ6Zvd92I06feSM8Au/oIAdh1iKfZpFwXnPxqUUbpxd+AzSM9cFRo69N2RAO/U+L1
-	zc3n26BJFcVIPowz/H5V0wg0UYxloCuM8l2YNyGItFIJeO7jsBvwdU/1wY7oVssFEzW4
-	zvfAzZC3jcNbRb2Rx5KVEPdKHqxwERtDs7C8o4J6yBfQjnct8Ed1SoolfMy4btwDp2L3
-	ZMmQ==
+	bh=28IJKQqOB2dcUo3ZqP31SebEclPKGQ4evGx2c8oljIk=;
+	b=bzh7DHhcq7Gfo2sijdtBc0PiDZ8J6VjfXciFBABID2PkSDn2QeMRoUcSL/pB1NX2Ib
+	RMRk0A5DginH3erxh4tqSiRHiwPkWwLjEbZtyEZsVsXlu1ubcXJpDxOsJjzSM5dqMoK6
+	yYTKLXDhKzQWWOeU4O1ua74jwhfd4axH6xaQp2YWnk95SnUdkmWXKOEfolJ51MqbQvzT
+	DIYO9i1KmpuoQD29/xSBnj3r7QBaBYjztnV6Wr0YDxLUffnz4X3GEJLxwyPg5+hRk4pJ
+	3diyZapbWYL4ixSSgqRPR5ZV8+t8pdJgf7vR1jkw25OC/7f2L5R1FJFcC0Hxxce0T8QL
+	m1gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=B1iU48dX8ftQj+wsP2Qj56redPdVu6p0PlIfa9XdNzo=;
-	b=DZqjQwcCx/EV3Z5vslFXqn+buYquOZlNMKvtHqmdflV3vRlb8yVtcnmff5ERIx+t90
-	gUCWcFmkXoRwlm59mFuEkB9q6ahI7SJ/vAdUI4YckuUHsKoWLBS35al3cWQ1lb2jlctu
-	7FeRh5fWkYG5FHNzo5HSC09k3hldGHGI3wsLisc9m//pbWJfo362vMYQdnoUIIgg292q
-	ghgv3Ist5VnRMyL5bcNHFym6seEI4qDh6lXwnsGCBf97fUG7wddkFIaT8pm3FKDpzguw
-	QOv0eWf0fvm8aPPKFwHrkTGqpec+as/D9R9t8dkqZa4Ekdy8Hn5dE12c9QlfRTehAkCX
-	hXqQ==
-X-Gm-Message-State: AJcUukdcAfw5T94dzsrhNpRntABVbKQol05CAOTcmZnRoeHUba5A1N4E
-	vi+Pk4obdSm9DWte1pLzZj8USp2AOwQ=
-X-Google-Smtp-Source: ALg8bN4huF0yA9BFuQ+X1gUuJtThgTsy7P0ljiIPuBow0fuc7bDJNBwhypL3JJtYkoZJvMjaMYFnfA==
-X-Received: by 2002:adf:81c4:: with SMTP id 62mr3632140wra.266.1547570363483; 
-	Tue, 15 Jan 2019 08:39:23 -0800 (PST)
+	bh=28IJKQqOB2dcUo3ZqP31SebEclPKGQ4evGx2c8oljIk=;
+	b=qiHvOT63fMvDKXTgEEOuxfD4e5dOl6G14diDu1DAoEWZtzbyfjeUZhds2SEPFUCn3v
+	Ps4lbvztdyV3As68tetW3j+Zuq91oypWbpANCCKxEQkLT6A8XrklEpiGYn9R8Go6oGQv
+	EgMdADwuyZS+wOhCYXhh3tW1q240KLW2VUJ/wHB2SRhFNvdyz1JGKRTrO/R4R76RLr3K
+	JGJZPSAtgsVK+ahPn7ueg7J60d8k2rUeIRg/7pZDbYMB5f1QO7bSku+E2n4sOSAUdACP
+	fWLagLtyBvhiDbZn8evahdieDHj0hddE6krLQ3xLo6aWdPK3idIno/iKR7bl8O/Wv62u
+	bdkw==
+X-Gm-Message-State: AJcUukfTwzWomowYl7C0vD9DHVkbNmg8WJjJoDCB9KxLeBijo2r9eq89
+	rjuOrpi5nBWv2AOHVZAbz5efNXInYnE=
+X-Google-Smtp-Source: ALg8bN5rb4KaI/OQs2qt8k6bdIaLVVuOLgOy6Yu7UwIOS9QUjkgour+B+JYPMj5iYA1tVXu16iZHow==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr3751728wre.244.1547570364379; 
+	Tue, 15 Jan 2019 08:39:24 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.22
+	f15sm77594927wrt.10.2019.01.15.08.39.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:22 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:55 +0100
-Message-Id: <41a344e3be1a539f3844a56cb318e56ada85d864.1547570285.git.alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 17:38:56 +0100
+Message-Id: <8d5b8f2c8689eb5cc2f974c837f2983ce9c30df3.1547570285.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
 References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 20/22] runqemu: do not check for GL libraries
+Subject: [PATCHv2 21/22] qemu: add environment variable wrappers to make qemu look good with gtk frontend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:23 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 16:39:24 -0000
 
-qemu has been using libepoxy for a long time, and libepoxy loads GL via dlopen()
-only when instructed to.
+GTK_THEME instructs gtk to use its built-in theme. Otherwise
+gtk attempts to use the theme from the host, which may be from
+a totally mismatching gtk version.
+
+On the other hand FONTCONFIG_PATH tells it to use the host fonts,
+as providing fonts in the native sysroot and instructing the components
+to use them is a lot more tricky.
+
+GDK_PIXBUF_MODULE_FILE is set, because otherwise qemu works but
+fills stdout with error messages, which eventually fill the pipe
+they go into. That pipe is read from only when qemu exits (to
+collect any error messages) by runqemu script. The pipe fill-up
+causes the qemu process to lock up.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/runqemu | 35 -----------------------------------
- 1 file changed, 35 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 38de092bfd7..4536ac12f82 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -117,39 +117,6 @@ def check_tun():
-     if not os.access(dev_tun, os.W_OK):
-         raise RunQemuError("TUN control device %s is not writable, please fix (e.g. sudo chmod 666 %s)" % (dev_tun, dev_tun))
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 08ae9eca2bd..11f658e80ac 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -48,6 +48,28 @@ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+ }
  
--def check_libgl(qemu_bin):
--    cmd = ('ldd', qemu_bin)
--    logger.debug('Running %s...' % str(cmd))
--    need_gl = subprocess.check_output(cmd).decode('utf-8')
--    if re.search('libGLU', need_gl):
--        # We can't run without a libGL.so
--        libgl = False
--        check_files = (('/usr/lib/libGL.so', '/usr/lib/libGLU.so'), \
--            ('/usr/lib64/libGL.so', '/usr/lib64/libGLU.so'), \
--            ('/usr/lib/*-linux-gnu/libGL.so', '/usr/lib/*-linux-gnu/libGLU.so'))
--
--        for (f1, f2) in check_files:
--            if re.search('\*', f1):
--                for g1 in glob.glob(f1):
--                    if libgl:
--                        break
--                    if os.path.exists(g1):
--                        for g2 in glob.glob(f2):
--                            if os.path.exists(g2):
--                                libgl = True
--                                break
--                if libgl:
--                    break
--            else:
--                if os.path.exists(f1) and os.path.exists(f2):
--                    libgl = True
--                    break
--        if not libgl:
--            logger.error("You need libGL.so and libGLU.so to exist in your library path to run the QEMU emulator.")
--            logger.error("Ubuntu package names are: libgl1-mesa-dev and libglu1-mesa-dev.")
--            logger.error("Fedora package names are: mesa-libGL-devel mesa-libGLU-devel.")
--            raise RunQemuError('%s requires libGLU, but not found' % qemu_bin)
--
- def get_first_file(cmds):
-     """Return first file found in wildcard cmds"""
-     for cmd in cmds:
-@@ -1163,8 +1130,6 @@ class BaseConfig(object):
-         if not os.access(qemu_bin, os.X_OK):
-             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
- 
--        check_libgl(qemu_bin)
--
-         self.qemu_opt = "%s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
- 
-         for ovmf in self.ovmf_bios:
++do_install_append_class-native() {
++        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
++
++        for tool in `ls ${D}${bindir}/qemu-system-*`; do
++                create_wrapper $tool \
++                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
++                        FONTCONFIG_PATH=/etc/fonts \
++                        GTK_THEME=Adwaita
++        done
++}
++
++do_install_append_class-nativesdk() {
++        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
++
++        for tool in `ls ${D}${bindir}/qemu-system-*`; do
++                create_wrapper $tool \
++                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
++                        FONTCONFIG_PATH=/etc/fonts \
++                        GTK_THEME=Adwaita
++        done
++}
++
+ # The following fragment will create a wrapper for qemu-mips user emulation
+ # binary in order to work around a segmentation fault issue. Basically, by
+ # default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
 -- 
 2.17.1
 
