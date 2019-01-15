@@ -1,38 +1,23 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A99C77C0D9
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE6656B06C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 06:32:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,480,1539619200"; d="scan'208";a="52041377"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Jan 2019 14:32:24 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 58B754BAD9B2
+	Tue, 15 Jan 2019 06:45:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0F6jo4K015974
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 14:32:21 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0415.000; Tue, 15 Jan 2019 14:32:21 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Added armeb into QEMU_TARGETS.
-Thread-Index: AQHUolqZBmoZBxfoxk2JqYOZJUWQ66Wv8RtQ
-Date: Tue, 15 Jan 2019 06:32:25 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF0945B0@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <20190102051749.26477-1-hongl.fnst@cn.fujitsu.com>
-	<20190102051749.26477-2-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190102051749.26477-2-hongl.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.227]
+	Mon, 14 Jan 2019 22:45:50 -0800 (PST)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 14 Jan 2019 22:45:49 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jan 2019 01:45:46 -0500
+Message-ID: <20190115064546.121351-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 58B754BAD9B2.ABA12
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] Added armeb into QEMU_TARGETS.
+Subject: [PATCH] libcomps & librepo: fix buildpaths qa warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 06:32:25 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 15 Jan 2019 06:45:49 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IEhvbmcsIExpdS+NXiCXrA0KPiBTZW50OiBXZWRuZXNkYXksIEphbnVhcnkg
-MDIsIDIwMTkgMToxOCBQTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KPiBDYzogTGVpLCBNYW9odWkvl4sgls6M
-ZA0KPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIXSBBZGRlZCBhcm1lYiBp
-bnRvIFFFTVVfVEFSR0VUUy4NCj4gDQo+IEZyb206IExlaSBNYW9odWkgPGxl
-aW1hb2h1aUBjbi5mdWppdHN1LmNvbT4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
-IExlaSBNYW9odWkgPGxlaW1hb2h1aUBjbi5mdWppdHN1LmNvbT4NCj4gLS0t
-DQo+ICBtZXRhLXBva3kvY29uZi9kaXN0cm8vcG9reS5jb25mIHwgMiArLQ0K
-PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS1wb2t5L2NvbmYvZGlzdHJv
-L3Bva3kuY29uZiBiL21ldGEtcG9reS9jb25mL2Rpc3Ryby9wb2t5LmNvbmYN
-Cj4gaW5kZXggZjVkZThmMi4uZTljMjY4MSAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS1wb2t5L2NvbmYvZGlzdHJvL3Bva3kuY29uZg0KPiArKysgYi9tZXRhLXBv
-a3kvY29uZi9kaXN0cm8vcG9reS5jb25mDQo+IEBAIC0zOSw3ICszOSw3IEBA
-IERJU1RST19FWFRSQV9SREVQRU5EU19hcHBlbmRfcWVtdXg4Ni02NCA9ICIg
-JHtQT0tZUUVNVURFUFN9Ig0KPiANCj4gIFRDTElCQ0FQUEVORCA9ICIiDQo+
-IA0KPiAtUUVNVV9UQVJHRVRTID89ICJhcm0gYWFyY2g2NCBpMzg2IG1pcHMg
-bWlwc2VsIG1pcHM2NCBtaXBzNjRlbCBuaW9zMiBwcGMNCj4geDg2XzY0Ig0K
-PiArUUVNVV9UQVJHRVRTID89ICJhcm0gYXJtZWIgYWFyY2g2NCBpMzg2IG1p
-cHMgbWlwc2VsIG1pcHM2NCBtaXBzNjRlbCBuaW9zMiBwcGMNCj4geDg2XzY0
-Ig0KPiAgIyBPdGhlciBRRU1VX1RBUkdFVFMgInNoNCINCj4gDQo+ICBQUkVN
-SVJST1JTID8/PSAiXA0KPiAtLQ0KPiAxLjkuMQ0KDQoKCg==
+From: Kai Kang <kai.kang@windriver.com>
+
+Add preprocess option '-fmacro-prefix-map' to TARGET_CPPFLAGS to fix
+buildpaths qa warnings of libcomps and librepo.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-devtools/libcomps/libcomps_git.bb | 2 ++
+ meta/recipes-devtools/librepo/librepo_1.9.3.bb | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
+index 500d412340..421b8173bb 100644
+--- a/meta/recipes-devtools/libcomps/libcomps_git.bb
++++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
+@@ -18,6 +18,8 @@ inherit cmake distutils3-base
+ 
+ DEPENDS += "libxml2 expat libcheck"
+ 
++TARGET_CPPFLAGS += "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
+ OECMAKE_SOURCEPATH = "${S}/libcomps"
+ 
+diff --git a/meta/recipes-devtools/librepo/librepo_1.9.3.bb b/meta/recipes-devtools/librepo/librepo_1.9.3.bb
+index abfed798f3..4f468b198a 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.9.3.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.9.3.bb
+@@ -15,6 +15,8 @@ DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
+ 
+ inherit cmake distutils3-base pkgconfig
+ 
++TARGET_CPPFLAGS += "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DENABLE_TESTS=OFF -DENABLE_DOCS=OFF -DWITH_ZCHUNK=OFF"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.20.0
+
 
