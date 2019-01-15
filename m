@@ -1,29 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F0797A076
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E132E7C099
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 02:06:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0F26Rcm023604
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 18:06:27 -0800 (PST)
+	Tue, 15 Jan 2019 02:22:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0F2LIcg009738
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Jan 2019 18:21:28 -0800
 Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 14 Jan 2019 18:06:20 -0800
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1545102457.git.liezhi.yang@windriver.com>
-	<6777b5a2a2442988d4497678639c018f638ad86b.1545102457.git.liezhi.yang@windriver.com>
-	<ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
+	14.3.408.0; Mon, 14 Jan 2019 18:21:07 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <8a7ab09f-a64a-71ee-f123-01b988575f0e@windriver.com>
+	<CAMKF1so99qQrnDPHMzh=HF=Dpg73jCOAL8BQp3HEJrC5d4_rNg@mail.gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9e1430b7-e754-a6b3-70e5-848d4c4c250e@windriver.com>
-Date: Tue, 15 Jan 2019 10:11:05 +0800
+Message-ID: <bc27efe8-9722-9a89-ac72-042563a75793@windriver.com>
+Date: Tue, 15 Jan 2019 10:25:51 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <ecb86c3f-7884-fa3f-a21e-4574f3c9df87@windriver.com>
-Subject: Re: [PATCH V3 03/11] ccache.bbclass: Refactor it to make it more reliable
+In-Reply-To: <CAMKF1so99qQrnDPHMzh=HF=Dpg73jCOAL8BQp3HEJrC5d4_rNg@mail.gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Suggest removing classes/siteconfig.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,156 +35,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 02:06:27 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 02:22:11 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Hi Randy,
 
-I'm sorry for the types, and thanks for the correction. I found that it has
-been merged, I will be more careful.
+
+On 1/12/19 9:34 AM, Khem Raj wrote:
+> 
+> 
+> On Wed, Jan 9, 2019 at 11:17 PM Robert Yang <liezhi.yang@windriver.com 
+> <mailto:liezhi.yang@windriver.com>> wrote:
+> 
+>     Hi,
+> 
+>     I reimplemented glibc's site config and did a lot of tests recently, finally,
+>     I found that it isn't as useful as I had thought, so I'm leaning to remove
+>     classes/siteconfig.bbclass.
+> 
+>     * Here are the test results of with/without glibc's siteconfig:
+>     $ bitbake recipe -cconfigure && bitbake recipe -ccleansstate && time bitbake
+>     recipe -cconfigure
+>     - gettext:
+>           without: 2m38.382s
+>           with:    2m33.099s
+> 
+>     - coreutils:
+>           without: 1m19.967s
+>           with:    1m13.574s
+> 
+>     - bison:
+>           without: 0m56.203s
+>           with:    0m50.134s
+> 
+>     These 3 recipes' do_configure are very time consuming, we can see that it saves
+>     about 6s for bison/coreutils/gettext's do_configure, but they need depend on
+>     glibc's site config recipe (glibc-site.bb <http://glibc-site.bb>), while
+>     glibc-site requires about 30s
+>     to build, so if we count glibc-site's 30s, it seems not worth. And I also tested
+>     again and again on core-image-minimal and core-image-sato with/without glibc's
+>     siteconfig, there is nearly no difference, about 30s in 30m (1.6%)'s
+>     differences, this maybe because of host rather than siteconfig. So I think that
+>     we can remove classes/siteconfig.bbclass since it is not as useful as expected.
+> 
+>     I've also tested remove siteconfig.bbclass (zlib and ncurses use it), there is
+>     no difference when "time bitbake core-image-minimal".
+> 
+>     The new implementation for glibc's site config is:
+>     - Add a recipe called glibc-site_2.28.bb <http://glibc-site_2.28.bb>, find
+>     out the top 100 used functions
+>         and headers, and add them to site_config/funcs and site_config/headers.
+>     Please
+>         see patches' commit message on how to find out the top 100.
+> 
+>     - Make target/nativesdk recipes depend on glibc-site when inherit
+>     autotools.bbclass
+> 
+>     Here are the 2 patches:
+>         git://git.openembedded.org/openembedded-core-contrib
+>     <http://git.openembedded.org/openembedded-core-contrib> rbt/glibc-site
+>     http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/glibc-site
+> 
+> 
+>     Please feel free to give your comments, and I will remove it if no objections.
+> 
+> 
+> I think if we cache all values then It probably will be faster but partial 
+
+Cache more values would make glibc-site requires more time to build, and all
+autotools recipes depend on glibc-site, so I think that it's not worth to cache
+more, so I chose top 100 (the ones which are re-used more than about 20 times)
+to cache in a world build.
+
+> caching will give results like you see what will be interring to see is world 
+> build time differences when doing build from scratch
+> But it indeed sounds a over optimization
+
+I didn't test world's build time since it requires a lot of time, but refer to
+core-image-minimal and sato, I think that there is no difference with world
+build since we're doing parallel build, and the recipes which require a lot of
+time to configure are already covered by sato build (such as gettext, coreutils
+and bison).
 
 // Robert
 
-On 1/12/19 4:49 AM, Randy MacLeod wrote:
-> A couple of typos and grammar improvements, otherwise a good
-> improvement for iterative development of a package/image where
-> sstate isn't useful.
-> 
-> On 12/18/18 2:18 AM, Robert Yang wrote:
->> The previous ccache.bbclass has the following problems:
->> - It uses host's ccache for native recipes, but this may not work on some
->>    hosts, for example, it nerver works on my Ubuntu 14.04.4, there are always
->>    build failures (m4-native failed at do_configure, and others will also be
->>    failed if I disable CCACHE for m4-native)
->>
->> - native/nativesdk/cross/crosssdk recipes use host's ccahe, but target uses
-> * host's ccache
->>    ccache-native, this may confuse user.
->>
->> - The target recipes may use both host's ccache and ccache-native, this may
->>    cause unexpected problems and hard to debug. This is because ccache-native is
-> * and be hard to debug
->>    in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, so ccache-native may not be present when
->>    rebuild target recipes, and then it would use hosttools/ccache, but the
->>    previous ccache files were generated by ccache-native.
->>
->> - Target recipes can't use ccache when no ccahe is installed on the host:
-> * no ccache
-> 
->>    CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
->>
->> After refactored:
->> All types recipes (native, target and others) will use ccache-native except
->> ccache-native itself, host's cache won't be used any more. It is more
->> reliable now, which will work everywhere when ccache-native can be built.
->>
->> And now we need use "CCACHE_DISABLE = '1'" to disable ccahe for the recipe
-> * disable ccache
-> 
-> ../Randy
 > 
 > 
->> rather than "CCACHE = ''" since we set CCACHE in anonymous function, and
->> d.getVar('CCACHE') works after "CCACHE ??=" which is set in bitbake.conf, so we
->> can't check whether CCACHE is set or not in anonymous function since it is
->> always set. Use CCACHE_DISABLE to disable it would be more clear.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/ccache.bbclass | 25 ++++++++++++++++++++++---
->>   meta/conf/bitbake.conf      |  6 +-----
->>   meta/conf/layer.conf        |  1 -
->>   meta/lib/oe/utils.py        |  3 +++
->>   4 files changed, 26 insertions(+), 9 deletions(-)
->>
->> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
->> index 9609020..59e1022 100644
->> --- a/meta/classes/ccache.bbclass
->> +++ b/meta/classes/ccache.bbclass
->> @@ -1,4 +1,14 @@
->> -CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
->> +#
->> +# Usage:
->> +# - Enable ccache
->> +#   Add the following line to a conffile such as conf/local.conf:
->> +#   INHERIT += "ccache"
->> +#
->> +# - Disable ccache for a recipe
->> +#   Add the following line to the recipe if it can't be built with ccache:
->> +#   CCACHE_DISABLE = '1'
->> +#
->> +
->>   export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
->>   # We need to stop ccache considering the current directory or the
->> @@ -7,5 +17,14 @@ export CCACHE_DIR ?= 
->> "${TMPDIR}/ccache/${MULTIMACH_TARGET_SYS}/${PN}"
->>   # ${PV} or ${PR} change.
->>   export CCACHE_NOHASHDIR ?= "1"
->> -DEPENDS_append_class-target = " ccache-native"
->> -DEPENDS[vardepvalueexclude] = " ccache-native"
->> +python() {
->> +    """
->> +    Enable ccache for the recipe
->> +    """
->> +    pn = d.getVar('PN')
->> +    # quilt-native doesn't need ccache since no c files
->> +    if not (pn in ('ccache-native', 'quilt-native') or
->> +            bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
->> +        d.appendVar('DEPENDS', ' ccache-native')
->> +        d.setVar('CCACHE', 'ccache ')
->> +}
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 6480062..c88d66c 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -492,7 +492,7 @@ HOSTTOOLS += " \
->>   HOSTTOOLS += "${@'ip ping ps scp ssh stty' if 
->> (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) 
->> or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", 
->> "testsdk.bbclass"])) else ''}"
->>   # Link to these if present
->> -HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc pigz sftp 
->> socat ssh sudo"
->> +HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh 
->> sudo"
->>   # Temporary add few more detected in bitbake world
->>   HOSTTOOLS_NONFATAL += "join nl size yes zcat"
->> @@ -504,10 +504,6 @@ HOSTTOOLS_NONFATAL += "bzr"
->>   HOSTTOOLS_NONFATAL += "scp"
->>   CCACHE ??= ""
->> -# ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
->> -# autogen sets HOME=/dev/null so in certain situations builds can fail.
->> -# Explicitly export CCACHE_DIR until we can assume ccache >3.1.10 on the host.
->> -export CCACHE_DIR ??= "${@os.getenv('HOME')}/.ccache"
->>   TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
->> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->> index c67dec4..4141d6c 100644
->> --- a/meta/conf/layer.conf
->> +++ b/meta/conf/layer.conf
->> @@ -49,7 +49,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->>     *->quilt-native \
->>     *->subversion-native \
->>     *->git-native \
->> -  *->ccache-native \
->>     *->icecc-create-env-native \
->>     gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
->>     gcc-cross-${TARGET_ARCH}->linux-libc-headers \
->> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
->> index 29b4115..ee6f0e6 100644
->> --- a/meta/lib/oe/utils.py
->> +++ b/meta/lib/oe/utils.py
->> @@ -363,6 +363,9 @@ def host_gcc_version(d, taskcontextonly=False):
->>           return
->>       compiler = d.getVar("BUILD_CC")
->> +    # Get rid of ccache since it is not present when parsing.
->> +    if compiler.startswith('ccache '):
->> +        compiler = compiler[7:]
->>       try:
->>           env = os.environ.copy()
->>           env["PATH"] = d.getVar("PATH")
->>
+>     -- 
+>     Thanks
 > 
+>     Robert
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > 
 
