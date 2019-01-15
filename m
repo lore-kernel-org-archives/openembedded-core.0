@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 12D6B7BFFB
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F3E87BFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 16:39:10 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id l9so3654658wrt.13
+	Tue, 15 Jan 2019 16:39:11 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id m22so3909305wml.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 08:39:12 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ilJNqvImTlUTeR9XwNqyvbEo4FeDLuNWVthg2aUvItc=;
-	b=h61SN+1+McppY/AxuwblsgVyT+7l9ePVXR5IxTxz/tJczZbMAkJG5FCLLJFF7iw06W
-	t5iAqCr91IYOw0PhRBcJC6MSH5AG/WorblW7lIsWiZEwelJdeHRZarhHB3G401TsPimp
-	yqkZ/bWV1O9/3F8Lr+VuHo0DW4ygkBDERGmYDOFI1kapvXN4NUbltortOMHhd/83olIM
-	kuD1b0tX1urPlMPed0A3RICt39p1zzAbE/nV7t7CD39OtQf5K3CvAOs7ZJnlgsPr0kkd
-	uqsZf5YteEz1XFzepeyXftSz2iytTQtxVTi4OZqjDT/yWyf94Khbacrz4zEThG8iZupK
-	2pxg==
+	bh=MjpQuQtCi6aIXPJPr8oc9WLXfGE9XQE/3IDF9z2rsVY=;
+	b=tu9kcJBi1veygRvwxYlpAcUzFA/VROZMZOAXLxliPXClZCnawN1ld8WdaIiBFPZu7g
+	jtHc1rf9ljdkZRldZWh0imMFjxCSacG2jl3/tixqruLmTkorHbKaW4Q2XEAhQRghfB22
+	xTxZITYdBKBtC9tvOxMWre+nceLuSxBtTWWYGmj//cOey5mivGV0RkylQQv5leO8ZKB7
+	u/of7Rgc3uGFmeds1pTTHeLDm0rQgbywPJW11LDggEeOxhmK9J1tZza51E+kSSztUWuW
+	edzHdqECh4gczF8s1xFjantKY4aedY+AwfGwdXAvVsLeVHARkD3cB1ybgKolyULSZNZ/
+	Zjrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ilJNqvImTlUTeR9XwNqyvbEo4FeDLuNWVthg2aUvItc=;
-	b=q58TE0eC/SuKSOizTyg8MitR0sbscNMp2HUC88BmzE0rfcDHBb2m3xgo3ilN/4CwlP
-	TGoz4gaPqEXr4EYxyoYGENJ+VN4HjX5lUOw1r+1nxloTJ7PszlPn5BWwt5fCaXvClJF4
-	hGKZyy0FTZh97gebn8+yh8HJ04MQHHGkrYDT9ugCY29xJKj/yOoLZsGqkPVhpzjJqUqM
-	SgWfusJ4pJRd2d1VonZV+cSx2x5S5QCdpzSH8K9nYR+cYMIAXqhtgklhWJl6sCUoPSJK
-	j9utX7l0ACDpqAXi4PaIV2GauW1VeFnDm/XCM1vl9e2K3McFf4aDMVmBaogUvKE4RrfR
-	+FwA==
-X-Gm-Message-State: AJcUukeMwIuVnManpDkGDMoPxK11OK5gmsrGienLJRkv2udT4ao/nBXR
-	UQvpXE++/v4uZluX+5gipLtMFMcOFv4=
-X-Google-Smtp-Source: ALg8bN5QqThAT9ArvG+4Es7k7lMYRtufvzOFqUQTCld5J2Z7m9CCUk1MwjetfjHWylEPt7zwqjUG3w==
-X-Received: by 2002:adf:9061:: with SMTP id h88mr3830802wrh.65.1547570351260; 
-	Tue, 15 Jan 2019 08:39:11 -0800 (PST)
+	bh=MjpQuQtCi6aIXPJPr8oc9WLXfGE9XQE/3IDF9z2rsVY=;
+	b=YEB3+VCou7vij6bs3mcxBbG5HsNE1IQb8m52IJQ0zW9p/mIJ+qdZ868pXhRIEagPa4
+	9bEkCRmDtNluCll2mqiQ39uDAqc1KIjP2kFlANwGyeoxh2hTmLSIJ5dPUWGTvCVqMb88
+	65+yq0qq+3wy07WgldV7dZGZS90hxkbUyhaVUj6sAYliRIjIu0sy2zKkpfodDqLQT4Wd
+	xG20pNWIvsuIs4g29FudMJird3pOCPD4ADxnlklesSszcb4QmWSCt8fNWZMYl1IBBXnj
+	r6oy/vBs4nvoDgxgojKtjXzn5Sq8WspRslRrVpRQzvYuD5JvluAk5B8ywojSsAW5H4gZ
+	pWrA==
+X-Gm-Message-State: AJcUukesbJGw4PFET1l4SN8bVDa7i+jwUsyv9PUcVsDDQUAqNTvELjQW
+	f1iUfy/OM+ljDj0Fj4qN7hdA0CXBUK0=
+X-Google-Smtp-Source: ALg8bN4yLnBeiR5xulP7K8AmAJ2T6cSMuuLVq11qtDX+E3N9bJe8GKnXedeJqYpVU7Sv+6CvlWk6fQ==
+X-Received: by 2002:a1c:26c1:: with SMTP id m184mr3868820wmm.25.1547570352357; 
+	Tue, 15 Jan 2019 08:39:12 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	f15sm77594927wrt.10.2019.01.15.08.39.10
+	f15sm77594927wrt.10.2019.01.15.08.39.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 08:39:10 -0800 (PST)
+	Tue, 15 Jan 2019 08:39:11 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 17:38:42 +0100
-Message-Id: <169ac17760c9315e2af18a242c55280a2c1599de.1547570285.git.alex.kanavin@gmail.com>
+Date: Tue, 15 Jan 2019 17:38:43 +0100
+Message-Id: <437ed385e134ba90e0041013f81f3ede01ae1e74.1547570285.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547570285.git.alex.kanavin@gmail.com>
 References: <cover.1547570285.git.alex.kanavin@gmail.com>
-Subject: [PATCHv2 07/22] mesa: enable native and nativesdk variants
+Subject: [PATCHv2 08/22] virglrenderer: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,57 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 16:39:11 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 16:39:12 -0000
 
-Note that only the most minimal necessary subset of mesa is built;
-particularly we don't build any drivers as that is offloaded
-to the GL implementation provided by the host.
+This component enables hardware-accelerated GL inside QEMU guests.
+For more information, see here:
+
+https://lwn.net/Articles/767970/
+https://www.collabora.com/news-and-blog/blog/2018/02/12/virtualizing-gpu-access/
+https://www.collabora.com/news-and-blog/blog/2018/05/09/gpu-virtualization-update/
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ .../virglrenderer/virglrenderer_git.bb          | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 0cc0a82de49..37ca5e39c2d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -26,7 +26,9 @@ PROVIDES = " \
- 
- inherit autotools pkgconfig python3native gettext distro_features_check
- 
--ANY_OF_DISTRO_FEATURES = "opengl vulkan"
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
+new file mode 100644
+index 00000000000..60ab256aae7
+--- /dev/null
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
+@@ -0,0 +1,17 @@
++SUMMARY = "VirGL virtual OpenGL renderer"
++HOMEPAGE = "https://virgil3d.github.io/"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
++
++DEPENDS = "libdrm mesa libepoxy"
++PV = "0.7.0"
++SRCREV = "402c228861c9893f64cffbbcb4cb23044b8c721c"
++SRC_URI = "git://anongit.freedesktop.org/virglrenderer"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
++
 +BBCLASSEXTEND = "native nativesdk"
 +
-+ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
- 
- PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
-                ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)} \
-@@ -42,11 +44,13 @@ EXTRA_OECONF = "--enable-shared-glapi \
-                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
-                 --with-platforms='${PLATFORMS}'"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri', '', d)} \
-+PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
- 		   "
-+PACKAGECONFIG_class-native ?= "gbm dri-native egl"
-+PACKAGECONFIG_class-nativesdk ?= "gbm dri-native egl"
- 
- # "gbm" requires "dri", "opengl"
- PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
-@@ -62,6 +66,8 @@ DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
- DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
- # "dri" requires "opengl"
- PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, xorgproto libdrm"
-+# On the native builds we use host's dri drivers
-+PACKAGECONFIG[dri-native] = "--enable-dri, , xorgproto libdrm"
- PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, xorgproto libxshmfence"
- 
- # Vulkan drivers need dri3 enabled
 -- 
 2.17.1
 
