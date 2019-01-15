@@ -1,44 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f65.google.com (mail-yw1-f65.google.com
-	[209.85.161.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8BF7C126
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+	[209.85.219.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BB6E17C137
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 14:45:45 +0000 (UTC)
-Received: by mail-yw1-f65.google.com with SMTP id x2so1104414ywc.9
+	Tue, 15 Jan 2019 14:45:46 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id y7so1109958ybg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 06:45:47 -0800 (PST)
+	Tue, 15 Jan 2019 06:45:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=GwtH/qsRsgOwsJ2v2qqaalk8dwSJiMzr/bX5/iVSBWY=;
-	b=JfQD3GRLx8xuGAVRidpNTI7fp1QO11MIVJHWTdc8BzL/k6alIj1tFvCfKVa6rmp4WP
-	FZMoP+BrzCnmsBKZTXLkst1/iG0xH3MDo7G5rQH+ngrpAeml/M5A8Ef0EESQ3OaJS22s
-	rgHabYaTMIa29em4z5Hd4MuHZ0Hief6+IP3aVMX8wsIxLrxIVUH6BQcKDUp5NqbOEGNq
-	aB7yPcouZfBrGMmJ4rpk+3yxrSGXeOmLMl9WWRf3cjzVyF03y9oN4idGQviTY/0mNlSs
-	HZkZjObBcfLzDKDLDTTXGU25LmABGGCOQevp4+xTSensjl0bDYR6GRn25f06uPWG2Cy1
-	qfvg==
-X-Gm-Message-State: AJcUukdqV7qc7t1bMPwehUamIkhXrrBIUyGk+F2MrcDbIQahXfrWUK0H
-	ZdkPSrwq3sTfIaAWFtvcJTmBrPzX
-X-Google-Smtp-Source: ALg8bN5MXqAjry4L0kp5+Bzs+HxDf2sWIcHF4nqUJMxQlh08ihppgnyLVcsblBHTi/wN/9EAMcEBVA==
-X-Received: by 2002:a81:2a55:: with SMTP id q82mr3099709ywq.311.1547563546439; 
-	Tue, 15 Jan 2019 06:45:46 -0800 (PST)
+	bh=tUlgrUNc7O2FnIj9mkPQJQC7LN3vD6rJuZnXWCx506g=;
+	b=Di2Va4vpXqG1Jd9NF3Kz3uyF8QbXjgkYYsPcmrQfswHwikZxGc4VS1upeS8RvGvcSW
+	2/x76vhfKqVZKJx+Mg21rjPRo/xQh9IlV3cDfk0SK4YvkS7sXgX4wqOhAUePtHAqP7MP
+	XFsTM4DFAIG3e94F1PH5lVHkUsWMdWxs2syx3JzbmLotE/5RHv5hFeGtaSRQ9TMzjDLu
+	toiXIOn0JlUhwkEcsxnRGCyMNgXwMtOrccwkDAaSFaN6Fksv5nFluScnnZAHcLGx4hW2
+	aaIIXbKN5mU/k8gaJKdbU5NHpUI4gf/E3xwdMyfp8pn2DVNNjd/S1ufWmhNl3qAg93dn
+	SnQw==
+X-Gm-Message-State: AJcUukdMpQXvq5BWwnOpZU1E3omJLl7HvAuEL6LL+ogyFoGsdlnxVrRy
+	2itg7wYryjCEvbBbS2Y06G3D3zBC
+X-Google-Smtp-Source: ALg8bN7xqFR5xkFnwiVGYr/mfPrN0z89/4rwe66tUkcLmZAr8HJ55QXv4YJ9Don4WimgC5eMiycENg==
+X-Received: by 2002:a25:2389:: with SMTP id j131mr3471487ybj.20.1547563547568; 
+	Tue, 15 Jan 2019 06:45:47 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	i13sm1261220ywe.53.2019.01.15.06.45.45
+	i13sm1261220ywe.53.2019.01.15.06.45.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 06:45:45 -0800 (PST)
+	Tue, 15 Jan 2019 06:45:47 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2019 14:45:23 +0000
-Message-Id: <20190115144525.29388-14-git@andred.net>
+Date: Tue, 15 Jan 2019 14:45:24 +0000
+Message-Id: <20190115144525.29388-15-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190115144525.29388-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190115144525.29388-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 13/15] util-linux: move /etc/default/mountall into -mount subpackage
+Subject: [PATCH v2 14/15] util-linux: let -ptest package depend on all of util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,65 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 14:45:46 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 14:45:47 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-This should probably be there and now the main package is a real
-meta-package only.
+ptest executes all the binaries, so they really need to be available
+in the file system.
 
 [YOCTO #13058]
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index f3c3ae65c8..6ff947a34a 100644
+index 6ff947a34a..641b4486d7 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -44,19 +44,19 @@ python apply_update_alternative_renames_prepend () {
-     do_split_packages(d, root='${base_sbindir}',
-                       file_regex=r'(.*)', output_pattern='${PN}-%s',
-                       description='${PN} %s',
--                      hook=pkg_hook, extra_depends='', prepend=True)
-+                      hook=pkg_hook, extra_depends='')
-     do_split_packages(d, root='${base_bindir}',
-                       file_regex=r'(.*)', output_pattern='${PN}-%s',
-                       description='${PN} %s',
--                      hook=pkg_hook, extra_depends='', prepend=True)
-+                      hook=pkg_hook, extra_depends='')
-     do_split_packages(d, root='${sbindir}',
-                       file_regex=r'(.*)', output_pattern='${PN}-%s',
-                       description='${PN} %s',
--                      hook=pkg_hook, extra_depends='', prepend=True)
-+                      hook=pkg_hook, extra_depends='')
-     do_split_packages(d, root='${bindir}',
-                       file_regex=r'(.*)', output_pattern='${PN}-%s',
-                       description='${PN} %s',
--                      hook=pkg_hook, extra_depends='', prepend=True)
-+                      hook=pkg_hook, extra_depends='')
+@@ -287,7 +287,7 @@ python populate_packages_prepend() {
  }
  
- PACKAGES_DYNAMIC = "^util-linux-.*"
-@@ -89,11 +89,14 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
- # Readline support
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ RDEPENDS_${PN}-bash-completion += "util-linux-lsblk"
+-RDEPENDS_${PN}-ptest = "bash grep coreutils which util-linux-blkid util-linux-fsck btrfs-tools"
++RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN}"
  
-+ALLOW_EMPTY_${PN} = "1"
-+FILES_${PN} = ""
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
- FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
- 
- FILES_${PN}-last = "${bindir}/lastb"
-+FILES_${PN}-mount = "${sysconfdir}/default/mountall"
- FILES_util-linux-runuser = "${sysconfdir}/pam.d/runuser*"
- FILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
- CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+ do_compile_ptest() {
+     oe_runmake buildtest-TESTS
 -- 
 2.20.1
 
