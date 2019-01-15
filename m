@@ -1,51 +1,50 @@
 Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E827BFFE
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 42FFD7BDB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 20:16:58 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id c19-v6so3484465lja.5
+	Tue, 15 Jan 2019 20:49:24 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id u18so3113759lff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 12:17:00 -0800 (PST)
+	Tue, 15 Jan 2019 12:49:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=jnV5w1yUEOuoWaQet7Q+na8UGpy+YrskLKyV3sHvYD0=;
-	b=qT4OzVhbeTNKUYgkEXhQHeaUKYqHqwYebfKLNDc/2Wd6++FFfXjjLr6DF1y6v3rN0p
-	gHlQsOCmAJCRWgC1SiRWKnObCZfkk0LMNxuYTq2vZyhzezSdQyInCIuC5TwjJeZYkiNn
-	YS1/Bd5C7QsboPKc8FXrCctajL7ZR/IWo9lxlo4C9MkXNK/vlOzTwWQz0zFCHQ8lfUAT
-	3mNuzm3jtGKNL00LgsbLPrraZxqogPR+6q4VCVcggYUWAsiv1wB9G5iwUU4uXX63Mdh8
-	tKgqpNqNDZI4UVKb9ROMSB/z54/z/ZTtARrb/kuLAyJRF80peGwATDHhdwX5yO0ugQSA
-	Y+VA==
+	bh=lzoQbxIBwHxRLtp2P5tebWymhramUFZ3GKCZPh4Voys=;
+	b=fLUqRimGb8iWHBCeKkNrE2BDzJUUEycytC32Qa3rA52m5W1ulErKKGp5TVnMC+pi/N
+	pi9bmqnkgKrsa3EWD/KEU+Y/CLQseD7CXmAhClmmvIc7VLf5xqjmYILWbfcCoCj7SWaX
+	sduu4lAE2TxkkTfNwY5f4ysQj37UmnrUDwEl5OIcJ2VrBUWt8QVtyYrZdtAeYfRjhd3k
+	YwsSl4S5PF3+2igB8M5Zqi75fl9b8IWChI/UBZrPb30qhJVm/HMfqagWPlHI1PdRLdjh
+	Xbh3q3L6Gj6tYCK64D04JJTZYiNaos/wL1sHfwZhFVcMejZI2bdRlAgn06LHi4i0iiSv
+	iwzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=jnV5w1yUEOuoWaQet7Q+na8UGpy+YrskLKyV3sHvYD0=;
-	b=Z8mRLhY19JiSqdDifh9pG8xdXjIAPqLTWbj7EutRbIksu3IBuYIbS/3C9xF+hx3ZOz
-	PI9p39F4b3fco7sDak6AEmv4bR3AcwZNlskoiFuxv3sGc1rvp3YBFDgHCmE9x117miwb
-	412ao2plURdwiWAstC4LqZgzo9aZCdmgS0hu/KUw3qZUWB8GJCiXrjGqdvaHNAEoRuHT
-	bqUT8lLdqUuguZh3pzd1hFlPAHEzWDFSrzByndJUjSuHP6qg7KYVjGCkv0Vjn631crEb
-	TyEkXbtK4ZHgb/cIGH26EdZ+PbORAeOQFWlQUXLgX/+sgR2ovGK3zeBllKVlVmsp5ocK
-	hyCQ==
-X-Gm-Message-State: AJcUukcfqFyT7E+DrOQq710B3Ic+3Ala94tJHfvOm0CLYiWviCTe5Y+P
-	L/4btS4pyGZRobc753vP3DY=
-X-Google-Smtp-Source: ALg8bN7jcunA+zpVhR2ldjLI6e/e+w4Xt+rrzZIw8/rAMVnfvJrWSlTYJ6J2+QdG6sgTEoq3D0KdaQ==
-X-Received: by 2002:a2e:880a:: with SMTP id
-	x10-v6mr4243390ljh.174.1547583419283; 
-	Tue, 15 Jan 2019 12:16:59 -0800 (PST)
+	bh=lzoQbxIBwHxRLtp2P5tebWymhramUFZ3GKCZPh4Voys=;
+	b=PxfJGKTczxLiank8CTaOAt9pQGy4XMVAwDBYQuWnddbSpv02A9X0lwEsb+0xbnOKpS
+	Ps1kMxjfrd/TkHuMLep29oqF3aakWqLW2ib2KBNTYsM6Y3JLNsswz/b4KAd39gbw4kMY
+	NlOpEw5tGRaupPAEYNmBQMFUk24uuNx5QVkuHe5UuiJ8v6gXggiR/hX3CnWABFtByfpb
+	KU5EjDpdbEWSshYhDnjDQMxoZcGq/6kP46+103B7SqiO2tBU1Kx32IT8cTJLkeiPo33k
+	sBlrjWFONJA5joKo7BFYOj3Bq60mBbzDaL1JQR5+T4EtkeUsLrj9afe0R3nDvmaw4Y9z
+	gfzg==
+X-Gm-Message-State: AJcUukfmN8ubLHfAMXID6nJR5xKNeRvj75McgenpsLiaCq7Q8Ww1D5DU
+	ZvPNQ30Snt8qsNUqycw66uM=
+X-Google-Smtp-Source: ALg8bN72n8iNUiZ0lC0pMSnSIydSWOGhw7A6+aK1V4BNyVKDXWKKwCAuc3i/GQ3dRQbG8sNms0glow==
+X-Received: by 2002:a19:750a:: with SMTP id y10mr4166639lfe.43.1547585364565; 
+	Tue, 15 Jan 2019 12:49:24 -0800 (PST)
 Received: from [192.168.10.106] (37-247-29-68.customers.ownit.se.
-	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
-	f16-v6sm731804lji.88.2019.01.15.12.16.57
+	[37.247.29.68])
+	by smtp.gmail.com with ESMTPSA id h82sm813456lfg.94.2019.01.15.12.49.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jan 2019 12:16:58 -0800 (PST)
+	Tue, 15 Jan 2019 12:49:23 -0800 (PST)
 To: Joshua Watt <jpewhacker@gmail.com>,
 	openembedded-core@lists.openembedded.org
 References: <20190115193950.25538-1-JPEWhacker@gmail.com>
 From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <272c34a9-5806-eafa-7d2a-b44ef25d63cf@gmail.com>
-Date: Tue, 15 Jan 2019 21:16:57 +0100
+Message-ID: <50e05f13-24e7-f876-4664-363a85e9f5e5@gmail.com>
+Date: Tue, 15 Jan 2019 21:49:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.4.0
 MIME-Version: 1.0
@@ -64,12 +63,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 20:16:59 -0000
+X-List-Received-Date: Tue, 15 Jan 2019 20:49:24 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-
-
 
 On 1/15/19 8:39 PM, Joshua Watt wrote:
 > Updates the output hash calculation for determining if tasks are
@@ -177,6 +174,9 @@ On 1/15/19 8:39 PM, Joshua Watt wrote:
 > +                if include_owners:
 > +                    #update_hash(" %5d" % s.st_uid)
 > +                    #update_hash(" %5d" % s.st_gid)
+
+left-overs from development ?
+
 > +                    update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
 > +                    update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
 > +
@@ -216,21 +216,4 @@ On 1/15/19 8:39 PM, Joshua Watt wrote:
 >           os.chdir(prev_dir)
 >   
 > 
-
-Thanks for working on this Joshua.
-
-It looks really nice, this is an example of the busybox depsig.do_package I get with this patch applied:
-
-drwxrwxr-x       root       root                      .
-drwxr-xr-x       root       root                      ./package
-drwxr-xr-x       root       root                      ./package/bin
-lrwxrwxrwx       root       root                      ./package/bin/busybox -> busybox.nosuid
--rwxr-xr-x       root       root               551388 ./package/bin/busybox.nosuid b50144c6a810bf92cbd442fd6f55794b6cdc8625a46f55c2e9d86ad22d75134a
--rwsr-xr-x       root       root                50860 ./package/bin/busybox.suid eb7af7e8f9e4a5bf6be7fb5ac16064ccd8f35e9890661134c5d73efbeb6e1d44
-lrwxrwxrwx       root       root                      ./package/bin/sh -> busybox.nosuid
-
-How about prepending the hashes first, printing just spaces or maybe doing '000...' for symlinks and directories ?
-
-My 2 cents..
-/Jacob
 
