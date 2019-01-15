@@ -1,23 +1,47 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE6656B06C
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D7836B06C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2019 06:45:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0F6jo4K015974
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 15 Jan 2019 06:55:11 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id p4so1608288wrt.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2019 22:45:50 -0800 (PST)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 14 Jan 2019 22:45:49 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jan 2019 01:45:46 -0500
-Message-ID: <20190115064546.121351-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
-MIME-Version: 1.0
-Subject: [PATCH] libcomps & librepo: fix buildpaths qa warnings
+	Mon, 14 Jan 2019 22:55:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=8t7VOEXj8zb5/J/B5gjpn37507zheLoOa+rxYOrnz/I=;
+	b=mcI2yll/8SkjHB+/HdYYIhqTKzNTLcsIwb0MIUyaFVH1WqaYpjSi6+LPSPvySM1ORm
+	Rj6zZvXPSfPhuUZ0an4KTyLmtX/lPE+n+OZ+ir58LhQKigFNUID+ZDEsAApHwTalcSmm
+	7wh/OwZYWhOk3CwXzlaRa0tObSPBRfr5YZB7InT4+odIgF14Nbz7mGfwr8CSvDg9EWVd
+	bQpzJWUYF09JZq7c7geCu9Os+pyHTctVzn0hK1I1tKEyh0jpYJUSD+njHe0tLK6C+00T
+	ZPw/L907t/czrmS7Ze9J7Z2vQaAuuZ+urv4TxCc3/qYe6ax0c/5VEJ3rwbdmn0Rc5bxX
+	v07A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8t7VOEXj8zb5/J/B5gjpn37507zheLoOa+rxYOrnz/I=;
+	b=OK+nd7iNBMCE+/ckaSdvsqOQXLwVMLrmM1N/Gic8RINgZ/sYZ3USDXih01/PWxxxrU
+	pWab7N7lr5mLnJJwn0a6f4Ld9ykJKwDk4UmKd/chEcxwV2RoLMDeQcyylWGlhkJueipn
+	xpung//bv2YXdd6moflt2vosE6egqZHqOQ2NoRWSnerVDItzMo357qKzLmq+m8AZyjKj
+	qf/QBeE9SAhtyecnQcVevdO0Ol/pNjb3FIpuDyzTvvVfwDEZKKk8wWZVIXQjdWuF1MsA
+	JRHVW3AJ4IdQRMWcCOC7lsL02bNdSXwnOJFh3x5WjbYo+e+CzVdG8+sUsnDN+XM9F2cB
+	c8NA==
+X-Gm-Message-State: AJcUuke6BPoFL9M4wA85Lyx/+evlE60aJPXJv3OiikCNA0au2u04LvHq
+	Jq583rQFLPM+HUvcrD7chdUELOyWRxQ=
+X-Google-Smtp-Source: ALg8bN4fNW6lJRqDaat75SMTZsJjlt+4FnlNfbSTxwmJQxSdFAci27ZPj5/5cxXghzcmIWjBiKOh7g==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr1791403wrd.46.1547535311802;
+	Mon, 14 Jan 2019 22:55:11 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	v6sm56795686wro.57.2019.01.14.22.55.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 14 Jan 2019 22:55:11 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2019 06:55:07 +0000
+Message-Id: <1547535307-15876-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] perf: Package libperf-jvmti.so as part of ${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2019 06:45:49 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Jan 2019 06:55:11 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+perf's jvmti support builds libperf-jvmti.so that needs to be packaged
+as part of the main package, not a developer package. Given there's no
+files in the developer package, override FILES_SOLIBSDEV so it's not
+gobbled by FILES_${PN}-dev, and then add just that file to FILES_${PN}
+so that if in the future there other files which would be added to the
+dev package we'll fail then.
 
-Add preprocess option '-fmacro-prefix-map' to TARGET_CPPFLAGS to fix
-buildpaths qa warnings of libcomps and librepo.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/libcomps/libcomps_git.bb | 2 ++
- meta/recipes-devtools/librepo/librepo_1.9.3.bb | 2 ++
- 2 files changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index 500d412340..421b8173bb 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -18,6 +18,8 @@ inherit cmake distutils3-base
+ meta/recipes-kernel/perf/perf.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index bae494875159..515a78b859d7 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -254,7 +254,8 @@ RDEPENDS_${PN}-tests =+ "python"
+ RSUGGESTS_SCRIPTING = "${@bb.utils.contains('PACKAGECONFIG', 'scripting', '${PN}-perl ${PN}-python', '',d)}"
+ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
  
- DEPENDS += "libxml2 expat libcheck"
- 
-+TARGET_CPPFLAGS += "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
-+
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
- OECMAKE_SOURCEPATH = "${S}/libcomps"
- 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.9.3.bb b/meta/recipes-devtools/librepo/librepo_1.9.3.bb
-index abfed798f3..4f468b198a 100644
---- a/meta/recipes-devtools/librepo/librepo_1.9.3.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.9.3.bb
-@@ -15,6 +15,8 @@ DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
- 
- inherit cmake distutils3-base pkgconfig
- 
-+TARGET_CPPFLAGS += "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
-+
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DENABLE_TESTS=OFF -DENABLE_DOCS=OFF -DWITH_ZCHUNK=OFF"
- 
- BBCLASSEXTEND = "native nativesdk"
+-FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
++FILES_SOLIBSDEV = ""
++FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent ${libdir}/libperf-jvmti.so"
+ FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+ FILES_${PN}-tests = "${libdir}/perf/perf-core/tests ${libexecdir}/perf-core/tests"
+ FILES_${PN}-python = " \
 -- 
-2.20.0
+2.7.4
 
 
