@@ -1,43 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
-	[209.85.219.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C37467BDAF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
+	[209.85.166.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 293BA605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 12:03:00 +0000 (UTC)
-Received: by mail-yb1-f196.google.com with SMTP id s17so2402943ybp.6
+	Wed, 16 Jan 2019 12:08:07 +0000 (UTC)
+Received: by mail-it1-f174.google.com with SMTP id w18so2581832ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 04:03:02 -0800 (PST)
+	Wed, 16 Jan 2019 04:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=i9cLLbceOSN4qNfG5vtfAHfhvAcEXwOSn3swakQxOlw=;
+	b=1v+P/5mIkR+UGJzJRFUqb07lm/NfI4FCYFYNc+e3OUKxiSAanwryrrBHAatzVch4nr
+	pK63CqPz5PkdRCGlbr4ceUuykDG5SSgCqt4fhDoMb23hZtZRAfVK4yjYFj8wKkgs5FuM
+	nbfxGF32MQRH6pAQHGLQeCCbFrJkNpa4hJJsWE3ssuAgpTjF8gpDqLt+WhroegGNAjD6
+	KuI8QsXUEMmWsr5Wd1+4m7BknsPubQYYM4Q3ngOo/Kr/Jc+Y3q1lwZd8xln+oY4PuW3a
+	JqhVBZvwF9Cy3wiWFevGH7rpZEnNASnqpWBm73kinIzSvTKJ9nPVHH3VOqFLfh6UsGIO
+	nuOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=CEboZGFD61WMh4p16Ix9H6J1yNeQnR2MEnD3SjoonzA=;
-	b=dLje64VrVLNDMINPS4u4hJmLLOKjmNLUNpcCYEu2PwNutdky+/K77ND49oCK3B66Bz
-	Pmu0AlVqJzBRpiJd7g3bsQff+YnXdcRfWlxK5FzzROxhpbZWBYlOJLdb3g32erFEH8bo
-	tZUm8ipEcoiuI+F+2EN9YlddBABP+yTORl7nhF7XCiFnq8dNTZEqfRKAXyiXc0QqA1ft
-	TphBOEwxRtfmIAmR7zrMtm3UlVsSuTZZMl4UT/3RdZFTc2kkuxApLO8NgOQjzeSZZu1i
-	bbKSCBzMQ6rm7uhDQNkLq8nHRwoa/4TY0fFGC+lkO65ujseHjmTPtUDTxupO9BiYDh44
-	TfXw==
-X-Gm-Message-State: AJcUukfeX4gA4vFxkuwP3vf4OPLtv7cvZ6IfWeN4P8zeSQ5Wqas3e8Lt
-	Gg+LHKoaC5BbZFExhEl4dAb5VMHz
-X-Google-Smtp-Source: ALg8bN52FlRodHcNAHHusRrdn5P2dtfRKAG+TFNIY3ycPnJydmX0a4CJSuJDnxp5TZWF2fbe4IaJsw==
-X-Received: by 2002:a25:4d3:: with SMTP id 202mr7028057ybe.414.1547640181510; 
-	Wed, 16 Jan 2019 04:03:01 -0800 (PST)
-Received: from bluvision ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id g84sm5087305ywg.9.2019.01.16.04.03.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 Jan 2019 04:03:00 -0800 (PST)
-Message-ID: <a90ab7b90616d174bb2d64d8ac13de6cc5289539.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2019 12:02:59 +0000
-In-Reply-To: <20190116120051.12182-1-git@andred.net>
-References: <20190114125632.4780-1-git@andred.net>
-	<20190116120051.12182-1-git@andred.net>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v3 00/12] util-linux: one package per binary
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=i9cLLbceOSN4qNfG5vtfAHfhvAcEXwOSn3swakQxOlw=;
+	b=sH8vSpPgO24GL5vl0BVpxw4u6MX7C6XyrAw9SGW78Y1eBC8Xk9zC4si71NHb18duK1
+	JDzkpKIFtbSPRPum96lCx+g76m0yFFFWR03EUVIQXHAYjzJa9txb7laSn9Ovj3Tv/zA4
+	+zHuCKvDDcQcFaPoU8RHnA+YzcZPSy/ue/ALs2yP35Pago7sXGlWn7RHibYGeI7A1QQM
+	ANm5NYC+6Ozcv2DnR8P5YFJSF1XwLKf6EU8hgCUcTMqbgdrG5Z6VoHxVedlmBi49JWRe
+	2FHuhwLciBYTMOj4nOynoTsjnejDLfbJnd7GfbYkhduf41wWJ5uCxFJIxMvh9URNgRDK
+	FA6A==
+X-Gm-Message-State: AJcUukcPmmrZYiXsWteAraSjUI0Drt32bDSSRb5/r57HYFZrcjR+ryDw
+	spg5yXE2nr9ORTIaZnTksht3XMRI4hcJTOZK9yif5w==
+X-Google-Smtp-Source: ALg8bN5ENVvuaK/Sq07ns5QO0Fe1w5v2QMwEkQEKOkuVR5y3mvKH309NsHQJO8M4m6Jv2mW3R9S5Oss3I0paZKaZwlI=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr4915407itj.62.1547640489095;
+	Wed, 16 Jan 2019 04:08:09 -0800 (PST)
+MIME-Version: 1.0
+References: <1547631438-438973-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1547631438-438973-1-git-send-email-changqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 16 Jan 2019 12:07:58 +0000
+Message-ID: <CAJTo0LZbjMKrjDO-NgFkhv3FHPfoDxhXFCuBpiFnj8O+iAYpaw@mail.gmail.com>
+To: changqing.li@windriver.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk_base: add option of add other type of sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 12:03:00 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 12:08:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-01-16 at 12:00 +0000, André Draszik wrote:
-> v3:
-> * update 12/15 util-linux: simplify meta-package RDEPENDS / RRECOMMENDS
->   commit message
-> * replace patch
->     06/15 update-alternatives: allow hooks before renaming files
->   with
->     06/15 update-alternatives: convert file renames to
-> PACKAGE_PREPROCESS_FUNCS
-> * update follow-up patches 7 8 9 10 accordingly
->   
-> As per Richard's request / suggestion
+On Wed, 16 Jan 2019 at 09:37, <changqing.li@windriver.com> wrote:
+> +SDK_TAR_TYPE ?= "tar.xz"
+> +SDK_TAR_DEPENDS ?= "xz-native"
+> +SDK_TAR_CMD ?= "tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_TAR_TYPE}"
 
-This also was rebased on top of current master-next to avoid merge conflicts
-due to 'meta: Fix Deprecated warnings from regexs'
+Don't call these SDK_TAR because they might not be generating a
+tarball.  How about SDK_ARCHIVE_*
 
-Cheers,
-Andre'
+Using overrides or flags would let you put the zip logic into oe-core
+too, because it is feasible that more than meta-mingw will want to use
+zip archives.
 
+Also, add a comment about the expected behaviour of the CMD,
+specifically what the input variables are and where the output should
+go.  Bonus points fo refactoring slightly so the command is passed an
+absolute input directory, and absolute output filename.
 
+Ross
 
