@@ -1,43 +1,43 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
-	[209.85.219.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7405A7C121
+Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
+	[209.85.161.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CBE767BFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 12:51:33 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id o73so2475437ybc.0
+	Wed, 16 Jan 2019 12:51:34 +0000 (UTC)
+Received: by mail-yw1-f66.google.com with SMTP id x2so2401095ywc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 04:51:35 -0800 (PST)
+	Wed, 16 Jan 2019 04:51:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5Mp2jMtdFkarTAl1NDy7ElGDvPrciUU6pLnfUKX5ecM=;
-	b=WWptNUOeYO5X4PvML8UQ3qsFflez+vH3xumtawWrwvWZSNwWb6wumd1VdEqAMlmFgM
-	6eD/dFqohOlXGDiedUxn1kbuC0ASxBnycKKx/5giJL6AatxhVYoCpkdaUAqZOyMB30P5
-	o1kNimWQYC/eMqME71igon1z4qVoP/v7edn9lU4BjuhZKzKx97Q8/CoI+oMowC6hhak8
-	npvtixGIU+qOWL5X0v2yV2Zow7GuTvDoibc1eHvH1BpoNaNAAvzeFwrCCW4W3YWK4Yte
-	JJ4y1FbcGgxinMvniujM8AEzaKl+BKc2uB6VGi9tHnt2kbiosz0nvbZiLPqZ5pHMmijR
-	2vKg==
-X-Gm-Message-State: AJcUuke5W5aJNdMi3AX90acIWJ6pNewOeLj3leXR2mm1nTzdvaKxZp4G
-	PXWiQ5pNsIsBcKWUAXT1FLRtK7Ge
-X-Google-Smtp-Source: ALg8bN7ugKJ8PMiYKpEY/W3h7Q0ox6iuqCVvuYNg1jfMAZUs4c3x8QcjvmM3dd2+yRigij+LB4zZnA==
-X-Received: by 2002:a25:ae10:: with SMTP id a16mr7361682ybj.306.1547643094407; 
-	Wed, 16 Jan 2019 04:51:34 -0800 (PST)
+	bh=zbTIWp2EkUrNXr2Kyym7GbwmmfUD3UyvNGcWTCOX1O0=;
+	b=r5iYw2QhaKKAa3/qjyHWUzPYZFQk1zOljRG95jL0EiubST+Zrj41+IInfpxKqmw+Db
+	zokEaIgRkKsosw5Y9fxYivkfiRgywlcjWaHDezofokqIdrZ5cpr7vKLEI7z7vEmAxvAc
+	GHknUXdQ+Uf5CAJPeFb5KCTFtbTztY0rIjZQ12YMdRTRwpnFmKazPYr026lZsnsdBPFs
+	2w/KbcODZBPYyCjZy15iys2AjXUnvMO4WwqIhvSN8EY0U2NQhUmn0h+lSIzwjUPlkjt9
+	GyrH4TBagpuhTBTFTCGuFNRTGoT8J1q1uCaDl2VxYD6MfqtxB4+FBkRQBuhN0FfwsbLy
+	noCQ==
+X-Gm-Message-State: AJcUukcsxuhlIfQEbfkEfdclMlV7awfBlOfkcwKhrduBw2pTcNPVFeEf
+	0+IQy40kKnIvjTqfe6mP07lmNwCE
+X-Google-Smtp-Source: ALg8bN448M36PkZgERJcCsNnIWN2xVmFL9xmnZtz61RMLNEWccKdOlvWSvevbl7hKcVuEjdo6STgJw==
+X-Received: by 2002:a81:99d6:: with SMTP id q205mr7439764ywg.106.1547643095697;
+	Wed, 16 Jan 2019 04:51:35 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id y63sm6194558ywy.1.2019.01.16.04.51.33
+	by smtp.gmail.com with ESMTPSA id y63sm6194558ywy.1.2019.01.16.04.51.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Jan 2019 04:51:33 -0800 (PST)
+	Wed, 16 Jan 2019 04:51:35 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2019 12:51:14 +0000
-Message-Id: <20190116125124.20177-6-git@andred.net>
+Date: Wed, 16 Jan 2019 12:51:15 +0000
+Message-Id: <20190116125124.20177-7-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190116125124.20177-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190116125124.20177-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v4 05/15] util-linux: fix the su and runuser packages
+Subject: [PATCH v4 06/15] update-alternatives: convert file renames to PACKAGE_PREPROCESS_FUNCS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,100 +50,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 12:51:33 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 12:51:35 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-The packages get an automatic RDEPENDS via shlibs, no
-need to explicitly state it, so we can drop those
-useless explicit assignments.
+At the moment, the update-alternatives file renaming is
+happening right after copying into PKGD during packaging
+time using an _append OVERRIDE to the copy function
+perform_packagecopy().
 
-su is moved into ${base_bindir} in do_install(), so
-because of a mismatched FILES specification su is
-actually packaged into the main package at the moment,
-not into the -su package as likely originally intended.
+This is not really readable and hard to maintain.
 
-runuser needs the pam configuration files, so they should
-be in the -runuser package, not in the main package.
+Additionally, this makes it impossible to e.g. populate
+PACKAGES dynamically using do_split_packages() and still
+do update-alternatives - update-alternatives file renaming
+requires the PACKAGES variable to have been fully populated
+to work correctly. On the other hand, do_split_packages()
+can only execute after perform_packagecopy(), as it needs
+PKGD populated; so it's impossible to insert
+do_split_packages() early enough in a deterministic way in
+this use-case.
 
-While fixing this, we can simplify the update alternatives
-processing for su.
+As there doesn't seem to be a reason not to, convert
+this to a proper function and use PACKAGE_PREPROCESS_FUNCS
+instead - after all, that's what this is meant for.
+
+No other classes or recipes in oe-core or meta-openembededd
+seem to have a hard requirement on update-alterantives
+executing before any other PACKAGE_PREPROCESS_FUNCS, so
+this should be perfectly fine.
+
+The only implication is that if compress_doc is inherited,
+compressed man-page file names will end up being, e.g.
+    eject.1.util-linux.gz
+  or
+    eject.1.gz.util-linux
+based on the include of compress_doc.bbclass vs.
+update-alternatives.bbclass order, but the symlink created
+(alternative name) will always be correct.
+
+This solves both problems:
+* the code is easier to read / follow
+* the above described use-case can be accomodated easily
 
 [YOCTO #13058]
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index e479fc24e1..4a72e3d40e 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -96,7 +96,8 @@ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
- FILES_util-linux-runuser = "${sbindir}/runuser"
- FILES_util-linux-prlimit = "${bindir}/prlimit"
- FILES_util-linux-ionice = "${bindir}/ionice.${BPN}"
--FILES_util-linux-su = "${bindir}/su.util-linux ${sysconfdir}/pam.d/su-l"
-+FILES_util-linux-runuser = "${sysconfdir}/pam.d/runuser*"
-+FILES_util-linux-su = "${base_bindir}/su.${BPN} ${sysconfdir}/pam.d/su-l"
- CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+---
+v4: * unconditionally assign PACKAGE_PREPROCESS_FUNCS
+---
+ meta/classes/update-alternatives.bbclass | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index f1250f877b..f3c014a5fc 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -131,14 +131,13 @@ def gen_updatealternativesvars(d):
+ populate_packages[vardeps] += "${UPDALTVARS} ${@gen_updatealternativesvars(d)}"
  
- FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-@@ -122,9 +123,6 @@ FILES_util-linux-blkid = "${base_sbindir}/blkid.${BPN}"
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
- RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
- 
--RDEPENDS_util-linux-runuser += "libpam"
--RDEPENDS_util-linux-su += "libpam"
--
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
- 
-@@ -228,6 +226,7 @@ ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
- 
- ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 rfkill.8 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3 eject.1 logger.1"
-+ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
- 
- ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
- ALTERNATIVE_LINK_NAME[lastb.1] = "${mandir}/man1/lastb.1"
-@@ -235,6 +234,7 @@ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
- ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
- ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
- ALTERNATIVE_LINK_NAME[rfkill.8] = "${mandir}/man8/rfkill.8"
-+ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
- ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
- ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
- ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
-@@ -263,6 +263,9 @@ ALTERNATIVE_TARGET[getty] = "${base_sbindir}/agetty"
- ALTERNATIVE_util-linux-mount = "mount"
- ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
- 
-+ALTERNATIVE_${PN}-su = "su"
-+ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
-+
- ALTERNATIVE_util-linux-umount = "umount"
- ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
- 
-@@ -305,15 +308,6 @@ ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--python do_package_prepend () {
--    if '--enable-su' in d.getVar('EXTRA_OECONF').split():
--        d.appendVar(d.expand('ALTERNATIVE_${PN}'), ' su')
--        d.appendVar(d.expand('ALTERNATIVE_${PN}-doc'), ' su.1')
--
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', "su", d.expand('${base_bindir}/su'))
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', "su.1", d.expand('${mandir}/man1/su.1'))
+ # We need to do the rename after the image creation step, but before
+-# the split and strip steps..  packagecopy seems to be the earliest reasonable
+-# place.
+-python perform_packagecopy_append () {
+-    if update_alternatives_enabled(d):
+-        apply_update_alternative_renames(d)
 -}
--
- python populate_packages_prepend() {
-     do_split_packages(d, '${base_libdir}', r'^lib(.*)\.so\..*$',
-                       output_pattern='util-linux-lib%s',
++# the split and strip steps..  PACKAGE_PREPROCESS_FUNCS is the right
++# place for that.
++PACKAGE_PREPROCESS_FUNCS += "apply_update_alternative_renames"
++python apply_update_alternative_renames () {
++    if not update_alternatives_enabled(d):
++       return
+ 
+-def apply_update_alternative_renames(d):
+     # Check for deprecated usage...
+     pn = d.getVar('BPN')
+     if d.getVar('ALTERNATIVE_LINKS') != None:
+@@ -204,6 +203,7 @@ def apply_update_alternative_renames(d):
+                     os.unlink(src)
+                 else:
+                     bb.warn('%s: Unable to resolve dangling symlink: %s' % (pn, alt_target))
++}
+ 
+ PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+ 
 -- 
 2.20.1
 
