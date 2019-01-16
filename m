@@ -1,44 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f53.google.com (mail-yw1-f53.google.com
-	[209.85.161.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BF2D66C466
+Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com
+	[209.85.219.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 65D876C4D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 12:01:13 +0000 (UTC)
-Received: by mail-yw1-f53.google.com with SMTP id p65so2374261ywe.0
+	Wed, 16 Jan 2019 12:01:15 +0000 (UTC)
+Received: by mail-yb1-f195.google.com with SMTP id h81so2094336ybg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 04:01:15 -0800 (PST)
+	Wed, 16 Jan 2019 04:01:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7cU+sw8Ct8ZHPN7wmoPn0AU3DbsiFdlrcquUxOF1gJ0=;
-	b=CLF8UG31U97jHyf2Uk/OPSCsy5YgES0UCnyKkjcbPc65DUXF+rTEUt4p8VEZ01RoQG
-	w6BZ0Y3h/YlQwTfFYcDmSm41sVKiFnmXOajqHGjuLTc+JYSUBP6N5zApEPEzuVFOQR1Y
-	+CAj7Zmo8gEPAUeR8O35+hYOmbmgwxFlocgnTkr5hErFQmKvE6ZHaT4s7KpdKCrQTkTP
-	W5FPml+s1pryuQCYngcOtLn8ApsztcYvAYb67HOlyMHL2RQqtJUkCIllXsreSf6Ly7fi
-	iFLNc7dsLNr3Zx9sGB5dgBHaUCIFMkXkMAj0CbwaIzmB6JrkIPGZ0fIQ9P4ZHRSJ3GYh
-	YJTQ==
-X-Gm-Message-State: AJcUukcL0PGXdvhC6WUKckwgn+9LlRmDl+7HA3+C9dIboT0CqQGDxVL/
-	EI6BcqYtyfGmmSxRZ700UWyTZ2VV
-X-Google-Smtp-Source: ALg8bN6b6ujLlYhg/SiGVuhMX8dG0RzLzz8ImXJcA2igaQuNef4vRo0/6yvaYkUsGt2eLeBGgtV7Wg==
-X-Received: by 2002:a81:6f41:: with SMTP id k62mr6897061ywc.211.1547640074730; 
-	Wed, 16 Jan 2019 04:01:14 -0800 (PST)
+	bh=T2N/SP2HH/P0FEQ0a9bI8vsm++cT4nh8D670Wea63qI=;
+	b=FYy6/Qc08f6CBdo+Qq4iaM3nrqJSr0XE3hPkLXdCha30DVQ7iuESQkE1wtGHVhTB73
+	m41zj7WKwUZwLGtLCDkNlDI9ywN6VFZlNjp2hzd0Yb96rU3pZ+V0Qo2V1VQdeF65P1lU
+	UbaE4vWlSoV4ejzCdS+J2dBDhcZRDXfwC1MWyUX4aTye9d+J+UVhrVN7J2YKBOKzPM4F
+	RrDOMjyDlCZ9bInrekesE6LQac6qSs8zrxWH//qA7YPntoon671dgz9F/4JWng2m9GEi
+	6wRz7Djkr09oh6660t8souwAw7/m6z5ut8x8kIpzmiFU0sHnBK+tcYExEssrlROizZRZ
+	COvA==
+X-Gm-Message-State: AJcUukfWiO/AboKF9i2BJDX0AMn4XyHUQIzQx1iqDH4qtCvKcn/oRx8l
+	b66vuN7PUUJ8ooJlFroNhWDjTcvE
+X-Google-Smtp-Source: ALg8bN4G2RFtLE9YxqzKO2R4MkIPZMkq8e/9yf7NWtOk/FRFbrJKa8ErHIX7x8FBZzvSslhIwXYq8w==
+X-Received: by 2002:a25:e43:: with SMTP id 64mr7427438ybo.102.1547640076058;
+	Wed, 16 Jan 2019 04:01:16 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	o124sm2169655ywe.75.2019.01.16.04.01.13
+	o124sm2169655ywe.75.2019.01.16.04.01.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Jan 2019 04:01:13 -0800 (PST)
+	Wed, 16 Jan 2019 04:01:15 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2019 12:00:50 +0000
-Message-Id: <20190116120051.12182-15-git@andred.net>
+Date: Wed, 16 Jan 2019 12:00:51 +0000
+Message-Id: <20190116120051.12182-16-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190116120051.12182-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190116120051.12182-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v3 14/15] util-linux: let -ptest package depend on all of util-linux
+Subject: [PATCH v3 15/15] utils-linux: final cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,35 +51,309 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 12:01:14 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 12:01:15 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-ptest executes all the binaries, so they really need to be available
-in the file system.
+* use ${PN} instead of util-linux
+* use PACKAGESPLITFUNCS for creating util-linux-lib* packages
+  rather than an _append OVERRIDE
+* sort ALTERNATIVE_LINK_NAME alphabetically
+* Fix handling of escape characters in regexs and hence fix python
+  Deprecation warnings which will be problematic in python 3.8.
+* use systemd_system_unitdir instead of open-coding
+* inherit manpages so as to benefit from man-db processing (note
+  that manpages are not generated here, we just want the
+  automatic update of the package index caches
+* use EXTRA_OEMAKE instead of duplicating command line arguments
 
 [YOCTO #13058]
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
+
 ---
- meta/recipes-core/util-linux/util-linux.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: * use PACKAGESPLITFUNCS =+ rather than PACKAGESPLITFUNCS_prepend
+v2: * Fix handling of escape characters in regexs and hence fix python
+      Deprecation warnings which will be problematic in python 3.8.
+    * use systemd_system_unitdir instead of open-coding
+    * inherit manpages
+    * use EXTRA_OEMAKE instead of duplicating command line arguments
+    * also sort ALTERNATIVE_LINK_NAME for man pages
+---
+ meta/recipes-core/util-linux/util-linux.inc | 156 ++++++++------------
+ 1 file changed, 65 insertions(+), 91 deletions(-)
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 47264028f2..458df5d047 100644
+index 458df5d047..c5a8c4f41f 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -290,7 +290,7 @@ python populate_packages_prepend() {
- }
+@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
+                     file://libblkid/COPYING;md5=fb93f01d4361069c5616327705373b16"
  
- RDEPENDS_${PN}-bash-completion += "util-linux-lsblk"
--RDEPENDS_${PN}-ptest = "bash grep coreutils which util-linux-blkid util-linux-fsck btrfs-tools"
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+-inherit autotools gettext pkgconfig systemd update-alternatives python3-dir bash-completion ptest
++inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+ DEPENDS = "zlib ncurses virtual/crypt"
+ DEPENDS_append_class-native = " lzo-native"
+ DEPENDS_append_class-nativesdk = " lzo-native"
+@@ -28,8 +28,8 @@ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+            "
+ 
+-PACKAGES =+ "util-linux-swaponoff"
+-PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
++PACKAGES =+ "${PN}-swaponoff"
++PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
+ 
+ python util_linux_binpackages () {
+     def pkg_hook(f, pkg, file_regex, output_pattern, modulename):
+@@ -62,7 +62,16 @@ python util_linux_binpackages () {
+ # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
+ PACKAGE_PREPROCESS_FUNCS =+ "util_linux_binpackages "
+ 
+-PACKAGES_DYNAMIC = "^util-linux-.*"
++python util_linux_libpackages() {
++    do_split_packages(d, root='${base_libdir}', file_regex=r'^lib(.*)\.so\..*$',
++                      output_pattern='${PN}-lib%s',
++                      description='${PN} lib%s',
++                      extra_depends='', prepend=True, allow_links=True)
++}
++
++PACKAGESPLITFUNCS =+ "util_linux_libpackages"
++
++PACKAGES_DYNAMIC = "^${PN}-.*"
+ 
+ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --disable-makeinstall-chown \
+@@ -76,49 +85,46 @@ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+ "
+ 
+ EXTRA_OECONF = "${SHARED_EXTRA_OECONF} --libdir=${base_libdir}"
++EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+ 
+ PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+-
+ # Respect the systemd feature for uuidd
+-PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/, --without-systemd --without-systemdsystemunitdir,systemd"
+-
++PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}, --without-systemd --without-systemdsystemunitdir,systemd"
+ # Build setpriv requires libcap-ng
+ PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
+-
+ # Build python bindings for libmount
+ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-python --disable-pylibmount,python3"
+-
+ # Readline support
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ FILES_${PN} = ""
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+-
+ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+-
+ FILES_${PN}-last = "${bindir}/lastb"
+ FILES_${PN}-mount = "${sysconfdir}/default/mountall"
+-FILES_util-linux-runuser = "${sysconfdir}/pam.d/runuser*"
+-FILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+-CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+-FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+-                               ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
+-                               ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
++FILES_${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
++FILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
++CONFFILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
++FILES_${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
++                          ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
++                          ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
+ FILES_${PN}-setarch = "${bindir}/linux32 ${bindir}/linux64 ${bindir}/uname26"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+-RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
+-RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
++RCONFLICTS_${PN}-blkid = "e2fsprogs-blkid"
++RREPLACES_${PN}-blkid = "e2fsprogs-blkid"
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+ 
+-RPROVIDES_${PN}-dev = "util-linux-libblkid-dev util-linux-libmount-dev util-linux-libuuid-dev"
++RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
+ 
++RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
 +RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN}"
+ RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
+ ALLOW_EMPTY_${PN}-swaponoff = "1"
  
+@@ -128,17 +134,11 @@ SYSTEMD_AUTO_ENABLE_${PN}-uuidd = "disable"
+ SYSTEMD_SERVICE_${PN}-fstrim = "fstrim.timer fstrim.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
+ 
+-do_compile () {
+-	set -e
+-	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'
+-}
+-
+ do_install () {
+ 	# with ccache the timestamps on compiled files may
+ 	# end up earlier than on their inputs, this allows
+ 	# for the resultant compilation in the install step.
+-	oe_runmake ARCH=${TARGET_ARCH} CPU= CPUOPT= \
+-		'OPT=${CFLAGS}' 'CC=${CC}' 'LD=${LD}' \
++	oe_runmake 'CC=${CC}' 'LD=${LD}' \
+ 		'LDFLAGS=${LDFLAGS}' 'DESTDIR=${D}' install
+ 
+ 	mkdir -p ${D}${base_bindir}
+@@ -192,38 +192,67 @@ do_install_append_class-native () {
+ 
+ ALTERNATIVE_PRIORITY = "80"
+ 
+-ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+-ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+-ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+-ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
++ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
+ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+-ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[cal] = "${bindir}/cal"
+ ALTERNATIVE_LINK_NAME[chrt] = "${bindir}/chrt"
++ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
++ALTERNATIVE_LINK_NAME[fdisk] = "${base_sbindir}/fdisk"
+ ALTERNATIVE_LINK_NAME[flock] = "${bindir}/flock"
++ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
++ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
++ALTERNATIVE_LINK_NAME[fstrim] = "${base_sbindir}/fstrim"
++ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
++ALTERNATIVE_${PN}-agetty = "getty"
++ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
++ALTERNATIVE_TARGET[getty] = "${base_sbindir}/agetty"
+ ALTERNATIVE_LINK_NAME[hexdump] = "${bindir}/hexdump"
++ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
++ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
++ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+ ALTERNATIVE_${PN}-last = "last lastb"
+ ALTERNATIVE_LINK_NAME[last] = "${bindir}/last"
+ ALTERNATIVE_LINK_NAME[lastb] = "${bindir}/lastb"
+ ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
++ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+ ALTERNATIVE_LINK_NAME[mesg] = "${bindir}/mesg"
++ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
++ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
++ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
++ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
++ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ ALTERNATIVE_LINK_NAME[nsenter] = "${bindir}/nsenter"
++ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
++ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
+ ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
++ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
+ ALTERNATIVE_LINK_NAME[setsid] = "${bindir}/setsid"
++ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
++ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
++ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
++ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
++ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+ ALTERNATIVE_LINK_NAME[taskset] = "${bindir}/taskset"
++ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
++ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
+ ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
+-ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+-ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ 
+-ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 rfkill.8 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3 eject.1 logger.1"
++ALTERNATIVE_${PN}-doc = "blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1"
+ ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
+ 
++ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
++ALTERNATIVE_LINK_NAME[eject.1] = "${mandir}/man1/eject.1"
++ALTERNATIVE_LINK_NAME[findfs.8] = "${mandir}/man8/findfs.8"
++ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
++ALTERNATIVE_LINK_NAME[kill.1] = "${mandir}/man1/kill.1"
+ ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
+ ALTERNATIVE_LINK_NAME[lastb.1] = "${mandir}/man1/lastb.1"
++ALTERNATIVE_LINK_NAME[libblkid.3] = "${mandir}/man3/libblkid.3"
++ALTERNATIVE_LINK_NAME[logger.1] = "${mandir}/man1/logger.1"
+ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
+ ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
+ ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+@@ -231,67 +260,12 @@ ALTERNATIVE_LINK_NAME[rfkill.8] = "${mandir}/man8/rfkill.8"
+ ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
+ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+-ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
+-ALTERNATIVE_LINK_NAME[kill.1] = "${mandir}/man1/kill.1"
+-ALTERNATIVE_LINK_NAME[libblkid.3] = "${mandir}/man3/libblkid.3"
+-ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
+-ALTERNATIVE_LINK_NAME[findfs.8] = "${mandir}/man8/findfs.8"
+-ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
+ ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
+-ALTERNATIVE_LINK_NAME[eject.1] = "${mandir}/man1/eject.1"
+-ALTERNATIVE_LINK_NAME[logger.1] = "${mandir}/man1/logger.1"
+-
+-ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
+-
+-ALTERNATIVE_LINK_NAME[fdisk] = "${base_sbindir}/fdisk"
+-
+-ALTERNATIVE_LINK_NAME[fstrim] = "${base_sbindir}/fstrim"
+-
+-ALTERNATIVE_util-linux-agetty = "getty"
+-ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
+-ALTERNATIVE_TARGET[getty] = "${base_sbindir}/agetty"
+-
+-ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
+-ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+-ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
+-
+-ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+-
+-ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+-
+-ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
+-ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
+-
+-ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+-
+-ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
+-
+-ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
+-
+-ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
+-
+-ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+-
+-ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+-
+-ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
++ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
+ 
+-ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
+-
+-ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-python populate_packages_prepend() {
+-    do_split_packages(d, '${base_libdir}', r'^lib(.*)\.so\..*$',
+-                      output_pattern='util-linux-lib%s',
+-                      description='util-linux lib%s',
+-                      extra_depends='', prepend=True, allow_links=True)
+-}
+-
+-RDEPENDS_${PN}-bash-completion += "util-linux-lsblk"
+-RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN}"
+-
  do_compile_ptest() {
      oe_runmake buildtest-TESTS
+ }
 -- 
 2.20.1
 
