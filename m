@@ -1,47 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 75F597C1A6
+Return-Path: <jandryuk@gmail.com>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E36EC7BFAA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 12:53:38 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id c9so2535666itj.1
+	Wed, 16 Jan 2019 13:55:36 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id k15-v6so5495167ljc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 04:53:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 16 Jan 2019 05:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=d7o50Uh190MZ/a7URJskxklXGkIEE8gwPRZQ+BEu6Ec=;
-	b=txSibJEfTOIC93HM4Cfblceghq2l27MLjD9NLIGgOjaQPsLBS/7ls/URFDOftVgV7P
-	sWiYBmuZf0zl/Mtc1e9F4h95Dab7VJQHjxvaPjTZbMDnHnasIQvozwfc944uEJpH9lJl
-	rFHaYPD4QWomXknZCDTcbSmmkLLd2KZq0n7QlJP2ZGOS+ZZaiYBRI6LJUXvwvdTWOUcn
-	mssTe3Njvodo50PBZmwIPiTOVCqogvVmUv3uyAxNoYkE20czWvnSl8oY7fEi4yUqf+ry
-	0mNquPbBa9OV8qwTu/CGLPuR7AJCGMPD5YRHy07RuCVxORlmMRp31js0PR1UV7GehYQr
-	cMzw==
+	:cc; bh=KusHbTHxjA9la9Ie1p41I8ZFysIz2mVbMhQek6IyjOM=;
+	b=SFXeKquYvBi52X/mCv6kO0RdcQBJcVWm9BgMcLdzW5YsoiieFKGHtxPSNr7vN83av5
+	Fc+cjTBw4HFMGXq2OtetuX/loaW0F1Yg6lYo8g8DyqLGQ7dxstQBZFD5ekVdVYUAsm9e
+	lf2acc3AktO8gpkyF2l+dX/GgWq+3bDik0vE22t+4I4gaDxcPdSfFrQWuPv/IZUwr6zB
+	iubKFwREEQbirC+Pvoq7pl7XPsHx2gjvFJjJC9l2YVEApiNkVDPjmsMIZnHdGpLZpIE/
+	e5mzle0LaLCn+Z+pqmLP5onxtAmGq1iMc59kShJQ/lie9I3OR+JdKmignPEnGP1T5JxJ
+	4Ipw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=d7o50Uh190MZ/a7URJskxklXGkIEE8gwPRZQ+BEu6Ec=;
-	b=dJI+cd0tA95q5ddEVZcHfVckfKF3hO59M1AIacO3GyYMAnQw5YWM0jTdMVTq4ZUV6o
-	uigayNwDqmKWnxqwLCFGWiu7jWFisjkYwqZPsPEyM6TyrCam3WF66a7rqXQOohjmOBrK
-	FOLg5WGJ6JLH3NU2zQuzi7udrwaWVe9WvU8gm/YlCgMSQHoj+3zK/9Wc95KljkMLeYTA
-	13LaFCgMRnb8LwDb8LLGXG8k7FwPn7BZmc0Fjk4tDK9ibGoG0WGUiA5+3f2EqMgTtDzX
-	aVd8mCLNbAYGimOQRog9f9ga3tGtoP7It5FW5IeP5IbBWuzHNAHzXrALD6ZXCYrvQwnK
-	HFmg==
-X-Gm-Message-State: AJcUukd/nqBAYz8dZcTLWVxpPKV3MyKmAAOKXRmngxWqNObzo16Mayo7
-	Cn4/rNMpnKftlVpzhjAiEeTZfx908v09IMN2/pwxRg==
-X-Google-Smtp-Source: ALg8bN7nuxtSlIY05XMq08HSQlVubbzCPtrF5O2yMo6EvqY05/jGsz5aeA2CQ8WaWb1N+f5gPurFQz+ihpk+Mh+ym1Y=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr1114635itg.130.1547643219383; 
-	Wed, 16 Jan 2019 04:53:39 -0800 (PST)
+	bh=KusHbTHxjA9la9Ie1p41I8ZFysIz2mVbMhQek6IyjOM=;
+	b=jRmp8YX6NRpuqJm8LYFn5ju7/u7dM34hkThMjua9JHgaNpu9qlxN041xxpmIvIJtlk
+	gh7H7r6bChkavO7vmKi8fL+5Xvj6KjXJS5OjKUHz6JPzJlfvC9YJKg5A2LAFqf8GjBRU
+	2AAzaFYoX4oZJn6OlrEecWcidyOTQ/MvPr72l0Ty1v6RNWksa4QM1NMK5YWWim5/HFFL
+	QeFzQkWZlhhVE0Zmp1k72DVDxRBZgkrGQw1kK+h5U5zC4iEnzhwpHGvPTYgos4G6Q6Hx
+	P6kmeAYb3EROUgbh474jjXgfcqIAkAaFTdYFfYSiUmorUYWs3O9SWdU42uxCSKPrkHPx
+	wjiQ==
+X-Gm-Message-State: AJcUukfAY+OxgvEmWrc+2+M1PXvC63PbmsZQyz/f5PUNl1EIboONr3kn
+	PzUgrOGOzg0FTH6n7dArjtN7tQfBYEXwsX/VRcE=
+X-Google-Smtp-Source: ALg8bN7OFbdqzf1eDFGsCpg6q4JGRt2sIGlYcFpldrSjvERqEIuWUQoAIaJ85KJFBlpo/OgFbMpICK6QLB5vMoE/+Mk=
+X-Received: by 2002:a2e:9059:: with SMTP id
+	n25-v6mr6812266ljg.155.1547646936970; 
+	Wed, 16 Jan 2019 05:55:36 -0800 (PST)
 MIME-Version: 1.0
-References: <1547626542-681-1-git-send-email-li.zhou@windriver.com>
-In-Reply-To: <1547626542-681-1-git-send-email-li.zhou@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Jan 2019 12:53:28 +0000
-Message-ID: <CAJTo0LaamX7KcUxW5ECLL7ic63RNFSDbXyt0oV17vDyEpK9crg@mail.gmail.com>
-To: Li Zhou <li.zhou@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ptest-runner: pass libdir to DEFAULT_DIRECTORY when compiling
+References: <CAKf6xputiV+k9m9p1dyhZG1d0wMQoWG5tCiZjpsVVu+bXp1X6A@mail.gmail.com>
+	<08a89c71b2e3e0f4380325985541c55df00b94da.camel@linuxfoundation.org>
+	<CAKf6xptMbAqnZ34ONNXLzQMjFoDjePH8dz3bXmiTMvoBMu4wsg@mail.gmail.com>
+	<50b88771577229c99a2c9e26b6224a5f038e7bab.camel@linuxfoundation.org>
+	<CAKf6xpt_RoLVg3ou2zKL2g=0GsjDXpCk73q83pmb4Reer9YgdA@mail.gmail.com>
+	<a0e331f39da396ea39ea37539f6c1ea193b055b1.camel@linuxfoundation.org>
+	<CAJ86T=V-xs=M2DfsHHtOe=j77bqsn=MgMojue5mc=2ouwwTd+A@mail.gmail.com>
+	<731530484e0135bb200df4da388982b2a7957ea1.camel@linuxfoundation.org>
+	<CAKf6xpv2UAGbBr5wOqQdZNgNe5Hra6+bF+OWy_tTD5v3wyobhw@mail.gmail.com>
+	<26b33c4efb48aaae0bd4662b88bfdfd428b95478.camel@linuxfoundation.org>
+In-Reply-To: <26b33c4efb48aaae0bd4662b88bfdfd428b95478.camel@linuxfoundation.org>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 16 Jan 2019 08:55:24 -0500
+Message-ID: <CAKf6xpvj7gLodcqWAXLL7vW_5Cqep_gLpr+5+7_V-e1z29L5BQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Mis-generation of shell script (run.do_install)?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,96 +63,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 12:53:38 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 13:55:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-We maintain ptest-runner, so send a patch to that and just change the
-srcrev in the recipe.
+On Tue, Jan 8, 2019 at 1:26 PM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2018-12-18 at 12:45 -0500, Jason Andryuk wrote:
+> > I can definitively state I have a hash in bb_codeparser.dat with an
+> > incorrect shellCacheLine entry and I don't know how it got there.
+> >
+> > The bad hash is 3df9018676de219bb3e46e88eea09c98.  I've attached a
+> > file with the binutils do_install() contents which hash to that
+> > value.
+> >
+> > The bad 3df9018676de219bb3e46e88eea09c98 entry in the
+> > bb_codeparser.dat returned
+> > DEBUG: execs [
+> > DEBUG: execs rm
+> > DEBUG: execs install
+> > DEBUG: execs test
+> > DEBUG: execs sed
+> > DEBUG: execs rmdir
+> > DEBUG: execs bbfatal_log
+> > DEBUG: execs mv
+> > DEBUG: execs /home/build/openxt-compartments/build/tmp-
+> > glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-
+> > native/usr/bin/python-native/python
+> > DEBUG: execs find
+>
+> This is useful data (along with the attachment), thanks.
+>
+> I agree that this looks likely to have come from a core2-32 tuned
+> machine (e.g. genericx86) from python-async do_install.
+>
+> How old was this build directory? Can you remember any details of the
+> update history for it?
 
-Ross
+I think the build directory was from the beginning of October 30th,
+and I guess I hit the collision December 10th or so.
 
-On Wed, 16 Jan 2019 at 08:34, Li Zhou <li.zhou@windriver.com> wrote:
->
-> Ptest data are installed to PTEST_PATH ?= "${libdir}/${BPN}/ptest".
-> When libdir isn't "/usr/lib", it will cause "No ptests found" error
-> when running "ptest-runner" command. Here pass libdir to
-> DEFAULT_DIRECTORY when compiling to avoid that error.
->
-> Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> ---
->  ...r-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch | 36 ++++++++++++++++++++++
->  .../ptest-runner/ptest-runner_2.3.bb               |  5 +--
->  2 files changed, 39 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0001-ptest-runner-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch
->
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0001-ptest-runner-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch b/meta/recipes-support/ptest-runner/ptest-runner/0001-ptest-runner-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch
-> new file mode 100644
-> index 0000000..56e1f96
-> --- /dev/null
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0001-ptest-runner-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch
-> @@ -0,0 +1,36 @@
-> +From 6a663ac38c71108890e42f451f3a7b22afee0a40 Mon Sep 17 00:00:00 2001
-> +From: Li Zhou <li.zhou@windriver.com>
-> +Date: Wed, 16 Jan 2019 15:00:17 +0800
-> +Subject: [PATCH] ptest-runner: remove DEFAULT_DIRECTORY's hard coded
-> + initialization
-> +
-> +Ptest data are installed to PTEST_PATH ?= "${libdir}/${BPN}/ptest".
-> +Here make DEFAULT_DIRECTORY be able to be defined outside of c code,
-> +in case libdir isn't "/usr/lib", which will cause "No ptests found"
-> +error when running "ptest-runner" command. We will pass libdir to
-> +DEFAULT_DIRECTORY when compiling to avoid that error.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> +---
-> + main.c | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/main.c b/main.c
-> +index 83600b7..e963efe 100644
-> +--- a/main.c
-> ++++ b/main.c
-> +@@ -37,7 +37,9 @@
-> +
-> + #include "utils.h"
-> +
-> ++#ifndef DEFAULT_DIRECTORY
-> + #define DEFAULT_DIRECTORY "/usr/lib"
-> ++#endif
-> + #define DEFAULT_TIMEOUT 300
-> +
-> + static inline void
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
-> index 26add9b..9866d1a 100644
-> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
-> @@ -10,12 +10,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
->  SRCREV = "80712583732b4a809532f644fb09e7d2e812d7ba"
->  PV = "2.3+git${SRCPV}"
->
-> -SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
-> +SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
-> +           file://0001-ptest-runner-remove-DEFAULT_DIRECTORY-s-hard-coded-i.patch"
->  S = "${WORKDIR}/git"
->
->  FILES_${PN} = "${bindir}/ptest-runner"
->
-> -EXTRA_OEMAKE = "-e MAKEFLAGS="
-> +EXTRA_OEMAKE = "-e MAKEFLAGS= CFLAGS="${CFLAGS} -DDEFAULT_DIRECTORY=\\\"${libdir}\\\"""
->
->  do_compile () {
->         oe_runmake
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> I'd be very interested to try and reproduce that hash. I locally
+> blacklisted your collision from my cache and tried to reproduce this. I
+> can generate a matching hash for the binutils do_install but I can't
+> produce one matching the above.
+
+I tried around December 18th to generate the collision again.  I set
+up a new container with an identical openxt path.  There, python-async
+was built, but it did not have the colliding hash.  When core2-64
+binutils was built, it had the expected hash.
+
+> Can you remember the history of this build directory and which updates
+> it may have had? The python-async recipe is confined to OE-Core so its
+> probably the revision history for the oe-core repo which is most
+> interesting. Anything in the .git/logs directory for that which would
+> help us replay the different versions you might have built?
+
+oe-core is checked out at 819aa151bd634122a46ffdd822064313c67f5ba5
+It's a git submodule locked at a fixed revision, and it had not
+changed in the build directory.
+
+OpenXT builds 8 or 9 different MACHINEs and images in sequence in the
+same build directory.  Maybe 6 are core2-32 and two are core2-64. The
+32bit ones run first.
+
+I think the problem first manifest after I added an additional local
+layer to BBLAYERS.  At that time, I started building an additional
+MACHINE.  Along with the mis-generated run.do_install script, bitbake
+was complaining about the binutils base hash mismatch which triggered
+the re-build.  The first 64bit MACHINE included TUNE-CCARGS +=
+"-mstackrealign" while the second did not.  Could that be a reason why
+bitbake complained about the base hash mismatch?
+
+Without reproducing the hash, I'm more puzzled.
+
+Regards,
+Jason
 
