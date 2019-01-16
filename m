@@ -1,57 +1,61 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
-	[209.85.208.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E97EF7C0C1
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5435F7C187
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 15:28:13 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id f9so5707904eds.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 07:28:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=XWiSpw6Ax/ilkcN6QzYnzjGwolkCROcnNiBihXo+SkM=;
-	b=kJOmPLaIEUNsvgPX1ITuQ68Gfajxb66YhmofU/COAJEKGGX+fbhH4SVaOjJvwgUKSq
-	5NjQzb4YMUGazXRSyAZOCl/5jXVcy4HLbz47MM62cqAUHlBcDRt7jhHUjHHj47iyF3oL
-	QFddwN9dbFsVoc94mu8iIvvRAF7Lvgr7GYalwLIAQmugEvCFlgrrMry9X52DR4StovhQ
-	fJ/VH6A2DfLaeRNXmAWAvj0+Of4x7OUJSdW/XLEpnVOOZM7eOwSdRUkJFINDAMEfWAN2
-	ErAErFwn7BTbBdfyJ5KGMrP66zDWKfQ4bbkfEHtUQfJAPkdYtZ1GPxtPwIEKRgJgc8DM
-	Pcjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=XWiSpw6Ax/ilkcN6QzYnzjGwolkCROcnNiBihXo+SkM=;
-	b=c1c6rBStxiNTraSl9A2ZLVOsQ8TRYQsjhFA/zH9IAv+BV3bNlqSSAAdIhLrTKo7Ceo
-	lSq8yzXAS/Ur4O/2zbTtSOzqyVHr/Ek7T5vQLhT5r4AX1s7MUIgxGzLMBz5Bb5SLimWf
-	QoTyHdoz2pBcZ7DId/5nInY1rIfI3r5Vnu0yXDSCH98TOVpE4s5dtlR0MoCRgilvEaXm
-	ORa7JbFRmBWNLU80NISsW1zhNcutUmA0612ugbwFiZwch72akHca6/dFZFCbnGXPW3m0
-	nQm/FLUaj75xrcjZ+aSHNlnK66z1tDGM6FwkhhI17/3rmVY+89e/YSUZrSzzJK7OE8by
-	H/nw==
-X-Gm-Message-State: AJcUukc54nQxA03HIqtSGD0MGmnuaDTiGxm06OFaFlTKFNSAWB4ruRUj
-	/iv0PlgmqHykw6GXjKlX1d0=
-X-Google-Smtp-Source: ALg8bN6vzPigbH3AKb3j4T9Dyp1gpbHuEhMKyRFmkEH2J9M697hSn3vZsh+II3ZUhbCc3gl6b+h+bA==
-X-Received: by 2002:a50:ad97:: with SMTP id a23mr7553665edd.128.1547652494670; 
-	Wed, 16 Jan 2019 07:28:14 -0800 (PST)
-Received: from x230 (gw.ms-free.net. [95.85.240.250])
-	by smtp.gmail.com with ESMTPSA id
-	i46sm5546359ede.62.2019.01.16.07.28.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 Jan 2019 07:28:13 -0800 (PST)
-Date: Wed, 16 Jan 2019 16:28:11 +0100
-From: Petr Vorel <petr.vorel@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190116152809.GA407@x230>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20190115230612.18947-1-petr.vorel@gmail.com>
-	<f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
-	<CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
+	Wed, 16 Jan 2019 15:58:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0GFvWuk009458
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Jan 2019 07:57:43 -0800
+Received: from soho-mhatle-m.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 16 Jan 2019 07:57:22 -0800
+To: Andrej Valek <andrej.valek@siemens.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
+	<CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
+	<d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
+	<CAJTo0LYJyuYgj2MUnKPN8X2JNOK9AGFmDbcJ=-9EjPBoMDDGXQ@mail.gmail.com>
+	<7497c039-7951-ee51-7506-300a74d0b558@windriver.com>
+	<fa30e51479e77bed2b7ca05049bed3c65f3efe2b.camel@linuxfoundation.org>
+	<eb624819-010f-193b-c4cc-a08f694fd41c@siemens.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <9018fe34-658e-4da4-3ea5-e2fc7eb5bb79@windriver.com>
+Date: Wed, 16 Jan 2019 09:57:21 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <eb624819-010f-193b-c4cc-a08f694fd41c@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] ltp: Update to 20190115
+Subject: Re: Prelink problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,31 +68,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 15:28:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 16 Jan 2019 15:58:38 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Richard, Khem,
+On 1/16/19 1:23 AM, Andrej Valek wrote:
+> Hi all
+> 
+> Do we found some solution? As a workaround could be just add dependency
+> to prelink native into rootfs if the command is really required.
 
-> > Thanks for looking at this. Unfortunately it failed in testing on most
-> > targets:
+If the image stuff needs prelink, there should be a dependency in place.  It
+should only use prelink if the image-prelink is being used.
 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/181/steps/7/logs/step1b
+So really something probably needs to be added to image-prelink class that
+activates unprelink behavior with opkg, and adds the necessary dependency.
 
-> > (one failure given as an example).
+--Mark
 
-> > Warnings as errors are good during development but sometimes less
-> > useful during release due to the variety of end user configurations.
+> Regards,
+> Andrej
+> 
+> On 1/8/19 10:46 PM, Richard Purdie wrote:
+>> On Tue, 2019-01-08 at 14:50 -0600, Mark Hatle wrote:
+>>> On 1/8/19 2:37 PM, Burton, Ross wrote:
+>>>> On Tue, 8 Jan 2019 at 20:15, Mark Hatle <mark.hatle@windriver.com>
+>>>> wrote:
+>>>>>> No idea why the opkg rootfs code is doing prelink operations
+>>>>>> when RPM
+>>>>>> or dpkg don't.   CCing Mark who may have an idea here.  I
+>>>>>> thought the
+>>>>>> autobuilder exerised multilib-on-opkg, but maybe not.
+>>>>>
+>>>>> They all should be doing prelink operations.  The operation
+>>>>> SHOULD be
+>>>>> generically implemented as part of the image-prelink class, which
+>>>>> is where I
+>>>>> would have expected that copy to exist.
+>>>>>
+>>>>> If any of the package types of specifically doing something, that
+>>>>> sounds
+>>>>> broken...  but the generic ones (last I looked) said to copy in
+>>>>> the config file
+>>>>> [if it didn't exist], run prelink, remove the file [if it wasn't
+>>>>> there to start
+>>>>> with].
+>>>>
+>>>> Note that it's part of the incremental code, so needs to be in the
+>>>> rootfs code directly I suspect. Frankly I'd love to see incremental
+>>>> images removed.  It makes promises it can't keep (the moment a
+>>>> rootfs
+>>>> postprocess command is used, all bets are off) and massively
+>>>> complicates things.
+>>>
+>>> We assume the post process command is what an 'admin' would do.  So
+>>> the various
+>>> package managers should be able to deal with it in most
+>>> cases.  (Note, obviously
+>>> it's more freeform, but I wouldn't expect everything to work in you
+>>> removed a
+>>> large part of the filesystem for instance.)
+>>>
+>>> As for prelink, I'm surprised this is in the incremental code.  I'm
+>>> not sure why
+>>> it would be necessary unless the incremental work wants to UNPRELINK
+>>> the rootfs
+>>> before performing the upgrade?
+>>>
+>>> Prelink itself should still be run as a postprocess command that
+>>> takes the
+>>> output of the filesystem and reprocesses it.
+>>>
+>>> So something seems out of sync here.. (at a minimum probably should
+>>> be better
+>>> commented on why it's needed..)
+>>
+>> The code is there for incremental opkg multilib image support. Its
+>> trying to compare whether binaries are identical. To make it work, it
+>> has to "unprelink" the files first before comparing.
+>>
+>> I'm not convinced this is a good idea :/. I'm wondering if incremental
+>> image generation makes sense at all in this context to be honest.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 
-> with glibc 2.29 in play
-> http://errors.yoctoproject.org/Errors/Details/216829/
-
-Thanks for your reports.
-Is there any way I could easily reproduce it?
-Some config I can download?
-I'm testing with default config.
-I'm sorry for dummy question, I'm more experienced with Buildroot.
-
-Kind regards,
-Petr
 
