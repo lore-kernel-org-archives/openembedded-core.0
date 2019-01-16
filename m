@@ -1,45 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E513F7C0F7
+Return-Path: <petr.vorel@gmail.com>
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+	[209.85.208.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E97EF7C0C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 14:57:04 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id v11so7463849qtc.2
+	Wed, 16 Jan 2019 15:28:13 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id f9so5707904eds.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 06:57:06 -0800 (PST)
+	Wed, 16 Jan 2019 07:28:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+P4uKq8w8SpjSd2j5Y/Eho8hxD/ukJ76VEqyt0+ZQIs=;
-	b=fjl/RR5kNYjyomS5ggmNj7aUXMOBITAudotpWXlNc555m79ibFRpHKDPdumfCL2pL4
-	nIgEFUF850fwvSjvh6Kjglcm4vOSLtc4zJM89FBJkDFmNgjfTwFKx/jOzYYkdTq8zzbM
-	32etSjv8Bb5Kv+wOA78P8sDdKMW/FQUh+90WlkEIaOp5r9uhhc6DZfYSyElJ5Zi5bfwU
-	D0UXfMw3GrbzQo7zIlNty3E6QgpMtLXluhkTIKuNm3b0WDvOkcK4wDCk2FVJ6FXhS5IW
-	o0q+1ssqfaTvbS1Sugiv8L/BAGndmNWNZ/6j62dbO6LlNY5YGEuIRRCdfaDwuV67b2He
-	oNoA==
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=XWiSpw6Ax/ilkcN6QzYnzjGwolkCROcnNiBihXo+SkM=;
+	b=kJOmPLaIEUNsvgPX1ITuQ68Gfajxb66YhmofU/COAJEKGGX+fbhH4SVaOjJvwgUKSq
+	5NjQzb4YMUGazXRSyAZOCl/5jXVcy4HLbz47MM62cqAUHlBcDRt7jhHUjHHj47iyF3oL
+	QFddwN9dbFsVoc94mu8iIvvRAF7Lvgr7GYalwLIAQmugEvCFlgrrMry9X52DR4StovhQ
+	fJ/VH6A2DfLaeRNXmAWAvj0+Of4x7OUJSdW/XLEpnVOOZM7eOwSdRUkJFINDAMEfWAN2
+	ErAErFwn7BTbBdfyJ5KGMrP66zDWKfQ4bbkfEHtUQfJAPkdYtZ1GPxtPwIEKRgJgc8DM
+	Pcjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+P4uKq8w8SpjSd2j5Y/Eho8hxD/ukJ76VEqyt0+ZQIs=;
-	b=Ra9gisfeUNOadi91gLHwMA3iurK3rmd3U8ejOHAdlBtQa5YiDQKMTRBrUZT2m6NhNA
-	4Ne0VtLfNX79AwrN0qa27thtUfopiyVxZsnR3fpawUddi62GhfysfJTvfYgJwc/l/Ytp
-	AjMAHKVE2SWcK2AMzatdLtxWi5kLPOU71loOPOhunyCFr2uxLfeo7KEScMq9N7nKG1MF
-	iN5vYaIYz/ZMp9agHms9y85bK7oST0Uum/XmePChLQRMK97NLK2BZL6OdBV3qIMi433D
-	knQe77tQIyeZaCuiAbTI9uh+/3u3/qCXCHFRedW1x1X0ZbSGsEoZx90JEc56fNLlNU1J
-	Krhg==
-X-Gm-Message-State: AJcUukf5GxyB4ruZTeVtDlbuy4V9orMzxg1Kr+IfuTTU16b28UKD1dgx
-	K8p05nXFbCUlVBrBObKAlXHyXigBV268UyfWOe8=
-X-Google-Smtp-Source: ALg8bN4sYKAZzuS52MfgSUFaHl/G815udOLaVmb6YbAIC9twKjCp0xrL6ZWyW1PMGTw2fFAMme5ETVHgzJriySNy9U4=
-X-Received: by 2002:aed:3a22:: with SMTP id n31mr7330556qte.29.1547650625327; 
-	Wed, 16 Jan 2019 06:57:05 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=XWiSpw6Ax/ilkcN6QzYnzjGwolkCROcnNiBihXo+SkM=;
+	b=c1c6rBStxiNTraSl9A2ZLVOsQ8TRYQsjhFA/zH9IAv+BV3bNlqSSAAdIhLrTKo7Ceo
+	lSq8yzXAS/Ur4O/2zbTtSOzqyVHr/Ek7T5vQLhT5r4AX1s7MUIgxGzLMBz5Bb5SLimWf
+	QoTyHdoz2pBcZ7DId/5nInY1rIfI3r5Vnu0yXDSCH98TOVpE4s5dtlR0MoCRgilvEaXm
+	ORa7JbFRmBWNLU80NISsW1zhNcutUmA0612ugbwFiZwch72akHca6/dFZFCbnGXPW3m0
+	nQm/FLUaj75xrcjZ+aSHNlnK66z1tDGM6FwkhhI17/3rmVY+89e/YSUZrSzzJK7OE8by
+	H/nw==
+X-Gm-Message-State: AJcUukc54nQxA03HIqtSGD0MGmnuaDTiGxm06OFaFlTKFNSAWB4ruRUj
+	/iv0PlgmqHykw6GXjKlX1d0=
+X-Google-Smtp-Source: ALg8bN6vzPigbH3AKb3j4T9Dyp1gpbHuEhMKyRFmkEH2J9M697hSn3vZsh+II3ZUhbCc3gl6b+h+bA==
+X-Received: by 2002:a50:ad97:: with SMTP id a23mr7553665edd.128.1547652494670; 
+	Wed, 16 Jan 2019 07:28:14 -0800 (PST)
+Received: from x230 (gw.ms-free.net. [95.85.240.250])
+	by smtp.gmail.com with ESMTPSA id
+	i46sm5546359ede.62.2019.01.16.07.28.12
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 16 Jan 2019 07:28:13 -0800 (PST)
+Date: Wed, 16 Jan 2019 16:28:11 +0100
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190116152809.GA407@x230>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
 References: <20190115230612.18947-1-petr.vorel@gmail.com>
 	<f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
-In-Reply-To: <f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 16 Jan 2019 06:56:38 -0800
-Message-ID: <CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 1/1] ltp: Update to 20190115
@@ -55,55 +64,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 14:57:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 16 Jan 2019 15:28:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jan 16, 2019 at 3:05 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2019-01-16 at 00:06 +0100, Petr Vorel wrote:
-> > Updated patches
-> > * 0004-build-Add-option-to-select-libc-implementation.patch
-> > * 0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
-> > * 0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-> >
-> > Removed patches (accepted in upstream)
-> > * 0001-getcpu01-Rename-getcpu-to-avoid-conflict-with-glibc-.patch
-> > * 0001-netns_helper.sh-use-ping-6-when-ping6-is-not-avaliab.patch
-> > * 0001-setrlimit05-Use-another-method-to-get-bad-address.patch
-> > * 0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
-> > * 0001-statx-fix-compile-errors.patch
-> > * 0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch
-> > (accepted v2 version, see
-> > http://lists.linux.it/pipermail/ltp/2018-October/009691.html)
-> >
-> > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> > ---
-> > Changes v1->v2:
-> > * Update SRCREV (previous version used old version)
-> > * Refresh patches
->
-> Thanks for looking at this. Unfortunately it failed in testing on most
-> targets:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/181/steps/7/logs/step1b
->
-> (one failure given as an example).
->
-> Warnings as errors are good during development but sometimes less
-> useful during release due to the variety of end user configurations.
->
-with glibc 2.29 in play
-http://errors.yoctoproject.org/Errors/Details/216829/
+Hi Richard, Khem,
 
+> > Thanks for looking at this. Unfortunately it failed in testing on most
+> > targets:
 
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/181/steps/7/logs/step1b
+
+> > (one failure given as an example).
+
+> > Warnings as errors are good during development but sometimes less
+> > useful during release due to the variety of end user configurations.
+
+> with glibc 2.29 in play
+> http://errors.yoctoproject.org/Errors/Details/216829/
+
+Thanks for your reports.
+Is there any way I could easily reproduce it?
+Some config I can download?
+I'm testing with default config.
+I'm sorry for dummy question, I'm more experienced with Buildroot.
+
+Kind regards,
+Petr
 
