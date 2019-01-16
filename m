@@ -1,45 +1,17 @@
-Return-Path: <prvs=29196da710=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F09079E69
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id F10936BC7D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 22:37:27 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x0GMaUdI017975 for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 16:37:29 -0600
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2q1nnvvua2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 16:37:29 -0600
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
-	x0GMbSsO003618
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 16:37:28 -0600
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Wed, 16 Jan 2019 16:37:28 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Wed, 16 Jan 2019 16:37:28 -0600
-Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Wed, 16 Jan 2019 16:37:28 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Jan 2019 16:39:26 -0600
-Message-ID: <20190116223926.3702-1-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-01-16_09:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH] ipk_write_pkg: add error output
+	Wed, 16 Jan 2019 22:51:59 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id D98171C0036;
+	Thu, 17 Jan 2019 11:51:58 +1300 (NZDT)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jan 2019 11:51:54 +1300
+Message-Id: <20190116225154.12180-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] cmake.bbclass: make cleaning of build directory on configure optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,48 +24,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 22:37:28 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Jan 2019 22:52:00 -0000
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+From: Sam Nobs <samuel.nobs@taitradio.com>
+
+The do_configure task is sensitive to changes in recipes and configuration files.
+This can be time consuming because cmake.bbclass deletes the ${B} directory
+at the beginning of the do_configure task. CMake figures
+out what to do when it's run again, so unless your cmake files are buggy, there shouldn't
+be any need to erase the build directory and start afresh.
+
+This change allows you to turn this behaviour off, either globally or on a per-recipe basis, e.g.
+
+OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE_pn-yourrecipe = ""
+
+Signed-off-by: Sam Nobs <samuel.nobs@taitradio.com>
 ---
- meta/classes/package_ipk.bbclass | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ meta/classes/cmake.bbclass | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 508b7dcaff..5eec20a35b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -224,15 +224,18 @@ def ipk_write_pkg(pkg, d):
-             conffiles.close()
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index fa7f68c99b..b9ec68ac9a 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -63,6 +63,11 @@ EXTRA_OECMAKE_BUILD_prepend_task-install = "${PARALLEL_MAKEINST} "
+ OECMAKE_TARGET_COMPILE ?= "all"
+ OECMAKE_TARGET_INSTALL ?= "install"
  
-         os.chdir(basedir)
--        subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
--                                                          d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
--                                stderr=subprocess.STDOUT,
--                                shell=True)
--
--        if d.getVar('IPK_SIGN_PACKAGES') == '1':
--            ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
--            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH'))
--            sign_ipk(d, ipk_to_sign)
-+        try:
-+            subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
-+                                                              d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
-+                                    stderr=subprocess.STDOUT,
-+                                    shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.error("Failed to create package, opkg-build failed with: %s" % e.output.decode('utf-8'))
-+        else:
-+            if d.getVar('IPK_SIGN_PACKAGES') == '1':
-+                ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
-+                ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH'))
-+                sign_ipk(d, ipk_to_sign)
++# Clean the build directory before configuring.
++# Some recipes don't want/need this as cmake is perfectly
++# capable of figuring out what to do, so we allow it to be turned off
++OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE ??= "true"
++
+ # CMake expects target architectures in the format of uname(2),
+ # which do not always match TARGET_ARCH, so all the necessary
+ # conversions should happen here.
+@@ -133,12 +138,20 @@ cmake_do_configure() {
+ 		bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
+ 	fi
  
-     finally:
-         cleanupcontrol(root)
+-	if [ "${S}" != "${B}" ]; then
+-		rm -rf ${B}
+-		mkdir -p ${B}
+-		cd ${B}
++	if [ ${@oe.types.boolean('${OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE}')} = True ]; then
++		if [ "${S}" != "${B}" ]; then
++			rm -rf ${B}
++			mkdir -p ${B}
++			cd ${B}
++		else
++			# For an in-tree build, delete all object files and CMake artefacts
++			find ${B} -name CMakeFiles -or -name Makefile -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
++		fi
+ 	else
+-		find ${B} -name CMakeFiles -or -name Makefile -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
++		# Selectively delete CMake artefacts to ensure that -c configure has a consistent result
++		rm -f CMakeCache.txt
++		cmake_version=$(cmake --version | head -1 | sed 's#^[^0-9]*\([0-9.]*\).*$#\1#' )
++		rm -fr CMakeFiles/$cmake_version/
+ 	fi
+ 
+ 	# Just like autotools cmake can use a site file to cache result that need generated binaries to run
 -- 
-2.20.1
+2.17.1
 
 
