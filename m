@@ -1,28 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 275BC745A1
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 72C936DA25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 02:39:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0G2cQxL018445
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jan 2019 18:38:42 -0800
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 15 Jan 2019 18:38:22 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20190115064546.121351-1-kai.kang@windriver.com>
-	<CAJTo0LYwDmCkcjJFLNTj5DP9zs3=W1s2tGYgo3mnMe+HaJrMpg@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <25f856fd-7d91-a5d8-16b0-13e6eae1e776@windriver.com>
-Date: Wed, 16 Jan 2019 10:38:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Wed, 16 Jan 2019 03:04:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0G34Iuh029505
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2019 19:04:18 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 15 Jan 2019 19:04:17 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Jan 2019 11:04:14 +0800
+Message-ID: <1547607856-350971-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0La-p53Onb4bNXJ50XJi4XXyJe+b1p6RtfCEHo-B_7R8EA@mail.gmail.com>
+References: <CAJTo0La-p53Onb4bNXJ50XJi4XXyJe+b1p6RtfCEHo-B_7R8EA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYwDmCkcjJFLNTj5DP9zs3=W1s2tGYgo3mnMe+HaJrMpg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps & librepo: fix buildpaths qa warnings
+Subject: [PATCH V2 0/2] piglit support build without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +32,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 02:39:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 16 Jan 2019 03:04:17 -0000
+Content-Type: text/plain
 
-On 2019/1/15 下午6:01, Burton, Ross wrote:
-> On Tue, 15 Jan 2019 at 06:46, <kai.kang@windriver.com> wrote:
->> Add preprocess option '-fmacro-prefix-map' to TARGET_CPPFLAGS to fix
->> buildpaths qa warnings of libcomps and librepo.
-> This is something we should be doing globally, not in a specific recipe.
->
-> We pass -fdebug-prefix-map already in bitbake.conf (remap debug
-> paths), and macro-prefix-map is the same but for __FILE__.  This is
-> good, because we've a few patches to remove __FILE__ already and this
-> means we can drop it.
->
-> Digging further reveals that there's also -ffile-prefix-map, which
-> sets debug-prefix-map and macro-prefix-map at once.  We should just
-> change bitbake.conf to use that instead of debug-prefix-map.
+From: Changqing Li <changqing.li@windriver.com>
 
-OK.
+To support piglit without x11 by disable PIGLIT_BUILD_GL_TESTS, but
+the result is piglit can use without x11, but only small part of it
+can be used. Most of testcase will be skipped.
 
---Kai
+Changqing Li (2):
+  waffle: supprt build waffle without x11
+  piglit: support build piglit without x11
 
-
->
-> Ross
->
+ meta/recipes-graphics/piglit/piglit_git.bb   | 13 ++++++++-----
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb |  7 +++----
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
 -- 
-Kai Kang
+2.7.4
 
 
