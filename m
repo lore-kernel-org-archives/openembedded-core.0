@@ -1,61 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6C67C156
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E513F7C0F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 14:02:40 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id f188so2088957wmf.5
+	Wed, 16 Jan 2019 14:57:04 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id v11so7463849qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 06:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=LOrLcpVeF6vITkXE9khl3Ge/fQjoIUxEPUSMWHWx3Tw=;
-	b=UjtNypN1i72kr2j8AA1NiWbR2FX1gdpS4YlI9wgCJfwwILJ26tm8vxbHrWdozF4ERc
-	liZWvTmlqF1DBcxHNqaeu1OpfHlTfR39oY85JuwpGUDDjasCNYcn44SNuQ9hcN3PwvJ+
-	EgHVefUs3eKRsOVFFGHH1K1RedK2g7Jk4Vexw=
+	Wed, 16 Jan 2019 06:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+P4uKq8w8SpjSd2j5Y/Eho8hxD/ukJ76VEqyt0+ZQIs=;
+	b=fjl/RR5kNYjyomS5ggmNj7aUXMOBITAudotpWXlNc555m79ibFRpHKDPdumfCL2pL4
+	nIgEFUF850fwvSjvh6Kjglcm4vOSLtc4zJM89FBJkDFmNgjfTwFKx/jOzYYkdTq8zzbM
+	32etSjv8Bb5Kv+wOA78P8sDdKMW/FQUh+90WlkEIaOp5r9uhhc6DZfYSyElJ5Zi5bfwU
+	D0UXfMw3GrbzQo7zIlNty3E6QgpMtLXluhkTIKuNm3b0WDvOkcK4wDCk2FVJ6FXhS5IW
+	o0q+1ssqfaTvbS1Sugiv8L/BAGndmNWNZ/6j62dbO6LlNY5YGEuIRRCdfaDwuV67b2He
+	oNoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=LOrLcpVeF6vITkXE9khl3Ge/fQjoIUxEPUSMWHWx3Tw=;
-	b=Jb1IFTQlodbaJwrX989matUIIdFXWMFiFjdbwSadNatNN8t4u89Ft/G7y1hKzso5cu
-	f0fa9vRI6J0QZIntN9JJVYTmFfAVY3RW6nv86HLbjmuwdt9ZRSXqKi1KEClCIDxiqktn
-	UCGF4dlLsZs3yn13cEITbKBc8svPsl52525ASNFJwHGjaQ9o4g7lLiI4TGIQwE6AP+jA
-	FGgzFgmA2wJFtcMPHxrddzb0Vhg+8LoSKnRVZCQQi9YYHAxdDuN7HAPTx/wb646RPS9B
-	O/bzKzJqTXHwFY0tYUjR16xXFru8miDpUKMkxg915ve5Dkqjf9zxYT7K/oiRdSbb7QlC
-	iZwA==
-X-Gm-Message-State: AJcUukevkq70cJM8HL234Dsxa57MkHxXhHYGv2vQPpcZouxpx95o1MrM
-	XloZqWWla4zdN0kn9/WzSZh5XQ==
-X-Google-Smtp-Source: ALg8bN5pQ346BvyxhguwEEsZvJYY06/ir5q96mysSVyzVjL1eAIKzyGBgfHE2kScv4Rz8jrwV3aCtw==
-X-Received: by 2002:a1c:c008:: with SMTP id q8mr6983397wmf.99.1547647361284;
-	Wed, 16 Jan 2019 06:02:41 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v132sm37817986wme.20.2019.01.16.06.02.39
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 Jan 2019 06:02:40 -0800 (PST)
-Message-ID: <9ed6a0a740a04f9ecc88659051a107ac6f4bd2c4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jason Andryuk <jandryuk@gmail.com>
-Date: Wed, 16 Jan 2019 14:02:38 +0000
-In-Reply-To: <CAKf6xpvj7gLodcqWAXLL7vW_5Cqep_gLpr+5+7_V-e1z29L5BQ@mail.gmail.com>
-References: <CAKf6xputiV+k9m9p1dyhZG1d0wMQoWG5tCiZjpsVVu+bXp1X6A@mail.gmail.com>
-	<08a89c71b2e3e0f4380325985541c55df00b94da.camel@linuxfoundation.org>
-	<CAKf6xptMbAqnZ34ONNXLzQMjFoDjePH8dz3bXmiTMvoBMu4wsg@mail.gmail.com>
-	<50b88771577229c99a2c9e26b6224a5f038e7bab.camel@linuxfoundation.org>
-	<CAKf6xpt_RoLVg3ou2zKL2g=0GsjDXpCk73q83pmb4Reer9YgdA@mail.gmail.com>
-	<a0e331f39da396ea39ea37539f6c1ea193b055b1.camel@linuxfoundation.org>
-	<CAJ86T=V-xs=M2DfsHHtOe=j77bqsn=MgMojue5mc=2ouwwTd+A@mail.gmail.com>
-	<731530484e0135bb200df4da388982b2a7957ea1.camel@linuxfoundation.org>
-	<CAKf6xpv2UAGbBr5wOqQdZNgNe5Hra6+bF+OWy_tTD5v3wyobhw@mail.gmail.com>
-	<26b33c4efb48aaae0bd4662b88bfdfd428b95478.camel@linuxfoundation.org>
-	<CAKf6xpvj7gLodcqWAXLL7vW_5Cqep_gLpr+5+7_V-e1z29L5BQ@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Mis-generation of shell script (run.do_install)?
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+P4uKq8w8SpjSd2j5Y/Eho8hxD/ukJ76VEqyt0+ZQIs=;
+	b=Ra9gisfeUNOadi91gLHwMA3iurK3rmd3U8ejOHAdlBtQa5YiDQKMTRBrUZT2m6NhNA
+	4Ne0VtLfNX79AwrN0qa27thtUfopiyVxZsnR3fpawUddi62GhfysfJTvfYgJwc/l/Ytp
+	AjMAHKVE2SWcK2AMzatdLtxWi5kLPOU71loOPOhunyCFr2uxLfeo7KEScMq9N7nKG1MF
+	iN5vYaIYz/ZMp9agHms9y85bK7oST0Uum/XmePChLQRMK97NLK2BZL6OdBV3qIMi433D
+	knQe77tQIyeZaCuiAbTI9uh+/3u3/qCXCHFRedW1x1X0ZbSGsEoZx90JEc56fNLlNU1J
+	Krhg==
+X-Gm-Message-State: AJcUukf5GxyB4ruZTeVtDlbuy4V9orMzxg1Kr+IfuTTU16b28UKD1dgx
+	K8p05nXFbCUlVBrBObKAlXHyXigBV268UyfWOe8=
+X-Google-Smtp-Source: ALg8bN4sYKAZzuS52MfgSUFaHl/G815udOLaVmb6YbAIC9twKjCp0xrL6ZWyW1PMGTw2fFAMme5ETVHgzJriySNy9U4=
+X-Received: by 2002:aed:3a22:: with SMTP id n31mr7330556qte.29.1547650625327; 
+	Wed, 16 Jan 2019 06:57:05 -0800 (PST)
+MIME-Version: 1.0
+References: <20190115230612.18947-1-petr.vorel@gmail.com>
+	<f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
+In-Reply-To: <f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 16 Jan 2019 06:56:38 -0800
+Message-ID: <CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] ltp: Update to 20190115
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,108 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 14:02:41 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 14:57:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-01-16 at 08:55 -0500, Jason Andryuk wrote:
-> On Tue, Jan 8, 2019 at 1:26 PM <richard.purdie@linuxfoundation.org>
-> wrote:
-> > On Tue, 2018-12-18 at 12:45 -0500, Jason Andryuk wrote:
-> > > I can definitively state I have a hash in bb_codeparser.dat with
-> > > an
-> > > incorrect shellCacheLine entry and I don't know how it got there.
-> > > 
-> > > The bad hash is 3df9018676de219bb3e46e88eea09c98.  I've attached
-> > > a
-> > > file with the binutils do_install() contents which hash to that
-> > > value.
-> > > 
-> > > The bad 3df9018676de219bb3e46e88eea09c98 entry in the
-> > > bb_codeparser.dat returned
-> > > DEBUG: execs [
-> > > DEBUG: execs rm
-> > > DEBUG: execs install
-> > > DEBUG: execs test
-> > > DEBUG: execs sed
-> > > DEBUG: execs rmdir
-> > > DEBUG: execs bbfatal_log
-> > > DEBUG: execs mv
-> > > DEBUG: execs /home/build/openxt-compartments/build/tmp-
-> > > glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-
-> > > sysroot-
-> > > native/usr/bin/python-native/python
-> > > DEBUG: execs find
-> > 
-> > This is useful data (along with the attachment), thanks.
-> > 
-> > I agree that this looks likely to have come from a core2-32 tuned
-> > machine (e.g. genericx86) from python-async do_install.
-> > 
-> > How old was this build directory? Can you remember any details of
-> > the
-> > update history for it?
-> 
-> I think the build directory was from the beginning of October 30th,
-> and I guess I hit the collision December 10th or so.
-> 
-> > I'd be very interested to try and reproduce that hash. I locally
-> > blacklisted your collision from my cache and tried to reproduce
-> > this. I
-> > can generate a matching hash for the binutils do_install but I
-> > can't
-> > produce one matching the above.
-> 
-> I tried around December 18th to generate the collision again.  I set
-> up a new container with an identical openxt path.  There, python-
-> async was built, but it did not have the colliding hash.  When core2-
-> 64 binutils was built, it had the expected hash.
-> 
-> > Can you remember the history of this build directory and which
-> > updates
-> > it may have had? The python-async recipe is confined to OE-Core so
-> > its
-> > probably the revision history for the oe-core repo which is most
-> > interesting. Anything in the .git/logs directory for that which
-> > would
-> > help us replay the different versions you might have built?
-> 
-> oe-core is checked out at 819aa151bd634122a46ffdd822064313c67f5ba5
-> It's a git submodule locked at a fixed revision, and it had not
-> changed in the build directory.
-> 
-> OpenXT builds 8 or 9 different MACHINEs and images in sequence in the
-> same build directory.  Maybe 6 are core2-32 and two are core2-64. The
-> 32bit ones run first.
-
-The hash we don't have is from a core2-32 MACHINE. I'm wondering which
-configurations you might have parsed for a core2-32 MACHINE between
-October and December?
-
-Was TMPDIR ever cleaned? If not, do you have the python-async WORKDIR
-for core2-32? The TMPDIR/logs directory may also have useful hints
-about the configurations built...
-
-> I think the problem first manifest after I added an additional local
-> layer to BBLAYERS.  At that time, I started building an additional
-> MACHINE.  Along with the mis-generated run.do_install script, bitbake
-> was complaining about the binutils base hash mismatch which triggered
-> the re-build.  The first 64bit MACHINE included TUNE-CCARGS +=
-> "-mstackrealign" while the second did not.  Could that be a reason
-> why bitbake complained about the base hash mismatch?
-
-By the time the binutils error happens, the error is kind of lost in
-history and must have been added some time prior to that.
-
-We know its a build of python-async for a core2-32 MACHINE. Did you
-also try building those with the "-mstackrealign" option? Were there
-any other changes you can think of that would have applied to the
-core2-32 MACHINE builds?
-
-Cheers,
-
-Richard
+On Wed, Jan 16, 2019 at 3:05 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2019-01-16 at 00:06 +0100, Petr Vorel wrote:
+> > Updated patches
+> > * 0004-build-Add-option-to-select-libc-implementation.patch
+> > * 0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+> > * 0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+> >
+> > Removed patches (accepted in upstream)
+> > * 0001-getcpu01-Rename-getcpu-to-avoid-conflict-with-glibc-.patch
+> > * 0001-netns_helper.sh-use-ping-6-when-ping6-is-not-avaliab.patch
+> > * 0001-setrlimit05-Use-another-method-to-get-bad-address.patch
+> > * 0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
+> > * 0001-statx-fix-compile-errors.patch
+> > * 0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch
+> > (accepted v2 version, see
+> > http://lists.linux.it/pipermail/ltp/2018-October/009691.html)
+> >
+> > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> > ---
+> > Changes v1->v2:
+> > * Update SRCREV (previous version used old version)
+> > * Refresh patches
+>
+> Thanks for looking at this. Unfortunately it failed in testing on most
+> targets:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/181/steps/7/logs/step1b
+>
+> (one failure given as an example).
+>
+> Warnings as errors are good during development but sometimes less
+> useful during release due to the variety of end user configurations.
+>
+with glibc 2.29 in play
+http://errors.yoctoproject.org/Errors/Details/216829/
 
 
-
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
