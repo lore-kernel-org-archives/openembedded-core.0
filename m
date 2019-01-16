@@ -1,44 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f50.google.com (mail-yw1-f50.google.com
-	[209.85.161.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF747C03C
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+	[209.85.219.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1719C79AE7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 12:01:07 +0000 (UTC)
-Received: by mail-yw1-f50.google.com with SMTP id d190so2360294ywb.5
+	Wed, 16 Jan 2019 12:01:08 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id x9so2406214ybj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2019 04:01:08 -0800 (PST)
+	Wed, 16 Jan 2019 04:01:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jjJOnPWchgRAhm/ypiVGheMby8n9NTndpq635ws9LXc=;
-	b=HafCPNb0W/2bawjk/3bOJUCuC02FziePR39OJqkt/e9wyquRrU8AfxDmnO+z0Gkt7K
-	xgHBhrxisEdNSfA/ZFlfx7Tl2qoXUtvUBMtOTk74xGw+RQ2XzyjFQCiUh387VjmS7z4O
-	+hx6N3ieSK1/KFoeKzq10bD+kvnuh2/ShN6g530C6p7qQJaN6BsFPazvOWS5GPOA8mzQ
-	htqdIFP8sGDpGEaGWxQgN0cXS8WHJPQvBfrAeRB5kd6aZKw62+kaaFaI6DAapGGRu9l1
-	GCHn6ABKU1absW/KPpIfI6AELLbz1ucVdRiASv5Ze2lWLKUH4mJ+ZLakS+ktO9hJ9o+F
-	8gVA==
-X-Gm-Message-State: AJcUukfc4nHGhIEbWafTsBuQdPlEPVm5eYb5FMsnyheeuEozXDsIIt47
-	TSwh28fRpvGdCXZuq8n5CqGvWkYj
-X-Google-Smtp-Source: ALg8bN58ahdDUx2ra/+9t443zzUh3gxgVOj0c4pyqQhVNAAmPH63LaYEscsbtzRqdDyCZUtwLBSBvw==
-X-Received: by 2002:a81:b718:: with SMTP id v24mr7157389ywh.126.1547640068096; 
-	Wed, 16 Jan 2019 04:01:08 -0800 (PST)
+	bh=5zR7dhGzsR7Dw9ldM5KaFPPdQTSQhzApGS4Yg/4ylrQ=;
+	b=CElU0WeTH9b+utQ9lfYY/bdhEvh7Q1fz3TvsQ+VW7mUlT4kKpPa1SxGRpard+7wtJl
+	OaInbLM9BJvaOkJMQx5YSeW/O5zzqHQ2UoY/OsKMEuu9/Op6KRlxx4R5GP/vmx/vrtqL
+	QtiaTCsFvIv7RfP33g8INmpaAEs04vM2XDCpXiyrYLy5hYYyGrUnNyfvkmEkN4Ho4j3T
+	NHw6xQzFPG/UFlWqf+k8d3cLQ3BItBcNH1RWoNJvIZAQv2wxI2sJhHy1cTZVwsL1EWkQ
+	vuuHyORzV9R6/8tFLxHoE+pEZn+/A09XbV2HUnF8xjjSFtqTeakOX/QsisLLjsVjek/Q
+	DvPg==
+X-Gm-Message-State: AJcUukeN0yy2IGBhqpVzf7BZr5WpM2+S+BJlS7hhHzqtPAwn4OK30fyz
+	/Ine+ckCqy9RzXOT2NJIt0KoKc/R
+X-Google-Smtp-Source: ALg8bN6gaTKOXebvyNfSCwmGj2lQMCSNX1LbcpddSYy+/wZk1aB3iek+fuvPOc7lWWLeejm0BF83kw==
+X-Received: by 2002:a25:c805:: with SMTP id y5mr7331250ybf.68.1547640069514;
+	Wed, 16 Jan 2019 04:01:09 -0800 (PST)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	o124sm2169655ywe.75.2019.01.16.04.01.06
+	o124sm2169655ywe.75.2019.01.16.04.01.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Jan 2019 04:01:07 -0800 (PST)
+	Wed, 16 Jan 2019 04:01:08 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2019 12:00:45 +0000
-Message-Id: <20190116120051.12182-10-git@andred.net>
+Date: Wed, 16 Jan 2019 12:00:46 +0000
+Message-Id: <20190116120051.12182-11-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190116120051.12182-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190116120051.12182-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v3 09/15] util-linux: one package per binary (pt 2: base_bindir)
+Subject: [PATCH v3 10/15] util-linux: one package per binary (pt 3: sbindir)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,7 +51,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2019 12:01:07 -0000
+X-List-Received-Date: Wed, 16 Jan 2019 12:01:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -60,16 +60,20 @@ From: André Draszik <andre.draszik@jci.com>
 Similar to the previous patch.
 
 Existing packages (and current dependency by main package):
-* mount <- RRECOMMENDS
-* umount <- RDEPENDS
-* mountpoint <- RRECOMMENDS
-* getopt
-* su <- RDEPENDS
+* blkdiscard <- RRECOMMENDS
+* findfs
+* fsck.cramfs
+* mkfs <- RRECOMMENDS
+* mkfs.cramfs
+* partx
+* readprofile <- RRECOMMENDS
+* rfkill
+* runuser <- RDEPENDS
+* sfdisk <- RRECOMMENDS
+* uuidd
 
 New packages:
-* dmesg
-* kill
-* more
+* too many to list
 
 To avoid breaking existing users, all the new packages
 are added to the main package as RRECOMMENDS_${PN}, so
@@ -78,8 +82,10 @@ they are pulled into existing images etc.
 The existing RDEPENDS_${PN} will need some further
 clean-up in the future, as it appears a bit random which
 packages the main package depends on vs. recommends.
-Existing packages that aren't in RDEPENDS / RRECOMMENDS
-haven't been added to RRECOMMENDS for that reason.
+
+Nevertheless, all existing packages have been added to
+RRECOMMENDS this time, even if they weren't in RDEPENDS /
+RRECOMMENDS before.
 
 [YOCTO #13058]
 
@@ -92,124 +98,122 @@ v2: * Fix handling of escape characters in regexs and hence fix python
       Deprecation warnings which will be problematic in python 3.8.
     * use PN for package name prefix, not BPN
 ---
- meta/recipes-core/util-linux/util-linux.inc | 32 ++++++++-------------
- 1 file changed, 12 insertions(+), 20 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 42 ++++++++-------------
+ 1 file changed, 16 insertions(+), 26 deletions(-)
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index a23fec69ea..36a22cf6d7 100644
+index 36a22cf6d7..bab66f788e 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -29,16 +29,16 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz
+@@ -28,17 +28,13 @@ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
             "
  
- PACKAGES =+ "util-linux-blkdiscard util-linux-sfdisk \
--             util-linux-swaponoff util-linux-umount \
--             util-linux-mount util-linux-readprofile util-linux-uuidd \
-+             util-linux-swaponoff \
-+             util-linux-readprofile util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs \
-              util-linux-mkfs util-linux-mcookie util-linux-rfkill \
-              util-linux-lsblk util-linux-mkfs.cramfs \
--             util-linux-partx util-linux-mountpoint \
--             util-linux-findfs util-linux-getopt util-linux-prlimit \
-+             util-linux-partx \
-+             util-linux-findfs util-linux-prlimit \
+-PACKAGES =+ "util-linux-blkdiscard util-linux-sfdisk \
+-             util-linux-swaponoff \
+-             util-linux-readprofile util-linux-uuidd \
+-             util-linux-uuidgen util-linux-lscpu util-linux-fsck.cramfs \
+-             util-linux-mkfs util-linux-mcookie util-linux-rfkill \
+-             util-linux-lsblk util-linux-mkfs.cramfs \
+-             util-linux-partx \
+-             util-linux-findfs util-linux-prlimit \
++PACKAGES =+ "util-linux-swaponoff \
++             util-linux-uuidgen util-linux-lscpu \
++             util-linux-mcookie \
++             util-linux-lsblk \
++             util-linux-prlimit \
               util-linux-ionice util-linux-unshare"
  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
--PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
-+PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+-PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
  
  python util_linux_binpackages () {
      def pkg_hook(f, pkg, file_regex, output_pattern, modulename):
-@@ -51,6 +51,10 @@ python util_linux_binpackages () {
+@@ -47,6 +43,11 @@ python util_linux_binpackages () {
+         if d.getVarFlag('ALTERNATIVE_LINK_NAME', modulename):
+             d.setVar('ALTERNATIVE_' + pkg, modulename)
+ 
++    def pkg_hook_with_recommends(f, pkg, file_regex, output_pattern, modulename):
++        pn = d.getVar('PN')
++        d.appendVar('RRECOMMENDS_%s' % pn, ' %s' % pkg)
++        pkg_hook(f, pkg, file_regex, output_pattern, modulename)
++
+     do_split_packages(d, root='${base_sbindir}',
+                       file_regex=r'(.*)', output_pattern='${PN}-%s',
+                       description='${PN} %s',
+@@ -55,6 +56,10 @@ python util_linux_binpackages () {
                        file_regex=r'(.*)', output_pattern='${PN}-%s',
                        description='${PN} %s',
                        hook=pkg_hook, extra_depends='', prepend=True)
-+    do_split_packages(d, root='${base_bindir}',
++    do_split_packages(d, root='${sbindir}',
 +                      file_regex=r'(.*)', output_pattern='${PN}-%s',
 +                      description='${PN} %s',
-+                      hook=pkg_hook, extra_depends='', prepend=True)
++                      hook=pkg_hook_with_recommends, extra_depends='', prepend=True)
  }
  
  # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
-@@ -92,21 +96,18 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+@@ -94,16 +99,8 @@ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
  
- FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
- FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
--FILES_util-linux-mount = "${base_bindir}/mount.${BPN}"
+ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+ 
+-FILES_util-linux-blkdiscard = "${sbindir}/blkdiscard"
+-FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
  FILES_util-linux-mcookie = "${bindir}/mcookie"
--FILES_util-linux-umount = "${base_bindir}/umount.${BPN}"
- FILES_util-linux-readprofile = "${sbindir}/readprofile.${BPN}"
+-FILES_util-linux-readprofile = "${sbindir}/readprofile.${BPN}"
  FILES_util-linux-uuidgen = "${bindir}/uuidgen"
- FILES_util-linux-uuidd = "${sbindir}/uuidd"
- FILES_util-linux-rfkill = "${sbindir}/rfkill.${BPN}"
- FILES_util-linux-partx = "${sbindir}/partx"
- FILES_util-linux-findfs = "${sbindir}/findfs"
--FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
- FILES_util-linux-runuser = "${sbindir}/runuser"
+-FILES_util-linux-uuidd = "${sbindir}/uuidd"
+-FILES_util-linux-rfkill = "${sbindir}/rfkill.${BPN}"
+-FILES_util-linux-partx = "${sbindir}/partx"
+-FILES_util-linux-findfs = "${sbindir}/findfs"
+-FILES_util-linux-runuser = "${sbindir}/runuser"
  FILES_util-linux-prlimit = "${bindir}/prlimit"
  FILES_util-linux-ionice = "${bindir}/ionice.${BPN}"
  FILES_util-linux-runuser = "${sysconfdir}/pam.d/runuser*"
--FILES_util-linux-su = "${base_bindir}/su.${BPN} ${sysconfdir}/pam.d/su-l"
-+FILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
- CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+@@ -116,11 +113,6 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
+ FILES_util-linux-lsblk = "${bindir}/lsblk"
+ FILES_util-linux-lscpu = "${bindir}/lscpu"
  
- FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-@@ -120,8 +121,6 @@ FILES_util-linux-mkfs = "${sbindir}/mkfs"
- FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
- FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
- 
--FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
+-FILES_util-linux-mkfs = "${sbindir}/mkfs"
+-
+-FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
+-FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
 -
  FILES_util-linux-unshare = "${bindir}/unshare.${BPN}"
  
  # Util-linux' blkid replaces the e2fsprogs one
-@@ -131,8 +130,9 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+@@ -130,7 +122,7 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
  RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
  RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
  
--RRECOMMENDS_${PN} = "util-linux-blkdiscard util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice"
-+RRECOMMENDS_${PN} = "util-linux-blkdiscard util-linux-sfdisk util-linux-readprofile util-linux-mkfs util-linux-prlimit util-linux-ionice"
+-RRECOMMENDS_${PN} = "util-linux-blkdiscard util-linux-sfdisk util-linux-readprofile util-linux-mkfs util-linux-prlimit util-linux-ionice"
++RRECOMMENDS_${PN} = "util-linux-prlimit util-linux-ionice"
  RRECOMMENDS_${PN} += "${PN}-blockdev ${PN}-cfdisk ${PN}-ctrlaltdel ${PN}-fdisk ${PN}-mkswap ${PN}-nologin ${PN}-pivot-root ${PN}-switch-root"
-+RRECOMMENDS_${PN} += "${PN}-dmesg ${PN}-kill ${PN}-more ${PN}-mount ${PN}-mountpoint"
+ RRECOMMENDS_${PN} += "${PN}-dmesg ${PN}-kill ${PN}-more ${PN}-mount ${PN}-mountpoint"
  
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
-@@ -215,7 +215,6 @@ do_install_append_class-native () {
- ALTERNATIVE_PRIORITY = "80"
- 
+@@ -217,7 +209,7 @@ ALTERNATIVE_PRIORITY = "80"
  ALTERNATIVE_${PN}  = " \
--    dmesg kill more \
      hexdump last lastb logger mesg renice wall \
      setsid chrt flock utmpdump eject taskset fallocate \
-     fsfreeze nsenter cal rev \
-@@ -266,13 +265,8 @@ ALTERNATIVE_util-linux-agetty = "getty"
- ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
- ALTERNATIVE_TARGET[getty] = "${base_sbindir}/agetty"
+-    fsfreeze nsenter cal rev \
++    nsenter cal rev \
+ "
  
--ALTERNATIVE_util-linux-mount = "mount"
- ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
--
--ALTERNATIVE_${PN}-su = "su"
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+@@ -269,7 +261,6 @@ ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
  ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
--
--ALTERNATIVE_util-linux-umount = "umount"
  ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
  
- ALTERNATIVE_util-linux-readprofile = "readprofile"
-@@ -290,12 +284,10 @@ ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
- ALTERNATIVE_util-linux-rfkill = "rfkill"
+-ALTERNATIVE_util-linux-readprofile = "readprofile"
+ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ 
+ ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+@@ -281,7 +272,6 @@ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ 
+ ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
+ 
+-ALTERNATIVE_util-linux-rfkill = "rfkill"
  ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
  
--ALTERNATIVE_util-linux-getopt = "getopt"
  ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
- 
- ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
- 
--ALTERNATIVE_util-linux-mountpoint = "mountpoint"
- ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
- 
- ALTERNATIVE_util-linux-unshare = "unshare"
 -- 
 2.20.1
 
