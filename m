@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
-	[209.85.167.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 055017C20C
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+	[209.85.167.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 087C57C1F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 16:27:10 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id a16so8267936lfg.3
+	Thu, 17 Jan 2019 16:27:11 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id y14so8239101lfg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 08:27:12 -0800 (PST)
+	Thu, 17 Jan 2019 08:27:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=WUq/hieqCL4iLSPqts/n9LKbAPVXZgUGxe2PdpFdWKQ=;
-	b=dbLUiac+3PJAP783+dE4ZTtdljB2rbL2Lg5gGZlNQTDt4Mc+TWyTp37dJR7lbmOCBK
-	DGJrmlrOGHnUZgp0Qlvven46L6WTaCuZUoD8z+kA2JW+bTc7rzg/+j1sBHDrP1Zu3iOo
-	VJJoaI99OEouXFbW+dA0VM/RqXv+RdJl411eVZIijFjarzgl76NZMZUKPRjFeIyFSMNh
-	mzB6/LvuZRT1B70p6lmhpH0eDv0nJtTCqylkmushBeTcgGaP86duM2XM/CXZZYj6f62D
-	xNFiiqetbzDg2LZqrh88uUswtTaq/kw7cEsPQSgRRzaWte3gfgm6XMbQMld6wDeFNFDP
-	JACg==
+	bh=LRGgusZsagvbfSAn6tw1ZuYsp2F9WjPiRUypvPXWE9A=;
+	b=If98bNXNtMnw/kCFBgXJaKs6DivrAE3Jf8yvU510c7QJg/A+g1hTWO7MeakRHJvjtD
+	T64A9nlDH9AdL3EQ/sFf4ClUINh97Bv7+d4YAOfAWhTOTh9YQIHVdHfbBuYOHrlGFk0x
+	ECH6ojndJ0Yv48/dAWOQXhC0V9NtvxsNgZWAzukGUOrRPoTDynNJrF6IparWH+gH3KCK
+	tMu/bgLDrBTYba1jWoeYaJPWk+xHkXj6nYa0FkuEH7qwX3ml3yu75hHZ8IwnMSwIQEr+
+	6GXcOK1LM+FG/KrfTjeRWHzfnhj+mIuVRrZe7JO5hHEHod+hDJ/LC6tE56y6VV7JCtYO
+	VKYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=WUq/hieqCL4iLSPqts/n9LKbAPVXZgUGxe2PdpFdWKQ=;
-	b=B0y8gTckWbP6Y7ZBSVYYJMbZ1rIu1Pu/HJAvSvA1ApoaYgXviMNn6nJp6FsxIC/KIp
-	06SpituBPZH255r71geQbxEXayXNtWnAFx/XUB4yMeGexyCXDiBJ8NdV7SA4sbktuSDT
-	eyajSDuAPoj1znCZoTUY2GFu/5c+RIp/WorMjuulDrHX2eslpm/Oab2ZSujgNT6+EczB
-	pA+UMSm2Tvuy/x5gWg2nKXj1VFP/5Qq3obNMPzIOQ4+QYJIN8QajmePgk/5eJVI6Sogb
-	he8MoJKu7D2KYHC3lR4Hf1ujATqOruwSJA4h4RxtmspuZ6P+S8EvARH004ZwQ1OX32PY
-	CzUA==
-X-Gm-Message-State: AJcUukcYjC4dJPz2474qZubyFvaaeroR0ZSX3BECkAtqMh3uvT1TWZKx
-	dT3ijkewY+PABDScSo8pKrkNyE+f
-X-Google-Smtp-Source: ALg8bN5hDG46pB4MxUQRhrToMPqcEsnUDD9evTjDtgT3/VbO+Mo++/SKJOW94WBT5jneuQzAZgcoIw==
-X-Received: by 2002:a19:d58e:: with SMTP id m136mr11423100lfg.70.1547742431060;
-	Thu, 17 Jan 2019 08:27:11 -0800 (PST)
+	bh=LRGgusZsagvbfSAn6tw1ZuYsp2F9WjPiRUypvPXWE9A=;
+	b=VIKHNTr1p4hjDMESwdH4YT1FBjwl72ieISu9tnyqqbm0vNpvCQYe98SiYBwljBQT+2
+	eQfqhx7fxXdzq70F0x32l1c8Y0SMdR9pYygCJR1fcC4kFtiScx42x42Z3bI4+oLPCUSK
+	SA1VnSOZEgoS932EBfARJuD9ErIuE7KREC9hDWZS/sMZiPhcB2NnlgvRbExZgvN9SJJp
+	fKpl9A6LqQMHp3R4vzDPqYFV0LQjPny9RmoR0+O8wbopvep3/12AIr+EGCUYti9302ii
+	USzk1yyOlJ/hSInssC2e9wRYGFlpqkT0zeeijCxhjF9/nO1bg+Eu8Bs/bt94o0Itsmg5
+	kVYg==
+X-Gm-Message-State: AJcUukdUGGfwH6uH5Wxyk07mu7pGExrhbbA9AsYSBJQhxNDKeYYpnY5g
+	36TKomLrSENgUA0kZJfzPzGZmkJm
+X-Google-Smtp-Source: ALg8bN4aKaue+rE+yqtJxFg8GECvdRVi7djOQkqssFYy7xGeS2FzOJOl9z7kTRXDjJemmqWxXqFcyQ==
+X-Received: by 2002:a19:d381:: with SMTP id
+	k123mr11010962lfg.101.1547742432236; 
+	Thu, 17 Jan 2019 08:27:12 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id q11sm358866lfc.92.2019.01.17.08.27.10
+	by smtp.gmail.com with ESMTPSA id q11sm358866lfc.92.2019.01.17.08.27.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jan 2019 08:27:10 -0800 (PST)
+	Thu, 17 Jan 2019 08:27:11 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2019 17:26:52 +0100
-Message-Id: <20190117162659.24997-4-alex.kanavin@gmail.com>
+Date: Thu, 17 Jan 2019 17:26:53 +0100
+Message-Id: <20190117162659.24997-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190117162659.24997-1-alex.kanavin@gmail.com>
 References: <20190117162659.24997-1-alex.kanavin@gmail.com>
-Subject: [PATCH 04/11] libfm: upgrade 1.3.0.2 -> 1.3.1
+Subject: [PATCH 05/11] pcmanfm: upgrade 1.3.0 -> 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 16:27:11 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 16:27:12 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libfm/{libfm_1.3.0.2.bb => libfm_1.3.1.bb}                | 4 ++--
+ .../pcmanfm/{pcmanfm_1.3.0.bb => pcmanfm_1.3.1.bb}            | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libfm/{libfm_1.3.0.2.bb => libfm_1.3.1.bb} (93%)
+ rename meta/recipes-sato/pcmanfm/{pcmanfm_1.3.0.bb => pcmanfm_1.3.1.bb} (90%)
 
-diff --git a/meta/recipes-support/libfm/libfm_1.3.0.2.bb b/meta/recipes-support/libfm/libfm_1.3.1.bb
-similarity index 93%
-rename from meta/recipes-support/libfm/libfm_1.3.0.2.bb
-rename to meta/recipes-support/libfm/libfm_1.3.1.bb
-index 62d6a51e871..65a6f8e78c3 100644
---- a/meta/recipes-support/libfm/libfm_1.3.0.2.bb
-+++ b/meta/recipes-support/libfm/libfm_1.3.1.bb
-@@ -16,8 +16,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
-            file://0001-Do-not-add-library-path-to-avoid-host-contamination.patch \
-            "
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.0.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
+similarity index 90%
+rename from meta/recipes-sato/pcmanfm/pcmanfm_1.3.0.bb
+rename to meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
+index 356da02d235..a5e3a1ad334 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.0.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
+@@ -16,8 +16,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.xz \
+ 	   file://emblem-symbolic-link.png \
+ 	   file://no-desktop.patch"
  
--SRC_URI[md5sum] = "02a024714d51e0d37afc7bd596a44f3b"
--SRC_URI[sha256sum] = "18d06f7996ce1cf8947df6e106bc0338c6ae0c4138c316f2501f6f6f435c7c72"
-+SRC_URI[md5sum] = "c15ecd2c9317e2c385cd3f046d0b61ba"
-+SRC_URI[sha256sum] = "96b1244bde41ca0eef0332cfb5c67bb16725dfd102128f3e6f74fadc13a1cfe4"
+-SRC_URI[md5sum] = "827838f7f6b17dc97e1690c07da8fdb3"
+-SRC_URI[sha256sum] = "5a693e9bf3f3294f0ee7264c1c1a600a88ee27d1572e7dd5c4b0e84aa7778ffb"
++SRC_URI[md5sum] = "d32ad2c9c7c52bff2004bbc120b53420"
++SRC_URI[sha256sum] = "6804043b3ee3a703edde41c724946174b505fe958703eadbd7e0876ece836855"
  
- inherit autotools pkgconfig gtk-doc gettext distro_features_check
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/"
+ 
 -- 
 2.17.1
 
