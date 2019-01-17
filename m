@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
-	[209.85.208.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B8EE17C226
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+	[209.85.167.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D3DF07C1E7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 16:40:50 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id k19-v6so9090445lji.11
+	Thu, 17 Jan 2019 16:40:51 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id a16so8303031lfg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 08:40:52 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=vWtSbVA7mJz6C9hyERzxGRYoCQZIyBAo1eFZMKRbwz4=;
-	b=JHchH+U7v1Xh8vclVT7I9AU71B0k2vuDW0Og7BLS/IUPhwUrU8aa47mFJiOlyG4QBj
-	SaAOYDAkzzEZoDmkOeWe1fiDY6J6W/7B+tw2y8+owgIbfLPYdCLeT8PfZ76j4jTh1NSX
-	KogQiu3shw+jqpQkjWNFJnh7fw4s2hQlUzqI7Jddn5sUdczYORPok954TzKXcjijov6i
-	fmqwZG/SgGrkBQsujLXBhJXtW9ZXrUg+l7RSaPk+E+bkYTYo6nexPX+KDb8FQ8RAS3jY
-	PQLn4dzV3ML/mnCm3aDtozZ/XtYgOc0o9an6cd6SoxEtV8Wodj4bIIWv79QA2LwwmAe5
-	wPXw==
+	bh=Yuwp2O9GB0Uh9+PJgU/9pEVMegU7CqpKtd9fC+ASMwE=;
+	b=XAkOUi2kQfSOZXNhKLEsDcqu3gJnRe9X+VR6/wuew3lJNNcn0MPa29KMWVqXg77UyU
+	aPqzaAKOCHg6Y2m7B/xzPe/1+yXN+ZBevwJuHWD+B/uUKtTgs4Zi4cLNBHnL+wT+1Xjw
+	NHB0mPgWelhPp7EZpw4XyzGbD9RWZpDa3JpGsvKMxS6pqLlWTx8wukdwbNoZN9rwCBpP
+	lQ/Ohaawx7EDsTlhHBz7RxNlyo3SIPzzliyBz7bcAog7u2HaUYL+hEc42VKMXjI8rv8A
+	47KCACpYgal/omfnd+eygDEPKHE+bjYbbEWkLdcd5rkocwaPwEzxhXHkxeqf5M9ZNoIY
+	TnhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=vWtSbVA7mJz6C9hyERzxGRYoCQZIyBAo1eFZMKRbwz4=;
-	b=p99w/qpWXzOJVAXNAMiYmEgKm4/Axs7bRjGWaB7bIPF0NBBXfnbyu5UdlnOv+8MT7M
-	NXQCKD3YCTS+VQPLLHUVx8luumtiNlHik6Td612LVe2phG3fEdATXVG20iaq2zv6Orcm
-	fZ2v4VfB32b0EF3iF6gnL+CrBQu/s4iRhqCxxFi45ovPovQMGzpVg7UFphnM0yP6ZA9x
-	lx2vR1fSPQNBl5oC8NPdzVDSeuRojzvwvEd3wSwXDrqNDH9eV0YB48JKPTZ7D6JQBTvP
-	Mb/01+QghmvptdoagFI0TB//steTIXf6a+ZCdCVqpZFj8UYOCqDsh6ZpGesFDF/XGSlJ
-	cglw==
-X-Gm-Message-State: AJcUukfO95aDmxPGTsPt7OeSpvil07yArKb0ncvtapvO6EqrVAyXWXu+
-	ffeEbiC2ExOf6Ic3BtzXINz1m4FC
-X-Google-Smtp-Source: ALg8bN451pe/uAUNKzeAQl+qGnefraQMqurcY8g49cxgX5hgyWmAJ74JeIScGxCy38WEzTiiPb+WBQ==
-X-Received: by 2002:a2e:8ec8:: with SMTP id
-	e8-v6mr10062362ljl.162.1547743250782; 
-	Thu, 17 Jan 2019 08:40:50 -0800 (PST)
+	bh=Yuwp2O9GB0Uh9+PJgU/9pEVMegU7CqpKtd9fC+ASMwE=;
+	b=VtNz3y3P4vy7G0MguVeT3O+glPvw5jUF5dzDJEiJAOsaG/QbtYRTzTn79xXWvaOrEg
+	hPnAp8US3wct4/OispeahtZSmB0baS8gfMXP05twZ/Hso0XXW7mVjnV54Qmc1BgOjw8D
+	zw72cpdu5im3HuBahJmGogF0Ubdu9N/rFEIixFcu8tRvggyXt44oQjfDdtgF49+vSu8s
+	zoz9Xauz5jutBsUw7F74SbQ/40KzZ15JpzhydpigyuYW+FXvNd48FS94jQjtukWi6RiK
+	KjtsHzJhT0PNDeU2vkXI6HiiHseAPlZ+BOWA5Bqumi+wG3LkewhVmotmEgI6ITLInDDr
+	mL1Q==
+X-Gm-Message-State: AJcUuke201D0sptAIQQXOduBRFTQY9m1sBcFK1jxTtvW/X0WcdZIvuJV
+	xes/BdxHX8kxYoyNDOtL71DOrKxG
+X-Google-Smtp-Source: ALg8bN74tTFm7f3yqJE1YoP+ml206IxCKnEa1JGbnKeseVz/mZpaCIaUUeb6GVDL3VwDNKEx82kt5A==
+X-Received: by 2002:a19:1cb:: with SMTP id 194mr10659184lfb.61.1547743252009; 
+	Thu, 17 Jan 2019 08:40:52 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.49
+	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jan 2019 08:40:50 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:51 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2019 17:40:08 +0100
-Message-Id: <c20edfec89269b6af92a51afb0b05b0894eec21f.1547743126.git.alex.kanavin@gmail.com>
+Date: Thu, 17 Jan 2019 17:40:09 +0100
+Message-Id: <d77fb0a8ce2001d4f9ca0c5a4445a2633464ca1a.1547743126.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547743126.git.alex.kanavin@gmail.com>
 References: <cover.1547743126.git.alex.kanavin@gmail.com>
-Subject: [PATCHv3 23/27] testimage.bbclass: add support for passing runqemu params
+Subject: [PATCHv3 24/27] selftest: add tests for virgl GL acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,63 +57,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 16:40:51 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 16:40:52 -0000
 
-This is particularly useful when setting up GL tests.
+Note that the tests require that the host machine has a X display,
+has mesa development files installed and is able to create OpenGL contexts.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/testimage.bbclass    | 4 +++-
- meta/lib/oeqa/core/target/qemu.py | 4 ++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py | 17 +++++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 44 +++++++++++++++++++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index cb8c12accee..ff1c53b93e1 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -32,6 +32,7 @@ TESTIMAGE_AUTO ??= "0"
- # Booting is handled by this class, and it's not a test in itself.
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
- # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
-+# TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+new file mode 100644
+index 00000000000..3894962eaaf
+--- /dev/null
++++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+@@ -0,0 +1,17 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++import subprocess
++
++class VirglTest(OERuntimeTestCase):
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kernel_driver(self):
++        status, output = self.target.run('dmesg|grep virgl')
++        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
++        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
++
++    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
++    def test_kmscube(self):
++        status, output = self.target.run('kmscube')
++        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
++        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 906e460d4f8..d872544f7eb 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -168,6 +168,50 @@ class TestImage(OESelftestTestCase):
+         # remove the oeqa-feed-sign temporal directory
+         shutil.rmtree(self.gpg_home, ignore_errors=True)
  
- TEST_LOG_DIR ?= "${WORKDIR}/testimage"
- 
-@@ -65,6 +66,7 @@ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
- TEST_TARGET ?= "qemu"
- TEST_QEMUPARAMS ?= ""
-+TEST_RUNQEMUPARAMS ?= ""
- 
- TESTIMAGEDEPENDS = ""
- TESTIMAGEDEPENDS_append_qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
-@@ -294,7 +296,7 @@ def testimage_main(d):
-     try:
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
--        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"))
-+        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-         results = tc.runTests()
-     except (RuntimeError, BlockingIOError) as err:
-         if isinstance(err, RuntimeError):
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
-index f47fd7468ed..7a161a32319 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -33,11 +33,11 @@ class OEQemuTarget(OESSHTarget):
-                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
-                                  dump_host_cmds=dump_host_cmds, logger=logger)
- 
--    def start(self, params=None, extra_bootparams=None):
-+    def start(self, params=None, extra_bootparams=None, runqemuparams=''):
-         if self.use_slirp and not self.server_ip:
-             self.logger.error("Could not start qemu with slirp without server ip - provide 'TEST_SERVER_IP'")
-             raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
--        if self.runner.start(params, extra_bootparams=extra_bootparams):
-+        if self.runner.start(params, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams):
-             self.ip = self.runner.ip
-             if self.use_slirp:
-                 target_ip_port = self.runner.ip.split(':')
++    @OETestID(1883)
++    def test_testimage_virgl_gtk(self):
++        """
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
++        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
++                  2. Check that kmscube demo runs without crashing.
++        Product: oe-core
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
++        """
++        if "DISPLAY" not in os.environ:
++            self.skipTest("virgl gtk test must be run inside a X session")
++        features = 'INHERIT += "testimage"\n'
++        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
++        features += 'TEST_SUITES = "ping ssh virgl"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'IMAGE_INSTALL_append = " kmscube"\n'
++        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++
++    @OETestID(1883)
++    def test_testimage_virgl_headless(self):
++        """
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
++        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
++                  2. Check that kmscube demo runs without crashing.
++        Product: oe-core
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
++        """
++        import subprocess
++        try:
++            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
++        except subprocess.CalledProcessError as e:
++            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
++        features = 'INHERIT += "testimage"\n'
++        features += 'TEST_SUITES = "ping ssh virgl"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'IMAGE_INSTALL_append = " kmscube"\n'
++        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++
+ class Postinst(OESelftestTestCase):
+     @OETestID(1540)
+     @OETestID(1545)
 -- 
 2.17.1
 
