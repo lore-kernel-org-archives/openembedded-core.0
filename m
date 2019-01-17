@@ -1,25 +1,55 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4237F7C1A3
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 87D5579F3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 02:26:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0H2QYgm014302
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Jan 2019 18:26:34 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 16 Jan 2019 18:26:33 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Wed, 16 Jan 2019 18:26:32 -0800
-Message-ID: <20190117022632.64698-2-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190117022632.64698-1-mingli.yu@windriver.com>
-References: <20190117022632.64698-1-mingli.yu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] python3-manifest.json: add logging to rdepends
+	Thu, 17 Jan 2019 02:53:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C810418524
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id BQIRDMY2zk9Q
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3E54E183AB
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 266551A097
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1AEC41A08C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 0F2B610A9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:22 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x0H2rLfG007003
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 03:53:21 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x0H2rLQi007002
+	for openembedded-core@lists.openembedded.org;
+	Thu, 17 Jan 2019 03:53:21 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jan 2019 03:53:16 +0100
+Message-Id: <20190117025316.6956-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] extrausers.bbclass: Suggest to use IMAGE_CLASSES rather than INHERIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,74 +62,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 02:26:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Jan 2019 02:53:23 -0000
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Since this class is only useful for image recipes, it is better to
+suggest adding it via IMAGE_CLASSES instead of INHERIT in the example.
 
-Add loggging to rdepends for python3-2to3
-and python3-multiprocessing.
+Also make the example a bit more readable by indenting the variable
+values.
 
-before patch:
- # python3
- Python 3.5.6 (default, Jan 15 2019, 03:09:16)
- [GCC 8.2.0] on linux
- Type "help", "copyright", "credits" or "license" for more information.
- >>> from multiprocessing import util
- >>> util.get_logger()
- Traceback (most recent call last):
-   File "<stdin>", line 1, in <module>
-   File "/usr/lib/python3.5/multiprocessing/util.py", line 65, in get_logger
-     import logging
- ImportError: No module named 'logging'
- >>>
-
-after patch:
- # python3
- Python 3.5.6 (default, Jan 15 2019, 09:26:38)
- [GCC 8.2.0] on linux
- Type "help", "copyright", "credits" or "license" for more information.
- >>> from multiprocessing import util
- >>> util.get_logger()
- <logging.Logger object at 0xb792d94c>
- >>>
-
- Steps to reproduce:
- 1, add below line to local.conf
- IMAGE_INSTALL_append += " python3-multiprocessing"
- 2, bitbake core-image-base
- 3, runqemu qemux86 slirp nographic core-image-base
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/python/python3/python3-manifest.json | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/extrausers.bbclass | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 3641d5bd7b1..174eac63d0c 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -106,7 +106,8 @@
-     "2to3": {
-         "summary": "Python automated Python 2 to 3 code translator",
-         "rdepends": [
--            "core"
-+            "core",
-+            "logging"
-         ],
-         "files": [
-             "${bindir}/2to3-*",
-@@ -820,7 +821,8 @@
-     "multiprocessing": {
-         "summary": "Python multiprocessing support",
-         "rdepends": [
--            "core"
-+            "core",
-+            "logging"
-         ],
-         "files": [
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_multiprocessing.*.so",
+diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
+index 7709407b69..32569e97db 100644
+--- a/meta/classes/extrausers.bbclass
++++ b/meta/classes/extrausers.bbclass
+@@ -1,18 +1,17 @@
+-# This bbclass is mainly used for image level user/group configuration.
++# This bbclass is used for image level user/group configuration.
+ # Inherit this class if you want to make EXTRA_USERS_PARAMS effective.
+ 
+ # Below is an example showing how to use this functionality.
+-# INHERIT += "extrausers"
++# IMAGE_CLASSES += "extrausers"
+ # EXTRA_USERS_PARAMS = "\
+-# useradd -p '' tester; \
+-# groupadd developers; \
+-# userdel nobody; \
+-# groupdel -g video; \
+-# groupmod -g 1020 developers; \
+-# usermod -s /bin/sh tester; \
++#     useradd -p '' tester; \
++#     groupadd developers; \
++#     userdel nobody; \
++#     groupdel -g video; \
++#     groupmod -g 1020 developers; \
++#     usermod -s /bin/sh tester; \
+ # "
+ 
+-
+ inherit useradd_base
+ 
+ PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
 -- 
-2.17.1
+2.12.0
 
 
