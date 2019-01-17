@@ -1,20 +1,20 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ED106BA0E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA337C1A9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 09:52:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0H9qVIb023496
+	Thu, 17 Jan 2019 09:52:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0H9qhwD018304
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 01:52:32 -0800 (PST)
+	Thu, 17 Jan 2019 01:52:43 -0800 (PST)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 17 Jan 2019 01:52:25 -0800
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 17 Jan 2019 01:52:43 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Jan 2019 17:52:22 +0800
-Message-ID: <1547718744-239476-1-git-send-email-changqing.li@windriver.com>
+Date: Thu, 17 Jan 2019 17:52:40 +0800
+Message-ID: <1547718761-239575-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <CAJTo0LZbjMKrjDO-NgFkhv3FHPfoDxhXFCuBpiFnj8O+iAYpaw@mail.gmail.com>
 References: <CAJTo0LZbjMKrjDO-NgFkhv3FHPfoDxhXFCuBpiFnj8O+iAYpaw@mail.gmail.com>
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 09:52:31 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 09:52:42 -0000
 Content-Type: text/plain
 
 change in V2:
