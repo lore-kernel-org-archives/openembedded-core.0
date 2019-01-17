@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
-	[209.85.167.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 025737C24A
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D2037C16C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 16:40:46 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id a8so8307509lfk.5
+	Thu, 17 Jan 2019 16:40:48 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id c16so8293001lfj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 08:40:48 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eWPDj60+exZxV/yyvQsNANQL16N11ETa87iyMcQicMY=;
-	b=Z0loeWyjooTo2OeSUCPrgeIZI1Thw6xFOdjJTPmUHdk4goDG9K/5aDGQkfJan2lYYQ
-	1wclKqaL+4VxXePKvbu5ZH58ZIqD8Rr86GqAPXbDmamYTU75K1dYTzaoOttalcGdUjfb
-	grdC27DPeFk1pIruMDv/h1LPcz1hR+bh6vrGnVMK4Vp2tImh4hOZBITv2TfDFA8rE1sX
-	1p4nGUc+moIfpMyqWVMBe6UAztaWLtTFw+HtKMP+mu8K1BQFm/YLR0BeSpQ+FhScebBK
-	/pOLCkCx2j7ITlBSBWGI8u3v7lLJ4muwqMy+cLK9BbY2V+UPbmLmzFWtB7w0yKot4nf9
-	BHKw==
+	bh=0ZBMVtt/sUnMLDkQBOkirOk9nhyxBuHeva6+wuZhjvo=;
+	b=m1CoZ8k42B/MKKgN34xolLN+vfcCFYp4f7jYaOM3hYhUp2/cINRrRC/YieiBwraiyz
+	Fkgy6oOrJO6OeTF7K+RaCsUySo9c1mFpJqY7SPfeDMYy7mMfFzw289wJgoK5DnylvCH2
+	gmms1fhNHb+PEl8okJEtsfZYR2AniqFkdcS16Ll9ow/xZAtvjC6M7hax/GNDPRvGNvxq
+	ACf6FUZBx/P4mmpLGUMCs44/M5QvCNHuL2yw2OFAX10UuoXWdLBfUsyy/ZJ+ZP1IO8NK
+	XnlykeoAkYSYPSDdF0tv+lmbDzT1r2bxoccbQmFlw9COswAON55ZcdGMoCXBsPyQskrn
+	4zsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eWPDj60+exZxV/yyvQsNANQL16N11ETa87iyMcQicMY=;
-	b=dnH7F15yl4OUbj6Co9Kr2Ay1fABk15Ow0t5mGC751Fl/wI6MrWCtSWHgP7DpkdVa4E
-	6kI9pyR3fU0/dwqn4M54uE1p0nojqFuyHQv2yU1dCNOi0YQpc57GHfxwX4xTfc8YdjD/
-	wYfD4U2X6WjZ+hE80k5TcmhUdI+TicarLB5Xews/aLsiuMbvNAxoQ9PdIDAm9vMHj1RM
-	2+q8CLh2g0wbr0WUDxHqIi1GtHAgJZE1WoAKpdOI2luZpt8I9eue4zjfmYxsrU3ocEiu
-	zk8hRAA0nxlfAFX73tiLsgfwCRoB8Gb1sBs1wrtwJCfwu6z7S5mH6lua0HyBKZYwHTQC
-	txTw==
-X-Gm-Message-State: AJcUukfzQQ9fSIzwx7C2LE3ATzXISy15i8HNadtF5whQPxSqtUPSsXO3
-	lqHNi0SkUzAfvGQ8FuHFjq+Oim6g
-X-Google-Smtp-Source: ALg8bN5NHlan4HdLTE1oNIMjUnLwgRK0ArRekmw7AGW4EGYBtwHzC8rnJ9t3hZQFGzcTXoJiPVsuIA==
-X-Received: by 2002:a19:ef15:: with SMTP id n21mr11157042lfh.21.1547743247014; 
-	Thu, 17 Jan 2019 08:40:47 -0800 (PST)
+	bh=0ZBMVtt/sUnMLDkQBOkirOk9nhyxBuHeva6+wuZhjvo=;
+	b=lUTcniGqwGzzwf32/hzcZhcFMW7VXpiAh6V3fTYz+2j9twu/+eBXfRUlBefdk2Z2Al
+	vmpCvPbuL9KcNYLhL6XJa4PpJjwfmllTAa8MgVX9ikHkqOfeWyvJ32jr5uDxXRmiQe9Z
+	/EOglGBxRWjclhriRBEHEOrJM/x9CKfO66yCQG/CRCWpr+MqLb/cCVb64vq3NW8lL1VK
+	u0kDAFiVoaCBWxMVDjxnbP8GNFYLQXSGlwCY+kpxBwO4CEx1H3ppkUGmpUiiam7UQjXX
+	n5tItaq2QwTViCVgf4IdI+jYZEOKziNGgB3OWQfOJbzL90DEDlIvjImfr9ITgvys1Jhc
+	zgMA==
+X-Gm-Message-State: AJcUukeqW/K7RoycN/BOC3T62wptc9t9SGNpoQsleAHw8jY2dDX1Slra
+	VWDiD0q5yHqovhKSeMhfZ7L3HJ1k
+X-Google-Smtp-Source: ALg8bN5Tp/MyIh42tF07H4nXI50aHEBEIF44Pm2TCekguOnQvWEhEEs003gLTXUSu74odWYHEiuUJg==
+X-Received: by 2002:a19:6806:: with SMTP id d6mr10429541lfc.48.1547743248245; 
+	Thu, 17 Jan 2019 08:40:48 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.45
+	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jan 2019 08:40:46 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:47 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2019 17:40:05 +0100
-Message-Id: <984d63c9b6f5ec8b11cfc9489728b2aea62c5033.1547743126.git.alex.kanavin@gmail.com>
+Date: Thu, 17 Jan 2019 17:40:06 +0100
+Message-Id: <7a5117cde28fa1383dbf5c847db559790ae5d3ae.1547743126.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547743126.git.alex.kanavin@gmail.com>
 References: <cover.1547743126.git.alex.kanavin@gmail.com>
-Subject: [PATCHv3 20/27] qemu: add a backported patch to fix egl-headless support
+Subject: [PATCHv3 21/27] runqemu: add support for virgl GL acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +57,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 16:40:47 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 16:40:49 -0000
+
+Also, do not hardcode -vga option to qemu, set it according to command line parameters.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-egl-headless-add-egl_create_context.patch | 50 +++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.1.0.bb      |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
+ meta/conf/machine/include/qemuboot-x86.inc |  2 +-
+ scripts/runqemu                            | 25 ++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch b/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
-new file mode 100644
-index 00000000000..d9326c017ad
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
-@@ -0,0 +1,50 @@
-+From 952e5d584f5aabe41298c278065fe628f3f7aa7a Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Thu, 29 Nov 2018 13:35:02 +0100
-+Subject: [PATCH] egl-headless: add egl_create_context
-+
-+We must set the correct context (via eglMakeCurrent) before
-+calling qemu_egl_create_context, so we need a thin wrapper and can't
-+hook qemu_egl_create_context directly as ->dpy_gl_ctx_create callback.
-+
-+Reported-by: Frederik Carlier <frederik.carlier@quamotion.mobi>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Message-id: 20181129123502.30129-1-kraxel@redhat.com
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=952e5d584f5aabe41298c278065fe628f3f7aa7a]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ ui/egl-headless.c | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-+index 4cf3bbc0e4..519e7bad32 100644
-+--- a/ui/egl-headless.c
-++++ b/ui/egl-headless.c
-+@@ -38,6 +38,14 @@ static void egl_gfx_switch(DisplayChangeListener *dcl,
-+     edpy->ds = new_surface;
-+ }
-+ 
-++static QEMUGLContext egl_create_context(DisplayChangeListener *dcl,
-++                                        QEMUGLParams *params)
-++{
-++    eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
-++                   qemu_egl_rn_ctx);
-++    return qemu_egl_create_context(dcl, params);
-++}
-++
-+ static void egl_scanout_disable(DisplayChangeListener *dcl)
-+ {
-+     egl_dpy *edpy = container_of(dcl, egl_dpy, dcl);
-+@@ -150,7 +158,7 @@ static const DisplayChangeListenerOps egl_ops = {
-+     .dpy_gfx_update          = egl_gfx_update,
-+     .dpy_gfx_switch          = egl_gfx_switch,
-+ 
-+-    .dpy_gl_ctx_create       = qemu_egl_create_context,
-++    .dpy_gl_ctx_create       = egl_create_context,
-+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
-+     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
-+     .dpy_gl_ctx_get_current  = qemu_egl_get_current_context,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_3.1.0.bb b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-index cd7cd67a3f0..ea4277eddea 100644
---- a/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
-            file://0001-Add-a-missing-X11-include.patch \
-+           file://0001-egl-headless-add-egl_create_context.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 5fdbe4df50e..574b7bbfc7d 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -11,7 +11,7 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
+ QB_AUDIO_DRV = "alsa"
+ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
+-QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
++QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
  
+diff --git a/scripts/runqemu b/scripts/runqemu
+index c4a0ca811d9..12372bb7d84 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -74,6 +74,9 @@ of the following environment variables (in any order):
+   MACHINE - the machine name (optional, autodetected from KERNEL filename if unspecified)
+   Simplified QEMU command-line options can be passed with:
+     nographic - disable video console
++    gl - enable virgl-based GL acceleration
++    gl-es - enable virgl-based GL acceleration, using OpenGL ES
++    egl-headless - enable headless EGL output; use vnc or spice to see it
+     serial - enable a serial console on /dev/ttyS0
+     serialstdio - enable a serial console on the console (regardless of graphics mode)
+     slirp - enable user networking, no root privileges is required
+@@ -427,12 +430,30 @@ class BaseConfig(object):
+                 sys.argv.remove(quiet)
+ 
+         unknown_arg = ""
++        displayopts = ' -vga vmware'
+         for arg in sys.argv[1:]:
+             if arg in self.fstypes + self.vmtypes:
+                 self.check_arg_fstype(arg)
+             elif arg == 'nographic':
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
++            elif arg == 'gl':
++                displayopts = ' -vga virtio -display gtk,gl=on'
++            elif arg == 'gl-es':
++                displayopts = ' -vga virtio -display gtk,gl=es'
++            elif arg == 'egl-headless':
++                displayopts = ' -vga virtio -display egl-headless'
++                try:
++                    # As runqemu can be run within bitbake (when using testimage, for example),
++                    # we need to ensure that we run host pkg-config, and that it does not
++                    # get mis-directed to native build paths set by bitbake.
++                    del os.environ['PKG_CONFIG_PATH']
++                    del os.environ['PKG_CONFIG_DIR']
++                    del os.environ['PKG_CONFIG_LIBDIR']
++                    dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
++                except subprocess.CalledProcessError as e:
++                    raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
++                os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
+             elif arg == 'serial':
+                 self.kernel_cmdline_script += ' console=ttyS0'
+                 self.serialconsole = True
+@@ -461,6 +482,9 @@ class BaseConfig(object):
+                 self.qemu_opt_script += ' -bios %s' % arg[len('biosfilename='):]
+             elif arg.startswith('qemuparams='):
+                 self.qemu_opt_script += ' %s' % arg[len('qemuparams='):]
++                # if -vga is passed via qemuparams, default value should no longer apply
++                if '-vga' in self.qemu_opt_script:
++                    displayopts = ""
+             elif arg.startswith('bootparams='):
+                 self.bootparams = arg[len('bootparams='):]
+             elif os.path.exists(arg) or (re.search(':', arg) and re.search('/', arg)):
+@@ -478,6 +502,7 @@ class BaseConfig(object):
+                     raise RunQemuError("Can't handle two unknown args: %s %s\n"
+                                        "Try 'runqemu help' on how to use it" % \
+                                         (unknown_arg, arg))
++        self.qemu_opt_script += displayopts
+         # Check to make sure it is a valid machine
+         if unknown_arg and self.get('MACHINE') != unknown_arg:
+             if self.get('DEPLOY_DIR_IMAGE'):
 -- 
 2.17.1
 
