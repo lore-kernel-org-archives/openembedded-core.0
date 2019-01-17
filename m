@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 60DB87997C
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C6E27C1B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 12:06:10 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id l14so7592882ioj.5
+	Thu, 17 Jan 2019 14:34:12 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id u89-v6so8777457lje.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 04:06:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 17 Jan 2019 06:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vxEbAMH2vrYVoI7QnEJz7GgxxdwTwI65fczqCrn5sSE=;
-	b=0JYQUWFbrEcxQ/9mqKdEZa69gIRkPC5pgfgmmuVyPE0yj81RkLcXAdWX6UONT4Pa0h
-	peW7TBq0k8+ZGbFk3rxhZUuom8tyDUgHmAM/oUdUE3rm9CYU70vSfvASP/KOgG1KAPJX
-	QSWzeJeG7ubMtLJJmbu61ZMjzO0uHjPdIEWFOsYaaZkHKmBgzPBiccjh8zmf8LEUP7L4
-	+1/thMG8cj4IDVVGtsvpggqxfkKc1S9xDky/bQsAD/Vb+ZJ8p4kKnjdccNNzArc9CnVh
-	4od704STt3wm4G2dvI/fEK+toPjiXgtKlJhdu3X6fJXjSi9tGsmcBA5in4RK17p3mXlT
-	+ISA==
+	:cc; bh=+6/EBkcBXTnoJ3CM2xcN8B2JMRgbAvMxHoB/mOzVNKA=;
+	b=k5K0LcWj/Y8BAeczrnouA9dXd0Vju1ZAODv+t/yzHOA9J1zb+kEkKa4iraEyRJLJOd
+	y28Zhtl+OlRLKxoRoeTzRHfYYE0YkFm7560DsXXCpb97z8E5IFLfPga7+FK2pXSILjiM
+	v7SIYHvuiaMNI2WVNPA7+Ia3cqwl8rcPP85pgyqaOI/4ABkfN/dwZfdXvsL1zfZU0nBH
+	LVrk/CzKit8FXaEFlkswWekOWmg6rP8834jptm0JEptZTOPWBNDBWeBkwQKtPI3vDC2D
+	8EB14ExxcHx1b6q4sxfjSvBfasI6NVnZyYLc9/hW7Dsibpd5FDrQbjDltMwbGb43TrYE
+	eBMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=vxEbAMH2vrYVoI7QnEJz7GgxxdwTwI65fczqCrn5sSE=;
-	b=SvEIV6dm+zddbnA+ji0/BZpW3ea9JsRM7UbWLl1wE4ugwdwIMEO8PAa67xyJP3cPgU
-	9NJpWM/CTcTCmQdU/iMQhj/Sp08EQDjnQQ7bAJyeYqaWGQDflVxVl1oFSvq8+0m6JSq+
-	uQ2A/EBtXE/W6kRkVQpx2cCRvtJQxvj+OwqTod7jUsRidtH6Ii/m4l8xeL1jvINN/vuJ
-	GUKwmHiTmKo5bCNW7gxwm16QUNcd4tbF4u2KF/CpKCzUEnAcpxtnacv1PwDB6+Vst1hB
-	e4zKzt0vtu7R8frl6rAV+08szEldiWAxfMf/ZQygnunNe0zXSu0CIXa27ReSyRBjPpOc
-	foeQ==
-X-Gm-Message-State: AJcUukflb8iLPniuOQPMErXeOVBYaCudRZIashGgaSdZfJEsdjlFOGYb
-	C5NNMEVuhMQ+irPmnA0gAgI9YtDs1Y5Cuu2W6u8Lvw==
-X-Google-Smtp-Source: ALg8bN7oZZ897jfHBOmGuGbpjuXlMFvrXf4Kh2gXJZgMmlPxiz+6vM1ljcUwBoe7C/G9lHrtVU+yuAFf4Pa+S+akki4=
-X-Received: by 2002:a5e:820d:: with SMTP id l13mr7075101iom.201.1547726771333; 
-	Thu, 17 Jan 2019 04:06:11 -0800 (PST)
+	bh=+6/EBkcBXTnoJ3CM2xcN8B2JMRgbAvMxHoB/mOzVNKA=;
+	b=d0UFZCBuSxb5RdTZOfLnvecBmHISle/+Jg95ssLNdXPJPH/m78eaGGm1AvHytOFfbv
+	f9avvLiloN83uNrjDeycQYPWnsuynGFv6f+LXJCGkgBPrPNVV/Mhs8Tfl0sq2IXxjQ0O
+	JluwsR2lFGCYOtWfLMguO0xDbcTZMeCFEMb+OgqA8xY/KAmd8uhJu1ucaW+GFGhqSGex
+	hqsz+MWmzFHoLqnaf43zIuPXghKF5SLCGZ5dcENveRyiqetj8uuCSfmeyzEAd2YZYZ0Q
+	2vD6SG7e06vXHnKzT19Hb8LC8ZLdRtHM3c27WHTNPgTb6PVk25xEg+1y4oPo3qgiVPXw
+	5B6A==
+X-Gm-Message-State: AJcUukc+gfxgKTnG2StgHggv3LF2lKQs4oY5Ns8+ggq7efDhJX5khJNS
+	opwkWVdvx50rzFZY7QQo9Xz2JVg9VV57/JX0O2g=
+X-Google-Smtp-Source: ALg8bN6IznJa6UKkbpAoT1eY97hUxse4zOyp3eiFq2HPEiUdWqIZQzPG3qw+6SonkEWlhjSIBsFdKCxgcYPHLn/YrSA=
+X-Received: by 2002:a2e:7e04:: with SMTP id z4-v6mr9852254ljc.97.1547735652597;
+	Thu, 17 Jan 2019 06:34:12 -0800 (PST)
 MIME-Version: 1.0
-References: <CAJTo0LZbjMKrjDO-NgFkhv3FHPfoDxhXFCuBpiFnj8O+iAYpaw@mail.gmail.com>
-	<1547718761-239575-1-git-send-email-changqing.li@windriver.com>
-	<1547718761-239575-2-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1547718761-239575-2-git-send-email-changqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Jan 2019 12:06:00 +0000
-Message-ID: <CAJTo0LZKFXDNUUvo==S+7BjM1s5OZxOffq-einXho6M9A8mvyg@mail.gmail.com>
-To: changqing.li@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] populate_sdk_base: provide options to set sdk type
+References: <20190117071227.57387-1-kai.kang@windriver.com>
+In-Reply-To: <20190117071227.57387-1-kai.kang@windriver.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Thu, 17 Jan 2019 08:34:00 -0600
+Message-ID: <CACS+7ZTP43cySzvjex=beDWvJU=qh-jMC9G_RFDA_BRkWZRyoQ@mail.gmail.com>
+To: kai.kang@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: reset default value of DEBUG_PREFIX_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 12:06:10 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 14:34:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 17 Jan 2019 at 09:53, <changqing.li@windriver.com> wrote:
-> +OVERRIDES_append = ":${SDK_ARCHIVE_TYPE}"
+On Thu, 17 Jan 2019 at 01:13, <kai.kang@windriver.com> wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Reset default value of DEBUG_PREFIX_MAP with '-fdebug-prefix-map'.
+> Specifying -fdebug-prefix-map is equivalent to specifying all the
+> individual -f*-prefix-map options which means including
+> -fmacro-prefix-map and -fdebug-prefix-map currently. Option
+> -fmacro-prefix-map helps to avoid buildpaths qa warnings which caused
+> by __FILE__ macro expansion for packages such as llvm and librepo.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/conf/bitbake.conf | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 0bdcd04d74..d20460e845 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -599,9 +599,9 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
+>  # Optimization flags.
+>  ##################################################################
+>  # Beware: applied last to first
+> -DEBUG_PREFIX_MAP ?= "-fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
+> -                     -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+> -                     -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+> +DEBUG_PREFIX_MAP ?= "-ffile-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
+> +                     -ffile-prefix-map=${STAGING_DIR_HOST}= \
+> +                     -ffile-prefix-map=${STAGING_DIR_NATIVE}= \
+>  "
+>  DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
+>
 
-Pretty sure RP will reject the patch based on this.  Adding overrides
-is not to be taken lightly.  Should be simple enough to rewrite the
-logic to not use overrides directly.
+I like the idea of this, but it will break meta-clang until either 1)
+https://reviews.llvm.org/D49466 lands, or 2) meta-clang sets its own
+DEBUG_PREFIX_MAP.
 
-Ross
+> --
+> 2.20.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
