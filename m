@@ -1,56 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3337C04D
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 34D217C216
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 22:19:12 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a62so2723926wmh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 14:19:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Zja8iQu4aO5UtCRg7xFc/QdIARvNbymn+p3+fHC+mcU=;
-	b=bENAKu0883Q55aa93rfHPdLQyflPOsfWOn95MCuUvBxpoJMOVrHaISssfqcwtdmFTj
-	vbao7+NoPsbwdB1bLKpDINdrhKHLHvWQWWlEcg53o8TpqN7Vo7ugWJNIKJ9N08tQxIzK
-	CbN7R9ywl4KYDysGLMkyM2QY64BeSiAd42p5U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Zja8iQu4aO5UtCRg7xFc/QdIARvNbymn+p3+fHC+mcU=;
-	b=bubD8dQHA7BymM6LxQhfXPfsl5rurHzz1V4zz2+JGKUmesscUu//1369HP2OUhy2Ij
-	ROVJD4yV3yVYQUR+5VtT4o+qFk8f4mnq/z3Az+q0/f9Y8GcI8SuHDd3b6w2vIDZvGHQV
-	CAb4KtEWy1YWMB6DLulEHO7Tm9FbolIwzBpSG/TYa9anK8zUqJCgJ+0uCtf1WKW61iyM
-	OLsT0U+xI9waFirNZxWZSqUDVWi+qJSBNUNANY+AE7Hrttoj6tVIZaofGKS+IiBLNMnp
-	tV3MOKbWdhLAe5M8Odk0b7se74EUrENLtFZDDtRvYf+0uam9MkSK0Em2DFklogJxFHSh
-	+t+A==
-X-Gm-Message-State: AJcUuke8wQRHyn+JzwKnbQt8BW7wE5rKd7qHD4Bj8oMlEXNaZx4j0bnX
-	hhhKTlK/Xky+DYjs8fDtswzoqQ==
-X-Google-Smtp-Source: ALg8bN5U92BBP6lb2pVFdEUyS5KQgw3aUQuOMaWZwnQCPJ9bemyVIdKsm82J/5+G/thFTUZGHFzwvg==
-X-Received: by 2002:a1c:b53:: with SMTP id 80mr12621406wml.121.1547763553309; 
-	Thu, 17 Jan 2019 14:19:13 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p5sm22506062wmh.16.2019.01.17.14.19.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 17 Jan 2019 14:19:12 -0800 (PST)
-Message-ID: <279b2108baf4002f4349ae1a8f9a0d5ace941ac3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dan Dedrick <dan.dedrick@gmail.com>, Kang Kai <Kai.Kang@windriver.com>
-Date: Thu, 17 Jan 2019 22:19:11 +0000
-In-Reply-To: <CAO-9+V9nXGn+2fgTcCsxKCD3_tBed6=gSm16ceK7ANs=T8egNA@mail.gmail.com>
-References: <cover.1536248856.git.kai.kang@windriver.com>
-	<2824ade62c3ec58c96074aba632740a8118c15f2.1536248856.git.kai.kang@windriver.com>
-	<20180913182007.GA1437@jama> <20180913201046.GB1437@jama>
-	<20180914112512.GA1369@jama> <20180914141236.GD1369@jama>
-	<dabc02da-9972-8e06-6624-a567f8aefe48@windriver.com>
-	<CAO-9+V9nXGn+2fgTcCsxKCD3_tBed6=gSm16ceK7ANs=T8egNA@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/7] allarch: only enable allarch when multilib is not used
+	Fri, 18 Jan 2019 00:00:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0HNxQmu032187
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Jan 2019 15:59:36 -0800
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 17 Jan 2019 15:59:15 -0800
+To: Douglas Royds <douglas.royds@taitradio.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190116225154.12180-1-douglas.royds@taitradio.com>
+	<b08ee857fa323713a81f69c756169807f62a2ba2.camel@linuxfoundation.org>
+	<48037e45-c43c-ad6e-8b99-a4b797e601d8@taitradio.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
+Date: Thu, 17 Jan 2019 18:59:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <48037e45-c43c-ad6e-8b99-a4b797e601d8@taitradio.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH] cmake.bbclass: make cleaning of build directory on configure optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,81 +38,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 22:19:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Jan 2019 00:00:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-01-17 at 11:10 -0500, Dan Dedrick wrote:
-> I'm resurrecting this thread because this change negatively affects
-> our use of multilib. The use case that this is fixing seems to be a a
-> case that would be a better fit for multiconfig than it would
-> multilib. My interpretation of the use cases of multilib and
-> multiconfig is as follows and someone can correct me if this is
-> wrong.
-
-I think the problem here is there is no correct answer which will work
-for everyone.
-
-People don't expect that it would build openssl if you build lib32-curl 
-and you could certainly get systems where only lib32-openssl was used
-or desired.
-
-I don't think its related to multiconfig, its just that people have
-different expectations of multilib.
-
-> Multilib allows images to be built that support multiple
-> architectures on the same image. Specifically this use case is
-> interesting for cases where some library or tool has to be 32-bit
-> (for whatever reason might apply) but the rest of the image is 64-
-> bit. For example we have a 32-bit library from a third party vendor
-> and that vendor won't provide us with a 64-bit version. So we want
-> the majority of our system to be 64-bit but need multilib to support
-> the subset of our image that needs to be 32-bit. The result is that
-> some portion of our image has to be 32-bit but whenever possible we'd
-> like to be using the 64-bit packages to reduce duplicating packages
-> between 32 and 64 bit.
-
-For your usecase I can see the justification. The fact remains we had
-users complaining about this behaviour too though.
-
-> Multiconfig allows for multiple configs and seems well suited to
-> cases where there are separate images for each config. So you could
-> have a 32-bit image from one config and a 64-bit image from another
-> config. If no image cross-contamination is required, as seems to be
-> the intent of the request here, then multiconfig can ensure that
-> while not reducing the usefulness of allarch. The original scenario
-> seemed to follow this pattern where there is a lib32-core-image-sato
-> and a core-image-sato.
+On 1/16/19 7:38 PM, Douglas Royds wrote:
+> On 17/01/19 12:01 PM, Richard Purdie wrote:
 > 
-> In our multilib case we want the behavior from before this change. So
-> in the specific use case of 'lib32-curl -> ca-certificate -> openssl'
-> we actually want this. The reason behind this being the desired
-> behavior is that the main architecture would certainly already
-> require openssl so adding the 32-bit version would cause duplication
-> and therefore increase our images size unnecessarily. In the past we
-> had actually found that installing some duplicate things that
-> overlapped like "/usr/bin/openssl" would cause racey behavior where
-> sometimes we got the 32-bit version and others we got the 64-bit
-> version.
+>> On Thu, 2019-01-17 at 11:51 +1300, Douglas Royds wrote:
+>>> From: Sam Nobs <samuel.nobs@taitradio.com>
+>>>
+>>> The do_configure task is sensitive to changes in recipes and
+>>> configuration files.
+>>> This can be time consuming because cmake.bbclass deletes the ${B}
+>>> directory
+>>> at the beginning of the do_configure task. CMake figures
+>>> out what to do when it's run again, so unless your cmake files are
+>>> buggy, there shouldn't
+>>> be any need to erase the build directory and start afresh.
+>>>
+>>> This change allows you to turn this behaviour off, either globally or
+>>> on a per-recipe basis, e.g.
+>>>
+>>> OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE_pn-yourrecipe = ""
+>>>
+>>> Signed-off-by: Sam Nobs <samuel.nobs@taitradio.com>
+>>> ---
+>>>   meta/classes/cmake.bbclass | 23 ++++++++++++++++++-----
+>>>   1 file changed, 18 insertions(+), 5 deletions(-)
+>> This may give a speed boost for some cases but it does come at a
+>> potential risk of determinism issues.
+>>
+>> I appreciate you've made it configurable but that actually further
+>> concerns me as we now have two code paths which potentially both have
+>> to be tested.
+>>
+>> Is this change really worth it?
+>>
+>> Cheers,
+>>
+>> Richard
 > 
-> Additionally the removal of allarch from all multilib builds also
-> seem like a poor choice as multilib builds now lose all of the
-> benefits that are generally available from allarch.
+> 
+> For us, the benefit is beyond question - on our proprietary C++ 
+> component, the compile from scratch after a configure is punishing, 10s 
+> of minutes per MACHINE.
+> 
+> We are counting on binary reproducibility to flush out any determinism 
+> issues with the CMake code, that is, we will be comparing our 
+> incremental builds with our clean builds. Note also that we are deleting 
+> all the generated CMake artefacts, but leaving the object files behind. 
+> CMake will force a complete rebuild should there be any change in the 
+> CFLAGS and friends.
 
-I never liked that side of this either, however, generically fixing the
-problems reported was effectively "impossible" any other way as far as
-I could see.
+Douglas,
 
-For your use case it should be possible to "coerce" the lib32-X allarch
-recipes to prefer the "normal" architecture and get the old behaviour
-back? The main cost would be buildtime of two sets of allarch recipes
-but that in the scheme of things should be small...
+What workflow are you trying to optimize?
 
-Its a difficult situation which I can see both sides of.
+If you're strictly changing existing source files
+then you shouldn't need to run configure again so I'm confused.
 
-Cheers,
+Also, have you tried using ccache as per:
+    d014c8c11f cmake.bbclass: Make it work with ccache
+and if so why doesn't that work for you?
 
-Richard
+Thanks,
+../Randy
+
+> 
+> 
+>>> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+>>> index fa7f68c99b..b9ec68ac9a 100644
+>>> --- a/meta/classes/cmake.bbclass
+>>> +++ b/meta/classes/cmake.bbclass
+>>> @@ -63,6 +63,11 @@ EXTRA_OECMAKE_BUILD_prepend_task-install =
+>>> "${PARALLEL_MAKEINST}"
+>>>   OECMAKE_TARGET_COMPILE ?= "all"
+>>>   OECMAKE_TARGET_INSTALL ?= "install"
+>>> +# Clean the build directory before configuring.
+>>> +# Some recipes don't want/need this as cmake is perfectly
+>>> +# capable of figuring out what to do, so we allow it to be turned
+>>> off
+>>> +OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE ??= "true"
+>>> +
+>>>   # CMake expects target architectures in the format of uname(2),
+>>>   # which do not always match TARGET_ARCH, so all the necessary
+>>>   # conversions should happen here.
+>>> @@ -133,12 +138,20 @@ cmake_do_configure() {
+>>>           bbnote "cmake.bbclass no longer uses
+>>> OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds
+>>> with B=WORKDIR/build."
+>>>       fi
+>>> -    if [ "${S}" != "${B}" ]; then
+>>> -        rm -rf ${B}
+>>> -        mkdir -p ${B}
+>>> -        cd ${B}
+>>> +    if [ ${@oe.types.boolean('${OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE
+>>> }')} = True ]; then
+>>> +        if [ "${S}" != "${B}" ]; then
+>>> +            rm -rf ${B}
+>>> +            mkdir -p ${B}
+>>> +            cd ${B}
+>>> +        else
+>>> +            # For an in-tree build, delete all object files
+>>> and CMake artefacts
+>>> +            find ${B} -name CMakeFiles -or -name Makefile
+>>> -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
+>>> +        fi
+>>>       else
+>>> -        find ${B} -name CMakeFiles -or -name Makefile -or -name
+>>> cmake_install.cmake -or -name CMakeCache.txt -delete
+>>> +        # Selectively delete CMake artefacts to ensure that -c
+>>> configure has a consistent result
+>>> +        rm -f CMakeCache.txt
+>>> +        cmake_version=$(cmake --version | head -1 | sed
+>>> 's#^[^0-9]*\([0-9.]*\).*$#\1#' )
+>>> +        rm -fr CMakeFiles/$cmake_version/
+>>>       fi
+>>>       # Just like autotools cmake can use a site file to cache result
+>>> that need generated binaries to run
+>>> -- 
+>>> 2.17.1
+>>>
+> 
 
 
+-- 
+# Randy MacLeod
+# Wind River Linux
 
