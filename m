@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
-	[209.85.208.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 64EC07C1E7
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+	[209.85.208.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B8EE17C226
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 16:40:49 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id v15-v6so9076846ljh.13
+	Thu, 17 Jan 2019 16:40:50 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id k19-v6so9090445lji.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 08:40:50 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TdRjFDNlsvPmOIWFUl4swW8nG0ZMDwlUqbvYfHyeEmY=;
-	b=uWq9CLi1R08tLF/x8PJ/IEZFTLEESHahZP7OBR16I0oSd+JwlTNxurlEMVEvAhUNyK
-	MmE85atvqolFJ3WnE00ISIUCD0o6ozIxrj8P0LzEvSmEVHFs2sMM3RvoXRgxr6PGK4Yx
-	4RTKw+o0keMQBBIHNam7fpxLEGzAxHcs/sTC0KNrL9ze6BSOgqO3eww55YXQQAJWGud8
-	ZVRJpAlsSvGpTjWb52fOUmqaydyqT/CFTZoPb1e7Yy5NCMDJcbRYDeFFk7MwHGz3l5wv
-	8hYFqjZpGFEIQeccsOfEIVtNaV+J1Zxzpl1/dsjQz8YlPi3fS/uPiM46397+JLQjDGTG
-	hliQ==
+	bh=vWtSbVA7mJz6C9hyERzxGRYoCQZIyBAo1eFZMKRbwz4=;
+	b=JHchH+U7v1Xh8vclVT7I9AU71B0k2vuDW0Og7BLS/IUPhwUrU8aa47mFJiOlyG4QBj
+	SaAOYDAkzzEZoDmkOeWe1fiDY6J6W/7B+tw2y8+owgIbfLPYdCLeT8PfZ76j4jTh1NSX
+	KogQiu3shw+jqpQkjWNFJnh7fw4s2hQlUzqI7Jddn5sUdczYORPok954TzKXcjijov6i
+	fmqwZG/SgGrkBQsujLXBhJXtW9ZXrUg+l7RSaPk+E+bkYTYo6nexPX+KDb8FQ8RAS3jY
+	PQLn4dzV3ML/mnCm3aDtozZ/XtYgOc0o9an6cd6SoxEtV8Wodj4bIIWv79QA2LwwmAe5
+	wPXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TdRjFDNlsvPmOIWFUl4swW8nG0ZMDwlUqbvYfHyeEmY=;
-	b=HkONB7xhEh7hGIhZZ20pTlr83uKu0My9u7423qj32cK3yiwF7nW7bpG33leYIgWCle
-	3hYwzu15TcFhK3PfIIaNeqSNlrcFv2wLKe0efNeCMEqgkKFzuA5iABy+dpVXrc5ki3wx
-	xbnMEqeCABleLUql9h1HVQSOtKcnx2IrN1B/Qy7/8l2nNN8ZZN9GIUquALYcuXV8korj
-	3iGOBXpjwCtwghyXl20UUfBHXqJy/TtYkqdjb9ZSm1AiPgezstvx42Jx+/QnmbiDM2dE
-	/hAzyHt/FcHhKteAOptbsy+XZyu14KIELs1BhI1LkyUX9MXjQ5uFwR9XgPK0U/CBHqEI
-	StbQ==
-X-Gm-Message-State: AJcUukcbsVIfxmqoc0Bq1StLmmUuMJq52aF2kRgmodbAH0r7jCYaJPR7
-	WlOhJ/aLu1FXKYzVpcxWU+S6Fe+N
-X-Google-Smtp-Source: ALg8bN7hhbRWJ/9UdOMo51blyyTijKkxryDFAkmcF9so4eVQwTDOLtUECowjrH5JM6ZUvABRPC3Yeg==
-X-Received: by 2002:a2e:4819:: with SMTP id
-	v25-v6mr10847718lja.2.1547743249710; 
-	Thu, 17 Jan 2019 08:40:49 -0800 (PST)
+	bh=vWtSbVA7mJz6C9hyERzxGRYoCQZIyBAo1eFZMKRbwz4=;
+	b=p99w/qpWXzOJVAXNAMiYmEgKm4/Axs7bRjGWaB7bIPF0NBBXfnbyu5UdlnOv+8MT7M
+	NXQCKD3YCTS+VQPLLHUVx8luumtiNlHik6Td612LVe2phG3fEdATXVG20iaq2zv6Orcm
+	fZ2v4VfB32b0EF3iF6gnL+CrBQu/s4iRhqCxxFi45ovPovQMGzpVg7UFphnM0yP6ZA9x
+	lx2vR1fSPQNBl5oC8NPdzVDSeuRojzvwvEd3wSwXDrqNDH9eV0YB48JKPTZ7D6JQBTvP
+	Mb/01+QghmvptdoagFI0TB//steTIXf6a+ZCdCVqpZFj8UYOCqDsh6ZpGesFDF/XGSlJ
+	cglw==
+X-Gm-Message-State: AJcUukfO95aDmxPGTsPt7OeSpvil07yArKb0ncvtapvO6EqrVAyXWXu+
+	ffeEbiC2ExOf6Ic3BtzXINz1m4FC
+X-Google-Smtp-Source: ALg8bN451pe/uAUNKzeAQl+qGnefraQMqurcY8g49cxgX5hgyWmAJ74JeIScGxCy38WEzTiiPb+WBQ==
+X-Received: by 2002:a2e:8ec8:: with SMTP id
+	e8-v6mr10062362ljl.162.1547743250782; 
+	Thu, 17 Jan 2019 08:40:50 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.48
+	by smtp.gmail.com with ESMTPSA id k14sm373098lfc.70.2019.01.17.08.40.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jan 2019 08:40:48 -0800 (PST)
+	Thu, 17 Jan 2019 08:40:50 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2019 17:40:07 +0100
-Message-Id: <0ed1483f2d3ca8c7fc38ae39894ed22da52f72e3.1547743126.git.alex.kanavin@gmail.com>
+Date: Thu, 17 Jan 2019 17:40:08 +0100
+Message-Id: <c20edfec89269b6af92a51afb0b05b0894eec21f.1547743126.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1547743126.git.alex.kanavin@gmail.com>
 References: <cover.1547743126.git.alex.kanavin@gmail.com>
-Subject: [PATCHv3 22/27] runqemu: do not check for GL libraries
+Subject: [PATCHv3 23/27] testimage.bbclass: add support for passing runqemu params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +58,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 16:40:50 -0000
+X-List-Received-Date: Thu, 17 Jan 2019 16:40:51 -0000
 
-qemu has been using libepoxy for a long time, and libepoxy loads GL via dlopen()
-only when instructed to.
+This is particularly useful when setting up GL tests.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/runqemu | 35 -----------------------------------
- 1 file changed, 35 deletions(-)
+ meta/classes/testimage.bbclass    | 4 +++-
+ meta/lib/oeqa/core/target/qemu.py | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 12372bb7d84..5393ac5067b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -118,39 +118,6 @@ def check_tun():
-     if not os.access(dev_tun, os.W_OK):
-         raise RunQemuError("TUN control device %s is not writable, please fix (e.g. sudo chmod 666 %s)" % (dev_tun, dev_tun))
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index cb8c12accee..ff1c53b93e1 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -32,6 +32,7 @@ TESTIMAGE_AUTO ??= "0"
+ # Booting is handled by this class, and it's not a test in itself.
+ # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
+ # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
++# TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
  
--def check_libgl(qemu_bin):
--    cmd = ('ldd', qemu_bin)
--    logger.debug('Running %s...' % str(cmd))
--    need_gl = subprocess.check_output(cmd).decode('utf-8')
--    if re.search('libGLU', need_gl):
--        # We can't run without a libGL.so
--        libgl = False
--        check_files = (('/usr/lib/libGL.so', '/usr/lib/libGLU.so'), \
--            ('/usr/lib64/libGL.so', '/usr/lib64/libGLU.so'), \
--            ('/usr/lib/*-linux-gnu/libGL.so', '/usr/lib/*-linux-gnu/libGLU.so'))
--
--        for (f1, f2) in check_files:
--            if re.search('\*', f1):
--                for g1 in glob.glob(f1):
--                    if libgl:
--                        break
--                    if os.path.exists(g1):
--                        for g2 in glob.glob(f2):
--                            if os.path.exists(g2):
--                                libgl = True
--                                break
--                if libgl:
--                    break
--            else:
--                if os.path.exists(f1) and os.path.exists(f2):
--                    libgl = True
--                    break
--        if not libgl:
--            logger.error("You need libGL.so and libGLU.so to exist in your library path to run the QEMU emulator.")
--            logger.error("Ubuntu package names are: libgl1-mesa-dev and libglu1-mesa-dev.")
--            logger.error("Fedora package names are: mesa-libGL-devel mesa-libGLU-devel.")
--            raise RunQemuError('%s requires libGLU, but not found' % qemu_bin)
--
- def get_first_file(cmds):
-     """Return first file found in wildcard cmds"""
-     for cmd in cmds:
-@@ -1180,8 +1147,6 @@ class BaseConfig(object):
-         if not os.access(qemu_bin, os.X_OK):
-             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
  
--        check_libgl(qemu_bin)
--
-         self.qemu_opt = "%s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
+@@ -65,6 +66,7 @@ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ TEST_QEMUBOOT_TIMEOUT ?= "1000"
+ TEST_TARGET ?= "qemu"
+ TEST_QEMUPARAMS ?= ""
++TEST_RUNQEMUPARAMS ?= ""
  
-         for ovmf in self.ovmf_bios:
+ TESTIMAGEDEPENDS = ""
+ TESTIMAGEDEPENDS_append_qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
+@@ -294,7 +296,7 @@ def testimage_main(d):
+     try:
+         # We need to check if runqemu ends unexpectedly
+         # or if the worker send us a SIGTERM
+-        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"))
++        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
+         results = tc.runTests()
+     except (RuntimeError, BlockingIOError) as err:
+         if isinstance(err, RuntimeError):
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index f47fd7468ed..7a161a32319 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -33,11 +33,11 @@ class OEQemuTarget(OESSHTarget):
+                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
+                                  dump_host_cmds=dump_host_cmds, logger=logger)
+ 
+-    def start(self, params=None, extra_bootparams=None):
++    def start(self, params=None, extra_bootparams=None, runqemuparams=''):
+         if self.use_slirp and not self.server_ip:
+             self.logger.error("Could not start qemu with slirp without server ip - provide 'TEST_SERVER_IP'")
+             raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
+-        if self.runner.start(params, extra_bootparams=extra_bootparams):
++        if self.runner.start(params, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams):
+             self.ip = self.runner.ip
+             if self.use_slirp:
+                 target_ip_port = self.runner.ip.split(':')
 -- 
 2.17.1
 
