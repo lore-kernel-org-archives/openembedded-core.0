@@ -1,60 +1,88 @@
-Return-Path: <jandryuk@gmail.com>
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
-	[209.85.208.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 76EC07C11A
+Return-Path: <prvs=9132d74bb=Alistair.Francis@wdc.com>
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+	by mail.openembedded.org (Postfix) with ESMTP id F2FB179DED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 17:11:07 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id s5-v6so9170475ljd.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 09:11:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1hUkQJ+BrcldwaspU40cAXdVcfar/gAe7VEWkA+NhQo=;
-	b=hMZEPPU5xk9rvbYiCc4Rj8d63cREZvPAXXHYp+9TBq1297me2Utv7Q3cs5OSTUOHZv
-	etJTxg+ne6m6W1mcbT7RnAfxCZ+gp9fEolmy26AJ+CDGsZYrRH5uGL4vArBwItmDuzdy
-	fNdWk6LovEiqxKm2IYC0lQ6wBqSQc02CDKVgDrOCV1/DWaFGYzNbQpHeF3T/i/XNehO2
-	xEKYiMsZdfnTSLGO+biJ9ckxa9cefqwuqB96bPY5mQZkCLFPPXrMxyIe+ZzTwAUZaujb
-	IR96z27SVQT9qrrS8syek0dcmSy4Ohdb6KEaYSJTZrtRsz6JpHsf6xuCubkW6EEdJ4lD
-	bCsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1hUkQJ+BrcldwaspU40cAXdVcfar/gAe7VEWkA+NhQo=;
-	b=Ijhkauz1rUBpQM/mfr3WAapiWouNrkRvm8/SLgdEJMA1MURog1xf4f76s4yWz6XfOy
-	eA3813ZvcGf5hkZEd9tfJUJf5ZuS3kvRFl1XQxTCLmAVTVq6x+5ZZSKo0MNq1agJHora
-	6Upt6XwOxgprbzbvayYzM8MytIwKVRKXDz1kM0XX+z7dpVgk5JmecHFN4K3/5pzMM+bA
-	iu9awzIgZU87u9JOk7iIvwX8vtW1Vx6SpC3GtMTlwe7oaEMIYzK4OHXIZa+MoRL7KpIj
-	kDV6sraxAceJKYxyNqO/1ejnxJ98iUg44agAs9DOyY6So8Td1Z1bM/TirmxxfSyOqlRo
-	wGDA==
-X-Gm-Message-State: AJcUukd5fIjeTwrCXGUawFTxXl9NOCqHeerGFRGtFpOs5T/93ubziOCF
-	S/IQPoZkgWp19D3cXlBp2OEHa9rWQap3VCnx9vM6kyLE
-X-Google-Smtp-Source: ALg8bN4nsgKrWwyWxUOFFyek0xRa6UZzTVmVby9/Pv0516cOma12HhG3b18IscBcXtjl6Ci3SCXcbXYamEc1111Ld+k=
-X-Received: by 2002:a2e:b00a:: with SMTP id
-	y10-v6mr9981405ljk.109.1547745067666; 
-	Thu, 17 Jan 2019 09:11:07 -0800 (PST)
+	Thu, 17 Jan 2019 18:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1547750119; x=1579286119;
+	h=from:to:cc:subject:date:message-id:
+	content-transfer-encoding:mime-version;
+	bh=Qa3419RnuHEy6b1360V94bpHJRy1Iudhm/rDCmnEW3w=;
+	b=cDeqFbnVQRftEuvtoaE1lTMDZN4f1yj1us0o/6blrOIq78n0h6naKJ7P
+	OQZOhNI13SRbymdQi1r6loQw0l623IVAU6wwFPwVJNAQB1u/7O9oNqgav
+	9EW6zN9ZGuF72gI18sBG7+ygLfWejPGdi39+xRWfhQL3C5afjOc4HraCE
+	jrNlPnxoPgfIcBD8eieFpAgCJUWYI6Nc4jj/tKJzg1U6qOYKmidPKwL2z
+	1mD3eS94rlJaXCUtKx/xBV28mFvN0KiNUVs5M2sgdQ2QJc14O683kaSRf
+	w1ix/SyEOBAUxbSJX+7tVZfQRQZdWZe2NHI3Fgd5HX64t8qSfc7R6NX3S Q==;
+X-IronPort-AV: E=Sophos;i="5.56,489,1539619200"; d="scan'208";a="99064849"
+Received: from mail-by2nam05lp2056.outbound.protection.outlook.com (HELO
+	NAM05-BY2-obe.outbound.protection.outlook.com) ([104.47.50.56])
+	by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2019 02:35:18 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=6HxOz8mqmTjA9lDvdnTrfaFKb6n+LQXCPOd1i3d/Yg4=;
+	b=N3k+SrCgvg+IWQphDfIm40gQUgaEr3KBqlyjngLMUp22t/U+mDUafX2UI+ZImnfcgvDFh+d2sUleb4anlfwxkpO3p3/yWZBj856tsFj13o4zp5CtI3EUynpPHso08cyBTxPUOvASZjPIIQ/L3z5hExfphErOBj4Qpy5iEpTzoGk=
+Received: from MWHPR04MB0401.namprd04.prod.outlook.com (10.173.48.18) by
+	MWHPR04MB1136.namprd04.prod.outlook.com (10.173.51.138) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1516.18; Thu, 17 Jan 2019 18:35:17 +0000
+Received: from MWHPR04MB0401.namprd04.prod.outlook.com
+	([fe80::10e5:e75d:3272:2d33]) by
+	MWHPR04MB0401.namprd04.prod.outlook.com
+	([fe80::10e5:e75d:3272:2d33%7]) with mapi id 15.20.1516.019;
+	Thu, 17 Jan 2019 18:35:17 +0000
+From: Alistair Francis <Alistair.Francis@wdc.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v4] gstreamer: Add RISC-V support
+Thread-Index: AQHUrpNku2qbW3e/DkOBll6HDKZqiA==
+Date: Thu, 17 Jan 2019 18:35:17 +0000
+Message-ID: <20190117183509.24115-1-alistair.francis@wdc.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.19.1
+x-clientproxiedby: MWHPR0201CA0105.namprd02.prod.outlook.com
+	(2603:10b6:301:75::46) To MWHPR04MB0401.namprd04.prod.outlook.com
+	(2603:10b6:300:70::18)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Alistair.Francis@wdc.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [199.255.44.170]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; MWHPR04MB1136;
+	6:UREsPrZu6qkRIZ03ltPmJR/mThUdQfRaqja/8qV5Oqnev8LwT19uf+VhZW3wXADKM6WRIZwsac9XrECq4RVKohpYQhOzD+ty3dvyFImeVbg38jNGbkUuSbaVn2Izf8xRHbOejCTbRWmgxhA7cHN4FaeoV9ZmYmSXiAhDmlfpaOMmzkDtU0ShSibrbOjWbyvYcL414qnu8erpt56Nkspdvd34j2qFTuCSn4Oxftab7yTLyY3CKsLn0HqS8TZZSpr6rbHBw4Vu8xHM0oe+Qx664DKTz32d/CHZUXlzTW9VQqru/Hgz3jZjLcpX7R7TIDprKrSTDsb+4YilYmY/FLc5Pv55n/tFJlNZvIYUU1qda3Z3jiivbOYy/5TLtkY91Xw/FgRJHOk1O8if8xynararjqrKI3phMQ4i4xwY5F8EjW51DCKwgWF81Ng8ISl+deL//qItit6VexLnDZQW5QTfsg==;
+	5:S4LpkopK0WxEhysTchjlK17Ucqf+JFnohspeVQqIU+KJ15N+vDqXXa4tHADQgGjyZvKqNOm8OksU26d0i6IEXKOQv8jt/dn1ab/THNCj5+rp4KA4vUAXUk7Lk+KShwUlKAU2N468Krg3wpbfQKmg9CCycyJOVXAacue2+0htodaizI2mvxIhm5vphpI1TKtLrMBGaQMg19AZGPbiAjNdzw==;
+	7:Ow78VPQbshcYn72Tt8YzRdmhr7DT9AxL3kMeS0YwBQ2oRRpOmv1Z+Xvwp1iMQI3iJaAj0ka5E1KoGSenqoQceSyYo7OSYoVe1WRJ1DrO3hJ0xjaPT+ZQHHRpm3LZ84S3YCYecRGPLznKS8cDN2RI9w==
+x-ms-office365-filtering-correlation-id: a0934960-c977-4827-0738-08d67caa86cd
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);
+	SRVR:MWHPR04MB1136; 
+x-ms-traffictypediagnostic: MWHPR04MB1136:
+wdcipoutbound: EOP-TRUE
+x-microsoft-antispam-prvs: <MWHPR04MB1136A8ADF4F9CB2934822BE690830@MWHPR04MB1136.namprd04.prod.outlook.com>
+x-forefront-prvs: 0920602B08
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(136003)(39860400002)(346002)(396003)(376002)(366004)(189003)(199004)(6506007)(386003)(5660300001)(97736004)(316002)(26005)(4326008)(39060400002)(7736002)(2351001)(52116002)(966005)(81156014)(6306002)(478600001)(72206003)(106356001)(8676002)(86362001)(305945005)(6512007)(105586002)(14454004)(81166006)(68736007)(53936002)(6916009)(25786009)(66066001)(476003)(6116002)(71200400001)(71190400001)(5640700003)(2616005)(3846002)(486006)(8936002)(6486002)(44832011)(6436002)(14444005)(36756003)(2501003)(50226002)(2906002)(186003)(102836004)(99286004)(54906003)(256004)(1076003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR04MB1136;
+	H:MWHPR04MB0401.namprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: f2rBWQgGs0R8vhgYUImGg2mZ+4Nh/0G/KTOoERKn1zW2aY5WKctxuD2Ut6XzhghrgNoA5NGMHhlyoO+Dzth0DZGsunoAejP1Z6EpHZPD5+gtLJJPnpNuhmm19SwLSwblWiQjcAULC6mKl8CN+M5sT9sd/X+ubMVkEE3/0DPKJpZKig7I9elSbXcKGaZ+uVxzC1bm4RZfkjqUiBUdg3ipTAzvqxXCw+TGsBrjJ19sMFB+EKveqpQHsj9xkPel6czBHgciLBzKWmfRMLaBKiuHn4riM+erpFPYqRl5ve0eKfhuAd7Esu5HmgjyTj9JSLoskpgQQJMNmXYD2SVfXi05rKa9gr/VNs2Jzf77aR3nYZWCS2dvPQI18UTvTiGbL7gArekwBApIxreMMK2m5zwSAwRYnjMeXBcDHhBA28HVinQ=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-References: <CAKf6xputiV+k9m9p1dyhZG1d0wMQoWG5tCiZjpsVVu+bXp1X6A@mail.gmail.com>
-	<08a89c71b2e3e0f4380325985541c55df00b94da.camel@linuxfoundation.org>
-	<CAKf6xptMbAqnZ34ONNXLzQMjFoDjePH8dz3bXmiTMvoBMu4wsg@mail.gmail.com>
-	<50b88771577229c99a2c9e26b6224a5f038e7bab.camel@linuxfoundation.org>
-	<CAKf6xpt_RoLVg3ou2zKL2g=0GsjDXpCk73q83pmb4Reer9YgdA@mail.gmail.com>
-	<a0e331f39da396ea39ea37539f6c1ea193b055b1.camel@linuxfoundation.org>
-	<CAJ86T=V-xs=M2DfsHHtOe=j77bqsn=MgMojue5mc=2ouwwTd+A@mail.gmail.com>
-	<731530484e0135bb200df4da388982b2a7957ea1.camel@linuxfoundation.org>
-	<CAKf6xpv2UAGbBr5wOqQdZNgNe5Hra6+bF+OWy_tTD5v3wyobhw@mail.gmail.com>
-	<26b33c4efb48aaae0bd4662b88bfdfd428b95478.camel@linuxfoundation.org>
-	<CAKf6xpvj7gLodcqWAXLL7vW_5Cqep_gLpr+5+7_V-e1z29L5BQ@mail.gmail.com>
-	<9ed6a0a740a04f9ecc88659051a107ac6f4bd2c4.camel@linuxfoundation.org>
-	<CAKf6xpvtQL+PXokJKWLHgRchrGdaXi7kMOuBfYTTfELEAzr-ng@mail.gmail.com>
-	<a2d2f4a2b54ec7dac3691dff0cc17c5df33d63e7.camel@linuxfoundation.org>
-In-Reply-To: <a2d2f4a2b54ec7dac3691dff0cc17c5df33d63e7.camel@linuxfoundation.org>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Thu, 17 Jan 2019 12:10:55 -0500
-Message-ID: <CAKf6xpubLVvZ9ZQHKdRX34xLnoLSbufutFjg0qDw6MtA00Jt6Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Mis-generation of shell script (run.do_install)?
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0934960-c977-4827-0738-08d67caa86cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2019 18:35:16.6101 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB1136
+Subject: [PATCH v4] gstreamer: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,187 +95,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2019 17:11:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 17 Jan 2019 18:35:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 16, 2019 at 3:28 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> The data is in the codeparser cache which is first populated at parse
-> time so its enough just to parse the machine+recipe in question, not
-> build it. I think that explains the answer to a ew of your questions
-> above.
+Backport RISC-V support from master Gstreamer.
 
-Yes, thanks.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ ...stconfig.h.in-initial-RISC-V-support.patch | 30 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.14.4.bb          |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/0002-gstconfig.=
+h.in-initial-RISC-V-support.patch
 
-> Sorry for asking so many questions btw, I'd just really love to be able
-> to reproduce this issue! Thanks for trying to help answer them too!
->
-> Is the bitbake-cookerdeamon.log file still there for this build (in the
-> top level build directory)?
+diff --git a/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-in=
+itial-RISC-V-support.patch b/meta/recipes-multimedia/gstreamer/files/0002-g=
+stconfig.h.in-initial-RISC-V-support.patch
+new file mode 100644
+index 0000000000..db742dea23
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-R=
+ISC-V-support.patch
+@@ -0,0 +1,30 @@
++From 8a156d1725ecd03f2e8cdc8874e081dda2d3b43d Mon Sep 17 00:00:00 2001
++From: Aurelien Jarno <aurelien@aurel32.net>
++Date: Sun, 15 Apr 2018 00:49:55 +0200
++Subject: [PATCH] gstconfig.h.in: initial RISC-V support
++
++RISC-V supports unaligned accesses, but these might run extremely slowly
++depending on the implementation. Therefore set GST_HAVE_UNALIGNED_ACCESS
++to 0 on this architecture.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=3D795271
++
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++Upstream-Status: Accepted [1.15.1 - https://bugzilla.gnome.org/show_bug.cg=
+i?id=3D795271]
++---
++ gst/gstconfig.h.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst/gstconfig.h.in b/gst/gstconfig.h.in
++index 6351c04da..33dfed1f6 100644
++--- a/gst/gstconfig.h.in
+++++ b/gst/gstconfig.h.in
++@@ -104,7 +104,7 @@
++  * http://docs.oracle.com/cd/E19205-01/820-4155/c++_faq.html#Vers6
++  * https://software.intel.com/en-us/node/583402
++  */
++-#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined=
+(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__)=
+ || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || de=
+fined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc)=
+ || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M=
+_IA64) || defined(__xtensa__) || defined(__e2k__)
+++#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined=
+(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__)=
+ || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || de=
+fined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc)=
+ || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M=
+_IA64) || defined(__xtensa__) || defined(__e2k__) || defined(__riscv)
++ #  define GST_HAVE_UNALIGNED_ACCESS 0
++ #elif defined(__i386__) || defined(__i386) || defined(__amd64__) || defin=
+ed(__amd64) || defined(__x86_64__) || defined(__ppc__) || defined(__ppc64__=
+) || defined(__powerpc__) || defined(__powerpc64__) || defined(__m68k__) ||=
+ defined(_M_IX86) || defined(_M_AMD64) || defined(_M_X64) || defined(__s390=
+__) || defined(__s390x__) || defined(__zarch__)
++ #  define GST_HAVE_UNALIGNED_ACCESS 1
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb b/met=
+a/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
+index 232234b888..98c9a28e39 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
+@@ -25,6 +25,7 @@ SRC_URI =3D " \
+     file://gtk-doc-tweaks.patch \
+     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch=
+ \
+     file://add-a-target-to-compile-tests.patch \
++    file://0002-gstconfig.h.in-initial-RISC-V-support.patch \
+     file://run-ptest \
+ "
+ SRC_URI[md5sum] =3D "f67fbbc42bd85a0701df119f52fb52bd"
+--=20
+2.19.1
 
-I don't seem to have this file in any of my OpenXT builds.
-
-I still have the "bad" bb_codeparser.dat file.  It is 30MB whereas the
-new one is only 6.5MB.  I thought it may be excessively large, but I
-actually have an 80MB one in a different build directory.
-
-Anyway, it has 4 different entries that look like core2-32
-python-async do_install()-s
-
-3c6fe664c51d2f793f8fd0eb103d68cb - reproduces currently
-3df9018676de219bb3e46e88eea09c98 - one matching binutils core2-64 do_install
-382871fb17743ba9635d7efc4db7d993
-ee6850bdcf70ba63dea37e09c78c599f
-
-They all have
-frozenset({'[', 'mv', 'test',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'sed', 'install', 'bbfatal_log', 'find', 'rm', 'rmdir'})
-
-Eyeballing distutils_do_install, I don't see what could produce so
-many variations.
-
-Going into the new, clean build container, I can see those last two
-hashes with different entries:
->>> d['ee6850bdcf70ba63dea37e09c78c599f']
-frozenset({'tr', 'rm', 'sed', 'ln', 'cd', 'oe_multilib_header',
-'autotools_do_install', 'echo', 'basename', 'install'})
->>> d['382871fb17743ba9635d7efc4db7d993']
-frozenset({'tr', 'rm', 'sed', 'ln', 'cd', 'oe_multilib_header',
-'autotools_do_install', 'echo', 'basename', 'install'})
-
-and the expected core2-32 python-async do_install
->>> d['3c6fe664c51d2f793f8fd0eb103d68cb']
-frozenset({'bbfatal_log', 'rm', 'test', 'sed', '[', 'rmdir',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'find', 'install', 'mv'})
-
-I've only run one core2-32 build in the fresh container, so no 64bit
-binutils at the original collision 3df9018676de219bb3e46e88eea09c98
-
-Ok, I hacked up a script to check two bb_codeparser.dat files for
-collisions.  Compare the current one with the "bad" one:
-$ ./pickle-cmp.py cache/bb_codeparser.dat cache/bb_codeparser.dat.old-bad-one
-Collision ee6850bdcf70ba63dea37e09c78c599f
-frozenset({'echo', 'rm', 'autotools_do_install', 'tr',
-'oe_multilib_header', 'cd', 'basename', 'sed', 'ln', 'install'})
-frozenset({'find', 'test', 'rm', 'bbfatal_log', '[', 'sed', 'mv',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'rmdir', 'install'})
-Collision 382871fb17743ba9635d7efc4db7d993
-frozenset({'echo', 'rm', 'autotools_do_install', 'tr',
-'oe_multilib_header', 'cd', 'basename', 'sed', 'ln', 'install'})
-frozenset({'find', 'test', 'rm', 'bbfatal_log', '[', 'sed', 'mv',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'rmdir', 'install'})
-Collision 5254083eac08e32fc68bc9421d7df287
-frozenset({'autotools_do_install', 'rm', 'sed', 'touch', 'install'})
-frozenset({'/etc/init.d/xenclient-boot-sound', 'true', ':', '['})
-Collision d0701fd5c05175aeafc06d8ce34d3532
-frozenset({'create-cracklib-dict', 'autotools_do_install'})
-frozenset({'/etc/init.d/gateone', 'true', ':', '['})
-Collision ec332415bd96520823ba383494e7a9a7
-frozenset({'ln', 'popd', ':', 'pushd'})
-frozenset({'DEPLOY_DIR', 'useradd_preinst', 'perform_useradd', 'PKGD',
-'PKGDEST', 'pkg_preinst', 'MLPREFIX', 'perform_groupadd', 'PN',
-'perform_groupmems', 'PACKAGES', 'NOAUTOPACKAGEDEBUG',
-'USERADD_PACKAGES', 'WORKDIR'})
-Collision 3df9018676de219bb3e46e88eea09c98
-frozenset({'echo', 'rm', 'autotools_do_install', 'tr',
-'oe_multilib_header', 'cd', 'basename', 'sed', 'ln', 'install'})
-frozenset({'find', 'test', 'rm', 'bbfatal_log', '[', 'sed', 'mv',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-async/0.6.2-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'rmdir', 'install'})
-Collision 0aa15eb469ad8854cda0b0675217b8f6
-frozenset({'find', 'test', 'rm', 'bbfatal_log', '[', 'sed', 'mv',
-'/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/python-mock/2.0.0-r0/recipe-sysroot-native/usr/bin/python-native/python',
-'rmdir', 'install'})
-frozenset({'oe_runmake', 'find', 'true', 'test', 'echo', 'chmod',
-'rm', 'mkdir', '[', 'oe_multilib_header', 'cd', 'lnr', 'basename',
-'continue', 'mv', 'ln', 'local', 'install'})
-
-Compare the current one with the fresh one from the other container (build4):
-$ ./pickle-cmp.py cache/bb_codeparser.dat build4-codeparser.dat
-Collision d0701fd5c05175aeafc06d8ce34d3532
-frozenset({'create-cracklib-dict', 'autotools_do_install'})
-frozenset({'[', ':', '/etc/init.d/gateone', 'true'})
-Collision 5254083eac08e32fc68bc9421d7df287
-frozenset({'touch', 'install', 'sed', 'autotools_do_install', 'rm'})
-frozenset({'[', '/etc/init.d/xenclient-boot-sound', ':', 'true'})
-
-I figured I can reproduce the hash collisions for
-d0701fd5c05175aeafc06d8ce34d3532, but I cannot.
-
-gateone update-rc.d updatercd_prerm matches d0701fd5c05175aeafc06d8ce34d3532
-Below, it should be a tab before /etc/init.d/gateone , but I can't
-insert that because of gmail)
-'''
-# Begin section update-rc.d
-if true && [ -z "$D" -a -x "/etc/init.d/gateone" ]; then
-        /etc/init.d/gateone stop || :
-fi
-# End section update-rc.d
-'''
-
-cracklib do_install is only two lines, but I cannot reproduce.
-(Below, it should be a tab before create-cracklib-dict)
-$ sed -n '/^do_install/,/^}/p'
-tmp-glibc/work/core2-32-oe-linux/cracklib/2.9.5-r0/temp/run.do_install
-| head -n -7 | tail -n 2 | tee /dev/stderr | md5sum
-    autotools_do_install
-       create-cracklib-dict -o
-/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/cracklib/2.9.5-r0/image/usr/share/cracklib/pw_dict
-/home/build/openxt-compartments/build/tmp-glibc/work/core2-32-oe-linux/cracklib/2.9.5-r0/image/usr/share/cracklib/cracklib-small
-8ca3daacb394a11f38c851a8d71ed4de  -
-
-#current
-$ ./i-m-in-a-pickle.py cache/bb_codeparser.dat cracklib
-3933316
-'8ca3daacb394a11f38c851a8d71ed4de': frozenset({'create-cracklib-dict',
-'autotools_do_install'})
-5050048
-'b50633e8f154817d7cc3ec94c6405379': frozenset({'create-cracklib-dict',
-'autotools_do_install'})
-5641024
-'d0701fd5c05175aeafc06d8ce34d3532': frozenset({'create-cracklib-dict',
-'autotools_do_install'})
-
-#old bad
-$ ./i-m-in-a-pickle.py cache/bb_codeparser.dat.old cracklib
-13503349
-'8ca3daacb394a11f38c851a8d71ed4de': frozenset({'autotools_do_install',
-'create-cracklib-dict'})
-39348111
-'b50633e8f154817d7cc3ec94c6405379': frozenset({'autotools_do_install',
-'create-cracklib-dict'})
-
-#fresh
-$ ./i-m-in-a-pickle.py build4-codeparser.dat cracklib
-2085662
-'8ca3daacb394a11f38c851a8d71ed4de': frozenset({'create-cracklib-dict',
-'autotools_do_install'}),
-
-b50633e8f154817d7cc3ec94c6405379 is the core2-64 cracklib do_install
-$ sed -n '/^do_install/,/^}/p'
-tmp-glibc/work/core2-64-oe-linux/cracklib/2.9.5-r0/temp/run.do_install
-| head -n -7 | tail -n 2 | tee /dev/stderr | md5sum
-    autotools_do_install
-    create-cracklib-dict -o
-/home/build/openxt-compartments/build/tmp-glibc/work/core2-64-oe-linux/cracklib/2.9.5-r0/image/usr/share/cracklib/pw_dict
-/home/build/openxt-compartments/build/tmp-glibc/work/core2-64-oe-linux/cracklib/2.9.5-r0/image/usr/share/cracklib/cracklib-small
-b50633e8f154817d7cc3ec94c6405379  -
-
-But where did d0701fd5c05175aeafc06d8ce34d3532 come from?
-
-When pickling the cache for writing to disk, could a dangling
-pointer/index/reference be left such that a given hash's frozenset
-entry changes?
-
-An aside - entries include the standard linux utilities & shell
-builtins, but those are always available.  If a given shell cache
-entry only relies on those utilities, it could collide and still run.
-It's only an issue when a shell function or special utility is needed.
-
-Regards,
-Jason
 
