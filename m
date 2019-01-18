@@ -1,50 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 494E87C216
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AFFAD7C1EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 00:09:10 +0000 (UTC)
-Received: by mail-it1-f173.google.com with SMTP id p197so3662165itp.0
+	Fri, 18 Jan 2019 00:11:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0I0BYsI024160
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2019 16:09:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5jJmUaVAXDQD2ZKQn++sG51VHnhzHTLJL9448I79N2s=;
-	b=HgcBfP3nC3Ay/cVD2XtXlS3gnR1en1hXa3nlKvnX58nkST+yhN7SbGTWrRwF91OFir
-	7QzFBkWJD4lrCyda8tYPAwaJyHCahqy6MamGiqzjxJuuUOQ80Y3ZruajhTxwZ/F9eEJY
-	ue4vLTSQmb4gf3TZ3EUJZ81hRpm2KW5tu50xE4Nra7/loy1snibbx3TaXCGa3XWsZWxZ
-	3net0F2xkjO6DNdwSEdobe8xFHcID7AYRjG2/sxvFRofGXMWjyLbpZnD9+cuvq/PkggP
-	n5kmDW8BaOip6PkHaaVTRRbaP8+uJg6tm6r0mQO+csuySIlsPxiHQFHHCBBQfCrc6ZWm
-	vm0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=5jJmUaVAXDQD2ZKQn++sG51VHnhzHTLJL9448I79N2s=;
-	b=hYgfE9wIct2ad1hGYe1pvE3BGwQGQGtO1iA2MUEKO4Bqr6PranyP7FjLwh/11Rg9Fy
-	YCyvDpPih1lSTj5EoCuTQT6LFBvtl1gf6ZAQybdj2mJWj93BKrQpJJjPV3QrsDOfVPeE
-	6xZxlewWZsWYVBCfSyo9c0rq5K9B9P5QvOjbCPAwVRb2hEMcOQjH6bJcXzfqRJ5MsuHz
-	aoj4ZZEZ9mpLwiYsJpkA3bGleH18zJWpObadyDVVRBcekSEzxj/BluQq91G7M+6GSobk
-	AQmpxXuxq4DyxlGpVTiHcfmrn33eOShWdPWx4jmudJJJEQ5JLxOe4eiuZ4nweZFMcXW4
-	OQqg==
-X-Gm-Message-State: AJcUukfVETdIrDrdrzGlhLQMKKZW56/ZE4LW7ZwWHb1HcJTlwU+sybaN
-	8++S0HTyzNlgzv6xyBvxSyypQPu0WdBOqBCxr3t3wQ==
-X-Google-Smtp-Source: ALg8bN6R/+HW0sRSMi4Dv5nOsavGgci1v3EwVjO5RKWY0DCUyqkANjRXjwnJGi91U2NDQ9S0m8knOJbPDK+dBzPaqFs=
-X-Received: by 2002:a02:9c53:: with SMTP id h19mr9716235jal.31.1547770151340; 
-	Thu, 17 Jan 2019 16:09:11 -0800 (PST)
+	Thu, 17 Jan 2019 16:11:34 -0800 (PST)
+Received: from localhost (128.224.163.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Thu, 17 Jan 2019 16:11:34 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Jan 2019 08:11:31 +0800
+Message-ID: <1547770291-6985-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190116225154.12180-1-douglas.royds@taitradio.com>
-	<b08ee857fa323713a81f69c756169807f62a2ba2.camel@linuxfoundation.org>
-	<48037e45-c43c-ad6e-8b99-a4b797e601d8@taitradio.com>
-	<3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
-In-Reply-To: <3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Jan 2019 00:09:00 +0000
-Message-ID: <CAJTo0LY2qimO9C7WFv0iTtWkpF7duhR_Q3c0zz38RLYmxcCxfA@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: make cleaning of build directory on configure optional
+X-Originating-IP: [128.224.163.192]
+Subject: [PATCH] parselogs.py: ignore failure messages for beaglebone edgerouter and mpc8315e-rdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,21 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 00:09:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 18 Jan 2019 00:11:33 -0000
+Content-Type: text/plain
 
-On Fri, 18 Jan 2019 at 00:00, Randy MacLeod <randy.macleod@windriver.com> wrote:
-> What workflow are you trying to optimize?
->
-> If you're strictly changing existing source files
-> then you shouldn't need to run configure again so I'm confused.
->
-> Also, have you tried using ccache as per:
->     d014c8c11f cmake.bbclass: Make it work with ccache
-> and if so why doesn't that work for you?
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Agreed with what Randy says: ccache seems like a more scalable and
-useful solution.
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 3d72e20..e3465ea 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -162,7 +162,23 @@ ignore_errors = {
+         'The driver is built-in, so to load the firmware you need to',
+         ] + x86_common,
+     'edgerouter' : [
++        'not creating \'/sys/firmware/fdt\'',
++        'Failed to find cpu0 device node',
+         'Fatal server error:',
++        'Server terminated with error',
++        ] + common_errors,
++    'beaglebone-yocto' : [
++        'Direct firmware load for regulatory.db',
++        'failed to load regulatory.db',
++        'l4_wkup_cm',
++        'Failed to load module "glx"',
++        'Failed to make EGL context current',
++        'glamor initialization failed',
++        ] + common_errors,
++    'mpc8315e-rdb' : [
++        'of_irq_parse_pci: failed with',
++        'Fatal server error:',
++        'Server terminated with error',
+         ] + common_errors,
+ }
+ 
+-- 
+2.7.4
 
-Ross
 
