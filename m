@@ -1,30 +1,49 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 34D217C216
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
+	[209.85.166.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 494E87C216
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 00:00:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0HNxQmu032187
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 17 Jan 2019 15:59:36 -0800
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 17 Jan 2019 15:59:15 -0800
-To: Douglas Royds <douglas.royds@taitradio.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
+	Fri, 18 Jan 2019 00:09:10 +0000 (UTC)
+Received: by mail-it1-f173.google.com with SMTP id p197so3662165itp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2019 16:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=5jJmUaVAXDQD2ZKQn++sG51VHnhzHTLJL9448I79N2s=;
+	b=HgcBfP3nC3Ay/cVD2XtXlS3gnR1en1hXa3nlKvnX58nkST+yhN7SbGTWrRwF91OFir
+	7QzFBkWJD4lrCyda8tYPAwaJyHCahqy6MamGiqzjxJuuUOQ80Y3ZruajhTxwZ/F9eEJY
+	ue4vLTSQmb4gf3TZ3EUJZ81hRpm2KW5tu50xE4Nra7/loy1snibbx3TaXCGa3XWsZWxZ
+	3net0F2xkjO6DNdwSEdobe8xFHcID7AYRjG2/sxvFRofGXMWjyLbpZnD9+cuvq/PkggP
+	n5kmDW8BaOip6PkHaaVTRRbaP8+uJg6tm6r0mQO+csuySIlsPxiHQFHHCBBQfCrc6ZWm
+	vm0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=5jJmUaVAXDQD2ZKQn++sG51VHnhzHTLJL9448I79N2s=;
+	b=hYgfE9wIct2ad1hGYe1pvE3BGwQGQGtO1iA2MUEKO4Bqr6PranyP7FjLwh/11Rg9Fy
+	YCyvDpPih1lSTj5EoCuTQT6LFBvtl1gf6ZAQybdj2mJWj93BKrQpJJjPV3QrsDOfVPeE
+	6xZxlewWZsWYVBCfSyo9c0rq5K9B9P5QvOjbCPAwVRb2hEMcOQjH6bJcXzfqRJ5MsuHz
+	aoj4ZZEZ9mpLwiYsJpkA3bGleH18zJWpObadyDVVRBcekSEzxj/BluQq91G7M+6GSobk
+	AQmpxXuxq4DyxlGpVTiHcfmrn33eOShWdPWx4jmudJJJEQ5JLxOe4eiuZ4nweZFMcXW4
+	OQqg==
+X-Gm-Message-State: AJcUukfVETdIrDrdrzGlhLQMKKZW56/ZE4LW7ZwWHb1HcJTlwU+sybaN
+	8++S0HTyzNlgzv6xyBvxSyypQPu0WdBOqBCxr3t3wQ==
+X-Google-Smtp-Source: ALg8bN6R/+HW0sRSMi4Dv5nOsavGgci1v3EwVjO5RKWY0DCUyqkANjRXjwnJGi91U2NDQ9S0m8knOJbPDK+dBzPaqFs=
+X-Received: by 2002:a02:9c53:: with SMTP id h19mr9716235jal.31.1547770151340; 
+	Thu, 17 Jan 2019 16:09:11 -0800 (PST)
+MIME-Version: 1.0
 References: <20190116225154.12180-1-douglas.royds@taitradio.com>
 	<b08ee857fa323713a81f69c756169807f62a2ba2.camel@linuxfoundation.org>
 	<48037e45-c43c-ad6e-8b99-a4b797e601d8@taitradio.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
-Date: Thu, 17 Jan 2019 18:59:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <48037e45-c43c-ad6e-8b99-a4b797e601d8@taitradio.com>
-X-Originating-IP: [172.25.44.4]
+	<3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
+In-Reply-To: <3aae69e3-a2e2-6c17-f808-33f89b002576@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Jan 2019 00:09:00 +0000
+Message-ID: <CAJTo0LY2qimO9C7WFv0iTtWkpF7duhR_Q3c0zz38RLYmxcCxfA@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] cmake.bbclass: make cleaning of build directory on configure optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -38,133 +57,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 00:00:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Jan 2019 00:09:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/16/19 7:38 PM, Douglas Royds wrote:
-> On 17/01/19 12:01 PM, Richard Purdie wrote:
-> 
->> On Thu, 2019-01-17 at 11:51 +1300, Douglas Royds wrote:
->>> From: Sam Nobs <samuel.nobs@taitradio.com>
->>>
->>> The do_configure task is sensitive to changes in recipes and
->>> configuration files.
->>> This can be time consuming because cmake.bbclass deletes the ${B}
->>> directory
->>> at the beginning of the do_configure task. CMake figures
->>> out what to do when it's run again, so unless your cmake files are
->>> buggy, there shouldn't
->>> be any need to erase the build directory and start afresh.
->>>
->>> This change allows you to turn this behaviour off, either globally or
->>> on a per-recipe basis, e.g.
->>>
->>> OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE_pn-yourrecipe = ""
->>>
->>> Signed-off-by: Sam Nobs <samuel.nobs@taitradio.com>
->>> ---
->>>   meta/classes/cmake.bbclass | 23 ++++++++++++++++++-----
->>>   1 file changed, 18 insertions(+), 5 deletions(-)
->> This may give a speed boost for some cases but it does come at a
->> potential risk of determinism issues.
->>
->> I appreciate you've made it configurable but that actually further
->> concerns me as we now have two code paths which potentially both have
->> to be tested.
->>
->> Is this change really worth it?
->>
->> Cheers,
->>
->> Richard
-> 
-> 
-> For us, the benefit is beyond question - on our proprietary C++ 
-> component, the compile from scratch after a configure is punishing, 10s 
-> of minutes per MACHINE.
-> 
-> We are counting on binary reproducibility to flush out any determinism 
-> issues with the CMake code, that is, we will be comparing our 
-> incremental builds with our clean builds. Note also that we are deleting 
-> all the generated CMake artefacts, but leaving the object files behind. 
-> CMake will force a complete rebuild should there be any change in the 
-> CFLAGS and friends.
+On Fri, 18 Jan 2019 at 00:00, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> What workflow are you trying to optimize?
+>
+> If you're strictly changing existing source files
+> then you shouldn't need to run configure again so I'm confused.
+>
+> Also, have you tried using ccache as per:
+>     d014c8c11f cmake.bbclass: Make it work with ccache
+> and if so why doesn't that work for you?
 
-Douglas,
+Agreed with what Randy says: ccache seems like a more scalable and
+useful solution.
 
-What workflow are you trying to optimize?
-
-If you're strictly changing existing source files
-then you shouldn't need to run configure again so I'm confused.
-
-Also, have you tried using ccache as per:
-    d014c8c11f cmake.bbclass: Make it work with ccache
-and if so why doesn't that work for you?
-
-Thanks,
-../Randy
-
-> 
-> 
->>> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
->>> index fa7f68c99b..b9ec68ac9a 100644
->>> --- a/meta/classes/cmake.bbclass
->>> +++ b/meta/classes/cmake.bbclass
->>> @@ -63,6 +63,11 @@ EXTRA_OECMAKE_BUILD_prepend_task-install =
->>> "${PARALLEL_MAKEINST}"
->>>   OECMAKE_TARGET_COMPILE ?= "all"
->>>   OECMAKE_TARGET_INSTALL ?= "install"
->>> +# Clean the build directory before configuring.
->>> +# Some recipes don't want/need this as cmake is perfectly
->>> +# capable of figuring out what to do, so we allow it to be turned
->>> off
->>> +OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE ??= "true"
->>> +
->>>   # CMake expects target architectures in the format of uname(2),
->>>   # which do not always match TARGET_ARCH, so all the necessary
->>>   # conversions should happen here.
->>> @@ -133,12 +138,20 @@ cmake_do_configure() {
->>>           bbnote "cmake.bbclass no longer uses
->>> OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds
->>> with B=WORKDIR/build."
->>>       fi
->>> -    if [ "${S}" != "${B}" ]; then
->>> -        rm -rf ${B}
->>> -        mkdir -p ${B}
->>> -        cd ${B}
->>> +    if [ ${@oe.types.boolean('${OECMAKE_CLEAN_BUILDDIR_ON_CONFIGURE
->>> }')} = True ]; then
->>> +        if [ "${S}" != "${B}" ]; then
->>> +            rm -rf ${B}
->>> +            mkdir -p ${B}
->>> +            cd ${B}
->>> +        else
->>> +            # For an in-tree build, delete all object files
->>> and CMake artefacts
->>> +            find ${B} -name CMakeFiles -or -name Makefile
->>> -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
->>> +        fi
->>>       else
->>> -        find ${B} -name CMakeFiles -or -name Makefile -or -name
->>> cmake_install.cmake -or -name CMakeCache.txt -delete
->>> +        # Selectively delete CMake artefacts to ensure that -c
->>> configure has a consistent result
->>> +        rm -f CMakeCache.txt
->>> +        cmake_version=$(cmake --version | head -1 | sed
->>> 's#^[^0-9]*\([0-9.]*\).*$#\1#' )
->>> +        rm -fr CMakeFiles/$cmake_version/
->>>       fi
->>>       # Just like autotools cmake can use a site file to cache result
->>> that need generated binaries to run
->>> -- 
->>> 2.17.1
->>>
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+Ross
 
