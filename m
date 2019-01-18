@@ -1,30 +1,32 @@
 Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id E5BEE7997F
+	by mail.openembedded.org (Postfix) with ESMTP id 1116E7997F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 03:07:51 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.56,489,1539619200"; d="scan'208";a="52265946"
+	Fri, 18 Jan 2019 03:07:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,489,1539619200"; d="scan'208";a="52265950"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Jan 2019 11:07:50 +0800
+	by heian.cn.fujitsu.com with ESMTP; 18 Jan 2019 11:07:56 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 104584BAD9C6
+	by cn.fujitsu.com (Postfix) with ESMTP id 4A9F84BAD9C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 11:07:51 +0800 (CST)
+	Fri, 18 Jan 2019 11:07:53 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.47) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Fri, 18 Jan 2019 11:07:51 +0800
+	Server (TLS) id 14.3.408.0; Fri, 18 Jan 2019 11:07:53 +0800
 From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Jan 2019 11:08:20 +0800
-Message-ID: <20190118030821.11213-1-hongl.fnst@cn.fujitsu.com>
+Date: Fri, 18 Jan 2019 11:08:21 +0800
+Message-ID: <20190118030821.11213-2-hongl.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20190118030821.11213-1-hongl.fnst@cn.fujitsu.com>
+References: <20190118030821.11213-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.47]
-X-yoursite-MailScanner-ID: 104584BAD9C6.A00A6
+X-yoursite-MailScanner-ID: 4A9F84BAD9C6.A1F1D
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] mdadm: add init and service scripts
+Subject: [PATCH] [thud][PATCH] mdadm: add init and service scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 03:07:52 -0000
+X-List-Received-Date: Fri, 18 Jan 2019 03:07:56 -0000
 Content-Type: text/plain
 
 Add init script and service file for sysvinit and systemd.
@@ -45,8 +47,8 @@ Add init script and service file for sysvinit and systemd.
 Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
  meta/recipes-extended/mdadm/files/mdadm.init | 72 ++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb     | 22 +++++-
- 2 files changed, 93 insertions(+), 1 deletion(-)
+ meta/recipes-extended/mdadm/mdadm_4.0.bb     | 23 ++++++-
+ 2 files changed, 93 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-extended/mdadm/files/mdadm.init
 
 diff --git a/meta/recipes-extended/mdadm/files/mdadm.init b/meta/recipes-extended/mdadm/files/mdadm.init
@@ -127,31 +129,30 @@ index 0000000000..cab91b9acc
 +
 +exit 0
 +
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 7663a6b7ec..d71e9a708b 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -17,11 +17,15 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.0.bb b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+index 2c4d88a9e7..c59829b1fc 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.0.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+@@ -24,12 +24,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
             file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
-            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-            file://0001-fix-gcc-8-format-truncation-warning.patch \
-+	   file://mdadm.init \
+            file://0001-use-memmove-instead-of-memcpy-on-overlapping-region.patch \
+            file://0001-Disable-gcc8-warnings.patch \
++           file://mdadm.init \
             "
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+ SRC_URI[md5sum] = "2cb4feffea9167ba71b5f346a0c0a40d"
+ SRC_URI[sha256sum] = "1d6ae7f24ced3a0fa7b5613b32f4a589bb4881e3946a5a2c3724056254ada3a9"
  
--inherit autotools-brokensep ptest
+ CFLAGS += "-fno-strict-aliasing"
+-inherit autotools-brokensep
 +inherit autotools-brokensep ptest systemd
-+
-+SYSTEMD_SERVICE_${PN} = "mdmonitor.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
  
- CFLAGS_append_toolchain-clang = " -Wno-error=address-of-packed-member"
- 
-@@ -46,6 +50,18 @@ do_install() {
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+@@ -51,7 +52,20 @@ do_install() {
  	autotools_do_install
  }
  
+-inherit ptest
 +do_install_append() {
 +    install -d ${D}/${sysconfdir}/
 +    install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
@@ -164,13 +165,16 @@ index 7663a6b7ec..d71e9a708b 100644
 +    install -m 755 ${WORKDIR}/mdadm.init    ${D}${sysconfdir}/init.d/mdmonitor
 +}
 +
++SYSTEMD_SERVICE_${PN} = "mdmonitor.service"
++SYSTEMD_AUTO_ENABLE = "disable"
+ 
  do_compile_ptest() {
  	oe_runmake test
- }
-@@ -61,6 +77,10 @@ do_install_ptest() {
+@@ -67,6 +81,11 @@ do_install_ptest() {
+ 		install -D -m 755 $prg ${D}${PTEST_PATH}/
  	done
  }
- 
++
 ++FILES_${PN} += " \
 +    ${systemd_unitdir} \
 +"
