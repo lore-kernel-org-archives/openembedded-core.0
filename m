@@ -1,47 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id A03787C22E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EF9BA7C0C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 11:24:16 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id f188so4122684wmf.5
+	Fri, 18 Jan 2019 13:54:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q18so15130600wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 03:24:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=F79MyfkNEYIuUXsKoobdZRCbi7YhmOh9Kw7RSVV1CoY=;
-	b=uIJ/ZrxVizSD4DonU0NCsNK2Auyl4AVqxb7hpGLcRVb4tCcdGfymmfiyzWPzk0Daef
-	3DY8eBGOkLCeZQM2k/u3uzewFX6jQUavBvBgvHDhNtcIuyaUolgVD8Q/DxyQ4jR3Xb3d
-	XQxe51C/h5OQ9tDdim7x+ljiliq2Zc5/BniUryWJT3oxAaZczJM1gndvOzVF+wh3bog9
-	6DRPapjYCCBGC/EnpBw1EO9N2LgBP4WDujKTY+HXhohazkx2E0gkfK77ohdcm5NTCqzX
-	/8wv/wANon1Zk1Ti5fzpSeNzwFG0PbxzxkjteRYjILes5xA1b9OwjNWgchgaq3X8ra53
-	/BHQ==
+	Fri, 18 Jan 2019 05:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=EbtDqFOMehj9E3N1O1kDIHDe4TYHKilHCJLxdeEmu5Y=;
+	b=kYgPW6eAkhlBMOl37XQPzt1qjA28GOwOVvyugS9OyqxcOQRsqznKngG315Mf8jMttQ
+	NiE2mCKhX/1pGTtXPFNppnwOW8qtFdksWTT8nRq5Za8Ja0elOHua3B8yJl45LTFVG71R
+	A4HwjmSzJ4O5vg7UWMhkXVzg/vJukoq8tWz+4Mzj/3g0Q3Fzaa8geWAEje0g44nvA5sB
+	YMjT0ni/vHyZkN2flBE0nVe/nV2V+Qpfrau7wwLvo3qWEi0UEcwtodSGXithy6ZLL0iE
+	iV/ChvvTBWtemnzOT1GajwkImANg5mdQmENWQ8g3K0eRvuU19LmW7js9fGoMH5OWfqhH
+	Y4MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=F79MyfkNEYIuUXsKoobdZRCbi7YhmOh9Kw7RSVV1CoY=;
-	b=SoUdcY6osGMI27zw2ad1LwdNXzpC8FfQUomoLa77BJByOoUQohF9x72ewUao9A/Ouz
-	M8B+YZmx5Bd3HA/8xl89YeNzUkJn+S3l2SxS3Lc5zqPwBi6oeYl8X9u/R+MNbYioQNx2
-	xbdDhEkkXLxxTo+F2CuFUlzT3SCT+sb51y5Yz7Zuz9RG3jT2fMvmp7EFyEOAIGyXkBeh
-	Mbe7cMBfYoC8mOHKqgA5qwX8qttQzl27jEubqZTd/hEbOUZVokJaJF60CGO/lhmsJfFV
-	CeySJ1APWHvALfmenEK2h+wUMRcKAdhHVtuqBYPANlFi6uVYId5SnwpLunNQ2j7qChxk
-	kO7w==
-X-Gm-Message-State: AJcUukfb6KQd+z+9SanZZZdqlNArXdvHhcYVGzREEEpz6LMJXS+D41lM
-	IotizBV3XhTcH6u7CBSLFb82nag/
-X-Google-Smtp-Source: ALg8bN6pXKboMLCab2vgIkYXGxQSuq+sQcE28AcQS6VhLnJpU0/GGJHdSdzvoY+kccq6qWKulYqmHg==
-X-Received: by 2002:a1c:1f54:: with SMTP id f81mr16137832wmf.6.1547810656980; 
-	Fri, 18 Jan 2019 03:24:16 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	q12sm71121998wrx.31.2019.01.18.03.24.16
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EbtDqFOMehj9E3N1O1kDIHDe4TYHKilHCJLxdeEmu5Y=;
+	b=Qbm6eVjslBwobP813VhK/ez75jOqATDhI5HVgvGxaN4En8qrd9Zn+aS66wNyrDKavh
+	s1ZH+3DoYmOsP6exz7y7ttJVsLoGajqiTJEPZX7LRE2o+IZk6k4ThS143KSXOT53TVgW
+	sjURalpvcA0Q7GFMMuiBvXPM+0ONczblgIj07RA3rXKikNv7cr5OLsSbEv/4e6GSviaT
+	nD9agkZuJUtwg0Y5pc94PFrX7fLGAyMugJYhsjExrRShk3O54lTZvpVwj2mHvKQfijBG
+	RK0wQOCNPTzzy0l6QF/u8c2rarLRQA70DncQdikuj/bR7Ht5PbNmE8fJk2DFnaBSaW7e
+	SNhg==
+X-Gm-Message-State: AJcUukerDBCQ+VYjAPdbuejomX5tnOgyBcwVyVNE6CSfljrQJA0F9DXT
+	sCmVLMElxPCSClfuxgg7FkUE2xRQbg4=
+X-Google-Smtp-Source: ALg8bN7LkwBzZkg4r7wId8NCKriRzpIQG0O6eASg8Po77OpAXdw70srlJCSjHa6eV+bV0Ee9xqVReA==
+X-Received: by 2002:a5d:444a:: with SMTP id x10mr17182008wrr.162.1547819653463;
+	Fri, 18 Jan 2019 05:54:13 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 3sm52811739wmw.46.2019.01.18.05.54.12
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Jan 2019 03:24:16 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri, 18 Jan 2019 05:54:12 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2019 12:24:10 +0100
-Message-Id: <20190118112410.122823-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python3: use ncursesw, not ncurses
+Date: Fri, 18 Jan 2019 13:54:11 +0000
+Message-Id: <20190118135411.12847-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libxslt: install documentation into an unversioned directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 11:24:16 -0000
+X-List-Received-Date: Fri, 18 Jan 2019 13:54:13 -0000
 
-So that wide-char functions are accssible.
+The version number isn't useful in /usr/share/doc as we can only install one
+copy of libxslt, and this reduces noise in buildhistory-diff reports.
 
-[YOCTO #13142]
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python3/130-readline-setup.patch | 2 +-
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/130-readline-setup.patch b/meta/recipes-devtools/python/python3/130-readline-setup.patch
-index c805652d694..cfa712678b9 100644
---- a/meta/recipes-devtools/python/python3/130-readline-setup.patch
-+++ b/meta/recipes-devtools/python/python3/130-readline-setup.patch
-@@ -49,7 +49,7 @@ Upstream-Status: Inappropriate [Embedded Specific]
- -            curses_library = 'ncurses'
- -        elif self.compiler.find_library_file(lib_dirs, 'curses'):
- -            curses_library = 'curses'
--+        curses_library = "ncurses"
-++        curses_library = "ncursesw"
-  
-          if host_platform == 'darwin':
-              os_release = int(os.uname()[2].split('.')[0])
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index 0e0c10d8168..fd442d44f72 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -30,7 +30,7 @@ do_configure_prepend () {
+ 	touch ${S}/doc/xsltproc.1
+ }
+ 
+-EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
++EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto --with-html-subdir=${BPN}"
+ # older versions of this recipe had ${PN}-utils
+ RPROVIDES_${PN}-bin += "${PN}-utils"
+ RCONFLICTS_${PN}-bin += "${PN}-utils"
 -- 
-2.17.1
+2.11.0
 
 
