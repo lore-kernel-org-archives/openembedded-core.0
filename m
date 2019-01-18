@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DF8877C229
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 225FE7C271
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 11:02:55 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id t200so4117661wmt.0
+	Fri, 18 Jan 2019 11:15:21 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id c14so14626216wrr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 03:02:57 -0800 (PST)
+	Fri, 18 Jan 2019 03:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=kgPw/k5NYEACm2xbzVipl0Wm+qU2Ek4xCviADGF395E=;
-	b=XqHMlFav+01Yu2Who6gQz9OQJ6H48XdI+G8k/JkeN1JCYU5TktZD23BV6bTDSGqm/y
-	la+uxfAXbLJ8peN4xfpBZP/Yg/+WccNKd667jhy9magv2pt3sMxxJjoN9jgq4IK7GLYx
-	pm8y8M0e759b7a+SBsTGU66Ym9h2HnOEtqdA8=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=tvzylF2d8du2qnEi2+FqBHUjeRFp1ZZ1R/5H7U9B57o=;
+	b=Ce17aj+LegL1EIExCYIFyc2icN6uRMQnZZT3WYWWN0VA9Pif+GN1Uvs9Eo1FNGwbLi
+	1CDKyhQFF69tcu/i9uO87Vy6OUdkgKXzELM52rs9h22Io3/jlrB7PIXHO93XUetstJoS
+	Hmhyx3kPExPYn8/YLzObTtOxxfOsFt0YqHU20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=kgPw/k5NYEACm2xbzVipl0Wm+qU2Ek4xCviADGF395E=;
-	b=LlwEuoSuLpUrDSbeGvW/LQ+7m6OO6knCJID37qrC8ddtUPa/vcI7tsIb9O5FOeIQ4+
-	Sn3PLmiCAigL09UasVs82be5ZfDQoh4O5attlKAc4y/uC+MizIXXjQ+yqFIg8EB38Pe6
-	XvaLy3uw0Mq8SUeXY+f5+/LhvKlscxezhXNt8j/MHUemmAT8V7N1qv7QTxVRfo8hMe7m
-	S7PPfh3DLPYGA8WfecfrXJ8k/Fi1qLFQP6Zo4vjIs2UuJ/ee1BsgUbHsW1bkLGEGRwNR
-	0aXmiRAGs3adesD2vd3UNZJXmzt1ifCNM4AO0luGRVQWcZuxn65GkOs4IQJ2zicvvccN
-	CB+A==
-X-Gm-Message-State: AJcUukeMguB1C1mGBEWrYBPXWEyL7fOHb/iJOFRrHE949eER16CVZKz+
-	iZB2ge5wmSwvXrl4vPNUV/KiI8cBagA=
-X-Google-Smtp-Source: ALg8bN4edIkRGM/FI2pgLYYyQb/VpUCIu7lg8r26MdW6szxNHpGIhviiP+0rwceLEGbiyuQwVxOAEw==
-X-Received: by 2002:a1c:aa0f:: with SMTP id t15mr14945902wme.108.1547809376459;
-	Fri, 18 Jan 2019 03:02:56 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=tvzylF2d8du2qnEi2+FqBHUjeRFp1ZZ1R/5H7U9B57o=;
+	b=Xl0WMfY4xdnKbIvRink8ULsoMmaYjbETz0/7nevZkasJMbEZuq5UNmnebAPsa4Kf89
+	H1CgMB41rUInrTbiV1A3qUfb3bnOgrq6xSnS3T17L1emUkvtqzsvyoNWuvXgOyHKn1Mk
+	/RjF5C+4FvNTL8FlRy4c3AdiEPRYIm1xfYieN7IZEMh4kktmZ2pZsxhrNFLLln01gPdl
+	21++9F2VrhmbBJYh7oohzn9Pb7Si8zKy9jzW4XPft9IdzYrl0kQ0DlFYWIrdz0BIG3W4
+	4YAFQb62XwUrxsIEaVb4mcbi0ossvz8FoHHLK8bxL7n7KV8hbXlNbwGSpid4u9F99y56
+	IFxw==
+X-Gm-Message-State: AJcUukc9QbMPkL2SSQ/pFYYtnKaQ1lwc/pwJG7PiZ+d2mWHc7RsqsiKq
+	TnvBiq3qa8UMXIPUNaYZgpdRjA==
+X-Google-Smtp-Source: ALg8bN5jjqTlhttm/R//Dijb7iPijqnAGW06p/oFcRddJqKjUaMHqicq2g0QW0ejmDyyG3j08rOH7Q==
+X-Received: by 2002:adf:e247:: with SMTP id n7mr15316069wri.205.1547810122729; 
+	Fri, 18 Jan 2019 03:15:22 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s66sm35171621wmf.34.2019.01.18.03.02.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Jan 2019 03:02:55 -0800 (PST)
+	e9sm70462674wro.16.2019.01.18.03.15.21
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 18 Jan 2019 03:15:22 -0800 (PST)
+Message-ID: <e4e2a11ab77ad313692deb32704b2618e2da9553.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2019 11:02:53 +0000
-Message-Id: <20190118110253.8273-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190118110253.8273-1-richard.purdie@linuxfoundation.org>
-References: <20190118110253.8273-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] nasm: Upgrade 2.14 -> 2.14.02
+To: kai.kang@windriver.com, ross.burton@intel.com
+Date: Fri, 18 Jan 2019 11:15:20 +0000
+In-Reply-To: <b561f725baace2efee3e30b5343cf1102319dcea.camel@linuxfoundation.org>
+References: <20190117071227.57387-1-kai.kang@windriver.com>
+	<b561f725baace2efee3e30b5343cf1102319dcea.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf: reset default value of DEBUG_PREFIX_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 11:02:56 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Jan 2019 11:15:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/nasm/{nasm_2.14.bb => nasm_2.14.02.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.14.bb => nasm_2.14.02.bb} (74%)
+On Fri, 2019-01-18 at 11:02 +0000, Richard Purdie wrote:
+> On Thu, 2019-01-17 at 02:12 -0500, kai.kang@windriver.com wrote:
+> > From: Kai Kang <kai.kang@windriver.com>
+> > 
+> > Reset default value of DEBUG_PREFIX_MAP with '-fdebug-prefix-map'.
+> > Specifying -fdebug-prefix-map is equivalent to specifying all the
+> > individual -f*-prefix-map options which means including
+> > -fmacro-prefix-map and -fdebug-prefix-map currently. Option
+> > -fmacro-prefix-map helps to avoid buildpaths qa warnings which
+> > caused
+> > by __FILE__ macro expansion for packages such as llvm and librepo.
+> > 
+> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > ---
+> >  meta/conf/bitbake.conf | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> I like the idea of the patch a lot. Unfortunately it causes an oe-
+> selftest failure:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/131
+> 
+> in the go toolchain.
+> 
+> oe-selftest -r gotoolchain.oeGoToolchainSelfTest.test_go_dep_build
+> 
+> should reproduce.
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.14.bb b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-similarity index 74%
-rename from meta/recipes-devtools/nasm/nasm_2.14.bb
-rename to meta/recipes-devtools/nasm/nasm_2.14.02.bb
-index 687a05a5cde..96536cc577d 100644
---- a/meta/recipes-devtools/nasm/nasm_2.14.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "238a240d3f869a52f8ac38ee3f8faafa"
--SRC_URI[sha256sum] = "d43cfd27cad53d0c22a9bf9702e9dffcc7018a0df21d15b92c56d250d747c744"
-+SRC_URI[md5sum] = "3f489aa48ad2aa1f967dc5e293bbd06f"
-+SRC_URI[sha256sum] = "34fd26c70a277a9fdd54cb5ecf389badedaf48047b269d1008fbc819b24e80bc"
- 
- # brokensep since this uses autoconf but not automake
- inherit autotools-brokensep
--- 
-2.19.1
+There does appear to be another issue:
+
+http://git.yoctoproject.org/cgit.cgi/poky-buildhistory/commit/?h=poky/master-next/qemux86&id=e3195d9809716652546a1ac69a75287ec707e79b
+
+The debug src files appear to be disappearing?
+
+Cheers,
+
+Richard
 
 
