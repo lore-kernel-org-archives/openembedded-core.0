@@ -1,48 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4852D7BF65
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BE1687C219
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 10:51:16 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id b23so10326731ios.10
+	Fri, 18 Jan 2019 11:02:11 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j2so14591337wrw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 02:51:17 -0800 (PST)
+	Fri, 18 Jan 2019 03:02:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GH/JVHsNkhYHTGEzTpF8D/f3Str6d5AZU/tp464bqxE=;
-	b=Dkdo8jjDsuzTrd3edtdqSGWmsMAnSf+8YVWms+L7g5uAOaeN4w3DgRsylhndIkDhXJ
-	dLNHHztG4Cf1j0mGjaGOdzbTyd49zfpFQWWPlvKjmg0yzWsxCp7IWC8bnFmGR/Nh8ixI
-	cqZVhqfyRS8eow0vx50vlsuy3T/OIXEXhkvL5BE4bxtP2udKdm1cl8Mp1Kb8j9NlmICe
-	4tJFg6pc13b5y6EXuHMrPv9sdJGQV2HH7tgjUN4AYRSjCxqalSVDRIgCNisHRkPY4dSp
-	nGZWk22FHy+lkWz/5NhDyxBBpTbcpAW2pdoB1Y8tqdgUlQgD7jv89bfTfflVi8enq5Vl
-	5N3A==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=JjSftckaOIHgirCkd21FjC+v/fZZX17kMg8GXV5xS8E=;
+	b=FFYlq6/kX7sk8/z4C/MU8YvXblWa6PystOfcnYVE7zwr71aYohJzy3FN3/5ezW1czN
+	a8dJqAlDpfFPWkLpXIsYrZuvbKRSw7BNFbK3+b7uw5/SO6iYhggpwV3HY34SuKGAWe7E
+	xRBnaFX6DFUiIxVa9cRx43ASkwl9UqkpBQn2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GH/JVHsNkhYHTGEzTpF8D/f3Str6d5AZU/tp464bqxE=;
-	b=sjeBhTVGA/TDrrxLcWV9ITvBCHxkJiWfI25pgC4RSDWe+qpTwjH76Jn3SNfSlwFp3A
-	04HVDIeIHgGHZAeSqoUtD9HlzcvOLNnNroenwr7J2JT0WMCXRscBqeveHbNQp8FzMh5M
-	yfQnBFcdssCCJRyZREYFwQvhE+DvpizGL6FlOATYSFn4aNbUIzfq6LGfHo06uVfQVZzQ
-	ECuQr4MxWtPht+RjMOtACtveLQhtCXuLv4xW4PN5kt8DEVqIS0aC66V7sdszr96OXSjD
-	1UADuKl2R7K2GmMNfhwicIPPcaPlTK/mnDWJtkxm7FfdkXnB0qNHAL7p9Cr14jVbjUKa
-	CwEg==
-X-Gm-Message-State: AJcUukcIdcYobJoOLKpD60tSR3RWHlZlBP2puFILiodaICjKt+K5CPCs
-	8yohF5zG3BVPVz55nzlJtDcyQOeP0OjUWqgJuoD4T59l
-X-Google-Smtp-Source: ALg8bN4bYRMU4Y2vj6Pjtb8bvNzkH6J/igqqUHG8WVj/V4MC1okyn4tfS/VXzGUdUyNOI62W4kKFMtHecjqSvICFUu8=
-X-Received: by 2002:a6b:f70a:: with SMTP id k10mr8838209iog.270.1547808677279; 
-	Fri, 18 Jan 2019 02:51:17 -0800 (PST)
-MIME-Version: 1.0
-References: <1547782346-11763-1-git-send-email-chunrong.guo@nxp.com>
-In-Reply-To: <1547782346-11763-1-git-send-email-chunrong.guo@nxp.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Jan 2019 10:51:06 +0000
-Message-ID: <CAJTo0LYchfYRFiTJJ-f5BnyDosXsV8PYWRcfPYq4FuEMDF_+kQ@mail.gmail.com>
-To: "C.r. Guo" <chunrong.guo@nxp.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glibc: glibc support powerpc e5500 and e6500
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=JjSftckaOIHgirCkd21FjC+v/fZZX17kMg8GXV5xS8E=;
+	b=cu5BQ79BbJVllXZakg8mv9hHxvkQbIJfTtp7Bo2G2FfvzQmd4tRJC2LCEDcdI6LVwv
+	GrGr9wzBvq5nm9enAPaxySHAmZVrZ/veM1iKQps7v558NnLJmXp1/ZUvVgiIU2c4OQER
+	TcdenCsqscRJBTdkqMp11FBiIAvK14dW7ytGwlnePYmbx4hQCGUxT5A4yp/jFJz9SN4K
+	+MrjXwQXU2eM9svUs2nH1Yv3LRzYq0tON6YFLCBcZy4MsoBnyP/+E17R5BbXkRxSf9+9
+	dQeuXWsFYmGOuw1FQvaVE6zW41XFcb20HZHREtqmJfW3+iNeu4oCA0c5Qxbku9MPR0bv
+	MDIw==
+X-Gm-Message-State: AJcUukcDMWm0vaAANDVcjwf1AjbGIsNqKgoA/wb0T9sNdq8y07lpB912
+	xLIpmqtRWbFiwkKWi8kJoBwgcQ==
+X-Google-Smtp-Source: ALg8bN7wr4MycNPmOxu8R38/A+n4KGMkDtsTgCvdH6Zto+epUMsUAEiTn0VQfcosPJE+PYd74G/Kbg==
+X-Received: by 2002:adf:f3c6:: with SMTP id g6mr15714066wrp.111.1547809332430; 
+	Fri, 18 Jan 2019 03:02:12 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n11sm24754053wrw.60.2019.01.18.03.02.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 18 Jan 2019 03:02:11 -0800 (PST)
+Message-ID: <b561f725baace2efee3e30b5343cf1102319dcea.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: kai.kang@windriver.com, ross.burton@intel.com
+Date: Fri, 18 Jan 2019 11:02:10 +0000
+In-Reply-To: <20190117071227.57387-1-kai.kang@windriver.com>
+References: <20190117071227.57387-1-kai.kang@windriver.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf: reset default value of DEBUG_PREFIX_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,14 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 10:51:16 -0000
+X-List-Received-Date: Fri, 18 Jan 2019 11:02:12 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Jan 2019 at 03:33, C.r. Guo <chunrong.guo@nxp.com> wrote:
-> +Upstream-Status: Pending
+On Thu, 2019-01-17 at 02:12 -0500, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> Reset default value of DEBUG_PREFIX_MAP with '-fdebug-prefix-map'.
+> Specifying -fdebug-prefix-map is equivalent to specifying all the
+> individual -f*-prefix-map options which means including
+> -fmacro-prefix-map and -fdebug-prefix-map currently. Option
+> -fmacro-prefix-map helps to avoid buildpaths qa warnings which caused
+> by __FILE__ macro expansion for packages such as llvm and librepo.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/conf/bitbake.conf | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-I prefer not to carry large patches to glibc for a long time if
-possible.  Is this going upstream?
+I like the idea of the patch a lot. Unfortunately it causes an oe-
+selftest failure:
 
-Ross
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/131
+
+in the go toolchain.
+
+oe-selftest -r gotoolchain.oeGoToolchainSelfTest.test_go_dep_build
+
+should reproduce.
+
+Cheers,
+
+Richard
+
 
