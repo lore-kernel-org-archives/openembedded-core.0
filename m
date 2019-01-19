@@ -1,50 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 621D960107
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+	[209.85.210.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A92C60107
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2019 12:15:51 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id b11so6860195wmj.1
+	Sat, 19 Jan 2019 12:19:21 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id s5so16810563oth.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2019 04:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=J6yx64BWJdNUkaWCk9kjmTMPw0PlmzNK/Mrisvm3aAI=;
-	b=Z9gdrq4rOgWpNWlCsy26t2XqJE8uDLvNJSaqFFy+9wwHkWLrgXBjeI7s57muQiQ7V3
-	6n3AMXwtDjfyuCj5G43WA2v0gx65cKzZjHM5xL8eTXuUDISx8rquqcarhM26oobAj0Ea
-	J3pTsEzJmAG+/tmOCdsVH4GIhuSrrDvamT/VU=
+	Sat, 19 Jan 2019 04:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2Z1XEQ5SXjg2xjblYHEOhKn909gE3eiIWiglLkmyedg=;
+	b=dJjXuntd3dzM4sRS8/r7wCRhBsCpODUG3dbNFdJeXd6neKLVOread0aX3Y9jripAAO
+	Pu0Fw8sVtDA4gWdwXsIsGK8PijBu1rUXLnML0Ad6jdHZx+41N3UxZxS2a1HMjl4pBa1J
+	TTDSn72c7HjULLsNPNPQr0lS2qBqvJxYSarKtwDe5Bi4EyM2XgFZhAb4ww88B3hYTkdv
+	KdcNskpSl4N877OgNpv6Su5YxPTCo/B4xFurmQ+RJgyHMxd7zv1nSs/fLOscDFhrHbtu
+	046PZVb0jEz08kvWR96HrT4fNu7wLSwkgVgyL1Bb5E1y7AQDGqARHcJhLckdwYzEFeuR
+	4Y8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=J6yx64BWJdNUkaWCk9kjmTMPw0PlmzNK/Mrisvm3aAI=;
-	b=Uze4gs9+OjAQunWcIePxffiIK89GZSxtJmSe11rfYUjWeRATRXP1UN00Sre/I5eBR/
-	qfkWOZaDfyypq5IEegQTr2sMQrU0eUmsJ3xl6BAdYcjwUs/Le64QrLa+rXa5CrzNH3QL
-	89n8sUlF9q0zJgNsV8HFBlh4tceDtoPVCUXhJVtCilGztdcn7UM0EykW9HCUEv2cCn1x
-	1WZnBxXm9UTFo11TmdR+Sw16dQcUY6WC5SRo0UFywVyRFJOCJr1iYPmBD4HvwtwcMOod
-	WB7S4g1SiqeKdMfwSPbYgbOotJZdtEeWPE9hN8IUQgwH+p6BDfwtJJ+XDTtFw10gHM2I
-	mRKA==
-X-Gm-Message-State: AJcUukdkOIk4PfaEqcX+jNQgvM1M8GxdB3gh47VZQxlT+jAjjQvG4KEU
-	rtS9izvM81TD+j/JspofsAyPjQ==
-X-Google-Smtp-Source: ALg8bN7FH3vW6TaB7fRIIWMeFtYTq+NOv3KeIs9Nacy5pL7+F3wjAE2OcPzWzBpCWsasaDiHdWpwSA==
-X-Received: by 2002:a1c:bbd6:: with SMTP id l205mr17513661wmf.97.1547900151889;
-	Sat, 19 Jan 2019 04:15:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c1sm36394332wmb.14.2019.01.19.04.15.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 19 Jan 2019 04:15:51 -0800 (PST)
-Message-ID: <9fe559c1167c274a29f0c2d73f779e024401174a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
-Date: Sat, 19 Jan 2019 12:15:50 +0000
-In-Reply-To: <20190118221737.14443-1-jdmason@kudzu.us>
-References: <20190118221737.14443-1-jdmason@kudzu.us>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/3] qemuarm: update to ARMv7
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2Z1XEQ5SXjg2xjblYHEOhKn909gE3eiIWiglLkmyedg=;
+	b=fAxxxifI07c+s6GXb2fB+388OxCQlrPUUUC9AO4prsfqWyXwiOEhMpHS614LCzR4Ky
+	ojy1BgpUdSK4uJ5tKgNSBkc7F+I6tct7zC9FHj5DlysAtjmdx1FncZcu8umbS1RX+oit
+	Bl4okrynpTyOt/+kxF9KaqavOogqRbUYGzIFQsfdAuxbjwnXvxKuDzaFAB0+eqLli2wO
+	PI59jaePlV7+iHu+F1LZ79xlXto08qlDLuQqwpZD9HYA7CmNsv9tqdcBfb96Wp0qr9qg
+	zXOMCIXkaJg7Jf+urnqgi7B+ygeN1GbilYBLX+1Ki9cGT0VMKsu/lKsbgw3im+40A2Qr
+	tEOw==
+X-Gm-Message-State: AJcUukdp60Gq57DjsxMH5ZA/qLrYXLTjeronL/WkbFH3TI0lwg9F3fNg
+	Go9ikvDHv0pMiQLYQE4lk25fIAxTPqJ+9jI9XOw=
+X-Google-Smtp-Source: ALg8bN5FWtlsEaYIPJk6nPCjub/D/0+FdWyYJZg9CJ+ofNie/0mLc7Z132naKk3sbMFS46PaBG7u5HRjgN1EI1+hzDI=
+X-Received: by 2002:a9d:c06:: with SMTP id 6mr15085744otr.326.1547900362182;
+	Sat, 19 Jan 2019 04:19:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20190117104456.E6876440001@auh.yoctoproject.org>
+	<5a8d0f4a-2b06-cd9c-b571-ce3bff62f86c@gmail.com>
+	<CANNYZj_cKj2+RwqyaCYjSfERWeGugBrhmgKoYVrwxof4c8Vpkg@mail.gmail.com>
+	<37865567-ce21-bd52-2ea6-9f478377f5e3@gmail.com>
+In-Reply-To: <37865567-ce21-bd52-2ea6-9f478377f5e3@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 19 Jan 2019 13:19:10 +0100
+Message-ID: <CANNYZj-RqhzKi6DOmgXedTOQhMkDRb7QM2_B5ScYgFmHNW5jug@mail.gmail.com>
+To: Marek Vasut <marek.vasut@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] u-boot: upgrading to 2019.01 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jan 2019 12:15:51 -0000
+X-List-Received-Date: Sat, 19 Jan 2019 12:19:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-01-18 at 17:17 -0500, Jon Mason wrote:
-> This series of patches allows for qemuarm to be a more modern and
-> (hopefully) faster platform to test on by default.  Firstly, it
-> introduces a QEMU ARMv7 based Cortex-A15 system (of machine type
-> virt).
-> It then renames the existing qemuarm machine to qemarmv5 to allow for
-> it
-> to be used by those who still want to use it.  Finally, it renames
-> the
-> newly introduced qemuarma15 to qemuarm.
-> 
-> Jon Mason (3):
->   qemuarma15: ARM A15 Support
->   qemuarm: rename to qemuarmv5
->   qemuarm: Rename qemuarma15 to qemuarm
+On Sat, 19 Jan 2019 at 08:03, Marek Vasut <marek.vasut@gmail.com> wrote:
+> >> Can AUH be fixed please ?
+> >
+> > We have previously discussed this: fixing devtool to upgrade several
+> > recipes in a single transaction is non-trivial as it operates on one
+> > recipe at a time.
+>
+> Can you elaborate what needs to be done to fix this ?
 
-Thanks, looking forward to sorting this out!
+You would need to teach devtool, specifically 'devtool upgrade',
+'devtool finish' and 'devtool reset' to operate on several recipes in
+a single transaction. Particularly, the operations need to be atomic -
+either they succeed for all recipes or fail for all. They shouldn't
+leave some recipes in an updated state, and other not. This is rather
+non-trivial, as devtool is designed throughout to handle only one
+recipe per operation. Also, it would be something of a corner case, as
+something like 99% of recipes don't share include files, and so don't
+need this.
 
-Unfortunately it failed in testing:
+That said, we can still easily make things better by dropping ${PV}
+from u-boot-common.inc. That way devtool would still update u-boot
+recipes one by one, but it would be able to build the result, so
+you'll know straight away where the issues are. Then just apply the
+patches using 'git am --3way' as they would all make the same change
+to SRCREV, squash into one (if you want) and send to oe-core. I'll
+send the ${PV} fix in a moment.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/191/steps/7/logs/step1c
-
-(the rest of the build is ongoing)
-
-Cheers,
-
-Richard
-
+Alex
 
