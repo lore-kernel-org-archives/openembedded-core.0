@@ -1,54 +1,58 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
-	[209.85.219.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DD0537C293
+Return-Path: <marek.vasut@gmail.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 87DF87BF70
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 22:17:44 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id g17so1054784yba.0
+	Sat, 19 Jan 2019 07:03:40 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id w73so7680683pfk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2019 14:17:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/NZ9MU7LMM+NQD3fcELAnTmgVPblWklb7k7H//jinUU=;
-	b=D7/DZJSxcn4jwTYzUkTuseDHZmzrlxQaQkjLgXCm3lFeRgz9+I7rdCFc+7HZ6Igy53
-	qvRxnL71lzKlwcx/GxY1qvbmGh8CfKe4Vgw3gpZKWSGH8A7UZ2/qgj7UuDhTnlXYyepy
-	CQ9CTT+la1y6slexnDkgsQLPVH+TGb/FzXI+cOhwYRBbh4qMGI9US9iBEixJupHiIZgz
-	v5+/H5E7I2ijCyCM6m5AWNZjh/MEXjGlRgBND4RwmkqOr+ZyB74lALGY4aawNhaluBaU
-	oDF97Ztc62kPFMh6dCsaJBJpyFQTmb0Xv/npev4El3XK1P1v6/sGHYfrpGyZwvAs9XOW
-	H7lQ==
+	Fri, 18 Jan 2019 23:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=N3IzXuILYgiYbht0820BYoZHZ+Ahc1zm605C/sRWFGQ=;
+	b=uOo/bmibvdpFu6rLNiVPH+EADxPofbyBw4u+apB69yw26H7rbpRAZV9zH7eIjWaDo1
+	nXn8AcRhfkWLUTQsvjBT0ZBX62JPmNnEYNn1ng+n+1Quwysa86HIuT6hnbcVntqdsy6F
+	07qEJejhnYfvcpgCyeKiWKZeeHW+/nZh6HWzqOoBEpelPEb9s+oL5u9ngNyZxID0NMGv
+	XIxHwu0kMvm2nLCX0prtKJ61JuVjSECOJGFcGMOMcbLNqwyiJtRXkJbmmLHOhHQyTzuc
+	pMDqOBlPBqN/p8p9O73rgglCdvXVOuMidhFaEYOvO+b6R+lSNY+F+MqxXs9pzK6zFpUE
+	I5xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=/NZ9MU7LMM+NQD3fcELAnTmgVPblWklb7k7H//jinUU=;
-	b=MuJeCm7jAvHP/4+6bKKaLg/+HMCgYvyZbeXCICXZHMjzu9tL4ayjDIIoe2kUsdhC5U
-	W0wF1XjZqW117DjupGeZMgwIi2f5vQffEG8QH/9AalznT2cmcGRqIF3UsesWAMZxMQkY
-	DfjVq/PZMVu4ENtpzDuSJOXstyaHWWvrcBYENr9Q7hvnQmpZ2QegvfwT1WV6udl3PQF+
-	jbtFYtuSKiIlbbmXX+STAqqFuwIOMwJyl7w5fAN+B3GWev6hKyJ3t0phd92KiynGU4hM
-	mwJueyrDJRo9Y7FKCrGbSpMy2KLypbhRa7Uqp1RGYPdeApXEcqpzpputukIJ1ECdWLY3
-	wZmw==
-X-Gm-Message-State: AJcUukc9/4Q7FVapT2h0weDsXjW5N8dEXQKir/mFBI0WE8ZXoqkZw94f
-	uxpTuINwipxMUA8yi+RQRi0hjOcxCy04bA==
-X-Google-Smtp-Source: ALg8bN5QiNXcL0gd7nc5vhVW5xksPGzghDKu0b8GJ+ePMYto6Bd2xtjUpjtY2JMoECmyb9pxMVmowA==
-X-Received: by 2002:a25:be0a:: with SMTP id h10mr8466345ybk.326.1547849865570; 
-	Fri, 18 Jan 2019 14:17:45 -0800 (PST)
-Received: from graymalkin (76-230-155-4.lightspeed.rlghnc.sbcglobal.net.
-	[76.230.155.4])
-	by smtp.gmail.com with ESMTPSA id s7sm1979302ywe.20.2019.01.18.14.17.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 18 Jan 2019 14:17:45 -0800 (PST)
-Received: by graymalkin (sSMTP sendmail emulation);
-	Fri, 18 Jan 2019 17:17:43 -0500
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2019 17:17:37 -0500
-Message-Id: <20190118221737.14443-4-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20190118221737.14443-1-jdmason@kudzu.us>
-References: <20190118221737.14443-1-jdmason@kudzu.us>
-Subject: [PATCH 3/3] qemuarm: Rename qemuarma15 to qemuarm
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=N3IzXuILYgiYbht0820BYoZHZ+Ahc1zm605C/sRWFGQ=;
+	b=O+BxmD55opRTa+oa7hz5naBBTi3k4oYJw4j4Euxe0CMXuphV6I/qRJ91a7eFUWObVm
+	rgN8R3Cw+JIEUmSg2uMZBkhdsOApL/HfQCc9aI86eIeyuQbuS3PGzWQgsmwV4lKBMzsi
+	5nJxZlBltm2oYl3z2lRb+jgy44nmb7iOuyzPaEY5duIYuiOaJN+xHdCT4BQCUlqftdru
+	ZqKWUK+qUvSN/13NIjH+SWaZYEHbQZwARgaVpNK1ynRYtLcUj+zLpeiTnB5zD9IaqR9k
+	zKwivtpcEEADIb1qyW5eb51U/i70Bv7aD5P6ft81S4VHyJc/yAr5jutJPFfOsvEt9HAr
+	o0uw==
+X-Gm-Message-State: AJcUukeV2LmBG8xUTBrjPpsXwKU7rdElYk2sV+hQYsOESxeih2uWkpf/
+	uHx7zoGWDrZHeiHnALkKLAUPSN/+
+X-Google-Smtp-Source: ALg8bN4EexRTaVak3PZEq5TrSAmcRrfGAELozSD5hUZGpLKixmJfp6sXNoasQcadMB9FS7ev1zupVA==
+X-Received: by 2002:a63:a16:: with SMTP id 22mr20612064pgk.318.1547881421258; 
+	Fri, 18 Jan 2019 23:03:41 -0800 (PST)
+Received: from [192.168.42.184] ([103.44.164.150])
+	by smtp.gmail.com with ESMTPSA id
+	f64sm20441432pfh.0.2019.01.18.23.03.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 18 Jan 2019 23:03:40 -0800 (PST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20190117104456.E6876440001@auh.yoctoproject.org>
+	<5a8d0f4a-2b06-cd9c-b571-ce3bff62f86c@gmail.com>
+	<CANNYZj_cKj2+RwqyaCYjSfERWeGugBrhmgKoYVrwxof4c8Vpkg@mail.gmail.com>
+From: Marek Vasut <marek.vasut@gmail.com>
+Openpgp: preference=signencrypt
+Message-ID: <37865567-ce21-bd52-2ea6-9f478377f5e3@gmail.com>
+Date: Sat, 19 Jan 2019 08:01:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj_cKj2+RwqyaCYjSfERWeGugBrhmgKoYVrwxof4c8Vpkg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] u-boot: upgrading to 2019.01 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,64 +65,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2019 22:17:45 -0000
+X-List-Received-Date: Sat, 19 Jan 2019 07:03:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Rename qemuarma15 to qemuarm.  This makes the default QEMU Arm setup to
-emulate the more modern ARMv7 Cortex-A.
+On 1/18/19 10:39 AM, Alexander Kanavin wrote:
+> On Fri, 18 Jan 2019 at 08:10, Marek Vasut <marek.vasut@gmail.com> wrote:
+> 
+>>> Next steps:
+>>>     - apply the patch: git am 0001-u-boot-upgrade-2018.11-2019.01.patch
+>>>     - check the changes to upstream patches and summarize them in the commit message,
+>>>     - compile an image that contains the package
+>>>     - perform some basic sanity tests
+>>>     - amend the patch and sign it off: git commit -s --reset-author --amend
+>>>     - send it to the appropriate mailing list
+>>>
+>>> Alternatively, if you believe the recipe should not be upgraded at this time,
+>>> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+>>> automatic upgrades would no longer be attempted.
+>>>
+>>> Please review the attached files for further information and build/update failures.
+>>> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>>
+>> Can AUH be fixed please ?
+> 
+> We have previously discussed this: fixing devtool to upgrade several
+> recipes in a single transaction is non-trivial as it operates on one
+> recipe at a time.
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/conf/machine/{qemuarma15.conf => qemuarm.conf} | 0
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb    | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb  | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb       | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/conf/machine/{qemuarma15.conf => qemuarm.conf} (100%)
+Can you elaborate what needs to be done to fix this ?
 
-diff --git a/meta/conf/machine/qemuarma15.conf b/meta/conf/machine/qemuarm.conf
-similarity index 100%
-rename from meta/conf/machine/qemuarma15.conf
-rename to meta/conf/machine/qemuarm.conf
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index d518677f42..a0476540e1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarmv5|qemuarma15|qemuarm64|qemuppc|qemumips)"
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarmv5|qemuarm|qemuarm64|qemuppc|qemumips)"
- 
- KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index a51270f731..caf46a1c09 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
- 
--COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarmv5|qemuarma15"
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarmv5|qemuarm"
- 
- # Functionality flags
- KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index 69ae644417..505164bced 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -37,7 +37,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
- 
--COMPATIBLE_MACHINE = "qemuarmv5|qemuarma15|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> Please try to accept that AUH is not perfect and
+> take these emails as a reminder to do the version update (which you
+> should, as the listed maintainer).
+
+This kind of automated update seems like a perfect simple manual task
+for a computer to do, so I'd prefer not to waste my time on it. I'm not
+happy with "accepting that tooling is sub-par and thus do stuff
+manually", I'd much rather see the tooling fixed so it can be useful.
+
+> The attached patch is actually
+> useful as a starting point, you only need to rename the other two .bb
+> files to complete the update.
 -- 
-2.17.2
-
+Best regards,
+Marek Vasut
 
