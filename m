@@ -1,47 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A34865CF3
+Return-Path: <shantanu@senic.com>
+Received: from mail-yw1-f41.google.com (mail-yw1-f41.google.com
+	[209.85.161.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CC1E60107
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2019 12:21:37 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r24so2811500wmh.0
+	Sat, 19 Jan 2019 12:26:34 +0000 (UTC)
+Received: by mail-yw1-f41.google.com with SMTP id i73so6323878ywg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2019 04:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Sat, 19 Jan 2019 04:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=senic-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=o9Y4Ngynwp9fB24ksL6dMr5MT2o9X3/kuRECBexy+8g=;
-	b=Hu8ms1bscq9SfJoK/FCCLzTu3tWUtvbylREqyugUgJhEtU3LhW4RTFoQUHu2/T1bun
-	Q2WI1Z8fmKRhMdJQvYMHKbNIb3m/D1fSR3hoji0GNr8t60dTqWAzIDKnVUZfI2H1QnpQ
-	a05C0v1xPuGCuPO5JJPDckZ16E1lQZ1GdE9IV+z0YHspphWxbm74SfxbuYhh0cMQn4Qj
-	6fKvKT+43+qCKcMgJFB7Dl0jc+F/KkmmLCBfokff2Aw8fxb5dv1mV0PSiYRqNO+gSr38
-	eV6fthKzz4+/R1O/JBTrhTSlm34s9aU83rFiimLY0HnQFWxrGIgYjgbVCWlFVgEbZWNG
-	lcnw==
+	bh=1C2+CyDD6mRDM0IJ8jN3QbboQkbQ2Fy5tC4UuR5htbk=;
+	b=k5whE8vEd0sMRoqISiRlRskFXZ/pJkvuOBVX0fjqwB1eQ7ohNO89/FjmsdVVIfyCd4
+	QbVv/CHU7IFCKXR5BoHuiGdGJkpJPr7MotgNdLZzP4juY2DMHE3whyqAKxCmXx/9381c
+	T/4wLX+ZmJzBctx3zS8o7j90qBlNNf9Ks0bvWsH19EHU6S8CBCTwCIqYyo7uKJHCTJ+L
+	BSh2Av7cD+4hKRAp5T+CtBJUMePJEwo9pX5dp916P1Q6YrBdf2OqMdqmqrz1mb2WRtJg
+	VPCckNhnlORzwYYr157W3zdRXVvw5q4QPhbjlTg0/bJ7Tu9OIvpHYavuTKO+F7raz2cy
+	TzwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=o9Y4Ngynwp9fB24ksL6dMr5MT2o9X3/kuRECBexy+8g=;
-	b=eATFt7MVeldS0U0NXiKi8yR/urhDPWBlQ/PYN72SYwsou3lulME+ElRLs9ypqLFyGt
-	JszdVQslGwFOBCrARIr1Vr9cDWY7wD5KQiP4k+vLRP9CM88fmYJ+cArqlUJLqK2NrNfJ
-	fycYCiRrxDraRkik2SnrLq0ZIrLWHbyR/0yRQAvx8KhC6g9cpJo5UR6AF1IqiSfTv9qh
-	utXJ43+CAv4gVoDKpYAC0JobGOik9u73J1SijcD5CMJ0GD3Tc7dgaSAFTiKCXKcfHKqE
-	jr0T5EvCa+X2YaRb4B4ybSnAC24GAfPuASXdkK31Zl2hBKgKQr01rm0SrLFoHmX/PqIh
-	7WfQ==
-X-Gm-Message-State: AJcUukdLjXVc14Z+kQY9I8W6Eqdfba90/YNJPpXM1UamCrujFfzQWCxp
-	K/x5d04vqKZfR7zJ/Ye8vXdQmi8J
-X-Google-Smtp-Source: ALg8bN6mB9tmQx62Dy9gv2awXPltrJo7gqIa73kKxTHTvCDNvn9+o5UqKIsuGC+9HHbPvd+Ug+eSgg==
-X-Received: by 2002:a1c:1688:: with SMTP id 130mr17963369wmw.86.1547900497656; 
-	Sat, 19 Jan 2019 04:21:37 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	bh=1C2+CyDD6mRDM0IJ8jN3QbboQkbQ2Fy5tC4UuR5htbk=;
+	b=dLXvosph5Y44VSOri4AuW0qqwLIZVrG7K+iuQLqWr5SZWYLMKFynCPa5tCQsCHy9iD
+	tNjziev456DX+KlaKtohfYl0jczOA1soasPIu8X5foanacqhElMsypn7EKIvtCPF5Fox
+	gknhVR8lkMQhODL3AnbfxBAMmiAaPOkSmKIO1PabgcT9HEdF/DicnSXCuLeAdL53mqvl
+	hVm0H6wme/clBsFxph3k5UuzgXwbq+KuCWwqNAb6eNnnYQE/HtAIsiH32KeING0wuFfH
+	Q/vFWFczQ0XCrPRyIisrm7KpES2JUlqVwrHMLY4yxBOyd+TH1D8J94dveplZPr2wRX4Z
+	qI9w==
+X-Gm-Message-State: AJcUukfA8c528nQOxFiDANyba/pFkI8M8VpgLdfKPQSDi7qtJMH0VGKz
+	zCf6IVQezKqnboKiSPhqxCwJOD+G7D4=
+X-Google-Smtp-Source: ALg8bN4d+r8fG6xW01Im6Fu0E4Vi2i4rXYZQD04NQ8800ZDgt8vl+PF38IZpud94YGev9LniB3tblw==
+X-Received: by 2002:a81:5b82:: with SMTP id
+	p124mr21744144ywb.153.1547900794787; 
+	Sat, 19 Jan 2019 04:26:34 -0800 (PST)
+Received: from localhost.localdomain ([117.241.130.152])
 	by smtp.gmail.com with ESMTPSA id
-	j8sm66100437wrt.40.2019.01.19.04.21.36
+	q185sm3112889ywe.87.2019.01.19.04.26.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 19 Jan 2019 04:21:37 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Sat, 19 Jan 2019 04:26:34 -0800 (PST)
+From: Shantanu <shantanu@senic.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Jan 2019 13:21:28 +0100
-Message-Id: <20190119122128.41062-1-alex.kanavin@gmail.com>
+Date: Sat, 19 Jan 2019 17:56:18 +0530
+Message-Id: <20190119122618.5173-1-shantanu@senic.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] u-boot: drop ${PV} from u-boot-common.inc filename
+Cc: Shantanu <shantanu@senic.com>
+Subject: [meta-oe][PATCH] Add recipe for python bindings of Berkeley DB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jan 2019 12:21:37 -0000
+X-List-Received-Date: Sat, 19 Jan 2019 12:26:34 -0000
 
-This will let AUH test-build the proposed upgrades made by devtool.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Shantanu <shantanu@senic.com>
 ---
- .../u-boot/{u-boot-common_2018.11.inc => u-boot-common.inc}     | 0
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb              | 2 +-
- meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb                 | 2 +-
- meta/recipes-bsp/u-boot/u-boot_2018.11.bb                       | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-common_2018.11.inc => u-boot-common.inc} (100%)
+ .../python/python3-bsddb3_6.2.6.bb            | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta-python/recipes-devtools/python/python3-bsddb3_6.2.6.bb
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.11.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-common_2018.11.inc
-rename to meta/recipes-bsp/u-boot/u-boot-common.inc
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
-index 52c13e75d8d..b5ce56847be 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
-@@ -1,4 +1,4 @@
--require u-boot-common_${PV}.inc
-+require u-boot-common.inc
- 
- SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
- DEPENDS += "mtd-utils"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-index 7893d2aebcb..ff26e324829 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
-@@ -1,4 +1,4 @@
--require u-boot-common_${PV}.inc
-+require u-boot-common.inc
- 
- SUMMARY = "U-Boot bootloader tools"
- DEPENDS += "openssl"
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot_2018.11.bb
-index 37c21dcaa38..02d67c0db25 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2018.11.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2018.11.bb
-@@ -1,4 +1,4 @@
--require u-boot-common_${PV}.inc
-+require u-boot-common.inc
- require u-boot.inc
- 
- DEPENDS += "bc-native dtc-native"
+diff --git a/meta-python/recipes-devtools/python/python3-bsddb3_6.2.6.bb b/meta-python/recipes-devtools/python/python3-bsddb3_6.2.6.bb
+new file mode 100644
+index 000000000..0cb10fbab
+--- /dev/null
++++ b/meta-python/recipes-devtools/python/python3-bsddb3_6.2.6.bb
+@@ -0,0 +1,19 @@
++DESCRIPTION = "pybsddb is the Python binding for the Oracle Berkeley DB"
++HOMEPAGE = "https://www.jcea.es/programacion/pybsddb.htm"
++SECTION = "devel/python"
++LICENSE = "AGPL-3.0"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/AGPL-3.0;md5=73f1eb20517c55bf9493b7dd6e480788"
++SRC_URI[md5sum] = "ebb7554bbe1a518abbe742753a617577"
++
++inherit pypi setuptools3
++
++PYPI_PACKAGE = "bsddb3"
++
++DEPENDS = "db \
++  python3-core \
++"
++
++DISTUTILS_BUILD_ARGS = "--berkeley-db=${STAGING_DIR_HOST}/usr"
++DISTUTILS_INSTALL_ARGS = "--berkeley-db=${STAGING_DIR_HOST}/usr"
++
++RDEPENDS_${PN} = "db"
 -- 
 2.17.1
 
