@@ -1,26 +1,51 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 947656D147
+Return-Path: <dan.dedrick@gmail.com>
+Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
+	[209.85.166.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B52FA6006E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 17:28:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0LHR6RL005501
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Jan 2019 09:27:42 -0800
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 21 Jan 2019 09:27:22 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 21 Jan 2019 12:26:52 -0500
-Message-ID: <3285778593b41ff20bd58dea4f72c0cb74e48a9d.1548091536.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1548091536.git.bruce.ashfield@windriver.com>
-References: <cover.1548091536.git.bruce.ashfield@windriver.com>
+	Mon, 21 Jan 2019 20:15:46 +0000 (UTC)
+Received: by mail-it1-f174.google.com with SMTP id c9so16972028itj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jan 2019 12:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=flpSbUlP/CpS/uLdXS8D0C2IV+sn3WUDPSHMZEZ5pQI=;
+	b=lbc45ngRy2wTPU39/pOVryk87WvxNZ402P+ldcqyKdRlzZ4fNObssxJulAKarEE1FD
+	3nqhMLdmvekWdKpG0dLkMOFjhQdcWoAbpbNO6hrVvUq1cwhiGe1UODt3bh8VarkLifx6
+	CoqlJq40uQUXMgbf5aQMp9iWdGgagLGhmVmU+4VYO2kISgNjtcU2HYiUxkB9neQ/Lad2
+	SqqjGoemvqI3JtQefWCtHwz4LfD023mmbmKuN5vTPst6Sk1pBgnXLAi/m8+fqhkbIjg+
+	CjDPwXfYCYpYFCNwXtRfdYtlRpMhdJSXGaH9IYQFhc8rPLv9szYUKv1hdXZfBvmqxSj1
+	yLlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=flpSbUlP/CpS/uLdXS8D0C2IV+sn3WUDPSHMZEZ5pQI=;
+	b=iXOEA70hR7qShbFcJPP0OLYBUdo/1sTXmUTfxMSaMKnH/zg547BlN8Zq8ijJ+HsHqd
+	AADorRYYVjgpXQmRH3ycidQaf9Qg1NP3k/S9MBJBx542h3SJni8g0TpiaxVmUNpxvSHo
+	mpbfb264Pc3xmpoHcjsPDQY3DggMbfdkpSJYHQ5B0ufonh6gzWr+Oj8ehsuCIFdD/4kP
+	J7yCQdppwlit9wbmUa+NB0y8yEekYjcM5LFSuPApSMXaOELmZRwmT1ce/bKb/yO3tRuF
+	WDcjukkgwHIcwrAXG0lKn1QpUgByFrJWKf9pvTudSzFd6kGZOv8rvUyDGhLjVe9jkwmo
+	ZN1g==
+X-Gm-Message-State: AJcUukddeyJ7LAr5wPWQ+SJ0cBRaIqDex7JgK/VqrMCvBQ4MduuvmFud
+	vcmkR13r047/hXTChgPbFZDWI6mA
+X-Google-Smtp-Source: ALg8bN6ElOZsu7fYeQOWfhkrHq5PFDUyzNKx5tB7FicRAS51LOB9XLHqRgQp7Oz41oBwnGBIM691NA==
+X-Received: by 2002:a02:77c1:: with SMTP id
+	g184mr16843881jac.140.1548101747399; 
+	Mon, 21 Jan 2019 12:15:47 -0800 (PST)
+Received: from dargo.lpdev.prtdev.lexmark.com ([192.146.101.90])
+	by smtp.gmail.com with ESMTPSA id m7sm6205659itk.38.2019.01.21.12.15.46
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 21 Jan 2019 12:15:46 -0800 (PST)
+From: Dan Dedrick <dan.dedrick@gmail.com>
+X-Google-Original-From: Dan Dedrick <ddedrick@lexmark.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jan 2019 15:15:27 -0500
+Message-Id: <20190121201527.52834-1-ddedrick@lexmark.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/4.19: integrate qemuarm refresh changes
+Subject: [PATCH] devtool: improve git repo checks before check_commits logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 17:28:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Jan 2019 20:15:46 -0000
+Content-Transfer-Encoding: 8bit
 
-Integrating the following two commits that prepare for an update of
-'qemuarm' to an a15 based emulation.
+The check_commits logic assumes that both devtool-base and args.branch
+exist in the git repo that it is operating on. In order to prevent
+errors at that point it's best to first ensure that both of these refs
+actually exist. If they don't both exist then the check_commits logic
+should just be skipped, as it would be if the repo wasn't originally
+checked out by devtool.
 
-[
-   Author: Jon Mason <jdmason@kudzu.us>
-   Date:   Fri Jan 18 16:45:28 2019 -0500
+Previously if a user removed the args.branch branch from their devtool
+cloned repo this code would crash on adding the repo with -n. The crash
+would look like this:
 
-       qemuarma15: Add Real-Time and Tiny configs
-
-       Add tiny and Real-Time configs.  Also, add kmachine name to standard
-       config to allow for BSP renaming.
-
-       Signed-off-by: Jon Mason <jdmason@kudzu.us>
-       Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-   Author: Jon Mason <jdmason@kudzu.us>
-   Date:   Fri Jan 18 16:45:27 2019 -0500
-
-       qemuarm: Add qemuarmv5 kmachine name
-
-       Add alternative kmachine name to allow for the configs to be used by
-       soon-to-be-renamed BSPs.
-
-       Signed-off-by: Jon Mason <jdmason@kudzu.us>
-       Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Traceback (most recent call last):
+  File "/home/ddedrick/src/poky/scripts/devtool", line 344, in <module>
+    ret = main()
+  File "/home/ddedrick/src/poky/scripts/devtool", line 331, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/ddedrick/src/poky/scripts/lib/devtool/standard.py", line 812, in modify
+    (stdout, _) = bb.process.run('git log devtool-base..%s' % branch, cwd=srctree)
+  File "/home/ddedrick/src/poky/bitbake/lib/bb/process.py", line 178, in run
+    raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+bb.process.ExecutionError: Execution of 'git log devtool-base..devtool' failed with exit code 128:
+fatal: ambiguous argument 'devtool-base..devtool': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/devtool/standard.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index 4a987d52c034..cb0283d49fcb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "7a0b04e5a8d036cd9dcc6ee64a838e8d8d5cdd56"
--SRCREV_meta ?= "d9a3d567a7b5617f757d132090ca1646e139301f"
-+SRCREV_meta ?= "0b9ea5596fd88277a4ecca1a8b8a1aca06a1ae37"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index d3c6f12352f7..4e13bf125e8b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "d11db6c6617f689e6b9e2afaa3d3b2036c6d3d30"
- SRCREV_machine ?= "eebb51300a07804a020ec468b5f8c5bf720198d9"
--SRCREV_meta ?= "d9a3d567a7b5617f757d132090ca1646e139301f"
-+SRCREV_meta ?= "0b9ea5596fd88277a4ecca1a8b8a1aca06a1ae37"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index bd9b6a3543e5..599418d9cb21 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "eebb51300a07804a020ec468b5f8c5bf720198d9"
- SRCREV_machine_qemux86-64 ?= "eebb51300a07804a020ec468b5f8c5bf720198d9"
- SRCREV_machine_qemumips64 ?= "dff23f01307cbab688d9677ecd4b5f350ec435d9"
- SRCREV_machine ?= "eebb51300a07804a020ec468b5f8c5bf720198d9"
--SRCREV_meta ?= "d9a3d567a7b5617f757d132090ca1646e139301f"
-+SRCREV_meta ?= "0b9ea5596fd88277a4ecca1a8b8a1aca06a1ae37"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d14b7a6543..328b5cf02e 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -769,9 +769,13 @@ def modify(args, config, basepath, workspace):
+             check_commits = True
+         else:
+             if os.path.exists(os.path.join(srctree, '.git')):
+-                # Check if it's a tree previously extracted by us
++                # Check if it's a tree previously extracted by us. This is done
++                # by ensuring that devtool-base and args.branch (devtool) exist.
++                # The check_commits logic will cause an exception if either one
++                # of these doesn't exist
+                 try:
+                     (stdout, _) = bb.process.run('git branch --contains devtool-base', cwd=srctree)
++                    bb.process.run('git rev-parse %s' % args.branch, cwd=srctree)
+                 except bb.process.ExecutionError:
+                     stdout = ''
+                 if stdout:
 -- 
-2.5.0
+2.20.1
 
 
