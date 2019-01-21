@@ -1,50 +1,49 @@
-Return-Path: <dan.dedrick@gmail.com>
-Received: from mail-it1-f171.google.com (mail-it1-f171.google.com
-	[209.85.166.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C851660107
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 397A4745D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 16:05:19 +0000 (UTC)
-Received: by mail-it1-f171.google.com with SMTP id c9so15858333itj.1
+	Mon, 21 Jan 2019 16:17:57 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id u47so24117907qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 08:05:21 -0800 (PST)
+	Mon, 21 Jan 2019 08:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MLvNjkRtKpdM4nm/NtuiPC6KYUgIpSnwerV4xTUWzjU=;
-	b=vgShDF8mqd6Fk/yKiq73NvkiYUI7tqBXyvxRIWPMdtQsXAlY7Ilq4BHYwSAYvSPBzr
-	5PqEOynXs74qt7Tpjg6GDQKRveXTBCJTTSxPFaC/O7JSjLh/RKjrLwM4a05Au60DvINj
-	0pFw0bOPwC6G6zajzAbyjL3DgDmrjXEldXeWBLb9OTeQR/4TOj34fs82XBqy8FAO2blq
-	Mib5R8grukGrtv5gQs5V7jvkWtLPft8Nnsx+YYTvVRYl12Eq2LDlsF6rlkJViWkFrbUD
-	4gpyyxpKDbDgRGzU1rA/bTCfRTmZQlqUomu1GBAc9LWiSo/Q7Ihx7IOIUihWPQByPvAj
-	qYWQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=O1fDDxOsqMXtgNYFpYRhyoiIU6miCJuX0T8KH9CIgZQ=;
+	b=uWQ/yThTOl0YmKsGqnSjUsdJwoF/KN2UncvUVmb2WTu1NjjfIi2rVgmIr1NtAa99sr
+	vgndBCLtfICb75S8RC82cOUQ6+WYjVu4XFDNN26jh8amnrX4U1zcOeT4YGFrScSPbBwd
+	rpT37v2PepwHXhJ6JpLAjXpmA4BrwfHGByHBSEErFtOqooVqrTMSNXTY2kn4tXXgz/m0
+	cg4vkjEzBoTGd85W5WoCG+HBI+XHPwcCVFQnFSoq2gcXWGrW7C7XzkcxvJfz/gg4ykgb
+	ApO5e47qrJI9dlDhQxwYc1C0IUrVeuB5GizWRlIdRSBsIt1EXFGifo+752jCr6uteYGC
+	Vsxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MLvNjkRtKpdM4nm/NtuiPC6KYUgIpSnwerV4xTUWzjU=;
-	b=n+PJES/edxced2MEtMhbLshjLAA6TOAWn6oz66BZvx3pM9ehdWzNNpUIam1+nbNraf
-	xSHF5f+WDoRswVE+gso5zKejGNpfXB/q+VKjXmrpioaSpBONlnFZNPGkPP++j8VtpSnS
-	Wlu0i/N1xB/t6Z+dcX7SjESnx/tFHCrZc14VDntj4RXWju6E9Vjt+Tg8aigJcoVLnHx/
-	KPpH/mxyuMsKR9yXESF88BB36/BePDyYGK+X3aH1QEZHx31tMfOngD7WabiICqdMEavG
-	GPkiGmZ0ZP5lnrXcev8JPhenx/WsCZ5n5ZNGB1zAm3ApbZi4vbsk1re7ufAXWxvEa8gn
-	QK3g==
-X-Gm-Message-State: AJcUukcISzeCmp/DvdUt7Vh5hPAt1xl73Pgan22Zm8FpGnQ9uyNwJrOq
-	LcDMjxYmwigPvuvW8VELx/uMRmxX
-X-Google-Smtp-Source: ALg8bN4ZVAEdCPXOiLTm96p/VAwUyABed0+SeDTH72SAjZRGqD1PMOVHOlcaUlTAsJ3l3AuxOO2ztg==
-X-Received: by 2002:a24:1490:: with SMTP id 138mr1476itg.101.1548086720536;
-	Mon, 21 Jan 2019 08:05:20 -0800 (PST)
-Received: from dargo.lpdev.prtdev.lexmark.com ([192.146.101.90])
-	by smtp.gmail.com with ESMTPSA id k2sm6430044itk.35.2019.01.21.08.05.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 21 Jan 2019 08:05:19 -0800 (PST)
-From: Dan Dedrick <dan.dedrick@gmail.com>
-X-Google-Original-From: Dan Dedrick <ddedrick@lexmark.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2019 11:05:02 -0500
-Message-Id: <20190121160502.64556-1-ddedrick@lexmark.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=O1fDDxOsqMXtgNYFpYRhyoiIU6miCJuX0T8KH9CIgZQ=;
+	b=XraYuj+EfmD3bN1w09/myxqvPIxv3CpbiXr/59Y//Avg0jsNdYFJMrCRZQziUDGl9d
+	ZzQEBjHZpg8I7BFrt4TovbPBqzltBUH1CCMpFotuCNpSshxpyCzhbl+KiNUV1HaZRlfL
+	TuQlUzxjwbT58xPfnqhz9+MUDFyzdT2OQamn+ITjtU0Vg5crpCUDlZ2uFn7WxwCDtTUn
+	GS3s+eQh5rQAXXUOC3TQCiLNOfnKo3d/366TMjE6ywq/bG70SPS8s9R1OOOzjQ1ErFUD
+	yQeSo0qrvvnkX27CthErRnc/Mx3AbeCBDtfCS8yzAE02h3KQS+UOjjEHIqtth1KdxOTM
+	uJNw==
+X-Gm-Message-State: AJcUukdrajO2gpd6/xFuBVcW6iRYN+md/l4lvklxO0k9jSje96BGhGFU
+	u/SyRnTJhPgR1rxzcK1DaknQ+tl8ubw7umNWrfrrGwkPDbA=
+X-Google-Smtp-Source: ALg8bN5AR2tNTqtvVNMS/F/EGDjrUv+B8D0Ij3oJSXWnYvSdq7d6tAzLGm418xRiqra5Fnaxu/McPfDxxpyxICMfVeI=
+X-Received: by 2002:ac8:518d:: with SMTP id c13mr26804920qtn.254.1548087477932;
+	Mon, 21 Jan 2019 08:17:57 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] devtool: remove duplicate overrides
+References: <20181129175214.3041-1-raj.khem@gmail.com>
+	<3287314d6f8a7a23be48eb9ea168b3f148da7ae5.camel@andred.net>
+In-Reply-To: <3287314d6f8a7a23be48eb9ea168b3f148da7ae5.camel@andred.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Jan 2019 08:17:31 -0800
+Message-ID: <CAMKF1sr+VTsroSm_CNG+qZadFv1nXXj4TJ9RUY3d9rmWuf_JHw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] musl: Update to latest trunk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +56,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 16:05:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 21 Jan 2019 16:17:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DEVTOOL_EXTRA_OVERRIDES only needs one entry for each instance of
-overrides. Previous to these changes it would find every override to
-SRC_URI and add it to the list. This would duplicate instances where
-SRC_URI is modified multiple times with the same override like:
-SRC_URI_append_foo += "file://0001-foo.patch"
-SRC_URI_append_foo += "file://0002-bar.patch"
+Hi Andr=C3=A9
 
-A bbappend might also overwrite a SRC_URI override, which would also
-cause multiple instances to occur.
+this feature was implemented but does not emulate full
+glibc behavior and its possible that app is expecting the glibc
+behavior, I have fixed nfsutils app in past see for details
 
-When there are multiple instances of the same override in
-DEVTOOL_EXTRA_OVERRIDES it causes devtool modify to fail when creating
-override branches. The failure occurs when attempting to create the same
-override branch a second time and looks like this:
+https://patchwork.kernel.org/patch/10707759/
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:devtool_post_patch(d)
-     0003:
-File: '/build/poky/meta/classes/devtool-source.bbclass', lineno: 202, function: devtool_post_patch
-     0198:
-     0199:        for override in extra_override_list:
-     0200:            localdata = bb.data.createCopy(d)
-     0201:            if override in default_overrides:
- *** 0202:                bb.process.run('git branch devtool-override-%s %s' % (override, devbranch), cwd=srcsubdir)
-     0203:            else:
-     0204:                # Reset back to the initial commit on a new branch
-     0205:                bb.process.run('git checkout %s -b devtool-override-%s' % (initial_rev, override), cwd=srcsubdir)
-     0206:                # Run do_patch function with the override applied
-File: '/build/poky/bitbake/lib/bb/process.py', lineno: 178, function: run
-     0174:        if not stderr is None:
-     0175:            stderr = stderr.decode("utf-8")
-     0176:
-     0177:    if pipe.returncode != 0:
- *** 0178:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
-     0179:    return stdout, stderr
-Exception: bb.process.ExecutionError: Execution of 'git branch devtool-override-foo devtool' failed with exit code 128:
-fatal: A branch named 'devtool-override-foo' already exists.
+I think you can start with suspecting app, I dont rule out libc bug
+but thats less likely
 
-Signed-off-by: Dan Dedrick <ddedrick@lexmark.com>
----
- scripts/lib/devtool/standard.py | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index d14b7a6543..a45ad36812 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -509,6 +509,11 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-             if not 'flag' in event:
-                 if event['op'].startswith(('_append[', '_prepend[')):
-                     extra_overrides.append(event['op'].split('[')[1].split(']')[0])
-+        # We want to remove duplicate overrides. If a recipe had multiple
-+        # SRC_URI_override += values it would cause mulitple instances of
-+        # overrides. This doesn't play nicely with things like creating a
-+        # branch for every instance of DEVTOOL_EXTRA_OVERRIDES.
-+        extra_overrides = list(set(extra_overrides))
-         if extra_overrides:
-             logger.info('SRC_URI contains some conditional appends/prepends - will create branches to represent these')
- 
--- 
-2.20.1
-
+On Mon, Jan 21, 2019 at 1:14 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
+>
+> Hi,
+>
+> On Thu, 2018-11-29 at 09:52 -0800, Khem Raj wrote:
+> > Complete changelogs are here
+> > https://git.musl-libc.org/cgit/musl/log/?qt=3Drange&q=3Dc50985d5c8e316c=
+5c464f352e79eeebfed1121a9..39ef612aa193cc6e954ac5a01574300ccd4b7ef9
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > V2: move to latest master ( 3 more commits for regressions )
+> >
+> >  meta/recipes-core/musl/musl_git.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-
+> > core/musl/musl_git.bb
+> > index 0d8f8eb2a4..b416ec45bf 100644
+> > --- a/meta/recipes-core/musl/musl_git.bb
+> > +++ b/meta/recipes-core/musl/musl_git.bb
+> > @@ -4,7 +4,7 @@
+> >  require musl.inc
+> >  inherit linuxloader
+> >
+> > -SRCREV =3D "c50985d5c8e316c5c464f352e79eeebfed1121a9"
+> > +SRCREV =3D "39ef612aa193cc6e954ac5a01574300ccd4b7ef9"
+>
+> With this, link detection doesn't seem to work correctly anymore, instead
+> constant messages in the syslog:
+>
+>     Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Ather=
+os 8031 ethernet] (mii_bus:phy_addr=3D30be0000.etherne:01, irq=3D-1)
+>     IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
+>     fec 30bf0000.ethernet eth1: Link is Up - 1Gbps/Full - flow control rx=
+/tx
+>     IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
+>     Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Ather=
+os 8031 ethernet] (mii_bus:phy_addr=3D30be0000.etherne:01, irq=3D-1)
+>     IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
+>     fec 30bf0000.ethernet eth1: Link is Up - 1Gbps/Full - flow control rx=
+/tx
+>     IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
+>     Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Ather=
+os 8031 ethernet] (mii_bus:phy_addr=3D30be0000.etherne:01, irq=3D-1)
+>
+> etc.
+>
+> I've tracked it down to commit d1395c43c019 ("allow freeaddrinfo of
+> arbitrary sublists of addrinfo list" in musl.
+>
+> Even latest musl master de7dc1318f49 doesn't work for me with the same
+> problem. The only way to make it work is to revert d1395c43c019 in musl,
+> even with latest master.
+>
+> link detection should be a kernel thing, or not? So how can a user-space
+> change affect the kernel's link detection?
+>
+> Any ideas?
+>
+>
+> Cheers,
+> Andre'
+>
+>
 
