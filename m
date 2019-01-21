@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 95E55745A1
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+	[209.85.167.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CE7BA600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 09:53:39 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id t27so22511220wra.6
+	Mon, 21 Jan 2019 11:15:28 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id i26so15233732lfc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 01:53:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=+DLYmmgrBjDw//DkcoZ1PkhJ/6rEIOjWKbTgleI+gi0=;
-	b=E7aa4gbAO0Xv42yLwBJ8UgtnNaMZuVi/VFDhxzoKAKx9wKKOd/dcLMa0/7j/PrC2/y
-	thhlB/v7nqzN2/8ipSSaeGWq7r/gHD2uz954ItFR7M2JqMsLvX1TX4Lwf1d96pvvdDjq
-	v5YF4NVx/vWysCyu9Nf+3jj56qfyGLkS2JvWg=
+	Mon, 21 Jan 2019 03:15:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=w8AgZU/QxKquG/aMU+lSLRj2GtkKUhADix3IePYKxHI=;
+	b=PYKLoY6obJynad1sNTePoV0laIvEfZPUmrarbeJLMBJRbbQTVZtcxgvDgvThSjIuoo
+	CWJjLe46pbyPaR1Sqo7nInJCDehAbN/o6YgpU2xQ0XqC0d/htxSFffjewetbTRkZjv1L
+	4mepCrx2Xd4WSTDOPQHwxq8VoezY2q+/7XJIDNPT1jQF9t1+KkWDPmKPtRwvZ4y+X22M
+	yYwpc6DOdBfBh9izgcM4WWltbqZVjVf52zQZ34E0WOv6P6Mc+hAeYYNRY5m/Hlkp+mbd
+	5trfuLvkn62QKqzgP1ibLl8aM8UtdIfxWsokodWvJ25k4u3+H9uQG3rTstFj+f/TbV2t
+	NE4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+DLYmmgrBjDw//DkcoZ1PkhJ/6rEIOjWKbTgleI+gi0=;
-	b=tH3cv5fZKyunXXSLaBxjPwGBMkxodkOS5UGUUAN1t0djTl4FxHSdKFfr98dANmxdwO
-	VdDc+HTnv4MXk6yAoaS68ZxolvHFJVgnlKixQyUKsGbA+WYlJN5i7v6TzTcT0RcjwdN3
-	DV1xaItYyEyJh9uC5DrJL+lO6hMqnP7/nW33GmHHUjBR5t3sEYrT2nomBIU90uVIlaMP
-	KtyeVbuhDuAqyLGxIOwTZmvSpCMeJ5DzQKr7vADHD1XlQ/838fhyn8ig5MgDMWkcsgNd
-	KQoAUiZpgJo2Z5lcGqHvONdxM8dErYg+PYH1Qp103Ujx2lBNRX1peSsmgWV8K4vjPhVe
-	1j1w==
-X-Gm-Message-State: AJcUukewjehEgCW/tSOOfq7wrYdyzHBKSJIJ0hCKTLwyrLdCfIDFDbv6
-	T2llOARPzeST8PfZDMuN2nUA2w==
-X-Google-Smtp-Source: ALg8bN44m0eJmfrT0E8a2bJngV6Gzw9vqjes/+O2qsHBgoPGMcMMdrWixbAeG7F0DQkLMPM1AvVuiQ==
-X-Received: by 2002:adf:e891:: with SMTP id d17mr29222832wrm.140.1548064420206;
-	Mon, 21 Jan 2019 01:53:40 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=w8AgZU/QxKquG/aMU+lSLRj2GtkKUhADix3IePYKxHI=;
+	b=Slyr4TumEC0dThsDiTzfbkwmqXWqXZFd2/GJ+XM/HyOHGJrcScuBxwBCrd8oi9GfH/
+	0GQ9eqrO9nVDQcFlKcH+wIhaOzbUF/bK5ENmETIFhzm/tddJns2+F7jFLUTMw/xCXmnV
+	qlIonhFjBJ2BqXjqeEqHbw2fE3ZeWbHk7Ox7d/av9dFcU4P99k5j0ysV+GCtuxjky4Wf
+	X2DJQCrN/1zHDbnT+yrfW38cukJ3SU0DKbs1VZOEqOlwkRcwugAqLfkRJlDBm5HhEvzD
+	UeQYf93cdvQYLF/Z1BZVqNZvcsTquJUZPPIY93HARWfo+gVx39RpkDYjiQGbbFT4n0Li
+	bb5A==
+X-Gm-Message-State: AJcUukfdCCTAg0hc1rkVExZtaziOKZJZqYAeyKGHCiNgGGAA4fzB3G0e
+	qFFSJhtUdOHJgArwaY8Y1E/m4tHw
+X-Google-Smtp-Source: ALg8bN4S9pzGVwaEHuY/63JzujXcljb1ftjs9bPYu6aD5NMXVVg/QSlukKI9F4KCsmm4SWYuaei2Gg==
+X-Received: by 2002:a19:4ed9:: with SMTP id u86mr17262876lfk.78.1548069328942; 
+	Mon, 21 Jan 2019 03:15:28 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	w16sm106517880wrp.1.2019.01.21.01.53.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 21 Jan 2019 01:53:39 -0800 (PST)
-Message-ID: <adcb2224cfb62745ee54c5f04c1c75ff9d803ed1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2019 09:53:36 +0000
-In-Reply-To: <f2b0687b21913c2806aebdb3355a6444649ec08d.1548062956.git.Qi.Chen@windriver.com>
-References: <cover.1548062956.git.Qi.Chen@windriver.com>
-	<f2b0687b21913c2806aebdb3355a6444649ec08d.1548062956.git.Qi.Chen@windriver.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] devtool.py: remove fetch results from download directory to avoid failure
+	p10-v6sm2191393ljh.59.2019.01.21.03.15.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Jan 2019 03:15:28 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jan 2019 12:15:19 +0100
+Message-Id: <20190121111519.109947-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] perl: fix a race issue during 'make install'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +54,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 09:53:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jan 2019 11:15:29 -0000
 
-On Mon, 2019-01-21 at 17:29 +0800, Chen Qi wrote:
-> The fetch results need to be removed from the download directory to
-> avoid
-> failures like below.
-> 
->   Submodule path 'doxyport': checked out
-> 'db3e1a6eb8677d3166d90d82c3068689803ce547'
-> 
->   fatal: reference is not a tree:
-> 67cad692720982ac3cbd99bf1c3421edc69b08f9
->   Unable to checkout '67cad692720982ac3cbd99bf1c3421edc69b08f9' in
-> submodule path 'doxygen2jsdoc'
-> 
->   ERROR: Function failed: base_do_unpack
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...install.perl-runs-before-install.man.patch | 27 +++++++++++++++++++
+ .../perl-sanity/perl_5.28.1.bb                |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-Make-sure-install.perl-runs-before-install.man.patch
 
-I'd like to understand the problem here a bit more. My worry is that
-deleting files manually from DL_DIR is bad practise, particularly if
-that directory is shared between builds like on our autobuilder.
-
-We've had similar problems with cleansstate since that can also remove
-artefacts from the sstate cache which another build may be using. We
-can do this only when the sstate directory is not shared.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-Make-sure-install.perl-runs-before-install.man.patch b/meta/recipes-devtools/perl-sanity/files/0001-Make-sure-install.perl-runs-before-install.man.patch
+new file mode 100644
+index 00000000000..26590f59088
+--- /dev/null
++++ b/meta/recipes-devtools/perl-sanity/files/0001-Make-sure-install.perl-runs-before-install.man.patch
+@@ -0,0 +1,27 @@
++From 965adc80636e24e9608ca983c18c95cae08de021 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 21 Jan 2019 12:09:13 +0100
++Subject: [PATCH] Make sure install.perl runs before install.man
++
++Otherwise, install.man may attempt to write to non-existing directory:
++|   Can't open file /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/perl/5.28.1-r0/image/usr/libx32/perl5/5.28.1/x86_64-linux/.packlist: No such file or directory at installman line 183.
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/issues/72]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index cd8d75f..82bdc1d 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -410,7 +410,7 @@ install.perl: installperl | miniperl$X
++ 	./miniperl_top installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
++ 	-@test ! -s extras.lst || $(MAKE) extras.install
++ 
++-install.man: installman pod/perltoc.pod | miniperl$X
+++install.man: install.perl installman pod/perltoc.pod | miniperl$X
++ 	./miniperl_top installman --destdir=$(DESTDIR) $(INSTALLFLAGS)
++ 
++ ifneq ($(perlname),perl)
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+index 71892a2436c..949758c4d49 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://fix-race-failures.patch \
+            file://fix-race-failures-2.patch \
+            file://0001-Also-build-dynaloader-separately-as-race-failures-ha.patch \
++           file://0001-Make-sure-install.perl-runs-before-install.man.patch \
+            "
+ 
+ SRC_URI[perl.md5sum] = "838198c43d4f39d7af797e2f59c2bee5"
+-- 
+2.17.1
 
 
