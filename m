@@ -1,32 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 09B9F6BE0C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5631879F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 02:19:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0L2JC5X011993
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 20 Jan 2019 18:19:12 -0800 (PST)
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Sun, 20 Jan 2019 18:19:12 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <20190117071227.57387-1-kai.kang@windriver.com>
-	<CAMKF1srbHBH8ZUT7ChbJXqc=0f2HxGM=ZWJyY=osE=RLzxTW_w@mail.gmail.com>
-	<CAJTo0Lb-wU6Mre2uqg6e2x=_FAAr21s4sqP_oj-saQznQQsNbA@mail.gmail.com>
-	<CAMKF1sots+CQU4CucnE7VfQbVsJzh-urOCWZbnQ_whbMP93WHA@mail.gmail.com>
-	<63eaa7eb-17b1-0b26-f28a-b4dd811eef31@windriver.com>
-	<CAMKF1sqvEN+-_9uU6ZzX=+G=0dp3fKmOBWQ8o1CVXxeLJ_pwYQ@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <d6f1f3ee-a815-6a93-cb46-5bf9b289eade@windriver.com>
-Date: Mon, 21 Jan 2019 10:18:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Mon, 21 Jan 2019 05:35:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0L5Zbvk012283
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Jan 2019 21:35:38 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Sun, 20 Jan 2019 21:35:36 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Jan 2019 13:35:35 +0800
+Message-ID: <1548048935-326977-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LZKFXDNUUvo==S+7BjM1s5OZxOffq-einXho6M9A8mvyg@mail.gmail.com>
+References: <CAJTo0LZKFXDNUUvo==S+7BjM1s5OZxOffq-einXho6M9A8mvyg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqvEN+-_9uU6ZzX=+G=0dp3fKmOBWQ8o1CVXxeLJ_pwYQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: reset default value of DEBUG_PREFIX_MAP
+Subject: [PATCH V3] populate_sdk_base: provide options to set sdk type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,49 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 02:19:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 21 Jan 2019 05:35:37 -0000
+Content-Type: text/plain
 
-On 2019/1/21 上午10:17, Khem Raj wrote:
-> On Sun, Jan 20, 2019 at 6:12 PM Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2019/1/19 上午4:54, Khem Raj wrote:
->>> On Fri, Jan 18, 2019 at 12:43 PM Burton, Ross <ross.burton@intel.com> wrote:
->>>> On Fri, 18 Jan 2019 at 17:55, Khem Raj <raj.khem@gmail.com> wrote:
->>>>> I am bit concerned about using -ffile-prefix-map here, its gcc only
->>>>> option so will cause clang to fail
->>>> It's almost like we need a toolchain override so this can be gcc-specific...
->>>>
->>>> I've been meaning to do that for about a year now :(
->>>>
->>>> Until then, couldn't meta-clang just override the value from the layer?
->>> yes it can, but one by one there are many changes to keep and core becomes
->>> tied to gcc. We should be conscious about it.
->>
->>   From the link https://reviews.llvm.org/D49466 pasted by Dan, we know
->> that clang will support option '-ffile-prefix-map'.
->> I prefer to override DEBUG_PREFIX_MAP in meta-clang and remove it when
->> clang support for '-ffile-prefix-map' implemented.
-> Thats ok, not worried about clang at this point. But the patch itself
-> was not working last time on gcc either. So if that is fixed we can consider it.
+From: Changqing Li <changqing.li@windriver.com>
 
+Current sdk type is tar.xz, but for mingw sdk, since we
+have symlink under the sdk folder, 7zip which used to
+extract tar.xz cannot handle it, refer 7zip upstream bug:
+https://sourceforge.net/p/sevenzip/discussion/45797/thread/c71d6b96/
+so add option for usr can select the sdk type.
 
-OK. I am working on the issued pointed by Richard.
+default type is tar.xz, and also support type zip.
+user want to use zip type can set SDK_ARCHIVE_TYPE to zip.
 
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
->
->> Regards,
->> Kai
->>
->>
->>>> Ross
->>
->> --
->> Kai Kang
->>
-
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 677ba3c..3e7aec8 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -44,8 +44,23 @@ TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalon
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
++# Default archived SDK's suffix
++SDK_ARCHIVE_TYPE ?= "tar.xz"
++
++# To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
++python () {
++    if d.getVar('SDK_ARCHIVE_TYPE') == 'zip':
++       d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native') 
++       # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
++       # recommand to cd into input dir first to avoid archive with buildpath
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
++    else:
++       d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
++}
++
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
++SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+ PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+ SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+ 
+@@ -103,7 +118,7 @@ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
+ POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
+ POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
+ SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
+-SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
++SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; archive_sdk; ${SDK_PACKAGING_COMMAND} "
+ 
+ def populate_sdk_common(d):
+     from oe.sdk import populate_sdk
+@@ -221,11 +236,10 @@ python check_sdk_sysroots() {
+ 
+ SDKTAROPTS = "--owner=root --group=root"
+ 
+-fakeroot tar_sdk() {
++fakeroot archive_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDKDEPLOYDIR}
+-	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
++	${SDK_ARCHIVE_CMD}
+ }
+ 
+ TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
+@@ -268,10 +282,10 @@ EOF
+ 	chmod +x ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# append the SDK tarball
+-	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
++	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# delete the old tarball, we don't need it anymore
+-	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
++	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}
+ }
+ 
+ populate_sdk_log_check() {
 -- 
-Kai Kang
+2.7.4
 
 
