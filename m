@@ -1,26 +1,51 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F25AC745A1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 95E55745A1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 09:21:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0L9LZAi025320
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 21 Jan 2019 09:53:39 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id t27so22511220wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 01:21:45 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 21 Jan 2019 01:21:24 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Jan 2019 17:29:59 +0800
-Message-ID: <f2b0687b21913c2806aebdb3355a6444649ec08d.1548062956.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1548062956.git.Qi.Chen@windriver.com>
+	Mon, 21 Jan 2019 01:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+DLYmmgrBjDw//DkcoZ1PkhJ/6rEIOjWKbTgleI+gi0=;
+	b=E7aa4gbAO0Xv42yLwBJ8UgtnNaMZuVi/VFDhxzoKAKx9wKKOd/dcLMa0/7j/PrC2/y
+	thhlB/v7nqzN2/8ipSSaeGWq7r/gHD2uz954ItFR7M2JqMsLvX1TX4Lwf1d96pvvdDjq
+	v5YF4NVx/vWysCyu9Nf+3jj56qfyGLkS2JvWg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+DLYmmgrBjDw//DkcoZ1PkhJ/6rEIOjWKbTgleI+gi0=;
+	b=tH3cv5fZKyunXXSLaBxjPwGBMkxodkOS5UGUUAN1t0djTl4FxHSdKFfr98dANmxdwO
+	VdDc+HTnv4MXk6yAoaS68ZxolvHFJVgnlKixQyUKsGbA+WYlJN5i7v6TzTcT0RcjwdN3
+	DV1xaItYyEyJh9uC5DrJL+lO6hMqnP7/nW33GmHHUjBR5t3sEYrT2nomBIU90uVIlaMP
+	KtyeVbuhDuAqyLGxIOwTZmvSpCMeJ5DzQKr7vADHD1XlQ/838fhyn8ig5MgDMWkcsgNd
+	KQoAUiZpgJo2Z5lcGqHvONdxM8dErYg+PYH1Qp103Ujx2lBNRX1peSsmgWV8K4vjPhVe
+	1j1w==
+X-Gm-Message-State: AJcUukewjehEgCW/tSOOfq7wrYdyzHBKSJIJ0hCKTLwyrLdCfIDFDbv6
+	T2llOARPzeST8PfZDMuN2nUA2w==
+X-Google-Smtp-Source: ALg8bN44m0eJmfrT0E8a2bJngV6Gzw9vqjes/+O2qsHBgoPGMcMMdrWixbAeG7F0DQkLMPM1AvVuiQ==
+X-Received: by 2002:adf:e891:: with SMTP id d17mr29222832wrm.140.1548064420206;
+	Mon, 21 Jan 2019 01:53:40 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	w16sm106517880wrp.1.2019.01.21.01.53.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 21 Jan 2019 01:53:39 -0800 (PST)
+Message-ID: <adcb2224cfb62745ee54c5f04c1c75ff9d803ed1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jan 2019 09:53:36 +0000
+In-Reply-To: <f2b0687b21913c2806aebdb3355a6444649ec08d.1548062956.git.Qi.Chen@windriver.com>
 References: <cover.1548062956.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] devtool.py: remove fetch results from download directory to avoid failure
+	<f2b0687b21913c2806aebdb3355a6444649ec08d.1548062956.git.Qi.Chen@windriver.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] devtool.py: remove fetch results from download directory to avoid failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 09:21:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Jan 2019 09:53:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The fetch results need to be removed from the download directory to avoid
-failures like below.
+On Mon, 2019-01-21 at 17:29 +0800, Chen Qi wrote:
+> The fetch results need to be removed from the download directory to
+> avoid
+> failures like below.
+> 
+>   Submodule path 'doxyport': checked out
+> 'db3e1a6eb8677d3166d90d82c3068689803ce547'
+> 
+>   fatal: reference is not a tree:
+> 67cad692720982ac3cbd99bf1c3421edc69b08f9
+>   Unable to checkout '67cad692720982ac3cbd99bf1c3421edc69b08f9' in
+> submodule path 'doxygen2jsdoc'
+> 
+>   ERROR: Function failed: base_do_unpack
 
-  Submodule path 'doxyport': checked out 'db3e1a6eb8677d3166d90d82c3068689803ce547'
+I'd like to understand the problem here a bit more. My worry is that
+deleting files manually from DL_DIR is bad practise, particularly if
+that directory is shared between builds like on our autobuilder.
 
-  fatal: reference is not a tree: 67cad692720982ac3cbd99bf1c3421edc69b08f9
-  Unable to checkout '67cad692720982ac3cbd99bf1c3421edc69b08f9' in submodule path 'doxygen2jsdoc'
+We've had similar problems with cleansstate since that can also remove
+artefacts from the sstate cache which another build may be using. We
+can do this only when the sstate directory is not shared.
 
-  ERROR: Function failed: base_do_unpack
+Cheers,
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 9eb9bad..4fcbdc3 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -446,6 +446,7 @@ class DevtoolAddTests(DevtoolBase):
-         # Test devtool add
-         self.track_for_cleanup(self.workspacedir)
-         self.add_command_to_tearDown('bitbake -c cleansstate %s' % testrecipe)
-+        self.add_command_to_tearDown('rm -rf %s/git2/*%s*' % (get_bb_var('DL_DIR', None), testrecipe))
-         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-         result = runCmd('devtool add %s %s -a -f %s' % (testrecipe, srcdir, url))
-         self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer.conf'), 'Workspace directory not created: %s' % result.output)
-@@ -464,6 +465,8 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars['SRCREV'] = '${AUTOREV}'
-         self._test_recipe_contents(recipefile, checkvars, [])
-         # Try with revision and version specified
-+        result = runCmd('bitbake -c cleansstate %s' % testrecipe)
-+        result = runCmd('rm -rf %s/git2/*%s*' % (get_bb_var('DL_DIR', None), testrecipe))
-         result = runCmd('devtool reset -n %s' % testrecipe)
-         shutil.rmtree(srcdir)
-         url_rev = '%s;rev=%s' % (url, checkrev)
--- 
-1.9.1
+Richard
 
 
