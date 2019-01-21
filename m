@@ -1,41 +1,23 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f65.google.com (mail-yw1-f65.google.com
-	[209.85.161.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 562B76BC44
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C4A4751D2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 09:14:56 +0000 (UTC)
-Received: by mail-yw1-f65.google.com with SMTP id n21so7757711ywd.10
+	Mon, 21 Jan 2019 09:21:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0L9LNNw014477
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 01:14:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ThjrCSuKQIWYx9+khJVnZX63pli2CfZhbvXjkJNqpws=;
-	b=nQ8SSEQMgVVIjAEnXnekk6eGC+hZ+EVFWcV+UiWabkJBkKAshVFkWeTnw9CSLYKfgn
-	b6MfvoSGfovpO1yxXElUd1gk8Bz4ZnomVt5WHEBvHVM1Wnf5a8uFrDdysIAHhAg1e/Kf
-	6/QmgjKJWoEcI3TIp0jQGu3Xt0r+Q18weGXpkvuA1J8CKws0oG9/VqBxIMjt+gk8yPg2
-	6RNNN5kZwKuJYB6gv72oMo76OU+GoKxwYGjJXIv4ADcia41ZzDjTCoK2CgG9XISBB+8G
-	f9YtyhCj2j5GGhMvfe8peS+LzpLrKwQPqvM5MtzT2fXirYzAhXfwij8SkVIyBOg6UIyy
-	wHYw==
-X-Gm-Message-State: AJcUukctbNxubJPdf2BSciMkeAFrt1xbtmCXDi+/kuMRoNGB9WdQ5zvN
-	Tfgw9voxfaw7n5A6MVVTM27zYSR5
-X-Google-Smtp-Source: ALg8bN5ezYYERoEY0zIfVkwQ0Pw8lIbcAdPzDPKtACJlulkyr5+guYzGm9xsiUfxxhT4XkQuM5cP3w==
-X-Received: by 2002:a81:3e07:: with SMTP id l7mr27398915ywa.447.1548062097090; 
-	Mon, 21 Jan 2019 01:14:57 -0800 (PST)
-Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	i13sm4649985ywe.53.2019.01.21.01.14.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 21 Jan 2019 01:14:56 -0800 (PST)
-Message-ID: <3287314d6f8a7a23be48eb9ea168b3f148da7ae5.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Jan 2019 09:14:54 +0000
-In-Reply-To: <20181129175214.3041-1-raj.khem@gmail.com>
-References: <20181129175214.3041-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH V2] musl: Update to latest trunk
+	Mon, 21 Jan 2019 01:21:23 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 21 Jan 2019 01:21:22 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Jan 2019 17:29:58 +0800
+Message-ID: <cover.1548062956.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] devtool.py: remove fetch results from download directory to avoid failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,65 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 09:14:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jan 2019 09:21:23 -0000
+Content-Type: text/plain
 
-Hi,
+*** BLURB HERE ***
+The following changes since commit f9fcd07e478af4a091db0ed71f6442a7e108e016:
 
-On Thu, 2018-11-29 at 09:52 -0800, Khem Raj wrote:
-> Complete changelogs are here
-> https://git.musl-libc.org/cgit/musl/log/?qt=range&q=c50985d5c8e316c5c464f352e79eeebfed1121a9..39ef612aa193cc6e954ac5a01574300ccd4b7ef9
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> V2: move to latest master ( 3 more commits for regressions )
-> 
->  meta/recipes-core/musl/musl_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-
-> core/musl/musl_git.bb
-> index 0d8f8eb2a4..b416ec45bf 100644
-> --- a/meta/recipes-core/musl/musl_git.bb
-> +++ b/meta/recipes-core/musl/musl_git.bb
-> @@ -4,7 +4,7 @@
->  require musl.inc
->  inherit linuxloader
->  
-> -SRCREV = "c50985d5c8e316c5c464f352e79eeebfed1121a9"
-> +SRCREV = "39ef612aa193cc6e954ac5a01574300ccd4b7ef9"
+  scripts/contrib/build-perf-test.sh: Remove it (2019-01-20 22:24:18 +0000)
 
-With this, link detection doesn't seem to work correctly anymore, instead
-constant messages in the syslog:
+are available in the git repository at:
 
-    Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Atheros 8031 ethernet] (mii_bus:phy_addr=30be0000.etherne:01, irq=-1)
-    IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
-    fec 30bf0000.ethernet eth1: Link is Up - 1Gbps/Full - flow control rx/tx
-    IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
-    Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Atheros 8031 ethernet] (mii_bus:phy_addr=30be0000.etherne:01, irq=-1)
-    IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
-    fec 30bf0000.ethernet eth1: Link is Up - 1Gbps/Full - flow control rx/tx
-    IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
-    Atheros 8031 ethernet 30be0000.etherne:01: attached PHY driver [Atheros 8031 ethernet] (mii_bus:phy_addr=30be0000.etherne:01, irq=-1)
+  git://git.pokylinux.org/poky-contrib ChenQi/devtool-fetch
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/devtool-fetch
 
-etc.
+Chen Qi (1):
+  devtool.py: remove fetch results from download directory to avoid
+    failure
 
-I've tracked it down to commit d1395c43c019 ("allow freeaddrinfo of
-arbitrary sublists of addrinfo list" in musl.
+ meta/lib/oeqa/selftest/cases/devtool.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Even latest musl master de7dc1318f49 doesn't work for me with the same
-problem. The only way to make it work is to revert d1395c43c019 in musl,
-even with latest master.
-
-link detection should be a kernel thing, or not? So how can a user-space
-change affect the kernel's link detection?
-
-Any ideas?
-
-
-Cheers,
-Andre'
-
+-- 
+1.9.1
 
 
