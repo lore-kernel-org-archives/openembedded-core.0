@@ -1,23 +1,50 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0780371B1D
+Return-Path: <dan.dedrick@gmail.com>
+Received: from mail-it1-f171.google.com (mail-it1-f171.google.com
+	[209.85.166.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C851660107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 14:48:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0LEmTmq019674
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 21 Jan 2019 16:05:19 +0000 (UTC)
+Received: by mail-it1-f171.google.com with SMTP id c9so15858333itj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 06:48:29 -0800 (PST)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Mon, 21 Jan 2019 06:48:28 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Jan 2019 09:48:24 -0500
-Message-ID: <20190121144824.172600-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Mon, 21 Jan 2019 08:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MLvNjkRtKpdM4nm/NtuiPC6KYUgIpSnwerV4xTUWzjU=;
+	b=vgShDF8mqd6Fk/yKiq73NvkiYUI7tqBXyvxRIWPMdtQsXAlY7Ilq4BHYwSAYvSPBzr
+	5PqEOynXs74qt7Tpjg6GDQKRveXTBCJTTSxPFaC/O7JSjLh/RKjrLwM4a05Au60DvINj
+	0pFw0bOPwC6G6zajzAbyjL3DgDmrjXEldXeWBLb9OTeQR/4TOj34fs82XBqy8FAO2blq
+	Mib5R8grukGrtv5gQs5V7jvkWtLPft8Nnsx+YYTvVRYl12Eq2LDlsF6rlkJViWkFrbUD
+	4gpyyxpKDbDgRGzU1rA/bTCfRTmZQlqUomu1GBAc9LWiSo/Q7Ihx7IOIUihWPQByPvAj
+	qYWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MLvNjkRtKpdM4nm/NtuiPC6KYUgIpSnwerV4xTUWzjU=;
+	b=n+PJES/edxced2MEtMhbLshjLAA6TOAWn6oz66BZvx3pM9ehdWzNNpUIam1+nbNraf
+	xSHF5f+WDoRswVE+gso5zKejGNpfXB/q+VKjXmrpioaSpBONlnFZNPGkPP++j8VtpSnS
+	Wlu0i/N1xB/t6Z+dcX7SjESnx/tFHCrZc14VDntj4RXWju6E9Vjt+Tg8aigJcoVLnHx/
+	KPpH/mxyuMsKR9yXESF88BB36/BePDyYGK+X3aH1QEZHx31tMfOngD7WabiICqdMEavG
+	GPkiGmZ0ZP5lnrXcev8JPhenx/WsCZ5n5ZNGB1zAm3ApbZi4vbsk1re7ufAXWxvEa8gn
+	QK3g==
+X-Gm-Message-State: AJcUukcISzeCmp/DvdUt7Vh5hPAt1xl73Pgan22Zm8FpGnQ9uyNwJrOq
+	LcDMjxYmwigPvuvW8VELx/uMRmxX
+X-Google-Smtp-Source: ALg8bN4ZVAEdCPXOiLTm96p/VAwUyABed0+SeDTH72SAjZRGqD1PMOVHOlcaUlTAsJ3l3AuxOO2ztg==
+X-Received: by 2002:a24:1490:: with SMTP id 138mr1476itg.101.1548086720536;
+	Mon, 21 Jan 2019 08:05:20 -0800 (PST)
+Received: from dargo.lpdev.prtdev.lexmark.com ([192.146.101.90])
+	by smtp.gmail.com with ESMTPSA id k2sm6430044itk.35.2019.01.21.08.05.19
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 21 Jan 2019 08:05:19 -0800 (PST)
+From: Dan Dedrick <dan.dedrick@gmail.com>
+X-Google-Original-From: Dan Dedrick <ddedrick@lexmark.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jan 2019 11:05:02 -0500
+Message-Id: <20190121160502.64556-1-ddedrick@lexmark.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] perl-native: unset configure symbol i_xlocale
+Subject: [PATCH] devtool: remove duplicate overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 14:48:29 -0000
+X-List-Received-Date: Mon, 21 Jan 2019 16:05:19 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+DEVTOOL_EXTRA_OVERRIDES only needs one entry for each instance of
+overrides. Previous to these changes it would find every override to
+SRC_URI and add it to the list. This would duplicate instances where
+SRC_URI is modified multiple times with the same override like:
+SRC_URI_append_foo += "file://0001-foo.patch"
+SRC_URI_append_foo += "file://0002-bar.patch"
 
-perl-native checks xlocale.h on build machine. But xlocale.h has been
-removed by glibc already. When use share state caches between machines
-that one has xlocale.h but the other one doesn't, it causes packages
-which depend on perl-native such as libdbi-perl-native fails to compile:
+A bbappend might also overwrite a SRC_URI override, which would also
+cause multiple instances to occur.
 
-| In file included from DBIXS.h:23,
-|                  from Perl.xs:7:
-| .../tmp-glibc/work/x86_64-linux/libdbi-perl-native/1.642-r0/recipe-sysroot-native/usr/lib/perl5/5.28.1/x86_64-linux/CORE/perl.h:723:13:
-| fatal error: xlocale.h: No such file or directory
-|  #   include <xlocale.h>
-|	       ^~~~~~~~~~~
-| compilation terminated.
+When there are multiple instances of the same override in
+DEVTOOL_EXTRA_OVERRIDES it causes devtool modify to fail when creating
+override branches. The failure occurs when attempting to create the same
+override branch a second time and looks like this:
 
-Unset configure symbol i_xlocale for perl-native to fix the issue.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:devtool_post_patch(d)
+     0003:
+File: '/build/poky/meta/classes/devtool-source.bbclass', lineno: 202, function: devtool_post_patch
+     0198:
+     0199:        for override in extra_override_list:
+     0200:            localdata = bb.data.createCopy(d)
+     0201:            if override in default_overrides:
+ *** 0202:                bb.process.run('git branch devtool-override-%s %s' % (override, devbranch), cwd=srcsubdir)
+     0203:            else:
+     0204:                # Reset back to the initial commit on a new branch
+     0205:                bb.process.run('git checkout %s -b devtool-override-%s' % (initial_rev, override), cwd=srcsubdir)
+     0206:                # Run do_patch function with the override applied
+File: '/build/poky/bitbake/lib/bb/process.py', lineno: 178, function: run
+     0174:        if not stderr is None:
+     0175:            stderr = stderr.decode("utf-8")
+     0176:
+     0177:    if pipe.returncode != 0:
+ *** 0178:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+     0179:    return stdout, stderr
+Exception: bb.process.ExecutionError: Execution of 'git branch devtool-override-foo devtool' failed with exit code 128:
+fatal: A branch named 'devtool-override-foo' already exists.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Dan Dedrick <ddedrick@lexmark.com>
 ---
- meta/recipes-devtools/perl-sanity/perl_5.28.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-index 71892a2436..0969efea11 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-@@ -81,7 +81,8 @@ do_configure_class-native() {
-     -Dbin=${bindir}/perl-native \
-     -Duseshrplib \
-     -Dsoname=libperl.so.5 \
--    -Dvendorprefix=${prefix}
-+    -Dvendorprefix=${prefix} \
-+    -Ui_xlocale
- }
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d14b7a6543..a45ad36812 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -509,6 +509,11 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+             if not 'flag' in event:
+                 if event['op'].startswith(('_append[', '_prepend[')):
+                     extra_overrides.append(event['op'].split('[')[1].split(']')[0])
++        # We want to remove duplicate overrides. If a recipe had multiple
++        # SRC_URI_override += values it would cause mulitple instances of
++        # overrides. This doesn't play nicely with things like creating a
++        # branch for every instance of DEVTOOL_EXTRA_OVERRIDES.
++        extra_overrides = list(set(extra_overrides))
+         if extra_overrides:
+             logger.info('SRC_URI contains some conditional appends/prepends - will create branches to represent these')
  
- do_compile() {
 -- 
-2.20.0
+2.20.1
 
 
