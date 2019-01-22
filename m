@@ -1,50 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C081579F1B
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E50BE7BFAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 23:01:40 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q1so10768991pfi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2019 15:01:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=w95xp7tZPxtmvmr8WZLp5ROcQ265LgCCh3ExViIjApc=;
-	b=FKj+9faS0+9HyABHHbAjFQZg2jmaaey0d0wVbktxWYLsWXcEkvnsNcKIgWyteSUcV0
-	7TRF93+iKXXNR4+JUUSbU+Qk9J+QFWKg1jV2dLiXbZXLxGSG+g3efTE+d+y9ygKRF+4A
-	ggryZcaiM5pNOpncYKZU+09bzrE68A7EGHdbguP1Uj9W6pQIpJNxi//YAWC+v9XIjAyx
-	Y1rP4+2n85HQwMlBywRy5xP88wMwX4E4yfJvaAhPGEq1x0T2/Z7C++HT6EkgA2beSKOj
-	Qw0DbDsHt4X/is6RvHvGtq8hbaIZmSrh8GDKuoMr68qMTMpaapfhwKUkwSV9XGtzx2So
-	nkvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=w95xp7tZPxtmvmr8WZLp5ROcQ265LgCCh3ExViIjApc=;
-	b=qPt+Y7LhgEfyPSoMf8+KPaoqlxBcX5vRZ6M+7gRUesEcSHwCq3XAVh0xTwb8ykFNPs
-	OZRTPo1k06uiiNy9F8amU0VHSwfz0xAmv6TXhnIw3RGbRFYO46k5EWzkzwZ6kAendh61
-	/b3j75Q+0RdqAbjCGroDSmXG4wJH7vWtDOOHY62gX4x1iLdodsPS+V1824wR9Y+tCR1j
-	fZeSstVZj7u61Ceo2I3LeN0ZhuM3qZnKJFEZC0qAWqbV5oaB1LyskUEZglYmPksvXiFg
-	EDJ33gIjQnOskFhAn6mZgn7KA26CMT2kikwB9rwCCE7EWEFYsh5ELHPbg7Qpimhvh5On
-	BDWg==
-X-Gm-Message-State: AJcUukcGTQR68iCbtinTWYv7WAYSeOYvbri9Yl2W+z57q2EmZsiDkI0N
-	lH5KeYnifVB7nP9PPp6Za2UkP/3QhME=
-X-Google-Smtp-Source: ALg8bN4DwQVnjUjFJqCUYXIkCGmmRbFlOwb26m9Xb9oZrXWp4O4NQs04looeaj+1WRXqlJun2bo98w==
-X-Received: by 2002:a65:63d3:: with SMTP id n19mr30061811pgv.179.1548111701412;
-	Mon, 21 Jan 2019 15:01:41 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b601])
-	by smtp.gmail.com with ESMTPSA id
-	v13sm16981728pff.20.2019.01.21.15.01.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Jan 2019 15:01:40 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2019 15:01:30 -0800
-Message-Id: <20190121230130.15848-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 22 Jan 2019 00:56:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0M0uPZu004872
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 21 Jan 2019 16:56:25 -0800 (PST)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 21 Jan 2019 16:56:24 -0800
+To: Jon Mason <jdmason@kudzu.us>, <openembedded-core@lists.openembedded.org>
+References: <20190118221737.14443-1-jdmason@kudzu.us>
+	<20190118221737.14443-2-jdmason@kudzu.us>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <003c3427-a32c-4d5c-18a8-cabde89c8cbd@windriver.com>
+Date: Mon, 21 Jan 2019 19:56:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH] musl: Upgrade to 1.1.21 release
+In-Reply-To: <20190118221737.14443-2-jdmason@kudzu.us>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 1/3] qemuarma15: ARM A15 Support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +34,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2019 23:01:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Jan 2019 00:56:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Delta of changes from previous Revision
+On 1/18/19 5:17 PM, Jon Mason wrote:
+> Add new QEMU BSP for a Arm Cortex-A15 system.  This uses the QEMU virt
+> machine type, which should be faster to emulate.
+> 
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> ---
+>   meta/conf/machine/qemuarma15.conf             | 26 +++++++++++++++++++
+>   .../linux/linux-yocto-rt_4.19.bb              |  2 +-
+>   .../linux/linux-yocto-tiny_4.19.bb            |  2 +-
+>   meta/recipes-kernel/linux/linux-yocto_4.19.bb |  2 +-
+>   4 files changed, 29 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/conf/machine/qemuarma15.conf
+> 
+> diff --git a/meta/conf/machine/qemuarma15.conf b/meta/conf/machine/qemuarma15.conf
+> new file mode 100644
+> index 0000000000..f1c2246ebf
+> --- /dev/null
+> +++ b/meta/conf/machine/qemuarma15.conf
+> @@ -0,0 +1,26 @@
+> +#@TYPE: Machine
+> +#@NAME: generic Arm Cortex-A15 machine
+> +#@DESCRIPTION: Machine configuration for running a generic armv7
+> +
+> +require conf/machine/include/tune-cortexa15.inc
+> +require conf/machine/include/qemu.inc
+> +
+> +KERNEL_IMAGETYPE = "zImage"
+> +
+> +SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+> +
+> +# For runqemu
+> +QB_SYSTEM_NAME = "qemu-system-arm"
+> +QB_MEM = "-m 512"
+> +QB_MACHINE = "-machine virt"
+> +QB_CPU = "-cpu cortex-a15 -smp 8"
 
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=de7dc1318f493184b20f7661bc12b1829b957b67..1691b23955590d1eb66a11158fdd91c86337e886
+The other qemu .conf files do not specify smp so we should probably
+drop it here too.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Typically it's an option for runqemu:
+   $ runqemu foo bar qemuparams="-smp 8"
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index cba4d06766..73906d0f3c 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,9 +4,9 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "de7dc1318f493184b20f7661bc12b1829b957b67"
-+SRCREV = "1691b23955590d1eb66a11158fdd91c86337e886"
- 
--BASEVER = "1.1.20"
-+BASEVER = "1.1.21"
- 
- PV = "${BASEVER}+git${SRCPV}"
- 
+If you do want to keep if for some reason, 2 or 4 may be better
+choices for people with modest build/test machines.
+
+../Randy
+
+> +# We need both ttyAMA0 and hvc0 to allow for this to work in the stdio mode or the normal mode
+> +QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=hvc0,115200"
+> +QB_OPT_APPEND = "-show-cursor -device virtio-rng-pci -monitor null"
+> +QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+> +QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+> +QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+> +QB_SERIAL_OPT = "-device virtio-serial-device -chardev vc,id=virtcon -device virtconsole,chardev=virtcon"
+> +QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+> +
+> +PREFERRED_VERSION_linux-yocto ?= "4.19%"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> index 4a987d52c0..89b6c8db86 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> @@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>   
+>   LINUX_KERNEL_TYPE = "preempt-rt"
+>   
+> -COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
+> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
+>   
+>   KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>   
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> index 8506f7c880..e1ab7017cf 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> @@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+>   SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+>              git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+>   
+> -COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
+> +COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarma15"
+>   
+>   # Functionality flags
+>   KERNEL_FEATURES = ""
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> index bd9b6a3543..81fceee98f 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> @@ -37,7 +37,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>   
+>   KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>   
+> -COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+> +COMPATIBLE_MACHINE = "qemuarm|qemuarma15|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+>   
+>   # Functionality flags
+>   KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> 
+
+
 -- 
-2.20.1
-
+# Randy MacLeod
+# Wind River Linux
 
