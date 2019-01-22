@@ -1,53 +1,59 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 92CA36C37F
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 95B466BD1C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 13:49:18 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id m22so14356710wml.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 05:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=+dbKwTTDsb9UVaEw3q51IRHHPoWbmg/D7dCCe1DBLFk=;
-	b=lijk5elPH7JHzEQSlqhIWQ8ewDh53C2cF9b6YEhya6TDpxbXVSHGJ3A88p1vcPGm1X
-	ndCG3Sc5gSYWHUKnkxMsmnp28Em6KDqnuIiuunCYZx6tZudwa0ZiDaHiO+2OzsCIQoCm
-	WKplOCMPOvr3voJfdmaP0xrbRzTnYcBn5xgvqTf8WBMgf7DpKsnniXYOOvvDPVOcty7O
-	lFyiI+mLpKRds+DJOTdRgtKHutPK6LvB2DzJBxhGWcqL0bzA0KcjcIWkk0OTz1uMHWk3
-	MyiobNvMbD90cY7hidX3akX15ko79aifqYpATKtelXuDTTgW1RzfJpzvCI6/8lGNrhxM
-	YlRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=+dbKwTTDsb9UVaEw3q51IRHHPoWbmg/D7dCCe1DBLFk=;
-	b=T7naQ80DPxb9Tjt2wyx3G42gefsoma6i/BfXKsxgZxaSEdu/3BZS5VDJV029iv2W/T
-	VtoxQnZ6j9nGaqPaAzUI8A47dQj33k9LrMEQUsgW6cgpdRJSr6gKjjFAdYWLxbc3cUir
-	EcKesOWkrAIhmBgO3Logb73/Y9KKHRZt4syxoRfu6j0HpoODq3dUUvv5OKzqh5v4ZWM8
-	weQT/0btvi2FhMDy9SE7b9J4AwC1syfxBKJ/z8hZVQZWFd4+HFSQLxsbAsVZc0HYOC4O
-	b+2ZyJG/EB00bHRTYUKWMx9WuLzHzaAP474lp5X8Re2DMV/qwD5xg8vabOKSnHCfh/B1
-	U39w==
-X-Gm-Message-State: AJcUukcZ37vmUVnhH9vl3VTDxYr0CSRFnvi8i0uVNWrZS/09Wjhhba1Q
-	DH7fra3HBfpd06YBg7QZ1Iq0TeHn
-X-Google-Smtp-Source: ALg8bN4jB2UWlloPfiPnJGYg7gz4p5oQpL5oHaTC64JW7VRNYsK18sC9uTp8wo9G7wKfBYwteHmFRg==
-X-Received: by 2002:a1c:f112:: with SMTP id p18mr3625206wmh.83.1548164958682; 
-	Tue, 22 Jan 2019 05:49:18 -0800 (PST)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	s132sm35315532wmf.28.2019.01.22.05.49.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 22 Jan 2019 05:49:17 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jan 2019 14:48:44 +0100
-Message-Id: <20190122134844.13433-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190122134844.13433-1-schnitzeltony@gmail.com>
-References: <20190122134844.13433-1-schnitzeltony@gmail.com>
+	Tue, 22 Jan 2019 14:25:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id EADE2184AE;
+	Tue, 22 Jan 2019 15:25:20 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id H5gEje-YmRjV; Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id AB3A7184AB;
+	Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 847AE1A069;
+	Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 78E801A066;
+	Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 6CA3F175F;
+	Tue, 22 Jan 2019 15:25:19 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 22 Jan 2019 15:25:19 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Tue, 22 Jan 2019 15:25:19 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Randy MacLeod <randy.macleod@windriver.com>, "Patches and discussions
+	about the oe-core layer" <openembedded-core@lists.openembedded.org>, Xulin
+	Sun <xulin.sun@windriver.com>
+Thread-Topic: [OE-core] [meta-oe][PATCH] openssl: fix multilib file install
+	conflicts
+Thread-Index: AQHUsd0tMjg8VlKqWkSS48RpgXHxp6W7VuYw
+Date: Tue, 22 Jan 2019 14:25:18 +0000
+Message-ID: <4693588ff8f849cfac2242d5323e9012@XBOX04.axis.com>
+References: <20190118022248.17108-1-xulin.sun@windriver.com>
+	<ad8f8c65-e628-1102-b49d-883b4eb9ce09@windriver.com>
+In-Reply-To: <ad8f8c65-e628-1102-b49d-883b4eb9ce09@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH] remove unused distutils-tools.bbclass
+X-TM-AS-GCONF: 00
+Subject: Re: [meta-oe][PATCH] openssl: fix multilib file install conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,99 +66,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 13:49:19 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Jan 2019 14:25:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-* As far as I can see nothing uses it
-* From commit history it seems distutils-tools came in accidentally
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Randy MacLeod
+> Sent: den 22 januari 2019 00:01
+> To: Patches and discussions about the oe-core layer <openembedded-
+> core@lists.openembedded.org>; Xulin Sun <xulin.sun@windriver.com>
+> Subject: Re: [OE-core] [meta-oe][PATCH] openssl: fix multilib file
+> install conflicts
+>=20
+> Xulin,
+>=20
+> Thanks for sending this patch.
+>=20
+> On 1/17/19 9:22 PM, Xulin Sun wrote:
+> > To avoid issue like below if run "bitbake lib32-wrlinux-image-glibc-
+> std"
+>=20
+> For future oe-core commits, please use a core-image-minimal
+> example that will be more familiar to people outside of Wind River.
+>=20
+> > with series userspace packages(LAMP,krb5...) added:
+> >
+> > Error: Transaction check error:
+> >    file /usr/bin/c_rehash conflicts between attempted installs of
+> >    lib32-openssl-bin-1.1.1-r0.armv7at2hf_neon and openssl-bin-1.1.1-
+> r0.aarch64
+> >
+>=20
+> Also, while your commit log explains what you fixed, it
+> doesn't describe the issue for those who don't know what c_rehash is so
+> something like:
+>=20
+>    Add multilib_script support for openssl's c_rehash which is
+>    a perl script.
+>=20
+> Followed by the example failure log that you showed.
+>=20
+>=20
+> Since this hasn't been merged to master/master-next,
+> it would be nice if you sent a v2.
+>=20
+> Thanks,
+> ../Randy
+>=20
+> > Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+> > ---
+> >   meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 4 ++++
+> >   1 file changed, 4 insertions(+)
+> >
+> > diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> > index 5c4e69cfb7..21359fa68a 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> > +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> > @@ -206,3 +206,7 @@ RREPLACES_openssl-conf =3D "openssl10-conf"
+> >   RCONFLICTS_openssl-conf =3D "openssl10-conf"
+> >
+> >   BBCLASSEXTEND =3D "native nativesdk"
+> > +
+> > +inherit multilib_script
+> > +
+> > +MULTILIB_SCRIPTS =3D "${PN}:${bindir}/c_rehash"
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/classes/distutils-tools.bbclass | 73 ----------------------------
- 1 file changed, 73 deletions(-)
- delete mode 100644 meta/classes/distutils-tools.bbclass
+Shouldn't that be:
 
-diff --git a/meta/classes/distutils-tools.bbclass b/meta/classes/distutils-tools.bbclass
-deleted file mode 100644
-index 6f2880ea01..0000000000
---- a/meta/classes/distutils-tools.bbclass
-+++ /dev/null
-@@ -1,73 +0,0 @@
--DISTUTILS_BUILD_ARGS ?= ""
--DISTUTILS_STAGE_HEADERS_ARGS ?= "--install-dir=${STAGING_INCDIR}/${PYTHON_DIR}"
--DISTUTILS_STAGE_ALL_ARGS ?= "--prefix=${STAGING_DIR_HOST}${prefix} \
--    --install-data=${STAGING_DATADIR}"
--DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
--    --install-data=${D}/${datadir}"
--
--distutils_do_compile() {
--         STAGING_INCDIR=${STAGING_INCDIR} \
--         STAGING_LIBDIR=${STAGING_LIBDIR} \
--         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
--         bbfatal_log "${PYTHON_PN} setup.py build_ext execution failed."
--}
--
--distutils_stage_headers() {
--        install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
--        bbfatal_log "${PYTHON_PN} setup.py install_headers execution failed."
--}
--
--distutils_stage_all() {
--        STAGING_INCDIR=${STAGING_INCDIR} \
--        STAGING_LIBDIR=${STAGING_LIBDIR} \
--        install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
--        PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
--        bbfatal_log "${PYTHON_PN} setup.py install (stage) execution failed."
--}
--
--distutils_do_install() {
--        echo "Beginning ${PN} Install ..."
--        install -d ${D}${PYTHON_SITEPACKAGES_DIR}
--        echo "Step 2 of ${PN} Install ..."
--        STAGING_INCDIR=${STAGING_INCDIR} \
--        STAGING_LIBDIR=${STAGING_LIBDIR} \
--        PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
--        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
--        bbfatal_log "${PYTHON_PN} setup.py install execution failed."
--
--        echo "Step 3 of ${PN} Install ..."
--        # support filenames with *spaces*
--        find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
--            sed -i -e s:${D}::g $i
--        done
--
--        echo "Step 4 of ${PN} Install ..."
--        if test -e ${D}${bindir} ; then	
--            for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
--            done
--        fi
--
--        echo "Step 4 of ${PN} Install ..."
--        if test -e ${D}${sbindir}; then
--            for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
--            done
--        fi
--
--        echo "Step 5 of ${PN} Install ..."
--        rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
--        
--        #
--        # FIXME: Bandaid against wrong datadir computation
--        #
--        if [ -e ${D}${datadir}/share ]; then
--            mv -f ${D}${datadir}/share/* ${D}${datadir}/
--        fi
--}
--
--#EXPORT_FUNCTIONS do_compile do_install
--
--export LDSHARED="${CCLD} -shared"
--- 
-2.20.1
+MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+
+given that openssl inherits lib_package and ${bindir}/c_rehash thus=20
+ends up in the ${PN}-bin package?
+
+//Peter
 
 
