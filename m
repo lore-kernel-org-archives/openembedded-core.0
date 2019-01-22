@@ -1,47 +1,24 @@
 Return-Path: <ee.peng.yeoh@intel.com>
-X-Greylist: delayed 571 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 22 Jan 2019 09:54:21 UTC
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E66D7C07D
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 34D807C05B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 09:54:20 +0000 (UTC)
+	Tue, 22 Jan 2019 10:13:24 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2019 01:44:51 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2019 02:13:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,505,1539673200"; d="scan'208";a="127610486"
-Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2019 01:44:50 -0800
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.250]) by
-	KMSMSX151.gar.corp.intel.com ([169.254.10.19]) with mapi id
-	14.03.0415.000; Tue, 22 Jan 2019 17:44:48 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/3 v3] scripts/test-case-mgmt: store test
-	result and reporting
-Thread-Index: AQHUsZU18wI0Tr87BEmFldOfCVygIaW6/XOQ
-Date: Tue, 22 Jan 2019 09:44:47 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434816EF82@PGSMSX109.gar.corp.intel.com>
-References: <1546584363-72836-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1546584363-72836-3-git-send-email-ee.peng.yeoh@intel.com>
-	<67481590ea535b268e04a74b26e53b15a6bd0a8e.camel@linuxfoundation.org>
-In-Reply-To: <67481590ea535b268e04a74b26e53b15a6bd0a8e.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYmE5NTNiZTgtYjc3ZS00YzI5LTkwZjYtZmQzMjI4NzZhY2NkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSUYwUWpBZlI3ckcxazh3Y1wvWGhtYzd6dmhcL2N6OWVocHlITFI0WjkwY09PZjREY0ZzVDMySStrXC9XaHpLenYwVCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+X-IronPort-AV: E=Sophos;i="5.56,505,1539673200"; d="scan'208";a="111696319"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga008.jf.intel.com with ESMTP; 22 Jan 2019 02:13:25 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jan 2019 17:42:09 +0800
+Message-Id: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 2/3 v3] scripts/test-case-mgmt: store test result and reporting
+Subject: [PATCH 0/2 v5] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,115 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 09:54:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 22 Jan 2019 10:13:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-SGkgUmljaGFyZCwNCg0KQWZ0ZXIgeW91ciByZWNlbnRseSBzaGFyaW5nIG9uIHB5dGhvbmljLCB3
-ZSBoYWQgcmV2aXNlZCB0aGVzZSBzY3JpcHRzIGluIGhvcGUgdG8gaW1wcm92ZSB0aGUgY29kZSBy
-ZWFkYWJpbGl0eSBhbmQgZWFzZSBvZiBtYWludGVuYW5jZS4gQWxzbyBuZXcgZnVuY3Rpb25hbGl0
-aWVzIHdlcmUgZGV2ZWxvcGVkIGZvbGxvd2luZyBweXRob25pYyBzdHlsZS4gDQoNClRoZSBsYXRl
-c3QgcGF0Y2hlcyBhcmUganVzdCBzdWJtaXR0ZWQgdG9kYXkgYXQgYmVsb3cgVVJMLiANCmh0dHA6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5
-LUphbnVhcnkvMjc4MjQwLmh0bWwNCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVy
-bWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc4MjM4Lmh0bWwNCmh0dHA6Ly9s
-aXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUph
-bnVhcnkvMjc4MjM5Lmh0bWwNCg0KQ2hhbmdlcyBjb21wYXJlZCB0byBwcmV2aW91cyB2ZXJzaW9u
-Og0KMS4gQWRkIG5ldyBmZWF0dXJlcywgbWVyZ2UgbXVsdGlwbGUgdGVzdHJlc3VsdHMuanNvbiBm
-aWxlICYgcmVncmVzc2lvbiBhbmFseXNpcyBmb3IgdHdvIHNwZWNpZmllZCB0ZXN0cmVzdWx0cy5q
-c29uDQoyLiBBZGQgc2VsZnRlc3QgdG8gdGVzdCBtZXJnZSwgc3RvcmUsIHJlcG9ydCBhbmQgcmVn
-cmVzc2lvbiBmdW5jdGlvbmFsaXRpZXMNCjMuIFJldmlzZWQgY29kZSBzdHlsZSB0byBhbGlnbiB3
-aXRoIHB5dGhvbmljDQoNClJlZ2FyZGluZyB5b3VyIHF1ZXN0aW9ucyBiZWxvdzoNCjEuIFdoYXQg
-dGFyZ2V0IGxheW91dCBhcmUgd2UgYWltaW5nIGZvciBpbiB0aGUgZ2l0IHJlcG9zaXRvcnk/IA0K
-LSBBcmUgd2UgYWltaW5nIGZvciBhIGRpcmVjdG9yeSBwZXIgY29tbWl0IHRlc3RlZCB3aGVyZSBh
-bGwgdGhlIHRlc3QgcmVzdWx0cyBmb3IgdGhhdCBjb21taXQgYXJlIGluIHRoZSBzYW1lIGpzb24g
-ZmlsZT8NCi0gQSBkaXJlY3RvcnkgcGVyIGNvbW1pdCwgdGhlbiBhIGRpcmVjdG9yeSBwZXIgdHlw
-ZSBvZiB0ZXN0PyBvciBwZXIgdGVzdCBydW4/IG9yID8/Pw0KLSBBcmUgYnJhbmNoZXMgdXNlZCBm
-b3IgZWFjaCByZWxlYXNlIHNlcmllcyAobWFzdGVyLCB0aHVkLCBzdW1vIGV0Yz8pIEJhc2ljYWxs
-eSwgdGhlIGxheW91dCB3ZSdkIHVzZSB0byBpbXBvcnQgdGhlIGF1dG9idWlsZGVyIHJlc3VsdHMg
-Zm9yIGVhY2ggbWFzdGVyIHJ1biBmb3IgZXhhbXBsZSByZW1haW5zIHVuY2xlYXIgdG8gbWUsIG9y
-IGhvdyB3ZSdkIGxvb2sgdXAgdGhlIHN0YXR1cyBvZiBhIGdpdmVuIGNvbW1pdC4NCg0KVGhlIHRh
-cmdldCBsYXlvdXQgc2hhbGwgYmUgYSBzcGVjaWZpYyBnaXQgYnJhbmNoIGZvciBlYWNoIGNvbW1p
-dCB0ZXN0ZWQsIHdoZXJlIHRoZSBmaWxlIGRpcmVjdG9yaWVzIHNoYWxsIGJlICBiYXNlZCBvbiBl
-eGlzdGluZyBBdXRvYnVpbGRlciByZXN1bHRzIGFyY2hpdmUgKGVnLiBhc3N1bWluZyBzdG9yZSBj
-b21tYW5kIHdhcyBleGVjdXRlZCBpbnNpZGUgQXV0b2J1aWxkZXIgbWFjaGluZSB0aGF0IHN0b3Jl
-ZCB0aGUgdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBhbmQgcHJlZGVmaW5lZCBkaXJlY3RvcnkpLCBz
-aW1wbHkgZXhlY3V0ZTogJCByZXN1bHRzdG9vbCBzdG9yZSA8c291cmNlX2Rpcj4gPGdpdF9icmFu
-Y2g+IHdoZXJlIHNvdXJjZV9kaXIgd2FzIHRoZSB0b3AgZGlyZWN0b3J5IHVzZWQgYnkgQXV0b2J1
-aWxkZXIgdG8gYXJjaGl2ZSBhbGwgdGVzdHJlc3VsdHMuanNvbiBmaWxlLCBnaXRfYnJhbmNoIHdh
-cyB0aGUgUUEgY3ljbGUgZm9yIGN1cnJlbnQgdGVzdGVkIGNvbW1pdC4gDQoNClRoZSBmaXJzdCBp
-bnN0YW5jZSB0byBleGVjdXRlICJyZXN1bHRzdG9vbCBzdG9yZSIgd2lsbCBnZW5lcmF0ZSBhIGdp
-dCByZXBvc2l0b3J5IHVuZGVyIDxwb2t5Pi88YnVpbGQ+LyBkaXJlY3RvcnkuIFRvIHVwZGF0ZSBm
-aWxlcyB0byBiZSBzdG9yZWQsIHNpbXBseSBleGVjdXRlICQgcmVzdWx0c3Rvb2wgc3RvcmUgPHNv
-dXJjZV9kaXI+IDxnaXRfYnJhbmNoPiAtZCA8cG9reT4vPGJ1aWxkPi88dGVzdHJlc3VsdHNfZGF0
-ZXRpbWU+Lg0KDQoyLiBUaGUgY29kZSBkb2Vzbid0IHN1cHBvcnQgY29tcGFyaXNvbiBvZiB0d28g
-c2V0cyBvZiB0ZXN0IHJlc3VsdHMgKHdoaWNoIHRlc3RzIHdlcmUgYWRkZWQvcmVtb3ZlZD8gcGFz
-c2VkIHdoZW4gcHJldmlvdXNseSBmYWlsZWQ/IGZhaWxlZCB3aGVuIHByZXZpb3VzbHkgcGFzc2Vk
-PykNCg0KQXNzdW1pbmcgcmVzdWx0cyBmcm9tIGEgcGFydGljdWxhciB0ZXN0ZWQgY29tbWl0IHdl
-cmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZmlsZSAodXNpbmcgZXhpc3RpbmcgIm1lcmdlIiBmdW5j
-dGlvbmFsaXR5KSwgdXNlciBzaGFsbCB1c2UgdGhlIG5ld2x5IGFkZGVkICJyZWdyZXNzaW9uIiBm
-dW5jdGlvbmFsaXR5IGZvciBjb21wYXJpbmcgcmVzdWx0cyBzdGF0dXMgZm9yIHR3byB0ZXN0cmVz
-dWx0cy5qc29uIGZpbGVzLiBCYXNlZCBvbiB0aGUgY29uZmlndXJhdGlvbnMgZGF0YSBmb3IgZWFj
-aCByZXN1bHRfaWQgc2V0LCB0aGUgY29tcGFyaXNvbiBsb2dpYyB3aWxsIHNlbGVjdCByZXN1bHQg
-d2l0aCBzYW1lIGNvbmZpZ3VyYXRpb25zIGZvciBjb21wYXJpc29uLiBNb3JlIGFkdmFuY2UgcmVn
-cmVzc2lvbiBhbmQgYXV0b21hdGlvbiBjYW4gYmUgZGV2ZWxvcGVkIGZyb20gY3VycmVudCBjb2Rl
-IGJhc2UuIA0KDQozLiBUaGUgY29kZSBhbHNvIGRvZXNuJ3QgYWxsb3cgaW52ZXN0aWdhdGlvbiBv
-ZiB0ZXN0IHJlcG9ydCAic3ViZGF0YSIgbGlrZSBsb29raW5nIGF0IHRoZSBwdGVzdCByZXN1bHRz
-LCBjb21wYXJpbmcgdGhlbSB0byBwcmV2aW91cyBydW5zLCBzaG93aW5nIHRoZSBsb2dzIGZvciBw
-YXNzZWQvZmFpbGVkIHB0ZXN0cy4NCg0KVGhlcmUgaXMgYWxzbyB0aGUgcXVlc3Rpb24gb2YganNv
-biBidWlsZCBwZXJmb3JtYW5jZSBkYXRhLg0KDQpUaGlzIHdhcyBub3Qgc3VwcG9ydGVkIGFzIG9m
-IG5vdywgdGhpcyB3aWxsIG5lZWQgZnVydGhlciBlbmhhbmNlbWVudC4gDQoNClBsZWFzZSBsZXQg
-bWUga25vdyBpZiBhbnkgcXVlc3Rpb25zIGFuZCBpbnB1dHMuIFRoYW5rIHlvdSB2ZXJ5IG11Y2gg
-Zm9yIHlvdXIgc2hhcmluZyBhbmQgaGVscCENCg0KVGhhbmtzLA0KWWVvaCBFZSBQZW5nIA0KDQoN
-Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFttYWls
-dG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBNb25kYXksIEph
-bnVhcnkgMjEsIDIwMTkgMTA6MjYgUE0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hA
-aW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6
-IEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwuY29tPjsgUGF1bCBFZ2dsZXRvbiA8cGF1
-bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
-SCAyLzMgdjNdIHNjcmlwdHMvdGVzdC1jYXNlLW1nbXQ6IHN0b3JlIHRlc3QgcmVzdWx0IGFuZCBy
-ZXBvcnRpbmcNCg0KT24gRnJpLCAyMDE5LTAxLTA0IGF0IDE0OjQ2ICswODAwLCBZZW9oIEVlIFBl
-bmcgd3JvdGU6DQo+IFRoZXNlIHNjcmlwdHMgd2VyZSBkZXZlbG9wZWQgYXMgYW4gYWx0ZXJuYXRp
-dmUgdGVzdGNhc2UgbWFuYWdlbWVudCANCj4gdG9vbCB0byBUZXN0b3BpYS4gVXNpbmcgdGhlc2Ug
-c2NyaXB0cywgdXNlciBjYW4gbWFuYWdlIHRoZSANCj4gdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBn
-ZW5lcmF0ZWQgYnkgb2VxYSBhdXRvbWF0ZWQgdGVzdHMuIFVzaW5nIHRoZSANCj4gInN0b3JlIiBv
-cGVyYXRpb24sIHVzZXIgY2FuIHN0b3JlIG11bHRpcGxlIGdyb3VwcyBvZiB0ZXN0IHJlc3VsdCBl
-YWNoIA0KPiBpbnRvIGluZGl2aWR1YWwgZ2l0IGJyYW5jaC4gV2l0aGluIGVhY2ggZ2l0IGJyYW5j
-aCwgdXNlciBjYW4gc3RvcmUgDQo+IG11bHRpcGxlIHRlc3RyZXN1bHRzLmpzb24gZmlsZXMgdW5k
-ZXIgZGlmZmVyZW50IGRpcmVjdG9yaWVzIChlZy4NCj4gY2F0ZWdvcml6ZSBkaXJlY3RvcnkgYnkg
-c2VsZnRlc3QtPGRpc3Rybz4sIHJ1bnRpbWUtPGltYWdlPi0gDQo+IDxtYWNoaW5lPikuDQo+IFRo
-ZW4sIHVzaW5nIHRoZSAicmVwb3J0IiBvcGVyYXRpb24sIHVzZXIgY2FuIHZpZXcgdGhlIHRlc3Qg
-cmVzdWx0IA0KPiBzdW1tYXJ5IGZvciBhbGwgYXZhaWxhYmxlIHRlc3RyZXN1bHRzLmpzb24gZmls
-ZXMgYmVpbmcgc3RvcmVkIHRoYXQgDQo+IHdlcmUgZ3JvdXBlZCBieSBkaXJlY3RvcnkgYW5kIHRl
-c3QgY29uZmlndXJhdGlvbi4NCj4NCj4gVGhpcyBzY3JpcHRzIGRlcGVuZHMgb24gc2NyaXB0cy9v
-ZS1naXQtYXJjaGl2ZSB3aGVyZSBpdCB3YXMgZmFjaW5nIA0KPiBlcnJvciBpZiBnaXRweXRob24g
-cGFja2FnZSB3YXMgbm90IGluc3RhbGxlZC4gUmVmZXIgdG8gW1lPQ1RPIyAxMzA4Ml0gDQo+IGZv
-ciBtb3JlIGRldGFpbC4NCg0KVGhhbmtzIGZvciB0aGUgcGF0Y2hlcy4gVGhlc2UgYXJlIGEgbG90
-IG1vcmUgcmVhZGFibGUgdGhhbiB0aGUgcHJldmlvdXMgdmVyc2lvbnMgYW5kIHRoZSBjb2RlIHF1
-YWxpdHkgaXMgbXVjaCBiZXR0ZXIgd2hpY2ggaW4gdHVybiBoZWxwZWQgcmV2aWV3IQ0KDQpJIGV4
-cGVyaW1lbnRlZCB3aXRoIHRoZSBjb2RlIGEgYml0LiBJJ20gZmluZSB3aXRoIHRoZSBtYW51YWwg
-dGVzdCBleGVjdXRpb24gcGllY2Ugb2YgdGhpcywgSSBkbyBoYXZlIHNvbWUgcXVlc3Rpb25zL2Nv
-bmNlcm5zIHdpdGggdGhlIHJlc3VsdCBzdG9yYWdlL3JlcG9ydGluZyBwaWVjZSB0aG91Z2guDQoN
-CldoYXQgdGFyZ2V0IGxheW91dCBhcmUgd2UgYWltaW5nIGZvciBpbiB0aGUgZ2l0IHJlcG9zaXRv
-cnk/IA0KLSBBcmUgd2UgYWltaW5nIGZvciBhIGRpcmVjdG9yeSBwZXIgY29tbWl0IHRlc3RlZCB3
-aGVyZSBhbGwgdGhlIHRlc3QgcmVzdWx0cyBmb3IgdGhhdCBjb21taXQgYXJlIGluIHRoZSBzYW1l
-IGpzb24gZmlsZT8NCi0gQSBkaXJlY3RvcnkgcGVyIGNvbW1pdCwgdGhlbiBhIGRpcmVjdG9yeSBw
-ZXIgdHlwZSBvZiB0ZXN0PyBvciBwZXIgdGVzdCBydW4/IG9yID8/Pw0KLSBBcmUgYnJhbmNoZXMg
-dXNlZCBmb3IgZWFjaCByZWxlYXNlIHNlcmllcyAobWFzdGVyLCB0aHVkLCBzdW1vIGV0Yz8pIEJh
-c2ljYWxseSwgdGhlIGxheW91dCB3ZSdkIHVzZSB0byBpbXBvcnQgdGhlIGF1dG9idWlsZGVyIHJl
-c3VsdHMgZm9yIGVhY2ggbWFzdGVyIHJ1biBmb3IgZXhhbXBsZSByZW1haW5zIHVuY2xlYXIgdG8g
-bWUsIG9yIGhvdyB3ZSdkIGxvb2sgdXAgdGhlIHN0YXR1cyBvZiBhIGdpdmVuIGNvbW1pdC4NCg0K
-VGhlIGNvZGUgZG9lc24ndCBzdXBwb3J0IGNvbXBhcmlzb24gb2YgdHdvIHNldHMgb2YgdGVzdCBy
-ZXN1bHRzICh3aGljaCB0ZXN0cyB3ZXJlIGFkZGVkL3JlbW92ZWQ/IHBhc3NlZCB3aGVuIHByZXZp
-b3VzbHkgZmFpbGVkPyBmYWlsZWQgd2hlbiBwcmV2aW91c2x5IHBhc3NlZD8pDQoNClRoZSBjb2Rl
-IGFsc28gZG9lc24ndCBhbGxvdyBpbnZlc3RpZ2F0aW9uIG9mIHRlc3QgcmVwb3J0ICJzdWJkYXRh
-IiBsaWtlIGxvb2tpbmcgYXQgdGhlIHB0ZXN0IHJlc3VsdHMsIGNvbXBhcmluZyB0aGVtIHRvIHBy
-ZXZpb3VzIHJ1bnMsIHNob3dpbmcgdGhlIGxvZ3MgZm9yIHBhc3NlZC9mYWlsZWQgcHRlc3RzLg0K
-DQpUaGVyZSBpcyBhbHNvIHRoZSBxdWVzdGlvbiBvZiBqc29uIGJ1aWxkIHBlcmZvcm1hbmNlIGRh
-dGEuDQoNClRoZSBpZGVhIGJlaGluZCB0aGlzIGNvZGUgaXMgdG8gZ2l2ZSB1cyBhIHJlcG9ydCB3
-aGljaCBhbGxvd3MgdXMgdG8gZGVjaWRlIG9uIHRoZSBRQSBzdGF0ZSBvZiBhIGdpdmVuIHNldCBv
-ZiB0ZXN0cmVwb3J0IGRhdGEuIEknbSBqdXN0IG5vdCBzdXJlIHRoaXMgcGF0Y2ggc2V0IGxldHMg
-dXMgZG8gdGhhdCwgb3IgZ2l2ZXMgdXMgYSBwYXRoIHRvIGFsbG93IHVzIHRvIGRvIHRoYXQgZWl0
-aGVyLg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg==
+v1:
+  Face key error from oe-git-archive
+  Undesirable behavior when storing to multiple git branch
+
+v2: 
+  Include fix for oe-git-archive
+  Include fix for store result to multiple git branch
+  Improve git commit message   
+
+v3:
+  Enhance fix for oe-git-archive by using exception catch to
+  improve code readability and easy to understand
+
+v4:
+  Add new features, merge result files & regression analysis 
+  Add selftest to merge, store, report and regression functionalities
+  Revise codebase for pythonic
+  
+v5:
+  Add required files for selftest testing store
+
+Mazliana (1):
+  scripts/resultstool: enable manual execution and result creation
+
+Yeoh Ee Peng (1):
+  resultstool: enable merge, store, report and regression analysis
+
+ meta/lib/oeqa/files/testresults/testresults.json   |  40 ++++++
+ meta/lib/oeqa/selftest/cases/resultstooltests.py   | 104 ++++++++++++++++
+ scripts/lib/resultstool/__init__.py                |   0
+ scripts/lib/resultstool/manualexecution.py         | 137 +++++++++++++++++++++
+ scripts/lib/resultstool/merge.py                   |  71 +++++++++++
+ scripts/lib/resultstool/regression.py              | 134 ++++++++++++++++++++
+ scripts/lib/resultstool/report.py                  | 122 ++++++++++++++++++
+ scripts/lib/resultstool/resultsutils.py            |  47 +++++++
+ scripts/lib/resultstool/store.py                   | 110 +++++++++++++++++
+ .../resultstool/template/test_report_full_text.txt |  35 ++++++
+ scripts/resultstool                                |  92 ++++++++++++++
+ 11 files changed, 892 insertions(+)
+ create mode 100644 meta/lib/oeqa/files/testresults/testresults.json
+ create mode 100644 meta/lib/oeqa/selftest/cases/resultstooltests.py
+ create mode 100644 scripts/lib/resultstool/__init__.py
+ create mode 100644 scripts/lib/resultstool/manualexecution.py
+ create mode 100644 scripts/lib/resultstool/merge.py
+ create mode 100644 scripts/lib/resultstool/regression.py
+ create mode 100644 scripts/lib/resultstool/report.py
+ create mode 100644 scripts/lib/resultstool/resultsutils.py
+ create mode 100644 scripts/lib/resultstool/store.py
+ create mode 100644 scripts/lib/resultstool/template/test_report_full_text.txt
+ create mode 100755 scripts/resultstool
+
+-- 
+2.7.4
+
 
