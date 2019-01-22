@@ -1,25 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FBCC7C043
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C98E7BFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 09:01:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0M91EmN028500
+	Tue, 22 Jan 2019 09:18:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0M9I9HF028089
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 01:01:14 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Tue, 22 Jan 2019 01:01:13 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 22 Jan 2019 01:18:25 -0800
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Tue, 22 Jan 2019 01:18:03 -0800
+From: Li Zhou <li.zhou@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jan 2019 17:09:50 +0800
-Message-ID: <53719d8d2e0a0170e53055066bc507e068081999.1548147637.git.Qi.Chen@windriver.com>
+Date: Tue, 22 Jan 2019 17:00:27 +0800
+Message-ID: <1548147627-243624-1-git-send-email-li.zhou@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1548147637.git.Qi.Chen@windriver.com>
-References: <cover.1548147637.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] eSDK.py: unset BBPATH and BUILDDIR to avoid eSDK failure
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH ver2] ptest-runner: pass libdir to DEFAULT_DIRECTORY when compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 09:01:13 -0000
+X-List-Received-Date: Tue, 22 Jan 2019 09:18:35 -0000
 Content-Type: text/plain
 
-When executing eSDK test case, the following error appears.
+Ptest data are installed to PTEST_PATH ?= "${libdir}/${BPN}/ptest".
+When libdir isn't "/usr/lib", it will cause "No ptests found" error
+when running "ptest-runner" command. Here pass libdir to
+DEFAULT_DIRECTORY when compiling to avoid that error.
 
-  WARNING: attempting to use the extensible SDK in an environment
-  	   set up to run bitbake - this may lead to unexpected
-	   results. Please source this script in a new shell session
-	   instead.
+Need update ptest-runner source code to get the new commit:
+<ptest-runner: make DEFAULT_DIRECTORY be able to be defined when compiling>
 
-  FileExistsError: [Errno 17] File exists: '/.../tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/selftest-esdk-fcuyzsqu/tmp/sysroots/x86_64/bin/pigz' -> '/.../tmp/hosttools/pigz'
-
-So unset these two vars to avoid messing things up.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/eSDK.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/ptest-runner/ptest-runner_2.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/eSDK.py b/meta/lib/oeqa/selftest/cases/eSDK.py
-index d7aef93..7798706 100644
---- a/meta/lib/oeqa/selftest/cases/eSDK.py
-+++ b/meta/lib/oeqa/selftest/cases/eSDK.py
-@@ -31,7 +31,7 @@ class oeSDKExtSelfTest(OESelftestTestCase):
-         if not 'shell' in options:
-             options['shell'] = True
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
+index 26add9b..0a58f74 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
  
--        runCmd("cd %s; . %s; %s" % (tmpdir_eSDKQA, env_eSDK, cmd), **options)
-+        runCmd("cd %s; unset BBPATH; unset BUILDDIR; . %s; %s" % (tmpdir_eSDKQA, env_eSDK, cmd), **options)
+-SRCREV = "80712583732b4a809532f644fb09e7d2e812d7ba"
++SRCREV = "e1062f776eea60c50435c6b8ddf9714a31141aee"
+ PV = "2.3+git${SRCPV}"
  
-     @staticmethod
-     def generate_eSDK(image):
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
+ 
+ FILES_${PN} = "${bindir}/ptest-runner"
+ 
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
++EXTRA_OEMAKE = "-e MAKEFLAGS= CFLAGS="${CFLAGS} -DDEFAULT_DIRECTORY=\\\"${libdir}\\\"""
+ 
+ do_compile () {
+ 	oe_runmake
 -- 
 1.9.1
 
