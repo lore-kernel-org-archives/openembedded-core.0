@@ -1,26 +1,46 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A1C17C0D9
+	by mail.openembedded.org (Postfix) with ESMTP id 63CCF7C0A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 10:13:29 +0000 (UTC)
+	Tue, 22 Jan 2019 10:19:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2019 02:13:30 -0800
+	22 Jan 2019 02:19:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,505,1539673200"; d="scan'208";a="111696335"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga008.jf.intel.com with ESMTP; 22 Jan 2019 02:13:29 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jan 2019 17:42:11 +0800
-Message-Id: <1548150131-65036-3-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
+X-IronPort-AV: E=Sophos;i="5.56,505,1539673200"; d="scan'208";a="312362545"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by fmsmga006.fm.intel.com with ESMTP; 22 Jan 2019 02:19:04 -0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.250]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.199]) with mapi id
+	14.03.0415.000; Tue, 22 Jan 2019 18:19:01 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: 'Richard Purdie' <richard.purdie@linuxfoundation.org>,
+	"'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/3 v3] scripts/test-case-mgmt: store test
+	result and reporting
+Thread-Index: AQHUsZU18wI0Tr87BEmFldOfCVygIaW6/XOQgAAVttA=
+Date: Tue, 22 Jan 2019 10:19:01 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434816F01B@PGSMSX109.gar.corp.intel.com>
+References: <1546584363-72836-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1546584363-72836-3-git-send-email-ee.peng.yeoh@intel.com>
+	<67481590ea535b268e04a74b26e53b15a6bd0a8e.camel@linuxfoundation.org>
+	<E0805CCB83E6104E80E61FD34E5788AE55DD18A4@PGSMSX110.gar.corp.intel.com>
+In-Reply-To: <E0805CCB83E6104E80E61FD34E5788AE55DD18A4@PGSMSX110.gar.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYmE5NTNiZTgtYjc3ZS00YzI5LTkwZjYtZmQzMjI4NzZhY2NkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSUYwUWpBZlI3ckcxazh3Y1wvWGhtYzd6dmhcL2N6OWVocHlITFI0WjkwY09PZjREY0ZzVDMySStrXC9XaHpLenYwVCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Subject: [PATCH 2/2 v5] scripts/resultstool: enable manual execution and result creation
+Cc: 'Paul Eggleton' <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 2/3 v3] scripts/test-case-mgmt: store test result and reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,230 +53,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 10:13:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Jan 2019 10:19:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Mazliana <mazliana.mohamad@intel.com>
-
-Integrated “manualexecution” operation to test-case-mgmt scripts.
-Manual execution script is a helper script to execute all manual
-test cases in baseline command, which consists of user guideline
-steps and the expected results. The last step will ask user to
-provide their input to execute result. The input options are
-passed/failed/blocked/skipped status. The result given will be
-written in testresults.json including log error from the user
-input and configuration if there is any.The output test result
-for json file is created by using OEQA library.
-
-The configuration part is manually key-in by the user. The system
-allow user to specify how many configuration they want to add and
-they need to define the required configuration name and value pair.
-In QA perspective, "configuration" means the test environments and
-parameters used during QA setup before testing can be carry out.
-Example of configurations: image used for boot up, host machine
-distro used, poky configurations, etc.
-
-The purpose of adding the configuration is to standardize the
-output test result format between automation and manual execution.
-
-To use these scripts, first source oe environment, then run the
-entry point script to look for help.
-        $ resultstool
-
-To execute manual test cases, execute the below
-        $ resultstool  manualexecution <manualjsonfile>
-
-By default testresults.json store in <build_dir>/tmp/log/manual/
-
-[YOCTO #12651]
-
-Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- scripts/lib/resultstool/manualexecution.py | 137 +++++++++++++++++++++++++++++
- scripts/resultstool                        |   8 ++
- 2 files changed, 145 insertions(+)
- create mode 100644 scripts/lib/resultstool/manualexecution.py
-
-diff --git a/scripts/lib/resultstool/manualexecution.py b/scripts/lib/resultstool/manualexecution.py
-new file mode 100644
-index 0000000..e0c0c36
---- /dev/null
-+++ b/scripts/lib/resultstool/manualexecution.py
-@@ -0,0 +1,137 @@
-+# test case management tool - manual execution from testopia test cases
-+#
-+# Copyright (c) 2018, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import argparse
-+import json
-+import os
-+import sys
-+import datetime
-+import re
-+from oeqa.core.runner import OETestResultJSONHelper
-+from resultstool.resultsutils import load_json_file
-+
-+class ManualTestRunner(object):
-+    def __init__(self):
-+        self.jdata = ''
-+        self.test_module = ''
-+        self.test_suite = ''
-+        self.test_cases = ''
-+        self.configuration = ''
-+        self.starttime = ''
-+        self.result_id = ''
-+        self.write_dir = ''
-+
-+    def _get_testcases(self, file):
-+        self.jdata = load_json_file(file)
-+        self.test_cases = []
-+        self.test_module = self.jdata[0]['test']['@alias'].split('.', 2)[0]
-+        self.test_suite = self.jdata[0]['test']['@alias'].split('.', 2)[1]
-+        for i in self.jdata:
-+            self.test_cases.append(i['test']['@alias'].split('.', 2)[2])
-+    
-+    def _get_input(self, config):
-+        while True:
-+            output = input('{} = '.format(config))
-+            if re.match('^[a-zA-Z0-9_]+$', output):
-+                break
-+            print('Only alphanumeric and underscore are allowed. Please try again')
-+        return output
-+
-+    def _create_config(self):
-+        self.configuration = {}
-+        while True:
-+            try:
-+                conf_total = int(input('\nPlease provide how many configuration you want to save \n'))
-+                break
-+            except ValueError:
-+                print('Invalid input. Please provide input as a number not character.')
-+        for i in range(conf_total):
-+            print('---------------------------------------------')
-+            print('This is configuration #%s ' % (i + 1) + '. Please provide configuration name and its value')
-+            print('---------------------------------------------')
-+            name_conf = self._get_input('Configuration Name')
-+            value_conf = self._get_input('Configuration Value')
-+            print('---------------------------------------------\n')
-+            self.configuration[name_conf.upper()] = value_conf
-+        current_datetime = datetime.datetime.now()
-+        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
-+        self.configuration['STARTTIME'] = self.starttime
-+        self.configuration['TEST_TYPE'] = self.test_module
-+
-+    def _create_result_id(self):
-+        self.result_id = 'manual_' + self.test_module + '_' + self.starttime
-+
-+    def _execute_test_steps(self, test_id):
-+        test_result = {}
-+        testcase_id = self.test_module + '.' + self.test_suite + '.' + self.test_cases[test_id]
-+        total_steps = len(self.jdata[test_id]['test']['execution'].keys())
-+        print('------------------------------------------------------------------------')
-+        print('Executing test case:' + '' '' + self.test_cases[test_id])
-+        print('------------------------------------------------------------------------')
-+        print('You have total ' + str(total_steps) + ' test steps to be executed.')
-+        print('------------------------------------------------------------------------\n')
-+        for step in sorted((self.jdata[test_id]['test']['execution']).keys()):
-+            print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
-+            print('Expected output: ' + self.jdata[test_id]['test']['execution']['%s' % step]['expected_results'])
-+            done = input('\nPlease press ENTER when you are done to proceed to next step.\n')
-+        while True:
-+            done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n')
-+            done = done.lower()
-+            result_types = {'p':'PASSED',
-+                                'f':'FAILED',
-+                                'b':'BLOCKED',
-+                                's':'SKIPPED'}
-+            if done in result_types:
-+                for r in result_types:
-+                    if done == r:
-+                        res = result_types[r]
-+                        if res == 'FAILED':
-+                            log_input = input('\nPlease enter the error and the description of the log: (Ex:log:211 Error Bitbake)\n')
-+                            test_result.update({testcase_id: {'status': '%s' % res, 'log': '%s' % log_input}})
-+                        else:
-+                            test_result.update({testcase_id: {'status': '%s' % res}})
-+                break
-+            print('Invalid input!')
-+        return test_result
-+
-+    def _create_write_dir(self):
-+        basepath = os.environ['BUILDDIR']
-+        self.write_dir = basepath + '/tmp/log/manual/'
-+
-+    def run_test(self, file):
-+        self._get_testcases(file)
-+        self._create_config()
-+        self._create_result_id()
-+        self._create_write_dir()
-+        test_results = {}
-+        print('\nTotal number of test cases in this test suite: ' + '%s\n' % len(self.jdata))
-+        for i in range(0, len(self.jdata)):
-+            test_result = self._execute_test_steps(i)
-+            test_results.update(test_result)
-+        return self.configuration, self.result_id, self.write_dir, test_results
-+
-+def manualexecution(args, logger):
-+    testrunner = ManualTestRunner()
-+    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
-+    resultjsonhelper = OETestResultJSONHelper()
-+    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id,
-+                                          get_test_results)
-+    return 0
-+
-+def register_commands(subparsers):
-+    """Register subcommands from this plugin"""
-+    parser_build = subparsers.add_parser('manualexecution', help='Helper script for results populating during manual test execution.',
-+                                         description='Helper script for results populating during manual test execution. You can find manual test case JSON file in meta/lib/oeqa/manual/',
-+                                         group='manualexecution')
-+    parser_build.set_defaults(func=manualexecution)
-+    parser_build.add_argument('file', help='Specify path to manual test case JSON file.Note: Please use \"\" to encapsulate the file path.')
-\ No newline at end of file
-diff --git a/scripts/resultstool b/scripts/resultstool
-index 35cf080..e2bd590 100755
---- a/scripts/resultstool
-+++ b/scripts/resultstool
-@@ -17,6 +17,11 @@
- # To perform regression analysis, execute the below
- #     $ resultstool regression <base_result_file> <target_result_file>
- #
-+# To execute manual test cases, execute the below
-+#     $ resultstool manualexecution <manualjsonfile>
-+#
-+# By default testresults.json for manualexecution store in <build>/tmp/log/manual/
-+#
- # Copyright (c) 2019, Intel Corporation.
- #
- # This program is free software; you can redistribute it and/or modify it
-@@ -42,6 +47,7 @@ import resultstool.merge
- import resultstool.store
- import resultstool.regression
- import resultstool.report
-+import resultstool.manualexecution
- logger = scriptutils.logger_create('resultstool')
- 
- def _validate_user_input_arguments(args):
-@@ -58,6 +64,8 @@ def main():
-     parser.add_argument('-q', '--quiet', help='print only errors', action='store_true')
-     subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
-     subparsers.required = True
-+    subparsers.add_subparser_group('manualexecution', 'manual test cases', 300)
-+    resultstool.manualexecution.register_commands(subparsers)
-     subparsers.add_subparser_group('setup', 'setup', 200)
-     resultstool.merge.register_commands(subparsers)
-     resultstool.store.register_commands(subparsers)
--- 
-2.7.4
-
+U29ycnksIEkgcmVhbGl6ZWQgdGhhdCBJIGhhZCBtaXNzZWQgdG8gaW5jbHVkZSB0aGUgZmlsZXMg
+dXNlZCBmb3Igb2Utc2VsZnRlc3QgdGhhdCB0ZXN0aW5nIHRoZSBzdG9yZSBvcGVyYXRpb24uDQpT
+dWJtaXR0ZWQgdjUgcGF0Y2hlcyB0aGF0IGFkZGVkIHRoZSByZXF1aXJlZCBmaWxlcyBmb3Igb2Ut
+c2VsZnRlc3QgLXIgcmVzdWx0c3Rvb2x0ZXN0cy4NCg0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTktSmFudWFyeS8yNzgyNDMuaHRt
+bA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1j
+b3JlLzIwMTktSmFudWFyeS8yNzgyNDQuaHRtbA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTktSmFudWFyeS8yNzgyNDUuaHRtbA0K
+DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogWWVvaCwgRWUgUGVuZyANClNlbnQ6
+IFR1ZXNkYXksIEphbnVhcnkgMjIsIDIwMTkgNTo0NSBQTQ0KVG86IFJpY2hhcmQgUHVyZGllIDxy
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwu
+Y29tPjsgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+DQpTdWJq
+ZWN0OiBSRTogW09FLWNvcmVdIFtQQVRDSCAyLzMgdjNdIHNjcmlwdHMvdGVzdC1jYXNlLW1nbXQ6
+IHN0b3JlIHRlc3QgcmVzdWx0IGFuZCByZXBvcnRpbmcNCg0KSGkgUmljaGFyZCwNCg0KQWZ0ZXIg
+eW91ciByZWNlbnRseSBzaGFyaW5nIG9uIHB5dGhvbmljLCB3ZSBoYWQgcmV2aXNlZCB0aGVzZSBz
+Y3JpcHRzIGluIGhvcGUgdG8gaW1wcm92ZSB0aGUgY29kZSByZWFkYWJpbGl0eSBhbmQgZWFzZSBv
+ZiBtYWludGVuYW5jZS4gQWxzbyBuZXcgZnVuY3Rpb25hbGl0aWVzIHdlcmUgZGV2ZWxvcGVkIGZv
+bGxvd2luZyBweXRob25pYyBzdHlsZS4gDQoNClRoZSBsYXRlc3QgcGF0Y2hlcyBhcmUganVzdCBz
+dWJtaXR0ZWQgdG9kYXkgYXQgYmVsb3cgVVJMLiANCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc4MjQwLmh0bWwN
+Cmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29y
+ZS8yMDE5LUphbnVhcnkvMjc4MjM4Lmh0bWwNCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
+L3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc4MjM5Lmh0bWwNCg0K
+Q2hhbmdlcyBjb21wYXJlZCB0byBwcmV2aW91cyB2ZXJzaW9uOg0KMS4gQWRkIG5ldyBmZWF0dXJl
+cywgbWVyZ2UgbXVsdGlwbGUgdGVzdHJlc3VsdHMuanNvbiBmaWxlICYgcmVncmVzc2lvbiBhbmFs
+eXNpcyBmb3IgdHdvIHNwZWNpZmllZCB0ZXN0cmVzdWx0cy5qc29uIDIuIEFkZCBzZWxmdGVzdCB0
+byB0ZXN0IG1lcmdlLCBzdG9yZSwgcmVwb3J0IGFuZCByZWdyZXNzaW9uIGZ1bmN0aW9uYWxpdGll
+cyAzLiBSZXZpc2VkIGNvZGUgc3R5bGUgdG8gYWxpZ24gd2l0aCBweXRob25pYw0KDQpSZWdhcmRp
+bmcgeW91ciBxdWVzdGlvbnMgYmVsb3c6DQoxLiBXaGF0IHRhcmdldCBsYXlvdXQgYXJlIHdlIGFp
+bWluZyBmb3IgaW4gdGhlIGdpdCByZXBvc2l0b3J5PyANCi0gQXJlIHdlIGFpbWluZyBmb3IgYSBk
+aXJlY3RvcnkgcGVyIGNvbW1pdCB0ZXN0ZWQgd2hlcmUgYWxsIHRoZSB0ZXN0IHJlc3VsdHMgZm9y
+IHRoYXQgY29tbWl0IGFyZSBpbiB0aGUgc2FtZSBqc29uIGZpbGU/DQotIEEgZGlyZWN0b3J5IHBl
+ciBjb21taXQsIHRoZW4gYSBkaXJlY3RvcnkgcGVyIHR5cGUgb2YgdGVzdD8gb3IgcGVyIHRlc3Qg
+cnVuPyBvciA/Pz8NCi0gQXJlIGJyYW5jaGVzIHVzZWQgZm9yIGVhY2ggcmVsZWFzZSBzZXJpZXMg
+KG1hc3RlciwgdGh1ZCwgc3VtbyBldGM/KSBCYXNpY2FsbHksIHRoZSBsYXlvdXQgd2UnZCB1c2Ug
+dG8gaW1wb3J0IHRoZSBhdXRvYnVpbGRlciByZXN1bHRzIGZvciBlYWNoIG1hc3RlciBydW4gZm9y
+IGV4YW1wbGUgcmVtYWlucyB1bmNsZWFyIHRvIG1lLCBvciBob3cgd2UnZCBsb29rIHVwIHRoZSBz
+dGF0dXMgb2YgYSBnaXZlbiBjb21taXQuDQoNClRoZSB0YXJnZXQgbGF5b3V0IHNoYWxsIGJlIGEg
+c3BlY2lmaWMgZ2l0IGJyYW5jaCBmb3IgZWFjaCBjb21taXQgdGVzdGVkLCB3aGVyZSB0aGUgZmls
+ZSBkaXJlY3RvcmllcyBzaGFsbCBiZSAgYmFzZWQgb24gZXhpc3RpbmcgQXV0b2J1aWxkZXIgcmVz
+dWx0cyBhcmNoaXZlIChlZy4gYXNzdW1pbmcgc3RvcmUgY29tbWFuZCB3YXMgZXhlY3V0ZWQgaW5z
+aWRlIEF1dG9idWlsZGVyIG1hY2hpbmUgdGhhdCBzdG9yZWQgdGhlIHRlc3RyZXN1bHRzLmpzb24g
+ZmlsZXMgYW5kIHByZWRlZmluZWQgZGlyZWN0b3J5KSwgc2ltcGx5IGV4ZWN1dGU6ICQgcmVzdWx0
+c3Rvb2wgc3RvcmUgPHNvdXJjZV9kaXI+IDxnaXRfYnJhbmNoPiB3aGVyZSBzb3VyY2VfZGlyIHdh
+cyB0aGUgdG9wIGRpcmVjdG9yeSB1c2VkIGJ5IEF1dG9idWlsZGVyIHRvIGFyY2hpdmUgYWxsIHRl
+c3RyZXN1bHRzLmpzb24gZmlsZSwgZ2l0X2JyYW5jaCB3YXMgdGhlIFFBIGN5Y2xlIGZvciBjdXJy
+ZW50IHRlc3RlZCBjb21taXQuIA0KDQpUaGUgZmlyc3QgaW5zdGFuY2UgdG8gZXhlY3V0ZSAicmVz
+dWx0c3Rvb2wgc3RvcmUiIHdpbGwgZ2VuZXJhdGUgYSBnaXQgcmVwb3NpdG9yeSB1bmRlciA8cG9r
+eT4vPGJ1aWxkPi8gZGlyZWN0b3J5LiBUbyB1cGRhdGUgZmlsZXMgdG8gYmUgc3RvcmVkLCBzaW1w
+bHkgZXhlY3V0ZSAkIHJlc3VsdHN0b29sIHN0b3JlIDxzb3VyY2VfZGlyPiA8Z2l0X2JyYW5jaD4g
+LWQgPHBva3k+LzxidWlsZD4vPHRlc3RyZXN1bHRzX2RhdGV0aW1lPi4NCg0KMi4gVGhlIGNvZGUg
+ZG9lc24ndCBzdXBwb3J0IGNvbXBhcmlzb24gb2YgdHdvIHNldHMgb2YgdGVzdCByZXN1bHRzICh3
+aGljaCB0ZXN0cyB3ZXJlIGFkZGVkL3JlbW92ZWQ/IHBhc3NlZCB3aGVuIHByZXZpb3VzbHkgZmFp
+bGVkPyBmYWlsZWQgd2hlbiBwcmV2aW91c2x5IHBhc3NlZD8pDQoNCkFzc3VtaW5nIHJlc3VsdHMg
+ZnJvbSBhIHBhcnRpY3VsYXIgdGVzdGVkIGNvbW1pdCB3ZXJlIG1lcmdlZCBpbnRvIGEgc2luZ2xl
+IGZpbGUgKHVzaW5nIGV4aXN0aW5nICJtZXJnZSIgZnVuY3Rpb25hbGl0eSksIHVzZXIgc2hhbGwg
+dXNlIHRoZSBuZXdseSBhZGRlZCAicmVncmVzc2lvbiIgZnVuY3Rpb25hbGl0eSBmb3IgY29tcGFy
+aW5nIHJlc3VsdHMgc3RhdHVzIGZvciB0d28gdGVzdHJlc3VsdHMuanNvbiBmaWxlcy4gQmFzZWQg
+b24gdGhlIGNvbmZpZ3VyYXRpb25zIGRhdGEgZm9yIGVhY2ggcmVzdWx0X2lkIHNldCwgdGhlIGNv
+bXBhcmlzb24gbG9naWMgd2lsbCBzZWxlY3QgcmVzdWx0IHdpdGggc2FtZSBjb25maWd1cmF0aW9u
+cyBmb3IgY29tcGFyaXNvbi4gTW9yZSBhZHZhbmNlIHJlZ3Jlc3Npb24gYW5kIGF1dG9tYXRpb24g
+Y2FuIGJlIGRldmVsb3BlZCBmcm9tIGN1cnJlbnQgY29kZSBiYXNlLiANCg0KMy4gVGhlIGNvZGUg
+YWxzbyBkb2Vzbid0IGFsbG93IGludmVzdGlnYXRpb24gb2YgdGVzdCByZXBvcnQgInN1YmRhdGEi
+IGxpa2UgbG9va2luZyBhdCB0aGUgcHRlc3QgcmVzdWx0cywgY29tcGFyaW5nIHRoZW0gdG8gcHJl
+dmlvdXMgcnVucywgc2hvd2luZyB0aGUgbG9ncyBmb3IgcGFzc2VkL2ZhaWxlZCBwdGVzdHMuDQoN
+ClRoZXJlIGlzIGFsc28gdGhlIHF1ZXN0aW9uIG9mIGpzb24gYnVpbGQgcGVyZm9ybWFuY2UgZGF0
+YS4NCg0KVGhpcyB3YXMgbm90IHN1cHBvcnRlZCBhcyBvZiBub3csIHRoaXMgd2lsbCBuZWVkIGZ1
+cnRoZXIgZW5oYW5jZW1lbnQuIA0KDQpQbGVhc2UgbGV0IG1lIGtub3cgaWYgYW55IHF1ZXN0aW9u
+cyBhbmQgaW5wdXRzLiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIHNoYXJpbmcgYW5kIGhl
+bHAhDQoNClRoYW5rcywNClllb2ggRWUgUGVuZyANCg0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4
+Zm91bmRhdGlvbi5vcmddDQpTZW50OiBNb25kYXksIEphbnVhcnkgMjEsIDIwMTkgMTA6MjYgUE0N
+ClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0
+b25AaW50ZWwuY29tPjsgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5j
+b20+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzMgdjNdIHNjcmlwdHMvdGVzdC1j
+YXNlLW1nbXQ6IHN0b3JlIHRlc3QgcmVzdWx0IGFuZCByZXBvcnRpbmcNCg0KT24gRnJpLCAyMDE5
+LTAxLTA0IGF0IDE0OjQ2ICswODAwLCBZZW9oIEVlIFBlbmcgd3JvdGU6DQo+IFRoZXNlIHNjcmlw
+dHMgd2VyZSBkZXZlbG9wZWQgYXMgYW4gYWx0ZXJuYXRpdmUgdGVzdGNhc2UgbWFuYWdlbWVudCAN
+Cj4gdG9vbCB0byBUZXN0b3BpYS4gVXNpbmcgdGhlc2Ugc2NyaXB0cywgdXNlciBjYW4gbWFuYWdl
+IHRoZSANCj4gdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBnZW5lcmF0ZWQgYnkgb2VxYSBhdXRvbWF0
+ZWQgdGVzdHMuIFVzaW5nIHRoZSANCj4gInN0b3JlIiBvcGVyYXRpb24sIHVzZXIgY2FuIHN0b3Jl
+IG11bHRpcGxlIGdyb3VwcyBvZiB0ZXN0IHJlc3VsdCBlYWNoIA0KPiBpbnRvIGluZGl2aWR1YWwg
+Z2l0IGJyYW5jaC4gV2l0aGluIGVhY2ggZ2l0IGJyYW5jaCwgdXNlciBjYW4gc3RvcmUgDQo+IG11
+bHRpcGxlIHRlc3RyZXN1bHRzLmpzb24gZmlsZXMgdW5kZXIgZGlmZmVyZW50IGRpcmVjdG9yaWVz
+IChlZy4NCj4gY2F0ZWdvcml6ZSBkaXJlY3RvcnkgYnkgc2VsZnRlc3QtPGRpc3Rybz4sIHJ1bnRp
+bWUtPGltYWdlPi0gDQo+IDxtYWNoaW5lPikuDQo+IFRoZW4sIHVzaW5nIHRoZSAicmVwb3J0IiBv
+cGVyYXRpb24sIHVzZXIgY2FuIHZpZXcgdGhlIHRlc3QgcmVzdWx0IA0KPiBzdW1tYXJ5IGZvciBh
+bGwgYXZhaWxhYmxlIHRlc3RyZXN1bHRzLmpzb24gZmlsZXMgYmVpbmcgc3RvcmVkIHRoYXQgDQo+
+IHdlcmUgZ3JvdXBlZCBieSBkaXJlY3RvcnkgYW5kIHRlc3QgY29uZmlndXJhdGlvbi4NCj4NCj4g
+VGhpcyBzY3JpcHRzIGRlcGVuZHMgb24gc2NyaXB0cy9vZS1naXQtYXJjaGl2ZSB3aGVyZSBpdCB3
+YXMgZmFjaW5nIA0KPiBlcnJvciBpZiBnaXRweXRob24gcGFja2FnZSB3YXMgbm90IGluc3RhbGxl
+ZC4gUmVmZXIgdG8gW1lPQ1RPIyAxMzA4Ml0gDQo+IGZvciBtb3JlIGRldGFpbC4NCg0KVGhhbmtz
+IGZvciB0aGUgcGF0Y2hlcy4gVGhlc2UgYXJlIGEgbG90IG1vcmUgcmVhZGFibGUgdGhhbiB0aGUg
+cHJldmlvdXMgdmVyc2lvbnMgYW5kIHRoZSBjb2RlIHF1YWxpdHkgaXMgbXVjaCBiZXR0ZXIgd2hp
+Y2ggaW4gdHVybiBoZWxwZWQgcmV2aWV3IQ0KDQpJIGV4cGVyaW1lbnRlZCB3aXRoIHRoZSBjb2Rl
+IGEgYml0LiBJJ20gZmluZSB3aXRoIHRoZSBtYW51YWwgdGVzdCBleGVjdXRpb24gcGllY2Ugb2Yg
+dGhpcywgSSBkbyBoYXZlIHNvbWUgcXVlc3Rpb25zL2NvbmNlcm5zIHdpdGggdGhlIHJlc3VsdCBz
+dG9yYWdlL3JlcG9ydGluZyBwaWVjZSB0aG91Z2guDQoNCldoYXQgdGFyZ2V0IGxheW91dCBhcmUg
+d2UgYWltaW5nIGZvciBpbiB0aGUgZ2l0IHJlcG9zaXRvcnk/IA0KLSBBcmUgd2UgYWltaW5nIGZv
+ciBhIGRpcmVjdG9yeSBwZXIgY29tbWl0IHRlc3RlZCB3aGVyZSBhbGwgdGhlIHRlc3QgcmVzdWx0
+cyBmb3IgdGhhdCBjb21taXQgYXJlIGluIHRoZSBzYW1lIGpzb24gZmlsZT8NCi0gQSBkaXJlY3Rv
+cnkgcGVyIGNvbW1pdCwgdGhlbiBhIGRpcmVjdG9yeSBwZXIgdHlwZSBvZiB0ZXN0PyBvciBwZXIg
+dGVzdCBydW4/IG9yID8/Pw0KLSBBcmUgYnJhbmNoZXMgdXNlZCBmb3IgZWFjaCByZWxlYXNlIHNl
+cmllcyAobWFzdGVyLCB0aHVkLCBzdW1vIGV0Yz8pIEJhc2ljYWxseSwgdGhlIGxheW91dCB3ZSdk
+IHVzZSB0byBpbXBvcnQgdGhlIGF1dG9idWlsZGVyIHJlc3VsdHMgZm9yIGVhY2ggbWFzdGVyIHJ1
+biBmb3IgZXhhbXBsZSByZW1haW5zIHVuY2xlYXIgdG8gbWUsIG9yIGhvdyB3ZSdkIGxvb2sgdXAg
+dGhlIHN0YXR1cyBvZiBhIGdpdmVuIGNvbW1pdC4NCg0KVGhlIGNvZGUgZG9lc24ndCBzdXBwb3J0
+IGNvbXBhcmlzb24gb2YgdHdvIHNldHMgb2YgdGVzdCByZXN1bHRzICh3aGljaCB0ZXN0cyB3ZXJl
+IGFkZGVkL3JlbW92ZWQ/IHBhc3NlZCB3aGVuIHByZXZpb3VzbHkgZmFpbGVkPyBmYWlsZWQgd2hl
+biBwcmV2aW91c2x5IHBhc3NlZD8pDQoNClRoZSBjb2RlIGFsc28gZG9lc24ndCBhbGxvdyBpbnZl
+c3RpZ2F0aW9uIG9mIHRlc3QgcmVwb3J0ICJzdWJkYXRhIiBsaWtlIGxvb2tpbmcgYXQgdGhlIHB0
+ZXN0IHJlc3VsdHMsIGNvbXBhcmluZyB0aGVtIHRvIHByZXZpb3VzIHJ1bnMsIHNob3dpbmcgdGhl
+IGxvZ3MgZm9yIHBhc3NlZC9mYWlsZWQgcHRlc3RzLg0KDQpUaGVyZSBpcyBhbHNvIHRoZSBxdWVz
+dGlvbiBvZiBqc29uIGJ1aWxkIHBlcmZvcm1hbmNlIGRhdGEuDQoNClRoZSBpZGVhIGJlaGluZCB0
+aGlzIGNvZGUgaXMgdG8gZ2l2ZSB1cyBhIHJlcG9ydCB3aGljaCBhbGxvd3MgdXMgdG8gZGVjaWRl
+IG9uIHRoZSBRQSBzdGF0ZSBvZiBhIGdpdmVuIHNldCBvZiB0ZXN0cmVwb3J0IGRhdGEuIEknbSBq
+dXN0IG5vdCBzdXJlIHRoaXMgcGF0Y2ggc2V0IGxldHMgdXMgZG8gdGhhdCwgb3IgZ2l2ZXMgdXMg
+YSBwYXRoIHRvIGFsbG93IHVzIHRvIGRvIHRoYXQgZWl0aGVyLg0KDQpDaGVlcnMsDQoNClJpY2hh
+cmQNCg0KDQoNCg==
 
