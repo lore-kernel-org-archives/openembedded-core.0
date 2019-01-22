@@ -1,59 +1,47 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 7835C7C05B
+Return-Path: <ee.peng.yeoh@intel.com>
+X-Greylist: delayed 571 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 22 Jan 2019 09:54:21 UTC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E66D7C07D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 09:50:02 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x0M9ns8A022037
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 22 Jan 2019 10:49:54 +0100
-Received: from [192.168.253.100] (MD1JJJ2C.ad001.siemens.net [163.242.44.88])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x0M9nrxV017556;
-	Tue, 22 Jan 2019 10:49:54 +0100
-References: <05af53a7-6ed6-9615-be2e-d8c31dbfb321@siemens.com>
-	<CAJTo0LbHTnSYrjm6QWGbXFJFj8jUGuk07t6hAhgB8dUnSYkAxw@mail.gmail.com>
-	<d2772c25-a1ee-d20a-d913-323784db6933@windriver.com>
-	<CAJTo0LYJyuYgj2MUnKPN8X2JNOK9AGFmDbcJ=-9EjPBoMDDGXQ@mail.gmail.com>
-	<7497c039-7951-ee51-7506-300a74d0b558@windriver.com>
-	<fa30e51479e77bed2b7ca05049bed3c65f3efe2b.camel@linuxfoundation.org>
-	<eb624819-010f-193b-c4cc-a08f694fd41c@siemens.com>
-	<9018fe34-658e-4da4-3ea5-e2fc7eb5bb79@windriver.com>
-To: hongxu.jia@windriver.com
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	mQENBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAG0J0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPokBPgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO57kBDQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABiQElBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <2d7a4b6a-9286-2a3a-c51d-24df733e458b@siemens.com>
-Date: Tue, 22 Jan 2019 10:49:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <9018fe34-658e-4da4-3ea5-e2fc7eb5bb79@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	Tue, 22 Jan 2019 09:54:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2019 01:44:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,505,1539673200"; d="scan'208";a="127610486"
+Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2019 01:44:50 -0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.250]) by
+	KMSMSX151.gar.corp.intel.com ([169.254.10.19]) with mapi id
+	14.03.0415.000; Tue, 22 Jan 2019 17:44:48 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Prelink problem
+Thread-Topic: [OE-core] [PATCH 2/3 v3] scripts/test-case-mgmt: store test
+	result and reporting
+Thread-Index: AQHUsZU18wI0Tr87BEmFldOfCVygIaW6/XOQ
+Date: Tue, 22 Jan 2019 09:44:47 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434816EF82@PGSMSX109.gar.corp.intel.com>
+References: <1546584363-72836-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1546584363-72836-3-git-send-email-ee.peng.yeoh@intel.com>
+	<67481590ea535b268e04a74b26e53b15a6bd0a8e.camel@linuxfoundation.org>
+In-Reply-To: <67481590ea535b268e04a74b26e53b15a6bd0a8e.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYmE5NTNiZTgtYjc3ZS00YzI5LTkwZjYtZmQzMjI4NzZhY2NkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSUYwUWpBZlI3ckcxazh3Y1wvWGhtYzd6dmhcL2N6OWVocHlITFI0WjkwY09PZjREY0ZzVDMySStrXC9XaHpLenYwVCJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 2/3 v3] scripts/test-case-mgmt: store test result and reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,107 +54,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 09:50:03 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 22 Jan 2019 09:54:23 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Hongxu Jia!
-
-I have found, that You have implemented this prelink mechanism regarding
-to multilib.
-Are you sure, that these changes are required?
-If yes, is it possible to add somehow dependency to prelink-native? Or
-move it into image-prelink.bbclass.
-
-Just for the information, I have build a general image without including
-any prelink stuff.
-
-Regards,
-Andrej
-
-On 1/16/19 4:57 PM, Mark Hatle wrote:
-> On 1/16/19 1:23 AM, Andrej Valek wrote:
->> Hi all
->>
->> Do we found some solution? As a workaround could be just add dependency
->> to prelink native into rootfs if the command is really required.
-> 
-> If the image stuff needs prelink, there should be a dependency in place.  It
-> should only use prelink if the image-prelink is being used.
-> 
-> So really something probably needs to be added to image-prelink class that
-> activates unprelink behavior with opkg, and adds the necessary dependency.
-> 
-> --Mark
-> 
->> Regards,
->> Andrej
->>
->> On 1/8/19 10:46 PM, Richard Purdie wrote:
->>> On Tue, 2019-01-08 at 14:50 -0600, Mark Hatle wrote:
->>>> On 1/8/19 2:37 PM, Burton, Ross wrote:
->>>>> On Tue, 8 Jan 2019 at 20:15, Mark Hatle <mark.hatle@windriver.com>
->>>>> wrote:
->>>>>>> No idea why the opkg rootfs code is doing prelink operations
->>>>>>> when RPM
->>>>>>> or dpkg don't.   CCing Mark who may have an idea here.  I
->>>>>>> thought the
->>>>>>> autobuilder exerised multilib-on-opkg, but maybe not.
->>>>>>
->>>>>> They all should be doing prelink operations.  The operation
->>>>>> SHOULD be
->>>>>> generically implemented as part of the image-prelink class, which
->>>>>> is where I
->>>>>> would have expected that copy to exist.
->>>>>>
->>>>>> If any of the package types of specifically doing something, that
->>>>>> sounds
->>>>>> broken...  but the generic ones (last I looked) said to copy in
->>>>>> the config file
->>>>>> [if it didn't exist], run prelink, remove the file [if it wasn't
->>>>>> there to start
->>>>>> with].
->>>>>
->>>>> Note that it's part of the incremental code, so needs to be in the
->>>>> rootfs code directly I suspect. Frankly I'd love to see incremental
->>>>> images removed.  It makes promises it can't keep (the moment a
->>>>> rootfs
->>>>> postprocess command is used, all bets are off) and massively
->>>>> complicates things.
->>>>
->>>> We assume the post process command is what an 'admin' would do.  So
->>>> the various
->>>> package managers should be able to deal with it in most
->>>> cases.  (Note, obviously
->>>> it's more freeform, but I wouldn't expect everything to work in you
->>>> removed a
->>>> large part of the filesystem for instance.)
->>>>
->>>> As for prelink, I'm surprised this is in the incremental code.  I'm
->>>> not sure why
->>>> it would be necessary unless the incremental work wants to UNPRELINK
->>>> the rootfs
->>>> before performing the upgrade?
->>>>
->>>> Prelink itself should still be run as a postprocess command that
->>>> takes the
->>>> output of the filesystem and reprocesses it.
->>>>
->>>> So something seems out of sync here.. (at a minimum probably should
->>>> be better
->>>> commented on why it's needed..)
->>>
->>> The code is there for incremental opkg multilib image support. Its
->>> trying to compare whether binaries are identical. To make it work, it
->>> has to "unprelink" the files first before comparing.
->>>
->>> I'm not convinced this is a good idea :/. I'm wondering if incremental
->>> image generation makes sense at all in this context to be honest.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
-> 
+SGkgUmljaGFyZCwNCg0KQWZ0ZXIgeW91ciByZWNlbnRseSBzaGFyaW5nIG9uIHB5dGhvbmljLCB3
+ZSBoYWQgcmV2aXNlZCB0aGVzZSBzY3JpcHRzIGluIGhvcGUgdG8gaW1wcm92ZSB0aGUgY29kZSBy
+ZWFkYWJpbGl0eSBhbmQgZWFzZSBvZiBtYWludGVuYW5jZS4gQWxzbyBuZXcgZnVuY3Rpb25hbGl0
+aWVzIHdlcmUgZGV2ZWxvcGVkIGZvbGxvd2luZyBweXRob25pYyBzdHlsZS4gDQoNClRoZSBsYXRl
+c3QgcGF0Y2hlcyBhcmUganVzdCBzdWJtaXR0ZWQgdG9kYXkgYXQgYmVsb3cgVVJMLiANCmh0dHA6
+Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5
+LUphbnVhcnkvMjc4MjQwLmh0bWwNCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVy
+bWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc4MjM4Lmh0bWwNCmh0dHA6Ly9s
+aXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUph
+bnVhcnkvMjc4MjM5Lmh0bWwNCg0KQ2hhbmdlcyBjb21wYXJlZCB0byBwcmV2aW91cyB2ZXJzaW9u
+Og0KMS4gQWRkIG5ldyBmZWF0dXJlcywgbWVyZ2UgbXVsdGlwbGUgdGVzdHJlc3VsdHMuanNvbiBm
+aWxlICYgcmVncmVzc2lvbiBhbmFseXNpcyBmb3IgdHdvIHNwZWNpZmllZCB0ZXN0cmVzdWx0cy5q
+c29uDQoyLiBBZGQgc2VsZnRlc3QgdG8gdGVzdCBtZXJnZSwgc3RvcmUsIHJlcG9ydCBhbmQgcmVn
+cmVzc2lvbiBmdW5jdGlvbmFsaXRpZXMNCjMuIFJldmlzZWQgY29kZSBzdHlsZSB0byBhbGlnbiB3
+aXRoIHB5dGhvbmljDQoNClJlZ2FyZGluZyB5b3VyIHF1ZXN0aW9ucyBiZWxvdzoNCjEuIFdoYXQg
+dGFyZ2V0IGxheW91dCBhcmUgd2UgYWltaW5nIGZvciBpbiB0aGUgZ2l0IHJlcG9zaXRvcnk/IA0K
+LSBBcmUgd2UgYWltaW5nIGZvciBhIGRpcmVjdG9yeSBwZXIgY29tbWl0IHRlc3RlZCB3aGVyZSBh
+bGwgdGhlIHRlc3QgcmVzdWx0cyBmb3IgdGhhdCBjb21taXQgYXJlIGluIHRoZSBzYW1lIGpzb24g
+ZmlsZT8NCi0gQSBkaXJlY3RvcnkgcGVyIGNvbW1pdCwgdGhlbiBhIGRpcmVjdG9yeSBwZXIgdHlw
+ZSBvZiB0ZXN0PyBvciBwZXIgdGVzdCBydW4/IG9yID8/Pw0KLSBBcmUgYnJhbmNoZXMgdXNlZCBm
+b3IgZWFjaCByZWxlYXNlIHNlcmllcyAobWFzdGVyLCB0aHVkLCBzdW1vIGV0Yz8pIEJhc2ljYWxs
+eSwgdGhlIGxheW91dCB3ZSdkIHVzZSB0byBpbXBvcnQgdGhlIGF1dG9idWlsZGVyIHJlc3VsdHMg
+Zm9yIGVhY2ggbWFzdGVyIHJ1biBmb3IgZXhhbXBsZSByZW1haW5zIHVuY2xlYXIgdG8gbWUsIG9y
+IGhvdyB3ZSdkIGxvb2sgdXAgdGhlIHN0YXR1cyBvZiBhIGdpdmVuIGNvbW1pdC4NCg0KVGhlIHRh
+cmdldCBsYXlvdXQgc2hhbGwgYmUgYSBzcGVjaWZpYyBnaXQgYnJhbmNoIGZvciBlYWNoIGNvbW1p
+dCB0ZXN0ZWQsIHdoZXJlIHRoZSBmaWxlIGRpcmVjdG9yaWVzIHNoYWxsIGJlICBiYXNlZCBvbiBl
+eGlzdGluZyBBdXRvYnVpbGRlciByZXN1bHRzIGFyY2hpdmUgKGVnLiBhc3N1bWluZyBzdG9yZSBj
+b21tYW5kIHdhcyBleGVjdXRlZCBpbnNpZGUgQXV0b2J1aWxkZXIgbWFjaGluZSB0aGF0IHN0b3Jl
+ZCB0aGUgdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBhbmQgcHJlZGVmaW5lZCBkaXJlY3RvcnkpLCBz
+aW1wbHkgZXhlY3V0ZTogJCByZXN1bHRzdG9vbCBzdG9yZSA8c291cmNlX2Rpcj4gPGdpdF9icmFu
+Y2g+IHdoZXJlIHNvdXJjZV9kaXIgd2FzIHRoZSB0b3AgZGlyZWN0b3J5IHVzZWQgYnkgQXV0b2J1
+aWxkZXIgdG8gYXJjaGl2ZSBhbGwgdGVzdHJlc3VsdHMuanNvbiBmaWxlLCBnaXRfYnJhbmNoIHdh
+cyB0aGUgUUEgY3ljbGUgZm9yIGN1cnJlbnQgdGVzdGVkIGNvbW1pdC4gDQoNClRoZSBmaXJzdCBp
+bnN0YW5jZSB0byBleGVjdXRlICJyZXN1bHRzdG9vbCBzdG9yZSIgd2lsbCBnZW5lcmF0ZSBhIGdp
+dCByZXBvc2l0b3J5IHVuZGVyIDxwb2t5Pi88YnVpbGQ+LyBkaXJlY3RvcnkuIFRvIHVwZGF0ZSBm
+aWxlcyB0byBiZSBzdG9yZWQsIHNpbXBseSBleGVjdXRlICQgcmVzdWx0c3Rvb2wgc3RvcmUgPHNv
+dXJjZV9kaXI+IDxnaXRfYnJhbmNoPiAtZCA8cG9reT4vPGJ1aWxkPi88dGVzdHJlc3VsdHNfZGF0
+ZXRpbWU+Lg0KDQoyLiBUaGUgY29kZSBkb2Vzbid0IHN1cHBvcnQgY29tcGFyaXNvbiBvZiB0d28g
+c2V0cyBvZiB0ZXN0IHJlc3VsdHMgKHdoaWNoIHRlc3RzIHdlcmUgYWRkZWQvcmVtb3ZlZD8gcGFz
+c2VkIHdoZW4gcHJldmlvdXNseSBmYWlsZWQ/IGZhaWxlZCB3aGVuIHByZXZpb3VzbHkgcGFzc2Vk
+PykNCg0KQXNzdW1pbmcgcmVzdWx0cyBmcm9tIGEgcGFydGljdWxhciB0ZXN0ZWQgY29tbWl0IHdl
+cmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZmlsZSAodXNpbmcgZXhpc3RpbmcgIm1lcmdlIiBmdW5j
+dGlvbmFsaXR5KSwgdXNlciBzaGFsbCB1c2UgdGhlIG5ld2x5IGFkZGVkICJyZWdyZXNzaW9uIiBm
+dW5jdGlvbmFsaXR5IGZvciBjb21wYXJpbmcgcmVzdWx0cyBzdGF0dXMgZm9yIHR3byB0ZXN0cmVz
+dWx0cy5qc29uIGZpbGVzLiBCYXNlZCBvbiB0aGUgY29uZmlndXJhdGlvbnMgZGF0YSBmb3IgZWFj
+aCByZXN1bHRfaWQgc2V0LCB0aGUgY29tcGFyaXNvbiBsb2dpYyB3aWxsIHNlbGVjdCByZXN1bHQg
+d2l0aCBzYW1lIGNvbmZpZ3VyYXRpb25zIGZvciBjb21wYXJpc29uLiBNb3JlIGFkdmFuY2UgcmVn
+cmVzc2lvbiBhbmQgYXV0b21hdGlvbiBjYW4gYmUgZGV2ZWxvcGVkIGZyb20gY3VycmVudCBjb2Rl
+IGJhc2UuIA0KDQozLiBUaGUgY29kZSBhbHNvIGRvZXNuJ3QgYWxsb3cgaW52ZXN0aWdhdGlvbiBv
+ZiB0ZXN0IHJlcG9ydCAic3ViZGF0YSIgbGlrZSBsb29raW5nIGF0IHRoZSBwdGVzdCByZXN1bHRz
+LCBjb21wYXJpbmcgdGhlbSB0byBwcmV2aW91cyBydW5zLCBzaG93aW5nIHRoZSBsb2dzIGZvciBw
+YXNzZWQvZmFpbGVkIHB0ZXN0cy4NCg0KVGhlcmUgaXMgYWxzbyB0aGUgcXVlc3Rpb24gb2YganNv
+biBidWlsZCBwZXJmb3JtYW5jZSBkYXRhLg0KDQpUaGlzIHdhcyBub3Qgc3VwcG9ydGVkIGFzIG9m
+IG5vdywgdGhpcyB3aWxsIG5lZWQgZnVydGhlciBlbmhhbmNlbWVudC4gDQoNClBsZWFzZSBsZXQg
+bWUga25vdyBpZiBhbnkgcXVlc3Rpb25zIGFuZCBpbnB1dHMuIFRoYW5rIHlvdSB2ZXJ5IG11Y2gg
+Zm9yIHlvdXIgc2hhcmluZyBhbmQgaGVscCENCg0KVGhhbmtzLA0KWWVvaCBFZSBQZW5nIA0KDQoN
+Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFttYWls
+dG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBNb25kYXksIEph
+bnVhcnkgMjEsIDIwMTkgMTA6MjYgUE0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hA
+aW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6
+IEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwuY29tPjsgUGF1bCBFZ2dsZXRvbiA8cGF1
+bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
+SCAyLzMgdjNdIHNjcmlwdHMvdGVzdC1jYXNlLW1nbXQ6IHN0b3JlIHRlc3QgcmVzdWx0IGFuZCBy
+ZXBvcnRpbmcNCg0KT24gRnJpLCAyMDE5LTAxLTA0IGF0IDE0OjQ2ICswODAwLCBZZW9oIEVlIFBl
+bmcgd3JvdGU6DQo+IFRoZXNlIHNjcmlwdHMgd2VyZSBkZXZlbG9wZWQgYXMgYW4gYWx0ZXJuYXRp
+dmUgdGVzdGNhc2UgbWFuYWdlbWVudCANCj4gdG9vbCB0byBUZXN0b3BpYS4gVXNpbmcgdGhlc2Ug
+c2NyaXB0cywgdXNlciBjYW4gbWFuYWdlIHRoZSANCj4gdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBn
+ZW5lcmF0ZWQgYnkgb2VxYSBhdXRvbWF0ZWQgdGVzdHMuIFVzaW5nIHRoZSANCj4gInN0b3JlIiBv
+cGVyYXRpb24sIHVzZXIgY2FuIHN0b3JlIG11bHRpcGxlIGdyb3VwcyBvZiB0ZXN0IHJlc3VsdCBl
+YWNoIA0KPiBpbnRvIGluZGl2aWR1YWwgZ2l0IGJyYW5jaC4gV2l0aGluIGVhY2ggZ2l0IGJyYW5j
+aCwgdXNlciBjYW4gc3RvcmUgDQo+IG11bHRpcGxlIHRlc3RyZXN1bHRzLmpzb24gZmlsZXMgdW5k
+ZXIgZGlmZmVyZW50IGRpcmVjdG9yaWVzIChlZy4NCj4gY2F0ZWdvcml6ZSBkaXJlY3RvcnkgYnkg
+c2VsZnRlc3QtPGRpc3Rybz4sIHJ1bnRpbWUtPGltYWdlPi0gDQo+IDxtYWNoaW5lPikuDQo+IFRo
+ZW4sIHVzaW5nIHRoZSAicmVwb3J0IiBvcGVyYXRpb24sIHVzZXIgY2FuIHZpZXcgdGhlIHRlc3Qg
+cmVzdWx0IA0KPiBzdW1tYXJ5IGZvciBhbGwgYXZhaWxhYmxlIHRlc3RyZXN1bHRzLmpzb24gZmls
+ZXMgYmVpbmcgc3RvcmVkIHRoYXQgDQo+IHdlcmUgZ3JvdXBlZCBieSBkaXJlY3RvcnkgYW5kIHRl
+c3QgY29uZmlndXJhdGlvbi4NCj4NCj4gVGhpcyBzY3JpcHRzIGRlcGVuZHMgb24gc2NyaXB0cy9v
+ZS1naXQtYXJjaGl2ZSB3aGVyZSBpdCB3YXMgZmFjaW5nIA0KPiBlcnJvciBpZiBnaXRweXRob24g
+cGFja2FnZSB3YXMgbm90IGluc3RhbGxlZC4gUmVmZXIgdG8gW1lPQ1RPIyAxMzA4Ml0gDQo+IGZv
+ciBtb3JlIGRldGFpbC4NCg0KVGhhbmtzIGZvciB0aGUgcGF0Y2hlcy4gVGhlc2UgYXJlIGEgbG90
+IG1vcmUgcmVhZGFibGUgdGhhbiB0aGUgcHJldmlvdXMgdmVyc2lvbnMgYW5kIHRoZSBjb2RlIHF1
+YWxpdHkgaXMgbXVjaCBiZXR0ZXIgd2hpY2ggaW4gdHVybiBoZWxwZWQgcmV2aWV3IQ0KDQpJIGV4
+cGVyaW1lbnRlZCB3aXRoIHRoZSBjb2RlIGEgYml0LiBJJ20gZmluZSB3aXRoIHRoZSBtYW51YWwg
+dGVzdCBleGVjdXRpb24gcGllY2Ugb2YgdGhpcywgSSBkbyBoYXZlIHNvbWUgcXVlc3Rpb25zL2Nv
+bmNlcm5zIHdpdGggdGhlIHJlc3VsdCBzdG9yYWdlL3JlcG9ydGluZyBwaWVjZSB0aG91Z2guDQoN
+CldoYXQgdGFyZ2V0IGxheW91dCBhcmUgd2UgYWltaW5nIGZvciBpbiB0aGUgZ2l0IHJlcG9zaXRv
+cnk/IA0KLSBBcmUgd2UgYWltaW5nIGZvciBhIGRpcmVjdG9yeSBwZXIgY29tbWl0IHRlc3RlZCB3
+aGVyZSBhbGwgdGhlIHRlc3QgcmVzdWx0cyBmb3IgdGhhdCBjb21taXQgYXJlIGluIHRoZSBzYW1l
+IGpzb24gZmlsZT8NCi0gQSBkaXJlY3RvcnkgcGVyIGNvbW1pdCwgdGhlbiBhIGRpcmVjdG9yeSBw
+ZXIgdHlwZSBvZiB0ZXN0PyBvciBwZXIgdGVzdCBydW4/IG9yID8/Pw0KLSBBcmUgYnJhbmNoZXMg
+dXNlZCBmb3IgZWFjaCByZWxlYXNlIHNlcmllcyAobWFzdGVyLCB0aHVkLCBzdW1vIGV0Yz8pIEJh
+c2ljYWxseSwgdGhlIGxheW91dCB3ZSdkIHVzZSB0byBpbXBvcnQgdGhlIGF1dG9idWlsZGVyIHJl
+c3VsdHMgZm9yIGVhY2ggbWFzdGVyIHJ1biBmb3IgZXhhbXBsZSByZW1haW5zIHVuY2xlYXIgdG8g
+bWUsIG9yIGhvdyB3ZSdkIGxvb2sgdXAgdGhlIHN0YXR1cyBvZiBhIGdpdmVuIGNvbW1pdC4NCg0K
+VGhlIGNvZGUgZG9lc24ndCBzdXBwb3J0IGNvbXBhcmlzb24gb2YgdHdvIHNldHMgb2YgdGVzdCBy
+ZXN1bHRzICh3aGljaCB0ZXN0cyB3ZXJlIGFkZGVkL3JlbW92ZWQ/IHBhc3NlZCB3aGVuIHByZXZp
+b3VzbHkgZmFpbGVkPyBmYWlsZWQgd2hlbiBwcmV2aW91c2x5IHBhc3NlZD8pDQoNClRoZSBjb2Rl
+IGFsc28gZG9lc24ndCBhbGxvdyBpbnZlc3RpZ2F0aW9uIG9mIHRlc3QgcmVwb3J0ICJzdWJkYXRh
+IiBsaWtlIGxvb2tpbmcgYXQgdGhlIHB0ZXN0IHJlc3VsdHMsIGNvbXBhcmluZyB0aGVtIHRvIHBy
+ZXZpb3VzIHJ1bnMsIHNob3dpbmcgdGhlIGxvZ3MgZm9yIHBhc3NlZC9mYWlsZWQgcHRlc3RzLg0K
+DQpUaGVyZSBpcyBhbHNvIHRoZSBxdWVzdGlvbiBvZiBqc29uIGJ1aWxkIHBlcmZvcm1hbmNlIGRh
+dGEuDQoNClRoZSBpZGVhIGJlaGluZCB0aGlzIGNvZGUgaXMgdG8gZ2l2ZSB1cyBhIHJlcG9ydCB3
+aGljaCBhbGxvd3MgdXMgdG8gZGVjaWRlIG9uIHRoZSBRQSBzdGF0ZSBvZiBhIGdpdmVuIHNldCBv
+ZiB0ZXN0cmVwb3J0IGRhdGEuIEknbSBqdXN0IG5vdCBzdXJlIHRoaXMgcGF0Y2ggc2V0IGxldHMg
+dXMgZG8gdGhhdCwgb3IgZ2l2ZXMgdXMgYSBwYXRoIHRvIGFsbG93IHVzIHRvIGRvIHRoYXQgZWl0
+aGVyLg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg==
 
