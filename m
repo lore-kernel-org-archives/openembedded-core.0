@@ -1,52 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7204D79AE7
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC1F60197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 20:56:06 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id q18so28975546wrx.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2019 12:56:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=/b+YKc9pDciQPd2YYUJCTU3g2Kkr2nP1lhGqwW33tqs=;
-	b=Xzlr5RZ57iAo2tLCDRVCN+6aBld7kaJ4NV7ZTO3Z6NezJpu1M0Wmnq5Ql+ot0Le065
-	pQfgIVHRFJ1fY/SjxBrdEVpr3QzRUfAscsXpWs39NUcH4pQs8z6ogle9MgvOJW5BLvEQ
-	N+I8n1i4RLp4Sr9+/NSRm/jm4tesAE3+c3PDk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/b+YKc9pDciQPd2YYUJCTU3g2Kkr2nP1lhGqwW33tqs=;
-	b=a/JQBwMuUrziQS8GQPoHOB+vmYPAKX7K+eSFAED45t6KA0X3lwmzeOhRU5QtcBEz1x
-	Fw0rXQ4e39oNhJ/QY2gRQb5EUgD2girKbCTfccxuQPOcLctkiX2jta+VK3ytcwFdYbfI
-	Pln04YUlqeGKxvQVSaGFCQO5Euif7HP5i4aLVfJY65mUDnpJkit1QfGj6wmLM3olVua7
-	2VSYmOpF4smdimj9nXQlSpENWVhZWgBgjkUhvQ9rEG16m+3VI/AzlGNILlkxROuEy6G8
-	k2Z61A8KERuaB7zPjKAyS3Xyb7sY1fVc3h5xuUbI7CiUrRr/6I7+FmYbZRUCzLTH2svS
-	Ei9Q==
-X-Gm-Message-State: AJcUukc5evOIoYYAEVZGlQ5svbM4ZC6FmG0VpmBIs9FZO25KWzwCZRjt
-	68+yS+cchisynJvX8U/huTb6bmtJpBU=
-X-Google-Smtp-Source: ALg8bN6bQ0Ld21i8Brn826NMzUsX3BG2orDfwvsJorwXL8wDc2jYzEahGL3k2x6kplVBbjKnyG4FvQ==
-X-Received: by 2002:adf:9168:: with SMTP id j95mr33844457wrj.217.1548190566918;
-	Tue, 22 Jan 2019 12:56:06 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	67sm149529839wra.37.2019.01.22.12.56.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 22 Jan 2019 12:56:05 -0800 (PST)
-Message-ID: <00e28f40c80a0d5411d85acb33754075ad659b51.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
-	"openembedded-core@lists.openembedded.org"
+	Tue, 22 Jan 2019 23:32:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 2E19E18513;
+	Wed, 23 Jan 2019 00:32:37 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id MoOPPH7HWP6N; Wed, 23 Jan 2019 00:32:36 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 083D918508;
+	Wed, 23 Jan 2019 00:32:36 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E801A1A066;
+	Wed, 23 Jan 2019 00:32:35 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DAD181A065;
+	Wed, 23 Jan 2019 00:32:35 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 23 Jan 2019 00:32:35 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id CE81B176;
+	Wed, 23 Jan 2019 00:32:35 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 23 Jan 2019 00:32:35 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 23 Jan 2019 00:32:35 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 23 Jan 2019 00:32:35 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Dan Dedrick <dan.dedrick@gmail.com>
+Thread-Topic: [OE-core] [PATCH] devtool: remove duplicate overrides
+Thread-Index: AQHUsaMrmusEdUVJRkqjMs4xeDrcfqW77Y6Q
+Date: Tue, 22 Jan 2019 23:32:35 +0000
+Message-ID: <42b345a9ede84c4194bdffac2d69e85a@XBOX04.axis.com>
+References: <20190121160502.64556-1-ddedrick@lexmark.com>
+In-Reply-To: <20190121160502.64556-1-ddedrick@lexmark.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jan 2019 20:56:04 +0000
-In-Reply-To: <88612759fcbff8ec983740eb130002e604329aa1.camel@andred.net>
-References: <88612759fcbff8ec983740eb130002e604329aa1.camel@andred.net>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: sstate siginfo question
+Subject: Re: [PATCH] devtool: remove duplicate overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +67,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2019 20:56:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Jan 2019 23:32:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2019-01-22 at 13:06 +0000, André Draszik wrote:
-> Hi,
-> 
-> I am hoping to optimise some network traffic here a little by
-> reducing
-> sstate upload to our central server.
-> 
-> These might be stupid questions on that subject:
-> * Are *.tgz.siginfo files without a matching *.tgz useful to be
-> shared
+This has already been merged, but see below.
 
-They're useful if you need to debug signatures as they link other
-sstate hashes together. The system doesn't use them except when
-debugging (e.g. dumpsigs/diffsigs).
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Dan Dedrick
+> Sent: den 21 januari 2019 17:05
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] devtool: remove duplicate overrides
+>=20
+> DEVTOOL_EXTRA_OVERRIDES only needs one entry for each instance of
+> overrides. Previous to these changes it would find every override to
+> SRC_URI and add it to the list. This would duplicate instances where
+> SRC_URI is modified multiple times with the same override like:
+> SRC_URI_append_foo +=3D "file://0001-foo.patch"
+> SRC_URI_append_foo +=3D "file://0002-bar.patch"
+>=20
+> A bbappend might also overwrite a SRC_URI override, which would also
+> cause multiple instances to occur.
+>=20
+> When there are multiple instances of the same override in
+> DEVTOOL_EXTRA_OVERRIDES it causes devtool modify to fail when creating
+> override branches. The failure occurs when attempting to create the same
+> override branch a second time and looks like this:
+>=20
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:devtool_post_patch(d)
+>      0003:
+> File: '/build/poky/meta/classes/devtool-source.bbclass', lineno: 202, fun=
+ction: devtool_post_patch
+>      0198:
+>      0199:        for override in extra_override_list:
 
->   (uploaded to our centra sstate server), or is there no point?
-> * which siginfos can be safely avoided to be uploaded? I'd assume all
->   *_rm_work.tgz.siginfo
+The reference to extra_override_list above indicates that you developed=20
+this patch for an older version of OE-Core, since that variable was=20
+renamed on master of OE-Core in October when this problem was fixed (see=20
+commit 95a92195). However, that fix was made to devtool-source.bbclass,=20
+where it uses the value of DEVTOOL_EXTRA_OVERRIDES, instead of to=20
+scripts/lib/devtool/standard.py where you made the change. This is=20
+probably why you did not notice that the problem had already been fixed.
 
-There probably aren't many but rm_work/clean/cleansstate are pointless.
+>      0200:            localdata =3D bb.data.createCopy(d)
+>      0201:            if override in default_overrides:
+>  *** 0202:                bb.process.run('git branch devtool-override-%s =
+%s' % (override, devbranch), cwd=3Dsrcsubdir)
+>      0203:            else:
+>      0204:                # Reset back to the initial commit on a new bra=
+nch
+>      0205:                bb.process.run('git checkout %s -b devtool-over=
+ride-%s' % (initial_rev, override), cwd=3Dsrcsubdir)
+>      0206:                # Run do_patch function with the override appli=
+ed
+> File: '/build/poky/bitbake/lib/bb/process.py', lineno: 178, function: run
+>      0174:        if not stderr is None:
+>      0175:            stderr =3D stderr.decode("utf-8")
+>      0176:
+>      0177:    if pipe.returncode !=3D 0:
+>  *** 0178:        raise ExecutionError(cmd, pipe.returncode, stdout, stde=
+rr)
+>      0179:    return stdout, stderr
+> Exception: bb.process.ExecutionError: Execution of 'git branch devtool-ov=
+erride-foo devtool' failed with exit code 128:
+> fatal: A branch named 'devtool-override-foo' already exists.
+>=20
+> Signed-off-by: Dan Dedrick <ddedrick@lexmark.com>
+> ---
+>  scripts/lib/devtool/standard.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
+rd.py
+> index d14b7a6543..a45ad36812 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -509,6 +509,11 @@ def _extract_source(srctree, keep_temp, devbranch, s=
+ync, config, basepath, works
+>              if not 'flag' in event:
+>                  if event['op'].startswith(('_append[', '_prepend[')):
+>=20
+> extra_overrides.append(event['op'].split('[')[1].split(']')[0])
+> +        # We want to remove duplicate overrides. If a recipe had multipl=
+e
+> +        # SRC_URI_override +=3D values it would cause mulitple instances=
+ of
+> +        # overrides. This doesn't play nicely with things like creating =
+a
+> +        # branch for every instance of DEVTOOL_EXTRA_OVERRIDES.
+> +        extra_overrides =3D list(set(extra_overrides))
+>          if extra_overrides:
+>              logger.info('SRC_URI contains some conditional appends/prepe=
+nds - will create branches to represent these')
+>=20
+> --
+> 2.20.1
 
->   Any others?
-> * Can such an approach be feasible?
-
-Not sure it would save much.
-
-The sstate hash equivalence work should be much more promising for
-this.
-
-Cheers,
-
-Richard
+//Peter
 
 
