@@ -1,48 +1,102 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
-	[209.85.217.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2912B6BD08
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D06C76D545
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 23:11:41 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id u11so2383792vsp.11
+	Wed, 23 Jan 2019 23:32:18 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id h3so1991198pfg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 15:11:43 -0800 (PST)
+	Wed, 23 Jan 2019 15:32:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6HianJQOjGTHamqpLn7V3OL0zqyGWi4k5MnFW9wFyY0=;
-	b=j/nxT4oHCV0E7LgbReTZQ4rnzwyV1RWXLC/+CXmPIidfEJvfr/7JvRZATYVRkFskZc
-	en4jdLG8nDatVObjs+GqwVjdUsxY+k/niWp+8gPadQGe563cV1MMhPRHXd2qX/OeyLbN
-	qv4uds4xRaO54Ce3RMRw223VGSeEmPQlisy5em/xcSDaPboSFfK+3kWB+8Lr7+BEs0Qh
-	bOO6wDRQmTS7m7jbgUNcjs+BQWBJHL2FSOzu8hzKKjQ5vzKVV/h38BfQxWq1COb68qg3
-	0pwLaNCSLhiBT4odrk6j3nP+nXAUNT1krcDSp+2aptND10Av1oFMhQRhHKB0xYgrbR8d
-	g3jw==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=jIIwEa8tEDXt9+lytXVP7mUfH89y8z+J5J/MNqKUpWA=;
+	b=Ktk2+0Ao1E8s0IGC9P1YCHQBNdMa399qWVubwwsixw9yEnMYWdDz5CDJcFpSH6s07C
+	Z+g5H6xd9ef6GeGJq1F7qGB35BtYBOHKvSHOsCLXTrsUKW1SEfKlfqgc3TVS4syvE5XA
+	Nc+1z8Onp1eekCeEIU+JzIVQvdyltfGmIK5RngvBvoJqmSfCPkNU2Y4smjHf/t2nP6zJ
+	9lAmj2hD03Ctk5kd3Ib5IqB9wO91qzE8nv7CBENecYJR8EWmYbkBj3vjYCvWIS8aI86C
+	451dD/b6LhNRQDAZ4VLwLlv+o8ijV96/Serncj8Bby6pbBRSsyYl27Ne0ZH+N5YE6Mtb
+	62/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6HianJQOjGTHamqpLn7V3OL0zqyGWi4k5MnFW9wFyY0=;
-	b=L2Mqz4b/76ytoe5etI8INlCZbuOLqHZHVAznDstSIRO2dPOS6QLmyQjnqvc81PknaU
-	T/w08B4ASgAD8/Rs/dE4Ca9NxOF30QumLJMG8VOJy2mptwLlq8IbyGUNkcYIAld6c2KO
-	jrdZ40MkwdHXBl5vVLVcalZYAFI+HrUlP+qqx91kKL7iEJkYIZx0iiX/g9a7cSnVEz4h
-	KCEE4z48RPOUyal+X1wgaiVOr0wk/ezfNq6zB/o8K34rLoq1KQCeODs2DSgj1c9D0cNl
-	Y+9DZfD9jc86UMdB7P9/UwaasbjcY4s0DtHOgZ1WxLc/P5lfrWs3/8dFa7mlbgpBOov5
-	4SYQ==
-X-Gm-Message-State: AJcUukeV7DiacXsx5J0rwPUVrKBJMoO15Pxb6KVEJrvUall3SA4OxRzr
-	SdQX3OgOUtUMTEkvrknV06FRBHZs04hV3QUDpSY=
-X-Google-Smtp-Source: ALg8bN5JcKGbyzKUBxbK3pF3nMNGYOpz0uZJ7g/TT7g2LbW34ilYGu3akzwMytA531p6jkqkodEAcIVJqBZMitEff6U=
-X-Received: by 2002:a67:7c92:: with SMTP id x140mr1617051vsc.137.1548285102705;
-	Wed, 23 Jan 2019 15:11:42 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=jIIwEa8tEDXt9+lytXVP7mUfH89y8z+J5J/MNqKUpWA=;
+	b=WqkaawoctaGUg9AsSRznHPzCa02+Xb6qIQk94vBFOzzbyqqUa3OFSPaF95sxfiQeI2
+	97UA+iZ6MUjWswBWiJgUwfpjqJYh5D+GCGZ9le7tbTbNbM9ldZ36JF2CpC2qFxObmfRz
+	3lrGcFQIQss1sohyKAmf15x4jR53fkhGZdQgycPCcQNPfp3yEgIhH68EEBCxocQ+SvqY
+	Z9+obD2IICyDpY9HAOzZ0lASWXiIhYXKKJdX7MKiJaFQ0UyP3fXzvQP/wO/OhmJvA/L0
+	Q+kucB6dEem9YI5i8daOXgZo2rdM+x2b5rZqAN3v3JAtPfRNSxhuZf3Nsf+9hu5RkuNn
+	ySiA==
+X-Gm-Message-State: AJcUukemIa1NJ9lxvUKrkDc9WscSpLX9D7gYDVJi07tOHy+tAHUry5wz
+	J9beMQquKt+f+J4IAj+BQC+TZKERyK4=
+X-Google-Smtp-Source: ALg8bN54J0rGVFWcSBMdwmrvpW/tCLfhzU20TVacf/UT4oO6zyYF01INvwYw5QvKGm2y7lEqKQrGiA==
+X-Received: by 2002:a63:5a08:: with SMTP id o8mr3770514pgb.185.1548286339656; 
+	Wed, 23 Jan 2019 15:32:19 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:c33:bc04:9332:d657:8202?
+	([2601:202:4180:c33:bc04:9332:d657:8202])
+	by smtp.gmail.com with ESMTPSA id
+	a195sm38410788pfa.7.2019.01.23.15.32.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Jan 2019 15:32:18 -0800 (PST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190123161744.45763-1-alex.kanavin@gmail.com>
+	<20190123161744.45763-10-alex.kanavin@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <0dc855c4-45e8-f642-30a8-778dbb2772d5@gmail.com>
+Date: Wed, 23 Jan 2019 15:31:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20190123200520.14956-1-raj.khem@gmail.com>
-	<CAJ86T=XF3Xr0x6zEH2nsHhLQ3afEMP3Ot31pbK9-66ORrCjnsg@mail.gmail.com>
-	<CAMKF1srPt+fiSotytF2jczPEoCsCP5x7U=bODNe23476CA_ABQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srPt+fiSotytF2jczPEoCsCP5x7U=bODNe23476CA_ABQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 23 Jan 2019 15:11:30 -0800
-Message-ID: <CAJ86T=Xp_KgsZWv=oj4kEdWqAihMNASpOMc0s7nLHgcpVozWsg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-arm: Do not add -march options for arm architecture
+In-Reply-To: <20190123161744.45763-10-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 10/10] devtool: add a command to print an overall list of recipes that can be updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,162 +109,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2019 23:11:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 Jan 2019 23:32:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, Jan 23, 2019 at 2:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+
+On 1/23/19 8:17 AM, Alexander Kanavin wrote:
+> A sample portion of the output:
 >
-> On Wed, Jan 23, 2019 at 5:27 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> > On Wed, Jan 23, 2019 at 12:05 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > tune files which inherit the arch definitions already define appropriate
-> > > -mcpu option, which is equivalent of right -march and -mtune combination
-> >
-> > And what about machines which inherit an arch definition instead of a
-> > cpu definition? Is that no longer supported?
+> $ devtool check-upgrade-status
+> ...
+> NOTE: acpid                     2.0.30          2.0.31          Ross Burton <ross.burton@intel.com>
+> NOTE: u-boot-fw-utils           2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
+> NOTE: u-boot-tools              2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
+> NOTE: u-boot                    2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
+> NOTE: bind                      9.11.5          9.13.5          Armin Kuster <akuster808@gmail.com>  cannot be updated due to: 9.11 is LTS 2021
+> NOTE: iproute2                  4.19.0          4.20.0          Changhyeok Bae <changhyeok.bae@lge.com>
+> NOTE: ofono                     1.25            1.27            Ross Burton <ross.burton@intel.com>
+> NOTE: wpa-supplicant            2.6             2.7             Changhyeok Bae <changhyeok.bae@lge.com>
+> NOTE: base-passwd               3.5.29          3.5.45          Anuj Mittal <anuj.mittal@intel.com>  cannot be updated due to: Version 3.5.38 requires cdebconf for update-passwd utility
+> NOTE: busybox                   1.29.2          1.30.0          Andrej Valek <andrej.valek@siemens.com>
+> NOTE: dbus-test                 1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
+> NOTE: dbus                      1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
+> NOTE: glib-2.0                  2.58.0          2.58.3          Anuj Mittal <anuj.mittal@intel.com>
+> NOTE: glib-networking           2.54.1          2.58.0          Anuj Mittal <anuj.mittal@intel.com>
+
+this looks great.
+
+thanks.
+
+- armin
+> ...
 >
-> I could not find such a machine configuration in several BSP layers I looked at.
-> Do you know of machine definitions where these files are included
-> directly in machine configs ?
-
-Using a CPU specific include but then leaving the generic DEFAULTTUNE
-(ie not enabling any CPU specific TUNE_CCARGS) is equivalent, and I
-guess quite common.
-
-> if so, then we have to either use _remove or introduce a weak variable
-> to set march only if
-> mcpu is not set which
-
-I think the solution is to ensure that the CPU specific tuning options
-are always compatible with any architecture specific options which may
-be active.
-
-In general our CPU specific tuning files are a little sloppy (e.g.
-defaulting to combinations of VFP versions and architecture levels
-which never exist in the real world). If newer versions of gcc are
-making those issues more apparent then why not take the opportunity to
-fix them properly?
-
-> > > and is preferred since gcc is getting stricter and stricter with option
-> > > check semantics and can now find incompatible -march and -mcpu options
-> > > better with every release. It does internal feature consistency check
-> > > and if it finds out discrepency between what -mcpu would expand to as
-> > > compared to -march it will flag the options to be incompatible, for
-> > > naked eye it sounds wrong but gcc would translate -mcpu to a given
-> > > -march internally and it might not match to what we set in these arch
-> > > files.
-> > >
-> > > The effects are quite subtle, where this can result in configure test
-> > > failing to compile due to these incompatible options and a feature
-> > > option getting disabled for a recipe for no reason.
-> > >
-> > > e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
-> > > -march=armv7-a are incompatible, many features in libstdc++ ends up
-> > > disabled due to configure check failures e.g. size_t size, ptrdiff_t
-> > > sizes, which inturn results in compiling libstdc++ with unwanted
-> > > disabled features.
-> >
-> > It would be interesting to see more specific details of this.
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  scripts/lib/devtool/upgrade.py | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 >
-> These are configure tests which fail when -Werror is in use and is not
-> limited to libstdc++
-> it can happen in any package. Since the diagnostic about incompatible
-> march mcpu pair
-> is a warning in general, it does not matter, but when we have -Werror
-> enabled this turns
-> into error, You can simply try a small helloworld example to see the effects.
->
-> >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/conf/machine/include/arm/arch-armv4.inc   | 1 -
-> > >  meta/conf/machine/include/arm/arch-armv5.inc   | 1 -
-> > >  meta/conf/machine/include/arm/arch-armv6.inc   | 1 -
-> > >  meta/conf/machine/include/arm/arch-armv7a.inc  | 1 -
-> > >  meta/conf/machine/include/arm/arch-armv7ve.inc | 1 -
-> > >  meta/conf/machine/include/tune-iwmmxt.inc      | 2 +-
-> > >  6 files changed, 1 insertion(+), 6 deletions(-)
-> > >
-> > > diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
-> > > index 47a7ad2830..52d8ab1e8f 100644
-> > > --- a/meta/conf/machine/include/arm/arch-armv4.inc
-> > > +++ b/meta/conf/machine/include/arm/arch-armv4.inc
-> > > @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv4"
-> > >
-> > >  TUNEVALID[arm] = "Enable ARM instruction set"
-> > >  TUNEVALID[armv4] = "Enable instructions for ARMv4"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
-> > >  # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
-> > >  # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does
-> > >  # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
-> > > diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
-> > > index f9068af9de..1fe1b6b8e4 100644
-> > > --- a/meta/conf/machine/include/arm/arch-armv5.inc
-> > > +++ b/meta/conf/machine/include/arm/arch-armv5.inc
-> > > @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv5"
-> > >
-> > >  TUNEVALID[armv5] = "Enable instructions for ARMv5"
-> > >  TUNECONFLICTS[armv5] = "armv4"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
-> > >  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)}"
-> > >
-> > >  require conf/machine/include/arm/arch-armv4.inc
-> > > diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-> > > index 6c838e999c..adb9be8050 100644
-> > > --- a/meta/conf/machine/include/arm/arch-armv6.inc
-> > > +++ b/meta/conf/machine/include/arm/arch-armv6.inc
-> > > @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv6hf"
-> > >
-> > >  TUNEVALID[armv6] = "Enable instructions for ARMv6"
-> > >  TUNECONFLICTS[armv6] = "armv4 armv5"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
-> > >  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)}"
-> > >
-> > >  require conf/machine/include/arm/arch-armv5-dsp.inc
-> > > diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-> > > index a2663d8008..09d2c03a5d 100644
-> > > --- a/meta/conf/machine/include/arm/arch-armv7a.inc
-> > > +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-> > > @@ -3,7 +3,6 @@ ARM_INSTRUCTION_SET ?= "thumb"
-> > >
-> > >  TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
-> > >  TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
-> > >  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)}"
-> > >
-> > >  require conf/machine/include/arm/arch-armv6.inc
-> > > diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> > > index 4d9260fecb..31e334f645 100644
-> > > --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-> > > +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> > > @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv7vethf"
-> > >
-> > >  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
-> > >  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
-> > >  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
-> > >
-> > >  require conf/machine/include/arm/arch-armv7a.inc
-> > > diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
-> > > index f27423cb2e..6e577697cc 100644
-> > > --- a/meta/conf/machine/include/tune-iwmmxt.inc
-> > > +++ b/meta/conf/machine/include/tune-iwmmxt.inc
-> > > @@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
-> > >  require conf/machine/include/arm/arch-armv5-dsp.inc
-> > >
-> > >  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
-> > > -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
-> > > +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -mcpu=iwmmxt', '', d)}"
-> > >
-> > >  AVAILTUNES += "iwmmxt"
-> > >  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
-> > > --
-> > > 2.20.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+> index 202007793b2..42a4c0e4bff 100644
+> --- a/scripts/lib/devtool/upgrade.py
+> +++ b/scripts/lib/devtool/upgrade.py
+> @@ -600,6 +600,20 @@ def latest_version(args, config, basepath, workspace):
+>          tinfoil.shutdown()
+>      return 0
+>  
+> +def check_upgrade_status(args, config, basepath, workspace):
+> +    if not args.recipe:
+> +        logger.info("Checking the upstream status for all recipes may take a few minutes")
+> +    results = oe.recipeutils.get_recipe_upgrade_status(args.recipe)
+> +    for result in results:
+> +        # pn, update_status, current, latest, maintainer, latest_commit, no_update_reason
+> +        if result[1] != 'MATCH':
+> +            logger.info("{:25} {:15} {:15} {} {} {}".format(   result[0],
+> +                                                               result[2],
+> +                                                               result[1] if result[1] != 'UPDATE' else (result[3] if not result[3].endswith("new-commits-available") else "new commits"),
+> +                                                               result[4],
+> +                                                               result[5] if result[5] != 'N/A' else "",
+> +                                                               "cannot be updated due to: %s" %(result[6]) if result[6] else ""))
+> +
+>  def register_commands(subparsers, context):
+>      """Register devtool subcommands from this plugin"""
+>  
+> @@ -627,3 +641,9 @@ def register_commands(subparsers, context):
+>                                                    group='info')
+>      parser_latest_version.add_argument('recipename', help='Name of recipe to query (just name - no version, path or extension)')
+>      parser_latest_version.set_defaults(func=latest_version)
+> +
+> +    parser_check_upgrade_status = subparsers.add_parser('check-upgrade-status', help="Report upgradability for multiple (or all) recipes",
+> +                                                        description="Prints a table of recipes together with versions currently provided by recipes, and latest upstream versions, when there is a later version available",
+> +                                                        group='info')
+> +    parser_check_upgrade_status.add_argument('recipe', help='Name of the recipe to report (omit to report upgrade info for all recipes)', nargs='*')
+> +    parser_check_upgrade_status.set_defaults(func=check_upgrade_status)
+
 
