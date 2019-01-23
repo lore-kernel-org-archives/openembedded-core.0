@@ -1,29 +1,42 @@
-Return-Path: <Xulin.Sun@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E055E60069
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F2B5D6C0EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 09:31:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0N9VUoc013383
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Jan 2019 01:31:31 -0800 (PST)
-Received: from [128.224.163.161] (128.224.163.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 23 Jan 2019 01:31:29 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Randy MacLeod
-	<randy.macleod@windriver.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-References: <20190118022248.17108-1-xulin.sun@windriver.com>
-	<ad8f8c65-e628-1102-b49d-883b4eb9ce09@windriver.com>
-	<4693588ff8f849cfac2242d5323e9012@XBOX04.axis.com>
-From: Xulin Sun <xulin.sun@windriver.com>
-Message-ID: <f28ea34b-b4b2-d850-d6cf-6ebb8eeec732@windriver.com>
-Date: Wed, 23 Jan 2019 17:31:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+	Wed, 23 Jan 2019 12:14:23 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id e12so1701710otl.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jan 2019 04:14:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ZxzA1i7i1g+fa9UzXlbOYQzGtRDzYUnvPk7dRvF7pZk=;
+	b=ZdivU/xWLIUD9HZgLhxJg8B6rou1wNPhaYIGcOB0WrVeLOQ819e3ZICwkiodA8CmdS
+	q+Q96ZjLSpJxYgVpUWH55C8LTEWwEEH9bqQ5tuxOXDoIQYhN9EectHhE3hqZOm+KFp+l
+	IDmGZSO++K2ql0UqdWMtYnBTCIeosFjY2wEmZZTwhIGmbQAkkGc00bxvgjntzozrF262
+	MxRGZ0c96qHkffVdp8LQr3QpYxSLyj+MJsCdZJ5CwoWrlt4k+QktaZjV6TNcE+ay1L1N
+	k45U7ETnF1Dai5GpwlO0OsDRNG7RykKUqjVv0J/n78tCYJ7GltWfJ2qmj9GrKMLGHHDJ
+	KARg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ZxzA1i7i1g+fa9UzXlbOYQzGtRDzYUnvPk7dRvF7pZk=;
+	b=fBXsvslzMcqT4kkSzMcHjCp3sLi20ZV8h8N6EFhgYkFFHoiGajAOd2WygQeaHnUFtO
+	PvP7BVEJENq5QgiqHaIaTSWARMBb6NIpz01ZmCTRKdcmc2j9wKY80d1XmV8N9hj/yoWe
+	P1odl1FU3who5VfmAb/dHknsulzO0mt0VKqFnxZhN+IVAlYjQsBUNkAQLsnGisii7lhZ
+	vPE+ed1tmfUfP8hRZ3SJCuxvzhj6CIuGj0l1hFr1f74QwmbmliE6vaaOv4ULe/xOjZs4
+	wJIOTx7xRwBlh+QpPHK/sGdx1kJB0x/4W2BIux0Z+Jt5Z0EESWMAN8zVqi5KEKLtYpW1
+	l2FQ==
+X-Gm-Message-State: AJcUukfPEOLvG/k5ngo9fiSQKC81IOdzgVMaLeerIaqTH706atG6G0KJ
+	bOOswdJ2o8AR+7Oojm3dYCIXY5KT32O1lSY7B0oq/aEqf2k=
+X-Google-Smtp-Source: ALg8bN6jy+sfPdoCi/ftoAqzpNKnzVQaKQ27BYdAW2Ye5tRwxjInqefqB4jB6F1CbLDe76j8DyKi9RhBXfhjhTgUmbU=
+X-Received: by 2002:a9d:394:: with SMTP id f20mr1225076otf.98.1548245664597;
+	Wed, 23 Jan 2019 04:14:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4693588ff8f849cfac2242d5323e9012@XBOX04.axis.com>
-Subject: Re: [meta-oe][PATCH] openssl: fix multilib file install conflicts
+From: nick83ola <nick83ola@gmail.com>
+Date: Wed, 23 Jan 2019 12:14:13 +0000
+Message-ID: <CABPh3UMd9LvewWZuiTSiJgW_J74E+kJ7Tfxmq7mXgzGjSekF9Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] image-buildinfo: make the build file shell compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,91 +49,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2019 09:31:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 23 Jan 2019 12:14:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+this patch permit to simplify extracting build information from
+the /etc/build file from a script, f ex shell or python.
 
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+---
+ meta/classes/image-buildinfo.bbclass | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
-On 01/22/2019 10:25 PM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Randy MacLeod
->> Sent: den 22 januari 2019 00:01
->> To: Patches and discussions about the oe-core layer <openembedded-
->> core@lists.openembedded.org>; Xulin Sun <xulin.sun@windriver.com>
->> Subject: Re: [OE-core] [meta-oe][PATCH] openssl: fix multilib file
->> install conflicts
->>
->> Xulin,
->>
->> Thanks for sending this patch.
->>
->> On 1/17/19 9:22 PM, Xulin Sun wrote:
->>> To avoid issue like below if run "bitbake lib32-wrlinux-image-glibc-
->> std"
->>
->> For future oe-core commits, please use a core-image-minimal
->> example that will be more familiar to people outside of Wind River.
->>
->>> with series userspace packages(LAMP,krb5...) added:
->>>
->>> Error: Transaction check error:
->>>     file /usr/bin/c_rehash conflicts between attempted installs of
->>>     lib32-openssl-bin-1.1.1-r0.armv7at2hf_neon and openssl-bin-1.1.1-
->> r0.aarch64
->> Also, while your commit log explains what you fixed, it
->> doesn't describe the issue for those who don't know what c_rehash is so
->> something like:
->>
->>     Add multilib_script support for openssl's c_rehash which is
->>     a perl script.
->>
->> Followed by the example failure log that you showed.
->>
->>
->> Since this hasn't been merged to master/master-next,
->> it would be nice if you sent a v2.
->>
->> Thanks,
->> ../Randy
->>
->>> Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
->>> ---
->>>    meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
->> b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
->>> index 5c4e69cfb7..21359fa68a 100644
->>> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
->>> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
->>> @@ -206,3 +206,7 @@ RREPLACES_openssl-conf = "openssl10-conf"
->>>    RCONFLICTS_openssl-conf = "openssl10-conf"
->>>
->>>    BBCLASSEXTEND = "native nativesdk"
->>> +
->>> +inherit multilib_script
->>> +
->>> +MULTILIB_SCRIPTS = "${PN}:${bindir}/c_rehash"
-> Shouldn't that be:
->
-> MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
->
-> given that openssl inherits lib_package and ${bindir}/c_rehash thus
-> ends up in the ${PN}-bin package?
+diff --git a/meta/classes/image-buildinfo.bbclass
+b/meta/classes/image-buildinfo.bbclass
+index 94c585d4cd..3ef6ad129d 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -23,7 +23,7 @@ def image_buildinfo_outputvars(vars, d):
+         value = d.getVar(var) or ""
+         if (d.getVarFlag(var, 'type') == "list"):
+             value = oe.utils.squashspaces(value)
+-        ret += "%s = %s\n" % (var, value)
++        ret += '%s="%s"\n' % (var, value)
+     return ret.rstrip('\n')
 
-It is verified that both these two modification method ( ${PN}  or 
-${PN}-bin ) are all working and can fix the building error issue.
-Seems that after update to openssl 1.1.1, the file /usr/bin/openssl is 
-packaged into openssl-bin.
+ # Gets git branch's status (clean or dirty)
+@@ -40,12 +40,12 @@ def get_layer_git_status(path):
+         # Silently treat errors as "modified", without checking for the
+         # (expected) return code 1 in a modified git repo. For example, we get
+         # output and a 129 return code when a layer isn't a git repo at all.
+-        return "-- modified"
++        return "modified"
 
-Thanks
-Xulin
->
-> //Peter
->
->
+ # Returns layer revisions along with their respective status
+ def get_layer_revs(d):
+     layers = (d.getVar("BBLAYERS") or "").split()
+-    medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
++    medadata_revs = ['BBLAYERS_%s="%s:%s:%s"' % (os.path.basename(i), \
+         base_get_metadata_git_branch(i, None).strip(), \
+         base_get_metadata_git_revision(i, None), \
+         get_layer_git_status(i)) \
+@@ -66,19 +66,16 @@ python buildinfo () {
+         return
+     with open(d.expand('${IMAGE_ROOTFS}${IMAGE_BUILDINFO_FILE}'),
+'w') as build:
+         build.writelines((
+-            '''-----------------------
+-Build Configuration:  |
+------------------------
+-''',
++            '############################################################\n',
++            '# Build Configuration                                      #\n',
++            '############################################################\n',
+             buildinfo_target(d),
+-            '''
+------------------------
+-Layer Revisions:      |
+------------------------
+-''',
++            '\n\n',
++            '############################################################\n',
++            '# Layer Revisions                                          #\n',
++            '############################################################\n',
+             get_layer_revs(d),
+-            '''
+-'''
++            '\n',
+        ))
+ }
 
+-- 
+2.19.1
 
