@@ -1,50 +1,32 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F6236D638
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DF526D749
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 16:18:01 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id 96so3180935wrb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 08:18:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=SwxB0DyT0LW8g2qLLo2Rs5znzdcQxFYv1DGFv6LGTXk=;
-	b=IiDYnv501bw1u5BvDBbo5zyIhmev7jkSNXO1GiJRj/A6nwgTUVFa0rdFecWdM0Amk1
-	54S+xCQnMFsAgKAlwCtNFVwjLnuwsaUJl4/2DTUGEoPPUGIqVUSEiochfPanOlPtmsT3
-	frGcH+GXE9fjghPDrmzDm4dyOADCM0L+ud/kjuaNPCHODZAg+jkjkCdwmJ+yMnESmVFv
-	XmC2PQaMx6b0lzedBoALLv7PMwF2Q5MfKVdNFPnqoeVVqrdKf21u9MYCf1YHrh7vMflM
-	Z7BhuP257IRVNa+Oa1rIq6cBQe8ZqWFHO0ELcH8KMsxyzQB2WEhr3giK7QSK7wKn9usf
-	2Rrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=SwxB0DyT0LW8g2qLLo2Rs5znzdcQxFYv1DGFv6LGTXk=;
-	b=Z81AylHph3XdlR9zokKkCmHX4/DLaWsy/A31vHyJVlrfsem9zgIFn4ce0aq6YG7zvm
-	AvJY+cxWRYixjBnoV0sZhSHoWAwIdgy5omRpJrxdvUl2vZ3heP5zwDSTC/SSopdJ4y2l
-	cnrnlCcUGQsIZeFxn7Enqc8Ee/7f63kacgUnWKWjLt/PlLffsl1SH367kvYEuRBCWRdI
-	ZHvigV0dOtY0El79ZC7VWFaaul3Dk6Wj+onKcf/hSknsxaHCubLfrBddpkxKBWqiiM8x
-	kKqc2xdQSuqaJFRKsGFGDZmUFLOUj+2bNu4CZSVB0h5PUlQ6ygFIzO/HE6zHjSLJpwuQ
-	vrbw==
-X-Gm-Message-State: AJcUukf93z3Hcgk1y8mGRmOWiu4Muw8vsAHk5DsaEaRZqVZiwzAIa/Se
-	eZOAY9wsfmW+X5uxlfyhx5F6ayqe
-X-Google-Smtp-Source: ALg8bN74Ra8gHn5njjlhQ09zGhrraeu0cTdsc1v3/3EYbpeYUzXew6/2sXtCD3CtpYAYOliJI1h+SA==
-X-Received: by 2002:adf:ce86:: with SMTP id r6mr3587267wrn.257.1548260281872; 
-	Wed, 23 Jan 2019 08:18:01 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	j33sm161192189wre.91.2019.01.23.08.18.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jan 2019 08:18:01 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jan 2019 17:17:44 +0100
-Message-Id: <20190123161744.45763-10-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190123161744.45763-1-alex.kanavin@gmail.com>
-References: <20190123161744.45763-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/10] devtool: add a command to print an overall list of recipes that can be updated
+	Wed, 23 Jan 2019 16:28:00 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id mLNfgWm6tx6b6mLNggygLv; Wed, 23 Jan 2019 16:28:01 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=3JhidrIBZZsA:10 a=nrM2YBz5V73l1kFWv0UA:9
+	a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1gmLNf-0005qG-Ok; Wed, 23 Jan 2019 16:27:59 +0000
+Date: Wed, 23 Jan 2019 16:27:59 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
+References: <20190111164951.8329-1-mac@mcrowe.com>
+	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
+	<20190111165944.gussrefs6j5o6ffq@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20190111165944.gussrefs6j5o6ffq@mcrowe.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfKWV9STeR+osX4aoQJHy1StVkBoQlhEFP8kbhRu7OeKhmoZ9DaawvZ0KYBsoFjUYp3dsTYTAv1x6J3W21aIzHS0Zy91K/fHtZAInPrABSNze8opOjY0y
+	s64hiSEkHvRV99cCz1JufsDc2xLUHN9rCkWhaMO70E3gxkFCH3Rn05L2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +39,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2019 16:18:01 -0000
+X-List-Received-Date: Wed, 23 Jan 2019 16:28:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-A sample portion of the output:
+On Friday 11 January 2019 at 16:59:44 +0000, Mike Crowe wrote:
+> On Friday 11 January 2019 at 16:53:47 +0000, Richard Purdie wrote:
+> > On Fri, 2019-01-11 at 16:49 +0000, Mike Crowe wrote:
+> > > Until now, glibc was responsible for creating an AArch64 dynamic
+> > > loader symlink if required for ABI compatibility.
+> > > 
+> > > Unfortunately, using multilib with AArch64 caused the rmdir in
+> > > glibc-package.inc:do_poststash_install_cleanup to fail because that
+> > > task did not expect to find the dynamic loader symlink in /lib.
+> > > 
+> > > Also, although glibc-package.inc:do_install_append_aarch64 made use
+> > > of ${nonarch_base_libdir} to create the dynamic loader symlink in a
+> > > way that was compatible with usrmerge, it unfortunately explicitly
+> > > added only /lib to libc_baselibs, so the symlink was not packaged
+> > > correctly when using usrmerge.
+> > > 
+> > > Attempting to fix both of these problems within glibc-package.inc in
+> > > various ways created a bit of a mess. It seemed much simpler to
+> > > invent a new package for the symlink and have glibc RDEPEND on that
+> > > package if required.
+> > > 
+> > > Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be
+> > > used in this way. I've switched to using ${root_prefix}/lib which
+> > > continues to work both with and without usrmerge.
+> > > 
+> > > Unfortunately, it appears not to be possible to specify the name of
+> > > the loader via a variable with an override, since the _aarch64
+> > > override is applied even for _aarch64-be.
+> > 
+> > I wish there was a simpler way to do this. How ugly is the patch to fix
+> > this without adding the new recipe? Adding new recipes which are arch
+> > specific like this is a pain for world builds and I think this patch
+> > will have problems with those :(.
+> 
+> This is how far I got before deciding that it was too ugly. This patch
+> needs some cleaning up, and similar hackery to the separate-recipe patch
+> because the aarch64-be override doesn't work. :(
+> 
+> I tried to make both patches at least slightly generic in case some other
+> architecture needs something similar in the future. That's why the code has
+> moved into a plain do_install_append. This isn't required though, and
+> perhaps it would be clearer if the variable were actually
+> AARCH64_DYNAMIC_LOADER anyway.
+> 
+> Thanks.
+> 
+> Mike.
+> 
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> index a98ae1a29c..0181aa7b32 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -15,7 +15,13 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+>  RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+>  RPROVIDES_${PN}-dbg = "eglibc-dbg"
+>  libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+> -libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+> +ARCH_DYNAMIC_LOADER = ""
+> +# The aarch64 ABI says the dynamic linker -must- be
+> +# /lib/ld-linux-aarch64[_be].so.1. With usrmerge, that may mean that
+> +# we need to install it in /usr/lib.
+> +ARCH_DYNAMIC_LOADER_aarch64 = "ld-linux-aarch64.so.1"
+> +ARCH_DYNAMIC_LOADER_aarch64_be = "ld-linux-aarch64_be.so.1"
+> +libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
+>  INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+> 
+>  FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+> @@ -112,20 +118,20 @@ do_install_append () {
+>  		echo "d root root 0755 /var/run/nscd none" \
+>  			> ${D}${sysconfdir}/default/volatiles/98_nscd
+>  	fi
+> +
+> +	# The dynamic loader will have been installed into
+> +	# ${base_libdir}. However, if that isn't going to end up being
+> +	# available in the ABI-mandated location, then a symlink must
+> +        # be created.
+> +
+> +	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+> +		install -d ${D}${root_prefix}/lib
+> +		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
+> +				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
+> +	fi
+>  }
+> 
+>  do_install_append_aarch64 () {
+> -	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
+> -		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
+> -		install -d ${D}${nonarch_base_libdir}
+> -		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
+> -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
+> -				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
+> -		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
+> -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
+> -				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
+> -		fi
+> -	fi
+>  	do_install_armmultilib
+>  }
+> 
+> @@ -207,7 +213,7 @@ do_poststash_install_cleanup () {
+>  	rm -rf ${D}/${localedir}
+>  	rm -rf ${D}${datadir}/locale
+>  	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
+> -		if [ -d ${D}${exec_prefix}/lib ]; then
+> +		if [ -d ${D}${exec_prefix}/lib -a ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+>  			# error out if directory isn't empty
+>  			# this dir should only contain locale dir
+>  			# which has been deleted in the previous step
 
-$ devtool check-upgrade-status
-...
-NOTE: acpid                     2.0.30          2.0.31          Ross Burton <ross.burton@intel.com>
-NOTE: u-boot-fw-utils           2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-NOTE: u-boot-tools              2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-NOTE: u-boot                    2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-NOTE: bind                      9.11.5          9.13.5          Armin Kuster <akuster808@gmail.com>  cannot be updated due to: 9.11 is LTS 2021
-NOTE: iproute2                  4.19.0          4.20.0          Changhyeok Bae <changhyeok.bae@lge.com>
-NOTE: ofono                     1.25            1.27            Ross Burton <ross.burton@intel.com>
-NOTE: wpa-supplicant            2.6             2.7             Changhyeok Bae <changhyeok.bae@lge.com>
-NOTE: base-passwd               3.5.29          3.5.45          Anuj Mittal <anuj.mittal@intel.com>  cannot be updated due to: Version 3.5.38 requires cdebconf for update-passwd utility
-NOTE: busybox                   1.29.2          1.30.0          Andrej Valek <andrej.valek@siemens.com>
-NOTE: dbus-test                 1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
-NOTE: dbus                      1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
-NOTE: glib-2.0                  2.58.0          2.58.3          Anuj Mittal <anuj.mittal@intel.com>
-NOTE: glib-networking           2.54.1          2.58.0          Anuj Mittal <anuj.mittal@intel.com>
-...
+Hi Richard (and anyone else),
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- scripts/lib/devtool/upgrade.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Does the lack of response mean that both approaches are horrendous? If so,
+do you have any better ideas?
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 202007793b2..42a4c0e4bff 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -600,6 +600,20 @@ def latest_version(args, config, basepath, workspace):
-         tinfoil.shutdown()
-     return 0
- 
-+def check_upgrade_status(args, config, basepath, workspace):
-+    if not args.recipe:
-+        logger.info("Checking the upstream status for all recipes may take a few minutes")
-+    results = oe.recipeutils.get_recipe_upgrade_status(args.recipe)
-+    for result in results:
-+        # pn, update_status, current, latest, maintainer, latest_commit, no_update_reason
-+        if result[1] != 'MATCH':
-+            logger.info("{:25} {:15} {:15} {} {} {}".format(   result[0],
-+                                                               result[2],
-+                                                               result[1] if result[1] != 'UPDATE' else (result[3] if not result[3].endswith("new-commits-available") else "new commits"),
-+                                                               result[4],
-+                                                               result[5] if result[5] != 'N/A' else "",
-+                                                               "cannot be updated due to: %s" %(result[6]) if result[6] else ""))
-+
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
- 
-@@ -627,3 +641,9 @@ def register_commands(subparsers, context):
-                                                   group='info')
-     parser_latest_version.add_argument('recipename', help='Name of recipe to query (just name - no version, path or extension)')
-     parser_latest_version.set_defaults(func=latest_version)
-+
-+    parser_check_upgrade_status = subparsers.add_parser('check-upgrade-status', help="Report upgradability for multiple (or all) recipes",
-+                                                        description="Prints a table of recipes together with versions currently provided by recipes, and latest upstream versions, when there is a later version available",
-+                                                        group='info')
-+    parser_check_upgrade_status.add_argument('recipe', help='Name of the recipe to report (omit to report upgrade info for all recipes)', nargs='*')
-+    parser_check_upgrade_status.set_defaults(func=check_upgrade_status)
--- 
-2.17.1
+Thanks.
 
+Mike.
 
