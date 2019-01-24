@@ -1,24 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C25C7BFBA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96DF97BFBA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 06:45:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0O6jCOk000935
+	Thu, 24 Jan 2019 06:48:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6mViq009136
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 22:45:43 -0800
+	Wed, 23 Jan 2019 22:48:31 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 23 Jan 2019 22:45:15 -0800
+	14.3.408.0; Wed, 23 Jan 2019 22:48:31 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jan 2019 15:03:41 +0800
-Message-ID: <cover.1548313400.git.liezhi.yang@windriver.com>
+Date: Thu, 24 Jan 2019 15:06:36 +0800
+Message-ID: <10d326febf6744315b0cb324b98b9f3bd9ea4056.1548313558.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1548313558.git.liezhi.yang@windriver.com>
+References: <cover.1548313558.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] fontconfig: Fix define for HAVE_POSIX_FADVISE
+Subject: [PATCH 1/1] native.bbclass: remove invalid CONFIG_SITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 06:45:52 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 06:48:30 -0000
 Content-Type: text/plain
 
-The following changes since commit a4edfa4cf451bf412525887b5b24b9db6486ae97:
+This CONFIG_SITE has no effect since autotools.bbclass handles it. And the
+comment line is out of date, it was for "CONFIG_SITE = ''", so remove them.
 
-  remove unused distutils-tools.bbclass (2019-01-23 07:57:02 +0000)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/native.bbclass | 3 ---
+ meta/site/native            | 1 -
+ 2 files changed, 4 deletions(-)
+ delete mode 100644 meta/site/native
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/ft
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ft
-
-Robert Yang (1):
-  fontconfig: Fix define for HAVE_POSIX_FADVISE
-
- ...cache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch | 33 ++++++++++++++++++++++
- .../fontconfig/fontconfig_2.12.6.bb                |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch
-
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index ddccfe2..c20c6dc 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -54,9 +54,6 @@ TOOLCHAIN_OPTIONS = ""
+ # Don't build ptest natively
+ PTEST_ENABLED = "0"
+ 
+-# Don't use site files for native builds
+-export CONFIG_SITE = "${COREBASE}/meta/site/native"
+-
+ # set the compiler as well. It could have been set to something else
+ export CC = "${BUILD_CC}"
+ export CXX = "${BUILD_CXX}"
+diff --git a/meta/site/native b/meta/site/native
+deleted file mode 100644
+index 7dfb1cb..0000000
+--- a/meta/site/native
++++ /dev/null
+@@ -1 +0,0 @@
+-ac_cv_path_SED=sed
 -- 
 2.7.4
 
