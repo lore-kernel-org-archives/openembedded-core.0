@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CEC260116
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAF07C039
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 06:53:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6rE9j026641
+	Thu, 24 Jan 2019 06:53:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0O6rPfg001118
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 22:53:14 -0800 (PST)
+	Wed, 23 Jan 2019 22:53:35 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 23 Jan 2019 22:53:13 -0800
+	Wed, 23 Jan 2019 22:53:14 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jan 2019 22:53:11 -0800
-Message-ID: <695f9930079b78a6a2a56fe6571954228f46b318.1548312757.git.liezhi.yang@windriver.com>
+Date: Wed, 23 Jan 2019 22:53:12 -0800
+Message-ID: <98575b4e48e38c35309b6fa379976870eb48f681.1548312757.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1548312757.git.liezhi.yang@windriver.com>
 References: <cover.1548312757.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] native.bbclass/cross.bbclass: No strip sysroot when DEBUG_BUILD
+Subject: [PATCH 2/2] bitbake.conf: Add DEBUG_BUILD to vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 06:53:13 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 06:53:45 -0000
 Content-Type: text/plain
 
-This makes dbg work for native tools, and makes debug native tools problem
-easier, otherwise, there is no symbol since trippped.
+Otherwise the recipe would not be rebuilt when enable/disable DEBUG_BUILD.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/cross.bbclass  | 3 +++
- meta/classes/native.bbclass | 3 +++
- 2 files changed, 6 insertions(+)
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 34d7951..f832561 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -17,6 +17,9 @@ HOST_CC_ARCH = "${BUILD_CC_ARCH}"
- HOST_LD_ARCH = "${BUILD_LD_ARCH}"
- HOST_AS_ARCH = "${BUILD_AS_ARCH}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0bdcd04..b00a52b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -609,8 +609,9 @@ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
+ FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+ DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+ SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+-SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION"
++SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
+ BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
++BUILD_OPTIMIZATION[vardeps] += "DEBUG_BUILD"
  
-+# No strip sysroot when DEBUG_BUILD is enabled
-+INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
-+
- export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64 /usr/lib /usr/lib64"
- 
- STAGING_DIR_HOST = "${RECIPE_SYSROOT_NATIVE}"
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index ddccfe2e1..30a30f9 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -119,6 +119,9 @@ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
- # reused if we manipulate the paths.
- SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
- 
-+# No strip sysroot when DEBUG_BUILD is enabled
-+INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
-+
- python native_virtclass_handler () {
-     pn = e.data.getVar("PN")
-     if not pn.endswith("-native"):
+ ##################################################################
+ # Settings used by bitbake-layers.
 -- 
 2.10.2
 
