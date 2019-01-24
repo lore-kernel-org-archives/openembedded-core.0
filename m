@@ -1,23 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A61060116
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CEC260116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 06:53:12 +0000 (UTC)
+	Thu, 24 Jan 2019 06:53:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6rDse009440
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6rE9j026641
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 22:53:13 -0800 (PST)
+	Wed, 23 Jan 2019 22:53:14 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 23 Jan 2019 22:53:12 -0800
+	Wed, 23 Jan 2019 22:53:13 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jan 2019 22:53:10 -0800
-Message-ID: <cover.1548312757.git.liezhi.yang@windriver.com>
+Date: Wed, 23 Jan 2019 22:53:11 -0800
+Message-ID: <695f9930079b78a6a2a56fe6571954228f46b318.1548312757.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1548312757.git.liezhi.yang@windriver.com>
+References: <cover.1548312757.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fixes for DEBUG_BUILD
+Subject: [PATCH 1/2] native.bbclass/cross.bbclass: No strip sysroot when DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,27 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 06:53:12 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 06:53:13 -0000
 Content-Type: text/plain
 
-The following changes since commit a4edfa4cf451bf412525887b5b24b9db6486ae97:
+This makes dbg work for native tools, and makes debug native tools problem
+easier, otherwise, there is no symbol since trippped.
 
-  remove unused distutils-tools.bbclass (2019-01-23 07:57:02 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/debug
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/debug
-
-Robert Yang (2):
-  native.bbclass/cross.bbclass: No strip sysroot when DEBUG_BUILD
-  bitbake.conf: Add DEBUG_BUILD to vardeps
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/cross.bbclass  | 3 +++
  meta/classes/native.bbclass | 3 +++
- meta/conf/bitbake.conf      | 3 ++-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ 2 files changed, 6 insertions(+)
 
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 34d7951..f832561 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -17,6 +17,9 @@ HOST_CC_ARCH = "${BUILD_CC_ARCH}"
+ HOST_LD_ARCH = "${BUILD_LD_ARCH}"
+ HOST_AS_ARCH = "${BUILD_AS_ARCH}"
+ 
++# No strip sysroot when DEBUG_BUILD is enabled
++INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
++
+ export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64 /usr/lib /usr/lib64"
+ 
+ STAGING_DIR_HOST = "${RECIPE_SYSROOT_NATIVE}"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index ddccfe2e1..30a30f9 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -119,6 +119,9 @@ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
+ # reused if we manipulate the paths.
+ SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
+ 
++# No strip sysroot when DEBUG_BUILD is enabled
++INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
++
+ python native_virtclass_handler () {
+     pn = e.data.getVar("PN")
+     if not pn.endswith("-native"):
 -- 
 2.10.2
 
