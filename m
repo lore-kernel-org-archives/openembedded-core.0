@@ -1,49 +1,51 @@
 Return-Path: <marcus.cooper@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D82D57C0D4
+	by mail.openembedded.org (Postfix) with ESMTP id 3C43E7C121
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 12:43:43 +0000 (UTC)
+	Thu, 24 Jan 2019 12:43:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 95377185B4
+	by bastet.se.axis.com (Postfix) with ESMTP id 1755D1859B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 13:43:44 +0100 (CET)
+	Thu, 24 Jan 2019 13:43:45 +0100 (CET)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id c-rBfUnap9sz
+	port 10024) with LMTP id u-NOjSu-bg6N
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 24 Jan 2019 13:43:43 +0100 (CET)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id EBB381859B
+	by bastet.se.axis.com (Postfix) with ESMTPS id 068A5185B7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2019 13:43:43 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DB86F1A07F
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 24 Jan 2019 13:43:42 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D276F1A07B
+	by IMSVA (Postfix) with ESMTP id C42171A072
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 24 Jan 2019 13:43:42 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BD7641A070
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 13:43:42 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 24 Jan 2019 13:43:42 +0100 (CET)
 Received: from lnxmarcusc.se.axis.com (lnxmarcusc.se.axis.com [10.92.157.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id B17CE462
+	by seth.se.axis.com (Postfix) with ESMTP id B6FA06C5
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 24 Jan 2019 13:43:42 +0100 (CET)
 Received: by lnxmarcusc.se.axis.com (Postfix, from userid 11391)
-	id A46B9943E6; Thu, 24 Jan 2019 13:43:42 +0100 (CET)
+	id ACA5880051; Thu, 24 Jan 2019 13:43:42 +0100 (CET)
 From: Marcus Cooper <marcus.cooper@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jan 2019 13:43:39 +0100
-Message-Id: <20190124124341.26815-1-marcusc@axis.com>
+Date: Thu, 24 Jan 2019 13:43:40 +0100
+Message-Id: <20190124124341.26815-2-marcusc@axis.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190124124341.26815-1-marcusc@axis.com>
+References: <20190124124341.26815-1-marcusc@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 1/3] systemd: Security fix CVE-2018-16864
+Subject: [PATCH 2/3] systemd: Security fix CVE-2018-16865
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,230 +64,175 @@ Affects < v240
 
 Signed-off-by: Marcus Cooper <marcusc@axis.com>
 ---
- ...-not-store-the-iovec-entry-for-process-co.patch | 204 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |   1 +
- 2 files changed, 205 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+ ...ld-set-a-limit-on-the-number-of-fields-1k.patch | 56 +++++++++++++++
+ ...ote-set-a-limit-on-the-number-of-fields-i.patch | 84 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb           |  2 +
+ 3 files changed, 142 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch b/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+diff --git a/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch b/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch
 new file mode 100644
-index 0000000000..c3009545b1
+index 0000000000..50a01efe8f
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
-@@ -0,0 +1,204 @@
-+From fe19f5a9d0d8b9977e9507a9b66c3cc66744cd38 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch
+@@ -0,0 +1,56 @@
++From 4566aaf97f5b4143b930d75628f3abc905249dcd Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Wed, 5 Dec 2018 18:38:39 +0100
-+Subject: [PATCH] journald: do not store the iovec entry for process
-+ commandline on stack
++Date: Wed, 5 Dec 2018 22:45:02 +0100
++Subject: [PATCH] journald: set a limit on the number of fields (1k)
 +
-+This fixes a crash where we would read the commandline, whose length is under
-+control of the sending program, and then crash when trying to create a stack
-+allocation for it.
++We allocate a iovec entry for each field, so with many short entries,
++our memory usage and processing time can be large, even with a relatively
++small message size. Let's refuse overly long entries.
 +
-+CVE-2018-16864
-+https://bugzilla.redhat.com/show_bug.cgi?id=1653855
++CVE-2018-16865
++https://bugzilla.redhat.com/show_bug.cgi?id=1653861
 +
-+The message actually doesn't get written to disk, because
-+journal_file_append_entry() returns -E2BIG.
++What from I can see, the problem is not from an alloca, despite what the CVE
++description says, but from the attack multiplication that comes from creating
++many very small iovecs: (void* + size_t) for each three bytes of input message.
 +
 +Patch backported from systemd master at
-+084eeb865ca63887098e0945fb4e93c852b91b0f.
++052c57f132f04a3cf4148f87561618da1a6908b4.
 +---
-+ src/basic/io-util.c           | 10 ++++++++++
-+ src/basic/io-util.h           |  2 ++
-+ src/coredump/coredump.c       | 31 +++++++++++--------------------
-+ src/journal/journald-server.c | 25 +++++++++++++++----------
-+ 4 files changed, 38 insertions(+), 30 deletions(-)
++ src/basic/journal-importer.h  | 3 +++
++ src/journal/journald-native.c | 5 +++++
++ 2 files changed, 8 insertions(+)
 +
-+diff --git a/src/basic/io-util.c b/src/basic/io-util.c
-+index 1f64cc933b..575398fbe6 100644
-+--- a/src/basic/io-util.c
-++++ b/src/basic/io-util.c
-+@@ -8,6 +8,7 @@
-+ #include <unistd.h>
++diff --git a/src/basic/journal-importer.h b/src/basic/journal-importer.h
++index f49ce734a1..c4ae45d32d 100644
++--- a/src/basic/journal-importer.h
+++++ b/src/basic/journal-importer.h
++@@ -16,6 +16,9 @@
++ #define DATA_SIZE_MAX (1024*1024*768u)
++ #define LINE_CHUNK 8*1024u
 + 
-+ #include "io-util.h"
-++#include "string-util.h"
-+ #include "time-util.h"
-+ 
-+ int flush_fd(int fd) {
-+@@ -252,3 +253,12 @@ ssize_t sparse_write(int fd, const void *p, size_t sz, size_t run_length) {
-+ 
-+         return q - (const uint8_t*) p;
-+ }
+++/* The maximum number of fields in an entry */
+++#define ENTRY_FIELD_COUNT_MAX 1024
 ++
-++char* set_iovec_string_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value) {
-++        char *x;
-++
-++        x = strappend(field, value);
-++        if (x)
-++                iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(x);
-++        return x;
-++}
-+diff --git a/src/basic/io-util.h b/src/basic/io-util.h
-+index ed189b5820..792a64ad5e 100644
-+--- a/src/basic/io-util.h
-++++ b/src/basic/io-util.h
-+@@ -71,3 +71,5 @@ static inline bool FILE_SIZE_VALID_OR_INFINITY(uint64_t l) {
-+ #define IOVEC_MAKE(base, len) (struct iovec) IOVEC_INIT(base, len)
-+ #define IOVEC_INIT_STRING(string) IOVEC_INIT((char*) string, strlen(string))
-+ #define IOVEC_MAKE_STRING(string) (struct iovec) IOVEC_INIT_STRING(string)
-++
-++char* set_iovec_string_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value);
-+diff --git a/src/coredump/coredump.c b/src/coredump/coredump.c
-+index 20a1cbdd45..18e4f61d72 100644
-+--- a/src/coredump/coredump.c
-++++ b/src/coredump/coredump.c
-+@@ -1053,19 +1053,10 @@ static int send_iovec(const struct iovec iovec[], size_t n_iovec, int input_fd)
-+         return 0;
-+ }
-+ 
-+-static char* set_iovec_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value) {
-+-        char *x;
-+-
-+-        x = strappend(field, value);
-+-        if (x)
-+-                iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(x);
-+-        return x;
-+-}
-+-
-+ static char* set_iovec_field_free(struct iovec *iovec, size_t *n_iovec, const char *field, char *value) {
-+         char *x;
-+ 
-+-        x = set_iovec_field(iovec, n_iovec, field, value);
-++        x = set_iovec_string_field(iovec, n_iovec, field, value);
-+         free(value);
-+         return x;
-+ }
-+@@ -1115,36 +1106,36 @@ static int gather_pid_metadata(
-+                         disable_coredumps();
++ struct iovec_wrapper {
++         struct iovec *iovec;
++         size_t size_bytes;
++diff --git a/src/journal/journald-native.c b/src/journal/journald-native.c
++index 5ff22a10af..951d092053 100644
++--- a/src/journal/journald-native.c
+++++ b/src/journal/journald-native.c
++@@ -140,6 +140,11 @@ static int server_process_entry(
 +                 }
 + 
-+-                set_iovec_field(iovec, n_iovec, "COREDUMP_UNIT=", context[CONTEXT_UNIT]);
-++                set_iovec_string_field(iovec, n_iovec, "COREDUMP_UNIT=", context[CONTEXT_UNIT]);
-+         }
++                 /* A property follows */
+++                if (n > ENTRY_FIELD_COUNT_MAX) {
+++                        log_debug("Received an entry that has more than " STRINGIFY(ENTRY_FIELD_COUNT_MAX) " fields, ignoring entry.");
+++                        r = 1;
+++                        goto finish;
+++                }
 + 
-+         if (cg_pid_get_user_unit(pid, &t) >= 0)
-+                 set_iovec_field_free(iovec, n_iovec, "COREDUMP_USER_UNIT=", t);
++                 /* n existing properties, 1 new, +1 for _TRANSPORT */
++                 if (!GREEDY_REALLOC(iovec, m,
++-- 
++2.11.0
++
+diff --git a/meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch b/meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
+new file mode 100644
+index 0000000000..104945cc25
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
+@@ -0,0 +1,84 @@
++From 4183ec3a135663128834ca8b35d50a60999343a7 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Fri, 7 Dec 2018 10:48:10 +0100
++Subject: [PATCH] journal-remote: set a limit on the number of fields in a
++ message
++
++Existing use of E2BIG is replaced with ENOBUFS (entry too long), and E2BIG is
++reused for the new error condition (too many fields).
++
++This matches the change done for systemd-journald, hence forming the second
++part of the fix for CVE-2018-16865
++(https://bugzilla.redhat.com/show_bug.cgi?id=1653861).
++
++Patch backported from systemd master at
++ef4d6abe7c7fab6cbff975b32e76b09feee56074.
++---
++ src/basic/journal-importer.c             |  5 ++++-
++ src/journal-remote/journal-remote-main.c | 10 ++++++----
++ src/journal-remote/journal-remote.c      |  5 ++++-
++ 3 files changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/src/basic/journal-importer.c b/src/basic/journal-importer.c
++index ca203bbbfc..3ac55a66d9 100644
++--- a/src/basic/journal-importer.c
+++++ b/src/basic/journal-importer.c
++@@ -23,6 +23,9 @@ enum {
++ };
 + 
-+         /* The next few are mandatory */
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_PID=", context[CONTEXT_PID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_PID=", context[CONTEXT_PID]))
++ static int iovw_put(struct iovec_wrapper *iovw, void* data, size_t len) {
+++        if (iovw->count >= ENTRY_FIELD_COUNT_MAX)
+++                return -E2BIG;
+++
++         if (!GREEDY_REALLOC(iovw->iovec, iovw->size_bytes, iovw->count + 1))
 +                 return log_oom();
 + 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_UID=", context[CONTEXT_UID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_UID=", context[CONTEXT_UID]))
-+                 return log_oom();
++@@ -98,7 +101,7 @@ static int get_line(JournalImporter *imp, char **line, size_t *size) {
++                 imp->scanned = imp->filled;
++                 if (imp->scanned >= DATA_SIZE_MAX) {
++                         log_error("Entry is bigger than %u bytes.", DATA_SIZE_MAX);
++-                        return -E2BIG;
+++                        return -ENOBUFS;
++                 }
 + 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_GID=", context[CONTEXT_GID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_GID=", context[CONTEXT_GID]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_SIGNAL=", context[CONTEXT_SIGNAL]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_SIGNAL=", context[CONTEXT_SIGNAL]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_RLIMIT=", context[CONTEXT_RLIMIT]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_RLIMIT=", context[CONTEXT_RLIMIT]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_HOSTNAME=", context[CONTEXT_HOSTNAME]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_HOSTNAME=", context[CONTEXT_HOSTNAME]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_COMM=", context[CONTEXT_COMM]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_COMM=", context[CONTEXT_COMM]))
-+                 return log_oom();
-+ 
-+         if (context[CONTEXT_EXE] &&
-+-            !set_iovec_field(iovec, n_iovec, "COREDUMP_EXE=", context[CONTEXT_EXE]))
-++            !set_iovec_string_field(iovec, n_iovec, "COREDUMP_EXE=", context[CONTEXT_EXE]))
-+                 return log_oom();
-+ 
-+         if (sd_pid_get_session(pid, &t) >= 0)
-+@@ -1212,7 +1203,7 @@ static int gather_pid_metadata(
-+                 iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(t);
-+ 
-+         if (safe_atoi(context[CONTEXT_SIGNAL], &signo) >= 0 && SIGNAL_VALID(signo))
-+-                set_iovec_field(iovec, n_iovec, "COREDUMP_SIGNAL_NAME=SIG", signal_to_string(signo));
-++                set_iovec_string_field(iovec, n_iovec, "COREDUMP_SIGNAL_NAME=SIG", signal_to_string(signo));
-+ 
-+         return 0; /* we successfully acquired all metadata */
-+ }
-+diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
-+index 4f1550ec5b..31be085c6b 100644
-+--- a/src/journal/journald-server.c
-++++ b/src/journal/journald-server.c
-+@@ -753,6 +753,7 @@ static void dispatch_message_real(
-+                 pid_t object_pid) {
-+ 
-+         char source_time[sizeof("_SOURCE_REALTIME_TIMESTAMP=") + DECIMAL_STR_MAX(usec_t)];
-++        _cleanup_free_ char *cmdline1 = NULL, *cmdline2 = NULL;
-+         uid_t journal_uid;
-+         ClientContext *o;
-+ 
-+@@ -769,20 +770,23 @@ static void dispatch_message_real(
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->uid, uid_t, uid_is_valid, UID_FMT, "_UID");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->gid, gid_t, gid_is_valid, GID_FMT, "_GID");
-+ 
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->comm, "_COMM");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->exe, "_EXE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->cmdline, "_CMDLINE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->capeff, "_CAP_EFFECTIVE");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->comm, "_COMM"); /* At most TASK_COMM_LENGTH (16 bytes) */
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->exe, "_EXE"); /* A path, so at most PATH_MAX (4096 bytes) */
-+ 
-+-                IOVEC_ADD_SIZED_FIELD(iovec, n, c->label, c->label_size, "_SELINUX_CONTEXT");
-++                if (c->cmdline)
-++                        /* At most _SC_ARG_MAX (2MB usually), which is too much to put on stack.
-++                         * Let's use a heap allocation for this one. */
-++                        cmdline1 = set_iovec_string_field(iovec, &n, "_CMDLINE=", c->cmdline);
-+ 
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->capeff, "_CAP_EFFECTIVE"); /* Read from /proc/.../status */
-++                IOVEC_ADD_SIZED_FIELD(iovec, n, c->label, c->label_size, "_SELINUX_CONTEXT");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->auditid, uint32_t, audit_session_is_valid, "%" PRIu32, "_AUDIT_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->loginuid, uid_t, uid_is_valid, UID_FMT, "_AUDIT_LOGINUID");
-+ 
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->cgroup, "_SYSTEMD_CGROUP");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->cgroup, "_SYSTEMD_CGROUP"); /* A path */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->session, "_SYSTEMD_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->owner_uid, uid_t, uid_is_valid, UID_FMT, "_SYSTEMD_OWNER_UID");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->unit, "_SYSTEMD_UNIT");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->unit, "_SYSTEMD_UNIT"); /* Unit names are bounded by UNIT_NAME_MAX */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->user_unit, "_SYSTEMD_USER_UNIT");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->slice, "_SYSTEMD_SLICE");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->user_slice, "_SYSTEMD_USER_SLICE");
-+@@ -803,13 +807,14 @@ static void dispatch_message_real(
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->uid, uid_t, uid_is_valid, UID_FMT, "OBJECT_UID");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->gid, gid_t, gid_is_valid, GID_FMT, "OBJECT_GID");
-+ 
-++                /* See above for size limits, only ->cmdline may be large, so use a heap allocation for it. */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, o->comm, "OBJECT_COMM");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, o->exe, "OBJECT_EXE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, o->cmdline, "OBJECT_CMDLINE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, o->capeff, "OBJECT_CAP_EFFECTIVE");
-++                if (o->cmdline)
-++                        cmdline2 = set_iovec_string_field(iovec, &n, "OBJECT_CMDLINE=", o->cmdline);
-+ 
-++                IOVEC_ADD_STRING_FIELD(iovec, n, o->capeff, "OBJECT_CAP_EFFECTIVE");
-+                 IOVEC_ADD_SIZED_FIELD(iovec, n, o->label, o->label_size, "OBJECT_SELINUX_CONTEXT");
-+-
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->auditid, uint32_t, audit_session_is_valid, "%" PRIu32, "OBJECT_AUDIT_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->loginuid, uid_t, uid_is_valid, UID_FMT, "OBJECT_AUDIT_LOGINUID");
-+ 
++                 if (imp->passive_fd)
++diff --git a/src/journal-remote/journal-remote-main.c b/src/journal-remote/journal-remote-main.c
++index 8fda9d1499..f52618fb7b 100644
++--- a/src/journal-remote/journal-remote-main.c
+++++ b/src/journal-remote/journal-remote-main.c
++@@ -212,10 +212,12 @@ static int process_http_upload(
++                         break;
++                 else if (r < 0) {
++                         log_warning("Failed to process data for connection %p", connection);
++-                        if (r == -E2BIG)
++-                                return mhd_respondf(connection,
++-                                                    r, MHD_HTTP_PAYLOAD_TOO_LARGE,
++-                                                    "Entry is too large, maximum is " STRINGIFY(DATA_SIZE_MAX) " bytes.");
+++                        if (r == -ENOBUFS)
+++                                log_warning_errno(r, "Entry is above the maximum of %u, aborting connection %p.",
+++                                                  DATA_SIZE_MAX, connection);
+++                        else if (r == -E2BIG)
+++                                log_warning_errno(r, "Entry with more fields than the maximum of %u, aborting connection %p.",
+++                                                  ENTRY_FIELD_COUNT_MAX, connection);
++                         else
++                                 return mhd_respondf(connection,
++                                                     r, MHD_HTTP_UNPROCESSABLE_ENTITY,
++diff --git a/src/journal-remote/journal-remote.c b/src/journal-remote/journal-remote.c
++index beb75a1cb4..67e3a70c06 100644
++--- a/src/journal-remote/journal-remote.c
+++++ b/src/journal-remote/journal-remote.c
++@@ -408,7 +408,10 @@ int journal_remote_handle_raw_source(
++                 log_debug("%zu active sources remaining", s->active);
++                 return 0;
++         } else if (r == -E2BIG) {
++-                log_notice_errno(E2BIG, "Entry too big, skipped");
+++                log_notice("Entry with too many fields, skipped");
+++                return 1;
+++        } else if (r == -ENOBUFS) {
+++                log_notice("Entry too big, skipped");
++                 return 1;
++         } else if (r == -EAGAIN) {
++                 return 0;
 +-- 
 +2.11.0
 +
 diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index c146897508..94729a6a39 100644
+index 94729a6a39..cc498a7da4 100644
 --- a/meta/recipes-core/systemd/systemd_239.bb
 +++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -38,6 +38,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch \
+@@ -39,6 +39,8 @@ SRC_URI += "file://touchscreen.rules \
             file://0002-core-Fix-use-after-free-case-in-load_from_path.patch \
             file://0001-meson-rename-Ddebug-to-Ddebug-extra.patch \
-+           file://0024-journald-do-not-store-the-iovec-entry-for-process-co.patch \
+            file://0024-journald-do-not-store-the-iovec-entry-for-process-co.patch \
++           file://0025-journald-set-a-limit-on-the-number-of-fields-1k.patch \
++           file://0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch \
             "
  
  # patches made for musl are only applied on TCLIBC is musl
