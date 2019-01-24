@@ -1,25 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0495D79D6A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C25C7BFBA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 06:45:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6jifT008963
+	Thu, 24 Jan 2019 06:45:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0O6jCOk000935
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 22:45:45 -0800 (PST)
+	Wed, 23 Jan 2019 22:45:43 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 23 Jan 2019 22:45:44 -0800
+	14.3.408.0; Wed, 23 Jan 2019 22:45:15 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jan 2019 15:03:42 +0800
-Message-ID: <a0f8078a8e439288441f29fd2d152265b7cc767f.1548313400.git.liezhi.yang@windriver.com>
+Date: Thu, 24 Jan 2019 15:03:41 +0800
+Message-ID: <cover.1548313400.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1548313400.git.liezhi.yang@windriver.com>
-References: <cover.1548313400.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] fontconfig: Fix define for HAVE_POSIX_FADVISE
+Subject: [PATCH 0/1] fontconfig: Fix define for HAVE_POSIX_FADVISE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 06:45:44 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 06:45:52 -0000
 Content-Type: text/plain
 
-Otherwise, there would be build errors in the following 2 cases:
-* define HAVE_POSIX_FADVISE
-Or:
-* undef HAVE_POSIX_FADVISE
+The following changes since commit a4edfa4cf451bf412525887b5b24b9db6486ae97:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  remove unused distutils-tools.bbclass (2019-01-23 07:57:02 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ft
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ft
+
+Robert Yang (1):
+  fontconfig: Fix define for HAVE_POSIX_FADVISE
+
  ...cache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch | 33 ++++++++++++++++++++++
  .../fontconfig/fontconfig_2.12.6.bb                |  1 +
  2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch
-new file mode 100644
-index 0000000..07b2d65
---- /dev/null
-+++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch
-@@ -0,0 +1,33 @@
-+From ab9522177a8396a51812fdbebb6387df451a8499 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 24 Dec 2018 11:03:58 +0800
-+Subject: [PATCH] src/fccache.c: Fix define for HAVE_POSIX_FADVISE
-+
-+Otherwise, there would be build errors in the following 2 cases:
-+* define HAVE_POSIX_FADVISE
-+Or:
-+* undef HAVE_POSIX_FADVISE
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ fccache.c |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/fccache.c b/src/fccache.c
-+index 6f3c68a..85cc4b4 100644
-+--- a/src/fccache.c
-++++ b/src/fccache.c
-+@@ -700,7 +700,7 @@ FcDirCacheMapFd (FcConfig *config, int fd, struct stat *fd_stat, struct stat *di
-+     {
-+ #if defined(HAVE_MMAP) || defined(__CYGWIN__)
-+ 	cache = mmap (0, fd_stat->st_size, PROT_READ, MAP_SHARED, fd, 0);
-+-#if (HAVE_POSIX_FADVISE) && defined(POSIX_FADV_WILLNEED)
-++#if defined(HAVE_POSIX_FADVISE) && defined(POSIX_FADV_WILLNEED)
-+ 	posix_fadvise (fd, 0, fd_stat->st_size, POSIX_FADV_WILLNEED);
-+ #endif
-+ 	if (cache == MAP_FAILED)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-index 6128d5e..beeae7f 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-@@ -23,6 +23,7 @@ DEPENDS = "expat freetype zlib gperf-native"
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://revert-static-pkgconfig.patch \
-            file://0001-src-fcxml.c-avoid-double-free-of-filename.patch \
-+           file://0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch \
-            "
- 
- SRC_URI[md5sum] = "00e748c67fad11e7057a71ed385e8bdb"
 -- 
 2.7.4
 
