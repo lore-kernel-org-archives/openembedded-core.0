@@ -1,52 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C85647C1FB
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB177C121
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 12:46:37 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id f7so6364931wrp.1
+	Thu, 24 Jan 2019 12:51:09 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id r10so6314426wrs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 04:46:39 -0800 (PST)
+	Thu, 24 Jan 2019 04:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=tEUfapGJ2DMol+Zp9bWwZS3FZr//3umpHFH28EFWjPg=;
-	b=Qf7urLKCGcEtrZPDDCwuhfN6mAAHoS39p3HWwavg7YprGPPy6507Imu6eNhSwuCbVB
-	6Qspqg8+rIxUInUM33MMPuL02kpTh+DdD8jlGunxYjbpC2g1kILogvn4WbTwNk5NcQi2
-	hMSsQEBcdMy4YyXyS27QRZQ9DugsYM31SRqC0=
+	bh=iCei2DXhAYkSg5FExmrsA4hHICHhaIekOG6TROuEWJs=;
+	b=TU9W1ZuEeEpwucbqruX6vFyt3Xrt6nT3DM8TLDb8cm42NRB0ELPtgXvPkSKVrcrWug
+	x/y1I6I7SBy44140X1qZFKWudND9I+5BXniOSgoyybml1qi/V8kWYr0RvX0vWsrln2hN
+	+nt/gWC4Cuh/Ouw+gQJiMXJvb5E5khCRellys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tEUfapGJ2DMol+Zp9bWwZS3FZr//3umpHFH28EFWjPg=;
-	b=YQiEB0k08PUXGVYxqyJ/V1wftkeviXWGCy7e8EktWRltkRGx/N2bE/4FwnWYGB6kPv
-	LAtYjCQdzqRhXG9ub1p+MPrHWOprsktCI9WPe+nYas+GsCYNhnwzXW91TqK9/p6yAiUo
-	v9EcEfzeNauWCEvEb9rVbjr99q3bw3fElLLt/S2fl9Wv8pDMTqn+pGoIgXSqx7fTwxZV
-	hI65OZIhqlFxL1O6nq1CtBJiwFjBBU5Up9svECvknSNTrgkjfzkgH25TpMjhs+uVcJom
-	Oi/gZrYIgxewpcbRLJSqb7ZM/tMBQ0qDTCNZDjPjoEQ0E6i+1VO6+MN1EGTgHtiIV9VB
-	tS3w==
-X-Gm-Message-State: AJcUukfThHL54J8jTT4WPsafPOPIfY1Xxb0fG3b+BTfTmGqxQSQVEUG5
-	LwjyPtGTsoT1ICa12aWxFG+vj+ZlKQI=
-X-Google-Smtp-Source: ALg8bN7ONqacikEZ1ENVElA4QI3gY22ij0o73IODcj2U5KpZ85Wg0gj3ZsQb2EtzAvqkQO8RvKelVQ==
-X-Received: by 2002:adf:e3d0:: with SMTP id k16mr7371588wrm.223.1548333998299; 
-	Thu, 24 Jan 2019 04:46:38 -0800 (PST)
+	bh=iCei2DXhAYkSg5FExmrsA4hHICHhaIekOG6TROuEWJs=;
+	b=p5caq98ucs7W47mD3FAKHckstjcWTZbL8OXLRd5BvP0ybgbxCSPJKS9wEb/ImfrS0B
+	0VH58imAHpoEzUH6icnPRMHgYqfqy33t1HiNKF1+YaUlYMLNAMJQ8iewHzBK3JPhxL+3
+	WI1LR7zw2AyMLBVkNW/Y3H/GIP1Qe3Ri8foOkqeGjfKpbee3VzTZBKcn857jcL+U/yXJ
+	Bpqf9bW4FqJy6EDGhjTPg3UOzBwSZl8g3huHwFCvZKt68WTYwuC1uYOVTfVsdsGkb290
+	Mptp4PDQFCjE1GRLSY35g1w/XWKFtVe17YenmE4Ztw2v3yaAlPHADk4M8t3aMEzeHmTb
+	ESVQ==
+X-Gm-Message-State: AJcUukcd+zi2MWbabwCUEBWE/FZfOyPFdGbx/8f2wlH/MVNhg9ODKaJS
+	eHEnHHmLJQf87haPKqsOjTV22g==
+X-Google-Smtp-Source: ALg8bN4jVDycDrM7VZ8VDVB7xOSz0ofzo/so7UjcNheDH9Rqk3EV8GHYSVuH7SWMY/gM2zqC7PsQdg==
+X-Received: by 2002:adf:81b6:: with SMTP id 51mr7477739wra.240.1548334269897; 
+	Thu, 24 Jan 2019 04:51:09 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	c13sm115811053wrb.38.2019.01.24.04.46.36
+	t12sm98974498wrr.65.2019.01.24.04.51.08
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 24 Jan 2019 04:46:37 -0800 (PST)
-Message-ID: <7cb9cc96b5112286ae99e953eae706259af9ead0.camel@linuxfoundation.org>
+	Thu, 24 Jan 2019 04:51:09 -0800 (PST)
+Message-ID: <03cc0bf2cf2d942dcd7c05b89e039499dbe617b3.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Robert Yang <liezhi.yang@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jan 2019 12:46:33 +0000
-In-Reply-To: <86fa8d401929e7641976ac57b34ee4a872ee74c6.1548312985.git.liezhi.yang@windriver.com>
-References: <cover.1548312985.git.liezhi.yang@windriver.com>
-	<86fa8d401929e7641976ac57b34ee4a872ee74c6.1548312985.git.liezhi.yang@windriver.com>
+Date: Thu, 24 Jan 2019 12:51:04 +0000
+In-Reply-To: <10d326febf6744315b0cb324b98b9f3bd9ea4056.1548313558.git.liezhi.yang@windriver.com>
+References: <cover.1548313558.git.liezhi.yang@windriver.com>
+	<10d326febf6744315b0cb324b98b9f3bd9ea4056.1548313558.git.liezhi.yang@windriver.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 3/5] ccache.bbclass: Only let native recipes depend on ccache-native
+Subject: Re: [PATCH 1/1] native.bbclass: remove invalid CONFIG_SITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +59,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 12:46:38 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 12:51:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-01-24 at 14:57 +0800, Robert Yang wrote:
-> Make native recipes depend on ccache-native should be enough since native
-> recipes are on target/nativesdk recipes' dependency chain, this can reduce the
-> size of DEPENDS.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/ccache.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-> index b545735..6caaca7 100644
-> --- a/meta/classes/ccache.bbclass
-> +++ b/meta/classes/ccache.bbclass
-> @@ -47,8 +47,11 @@ python() {
->      # quilt-native doesn't need ccache since no c files
->      if not (pn in ('ccache-native', 'quilt-native') or
->              bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
-> -        d.appendVar('DEPENDS', ' ccache-native')
->          d.setVar('CCACHE', 'ccache ')
-> +        # Make native recipes depend on ccache-native should be enough since
-> +        # native recipes are on target recipes' dependency chain.
-> +        if bb.data.inherits_class('native', d):
-> +            d.appendVar('DEPENDS', ' ccache-native')
->  }
->  
->  addtask cleanccache after do_clean
+On Thu, 2019-01-24 at 15:06 +0800, Robert Yang wrote:
+> This CONFIG_SITE has no effect since autotools.bbclass handles it.
+> And the
+> comment line is out of date, it was for "CONFIG_SITE = ''", so remove
+> them.
 
-This is not correct. Think about the case where the native recipes were
-installed from sstate. The target recipe dependencies would then be
-incorrect.
+Going from memory, we had a problem where the path to sed was being
+encoded into scripts (e.g. libtool/autotools and others). It may be
+/usr/bin/sed on some systems and /bin/sed on others.
+
+Are you sure this is no longer a problem?
 
 Cheers,
 
 Richard
+
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/native.bbclass | 3 ---
+>  meta/site/native            | 1 -
+>  2 files changed, 4 deletions(-)
+>  delete mode 100644 meta/site/native
+> 
+> diff --git a/meta/classes/native.bbclass
+> b/meta/classes/native.bbclass
+> index ddccfe2..c20c6dc 100644
+> --- a/meta/classes/native.bbclass
+> +++ b/meta/classes/native.bbclass
+> @@ -54,9 +54,6 @@ TOOLCHAIN_OPTIONS = ""
+>  # Don't build ptest natively
+>  PTEST_ENABLED = "0"
+>  
+> -# Don't use site files for native builds
+> -export CONFIG_SITE = "${COREBASE}/meta/site/native"
+> -
+>  # set the compiler as well. It could have been set to something else
+>  export CC = "${BUILD_CC}"
+>  export CXX = "${BUILD_CXX}"
+> diff --git a/meta/site/native b/meta/site/native
+> deleted file mode 100644
+> index 7dfb1cb..0000000
+> --- a/meta/site/native
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -ac_cv_path_SED=sed
+> -- 
+> 2.7.4
+> 
 
 
