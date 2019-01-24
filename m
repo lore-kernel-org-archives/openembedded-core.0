@@ -1,26 +1,23 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9981D79980
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A0CA960116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 06:33:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0O6XCso000678
+	Thu, 24 Jan 2019 06:39:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0O6d6XQ026237
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 22:33:43 -0800
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 23 Jan 2019 22:33:34 -0800
+	Wed, 23 Jan 2019 22:39:06 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 23 Jan 2019 22:39:05 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jan 2019 22:33:02 -0800
-Message-ID: <155aefd083ca8db46abaf336851018dc0d2d8f81.1548311560.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1548311560.git.liezhi.yang@windriver.com>
-References: <cover.1548311560.git.liezhi.yang@windriver.com>
+Date: Thu, 24 Jan 2019 14:57:27 +0800
+Message-ID: <cover.1548312985.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] perl: Make install.perl depend on install.sym
+Subject: [PATCH 0/5] Fixes for ccache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2019 06:33:52 -0000
+X-List-Received-Date: Thu, 24 Jan 2019 06:39:05 -0000
 Content-Type: text/plain
 
-Fixed a race issue when do_install:
-Generating wrapper script for
-/path/to/8.1-r0/image/path/to/8.1-r0/recipe-sysroot-native/usr/bin/perl-native/perl5.28.1
-mv: cannot stat
-/path/to/8.1-r0/image/path/to/8.1-r0/recipe-sysroot-native/usr/bin/perl-native/perl5.28.1:
-No such file or directory
+The following changes since commit a4edfa4cf451bf412525887b5b24b9db6486ae97:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- ...e-Make-install.perl-depend-on-install.sym.patch | 32 ++++++++++++++++++++++
- meta/recipes-devtools/perl-sanity/perl_5.28.1.bb   |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/perl-sanity/files/0001-Makefile-Make-install.perl-depend-on-install.sym.patch
+  remove unused distutils-tools.bbclass (2019-01-23 07:57:02 +0000)
 
-diff --git a/meta/recipes-devtools/perl-sanity/files/0001-Makefile-Make-install.perl-depend-on-install.sym.patch b/meta/recipes-devtools/perl-sanity/files/0001-Makefile-Make-install.perl-depend-on-install.sym.patch
-new file mode 100644
-index 0000000..1267339
---- /dev/null
-+++ b/meta/recipes-devtools/perl-sanity/files/0001-Makefile-Make-install.perl-depend-on-install.sym.patch
-@@ -0,0 +1,32 @@
-+From a0a2fcac3735ca90017976d2b87f550d051a969b Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 22 Jan 2019 19:21:27 -0800
-+Subject: [PATCH] Makefile: Make install.perl depend on install.sym
-+
-+Fix a race issue when install, there might be no
-+$(installbin)/$(perlname)$(version) when install.sym runs after install.perl
-+since install.sym removes it.
-+
-+Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/73]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index cd8d75f..1aa8ef2 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -406,7 +406,7 @@ META.yml: Porting/makemeta Porting/Maintainers.pl Porting/Maintainers.pm miniper
-+ 
-+ install: install.perl install.sym install.man
-+ 
-+-install.perl: installperl | miniperl$X
-++install.perl: installperl install.sym | miniperl$X
-+ 	./miniperl_top installperl --destdir=$(DESTDIR) $(INSTALLFLAGS) $(STRIPFLAGS)
-+ 	-@test ! -s extras.lst || $(MAKE) extras.install
-+ 
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-index 176980e..a2ec264 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://fix-race-failures-2.patch \
-            file://0001-Also-build-dynaloader-separately-as-race-failures-ha.patch \
-            file://0001-Make-sure-install.perl-runs-before-install.man.patch \
-+           file://0001-Makefile-Make-install.perl-depend-on-install.sym.patch \
-            "
- 
- SRC_URI[perl.md5sum] = "838198c43d4f39d7af797e2f59c2bee5"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ccache
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ccache
+
+Robert Yang (5):
+  cmake-native: Add --enable-ccache to configure options
+  bitbake.conf: Add CCACHE_TOP_DIR to BB_HASHBASE_WHITELIST
+  ccache.bbclass: Only let native recipes depend on ccache-native
+  ccache: 3.5 -> 3.6
+  ccache: Fix Segmentation fault error when gcc -o /dev/null
+
+ meta/classes/ccache.bbclass                        |  5 +-
+ meta/conf/bitbake.conf                             |  2 +-
+ meta/recipes-devtools/ccache/ccache_3.5.bb         | 11 ---
+ meta/recipes-devtools/ccache/ccache_3.6.bb         | 12 ++++
+ .../0002-dev.mk.in-fix-file-name-too-long.patch    |  8 +--
+ ...mentation-fault-error-when-gcc-o-dev-null.patch | 79 ++++++++++++++++++++++
+ meta/recipes-devtools/cmake/cmake-native_3.12.2.bb |  1 +
+ 7 files changed, 101 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.5.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.6.bb
+ create mode 100644 meta/recipes-devtools/ccache/files/0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch
+
 -- 
-2.10.2
+2.7.4
 
 
