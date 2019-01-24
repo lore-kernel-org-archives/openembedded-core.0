@@ -1,102 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D06C76D545
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F48E6BA0E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 23:32:18 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id h3so1991198pfg.1
+	Thu, 24 Jan 2019 00:18:14 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id j10so1847089pga.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2019 15:32:20 -0800 (PST)
+	Wed, 23 Jan 2019 16:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=jIIwEa8tEDXt9+lytXVP7mUfH89y8z+J5J/MNqKUpWA=;
-	b=Ktk2+0Ao1E8s0IGC9P1YCHQBNdMa399qWVubwwsixw9yEnMYWdDz5CDJcFpSH6s07C
-	Z+g5H6xd9ef6GeGJq1F7qGB35BtYBOHKvSHOsCLXTrsUKW1SEfKlfqgc3TVS4syvE5XA
-	Nc+1z8Onp1eekCeEIU+JzIVQvdyltfGmIK5RngvBvoJqmSfCPkNU2Y4smjHf/t2nP6zJ
-	9lAmj2hD03Ctk5kd3Ib5IqB9wO91qzE8nv7CBENecYJR8EWmYbkBj3vjYCvWIS8aI86C
-	451dD/b6LhNRQDAZ4VLwLlv+o8ijV96/Serncj8Bby6pbBRSsyYl27Ne0ZH+N5YE6Mtb
-	62/Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mlm/kNp6XTcDci50z+A4zyBtBaXjuu2sMQyG110KnrY=;
+	b=lEFwWehQt8FTaiyUJbgkRuw8UI7LnAKs/t5Keu/r7PQP/6iyHXjRisOJjbn5dwXESF
+	ekyDzZgsw3VeR9LZV6BEMWYPzAwA5yfv8yHy7MzcxRu3eAqlUsjvgtVwmJuMY1mXom9O
+	KUcXIL1gxHqeguKDJRLcnNZVmLrnafkvp42zwmr6QjA0ISJ6U1mbjym1W2XK0MCyRUvT
+	aUoxJ06JlqS3seeGTPVylzoJMxE8uUeo7acU9f+Czo/QmjOgXuKKB8PU26S45sPTGNod
+	Yj3Nr4TigPgbVcZRQmv5oZhuV50OOzHT3IHWIPeuDhaX+MIL9VDuTFm4imTT4IeHNRgM
+	TMPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=jIIwEa8tEDXt9+lytXVP7mUfH89y8z+J5J/MNqKUpWA=;
-	b=WqkaawoctaGUg9AsSRznHPzCa02+Xb6qIQk94vBFOzzbyqqUa3OFSPaF95sxfiQeI2
-	97UA+iZ6MUjWswBWiJgUwfpjqJYh5D+GCGZ9le7tbTbNbM9ldZ36JF2CpC2qFxObmfRz
-	3lrGcFQIQss1sohyKAmf15x4jR53fkhGZdQgycPCcQNPfp3yEgIhH68EEBCxocQ+SvqY
-	Z9+obD2IICyDpY9HAOzZ0lASWXiIhYXKKJdX7MKiJaFQ0UyP3fXzvQP/wO/OhmJvA/L0
-	Q+kucB6dEem9YI5i8daOXgZo2rdM+x2b5rZqAN3v3JAtPfRNSxhuZf3Nsf+9hu5RkuNn
-	ySiA==
-X-Gm-Message-State: AJcUukemIa1NJ9lxvUKrkDc9WscSpLX9D7gYDVJi07tOHy+tAHUry5wz
-	J9beMQquKt+f+J4IAj+BQC+TZKERyK4=
-X-Google-Smtp-Source: ALg8bN54J0rGVFWcSBMdwmrvpW/tCLfhzU20TVacf/UT4oO6zyYF01INvwYw5QvKGm2y7lEqKQrGiA==
-X-Received: by 2002:a63:5a08:: with SMTP id o8mr3770514pgb.185.1548286339656; 
-	Wed, 23 Jan 2019 15:32:19 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:bc04:9332:d657:8202?
-	([2601:202:4180:c33:bc04:9332:d657:8202])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mlm/kNp6XTcDci50z+A4zyBtBaXjuu2sMQyG110KnrY=;
+	b=t05ZaDSkMCdWQy/K1bg1mMsu/U1dldftYTHH3g+pgI0Sr2N1YpzyUoZlQDZ9PtySaO
+	GwgazA0IK/mTsC3X0tq7kk/IUKfjIafyYy6krHMOH+/ltut6RfpV1c2dcKwrWgkQ/Aml
+	MxT/Rsp8Wto+kZzOStdTG+aVCsNGCzwAkRCQyFzn4lGjDSFHIE5xt/T9fkm2158EGGnq
+	3OznuOnCW4zQYH7KAzjQTcf8MQ6ZhpmWUAB6eNo9ypJ99vxuKToFBMA45CdpAEm/lxcB
+	tdYDLBk/D3izI7jPddJXpxqWrVsF309oFlh1gIcEJ981GTW0j7agwz+sLRHChNTEMnBN
+	HE4A==
+X-Gm-Message-State: AJcUukf213kqapJrXhwfPTZ3impJktr034sXw9lUGEebbABmKUDL1gvO
+	XIkysvpDurwYQn+6ti+qryuciaDl5OE=
+X-Google-Smtp-Source: ALg8bN7E40kWJM96P1jiGpsWdlhwFYOKexUZB7yyqJebwTNsP2bKDRVBi24szSRZUG/DUxRpQsUutw==
+X-Received: by 2002:a63:6442:: with SMTP id y63mr3928994pgb.450.1548289094801; 
+	Wed, 23 Jan 2019 16:18:14 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b601])
 	by smtp.gmail.com with ESMTPSA id
-	a195sm38410788pfa.7.2019.01.23.15.32.18
+	v184sm26752287pfb.182.2019.01.23.16.18.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jan 2019 15:32:18 -0800 (PST)
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190123161744.45763-1-alex.kanavin@gmail.com>
-	<20190123161744.45763-10-alex.kanavin@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <0dc855c4-45e8-f642-30a8-778dbb2772d5@gmail.com>
-Date: Wed, 23 Jan 2019 15:31:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Wed, 23 Jan 2019 16:18:14 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Jan 2019 16:18:02 -0800
+Message-Id: <20190124001802.32109-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190123161744.45763-10-alex.kanavin@gmail.com>
-Subject: Re: [PATCH 10/10] devtool: add a command to print an overall list of recipes that can be updated
+Subject: [PATCH V2] arch-arm: Do not add -march options for arm architecture along with -mcpu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,79 +57,329 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2019 23:32:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 24 Jan 2019 00:18:14 -0000
+Content-Transfer-Encoding: 8bit
 
+tune files which inherit the arch definitions already define appropriate
+-mcpu option, which is equivalent of right -march and -mtune combination
+and is preferred since gcc is getting stricter and stricter with option
+check semantics and can now find incompatible -march and -mcpu options
+better with every release. It does internal feature consistency check
+and if it finds out discrepency between what -mcpu would expand to as
+compared to -march it will flag the options to be incompatible, for
+naked eye it sounds wrong but gcc would translate -mcpu to a given
+-march internally and it might not match to what we set in these arch
+files.
 
+The effects are quite subtle, where this can result in configure test
+failing to compile due to these incompatible options and a feature
+option getting disabled for a recipe for no reason.
 
-On 1/23/19 8:17 AM, Alexander Kanavin wrote:
-> A sample portion of the output:
->
-> $ devtool check-upgrade-status
-> ...
-> NOTE: acpid                     2.0.30          2.0.31          Ross Burton <ross.burton@intel.com>
-> NOTE: u-boot-fw-utils           2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-> NOTE: u-boot-tools              2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-> NOTE: u-boot                    2018.11         2019.01         Marek Vasut <marek.vasut@gmail.com> d3689267f92c5956e09cc7d1baa4700141662bff
-> NOTE: bind                      9.11.5          9.13.5          Armin Kuster <akuster808@gmail.com>  cannot be updated due to: 9.11 is LTS 2021
-> NOTE: iproute2                  4.19.0          4.20.0          Changhyeok Bae <changhyeok.bae@lge.com>
-> NOTE: ofono                     1.25            1.27            Ross Burton <ross.burton@intel.com>
-> NOTE: wpa-supplicant            2.6             2.7             Changhyeok Bae <changhyeok.bae@lge.com>
-> NOTE: base-passwd               3.5.29          3.5.45          Anuj Mittal <anuj.mittal@intel.com>  cannot be updated due to: Version 3.5.38 requires cdebconf for update-passwd utility
-> NOTE: busybox                   1.29.2          1.30.0          Andrej Valek <andrej.valek@siemens.com>
-> NOTE: dbus-test                 1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
-> NOTE: dbus                      1.12.10         1.12.12         Chen Qi <Qi.Chen@windriver.com>
-> NOTE: glib-2.0                  2.58.0          2.58.3          Anuj Mittal <anuj.mittal@intel.com>
-> NOTE: glib-networking           2.54.1          2.58.0          Anuj Mittal <anuj.mittal@intel.com>
+e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
+-march=armv7-a are incompatible, many features in libstdc++ ends up
+disabled due to configure check failures e.g. size_t size, ptrdiff_t
+sizes, which inturn results in compiling libstdc++ with unwanted
+disabled features.
 
-this looks great.
+If user has machine definitions which do not inherit the arm tune files
+then they can still use the -march switch as such
 
-thanks.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Only delete -march if -mcpu is set
 
-- armin
-> ...
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  scripts/lib/devtool/upgrade.py | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-> index 202007793b2..42a4c0e4bff 100644
-> --- a/scripts/lib/devtool/upgrade.py
-> +++ b/scripts/lib/devtool/upgrade.py
-> @@ -600,6 +600,20 @@ def latest_version(args, config, basepath, workspace):
->          tinfoil.shutdown()
->      return 0
->  
-> +def check_upgrade_status(args, config, basepath, workspace):
-> +    if not args.recipe:
-> +        logger.info("Checking the upstream status for all recipes may take a few minutes")
-> +    results = oe.recipeutils.get_recipe_upgrade_status(args.recipe)
-> +    for result in results:
-> +        # pn, update_status, current, latest, maintainer, latest_commit, no_update_reason
-> +        if result[1] != 'MATCH':
-> +            logger.info("{:25} {:15} {:15} {} {} {}".format(   result[0],
-> +                                                               result[2],
-> +                                                               result[1] if result[1] != 'UPDATE' else (result[3] if not result[3].endswith("new-commits-available") else "new commits"),
-> +                                                               result[4],
-> +                                                               result[5] if result[5] != 'N/A' else "",
-> +                                                               "cannot be updated due to: %s" %(result[6]) if result[6] else ""))
-> +
->  def register_commands(subparsers, context):
->      """Register devtool subcommands from this plugin"""
->  
-> @@ -627,3 +641,9 @@ def register_commands(subparsers, context):
->                                                    group='info')
->      parser_latest_version.add_argument('recipename', help='Name of recipe to query (just name - no version, path or extension)')
->      parser_latest_version.set_defaults(func=latest_version)
-> +
-> +    parser_check_upgrade_status = subparsers.add_parser('check-upgrade-status', help="Report upgradability for multiple (or all) recipes",
-> +                                                        description="Prints a table of recipes together with versions currently provided by recipes, and latest upstream versions, when there is a later version available",
-> +                                                        group='info')
-> +    parser_check_upgrade_status.add_argument('recipe', help='Name of the recipe to report (omit to report upgrade info for all recipes)', nargs='*')
-> +    parser_check_upgrade_status.set_defaults(func=check_upgrade_status)
+ meta/conf/machine/include/arm/arch-armv4.inc     | 3 ++-
+ meta/conf/machine/include/arm/arch-armv5.inc     | 3 ++-
+ meta/conf/machine/include/arm/arch-armv6.inc     | 3 ++-
+ meta/conf/machine/include/arm/arch-armv7a.inc    | 3 ++-
+ meta/conf/machine/include/arm/arch-armv7ve.inc   | 3 ++-
+ meta/conf/machine/include/tune-arm1136jf-s.inc   | 2 ++
+ meta/conf/machine/include/tune-arm920t.inc       | 2 ++
+ meta/conf/machine/include/tune-arm926ejs.inc     | 2 ++
+ meta/conf/machine/include/tune-arm9tdmi.inc      | 2 ++
+ meta/conf/machine/include/tune-cortexa15.inc     | 2 ++
+ meta/conf/machine/include/tune-cortexa17.inc     | 2 ++
+ meta/conf/machine/include/tune-cortexa5.inc      | 2 ++
+ meta/conf/machine/include/tune-cortexa7.inc      | 2 ++
+ meta/conf/machine/include/tune-cortexa8.inc      | 2 ++
+ meta/conf/machine/include/tune-cortexa9.inc      | 2 ++
+ meta/conf/machine/include/tune-ep9312.inc        | 4 +++-
+ meta/conf/machine/include/tune-iwmmxt.inc        | 4 +++-
+ meta/conf/machine/include/tune-strongarm1100.inc | 2 ++
+ meta/conf/machine/include/tune-thunderx.inc      | 2 ++
+ meta/conf/machine/include/tune-xscale.inc        | 2 ++
+ 20 files changed, 42 insertions(+), 7 deletions(-)
+
+diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
+index 47a7ad2830..d31b67623c 100644
+--- a/meta/conf/machine/include/arm/arch-armv4.inc
++++ b/meta/conf/machine/include/arm/arch-armv4.inc
+@@ -2,7 +2,8 @@ DEFAULTTUNE ?= "armv4"
+ 
+ TUNEVALID[arm] = "Enable ARM instruction set"
+ TUNEVALID[armv4] = "Enable instructions for ARMv4"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
++TUNE_MARCH ?= "-march=armv4t"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' ${TUNE_MARCH}', '', d)}"
+ # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
+ # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does 
+ # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
+diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
+index f9068af9de..868694a44c 100644
+--- a/meta/conf/machine/include/arm/arch-armv5.inc
++++ b/meta/conf/machine/include/arm/arch-armv5.inc
+@@ -2,7 +2,8 @@ DEFAULTTUNE ?= "armv5"
+ 
+ TUNEVALID[armv5] = "Enable instructions for ARMv5"
+ TUNECONFLICTS[armv5] = "armv4"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
++TUNE_MARCH ?= "-march=armv5t${ARMPKGSFX_DSP}"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' ${TUNE_MARCH}', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv4.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+index 6c838e999c..e5d3ecec06 100644
+--- a/meta/conf/machine/include/arm/arch-armv6.inc
++++ b/meta/conf/machine/include/arm/arch-armv6.inc
+@@ -2,7 +2,8 @@ DEFAULTTUNE ?= "armv6hf"
+ 
+ TUNEVALID[armv6] = "Enable instructions for ARMv6"
+ TUNECONFLICTS[armv6] = "armv4 armv5"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
++TUNE_MARCH ?= "-march=armv6"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' ${TUNE_MARCH}', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv5-dsp.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index a2663d8008..301334dab7 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -3,7 +3,8 @@ ARM_INSTRUCTION_SET ?= "thumb"
+ 
+ TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+ TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
++TUNE_MARCH ?= "-march=armv7-a"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' ${TUNE_MARCH}', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv6.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+index 4d9260fecb..f1f13c17ce 100644
+--- a/meta/conf/machine/include/arm/arch-armv7ve.inc
++++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+@@ -2,7 +2,8 @@ DEFAULTTUNE ?= "armv7vethf"
+ 
+ TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+ TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
++TUNE_MARCH ?= "-march=armv7ve"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' ${TUNE_MARCH}', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+index c5de63e1cc..86e3a56119 100644
+--- a/meta/conf/machine/include/tune-arm1136jf-s.inc
++++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv6hf"
+ require conf/machine/include/arm/arch-armv6.inc
+ 
+ TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
+ 
+ AVAILTUNES += "arm1136jfs"
+diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
+index c6e74b6772..4d65d63bc9 100644
+--- a/meta/conf/machine/include/tune-arm920t.inc
++++ b/meta/conf/machine/include/tune-arm920t.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv4t"
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+ TUNEVALID[arm920t] = "Enable arm920t specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
+ 
+ AVAILTUNES += "arm920t"
+diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
+index 81bcda339b..9c1bc919ee 100644
+--- a/meta/conf/machine/include/tune-arm926ejs.inc
++++ b/meta/conf/machine/include/tune-arm926ejs.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv5te"
+ require conf/machine/include/arm/arch-armv5-dsp.inc
+ 
+ TUNEVALID[arm926ejs] = "Enable arm926ejs specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
+ 
+ AVAILTUNES += "arm926ejs"
+diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
+index e9c2b8fcf5..62c333cce6 100644
+--- a/meta/conf/machine/include/tune-arm9tdmi.inc
++++ b/meta/conf/machine/include/tune-arm9tdmi.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv4t"
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+ TUNEVALID[arm9tdmi] = "Enable arm9tdmi specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
+ 
+ AVAILTUNES += "arm9tdmi"
+diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
+index 25e99f93d7..fbef6fee36 100644
+--- a/meta/conf/machine/include/tune-cortexa15.inc
++++ b/meta/conf/machine/include/tune-cortexa15.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+ TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
+index 40392f9bcc..92437d05ce 100644
+--- a/meta/conf/machine/include/tune-cortexa17.inc
++++ b/meta/conf/machine/include/tune-cortexa17.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+ TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+index e9eddb407f..f321070072 100644
+--- a/meta/conf/machine/include/tune-cortexa5.inc
++++ b/meta/conf/machine/include/tune-cortexa5.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+ TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
+index 52415d9c8b..ef3fc3f1da 100644
+--- a/meta/conf/machine/include/tune-cortexa7.inc
++++ b/meta/conf/machine/include/tune-cortexa7.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+ TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+index 8ee8de97f1..18e37faeda 100644
+--- a/meta/conf/machine/include/tune-cortexa8.inc
++++ b/meta/conf/machine/include/tune-cortexa8.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+ TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
+index 0cf323c960..af3c93febc 100644
+--- a/meta/conf/machine/include/tune-cortexa9.inc
++++ b/meta/conf/machine/include/tune-cortexa9.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+ TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
+ 
+ # Little Endian base configs
+diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
+index 84ca528d6d..fefc8abc66 100644
+--- a/meta/conf/machine/include/tune-ep9312.inc
++++ b/meta/conf/machine/include/tune-ep9312.inc
+@@ -3,7 +3,9 @@ DEFAULTTUNE ?= "ep9312"
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+ TUNEVALID[ep9312] = "Enable Intel PXA27x specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -mcpu=ep9312', '', d)}"
+ 
+ AVAILTUNES += "ep9312"
+ ARMPKGARCH_tune-ep9312 = "ep9312"
+diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
+index f27423cb2e..3627834e8a 100644
+--- a/meta/conf/machine/include/tune-iwmmxt.inc
++++ b/meta/conf/machine/include/tune-iwmmxt.inc
+@@ -6,7 +6,9 @@ DEFAULTTUNE ?= "iwmmxt"
+ require conf/machine/include/arm/arch-armv5-dsp.inc
+ 
+ TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -mcpu=iwmmxt', '', d)}"
+ 
+ AVAILTUNES += "iwmmxt"
+ ARMPKGARCH_tune-iwmmxt = "iwmmxt"
+diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
+index 80cfb8ab8a..b111641048 100644
+--- a/meta/conf/machine/include/tune-strongarm1100.inc
++++ b/meta/conf/machine/include/tune-strongarm1100.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv4"
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+ TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
+ 
+ AVAILTUNES += "strongarm"
+diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
+index 3d43b0f7e5..1db579e393 100644
+--- a/meta/conf/machine/include/tune-thunderx.inc
++++ b/meta/conf/machine/include/tune-thunderx.inc
+@@ -5,6 +5,8 @@ AVAILTUNES += "thunderx thunderx_be"
+ 
+ TUNEVALID[thunderx] = "Enable instructions for Cavium ThunderX"
+ 
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx ', '',d)}"
+ 
+ ARMPKGARCH_tune-thunderx ?= "thunderx"
+diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
+index 0d07333955..ce0a9c5bcc 100644
+--- a/meta/conf/machine/include/tune-xscale.inc
++++ b/meta/conf/machine/include/tune-xscale.inc
+@@ -3,6 +3,8 @@ DEFAULTTUNE ?= "armv5te"
+ require conf/machine/include/arm/arch-armv5-dsp.inc
+ 
+ TUNEVALID[xscale] = "Enable PXA255/PXA26x Xscale specific processor optimizations"
++# Since we set -mcpu option here, Do not add -march option
++TUNE_MARCH = ""
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
+ 
+ AVAILTUNES += "xscale"
+-- 
+2.20.1
 
 
