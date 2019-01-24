@@ -1,29 +1,75 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 323087C371
+Return-Path: <chunrong.guo@nxp.com>
+X-Greylist: delayed 39431 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 25 Jan 2019 11:40:31 UTC
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr10040.outbound.protection.outlook.com [40.107.1.40])
+	by mail.openembedded.org (Postfix) with ESMTP id C3BB27C254
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 06:06:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0P66F7j011151
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Jan 2019 22:06:15 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 24 Jan 2019 22:06:02 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1548313066.git.liezhi.yang@windriver.com>
-	<a0d185da70165b9d7e8166bf7e6a1a7065045fea.1548313066.git.liezhi.yang@windriver.com>
-	<CAMKF1srfkqtzhsQ7OcPUQsOuf_bzA4V-AOrCWhRm2Ur=G1BO_w@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <acf814b3-91fb-7728-db74-0319bcd3e486@windriver.com>
-Date: Fri, 25 Jan 2019 14:10:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1srfkqtzhsQ7OcPUQsOuf_bzA4V-AOrCWhRm2Ur=G1BO_w@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 25 Jan 2019 11:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=dP7MXAjhVlPoPwOZsDtQnKHSE/wiuLx0Bzm5zW19OfI=;
+	b=ardUu2cdCjxD5P0jpXHvh2Kqi33xvpKwM6RgsoT/izU2r6juO84LkAfL/7dlktOY0fo8xJU5ViCg3O71kX0+jhGnKbkr06Hz7fxPNtmJnux63XdafwxsctN3WIcjurGaR69Dvu3M/L/gzywNphU7JeZMkkTjy6mD9uKBesk9yzY=
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
+	DB7PR04MB4060.eurprd04.prod.outlook.com (52.135.130.25) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1537.29; Thu, 24 Jan 2019 08:13:09 +0000
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::c155:178e:fbd7:5892]) by
+	DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::c155:178e:fbd7:5892%4]) with mapi id 15.20.1558.016;
+	Thu, 24 Jan 2019 08:13:09 +0000
+From: "C.r. Guo" <chunrong.guo@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gcc-runtime: Add --cache-file to EXTRA_OECONF
+Thread-Topic: [meta-oe][PATCH] mozjs: add aarch64 be support
+Thread-Index: AQHUs7ykE4+Wucrbdka7XY9DR/ZBmw==
+Date: Thu, 24 Jan 2019 08:13:09 +0000
+Message-ID: <1548317569-25007-1-git-send-email-chunrong.guo@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HK0PR03CA0080.apcprd03.prod.outlook.com
+	(2603:1096:203:72::20) To DB7PR04MB5068.eurprd04.prod.outlook.com
+	(2603:10a6:10:1c::12)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chunrong.guo@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.7.4
+x-originating-ip: [119.31.174.73]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; DB7PR04MB4060;
+	6:ETtKWCqoTJVEYrK4vMhsOF1LVqGWubreZtSRjRB+OCIktwENvpgD0Ubk1jRn8sGs5eE14lSYRUscdkGDxzEoEYuFzJHKu8vLUtdY0G1StAcL/AQnWzaiXMQjELTQf6HjKpuv4pszjyxrgzsZ4WAps9v4aJougN3KMbxqTMgEC8NZMDltEj1QtNdXjKmVN97WokBhTmeCEjzCi39ef6P3UAkutl4VF0nb49oc4edrvGDIP2qo+oCIG1TigGgraQEy7fVW4FJQdvx3Xh3A2toSII23MUOsgdLcH9OvOde5LOyUqJHjNO+mNuxSFcPe+Z8r201KZBKlm/9ZaXXZiyGiMT4QgrFWHSlZ7yfga92cmIiZ0tCVINsCyHjRL3yIyagEugpnUglovaNITawZTXASkM0E5Xg2Q4Mwua8bd/r5Gwpp0NVIWFslqa+Aehke5T7B9cyT0/rfbgHNmUPprIYwBA==;
+	5:0RHQDE6vDp9+PnHOlUGlGmQ38KJzk4yh7FQGQC5r81FwtOUxrOieT8vxcpMWny+MHQHSAUarrLAPjsMM3/8eJ9ih0m1AjX4wfzJx+tsBX1dhd3SVkf2m37EyGq+SZMxAkSDvbsgAJGKsox2K17tYLSshqy7si7HyGsOAEjfWkwUEocNJ/uCGmdILWFi7B7mwvdNYgNscFTnS01stnS5mbw==;
+	7:O0I/1liC5KTXcfnjv9qzkMQwJ+VpeWnWCn3BS07f39B4CrVkaunLCVSpF0UvOEsoR+2C9yFtanVIRydFvLas7ve1w/Tdu10z91uWSuISaGmaJwfHAELF6QbSxVOeNWSXP/Ggl2ACKR2Aknou24zlFA==
+x-ms-office365-filtering-correlation-id: b75e24ad-d2d4-4e32-e448-08d681d3c66f
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(5600110)(711020)(4605077)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);
+	SRVR:DB7PR04MB4060; 
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4060:|DB7PR04MB4060:
+x-microsoft-antispam-prvs: <DB7PR04MB4060722D114BEEBF4ED5D6FC849A0@DB7PR04MB4060.eurprd04.prod.outlook.com>
+x-forefront-prvs: 0927AA37C7
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(376002)(39860400002)(396003)(346002)(366004)(136003)(189003)(199004)(478600001)(8936002)(52116002)(86362001)(50226002)(53936002)(6306002)(6916009)(316002)(106356001)(68736007)(14454004)(6512007)(71200400001)(6116002)(186003)(66066001)(26005)(7736002)(71190400001)(3846002)(99286004)(4326008)(386003)(5640700003)(36756003)(102836004)(97736004)(81166006)(2906002)(81156014)(6506007)(25786009)(486006)(476003)(2501003)(6486002)(305945005)(6436002)(8676002)(2616005)(256004)(105586002)(2351001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4060;
+	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: yrflF4tYjND/zCpzyA+ncdFVZbmv56Ueem01Ni2jnYHUs8K8XRWLLe3MnfyzLCLGUZZgJMRYX6wBj3CKfPEydr7uQIM+c2cFg8ywjhf0t/6ka8qYn6rpDAG7yaZ8M8W/wY7EO/Iz1IviXUjQAW2Mm80q3iwiH/jCuQr7ol6UbpgDdneV/165afl81Oj6bZtV/OkZXyGKQ+UIFVlI1qgUS2CByBEOboF8F20lWg1X2cgVMxw+KPLnhimEvSJ/dXyB9Spn1pGRT89btLV4yAel57UfmiUED7Xh+uJ5AV1pd9+zsOJOuZH2HYhe2JEwf2ey6M8kNGs2e3aTVILLjqJwK2icfjXG4x8s64mFGCj+EllM1YLnyLrfkNuPB1LXmjBArmUbxg4paei59m+yulZNuZAAIujtNq5sg9HgoBNG6qI=
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: b75e24ad-d2d4-4e32-e448-08d681d3c66f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2019 08:13:07.3889 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4060
+X-Microsoft-Exchange-Diagnostics: 1; DB7PR04MB4060;
+	23:k1CLY4/Ql90CuE0HbvDEn27Qi+eYUgxKcsSHnLBDyFkvJANWz3bBvMLFb2y6NHxrFPKbphuZnwc+cRWgprw6r/B8YW53vyuZZLpYUuQ8N6y6EZZw4IVsaU0WZBEJQvQmVfBcJpTJrrttElM2kMndFA==
+X-OriginatorOrg: nxp.com
+Subject: [meta-oe][PATCH] mozjs: add aarch64 be support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +82,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 06:06:15 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 25 Jan 2019 11:40:32 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+From: Chunrong Guo <chunrong.guo@nxp.com>
 
+Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+---
+ .../mozjs/mozjs/0001-add-aarch64-be-support.patch  | 28 ++++++++++++++++++=
+++++
+ meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb     |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-b=
+e-support.patch
 
-On 1/25/19 12:23 PM, Khem Raj wrote:
-> On Thu, Jan 24, 2019 at 2:00 AM Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> This can save configure time since it runs configure multiple times:
->> $ time bitbake gcc-runtime -cconfigure
->>    60s -> 54s
->>
->>    Saved 6s
-> 
-> looks ok. Are we sure this file is preserved across builds
+diff --git a/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-suppo=
+rt.patch b/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support=
+.patch
+new file mode 100644
+index 0000000..05ab2c1
+--- /dev/null
++++ b/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support.patc=
+h
+@@ -0,0 +1,28 @@
++From 52ab270c9ff1e3b0d5ce2fd59a268afd6e9cc0c8 Mon Sep 17 00:00:00 2001
++From: BJ DevOps Team <bjdevops@NXP1.onmicrosoft.com>
++Date: Tue, 16 Oct 2018 16:53:18 +0800
++Subject: [PATCH] add aarch64 be support
++
++Upstream-Status: Inappropriate [oe specific]
++
++---
++ build/moz.configure/init.configure | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/build/moz.configure/init.configure b/build/moz.configure/init=
+.configure
++index 56e6730..139b5fa 100644
++--- a/build/moz.configure/init.configure
+++++ b/build/moz.configure/init.configure
++@@ -359,6 +359,9 @@ def split_triplet(triplet):
++     elif cpu in ('mips64', 'mips64el'):
++         canonical_cpu =3D 'mips64'
++         endianness =3D 'little' if 'el' in cpu else 'big'
+++    elif cpu in ('aarch64_be'):
+++        canonical_cpu =3D 'aarch64'
+++        endianness =3D 'big'=20
++     elif cpu.startswith('aarch64'):
++         canonical_cpu =3D 'aarch64'
++         endianness =3D 'little'
++--=20
++2.7.4
++
+diff --git a/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb b/meta-oe/recip=
+es-extended/mozjs/mozjs_52.9.1.bb
+index a28ecc5..e39c929 100644
+--- a/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb
++++ b/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb
+@@ -15,6 +15,7 @@ SRC_URI =3D "http://archive.ubuntu.com/ubuntu/pool/main/m=
+/mozjs52/mozjs52_52.9.1.o
+            file://add-riscv-support.patch \
+            file://0001-mozjs-fix-coredump-caused-by-getenv.patch \
+            file://format-overflow.patch \
++           file://0001-add-aarch64-be-support.patch \
+            "
+ SRC_URI_append_libc-musl =3D " \
+            file://0006-support-musl.patch \
+--=20
+2.7.4
 
-Sorry, what did you mean about preserved across builds, please ?
-
-// Robert
-
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> index 50ecc81..3d03d8e 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> @@ -15,6 +15,7 @@ EXTRA_OECONF_PATHS = "\
->>   "
->>
->>   EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
->> +EXTRA_OECONF_append = " --cache-file=${B}/config.cache"
->>
->>   RUNTIMELIBITM = "libitm"
->>   RUNTIMELIBITM_arc = ""
->> --
->> 2.10.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
