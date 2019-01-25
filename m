@@ -1,47 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 396276BCA4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB347C39A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 13:47:38 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d15so6842002wmb.3
+	Fri, 25 Jan 2019 14:01:04 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id b11so6894491wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 05:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=cHlWXF191cBV/Bxdbhne+4b+Megq11tu1kC4B1kEz1Q=;
-	b=HRafTAmhSLY3RooLn1PPIqM6bX6dl4mnFqAHxzDjGZuk8Wjx60wLJYtm8oq0+oRHZQ
-	47I0XnTmmhD0UK5o4cCdI+hapWapFYaPRSjxscBGUQHzQWhWMyGYYRDBbFkCgiMofcFL
-	8a0YQNuqnmSMXv7nNe10ec+ifvfftFKvU1ke0t1hH9W81Yqugp3CR05FrUB/MjOhGCt8
-	UlCZC1ybJMVpxSN2qkKaqowqM4LLuWizo40jmmoX0Daxib5V4kKSncmIFlVDIa39RJHT
-	R2vpd3AD/zVLyRMCv1WL3ofAUjbzK3/pQQsnHG+PtoHQHay8o/8ILo6YgltcZ77C/LD9
-	btDA==
+	Fri, 25 Jan 2019 06:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=dGb0wsCy2ypsG/MQVCZmMzPuMPkD2ZhUK1bU/NxTI4U=;
+	b=Kk5RpY0t5u8XoP2BqrqmaAQUIMe80kSUWDM96zj3X+LeNmwvv5yAP37U7QzCc5LhG8
+	WjJW73E9FmEMehp9L59aVN5e8v1UAomwQKt+yHvAVB9ok2lZvcio0UurWT/NISuTHbKy
+	34oYQAN0d8B+HUnzQtYAH6/J8O89w/IYCjt7E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cHlWXF191cBV/Bxdbhne+4b+Megq11tu1kC4B1kEz1Q=;
-	b=GeyhZu6IqI0enUOBcgAW8ATBze5DNaBs7cdnOc8t/H3+EacSztNICfnnmsGfM21hC3
-	T5dRJ+yi9egbedE2issgpn1uJJrIigHuudhiKtqsgWxcqW+ELKzYClZHSrsG9Sm9DvG9
-	IPfCfq8612BCs1oObsfW9FauHUwvEjsvhKNvehsJyCQGrI8yIvN5/nPBhZxd18g/25mF
-	vLjBbI2YpPU3iK2FjgY+8xvSZKGKl3zw/mDTK66K4gGGh6Gs/lcOi8LyWc9uYPsi1kIu
-	9LcEg1Ohc/CWOdma883ZhwcdrgWDXU9rl5Ft1XCG5+n6FCXoEoibfK4Ueq5M9SnoPOAL
-	Eo+w==
-X-Gm-Message-State: AJcUukcMcmBgvRkDVR5/Zi8SrxBTy31trKqjXWcApS0rJ/4laR9CsEco
-	rYWgX9Lq29nZHuwq7WjAZdCpGAuK
-X-Google-Smtp-Source: ALg8bN5vs5CDSzZ8DKiHtkNFJKbMihNCAZeXayg+2gnM/jUrOJcyOc0QaDrVh/8P5gGqixiW9u8A+Q==
-X-Received: by 2002:a1c:cc19:: with SMTP id h25mr6941549wmb.80.1548424058512; 
-	Fri, 25 Jan 2019 05:47:38 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=dGb0wsCy2ypsG/MQVCZmMzPuMPkD2ZhUK1bU/NxTI4U=;
+	b=DeWz8dPKqSXFyqWqtJzyHCR3+WfwX1VAgMkKDf0ybFBvYZt9k5z4v9k1JNlA0P8xzy
+	30Sqjk/gF/9lfAN8d8lhz9m3645aKv073w+8ymZAmO8yaFl/3piP3jTj7bqz1V8AqcSl
+	d5fDIVzUSNx9OF1W6aKtQQ7LQM8e24tYB7tYeIashndC4tNTvFFr4MrtIZeOwxSzVAvz
+	ATfvKokxM6pzNaFyv6vniphs1USE3oGlioaeUnKwoSfeeFZw0Y0BYrWUz6lfuU/3nIY+
+	kOT6gtw7e3rOdaWgKHWuEOqqx8fKClZazBQgaKBBPyA6hP0RkTgUoYpNl/RWh8RbCLmG
+	+dmw==
+X-Gm-Message-State: AJcUukfxdqHXVQm9Y9W1kLqJjB9LxAJGl/q1lJKyd1ThztDFbaPvsWxo
+	NFv3HCat0rw3yfNSaXan2BHM6A==
+X-Google-Smtp-Source: ALg8bN4rxiULP5dxELDlmaQf/sugOswh8Ncx/9Md5xXB5mlWBq06Q6DKPXsWU0uGL8tg6CugqVLXAQ==
+X-Received: by 2002:a1c:60c3:: with SMTP id u186mr7499873wmb.66.1548424865595; 
+	Fri, 25 Jan 2019 06:01:05 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e17sm166346123wri.36.2019.01.25.05.47.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Jan 2019 05:47:37 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2019 14:47:27 +0100
-Message-Id: <20190125134727.49642-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] li/oe/package_manager.py: turn nativsdk postinst warnings into notes
+	a18sm128015349wrp.13.2019.01.25.06.01.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 25 Jan 2019 06:01:04 -0800 (PST)
+Message-ID: <4f21e6ba08c6577b383b0a143bb419621e8b2d66.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 25 Jan 2019 14:01:03 +0000
+In-Reply-To: <20190124210227.25029-1-JPEWhacker@gmail.com>
+References: <20190124210227.25029-1-JPEWhacker@gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] Change default debug split to make separate source packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 13:47:38 -0000
+X-List-Received-Date: Fri, 25 Jan 2019 14:01:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The warnings deal with two specific cases of failure:
-1) unable to execute nativesdk postinsts for mingw SDKs because
-they need to be run under wine
-2) unable to execute target postinsts when there is no qemu
-usermode support for the target
+On Thu, 2019-01-24 at 15:02 -0600, Joshua Watt wrote:
+> Changes the default PACKAGE_DEBUG_SPLIT_STYLE to generate separate
+> source and debug packages. SDKIMAGE_FEATURES is updated to include
+> the
+> source packages so that there is not change for the SDK contents.
+> 
+> [YOCTO #12931]
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass | 2 +-
+>  meta/conf/bitbake.conf                 | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 
-Neither of these should be a big problem as mingw issue was never
-found to problematic, and target postinsts deal with things that
-are needed at runtime and not at build time which is the purpose
-of SDKs.
+Looks good, we'll need to fix
+pkgdata.OePkgdataUtilTests.test_list_pkgs:
 
-The specific reason to do this is to reduce the amount of warnings
-shown by the Yocto autobuilder, to zero eventually.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/157/steps/7/logs/step2d
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f26f597d03d..d0e24a64837 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -440,7 +440,7 @@ class PackageManager(object, metaclass=ABCMeta):
-                 continue
- 
-             if populate_sdk == 'host' and self.d.getVar('SDK_OS') == 'mingw32':
--                bb.warn("The postinstall intercept hook '%s' could not be executed due to missing wine support, details in %s/log.do_%s"
-+                bb.note("The postinstall intercept hook '%s' could not be executed due to missing wine support, details in %s/log.do_%s"
-                                 % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-                 continue
- 
-@@ -455,7 +455,7 @@ class PackageManager(object, metaclass=ABCMeta):
-                     bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-                 elif populate_sdk == 'target':
-                     if "qemuwrapper: qemu usermode is not supported" in e.output.decode("utf-8"):
--                        bb.warn("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
-+                        bb.note("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
-                                 % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-                     else:
-                         bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
