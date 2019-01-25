@@ -1,16 +1,15 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F1E2B6BE39
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 38F3960053
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 02:51:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0P2obRV032037
+	Fri, 25 Jan 2019 02:54:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0P2sx1f004466
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Jan 2019 18:50:47 -0800
+	Thu, 24 Jan 2019 18:54:59 -0800 (PST)
 Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 24 Jan 2019 18:50:20 -0800
+	14.3.408.0; Thu, 24 Jan 2019 18:54:58 -0800
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1548313558.git.liezhi.yang@windriver.com>
@@ -18,8 +17,8 @@ References: <cover.1548313558.git.liezhi.yang@windriver.com>
 	<03cc0bf2cf2d942dcd7c05b89e039499dbe617b3.camel@linuxfoundation.org>
 	<58737031-db96-d385-0188-b8a8b6966bd1@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <f9a4f03a-77e7-74d3-3efd-15226817f8d1@windriver.com>
-Date: Fri, 25 Jan 2019 10:55:08 +0800
+Message-ID: <60a143d2-8486-81a4-22b7-7c77f5090182@windriver.com>
+Date: Fri, 25 Jan 2019 10:59:46 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
@@ -37,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 02:51:14 -0000
+X-List-Received-Date: Fri, 25 Jan 2019 02:54:59 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -63,8 +62,8 @@ On 1/25/19 10:40 AM, Robert Yang wrote:
 > Yes, that might be a problem, please ignore the patch, and I will update the
 > comment:
 
-After more investigations, I'm sure it is not longer needed, I was mis-leaded
-by:
+After more investigations, I'm sure that site/native can be removed safely,
+I was mis-leaded by the following command just now:
 
 $ bitbake m4-native -cconfigure -e > m4-native.py
 
@@ -81,6 +80,9 @@ CONFIG_SITE="/buildarea1/lyang1/poky/meta/site/endian-little
 /buildarea1/lyang1/poky/meta/site/common "
 
 So the site/native was never used, and I think that it can be removed safely.
+
+The "$ bitbake m4-native -cconfigure -e" showed incorrect CONFIG_SITE, is this
+a bug, please ?
 
 // Robert
 
