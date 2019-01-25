@@ -1,54 +1,130 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CE1EF7C36C
+Return-Path: <ckalluri@xilinx.com>
+X-Greylist: delayed 64833 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 26 Jan 2019 20:28:06 UTC
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr820044.outbound.protection.outlook.com [40.107.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 779837C420
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 18:45:56 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id o125so7307316qkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 10:45:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=BEsN6Oc9BYFv7uHG5NAS69t3hIKIPnVyiHxevKXHenk=;
-	b=PXVnng+bDZQcG5+o3GVoGCCPe4sfy2iOYlPvr/Thsdaq7piud6NkoYUV/UTrWgKTv/
-	KF+JqJF/rfXy4WHpX/iOaVnlGGW8HHVET1ePKVIustMzpyt8Dc0ccKOU94z3jyee7ONx
-	tD9o33ISs4tkUdJSc/P0huqpqUjWHOj1GMoc1IxxNMIAljK9V2LLdoaBZdeOSNIjSLyF
-	p455A9wKOjbslBAQiZRdFVFEMRNwPSeAIKj1pCmL1qmt9ufOyJIuMi2Hhy8a9fS6D7zq
-	p4zQ2rvKJ/P3nRgbr9QCuTdKvTu8yG2I9wbj+UoOgoEqyjOYzvUk0cpw1TwUaWcndTtt
-	uUow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=BEsN6Oc9BYFv7uHG5NAS69t3hIKIPnVyiHxevKXHenk=;
-	b=r9+EP5tuXKpu6QigVKE/F8uaiBbysY47CnqvClnp6wh03iH5K6CXSLMmQ2TdYR0Vpm
-	zfiwU7RiN3BLMAT2VEuY7GFdj9ydttWtiKlcfB36VxM1luzF3cZMDGmYzLfF1Twbxp3c
-	rwvJ2E6RZmzp60gvYoHTJD9w8CQheMIjcYXYdxK3+8t4/5V3jWq/d4UjxG3zy/5nZ0Iz
-	IscRzS/POh0HCTrs+WoTTVqBdOCegXl5L5CXHlEvHmv8/D4w2BMRTd+JxDeB29PlVHEt
-	G2IRdcR1E6VlZILuSV8UIzSSMfVf2IqQWw27RapD97M0q1kaGfxaVQAA+lEVdRm9eqO3
-	lBJw==
-X-Gm-Message-State: AJcUukdZmprEcD86XIt8ajz7sjH9cH3IeKNCu5sgZoKGj0P+5x/flrsw
-	matbA4+r/InEtvMc8Y18EzwOw59xCuc5sk5IZrc=
-X-Google-Smtp-Source: ALg8bN6tOVtGAH4t9FES1RMSdtQLNuknuRFUqNhP7OcS0lDLxTKJVo04He2SFnPdSNPuJGERjUAY1qSqG05xZGLZx8k=
-X-Received: by 2002:a37:a80a:: with SMTP id r10mr14704461qke.2.1548528357238; 
-	Sat, 26 Jan 2019 10:45:57 -0800 (PST)
+	Sat, 26 Jan 2019 20:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=ek9FNEIgc6Mo1czWKwSsBPDLWqV2qO6KGZRAILTKW8o=;
+	b=a0TCJVY+eDy583cvrqS3qJewxwHlkihocS591BVArbOzpPSNTw9jrLoKCOiUuHypWXMa6/NGMpnvYl+YcGVWit9dIHFcX8qtjg/BEvBMeDXgl4veR1bEE8dhg8GYxRoj5DpfnlOmQu5LpTdRnlelNnLtmRdlur1IqTSrKxiQL9U=
+Received: from CY4PR02CA0013.namprd02.prod.outlook.com (2603:10b6:903:18::23)
+	by BYAPR02MB4328.namprd02.prod.outlook.com (2603:10b6:a03:56::29)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1558.19;
+	Fri, 25 Jan 2019 19:53:18 +0000
+Received: from BL2NAM02FT052.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::205) by CY4PR02CA0013.outlook.office365.com
+	(2603:10b6:903:18::23) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1558.16 via
+	Frontend Transport; Fri, 25 Jan 2019 19:53:17 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2NAM02FT052.mail.protection.outlook.com (10.152.77.0) with Microsoft
+	SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1580.10
+	via Frontend Transport; Fri, 25 Jan 2019 19:53:16 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XQ-0007sM-DV
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Jan 2019 11:53:16 -0800
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XL-0006ct-9L
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Jan 2019 11:53:11 -0800
+Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x0PJr4Pf005326; Fri, 25 Jan 2019 11:53:04 -0800
+Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1gn7XE-0006bl-Ms; Fri, 25 Jan 2019 11:53:04 -0800
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 25 Jan 2019 11:53:01 -0800
+Message-ID: <1548445982-25182-3-git-send-email-chandana.kalluri@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
+References: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(979002)(396003)(39860400002)(376002)(136003)(346002)(2980300002)(189003)(199004)(54534003)(81166006)(81156014)(106002)(8676002)(9786002)(63266004)(6916009)(426003)(14444005)(336012)(106466001)(2351001)(36756003)(47776003)(76176011)(7696005)(478600001)(51416003)(107886003)(6666004)(356004)(26005)(186003)(77096007)(8936002)(305945005)(316002)(4326008)(50226002)(48376002)(2906002)(50466002)(36386004)(476003)(11346002)(446003)(16586007)(54906003)(2616005)(126002)(486006)(107986001)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4328; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
+X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT052;
+	1:vvTnBn+qY0dV9/krbHRwWw5htVN6r3OlAIuI4FmKyL2zsGA+gddmeAViqD8whNM+YQlgTGQLoFfW4vE02FEPf+gqh+cMygH+W48dfygkmvzfXnW8iuG9CfQceNzqp6cECxpJVnN9qP+/PXNqmQHxCA==
 MIME-Version: 1.0
-References: <20190123200520.14956-1-raj.khem@gmail.com>
-	<CAJ86T=XF3Xr0x6zEH2nsHhLQ3afEMP3Ot31pbK9-66ORrCjnsg@mail.gmail.com>
-	<CAMKF1srPt+fiSotytF2jczPEoCsCP5x7U=bODNe23476CA_ABQ@mail.gmail.com>
-	<CAJ86T=Xp_KgsZWv=oj4kEdWqAihMNASpOMc0s7nLHgcpVozWsg@mail.gmail.com>
-	<CAMKF1sqcKnd1ZaGxjQqPH2oYVhyuO=h1wSREii2jXsGkf=5QFQ@mail.gmail.com>
-	<8cb035d4-2213-905e-68ec-4903758499e8@windriver.com>
-	<CAMKF1sq_eLh0ahLm0fC7+ZHPbR28-1jj6scFFZwDXxWjxupEFg@mail.gmail.com>
-	<CA+chaQcQ_eauCeAZykSOE2WgbQkCaZCcf5TAyBTVXGewyn0NFA@mail.gmail.com>
-In-Reply-To: <CA+chaQcQ_eauCeAZykSOE2WgbQkCaZCcf5TAyBTVXGewyn0NFA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Jan 2019 10:45:30 -0800
-Message-ID: <CAMKF1sp10CWNkFe3jEdNX7T_ThsDA08mMDvzM70kFi09nhNLdg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-arm: Do not add -march options for arm architecture
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e4ce59ef-c4f6-4536-237c-08d682febfd6
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4608076)(4709027)(2017052603328)(7153060);
+	SRVR:BYAPR02MB4328; 
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4328;
+	3:b5mDyWTs3hMr0kPQxnYDdk5a8v4sUHQakJMQBnPspDLy7UOW4aa9mKvzPrZZ1qXm6Lxdap33qQs7iPU3AhauzlOnFYDGS7JVN3qJuVHwy7H4euAP5wGoKBMLxw9UVKiFK4DBX1K8dKMGV40vcu+MwFJZ2P+YCKVKCeplCA0123B9gRurhh8sem3vIwJxIpP/nOuxJoR0yo1is0gQsBfA5+GeqeW5K3xatAldQAnbRH95/1puL1iPeE/27329ldJuxJr5IKvKHtWqVnW3mz1HixNoawvCbDKTP5xlEXRMYfNTv4G26h6vReBRGpb/AhlVWkHNSNzHFNMpA7uByUeYs37k4Br0jRVFwfFetYdXOxXTnDzQXTKQRANaPs2sclzz;
+	25:7NXV30c0ID3lZvCx/L8hv48kQWFrDOEaz9wNxrOZjsydmNqrFikWdiu+V8+wpHmkGU5ARpkDEImBpvXoX6FQvbNVn8zZXmDya+dh/loCwVFbfcKNZQBPia8+FGqb/9sjoyU8Aa0/d7bTQynovNNlAEenVTc8998Z4+gKblk5O7OtW4VCfC/t7f9jnlnFoQ/ua+FRfrfat3PN9Ozma9aTW7Rc+KrCXCF44Rz4e6j4qtALb5umLxZ/UwqI8WONg4XL32VZC5jwZ79WRs52EWBJyIXmBXmrRHX8zxOpcekyYUWVaFxetj4TShjf9G0yFot7Mh6m7ucZ+dDAyWgjIoLNxw==
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4328:
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4328;
+	31:pk29K/UdolaQz78SI9FaY3duvAakNZqS0iCEjS1YIXuS9lo6IKwo95V4KkSo3ry57hK3NHbUCLPJkfHmNWzAbSEK53ekJlZCRTzBaSDS6Cg9qZMGPFUE3LskwO0ryws+M/oyLZ8YTM2lNR3vEftBBFuLuJMTJuu/H5cEkZJO4VcfjIxvHlAq9DN+9aBdabae67OghlL4LdWi1Tc2YTTyunY6DXXoob4AkIFzM2RcX9Q=;
+	20:e3E0yZ9Z0szhK1uauDV8A5NNeqCCe06S/DlVg0oZ27c9A3S6N2Ua2gUb/+U/yziQTiGy93trUunHcqGRcanu/9lQaWR5oWf8mcLeNoPFjbgCpaH1oBgqWQ0KtClFG+i0aMboJGw7uauIWWCG1tMIXVGDOsVWTATlEFKgaveJaK/Cg1REBHk7q3RwMqvSH3k3epr0yuOMz8C339+glm7WNNYUlZrtHYNWVMOftXY2Wu2CGDQms7aU5L7lPSuHTEfiZ8QVSk8Oqx+Hb1CJSMcr7FOCUffhpHumhs8N84jdTaakvPDk//4/5rkrqRWOPaOcsTGAsUdp5RHVL62QLYUDTh12UHoV2uCBDAPNEptBgUTFS+clZ3EQ6sOYhlqo5kcIzbJERnvIVLFByXgv7LLyF0h5QncQcNMoTCErlbOBt1+xrvZXN+7bWLBeFA1I1bCJHmaCbCRqfGcclXPGqE52Q3m6CYqlSNgkx6lR9Qwp2hlHOzM4OyEa9lNY8+l0GNVl
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <BYAPR02MB43286726865DE3F5076FADB4B09B0@BYAPR02MB4328.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4328;
+	4:Ylmk7oUuA5dVNo8H+Puar9euJ11Q+CTkafznEcasT0NMHB4nmz5RTQCLAiwCVWkp5WQEbJCn5RC06BQkdu1tIH5P2fNziNrItGV1T+rkYLLZ+rgvsrvJwruHGWiaUToOa4onelWUdWG7amDRn6XysQ8GOhieEKqtcuV0aDnzt58iG2YYV0IoEha9ATqBVX5stan8UCqpDRTEozaHWF+327JKWNFFgj/O6oMrn5YjT3hj0oZkB3045Z+vdXcaP4Pr/lh2AVAn6aEflS2+iDaIjwyXRWvjzThvurvZegJMX5YdKWGQbLX1/NzQH6mydRDD
+X-Forefront-PRVS: 0928072091
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4328;
+	23:VAWX993hOVID/Bgbnvsqb2lk05evU9eHrrno188nX?=
+	=?us-ascii?Q?XGbH6JB6lR0OZ8oq+sT5hviZn8BS9EfnNrfSYR6FzhQMxj7dQUc0tp8F4au+?=
+	=?us-ascii?Q?BQqq+lllkDIZIlZ4XA9xooeaTLz3xDO16O8IMIZQBXQVqVTx27hsJBan/VzJ?=
+	=?us-ascii?Q?XA6XicUaHIlhe7a5ivimYAF+Sf4x20rgIhAULfeJkW5tgdcLueS2C7BMIhf3?=
+	=?us-ascii?Q?IG7MQYg3DnG1Gg9Ehsxxf02mJzAhndavAi3sLSzCcIJEbdz8ZX3+VkkVJ4Uo?=
+	=?us-ascii?Q?0uU3Vledw36/6wwH6Ly0yq6u/saU1H/WyGR6gDeVToDOLrZ22Sf181cey5u+?=
+	=?us-ascii?Q?Yyo5N0ZQkQxviGJmqvnL2u7P4VOEvKuDzHEbUUfW4CXQ9NkVZjWsHrHoHmvn?=
+	=?us-ascii?Q?db5nCxI8UFNCnQmMGhuLvVQ9rqBscia7fosk7cleiBnsKmvlu7RfekDzpFNK?=
+	=?us-ascii?Q?uO3HzKyLs4XSciNmpePELEU0LN01thn3H+ZRJCiW2nePaYwOgTFDGngxhRjy?=
+	=?us-ascii?Q?K5iT0i/ibbD4iVfJrMRa0Q9TYhzowK986/rrVYkMPp6Cyf0nYh8vlNREMWnR?=
+	=?us-ascii?Q?kdMxUi4iNQFrLytVdRwPKX3IY7bFosdmq1xXnvfoAH64VJ+xCO4f986A/66r?=
+	=?us-ascii?Q?XcAroBTPsP+KqaMnuqa+Srz7NIImsYzs+/Yk9uE149Az4xBxC4TSScOepPGS?=
+	=?us-ascii?Q?RokTO4emwSglnhnImzoqG4EcE3U0JaGJ2c+4rEo8mHIxfI5GbeMe5AtTXDyQ?=
+	=?us-ascii?Q?5STyPH6TIiXqLSRqBFKdxX7DUHg9hbS4l/t8z2pVBKiSjYuF0mynt2dCLUrR?=
+	=?us-ascii?Q?bdlOMR0zEACUKUTT50aa4Glgq5Xch0HESOWIxFKeczY8VEnEd4SNrXhnuXYm?=
+	=?us-ascii?Q?x6+8SX9IUN7aWJGlfJ5Q+0J5SQINX5DXelnHvp6D9YINL4yDbMd94yWrYF6u?=
+	=?us-ascii?Q?HHVO+YjHK7d4aRjPn6uStXrwO5l2TdiKo5uPhJUVqtPWi1nb2dP7v/eqCNJ1?=
+	=?us-ascii?Q?+GH7icCovzO8lXIii6udCuDgi6myEgfQZxquGvrwuMeCKrOnv81/tftnfFH8?=
+	=?us-ascii?Q?X302LgGb8HGREdH2I4NitXQNSyXABRuJIjmhCNcu3eIrTxM0TjL9O0pKyX/0?=
+	=?us-ascii?Q?FKYcJ2S6Fwz9Lt5NP+SNN1pcFuzf0BkparDMo+Cxg9ndacSv7ojKtM+UspTM?=
+	=?us-ascii?Q?rlAotKloZuTWGcweJrJw62bjtiNvhYhgj41?=
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: pjRl2DQpqwTzUO2q+b+8Q53GhhifwdmYyHePc6Xwtsl3SZP9nDFQn+8EDUmOGsTQ/LKsOoi41MN5Y/CEZF1raA7zmkeuNwP8m+sFI/J4+oOpbKVlcZmKLZC8g9LIZ4fINoq4okIW9NY3qtRcBS1GAG2uU4EiHLGvpQODWLVoxTBK4lcl32+YE1hU9Chw53DhArK0Wvp9jZXP5HOr8ASkP7bU/m0GctpEoJDK0oMcYIQqs4yACMhAJgVP8QjPs/DgOiv6Xc/JJhZUeeLCx5AlejFS9ALzUKhSv/QN531AFw2Jkf+aI+a0M84ZSLJJ8Wh9FhQAZZiEBFNIcBMyNoyW9DRF0Mn5HI8F3W79RCx9qICJMxL5NRywrzRWL6aS+IPQjoxiK9LjNA5qf+Pmj67vO2qKZwZNKPevdlJejCtBuLw=
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4328;
+	6:krRP8sFeuHPFD0Vw7Nd90vdcLFx2SDpm47cNO35BsWk0Xi41nZvez/aP2OXCFeTCmlNbsYy2A/n9C2N86BWJPnZm3a5WZ8YyVR7lHkyg1a5TpTe6NR1p/Hh+yMqsNUQWDoFtq7cDjBPfP2yhh7jqtVAjByjNgG+9fZ/DVeEvP93gpYb0WpT1uin0s793SGRq+UyhHpIJV1wJzoyqFMxqKq+9IKrHDRrpuadh1oC9x/RPyXWDHblRRSZadDJ6esP2q/TadQe/eWcTr9yc7MdMe2xer/F2JRBz+UQppgMR1RHqlXee+VNVTp8bvv9as/wjjqfJ2IBpHvCDf/YiIgtAKsq8trIWfSlVkgWyaJaUjDpAbEtFXIAzsuFytfBV/d6f8lFQWzeRtao7lbqxIp0dKAJc37NnEejuas1b0C0htkZ9lHFXnqV+qSeTSW+BU84alZ0jYWpoF87XYpFCp5GzJg==;
+	5:G0J0HA6usyx8iUiGZjJKC9v3KkfRvyr0YaNuCEUNFVrXENx4s7pxjmx6xY5BqVRD8aKyWc5U+VCDew5EWGTbOlZJyeCNJ7P4zdCPpabb/foyuBBXPRn/BnLK5vVmpCgo2zl2jihVjWtDH2wGqaxiInapkZmJYzuGrjIc/xfTfdZ/hygKTPpZVNB47xM5h+c5xSeBgHXCipx844KZW2hnIA==;
+	7:rbdlmKXoc+Keq4O8Wod0S10Nq/V5XuAJawuStzuTYHvbESyn/QLK/8KfuVOhgV3Afe8mNKBk8NvmTyoRqxfbxx8/UT1wzUDFHcPtFEPl+pP1+dW9J1NOIUMpbxl6FVn8gQfqT6ESLNH5AM+UTMcvIw==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2019 19:53:16.9548 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4ce59ef-c4f6-4536-237c-08d682febfd6
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4328
+Cc: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Subject: [PATCH v2 2/3] devtool modify: Create a copy of kernel source within work-shared if not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,460 +137,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 18:45:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 26 Jan 2019 20:28:06 -0000
+Content-Type: text/plain
 
-On Sat, Jan 26, 2019 at 9:39 AM Martin Jansa <martin.jansa@gmail.com> wrote=
-:
->
-> Which -mcpu/-march combination is causing issue in gcc9?
+If kernel source is not already downloaded i.e staging kernel dir is
+empty, place a copy of the source when the user runs devtool modify linux-yocto.
+This way the kernel source is available for other packages that use it.
 
-Its when using cortex-a5 tunes, -march=3Darmv7-a -mcpu=3Dcortex-a5, but if
-we move the needle to fix the issue or test coverage then we miss the
-point here, the fact that this keeps coming up means we have a
-fundamental problem.
+[YOCTO #10416]
 
->
-> I know we had this issue with armv7a tunes before, that's why I've added =
-separate armv7ve before the switch from -mtune to -mcpu.
->
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+---
+changelog v2: 
 
-Thats fine, however as I have explained before -mcpu is a combination
-of implicit -march and -mtune, so for best results should not be mixed
-with them. Originally the tune design in OE is one to one if we used
--march + -mtune
-method. That does not mean that -mcpu approach is inferior on the
-contrary might be better in certain cases and in fact in majority of
-cases we have.
+1. Add a check to verify the set kernel version by user and kernel version 
+present in workspace do not match before placing a copy of kernel-source 
+from workspace to work-shared.
 
-> I still believe -mcpu (with or without -march) is better option.
->
+---
 
-I think on one hand it is, but there is another part which Mark
-brought up of customized CPU implementations with not to common
-choices of subsystems, which may not be exactly represented by -mcpu
-options. I am inclined to
-provide provisions to make it happen but I am not in favor of
-designing it to address these corner implementations. I would rather
-make it easy for 99% usecases.
+ scripts/lib/devtool/standard.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-> Using -mtune without indicating which -mtune was actually used in the pac=
-kage arch is bad (especially if you have multiple MACHINEs with different D=
-EFAULTTUNEs e.g. cortexa7, cortexa8 in -mtune, but both ending in armv7a pa=
-ckage arch, unpacking all packages from sstate every time you switch MACHIN=
-E and the package manager on target never knowing which -mtune was used to =
-build given package upgrade from feed).
->
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index ba1afa4..24a0168 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -572,7 +572,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+         with open(preservestampfile, 'w') as f:
+             f.write(d.getVar('STAMP'))
+         try:
+-            if bb.data.inherits_class('kernel-yocto', d):
++            if is_kernel_yocto:
+                 # We need to generate the kernel config
+                 task = 'do_configure'
+             else:
+@@ -599,6 +599,18 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+             raise DevtoolError('Something went wrong with source extraction - the devtool-source class was not active or did not function correctly:\n%s' % str(e))
+         srcsubdir_rel = os.path.relpath(srcsubdir, os.path.join(tempdir, 'workdir'))
+ 
++        # Check if work-shared is empty, if yes 
++        # find source and copy to work-shared
++        if is_kernel_yocto:
++              workshareddir = d.getVar('STAGING_KERNEL_DIR')
++              staging_kerVer = get_staging_kver(workshareddir) 
++              kernelVersion = d.getVar('LINUX_VERSION')
++              if (os.path.exists(workshareddir) and (not os.listdir(workshareddir) or kernelVersion!=staging_kerVer)): 
++                   shutil.rmtree(workshareddir)
++                   copy_src_to_ws(srcsubdir,workshareddir)
++              elif (not os.path.exists(workshareddir)):
++                   copy_src_to_ws(srcsubdir,workshareddir)
++
+         tempdir_localdir = os.path.join(tempdir, 'oe-local-files')
+         srctree_localdir = os.path.join(srctree, 'oe-local-files')
+ 
+-- 
+2.7.4
 
-Yes this was a change for better.
-
-> Switching from -mcpu to -mtune while keeping the current cpu-specific pac=
-kage architectures is better, but then the use case, that I build everythin=
-g e.g. with cortexa8 in -mtune and install this cortexa8 package feed on co=
-rtexa7 MACHINEs also looks strange, yes it will work in runtime, but why no=
-t use generic armv7a DEFAULTTUNE to make it clear (to package manager as we=
-ll as end user) that I'm not really optimizing for given CPU).
->
-
-In current design I think we have design for using more optimized for
-a CPU and be able to generate feeds which are cpu specific which is
-great for certain use cases and hopefully more tunes to that CPU
-implementation.
-
-> From the naive openssl benchmarks I did few years back, there was very sm=
-all difference between mtune/mcpu/just-march, but still for projects where =
-I have separate package feeds for each device (e.g. LG TVs) I prefer to use=
- -mcpu (because I really know that such packages won't ever be used on devi=
-ce with different CPU) and e.g. in LuneOS we're more concerned about packag=
-e feed size and build time, so we select more generic DEFAULTTUNE which is =
-shared across many MACHINEs and that doesn't have any -mcpu (nor -mtune) op=
-tions in it, so should be fine as well.
-
-Exactly, the point here, we will be best served if we make it one way
-or other, e.g. raspbian used thumb1 ISA across all rpi implementations
-and they can use same feeds across all RPis that have even existed. It
-has advantages of
-its own to be able to do that, especially for people who work on
-higher stacks they would be happy with such a setup.
-
-So I have to suggest on of three approached
-
-1. Change -mcpu to -mtune and keep everything same. This make feed
-arches point to tuned packages but fundamentally same for base
-architecture ( e.g. armv7-a),
-2. Just use -mcpu and do not use -march/-mtune and may be provide
-mechanism to override -mcpu, which is done by packages anyway ( maps
-directly to package architectures )
-3. Just use -march and drop -mcpu and -mtune - Rename feed arches to
-map to arch+features conventions instead of being CPU specific, this
-will freak the users since it will be overwhelming to understand the
-combinations
-    e.g.  armv7ve+neon+vfpv4 etc. so the combination becomes
-equivalent to -mcpu, current tune architecture we can construct this
-easily by appending to march based on TUNE_FEATURES but I think
-package arches will be a              massive to deal with and users
-might ask what is this long -march/-mtune pointing to in terms of CPU,
-but it will address Mark's usecase and will bring us closer to using
-mcpu usecase, We can probaly do a bettter error reporting
-    as well for conflicting tune features.
-
-I can cook up patches for option 3 from tunes part, packaging part I
-am not sure maybe we can live with what we have
-option 2 I already have posted a patch, option 1 would be a simplest
-patch of all which can be done quickly as well.
-
->
-> We can easily extend the tune-test script I've used back then when switch=
-ing to -mcpu to not only use bitbake -e, but also call gcc-cross to check f=
-or possible warnings from incompatible march/mcpu combinations and fix thos=
-e. The old version is here:
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/tune=
--test
-> it was used in mcpu switch here:
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/tune=
-2-test
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/tune=
-3
->
-> From the gcc git log I don't see many changes in:
-> https://github.com/gcc-mirror/gcc/commits/master/gcc/config/arm/driver-ar=
-m.c
-> nor
-> https://github.com/gcc-mirror/gcc/commits/master/gcc/config/arm/arm-cpus.=
-in
-> so I'm really interested which combination issues the warning now.
->
-> Regards,
->
-> On Sat, Jan 26, 2019 at 5:29 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->>
->> On Fri, Jan 25, 2019 at 12:32 PM Mark Hatle <mark.hatle@windriver.com> w=
-rote:
->> >
->> > On 1/24/19 9:22 PM, Khem Raj wrote:
->> > > On Wed, Jan 23, 2019 at 6:11 PM Andre McCurdy <armccurdy@gmail.com> =
-wrote:
->> > >>
->> > >> On Wed, Jan 23, 2019 at 2:50 PM Khem Raj <raj.khem@gmail.com> wrote=
-:
->> > >>>
->> > >>> On Wed, Jan 23, 2019 at 5:27 PM Andre McCurdy <armccurdy@gmail.com=
-> wrote:
->> > >>>>
->> > >>>> On Wed, Jan 23, 2019 at 12:05 PM Khem Raj <raj.khem@gmail.com> wr=
-ote:
->> > >>>>>
->> > >>>>> tune files which inherit the arch definitions already define app=
-ropriate
->> > >>>>> -mcpu option, which is equivalent of right -march and -mtune com=
-bination
->> > >>>>
->> > >>>> And what about machines which inherit an arch definition instead =
-of a
->> > >>>> cpu definition? Is that no longer supported?
->> > >>>
->> > >>> I could not find such a machine configuration in several BSP layer=
-s I looked at.
->> > >>> Do you know of machine definitions where these files are included
->> > >>> directly in machine configs ?
->> > >>
->> > >> Using a CPU specific include but then leaving the generic DEFAULTTU=
-NE
->> > >> (ie not enabling any CPU specific TUNE_CCARGS) is equivalent, and I
->> > >> guess quite common.
->> > >
->> > > defaulttune does not play much part in appending -mcpu option to
->> > > compiler flags, A case
->> > > where this could bypass the setting mcpu is when we do not include a
->> > > tune-* for arm based machine
->> > > and thats the case I was interested to know.
->> > >
->> > > again if there is such a BSP I would be interested to test it out.
->> > >>
->> > >>> if so, then we have to either use _remove or introduce a weak vari=
-able
->> > >>> to set march only if
->> > >>> mcpu is not set which
->> > >>
->> > >> I think the solution is to ensure that the CPU specific tuning opti=
-ons
->> > >> are always compatible with any architecture specific options which =
-may
->> > >> be active.
->> > >>
->> > >> In general our CPU specific tuning files are a little sloppy (e.g.
->> > >> defaulting to combinations of VFP versions and architecture levels
->> > >> which never exist in the real world). If newer versions of gcc are
->> > >> making those issues more apparent then why not take the opportunity=
- to
->> > >> fix them properly?
->> > >
->> > > the mcpu option is helping with right march/mtune combination. while=
- we can
->> > > use specific -march=3Darch(+-)features syntax and combine with right
->> > > -mtune to match -mcpu I think we should use
->> > > compiler defaults and not try to recreate something that -mcpu would
->> > > do it easily for us.
->> > >
->> > > So either we drop the idea of setting mcpu and use basic -march valu=
-e
->> > > combined with -mtune ( which btw. was default in past)
->> > > or if we want to let compiler use ISA for a particular arch
->> > > implementation ( cortexXXX ) then we should just use -mcpu and drop
->> > > using -mtune and -march.
->> > >
->> > > I would include towards option 1.
->> >
->> > I know this is a bit of a 'me too' response, but we have to pick one f=
-ormat and
->> > stay with it.  Either option, but not both.
->>
->> I concur.
->>
->>
->> >
->> > -IF- we know that the appropriate -mcpu options are available for all =
-of the
->> > potential combinations out there, then this is by far the preferred me=
-thod in my
->> > mind.  Much easier to handle and manage...
->>
->> -mcpu options are available for known CPU implementations. But there alw=
-ays will
->> be weird ones, given how people can pick and choose subsystems for SOC o=
-n this
->> architecture, and its highly probable that they wont be in gcc. so real =
-question we need to answer for is, should we design for those cases and how=
- often does this often.
->>
->>
->> >
->> > However, the more complex route came out as various 'odd-ball' (and pe=
-ople claim
->> > don't exist, but they do) custom ARM cores get released without 'manda=
-tory' math
->> > units, or some other odd ball variation.  (I've seen this numerous tim=
-es over
->> > the last 20 years that something that doesn't exist, does... all becau=
-se it's a
->> > custom part.)
->>
->> Yes, I am dealing with one such design even today
->>
->>
->> >
->> > If we have an easy way to define the -mcpu=3D means some magic combina=
-tion of
->> > -march/-mtune within the GCC spec itself, then I'm 100% for moving to =
--mcpu to
->> > rid ourselves of this mess.. and then we still have the flexibility to=
- easily
->> > update/add tunes and GCC configuration for the odd-balls that seem to =
-crop up
->> > regularly.
->>
->> So yes we can do nearly same but not exactly same. We have to start addi=
-ng or deleting
->> features via -march and -mtune would be same value, but there are cases =
-where gcc defines
->> internal properties based on mcpu, that is not representable in those su=
-ffixes we will add. so
->> we will come very close but not exact and I think compiler is right in t=
-his case because we
->> are not exactly telling it about a CPU implementation, but we are tellin=
-g the cpu has these properties, so it really may not be one of standard cpu=
- implementation.
->>
->>
->> >
->> > (I know -I- can always patch GCC for new -mcpu combinations, but I'm n=
-ot
->> > thinking about 'me', I'm thinking about the user of OE who is told 'us=
-e this
->> > CPU, it has this set of functions' and is NOT a compiler expert who ca=
-n wade
->> > through GCC spec files and generate patches with any confidence.)
->> >
->>
->> I would think we can solve this for these niche cases, via using -march/=
--mtune and drop
->> -mcpu, we can append adding/deleting a given feature e.g. neon or vfp or=
- vfpv3 etc.
->> but this would mean we have to rename our package feed names as well to =
-match this
->> new representation, which currently is mapped to mcpu values. This is qu=
-ite a departure
->> from package feeds point of view. but its more aligned with how we have =
-defined arch and tunes.
->> so pick the battles.
->>
->>
->> > --Mark
->> >
->> > >>
->> > >>>>> and is preferred since gcc is getting stricter and stricter with=
- option
->> > >>>>> check semantics and can now find incompatible -march and -mcpu o=
-ptions
->> > >>>>> better with every release. It does internal feature consistency =
-check
->> > >>>>> and if it finds out discrepency between what -mcpu would expand =
-to as
->> > >>>>> compared to -march it will flag the options to be incompatible, =
-for
->> > >>>>> naked eye it sounds wrong but gcc would translate -mcpu to a giv=
-en
->> > >>>>> -march internally and it might not match to what we set in these=
- arch
->> > >>>>> files.
->> > >>>>>
->> > >>>>> The effects are quite subtle, where this can result in configure=
- test
->> > >>>>> failing to compile due to these incompatible options and a featu=
-re
->> > >>>>> option getting disabled for a recipe for no reason.
->> > >>>>>
->> > >>>>> e.g. with gcc9 which can now detect that -mcpu=3Dcortex-a5 and
->> > >>>>> -march=3Darmv7-a are incompatible, many features in libstdc++ en=
-ds up
->> > >>>>> disabled due to configure check failures e.g. size_t size, ptrdi=
-ff_t
->> > >>>>> sizes, which inturn results in compiling libstdc++ with unwanted
->> > >>>>> disabled features.
->> > >>>>
->> > >>>> It would be interesting to see more specific details of this.
->> > >>>
->> > >>> These are configure tests which fail when -Werror is in use and is=
- not
->> > >>> limited to libstdc++
->> > >>> it can happen in any package. Since the diagnostic about incompati=
-ble
->> > >>> march mcpu pair
->> > >>> is a warning in general, it does not matter, but when we have -Wer=
-ror
->> > >>> enabled this turns
->> > >>> into error, You can simply try a small helloworld example to see t=
-he effects.
->> > >>>
->> > >>>>
->> > >>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > >>>>> ---
->> > >>>>>  meta/conf/machine/include/arm/arch-armv4.inc   | 1 -
->> > >>>>>  meta/conf/machine/include/arm/arch-armv5.inc   | 1 -
->> > >>>>>  meta/conf/machine/include/arm/arch-armv6.inc   | 1 -
->> > >>>>>  meta/conf/machine/include/arm/arch-armv7a.inc  | 1 -
->> > >>>>>  meta/conf/machine/include/arm/arch-armv7ve.inc | 1 -
->> > >>>>>  meta/conf/machine/include/tune-iwmmxt.inc      | 2 +-
->> > >>>>>  6 files changed, 1 insertion(+), 6 deletions(-)
->> > >>>>>
->> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta=
-/conf/machine/include/arm/arch-armv4.inc
->> > >>>>> index 47a7ad2830..52d8ab1e8f 100644
->> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv4.inc
->> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv4.inc
->> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?=3D "armv4"
->> > >>>>>
->> > >>>>>  TUNEVALID[arm] =3D "Enable ARM instruction set"
->> > >>>>>  TUNEVALID[armv4] =3D "Enable instructions for ARMv4"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv4'=
-, ' -march=3Darmv4t', '', d)}"
->> > >>>>>  # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but th=
-en disable it when we have also armv5 or thumb
->> > >>>>>  # maybe we should extend bb.utils.contains to support check for=
- any checkvalues in value, now it does
->> > >>>>>  # checkvalues.issubset(val) which cannot be used for negative t=
-est of foo neither bar in value
->> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta=
-/conf/machine/include/arm/arch-armv5.inc
->> > >>>>> index f9068af9de..1fe1b6b8e4 100644
->> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv5.inc
->> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv5.inc
->> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?=3D "armv5"
->> > >>>>>
->> > >>>>>  TUNEVALID[armv5] =3D "Enable instructions for ARMv5"
->> > >>>>>  TUNECONFLICTS[armv5] =3D "armv4"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv5'=
-, ' -march=3Darmv5t${ARMPKGSFX_DSP}', '', d)}"
->> > >>>>>  MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'a=
-rmv5', 'armv5:', '' ,d)}"
->> > >>>>>
->> > >>>>>  require conf/machine/include/arm/arch-armv4.inc
->> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta=
-/conf/machine/include/arm/arch-armv6.inc
->> > >>>>> index 6c838e999c..adb9be8050 100644
->> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv6.inc
->> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv6.inc
->> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?=3D "armv6hf"
->> > >>>>>
->> > >>>>>  TUNEVALID[armv6] =3D "Enable instructions for ARMv6"
->> > >>>>>  TUNECONFLICTS[armv6] =3D "armv4 armv5"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv6'=
-, ' -march=3Darmv6', '', d)}"
->> > >>>>>  MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'a=
-rmv6', 'armv6:', '' ,d)}"
->> > >>>>>
->> > >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
->> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/met=
-a/conf/machine/include/arm/arch-armv7a.inc
->> > >>>>> index a2663d8008..09d2c03a5d 100644
->> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
->> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
->> > >>>>> @@ -3,7 +3,6 @@ ARM_INSTRUCTION_SET ?=3D "thumb"
->> > >>>>>
->> > >>>>>  TUNEVALID[armv7a] =3D "Enable instructions for ARMv7-a"
->> > >>>>>  TUNECONFLICTS[armv7a] =3D "armv4 armv5 armv6 armv7"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7a=
-', ' -march=3Darmv7-a', '', d)}"
->> > >>>>>  MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'a=
-rmv7a', 'armv7a:', '' ,d)}"
->> > >>>>>
->> > >>>>>  require conf/machine/include/arm/arch-armv6.inc
->> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/me=
-ta/conf/machine/include/arm/arch-armv7ve.inc
->> > >>>>> index 4d9260fecb..31e334f645 100644
->> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
->> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
->> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?=3D "armv7vethf"
->> > >>>>>
->> > >>>>>  TUNEVALID[armv7ve] =3D "Enable instructions for ARMv7ve"
->> > >>>>>  TUNECONFLICTS[armv7ve] =3D "armv4 armv5 armv6 armv7 armv7a"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7v=
-e', ' -march=3Darmv7ve', '', d)}"
->> > >>>>>  MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'a=
-rmv7ve', 'armv7ve:', '' ,d)}"
->> > >>>>>
->> > >>>>>  require conf/machine/include/arm/arch-armv7a.inc
->> > >>>>> diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/co=
-nf/machine/include/tune-iwmmxt.inc
->> > >>>>> index f27423cb2e..6e577697cc 100644
->> > >>>>> --- a/meta/conf/machine/include/tune-iwmmxt.inc
->> > >>>>> +++ b/meta/conf/machine/include/tune-iwmmxt.inc
->> > >>>>> @@ -6,7 +6,7 @@ DEFAULTTUNE ?=3D "iwmmxt"
->> > >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
->> > >>>>>
->> > >>>>>  TUNEVALID[iwmmxt] =3D "Enable Intel PXA27x specific processor o=
-ptimizations"
->> > >>>>> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt=
-', ' -march=3Diwmmxt -mcpu=3Diwmmxt', '', d)}"
->> > >>>>> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt=
-', ' -mcpu=3Diwmmxt', '', d)}"
->> > >>>>>
->> > >>>>>  AVAILTUNES +=3D "iwmmxt"
->> > >>>>>  ARMPKGARCH_tune-iwmmxt =3D "iwmmxt"
->> > >>>>> --
->> > >>>>> 2.20.1
->> > >>>>>
->> > >>>>> --
->> > >>>>> _______________________________________________
->> > >>>>> Openembedded-core mailing list
->> > >>>>> Openembedded-core@lists.openembedded.org
->> > >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
