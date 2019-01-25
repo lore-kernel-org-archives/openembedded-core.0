@@ -1,133 +1,126 @@
 Return-Path: <ckalluri@xilinx.com>
-X-Greylist: delayed 695 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 25 Jan 2019 22:36:43 UTC
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
-	(mail-eopbgr740040.outbound.protection.outlook.com [40.107.74.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 7311F7C3A9
+X-Greylist: delayed 10785 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 26 Jan 2019 03:26:47 UTC
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-eopbgr800079.outbound.protection.outlook.com [40.107.80.79])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7D67C3DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 22:36:43 +0000 (UTC)
+	Sat, 26 Jan 2019 03:26:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=QxVdt6r26axH9279Bg+0gtaf4OJeUhXwgEqwA2bPZmo=;
-	b=t9gEWBQHJvTSDau5f9B10+SLOHPFr7SBQPY8y3vqtbu1xjn7dfNH0iAm8YdcA0Jintr6ibGTDPFVulBbZ6fZt4i7Y/PIhf4WASSc5jDwmEzfxPfOMtPyqE1o/ZA2D9vhqYF9QNJnr75DB9Nfj/xdece46m89MzxjcI4M3ef5uGU=
-Received: from BN6PR02CA0089.namprd02.prod.outlook.com (2603:10b6:405:60::30)
-	by BYAPR02MB4454.namprd02.prod.outlook.com (2603:10b6:a03:57::27)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1558.16;
-	Fri, 25 Jan 2019 19:53:18 +0000
-Received: from BL2NAM02FT016.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e46::205) by BN6PR02CA0089.outlook.office365.com
-	(2603:10b6:405:60::30) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1558.16 via
+	bh=c+eMqth3HuX4wlPVFg5M33AbB0fMuhWKzyJI200MrzU=;
+	b=O53hGsH27yyD2qXgOcg/y41lq6TtnJqFZmeXV9bSI55SM18foCGlkIdmPhxi0ODbWyvTReZ0+3KxvBrCWCFeVgwqEPH26t+WgBRmx3gzF8YezSbtxF47torHHNzEZkL5orony2RwwDKqZAgL2pvonJopx3ndMkjxLHnEcTMsQrc=
+Received: from DM6PR02CA0036.namprd02.prod.outlook.com (2603:10b6:5:1c::49) by
+	BYAPR02MB4325.namprd02.prod.outlook.com (2603:10b6:a03:56::26) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1558.18; Fri, 25 Jan 2019 19:53:17 +0000
+Received: from BL2NAM02FT017.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::200) by DM6PR02CA0036.outlook.office365.com
+	(2603:10b6:5:1c::49) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1558.17 via
 	Frontend Transport; Fri, 25 Jan 2019 19:53:17 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
 	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
 	signed) header.d=none; lists.openembedded.org;
 	dmarc=bestguesspass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	BL2NAM02FT016.mail.protection.outlook.com (10.152.77.171) with
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2NAM02FT017.mail.protection.outlook.com (10.152.77.174) with
 	Microsoft SMTP Server (version=TLS1_0,
 	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1580.10
-	via Frontend Transport; Fri, 25 Jan 2019 19:53:16 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:46494
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XQ-000068-Bp
+	via Frontend Transport; Fri, 25 Jan 2019 19:53:17 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XQ-0007sN-GF
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 Jan 2019 11:53:16 -0800
 Received: from [127.0.0.1] (helo=localhost)
 	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XL-0006ct-7l
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1gn7XL-0006ct-CU
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 Jan 2019 11:53:11 -0800
 Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	x0PJr4g5005324; Fri, 25 Jan 2019 11:53:04 -0800
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x0PJr44x014338; Fri, 25 Jan 2019 11:53:04 -0800
 Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
 	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
 	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1gn7XE-0006bl-L0; Fri, 25 Jan 2019 11:53:04 -0800
+	id 1gn7XE-0006bl-J7; Fri, 25 Jan 2019 11:53:04 -0800
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Jan 2019 11:53:00 -0800
-Message-ID: <1548445982-25182-2-git-send-email-chandana.kalluri@xilinx.com>
+Date: Fri, 25 Jan 2019 11:52:59 -0800
+Message-ID: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
-References: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
 X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
 X-TM-AS-User-Approved-Sender: Yes;Yes
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(39850400004)(346002)(136003)(376002)(396003)(2980300002)(189003)(199004)(54534003)(336012)(36756003)(81166006)(356004)(6666004)(15650500001)(6916009)(7696005)(8676002)(81156014)(426003)(51416003)(8936002)(106002)(16586007)(478600001)(50466002)(54906003)(476003)(50226002)(446003)(47776003)(126002)(2616005)(4326008)(11346002)(48376002)(76176011)(305945005)(9786002)(107886003)(77096007)(63266004)(106466001)(26005)(36386004)(2351001)(316002)(186003)(486006)(2906002)(14444005)(107986001)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4454; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; LANG:en;
-	PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com; MX:1; A:1; 
-X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT016;
-	1:4Kf8/TIdcp1bFNxtoi+M0P98NOCtryKYQVTe6AKkG6+eohhVRXxs3By+MkY71BBbvsmb2wC6c350G7MTiQE8xoBXqRoIN1FaKTfXb0c1J68Y0cQEKSZlht+rW1nTjDx33PnPX29ZrENPE4CH7mXBtA==
+	SFS:(10009020)(396003)(39860400002)(136003)(376002)(346002)(2980300002)(54534003)(189003)(199004)(51416003)(4326008)(16586007)(186003)(54906003)(107886003)(6916009)(316002)(478600001)(8936002)(106466001)(126002)(50466002)(426003)(50226002)(106002)(47776003)(36756003)(6666004)(356004)(14444005)(26005)(77096007)(305945005)(7696005)(2906002)(9786002)(63266004)(8676002)(36386004)(81166006)(81156014)(476003)(2616005)(486006)(2351001)(48376002)(336012)(107986001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4325; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
+X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT017;
+	1:vcd3PzR0cfkYseWxceksHIZ6FezAvpD/7WRITuKZ7JQ3X0Y6mwW2Lel+Oq9+rN77eLZoipmqRsOaJOaab6HDWy6akGxdlXFxxWCqp7VEdUaGb7F8/rVBKYT6kqoiiCOuvhnCQeFsld0zImFbJGSGiw==
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea03bfe9-2302-4323-8ecd-08d682febfe1
+X-MS-Office365-Filtering-Correlation-Id: 26238f10-a2e2-425d-f978-08d682febffc
 X-Microsoft-Antispam: BCL:0; PCL:0;
 	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4608076)(4709027)(2017052603328)(7153060);
-	SRVR:BYAPR02MB4454; 
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4454;
-	3:f4mdtfRLMcCpjJlQO78BdAI7QILOe+F84w8DQwO5zWE9za05ZVpz4A6UZRG/wFhi/RFa8PzG7tJE0t0rUWvopnco88FCgeqaVFwLSxB7LwK0EMz2Bj2jxTcaZamzv6pKI/7sFmG94/2e3znL0j1GblBJyh5McOvTfhqfoZemCBzxQw7xfb8L4i2ByOgLXuXBMzXjHkzPoNLFhKQOCVF5+CjzVAYZXL6aISSpGpC3uw295phHnB4LFm7AP8Y/hc7vdQXMdWKROHsUtcbE4zwfkytmyTLH1p/uGp5stVIvurnjjerAwYCzlHUo6MK/ZGW5k/N2S/R0a19zN6RRXL13RjuI7MRulsAlLSgIuw8veEk3a0tnUmIkN49siCIHafgZ;
-	25:Cl6oEd3Yv10+DJSpamXQyEHvVamtpd8K+jaVxvczHth4cfMH6tS3eF+UQ8shu4MDQt37zwsd6LZTK21wv0jlXPI4FJXtjQKt8jLLPPbkUu4HPDrO4x3bcmErGAvSIPBHktkB6O3SqKKnFkIatAsyWGzvSaPAcKA1vwvyqvOYdg09tAHtwppCVPE3Nz7ymsy8uNy373IROJCJBiHccv1qMNbgOPpuVrh8PRn7qxoxCliu0l8bia56Sgf/OMqWT9jI6thIi0rms37V3W3bFo2fRauxqmQBwELfgzrgYvqoGpRBzDM9Hl9NYgx4+kWY6Yhs6cMg+CSet4bEm/EIXa+/uw==
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4454:|BYAPR02MB4454:
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4454;
-	31:ByGR3Lje6rmQnp36IWL7JwZ0aF8seaZb26y96FY2VHMRSjYmn6iuHE2mKMOpzJO/e2baZ+/H7ljTPC+pzRFeKbOMn5uRsd01S6ixzkMO/ptCE14QhFYJewCT0qbyucta1o5a2HJOkrrgOWBWlfh8l+6DugH/dsvXGmA57fYNE3Osv79hqdaWPEQ4n1ECaD2Vow+x9B3PHcm0o0fvUt55RxBJao56GnIAqjjFr1Zoorc=;
-	20:1SlsuFlbvLw4tJAx8mFFn4iPNO/aUQJQYIT4nZLcXHArmDPpdnt7ZfHTufRg7wbw6+4O7Dw2yTDhKSxdUsDLzL0qoCt0ZV/8HICcZ5h9FLM20BZllyuYBjLLVNJzvCJ5W5x6xUnIgRFWKDTpGvyBDqCWh+38No+jgovHSNLlNJeGBw9CJMH196y7ntdbcqh6UcgE+Pd7kUVS4adHrieX5r5uk80ydCRs4BGIaIIbVuCFroPzFVWr3ehqCE8w105gCIS4RvrzecxArO7pOnz8OGdL2bNSEni+yOPa82kiWyZLquJZINLHxsUnEf6GKLpyNxwh7QBL6WMAJ8YsgjHX8rxraePdEeRZJTvVCTZ+al3A4MYIqLRrmebzkf2JnG/tqsMxgjRc03emrLdP6BG80CwjlA9V+uJrWybDm1m62+VNyUJJ8L/mbYcBhFdBMBCINoovVcY2qOxKhw3+5ImWtQY1svS7U6sDCD87PJPnOhKaIWeSOhXY9V43jCTu+w2W
+	SRVR:BYAPR02MB4325; 
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4325;
+	3:zbL7DoDVlBzWXHrcktuZlu587iM6shNuteTZCsOTMqnmxWwbY0sei9hcJS7n/rHCVixvhmilVpfQymgf4MhzX4dgtZ03/+EV4kC2U0/6WD6JvRtq9eHFq9DiNZGJq1Ob+g8/NSmTtjLPQk6Htg7v7e4VQGWUg+EOzG/gf3sp6QwUhBaQAyT81QRg4nPCJF55sNzcP7R+iVGsvqFV1KpQbFS01mrZMyz9y/OPfz10ZorAJJp8U4C8FBX+slSmNvG3olssx9XlDvogP7sxyIpB9khmXcWXeUSP/X06vnEkiK8+pRDJWfoXdXaJVv5NW09Pk5eEQxGu80oyeWcwx3hmI1Thu2GcrqkYMrAg/wcfVt0f7lqLTNXejWZu79+mqmje;
+	25:ZfbIRhDN2ElQrM/UMTIvkp2h/S714bueecPqZ3fAjzg/jJvtVHWFOIcguFN+jQZClhwBSnib85LzJC6EBaK66/L8qjFkjbxO6rFoG3CIUDxcDdtRKVTkFP6x3Nt8ubZZPRONPlSzjAibF032hwDtHaMLou1R8ddvoRBM24ItRgM4hM2TDjHvlbZVtqStmQP3b5Y51lwP8NKboPc7Yn/5/0wOxisTaxW7f2XqOynZzkp+6cw+fu0fBD9E4GuOLuZsPxaQGOac2vrIu/fn6VYMymPWiE7suDJbl+BTzS61leNMOURNZskfEhAGfm9lBRFSDaH6y6nfoGriPRS7dQ6t9A==
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4325:
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4325;
+	31:CDeBIXILND6svyXxECF9LfP41xXYnQYBTcm/SJTKz02OQkekSbfQ9H7DZdj8Tqni+KrknCE7/hHdNEq9HwGsv2/xsJP5p8j7DikbEh2lM66m8VWj5rpK5t5iHrBkSmG/Ax6EWqhIKJSQT/5E7wSdiuVlr9TjLlcKItjxvP7HPGjCSlaJ2DMaC/mtxcyFLsdaUy9ikWRsrw4j1gWl8yZgTiuloS9sU34JOyYL8tUaZhU=;
+	20:L59p8FyYAoTURnTTvhO/MpX3m+OhSICTRxs5JOHRy0Ir0UVcaVAeXiW1bhwRYpAyU0KM12plqyfbAG/LiKcBYnyV/JZEAhvEOmtfiPNIzv7Wg866zfP/oAxgePzrZrKOjVHPlMFM1kXA2KnHt7OnOwVEoSvpFnOTVujJQB1XPD14Ep+POsouvF/RCSAgVHMHUVZzrz9jhlWSSxCXv4e5PkdOr5ahNg3EM1nvz6neEECn71oGtrVA/niX4ycAP9IBO2iP5Au7Oe0V+0nostRRJ0ylSNHv7tmOYouSoxCYxOIJHE6EUu7ml+SLrH5CUc6arwY0muA5TZyrZYCslcKpvnuZ6oTRT0TJdHZn8S50IBk1HJ+ktVcptWUkLAq8HbjRCVVw0wEkaa5wsQOG51k3DihWeG15PJ3wmNuso9389dZ3MV+HcGBN/bYaiI1KkT/Hc7vFGLC7Y35k8PoKUP2TLF6w5w7o5h3Iavhn6TzhTC9QeBfulNZTZcGiwrGh1zWD
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BYAPR02MB445450887B9010B7284F49D2B09B0@BYAPR02MB4454.namprd02.prod.outlook.com>
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4454;
-	4:pbyFbaQgRf0jKn51RafYVKwAZYltPjLJQkBUb+BYjM8f4rDaIu25Jp4tqh2r6pjM4dcEkkU9WVepCDxABIS5gi4ZMYdDt4Nllxn370UEYpkURlRVZaweJPYIkazzlvn58z9h7/pPVv7bD1D+QUP2z3/jXVspKNSJsnrXUiVRCVu6S2NoN2YavnaJ2qhQR1Wdp1rBLBkj4FbIdgDe/ariCQPkFctqCEhChRZPdMOr5z9m6Syd5Nfq4neIEHW/TIwst6s4HVApQrHNE+IZp0swjNpHx2yXiZcJv8LSjI8yeWxBD328i/VU8F+Xpi7ZEPzX
+X-Microsoft-Antispam-PRVS: <BYAPR02MB432549A8EFD508225BD394EAB09B0@BYAPR02MB4325.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4325;
+	4:vjGozys/mwA0bnIHCcAlQhWKsj752BNq+diwNk63kiqZed0GUxdjNZi9Fa5nIDZnZp0Biqxrh8/Yawsl8evZbsPfASkCQoRr5Yazd/nAIVzpI4IbmH37gzXmqaguPqpZ3xNXhvyjkLCogjHL0jeJM4FRhmG4Vd8lgi77Zg+VvZvueDJGHg3PrFAoWvPgRhPen/7v0Ym0pYENQJcTDGWvawqEAzHWOYBm+TVwNLCF0tCNYot7NwHSPWYtfoJTqS/Qn4Fxau5zXn2zKK/ZwS1ZzRljUVnKBJV2ui7fddNSyic4/6x1VJVM/fuAshm42Yb5
 X-Forefront-PRVS: 0928072091
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4454;
-	23:yX7Fh2xxfeaZGG5wa7FH9BH52EyppkMFVNi/SCUoS?=
-	=?us-ascii?Q?kRfU+Ahrxjfy7sl19vFtxNkE3mgT44gpuSs9EvBIU5qirJAE1P31CIySWBiI?=
-	=?us-ascii?Q?o/pDk8ocvU/9tYewNTcmfANB/xM2xOFX8YysxCsOC1CQSwkBXlL3d98MaDhr?=
-	=?us-ascii?Q?vzpYIoLF0WKdhovI2nX40FrTLb5kcv9d+sFOcFnBtgK/hk2xfUO21x1o/OD8?=
-	=?us-ascii?Q?QFIEYIKFeIXOURW68Lnd2cSXNxa1QizVRxYeH6FHkXXI8U2+WdIQkq+pGsHg?=
-	=?us-ascii?Q?7swtIujaBKIocUs9IHMCyCwrPR0DevzTdT7zeBH22zN04wHABmea4H4C+sPB?=
-	=?us-ascii?Q?WQF6Sh5v1UpIGhXNOc49aQEJdOeRVOVtKgFrEmJJiv5JtSPbkVUjiE4X5Vpx?=
-	=?us-ascii?Q?S6ZR0bz6l0Wg2Omz4VGRgZVYBrsWyZWP7i9HpwXxNS3Psh6ZqfyeaC4LZBLK?=
-	=?us-ascii?Q?GttHAlYMgRyuWnzsrtnjQs6o1FJ6rnHCUCh2nqJrkELH7YExSymUrtruN4OX?=
-	=?us-ascii?Q?Tc4Wt9KpxR1kPVTawH3NpMKm1eYoUBsSvr+2ctOLxactbUT6SnDa3eV2PUYL?=
-	=?us-ascii?Q?kTMxxAbAnu4YSwZK612bi7JUzeLV6+OLPEjZT7eFZBDBbvdGufY3xukZK87Q?=
-	=?us-ascii?Q?v9+zRkkoHEL4MwFhdRiwLXlIStqYXM1H8+Lcu/85KE4UQ+PzVGl49DeZHLeM?=
-	=?us-ascii?Q?prPOtp1hQzoagpjxcvquJ10n1iI4LKpGAS4MnSNR89K4jkXiBGLUr2SYVoda?=
-	=?us-ascii?Q?Bjrlcjnt9utH1qLf6AUEuE82NgBQgM4WLnSz4YoYAiLDP9kfvWAc3AHaBEjV?=
-	=?us-ascii?Q?Blfz5zLTXAP8teqDBVtW8KKLmgrLukEsS47Uw+wCgnU49Bn8004qgSBnxTKT?=
-	=?us-ascii?Q?S+m+tQ7CEWBxuXljoZ27pQgiChphn1cCl18BxCieepIAM7Q158QsdDpybe3V?=
-	=?us-ascii?Q?y1nDrXBHbhTiVlmoojXhgQpEPcNMdJjCY/uT2w1GvE4MGD6uZqWxSpYDdvmo?=
-	=?us-ascii?Q?cAhOjSfTbvrSm3F9ntmJ6FAkM8VbDW7W9QZC4hmRNjGCh7XKZDyRgPnV4kOI?=
-	=?us-ascii?Q?IuZ0GJpzNdMY/equFbbIxTvnszVh6eJqbV4joZ9Htor3c3693Qy95+NILSO2?=
-	=?us-ascii?Q?n02bZvkGfrS1Yl2+Kz+jFcCaS2ADw2mbWBDAs3gj11L7GQ2W94CABetoTsAu?=
-	=?us-ascii?Q?KIiRLNy3HP2WC0=3D?=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4325;
+	23:hw/O3XUoAEfS3bLGbqnySn8e5AXHCa17sP8hTjOBK?=
+	=?us-ascii?Q?ifiCzTV/2stPYs3NQ+yy1h2DD9K+PZtXwBgvHfESUPEOu+WzJr074S3pl8qe?=
+	=?us-ascii?Q?VV4nrzT2NirEpJlSsBR68EptsdFWVbzS6uSq+wa/zLfPSycy/5/WXGEYdNaW?=
+	=?us-ascii?Q?XnzcDtXgpBfMBWyooa5RDBU04H2zeDHs6HiTjtR0p2EGqlE2qC2egDXHSrNG?=
+	=?us-ascii?Q?ANmRMoJwQj7sXm0CGj66PXSb/7xPJpajK4l0KthUa9zyMtAHYaLcPHvePlQr?=
+	=?us-ascii?Q?weafGAbkDLPavIsc3tQiNjIQRRHne1AWODQMtejyIVjtizDRB9WCnOz7epsJ?=
+	=?us-ascii?Q?CI2jxCAuL0/YxPKywwRKq7RQ+nPFK5QT5qIzO5Msz5hLyQFEdh1NfkXLxhEz?=
+	=?us-ascii?Q?AsmafquUGxG3hdgZWV6wBV8sj3AYEprgCk1mHsPRa2S5f2a0VMo4uE0hiMQc?=
+	=?us-ascii?Q?YdIxlPEmLzuZsmnA8iM3whwb7yRv5SNNoxPVGiDbB0W5fc4NZyXDxTiHT07l?=
+	=?us-ascii?Q?Z2UAa/jiBZpk86bSua3spm+oMpLaDH78QGYXxHdkooKdCECLKt1qo0MyekTj?=
+	=?us-ascii?Q?4o97BjqoC8MeeYWDbprpY4kBWxmMoWZQ6dCxltjkeptv2jq+qhXyLljI61vf?=
+	=?us-ascii?Q?lF/LuM+35in/qE6Be3Mbp5CaIzIW9TkYTwk5qU9JiFqgJb136sX5uBf3jAx3?=
+	=?us-ascii?Q?UmhtNfTP0Puw6F2U5Cy5rwv6TtwNHviCfyNRhXVFmkPFmZFChalW39jaYQTM?=
+	=?us-ascii?Q?Ba/WGRprnwdpYzHz/YdnSsaW4LjQca64LUFlUPtDYnpe/lEKJW6kpUcY4NKC?=
+	=?us-ascii?Q?j+qwqxuzcPrrtQNPxezyxI030CRxYsnwul7h69eooS/9SK4T/uXw4vHrQfcb?=
+	=?us-ascii?Q?6n4jV7zxsOBhDnmcGU/iOlH2z1RvNbwunR1pfec5dlqupM8RaLsfDNsqM3qZ?=
+	=?us-ascii?Q?oGQxxMgOygW44Sy/T1HmExd0gjtItpttNPBvwnfedEYH1YGfeoeAitITiQq8?=
+	=?us-ascii?Q?19mfLTP62+DQ2Zq6x9vozZdvno5bPX8p9fg7yaFxud3UICUshTwoI5qv+E7f?=
+	=?us-ascii?Q?9z6fLQ=3D?=
 X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: Pul2CSUPuU6txxg0TK+KrC6A+Z70hsTmI5JJvkSAv4AwDodAPWhamPhrQybEE4/hj0HaETEMO+tzcO/ZGn0MquUxeKXa2MZdbS3BLTdYfZurbIacOVnkhzrmXIz6x2D1+Qu9Imp81rAjopUBGpxbspgsmlqPR8eKnRbMOhoOH5nh6iM/5m3q9jZJQPvARMELCb7QBngWmeR/7SxdedmB9J5lY+nf1TDWeGqlpxibVhRlk7JV5aZ9TmyW27cw3skuMLbVw9lkKDFnJFPH+1sHcfP2FB24Qon646yxGpvLnpvnOaCG2Dv7BtWNHJXOLr5WfMC/nTQ2QIxeVkUKaf3bx3AYddXMS58wUgrsAoQo/Tn0/tTtEriaquYEEjOhzUqRORsOStZPPLWuriDNxrIixSrdBbRW6Tc/hWf4Hlj0qvs=
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4454;
-	6:UPIAdVp2erjcMIcDHCfIiGmFJLsDUCdiylJpDEr3TyBujk2CX6rYw96s1Pqy73ctDStxKIiEArgK46dcKFUDmEOYETCFbQdNCsv+V+O9X1z4kD/oQSMHNjjNlAxtNCEgaaTyGtsDbEto6pjtlrSIxO5pCMCYPadjsyEHzKQ2cfd4si1bVSM2E8knIXeKQesfSg8J7ftk2kMpP4eM740gEVudS6JPrDy+AAu5yDShm9Hlx7bpg/vDAogfbzaPlg2NLwTLx85yH6aMmnEQBE+s8S656S1+EZjsvXEbjiSuKrd6j+KVFoAQnd9F1MrZPOZFgtdmb3RP+oMOTK+u+0MRhr++v6F8drNcMjZIHD5DaQse4JYQAIM9FtO1oh186gdjnezsKcqoJwOi3Lpn2hSE0EVrsrp0Eg0hvinuhTC5CJs+08DidG66X0En2PFGHXduRqGQON8P8Yc4rnJq8wLhdg==;
-	5:H7Fljd7kMR89my6tJLMQljQmISL7n5mJLwJr6SQkk7NYIeJPgCRu+cDv+N7MVzm7LezCmYqFjanOc4rA7P82tJ8gb9Lxoi6xZF6nucuYDqTRflU2RYmDx++WNbQw5B+bihN3xjAJo5UqFm0A0atXcWj0+fuhCMk5mN1HfRJKWig/b3V6hWJNiETzya7UxwYlpPiqIfqdgtOydFlRJPn39g==;
-	7:9cyqmR9ZgaIApvmn1nnHOJvXY2Ouo7QMR+BeMhcXcYoCwBbTMvIkcIX1Yl8L7daKpvHGpviJx32TJkVzLu764esupUNnAlUAXWy+QP4MUw/y6g/a4Pb2B7ulOh+xg2GdEmbLHL7GONl5LeLOpmL30A==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2019 19:53:16.8945 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea03bfe9-2302-4323-8ecd-08d682febfe1
+X-Microsoft-Antispam-Message-Info: nw0PuXaB0xRwRp1eWXqymYfdlj1rBGyYtLj0Bv18yCiA1HxpCiF5ngJTZL+S6lcoaej2Ns9oaPjEDa+ZXIA4LIeIVO6bxFsPy2+NUp4XHV87IC3nKwxeYi+hBCCg5hM242ejPP+ae5LkoSskZK2LSeLyF7EDb0GwGMgsVEYn/vTFdkwgOZC3u+TdnzHNMccZA+q0LS8WZMKP3AT9yJ+cT0jevbN2bCtQoB0p6QRYpIRm2WBSZ0KoV0iaDwtvH5cuduRLP8xLGGcZkcA97PtKZGKwbwlaxUvyU2MD+/wwDUpEjtZImEkWz3PTIG0UW0KLJcY9882OXNF33aTuJ9SXVapWOnMM7lDE9rRfIp9hV4zHCKUp6zHub/N1HFH4EpoeZFVt2k+ra2d09YHL4K3/8dYaYQRMppw5TgEpFpNQHL0=
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4325;
+	6:HxFkzOGebx4wWbmXa2wVfzLJ8DaIq1dm1Z9tIpLgwgGx3g8ZQIa7Mz3Ac5mANU8NLt2duEM/4VXBuvk9FvuZquFXBWPWQuxwIX6LZBqkie6xeyu5t9U11IBKIZJsCtad7Y2T+CQil4fb91XwWBuHEQY6+hGKEMRJK9kjdo2ehDpNkZ0CqUCSXH5maVQRrH69L4v0YXhowQhuoPOUj3CXOf/S07PgRYfZjYB6H50B+3rkoG6EqfN3wyRfROxuOEic26G2GKvO1xBcoQ+uTjHLpWCnHUD1FkNcub0VvwUeD2keoZZsInLFR3TehABlTv23bvKPt4PGSkhbGtJJBkyohxYGBfIObQU9E/9nGMfli7RtH/2+Tyv7ZvyoI3ZIBHBSFwOttDef2q0Xc0YPdDM9Cl6alT223rPBvCAj9xXCi1NsC42YG+TnT/jL5XtIPENHacsdBhV9FsdnsJtWme70EQ==;
+	5:qd4rc55U9HFNDynK+i+xdZXo3VTETMQ1gmMLYM/kRMRR95WI2vSOxBuczNarhQiKKIVExmsV7+Yc50z7voA3dK0fU2XsFvGXjkt/juE2uF8dbCzyG/jyJUHwNjj2b2viWFGpwG2kdB2wlfUbq+HwcjEh1sZrPcO8+PEFV9lwz+5WT1yLLGDMFYGs10mZoM19sVziN0q57UGFvIn5hs8DJQ==;
+	7:L212GxUgdC2ElC1aLpH/irNpqJhxTnBUEuOqZBiz7qNbQLlynRSptqegcwWNg0kSZSPIjoGReopERbyBeTGyWyIvTCyK3byvf5AIDVaTXemJ9MJkHi2G98SwHwW1tAE5nJkD5RIDXn45M8IS2DYFQA==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2019 19:53:17.0432 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26238f10-a2e2-425d-f978-08d682febffc
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4454
-X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4454;
-	23:H7t4r4tekAwDugv+LGbG5AtWZPhdsJStGwcosN6kHMbSn7CpXAVjVJij42xaM2M3ncdnE2UcGuZMNHSpHKgKJRsRGH3XaPJ+QoYtaiio8V4X3f030FN6xFX+EICo/vEUYXsfdkFJuXiTwKEc0emjdQ==
-X-OriginatorOrg: xilinx.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4325
 Cc: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [PATCH v2 1/3] devtool modify: Update devtool modify to copy source from work-shared if its already downloaded.
+Subject: [PATCH v2 0/3] Devtool: provide easy means of reconfiguring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -140,203 +133,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 22:36:43 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 03:26:48 -0000
 Content-Type: text/plain
 
-In the regular devtool modify flow, the kernel source is fetched by running
-do_fetch task. This is an overhead in time and space.
+This patch series provides support for the user to run menuconfig command in the 
+devtool flow. This would allow the user to modify the current configurations and 
+generate a config fragment to update the recipe using devtool finish. Devtool
+menuconfig command will work on all packages that contain menuconfig as a task.
 
-This patch updates modify command to check if the kernel source is already
-downloaded. If so, then instead of calling do_fetch, copy the source
-from work-shared to devtool workspace by creating hard links. Else run
-the usual devtool modify flow and call do_fetch task.
+1. The implementation checks if devtool menuconfig command is called for a valid
+package.
+2. It checks for oe-local-files dir within source and creates one if
+needed, this directory is needed to store the final generated config fragment so
+that devtool finish can update the recipe.
+3. Menuconfig command is called for users to make necessary changes. After
+saving the changes, diffconfig command is run to generate the fragment.
 
-[YOCTO #10416]
+Currently, when the user runs devtool modify command, it checks out the entire    
+source tree which is a bit of an over head in time and space. This patch series    
+also provides a way to create a copy(hard links) of the kernel source, if    
+present, from work-shared to workspace to be more efficient .    
+    
+Also, if the kernel source is not present in the staging kernel dir and the user    
+fetches the source tree in workspace using devtool modify, then this patch    
+series creates a copy of source from workspace to work-shared. This is    
+necessary for packages that may use the kernel source.    
+    
+[YOCTO #10416]    
+    
+---                                                                                                                   
+changelog v2    
+1. Add a check to verify the set kernel version by user and kernel version                                            
+present in work-shared before creating hard links to workspace.    
+2. Add a check to verify the set kernel version by user and kernel version                                            
+present in workspace do not match, when placing a copy of kernel-source    
+from workspace to work-shared. 
+Sai Hari Chandana Kalluri (3):
+  devtool modify: Update devtool modify to copy source from work-shared
+    if     its already downloaded.
+  devtool modify: Create a copy of kernel source within work-shared if
+    not     present
+  devtool: provide support for devtool menuconfig command.
 
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
----
-changelog v2: 
-1. Add a check to verify the set kernel version by user and kernel version
-present in work-shared before creating hard links. This is to ensure that right
-kernel version is present in workspace.
----
- scripts/lib/devtool/standard.py | 148 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 144 insertions(+), 4 deletions(-)
+Sai Hari Chandana Kalluri (3):
+  devtool modify: Update devtool modify to copy source from work-shared
+    if     its already downloaded.
+  devtool modify: Create a copy of kernel source within work-shared if
+    not     present
+  devtool: provide support for devtool menuconfig command.
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index b7d4d47..ba1afa4 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -717,6 +717,72 @@ def _check_preserve(config, recipename):
-                     tf.write(line)
-     os.rename(newfile, origfile)
- 
-+# Function links a file from src location to dest location
-+def copy_file(c,dest):
-+    import errno
-+    destdir = os.path.dirname(dest)
-+    if os.path.islink(c):
-+       linkto = os.readlink(c)
-+       if os.path.lexists(dest):
-+            if not os.path.islink(dest):
-+                raise OSError(errno.EEXIST, "Link %s already exists as a file" % dest, dest)
-+            if os.readlink(dest) == linkto:
-+                return dest
-+            raise OSError(errno.EEXIST, "Link %s already exists to a different location? (%s vs %s)" % (dest, os.readlink(dest), linkto), dest)
-+       os.symlink(linkto, dest)
-+    else:
-+       try:
-+           os.link(c, dest)
-+       except OSError as err:
-+           if err.errno == errno.EXDEV:
-+                bb.utils.copyfile(c, dest)
-+           else:
-+                raise
-+
-+# Function creates folders in a given target location
-+def copy_dirs(root,dirs,target):
-+    for d in dirs:
-+        destdir =  os.path.join(target,d)
-+        if os.path.islink(os.path.join(root,d)):
-+             linkto = os.readlink(os.path.join(root,d))
-+             os.symlink(linkto,destdir) 
-+        else:
-+             bb.utils.mkdirhier(target+d)
-+
-+# Function to link src dir to dest dir
-+def copy_src_to_ws(srcdir,srctree):
-+    target = srctree
-+    if os.path.exists(target):
-+        raise DevtoolError('source already in your workspace')
-+
-+    bb.utils.mkdirhier(target)
-+    for root,dirs,files in os.walk(srcdir):
-+        #convert abspath to relpath for root
-+        destdir = root.replace(srcdir,"")
-+        target = srctree+destdir+"/"
-+        copy_dirs(root,dirs,target)  
-+        for f in files:
-+           copy_file(os.path.join(root,f),os.path.join(target,f))
-+
-+def get_staging_kver(srcdir):
-+     #Kernel version from work-shared
-+     kerver = []
-+     staging_kerVer=""
-+     if os.path.exists(srcdir) and os.listdir(srcdir):
-+            with open(os.path.join(srcdir,"Makefile")) as f:
-+                 version = [next(f) for x in range(5)][1:4]
-+                 for word in version:
-+                       kerver.append(word.split('= ')[1].split('\n')[0])
-+                 staging_kerVer = ".".join(kerver)
-+     return staging_kerVer
-+
-+def get_staging_kbranch(srcdir):
-+      staging_kbranch = ""
-+      if os.path.exists(srcdir) and os.listdir(srcdir):
-+          (branch, _) = bb.process.run('git branch | grep \* | cut -d \' \' -f2', cwd=srcdir)
-+          staging_kbranch = "".join(branch.split('\n')[0])
-+      return staging_kbranch
-+
- def modify(args, config, basepath, workspace):
-     """Entry point for the devtool 'modify' subcommand"""
-     import bb
-@@ -763,6 +829,78 @@ def modify(args, config, basepath, workspace):
-         initial_rev = None
-         commits = []
-         check_commits = False
-+
-+        if bb.data.inherits_class('kernel-yocto', rd):
-+               #Current set kernel version
-+               kernelVersion = rd.getVar('LINUX_VERSION')
-+               srcdir = rd.getVar('STAGING_KERNEL_DIR')
-+               kbranch = rd.getVar('KBRANCH')
-+
-+               staging_kerVer = get_staging_kver(srcdir)
-+               staging_kbranch = get_staging_kbranch(srcdir)
-+               if (os.path.exists(srcdir) and os.listdir(srcdir)) and (kernelVersion in staging_kerVer and staging_kbranch == kbranch):
-+                  copy_src_to_ws(srcdir,srctree)
-+                  workdir = rd.getVar('WORKDIR')
-+                  srcsubdir = rd.getVar('S')
-+                  localfilesdir = os.path.join(srctree,'oe-local-files') 
-+                  # Move local source files into separate subdir
-+                  recipe_patches = [os.path.basename(patch) for patch in oe.recipeutils.get_recipe_patches(rd)]
-+                  local_files = oe.recipeutils.get_recipe_local_files(rd)
-+
-+                  for key in local_files.copy():
-+                        if key.endswith('scc'):
-+                              sccfile = open(local_files[key], 'r')
-+                              for l in sccfile:
-+                                  line = l.split()
-+                                  if line and line[0] in ('kconf', 'patch'):
-+                                        local_files[line[-1]] = os.path.join(os.path.dirname(local_files[key]), line[-1])
-+                                        shutil.copy2(os.path.join(os.path.dirname(local_files[key]), line[-1]), workdir)
-+                              sccfile.close()
-+
-+                  # Ignore local files with subdir={BP}
-+                  srcabspath = os.path.abspath(srcsubdir)
-+                  local_files = [fname for fname in local_files if os.path.exists(os.path.join(workdir, fname)) and  (srcabspath == workdir or not  os.path.join(workdir, fname).startswith(srcabspath + os.sep))]
-+                  if local_files:
-+                       for fname in local_files:
-+                              copy_src_to_ws(os.path.join(workdir, fname), os.path.join(srctree, 'oe-local-files', fname))
-+                       with open(os.path.join(srctree, 'oe-local-files', '.gitignore'), 'w') as f:
-+                              f.write('# Ignore local files, by default. Remove this file ''if you want to commit the directory to Git\n*\n')
-+
-+                  if os.path.abspath(rd.getVar('S')) == os.path.abspath(rd.getVar('WORKDIR')):
-+                  # If recipe extracts to ${WORKDIR}, symlink the files into the srctree
-+                  # (otherwise the recipe won't build as expected)
-+                        local_files_dir = os.path.join(srctree, 'oe-local-files')
-+                        addfiles = []
-+                        for root, _, files in os.walk(local_files_dir):
-+                            relpth = os.path.relpath(root, local_files_dir)
-+                            if relpth != '.':
-+                                  bb.utils.mkdirhier(os.path.join(srctree, relpth))
-+                            for fn in files:
-+                                if fn == '.gitignore':
-+                                    continue
-+                                destpth = os.path.join(srctree, relpth, fn)
-+                                if os.path.exists(destpth):
-+                                    os.unlink(destpth)
-+                                os.symlink('oe-local-files/%s' % fn, destpth)
-+                                addfiles.append(os.path.join(relpth, fn))
-+                        if addfiles:
-+                           bb.process.run('git add %s' % ' '.join(addfiles), cwd=srctree)
-+                        useroptions = []
-+                        oe.patch.GitApplyTree.gitCommandUserOptions(useroptions, d=d)
-+                        bb.process.run('git %s commit -a -m "Committing local file symlinks\n\n%s"' % (' '.join(useroptions), oe.patch.GitApplyTree.ignore_commit_prefix), cwd=srctree)
-+
-+                  task = 'do_configure'
-+                  res = tinfoil.build_targets(pn, task, handle_events=True)
-+
-+                  # Copy .config to workspace 
-+                  kconfpath=rd.getVar('B')
-+                  logger.info('Copying kernel config to workspace')
-+                  shutil.copy2(os.path.join(kconfpath, '.config'),srctree)
-+
-+                  # Set this to true, we still need to get initial_rev
-+                  # by parsing the git repo
-+                  args.no_extract = True
-+
-         if not args.no_extract:
-             initial_rev, _ = _extract_source(srctree, args.keep_temp, args.branch, False, config, basepath, workspace, args.fixed_setup, rd, tinfoil, no_overrides=args.no_overrides)
-             if not initial_rev:
-@@ -852,10 +990,12 @@ def modify(args, config, basepath, workspace):
-                 f.write('\ndo_patch() {\n'
-                         '    :\n'
-                         '}\n')
--                f.write('\ndo_configure_append() {\n'
--                        '    cp ${B}/.config ${S}/.config.baseline\n'
--                        '    ln -sfT ${B}/.config ${S}/.config.new\n'
--                        '}\n')
-+
-+            if rd.getVarFlag('do_menuconfig','task'):
-+                    f.write('\ndo_configure_append() {\n'
-+                    '    cp ${B}/.config ${S}/.config.baseline\n'
-+                    '    ln -sfT ${B}/.config ${S}/.config.new\n'
-+                    '}\n')
-             if initial_rev:
-                 f.write('\n# initial_rev: %s\n' % initial_rev)
-                 for commit in commits:
+ scripts/lib/devtool/menuconfig.py |  80 +++++++++++++++++++
+ scripts/lib/devtool/standard.py   | 162 ++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 237 insertions(+), 5 deletions(-)
+ create mode 100644 scripts/lib/devtool/menuconfig.py
+
 -- 
 2.7.4
 
