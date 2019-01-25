@@ -1,48 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CAB7C365
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB00F6BD08
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 04:24:12 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id g125so4720597qke.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2019 20:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PDPWipkj01doL7zrQ4nnToxCvj5oxAc06/xBujI9V/o=;
-	b=Gylq4Fo5VZsGszshSuj+ldwH8owDOzawce78BNHtx01LxXcCQUlTNI7RzTJOmOgAIr
-	g5Q3Fx2ywf8joAcmQ08LkERJsaJaDqpKUQI02HI8sERmhV4u2A3IrQS7cFzbxBwy1Pgm
-	4BNm8R4vhWjyGHAT4pvOwBgV3DSRGh38YCY7SMhpAZdTx5nB9XJnJTTyCYEuZaP9M81V
-	jei2hFXs2JfeGcd9ZZ2AK3WNbhizgeDN1O0/ARPj0z0sR+OSZjKrO0igq0bd+uLYtpDN
-	uXY+y/uW1aLnsPs8h5tFd1Hp4as72lydZq1EMz9Bs2tatew1j2GsD3W2pPlxWQChIwE2
-	LCng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PDPWipkj01doL7zrQ4nnToxCvj5oxAc06/xBujI9V/o=;
-	b=W16YZps5PTIwo1jChaCrXTBnic8lIKvJmLX7V0X3ViJbmA/bmxKyTe53tq6ifATJvI
-	L4f0rjHAmy+AQoMrPybOtgeriVyUwlX0P62Fund6SKbyTd14rAidt3UHXZGpdoymBv12
-	i7RKNCO6V/ZD4HPH26c6YNe2wyRxknTzCPGGFWHSbkOs4LFL9AgymEwFa64vYLCWcuBc
-	7CLyGwYpRKuHPu2Sal0UYJ9z4RSj1xqUsC3U5KM8ILxuoPsdqyyoQsk7f3TpoWN5ANWK
-	eTm+Ba40zYvjsZaX7CRQsfvsjp/WQZtRn3TVZu6IUTjunYoxCBUenfXDKDUYwTRakbpB
-	cnDQ==
-X-Gm-Message-State: AJcUukeWm9uHXLVr5c0bixLiYB+lIjxaqkakiDy5c0fpWZtOpkj6SeBS
-	KUflybwe+CWNIqvqWUOcsjTDklhx+30JB7GQVNNh8JJF
-X-Google-Smtp-Source: ALg8bN7DJOI/eixGhudJhrNUQv6hdY2ZSlVAX0xG+m9hYGAPGe44BsI3unwNDmX5sJ2D5CrryKqkzhElw4z6NqNugEo=
-X-Received: by 2002:a37:a80a:: with SMTP id r10mr8633293qke.2.1548390253699;
-	Thu, 24 Jan 2019 20:24:13 -0800 (PST)
+	Fri, 25 Jan 2019 06:04:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0P63w2s004275
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 24 Jan 2019 22:04:08 -0800
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Thu, 24 Jan 2019 22:03:47 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1548313400.git.liezhi.yang@windriver.com>
+	<a0f8078a8e439288441f29fd2d152265b7cc767f.1548313400.git.liezhi.yang@windriver.com>
+	<CAJTo0LbYj7GnSvosGqNMsnsTR8Ty=DfZW_oTaijvjPYG=Hp7gg@mail.gmail.com>
+	<31ac6abb-9154-6280-9950-6c90692d099f@windriver.com>
+	<4c1144f4-7274-6cb0-d16c-3cca03882f6e@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <13b674b3-0451-a3dc-91c0-f518cf9fee11@windriver.com>
+Date: Fri, 25 Jan 2019 14:08:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <cover.1548313066.git.liezhi.yang@windriver.com>
-	<a0d185da70165b9d7e8166bf7e6a1a7065045fea.1548313066.git.liezhi.yang@windriver.com>
-In-Reply-To: <a0d185da70165b9d7e8166bf7e6a1a7065045fea.1548313066.git.liezhi.yang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Jan 2019 23:23:47 -0500
-Message-ID: <CAMKF1srfkqtzhsQ7OcPUQsOuf_bzA4V-AOrCWhRm2Ur=G1BO_w@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gcc-runtime: Add --cache-file to EXTRA_OECONF
+In-Reply-To: <4c1144f4-7274-6cb0-d16c-3cca03882f6e@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] fontconfig: Fix define for HAVE_POSIX_FADVISE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +38,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 04:24:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 25 Jan 2019 06:04:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 24, 2019 at 2:00 AM Robert Yang <liezhi.yang@windriver.com> wrote:
->
-> This can save configure time since it runs configure multiple times:
-> $ time bitbake gcc-runtime -cconfigure
->   60s -> 54s
->
->   Saved 6s
 
-looks ok. Are we sure this file is preserved across builds
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 50ecc81..3d03d8e 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -15,6 +15,7 @@ EXTRA_OECONF_PATHS = "\
->  "
->
->  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
-> +EXTRA_OECONF_append = " --cache-file=${B}/config.cache"
->
->  RUNTIMELIBITM = "libitm"
->  RUNTIMELIBITM_arc = ""
-> --
-> 2.10.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+On 1/25/19 10:22 AM, Robert Yang wrote:
+> 
+> 
+> On 1/25/19 9:38 AM, Robert Yang wrote:
+>> Hi Ross,
+>>
+>> On 1/24/19 10:33 PM, Burton, Ross wrote:
+>>> Please send this upstream.
+>>
+>> I tried a few times to subscribe fontconfig@lists.freedesktop.org, but it
+>> requires manual approval, I didn't receive the approval after about 1 month.
+>>
+>> I tried it again just now, let's see what will happen.
+> 
+> Strangely, it doesn't require manual approval now, so I subscribed it just now
+> and sent the patch to upstream:
+> 
+> https://lists.freedesktop.org/archives/fontconfig/2019-January/thread.html
+> 
+> It is not in the archive yet.
+
+BTW, it has been merged:
+
+https://gitlab.freedesktop.org/fontconfig/fontconfig/commit/586e35450e9ca7c1dc647ceb9d75ac8ed08c5c16
+
+// Robert
+
+> 
+> // Robert
+> 
+>>
+>> // Robert
+>>
+>>>
+>>> Ross
+>>>
+>>> On Thu, 24 Jan 2019 at 06:46, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>>
+>>>> Otherwise, there would be build errors in the following 2 cases:
+>>>> * define HAVE_POSIX_FADVISE
+>>>> Or:
+>>>> * undef HAVE_POSIX_FADVISE
+>>>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>   ...cache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch | 33 
+>>>> ++++++++++++++++++++++
+>>>>   .../fontconfig/fontconfig_2.12.6.bb                |  1 +
+>>>>   2 files changed, 34 insertions(+)
+>>>>   create mode 100644 
+>>>> meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch 
+>>>>
+>>>>
+>>>> diff --git 
+>>>> a/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch 
+>>>> b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch 
+>>>>
+>>>> new file mode 100644
+>>>> index 0000000..07b2d65
+>>>> --- /dev/null
+>>>> +++ 
+>>>> b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch 
+>>>>
+>>>> @@ -0,0 +1,33 @@
+>>>> +From ab9522177a8396a51812fdbebb6387df451a8499 Mon Sep 17 00:00:00 2001
+>>>> +From: Robert Yang <liezhi.yang@windriver.com>
+>>>> +Date: Mon, 24 Dec 2018 11:03:58 +0800
+>>>> +Subject: [PATCH] src/fccache.c: Fix define for HAVE_POSIX_FADVISE
+>>>> +
+>>>> +Otherwise, there would be build errors in the following 2 cases:
+>>>> +* define HAVE_POSIX_FADVISE
+>>>> +Or:
+>>>> +* undef HAVE_POSIX_FADVISE
+>>>> +
+>>>> +Upstream-Status: Pending
+>>>> +
+>>>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> +---
+>>>> + fccache.c |    2 +-
+>>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> +
+>>>> +diff --git a/src/fccache.c b/src/fccache.c
+>>>> +index 6f3c68a..85cc4b4 100644
+>>>> +--- a/src/fccache.c
+>>>> ++++ b/src/fccache.c
+>>>> +@@ -700,7 +700,7 @@ FcDirCacheMapFd (FcConfig *config, int fd, struct stat 
+>>>> *fd_stat, struct stat *di
+>>>> +     {
+>>>> + #if defined(HAVE_MMAP) || defined(__CYGWIN__)
+>>>> +       cache = mmap (0, fd_stat->st_size, PROT_READ, MAP_SHARED, fd, 0);
+>>>> +-#if (HAVE_POSIX_FADVISE) && defined(POSIX_FADV_WILLNEED)
+>>>> ++#if defined(HAVE_POSIX_FADVISE) && defined(POSIX_FADV_WILLNEED)
+>>>> +       posix_fadvise (fd, 0, fd_stat->st_size, POSIX_FADV_WILLNEED);
+>>>> + #endif
+>>>> +       if (cache == MAP_FAILED)
+>>>> +--
+>>>> +2.7.4
+>>>> +
+>>>> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb 
+>>>> b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>> index 6128d5e..beeae7f 100644
+>>>> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
+>>>> @@ -23,6 +23,7 @@ DEPENDS = "expat freetype zlib gperf-native"
+>>>>   SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+>>>>              file://revert-static-pkgconfig.patch \
+>>>>              file://0001-src-fcxml.c-avoid-double-free-of-filename.patch \
+>>>> +           file://0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch \
+>>>>              "
+>>>>
+>>>>   SRC_URI[md5sum] = "00e748c67fad11e7057a71ed385e8bdb"
+>>>> -- 
+>>>> 2.7.4
+>>>>
+>>>> -- 
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
 
