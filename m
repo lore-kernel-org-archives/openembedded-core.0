@@ -1,53 +1,42 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 396227C3B7
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
+	[209.85.166.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 805887C38B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 19:48:05 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id m19so8684542ioh.3
+	Fri, 25 Jan 2019 19:59:47 +0000 (UTC)
+Received: by mail-it1-f181.google.com with SMTP id g85so12326381ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 11:48:06 -0800 (PST)
+	Fri, 25 Jan 2019 11:59:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=q11P8ZHgqHSCXEn0NbFFsNO1WTHt35msNd/Df33dYm4=;
-	b=sxlsal2xMHnAKVaH+XAcTi88Nhf0wpv1zUiLEKxigVsmEWZ20VfRQgb5+sVerlZFIP
-	2GKOJxF7DJmzeJO4xt57rRLOrG9gVFWI1P77HnClf3qoTnXGRsrp6bL+KXZ3kBEKYa4h
-	VDntnGQGMRbvWq4q4VHbqsNWjdYjL/UIsN1uqcy4YK0f4CGBNLdRLmXfgc+JLq7/hsQE
-	BjrNF/qRdcZ89tiCcNB2ai8InRdH6W3Jg8il9sTRZVExzysWPPuKXkO97LfIjyw+Qu7R
-	6eTb/X9gWxw1MThf6BzflX/o2EUZePUyXjARpYq2selS+VVA5gQKMdckl821tFy20qGk
-	x8tw==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=gnTfq8haU/CAdpwRK6pgW9kJvfCDohTCEdDYyGKEkzY=;
+	b=Y6A37WEGOp/cIGRDf/6mfw/6S138duvjpFlVKRkE3kUwABeIPAJnMzYeBXCJyFooIz
+	Pcefsu+vhRbbR3f5WdZzG0n0A1zLZ+Ye+BGxaBMc1iOBlDS2YFh+ZPD7CXRjNr9bxnCZ
+	N7Nesw7fWG2vhNjJAemFK7pR285j/ahuIECcvrTwt70Ublifx/dJUrrdZbtcZHcqkaBU
+	NwU9dekoFmc0XpS4Gw0oMv42vmYYF31at1JfuyKHNtmGwC7WIgwGhpXa466Op8KxZQv+
+	yIowDWh8Ybo5MHy+Xl2EuDzHk3+JTbULm/5FaX3VF/5cQM8IQZYqwqMUK+Cc4WWylhC2
+	wBzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=q11P8ZHgqHSCXEn0NbFFsNO1WTHt35msNd/Df33dYm4=;
-	b=gpaGycf8FPrTMuCCQe9DsJq01Jot+I5MqMwfLFY1G7r7ny4kE2/mjWq/wWrGXQsbXH
-	abxyLxpDIPFP5KpBZUKP1OM7Ol1WZklvY6A8LAITJe9eoN5Q4Lhuhm0S2yzzok912lQW
-	/61PsMwB8JIe7+XyGNtWgOCtzpi0J/eufxvF0twUDN71aSb0hW7D2pG2b0dAhsSKd3Nx
-	VlxPDb3cFSidLhQAT12MH2Rh+iECbdGLclgJ09mIIRQf75pX+ou6Fy5amsH2EUkTi6Hd
-	z0uLslUI3pj26QAQWqLlA4YfUndvRBND3FyBVjS0AljbjVYTlqKiDCdJi/ohr1oGMPRY
-	Ns5Q==
-X-Gm-Message-State: AJcUukeDUIj+Wtz2NUrQ4UEtbzOtnHBi5CA+5oY+qCPujkyc8Za++5+x
-	qhdz3BtKfWOMG6l1MKK3Eu4xNECUrlc=
-X-Google-Smtp-Source: AHgI3IZvskRMrAqmJsT4W57Dkwx+TkD7T16/Kew2ltP4LsQOZtyOeMAv4Rxt3kjTEPdXkAoRwECfPg==
-X-Received: by 2002:a5d:9459:: with SMTP id x25mr7287909ior.293.1548445685858; 
-	Fri, 25 Jan 2019 11:48:05 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	s184sm5000467itb.44.2019.01.25.11.48.04
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 25 Jan 2019 11:48:05 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2019 13:47:45 -0600
-Message-Id: <20190125194745.32058-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190124210227.25029-1-JPEWhacker@gmail.com>
-References: <20190124210227.25029-1-JPEWhacker@gmail.com>
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=gnTfq8haU/CAdpwRK6pgW9kJvfCDohTCEdDYyGKEkzY=;
+	b=SAdqRQkbJC0stjwU+AvkmTtdktumnOEtyGJn9+Itw7D/rED66I43jEaknJyc5s3m0j
+	/CkLHtBoThfwS05p7X3LC3JQVVrlLLuLW2w9+0/8xNXsEJnGmyr5Lg1bgv5czpYLiPxm
+	YTdtCeQvnnrSbd4odjmpU3xs/oWU7i8C0dae8LpKFTQV6rojUsDbwtsmjlBoGYAMJQNu
+	FFRZ8B6nH7oAN1H3pUa24Mfh1qqiqKQ19kHoAD7zgmB1Rqv88gZisp0JE3xOOl+ddWCJ
+	Wx02DujEoTNQfslopEzrNL2Ai4D4t14MGXBmCCQWGqIxhi+7laF/jO7vYKtuEK8/fUxx
+	gQXg==
+X-Gm-Message-State: AJcUukeq6ZiLqRwOksLELmh0bJ+LF43mHhJHi3AQYzj52Qe2z+/eWUUR
+	E32LmXInW0ROepQYvsTSj++Qnow84vAjDuBHcHfIU5YEOH4=
+X-Google-Smtp-Source: ALg8bN4mXD0iddOxJaLZoNGgulv5/lKDYRjXaPboRXOMe9mPkfaVyZu5DtCUUzxw5LSAom5pz5iTfpljFxTIK9Jr11o=
+X-Received: by 2002:a24:b610:: with SMTP id g16mr3352289itf.3.1548446387863;
+	Fri, 25 Jan 2019 11:59:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2] Change default debug split to make separate source packages
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Fri, 25 Jan 2019 20:55:31 +0100
+Message-ID: <CAJkqNs1w3KaKsEGYEj_tVvfUTM37H3KMMRhQYr-AGcFFNOKNMQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] lib/oe/patch.py: Fix applying a directory as a patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,71 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 19:48:05 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 25 Jan 2019 19:59:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Changes the default PACKAGE_DEBUG_SPLIT_STYLE to generate separate
-source and debug packages. SDKIMAGE_FEATURES is updated to include the
-source packages so that there is not change for the SDK contents.
+If we add patch git repository to SRC_URI (e.g.
+https://github.com/mirror/patch (without the .git suffix) or a local
+repository /tmp/patch) the bare clone will go to
+downloads/git2/github.com.patch or downloads/git2/tmp.patch and
+because the directory ends with '.patch' the do_patch task will assume
+it's a patch file, try to patch it, end with 'patch: **** read error:
+Is a directory' error and break the build.
+To avoid this behaviour I added a conditional to check if the path is
+a directory.
 
-[YOCTO #12931]
+The following changes since commit 1979d9162a335b7d4718a6697ca57bfa16237f0e:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/populate_sdk_base.bbclass  | 2 +-
- meta/conf/bitbake.conf                  | 2 ++
- meta/lib/oeqa/selftest/cases/pkgdata.py | 4 ++--
- 3 files changed, 5 insertions(+), 3 deletions(-)
+  bitbake: gitsmy.py: Fix unpack of submodules of submodules
+(2019-01-24 17:45:49 +0000)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index f2c934aaebb..80fa443e4ca 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -18,7 +18,7 @@ def complementary_globs(featurevar, d):
-             globs.append(glob)
-     return ' '.join(globs)
- 
--SDKIMAGE_FEATURES ??= "dev-pkgs dbg-pkgs ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'doc-pkgs', '', d)}"
-+SDKIMAGE_FEATURES ??= "dev-pkgs dbg-pkgs src-pkgs ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'doc-pkgs', '', d)}"
- SDKIMAGE_INSTALL_COMPLEMENTARY = '${@complementary_globs("SDKIMAGE_FEATURES", d)}'
- 
- PACKAGE_ARCHS_append_task-populate-sdk = " sdk-provides-dummy-target"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9a095e3ed04..ca9ce2d7bc0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -282,6 +282,8 @@ SOLIBSDEV = ".so"
- # at least means builds aren't completely broken and symlinks don't take up much space.
- SOLIBSDEV_darwin = ".dylibbroken"
- 
-+PACKAGE_DEBUG_SPLIT_STYLE ?= "debug-with-srcpkg"
-+
- PACKAGE_BEFORE_PN ?= ""
- PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
- PACKAGES_DYNAMIC = "^${PN}-locale-.*"
-diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
-index 0b4caf1b2c2..38776403496 100644
---- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-@@ -82,7 +82,7 @@ class OePkgdataUtilTests(OESelftestTestCase):
-             pkglist.remove('zlib-ptest') # in case ptest is disabled
-         except ValueError:
-             pass
--        self.assertEqual(pkglist, ['zlib', 'zlib-dbg', 'zlib-dev', 'zlib-doc', 'zlib-staticdev'], "Packages listed after remove: %s" % result.output)
-+        self.assertEqual(pkglist, ['zlib', 'zlib-dbg', 'zlib-dev', 'zlib-doc', 'zlib-src', 'zlib-staticdev'], "Packages listed after remove: %s" % result.output)
-         # With recipe specified, runtime
-         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -r')
-         pkglist = sorted(result.output.split())
-@@ -90,7 +90,7 @@ class OePkgdataUtilTests(OESelftestTestCase):
-             pkglist.remove('libz-ptest') # in case ptest is disabled
-         except ValueError:
-             pass
--        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc', 'libz-staticdev', 'libz1'], "Packages listed after remove: %s" % result.output)
-+        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc', 'libz-src', 'libz-staticdev', 'libz1'], "Packages listed after remove: %s" % result.output)
-         # With recipe specified and unpackaged
-         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -u')
-         pkglist = sorted(result.output.split())
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib dziendzi/patch
+
+Tomasz Dziendzielski (1):
+  lib/oe/patch.py: Fix applying a directory as a patch
+
+ meta/lib/oe/patch.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-2.20.1
-
+2.19.1
 
