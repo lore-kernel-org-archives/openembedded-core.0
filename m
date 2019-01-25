@@ -1,48 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FF337C2C9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 406CA7C20A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 11:47:42 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id m62so10030356ith.5
+	Fri, 25 Jan 2019 12:13:53 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id s13so8319031otq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2019 03:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 25 Jan 2019 04:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=V5SzHXZe4eryy82ox2xcZ6ShlqkX3JvgLNpaqmFlgs8=;
-	b=RAJN8/6EiKJgDqjddJpKOI1+HAR81ScFKXJmiH1R9OU9TbxjnithAqtmQKSzvIyY+V
-	3LIUl8bimlMDW6tVjbbg/xeXlZ8n4rsSsZ/0r8ryOXm6Az9q1ilmDN1/PFzoGoObAaAB
-	vQi2Rxv6EKX7uif90d4+3GYiZUfhtlR9z7pKuVg0rl+VP1pHijF2d++iYYYwsIMKddhH
-	nSefaVlQYW9JMb/Fs+pqlp23z5YMUMRw0YJLx45bZDQLFJCcL6ttD2f4tyBSFAPJK28W
-	UnJN9cSG/AidUDkdkSNSeOdv3MDFk0sJHW58xFRGUJc/FFvSjI3T4J7UoLWu47r/uANc
-	rK+w==
+	:cc:content-transfer-encoding;
+	bh=uHdnFLHgTZkQ8WbcvK9OdZYtysAdfUMv8iCb3mdaMz0=;
+	b=brwkpyJzmmomDGi/t6MmKgDZz+DsjhFGTlpPCUrx5LvueSvyiAsVDzCEVyAjDkGJGE
+	seeUUUrlnYavopxTXc1j3zMoxEK28OiqR/gg2i3YD+7z+02n/LTX1xDPp6/EClMzpHWG
+	49n8DLzIN+F5dGwx9BL+45/CtACIRQ/CF8ESWrpuCq04SH00SBUpiEuogR7rMh+WRg9e
+	/+0Mlry6HoKoJZfP1XQ9euG5/Qb5+VRdH1CDRR7zh1d91rn1YkX57QMy5wXVwqECx1pf
+	jONExWt0iL8hLyw7yzD7EIgUNBKHMqFPC72GkKtHdvhwuESWTX7JarNWcCcUBSUuAubf
+	9azQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=V5SzHXZe4eryy82ox2xcZ6ShlqkX3JvgLNpaqmFlgs8=;
-	b=gmvS+R6VhHXol8lLrSwkQkPvuyQOUGk04kzgSTnTfkdVxXC4KXTsR1a+HEbkkzBz8t
-	ES2ii9u0afKh/7ZMRahUP5FvGsN/xJyUecg2MUfYgMWjT0qoXP51fjJ+LRXyJU+RSTY7
-	gxy/rKdCKuqpfeJrzBjE5LzAG1xmMkhKqh8KQL3wGWd3lZgwsNJ63myb47QDaU5JO2xJ
-	KGvszI75nexuzm7hMvOarYCQ9BPETzRUA1PfcHat4vz5ick03u6NUAwRK4OlgWELWGu/
-	jN/b6vNXQXDzeWD1dWn0CqRoqgFR5Puakv0bUGuUj2oesFICPOZrXQSDesZRM9L/yzdD
-	hVNA==
-X-Gm-Message-State: AJcUukcw6gSenLJuUPBMeHbrj7GAxwGZT/sH5llIV7p7I/KJPTGVbSMA
-	I50Ofl0raQ7h2GcfRqNbhSI8m0kkBgRma2OEyK1YKA==
-X-Google-Smtp-Source: ALg8bN4noOcDoJPuuJc5YVE5ztVJpe7PtJpzoug4kD0yPna3wQSN9FZuBk436JO/OInjpoHTS30dFj2DXVnxU0YKFaA=
-X-Received: by 2002:a02:1bc5:: with SMTP id 66mr7143246jas.105.1548416863229; 
-	Fri, 25 Jan 2019 03:47:43 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=uHdnFLHgTZkQ8WbcvK9OdZYtysAdfUMv8iCb3mdaMz0=;
+	b=b3ZVJ3MiFX4zBVgOX0mVbXItDPcWJpcD6ylv2CfcvXf4oC6VJ/s2rH9GEuq6J+qMON
+	U9GLbpQoH03itqoQTa2xeSadzTw1xDzhyvMH8TAKtjK48Uve4JrtRqnGSS4PHLBZDlYF
+	9WqsYlXu+vYbi3apBctX714f73uQ0TOIBuRV4hc4vm93FpxmAEQUY1T39FApP7PXqTfx
+	FXBLK3Wg5ebw2HIVCXRJrzV3IgUePMWQqf8H5aoirrgzcG6hxJiD7XwFrobbNV7nqBQI
+	prLWQW/bSRXk+aUmjo9qCeEqhGvKhnN1x9Rix/Uq/5h0reDRGsAedekWjMWMAwFahLT/
+	gBqw==
+X-Gm-Message-State: AJcUukcM3Fi22ZSZoEDR1TfY6htknmf8EZbHw+GaBlGr8RWLA3CB0eT4
+	tkukOIV2lixGIUk38y6Y71wsE1ATpAcS0vo5qpk=
+X-Google-Smtp-Source: ALg8bN5/NKsLNe7rHGHHGIg/MLXo3daqQYr5AjKPk/gs0aBBvELkRtg9yC25FGPoZlY5rONJ4ByI2K/vPCC9lgKYNGI=
+X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr7614130oti.367.1548418434066; 
+	Fri, 25 Jan 2019 04:13:54 -0800 (PST)
 MIME-Version: 1.0
-References: <1548317569-25007-1-git-send-email-chunrong.guo@nxp.com>
-In-Reply-To: <1548317569-25007-1-git-send-email-chunrong.guo@nxp.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Jan 2019 11:47:32 +0000
-Message-ID: <CAJTo0LZ5M4sZvHfc-Wv_dt55vOe04yVzRaQKiFk3K-K6sZB4uw@mail.gmail.com>
-To: "C.r. Guo" <chunrong.guo@nxp.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] mozjs: add aarch64 be support
+References: <20190123161744.45763-1-alex.kanavin@gmail.com>
+	<20190123161744.45763-4-alex.kanavin@gmail.com>
+	<a7f352fbd50d0236a1623114364bb8bb4cb22eb1.camel@linuxfoundation.org>
+	<CAJdd5Gbc3vb4YHioijMBXm5Y_w_aiVmi3Kz7_G6mi-BaJWLmzg@mail.gmail.com>
+In-Reply-To: <CAJdd5Gbc3vb4YHioijMBXm5Y_w_aiVmi3Kz7_G6mi-BaJWLmzg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 25 Jan 2019 13:13:42 +0100
+Message-ID: <CANNYZj_3RJ5Hno-fCwMBccgYrTRSgLb6LZc6rGOovZ_9AD6FTA@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/10] lib/oe/package_manager: turn postinst_intercept warnings into failures for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,76 +57,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 11:47:42 -0000
+X-List-Received-Date: Fri, 25 Jan 2019 12:13:53 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-How is this not appropriate for upstream?
+There is a similar issue in multilib for target packages (a warning
+because qemu usermode support is missing):
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/214/steps=
+/7/logs/warnings
 
-Ross
+I'm as well not sure how to handle this:
+1. Keep these two warnings as warnings so users see them in their
+local builds, but
+ add some kind of string pattern to AB so it excludes missing qemu
+support and missing wine support warnings.
 
-On Fri, 25 Jan 2019 at 11:40, C.r. Guo <chunrong.guo@nxp.com> wrote:
+2. Turn them into notes, which means they will go to the logs only,
+and users are not going to see them ever. On the other hand, the
+postinsts tend to
+create things like font caches and similar, which should not generally
+be needed at compile time (which is what SDKs are for).
+
+I'm leaning towards option two.
+
+Alex
+
+On Fri, 25 Jan 2019 at 00:18, Joshua Watt <jpewhacker@gmail.com> wrote:
 >
-> From: Chunrong Guo <chunrong.guo@nxp.com>
 >
-> Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
-> ---
->  .../mozjs/mozjs/0001-add-aarch64-be-support.patch  | 28 ++++++++++++++++++++++
->  meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb     |  1 +
->  2 files changed, 29 insertions(+)
->  create mode 100644 meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support.patch
 >
-> diff --git a/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support.patch b/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support.patch
-> new file mode 100644
-> index 0000000..05ab2c1
-> --- /dev/null
-> +++ b/meta-oe/recipes-extended/mozjs/mozjs/0001-add-aarch64-be-support.patch
-> @@ -0,0 +1,28 @@
-> +From 52ab270c9ff1e3b0d5ce2fd59a268afd6e9cc0c8 Mon Sep 17 00:00:00 2001
-> +From: BJ DevOps Team <bjdevops@NXP1.onmicrosoft.com>
-> +Date: Tue, 16 Oct 2018 16:53:18 +0800
-> +Subject: [PATCH] add aarch64 be support
-> +
-> +Upstream-Status: Inappropriate [oe specific]
-> +
-> +---
-> + build/moz.configure/init.configure | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/build/moz.configure/init.configure b/build/moz.configure/init.configure
-> +index 56e6730..139b5fa 100644
-> +--- a/build/moz.configure/init.configure
-> ++++ b/build/moz.configure/init.configure
-> +@@ -359,6 +359,9 @@ def split_triplet(triplet):
-> +     elif cpu in ('mips64', 'mips64el'):
-> +         canonical_cpu = 'mips64'
-> +         endianness = 'little' if 'el' in cpu else 'big'
-> ++    elif cpu in ('aarch64_be'):
-> ++        canonical_cpu = 'aarch64'
-> ++        endianness = 'big'
-> +     elif cpu.startswith('aarch64'):
-> +         canonical_cpu = 'aarch64'
-> +         endianness = 'little'
-> +--
-> +2.7.4
-> +
-> diff --git a/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb b/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb
-> index a28ecc5..e39c929 100644
-> --- a/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb
-> +++ b/meta-oe/recipes-extended/mozjs/mozjs_52.9.1.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/m/mozjs52/mozjs52_52.9.1.o
->             file://add-riscv-support.patch \
->             file://0001-mozjs-fix-coredump-caused-by-getenv.patch \
->             file://format-overflow.patch \
-> +           file://0001-add-aarch64-be-support.patch \
->             "
->  SRC_URI_append_libc-musl = " \
->             file://0006-support-musl.patch \
-> --
-> 2.7.4
+> On Thu, Jan 24, 2019, 4:43 PM Richard Purdie <richard.purdie@linuxfoundat=
+ion.org wrote:
+>>
+>> On Wed, 2019-01-23 at 17:17 +0100, Alexander Kanavin wrote:
+>> > The few cases where they failed should be now all fixed. The only allo=
+wed
+>> > exception is when building mingw32 SDKs, as there is currently no supp=
+ort for running
+>> > postinst_intercepts through wine.
+>> >
+>> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> > ---
+>> >  meta/lib/oe/package_manager.py | 7 ++++++-
+>> >  1 file changed, 6 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_mana=
+ger.py
+>> > index 1087144d47f..f26f597d03d 100644
+>> > --- a/meta/lib/oe/package_manager.py
+>> > +++ b/meta/lib/oe/package_manager.py
+>> > @@ -439,6 +439,11 @@ class PackageManager(object, metaclass=3DABCMeta)=
+:
+>> >                  self._postpone_to_first_boot(script_full)
+>> >                  continue
+>> >
+>> > +            if populate_sdk =3D=3D 'host' and self.d.getVar('SDK_OS')=
+ =3D=3D 'mingw32':
+>> > +                bb.warn("The postinstall intercept hook '%s' could no=
+t be executed due to missing wine support, details in %s/log.do_%s"
+>> > +                                % (script, self.d.getVar('T'), self.d=
+.getVar('BB_CURRENTTASK')))
+>> > +                continue
+>> > +
+>> >              bb.note("> Executing %s intercept ..." % script)
+>> >
+>> >              try:
+>> > @@ -447,7 +452,7 @@ class PackageManager(object, metaclass=3DABCMeta):
+>> >              except subprocess.CalledProcessError as e:
+>> >                  bb.note("Exit code %d. Output:\n%s" % (e.returncode, =
+e.output.decode("utf-8")))
+>> >                  if populate_sdk =3D=3D 'host':
+>> > -                    bb.warn("The postinstall intercept hook '%s' fail=
+ed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('=
+BB_CURRENTTASK')))
+>> > +                    bb.fatal("The postinstall intercept hook '%s' fai=
+led, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar(=
+'BB_CURRENTTASK')))
+>> >                  elif populate_sdk =3D=3D 'target':
+>> >                      if "qemuwrapper: qemu usermode is not supported" =
+in e.output.decode("utf-8"):
+>> >                          bb.warn("The postinstall intercept hook '%s' =
+could not be executed due to missing qemu usermode support, details in %s/l=
+og.do_%s"
+>>
+>> I'm ok with this but could we change the bb.warn to something less
+>> important like a note?
+>>
+>> The reason I say this is that I'd like to get the autobuilder to the
+>> point where its warning free. This warning is the only reason meta-
+>> mingw shows warnings now. Either we fix them or if we can't, they
+>> probably aren't warnings.
+>>
+>> What should we do here?
+>>
+>> (also cc'd Joshua)
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> I think the one that fails currently is updating the GIO module cache. I'=
+m not sure if this is even necessary for mingw (my guess is no, since this =
+has never worked and no one has complained). We probably just need to disab=
+le it in mingw, but when I looked very briefly a while ago, I didn't see a =
+straight forward way of doing that.
+>
+> See https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12962
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 
