@@ -1,52 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC946C4A5
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 233987C423
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 23:15:31 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id p7so14056356wru.0
+	Sat, 26 Jan 2019 23:27:24 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r10so13996243wrs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 15:15:32 -0800 (PST)
+	Sat, 26 Jan 2019 15:27:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=XQh/GxoCjvNRdnpWCCleex32vZlqKOXPFTIsxYAAm7U=;
-	b=AKPnXondFgxcEixf5DuMJr1xSCyZ5Rb3XZBIZGBXBghjQNTSTdUXygfQkXX1wYE/sl
-	LALcCm0jpHMzAzNp7FjAap2X1vfwpo4CCjRAR7keFhntnglOTuuuSxlzUaQVmDbRGAwz
-	2moYAbn3GHXyjlw4CqD8+RgY7Zu5b01+owOMg=
+	bh=DH5lY7V8wAsXWxIId8avQG3IzZHuKIz+3dgH+FT8dhA=;
+	b=a4oo0nBjYDKYTkcoHgACDPwBgbQHI+bQNT3PkACC2v8ZFqx70mzThBi5cC5xmK4hwW
+	fZt8c8MadY4MEDy4Kc3/8pGOhjFb4o1quU7riHKsUXjvqb3t9k4PmJOHoyNx1ACQajQ8
+	eLOA39Id3yaumVSLX1SwmYwlYhj9a3+t60Lws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=XQh/GxoCjvNRdnpWCCleex32vZlqKOXPFTIsxYAAm7U=;
-	b=H6EJiAY5Tt7zrbyU1El5D4hlvyTKmdYfpwnuBXi++qkOk/+5u/PlncEPCX3m87uWI/
-	2YqeGUi1pDMHfr/btJTrAIaN1kk8cLNeMVlX63xe/mPGttbumrE6e7ADgzNPizhp12Gt
-	FmmBfb8RdBbSjhCtb91cQA0tJQ/nFZohwnqtUu6eOksQl5RhqQQVVg3eVeocUNt1+gr7
-	QnD5a1+yyClJJQ9N2EojY4BucyXo6qfyi0mA0tb4+94E2laHYw2IsQzAreII79wW9PtN
-	LkN+JCXJxYVul9yUXRfRkoPs3V1z1fJPC7gLtji9ib8jx1ga0RpFa3zwdx0t4jUnh4sm
-	Zrkg==
-X-Gm-Message-State: AJcUukcUmAtRTIRoCgIQWHKqlRjKIE+4UxkI/F8xq+Og8bxxZP0EPgOU
-	WIlHt72MdQV1T+Qf5pmH70k53w==
-X-Google-Smtp-Source: ALg8bN5RHibzIYi54RfI0IHsrW1kkMWZKpq33bepg2gllZZzWtBzH6gnKxDenYw4o80XBViVzy8l6A==
-X-Received: by 2002:a5d:63c3:: with SMTP id c3mr16173579wrw.215.1548544531659; 
-	Sat, 26 Jan 2019 15:15:31 -0800 (PST)
+	bh=DH5lY7V8wAsXWxIId8avQG3IzZHuKIz+3dgH+FT8dhA=;
+	b=RmIJNfU7JhZXQLOfy61yTTbGLgx/JKxVmp1UUEEFjrJ4j92LiDa+rV5BhguB6ERQT1
+	IiDYbrXDGB5Gla3xa1JVpMDfiL+5s4x9zIvEfKDH1YehjjJlX5B0rL4vfNa/kuS+E6Oq
+	2xHQZV7Ux9I0yjRoNh1yk3PhN64Y8EvV1vBbdeqxxnIr1qz4nNzfxJQX6Gr3qJo5KH6L
+	U/n4BIfixGfcx60GGrHvA+ERXKRm7HGBDv5BTqYzwSxXaSVKS0IVeylbsElBzXN6hsnK
+	VmM+CXsDuac5GVnpz6SVnmnWmPtU3qPO6nitostk4ycXDI3PWMX+opXYWQkwlvd/lHoj
+	FF5w==
+X-Gm-Message-State: AJcUukcVKmjnN2ms24F0VV2R2TYyEjVeP8tqmnhWpX7BLY/WcVRDIxug
+	yCkgDi9gPWqlLUbRdiphfSrKYw==
+X-Google-Smtp-Source: ALg8bN70LBo5STZgXr59ULIdTvvbPw7MPKrdZzKmubeG/MaEKMq02i+8+6PeDzIy3gnKDquOwOHluQ==
+X-Received: by 2002:a05:6000:1287:: with SMTP id
+	f7mr17018479wrx.302.1548545245418; 
+	Sat, 26 Jan 2019 15:27:25 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h17sm107224504wrt.59.2019.01.26.15.15.29
+	198sm122234248wmt.36.2019.01.26.15.27.24
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 26 Jan 2019 15:15:30 -0800 (PST)
-Message-ID: <96973bd45e71375db51edeabc57c27503feddd9f.camel@linuxfoundation.org>
+	Sat, 26 Jan 2019 15:27:24 -0800 (PST)
+Message-ID: <30ebcccb5a7b406952657c5c6d031640e5f60a0a.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Xulin Sun <xulin.sun@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2019 23:15:27 +0000
-In-Reply-To: <1548126237-38328-1-git-send-email-xulin.sun@windriver.com>
-References: <20190118022248.17108-1-xulin.sun@windriver.com>
-	<1548126237-38328-1-git-send-email-xulin.sun@windriver.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 26 Jan 2019 23:27:23 +0000
+In-Reply-To: <20190124223528.17455-1-alistair.francis@wdc.com>
+References: <20190124223528.17455-1-alistair.francis@wdc.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [meta-oe][PATCH v2] openssl: fix multilib file install conflicts
+Subject: Re: [PATCH v2] lubusb1: Add udev support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +60,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 23:15:32 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 23:27:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-01-22 at 11:03 +0800, Xulin Sun wrote:
-> To avoid issue like below if run "bitbake lib32-core-image-minimal"
-> with series userspace packages(LAMP,krb5...) added.
+On Thu, 2019-01-24 at 22:35 +0000, Alistair Francis wrote:
+> I don't see circular dependencies anymore between libusb1 and udev,
+> so
+> enable udev support for libusb1.
 > 
-> Add multilib_script support for openssl's c_rehash which is a perl
-> script.
-> 
-> Error: Transaction check error:
->   file /usr/bin/c_rehash conflicts between attempted installs of
->   lib32-openssl-bin-1.1.1-r0.armv7at2hf_neon and openssl-bin-1.1.1-
-> r0.aarch64
-> 
-> Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 4 ++++
->  1 file changed, 4 insertions(+)
+>  meta/recipes-support/libusb/libusb1_1.0.22.bb | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> index 5c4e69c..21359fa 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> @@ -206,3 +206,7 @@ RREPLACES_openssl-conf = "openssl10-conf"
->  RCONFLICTS_openssl-conf = "openssl10-conf"
+> diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> index 0c6e116dd7..35c1d705b6 100644
+> --- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> +++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> @@ -20,9 +20,10 @@ S = "${WORKDIR}/libusb-${PV}"
 >  
->  BBCLASSEXTEND = "native nativesdk"
+>  inherit autotools pkgconfig ptest
+>  
+> -# Don't configure udev by default since it will cause a circular
+> -# dependecy with udev package, which depends on libusb
+> -EXTRA_OECONF = "--libdir=${base_libdir} --disable-udev"
+> +PACKAGECONFIG ??= "udev"
+> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
 > +
-> +inherit multilib_script
-> +
-> +MULTILIB_SCRIPTS = "${PN}:${bindir}/c_rehash"
+> +EXTRA_OECONF = "--libdir=${base_libdir}"
 
-Peter's feedback still needs addressing on whether c_rehash is in ${PN}
-or ${PN}-bin?
+Fails in testing with:
+
+WARNING: Nothing PROVIDES 'nativesdk-udev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
+WARNING: Nothing PROVIDES 'udev-native' (but virtual:native:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
+WARNING: Nothing RPROVIDES 'nativesdk-libusb1-dev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
+WARNING: Nothing RPROVIDES 'nativesdk-libusb1' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
+
+Before someone sends a patch creating a nativesdk-udev please think
+very carefully about whether a nativesdk-udev makes sense and what it
+may need to look like.
 
 Cheers,
 
 Richard
+
 
 
