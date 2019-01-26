@@ -1,55 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 764807C3A2
+	by mail.openembedded.org (Postfix) with ESMTP id 39C227C2E5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 10:33:19 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q18so12767810wrx.9
+	Sat, 26 Jan 2019 10:34:58 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q18so12770172wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 02:33:20 -0800 (PST)
+	Sat, 26 Jan 2019 02:34:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=310vJEXyamaXMwKzcGFdBuxUjLsQDfsz17YnmwraWGA=;
-	b=huZsIGTqd2SMe7irVvw9MwU1Wa7ymFeGjNTho14ZSKq8+u0hv+GNQ7MBF2uAQwVrOC
-	2FOsq/LZykQ6LWcrYZu1n3Ejh1FVSmj177HRKQ5eXu2urmiID0NOZXxzhpP1bPsIpB8y
-	HPLCUzhDuQoTHHqx3XNN8UNJggFlkuZnOWTyE=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=gItg6LvbqVkNvVpiK09L35ZTBJZL/5Br8o81teVya1k=;
+	b=fYelrlaoShIMlR4nfPQT8+r8qm+f/M48/h1V11t0B2w6Z2uAMr0rXxfm8k63f5edKa
+	J+y251X0s4+HaTHW4owePLgCyc9rTBXI4C3NmTOxIcKPF2wI+JalrSFUPkCeIxWyqGGh
+	/AHm3ACNBzfBx/He+8MDpyLkTDDEPELrCwKR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=310vJEXyamaXMwKzcGFdBuxUjLsQDfsz17YnmwraWGA=;
-	b=SllYeLSIH5o6PrtM28i1+ueAihFqceB8iqjG7hnchNP5k2sUFIJ7f0zwigVOxW+Nc7
-	T/rRpejpP/sobH8icugRVCnf5IkFTJF1+YVtaTV7ia9jIahltFCph7qQ8YV/3C+Gq3V2
-	OxprTIf6jeKzqiDI4LC4XzZGR+ZCT+7Zluq4lJKRG+EVdfMxIiJN64EPbMDmmHA4Ly1O
-	xYwc6uceNJlur6qYqw39sQBJ+PHCqKQ/Jm+W/+kTG5ux2FVmeMAQY/yGn61094ETtGY2
-	TLetkfT+50nSlaKNyg57UjRmVK/h6zRlaor+uEC3gixVp7BqrV93QS3A2LK5xNY/NvAl
-	I7Pg==
-X-Gm-Message-State: AJcUukdPBnlK8OfOljblwJV1Q5UvU2FV68j5FJ5yac3K9UmF+OvCvUBE
-	ueFM+Lni6s9Wv3zUwakd5JKtlA==
-X-Google-Smtp-Source: ALg8bN4ijyqy0j+5DRz9PWe9+oO1E8ipmeFeJsFQQcmJRKU//UaGXLVHHMc2pdquus5bNj7CJ9hs1Q==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr14237362wrr.74.1548498799953; 
-	Sat, 26 Jan 2019 02:33:19 -0800 (PST)
+	bh=gItg6LvbqVkNvVpiK09L35ZTBJZL/5Br8o81teVya1k=;
+	b=BoguUJzP/Q75XulIhk2n6R5f3DAJOve+NFmT95r1xUN24SwkTXEOb+eygXw9dwvW+s
+	w5NhHXsM7Gy3zcD9JzHehC4oN9vaxxlZwSe27aKNnnWwis8rhW6WAomzLx6+Z1IkZRX9
+	PLghYAR554dRVueD+Wx/7qP5ms7Bu5e2AWamyyB/A6+XZ7FNX6vwLrdgB6Yq6Yt4VfCh
+	lrTEENYY/3mWzWi63zAflNv34oIhOeYBiSevBGMl9LmA+uB6+r9pm/I1KgL4Nr84PlN/
+	ZGarrQPdyS0avYx2ZLpTPjZHgzir9EJONibfgnBH/LVC8Q5t+5ptHwiGxRAULlErL0MY
+	5Pcw==
+X-Gm-Message-State: AJcUukeh61wYVx70Esp/fnx4Q8ACg0hUaUpoFxPX1UV2psIhuzgPONoq
+	ep1/cEXhTapbSOFj0sfMqN0mcA==
+X-Google-Smtp-Source: ALg8bN6RcakBK5DhbwUC8Z5HMfh0Orswx1OIG94J6aoWBPeCR7FpU4UhFXTgUEg4NOghPGaQxnvQHA==
+X-Received: by 2002:a5d:570c:: with SMTP id a12mr14287857wrv.161.1548498898865;
+	Sat, 26 Jan 2019 02:34:58 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h131sm91738670wmd.17.2019.01.26.02.33.18
+	m15sm90722949wrr.95.2019.01.26.02.34.57
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 26 Jan 2019 02:33:18 -0800 (PST)
-Message-ID: <c6ef31705bf1f47f7b3a265328ebc98d722c3e2f.camel@linuxfoundation.org>
+	Sat, 26 Jan 2019 02:34:58 -0800 (PST)
+Message-ID: <cc81145d8a0f3fd9771dca0d67d2652f3fe8ad11.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-Date: Sat, 26 Jan 2019 10:33:17 +0000
-In-Reply-To: <CAMKF1sqcKnd1ZaGxjQqPH2oYVhyuO=h1wSREii2jXsGkf=5QFQ@mail.gmail.com>
-References: <20190123200520.14956-1-raj.khem@gmail.com>
-	<CAJ86T=XF3Xr0x6zEH2nsHhLQ3afEMP3Ot31pbK9-66ORrCjnsg@mail.gmail.com>
-	<CAMKF1srPt+fiSotytF2jczPEoCsCP5x7U=bODNe23476CA_ABQ@mail.gmail.com>
-	<CAJ86T=Xp_KgsZWv=oj4kEdWqAihMNASpOMc0s7nLHgcpVozWsg@mail.gmail.com>
-	<CAMKF1sqcKnd1ZaGxjQqPH2oYVhyuO=h1wSREii2jXsGkf=5QFQ@mail.gmail.com>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 26 Jan 2019 10:34:57 +0000
+In-Reply-To: <CAJkqNs36diCh3qUHA8+ssmi_BGKjgY_xd_bs1sDAFvWwwGp6ew@mail.gmail.com>
+References: <CAJkqNs36diCh3qUHA8+ssmi_BGKjgY_xd_bs1sDAFvWwwGp6ew@mail.gmail.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-arm: Do not add -march options for arm architecture
+Subject: Re: [PATCH 1/1] lib/oe/patch.py: Fix applying a directory as a patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,97 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 10:33:19 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 10:34:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-01-24 at 22:22 -0500, Khem Raj wrote:
-> On Wed, Jan 23, 2019 at 6:11 PM Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> > On Wed, Jan 23, 2019 at 2:50 PM Khem Raj <raj.khem@gmail.com>
-> > wrote:
-> > > On Wed, Jan 23, 2019 at 5:27 PM Andre McCurdy <
-> > > armccurdy@gmail.com> wrote:
-> > > > On Wed, Jan 23, 2019 at 12:05 PM Khem Raj <raj.khem@gmail.com>
-> > > > wrote:
-> > > > > tune files which inherit the arch definitions already define
-> > > > > appropriate
-> > > > > -mcpu option, which is equivalent of right -march and -mtune
-> > > > > combination
-> > > > 
-> > > > And what about machines which inherit an arch definition
-> > > > instead of a
-> > > > cpu definition? Is that no longer supported?
-> > > 
-> > > I could not find such a machine configuration in several BSP
-> > > layers I looked at.
-> > > Do you know of machine definitions where these files are included
-> > > directly in machine configs ?
-> > 
-> > Using a CPU specific include but then leaving the generic
-> > DEFAULTTUNE
-> > (ie not enabling any CPU specific TUNE_CCARGS) is equivalent, and I
-> > guess quite common.
+On Fri, 2019-01-25 at 20:55 +0100, Tomasz Dziendzielski wrote:
+> If a SRC_URI content ends with '.patch' bitbake is
+> trying to apply it as it's a patch file.
 > 
-> defaulttune does not play much part in appending -mcpu option to
-> compiler flags, A case
-> where this could bypass the setting mcpu is when we do not include a
-> tune-* for arm based machine
-> and thats the case I was interested to know.
+> It causes that if we use git repository for 'patch' package
+> the bare clone is extracted to a directory
+> (i.e. build/downloads/git2/git.mirror.org.patch/) which is considered
+> to be a patch file, so patch.py tries to apply that directory as a
+> patch
+> which ends up with a failure.
 > 
-> again if there is such a BSP I would be interested to test it out.
-> > > if so, then we have to either use _remove or introduce a weak
-> > > variable
-> > > to set march only if
-> > > mcpu is not set which
-> > 
-> > I think the solution is to ensure that the CPU specific tuning
-> > options
-> > are always compatible with any architecture specific options which
-> > may
-> > be active.
-> > 
-> > In general our CPU specific tuning files are a little sloppy (e.g.
-> > defaulting to combinations of VFP versions and architecture levels
-> > which never exist in the real world). If newer versions of gcc are
-> > making those issues more apparent then why not take the opportunity
-> > to
-> > fix them properly?
+> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> ---
+>  meta/lib/oe/patch.py | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> the mcpu option is helping with right march/mtune combination. while
-> we can
-> use specific -march=arch(+-)features syntax and combine with right
-> -mtune to match -mcpu I think we should use
-> compiler defaults and not try to recreate something that -mcpu would
-> do it easily for us.
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index 07a40fc50e..3d0b7d7289 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -793,6 +793,8 @@ def patch_path(url, fetch, workdir, expand=True):
+>      """Return the local path of a patch, or None if this isn't a
+> patch"""
 > 
-> So either we drop the idea of setting mcpu and use basic -march value
-> combined with -mtune ( which btw. was default in past)
-> or if we want to let compiler use ISA for a particular arch
-> implementation ( cortexXXX ) then we should just use -mcpu and drop
-> using -mtune and -march.
-> 
-> I would include towards option 1.
+>      local = fetch.localpath(url)
+> +    if os.path.isdir(local):
+> +        return
 
-I think the friction is partly because we support "generic" tunes as
-well as cpu specific ones. Having a system which allows all of these to
-be switched between is hard.
-
-I do agree we need to have a system which does one or the other and is
-clearer than the current setup though.
-
-The v2 patch isn't right as it will only work for one end result case
-and won't dynamically adjust as the current code is designed to do. We
-can fix that and make such a patch work, we just need to decide what
-we're aiming for first and document it.
-
-I'd also love to understand which of the tunes are actually used and
-which ones we could prune out...
+This doesn't match the comment above, "None if this isn't a patch"?
+Does the rest of the function use "return" or "return None"? It won't
+matter in practise to python but we should be consistent and fix the
+value or the comment.
 
 Cheers,
 
 Richard
-
-
 
 
