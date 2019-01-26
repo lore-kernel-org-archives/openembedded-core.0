@@ -1,50 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 39C227C2E5
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C98806BA9C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 10:34:58 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q18so12770172wrx.9
+	Sat, 26 Jan 2019 10:51:56 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id x124so6927122itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 02:34:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=gItg6LvbqVkNvVpiK09L35ZTBJZL/5Br8o81teVya1k=;
-	b=fYelrlaoShIMlR4nfPQT8+r8qm+f/M48/h1V11t0B2w6Z2uAMr0rXxfm8k63f5edKa
-	J+y251X0s4+HaTHW4owePLgCyc9rTBXI4C3NmTOxIcKPF2wI+JalrSFUPkCeIxWyqGGh
-	/AHm3ACNBzfBx/He+8MDpyLkTDDEPELrCwKR0=
+	Sat, 26 Jan 2019 02:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=oq+ENtog3TtdWdvfQjqWR+gDKKU+q2CwIis2XuLUUFg=;
+	b=Al0hSThgM4d0C53E1xdn8aqKctxpX1r14ol54RxJOuStYD/iBLuvbSH1OUjmYLtvJr
+	TTgQ8jQ33cTPvkcI1ZcVud72YFeAkvDf4s8PBUHty9cswNKLl6XeREJap3rI9q1PQYC3
+	OAotArdSy2QFwNXGvDp8hV8TIqzZ4q5+rb9MgYOlqLw0f/xqdyjIF329OGtrNrirCPwP
+	9Ho6SySFV9kiqlsVzeGscwt0ouCpI2odDw5gseExZNtEyyz1+XruRhMnCJ0MJKoPKosV
+	BcxRSFBhSP0C3ZAKwccsFOrdSuB4MSxQC5PlQ6Nx913HUzhxvQKLgtqXuADpcz5y/Qi2
+	yy5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=gItg6LvbqVkNvVpiK09L35ZTBJZL/5Br8o81teVya1k=;
-	b=BoguUJzP/Q75XulIhk2n6R5f3DAJOve+NFmT95r1xUN24SwkTXEOb+eygXw9dwvW+s
-	w5NhHXsM7Gy3zcD9JzHehC4oN9vaxxlZwSe27aKNnnWwis8rhW6WAomzLx6+Z1IkZRX9
-	PLghYAR554dRVueD+Wx/7qP5ms7Bu5e2AWamyyB/A6+XZ7FNX6vwLrdgB6Yq6Yt4VfCh
-	lrTEENYY/3mWzWi63zAflNv34oIhOeYBiSevBGMl9LmA+uB6+r9pm/I1KgL4Nr84PlN/
-	ZGarrQPdyS0avYx2ZLpTPjZHgzir9EJONibfgnBH/LVC8Q5t+5ptHwiGxRAULlErL0MY
-	5Pcw==
-X-Gm-Message-State: AJcUukeh61wYVx70Esp/fnx4Q8ACg0hUaUpoFxPX1UV2psIhuzgPONoq
-	ep1/cEXhTapbSOFj0sfMqN0mcA==
-X-Google-Smtp-Source: ALg8bN6RcakBK5DhbwUC8Z5HMfh0Orswx1OIG94J6aoWBPeCR7FpU4UhFXTgUEg4NOghPGaQxnvQHA==
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr14287857wrv.161.1548498898865;
-	Sat, 26 Jan 2019 02:34:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m15sm90722949wrr.95.2019.01.26.02.34.57
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 26 Jan 2019 02:34:58 -0800 (PST)
-Message-ID: <cc81145d8a0f3fd9771dca0d67d2652f3fe8ad11.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2019 10:34:57 +0000
-In-Reply-To: <CAJkqNs36diCh3qUHA8+ssmi_BGKjgY_xd_bs1sDAFvWwwGp6ew@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=oq+ENtog3TtdWdvfQjqWR+gDKKU+q2CwIis2XuLUUFg=;
+	b=MyukE1hOP5MDQO2ZizJ6GekUv+2p/uhJT0sW5xCUDWlYVzLRl3Q0MZUyDn3aS8VtES
+	4pL/X4zReX8BCJx+OYZLMqGAy7Td1TDemnkBuCLWrWGBtTP7ceJsD5Bt9/cpwECvtLFz
+	xP6VEEPLp8gmz5SGOwe5Ll7QkoLjhP51hKbmRREAq+8KQT9u/WvbGxEnxxa35yfrQuon
+	E6Og/SFUhjvMZnLAqi0PsJ0a6va2nn4owwRHpIgaxB4yKZ76Xp30erbrUckjnDi6EWaN
+	SC6Dk1ahpxyghFqJh8hO2D/Ef3i5OXpZDVs/gP0i70m3VVrb/xU6iNeABDn8zoV35oeB
+	B0Pw==
+X-Gm-Message-State: AJcUukcsAqqMzppj9PrbbcZ/qFMB9fO+gNu2uQDSFMpahsMF+KlejxDU
+	b0XNbwPqBz8q1Vh76xGmHREdMnSV7Ywd41oJdqI=
+X-Google-Smtp-Source: AHgI3IbC74mQB0emxlcT+JOt4jEPe92tlfFAqOtGKX8Deut6lYHM6/SNWXt5TH9BWTk8g/uFxrNmpY4zYKTHf5PE+ks=
+X-Received: by 2002:a24:2e94:: with SMTP id i142mr6932966ita.157.1548499917489;
+	Sat, 26 Jan 2019 02:51:57 -0800 (PST)
+MIME-Version: 1.0
 References: <CAJkqNs36diCh3qUHA8+ssmi_BGKjgY_xd_bs1sDAFvWwwGp6ew@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
+	<cc81145d8a0f3fd9771dca0d67d2652f3fe8ad11.camel@linuxfoundation.org>
+In-Reply-To: <cc81145d8a0f3fd9771dca0d67d2652f3fe8ad11.camel@linuxfoundation.org>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Sat, 26 Jan 2019 11:47:39 +0100
+Message-ID: <CAJkqNs1W-rwt44Mbyst0rs=V_4ye5RfdAT0kW6ccAODbzQ_4JQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] lib/oe/patch.py: Fix applying a directory as a patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,45 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 10:34:58 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 10:51:56 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2019-01-25 at 20:55 +0100, Tomasz Dziendzielski wrote:
-> If a SRC_URI content ends with '.patch' bitbake is
-> trying to apply it as it's a patch file.
-> 
-> It causes that if we use git repository for 'patch' package
-> the bare clone is extracted to a directory
-> (i.e. build/downloads/git2/git.mirror.org.patch/) which is considered
-> to be a patch file, so patch.py tries to apply that directory as a
-> patch
-> which ends up with a failure.
-> 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> ---
->  meta/lib/oe/patch.py | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 07a40fc50e..3d0b7d7289 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -793,6 +793,8 @@ def patch_path(url, fetch, workdir, expand=True):
->      """Return the local path of a patch, or None if this isn't a
-> patch"""
-> 
->      local = fetch.localpath(url)
-> +    if os.path.isdir(local):
-> +        return
+sob., 26 sty 2019 o 11:34 Richard Purdie
+<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
+>
+> On Fri, 2019-01-25 at 20:55 +0100, Tomasz Dziendzielski wrote:
+> > If a SRC_URI content ends with '.patch' bitbake is
+> > trying to apply it as it's a patch file.
+> >
+> > It causes that if we use git repository for 'patch' package
+> > the bare clone is extracted to a directory
+> > (i.e. build/downloads/git2/git.mirror.org.patch/) which is considered
+> > to be a patch file, so patch.py tries to apply that directory as a
+> > patch
+> > which ends up with a failure.
+> >
+> > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> > ---
+> >  meta/lib/oe/patch.py | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> > index 07a40fc50e..3d0b7d7289 100644
+> > --- a/meta/lib/oe/patch.py
+> > +++ b/meta/lib/oe/patch.py
+> > @@ -793,6 +793,8 @@ def patch_path(url, fetch, workdir, expand=3DTrue):
+> >      """Return the local path of a patch, or None if this isn't a
+> > patch"""
+> >
+> >      local =3D fetch.localpath(url)
+> > +    if os.path.isdir(local):
+> > +        return
+>
+> This doesn't match the comment above, "None if this isn't a patch"?
+> Does the rest of the function use "return" or "return None"? It won't
+> matter in practise to python but we should be consistent and fix the
+> value or the comment.
+>
+> Cheers,
+>
+> Richard
+>
 
-This doesn't match the comment above, "None if this isn't a patch"?
-Does the rest of the function use "return" or "return None"? It won't
-matter in practise to python but we should be consistent and fix the
-value or the comment.
+The rest of the function use "return". You prefer me to change the
+comment in a second commit to keep the changes separated or just do it
+within this one?
 
-Cheers,
-
-Richard
-
+Best regards,
+Tomasz Dziendzielski
 
