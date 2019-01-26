@@ -1,50 +1,54 @@
 Return-Path: <>
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
-	[209.85.167.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 643D47C407
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 39DEC7C410
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 13:00:10 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id n18so8801530lfh.6
+	Sat, 26 Jan 2019 13:00:13 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id k19-v6so10545987lji.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 05:00:11 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Xyy4CcDMi7X1p8bt2ZVp/S8NbuA96qEld8kLIyysZos=;
-	b=Jr87r5c9yKAWPev3ZmAPuvX2NfviS5sCMFt4TSgD4qLIEp9RUG7IRSLtsjH/D+xp33
-	qXEqO3K0p3WSYv+jwW5ZpPjc5/YF2jHWxcfG3QRZmttEYQ0YnGenhEnPf+gShagzjCi3
-	rBNN1IJvCL9QNsIeEEg0k0y0Luha5Lm33KsQmeD5LlidUFJWHFm2Phg0joLD3U7L6LOL
-	966cIj9/d5otdGqVBy/x0CwXNIEPqbGHsJ4KFO3jzPqT3y68mtxZVB36Q6OWuMNybwvN
-	QN7+SPoEa17tGmeDNfxdr/H/pUntCtTlL6jfGJHTexWJT91D7ZE1lxG3ombRoJ67CvqW
-	xeog==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Zgrh0u6+aCcKH/BhSMZQyAOWXaa1f4SoHqAYj+DzOmU=;
+	b=WtZY/xVDROabfMvBbQS6CgPQss0heY75U4eibhjUq9/Q0c169VZYjEkBz/vI/siEEs
+	H7HbeYCMrwbSM8v2RndsNqsoCrnb9NNjAFrbK7Es9a/3PTSzIWpsH9pa+BBAH04d1Q1F
+	8PIHMjzVefmnitWMc3l2TDZvMjQFrVCxNdVEotDmGhfaGL70w27ffWm11fWfBoV+BlDj
+	maZv2BKsbWf6tg68IruQbg9/mjhav9A3IOgHn2/psTElPXU169JLG9TaRdXrC8A0DRYc
+	lR71dtei8enQUV0a8WEbaLNmGJVjQur1wVCLu6R+KMTUPwtnKuSefKgE+aJmRNJxVf0k
+	6SCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Xyy4CcDMi7X1p8bt2ZVp/S8NbuA96qEld8kLIyysZos=;
-	b=LMsoMKyOZLxVql3TBmo+tEmsR6tl5sz/T6ayBKJe+PlK+jycmziNiEAxmvXF872V/U
-	ss0WHQxYO51N9Riic3oVMtLN1f9yf/KgGNr5piFCztZVlruK4ylxkrvDS7UNa2dh0tQ1
-	1uNKn819OFisqnApeoDc2RBr3WStY22FkKmbtydc/FDu/IGCzLY3FZmILpYau0ftSwvn
-	JewS7d6iHblB0hV8ivx447Y58R8irM2JLehB0zvZyVWFtGmAdA9Sdq78IjTXEW/cCz5K
-	RvB7e0C9nhx+vsYQe4arhBKMA2CmjxMJEViF2wRO2MFtbBEYqaHmcNvEyBPs7Selbbpf
-	LILg==
-X-Gm-Message-State: AJcUukcrJV4ovMYrVXAP4uL/+Z3EWCHztsXvh970aWj9J9ZridZIfHnx
-	sa5nI5V7jlbE8LROlMquXXo=
-X-Google-Smtp-Source: ALg8bN62wXDh5F/5sHenZsiIJN2iR31GMG1mieFWWpX9z7Kxanwb6X+0YKUgvzCtpslBLUpe0z3Aew==
-X-Received: by 2002:a19:2106:: with SMTP id h6mr11253210lfh.29.1548507610810; 
-	Sat, 26 Jan 2019 05:00:10 -0800 (PST)
+	:references:mime-version:content-transfer-encoding;
+	bh=Zgrh0u6+aCcKH/BhSMZQyAOWXaa1f4SoHqAYj+DzOmU=;
+	b=BRv/uEXmINKgeW1beglzIfTNZiFBBfh0QrYf6hoas2vKrncuxB+DnsAVNEQreNEMQi
+	ew7bP+k9s86vFIq1azxpd5NoxToPLFXnllyuNAWQxh1ATJ3N2uEtyrJZbLkFQUwvx3u9
+	U7j5H5OYNMLH1nkz11fswat+035NZSbUWojjdUECKuUm0BZOgqEAkrr43uPYnPmRrZDS
+	nOD78fYv6YuXWr/pDRQ6lx9NzoLyA1lEEs1YA2c4tmWJCR6NmDHylrvV8wihkX1ME5nU
+	R0YejNeKqCqxJsQSZUai4JPmECcYXkvHDWBrkM1AhWH/4mczn7h908zKjA2czK+LOeyG
+	VRTA==
+X-Gm-Message-State: AJcUukcFcvyCopHRBOEXFuw3q2i8F4Ul8JPMe7dkM8AbHbBwPPYAouiW
+	mMl+zO/dEcc/IzmGt9UCxjNB+x7FYZg=
+X-Google-Smtp-Source: ALg8bN4RCrjO54VaM0NWaADwXVPmrVj2RU6P09yMF7McD/FWJh2BpZonahLsZEDlp9pHyoMZFHiC/A==
+X-Received: by 2002:a2e:12d0:: with SMTP id
+	77-v6mr11715725ljs.132.1548507614437; 
+	Sat, 26 Jan 2019 05:00:14 -0800 (PST)
 Received: from localhost ([80.64.92.72]) by smtp.gmail.com with ESMTPSA id
-	v19sm2063282lfe.69.2019.01.26.05.00.09
+	f18sm2197140lfk.18.2019.01.26.05.00.13
 	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Sat, 26 Jan 2019 05:00:10 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:13 -0800 (PST)
 From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2019 14:57:57 +0200
-Message-Id: <1548507480-22805-4-git-send-email-ruslan.bilovol@gmail.com>
+Date: Sat, 26 Jan 2019 14:57:58 +0200
+Message-Id: <1548507480-22805-5-git-send-email-ruslan.bilovol@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
 References: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
-Subject: [PATCH 3/6] dhcp: drop lost patch
+MIME-Version: 1.0
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [PATCH 4/6] connman: drop lost patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,142 +61,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 13:00:10 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 13:00:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Commit 7cb42ae87ef9 "dhcp: update 4.4.1" dropped
-0008-tweak-to-support-external-bind.patch
+Commit 85b76e52d206 "connman: update to 1.36" dropped
+0001-inet-Add-prefixlen-to-iproute_default_function.patch
 from recipe, but left the patch itself in source tree.
 Remove this patch since nobody uses it.
 
-Cc: Armin Kuster <akuster808@gmail.com>
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
 Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 ---
- .../dhcp/0008-tweak-to-support-external-bind.patch | 117 ---------------------
- 1 file changed, 117 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+ ...Add-prefixlen-to-iproute_default_function.patch | 63 ----------------------
+ 1 file changed, 63 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-inet-Add-prefixlen-to-iproute_default_function.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+diff --git a/meta/recipes-connectivity/connman/connman/0001-inet-Add-prefixlen-to-iproute_default_function.patch b/meta/recipes-connectivity/connman/connman/0001-inet-Add-prefixlen-to-iproute_default_function.patch
 deleted file mode 100644
-index 006d18a..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+index dd7b356..0000000
+--- a/meta/recipes-connectivity/connman/connman/0001-inet-Add-prefixlen-to-iproute_default_function.patch
 +++ /dev/null
-@@ -1,117 +0,0 @@
--From 92875f5cc44914515e50c11c503a09cec90497b2 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 11 Jun 2016 22:51:44 -0400
--Subject: [PATCH 08/11] tweak to support external bind
+@@ -1,63 +0,0 @@
+-From 508dc60a1f0758ebc586b6b086478a176d493086 Mon Sep 17 00:00:00 2001
+-From: Jian Liang <jianliang@tycoint.com>
+-Date: Thu, 5 Oct 2017 09:34:41 +0100
+-Subject: [PATCH 1/4] inet: Add prefixlen to iproute_default_function
+-To: connman@lists.01.org
+-Cc: wagi@monom.org
 -
--Tweak the external bind to oe-core's sysroot rather than
--external bind source build.
+-Add prefixlen parameter to this function in preparation for using
+-it also in creating subnet route later, e.g.
 -
--Upstream-Status: Inappropriate <oe-core specific>
+-default via 192.168.100.1 dev eth0
+-192.168.100.0/24 dev eth0
 -
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-Signed-off-by: Jian Liang <jianliang@tycoint.com>
+-
 ----
-- client/Makefile.am       | 2 +-
-- client/tests/Makefile.am | 2 +-
-- common/tests/Makefile.am | 2 +-
-- dhcpctl/Makefile.am      | 2 +-
-- omapip/Makefile.am       | 2 +-
-- relay/Makefile.am        | 2 +-
-- server/Makefile.am       | 2 +-
-- server/tests/Makefile.am | 2 +-
-- 8 files changed, 8 insertions(+), 8 deletions(-)
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=edda5b695de2ee79f02314abc9b46fdd46b388e1]
+-Signed-off-by: André Draszik <andre.draszik@jci.com>
+- src/inet.c | 7 ++++---
+- 1 file changed, 4 insertions(+), 3 deletions(-)
 -
--diff --git a/client/Makefile.am b/client/Makefile.am
--index 4730bb3..84d8131 100644
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -4,7 +4,7 @@
-- # production code. Sadly, we are not there yet.
-- SUBDIRS = . tests
+-diff --git a/src/inet.c b/src/inet.c
+-index b887aa0..ab8aec8 100644
+---- a/src/inet.c
+-+++ b/src/inet.c
+-@@ -2796,7 +2796,7 @@ int __connman_inet_del_fwmark_rule(uint32_t table_id, int family, uint32_t fwmar
+- }
 - 
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
+- static int iproute_default_modify(int cmd, uint32_t table_id, int ifindex,
+--			const char *gateway)
+-+			const char *gateway, unsigned char prefixlen)
+- {
+- 	struct __connman_inet_rtnl_handle rth;
+- 	unsigned char buf[sizeof(struct in6_addr)];
+-@@ -2829,6 +2829,7 @@ static int iproute_default_modify(int cmd, uint32_t table_id, int ifindex,
+- 	rth.req.u.r.rt.rtm_protocol = RTPROT_BOOT;
+- 	rth.req.u.r.rt.rtm_scope = RT_SCOPE_UNIVERSE;
+- 	rth.req.u.r.rt.rtm_type = RTN_UNICAST;
+-+	rth.req.u.r.rt.rtm_dst_len = prefixlen;
 - 
-- AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
-- 	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
--diff --git a/client/tests/Makefile.am b/client/tests/Makefile.am
--index 5031d0c..a8dfd26 100644
----- a/client/tests/Makefile.am
--+++ b/client/tests/Makefile.am
--@@ -1,6 +1,6 @@
-- SUBDIRS = .
+- 	__connman_inet_rtnl_addattr_l(&rth.req.n, sizeof(rth.req), RTA_GATEWAY,
+- 								buf, len);
+-@@ -2860,7 +2861,7 @@ int __connman_inet_add_default_to_table(uint32_t table_id, int ifindex,
+- {
+- 	/* ip route add default via 1.2.3.4 dev wlan0 table 1234 */
 - 
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
+--	return iproute_default_modify(RTM_NEWROUTE, table_id, ifindex, gateway);
+-+	return iproute_default_modify(RTM_NEWROUTE, table_id, ifindex, gateway, 0);
+- }
 - 
-- AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
-- AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
--diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
--index f6a43e4..2f98d22 100644
----- a/common/tests/Makefile.am
--+++ b/common/tests/Makefile.am
--@@ -1,6 +1,6 @@
-- SUBDIRS = .
+- int __connman_inet_del_default_from_table(uint32_t table_id, int ifindex,
+-@@ -2868,7 +2869,7 @@ int __connman_inet_del_default_from_table(uint32_t table_id, int ifindex,
+- {
+- 	/* ip route del default via 1.2.3.4 dev wlan0 table 1234 */
 - 
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
+--	return iproute_default_modify(RTM_DELROUTE, table_id, ifindex, gateway);
+-+	return iproute_default_modify(RTM_DELROUTE, table_id, ifindex, gateway, 0);
+- }
 - 
-- AM_CPPFLAGS = $(ATF_CFLAGS) -I$(top_srcdir)/includes
-- 
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index ba8dd8b..9b2486e 100644
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -1,4 +1,4 @@
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
-- 
-- AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
-- 
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index dd1afa0..e4a8599 100644
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -1,4 +1,4 @@
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
-- AM_CPPFLAGS = -I$(top_srcdir)/includes
-- 
-- lib_LIBRARIES = libomapi.a
--diff --git a/relay/Makefile.am b/relay/Makefile.am
--index 6d652f6..b3bf578 100644
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -1,4 +1,4 @@
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
-- 
-- AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-- 
--diff --git a/server/Makefile.am b/server/Makefile.am
--index 3990b9c..b5d8c2d 100644
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -4,7 +4,7 @@
-- # production code. Sadly, we are not there yet.
-- SUBDIRS = . tests
-- 
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
-- 
-- AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-- 
--diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
--index a87c5e7..9821081 100644
----- a/server/tests/Makefile.am
--+++ b/server/tests/Makefile.am
--@@ -1,6 +1,6 @@
-- SUBDIRS = .
-- 
---BINDLIBDIR = @BINDDIR@/lib
--+BINDLIBDIR = @BINDDIR@
-- 
-- AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
-- AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
+- int __connman_inet_get_interface_ll_address(int index, int family,
 --- 
--1.8.3.1
+-2.7.4
 -
 -- 
 1.9.1
