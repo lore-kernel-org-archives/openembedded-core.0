@@ -1,51 +1,50 @@
 Return-Path: <>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF1E7C423
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 508647C427
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 13:00:16 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id x85-v6so10594317ljb.2
+	Sat, 26 Jan 2019 13:00:19 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id e26so8818142lfc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 05:00:17 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Gv+YOR2O7HL+rm3raGKqCCpMjVIkJIO48TtoFzhB15k=;
-	b=iirSl/RcYcDH6G+AYTnxMdkz7ElUpbb3bzfgKgZSTY5qmaXByLEokYQgGLs6eSDSgR
-	PEl/4PU/L/vTVxm+hA4Jsa/AgmTgfIBDKWHHwLvfQYk4gzWPo/Va6HItMmRB9JLQQbJu
-	F5JGR+diPbtKcyFIIn72FjiCswoMjA6TSvCYX1QrJ6cO++ELYqUzQsXnwC15LkUQNorU
-	WCYWUACg8FLSRV1xRlYf/zeMc56BG4m7tTVwr91+dcjqg/GYksoc0uheVB/WGgmsG9gI
-	ZfyzOTEqtWqmpcFi1Na9fS73btmzSpkkJNBBM4RbHEeZkFg6xZIa1AjCfEDfTFpt3WSr
-	2UNQ==
+	bh=DMO/UAvuPaiISEXshBJYHtbJRtetLrc6YPhi28RESQM=;
+	b=cio78ODiuHxOg9xuCUhbjQyXKMrAInm/ZMO5pfTQWnFNzoLXWw0nbBWMySZlRybjzf
+	Zqs4GHGyWGulNZTnYlC7lyc9YIDgaTqEX/Nw+jRm43oOcsoW0MEs5edlEplYJLaornix
+	NJ6ZrIMH5375wYE872Iub9GQWowXEqp1Hw9FszXbQ80jdTIZiqk21DKrzUrE2piRP+wy
+	X28ejP71XlKasI4o7dRyD7kHHyRpWH1Rs+9aqEeS7nz7REr7/JbogNt3M3FvQjeGNa9K
+	bOCLtSw7AoyqR+Iguo3Suv97/mZNJd3YL6i2mYBdvT9Cy/6G1tzskiAdd6uqSqIeesRw
+	DCow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Gv+YOR2O7HL+rm3raGKqCCpMjVIkJIO48TtoFzhB15k=;
-	b=Sh52/bSbk4eLrRAxgizEnrOR5ly5HiDJvclqo1SISh8czQP1/nOtwV281H/UFTrpWe
-	k4G0BUnK2P4ilAO3kZQuToZfrr44dXFui8dG2h1bO508qJfcBqHRu5kcJUkyNibfj5qW
-	7sNd+dU0E3hpgLRSeQ59WscrTeLj62hEaiBHv6/qRZUlBsxn0VMp6mF+/6FJAb3/H3WK
-	j1+UZvjlwgiebXsNL+1cZgeBYiMd24XwmUNx5NCApOaj+MBO7ELJIAMfULDccMlyOLR4
-	EMXrmengHPcu59TEIShJsnnapQKv0GdiJe+guvjR2bHAAv+JN18x7jUlJMRWG0CG+Fq2
-	LmsQ==
-X-Gm-Message-State: AJcUukcGqto+aqTYTcgoE5SIF9N9VJnGW0t9UyURhbv694ay+SnzPfPd
-	pHtYfkfOGZnvC6FCMy/1jFQ=
-X-Google-Smtp-Source: ALg8bN6F3/9r4IX43Bm/KFh/RX9Rc7KDZ//1NHHBTW2cf6CT7/8GRJh4uDtxvC3QDVVXe4xnbuui4w==
-X-Received: by 2002:a2e:5109:: with SMTP id
-	f9-v6mr12010626ljb.52.1548507617002; 
-	Sat, 26 Jan 2019 05:00:17 -0800 (PST)
+	bh=DMO/UAvuPaiISEXshBJYHtbJRtetLrc6YPhi28RESQM=;
+	b=kxPMoYgbW2GiUPaPVZgq+dChwxiOm4mPoq4UfiLP0aVP1N+YUkxNGMw3WC3AqCN7K1
+	s/ySa2BefEZlZo/dcJBc0X8vaI0AcgpbHYlXG5L8IoVmv2qtzG1YHjmBP44wDfy/vyii
+	KyMSU/n/S3wiaK5lfn6CAqZhgkczPt5+WQKe9G+7+WAP3BbKCLSnwlfhz25A4kqpwXAL
+	AGq6++qTupu0DV/CU68qStFR22dV8uxi562CsErR+XpSbk/5vfGcDwBGsUTTPDdcSNpx
+	wY2gOVk25GnfqiMjoTdqAstSTFttAdEjRjQ9PrV2RHkd8x063AsDcum3CavJ/6pQsLMF
+	Jkqg==
+X-Gm-Message-State: AJcUukdHzBD9FgZMt5jzcBXrbL/8qj6axCwK/jz+4twUAWy3ChnUwXPY
+	ydPSAt2ONrQky9fjY1On+x6C0WnTIHVMyw==
+X-Google-Smtp-Source: ALg8bN5PNIAK25Q57nSRX0AM2A4dflXQNVl5l8p2p+pVJ36KFjNyoZgxbFis+9T9As/gbMwX6Yd0Wg==
+X-Received: by 2002:a19:4dd0:: with SMTP id a199mr11960039lfb.42.1548507619780;
+	Sat, 26 Jan 2019 05:00:19 -0800 (PST)
 Received: from localhost ([80.64.92.72]) by smtp.gmail.com with ESMTPSA id
-	h82sm2093566lfg.94.2019.01.26.05.00.16
+	12-v6sm2147109ljs.29.2019.01.26.05.00.19
 	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Sat, 26 Jan 2019 05:00:16 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:19 -0800 (PST)
 From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2019 14:57:59 +0200
-Message-Id: <1548507480-22805-6-git-send-email-ruslan.bilovol@gmail.com>
+Date: Sat, 26 Jan 2019 14:58:00 +0200
+Message-Id: <1548507480-22805-7-git-send-email-ruslan.bilovol@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
 References: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
-Subject: [PATCH 5/6] subversion: drop lost patch
+Subject: [PATCH 6/6] perl: drop lost patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,57 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 13:00:17 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 13:00:19 -0000
 
-Commit 5bb47984af79 "subversion: 1.9.7 -> 1.10.0" dropped
-serf.m4-Regex-modified-to-allow-D-in-paths.patch
+Commit 68552c353255 "perl: remove the previous version of the recipe"
+dropped 0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch
 from recipe, but left the patch itself in source tree.
 Remove this patch since nobody uses it.
 
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 ---
- ...erf.m4-Regex-modified-to-allow-D-in-paths.patch | 32 ----------------------
- 1 file changed, 32 deletions(-)
- delete mode 100644 meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+ ...kefile.SH-Pod-Simple-requires-Getopt-Long.patch | 34 ----------------------
+ 1 file changed, 34 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/perl/0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch b/meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+diff --git a/meta/recipes-devtools/perl/perl/0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch b/meta/recipes-devtools/perl/perl/0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch
 deleted file mode 100644
-index 9fed3cf..0000000
---- a/meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+index aad46f3..0000000
+--- a/meta/recipes-devtools/perl/perl/0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch
 +++ /dev/null
-@@ -1,32 +0,0 @@
--From f1b6e49f12a18eabe88eb732b578a16281d09499 Mon Sep 17 00:00:00 2001
--From: Jose Lamego <jose.a.lamego@linux.intel.com>
--Date: Thu, 2 Jul 2015 11:37:43 +0000
--Subject: [PATCH] serf.m4: Regex modified to allow '-D' in paths
+@@ -1,34 +0,0 @@
+-From 58c69d65b19b5f9a35e1f5ce08d2ea47884233d3 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 27 Dec 2018 00:18:51 -0800
+-Subject: [PATCH] Makefile.SH: Pod-Simple requires Getopt-Long
 -
--Upstream-Status: Accepted
+-Fixed a race issue when parallel build:
 -
--The patch is merged by subversion upstream with replacing '[[:space:]]' with ' '.
+-Running pm_to_blib for cpan/Pod-Simple directly
+-[snip]
+-/path/to/cpan/podlators/../../miniperl "-I../../lib" "-I../../lib" -MExtUtils::MY -e 'MY->fixin(shift)' -- blib/script/pod2man
+-Can't locate Getopt/Long.pm in @INC [snip]
 -
--http://svn.apache.org/viewvc/subversion/trunk/build/ac-macros/serf.m4?r1=1594156&r2=1689824  
+-Upstream-Status: Submitted[https://www.nntp.perl.org/group/perl.perl5.porters/2018/12/msg253236.html]
 -
--Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ----
-- build/ac-macros/serf.m4 | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Makefile.SH | 1 +
+- 1 file changed, 1 insertion(+)
 -
--diff --git a/build/ac-macros/serf.m4 b/build/ac-macros/serf.m4
--index ae11e75..ff8cbae 100644
----- a/build/ac-macros/serf.m4
--+++ b/build/ac-macros/serf.m4
--@@ -168,7 +168,7 @@
--         if $PKG_CONFIG $serf_pc_arg --atleast-version=$serf_check_version; then
--           AC_MSG_RESULT([yes])
--           serf_found=yes
---          SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_pc_arg --cflags | $SED -e 's/-D[^ ]*//g'`]
--+          SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_pc_arg --cflags | $SED -e 's/ -D[^ ]*//g' -e 's/^-D[^ ]*//g'`]
--           SVN_SERF_LIBS=`$PKG_CONFIG $serf_pc_arg --libs-only-l` 
--           dnl don't use --libs-only-L because then we might miss some options
--           LDFLAGS=["$LDFLAGS `$PKG_CONFIG $serf_pc_arg --libs | $SED -e 's/-l[^ ]*//g'`"]
+-diff --git a/Makefile.SH b/Makefile.SH
+-index 9848d55..7a164e7 100755
+---- a/Makefile.SH
+-+++ b/Makefile.SH
+-@@ -189,6 +189,7 @@ dynamic_list=' '
+- dynamic_ext_re="lib/auto/re/re.$dlext"
+- extra_dep='
+- ext/Pod-Functions/pm_to_blib: cpan/Pod-Simple/pm_to_blib cpan/Pod-Escapes/pm_to_blib pod/perlfunc.pod
+-+cpan/Pod-Simple/pm_to_blib: cpan/Getopt-Long/pm_to_blib
+- '
+- for f in $dynamic_ext; do
+-     : the dependency named here will never exist
 --- 
--1.8.4.5
+-2.10.2
 -
 -- 
 1.9.1
