@@ -1,42 +1,47 @@
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EAF47C3F5
+Return-Path: <>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0924C7C3B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 11:40:26 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id g85so14393046ita.3
+	Sat, 26 Jan 2019 12:59:35 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id u18so8795306lff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 03:40:28 -0800 (PST)
+	Sat, 26 Jan 2019 04:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=TdnMgdblWK/i6zJz5BAoZGkQSyyMmLwVV+GqVsxJiZk=;
-	b=lnAGm3jIDGIbuol9gehrq98UTkn+RS/NR6pHUWl2+jUHO4jaRdBb1eiuEBfb1lcuLf
-	kerAKH4FqJYNOsNinU/qoCEWBDBmCk5DYn9pTuOycdxws/qh0KbPNrI2FVqdTlILhKyB
-	0wL8SBxYv20bMej+JXjtxPQ1tzjSp3IWqc6viRM9/cPfV2SwCM+6swdamRswBY/a9Hy8
-	aHzPKjXzmJKVHB5fV0Wb9YZMxYQ7xj494bbT9zJxPcKoMAYIQ8n5avpirDrbPOm+5p1I
-	mANHYiMrr/Lkri2+6z0UZ9XT2MQbIJAg8PozkEZ255fbhwe7xvh6RWPaIPY+kE/DYJvy
-	lM0g==
+	h=from:to:cc:subject:date:message-id;
+	bh=YAf9jgqUBwelhmzCUWqlmLZNEYGhKlu5CHTPp0ALLg8=;
+	b=tDP1NpnY1CDhdrUub+/EbOqzUCS426FrIFmCjSWN3A+izdvzjAkll1KJh1cThCnoB+
+	M4Wnxi0njTAxnQSKO1AGRtOMImUAYaPeu1RHTEwPNaM4cWkbvJECXj6OSjh0RmJlhvsZ
+	o7G+CtA2uZ+WY33Pxm/SEKn1iMCAE0lJwmUClB0X7Be85fReryVGhdnef9m8Jwkh5RQ3
+	0RaIva03dxd9H9sqlK0xwUYtMOCYRa8mVrBCO+rIij57OX7D1i1C1bruXLiPw9cvWp5o
+	FGtWSX0EfUE5mwL+8K896iUY3ZQrAAwAciH/oRpQBHndAfddkRqVlSzrnFkzaT4yNiJQ
+	g0lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=TdnMgdblWK/i6zJz5BAoZGkQSyyMmLwVV+GqVsxJiZk=;
-	b=RP4/jhqrUPxBVkYtTz0e2hnFr4fp0Yv/o49sRkUTw9ib2XkerX6JnQHmuyFOcAwH1D
-	wJiAN3Nwq/vgEjAIUek6RQyFurzK+TSxnSfSsWcTkHdllVv8gRNDog5tHVtOrAsnFJRY
-	jnQom3uew6ziTZUrhF1b3WAGNdeGGWTDSm5j2oVnIq2Ek0a/hm+JHaRfuLEuowraGUVD
-	NiHHIXeD6V++/upVz5Ot+/5A0f1i/S5Zm5W6pk/xul50Jw76tpHwDxN41xGr8bdhhV9O
-	Xvshw07GQVWos7dbbXIKebeDz446QY/uX/RUXO3z+4J2nLn6c4quKOI8PWhXu9N5bz4D
-	VyTw==
-X-Gm-Message-State: AJcUukdFohiQNnCdgHuc9o41LFDF/jUGGKihsrN2NNoU40O2SvH5i4ft
-	3iCfZGrEztuCiFi6VEsUYylQ2K1chVB5CBRKQGHGOv4OwmQ=
-X-Google-Smtp-Source: ALg8bN4H7nh8c/9Y4p5prBCwOblU2OOOKG4h0OPo/RH6ZSVBOxstmeQF3VIZINBWK0vRu1TU0Z7uYbTSi/r0dlLbrHU=
-X-Received: by 2002:a02:3003:: with SMTP id q3mr9473230jaq.16.1548502827822;
-	Sat, 26 Jan 2019 03:40:27 -0800 (PST)
-MIME-Version: 1.0
-From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Date: Sat, 26 Jan 2019 12:36:10 +0100
-Message-ID: <CAJkqNs1=dkY5UMK3hGh6n5yGYyR=qEOasNiSANxWgWkSCjfS1g@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] lib/oe/patch.py: Fix the function comment
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YAf9jgqUBwelhmzCUWqlmLZNEYGhKlu5CHTPp0ALLg8=;
+	b=ONqqsokUinFVFHKZfM+Q0/O4sdHz5Jk6kVab8XwN4qobueSmLMgQLmLCrb6S2cW3A+
+	N6+1/9tpP3tDuHxrlTCVsTmAe4mFzLkwLY6VX0UcxQMfPSzoaug8jTZgoIBlhJmR781B
+	sWzzS20jPwc7MYN4N773k/bz9hH7uizjHfs+c5FOVxco6BR0tdhs6nvYjwuNUsW9eIst
+	nakNOHMvEWBd1If3fJzYhkRCDEvCVIaZEGSb0E40BpBC4fMq/cWjszTTx7kpJCjwh7U4
+	Ferl0w8tSeAaTeGmKjk+rynamy4Np5m4EBbUrtaki8lih6y6pCbnO+9wYycOydIg1mh8
+	SiPA==
+X-Gm-Message-State: AJcUukfUBT9bUQwgrGMZANPNrD14lX5g+NloqiQhKRmNh7dVjESlCXEE
+	p2Y5AzY4EKp9tomX6ZlbgTU=
+X-Google-Smtp-Source: ALg8bN5C2eJXJbUlBeFkxep1opHXBwU3nWQjYx+aNXKo0GjGmzEusozMz80otEjf9rhkh44Mhpv5mA==
+X-Received: by 2002:a19:7352:: with SMTP id o79mr11842416lfc.104.1548507575313;
+	Sat, 26 Jan 2019 04:59:35 -0800 (PST)
+Received: from localhost ([80.64.92.72]) by smtp.gmail.com with ESMTPSA id
+	p23sm2042090lfh.47.2019.01.26.04.59.34
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Sat, 26 Jan 2019 04:59:34 -0800 (PST)
+From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 26 Jan 2019 14:57:54 +0200
+Message-Id: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/6] Remove lost patches from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,30 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 11:40:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 26 Jan 2019 12:59:36 -0000
 
-If it's not a patch the function returns nothing.
+Working with recent oe-core I noticed that there are
+patches not used by any recipe, which is confusing.
+This is caused by mistakes in recipe upgrades, when
+people remove patch from SRC_URI but forgets to
+delete actual patch.
+Instead of fixing only recipes I worked on,
+I wrote a simple bash script which found all 6
+lost patches in oe-core.
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch series removes all of them
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 07a40fc50e..8c8e96a2dc 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -790,7 +790,7 @@ class UserResolver(Resolver):
+Ruslan Bilovol (6):
+  lttng: drop lost patch
+  bind: drop lost patch
+  dhcp: drop lost patch
+  connman: drop lost patch
+  subversion: drop lost patch
+  perl: drop lost patch
 
+ ...0001-build-use-pkg-config-to-find-libxml2.patch |  54 ----------
+ ...Add-prefixlen-to-iproute_default_function.patch |  63 -----------
+ .../dhcp/0008-tweak-to-support-external-bind.patch | 117 ---------------------
+ ...kefile.SH-Pod-Simple-requires-Getopt-Long.patch |  34 ------
+ ...erf.m4-Regex-modified-to-allow-D-in-paths.patch |  32 ------
+ ...trfs-Remove-unnecessary-fs_info-parameter.patch | 116 --------------------
+ 6 files changed, 416 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-inet-Add-prefixlen-to-iproute_default_function.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl/0001-Makefile.SH-Pod-Simple-requires-Getopt-Long.patch
+ delete mode 100644 meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
 
- def patch_path(url, fetch, workdir, expand=True):
--    """Return the local path of a patch, or None if this isn't a patch"""
-+    """Return the local path of a patch, or return nothing if this
-isn't a patch"""
-
-     local = fetch.localpath(url)
-     base, ext = os.path.splitext(os.path.basename(local))
 -- 
-2.20.1
+1.9.1
+
 
