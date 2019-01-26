@@ -1,37 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 36EAF7C42C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 333EB7C374
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 16:29:02 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id y20so13978955qtm.13
+	Sat, 26 Jan 2019 17:39:52 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id g67so9509525wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 08:29:03 -0800 (PST)
+	Sat, 26 Jan 2019 09:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EX1JAT1qdMffKm62sH7ObsnfJvUHD1yfgCYHijYwnAE=;
-	b=rX3vIFz82F3IDb/caNCrI14vUMOaeKqNuckJYUK/bqdID+ag5dA3LbHGDd/u7nwoAK
-	CxfOH0dTBkYU37kg+QFtpqJiRRwUgucuV2PSUn1D7LLqLIZj/TYC6d1so/Nc+/ddmpa5
-	gEPfw89/P1GAy/fdD8zjDyOkqVJZiI1YuKcSW8GUDgo1m3dd0pYioNVTX0/cu/ovN07V
-	6l5kv2jR2u3PvLzWjQstvYXh34p50EGvboO0EGfWhNvcXhWDQ7Hjqk+1IJ9fK1xNMBvX
-	lLfmtzeHjDa8hKD79ncTEHw9XJfAONspyFzpkaXgWH8Zs1hzN+yYgbf8xmqP/YCgwB6y
-	fNhg==
+	:cc; bh=IuZYxe04zTm5YbOcMy3W09ITrn+zHx18LRvGW0etd9A=;
+	b=OV95Rn90K3dQ0B0SYbS06Vbka0iXxV3JuGAPN4IbLZJDh0oTJKUgsZFhEv+PaLUmxS
+	71YK403CGEq1cX2AkaTJG8sMFQtWugU1F5F7nB9T58QSG7e3fzfoRTi0DbdLyiwH2sfu
+	kvgAH+FU+dGJjlu5/EFTtGsYO0YsL70OZR0d8sh0TA+eG+WuZyk7eYPa082cUAxejQJZ
+	kmXOl22T7xsxoYPA01vS/gXbZsyvOeRW/lALurND6PzoUkxXGXvZIeIe99IEghOBIznC
+	6IciCwmcEldb21QkJY/BKylqmsrXt6v3W1vFcXZd1ycQOC691xNo9RmGdvNdlukvreYJ
+	A0mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=EX1JAT1qdMffKm62sH7ObsnfJvUHD1yfgCYHijYwnAE=;
-	b=JywIwt8HnIIbX4bLMmSy4yTMPmLejyFziDqfBXpHAae3PwtPQWxWVQlZD31pW2SPzu
-	xMDlrIkEwzNETFl17kQTx03IK7IotBJ+lSWHzilNmLu7nWb1ra2k3wkQnKtjcH0b6Rcs
-	ZEJE1i4BilR6maMQS9inobwNYmuXlvPDvQSq0n9JexMB9y0k8Dw3hGH+HKFgX90s08HQ
-	WbMBKjWqyoNkLSVQJHVSmU83Qbmoz2DRFl2grxoccM78YHMkGLMgX7rWS7i6Ze7oXoV2
-	NB5omtjIzwFyJs3CzqDwU1iBUxva0fZYv82EkGHqbyDwdBsdM2yVsJ+IPwmYTljV8cm9
-	iyFA==
-X-Gm-Message-State: AJcUukdqx8S0jG8TPXrc3WhfMeodEx8U6oC0cGht+Z2xorMbrwYLree1
-	gk3SYFtmQZFXTwI4Dmq8beFsRBYs60Detim2igY=
-X-Google-Smtp-Source: ALg8bN7yArnTHxNNQDqINFm3RbOo8tHK9M/4GYQ4O25C1NsVnFmkQZa9495QyhQnWtDiGl/vyL54LlEZRT8TV6w3ZGw=
-X-Received: by 2002:a0c:a144:: with SMTP id d62mr14670307qva.50.1548520142689; 
-	Sat, 26 Jan 2019 08:29:02 -0800 (PST)
+	bh=IuZYxe04zTm5YbOcMy3W09ITrn+zHx18LRvGW0etd9A=;
+	b=JuZJUdruMlzE0fFnYxhKW9hq18j3qQLWhBV+Yi/DWf66GCNwKqBD7NLy9myLO67VMm
+	2t8j01OkexGnGlIL6e6lfBHYGgOAdK0UbuTZI3kQc5fsE3uJFtFWcMnpY7FXhdJHVkFS
+	rUrU78IdD6f+r4VW1HV+RpGze4ImirWVMim/w8wQrab/xO2aFaTdfc+zFsQ9IwW9Yclz
+	3hiWffMYs8fVKm7xfwLtdSlNtqOGksGT014/+kUQhq+Lh2VXZ5a/8F3PBsh3ra3Z1JnL
+	bpgjsY2ssNtNLOgwNhRbEMVRgM1x+5i+vaInIhBA5Nn3pNZwm8b/K6XC+E5wWdgYqL4/
+	WSTw==
+X-Gm-Message-State: AJcUukchCXSCes49/K1uCATLm4zf6gqvqU4FVTSKokOOZSjRFKOIpyAs
+	VXyd8hWO4ByqOP/jFCB9zoUjFDFCQHVjy/AB910=
+X-Google-Smtp-Source: ALg8bN5Ub6+Tb4onCAOOJNKOyudiQ3jW1vZAkqkftUtWQ60L6Ibe7jZ8+jRaYPnieeR/4YGK/Lu4YSES/zMUNJsjz28=
+X-Received: by 2002:a1c:9c15:: with SMTP id f21mr10363499wme.94.1548524392551; 
+	Sat, 26 Jan 2019 09:39:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20190123200520.14956-1-raj.khem@gmail.com>
 	<CAJ86T=XF3Xr0x6zEH2nsHhLQ3afEMP3Ot31pbK9-66ORrCjnsg@mail.gmail.com>
@@ -39,11 +39,12 @@ References: <20190123200520.14956-1-raj.khem@gmail.com>
 	<CAJ86T=Xp_KgsZWv=oj4kEdWqAihMNASpOMc0s7nLHgcpVozWsg@mail.gmail.com>
 	<CAMKF1sqcKnd1ZaGxjQqPH2oYVhyuO=h1wSREii2jXsGkf=5QFQ@mail.gmail.com>
 	<8cb035d4-2213-905e-68ec-4903758499e8@windriver.com>
-In-Reply-To: <8cb035d4-2213-905e-68ec-4903758499e8@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Jan 2019 08:28:51 -0800
-Message-ID: <CAMKF1sq_eLh0ahLm0fC7+ZHPbR28-1jj6scFFZwDXxWjxupEFg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+	<CAMKF1sq_eLh0ahLm0fC7+ZHPbR28-1jj6scFFZwDXxWjxupEFg@mail.gmail.com>
+In-Reply-To: <CAMKF1sq_eLh0ahLm0fC7+ZHPbR28-1jj6scFFZwDXxWjxupEFg@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sat, 26 Jan 2019 18:39:42 +0100
+Message-ID: <CA+chaQcQ_eauCeAZykSOE2WgbQkCaZCcf5TAyBTVXGewyn0NFA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] arch-arm: Do not add -march options for arm architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,322 +59,433 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 16:29:02 -0000
-Content-Type: multipart/alternative; boundary="000000000000085c8f05805ef162"
+X-List-Received-Date: Sat, 26 Jan 2019 17:39:52 -0000
+Content-Type: multipart/alternative; boundary="000000000000581c0c05805feed3"
 
---000000000000085c8f05805ef162
+--000000000000581c0c05805feed3
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jan 25, 2019 at 12:32 PM Mark Hatle <mark.hatle@windriver.com>
-wrote:
+Which -mcpu/-march combination is causing issue in gcc9?
+
+I know we had this issue with armv7a tunes before, that's why I've added
+separate armv7ve before the switch from -mtune to -mcpu.
+
+I still believe -mcpu (with or without -march) is better option.
+
+Using -mtune without indicating which -mtune was actually used in the
+package arch is bad (especially if you have multiple MACHINEs with
+different DEFAULTTUNEs e.g. cortexa7, cortexa8 in -mtune, but both ending
+in armv7a package arch, unpacking all packages from sstate every time you
+switch MACHINE and the package manager on target never knowing which -mtune
+was used to build given package upgrade from feed).
+
+Switching from -mcpu to -mtune while keeping the current cpu-specific
+package architectures is better, but then the use case, that I build
+everything e.g. with cortexa8 in -mtune and install this cortexa8 package
+feed on cortexa7 MACHINEs also looks strange, yes it will work in runtime,
+but why not use generic armv7a DEFAULTTUNE to make it clear (to package
+manager as well as end user) that I'm not really optimizing for given CPU).
+
+From the naive openssl benchmarks I did few years back, there was very
+small difference between mtune/mcpu/just-march, but still for projects
+where I have separate package feeds for each device (e.g. LG TVs) I prefer
+to use -mcpu (because I really know that such packages won't ever be used
+on device with different CPU) and e.g. in LuneOS we're more concerned about
+package feed size and build time, so we select more generic DEFAULTTUNE
+which is shared across many MACHINEs and that doesn't have any -mcpu (nor
+-mtune) options in it, so should be fine as well.
+
+We can easily extend the tune-test script I've used back then when
+switching to -mcpu to not only use bitbake -e, but also call gcc-cross to
+check for possible warnings from incompatible march/mcpu combinations and
+fix those. The old version is here:
+http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune-test
+it was used in mcpu switch here:
+http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune2-test
+
+http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune3
+
+From the gcc git log I don't see many changes in:
+https://github.com/gcc-mirror/gcc/commits/master/gcc/config/arm/driver-arm.c
+nor
+https://github.com/gcc-mirror/gcc/commits/master/gcc/config/arm/arm-cpus.in
+so I'm really interested which combination issues the warning now.
+
+Regards,
+
+On Sat, Jan 26, 2019 at 5:29 PM Khem Raj <raj.khem@gmail.com> wrote:
+
 >
-> On 1/24/19 9:22 PM, Khem Raj wrote:
-> > On Wed, Jan 23, 2019 at 6:11 PM Andre McCurdy <armccurdy@gmail.com>
-wrote:
-> >>
-> >> On Wed, Jan 23, 2019 at 2:50 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>> On Wed, Jan 23, 2019 at 5:27 PM Andre McCurdy <armccurdy@gmail.com>
-wrote:
-> >>>>
-> >>>> On Wed, Jan 23, 2019 at 12:05 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>>>>
-> >>>>> tune files which inherit the arch definitions already define
-appropriate
-> >>>>> -mcpu option, which is equivalent of right -march and -mtune
-combination
-> >>>>
-> >>>> And what about machines which inherit an arch definition instead of a
-> >>>> cpu definition? Is that no longer supported?
-> >>>
-> >>> I could not find such a machine configuration in several BSP layers I
-looked at.
-> >>> Do you know of machine definitions where these files are included
-> >>> directly in machine configs ?
-> >>
-> >> Using a CPU specific include but then leaving the generic DEFAULTTUNE
-> >> (ie not enabling any CPU specific TUNE_CCARGS) is equivalent, and I
-> >> guess quite common.
+> On Fri, Jan 25, 2019 at 12:32 PM Mark Hatle <mark.hatle@windriver.com>
+> wrote:
 > >
-> > defaulttune does not play much part in appending -mcpu option to
-> > compiler flags, A case
-> > where this could bypass the setting mcpu is when we do not include a
-> > tune-* for arm based machine
-> > and thats the case I was interested to know.
+> > On 1/24/19 9:22 PM, Khem Raj wrote:
+> > > On Wed, Jan 23, 2019 at 6:11 PM Andre McCurdy <armccurdy@gmail.com>
+> wrote:
+> > >>
+> > >> On Wed, Jan 23, 2019 at 2:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > >>>
+> > >>> On Wed, Jan 23, 2019 at 5:27 PM Andre McCurdy <armccurdy@gmail.com>
+> wrote:
+> > >>>>
+> > >>>> On Wed, Jan 23, 2019 at 12:05 PM Khem Raj <raj.khem@gmail.com>
+> wrote:
+> > >>>>>
+> > >>>>> tune files which inherit the arch definitions already define
+> appropriate
+> > >>>>> -mcpu option, which is equivalent of right -march and -mtune
+> combination
+> > >>>>
+> > >>>> And what about machines which inherit an arch definition instead of
+> a
+> > >>>> cpu definition? Is that no longer supported?
+> > >>>
+> > >>> I could not find such a machine configuration in several BSP layers
+> I looked at.
+> > >>> Do you know of machine definitions where these files are included
+> > >>> directly in machine configs ?
+> > >>
+> > >> Using a CPU specific include but then leaving the generic DEFAULTTUNE
+> > >> (ie not enabling any CPU specific TUNE_CCARGS) is equivalent, and I
+> > >> guess quite common.
+> > >
+> > > defaulttune does not play much part in appending -mcpu option to
+> > > compiler flags, A case
+> > > where this could bypass the setting mcpu is when we do not include a
+> > > tune-* for arm based machine
+> > > and thats the case I was interested to know.
+> > >
+> > > again if there is such a BSP I would be interested to test it out.
+> > >>
+> > >>> if so, then we have to either use _remove or introduce a weak
+> variable
+> > >>> to set march only if
+> > >>> mcpu is not set which
+> > >>
+> > >> I think the solution is to ensure that the CPU specific tuning options
+> > >> are always compatible with any architecture specific options which may
+> > >> be active.
+> > >>
+> > >> In general our CPU specific tuning files are a little sloppy (e.g.
+> > >> defaulting to combinations of VFP versions and architecture levels
+> > >> which never exist in the real world). If newer versions of gcc are
+> > >> making those issues more apparent then why not take the opportunity to
+> > >> fix them properly?
+> > >
+> > > the mcpu option is helping with right march/mtune combination. while
+> we can
+> > > use specific -march=arch(+-)features syntax and combine with right
+> > > -mtune to match -mcpu I think we should use
+> > > compiler defaults and not try to recreate something that -mcpu would
+> > > do it easily for us.
+> > >
+> > > So either we drop the idea of setting mcpu and use basic -march value
+> > > combined with -mtune ( which btw. was default in past)
+> > > or if we want to let compiler use ISA for a particular arch
+> > > implementation ( cortexXXX ) then we should just use -mcpu and drop
+> > > using -mtune and -march.
+> > >
+> > > I would include towards option 1.
 > >
-> > again if there is such a BSP I would be interested to test it out.
-> >>
-> >>> if so, then we have to either use _remove or introduce a weak variable
-> >>> to set march only if
-> >>> mcpu is not set which
-> >>
-> >> I think the solution is to ensure that the CPU specific tuning options
-> >> are always compatible with any architecture specific options which may
-> >> be active.
-> >>
-> >> In general our CPU specific tuning files are a little sloppy (e.g.
-> >> defaulting to combinations of VFP versions and architecture levels
-> >> which never exist in the real world). If newer versions of gcc are
-> >> making those issues more apparent then why not take the opportunity to
-> >> fix them properly?
+> > I know this is a bit of a 'me too' response, but we have to pick one
+> format and
+> > stay with it.  Either option, but not both.
+>
+> I concur.
+>
+>
 > >
-> > the mcpu option is helping with right march/mtune combination. while we
-can
-> > use specific -march=arch(+-)features syntax and combine with right
-> > -mtune to match -mcpu I think we should use
-> > compiler defaults and not try to recreate something that -mcpu would
-> > do it easily for us.
+> > -IF- we know that the appropriate -mcpu options are available for all of
+> the
+> > potential combinations out there, then this is by far the preferred
+> method in my
+> > mind.  Much easier to handle and manage...
+>
+> -mcpu options are available for known CPU implementations. But there
+> always will
+> be weird ones, given how people can pick and choose subsystems for SOC on
+> this
+> architecture, and its highly probable that they wont be in gcc. so real
+> question we need to answer for is, should we design for those cases and how
+> often does this often.
+>
+>
 > >
-> > So either we drop the idea of setting mcpu and use basic -march value
-> > combined with -mtune ( which btw. was default in past)
-> > or if we want to let compiler use ISA for a particular arch
-> > implementation ( cortexXXX ) then we should just use -mcpu and drop
-> > using -mtune and -march.
+> > However, the more complex route came out as various 'odd-ball' (and
+> people claim
+> > don't exist, but they do) custom ARM cores get released without
+> 'mandatory' math
+> > units, or some other odd ball variation.  (I've seen this numerous times
+> over
+> > the last 20 years that something that doesn't exist, does... all because
+> it's a
+> > custom part.)
+>
+> Yes, I am dealing with one such design even today
+>
+>
 > >
-> > I would include towards option 1.
+> > If we have an easy way to define the -mcpu= means some magic combination
+> of
+> > -march/-mtune within the GCC spec itself, then I'm 100% for moving to
+> -mcpu to
+> > rid ourselves of this mess.. and then we still have the flexibility to
+> easily
+> > update/add tunes and GCC configuration for the odd-balls that seem to
+> crop up
+> > regularly.
 >
-> I know this is a bit of a 'me too' response, but we have to pick one
-format and
-> stay with it.  Either option, but not both.
-
-I concur.
-
-
+> So yes we can do nearly same but not exactly same. We have to start adding
+> or deleting
+> features via -march and -mtune would be same value, but there are cases
+> where gcc defines
+> internal properties based on mcpu, that is not representable in those
+> suffixes we will add. so
+> we will come very close but not exact and I think compiler is right in
+> this case because we
+> are not exactly telling it about a CPU implementation, but we are telling
+> the cpu has these properties, so it really may not be one of standard cpu
+> implementation.
 >
-> -IF- we know that the appropriate -mcpu options are available for all of
-the
-> potential combinations out there, then this is by far the preferred
-method in my
-> mind.  Much easier to handle and manage...
-
--mcpu options are available for known CPU implementations. But there always
-will
-be weird ones, given how people can pick and choose subsystems for SOC on
-this
-architecture, and its highly probable that they wont be in gcc. so real
-question we need to answer for is, should we design for those cases and how
-often does this often.
-
-
 >
-> However, the more complex route came out as various 'odd-ball' (and
-people claim
-> don't exist, but they do) custom ARM cores get released without
-'mandatory' math
-> units, or some other odd ball variation.  (I've seen this numerous times
-over
-> the last 20 years that something that doesn't exist, does... all because
-it's a
-> custom part.)
-
-Yes, I am dealing with one such design even today
-
-
+> >
+> > (I know -I- can always patch GCC for new -mcpu combinations, but I'm not
+> > thinking about 'me', I'm thinking about the user of OE who is told 'use
+> this
+> > CPU, it has this set of functions' and is NOT a compiler expert who can
+> wade
+> > through GCC spec files and generate patches with any confidence.)
+> >
 >
-> If we have an easy way to define the -mcpu= means some magic combination
-of
-> -march/-mtune within the GCC spec itself, then I'm 100% for moving to
--mcpu to
-> rid ourselves of this mess.. and then we still have the flexibility to
-easily
-> update/add tunes and GCC configuration for the odd-balls that seem to
-crop up
-> regularly.
-
-So yes we can do nearly same but not exactly same. We have to start adding
-or deleting
-features via -march and -mtune would be same value, but there are cases
-where gcc defines
-internal properties based on mcpu, that is not representable in those
-suffixes we will add. so
-we will come very close but not exact and I think compiler is right in this
-case because we
-are not exactly telling it about a CPU implementation, but we are telling
-the cpu has these properties, so it really may not be one of standard cpu
-implementation.
-
-
+> I would think we can solve this for these niche cases, via using
+> -march/-mtune and drop
+> -mcpu, we can append adding/deleting a given feature e.g. neon or vfp or
+> vfpv3 etc.
+> but this would mean we have to rename our package feed names as well to
+> match this
+> new representation, which currently is mapped to mcpu values. This is
+> quite a departure
+> from package feeds point of view. but its more aligned with how we have
+> defined arch and tunes.
+> so pick the battles.
 >
-> (I know -I- can always patch GCC for new -mcpu combinations, but I'm not
-> thinking about 'me', I'm thinking about the user of OE who is told 'use
-this
-> CPU, it has this set of functions' and is NOT a compiler expert who can
-wade
-> through GCC spec files and generate patches with any confidence.)
 >
-
-I would think we can solve this for these niche cases, via using
--march/-mtune and drop
--mcpu, we can append adding/deleting a given feature e.g. neon or vfp or
-vfpv3 etc.
-but this would mean we have to rename our package feed names as well to
-match this
-new representation, which currently is mapped to mcpu values. This is quite
-a departure
-from package feeds point of view. but its more aligned with how we have
-defined arch and tunes.
-so pick the battles.
-
-
-> --Mark
->
-> >>
-> >>>>> and is preferred since gcc is getting stricter and stricter with
-option
-> >>>>> check semantics and can now find incompatible -march and -mcpu
-options
-> >>>>> better with every release. It does internal feature consistency
-check
-> >>>>> and if it finds out discrepency between what -mcpu would expand to
-as
-> >>>>> compared to -march it will flag the options to be incompatible, for
-> >>>>> naked eye it sounds wrong but gcc would translate -mcpu to a given
-> >>>>> -march internally and it might not match to what we set in these
-arch
-> >>>>> files.
-> >>>>>
-> >>>>> The effects are quite subtle, where this can result in configure
-test
-> >>>>> failing to compile due to these incompatible options and a feature
-> >>>>> option getting disabled for a recipe for no reason.
-> >>>>>
-> >>>>> e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
-> >>>>> -march=armv7-a are incompatible, many features in libstdc++ ends up
-> >>>>> disabled due to configure check failures e.g. size_t size, ptrdiff_t
-> >>>>> sizes, which inturn results in compiling libstdc++ with unwanted
-> >>>>> disabled features.
-> >>>>
-> >>>> It would be interesting to see more specific details of this.
-> >>>
-> >>> These are configure tests which fail when -Werror is in use and is not
-> >>> limited to libstdc++
-> >>> it can happen in any package. Since the diagnostic about incompatible
-> >>> march mcpu pair
-> >>> is a warning in general, it does not matter, but when we have -Werror
-> >>> enabled this turns
-> >>> into error, You can simply try a small helloworld example to see the
-effects.
-> >>>
-> >>>>
-> >>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >>>>> ---
-> >>>>>  meta/conf/machine/include/arm/arch-armv4.inc   | 1 -
-> >>>>>  meta/conf/machine/include/arm/arch-armv5.inc   | 1 -
-> >>>>>  meta/conf/machine/include/arm/arch-armv6.inc   | 1 -
-> >>>>>  meta/conf/machine/include/arm/arch-armv7a.inc  | 1 -
-> >>>>>  meta/conf/machine/include/arm/arch-armv7ve.inc | 1 -
-> >>>>>  meta/conf/machine/include/tune-iwmmxt.inc      | 2 +-
-> >>>>>  6 files changed, 1 insertion(+), 6 deletions(-)
-> >>>>>
-> >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv4.inc
-b/meta/conf/machine/include/arm/arch-armv4.inc
-> >>>>> index 47a7ad2830..52d8ab1e8f 100644
-> >>>>> --- a/meta/conf/machine/include/arm/arch-armv4.inc
-> >>>>> +++ b/meta/conf/machine/include/arm/arch-armv4.inc
-> >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv4"
-> >>>>>
-> >>>>>  TUNEVALID[arm] = "Enable ARM instruction set"
-> >>>>>  TUNEVALID[armv4] = "Enable instructions for ARMv4"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', '
--march=armv4t', '', d)}"
-> >>>>>  # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then
-disable it when we have also armv5 or thumb
-> >>>>>  # maybe we should extend bb.utils.contains to support check for
-any checkvalues in value, now it does
-> >>>>>  # checkvalues.issubset(val) which cannot be used for negative test
-of foo neither bar in value
-> >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv5.inc
-b/meta/conf/machine/include/arm/arch-armv5.inc
-> >>>>> index f9068af9de..1fe1b6b8e4 100644
-> >>>>> --- a/meta/conf/machine/include/arm/arch-armv5.inc
-> >>>>> +++ b/meta/conf/machine/include/arm/arch-armv5.inc
-> >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv5"
-> >>>>>
-> >>>>>  TUNEVALID[armv5] = "Enable instructions for ARMv5"
-> >>>>>  TUNECONFLICTS[armv5] = "armv4"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', '
--march=armv5t${ARMPKGSFX_DSP}', '', d)}"
-> >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
-'armv5', 'armv5:', '' ,d)}"
-> >>>>>
-> >>>>>  require conf/machine/include/arm/arch-armv4.inc
-> >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv6.inc
-b/meta/conf/machine/include/arm/arch-armv6.inc
-> >>>>> index 6c838e999c..adb9be8050 100644
-> >>>>> --- a/meta/conf/machine/include/arm/arch-armv6.inc
-> >>>>> +++ b/meta/conf/machine/include/arm/arch-armv6.inc
-> >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv6hf"
-> >>>>>
-> >>>>>  TUNEVALID[armv6] = "Enable instructions for ARMv6"
-> >>>>>  TUNECONFLICTS[armv6] = "armv4 armv5"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', '
--march=armv6', '', d)}"
-> >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
-'armv6', 'armv6:', '' ,d)}"
-> >>>>>
-> >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
-> >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc
-b/meta/conf/machine/include/arm/arch-armv7a.inc
-> >>>>> index a2663d8008..09d2c03a5d 100644
-> >>>>> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
-> >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-> >>>>> @@ -3,7 +3,6 @@ ARM_INSTRUCTION_SET ?= "thumb"
-> >>>>>
-> >>>>>  TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
-> >>>>>  TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', '
--march=armv7-a', '', d)}"
-> >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
-'armv7a', 'armv7a:', '' ,d)}"
-> >>>>>
-> >>>>>  require conf/machine/include/arm/arch-armv6.inc
-> >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc
-b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> >>>>> index 4d9260fecb..31e334f645 100644
-> >>>>> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-> >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv7vethf"
-> >>>>>
-> >>>>>  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
-> >>>>>  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', '
--march=armv7ve', '', d)}"
-> >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
-'armv7ve', 'armv7ve:', '' ,d)}"
-> >>>>>
-> >>>>>  require conf/machine/include/arm/arch-armv7a.inc
-> >>>>> diff --git a/meta/conf/machine/include/tune-iwmmxt.inc
-b/meta/conf/machine/include/tune-iwmmxt.inc
-> >>>>> index f27423cb2e..6e577697cc 100644
-> >>>>> --- a/meta/conf/machine/include/tune-iwmmxt.inc
-> >>>>> +++ b/meta/conf/machine/include/tune-iwmmxt.inc
-> >>>>> @@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
-> >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
-> >>>>>
-> >>>>>  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor
-optimizations"
-> >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', '
--march=iwmmxt -mcpu=iwmmxt', '', d)}"
-> >>>>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', '
--mcpu=iwmmxt', '', d)}"
-> >>>>>
-> >>>>>  AVAILTUNES += "iwmmxt"
-> >>>>>  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
-> >>>>> --
-> >>>>> 2.20.1
-> >>>>>
-> >>>>> --
-> >>>>> _______________________________________________
-> >>>>> Openembedded-core mailing list
-> >>>>> Openembedded-core@lists.openembedded.org
-> >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > --Mark
+> >
+> > >>
+> > >>>>> and is preferred since gcc is getting stricter and stricter with
+> option
+> > >>>>> check semantics and can now find incompatible -march and -mcpu
+> options
+> > >>>>> better with every release. It does internal feature consistency
+> check
+> > >>>>> and if it finds out discrepency between what -mcpu would expand to
+> as
+> > >>>>> compared to -march it will flag the options to be incompatible, for
+> > >>>>> naked eye it sounds wrong but gcc would translate -mcpu to a given
+> > >>>>> -march internally and it might not match to what we set in these
+> arch
+> > >>>>> files.
+> > >>>>>
+> > >>>>> The effects are quite subtle, where this can result in configure
+> test
+> > >>>>> failing to compile due to these incompatible options and a feature
+> > >>>>> option getting disabled for a recipe for no reason.
+> > >>>>>
+> > >>>>> e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
+> > >>>>> -march=armv7-a are incompatible, many features in libstdc++ ends up
+> > >>>>> disabled due to configure check failures e.g. size_t size,
+> ptrdiff_t
+> > >>>>> sizes, which inturn results in compiling libstdc++ with unwanted
+> > >>>>> disabled features.
+> > >>>>
+> > >>>> It would be interesting to see more specific details of this.
+> > >>>
+> > >>> These are configure tests which fail when -Werror is in use and is
+> not
+> > >>> limited to libstdc++
+> > >>> it can happen in any package. Since the diagnostic about incompatible
+> > >>> march mcpu pair
+> > >>> is a warning in general, it does not matter, but when we have -Werror
+> > >>> enabled this turns
+> > >>> into error, You can simply try a small helloworld example to see the
+> effects.
+> > >>>
+> > >>>>
+> > >>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > >>>>> ---
+> > >>>>>  meta/conf/machine/include/arm/arch-armv4.inc   | 1 -
+> > >>>>>  meta/conf/machine/include/arm/arch-armv5.inc   | 1 -
+> > >>>>>  meta/conf/machine/include/arm/arch-armv6.inc   | 1 -
+> > >>>>>  meta/conf/machine/include/arm/arch-armv7a.inc  | 1 -
+> > >>>>>  meta/conf/machine/include/arm/arch-armv7ve.inc | 1 -
+> > >>>>>  meta/conf/machine/include/tune-iwmmxt.inc      | 2 +-
+> > >>>>>  6 files changed, 1 insertion(+), 6 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv4.inc
+> b/meta/conf/machine/include/arm/arch-armv4.inc
+> > >>>>> index 47a7ad2830..52d8ab1e8f 100644
+> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv4.inc
+> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv4.inc
+> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv4"
+> > >>>>>
+> > >>>>>  TUNEVALID[arm] = "Enable ARM instruction set"
+> > >>>>>  TUNEVALID[armv4] = "Enable instructions for ARMv4"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', '
+> -march=armv4t', '', d)}"
+> > >>>>>  # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then
+> disable it when we have also armv5 or thumb
+> > >>>>>  # maybe we should extend bb.utils.contains to support check for
+> any checkvalues in value, now it does
+> > >>>>>  # checkvalues.issubset(val) which cannot be used for negative
+> test of foo neither bar in value
+> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv5.inc
+> b/meta/conf/machine/include/arm/arch-armv5.inc
+> > >>>>> index f9068af9de..1fe1b6b8e4 100644
+> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv5.inc
+> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv5.inc
+> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv5"
+> > >>>>>
+> > >>>>>  TUNEVALID[armv5] = "Enable instructions for ARMv5"
+> > >>>>>  TUNECONFLICTS[armv5] = "armv4"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', '
+> -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
+> > >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
+> 'armv5', 'armv5:', '' ,d)}"
+> > >>>>>
+> > >>>>>  require conf/machine/include/arm/arch-armv4.inc
+> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv6.inc
+> b/meta/conf/machine/include/arm/arch-armv6.inc
+> > >>>>> index 6c838e999c..adb9be8050 100644
+> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv6.inc
+> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv6.inc
+> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv6hf"
+> > >>>>>
+> > >>>>>  TUNEVALID[armv6] = "Enable instructions for ARMv6"
+> > >>>>>  TUNECONFLICTS[armv6] = "armv4 armv5"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', '
+> -march=armv6', '', d)}"
+> > >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
+> 'armv6', 'armv6:', '' ,d)}"
+> > >>>>>
+> > >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
+> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc
+> b/meta/conf/machine/include/arm/arch-armv7a.inc
+> > >>>>> index a2663d8008..09d2c03a5d 100644
+> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
+> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+> > >>>>> @@ -3,7 +3,6 @@ ARM_INSTRUCTION_SET ?= "thumb"
+> > >>>>>
+> > >>>>>  TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+> > >>>>>  TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', '
+> -march=armv7-a', '', d)}"
+> > >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
+> 'armv7a', 'armv7a:', '' ,d)}"
+> > >>>>>
+> > >>>>>  require conf/machine/include/arm/arch-armv6.inc
+> > >>>>> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc
+> b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> > >>>>> index 4d9260fecb..31e334f645 100644
+> > >>>>> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
+> > >>>>> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> > >>>>> @@ -2,7 +2,6 @@ DEFAULTTUNE ?= "armv7vethf"
+> > >>>>>
+> > >>>>>  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+> > >>>>>  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve',
+> ' -march=armv7ve', '', d)}"
+> > >>>>>  MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
+> 'armv7ve', 'armv7ve:', '' ,d)}"
+> > >>>>>
+> > >>>>>  require conf/machine/include/arm/arch-armv7a.inc
+> > >>>>> diff --git a/meta/conf/machine/include/tune-iwmmxt.inc
+> b/meta/conf/machine/include/tune-iwmmxt.inc
+> > >>>>> index f27423cb2e..6e577697cc 100644
+> > >>>>> --- a/meta/conf/machine/include/tune-iwmmxt.inc
+> > >>>>> +++ b/meta/conf/machine/include/tune-iwmmxt.inc
+> > >>>>> @@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
+> > >>>>>  require conf/machine/include/arm/arch-armv5-dsp.inc
+> > >>>>>
+> > >>>>>  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor
+> optimizations"
+> > >>>>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', '
+> -march=iwmmxt -mcpu=iwmmxt', '', d)}"
+> > >>>>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', '
+> -mcpu=iwmmxt', '', d)}"
+> > >>>>>
+> > >>>>>  AVAILTUNES += "iwmmxt"
+> > >>>>>  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
+> > >>>>> --
+> > >>>>> 2.20.1
+> > >>>>>
+> > >>>>> --
+> > >>>>> _______________________________________________
+> > >>>>> Openembedded-core mailing list
+> > >>>>> Openembedded-core@lists.openembedded.org
+> > >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---000000000000085c8f05805ef162
+--000000000000581c0c05805feed3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><div dir=3D"ltr">Which -mcpu/-march combination is causing issue =
+in gcc9?<div><br></div><div>I know we had this issue with armv7a tunes befo=
+re, that&#39;s why I&#39;ve added separate armv7ve before the switch from -=
+mtune to -mcpu.</div><div><br></div><div>I still believe -mcpu (with or wit=
+hout -march) is better option.</div><div><br></div><div>Using -mtune withou=
+t indicating which -mtune was actually used in the package arch is bad (esp=
+ecially if you have multiple MACHINEs with different DEFAULTTUNEs e.g. cort=
+exa7, cortexa8 in -mtune, but both ending in armv7a package arch, unpacking=
+ all packages from sstate every time you switch MACHINE and the package man=
+ager on target never knowing which -mtune was used to build given package u=
+pgrade from feed).</div><div><br></div><div>Switching from -mcpu to -mtune =
+while keeping the current cpu-specific package architectures is better, but=
+ then the use case, that I build everything e.g. with cortexa8 in -mtune an=
+d install this cortexa8 package feed on cortexa7 MACHINEs also looks strang=
+e, yes it will work in runtime, but why not use generic armv7a DEFAULTTUNE =
+to make it clear (to package manager as well as end user) that I&#39;m not =
+really optimizing for given CPU).</div><div><br></div><div>From the naive o=
+penssl benchmarks I did few years back, there was very small difference bet=
+ween mtune/mcpu/just-march, but still for projects where I have separate pa=
+ckage feeds for each device (e.g. LG TVs) I prefer to use -mcpu (because I =
+really know that such packages won&#39;t ever be used on device with differ=
+ent CPU) and e.g. in LuneOS we&#39;re more concerned about package feed siz=
+e and build time, so we select more generic DEFAULTTUNE which is shared acr=
+oss many MACHINEs and that doesn&#39;t have any -mcpu (nor -mtune) options =
+in it, so should be fine as well.</div><div><br></div><div>We can easily ex=
+tend the tune-test script I&#39;ve used back then when switching to -mcpu t=
+o not only use bitbake -e, but also call gcc-cross to check for possible wa=
+rnings from incompatible march/mcpu combinations and fix those. The old ver=
+sion is here:</div><div><a href=3D"http://git.openembedded.org/openembedded=
+-core-contrib/log/?h=3Djansa/tune-test">http://git.openembedded.org/openemb=
+edded-core-contrib/log/?h=3Djansa/tune-test</a><br></div><div>it was used i=
+n mcpu switch here:</div><div><a href=3D"http://git.openembedded.org/openem=
+bedded-core-contrib/log/?h=3Djansa/tune2-test">http://git.openembedded.org/=
+openembedded-core-contrib/log/?h=3Djansa/tune2-test</a>=C2=A0=C2=A0<br></di=
+v><div><a href=3D"http://git.openembedded.org/openembedded-core-contrib/log=
+/?h=3Djansa/tune3">http://git.openembedded.org/openembedded-core-contrib/lo=
+g/?h=3Djansa/tune3</a></div><div><br></div><div>From the gcc git log I don&=
+#39;t see many changes in:</div><div><a href=3D"https://github.com/gcc-mirr=
+or/gcc/commits/master/gcc/config/arm/driver-arm.c">https://github.com/gcc-m=
+irror/gcc/commits/master/gcc/config/arm/driver-arm.c</a><br></div><div>nor<=
+/div><div><a href=3D"https://github.com/gcc-mirror/gcc/commits/master/gcc/c=
+onfig/arm/arm-cpus.in">https://github.com/gcc-mirror/gcc/commits/master/gcc=
+/config/arm/arm-cpus.in</a><br></div><div>so I&#39;m really interested whic=
+h combination issues the warning now.</div><div><br></div><div>Regards,</di=
+v></div></div></div></div></div></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Sat, Jan 26, 2019 at 5:29 PM Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><br>
 On Fri, Jan 25, 2019 at 12:32 PM Mark Hatle &lt;<a href=3D"mailto:mark.hatl=
 e@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&gt; wrote:<=
 br>
@@ -770,5 +882,14 @@ listinfo/openembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lis=
 ts.openembedded.org/mailman/listinfo/openembedded-core</a><br>
 &gt;<br>
 </div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---000000000000085c8f05805ef162--
+--000000000000581c0c05805feed3--
