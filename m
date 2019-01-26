@@ -1,50 +1,50 @@
 Return-Path: <>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A397C401
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+	[209.85.167.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 643D47C407
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 13:00:06 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id i26so8840222lfc.0
+	Sat, 26 Jan 2019 13:00:10 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id n18so8801530lfh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 05:00:08 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4ht9w8BhDHmuQwL6RJ53WXFNjsC93Ob9OYmgUb6UWDg=;
-	b=PU2+FmuJoc+CeD6Fo47AskXiOauWRcjXXXJ6sraLjr5mlr9zaAs2DEpYCHcqXgrWWV
-	8msBYSqtTFI7luh9c86BRvsvb9QWSamB+TwxsLcBRv0bUO2J8/HaDTugIMWz+NMEZB0O
-	W+4nOkcBB1apKNjQeUas69EP7SIN955JoZisUnxHfUkzJ/HHTtR7g2HxNqKpF7owi6j6
-	P+kX7KeS6Ka45fHM+ing0EmVDz/3CLfAHt6gN/Gjcg7MFtEftM0+SU63pX7AqhsufVPO
-	/gxZqjGSiIiUvgzAZKo/LbRbAqsHT0qA/L83nJj6aIYTxMFW6UBHbz0x5Fzvx4h7l9fN
-	8SVQ==
+	bh=Xyy4CcDMi7X1p8bt2ZVp/S8NbuA96qEld8kLIyysZos=;
+	b=Jr87r5c9yKAWPev3ZmAPuvX2NfviS5sCMFt4TSgD4qLIEp9RUG7IRSLtsjH/D+xp33
+	qXEqO3K0p3WSYv+jwW5ZpPjc5/YF2jHWxcfG3QRZmttEYQ0YnGenhEnPf+gShagzjCi3
+	rBNN1IJvCL9QNsIeEEg0k0y0Luha5Lm33KsQmeD5LlidUFJWHFm2Phg0joLD3U7L6LOL
+	966cIj9/d5otdGqVBy/x0CwXNIEPqbGHsJ4KFO3jzPqT3y68mtxZVB36Q6OWuMNybwvN
+	QN7+SPoEa17tGmeDNfxdr/H/pUntCtTlL6jfGJHTexWJT91D7ZE1lxG3ombRoJ67CvqW
+	xeog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4ht9w8BhDHmuQwL6RJ53WXFNjsC93Ob9OYmgUb6UWDg=;
-	b=UB7PfA8yNdI4x5d7k8TuQ3k7bqGCuXw94Zz3CyZDbaMJoqgf0HZKakvoFTaRxqOJT/
-	NgG9PEBOKujQcGQtzo1EMut+S/iwvZ7CAjhgNLSXuvzKPJg1+eICvjjCz66x7kEJJA7j
-	zq3YNTOnuNtN+Irz58dxx3+a/Tc6ieGIcZmkjtPiib4fENxVWK8c2SzVAHVPzke1K8iU
-	nycpls9rh9Zn6FBE8dUceNErCvJhihtI38EnVWynMtF7hod+UwcdqE0OdBpH9T46kwdA
-	xeI0MjSFx6RU3kpY0WZKUNtD4Gal2JNXBYXZ91zjjQJqCye80ElD0056E3VZ5HqC8JRW
-	1Gmw==
-X-Gm-Message-State: AJcUukcub+DgPJkl1qCjgBBfm1dPbUkPK+Zn6ugEwCisVgMQgooSFy+y
-	X/ocLDHpuwZPh61eqOEvBhk=
-X-Google-Smtp-Source: ALg8bN7qL4tE9z/cTjJCxz7fBAexTyADsL1Qwf4o0ur5uf7rkhBBm9qqUdLQfj/L/LnOgWz3pKvGgw==
-X-Received: by 2002:a19:ec16:: with SMTP id b22mr11942890lfa.65.1548507607277; 
-	Sat, 26 Jan 2019 05:00:07 -0800 (PST)
-Received: from localhost ([80.64.92.72])
-	by smtp.gmail.com with ESMTPSA id q3sm2003378lff.42.2019.01.26.05.00.06
+	bh=Xyy4CcDMi7X1p8bt2ZVp/S8NbuA96qEld8kLIyysZos=;
+	b=LMsoMKyOZLxVql3TBmo+tEmsR6tl5sz/T6ayBKJe+PlK+jycmziNiEAxmvXF872V/U
+	ss0WHQxYO51N9Riic3oVMtLN1f9yf/KgGNr5piFCztZVlruK4ylxkrvDS7UNa2dh0tQ1
+	1uNKn819OFisqnApeoDc2RBr3WStY22FkKmbtydc/FDu/IGCzLY3FZmILpYau0ftSwvn
+	JewS7d6iHblB0hV8ivx447Y58R8irM2JLehB0zvZyVWFtGmAdA9Sdq78IjTXEW/cCz5K
+	RvB7e0C9nhx+vsYQe4arhBKMA2CmjxMJEViF2wRO2MFtbBEYqaHmcNvEyBPs7Selbbpf
+	LILg==
+X-Gm-Message-State: AJcUukcrJV4ovMYrVXAP4uL/+Z3EWCHztsXvh970aWj9J9ZridZIfHnx
+	sa5nI5V7jlbE8LROlMquXXo=
+X-Google-Smtp-Source: ALg8bN62wXDh5F/5sHenZsiIJN2iR31GMG1mieFWWpX9z7Kxanwb6X+0YKUgvzCtpslBLUpe0z3Aew==
+X-Received: by 2002:a19:2106:: with SMTP id h6mr11253210lfh.29.1548507610810; 
+	Sat, 26 Jan 2019 05:00:10 -0800 (PST)
+Received: from localhost ([80.64.92.72]) by smtp.gmail.com with ESMTPSA id
+	v19sm2063282lfe.69.2019.01.26.05.00.09
 	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Sat, 26 Jan 2019 05:00:06 -0800 (PST)
+	Sat, 26 Jan 2019 05:00:10 -0800 (PST)
 From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2019 14:57:56 +0200
-Message-Id: <1548507480-22805-3-git-send-email-ruslan.bilovol@gmail.com>
+Date: Sat, 26 Jan 2019 14:57:57 +0200
+Message-Id: <1548507480-22805-4-git-send-email-ruslan.bilovol@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
 References: <1548507480-22805-1-git-send-email-ruslan.bilovol@gmail.com>
-Subject: [PATCH 2/6] bind: drop lost patch
+Subject: [PATCH 3/6] dhcp: drop lost patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,79 +57,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 13:00:07 -0000
+X-List-Received-Date: Sat, 26 Jan 2019 13:00:10 -0000
 
-Commit "c37207d0aca5 bind: update to ESV version 9.11.3" dropped
-0001-build-use-pkg-config-to-find-libxml2.patch
+Commit 7cb42ae87ef9 "dhcp: update 4.4.1" dropped
+0008-tweak-to-support-external-bind.patch
 from recipe, but left the patch itself in source tree.
 Remove this patch since nobody uses it.
 
 Cc: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 ---
- ...0001-build-use-pkg-config-to-find-libxml2.patch | 54 ----------------------
- 1 file changed, 54 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
+ .../dhcp/0008-tweak-to-support-external-bind.patch | 117 ---------------------
+ 1 file changed, 117 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch b/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
 deleted file mode 100644
-index 1e23c0f..0000000
---- a/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-find-libxml2.patch
+index 006d18a..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
 +++ /dev/null
-@@ -1,54 +0,0 @@
--xml2-config is disabled, so change the configure script to use pkgconfig to find
--libxml2.
+@@ -1,117 +0,0 @@
+-From 92875f5cc44914515e50c11c503a09cec90497b2 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Sat, 11 Jun 2016 22:51:44 -0400
+-Subject: [PATCH 08/11] tweak to support external bind
 -
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+-Tweak the external bind to oe-core's sysroot rather than
+-external bind source build.
 -
--Update context for version 9.10.3-P2.
+-Upstream-Status: Inappropriate <oe-core specific>
 -
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--Update context for version 9.10.5-P3.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ----
-- configure.in | 23 +++--------------------
-- 1 file changed, 3 insertions(+), 20 deletions(-)
+- client/Makefile.am       | 2 +-
+- client/tests/Makefile.am | 2 +-
+- common/tests/Makefile.am | 2 +-
+- dhcpctl/Makefile.am      | 2 +-
+- omapip/Makefile.am       | 2 +-
+- relay/Makefile.am        | 2 +-
+- server/Makefile.am       | 2 +-
+- server/tests/Makefile.am | 2 +-
+- 8 files changed, 8 insertions(+), 8 deletions(-)
 -
--diff --git a/configure.in b/configure.in
--index 4da73a4..6f2a754 100644
----- a/configure.in
--+++ b/configure.in
--@@ -2282,26 +2282,9 @@ case "$use_libxml2" in
-- 		DST_LIBXML2_INC=""
-- 		;;
-- 	auto|yes)
---		case X`(xml2-config --version) 2>/dev/null` in
---		X2.[[6789]].*)
---			libxml2_libs=`xml2-config --libs`
---			libxml2_cflags=`xml2-config --cflags`
---			;;
---		*)
---			if test "yes" = "$use_libxml2" ; then
---				AC_MSG_RESULT(no)
---				AC_MSG_ERROR(required libxml2 version not available)
---			else
---				libxml2_libs=
---				libxml2_cflags=
---			fi
---			;;
---		esac
---		;;
---	*)
---		if test -f "$use_libxml2/bin/xml2-config" ; then
---			libxml2_libs=`$use_libxml2/bin/xml2-config --libs`
---			libxml2_cflags=`$use_libxml2/bin/xml2-config --cflags`
--+		if pkg-config --exists libxml-2.0 ; then
--+			libxml2_libs=`pkg-config libxml-2.0 --libs`
--+			libxml2_cflags=`pkg-config libxml-2.0 --cflags`
-- 		fi
-- 		;;
-- esac
+-diff --git a/client/Makefile.am b/client/Makefile.am
+-index 4730bb3..84d8131 100644
+---- a/client/Makefile.am
+-+++ b/client/Makefile.am
+-@@ -4,7 +4,7 @@
+- # production code. Sadly, we are not there yet.
+- SUBDIRS = . tests
+- 
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
+- 	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
+-diff --git a/client/tests/Makefile.am b/client/tests/Makefile.am
+-index 5031d0c..a8dfd26 100644
+---- a/client/tests/Makefile.am
+-+++ b/client/tests/Makefile.am
+-@@ -1,6 +1,6 @@
+- SUBDIRS = .
+- 
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
+- AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
+-diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
+-index f6a43e4..2f98d22 100644
+---- a/common/tests/Makefile.am
+-+++ b/common/tests/Makefile.am
+-@@ -1,6 +1,6 @@
+- SUBDIRS = .
+- 
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = $(ATF_CFLAGS) -I$(top_srcdir)/includes
+- 
+-diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
+-index ba8dd8b..9b2486e 100644
+---- a/dhcpctl/Makefile.am
+-+++ b/dhcpctl/Makefile.am
+-@@ -1,4 +1,4 @@
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
+- 
+-diff --git a/omapip/Makefile.am b/omapip/Makefile.am
+-index dd1afa0..e4a8599 100644
+---- a/omapip/Makefile.am
+-+++ b/omapip/Makefile.am
+-@@ -1,4 +1,4 @@
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- AM_CPPFLAGS = -I$(top_srcdir)/includes
+- 
+- lib_LIBRARIES = libomapi.a
+-diff --git a/relay/Makefile.am b/relay/Makefile.am
+-index 6d652f6..b3bf578 100644
+---- a/relay/Makefile.am
+-+++ b/relay/Makefile.am
+-@@ -1,4 +1,4 @@
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
+- 
+-diff --git a/server/Makefile.am b/server/Makefile.am
+-index 3990b9c..b5d8c2d 100644
+---- a/server/Makefile.am
+-+++ b/server/Makefile.am
+-@@ -4,7 +4,7 @@
+- # production code. Sadly, we are not there yet.
+- SUBDIRS = . tests
+- 
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
+- 
+-diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
+-index a87c5e7..9821081 100644
+---- a/server/tests/Makefile.am
+-+++ b/server/tests/Makefile.am
+-@@ -1,6 +1,6 @@
+- SUBDIRS = .
+- 
+--BINDLIBDIR = @BINDDIR@/lib
+-+BINDLIBDIR = @BINDDIR@
+- 
+- AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
+- AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
 --- 
--2.1.4
+-1.8.3.1
 -
 -- 
 1.9.1
