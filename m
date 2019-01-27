@@ -1,42 +1,48 @@
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
-	[209.85.166.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 42C397C45B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BE7C7C35A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 23:31:00 +0000 (UTC)
-Received: by mail-it1-f174.google.com with SMTP id i145so15728543ita.4
+	Sun, 27 Jan 2019 01:10:59 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id t13so14800164qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 15:31:01 -0800 (PST)
+	Sat, 26 Jan 2019 17:11:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=95cIqlOjMbrIXrRMNmQguM28sfcOxDaeVuiBNj/2cTk=;
-	b=Nxg92nVJf0RELC5o+7ZG2qnXigfIx665lpCQ6a8MBTamJ8FpyVahLONFPStgWksw0G
-	bBQXmmN92EZU8PLQjTmOYtxgqjwbZsKgUxAu9lZAnCAYgm5JANwTkriVjKJjnwvp4UN5
-	06yuTeLgwc74ps768FWLkYoRixNDVMNxboHlH8wBY0YrVw3Vz/8TXA3501naNG6k0WxC
-	0coVdKDnwj4yuyKdKAtm7NjRvfZ1T7R+M6KVH9JGWfYbVjqWtnIHgm99sTSyXqgTiLGj
-	/7dYJ3RXSqFbTZ5DNMmX3brjRRiHAFDm8HqDpyWrB6wOK5QAPc6wbijI8D+RL0x0/E/T
-	vIAw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Egi4jfcnzwHCjFm+G6inK1QQcmHESrei9Fs9pWtYyyw=;
+	b=n7G5HLylaQQ4VaOcMkpJBdoVdsZHigVfCfKM61BHjLmc6uJcbcFhgr9ZnlfuJqmRJr
+	NLi/BH8v/8tNiVMrZTRzYp/rL/Z/WW7eW7lgByekfEFC7YpKjuHNG1jhkMzNfhr5fspn
+	6hDZgBqYX2aV4KQxmrm1LlsvwYN+BueN3aTCev3xpGAXnsXQ0n7rsuoFB/PFG76dnt4u
+	o1eRrb1q3yIjAt8dQaTIUAG63yRib9mHwk7IaMvi97IZar4Setvcg6xkoXZr4ZF1lUgj
+	Jqz/BKvT7xf5huLUgSlRT5MKKT7Jfrmc+HOJ9tLrwMlYmmXoLUOM0ZXHMX8K59hANTJ7
+	SF8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=95cIqlOjMbrIXrRMNmQguM28sfcOxDaeVuiBNj/2cTk=;
-	b=e/JfFvrdt4JEUdzb95mN7+BYCNalaeveXL842M2xeJZnfZFygrpE5u9iDwrHBI1WE1
-	jMY0QGjHFTTTkXvYsq5T8wbjBYDNiTnbE5u/Zy5KlVsKDmplxfOzXgcN7P4wm+WdNjSF
-	luwdi5p+pprjIzRAvQ0XPBpGEapmF9iQly5Z8ZEsWQQU2ZbiyrBrtlyJeDOvDt+cZ+hj
-	3pj+zQGvJ1AgqUA0HbwsXnH7N885N76HQxNZ1YYaMuXn5JOp63NxSm5XacT1fgUaJRfb
-	nBYcFNADnhhtB/pRlSRHmtINvfJzxL+hCdg9BqtWvGexm86gOI87GH5aB8EZeN2cjIOd
-	VCaA==
-X-Gm-Message-State: AJcUukfWak2nWaJgCOKFlVaVvg/JPNEBXtlEoZKwjivqdO/Ujb7t9mIg
-	CUWLnDeLrXm1J/D20uQARBAOSxRBOINH4qMZa0kwZe7E
-X-Google-Smtp-Source: ALg8bN59hOcaGPgNL6dpHnWppkjQjvrMW0JF6My5846hWk+tixvQBMuxLJo7ewSHBXvCjBz3Vzq1NzMZSYYMnh5VyzA=
-X-Received: by 2002:a24:2e94:: with SMTP id i142mr402096ita.157.1548545461035; 
-	Sat, 26 Jan 2019 15:31:01 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Egi4jfcnzwHCjFm+G6inK1QQcmHESrei9Fs9pWtYyyw=;
+	b=OpxdeyLsKHROog+mPmA0cl7e4gcV3iwXwkNRVqbAWCKbvwLYFhicgCoKZjS1JbIgpB
+	VDwluMXr51eyJuoOS+LgiJHJLselqZ2r1jtSnnxJA473YHQk/gWRXAIXkm1unb0eo7xT
+	9n1wD+zKyk2QCHm9Mg3PVlZlnIQBbpxOe0XcfdxiklfrKBVQOw5LWwQ9A/tj/0zb2MEq
+	hksrUf9y3GkWUc+4SFThVZX49217MOUg8Dnw7ldmqTh9owiHCY0tzLjCJADBCQKlvXhL
+	Yon/bCKJhdr9XEwI4bF1dyjhExEnnsXAYradEtMDdjoFRdQ/bwB5AVBdPaUWdh9l8yAK
+	oG6Q==
+X-Gm-Message-State: AJcUukcD5wykcRdLFtf71CKj1NaA6e7YXH+Lj3hvg6Yybz4MDX9JhB8V
+	qkL4MUguRRqagP1U2UNZPZFMIh2oqSzO7E8OMIg=
+X-Google-Smtp-Source: ALg8bN5h6hlu07VqpMQ6HEx9MV3XvXUoTH0574wCDYjHkvd+Fb2o+Kn4qfDJThja1yt0rBXF0xlsydZP4cVk6dxGWwA=
+X-Received: by 2002:ac8:16d8:: with SMTP id y24mr16747638qtk.253.1548551460095;
+	Sat, 26 Jan 2019 17:11:00 -0800 (PST)
 MIME-Version: 1.0
-From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Date: Sun, 27 Jan 2019 00:26:44 +0100
-Message-ID: <CAJkqNs0KdJaZxOxvLE08n3HA3KrgtwQar26wibu1PtC0cVC6iA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] gcc-shared-source: Fix devtool missing patch/unpack tasks
+References: <20190124223528.17455-1-alistair.francis@wdc.com>
+	<30ebcccb5a7b406952657c5c6d031640e5f60a0a.camel@linuxfoundation.org>
+In-Reply-To: <30ebcccb5a7b406952657c5c6d031640e5f60a0a.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 26 Jan 2019 17:10:34 -0800
+Message-ID: <CAMKF1sqCmskU=GmzXvHXVufnqdSieWmN8xvC4n9axNgL9GeM-g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] lubusb1: Add udev support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,40 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2019 23:31:00 -0000
+X-List-Received-Date: Sun, 27 Jan 2019 01:10:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Devtool needs to execute these tasks so we cannot disable them
-but if SRC_URI is empty we don't need to disable them anymore.
+On Sat, Jan 26, 2019 at 3:27 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2019-01-24 at 22:35 +0000, Alistair Francis wrote:
+> > I don't see circular dependencies anymore between libusb1 and udev,
+> > so
+> > enable udev support for libusb1.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  meta/recipes-support/libusb/libusb1_1.0.22.bb | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> > b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> > index 0c6e116dd7..35c1d705b6 100644
+> > --- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> > +++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
+> > @@ -20,9 +20,10 @@ S = "${WORKDIR}/libusb-${PV}"
+> >
+> >  inherit autotools pkgconfig ptest
+> >
+> > -# Don't configure udev by default since it will cause a circular
+> > -# dependecy with udev package, which depends on libusb
+> > -EXTRA_OECONF = "--libdir=${base_libdir} --disable-udev"
+> > +PACKAGECONFIG ??= "udev"
+> > +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+> > +
+> > +EXTRA_OECONF = "--libdir=${base_libdir}"
+>
+> Fails in testing with:
+>
+> WARNING: Nothing PROVIDES 'nativesdk-udev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
+> WARNING: Nothing PROVIDES 'udev-native' (but virtual:native:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
+> WARNING: Nothing RPROVIDES 'nativesdk-libusb1-dev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
+> WARNING: Nothing RPROVIDES 'nativesdk-libusb1' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
+>
 
-Setting EXTERNALSRC so devshell can find the shared gcc sources.
+I am seeing these fails too
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13036
+> Before someone sends a patch creating a nativesdk-udev please think
+> very carefully about whether a nativesdk-udev makes sense and what it
+> may need to look like.
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-shared-source.inc | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-index aac4b49313..bc49e95a3a 100644
---- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-@@ -1,11 +1,6 @@
--do_fetch() {
--   :
--}
--do_fetch[noexec] = "1"
--deltask do_unpack
--deltask do_patch
--
- SRC_URI = ""
-
- do_configure[depends] += "gcc-source-${PV}:do_preconfigure"
- do_populate_lic[depends] += "gcc-source-${PV}:do_unpack"
-+
-+EXTERNALSRC_pn-${PN} = "${S}"
---
-2.20.1
+>
+> Cheers,
+>
+> Richard
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
