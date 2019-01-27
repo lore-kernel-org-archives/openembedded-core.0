@@ -1,49 +1,51 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7290F7C3EC
+Return-Path: <jonas@norrbonn.se>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B17937C2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2019 07:16:16 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id l10so9649472lfh.9
+	Sun, 27 Jan 2019 09:38:25 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id c19-v6so11730363lja.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2019 23:16:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=n3S8BO3x37I+EjGtnQmxFE4xAxU8mrLAGcQnWh/ZI8c=;
-	b=jGMlGJDBbUCpXJMKX17/W3bE6myCz8m0hbdWa29xHbOCHsOiXhx/d5WHCp025ia6G7
-	5HY3CJjIvGvZg/Q5KS2WaMVfHPRpPW8g0WRgVxzx8biNlH8qCU5NRskNllMA9ekKfTs2
-	1vH3K54wIfXHmxUJlg9koVidg6BsTiZTHndbv4QJ66ewF9dCEyHpcaHxAB56DXxX8lJF
-	lhC1CpkdEVGNIgYcv9UgBv3kxPS6fcQQC0y89omp1VVY+4yo4jATJUKbxKFwb6Y7SQJR
-	1UnMGYIoQ5wbxJWM1pVxsBC27/PWx9ZA+MMc7iDi3/bt43iwbXgJH+gWuvMNWyzK35VV
-	VrEQ==
+	Sun, 27 Jan 2019 01:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5octnPPiXopFCAN6HHmjwpYulJLicMtbTSR90RF9+8Q=;
+	b=DTNm+096/RiDJr6lfIFXQMiKmyRaMpXd5Jev/1DSKXYkxC//Egt4E7rW6HKB0DTP5P
+	LhJt4+3671kbna2CaHBkaYbISTTxJ9D4vCEbNoNbRqwrQeUR9JOCUotQT4GxBokWYdRD
+	by1LGGyTo71XpAZaxy0m/cJA9N4vqeXtmEnba4OZCGwoKXNqWjyONCNDgbY6KWDi+eG/
+	/zcdv1BKPrc6pVQQ9VcvqupVqJx3W47dwnUvkaidNU1a+RQGFTum4ffT/RnA8Dd7smSD
+	SEsZvSPmS2cZUXCc6syTtkdzMowR4w+da9KHPY8subVgXSDNEBrU27T4p+53ZI4/xKC6
+	kVdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=n3S8BO3x37I+EjGtnQmxFE4xAxU8mrLAGcQnWh/ZI8c=;
-	b=oOIPV4E9aHv4Y2Xotc7/elZOw2deJRrl0E1Lyv2xvLuOx4PgxmuW9IDZmw1fXERAhN
-	6bTdS3/ZLyH63DwIA7tD8lTy5DAIJFLMlqKy5ZdyrG/st8VX9Se/thoQyFbCXB+my2ns
-	PZZ9GBvMWN11gT+4RvFoIUaBNSTZB72zTZDjg456j57eGfklE+4pKMlWpkdUtFLOS6g9
-	nJKDR2D6m8JalmDC6TjXRiJOmywEPAdyQ90fy2geohxUjkBS9un6Q0aSbpAkAILDo4Yh
-	16+7b7Q31RLEOD+O6zxJbct3c1gAp9qsVmmDHCXoWHzdT4d1ditxr+wl/La1kguIIBRf
-	vXBw==
-X-Gm-Message-State: AJcUukfBCJtllYshiPVeYlCyb3DhCuAOtBuVFSfk/ChaSzKSoii+dusk
-	fGIiK6vUMlAVlfpJpR2ZKbFG6kwi86dhOhlrJ1c=
-X-Google-Smtp-Source: ALg8bN6Hdw1GLycBfzrxZJeH9FhcHSq4lmO4smfXVCq4nCQkA1sG4foBzlIdfMr0TLy5m6VoLcMOQkWm/UTJOi4CYP0=
-X-Received: by 2002:a19:ef15:: with SMTP id n21mr13211740lfh.21.1548573376503; 
-	Sat, 26 Jan 2019 23:16:16 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5octnPPiXopFCAN6HHmjwpYulJLicMtbTSR90RF9+8Q=;
+	b=LKVWxUVL1WVlvvfk6MT67PahpKwIBwu68jM6UJK0jq6pobka4YVy5kFTI9Lqto3tqd
+	jk6xkSmfD1GJrtBjmy4Jq5pATEBRdwYDxc2pYi7lrz89hGA5PsqAoS0dQkw5PYQM0dYZ
+	PWQj/GcAR2hrf5npnh/eObVfMYuPi51mtb2Pb69IRg4F9iTQWUaMjI4QhAi6ix9uUvfM
+	E+ZcWWvV8l2ynRzswSDcNDCgpMqP+UWRmGoWcOxkNe0nekS79a1Xg3bzujZf+yt8te2e
+	RQ1aOCj3moZu8cX/NBL9JbZg30y41HosAhltVltD3nFLWHTJFtm0vJPiertC8HYSqS5/
+	uCtw==
+X-Gm-Message-State: AJcUukc/IZ6Zlokq+TkOg4EXzlx7CtRrUxrROU5v4b5Q8iXfysf2IIB7
+	acl8tj2PnAhX8nmC8PAPVoEG+kQFUOQ=
+X-Google-Smtp-Source: ALg8bN4NE5kEzJsqHtHGB60089L/29Xo+c2jsxpUr8GRW5wi6Z8E1uRscMJeHxsNGLDt04ZTjgu7vA==
+X-Received: by 2002:a2e:9b84:: with SMTP id z4-v6mr5681666lji.93.1548581905445;
+	Sun, 27 Jan 2019 01:38:25 -0800 (PST)
+Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
+	by smtp.gmail.com with ESMTPSA id
+	12-v6sm2398992ljf.96.2019.01.27.01.38.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 27 Jan 2019 01:38:24 -0800 (PST)
+From: Jonas Bonn <jonas@norrbonn.se>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Jan 2019 10:38:16 +0100
+Message-Id: <20190127093821.4803-1-jonas@norrbonn.se>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190124223528.17455-1-alistair.francis@wdc.com>
-	<30ebcccb5a7b406952657c5c6d031640e5f60a0a.camel@linuxfoundation.org>
-	<CAMKF1sqCmskU=GmzXvHXVufnqdSieWmN8xvC4n9axNgL9GeM-g@mail.gmail.com>
-In-Reply-To: <CAMKF1sqCmskU=GmzXvHXVufnqdSieWmN8xvC4n9axNgL9GeM-g@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 26 Jan 2019 23:15:48 -0800
-Message-ID: <CAKmqyKNGxQuHsKndq9tNDNj8jmYdhBWHnaqM8Rc2h5OeZM_bZQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] lubusb1: Add udev support
+Subject: [PATCH v3 0/5] systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,75 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Jan 2019 07:16:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 27 Jan 2019 09:38:26 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 26, 2019 at 5:11 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Sat, Jan 26, 2019 at 3:27 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Thu, 2019-01-24 at 22:35 +0000, Alistair Francis wrote:
-> > > I don't see circular dependencies anymore between libusb1 and udev,
-> > > so
-> > > enable udev support for libusb1.
-> > >
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  meta/recipes-support/libusb/libusb1_1.0.22.bb | 7 ++++---
-> > >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb
-> > > b/meta/recipes-support/libusb/libusb1_1.0.22.bb
-> > > index 0c6e116dd7..35c1d705b6 100644
-> > > --- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
-> > > +++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
-> > > @@ -20,9 +20,10 @@ S = "${WORKDIR}/libusb-${PV}"
-> > >
-> > >  inherit autotools pkgconfig ptest
-> > >
-> > > -# Don't configure udev by default since it will cause a circular
-> > > -# dependecy with udev package, which depends on libusb
-> > > -EXTRA_OECONF = "--libdir=${base_libdir} --disable-udev"
-> > > +PACKAGECONFIG ??= "udev"
-> > > +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
-> > > +
-> > > +EXTRA_OECONF = "--libdir=${base_libdir}"
-> >
-> > Fails in testing with:
-> >
-> > WARNING: Nothing PROVIDES 'nativesdk-udev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
-> > WARNING: Nothing PROVIDES 'udev-native' (but virtual:native:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb DEPENDS on or otherwise requires it). Close matches:
-> > WARNING: Nothing RPROVIDES 'nativesdk-libusb1-dev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
-> > WARNING: Nothing RPROVIDES 'nativesdk-libusb1' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/libusb/libusb1_1.0.22.bb RDEPENDS on or otherwise requires it)
-> >
->
-> I am seeing these fails too
->
-> > Before someone sends a patch creating a nativesdk-udev please think
-> > very carefully about whether a nativesdk-udev makes sense and what it
-> > may need to look like.
+Changed in v3:
+- parameterize preset-file installation location (as suggested in patch
+  review)
 
-What about just disabling the packageconfig for nativesdk? Would that
-be a better option?
+Changed in v2:
+- address patchtest warnings:
+  - include sign-offs on patches
+  - include License-Update tag on patch that makes licensing change
+- dropped patch implementing brute-force removal of unit files installed
+  by systemd into /etc
+- reworked the systemd-conf patch to restore the installation of the
+  base systemd configuration files
 
-Alistair
 
->
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+**********
+
+These patches make some modifications to systemd with the long-term goal
+of being able to run OE in systemd's "stateless" configuration.
+"Stateless" boils down to building an image with empty /etc and /var
+directories so that volatile (tmpfs) filesystems can be mounted there;
+this requires that the system subsequently be able to populate these
+directories dynamically, which systemd mostly takes care of if things
+are done right.
+
+In these patches:
+i)    Don't include machine-id in writable images so that systemd can run
+its first-boot machinery
+ii)  Allow systemd to dynamically enable services and populate
+/etc/systemd/system via the presets mechanism
+
+There's a long way to go to get to a working "stateless" configuration.
+Getting to a "volatile" system (just empty /var) should be easier and
+I'll post patches moving things in that direction shortly.
+
+/Jonas
+
+Jonas Bonn (5):
+  systemd: do not create machine-id
+  systemd-conf: simplify creation of machine-specific configuration
+  systemd: create preset files instead of installing in image
+  systemd-systemctl-native: simplify and support preset-all
+  rootfs-postcommands: call preset-all for read-only-rootfs
+
+ meta/classes/rootfs-postcommands.bbclass      |  8 +++
+ meta/classes/systemd.bbclass                  | 33 ++++++------
+ meta/recipes-core/systemd/systemd-conf.bb     | 53 ++++++++-----------
+ .../systemd/systemd-systemctl/systemctl       | 36 +++----------
+ meta/recipes-core/systemd/systemd_239.bb      | 17 +++---
+ 5 files changed, 62 insertions(+), 85 deletions(-)
+
+-- 
+2.19.1
+
 
