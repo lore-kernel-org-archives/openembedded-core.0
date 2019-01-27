@@ -1,54 +1,54 @@
 Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CF487C34B
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+	[209.85.208.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E5DF7C30D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2019 09:38:27 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id n18-v6so11722198lji.7
+	Sun, 27 Jan 2019 09:38:28 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id x85-v6so11756935ljb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2019 01:38:28 -0800 (PST)
+	Sun, 27 Jan 2019 01:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=04vfC7llrrsr1rFdQy6Rybo6WoAFIdG8nOw/kWJuyx8=;
-	b=gIpNK2DYW7KdIR/g2FM7Oz9gUcfRCs/BFmR6KLr91SmY9ETi/CBzlppB/ncp3J0NXz
-	f3AzGma7UdbT8qR7aIpYSXJ65O2zBFQuycnh+nOICG9wqi4JlSmoKB/xcoWkM2IY72w8
-	fnNc6gtapgbkLF1pJkRjZw1qA8p7tybOCBJkC68UK0YY3sA9biTBJkakezI2hIcJFivR
-	1qEmHB1F6fdr8ohaSiZcF+oMU2Vpoq2gwN3KpRykeD7fuGw7VATejxuxAi/3noM/Am7b
-	7eE2C4K0jsgQr42lQUWb1hkMeWAOOmYKd9tPGKP1hBWDjoXiz53jsxruzPuUAAlEdXW0
-	QWTA==
+	bh=9mFTVU/bp92HJRySXNmTngIy8C1P0wByDZAeBpvPsYY=;
+	b=b7RWDvgTow4TiZfZOSyM3JKBdXWaljWPPGfxebvM5mWYtiYCRPhzbMcEKdanKoU6R3
+	U3FVQIY3+fIbaiRrrHctd+za9tZurw0rjIxvdWvgPxG9KOD14afmU1cif9alTBMSHCeO
+	HfDUqSHLGgxpfKe+qu2c6oYYROhwlbIoOTLTY6omOuLb5D0JAoK7oRBkrIN6p8A2Lnfs
+	DBn6OqbM+lduTpAiVHWufBUb1i+e4hXBxovhOWnVhqPqUNQsi3w/On1f3LpSiJZRbTS7
+	l0qguKHTesoEpsx/woLUP6H/TUYaJRaKRyFMy7JMO4KD7Gwns3H91/poISlKGJuCUvFY
+	hXlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=04vfC7llrrsr1rFdQy6Rybo6WoAFIdG8nOw/kWJuyx8=;
-	b=HxqIFBY3AB6fiumrxf1X8G6+eVfLz+B1l+yYn59jhUrMvLQ80gaO4em6SEUMs3YDPg
-	9Lf+TTjcwNpZXVQxgKwNeyRukcdjq1KIaUNKVWlzct17h8F7MN31CD9aUaw7OLgB536q
-	D2V0fXrLjIM8aTP3MCWrfs2LnKtp41WniC6ux9YdhMh+hxOAFF0x/fNjlneQIJFql0cG
-	OmJUgTO671JMkPHw+MndkA4Tl2tc2rbdyFnqEhijKv/2A3NH6AvxbcuhqmzAGatp1FuV
-	O2x2aq0GszB6slOUQOzO5VsOPkkw9rK1Jzhgxw5oZ7IH3dmEDHHEfbelh8mbqo67nb1o
-	Hghw==
-X-Gm-Message-State: AJcUukcb9+rGkHvfyGMr85oak8N1cvDni4JVaIKJam4K6u+c+lmJ1PkB
-	PU+9HsDUnaVqNT5sX1u3/Cvlq51y1II=
-X-Google-Smtp-Source: ALg8bN7XoWhfgJaAHn90+99v7sZU3WazJpxtsIObZExeen/kh0Vb32XYdgJz+KAsYtRSFHoCfShmGw==
-X-Received: by 2002:a2e:681a:: with SMTP id
-	c26-v6mr13772082lja.175.1548581907406; 
-	Sun, 27 Jan 2019 01:38:27 -0800 (PST)
+	bh=9mFTVU/bp92HJRySXNmTngIy8C1P0wByDZAeBpvPsYY=;
+	b=lgdxyFeC6YVWFykElrWTszoTgCsIvwc4nJXBqlv3YRZj0ObpxlcMnZqNAdMhJGeQoO
+	oSBkrk81IBBxITD8IaYbE+0n4hS74zny7iqwKZ+4c14mG6l+gBgSqHDEN/ZBcOamGrZ6
+	pwDVFEiQ8w5rj50Hwq4YQJhMkCK06do0nRp5OOxYEXxVGefFJMD5TIBkx3O3J8lAFYAl
+	6VkRtAmWkD8OOdp4BKE9IGKvO65ePKO2ckgT2rtLtJ/uns2apmc8oAESQs0/aE5E8jcT
+	mTnqfECuLMyubQjUloyKjRNP1j7ubfSAqxpxknDNRI7XBg74tTYo/CDK8nuYrJ//5zra
+	XnRg==
+X-Gm-Message-State: AJcUukdD4giye3au2zEXYNtpEzVSwxkUrb/taOigjMFOOn40FbM8xd3Q
+	3NqamFySbPiqpDPv0Yx0sesYi+WExD0=
+X-Google-Smtp-Source: ALg8bN7x9+39Wm2lvxfyWr1b+VCfV5u3jFPRMvesXsvENroaFr1F2I7VOe0/MDpakfPLZda36wB+6g==
+X-Received: by 2002:a2e:63cd:: with SMTP id
+	s74-v6mr13608075lje.117.1548581908421; 
+	Sun, 27 Jan 2019 01:38:28 -0800 (PST)
 Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
 	by smtp.gmail.com with ESMTPSA id
-	12-v6sm2398992ljf.96.2019.01.27.01.38.26
+	12-v6sm2398992ljf.96.2019.01.27.01.38.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Jan 2019 01:38:26 -0800 (PST)
+	Sun, 27 Jan 2019 01:38:27 -0800 (PST)
 From: Jonas Bonn <jonas@norrbonn.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Jan 2019 10:38:18 +0100
-Message-Id: <20190127093821.4803-3-jonas@norrbonn.se>
+Date: Sun, 27 Jan 2019 10:38:19 +0100
+Message-Id: <20190127093821.4803-4-jonas@norrbonn.se>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190127093821.4803-1-jonas@norrbonn.se>
 References: <20190127093821.4803-1-jonas@norrbonn.se>
 MIME-Version: 1.0
-Subject: [PATCH v3 2/5] systemd-conf: simplify creation of machine-specific configuration
+Subject: [PATCH v3 3/5] systemd: create preset files instead of installing in image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,158 +61,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Jan 2019 09:38:27 -0000
+X-List-Received-Date: Sun, 27 Jan 2019 09:38:28 -0000
 Content-Transfer-Encoding: 8bit
 
-The configuration files that systemd installs are just skeletons
-detailing the available options and their default values.  The
-recommended means of changing the configuration is to provide snippets
-in configuration directories.  For example, journald.conf settings are
-best set in /usr/lib/journald.conf.d/ and can be overridden by the user
-by providing overriding snippets in /etc/systemd/journald.conf.d/.
+At first boot, systemd will create the /etc/systemd/system directory
+from service preset files.  As such, for a normal, writable /etc
+(writable rootfs), there is no need to set up this directory at image
+creation time.
 
-The systemd-conf package is just providing machine-specific overrides
-for some systemd defaults.
+This patch changes the systemd machinery to create preset files and to
+rely on systemd to do the service enablement.
 
-This patch restores the installation of config files by systemd and
-reduces systemd-conf to just providing the config snippets in
-/usr/lib/*.conf.d.  This simplfies the systemd-conf recipe considerably
-since it now just sets up a couple of text files and doesn't even need
-access to the systemd source anymore.
-
-Given, however, that the base configuration files in /etc/systemd have
-the lowest priority, they will always be overridden by any snippets.  As
-it may confuse a user who is used to modifying these base files
-directly, this patch puts symlinks in the overriding
-/etc/systemd/*.conf.d/ directories back to the top-level files, thereby
-restoring them to their top-level glory.  The default config files
-installed by systemd are just lists of (commented out) defaults so this
-should be safe.  The symlinks also provide an indication to the user
-that there is more to systemd configuration than just the top-level file
-and that checking the man page may be in order...
-
-With this patch, systemd gets the right configuration irregardless of
-whether /etc is populated at boot or not (i.e. in a "stateless"
-system).
-
-License-Update: configuration snippets licensing is independent of
-systemd licensing
+This breaks the read-only-rootfs case; there's a fix for this in a
+follow-up patch.
 
 Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
 ---
- meta/recipes-core/systemd/systemd-conf.bb | 48 +++++++++++------------
- meta/recipes-core/systemd/systemd_239.bb  | 16 ++++----
- 2 files changed, 31 insertions(+), 33 deletions(-)
+ meta/classes/systemd.bbclass | 33 ++++++++++++++++-----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
-index 7fe2e1105b..8a9f01c48a 100644
---- a/meta/recipes-core/systemd/systemd-conf.bb
-+++ b/meta/recipes-core/systemd/systemd-conf.bb
-@@ -1,48 +1,44 @@
--require systemd.inc
--
- SUMMARY = "Systemd system configuration"
- DESCRIPTION = "Systemd may require slightly different configuration for \
- different machines.  For example, qemu machines require a longer \
- DefaultTimeoutStartSec setting."
-+LICENSE = "MIT"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--CONFFILES_${PN} = "${sysconfdir}/systemd/coredump.conf \
--${sysconfdir}/systemd/journald.conf \
--${sysconfdir}/systemd/logind.conf \
--${sysconfdir}/systemd/system.conf \
--${sysconfdir}/systemd/user.conf"
--
--FILES_${PN} = "${sysconfdir}/systemd"
--
--do_configure[noexec] = '1'
--do_compile[noexec] = '1'
-+FILES_${PN} = "/usr/lib/journald.conf.d/* \
-+	/usr/lib/logind.conf.d/* \
-+	/usr/lib/system.conf.d/* \
-+	/etc/systemd/* \
-+"
- 
- do_install() {
--	rm -rf ${D}/${sysconfdir}/systemd
--	install -d ${D}/${sysconfdir}/systemd
--
--	install -m 0644 ${S}/src/coredump/coredump.conf ${D}${sysconfdir}/systemd/coredump.conf
--
--	install -m 0644 ${S}/src/journal/journald.conf ${D}${sysconfdir}/systemd/journald.conf
-+	install -d ${D}/usr/lib/journald.conf.d
- 	# Enable journal to forward message to syslog daemon
--	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
-+	echo "ForwardToSyslog=yes" >> ${D}/usr/lib/journald.conf.d/00-${PN}.conf
- 	# Set the maximium size of runtime journal to 64M as default
--	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
-+	echo "RuntimeMaxUse=64M" >> ${D}/usr/lib/journald.conf.d/00-${PN}.conf
-+
-+	install -d ${D}${sysconfdir}/systemd/journald.conf.d
-+	ln -s ../journald.conf ${D}${sysconfdir}/systemd/journald.conf.d/00-${PN}.conf
- 
--	install -m 0644 ${S}/src/login/logind.conf.in ${D}${sysconfdir}/systemd/logind.conf
-+	install -d ${D}/usr/lib/logind.conf.d
- 	# Set KILL_USER_PROCESSES to yes
--	sed -i -e 's/@KILL_USER_PROCESSES@/yes/' ${D}${sysconfdir}/systemd/logind.conf
-+	echo "KillUserProcesses=yes" >> ${D}/usr/lib/logind.conf.d/00-${PN}.conf
-+
-+	install -d ${D}${sysconfdir}/systemd/logind.conf.d
-+	ln -s ../logind.conf ${D}${sysconfdir}/systemd/logind.conf.d/00-${PN}.conf
- 
--	install -m 0644 ${S}/src/core/system.conf.in ${D}${sysconfdir}/systemd/system.conf
-+	install -d ${D}/usr/lib/system.conf.d
- 	# Set MEMORY_ACCOUNTING_DEFAULT to yes
--	sed -i -e 's/@MEMORY_ACCOUNTING_DEFAULT@/yes/' ${D}${sysconfdir}/systemd/system.conf
-+	echo "DefaultMemoryAccounting=yes" >> ${D}/usr/lib/system.conf.d/00-${PN}.conf
- 
--	install -m 0644 ${S}/src/core/user.conf ${D}${sysconfdir}/systemd/user.conf
-+	install -d ${D}${sysconfdir}/systemd/system.conf.d
-+	ln -s ../system.conf ${D}${sysconfdir}/systemd/system.conf.d/00-${PN}.conf
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index c8f4fdec88..403d2108df 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -16,43 +16,32 @@ python __anonymous() {
+     # from doing any work so that pure-systemd images don't have redundant init
+     # files.
+     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+-        d.appendVar("DEPENDS", " systemd-systemctl-native")
+-        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-systemctl-native")
+         if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+             d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
  }
  
- # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
- do_install_append_qemuall() {
- 	# Change DefaultTimeoutStartSec from 90s to 240s
--	echo "DefaultTimeoutStartSec = 240s" >> ${D}${sysconfdir}/systemd/system.conf
-+	echo "DefaultTimeoutStartSec = 240s" >> ${D}/usr/lib/system.conf.d/00-${PN}.conf
- }
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 54217d3042..c6b93251b3 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -291,13 +291,6 @@ do_install() {
- 		fi
+ systemd_postinst() {
+-OPTS=""
+-
+ if [ -n "$D" ]; then
+-    OPTS="--root=$D"
++	exit 0
+ fi
+ 
+ if type systemctl >/dev/null 2>/dev/null; then
+-	if [ -z "$D" ]; then
+-		systemctl daemon-reload
+-	fi
+-
+-	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE_ESCAPED}
++	systemctl daemon-reload
++	systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
+ 
+-	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
++	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+ 		systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
  	fi
+ fi
+ }
  
--	# conf files are handled by systemd-conf
--	rm -f ${D}${sysconfdir}/systemd/coredump.conf
--	rm -f ${D}${sysconfdir}/systemd/journald.conf
--	rm -f ${D}${sysconfdir}/systemd/logind.conf
--	rm -f ${D}${sysconfdir}/systemd/system.conf
--	rm -f ${D}${sysconfdir}/systemd/user.conf
+ systemd_prerm() {
+-OPTS=""
 -
- 	# duplicate udevadm for postinst script
- 	install -d ${D}${libexecdir}
- 	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
-@@ -496,6 +489,15 @@ FILES_${PN}-extra-utils = "\
-                         ${rootlibexecdir}/systemd/systemd-cgroups-agent \
- "
+ if [ -n "$D" ]; then
+-    OPTS="--root=$D"
++	exit 0
+ fi
  
-+CONFFILES_${PN} = "${sysconfdir}/systemd/coredump.conf \
-+	${sysconfdir}/systemd/journald.conf \
-+	${sysconfdir}/systemd/logind.conf \
-+	${sysconfdir}/systemd/system.conf \
-+	${sysconfdir}/systemd/user.conf \
-+	${sysconfdir}/systemd/resolved.conf \
-+	${sysconfdir}/systemd/timesyncd.conf \
-+"
+ if type systemctl >/dev/null 2>/dev/null; then
+-	if [ -z "$D" ]; then
+-		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
+-	fi
++	systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
+ 
+ 	systemctl $OPTS disable ${SYSTEMD_SERVICE_ESCAPED}
+ fi
+@@ -177,12 +166,22 @@ python systemd_populate_packages() {
+                 else:
+                     bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist" % (pkg_systemd, service))
+ 
++    def systemd_create_presets(pkg):
++        action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
++        presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg)
++        bb.utils.mkdirhier(os.path.dirname(presetf))
++        with open(presetf, 'a') as fd:
++            for service in d.getVar('SYSTEMD_SERVICE_%s' % pkg).split():
++                fd.write("%s %s\n" % (action,service))
++        d.appendVar("FILES_%s" % pkg, ' ' + oe.path.join(d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg))
 +
- FILES_${PN} = " ${base_bindir}/* \
-                 ${base_sbindir}/shutdown \
-                 ${base_sbindir}/halt \
+     # Run all modifications once when creating package
+     if os.path.exists(d.getVar("D")):
+         for pkg in d.getVar('SYSTEMD_PACKAGES').split():
+             systemd_check_package(pkg)
+             if d.getVar('SYSTEMD_SERVICE_' + pkg):
+                 systemd_generate_package_scripts(pkg)
++                systemd_create_presets(pkg)
+         systemd_check_services()
+ }
+ 
 -- 
 2.19.1
 
