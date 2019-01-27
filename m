@@ -1,51 +1,54 @@
 Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B17937C2FD
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 45A787C2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2019 09:38:25 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id c19-v6so11730363lja.5
+	Sun, 27 Jan 2019 09:38:26 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id u89-v6so11786320lje.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2019 01:38:26 -0800 (PST)
+	Sun, 27 Jan 2019 01:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5octnPPiXopFCAN6HHmjwpYulJLicMtbTSR90RF9+8Q=;
-	b=DTNm+096/RiDJr6lfIFXQMiKmyRaMpXd5Jev/1DSKXYkxC//Egt4E7rW6HKB0DTP5P
-	LhJt4+3671kbna2CaHBkaYbISTTxJ9D4vCEbNoNbRqwrQeUR9JOCUotQT4GxBokWYdRD
-	by1LGGyTo71XpAZaxy0m/cJA9N4vqeXtmEnba4OZCGwoKXNqWjyONCNDgbY6KWDi+eG/
-	/zcdv1BKPrc6pVQQ9VcvqupVqJx3W47dwnUvkaidNU1a+RQGFTum4ffT/RnA8Dd7smSD
-	SEsZvSPmS2cZUXCc6syTtkdzMowR4w+da9KHPY8subVgXSDNEBrU27T4p+53ZI4/xKC6
-	kVdw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=1w0nZWieT8bO1XGreP1g0jQZ8vkF3aPNkPEc1a/yJpo=;
+	b=hflhjGc0cCYcspl63XU7nCY7q9SVx+lpuIcK6gQjvK7oFco/ZccpCMivGnS9gzMEuX
+	XkRC1D4iwhO4VOaVdqcv/iBjtMXtXLmadrjRruUo0g3MsjZTy173pK1fO/CCblwnjMSQ
+	RE8W5tpnLXgIPz2J81D2rkUuQJcYKL+uw8GoRP6/3lIA00uqughvAq/+dBjWq9cDvC7/
+	wQbcvjIxVxxmQKSHQq9h9KMRLwtx53HtPqtIvnmkCg5OjprUzQJ23dqfYl8wZJ5Au4S0
+	cI2siEpbdAYv1wiR7u2Ix0YWsr17zzhcPtoS/U1/ZNBVcrdT5oQheVf6p3c3FSX2T6KX
+	4HUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5octnPPiXopFCAN6HHmjwpYulJLicMtbTSR90RF9+8Q=;
-	b=LKVWxUVL1WVlvvfk6MT67PahpKwIBwu68jM6UJK0jq6pobka4YVy5kFTI9Lqto3tqd
-	jk6xkSmfD1GJrtBjmy4Jq5pATEBRdwYDxc2pYi7lrz89hGA5PsqAoS0dQkw5PYQM0dYZ
-	PWQj/GcAR2hrf5npnh/eObVfMYuPi51mtb2Pb69IRg4F9iTQWUaMjI4QhAi6ix9uUvfM
-	E+ZcWWvV8l2ynRzswSDcNDCgpMqP+UWRmGoWcOxkNe0nekS79a1Xg3bzujZf+yt8te2e
-	RQ1aOCj3moZu8cX/NBL9JbZg30y41HosAhltVltD3nFLWHTJFtm0vJPiertC8HYSqS5/
-	uCtw==
-X-Gm-Message-State: AJcUukc/IZ6Zlokq+TkOg4EXzlx7CtRrUxrROU5v4b5Q8iXfysf2IIB7
-	acl8tj2PnAhX8nmC8PAPVoEG+kQFUOQ=
-X-Google-Smtp-Source: ALg8bN4NE5kEzJsqHtHGB60089L/29Xo+c2jsxpUr8GRW5wi6Z8E1uRscMJeHxsNGLDt04ZTjgu7vA==
-X-Received: by 2002:a2e:9b84:: with SMTP id z4-v6mr5681666lji.93.1548581905445;
-	Sun, 27 Jan 2019 01:38:25 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=1w0nZWieT8bO1XGreP1g0jQZ8vkF3aPNkPEc1a/yJpo=;
+	b=Cjv3uwFCDPCHWYTIVeCo8GeV3VQqdubiBk3L9Q7B8YeQyLKiKxsFftmGii9MHhi/XR
+	per47jrfwkUIG2ldbPXUD8uCGSLV/RjoBd21G9d8+ESlWZyiR63j0nBgRHLsRg4e4Rb0
+	fi+LwSlmMJ//HqUEbGAWjzwzGLb8beDW8PaaA6zMkpXmp3eDDQDHAdpV+XUN8twtRaAq
+	f5gxoad8ujQCyGL6YhKkEAJ4DB1X+p6kfb0R5q0zH8qQ676qSmaUhzNZbWTyQJq2z9wi
+	4g3xzI58wALBON5wJNtBOvuMup5v9C80ffMEu43TIYpzisHmfGyERjjwQ1pR4UItfKyv
+	6qjA==
+X-Gm-Message-State: AJcUukeR6xlyFry7BLUy0SadgA1Zr8/O1Ex8JFq/7vnc6ZAHguheNlL6
+	KyzsggTdje/+hmI8EBlHJ4IniaD0vto=
+X-Google-Smtp-Source: ALg8bN4UsiCZEANybK7g3Mc4PQeEtr2eRUi1ftGP20aie23zRW6zpsofJ6NwZck3SPjo7qJPUR2ZGw==
+X-Received: by 2002:a2e:98c9:: with SMTP id
+	s9-v6mr14279213ljj.166.1548581906487; 
+	Sun, 27 Jan 2019 01:38:26 -0800 (PST)
 Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
 	by smtp.gmail.com with ESMTPSA id
-	12-v6sm2398992ljf.96.2019.01.27.01.38.24
+	12-v6sm2398992ljf.96.2019.01.27.01.38.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Jan 2019 01:38:24 -0800 (PST)
+	Sun, 27 Jan 2019 01:38:25 -0800 (PST)
 From: Jonas Bonn <jonas@norrbonn.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Jan 2019 10:38:16 +0100
-Message-Id: <20190127093821.4803-1-jonas@norrbonn.se>
+Date: Sun, 27 Jan 2019 10:38:17 +0100
+Message-Id: <20190127093821.4803-2-jonas@norrbonn.se>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190127093821.4803-1-jonas@norrbonn.se>
+References: <20190127093821.4803-1-jonas@norrbonn.se>
 MIME-Version: 1.0
-Subject: [PATCH v3 0/5] systemd patches
+Subject: [PATCH v3 1/5] systemd: do not create machine-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,56 +64,82 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 27 Jan 2019 09:38:26 -0000
 Content-Transfer-Encoding: 8bit
 
-Changed in v3:
-- parameterize preset-file installation location (as suggested in patch
-  review)
+There is no reason to have an emtpy machine-id as part of the systemd
+package.  Either:
 
-Changed in v2:
-- address patchtest warnings:
-  - include sign-offs on patches
-  - include License-Update tag on patch that makes licensing change
-- dropped patch implementing brute-force removal of unit files installed
-  by systemd into /etc
-- reworked the systemd-conf patch to restore the installation of the
-  base systemd configuration files
+i)  the filesystem is writable and the file will be created
+automatically; or
+ii) the filesystem is read-only, in which case the empty machine-id file
+should be created as part of the read-only-rootfs tweaks.
 
+Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+---
+ meta/classes/rootfs-postcommands.bbclass  | 6 ++++++
+ meta/recipes-core/systemd/systemd-conf.bb | 9 ++-------
+ meta/recipes-core/systemd/systemd_239.bb  | 1 -
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-**********
-
-These patches make some modifications to systemd with the long-term goal
-of being able to run OE in systemd's "stateless" configuration.
-"Stateless" boils down to building an image with empty /etc and /var
-directories so that volatile (tmpfs) filesystems can be mounted there;
-this requires that the system subsequently be able to populate these
-directories dynamically, which systemd mostly takes care of if things
-are done right.
-
-In these patches:
-i)    Don't include machine-id in writable images so that systemd can run
-its first-boot machinery
-ii)  Allow systemd to dynamically enable services and populate
-/etc/systemd/system via the presets mechanism
-
-There's a long way to go to get to a working "stateless" configuration.
-Getting to a "volatile" system (just empty /var) should be easier and
-I'll post patches moving things in that direction shortly.
-
-/Jonas
-
-Jonas Bonn (5):
-  systemd: do not create machine-id
-  systemd-conf: simplify creation of machine-specific configuration
-  systemd: create preset files instead of installing in image
-  systemd-systemctl-native: simplify and support preset-all
-  rootfs-postcommands: call preset-all for read-only-rootfs
-
- meta/classes/rootfs-postcommands.bbclass      |  8 +++
- meta/classes/systemd.bbclass                  | 33 ++++++------
- meta/recipes-core/systemd/systemd-conf.bb     | 53 ++++++++-----------
- .../systemd/systemd-systemctl/systemctl       | 36 +++----------
- meta/recipes-core/systemd/systemd_239.bb      | 17 +++---
- 5 files changed, 62 insertions(+), 85 deletions(-)
-
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index bde58ad6cd..89f8efd323 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -126,6 +126,12 @@ read_only_rootfs_hook () {
+ 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+ 		fi
+ 	fi
++
++	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
++	# Create machine-id
++	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
++		touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
++	fi
+ }
+ 
+ #
+diff --git a/meta/recipes-core/systemd/systemd-conf.bb b/meta/recipes-core/systemd/systemd-conf.bb
+index 9bb27fd96d..7fe2e1105b 100644
+--- a/meta/recipes-core/systemd/systemd-conf.bb
++++ b/meta/recipes-core/systemd/systemd-conf.bb
+@@ -7,14 +7,13 @@ DefaultTimeoutStartSec setting."
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/machine-id \
+-${sysconfdir}/systemd/coredump.conf \
++CONFFILES_${PN} = "${sysconfdir}/systemd/coredump.conf \
+ ${sysconfdir}/systemd/journald.conf \
+ ${sysconfdir}/systemd/logind.conf \
+ ${sysconfdir}/systemd/system.conf \
+ ${sysconfdir}/systemd/user.conf"
+ 
+-FILES_${PN} = "${sysconfdir}/machine-id ${sysconfdir}/systemd"
++FILES_${PN} = "${sysconfdir}/systemd"
+ 
+ do_configure[noexec] = '1'
+ do_compile[noexec] = '1'
+@@ -23,10 +22,6 @@ do_install() {
+ 	rm -rf ${D}/${sysconfdir}/systemd
+ 	install -d ${D}/${sysconfdir}/systemd
+ 
+-	# Create machine-id
+-	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
+-	touch ${D}${sysconfdir}/machine-id
+-
+ 	install -m 0644 ${S}/src/coredump/coredump.conf ${D}${sysconfdir}/systemd/coredump.conf
+ 
+ 	install -m 0644 ${S}/src/journal/journald.conf ${D}${sysconfdir}/systemd/journald.conf
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index 7efc1e5828..54217d3042 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -292,7 +292,6 @@ do_install() {
+ 	fi
+ 
+ 	# conf files are handled by systemd-conf
+-	rm -f ${D}${sysconfdir}/machine-id
+ 	rm -f ${D}${sysconfdir}/systemd/coredump.conf
+ 	rm -f ${D}${sysconfdir}/systemd/journald.conf
+ 	rm -f ${D}${sysconfdir}/systemd/logind.conf
 -- 
 2.19.1
 
