@@ -1,52 +1,72 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A6EFF7C2EE
+Return-Path: <samuli.piippo@qt.io>
+X-Greylist: delayed 3553 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 29 Jan 2019 07:19:10 UTC
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr130095.outbound.protection.outlook.com [40.107.13.95])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A70960720
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 04:40:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0T4eX74010644
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 20:40:43 -0800
-Received: from soho-mhatle-m.corp.ad.wrs.com (128.224.176.73) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.435.0; Mon, 28 Jan 2019 20:40:22 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20190127205615.12825-1-raj.khem@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <9e9c3a24-f932-56c4-380f-0f9b6ae06b16@windriver.com>
-Date: Tue, 29 Jan 2019 12:40:20 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.4.0
+	Tue, 29 Jan 2019 07:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qt.io; s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=rsYXGnuq9njPBGXReT0AV0lP+dQyqdcmdxm8A+W61/k=;
+	b=YdoXRt3x+FBzJoW2aM3v8MUoo+Q7zgwkdSU2oy0Hr1YFiJTvoJ+4QNhWXdoUt5ZDLdlDA5+6R6SJOMrEe2090WB2A3m6qqV+6i5aEGrzqcql79NlX8RhlZNzAMZOSUhurL3Y2iRwOB4tdL7axvDFyaKKj0L5bSA2YeAyGkDRiRA=
+Received: from HE1PR0201MB2265.eurprd02.prod.outlook.com (10.168.145.136) by
+	HE1PR0201MB2458.eurprd02.prod.outlook.com (10.168.146.151) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1558.21; Mon, 28 Jan 2019 12:47:37 +0000
+Received: from HE1PR0201MB2265.eurprd02.prod.outlook.com
+	([fe80::4803:90a1:ee0d:ae19]) by
+	HE1PR0201MB2265.eurprd02.prod.outlook.com
+	([fe80::4803:90a1:ee0d:ae19%5]) with mapi id 15.20.1537.032;
+	Mon, 28 Jan 2019 12:47:37 +0000
+From: Samuli Piippo <samuli.piippo@qt.io>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] gcc-cross-canadian: Do not create symlink to real-ld
+Thread-Index: AQHUtwelR25ZdeukykGTSLbWP9aspQ==
+Date: Mon, 28 Jan 2019 12:47:37 +0000
+Message-ID: <20190128124739.9175-1-samuli.piippo@qt.io>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.89.120.53]
+x-mailer: git-send-email 2.17.1
+x-clientproxiedby: HE1PR05CA0259.eurprd05.prod.outlook.com
+	(2603:10a6:3:fc::11) To HE1PR0201MB2265.eurprd02.prod.outlook.com
+	(2603:10a6:3:7f::8)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=samuli.piippo@qt.io; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; HE1PR0201MB2458;
+	6:kC0EGd0dRUBs1CNOSn45d4VmAUsoScxOPlkIHpSgqY4YVV5bEkA5SxmJ0EBam2dNCjMjML9Xklgd4sUWbo5Hy+iLF9OW+mvahk+N0iBDTL1rB5TMVJD6mWGVgKtikiOWPHLiIY8yKa0nKIV/SferOPrGrrqv1GKwSEub7pDID1H27izm8PCP9AN5DyhnCmHbME70QOlS1O6v+b0TATs5bClcPlO2oioB2f0qq35E21FCrSf/jio4qb97JfceSdlGlSpa07L7N1IrK+RVumG7KQh6GgoUvRlpb8/vBrTQSetNz74ObZKvw/+rJvgal0tkoB1FFYgHicG4PszYN9fjVQUJBawWo8HcbCKR9r+n3/Q6bWv9FOSs8FdpH5H1F6zLq3GSj+9eyBXmxGBwkkAGUK5F5BqpcgZQzoPT9+7B6OOMTdQPzEgcym6HTG1MwPcQNkNDFLkZ7FDrpdyfg/FT7w==;
+	5:yAodd8toLsyKJ4rX69lskcW1FfogfJ8Jw4kr/m5N8hCPxSqQ//555uWqfi+NuIHPHKQsHf3eJx1QNB7scM0QXEUa2BrAzSH1KHYQ/B9ChQJsfRObogTA0j70Jf4s6rwFgOpYD+LuweC7PMWW2U7BwKI/BJzJYl+nn0yE1sVuXCrZ0Lgvs2oEqH614yFah9lhQNFMREJVxgSaJ/vdvN37cA==;
+	7:Gx2KynZSlZ8hmOMD+WVigEWAbw/o1G9lZ8DgmRyetnZ4vBHYZkb6uJ4zY1nEDhi//eQUe7lwX16NGhEwJb9lr74wdMpHHd2DZyEI60M17SPEITVTv5HndYy9J7PrbucgFPmAqH7sF/BeBbzcRPsaxQ==
+x-ms-office365-filtering-correlation-id: 68c81a60-2da4-4e4f-453a-08d6851ec825
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(2017052603328)(7153060)(7193020);
+	SRVR:HE1PR0201MB2458; 
+x-ms-traffictypediagnostic: HE1PR0201MB2458:
+x-microsoft-antispam-prvs: <HE1PR0201MB2458D13E53798850F06B5217E9960@HE1PR0201MB2458.eurprd02.prod.outlook.com>
+x-forefront-prvs: 0931CB1479
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(376002)(346002)(366004)(39850400004)(396003)(136003)(189003)(199004)(105586002)(106356001)(71200400001)(71190400001)(256004)(2906002)(2501003)(2351001)(6116002)(102836004)(6506007)(386003)(186003)(44832011)(26005)(6916009)(486006)(3846002)(2616005)(66066001)(476003)(4744005)(1076003)(36756003)(99286004)(33896004)(53936002)(52116002)(7736002)(305945005)(8676002)(316002)(86362001)(6486002)(6436002)(6512007)(478600001)(97736004)(5640700003)(74482002)(68736007)(14454004)(25786009)(81156014)(81166006)(8936002)(50226002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0201MB2458;
+	H:HE1PR0201MB2265.eurprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: qt.io does not designate permitted
+	sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: N+rFU6yyET58xbma0Kgf3FfYezdndrC7NYyQnY2XIeFDnJbAQPTfTuhA2mIgPcDYMKvbnodh+Yp9bFeHhf9AD+T5I54dUsWNU+ai9KQQ+tl7eSfp9xh+sjyzCvwBzqaKeQZucCKzBRJhTviIUPqTQ39B4oz5CVuPRlY4GEiQbhKNqvqfDvhXmESviYEqzWvG2+nuGTTV7WGJJhpURsMBaFargPlwhr5P3QKMFETQv7zhEXl+I83q4p4/arV5gFzJ4jmAwoZVSHgvJAF4fmKuwTtfjQsT2EzmcojAzjAFJ9APLNRwdN/wEG1n+ZLa/d9uZ76J/Isf4yztD30bWAQ57w8WQlKAc6AsRCoDYCD8bY/WH8hHGLfo+JdQa6vd99G8dTP69k8lygr18Xra8IR3h0rMnKiFj2/1NR9L2UB77w8=
 MIME-Version: 1.0
-In-Reply-To: <20190127205615.12825-1-raj.khem@gmail.com>
-Subject: Re: [PATCH V3] arm-tunes: Remove -march option if mcpu is already added
+X-OriginatorOrg: qt.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68c81a60-2da4-4e4f-453a-08d6851ec825
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2019 12:47:37.2432 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 20d0b167-794d-448a-9d01-aaeccc1124ac
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0201MB2458
+Subject: [PATCH] gcc-cross-canadian: Do not create symlink to real-ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +79,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 04:40:53 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 29 Jan 2019 07:19:11 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-I reviewed this patch set.  It looks good to me.  Moving to -mcpu makes sense,
-as well as manually specifying the override feature info when necessary.
+real-ld is always used if that is found, which means you cannot
+switch between bfd and gold linkers using -fuse-ld=3Dgold.
 
---Mark
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+---
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-On 1/28/19 4:56 AM, Khem Raj wrote:
-> tune files which inherit the arch definitions already define appropriate
-> -mcpu option, which is equivalent of right -march and -mtune combination
-> and is preferred since gcc is getting stricter and stricter with option
-> check semantics and can now find incompatible -march and -mcpu options
-> better with every release. It does internal feature consistency check
-> and if it finds out discrepency between what -mcpu would expand to as
-> compared to -march it will flag the options to be incompatible, for
-> naked eye it sounds wrong but gcc would translate -mcpu to a given
-> -march internally and it might not match to what we set in these arch
-> files.
-> 
-> The effects are quite subtle, where this can result in configure test
-> failing to compile due to these incompatible options and a feature
-> option getting disabled for a recipe for no reason.
-> 
-> e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
-> -march=armv7-a are incompatible, many features in libstdc++ ends up
-> disabled due to configure check failures e.g. size_t size, ptrdiff_t
-> sizes, which inturn results in compiling libstdc++ with unwanted
-> disabled features.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Only delete -march if -mcpu is set
-> v3: Stop recursing into arch specific tunes
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipe=
+s-devtools/gcc/gcc-cross-canadian.inc
+index e7c08d3a61..ececec4965 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -137,8 +137,6 @@ do_install () {
+=20
+ 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
+ 	done
+-	t=3Dreal-ld
+-	ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld$suffix $dest$t$suffix
+=20
+ 	# libquadmath headers need to  be available in the gcc libexec dir
+ 	install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+--=20
+2.17.1
 
 
