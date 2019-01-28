@@ -1,61 +1,50 @@
 Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A21A7C592
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E2EC7C587
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 19:58:09 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id n18-v6so15365909lji.7
+	Mon, 28 Jan 2019 20:58:51 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id c16so12950959lfj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 11:58:10 -0800 (PST)
+	Mon, 28 Jan 2019 12:58:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=ucOwmSizV7dV3cYL29YpCFbrctpixG0v8NZ+EJQCYs4=;
-	b=1SKb8yxWmV5g7mPoet7k0q5FcCCY26rRX/CAXWVFTm4ymtO2Msqm/n1O1/uLP5M+Yq
-	d3t4RVMdF5YIm4ba2f3IAsS5R8QYLBCzc6xK8H9M2Qz2HUeM1kIiqwVUOttBiDsDFCfF
-	k1am+3I4e2pN28R1HcgTB5XiBv7T5SJu3uCE+GwSSDPhGqLFyj+5Y4xxPK0genxCYRgn
-	lNmLtwJDrIX01sJMtgEBvnwBwvJXt42Pjvosx/g/mvEHMCvQ5LNoUj7hFIchqgr+3WcH
-	bpsfjbCkxP793ZP9aiiDzL6dYbZ6PcOVV+2pUhDHWhLulSDTWaQWzsskQxMgUfuEAbTy
-	lqMA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=H75GI7zHlYErR7lVt9E1s/jBotasAznOT91ZA9R1uTg=;
+	b=DlPCNcTcLOnTYD512DaPJSNQPnQGYx1O9wAZsPoFYbSz32NAfF+cZ/AJ2i5HzTwvrM
+	1N+KJEm9hFxAxF1BQstgsT54YrA4txZjcUfbT8TgjbRSr5c4VhZ8c0O51tyYvcBpQr/X
+	LQA4qZrPFqkK0Vtd253kBXJMIUZQxQDEcCDwEFuBLwon+oJFMX4Bkhh+Dq16uSxTOuQf
+	JohCW3Vk1wcwgToEYFXziPA1Y9RwP8yU/yryg8Oa65LYKX5lehH8/Va0EAO5XM1EusbI
+	I3VTTJRpiqnpa10Z9Xwc4srxjEkcSpINq7PDywLpFlm2xBINmts3LNwM/DWjkra4TP/I
+	X6aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ucOwmSizV7dV3cYL29YpCFbrctpixG0v8NZ+EJQCYs4=;
-	b=m0KKmn/ceTM/849l4eXWVOBZRtRJcELlxXcKQkGGfAIb21kyJLaEIFAAu47ld190vr
-	JYwlPnMeT2y1LhRC126CUCUHZV0HNAEy0pt/DusF06gFcWK+ZViMzgA/fhmoRz1ARXqY
-	BoHokqtRD+pD+CsVNU+s8bs12kmH+utSuSDYN/evVbWVHIsbXqzSn0ylbzJGCk7ZfKlS
-	gPzD0pvmo99pcYVqio4vhj+MCTtVPC1aqErFH/57NSsVb61LtHpzbw/6noL+pJrn6g3n
-	tPBPUUWQ91JWqEpNb1/LiQ8gDt/9Y53QzmeV5BSHKmNvdm5fYmga6TkHNss1g52BluJi
-	wisA==
-X-Gm-Message-State: AJcUukczxSn0qbWmnyfhtvYba7N0WGJ/+ZTao2CxUhlUPwi6jqLMyFRx
-	FHvJZ1l7Cpf6m7/adfz/vcdqPuCNj08=
-X-Google-Smtp-Source: ALg8bN4X0UEMM6O2TC6hicYPzZ1tKs1w9ZWkDonZehX6ur5cs+RO1YiNWoU+pLPpNawwHXLC6xpF2g==
-X-Received: by 2002:a2e:3e04:: with SMTP id
-	l4-v6mr16335047lja.148.1548705489507; 
-	Mon, 28 Jan 2019 11:58:09 -0800 (PST)
-Received: from [192.168.1.169] (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
-	by smtp.gmail.com with ESMTPSA id
-	b20sm3094352lfj.61.2019.01.28.11.58.08
+	bh=H75GI7zHlYErR7lVt9E1s/jBotasAznOT91ZA9R1uTg=;
+	b=eJkTNH0qsH4Ww2mPcup74S98bmvMMXnRzdP7cNb6CIXTsFsPJKxhCt3tjNRVpENOZl
+	dSrAkjSdE2xDYvOlAGpattKuR1bh3XrVhOAF+UBFhNY+W/LNA2Z0S3m9cKUH+qlju1i4
+	PWqQbnBv6tOkGvb629sSrwD+ekdEptotDnji6/zcCyzCjTEQ12LhUiGk0yvHpHhXR5EE
+	pgYhGIiJSpf0aDjze4X12xcJRsGuXTbokobrTwkKTesCPWIgXZ/607bF7zyn4LtTceEG
+	M17c+SkaQZ4T7xibtScwtaL7numTp67r2LJakF8DVQlhiogzxpjJPCHdVBVn5Y9dwAC9
+	e29w==
+X-Gm-Message-State: AJcUukc3OvTsHe/FviwuR2q2HvW0wwCSO7mBglSXPAyUmkrtpqQahuiJ
+	N3I/lX2XYLaSkNT1BdVvS0Doaben6vc=
+X-Google-Smtp-Source: ALg8bN4fVN1e+9JCfYY+IotsUFIGEuWE8xSCJVbrEA9T0r9Lu8kkMDY5PKvEjFTNIj2DZ5GM/UbM3g==
+X-Received: by 2002:a19:d90c:: with SMTP id q12mr18712224lfg.24.1548709131846; 
+	Mon, 28 Jan 2019 12:58:51 -0800 (PST)
+Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
+	by smtp.gmail.com with ESMTPSA id w9sm3142340lfc.66.2019.01.28.12.58.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Jan 2019 11:58:08 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20190127093821.4803-1-jonas@norrbonn.se>
-	<9649a5c523c4f0809c9f73a9c5326eead5ae12d5.camel@linuxfoundation.org>
-	<c4b576fc-741a-0fac-efdd-738bf7e9c141@norrbonn.se>
-	<c386e07d5c75dfb9040e78caa2e5c3089c525873.camel@linuxfoundation.org>
-	<0f341f2157a9560145fd2184a9b84098372f5e6c.camel@linuxfoundation.org>
+	Mon, 28 Jan 2019 12:58:51 -0800 (PST)
 From: Jonas Bonn <jonas@norrbonn.se>
-Message-ID: <f4ea0012-9826-124a-bb1b-fec5582b4a61@norrbonn.se>
-Date: Mon, 28 Jan 2019 20:58:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2019 21:58:42 +0100
+Message-Id: <20190128205848.12834-1-jonas@norrbonn.se>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <0f341f2157a9560145fd2184a9b84098372f5e6c.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3 0/5] systemd patches
+Subject: [PATCH v4 0/6] systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,80 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 19:58:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2019 20:58:53 -0000
+Content-Transfer-Encoding: 8bit
+
+Changed in v4:
+- add patch to make systemd-firstboot a non-default option to systemd to
+  prevent unexpected prompts at runtime
+
+Changed in v3:
+- parameterize preset-file installation location (as suggested in patch
+  review)
+
+Changed in v2:
+- address patchtest warnings:
+  - include sign-offs on patches
+  - include License-Update tag on patch that makes licensing change
+- dropped patch implementing brute-force removal of unit files installed
+  by systemd into /etc
+- reworked the systemd-conf patch to restore the installation of the
+  base systemd configuration files
 
 
+**********
 
-On 28/01/2019 18:26, Richard Purdie wrote:
-> On Mon, 2019-01-28 at 14:31 +0000, Richard Purdie wrote:
->> On Mon, 2019-01-28 at 15:26 +0100, Jonas Bonn wrote:
->>> Hi,
->>>
->>> On 28/01/2019 14:55, Richard Purdie wrote:
->>>> Unfortunately this series failed in testing:
->>>>
->>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/226
->>>>
->>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/167
->>>>
->>>> so it looks like it may need some tweaks before we can merge it.
->>>
->>> OK.  You'll have to bear with me here as I'm not familiar with
->>> looking at the buildbot output.  From what I can see, the failure
->>> is
->>> when it attempts to boot the image... is that correct?  In what way
->>> does it fail... where do I find that?
->>
->> Yes, these tests are trying to boot images under qemu. You can see
->> the
->> output from boot process and it looks like it starts an interactive
->> dialog with the user (or attempts to) for setup. The key piece in the
->> various logs would appear to be:
->>
->>   DEBUG: Last 25 lines of text:
->>>           Starting First Boot Wizard...
->>>           Starting Rebuild Hardware Database...
->>>           Starting Apply Kernel Variables...
->>>           Mounting NFSD configuration filesystem...
->>>
->>> Welcome to your new installation of Poky (Yocto Project Reference
->> Distro) 2.6+snapshot-20190126 (master)!
->>> Please configure a few basic system settings:
->>>
->>> -- Press any key to proceed --[[0;32m  OK  [0m] Started Journal
->> Service.
->>
->> (from
->> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/257192/raw)
->>
->>
->>> When I build locally this all runs fine.  So what should I be
->>> building locally in order to see a failure like buildbot sees?
->>
->> Add INHERIT += "testimage" to local.conf and then
->>
->> "bitbake core-image-sato -c testimage"
->>
->> You'll need a tun/tap device setup so that "runqemu <machine>
->> <imagename>"works.
-> 
-> FWIW testing narrowed it down to the machine id patch causing this.
+These patches make some modifications to systemd with the long-term goal
+of being able to run OE in systemd's "stateless" configuration.
+"Stateless" boils down to building an image with empty /etc and /var
+directories so that volatile (tmpfs) filesystems can be mounted there;
+this requires that the system subsequently be able to populate these
+directories dynamically, which systemd mostly takes care of if things
+are done right.
 
-Thanks.  The reason for the prompt is that systemd-firstboot runs; 
-systemd detects whether it's a "first boot" based on the existence of 
-the machine-id file.  Since the machine-id file is absent now (by 
-design), this service runs.  The question is why systemd-firstboot is 
-being included in the build at all given that it should have been 
-configured out.  I'll poke at it when I get a moment.
+In these patches:
+i)    Don't include machine-id in writable images so that systemd can run
+its first-boot machinery
+ii)   Move systemd configuration files out of /etc
+iii)  Allow systemd to dynamically enable services and populate
+/etc/systemd/system via the presets mechanism
+
+There's a long way to go to get to a working "stateless" configuration.
+Getting to a "volatile" system (just empty /var) should be easier and
+I'll post patches moving things in that direction shortly.
 
 /Jonas
 
-> 
-> Cheers,
-> 
-> Richard
-> 
+Jonas Bonn (6):
+  systemd: don't build firstboot by default
+  systemd: do not create machine-id
+  systemd-conf: simplify creation of machine-specific configuration
+  systemd: create preset files instead of installing in image
+  systemd-systemctl-native: simplify and support preset-all
+  rootfs-postcommands: call preset-all for read-only-rootfs
+
+ meta/classes/rootfs-postcommands.bbclass      |  8 +++
+ meta/classes/systemd.bbclass                  | 33 ++++++------
+ meta/recipes-core/systemd/systemd-conf.bb     | 53 ++++++++-----------
+ .../systemd/systemd-systemctl/systemctl       | 36 +++----------
+ meta/recipes-core/systemd/systemd_239.bb      | 18 +++----
+ 5 files changed, 62 insertions(+), 86 deletions(-)
+
+-- 
+2.19.1
+
 
