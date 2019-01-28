@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CCA1A7C483
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E011F7C479
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:47:16 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id m1so13857195wml.2
+	Mon, 28 Jan 2019 12:47:17 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id s12so17887862wrt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 04:47:18 -0800 (PST)
+	Mon, 28 Jan 2019 04:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=wBZByrAWAHy1uHLFwezMpAB7SHqjpnfRgLPXtCs7u1k=;
-	b=Kqg0wGv+U3ANkDGGt//ydLi0VaMItCxjhgAjLFZYCH+381YqYK0c2CDpDxlVTWldCM
-	KLBMxa5q3VQfKchW9IYEF9CaqwByd4Pe9RWXX9fl6LQUKWlvGKRt7Htvs+D5wD8UZcwr
-	a5BotvvZHQ0erpIIgytnabD2JCo6NBOdHx28fxh3gUFyTQYMy1xSNvyuejj+SE08RnEC
-	iCls9Yw4+2ccHdNvrtfPdKhwyK5S/B1uLez4zQS3K7oF4ajzB/gP5C4W5zZbMI2kdzhS
-	Lby/o1jxheO5fiI37u1TZTiYIb1VD4MQnGD7v5KvUsNezVtT/fGeVLLknqdx3sHk8Noj
-	g2Yw==
+	bh=yhflArXU7zC3e8OxN0XEo57eWonMExFZT4mpcmTmBMU=;
+	b=m/gnGmcCe0knuflCuD4f33QShqR/XPGz0dh+QETCj1FkzkJGLtLJWzjS9wTkONHQ4v
+	fVl+44+SdRItKNgQfeBV9w2S2GL0QwDDDcVhXx4FoQFRSF78TaEALo6QYvZxcO04YqJ9
+	DzI2MPcgpz3cN+K18HQvW2KQ0n+48wYsq9gpbl3ctJdqDTVeJNksVWH0+ngM06yEBtwc
+	MJD3U3AK2L6vlZPulK+UJKifsw3hc6TuB3S1QBGQBWAo1rUJaFMQOSXunb8eA8g/AQEp
+	dmZbsgF2Avr5MlZJAPfEAj+Z8kCXcmdovg+juYXFAZfbn1+cew0haC7GSEpjrNTJx7zY
+	UUHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=wBZByrAWAHy1uHLFwezMpAB7SHqjpnfRgLPXtCs7u1k=;
-	b=gwQMjzapxZ2hN5jD+4criJ06YVOp9g2vTXxebWHWwvbS5KmUQ6lslB7RKWdmpzBHn1
-	sCy2V63UO6JNPJ8EqkHhqppRKVuI2FxPAOOeLe25VrSiv6SrIEPL01eRojU476ohwyG/
-	MtUm05a3SMCaDqEaKkha+mWzvLT13z5Ae8q5/XtPLCDxekqsGsJ/GAvLXHgxcU6LI8X4
-	tp8HrpHnIj3jg7/qtimNBKH9yPIPufaNdR2S8tdli3zB3zcpptwi2D4IvSPufz30dbyB
-	cs9hycjoTmrNJUCoLv3s9frxPtB4NBkGrOhkQFfPf0aThr/0WA5LXLEh/LoabtUUYN+0
-	wqdA==
-X-Gm-Message-State: AJcUukf8MGY8OgZjgoIvUKSBhVLBpOVxmv+2Q7JH8KhiPQgSloHIHAq7
-	bLqV97f7OAIFQjXT0uFUl3bkvW6S
-X-Google-Smtp-Source: ALg8bN4A5Bgimmd1QckWqLyksdSjEJG0Khey39+YgLOzwz3zE+L43uI0GoqxX4xAM1k80LGmsHFARg==
-X-Received: by 2002:a7b:cb86:: with SMTP id m6mr16936325wmi.61.1548679637169; 
-	Mon, 28 Jan 2019 04:47:17 -0800 (PST)
+	bh=yhflArXU7zC3e8OxN0XEo57eWonMExFZT4mpcmTmBMU=;
+	b=pex9ZKZOxQgzF1zL42Uj37fOr7/ocLbCm3fodfbJg4K2PMmfDJf07jv2EnOu2DS1un
+	X3k4iZJeREiZw4x7RZ5d87ddET/4cmrIkPpdYLrsLAiAf/ed5hcGLqCnGoBuAUaMQUdZ
+	IsHwxXwvGK6QocwSjExH30AXLUtaE3CHlwIqV5Y5DlxKgDxTfZe+ne9X794mjQNmOeIQ
+	b94WB6slsbdrnzMl2coXP83WOKDat5fOiQlVjrlhkFhlgeiQJaBYldU2HMD30nIlbYXq
+	Yet3rRkUML/jw1zFlbm/XxYu+QG/UmtTj8E2demmL/A7M1ElTTnwAJ7ecxRH5+Eob2/y
+	nZEQ==
+X-Gm-Message-State: AJcUukfi/p9pgGB/Gj+ROWxAGvdOn/vqaLxnG63boImSxtDHPlWs3/zg
+	+hqDOxUKcYsvIpUVMNvjRQBv2TSt
+X-Google-Smtp-Source: ALg8bN6tvUb02FmIVaOJquWIyltguoPCNJRJOIqW72VxT1vl2eNPP39M3+X5iNV2IWE5/Uqk7Qh5kA==
+X-Received: by 2002:a5d:60cc:: with SMTP id x12mr20872305wrt.193.1548679638398;
+	Mon, 28 Jan 2019 04:47:18 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	j33sm186026218wre.91.2019.01.28.04.47.16
+	j33sm186026218wre.91.2019.01.28.04.47.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Jan 2019 04:47:16 -0800 (PST)
+	Mon, 28 Jan 2019 04:47:17 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 13:46:40 +0100
-Message-Id: <dbac4482e686777481ed14eeb176f48692e479cc.1548679462.git.alex.kanavin@gmail.com>
+Date: Mon, 28 Jan 2019 13:46:41 +0100
+Message-Id: <8e8bbaba239cf35dbb29da16966fa6653023f276.1548679462.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1548679462.git.alex.kanavin@gmail.com>
 References: <cover.1548679462.git.alex.kanavin@gmail.com>
-Subject: [PATCH 09/24] qemu: enable virglrenderer and glx options for native/nativesdk builds
+Subject: [PATCH 10/24] qemu: drop --with-gtkabi option, as it is no longer supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 12:47:17 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 12:47:18 -0000
 
-Except for ming32/darwin, which do not support them.
+Recent qemu versions support gtk+3 only.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index b05c1cee9eb..b6c98a4923b 100644
+index b6c98a4923b..95e9e0ede77 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -74,15 +74,15 @@ PACKAGECONFIG ??= " \
-     fdt sdl kvm \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
- "
--PACKAGECONFIG_class-native ??= "fdt alsa kvm"
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
-+PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
-+PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
- 
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
- PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
- 
--# Disable kvm on targets that do not support it
--PACKAGECONFIG_remove_darwin = "kvm"
--PACKAGECONFIG_remove_mingw32 = "kvm"
-+# Disable kvm/virgl/mesa on targets that do not support it
-+PACKAGECONFIG_remove_darwin = "kvm virglrenderer glx gtk+"
-+PACKAGECONFIG_remove_mingw32 = "kvm virglrenderer glx gtk+"
- 
- PACKAGECONFIG[sdl] = "--enable-sdl --with-sdlabi=2.0,--disable-sdl,libsdl2"
- PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+@@ -95,7 +95,7 @@ PACKAGECONFIG[vnc-png] = "--enable-vnc --enable-vnc-png,--disable-vnc-png,libpng
+ PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,libcurl,"
+ PACKAGECONFIG[nss] = "--enable-smartcard,--disable-smartcard,nss,"
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
+-PACKAGECONFIG[gtk+] = "--enable-gtk --with-gtkabi=3.0 --enable-vte,--disable-gtk --disable-vte,gtk+3 vte"
++PACKAGECONFIG[gtk+] = "--enable-gtk --enable-vte,--disable-gtk --disable-vte,gtk+3 vte"
+ PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
+ PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
+ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt,"
 -- 
 2.17.1
 
