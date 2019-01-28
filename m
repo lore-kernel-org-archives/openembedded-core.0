@@ -1,49 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EF7A37C473
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D1987C473
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 11:39:33 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id t200so13626244wmt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 03:39:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=CBC1SKckWzJrkf3bfK9AhRWxOFMr7H4BTxSEZeUMDpA=;
-	b=Pkljw15yDgAmy3CE6K2hH0bF0pv0ssctdfOtcQNM0Uhx55KF/xNanSzFog/rBn1vIQ
-	eNZ/Pf1qyKrfT6vn5b8yBfoSnih5vkLaDP1VIA2Hr41iu/Z8biG+CL2ZV+Z6eElEocgZ
-	im0PjIEHjhe8QwU+NDYNoYXgQudgQoEBvQVeY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=CBC1SKckWzJrkf3bfK9AhRWxOFMr7H4BTxSEZeUMDpA=;
-	b=H5Sug6HsFM6p4CqWatEdxynz8P7R+WalY8a6ICFnZCAUl5W89YhWcvv4Tn2BBvLTtP
-	KVcgJZ9ld6sy+SL1Ug/6+yTGcjqvSviMqLNSeDSOO3UQOhWbPnSp8bXwpQbvNn9gIAnx
-	C/2BldSS1DDAdLeA4NykWM1/U6Q20ChUAm7mfWE/m9pI4YiUPIsB9RssEmxNrA9JLMKb
-	PSQMy+2EeNmXjOVvDJEx3dFNT//RrEReCFaM7rJrjUT0rw5relFK4UeAVZem5zIhiMPI
-	LeN06ov4jY+Ut4d3uZGzRXKagkYJH2v9e0v+vzlLPCuSA/8TjgV/qpr6mkKp2lIQ6zFr
-	FlYA==
-X-Gm-Message-State: AJcUukfimq2okFIo2J0cw2b4exKoxNgy039GtrkIVhQl9Xo/U/S0ofUA
-	cvBrWRWqtfEi7C04ifYsA/cOvAVtcOo=
-X-Google-Smtp-Source: ALg8bN7j25cTw6QDFwC7GAAh5W37zAW/uIZdK0a9OaIfj4ABClCI+jwCqn8sMCvDwYl+pn3AQ+AVsg==
-X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr16383358wml.121.1548675574284;
-	Mon, 28 Jan 2019 03:39:34 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s8sm127072360wrn.44.2019.01.28.03.39.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 28 Jan 2019 03:39:33 -0800 (PST)
-Message-ID: <9c52c249e8b3dcc2e0ef2f14ba04378bedc50a9b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jan 2019 11:39:32 +0000
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Help needed with ptest
+	Mon, 28 Jan 2019 11:46:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id DEA421843F;
+	Mon, 28 Jan 2019 12:46:30 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id nTp47wK19Vrd; Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 6762B1843D;
+	Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5489A1A07C;
+	Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 498DD1A069;
+	Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 3DCF0DDE;
+	Mon, 28 Jan 2019 12:46:29 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 28 Jan 2019 12:46:29 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Mon, 28 Jan 2019 12:46:28 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/1] base.bbclass: Use bb.event.ParseStarted
+	for	HOSTTOOLS
+Thread-Index: AQHUtugOyJ7IIhSlc0Oygjd67+39OKXEj8Ew
+Date: Mon, 28 Jan 2019 11:46:28 +0000
+Message-ID: <345abb1ed40143339310707ff00d5aa4@XBOX04.axis.com>
+References: <cover.1548667130.git.liezhi.yang@windriver.com>
+	<8b20fa4c993e073ec37b0fd6c309a52c4939959c.1548667130.git.liezhi.yang@windriver.com>
+In-Reply-To: <8b20fa4c993e073ec37b0fd6c309a52c4939959c.1548667130.git.liezhi.yang@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] base.bbclass: Use bb.event.ParseStarted for	HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +66,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 11:39:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2019 11:46:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-We now have better data than ever before on the status of the project
-from a test results perspective. In particular we can now easily
-collect ptest data.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
+> Sent: den 28 januari 2019 10:19
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/1] base.bbclass: Use bb.event.ParseStarted
+> for HOSTTOOLS
+>=20
+> Fixed:
+> $ export BB_SERVER_TIMEOUT=3D-1
+> $ bitbake quilt-native
+> $ rm -fr tmp
+> $ bitbake quilt-native
+> ERROR: Error running gcc  --version: /bin/sh: gcc: command not found
+>=20
+> This is because bb.event.ParseStarted fires only once when server is runn=
+ing,
 
-I triggered the tests for qemux86-64 on the autobuilder yesterday, the
-results are published and you can see them with:
+I assume you meant bb.event.ConfigParsed above?
 
-wget https://autobuilder.yocto.io/pub/non-release/20190127-9/testresults/qemux86-64-ptest/testresults.json 
+> but bb.event.ParseStarted fires every time when build configs are changed=
+, so
+> use bb.event.ParseStarted to fix the problem.
+>=20
+> [YOCTO #13022]
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/base.bbclass | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index f1a3c0e..c273a29 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -220,11 +220,18 @@ def buildcfg_neededvars(d):
+>          bb.fatal('The following variable(s) were not set: %s\nPlease set=
+ them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(=
+pesteruser))
+>=20
+>  addhandler base_eventhandler
+> -base_eventhandler[eventmask] =3D "bb.event.ConfigParsed bb.event.MultiCo=
+nfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sce=
+neQueueComplete bb.event.RecipeParsed"
+> +base_eventhandler[eventmask] =3D "\
+> +	bb.event.ParseStarted \
+> +	bb.event.MultiConfigParsed \
+> +	bb.event.BuildStarted \
+> +	bb.event.RecipePreFinalise \
+> +	bb.runqueue.sceneQueueComplete \
+> +	bb.event.RecipeParsed \
+> +"
+>  python base_eventhandler() {
+>      import bb.runqueue
+>=20
+> -    if isinstance(e, bb.event.ConfigParsed):
+> +    if isinstance(e, bb.event.ParseStarted):
+>          if not d.getVar("NATIVELSBSTRING", False):
+>              d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
+>          d.setVar('BB_VERSION', bb.__version__)
+> --
+> 2.7.4
 
-To show the raw logs you can quickly hack to make then more readable:
-
-cat testresults.json  | sed 's/\\n/\n/g'  > testresults1.json 
-
-and there are numerous worrying things when you read them such as if
-you grep for "TIMEOUT:".
-
-I also have a suspicion that some ptest runners are exiting without
-cleaning up all processes resulting in corrupted output later in the
-logs too, I saw something like that locally, I think for perl. More
-investigation is needed for that.
-
-There are multiple areas that could do with help:
-
-a) investigate/fix the timeouts
-b) improve the test results tool Ee Peng has posted to include ptest
-processing tools:
- i) view the logs
- ii) compare the results
- iii) highlight timeouts 
- iv) summarise durations
-c) Split logs into individual ptest runs instead of one block
-d) record the timings for the individual ptest blocks
-e) Add timeout status for tests into the json so we can explicitly test
-for it.
-
-I'd welcome help from anyone in any of the above areas, we probably
-need to create feature enhancement bugs for them.
-
-Cheers,
-
-Richard
-
+//Peter
 
 
