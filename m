@@ -1,51 +1,46 @@
-Return-Path: <marcus.cooper@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EAA7C05B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+	[209.85.210.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E157C45F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 11:17:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 0C10D18430
+	Mon, 28 Jan 2019 11:20:17 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id e12so14292706otl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:39 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Jg7UdA_8j_ay
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id CCE1A18435
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 849C21E072
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 78BA01E064
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from lnxmarcusc.se.axis.com (lnxmarcusc.se.axis.com [10.92.157.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6CE562381
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: by lnxmarcusc.se.axis.com (Postfix, from userid 11391)
-	id 5A97B87870; Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-From: Marcus Cooper <marcus.cooper@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 12:17:30 +0100
-Message-Id: <20190128111732.16387-2-marcusc@axis.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190128111732.16387-1-marcusc@axis.com>
+	Mon, 28 Jan 2019 03:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wjgA+VwcIT6Ok1OL7ga6sXRLaHLd71pMpCNPtoQpbEI=;
+	b=C9I2LszXbZ2/GHn8tGBYYOKjeT0YLYc6AjVXooDd/DaSBK3xQ1mosc7e2F36fmLPH/
+	sVQtGGKuHpXZdDQat2OhNE+egTa6bN+d9Y/fLxmqIHazx2qPpiCNhY7T+VVGvaemGEY7
+	WzENVk3EKshhkEjrggHGMEJUccAG/TAA3r/ai95S2oOHVTWdUPrST6xze7O9RZi64sFg
+	tur+HDJROjASmvSDlbI7O7j3VnNQcL2LdKkH50A01YY/ac/if0TuIe7/I/XwzZuTQjzc
+	N3NJfI8JgKf+EvixHAx3N0m9TGo8MdHeJtcJcT6soSiKCNM5P6P1Ym2JWemUjpERlqrX
+	N6TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wjgA+VwcIT6Ok1OL7ga6sXRLaHLd71pMpCNPtoQpbEI=;
+	b=sj6HynHy7RgMrNiXfvK+xnYt0OdZ1zU5aDnyqPWRMYkVi/8kFhvp3xy8j1jmu3urKV
+	LVQ27NFwmYnlRjJlOGOgqcq3mS50k/+/Tk4iUXrH/n4VbZAL8TI3hQ9wGAZaXc32Hcgk
+	3lia3l74+PZsY0+73koR2arfVHLKl9eBM6Dp4vviRo/l6MrAADoa+rgOJmyzGzXa4LnN
+	eWQVuG0Hb1VsFU20iHNRfZcuHU5cwCPkUDEQ4PpO+8XM4InRXPKIxeRZWJsWhx1dTEtC
+	q97MUzYuXQL8fQAwZL11cQjLs0c8d2cOOYfcIuZPXQBJUz6WiI3OcPmm7X17YHzzDOBH
+	jEqA==
+X-Gm-Message-State: AJcUukfWwR2THqZxUanSM1vBgSjoeMtF9wj3i2G7GWtpRfJ2oiYws4mT
+	zGPEGnBKgNAz9TftxUUt0dPXHrU2BIoETYtYtgTC0Q==
+X-Google-Smtp-Source: ALg8bN5ah4+L4ysF9P3OiM110pevyNW52k7P5JBEmKBD5kYjAaapxrGKrVycvCHl+Jl37bZDe9n3lYqgTNSgvVI/KK4=
+X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr16129508oti.367.1548674418704; 
+	Mon, 28 Jan 2019 03:20:18 -0800 (PST)
+MIME-Version: 1.0
 References: <20190128111732.16387-1-marcusc@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH v2 1/3] systemd: Security fix CVE-2018-16864
+In-Reply-To: <20190128111732.16387-1-marcusc@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 Jan 2019 12:20:07 +0100
+Message-ID: <CANNYZj-Ppan8+qjppbBasLG-D73Gh3qLNBmDOhpNPKgyxmn7Bw@mail.gmail.com>
+To: Marcus Cooper <marcus.cooper@axis.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/3] systemd: Fixes Security fix CVE-2018-16864 - CVE-2018-16866
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,244 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 11:17:38 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 11:20:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Affects < v240
+Maybe it's better to update systemd to latest upstream release?
 
-Signed-off-by: Marcus Cooper <marcusc@axis.com>
----
- ...-not-store-the-iovec-entry-for-process-co.patch | 208 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |   1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+Alex
 
-diff --git a/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch b/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
-new file mode 100644
-index 0000000000..c2f78be39e
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
-@@ -0,0 +1,208 @@
-+From 9cb07e7d82c7c4f28bbaa1478e1387e8ea3d03dd Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Wed, 5 Dec 2018 18:38:39 +0100
-+Subject: [PATCH] journald: do not store the iovec entry for process
-+ commandline on stack
-+
-+This fixes a crash where we would read the commandline, whose length is under
-+control of the sending program, and then crash when trying to create a stack
-+allocation for it.
-+
-+CVE-2018-16864
-+https://bugzilla.redhat.com/show_bug.cgi?id=1653855
-+
-+The message actually doesn't get written to disk, because
-+journal_file_append_entry() returns -E2BIG.
-+
-+Patch backported from systemd master at
-+084eeb865ca63887098e0945fb4e93c852b91b0f.
-+
-+CVE: CVE-2018-16864
-+Upstream-Status: Backport
-+Signed-off-by: Marcus Cooper <marcusc@axis.com>
-+---
-+ src/basic/io-util.c           | 10 ++++++++++
-+ src/basic/io-util.h           |  2 ++
-+ src/coredump/coredump.c       | 31 +++++++++++--------------------
-+ src/journal/journald-server.c | 25 +++++++++++++++----------
-+ 4 files changed, 38 insertions(+), 30 deletions(-)
-+
-+diff --git a/src/basic/io-util.c b/src/basic/io-util.c
-+index 1f64cc933b..575398fbe6 100644
-+--- a/src/basic/io-util.c
-++++ b/src/basic/io-util.c
-+@@ -8,6 +8,7 @@
-+ #include <unistd.h>
-+ 
-+ #include "io-util.h"
-++#include "string-util.h"
-+ #include "time-util.h"
-+ 
-+ int flush_fd(int fd) {
-+@@ -252,3 +253,12 @@ ssize_t sparse_write(int fd, const void *p, size_t sz, size_t run_length) {
-+ 
-+         return q - (const uint8_t*) p;
-+ }
-++
-++char* set_iovec_string_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value) {
-++        char *x;
-++
-++        x = strappend(field, value);
-++        if (x)
-++                iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(x);
-++        return x;
-++}
-+diff --git a/src/basic/io-util.h b/src/basic/io-util.h
-+index ed189b5820..792a64ad5e 100644
-+--- a/src/basic/io-util.h
-++++ b/src/basic/io-util.h
-+@@ -71,3 +71,5 @@ static inline bool FILE_SIZE_VALID_OR_INFINITY(uint64_t l) {
-+ #define IOVEC_MAKE(base, len) (struct iovec) IOVEC_INIT(base, len)
-+ #define IOVEC_INIT_STRING(string) IOVEC_INIT((char*) string, strlen(string))
-+ #define IOVEC_MAKE_STRING(string) (struct iovec) IOVEC_INIT_STRING(string)
-++
-++char* set_iovec_string_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value);
-+diff --git a/src/coredump/coredump.c b/src/coredump/coredump.c
-+index 20a1cbdd45..18e4f61d72 100644
-+--- a/src/coredump/coredump.c
-++++ b/src/coredump/coredump.c
-+@@ -1053,19 +1053,10 @@ static int send_iovec(const struct iovec iovec[], size_t n_iovec, int input_fd)
-+         return 0;
-+ }
-+ 
-+-static char* set_iovec_field(struct iovec *iovec, size_t *n_iovec, const char *field, const char *value) {
-+-        char *x;
-+-
-+-        x = strappend(field, value);
-+-        if (x)
-+-                iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(x);
-+-        return x;
-+-}
-+-
-+ static char* set_iovec_field_free(struct iovec *iovec, size_t *n_iovec, const char *field, char *value) {
-+         char *x;
-+ 
-+-        x = set_iovec_field(iovec, n_iovec, field, value);
-++        x = set_iovec_string_field(iovec, n_iovec, field, value);
-+         free(value);
-+         return x;
-+ }
-+@@ -1115,36 +1106,36 @@ static int gather_pid_metadata(
-+                         disable_coredumps();
-+                 }
-+ 
-+-                set_iovec_field(iovec, n_iovec, "COREDUMP_UNIT=", context[CONTEXT_UNIT]);
-++                set_iovec_string_field(iovec, n_iovec, "COREDUMP_UNIT=", context[CONTEXT_UNIT]);
-+         }
-+ 
-+         if (cg_pid_get_user_unit(pid, &t) >= 0)
-+                 set_iovec_field_free(iovec, n_iovec, "COREDUMP_USER_UNIT=", t);
-+ 
-+         /* The next few are mandatory */
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_PID=", context[CONTEXT_PID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_PID=", context[CONTEXT_PID]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_UID=", context[CONTEXT_UID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_UID=", context[CONTEXT_UID]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_GID=", context[CONTEXT_GID]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_GID=", context[CONTEXT_GID]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_SIGNAL=", context[CONTEXT_SIGNAL]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_SIGNAL=", context[CONTEXT_SIGNAL]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_RLIMIT=", context[CONTEXT_RLIMIT]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_RLIMIT=", context[CONTEXT_RLIMIT]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_HOSTNAME=", context[CONTEXT_HOSTNAME]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_HOSTNAME=", context[CONTEXT_HOSTNAME]))
-+                 return log_oom();
-+ 
-+-        if (!set_iovec_field(iovec, n_iovec, "COREDUMP_COMM=", context[CONTEXT_COMM]))
-++        if (!set_iovec_string_field(iovec, n_iovec, "COREDUMP_COMM=", context[CONTEXT_COMM]))
-+                 return log_oom();
-+ 
-+         if (context[CONTEXT_EXE] &&
-+-            !set_iovec_field(iovec, n_iovec, "COREDUMP_EXE=", context[CONTEXT_EXE]))
-++            !set_iovec_string_field(iovec, n_iovec, "COREDUMP_EXE=", context[CONTEXT_EXE]))
-+                 return log_oom();
-+ 
-+         if (sd_pid_get_session(pid, &t) >= 0)
-+@@ -1212,7 +1203,7 @@ static int gather_pid_metadata(
-+                 iovec[(*n_iovec)++] = IOVEC_MAKE_STRING(t);
-+ 
-+         if (safe_atoi(context[CONTEXT_SIGNAL], &signo) >= 0 && SIGNAL_VALID(signo))
-+-                set_iovec_field(iovec, n_iovec, "COREDUMP_SIGNAL_NAME=SIG", signal_to_string(signo));
-++                set_iovec_string_field(iovec, n_iovec, "COREDUMP_SIGNAL_NAME=SIG", signal_to_string(signo));
-+ 
-+         return 0; /* we successfully acquired all metadata */
-+ }
-+diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
-+index 4f1550ec5b..31be085c6b 100644
-+--- a/src/journal/journald-server.c
-++++ b/src/journal/journald-server.c
-+@@ -753,6 +753,7 @@ static void dispatch_message_real(
-+                 pid_t object_pid) {
-+ 
-+         char source_time[sizeof("_SOURCE_REALTIME_TIMESTAMP=") + DECIMAL_STR_MAX(usec_t)];
-++        _cleanup_free_ char *cmdline1 = NULL, *cmdline2 = NULL;
-+         uid_t journal_uid;
-+         ClientContext *o;
-+ 
-+@@ -769,20 +770,23 @@ static void dispatch_message_real(
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->uid, uid_t, uid_is_valid, UID_FMT, "_UID");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->gid, gid_t, gid_is_valid, GID_FMT, "_GID");
-+ 
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->comm, "_COMM");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->exe, "_EXE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->cmdline, "_CMDLINE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->capeff, "_CAP_EFFECTIVE");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->comm, "_COMM"); /* At most TASK_COMM_LENGTH (16 bytes) */
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->exe, "_EXE"); /* A path, so at most PATH_MAX (4096 bytes) */
-+ 
-+-                IOVEC_ADD_SIZED_FIELD(iovec, n, c->label, c->label_size, "_SELINUX_CONTEXT");
-++                if (c->cmdline)
-++                        /* At most _SC_ARG_MAX (2MB usually), which is too much to put on stack.
-++                         * Let's use a heap allocation for this one. */
-++                        cmdline1 = set_iovec_string_field(iovec, &n, "_CMDLINE=", c->cmdline);
-+ 
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->capeff, "_CAP_EFFECTIVE"); /* Read from /proc/.../status */
-++                IOVEC_ADD_SIZED_FIELD(iovec, n, c->label, c->label_size, "_SELINUX_CONTEXT");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->auditid, uint32_t, audit_session_is_valid, "%" PRIu32, "_AUDIT_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->loginuid, uid_t, uid_is_valid, UID_FMT, "_AUDIT_LOGINUID");
-+ 
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->cgroup, "_SYSTEMD_CGROUP");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->cgroup, "_SYSTEMD_CGROUP"); /* A path */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->session, "_SYSTEMD_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, c->owner_uid, uid_t, uid_is_valid, UID_FMT, "_SYSTEMD_OWNER_UID");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, c->unit, "_SYSTEMD_UNIT");
-++                IOVEC_ADD_STRING_FIELD(iovec, n, c->unit, "_SYSTEMD_UNIT"); /* Unit names are bounded by UNIT_NAME_MAX */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->user_unit, "_SYSTEMD_USER_UNIT");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->slice, "_SYSTEMD_SLICE");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, c->user_slice, "_SYSTEMD_USER_SLICE");
-+@@ -803,13 +807,14 @@ static void dispatch_message_real(
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->uid, uid_t, uid_is_valid, UID_FMT, "OBJECT_UID");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->gid, gid_t, gid_is_valid, GID_FMT, "OBJECT_GID");
-+ 
-++                /* See above for size limits, only ->cmdline may be large, so use a heap allocation for it. */
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, o->comm, "OBJECT_COMM");
-+                 IOVEC_ADD_STRING_FIELD(iovec, n, o->exe, "OBJECT_EXE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, o->cmdline, "OBJECT_CMDLINE");
-+-                IOVEC_ADD_STRING_FIELD(iovec, n, o->capeff, "OBJECT_CAP_EFFECTIVE");
-++                if (o->cmdline)
-++                        cmdline2 = set_iovec_string_field(iovec, &n, "OBJECT_CMDLINE=", o->cmdline);
-+ 
-++                IOVEC_ADD_STRING_FIELD(iovec, n, o->capeff, "OBJECT_CAP_EFFECTIVE");
-+                 IOVEC_ADD_SIZED_FIELD(iovec, n, o->label, o->label_size, "OBJECT_SELINUX_CONTEXT");
-+-
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->auditid, uint32_t, audit_session_is_valid, "%" PRIu32, "OBJECT_AUDIT_SESSION");
-+                 IOVEC_ADD_NUMERIC_FIELD(iovec, n, o->loginuid, uid_t, uid_is_valid, UID_FMT, "OBJECT_AUDIT_LOGINUID");
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index c146897508..94729a6a39 100644
---- a/meta/recipes-core/systemd/systemd_239.bb
-+++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -38,6 +38,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch \
-            file://0002-core-Fix-use-after-free-case-in-load_from_path.patch \
-            file://0001-meson-rename-Ddebug-to-Ddebug-extra.patch \
-+           file://0024-journald-do-not-store-the-iovec-entry-for-process-co.patch \
-            "
- 
- # patches made for musl are only applied on TCLIBC is musl
--- 
-2.11.0
-
+On Mon, 28 Jan 2019 at 12:17, Marcus Cooper <marcus.cooper@axis.com> wrote:
+>
+> Changed in v2:
+>  - Added CVE tag, Upstream-Status tag and Sign-off-by tags.
+>  - removed the verification of the entry length in the header
+>  - squashed CVE-2018-16865 patches into one
+>  - CVE-2018-16866 patch now taken from systemd-stable and includes
+>    an additional heap buffer overflow fix.
+>
+> Marcus Cooper (3):
+>   systemd: Security fix CVE-2018-16864
+>   systemd: Security fix CVE-2018-16865
+>   systemd: Security fix CVE-2018-16866
+>
+>  ...-not-store-the-iovec-entry-for-process-co.patch | 208 +++++++++++++++++++++
+>  ...rnald-set-a-limit-on-the-number-of-fields.patch | 139 ++++++++++++++
+>  ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch |  49 +++++
+>  meta/recipes-core/systemd/systemd_239.bb           |   3 +
+>  4 files changed, 399 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
