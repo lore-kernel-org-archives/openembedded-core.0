@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CEED160234
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4917C498
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 13:55:04 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l9so18077745wrt.13
+	Mon, 28 Jan 2019 14:09:09 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id f188so13987950wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 05:55:06 -0800 (PST)
+	Mon, 28 Jan 2019 06:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=qCt68970Wt0H7RJo9P55If4YHvJv42csEW4QpoFkY10=;
-	b=VMkBerLDrDnYsEKtOnqFB8CHPz/gWiRkvBvrr/mKlSimjZDJluqeLF/haaq4M3oLVx
-	qkwxQPifY0L0Y07w1X+IotX+z6pxbIaS/f/rYEwLlcOCDYfCeu4G1tBp3X3pJD35qzoi
-	K4zowwK18bN3G+WkOmVv0y4nAPRNM4ENLHtv0=
+	bh=bsyQDyst8tPVO/UQsWkt1VBdCwGPg5WZzVwXT12AFXU=;
+	b=BuGzNQbnrHkTu28eEZTezJTSNu1oviXoc7qXlnNe+dUZw4vSLVUp+LlLpPdUIzqKpS
+	z4Gq88kI1jG2E1wIMrYBZAJyDlE+LGwivfNI8vJtT2UBqppx7DxiKXu/yrhDUP7NBxrf
+	lnwbLeW+YPix8VMIV3ygerY3vte3zAvuDgaF0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=qCt68970Wt0H7RJo9P55If4YHvJv42csEW4QpoFkY10=;
-	b=PB8eGeg+dUdRp61G2rR9yFhkJcOw8+HrWkPyVYXZxpLymB09wvaZAcfpEzQr2vPBLe
-	KODPXu+hDrz70qMGPEZVkc6+yOVlQ49U7Gjq+xHtJQqHbcTnqwkBIaSJFv+5ZjtICUez
-	pifvz7cC5LSCnhEClpwosjEULeW5thmahBiF34HbJvYBOooGepbU6uRBzpH7Vh+BqrjF
-	C1Th/WSV/VppbOSNVOnCA2TYGdaKkmlsEZSWe7fPtEPEJk5DtYJzVOofhc/Hgi2w8J2y
-	Wwr7LN812WB484J+DqzJj0/i0qDPl2QVVtI/MK1qjPEMd/lpdzzZMInhm84JjHYQzCkK
-	SlUw==
-X-Gm-Message-State: AJcUukd066p4bC1SAVTKBl79xVl4zR44jT0eRoUodWPZju1uHXRelWd+
-	y1UDoXPRKP4xNwhup+/0xWL+2e4ED2U=
-X-Google-Smtp-Source: ALg8bN73dbVeCR4Io71BGNEOyX1oSQwBfTztSbIKVcmGKKEA4sP9HTYaDCjZeH+ymph6RxMj//tXCg==
-X-Received: by 2002:adf:b201:: with SMTP id u1mr21582576wra.165.1548683705066; 
-	Mon, 28 Jan 2019 05:55:05 -0800 (PST)
+	bh=bsyQDyst8tPVO/UQsWkt1VBdCwGPg5WZzVwXT12AFXU=;
+	b=X5aSuMlqCKfxpXk66ncSczZnkq/ODNIKkSuQJ6rjIZCroH+karCVDBfxZ+vfO69h5O
+	61mTOgTMVsQzrSX8zfDVChpVPYPFcRR9Xn7a+yoKSitCoyRz4pDuKyne4pP3AJ6jKzUR
+	4MITKdV3f3UmNzMNlXSg0KVlt2HhOyiW+cQA4Opkk8SvkWo1BdEEB3ZCttKCmvGSbZ3R
+	f5fk1W3EUlr0B3b9GN1aQQavXAlMA3F349MnNDKkRgQg3O+lLK5nPF3K7GlJGIDGhzC2
+	lgXwg7HmEMacppNnOWe8ch5vCiIHGOUubqXXpGuVG9iRIECUG/wcDdw2Rrh310pZnYWw
+	NdOA==
+X-Gm-Message-State: AJcUuke2yDnO2njIkvyFXsov/I9ahM73qIRtrI+qSn8bZpuGlQ7l3k9f
+	v9MBUbAKm+X/UfB+L3w8An0NBQ==
+X-Google-Smtp-Source: ALg8bN6c0DvhdhptcEpsbc3oZ4vtac/wCf2uX3TdmcmoNWMPoMUJ1OnXW30VA9EJCWBGbKdB8kNj9Q==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr17184259wmb.80.1548684550110; 
+	Mon, 28 Jan 2019 06:09:10 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm137106264wrn.29.2019.01.28.05.55.04
+	m21sm50902305wmi.43.2019.01.28.06.09.08
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 28 Jan 2019 05:55:04 -0800 (PST)
-Message-ID: <9649a5c523c4f0809c9f73a9c5326eead5ae12d5.camel@linuxfoundation.org>
+	Mon, 28 Jan 2019 06:09:08 -0800 (PST)
+Message-ID: <dc8e1f400fb4d66b30a84a1268ad7b60b342eec1.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonas Bonn <jonas@norrbonn.se>, openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 13:55:03 +0000
-In-Reply-To: <20190127093821.4803-1-jonas@norrbonn.se>
-References: <20190127093821.4803-1-jonas@norrbonn.se>
+To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2019 14:09:08 +0000
+In-Reply-To: <20190115024758.29054-1-zhe.he@windriver.com>
+References: <20190115024758.29054-1-zhe.he@windriver.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH v3 0/5] systemd patches
+Subject: Re: [PATCH v2] ltp: Remove admin_tools test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 13:55:05 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 14:09:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Unfortunately this series failed in testing:
+On Mon, 2019-01-14 at 18:47 -0800, He Zhe wrote:
+> admin_tools test group has been removed from upstream. Backport to
+> fix the
+> following failures.
+> 
+> at_deny01 1 TFAIL : ltpapicmd.c:188: At denyed user to execute test
+> job
+> at_allow01 1 TFAIL : ltpapicmd.c:188: At did not allow user to
+> execute job
+> 
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+> v2: Add missing SOB and upstream status.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/226
+Rather than add the huge patch could we upgrade please?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/167
-
-so it looks like it may need some tweaks before we can merge it.
+I believe Petr sent a patch but it had some issues so perhaps you could
+help fix those?
 
 Cheers,
 
 Richard
-
-
-On Sun, 2019-01-27 at 10:38 +0100, Jonas Bonn wrote:
-> Changed in v3:
-> - parameterize preset-file installation location (as suggested in
-> patch
->   review)
-> 
-> Changed in v2:
-> - address patchtest warnings:
->   - include sign-offs on patches
->   - include License-Update tag on patch that makes licensing change
-> - dropped patch implementing brute-force removal of unit files
-> installed
->   by systemd into /etc
-> - reworked the systemd-conf patch to restore the installation of the
->   base systemd configuration files
-> 
-> 
-> **********
-> 
-> These patches make some modifications to systemd with the long-term
-> goal
-> of being able to run OE in systemd's "stateless" configuration.
-> "Stateless" boils down to building an image with empty /etc and /var
-> directories so that volatile (tmpfs) filesystems can be mounted
-> there;
-> this requires that the system subsequently be able to populate these
-> directories dynamically, which systemd mostly takes care of if things
-> are done right.
-> 
-> In these patches:
-> i)    Don't include machine-id in writable images so that systemd can
-> run
-> its first-boot machinery
-> ii)  Allow systemd to dynamically enable services and populate
-> /etc/systemd/system via the presets mechanism
-> 
-> There's a long way to go to get to a working "stateless"
-> configuration.
-> Getting to a "volatile" system (just empty /var) should be easier and
-> I'll post patches moving things in that direction shortly.
-> 
-> /Jonas
-> 
-> Jonas Bonn (5):
->   systemd: do not create machine-id
->   systemd-conf: simplify creation of machine-specific configuration
->   systemd: create preset files instead of installing in image
->   systemd-systemctl-native: simplify and support preset-all
->   rootfs-postcommands: call preset-all for read-only-rootfs
-> 
->  meta/classes/rootfs-postcommands.bbclass      |  8 +++
->  meta/classes/systemd.bbclass                  | 33 ++++++------
->  meta/recipes-core/systemd/systemd-conf.bb     | 53 ++++++++---------
-> --
->  .../systemd/systemd-systemctl/systemctl       | 36 +++----------
->  meta/recipes-core/systemd/systemd_239.bb      | 17 +++---
->  5 files changed, 62 insertions(+), 85 deletions(-)
-> 
-> -- 
-> 2.19.1
-> 
 
 
