@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 767956BC01
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 184CC6BC01
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 17:25:36 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id y8so14759928wmi.4
+	Mon, 28 Jan 2019 17:26:50 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id q18so18973827wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 09:25:37 -0800 (PST)
+	Mon, 28 Jan 2019 09:26:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=tWzZvAadBDrZkUIWETHtlkVLoyG5ypOM02vF8UFcDOw=;
-	b=M7HR+dG8BXmMFakve1vO8l45uPtuP9IsTqQk9CVYJmnMNmfAPlBxXsCfabW2Gxl/ZA
-	+gVyBHCxxMEzHt2YxcqfsLLkxxByHVQ3VuM0TEyKO6DkN/X31FRz5qLndrn0JC1SJeCX
-	581CwVqqI9V/0/lvbDVQWXbkO6ECbvJXokXts=
+	bh=Px+5Fp8+xxPfdFoPnfC2O7n3WJ40bYL/HU8gVjf26To=;
+	b=BBy4ACOKsTon1OnQw7mTVRb5WG9EnHvzOSHawhWA73lumWQ7JASCbf8t0xUGuthRme
+	78hjL4pqk22/WzUmwPIokG19bPRfcPZV0hP8NmBo9NqhTWtK6LA4Vsf7v52RUZEAEFmv
+	M7Q89iLbjr+w8M33K2FLxu3aN1hcO1AQUVU50=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tWzZvAadBDrZkUIWETHtlkVLoyG5ypOM02vF8UFcDOw=;
-	b=ig5dT+9U/hMXxZAsN5ruUSUKELjhsERTvBVtEJz1Bn4IC4A70Ofi1OFcB/sDxs2YIq
-	1f+SZT3evgrOU3otMo2dp9pI0ZlnUopt74oT7CofI1GIj3X9w7F898S2OIj46qB2CUqx
-	8+AKGfvKUdXL1lxDdcHHgGUe5X/yMXMmnPgZyMT7x2lGc+apMA3tq+X8TtZwG1I+CSMe
-	aQsSeQF3SOOnPuzis2RskkqU0EuSEIHUeIbwIu1TnzgHS9Mulxb8v0z1cfk6pUL/p/qF
-	AuJzk2M97irrR/rhzhGkVqtoWFSfl/d5lZ8inO2v2ATi6xlp2ZX275gNKl2IREugRj/f
-	JlYw==
-X-Gm-Message-State: AJcUukfBPC66h7ceRllEdFhh4h4sIr4AoiIda3oS4qy1L2p3zoyyXlT3
-	2SZgi5uYjJL+i4KMcaZ+4+D/5Q==
-X-Google-Smtp-Source: ALg8bN7dDb/2yExNjB6o0xE1eNahm/5MKszXBwHWlY5siQcXYAvU++p0KdECy4pqjBQZbvV909wcEw==
-X-Received: by 2002:a1c:7a16:: with SMTP id v22mr16675584wmc.131.1548696336938;
-	Mon, 28 Jan 2019 09:25:36 -0800 (PST)
+	bh=Px+5Fp8+xxPfdFoPnfC2O7n3WJ40bYL/HU8gVjf26To=;
+	b=q8/fwJoGlneIA3++8cIE+YS38okxsePUO9Kqe6Fa+gUbbgu3rSD7xUMChyd8AJM2L5
+	nJ0Bjj+YCHCJZUVBsWvC+gMn0qQSIEGZx5jMVKAA6Qyc89cNu8sQwgzWvPm2PHV4JvE9
+	gbrDENw05xRZLmVYX+TXD6ZZfLNhcyZsEYehm8c747TQYrjF/mO07B+OuN+ebIczjaFN
+	+BXb2wD/g8pLA9s+o5pOIXbVSANFpQM7Cdihnr96cRMUFDukvq56lMJ4oQjU02/IUnFm
+	0RMyE3HYSD1YC0ajavNbkfdufms0Bzg/ZCaF9t8G7SKmBeuaCYOfC1jcaZibMQSBHemm
+	UeqQ==
+X-Gm-Message-State: AJcUukehyIwlGw1uXpA49wy02DLFHRaIS3JY3u4uSojP7y+nRhvClYeL
+	1P/aI33HNUcC8RbgLkS3JrvEWVp4Jsc=
+X-Google-Smtp-Source: ALg8bN40WK9ORZ87CP2Q9qHvFxf5lFVGDUBoXXMFM91r7IUx96whcgnHEqwGNhx9r1bOEXboKN1N0A==
+X-Received: by 2002:adf:f0c5:: with SMTP id x5mr21705239wro.77.1548696411722; 
+	Mon, 28 Jan 2019 09:26:51 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y8sm32810wmg.13.2019.01.28.09.25.35
+	by smtp.gmail.com with ESMTPSA id i192sm44954wmg.7.2019.01.28.09.26.50
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 28 Jan 2019 09:25:36 -0800 (PST)
-Message-ID: <e027d8fa4a0410d575fb9ff71833c13b626ba9db.camel@linuxfoundation.org>
+	Mon, 28 Jan 2019 09:26:50 -0800 (PST)
+Message-ID: <0f341f2157a9560145fd2184a9b84098372f5e6c.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 17:25:35 +0000
-In-Reply-To: <f26f729ae8292856bc3b1e73af1980fcb11d4972.1548679462.git.alex.kanavin@gmail.com>
-References: <cover.1548679462.git.alex.kanavin@gmail.com>
-	<f26f729ae8292856bc3b1e73af1980fcb11d4972.1548679462.git.alex.kanavin@gmail.com>
+To: Jonas Bonn <jonas@norrbonn.se>, openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2019 17:26:50 +0000
+In-Reply-To: <c386e07d5c75dfb9040e78caa2e5c3089c525873.camel@linuxfoundation.org>
+References: <20190127093821.4803-1-jonas@norrbonn.se>
+	<9649a5c523c4f0809c9f73a9c5326eead5ae12d5.camel@linuxfoundation.org>
+	<c4b576fc-741a-0fac-efdd-738bf7e9c141@norrbonn.se>
+	<c386e07d5c75dfb9040e78caa2e5c3089c525873.camel@linuxfoundation.org>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 11/24] mesa-gl: do not enable nativesdk variant to avoid clashes with main mesa recipe
+Subject: Re: [PATCH v3 0/5] systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 17:25:36 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 17:26:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-01-28 at 13:46 +0100, Alexander Kanavin wrote:
-> An alternative would be setting PREFERRED_PROVIDER, but for
-> native/nativesdk
-> builds mesa-gl is not a viable alternative to mesa, as it lacks all
-> of the
-> bits that make accelerated qemu possible. Using PREFERRED_PROVIDER
-> would
-> imply otherwise.
+On Mon, 2019-01-28 at 14:31 +0000, Richard Purdie wrote:
+> On Mon, 2019-01-28 at 15:26 +0100, Jonas Bonn wrote:
+> > Hi,
+> > 
+> > On 28/01/2019 14:55, Richard Purdie wrote:
+> > > Unfortunately this series failed in testing:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/226
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/167
+> > > 
+> > > so it looks like it may need some tweaks before we can merge it.
+> > 
+> > OK.  You'll have to bear with me here as I'm not familiar with
+> > looking at the buildbot output.  From what I can see, the failure
+> > is
+> > when it attempts to boot the image... is that correct?  In what way
+> > does it fail... where do I find that?
 > 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb | 2 ++
->  1 file changed, 2 insertions(+)
+> Yes, these tests are trying to boot images under qemu. You can see
+> the
+> output from boot process and it looks like it starts an interactive
+> dialog with the user (or attempts to) for setup. The key piece in the
+> various logs would appear to be:
 > 
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb
-> b/meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb
-> index 73267eb4f0d..030db6c1440 100644
-> --- a/meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb
-> @@ -7,3 +7,5 @@ PROVIDES = "virtual/libgl virtual/mesa"
->  S = "${WORKDIR}/mesa-${PV}"
->  
->  PACKAGECONFIG ??= "opengl dri ${@bb.utils.filter('DISTRO_FEATURES',
-> 'x11', d)}"
-> +
-> +BBCLASSEXTEND_remove = "nativesdk"
+>  DEBUG: Last 25 lines of text:
+> >          Starting First Boot Wizard...
+> >          Starting Rebuild Hardware Database...
+> >          Starting Apply Kernel Variables...
+> >          Mounting NFSD configuration filesystem...
+> > 
+> > Welcome to your new installation of Poky (Yocto Project Reference
+> Distro) 2.6+snapshot-20190126 (master)!
+> > Please configure a few basic system settings:
+> > 
+> > -- Press any key to proceed --[[0;32m  OK  [0m] Started Journal
+> Service.
+> 
+> (from 
+> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/257192/raw)
+> 
+> 
+> > When I build locally this all runs fine.  So what should I be
+> > building locally in order to see a failure like buildbot sees?
+> 
+> Add INHERIT += "testimage" to local.conf and then
+> 
+> "bitbake core-image-sato -c testimage"
+> 
+> You'll need a tun/tap device setup so that "runqemu <machine>
+> <imagename>"works.
 
-I really hate using remove in OE-Core. Lets find a different way to do
-this please as if we do this, its nearly impossible to undo in another
-layer...
+FWIW testing narrowed it down to the machine id patch causing this.
 
 Cheers,
 
