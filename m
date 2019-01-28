@@ -1,51 +1,51 @@
 Return-Path: <marcus.cooper@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 35E897C05B
+	by mail.openembedded.org (Postfix) with ESMTP id 37F447C464
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 11:17:36 +0000 (UTC)
+	Mon, 28 Jan 2019 11:17:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 39F221842A
+	by bastet.se.axis.com (Postfix) with ESMTP id 1D7FC18432
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:17:37 +0100 (CET)
+	Mon, 28 Jan 2019 12:17:38 +0100 (CET)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id PpCRivSc5Ecu
+	port 10024) with LMTP id TQ-ATPFO0kOO
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id CA6D718432
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id CA60C18430
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8EA781A08A
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 89F511E077
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 79C9F1A061
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7E7F21E070
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
 Received: from lnxmarcusc.se.axis.com (lnxmarcusc.se.axis.com [10.92.157.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 6DF5A2244
+	by thoth.se.axis.com (Postfix) with ESMTP id 6FC442385
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Jan 2019 12:17:35 +0100 (CET)
 Received: by lnxmarcusc.se.axis.com (Postfix, from userid 11391)
-	id 5F511943E9; Mon, 28 Jan 2019 12:17:35 +0100 (CET)
+	id 6325F943EF; Mon, 28 Jan 2019 12:17:35 +0100 (CET)
 From: Marcus Cooper <marcus.cooper@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 12:17:31 +0100
-Message-Id: <20190128111732.16387-3-marcusc@axis.com>
+Date: Mon, 28 Jan 2019 12:17:32 +0100
+Message-Id: <20190128111732.16387-4-marcusc@axis.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190128111732.16387-1-marcusc@axis.com>
 References: <20190128111732.16387-1-marcusc@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH v2 2/3] systemd: Security fix CVE-2018-16865
+Subject: [PATCH v2 3/3] systemd: Security fix CVE-2018-16866
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,165 +64,75 @@ Affects < v240
 
 Signed-off-by: Marcus Cooper <marcusc@axis.com>
 ---
- ...rnald-set-a-limit-on-the-number-of-fields.patch | 139 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_239.bb           |   1 +
- 2 files changed, 140 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
+ ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch | 49 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_239.bb           |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch b/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
+diff --git a/meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch b/meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
 new file mode 100644
-index 0000000000..ae9ef5de56
+index 0000000000..3925a4abbb
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
-@@ -0,0 +1,139 @@
-+From 7cad044b72406cbadf048da432c29afea74c3c10 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Wed, 5 Dec 2018 22:45:02 +0100
-+Subject: [PATCH] journald: set a limit on the number of fields
++++ b/meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+@@ -0,0 +1,49 @@
++From ebd06c37d4311db9851f4d3fdd023de3dd590de0 Mon Sep 17 00:00:00 2001
++From: Filipe Brandenburger <filbranden@google.com>
++Date: Thu, 10 Jan 2019 14:53:33 -0800
++Subject: [PATCH] journal: fix out-of-bounds read CVE-2018-16866
 +
-+The fix for CVE-2018-16865 is plucked from two commits that have
-+been pushed to systemd master.
++The original code didn't account for the fact that strchr() would match on the
++'\0' character, making it read past the end of the buffer if no non-whitespace
++character was present.
 +
-+journald: set a limit on the number of fields (1k)
++This bug was introduced in commit ec5ff4445cca6a which was first released in
++systemd v221 and later fixed in commit 8595102d3ddde6 which was released in
++v240, so versions in the range [v221, v240) are affected.
 +
-+We allocate a iovec entry for each field, so with many short entries,
-+our memory usage and processing time can be large, even with a relatively
-+small message size. Let's refuse overly long entries.
++Patch backported from systemd-stable at f005e73d3723d62a39be661931fcb6347119b52b
++also includes a change from systemd master which removes a heap buffer overflow
++a6aadf4ae0bae185dc4c414d492a4a781c80ffe5.
 +
-+CVE-2018-16865
-+https://bugzilla.redhat.com/show_bug.cgi?id=1653861
-+
-+What from I can see, the problem is not from an alloca, despite what the CVE
-+description says, but from the attack multiplication that comes from creating
-+many very small iovecs: (void* + size_t) for each three bytes of input message.
-+
-+Patch backported from systemd master at
-+052c57f132f04a3cf4148f87561618da1a6908b4.
-+
-+journal-remote: set a limit on the number of fields in a message
-+
-+Existing use of E2BIG is replaced with ENOBUFS (entry too long), and E2BIG is
-+reused for the new error condition (too many fields).
-+
-+This matches the change done for systemd-journald, hence forming the second
-+part of the fix for CVE-2018-16865
-+(https://bugzilla.redhat.com/show_bug.cgi?id=1653861).
-+
-+Patch backported from systemd master at
-+ef4d6abe7c7fab6cbff975b32e76b09feee56074.
-+with the changes applied by 7fdb237f5473cb8fc2129e57e8a0039526dcb4fd
-+removed.
-+
-+CVE: CVE-2018-16865
++CVE: CVE-2018-16866
 +Upstream-Status: Backport
 +Signed-off-by: Marcus Cooper <marcusc@axis.com>
 +---
-+ src/basic/journal-importer.c             | 5 ++++-
-+ src/basic/journal-importer.h             | 3 +++
-+ src/journal-remote/journal-remote-main.c | 7 ++++++-
-+ src/journal-remote/journal-remote.c      | 5 ++++-
-+ src/journal/journald-native.c            | 5 +++++
-+ 5 files changed, 22 insertions(+), 3 deletions(-)
++ src/journal/journald-syslog.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/basic/journal-importer.c b/src/basic/journal-importer.c
-+index ca203bbbfc..3ac55a66d9 100644
-+--- a/src/basic/journal-importer.c
-++++ b/src/basic/journal-importer.c
-+@@ -23,6 +23,9 @@ enum {
-+ };
++diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
++index 9dea116722..809b318c06 100644
++--- a/src/journal/journald-syslog.c
+++++ b/src/journal/journald-syslog.c
++@@ -194,7 +194,7 @@ size_t syslog_parse_identifier(const char **buf, char **identifier, char **pid)
++         e = l;
++         l--;
 + 
-+ static int iovw_put(struct iovec_wrapper *iovw, void* data, size_t len) {
-++        if (iovw->count >= ENTRY_FIELD_COUNT_MAX)
-++                return -E2BIG;
-++
-+         if (!GREEDY_REALLOC(iovw->iovec, iovw->size_bytes, iovw->count + 1))
-+                 return log_oom();
++-        if (p[l-1] == ']') {
+++        if (l > 0 && p[l-1] == ']') {
++                 size_t k = l-1;
 + 
-+@@ -98,7 +101,7 @@ static int get_line(JournalImporter *imp, char **line, size_t *size) {
-+                 imp->scanned = imp->filled;
-+                 if (imp->scanned >= DATA_SIZE_MAX) {
-+                         log_error("Entry is bigger than %u bytes.", DATA_SIZE_MAX);
-+-                        return -E2BIG;
-++                        return -ENOBUFS;
-+                 }
++                 for (;;) {
++@@ -219,7 +219,7 @@ size_t syslog_parse_identifier(const char **buf, char **identifier, char **pid)
++         if (t)
++                 *identifier = t;
 + 
-+                 if (imp->passive_fd)
-+diff --git a/src/basic/journal-importer.h b/src/basic/journal-importer.h
-+index f49ce734a1..c4ae45d32d 100644
-+--- a/src/basic/journal-importer.h
-++++ b/src/basic/journal-importer.h
-+@@ -16,6 +16,9 @@
-+ #define DATA_SIZE_MAX (1024*1024*768u)
-+ #define LINE_CHUNK 8*1024u
-+ 
-++/* The maximum number of fields in an entry */
-++#define ENTRY_FIELD_COUNT_MAX 1024
-++
-+ struct iovec_wrapper {
-+         struct iovec *iovec;
-+         size_t size_bytes;
-+diff --git a/src/journal-remote/journal-remote-main.c b/src/journal-remote/journal-remote-main.c
-+index 8fda9d1499..3a01fef646 100644
-+--- a/src/journal-remote/journal-remote-main.c
-++++ b/src/journal-remote/journal-remote-main.c
-+@@ -212,7 +212,12 @@ static int process_http_upload(
-+                         break;
-+                 else if (r < 0) {
-+                         log_warning("Failed to process data for connection %p", connection);
-+-                        if (r == -E2BIG)
-++                        if (r == -ENOBUFS)
-++                                return mhd_respondf(connection,
-++                                                    r, MHD_HTTP_PAYLOAD_TOO_LARGE,
-++                                                    "Entry is above the maximum of %u, aborting connection %p.",
-++                                                    DATA_SIZE_MAX, connection);
-++                        else if (r == -E2BIG)
-+                                 return mhd_respondf(connection,
-+                                                     r, MHD_HTTP_PAYLOAD_TOO_LARGE,
-+                                                     "Entry is too large, maximum is " STRINGIFY(DATA_SIZE_MAX) " bytes.");
-+diff --git a/src/journal-remote/journal-remote.c b/src/journal-remote/journal-remote.c
-+index beb75a1cb4..67e3a70c06 100644
-+--- a/src/journal-remote/journal-remote.c
-++++ b/src/journal-remote/journal-remote.c
-+@@ -408,7 +408,10 @@ int journal_remote_handle_raw_source(
-+                 log_debug("%zu active sources remaining", s->active);
-+                 return 0;
-+         } else if (r == -E2BIG) {
-+-                log_notice_errno(E2BIG, "Entry too big, skipped");
-++                log_notice("Entry with too many fields, skipped");
-++                return 1;
-++        } else if (r == -ENOBUFS) {
-++                log_notice("Entry too big, skipped");
-+                 return 1;
-+         } else if (r == -EAGAIN) {
-+                 return 0;
-+diff --git a/src/journal/journald-native.c b/src/journal/journald-native.c
-+index 5ff22a10af..951d092053 100644
-+--- a/src/journal/journald-native.c
-++++ b/src/journal/journald-native.c
-+@@ -140,6 +140,11 @@ static int server_process_entry(
-+                 }
-+ 
-+                 /* A property follows */
-++                if (n > ENTRY_FIELD_COUNT_MAX) {
-++                        log_debug("Received an entry that has more than " STRINGIFY(ENTRY_FIELD_COUNT_MAX) " fields, ignoring entry.");
-++                        r = 1;
-++                        goto finish;
-++                }
-+ 
-+                 /* n existing properties, 1 new, +1 for _TRANSPORT */
-+                 if (!GREEDY_REALLOC(iovec, m,
++-        if (strchr(WHITESPACE, p[e]))
+++        if (p[e] != '\0' && strchr(WHITESPACE, p[e]))
++                 e++;
++         *buf = p + e;
++         return e;
 +-- 
 +2.11.0
 +
 diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
-index 94729a6a39..e00d5dd914 100644
+index e00d5dd914..f843f588bd 100644
 --- a/meta/recipes-core/systemd/systemd_239.bb
 +++ b/meta/recipes-core/systemd/systemd_239.bb
-@@ -39,6 +39,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0002-core-Fix-use-after-free-case-in-load_from_path.patch \
+@@ -40,6 +40,7 @@ SRC_URI += "file://touchscreen.rules \
             file://0001-meson-rename-Ddebug-to-Ddebug-extra.patch \
             file://0024-journald-do-not-store-the-iovec-entry-for-process-co.patch \
-+           file://0025-journald-set-a-limit-on-the-number-of-fields.patch \
+            file://0025-journald-set-a-limit-on-the-number-of-fields.patch \
++           file://0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch \
             "
  
  # patches made for musl are only applied on TCLIBC is musl
