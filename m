@@ -1,53 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DA3B76D268
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+	[209.85.167.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F7C074813
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 17:09:16 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id m22so14813524wml.3
+	Mon, 28 Jan 2019 17:19:02 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id i6so13667060oia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 09:09:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=P0805sZpOgY2+45O1VCHV9xaq6JQrHJXH9XvzEPTusc=;
-	b=ICJYWXSp2V/wlifklkY65AD05XcNS3ua+xhKZ0bCKLO9gLwKnrqL1+xcyTg+0trRHi
-	diXG5HRphlImfLD+K6iSQptylF8PbyROFL+vThz4sX0YDpb4a6y8jbZUWR+p2EZLVDe+
-	nQKKDML+XcqBzibELzP7cOs0W7W2zo2m72u4s=
+	Mon, 28 Jan 2019 09:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=6GWM5VjHNTNkwzdzGEiidEl0ykvF1M12z/f8QMWI0nA=;
+	b=CynqNKxsicGMsM73kItkROFJiYVsAy/J+J5PFgYVrPLVwnj0hGnjif+pDGWrbAXxSN
+	BzLsdf/V+/ZzDxvhuHAZgmYGNDpygBbQ11sZEhVFAwLXWw/2xlFRJM4SiZYeE/l6oZ+Q
+	ZJsD1XJLWrAZN0wxwJGJwJdfpFsKz/DvLoXQ6jgxfDM9n8/erwV7l7SYLbCmdau8sU+X
+	UYU6v6m6gs72yjaBLVEAShBCTlHRMcEBQ0Ae6FrBDYtjSEvKVeg9nt1/51rpw6QqK7Tz
+	uAs26OYm+wz98GOUdlrilJv/dbmVnI/3tFQ0XJNZUVZ46FoHQMT35q9TYpj6wF89pdS9
+	i+gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=P0805sZpOgY2+45O1VCHV9xaq6JQrHJXH9XvzEPTusc=;
-	b=LDujzSFFk7N8w+ZypyHlz+dTxBQH8YBemA/RNFk6J64LeWL2XuID324iI1IVRPgg8c
-	gxbs6Bf7iNgy2Z8PEZ5Dgs23sSwkcC81mQGqVMXGWc+w7FMhVgGMR8F53nBu5JULGAtp
-	gopIVnCGDJlbYp/TEsgL/6w0BnQ/4yAw7Ca4wT3eVPtGdYksRal+auogPQcXl2A6Cd1D
-	iAlxnRm/9AjX5ewyUeLOPUwP9lkR6ORJEGR2RhXZNXhWFhoCEx9u9pLfIjlCmDxg0uu2
-	cuZTR/hg3YcJ0Pb85XjIJFkIgrquZyWI03xJghNT/tNCNDCCJoF+RiEU7rGtIm0Xiw43
-	VFMw==
-X-Gm-Message-State: AJcUukdVDUsQ9spwySePTy3gAFAYtJUngfuQCDXJucBw9TK/3kGm+m6A
-	bm63j2V7RKAHbzlWwZCEgcJjbA==
-X-Google-Smtp-Source: ALg8bN6OK7TB0tYd2Ybfm9NI4L7fEEQJdhePu77U+vbTiImgwY4MDvQrSTzdt5ytQc1WwhRn81exsQ==
-X-Received: by 2002:a1c:b70b:: with SMTP id h11mr18627896wmf.72.1548695357472; 
-	Mon, 28 Jan 2019 09:09:17 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c1sm64649274wmb.14.2019.01.28.09.09.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 28 Jan 2019 09:09:16 -0800 (PST)
-Message-ID: <5cd1ecb20f1f09d3c3bf57fadb88d49a36a6c91c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Sudhir Sharma <sudhirx.sharma@intel.com>
-Date: Mon, 28 Jan 2019 17:09:15 +0000
-In-Reply-To: <CAMKF1srP7ts_99SF6udk7dNhgMRWX8oD0qqrPaASG=ZPif4naw@mail.gmail.com>
-References: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
-	<CAMKF1srP7ts_99SF6udk7dNhgMRWX8oD0qqrPaASG=ZPif4naw@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=6GWM5VjHNTNkwzdzGEiidEl0ykvF1M12z/f8QMWI0nA=;
+	b=GaVW48KSbVgUXBC9lEX+qOU4LERueuMUW0Ig35KGmbigmNbbgac+ZHRZdlz+fgUXkJ
+	fd1Fl2hmUjLfZ/rpeZZsWUMB27WAasBfVhvc3Z82Q5scbaWfoNczpJRlQc20febwa49z
+	CepvgRGfHIsdqQJvTRsB6R1ZIdqG7omq74IiRtMB1lYCp1X7w/2dwYlp2bQSqxW1KSzP
+	zTnARWvZr8tm1Ek0XeVfvSJIzhAJEf2j0Hx2Kty+FnkYQlhXT7NaJu1eTGZ1/9BH4L5d
+	2rXBRMhZvNaW0Tj4Ch9TnMy9fhF+0roOjZfEDyyvwsYmKXVIrAZu0mGdY559kurvG432
+	XZiA==
+X-Gm-Message-State: AJcUuke9f49/zIp6XoPfPa31TyImXtYPPynS45yknSN+g2p1SxEAVnXU
+	cnnYqWE/03Dapbvl4iharet9/E3nbI2n/R3GX4jODg==
+X-Google-Smtp-Source: ALg8bN7+bhBXMbMCvz5ttnGAfWv2E7Ugh7Gv9g3aWul2+falWAzvmYO+//2Vw7O240PSTj3/bG8VWsuVHLB3MiNaVjY=
+X-Received: by 2002:aca:4b8f:: with SMTP id y137mr6860560oia.132.1548695943486;
+	Mon, 28 Jan 2019 09:19:03 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1548679462.git.alex.kanavin@gmail.com>
+	<e5725a863ac3f610e91c0f242eb7b10307250be6.1548679462.git.alex.kanavin@gmail.com>
+	<CAMKF1sprbVTsOW6PH+CTGb7gRr7yOEh6fmMvQLS5+y98R+8S2g@mail.gmail.com>
+In-Reply-To: <CAMKF1sprbVTsOW6PH+CTGb7gRr7yOEh6fmMvQLS5+y98R+8S2g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 Jan 2019 18:18:52 +0100
+Message-ID: <CANNYZj9F21i2zWNN1TMLXoxA2pb=rh-a87YdwseBno5AUsD10A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Converted the manual Runtime testcase to json
+Subject: Re: [PATCH 24/24] vte: allow building vte-native with gcc 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +56,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 17:09:17 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 17:19:02 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-01-28 at 09:02 -0800, Khem Raj wrote:
-> On Mon, Jan 28, 2019 at 12:14 AM Sudhir Sharma <
-> sudhirx.sharma@intel.com> wrote:
-> > Added json file of converted manual runtime testcases(compliance
-> > test cases)
-> > 
-> > Signed-off-by: Sudhir Sharma <sudhirx.sharma@intel.com>
-> > ---
-> >  meta/lib/oeqa/manual/compliance-test.json | 142
-> > ++++++++++++++++++++++++++++++
-> >  1 file changed, 142 insertions(+)
-> >  create mode 100644 meta/lib/oeqa/manual/compliance-test.json
-> > 
-> > diff --git a/meta/lib/oeqa/manual/compliance-test.json
-> > b/meta/lib/oeqa/manual/compliance-test.json
-> > new file mode 100644
-> > index 0000000..7adf8a1
-> > --- /dev/null
-> > +++ b/meta/lib/oeqa/manual/compliance-test.json
-> > @@ -0,0 +1,142 @@
-> > +[
-> > +    {
-> > +        "test": {
-> > +            "@alias":
-> > "configuration.configuration.LTP_subset_test_suite",
-> > +            "author": [
-> > +                {
-> > +                    "email": "corneliux.stoicescu@intel.com",
-> > +                    "name": "corneliux.stoicescu@intel.com"
-> 
-> do we have to hard code email addresses ? maybe we can insert them
-> via environment.
+On Mon, 28 Jan 2019 at 17:54, Khem Raj <raj.khem@gmail.com> wrote:
+> Its fine but it would be good to know what the error it.
+> > +-                GdkRGBA color{bg_color};
+> > ++                GdkRGBA color = bg_color;
 
-Its not used anywhere, its just author information. That said I happen
-to know that this email address doesn't work any more as the person is
-no longer at Intel...
+Sadly I lost the specific error message, but it was basically not
+recognizing the above syntax.
 
-I was planning to clean these up en-mass somehow at some point.
-
-Cheers,
-
-Richard
-
+Alex
 
