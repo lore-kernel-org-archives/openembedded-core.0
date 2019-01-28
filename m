@@ -1,86 +1,73 @@
-Return-Path: <prvs=925255644=Alistair.Francis@wdc.com>
-Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AE4C60110
+Return-Path: <JAEWON@xilinx.com>
+X-Greylist: delayed 43413 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 30 Jan 2019 01:53:49 UTC
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr820058.outbound.protection.outlook.com [40.107.82.58])
+	by mail.openembedded.org (Postfix) with ESMTP id 71BD460125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 23:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1548803414; x=1580339414;
-	h=from:to:cc:subject:date:message-id:
-	content-transfer-encoding:mime-version;
-	bh=I7yFXX8Wx6SpWGuMvmjXZ+jrXiRiTb2R265G6b0dAAY=;
-	b=rL2E3MyG8X58X1fXJDk5+G4F4MBmEOteqkleRq8SKIg4uuQM3Q4/vTwg
-	P0kZRWav/PALj5Qz0mn7zkeb5hUBZ7FqGGhypflCSowmZtIAWfMow3BG5
-	c+WcejxNCSHw7J7Kb5XPYliM1vdLOGnW+Hzf7EYvPEkvYFQdlodM3CzOa
-	do+GhCsj1OFtCx3iuSwIkX+wbq5LnsS6Gy6ASFlPniVjxSlsgqEEFUAHP
-	zbXQjdHM2X+RdX7yNkwgNqEhvPlCiCswflSwdidoBG1X75IjhMsBypKiN
-	gBpEMszm9H4/WJFSTo6Cv1wQ7qBlsDjiNv1uKKE/+mMx8maVb036n1p46 A==;
-X-IronPort-AV: E=Sophos;i="5.56,538,1539619200"; d="scan'208";a="205120143"
-Received: from mail-sn1nam02lp2050.outbound.protection.outlook.com (HELO
-	NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.36.50])
-	by ob1.hgst.iphmx.com with ESMTP; 30 Jan 2019 07:10:13 +0800
+	Wed, 30 Jan 2019 01:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=wa1qgR71uaTZXQYQ/J7WSJiZ+/2u+0k1lgTLR/vPrPM=;
-	b=i/t2acXaOYSIZ3rOxTuROVXYS6/sZLG+d4RES70qhcCw6oe8xNqiSQL5POio0RUKZ+BxA1qc3QX0bezibfdjOH4BPljMIueWs0eEzRTrsad/yTmZzDbP/RmOwf5xTHRFpsLiZm0OzVKrEwIFARg+EEmW/IupIOkMKuaY701d76w=
-Received: from MWHPR04MB0401.namprd04.prod.outlook.com (10.173.48.18) by
-	MWHPR04MB0609.namprd04.prod.outlook.com (10.173.49.150) with Microsoft
+	bh=dIbLCPq3YO6uoQ3kNalTPG+oPt3NJo4Gg8Xs6u1V034=;
+	b=nD7wA3TJMusFsibk/5rRkTXvEjMGcjRf8VDZ096yNWEQdFDE75Rs7OOLWW0Bj8vWW1Jdf19qAl4U4ORz+jVpxeJjMlyu9ur7uMiwScWWrCDLyrr6BJeqlhdfX0ysSg5YQtErnse2/swUUXfa2e7xkLJehEsLjE1eJt/dwYBcLDg=
+Received: from MWHPR02MB2768.namprd02.prod.outlook.com (10.175.49.146) by
+	MWHPR02MB2799.namprd02.prod.outlook.com (10.175.50.9) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1558.20; Tue, 29 Jan 2019 23:10:12 +0000
-Received: from MWHPR04MB0401.namprd04.prod.outlook.com
-	([fe80::f55c:272b:6401:1b8c]) by
-	MWHPR04MB0401.namprd04.prod.outlook.com
-	([fe80::f55c:272b:6401:1b8c%9]) with mapi id 15.20.1558.023;
-	Tue, 29 Jan 2019 23:10:12 +0000
-From: Alistair Francis <Alistair.Francis@wdc.com>
-To: "openembedded-core@lists.openembedded.org"
+	15.20.1558.16; Mon, 28 Jan 2019 23:18:25 +0000
+Received: from MWHPR02MB2768.namprd02.prod.outlook.com
+	([fe80::50c6:4927:8a6b:7300]) by
+	MWHPR02MB2768.namprd02.prod.outlook.com
+	([fe80::50c6:4927:8a6b:7300%10]) with mapi id 15.20.1558.023;
+	Mon, 28 Jan 2019 23:18:25 +0000
+From: Jaewon Lee <JAEWON@xilinx.com>
+To: Jaewon Lee <JAEWON@xilinx.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v3] libusb1: Add udev support
-Thread-Index: AQHUuCfJ2HRFksHpd0uk2+DVzFoTUQ==
-Date: Tue, 29 Jan 2019 23:10:12 +0000
-Message-ID: <20190129231003.6521-1-alistair.francis@wdc.com>
+Thread-Topic: [OE-core][PATCH] Support kmeta directory usage with devtool
+	modify/finish
+Thread-Index: AQHUlA6pSjEqrWlH6kSIHkkRtyVr06XFl2Lg
+Date: Mon, 28 Jan 2019 23:18:25 +0000
+Message-ID: <MWHPR02MB27682793325E802E40953AEEAF960@MWHPR02MB2768.namprd02.prod.outlook.com>
+References: <1544834362-5755-1-git-send-email-jaewon.lee@xilinx.com>
+In-Reply-To: <1544834362-5755-1-git-send-email-jaewon.lee@xilinx.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
 X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
-x-clientproxiedby: BYAPR02CA0072.namprd02.prod.outlook.com
-	(2603:10b6:a03:54::49) To MWHPR04MB0401.namprd04.prod.outlook.com
-	(2603:10b6:300:70::18)
 authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Alistair.Francis@wdc.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [199.255.44.170]
+	smtp.mailfrom=JAEWON@xilinx.com; 
+x-originating-ip: [149.199.62.133]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; MWHPR04MB0609;
-	6:60hbwjdv+4pYo6/95zQyoQ+gIBU6D7lcO95X4u5xQhlxUUwa2FKpHXoPq9bNOa+rkBdDg/nZGK0NfG9gldOdNPGd8NbNDoHtFgE1o3OAKFcuWR6SR505UtyDwh2nvVPuBcwpTy7+HGlqyYWNC+W+cDuIlI/lywNtKyTDwNjHG9aLqGEuxVVcKFnCJIlbdY5leLQIDlNfap85ycU62mHQhz1hH3+7p0Wg7aD4Q27xp6fxxPuWXMfPMUudnpLeZHZGdUvgP0uzNfB2Foylcv1LHUOu4h3JXHuykJhWVAgVQ7dJPNlt11kbsKPk6ROgV1f3tcb5raX/kmlF5oWNyppPRsnbXRiv6P6/m7pzZEQ2AAFnJitQUHvcqgXMydPGi6O7o1ZGQn4pj8iHc7bsYNeDBz5Qypuy621LYSil0ihQVavBaCTwEfhL1WBP++y0GfKacq0tmZShNRVTaYpnKB5cZw==;
-	5:vW2tOiHURulcZN/HeaBo97t2kKzEEvsmt2TnrN7Fb3/bUuJr9+V93e0+mnJmIjJ29b/ZFIFbrTqlZYaK6I0NiPkD2OdHs+FnZqrU3coxqRK1q/KLrsld18s5n68KaYsDAjeD07j6NEjsOqBBA/H72rDhRMVe87+a017A+h1x8uU1SPM5kJ/Y+o/IGzXmCqj6S7JJW7JvgvlWDH8FtdAI4Q==;
-	7:J63NDHilW6KAv8yUiFbDLUXTALXzKLg141QeinRzOzPw9v1labQKw8d74LI7DFB6e+YFvNAg2+yLbEtlQ72eU74RoNSl+pEW/O2MA24k/GVay2r501vIBCIRz81IMOfHbsiGlBRwCmWuG8BBkLoeaQ==
-x-ms-office365-filtering-correlation-id: dc15b8ad-d47e-4562-2e0e-08d6863eebc6
+x-microsoft-exchange-diagnostics: 1; MWHPR02MB2799;
+	6:hF0jVeBU8WEH9bUMzfF2PyPvy1gG/oIgY8o879Z86VoempBIEk41jU6v8y4dDhvvzyC019a9wgTIf6mt9edPvJ0czZa5ws/tRJHU8xyoAWsfqR/CIha5rIs9h3FIZxTIACXqrlPND4yeuH6DNpSbQ1YU01FjjwuLkS9GCdGlq4cfdQiTsyZ3bBPx5Ewfgk5OvEBThUcbTcdOrkCFKgJ2s4u8t2zbn6zAIfMSFBWzGJLjl14SLLVx4b64Nu9Z4LsuegR80dGjHuHil/qq3kz7n+/RpLXmp9tFT1Dm3r9Kk+M4229fzgRECpzsp5SPP3EqPbeKyuVgwaf3ysafkq+HIhavU4fhUZXo9Mht3L3PsFuOkyhd5KWeSuPe5bM7SgKnHjRjsqtBqwegO0Ot2Bkly3TnXDVhAN4qbirNgkxblqRm9bKmvN10x6OVmcj4cbWMmxLsAFBkqih2ACAJ7r42Ww==;
+	5:f5hEFJq3PFw3AL30tj2NZlLmTccje7kN7v4HVuJFQV2vdm2QxVvf4Z0SMRxS1NDEe+NG6xc+3nz3nz+BUV7/4GUpdmRBdIKsyU/dus2PA9Uw/Z9XhWg42C3b4t6Rgv7mNhwB9WMO4VGoj1nAAfRM7CwHbTK7El2PIANcGA+FQkpza7ds1gsU/TTomV6IiNFWNhtc0HJrsvVVh6LPjr+cqQ==;
+	7:ecYmjnzS5+ATFiB7RB5RKKYKF96Ssva0oBCmDoxs+V6yD3Kb7Ny1Ks5nJlBrX0Mjt3Bk/dY9vS4GgPFLNoQYkYf8p+53u6OkjNt4g430OP0QNMrjoFJm60luxsKoFdIhbQo8PcR5H4dkesxMU6xGig==
+x-ms-office365-filtering-correlation-id: a40e9e76-1d15-4d94-265e-08d68576e76d
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
 	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:MWHPR04MB0609; 
-x-ms-traffictypediagnostic: MWHPR04MB0609:
-wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <MWHPR04MB060992324E6B98A0B9ACB6A690970@MWHPR04MB0609.namprd04.prod.outlook.com>
-x-forefront-prvs: 093290AD39
+	SRVR:MWHPR02MB2799; 
+x-ms-traffictypediagnostic: MWHPR02MB2799:
+x-microsoft-antispam-prvs: <MWHPR02MB27994BFBE6B165473C56D4BFAF960@MWHPR02MB2799.namprd02.prod.outlook.com>
+x-forefront-prvs: 0931CB1479
 x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(366004)(39860400002)(346002)(376002)(136003)(396003)(199004)(189003)(105586002)(39060400002)(5640700003)(6916009)(2501003)(6436002)(53936002)(6512007)(3846002)(6116002)(72206003)(66066001)(97736004)(8676002)(478600001)(305945005)(7736002)(6486002)(2351001)(186003)(86362001)(14454004)(256004)(106356001)(50226002)(25786009)(71190400001)(71200400001)(2906002)(81156014)(54906003)(26005)(4744005)(476003)(8936002)(2616005)(99286004)(44832011)(386003)(102836004)(316002)(4326008)(486006)(1076003)(68736007)(6506007)(81166006)(52116002)(36756003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR04MB0609;
-	H:MWHPR04MB0401.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+	SFS:(10009020)(366004)(396003)(136003)(346002)(376002)(39850400004)(189003)(199004)(13464003)(7736002)(476003)(66066001)(25786009)(53936002)(81166006)(11346002)(81156014)(107886003)(8676002)(6246003)(105586002)(2906002)(33656002)(86362001)(4326008)(55016002)(3846002)(6116002)(68736007)(106356001)(9686003)(316002)(110136005)(97736004)(8936002)(486006)(72206003)(478600001)(6506007)(186003)(446003)(256004)(26005)(74316002)(71190400001)(71200400001)(14454004)(2501003)(305945005)(14444005)(7696005)(99286004)(229853002)(6436002)(102836004)(76176011)(53546011);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2799;
+	H:MWHPR02MB2768.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 11kHHQdN0LqknUeE2fHQBoMAc3Z7beUUe9acC3XNpMO86cvTQQyDNwrkAxxzkMD8u5BXNgFQxfCzozYp+UzRiW4ftKNUk/uSmrKoueCVQJEx2EeuBRlmlE9yaC3xmxfdDXATuhNg2RVpKGC9cjvvPqTPWn4nTG8XpoVnXENCgC/eqLQ+oS/3hRFmKTMl3fQtGzAsnBf4KSclPVibgQxHk+dd87J7y2r37ktr7c3HE52yDAXtELmUn0EJCmQwOU9SNJQYgAwSWrLPU0u1dPggvY12VQqaOgM6PCFffjxYk13Tkjzgv/zT4QeiycO26pMoXMc1p4aJ1V4cAgkBwJA/EwcTdjfUAclcZJDy38fXTEIyhDfhV0VdMy3KGGv8f1wwR5tRCdv/ski92kdByEvHVKKtUeEEHriiFNt6jffrICc=
+x-microsoft-antispam-message-info: UEKpS2BzmC2oOB1cAa6IadVdSPTNDwGvZao4tFvnX3LzX3lJXaQn7oN8tzUchkHvj7LVjXxUxBtI37ZlL49QbQtbajvcRSAMwCZdMaLbaxQphDsz3okX/OXep2gcA8Ve5e7UAHvH9uHFzpe1oY7kv99Uif9tVH3EtzEFd+CeNIVPyddBSWb/j6WIFU6qF+YInliYCvwgBxglJ9LTc9pLTaB/JaXmebxyZ6LQuw+X697sOcldbHHjF6Awc9/3nKqIl3PDaiOmpyEsGkkiNA7IeEKOsVNmQyuA3VjoTQfWuP8EA1sTzENEMi4+cBzcFSJ8UfARjATIPKXZcUxKNCUE9bxpK+HE8+SlVXv9KCBsBwRj/+xB9DwmILF6ul9WfLz5q8833lMCC367fJFNCE20okFFUuTBYKHf64FgpnGrMZo=
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc15b8ad-d47e-4562-2e0e-08d6863eebc6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2019 23:10:11.9825 (UTC)
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a40e9e76-1d15-4d94-265e-08d68576e76d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2019 23:18:25.4078 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB0609
-Subject: [PATCH v3] libusb1: Add udev support
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2799
+Subject: Re: [PATCH] Support kmeta directory usage with devtool modify/finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,42 +80,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 23:10:13 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 01:53:49 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-I don't see circular dependencies anymore between libusb1 and udev, so
-enable udev support for libusb1.
+ping
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-----Original Message-----
+From: Jaewon Lee [mailto:jaewon.lee@xilinx.com]=20
+Sent: Friday, December 14, 2018 4:39 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Jaewon Lee <JAEWON@xilinx.com>; Alejandro Enedino Hernandez Samaniego <=
+alejandr@xilinx.com>
+Subject: [OE-core][PATCH] Support kmeta directory usage with devtool modify=
+/finish
+
+When using Kmeta directories, devtool finish will add every single file in =
+the directory to the bbappend. This is because in the current implementatio=
+n, the get_recipe_local_files function treats the kmeta directory like a fi=
+le. Modifying the function to loop through the provided directories and ret=
+urn all included files instead of just the top level directory. This will e=
+nable correct file to file comparison when determing which files are new/ch=
+anged and need to be added to the bbappend.
+
+Adding an extra check in devtool-source.bbclass to not copy the cfg file if=
+ its already included somewhere in the kmeta directory
+
+Also during 'modify', when moving necessary files in the kmeta directory fr=
+om the workdir to oe-local-files, the dangling parent directories are left =
+behind.  This in itself is not an issue as the temporary devtool workspace =
+is automatically deleted, but this causes an incorrect include directory to=
+ be added in kernel-yocto.bbclass.  Changing the order of the if statements=
+ to catch the correct conditional. This is safe to do as when not in the de=
+vtool context, there will be no oe-local-files directory.
+
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 ---
-v3:
- - Don't build for native SDK
+ meta/classes/devtool-source.bbclass | 6 ++++--
+ meta/classes/kernel-yocto.bbclass   | 4 ++--
+ meta/lib/oe/recipeutils.py          | 9 ++++++++-
+ 3 files changed, 14 insertions(+), 5 deletions(-)
 
- meta/recipes-support/libusb/libusb1_1.0.22.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb b/meta/recipes-s=
-upport/libusb/libusb1_1.0.22.bb
-index 0c6e116dd7..1d9d772575 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
-@@ -20,9 +20,10 @@ S =3D "${WORKDIR}/libusb-${PV}"
+diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-sou=
+rce.bbclass
+index 1372e32..a811000 100644
+--- a/meta/classes/devtool-source.bbclass
++++ b/meta/classes/devtool-source.bbclass
+@@ -103,8 +103,10 @@ python devtool_post_unpack() {
+                 for l in sccfile:
+                     line =3D l.split()
+                     if line and line[0] in ('kconf', 'patch'):
+-                        local_files[line[-1]] =3D os.path.join(os.path.dir=
+name(local_files[key]), line[-1])
+-                        shutil.copy2(os.path.join(os.path.dirname(local_fi=
+les[key]), line[-1]), workdir)
++                        cfg =3D os.path.join(os.path.dirname(local_files[k=
+ey]), line[-1])
++                        if not cfg in local_files.values():
++                            local_files[line[-1]] =3D cfg
++                            shutil.copy2(cfg, workdir)
+                 sccfile.close()
 =20
- inherit autotools pkgconfig ptest
+     # Ignore local files with subdir=3D{BP} diff --git a/meta/classes/kern=
+el-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 496c8a7..2f556ca 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -138,10 +138,10 @@ do_kernel_metadata() {
+ 	for f in ${feat_dirs}; do
+ 		if [ -d "${WORKDIR}/$f/meta" ]; then
+ 			includes=3D"$includes -I${WORKDIR}/$f/kernel-meta"
+-	        elif [ -d "${WORKDIR}/$f" ]; then
+-			includes=3D"$includes -I${WORKDIR}/$f"
+ 		elif [ -d "${WORKDIR}/../oe-local-files/$f" ]; then
+ 			includes=3D"$includes -I${WORKDIR}/../oe-local-files/$f"
++	        elif [ -d "${WORKDIR}/$f" ]; then
++			includes=3D"$includes -I${WORKDIR}/$f"
+ 		fi
+ 	done
+ 	for s in ${sccs} ${patches}; do
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py index =
+9c99164..e63f7ae 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -480,7 +480,14 @@ def get_recipe_local_files(d, patches=3DFalse, archive=
+s=3DFalse):
+                     unpack =3D fetch.ud[uri].parm.get('unpack', True)
+                     if unpack:
+                         continue
+-            ret[fname] =3D localpath
++            if os.path.isdir(localpath):
++                for root, dirs, files in os.walk(localpath):
++                    for fname in files:
++                        fileabspath =3D os.path.join(root,fname)
++                        srcdir =3D os.path.dirname(localpath)
++                        ret[os.path.relpath(fileabspath,srcdir)] =3D filea=
+bspath
++            else:
++                ret[fname] =3D localpath
+     return ret
 =20
--# Don't configure udev by default since it will cause a circular
--# dependecy with udev package, which depends on libusb
--EXTRA_OECONF =3D "--libdir=3D${base_libdir} --disable-udev"
-+PACKAGECONFIG_class-target ??=3D "udev"
-+PACKAGECONFIG[udev] =3D "--enable-udev,--disable-udev,udev"
-+
-+EXTRA_OECONF =3D "--libdir=3D${base_libdir}"
 =20
- do_install_append() {
- 	install -d ${D}${libdir}
---=20
-2.20.1
+--
+2.7.5
 
 
