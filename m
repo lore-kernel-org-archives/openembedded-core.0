@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E4837C482
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AF207C4AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 12:47:31 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p7so17950156wru.0
+	Mon, 28 Jan 2019 12:47:32 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id u4so17907650wrp.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 04:47:32 -0800 (PST)
+	Mon, 28 Jan 2019 04:47:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
-	b=aEj5FGWzWBgVXLrbOR7GKXGudOou2vJsOXCSnTWqM7b7FdwXYUDSt9zdmJT1DHX2lS
-	weMRdL269RgcbRQn6Lp4sbIQhgsh1KEEVxfMQ+HLWERtcQlmhh0KS9Y38UPqHr/pLbvO
-	Nu+eS3CdtywZ1vhwxCxN8NVn7ZNdUwO1vlCW46HvMp9SXI9z+2cGP1GX54BeJ7GNycLs
-	K/Hh9DH/yNQ5aG+iDYnGAbWS+scSzUKYTiH4VOAHrD1kZ/PyHPPd65L7ZSnO9het/o9y
-	WWYul6AnVPyS8lvlHN25fPfkoCnFKhRMXkkNwqsT8vmCwI4SFgSwFWknO+H4ivjMiU76
-	fieA==
+	bh=6LOq25/es5UybHcO7Zg2qBSu3bzqLHix8grQqw4qZbo=;
+	b=uqlxsCM7ccNJzxEC2cP0P50T0316KReFpJoCcS3SUXTEZyQtsvmO1PG+nfB3UT+lRN
+	C64zfd7AQMn0NxHCB8kOvYNvawKOiMIuaXfTBgYXniBeqZOqEIc5wNMl8ZCAj7q2uNA9
+	pXlAtV1McRbkoIAgKzMwaXS2V2e9hpftNksixqCn3yP/FAV4SVoVlHUz55EKeaFjYzsH
+	8uyCN34B4tFRIUa88TDTAjP53vFR4xfl8aHS5pKMYHAV8VgSofhv45VQki5QxnY5E9/2
+	cSev+0kURG2vKoWVQ5jJO+tvXbAiQNujP3DWklDkn2dGA1DamXBQ0OA1z7Qu7tZi19vc
+	EmKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
-	b=XFGdULAwHeIc61dfMDrf/4jWYQy7q787yFqonPKV43ikt6/wVMHw9H7um946JSGHqj
-	BZpfmMf1VWLfMrlpJPfd3L2hro+dbWt9mtc7GT6Jdivr0FBeLRU9mzujAKSiemXGI3q6
-	d4Ogaqc+CglMOB+uJv2fSEDo/VZ2Ho+kZxb6IuLQ70u5Jq1XjN1zhwWeY8FRNg0r4QQW
-	EeNS8mX/s9iyRvF9wYBiYF2oGvOy8RMQT+hMJIeIOMrZvQJ2L+rPwb4tvmLPbB29h/vp
-	xbiBYARCHyO8xVQUPY13FN6meaeRm6vDprc3b6bRDR62aQwP+msypMllsnT739lTxasv
-	c3gQ==
-X-Gm-Message-State: AJcUukeJVig8A95XhnOJOwh58iGjs4IZc19zYM0y8/b0BL0vA73bLaLO
-	mv/EP7mF/zMFmyFzcL+/dhmLh1qK
-X-Google-Smtp-Source: ALg8bN5u7cJjUMBVutY+pkrdUcbm/CNXUutFdk7LNz9LIkvjmvMWR6XlGxTVf8MFW+cItK3uERGTnA==
-X-Received: by 2002:a5d:5607:: with SMTP id l7mr21885238wrv.25.1548679651717; 
-	Mon, 28 Jan 2019 04:47:31 -0800 (PST)
+	bh=6LOq25/es5UybHcO7Zg2qBSu3bzqLHix8grQqw4qZbo=;
+	b=tVYS4FptglOXtqT65t7RMnHx7sEgWskbE51jDBPG7GyObL3h1JLBnnniZEtlRuePfW
+	itRMRV6e/eO3cuFB2lgdYLDOf3ybONwpHDHVsNcFUNszeN7u1UmdeSz0MNPVkH6SQprz
+	2mu8dv7HpVqhBsyvwTp3eDIZK5qP8qexJES4cPkbJROO7Z7+/FyU2zxGZLfaxu+MHlIb
+	OPzXXKxAMjjUUW6867YvvrtGgVec1KBwHzNBv7Cjr+xlGFMYOFASQadb+Mir4fKhimfz
+	v9RwBxASZvgXD8+6gJHufloo5c6nGJ7SO0I0RUfXWUhpP5E7BRA3Uk4cO0xYBeLio+TY
+	BdBw==
+X-Gm-Message-State: AJcUukfeH6O5bVdnGRK1VT0JeXxFaC/nGmQTjAyE1kN4Whr2tTYmx5nk
+	2tQd2qIoTRY7w0S3MQ7DqjbEw1H+
+X-Google-Smtp-Source: ALg8bN6E0DihxCPx4a6aBRH70eK+JA9TW41oO/ZFlnYRpS14uqlEZrKtpAXpXyGN/iMn/wYURvv8+w==
+X-Received: by 2002:adf:fdc2:: with SMTP id i2mr22420139wrs.117.1548679653115; 
+	Mon, 28 Jan 2019 04:47:33 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	j33sm186026218wre.91.2019.01.28.04.47.30
+	j33sm186026218wre.91.2019.01.28.04.47.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Jan 2019 04:47:30 -0800 (PST)
+	Mon, 28 Jan 2019 04:47:31 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 13:46:54 +0100
-Message-Id: <4dcb4fa27c49003dad0adf207300333ad4b2f7ad.1548679462.git.alex.kanavin@gmail.com>
+Date: Mon, 28 Jan 2019 13:46:55 +0100
+Message-Id: <e5725a863ac3f610e91c0f242eb7b10307250be6.1548679462.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1548679462.git.alex.kanavin@gmail.com>
 References: <cover.1548679462.git.alex.kanavin@gmail.com>
-Subject: [PATCH 23/24] selftest: add tests for virgl GL acceleration
+Subject: [PATCH 24/24] vte: allow building vte-native with gcc 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,113 +58,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 12:47:32 -0000
-
-Note that the tests require that the host machine has a X display,
-has mesa development files installed and is able to create OpenGL contexts.
+X-List-Received-Date: Mon, 28 Jan 2019 12:47:33 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 28 +++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 50 +++++++++++++++++++
- 2 files changed, 78 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+ ...chool-asignment-to-avoid-gcc-4.8-err.patch | 27 +++++++++++++++++++
+ meta/recipes-support/vte/vte_0.52.2.bb        |  5 ++--
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+diff --git a/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch b/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
 new file mode 100644
-index 00000000000..cc25e77d9c0
+index 00000000000..9c3f98fa61f
 --- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,28 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+import oe
++++ b/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
+@@ -0,0 +1,27 @@
++From 442da9076b52003743ffc6fd7b9d647de6d7aa8f Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 17 Jan 2019 16:37:54 +0100
++Subject: [PATCH] app.cc: use old school asignment to avoid gcc 4.8 error
 +
-+class VirglTest(OERuntimeTestCase):
++This is needed to build vte-native on Centos 7,
++and can be dropped once that OS is no longer supported.
 +
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
++Upstream-Status: Inappropriate [ancient compiler fix]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ src/app/app.cc | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        from fnmatch import fnmatch
-+
-+        try:
-+            distro = oe.lsb.distro_identifier()
-+        except Exception:
-+            distro = None
-+
-+        if distro and fnmatch(distro, 'centos-7'):
-+            self.skipTest('kmscube is not working when centos 7 is the host OS')
-+
-+        status, output = self.target.run('kmscube', timeout=30)
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..f43b1286ccf 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,56 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
++diff --git a/src/app/app.cc b/src/app/app.cc
++index d424064..675d789 100644
++--- a/src/app/app.cc
+++++ b/src/app/app.cc
++@@ -306,7 +306,7 @@ public:
++                 else
++                         alpha = get_alpha();
++ 
++-                GdkRGBA color{bg_color};
+++                GdkRGBA color = bg_color;
++                 color.alpha = alpha;
++                 return color;
++         }
+diff --git a/meta/recipes-support/vte/vte_0.52.2.bb b/meta/recipes-support/vte/vte_0.52.2.bb
+index 62fb5288fa9..272ae66f134 100644
+--- a/meta/recipes-support/vte/vte_0.52.2.bb
++++ b/meta/recipes-support/vte/vte_0.52.2.bb
+@@ -9,8 +9,9 @@ inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject
  
-+    @OETestID(1883)
-+    def test_testimage_virgl_gtk(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        if "DISPLAY" not in os.environ:
-+            self.skipTest("virgl gtk test must be run inside a X session")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
-+    @OETestID(1883)
-+    def test_testimage_virgl_headless(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        import subprocess, os
-+        try:
-+            content = os.listdir("/dev/dri")
-+            if len([i for i in content if i.startswith('render')]) == 0:
-+                self.skipTest("No render nodes found in /dev/dri: %s" %(content))
-+        except FileNotFoundError:
-+            self.skipTest("/dev/dri directory does not exist; no render nodes available on this machine.")
-+        try:
-+            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-+        except subprocess.CalledProcessError as e:
-+            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
+-            ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
+-            "
++           ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
++           file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
++           "
+ SRC_URI[archive.md5sum] = "de8181350dccb010e915e366bdd06d18"
+ SRC_URI[archive.sha256sum] = "0f2657cef52accbfe56feede553155552d7c1984b1291838af3cb8cfc19b26af"
+ 
 -- 
 2.17.1
 
