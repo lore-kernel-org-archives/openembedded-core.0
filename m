@@ -1,46 +1,25 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E937C334
+Return-Path: <sudhirx.sharma@intel.com>
+X-Greylist: delayed 561 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 28 Jan 2019 08:14:21 UTC
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 107216B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 02:12:16 +0000 (UTC)
+	Mon, 28 Jan 2019 08:14:21 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jan 2019 18:12:18 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jan 2019 00:05:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,532,1539673200"; d="scan'208";a="117929080"
-Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
-	([10.108.55.234])
-	by fmsmga007.fm.intel.com with ESMTP; 27 Jan 2019 18:12:17 -0800
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.250]) by
-	PGSMSX112.gar.corp.intel.com ([169.254.3.246]) with mapi id
-	14.03.0415.000; Mon, 28 Jan 2019 10:12:14 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2 v5] resultstool: enable merge, store,
-	report and regression analysis
-Thread-Index: AQHUtMThX/6yQVxMA06Ns/SEQsjPoaXD767g
-Date: Mon, 28 Jan 2019 02:12:13 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04348170F12@PGSMSX109.gar.corp.intel.com>
-References: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1548150131-65036-2-git-send-email-ee.peng.yeoh@intel.com>
-	<700a4fa3049746740929c83f6a61bdd5180404c3.camel@linuxfoundation.org>
-In-Reply-To: <700a4fa3049746740929c83f6a61bdd5180404c3.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODJiYWQxMDctMDVhMC00MTNjLTk4Y2EtMDBkM2QyYWJiN2E4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicUNGWXBINHN3YlVJd25QallnVWorRjZGMk51QUlHOXA5Tk1WNk0rZ0h1V3F2bUhDSnA2cEZYZVdSd2JxMjVxdiJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCH 1/2 v5] resultstool: enable merge, store, report and regression analysis
+X-IronPort-AV: E=Sophos;i="5.56,533,1539673200"; d="scan'208";a="111604972"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga006.jf.intel.com with ESMTP; 28 Jan 2019 00:04:59 -0800
+From: Sudhir Sharma <sudhirx.sharma@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2019 15:33:27 +0800
+Message-Id: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] Converted the manual Runtime testcase to json
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,130 +32,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 02:12:17 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 28 Jan 2019 08:14:22 -0000
 
-SGkgUlAsDQoNClRoYW5rcyBmb3IgcHJvdmlkaW5nIHRoZSBwcmVjaW91cyBpbnB1dHMuIA0KQWdy
-ZWVkIHdpdGggeW91IHRoYXQgdGhlIGN1cnJlbnQgcGF0Y2ggdGhhdCBlbmFibGUgZmlsZXMgYmFz
-ZWQgcmVncmVzc2lvbiB3YXMgbm90IGVub3VnaCBmb3Igb3RoZXIgdXNlIGNhc2VzLiANCg0KRnJv
-bSB0aGUgaW5mb3JtYXRpb24gdGhhdCB5b3UgaGFkIHNoYXJlZCwgdGhlcmUgYXJlIDIgbW9yZSBy
-ZWdyZXNzaW9uIHVzZSBjYXNlcyB0aGF0IEkgaGF2ZSBpbiBtaW5kOg0KVXNlIGNhc2UjMTogZGly
-ZWN0b3J5IGJhc2VkIHJlZ3Jlc3Npb24NCkdpdmVuIHRoYXQgQXV0b2J1aWxkZXIgc3RvcmVkIHJl
-c3VsdCBmaWxlcyBpbnNpZGUgL3Rlc3RyZXN1bHRzIGRpcmVjdG9yaWVzLCB1c2VyIHNoYWxsIGJl
-IGFibGUgdG8gcGVyZm9ybSB0aGUgZGlyZWN0b3J5IGJhc2VkIHJlZ3Jlc3Npb24gdXNpbmcgb3V0
-cHV0IGZyb20gQXV0b2J1aWxkZXIgZGlyZWN0bHksIHN1Y2ggYXMgYmVsb3cgQXV0b2J1aWxkZXIg
-ZGlyZWN0b3JpZXMuDQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvLmlvL3B1Yi9yZWxlYXNlcy95
-b2N0by0yLjYuMS5yYzEvdGVzdHJlc3VsdHMvcWVtdXg4Ni90ZXN0cmVzdWx0cy5qc29uDQpodHRw
-czovL2F1dG9idWlsZGVyLnlvY3RvLmlvL3B1Yi9yZWxlYXNlcy95b2N0by0yLjdfTTEucmMxL3Rl
-c3RyZXN1bHRzL3FlbXV4ODYvdGVzdHJlc3VsdHMuanNvbg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55
-b2N0by5pby9wdWIvcmVsZWFzZXMveW9jdG8tMi43X00yLnJjMS90ZXN0cmVzdWx0cy9xZW11eDg2
-L3Rlc3RyZXN1bHRzLmpzb24NCg0KQXNzdW1lZCB0aGF0IHRoZXJlIGFyZSAyIGRpcmVjdG9yaWVz
-IHN0b3JpbmcgbGlzdCBvZiByZXN1bHQgZmlsZXMuIFVzZXIgc2hhbGwgcHJvdmlkZSB0aGVzZSAy
-IGRpcmVjdG9yaWVzIGZvciByZWdyZXNzaW9uLCByZWdyZXNzaW9uIHNjcmlwdHMgd2lsbCBmaXJz
-dCBwYXJzZSB0aHJvdWdoIGFsbCB0aGUgYXZhaWxhYmxlIGZpbGVzIGluc2lkZSBlYWNoIGRpcmVj
-dG9yaWVzLCB0aGVuIHBlcmZvcm0gcmVncmVzc2lvbiBiYXNlZCBvbiBhdmFpbGFibGUgY29uZmln
-dXJhdGlvbiBkYXRhIHRvIGRldGVybWluZSB0aGUgcmVncmVzc2lvbiBwYWlyIChlZy4gc2VsZWN0
-IHJlc3VsdF9zZXRfMSBmcm9tIGRpcmVjdG9yeSMxIGFuZCByZXN1bHRfc2V0X3ggZnJvbSBkaXJl
-Y3RvcnkjMiBpZiB0aGV5IGJvdGggaGF2ZSBtYXRjaGluZyBjb25maWd1cmF0aW9ucykuIA0KDQoN
-ClVzZSBjYXNlIzI6IGdpdCBicmFuY2ggYmFzZWQgcmVncmVzc2lvbg0KR2l2ZW4gdGhhdCBBdXRv
-YnVpbGRlciBzdG9yZWQgcmVzdWx0IGZpbGVzIGluc2lkZSAvdGVzdHJlc3VsdHMgZGlyZWN0b3Jp
-ZXMsIHVzZXIgc2hhbGwgZmlyc3Qgc3RvcmUgdGhlc2UgZGlyZWN0b3JpZXMgYW5kIHRoZSByZXN1
-bHQgZmlsZXMgaW4gZWFjaCBnaXQgYnJhbmNoIGFjY29yZGluZ2x5IHVzaW5nIHRoZSBleGlzdGlu
-ZyBzdG9yZSBwbHVnaW4uIEFmdGVyIHRoYXQsIHVzZXIgY2FuIHVzZWQgdGhlIGdpdCBicmFuY2gg
-YmFzZWQgcmVncmVzc2lvbiB0byBhbmFseXNpcyB0aGUgaW5mb3JtYXRpb24uDQpTdG9yZSBpbiB5
-b2N0by0yLjYuMS5yYzEsIHlvY3RvLTIuN19NMS5yYzEsIHlvY3RvLTIuN19NMi5yYzEgZ2l0IGJy
-YW5jaCBhY2NvcmRpbmdseQ0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0by5pby9wdWIvcmVsZWFz
-ZXMveW9jdG8tMi42LjEucmMxL3Rlc3RyZXN1bHRzLw0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0
-by5pby9wdWIvcmVsZWFzZXMveW9jdG8tMi43X00xLnJjMS90ZXN0cmVzdWx0cy8NCmh0dHBzOi8v
-YXV0b2J1aWxkZXIueW9jdG8uaW8vcHViL3JlbGVhc2VzL3lvY3RvLTIuN19NMi5yYzEvdGVzdHJl
-c3VsdHMvDQogDQpBc3N1bWVkIHRoYXQgcmVzdWx0IGZpbGVzIGFyZSBzdG9yZWQgaW5zaWRlIGdp
-dCByZXBvc2l0b3J5IHdpdGggc3BlY2lmaWMgZ2l0IGJyYW5jaCBzdG9yaW5nIHJlc3VsdCBmaWxl
-cyBmb3Igc2luZ2xlIGNvbW1pdC4gVXNlciBzaGFsbCBwcm92aWRlIHRoZSAyIHNwZWNpZmljIGdp
-dCBicmFuY2hlcyBmb3IgcmVncmVzc2lvbiwgcmVncmVzc2lvbiBzY3JpcHRzIHdpbGwgZmlyc3Qg
-cGFyc2UgdGhyb3VnaCBhbGwgdGhlIGF2YWlsYWJsZSBmaWxlcyBpbnNpZGUgZWFjaCBnaXQgYnJh
-bmNoLCB0aGVuIHBlcmZvcm0gcmVncmVzc2lvbiBiYXNlZCBvbiBhdmFpbGFibGUgY29uZmlndXJh
-dGlvbiBkYXRhIHRvIGRldGVybWluZSB0aGUgcmVncmVzc2lvbiBwYWlyIChlZy4gc2VsZWN0IHJl
-c3VsdF9zZXRfMSBmcm9tIGdpdF9icmFuY2hfMSBhbmQgcmVzdWx0X3NldF94IGZyb20gZ2l0X2Jy
-YW5jaF8yIGlmIHRoZXkgYm90aCBoYXZlIG1hdGNoaW5nIGNvbmZpZ3VyYXRpb25zKS4NCg0KVGhl
-IGN1cnJlbnQgY29kZWJhc2UgY2FuIGJlIGVhc2lseSBleHRlbmRlZCB0byBlbmFibGUgYm90aCB1
-c2UgY2FzZXMgYWJvdmUuIFBsZWFzZSBsZXQgbWUga25vdyBpZiBib3RoIHVzZSBjYXNlcyBhYm92
-ZSBhcmUgaW1wb3J0YW50IGFuZCBwbGVhc2UgZ2l2ZSB1cyB5b3VyIGlucHV0cy4gDQoNClRoYW5r
-cywNCkVlIFBlbmcgDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJk
-IFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2Vu
-dDogRnJpZGF5LCBKYW51YXJ5IDI1LCAyMDE5IDExOjQ0IFBNDQpUbzogWWVvaCwgRWUgUGVuZyA8
-ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCkNjOiBFZ2dsZXRvbiwgUGF1bCA8cGF1bC5lZ2dsZXRvbkBpbnRlbC5jb20+OyBC
-dXJ0b24sIFJvc3MgPHJvc3MuYnVydG9uQGludGVsLmNvbT4NClN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDEvMiB2NV0gcmVzdWx0c3Rvb2w6IGVuYWJsZSBtZXJnZSwgc3RvcmUsIHJlcG9y
-dCBhbmQgcmVncmVzc2lvbiBhbmFseXNpcw0KDQpPbiBUdWUsIDIwMTktMDEtMjIgYXQgMTc6NDIg
-KzA4MDAsIFllb2ggRWUgUGVuZyB3cm90ZToNCj4gT0VRQSBvdXRwdXRzIHRlc3QgcmVzdWx0cyBp
-bnRvIGpzb24gZmlsZXMgYW5kIHRoZXNlIGZpbGVzIHdlcmUgDQo+IGFyY2hpdmVkIGJ5IEF1dG9i
-dWlsZGVyIGR1cmluZyBRQSByZWxlYXNlcy4gRXhhbXBsZTogZWFjaCBvZS1zZWxmdGVzdCANCj4g
-cnVuIGJ5IEF1dG9idWlsZGVyIGZvciBkaWZmZXJlbnQgaG9zdCBkaXN0cm8gZ2VuZXJhdGUgYSAN
-Cj4gdGVzdHJlc3VsdHMuanNvbiBmaWxlLg0KPiANCj4gVGhlc2Ugc2NyaXB0cyB3ZXJlIGRldmVs
-b3BlZCBhcyBhIHRlc3QgcmVzdWx0IHRvb2xzIHRvIG1hbmFnZSB0aGVzZSANCj4gdGVzdHJlc3Vs
-dHMuanNvbiBmaWxlLg0KPiANCj4gVXNpbmcgdGhlICJzdG9yZSIgb3BlcmF0aW9uLCB1c2VyIGNh
-biBzdG9yZSBtdWx0aXBsZSB0ZXN0cmVzdWx0cy5qc29uIA0KPiBmaWxlcyBhcyB3ZWxsIGFzIHRo
-ZSBwcmUtY29uZmlndXJlZCBkaXJlY3RvcmllcyB1c2VkIHRvIGhvbGQgdGhvc2UgDQo+IGZpbGVz
-Lg0KPiANCj4gVXNpbmcgdGhlICJtZXJnZSIgb3BlcmF0aW9uLCB1c2VyIGNhbiBtZXJnZSBtdWx0
-aXBsZSB0ZXN0cmVzdWx0cy5qc29uIA0KPiBmaWxlcyB0byBhIHRhcmdldCBmaWxlLg0KPiANCj4g
-VXNpbmcgdGhlICJyZXBvcnQiIG9wZXJhdGlvbiwgdXNlciBjYW4gdmlldyB0aGUgdGVzdCByZXN1
-bHQgc3VtbWFyeSANCj4gZm9yIGFsbCBhdmFpbGFibGUgdGVzdHJlc3VsdHMuanNvbiBmaWxlcyBp
-bnNpZGUgYSBvcmRpbmFyeSBkaXJlY3RvcnkgDQo+IG9yIGEgZ2l0IHJlcG9zaXRvcnkuDQo+IA0K
-PiBVc2luZyB0aGUgInJlZ3Jlc3Npb24iIG9wZXJhdGlvbiwgdXNlciBjYW4gcGVyZm9ybSByZWdy
-ZXNzaW9uIGFuYWx5c2lzIA0KPiBvbiB0ZXN0cmVzdWx0cy5qc29uIGZpbGVzIHNwZWNpZmllZC4N
-Cg0KVGhhbmtzIEVlIFBlbmcsIHRoaXMgdmVyc2lvbiBpcyBtdWNoIGltcHJvdmVkIQ0KDQpBcyBh
-biBleHBlcmltZW50IEkgaGFkIGEgbG9jYWwgdGVzdCByZXN1bHRzIGZpbGUgYW5kIEkgd2FzIGFi
-bGUgdG8gcnVuOg0KDQokIHJlc3VsdHN0b29sIHJlZ3Jlc3Npb24gL3RtcC9yZXBvL3Rlc3RyZXN1
-bHRzLmpzb24gL3RtcC9yZXBvL3Rlc3RyZXN1bHRzLmpzb24gLWIgc2RrX2NvcmUtaW1hZ2Utc2F0
-b194ODZfNjRfcWVtdW1pcHNfMjAxODEyMTkxMTEzMTEgLXQgc2RrX2NvcmUtaW1hZ2Utc2F0b194
-ODZfNjRfcWVtdW1pcHNfMjAxODEyMTkyMDAwNTINClN1Y2Nlc3NmdWxseSBsb2FkZWQgYmFzZSB0
-ZXN0IHJlc3VsdHMgZnJvbTogL3RtcC9yZXBvL3Rlc3RyZXN1bHRzLmpzb24gU3VjY2Vzc2Z1bGx5
-IGxvYWRlZCB0YXJnZXQgdGVzdCByZXN1bHRzIGZyb206IC90bXAvcmVwby90ZXN0cmVzdWx0cy5q
-c29uIEdldHRpbmcgYmFzZSB0ZXN0IHJlc3VsdCB3aXRoIHJlc3VsdF9pZD1zZGtfY29yZS1pbWFn
-ZS1zYXRvX3g4Nl82NF9xZW11bWlwc18yMDE4MTIxOTExMTMxMQ0KR2V0dGluZyB0YXJnZXQgdGVz
-dCByZXN1bHQgd2l0aCByZXN1bHRfaWQ9c2RrX2NvcmUtaW1hZ2Utc2F0b194ODZfNjRfcWVtdW1p
-cHNfMjAxODEyMTkyMDAwNTINCj09PT09PT09PT09PT09PT09PT09PT09PT09PT1TdGFydCBSZWdy
-ZXNzaW9uPT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KT25seSBwcmludCByZWdyZXNzaW9u
-IGlmIGJhc2Ugc3RhdHVzIG5vdCBlcXVhbCB0YXJnZXQgPHRlc3QgY2FzZT4gOiA8YmFzZSBzdGF0
-dXM+IC0+IDx0YXJnZXQgc3RhdHVzPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCmFzc2ltcC5CdWlsZEFzc2lt
-cC50ZXN0X2Fzc2ltcCA6IEVSUk9SIC0+IFBBU1NFRCA9PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT1FbmQgUmVncmVzc2lvbj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KDQpJIHdh
-cyBhYmxlIHRvIGNsZWFybHkgc2VlIHRoYXQgbXkgZmFpbGluZyB0ZXN0IGNhc2Ugd2VudCBmcm9t
-IEVSUk9SIHRvIFBBU1NFRCB3aGljaCBpcyBnb29kLiBUaGUgaW50ZXJmYWNlIGFuZCB0aGUgd2F5
-IHRoZSBpbmZvcm1hdGlvbiBpcyBiZWluZyBwcmVzZW50ZWQgYW5kIHN0b3JlZCBhcmUgbm93IHRo
-ZSB0aGluZ3Mgd2UgbmVlZCB0byB3b3JrIG9uLg0KDQpXaGF0IGlzIG9kZCBhYm91dCB0aGUgY3Vy
-cmVudCB0b29sL2JlaGF2aW91ciBpcyB0aGF0IGl0IHNvbWV0aW1lcyBleHBlY3RzIGZpbGVzIHRo
-YXQgYXJlIHN0b3JlZCBpbiBhIHJlcG9zaXRvcnkgYW5kIHNvbWV0aW1lcyBleHBlY3RzIHN0YW5k
-YWxvbmUgZmlsZXMuIEl0IGRvZXNuJ3QgZmVlbCBsaWtlIHRoZSB3b3JrIGZsb3cgYW5kIHRoZSB3
-YXkgdGhlIHVzZXIgd291bGQgaW50ZXJhY3Qgd2l0aCB0aGlzIGlzIHF1aXRlIGNvcnJlY3QuDQoN
-CllvdSBjYW4gc2VlIGZyb20gbXkgdGVzdCBjYXNlIGFib3ZlIHRoYXQgdGhlIHJlc3VsdHMgZmls
-ZSBJIHdhbnRlZCB0byBjb21wYXJlIHdlcmUgYm90aCBpbiB0aGUgc2FtZSByZXBvIGZpbGUgd2hp
-Y2ggSSdkIGFscmVhZHkgbWVyZ2VkL3N0b3JlZC4gVGhlIHRvb2wgY2FuIGRvIGl0IGJ5IHBhc3Np
-bmcgdGhlIGZpbGUgdHdpY2UgYW5kIHNwZWNpZnlpbmcgdGhlIElEcyBidXQgaXRzIGF3a3dhcmQg
-YW5kIG5vdCBvYnZpb3VzLg0KDQpJJ20gc3RpbGwgYSBsaXR0bGUgdW5zdXJlIGhvdyB3ZSBleHBl
-Y3QgdG8gdXNlIHRoZSB0b29sIGFuZCB3aGV0aGVyIHRoZSBsYXlvdXQgb2YgdGhlIGZpbGVzIGlu
-IHRoZSBnaXQgcmVwb3NpdG9yeSBpcyBob3cgd2UncmUgZ29pbmcgdG8gdWx0aW1hdGVseSB3YW50
-IHRvIGRvIHRoaXMuDQoNCkZvciBleGFtcGxlLCBjb21iaW5pbmcgYWxsIHJlc3VsdHMgaW50byBh
-IHNpbmdsZSBqc29uIGZpbGUgbWVhbnMgd2UgY2FuJ3QgcmVhbGx5IHNob3cgdXNlZnVsIGNvbXBh
-cmlzb24gaW5mb3JtYXRpb24gZGlyZWN0bHkgZnJvbSAiZ2l0IGRpZmYiLiBXb3VsZCB3ZSBiZSBi
-ZXR0ZXIgd2l0aCBhIGZpbGUgcGVyIHJlc3VsdHMgSUQgZm9yIGV4YW1wbGUgd2l0aCBhIGxheW91
-dCBhbGxvd2luZyAiZ2l0IGRpZmYiIHRvIGJlIHVzZWZ1bD8gQSBkaXJlY3Rvcnkgc3RydWN0dXJl
-IGxpa2U6DQoNCnNlbGZ0ZXN0LzxIT1NUX0RJU1RSTz4vDQpydW50aW1lLzxESVNUUk8+LzxNQUNI
-SU5FPg0Kc2RrLzxNQUNISU5FPi88U0RLTUFDSElORT4NCmVzZGsvPE1BQ0hJTkU+LzxTREtNQUNI
-SU5FPg0KYnVpbGQtcGVyZi88SE9TVF9ESVNUUk8+Lw0KDQpmb3IgZXhhbXBsZT8gSSBkb24ndCBo
-YXZlIHRoZSAicmlnaHQiIGFuc3dlciBoZXJlIGFzIEkndmUgbm90IGV4cGVyaW1lbnRlZCB3aXRo
-IHRoaXMgYnV0IGl0cyBzb21ldGhpbmcgd2UgbmVlZCB0byB0aGluayBhYm91dC4NCg0KQXMgYW5v
-dGhlciBleGFtcGxlLCB0aGUgcmVncmVzc2lvbiBjb21tYW5kIGNhbid0IGNvbXBhcmUgdGhlIGZp
-bGUgZnJvbSB0d28gZGlmZmVyZW50IGdpdCBjb21taXRzIGVhc2lseSwgeW91IGhhdmUgdG8gY29w
-eSBvbmUgZmlsZSBvdXQgdGhlIGdpdCByZXBvIGFuZCB0aGVuIGNoZWNrb3V0IHRoZSBvdGhlciB2
-ZXJzaW9uIHRvIGNvbXBhcmUgdGhlbS4gVGhpcyBpc24ndCBlYXN5IGZvciB0aGUgdXNlci4NCg0K
-SW4gc3VtbWFyeSwgSSB0aGluayB0aGUgYmFzZSB1bmRlcmx5aW5nIHRvb2xzIGhlcmUgYXJlIGhl
-YWRpbmcgdGhlIHJpZ2h0IHdheSBidXQgdGhlIGxheW91dCBvZiB0aGUgZ2l0IHJlcG8gYW5kIHRo
-ZSB3YXkgcGVvcGxlIGFyZSBleHBlY3RlZCB0byB1c2UgYW5kIGludGVyYWN0IHdpdGggaXQgbmVl
-ZHMgYSBsaXR0bGUgYml0IG1vcmUgd29yay4uLg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoN
-Cg0KDQoNCg0K
+Added json file of converted manual runtime testcases(compliance test cases)
+
+Signed-off-by: Sudhir Sharma <sudhirx.sharma@intel.com>
+---
+ meta/lib/oeqa/manual/compliance-test.json | 142 ++++++++++++++++++++++++++++++
+ 1 file changed, 142 insertions(+)
+ create mode 100644 meta/lib/oeqa/manual/compliance-test.json
+
+diff --git a/meta/lib/oeqa/manual/compliance-test.json b/meta/lib/oeqa/manual/compliance-test.json
+new file mode 100644
+index 0000000..7adf8a1
+--- /dev/null
++++ b/meta/lib/oeqa/manual/compliance-test.json
+@@ -0,0 +1,142 @@
++[
++    {
++        "test": {
++            "@alias": "configuration.configuration.LTP_subset_test_suite",
++            "author": [
++                {
++                    "email": "corneliux.stoicescu@intel.com",
++                    "name": "corneliux.stoicescu@intel.com"
++                }
++            ],
++            "execution": {
++                "1": {
++                    "action": "For real hardware, run following component, \nsyscalls \nfs \nfsx \ndio \nio \nmm \nipc \nsched \nmath \nnptl \npty \nadmin_tools \ntimers \ncommands  \n\nFor QEMU, run following component \nsyscalls \nmm \nipc \nsched \nmath \nnptl \npty \nadmin_tools \ncommands \n\nRun Instructions: \nLTP download: http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20120401/ltp-full-20120401.bz2/download  \n\n(link is outdated, always use the last version released or the one found in the image)  \n\n\n\nbuild steps: refer to http://ltp.sourceforge.net  \n\nRun steps:",
++                    "expected_results": ""
++                },
++                "2": {
++                    "action": "Build LTP with toolchain or in sdk image. Or use a sato-sdk image which has LTP already included in /opt/ltp",
++                    "expected_results": ""
++                },
++                "3": {
++                    "action": "For QEMU, create the qemu target with \"-m 512\", which makes some memory stress cases pass. For some issues, we could only set 128M for qemuarm and 256M for qemumips.",
++                    "expected_results": ""
++                },
++                "4": {
++                    "action": "Copy LTP folder into target, for example, /opt/ltp if you have built it yourself. Modify the default scenario file \"scenario_groups/default\", remove test suites not to be tested",
++                    "expected_results": ""
++                },
++                "5": {
++                    "action": "Comment runtests/sched: hackbench, which is not suitable to run in emulators. Reminder (comment it also for Sugarbay Devices).",
++                    "expected_results": ""
++                },
++                "6": {
++                    "action": "Comment oom01, oom02, oom03, oom04 in runtest/mm, which consume lots of memory",
++                    "expected_results": ""
++                },
++                "7": {
++                    "action": "From /opt/ltp run: ./runltp -p -l result-M2-20101218.log -C result-M2-20101218.fail -d /opt/ltp/tmp &> result-M2-20101218.fulllog \n\n",
++                    "expected_results": "Check the result on wiki, https://wiki.yoctoproject.org/wiki/LTP_result, there should be no regression failure met."
++                }
++            },
++            "summary": "LTP_subset_test_suite"
++        }
++    },
++    {
++        "test": {
++            "@alias": "configuration.configuration.POSIX_subset_test_suite",
++            "author": [
++                {
++                    "email": "corneliux.stoicescu@intel.com",
++                    "name": "corneliux.stoicescu@intel.com"
++                }
++            ],
++            "execution": {
++                "1": {
++                    "action": "In a sato-sdk image go to /opt/ltp or get latest LTP sourcecode,  download location is  http://sourceforge.net/projects/ltp/files/LTP%20Source/  and install it.",
++                    "expected_results": ""
++                },
++                "2": {
++                    "action": "Go into the folder of LTP, and posix_testsuite is under testcases/open_posix_testsuite/",
++                    "expected_results": ""
++                },
++                "3": {
++                    "action": "Run connmand: make generate-makefiles",
++                    "expected_results": ""
++                },
++                "4": {
++                    "action": "Run connmand: make conformance-all",
++                    "expected_results": ""
++                },
++                "5": {
++                    "action": "Run connmand: make conformance-test (this step may show errors, ignore them)",
++                    "expected_results": ""
++                },
++                "6": {
++                    "action": "Run connmand: make tools-all",
++                    "expected_results": ""
++                },
++                "7": {
++                    "action": "Run connmand: sh posix.sh > posix.log, posix.sh as below:  \n \n#!/bin/sh \n./bin/run-posix-option-group-test.sh AIO \n./bin/run-posix-option-group-test.sh MEM \n./bin/run-posix-option-group-test.sh MSG \n./bin/run-posix-option-group-test.sh SEM \n./bin/run-posix-option-group-test.sh SIG \n./bin/run-posix-option-group-test.sh THR \n./bin/run-posix-option-group-test.sh TMR \n./bin/run-posix-option-group-test.sh TPS  \n \n",
++                    "expected_results": ""
++                },
++                "8": {
++                    "action": "Check the posix.log after testing is finished",
++                    "expected_results": "Compare the test result on wiki, https://wiki.yoctoproject.org/wiki/Posix_result, there should be no more regression failures met."
++                }
++            },
++            "summary": "POSIX_subset_test_suite"
++        }
++    },
++    {
++        "test": {
++            "@alias": "configuration.configuration.LSB_subset_test_suite",
++            "author": [
++                {
++                    "email": "corneliux.stoicescu@intel.com",
++                    "name": "corneliux.stoicescu@intel.com"
++                }
++            ],
++            "execution": {
++                "1": {
++                    "action": "Get lsd-sdk image and install it on target device or start the image(if it is QEMU) with option \"-m 512M\"",
++                    "expected_results": ""
++                },
++                "2": {
++                    "action": "Comment in /opt/lsb-test/session any tests you don't want to run.",
++                    "expected_results": ""
++                },
++                "3": {
++                    "action": "Run /usr/bin/LSB_Test.sh which should download the LSB suite and set it up. Some packages may fail to download because their location changed on ftp.linuxfoundation.org. You need to manually update /opt/lsb-test/packages_list",
++                    "expected_results": ""
++                },
++                "4": {
++                    "action": "Tests should start automatically, you can use the web interface to reconfigure the setup. ",
++                    "expected_results": "Check the result on wiki https://wiki.yoctoproject.org/wiki/LSB_Result No regression failures should be met."
++                }
++            },
++            "summary": "LSB_subset_test_suite"
++        }
++    },
++    {
++        "test": {
++            "@alias": "General_Runtime.General_Runtime.stress_test_-_Genericx86-64",
++            "author": [
++                {
++                    "email": "corneliux.stoicescu@intel.com",
++                    "name": "corneliux.stoicescu@intel.com"
++                }
++            ],
++            "execution": {
++                "1": {
++                    "action": "Bootup with core-image-lsb-sdk image",
++                    "expected_results": ""
++                },
++                "2": {
++                    "action": "Execute the crashme test with below command  \n\n./opt/ltp/runltp f  crashme",
++                    "expected_results": "The stress testing should not make the target crash. Check CPU usage and basic functionality of the system after the tests are over. "
++                }
++            },
++            "summary": "stress_test_-_Genericx86-64"
++        }
++    }
++]
+\ No newline at end of file
+-- 
+2.7.4
+
 
