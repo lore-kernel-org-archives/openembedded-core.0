@@ -1,24 +1,24 @@
 Return-Path: <sudhirx.sharma@intel.com>
-X-Greylist: delayed 561 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 28 Jan 2019 08:14:21 UTC
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 107216B50B
+	by mail.openembedded.org (Postfix) with ESMTP id C059460116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 08:14:21 +0000 (UTC)
+	Mon, 28 Jan 2019 08:14:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jan 2019 00:05:01 -0800
+	28 Jan 2019 00:05:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,533,1539673200"; d="scan'208";a="111604972"
+X-IronPort-AV: E=Sophos;i="5.56,533,1539673200"; d="scan'208";a="111605236"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 28 Jan 2019 00:04:59 -0800
+	by orsmga006.jf.intel.com with ESMTP; 28 Jan 2019 00:05:27 -0800
 From: Sudhir Sharma <sudhirx.sharma@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 15:33:27 +0800
-Message-Id: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
+Date: Mon, 28 Jan 2019 15:33:28 +0800
+Message-Id: <1548660808-65505-2-git-send-email-sudhirx.sharma@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
+References: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
 Subject: [PATCH] Converted the manual Runtime testcase to json
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 08:14:22 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 08:14:54 -0000
 
 Added json file of converted manual runtime testcases(compliance test cases)
 
