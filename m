@@ -1,25 +1,25 @@
-Return-Path: <sudhirx.sharma@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C059460116
+Return-Path: <sangeeta.jain@intel.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 28 Jan 2019 08:52:11 UTC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D3836C3AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 08:14:53 +0000 (UTC)
+	Mon, 28 Jan 2019 08:52:11 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jan 2019 00:05:28 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jan 2019 00:42:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,533,1539673200"; d="scan'208";a="111605236"
+X-IronPort-AV: E=Sophos;i="5.56,533,1539673200"; d="scan'208";a="315419442"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 28 Jan 2019 00:05:27 -0800
-From: Sudhir Sharma <sudhirx.sharma@intel.com>
+	by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2019 00:42:37 -0800
+From: sangeeta.jain@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2019 15:33:28 +0800
-Message-Id: <1548660808-65505-2-git-send-email-sudhirx.sharma@intel.com>
+Date: Mon, 28 Jan 2019 16:11:15 +0800
+Message-Id: <1548663075-1543-1-git-send-email-sangeeta.jain@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
-References: <1548660808-65505-1-git-send-email-sudhirx.sharma@intel.com>
-Subject: [PATCH] Converted the manual Runtime testcase to json
+Subject: [PATCH] oeqa/manual/sdk.json: Updated toolchain tarball to core-image-sato
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,164 +32,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 08:14:54 -0000
+X-List-Received-Date: Mon, 28 Jan 2019 08:52:12 -0000
 
-Added json file of converted manual runtime testcases(compliance test cases)
+From: sangeeta jain <sangeeta.jain@intel.com>
 
-Signed-off-by: Sudhir Sharma <sudhirx.sharma@intel.com>
+Manual test step for SDK is updated. Previously toolchain was "poky-glibc-x86_64-core-image-sato-sdk<type-arch>-toolchain-<release-version>.sh"
+But toochain for core-image-sato-sdk is not available in releases after 2.1, hence changed it to "poky-glibc-x86_64-core-image-sato-<type-arch>-toolchain-<release-version>.sh
+
+Other less significant update is to add exepcted result in intermediate test steps.
+
+Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+
+"poky-glibc-x86_64-core-image-sato-<type-arch>-toolchain-<release-version>.sh"
 ---
- meta/lib/oeqa/manual/compliance-test.json | 142 ++++++++++++++++++++++++++++++
- 1 file changed, 142 insertions(+)
- create mode 100644 meta/lib/oeqa/manual/compliance-test.json
+ meta/lib/oeqa/manual/sdk.json | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/compliance-test.json b/meta/lib/oeqa/manual/compliance-test.json
-new file mode 100644
-index 0000000..7adf8a1
---- /dev/null
-+++ b/meta/lib/oeqa/manual/compliance-test.json
-@@ -0,0 +1,142 @@
-+[
-+    {
-+        "test": {
-+            "@alias": "configuration.configuration.LTP_subset_test_suite",
-+            "author": [
-+                {
-+                    "email": "corneliux.stoicescu@intel.com",
-+                    "name": "corneliux.stoicescu@intel.com"
-+                }
-+            ],
-+            "execution": {
-+                "1": {
-+                    "action": "For real hardware, run following component, \nsyscalls \nfs \nfsx \ndio \nio \nmm \nipc \nsched \nmath \nnptl \npty \nadmin_tools \ntimers \ncommands  \n\nFor QEMU, run following component \nsyscalls \nmm \nipc \nsched \nmath \nnptl \npty \nadmin_tools \ncommands \n\nRun Instructions: \nLTP download: http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20120401/ltp-full-20120401.bz2/download  \n\n(link is outdated, always use the last version released or the one found in the image)  \n\n\n\nbuild steps: refer to http://ltp.sourceforge.net  \n\nRun steps:",
-+                    "expected_results": ""
-+                },
-+                "2": {
-+                    "action": "Build LTP with toolchain or in sdk image. Or use a sato-sdk image which has LTP already included in /opt/ltp",
-+                    "expected_results": ""
-+                },
-+                "3": {
-+                    "action": "For QEMU, create the qemu target with \"-m 512\", which makes some memory stress cases pass. For some issues, we could only set 128M for qemuarm and 256M for qemumips.",
-+                    "expected_results": ""
-+                },
-+                "4": {
-+                    "action": "Copy LTP folder into target, for example, /opt/ltp if you have built it yourself. Modify the default scenario file \"scenario_groups/default\", remove test suites not to be tested",
-+                    "expected_results": ""
-+                },
-+                "5": {
-+                    "action": "Comment runtests/sched: hackbench, which is not suitable to run in emulators. Reminder (comment it also for Sugarbay Devices).",
-+                    "expected_results": ""
-+                },
-+                "6": {
-+                    "action": "Comment oom01, oom02, oom03, oom04 in runtest/mm, which consume lots of memory",
-+                    "expected_results": ""
-+                },
-+                "7": {
-+                    "action": "From /opt/ltp run: ./runltp -p -l result-M2-20101218.log -C result-M2-20101218.fail -d /opt/ltp/tmp &> result-M2-20101218.fulllog \n\n",
-+                    "expected_results": "Check the result on wiki, https://wiki.yoctoproject.org/wiki/LTP_result, there should be no regression failure met."
-+                }
-+            },
-+            "summary": "LTP_subset_test_suite"
-+        }
-+    },
-+    {
-+        "test": {
-+            "@alias": "configuration.configuration.POSIX_subset_test_suite",
-+            "author": [
-+                {
-+                    "email": "corneliux.stoicescu@intel.com",
-+                    "name": "corneliux.stoicescu@intel.com"
-+                }
-+            ],
-+            "execution": {
-+                "1": {
-+                    "action": "In a sato-sdk image go to /opt/ltp or get latest LTP sourcecode,  download location is  http://sourceforge.net/projects/ltp/files/LTP%20Source/  and install it.",
-+                    "expected_results": ""
-+                },
-+                "2": {
-+                    "action": "Go into the folder of LTP, and posix_testsuite is under testcases/open_posix_testsuite/",
-+                    "expected_results": ""
-+                },
-+                "3": {
-+                    "action": "Run connmand: make generate-makefiles",
-+                    "expected_results": ""
-+                },
-+                "4": {
-+                    "action": "Run connmand: make conformance-all",
-+                    "expected_results": ""
-+                },
-+                "5": {
-+                    "action": "Run connmand: make conformance-test (this step may show errors, ignore them)",
-+                    "expected_results": ""
-+                },
-+                "6": {
-+                    "action": "Run connmand: make tools-all",
-+                    "expected_results": ""
-+                },
-+                "7": {
-+                    "action": "Run connmand: sh posix.sh > posix.log, posix.sh as below:  \n \n#!/bin/sh \n./bin/run-posix-option-group-test.sh AIO \n./bin/run-posix-option-group-test.sh MEM \n./bin/run-posix-option-group-test.sh MSG \n./bin/run-posix-option-group-test.sh SEM \n./bin/run-posix-option-group-test.sh SIG \n./bin/run-posix-option-group-test.sh THR \n./bin/run-posix-option-group-test.sh TMR \n./bin/run-posix-option-group-test.sh TPS  \n \n",
-+                    "expected_results": ""
-+                },
-+                "8": {
-+                    "action": "Check the posix.log after testing is finished",
-+                    "expected_results": "Compare the test result on wiki, https://wiki.yoctoproject.org/wiki/Posix_result, there should be no more regression failures met."
-+                }
-+            },
-+            "summary": "POSIX_subset_test_suite"
-+        }
-+    },
-+    {
-+        "test": {
-+            "@alias": "configuration.configuration.LSB_subset_test_suite",
-+            "author": [
-+                {
-+                    "email": "corneliux.stoicescu@intel.com",
-+                    "name": "corneliux.stoicescu@intel.com"
-+                }
-+            ],
-+            "execution": {
-+                "1": {
-+                    "action": "Get lsd-sdk image and install it on target device or start the image(if it is QEMU) with option \"-m 512M\"",
-+                    "expected_results": ""
-+                },
-+                "2": {
-+                    "action": "Comment in /opt/lsb-test/session any tests you don't want to run.",
-+                    "expected_results": ""
-+                },
-+                "3": {
-+                    "action": "Run /usr/bin/LSB_Test.sh which should download the LSB suite and set it up. Some packages may fail to download because their location changed on ftp.linuxfoundation.org. You need to manually update /opt/lsb-test/packages_list",
-+                    "expected_results": ""
-+                },
-+                "4": {
-+                    "action": "Tests should start automatically, you can use the web interface to reconfigure the setup. ",
-+                    "expected_results": "Check the result on wiki https://wiki.yoctoproject.org/wiki/LSB_Result No regression failures should be met."
-+                }
-+            },
-+            "summary": "LSB_subset_test_suite"
-+        }
-+    },
-+    {
-+        "test": {
-+            "@alias": "General_Runtime.General_Runtime.stress_test_-_Genericx86-64",
-+            "author": [
-+                {
-+                    "email": "corneliux.stoicescu@intel.com",
-+                    "name": "corneliux.stoicescu@intel.com"
-+                }
-+            ],
-+            "execution": {
-+                "1": {
-+                    "action": "Bootup with core-image-lsb-sdk image",
-+                    "expected_results": ""
-+                },
-+                "2": {
-+                    "action": "Execute the crashme test with below command  \n\n./opt/ltp/runltp f  crashme",
-+                    "expected_results": "The stress testing should not make the target crash. Check CPU usage and basic functionality of the system after the tests are over. "
-+                }
-+            },
-+            "summary": "stress_test_-_Genericx86-64"
-+        }
-+    }
-+]
+diff --git a/meta/lib/oeqa/manual/sdk.json b/meta/lib/oeqa/manual/sdk.json
+index 6475586..434982f 100644
+--- a/meta/lib/oeqa/manual/sdk.json
++++ b/meta/lib/oeqa/manual/sdk.json
+@@ -1,7 +1,7 @@
+ [
+     {
+         "test": {
+-            "@alias": "sdk.sdk_runqemu.test_sdk_toolchain_can_run_multiple_QEMU_machines_under_UNFS",
++            "@alias": "sdk.sdk_runqemu.test_install_cross_toolchain_can_run_multiple_qemu_for_x86",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -11,22 +11,22 @@
+             "execution": {
+                 "1": {
+                     "action": "Prepare kernel, rootfs tar.bz2 image, and qemu configuration  \n    \ta. Download kernel, rootfs tar.bz2 image and qemu configuration from public autobuilder webpage  \n    \tb. Goto https://autobuilder.yocto.io/pub/releases/<target_release>/machines/qemu/qemux86/ \n    \tc. Download  \n    \t  \ti. rootfs tar.bz2: core-image-sato-sdk-qemux86.tar.bz2 \n      \t\tii. kernel: bzImage-qemux86.bin \n      \t\tiii. qemu configuration: core-image-sato-sdk-qemux86.qemuboot.conf ",
+-                    "expected_results": ""
++                    "expected_results": "Download completes successfully."
+                 },
+                 "2": {
+-                    "action": "Download & install sdk toolchain from public autobuilder \n    \ta. Goto https://autobuilder.yocto.io/pub/releases/<target_release>/toolchain/x86_64/ \n    \tb. Download poky-glibc-x86_64-core-image-sato-sdk-<type-arch>-toolchain-<release-version>.sh \n    \tc. Run command: poky-glibc-x86_64-core-image-sato-sdk-<type-arch>-toolchain-<release-version>.sh",
+-                    "expected_results": ""
++                    "action": "Download & install toolchain tarball matching your host from public autobuilder \n    \ta. Goto https://autobuilder.yocto.io/pub/releases/<target_release>/toolchain/x86_64/ \n    \tb. Download poky-glibc-x86_64-core-image-sato-<type-arch>-toolchain-<release-version>.sh \n    \tc. Run command: poky-glibc-x86_64-core-image-sato-<type-arch>-toolchain-<release-version>.sh \n    \td. After installation toolchain  Run source command :   source  /toolchain-installed-path/environment-setup-<architecture name>-poky-linux",
++                    "expected_results": "Toolchain gets installed successfully."
+                 },
+                 "3": {
+                     "action": "Extract rootfs twice into two images \n    \ta. Run 2 commands below:  \n                  runqemu-extract-sdk core-image-sato-sdk-qemux86.tar.bz2 qemux86_rootfs_image1  \n                  runqemu-extract-sdk core-image-sato-sdk-qemux86.tar.bz2 qemux86_rootfs_image2",
+-                    "expected_results": ""
++                    "expected_results": "Both images build successfully."
+                 },
+                 "4": {
+-                    "action": " From the 2 terminals, start qemu to boot up both two images \n    \ta. Run 2 commands below:  \n                  runqemu core-image-sato-sdk-qemux86.qemuboot.conf qemux86_rootfs_image1  \n                  runqemu core-image-sato-sdk-qemux86.qemuboot.conf qemux86_rootfs_image2 ",
++                    "action": " From the 2 terminals, start qemu to boot up both two images \n    \ta. Run 2 commands below:  \n                  runqemu <kernel-name> core-image-sato-sdk-qemux86.qemuboot.conf qemux86_rootfs_image1  \n                  runqemu <kernel-name> core-image-sato-sdk-qemux86.qemuboot.conf qemux86_rootfs_image2 ",
+                     "expected_results": "Expect both qemu to boot up successfully."
+                 }
+             },
+-            "summary": "test_sdk_toolchain_can_run_multiple_QEMU_machines_under_UNFS"
++            "summary": "test_install_cross_toolchain_can_run_multiple_qemu_for_x86"
+         }
+     }
+ ]
 \ No newline at end of file
 -- 
 2.7.4
