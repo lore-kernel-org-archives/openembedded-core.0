@@ -1,27 +1,50 @@
-Return-Path: <jan.kiszka@siemens.com>
-X-Greylist: delayed 488 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 29 Jan 2019 16:56:47 UTC
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 3479F60402
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D4D7C2A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 16:56:46 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x0TGmaXD014644
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Tue, 29 Jan 2019 17:43:13 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v13so23030109wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 17:48:36 +0100
-Received: from [167.87.11.234] ([167.87.11.234])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x0TGmZod005197
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 17:48:36 +0100
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <131b9938-823f-5c0a-136b-df38d272a399@siemens.com>
-Date: Tue, 29 Jan 2019 17:48:35 +0100
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
-	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+	Tue, 29 Jan 2019 09:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Qeko3WIEDnuqopqwAumgJrQcDQGIk9peJGHKQQKh4aI=;
+	b=ADukExkzdZgcHCVFskz4Go8f8VGBnhL8p1j2PRc35ahuGngyRebbrJFoj6CeR2blrm
+	Lu6ju8j67Ufbw8Lk8vx+Xj0LpE/ElbHKfbQ74r37HykAK8aOtumYb6guiqbiFVXZd23F
+	JaGOX6bSJAqkFYqh//PJyj7xssyQaRYwJmUjU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Qeko3WIEDnuqopqwAumgJrQcDQGIk9peJGHKQQKh4aI=;
+	b=ooe7SJc2Os3OpmQFdH+YC0U3BH8u1qnjCGisanQNlFAFMKk+LZDuO97BNpPAdRPqDq
+	U3svgfieoFZ9hWwAoLN9siun+ZSPhlQXVOHQ5QujTUCkXNMwTgVbvVfO4tnur/61Cgmw
+	RLAtp/5MIWUpUQ5iGn+2uf3Z4OGX74o/o40reGv4FjzZFXy7hZIXvxihOUANR9aPyRRz
+	qTASXWFrdw9VMJLqJMtGk3IV1vqjJdruCX63DnPrXALp9fPbwshEwSn/zqucJUOOQOr/
+	Tj/69OzII1nVA8CqXPLxDQ35Yk00S/GHForbF+tRN0b2OnrYe/G9JfZ34OBAE+P2eBXm
+	UxOQ==
+X-Gm-Message-State: AHQUAuZSaemGrEs4cH6PCzEepjVtZP6RrA6N2jO2Ac2In6dhjz0Fgb/X
+	HfeuKDKXEXO+bKMxZh8o8DcPkmYIQeg=
+X-Google-Smtp-Source: AHgI3IbvIIlYqAFmkrtofV+fGvqbSrJ8aeD6c09YJhCzv/jT6YDkb/LrBHM349Rp9LuQ6df2tyZ8iA==
+X-Received: by 2002:a05:6000:11c3:: with SMTP id
+	i3mr22830488wrx.221.1548783794308; 
+	Tue, 29 Jan 2019 09:43:14 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n9sm94381894wrx.80.2019.01.29.09.43.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Jan 2019 09:43:13 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Jan 2019 17:43:06 +0000
+Message-Id: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH] oe-git-proxy: Avoid resolving NO_PROXY against local files
+Subject: [PATCH 1/7] oeqa/runtime/ptest: Avoid traceback for tests with no section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 16:56:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Jan 2019 17:43:14 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Jan Kiszka <jan.kiszka@siemens.com>
+Some tests end up without a section, avoid tracebacks trying to use
+None as a string in that case.
 
-NO_PROXY may contain * elements, and if we are unlucky (or want to match
-all hosts with *), we will pick up local files rather than doing the
-match in match_host. Quoting helps here.
-
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/oe-git-proxy | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-index 7a43fe6a6e..1800942f36 100755
---- a/scripts/oe-git-proxy
-+++ b/scripts/oe-git-proxy
-@@ -131,8 +131,8 @@ if [ -z "$ALL_PROXY" ]; then
- fi
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 0972a583eeb..7d8849308d7 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -99,7 +99,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+         resmap = {'pass': 'PASSED', 'skip': 'SKIPPED', 'fail': 'FAILED'}
+         for section in parse_result.result_dict:
+             for test, result in parse_result.result_dict[section]:
+-                testname = "ptestresult." + section + "." + "_".join(test.translate(trans).split())
++                testname = "ptestresult." + (section or "No-section") + "." + "_".join(test.translate(trans).split())
+                 extras[testname] = {'status': resmap[result]}
  
- # Connect directly to hosts in NO_PROXY
--for H in ${NO_PROXY//,/ }; do
--	if match_host $1 $H; then
-+for H in "${NO_PROXY//,/ }"; do
-+	if match_host $1 "$H"; then
- 		exec $SOCAT STDIO $METHOD
- 	fi
- done
+         failed_tests = {}
 -- 
-2.16.4
+2.19.1
+
 
