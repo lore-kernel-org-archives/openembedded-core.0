@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABF177C2A0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FF857C28C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 17:43:21 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id v13so23030550wrw.5
+	Tue, 29 Jan 2019 18:20:27 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id p17so23341588qtl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 09:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=zLHWoW5+t6/grlrXNZEGcAvi5H5f0B4ltkh9Ny5Cw9k=;
-	b=UsgB940eiPMg8gxheLCKtv3ygC+KXIOr8Qh+55Wgqm2HKiXhNWOwjHuifFby5HD3T+
-	3b/Oul0133FagTFNb85gyGH+qNu0HoYsD2zaxgtCuENCK1Ogf3+pVv5X1zhP2ZqhMXV0
-	M1vEyOVcVYyLQ8FWXBshL18nziouZe+IJZvGw=
+	Tue, 29 Jan 2019 10:20:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kizlx/qOP5KgRjf9UbYl+LrFqXuYr9FyJ6BFgq+/WW0=;
+	b=Th1cSWBCykqz3Bgo8GIj9s2OTTjKZS8VNxUbhPOEWjewjWXzqgMyrfS9ECdf/TMwY8
+	WsGrTpQb8613wN/gZJCqa2UrU7Y2w0WjqNf7Swk2qi50pwerZY3GUr9NKmL8pdrTMwkh
+	mxZOTwix/we6xuefL/2hyDAEphRe8dkHg7EGxgKaJf8fnLPFN7nFCA9hBU4ZF2XkuXII
+	KjZwLws67XWXYqeT0tlnuoPlFxa8JOy1uPFuzrqkqSC4pYCDf2vn5EAwQ9j9fo/2mTe+
+	4j19QL8i0EtKWpS8bsKuEETWNHIfM+MAKZPvsuZCXOMb/DNlV7fy9FjI5+6sTqp7npZj
+	L8aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=zLHWoW5+t6/grlrXNZEGcAvi5H5f0B4ltkh9Ny5Cw9k=;
-	b=NxqOnEY7MsAEShj2LWR4zT2r+Wlas/MiJTHqGGVsXWr52iX9FOWqvNyLaTo/PJJeRP
-	mqLztfR61WcSl7kWyPy3DIA/fAQUfmFbSkSsRYo0EU4OMJkK0sWJbGUwll19nroesChU
-	esMFN4k2gcRls9i3HTwvbkUmPCbLqOXyD2jU1GGUqUJnfeI/55FXFfvqcjWfWLDLlF5y
-	tKqpYLLEmJ4ztb3lhwTJmFwrnXFSUozUEJpIe2D1G3hZtDOPFNbD1Z71TQNF1qablC+r
-	l6SOoRD64tG1N6lEm4eB4rGy1cuynWGuQFG5nbTXHvsdqHydRxms3N4aR92Z4jQqVjPy
-	APJA==
-X-Gm-Message-State: AJcUukdqb269t/xsPEfHlX+clGSKMccvQ55jh79Gp0+aiXSs3HPa+GCq
-	Cle/qaxJ6Ps/ZQFLTgp3RYhLpSRsSIo=
-X-Google-Smtp-Source: ALg8bN7bAWq2k+jjc0iT/kBTgXCXRjv5M9h9FUY9jUn49UWD59qx44tlOaJ16Cmx8hd0MUK5jMEseg==
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr26833641wrq.16.1548783801969; 
-	Tue, 29 Jan 2019 09:43:21 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n9sm94381894wrx.80.2019.01.29.09.43.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Jan 2019 09:43:21 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 17:43:12 +0000
-Message-Id: <20190129174312.29224-7-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
-References: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kizlx/qOP5KgRjf9UbYl+LrFqXuYr9FyJ6BFgq+/WW0=;
+	b=lQNUavvozjEPWnHqM2lDYCurIHyQZO4U3EGbu55D7intOfXF0YpAlIaB4fBaTew7Zk
+	hX1fvudE/81qhzvOCkwJFMBnDm6tu761leUnYys6ulHZgmRtgiMhbRsToCL+ESd7ZJUK
+	UloGCbZOAAC0TpGA5GQWF1tH1fAMgZzFtN/MEhZxphl35qjgkg5LBVaiwNKDcDtWpsZo
+	QgHoutV2VQQDsFTFC7foTJMf0ssV1ulsNcUqED9bYkdOU0aIJRJRCsTugpz13i7gYm+/
+	VbTlmFqVpu/V7+bVLXan3dvPWjk9WdV5ZH4mpDhtXggf5jkiiSggtf80o8PyEW1vScyn
+	8S1w==
+X-Gm-Message-State: AJcUukfKaeLYr/EWqYT9MTtHPdkddcnKRi3WQJ2b1Ub1adv4lYB7xIIW
+	S6A3hIp7QiK1o0UmA39OePGHEvBpHaxM7Xicd9iAwkPfJ0U=
+X-Google-Smtp-Source: ALg8bN5BRnwr3IpX0UPDI5BH7dAl5fBsp/zg00YyyjufAvLx0g2jsyAY1wJpLFfIcL+iPVnNYXddNPvCtdlftwFXeo0=
+X-Received: by 2002:a0c:a144:: with SMTP id d62mr25802149qva.50.1548786027778; 
+	Tue, 29 Jan 2019 10:20:27 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 7/7] oeqa/logparser: Various misc cleanups
+References: <20190128124739.9175-1-samuli.piippo@qt.io>
+In-Reply-To: <20190128124739.9175-1-samuli.piippo@qt.io>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 29 Jan 2019 10:20:01 -0800
+Message-ID: <CAMKF1soJ1obqx9GyjAHJkdMq3HZdWjiAKRRqea5=HohEj+cUGQ@mail.gmail.com>
+To: Samuli Piippo <samuli.piippo@qt.io>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-cross-canadian: Do not create symlink to real-ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,130 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 17:43:22 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 29 Jan 2019 18:20:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Get rid of further unneeded code complications:
+On Mon, Jan 28, 2019 at 11:19 PM Samuli Piippo <samuli.piippo@qt.io> wrote:
+>
+> real-ld is always used if that is found, which means you cannot
+> switch between bfd and gold linkers using -fuse-ld=gold.
+>
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index e7c08d3a61..ececec4965 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -137,8 +137,6 @@ do_install () {
+>
+>                 ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
+>         done
+> -       t=real-ld
+> -       ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld$suffix $dest$t$suffix
+>
 
-* value mappings we could just direct use
-* ftools when we can write files easily ourself
-* test result status filtering we don't use
-* variable overwriting module imports
+this patch is essentially, reverting
+https://git.openembedded.org/openembedded-core/commit/?id=cdd86896c8d29135f937968e9aa07f919cf543d3
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/runtime/cases/ptest.py | 13 +++++--------
- meta/lib/oeqa/utils/logparser.py     | 21 ++++++++-------------
- 2 files changed, 13 insertions(+), 21 deletions(-)
+so lets do a revert instead to keep the context clear
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 2843953b38c..6ae951356d8 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -1,6 +1,6 @@
- import unittest
- import pprint
--import re
-+import datetime
- 
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
-@@ -21,8 +21,6 @@ class PtestRunnerTest(OERuntimeTestCase):
-         if status != 0:
-             self.skipTest("No -ptest packages are installed in the image")
- 
--        import datetime
--
-         test_log_dir = self.td.get('TEST_LOG_DIR', '')
-         # The TEST_LOG_DIR maybe NULL when testimage is added after
-         # testdata.json is generated.
-@@ -30,9 +28,9 @@ class PtestRunnerTest(OERuntimeTestCase):
-             test_log_dir = os.path.join(self.td.get('WORKDIR', ''), 'testimage')
-         # Don't use self.td.get('DATETIME'), it's from testdata.json, not
-         # up-to-date, and may cause "File exists" when re-reun.
--        datetime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-+        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-         ptest_log_dir_link = os.path.join(test_log_dir, 'ptest_log')
--        ptest_log_dir = '%s.%s' % (ptest_log_dir_link, datetime)
-+        ptest_log_dir = '%s.%s' % (ptest_log_dir_link, timestamp)
-         ptest_runner_log = os.path.join(ptest_log_dir, 'ptest-runner.log')
- 
-         status, output = self.target.run('ptest-runner', 0)
-@@ -51,7 +49,7 @@ class PtestRunnerTest(OERuntimeTestCase):
-         # Parse and save results
-         parser = PtestParser()
-         results, sections = parser.parse(ptest_runner_log)
--        parser.results_as_files(ptest_log_dir, test_status = ['pass','fail', 'skip'])
-+        parser.results_as_files(ptest_log_dir)
-         if os.path.exists(ptest_log_dir_link):
-             # Remove the old link to create a new one
-             os.remove(ptest_log_dir_link)
-@@ -60,12 +58,11 @@ class PtestRunnerTest(OERuntimeTestCase):
-         extras['ptestresult.sections'] = sections
- 
-         trans = str.maketrans("()", "__")
--        resmap = {'pass': 'PASSED', 'skip': 'SKIPPED', 'fail': 'FAILED'}
-         for section in results:
-             for test in results[section]:
-                 result = results[section][test]
-                 testname = "ptestresult." + (section or "No-section") + "." + "_".join(test.translate(trans).split())
--                extras[testname] = {'status': resmap[result]}
-+                extras[testname] = {'status': result}
- 
-         failed_tests = {}
-         for section in results:
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 8585c195c44..32fde14a7de 100644
---- a/meta/lib/oeqa/utils/logparser.py
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -3,7 +3,6 @@
- import sys
- import os
- import re
--from . import ftools
- 
- # A parser that can be used to identify weather a line is a test result or a section statement.
- class PtestParser(object):
-@@ -13,9 +12,9 @@ class PtestParser(object):
- 
-     def parse(self, logfile):
-         test_regex = {}
--        test_regex['pass'] = re.compile(r"^PASS:(.+)")
--        test_regex['fail'] = re.compile(r"^FAIL:(.+)")
--        test_regex['skip'] = re.compile(r"^SKIP:(.+)")
-+        test_regex['PASSED'] = re.compile(r"^PASS:(.+)")
-+        test_regex['FAILED'] = re.compile(r"^FAIL:(.+)")
-+        test_regex['SKIPPED'] = re.compile(r"^SKIP:(.+)")
- 
-         section_regex = {}
-         section_regex['begin'] = re.compile(r"^BEGIN: .*/(.+)/ptest")
-@@ -72,9 +71,7 @@ class PtestParser(object):
-         return self.results, self.sections
- 
-     # Log the results as files. The file name is the section name and the contents are the tests in that section.
--    def results_as_files(self, target_dir, test_status):
--        if not type(test_status) == type([]):
--            raise Exception("test_status should be a list. Got " + str(test_status) + " instead.")
-+    def results_as_files(self, target_dir):
-         if not os.path.exists(target_dir):
-             raise Exception("Target directory does not exist: %s" % target_dir)
- 
-@@ -84,10 +81,8 @@ class PtestParser(object):
-                 prefix = section
-             section_file = os.path.join(target_dir, prefix)
-             # purge the file contents if it exists
--            open(section_file, 'w').close()
--            for test_name in sorted(self.results[section]):
--                status = self.results[section][test_name]
--                # we log only the tests with status in the test_status list
--                if status in test_status:
--                    ftools.append_file(section_file, status + ": " + test_name)
-+            with open(section_file, 'w') as f:
-+                for test_name in sorted(self.results[section]):
-+                    status = self.results[section][test_name]
-+                    f.write(status + ": " + test_name + "\n")
- 
--- 
-2.19.1
+secondly, please test with the mips/mips64 as those were primary drivers for
+the patch in first place.  Richard might add more context if he remembers.
 
+
+>         # libquadmath headers need to  be available in the gcc libexec dir
+>         install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
