@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 776806006E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 263296B5C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 09:17:41 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p6so16829420wmc.1
+	Tue, 29 Jan 2019 11:44:21 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id j21so15859299oii.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 01:17:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=MJ97newvQY/TcL8oz92pFDYrZpJwSCfux11mECuNf2s=;
-	b=RRMeFJBJPHyXdkEh24K3jnvWmOOuVSVJgWbEmzdjDi7+KGPtwuZT84o4dD9Vtp7KNJ
-	KWPK8GWFQsWaBuH0mrI/M1SW+hJg9jhW4Q8v8XGqNRSBcwECI0u/khg3y+3cGfw5yTo6
-	rxqui0wJmBn2HWjQ5G0lC2qsN6L3CXjVqqNGA=
+	Tue, 29 Jan 2019 03:44:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=o8C9uXdDThCTaF0549afoNmszMfwHhVik7KygQFJmnY=;
+	b=S6+ILxRlHDUUNiFhQi/G6JNtz/JElXf0v26jVpevP1XNI8lALM5T/nd1d+1DJJEj4/
+	bfvjAyhUX7E+K4WzBDyadNhk0eyVu94uW2RyMbC/XJsI1We9eIV23OFbScmVlr2tNXoC
+	AIUF9EW0gSf5eizFbUlPriNhUSXz1uJtmfj3Vu0z/wXvNtboxgBALIVXT8gC8NopnJ5h
+	Ugo8AkpFjw+RckPOaUKcthJE8X5XoOAefZZnCL05n4FUZnNfA9uF8ZF5aKd83RJvjwGG
+	6Ftd/xBY7tRYHlimZOPJeoQxDdkfwwXO8ILdEYwyTYFRw9siQYksUdDgzn9mSDowusOW
+	Z7DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MJ97newvQY/TcL8oz92pFDYrZpJwSCfux11mECuNf2s=;
-	b=hs/jpvVR1SxkvnM5binIvEKSqdq3YoFNusIH5+gn2iqzVdbFp1KOQe5yeVmql0NDlS
-	xH/wHPRGuJzt6I/lVre3XSR6U9EsnvnO3BFxMK51VWtAOTkQDL6OuriLLuTToKsBlL12
-	gYqcSabELIusOc5MUa3FF0TgpNYLYZLFCG3tgY27Alj/RZjEKeRfSu4958DMyPm6mzUy
-	PA/ZBZ3uZxmTay97qFbubHRHROGmRfThuefsXgi+W3JrCwwZ1woCk+IeyE0uqUup7bMB
-	h6DyUwu5x5yKNoAb/UWBlinrazwamWITnKpeVVTY8v6P1i8uaCpv9H3u3PffUC4rLvi1
-	a05w==
-X-Gm-Message-State: AJcUukfgu8ncy6nSY40+oq9WgwliFXXZEvJ+o7JqXKxjjbBHurz2drSf
-	T5zoF2YFI/Q6zrwdDAJXU7RUBfoGzIs=
-X-Google-Smtp-Source: ALg8bN5lPDzO5DtZDHZAtDyZkJD0q92XioEnIphBZzTC1I3cGpoJeXwl+OtyrM+cMfMNYInepUHgrQ==
-X-Received: by 2002:a1c:c87:: with SMTP id 129mr19321336wmm.116.1548753461870; 
-	Tue, 29 Jan 2019 01:17:41 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o81sm4052233wmd.10.2019.01.29.01.17.40
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 29 Jan 2019 01:17:41 -0800 (PST)
-Message-ID: <c799f5a1a19e38f905d0976b49f982ab63d40389.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 09:17:40 +0000
-In-Reply-To: <065c6c6908cdc0bd4eabd7c4270f4299b9034888.1548753246.git.Qi.Chen@windriver.com>
-References: <cover.1548753246.git.Qi.Chen@windriver.com>
-	<065c6c6908cdc0bd4eabd7c4270f4299b9034888.1548753246.git.Qi.Chen@windriver.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] pkgdata.py: avoid target-sdk-dummy-provides to mess things up
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=o8C9uXdDThCTaF0549afoNmszMfwHhVik7KygQFJmnY=;
+	b=sxesfCIVnBSSPXfmR9OvOCSY7a9Hpt+9omx4+Y3asNiMuOlffAFTv/lGLnJTwQImFg
+	L/D7sWN5Ol4n+Y5E8KX1n8GpiPPRuA68JQqXBG8R89PeSyQSRqaI7VBdPxJmT/4A//ls
+	iWt0P8uaagIQB8jsTdHrrYryK0EDF8gp1Ittp2O3hzhKJcyLUGp63nnNNOWNBB+eOTpV
+	QXvzmEMsJr22rxa6a8Gf7d+g21kT9jZnZupuf/eS2kN3g/2IxMTz89UaJc5lYwiR9Pik
+	nfgTShgIiO5qy02CQR6dftPcaWKnHAWT1w6nvl/xMEEIq07EsZV43Ok43CsDq732wxBh
+	taJQ==
+X-Gm-Message-State: AJcUukeUVnapGkfTGjey9djfswl0x110UiMedlglyVNFAs3+cEqk7/HO
+	tkVHn27dmZn6iXuAHCABBcEtEly7VYb1ILqty5A=
+X-Google-Smtp-Source: ALg8bN6LyJSXzaCMtQLbVwBCR1DwDt7m3kAlSabuhrjJvTBEIiqpky0Fe+J4dQAV8LhlXm5NKPm9ntfxcCBDtuNDYIo=
+X-Received: by 2002:aca:4b4f:: with SMTP id y76mr9223607oia.88.1548762262956; 
+	Tue, 29 Jan 2019 03:44:22 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1548679462.git.alex.kanavin@gmail.com>
+	<f26f729ae8292856bc3b1e73af1980fcb11d4972.1548679462.git.alex.kanavin@gmail.com>
+	<e027d8fa4a0410d575fb9ff71833c13b626ba9db.camel@linuxfoundation.org>
+	<CANNYZj_ziprqCNn09-SCVjUxvZphR4fQJqLv0X7COvxMkGD6Zw@mail.gmail.com>
+In-Reply-To: <CANNYZj_ziprqCNn09-SCVjUxvZphR4fQJqLv0X7COvxMkGD6Zw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 29 Jan 2019 12:44:11 +0100
+Message-ID: <CANNYZj_EgBK=-OHMB1YSoJvD-7Rjj1PCtQydTHm0zzSpn=vRAA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/24] mesa-gl: do not enable nativesdk variant to avoid clashes with main mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 09:17:41 -0000
+X-List-Received-Date: Tue, 29 Jan 2019 11:44:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-01-29 at 17:14 +0800, Chen Qi wrote:
-> Sometimes we meet the following failure for the test_lookup_recipe
-> test case.
-> 
->   AssertionError: 'zlib\nbusybox is in the RPROVIDES of target-sdk-
-> provid[32 chars]ummy' != 'zlib\nbusybox'
->     zlib
->   + busybox- busybox is in the RPROVIDES of target-sdk-provides-
-> dummy:
->   - target-sdk-provides-dummy
-> 
-> This is because target-sdk-provides-dummy rprovides busybox.
-> 
-> So clean things up to avoid failure.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/lib/oeqa/selftest/cases/pkgdata.py | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py
-> b/meta/lib/oeqa/selftest/cases/pkgdata.py
-> index 0b4caf1..e02c6c4 100644
-> --- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-> +++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-> @@ -13,6 +13,7 @@ class OePkgdataUtilTests(OESelftestTestCase):
->          super(OePkgdataUtilTests, cls).setUpClass()
->          # Ensure we have the right data in pkgdata
->          cls.logger.info('Running bitbake to generate pkgdata')
-> +        bitbake('target-sdk-provides-dummy -c cleansstate')
->          bitbake('busybox zlib m4')
+On Mon, 28 Jan 2019 at 18:37, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > I really hate using remove in OE-Core. Lets find a different way to do
+> > this please as if we do this, its nearly impossible to undo in another
+> > layer...
+>
+> Sure, I think moving 'BBCLASSEXTEND = "native nativesdk"' from
+> mesa.inc to mesa_*.bb should sort this.
 
-Nice debugging!
+Actually, no - mesa-gl.bb includes mesa.bb, so this moving wouldn't
+help. I simply set the PREFERRED_PROVIDER instead:
 
-clean is enough here, we don't want to run cleansstate on what might be
-a shared sstate cache though.
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/virgl-gtk&id=b517d2940a19cf19647937ea727959c51fc28c1c
 
-Cheers,
+The full branch is otherwise the same:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/virgl-gtk
 
-Richard
-
+Alex
 
