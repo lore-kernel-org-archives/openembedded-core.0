@@ -1,54 +1,27 @@
-Return-Path: <jonas@norrbonn.se>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BDE7C325
+Return-Path: <Xulin.Sun@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CB960197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 07:24:48 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id x85-v6so16581389ljb.2
+	Tue, 29 Jan 2019 07:34:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0T7YXxS015517
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2019 23:24:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=G5DDMfODGiOr1s2aGQa/Sn0c1SLC9S5vuUXiutyyhuw=;
-	b=NA/ja+qrqSoLKRs0inrJtjEeftQDDDPc17Fbe4j44kSSeMnZMoY3xwvKARGxOo2rw4
-	4ft5Qp982jChROdbLYCEsxViTegqnPigflfD2Eqrbp+I4qaexXfPGPB0lMjTs1ESbxkS
-	g8efkh4UVstqrbjk9FOcHK/lwHn4pSwJLpXXw31grtHsQ1SnWWy35cHos42PET6ucHON
-	v1bdCltbG24CLuOOcsIbQHY+BuRNpWr0DE8OMTPUqhrA6vkaMWvl4eZRce1nHPY3zusH
-	r/ox8kzcOzES575gYtb857Xx1E+oGeVhOwZ5K6Sy6qSvu5176pPtrjPZqVZmUTl1N+C2
-	siZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=G5DDMfODGiOr1s2aGQa/Sn0c1SLC9S5vuUXiutyyhuw=;
-	b=XAe3LL2Cgy9A9CcpESqH/goagINmKClufQvxxccTKOZAIMJ4GPEJ2kCjRMXrpxRrxi
-	98giDIdA9oHMT65uH44pOpKJBatUKSPWP5a/dm3eCjrv++C5lHNObJbGIv4mrfJWJIR2
-	ODKSEkZFGTw6LtngZimo5JqYZDQ2h5PBDNaSyLayxkA33JKlvQa44lqxIC3/ug5/eLe4
-	MlgSqOVSGZuKkmMlYudtPQG0x7yN0mZgEe71mQi5dOi1BEy+VO06XMWcGciV/tNlo9SI
-	v0+zvBtIjzFPeclRBFo+tJF1DPNjpPf9IL1202P/qq7OtgYL7R7FiZNIZk3ED4un9ck1
-	4sKQ==
-X-Gm-Message-State: AJcUukdS/Ghvau2QJCCGrss8Ri89/n+QbzCAvet6HiJlD+y+O9vVhceY
-	Z+VhDIhrjZXqlZ5aws/c5RVRACd6R8I=
-X-Google-Smtp-Source: ALg8bN48NP5+m0Du68IUG6sz8We7wFmW6jc6XnJU0utdNn0uu3GjztgbRgMPfiynrKshFzFiVqM7XQ==
-X-Received: by 2002:a2e:5054:: with SMTP id
-	v20-v6mr20321345ljd.45.1548746689273; 
-	Mon, 28 Jan 2019 23:24:49 -0800 (PST)
-Received: from mimer.lan (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
-	by smtp.gmail.com with ESMTPSA id
-	u26-v6sm3356434lji.22.2019.01.28.23.24.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Jan 2019 23:24:48 -0800 (PST)
-From: Jonas Bonn <jonas@norrbonn.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 08:24:42 +0100
-Message-Id: <20190129072442.32343-4-jonas@norrbonn.se>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190129072442.32343-1-jonas@norrbonn.se>
-References: <20190129072442.32343-1-jonas@norrbonn.se>
+	Mon, 28 Jan 2019 23:34:43 -0800
+Received: from pek-lpggp4.wrs.com (128.224.153.77) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.435.0;
+	Mon, 28 Jan 2019 23:34:23 -0800
+From: Xulin Sun <xulin.sun@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jan 2019 15:31:22 +0800
+Message-ID: <1548747082-10286-1-git-send-email-xulin.sun@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20190118022248.17108-1-xulin.sun@windriver.com>
+References: <20190118022248.17108-1-xulin.sun@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] keymaps: tighten package write dependency
+Cc: xulin.sun@windriver.com
+Subject: [meta-oe][PATCH v3] openssl: fix multilib file install conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,31 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 07:24:49 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 29 Jan 2019 07:34:53 -0000
+Content-Type: text/plain
 
-The dependency on systemd-systemctl-native is only needed if _both_
-systemd and sysvinit are in play.
+To avoid issue like below if run "bitbake lib32-core-image-minimal"
+with series userspace packages(LAMP,krb5...) added.
 
-Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+Add multilib_script support for openssl's c_rehash which is a perl script.
+
+Error: Transaction check error:
+  file /usr/bin/c_rehash conflicts between attempted installs of
+  lib32-openssl-bin-1.1.1-r0.armv7at2hf_neon and openssl-bin-1.1.1-r0.aarch64
+
+Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
 ---
- meta/recipes-bsp/keymaps/keymaps_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index 34b208c5b3..24b13f920f 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -37,7 +37,7 @@ do_install () {
-     fi
- }
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+index 5c4e69c..6676614 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+@@ -206,3 +206,7 @@ RREPLACES_openssl-conf = "openssl10-conf"
+ RCONFLICTS_openssl-conf = "openssl10-conf"
  
--PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
- pkg_postinst_${PN} () {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
- 		if [ -n "$D" ]; then
+ BBCLASSEXTEND = "native nativesdk"
++
++inherit multilib_script
++
++MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
-2.19.1
+2.7.4
 
 
