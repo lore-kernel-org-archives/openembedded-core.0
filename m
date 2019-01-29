@@ -1,74 +1,52 @@
-Return-Path: <JAEWON@xilinx.com>
-X-Greylist: delayed 10879 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 29 Jan 2019 02:52:41 UTC
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
-	(mail-eopbgr700046.outbound.protection.outlook.com [40.107.70.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E172D7C296
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A6EFF7C2EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 02:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=bCVsk5GS5PZNoi1X9Zt5ox7Uv4SveJ7lFhl2jdD3lnA=;
-	b=mN8p2zTU5sAOQQr9hNdXGOBAkrsEkJ7ZrDUN4v+SK3EwHUh1lvyt5sUpcehYylHWv+21Qja92Xu0CGBLzHqrOcJi8UhnTpv+VH8u5cLMfUc0dsiuf+AmBqhAbIHSKVIQDPaFFk6Cigwkk5QwbPiY7YO5tcSiaWPK2Q/65R1Nic0=
-Received: from MWHPR02MB2768.namprd02.prod.outlook.com (10.175.49.146) by
-	MWHPR02MB2799.namprd02.prod.outlook.com (10.175.50.9) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1558.16; Mon, 28 Jan 2019 23:18:46 +0000
-Received: from MWHPR02MB2768.namprd02.prod.outlook.com
-	([fe80::50c6:4927:8a6b:7300]) by
-	MWHPR02MB2768.namprd02.prod.outlook.com
-	([fe80::50c6:4927:8a6b:7300%10]) with mapi id 15.20.1558.023;
-	Mon, 28 Jan 2019 23:18:46 +0000
-From: Jaewon Lee <JAEWON@xilinx.com>
-To: Jaewon Lee <JAEWON@xilinx.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "nathan@nathanrossi.com"
-	<nathan@nathanrossi.com>
-Thread-Topic: [OE-core][PATCH v2] device-tree.bbclass: Add support to compile
-	overlays separately
-Thread-Index: AQHUk9YScayH2uHGhUmn079WwxKv/KXFl+9A
-Date: Mon, 28 Jan 2019 23:18:46 +0000
-Message-ID: <MWHPR02MB27689CA8E8E40CC5DD5CA84AAF960@MWHPR02MB2768.namprd02.prod.outlook.com>
-References: <1544810040-12073-1-git-send-email-jaewon.lee@xilinx.com>
-In-Reply-To: <1544810040-12073-1-git-send-email-jaewon.lee@xilinx.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=JAEWON@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; MWHPR02MB2799;
-	6:tpsurlf+6RwPQ85jBmP6IGnFmemeQGekqIQMe9b3GSPIQ6w9UKrjg+3L9mrKYgM7JVxLnh84f3Q5JzLsCjojQUNsyw31eMSDnE5xpXe0/rjPVu4Cn+mXL8MNzUmIJmbpGSxlz6r9sBzqn1Wdne/umX0IxJglqclhUoZJbpEPtYAIR1P8kyButVYKHAAFdT9BjzOJ0tb+Cgni1ScpQezMdZJtjIjg/aM8eLY45EwSYuJqxHka8pD5h+ypXQC5O9xydj95ECjqL+jyVSv7ApfbuPw5XlHyqNgoPGLzJE2f+304Zm2zxf/v8tOF/wTzUEYes9XpnQzp4Xm2Q8pYH0xgCiMh9yqTwUU30J4Wz2sQt7HZEfDabILsY9Df45lpwHKPs4g2+z5lz/m1kAxIPAyAi0737Z0bMoWwDS0Ddb8tLmJGvhZ/5T6mNjGd6QaeeSKRVCZiV9vJoOb2hBQ656cbAw==;
-	5:JvJkmMStcSfFc5+vC2weibFwr/GmOKv/C7WULsd2rCiP4w0lNAqDxcLiP2TM5OXvG+CUKR4lDHVFYuGDe+9VekdqeiPI3XtVOyrmOua46GKYeJ+Ojl0K4ltvYhzMkp9vfESkvapo60TZjBmPB9L8b754/M9IbJm6hfpWu9kIWXolVzSY9IAQBo918SE4Do1bK4cL4LF9Ng9sqtkdq7/VPg==;
-	7:xoWQj5HRsP7NdlI5GCdUEIMtLOwpgC40FDy6JOq8wXFT07S+WNV2XY5X15OnNquoPg3WCxRP6+rKG9gxaAtwbDTBEss53PoHFXAQk+Gzv3UboLNEH/ZLovA4E68RsZGjV8SZKyn1EM7C4ddctYy+Kg==
-x-ms-office365-filtering-correlation-id: 4a7104a4-958e-40b6-9027-08d68576f405
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:MWHPR02MB2799; 
-x-ms-traffictypediagnostic: MWHPR02MB2799:
-x-microsoft-antispam-prvs: <MWHPR02MB279991A06C0B8B73CE7D6E30AF960@MWHPR02MB2799.namprd02.prod.outlook.com>
-x-forefront-prvs: 0931CB1479
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(396003)(136003)(346002)(376002)(39850400004)(189003)(199004)(13464003)(7736002)(476003)(66066001)(25786009)(53936002)(81166006)(11346002)(81156014)(107886003)(8676002)(6246003)(105586002)(2906002)(33656002)(86362001)(4326008)(55016002)(3846002)(6116002)(68736007)(106356001)(9686003)(54906003)(316002)(110136005)(97736004)(8936002)(486006)(72206003)(478600001)(6506007)(186003)(446003)(2201001)(256004)(26005)(74316002)(71190400001)(71200400001)(14454004)(2501003)(305945005)(14444005)(7696005)(99286004)(229853002)(6436002)(102836004)(76176011)(53546011);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2799;
-	H:MWHPR02MB2768.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: nxJAZ6jIC8iZXrYh/wAJff+EDqTKP07gvUM0NtA8xZ8Z0s+azy0z5mcogI1piy8YSvZ+RBJoMkgM8WUetePXegULhUczHfBABPPja+VXTZ40XFqXie86nNwZ2bEQDLky817pHp3w1rSRldYb6akz8DRmpP+h78WZ/4W4qLLJ4vd9171F+Mq9uXAG9wbcL/eWYhT9m55k8IVzvNKvy6cNqVCt0cfqFfpYAfGbuu+4zqZnYHN4RjVXf10A4oGA58dls9MujtnyhB1kE2lpEjpL9vXW6SsFfTz5Bm1DUXODxEWNuH/LRRY0UE7iTiiKvMhVfiIWDHKH8mEvgRNYuwnwlus2/g9nqenGaiF/H5Flhc+tYqBnvYEY/fK/ulUy0AkpvMn/LrpyOpOTKqiqhdvyvRQJTawLK1ZApp/BqU4hNNI=
+	Tue, 29 Jan 2019 04:40:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0T4eX74010644
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jan 2019 20:40:43 -0800
+Received: from soho-mhatle-m.corp.ad.wrs.com (128.224.176.73) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.435.0; Mon, 28 Jan 2019 20:40:22 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20190127205615.12825-1-raj.khem@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <9e9c3a24-f932-56c4-380f-0f9b6ae06b16@windriver.com>
+Date: Tue, 29 Jan 2019 12:40:20 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.4.0
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7104a4-958e-40b6-9027-08d68576f405
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2019 23:18:46.5188 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2799
-Subject: Re: [PATCH v2] device-tree.bbclass: Add support to compile overlays separately
+In-Reply-To: <20190127205615.12825-1-raj.khem@gmail.com>
+Subject: Re: [PATCH V3] arm-tunes: Remove -march option if mcpu is already added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -81,55 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 02:52:42 -0000
+X-List-Received-Date: Tue, 29 Jan 2019 04:40:53 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-ping
+I reviewed this patch set.  It looks good to me.  Moving to -mcpu makes sense,
+as well as manually specifying the override feature info when necessary.
 
------Original Message-----
-From: Jaewon Lee [mailto:jaewon.lee@xilinx.com]=20
-Sent: Friday, December 14, 2018 9:54 AM
-To: openembedded-core@lists.openembedded.org; nathan@nathanrossi.com
-Cc: Jaewon Lee <JAEWON@xilinx.com>; Alejandro Enedino Hernandez Samaniego <=
-alejandr@xilinx.com>; Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-Subject: [OE-core][PATCH v2] device-tree.bbclass: Add support to compile ov=
-erlays separately
+--Mark
 
-Currently only dts files are considered when looping through files to compi=
-le. Modifying the loop to compile other files that are overlays.
-Also surrounding this check with a try block as the function to find overla=
-ys parses the file for a '/plugin/' tag, and there may be files in the DT_F=
-ILES_PATH directory that are not parseable.
-
-Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
----
- meta/classes/devicetree.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbcl=
-ass index 8fe5a5e..d785285 100644
---- a/meta/classes/devicetree.bbclass
-+++ b/meta/classes/devicetree.bbclass
-@@ -120,9 +120,12 @@ python devicetree_do_compile() {
-     includes =3D expand_includes("DT_INCLUDE", d)
-     listpath =3D d.getVar("DT_FILES_PATH")
-     for dts in os.listdir(listpath):
--        if not dts.endswith(".dts"):
--            continue # skip non-.dts files
-         dtspath =3D os.path.join(listpath, dts)
-+        try:
-+            if not(os.path.isfile(dtspath)) or not(dts.endswith(".dts") or=
- devicetree_source_is_overlay(dtspath)):
-+                continue # skip non-.dts files and non-overlay files
-+        except:
-+            continue # skip if can't determine if overlay
-         devicetree_compile(dtspath, includes, d)  }
-=20
---
-2.7.5
+On 1/28/19 4:56 AM, Khem Raj wrote:
+> tune files which inherit the arch definitions already define appropriate
+> -mcpu option, which is equivalent of right -march and -mtune combination
+> and is preferred since gcc is getting stricter and stricter with option
+> check semantics and can now find incompatible -march and -mcpu options
+> better with every release. It does internal feature consistency check
+> and if it finds out discrepency between what -mcpu would expand to as
+> compared to -march it will flag the options to be incompatible, for
+> naked eye it sounds wrong but gcc would translate -mcpu to a given
+> -march internally and it might not match to what we set in these arch
+> files.
+> 
+> The effects are quite subtle, where this can result in configure test
+> failing to compile due to these incompatible options and a feature
+> option getting disabled for a recipe for no reason.
+> 
+> e.g. with gcc9 which can now detect that -mcpu=cortex-a5 and
+> -march=armv7-a are incompatible, many features in libstdc++ ends up
+> disabled due to configure check failures e.g. size_t size, ptrdiff_t
+> sizes, which inturn results in compiling libstdc++ with unwanted
+> disabled features.
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Only delete -march if -mcpu is set
+> v3: Stop recursing into arch specific tunes
 
 
