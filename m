@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E0FCA7C2AA
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD057C2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 17:43:17 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id v13so23030330wrw.5
+	Tue, 29 Jan 2019 17:43:19 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f7so23155559wrp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 09:43:19 -0800 (PST)
+	Tue, 29 Jan 2019 09:43:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=fUTWb11wLReOoDdV9WFhHwzQPKiWZ2tT7DxRxPdOtGY=;
-	b=Lu4+MEkuFkk43WyuQR1Rrq+n1ugKWz6UbNJDnAo57qCLRLRNv46kxMjsSWxJ27lu7c
-	YlozdZ3zL4Lyuol4SjjuRhtrgN0BnYI/3nzpVQ8+0BStlwzGDkczVyKtpM5YltT84tEG
-	kn7HXTkeLq4e1AQrbKvxwJsvyK2bUUHNfYwIs=
+	bh=k2q8+5uhFZRUrKYkbfDccv9Q7GXwky3CF2q/0x6vTGs=;
+	b=gMbSx5tDE6GLU27ES+/ASeGprubknGUzNWXqHh9nzKMprmXVkQEVvFgEMpGbmLu6BX
+	tvrt7JMOJcJVnqaAgGXi/sHthUJlhlzUTsRUryRPTtjLMJPz5a4zd1jWO42ZoLlcOq4S
+	LVJLkzOV5sJ4j7HBXUKpwRFTfvhQExPpH7B34=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=fUTWb11wLReOoDdV9WFhHwzQPKiWZ2tT7DxRxPdOtGY=;
-	b=mDiV2q5ICPwT+ZK4wzQXVGqgltaZtpgRoxyYYYcZ/TqXVZ+MOxNkDojiuKDLf0xvik
-	M0cl1dlXGFYk47lQ9bcRuyD8XEjrkxlWIrjDCy1bhlvZtHoXfIEBRBInqVugYUi9OFzS
-	FhMHI9ZMt1dGUOKvillJ+5ZICs7XyfeSghq/ynsCjc3FqKfuziy8FwmV966ZqLuLhXMe
-	6sDVEvmw9FJOLJRBRFJ8hP2A54u3erUGvOGYCZuqlg4SkgGYCywa91eYfd/O+T06AGIw
-	98MCOQtPJkrErc/4v/iVUFgGMsqUkYWEoXOi5LA7y+HFOxjlg7nHpnuHNeY6QIClCnwp
-	Qciw==
-X-Gm-Message-State: AJcUukcnsBdeP9gTpHq4iPG28GZXHQmJV52MFctcoj6PKZUsEN5MeNnr
-	k+69gtVy2X8lFv7Cxrvv732+e+2GheA=
-X-Google-Smtp-Source: ALg8bN6BclE6z/M0OExZcPQFuVliC26Jbh5qgrdUsUpWJ6pGCSl6ppX6d4uIJOZbxoOG1wb3BMfSzw==
-X-Received: by 2002:adf:ee89:: with SMTP id b9mr27817020wro.246.1548783798192; 
-	Tue, 29 Jan 2019 09:43:18 -0800 (PST)
+	bh=k2q8+5uhFZRUrKYkbfDccv9Q7GXwky3CF2q/0x6vTGs=;
+	b=GIXbPG0a5/6TAmhnG7zLLSoQiiAfQQyiWxgKDRqA9ozw5SEhc/romkrcbosMsaIsUh
+	geaA13lStH1YhqPgOyb6ktvR0KLHASCgO1SVOBugpkncX+aEV+wovPgnnGh54TqLI8T1
+	3d7D7pIdl98kcN8bTGzg6VOk6qBIGMh228xYZIY0Shfn6TaOj1v+lmb65t2GnrKxzvtu
+	L5gqXWhqDfvT4x1n5lGhrSjz2/8HS89YxfNc+bY/h74NYTwK1EXHyvF2ipxkEcbNG/RX
+	7js/OuvBq21+hmPMkk9PI8KBLGgR2hAkdHZS1+x+oKbBH3CFVCGXjUdAHIAQ04g3fv99
+	c41Q==
+X-Gm-Message-State: AJcUukdRjAK06mxBX2Ij5Of1GpLuV4+jlDiqzKnGRZQN2DqoABgQisvZ
+	WA3mnSNiiPGFzmXM6VUFyeQzJaIKpdA=
+X-Google-Smtp-Source: ALg8bN4fh3bnM98T1ybjXOKa3B7B+NU0H+2HD/25lZyEA0Saormn4p05xI60ZWc+YJ2PiSsZGnspEw==
+X-Received: by 2002:adf:f28d:: with SMTP id k13mr28034075wro.78.1548783799455; 
+	Tue, 29 Jan 2019 09:43:19 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	n9sm94381894wrx.80.2019.01.29.09.43.16
+	n9sm94381894wrx.80.2019.01.29.09.43.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Jan 2019 09:43:17 -0800 (PST)
+	Tue, 29 Jan 2019 09:43:18 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 17:43:09 +0000
-Message-Id: <20190129174312.29224-4-richard.purdie@linuxfoundation.org>
+Date: Tue, 29 Jan 2019 17:43:10 +0000
+Message-Id: <20190129174312.29224-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
 References: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 4/7] oeqa/logparser: Reform the ptest results parser
+Subject: [PATCH 5/7] oeqa/utils/logparser: Add in support for duration, exitcode and logs by section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,152 +58,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 17:43:18 -0000
+X-List-Received-Date: Tue, 29 Jan 2019 17:43:19 -0000
 Content-Transfer-Encoding: 8bit
 
-Now we have a dedicated ptest parser, merge in the remaining ptest
-specific pieces to further clarify and simplify the code, moving to
-a point where we can consider extending/enhancing it.
+Allow parsing of the ptest duration, exit code and timeout keywords
+from the logs, returning data on each section.
+
+Also include the logs broken out per section.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/ptest.py | 40 ++-----------------
- meta/lib/oeqa/utils/logparser.py     | 58 ++++++++++++++++------------
- 2 files changed, 36 insertions(+), 62 deletions(-)
+ meta/lib/oeqa/runtime/cases/ptest.py |  4 ++-
+ meta/lib/oeqa/utils/logparser.py     | 40 +++++++++++++++++++++++-----
+ 2 files changed, 37 insertions(+), 7 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 1ce22a09e7d..ae54a01669a 100644
+index ae54a01669a..3cfd7af7e2e 100644
 --- a/meta/lib/oeqa/runtime/cases/ptest.py
 +++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -1,50 +1,16 @@
- import unittest
- import pprint
-+import re
- 
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.core.decorator.data import skipIfNotFeature
- from oeqa.runtime.decorator.package import OEHasPackage
--from oeqa.utils.logparser import PtestParser, Result
-+from oeqa.utils.logparser import PtestParser
- 
- class PtestRunnerTest(OERuntimeTestCase):
- 
--    # a ptest log parser
--    def parse_ptest(self, logfile):
--        parser = PtestParser()
--        result = Result()
--
--        with open(logfile, errors='replace') as f:
--            for line in f:
--                result_tuple = parser.parse_line(line)
--                if not result_tuple:
--                    continue
--                line_type, category, status, name = result_tuple
--
--                if line_type == 'section' and status == 'begin':
--                    current_section = name
--                    continue
--
--                if line_type == 'section' and status == 'end':
--                    current_section = None
--                    continue
--
--                if line_type == 'test' and status == 'pass':
--                    result.store(current_section, name, status)
--                    continue
--
--                if line_type == 'test' and status == 'fail':
--                    result.store(current_section, name, status)
--                    continue
--
--                if line_type == 'test' and status == 'skip':
--                    result.store(current_section, name, status)
--                    continue
--
--        result.sort_tests()
--        return result
--
-     @OETestID(1600)
-     @skipIfNotFeature('ptest', 'Test requires ptest to be in DISTRO_FEATURES')
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-@@ -83,7 +49,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+@@ -49,13 +49,15 @@ class PtestRunnerTest(OERuntimeTestCase):
          extras['ptestresult.rawlogs'] = {'log': output}
  
          # Parse and save results
--        parse_result = self.parse_ptest(ptest_runner_log)
-+        parse_result = PtestParser().parse(ptest_runner_log)
+-        parse_result = PtestParser().parse(ptest_runner_log)
++        parse_result, sections = PtestParser().parse(ptest_runner_log)
          parse_result.log_as_files(ptest_log_dir, test_status = ['pass','fail', 'skip'])
          if os.path.exists(ptest_log_dir_link):
              # Remove the old link to create a new one
+             os.remove(ptest_log_dir_link)
+         os.symlink(os.path.basename(ptest_log_dir), ptest_log_dir_link)
+ 
++        extras['ptestresult.sections'] = sections
++
+         trans = str.maketrans("()", "__")
+         resmap = {'pass': 'PASSED', 'skip': 'SKIPPED', 'fail': 'FAILED'}
+         for section in parse_result.result_dict:
 diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 0807093fda6..f8d1c036306 100644
+index f8d1c036306..dddea14fc98 100644
 --- a/meta/lib/oeqa/utils/logparser.py
 +++ b/meta/lib/oeqa/utils/logparser.py
-@@ -7,32 +7,40 @@ from . import ftools
- 
- # A parser that can be used to identify weather a line is a test result or a section statement.
+@@ -9,6 +9,7 @@ from . import ftools
  class PtestParser(object):
--
      def __init__(self):
--
--        self.test_regex = {}
--        self.test_regex['pass'] = re.compile(r"^PASS:(.+)")
--        self.test_regex['fail'] = re.compile(r"^FAIL:(.+)")
--        self.test_regex['skip'] = re.compile(r"^SKIP:(.+)")
--
--        self.section_regex = {}
--        self.section_regex['begin'] = re.compile(r"^BEGIN: .*/(.+)/ptest")
--        self.section_regex['end'] = re.compile(r"^END: .*/(.+)/ptest")
--
--    # Parse a line and return a tuple containing the type of result (test/section) and its category, status and name
--    def parse_line(self, line):
--
--        for test_status, status_regex in test_status_list.items():
--            test_name = status_regex.search(line)
--            if test_name:
--                return ['test', test_category, test_status, test_name.group(1)]
--
--        for section_status, status_regex in section_status_list.items():
--            section_name = status_regex.search(line)
--            if section_name:
--                return ['section', section_category, section_status, section_name.group(1)]
--        return None
--
-+        self.results = Result()
+         self.results = Result()
++        self.sections = {}
+ 
+     def parse(self, logfile):
+         test_regex = {}
+@@ -19,28 +20,55 @@ class PtestParser(object):
+         section_regex = {}
+         section_regex['begin'] = re.compile(r"^BEGIN: .*/(.+)/ptest")
+         section_regex['end'] = re.compile(r"^END: .*/(.+)/ptest")
++        section_regex['duration'] = re.compile(r"^DURATION: (.+)")
++        section_regex['exitcode'] = re.compile(r"^ERROR: Exit status is (.+)")
++        section_regex['timeout'] = re.compile(r"^TIMEOUT: .*/(.+)/ptest")
 +
-+    def parse(self, logfile):
-+        test_regex = {}
-+        test_regex['pass'] = re.compile(r"^PASS:(.+)")
-+        test_regex['fail'] = re.compile(r"^FAIL:(.+)")
-+        test_regex['skip'] = re.compile(r"^SKIP:(.+)")
++        def newsection():
++            return { 'name': "No-section", 'log': "" }
 +
-+        section_regex = {}
-+        section_regex['begin'] = re.compile(r"^BEGIN: .*/(.+)/ptest")
-+        section_regex['end'] = re.compile(r"^END: .*/(.+)/ptest")
-+
-+        with open(logfile, errors='replace') as f:
-+            for line in f:
-+                result = section_regex['begin'].search(line)
-+                if result:
-+                    current_section = result.group(1)
++        current_section = newsection()
+ 
+         with open(logfile, errors='replace') as f:
+             for line in f:
+                 result = section_regex['begin'].search(line)
+                 if result:
+-                    current_section = result.group(1)
++                    current_section['name'] = result.group(1)
+                     continue
+ 
+                 result = section_regex['end'].search(line)
+                 if result:
+-                    if current_section != result.group(1):
+-                        bb.warn("Ptest log section mismatch %s vs. %s" % (current_section, result.group(1)))
+-                    current_section = None
++                    if current_section['name'] != result.group(1):
++                        bb.warn("Ptest END log section mismatch %s vs. %s" % (current_section['name'], result.group(1)))
++                    if current_section['name'] in self.sections:
++                        bb.warn("Ptest duplicate section for %s" % (current_section['name']))
++                    self.sections[current_section['name']] = current_section
++                    del self.sections[current_section['name']]['name']
++                    current_section = newsection()
 +                    continue
 +
-+                result = section_regex['end'].search(line)
++                result = section_regex['timeout'].search(line)
 +                if result:
-+                    if current_section != result.group(1):
-+                        bb.warn("Ptest log section mismatch %s vs. %s" % (current_section, result.group(1)))
-+                    current_section = None
-+                    continue
-+
-+                for t in test_regex:
-+                    result = test_regex[t].search(line)
++                    if current_section['name'] != result.group(1):
++                        bb.warn("Ptest TIMEOUT log section mismatch %s vs. %s" % (current_section['name'], result.group(1)))
++                    current_section['timeout'] = True
+                     continue
+ 
++                for t in ['duration', 'exitcode']:
++                    result = section_regex[t].search(line)
 +                    if result:
-+                        self.results.store(current_section, result.group(1), t)
++                        current_section[t] = result.group(1)
++                        continue
 +
-+        self.results.sort_tests()
-+        return self.results
++                current_section['log'] = current_section['log'] + line 
++
+                 for t in test_regex:
+                     result = test_regex[t].search(line)
+                     if result:
+-                        self.results.store(current_section, result.group(1), t)
++                        self.results.store(current_section['name'], result.group(1), t)
+ 
+         self.results.sort_tests()
+-        return self.results
++        return self.results, self.sections
  
  class Result(object):
  
