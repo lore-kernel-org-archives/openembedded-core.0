@@ -1,50 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 32D4D7C2A3
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E2E17C2A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 17:43:13 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id v13so23030109wrw.5
+	Tue, 29 Jan 2019 17:43:15 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id z5so23023575wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 09:43:15 -0800 (PST)
+	Tue, 29 Jan 2019 09:43:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Qeko3WIEDnuqopqwAumgJrQcDQGIk9peJGHKQQKh4aI=;
-	b=ADukExkzdZgcHCVFskz4Go8f8VGBnhL8p1j2PRc35ahuGngyRebbrJFoj6CeR2blrm
-	Lu6ju8j67Ufbw8Lk8vx+Xj0LpE/ElbHKfbQ74r37HykAK8aOtumYb6guiqbiFVXZd23F
-	JaGOX6bSJAqkFYqh//PJyj7xssyQaRYwJmUjU=
+	bh=n0KjOqiZ3eMFADjKXFsOvLLv3hJsGzlMHzFMe6PjTgc=;
+	b=XpI4IfyxGqPdE4Alee3UKTAtklAkABMUueg0OqM0E+iwTFKpc5i1UQiuShuH8kdqI4
+	M8hjQSZLxeeEteh3neI/tYu/Y6VXRcaisaC/S+Jqb59Cwo4UlfcvTIpdKOuEHSt/t49q
+	F+dyBp1ZkUeIneBKgSotqbJ3zBWz1S75e9HRU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Qeko3WIEDnuqopqwAumgJrQcDQGIk9peJGHKQQKh4aI=;
-	b=ooe7SJc2Os3OpmQFdH+YC0U3BH8u1qnjCGisanQNlFAFMKk+LZDuO97BNpPAdRPqDq
-	U3svgfieoFZ9hWwAoLN9siun+ZSPhlQXVOHQ5QujTUCkXNMwTgVbvVfO4tnur/61Cgmw
-	RLAtp/5MIWUpUQ5iGn+2uf3Z4OGX74o/o40reGv4FjzZFXy7hZIXvxihOUANR9aPyRRz
-	qTASXWFrdw9VMJLqJMtGk3IV1vqjJdruCX63DnPrXALp9fPbwshEwSn/zqucJUOOQOr/
-	Tj/69OzII1nVA8CqXPLxDQ35Yk00S/GHForbF+tRN0b2OnrYe/G9JfZ34OBAE+P2eBXm
-	UxOQ==
-X-Gm-Message-State: AHQUAuZSaemGrEs4cH6PCzEepjVtZP6RrA6N2jO2Ac2In6dhjz0Fgb/X
-	HfeuKDKXEXO+bKMxZh8o8DcPkmYIQeg=
-X-Google-Smtp-Source: AHgI3IbvIIlYqAFmkrtofV+fGvqbSrJ8aeD6c09YJhCzv/jT6YDkb/LrBHM349Rp9LuQ6df2tyZ8iA==
-X-Received: by 2002:a05:6000:11c3:: with SMTP id
-	i3mr22830488wrx.221.1548783794308; 
-	Tue, 29 Jan 2019 09:43:14 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=n0KjOqiZ3eMFADjKXFsOvLLv3hJsGzlMHzFMe6PjTgc=;
+	b=lhbRp4KdQOI+pt7F4SQeA+T0oRbW8iCVT/7e/NbGSw4VIHQNjwOibKAVOpb/2zEPVo
+	N/tBho6goaBGwAS00PoQ2gFMjIA1aBWtVPkYx0/mIPc9gKhSh6sqNyrpMKoVQTgG+5Z4
+	0filjTkegVCsWB0UubehFIEAlWESM1sEIW5mZf9DneW4iuUy2TKd40sGtZDLvYvi+LQI
+	ABTXpNmYwd1wPA/lJXvlHeSbPe32tFIg6QQov8FgoL3r4A4sbYLFNOu6UniniJshIJqS
+	OYOu7DKzGyM1SJ0CUKMDuoLdQs/zzdf3791V8LjKBUrn/Tz//+IWnwTGDKzzaguSEERd
+	KscQ==
+X-Gm-Message-State: AJcUukdaiuSh3LzvkF5Hhw4itXFzMd5qVicRUz4Og/EvY2OnDLvDBi/T
+	FiEv4CD8DlLQojLxDtq0WlmmIkiefBA=
+X-Google-Smtp-Source: ALg8bN56Xix9iJHPtZ+nwD+9GUmzYetmQccAK+DCNDo16dRRN1BiYQRjZLnPSq1QINYBJHScX3UXDQ==
+X-Received: by 2002:adf:f984:: with SMTP id f4mr27092317wrr.234.1548783795589; 
+	Tue, 29 Jan 2019 09:43:15 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	n9sm94381894wrx.80.2019.01.29.09.43.13
+	n9sm94381894wrx.80.2019.01.29.09.43.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Jan 2019 09:43:13 -0800 (PST)
+	Tue, 29 Jan 2019 09:43:14 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 17:43:06 +0000
-Message-Id: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
+Date: Tue, 29 Jan 2019 17:43:07 +0000
+Message-Id: <20190129174312.29224-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
+References: <20190129174312.29224-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] oeqa/runtime/ptest: Avoid traceback for tests with no section
+Subject: [PATCH 2/7] oeqa/utils/logparser: Simplify ptest log parsing code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +58,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 17:43:14 -0000
+X-List-Received-Date: Tue, 29 Jan 2019 17:43:15 -0000
 Content-Transfer-Encoding: 8bit
 
-Some tests end up without a section, avoid tracebacks trying to use
-None as a string in that case.
+logparser is only used by ptest. Its slightly overcomplicated as it was
+intended to be reusable but wasn't. Simplify it as a dedicated parser is
+likely to me more readable and maintainable.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/ptest.py |  7 +---
+ meta/lib/oeqa/utils/logparser.py     | 62 +++++-----------------------
+ 2 files changed, 11 insertions(+), 58 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 0972a583eeb..7d8849308d7 100644
+index 7d8849308d7..ebef3f9eac3 100644
 --- a/meta/lib/oeqa/runtime/cases/ptest.py
 +++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -99,7 +99,7 @@ class PtestRunnerTest(OERuntimeTestCase):
-         resmap = {'pass': 'PASSED', 'skip': 'SKIPPED', 'fail': 'FAILED'}
-         for section in parse_result.result_dict:
-             for test, result in parse_result.result_dict[section]:
--                testname = "ptestresult." + section + "." + "_".join(test.translate(trans).split())
-+                testname = "ptestresult." + (section or "No-section") + "." + "_".join(test.translate(trans).split())
-                 extras[testname] = {'status': resmap[result]}
+@@ -12,12 +12,7 @@ class PtestRunnerTest(OERuntimeTestCase):
  
-         failed_tests = {}
+     # a ptest log parser
+     def parse_ptest(self, logfile):
+-        parser = Lparser(test_0_pass_regex="^PASS:(.+)",
+-                         test_0_fail_regex="^FAIL:(.+)",
+-                         test_0_skip_regex="^SKIP:(.+)",
+-                         section_0_begin_regex="^BEGIN: .*/(.+)/ptest",
+-                         section_0_end_regex="^END: .*/(.+)/ptest")
+-        parser.init()
++        parser = Lparser()
+         result = Result()
+ 
+         with open(logfile, errors='replace') as f:
+diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
+index 0670627c3c0..328baeefaf6 100644
+--- a/meta/lib/oeqa/utils/logparser.py
++++ b/meta/lib/oeqa/utils/logparser.py
+@@ -5,66 +5,24 @@ import os
+ import re
+ from . import ftools
+ 
+-
+ # A parser that can be used to identify weather a line is a test result or a section statement.
+ class Lparser(object):
+ 
+-    def __init__(self, test_0_pass_regex, test_0_fail_regex, test_0_skip_regex, section_0_begin_regex=None, section_0_end_regex=None, **kwargs):
+-        # Initialize the arguments dictionary
+-        if kwargs:
+-            self.args = kwargs
+-        else:
+-            self.args = {}
+-
+-        # Add the default args to the dictionary
+-        self.args['test_0_pass_regex'] = test_0_pass_regex
+-        self.args['test_0_fail_regex'] = test_0_fail_regex
+-        self.args['test_0_skip_regex'] = test_0_skip_regex
+-        if section_0_begin_regex:
+-            self.args['section_0_begin_regex'] = section_0_begin_regex
+-        if section_0_end_regex:
+-            self.args['section_0_end_regex'] = section_0_end_regex
+-
+-        self.test_possible_status = ['pass', 'fail', 'error', 'skip']
+-        self.section_possible_status = ['begin', 'end']
+-
+-        self.initialized = False
++    def __init__(self, **kwargs):
+ 
+-
+-    # Initialize the parser with the current configuration
+-    def init(self):
+-
+-        # extra arguments can be added by the user to define new test and section categories. They must follow a pre-defined pattern: <type>_<category_name>_<status>_regex
+-        self.test_argument_pattern = "^test_(.+?)_(%s)_regex" % '|'.join(map(str, self.test_possible_status))
+-        self.section_argument_pattern = "^section_(.+?)_(%s)_regex" % '|'.join(map(str, self.section_possible_status))
+-
+-        # Initialize the test and section regex dictionaries
+         self.test_regex = {}
+-        self.section_regex ={}
+-
+-        for arg, value in self.args.items():
+-            if not value:
+-                raise Exception('The value of provided argument %s is %s. Should have a valid value.' % (key, value))
+-            is_test =  re.search(self.test_argument_pattern, arg)
+-            is_section = re.search(self.section_argument_pattern, arg)
+-            if is_test:
+-                if not is_test.group(1) in self.test_regex:
+-                    self.test_regex[is_test.group(1)] = {}
+-                self.test_regex[is_test.group(1)][is_test.group(2)] = re.compile(value)
+-            elif is_section:
+-                if not is_section.group(1) in self.section_regex:
+-                    self.section_regex[is_section.group(1)] = {}
+-                self.section_regex[is_section.group(1)][is_section.group(2)] = re.compile(value)
+-            else:
+-                # TODO: Make these call a traceback instead of a simple exception..
+-                raise Exception("The provided argument name does not correspond to any valid type. Please give one of the following types:\nfor tests: %s\nfor sections: %s" % (self.test_argument_pattern, self.section_argument_pattern))
+-
+-        self.initialized = True
++        self.test_regex[0] = {}
++        self.test_regex[0]['pass'] = re.compile(r"^PASS:(.+)")
++        self.test_regex[0]['fail'] = re.compile(r"^FAIL:(.+)")
++        self.test_regex[0]['skip'] = re.compile(r"^SKIP:(.+)")
++
++        self.section_regex = {}
++        self.section_regex[0] = {}
++        self.section_regex[0]['begin'] = re.compile(r"^BEGIN: .*/(.+)/ptest")
++        self.section_regex[0]['end'] = re.compile(r"^END: .*/(.+)/ptest")
+ 
+     # Parse a line and return a tuple containing the type of result (test/section) and its category, status and name
+     def parse_line(self, line):
+-        if not self.initialized:
+-            raise Exception("The parser is not initialized..")
+ 
+         for test_category, test_status_list in self.test_regex.items():
+             for test_status, status_regex in test_status_list.items():
 -- 
 2.19.1
 
