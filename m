@@ -1,43 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f65.google.com (mail-yw1-f65.google.com
-	[209.85.161.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D611D7C314
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id BB0856006E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 09:09:30 +0000 (UTC)
-Received: by mail-yw1-f65.google.com with SMTP id g194so7908023ywe.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 01:09:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=PbWVLbOsIAXnPLRqRct7wS+2zDwrAW8AZo3kNPmLWlU=;
-	b=LjIthbP5Zqr1MnTipYodLB5pNkgdNJZJTtHxPSUwVvU8MR1VfIdi3yDS/aKObX6n5R
-	r9BiODLEjYLf7PTa9Q6YqR+W/vNdaNDIZ7D9DiNuaPQBQRY4bH9vlZhTkSGcTRWoN1Kr
-	GYcXlwTK2RSVOgnWy7x2EQzhZAEtQ+eZyalEFXqk+RO4a/UqWKgTd/vqzvyk1pl0qz9x
-	MyZdA0Mlnytf7ApKSEbplpa2MH0KJNkfB6xf7ZAticCfNhXrsiCPHiFlFvBfc7KwhnGR
-	2gvZSSz503FAfXCAQW75I+ZUmdhI1GaQ+ztI0a1LCsrPZeoK63pHjbIo1+KUG9w9bHgh
-	gOVQ==
-X-Gm-Message-State: AJcUukfgfWZg1dNNOIGdcQprm46+gOhJQ76ScWh6YCvr1LR6jQkbKHDw
-	4FDU1J7YrDvAiTMTmN0WoGYvTMaH
-X-Google-Smtp-Source: ALg8bN7KUs5Rw/2TmD/j7JIDEUi2hrlFWdbtwn3UWRcZIThv5KDxJIu7VnGlz+DMXLFdpfkiIb++0A==
-X-Received: by 2002:a81:9b01:: with SMTP id s1mr24365424ywg.469.1548752971517; 
-	Tue, 29 Jan 2019 01:09:31 -0800 (PST)
-Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	t129sm14020310ywe.11.2019.01.29.01.09.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 29 Jan 2019 01:09:30 -0800 (PST)
-Message-ID: <f0832d94631be75951e2c4d24f68099e04650771.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2019 09:09:28 +0000
-In-Reply-To: <20190116125124.20177-1-git@andred.net>
-References: <20190114125632.4780-1-git@andred.net>
-	<20190116125124.20177-1-git@andred.net>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 00/12] util-linux: one package per binary
+	Tue, 29 Jan 2019 09:15:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jan 2019 01:15:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,536,1539673200"; d="scan'208";a="134033768"
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jan 2019 01:15:20 -0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.250]) by
+	PGSMSX104.gar.corp.intel.com ([169.254.3.21]) with mapi id
+	14.03.0415.000; Tue, 29 Jan 2019 17:15:18 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2 v5] resultstool: enable merge, store,
+	report and regression analysis
+Thread-Index: AQHUtyakX/6yQVxMA06Ns/SEQsjPoaXF9Apg
+Date: Tue, 29 Jan 2019 09:15:17 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04348171B67@PGSMSX109.gar.corp.intel.com>
+References: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1548150131-65036-2-git-send-email-ee.peng.yeoh@intel.com>
+	<700a4fa3049746740929c83f6a61bdd5180404c3.camel@linuxfoundation.org>
+	<9DDD2658D1FE414E99172D2DB1E4D04348170F12@PGSMSX109.gar.corp.intel.com>
+	<2e5c9d2f2ab6da1386bb73e7099371779422dec4.camel@linuxfoundation.org>
+In-Reply-To: <2e5c9d2f2ab6da1386bb73e7099371779422dec4.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZmY5ZjliMTQtZTBjYi00NzQyLThhMjAtNmZhYTlmYTllOGNkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiOG84R05GUmtKMkdmQnBjdFFSbHVHb0hqZmhWdzdjYmNNQVwvVzlubGJrcitxcjBYVTF5TTQ4OHo3VnZaWmhtZG8ifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: Re: [PATCH 1/2 v5] resultstool: enable merge, store, report and regression analysis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,22 +54,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2019 09:09:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 29 Jan 2019 09:15:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-ping
-
-On Wed, 2019-01-16 at 12:51 +0000, André Draszik wrote:
-> v4:
-> * update patch 06/15
->   * unconditionally assign PACKAGE_PREPROCESS_FUNCS
-> * update patch 07/15
->   * introduce update_files() helper function
-> 
-> Cheers,
-> Andre'
-> 
-> 
-
+SGkgUlAsDQoNCkkgaGFkIHN1Ym1pdHRlZCB0aGUgdjYgcGF0Y2hlcyB3aXRoIGJlbG93IGNoYW5n
+ZXMuDQp2NjoNCiAgQWRkIHJlZ3Jlc3Npb24gZm9yIGRpcmVjdG9yeSBhbmQgZ2l0IHJlcG9zaXRv
+cnkNCiAgRW5hYmxlIHJlZ3Jlc3Npb24gcGFpcmluZyBiYXNlIHNldCB0byBtdWx0aXBsZSB0YXJn
+ZXQgc2V0cyANCiAgUmV2aXNlIHNlbGZ0ZXN0IHRlc3RpbmcgZm9yIHJlZ3Jlc3Npb24NCmh0dHA6
+Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5
+LUphbnVhcnkvMjc4NDg2Lmh0bWwNCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVy
+bWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc4NDg3Lmh0bWwNCmh0dHA6Ly9s
+aXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUph
+bnVhcnkvMjc4NDg4Lmh0bWwNCg0KRm9yIHJlZ3Jlc3Npb24gZGlyZWN0b3J5IGFuZCBnaXQsIGl0
+IGNhbiBzdXBwb3J0IGFyYml0cmFyeSBkaXJlY3RvcnkgbGF5b3V0LiAgVGhlIHJlZ3Jlc3Npb24g
+d2lsbCBzZWxlY3QgcGFpciBvZiByZXN1bHQgaW5zdGFuY2VzIGZvciBjb21wYXJpc29uIGJhc2Vk
+IG9uIHRoZSB1bmlxdWUgY29uZmlndXJhdGlvbnMgZGF0YSBpbnNpZGUgdGhlIHJlc3VsdCBpbnN0
+YW5jZSBpdHNlbGYuIA0KDQpJIGhhdmUgc29tZSBxdWVzdGlvbnMgcmVnYXJkaW5nIGJlbG93IGl0
+ZW1zOg0KPkkgdGhpbmsgdGhlcmUgaXMgYSB0aGlyZCB0aGluZyB3ZSBhbHNvIG5lZWQgdG8gbG9v
+ayBhdDoNCj4NCj5JdCB3b3VsZCBiZSBncmVhdCBpZiB0aGVyZSB3YXMgc29tZSB3YXkgb2YgYWxs
+b3dpbmcgc29tZSBraW5kIG9mIHRlbXBsYXRpbmcgd2hlbiBzdG9yaW5nIGludG8gdGhlIGdpdCA+
+cmVwb3NpdG9yeS4gVGhpcyB3YXkgYSBnZW5lcmFsIGxvY2FsIGxvZyBmaWxlIGZyb20gdG1wL2xv
+Zy9vZXFhIGNvdWxkIGJlIHN0b3JlZCBpbnRvIHRoZSBnaXQgcmVwbywgYmVpbmcgPnNwbGl0IGFj
+Y29yZGluZyB0byB0aGUgbGF5b3V0IG9mIHRoZSByZXBvIGlmIG5lZWRlZC4NCj4NCj5PdXIgZGVm
+YXVsdCBsYXlvdXQgY291bGQgbWF0Y2ggdGhhdCBmcm9tIHRoZSBhdXRvYnVpbGRlciBidXQgdGhl
+IHJlcG9zaXRvcnkgY291bGQgZGVmaW5lIGEgbGF5b3V0Pw0KQmVmb3JlIGRldmVsb3BpbmcgY3Vz
+dG9tIHRlbXBsYXRlIGxheW91dCBmb3Igc3RvcmUgZ2l0IHJlcG8sIEkgd291bGQgbGlrZSB0byB1
+bmRlcnN0YW5kIG1vcmUgc28gdGhhdCBJIHdpbGwgbWFrZSBzdXJlIHRoZSBvdXRwdXQgd2lsbCBm
+dWxmaWxsIHRoZSByZXF1aXJlbWVudC4gTWF5IEkga25vdyB3aGF0IHdhcyB0aGUgaW50ZW50aW9u
+IHRvIHN0b3JlIHJlc3VsdCBpbnRvIGdpdCByZXBvIHdpdGggY3VzdG9tIGxheW91dCB0ZW1wbGF0
+ZT8gQ2FuIHlvdSBzaGFyZSB0aGUgdXNlIGNhc2U/IA0KDQpGb3IgcHRlc3QgYW5kIHBlcmZvcm0g
+dGVzdHMsIGxldCBtZSBsb29rIGludG8gdGhlbS4gVGhhbmsgeW91IGZvciBzaGFyaW5nIHRoZSBs
+b2dwYXJzZXIuIA0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3ktY29u
+dHJpYi90cmVlL21ldGEvbGliL29lcWEvdXRpbHMvbG9ncGFyc2VyLnB5I24xMDENCg0KQmVzdCBy
+ZWdhcmRzLA0KWWVvaCBFZSBQZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJv
+bTogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnXSANClNlbnQ6IFR1ZXNkYXksIEphbnVhcnkgMjksIDIwMTkgMTI6MjkgQU0NClRvOiBZZW9o
+LCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEVnZ2xldG9uLCBQYXVsIDxwYXVsLmVnZ2xldG9uQGlu
+dGVsLmNvbT47IEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwuY29tPg0KU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8yIHY1XSByZXN1bHRzdG9vbDogZW5hYmxlIG1lcmdlLCBz
+dG9yZSwgcmVwb3J0IGFuZCByZWdyZXNzaW9uIGFuYWx5c2lzDQoNCkhpIEVlIFBlbmcsDQoNCk9u
+IE1vbiwgMjAxOS0wMS0yOCBhdCAwMjoxMiArMDAwMCwgWWVvaCwgRWUgUGVuZyB3cm90ZToNCj4g
+VGhhbmtzIGZvciBwcm92aWRpbmcgdGhlIHByZWNpb3VzIGlucHV0cy4gDQo+IEFncmVlZCB3aXRo
+IHlvdSB0aGF0IHRoZSBjdXJyZW50IHBhdGNoIHRoYXQgZW5hYmxlIGZpbGVzIGJhc2VkIA0KPiBy
+ZWdyZXNzaW9uIHdhcyBub3QgZW5vdWdoIGZvciBvdGhlciB1c2UgY2FzZXMuDQo+IA0KPiBGcm9t
+IHRoZSBpbmZvcm1hdGlvbiB0aGF0IHlvdSBoYWQgc2hhcmVkLCB0aGVyZSBhcmUgMiBtb3JlIHJl
+Z3Jlc3Npb24gDQo+IHVzZSBjYXNlcyB0aGF0IEkgaGF2ZSBpbiBtaW5kOg0KPiBVc2UgY2FzZSMx
+OiBkaXJlY3RvcnkgYmFzZWQgcmVncmVzc2lvbiBHaXZlbiB0aGF0IEF1dG9idWlsZGVyIHN0b3Jl
+ZCANCj4gcmVzdWx0IGZpbGVzIGluc2lkZSAvdGVzdHJlc3VsdHMgZGlyZWN0b3JpZXMsIHVzZXIg
+c2hhbGwgYmUgYWJsZSB0byANCj4gcGVyZm9ybSB0aGUgZGlyZWN0b3J5IGJhc2VkIHJlZ3Jlc3Np
+b24gdXNpbmcgb3V0cHV0IGZyb20gQXV0b2J1aWxkZXIgDQo+IGRpcmVjdGx5LCBzdWNoIGFzIGJl
+bG93IEF1dG9idWlsZGVyIGRpcmVjdG9yaWVzLg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3Rv
+LmlvL3B1Yi9yZWxlYXNlcy95b2N0by0yLjYuMS5yYzEvdGVzdHJlc3VsdHMvDQo+IHFlbXV4ODYv
+dGVzdHJlc3VsdHMuanNvbiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0by5pby9wdWIvcmVs
+ZWFzZXMveW9jdG8tMi43X00xLnJjMS90ZXN0cmVzdWx0cw0KPiAvcWVtdXg4Ni90ZXN0cmVzdWx0
+cy5qc29uIA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvLmlvL3B1Yi9yZWxlYXNlcy95b2N0
+by0yLjdfTTIucmMxL3Rlc3RyZXN1bHRzDQo+IC9xZW11eDg2L3Rlc3RyZXN1bHRzLmpzb24NCj4g
+DQo+IEFzc3VtZWQgdGhhdCB0aGVyZSBhcmUgMiBkaXJlY3RvcmllcyBzdG9yaW5nIGxpc3Qgb2Yg
+cmVzdWx0IGZpbGVzLg0KPiBVc2VyIHNoYWxsIHByb3ZpZGUgdGhlc2UgMiBkaXJlY3RvcmllcyBm
+b3IgcmVncmVzc2lvbiwgcmVncmVzc2lvbiANCj4gc2NyaXB0cyB3aWxsIGZpcnN0IHBhcnNlIHRo
+cm91Z2ggYWxsIHRoZSBhdmFpbGFibGUgZmlsZXMgaW5zaWRlIGVhY2ggDQo+IGRpcmVjdG9yaWVz
+LCB0aGVuIHBlcmZvcm0gcmVncmVzc2lvbiBiYXNlZCBvbiBhdmFpbGFibGUgY29uZmlndXJhdGlv
+biANCj4gZGF0YSB0byBkZXRlcm1pbmUgdGhlIHJlZ3Jlc3Npb24gcGFpciAoZWcuIHNlbGVjdCBy
+ZXN1bHRfc2V0XzEgZnJvbQ0KPiBkaXJlY3RvcnkjMSBhbmQgcmVzdWx0X3NldF94IGZyb20gZGly
+ZWN0b3J5IzIgaWYgdGhleSBib3RoIGhhdmUgDQo+IG1hdGNoaW5nIGNvbmZpZ3VyYXRpb25zKS4N
+Cg0KWWVzLCB0aGlzIHdvdWxkIGJlIHZlcnkgdXNlZnVsLiBJIHN1c3BlY3QgeW91IGRvbid0IG5l
+ZWQgdG8gaGF2ZSBtYXRjaGluZyBsYXlvdXRzLCBqdXN0IGltcG9ydCBmcm9tIGFsbCB0aGUganNv
+biBmaWxlcyBpbiBhIGdpdmVuIGRpcmVjdG9yeSBmb3IgdGhlIGNvbXBhcmlzb24uDQoNClRoaXMg
+d2F5IHdlIGNhbiBzdXBwb3J0IGFyYml0cmFyeSBsYXlvdXRzLg0KDQo+IFVzZSBjYXNlIzI6IGdp
+dCBicmFuY2ggYmFzZWQgcmVncmVzc2lvbiBHaXZlbiB0aGF0IEF1dG9idWlsZGVyIHN0b3JlZCAN
+Cj4gcmVzdWx0IGZpbGVzIGluc2lkZSAvdGVzdHJlc3VsdHMgZGlyZWN0b3JpZXMsIHVzZXIgc2hh
+bGwgZmlyc3Qgc3RvcmUgDQo+IHRoZXNlIGRpcmVjdG9yaWVzIGFuZCB0aGUgcmVzdWx0IGZpbGVz
+IGluIGVhY2ggZ2l0IGJyYW5jaCBhY2NvcmRpbmdseSANCj4gdXNpbmcgdGhlIGV4aXN0aW5nIHN0
+b3JlIHBsdWdpbi4NCj4gQWZ0ZXIgdGhhdCwgdXNlciBjYW4gdXNlZCB0aGUgZ2l0IGJyYW5jaCBi
+YXNlZCByZWdyZXNzaW9uIHRvIGFuYWx5c2lzIA0KPiB0aGUgaW5mb3JtYXRpb24uDQo+IFN0b3Jl
+IGluIHlvY3RvLTIuNi4xLnJjMSwgeW9jdG8tMi43X00xLnJjMSwgeW9jdG8tMi43X00yLnJjMSBn
+aXQgDQo+IGJyYW5jaCBhY2NvcmRpbmdseSANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0by5p
+by9wdWIvcmVsZWFzZXMveW9jdG8tMi42LjEucmMxL3Rlc3RyZXN1bHRzLw0KPiBodHRwczovL2F1
+dG9idWlsZGVyLnlvY3RvLmlvL3B1Yi9yZWxlYXNlcy95b2N0by0yLjdfTTEucmMxL3Rlc3RyZXN1
+bHRzDQo+IC8gDQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG8uaW8vcHViL3JlbGVhc2VzL3lv
+Y3RvLTIuN19NMi5yYzEvdGVzdHJlc3VsdHMNCj4gLw0KPiAgDQo+IEFzc3VtZWQgdGhhdCByZXN1
+bHQgZmlsZXMgYXJlIHN0b3JlZCBpbnNpZGUgZ2l0IHJlcG9zaXRvcnkgd2l0aCANCj4gc3BlY2lm
+aWMgZ2l0IGJyYW5jaCBzdG9yaW5nIHJlc3VsdCBmaWxlcyBmb3Igc2luZ2xlIGNvbW1pdC4gVXNl
+ciBzaGFsbCANCj4gcHJvdmlkZSB0aGUgMiBzcGVjaWZpYyBnaXQgYnJhbmNoZXMgZm9yIHJlZ3Jl
+c3Npb24sIHJlZ3Jlc3Npb24gc2NyaXB0cyANCj4gd2lsbCBmaXJzdCBwYXJzZSB0aHJvdWdoIGFs
+bCB0aGUgYXZhaWxhYmxlIGZpbGVzIGluc2lkZSBlYWNoIGdpdCANCj4gYnJhbmNoLCB0aGVuIHBl
+cmZvcm0gcmVncmVzc2lvbiBiYXNlZCBvbiBhdmFpbGFibGUgY29uZmlndXJhdGlvbiBkYXRhIA0K
+PiB0byBkZXRlcm1pbmUgdGhlIHJlZ3Jlc3Npb24gcGFpciAoZWcuIHNlbGVjdCByZXN1bHRfc2V0
+XzEgZnJvbQ0KPiBnaXRfYnJhbmNoXzEgYW5kIHJlc3VsdF9zZXRfeCBmcm9tIGdpdF9icmFuY2hf
+MiBpZiB0aGV5IGJvdGggaGF2ZSANCj4gbWF0Y2hpbmcgY29uZmlndXJhdGlvbnMpLg0KPiANCj4g
+VGhlIGN1cnJlbnQgY29kZWJhc2UgY2FuIGJlIGVhc2lseSBleHRlbmRlZCB0byBlbmFibGUgYm90
+aCB1c2UgY2FzZXMgDQo+IGFib3ZlLiBQbGVhc2UgbGV0IG1lIGtub3cgaWYgYm90aCB1c2UgY2Fz
+ZXMgYWJvdmUgYXJlIGltcG9ydGFudCBhbmQgDQo+IHBsZWFzZSBnaXZlIHVzIHlvdXIgaW5wdXRz
+Lg0KDQpZZXMsIEkgdGhpbmsgdGhlc2UgYXJlIHR3byBrZXkgdXNlIGNhc2VzIHdlIG5lZWQgdG8g
+c3VwcG9ydC4NCg0KSSB0aGluayB0aGVyZSBpcyBhIHRoaXJkIHRoaW5nIHdlIGFsc28gbmVlZCB0
+byBsb29rIGF0Og0KDQpJdCB3b3VsZCBiZSBncmVhdCBpZiB0aGVyZSB3YXMgc29tZSB3YXkgb2Yg
+YWxsb3dpbmcgc29tZSBraW5kIG9mIHRlbXBsYXRpbmcgd2hlbiBzdG9yaW5nIGludG8gdGhlIGdp
+dCByZXBvc2l0b3J5LiBUaGlzIHdheSBhIGdlbmVyYWwgbG9jYWwgbG9nIGZpbGUgZnJvbSB0bXAv
+bG9nL29lcWEgY291bGQgYmUgc3RvcmVkIGludG8gdGhlIGdpdCByZXBvLCBiZWluZyBzcGxpdCBh
+Y2NvcmRpbmcgdG8gdGhlIGxheW91dCBvZiB0aGUgcmVwbyBpZiBuZWVkZWQuDQoNCk91ciBkZWZh
+dWx0IGxheW91dCBjb3VsZCBtYXRjaCB0aGF0IGZyb20gdGhlIGF1dG9idWlsZGVyIGJ1dCB0aGUg
+cmVwb3NpdG9yeSBjb3VsZCBkZWZpbmUgYSBsYXlvdXQ/DQoNCkFzIG1lbnRpb25lZCwgd2UgYWxz
+byBuZWVkIHRvIHRoaW5rIGFib3V0IHB0ZXN0LiBDdXJyZW50bHkgdGhlIHJ1bnRpbWUgcHRlc3Qg
+Y29kZSBoYXMgc29tZSBwYXJzaW5nIGFuZCBsb2cgZ2VuZXJhdGlvbiBjb2RlLiBJIHRoaW5rIHBp
+ZWNlcw0KbGlrZToNCg0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3kt
+Y29udHJpYi90cmVlL21ldGEvbGliL29lcWEvdXRpbHMvbG9ncGFyc2VyLnB5I24xMDENCg0KYW5k
+IHRoZSBsb2dfYXNfZmlsZXMoKSBjb2RlIHNob3VsZCBiZSBtb3ZlZCB0byB0aGUgcmVwb3J0aW5n
+IHRvb2wgYW5kIHRoYXQgdGhlIHRlc3QgY29kZSBzaG91bGQganVzdCBnZW5lcmF0ZSB0aGUganNv
+biByZXN1bHRzIGZpbGUgd2hpY2ggY2FuIGxhdGVyIGJlIHBhcnNlZC9wcm9jZXNzZWQgYXMgbmVl
+ZGVkLiBJIGRpZCBwb3N0IG9uIHRoZSBsaXN0IGVhcmxpZXIgYWJvdXQgc29tZSBvZiB0aGUgb3Ro
+ZXIgY2hhbGxlbmdlcyB3ZSBoYXZlIHdpdGggdGhlIHB0ZXN0IGRhdGEuDQoNCmJ1aWxkcGVyZiBp
+cyB0aGUgb3RoZXIgcGllY2Ugb2YgdGhpcyB3aGljaCB3ZSdsbCBuZWVkIHRvIHRoaW5rIGFib3V0
+Lg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg0KDQoNCg==
 
