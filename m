@@ -1,25 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0791D7C1E0
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 26D0C7BFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 02:47:34 +0000 (UTC)
+	Wed, 30 Jan 2019 02:56:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0U2lZA0021060
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2019 18:47:35 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.435.0; Tue, 29 Jan 2019 18:47:35 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jan 2019 10:56:24 +0800
-Message-ID: <42dfa2708805ba62df0152a13fb70524a3de4711.1548816925.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1548816925.git.Qi.Chen@windriver.com>
-References: <cover.1548816925.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0U2uJZQ013639
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 Jan 2019 18:56:20 -0800 (PST)
+Received: from [128.224.162.180] (128.224.162.180) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
+	Tue, 29 Jan 2019 18:56:19 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190115024758.29054-1-zhe.he@windriver.com>
+	<dc8e1f400fb4d66b30a84a1268ad7b60b342eec1.camel@linuxfoundation.org>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <e7ebb386-2909-30ce-afa9-33fc19dd0e09@windriver.com>
+Date: Wed, 30 Jan 2019 10:56:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pkgdata.py: avoid target-sdk-dummy-provides to mess things up
+In-Reply-To: <dc8e1f400fb4d66b30a84a1268ad7b60b342eec1.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.180]
+Subject: Re: [PATCH v2] ltp: Remove admin_tools test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 02:47:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Jan 2019 02:56:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Sometimes we meet the following failure for the test_lookup_recipe
-test case.
 
-  AssertionError: 'zlib\nbusybox is in the RPROVIDES of target-sdk-provid[32 chars]ummy' != 'zlib\nbusybox'
-    zlib
-  + busybox- busybox is in the RPROVIDES of target-sdk-provides-dummy:
-  - target-sdk-provides-dummy
 
-This is because target-sdk-provides-dummy rprovides busybox.
+On 1/28/19 10:09 PM, Richard Purdie wrote:
+> On Mon, 2019-01-14 at 18:47 -0800, He Zhe wrote:
+>> admin_tools test group has been removed from upstream. Backport to
+>> fix the
+>> following failures.
+>>
+>> at_deny01 1 TFAIL : ltpapicmd.c:188: At denyed user to execute test
+>> job
+>> at_allow01 1 TFAIL : ltpapicmd.c:188: At did not allow user to
+>> execute job
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>> v2: Add missing SOB and upstream status.
+> Rather than add the huge patch could we upgrade please?
+>
+> I believe Petr sent a patch but it had some issues so perhaps you could
+> help fix those?
 
-So clean things up to avoid failure.
+OK. I'll go check what I can help.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/cases/pkgdata.py | 1 +
- 1 file changed, 1 insertion(+)
+Zhe
 
-diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
-index 0b4caf1..9911765 100644
---- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-@@ -13,6 +13,7 @@ class OePkgdataUtilTests(OESelftestTestCase):
-         super(OePkgdataUtilTests, cls).setUpClass()
-         # Ensure we have the right data in pkgdata
-         cls.logger.info('Running bitbake to generate pkgdata')
-+        bitbake('target-sdk-provides-dummy -c clean')
-         bitbake('busybox zlib m4')
- 
-     @OETestID(1203)
--- 
-1.9.1
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
