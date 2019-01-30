@@ -1,46 +1,49 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B05277C3BE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B0897C31F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 22:14:41 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id y56so937455edd.11
+	Wed, 30 Jan 2019 22:18:16 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id u47so1402197qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 14:14:42 -0800 (PST)
+	Wed, 30 Jan 2019 14:18:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MuvInvzHzRv8EtCuUzGLM5julqszMLjHg/4I5t5eKlw=;
-	b=OGx/UgLdkOigcQfTvYuEqaZ3d0lwGLuOLg+Kv8CWkDyOumTPEJWWVGZy9IJDq0KuxA
-	YcAB2vgx9yL6F1FuZugixnPpbgbSW2mZY+lE5v8ZEs8Ssj92OZ5UYTYlZO5PKmrWeBfP
-	5zmlySEJ8IaBu3TKD7NepUth/a5Saasil7yjhMZqG3Oy+Y/AkFDpcxKfTSrFGfW0XZi/
-	kS2AN5DvMkbOh8+I6pPOaGxCBo2MOQYGpzYWtWbn1nZPNsdJOan+zV5c1mXluK+Wairp
-	ApvQ6EX9vb3pl64VlDidjDLX86ZIRe70KmyqGurA6g+X6Z49opdMrWTOnzH+NR197D9o
-	5CzQ==
+	:cc; bh=MkHvmGfya2gv5kwyAFVxYHYL/tr14m5I1TonXlvGxjA=;
+	b=ByBBVLGu056b2yDb6IREJEhMEZRP8AkxG/fBFxPdAF+AGVGN2FgNf2QYHWjDkE/gl6
+	zJoCE2IPrxzPmtF6NXhfAJeqIhdsruO+PsswtD3p6X3gt65nmwt0SYeAWUNBttXb5QsB
+	TO2C0TimFK139DYukUttJk7v+IfJ0dtBNRhjadmTZOyAKPgazX2Wi397/asdRTPxqFcj
+	aO8XP9jl7IgylMwI0K5l55phaytVIkLGPrtOtRXPwQvVwzIdFVvJTFDNwbVJTp/JMmam
+	hAS1Nann2jJHe9tZzrjRWjBM3iHncCvh9ZNHaGK1DPQQfVxWjevimlh6iWAIKmETCjwD
+	1mFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=MuvInvzHzRv8EtCuUzGLM5julqszMLjHg/4I5t5eKlw=;
-	b=YKnaGbexaL0ziaBCv+80h++0fotQGjnm++gFt3ffjRVxz6z5gUZNk1UzlAeMgDRY8L
-	YTXboDnLCtq8SLGDTVnMChzAzez73S0S+k91QPw8Yzt4vHsxU00dvipFBNJ6JxGFntXD
-	Rlmc4teqGaBsTX6s1cDYzn4x19ZSLPIowMBS5RsLO1Wl8NLBmmiFi6uDLbdJP0Umhsu+
-	k9o8xQVCIiJdgO0RqCyvMbbDlslq4MmEpaAB9UX7bUqWe9UEYj3Zswme3wMDYkAcWMxw
-	H6NRtWuTwX+z1LmV83wKl/e7sHvNGy2bj/06uaxATmXqFt3C86QHANrI2J/1pcWodIbx
-	F3Ew==
-X-Gm-Message-State: AJcUukfVwzC/q+azhZ3gkTciRt6DsJJwPI6DXd58g3aFFfBeYsH93icH
-	KPAPhYEOKnOPf11yioENNXBeNADh63vkXMv4BCv9KHcj
-X-Google-Smtp-Source: ALg8bN4ybl12rd4OpxVM6qngSiDTGL8by+VLattPPnmuR6vgRiPo+3sB3nmt37htIkXCZP8YZ4cntsXkA9EaqCbq1cY=
-X-Received: by 2002:a50:bae3:: with SMTP id x90mr32396594ede.221.1548886482138;
-	Wed, 30 Jan 2019 14:14:42 -0800 (PST)
+	bh=MkHvmGfya2gv5kwyAFVxYHYL/tr14m5I1TonXlvGxjA=;
+	b=sVoU7D1MY10NzCOw6QUMVOkbXgUmbE2mvUvpVwB7lBfcYcA0GiH2U3hDdsGH+Hk/D/
+	7GVzjbGemiV4TN+zcezDBqdHfGoL1XABb1dqHAKtaCLRtJjLqRNM4E2L8eJNzK4Q4iB0
+	wHqNVk37/xwIkeSymQ2DmWRMZu5tafsCMpWv7ou8liX5cLFVnhY6rysO6zPSsf2eZ96f
+	ZYtpFwnIyl10nsxf7y5anatwxxoW9CXDD0k1FwsgmUQICDg7ks/8nmOVuErZoblwa0in
+	nRcQ3k4KIk02OitFgcPitOExFkjNAam7glJTRxw1QUFVPSxiXK/rjBZupG44bXtvAkl3
+	vNQQ==
+X-Gm-Message-State: AJcUukdBUOnvfyFhWI2TdblV8r/tIb5lHvy+vUJt/biAnhqbmqkMrjHC
+	jBOwaHIX77Elldrw9Bifuhh90vJrBOYRnfduliFTEQ==
+X-Google-Smtp-Source: ALg8bN5pK/w41KC8+tQ1WT7H7i8JF5YagIo/VXEJR3cArj7vqXcY8PyJKvlcpFXIj9yy2Ed+6zVlREjxL3CTyATnSXo=
+X-Received: by 2002:ac8:518d:: with SMTP id c13mr31117820qtn.254.1548886697727;
+	Wed, 30 Jan 2019 14:18:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20190130093819.10786-1-bunk@stusta.de>
-In-Reply-To: <20190130093819.10786-1-bunk@stusta.de>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Wed, 30 Jan 2019 14:14:30 -0800
-Message-ID: <CAFNP8OvDPRKBS9g9LzU3015ag=SmLPTHi0qoDYCi5pPLsVxB+Q@mail.gmail.com>
+References: <20190130093406.10391-1-bunk@stusta.de>
+	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+	<20190130203129.GB15086@localhost>
+In-Reply-To: <20190130203129.GB15086@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Jan 2019 14:18:06 -0800
+Message-ID: <CAMKF1sq6Syjj5D3YT463z+d4NiVRaFNmTvM6gww5npLGvWR9nA@mail.gmail.com>
 To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [thud] [PATCH] Ubuntu 16.10 is not LTS
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: add devmem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,116 +56,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 22:14:42 -0000
-Content-Type: multipart/alternative; boundary="00000000000090bb1d0580b43caa"
+X-List-Received-Date: Wed, 30 Jan 2019 22:18:17 -0000
+Content-Type: multipart/alternative; boundary="0000000000006a5a6f0580b4499d"
 
---00000000000090bb1d0580b43caa
+--0000000000006a5a6f0580b4499d
 Content-Type: text/plain; charset="UTF-8"
 
-Adrian,
+On Wed, Jan 30, 2019 at 12:31 PM Adrian Bunk <bunk@stusta.de> wrote:
 
-Thanks for catching this.  I have updated the list of supported distros for
-the 2.7 (master) version of the ref-manual.  I will make sure that the fix
-is also in the 2.6.1 release that is pending and the published 2.6
-ref-manual (thud branch).  See
-https://yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-distros
-for the updated list and
-https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#detailed-supported-distros.
-
-
-Thanks,
-Scott
-
-On Wed, Jan 30, 2019 at 1:38 AM Adrian Bunk <bunk@stusta.de> wrote:
-
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  documentation/ref-manual/ref-system-requirements.xml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, Jan 30, 2019 at 08:50:02AM -0800, Khem Raj wrote:
+> > On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > > This is a tiny but pretty useful tool.
+> > >
+> >
+> > question is, do we need this enabled in default config, or could be add
+> it via
+> > some DISTRO_FEATURE meant for validation etc. May be if you explain your
+> > usecase then we might be able to make a better assessment.
 >
-> diff --git a/documentation/ref-manual/ref-system-requirements.xml
-> b/documentation/ref-manual/ref-system-requirements.xml
-> index 69d4b4e726..500b2f8f39 100644
-> --- a/documentation/ref-manual/ref-system-requirements.xml
-> +++ b/documentation/ref-manual/ref-system-requirements.xml
-> @@ -97,7 +97,7 @@
->                  <listitem><para>Ubuntu 15.04</para></listitem>
->                  <listitem><para>Ubuntu 15.10</para></listitem> -->
->                  <listitem><para>Ubuntu 16.04 (LTS)</para></listitem>
-> -                <listitem><para>Ubuntu 16.10 (LTS)</para></listitem>
-> +                <listitem><para>Ubuntu 16.10</para></listitem>
->                  <listitem><para>Ubuntu 17.04</para></listitem>
->  <!--            <listitem><para>Fedora 16 (Verne)</para></listitem>
->                  <listitem><para>Fedora 17 (Spherical)</para></listitem>
-> --
-> 2.11.0
+> Sorry for being too terse.
+>
+> devmem allows reading and writing hardware configuration registers,
+> which is useful both for debugging and for scripts.
+>
+
+Thanks for the info this seems useful can you also report how much does it
+increase size of busybox
+
+>
+> cu
+> Adrian
 >
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 >
 
---00000000000090bb1d0580b43caa
+--0000000000006a5a6f0580b4499d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Adrian, <br></div><=
-div><br></div><div>Thanks for catching this.=C2=A0 I have updated the list =
-of supported distros for the 2.7 (master) version of the ref-manual.=C2=A0 =
-I will make sure that the fix is also in the 2.6.1 release that is pending =
-and the published 2.6 ref-manual (thud branch).=C2=A0 See <a href=3D"https:=
-//yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-d=
-istros" target=3D"_blank">https://yoctoproject.org/docs/2.7/ref-manual/ref-=
-manual.html#detailed-supported-distros</a> for the updated list and <a href=
-=3D"https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#detail=
-ed-supported-distros">https://www.yoctoproject.org/docs/2.6/ref-manual/ref-=
-manual.html#detailed-supported-distros</a>. <br></div><div><br></div><div>T=
-hanks, <br></div><div>Scott<br></div></div></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 30, 2019 at 1:=
-38 AM Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de" target=3D"_blank">b=
-unk@stusta.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Signed-off-by: Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.d=
-e" target=3D"_blank">bunk@stusta.de</a>&gt;<br>
----<br>
-=C2=A0documentation/ref-manual/ref-system-requirements.xml | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed,=
+ Jan 30, 2019 at 12:31 PM Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de"=
+>bunk@stusta.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On W=
+ed, Jan 30, 2019 at 08:50:02AM -0800, Khem Raj wrote:<br>
+&gt; On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk &lt;<a href=3D"mailto:bunk=
+@stusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; This is a tiny but pretty useful tool.<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; question is, do we need this enabled in default config, or could be ad=
+d it via<br>
+&gt; some DISTRO_FEATURE meant for validation etc. May be if you explain yo=
+ur<br>
+&gt; usecase then we might be able to make a better assessment.<br>
 <br>
-diff --git a/documentation/ref-manual/ref-system-requirements.xml b/documen=
-tation/ref-manual/ref-system-requirements.xml<br>
-index 69d4b4e726..500b2f8f39 100644<br>
---- a/documentation/ref-manual/ref-system-requirements.xml<br>
-+++ b/documentation/ref-manual/ref-system-requirements.xml<br>
-@@ -97,7 +97,7 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
-gt;&lt;para&gt;Ubuntu 15.04&lt;/para&gt;&lt;/listitem&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
-gt;&lt;para&gt;Ubuntu 15.10&lt;/para&gt;&lt;/listitem&gt; --&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
-gt;&lt;para&gt;Ubuntu 16.04 (LTS)&lt;/para&gt;&lt;/listitem&gt;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&l=
-t;para&gt;Ubuntu 16.10 (LTS)&lt;/para&gt;&lt;/listitem&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&l=
-t;para&gt;Ubuntu 16.10&lt;/para&gt;&lt;/listitem&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
-gt;&lt;para&gt;Ubuntu 17.04&lt;/para&gt;&lt;/listitem&gt;<br>
-=C2=A0&lt;!--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&lt;=
-para&gt;Fedora 16 (Verne)&lt;/para&gt;&lt;/listitem&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
-gt;&lt;para&gt;Fedora 17 (Spherical)&lt;/para&gt;&lt;/listitem&gt;<br>
--- <br>
-2.11.0<br>
+Sorry for being too terse.<br>
+<br>
+devmem allows reading and writing hardware configuration registers,<br>
+which is useful both for debugging and for scripts.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the i=
+nfo this seems useful can you also report how much does it increase size of=
+ busybox=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+cu<br>
+Adrian<br>
 <br>
 -- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Is there not promise of rain?&quot; Ling T=
+an asked suddenly out<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 of the darkness. There had been need of rain fo=
+r many days.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Only a promise,&quot; Lao Er said.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pearl S. =
+Buck - Dragon Seed<br>
+<br>
+</blockquote></div></div>
 
---00000000000090bb1d0580b43caa--
+--0000000000006a5a6f0580b4499d--
