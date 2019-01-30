@@ -1,21 +1,21 @@
 Return-Path: <Changqing.Li@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA127C243
+	by mail.openembedded.org (Postfix) with ESMTP id CD70C7C25F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 08:03:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0U830pQ020003
+	Wed, 30 Jan 2019 08:03:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0U83RJA020009
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 00:03:10 -0800
+	Wed, 30 Jan 2019 00:03:37 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.435.0; Wed, 30 Jan 2019 00:02:49 -0800
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.435.0; Wed, 30 Jan 2019 00:03:17 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jan 2019 16:02:48 +0800
-Message-ID: <1548835368-52735-1-git-send-email-changqing.li@windriver.com>
+Date: Wed, 30 Jan 2019 16:03:16 +0800
+Message-ID: <1548835396-52829-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Subject: [PATCH] gcc-runtime: fix C++ header mapping for n32/x32 tune
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 08:03:20 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 08:03:46 -0000
 Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
