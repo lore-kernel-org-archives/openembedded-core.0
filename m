@@ -1,49 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A3CE7C2EB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 177616C132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 15:16:45 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id t13so11162573ply.13
+	Wed, 30 Jan 2019 16:50:27 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id p17so236103qtl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 07:16:46 -0800 (PST)
+	Wed, 30 Jan 2019 08:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=QoABz68CdgVzWkISA70yiyk4fOYYAZjNwmsak3nzPxw=;
-	b=u11UDIjh+VsYhRQd5H3/J3hfrDS4BBzFG4mYcOJmZck6GAc46D2u0/JFfgtlGhHvDk
-	zlmy1EYaKySR5WJ93lBLlyakRiWU+bi+krQRCpS8XIyXWhn5aK39G724lFL/Pf4A95L6
-	hMtHhFfdTNK8+Cv1hcebUAGkiASVIqOV1A0geZ9FlM9Ztgl+UYgkPeFO7kriaT3kwCR4
-	QI4Ls1Ucz/zwgmbr+Eu6l4VYnl3B4Vme0GpfV3bVjOaWtQOx3SAKOKsuGeGmgh+Dx8OT
-	DPSOgLEWkh8Z96bJsk1P3NVQCQmHG1TfUtnU6J9oKhem3A/NQw+Ducuprs4fenhXOvgt
-	fLyQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Zu6xAoBE1FAd+d0USKjvDnPdG/vRcJ8y4fONAffVw5Y=;
+	b=Xea6lXxTf0Mv2D1ymscVtGnhs4TvaGy4XbjKHhz4kt8v8HIESdgeeSynTXkrWJwNZV
+	6EJ1/sin3M3KmX8I3nh7d2SFHiiXxCxbZA9nYrp4FccqMnEhgnZX4OVUMJf6zHb4iyi8
+	1PljJDNMnjuWKcnA8U0Zs+qcrAMYKC76sBOESyqXmaP6GUfxUNsApqDiELvFf3cHDaxU
+	jmKhfrtezWfznJEKJJFBkRaZ9i/bLvgM7lZnvL0NDYRYFYNB3jXLVrKNdPBMIuhztu+E
+	5DN7xY3K6O7Mmzbq8U39RbgmgdiEPAIPtbSULEhNvl9ZxMazOrK8XU8Jzy9ULqEv5QTf
+	RUlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QoABz68CdgVzWkISA70yiyk4fOYYAZjNwmsak3nzPxw=;
-	b=XoJWGh34g6kYgHwdI+VxczIS2YA/ilVskhWdr8YwMvCofSYrJWOLd47qas5wTerZ0h
-	elK+MynGlI4uxPuLWGQAvqUzlk3YNwyBYt690fXd9+7okCqVE8XEw4PPSK/57XqDAH/J
-	9L/oNP+Bkn1Rmy5ShwMoXQWGoqDmv275EplWkyWftDVK162GLrvoLLyw5N8vqVSto19E
-	cO8+1kSI+bfgRasVQnm+oaC1LP6/6E7tXkrTUgFWYszJeXwHVck+eMtRekFqZT3Fxrdi
-	U1VWiY9d1CYHX8NS3NQFyElMmTd6XmAtRWD13eLFPBOzOBsI52DCd2YMkHFyhb4dfeeB
-	EYsQ==
-X-Gm-Message-State: AJcUukdoK6CiitOyh+lKKCZvSCF7hBAaKwRl9dYdx8FNOI1Fat21s/JB
-	4ut72TUz9ApStjMoykx9HbY=
-X-Google-Smtp-Source: ALg8bN5VqUqF5xSbvwKLid20ygoHRNRTvQtTjOzaPpIc+VSCri5esA0kL5en4kmNtv+lyCOmdNOGww==
-X-Received: by 2002:a17:902:22f:: with SMTP id
-	44mr30625537plc.137.1548861406581; 
-	Wed, 30 Jan 2019 07:16:46 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:a954:fb27:4e83:6750])
-	by smtp.gmail.com with ESMTPSA id c7sm4961772pfh.18.2019.01.30.07.16.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 30 Jan 2019 07:16:45 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 07:16:36 -0800
-Message-Id: <1548861396-16977-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [master][thud][sumo][PATCH] perl: add testdepends for ssh
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Zu6xAoBE1FAd+d0USKjvDnPdG/vRcJ8y4fONAffVw5Y=;
+	b=tqTDQa7bbX3AtX5WFjds+0l7FWUkaXRyasKF6QwnPoHndISTxr8D+XF/I8ZC69BtQx
+	qaMN3NdXo6tJSx5gX2tL398W39M51sBIggkRw6ZVFrd8YPPDJU8vNOqR85hTj6pRuw6n
+	ufHiQ1IyhC9CzbdPB5Hl0m/qPEJxS7YVuLYGqNoti7L1ZGeb33HWoeIfEj1vpd/iLD+Q
+	fQuE/6CS25i22O1GLHFa2Hq2ejOEektT6xT0HKl1BxvXWkN6qeBpgyceO70PS5YnxmBI
+	AuQpVj/004LFor9K/47NEmuvqQ0pD/lHUTkHM0ManCYkdhBI407EqpHQIG+qG5wrXmff
+	cz0A==
+X-Gm-Message-State: AJcUukdqEROHMnUmMfzAdakIpDfOjDB6KmqN1ejXkxj9PgGs2RZJYzrG
+	0w+a6BNWIwMxnbYcX8r7f1oVeW1Mairx+B8LqxliyNf8
+X-Google-Smtp-Source: ALg8bN4cTMUBXTaXJcxvuabDw1T70FzxAAi5XmSISYccB0nNdyYwSq1eQ2dJCGVV0RgilcuwQXxop7cI+/iVWmuns6c=
+X-Received: by 2002:a0c:93e2:: with SMTP id g31mr29212274qvg.194.1548867028758;
+	Wed, 30 Jan 2019 08:50:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20190130093406.10391-1-bunk@stusta.de>
+In-Reply-To: <20190130093406.10391-1-bunk@stusta.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Jan 2019 08:50:02 -0800
+Message-ID: <CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: add devmem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 15:16:45 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 16:50:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-fixes:
+On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> This is a tiny but pretty useful tool.
+>
 
- DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.4 export PATH=/usr/sbin:/sbin:/usr/bin:/bin; perl -e '$_="Uryyb, jbeyq"; tr/a-zA-Z/n-za-mN-ZA-M/;print'
-| DEBUG: time: 1548816904.4024463, endtime: 1548817204.397057
-| DEBUG: Partial data from SSH call: ssh: connect to host 192.168.7.4 port 22: Connection refused
+question is, do we need this enabled in default config, or could be add it via
+some DISTRO_FEATURE meant for validation etc. May be if you explain your
+usecase then we might be able to make a better assessment.
 
-for master/thud/sumo
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/lib/oeqa/runtime/cases/perl.py | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/lib/oeqa/runtime/cases/perl.py b/meta/lib/oeqa/runtime/cases/perl.py
-index afeeb18..be3287f 100644
---- a/meta/lib/oeqa/runtime/cases/perl.py
-+++ b/meta/lib/oeqa/runtime/cases/perl.py
-@@ -1,11 +1,13 @@
- import os
- 
- from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.runtime.decorator.package import OEHasPackage
- 
- class PerlTest(OERuntimeTestCase):
-     @OETestID(208)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['perl'])
-     def test_perl_works(self):
-         status, output = self.target.run("perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'")
--- 
-2.7.4
-
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  meta/recipes-core/busybox/busybox/defconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+> index d11707abc3..1519159a49 100644
+> --- a/meta/recipes-core/busybox/busybox/defconfig
+> +++ b/meta/recipes-core/busybox/busybox/defconfig
+> @@ -791,7 +791,7 @@ CONFIG_DC=y
+>  # CONFIG_DEVFSD_FG_NP is not set
+>  # CONFIG_DEVFSD_VERBOSE is not set
+>  # CONFIG_FEATURE_DEVFS is not set
+> -# CONFIG_DEVMEM is not set
+> +CONFIG_DEVMEM=y
+>  # CONFIG_EJECT is not set
+>  # CONFIG_FEATURE_EJECT_SCSI is not set
+>  # CONFIG_FBSPLASH is not set
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
