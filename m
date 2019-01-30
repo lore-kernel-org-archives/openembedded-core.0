@@ -1,52 +1,47 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D87D57C31B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+	[209.85.222.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B5F77C31B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 19:29:29 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id g85so98493ita.3
+	Wed, 30 Jan 2019 19:48:08 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id d19so234304uaq.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 11:29:31 -0800 (PST)
+	Wed, 30 Jan 2019 11:48:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yGhy1fBJMqGKxrX2xdyqylRwruXJS2LeCvxqbvV+WLY=;
-	b=XQ1pjy/04OY010/93CIpBWzgeKR2Db2n8NltkuJpof2leOfxv8fayXXCD12kGcyTzN
-	3KTJ0HnPX4WlDZ3cRJAWgy75YglVmwagkWi2swK1iW5/ILC0AKE/+z6V4jpNaSZ1o7tS
-	mAmVu/DpN6gkDhN6mJgzO1QsZ5u/6IN52iEy+D9/8Cu1aZoirmtWcc+W1QMVkyehzd/B
-	iA4RA9DeJ026chc0be1QeThq8bqyRa/1Kdaa+BsKo6v1rzcXR8ycnImawwgIxNjrGx5M
-	HwS7rxYhrQLgBgUABFSi1WqP4nmOjUKeh2z+90jLQKE1qujDTELgm2VRkE1af5WfpME7
-	DkYg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iueksH5uXMaHeecObwSKHOqVCrkq4TAN4PCJEsK6fQ0=;
+	b=e7Mb3ym1loxLUveVx37hy0AOpV1pYQRcjMtyowu/i+cUo61YttVbz6HAZNO2V2U/dV
+	h4+ELunk00Sm8rV031RjMBqjPouHWZcYg1Sxyc7X39JDWN3JFqqiy0SqcCwNarFfY0Wc
+	WSd5dQQiaYCjv07xn08ZljJo2reJrjyzZBV00lHqiGmno3lfAz/oK0B/6ffz+Y2hyl5B
+	cs4yu/q+0bO1keDt4n6bJRgg1pkMIkDN2v+s4q/h6MIig2st19D/YmwOlhgx7JZtZXBo
+	BO4ZHNny7o3xY/3VG3kq726YO0JIeXimP7BAzUmq1IV5mi5T1o4mI0h72D2k8xmv04nS
+	ZIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yGhy1fBJMqGKxrX2xdyqylRwruXJS2LeCvxqbvV+WLY=;
-	b=HMgFlxY4gpvUPXgBNpVN+as/5dRO9FkrXkvjP+fP59D05HhtR/CLcN/U1QumKlvoO1
-	mJAC2PAAeACN04CCSK25TfzkTqaxlTuYCPT8kewwVXfZ2B3d4Z3kRnquiO/kDtm/NqIs
-	gQfchVPo4c9yQfdfDSW9dT2D1t4SLiJUxEcN/NOj5JpB2/hV0q+Wq0H538DfcmEjZTbg
-	44A1U1n+kZXJs4OAkmyV/RI+LR4dmH32969ZcMb7thkLpOC/V+6ZPkKiXQCPkIPCTSgI
-	eoxobAQCy5LJyDp1qWjsotSFzZvpEWieOjqES5ZICd4Iy/gu42mQmyWqwKM5IxoLSceD
-	z59Q==
-X-Gm-Message-State: AJcUukdH7tFZwpJNs+ZGhuTwkbcXjntBxPgQ4pycVn6fz+0EdQjccMNF
-	8kua3UCjBBpNK/INns7Z8z//FnPpfdo=
-X-Google-Smtp-Source: ALg8bN6g2UWRn5E+TReu3POSiISkhk2aDFKO4R11vG3XF+bstK8P9uiQGTdAFn00GVtZlbu2Zvh8ZA==
-X-Received: by 2002:a24:80cc:: with SMTP id
-	g195mr13777819itd.178.1548876570482; 
-	Wed, 30 Jan 2019 11:29:30 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	y13sm1009437ioa.56.2019.01.30.11.29.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 30 Jan 2019 11:29:29 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 13:29:17 -0600
-Message-Id: <20190130192917.19882-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iueksH5uXMaHeecObwSKHOqVCrkq4TAN4PCJEsK6fQ0=;
+	b=CqsoMP7hm65qXs9bS2E36z5I8PeCO/iuvuTsoa+yOPXm+8iydBpk9bdQTpsLKJV21P
+	JzFDYkUws3royj7eCgG1ZNeA3CEWO+M2QJFqAVidF6k5VObjjJU34bOOf4YIXDr6z3hL
+	EoP8HroKdPrTrS3e58UZt9zq9Vvlmn6JY7fqOjVr/UwhBFG8RYVWR1Sv8Dc9QCk2xVo7
+	LKBWRvuhP60xPN+m+oRg1sEOqvkEjz3qgHnHMVfkl8wGMIo7kG0UyCuYRLBhHhJruEZI
+	xvC3kNmbr7eAXOJsx1Jzz1xJZ7wCZ1dNnzDaz7HuViOwFxHog+R/wHaAYVKiU0lI05sf
+	NLMA==
+X-Gm-Message-State: AJcUukeYgJsNSFt42w6BQcsp+NHbO6GSUqyyL38fzsmI6kI2d3iuO1DZ
+	FGdjC2lPBRMJt7W/q/oydH1fleWxzKcOdJcK9Fw=
+X-Google-Smtp-Source: ALg8bN5oFn8jYmoKT101Q3nXCJcV8RoqxDdsbJsWUkhN6zds/S8LSqpsbXFfqMUizfwOj53exJN2euMcR4gjhU6bOFA=
+X-Received: by 2002:a9f:3f41:: with SMTP id i1mr12193191uaj.42.1548877688869; 
+	Wed, 30 Jan 2019 11:48:08 -0800 (PST)
 MIME-Version: 1.0
-Subject: [master][PATCH] ref-manual: Update the default value for PACKAGE_DEBUG_PACKAGE_SPLIT
+References: <20190130093406.10391-1-bunk@stusta.de>
+	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+In-Reply-To: <CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 30 Jan 2019 11:47:56 -0800
+Message-ID: <CAJ86T=XUqY8+ZAgRpXfd=OXULoOvMb57we6R2Df_b8N7q2csCA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: add devmem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 19:29:30 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 30 Jan 2019 19:48:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The new default is "debug-with-srcpkg"
+On Wed, Jan 30, 2019 at 8:50 AM Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > This is a tiny but pretty useful tool.
+>
+> question is, do we need this enabled in default config, or could be add it via
+> some DISTRO_FEATURE meant for validation etc. May be if you explain your
+> usecase then we might be able to make a better assessment.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- documentation/ref-manual/ref-variables.xml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It's not just a validation tool. I've seen production code which sets
+up GPIOs etc using calls to devmem from an init script.
 
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index 4b243a12dd6..8e30f47bafd 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -9976,7 +9976,6 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-                             <filename>/bin/.debug</filename>.
-                             Source files are placed in
-                             <filename>/usr/src/debug</filename>.
--                            This is the default behavior.
-                             </para></listitem>
-                         <listitem><para>
-                             "debug-file-directory": Debug symbol files are
-@@ -10000,6 +9999,7 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-                             ".debug" previously described with the exception
-                             that all source files are placed in a separate
-                             <filename>*-src</filename> pkg.
-+                            This is the default behavior.
-                             </para></listitem>
-                     </itemizedlist>
-                 </para>
--- 
-2.20.1
+Of course it's not needed by everyone, but it's a useful tool for some
+and it's so small it doesn't really deserve it's own conditional logic
+in the recipe.
 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>> > ---
+> >  meta/recipes-core/busybox/busybox/defconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+> > index d11707abc3..1519159a49 100644
+> > --- a/meta/recipes-core/busybox/busybox/defconfig
+> > +++ b/meta/recipes-core/busybox/busybox/defconfig
+> > @@ -791,7 +791,7 @@ CONFIG_DC=y
+> >  # CONFIG_DEVFSD_FG_NP is not set
+> >  # CONFIG_DEVFSD_VERBOSE is not set
+> >  # CONFIG_FEATURE_DEVFS is not set
+> > -# CONFIG_DEVMEM is not set
+> > +CONFIG_DEVMEM=y
+> >  # CONFIG_EJECT is not set
+> >  # CONFIG_FEATURE_EJECT_SCSI is not set
+> >  # CONFIG_FBSPLASH is not set
+> > --
+> > 2.11.0
 
