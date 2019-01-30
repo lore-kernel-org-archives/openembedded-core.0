@@ -1,35 +1,37 @@
-Return-Path: <scott@jumpnowtek.com>
-X-Greylist: delayed 454 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 30 Jan 2019 20:16:47 UTC
-Received: from smtp109.iad3b.emailsrvr.com (smtp109.iad3b.emailsrvr.com
-	[146.20.161.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 33C3D7C0BF
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 51FCA7C04E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 20:16:47 +0000 (UTC)
-Received: from smtp22.relay.iad3b.emailsrvr.com (localhost [127.0.0.1])
-	by smtp22.relay.iad3b.emailsrvr.com (SMTP Server) with ESMTP id
-	1EBF760316 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 15:09:15 -0500 (EST)
-X-Auth-ID: scott@jumpnowtek.com
-Received: by smtp22.relay.iad3b.emailsrvr.com (Authenticated sender:
-	scott-AT-jumpnowtek.com) with ESMTPSA id F0215602C9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 15:09:14 -0500 (EST)
-X-Sender-Id: scott@jumpnowtek.com
-Received: from [192.168.10.4] (c-73-234-253-132.hsd1.me.comcast.net
-	[73.234.253.132]) (using TLSv1.2 with cipher AES128-SHA)
-	by 0.0.0.0:465 (trex/5.7.12); Wed, 30 Jan 2019 15:09:15 -0500
-To: openembedded-core@lists.openembedded.org
+	Wed, 30 Jan 2019 20:31:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 43qZlQ6mcQz4N;
+	Wed, 30 Jan 2019 21:31:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1548880291;
+	bh=TA91MhaaEAt1nC47XZoyXCuZ3W5tG8XJHyiOQZxAAmE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t7Ed/QTPuYBOE5NCiJZU51aWsg3ZUof2h18pO0sf1MTohp/trN8q01KntmofTUoZ/
+	LGSAtxT/hswdiam234Et6lyMq9UH+jhcF1TzvP4RQJYr7wkVj27Ifbrdle5wr+sbis
+	V1Sq8B3lS/usogdjzExsXDa0eOtzsyQwBkCwcJLfUPriwRwDHYzmA9IzAtSFY9cdrn
+	MHFL8RhYQ0lVDn+Bq4mjL9ImdCEx7/94Z/UwqTZveazUxBVZwuc6yOm/7vEgk5AWHt
+	vye4DcHArQi1EqV17hx+DKBr2IOPv11cvjka+sj8Jur3/8n9x5t8er6OxI5js6t0um
+	/wRDfy4lmnSjeutLTDrfZ5MFuIC2rzqi/7xhiAHjrcxguthhNuM2eQB2mTWmbfPIxn
+	2pavAflc0rWv7TNIIl/evL12JDa21i6JQGg5BZJUC49A8YHNDZf3uCRZnPp+jlUkr/
+	KA2METIjDserok2KuhKk6JpObVpiwGvCzLFpPJjhrKo9l+LMaHDspUrXQFonoX2M5Y
+	eM4GwdRMqAZiuqKs34C7ZKzvUykbRBnkwycaB13CzALZ3NEmRVabFB6uYBWrl42yVM
+	otjEBLWOPMuM2oKG0hjjyPWagMrZrrXq9fXHtOf91vINwfcrqfZE1Ajb9wbvpGGsWl
+	ka3W6GhPx88bHuCRfP/+pLb8=
+Date: Wed, 30 Jan 2019 22:31:29 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190130203129.GB15086@localhost>
 References: <20190130093406.10391-1-bunk@stusta.de>
 	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-	<CAJ86T=XUqY8+ZAgRpXfd=OXULoOvMb57we6R2Df_b8N7q2csCA@mail.gmail.com>
-From: Scott Ellis <scott@jumpnowtek.com>
-Message-ID: <7f56f94e-07b0-275e-f152-b5bd1c776094@jumpnowtek.com>
-Date: Wed, 30 Jan 2019 15:09:20 -0500
-User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=XUqY8+ZAgRpXfd=OXULoOvMb57we6R2Df_b8N7q2csCA@mail.gmail.com>
+In-Reply-To: <CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox: add devmem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,13 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 20:16:47 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 20:31:31 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Is the busybox devmem functionally different then the standalone devmem2
-package?
+On Wed, Jan 30, 2019 at 08:50:02AM -0800, Khem Raj wrote:
+> On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > This is a tiny but pretty useful tool.
+> >
+> 
+> question is, do we need this enabled in default config, or could be add it via
+> some DISTRO_FEATURE meant for validation etc. May be if you explain your
+> usecase then we might be able to make a better assessment.
 
+Sorry for being too terse.
+
+devmem allows reading and writing hardware configuration registers,
+which is useful both for debugging and for scripts.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
