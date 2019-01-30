@@ -1,51 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FEEC7C353
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A3CE7C2EB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 11:00:12 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id l9so25461020wrt.13
+	Wed, 30 Jan 2019 15:16:45 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id t13so11162573ply.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 03:00:13 -0800 (PST)
+	Wed, 30 Jan 2019 07:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=6LOq25/es5UybHcO7Zg2qBSu3bzqLHix8grQqw4qZbo=;
-	b=dfei/7PhpijLFSyAti1le8603UKkJDTdUW+SC1ByFQkZcTJCq7M+MqmvYYOb7uduvb
-	uXFB5vhoUSaNINPP2SqK2WVMB/QlzaZc1LvpaRDZRTakVEyiY27umbuJE+W1RDPKZVD6
-	TWnwfHyFgMLEDCqALGE+FT1DdkCueXxdvmYAmvl1ZJo5wAnf3vWa00fQDT3xOXC6LRYi
-	nfH+pOe/AjbGC9Aitb+1Be6eKVIMxFzSH/lEU2mPP+REx9NRvRT/jSPcuFUebvZozzhz
-	6jy1C9tEssce1Uq6SstYSwHYCy9+YpMXaL0lkwyIIlLe8AoDO2Yp50g/BOjNRCe2cdf5
-	RL2g==
+	h=from:to:subject:date:message-id;
+	bh=QoABz68CdgVzWkISA70yiyk4fOYYAZjNwmsak3nzPxw=;
+	b=u11UDIjh+VsYhRQd5H3/J3hfrDS4BBzFG4mYcOJmZck6GAc46D2u0/JFfgtlGhHvDk
+	zlmy1EYaKySR5WJ93lBLlyakRiWU+bi+krQRCpS8XIyXWhn5aK39G724lFL/Pf4A95L6
+	hMtHhFfdTNK8+Cv1hcebUAGkiASVIqOV1A0geZ9FlM9Ztgl+UYgkPeFO7kriaT3kwCR4
+	QI4Ls1Ucz/zwgmbr+Eu6l4VYnl3B4Vme0GpfV3bVjOaWtQOx3SAKOKsuGeGmgh+Dx8OT
+	DPSOgLEWkh8Z96bJsk1P3NVQCQmHG1TfUtnU6J9oKhem3A/NQw+Ducuprs4fenhXOvgt
+	fLyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=6LOq25/es5UybHcO7Zg2qBSu3bzqLHix8grQqw4qZbo=;
-	b=WJAT7LlmPZru/BTAO/0XK19tBTCMuFfElDd78W/STlnqktD3PRHKDuuDxBfuFfxX4G
-	QSCrIrmZK0hJG2JmBvDiwwLqKcg0jaBjEl0mCZVzedjrDPRYxxbwmtdgY1uec2lJHV22
-	TqAASz3no2t88hAgjpb1j8mCI686XNuLf6kKKmoMYFdEB8ZcicniLIaaha6XzADittUN
-	asYRCRby1rnZSP/hkqugChEjz3ULfFbS8OUy23WuKGXqakycgXt96TeTeQSUQ1qmuexZ
-	WynBkZmi346Wn2QmcGKwdyslgl3OoMqhpi6QY8wsuFQr1p5ObVhelZYxvl6gJ4Y3nn7e
-	veng==
-X-Gm-Message-State: AJcUukcvABHhpCeFKi3EqyJ3Gp9gKbacg6+XmcaUh5dHO+PKyhbSWeUC
-	LKAfZTww2EjvV55qdpHedGk/RZan
-X-Google-Smtp-Source: ALg8bN5uQM6oOWHmJlYrcI/109UTZIEIKLZN9079gW479DJ1FBiUo0V/rjQW4EtRJteZylHKBm8cZg==
-X-Received: by 2002:adf:ee46:: with SMTP id w6mr30382634wro.261.1548846012539; 
-	Wed, 30 Jan 2019 03:00:12 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	a18sm1127705wrp.13.2019.01.30.03.00.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jan 2019 03:00:11 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 11:59:43 +0100
-Message-Id: <e6260b958fc632333e8bcb65c1a5e90753b3ed0e.1548845917.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1548845917.git.alex.kanavin@gmail.com>
-References: <cover.1548845917.git.alex.kanavin@gmail.com>
-Subject: [PATCH 20/20] vte: allow building vte-native with gcc 4.8
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QoABz68CdgVzWkISA70yiyk4fOYYAZjNwmsak3nzPxw=;
+	b=XoJWGh34g6kYgHwdI+VxczIS2YA/ilVskhWdr8YwMvCofSYrJWOLd47qas5wTerZ0h
+	elK+MynGlI4uxPuLWGQAvqUzlk3YNwyBYt690fXd9+7okCqVE8XEw4PPSK/57XqDAH/J
+	9L/oNP+Bkn1Rmy5ShwMoXQWGoqDmv275EplWkyWftDVK162GLrvoLLyw5N8vqVSto19E
+	cO8+1kSI+bfgRasVQnm+oaC1LP6/6E7tXkrTUgFWYszJeXwHVck+eMtRekFqZT3Fxrdi
+	U1VWiY9d1CYHX8NS3NQFyElMmTd6XmAtRWD13eLFPBOzOBsI52DCd2YMkHFyhb4dfeeB
+	EYsQ==
+X-Gm-Message-State: AJcUukdoK6CiitOyh+lKKCZvSCF7hBAaKwRl9dYdx8FNOI1Fat21s/JB
+	4ut72TUz9ApStjMoykx9HbY=
+X-Google-Smtp-Source: ALg8bN5VqUqF5xSbvwKLid20ygoHRNRTvQtTjOzaPpIc+VSCri5esA0kL5en4kmNtv+lyCOmdNOGww==
+X-Received: by 2002:a17:902:22f:: with SMTP id
+	44mr30625537plc.137.1548861406581; 
+	Wed, 30 Jan 2019 07:16:46 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:a954:fb27:4e83:6750])
+	by smtp.gmail.com with ESMTPSA id c7sm4961772pfh.18.2019.01.30.07.16.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 30 Jan 2019 07:16:45 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 30 Jan 2019 07:16:36 -0800
+Message-Id: <1548861396-16977-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [master][thud][sumo][PATCH] perl: add testdepends for ssh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,65 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 11:00:12 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 15:16:45 -0000
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+fixes:
+
+ DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.4 export PATH=/usr/sbin:/sbin:/usr/bin:/bin; perl -e '$_="Uryyb, jbeyq"; tr/a-zA-Z/n-za-mN-ZA-M/;print'
+| DEBUG: time: 1548816904.4024463, endtime: 1548817204.397057
+| DEBUG: Partial data from SSH call: ssh: connect to host 192.168.7.4 port 22: Connection refused
+
+for master/thud/sumo
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...chool-asignment-to-avoid-gcc-4.8-err.patch | 27 +++++++++++++++++++
- meta/recipes-support/vte/vte_0.52.2.bb        |  5 ++--
- 2 files changed, 30 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
+ meta/lib/oeqa/runtime/cases/perl.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch b/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
-new file mode 100644
-index 00000000000..9c3f98fa61f
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch
-@@ -0,0 +1,27 @@
-+From 442da9076b52003743ffc6fd7b9d647de6d7aa8f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 17 Jan 2019 16:37:54 +0100
-+Subject: [PATCH] app.cc: use old school asignment to avoid gcc 4.8 error
-+
-+This is needed to build vte-native on Centos 7,
-+and can be dropped once that OS is no longer supported.
-+
-+Upstream-Status: Inappropriate [ancient compiler fix]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/app/app.cc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/app/app.cc b/src/app/app.cc
-+index d424064..675d789 100644
-+--- a/src/app/app.cc
-++++ b/src/app/app.cc
-+@@ -306,7 +306,7 @@ public:
-+                 else
-+                         alpha = get_alpha();
-+ 
-+-                GdkRGBA color{bg_color};
-++                GdkRGBA color = bg_color;
-+                 color.alpha = alpha;
-+                 return color;
-+         }
-diff --git a/meta/recipes-support/vte/vte_0.52.2.bb b/meta/recipes-support/vte/vte_0.52.2.bb
-index 62fb5288fa9..272ae66f134 100644
---- a/meta/recipes-support/vte/vte_0.52.2.bb
-+++ b/meta/recipes-support/vte/vte_0.52.2.bb
-@@ -9,8 +9,9 @@ inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject
+diff --git a/meta/lib/oeqa/runtime/cases/perl.py b/meta/lib/oeqa/runtime/cases/perl.py
+index afeeb18..be3287f 100644
+--- a/meta/lib/oeqa/runtime/cases/perl.py
++++ b/meta/lib/oeqa/runtime/cases/perl.py
+@@ -1,11 +1,13 @@
+ import os
  
- # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
- SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
--            ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
--            "
-+           ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
-+           file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
-+           "
- SRC_URI[archive.md5sum] = "de8181350dccb010e915e366bdd06d18"
- SRC_URI[archive.sha256sum] = "0f2657cef52accbfe56feede553155552d7c1984b1291838af3cb8cfc19b26af"
+ from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.core.decorator.oeid import OETestID
+ from oeqa.runtime.decorator.package import OEHasPackage
  
+ class PerlTest(OERuntimeTestCase):
+     @OETestID(208)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['perl'])
+     def test_perl_works(self):
+         status, output = self.target.run("perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'")
 -- 
-2.17.1
+2.7.4
 
 
