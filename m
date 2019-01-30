@@ -1,27 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 855F16BE21
+Return-Path: <samuli.piippo@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4956F7C240
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 09:01:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x0U91X7K027869
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 Jan 2019 01:01:33 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.435.0; Wed, 30 Jan 2019 01:01:32 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1548667130.git.liezhi.yang@windriver.com>
-	<8b20fa4c993e073ec37b0fd6c309a52c4939959c.1548667130.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9c2e4334-e452-6ca4-f7ef-5845c5abae52@windriver.com>
-Date: Wed, 30 Jan 2019 17:06:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+	Wed, 30 Jan 2019 09:17:26 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id s8so18741018iob.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jan 2019 01:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=92t4WJxKC4kW5PvZU/9IjlAX6bt6t8I8EyGh/ONHt3g=;
+	b=cZdiOg13DfBziJapqWB22b5uAaojPiDvlyKh4r0Hnp4K6BfPEhDSf1IxiKi9LcB7Wz
+	RojfoWXTr4hHSZ7QVwzzaWchKxw1IBMoG4M8PL7RgeBCfjJgtI6t6pKHvSpvSAUN2vMJ
+	qQNzVq1llC/9NdhSE0t+LmFh7HbWSdwQYO4gAmIzcXgVIVgi9HaMino7GUaHeTXR5oh2
+	opYmtU7oSfhJQSiXFAA+HJBUadubwbf8WAuCceO5cdO8zYIp4kOLbCFjigNUu4Hxrpu8
+	YekoALl4Iqa3VwzBPcLthwKlK9g7ROvPewmEqf3yNDp8LtRMalipUDthyyGQID6gaDks
+	vZPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=92t4WJxKC4kW5PvZU/9IjlAX6bt6t8I8EyGh/ONHt3g=;
+	b=jAbAM5kh0BhWfR+si46p0co8j91KxTUMluEzUTmK7gB35K60HGqb76xGib76WV3amk
+	LIkXcNslDWsONy+wrngYVqMEyaqIvxC2UIB4bFIwKnXVxrsVXv/AsT09qJm3OV+E9DYO
+	eLR2R53OBRMGflOsMxTnjr5D9UQOXxP+YpMy+3BkcYTKIqG6rfMP0H+4zMzidaavJQa/
+	K15Gq1iR95fl4Op7unqCd6mCauOS5JY621PHJbGKcGNzRZWQQHT9BGl5MSIVU8RuxWlj
+	OlTbhiPvC9ovRH0nKJWsv+VncxG6iwtEbY0LKZ6aExj11qYXXqG1hO5oimxm+lV94eq3
+	YbXQ==
+X-Gm-Message-State: AHQUAubZkIWLD3xSIWrshwqX1A8yXbiW7YC+jkHOS0Jd0+WOiwsKBBb+
+	XmDTU2/7tS+UDF/YGEHHf3srqr++CoHih3xQQvk=
+X-Google-Smtp-Source: AHgI3IYo1fvjYmF531HJZlIBR2Y0euy9qDqNxymifRnvhvFRHgJ72xBManum8hDS+ryaEDrsKXTkLdrckOQAVCV3pL8=
+X-Received: by 2002:a5e:8b46:: with SMTP id z6mr16519526iom.7.1548839847020;
+	Wed, 30 Jan 2019 01:17:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <8b20fa4c993e073ec37b0fd6c309a52c4939959c.1548667130.git.liezhi.yang@windriver.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: [PATCH 1/1] base.bbclass: Use bb.event.ParseStarted for HOSTTOOLS
+References: <20190128124739.9175-1-samuli.piippo@qt.io>
+	<CAMKF1soJ1obqx9GyjAHJkdMq3HZdWjiAKRRqea5=HohEj+cUGQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soJ1obqx9GyjAHJkdMq3HZdWjiAKRRqea5=HohEj+cUGQ@mail.gmail.com>
+From: Samuli Piippo <samuli.piippo@gmail.com>
+Date: Wed, 30 Jan 2019 11:17:30 +0200
+Message-ID: <CABXoSoW0aA8D44zekpWqPaS5E=vh8-ELydtkqAgz8DrooaB-3w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, richard.purdie@linuxfoundation.org
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-cross-canadian: Do not create symlink to real-ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 09:01:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Jan 2019 09:17:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry, this patch doesn't work, it breaks fresh  build's sanity check since
-the hosttools are bot ready when run sanity check.
+Sent v2 as a revert patch.
 
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-     Either fix the cause of this error or at your own risk disable the checker 
-(see sanity.conf).
-     Following is the list of potential problems / advisories:
+Simple compilation test with mips64 toolchain works fine, as does arm64/armv7.
+Richard, would you happen to remember more details where this failed
+in the first place?
 
-     Please install the following missing utilities: GNU make,C Compiler (gcc 
-),C++ Compiler (g++ 
-),patch,diffstat,makeinfo,git,bzip2,tar,gzip,gawk,chrpath,wget,cpio,perl,file,which
+-samuli
 
-
-Please ignore this patch.
-
-// Robert
-
-On 1/28/19 5:19 PM, Robert Yang wrote:
-> Fixed:
-> $ export BB_SERVER_TIMEOUT=-1
-> $ bitbake quilt-native
-> $ rm -fr tmp
-> $ bitbake quilt-native
-> ERROR: Error running gcc  --version: /bin/sh: gcc: command not found
-> 
-> This is because bb.event.ParseStarted fires only once when server is running,
-> but bb.event.ParseStarted fires every time when build configs are changed, so
-> use bb.event.ParseStarted to fix the problem.
-> 
-> [YOCTO #13022]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/base.bbclass | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index f1a3c0e..c273a29 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -220,11 +220,18 @@ def buildcfg_neededvars(d):
->           bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
->   
->   addhandler base_eventhandler
-> -base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
-> +base_eventhandler[eventmask] = "\
-> +	bb.event.ParseStarted \
-> +	bb.event.MultiConfigParsed \
-> +	bb.event.BuildStarted \
-> +	bb.event.RecipePreFinalise \
-> +	bb.runqueue.sceneQueueComplete \
-> +	bb.event.RecipeParsed \
-> +"
->   python base_eventhandler() {
->       import bb.runqueue
->   
-> -    if isinstance(e, bb.event.ConfigParsed):
-> +    if isinstance(e, bb.event.ParseStarted):
->           if not d.getVar("NATIVELSBSTRING", False):
->               d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
->           d.setVar('BB_VERSION', bb.__version__)
-> 
+On Tue, 29 Jan 2019 at 20:20, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Mon, Jan 28, 2019 at 11:19 PM Samuli Piippo <samuli.piippo@qt.io> wrote:
+> >
+> > real-ld is always used if that is found, which means you cannot
+> > switch between bfd and gold linkers using -fuse-ld=gold.
+> >
+> > Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > index e7c08d3a61..ececec4965 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > @@ -137,8 +137,6 @@ do_install () {
+> >
+> >                 ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
+> >         done
+> > -       t=real-ld
+> > -       ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld$suffix $dest$t$suffix
+> >
+>
+> this patch is essentially, reverting
+> https://git.openembedded.org/openembedded-core/commit/?id=cdd86896c8d29135f937968e9aa07f919cf543d3
+>
+> so lets do a revert instead to keep the context clear
+>
+> secondly, please test with the mips/mips64 as those were primary drivers for
+> the patch in first place.  Richard might add more context if he remembers.
+>
+>
+> >         # libquadmath headers need to  be available in the gcc libexec dir
+> >         install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+> > --
+> > 2.17.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
