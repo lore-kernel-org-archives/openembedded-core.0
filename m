@@ -1,28 +1,36 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9338C6D4C6
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id ADB7B7C25F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 08:31:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0U8UCH8020582
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 30 Jan 2019 08:39:30 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.56,540,1539619200"; d="scan'208";a="53196489"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Jan 2019 16:39:30 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 844554B734AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 00:30:58 -0800
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Wed, 30 Jan 2019 00:30:28 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1548835427-52967-1-git-send-email-changqing.li@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <2beff672-7812-fa47-85c2-416f11506a04@windriver.com>
-Date: Wed, 30 Jan 2019 16:30:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Wed, 30 Jan 2019 16:39:27 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0415.000; Wed, 30 Jan 2019 16:39:33 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: =?gb2312?B?cXVlc3Rpb26jultPRS1jb3JlXWdsaWItMi4wOiBkZXBlbmRlbmNlIHByb2Js?=
+	=?gb2312?Q?em?=
+Thread-Index: AdS4d0z/7Ub+T6icTfu63L6pCrNLfg==
+Date: Wed, 30 Jan 2019 08:39:32 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BC7ED8@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-In-Reply-To: <1548835427-52967-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH] gcc-runtime: fix C++ header mapping for n32/x32 tune
+X-yoursite-MailScanner-ID: 844554B734AB.AA6F5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: =?UTF-8?B?cXVlc3Rpb27vvJpnbGliLTIuMDogZGVwZW5kZW5jZSBwcm9ibGVt?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 08:31:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 30 Jan 2019 08:39:31 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Please ignore this patch. I accidentally sent it 3 times.
-
-On 1/30/19 4:03 PM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->
->      The SDK was unable to find the C++ header pieces correctly since it's
->      using a generic compiler, not one specifically targeting the multilib
->      vendor prefix and default tune.  This adds the right mapping to ensure
->      SDKs work as expected. And fix problem in below configurations:
->
->      multilib configuration:
->      MACHINE="qemumips64"
->      MULTILIBS ?= "multilib:lib32 multilib:libn32"
->      DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
->      DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
->      MULTILIB_GLOBAL_VARIANTS_append = " libn32"
->      require conf/multilib.conf
->
->      ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-runtime.inc | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 50ecc81..e0f5c80 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -98,16 +98,16 @@ do_install_append_class-target () {
->   
->   	if [ "${TARGET_OS}" = "linux-gnun32" ]; then
->   		if [ "${MULTILIBS}" != "" ]; then
-> -			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
-> -			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
-> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
->   		else
->   			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->   		fi
->   	fi
->   	if [ "${TARGET_OS}" = "linux-gnux32" ]; then
->   		if [ "${MULTILIBS}" != "" ]; then
-> -			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
-> -			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
-> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
->   		else
->   			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->   		fi
-
--- 
-BRs
-
-Sandy(Li Changqing)
-
+SGkgQWxsOg0KDQpJIGZvdW5kIGFuIGRlcGVuZGVuY2UgcHJvYmxlbSBmb3Ig
+bGliZ2xpYi0yLjAtcHRlc3QgcGFja2FnZS4NCjEuIERuZiBlcnJvciBtZXNz
+YWdlOg0KRXJyb3I6DQpQcm9ibGVtIDE6IGNvbmZsaWN0aW5nIHJlcXVlc3Rz
+DQogIC0gbm90aGluZyBwcm92aWRlcyBsb2NhbGUtYmFzZS1kZS1kZSBuZWVk
+ZWQgYnkgbGliZ2xpYi0yLjAtcHRlc3QtMToyLjU4LjAtcjAueDg2XzY0DQoN
+CjIuIEluIC4vcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWIuaW5jLCBpdCBk
+ZWZpbmVzIFJERVBFTkRTIGluY2x1ZGVzIGxvY2FsZS1iYXNlLWVzLWVzDQpS
+REVQRU5EU18ke1BOfS1wdGVzdF9hcHBlbmRfbGliYy1nbGliYyA9ICIuLi4u
+Li4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWxlLWJhc2Ut
+ZGUtZGUgIg0KIA0KQnV0IGdsaWJjLWxvY2FsZSBkaWRuJ3QgcHJvdmlkZSBh
+IHBhY2thZ2UgY2FsbGVkICIgbG9jYWxlLWJhc2UtZGUtZGUgIiwgZG9lcyBh
+bnlvbmUga25vdyB0aGUgcmVhc29uPw0KDQotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWlu
+DQpOYW5qaW5nIEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBM
+dGQuKEZOU1QpDQpBRERSLjogTm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUg
+QXZlbnVlLA0KICAgICAgIE5hbmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwg
+OiB6aGVuZ3JxLmZuc3RAY24uZnVqaXN0dS5jb20NCg0KDQoKCg==
 
