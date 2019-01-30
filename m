@@ -1,50 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D8ACC7C2FC
+Return-Path: <srifenbark@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B05277C3BE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 21:56:37 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y139so422403wmc.5
+	Wed, 30 Jan 2019 22:14:41 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id y56so937455edd.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 13:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=hZ3hW1PFYAazwC+yrFSpyi4zRGeTmbyq29HNRepRehY=;
-	b=TQbrVKcJpN0fCM3lz6fcaTJxl2o5dyNv26bTya6OI7CGs3YB8L3ShiY7ci+JmOp6ex
-	qn2BMI+Usk43sKbtbGiMrUwflsiFULb7AdoyPk6yhf9/nvEt/efiRWkDg8h4Ve64r3jG
-	c4680LCB+hhsecaZNOMYSbjUVBJu73hVd4zMo=
+	Wed, 30 Jan 2019 14:14:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=MuvInvzHzRv8EtCuUzGLM5julqszMLjHg/4I5t5eKlw=;
+	b=OGx/UgLdkOigcQfTvYuEqaZ3d0lwGLuOLg+Kv8CWkDyOumTPEJWWVGZy9IJDq0KuxA
+	YcAB2vgx9yL6F1FuZugixnPpbgbSW2mZY+lE5v8ZEs8Ssj92OZ5UYTYlZO5PKmrWeBfP
+	5zmlySEJ8IaBu3TKD7NepUth/a5Saasil7yjhMZqG3Oy+Y/AkFDpcxKfTSrFGfW0XZi/
+	kS2AN5DvMkbOh8+I6pPOaGxCBo2MOQYGpzYWtWbn1nZPNsdJOan+zV5c1mXluK+Wairp
+	ApvQ6EX9vb3pl64VlDidjDLX86ZIRe70KmyqGurA6g+X6Z49opdMrWTOnzH+NR197D9o
+	5CzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=hZ3hW1PFYAazwC+yrFSpyi4zRGeTmbyq29HNRepRehY=;
-	b=shcR/01aBCKcVQfRsh8swVmsMITUE0A2eDFY1alH56g52EBDe4vwBoNEAYmSSEAS+c
-	A1hZvp9UUjGcGLtKPOnLD889ugO/e8li/A5L0LBzYI3OgK9p1MY6p3MfozCT9bxV9+mF
-	hkrXct2u+HfKtGzYjcgSTzrQW3BGxVb/yqtzoEB+EZP8vWgr57HTUzTP66Md3Eg7/QwG
-	aX/26hGZXBUftuLC0tomiINfJOuJhivaitPlvxeZMWBhumwUHms4w30GftuwaAEPbXnU
-	TP48uVL5gL2zlK0n8eOuuuslCwJvvBiBeRYyUeKFRO3p74ufv+0WgUlYDAJ9rmWI7xWX
-	7ViQ==
-X-Gm-Message-State: AJcUukf7EzGKviRP1n1Y7Fmw4GN4LRqS6SSVyWv0jLbpuisoS+LdFn9/
-	bo2BNAIH9G84V9p+UBQaj38rHA==
-X-Google-Smtp-Source: ALg8bN4hnvTD7pBeMV3LSAJdp/i33UQndB7nRAYnCLB7qCkCxUM+MYLEtLAawRbelwJh5fbVLYA7xw==
-X-Received: by 2002:a1c:414:: with SMTP id 20mr27130637wme.67.1548885398550;
-	Wed, 30 Jan 2019 13:56:38 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r200sm5917866wmb.36.2019.01.30.13.56.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 30 Jan 2019 13:56:37 -0800 (PST)
-Message-ID: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 21:56:36 +0000
-In-Reply-To: <1548835368-52735-1-git-send-email-changqing.li@windriver.com>
-References: <1548835368-52735-1-git-send-email-changqing.li@windriver.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] gcc-runtime: fix C++ header mapping for n32/x32 tune
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MuvInvzHzRv8EtCuUzGLM5julqszMLjHg/4I5t5eKlw=;
+	b=YKnaGbexaL0ziaBCv+80h++0fotQGjnm++gFt3ffjRVxz6z5gUZNk1UzlAeMgDRY8L
+	YTXboDnLCtq8SLGDTVnMChzAzez73S0S+k91QPw8Yzt4vHsxU00dvipFBNJ6JxGFntXD
+	Rlmc4teqGaBsTX6s1cDYzn4x19ZSLPIowMBS5RsLO1Wl8NLBmmiFi6uDLbdJP0Umhsu+
+	k9o8xQVCIiJdgO0RqCyvMbbDlslq4MmEpaAB9UX7bUqWe9UEYj3Zswme3wMDYkAcWMxw
+	H6NRtWuTwX+z1LmV83wKl/e7sHvNGy2bj/06uaxATmXqFt3C86QHANrI2J/1pcWodIbx
+	F3Ew==
+X-Gm-Message-State: AJcUukfVwzC/q+azhZ3gkTciRt6DsJJwPI6DXd58g3aFFfBeYsH93icH
+	KPAPhYEOKnOPf11yioENNXBeNADh63vkXMv4BCv9KHcj
+X-Google-Smtp-Source: ALg8bN4ybl12rd4OpxVM6qngSiDTGL8by+VLattPPnmuR6vgRiPo+3sB3nmt37htIkXCZP8YZ4cntsXkA9EaqCbq1cY=
+X-Received: by 2002:a50:bae3:: with SMTP id x90mr32396594ede.221.1548886482138;
+	Wed, 30 Jan 2019 14:14:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20190130093819.10786-1-bunk@stusta.de>
+In-Reply-To: <20190130093819.10786-1-bunk@stusta.de>
+From: Scott Rifenbark <srifenbark@gmail.com>
+Date: Wed, 30 Jan 2019 14:14:30 -0800
+Message-ID: <CAFNP8OvDPRKBS9g9LzU3015ag=SmLPTHi0qoDYCi5pPLsVxB+Q@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [thud] [PATCH] Ubuntu 16.10 is not LTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +53,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 21:56:38 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 22:14:42 -0000
+Content-Type: multipart/alternative; boundary="00000000000090bb1d0580b43caa"
+
+--00000000000090bb1d0580b43caa
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-01-30 at 16:02 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
->     The SDK was unable to find the C++ header pieces correctly since
-> it's
->     using a generic compiler, not one specifically targeting the
-> multilib
->     vendor prefix and default tune.  This adds the right mapping to
-> ensure
->     SDKs work as expected. And fix problem in below configurations:
-> 
->     multilib configuration:
->     MACHINE="qemumips64"
->     MULTILIBS ?= "multilib:lib32 multilib:libn32"
->     DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
->     DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
->     MULTILIB_GLOBAL_VARIANTS_append = " libn32"
->     require conf/multilib.conf
-> 
->     ignoring nonexistent directory "<path>/sysroots/mips64-poky-
-> linux/usr/include/c++/8.2.0/mips64-poky-linux/32
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Adrian,
+
+Thanks for catching this.  I have updated the list of supported distros for
+the 2.7 (master) version of the ref-manual.  I will make sure that the fix
+is also in the 2.6.1 release that is pending and the published 2.6
+ref-manual (thud branch).  See
+https://yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-distros
+for the updated list and
+https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#detailed-supported-distros.
+
+
+Thanks,
+Scott
+
+On Wed, Jan 30, 2019 at 1:38 AM Adrian Bunk <bunk@stusta.de> wrote:
+
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
 > ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  documentation/ref-manual/ref-system-requirements.xml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/documentation/ref-manual/ref-system-requirements.xml
+> b/documentation/ref-manual/ref-system-requirements.xml
+> index 69d4b4e726..500b2f8f39 100644
+> --- a/documentation/ref-manual/ref-system-requirements.xml
+> +++ b/documentation/ref-manual/ref-system-requirements.xml
+> @@ -97,7 +97,7 @@
+>                  <listitem><para>Ubuntu 15.04</para></listitem>
+>                  <listitem><para>Ubuntu 15.10</para></listitem> -->
+>                  <listitem><para>Ubuntu 16.04 (LTS)</para></listitem>
+> -                <listitem><para>Ubuntu 16.10 (LTS)</para></listitem>
+> +                <listitem><para>Ubuntu 16.10</para></listitem>
+>                  <listitem><para>Ubuntu 17.04</para></listitem>
+>  <!--            <listitem><para>Fedora 16 (Verne)</para></listitem>
+>                  <listitem><para>Fedora 17 (Spherical)</para></listitem>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Breaks in testing sadly:
+--00000000000090bb1d0580b43caa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/236
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Adrian, <br></div><=
+div><br></div><div>Thanks for catching this.=C2=A0 I have updated the list =
+of supported distros for the 2.7 (master) version of the ref-manual.=C2=A0 =
+I will make sure that the fix is also in the 2.6.1 release that is pending =
+and the published 2.6 ref-manual (thud branch).=C2=A0 See <a href=3D"https:=
+//yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-d=
+istros" target=3D"_blank">https://yoctoproject.org/docs/2.7/ref-manual/ref-=
+manual.html#detailed-supported-distros</a> for the updated list and <a href=
+=3D"https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#detail=
+ed-supported-distros">https://www.yoctoproject.org/docs/2.6/ref-manual/ref-=
+manual.html#detailed-supported-distros</a>. <br></div><div><br></div><div>T=
+hanks, <br></div><div>Scott<br></div></div></div></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 30, 2019 at 1:=
+38 AM Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de" target=3D"_blank">b=
+unk@stusta.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">Signed-off-by: Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.d=
+e" target=3D"_blank">bunk@stusta.de</a>&gt;<br>
+---<br>
+=C2=A0documentation/ref-manual/ref-system-requirements.xml | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/documentation/ref-manual/ref-system-requirements.xml b/documen=
+tation/ref-manual/ref-system-requirements.xml<br>
+index 69d4b4e726..500b2f8f39 100644<br>
+--- a/documentation/ref-manual/ref-system-requirements.xml<br>
++++ b/documentation/ref-manual/ref-system-requirements.xml<br>
+@@ -97,7 +97,7 @@<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
+gt;&lt;para&gt;Ubuntu 15.04&lt;/para&gt;&lt;/listitem&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
+gt;&lt;para&gt;Ubuntu 15.10&lt;/para&gt;&lt;/listitem&gt; --&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
+gt;&lt;para&gt;Ubuntu 16.04 (LTS)&lt;/para&gt;&lt;/listitem&gt;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&l=
+t;para&gt;Ubuntu 16.10 (LTS)&lt;/para&gt;&lt;/listitem&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&l=
+t;para&gt;Ubuntu 16.10&lt;/para&gt;&lt;/listitem&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
+gt;&lt;para&gt;Ubuntu 17.04&lt;/para&gt;&lt;/listitem&gt;<br>
+=C2=A0&lt;!--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;&lt;=
+para&gt;Fedora 16 (Verne)&lt;/para&gt;&lt;/listitem&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;listitem&=
+gt;&lt;para&gt;Fedora 17 (Spherical)&lt;/para&gt;&lt;/listitem&gt;<br>
+-- <br>
+2.11.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-Cheers,
-
-Richard
-
-
+--00000000000090bb1d0580b43caa--
