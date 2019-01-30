@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 177616C132
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC5D7C29D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 16:50:27 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id p17so236103qtl.5
+	Wed, 30 Jan 2019 16:52:00 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id o125so140511qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 08:50:29 -0800 (PST)
+	Wed, 30 Jan 2019 08:52:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Zu6xAoBE1FAd+d0USKjvDnPdG/vRcJ8y4fONAffVw5Y=;
-	b=Xea6lXxTf0Mv2D1ymscVtGnhs4TvaGy4XbjKHhz4kt8v8HIESdgeeSynTXkrWJwNZV
-	6EJ1/sin3M3KmX8I3nh7d2SFHiiXxCxbZA9nYrp4FccqMnEhgnZX4OVUMJf6zHb4iyi8
-	1PljJDNMnjuWKcnA8U0Zs+qcrAMYKC76sBOESyqXmaP6GUfxUNsApqDiELvFf3cHDaxU
-	jmKhfrtezWfznJEKJJFBkRaZ9i/bLvgM7lZnvL0NDYRYFYNB3jXLVrKNdPBMIuhztu+E
-	5DN7xY3K6O7Mmzbq8U39RbgmgdiEPAIPtbSULEhNvl9ZxMazOrK8XU8Jzy9ULqEv5QTf
-	RUlg==
+	:cc; bh=BTbGOTf8pMRfozp8ZsJrB1YkTIXH3DLW0YahsvNUKMM=;
+	b=rGbBZLeqtZSZfr1Zs5xTh/saMCtYsjJmQwOh2JUVqCHuEdk4UUpfd96wzQQcrB2ios
+	/7v58Q6yiOAk2T5pSQOaNJZvK0U2cDeCo97OaUUF1dSAmMjM3zPaKs00cshRXvxXYGQR
+	yNMrkjNdotSw6JlsDvsd1sVPHDEHV9SuGJdGVALPsLjJTrXQvSxlCLn2w5p5+/dP/3u8
+	hdZTiJT97QaAfepOWlL/Y9FZreLDK7DcNC9PtLuqv0TiPwBa8gjs0MCBYkG/HLcFYt64
+	talXAiwyeLZvUvyAeLqtjXTwI1HeoZVUkEDscuPA8SKuTiJrl/ZpdnExF+rLVkxmg4az
+	94kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Zu6xAoBE1FAd+d0USKjvDnPdG/vRcJ8y4fONAffVw5Y=;
-	b=tqTDQa7bbX3AtX5WFjds+0l7FWUkaXRyasKF6QwnPoHndISTxr8D+XF/I8ZC69BtQx
-	qaMN3NdXo6tJSx5gX2tL398W39M51sBIggkRw6ZVFrd8YPPDJU8vNOqR85hTj6pRuw6n
-	ufHiQ1IyhC9CzbdPB5Hl0m/qPEJxS7YVuLYGqNoti7L1ZGeb33HWoeIfEj1vpd/iLD+Q
-	fQuE/6CS25i22O1GLHFa2Hq2ejOEektT6xT0HKl1BxvXWkN6qeBpgyceO70PS5YnxmBI
-	AuQpVj/004LFor9K/47NEmuvqQ0pD/lHUTkHM0ManCYkdhBI407EqpHQIG+qG5wrXmff
-	cz0A==
-X-Gm-Message-State: AJcUukdqEROHMnUmMfzAdakIpDfOjDB6KmqN1ejXkxj9PgGs2RZJYzrG
-	0w+a6BNWIwMxnbYcX8r7f1oVeW1Mairx+B8LqxliyNf8
-X-Google-Smtp-Source: ALg8bN4cTMUBXTaXJcxvuabDw1T70FzxAAi5XmSISYccB0nNdyYwSq1eQ2dJCGVV0RgilcuwQXxop7cI+/iVWmuns6c=
-X-Received: by 2002:a0c:93e2:: with SMTP id g31mr29212274qvg.194.1548867028758;
-	Wed, 30 Jan 2019 08:50:28 -0800 (PST)
+	bh=BTbGOTf8pMRfozp8ZsJrB1YkTIXH3DLW0YahsvNUKMM=;
+	b=sfmYvgKLlPtSrVZ/G0obCS0RYP26LohSIxWLxxnGcAZr34rnOWaAxm/joE30JR+Veq
+	8VZPTw68YvNC0d7iarsYNqOzCuD71DbZlG9tizVJcv0McTAWJqOSe5f0q+fHwfQzCrpo
+	fJjpZr1sCUmPRtpYqGpv2iJW4cn3CpKXR6PYI/ciN4bzNeFR+A2zFOd2Q//1SEbOb22W
+	v30Jh3xgnYgLwygPNWLn343lYAfaXf1JJygIr17dAxGe3Rv2EoqfkIWeRVfrBWQ+aeQK
+	pclkZReUX+MUxO/9e12b4LF/WbRzGPRXJCPL+fuvnh+emJvciMUdkgcYyWCs5tif4urX
+	/hUg==
+X-Gm-Message-State: AJcUukd6/DRhWIzVdNP50bK6v4T/WbR5NozYgA84CCOcr3qidyHQn4Py
+	HDATxJoLqe3XgjJTUUMyZs9+72CBqAlzP1nzTM8Myh50
+X-Google-Smtp-Source: ALg8bN5tkgaHQd9yrLlbH4pSUad5v3z8NrqfYU2L4IkdW6So+NlatZ2JouNP+RdqFwyK+A24I6fVnkdLCo0HUVa9Yk8=
+X-Received: by 2002:ae9:dc43:: with SMTP id q64mr27804206qkf.223.1548867121210;
+	Wed, 30 Jan 2019 08:52:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20190130093406.10391-1-bunk@stusta.de>
-In-Reply-To: <20190130093406.10391-1-bunk@stusta.de>
+References: <1548835368-52735-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1548835368-52735-1-git-send-email-changqing.li@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Jan 2019 08:50:02 -0800
-Message-ID: <CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
+Date: Wed, 30 Jan 2019 08:51:35 -0800
+Message-ID: <CAMKF1sr1_QEVWfcWEXY+StDW1Kt5OSQnB_VG7L=7djdcOPXY2A@mail.gmail.com>
+To: Changqing Li <changqing.li@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: add devmem
+Subject: Re: [PATCH] gcc-runtime: fix C++ header mapping for n32/x32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 16:50:28 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 16:52:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+On Wed, Jan 30, 2019 at 12:03 AM <changqing.li@windriver.com> wrote:
 >
-> This is a tiny but pretty useful tool.
+> From: Changqing Li <changqing.li@windriver.com>
+>
+>     The SDK was unable to find the C++ header pieces correctly since it's
+>     using a generic compiler, not one specifically targeting the multilib
+>     vendor prefix and default tune.  This adds the right mapping to ensure
+>     SDKs work as expected. And fix problem in below configurations:
+>
+>     multilib configuration:
+>     MACHINE="qemumips64"
+>     MULTILIBS ?= "multilib:lib32 multilib:libn32"
+>     DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+>     DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+>     MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+>     require conf/multilib.conf
+>
+>     ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
 >
 
-question is, do we need this enabled in default config, or could be add it via
-some DISTRO_FEATURE meant for validation etc. May be if you explain your
-usecase then we might be able to make a better assessment.
+seems fine to me.
 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  meta/recipes-core/busybox/busybox/defconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-devtools/gcc/gcc-runtime.inc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-> index d11707abc3..1519159a49 100644
-> --- a/meta/recipes-core/busybox/busybox/defconfig
-> +++ b/meta/recipes-core/busybox/busybox/defconfig
-> @@ -791,7 +791,7 @@ CONFIG_DC=y
->  # CONFIG_DEVFSD_FG_NP is not set
->  # CONFIG_DEVFSD_VERBOSE is not set
->  # CONFIG_FEATURE_DEVFS is not set
-> -# CONFIG_DEVMEM is not set
-> +CONFIG_DEVMEM=y
->  # CONFIG_EJECT is not set
->  # CONFIG_FEATURE_EJECT_SCSI is not set
->  # CONFIG_FBSPLASH is not set
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index 50ecc81..e0f5c80 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -98,16 +98,16 @@ do_install_append_class-target () {
+>
+>         if [ "${TARGET_OS}" = "linux-gnun32" ]; then
+>                 if [ "${MULTILIBS}" != "" ]; then
+> -                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
+> -                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
+> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
+>                 else
+>                         ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>                 fi
+>         fi
+>         if [ "${TARGET_OS}" = "linux-gnux32" ]; then
+>                 if [ "${MULTILIBS}" != "" ]; then
+> -                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
+> -                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
+> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
+>                 else
+>                         ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>                 fi
 > --
-> 2.11.0
+> 2.7.4
 >
 > --
 > _______________________________________________
