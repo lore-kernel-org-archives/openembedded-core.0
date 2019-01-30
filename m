@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
-	[209.85.166.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 64B407C29D
+Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
+	[209.85.166.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 342F26D563
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 10:36:13 +0000 (UTC)
-Received: by mail-it1-f174.google.com with SMTP id a6so9714768itl.4
+	Wed, 30 Jan 2019 10:58:10 +0000 (UTC)
+Received: by mail-it1-f176.google.com with SMTP id h193so9795583ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 02:36:14 -0800 (PST)
+	Wed, 30 Jan 2019 02:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=skRAzjbKoF7oFO1WVbfa+Ze7bQIchaTHsZ1rbjbibOI=;
-	b=I/WJ5zbEG9KsfO42s3j6F1uivl+eijhTWQoUKynNWS4LjEyqiBLVndfXjconDQSFe7
-	8EunRDwsUO7Gxj99DBL63/jP63d8ecHsKkT9jnbCHgP58jwF2/eRViBGRo4EysynM5D6
-	/O6KgrN4fLibg25vLtDclSMXqStkneXZXSz65uLfeeYsnKghtvzmXOouNWEYlt9yFQND
-	973D7U8d27qOMFH/nCaJ3NvcuMwokjYoVcg1jaU9H1KnDb0cyPiS5pUN9r3dTv8XlfXS
-	3zbew2tTJgo+kKArtr2wXXX943FaObmmdAwmbLFOcDevzBwAPsqSuxwwqcjgSxD4JX+9
-	I+gg==
+	:cc:content-transfer-encoding;
+	bh=EeV1WzDDDUKhQRB3Jy5yOR86klmspoQfIziEgSmijks=;
+	b=bcWPv+lf58/HjmsTb/GRX0qFp4gN03loLwT0nBovf88C8NrECtvLnRCA3vYlPZVRGD
+	m4w3eNRxFGEaBHwCh4cu6UK+09JpaHhyo6vDq5TlwE4QDSKkr0OVg576+04hMagsSCZ5
+	WDUOjbzTdQshcWArQPCviM5/yfePK3C+XeY3R8gGLO+jzPkEAI+6v6npjeOaS7zz/sM+
+	c9Fi5w6yd6pL2Su9k5emdwSjyf4fyuHYmebIqM0A2HtO5rwszRW/VMrt6Fd0fMRwkVBc
+	E8KuDcihvU4f8aL6eQn6LcDYFgTz1+82SY66y2MbSzHENDsErybrE2MZYRJaibyIOZMB
+	J12w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=skRAzjbKoF7oFO1WVbfa+Ze7bQIchaTHsZ1rbjbibOI=;
-	b=Ym1TPgkBNbwyQ9lnhzx12Coap5xz5B/AD9MqkF4oyruN36y8TFYM3gEzenRD6U1AuC
-	uQOpJDZ6LmHC8DH/7IfpOXnpTCrlb19yRhSN/XaYTMY6eQ2IWc08Xva4q08Q1b0ZKTcG
-	dwAifCv+uFCYhYUepwtN3KPlBZrdM7FrwGSPaNpXJUU03QX/SOj0jwvZGx7zMECLVCp3
-	SWUoiCe4TPaHzlYO5jORnWw3QvcR5kOjLSzxXfohJk3tRyWekRFOiR1bQ4rpcuNTOr2U
-	73HZjnICwiQbsfPqfdhMkWDbTKVU/+rrEXoNhibE5JovLaGkjruMLkh9m1kZ2i3lQ58e
-	N/fQ==
-X-Gm-Message-State: AJcUukf6lkD3E7GflExGcYENhL3unX7Sq/2Wk8jTjRc1E9SQx/cpvB+i
-	fEg9q94clFqh0sh6sMVAYXiXJhRr3AgXTGp95dcINQ==
-X-Google-Smtp-Source: ALg8bN4xkl4SfDV4clh8R0pZp0+4WfNawhblV7YLFlZSW/r2hvI6cGKqxSGVYYBkOiUXAvtih30tlOWAnoRaxc4B2uQ=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr8017560itj.62.1548844574189;
-	Wed, 30 Jan 2019 02:36:14 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=EeV1WzDDDUKhQRB3Jy5yOR86klmspoQfIziEgSmijks=;
+	b=YDO9fK7JY7y4XT7ImkJJoJ94HpgiP4j+QqH/p+mG2r4gxhpeOtUU+F+PUDLCKbwxmr
+	uzjHLc0FLA08OJ75vW8duwlTFCR5nw92g0PcZSLlcq03uF2qxt6NFdWDMPcU1Npox8ZU
+	YddIeq+3ItFVlInxWsJJSR5xcnEwzs2MRaYmnnt9GiPo5klBhu1QJ7HacECaSpUH1NOH
+	k4V7gfle/FM2AOW3qQHqYpH5aGkh4AtfO/z9u3OkEnWlWLkOV0cTIi1tlx0r0j5TXL+F
+	RLRueo7DnGqmK5mJdDaSF3nIAaLda97A0wQXZLLcLgFudcCMSr6dHQvnh55TAodPKksc
+	Qozg==
+X-Gm-Message-State: AJcUukcNHxSl2Kn4PEy4WKRZv+1jm8QHQD7JNswJlarhBmdrGRkvITGv
+	LeKAY/VroYZqBiIIyrV5+mcsAXoxyerpW0KvJ3gPMLMZ
+X-Google-Smtp-Source: ALg8bN5VjFBDruqZccXVkpR3pWM18ibtPy1iYgFhFhWT9OgcoZhS5+TkYQCmbD8TrHkb1UHrN/lpjWbSnke2Rf/pqSE=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr8047904itj.62.1548845891235;
+	Wed, 30 Jan 2019 02:58:11 -0800 (PST)
 MIME-Version: 1.0
-References: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BC7ED8@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BC7ED8@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <20190130093638.10612-1-bunk@stusta.de>
+	<20190130093638.10612-2-bunk@stusta.de>
+In-Reply-To: <20190130093638.10612-2-bunk@stusta.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 Jan 2019 10:36:03 +0000
-Message-ID: <CAJTo0LZWYQmeWsb9HqtiW0PRa_6ZDmbyBWJLye5LsCrHT5ouhg@mail.gmail.com>
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IHF1ZXN0aW9u77yaZ2xpYi0yLjA6IGRlcGVuZGVuY2UgcHJvYmxlbQ==?=
+Date: Wed, 30 Jan 2019 10:58:00 +0000
+Message-ID: <CAJTo0Lb5FiDvA6pqZB5Q-f8sPOU6qafrfLofTdhi8Lxo59g79A@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] ref-system-requirements.xml: Sync list of supported distributions from poky.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +56,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 10:36:13 -0000
+X-List-Received-Date: Wed, 30 Jan 2019 10:58:10 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Probably you changed glibc-locale to produce a smaller set of locales.
+Documentation patches should go to yocto@lists.yoctoproject.org, and
+ideally CC Scott.
 
 Ross
 
-On Wed, 30 Jan 2019 at 08:40, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
+On Wed, 30 Jan 2019 at 09:37, Adrian Bunk <bunk@stusta.de> wrote:
 >
-> Hi All:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  documentation/ref-manual/ref-system-requirements.xml | 15 +++++++++-----=
+-
+>  1 file changed, 9 insertions(+), 6 deletions(-)
 >
-> I found an dependence problem for libglib-2.0-ptest package.
-> 1. Dnf error message:
-> Error:
-> Problem 1: conflicting requests
->   - nothing provides locale-base-de-de needed by libglib-2.0-ptest-1:2.58.0-r0.x86_64
+> diff --git a/documentation/ref-manual/ref-system-requirements.xml b/docum=
+entation/ref-manual/ref-system-requirements.xml
+> index 500b2f8f39..f2450ab58a 100644
+> --- a/documentation/ref-manual/ref-system-requirements.xml
+> +++ b/documentation/ref-manual/ref-system-requirements.xml
+> @@ -97,16 +97,18 @@
+>                  <listitem><para>Ubuntu 15.04</para></listitem>
+>                  <listitem><para>Ubuntu 15.10</para></listitem> -->
+>                  <listitem><para>Ubuntu 16.04 (LTS)</para></listitem>
+> -                <listitem><para>Ubuntu 16.10</para></listitem>
+> -                <listitem><para>Ubuntu 17.04</para></listitem>
+> +<!--            <listitem><para>Ubuntu 16.10</para></listitem>
+> +                <listitem><para>Ubuntu 17.04</para></listitem> -->
+> +                <listitem><para>Ubuntu 18.04 (LTS)</para></listitem>
+>  <!--            <listitem><para>Fedora 16 (Verne)</para></listitem>
+>                  <listitem><para>Fedora 17 (Spherical)</para></listitem>
+>                  <listitem><para>Fedora 19 (Schr=C3=B6dinger's Cat)</para=
+></listitem>
+>                  <listitem><para>Fedora release 20 (Heisenbug)</para></li=
+stitem>
+>                  <listitem><para>Fedora release 22</para></listitem>
+>                  <listitem><para>Fedora release 23</para></listitem>
+> -                <listitem><para>Fedora release 24</para></listitem> -->
+> -                <listitem><para>Fedora release 26</para></listitem>
+> +                <listitem><para>Fedora release 24</para></listitem>
+> +                <listitem><para>Fedora release 26</para></listitem> -->
+> +                <listitem><para>Fedora release 28</para></listitem>
+>  <!--            <listitem><para>CentOS release 5.6 (Final)</para></listi=
+tem>
+>                  <listitem><para>CentOS release 5.7 (Final)</para></listi=
+tem>
+>                  <listitem><para>CentOS release 5.8 (Final)</para></listi=
+tem>
+> @@ -128,9 +130,10 @@
+>                  <listitem><para>openSUSE 12.2</para></listitem>
+>                  <listitem><para>openSUSE 12.3</para></listitem>
+>                  <listitem><para>openSUSE 13.1</para></listitem>
+> -                <listitem><para>openSUSE 13.2</para></listitem> -->
+> +                <listitem><para>openSUSE 13.2</para></listitem>
+>                  <listitem><para>openSUSE 42.1</para></listitem>
+> -                <listitem><para>openSUSE 42.2</para></listitem>
+> +                <listitem><para>openSUSE 42.2</para></listitem> -->
+> +                <listitem><para>openSUSE 42.3</para></listitem>
+>              </itemizedlist>
+>          </para>
 >
-> 2. In ./recipes-core/glib-2.0/glib.inc, it defines RDEPENDS includes locale-base-es-es
-> RDEPENDS_${PN}-ptest_append_libc-glibc = "......
->                                                                           locale-base-de-de "
->
-> But glibc-locale didn't provide a package called " locale-base-de-de ", does anyone know the reason?
->
-> --------------------------------------------------
-> Zheng Ruoqin
-> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
-> ADDR.: No.6 Wenzhu Road, Software Avenue,
->        Nanjing, 210012, China
-> MAIL : zhengrq.fnst@cn.fujistu.com
->
->
->
+> --
+> 2.11.0
 >
 > --
 > _______________________________________________
