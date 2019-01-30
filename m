@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C407F7C2E9
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B1AF97C2D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 10:59:51 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l9so25459576wrt.13
+	Wed, 30 Jan 2019 10:59:52 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id t6so25492851wrr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 02:59:53 -0800 (PST)
+	Wed, 30 Jan 2019 02:59:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TNk6Vtr/Lhd8BgDhOsfk/v6yDr1IuF8ZzZnRdj2lhfA=;
-	b=S07u1ApqB5rDzbR0n9Ftu/LaEiWUS90GlpFm8CEmoWLtViKY9swC9ywhN/9kBe0dje
-	GNfJCv8NkbMFN5IEK3H/y00xkg5LIHmJYmphul3G7hzQYlZ5m3IZxkMby6ErQ1wWvbWG
-	hxZ9Ss293M8bU4M3mD9JqBtuqotrsIe1HleaRuMCIW4JNYXoY4EvuSNSIUkpTp0165op
-	9vxkVWLSdWLMbDRLdpoJxp7ODdoearUYGwGPniVrgcdSONnoq2P1azINNHk1QDg5goei
-	U4L7/Y4lCFErhqsYNd9ak/4ix2apI7Hc4pwFr9U0btKnp+X6nLI2lM1x+lekjPGY5jOH
-	P6oQ==
+	bh=nWdx6acJkzZgwgWHe7Df0fM1GzSY0TTKZI1mDZZLByY=;
+	b=E4ONSspc9Ot+KNMHy7aLEW5plEiuedgXqSSjDRckLfp5uAfc0B1d1tcRdkXsZzlifQ
+	7Tz9lyxc+ZE5zvpWfklDYOtHyyrs0aj+FRTfcqm7Vrm+jCwa5RARkpMytIf8DZNfEAym
+	Z7XIgRjjZlB6aVztJUyfiJFFROxmSXQ9cruDMCdaLjtKMEGIOddnk+9/nFyVKDQO/Yy8
+	JBUHrvoznmaECQ64WNUqMG08y9tNelY16Z2xOy9YXvvqiicrdxx8uWw5gaQDBaUHznnj
+	JnrZxJMqYeux+NrtQpYppGPA/61RkxMAWDlrUDQ97ho+vf+TulWzKaRWBVVcHxkO8mPR
+	VQ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TNk6Vtr/Lhd8BgDhOsfk/v6yDr1IuF8ZzZnRdj2lhfA=;
-	b=rFP0AKpHX+qrXNBSBDPwk3UqdRhFlJBXCOP/2cUk7mEDf2/yI/ArUUJGyZ581xVc/f
-	FxMAg/GIEoELXPhsCPskePfvNsXKejgMP7V4lcso6TAxV088cL1+eoMLDPqRXlpK9Ah5
-	q1XGOA3+cbpEs5AWbHUfBcqz8BlNiSob1R+ecTWe+czjOy6pIu7p12t9zOe6NO26X7et
-	Y5B9KPO3dsXhdkZA+WmQEEew4f5rC9AEmHVk9svXcUAx4dMK0if4hMUbsLdsofrgKHks
-	/Kb3NnNiUAtvWajZg6eAubxlcob4RfP+pPFcItKCTnwnTa3J9ZMSCefbyv9wQKrkqO7z
-	hTJw==
-X-Gm-Message-State: AJcUukevX8mLB5Wiek+h2yqvdSUrNUAf0X4T0cd4dylQbWThCaol4P6G
-	2bB0IWexmGCUKa86Fr7BQj86lLqj
-X-Google-Smtp-Source: ALg8bN7DmWchMlZUdgrvvgGfvGjs/WETsyB9PVDll53b1PDQDjdAFRhY3azUgh+k3NyxBIzh4IMH+w==
-X-Received: by 2002:a5d:4652:: with SMTP id j18mr30457817wrs.279.1548845992116;
-	Wed, 30 Jan 2019 02:59:52 -0800 (PST)
+	bh=nWdx6acJkzZgwgWHe7Df0fM1GzSY0TTKZI1mDZZLByY=;
+	b=r0w7UMrVjApFe9UGpUVJDjcDWKrVbVEyvw2F5tG1a9J382xLP2Z26tSNrvbj0w7pzX
+	FXgtYer/801QfTFVzB60Fe6aRXGNu6K+S7+KwRFBAj/B11Pwv9r88W9TANjf2yLZMOfi
+	9wwQfTgBP0I0nIMxJ3G3Kg76ez6TbjpJ8hneYAT3o5E2FrlERGnN1WSn0rFsYxE6DZhf
+	0+oGBpTwoASFRkDoBD4BXYAIO89hIM+zXMWBYMVFgqkkEciRGUPFZQ9xY5NtASkxKTGX
+	IUsqPGkUhAo8+xPqbeMKO5l8GWHTxCYhG7v5tzmf7OXKmnT8vvztEpJDx0LnQ4mOpKYW
+	6nzQ==
+X-Gm-Message-State: AJcUukdeuVP5tkJoJlZdOPzjaIVgHhajc3nUgC016i/XQzEX9KwnTcPs
+	gJShJ4MChS6LTVu3W77wm3JcyEDo
+X-Google-Smtp-Source: ALg8bN7uSRW1QlbqxuDB2p9MJC4UOZ0pGzmFOhbJBNilJiR7MVlBMK7pT7t+CKoG37I0dqlkeIWC8A==
+X-Received: by 2002:a5d:570c:: with SMTP id a12mr28813551wrv.161.1548845993000;
+	Wed, 30 Jan 2019 02:59:53 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	a18sm1127705wrp.13.2019.01.30.02.59.50
+	a18sm1127705wrp.13.2019.01.30.02.59.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jan 2019 02:59:51 -0800 (PST)
+	Wed, 30 Jan 2019 02:59:52 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 11:59:25 +0100
-Message-Id: <992c9ab2ee617989f5b3918769e66761f1bbc8fd.1548845917.git.alex.kanavin@gmail.com>
+Date: Wed, 30 Jan 2019 11:59:26 +0100
+Message-Id: <0a4f89bdace2e8b8eacbfa8aac88975b44262723.1548845917.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1548845917.git.alex.kanavin@gmail.com>
 References: <cover.1548845917.git.alex.kanavin@gmail.com>
-Subject: [PATCH 02/20] gtk+3: remove the gtk-icon-utils-native recipe
+Subject: [PATCH 03/20] mesa: enable native and nativesdk variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,214 +60,70 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Jan 2019 10:59:52 -0000
 
-As we are now build native gtk+3, it already provides the necessary utilities.
+Note that only the most minimal necessary subset of mesa is built;
+particularly we don't build any drivers as that is offloaded
+to the GL implementation provided by the host.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc             |   7 +-
- .../gtk+/gtk-icon-utils-native_3.22.30.bb     |  63 -----------
- ...endency-from-gtk-encode-symbolic-svg.patch | 102 ------------------
- 3 files changed, 5 insertions(+), 167 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb
- delete mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+ meta/recipes-graphics/mesa/mesa.inc | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 0b5fffb752f..77b6c31536b 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -72,10 +72,13 @@ do_install_append_class-nativesdk() {
- }
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index d9e492e94e1..e96a12c1b97 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -26,7 +26,9 @@ PROVIDES = " \
  
- do_install_append_class-native() {
--    # provided by gtk-icon-utils-native
--    rm ${D}${bindir}/gtk-encode-symbolic-svg
-+        create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
-+                GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
-+        create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
-+                GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
- }
+ inherit autotools pkgconfig python3native gettext distro_features_check
  
-+PROVIDES += "gtk-icon-utils"
- PACKAGES =+ "${PN}-demo"
- LIBV = "3.0.0"
+-ANY_OF_DISTRO_FEATURES = "opengl vulkan"
++BBCLASSEXTEND = "native nativesdk"
++
++ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
  
-diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb
-deleted file mode 100644
-index 28e7a312d28..00000000000
---- a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.30.bb
-+++ /dev/null
-@@ -1,63 +0,0 @@
--SUMMARY = "Native icon utils for GTK+"
--DESCRIPTION = "gtk-update-icon-cache and gtk-encode-symbolic-svg built from GTK+ natively, for build time and on-host postinst script execution."
--SECTION = "libs"
--
--DEPENDS = "glib-2.0-native gdk-pixbuf-native librsvg-native"
--
--LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
--
--MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
--
--SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
--          file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
--SRC_URI[md5sum] = "61e60dc073e0a6893c72043d20579dc0"
--SRC_URI[sha256sum] = "a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
--                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
--                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
--                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
--
--S = "${WORKDIR}/gtk+-${PV}"
--
--inherit pkgconfig native
--
--# versions >= 3.90 are development versions, otherwise like upstream-version-is-even
--UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>3\.([1-8]?[02468])+(\.\d+)+)\.tar"
--
--PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
--
--do_configure() {
--	# Quite ugly but defines enough to compile the tools.
--	if ! test -f gtk/config.h; then
--		echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
--		echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
--		echo "#define HAVE_FTW_H 1" >> gtk/config.h
--	fi
--	if ! test -f gdk/config.h; then
--		touch gdk/config.h
--	fi
--}
--
--do_compile() {
--	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
--		${S}/gtk/updateiconcache.c \
--		$(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
--		-o gtk-update-icon-cache
--
--	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
--		${S}/gtk/encodesymbolic.c \
--		$(${PKG_CONFIG_FOR_BUILD} --cflags --libs gio-2.0 gdk-pixbuf-2.0) \
--		-o gtk-encode-symbolic-svg
--}
--
--do_install() {
--	install -d ${D}${bindir}
--	install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
--	install -m 0755 ${B}/gtk-encode-symbolic-svg ${D}${bindir}
--
--	create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
--		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
--	create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
--		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
--}
-diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch b/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
-deleted file mode 100644
-index 237f803755f..00000000000
---- a/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
-+++ /dev/null
-@@ -1,102 +0,0 @@
--From 4d09ff324419fe4e671233044e424378da53969b Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 9 Jun 2015 14:20:30 +0300
--Subject: [PATCH] Remove Gdk-dependency from gtk-encode-symbolic-svg
--
--Building gtk-encode-symbolic-svg without building Gdk is useful
--as only the icon tools are needed on the native build: this makes
--native build much faster and requires much less dependencies.
--
--Upstream-Status: Pending
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- gtk/encodesymbolic.c | 36 ++++++++++--------------------------
-- 1 file changed, 10 insertions(+), 26 deletions(-)
--
--diff --git a/gtk/encodesymbolic.c b/gtk/encodesymbolic.c
--index 9f7d015..1f07563 100644
----- a/gtk/encodesymbolic.c
--+++ b/gtk/encodesymbolic.c
--@@ -19,7 +19,6 @@
-- 
-- #include <glib.h>
-- #include <gdk-pixbuf/gdk-pixdata.h>
---#include <gdk/gdk.h>
-- #include <glib/gi18n.h>
-- 
-- #ifdef HAVE_UNISTD_H
--@@ -43,30 +42,18 @@ static GdkPixbuf *
-- load_symbolic_svg (char *file_data, gsize file_len,
--                    int width,
--                    int height,
---                   const GdkRGBA  *fg,
---                   const GdkRGBA  *success_color,
---                   const GdkRGBA  *warning_color,
---                   const GdkRGBA  *error_color,
--+                   const char *css_fg,
--+                   const char *css_success,
--+                   const char *css_warning,
--+                   const char *css_error,
--                    GError        **error)
-- {
--   GInputStream *stream;
--   GdkPixbuf *pixbuf;
---  gchar *css_fg;
---  gchar *css_success;
---  gchar *css_warning;
---  gchar *css_error;
--   gchar *data;
--   gchar *svg_width, *svg_height;
--   gchar *escaped_file_data;
-- 
---  css_fg = gdk_rgba_to_string (fg);
---
---  css_success = css_warning = css_error = NULL;
---
---  css_warning = gdk_rgba_to_string (warning_color);
---  css_error = gdk_rgba_to_string (error_color);
---  css_success = gdk_rgba_to_string (success_color);
---
--   /* Fetch size from the original icon */
--   stream = g_memory_input_stream_new_from_data (file_data, file_len, NULL);
--   pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
--@@ -105,10 +92,6 @@ load_symbolic_svg (char *file_data, gsize file_len,
--                       "</svg>",
--                       NULL);
--   g_free (escaped_file_data);
---  g_free (css_fg);
---  g_free (css_warning);
---  g_free (css_error);
---  g_free (css_success);
--   g_free (svg_width);
--   g_free (svg_height);
-- 
--@@ -167,7 +150,8 @@ make_symbolic_pixbuf (char *file,
--                       GError        **error)
-- 
-- {
---  GdkRGBA r = { 1,0,0,1}, g = {0,1,0,1};
--+  const char r[] = "rgba(255,0,0,1)";
--+  const char g[] = "rgba(0,255,0,1)";
--   GdkPixbuf *loaded;
--   GdkPixbuf *pixbuf;
--   int plane;
--@@ -196,10 +180,10 @@ make_symbolic_pixbuf (char *file,
--        * the "rest", as all color fractions should add up to 1.
--        */
--       loaded = load_symbolic_svg (file_data, file_len, width, height,
---                                  &g,
---                                  plane == 0 ? &r : &g,
---                                  plane == 1 ? &r : &g,
---                                  plane == 2 ? &r : &g,
--+                                  g,
--+                                  plane == 0 ? r : g,
--+                                  plane == 1 ? r : g,
--+                                  plane == 2 ? r : g,
--                                   error);
--       if (loaded == NULL)
--         return NULL;
---- 
--2.1.4
--
+ PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
+                ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)} \
+@@ -42,11 +44,13 @@ EXTRA_OECONF = "--enable-shared-glapi \
+                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
+                 --with-platforms='${PLATFORMS}'"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri', '', d)} \
++PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+ 		   "
++PACKAGECONFIG_class-native ?= "gbm dri-native egl"
++PACKAGECONFIG_class-nativesdk ?= "gbm dri-native egl"
+ 
+ # "gbm" requires "dri", "opengl"
+ PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
+@@ -58,17 +62,19 @@ PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+ DRIDRIVERS = "swrast"
+-DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+-DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
++DRIDRIVERS_append_x86_class-target = ",radeon,r200,nouveau,i965,i915"
++DRIDRIVERS_append_x86-64_class-target = ",radeon,r200,nouveau,i965,i915"
+ # "dri" requires "opengl"
+ PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, xorgproto libdrm"
++# On the native builds we use host's dri drivers
++PACKAGECONFIG[dri-native] = "--enable-dri, , xorgproto libdrm"
+ PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, xorgproto libxshmfence"
+ 
+ # Vulkan drivers need dri3 enabled
+ # radeon could be enabled as well but requires gallium-llvm with llvm >= 3.9
+ VULKAN_DRIVERS = ""
+-VULKAN_DRIVERS_append_x86 = ",intel"
+-VULKAN_DRIVERS_append_x86-64 = ",intel"
++VULKAN_DRIVERS_append_x86_class-target = ",intel"
++VULKAN_DRIVERS_append_x86-64_class-target = ",intel"
+ PACKAGECONFIG[vulkan] = "--with-vulkan-drivers=${VULKAN_DRIVERS}, --without-vulkan-drivers, python3-mako-native"
+ 
+ PACKAGECONFIG[opengl] = "--enable-opengl, --disable-opengl"
 -- 
 2.17.1
 
