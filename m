@@ -1,49 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D2098608B7
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 90D1A6D3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 16:35:01 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id y139so3151799wmc.5
+	Thu, 31 Jan 2019 17:32:55 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id 96so4273871wrb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 08:35:03 -0800 (PST)
+	Thu, 31 Jan 2019 09:32:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qpa3yw/MIStaEcZM0PgxfuT7zmKXK+JSttlyGxLp8Uo=;
-	b=EWiDCal3YwO0p0cRWtLLHuM7m/tWhRAPbNqFhWpZ9COIKUJkJg5w2dKcTpO8YirQqD
-	fJyTdZkRzg+li4IH3ygLMfpM0lJS4yyBJV0MDIXXGG3n0QHHWGRjg6262137CPT0avlC
-	QcPs+osGBNa88Sc5c5z5ABsSGijspIUdqqsj8=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=OvVN3CfvfadmTLa/XKQg+a+A4mP1ALUlWEBS8WqAbBc=;
+	b=PiZzw3hjU7DTJYKlVH3t6nrCnrelssxhso5p6ZnMWvvNCp9yFPVI5oVbwbt6Csbp5p
+	5GVAskPhsOAhafIw6Z/nNQN+NE+HPYx751cOjnK6v6qUozqCSnCec2P8hLSxv5Z7OOPQ
+	tRjJKkW2SIox5vpkwJrN51jVYS1VcivSVXWLs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qpa3yw/MIStaEcZM0PgxfuT7zmKXK+JSttlyGxLp8Uo=;
-	b=KpUlwYU209QWAGmCJiZE7bZyEdOqRkWoQ86LWjWMkto9nuT+RVh2D4XY2WMFu1EEZP
-	zNbWMuztV2tTicAUVz1a9Wzk/9IrYa6+c0iOmpyHUR/OakIHmHHE2eds25RrUdMAF6nI
-	rvLoRgLCMUsqKQ06UZJFCAiqg4ubSIOYlZGAXUrNj5WQ0hfRUW984CmuWXcQQ7P2oGzW
-	LZ2V7WkDzes4n3ei7eWqheKLAAFmGTi1sQDMXZC1vhN5tcjZ6KjRSkdljLr3qcIXXP5l
-	w1BIwhGsqXvWx2VQcgTcrL8FaQUJpQobv4ECy2R/yCuq9BDrOrMl7YW9ZOS2xEee4+mr
-	+ZYg==
-X-Gm-Message-State: AJcUukfX8TrtpqHts4IMhkDBop5uGIWs4Ihty+pif1HhS9D660B5QGIB
-	ZYh5vshXkIwuc4v86o+p2JZsJkxKnF8=
-X-Google-Smtp-Source: ALg8bN7/V02QfAOss2rx1tltxASjvNb1A7BCm4y1XLnRBXybEL8Bh1zhCufRv9f9WAxxhD1fJjtihQ==
-X-Received: by 2002:a1c:8c13:: with SMTP id o19mr28869724wmd.56.1548952502019; 
-	Thu, 31 Jan 2019 08:35:02 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=OvVN3CfvfadmTLa/XKQg+a+A4mP1ALUlWEBS8WqAbBc=;
+	b=XphbjfFhHpnKJ0tWfCH3MVJ4xxdMzw+NK9IhzB/ukZt1s8dzXK1e5O6wipHe67BaF+
+	WWXw5cUI9FSshWt1vS2GYqJaAdZsHA4Z71myUliXQXSyVISZf3SMN5rSJ4xtMnFl1kas
+	aEe0WhF+kG/5lKXk34MnZWOsNi48tRaG1gbdzBip5h4R8RQyxLnkX4GgF+2GSkwGhMn9
+	l4+LRAuv3PdWSWbx2+ZjFw6ydfISQL5LjYWkuLdXPfkO1NyQDRGvIsUuTQ3hXw4kepPk
+	hM02O6bTvmcFPdkGrRzIJDeXle1V1El+F+E1Om9HweBZWbalpAaQLhit7ZR+dRrI3BJI
+	3Kzw==
+X-Gm-Message-State: AJcUukexwZz5HLykMzxRjgEo+7ISNE0mNor2DCvzgLJYaQQs9NDqw2i6
+	Q0IEGrr8imi6FG6zVzYRNFQd6Px5otU=
+X-Google-Smtp-Source: ALg8bN7RF6d+vijiVZuLPiLl47lWdrvffD4XMHjZL4tkcb24WSynSqR79U87Jl3uHc22aSh2tRy89g==
+X-Received: by 2002:a5d:4202:: with SMTP id n2mr34958449wrq.260.1548955976215; 
+	Thu, 31 Jan 2019 09:32:56 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a12sm9960499wro.18.2019.01.31.08.35.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Jan 2019 08:35:01 -0800 (PST)
+	s132sm5876630wmf.28.2019.01.31.09.32.54
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 31 Jan 2019 09:32:55 -0800 (PST)
+Message-ID: <ddfc998a62b9e3b4ae346a449845e5341cf0a3e2.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2019 16:34:59 +0000
-Message-Id: <20190131163459.24490-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Subject: [PATCH] python2-manifest: Add missing xmlrpclib.py
+To: Jonas Bonn <jonas@norrbonn.se>, openembedded-core@lists.openembedded.org
+Date: Thu, 31 Jan 2019 17:32:54 +0000
+In-Reply-To: <eca0ac37-bd7a-b3d9-55a9-937215963f31@norrbonn.se>
+References: <20190128205848.12834-1-jonas@norrbonn.se>
+	<2acd4017b1a5bf6882bb54e2e559588b7d8cac67.camel@linuxfoundation.org>
+	<eca0ac37-bd7a-b3d9-55a9-937215963f31@norrbonn.se>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v4 0/6] systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 16:35:02 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 Jan 2019 17:32:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The manifest creation bug that was masking this file was fixed, rerun and add
-the missing file to fix:
+On Thu, 2019-01-31 at 14:19 +0100, Jonas Bonn wrote:
+[...]
+> So with that:
+> 
+> a)  Does buildbot use connman, systemd-networkd, both, or something 
+> else?  How do I find this out?
 
-  File "/usr/lib64/python2.7/SimpleXMLRPCServer.py", line 102, in <module>
-    import xmlrpclib
-ImportError: No module named xmlrpclib
+We're building standard poky so there are no non-standard settings,
+other than for those images, enabling systemd. You can see the
+configuration and revisions used in the logs.
 
-[YOCTO #12814]
+On the host side, the autobuilders are configured with static tap
+devices which the user running the build has permissions for.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python/python2-manifest.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> b)  I'll poke at the patch series again once I get a working 
+> origin/master build so that I have sane state to work from.  The
+> systemd patches work fine on Thud... I suspect the problem lies
+> elsewhere.
+> 
+> c)  Are others seeing similar errors with connman?
 
-diff --git a/meta/recipes-devtools/python/python/python2-manifest.json b/meta/recipes-devtools/python/python/python2-manifest.json
-index 4fff54a95bf..81f1c24f97a 100644
---- a/meta/recipes-devtools/python/python/python2-manifest.json
-+++ b/meta/recipes-devtools/python/python/python2-manifest.json
-@@ -1122,7 +1122,8 @@
-         ], 
-         "files": [
-             "${libdir}/python2.7/DocXMLRPCServer.py", 
--            "${libdir}/python2.7/SimpleXMLRPCServer.py"
-+            "${libdir}/python2.7/SimpleXMLRPCServer.py", 
-+            "${libdir}/python2.7/xmlrpclib.py"
-         ]
-     }, 
-     "zlib": {
--- 
-2.19.1
+Our builds work fine with current master, as soon as we add the patches
+they break. They break even with just the machineid changes. I haven't
+looked into why, I just know our regression tests go red with your
+patches :(.
+
+Cheers,
+
+Richard
 
 
