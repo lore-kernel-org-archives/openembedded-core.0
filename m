@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2588B6BA11
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C27487BF65
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 23:05:56 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id z5so5091612wrt.11
+	Thu, 31 Jan 2019 23:23:19 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z5so5124213wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 15:05:57 -0800 (PST)
+	Thu, 31 Jan 2019 15:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=GDCuHADY7JM5YONYVCexQeLqgyBySNvTZd+5ZKmIXwg=;
-	b=aeLGEycRxXwWO9PYnodRkiLr+J0K40elIcoDfZ68nPbc/ttBMihtKc3GvCHFOoFcHa
-	HKa6PQ7yq9VefYAES9qgnHqAqVi4+CAM4Xh8G8phl3YatVachZyFLVOuRJ/xU7nZ6Izw
-	oErDlTUXsFg1WiCUhgCULnQ4YbwuVmNAlKZHs=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=kXroc5w9EYhgsFxNwxbQIU1vMgtOa0mYaGmFxZwtLUI=;
+	b=QFk9nUQ1PoNhu953nFEKOmRL1CtwKyhbKWF+/jW4BKGfYW1fJL1DcYgluKVHrgcVcC
+	NnVxsbEcdx86z34cqSYT0F2ubPVkCrXkT5aNL1BaatEdFMq3c9fJk2Gwe13ily8ZrkwT
+	aye4ntU/woouVXkLXdcn2J1joeTA+Xgz3Qg+c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=GDCuHADY7JM5YONYVCexQeLqgyBySNvTZd+5ZKmIXwg=;
-	b=rLzvYndgcCkFwLdTZ+XWOxlVc9zRcCGV/9Uy46uFKW7uejDRy1a5F7BGlm+SuhASXg
-	sm87gZm7Clprs/hEZ1T3xW2nPnAn7Oth6CrNb5QZRkIGbiAi2vuqWVkJYu3tSf10Zxcq
-	pQiNMJaioZE6dTyZ38OJWKTCw5L1g0t3Tcos1Ymwm5c0NYjOaD63E9zK+ebfWIRlpMP5
-	Ta9OaRsK4hC3ofwv0tr7HBVYb10tevDQ+IXRQ9Flou904n3uoffQ7VpPlyurn/ZToigw
-	Sw2q7Iqga+rfQ6NOQE95EChjWlkChbTTib1EZdSC6/et1s0wYnpu7HZY1xWLyLparhgS
-	vgVQ==
-X-Gm-Message-State: AJcUukfebCW1B8NijXLfoXgG5DS0lp9PNESv56pNUo19Qu9tSuiiiWxe
-	UOltaFn2/mAsJmYWM0gZyvU15S1mLWA=
-X-Google-Smtp-Source: ALg8bN7zNdL3bBUjDM1MaNX9e/ZX5388ZHeflMQQHz60JHXyHkN+40gkuIC2S96GTmwlMLg3Rw98rQ==
-X-Received: by 2002:adf:b3c3:: with SMTP id x3mr36232194wrd.294.1548975956603; 
-	Thu, 31 Jan 2019 15:05:56 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=kXroc5w9EYhgsFxNwxbQIU1vMgtOa0mYaGmFxZwtLUI=;
+	b=G1whVPg+wknjO/uFwlshU6J1XwmjygFHx880ERuFW46MwDsFRvjrqcQpZEUFMImcFI
+	tOWlEbwOnXkJ3LimbDhw8/oLe2H/+Z4pb+LP5nHMgirJB6vMx5hqxKH9TeU5Og+0nDZP
+	HvPisaqtqzMsqJx39dwNy5kOZAq9rWAp0RWOIZOtVxKsgjwI9XtixXB2HH+zgVm/5o61
+	wfe0qXmVUtwQN9An00VYjJvRUm06dmLJV9+8Lu7He6/UlnvV8G2ykaB3Xs+o9HRWjjkF
+	1FGEILJOAXPRBp+gu0XeR6WRXxtSERLpzcrQ4yDLzTV1JpI5MrhDgyqViHnqNMyQEhRG
+	IR0A==
+X-Gm-Message-State: AHQUAuaMTeyJxXPvicOX4GQEodf0oaIRN1o3LVQQ9vKHVNIW9EWx1tAO
+	sgjlkcw8Y5ATucdjWQQqnQem/wa2FMk=
+X-Google-Smtp-Source: AHgI3Ibo7KVFKD0p4VQTStMDaIrHEhBYI7alQG3GScl5zR+g+y1S/mW6lWPCKIxOK20TiNkxVsT0hA==
+X-Received: by 2002:a05:6000:1144:: with SMTP id
+	d4mr12470896wrx.136.1548977000318; 
+	Thu, 31 Jan 2019 15:23:20 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p10sm4312634wrt.25.2019.01.31.15.05.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Jan 2019 15:05:55 -0800 (PST)
+	s16sm5362656wrt.77.2019.01.31.15.23.19
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 31 Jan 2019 15:23:19 -0800 (PST)
+Message-ID: <d0825461772140293eb59035fc62e43cdbb4460f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2019 23:05:53 +0000
-Message-Id: <20190131230553.31750-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190131230553.31750-1-richard.purdie@linuxfoundation.org>
-References: <20190131230553.31750-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/runtime/ptest: Ensure OOM errors are logged
+To: Phil Blundell <pb@pbcl.net>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 31 Jan 2019 23:23:18 +0000
+In-Reply-To: <a8f5b5c4bf1d9004c564500f7b6f1fd3da1715b1.camel@pbcl.net>
+References: <a8f5b5c4bf1d9004c564500f7b6f1fd3da1715b1.camel@pbcl.net>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] go, go-common: Add missing quotes in shell variable assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 23:05:56 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 Jan 2019 23:23:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently processed being killed by the OOM killer may not be spotted by
-ptest-runner. After we complete the tests, check the logs and report if there
-were any. This ensures the user is aware of OOM conditions affecting the
-ptest results.
+On Thu, 2019-01-31 at 12:43 +0000, Phil Blundell wrote:
+> Otherwise we will lose if ${BUILD_CC} happens to contain a space.
+> 
+> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> ---
+>  meta/recipes-devtools/go/go-common.inc | 2 +-
+>  meta/recipes-devtools/go/go_1.9.bb     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/runtime/cases/ptest.py | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Its been a while since we saw you! :)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 6ae951356d8..2a28ca59a8e 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -70,5 +70,13 @@ class PtestRunnerTest(OERuntimeTestCase):
-             if failed_testcases:
-                 failed_tests[section] = failed_testcases
- 
-+        failmsg = ""
-+        status, output = self.target.run('dmesg | grep "Killed process"', 0)
-+        if output:
-+            failmsg = "ERROR: Processes were killed by the OOM Killer:\n%s\n" % output
-+
-         if failed_tests:
--            self.fail("Failed ptests:\n%s" % pprint.pformat(failed_tests))
-+            failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
-+
-+        if failmsg:
-+            self.fail(failmsg)
--- 
-2.19.1
+The patch came through in one of the weirdest formats I've seen,
+couldn't get the mail client to give me a plain text version of it. It
+says its plain text but the client wants to use HTML.
+
+I forced something to apply since it was a simple patch but it wouldn't
+work for a more complex one. Not sure why this is behaving so oddly as
+I can usually get most emails to work...
+
+Cheers,
+
+Richard
 
 
