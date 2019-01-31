@@ -1,48 +1,47 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 462D87C471;
-	Thu, 31 Jan 2019 10:40:41 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id w18so3034998ite.1;
-	Thu, 31 Jan 2019 02:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
+	[209.85.166.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 18BE77C3AB
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2019 10:54:57 +0000 (UTC)
+Received: by mail-it1-f176.google.com with SMTP id m62so3043260ith.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2019 02:54:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XWnWZHjNQZ1RexnzVP6cH9iVeojuPJlwqvqlTc8qF6o=;
-	b=qXcCwGJcaILCNxUJFb+/2Rl3Ud/A55sFcGywaQozcK+myiyYzh3I7QYiABvGBZxZFW
-	/WDM7mDEQgTIPfwVTHNWLL4Ny0v4ZXBqpnPv74XN+qKnsd81hzaA1OGjcpR2Nj43wPYT
-	2IPcyPWPXjhu0oXyvYVCm9hTUGlygOtoraK2ODkM23PUxFsPl/SUPOL2aQiGNKQ3+wnj
-	Q206AG4wwz79mwW+GwONN1zodw0/r+dwP1EYGPjNjI1LVe8sGWlF5PWQHqisiwAVKqGm
-	oA0p8rFR98ws6yxvzrHGIkB5uHqS15ANs5/EI+R7QFW1ECmZbAvysZypJNOKutkRmUG3
-	V50w==
+	:cc; bh=RNMu+PgCBO8MsEAmRQNMHkK2LFW3ts24X0DbQ084uso=;
+	b=H/nfU78eakqLQOUYMHSjsAIl7g04Q3HGLNwBawsBdjraMF0pBfEA6vR6gZM5wJ+gvp
+	as/UwgrQ1SkLZwkmcwRwpP5lUi909pWsBVd5JGJDBt6qOXndAKrFgoH+HO5xtqykeEYi
+	GM4lUi5wVH4uwbyfBvvHiNCoecZut2mNOAuAPnZlWeS4JsCW+GzFwC9QZR13y23npbad
+	1oWO6KAzfKe7ongywkhkxaScBIHXSXUyjND8ocRyF8BT4KBTxXDW5HpERF/rO/CHhA/g
+	sRiowWKrAPMJGgAgrFMt+XYBTxoU+8qXajpzUPRpyOslbMiDqYgG3BD+IqA+lFbP9BVX
+	RtMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=XWnWZHjNQZ1RexnzVP6cH9iVeojuPJlwqvqlTc8qF6o=;
-	b=TG6DQMOzI8vRchYZleyfhTNP549XiHoTxJCAqWrAHIOeaAyMHvNhIdCK5/iQ8rxS7d
-	Zrw/FMsb2hMOVjGy2oxVpmnHjo7SQc7OVe6Rm/XSB/boxc6bcory1yZsfXJdLU4rd7TE
-	YXj7EFHMGCQrpDzZkwB0AtoYFpmfE1JXkylRf3yEd1RnrOmBKJu5aCbKENO1YGmqZPUE
-	e+2xTM78m9AMK8JRqbCXHdLCeJkF9Fgh5dnLa42HazPAoBOg8kw6Zs1jKrHB4wTuCGdW
-	+WkYTxJONPrfNblrFbu1UCfr5bZ0oQD8m6pm58mnxsoRqqyYzlgpW+TnF2eh5KN2D8cg
-	UuAw==
-X-Gm-Message-State: AJcUukdhiuZurb7FffTKwRMphaOifJ8F9Nx/PSIZNxvWp4c6W14OriUt
-	jRMCDl+WPjGZJFkc6Qtp26fHDJcsVW28UxvRu2w=
-X-Google-Smtp-Source: ALg8bN7ttKyHKTy9b4mGMsuTGd16kh1Bz2/AAkvnDQKPIfZ3jphvdPzVhSC85SieUN5giuQVfj7NItoKbcOUqwN1xJ4=
-X-Received: by 2002:a02:b381:: with SMTP id p1mr20238505jan.46.1548931241970; 
-	Thu, 31 Jan 2019 02:40:41 -0800 (PST)
+	bh=RNMu+PgCBO8MsEAmRQNMHkK2LFW3ts24X0DbQ084uso=;
+	b=HlykNVAFjLbWt1Fbxbrb7FikJ19oY1+omMboC7+Tq62zyYNIuxKRgGVQQKnmhf65Ym
+	H80eg/bRZPOU24QQBTjHgo1bZOoVyiEqN5Mv4r2GcbFR0vBcK5834hvorK8BrimkmnNx
+	Y/KRl/PDUzM40bAMT9e7EMH8UN7uJr92tCUXOb4L//P+7+srilKcmLNNKbs254yWfwxV
+	8NDnq6XUG2pBgVka32e0xqIIakWuIJhW5fS2KxCduURY62f42QnErEgULTu9ytYmm4tN
+	gFpzgL4ljKE17e/ub8VT3KTAlNj5/D94hSIWMzZ2VP/jSuNfrr4zVylzTCpzeBdiaQof
+	QW2g==
+X-Gm-Message-State: AJcUukfhJ+5NzPl8XvBmyMPOLsiWEj9OlnmS58UvUPTw1M9yUjoYkDsM
+	Vds6pTe+vJBekeuks78/aGB6SbJU4ELrDbpGav5kkg==
+X-Google-Smtp-Source: ALg8bN5XNgORa6lG3vFPd09vz3qfAaPzM/xhpEcOOO2KqDZ7rw1g4b+MFivdzTAOOWVJ2ePGcasmA6FCuoaDUWfvh/o=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr10556427itj.62.1548932099058; 
+	Thu, 31 Jan 2019 02:54:59 -0800 (PST)
 MIME-Version: 1.0
-References: <CAHUNapTBZZRA4+RiFLVHYX6CAkAC8_s9jA0KrFc8Rvs0ksLG-Q@mail.gmail.com>
-In-Reply-To: <CAHUNapTBZZRA4+RiFLVHYX6CAkAC8_s9jA0KrFc8Rvs0ksLG-Q@mail.gmail.com>
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Thu, 31 Jan 2019 11:40:30 +0100
-Message-ID: <CAC+thW3KsvrR3X++ywQRQvqjNcs7z7pocq9CBH_s7-jYJXe9bg@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-members@lists.openembedded.org,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] OE Summit @ SCaLE 17x - Sunday March 10th 2019 - Pasadena CA
+References: <20190130192917.19882-1-JPEWhacker@gmail.com>
+In-Reply-To: <20190130192917.19882-1-JPEWhacker@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 31 Jan 2019 10:54:48 +0000
+Message-ID: <CAJTo0LYQ_=y6=wkYJ2QuxJAaQ_uYV9PqJQgYmw1AZR1x=pAwhQ@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] ref-manual: Update the default value for PACKAGE_DEBUG_PACKAGE_SPLIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 10:40:41 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 10:54:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 31, 2019 at 8:26 AM Trevor Woerner <twoerner@gmail.com> wrote:
->
-> We're excited to announce the inaugural "OpenEmbedded Summit" taking place
-> Sunday March 10th 2019 as part of the Southern California Linux Expo
-> (SCaLE) 17x at the Pasadena Convention Center.
->
-> For the past few years there's been an ever-growing OpenEmbedded event as
-> part of SCaLE. This year, with the missing Spring ELC, we felt it was time
-> to do something more "formally" so OE enthusiasts could get together
-> without having to wait until August.
->
-> The initial suggestion for this summit came at last year's OEDEM in
-> Edinburgh. At that time an idea was also floated to hold this year's OEDAM
-> at the same time. Just to be absolutely clear: this suggestion was
-> rejected; there will be no OEDAM at the OE Summit at SCaLE 17x. However,
-> this summit is taking place with the full approval of the OpenEmbedded
-> Board of Directors, many of whom have also been helping out with its
-> organization.
->
-> The schedule for the OE Summit has been posted:
-> https://www.socallinuxexpo.org/scale/17x/schedule/sunday
-> https://www.socallinuxexpo.org/scale/17x/open-embedded-summit-0
+Doc patches to yocto@lists.yoctoproject.org please.
 
-To whoever can double check and fix the schedule... it looks like
-there's a typo at the second link, where Alistair's talk is listed
-twice. From the first link "Lokesh Kumar Goel
-OpenEmbedded in LG Products" should be at 11.30am instead.
+Ross
 
+On Wed, 30 Jan 2019 at 19:30, Joshua Watt <jpewhacker@gmail.com> wrote:
 >
-> So if you're in the Southern California area, or are generally interested
-> in hanging out with some OpenEmbedded people, please join us in Pasadena on
-> March 10th!
+> The new default is "debug-with-srcpkg"
 >
-> Your OE Summit organizing committee:
->   Tom King
->   Behan Webster
->   Trevor Woerner
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  documentation/ref-manual/ref-variables.xml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+> index 4b243a12dd6..8e30f47bafd 100644
+> --- a/documentation/ref-manual/ref-variables.xml
+> +++ b/documentation/ref-manual/ref-variables.xml
+> @@ -9976,7 +9976,6 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+>                              <filename>/bin/.debug</filename>.
+>                              Source files are placed in
+>                              <filename>/usr/src/debug</filename>.
+> -                            This is the default behavior.
+>                              </para></listitem>
+>                          <listitem><para>
+>                              "debug-file-directory": Debug symbol files are
+> @@ -10000,6 +9999,7 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+>                              ".debug" previously described with the exception
+>                              that all source files are placed in a separate
+>                              <filename>*-src</filename> pkg.
+> +                            This is the default behavior.
+>                              </para></listitem>
+>                      </itemizedlist>
+>                  </para>
+> --
+> 2.20.1
+>
 > --
 > _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
