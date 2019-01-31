@@ -1,42 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A6C9608B7
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 834536B519
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 19:04:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 43r8n32LSyzLN;
-	Thu, 31 Jan 2019 20:04:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1548961497;
-	bh=cnTwod9plZad7806sABpjGGn0CYgFDhDapOPJ7xLJqg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QFVP7Go+yLmMlXlHNlqhvmRLf957d/GuPUi0wBiPrORrSRD7ieeQSk96slewRcz1g
-	F/trbGoUfuTkei2+ktOjWVwkRhNiNnNaL84IX+Aj2uJ5MzNWfnto44BLgI6fiKjA6O
-	Ws9lhkl82wFt0i0S8zhzPz0E2qNvjWC3Tlb2IsYz069V0rcUkkhFskDl7nJ2RJXT63
-	gTeThs1LBjjnpLVGkZRrbiImamazazygmsAEvTIL6OPCn1yac5CPevK7Q2jEmZv2aQ
-	HjI/4/94p+Io46zzsJga64GeJnSW4ctJ3NUr8kmrECPtnOVg+F0uqDZw+A6XghE7lg
-	2uJUWvKTorwBMAn2xkTL/d89VyJ16BblgOi6lO5Js7Q0hAz2Wo627pT11pysrW96Tm
-	UpOV8TujhleMWdJgjAphw2J2GIQimHl8J72WGloRafG53g+7jNUZsihnrP8+VE2YeJ
-	LYoYXKOqAeUNKq1/T21lz6qCcPYRBAq6jthVYBdwW2d4zjkhYAFGBjKcI9aCabiwKe
-	vO/HYfxojP/fgWQeHEemYOrS3NBei4pcbKn+dRGVSIjXrFRCQU/VZI4laSSmf269X+
-	85JF9Nw8QP6V0HfQEcDn/h+RW7T1YTyzuMtpk9B46OmoD4/KXWWcmtGcNbryN9MZds
-	iZtq/BQw0LJV9vNjfCYi56IQ=
-Date: Thu, 31 Jan 2019 21:04:53 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20190131190453.GD28875@localhost>
-References: <20190130093406.10391-1-bunk@stusta.de>
-	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-	<20190130203129.GB15086@localhost>
-	<CAMKF1sq6Syjj5D3YT463z+d4NiVRaFNmTvM6gww5npLGvWR9nA@mail.gmail.com>
-	<71ec0253d1285a927601d9a33c860d5b856a83f1.camel@linuxfoundation.org>
-	<20190130224703.GO30838@bill-the-cat>
-MIME-Version: 1.0
-In-Reply-To: <20190130224703.GO30838@bill-the-cat>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: add devmem
+	Thu, 31 Jan 2019 19:16:38 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id l10so3178522lfh.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2019 11:16:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=/L7NWYMtLZSROh5P64ApTtymkhvUHM+58xGPjaqa1Pc=;
+	b=iJ06AhoM0zrvvPE0t0iuytITreNFHZkRlGXuPewMxQU1ROERfKGfNMEviVkGDoaY8z
+	Zme0qyHTQRc5W444e9H5U/Ym2seFk6tZmYWpgqc/AzIYm9w2OIRPh+9WSbTzrLi7DY4L
+	YQyMvNOd5WvDU6UL/gVionACRzim4AEhuLAe7rKUZbNE/qCiAiJ7y3FC3vRsxRP2sPas
+	BUkNzXquMvIv0d1/r4HN1Y0dOXRUMFcJYOVKG9EUvUEm9s90Cbg/IMp81+AnN+VdFgBK
+	pizhmRrx4gWm34++0FTD/uzH1TWvutG0ZF5525Cuj4bcvohqwJRgtsiweCegCz3t1go+
+	OIKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/L7NWYMtLZSROh5P64ApTtymkhvUHM+58xGPjaqa1Pc=;
+	b=PoOSFH/r6xjyUBmRBYQcCj6tVwoUjdQLgwf+EpffW7d9/ioh7hpHh6dFBzoDlc53KV
+	X/uxwSuGYItJlVRTdFbMogz+psOJjTb19ZUzdXYTyBbKTRDMgvtkhXcSN+7/TDscDi5l
+	9PBcZQsFf4PEydPao5NL3ZY4Je4lFk9TYVJmJp7Sj+0y63s0T5MVnLpTFhbdbLKz3hgm
+	rvQ8GHi6zNLA5UcutfTU6i09skE4Gya86esW+zLZUD9ukW4Cc3t2v7c/6sBuVHVX68YJ
+	nowLoM0PtcZJuYRRr4+9/sNr6BRUs3tL2h7DF/3OMDdrJCgvDOgsll5EYkjl/7eEFm2H
+	OQ8A==
+X-Gm-Message-State: AJcUukc5MVuFYkbj9nNTv7e+YbIunM4bh3hTMzKoDm8PBiScTe7Y2S2C
+	WTdWaBCZdH8w3lI6B4nea1wm/ePsMPU=
+X-Google-Smtp-Source: ALg8bN7560/niz9dVOM+qV1Vf7Z0nxFCHxJGueyYfk8fa/TJBpQlio2bhSzvhoKjlOM4BvEsdgUQ7w==
+X-Received: by 2002:a19:4ed9:: with SMTP id u86mr28956092lfk.78.1548962198677; 
+	Thu, 31 Jan 2019 11:16:38 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	z7-v6sm902491lji.42.2019.01.31.11.16.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 31 Jan 2019 11:16:37 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Jan 2019 19:15:32 +0000
+Message-Id: <20190131191532.5445-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.18.1
+Subject: [PATCH] base-passwd: Add kvm group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 19:04:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 31 Jan 2019 19:16:38 -0000
 
-On Wed, Jan 30, 2019 at 05:47:03PM -0500, Tom Rini wrote:
-> 
-> I would also ask if we should be enabling more stuff in busybox, period.
+Fixes the following warning when starting eudev:
 
-I don't think the current status quo would be a good starting point for that.
+  udevd[<pid>]: specified group 'kvm' unknown
 
-Before submitting I saw CONFIG_PATCH=y, which is a lot more of a
-"Why would I ever need this on an embedded device?".
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ .../base-passwd/base-passwd/kvm.patch         | 23 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.5.29.bb         |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/kvm.patch
 
-Not saying that you are wrong, but the starting point should be a review
-of the current config.
-
-> Customizing busybox for what you're trying to _do_ with a custom setup
-> is one of those top 5 TODO items with making a cut down image and
-> customizing the kernel config.  Outside of -tiny and initramfs/similar
-> cases, there's not a great reason to use
-> almost-but-not-quite-complete-busybox-applet compared with the regular
-> app.
-
-I frequently end up in projects where I do have great reason for that:
-
-For root filesystems of the 32-64 MB size it is not necessary to use a 
-different libc or use -Os, but using the busybox applets when they are 
-sufficient saves > 10% filesystem size compared to the full versions.
-
-E.g. 0.45 MB for a standalone tar is much when the little functionality 
-you actually need is also provided by the busybox applet.
-
-Plus there is also the convenience point that most of the tools you need 
-are already installed just by adding busybox with the default config.
-
-> Tom
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/base-passwd/base-passwd/kvm.patch b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
+new file mode 100644
+index 0000000000..113d5151e7
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
+@@ -0,0 +1,23 @@
++From 6355278b9f744291864c373a32a8da8f84aaaf37 Mon Sep 17 00:00:00 2001
++From: Jacob Kroon <jacob.kroon@gmail.com>
++Date: Wed, 30 Jan 2019 04:53:48 +0000
++Subject: [PATCH] Add kvm group
++
++Upstream-Status: Pending
++Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index cea9d60..5b62284 100644
++--- a/group.master
+++++ b/group.master
++@@ -34,6 +34,7 @@ utmp:*:43:
++ video:*:44:
++ sasl:*:45:
++ plugdev:*:46:
+++kvm:*:47:
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index c6be1c1d08..d1aab09181 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -12,7 +12,8 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://noshadow.patch \
+            file://input.patch \
+            file://disable-docs.patch \
+-          "
++           file://kvm.patch \
++           "
+ 
+ SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
+ SRC_URI[sha256sum] = "f0b66388b2c8e49c15692439d2bee63bcdd4bbbf7a782c7f64accc55986b6a36"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.18.1
 
 
