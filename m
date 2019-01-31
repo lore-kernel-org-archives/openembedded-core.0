@@ -1,35 +1,36 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A3546BC7A
+	by mail.openembedded.org (Postfix) with ESMTP id B80186BCDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 18:14:16 +0000 (UTC)
+	Thu, 31 Jan 2019 18:26:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 43r7fc3K9nzMs;
-	Thu, 31 Jan 2019 19:14:15 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 43r7wq1LZbzMs;
+	Thu, 31 Jan 2019 19:26:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1548958456;
-	bh=QASuHHUkTi0NTVKlWWShwv3lOCQJwlhh2re8RBt/MMY=;
+	s=default; t=1548959196;
+	bh=fRs/CXwI2CUc+2lwEsOx9fE9OkBrT7JoyfzVA3q3OkQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Icl0rbTN03dlHfVK+vE7pitl+vIUEbCYEmLj59u8AEWbqMHsM8mptILOTi67X5wq6
-	72hsrF6K0APU0CXn72ItVXS5y9+7Cqe1/2DgAliwtymDZasoU3mqoXMFSfShTWKfrp
-	Bts0ZLInwjvz85thU1wIDk+gDHaCDMIbcu8PYEaJ2vGR+xF1xOLcEAXE1NzOQnfQ+e
-	bocVbKk7W1IIR3nXlofwVcVmMofD1saaTFa8xSIXmrVPB8S3gB2QeEWo/saMd6Pluz
-	qgtYt6eBxjizFmyldJIEzGqd8lDc67OxEf1Th08MV9Z0WVByq0pZ9Xe7KouQsTZhyv
-	IvF4LPss6KM1+BUrpNJQ9VJATVeDTtfBktL0a0q6mX0MISFrWpmAZwrNlM4UXbBdu3
-	0phMmJ62SwYAR+/a5mmj5JHFq+h7UTUrhwWuxKlXnIZEtv17oDJwvg64f2ofc7kvVo
-	eu+CFMLE8UbDrjIZLgGYUZahYSlzSzUAw9a22Hh6SwOcM0baNiZxRPkKSE/T35zR66
-	Eul2ARzojLC2t853MiKqHZVYNWcpWK+QEOuSyPxL+0oUjGmB7RE0RutxfYaUkMK5LO
-	+g/XjAdlkj3E/3HFF/GY43GH66X7S3UHCy88b0EpXMVDx7oEb8StuS5WNOO0XkW1nj
-	toJWc1Tt3/B9wiqFJVqJsUVs=
-Date: Thu, 31 Jan 2019 20:14:14 +0200
+	b=ReHpOPtxxuVSfGyTLSgAUqV7VhwpG6hGTwoWjU3Yzz/XO3RpglI85V75z2zpFYzz8
+	AfPCM0rGByTpyUo1uwTOQ5pPFzEKRpVNJ0/c1OMmrJnh8diSoRvGD4vgcSIvqLUncn
+	+1gn8xihsxLyCkHXUjHxZ2vDP4hI5iaZsNz0tA1wlxwG3DdKIHmZETTgdOzos0RHmf
+	msSPLarfboc8dqf8uoAHLDcNo2piKSdvXhAzXA+wpmmormwGXupTcKSzFOgz4PlMGT
+	kle4s5enIZDMOst/U6e7qf07jZU5B7pVGPmuFiOBXHfdL7Mq82A9uTkJZmAiXiBp6x
+	uK9H1X69h96m9LLZwMLliOX/B56p2/+T5HXmv15GPNruO9fLMMj+1XAzWMpI2DDfjc
+	Th0dWA/fj08obDkiFSqQrcnN63oOvLJZ3b/8zhuEfi9qLl+682Iuxbq6LSPXZf3t53
+	YpOS+ZMeV0yw8BrRaZb1WkQ8IOC6vSSimayA4D3+xztabSrlJEMTRorvq8o2pJlP8B
+	F+hX+PX+XhGSipvspZQD22vGCsHk+x/OPCPvUxh7tZxckjr4OKUwKO6z4czPizzio7
+	P7a32XMNx6y5td1qofO8nKZNYuz5N7Y5XALRDxe0hVgIFFe1g3eq9/xQVqbtxDmzBP
+	gVWreDsCd31ae8fnpRnDWgRw=
+Date: Thu, 31 Jan 2019 20:26:33 +0200
 From: Adrian Bunk <bunk@stusta.de>
-To: Philip Balister <philip@balister.org>
-Message-ID: <20190131181414.GB28875@localhost>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190131182633.GC28875@localhost>
 References: <20190130093406.10391-1-bunk@stusta.de>
 	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-	<64cf5467-80f3-735d-c894-088c918c54fe@balister.org>
+	<20190130203129.GB15086@localhost>
+	<CAMKF1sq6Syjj5D3YT463z+d4NiVRaFNmTvM6gww5npLGvWR9nA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <64cf5467-80f3-735d-c894-088c918c54fe@balister.org>
+In-Reply-To: <CAMKF1sq6Syjj5D3YT463z+d4NiVRaFNmTvM6gww5npLGvWR9nA@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -46,27 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 18:14:16 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 18:26:36 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Thu, Jan 31, 2019 at 11:06:22AM +0100, Philip Balister wrote:
-> On 01/30/2019 05:50 PM, Khem Raj wrote:
-> > On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >>
-> >> This is a tiny but pretty useful tool.
+On Wed, Jan 30, 2019 at 02:18:06PM -0800, Khem Raj wrote:
+> On Wed, Jan 30, 2019 at 12:31 PM Adrian Bunk <bunk@stusta.de> wrote:
 > 
-> Also there is http://layers.openembedded.org/layerindex/recipe/1069/
+> > On Wed, Jan 30, 2019 at 08:50:02AM -0800, Khem Raj wrote:
+> > > On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > > >
+> > > > This is a tiny but pretty useful tool.
+> > > >
+> > >
+> > > question is, do we need this enabled in default config, or could be add
+> > it via
+> > > some DISTRO_FEATURE meant for validation etc. May be if you explain your
+> > > usecase then we might be able to make a better assessment.
+> >
+> > Sorry for being too terse.
+> >
+> > devmem allows reading and writing hardware configuration registers,
+> > which is useful both for debugging and for scripts.
+> >
 > 
-> I was told a while ago the busybox version has some issues. Hunting
-> through brain cells, I think it always does a read back after writing
-> which can be bad for some hardware. So I've always used the recipe from
-> meta-oe instead.
+> Thanks for the info this seems useful can you also report how much does it
+> increase size of busybox
 
-The broken one for that is actually devmem2, the busybox copy of the 
-code has the read back commented out.
-
-> Philip
+In a -O2 build for arm64 busybox.nosuid grows 4 kB.
 
 cu
 Adrian
