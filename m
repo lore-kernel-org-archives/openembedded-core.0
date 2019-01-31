@@ -1,52 +1,48 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF327C3DD
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 10:16:18 +0000 (UTC)
-Received: (qmail 2046 invoked by uid 1003); 31 Jan 2019 10:09:39 -0000
-Received: from unknown (HELO ?192.168.1.36?)
-	(philip@opensdr.com@91.179.138.138)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	31 Jan 2019 10:09:39 -0000
-To: Scott Ellis <scott@jumpnowtek.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190130093406.10391-1-bunk@stusta.de>
-	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-	<CAJ86T=XUqY8+ZAgRpXfd=OXULoOvMb57we6R2Df_b8N7q2csCA@mail.gmail.com>
-	<7f56f94e-07b0-275e-f152-b5bd1c776094@jumpnowtek.com>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <bb86e6c4-7459-54fe-f8db-eccc9f553ef9@balister.org>
-Date: Thu, 31 Jan 2019 11:09:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+Return-Path: <gizero@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 462D87C471;
+	Thu, 31 Jan 2019 10:40:41 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id w18so3034998ite.1;
+	Thu, 31 Jan 2019 02:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=XWnWZHjNQZ1RexnzVP6cH9iVeojuPJlwqvqlTc8qF6o=;
+	b=qXcCwGJcaILCNxUJFb+/2Rl3Ud/A55sFcGywaQozcK+myiyYzh3I7QYiABvGBZxZFW
+	/WDM7mDEQgTIPfwVTHNWLL4Ny0v4ZXBqpnPv74XN+qKnsd81hzaA1OGjcpR2Nj43wPYT
+	2IPcyPWPXjhu0oXyvYVCm9hTUGlygOtoraK2ODkM23PUxFsPl/SUPOL2aQiGNKQ3+wnj
+	Q206AG4wwz79mwW+GwONN1zodw0/r+dwP1EYGPjNjI1LVe8sGWlF5PWQHqisiwAVKqGm
+	oA0p8rFR98ws6yxvzrHGIkB5uHqS15ANs5/EI+R7QFW1ECmZbAvysZypJNOKutkRmUG3
+	V50w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=XWnWZHjNQZ1RexnzVP6cH9iVeojuPJlwqvqlTc8qF6o=;
+	b=TG6DQMOzI8vRchYZleyfhTNP549XiHoTxJCAqWrAHIOeaAyMHvNhIdCK5/iQ8rxS7d
+	Zrw/FMsb2hMOVjGy2oxVpmnHjo7SQc7OVe6Rm/XSB/boxc6bcory1yZsfXJdLU4rd7TE
+	YXj7EFHMGCQrpDzZkwB0AtoYFpmfE1JXkylRf3yEd1RnrOmBKJu5aCbKENO1YGmqZPUE
+	e+2xTM78m9AMK8JRqbCXHdLCeJkF9Fgh5dnLa42HazPAoBOg8kw6Zs1jKrHB4wTuCGdW
+	+WkYTxJONPrfNblrFbu1UCfr5bZ0oQD8m6pm58mnxsoRqqyYzlgpW+TnF2eh5KN2D8cg
+	UuAw==
+X-Gm-Message-State: AJcUukdhiuZurb7FffTKwRMphaOifJ8F9Nx/PSIZNxvWp4c6W14OriUt
+	jRMCDl+WPjGZJFkc6Qtp26fHDJcsVW28UxvRu2w=
+X-Google-Smtp-Source: ALg8bN7ttKyHKTy9b4mGMsuTGd16kh1Bz2/AAkvnDQKPIfZ3jphvdPzVhSC85SieUN5giuQVfj7NItoKbcOUqwN1xJ4=
+X-Received: by 2002:a02:b381:: with SMTP id p1mr20238505jan.46.1548931241970; 
+	Thu, 31 Jan 2019 02:40:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <7f56f94e-07b0-275e-f152-b5bd1c776094@jumpnowtek.com>
-Subject: Re: [PATCH] busybox: add devmem
+References: <CAHUNapTBZZRA4+RiFLVHYX6CAkAC8_s9jA0KrFc8Rvs0ksLG-Q@mail.gmail.com>
+In-Reply-To: <CAHUNapTBZZRA4+RiFLVHYX6CAkAC8_s9jA0KrFc8Rvs0ksLG-Q@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Thu, 31 Jan 2019 11:40:30 +0100
+Message-ID: <CAC+thW3KsvrR3X++ywQRQvqjNcs7z7pocq9CBH_s7-jYJXe9bg@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OE Summit @ SCaLE 17x - Sunday March 10th 2019 - Pasadena CA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,20 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 10:16:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Jan 2019 10:40:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 01/30/2019 09:09 PM, Scott Ellis wrote:
-> Is the busybox devmem functionally different then the standalone devmem2
-> package?
+On Thu, Jan 31, 2019 at 8:26 AM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> We're excited to announce the inaugural "OpenEmbedded Summit" taking place
+> Sunday March 10th 2019 as part of the Southern California Linux Expo
+> (SCaLE) 17x at the Pasadena Convention Center.
+>
+> For the past few years there's been an ever-growing OpenEmbedded event as
+> part of SCaLE. This year, with the missing Spring ELC, we felt it was time
+> to do something more "formally" so OE enthusiasts could get together
+> without having to wait until August.
+>
+> The initial suggestion for this summit came at last year's OEDEM in
+> Edinburgh. At that time an idea was also floated to hold this year's OEDAM
+> at the same time. Just to be absolutely clear: this suggestion was
+> rejected; there will be no OEDAM at the OE Summit at SCaLE 17x. However,
+> this summit is taking place with the full approval of the OpenEmbedded
+> Board of Directors, many of whom have also been helping out with its
+> organization.
+>
+> The schedule for the OE Summit has been posted:
+> https://www.socallinuxexpo.org/scale/17x/schedule/sunday
+> https://www.socallinuxexpo.org/scale/17x/open-embedded-summit-0
 
-Replying again ....
+To whoever can double check and fix the schedule... it looks like
+there's a typo at the second link, where Alistair's talk is listed
+twice. From the first link "Lokesh Kumar Goel
+OpenEmbedded in LG Products" should be at 11.30am instead.
 
-I've been told they are functionally different and to use devmem2. I
-think the issue with the busybox version is that it does a readback when
-writing, this can be bad for some hardware.
-
-Philip
+>
+> So if you're in the Southern California area, or are generally interested
+> in hanging out with some OpenEmbedded people, please join us in Pasadena on
+> March 10th!
+>
+> Your OE Summit organizing committee:
+>   Tom King
+>   Behan Webster
+>   Trevor Woerner
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
