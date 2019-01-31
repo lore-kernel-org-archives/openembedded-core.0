@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B86A960110
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F06F7BFAD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 06:50:36 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id v28so956995pgk.10
+	Thu, 31 Jan 2019 06:50:38 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id g62so1035596pfd.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 22:50:38 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=b9Ux8I34oHe8csJLuZpYP9bDTAhps8VY5lQA+sNtKJ0=;
-	b=k2ZdBOGtyLzR17ASb3yZSnLLkA6rVqF8ufPhCpv5nR4aL5OjdaUZ4s0JQTJrOy744l
-	jCz66wwdcinag8e4SPoNvzTbxELB04L2L2yhf0h21WIwqlDOcYOy5dbANUF4iz0FaMsM
-	Y90uxIEzPlsiFOGP5pCU/wU8pdbrDJkmacbzCezgJa/0hmhv3hAok31kNoV2R7Flrt/+
-	JeeG+voTtsEoBOWNfbba5OhNqons4MaEUFaixT2KvHP95zyPUc3QEPwppfquXzlA91/P
-	nh/Xf6vYDFXbqqDhFnOO1HUu88xf3P+GPBZFyhn++YpUshfZWvYhHMYn+yagGK6E6RSL
-	YxTQ==
+	bh=lBgS2otMX0+ou1WJZ8EAmJ0Dy8TV9NHfB1MJtQEm48k=;
+	b=JYMGQVcQG6jqammKJCtKOwnWol4HywUpgpcW/jlpRsax4muvBHi81uiy0Ugm25VCWO
+	9D2ayGxdLw9n6FUvAREBKTgpE+DXrElrAfCeoySXiOU1mNOQzxompqGhn84Baoaex59e
+	PgRrP047foMSJ92XvD+iQRA3sClZFH3eT0NFke30Mo/LIs+A2CAOBwSa/yvYK1GX2E/M
+	p/FkN61BNHi7BiahSeZSeHIC7rPb5Q4fb0JfZ/MyfGNt6m0mo7zG57PAhYSbx1/hMeYE
+	gnmjxI579h8Rf6VbwAVqhtxnRtUGWbYJrTTl4nIkpY4bfWlC//a7YKn4X8pIMISQRX4y
+	0UwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=b9Ux8I34oHe8csJLuZpYP9bDTAhps8VY5lQA+sNtKJ0=;
-	b=rI7i7F56/fOkGsi803wAYFJ13hCPkqUoA+Scdjnf+u2AfRdKaM6CeGaDnk0dklZM15
-	j0WGJ3sBncsTsMtpdtQ9ykfcwat4dL+MzNzCGRuUR8L9VTLe+GWLKpLT7gMAdwPjc9je
-	ahXujzUMB93kw8Py7Dyg0b1SCaCOt2Zdjrh6982V8RFPOw0DndHwCZbCoRhRFnKtSY3z
-	pIZod92kiDHxZE5HH2HEt96KxOknCSRbpnyBLEoV/JaE0hLcZVcCP0OPt4TI9RdhcF0A
-	ratS+GTOs6JGdoziz2YPTykWTyzMgxOb8Rv+jg/aC43l3sw1aXO/uVIqUMKVNBlPml23
-	u2Jw==
-X-Gm-Message-State: AJcUukfDzTEYGtxy/EfzWOcDXnyQvtcifZB1nG7FTRBERgytwZBy90Ah
-	tbVPrEAkFBPaUOL89E8vQgeUJF2O
-X-Google-Smtp-Source: ALg8bN4PXXye8Qlaquk8F0a8QuiNIQFsVIkXhKxwzyV5O3GTjtKn7HWcUUJo5wrnFTWNyNQb7iiCbQ==
-X-Received: by 2002:a65:534b:: with SMTP id w11mr30699246pgr.125.1548917437020;
-	Wed, 30 Jan 2019 22:50:37 -0800 (PST)
+	bh=lBgS2otMX0+ou1WJZ8EAmJ0Dy8TV9NHfB1MJtQEm48k=;
+	b=cIcaExyA9hyez6/iB4srL1EpHHz7L7RrEfKXOUi+dkO+MZq1TWtcGkleJHWBv7PHpy
+	P3KsJCrqXS6IoJfe8+9ctjOBxthHeQY5Hd5GWpNSFYeFdFVyhJq2+ZLUqRNJCbK/Fgmh
+	47+atfSGXSLprlHF2YlW2xlFwU0GEE0DIqRehBb4HX4CO0QfY/F+4VtuAtf+aIgzjP5U
+	Gq8fpGHwvp7L2L+Dgg54PcaZqGIv45smJOfLFGktjQoQbIid+RlkgArppx9NfjwzLIsc
+	1xtDhBd30wCZIUavomP2BnhZQ5ZDcZE9nWRIIz6ZAGRrdtfrNLAw7Z3ItzKjBmMw1efL
+	ldVA==
+X-Gm-Message-State: AJcUukePGzzIf22HYw7T2LC4FFuULnwjbjjlfCmlQb+nlbzO82yw0CZb
+	+JpEH/lX7vDAG0R1rrlMgf08EObI
+X-Google-Smtp-Source: ALg8bN5ncQNPz5dOmkc69gge0IzYrgjfIocMsCrO/pAnmSRgRBa1pRQtL880IGBZMEkDTIyk5+xeLg==
+X-Received: by 2002:a63:a84a:: with SMTP id i10mr30886327pgp.263.1548917438565;
+	Wed, 30 Jan 2019 22:50:38 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::26b6])
 	by smtp.gmail.com with ESMTPSA id
-	o85sm1080044pfi.105.2019.01.30.22.50.36
+	o85sm1080044pfi.105.2019.01.30.22.50.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jan 2019 22:50:36 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:37 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 22:50:12 -0800
-Message-Id: <20190131065016.21887-2-raj.khem@gmail.com>
+Date: Wed, 30 Jan 2019 22:50:13 -0800
+Message-Id: <20190131065016.21887-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190131065016.21887-1-raj.khem@gmail.com>
 References: <20190131065016.21887-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] xinput-calibrator: Fix build with clang/libc++
+Subject: [PATCH 3/6] libproxy: Fix build with clang/libc++
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,64 +59,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 06:50:36 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 06:50:38 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ....hh-Include-string-to-get-std-string.patch | 28 +++++++++++++++++++
- .../xinput-calibrator_git.bb                  |  4 ++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
+ ...t-pac-test-Fix-build-with-clang-libc.patch | 31 +++++++++++++++++++
+ .../libproxy/libproxy_0.4.15.bb               |  4 ++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/0001-get-pac-test-Fix-build-with-clang-libc.patch
 
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
+diff --git a/meta/recipes-support/libproxy/libproxy/0001-get-pac-test-Fix-build-with-clang-libc.patch b/meta/recipes-support/libproxy/libproxy/0001-get-pac-test-Fix-build-with-clang-libc.patch
 new file mode 100644
-index 0000000000..37617600d5
+index 0000000000..fedda9dd95
 --- /dev/null
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
-@@ -0,0 +1,28 @@
-+From 79bc507b48d4acd3dec8a85ab6b341b872d44a05 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libproxy/libproxy/0001-get-pac-test-Fix-build-with-clang-libc.patch
+@@ -0,0 +1,31 @@
++From 2d73469c7a17ebfe4330ac6643b0c8abdc125d05 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 29 Jan 2019 22:40:24 -0800
-+Subject: [PATCH] calibrator.hh: Include <string> to get std::string
++Date: Wed, 30 Jan 2019 09:29:44 -0800
++Subject: [PATCH] get-pac-test: Fix build with clang/libc++
 +
-+Found with libc++
++get-pac-test.cpp:55:10: error: assigning to 'int' from incompatible type '__bind<int &, sockaddr *, unsigned int>'
++                        ret = bind(m_sock, (sockaddr*)&addr, sizeof (struct sockaddr_in));                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Upstream-Status: Submitted [https://github.com/tias/xinput_calibrator/pull/76]
++Upstream-Status: Submitted [https://github.com/libproxy/libproxy/pull/97]
++
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/calibrator.hh | 1 +
-+ 1 file changed, 1 insertion(+)
++ libproxy/test/get-pac-test.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/calibrator.hh b/src/calibrator.hh
-+index a6f9504..e75bcef 100644
-+--- a/src/calibrator.hh
-++++ b/src/calibrator.hh
-+@@ -29,6 +29,7 @@
-+ #include <X11/Xlib.h>
-+ #include <stdio.h>
-+ #include <vector>
-++#include <string>
++diff --git a/libproxy/test/get-pac-test.cpp b/libproxy/test/get-pac-test.cpp
++index 0059dfb..911f296 100644
++--- a/libproxy/test/get-pac-test.cpp
+++++ b/libproxy/test/get-pac-test.cpp
++@@ -52,7 +52,7 @@ class TestServer {
 + 
-+ // XXX: we currently don't handle lines that are longer than this
-+ #define MAX_LINE_LEN 1024
++ 			setsockopt(m_sock, SOL_SOCKET, SO_REUSEADDR, &i, sizeof(i));
++ 
++-			ret = bind(m_sock, (sockaddr*)&addr, sizeof (struct sockaddr_in));
+++			ret = ::bind(m_sock, (sockaddr*)&addr, sizeof (struct sockaddr_in));
++ 			assert(!ret);
++ 
++ 			ret = listen(m_sock, 1);
 +-- 
 +2.20.1
 +
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-index 68e62ea6d9..9873d3f33f 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-@@ -14,7 +14,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
- SRC_URI = "git://github.com/tias/xinput_calibrator.git \
-            file://30xinput_calibrate.sh \
--           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch"
-+           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
-+           file://0001-calibrator.hh-Include-string-to-get-std-string.patch \
-+           "
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.15.bb b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
+index dd7ad922d3..19dddebd44 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.15.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
+@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
  
- S = "${WORKDIR}/git"
+ DEPENDS = "glib-2.0"
+ 
+-SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz"
++SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz \
++           file://0001-get-pac-test-Fix-build-with-clang-libc.patch \
++          "
+ SRC_URI[md5sum] = "f6b1d2a1e17a99cd3debaae6d04ab152"
+ SRC_URI[sha256sum] = "654db464120c9534654590b6683c7fa3887b3dad0ca1c4cd412af24fbfca6d4f"
  
 -- 
 2.20.1
