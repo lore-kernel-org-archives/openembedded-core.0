@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 22D7C6BA11
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2588B6BA11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 23:05:54 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id f7so5196199wrp.1
+	Thu, 31 Jan 2019 23:05:56 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id z5so5091612wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 15:05:56 -0800 (PST)
+	Thu, 31 Jan 2019 15:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=u6vU4UKxbgoA2EYtuXTQrRwXeqCxa4U5PxFtkMlwr7U=;
-	b=SvGZrgRKau7Rbe6jBayVIOYfKMKuJaCuDWa6bs/Mbzx8Xj8i503Az3/b7fGV7EciYX
-	aYBfrr3SHVfrtQos9JibdnVjPyhZktNJ4FCVR8wH1AESJLpmDMOhYc8bO2E/DiyM08Yb
-	A1/knwZ2cM9ZZfsvFak0SVRXxTr23j4l2e1Hs=
+	bh=GDCuHADY7JM5YONYVCexQeLqgyBySNvTZd+5ZKmIXwg=;
+	b=aeLGEycRxXwWO9PYnodRkiLr+J0K40elIcoDfZ68nPbc/ttBMihtKc3GvCHFOoFcHa
+	HKa6PQ7yq9VefYAES9qgnHqAqVi4+CAM4Xh8G8phl3YatVachZyFLVOuRJ/xU7nZ6Izw
+	oErDlTUXsFg1WiCUhgCULnQ4YbwuVmNAlKZHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=u6vU4UKxbgoA2EYtuXTQrRwXeqCxa4U5PxFtkMlwr7U=;
-	b=rAG6BsTi4qINjYwhfGhyg4gMHXzMQ8ecAgffZ19r2uz/lrnxaQEC2fyJ49fZ1FMYnG
-	Gu/slZr0zQftirOU7jmIL5bvM7tJxinWiu7mlTKWQr+rQVMXTCKVVCTcXLb7aSTM6+af
-	6QihoNzQEh/o7AWG8iExQyxhRUXGkr3/MtQ/+7HR1WJ9i0DnqYXjWVRjKr3Wz/cgfeXF
-	27Q0GrXIi0trvyyheciH2aC8U+zh1um86BtNVmv1FXkv1S6E5mMlZTx5wTh1boDKjclA
-	notUS1ZG9ONwGBCP/Pc1PZTEuoNhUR3RfQMI4X1Tx3wSztLE2gnblDGkG/PgwoZrfAu3
-	+s1Q==
-X-Gm-Message-State: AJcUukf5Ufh4toE1GaIGCumlDwG9YT8JmkiKp0axM+teMOC+87KNZJbm
-	D9oqNuvvug9kH7YWjlygGoS2nclsPyU=
-X-Google-Smtp-Source: ALg8bN5SiV9kNpqbhS7BFP4c0X4NOu2JkAo3Itf7FHE785bYXDLOeOgqQWxlZptOiVragc1Br+Bl1Q==
-X-Received: by 2002:a5d:5607:: with SMTP id l7mr36489087wrv.25.1548975955385; 
-	Thu, 31 Jan 2019 15:05:55 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=GDCuHADY7JM5YONYVCexQeLqgyBySNvTZd+5ZKmIXwg=;
+	b=rLzvYndgcCkFwLdTZ+XWOxlVc9zRcCGV/9Uy46uFKW7uejDRy1a5F7BGlm+SuhASXg
+	sm87gZm7Clprs/hEZ1T3xW2nPnAn7Oth6CrNb5QZRkIGbiAi2vuqWVkJYu3tSf10Zxcq
+	pQiNMJaioZE6dTyZ38OJWKTCw5L1g0t3Tcos1Ymwm5c0NYjOaD63E9zK+ebfWIRlpMP5
+	Ta9OaRsK4hC3ofwv0tr7HBVYb10tevDQ+IXRQ9Flou904n3uoffQ7VpPlyurn/ZToigw
+	Sw2q7Iqga+rfQ6NOQE95EChjWlkChbTTib1EZdSC6/et1s0wYnpu7HZY1xWLyLparhgS
+	vgVQ==
+X-Gm-Message-State: AJcUukfebCW1B8NijXLfoXgG5DS0lp9PNESv56pNUo19Qu9tSuiiiWxe
+	UOltaFn2/mAsJmYWM0gZyvU15S1mLWA=
+X-Google-Smtp-Source: ALg8bN7zNdL3bBUjDM1MaNX9e/ZX5388ZHeflMQQHz60JHXyHkN+40gkuIC2S96GTmwlMLg3Rw98rQ==
+X-Received: by 2002:adf:b3c3:: with SMTP id x3mr36232194wrd.294.1548975956603; 
+	Thu, 31 Jan 2019 15:05:56 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p10sm4312634wrt.25.2019.01.31.15.05.54
+	p10sm4312634wrt.25.2019.01.31.15.05.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Jan 2019 15:05:54 -0800 (PST)
+	Thu, 31 Jan 2019 15:05:55 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2019 23:05:52 +0000
-Message-Id: <20190131230553.31750-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 31 Jan 2019 23:05:53 +0000
+Message-Id: <20190131230553.31750-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190131230553.31750-1-richard.purdie@linuxfoundation.org>
+References: <20190131230553.31750-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] core-image-sato-sdk-ptest: Increase qemu memory to 1GB
+Subject: [PATCH 2/2] oeqa/runtime/ptest: Ensure OOM errors are logged
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 23:05:55 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 23:05:56 -0000
 Content-Transfer-Encoding: 8bit
+
+Currently processed being killed by the OOM killer may not be spotted by
+ptest-runner. After we complete the tests, check the logs and report if there
+were any. This ensures the user is aware of OOM conditions affecting the
+ptest results.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/runtime/cases/ptest.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index 531571ee877..7e3152b4a11 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -9,3 +9,6 @@ IMAGE_FEATURES += "ptest-pkgs"
- # box) and explicitly add just 500MB.
- IMAGE_OVERHEAD_FACTOR = "1.0"
- IMAGE_ROOTFS_EXTRA_SPACE = "524288"
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 6ae951356d8..2a28ca59a8e 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -70,5 +70,13 @@ class PtestRunnerTest(OERuntimeTestCase):
+             if failed_testcases:
+                 failed_tests[section] = failed_testcases
+ 
++        failmsg = ""
++        status, output = self.target.run('dmesg | grep "Killed process"', 0)
++        if output:
++            failmsg = "ERROR: Processes were killed by the OOM Killer:\n%s\n" % output
 +
-+# ptests need more memory than standard to avoid the OOM killer
-+QB_MEM = "-m 1024"
+         if failed_tests:
+-            self.fail("Failed ptests:\n%s" % pprint.pformat(failed_tests))
++            failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
++
++        if failmsg:
++            self.fail(failmsg)
 -- 
 2.19.1
 
