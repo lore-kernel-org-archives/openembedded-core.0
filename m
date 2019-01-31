@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B804760110
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B86A960110
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 06:50:35 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id u6so1040138pfh.11
+	Thu, 31 Jan 2019 06:50:36 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id v28so956995pgk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 22:50:37 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cXchmvoXWQnauujIjWiFafc9oRDTWp9CXSc2tmpcqXA=;
-	b=aPAv81iee1zwi/k2WnEfF45OSIH3MwWKeZU63+NfCRLl+1qI2Zl1HJMgAdDSYo6iku
-	Pjlu25i0IvlVl/Uu2ZIXqwV4MBTbOCYrLi61sbTvBiLXOlFppAUOAwR4HFCgryG0lYQl
-	MTCvAtUK9NFe3Em2DETrYTffEgFYlsSdMbU4Y3Qo0qk5oK73khqW2E7nLh1cBy6v9DEa
-	7hk0rTTDmasvJwtfX+NOtbXQvcbQWPx8nPkVX/ZHZw1jRpIZ9KEUlpxl7lruHtEPm3m7
-	RwDnvrs2uqYs3IR9snceAWnVC5r1sVzKnTOlgZOiPYlgLf/i4TIYYBKcaBx2YbiP48V4
-	6Ecw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=b9Ux8I34oHe8csJLuZpYP9bDTAhps8VY5lQA+sNtKJ0=;
+	b=k2ZdBOGtyLzR17ASb3yZSnLLkA6rVqF8ufPhCpv5nR4aL5OjdaUZ4s0JQTJrOy744l
+	jCz66wwdcinag8e4SPoNvzTbxELB04L2L2yhf0h21WIwqlDOcYOy5dbANUF4iz0FaMsM
+	Y90uxIEzPlsiFOGP5pCU/wU8pdbrDJkmacbzCezgJa/0hmhv3hAok31kNoV2R7Flrt/+
+	JeeG+voTtsEoBOWNfbba5OhNqons4MaEUFaixT2KvHP95zyPUc3QEPwppfquXzlA91/P
+	nh/Xf6vYDFXbqqDhFnOO1HUu88xf3P+GPBZFyhn++YpUshfZWvYhHMYn+yagGK6E6RSL
+	YxTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cXchmvoXWQnauujIjWiFafc9oRDTWp9CXSc2tmpcqXA=;
-	b=TYnJC6uec9ieBQF3JKPa7CngK3LmKgBvhlr7dfqT8R90Umtk2guhhFK1Huq6Xm/wIH
-	E+TsgsW06S9llp+SuY13OpPElovmBiwQbGGrD8ytIP8iBef9CdHN1fChT9r2PkCXOC7N
-	ugj+BFQYglKJfPytApLHuxhxEXf2fCu2yc3NcEoyznSjPDy6fS0LSj5Gd4ZvQ/jdrRz1
-	fCmPiTL0X6uTcE8i3D+0y7MvZe1I2jkPRWDTrA8pQnqWgn0q+iYfmR7DAJy5BXw2ykqP
-	/6+yjSUKrrKc9IPZgnZa0onfxExfK+HqT9b4NrmRvFw2asubTqOF3Ilf+Y+mHvTdJBr/
-	4kRQ==
-X-Gm-Message-State: AJcUukeKPrqCGvQ3KrbaPo03nnnIq8F2+yt6AQDO03PbBzZBCsCwYFAG
-	/vaimD3nYgpKvxM0RJq/hixEq/B+
-X-Google-Smtp-Source: ALg8bN6ho35xWAbG+NxSUdzF0QeyDhOTiICTCkNvQxS/L92CNl+bXIPtdXCeXsLKmMFcJL981xOYsA==
-X-Received: by 2002:a63:7c41:: with SMTP id l1mr29978011pgn.45.1548917436295; 
-	Wed, 30 Jan 2019 22:50:36 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=b9Ux8I34oHe8csJLuZpYP9bDTAhps8VY5lQA+sNtKJ0=;
+	b=rI7i7F56/fOkGsi803wAYFJ13hCPkqUoA+Scdjnf+u2AfRdKaM6CeGaDnk0dklZM15
+	j0WGJ3sBncsTsMtpdtQ9ykfcwat4dL+MzNzCGRuUR8L9VTLe+GWLKpLT7gMAdwPjc9je
+	ahXujzUMB93kw8Py7Dyg0b1SCaCOt2Zdjrh6982V8RFPOw0DndHwCZbCoRhRFnKtSY3z
+	pIZod92kiDHxZE5HH2HEt96KxOknCSRbpnyBLEoV/JaE0hLcZVcCP0OPt4TI9RdhcF0A
+	ratS+GTOs6JGdoziz2YPTykWTyzMgxOb8Rv+jg/aC43l3sw1aXO/uVIqUMKVNBlPml23
+	u2Jw==
+X-Gm-Message-State: AJcUukfDzTEYGtxy/EfzWOcDXnyQvtcifZB1nG7FTRBERgytwZBy90Ah
+	tbVPrEAkFBPaUOL89E8vQgeUJF2O
+X-Google-Smtp-Source: ALg8bN4PXXye8Qlaquk8F0a8QuiNIQFsVIkXhKxwzyV5O3GTjtKn7HWcUUJo5wrnFTWNyNQb7iiCbQ==
+X-Received: by 2002:a65:534b:: with SMTP id w11mr30699246pgr.125.1548917437020;
+	Wed, 30 Jan 2019 22:50:37 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::26b6])
 	by smtp.gmail.com with ESMTPSA id
-	o85sm1080044pfi.105.2019.01.30.22.50.35
+	o85sm1080044pfi.105.2019.01.30.22.50.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jan 2019 22:50:35 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:36 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 22:50:11 -0800
-Message-Id: <20190131065016.21887-1-raj.khem@gmail.com>
+Date: Wed, 30 Jan 2019 22:50:12 -0800
+Message-Id: <20190131065016.21887-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190131065016.21887-1-raj.khem@gmail.com>
+References: <20190131065016.21887-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/6] mpeg2dec: Fix global symbol tests
+Subject: [PATCH 2/6] xinput-calibrator: Fix build with clang/libc++
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,107 +59,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 06:50:35 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 06:50:36 -0000
 Content-Transfer-Encoding: 8bit
-
-Rewrite the public symbol check to verify the shared libraries, to check for
-more things, and to avoid duplication; fixes make check on ARM
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../files/61_global-symbol-test.patch         | 70 +++++++++++++++++++
- .../mpeg2dec/mpeg2dec_0.5.1.bb                |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch
+ ....hh-Include-string-to-get-std-string.patch | 28 +++++++++++++++++++
+ .../xinput-calibrator_git.bb                  |  4 ++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
 
-diff --git a/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch b/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
 new file mode 100644
-index 0000000000..00b667d336
+index 0000000000..37617600d5
 --- /dev/null
-+++ b/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch
-@@ -0,0 +1,70 @@
-+Rewrite the public symbol check to verify the shared libraries, to check for
-+more things, and to avoid duplication; fixes make check on ARM
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/0001-calibrator.hh-Include-string-to-get-std-string.patch
+@@ -0,0 +1,28 @@
++From 79bc507b48d4acd3dec8a85ab6b341b872d44a05 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 29 Jan 2019 22:40:24 -0800
++Subject: [PATCH] calibrator.hh: Include <string> to get std::string
 +
-+Taken From
-+https://sources.debian.org/src/mpeg2dec/0.5.1-8/debian/patches/61_global-symbol-test.patch/
++Found with libc++
 +
-+Upstream-Status: Pending
-+
++Upstream-Status: Submitted [https://github.com/tias/xinput_calibrator/pull/76]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ test/globals |   42 +++++++++++++++++++++++++++---------------
-+ 1 file changed, 27 insertions(+), 15 deletions(-)
++ src/calibrator.hh | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+--- mpeg2dec.orig/test/globals
-++++ mpeg2dec/test/globals
-+@@ -1,4 +1,8 @@
-+ #!/bin/sh
-++# TODO
-++# - fix checking of .a libs; problem is that "nm -g --defined-only" lists
-++#   internal symbols; this can be solved by using objdump, but it's probably
-++#   good enough to just run the tests on the shared lib
++diff --git a/src/calibrator.hh b/src/calibrator.hh
++index a6f9504..e75bcef 100644
++--- a/src/calibrator.hh
+++++ b/src/calibrator.hh
++@@ -29,6 +29,7 @@
++ #include <X11/Xlib.h>
++ #include <stdio.h>
++ #include <vector>
+++#include <string>
 + 
-+ if test x"$srcdir" != x""; then
-+     builddir="."	# running from make check, but it does not define that
-+@@ -14,22 +18,30 @@ builddir=`cd $builddir;pwd`
-+ 
-+ error=0
-+ 
-+-bad_globals=`nm -g --defined-only $builddir/../libmpeg2/*.o |\
-+-    awk '{if ($3) print $3}' | grep -v '^_\?mpeg2_'`
-+-
-+-if test x"$bad_globals" != x""; then
-+-    echo BAD GLOBAL SYMBOLS:
-+-    for s in $bad_globals; do echo $s; done
-++# check_bad_public_symbols <symbol prefix> <lib file> [<lib file>...]
-++#
-++# checks public symbols in shared libs:
-++# - allow prefix_anything
-++# - reject _prefixanything
-++# - allow _anything
-++# - reject anything else
-++#
-++# NB: skips missing files
-++check_bad_public_symbols() {
-++    symbols_prefix="$1"
-++    shift
-++    lib_files=`ls "$@" 2>/dev/null`
-++    [ -z "$lib_files" ] && return
-++    bad_globals=`nm -g --defined-only $lib_files |
-++        awk '{if ($3) print $3}' |
-++        sed -n "/^${symbols_prefix}_/ d; /^_${symbols_prefix}/ { p; d }; /^_/ d; p"`
-++    [ -z "$bad_globals" ] && return
-+     error=1
-+-fi
-+-
-+-bad_globals=`nm -g --defined-only $builddir/../libmpeg2/convert/*.o |\
-+-    awk '{if ($3) print $3}' | grep -v '^_\?mpeg2convert_'`
-++    echo BAD GLOBAL SYMBOLS in $lib_files:
-++    echo "$bad_globals"
-++}
-+ 
-+-if test x"$bad_globals" != x""; then
-+-    echo BAD GLOBAL SYMBOLS:
-+-    for s in $bad_globals; do echo $s; done
-+-    error=1
-+-fi
-++check_bad_public_symbols mpeg2 $builddir/../libmpeg2/.libs/libmpeg2.so
-++check_bad_public_symbols mpeg2convert $builddir/../libmpeg2/convert/.libs/libmpeg2convert.so
-+ 
-+ exit $error
-diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-index 7711c2dc10..6b59d4f681 100644
---- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-+++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://libmpeg2.sourceforge.net/files/libmpeg2-${PV}.tar.gz \
-            file://altivec_h_needed.patch \
-            file://0001-check-for-available-arm-optimizations.patch \
-            file://0002-Set-visibility-of-global-symbols-used-in-ARM-specifi.patch \
-+           file://61_global-symbol-test.patch \
-            "
++ // XXX: we currently don't handle lines that are longer than this
++ #define MAX_LINE_LEN 1024
++-- 
++2.20.1
++
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index 68e62ea6d9..9873d3f33f 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -14,7 +14,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
+ SRC_URI = "git://github.com/tias/xinput_calibrator.git \
+            file://30xinput_calibrate.sh \
+-           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch"
++           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
++           file://0001-calibrator.hh-Include-string-to-get-std-string.patch \
++           "
  
- S = "${WORKDIR}/libmpeg2-${PV}"
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.20.1
 
