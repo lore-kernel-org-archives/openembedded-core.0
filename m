@@ -1,19 +1,19 @@
 Return-Path: <philip@balister.org>
-X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 31 Jan 2019 10:13:05 UTC
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 355237C472
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF327C3DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 10:13:04 +0000 (UTC)
-Received: (qmail 5172 invoked by uid 1003); 31 Jan 2019 10:06:29 -0000
+	Thu, 31 Jan 2019 10:16:18 +0000 (UTC)
+Received: (qmail 2046 invoked by uid 1003); 31 Jan 2019 10:09:39 -0000
 Received: from unknown (HELO ?192.168.1.36?)
 	(philip@opensdr.com@91.179.138.138)
 	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	31 Jan 2019 10:06:29 -0000
-To: Khem Raj <raj.khem@gmail.com>, Adrian Bunk <bunk@stusta.de>
+	31 Jan 2019 10:09:39 -0000
+To: Scott Ellis <scott@jumpnowtek.com>,
+	openembedded-core@lists.openembedded.org
 References: <20190130093406.10391-1-bunk@stusta.de>
 	<CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
+	<CAJ86T=XUqY8+ZAgRpXfd=OXULoOvMb57we6R2Df_b8N7q2csCA@mail.gmail.com>
+	<7f56f94e-07b0-275e-f152-b5bd1c776094@jumpnowtek.com>
 From: Philip Balister <philip@balister.org>
 Openpgp: preference=signencrypt
 Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
@@ -40,14 +40,12 @@ Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
 	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
 	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
 	6eUfr0u7CwnEyqiQ
-Message-ID: <64cf5467-80f3-735d-c894-088c918c54fe@balister.org>
-Date: Thu, 31 Jan 2019 11:06:22 +0100
+Message-ID: <bb86e6c4-7459-54fe-f8db-eccc9f553ef9@balister.org>
+Date: Thu, 31 Jan 2019 11:09:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.5.2
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soqAE8aco2OAHiQgfpV_5_OccnH=piXBtVii3f6TVwXGg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <7f56f94e-07b0-275e-f152-b5bd1c776094@jumpnowtek.com>
 Subject: Re: [PATCH] busybox: add devmem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,55 +59,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 10:13:05 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 10:16:18 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
 
-On 01/30/2019 05:50 PM, Khem Raj wrote:
-> On Wed, Jan 30, 2019 at 1:34 AM Adrian Bunk <bunk@stusta.de> wrote:
->>
->> This is a tiny but pretty useful tool.
+On 01/30/2019 09:09 PM, Scott Ellis wrote:
+> Is the busybox devmem functionally different then the standalone devmem2
+> package?
 
-Also there is http://layers.openembedded.org/layerindex/recipe/1069/
+Replying again ....
 
-I was told a while ago the busybox version has some issues. Hunting
-through brain cells, I think it always does a read back after writing
-which can be bad for some hardware. So I've always used the recipe from
-meta-oe instead.
+I've been told they are functionally different and to use devmem2. I
+think the issue with the busybox version is that it does a readback when
+writing, this can be bad for some hardware.
 
 Philip
-
->>
-> 
-> question is, do we need this enabled in default config, or could be add it via
-> some DISTRO_FEATURE meant for validation etc. May be if you explain your
-> usecase then we might be able to make a better assessment.
-> 
->> Signed-off-by: Adrian Bunk <bunk@stusta.de>
->> ---
->>  meta/recipes-core/busybox/busybox/defconfig | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
->> index d11707abc3..1519159a49 100644
->> --- a/meta/recipes-core/busybox/busybox/defconfig
->> +++ b/meta/recipes-core/busybox/busybox/defconfig
->> @@ -791,7 +791,7 @@ CONFIG_DC=y
->>  # CONFIG_DEVFSD_FG_NP is not set
->>  # CONFIG_DEVFSD_VERBOSE is not set
->>  # CONFIG_FEATURE_DEVFS is not set
->> -# CONFIG_DEVMEM is not set
->> +CONFIG_DEVMEM=y
->>  # CONFIG_EJECT is not set
->>  # CONFIG_FEATURE_EJECT_SCSI is not set
->>  # CONFIG_FBSPLASH is not set
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
