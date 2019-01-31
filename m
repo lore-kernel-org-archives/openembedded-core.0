@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0372D7C3DE
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 59D9C7C3D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 06:50:38 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id s198so977866pgs.2
+	Thu, 31 Jan 2019 06:50:40 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id q1so1053662pfi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2019 22:50:40 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=UBjkhw/BQMDfZefHbyB46nQizywFtiMVBLC/TKTzmrE=;
-	b=dEw2i0b/YIAxeYRMUc1zfiCsrj7M6Y0p4KKJpv4WcTCeQsJn+i9MJMONFk3Iv1UXJ0
-	CVpGPezZI/6/hssdiMC5OfQ+tZHIJnw7vlePAAfK93HRh8WJsAA6GWVbsBjhkDqQc8eH
-	l9287Ps66w30xyCaAw8SawPDdfC9QIr0phUiRd1O9g1qjAot4D1hICAVL9qXnkoEA917
-	gDFVo2Jh+Lh3JM/NfeVFKBScFcSBOyEnXzQmhCby/qXj7aZAUdD5BS/PPw8Wv14RnYdv
-	aasGP3b7GGp+yGgMljAGzw8nbPYEePgjP5mos+F/NCmQEcfma0VH2zHbWF9JhAuN66Nz
-	Hb4A==
+	bh=7MctKDTeuRaWzc4A1Wuo85zIHGiNdFeBzldwAAv1SPI=;
+	b=P0SsP5dsl9lWuL8mNP8p7m1rPBbcGWjmklKdnJVgt+2piMOtysDhnM1yWVzv+0IrE4
+	iTQj/rg1tc7w6c6+4hkkxvDhj78MZJjHwmdkidyGafq1X/5+uKZtabe5B5xELa/5zrK/
+	0tsrWUeC2HKltJ+jPClUvKdgldA+TZ6EODocpUF942CpNCfRAP69s0SG5c8xDP8Sbz3O
+	W56CLdMAT2x90WEoJnmxxvMILiT9MXbPvs8JWGnE+sMPsCEYJLJD8mLBblRrGfg76BWk
+	gQtVqkJNAEi5EtvYhNwmUY47e0++fb7FxJmRsUYTen2iXtgHpyxxpeENaStRkVd1CLde
+	C17Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=UBjkhw/BQMDfZefHbyB46nQizywFtiMVBLC/TKTzmrE=;
-	b=RFGDpvsARzOo1jV8RWYmhp001GK1RwzuPfE8mfrcsh4jhPY64+elXodeynlSW/fXhR
-	fTu30f/Ez7ECdB3AJ8zmOVDD5Cl2czuUjvfcExQj4WAJ8KdMwKLR/ABAJ9+bb+TQKGHP
-	tkh7pwtq0xVGkmAGoRtd9KAt7e8hJPDg4T371yuizH059Fh2wfKMZ55WNfeH0W0NFT71
-	MBb93uxEUGE4uzek1pJyRW5ZyCUqY/1nudmSQ0hnFZH2kq+I9mRGeReUR3gSVM79BXKw
-	pFbvfQ4E5eGSa+GWoU3zp9TSjqmpTDOui1rzrR/clCkSvlLOlpCluyB3YYMc1uXnANqe
-	Ra3Q==
-X-Gm-Message-State: AJcUukegc7W6vUETrLLC99KYWs15I+1ysUX/2+bHQkk3izyn9tpjItAZ
-	ATQhlcJZ54/WB9Q2fErPb9UnwW16
-X-Google-Smtp-Source: ALg8bN6HaoZmK7yjsfmWwmyYn4rvGEaXzpcXagfOVRW4oau6iW9EYAW6dLn1dI8QBkZW5wkbYLn5Wg==
-X-Received: by 2002:a63:4f20:: with SMTP id d32mr30280736pgb.47.1548917439548; 
-	Wed, 30 Jan 2019 22:50:39 -0800 (PST)
+	bh=7MctKDTeuRaWzc4A1Wuo85zIHGiNdFeBzldwAAv1SPI=;
+	b=IIZokn8GwxZiCSvzkAo+vxtHGOT6P+deV8hGxLmSW/MtWUAwzL1DpRgFc6FRjbvDYM
+	xEaCZH5w+E5U124bTuNE1ypUO1NAYz+YKuYsUm2fobeDUZ62C5NBRtKp4JF+IuUA2t6A
+	VroAxQB6ZXy0VXu5x+tlC1g8+aV39Hf7fwW4YxX4zFFhiKzjYdxdzN09sLcM3yokx9+6
+	UWK0KFcIVRWg7xQCbC8VGxx7rfaXQLgmzqCp0HSDx2B67SsxiTg+7Ph5Gj70T7J+E1vY
+	I/cO2OGdgMSn3W5fh1qA5Ac2/UEDVz3bVURXt4I4xLsS/XxW288saWEloWri+S4Pr9xJ
+	2auw==
+X-Gm-Message-State: AJcUukdFKgwokpFP7gBXKMF29ezO/4sHwbHoVTUaD2xbLI04yAOen7dP
+	pfnCAypwaXdHpo2AIrZ6eCFrcAc4
+X-Google-Smtp-Source: ALg8bN72fsa/ZwqdiYdRZbCgwOKpFAURD2e+YBOG0EXsJ6O6NSD4rg5cNlZlZ7G2iPB3AhfQqLUJhQ==
+X-Received: by 2002:a63:ed42:: with SMTP id m2mr30503169pgk.147.1548917440939; 
+	Wed, 30 Jan 2019 22:50:40 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::26b6])
 	by smtp.gmail.com with ESMTPSA id
-	o85sm1080044pfi.105.2019.01.30.22.50.38
+	o85sm1080044pfi.105.2019.01.30.22.50.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jan 2019 22:50:38 -0800 (PST)
+	Wed, 30 Jan 2019 22:50:39 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jan 2019 22:50:14 -0800
-Message-Id: <20190131065016.21887-4-raj.khem@gmail.com>
+Date: Wed, 30 Jan 2019 22:50:15 -0800
+Message-Id: <20190131065016.21887-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190131065016.21887-1-raj.khem@gmail.com>
 References: <20190131065016.21887-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] libdnf: Fix build with clang/libc++
+Subject: [PATCH 5/6] webkitgtk: Fix build with clang/libc++ >= 7.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,99 +59,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2019 06:50:39 -0000
+X-List-Received-Date: Thu, 31 Jan 2019 06:50:40 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...e-missing-string-and-errno.h-headers.patch | 65 +++++++++++++++++++
- meta/recipes-devtools/libdnf/libdnf_0.24.1.bb |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
+ .../webkitgtk/bad_optional_access.patch       | 35 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.22.5.bb  |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/bad_optional_access.patch
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch b/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/bad_optional_access.patch b/meta/recipes-sato/webkit/webkitgtk/bad_optional_access.patch
 new file mode 100644
-index 0000000000..62de784820
+index 0000000000..9d0d50b79e
 --- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
-@@ -0,0 +1,65 @@
-+From ccc89ff0c1f8e55a4a22444d051925408f265df1 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 30 Jan 2019 10:32:11 -0800
-+Subject: [PATCH] include missing <string> and errno.h headers
++++ b/meta/recipes-sato/webkit/webkitgtk/bad_optional_access.patch
+@@ -0,0 +1,35 @@
++unbreak build with libc++ 7
 +
-+This is unearthed when compiling with clang/libc++
++based on
++https://svnweb.freebsd.org/ports/head/www/webkit2-gtk3/files/patch-Source_WTF_wtf_Optional.h?view=markup&pathrev=477812
 +
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/677]
++Fixes
 +
++/usr/include/c++/v1/optional:171:29: error: redefinition of 'bad_optional_access'
++class _LIBCPP_EXCEPTION_ABI bad_optional_access
++                            ^
++DerivedSources/ForwardingHeaders/wtf/Optional.h:295:7: note: previous definition is here
++class bad_optional_access : public std::logic_error {
++      ^
++
++Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libdnf/conf/ConfigParser.hpp             | 1 +
-+ libdnf/module/modulemd/ModuleProfile.hpp | 1 +
-+ libdnf/sack/changelog.hpp                | 1 +
-+ libdnf/utils/smartcols/Cell.hpp          | 1 +
-+ 4 files changed, 4 insertions(+)
-+
-+diff --git a/libdnf/conf/ConfigParser.hpp b/libdnf/conf/ConfigParser.hpp
-+index 97f25500..2a3851fa 100644
-+--- a/libdnf/conf/ConfigParser.hpp
-++++ b/libdnf/conf/ConfigParser.hpp
-+@@ -23,6 +23,7 @@
++--- a/Source/WTF/wtf/Optional.h
+++++ b/Source/WTF/wtf/Optional.h
++@@ -276,14 +276,14 @@ struct nullopt_t
++ };
++ constexpr nullopt_t nullopt{nullopt_t::init()};
 + 
-+ #include <map>
-+ #include <stdexcept>
-++#include <string>
-+ #include <utility>
++-
+++# if !defined(_LIBCPP_VERSION) || _LIBCPP_VERSION < 7000
++ // 20.5.8, class bad_optional_access
++ class bad_optional_access : public std::logic_error {
++ public:
++   explicit bad_optional_access(const std::string& what_arg) : std::logic_error{what_arg} {}
++   explicit bad_optional_access(const char* what_arg) : std::logic_error{what_arg} {}
++ };
++-
+++# endif // _LIBCPP_VERSION < 7000
 + 
-+ namespace libdnf {
-+diff --git a/libdnf/module/modulemd/ModuleProfile.hpp b/libdnf/module/modulemd/ModuleProfile.hpp
-+index ab018deb..8d996ff4 100644
-+--- a/libdnf/module/modulemd/ModuleProfile.hpp
-++++ b/libdnf/module/modulemd/ModuleProfile.hpp
-+@@ -23,6 +23,7 @@
-+ 
-+ 
-+ #include <memory>
-++#include <string>
-+ #include <vector>
-+ 
-+ #include <modulemd/modulemd.h>
-+diff --git a/libdnf/sack/changelog.hpp b/libdnf/sack/changelog.hpp
-+index a3d3fc44..d830c414 100644
-+--- a/libdnf/sack/changelog.hpp
-++++ b/libdnf/sack/changelog.hpp
-+@@ -23,6 +23,7 @@
-+ #define __CHANGELOG_HPP
-+ 
-+ #include <ctime>
-++#include <string>
-+ 
-+ namespace libdnf {
-+ 
-+diff --git a/libdnf/utils/smartcols/Cell.hpp b/libdnf/utils/smartcols/Cell.hpp
-+index 2e811dee..b90f0050 100644
-+--- a/libdnf/utils/smartcols/Cell.hpp
-++++ b/libdnf/utils/smartcols/Cell.hpp
-+@@ -22,6 +22,7 @@
-+ #define LIBDNF_CELL_HPP
-+ 
-+ #include <libsmartcols/libsmartcols.h>
-++#include <cerrno>
-+ #include <string>
-+ #include <stdexcept>
-+ 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.24.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.24.1.bb
-index e379d8b256..a55acb2ef0 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.24.1.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.24.1.bb
-@@ -7,6 +7,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
-            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
-            file://0001-Add-WITH_TESTS-option.patch \
-+           file://0001-include-missing-string-and-errno.h-headers.patch \
++ template <class T>
++ union storage_t
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+index e3579e472b..3d8c0338c7 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.22.5.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-Fix-build-with-musl.patch \
+            file://detect-gstreamer-gl.patch \
++           file://bad_optional_access.patch \
             "
  
- SRCREV = "04b71d78a2170e930a3c248d48a231b19f823064"
+ SRC_URI[md5sum] = "96a731522b800f38e70f85c22f8de477"
 -- 
 2.20.1
 
