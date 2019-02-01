@@ -1,50 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D75A7C53F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CFDA07C21E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2019 13:06:16 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id t6so6957164wrr.12
+	Fri,  1 Feb 2019 13:07:56 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id g67so6139411wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2019 05:06:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
-	b=PVgGtsr05gxQ8uMB/GT6LBAIHIw4P9TJy9DAa+HkuElA3cK5uZPMuoJ3FVohIffo7J
-	svEXl18CE2R6/JOvrCWOYAhtOhb2YWUHUY+DUj2atw7VXyHsUIKGARzPQcCIkdi/htx1
-	tJICCNQnpjvZJWi2KrpZsR16MG7aTpPnIi7eTXb8DOFG51MlWMH+CwF67bbC0cgD/jIa
-	u9ahn6y6NYu3el0PnVD7NSmlN+3XFCcRmOU37eJdfAt/zLLxSq+z1R4TpVmBrlEgrnpv
-	c37V199T37+9h4PKVyCtS65cFL8Roz4UtNH+oJl1OpAgshLx0o1gLnyC8ez12WvhEk2P
-	d6fg==
+	Fri, 01 Feb 2019 05:07:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=nZ/AOO97+Eu8W3xuZyLe+CFnxebmA1aqyepy5K+Y/W4=;
+	b=CHj4wBnaXIFg7OWuOnzA0DGTGKJHjXUo+LDGmR+WKDXPibqMvoQTB21VzEBOBEsmzE
+	nSSC32LWxaXxU/S7uHub3G/Aphk6cgWoxp4T9Ki0/t5kJl8ZBo868eCwkiGfgd9JKadp
+	MI5snKY5DqXia9kIV+LZ7eH6Sc8k6SXxZSiU7L43u2PR3y0eQrApl2yuRa5ont9942dS
+	dtiakNLTgIHSaqrNulO7TKZtrai3bRHbXbZIXtOSZnkLxAF4sWVQ1GcxEW0gA39QQzTY
+	T4K1xyPh1/2JmFqs6mpy7UT9ZgAjICGp4FnIREp5VGZ4XUcEl9yc3mkox+hWtLdArca/
+	n3wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
-	b=KnMSTBKBXGUE1rfz7KXpjYeRafuxgcrN/Ydy8Wk6fiwdpqIxz8af31SwltNerdoHP4
-	h+N2D4pIR20ZHmRhGRR94AsA0B8x9GlpBvCnmMuy9H1ArYZYQ1lsUHeX825GtnNFB99j
-	KL5wZaycq0obLllwbZQztPIzXBJODTVMapwHQQ2xL3oLdYm/k72Yi5lKv4FKg4fntGxL
-	pG6aoi60gE2ZoZKO29/yO14F53wqYVvB30dgmivtcwoWk2gvlR2t3zU4pPplQrFCJsrq
-	MIlbMdJTF3pdRO/st55GfFhZ383Ioe2jXyOaIc+QM6ObQA/rYD81m5CRtl/hPVbQ0pVA
-	c7lw==
-X-Gm-Message-State: AHQUAubevgXEqL5KxRhJNu6zoXy3Vm8hwKTST+D4P3KyCygyJsOjZsI2
-	5B3yo7DCc/ct6RkVh0Zmzzg9KiAS
-X-Google-Smtp-Source: AHgI3IYg98zkYrPFhCfx74YiEmOJ4wN8j5sGvg5kZ9WOE6IKnKUo5onEQcQvI2geJqfDZSazwclvog==
-X-Received: by 2002:a5d:5603:: with SMTP id l3mr1069586wrv.279.1549026376945; 
-	Fri, 01 Feb 2019 05:06:16 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	a14sm1273972wrr.13.2019.02.01.05.06.15
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=nZ/AOO97+Eu8W3xuZyLe+CFnxebmA1aqyepy5K+Y/W4=;
+	b=pLIX7P1Chc3Y1tsT5VoDkkrFPbN38Yc+ufbxE06HpVJg+K0rB4w00JJOUGleSkBHLl
+	xb4KN/ZiITlyyF2KXD9hRC8viccwtbyrascNFz41AVNYdqdb1Q1c1KKAiJnKGzbMApIA
+	Ua0YtGQndKcpK9uYeri+ByEH7Gq+fxEW8+MjPG9Dz7LsXGK6A/rHN3378CvZXClNxhRm
+	wb/Yfgx7WABITAgESPMowNO3mSyt3uqSDs9UaogPN7BO3RBKX28YJV0w2PLmF7ZA6RjD
+	b3nWbcL0seWsne+y8NLOXbTzNIAOV++agIa8g9tPpOFY3MxBJ9Uyv1+R8nFo9SSTcA3i
+	GMdQ==
+X-Gm-Message-State: AHQUAuZJK/gplQ3Jse+nIbIhUH2yluIO66kA9p5ybYNYz38o7V6uylJv
+	Icly58EVQgZ1uS5dizsQSfUGzOMDIw8=
+X-Google-Smtp-Source: AHgI3IZcZQqEnnIzG9rj3TM/Tl6h6QmIS4MBfMW+ry3yM1i8a/WdtKwcKnxe7Zw3D8lSEB4sZx8Nwg==
+X-Received: by 2002:a1c:c1c9:: with SMTP id r192mr2359591wmf.146.1549026477177;
+	Fri, 01 Feb 2019 05:07:57 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 141sm4802368wmb.5.2019.02.01.05.07.56
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Feb 2019 05:06:16 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri, 01 Feb 2019 05:07:56 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2019 14:05:54 +0100
-Message-Id: <20190201130554.90094-13-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190201130554.90094-1-alex.kanavin@gmail.com>
-References: <20190201130554.90094-1-alex.kanavin@gmail.com>
-Subject: [PATCH 13/13] selftest: add tests for virgl GL acceleration
+Date: Fri,  1 Feb 2019 13:07:55 +0000
+Message-Id: <20190201130755.32173-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] e2fsprogs: fix file system generation with large files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,114 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2019 13:06:16 -0000
+X-List-Received-Date: Fri, 01 Feb 2019 13:07:57 -0000
 
-Note that the tests require that the host machine has a X display,
-has mesa development files installed and is able to create OpenGL contexts.
+When copying files into the file system the file offset was being truncated to a
+signed 32-bit value, so any files that are larger than 2^31 bytes were the right
+size, but no content after that point.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 28 +++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 50 +++++++++++++++++++
- 2 files changed, 78 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+ ...0001-create_inode-fix-copying-large-files.patch | 47 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
 new file mode 100644
-index 00000000000..cc25e77d9c0
+index 00000000000..93fd998fe4d
 --- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,28 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+import oe
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
+@@ -0,0 +1,47 @@
++From 674ab87b8338372338d20e21a350f88b4ff6c7c8 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 1 Feb 2019 10:59:59 +0000
++Subject: [PATCH] create_inode: fix copying large files
 +
-+class VirglTest(OERuntimeTestCase):
++When copying large files into a ext filesystem at mkfs time the copy fails at
++2^31 bytes in.  There are two problems:
 +
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
++copy_file_chunk() passes an offset (off_t, 64-bit typically) to
++ext2fs_file_lseek() which expects a ext2_off_t (typedef to __u32) so the value
++is truncated. Solve by calling ext2fs_file_llseek() which takes a u64 offset
++instead.
 +
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        from fnmatch import fnmatch
++try_lseek_copy() rounds the data and hole offsets as found by lseek() to block
++boundaries, but the calculation gets truncated to 32-bits.  Solve by casting the
++32-bit blocksize to off_t to ensure this doesn't happen.
 +
-+        try:
-+            distro = oe.lsb.distro_identifier()
-+        except Exception:
-+            distro = None
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ misc/create_inode.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+        if distro and fnmatch(distro, 'centos-7'):
-+            self.skipTest('kmscube is not working when centos 7 is the host OS')
++diff --git a/misc/create_inode.c b/misc/create_inode.c
++index 05aa6363..f106dcda 100644
++--- a/misc/create_inode.c
+++++ b/misc/create_inode.c
++@@ -438,7 +438,7 @@ static errcode_t copy_file_chunk(ext2_filsys fs, int fd, ext2_file_t e2_file,
++ 				ptr += blen;
++ 				continue;
++ 			}
++-			err = ext2fs_file_lseek(e2_file, off + bpos,
+++			err = ext2fs_file_llseek(e2_file, off + bpos,
++ 						EXT2_SEEK_SET, NULL);
++ 			if (err)
++ 				goto fail;
++@@ -481,7 +481,7 @@ static errcode_t try_lseek_copy(ext2_filsys fs, int fd, struct stat *statbuf,
++ 			return EXT2_ET_UNIMPLEMENTED;
++ 
++ 		data_blk = data & ~(fs->blocksize - 1);
++-		hole_blk = (hole + (fs->blocksize - 1)) & ~(fs->blocksize - 1);
+++		hole_blk = (hole + (off_t)(fs->blocksize - 1)) & ~(off_t)(fs->blocksize - 1);
++ 		err = copy_file_chunk(fs, fd, e2_file, data_blk, hole_blk, buf,
++ 				      zerobuf);
++ 		if (err)
++-- 
++2.11.0
 +
-+        status, output = self.target.run('kmscube', timeout=30)
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..f43b1286ccf 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,56 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+index ce95dec5fec..720eaff06a3 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+@@ -9,6 +9,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+             "
  
-+    @OETestID(1883)
-+    def test_testimage_virgl_gtk(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        if "DISPLAY" not in os.environ:
-+            self.skipTest("virgl gtk test must be run inside a X session")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
-+    @OETestID(1883)
-+    def test_testimage_virgl_headless(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        import subprocess, os
-+        try:
-+            content = os.listdir("/dev/dri")
-+            if len([i for i in content if i.startswith('render')]) == 0:
-+                self.skipTest("No render nodes found in /dev/dri: %s" %(content))
-+        except FileNotFoundError:
-+            self.skipTest("/dev/dri directory does not exist; no render nodes available on this machine.")
-+        try:
-+            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-+        except subprocess.CalledProcessError as e:
-+            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
++            file://0001-create_inode-fix-copying-large-files.patch \
+                                 file://quiet-debugfs.patch \
+ "
+ 
 -- 
-2.17.1
+2.11.0
 
 
