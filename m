@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1367C2CC
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 39E417C38E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2019 04:06:46 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id c73so2487145pfe.13
+	Fri,  1 Feb 2019 04:19:35 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id b85so2531041pfc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2019 20:06:47 -0800 (PST)
+	Thu, 31 Jan 2019 20:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=CntbPpWMowS3uoWzNxI9LpHWuxzQpR4uNp/B/kcS2oQ=;
-	b=h9ErdW7X19bA60+d70td69HuxXaUCoEundEWl7KgU8aCArR+g85WLUhILabGgANKM8
-	LfGCokZ6ZMiqBLtv7xaFEX6ZJkUwoY6TF0Ws9SP5bxNnq+wN6Cn1QTL8mY97jzwXmQkU
-	jmto4NZfM+Z7jIsEIsjVhIDGctDdaDLbRN/o21o7n6L1kGObjWQSzgSXW4pk6yRkuUO4
-	VkflwFXUaOIufy8MBjaUEeQQ+3VW7dH4byi1YVV3ztzxCXZT2vmYqOcwSDVv61IhFjnF
-	bx9CQQQNBvOL9HIu+UOFCy4+klnymvnoc+Gp4aBjKLHucBSETodrH25yk1cU8nEp2XdY
-	KQ5A==
+	bh=DyGNevJmfp8IBRc9gSCU7572Cyc6wrqezWtG2i2gHlU=;
+	b=rLIk7aSoXPQxmgc/cuiwTjWXmolRBlxNZuw0d7w0vhk2Cltq198bsltaMAl0mPuZf9
+	YXzl3psKy5rEThJJQzf8VttRRVzf7UnNyIRjXl/qcd5O5qlQ1T+peAkWhXjWv2uAk+KV
+	mTxFXjcEGTDpGgfXcxQkQKneVQjuq1NxAsmqzak+q9Br1EM3HQdmbU4XLGlWa11tet6q
+	ioGZNji2lQQdIlNJ70jaen8VuvOXil17PWdRD4K+Z/1aLJoc9+6LurWFqN4BAgBPsdFy
+	DzpaCt0pvLxV7WjDdwMdHTk2564fu0hM1Jmwl5g45BsuHU/+hhAjll+2c94dkZFivs9X
+	JAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=CntbPpWMowS3uoWzNxI9LpHWuxzQpR4uNp/B/kcS2oQ=;
-	b=iGhwx7L8d5rpdQMwOCIFW9+dGjl+ohLXOJdIWmQ8tJcnlPI+Mtzoz7uoUgAwdiIwJJ
-	BKqWkzE9VSBcYnVCv//cp6CKq9UkcGgDZ2dw2qGHqgfUuzGxaCjwR0vHXT4mdhr9xYsn
-	JQUdUj06Gm+HjuKbDOND7UtLhZciBCUvV2vjEeWlpnjpJ5NR9RDrQM6bIXPTKUdBKEHT
-	HefgTrVd/HmNJOMw4GY88X5fbUpt67RnNsmup+f9jHqI0axNAHCclT48+rMczkaUvSjf
-	CllvMRyvH/Bucth4nQiBggFo9zy/ldCDHMOYRYbhLUL7JGGf//m2yljM3AjZelJvyfGM
-	ihgQ==
-X-Gm-Message-State: AHQUAuZoPYLpTCe2tGzHKScNp4wO+RpBSO0xG6G1eo0zIIJZjhLAt02t
-	KRNly4+lkp6Ta/Q4A/e7tTVVKQm/KkE=
-X-Google-Smtp-Source: AHgI3IZF3T2iR7ih+OoG7DjPqnrUpDk/mOJzFnAF5hs1F1aNT207GPtja+23jotWjYgheoqXpC48Bg==
-X-Received: by 2002:a63:680a:: with SMTP id d10mr732548pgc.396.1548994006394; 
-	Thu, 31 Jan 2019 20:06:46 -0800 (PST)
+	bh=DyGNevJmfp8IBRc9gSCU7572Cyc6wrqezWtG2i2gHlU=;
+	b=D7OV7YdttKng0Mz/OJ1QjC/OUX5gLccdB2Jp3DXbFsNVDBG/T86oZFgjRwUQ2+EJcW
+	COKy5VoOJDWd5ViKbN11735fyHZFFiac3p+gg8lA3Z3rO0n0nbXS7/4XL4Wjx2o0/s+f
+	LkIqPU6MnI1ci0uJ0qoHWLUCIoTFZmYs+aZzMs9iQPAUatrC+vrQbbH1EIyC+Xpe8w/p
+	Pa2Go7himX+xB0qors6H67ig34fySJFwKvBHCywzaEl5HKzN/O382v8RVEBilOWFZy2/
+	kDQ6FM2VZbhV/Iu4laOpiE8eeL5eUBg3aonrHR0kh0IKOPYh01kIsKomyXmQtETtEnsx
+	DcNA==
+X-Gm-Message-State: AHQUAuZt1D2GOGhHYa0aA1yTBew61s0g/IOQuaGPL7xgHGqJtAdLHjB0
+	iBBowoIPrQhl0n2Ip+fOtQLyQL/s
+X-Google-Smtp-Source: AHgI3Ib924lU5scBJpj70mGXm2GPvYGtMRgjAVLqyznUel41oZpB3BD2PPlfmHLH4OrW07+gziwf6w==
+X-Received: by 2002:a63:374e:: with SMTP id g14mr784511pgn.59.1548994775698;
+	Thu, 31 Jan 2019 20:19:35 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5276])
 	by smtp.gmail.com with ESMTPSA id
-	p77sm10970083pfi.85.2019.01.31.20.06.45
+	p64sm8901655pfi.56.2019.01.31.20.19.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Jan 2019 20:06:45 -0800 (PST)
+	Thu, 31 Jan 2019 20:19:35 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2019 20:06:38 -0800
-Message-Id: <20190201040638.25250-1-raj.khem@gmail.com>
+Date: Thu, 31 Jan 2019 20:19:25 -0800
+Message-Id: <20190201041926.19257-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] multilib_header: Place a #include guard to avoid infinite inclusion of headers
+Subject: [PATCH V2] multilib_header: Place a #include guard to avoid infinite inclusion of headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2019 04:06:47 -0000
+X-List-Received-Date: Fri, 01 Feb 2019 04:19:35 -0000
 Content-Transfer-Encoding: 8bit
 
 In cases where extra preprocessing tools are used such as clang-tidy
@@ -74,25 +74,15 @@ and emits the guard at beginning of file
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/multilib_header.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+v2: Drop space changes, not needed, and fix a typo > to >>
+
+ meta/classes/multilib_header.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
-index e03f5b13b2..959e9cac74 100644
+index e03f5b13b2..70b7117da8 100644
 --- a/meta/classes/multilib_header.bbclass
 +++ b/meta/classes/multilib_header.bbclass
-@@ -18,9 +18,9 @@ oe_multilib_header() {
-         case ${TARGET_ARCH} in
-         mips*)  case "${MIPSPKGSFX_ABI}" in
-                 "-n32")
--                       ident=n32   
-+                       ident=n32
-                        ;;
--                *)     
-+                *)
-                        ident=${SITEINFO_BITS}
-                        ;;
-                 esac
 @@ -33,10 +33,13 @@ oe_multilib_header() {
  	      continue
  	   fi
@@ -105,7 +95,7 @@ index e03f5b13b2..959e9cac74 100644
 +	   echo "#ifndef $include_guard" > ${D}/${includedir}/$each_header
 +	   echo "#define $include_guard" >> ${D}/${includedir}/$each_header
 +	   sed -e "s#ENTER_HEADER_FILENAME_HERE#${stem}#g" ${COREBASE}/scripts/multilib_header_wrapper.h >> ${D}/${includedir}/$each_header
-+	   echo "#endif /* $include_guard */" > ${D}/${includedir}/$each_header
++	   echo "#endif /* $include_guard */" >> ${D}/${includedir}/$each_header
  	done
  }
  
