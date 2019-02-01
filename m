@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C6567C4F7
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D75A7C53F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2019 13:06:15 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id a16so1418452wrv.0
+	Fri,  1 Feb 2019 13:06:16 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id t6so6957164wrr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2019 05:06:16 -0800 (PST)
+	Fri, 01 Feb 2019 05:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=u7oP66hZP16ci5FHj8XrEGBkVfCva+riamKQPNNfGhQ=;
-	b=EEKG20d5wH4ii+mIVHv7rQspq7ZgYphG8mHZYBjxAfQmbYnizpXtpnSJg2bpLG/BME
-	vkdBAULUAYc5HsCTSC5vlhKg8NN61d0eg3Dvi45lteEAzbitBDM5wpMq/jKoAXrA4f2I
-	QKEUPVcyxAvVp6052VGQ3Xmuie25E8+YA6odF8PcxxoE4wbQUx9/BomHol4mx7IGphxv
-	497quCts8aFlnEYZNc4p4WiXpOgQBMa9k0oQ78y5FDHC8wk+2U8/etwrAArvQumQjTHQ
-	GE3PgK51XSSWADgXOEyStNtRCzUeKvWtW3iMkqcEeqxOE4bDKvMBRM6IViC6diZFi3A5
-	f0Cg==
+	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
+	b=PVgGtsr05gxQ8uMB/GT6LBAIHIw4P9TJy9DAa+HkuElA3cK5uZPMuoJ3FVohIffo7J
+	svEXl18CE2R6/JOvrCWOYAhtOhb2YWUHUY+DUj2atw7VXyHsUIKGARzPQcCIkdi/htx1
+	tJICCNQnpjvZJWi2KrpZsR16MG7aTpPnIi7eTXb8DOFG51MlWMH+CwF67bbC0cgD/jIa
+	u9ahn6y6NYu3el0PnVD7NSmlN+3XFCcRmOU37eJdfAt/zLLxSq+z1R4TpVmBrlEgrnpv
+	c37V199T37+9h4PKVyCtS65cFL8Roz4UtNH+oJl1OpAgshLx0o1gLnyC8ez12WvhEk2P
+	d6fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=u7oP66hZP16ci5FHj8XrEGBkVfCva+riamKQPNNfGhQ=;
-	b=Svxw/Vx4WDcDTwePTe/eVE6fGD6nC82EWuJMuRIb2jKtuo86aknKBOKOgPzu4Vzkq7
-	3G+GqVSRGCnHn9T+/KOG7f6XA6oT6MuQe+YqAgdXcnlYZgePofg0FEWblSOd/n4kvZQm
-	dP0NbbUVp3VCGiAsnwdVrll0pxVt8+JgWSUZDT69nPs1YsKw0ViRFOkqHHIQZLbzOIMN
-	YGYbaXL2RT6SJ72n079y8BbohonjJXyNqJG29LDJBFYtu91nKLrkz6wabpb7DSLT5+lv
-	4swILMfXYiVTwlfwXcZ34yxBhRwobhhmcTNsgzCenEYzu13TNEWjIZ7wGiEU96nUIfMt
-	QRpA==
-X-Gm-Message-State: AJcUukeam24oRzjEJUVmuoFsFKsMO0sk0ju9j2VkuzFc1JlIuuRlVShj
-	yM7Jz6N2N+cCqH20+t1uQrjcp/3D
-X-Google-Smtp-Source: ALg8bN5XKuIfjrvKPELwy46aEusXTzw60uq1+ffDICJR6s4QNRHi5LsgZE+xn9lQTcVE9jKT5mewBA==
-X-Received: by 2002:adf:83e7:: with SMTP id 94mr38952703wre.278.1549026375914; 
-	Fri, 01 Feb 2019 05:06:15 -0800 (PST)
+	bh=L0uCqY6Fxf93C+jYF4Hy2/rXHp5Y7mq3AJdfJpdYNgI=;
+	b=KnMSTBKBXGUE1rfz7KXpjYeRafuxgcrN/Ydy8Wk6fiwdpqIxz8af31SwltNerdoHP4
+	h+N2D4pIR20ZHmRhGRR94AsA0B8x9GlpBvCnmMuy9H1ArYZYQ1lsUHeX825GtnNFB99j
+	KL5wZaycq0obLllwbZQztPIzXBJODTVMapwHQQ2xL3oLdYm/k72Yi5lKv4FKg4fntGxL
+	pG6aoi60gE2ZoZKO29/yO14F53wqYVvB30dgmivtcwoWk2gvlR2t3zU4pPplQrFCJsrq
+	MIlbMdJTF3pdRO/st55GfFhZ383Ioe2jXyOaIc+QM6ObQA/rYD81m5CRtl/hPVbQ0pVA
+	c7lw==
+X-Gm-Message-State: AHQUAubevgXEqL5KxRhJNu6zoXy3Vm8hwKTST+D4P3KyCygyJsOjZsI2
+	5B3yo7DCc/ct6RkVh0Zmzzg9KiAS
+X-Google-Smtp-Source: AHgI3IYg98zkYrPFhCfx74YiEmOJ4wN8j5sGvg5kZ9WOE6IKnKUo5onEQcQvI2geJqfDZSazwclvog==
+X-Received: by 2002:a5d:5603:: with SMTP id l3mr1069586wrv.279.1549026376945; 
+	Fri, 01 Feb 2019 05:06:16 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	a14sm1273972wrr.13.2019.02.01.05.06.14
+	a14sm1273972wrr.13.2019.02.01.05.06.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Feb 2019 05:06:15 -0800 (PST)
+	Fri, 01 Feb 2019 05:06:16 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2019 14:05:53 +0100
-Message-Id: <20190201130554.90094-12-alex.kanavin@gmail.com>
+Date: Fri,  1 Feb 2019 14:05:54 +0100
+Message-Id: <20190201130554.90094-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190201130554.90094-1-alex.kanavin@gmail.com>
 References: <20190201130554.90094-1-alex.kanavin@gmail.com>
-Subject: [PATCH 12/13] runqemu: do not check for GL libraries
+Subject: [PATCH 13/13] selftest: add tests for virgl GL acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,67 +59,111 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 01 Feb 2019 13:06:16 -0000
 
-qemu has been using libepoxy for a long time, and libepoxy loads GL via dlopen()
-only when instructed to.
+Note that the tests require that the host machine has a X display,
+has mesa development files installed and is able to create OpenGL contexts.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/runqemu | 35 -----------------------------------
- 1 file changed, 35 deletions(-)
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py | 28 +++++++++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 50 +++++++++++++++++++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 50888a532e8..586f8700c94 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -118,39 +118,6 @@ def check_tun():
-     if not os.access(dev_tun, os.W_OK):
-         raise RunQemuError("TUN control device %s is not writable, please fix (e.g. sudo chmod 666 %s)" % (dev_tun, dev_tun))
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+new file mode 100644
+index 00000000000..cc25e77d9c0
+--- /dev/null
++++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+@@ -0,0 +1,28 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++import subprocess
++import oe
++
++class VirglTest(OERuntimeTestCase):
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kernel_driver(self):
++        status, output = self.target.run('dmesg|grep virgl')
++        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
++        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
++
++    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
++    def test_kmscube(self):
++        from fnmatch import fnmatch
++
++        try:
++            distro = oe.lsb.distro_identifier()
++        except Exception:
++            distro = None
++
++        if distro and fnmatch(distro, 'centos-7'):
++            self.skipTest('kmscube is not working when centos 7 is the host OS')
++
++        status, output = self.target.run('kmscube', timeout=30)
++        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
++        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 906e460d4f8..f43b1286ccf 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -168,6 +168,56 @@ class TestImage(OESelftestTestCase):
+         # remove the oeqa-feed-sign temporal directory
+         shutil.rmtree(self.gpg_home, ignore_errors=True)
  
--def check_libgl(qemu_bin):
--    cmd = ('ldd', qemu_bin)
--    logger.debug('Running %s...' % str(cmd))
--    need_gl = subprocess.check_output(cmd).decode('utf-8')
--    if re.search('libGLU', need_gl):
--        # We can't run without a libGL.so
--        libgl = False
--        check_files = (('/usr/lib/libGL.so', '/usr/lib/libGLU.so'), \
--            ('/usr/lib64/libGL.so', '/usr/lib64/libGLU.so'), \
--            ('/usr/lib/*-linux-gnu/libGL.so', '/usr/lib/*-linux-gnu/libGLU.so'))
--
--        for (f1, f2) in check_files:
--            if re.search('\*', f1):
--                for g1 in glob.glob(f1):
--                    if libgl:
--                        break
--                    if os.path.exists(g1):
--                        for g2 in glob.glob(f2):
--                            if os.path.exists(g2):
--                                libgl = True
--                                break
--                if libgl:
--                    break
--            else:
--                if os.path.exists(f1) and os.path.exists(f2):
--                    libgl = True
--                    break
--        if not libgl:
--            logger.error("You need libGL.so and libGLU.so to exist in your library path to run the QEMU emulator.")
--            logger.error("Ubuntu package names are: libgl1-mesa-dev and libglu1-mesa-dev.")
--            logger.error("Fedora package names are: mesa-libGL-devel mesa-libGLU-devel.")
--            raise RunQemuError('%s requires libGLU, but not found' % qemu_bin)
--
- def get_first_file(cmds):
-     """Return first file found in wildcard cmds"""
-     for cmd in cmds:
-@@ -1178,8 +1145,6 @@ class BaseConfig(object):
-         if not os.access(qemu_bin, os.X_OK):
-             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
- 
--        check_libgl(qemu_bin)
--
-         self.qemu_opt = "%s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
- 
-         for ovmf in self.ovmf_bios:
++    @OETestID(1883)
++    def test_testimage_virgl_gtk(self):
++        """
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
++        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
++                  2. Check that kmscube demo runs without crashing.
++        Product: oe-core
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
++        """
++        if "DISPLAY" not in os.environ:
++            self.skipTest("virgl gtk test must be run inside a X session")
++        features = 'INHERIT += "testimage"\n'
++        features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
++        features += 'TEST_SUITES = "ping ssh virgl"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'IMAGE_INSTALL_append = " kmscube"\n'
++        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++
++    @OETestID(1883)
++    def test_testimage_virgl_headless(self):
++        """
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
++        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
++                  2. Check that kmscube demo runs without crashing.
++        Product: oe-core
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
++        """
++        import subprocess, os
++        try:
++            content = os.listdir("/dev/dri")
++            if len([i for i in content if i.startswith('render')]) == 0:
++                self.skipTest("No render nodes found in /dev/dri: %s" %(content))
++        except FileNotFoundError:
++            self.skipTest("/dev/dri directory does not exist; no render nodes available on this machine.")
++        try:
++            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
++        except subprocess.CalledProcessError as e:
++            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
++        features = 'INHERIT += "testimage"\n'
++        features += 'TEST_SUITES = "ping ssh virgl"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'IMAGE_INSTALL_append = " kmscube"\n'
++        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++
+ class Postinst(OESelftestTestCase):
+     @OETestID(1540)
+     @OETestID(1545)
 -- 
 2.17.1
 
