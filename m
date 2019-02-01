@@ -1,51 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8097C7C4EA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CC31A6B005
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2019 15:11:47 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id a62so6459683wmh.4
+	Fri,  1 Feb 2019 15:19:41 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q1so3358262pfi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2019 07:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=VXqOMuQjNKekqimtn7yjpOjyjrOdevxRNuzDtU4n1U0=;
-	b=Mza6onYrSMFDKLc+ZbXSTxmw3ysI2p6KFfoXBS/EWP37z3EXCkkkD4yqIQY7auVkWd
-	ICQlZohnTas41He8Yta3vCOR75CW6c2J9tMSAO1FhETn9e62zrptH1KXXesjkwhzHBhZ
-	lHFTUYg9bbYQ/hWboPjqLSFR7AyuKul6rY6N0=
+	Fri, 01 Feb 2019 07:19:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0H0zKO/yc48WPKvpPI6gax9luYDYYGqrj7Nzjs8pLv0=;
+	b=c5z9ALEElTBJkY1NYsUOfA/6GU2+oHA1Mpp9CzKr8hO2liMth17GoKCgnaTN2ggYtZ
+	3Zgu4NEg/plVdTIciQ+KRMXmzkiy5fu6comZJNi1Td2Y3Ty47EKINXC9bqAbO/s2SCCL
+	MDADBSI/Rb6g1pQkcRw+AWt+i1HBXmnRiATGOGLYGOTD9zvkDp73C3DjwR/VbaGqZwae
+	Q9b49Sm4zFTMXs/TT3eoGaf8moEDFy7Vsc7Yy0mSoKHjsdXUr1kGzd2ZjWq2Z89wbldF
+	+NQRNih9sLqrrKF89582DHQ8ELRqB+Jo0xwL6/VFuZ+hc6mRL7p3GNkpj/1Yeoh1zTUi
+	RZZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=VXqOMuQjNKekqimtn7yjpOjyjrOdevxRNuzDtU4n1U0=;
-	b=A6hEBWrb/BmD0qEsi7kuB50qbeV1yIpv3Va8K+8F5Vim4UrZTkKugtXOGR8ftVaPW4
-	CeX4ZPOTbBB1IoKeKJvz7AwGrYGGUnLu4WI8wsuWMIKgHLkwEhFu3T6+/KrWa4CgP+o8
-	vhTCUToDhDFipWooYtwOjAiSTUDwY8ecGcaKh2XmIZhS2lcVI+1G2TFS+NhFsp147X1O
-	zyrnbICI8athLOIAPUE3btnqmLdZL4sza0USFK+bNAN7afcmTrj6XvKz746BIAHEcUIo
-	ufg9veFwmXc6C77PPAezjZXTAT6iPdI1WdIdE3FjwLgs6Rwhj8ZkhvormEgetk/7lSn7
-	ojiw==
-X-Gm-Message-State: AHQUAuaT/KhUB608AxMInPYMzpJg1A3h5l0iVyGSZan3iuwnfMkepfGm
-	iPhQZIidlj85dHcFU9OjSnFZZw==
-X-Google-Smtp-Source: AHgI3IZI3fT3hUObQEpG/97aI4nOQfAbNyHgFscLyh7zzBJAFwoFxPh0bBhtrHhFK/U7NDe8RyCyFQ==
-X-Received: by 2002:a1c:b70a:: with SMTP id h10mr2720074wmf.125.1549033908125; 
-	Fri, 01 Feb 2019 07:11:48 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0H0zKO/yc48WPKvpPI6gax9luYDYYGqrj7Nzjs8pLv0=;
+	b=e7H1WeWNwkXMHi5sPbqpcODPWPd/dAYAbhNrzBrXAvk5BtlpyFiuGEZO1Llcf0i7Wn
+	zMVeqRQyx9dTIFbmiZ7uY1JOt0GKTK0T8bf2Ese8H9vcBgHotUc8O1qG6JeQJfvTkRqk
+	uhn4mVeuRAIsj8lII1E4Kb9IUrj3FBIp1Bx4hzsMybJPxI9503LKkvv9vArnvnHoH6pb
+	DFwiRiqc6yqutK7rE3Gb5tsynHu8xtWoBeRqHACW9KEYBO70oDVX2wcpR6VAl8OryVOS
+	5dgTEbSCY0pNvyLczjnFB/ZbPRSX+6WYplXe72hNAVSUJI5d4jwvO3bgoZVl3pvjGwn6
+	10tg==
+X-Gm-Message-State: AJcUukdvu+lvb1y0pXPHzxGlBPY1hYI8oQsbbu59sOCg1SIE9wYYAEhE
+	F2MFRftmqv5EyWuUhxif9LZs7qdHUak=
+X-Google-Smtp-Source: ALg8bN68v/rhsEKaMpN6itlhaCTYWyfaAfqAMgAemwLzlobOZlj1hdhykMW9M77PhPSv639mhzA83w==
+X-Received: by 2002:a63:f34b:: with SMTP id t11mr36023165pgj.341.1549034381855;
+	Fri, 01 Feb 2019 07:19:41 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5276])
 	by smtp.gmail.com with ESMTPSA id
-	h62sm3011177wmf.11.2019.02.01.07.11.44
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 01 Feb 2019 07:11:47 -0800 (PST)
-Message-ID: <bdd564e02f5ce563143324988dbb78d8ef363c1c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 01 Feb 2019 15:11:41 +0000
-In-Reply-To: <20190131065016.21887-6-raj.khem@gmail.com>
-References: <20190131065016.21887-1-raj.khem@gmail.com>
-	<20190131065016.21887-6-raj.khem@gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 6/6] llvm: Upgrade to upcoming 8.0.0 release
+	i4sm14436147pfj.82.2019.02.01.07.19.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Feb 2019 07:19:41 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Feb 2019 07:19:29 -0800
+Message-Id: <20190201151929.27893-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] mesa: Up the llvm release to 8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2019 15:11:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Feb 2019 15:19:42 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-01-30 at 22:50 -0800, Khem Raj wrote:
-> License-Update: Copyright year updates from 2017-2019
-> 
-> Refresh patches to apply on new version
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...ryInfo-Undefine-libc-functions-if-th.patch | 28 ++++----
->  ...-llvm-allow-env-override-of-exe-path.patch | 66 +++++++++++++++
-> ----
->  meta/recipes-devtools/llvm/llvm_git.bb        | 25 ++++---
->  3 files changed, 83 insertions(+), 36 deletions(-)
+Needs to happen along with llvm upgrade always
 
-Nearly, but:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/248
-
-i.e. mesa needs its dependencies fixing/testing
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e96a12c1b9..66ed649efe 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -105,7 +105,7 @@ GALLIUMDRIVERS_append = ",virgl"
+ 
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+-MESA_LLVM_RELEASE ?= "6.0"
++MESA_LLVM_RELEASE ?= "8.0"
+ PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+-- 
+2.20.1
 
 
