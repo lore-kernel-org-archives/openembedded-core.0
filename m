@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CFDA07C21E
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CEDC87C4A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2019 13:07:56 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id g67so6139411wmd.2
+	Fri,  1 Feb 2019 13:08:17 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id q18so6993926wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2019 05:07:58 -0800 (PST)
+	Fri, 01 Feb 2019 05:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=nZ/AOO97+Eu8W3xuZyLe+CFnxebmA1aqyepy5K+Y/W4=;
-	b=CHj4wBnaXIFg7OWuOnzA0DGTGKJHjXUo+LDGmR+WKDXPibqMvoQTB21VzEBOBEsmzE
-	nSSC32LWxaXxU/S7uHub3G/Aphk6cgWoxp4T9Ki0/t5kJl8ZBo868eCwkiGfgd9JKadp
-	MI5snKY5DqXia9kIV+LZ7eH6Sc8k6SXxZSiU7L43u2PR3y0eQrApl2yuRa5ont9942dS
-	dtiakNLTgIHSaqrNulO7TKZtrai3bRHbXbZIXtOSZnkLxAF4sWVQ1GcxEW0gA39QQzTY
-	T4K1xyPh1/2JmFqs6mpy7UT9ZgAjICGp4FnIREp5VGZ4XUcEl9yc3mkox+hWtLdArca/
-	n3wg==
+	bh=qXDAMQ5uQGCJMFMVCu36YQWerc770PFFILGUhCjEsAY=;
+	b=ZZSLoFH4q1FjTA8j5UKs72Pu8L40iJ6MGQLbC+197POm/yBhwRzFtsvlkOHACDv4YA
+	6yxIqTNqsLyma94sFoYYnQXwhryj/GfNkOMMFFxunQsbJVbl4FC9zSdf/JZL9AEux5fc
+	lSfv9VL65+7tmMUxY0aupnpuNrZtbP/AlBAAYDvddRcBWFyx2RUzzIKLHdht0bVam3R8
+	TQXlCodK/x80pcoMDVurjhtqlO1A1A5BxxL+5Xz7TPAiNwqc8OF50JvWfTFF7Wdqyxro
+	Qnb6sd55mXeMd430FyWq/3jNfZcExRQsJOF2n91ASWuuR4MTEodCdemp9fRCeIk+GSdU
+	ilgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=nZ/AOO97+Eu8W3xuZyLe+CFnxebmA1aqyepy5K+Y/W4=;
-	b=pLIX7P1Chc3Y1tsT5VoDkkrFPbN38Yc+ufbxE06HpVJg+K0rB4w00JJOUGleSkBHLl
-	xb4KN/ZiITlyyF2KXD9hRC8viccwtbyrascNFz41AVNYdqdb1Q1c1KKAiJnKGzbMApIA
-	Ua0YtGQndKcpK9uYeri+ByEH7Gq+fxEW8+MjPG9Dz7LsXGK6A/rHN3378CvZXClNxhRm
-	wb/Yfgx7WABITAgESPMowNO3mSyt3uqSDs9UaogPN7BO3RBKX28YJV0w2PLmF7ZA6RjD
-	b3nWbcL0seWsne+y8NLOXbTzNIAOV++agIa8g9tPpOFY3MxBJ9Uyv1+R8nFo9SSTcA3i
-	GMdQ==
-X-Gm-Message-State: AHQUAuZJK/gplQ3Jse+nIbIhUH2yluIO66kA9p5ybYNYz38o7V6uylJv
-	Icly58EVQgZ1uS5dizsQSfUGzOMDIw8=
-X-Google-Smtp-Source: AHgI3IZcZQqEnnIzG9rj3TM/Tl6h6QmIS4MBfMW+ry3yM1i8a/WdtKwcKnxe7Zw3D8lSEB4sZx8Nwg==
-X-Received: by 2002:a1c:c1c9:: with SMTP id r192mr2359591wmf.146.1549026477177;
-	Fri, 01 Feb 2019 05:07:57 -0800 (PST)
+	bh=qXDAMQ5uQGCJMFMVCu36YQWerc770PFFILGUhCjEsAY=;
+	b=KGOPjpsFP4miKNEL5K8K36QPRzCKHMerkxzOTsVMA1EVl671+zCzMh8HmN6izXpfve
+	7vzKAJcz9esalCaOHhQs9uq0hQKfUwAIMxKaDeKRFpjVT8B6OE0v/jL9bzGymdPF53K0
+	EnsTBJtKcjufuK2QRZwdtXTaouj5TDMlr3tw/wwv9XkE6Ajzn7S64hfAs0SsMiezxCX0
+	9Xr8s3k3YsTUIf1jdbekuF/m7ShlyKL1w5BLXBSg0wNvxjvkmhdxgN2Afmb/+YDqOZ0O
+	ctK3tuZkoARIo1irIB0Zm84WvKsunv5FzUGe2cJkdfUGP01ZjAyTsxKwSRHspYlFmujm
+	3LDQ==
+X-Gm-Message-State: AJcUukdsbY8vUL9bHyGcimkMyp/jCAygtjXW08SmJhgjt/x4zW7WKgFJ
+	CfJqIO8ROJEKCHHC6KtZ+KHNQVdSNRs=
+X-Google-Smtp-Source: ALg8bN5tby9XzyT7KcEn88SG7GEGzEs640hOmpUdY41xbNBpunMEy1bl2LP/Qmw4ZJEmwM4Mou/k8g==
+X-Received: by 2002:adf:e608:: with SMTP id p8mr38839026wrm.166.1549026498124; 
+	Fri, 01 Feb 2019 05:08:18 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 141sm4802368wmb.5.2019.02.01.05.07.56
+	by smtp.gmail.com with ESMTPSA id p4sm6909108wrs.74.2019.02.01.05.08.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Feb 2019 05:07:56 -0800 (PST)
+	Fri, 01 Feb 2019 05:08:17 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2019 13:07:55 +0000
-Message-Id: <20190201130755.32173-1-ross.burton@intel.com>
+Date: Fri,  1 Feb 2019 13:08:15 +0000
+Message-Id: <20190201130815.32379-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] e2fsprogs: fix file system generation with large files
+Subject: [PATCH v2] e2fsprogs: fix file system generation with large files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2019 13:07:57 -0000
+X-List-Received-Date: Fri, 01 Feb 2019 13:08:18 -0000
 
 When copying files into the file system the file offset was being truncated to a
 signed 32-bit value, so any files that are larger than 2^31 bytes were the right
@@ -64,17 +64,20 @@ size, but no content after that point.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...0001-create_inode-fix-copying-large-files.patch | 47 ++++++++++++++++++++++
+ ...0001-create_inode-fix-copying-large-files.patch | 50 ++++++++++++++++++++++
  .../recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb |  1 +
- 2 files changed, 48 insertions(+)
+ 2 files changed, 51 insertions(+)
  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
 
 diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
 new file mode 100644
-index 00000000000..93fd998fe4d
+index 00000000000..c89581dce84
 --- /dev/null
 +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,50 @@
++Upstream-Status: Submitted
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
 +From 674ab87b8338372338d20e21a350f88b4ff6c7c8 Mon Sep 17 00:00:00 2001
 +From: Ross Burton <ross.burton@intel.com>
 +Date: Fri, 1 Feb 2019 10:59:59 +0000
