@@ -1,47 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
-	[209.85.210.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B71879D6A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A09C7C346
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Feb 2019 19:30:24 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id w25so8929328otm.13
+	Sat,  2 Feb 2019 19:43:35 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id d9so1028435pgl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Feb 2019 11:30:26 -0800 (PST)
+	Sat, 02 Feb 2019 11:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=3//21EWVW/NOAgM7VVZ2tJQvOixVq8oGWyFSDMAcHUs=;
-	b=qzVuru06JXGSsDtNdFyGeowHFRL5ckwHduW4Kk7xEr0mSroH5l1vNaDIIYkw2+1X5p
-	SmfM3WjDbtsClXGV17xzmysww8nwRTafD6o0m8DTToK8UkJadJYdYivO+e9m4zvsBKH5
-	MbW9x8lbbKkf0HfI1OODLpeeAmFnxySjZqxKIOF6xFYOsmNWDjF/Io9DeCoB0WSEClVt
-	CTf+YdBQbOFGupMqu9wED5XhPqK3Db7vB71vth1xwOGjWxWuOOp2FtZ2XH0ncqZcclNO
-	HMxHk8l5reMIZxb/oDOnphzRjrxStvVRKaSXAx6rG5RZ/zpV250QMKIi6hnC9dK2VJex
-	PP7Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qy3xsuvThMeYTlyiWh19BThnwCwUoeN6fmZCq5WnZiw=;
+	b=BZ/OGYnybIUQc4u5HcoW/Q8/wDX09/myOq9RtW0w1Et/6zzfjSa/2soe6XWtDu4hde
+	yRQZBfHnZRugZFDj0zQrNCyQDfHaXhLhUrMXTrJWL8+r9/wizmjSZiORQfC3sxce0aY8
+	pQU19zm1jBK/TTC9K1+SO4C/jxZ4bI+BHYD06RLpqNIkvVI8fZruM8Lsoam22Ndcuwid
+	QYue8Lpu/06Y2DYCdi14mKghGWqoZs6CXDqZIURYk/lmVn27QhkbeCX2/ti5H/sbz7ea
+	3nWBLXsg2oetVnqZnmV5Kpi/UjwtGm64LheUNatfy2UpXoyqonkTIHPUkyKp+G/ppLHi
+	Zabg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=3//21EWVW/NOAgM7VVZ2tJQvOixVq8oGWyFSDMAcHUs=;
-	b=lAQ8Bvs8Z0zfdImX39R3WO9GmGHDzMfFlu1isfdvUgeNE1g8v9K9zRUROx10Axul50
-	32AAn71VU3OnUGpJorW0WDyjZXZeF61pEN4AtDBGtW/ttPrAiP1bdhVh/WGmJBs9X5io
-	+/CHnd1jo/Ja7JzP/8TDfaGM+h7wIyJ5ZgV/gkrxuEHkFTkBZ4/byuJVr/wztTfDBDXq
-	tLZTgHRdcttJ2Qr+78Rd3ODtrGETCge1glOCm+yA+mOP2neWQcRslX1MeRVNvDUJSqkc
-	c/Hy9unsyDSxsHxpwICsb55UGVZBFQku4WfjUd57PxSVX3d14/Ws3jymKKDXkvmF8b5l
-	QLJg==
-X-Gm-Message-State: AJcUukevi/QhP6HA+dK3r4xXEpPjkW/t9F4ZPFH9My1UJuRJLi3Vy/Lx
-	ID5OiRilZFk/gScYAVrs6zAkirt/NWhIoXzkiTY=
-X-Google-Smtp-Source: ALg8bN4GgY5BKKnVO9D2NarbjV7TFez7hbMH6aaTP4JjY9MqSkbt4ml9gbP3cxv8BZPBMRKADbtjTxPcXysU6idOOu8=
-X-Received: by 2002:a9d:69d7:: with SMTP id v23mr33260961oto.96.1549135825926; 
-	Sat, 02 Feb 2019 11:30:25 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qy3xsuvThMeYTlyiWh19BThnwCwUoeN6fmZCq5WnZiw=;
+	b=i1DS4jKH7aeJZPqBub6TTmuVPVt9OA1ON76GfgMcPXzN5EZ9PYgeL7XCYZRDkpaGan
+	9gnm7zt2F/eKPb3cVqmQvJI0C08jra9NFX63nJRebFfUYcjKh2s0J8tT5A76HHkvTmPR
+	te78OeRxGkMxhh6zgiy/x8VX9LXvkXOIyJN8X+aE/JU9n+aTiKRvICwBVN/SRjJH9Gxm
+	AnWjqnRAI3pHwT/6MYPB+aaaHACB0aurYiEFzpO34pOFgnSO2c0jfkp3nEIUeOXJaHfQ
+	sS6Ep1Ei38QC++rAPlLEiQsMJfb0GzyN6XiSc2+U7GGKiGk1Fl1gqfz8mJJlVUO1uusQ
+	1OPQ==
+X-Gm-Message-State: AJcUukc9qnbhMAqQkaeu9cpOju+2YAC3ytdG8u5Y23U9DoZpDMQdlKUs
+	hHLCqknD3fHI0YI7rXbOmUsC4rDK
+X-Google-Smtp-Source: ALg8bN46NIbPqlWlWMOSJHAsLeWWl47L1ckl2otBtVxgjKrxVSNepEoLxlCYFVx8faVIadbmYDItIQ==
+X-Received: by 2002:aa7:824f:: with SMTP id e15mr43643189pfn.192.1549136616521;
+	Sat, 02 Feb 2019 11:43:36 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1609])
+	by smtp.gmail.com with ESMTPSA id
+	j21sm15541962pfn.175.2019.02.02.11.43.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Feb 2019 11:43:35 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Feb 2019 11:43:25 -0800
+Message-Id: <20190202194326.42388-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <0912A04B-78C4-4788-B6A0-FDE2E061F0B9@netbsd.org>
-In-Reply-To: <0912A04B-78C4-4788-B6A0-FDE2E061F0B9@netbsd.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 2 Feb 2019 20:30:14 +0100
-Message-ID: <CANNYZj_AuWu6OxfUpXnsAhSyJ8AOPtJbOYv3K0wE8yt0m4yNvA@mail.gmail.com>
-To: Jens Rehsack <sno@netbsd.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: do_prepare_recipe_sysroot: The file /usr/bin/instmodsh is installed by both perl-native and extutils-makemaker-perl-native, aborting
+Subject: [PATCH V2 1/2] multilib_header: Place a #include guard to avoid infinite inclusion of headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,142 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Feb 2019 19:30:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 02 Feb 2019 19:43:36 -0000
+Content-Transfer-Encoding: 8bit
 
-In cases like this I would dig deeper and find out *why* these two
-components want to install binaries with the same name, how the
-binaries differ (if they do), and what do desktop distros do about the
-situation. I typically view patches that add 'blind' use of
-update-alternatives as treating symptoms rather than the issue, but I
-prefer not to fight against it :)
+In cases where extra preprocessing tools are used such as clang-tidy
+e.g. and these tools are not passed the knowledge about architecture
+then a corner case comes where we enter into include loop for
+bits/wordsize.h, since this template does explicitly include
+bits/wordsize.h
 
-Alex
+so it synthesized a guard out of file name e.g.
 
-On Sat, 2 Feb 2019 at 18:38, Jens Rehsack <sno@netbsd.org> wrote:
->
-> Hi,
->
-> I'm trying to get some recipes building after perl-update, but I'm strugg=
-eling for:
->
-> ERROR: plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 do_prepare_=
-recipe_sysroot: The file /usr/bin/instmodsh is installed by both perl-nativ=
-e and extutils-makemaker-perl-native, aborting
-> ERROR: plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 do_prepare_=
-recipe_sysroot: Function failed: extend_recipe_sysroot
-> ERROR: Logfile of failure stored in: /home/sno/gpw-community-bsp/gpw-yoct=
-o-platform/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/plack-middleware-fix=
-missingbodyinredirect-perl/0.12-r0/temp/log.do_prepare_recipe_sysroot.23078
->
-> Logfile contains:
-> DEBUG: Executing python function do_prepare_recipe_sysroot
-> DEBUG: Executing python function extend_recipe_sysroot
-> NOTE: Direct dependencies are ['virtual:native:/home/sno/gpw-community-bs=
-p/sources/poky/meta/recipes-devtools/qemu/qemu_3.1.0.bb:do_populate_sysroot=
-', '/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/perl-san=
-ity/perl_5.28.1.bb:do_populate_sysroot', '/home/sno/gpw-community-bsp/sourc=
-es/poky/meta/recipes-devtools/gcc/gcc-cross_8.2.bb:do_populate_sysroot', 'v=
-irtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-devel/e=
-xtutils-makemaker-perl/extutils-makemaker-perl_7.34.bb:do_populate_sysroot'=
-, '/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/gcc/gcc-r=
-untime_8.2.bb:do_populate_sysroot', '/home/sno/gpw-community-bsp/sources/po=
-ky/meta/recipes-core/glibc/glibc_2.29.bb:do_populate_sysroot', 'virtual:nat=
-ive:/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/perl-san=
-ity/perl_5.28.1.bb:do_populate_sysroot', '/home/sno/gpw-community-bsp/sourc=
-es/poky/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb:do_populate_sy=
-sroot', 'virtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recip=
-es-www/http-message-perl/http-message-perl_6.18.bb:do_populate_sysroot']
-> ERROR: The file /usr/bin/instmodsh is installed by both perl-native and e=
-xtutils-makemaker-perl-native, aborting
-> DEBUG: Python function extend_recipe_sysroot finished
-> DEBUG: Python function do_prepare_recipe_sysroot finished
-> ERROR: Function failed: extend_recipe_sysroot
->
-> Typically such an issue is fixed by:
->
-> poky:
->
-> diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/reci=
-pes-devtools/perl-sanity/perl_5.28.1.bb
-> index 71653feb53..f66f96919e 100644
-> --- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-> +++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-> @@ -168,6 +168,39 @@ perl_package_preprocess () {
->              ${PKGD}${libdir}/perl5/config.sh
->  }
->
-> +inherit update-alternatives
-> +
-> +ALTERNATIVE_PRIORITY =3D "100"
-> +
-> +ALTERNATIVE_${PN} =3D "corelist cpan enc2xs encguess h2ph h2xs instmodsh=
- json_pp libnetcfg \
-> +                     piconv pl2pm pod2html pod2man pod2text pod2usage po=
-dchecker podselect \
-> +                     prove ptar ptardiff ptargrep shasum splain xsubpp z=
-ipdetails"
-> +ALTERNATIVE_LINK_NAME[corelist] =3D "${bindir}/corelist"
-> +ALTERNATIVE_LINK_NAME[cpan] =3D "${bindir}/cpan"
-> +ALTERNATIVE_LINK_NAME[enc2xs] =3D "${bindir}/enc2xs"
-> +ALTERNATIVE_LINK_NAME[encguess] =3D "${bindir}/encguess"
-> +ALTERNATIVE_LINK_NAME[h2ph] =3D "${bindir}/h2ph"
-> +ALTERNATIVE_LINK_NAME[h2xs] =3D "${bindir}/h2xs"
-> +ALTERNATIVE_LINK_NAME[instmodsh] =3D "${bindir}/instmodsh"
-> +ALTERNATIVE_LINK_NAME[json_pp] =3D "${bindir}/json_pp"
-> +ALTERNATIVE_LINK_NAME[libnetcfg] =3D "${bindir}/libnetcfg"
-> +ALTERNATIVE_LINK_NAME[piconv] =3D "${bindir}/piconv"
-> +ALTERNATIVE_LINK_NAME[pl2pm] =3D "${bindir}/pl2pm"
-> +ALTERNATIVE_LINK_NAME[pod2html] =3D "${bindir}/pod2html"
-> +ALTERNATIVE_LINK_NAME[pod2man] =3D "${bindir}/pod2man"
-> +ALTERNATIVE_LINK_NAME[pod2text] =3D "${bindir}/pod2text"
-> +ALTERNATIVE_LINK_NAME[pod2usage] =3D "${bindir}/pod2usage"
-> +ALTERNATIVE_LINK_NAME[podchecker] =3D "${bindir}/podchecker"
-> +ALTERNATIVE_LINK_NAME[podselect] =3D "${bindir}/podselect"
-> +ALTERNATIVE_LINK_NAME[prove] =3D "${bindir}/prove"
-> +ALTERNATIVE_LINK_NAME[ptar] =3D "${bindir}/ptar"
-> +ALTERNATIVE_LINK_NAME[ptardiff] =3D "${bindir}/ptardiff"
-> +ALTERNATIVE_LINK_NAME[ptargrep] =3D "${bindir}/ptargrep"
-> +ALTERNATIVE_LINK_NAME[shasum] =3D "${bindir}/shasum"
-> +ALTERNATIVE_LINK_NAME[splain] =3D "${bindir}/splain"
-> +ALTERNATIVE_LINK_NAME[xsubpp] =3D "${bindir}/xsubpp"
-> +ALTERNATIVE_LINK_NAME[zipdetails] =3D "${bindir}/zipdetails"
-> +
->  require perl-ptest.inc
->
->  FILES_${PN} =3D "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} =
-${libdir}/libperl.so* \
->
-> meta-cpan:
->
-> diff --git a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-per=
-l_7.34.bb b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7=
-.34.bb
-> index a9d21b1..7a958ed 100644
-> --- a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.=
-bb
-> +++ b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.=
-bb
-> @@ -41,4 +41,11 @@ do_install_prepend_class-native() {
->         export PERL5LIB=3D"${PERL_ARCHLIB}"
->  }
->
-> +inherit update-alternatives
-> +
-> +ALTERNATIVE_PRIORITY =3D "90"
-> +
-> +ALTERNATIVE_${PN} =3D "instmodsh"
-> +ALTERNATIVE_LINK_NAME[instmodsh] =3D "${bindir}/instmodsh"
-> +
->  BBCLASSEXTEND =3D "native"
->
-> But unfortunately it doesn't show any effect.
->
-> Any ideas?
->
-> Best regards
-> --
-> Jens Rehsack - rehsack@gmail.com
->
+bits/wordsize.h -> __OE_BITS_WORDSIZE_H__
+
+and emits the guard at beginning of file
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+V2:
+ - No Changes, just rebased
+
+ meta/classes/multilib_header.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
+index e03f5b13b2..2036dc8594 100644
+--- a/meta/classes/multilib_header.bbclass
++++ b/meta/classes/multilib_header.bbclass
+@@ -33,10 +33,13 @@ oe_multilib_header() {
+ 	      continue
+ 	   fi
+ 	   stem=$(echo $each_header | sed 's#\.h$##')
++	   include_guard=$(echo $each_header | tr '/.' '_' | tr '[a-z]' '[A-Z]' | sed 's/^/__OE_/' | sed 's/$/__/')
+ 	   # if mips64/n32 set ident to n32
+ 	   mv ${D}/${includedir}/$each_header ${D}/${includedir}/${stem}-${ident}.h
+-
+-	   sed -e "s#ENTER_HEADER_FILENAME_HERE#${stem}#g" ${COREBASE}/scripts/multilib_header_wrapper.h > ${D}/${includedir}/$each_header
++	   echo "#ifndef $include_guard" > ${D}/${includedir}/$each_header
++	   echo "#define $include_guard" >> ${D}/${includedir}/$each_header
++	   sed -e "s#ENTER_HEADER_FILENAME_HERE#${stem}#g" ${COREBASE}/scripts/multilib_header_wrapper.h >> ${D}/${includedir}/$each_header
++	   echo "#endif /* $include_guard */" >> ${D}/${includedir}/$each_header
+ 	done
+ }
+ 
+-- 
+2.20.1
+
 
