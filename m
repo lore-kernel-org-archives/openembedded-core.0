@@ -1,52 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C41397C346
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D498560234
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Feb 2019 19:43:36 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id 64so4920272pfr.9
+	Sat,  2 Feb 2019 21:48:54 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id a62so9501727wmh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Feb 2019 11:43:38 -0800 (PST)
+	Sat, 02 Feb 2019 13:48:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=CkCEvO1NtE6BuqFcPKGYjFoUFRo/Ao4OqXFuE5oqZgg=;
-	b=nnT0R7xeFNPsGN7auiCLmmTFVHVeFr7iC8ZP2+85fPugDHAkqrBpSSQb3fRnQPFwyz
-	A4JQOKFBrrxzKHwhB9azXH4zVTX2t/+PMK0zFJxdg5xA52Zo6EE/LHLtrJIDVZOxNcR1
-	bd/3JyifStlhVJYAKduuaRXUcGjdEf4q7UIOv53MLnaUeiuw+It3IYP2O1p/GKxQCHMK
-	WhJUk23pRCDjaonsV6/r8f9La7W4T1g/SW+TDC0WzVO8EeHfTD4d7z3he/sLDGBbMq5z
-	amx+RvkIKqo3N5bnkuB/VI7U91GbUMwUPuaYrsLEQB2NavH2e+4KAUtC3G0ikaChJFWP
-	gRjA==
+	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=2u6T//B5SzgoObWF7TYv2SR8fjbPT3RhQ25D5FayFm4=;
+	b=cNmClYCvsstY38Bu9SXrOpBoLflfT7OSSeFLNg3fL5w/TfiowVw/0eUIsQ862ACJc+
+	vmXeyOXycpqk8Bs2ITJL1F0P7Snl+Z/gC07sNY/jFqrsFvYZdEnlhu80RIr08D/jsz1b
+	s5jVPXagOHGgkkYZ6C2NNi7oT4AcwETJFNYj1dq1lTotiaDxhmL116mqY6u8chkc+esf
+	wUc6GgKp+X7pPu73bW2VBB/IdFqzmpsZeb8jio4plHj25sTWKTM5iHZod9rVnV7lU2lI
+	HsDd4gn7JioMlwD/r8pq3tAxGLcnJPYKLBWutTyg9gbOBShG+7UDEAqL9iY1mnI73bIY
+	s+wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CkCEvO1NtE6BuqFcPKGYjFoUFRo/Ao4OqXFuE5oqZgg=;
-	b=jSCI6ea6YGfn7znTC6cBa5L8GCDCmQffHIo4G7DxzVScLV8xFvDnxSmVH1keqX9TVN
-	Ruh0pdd6sDbgDdwafTYEJj8qAbyVpAhAMoWvtjmDXdSdcrDk+K/m5hMVY0pk7E70lQWi
-	rpwYzDOdtTRc91LpA0D7Q/hl1wTcLWnF/3x4XmRxunWGbPJ7j/IXL7zDvFSiaX6OHr+A
-	zZE2y8SpqaLZCPzpFaV42veTKVI7VSX0PmqaZt2fHbSzFFHq6+Ywnu6wYvM7/krr+ePJ
-	bsnZySDq7uptNEhIZlk6bP0hAdeFZ5DxE4Wtd+JEvf8YYl7CxDYLsSjtHn6+koE2OxSb
-	ZvAQ==
-X-Gm-Message-State: AHQUAuYJ54WGCEtijTvY7//iFwHx9J6iV3bbRlilflDBhQJ7OqbojARP
-	m71rye/t7qOcIBc1x72rRCkvdBTe
-X-Google-Smtp-Source: AHgI3IY9uSeUDYJA1jVrilH+uEw7y9X7Ca2p9YSJO8AJ06vbyrbfwDWT2Ja0tU2+aUVN/fJd9fge9g==
-X-Received: by 2002:a63:96:: with SMTP id 144mr27655802pga.315.1549136617379; 
-	Sat, 02 Feb 2019 11:43:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1609])
-	by smtp.gmail.com with ESMTPSA id
-	j21sm15541962pfn.175.2019.02.02.11.43.36
+	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=2u6T//B5SzgoObWF7TYv2SR8fjbPT3RhQ25D5FayFm4=;
+	b=aQlCVeBvRC/l207u7NwYwtix1eAXJ8kwuiQo6ESL+otp4Mc4vz1LB2Jb8TRygEaSLr
+	Na2cXtBEhvBrQxlkzj8FIF/1ScjJHcw8l2hczzQZlunDTwVYnUIsFkuBXewGHAujg9XQ
+	30eLSvA/ZLaE5/9yIyxOeO9shFA8CrPnzAmx189m6eLnh/Tplj8A0QcW2c/g+eurJWI+
+	KZGgVFxtOKaaQGGnaBGKVOghJjagFWIXfa9zVo27rJa16RCaeP0Nd0lOMOHzG/Teumdr
+	zjnjeSSl2Mut35CHSvOveFxRfemN3vIkkETR03NIJ4Y96VVzj8PjJIpLYFGBWFlu5j8P
+	mQ1Q==
+X-Gm-Message-State: AHQUAuYQbB7/8AIXcDYJmmSiT4k7JE4lxJtvG+V9ksY0nY94wdq0XV6T
+	zWuLrLg6rFOIKJ6CcB7BMM4=
+X-Google-Smtp-Source: AHgI3IZKtarCXQA27NDBwNATf1u99Z9KkCs5Nz5TwjXz00jb1nGNuuAhMpXWzMQDUD8Ioabgr9dvOg==
+X-Received: by 2002:a1c:e18a:: with SMTP id y132mr7996162wmg.48.1549144135393; 
+	Sat, 02 Feb 2019 13:48:55 -0800 (PST)
+Received: from ernie.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
+	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
+	g129sm9526364wmf.39.2019.02.02.13.48.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Feb 2019 11:43:36 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  2 Feb 2019 11:43:26 -0800
-Message-Id: <20190202194326.42388-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190202194326.42388-1-raj.khem@gmail.com>
-References: <20190202194326.42388-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] llvm, mesa: Upgrade to upcoming 8.0.0 release
+	Sat, 02 Feb 2019 13:48:53 -0800 (PST)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+Message-Id: <558DE6F2-8AE0-470E-BE38-A9C777F6042D@netbsd.org>
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Date: Sat, 2 Feb 2019 22:48:52 +0100
+In-Reply-To: <CANNYZj_AuWu6OxfUpXnsAhSyJ8AOPtJbOYv3K0wE8yt0m4yNvA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <0912A04B-78C4-4788-B6A0-FDE2E061F0B9@netbsd.org>
+	<CANNYZj_AuWu6OxfUpXnsAhSyJ8AOPtJbOYv3K0wE8yt0m4yNvA@mail.gmail.com>
+X-Mailer: Apple Mail (2.3445.102.3)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: do_prepare_recipe_sysroot: The file /usr/bin/instmodsh is installed by both perl-native and extutils-makemaker-perl-native, aborting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,397 +61,364 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Feb 2019 19:43:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 02 Feb 2019 21:48:55 -0000
+X-Groupsio-MsgNum: 120804
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3ACDF9F8-2FA6-412E-82F0-48C65BA5A0C4";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-License-Update: Copyright year updates from 2017-2019
+--Apple-Mail=_3ACDF9F8-2FA6-412E-82F0-48C65BA5A0C4
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_DE1DA6F4-BE0C-49BE-9A72-FDAE22367676"
 
-Refresh patches to apply on new version
+--Apple-Mail=_DE1DA6F4-BE0C-49BE-9A72-FDAE22367676
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-mesa move dep to the llvm release to 8.0
-Needs to happen along with llvm upgrade always
+That's more or less quite easy:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-V2:
-- merge mesa and llvm changes together to be atomic
-- Redo llvm packaging, to avoid per library split
-  we only have static (.a) files for components
-- Bump LLVM to 8.0.0 RC1
+perl has a bundled extutils-makemaker which installs the script and the =
+standalone extutils-makemaker wants to install the updated script.
+Even if it's now the same - the cpan module is updated more often and =
+bring changes before they're merged into core (likely).
 
- ...ryInfo-Undefine-libc-functions-if-th.patch | 28 +++---
- ...-llvm-allow-env-override-of-exe-path.patch | 66 +++++++++++---
- meta/recipes-devtools/llvm/llvm_git.bb        | 86 ++++++++-----------
- meta/recipes-graphics/mesa/mesa.inc           |  2 +-
- 4 files changed, 105 insertions(+), 77 deletions(-)
+So I'd prefer - even if both files are the same - that cpan > core =
+(poky).
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-index 209764c8ba..6dbbced7eb 100644
---- a/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-@@ -1,24 +1,22 @@
--From 96558c4f25d5132936014f6f2d6252cfdfdf478a Mon Sep 17 00:00:00 2001
-+From 905cac8934fb17e20416a4df712a566e757471a3 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 21 May 2016 00:33:20 +0000
--Subject: [PATCH 1/2] llvm: TargetLibraryInfo: Undefine libc functions if they
-- are macros
-+Subject: [PATCH 1/2] llvm: TargetLibraryInfo: Undefine libc functions if they are macros
- 
- musl defines some functions as macros and not inline functions
- if this is the case then make sure to undefine them
- 
-+Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
--Upstream-Status: Pending
--
-  include/llvm/Analysis/TargetLibraryInfo.def | 21 +++++++++++++++++++++
-  1 file changed, 21 insertions(+)
- 
- diff --git a/include/llvm/Analysis/TargetLibraryInfo.def b/include/llvm/Analysis/TargetLibraryInfo.def
--index a461ed813b9..f9fd9faeee0 100644
-+index 518a85ee1a0..6b4ead4efc6 100644
- --- a/include/llvm/Analysis/TargetLibraryInfo.def
- +++ b/include/llvm/Analysis/TargetLibraryInfo.def
--@@ -665,6 +665,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
-+@@ -731,6 +731,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
-  TLI_DEFINE_ENUM_INTERNAL(fopen)
-  TLI_DEFINE_STRING_INTERNAL("fopen")
-  /// FILE *fopen64(const char *filename, const char *opentype)
-@@ -27,8 +25,8 @@ index a461ed813b9..f9fd9faeee0 100644
- +#endif
-  TLI_DEFINE_ENUM_INTERNAL(fopen64)
-  TLI_DEFINE_STRING_INTERNAL("fopen64")
-- /// int fprintf(FILE *stream, const char *format, ...);
--@@ -700,6 +703,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
-+ /// int fork();
-+@@ -778,6 +781,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
-  /// int fseeko(FILE *stream, off_t offset, int whence);
-  TLI_DEFINE_ENUM_INTERNAL(fseeko)
-  TLI_DEFINE_STRING_INTERNAL("fseeko")
-@@ -38,7 +36,7 @@ index a461ed813b9..f9fd9faeee0 100644
-  /// int fseeko64(FILE *stream, off64_t offset, int whence)
-  TLI_DEFINE_ENUM_INTERNAL(fseeko64)
-  TLI_DEFINE_STRING_INTERNAL("fseeko64")
--@@ -710,6 +716,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
-+@@ -788,6 +794,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
-  TLI_DEFINE_ENUM_INTERNAL(fstat)
-  TLI_DEFINE_STRING_INTERNAL("fstat")
-  /// int fstat64(int filedes, struct stat64 *buf)
-@@ -48,7 +46,7 @@ index a461ed813b9..f9fd9faeee0 100644
-  TLI_DEFINE_ENUM_INTERNAL(fstat64)
-  TLI_DEFINE_STRING_INTERNAL("fstat64")
-  /// int fstatvfs(int fildes, struct statvfs *buf);
--@@ -725,6 +734,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
-+@@ -803,6 +812,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
-  TLI_DEFINE_ENUM_INTERNAL(ftello)
-  TLI_DEFINE_STRING_INTERNAL("ftello")
-  /// off64_t ftello64(FILE *stream)
-@@ -58,7 +56,7 @@ index a461ed813b9..f9fd9faeee0 100644
-  TLI_DEFINE_ENUM_INTERNAL(ftello64)
-  TLI_DEFINE_STRING_INTERNAL("ftello64")
-  /// int ftrylockfile(FILE *file);
--@@ -845,6 +857,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
-+@@ -929,6 +941,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
-  TLI_DEFINE_ENUM_INTERNAL(lstat)
-  TLI_DEFINE_STRING_INTERNAL("lstat")
-  /// int lstat64(const char *path, struct stat64 *buf);
-@@ -68,7 +66,7 @@ index a461ed813b9..f9fd9faeee0 100644
-  TLI_DEFINE_ENUM_INTERNAL(lstat64)
-  TLI_DEFINE_STRING_INTERNAL("lstat64")
-  /// void *malloc(size_t size);
--@@ -1064,6 +1079,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
-+@@ -1154,6 +1169,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
-  TLI_DEFINE_ENUM_INTERNAL(stat)
-  TLI_DEFINE_STRING_INTERNAL("stat")
-  /// int stat64(const char *path, struct stat64 *buf);
-@@ -78,7 +76,7 @@ index a461ed813b9..f9fd9faeee0 100644
-  TLI_DEFINE_ENUM_INTERNAL(stat64)
-  TLI_DEFINE_STRING_INTERNAL("stat64")
-  /// int statvfs(const char *path, struct statvfs *buf);
--@@ -1193,6 +1211,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
-+@@ -1283,6 +1301,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
-  TLI_DEFINE_ENUM_INTERNAL(tmpfile)
-  TLI_DEFINE_STRING_INTERNAL("tmpfile")
-  /// FILE *tmpfile64(void)
-@@ -89,5 +87,5 @@ index a461ed813b9..f9fd9faeee0 100644
-  TLI_DEFINE_STRING_INTERNAL("tmpfile64")
-  /// int toascii(int c);
- -- 
--2.16.1
-+2.20.1
- 
-diff --git a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-index 6a9283323c..2970b0827b 100644
---- a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-@@ -1,4 +1,4 @@
--From aeccf16eaccdd80e4d5ecaa51673ce4b2bac1130 Mon Sep 17 00:00:00 2001
-+From 0570fe02c07244a8724c1e6c0437f893c8aa8e93 Mon Sep 17 00:00:00 2001
- From: Martin Kelly <mkelly@xevo.com>
- Date: Fri, 19 May 2017 00:22:57 -0700
- Subject: [PATCH 2/2] llvm: allow env override of exe path
-@@ -16,16 +16,16 @@ Upstream-Status: Inappropriate [OE-Specific]
- Signed-off-by: Martin Kelly <mkelly@xevo.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- tools/llvm-config/llvm-config.cpp | 17 ++++++++++++++++-
-- 1 file changed, 16 insertions(+), 1 deletion(-)
-+ tools/llvm-config/llvm-config.cpp | 35 ++++++++++++++++++++++---------
-+ 1 file changed, 25 insertions(+), 10 deletions(-)
- 
- diff --git a/tools/llvm-config/llvm-config.cpp b/tools/llvm-config/llvm-config.cpp
--index 08b096afb05..360cc5abf4e 100644
-+index bec89fef98c..91b4d6e4c43 100644
- --- a/tools/llvm-config/llvm-config.cpp
- +++ b/tools/llvm-config/llvm-config.cpp
--@@ -225,6 +225,13 @@ Typical components:\n\
-+@@ -226,6 +226,13 @@ Typical components:\n\
-  
-- /// \brief Compute the path to the main executable.
-+ /// Compute the path to the main executable.
-  std::string GetExecutablePath(const char *Argv0) {
- +  // Hack for Yocto: we need to override the root path when we are using
- +  // llvm-config from within a target sysroot.
-@@ -37,7 +37,25 @@ index 08b096afb05..360cc5abf4e 100644
-    // This just needs to be some symbol in the binary; C++ doesn't
-    // allow taking the address of ::main however.
-    void *P = (void *)(intptr_t)GetExecutablePath;
--@@ -306,12 +313,20 @@ int main(int argc, char **argv) {
-+@@ -284,7 +291,7 @@ int main(int argc, char **argv) {
-+   // bin dir).
-+   sys::fs::make_absolute(CurrentPath);
-+   CurrentExecPrefix =
-+-      sys::path::parent_path(sys::path::parent_path(CurrentPath)).str();
-++      sys::path::parent_path(sys::path::parent_path(sys::path::parent_path(CurrentPath))).str();
-+ 
-+   // Check to see if we are inside a development tree by comparing to possible
-+   // locations (prefix style or CMake style).
-+@@ -293,7 +300,7 @@ int main(int argc, char **argv) {
-+     DevelopmentTreeLayout = CMakeStyle;
-+     ActiveObjRoot = LLVM_OBJ_ROOT;
-+   } else if (sys::fs::equivalent(CurrentExecPrefix,
-+-                                 Twine(LLVM_OBJ_ROOT) + "/bin")) {
-++                                 Twine(LLVM_OBJ_ROOT) + "/bin/llvm8.0")) {
-+     IsInDevelopmentTree = true;
-+     DevelopmentTreeLayout = CMakeBuildModeStyle;
-+     ActiveObjRoot = LLVM_OBJ_ROOT;
-+@@ -307,37 +314,45 @@ int main(int argc, char **argv) {
-    std::string ActivePrefix, ActiveBinDir, ActiveIncludeDir, ActiveLibDir,
-                ActiveCMakeDir;
-    std::string ActiveIncludeOption;
-@@ -45,11 +63,12 @@ index 08b096afb05..360cc5abf4e 100644
- +  // llvm-config from within a target sysroot.
- +  std::string Multilibdir = std::getenv("YOCTO_ALTERNATE_MULTILIB_NAME");
- +  if (Multilibdir.empty()) {
--+    Multilibdir = "/lib" LLVM_LIBDIR_SUFFIX;
-++    Multilibdir = "/lib/llvm8.0" LLVM_LIBDIR_SUFFIX;
- +  }
- +
-    if (IsInDevelopmentTree) {
--     ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-+-    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-++    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm8.0";
-      ActivePrefix = CurrentExecPrefix;
-  
-      // CMake organizes the products differently than a normal prefix style
-@@ -57,8 +76,31 @@ index 08b096afb05..360cc5abf4e 100644
- +
-      switch (DevelopmentTreeLayout) {
-      case CMakeStyle:
--       ActiveBinDir = ActiveObjRoot + "/bin";
--@@ -336,7 +351,7 @@ int main(int argc, char **argv) {
-+-      ActiveBinDir = ActiveObjRoot + "/bin";
-+-      ActiveLibDir = ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX;
-++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0";
-++      ActiveLibDir = ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX;
-+       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+       break;
-+     case CMakeBuildModeStyle:
-+       ActivePrefix = ActiveObjRoot;
-+-      ActiveBinDir = ActiveObjRoot + "/bin/" + build_mode;
-++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0/" + build_mode;
-+       ActiveLibDir =
-+-          ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-++          ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-+       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+       break;
-+     }
-+ 
-+     // We need to include files from both the source and object trees.
-+     ActiveIncludeOption =
-+-        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
-++        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm8.0");
-+   } else {
-+     ActivePrefix = CurrentExecPrefix;
-+-    ActiveIncludeDir = ActivePrefix + "/include";
-++    ActiveIncludeDir = ActivePrefix + "/include/llvm8.0";
-      SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
-      sys::fs::make_absolute(ActivePrefix, path);
-      ActiveBinDir = path.str();
-@@ -68,5 +110,5 @@ index 08b096afb05..360cc5abf4e 100644
-      ActiveIncludeOption = "-I" + ActiveIncludeDir;
-    }
- -- 
--2.18.0
-+2.20.1
- 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index eb0779d6ec..eca78af09e 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://llvm.org"
- LICENSE = "NCSA"
- SECTION = "devel"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=e825e017edc35cfd58e26116e5251771"
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=c6b766a4e85dd28301eeed54a6684648"
- 
- DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
- 
-@@ -19,18 +19,23 @@ PROVIDES += "llvm${PV}"
- LLVM_RELEASE = "${PV}"
- LLVM_DIR = "llvm${LLVM_RELEASE}"
- 
--SRCREV = "5136df4d089a086b70d452160ad5451861269498"
--PV = "6.0"
--BRANCH = "release_60"
--PATCH_VERSION = "1"
--SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH};protocol=http \
-+SRCREV = "e5cc6808dc0d5b773479bf36c51d59d0d3174733"
-+BRANCH = "release_${MAJOR_VERSION}${MINOR_VERSION}"
-+MAJOR_VERSION = "8"
-+MINOR_VERSION = "0"
-+PATCH_VERSION = "0"
-+SOLIBVER = "1"
-+PV = "${MAJOR_VERSION}.${MINOR_VERSION}"
-+SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH} \
-            file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
-            file://0002-llvm-allow-env-override-of-exe-path.patch \
-           "
- UPSTREAM_CHECK_COMMITS = "1"
-+
- S = "${WORKDIR}/git"
- 
- LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
-+
- def get_llvm_arch(bb, d, arch_var):
-     import re
-     a = d.getVar(arch_var)
-@@ -117,71 +122,54 @@ do_install() {
- 	# Remove unnecessary cmake files
- 	rm -rf ${D}${libdir}/${LLVM_DIR}/cmake
- 
--	ln -s ${LLVM_DIR}/libLLVM-${PV}${SOLIBSDEV} ${D}${libdir}/libLLVM-${PV}${SOLIBSDEV}
-+	ln -s ${LLVM_DIR}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV} ${D}${libdir}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV}
- 
- 	# We'll have to delete the libLLVM.so due to multiple reasons...
- 	rm -rf ${D}${libdir}/${LLVM_DIR}/libLLVM.so
- 	rm -rf ${D}${libdir}/${LLVM_DIR}/libLTO.so
- }
-+
- do_install_class-native() {
- 	install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
- 	install -D -m 0755 ${B}/bin/llvm-config ${D}${bindir}/llvm-config${PV}
--	install -D -m 0755 ${B}/lib/libLLVM-${PV}.so ${D}${libdir}/libLLVM-${PV}.so
-+	install -D -m 0755 ${B}/lib/libLLVM-${MAJOR_VERSION}.so ${D}${libdir}/libLLVM-${MAJOR_VERSION}.so
- }
- 
--PACKAGES += "${PN}-bugpointpasses ${PN}-llvmhello"
--ALLOW_EMPTY_${PN} = "1"
--ALLOW_EMPTY_${PN}-staticdev = "1"
--FILES_${PN} = ""
--FILES_${PN}-staticdev = ""
--FILES_${PN}-dbg = " \
--    ${bindir}/${LLVM_DIR}/.debug \
--    ${libdir}/${LLVM_DIR}/.debug/BugpointPasses.so \
--    ${libdir}/${LLVM_DIR}/.debug/LLVMHello.so \
--    ${libdir}/${LLVM_DIR}/.debug/libLTO.so* \
--    ${libdir}/${LLVM_DIR}/.debug/llvm-config \
--    /usr/src/debug \
--"
-+PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto"
- 
--FILES_${PN}-dev = " \
--    ${bindir}/${LLVM_DIR} \
--    ${includedir}/${LLVM_DIR} \
--    ${libdir}/${LLVM_DIR}/llvm-config \
--"
--
--RRECOMMENDS_${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello"
-+RRECOMMENDS_${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
- 
- FILES_${PN}-bugpointpasses = "\
-     ${libdir}/${LLVM_DIR}/BugpointPasses.so \
- "
--FILES_${PN} += "\
-+
-+FILES_${PN}-libllvm = "\
-+    ${libdir}/${LLVM_DIR}/libLLVM-${MAJOR_VERSION}.so \
-+    ${libdir}/libLLVM-${MAJOR_VERSION}.so \
-+"
-+
-+FILES_${PN}-liblto += "\
-     ${libdir}/${LLVM_DIR}/libLTO.so.* \
- "
- 
-+FILES_${PN}-liboptremarks += "\
-+    ${libdir}/${LLVM_DIR}/libOptRemarks.so.* \
-+"
-+
- FILES_${PN}-llvmhello = "\
-     ${libdir}/${LLVM_DIR}/LLVMHello.so \
- "
- 
--PACKAGES_DYNAMIC = "^libllvm${LLVM_RELEASE}-.*$"
--NOAUTOPACKAGEDEBUG = "1"
--
--INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELEASE}.${PATCH_VERSION} += "dev-so"
--INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELEASE} += "dev-so"
--INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm += "dev-so"
--
--python llvm_populate_packages() {
--    libdir = bb.data.expand('${libdir}', d)
--    libllvm_libdir = bb.data.expand('${libdir}/${LLVM_DIR}', d)
--    split_dbg_packages = do_split_packages(d, libllvm_libdir+'/.debug', r'^lib(.*)\.so$', 'libllvm${LLVM_RELEASE}-%s-dbg', 'Split debug package for %s', allow_dirs=True)
--    split_packages = do_split_packages(d, libdir, r'^lib(.*)\.so$', 'libllvm${LLVM_RELEASE}-%s', 'Split package for %s', allow_dirs=True, allow_links=True, recursive=True)
--    split_staticdev_packages = do_split_packages(d, libllvm_libdir, r'^lib(.*)\.a$', 'libllvm${LLVM_RELEASE}-%s-staticdev', 'Split staticdev package for %s', allow_dirs=True)
--    if split_packages:
--        pn = d.getVar('PN')
--        d.appendVar('RDEPENDS_' + pn, ' '+' '.join(split_packages))
--        d.appendVar('RDEPENDS_' + pn + '-dbg', ' '+' '.join(split_dbg_packages))
--        d.appendVar('RDEPENDS_' + pn + '-staticdev', ' '+' '.join(split_staticdev_packages))
--}
-+FILES_${PN}-dev += " \
-+    ${libdir}/${LLVM_DIR}/llvm-config \
-+    ${libdir}/${LLVM_DIR}/libOptRemarks.so \
-+    ${libdir}/${LLVM_DIR}/libLLVM-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}.so \
-+"
-+
-+FILES_${PN}-staticdev += "\
-+    ${libdir}/${LLVM_DIR}/*.a \
-+"
- 
--PACKAGESPLITFUNCS_prepend = "llvm_populate_packages "
-+INSANE_SKIP_${PN}-libllvm += "dev-so"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e96a12c1b9..66ed649efe 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -105,7 +105,7 @@ GALLIUMDRIVERS_append = ",virgl"
- 
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
- PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
--MESA_LLVM_RELEASE ?= "6.0"
-+MESA_LLVM_RELEASE ?= "8.0"
- PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
--- 
-2.20.1
+Jens
+
+> Am 02.02.2019 um 20:30 schrieb Alexander Kanavin =
+<alex.kanavin@gmail.com>:
+>=20
+> In cases like this I would dig deeper and find out *why* these two
+> components want to install binaries with the same name, how the
+> binaries differ (if they do), and what do desktop distros do about the
+> situation. I typically view patches that add 'blind' use of
+> update-alternatives as treating symptoms rather than the issue, but I
+> prefer not to fight against it :)
+>=20
+> Alex
+>=20
+> On Sat, 2 Feb 2019 at 18:38, Jens Rehsack <sno@netbsd.org> wrote:
+>>=20
+>> Hi,
+>>=20
+>> I'm trying to get some recipes building after perl-update, but I'm =
+struggeling for:
+>>=20
+>> ERROR: plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 =
+do_prepare_recipe_sysroot: The file /usr/bin/instmodsh is installed by =
+both perl-native and extutils-makemaker-perl-native, aborting
+>> ERROR: plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 =
+do_prepare_recipe_sysroot: Function failed: extend_recipe_sysroot
+>> ERROR: Logfile of failure stored in: =
+/home/sno/gpw-community-bsp/gpw-yocto-platform/tmp/work/cortexa8hf-neon-po=
+ky-linux-gnueabi/plack-middleware-fixmissingbodyinredirect-perl/0.12-r0/te=
+mp/log.do_prepare_recipe_sysroot.23078
+>>=20
+>> Logfile contains:
+>> DEBUG: Executing python function do_prepare_recipe_sysroot
+>> DEBUG: Executing python function extend_recipe_sysroot
+>> NOTE: Direct dependencies are =
+['virtual:native:/home/sno/gpw-community-bsp/sources/poky/meta/recipes-dev=
+tools/qemu/qemu_3.1.0.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/perl-sanit=
+y/perl_5.28.1.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/gcc/gcc-cr=
+oss_8.2.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-deve=
+l/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb:do_populate_sysr=
+oot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/gcc/gcc-ru=
+ntime_8.2.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-core/glibc/glibc_2.=
+29.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devt=
+ools/perl-sanity/perl_5.28.1.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/qemu/qemu-=
+helper-native_1.0.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-www/=
+http-message-perl/http-message-perl_6.18.bb:do_populate_sysroot']
+>> ERROR: The file /usr/bin/instmodsh is installed by both perl-native =
+and extutils-makemaker-perl-native, aborting
+>> DEBUG: Python function extend_recipe_sysroot finished
+>> DEBUG: Python function do_prepare_recipe_sysroot finished
+>> ERROR: Function failed: extend_recipe_sysroot
+>>=20
+>> Typically such an issue is fixed by:
+>>=20
+>> poky:
+>>=20
+>> diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb =
+b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+>> index 71653feb53..f66f96919e 100644
+>> --- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+>> +++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+>> @@ -168,6 +168,39 @@ perl_package_preprocess () {
+>>             ${PKGD}${libdir}/perl5/config.sh
+>> }
+>>=20
+>> +inherit update-alternatives
+>> +
+>> +ALTERNATIVE_PRIORITY =3D "100"
+>> +
+>> +ALTERNATIVE_${PN} =3D "corelist cpan enc2xs encguess h2ph h2xs =
+instmodsh json_pp libnetcfg \
+>> +                     piconv pl2pm pod2html pod2man pod2text =
+pod2usage podchecker podselect \
+>> +                     prove ptar ptardiff ptargrep shasum splain =
+xsubpp zipdetails"
+>> +ALTERNATIVE_LINK_NAME[corelist] =3D "${bindir}/corelist"
+>> +ALTERNATIVE_LINK_NAME[cpan] =3D "${bindir}/cpan"
+>> +ALTERNATIVE_LINK_NAME[enc2xs] =3D "${bindir}/enc2xs"
+>> +ALTERNATIVE_LINK_NAME[encguess] =3D "${bindir}/encguess"
+>> +ALTERNATIVE_LINK_NAME[h2ph] =3D "${bindir}/h2ph"
+>> +ALTERNATIVE_LINK_NAME[h2xs] =3D "${bindir}/h2xs"
+>> +ALTERNATIVE_LINK_NAME[instmodsh] =3D "${bindir}/instmodsh"
+>> +ALTERNATIVE_LINK_NAME[json_pp] =3D "${bindir}/json_pp"
+>> +ALTERNATIVE_LINK_NAME[libnetcfg] =3D "${bindir}/libnetcfg"
+>> +ALTERNATIVE_LINK_NAME[piconv] =3D "${bindir}/piconv"
+>> +ALTERNATIVE_LINK_NAME[pl2pm] =3D "${bindir}/pl2pm"
+>> +ALTERNATIVE_LINK_NAME[pod2html] =3D "${bindir}/pod2html"
+>> +ALTERNATIVE_LINK_NAME[pod2man] =3D "${bindir}/pod2man"
+>> +ALTERNATIVE_LINK_NAME[pod2text] =3D "${bindir}/pod2text"
+>> +ALTERNATIVE_LINK_NAME[pod2usage] =3D "${bindir}/pod2usage"
+>> +ALTERNATIVE_LINK_NAME[podchecker] =3D "${bindir}/podchecker"
+>> +ALTERNATIVE_LINK_NAME[podselect] =3D "${bindir}/podselect"
+>> +ALTERNATIVE_LINK_NAME[prove] =3D "${bindir}/prove"
+>> +ALTERNATIVE_LINK_NAME[ptar] =3D "${bindir}/ptar"
+>> +ALTERNATIVE_LINK_NAME[ptardiff] =3D "${bindir}/ptardiff"
+>> +ALTERNATIVE_LINK_NAME[ptargrep] =3D "${bindir}/ptargrep"
+>> +ALTERNATIVE_LINK_NAME[shasum] =3D "${bindir}/shasum"
+>> +ALTERNATIVE_LINK_NAME[splain] =3D "${bindir}/splain"
+>> +ALTERNATIVE_LINK_NAME[xsubpp] =3D "${bindir}/xsubpp"
+>> +ALTERNATIVE_LINK_NAME[zipdetails] =3D "${bindir}/zipdetails"
+>> +
+>> require perl-ptest.inc
+>>=20
+>> FILES_${PN} =3D "${bindir}/perl ${bindir}/perl.real =
+${bindir}/perl${PV} ${libdir}/libperl.so* \
+>>=20
+>> meta-cpan:
+>>=20
+>> diff --git =
+a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb =
+b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb
+>> index a9d21b1..7a958ed 100644
+>> --- =
+a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb
+>> +++ =
+b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb
+>> @@ -41,4 +41,11 @@ do_install_prepend_class-native() {
+>>        export PERL5LIB=3D"${PERL_ARCHLIB}"
+>> }
+>>=20
+>> +inherit update-alternatives
+>> +
+>> +ALTERNATIVE_PRIORITY =3D "90"
+>> +
+>> +ALTERNATIVE_${PN} =3D "instmodsh"
+>> +ALTERNATIVE_LINK_NAME[instmodsh] =3D "${bindir}/instmodsh"
+>> +
+>> BBCLASSEXTEND =3D "native"
+>>=20
+>> But unfortunately it doesn't show any effect.
+>>=20
+>> Any ideas?
+>>=20
+>> Best regards
+>> --
+>> Jens Rehsack - rehsack@gmail.com
+>>=20
+
+--
+Jens Rehsack - rehsack@gmail.com
 
 
+--Apple-Mail=_DE1DA6F4-BE0C-49BE-9A72-FDAE22367676
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" =
+class=3D"">That's more or less quite easy:<div class=3D""><br =
+class=3D""></div><div class=3D"">perl has a bundled extutils-makemaker =
+which installs the script and the standalone extutils-makemaker wants to =
+install the updated script.</div><div class=3D"">Even if it's now the =
+same - the cpan module is updated more often and bring changes before =
+they're merged into core (likely).</div><div class=3D""><br =
+class=3D""></div><div class=3D"">So I'd prefer - even if both files are =
+the same - that cpan &gt; core (poky).</div><div class=3D""><br =
+class=3D""></div><div class=3D"">Jens<br class=3D""><div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">Am =
+02.02.2019 um 20:30 schrieb Alexander Kanavin &lt;<a =
+href=3D"mailto:alex.kanavin@gmail.com" =
+class=3D"">alex.kanavin@gmail.com</a>&gt;:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">In =
+cases like this I would dig deeper and find out *why* these two<br =
+class=3D"">components want to install binaries with the same name, how =
+the<br class=3D"">binaries differ (if they do), and what do desktop =
+distros do about the<br class=3D"">situation. I typically view patches =
+that add 'blind' use of<br class=3D"">update-alternatives as treating =
+symptoms rather than the issue, but I<br class=3D"">prefer not to fight =
+against it :)<br class=3D""><br class=3D"">Alex<br class=3D""><br =
+class=3D"">On Sat, 2 Feb 2019 at 18:38, Jens Rehsack &lt;<a =
+href=3D"mailto:sno@netbsd.org" class=3D"">sno@netbsd.org</a>&gt; =
+wrote:<br class=3D""><blockquote type=3D"cite" class=3D""><br =
+class=3D"">Hi,<br class=3D""><br class=3D"">I'm trying to get some =
+recipes building after perl-update, but I'm struggeling for:<br =
+class=3D""><br class=3D"">ERROR: =
+plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 =
+do_prepare_recipe_sysroot: The file /usr/bin/instmodsh is installed by =
+both perl-native and extutils-makemaker-perl-native, aborting<br =
+class=3D"">ERROR: plack-middleware-fixmissingbodyinredirect-perl-0.12-r0 =
+do_prepare_recipe_sysroot: Function failed: extend_recipe_sysroot<br =
+class=3D"">ERROR: Logfile of failure stored in: =
+/home/sno/gpw-community-bsp/gpw-yocto-platform/tmp/work/cortexa8hf-neon-po=
+ky-linux-gnueabi/plack-middleware-fixmissingbodyinredirect-perl/0.12-r0/te=
+mp/log.do_prepare_recipe_sysroot.23078<br class=3D""><br =
+class=3D"">Logfile contains:<br class=3D"">DEBUG: Executing python =
+function do_prepare_recipe_sysroot<br class=3D"">DEBUG: Executing python =
+function extend_recipe_sysroot<br class=3D"">NOTE: Direct dependencies =
+are =
+['virtual:native:/home/sno/gpw-community-bsp/sources/poky/meta/recipes-dev=
+tools/qemu/qemu_3.1.0.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/perl-sanit=
+y/perl_5.28.1.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/gcc/gcc-cr=
+oss_8.2.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-deve=
+l/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb:do_populate_sysr=
+oot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/gcc/gcc-ru=
+ntime_8.2.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-core/glibc/glibc_2.=
+29.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devt=
+ools/perl-sanity/perl_5.28.1.bb:do_populate_sysroot', =
+'/home/sno/gpw-community-bsp/sources/poky/meta/recipes-devtools/qemu/qemu-=
+helper-native_1.0.bb:do_populate_sysroot', =
+'virtual:native:/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-www/=
+http-message-perl/http-message-perl_6.18.bb:do_populate_sysroot']<br =
+class=3D"">ERROR: The file /usr/bin/instmodsh is installed by both =
+perl-native and extutils-makemaker-perl-native, aborting<br =
+class=3D"">DEBUG: Python function extend_recipe_sysroot finished<br =
+class=3D"">DEBUG: Python function do_prepare_recipe_sysroot finished<br =
+class=3D"">ERROR: Function failed: extend_recipe_sysroot<br class=3D""><br=
+ class=3D"">Typically such an issue is fixed by:<br class=3D""><br =
+class=3D"">poky:<br class=3D""><br class=3D"">diff --git =
+a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb =
+b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb<br class=3D"">index =
+71653feb53..f66f96919e 100644<br class=3D"">--- =
+a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb<br class=3D"">+++ =
+b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb<br class=3D"">@@ =
+-168,6 +168,39 @@ perl_package_preprocess () {<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${=
+PKGD}${libdir}/perl5/config.sh<br class=3D""> }<br class=3D""><br =
+class=3D"">+inherit update-alternatives<br class=3D"">+<br =
+class=3D"">+ALTERNATIVE_PRIORITY =3D "100"<br class=3D"">+<br =
+class=3D"">+ALTERNATIVE_${PN} =3D "corelist cpan enc2xs encguess h2ph =
+h2xs instmodsh json_pp libnetcfg \<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;piconv pl2pm pod2html =
+pod2man pod2text pod2usage podchecker podselect \<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prove ptar ptardiff =
+ptargrep shasum splain xsubpp zipdetails"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[corelist] =3D "${bindir}/corelist"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[cpan] =3D "${bindir}/cpan"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[enc2xs] =3D "${bindir}/enc2xs"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[encguess] =3D "${bindir}/encguess"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[h2ph] =3D "${bindir}/h2ph"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[h2xs] =3D "${bindir}/h2xs"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[instmodsh] =3D =
+"${bindir}/instmodsh"<br class=3D"">+ALTERNATIVE_LINK_NAME[json_pp] =3D =
+"${bindir}/json_pp"<br class=3D"">+ALTERNATIVE_LINK_NAME[libnetcfg] =3D =
+"${bindir}/libnetcfg"<br class=3D"">+ALTERNATIVE_LINK_NAME[piconv] =3D =
+"${bindir}/piconv"<br class=3D"">+ALTERNATIVE_LINK_NAME[pl2pm] =3D =
+"${bindir}/pl2pm"<br class=3D"">+ALTERNATIVE_LINK_NAME[pod2html] =3D =
+"${bindir}/pod2html"<br class=3D"">+ALTERNATIVE_LINK_NAME[pod2man] =3D =
+"${bindir}/pod2man"<br class=3D"">+ALTERNATIVE_LINK_NAME[pod2text] =3D =
+"${bindir}/pod2text"<br class=3D"">+ALTERNATIVE_LINK_NAME[pod2usage] =3D =
+"${bindir}/pod2usage"<br class=3D"">+ALTERNATIVE_LINK_NAME[podchecker] =3D=
+ "${bindir}/podchecker"<br class=3D"">+ALTERNATIVE_LINK_NAME[podselect] =
+=3D "${bindir}/podselect"<br class=3D"">+ALTERNATIVE_LINK_NAME[prove] =3D =
+"${bindir}/prove"<br class=3D"">+ALTERNATIVE_LINK_NAME[ptar] =3D =
+"${bindir}/ptar"<br class=3D"">+ALTERNATIVE_LINK_NAME[ptardiff] =3D =
+"${bindir}/ptardiff"<br class=3D"">+ALTERNATIVE_LINK_NAME[ptargrep] =3D =
+"${bindir}/ptargrep"<br class=3D"">+ALTERNATIVE_LINK_NAME[shasum] =3D =
+"${bindir}/shasum"<br class=3D"">+ALTERNATIVE_LINK_NAME[splain] =3D =
+"${bindir}/splain"<br class=3D"">+ALTERNATIVE_LINK_NAME[xsubpp] =3D =
+"${bindir}/xsubpp"<br class=3D"">+ALTERNATIVE_LINK_NAME[zipdetails] =3D =
+"${bindir}/zipdetails"<br class=3D"">+<br class=3D""> require =
+perl-ptest.inc<br class=3D""><br class=3D""> FILES_${PN} =3D =
+"${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} =
+${libdir}/libperl.so* \<br class=3D""><br class=3D"">meta-cpan:<br =
+class=3D""><br class=3D"">diff --git =
+a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb =
+b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb<br=
+ class=3D"">index a9d21b1..7a958ed 100644<br class=3D"">--- =
+a/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb<br=
+ class=3D"">+++ =
+b/recipes-devel/extutils-makemaker-perl/extutils-makemaker-perl_7.34.bb<br=
+ class=3D"">@@ -41,4 +41,11 @@ do_install_prepend_class-native() {<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;export =
+PERL5LIB=3D"${PERL_ARCHLIB}"<br class=3D""> }<br class=3D""><br =
+class=3D"">+inherit update-alternatives<br class=3D"">+<br =
+class=3D"">+ALTERNATIVE_PRIORITY =3D "90"<br class=3D"">+<br =
+class=3D"">+ALTERNATIVE_${PN} =3D "instmodsh"<br =
+class=3D"">+ALTERNATIVE_LINK_NAME[instmodsh] =3D =
+"${bindir}/instmodsh"<br class=3D"">+<br class=3D""> BBCLASSEXTEND =3D =
+"native"<br class=3D""><br class=3D"">But unfortunately it doesn't show =
+any effect.<br class=3D""><br class=3D"">Any ideas?<br class=3D""><br =
+class=3D"">Best regards<br class=3D"">--<br class=3D"">Jens Rehsack - <a =
+href=3D"mailto:rehsack@gmail.com" class=3D"">rehsack@gmail.com</a><br =
+class=3D""><br class=3D""></blockquote></div></div></blockquote></div><br =
+class=3D""><div class=3D"">
+<div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; orphans: =
+auto; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><div style=3D"color: rgb(0, 0, 0); letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><div class=3D"">--&nbsp;</div><div class=3D"">Jens Rehsack - =
+<a href=3D"mailto:rehsack@gmail.com" =
+class=3D"">rehsack@gmail.com</a></div></div></div>
+</div>
+<br class=3D""></div></body></html>=
+
+--Apple-Mail=_DE1DA6F4-BE0C-49BE-9A72-FDAE22367676--
+
+--Apple-Mail=_3ACDF9F8-2FA6-412E-82F0-48C65BA5A0C4
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlxWEEQACgkQRJmWrtzl
+Cp3ZqQ//Y06gThhw6PAG0C3488qqIaK8RZf1N4ltXNRb6sKKnl+sTSFJpX9BTQvF
+ewDCA2WBSlWvc549N0bfnccPK7fi2jIB3NlNBWVlF+t4Wdpf9JRQCg+HD7ZFiYRc
+WfYOQM8hlQ0Wft2PpAxeJah6guHarcNOQl1yyuV9ARWmRo9cGpKUDxOR9EMXIsj5
+WR5KP8ehhhJg5RG1Dkp/rhl/oORGRBkZjHRLPuuguJE3DPaHOoSVni8TtRgF8sZ6
+5NhZIZYMWT0h9NuGHeotm1SlM336y6geEdXpLHnYoOg979pR+SA64zMRrFgiLsdu
+4MUcCcKTKUFXrfjqHrqIj0GytJnCXp8zmuDCSKZxecsK54jy9ZZrqy0vpyqVpD2p
+QkcuoQsC9wKfpq8ht5zX239N6Tve8npt4jo5AHDfVjDFvqG3YI8cnfdKc53uej6N
+9tEburSkkENqrKd2/hyfRU5DEMtybHytRqllttt7D+gZPu09jNwM3tWwHb4D8WPs
+VKIQxLNLUZvlbXjnfM4ZgPhedStLwZhTuMGtl6AD9qYG3Fi8igepUFFgH+/cA3WA
+8QznnOrr0j5E3OvZ8YtdM9ZvJR6lXsRSv5A8RQka5KchEWZV57k4t6BAgwsHdbBI
+46DhRefZcHyxKzBJQ7UGWNrM0qEsSiZS8f6efbQQ2odLdvZ04wA=
+=39pp
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_3ACDF9F8-2FA6-412E-82F0-48C65BA5A0C4--
