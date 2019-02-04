@@ -1,53 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 360127C254
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D1B717BEAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Feb 2019 19:59:29 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id d72so387565pga.9
+	Mon,  4 Feb 2019 21:18:16 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id b5so524495plr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2019 11:59:30 -0800 (PST)
+	Mon, 04 Feb 2019 13:18:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=TLW+6Tzy1hGElR4Kkk6HKeEmlBHx3Phkw2pC+R7VCXI=;
-	b=dz0h+I2CWrSGGKxxRkWVyQVpK/SgfBZeKZPJrPJVAeroj3aLcP4s5v78YrE6SAgdSE
-	by92lzdvT36EnnW0SotgcujwPUNmYPF6u8BXnsvqkMEpec5XJ/KNOq8R4Nx+JAr5oXHw
-	K2QVj8UQ6PZLfB9+/H8sag7yVHuPHCiAwis3X+8II6LMdLH+zt9cRRXhM2JXYPp/06dp
-	dBPhNXrBPAaCQbo+TVcd24O8b6hHsMoEs3jbfihW7qcikDjIWyB17toVw7W12b86wX9a
-	ulzI9fSe6bNcExza1OFGldgom5xah2H+iz4Uc/T3FcyYmfp9lQTiX+DWszwewihssOBn
-	K9Cg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=HvPT3JhFlGRrbJblDSotprMnlDHNTfkJuJQSNpmFRok=;
+	b=QQCzLeQGDy09mUjOpIwlakjyYg7uR8sez9lAusok1hDIT3u3cdeaWzu5Qn4kyvO8vJ
+	J9+tXbvV3M1eZfQm+f1R0zXMvMJectPcoOiCsNrd3PzUVfApXDoVYSGZbFfrVaW0mxKw
+	bVpQCbFFVp3lZTY5Mi7WbB0hPAbJmFKb26/Uc9zHndk4ApZYfDQcoUlDlFQdLzz14lgV
+	+weazWDyscp7sDdzN8WnoRFxGNCXvIFtHWpYmxiFxoFvX68g+wd5fKLpsvf9J6c6dpCP
+	0AcFxdjKHRJfIESgu+YvE6NSIjvWdn3plrJYWuh+zyekOpHGVtVeiibMBHgdfi+qfa+x
+	yE2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=TLW+6Tzy1hGElR4Kkk6HKeEmlBHx3Phkw2pC+R7VCXI=;
-	b=lvTT3pg5hecKHB2mYdnYBUC3g3KLfA3H8l4bbDyF2h74WawNSiQJNChpKZQY9HItTt
-	pgr7vSMWm6saoyFOzPFBdYJ5G7fgXE63kL2vo2CeBp5hpdfAg6ICxjaV/WqalMrLJB+d
-	ZBIlN/NJK/dLf19yZjI7BAClTxcZgfeZqgWiNTdEXIZU356wCqHb6fkluheLXMWLVcMo
-	vpG8opOkroOep55D2TEhIOO29D/BwUX/trt8/74Xg7mjUw+rMgP+j8HBYAGqKeQutSBH
-	+J3AZ3M/M3sQKvQ+b7K7nGg81gUG5WdDI5RWG27/xlne3h6ll6CBoRKYzpqIXifW38PN
-	sYDw==
-X-Gm-Message-State: AHQUAuZ4p7Q/65YRfHEWR4b7ep2cSwf6SfyFfYaQs6h06Sl9KUxvc1is
-	fIK8F3pcjpdRi+iYErLxDAXi/GfT
-X-Google-Smtp-Source: AHgI3IbQB+axGMiMLL3CH1FT4kcBHNdaKXlxxKpNjNKYx88K3q8yZv/iV3ymoyWvQYckQfIBzW434Q==
-X-Received: by 2002:a63:d34a:: with SMTP id u10mr981633pgi.301.1549310368618; 
-	Mon, 04 Feb 2019 11:59:28 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=HvPT3JhFlGRrbJblDSotprMnlDHNTfkJuJQSNpmFRok=;
+	b=Alp62bWFgZ6GQEM8EgcJ0kwbjAGeL1wCWTOUGugxIjaBbhQfzBUx/EjCziSruBJfPu
+	fiBW5TxmtnO243SdVtdfMsC3kR7GZxLpAwIK1fGBJz7P8gSRXpKN3ix5N8sDXzN8E6d0
+	HvVEKfDQpeZ0DBiienHMVoMsd103D8EdvGXyzxdOz+d/7oBEuhIuNwOJuxqrstG60Qzs
+	3u/ca+bQ5AF08nSF4vRQO4dEFPjQl8X6dNx1JxBwvx99Wa5/gaxgAWDmVQXHZA98wlBm
+	1eNwkrZE84EY3i/fTGDddDeiqjrWlTeofT4xDz/FqEAFjp1F6121eedvcRzG2ao2t99S
+	eyTQ==
+X-Gm-Message-State: AHQUAubwTw8zH6+7tIaw0jQopR6OpOAuoK/PrmGidk+xEVQIEeX1hIrl
+	4pEaVGlq76RV/D64px+ykqfFsCkD
+X-Google-Smtp-Source: AHgI3IY39rFApxk7XJsOx+Z2kf52+M3nFp2qAx6bB2Uik0QxZXUtRgsD/r1JvXHiCP+4wswD07F9ew==
+X-Received: by 2002:a17:902:aa0a:: with SMTP id
+	be10mr1456176plb.266.1549315096273; 
+	Mon, 04 Feb 2019 13:18:16 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1609])
 	by smtp.gmail.com with ESMTPSA id
-	w128sm1307486pfw.79.2019.02.04.11.59.27
+	64sm1229684pff.101.2019.02.04.13.18.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Feb 2019 11:59:27 -0800 (PST)
+	Mon, 04 Feb 2019 13:18:15 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2019 11:59:18 -0800
-Message-Id: <20190204195918.8726-2-raj.khem@gmail.com>
+Date: Mon,  4 Feb 2019 13:18:08 -0800
+Message-Id: <20190204211809.19348-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190204195918.8726-1-raj.khem@gmail.com>
-References: <20190204195918.8726-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Cc: Christopher Clark <christopher.clark6@baesystems.com>
-Subject: [PATCH 2/2] binutils: Upgrade to binutils 2.32
+Subject: [PATCH V2] binutils: Upgrade to binutils 2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,14 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2019 19:59:29 -0000
+X-List-Received-Date: Mon, 04 Feb 2019 21:18:18 -0000
 Content-Transfer-Encoding: 8bit
 
 Changes
 https://sourceware.org/ml/binutils/2019-02/msg00010.html
 
+0007-Add-the-armv5e-architecture-to-binutils.patch is dropped since we
+armv5 is not a used option anymore in OE armv5te is default, and gcc9
+will drop it completely anyway
+
+CVE patches were backports from master which is already past of 2.32
+release
+
+Other dropped patches were partial or full backports as well
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+V2: Improve commit message
+
  meta/conf/distro/include/tcmode-default.inc   |    2 +-
  .../{binutils-2.31.inc => binutils-2.32.inc}  |   36 +-
  ....31.bb => binutils-cross-canadian_2.32.bb} |    0
