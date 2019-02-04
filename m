@@ -1,45 +1,45 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D0497C28A
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B2F907C28A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Feb 2019 10:06:06 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id b3so10767216ede.1
+	Mon,  4 Feb 2019 10:06:07 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id h15so10712278edb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2019 02:06:07 -0800 (PST)
+	Mon, 04 Feb 2019 02:06:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=19K1mvHSx6O9VwgUCjaw2fmEoF9JY9XkqQAX0/AYmKc=;
-	b=eZAEs2ZOoJ0JTdrtBBrb7FnHMSaDDda0tcx5wDnpJBX62KAitGgZSn40Jr3n+2T4h8
-	3THE8HFxuPCRAlFe9H2/UPj3fyg10pzsbAImawyvjePFEGy5ts3SO/e2AlF555Mu8I7b
-	0mNjALQX2v+jQ0flJY61kigmW2BcSFpuNkSNmZymhgls/voTBBOmYZHLd+xmoIs4p+pj
-	pdbzIoWFTNqJA9HaosqMjSj/Mys7b/uukRkqJnj18fjfaS1+pH6bR6c5M/VoHdO6IJ01
-	y/hpY2C12T1ASCz3jqBTC0M+qJf4krVZCe2Xo5ytq2RKq9MFJ4cn8QwCgYv5/3g7SMJ9
-	rdZw==
-X-Gm-Message-State: AJcUukcGH+QQ4o/mHjvWQmTwvFuGvJFe7f1uMQdYWXbOmn5lskFxabxE
-	xGt7YIpjd0sYRYeFFgDadPv9x+3+
-X-Google-Smtp-Source: ALg8bN6KbkM/Mxe6vrIQ8mNWaznu+e5wahvb6XzgFMnl8mpLxtVdMlI1PegWJUg/hmSetgkC/GVi1w==
-X-Received: by 2002:a17:906:4d1a:: with SMTP id
-	r26mr45034490eju.32.1549274766833; 
-	Mon, 04 Feb 2019 02:06:06 -0800 (PST)
+	bh=TCqrd93oNzvPrqr17WcA3gt5pxYPCZCC3lX31RtZSBI=;
+	b=KxlCEfwJMKxp03ueOfiKEeOVuWDtGV1b98j0jQyTSBNIQZYfA53sRV5ffK7FhHndv2
+	zjSl+LpeLE2nWB8H+6lQXz/+Eeinfqk1G8qyzee3SAL7wlRq0RPE3GxG69R9Bfom9tp5
+	m8n+3wKB8ocufeRV7g6IdWK3qPcrRut3YE97iKmjHlpUXt1e+GLHW+Cr9o2afhF1Gvlq
+	zmsRg8aOa1nY3hZqLjbpTVpUqbGH6kOAj/gApPIvwKvg80ogLm46tgWs2tbKi3YxpA6v
+	P/XWvRYiYZvZfqwC3BoRMFIe/ORnabx9Cg4VQq2RdsEd8pDNw45v+vKfJICtu/2maCJb
+	GpUg==
+X-Gm-Message-State: AJcUukcoZyD8BwmXU1IJw0k3x43W2gk8kiflwnU8c92rxMomR/bzGt8h
+	Z90siv8jin8juQeRqODupC5ZLQdi
+X-Google-Smtp-Source: ALg8bN5kgdYYS1F1een9jNTB8soXOAXx+EN2WhK30bX9SjOe7q4d9k1c+KUbe36JJxjtdcAn1JhoEA==
+X-Received: by 2002:a05:6402:1816:: with SMTP id
+	g22mr51388837edy.191.1549274768147; 
+	Mon, 04 Feb 2019 02:06:08 -0800 (PST)
 Received: from tfsielt31850.fritz.box (188-141-55-36.dynamic.upc.ie.
 	[188.141.55.36]) by smtp.gmail.com with ESMTPSA id
-	p36sm4102358edc.78.2019.02.04.02.06.05
+	p36sm4102358edc.78.2019.02.04.02.06.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Feb 2019 02:06:05 -0800 (PST)
+	Mon, 04 Feb 2019 02:06:07 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2019 10:05:49 +0000
-Message-Id: <20190204100552.25880-9-git@andred.net>
+Date: Mon,  4 Feb 2019 10:05:50 +0000
+Message-Id: <20190204100552.25880-10-git@andred.net>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190204100552.25880-1-git@andred.net>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190204100552.25880-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v5 08/11] util-linux: simplify meta-package RDEPENDS / RRECOMMENDS
+Subject: [PATCH v5 09/11] util-linux: move /etc/default/mountall into -mount subpackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,92 +52,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2019 10:06:06 -0000
+X-List-Received-Date: Mon, 04 Feb 2019 10:06:08 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-The util-linux meta-package now simply RRECOMMENDS all
-subpackages created. There is no distinction between what
-it previously recommended or depended on for existing
-packages.
-
-This is to streamline the dependencies and to make things
-less surprising.
-It also stops the -dev package from depending on non-existing
-packages like util-linux-losetup-dev etc.
+This should probably be there and now the main package is a real
+meta-package only.
 
 [YOCTO #13058]
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
-
 ---
-v5: * reduce duplication in util_linux_binpackages() using
-      a for loop
-v3: update commit message
----
- meta/recipes-core/util-linux/util-linux.inc | 25 +++++----------------
- 1 file changed, 6 insertions(+), 19 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index cd1450f2c7..2577d0b1ae 100644
+index 2577d0b1ae..49f6ad3f16 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -33,34 +33,27 @@ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pyl
- 
- python util_linux_binpackages () {
-     def pkg_hook(f, pkg, file_regex, output_pattern, modulename):
-+        pn = d.getVar('PN')
-+        d.appendVar('RRECOMMENDS_%s' % pn, ' %s' % pkg)
-+
-         if d.getVar('ALTERNATIVE_' + pkg):
-             return
-         if d.getVarFlag('ALTERNATIVE_LINK_NAME', modulename):
-             d.setVar('ALTERNATIVE_' + pkg, modulename)
- 
--    def pkg_hook_with_recommends(f, pkg, file_regex, output_pattern, modulename):
--        pn = d.getVar('PN')
--        d.appendVar('RRECOMMENDS_%s' % pn, ' %s' % pkg)
--        pkg_hook(f, pkg, file_regex, output_pattern, modulename)
--
--    for dir in [ '${base_sbindir}', '${base_bindir}' ]:
-+    bindirs = [ '${base_sbindir}', '${base_bindir}', '${sbindir}', '${bindir}' ]
-+    for dir in bindirs:
+@@ -46,7 +46,7 @@ python util_linux_binpackages () {
          do_split_packages(d, root=dir,
                            file_regex=r'(.*)', output_pattern='${PN}-%s',
                            description='${PN} %s',
-                           hook=pkg_hook, extra_depends='', prepend=True)
+-                          hook=pkg_hook, extra_depends='', prepend=True)
++                          hook=pkg_hook, extra_depends='')
  
--    for dir in [ '${sbindir}', '${bindir}' ]:
--        do_split_packages(d, root=dir,
--                          file_regex=r'(.*)', output_pattern='${PN}-%s',
--                          description='${PN} %s',
--                          hook=pkg_hook_with_recommends, extra_depends='', prepend=True)
--
      # There are some symlinks for some binaries which we have ignored
      # above. Add them to the package owning the binary they are
-     # pointing to
-     extras = {}
-     dvar = d.getVar('PKGD')
--    for root in [ '${base_sbindir}', '${base_bindir}', '${sbindir}', '${bindir}' ]:
-+    for root in bindirs:
-         root = d.expand(root)
-         for walkroot, dirs, files in os.walk(dvar + root):
-             for f in files:
-@@ -126,12 +119,6 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
- RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+@@ -104,10 +104,13 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
+ # Readline support
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
  
--RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
--RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
--
--RRECOMMENDS_${PN} += "${PN}-blockdev ${PN}-cfdisk ${PN}-ctrlaltdel ${PN}-fdisk ${PN}-mkswap ${PN}-nologin ${PN}-pivot-root ${PN}-switch-root"
--RRECOMMENDS_${PN} += "${PN}-dmesg ${PN}-kill ${PN}-more ${PN}-mount ${PN}-mountpoint"
--
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}_class-native = ""
++ALLOW_EMPTY_${PN} = "1"
++FILES_${PN} = ""
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ 
+ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+ 
++FILES_${PN}-mount = "${sysconfdir}/default/mountall"
+ FILES_util-linux-runuser = "${sysconfdir}/pam.d/runuser*"
+ FILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
+ CONFFILES_util-linux-su = "${sysconfdir}/pam.d/su-l"
 -- 
 2.20.1
 
