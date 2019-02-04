@@ -1,49 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 16EDF6C4CE
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+	[209.85.167.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A9736B463
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Feb 2019 21:13:09 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id g189so5390208pgc.5
+	Mon,  4 Feb 2019 03:13:08 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id l142so1252506lfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Feb 2019 13:13:11 -0800 (PST)
+	Sun, 03 Feb 2019 19:13:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=1tvAnRFE9Zc79hmMea+Y23ab0X0+A6633Ztp4buyji0=;
-	b=Ut+Uc2hsNSBUAOB2qowVRoHRqqfkOtaVdp0a/eQNMBNhirZtM5mY44+PQXmIbhdB8h
-	lggXvaGLMPwS1ffgj/G2ZR86XqJRvUGQr6sPZnqv+aOFUxSiCo+e0UlIMlNrsdVm3hzs
-	vzhbIf6e0ew+hR4qu+mk93722aFm/OwytfU1Pg8h7A53VhifKo1gQcQ5XY5G9yxqWpFJ
-	QXElnX3uPd8nO82kUoPJORe6iX+dUcX1ZxKF051n9luH5LEHeUdGGeehRXD4xjxB+QSr
-	2w7Hwee3OabCMSuXDegh41jeoRxq9KIAV8EqbjmPeLjo/PRzWShcLKOKkmfliu0ftsUj
-	klwg==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=O+m+041pu0szSeeWSp1XGM3aL4lJFHVsuArXaWpUAlU=;
+	b=GFJJpTJSzbdgJU3mAN2DkYL7pXO5DuPe+mqKue0h70mqEpO5SFYnm8dsL3pQfExT86
+	yq/vZiNh8YnJEd4ngEh9RYRq9hPgvNgXinUdOpbH2bv9Cli1KnZSMpBgNK/RP8C4V87q
+	To+Hymj3jWjMzVVwJj/pdKBtAj0bDk+blIYyY2A5u51oIrSrxrSlo30rcPw+9PvVfEKJ
+	zd/qduFi8ARw7dzxTzBJYrTrQ0Byb9i0q1Vo/cstWq+1sXIivvzNfTOaHzQJCaJ6JOk3
+	0tZsAYreoIEoVnrlgQ4ywp6twDwPTsc9oLPXvvKV13IPKbB9NC/AldtGMsFUnm/MWHGM
+	Dwzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1tvAnRFE9Zc79hmMea+Y23ab0X0+A6633Ztp4buyji0=;
-	b=m/UYIy4yBjdwgbe4+jvS3WZG6NXoieCJwB5m42XGYoI+NDKucGIqQbLNc32z+MiPP7
-	mgmkYXcqRfWk3y0fWG1944NwvAWUd/4/pgUz0HY6KRf3JGcGsBDC7CNCEJOAH178A2z6
-	yKrqS8lqq/s8E96E3MYy3mM360VTIAeDzdIigipAfZvbA0CaAar+BO3F/URFJ2ZLIZpk
-	/GeWzmm9K1br3i4jSa1IpFR+GvtSB0Dm7qWShjwL6qTejIC5BLtjV4jzgtBVVFORy6aZ
-	yjFnEMEGvAnEXm1+S9JW+55wj/AxAJm4vtZhl3KWxnreoBTaEUlfVTFkRozuGfMOZVT4
-	d+iQ==
-X-Gm-Message-State: AJcUukfb8nBclzDK6bnUUHuE5isPR2zcLjs4y7adoowg4BQMVYHvkeQZ
-	l50eclzbmmrg6yxhVhMf7y8=
-X-Google-Smtp-Source: ALg8bN7/3ONk4muo5invQFnorPDoK+iyQCp4oI09TMtR+xSF829xu39GbUiuSBZcDNUDZdemtX+tJg==
-X-Received: by 2002:aa7:8758:: with SMTP id g24mr47476269pfo.250.1549228390938;
-	Sun, 03 Feb 2019 13:13:10 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:c33:b8d0:83fa:6066:70dc])
-	by smtp.gmail.com with ESMTPSA id
-	p64sm19844668pfi.56.2019.02.03.13.13.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 03 Feb 2019 13:13:10 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun,  3 Feb 2019 13:13:09 -0800
-Message-Id: <1549228389-17737-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] timezone: refactor to simplify maint
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=O+m+041pu0szSeeWSp1XGM3aL4lJFHVsuArXaWpUAlU=;
+	b=PXfDCDMX8CLCpnDq16+usvB3GgUi86PXOM43htLEOEkxWqVClcCMZON7frPTedpehg
+	PsEIYsc58IrgOsghod+NNlRMYl8hzhCZHHokJGHzRfUZQM8pLWPDlB1KWBITGtuDegAG
+	icRFhmefQrp86xhr2SPvcUhh7oAcDNrMSgiwBkCe+JaCOTZ1cSI0QYKFxPBayQAKrHs5
+	K+Iuw06pFuXrKF+FW1CuLQjUpPiVcTT6MIt6TbSFBaIXsQ8SRxSUE7YF2WMtvfLVdQ4Q
+	uiMgWGCn3nX+xMKbTklW4l9VtRUa6UuGleVmXjTa6xdqIW0lTZEKM2mCggxbbD5kv4LY
+	R9Fw==
+X-Gm-Message-State: AHQUAub8lgz628oiAX9LcReXs9t2y+5TDvh1Nxvwcv+KmVcWRTbOFMCI
+	zfKiDz1zNSJjnDtHAfFLjnDCTKZz
+X-Google-Smtp-Source: AHgI3IZBbKU2kOBN/iamZNzZOqxrtK6OuJ/YOSl/pyddKHmVsR2LeOIZyGwYl16eeOTReR3gpgHFPg==
+X-Received: by 2002:ac2:4191:: with SMTP id z17mr4722772lfh.117.1549249988376; 
+	Sun, 03 Feb 2019 19:13:08 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68])
+	by smtp.gmail.com with ESMTPSA id d3sm1105154lfj.39.2019.02.03.19.13.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 03 Feb 2019 19:13:07 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Feb 2019 04:11:53 +0100
+Message-Id: <20190204031153.1348-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH v2] base-passwd: Add kvm group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,111 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Feb 2019 21:13:10 -0000
+X-List-Received-Date: Mon, 04 Feb 2019 03:13:08 -0000
+Content-Transfer-Encoding: 8bit
 
-move tzcode and tzdata-native into new dir
+Although base-passwd in OE is somewhat outdated, upgrading
+to a newer version is not going to solve eudev warnings about
+missing groups during boot; input/shutdown/kvm are still not
+listed in groups.master. The reason for this is that
+Debian uses systemd, which will automatically create
+missing groups(systemd-sysusers). In a sysvinit+eudev
+configuration you instead get a warning printed to
+the console:
 
-Updates are now limited to the common include file.
+  udevd[<pid>]: specified group 'kvm' unknown
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 ---
- .../timezone.inc}                                   | 21 +++++----------------
- meta/recipes-extended/timezone/tzcode-native.bb     | 17 +++++++++++++++++
- .../{tzdata/tzdata_2018i.bb => timezone/tzdata.bb}  | 12 +-----------
- 3 files changed, 23 insertions(+), 27 deletions(-)
- rename meta/recipes-extended/{tzcode/tzcode-native_2018i.bb => timezone/timezone.inc} (63%)
- create mode 100644 meta/recipes-extended/timezone/tzcode-native.bb
- rename meta/recipes-extended/{tzdata/tzdata_2018i.bb => timezone/tzdata.bb} (94%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2018i.bb b/meta/recipes-extended/timezone/timezone.inc
-similarity index 63%
-rename from meta/recipes-extended/tzcode/tzcode-native_2018i.bb
-rename to meta/recipes-extended/timezone/timezone.inc
-index f056370..38dadac 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2018i.bb
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -1,10 +1,11 @@
--# note that we allow for us to use data later than our code version
--#
--SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
-+UMMARY = "Timezone data"
-+HOMEPAGE = "http://www.iana.org/time-zones"
-+SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
--
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
-+PV = "2018i"
-+
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-            "
-@@ -16,15 +17,3 @@ SRC_URI[tzcode.sha256sum] = "aaacdb876ca6fb9d58e244b462cbc7578a496b1b10994381b4b
- SRC_URI[tzdata.md5sum] = "b3f0a1a789480a036e58466cd0702477"
- SRC_URI[tzdata.sha256sum] = "82c45ef84ca3bc01d0a4a397ba8adeb8f7f199c6550740587c6ac5a7108c00d9"
- 
--S = "${WORKDIR}"
--
--inherit native
--
--EXTRA_OEMAKE += "cc='${CC}'"
--
--do_install () {
--        install -d ${D}${bindir}/
--        install -m 755 zic ${D}${bindir}/
--        install -m 755 zdump ${D}${bindir}/
--        install -m 755 tzselect ${D}${bindir}/
--}
-diff --git a/meta/recipes-extended/timezone/tzcode-native.bb b/meta/recipes-extended/timezone/tzcode-native.bb
+v2: Add reasoning in commit message trying to justify the added patch
+
+ .../base-passwd/base-passwd/kvm.patch         | 23 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.5.29.bb         |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/kvm.patch
+
+diff --git a/meta/recipes-core/base-passwd/base-passwd/kvm.patch b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
 new file mode 100644
-index 0000000..e3582ba
+index 0000000000..113d5151e7
 --- /dev/null
-+++ b/meta/recipes-extended/timezone/tzcode-native.bb
-@@ -0,0 +1,17 @@
-+require timezone.inc
++++ b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
+@@ -0,0 +1,23 @@
++From 6355278b9f744291864c373a32a8da8f84aaaf37 Mon Sep 17 00:00:00 2001
++From: Jacob Kroon <jacob.kroon@gmail.com>
++Date: Wed, 30 Jan 2019 04:53:48 +0000
++Subject: [PATCH] Add kvm group
 +
-+#
-+SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
++Upstream-Status: Pending
++Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+S = "${WORKDIR}"
-+
-+inherit native
-+
-+EXTRA_OEMAKE += "cc='${CC}'"
-+
-+do_install () {
-+        install -d ${D}${bindir}/
-+        install -m 755 zic ${D}${bindir}/
-+        install -m 755 zdump ${D}${bindir}/
-+        install -m 755 tzselect ${D}${bindir}/
-+}
-diff --git a/meta/recipes-extended/tzdata/tzdata_2018i.bb b/meta/recipes-extended/timezone/tzdata.bb
-similarity index 94%
-rename from meta/recipes-extended/tzdata/tzdata_2018i.bb
-rename to meta/recipes-extended/timezone/tzdata.bb
-index 4482e89..7542ce5 100644
---- a/meta/recipes-extended/tzdata/tzdata_2018i.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -1,17 +1,7 @@
--SUMMARY = "Timezone data"
--HOMEPAGE = "http://www.iana.org/time-zones"
--SECTION = "base"
--LICENSE = "PD & BSD & BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
-+require timezone.inc
++diff --git a/group.master b/group.master
++index cea9d60..5b62284 100644
++--- a/group.master
+++++ b/group.master
++@@ -34,6 +34,7 @@ utmp:*:43:
++ video:*:44:
++ sasl:*:45:
++ plugdev:*:46:
+++kvm:*:47:
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index c6be1c1d08..d1aab09181 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -12,7 +12,8 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://noshadow.patch \
+            file://input.patch \
+            file://disable-docs.patch \
+-          "
++           file://kvm.patch \
++           "
  
- DEPENDS = "tzcode-native"
- 
--SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
--UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
--
--SRC_URI[tzdata.md5sum] = "b3f0a1a789480a036e58466cd0702477"
--SRC_URI[tzdata.sha256sum] = "82c45ef84ca3bc01d0a4a397ba8adeb8f7f199c6550740587c6ac5a7108c00d9"
--
- inherit allarch
- 
- RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarctica \
+ SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
+ SRC_URI[sha256sum] = "f0b66388b2c8e49c15692439d2bee63bcdd4bbbf7a782c7f64accc55986b6a36"
 -- 
-2.7.4
+2.20.1
 
 
