@@ -1,38 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C9E876D9AB
+Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
+	[209.85.219.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E55F7C24D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Feb 2019 10:09:57 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id g22so10715052edr.7
+	Mon,  4 Feb 2019 11:53:56 +0000 (UTC)
+Received: by mail-yb1-f193.google.com with SMTP id 7so5406131ybp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2019 02:09:59 -0800 (PST)
+	Mon, 04 Feb 2019 03:53:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=IgO40revaEh0bdfqMEmFxVOgTd8dygIulDeiwMioImc=;
-	b=j7BPVIdyxe2gnM+i/AY/DDggxMS+cVmFII+P/pDVmYnvpnXQTrntV9z6J2IZpFPb31
-	CGZ9UDEBrCpnoIKcRARZbuFreQ8kEhF3D1v+50Jtzi3eaEvv3qNjhV0aJDGf9mGQTmo4
-	ATEv0nSPBaYngPOviyX9jV+EAM+aUVJxG9sT16i3dc6XSRvdA+Zt+6ObCdH2CHY/HoeK
-	/Wz1Zq+Y+OJyIz4PGlT0M29DVRB4vJlYimILBgKA7whU+X0CAxhXT+wUhmqyC8b1l6TM
-	571VY+N1r0IyggIZcHVh5dH8f3Mfoduw0uBCnkyzVzlUG3AQJpi8VlXoMvdCPjIccjSr
-	gcRA==
-X-Gm-Message-State: AJcUukcuoDfneAh9l+U2wNypoWzen3qE8cPlDsEVA4AtUcYDmFOAIwL5
-	0ftrI9tRvL5YMAFcrR27pJXPmdsa
-X-Google-Smtp-Source: ALg8bN4+7CzDrQ1VbJxQPyn9LSxSBBpyQa4favP2+lMdfXh24nRz3mT3ePfGyVN9cFHaGNT8dmG9RQ==
-X-Received: by 2002:a50:ca86:: with SMTP id x6mr48562723edh.287.1549274998444; 
-	Mon, 04 Feb 2019 02:09:58 -0800 (PST)
-Received: from tfsielt31850.fritz.box (188-141-55-36.dynamic.upc.ie.
-	[188.141.55.36]) by smtp.gmail.com with ESMTPSA id
-	s36sm4259147edb.43.2019.02.04.02.09.57
+	bh=zjEVbaNq0EQoNGxyqbyHnitjHLPrKl8PRhCL5j0JYVg=;
+	b=kCFxIlw1SHsNag9413pU+vlGnvtMyPnnMv0fTySNJKrOedJ74nrr8jtDSuRo6V5Z8S
+	q+guEPfbXBswkYrxUwpyZOYj25qx3HQbNp54DuQy7GK4tpCf5zNZZMHytVCnTEWXo699
+	Y9Jq9zpCn1iXUQ5/z35KsYPrcPxYm4hdFgE3TzpmBxGf68gkbiXu2EzsdX+acXMZOroa
+	kMRc8m6Jqet6j9nDAeW4ADQWr9cNFNJKZ+mQOghdk8hMdgHOh849kl3pZ+0TjiSAeZYA
+	Cqq0o4LciayraivpPaXhZAj6AFPuxrZO1GDRYOqJIJXdh6R3Pr9Gl5/d5qlEXy02lidw
+	xdzw==
+X-Gm-Message-State: AJcUukdB4rtMzNzpp4b3Qxtli7jqAj3ixEos4uSoYafkxPgldb9G+Pl0
+	vwOTpwGqXwooLp6S39wW14VZbzj3
+X-Google-Smtp-Source: ALg8bN4esw0xHUyDGWQdOJGZNE6kAFLWD7lOCCQWsfKw9CCfp1Yr/Uh6YESAEhUwbE4MyAFIdUDyqQ==
+X-Received: by 2002:a25:23d7:: with SMTP id
+	j206mr39784820ybj.213.1549281237914; 
+	Mon, 04 Feb 2019 03:53:57 -0800 (PST)
+Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
+	x133sm6929142ywg.57.2019.02.04.03.53.56
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Feb 2019 02:09:57 -0800 (PST)
-Message-ID: <bf21bddd5d05587008b9b0cf5c75e56b7ae5cf40.camel@andred.net>
+	Mon, 04 Feb 2019 03:53:57 -0800 (PST)
+Message-ID: <801ec212e1bc34947eba0b6c288a8e458fae09eb.camel@andred.net>
 From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	openembedded-core@lists.openembedded.org
-Date: Mon, 04 Feb 2019 10:09:56 +0000
+Date: Mon, 04 Feb 2019 11:53:55 +0000
 In-Reply-To: <6a968439b13cc6e02c74c75f4441fc7918443794.camel@linuxfoundation.org>
 References: <20190114125632.4780-1-git@andred.net>
 	<20190116125124.20177-1-git@andred.net>
@@ -52,9 +52,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2019 10:09:58 -0000
+X-List-Received-Date: Mon, 04 Feb 2019 11:53:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+
+Actually,
 
 On Fri, 2019-02-01 at 07:32 +0000, Richard Purdie wrote:
 > On Wed, 2019-01-16 at 12:51 +0000, André Draszik wrote:
@@ -79,17 +81,12 @@ On Fri, 2019-02-01 at 07:32 +0000, Richard Purdie wrote:
 > )
 > qemuarm was similar:
 > https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/267853/raw
-> 
-> so something isn't quite right :(
-> 
-> I'll retry with a small subset of the series of patches until we figure
-> this out.
 
-Some of the binaries have symlinks. Originally, I've had a hard-coded list,
-but that only worked for Arm.
+I didn't have access to these logs before - the 2nd log shows a failure in
+nativesdk. My v5 only addresses the failure for non-nativesdk builds.
 
-I've now added patch 04/11 ("util-linux: one package per binary (pt 1b:
-symlinks") to deal with that more generically.
+No need to try v5...
+
 
 Cheers,
 André
