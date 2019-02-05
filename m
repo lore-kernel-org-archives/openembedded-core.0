@@ -1,29 +1,49 @@
-Return-Path: <andrej.valek@siemens.com>
-X-Greylist: delayed 1005 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 Feb 2019 09:11:30 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CC826BCDC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 240F86BC3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 09:11:29 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x158sjgv029304
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 5 Feb 2019 09:54:46 +0100
-Received: from dev.vm6.ccp.siemens.com (MD1JJJ2C.ad001.siemens.net
-	[163.242.44.88])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x158sj4h017701;
-	Tue, 5 Feb 2019 09:54:45 +0100
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id AAF2A4FAF6D;
-	Tue,  5 Feb 2019 09:54:44 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Tue,  5 Feb 2019 13:45:01 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id f188so3691888wmf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2019 05:45:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IdbGiJUKnKRIxB7qv+j5CyFup45pzdZG8obHEEq3v8k=;
+	b=K9vvA8ninttdWYPsJixrOBHFlekavMsn291KrFVkpBkCBj4fNMQjlOEmdh7IZCunUZ
+	LkcE4/fFAow2OgE7OBqGFzvfDt8rlWJWIOodssxSmYdfHJrxGSiNtOjVXox3IhpASgf+
+	0W+EbvcfsyB6t8X6UVPuRWR4HYXArMFrpHeko=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IdbGiJUKnKRIxB7qv+j5CyFup45pzdZG8obHEEq3v8k=;
+	b=tbdJxjdoJqmS7C7kVzJ5tdWBZqnSwhJ3pYMiMSuJxBwSsCtIbRts1Dnm5awuKSr8W3
+	4Uym6NG8eRUoQSMw/0JuafJEOf+LVPJqVghl0fN3iw/TDgOrV/Af7nFi+VhpouyrQntu
+	2/p1BJ7+xVV/PYzaqilgKHMhrmRt3du9K3BbLToE6Umsfz4/0hbmw9y63sUFAfWETRmh
+	yi1RsqzLRG1VA8Ud8vlIstYGC2a6WLvmwC9N5oRXfYWHC4v7rmbjZsg7OtXUl8HvRWbU
+	nQDwGaBXYBK7TsoT75BgdstNqq/cgeiGeaO42ZYPoMIGR75nrxGKXr8/T73VTJvgW7b8
+	1WHA==
+X-Gm-Message-State: AHQUAuake3BNukHSaKr3/efKSpxjF8JoIPI3evQP1OergwgoASal+RFN
+	/lcYqyArJ41OVtstI5u9NvhbLXxmzM0=
+X-Google-Smtp-Source: AHgI3IZ1SgNqGBGcI5LVCYjVdNCA2YFJ6j/zWpIkigaBZWiX5PlLCxtN3+F67TKCRu4riyemyie/XQ==
+X-Received: by 2002:a7b:c08b:: with SMTP id r11mr3665063wmh.29.1549374302052; 
+	Tue, 05 Feb 2019 05:45:02 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s3sm11297389wmj.23.2019.02.05.05.45.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Feb 2019 05:45:01 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2019 09:54:25 +0100
-Message-Id: <20190205085425.10186-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <2d7a4b6a-9286-2a3a-c51d-24df733e458b@siemens.com>
-References: <2d7a4b6a-9286-2a3a-c51d-24df733e458b@siemens.com>
-Subject: [PATCH] lib/oe/rootfs: prelink only when image-prelink is inherited
+Date: Tue,  5 Feb 2019 13:44:58 +0000
+Message-Id: <20190205134459.29230-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] package_rpm/archiver: Apply bandaid to src.rpm creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 09:11:30 -0000
+X-List-Received-Date: Tue, 05 Feb 2019 13:45:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Use prelink only when image-prelink class is inherited. Inheriting this
-class adds prelink-native as dependency to do_rootfs, which makes prelink
-binary and configuration available.
+| error: create archive failed on file /media/build1/poky/build/tmp/work/all-poky-linux/xcursor-transparent-theme/0.1.1+gitAUTOINC+23c8af5ba4-r0/deploy-sources/allarch-poky-linux/xcursor-transparent-theme-0.1.1+gitAUTOINC+23c8af5ba4-r0/xcursor-transparent-theme-0.1.1+git0+23c8af5ba4-r0.src.rpm: cpio: read failed - No such file or directory
+| Building target platforms: noarch-poky-linux
+| Building for target noarch-poky-linux
 
-|Exception: FileNotFoundError: [Errno 2] No such file or directory:
-|'/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
-|
-| if not os.path.exists(prelink_cfg):
-|     shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
+This is caused by:
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+$ cat log.task_order
+
+do_cleansstate (24289): log.do_cleansstate.24289
+do_deploy_archives_setscene (24395): log.do_deploy_archives_setscene.24395
+do_fetch (24407): log.do_fetch.24407
+[..]
+do_package_write_rpm (25448): log.do_package_write_rpm.25448
+do_package_qa (25451): log.do_package_qa.25451
+
+So do_deploy_archives can run from sstate, created a .src.rpm in WORKDIR/deploy-sources,
+then it was removed when rpm was running. This leads to a broken Source line in the
+spec file as the original file was found by the os.listdir().
+
+This fix is just a bandaid over much more fundamental problems sadly.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/rootfs.py | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/classes/package_rpm.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 551dcfc75f..ffbd1438aa 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -747,15 +747,16 @@ class OpkgRootfs(DpkgOpkgRootfs):
-         if filecmp.cmp(f1, f2):
-             return True
- 
--        if self.image_rootfs not in f1:
--            self._prelink_file(f1.replace(key, ''), f1)
-+        if bb.data.inherits_class('image-prelink', self.d):
-+            if self.image_rootfs not in f1:
-+                self._prelink_file(f1.replace(key, ''), f1)
- 
--        if self.image_rootfs not in f2:
--            self._prelink_file(f2.replace(key, ''), f2)
-+            if self.image_rootfs not in f2:
-+                self._prelink_file(f2.replace(key, ''), f2)
- 
--        # Both of them are prelinked
--        if filecmp.cmp(f1, f2):
--            return True
-+            # Both of them are prelinked
-+            if filecmp.cmp(f1, f2):
-+                return True
- 
-         # Not equal
-         return False
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 21ada348aaa..5dafb3e7cb6 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -113,6 +113,10 @@ python write_specfile () {
+             source_list = os.listdir(ar_outdir)
+             source_number = 0
+             for source in source_list:
++                # do_deploy_archives may have already run (from sstate) meaning a .src.rpm may already 
++                # exist in ARCHIVER_OUTDIR so skip if present.
++                if source.endswith(".src.rpm"):
++                    continue
+                 # The rpmbuild doesn't need the root permission, but it needs
+                 # to know the file's user and group name, the only user and
+                 # group in fakeroot is "root" when working in fakeroot.
 -- 
-2.11.0
+2.20.1
 
 
