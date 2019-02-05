@@ -1,52 +1,48 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D27596C491
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 085AA6B507
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 15:34:59 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 32so6265479ota.12
+	Tue,  5 Feb 2019 15:47:26 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q1so1643587pfi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 07:35:01 -0800 (PST)
+	Tue, 05 Feb 2019 07:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=D5dIf1zg+3A5TN76DxkzBzPSeDMnNGDytnrFntFW84U=;
-	b=aVTl8Nx3WM/fnTTMc9jn1RNj7zt/CeZl+38e5agNSZcIBPsaT1hqDQYG8nBi63m9An
-	TwjXg+f5jzFfWWfohEvewwe92Ymdw6qY9+PS7afXtysM+JsAA+fPK1zQWkDLN793pQ5J
-	8wnIxGez36ikoCCNCwymwMT6W2zJRRCbQmAQvnbd5LmUA6d41hTywj/WaK6ynosOtMfW
-	cy8OqumRAWISx3LKqZY0rZyMB65CuCwDvZCsLQQ+kEZ1lZkkJ8JoC8vo7mNj2hfwdn29
-	vfG1mKkuOEmKh09VrxXWT5zN8jojMNNFxnDPwgESLiCR6BdeTm+LAWcMqCpULCaolD2L
-	2Y6w==
+	h=from:to:subject:date:message-id;
+	bh=I/DYITkwCZaB3V7CQspM1efeqBt15QkzIKW7dYtRzp8=;
+	b=Lhrxi/YP/X/QVDERH4q8FEhmVkeSS583K7IoMOJvSDDo6pbgWlS1Xlpqr4d/yCIDJw
+	JsGgmspTb+Fhg5P2S79cylxiVT8XvWQP88zlhURgW+kYSuCusgn/EZYG/9SZnBffAdsY
+	dtqqOmGusWrvTN6LYHNgZ6fGmP60pSwNz+IpFHhpkP9QsyIIW8QMrtolHOW2c/1WaYGJ
+	nc5Cl3i/33j6chERHPkvgCteaIbQIbTqSzbh8lbYnNiMasA5OLr/i9SrmhYHKwx5hu/C
+	Ecix8PikuySk/hnhlhBe5aOSZIYNcdvlzaXBpCOCIGY9HqqcShe/JqamPj1UrCJbUDBp
+	LArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=D5dIf1zg+3A5TN76DxkzBzPSeDMnNGDytnrFntFW84U=;
-	b=tec0+Zo1nWpObyf+WAuT0dGT+N7is5aNMarv61mG3wL9cpdz4O40QEjDJL7hRWLv6j
-	0MwozC5WXX6LbP9qx/OPcLy/dYiv+gw0GYbbTmwmrgMAS7E5t6OkN62ydssYMGzUeYa/
-	94VsdS89+RqUotFJh83bSc/n89rT+Z4AcFAIRjFBus9Y+ETi/F1U2SW81pSKBv+r4VJ7
-	t+lid1aLJk+nx8r28W3wlf2AyLvTrNfyQ4neSYCqPf6HqcsGww7NuhbdYaMbDrY+FfuJ
-	TEM8fNdDnifqykq8xRfk16lJacV1lk/19U6lLF1ccZdNyPf9DT1p8e6yCjclOfKHvaNd
-	NRVA==
-X-Gm-Message-State: AHQUAuZyRbUdAxGiXY915ksyUFV0ju3jsSd816hgn0OdLjUKua0QrP/B
-	oz02sBRCHKlVZmOOAEQDwah1tRlDNBo=
-X-Google-Smtp-Source: AHgI3IZHfMP/irvUWFsVhZm9ZbztjjJ+7p+j2f0OU+OXGo0lG4m5oEFBm1K+u396JPyi8aPu/emPkg==
-X-Received: by 2002:aca:720a:: with SMTP id p10mr2720373oic.169.1549380900350; 
-	Tue, 05 Feb 2019 07:35:00 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	l108sm8132263otc.23.2019.02.05.07.34.59
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Feb 2019 07:34:59 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=I/DYITkwCZaB3V7CQspM1efeqBt15QkzIKW7dYtRzp8=;
+	b=eJVBjAXwrANrqQTbZ9x83RSndLRnI7uxEM1h6xd49ItoinBmXgc0Wv9T2uy7t/GZDi
+	mV6VMbAow0/Am/KIc8CamCfpb5u5QYuvxvZZxfnIE+FmMihX/iwfI49Vqn9XYp4ZTsAq
+	scTt8N081VW211OZz4jiqtzHPzGilXRgu9xosdfYkh9RN+RH4+kGKJNzkvfPxgJ+nMLJ
+	ehTLr5Cqm4RmPkrimkSm45CDpS9wA8qluYe5RNF2cJtp4rkSaVDjJcGDl+QjWi7OUOmP
+	kYaILoDPNhFcQApAs17RBleVvgC6AnNb1/ZPMuAQp7cIJMIV9Tins2D4UP96FQQQRDIb
+	VJLw==
+X-Gm-Message-State: AHQUAubH5idwzKj8d+xPUGNfl/62cklrrwaL0WpaUGr0MhSaGbt+Dwvx
+	iYfEZi0CyrZ12OLf6lUYTwy485ZPObc=
+X-Google-Smtp-Source: AHgI3IZA4QQhNnKi1P0uv+h/DN8HhcuZlPPHX6D4SyD1g4JByMBKlXb1tQfYQq8dhFGhpdRG/LtMGg==
+X-Received: by 2002:a63:d904:: with SMTP id r4mr5118306pgg.207.1549381647838; 
+	Tue, 05 Feb 2019 07:47:27 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:c33:a556:75ec:241a:9733])
+	by smtp.gmail.com with ESMTPSA id z7sm4474898pga.6.2019.02.05.07.47.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Feb 2019 07:47:27 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2019 09:31:44 -0600
-Message-Id: <20190205153144.26220-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Cc: Dustin Bain <dustin.bain@garmin.com>
-Subject: [master/thud][PATCH] busybox: update to 1.29.3
+Date: Tue,  5 Feb 2019 07:47:26 -0800
+Message-Id: <1549381646-8147-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [V3][PATCH] timezone: refactor to simplify maint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +55,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 15:35:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Feb 2019 15:47:27 -0000
 
-From: Dustin Bain <dustin.bain@garmin.com>
+move tzcode and tzdata-native into new dir
 
-Updates busybox to version 1.29.3 to fix a bug related to parsing of
-config files: 2993551ef ("Revert "libbb: remove unnecessary variable in
-xmalloc_fgets"")
+Updates are now limited to the common include file.
 
-Upgrading the recipe was chosen instead of backporting the fix as a
-patch because the only difference between version 1.29.2 and 1.29.3 is
-this revert.
-
-Signed-off-by: Dustin Bain <dustin.bain@garmin.com>
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../{busybox-inittab_1.29.2.bb => busybox-inittab_1.29.3.bb}  | 0
- .../busybox/{busybox_1.29.2.bb => busybox_1.29.3.bb}          | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/busybox/{busybox-inittab_1.29.2.bb => busybox-inittab_1.29.3.bb} (100%)
- rename meta/recipes-core/busybox/{busybox_1.29.2.bb => busybox_1.29.3.bb} (91%)
+ .../timezone.inc}                                   | 21 +++++----------------
+ meta/recipes-extended/timezone/tzcode-native.bb     | 17 +++++++++++++++++
+ .../{tzdata/tzdata_2018i.bb => timezone/tzdata.bb}  | 12 +-----------
+ 3 files changed, 23 insertions(+), 27 deletions(-)
+ rename meta/recipes-extended/{tzcode/tzcode-native_2018i.bb => timezone/timezone.inc} (63%)
+ create mode 100644 meta/recipes-extended/timezone/tzcode-native.bb
+ rename meta/recipes-extended/{tzdata/tzdata_2018i.bb => timezone/tzdata.bb} (94%)
 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.29.2.bb b/meta/recipes-core/busybox/busybox-inittab_1.29.3.bb
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-inittab_1.29.2.bb
-rename to meta/recipes-core/busybox/busybox-inittab_1.29.3.bb
-diff --git a/meta/recipes-core/busybox/busybox_1.29.2.bb b/meta/recipes-core/busybox/busybox_1.29.3.bb
-similarity index 91%
-rename from meta/recipes-core/busybox/busybox_1.29.2.bb
-rename to meta/recipes-core/busybox/busybox_1.29.3.bb
-index df3ea5906b..6064e9fdc6 100644
---- a/meta/recipes-core/busybox/busybox_1.29.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.29.3.bb
-@@ -44,5 +44,5 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2018i.bb b/meta/recipes-extended/timezone/timezone.inc
+similarity index 63%
+rename from meta/recipes-extended/tzcode/tzcode-native_2018i.bb
+rename to meta/recipes-extended/timezone/timezone.inc
+index f056370..696f02d 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2018i.bb
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -1,10 +1,11 @@
+-# note that we allow for us to use data later than our code version
+-#
+-SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
++SUMMARY = "Timezone data"
++HOMEPAGE = "http://www.iana.org/time-zones"
++SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+-
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
--SRC_URI[tarball.md5sum] = "46617af37a39579711d8b36f189cdf1e"
--SRC_URI[tarball.sha256sum] = "67d2fa6e147a45875fe972de62d907ef866fe784c495c363bf34756c444a5d61"
-+SRC_URI[tarball.md5sum] = "0a367e19cdfd157e8258d87f893ee516"
-+SRC_URI[tarball.sha256sum] = "97648636e579462296478e0218e65e4bc1e9cd69089a3b1aeb810bff7621efb7"
++PV = "2018i"
++
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+            "
+@@ -16,15 +17,3 @@ SRC_URI[tzcode.sha256sum] = "aaacdb876ca6fb9d58e244b462cbc7578a496b1b10994381b4b
+ SRC_URI[tzdata.md5sum] = "b3f0a1a789480a036e58466cd0702477"
+ SRC_URI[tzdata.sha256sum] = "82c45ef84ca3bc01d0a4a397ba8adeb8f7f199c6550740587c6ac5a7108c00d9"
+ 
+-S = "${WORKDIR}"
+-
+-inherit native
+-
+-EXTRA_OEMAKE += "cc='${CC}'"
+-
+-do_install () {
+-        install -d ${D}${bindir}/
+-        install -m 755 zic ${D}${bindir}/
+-        install -m 755 zdump ${D}${bindir}/
+-        install -m 755 tzselect ${D}${bindir}/
+-}
+diff --git a/meta/recipes-extended/timezone/tzcode-native.bb b/meta/recipes-extended/timezone/tzcode-native.bb
+new file mode 100644
+index 0000000..e3582ba
+--- /dev/null
++++ b/meta/recipes-extended/timezone/tzcode-native.bb
+@@ -0,0 +1,17 @@
++require timezone.inc
++
++#
++SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
++
++S = "${WORKDIR}"
++
++inherit native
++
++EXTRA_OEMAKE += "cc='${CC}'"
++
++do_install () {
++        install -d ${D}${bindir}/
++        install -m 755 zic ${D}${bindir}/
++        install -m 755 zdump ${D}${bindir}/
++        install -m 755 tzselect ${D}${bindir}/
++}
+diff --git a/meta/recipes-extended/tzdata/tzdata_2018i.bb b/meta/recipes-extended/timezone/tzdata.bb
+similarity index 94%
+rename from meta/recipes-extended/tzdata/tzdata_2018i.bb
+rename to meta/recipes-extended/timezone/tzdata.bb
+index 4482e89..7542ce5 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2018i.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -1,17 +1,7 @@
+-SUMMARY = "Timezone data"
+-HOMEPAGE = "http://www.iana.org/time-zones"
+-SECTION = "base"
+-LICENSE = "PD & BSD & BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
++require timezone.inc
+ 
+ DEPENDS = "tzcode-native"
+ 
+-SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+-UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+-
+-SRC_URI[tzdata.md5sum] = "b3f0a1a789480a036e58466cd0702477"
+-SRC_URI[tzdata.sha256sum] = "82c45ef84ca3bc01d0a4a397ba8adeb8f7f199c6550740587c6ac5a7108c00d9"
+-
+ inherit allarch
+ 
+ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarctica \
 -- 
-2.20.1
+2.7.4
 
 
