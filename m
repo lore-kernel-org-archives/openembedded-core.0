@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A644B7C0FA
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B67737BFFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 18:26:08 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r2so4721226wrv.10
+	Tue,  5 Feb 2019 21:52:15 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id g67so568504wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 10:26:10 -0800 (PST)
+	Tue, 05 Feb 2019 13:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=F8zqBMSLFxxKrJHeSQLVwqurqQvj5pwr3Lf7UHI+UDw=;
-	b=cj2NVvyO876ICl9i+lv5q3O92atwmbjWhWd+EpXFJoj5b8nXl1iqA3lw5z722w6OYP
-	mQs3SuUSZpSzibrdrtQ0Z9IN5uYVsoqAhAS7xTlgqINzUCXkB0KEhi3/whVc+N/3rxub
-	MGHdcuZNU5CahmyYOSFuzqpzoSDhlBeU8tvq8=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=XGJI1XuFLTqdhW9Ei447w7JaU1t3orTPtqhm6h9KkqQ=;
+	b=AwIqbs6Y3c6oIXpFEVJJS3br4kNBjO1wGyUWMh2fH/LcLIxX8yZjyQbL+rk/kKdBeV
+	PmIF3yU/eBmetVHDPTOS5I80YsKM8uAiWqgQI5nSNeSWexLtS2j0WPrd//0JhzY3CM1L
+	JgtTkpnDPqg7Nl/EfAV+ZvNMp9wTISURaZLNs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=F8zqBMSLFxxKrJHeSQLVwqurqQvj5pwr3Lf7UHI+UDw=;
-	b=p7WIrcWREd+zdBDGRtq+L6+Xn0j3tUynmhSGL1Chm8UGyN7nV9e7wkUVDvBi3qSs82
-	2pGymU5xm04KFIAjnK1gRnbDT0yhNYq5QidTzuuuiLeHuTHS+y1XqTKc63QHK48Whe1t
-	thMeonmberR1qND6S3gMehQeaX1wSEaZQR4NYdjC/QLTRXPdUZG9aCb5CBJ1hsM7nhQY
-	2nii5lTX5YTaM3uZs8LqVadw2LNt+Jb23UmTvArq0rIevSAGXU0cRp1U/Vi3bw7WKmE2
-	jqt7rLjAZ+qOY8viC7VJ78JVRtwwc5fDN2ya7oRzNuvGelZo57eKEsbXhJHCtyN0EiI7
-	vb/Q==
-X-Gm-Message-State: AHQUAuas/X4ovY7c1AIL2S2com8K1er/YVd6QwX4gNxIli90wEZ2hbst
-	x9hMuZJNdIVbw/D2A5eqRYg3HPpyalg=
-X-Google-Smtp-Source: AHgI3IaGi8c12arqwwcBK7OVsn/kdbEFNiMCbpsZ5QNhXDg4WlEBfSWagxpr/Ewmlz5UXWesUriJnw==
-X-Received: by 2002:a5d:62c2:: with SMTP id o2mr4589660wrv.247.1549391169359; 
-	Tue, 05 Feb 2019 10:26:09 -0800 (PST)
+	bh=XGJI1XuFLTqdhW9Ei447w7JaU1t3orTPtqhm6h9KkqQ=;
+	b=iVMfF9DY9Bx0r3CUDtQmQIhoKu21PwbLP5GksuvgCQ8bizg1uRoRlC0lXCW6nADzOV
+	alwVXOkz60r4chIRsOL+00iEUYcYA6Put5L02WN68pyivglDSREePN3F696PdqoDJhwZ
+	qoNx4fvShw4kaBIK7hfHSD06HGH65+9TjIaqWbsJaL9O3P/T0kjE1YE5B2BE1mamUbJs
+	GOysc4CsMz7dYn8TAiu/Re8jceiZsWGnhEN8vWIN69I1q0N673z4YlrnvgQgm9dqWNLo
+	S4BcVjNNWTQ+/emM8Xf75luF02c8g4ZUb2bHeld0vKDHwz5XVA8skYggSwSN3W+8cHU1
+	3eIQ==
+X-Gm-Message-State: AHQUAub1ZtqXefqcfmcRyktIJvgZ6WDwnXJ6bUS2uCUI7DLBZvNYczTv
+	WarYLVyx6R+t3VY9olkqWavFjQ==
+X-Google-Smtp-Source: AHgI3IbTMQSnxg1htDYHSZbe1aVt30hcklsDenD01Kekd4r60BGOnR3Aq5PncS01pLmSYbbvVpxeRg==
+X-Received: by 2002:a1c:dc02:: with SMTP id t2mr558866wmg.78.1549403536223;
+	Tue, 05 Feb 2019 13:52:16 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id z5sm281056wmi.15.2019.02.05.10.26.08
+	by smtp.gmail.com with ESMTPSA id q1sm7432030wrs.89.2019.02.05.13.52.14
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Feb 2019 10:26:08 -0800 (PST)
-Message-ID: <e21a184451ce71b68f8cbfe7abf26c583189a7e6.camel@linuxfoundation.org>
+	Tue, 05 Feb 2019 13:52:15 -0800 (PST)
+Message-ID: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+To: Joshua DeWeese <josh.deweese@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Tue, 05 Feb 2019 18:26:07 +0000
-In-Reply-To: <20190205023241.29707-1-git@andred.net>
-References: <20190114125632.4780-1-git@andred.net>
-	<20190205023241.29707-1-git@andred.net>
+Date: Tue, 05 Feb 2019 21:52:14 +0000
+In-Reply-To: <20190205162644.24971-1-josh.deweese@gmail.com>
+References: <20190205162644.24971-1-josh.deweese@gmail.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH v6 00/13] util-linux: one package per binary
+Cc: Joshua DeWeese <jdeweese@hennypenny.com>
+Subject: Re: [PATCH] wpa_supplicant: Changed systemd template units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 18:26:09 -0000
+X-List-Received-Date: Tue, 05 Feb 2019 21:52:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-02-05 at 02:32 +0000, André Draszik wrote:
-> v6:
+On Tue, 2019-02-05 at 11:26 -0500, Joshua DeWeese wrote:
+> From: Joshua DeWeese <jdeweese@hennypenny.com>
 > 
-> This version now also builds nativesdk-util-linux fine for me.
+> https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
 > 
-> * introduce patch 04: util-linux: fix packaging nativesdk-util-linux-
-> lib*
->   - this is to fix nativesdk build failures triggered by later
-> patches
-> * update patch 10: util-linux: simplify meta-package RDEPENDS /
-> RRECOMMENDS
->   - make sure to walk each bindir only once, to better
->     support nativesdk and usrmerge builds
-> * update patch 13: util-linux: final cleanup
->   - commit message updated
+> When building root filesystems with any of the wpa_supplicant systemd
+> template service files enabled (current default is to have them
+> disabled) the
+> systemd-native-fake script would not process the line:
+> 
+> Alias=multi-user.target.wants/wpa_supplicant@%i.service
+> 
+> appropriately due the the use of "%i."
+> 
+> According to the systemd documentation "WantedBy=foo.service in a
+> service
+> bar.service is mostly equivalent to
+> Alias=foo.service.wants/bar.service in
+> the same file." However, this is not really the intended purpose of
+> install
+> Aliases.
+> 
+> All lines of the form:
+> 
+> Alias=multi-user.target.wants/*%i.service
+> 
+> Were replaced with the following lines:
+> 
+> WantedBy=multi-user.target
+> 
+> Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
 
-Thanks. We appear to be now onto runtime errors:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/260
-https://autobuilder.yoctoproject.org/typhoon/#/builders/67/builds/260
-https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/257
-
-Seems some util installed into -lsb images (and full-cmdline) causes
-some getty error?
+This patch doesn't seem to apply against master (which has 2.6, not
+2.5)?
 
 Cheers,
 
