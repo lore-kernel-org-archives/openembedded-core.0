@@ -1,48 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4345F7C3B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A644B7C0FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 17:37:30 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id l11so4815400qtp.0
+	Tue,  5 Feb 2019 18:26:08 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r2so4721226wrv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 09:37:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=E2fF8mNRsby5pgXjYKSCLaNBVdojFWV8A06EGwLN1BQ=;
-	b=Td6Dy5hLWYbIV7Lmw/v55thb/JIsg4dqK+GgYXljK801S8lOgs483nEVF2uFuFUC1T
-	G35Q/r2K58qaj+FgCH2g6h97MaJfvPeQ+lcatrnO0jacByf0SnQcnMLXIaQq4Gl59Oo3
-	vdOxyOEl9iKKGpOjUVLTEP7i6uM3dvCtBs0UoVvNKya3fwyc7YDd7oTrNV7kLi2DDa+K
-	69QD7EHg1Z+RF8z61K412AJ2Vp6tQoVxmvULBXcZdk6tZ77fCumfag/WbReuUeUOxLRf
-	ulfRWPtapIu7QtI53Dz1E3z/z3164F0BSKNq09o2eG2kvtZwHSI34oBURGMXf2R6D/ng
-	y43w==
+	Tue, 05 Feb 2019 10:26:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=F8zqBMSLFxxKrJHeSQLVwqurqQvj5pwr3Lf7UHI+UDw=;
+	b=cj2NVvyO876ICl9i+lv5q3O92atwmbjWhWd+EpXFJoj5b8nXl1iqA3lw5z722w6OYP
+	mQs3SuUSZpSzibrdrtQ0Z9IN5uYVsoqAhAS7xTlgqINzUCXkB0KEhi3/whVc+N/3rxub
+	MGHdcuZNU5CahmyYOSFuzqpzoSDhlBeU8tvq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=E2fF8mNRsby5pgXjYKSCLaNBVdojFWV8A06EGwLN1BQ=;
-	b=oDw8GFq9UnNyW1ZFUzGigTmtfv5VGZKdpWJTbH2zI/+7pODSRqbhxjkLuNQyAPLkSR
-	KpslOGeBSfH6McWKJJLUS8ljW4oWSwe4a3wutGcRpK02ft5vnGkQ9OIIcDeTSv7upr08
-	rgIyMW7uiAQuw+YBaHkwf3f42Nubv94FyuQvB/AvlaObXRLUGkjYtTxfPj5ZawwUhvHx
-	AzCYlEkOZjMb3WO00W21rtnS8O8ddyUYsVAl5ka3dxxqH6x699XeI9YHGvLtEl3lb/mk
-	nNccNE3dNkHmkDQOHQkCPUbES9h21IHpi8sDIJwLexAtKMkss1FHt8Y42nmo8Nfquynn
-	QAHQ==
-X-Gm-Message-State: AHQUAuafdQioW9VsgPvfDElSj6jIepj09ePfo4KTswI3cfKYNkLrtGtv
-	zSSHJ4k47J8TAuRKUP4iSzMp4rTK8hyy/KPHUHY=
-X-Google-Smtp-Source: AHgI3IYBf5JxZqlpLy67jWK6TdsM3qFSSPtIXuY7w4BUfbDlpLenDJWWAFHJBzcQ5LLz4qwcYrehutA38gW+BfCieFY=
-X-Received: by 2002:a0c:a144:: with SMTP id d62mr4750853qva.50.1549388250709; 
-	Tue, 05 Feb 2019 09:37:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20190205025727.1937-1-raj.khem@gmail.com>
-	<464a0977-01e1-1845-ef2e-969391d51b3c@gmail.com>
-In-Reply-To: <464a0977-01e1-1845-ef2e-969391d51b3c@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Feb 2019 09:37:04 -0800
-Message-ID: <CAMKF1sqzfqq7s9Jh6gO2MjFa-e=U=8hhoxVeeKTF4_1mOZd0jg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] arch-armv8a.inc: add tune include for armv8
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=F8zqBMSLFxxKrJHeSQLVwqurqQvj5pwr3Lf7UHI+UDw=;
+	b=p7WIrcWREd+zdBDGRtq+L6+Xn0j3tUynmhSGL1Chm8UGyN7nV9e7wkUVDvBi3qSs82
+	2pGymU5xm04KFIAjnK1gRnbDT0yhNYq5QidTzuuuiLeHuTHS+y1XqTKc63QHK48Whe1t
+	thMeonmberR1qND6S3gMehQeaX1wSEaZQR4NYdjC/QLTRXPdUZG9aCb5CBJ1hsM7nhQY
+	2nii5lTX5YTaM3uZs8LqVadw2LNt+Jb23UmTvArq0rIevSAGXU0cRp1U/Vi3bw7WKmE2
+	jqt7rLjAZ+qOY8viC7VJ78JVRtwwc5fDN2ya7oRzNuvGelZo57eKEsbXhJHCtyN0EiI7
+	vb/Q==
+X-Gm-Message-State: AHQUAuas/X4ovY7c1AIL2S2com8K1er/YVd6QwX4gNxIli90wEZ2hbst
+	x9hMuZJNdIVbw/D2A5eqRYg3HPpyalg=
+X-Google-Smtp-Source: AHgI3IaGi8c12arqwwcBK7OVsn/kdbEFNiMCbpsZ5QNhXDg4WlEBfSWagxpr/Ewmlz5UXWesUriJnw==
+X-Received: by 2002:a5d:62c2:: with SMTP id o2mr4589660wrv.247.1549391169359; 
+	Tue, 05 Feb 2019 10:26:09 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id z5sm281056wmi.15.2019.02.05.10.26.08
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 05 Feb 2019 10:26:08 -0800 (PST)
+Message-ID: <e21a184451ce71b68f8cbfe7abf26c583189a7e6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 05 Feb 2019 18:26:07 +0000
+In-Reply-To: <20190205023241.29707-1-git@andred.net>
+References: <20190114125632.4780-1-git@andred.net>
+	<20190205023241.29707-1-git@andred.net>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v6 00/13] util-linux: one package per binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,95 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 17:37:30 -0000
+X-List-Received-Date: Tue, 05 Feb 2019 18:26:09 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 5, 2019 at 7:57 AM akuster808 <akuster808@gmail.com> wrote:
->
->
->
-> On 2/4/19 6:57 PM, Khem Raj wrote:
->
-> From: ayaka <ayaka@soulik.info>
->
-> There are some addtional instructions apart from bare armv8,
-> also there is armv8.1, armv8.2.
->
-> Most the processor would support crc, except X-gene 1.
->
->
-> We have had these tune files sent by other folks in the past. Does this settle all the questions from back then ?
->
-> It was sent couple months ago, you can find the discussion in various
-> threads, e.g.:
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-October/111318.html
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112907.html
->
+On Tue, 2019-02-05 at 02:32 +0000, André Draszik wrote:
+> v6:
+> 
+> This version now also builds nativesdk-util-linux fine for me.
+> 
+> * introduce patch 04: util-linux: fix packaging nativesdk-util-linux-
+> lib*
+>   - this is to fix nativesdk build failures triggered by later
+> patches
+> * update patch 10: util-linux: simplify meta-package RDEPENDS /
+> RRECOMMENDS
+>   - make sure to walk each bindir only once, to better
+>     support nativesdk and usrmerge builds
+> * update patch 13: util-linux: final cleanup
+>   - commit message updated
 
-these are not relevant here.
+Thanks. We appear to be now onto runtime errors:
 
-> http://lists.openembedded.org/pipermail/openembedded-core/2016-March/118579.html
->
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/260
+https://autobuilder.yoctoproject.org/typhoon/#/builders/67/builds/260
+https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/257
 
-This I have looked at. Eventually, I plan to add aarch32 bit tunes as well
-for now, I just want to make aarch64 piece look good with option to
-have aarch32 in mind, if there are specific questions I would be
-interested to here
+Seems some util installed into -lsb images (and full-cmdline) causes
+some getty error?
 
-> and more.
->
-> - armin
->
-> Signed-off-by: Randy Li <ayaka@soulik.info>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
->  meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++
->  2 files changed, 28 insertions(+), 1 deletion(-)
->  delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
->
-> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-> deleted file mode 100644
-> index 5e832fae6d..0000000000
-> --- a/meta/conf/machine/include/arm/arch-armv8.inc
-> +++ /dev/null
-> @@ -1 +0,0 @@
-> -require conf/machine/include/arm/arch-arm64.inc
-> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-> new file mode 100644
-> index 0000000000..323d0d7f0f
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-> @@ -0,0 +1,28 @@
-> +DEFAULTTUNE ?= "armv8a-crc"
-> +
-> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
-> +TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
-> +TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
-> +TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
-> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
-> +
-> +require conf/machine/include/arm/arch-arm64.inc
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "armv8a armv8a-crc armv8a-crc-crypto armv8a-crypto"
-> +ARMPKGARCH_tune-armv8a                    ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
-> +TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
-> +TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
-> +TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
-> +TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
->
->
+Cheers,
+
+Richard
+
 
