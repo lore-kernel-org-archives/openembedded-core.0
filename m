@@ -1,51 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B67737BFFA
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F008D6C1BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 21:52:15 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id g67so568504wmd.2
+	Tue,  5 Feb 2019 22:19:50 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id t200so648353wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 13:52:16 -0800 (PST)
+	Tue, 05 Feb 2019 14:19:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=XGJI1XuFLTqdhW9Ei447w7JaU1t3orTPtqhm6h9KkqQ=;
-	b=AwIqbs6Y3c6oIXpFEVJJS3br4kNBjO1wGyUWMh2fH/LcLIxX8yZjyQbL+rk/kKdBeV
-	PmIF3yU/eBmetVHDPTOS5I80YsKM8uAiWqgQI5nSNeSWexLtS2j0WPrd//0JhzY3CM1L
-	JgtTkpnDPqg7Nl/EfAV+ZvNMp9wTISURaZLNs=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GrXHzv9NJ7g+ohwXodE5H9iGgzNofMJxngOqgOvut1g=;
+	b=Wj27Dnau3EVWLTIfocHg5hqzqman8sCK1umM6BVJgdnVLNoss4pNAXEDbOjATLJZNg
+	eWBeqI+phJeNshrLQO1fLmTjj6LMoCgbxWMlkzdNSet0P+Cly3Rz8gLcfm2OGefiVnf2
+	qSIozSYpFWoamLw0qADW/jIaktZNvra6/4nkA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=XGJI1XuFLTqdhW9Ei447w7JaU1t3orTPtqhm6h9KkqQ=;
-	b=iVMfF9DY9Bx0r3CUDtQmQIhoKu21PwbLP5GksuvgCQ8bizg1uRoRlC0lXCW6nADzOV
-	alwVXOkz60r4chIRsOL+00iEUYcYA6Put5L02WN68pyivglDSREePN3F696PdqoDJhwZ
-	qoNx4fvShw4kaBIK7hfHSD06HGH65+9TjIaqWbsJaL9O3P/T0kjE1YE5B2BE1mamUbJs
-	GOysc4CsMz7dYn8TAiu/Re8jceiZsWGnhEN8vWIN69I1q0N673z4YlrnvgQgm9dqWNLo
-	S4BcVjNNWTQ+/emM8Xf75luF02c8g4ZUb2bHeld0vKDHwz5XVA8skYggSwSN3W+8cHU1
-	3eIQ==
-X-Gm-Message-State: AHQUAub1ZtqXefqcfmcRyktIJvgZ6WDwnXJ6bUS2uCUI7DLBZvNYczTv
-	WarYLVyx6R+t3VY9olkqWavFjQ==
-X-Google-Smtp-Source: AHgI3IbTMQSnxg1htDYHSZbe1aVt30hcklsDenD01Kekd4r60BGOnR3Aq5PncS01pLmSYbbvVpxeRg==
-X-Received: by 2002:a1c:dc02:: with SMTP id t2mr558866wmg.78.1549403536223;
-	Tue, 05 Feb 2019 13:52:16 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id q1sm7432030wrs.89.2019.02.05.13.52.14
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Feb 2019 13:52:15 -0800 (PST)
-Message-ID: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GrXHzv9NJ7g+ohwXodE5H9iGgzNofMJxngOqgOvut1g=;
+	b=L0mT+ifqoBnk6cRMlaXRfotW5++ITkUVf7322tT1Fvt3/Uc0cNpDpcl07n/daYR4tB
+	lv2ah6BXuliyiObVb/Y2ELUQ9TSkXOjkF0w0P9Uj1dRNK88kBoxKQ7GamHAKGPpm1us0
+	oe5xHh6e0oNJvmt666CAAoj8/r0mI2qMnCC/JDaLg7IvSWL2x2aMP5OD6GnUWTfAMzNP
+	usTg/9CDQ/Sn0+D3YaBlqyUujx/JPs/z1qUhW3Kb+y9t4Fy1in//7l+8pTZIGhlQcwP/
+	GBkN1plrvGTgJY+LYxskvn4vp9/t1fkLuAsTI+jBqg5zYorT4e4lR8KHXRn/3QiKNdlN
+	VahA==
+X-Gm-Message-State: AHQUAuYQQdOOFPZ9jLzkk5yz3tr1ZvIKQbtpEtZKmNB6K8dzzgKtU2kR
+	Qr/0ROHDwko+MDrJ6N9zTm7NIuROei8=
+X-Google-Smtp-Source: AHgI3IaHcvuQX/qLdd0E3RTse5FvY7VUyzygsvJ2IYzOloY+KhVUDFDwkQPvV6XCI7JW0mwJcvyhNg==
+X-Received: by 2002:a7b:c757:: with SMTP id w23mr581473wmk.59.1549405191295;
+	Tue, 05 Feb 2019 14:19:51 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c9sm8887756wrs.84.2019.02.05.14.19.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Feb 2019 14:19:50 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua DeWeese <josh.deweese@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 05 Feb 2019 21:52:14 +0000
-In-Reply-To: <20190205162644.24971-1-josh.deweese@gmail.com>
-References: <20190205162644.24971-1-josh.deweese@gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: Joshua DeWeese <jdeweese@hennypenny.com>
-Subject: Re: [PATCH] wpa_supplicant: Changed systemd template units
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Feb 2019 22:19:49 +0000
+Message-Id: <20190205221949.16281-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] archiver/package_rpm: Fix the worst src.rpm generation race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 21:52:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Feb 2019 22:19:51 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-02-05 at 11:26 -0500, Joshua DeWeese wrote:
-> From: Joshua DeWeese <jdeweese@hennypenny.com>
-> 
-> https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
-> 
-> When building root filesystems with any of the wpa_supplicant systemd
-> template service files enabled (current default is to have them
-> disabled) the
-> systemd-native-fake script would not process the line:
-> 
-> Alias=multi-user.target.wants/wpa_supplicant@%i.service
-> 
-> appropriately due the the use of "%i."
-> 
-> According to the systemd documentation "WantedBy=foo.service in a
-> service
-> bar.service is mostly equivalent to
-> Alias=foo.service.wants/bar.service in
-> the same file." However, this is not really the intended purpose of
-> install
-> Aliases.
-> 
-> All lines of the form:
-> 
-> Alias=multi-user.target.wants/*%i.service
-> 
-> Were replaced with the following lines:
-> 
-> WantedBy=multi-user.target
-> 
-> Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
+The package_rpm code is writing outside the task's sstate directory into
+the sstate of do_deploy_archives. This is "out of spec" since if the
+task is installed from sstate, the files are not restored. This means
+the files may appear/disappear, things are not deterministic and there are
+races.
 
-This patch doesn't seem to apply against master (which has 2.6, not
-2.5)?
+Extend the do_package_write_rpm code to handle writing the src.rpm into
+place to avoid these issues. There are other problems but this avoids races
+around this file.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/archiver.bbclass    | 6 ++++++
+ meta/classes/package_rpm.bbclass | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index e321a0e3621..af9f010dfc4 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -37,8 +37,11 @@ ARCHIVER_MODE[recipe] ?= "0"
+ DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+ ARCHIVER_TOPDIR ?= "${WORKDIR}/deploy-sources"
+ ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
++ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
++ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
+ ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
+ 
++
+ do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
+@@ -117,6 +120,9 @@ python () {
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == "1" and d.getVar('PACKAGES'):
+         if "package_rpm" in d.getVar('PACKAGE_CLASSES'):
+             d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_package_write_rpm' % pn)
++            d.appendVarFlag('do_package_write_rpm', 'dirs', ' ${ARCHIVER_RPMTOPDIR}')
++            d.appendVarFlag('do_package_write_rpm', 'sstate-inputdirs', ' ${ARCHIVER_RPMTOPDIR}')
++            d.appendVarFlag('do_package_write_rpm', 'sstate-outputdirs', ' ${DEPLOY_DIR_SRC}')
+             if ar_dumpdata == "1":
+                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_dumpdata' % pn)
+             if ar_recipe == "1":
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 5dafb3e7cb6..1a64cb271ac 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -694,7 +694,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_tmppath " + workdir + "'"
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+         cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+-        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_OUTDIR') + "'"
++        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
+         cmdsrpm = cmdsrpm + " -bs " + outspecfile
+         # Build the .src.rpm
+         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+-- 
+2.20.1
 
 
