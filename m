@@ -1,43 +1,29 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
-	[209.85.161.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 18F7F6B06C
+Return-Path: <andrej.valek@siemens.com>
+X-Greylist: delayed 1005 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 05 Feb 2019 09:11:30 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CC826BCDC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 08:09:11 +0000 (UTC)
-Received: by mail-yw1-f66.google.com with SMTP id u200so1333914ywu.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 00:09:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xJukuL7Wxd3yjGRqrdQgMoxttzPFIgesBxQaGdZcjcU=;
-	b=BSn00EkA2lSlIF6qwfMr4gqH7ZqRKzVXAaMvAWsOA+mODXc6qLPa1VP5hSTGxg2CEf
-	M+U3CgDk8DJA1exjJEpmqxTsZCdpfh/5waElT/U8kElv57FkGRxwRUmGwXdgsT7pca30
-	OnHnflu7fyEX1J/i61laKwi39L9bvGqyJCCzbJyay0BQHM/mpTP69Ls7yLf6L9BG9evG
-	9nGhFaO1bqJwVD4cRdCF0uDOm1v3D1CG0JJJ9vfi+bSh7vUeRR84QJ+YpW0fk3EpNfNS
-	ApxEMm5eiy4zKLRWG3FpgrUdiZOW62KWP0YCvDeNO4EgOEegaTeCgk+5jZJrfAK4HyqB
-	wUwA==
-X-Gm-Message-State: AHQUAuY/9cMlrKslo9iN4tl/x+5xii5OeCPY7jStYf/e2UfJa19zR0uz
-	257PLnI57AXfxLuBRJHLIGFj03IJ
-X-Google-Smtp-Source: AHgI3Ia6BOf/4dAZsUY+daONqRD0A6C/4N24RMltQXWcT8hNV326mBn7jhPRNX/py51QsZxeIzlHLA==
-X-Received: by 2002:a81:ac15:: with SMTP id k21mr2800052ywh.460.1549354152652; 
-	Tue, 05 Feb 2019 00:09:12 -0800 (PST)
-Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	n65sm233469ywc.107.2019.02.05.00.09.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Feb 2019 00:09:11 -0800 (PST)
-Message-ID: <500d8543dd2a0df45239cb6b1b8da75d76a1255d.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Tue,  5 Feb 2019 09:11:29 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x158sjgv029304
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 5 Feb 2019 09:54:46 +0100
+Received: from dev.vm6.ccp.siemens.com (MD1JJJ2C.ad001.siemens.net
+	[163.242.44.88])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x158sj4h017701;
+	Tue, 5 Feb 2019 09:54:45 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id AAF2A4FAF6D;
+	Tue,  5 Feb 2019 09:54:44 +0100 (CET)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 05 Feb 2019 08:09:09 +0000
-In-Reply-To: <20190205023241.29707-1-git@andred.net>
-References: <20190114125632.4780-1-git@andred.net>
-	<20190205023241.29707-1-git@andred.net>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v6 00/13] util-linux: one package per binary
+Date: Tue,  5 Feb 2019 09:54:25 +0100
+Message-Id: <20190205085425.10186-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <2d7a4b6a-9286-2a3a-c51d-24df733e458b@siemens.com>
+References: <2d7a4b6a-9286-2a3a-c51d-24df733e458b@siemens.com>
+Subject: [PATCH] lib/oe/rootfs: prelink only when image-prelink is inherited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,31 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 08:09:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Feb 2019 09:11:30 -0000
 
-On Tue, 2019-02-05 at 02:32 +0000, André Draszik wrote:
-> v6:
-> 
-> This version now also builds nativesdk-util-linux fine for me.
-> 
-> * introduce patch 04: util-linux: fix packaging nativesdk-util-linux-lib*
->   - this is to fix nativesdk build failures triggered by later patches
-> * update patch 10: util-linux: simplify meta-package RDEPENDS /
-> RRECOMMENDS
->   - make sure to walk each bindir only once, to better
->     support nativesdk and usrmerge builds
-> * update patch 13: util-linux: final cleanup
->   - commit message updated
+Use prelink only when image-prelink class is inherited. Inheriting this
+class adds prelink-native as dependency to do_rootfs, which makes prelink
+binary and configuration available.
 
-* introduce patch 01: update-alternatives: correctly escape PATHs when updating FILES_${PN}
-  - this one is also new
+|Exception: FileNotFoundError: [Errno 2] No such file or directory:
+|'/home/.../1.0-r0/recipe-sysroot-native/etc/prelink.conf'
+|
+| if not os.path.exists(prelink_cfg):
+|     shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),prelink_cfg)
 
-> 
-> Cheers,
-> André
-> 
-> 
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/lib/oe/rootfs.py | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 551dcfc75f..ffbd1438aa 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -747,15 +747,16 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         if filecmp.cmp(f1, f2):
+             return True
+ 
+-        if self.image_rootfs not in f1:
+-            self._prelink_file(f1.replace(key, ''), f1)
++        if bb.data.inherits_class('image-prelink', self.d):
++            if self.image_rootfs not in f1:
++                self._prelink_file(f1.replace(key, ''), f1)
+ 
+-        if self.image_rootfs not in f2:
+-            self._prelink_file(f2.replace(key, ''), f2)
++            if self.image_rootfs not in f2:
++                self._prelink_file(f2.replace(key, ''), f2)
+ 
+-        # Both of them are prelinked
+-        if filecmp.cmp(f1, f2):
+-            return True
++            # Both of them are prelinked
++            if filecmp.cmp(f1, f2):
++                return True
+ 
+         # Not equal
+         return False
+-- 
+2.11.0
 
 
