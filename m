@@ -1,49 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F008D6C1BD
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 661B96B5C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2019 22:19:50 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id t200so648353wmt.0
+	Wed,  6 Feb 2019 08:27:11 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v13so6506008wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2019 14:19:52 -0800 (PST)
+	Wed, 06 Feb 2019 00:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=GrXHzv9NJ7g+ohwXodE5H9iGgzNofMJxngOqgOvut1g=;
-	b=Wj27Dnau3EVWLTIfocHg5hqzqman8sCK1umM6BVJgdnVLNoss4pNAXEDbOjATLJZNg
-	eWBeqI+phJeNshrLQO1fLmTjj6LMoCgbxWMlkzdNSet0P+Cly3Rz8gLcfm2OGefiVnf2
-	qSIozSYpFWoamLw0qADW/jIaktZNvra6/4nkA=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=BfCRyJmVQ/0EyMN3OGJrXVwfH+9K3Nt4tcxoQcgbdMU=;
+	b=DQpf0REEhlQiVzxVau1c6PxcgOLRegRuP1QiNelQUb9HPT23D3DKz/313Jdx0QWRVJ
+	Z8GbUFwrpn8gBkQ/SB396FegzIXOB3Y1bVLpEP0XBUMDviaLbvuD3+np95WTUjjNXF2o
+	P6ZQfNRMtLxW/vlfVSsQT6h5rS+ZBz0ZQCyEA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=GrXHzv9NJ7g+ohwXodE5H9iGgzNofMJxngOqgOvut1g=;
-	b=L0mT+ifqoBnk6cRMlaXRfotW5++ITkUVf7322tT1Fvt3/Uc0cNpDpcl07n/daYR4tB
-	lv2ah6BXuliyiObVb/Y2ELUQ9TSkXOjkF0w0P9Uj1dRNK88kBoxKQ7GamHAKGPpm1us0
-	oe5xHh6e0oNJvmt666CAAoj8/r0mI2qMnCC/JDaLg7IvSWL2x2aMP5OD6GnUWTfAMzNP
-	usTg/9CDQ/Sn0+D3YaBlqyUujx/JPs/z1qUhW3Kb+y9t4Fy1in//7l+8pTZIGhlQcwP/
-	GBkN1plrvGTgJY+LYxskvn4vp9/t1fkLuAsTI+jBqg5zYorT4e4lR8KHXRn/3QiKNdlN
-	VahA==
-X-Gm-Message-State: AHQUAuYQQdOOFPZ9jLzkk5yz3tr1ZvIKQbtpEtZKmNB6K8dzzgKtU2kR
-	Qr/0ROHDwko+MDrJ6N9zTm7NIuROei8=
-X-Google-Smtp-Source: AHgI3IaHcvuQX/qLdd0E3RTse5FvY7VUyzygsvJ2IYzOloY+KhVUDFDwkQPvV6XCI7JW0mwJcvyhNg==
-X-Received: by 2002:a7b:c757:: with SMTP id w23mr581473wmk.59.1549405191295;
-	Tue, 05 Feb 2019 14:19:51 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BfCRyJmVQ/0EyMN3OGJrXVwfH+9K3Nt4tcxoQcgbdMU=;
+	b=hyna0wnIsaVwKOYQmcCCG2jDtdsWuoSp+VG0Cx541Ayj/LqUAkM3dA2ZvGu3InVBri
+	Ea5Jb0R3VtyufWrF25vnTzLsoKUtOUc9Ir1ZJfK1ZCrVmv08NFEYPncbe1uPlqMKjfPl
+	B/gCk1kT+9LbEU8/gWRoKe14p4MS+aG5J+ksep8ZeLEJ2WE2pGfeEIY3lXDNu1NP42Sp
+	vH3z/PZJdvLuBh6tC9fFy9Ir0xaYpeE4zLU86/WwNI/Gj2927RrHe0OR3Mn8GFqBr0nz
+	DAyc8NBhjurfeCATKncDOgclq/YJoxfPAEDafe6TOC05edHgDypTXE/IkBe7PCfDGt/z
+	RDBg==
+X-Gm-Message-State: AHQUAuYqINKlFKoQYHGB8tcK5FBbzUbZ0j8nX8mnZf4gcNvOfzvl1ihr
+	JRQDRgGvPXXBUh6VX1832Rua1Q==
+X-Google-Smtp-Source: AHgI3IYIvVDAdWLPQM3/nIn/wFxNrOMjrwbMyDYXBbsYKeU8LGZL8By2RVc+aUVtXpLsyZBcTJ055g==
+X-Received: by 2002:a5d:5405:: with SMTP id g5mr7160542wrv.138.1549441632001; 
+	Wed, 06 Feb 2019 00:27:12 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	c9sm8887756wrs.84.2019.02.05.14.19.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Feb 2019 14:19:50 -0800 (PST)
+	a62sm19258017wmf.47.2019.02.06.00.27.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 06 Feb 2019 00:27:11 -0800 (PST)
+Message-ID: <e6be1467690d345114194df39781f34e2837ee6c.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2019 22:19:49 +0000
-Message-Id: <20190205221949.16281-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] archiver/package_rpm: Fix the worst src.rpm generation race
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 06 Feb 2019 08:27:10 +0000
+In-Reply-To: <20190205003627.4454-2-raj.khem@gmail.com>
+References: <20190205003627.4454-1-raj.khem@gmail.com>
+	<20190205003627.4454-2-raj.khem@gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: Vlad Zakharov <vzakhar@synopsys.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Claudiu Zissulescu <claziss@synopsys.com>
+Subject: Re: [PATCH 2/2] mpfr: Upgrade to 4.0.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +61,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2019 22:19:51 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Feb 2019 08:27:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The package_rpm code is writing outside the task's sstate directory into
-the sstate of do_deploy_archives. This is "out of spec" since if the
-task is installed from sstate, the files are not restored. This means
-the files may appear/disappear, things are not deterministic and there are
-races.
+On Mon, 2019-02-04 at 16:36 -0800, Khem Raj wrote:
+> --- /dev/null
+> +++ b/meta/recipes-support/mpfr/mpfr_4.0.2.bb
+> @@ -0,0 +1,94 @@
+> +# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool
+> upgrade'.
+> +# The following is the difference between the old and the new
+> license text.
+> +# Please update the LICENSE value if needed, and summarize the
+> changes in
+> +# the commit message via 'License-Update:' tag.
+> +# (example: 'License-Update: copyright years updated.')
+> +#
+> +# The changes:
+> +#
+> +# --- COPYING
+> +# +++ COPYING
+> +# @@ -1,7 +1,7 @@
+> +#                      GNU GENERAL PUBLIC LICENSE
+> +#                         Version 3, 29 June 2007
+> +#  
+> +# - Copyright (C) 2007 Free Software Foundation, Inc. <
+> http://fsf.org/>
+> +# + Copyright (C) 2007 Free Software Foundation, Inc. <
+> https://fsf.org/>
+> +#   Everyone is permitted to copy and distribute verbatim copies
+> +#   of this license document, but changing it is not allowed.
+> +#  
+> +# @@ -645,7 +645,7 @@
+> +#      GNU General Public License for more details.
+> +#  
+> +#      You should have received a copy of the GNU General Public
+> License
+> +# -    along with this program.  If not, see <
+> http://www.gnu.org/licenses/>;.
+> +# +    along with this program.  If not, see <
+> https://www.gnu.org/licenses/>;.
+> +#  
+> +#  Also add information on how to contact you by electronic and
+> paper mail.
+> +#  
+> +# @@ -664,11 +664,11 @@
+> +#    You should also get your employer (if you work as a programmer)
+> or school,
+> +#  if any, to sign a "copyright disclaimer" for the program, if
+> necessary.
+> +#  For more information on this, and how to apply and follow the GNU
+> GPL, see
+> +# -<http://www.gnu.org/licenses/>;.
+> +# +<https://www.gnu.org/licenses/>;.
+> +#  
+> +#    The GNU General Public License does not permit incorporating
+> your program
+> +#  into proprietary programs.  If your program is a subroutine
+> library, you
+> +#  may consider it more useful to permit linking proprietary
+> applications with
+> +#  the library.  If this is what you want to do, use the GNU Lesser
+> General
+> +#  Public License instead of this License.  But first, please read
+> +# -<http://www.gnu.org/philosophy/why-not-lgpl.html>;.
+> +# +<https://www.gnu.org/licenses/why-not-lgpl.html>;.
+> +# --- COPYING.LESSER
+> +# +++ COPYING.LESSER
+> +# @@ -1,7 +1,7 @@
+> +# -		   GNU LESSER GENERAL PUBLIC LICENSE
+> +# +                   GNU LESSER GENERAL PUBLIC LICENSE
+> +#                         Version 3, 29 June 2007
+> +#  
+> +# - Copyright (C) 2007 Free Software Foundation, Inc. <
+> http://fsf.org/>
+> +# + Copyright (C) 2007 Free Software Foundation, Inc. <
+> https://fsf.org/>
+> +#   Everyone is permitted to copy and distribute verbatim copies
+> +#   of this license document, but changing it is not allowed.
+> +#  
+> +# @@ -10,7 +10,7 @@
+> +#  the terms and conditions of version 3 of the GNU General Public
+> +#  License, supplemented by the additional permissions listed below.
+> +#  
+> +# -  0. Additional Definitions. 
+> +# +  0. Additional Definitions.
+> +#  
+> +#    As used herein, "this License" refers to version 3 of the GNU
+> Lesser
+> +#  General Public License, and the "GNU GPL" refers to version 3 of
+> the GNU
+> +# @@ -111,7 +111,7 @@
+> +#         a copy of the Library already present on the user's
+> computer
+> +#         system, and (b) will operate properly with a modified
+> version
+> +#         of the Library that is interface-compatible with the
+> Linked
+> +# -       Version. 
+> +# +       Version.
+> +#  
+> +#     e) Provide Installation Information, but only if you would
+> otherwise
+> +#     be required to provide such information under section 6 of the
+> +# 
+> +#
 
-Extend the do_package_write_rpm code to handle writing the src.rpm into
-place to avoid these issues. There are other problems but this avoids races
-around this file.
+Could we fix the FIXME please? :)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/archiver.bbclass    | 6 ++++++
- meta/classes/package_rpm.bbclass | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index e321a0e3621..af9f010dfc4 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -37,8 +37,11 @@ ARCHIVER_MODE[recipe] ?= "0"
- DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
- ARCHIVER_TOPDIR ?= "${WORKDIR}/deploy-sources"
- ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
-+ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
-+ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
- ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
- 
-+
- do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
- do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
- do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
-@@ -117,6 +120,9 @@ python () {
-     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == "1" and d.getVar('PACKAGES'):
-         if "package_rpm" in d.getVar('PACKAGE_CLASSES'):
-             d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_package_write_rpm' % pn)
-+            d.appendVarFlag('do_package_write_rpm', 'dirs', ' ${ARCHIVER_RPMTOPDIR}')
-+            d.appendVarFlag('do_package_write_rpm', 'sstate-inputdirs', ' ${ARCHIVER_RPMTOPDIR}')
-+            d.appendVarFlag('do_package_write_rpm', 'sstate-outputdirs', ' ${DEPLOY_DIR_SRC}')
-             if ar_dumpdata == "1":
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_dumpdata' % pn)
-             if ar_recipe == "1":
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 5dafb3e7cb6..1a64cb271ac 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -694,7 +694,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
-     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
-         cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
--        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_OUTDIR') + "'"
-+        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
-         cmdsrpm = cmdsrpm + " -bs " + outspecfile
-         # Build the .src.rpm
-         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
--- 
-2.20.1
+Richard
+
 
 
