@@ -1,52 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C6627C31A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 856BC6BA22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 06:27:39 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id l11so10847596qtp.0
+	Thu,  7 Feb 2019 09:00:52 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z5so5221257wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Feb 2019 22:27:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2Tn+kHbyKW3v/aWOuW/AlHAfrKXAvGHbW3VtH7IOubQ=;
-	b=i6noAUvawMQR+hR8AbAwjU7OO3WceSPigtV1T8iNLpySR6iZudd1U7x0i48y8asiKf
-	qfWDwQ0TIc6cVkKU5sWEKZn0W6H4B3SrlHmIueNS1V/De8HGsOJd6TGl5Ra0jcGFWOpK
-	e5DGiBwhpyMFFnV2cqFqbJeTxp138SXubDH5OCwkB39mRSpXb+b+TIQjgTBlCk29pWls
-	DH3mMxoF0m2qxPy+cCWGPx8m5UFoKhKjapBg5vNd1Ur8v54uk18GFdNDkCpPL77jBpzU
-	758QH0wd8AM66s2Mo67iP2nRA9aeKbZ+71o0Cee6ujbZ9r9+QP87BAa802wmTLmln2Zj
-	T/LQ==
+	Thu, 07 Feb 2019 01:00:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=tjmLP0/ePX47cBDByQ3Db/oWlUVxM2x/6vot1cuue2w=;
+	b=JO55kvKD1wlPtr2Rhbox2MR9R2Ll5Ehv92Zj1xWI1pYl8nwfGYH7FESDq3pgBIFdB3
+	m4DgzQUcHaOeY8/uCYpx+tDTxcrkAtRqYmksxAik4PbQnxWhRfAYs/QIWfU1GEx1H9n0
+	0WGHRO0lTrWn0296AWqSjH5ywSVM9xQM2PgiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2Tn+kHbyKW3v/aWOuW/AlHAfrKXAvGHbW3VtH7IOubQ=;
-	b=LHN6xRq5+1Lkd/4ELUxvhDNdcgsz0SWAWP+1AfUmI4bAa5a5qfsgZzYYE+CVgX2N5p
-	RgwQZVTek9/fLwVCsLX37Pt+BeNVrhIS0/R4IknWvdhP9wden6IzgVH+PVl8W4WVd5lB
-	VsD2iDAov0qYvvzROVB2kQF4k2gS8eCkF9xerNN0mEeJdbShc4mP0ToTDpchVVjxtpsE
-	h5V59lYICBX52fv7+vRGh9Ql4hHgYKd2q/ES7xiUXhadh8R262UlWns7Xw+3cQrmxx/q
-	2x5Rh7xyTzGe6jrIfHLENEBvI3ymKEGFhcfQ6WGKGB1onyHFTcBVxCio/ldwz5P/2Eug
-	J1fg==
-X-Gm-Message-State: AHQUAuad4uhuxtu415otU2RTUqPvQHIXRWiVk2A1j8XT/SZlay5gydsP
-	q0tjdwcpL126BKjCSiGOXAkogw7jzom9odN6H+s=
-X-Google-Smtp-Source: AHgI3IZbx6xHTBtXgy57FVLNyWGE/HSbD0p9HfsmR7bvVrCB8cAbupYVuxjQJCqM6QW0mPOleg6AY6gWiDOOdJuosrw=
-X-Received: by 2002:ac8:2562:: with SMTP id 31mr2140720qtn.253.1549520860604; 
-	Wed, 06 Feb 2019 22:27:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20190205003627.4454-1-raj.khem@gmail.com>
-	<CAO5Uq5RAbDD9KRQhXT2osH_ivYvskAMRMj82yq3RB8Zr0QdF8w@mail.gmail.com>
-	<CAMKF1srzx8nQXUH8BxYJ_-oAfN+mfPryiGLgGRjh4ey+o07DnA@mail.gmail.com>
-	<CAO5Uq5QO=c6eZRuU3Ew-_AEN0-EagqPX+2Ld_yhKLFb1Ztb6WA@mail.gmail.com>
-	<CAMKF1soYBT9-3_GKcAcf9EnL8ZkVmgxjVEho72HugQ4=abLEDw@mail.gmail.com>
-	<CAO5Uq5QwD3m6AHXrZKY=Q1EDD9t9Q-XviB8voybAcYX3V0Abow@mail.gmail.com>
-In-Reply-To: <CAO5Uq5QwD3m6AHXrZKY=Q1EDD9t9Q-XviB8voybAcYX3V0Abow@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Feb 2019 22:27:13 -0800
-Message-ID: <CAMKF1sru_=kBzWJ3eXby_bBsej0SpZA_9nXj4ALxZiBYgA+yNA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/2] multilib_header_wrapper.h: Use #pragma once
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=tjmLP0/ePX47cBDByQ3Db/oWlUVxM2x/6vot1cuue2w=;
+	b=F+mcrWYhoK+P8pgDjulSyKnoln4cc+28WZGBW1wLMdwlEVES6O9gxTAZc/50j1Mk1+
+	UQLg8PglAPqnUnXfIjscgshsaO6fVHbbvY8Gx5FHcd16J8H5SSfylmQX5gFFZOF6Zquh
+	8/VMvMbJbOgz2pxerVn5ss6iRDRUlR9iXwNoJrpQFyH9H3Trpy0/mkq7/tKzB4L2j9TN
+	0aJmGR2DmKgk9aDLQJT5Wlx0I5fIKnM9GvWRFy7VrF8CYN+QzGqtCkRoJT297goRtR1m
+	fAwCEv49UJjcMqzLDcOx7RfTRcnofifsJNHa4EUx73aciYOd6/jZzdZ0kw81kmz9ejWX
+	Uu6Q==
+X-Gm-Message-State: AHQUAuY+xnuffCKamApSvy/O/9flWvkc2nzX0txlcCEqdVVOx/H8Cn1M
+	VTVRbR9H8/T2OlglMpkNi/qVj/uFwFo=
+X-Google-Smtp-Source: AHgI3IZpmAztL/jzSkoRCEuqB+XkQMVcR/BHgzU3jvMhj0klZe3rf5TpEpvpaHbVoOahzximI0wXAA==
+X-Received: by 2002:a05:600c:2143:: with SMTP id
+	v3mr5091687wml.120.1549530052855; 
+	Thu, 07 Feb 2019 01:00:52 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id e2sm6230349wrw.35.2019.02.07.01.00.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 07 Feb 2019 01:00:51 -0800 (PST)
+Message-ID: <88a02e81ed831ed4fba8adbd9e18f1a35dbf098d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 07 Feb 2019 09:00:50 +0000
+In-Reply-To: <20190207003537.7135-1-raj.khem@gmail.com>
+References: <20190207003537.7135-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,96 +57,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 06:27:40 -0000
+X-List-Received-Date: Thu, 07 Feb 2019 09:00:52 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Please try the patch I posted for openssl10 and report back
-https://patchwork.openembedded.org/patch/158573/
+On Wed, 2019-02-06 at 16:35 -0800, Khem Raj wrote:
+> This has been a constant source of trouble for build failures due to host-user-contaminated QA
+> errors of sort
+> 
+> ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+> 
+> So far we have tried to mould cp command into not carrying the build
+> user permissions into install area but it is never entirely fixed since
+> the issue keeps popping up in various scenes
+> 
+> This patch replaces use of cp with install utility and specifies install
+> mode for files explcitly
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++----------
+>  1 file changed, 25 insertions(+), 19 deletions(-)
+> 
+> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+> index 6384f9cbf1..9b256a5108 100644
+> --- a/meta/recipes-core/glibc/glibc-locale.inc
+> +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> @@ -72,27 +72,33 @@ FILES_localedef = "${bindir}/localedef"
+>  LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+>  
+>  do_install () {
+> -	mkdir -p ${D}${bindir} ${D}${datadir}
+> -	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+> -	fi
+> -	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+> -		mkdir -p ${D}${localedir}
+> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
+> -	fi
+> +        install -d ${D}${bindir}
+> +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
+> +        -exec install -m 0755 -t "${D}${bindir}" {} \;
+> +
+> +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d -printf '%P ') ; do
+> +                install -d "${D}${localedir}/$d"
+> +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1 -type f \
+> +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
+> +        done
+>  	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+> -		mkdir -p ${D}${libdir}
+> -		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+> -			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+> -		fi
+> -		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+> -			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+> -		fi
+> -	fi
+> -	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
+> +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv" -type d -printf '%P ') ; do
+> +                        install -d "${D}${libdir}/gconv/$d"
+> +                        find "${LOCALETREESRC}/${libdir}/gconv/$d" -maxdepth 1 -type f \
+> +                        -exec install -m 0755 -t "${D}${libdir}/gconv/$d" {} \;
+> +                done
+> +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n" -type d -printf '%P ') ; do
+> +                        install -d "${D}${datadir}/i18n/$d"
+> +                        find "${LOCALETREESRC}/${datadir}/i18n/$d" -maxdepth 1 -type f \
+> +                        -exec install -m 0644 -t "${D}${datadir}/i18n/$d" {} \;
+> +                done
+>  	fi
+> -	cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+> +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type d -printf '%P ') ; do
+> +                install -d "${D}${datadir}/locale/$d"
+> +                find "${LOCALETREESRC}/${datadir}/locale/$d" -maxdepth 1 -type f \
+> +                -exec install -m 0644 -t "${D}${datadir}/locale/$d" {} \;
+> +        done
+> +	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+>  }
+>  
+>  inherit libc-package
 
-On Wed, Feb 6, 2019 at 1:49 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Wed, Feb 6, 2019 at 9:23 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Wed, Feb 6, 2019 at 12:58 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > >
-> > > On Wed, Feb 6, 2019 at 8:50 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > >
-> > > > On Wed, Feb 6, 2019 at 12:41 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > > > >
-> > > > > On Tue, Feb 5, 2019 at 12:36 AM Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > >
-> > > > > > Avoid infinite include loops, especially with bits/wordsize.h which is
-> > > > > > now possible with the synthesized headers since we now also synthesize
-> > > > > > bits/wordsize.h itelf for some arches e.g. arm/aarch64
-> > > > > >
-> > > > > > In cases where extra preprocessing tools are used such as clang-tidy
-> > > > > > e.g. and these tools are not passed the knowledge about architecture
-> > > > > > then case comes where we enter into header include loop for
-> > > > > > bits/wordsize.h, since this template does explicitly include
-> > > > > > bits/wordsize.h
-> > > > > >
-> > > > > > To fix this emits the pragma once at beginning of file, this is better
-> > > > > > solution than include guards, and pragma once is practically supported
-> > > > > > on all compilers except few e.g. cray c/c++ compiler
-> > > > > >
-> > > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > >
-> > > > > Something about this is breaking a local recipe (for tlsdate fwiw, but
-> > > > > I don't think that's relevant):
-> > > > >
-> > > > > | checking openssl/ssl.h usability... no
-> > > > > | checking openssl/ssl.h presence... yes
-> > > > > | configure: WARNING: openssl/ssl.h: present but cannot be compiled
-> > > > > | configure: WARNING: openssl/ssl.h:     check for missing prerequisite headers?
-> > > > > | configure: WARNING: openssl/ssl.h: see the Autoconf documentation
-> > > > > | configure: WARNING: openssl/ssl.h:     section "Present But Cannot
-> > > > > Be Compiled"
-> > > > > | configure: WARNING: openssl/ssl.h: proceeding with the compiler's result
-> > > > > | configure: WARNING:     ## ------------------------------------- ##
-> > > > > | configure: WARNING:     ## Report this to jacob at appelbaum.net ##
-> > > > > | configure: WARNING:     ## ------------------------------------- ##
-> > > > > | checking for openssl/ssl.h... no
-> > > > > | configure: error: OpenSSL is not installed, openssl/sslh is missing
-> > > > >
-> > > > > Somehow it's not getting the definition for THIRTY_TWO_BIT from
-> > > > > openssl/opensslconf.h (from openssl10) when testing for openssl/ssl.h
-> > > > > so BN_ULONG ends up undefined... still digging as to what's going on.
-> > > > >
-> > > >
-> > > > thanks, is it using openssl10 ?
-> > > >
-> > >
-> > > It is... I'm sure that's relevant, but I'm failing to spot it.
-> > >
-> >
-> > so where all do you have opensslconf.h in target sysroot ?
-> >
->
-> $ find tmp -name opensslconf.h -ls
->   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
-> 11:40 tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/include/openssl/opensslconf.h
->   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
-> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/tlsdate/0.0.13+gitAUTOINC+751f82dc6f-r0/recipe-sysroot/usr/include/openssl/opensslconf.h
->   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
-> 11:40 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/recipe-sysroot-native/usr/include/openssl/opensslconf.h
->   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
-> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/sysroot-destdir/usr/include/openssl/opensslconf.h
->   1574753      8 -rw-r--r--   1 vagrant  vagrant      7423 Feb  6
-> 21:30 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/crypto/opensslconf.h
->   1717763      4 -rw-r--r--   1 vagrant  vagrant      3201 Nov 20
-> 13:44 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/MacOS/opensslconf.h
->   1574836      0 lrwxrwxrwx   1 vagrant  vagrant        26 Feb  6
-> 21:30 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/include/openssl/opensslconf.h
-> -> ../../crypto/opensslconf.h
->   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
-> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/image/usr/include/openssl/opensslconf.h
->   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
-> 11:40 tmp/sysroots-components/x86_64/openssl-native/usr/include/openssl/opensslconf.h
->   1849804      4 -rw-r--r--   1 vagrant  vagrant      1971 Feb  6
-> 13:28 tmp/sysroots-components/armv7at2hf-neon/openssl/usr/include/openssl/opensslconf.h
->   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
-> 21:31 tmp/sysroots-components/armv7at2hf-neon/openssl10/usr/include/openssl/opensslconf.h
->
-> --
-> Alex Kiernan
+The trouble is this is a workaround. The cp commands should work and
+there is some underlying issue in pseudo causing this. We really need
+to figure out what that is since this will likely just mean we see the
+problem somewhere else :(
+
+I still suspect some kind of inode number reuse problem which these cp
+commands trigger...
+
+Cheers,
+
+Richard
+
 
