@@ -1,35 +1,23 @@
-Return-Path: <preid@electromag.com.au>
-X-Greylist: delayed 404 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 07 Feb 2019 02:39:14 UTC
-Received: from anchovy1.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
-	by mail.openembedded.org (Postfix) with ESMTP id F19E16BD08
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E3B096C0F1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 02:39:14 +0000 (UTC)
-Received: (qmail 23130 invoked by uid 5089); 7 Feb 2019 02:32:30 -0000
-Received: by simscan 1.2.0 ppid: 23071, pid: 23074, t: 0.0573s
-	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-Received: from unknown (HELO ?192.168.0.122?)
-	(preid@electromag.com.au@203.59.235.95)
-	by anchovy1.45ru.net.au with ESMTPA; 7 Feb 2019 02:32:30 -0000
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Andrej Valek <andrej.valek@siemens.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20181207120605.11344-1-richard.purdie@linuxfoundation.org>
-	<20181207120605.11344-2-richard.purdie@linuxfoundation.org>
-	<fae0fb29acedc0c26cf9d5860e053d1427316cb8.camel@linuxfoundation.org>
-	<857809ce-49de-16c2-f26d-805acc3601c2@siemens.com>
-	<31abffa69bca5ee313a7d6c30dd7fc06011a14e5.camel@linuxfoundation.org>
-	<8ac88775-35f9-e3f6-a0c6-f218aa697e70@siemens.com>
-	<81618ab958486def551d22764d960944fb09b73d.camel@linuxfoundation.org>
-From: Phil Reid <preid@electromag.com.au>
-Message-ID: <b269e78b-ebc9-751a-1253-dacf881f0a36@electromag.com.au>
-Date: Thu, 7 Feb 2019 10:32:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.0
-MIME-Version: 1.0
-In-Reply-To: <81618ab958486def551d22764d960944fb09b73d.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
+	Thu,  7 Feb 2019 05:57:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Feb 2019 21:57:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,342,1544515200"; d="scan'208";a="131709102"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.100])
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Feb 2019 21:57:16 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Feb 2019 13:57:12 +0800
+Message-Id: <20190207055714.25880-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] libva: upgrade 2.3.0 -> 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 02:39:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-AU
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Feb 2019 05:57:17 -0000
 
-On 3/01/2019 9:59 pm, Richard Purdie wrote:
-> On Mon, 2018-12-31 at 20:56 +0100, Andrej Valek wrote:
->> Your previous solution is working for me, so I was not working on
->> fixing
->> this. I thought, that You will just add missing packages, and that
->> is.
->> I don't have setup for failing machine.
->>
->> Is there any simple way to get all missing perl packages?
-> 
-> I reworked the patch a bit, tested and just merged a working version of
-> it:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d4e27863f3874fb7dc543eed8dcf6a8c4d146fb5
-> 
-> Cheers,
-> 
-> Richard
-> 
+For changes, see:
 
-This patch seems to trigger the following new warning for me during populate_sdk
+https://github.com/intel/libva/releases
 
-Collected errors:
-  * Solver encountered 1 problem(s):
-  * Problem 1/1:
-  *   - package busybox-dev-1.29.2-r0.4.cortexa9t2hf-neon requires busybox = 1.29.2-r0.4, but none of the providers can be installed
-  *
-  * Solution 1:
-  *   - allow deinstallation of target-sdk-provides-dummy-1.0-r0.9.sdk-provides-dummy-target
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../recipes-graphics/libva/{libva_2.3.0.bb => libva_2.4.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libva/{libva_2.3.0.bb => libva_2.4.0.bb} (92%)
 
-  *   - do not ask to install a package providing target-sdk-provides-dummy-dev
-
-  * Solution 2:
-  *   - do not ask to install a package providing busybox-dev
-
-
-Not sure what is request busybox-dev to be istalled in the sdk.
-Any thoughts?
-
-
-
+diff --git a/meta/recipes-graphics/libva/libva_2.3.0.bb b/meta/recipes-graphics/libva/libva_2.4.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/libva/libva_2.3.0.bb
+rename to meta/recipes-graphics/libva/libva_2.4.0.bb
+index 4aab5269aa..ffa1ab8f7b 100644
+--- a/meta/recipes-graphics/libva/libva_2.3.0.bb
++++ b/meta/recipes-graphics/libva/libva_2.4.0.bb
+@@ -19,8 +19,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+ 
+ SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "2555c46075ab2f6128f39902ba1c6183"
+-SRC_URI[sha256sum] = "60840e50da6932ee2111e15fc8911180ff8a0d6f18bb9cc6ba8c1030098fdce4"
++SRC_URI[md5sum] = "cfc69c2a5f526dd1858e098fb8eebfa6"
++SRC_URI[sha256sum] = "99263056c21593a26f2ece812aee6fe60142b49e6cd46cb33c8dddf18fc19391"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+ 
 -- 
-Regards
-Phil Reid
+2.17.1
+
 
