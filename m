@@ -1,27 +1,44 @@
-Return-Path: <josh@mechbits.com>
-Received: from cdptpa-cmomta03.email.rr.com (cdptpa-outbound-snat.email.rr.com
-	[107.14.166.225])
-	by mail.openembedded.org (Postfix) with ESMTP id 143F27C405
+Return-Path: <prvs=39412d319b=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id D48156BE3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 15:03:05 +0000 (UTC)
-Received: from snapy.mechbits.com ([98.29.227.47]) by cmsmtp with ESMTP
-	id rlCigTXSJZ3EkrlCkg97kJ; Thu, 07 Feb 2019 15:03:06 +0000
-Received: from josh by snapy.mechbits.com with local (Exim 4.89)
-	(envelope-from <josh@mechbits.com>)
-	id 1grlCh-0007Tx-TD; Thu, 07 Feb 2019 10:03:03 -0500
-From: Joshua DeWeese <josh.deweese@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Thu,  7 Feb 2019 10:03:02 -0500
-Message-Id: <20190207150302.28682-1-josh.deweese@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
-References: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
-X-CMAE-Envelope: MS4wfFyXOfEkmKBapbbyXtRfvp77cC5tVZnqLpwMRCiM+CzaOQzLHz8k1yAUqBFmpzLQx/i0NthW+WiR6wbxKxHfH1vKefIUgDIULGZONc1otGAS9JQeFN0L
-	duwu5P37F97Bxh+vS1v0POv8d04DL9ijv4wZX3k3TZUIjOCIpun7jUCYw77sMZsVREpwn4DfqB9G/OyJXmmUjZ1V3ow+2jLS4iHwcjzSjhbOwD4ghLNzNeh9
-	xrAuB6qqVDHqOAUsrMzXgA==
-Cc: Joshua DeWeese <jdeweese@hennypenny.com>
-Subject: [PATCH] wpa_supplicant: Changed systemd template units
+	Thu,  7 Feb 2019 15:58:01 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x17FuJq3027078 for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Feb 2019 09:58:03 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2qfumjvv3s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Feb 2019 09:58:03 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com
+	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
+	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	x17Fw25V006178
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Feb 2019 09:58:02 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 7 Feb 2019 09:58:01 -0600
+Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Thu, 7 Feb 2019 09:58:01 -0600
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Feb 2019 09:57:59 -0600
+Message-ID: <20190207155759.6082-4-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190207155759.6082-1-alejandro.delcastillo@ni.com>
+References: <20190207155759.6082-1-alejandro.delcastillo@ni.com>
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-02-07_11:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH 3/3] OpkgPM: use --add-ignore-recommends to process BAD_RECOMMENDATIONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,117 +51,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 15:03:06 -0000
+X-List-Received-Date: Thu, 07 Feb 2019 15:58:02 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Joshua DeWeese <jdeweese@hennypenny.com>
+Currently, BAD_RECOMMENDATIONS on the opkg backed relies on editing the
+opkg status file (it sets BAD_RECOMMENDATIONS pkg want state to
+deinstalled and pinned). This is brittle, and not consistent across the
+different solver backends. Use new --add-ignore-recommends flag instead.
 
-I goofed up the scissor line on the last attempt. Not sure how much it matters,
-but here it is correct this time.
-
-Here it is, updated to work with wpa-supplicant_2.6.bb.
-
--- >8 --
-https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
-
-When building root filesystems with any of the wpa_supplicant systemd
-template service files enabled (current default is to have them disabled) the
-systemd-native-fake script would not process the line:
-
-Alias=multi-user.target.wants/wpa_supplicant@%i.service
-
-appropriately due the the use of "%i."
-
-According to the systemd documentation "WantedBy=foo.service in a service
-bar.service is mostly equivalent to Alias=foo.service.wants/bar.service in
-the same file." However, this is not really the intended purpose of install
-Aliases.
-
-All lines of the form:
-
-Alias=multi-user.target.wants/*%i.service
-
-Were replaced with the following lines:
-
-WantedBy=multi-user.target
-
-Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 ---
- ...place-systemd-install-Alias-with-WantedBy.patch | 52 ++++++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+ meta/lib/oe/package_manager.py | 41 ++--------------------------------
+ meta/lib/oe/rootfs.py          |  2 --
+ 2 files changed, 2 insertions(+), 41 deletions(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
-new file mode 100644
-index 0000000000..a476cf040e
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
-@@ -0,0 +1,52 @@
-+From 94c401733a5a3d294cc412671166e6adfb409f53 Mon Sep 17 00:00:00 2001
-+From: Joshua DeWeese <jdeweese@hennypenny.com>
-+Date: Wed, 30 Jan 2019 16:19:47 -0500
-+Subject: [PATCH] replace systemd install Alias with WantedBy
-+
-+According to the systemd documentation "WantedBy=foo.service in a
-+service bar.service is mostly equivalent to
-+Alias=foo.service.wants/bar.service in the same file." However,
-+this is not really the intended purpose of install Aliases.
-+
-+Upstream-Status: Submitted [hostap@lists.infradead.org]
-+
-+Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
-+---
-+ wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in | 2 +-
-+ wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in   | 2 +-
-+ wpa_supplicant/systemd/wpa_supplicant.service.arg.in         | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-+index 03ac507..da69a87 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-nl80211-%I.conf -Dnl80211 -i%I
-+ 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant-nl80211@%i.service
-++WantedBy=multi-user.target
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-+index c8a744d..ca3054b 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-wired-%I.conf -Dwired -i%I
-+ 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant-wired@%i.service
-++WantedBy=multi-user.target
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-+index 7788b38..55d2b9c 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I
-+ 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant@%i.service
-++WantedBy=multi-user.target
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-index aa4c4c2da0..c92ed4ab93 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://key-replay-cve-multiple7.patch \
-            file://key-replay-cve-multiple8.patch \
-            file://wpa_supplicant-CVE-2018-14526.patch \
-+           file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
-           "
- SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
- SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f26f597d03..7e7d7db083 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1339,6 +1339,8 @@ class OpkgPM(OpkgDpkgPM):
+         cmd = "%s %s" % (self.opkg_cmd, self.opkg_args)
+         for exclude in (self.d.getVar("PACKAGE_EXCLUDE") or "").split():
+             cmd += " --add-exclude %s" % exclude
++        for bad_recommendation in (self.d.getVar("BAD_RECOMMENDATIONS") or "").split():
++            cmd += " --add-ignore-recommends %s" % bad_recommendation
+         cmd += " install "
+         cmd += " ".join(pkgs)
+ 
+@@ -1407,45 +1409,6 @@ class OpkgPM(OpkgDpkgPM):
+     def list_installed(self):
+         return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
+ 
+-    def handle_bad_recommendations(self):
+-        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS") or ""
+-        if bad_recommendations.strip() == "":
+-            return
+-
+-        status_file = os.path.join(self.opkg_dir, "status")
+-
+-        # If status file existed, it means the bad recommendations has already
+-        # been handled
+-        if os.path.exists(status_file):
+-            return
+-
+-        cmd = "%s %s info " % (self.opkg_cmd, self.opkg_args)
+-
+-        with open(status_file, "w+") as status:
+-            for pkg in bad_recommendations.split():
+-                pkg_info = cmd + pkg
+-
+-                try:
+-                    output = subprocess.check_output(pkg_info.split(), stderr=subprocess.STDOUT).strip().decode("utf-8")
+-                except subprocess.CalledProcessError as e:
+-                    bb.fatal("Cannot get package info. Command '%s' "
+-                             "returned %d:\n%s" % (pkg_info, e.returncode, e.output.decode("utf-8")))
+-
+-                if output == "":
+-                    bb.note("Ignored bad recommendation: '%s' is "
+-                            "not a package" % pkg)
+-                    continue
+-
+-                for line in output.split('\n'):
+-                    if line.startswith("Status:"):
+-                        status.write("Status: deinstall hold not-installed\n")
+-                    else:
+-                        status.write(line + "\n")
+-
+-                # Append a blank line after each package entry to ensure that it
+-                # is separated from the following entry
+-                status.write("\n")
+-
+     def dummy_install(self, pkgs):
+         """
+         The following function dummy installs pkgs and returns the log of output.
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 551dcfc75f..cf5cd996a2 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -891,8 +891,6 @@ class OpkgRootfs(DpkgOpkgRootfs):
+ 
+         self.pm.update()
+ 
+-        self.pm.handle_bad_recommendations()
+-
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
 -- 
-2.11.0
+2.20.1
 
 
