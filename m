@@ -1,48 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D5A7C3A1
+Return-Path: <josh@mechbits.com>
+Received: from cdptpa-cmomta03.email.rr.com (cdptpa-outbound-snat.email.rr.com
+	[107.14.166.225])
+	by mail.openembedded.org (Postfix) with ESMTP id 143F27C405
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 14:53:35 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id v11so153964qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2019 06:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/yPrhBgNZbbvl42SVSd11Kgii4cpjuym8NURJbnvaZY=;
-	b=TVYMzgOOoXN8nUKMdplI/BcrUMKA+kuwh81sJk4eMDGdpwmDmuyxL+t89npIYb1ho7
-	HaY5EfWat3dGu8lBh8SUwUWkmALwdn/4TmLVrSgVkQ5sfslrluftbQrGHU48kukbbCS5
-	n+EJq90QtquEH/9jeQquZcQ02p05c1qQaqr/XX3VoGhXR604WR9gHXtWcnFfb+hFJesJ
-	ZgqP/oh6JNsyuQUrB3PnzfZmITqaYGFw0X5o++tJMpiR13ykbnRCCcGeSJpssfgmtH4L
-	fMHiwDShtLk/tr2GdErl61FB7M2O11UvQeRc4Z1hNsBdq14xYfRjvYaH2RPQuNxorFBI
-	yNkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=/yPrhBgNZbbvl42SVSd11Kgii4cpjuym8NURJbnvaZY=;
-	b=LyJRZreRG54cgZW66uXYHKGQElljbHFERWmH6Z/F4YH5RgFyqrjnZe+aG3KeCM6c7d
-	uoLrrUfq1ax2THcQ0xfevdde+Uste7VMH1WQeQUr+U5dy6BMcoyEMZSriWc7X6CWtpYs
-	RyXenOlfdq48Pqz6rf5wuhOSveGaY/VdCXXhq75HTbaCjL9evvDLiWyrLO1N3Lm9bAxG
-	A/pblo30MUxtIdkQfYVV61L4YlGyPFR/2B0Wbbo+S4Rokz18G9JS6tiZu8YXDAhwTSWo
-	ceCTNZgkBWK4OgM8/qFLu2GyYJumfQzPoU4NV3ejXxGoWInzvmT223S4oPoFHW7HuwY9
-	Gmtw==
-X-Gm-Message-State: AHQUAuayBQNk4hQHH0mJwDGq5JAWtwIdhEKBdsV5uzkC+EnTujGEcd/P
-	FY6chLAxOeNWUM7Zyu9RZD8jiwUaWlGiflIGE+2GTQ==
-X-Google-Smtp-Source: AHgI3IY+a7ChA3zAk5fpt+BPnwz/rgRObUU06mHVRRomGN5YM2fd6Q2Rzzfw/KdvHxyfL2ft/p8bYkwg0fuUWxTfIXM=
-X-Received: by 2002:ac8:300a:: with SMTP id f10mr1954756qte.236.1549551216869; 
-	Thu, 07 Feb 2019 06:53:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20190207003537.7135-1-raj.khem@gmail.com>
-	<58853c532317426d98d4b4a641a87780@XBOX04.axis.com>
-In-Reply-To: <58853c532317426d98d4b4a641a87780@XBOX04.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Feb 2019 06:53:12 -0800
-Message-ID: <CAMKF1soXc=CEgXTBgcZWMFTfu6iDfHmPFyB92RGJ=PpCbAYdmg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
+	Thu,  7 Feb 2019 15:03:05 +0000 (UTC)
+Received: from snapy.mechbits.com ([98.29.227.47]) by cmsmtp with ESMTP
+	id rlCigTXSJZ3EkrlCkg97kJ; Thu, 07 Feb 2019 15:03:06 +0000
+Received: from josh by snapy.mechbits.com with local (Exim 4.89)
+	(envelope-from <josh@mechbits.com>)
+	id 1grlCh-0007Tx-TD; Thu, 07 Feb 2019 10:03:03 -0500
+From: Joshua DeWeese <josh.deweese@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Thu,  7 Feb 2019 10:03:02 -0500
+Message-Id: <20190207150302.28682-1-josh.deweese@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
+References: <9a5432388d2f7cc7b3f8ec52814516a53df72b53.camel@linuxfoundation.org>
+X-CMAE-Envelope: MS4wfFyXOfEkmKBapbbyXtRfvp77cC5tVZnqLpwMRCiM+CzaOQzLHz8k1yAUqBFmpzLQx/i0NthW+WiR6wbxKxHfH1vKefIUgDIULGZONc1otGAS9JQeFN0L
+	duwu5P37F97Bxh+vS1v0POv8d04DL9ijv4wZX3k3TZUIjOCIpun7jUCYw77sMZsVREpwn4DfqB9G/OyJXmmUjZ1V3ow+2jLS4iHwcjzSjhbOwD4ghLNzNeh9
+	xrAuB6qqVDHqOAUsrMzXgA==
+Cc: Joshua DeWeese <jdeweese@hennypenny.com>
+Subject: [PATCH] wpa_supplicant: Changed systemd template units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,133 +34,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 14:53:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Feb 2019 15:03:06 -0000
 
-On Thu, Feb 7, 2019 at 3:44 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> > Sent: den 7 februari 2019 01:36
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
-> > install utility instead of cp
-> >
-> > This has been a constant source of trouble for build failures due to
-> > host-user-contaminated QA errors of sort
-> >
-> > ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-
-> > es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid
-> > 3004, which is the same as the user running bitbake. This may be due to
-> > host contamination [host-user-contaminated]
-> >
-> > So far we have tried to mould cp command into not carrying the build
-> > user permissions into install area but it is never entirely fixed since
-> > the issue keeps popping up in various scenes
-> >
-> > This patch replaces use of cp with install utility and specifies
-> > install mode for files explcitly
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++----------
-> >  1 file changed, 25 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-> > index 6384f9cbf1..9b256a5108 100644
-> > --- a/meta/recipes-core/glibc/glibc-locale.inc
-> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> > @@ -72,27 +72,33 @@ FILES_localedef = "${bindir}/localedef"
-> >  LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
-> >
-> >  do_install () {
-> > -     mkdir -p ${D}${bindir} ${D}${datadir}
-> > -     if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
-> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
-> > -     fi
-> > -     if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
-> > -             mkdir -p ${D}${localedir}
-> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
-> > -     fi
-> > +        install -d ${D}${bindir}
-> > +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
-> > +        -exec install -m 0755 -t "${D}${bindir}" {} \;
-> > +
-> > +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d -printf '%P ') ; do
-> > +                install -d "${D}${localedir}/$d"
-> > +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1 -type f \
-> > +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
-> > +        done
-> >       if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
-> > -             mkdir -p ${D}${libdir}
-> > -             if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
-> > -                     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
-> > -             fi
-> > -             if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
-> > -                     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
-> > -             fi
-> > -     fi
-> > -     if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
-> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
-> > +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv" -type d -printf '%P ') ; do
-> > +                        install -d "${D}${libdir}/gconv/$d"
-> > +                        find "${LOCALETREESRC}/${libdir}/gconv/$d" -maxdepth 1 -type f \
-> > +                        -exec install -m 0755 -t "${D}${libdir}/gconv/$d" {} \;
-> > +                done
-> > +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n" -type d -printf '%P ') ; do
-> > +                        install -d "${D}${datadir}/i18n/$d"
-> > +                        find "${LOCALETREESRC}/${datadir}/i18n/$d" -maxdepth 1 -type f \
-> > +                        -exec install -m 0644 -t "${D}${datadir}/i18n/$d" {} \;
-> > +                done
-> >       fi
-> > -     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
-> > +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type d -printf '%P ') ; do
-> > +                install -d "${D}${datadir}/locale/$d"
-> > +                find "${LOCALETREESRC}/${datadir}/locale/$d" -maxdepth 1 -type f \
-> > +                -exec install -m 0644 -t "${D}${datadir}/locale/$d" {} \;
-> > +        done
-> > +     install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
-> >  }
-> >
-> >  inherit libc-package
-> > --
-> > 2.20.1
->
-> May I suggest using a help function to simplify the code a lot:
->
-> copy_locale_files() {
->         local dir=$1 mode=$2
->
->         [ -e "${LOCALETREESRC}$dir" ] || return 0
->
->         for d in . $(find "${LOCALETREESRC}$dir" -type d -printf '%P '); do
->                 install -d ${D}$dir/$d
->                 find "${LOCALETREESRC}$dir/$d" -maxdepth 1 -type f \
->                      -exec install -m $mode -t "${D}$dir/$d" {} \;
->         done
-> }
->
-> do_install() {
->         copy_locale_files ${bindir} 0755
->         copy_locale_files ${localedir} 0644
->         if [ ${PACKAGE_NO_GCONV} -eq 0 ]; then
->                 copy_locale_files ${libdir}/gconv 0755
->                 copy_locale_files ${datadir}/i18n 0644
->         fi
->         copy_locale_files ${datadir}/locale 0644
->         install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
-> }
->
-> The code above is untested, but I think I got it reasonably correct.
-> Also note that I have restored the indentation to use tabs, and
-> turned the access to the ${PACKAGE_NO_GCONV} variable into a
-> simple variable instead of using d.getVar().
->
+From: Joshua DeWeese <jdeweese@hennypenny.com>
 
-thats a neat idea.  I will send a v2 with this
+I goofed up the scissor line on the last attempt. Not sure how much it matters,
+but here it is correct this time.
 
-> //Peter
->
+Here it is, updated to work with wpa-supplicant_2.6.bb.
+
+-- >8 --
+https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
+
+When building root filesystems with any of the wpa_supplicant systemd
+template service files enabled (current default is to have them disabled) the
+systemd-native-fake script would not process the line:
+
+Alias=multi-user.target.wants/wpa_supplicant@%i.service
+
+appropriately due the the use of "%i."
+
+According to the systemd documentation "WantedBy=foo.service in a service
+bar.service is mostly equivalent to Alias=foo.service.wants/bar.service in
+the same file." However, this is not really the intended purpose of install
+Aliases.
+
+All lines of the form:
+
+Alias=multi-user.target.wants/*%i.service
+
+Were replaced with the following lines:
+
+WantedBy=multi-user.target
+
+Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
+---
+ ...place-systemd-install-Alias-with-WantedBy.patch | 52 ++++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.6.bb           |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+new file mode 100644
+index 0000000000..a476cf040e
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+@@ -0,0 +1,52 @@
++From 94c401733a5a3d294cc412671166e6adfb409f53 Mon Sep 17 00:00:00 2001
++From: Joshua DeWeese <jdeweese@hennypenny.com>
++Date: Wed, 30 Jan 2019 16:19:47 -0500
++Subject: [PATCH] replace systemd install Alias with WantedBy
++
++According to the systemd documentation "WantedBy=foo.service in a
++service bar.service is mostly equivalent to
++Alias=foo.service.wants/bar.service in the same file." However,
++this is not really the intended purpose of install Aliases.
++
++Upstream-Status: Submitted [hostap@lists.infradead.org]
++
++Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
++---
++ wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in | 2 +-
++ wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in   | 2 +-
++ wpa_supplicant/systemd/wpa_supplicant.service.arg.in         | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
++index 03ac507..da69a87 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-nl80211-%I.conf -Dnl80211 -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant-nl80211@%i.service
+++WantedBy=multi-user.target
++diff --git a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
++index c8a744d..ca3054b 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-wired-%I.conf -Dwired -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant-wired@%i.service
+++WantedBy=multi-user.target
++diff --git a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
++index 7788b38..55d2b9c 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant@%i.service
+++WantedBy=multi-user.target
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+index aa4c4c2da0..c92ed4ab93 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://key-replay-cve-multiple7.patch \
+            file://key-replay-cve-multiple8.patch \
+            file://wpa_supplicant-CVE-2018-14526.patch \
++           file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
+           "
+ SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
+ SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+-- 
+2.11.0
+
 
