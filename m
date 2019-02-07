@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 27BDF7C32A
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C6627C31A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 06:25:34 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id n2so4081910pgm.3
+	Thu,  7 Feb 2019 06:27:39 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id l11so10847596qtp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Feb 2019 22:25:36 -0800 (PST)
+	Wed, 06 Feb 2019 22:27:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yDssCePUagdNrB5iPc4mOVHOpAVx2HwDq8YX/0I4Xgw=;
-	b=usgfvstp7g4vbYNGfuSTr19BC3VEdFsG6SACvSzPmUbkBhGGaXXeVDT4QkHDrvlaJD
-	UIqpnEyKdLczZg2hcU7BNQDpnBNx25IGN56BGOduCJFxy506+boPqOv1K7T90oDlZhg3
-	5cldsGmfDGyHRclAw6Jk+Afb85ThfL8GQkq52pzId4T1lcpPVaUq25smdV6NwhIzwznu
-	5K0K/79L89UFzs8FAxV2xx0NPbcJ5XhdaBVj3qN9wq91Hjo/ZsMoS0mld5VeL3zW6uWA
-	+TdiCHOOUyP183SZcaS/WyTlOQ9X4fIF+sxTKAw+AIQojlYenluS8zFchYwn2V9GGPZt
-	BT5Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2Tn+kHbyKW3v/aWOuW/AlHAfrKXAvGHbW3VtH7IOubQ=;
+	b=i6noAUvawMQR+hR8AbAwjU7OO3WceSPigtV1T8iNLpySR6iZudd1U7x0i48y8asiKf
+	qfWDwQ0TIc6cVkKU5sWEKZn0W6H4B3SrlHmIueNS1V/De8HGsOJd6TGl5Ra0jcGFWOpK
+	e5DGiBwhpyMFFnV2cqFqbJeTxp138SXubDH5OCwkB39mRSpXb+b+TIQjgTBlCk29pWls
+	DH3mMxoF0m2qxPy+cCWGPx8m5UFoKhKjapBg5vNd1Ur8v54uk18GFdNDkCpPL77jBpzU
+	758QH0wd8AM66s2Mo67iP2nRA9aeKbZ+71o0Cee6ujbZ9r9+QP87BAa802wmTLmln2Zj
+	T/LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yDssCePUagdNrB5iPc4mOVHOpAVx2HwDq8YX/0I4Xgw=;
-	b=EiP7H6UGU94+DiBTHRi+halvQYaJTDi9fHuXqAOXH2urGhUh1TElpJefFyAMDiCfhZ
-	vHo1TjiISWd3HpDd9tirxl6KIygd/qpLyyQA4JMz0afAezTwWr3Hdht2bN0veaqJDKnM
-	n9CcjeHwt/mPJw5ndIYri1Jx4PQiq/MZnzP29VqUVwrSmybHLTTWejUQeUsWlzOuq05A
-	2hlZqPiI7bdcP0SkeWGpgHp2eUwuUR1YKQV/Wvn9Wl1LVtVDzlDSDdIZ3zqsiISChf7f
-	9ZgZ2eskxEN0SUuejkdn3EaG4IscZqkp1o4/V+t3iiRR9Tj3LCMEbaoio168/7g1qS7D
-	7TDQ==
-X-Gm-Message-State: AHQUAuYbyhfBpJEqGs2Noc41Nl4LfAnjLgsW8tPAf1ZzzGrc0kGuXh3q
-	GJlj3ccPpwusD+i6HMBAfh8zl+No
-X-Google-Smtp-Source: AHgI3IbkUaIbf6A3iHWMnurrY/YBgMks5y8dGyu3MUhyk86Y368LBm/hXkYcIYT7Hcl9R03Vxm9erQ==
-X-Received: by 2002:a62:6e07:: with SMTP id j7mr14960464pfc.135.1549520735625; 
-	Wed, 06 Feb 2019 22:25:35 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::a005])
-	by smtp.gmail.com with ESMTPSA id
-	u70sm13294896pfa.176.2019.02.06.22.25.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Feb 2019 22:25:35 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Feb 2019 22:25:26 -0800
-Message-Id: <20190207062526.33944-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2Tn+kHbyKW3v/aWOuW/AlHAfrKXAvGHbW3VtH7IOubQ=;
+	b=LHN6xRq5+1Lkd/4ELUxvhDNdcgsz0SWAWP+1AfUmI4bAa5a5qfsgZzYYE+CVgX2N5p
+	RgwQZVTek9/fLwVCsLX37Pt+BeNVrhIS0/R4IknWvdhP9wden6IzgVH+PVl8W4WVd5lB
+	VsD2iDAov0qYvvzROVB2kQF4k2gS8eCkF9xerNN0mEeJdbShc4mP0ToTDpchVVjxtpsE
+	h5V59lYICBX52fv7+vRGh9Ql4hHgYKd2q/ES7xiUXhadh8R262UlWns7Xw+3cQrmxx/q
+	2x5Rh7xyTzGe6jrIfHLENEBvI3ymKEGFhcfQ6WGKGB1onyHFTcBVxCio/ldwz5P/2Eug
+	J1fg==
+X-Gm-Message-State: AHQUAuad4uhuxtu415otU2RTUqPvQHIXRWiVk2A1j8XT/SZlay5gydsP
+	q0tjdwcpL126BKjCSiGOXAkogw7jzom9odN6H+s=
+X-Google-Smtp-Source: AHgI3IZbx6xHTBtXgy57FVLNyWGE/HSbD0p9HfsmR7bvVrCB8cAbupYVuxjQJCqM6QW0mPOleg6AY6gWiDOOdJuosrw=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr2140720qtn.253.1549520860604; 
+	Wed, 06 Feb 2019 22:27:40 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] openssl10: Fix mutliple include assumptions for bn.h in opensslconf.h
+References: <20190205003627.4454-1-raj.khem@gmail.com>
+	<CAO5Uq5RAbDD9KRQhXT2osH_ivYvskAMRMj82yq3RB8Zr0QdF8w@mail.gmail.com>
+	<CAMKF1srzx8nQXUH8BxYJ_-oAfN+mfPryiGLgGRjh4ey+o07DnA@mail.gmail.com>
+	<CAO5Uq5QO=c6eZRuU3Ew-_AEN0-EagqPX+2Ld_yhKLFb1Ztb6WA@mail.gmail.com>
+	<CAMKF1soYBT9-3_GKcAcf9EnL8ZkVmgxjVEho72HugQ4=abLEDw@mail.gmail.com>
+	<CAO5Uq5QwD3m6AHXrZKY=Q1EDD9t9Q-XviB8voybAcYX3V0Abow@mail.gmail.com>
+In-Reply-To: <CAO5Uq5QwD3m6AHXrZKY=Q1EDD9t9Q-XviB8voybAcYX3V0Abow@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 6 Feb 2019 22:27:13 -0800
+Message-ID: <CAMKF1sru_=kBzWJ3eXby_bBsej0SpZA_9nXj4ALxZiBYgA+yNA@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/2] multilib_header_wrapper.h: Use #pragma once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +59,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 06:25:35 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Feb 2019 06:27:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-After adding #pragma once to wrapper header ( opensslconf.h ) this
-latent issue got to bite us, where it expect bn.h to be including
-openssl.h to define BN_* defines, which is fragile. This patch removes
-the contraints for nested includes for bn.h
+Please try the patch I posted for openssl10 and report back
+https://patchwork.openembedded.org/patch/158573/
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
- .../openssl/openssl10_1.0.2q.bb               |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-
-diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-new file mode 100644
-index 0000000000..13d39c918c
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-@@ -0,0 +1,33 @@
-+From 247b3188cde5f3347091cd54271127386d3aece0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 6 Feb 2019 22:10:33 -0800
-+Subject: [PATCH] Fix BN_LLONG breakage
-+
-+opensslconf.h is un-defining BN_LLONG only when included from bn.h which
-+is not robust at all, especially when include guards are used and
-+multiple inclusions of a given header is not allowed. so lets take out
-+the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
-+
-+Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ crypto/opensslconf.h.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
-+index 7a1c85d..a10c10f 100644
-+--- a/crypto/opensslconf.h.in
-++++ b/crypto/opensslconf.h.in
-+@@ -56,7 +56,7 @@
-+ #endif
-+ #endif
-+ 
-+-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
-++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
-+ #define CONFIG_HEADER_BN_H
-+ #undef BN_LLONG
-+ 
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-index 809634f6c0..88aefdea4f 100644
---- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-Fix-build-with-clang-using-external-assembler.patch \
-            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
-            file://0001-allow-manpages-to-be-disabled.patch \
-+           file://0001-Fix-BN_LLONG-breakage.patch \
-            "
- 
- SRC_URI_append_class-target = " \
--- 
-2.20.1
-
+On Wed, Feb 6, 2019 at 1:49 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> On Wed, Feb 6, 2019 at 9:23 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Wed, Feb 6, 2019 at 12:58 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > >
+> > > On Wed, Feb 6, 2019 at 8:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > >
+> > > > On Wed, Feb 6, 2019 at 12:41 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > > > >
+> > > > > On Tue, Feb 5, 2019 at 12:36 AM Khem Raj <raj.khem@gmail.com> wrote:
+> > > > > >
+> > > > > > Avoid infinite include loops, especially with bits/wordsize.h which is
+> > > > > > now possible with the synthesized headers since we now also synthesize
+> > > > > > bits/wordsize.h itelf for some arches e.g. arm/aarch64
+> > > > > >
+> > > > > > In cases where extra preprocessing tools are used such as clang-tidy
+> > > > > > e.g. and these tools are not passed the knowledge about architecture
+> > > > > > then case comes where we enter into header include loop for
+> > > > > > bits/wordsize.h, since this template does explicitly include
+> > > > > > bits/wordsize.h
+> > > > > >
+> > > > > > To fix this emits the pragma once at beginning of file, this is better
+> > > > > > solution than include guards, and pragma once is practically supported
+> > > > > > on all compilers except few e.g. cray c/c++ compiler
+> > > > > >
+> > > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > >
+> > > > > Something about this is breaking a local recipe (for tlsdate fwiw, but
+> > > > > I don't think that's relevant):
+> > > > >
+> > > > > | checking openssl/ssl.h usability... no
+> > > > > | checking openssl/ssl.h presence... yes
+> > > > > | configure: WARNING: openssl/ssl.h: present but cannot be compiled
+> > > > > | configure: WARNING: openssl/ssl.h:     check for missing prerequisite headers?
+> > > > > | configure: WARNING: openssl/ssl.h: see the Autoconf documentation
+> > > > > | configure: WARNING: openssl/ssl.h:     section "Present But Cannot
+> > > > > Be Compiled"
+> > > > > | configure: WARNING: openssl/ssl.h: proceeding with the compiler's result
+> > > > > | configure: WARNING:     ## ------------------------------------- ##
+> > > > > | configure: WARNING:     ## Report this to jacob at appelbaum.net ##
+> > > > > | configure: WARNING:     ## ------------------------------------- ##
+> > > > > | checking for openssl/ssl.h... no
+> > > > > | configure: error: OpenSSL is not installed, openssl/sslh is missing
+> > > > >
+> > > > > Somehow it's not getting the definition for THIRTY_TWO_BIT from
+> > > > > openssl/opensslconf.h (from openssl10) when testing for openssl/ssl.h
+> > > > > so BN_ULONG ends up undefined... still digging as to what's going on.
+> > > > >
+> > > >
+> > > > thanks, is it using openssl10 ?
+> > > >
+> > >
+> > > It is... I'm sure that's relevant, but I'm failing to spot it.
+> > >
+> >
+> > so where all do you have opensslconf.h in target sysroot ?
+> >
+>
+> $ find tmp -name opensslconf.h -ls
+>   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
+> 11:40 tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/include/openssl/opensslconf.h
+>   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
+> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/tlsdate/0.0.13+gitAUTOINC+751f82dc6f-r0/recipe-sysroot/usr/include/openssl/opensslconf.h
+>   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
+> 11:40 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/recipe-sysroot-native/usr/include/openssl/opensslconf.h
+>   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
+> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/sysroot-destdir/usr/include/openssl/opensslconf.h
+>   1574753      8 -rw-r--r--   1 vagrant  vagrant      7423 Feb  6
+> 21:30 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/crypto/opensslconf.h
+>   1717763      4 -rw-r--r--   1 vagrant  vagrant      3201 Nov 20
+> 13:44 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/MacOS/opensslconf.h
+>   1574836      0 lrwxrwxrwx   1 vagrant  vagrant        26 Feb  6
+> 21:30 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/openssl-1.0.2q/include/openssl/opensslconf.h
+> -> ../../crypto/opensslconf.h
+>   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
+> 21:31 tmp/work/armv7at2hf-neon-poky-linux-gnueabi/openssl10/1.0.2q-r0/image/usr/include/openssl/opensslconf.h
+>   1589118      8 -rw-r--r--   3 vagrant  vagrant      4534 Feb  6
+> 11:40 tmp/sysroots-components/x86_64/openssl-native/usr/include/openssl/opensslconf.h
+>   1849804      4 -rw-r--r--   1 vagrant  vagrant      1971 Feb  6
+> 13:28 tmp/sysroots-components/armv7at2hf-neon/openssl/usr/include/openssl/opensslconf.h
+>   1451388      4 -rw-r--r--   4 vagrant  vagrant      1971 Feb  6
+> 21:31 tmp/sysroots-components/armv7at2hf-neon/openssl10/usr/include/openssl/opensslconf.h
+>
+> --
+> Alex Kiernan
 
