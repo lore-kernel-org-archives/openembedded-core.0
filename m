@@ -1,53 +1,60 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ADC97C3F7
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AA8576C10B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 10:45:03 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id d2so3295464ual.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2019 02:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=k0xKl+wHjGeQCcLh8R/HQi1CAofikLYJ/N2ddzucEyw=;
-	b=UIScY7XwmufM9w1c1L27NxiPUuqik9q3m01n7l7bkyMF1sbSc9i/UrMhotT9jYU6k/
-	IuHDFl1TvSy7NHK/M6GaGWYyOUUN8i4qummxh0E3WmD+83w6dJpL9erMwyrTZnZkjqfs
-	5ViCtnD4VZ2rni8pOYITwGweqWcj/FFyRtuuFa3eQrziKR1uBeopkfx7731DYQCk4AMs
-	eBJpT5veH98Rc6j6N/q5NZ2KnIinqJmoULuRh0VOsB9/TIACY4weoex+YPT65UDnABVd
-	HR0fwpEtK2MWde7dnIxPVKBalkzQBIXk3oUDi6QOD2lAKLcZONUTwemqnmi51dJ8B+N+
-	PDLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=k0xKl+wHjGeQCcLh8R/HQi1CAofikLYJ/N2ddzucEyw=;
-	b=O5U+95xpICZJ9xJvEsCztmMtcRdx1HQqt/jVRNb8VSwfCrJBIYCAOcoJQJV5tdolZ8
-	SWGejBqRu3Kp5ysaBACtFimBScMiGn30UWK5x2tms3YSCCIkk1BxV0auZSl843oj/2U6
-	pPzFKy/mWiGDxHZTH6RCBc4fM7FAi/bDPitk7NN/ZhbYn4sq0tHODq3iErQAL/o7rj0U
-	JtPrZ+ZoGuOvGU5Pgy/aQk/1zltjMYUwrG/oN3GX+NTUk74cRarRVV/egKliSvxO1wsQ
-	AJvK27swWCZg7vj5i17aQ0wes5cgg7TFuthb9tsJZ7EX4rawLuWkvP+sDZdq95JH8ieE
-	8Iog==
-X-Gm-Message-State: AHQUAuaNSzixe7gqGqlcLWn1LzILWNKxsoM3gm42oNRNbibAan01kIum
-	onFWs/Epxnea90laJ411As35zCmXb79dluCxezg=
-X-Google-Smtp-Source: AHgI3IaTSyE7R2HFaVnlXFJIVmmgT4n5rcjWMevK9HLs4LKf+gJGCuo+oX31ee+xN9YWKrOK5jfIo2kE+iY7UJvARG8=
-X-Received: by 2002:a9f:2709:: with SMTP id a9mr5872795uaa.10.1549536304225;
-	Thu, 07 Feb 2019 02:45:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20190205003627.4454-1-raj.khem@gmail.com>
-	<CAO5Uq5RAbDD9KRQhXT2osH_ivYvskAMRMj82yq3RB8Zr0QdF8w@mail.gmail.com>
-	<CAMKF1srzx8nQXUH8BxYJ_-oAfN+mfPryiGLgGRjh4ey+o07DnA@mail.gmail.com>
-	<CAO5Uq5QO=c6eZRuU3Ew-_AEN0-EagqPX+2Ld_yhKLFb1Ztb6WA@mail.gmail.com>
-	<CAMKF1soYBT9-3_GKcAcf9EnL8ZkVmgxjVEho72HugQ4=abLEDw@mail.gmail.com>
-	<CAO5Uq5QwD3m6AHXrZKY=Q1EDD9t9Q-XviB8voybAcYX3V0Abow@mail.gmail.com>
-	<CAMKF1sru_=kBzWJ3eXby_bBsej0SpZA_9nXj4ALxZiBYgA+yNA@mail.gmail.com>
-In-Reply-To: <CAMKF1sru_=kBzWJ3eXby_bBsej0SpZA_9nXj4ALxZiBYgA+yNA@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 7 Feb 2019 10:44:53 +0000
-Message-ID: <CAO5Uq5T8hXRNxDFsMB+CjrqW3ScRL80xBNh00tYQ0txQApf0Ew@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Thu,  7 Feb 2019 11:44:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 07FA418399;
+	Thu,  7 Feb 2019 12:44:40 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id kbg8ORf33SIk; Thu,  7 Feb 2019 12:44:39 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id F06C1182C8;
+	Thu,  7 Feb 2019 12:44:38 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CB5E11E089;
+	Thu,  7 Feb 2019 12:44:38 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BFF2A1E088;
+	Thu,  7 Feb 2019 12:44:38 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu,  7 Feb 2019 12:44:38 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id B41EC280C;
+	Thu,  7 Feb 2019 12:44:38 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 7 Feb 2019 12:44:38 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 7 Feb 2019 12:44:38 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Thu, 7 Feb 2019 12:44:38 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/2] multilib_header_wrapper.h: Use #pragma once
+Thread-Topic: [OE-core] [PATCH] glibc-locale: Rewrite do_install using install
+	utility instead of cp
+Thread-Index: AQHUvn0j5x35NcJPuUCVBP0vNMsmO6XUI1+Q
+Date: Thu, 7 Feb 2019 11:44:38 +0000
+Message-ID: <58853c532317426d98d4b4a641a87780@XBOX04.axis.com>
+References: <20190207003537.7135-1-raj.khem@gmail.com>
+In-Reply-To: <20190207003537.7135-1-raj.khem@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install	utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,17 +67,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 10:45:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Feb 2019 11:44:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 7, 2019 at 6:27 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Please try the patch I posted for openssl10 and report back
-> https://patchwork.openembedded.org/patch/158573/
->
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+> Sent: den 7 februari 2019 01:36
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
+> install utility instead of cp
+>=20
+> This has been a constant source of trouble for build failures due to
+> host-user-contaminated QA errors of sort
+>=20
+> ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-
+> es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid
+> 3004, which is the same as the user running bitbake. This may be due to
+> host contamination [host-user-contaminated]
+>=20
+> So far we have tried to mould cp command into not carrying the build
+> user permissions into install area but it is never entirely fixed since
+> the issue keeps popping up in various scenes
+>=20
+> This patch replaces use of cp with install utility and specifies=20
+> install mode for files explcitly
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++----------
+>  1 file changed, 25 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core=
+/glibc/glibc-locale.inc
+> index 6384f9cbf1..9b256a5108 100644
+> --- a/meta/recipes-core/glibc/glibc-locale.inc
+> +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> @@ -72,27 +72,33 @@ FILES_localedef =3D "${bindir}/localedef"
+>  LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+>=20
+>  do_install () {
+> -	mkdir -p ${D}${bindir} ${D}${datadir}
+> -	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+> -		cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/${bind=
+ir}/* ${D}${bindir}
+> -	fi
+> -	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+> -		mkdir -p ${D}${localedir}
+> -		cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/${loca=
+ledir}/* ${D}${localedir}
+> -	fi
+> +        install -d ${D}${bindir}
+> +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
+> +        -exec install -m 0755 -t "${D}${bindir}" {} \;
+> +
+> +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d -print=
+f '%P ') ; do
+> +                install -d "${D}${localedir}/$d"
+> +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1 -typ=
+e f \
+> +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
+> +        done
+>  	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+> -		mkdir -p ${D}${libdir}
+> -		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+> -			cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/${lib=
+dir}/gconv ${D}${libdir}
+> -		fi
+> -		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+> -			cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/${dat=
+adir}/i18n ${D}${datadir}
+> -		fi
+> -	fi
+> -	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+> -		cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/${data=
+dir}/locale ${D}${datadir}
+> +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv" -ty=
+pe d -printf '%P ') ; do
+> +                        install -d "${D}${libdir}/gconv/$d"
+> +                        find "${LOCALETREESRC}/${libdir}/gconv/$d" -maxd=
+epth 1 -type f \
+> +                        -exec install -m 0755 -t "${D}${libdir}/gconv/$d=
+" {} \;
+> +                done
+> +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n" -ty=
+pe d -printf '%P ') ; do
+> +                        install -d "${D}${datadir}/i18n/$d"
+> +                        find "${LOCALETREESRC}/${datadir}/i18n/$d" -maxd=
+epth 1 -type f \
+> +                        -exec install -m 0644 -t "${D}${datadir}/i18n/$d=
+" {} \;
+> +                done
+>  	fi
+> -	cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC}/SUPPORT=
+ED ${WORKDIR}
+> +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type d -=
+printf '%P ') ; do
+> +                install -d "${D}${datadir}/locale/$d"
+> +                find "${LOCALETREESRC}/${datadir}/locale/$d" -maxdepth 1=
+ -type f \
+> +                -exec install -m 0644 -t "${D}${datadir}/locale/$d" {} \=
+;
+> +        done
+> +	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+>  }
+>=20
+>  inherit libc-package
+> --
+> 2.20.1
 
-LGTM.
+May I suggest using a help function to simplify the code a lot:
 
--- 
-Alex Kiernan
+copy_locale_files() {
+	local dir=3D$1 mode=3D$2
+
+	[ -e "${LOCALETREESRC}$dir" ] || return 0
+
+	for d in . $(find "${LOCALETREESRC}$dir" -type d -printf '%P '); do
+		install -d ${D}$dir/$d
+		find "${LOCALETREESRC}$dir/$d" -maxdepth 1 -type f \
+		     -exec install -m $mode -t "${D}$dir/$d" {} \;
+	done
+}
+
+do_install() {
+	copy_locale_files ${bindir} 0755
+	copy_locale_files ${localedir} 0644
+	if [ ${PACKAGE_NO_GCONV} -eq 0 ]; then
+		copy_locale_files ${libdir}/gconv 0755
+		copy_locale_files ${datadir}/i18n 0644
+	fi
+	copy_locale_files ${datadir}/locale 0644
+	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+}
+
+The code above is untested, but I think I got it reasonably correct.=20
+Also note that I have restored the indentation to use tabs, and=20
+turned the access to the ${PACKAGE_NO_GCONV} variable into a=20
+simple variable instead of using d.getVar().
+
+//Peter
+
 
