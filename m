@@ -1,47 +1,49 @@
-Return-Path: <prvs=39412d319b=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C0027C410
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4DC7C40D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 15:58:01 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x17FuJq4027078 for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Feb 2019 09:58:03 -0600
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2qfumjvv3q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2019 09:58:03 -0600
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
-	x17Fw1r6006174
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Thu,  7 Feb 2019 16:18:10 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p6so482457wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Feb 2019 09:58:01 -0600
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Thu, 7 Feb 2019 09:58:01 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Thu, 7 Feb 2019 09:58:01 -0600
-Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Thu, 7 Feb 2019 09:58:01 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Feb 2019 09:57:57 -0600
-Message-ID: <20190207155759.6082-2-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190207155759.6082-1-alejandro.delcastillo@ni.com>
-References: <20190207155759.6082-1-alejandro.delcastillo@ni.com>
+	Thu, 07 Feb 2019 08:18:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Aflx1lzWAHlu2wXgp+jOd4Nt/66qczj7kIH7yMqq/RM=;
+	b=vEH9A0RL2PLWWeIK/WBS9dnuwjkUdzQrs5BxbLWPx1wKhpP0KL6DezSxiXNmvzANHv
+	um15sqMTOcJTNStBWMtb+uibGUsYtJ1Q1972qyshl6VpZX4GxIjOXcdyYb+xaxujkKjn
+	+4P4gkhEfoJFUnA5NLstztFsYukDVWf7jTMvzfYNFy7paXV5N7TAuLGQaMiZ0xu4198o
+	1IGi52FGbzCfnxSza9Uauval6HUKKp9wiAfCR6Vp/d9bC/Ra4tlZy7quLQnBk8XGXQBy
+	+iiZbC8wbd7jHcfivK+Ei6Ta43I65cZlR6TZU/W8BlYm3/ShyGcsZ8RxGkreHT78TJNl
+	F+yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Aflx1lzWAHlu2wXgp+jOd4Nt/66qczj7kIH7yMqq/RM=;
+	b=EMxSfFDtgotqGsjfbdENOd3UAzpr/Q4FoiJsGdiM7fD/fivxPZSzkToDrZD20AJ5ZG
+	RpjDn9wFSvkDwRuICeJrmqPnGF2m9F6PzVc/vY+HlW2MPu5zuZmXnn7pe/hTW9OEKRXQ
+	qrgRc55ZruBlajUpuHpm45It1JinIqv7+ik6vlLeLZ1PQfcZxP+KiWImc6GSLAUHVP93
+	1PC+pN+4hwb36wZxuwcXDix8eqMBvbYrc4icQHEtRzcAHduBz4mC7mN4Fo2hhB9Q5Jkc
+	whkvMFvj5yWTCLZembFfys58zzhloNKbiThB1C5NM22W6mZw5q2i9H6ArZKjAFYdYxdW
+	AZNQ==
+X-Gm-Message-State: AHQUAubHhFiICSUedxMFmt2t0ry1EVT64HieQ2YGFu66eD6ab+HTRE9P
+	OEvU8mkL+oeNNLxOvLeAdCxCfxqx8LO+CtX0hY0=
+X-Google-Smtp-Source: AHgI3IaDGFeHPUePpVbdOizbt1W7qdk5GLWtsC3kgo8L5fGy/6gqcTdCbbBXIkDxG4EuR1IOOKcByIG+UKDZA9becoA=
+X-Received: by 2002:a1c:44d6:: with SMTP id r205mr8324481wma.50.1549556290905; 
+	Thu, 07 Feb 2019 08:18:10 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-02-07_11:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH 1/3] opkg: add --ignore-recommends flag
+References: <20190207003537.7135-1-raj.khem@gmail.com>
+	<88a02e81ed831ed4fba8adbd9e18f1a35dbf098d.camel@linuxfoundation.org>
+	<CAMKF1sr9DyoaDpbz0O=1kur3-WRS=8FEuaq70YSfuSj71S_VkA@mail.gmail.com>
+In-Reply-To: <CAMKF1sr9DyoaDpbz0O=1kur3-WRS=8FEuaq70YSfuSj71S_VkA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 7 Feb 2019 17:17:58 +0100
+Message-ID: <CA+chaQcx9tecJLN1jytyn41DGrEyJVHYPDRREXYUbtjFzD5EJg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,297 +56,362 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 15:58:02 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Feb 2019 16:18:10 -0000
+Content-Type: multipart/alternative; boundary="00000000000047731c0581503026"
 
-To be used for BAD_RECOMMENDATIONS feature.
+--00000000000047731c0581503026
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...pkg-add-add-ignore-recommends-option.patch | 259 ++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.4.0.bb      |   1 +
- 2 files changed, 260 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
+There are other rare reproducers which don't involve cp/install (e.g. older
+qmake was triggering it quite often as well), I've mentioned some in:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12434
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch b/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
-new file mode 100644
-index 0000000000..47d1b3c37e
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
-@@ -0,0 +1,259 @@
-+From 64aa98646a17c299bf37af2975b98daf5d7d30b4 Mon Sep 17 00:00:00 2001
-+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Date: Thu, 31 Jan 2019 18:16:08 -0600
-+Subject: [PATCH] libopkg: add --add-ignore-recommends option
-+
-+Add option to ignore specific recommended packages. On the libsolv
-+backed, this feature will only work on libsolv version > 0.7.2 [1].
-+
-+[1] https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_openSUSE_libsolv_issues_254&d=DwIBaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=wNcrL2akRn6jfxhHaKavUrJB_C9JAMXtynjLd8ZzgXQ&m=GObNHzFJpWpf_PripIrf-K2RhsktYdAUEieAJexXOKw&s=3G-meChUqClFggFPqsrAxIZBfLnRKIHm62Uuy1X6nQQ&e=
-+
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+
-+Upstream-Status: Accepted
-+---
-+ libopkg/opkg_conf.c                           |  2 +
-+ libopkg/opkg_conf.h                           |  1 +
-+ .../solvers/internal/pkg_depends_internal.c   |  3 +-
-+ libopkg/solvers/libsolv/opkg_solver_libsolv.c | 21 ++++++-
-+ man/opkg.1.in                                 |  3 +
-+ src/opkg.c                                    |  6 ++
-+ tests/Makefile                                |  1 +
-+ tests/core/43_add_ignore_recommends.py        | 62 +++++++++++++++++++
-+ 8 files changed, 97 insertions(+), 2 deletions(-)
-+ create mode 100755 tests/core/43_add_ignore_recommends.py
-+
-+diff --git a/libopkg/opkg_conf.c b/libopkg/opkg_conf.c
-+index 06880a1..f2330cd 100644
-+--- a/libopkg/opkg_conf.c
-++++ b/libopkg/opkg_conf.c
-+@@ -597,6 +597,7 @@ int opkg_conf_init(void)
-+     pkg_dest_list_init(&opkg_config->tmp_dest_list);
-+     nv_pair_list_init(&opkg_config->arch_list);
-+     str_list_init(&opkg_config->exclude_list);
-++    str_list_init(&opkg_config->ignore_recommends_list);
-+ 
-+     return 0;
-+ }
-+@@ -938,6 +939,7 @@ void opkg_conf_deinit(void)
-+     pkg_dest_list_deinit(&opkg_config->pkg_dest_list);
-+     nv_pair_list_deinit(&opkg_config->arch_list);
-+     str_list_deinit(&opkg_config->exclude_list);
-++    str_list_deinit(&opkg_config->ignore_recommends_list);
-+ 
-+     if (opkg_config->verbosity >= DEBUG) {
-+         hash_print_stats(&opkg_config->pkg_hash);
-+diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
-+index eb56a29..316c500 100644
-+--- a/libopkg/opkg_conf.h
-++++ b/libopkg/opkg_conf.h
-+@@ -61,6 +61,7 @@ typedef struct opkg_conf {
-+     pkg_dest_list_t tmp_dest_list;
-+     nv_pair_list_t arch_list;
-+     str_list_t exclude_list;
-++    str_list_t ignore_recommends_list;
-+ 
-+     int restrict_to_default_dest;
-+     pkg_dest_t *default_dest;
-+diff --git a/libopkg/solvers/internal/pkg_depends_internal.c b/libopkg/solvers/internal/pkg_depends_internal.c
-+index cd56d84..5deee70 100644
-+--- a/libopkg/solvers/internal/pkg_depends_internal.c
-++++ b/libopkg/solvers/internal/pkg_depends_internal.c
-+@@ -228,7 +228,8 @@ int pkg_hash_fetch_unsatisfied_dependencies(pkg_t *pkg,
-+                             || compound_depend->type == SUGGEST)
-+                         && (satisfying_pkg->state_want == SW_DEINSTALL
-+                             || satisfying_pkg->state_want == SW_PURGE
-+-                            || opkg_config->no_install_recommends);
-++                            || opkg_config->no_install_recommends
-++                            || str_list_contains(&opkg_config->ignore_recommends_list, satisfying_pkg->name));
-+                 if (ignore) {
-+                     opkg_msg(NOTICE,
-+                              "%s: ignoring recommendation for "
-+diff --git a/libopkg/solvers/libsolv/opkg_solver_libsolv.c b/libopkg/solvers/libsolv/opkg_solver_libsolv.c
-+index 2b27e3a..403e07b 100644
-+--- a/libopkg/solvers/libsolv/opkg_solver_libsolv.c
-++++ b/libopkg/solvers/libsolv/opkg_solver_libsolv.c
-+@@ -484,6 +484,7 @@ static void pkg2solvable(pkg_t *pkg, Solvable *solvable_out)
-+ static void populate_installed_repo(libsolv_solver_t *libsolv_solver)
-+ {
-+     int i;
-++    Id what;
-+ 
-+     pkg_vec_t *installed_pkgs = pkg_vec_alloc();
-+ 
-+@@ -507,6 +508,15 @@ static void populate_installed_repo(libsolv_solver_t *libsolv_solver)
-+         /* set solvable attributes */
-+         pkg2solvable(pkg, solvable);
-+ 
-++        /* if the package is in ignore-recommends-list, disfavor installation */
-++        if (str_list_contains(&opkg_config->ignore_recommends_list, pkg->name)) {
-++            opkg_message(NOTICE, "Disfavor package: %s\n",
-++                         pkg->name);
-++            what = pool_str2id(libsolv_solver->pool, pkg->name, 1);
-++            queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE_NAME
-++                        | SOLVER_DISFAVOR, what);
-++        }
-++
-+         /* if the package is not autoinstalled, mark it as user installed */
-+         if (!pkg->auto_installed)
-+             queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE
-+@@ -539,7 +549,7 @@ static void populate_available_repos(libsolv_solver_t *libsolv_solver)
-+ {
-+     int i;
-+     Solvable *solvable;
-+-    Id solvable_id;
-++    Id solvable_id, what;
-+ 
-+     pkg_vec_t *available_pkgs = pkg_vec_alloc();
-+ 
-+@@ -608,6 +618,15 @@ static void populate_available_repos(libsolv_solver_t *libsolv_solver)
-+         solvable = pool_id2solvable(libsolv_solver->pool, solvable_id);
-+         pkg2solvable(pkg, solvable);
-+ 
-++        /* if the package is in ignore-recommends-list, disfavor installation */
-++        if (str_list_contains(&opkg_config->ignore_recommends_list, pkg->name)) {
-++            opkg_message(NOTICE, "Disfavor package: %s\n",
-++                         pkg->name);
-++            what = pool_str2id(libsolv_solver->pool, pkg->name, 1);
-++            queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE_NAME
-++                        | SOLVER_DISFAVOR, what);
-++        }
-++
-+         /* if the --force-depends option is specified make dependencies weak */
-+         if (opkg_config->force_depends)
-+             queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE
-+diff --git a/man/opkg.1.in b/man/opkg.1.in
-+index 27fa9c1..f192c3b 100644
-+--- a/man/opkg.1.in
-++++ b/man/opkg.1.in
-+@@ -162,6 +162,9 @@ priority \fIprio\fP. Lower priorities take precedence.
-+ \fB\--add-exclude <\fIname\fP>\fR
-+ Register package to be excluded from install
-+ .TP
-++\fB\--add-ignore-recommends <\fIname\fP>\fR
-++Register package to be ignored as a recomendee
-++.TP
-+ \fB\--prefer-arch-to-version\fR
-+ Use the architecture priority package rather than the higher version
-+ one if more than one candidate is found.
-+diff --git a/src/opkg.c b/src/opkg.c
-+index 650e278..3c93a3b 100644
-+--- a/src/opkg.c
-++++ b/src/opkg.c
-+@@ -51,6 +51,7 @@ enum {
-+     ARGS_OPT_ADD_DEST,
-+     ARGS_OPT_SIZE,
-+     ARGS_OPT_ADD_EXCLUDE,
-++    ARGS_OPT_ADD_IGNORE_RECOMMENDS,
-+     ARGS_OPT_NOACTION,
-+     ARGS_OPT_DOWNLOAD_ONLY,
-+     ARGS_OPT_NODEPS,
-+@@ -112,6 +113,7 @@ static struct option long_options[] = {
-+     {"add-dest", 1, 0, ARGS_OPT_ADD_DEST},
-+     {"size", 0, 0, ARGS_OPT_SIZE},
-+     {"add-exclude", 1, 0, ARGS_OPT_ADD_EXCLUDE},
-++    {"add-ignore-recommends", 1, 0, ARGS_OPT_ADD_IGNORE_RECOMMENDS},
-+     {"test", 0, 0, ARGS_OPT_NOACTION},
-+     {"tmp-dir", 1, 0, 't'},
-+     {"tmp_dir", 1, 0, 't'},
-+@@ -234,6 +236,9 @@ static int args_parse(int argc, char *argv[])
-+         case ARGS_OPT_ADD_EXCLUDE:
-+             str_list_append(&opkg_config->exclude_list, optarg);
-+             break;
-++        case ARGS_OPT_ADD_IGNORE_RECOMMENDS:
-++            str_list_append(&opkg_config->ignore_recommends_list, optarg);
-++            break;
-+         case ARGS_OPT_SIZE:
-+             opkg_config->size = 1;
-+             break;
-+@@ -343,6 +348,7 @@ static void usage()
-+     printf("\t--add-dest <name>:<path>        Register destination with given path\n");
-+     printf("\t--add-arch <arch>:<prio>        Register architecture with given priority\n");
-+     printf("\t--add-exclude <name>            Register package to be excluded from install\n");
-++    printf("\t--add-ignore-recommends <name>  Register package to be ignored as a recomendee\n");
-+     printf("\t--prefer-arch-to-version        Use the architecture priority package rather\n");
-+     printf("\t                                than the higher version one if more\n");
-+     printf("\t                                than one candidate is found.\n");
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 8e5be08..799816d 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -42,6 +42,7 @@ REGRESSION_TESTS := core/01_install.py \
-+ 		    core/40_arch.py \
-+ 		    core/41_info_fields.py \
-+ 		    core/42_info_description.py \
-++		    core/43_add_ignore_recommends.py \
-+ 		    regress/issue26.py \
-+ 		    regress/issue31.py \
-+ 		    regress/issue32.py \
-+diff --git a/tests/core/43_add_ignore_recommends.py b/tests/core/43_add_ignore_recommends.py
-+new file mode 100755
-+index 0000000..7da0096
-+--- /dev/null
-++++ b/tests/core/43_add_ignore_recommends.py
-+@@ -0,0 +1,62 @@
-++#! /usr/bin/env python3
-++#
-++# Create package 'a' (1.0) which Recommends 'c'.
-++# Install 'a' with --add-ignore-recommends 'c'.
-++# Check that only 'a' (1.0) is installed.
-++# Create package 'b' which Depends on 'c'.
-++# Install 'a' & 'b', with --add-ignore-recommends 'c'.
-++# Verify that 'a','b' & 'c' are installed.
-++# Uninstall 'b' & 'c'.
-++# Create package 'a' (2.0), which Recommends 'c'.
-++# Upgrade 'a' with --add-ignore-recommends 'c'
-++# Verify that only 'a' (2.0) is installed
-++#
-++
-++import os
-++import opk, cfg, opkgcl
-++
-++opk.regress_init()
-++o = opk.OpkGroup()
-++
-++o.add(Package='a', Recommends='c', Version='1.0')
-++o.add(Package='b', Depends='c')
-++o.add(Package='c')
-++o.write_opk()
-++o.write_list()
-++
-++opkgcl.update()
-++
-++opkgcl.install('a', '--add-ignore-recommends c')
-++
-++if not opkgcl.is_installed('a'):
-++	opk.fail("Package 'a' installed but reports as not installed.")
-++
-++if opkgcl.is_installed('c'):
-++	opk.xfail("[libsolv<0.7.3] Package 'c' should not have been installed since it was in --add-ignore-recommends.")
-++
-++opkgcl.remove('a')
-++opkgcl.install('a b', '--add-ignore-recommends c')
-++
-++if not opkgcl.is_installed('a'):
-++	opk.fail("Package 'a' installed but reports as not installed.")
-++
-++if not opkgcl.is_installed('b'):
-++	opk.fail("Package 'b' installed but reports as not installed.")
-++
-++if not opkgcl.is_installed('c'):
-++	opk.fail("Package 'c' should have been installed since 'b' depends on it.")
-++
-++opkgcl.remove('b c', '--force-depends')
-++o.add(Package='a', Recommends='c', Version='2.0')
-++o.write_opk()
-++o.write_list()
-++
-++opkgcl.update()
-++
-++opkgcl.upgrade('a', '--add-ignore-recommends c')
-++
-++if not opkgcl.is_installed('a', '2.0'):
-++	opk.fail("Package 'a (2.0)' installed but reports as not installed.")
-++
-++if opkgcl.is_installed('c'):
-++	opk.fail("Package 'c' should not have been installed since it was in --add-ignore-recommends.")
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.4.0.bb b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-index 9b7cf3f596..a2329d3e71 100644
---- a/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-@@ -14,6 +14,7 @@ PE = "1"
- SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
-+           file://0001-libopkg-add-add-ignore-recommends-option.patch \
- "
- 
- SRC_URI[md5sum] = "ae51d95fee599bb4dce08453529158f5"
--- 
-2.20.1
+glibc-locale is the most common one for sure as pretty much everybody is
+building that one, I don't have objection converting this from cp to
+install to prevent this random error (very rare random failure doesn't
+really help with #12434 reproducer and whoever work on it, can either
+revert this change or try to reproduce with something else) - I've included
+few hundreds of INSANE_SKIPs to ignore _random_ host-user-contaminated QAs
+in LG layers to prevent our builds failing randomly and the one for
+glibc-locale is the longest part:
+https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes-core/glibc/glibc-locale_%25.bbappend
 
+Regards,
 
+On Thu, Feb 7, 2019 at 3:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Thu, Feb 7, 2019 at 1:00 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Wed, 2019-02-06 at 16:35 -0800, Khem Raj wrote:
+> > > This has been a constant source of trouble for build failures due to
+> host-user-contaminated QA
+> > > errors of sort
+> > >
+> > > ERROR: QA Issue: glibc-locale:
+> /glibc-binary-localedata-ca-es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY
+> is owned by uid 3004, which is the same as the user running bitbake. This
+> may be due to host contamination [host-user-contaminated]
+> > >
+> > > So far we have tried to mould cp command into not carrying the build
+> > > user permissions into install area but it is never entirely fixed since
+> > > the issue keeps popping up in various scenes
+> > >
+> > > This patch replaces use of cp with install utility and specifies
+> install
+> > > mode for files explcitly
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++----------
+> > >  1 file changed, 25 insertions(+), 19 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-core/glibc/glibc-locale.inc
+> b/meta/recipes-core/glibc/glibc-locale.inc
+> > > index 6384f9cbf1..9b256a5108 100644
+> > > --- a/meta/recipes-core/glibc/glibc-locale.inc
+> > > +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> > > @@ -72,27 +72,33 @@ FILES_localedef = "${bindir}/localedef"
+> > >  LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+> > >
+> > >  do_install () {
+> > > -     mkdir -p ${D}${bindir} ${D}${datadir}
+> > > -     if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+> > > -             cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+> > > -     fi
+> > > -     if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+> > > -             mkdir -p ${D}${localedir}
+> > > -             cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
+> > > -     fi
+> > > +        install -d ${D}${bindir}
+> > > +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
+> > > +        -exec install -m 0755 -t "${D}${bindir}" {} \;
+> > > +
+> > > +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d
+> -printf '%P ') ; do
+> > > +                install -d "${D}${localedir}/$d"
+> > > +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1
+> -type f \
+> > > +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
+> > > +        done
+> > >       if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+> > > -             mkdir -p ${D}${libdir}
+> > > -             if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+> > > -                     cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+> > > -             fi
+> > > -             if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+> > > -                     cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+> > > -             fi
+> > > -     fi
+> > > -     if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+> > > -             cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
+> > > +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv"
+> -type d -printf '%P ') ; do
+> > > +                        install -d "${D}${libdir}/gconv/$d"
+> > > +                        find "${LOCALETREESRC}/${libdir}/gconv/$d"
+> -maxdepth 1 -type f \
+> > > +                        -exec install -m 0755 -t
+> "${D}${libdir}/gconv/$d" {} \;
+> > > +                done
+> > > +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n"
+> -type d -printf '%P ') ; do
+> > > +                        install -d "${D}${datadir}/i18n/$d"
+> > > +                        find "${LOCALETREESRC}/${datadir}/i18n/$d"
+> -maxdepth 1 -type f \
+> > > +                        -exec install -m 0644 -t
+> "${D}${datadir}/i18n/$d" {} \;
+> > > +                done
+> > >       fi
+> > > -     cp -R --no-dereference --preserve=mode,links
+> ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+> > > +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type
+> d -printf '%P ') ; do
+> > > +                install -d "${D}${datadir}/locale/$d"
+> > > +                find "${LOCALETREESRC}/${datadir}/locale/$d"
+> -maxdepth 1 -type f \
+> > > +                -exec install -m 0644 -t "${D}${datadir}/locale/$d"
+> {} \;
+> > > +        done
+> > > +     install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+> > >  }
+> > >
+> > >  inherit libc-package
+> >
+> > The trouble is this is a workaround. The cp commands should work and
+> > there is some underlying issue in pseudo causing this. We really need
+> > to figure out what that is since this will likely just mean we see the
+> > problem somewhere else :(
+>
+> so far this is the only place where it shows in world builds that
+> meta-oe does which includes many layers.
+>
+> >
+> > I still suspect some kind of inode number reuse problem which these cp
+> > commands trigger...
+>
+> cp and install are not same when it comes to how they operate
+> underneath. install is better when it comes to what we are doing here
+> it also gives better control of permissions and mods,as a recipe writer
+> someone would prefer then to let the tool ( cp ) assume it.
+>
+> So there might be a pseudo issue, I dont disagree but not obvious and
+> I believe using cp is subpar anyway.
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000047731c0581503026
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">There are other rare rep=
+roducers which don&#39;t involve cp/install (e.g. older qmake was triggerin=
+g it quite often as well), I&#39;ve mentioned some in:<div><a href=3D"https=
+://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12434">https://bugzilla.yoct=
+oproject.org/show_bug.cgi?id=3D12434</a><br></div><div><br></div><div>glibc=
+-locale is the most common one for sure as pretty much everybody is buildin=
+g that one, I don&#39;t have objection converting this from cp to install t=
+o prevent this random error (very rare random failure doesn&#39;t really he=
+lp with #12434 reproducer and whoever work on it, can either revert this ch=
+ange or try to reproduce with something else) - I&#39;ve included few hundr=
+eds of INSANE_SKIPs to ignore _random_ host-user-contaminated QAs in LG lay=
+ers to prevent our builds failing randomly and the one for glibc-locale is =
+the longest part:</div><div><a href=3D"https://github.com/webosose/meta-web=
+osose/blob/master/meta-webos/recipes-core/glibc/glibc-locale_%25.bbappend">=
+https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes-co=
+re/glibc/glibc-locale_%25.bbappend</a><br></div><div><br></div><div>Regards=
+,</div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Thu, Feb 7, 2019 at 3:50 PM Khem Raj &lt;<a href=3D"m=
+ailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Thu, Feb 7, 2019 at 1:00 AM =
+Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Wed, 2019-02-06 at 16:35 -0800, Khem Raj wrote:<br>
+&gt; &gt; This has been a constant source of trouble for build failures due=
+ to host-user-contaminated QA<br>
+&gt; &gt; errors of sort<br>
+&gt; &gt;<br>
+&gt; &gt; ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-es+val=
+encia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid 3004, which=
+ is the same as the user running bitbake. This may be due to host contamina=
+tion [host-user-contaminated]<br>
+&gt; &gt;<br>
+&gt; &gt; So far we have tried to mould cp command into not carrying the bu=
+ild<br>
+&gt; &gt; user permissions into install area but it is never entirely fixed=
+ since<br>
+&gt; &gt; the issue keeps popping up in various scenes<br>
+&gt; &gt;<br>
+&gt; &gt; This patch replaces use of cp with install utility and specifies =
+install<br>
+&gt; &gt; mode for files explcitly<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
+ target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-core/glibc/glibc-locale.inc | 44 +++++++++++++=
++----------<br>
+&gt; &gt;=C2=A0 1 file changed, 25 insertions(+), 19 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/reci=
+pes-core/glibc/glibc-locale.inc<br>
+&gt; &gt; index 6384f9cbf1..9b256a5108 100644<br>
+&gt; &gt; --- a/meta/recipes-core/glibc/glibc-locale.inc<br>
+&gt; &gt; +++ b/meta/recipes-core/glibc/glibc-locale.inc<br>
+&gt; &gt; @@ -72,27 +72,33 @@ FILES_localedef =3D &quot;${bindir}/localedef=
+&quot;<br>
+&gt; &gt;=C2=A0 LOCALETREESRC =3D &quot;${COMPONENTS_DIR}/${PACKAGE_ARCH}/g=
+libc-stash-locale&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 do_install () {<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${bindir} ${D}${datadir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0if [ -n &quot;$(ls ${LOCALETREESRC}/${bindir=
+})&quot; ]; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-deref=
+erence --preserve=3Dmode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}<b=
+r>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0if [ -n &quot;$(ls ${LOCALETREESRC}/${locale=
+dir})&quot; ]; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${l=
+ocaledir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-deref=
+erence --preserve=3Dmode,links ${LOCALETREESRC}/${localedir}/* ${D}${locale=
+dir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${bindir}<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 find &quot;${LOCALETREESRC}/${bindir=
+}&quot; -maxdepth 1 -type f \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 -exec install -m 0755 -t &quot;${D}$=
+{bindir}&quot; {} \;<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for d in . $(find &quot;${LOCALETREE=
+SRC}/${localedir}&quot; -type d -printf &#39;%P &#39;) ; do<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install =
+-d &quot;${D}${localedir}/$d&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 find &qu=
+ot;${LOCALETREESRC}/${localedir}/$d&quot; -maxdepth 1 -type f \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -exec in=
+stall -m 0644 -t &quot;${D}${localedir}/$d&quot; {} \;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${@d.getVar(&#39;PACKAGE_NO_GCONV&=
+#39;)} -eq 0 ]; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${l=
+ibdir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${LOCALE=
+TREESRC}/${libdir}/gconv ]; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC=
+}/${libdir}/gconv ${D}${libdir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${LOCALE=
+TREESRC}/${datadir}/i18n ]; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0cp -R --no-dereference --preserve=3Dmode,links ${LOCALETREESRC=
+}/${datadir}/i18n ${D}${datadir}<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0if [ -e ${LOCALETREESRC}/${datadir}/locale ]=
+; then<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -R --no-deref=
+erence --preserve=3Dmode,links ${LOCALETREESRC}/${datadir}/locale ${D}${dat=
+adir}<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for d in=
+ . $(find &quot;${LOCALETREESRC}/${libdir}/gconv&quot; -type d -printf &#39=
+;%P &#39;) ; do<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 install -d &quot;${D}${libdir}/gconv/$d&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 find &quot;${LOCALETREESRC}/${libdir}/gconv/$d&quot; -=
+maxdepth 1 -type f \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 -exec install -m 0755 -t &quot;${D}${libdir}/gconv/$d&=
+quot; {} \;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for d in=
+ . $(find &quot;${LOCALETREESRC}/${datadir}/i18n&quot; -type d -printf &#39=
+;%P &#39;) ; do<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 install -d &quot;${D}${datadir}/i18n/$d&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 find &quot;${LOCALETREESRC}/${datadir}/i18n/$d&quot; -=
+maxdepth 1 -type f \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 -exec install -m 0644 -t &quot;${D}${datadir}/i18n/$d&=
+quot; {} \;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0cp -R --no-dereference --preserve=3Dmode,lin=
+ks ${LOCALETREESRC}/SUPPORTED ${WORKDIR}<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for d in . $(find &quot;${LOCALETREE=
+SRC}/${datadir}/locale&quot; -type d -printf &#39;%P &#39;) ; do<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install =
+-d &quot;${D}${datadir}/locale/$d&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 find &qu=
+ot;${LOCALETREESRC}/${datadir}/locale/$d&quot; -maxdepth 1 -type f \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -exec in=
+stall -m 0644 -t &quot;${D}${datadir}/locale/$d&quot; {} \;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0install -m 0644 ${LOCALETREESRC}/SUPPORTED $=
+{WORKDIR}/SUPPORTED<br>
+&gt; &gt;=C2=A0 }<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 inherit libc-package<br>
+&gt;<br>
+&gt; The trouble is this is a workaround. The cp commands should work and<b=
+r>
+&gt; there is some underlying issue in pseudo causing this. We really need<=
+br>
+&gt; to figure out what that is since this will likely just mean we see the=
+<br>
+&gt; problem somewhere else :(<br>
+<br>
+so far this is the only place where it shows in world builds that<br>
+meta-oe does which includes many layers.<br>
+<br>
+&gt;<br>
+&gt; I still suspect some kind of inode number reuse problem which these cp=
+<br>
+&gt; commands trigger...<br>
+<br>
+cp and install are not same when it comes to how they operate<br>
+underneath. install is better when it comes to what we are doing here<br>
+it also gives better control of permissions and mods,as a recipe writer<br>
+someone would prefer then to let the tool ( cp ) assume it.<br>
+<br>
+So there might be a pseudo issue, I dont disagree but not obvious and<br>
+I believe using cp is subpar anyway.<br>
+<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--00000000000047731c0581503026--
