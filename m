@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E0B207C5B5
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B64187C5B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 14:04:33 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id t200so3538089wmt.0
+	Fri,  8 Feb 2019 14:07:43 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g67so3492153wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 06:04:35 -0800 (PST)
+	Fri, 08 Feb 2019 06:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=o/es5hM+Kmg0KWPiWx6Z6JdVu5/Tgr3BVjSVL6TajSk=;
-	b=Bi0BGdYHSIpyb94zuzgvQX6qQqRNcKRUbxfU/woD5DVke0B+j0lyu2YhI/yLO86cv0
-	+1Vcsj8IvgZq5CoHZlGXUYmEUh20Tr+z+tl06WJ/v2ddkZsgQfObVfKfi0By60ex5J2I
-	xBDZCIPI0qWCS3n9VxvlK7HM7fBXwebRB78xI=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=bRHpKBDWGR62tiTCblDTgVOkAVqFdqEoSaakbqVx4rM=;
+	b=SQww4c8srSElHcj7zdwSs/sFpHLxuN3OvI7V38ZC/YJdc8UoG4SG7SiTJGzvba14oh
+	5vOGAYoy6Aq4JdDAb0mGw/Lvu5RLe2LXF3QwQBjmwcjJaToaGqw53I+WFNVaZwJQ3alk
+	Wi0M6sVjDvBfGZWSrKRkbXXxM2y1ri0MZmgIA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=o/es5hM+Kmg0KWPiWx6Z6JdVu5/Tgr3BVjSVL6TajSk=;
-	b=lpSdIKlHQpcbckVmXBIjPTOfdCmGaE4OgZ8/SM+DSd6UjGKzGAd6W3r9AkDQvLak8i
-	K5XVgO5BvX+cZtWrx/Z/oJs/pTdJhYCKuIV1GhtRklm4DpjQD6z+HEONxW2mvSd0FH8E
-	4f6eFdDzR0xNXlS7TUkA6vBFWBNnGZyDKWILQ1hI7VUsKy/A05UbNI6ZThJYH+7agsDY
-	c1un3yO149NZGXDhZpt9MbhgThZxcWzR2QkNsNjsuqhP+n+pwItwN3k5ZRL/e1Yug3s1
-	d4t0ISzFXCDG7B7oWRPeAU5zawbRRtd58eeiofFlTqLPt+vE0QP/MF7rVFUJ77FVgKsA
-	ZYqA==
-X-Gm-Message-State: AHQUAuZXgmnIg2qVQ/D7/bTW5HO0P+Pg2S3MI7sVx4yNgK062HzS4e1f
-	SPQDfTHJdLM118RUJamg6mU5l3U82tw=
-X-Google-Smtp-Source: AHgI3Ib3WQPSsNeFyhCCFnyVRWq6qNJRfx9YZI6n36/PicUW19CWi2EzSIkJ8jqArKw5ONqVftPWHw==
-X-Received: by 2002:a1c:6c01:: with SMTP id h1mr1586404wmc.113.1549634674179; 
-	Fri, 08 Feb 2019 06:04:34 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y8sm3684493wmg.13.2019.02.08.06.04.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Feb 2019 06:04:33 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bRHpKBDWGR62tiTCblDTgVOkAVqFdqEoSaakbqVx4rM=;
+	b=OG0/Qvla2Ctn3Hr+fjcD8w883vvvUYcZSYCjSIphJ1IdHXG8pmruvkhm8jdZas/23H
+	Oy+xFL5sCDCpwUkP6Wl/Xv7OlFdGHiDbzbHjYoKcy1KBcxZ+kMOoQUii1J7OhjaKsst6
+	SWV5hxt8ysImkZvSBpPExfXr+VzcSPvB9W8BvdjhZFP9ewKD8L+BPEYK5s7bSVL2JAYE
+	kmHt8pBUZp1arGcLwX2o3r8/i69k4CFjBOZNUH5c4Bj9Ke2tGwdVHBV81Kw2+JVdr/LD
+	qfWH3p7XX9UdyR5PbVNBfnY21KfFl96x7AS6DpfdaG459joLHfhyXkwoyGibUpNKqIVh
+	V5cA==
+X-Gm-Message-State: AHQUAubHzAR8hfGQB3yHmRMS5EzHaYbifW4ZKWDnUrpSGgayyZysWN5M
+	+7AVjUy6b/PwHFdwi7dM4eksAw==
+X-Google-Smtp-Source: AHgI3IYxoGeg4NHIYAfCORIXVgEJRQnF6Fs15G5gL1eNj+4axD9SXN6phy1r2OmbOuHqXPvcUVigYQ==
+X-Received: by 2002:a1c:342:: with SMTP id 63mr11337982wmd.34.1549634864378;
+	Fri, 08 Feb 2019 06:07:44 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id h5sm1718806wrt.38.2019.02.08.06.07.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 08 Feb 2019 06:07:43 -0800 (PST)
+Message-ID: <c637a3a45fb3d5f40e22a54f59649908f5500794.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2019 14:04:30 +0000
-Message-Id: <20190208140430.19985-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190208140430.19985-1-richard.purdie@linuxfoundation.org>
-References: <20190208140430.19985-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] oe-build-perf-report: Allow commits from different branches
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 08 Feb 2019 14:07:42 +0000
+In-Reply-To: <20190208120210.31861-1-git@andred.net>
+References: <20190208120210.31861-1-git@andred.net>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] sysvinit-inittab: support non-busybox-getty on serial consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,45 +57,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 14:04:34 -0000
+X-List-Received-Date: Fri, 08 Feb 2019 14:07:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The code won't currently allow comparisions of two commits on different
-branches even if the commits are specified by their hashes.
+On Fri, 2019-02-08 at 12:02 +0000, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
+> 
+> Busybox' getty has code to try to make itself a session leader,
+> whereas util-linux' agetty doesn't. It expects this to happen
+> from outside.
+> When getty is not a session leader, many things don't work on
+> the serial console, e.g. setting the terminal process group,
+> job control doesn't work, etc.
+> 
+> Executing image tests also fails with AssertionErrors, because
+>     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot get
+> controlling tty: Operation not permitted
+>     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot set
+> process group: Inappropriate ioctl for device
+> 
+> Update the start_getty script to invoke getty via the setsid
+> utility if needed, i.e. if /sbin/getty is not busybox getty.
+> 
+> [YOCTO #13058]
+> 
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
+> ---
+>  meta/recipes-core/sysvinit/sysvinit-inittab/start_getty | 9
+> ++++++++-
+>  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb  | 1 +
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> index e15ae35f90..ae613f1e54 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> @@ -13,6 +13,13 @@ active_serial=$(grep "serial" /proc/tty/drivers |
+> cut -d/ -f1 | sed "s/ *$//")
+>  # Rephrase input parameter from ttyS target index (ttyS1, ttyS2,
+> ttyAMA0, etc).
+>  runtime_tty=$(echo $2 | grep -oh '[0-9]')
+>  
+> +# busybox' getty does this itself, util-linux' getty needs extra
+> help
+> +getty="/sbin/getty"
+> +if ! basename $(readlink -f "${getty}") | grep -q busybox \
+> +    && [ -x "/usr/bin/setsid" ] ; then
+> +    getty="/usr/bin/setsid ${getty}"
+> +fi
 
-This updates the code to search two branches for any relavent commits,
-hence allowing comparisions to be made. A particularly useful case is
-master vs. master-next for example.
+The reason I'm reluctant to take changes like this is you just added 3
+fork calls above. This does have a significant effect on boot time on
+slower devices.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/oe-build-perf-report | 5 +++++
- 1 file changed, 5 insertions(+)
+Is there a way we can do a shell string comparison rather than using
+grep? case statement maybe?
 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index c91f74192b3..b7b09391cb8 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -542,6 +542,7 @@ Examine build performance test results from a Git repository"""
-                        help="Tag name (pattern) for finding results")
-     group.add_argument('--hostname', '-H')
-     group.add_argument('--branch', '-B', default='master')
-+    group.add_argument('--branch2')
-     group.add_argument('--machine', default='qemux86')
-     group.add_argument('--history-length', default=25, type=int,
-                        help="Number of tested revisions to plot in html report")
-@@ -579,6 +580,10 @@ def main(argv=None):
- 
-     revs = get_test_revs(repo, args.tag_name, hostname=args.hostname,
-                          branch=args.branch, machine=args.machine)
-+    if args.branch2:
-+        revs = revs + get_test_revs(repo, args.tag_name, hostname=args.hostname,
-+                             branch=args.branch2, machine=args.machine)
-+
-     if len(revs) < 2:
-         log.error("%d tester revisions found, unable to generate report",
-                   len(revs))
--- 
-2.20.1
+Cheers,
+
+Richard
+
 
 
