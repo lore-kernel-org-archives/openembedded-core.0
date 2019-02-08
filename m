@@ -1,54 +1,72 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AAB17C581
+Return-Path: <Diego.SantaCruz@spinetix.com>
+X-Greylist: delayed 69554 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 09 Feb 2019 18:54:59 UTC
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr140089.outbound.protection.outlook.com [40.107.14.89])
+	by mail.openembedded.org (Postfix) with ESMTP id CF42A7C5B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 18:37:13 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id x124so11818193itd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 10:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=YrPyBOwpqedJoRmWh4GBUGaH+hdiAdHCOMQFnitpD3k=;
-	b=IlJb6HjOurcRDY/u7rnjjkMUSJopNc+sj9ti1ZAC1wsJO53W/YwCucq08aAnDN+6pt
-	4Ui+fC4QjLzXL3Ed1q7A2uo9z1lKAaTwKOVWadDJsoGWHDvW2DnXINBibJGHKgSCaffF
-	tsaSbrjhOnyXmD1y7V21r6XbmFRIr0TIOkUB6D73Ijk5dmwUpCLbdLUbO+W3NkxvNRjQ
-	RxmHQu5WzXNPKipN67QrDgsRDkCmGLlLpvRyC/2iKFYJoi+wZhUdrxWYxC/TCVLXb+o0
-	zW/TY1FI3m+tcPPpBWz7j8lnXG/Zqu8fx/Kwe4w9Ggz9IINKWtpOy7RH74h1usuSlQ+M
-	uEDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YrPyBOwpqedJoRmWh4GBUGaH+hdiAdHCOMQFnitpD3k=;
-	b=R9EjiR+MQZRJtSZm+ZeMF6P+f6Pj5md1YwCnO0jW0KpWIijWqublO5KiPvJ1C5zgEW
-	8wUe3YkEMGrL6KbBOab62TlCmO+Rtlw4ExKNB2aZ/VqJTmgK3iVkqJbbTiUrBApXskt0
-	EyV5CMPjjAk/8r4IjjxLxcqdnAJ6Ij+daUvhUSM7QfgQWR5+d9SslhplCHfDDrN7mOoh
-	udrs6V72lBrSILcKM6WwKmgfm1/7OhPxcsMOHo0eN0zJG3kXNCbTvECcEnnFOE9knNt0
-	Yt99/LUtYcxwFAqJ/nWtoN8ZMuy8xJMvcGW54/0z0LQUkUI95ej6ie49kR3JcmwWAYj5
-	N2eg==
-X-Gm-Message-State: AHQUAuZIwOBxrLazTA2lvAIpv3+BOJbOH966hlLyzyye237zKOG7ZpdW
-	7KP9pf/2EfBx5x9Ke4oADMdg/gpOBfuQ+Q==
-X-Google-Smtp-Source: AHgI3IbJ3UEB1+AQdg4bYL1TF+5O3dg/IwsDPy93H2FZK5j5I+3ooNQEJD3roY7SAdvcPnrWQoxQJQ==
-X-Received: by 2002:a02:a514:: with SMTP id e20mr15435610jam.23.1549737434357; 
-	Sat, 09 Feb 2019 10:37:14 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195])
-	by smtp.gmail.com with ESMTPSA id h2sm2633643itk.0.2019.02.09.10.37.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Feb 2019 10:37:13 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Sat,  9 Feb 2019 18:37:07 +0000
-Message-Id: <27ba07714afcc27de6d180d8eca6985a3ddb6b6e.1549737160.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1549737160.git.bruce.ashfield@gmail.com>
-References: <cover.1549737160.git.bruce.ashfield@gmail.com>
+	Sat,  9 Feb 2019 18:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=zz1UOJ9vebw6oBkIT3Rdy4rgTZGkBIAEp/NblFcezyE=;
+	b=otl12+O8dOAmcUjr4nrfH6Ar8eFhpB6bbsDSYTtvQbEQVIl451SG3yNXj0ATrKK+4bRY+7YOU24EMinXwXBey4bxIOhwvKhSM3vQEvMu8q2ImY71izGS7Kfap9PfflDbBR/GaytgKb0mRNK/1tcfNvrWuEzLU4V5uYfaMJ9/9xQ=
+Received: from VI1PR01MB5167.eurprd01.prod.exchangelabs.com (20.178.120.225)
+	by VI1PR01MB5343.eurprd01.prod.exchangelabs.com (20.178.122.97) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1601.19;
+	Fri, 8 Feb 2019 20:29:31 +0000
+Received: from VI1PR01MB5167.eurprd01.prod.exchangelabs.com
+	([fe80::f933:d84e:cb4c:71be]) by
+	VI1PR01MB5167.eurprd01.prod.exchangelabs.com
+	([fe80::f933:d84e:cb4c:71be%5]) with mapi id 15.20.1601.016;
+	Fri, 8 Feb 2019 20:29:31 +0000
+From: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Problem with blocked signals in daemons started from rpm
+	postinstall scriptlet
+Thread-Index: AdS/67mdnLMJ4wCyS5atu3K3O4lGXg==
+Date: Fri, 8 Feb 2019 20:29:31 +0000
+Message-ID: <VI1PR01MB51675AC59E6B6C4D17536D3F88690@VI1PR01MB5167.eurprd01.prod.exchangelabs.com>
+Accept-Language: en-GB, fr-CH, fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Diego.SantaCruz@spinetix.com; 
+x-originating-ip: [85.7.98.37]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; VI1PR01MB5343;
+	6:mxOsfZut0mlJjR/rnMiTGoU0MfQeCfxej/ZVNi/LoNFdjZ2UdVmP3z3AyAGCj2qUiolcHBtt+Py9kCSipJrgWmwlXu8nGLpGfRNoEZkBB9UvaOM597cYDmvQU8f9to5YeCYTb2Lyhc4t2vwQ+mHt050JOkQtXRF077W+EYNHomiycHadl/ZrQ0j1N+4/6GMgVdxbypE8OxhNVjWRjH/w2vdXxfjsimMFN4HBdadAILa6KpNFvYzsp1qLUvb9psxEpSKuZ7op+m4OdMPymoPH7ScJ7vEr+M1tt9DdbTs5TI4dZaZx2QQf1DJBYqUhVVgxES37PIqe2MRic6Epq9xY7xiE14MS3vqK6FwjTbocr7Tf/wC/xZ0hX85STwnqceE2MhyHn0wvfP5C9D+s1KFUNrQFlPp/TzYSxRGAqaW/ySj9yLVI++UaekFOzfjXYiE/xyPsDYsg8ulsGFZCEhdyBQ==;
+	5:yZ2R7Ic/uUVvooeCx4kT+Ja8noCFj5sm2W2t0fVooN1XHQg4feMAvPKVuHKiGZC8hEIEwtSwdXJVm7Q2WEjBhhVeL7bTaHO83insGK/YgjAydLA9SAdMu1cA1gxcdQ/yM3GYQmq66V3AKpQPiDJ4h+QhQ/bCXcztEsW+TLhUVbvz4x7vZUY56YhYu0mOurLFlmlRaDFk2F90LcxeBsYtUg==;
+	7:rSQN8sccqHl4RCYLmpRL86c7FTjyGH0zoLRUGdrzEsFeAwo3AGNGGLoDtZb7yxS2wNjq7NF/8iDhuDssrUzX6IxezLSJ4pA6p1sw0mLpsafr1qqrDGS4uZHPx1y+Icu+/tmvC7bAKJii5GrnyC1BCA==
+x-ms-office365-filtering-correlation-id: 04e53374-eede-4dac-d808-08d68e0421e3
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600110)(711020)(4605077)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR01MB5343; 
+X-MS-TrafficTypeDiagnostic: VI1PR01MB5343:|VI1PR01MB5343:
+x-microsoft-antispam-prvs: <VI1PR01MB5343D03CE1F480E1E6DAC01188690@VI1PR01MB5343.eurprd01.prod.exchangelabs.com>
+x-forefront-prvs: 094213BFEA
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(979002)(396003)(136003)(346002)(39830400003)(366004)(376002)(189003)(199004)(25786009)(2906002)(97736004)(6436002)(14454004)(508600001)(3846002)(4744005)(66066001)(71200400001)(71190400001)(72206003)(86362001)(476003)(486006)(6116002)(15650500001)(33656002)(55016002)(7736002)(8676002)(74316002)(316002)(305945005)(53936002)(6506007)(81166006)(81156014)(5640700003)(8936002)(9686003)(106356001)(2351001)(256004)(14444005)(2501003)(68736007)(105586002)(186003)(102836004)(26005)(6916009)(7696005)(99286004)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR01MB5343;
+	H:VI1PR01MB5167.eurprd01.prod.exchangelabs.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: spinetix.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: jNA0eraY9pUzrFoLfjFW7y8fej96V0J9PiEx0FWXv5/oXQ1lXPQOfpAhIvaL7omE9YTKkIbz4+teTVIcHGuoIv9tmJUjqxBNJmrGNh6tRE+Ph0Vn261Qn2tq465Uf/BUYB7pslj2F62sbCKPzZ5B3VLb899IZ5Z++5GibrgCUR7J/M2qqKIUhwWHbcMdC24ex6sL+qDj6J7WdkhFzaUg62r/0Zu7aP5dlQ8+rCy0A4yi4E6GFXMH9DvjClT7LXLPolp79o0AmuB++OqU082xOaCXz5kiVLhNqHDPANJa1sOroPoHV0iHRuF0EleVYV0IdjFDHA6LmsjB5eD7KaPxmMkP0aTujZxTsPvpFUho27HUJ5bJc52gRlhVH7YX0QS8deEpvEi512YOjCyS8Kk/zDz7fWSlMRU9NhxTQtr/55I=
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto: add baseline ARC support
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04e53374-eede-4dac-d808-08d68e0421e3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2019 20:29:31.7376 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR01MB5343
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR01MB5343;
+	23:5aghCBS2GYq0BcWZ+CI8mhiG2N4tAUTqw4xKVWKGoNvR0wy8NAnIBlUmYi3n9/yWeZn9bNzO2IRXt3vVp4/5poeYfwpC0m1doc21t7jYVb9Cvl++rZA+wpl4cEBenDl0Lz8OlLLnsn9tHZLYeylWxw==
+X-OriginatorOrg: spinetix.com
+Subject: Problem with blocked signals in daemons started from rpm postinstall scriptlet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,95 +79,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 18:37:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 09 Feb 2019 18:55:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Hi there,
 
-Adding both the required toolchain options (libgcc) and baseline
-BSP definitions for arc support.
+I am having problems with daemons that get started from the rpm postinstall=
+ scriptlet, via update-rc.d, that they cannot be killed. Investigating I di=
+scovered that they have most signals blocked. My guess is that rpm blocks a=
+lmost all signals so that scriptlets do not fail, but as the signal mask is=
+ inherited across fork and exec the daemons end up being blocked. Looking a=
+t update-rc.d it is a simple shell script which does not reset the signal m=
+ask, so any daemons started from there inherit the signal mask.
 
-  Author: Alexey Brodkin <alexey.brodkin@synopsys.com>
-  Date:   Fri Feb 8 18:32:21 2019 +0300
+Even worse, things like ntp which rely on SIGALRM fail to work properly whe=
+n started from the postinstall scriptlet.
 
-    linux-yocto: Add dependency on libgcc for ARC
+Any ideas on how could this be solved, I am considering tweaking update-rc.=
+d to ignore the -s option as a workaround, at least it avoids the issue and=
+ anyhow in my setup I always reboot after installing or updating packages. =
+Any other ideas?
 
-    As of now in case of ARC there's no in-kernel implementation of basic libgcc
-    functions used for millicode, multiplication, division etc instead we simply
-    link with libgcc.a which provides everything used by the compiler.
+Sincerely,
 
-    Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-  Author: Alexey Brodkin <alexey.brodkin@synopsys.com>
-  Date:   Fri Feb 8 17:29:40 2019 +0300
-
-    ARC: Add nsimhs- and hsdk-standard configs
-
-    With ARC support ramping-up in upstream OE we're ready to
-    build more complicated distributions and linux-yocto is
-    a nice and configurable base for that.
-
-    This commit adds support of 1 simulated board (nSIM) and
-    the mast affordable and powerful to date development board (HSDK).
-
-    Once Qemu port for ARC is functional (it's being actively developed now)
-    we'll switch from nSIM to Qemu.
-
-    Still it would be really good to keep nSIM support in linux-yocto for now
-    as it allows for simpler testing as compared to real HW.
-
-    Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-    Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index 591981aa31..345073bceb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "3059029718900250904b9f587e37ba22fb949ea6"
--SRCREV_meta ?= "5d93f38b0eed56071261895aefecfca287595536"
-+SRCREV_meta ?= "8d7d003531151ba0a0e0cdb3cefa0bf9b0e84b55"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index bb2ea2d991..df8ecb6cee 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "6cc861e796ab19a6827cf9996e7755f1875d553e"
- SRCREV_machine ?= "11e0e616ed095bb8012e1b4a231254c9656a0193"
--SRCREV_meta ?= "5d93f38b0eed56071261895aefecfca287595536"
-+SRCREV_meta ?= "8d7d003531151ba0a0e0cdb3cefa0bf9b0e84b55"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index 13d6eb0ea0..48949d3f9b 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "11e0e616ed095bb8012e1b4a231254c9656a0193"
- SRCREV_machine_qemux86-64 ?= "11e0e616ed095bb8012e1b4a231254c9656a0193"
- SRCREV_machine_qemumips64 ?= "fc7a2bf24e0e39b6a260f8650a3c8d497b8cdcfd"
- SRCREV_machine ?= "11e0e616ed095bb8012e1b4a231254c9656a0193"
--SRCREV_meta ?= "5d93f38b0eed56071261895aefecfca287595536"
-+SRCREV_meta ?= "8d7d003531151ba0a0e0cdb3cefa0bf9b0e84b55"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
--- 
-2.19.1
+--=20
+Diego Santa Cruz, PhD
+Technology Architect
+spinetix.com
 
 
