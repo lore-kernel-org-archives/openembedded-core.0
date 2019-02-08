@@ -1,53 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 376707C583
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 914B57C583
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 15:56:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x18FtCno029543
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 8 Feb 2019 07:55:42 -0800
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.435.0;
-	Fri, 8 Feb 2019 07:55:17 -0800
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri,  8 Feb 2019 15:58:38 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id t5so6646982otk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2019 07:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=n4SlPwMJkd07oh5jeFXLnMuTH/IyPI2iQVNSrLTQqjc=;
+	b=NMxJH1LkrE0MiCmXDZl2eG8M83dg9C9+B8SjirROBiSo3FXiwlFIQXZzXTmmJzQJTG
+	DQ1a+sP63k07iVb1D8OfysQBz6lJO9MhA4nnHPYsiRTsR8zE1FcrGIexmSwv5KOuGcWX
+	wZAxTVIedkRLBPQSrgrT17iFJfrpNO6p1mYHr8d20fcmKBGxMfhp71fUb7cwVs35qR94
+	R6OnSczs8zjxqH7Ppsewj8jDlsHnrcr2pPQj9+JQqhOsWa76z5RNjUDsdbLljofQ3fbl
+	IcBdqm6xfRP49C4F8BaQNU7BrEOCfJk+kxNqhjmoQt1cBkTwhQTQVJAoVZX8LXOAlK6G
+	9e+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=n4SlPwMJkd07oh5jeFXLnMuTH/IyPI2iQVNSrLTQqjc=;
+	b=tvIPwpswK8Slly0NGjgf1kh/HDWKmdjtin5ReM9LQCqu6y1ZkRAtGROWtgb94zZ0wJ
+	NuJAyCcpXTljxL4x8AA7SF56ptAy+gYT3ix9i1JiUSKfvl5BDJLAEpCUuv8SBq7e3yTc
+	uGLFKtrH8bre1l5Mbe6ufUEdIfvgoWaitkD6olzEmPa93yYNxZk+VoSqGhDl7+gxv7HJ
+	zei4JvXk7FClhFBbgUkcSNDqSxdH+Yy3oEsGmejho8loRgDVbflMctr/d7HIsLlu4+4z
+	d/Eqc6CFGlnAuBBfEpgjl7g4w/9qUVwbFiqZY1M+ysUtbGWus9ed0WGCKE9ArPMtESeG
+	r/dw==
+X-Gm-Message-State: AHQUAuZC+QgkL+LErvdekLGZrJrmtttpQvBdPCx2/h4Bte/IwUaBsbM2
+	OlCDIBdquhXAfA1IoVHvkWtwnswCGMGx5UXcP5o=
+X-Google-Smtp-Source: AHgI3Iaa16XRgsGr6Lx3MgfFYRaFObLBSHI5N594+FyyTHRgHB2ca2kHdhnVeVDj8X2w1+LBqqGYo03VK4Z7OFqkhSo=
+X-Received: by 2002:a9d:640d:: with SMTP id h13mr13796867otl.153.1549641519739;
+	Fri, 08 Feb 2019 07:58:39 -0800 (PST)
+MIME-Version: 1.0
 References: <cover.1549637121.git.alex.kanavin@gmail.com>
 	<a85aa0f19d694bd828ddde75c92d96bd7bbf4778.1549637121.git.alex.kanavin@gmail.com>
 	<c7c7fd8c-6e73-ab1e-44bb-7df106c20c62@windriver.com>
 	<CANNYZj9_cnyn92RBOQC+cs4iWitwvTGgKWFOF9DjgpW7zkbrSg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <97a2de37-cc7b-3731-2933-b59aeae92446@windriver.com>
-Date: Fri, 8 Feb 2019 09:55:15 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.5.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj9_cnyn92RBOQC+cs4iWitwvTGgKWFOF9DjgpW7zkbrSg@mail.gmail.com>
+	<97a2de37-cc7b-3731-2933-b59aeae92446@windriver.com>
+In-Reply-To: <97a2de37-cc7b-3731-2933-b59aeae92446@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 8 Feb 2019 16:58:26 +0100
+Message-ID: <CANNYZj8-44W5RyA+VF_7QPWxdouh=GbHtKwutWKeVwpjTgP_ng@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 04/12] qemu: build target variant with gtk+, and nativesdk variant without sdl
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,63 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 15:56:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Feb 2019 15:58:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/8/19 9:43 AM, Alexander Kanavin wrote:
-> Patch 3 changes things in meta-poky/, and patch 4 changes things in
-> meta/, so they cannot be combined unfortunately. I can however swap
-> their order, so that there is less confusion.
+On Fri, 8 Feb 2019 at 16:56, Mark Hatle <mark.hatle@windriver.com> wrote:
+> > Patch 3 changes things in meta-poky/, and patch 4 changes things in
+> > meta/, so they cannot be combined unfortunately. I can however swap
+> > their order, so that there is less confusion.
+>
+> Swap the order and add a copy of the commit message (from 4 to 3) then.  That
+> should lesson anyone's questions if they need to figure out why it changed in
+> the future.
 
-Swap the order and add a copy of the commit message (from 4 to 3) then.  That
-should lesson anyone's questions if they need to figure out why it changed in
-the future.
+Currently the commits are:
 
-Thanks!
---Mark
+commit 341ab87cf326dc1f1d7a3b83d624cde04047f43e
+Author: Alexander Kanavin <alex.kanavin@gmail.com>
+Date:   Thu Dec 27 15:17:26 2018 +0100
 
-> Alex
-> 
-> On Fri, 8 Feb 2019 at 16:31, Mark Hatle <mark.hatle@windriver.com> wrote:
->>
->> I may be nitpicking slightly, but this patch 4 and 3 should probably be
->> combined.. I looked at '3' and went "this looks wrong, I have no idea why"..
->> then saw '4' and it became clear.  Since they're both tied together (same
->> purpose) it may make sense to combine them...
->>
->> On 2/8/19 8:45 AM, Alexander Kanavin wrote:
->>> As sdl is deprecated in favor of gtk+, it should not be the default.
->>
->> At a minimum the commit message above should be included in 3/12.
->>
->> --Mark
->>
->>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->>> ---
->>>  meta/recipes-devtools/qemu/qemu.inc | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
->>> index 95e9e0ede77..07f78058e7b 100644
->>> --- a/meta/recipes-devtools/qemu/qemu.inc
->>> +++ b/meta/recipes-devtools/qemu/qemu.inc
->>> @@ -71,11 +71,11 @@ do_install_append() {
->>>  # END of qemu-mips workaround
->>>
->>>  PACKAGECONFIG ??= " \
->>> -    fdt sdl kvm \
->>> +    fdt gtk+ kvm \
->>>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
->>>  "
->>>  PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
->>> -PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
->>> +PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
->>>
->>>  # Handle distros such as CentOS 5 32-bit that do not have kvm support
->>>  PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
->>>
->>
+    local.conf.sample: adjust the qemu config to enable gtk+ instead of sdl
 
+    Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+
+commit 1170d353029dfb3f1a5ed9bab567e353bd034dfa
+Author: Alexander Kanavin <alex.kanavin@gmail.com>
+Date:   Thu Dec 27 15:33:27 2018 +0100
+
+    qemu: build target variant with gtk+, and nativesdk variant without sdl
+
+    As sdl is deprecated in favor of gtk+, it should not be the default.
+
+    Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+
+I'm confused, what should go where?
+
+Alex
 
