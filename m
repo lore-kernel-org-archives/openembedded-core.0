@@ -1,47 +1,42 @@
-Return-Path: <leobsd@gmail.com>
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
-	[209.85.167.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E1DBE7C5C5
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A5E5C7C5D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 16:42:32 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id l10so2986681lfh.9
+	Fri,  8 Feb 2019 16:48:33 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id g4so3336814eds.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 08:42:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JNGql08jVYUYfZyo8s+qlPeBz1V8QNoEscHVnjylHxU=;
-	b=ZwfNdGYD+tnK3gehEL8dQRwgKQQNe5TED5peCoC15BPRsbUQTgq6cMSlfwiFhqjcpc
-	VpdEhM1zKr4poAWwTgIH69EiDCcziavJE3WdCZc5l252fvaWchRC5qHMfFonP0oDvPBD
-	P6nnSh7YQp1/53GU2aYI45vviqRL3ECsWD6UI+/FsHh0ZM0bDDfddVpGFa5162HbDuzr
-	rwvOBSrCb+bC//BZgy+dEZ7dD/eZQxsSS8y0wtFUfpUZN7bHrv2nWrsk5PthW42nLfj2
-	4bgywRbA/6dU/w2QF+n+CU3xFyKAo6wEJKCmngH/i7Eo6LxAd4u86MWI7E67Q29NgR7/
-	VGlw==
+	Fri, 08 Feb 2019 08:48:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JNGql08jVYUYfZyo8s+qlPeBz1V8QNoEscHVnjylHxU=;
-	b=Do4psicQ17f29E9DkfRMcILm5jlkEkEJ0/9ZijhJQot+guesPyf6ysAsGwy5LQTwpH
-	wXV1guuoXTsAYgYVxkpp4pyBt5Opq8FVfM2r9HnRo1T80owCikcdLFmy4nstKVnM0Hwh
-	kHAxEx0BbC372tXYYSfC7Fdt8WRM2VWbkQ/rJyD0sl7nJY9X9XVnj/xEDlaBw7g+RaCi
-	8X3CM1d1qHZmUdZJH0pzJF00nSVrXgywWNbQ0bqYIijA25n9T8KGqruQP9jii4yjYCts
-	bRM39Akbmsr3Wf6uGvwOUTkUZ23D/WTSzd7wIdJ+OJZHq47PYHKHtHuk5usdfhE3mM7b
-	VcwQ==
-X-Gm-Message-State: AHQUAub1EY74hNEO9dHGCShxo5GXEgOb+lVhgYpnv0FYeIXnpy2KOWIu
-	6Tkmr5JX3hB8P/jXbUuJ5LUiTLPYS4K40Dz8ZWc=
-X-Google-Smtp-Source: AHgI3Ia9lFOLW60M1Qvu5uTfKiZI+P0gz0UZ9WhjSo1Vb7OwEhtJuZtggEINPYRdireOYfizj21Iou1u+tmfB9j48B4=
-X-Received: by 2002:a19:915d:: with SMTP id y29mr1085819lfj.92.1549644153372; 
-	Fri, 08 Feb 2019 08:42:33 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=izIDFluJSsghaEmSj53GXdzcALWV/heJ5kZbprYpXx8=;
+	b=rVaCm35ZCNvcayl0j3pOMG+FEyGQv7Bqn+xoJbVe6kJMFvFdyNZnu27c14ocHm8xYP
+	GNBv/nCxz/3/LOq2BcmzWNMmQlOsiTzHtmBet+Saud12wcbUKrNjmgVPD/LNfX/Mxgtj
+	+qyTq40+f7ybgZTzypAn+zEOAoovL9Sk8OMDolQl0/7tCFEPFgbwL3cARaB7rHMAHraw
+	eoduTuIoC8WcwionQtrCIXma2NTW4djOuDFGdXaoFKKR4JCwyPKtWJ2DYvq7YLby274p
+	ppp+otw5R7MXaxomrLunqaW4q4CS/LGi8VRTxUd7VcOxhegAtvXK7LWm2hbk2OnaV96d
+	rCBQ==
+X-Gm-Message-State: AHQUAuaIjRFWJVAqL+/9fwf6V6GevcKalSdSp3APFb7XyUu3KEUTjjno
+	hPgmxYyqvHFHuOWNVhK3p5cgQqPx
+X-Google-Smtp-Source: AHgI3Ib6kdPgNuuXq02uG3ZJKprJgEW7h5/q09tmQ+G8OnX4O3cncjaHNbdB8S/T8ZvW3STjUt8BEg==
+X-Received: by 2002:a17:906:4344:: with SMTP id
+	z4mr16466037ejm.27.1549644513866; 
+	Fri, 08 Feb 2019 08:48:33 -0800 (PST)
+Received: from tfsielt31850.fritz.box (188-141-55-36.dynamic.upc.ie.
+	[188.141.55.36])
+	by smtp.gmail.com with ESMTPSA id r16sm266162ejz.70.2019.02.08.08.48.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Feb 2019 08:48:33 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2019 16:48:32 +0000
+Message-Id: <20190208164832.6047-1-git@andred.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190208082005.24173-1-leobsd@gmail.com>
-	<7e6b799899ca0c0e9e07998add5ccd7a7d508c3b.camel@andred.net>
-In-Reply-To: <7e6b799899ca0c0e9e07998add5ccd7a7d508c3b.camel@andred.net>
-From: Leonardo Rangel <leobsd@gmail.com>
-Date: Fri, 8 Feb 2019 08:41:56 -0800
-Message-ID: <CAN7MDW9=O76k6difPuidh3ybQqAkq5Z_jNiP2Si0pzD5k0vktA@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] Fix cp's target path for ext* filesystems
+Subject: [PATCH v2] sysvinit-inittab: support non-busybox-getty on serial consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,57 +49,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 16:42:34 -0000
-Content-Type: multipart/alternative; boundary="0000000000004a4814058164a5c9"
+X-List-Received-Date: Fri, 08 Feb 2019 16:48:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---0000000000004a4814058164a5c9
-Content-Type: text/plain; charset="UTF-8"
+From: André Draszik <andre.draszik@jci.com>
 
-> On Fri, 2019-02-08 at 00:20 -0800, Leonardo Augusto wrote:
-[...]
-> >
-> > diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-> > index 4662c665c0..b4be796752 100644
-> > --- a/scripts/lib/wic/engine.py
-> > +++ b/scripts/lib/wic/engine.py
-> > @@ -331,7 +331,7 @@ class Disk:
-> >      def copy(self, src, pnum, path):
-> >          """Copy partition image into wic image."""
-> >          if self.partitions[pnum].fstype.startswith('ext'):
-> > -            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
-> > +            cmd = "echo 'cd {}\nwrite {} {}' | {} -w {}".\
->
-> This causes some shell's echos to output a literal \n (two characters,
-'\'
-> and 'n').
->
-> The solution should be to use printf instead of echo...
+Busybox' getty has code to try to make itself a session leader,
+whereas util-linux' agetty doesn't. It expects this to happen
+from outside.
+When getty is not a session leader, many things don't work on
+the serial console, e.g. setting the terminal process group,
+job control doesn't work, etc.
 
-Yes, indeed. I've just sent out a v3 based on your suggestion.
+Executing image tests also fails with AssertionErrors, because
+    Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot get controlling tty: Operation not permitted
+    Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot set process group: Inappropriate ioctl for device
 
-Thanks!
+Update the start_getty script to invoke getty via the setsid
+utility if needed, i.e. if /sbin/getty is not busybox getty.
 
---0000000000004a4814058164a5c9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[YOCTO #13058]
 
-<div dir=3D"ltr"><div dir=3D"ltr">&gt; On Fri, 2019-02-08 at 00:20 -0800, L=
-eonardo Augusto wrote:<br>[...]<br>&gt; &gt;<br>&gt; &gt; diff --git a/scri=
-pts/lib/wic/engine.py b/scripts/lib/wic/engine.py<br>&gt; &gt; index 4662c6=
-65c0..b4be796752 100644<br>&gt; &gt; --- a/scripts/lib/wic/engine.py<br>&gt=
-; &gt; +++ b/scripts/lib/wic/engine.py<br>&gt; &gt; @@ -331,7 +331,7 @@ cla=
-ss Disk:<br>&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def copy(self, src, pnu=
-m, path):<br>&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 &quot;&quot;&quot;Copy partition image into wic image.&quot;&quot;&quot=
-;<br>&gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if sel=
-f.partitions[pnum].fstype.startswith(&#39;ext&#39;):<br>&gt; &gt; -=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =3D &quot;=
-echo -e &#39;cd {}\nwrite {} {}&#39; | {} -w {}&quot;.\<br>&gt; &gt; +=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =3D &qu=
-ot;echo &#39;cd {}\nwrite {} {}&#39; | {} -w {}&quot;.\<br>&gt; <br>&gt; Th=
-is causes some shell&#39;s echos to output a literal \n (two characters, &#=
-39;\&#39; <br>&gt; and &#39;n&#39;).<br>&gt; <br>&gt; The solution should b=
-e to use printf instead of echo...<br><br>Yes, indeed. I&#39;ve just sent o=
-ut a v3 based on your suggestion.<br><br>Thanks!<br></div></div>
+Signed-off-by: André Draszik <andre.draszik@jci.com>
 
---0000000000004a4814058164a5c9--
+---
+v2: fork fewer processes
+---
+ .../sysvinit/sysvinit-inittab/start_getty          | 14 +++++++++++++-
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+index e15ae35f90..d3ebb84e18 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+@@ -13,6 +13,18 @@ active_serial=$(grep "serial" /proc/tty/drivers | cut -d/ -f1 | sed "s/ *$//")
+ # Rephrase input parameter from ttyS target index (ttyS1, ttyS2, ttyAMA0, etc).
+ runtime_tty=$(echo $2 | grep -oh '[0-9]')
+ 
++# busybox' getty does this itself, util-linux' agetty needs extra help
++getty="/sbin/getty"
++case $(readlink -f "${getty}") in
++    */busybox*)
++        ;;
++    *)
++        if [ -x "/usr/bin/setsid" ] ; then
++            getty="/usr/bin/setsid ${getty}"
++        fi
++        ;;
++esac
++
+ # Backup $IFS.
+ DEFAULT_IFS=$IFS
+ # Customize Internal Field Separator.
+@@ -31,7 +43,7 @@ for line in $active_serial; do
+ 			then
+ 				if [ -c /dev/$2 ]
+ 				then
+-				    /sbin/getty -L $1 $2 $3
++				    eval ${getty} -L $1 $2 $3
+ 				fi
+ 				break
+ 			fi
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 8585a418ab..bfd890d924 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -20,6 +20,7 @@ do_install() {
+     install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+     install -d ${D}${base_bindir}
+     install -m 0755 ${WORKDIR}/start_getty ${D}${base_bindir}/start_getty
++    sed -e 's,/usr/bin,${bindir},g' -i ${D}${base_bindir}/start_getty
+ 
+     set -x
+     tmp="${SERIAL_CONSOLES}"
+-- 
+2.20.1
+
+
