@@ -1,52 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CA1E7C3D9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC1C7C3D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 17:41:55 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id w204so2613984qka.2
+	Fri,  8 Feb 2019 17:47:08 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id r17so4401309wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 09:41:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=j1JbS3v09p5PzXoMZP02uV8/T7ifI70BU5n4bmKHjsE=;
-	b=sXLRrGcI0Eq2sDAlMly0eIZUQq68jn6IAjKrJ7dGCfzzsM753ddpumzkoWr8WCS4hO
-	6rKPrZu82Go7xrWTg+FOAG7r81Y4Q2UiuMTcx2BvlWqjSBtHEAXfNH5koBwIZfFlMtYC
-	aK6Tgkpc1tuAZ7XvhJEhC5MN0OBJ+bGwGseBxt73KHmmsX4vU6qQ0vay9XUMj15lBiub
-	JxFeQwEuCrSPUWmYmTOtS4WcBer1B8EfJ5qfzGMxy/ItjmohkkMXxqleeFAKMzFjbmu+
-	vNx8++Y5kNvJF41V4XYnqr35fGzXZ/NgpYSiC4jLFp/4q0SprwqlJFYpntWIVSUyE+4E
-	PkJA==
+	Fri, 08 Feb 2019 09:47:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=LT84pF//vC4wed8+3x3v5D1SpOhRHHNv9OgCtH0oZvE=;
+	b=ar0CUaADpPkCm6bECr2TLApxl52rNh6GEV6Nc1XEqy686fU8APLpkG4AFwNc/2JEZW
+	gcYeST85Qpe6qvE6WAllqjgzvfm2pxl3yeDfF9nA5kzVG9hpXK6PFnnJPco0TBuDSt1K
+	b6pQCozldWn3of3XbFhwTDHMGqQRTh4id1Psw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=j1JbS3v09p5PzXoMZP02uV8/T7ifI70BU5n4bmKHjsE=;
-	b=gytlF0+hNqdxSXW60HqwoUDU/ZWm9HCYyaoHC8fzGpPu7HUvVztPlL2zOQjPLAYcMt
-	fUi7UOqnhaxChuVlUUjdSfn5HvXNluhIiIdNDILAQK+qe7++1bPbv6WtnF4ZJ5qMQ5wp
-	yNOLr0vtFYaIV602aA8vcWA6e7X1hWPIzpsW2jQh5wlj24EHFNHaIdkqx3txOL89PMoa
-	LNLd556HkP9XkSLNI/zbowCUEpqY5Br7vLm4mpuCn+xyqJtHa7cho7pKiOFC1gqBKS4B
-	cj8sbSqJv2Ryafpt16TFKpBnwAyR3d2megV3+giRN3BUPHp9am2J2609zlgtmKStMST5
-	IDxw==
-X-Gm-Message-State: AHQUAuYeZaqY5+IrlUKInDVl4muqACL4dVFHrtHdBn6+icu42A6waSf5
-	2Gzgt+CDwj8HvGqkWN84mvO1JPAZOckB3VxrMxM=
-X-Google-Smtp-Source: AHgI3IYKI63al8hvWF6trnE3dSiinrEXTjgBAQ2LH6+OzDfBHDQrdwfPJ9UmwokEiy0tPKOsd6qBNhSvz9oEc9hLzwc=
-X-Received: by 2002:a37:4c41:: with SMTP id z62mr16673230qka.206.1549647715999;
-	Fri, 08 Feb 2019 09:41:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20190208153221.4335-1-abrodkin@synopsys.com>
-	<CAMKF1sqY_1h8j2KR322gF8swrvFapx1mJvicHn-U3bm0+m4-7g@mail.gmail.com>
-	<4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
-In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Feb 2019 09:41:30 -0800
-Message-ID: <CAMKF1sp8g3AVQUQY-qiKSw7PpO1Su1NRavA-eW7yN2tnAcOnwA@mail.gmail.com>
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Vineet Gupta <vineet.gupta1@synopsys.com>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto: Add dependency on libgcc for ARC
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=LT84pF//vC4wed8+3x3v5D1SpOhRHHNv9OgCtH0oZvE=;
+	b=Oi/T5n7TQZD08XN9dmWypXJ6jbAETLGKyb1vqPF7MuKPczhA9jDyuxQvXPlflOWZfn
+	V3jgI3neKuIGbblArI57K38d0kwDobnYrVu3LjfToxLTzMfZFF6etEVZbB0NmnO9tGkf
+	nUgJkmkvWcVjG5zco1WAID/AMi6+M+qUCdETOg5rXWnV1qnvow5oetfOpr8SsfMCIqbf
+	RqbRn4qF1Z447ePKy/Sqe+BekDcJU0sDmRMqoUt6Pt2laWi6WEhFkNTHbMipQXKQArmi
+	Yka4vM5gj+g0VjlBRwizA4tJAuw+u94pKPrVMqs7jKxn/rXVkeiqDbwqvHjCr4gqOoNw
+	QQuw==
+X-Gm-Message-State: AHQUAuYSmSHv32Qw5sRB5k94a8yphVBp/qQgpOgrz7Uh56GC/zH0US0C
+	ujxYcwyaNGG8DtizDXVKbQTa/Q==
+X-Google-Smtp-Source: AHgI3IYLc/e3cE8WdlRbP1PH2iUmYepTa6N/2Tz0rBXaFA7tAGfs/nVtpAkiIsZwrsAfNqMbiOH1pw==
+X-Received: by 2002:a1c:96ce:: with SMTP id y197mr13033876wmd.36.1549648029469;
+	Fri, 08 Feb 2019 09:47:09 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q15sm1824735wmj.46.2019.02.08.09.47.08
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 08 Feb 2019 09:47:08 -0800 (PST)
+Message-ID: <817180b3d2f75ad74df51ddd0b61d7cb4dacfcf1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 08 Feb 2019 17:47:07 +0000
+In-Reply-To: <f37a095f78efe6e4c9033a430121de128a8871c6.camel@andred.net>
+References: <20190208120210.31861-1-git@andred.net>
+	<c637a3a45fb3d5f40e22a54f59649908f5500794.camel@linuxfoundation.org>
+	<f37a095f78efe6e4c9033a430121de128a8871c6.camel@andred.net>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] sysvinit-inittab: support non-busybox-getty on serial consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +60,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 17:41:55 -0000
+X-List-Received-Date: Fri, 08 Feb 2019 17:47:09 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 8, 2019 at 9:35 AM Alexey Brodkin
-<alexey.brodkin@synopsys.com> wrote:
->
-> Hi Khem,
->
-> > -----Original Message-----
-> > From: Khem Raj <raj.khem@gmail.com>
-> > Sent: Friday, February 8, 2019 8:28 PM
-> > To: Alexey Brodkin <alexey.brodkin@synopsys.com>
-> > Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>; Ross
-> > Burton <ross.burton@intel.com>; linux-snps-arc@lists.infradead.org; Bruce Ashfield
-> > <bruce.ashfield@windriver.com>
-> > Subject: Re: [PATCH] linux-yocto: Add dependency on libgcc for ARC
-> >
-> > On Fri, Feb 8, 2019 at 7:32 AM Alexey Brodkin
-> > <alexey.brodkin@synopsys.com> wrote:
-> > >
-> > > As of now in case of ARC there's no in-kernel implementation of basic libgcc
-> > > functions used for millicode, multiplication, division etc instead we simply
-> > > link with libgcc.a which provides everything used by the compiler.
-> > >
-> >
-> > this is something you would be fixing in kernel eventually?
-> > we can carry this as a workaround until then but it really needs to be
-> > fixed in kernel.
->
-> Well we do have it in our plans but given this is more a nice feature
-> than something critical (as currently used approach with libgcc works
-> perfectly fine) it might not be done very soon.
->
-> Thus we'll need to keep this work-around for now.
->
-> BTW exporting of libgcc parts into kernel means we'll need to
-> keep it in sync with real libgcc later which is not optimal as well.
+On Fri, 2019-02-08 at 16:55 +0000, André Draszik wrote:
+> On Fri, 2019-02-08 at 14:07 +0000, Richard Purdie wrote:
+> > On Fri, 2019-02-08 at 12:02 +0000, André Draszik wrote:
+> > > From: André Draszik <andre.draszik@jci.com>
+> > > 
+> > > Busybox' getty has code to try to make itself a session leader,
+> > > whereas util-linux' agetty doesn't. It expects this to happen
+> > > from outside.
+> > > When getty is not a session leader, many things don't work on
+> > > the serial console, e.g. setting the terminal process group,
+> > > job control doesn't work, etc.
+> > > 
+> > > Executing image tests also fails with AssertionErrors, because
+> > >     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot get
+> > > controlling tty: Operation not permitted
+> > >     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot set
+> > > process group: Inappropriate ioctl for device
+> > > 
+> > > Update the start_getty script to invoke getty via the setsid
+> > > utility if needed, i.e. if /sbin/getty is not busybox getty.
+> > > 
+> > > [YOCTO #13058]
+> > > 
+> > > Signed-off-by: André Draszik <andre.draszik@jci.com>
+> > > ---
+> > >  meta/recipes-core/sysvinit/sysvinit-inittab/start_getty | 9
+> > > ++++++++-
+> > >  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb  | 1 +
+> > >  2 files changed, 9 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/recipes-core/sysvinit/sysvinit-
+> > > inittab/start_getty
+> > > b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> > > index e15ae35f90..ae613f1e54 100644
+> > > --- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> > > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> > > @@ -13,6 +13,13 @@ active_serial=$(grep "serial"
+> > > /proc/tty/drivers |
+> > > cut -d/ -f1 | sed "s/ *$//")
+> > >  # Rephrase input parameter from ttyS target index (ttyS1, ttyS2,
+> > > ttyAMA0, etc).
+> > >  runtime_tty=$(echo $2 | grep -oh '[0-9]')
+> > >  
+> > > +# busybox' getty does this itself, util-linux' getty needs extra
+> > > help
+> > > +getty="/sbin/getty"
+> > > +if ! basename $(readlink -f "${getty}") | grep -q busybox \
+> > > +    && [ -x "/usr/bin/setsid" ] ; then
+> > > +    getty="/usr/bin/setsid ${getty}"
+> > > +fi
+> > 
+> > The reason I'm reluctant to take changes like this is you just
+> > added 3
+> > fork calls above. This does have a significant effect on boot time
+> > on
+> > slower devices.
+> > 
+> > Is there a way we can do a shell string comparison rather than
+> > using
+> > grep? case statement maybe?
+> 
+> I've sent a v2.
+> 
+> Are you aware that there are at least 9 forks in this file for
+> something as
+> simple as forking a getty?
 
-aarch64 kernel also bootstrapped with lbgcc for quite a while and then
-moved away
-I can understand that there might be bigger fish to fry, but this is
-not a insignificant issue
-where you make kernel dependency on toolchain runtime go away.
+I'm not familiar with this file in particular.
 
->
-> -Alexey
+I know we removed a lot from general startup but a lot has crept in
+since then :( 
+
+Cheers,
+
+Richard
+
 
