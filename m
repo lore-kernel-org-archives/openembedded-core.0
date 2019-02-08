@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A6A07C4CF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF9C6B005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2019 21:05:29 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id q18so1357152wrx.9
+	Fri,  8 Feb 2019 00:56:20 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id y1so780049pgk.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2019 13:05:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=mGdHURqkjMYkW0herd3JeoDZqiqoTZJw/Kr7NAeysLk=;
-	b=eGqCs921YsOfIsA8AwgwEJfHERAH+kyiYPpy+2CibaDm0XGYDI7aWrWX5/NNfCjCmG
-	57BHVlYheEnmszm0SJbucn0j10m/Ae10aTHH8p/oW+JbHIECZMzI3jqycSHpgnYL//+4
-	kbvw+EUzoIYtAwKJBYYBRXMd502Zn/Bg/elFw=
+	Thu, 07 Feb 2019 16:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yiGxStsGSyUPp76ZCoXq2FVrJw2g8d7UFbsUiocjU5c=;
+	b=dx8WGx/V9InE2BOat1Zy8L7hR3Z48sQTEN6YM6d2YaI+bDW5+YOlQD4InpAqykO7L+
+	VKsdpfphXUSdxKXBWTUc8AsiBWKTq0XCEzyyHBuh9osItA7ElIUizNhtYemDthakrsgH
+	h/sA6suNlaQBEiQWH5n6TdWJgFpEQP9f+Tw8V7Jxwv8P0NaD4iBbCQReLsfc+/RLl9vR
+	39tvKK2MMNjV9Q3ft7RFn3Pv1hJU4L9Ld67TYpbm7o/Xe5BVzSZqLW3/SBfdgNYb0Ok9
+	MEJXOSyfYn8ikYbFMxwE0dwkrWZg6MjEnNqLqMt7cY2gzD8ckxpLXrvdlIZ7jmvWqjTM
+	1KSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mGdHURqkjMYkW0herd3JeoDZqiqoTZJw/Kr7NAeysLk=;
-	b=AcmZ7simDzUPfdVT3/YcmMSktXXEWH6RGHToruALQeS5e6mHbM7NafX6FYWM1VoBFA
-	exOWuqKuV0uvTTd8pOC/KcDrDQY3NK0Pid0vRwapcYrUNcds12qOirJ5Ip2iv+KPSg7/
-	jIPIbF3gXkkmHovmkvYULQqNokciCVKSSS8Gz0EFkdy9WE1MCI5X2+pvCgpI/J/YGhcp
-	r4vADLmgqlR2VRJO6HXmEneMU+9oXBe8X2h5rXMPtChHRXdjcZLQIsKIBNttXmm4EV2C
-	QOVdM720V85jG0NZ7C4YJOdNs5T7h0jj0mMN/tUviNGACyRtX1F7MLsQhkad9wZ5JtDW
-	EiZw==
-X-Gm-Message-State: AHQUAubY4hDkbOe5tPNHE8F2bLrtqzK1M6uagBdachnzadxs8Q7FBnDj
-	I3Fh2A7jS0L/5mcsFeJBqD+TzQ==
-X-Google-Smtp-Source: AHgI3Ia0AebQlv8nYUf8MV3PoIbXZ94hr03C4PWOUlhe2vbKBctV6So1st3NBIVkbfFo6youZMKL0A==
-X-Received: by 2002:a5d:4b01:: with SMTP id v1mr13277197wrq.5.1549573529788;
-	Thu, 07 Feb 2019 13:05:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c129sm250537wma.48.2019.02.07.13.05.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 07 Feb 2019 13:05:29 -0800 (PST)
-Message-ID: <bdafac99fb9115efca1501c60cf0091fa07d6bd4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Anuj Mittal <anuj.mittal@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 07 Feb 2019 21:05:22 +0000
-In-Reply-To: <20190207055714.25880-1-anuj.mittal@intel.com>
-References: <20190207055714.25880-1-anuj.mittal@intel.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/3] libva: upgrade 2.3.0 -> 2.4.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yiGxStsGSyUPp76ZCoXq2FVrJw2g8d7UFbsUiocjU5c=;
+	b=Eu7zBV8nMn0Y0jK2PMS6f5QrFRDYLSb14YO5CHXSasheI4x+7Kve3J9yGNwakqaiWY
+	XpqFQSE7xjc2s63NiiKCEgKsksPhYHcX1N1KG+c/eBbESjCrMxnNutT1fk+O6lfJRLJL
+	4dc6fkbZZQWBVYlg1mbpiw2Q83/ADmPCqyOANoa+7ubrcRYHskYGr0UxuUkAUOR3zAwN
+	rjIxP2QcT9HuJKw6EmJtILEiUouBHS0ALX79thh50Vf1/oS6vayybpRFbUdFJDW/4T4g
+	7wR4f0ARWOJA3mr/bqkH/7owVPHR8fJNeZDWfmtzwfe7tm8Ubt7TdTRqiEG7PVFtlrIS
+	mJvw==
+X-Gm-Message-State: AHQUAuY5D7dT7RpgDuC9VH3xzTa2kW7L0276XqoDTz3OV9G25YSYsAUC
+	oXqS3Fz4BlbFHgbWUfKQ4Oo3hQYZ
+X-Google-Smtp-Source: AHgI3Ibu+PJ5xcOxqgpg+BCm/oDKTId3HovXpJXXbwmVhFXy2dA/rW7iMnVLiXoHYul6DMd93DeHfg==
+X-Received: by 2002:a63:e051:: with SMTP id n17mr17731835pgj.258.1549587380992;
+	Thu, 07 Feb 2019 16:56:20 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::a005])
+	by smtp.gmail.com with ESMTPSA id a13sm359113pgq.65.2019.02.07.16.56.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Feb 2019 16:56:20 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Feb 2019 16:56:11 -0800
+Message-Id: <20190208005611.8039-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +56,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 21:05:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Feb 2019 00:56:20 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-02-07 at 13:57 +0800, Anuj Mittal wrote:
-> For changes, see:
-> 
-> https://github.com/intel/libva/releases
-> 
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  .../recipes-graphics/libva/{libva_2.3.0.bb => libva_2.4.0.bb} | 4
-> ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/libva/{libva_2.3.0.bb =>
-> libva_2.4.0.bb} (92%)
+This has been a constant source of trouble for build failures due to host-user-contaminated QA
+errors of sort
 
-This seemed to cause:
+ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/266
+So far we have tried to mould cp command into not carrying the build
+user permissions into install area but it is never entirely fixed since
+the issue keeps popping up in various scenes
 
-Cheers,
+This patch replaces use of cp with install utility and specifies install
+mode for files explcitly
 
-Richard
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-locale.inc | 41 ++++++++++++------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
-
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index 6384f9cbf1..9cce61bf0b 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -71,28 +71,27 @@ FILES_localedef = "${bindir}/localedef"
+ 
+ LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+ 
+-do_install () {
+-	mkdir -p ${D}${bindir} ${D}${datadir}
+-	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+-		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+-	fi
+-	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+-		mkdir -p ${D}${localedir}
+-		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
+-	fi
+-	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+-		mkdir -p ${D}${libdir}
+-		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+-			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+-		fi
+-		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+-			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+-		fi
+-	fi
+-	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+-		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
++copy_locale_files() {
++	local dir=$1 mode=$2
++
++	[ -e "${LOCALETREESRC}$dir" ] || return 0
++
++	for d in . $(find "${LOCALETREESRC}$dir" -type d -printf '%P '); do
++		install -d ${D}$dir/$d
++		find "${LOCALETREESRC}$dir/$d" -maxdepth 1 -type f \
++		-exec install -m $mode -t "${D}$dir/$d" {} \;
++	done
++}
++
++do_install() {
++	copy_locale_files ${bindir} 0755
++	copy_locale_files ${localedir} 0644
++	if [ ${PACKAGE_NO_GCONV} -eq 0 ]; then
++		copy_locale_files ${libdir}/gconv 0755
++		copy_locale_files ${datadir}/i18n 0644
+ 	fi
+-	cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
++	copy_locale_files ${datadir}/locale 0644
++	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+ }
+ 
+ inherit libc-package
+-- 
+2.20.1
 
 
