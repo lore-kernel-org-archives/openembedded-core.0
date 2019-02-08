@@ -1,47 +1,43 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AFF7D6C102
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2325A6C154
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 09:28:11 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id z19so751141otm.2
+	Fri,  8 Feb 2019 11:59:49 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id b17so2566196eds.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 01:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VY9uL+23VeGLstlSN5H6Ed90KEA9/ftkFgyssw1vU1I=;
-	b=kSnoncPm+sJ5mMQSyQXtUAmzYeX2CjdHrZDVDq0EG1QxdukaSzkoByGJNJJ9MXgvdo
-	T+wmN5Xd3r6BEoftlD3rMQvuS5NO4Bjru87PSEDEesSuocm90FAQzxeVk6XXA0Do6js+
-	FNxAJz9DEFD3qCduFF35zWtypx+7obxLDudG+tQf+QN0lbIAzU8SgxOX14S5210IvMnS
-	152/EFPNTAz5Cy4Uz1SSCrBRqTWfGwMX6C8CyiSj8OyY19ghVenVHpBij6EhWyXKV+kf
-	dPfVbeVFnBMDT0RkoE5F/30QbFNcCIJ+yBgMWVc5lM1VJo49Zzree3EnZryKjsO0sRK5
-	bDFg==
+	Fri, 08 Feb 2019 03:59:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=VY9uL+23VeGLstlSN5H6Ed90KEA9/ftkFgyssw1vU1I=;
-	b=miW2w00MWGCYqx98OrWtQscy1DxzMFMDxiBw62mwtTI/48yDPvsajko4E6L0IHk0Y2
-	+aBY4TkEwM0CMJVbobtgMoz0lusisYdSD9pa+LaNv+ekCeMvYV3y/9BgoViQhw5YhnYT
-	zGCFlGXanst50XEf4JfCIkIuCsdKEAEbWHfhrbUwaCEpD7s9P/dDFWE94kC4lPsIkOW+
-	lTGfoGar24gEoesAWcXkDwx5lsvoatQC9xbQUVUx/D3l6YMgkyt63poUGKwnbhY3jLl7
-	ni31sF/rVIcTn+JfvEjWtGKHf2OlQv45Q9RZsvJtNj9rI5L5TJcubjANFFEDmfLKuXP2
-	k++Q==
-X-Gm-Message-State: AHQUAuYiBUK0KRS9Yl3FM/WW5cWf13tyX/grGS51dU6cd9EAYlxzgIGl
-	8ndIndjidZqvPrYAA2x8DKk5zYaiUKIiRJV87Yc=
-X-Google-Smtp-Source: AHgI3IYqWiYtfaVIXsrfYiCHbIGUNbftCXXIFybMIpSi3OlrsACno+2pb6h3QnN+QGLAGrQY+SNgvG878eM44BoQS8g=
-X-Received: by 2002:a9d:5cc2:: with SMTP id r2mr11979142oti.367.1549618092639; 
-	Fri, 08 Feb 2019 01:28:12 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=xenionvBRh5ldRvH9sr2NNEnshgerbjQ6S0Ej4fgaB0=;
+	b=ZqOJqASY42jvIHD641IT/26UcwmZtcBI/0amCugvBI8tWWBjsbdFsv7sCiUXhjoG8L
+	XItKuvUS7BTfNrjzbjiGLR1KFhRTUz5m7AvrP99kYVJRXioXCSC1us9eCujEqz7nsO/w
+	B6WLcc7j6nLIiu9KWtq51K3UxnrRuVnDH7hoqBgv2UeAxHfpCUvuhORDpkSK23PALubL
+	owOr9kImliFnUI90FMHb9RjGR9jyHW5kER0OEpTyzyC5EIxtHqr9Fz5uUVujmGh0esbo
+	txQ9z0JDQ4HgIo+w4pQNEmz3BJhfIAXH5ndMKxpt8lOiFnuTeWaOrQR+7QKIzQ5DOj6P
+	EOWg==
+X-Gm-Message-State: AHQUAuabWMHxm+N7j63zU3SQNfD38idaUOf87QuRa/2PnNIGAKWs8fTD
+	VCtuU4vAjg8sEndnBA4f5L19iv0n
+X-Google-Smtp-Source: AHgI3Ib3NRPlZCD26pG91sOuJf46H9QUCnhH5JB0YL+91P76ocrzdhd5pDZlcqkWU1ALLFFVRfud7w==
+X-Received: by 2002:a50:fd0e:: with SMTP id i14mr16317866eds.98.1549627190305; 
+	Fri, 08 Feb 2019 03:59:50 -0800 (PST)
+Received: from tfsielt31850.fritz.box (188-141-55-36.dynamic.upc.ie.
+	[188.141.55.36])
+	by smtp.gmail.com with ESMTPSA id 45sm590545edz.28.2019.02.08.03.59.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 08 Feb 2019 03:59:49 -0800 (PST)
+Message-ID: <7e6b799899ca0c0e9e07998add5ccd7a7d508c3b.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 08 Feb 2019 11:59:47 +0000
+In-Reply-To: <20190208082005.24173-1-leobsd@gmail.com>
+References: <20190208082005.24173-1-leobsd@gmail.com>
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-References: <20190208060733.5096-1-alistair@alistair23.me>
-In-Reply-To: <20190208060733.5096-1-alistair@alistair23.me>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 8 Feb 2019 10:28:01 +0100
-Message-ID: <CANNYZj-y1ntqO20edE9CMEDfeSqUwfnZ=mUdTEvPztoTHm+j-A@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Alistair Francis <alistair@alistair23.me>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa-lima: Add support for mesa for Mail-4xx GPUs
+Subject: Re: [PATCH v2] Fix cp's target path for ext* filesystems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,70 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 09:28:12 -0000
+X-List-Received-Date: Fri, 08 Feb 2019 11:59:50 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The status of the driver is described here:
-https://www.phoronix.com/scan.php?page=news_item&px=Lima-DRM-Driver-Mainline-V2
-
-Considering the kernel DRM driver is not yet mainlined, and mesa
-driver is also developed separately, and the developer says:
-"Qiang continues to work on the out-of-tree Lima Mesa driver, which he
-says isn't yet ready for daily usage but can run simple tests like the
-KMS cube and glmark2."
-I think this shouldn't  go to oe-core yet. Once this is in mainline
-mesa and kernel, it will be available 'automatically' through version
-updates, until then the pieces belong in a suitable BSP layer, I
-think.
-
-Alex
-
-On Fri, 8 Feb 2019 at 07:07, Alistair Francis <alistair23@gmail.com> wrote:
->
-> Add support for the open source reverse engineered drivers for the
-> Mali-4xx GPUs.
->
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+On Fri, 2019-02-08 at 00:20 -0800, Leonardo Augusto wrote:
+> Python subprocess' shell=True defaults to /bin/sh[1][2], which
+> often refers to a POSIX-compliant shell. As the -e flag is
+> not defined in the POSIX standard[3], some shells may
+> interpret "-e" as the first argument to the echo command,
+> causing the rest of the command line to fail.
+> 
+> In this particular case, "echo -e 'cd {}'" is interpreted
+> as "-e cd {}", which causes the first line of the command
+> to fail, and causing cp to always place the source file
+> in the filesystem's root.
+> 
+> This issue only affects "wic cp" for ext* filesystems.
+> 
+> [1] https://docs.python.org/2/library/subprocess.html
+> [2] https://docs.python.org/3/library/subprocess.html
+> [3] http://pubs.opengroup.org/onlinepubs/9699919799
+> 
+> Signed-off-by: Leonardo Augusto <leobsd@gmail.com>
 > ---
->  .../recipes-graphics/mesa/mesa-lima_18.3.0.bb | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/mesa-lima_18.3.0.bb
->
-> diff --git a/meta/recipes-graphics/mesa/mesa-lima_18.3.0.bb b/meta/recipes-graphics/mesa/mesa-lima_18.3.0.bb
-> new file mode 100644
-> index 0000000000..0f26ede2c4
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-lima_18.3.0.bb
-> @@ -0,0 +1,23 @@
-> +require ${BPN}.inc
-> +
-> +BRANCH = "lima-18.3"
-> +SRCREV = "8e713e4781982c700bfc7b09279146189d525a86"
-> +SRC_URI = "git://gitlab.freedesktop.org/lima/mesa.git;branch=${BRANCH} \
-> +"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +DEPENDS += "python3-native python3-mako python3-mako-native gettext-native libdrm"
-> +DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'x11', 'xrandr', '', d)}"
-> +
-> +PACKAGECONFIG[sun4i] = ""
-> +GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'sun4i', ',lima,sun4i', '', d)}"
-> +
-> +#because we cannot rely on the fact that all apps will use pkgconfig,
-> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
-> +do_install_append() {
-> +    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-> +        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)$/#if defined(MESA_EGL_NO_X11_HEADERS) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +    fi
-> +}
-> +
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  scripts/lib/wic/engine.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+> index 4662c665c0..b4be796752 100644
+> --- a/scripts/lib/wic/engine.py
+> +++ b/scripts/lib/wic/engine.py
+> @@ -331,7 +331,7 @@ class Disk:
+>      def copy(self, src, pnum, path):
+>          """Copy partition image into wic image."""
+>          if self.partitions[pnum].fstype.startswith('ext'):
+> -            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
+> +            cmd = "echo 'cd {}\nwrite {} {}' | {} -w {}".\
+
+This causes some shell's echos to output a literal \n (two characters, '\'
+and 'n').
+
+The solution should be to use printf instead of echo...
+
+Cheers,
+Andre'
+
+>                        format(path, src, os.path.basename(src),
+>                               self.debugfs, self._get_part_image(pnum))
+>          else: # fat
+> -- 
+> 2.17.1
+> 
+
 
