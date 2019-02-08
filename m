@@ -1,160 +1,49 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-X-Greylist: delayed 522 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 08 Feb 2019 06:50:37 UTC
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.47.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A83436C42C
+Return-Path: <leobsd@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id ADDA77C55C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 06:50:37 +0000 (UTC)
-Received: from mailhost.synopsys.com (dc8-mailhost2.synopsys.com
-	[10.13.135.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtprelay.synopsys.com (Postfix) with ESMTPS id 01C5F24E2032;
-	Thu,  7 Feb 2019 22:41:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1549608116; bh=blA+31WJe2VOv0lcgLJ51v8ne59W1oE29pNGSItbRPo=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=Bk93YuAESz0ynE9xgWknTlm4dSaj8V0IP3QasQtRC4JsAWKqvGjZZMbn1EeWZBXfA
-	A+l11FgX9UMlHRUrO3r2u75kyCJcCgoUyuMx2/JVLzPWnkxzBChd1qVV109SWJ/Up4
-	5onoi2vjKTptBLkm6vhRuwg12Elfq6xgHGv8yLVAl/p/XZHKYW9Ppf73s7n+XBZ/K8
-	iOY3dVPzN2cUkQfj28LM7QIKDzPEENNUZ1HG5U0K/wtpLqbZF+AeKE1GbsdPzRmezg
-	T5SpHoNj+LYNRCuhTnLd1kmRaArzN4WI3QFSIa50wGdXh8CoPpAojSs6XjVa9YDpDJ
-	q7NsPGvm7D7/Q==
-Received: from us01wehtc1.internal.synopsys.com
-	(us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 5D1FEA005A;
-	Fri,  8 Feb 2019 06:41:55 +0000 (UTC)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
-	us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Thu, 7 Feb 2019 22:41:54 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Fri, 8 Feb 2019 07:41:52 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Thread-Topic: [OE-core] Always install initramfs-framework-base in case of
-	linux-yocto & INITRAMFS_IMAGE_BUNDLE=1
-Thread-Index: AdS4CrvaNUzFK0bdRgOVCbErMswQhgBl0rqAALDVJwAAoM+3gAAkJKlA
-Date: Fri, 8 Feb 2019 06:41:51 +0000
-Message-ID: <4881796E12491D4BB15146FE0209CE64681D645B@DE02WEMBXB.internal.synopsys.com>
-References: <4881796E12491D4BB15146FE0209CE64681CF335@DE02WEMBXB.internal.synopsys.com>
-	<CAMjhiJjNLN7Rnj8es_860h2=XdTbf9nnawouhUBYd+dEApmr4w@mail.gmail.com>
-	<4881796E12491D4BB15146FE0209CE64681D54A2@DE02WEMBXB.internal.synopsys.com>
-	<CAAQYJAsCYPP88dCGY_=4mKE9rPGuw6za01tw-CB7D7VCZ7xYeg@mail.gmail.com>
-In-Reply-To: <CAAQYJAsCYPP88dCGY_=4mKE9rPGuw6za01tw-CB7D7VCZ7xYeg@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
-	=?utf-8?B?bk5jWVdKeWIyUnJhVzVjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
-	=?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
-	=?utf-8?B?elhHMXpaeTA1WXpneE56QTRaaTB5WWpaakxURXhaVGt0WW1WalppMWhORFJq?=
-	=?utf-8?B?WXpoa05UTTBaV1pjWVcxbExYUmxjM1JjT1dNNE1UY3dPVEV0TW1JMll5MHhN?=
-	=?utf-8?B?V1U1TFdKbFkyWXRZVFEwWTJNNFpEVXpOR1ZtWW05a2VTNTBlSFFpSUhONlBT?=
-	=?utf-8?B?SXlOalkwSWlCMFBTSXhNekU1TkRBNE1UY3hNRE00TlRZek9EY2lJR2c5SWpk?=
-	=?utf-8?B?SlozaDZTQzlFVDFjMGNqWmlUMjVvT0V0R1FYSk5kMHhxT0QwaUlHbGtQU0lp?=
-	=?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
-	=?utf-8?B?azVEWjFWQlFVSlJTa0ZCUVVSdk9XeGxaV0l2VlVGaWFWVmhXU3MxYVRCVU1I?=
-	=?utf-8?B?VktVbkJxTjIxTVVsQlJUMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRklRVUZCUVVOclEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGRlFVRlJRVUpCUVVGQlpXWjRVMnAzUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
-	=?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
-	=?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
-	=?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
-	=?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
-	=?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
-	=?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
-	=?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
-	=?utf-8?B?MmRDZWtGR09FRmpkMEpvUVVjd1FXTjNRakZCUnpSQlduZENaa0ZJU1VGYVVV?=
-	=?utf-8?B?SjZRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
-	=?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
-	=?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSE1FRmhVVUpxUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
-	=?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
-	=?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNFMUJaRUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
-	=?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JC?=
-	=?utf-8?B?UW5wQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkWlFXSjNR?=
-	=?utf-8?B?akZCUnpSQldrRkNlVUZJYTBGWWQwSjNRVWRGUVdOblFqQkJSelJCV2xGQ2VV?=
-	=?utf-8?B?RklUVUZZZDBJeFFVY3dRVmwzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
-	=?utf-8?B?QlFVRmFkMEl3UVVoTlFWaDNRbmRCU0VsQlluZENhMEZJVlVGWmQwSXdRVVk0?=
-	=?utf-8?B?UVdSQlFubEJSMFZCWVZGQ2RVRkhhMEZpWjBKdVFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
-	=?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbWhCUjAxQldY?=
-	=?utf-8?B?ZENka0ZJVlVGaVowSXdRVVk0UVdOQlFuTkJSMFZCWW1kQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJXVkZDYzBGSFZVRmpkMEpt?=
-	=?utf-8?B?UVVoRlFXUlJRblpCU0ZGQldsRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
-	=?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
-	=?utf-8?B?alowSjBRVVk0UVUxUlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
-	=?utf-8?B?UVVKNlFVYzBRV05CUW5wQlJqaEJZa0ZDY0VGSFRVRmFVVUoxUVVoTlFWcFJR?=
-	=?utf-8?B?bVpCU0ZGQldsRkNlVUZITUVGWWQwSjZRVWhSUVdSUlFtdEJSMVZCWW1kQ01F?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
-	=?utf-8?B?RkJRVUZCYm1kQlFVRklXVUZhZDBKbVFVZHpRVnBSUWpWQlNHTkJZbmRDZVVG?=
-	=?utf-8?B?SFVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZC?=
-	=?utf-8?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: 
-x-originating-ip: [10.225.15.89]
-MIME-Version: 1.0
-Cc: Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: Always install initramfs-framework-base in case of linux-yocto & INITRAMFS_IMAGE_BUNDLE=1
+	Fri,  8 Feb 2019 08:14:22 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id v28so1244313pgk.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2019 00:14:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=KhVhjBhxM86POUfuLke9r7QasUV4t6yVW6boScm0Jfs=;
+	b=gUcr34OiURJN/SZy0bVcpT2Tj6AW/GXNIZJayTMaQLDkeZi7tftBDcdbAhA7i91CY9
+	0is9NqiuD11Rc6mA1IVFElk9f/pRTdY9YZqhsWKr0XEGLz3t2yqUueSS6VlKmZFOvaHM
+	llKvAwfF+duSgKKoAhdHAKxtANXEiUIs+MjzBnFe2iJ5FGadhC7tGEGyi4kT2plMavg9
+	TMAN9cMyWWCBquos2kiQeJljpltfEv8D4X2zx8HoZtJ16dQQkezyM//2Dq/5qiJgfoJc
+	trAkLkhJWCa8I1v6yclPRzzTug/sOyvNfxz+GZBSeYgNFzFm0lrRaUffU9jP2pRqldH6
+	XYrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KhVhjBhxM86POUfuLke9r7QasUV4t6yVW6boScm0Jfs=;
+	b=DFF+ojny7jT6n+mkw9pO6M6/fBnjXoNVLDcgwzl9SrCj33VIlSkric25WaXE4rZ9ez
+	YA0JeFN32wFuE/r/VmyHayMkBmJ9SPtk5UJ5W5X7uyHB/NXbKrkahSP+4MdPswzQu4Dp
+	ah60yKW4LpmL5OH5MpPAx+Oqq7mvOhbQVkAgBRoMA7rf1yz5nwO8vDjX9uu4ivxdbDzw
+	gaPVYB7WnRM/m3uzdfa3nXWdYLE+Tv5Jjp0Ua2VoNtJ73v9iby3eXnMirTVAGWeAbU1F
+	tfSrn9DcTCxYh6lBJsft+x9leMgz8dhq3A8LD3zPqHwKHDYE6uYUKF+BXbdvVOZ1lP/r
+	UlVw==
+X-Gm-Message-State: AHQUAubDiIfJv2C9+eJjdRBkT1yERkLYY1C/EOqLalyECxs536VuhnrF
+	HosHJJaG/G3AayoQou8uuVaO0znmDj2cAA==
+X-Google-Smtp-Source: AHgI3IZiPdhjD6XbKyJzta78NqzNxCty+a3sTmvoD6m13uvos/OhaKaJwtnscWJBJVD60PEXM3eKQg==
+X-Received: by 2002:a63:e545:: with SMTP id z5mr19393409pgj.195.1549613663155; 
+	Fri, 08 Feb 2019 00:14:23 -0800 (PST)
+Received: from localhost.localdomain
+	(node-1w7jr9qpx9oqtmftzk0df307j.ipv6.telus.net.
+	[2001:569:790a:d400:8541:be6d:a320:e6cf])
+	by smtp.gmail.com with ESMTPSA id
+	n186sm2548465pfn.137.2019.02.08.00.14.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Feb 2019 00:14:22 -0800 (PST)
+From: Leonardo Augusto <leobsd@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2019 00:14:15 -0800
+Message-Id: <20190208081415.23989-1-leobsd@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] Fix cp's target path for ext* filesystems Python subprocess' shell=True defaults to /bin/sh[1][2], which often refers to a POSIX-compliant shell. As the -e flag is not defined in the POSIX standard[3], some shells may interpret "-e" as the first argument to the echo command, causing the rest of the command line to fail.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -167,54 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 06:50:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Feb 2019 08:14:22 -0000
 
-SGkgQW5kcmVhLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFuZHJl
-YSBBZGFtaSA8YW5kcmVhLmFkYW1pQGdtYWlsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEZlYnJ1
-YXJ5IDcsIDIwMTkgNToyNiBQTQ0KPiBUbzogQWxleGV5IEJyb2RraW4gPGFsZXhleS5icm9ka2lu
-QHN5bm9wc3lzLmNvbT4NCj4gQ2M6IExlb24gV29lc3RlbmJlcmcgPGxlb25Ac2lkZWJyYW5jaC5j
-b20+OyBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiA8
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gU3ViamVjdDogUmU6
-IFtPRS1jb3JlXSBBbHdheXMgaW5zdGFsbCBpbml0cmFtZnMtZnJhbWV3b3JrLWJhc2UgaW4gY2Fz
-ZSBvZiBsaW51eC15b2N0byAmDQo+IElOSVRSQU1GU19JTUFHRV9CVU5ETEU9MQ0KPiANCj4gT24g
-V2VkLCBGZWIgNiwgMjAxOSBhdCA0OjU0IFBNIEFsZXhleSBCcm9ka2luDQo+IDxhbGV4ZXkuYnJv
-ZGtpbkBzeW5vcHN5cy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgTGVvbiwNCj4gPg0KPiA+ID4g
-LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IExlb24gV29lc3RlbmJlcmcg
-PGxlb25Ac2lkZWJyYW5jaC5jb20+DQo+ID4gPiBTZW50OiBGcmlkYXksIEZlYnJ1YXJ5IDEsIDIw
-MTkgMTI6MTggQU0NCj4gPiA+IFRvOiBBbGV4ZXkgQnJvZGtpbiA8YWxleGV5LmJyb2RraW5Ac3lu
-b3BzeXMuY29tPg0KPiA+ID4gQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBv
-ZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
-PiA+ID4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBBbHdheXMgaW5zdGFsbCBpbml0cmFtZnMtZnJh
-bWV3b3JrLWJhc2UgaW4gY2FzZSBvZiBsaW51eC15b2N0byAmDQo+ID4gPiBJTklUUkFNRlNfSU1B
-R0VfQlVORExFPTENCj4gPiA+DQo+ID4gPiBPbiBUdWUsIEphbiAyOSwgMjAxOSBhdCA5OjAxIFBN
-IEFsZXhleSBCcm9ka2luDQo+ID4gPiA8YWxleGV5LmJyb2RraW5Ac3lub3BzeXMuY29tPiB3cm90
-ZToNCj4gPiA+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPjgtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tDQo+ID4gPiA+IC9kZXYvY29uc29sZSBpcyBtaXNzaW5nIG9yIG5vdCBhIGNoYXJhY3Rl
-ciBkZXZpY2UhDQo+ID4gPiA+IFBsZWFzZSBlbnN1cmUgeW91ciByb290ZnMgaXMgcHJvcGVybHkg
-Y29uZmlndXJlZA0KPiA+ID4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0+OC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCj4gPiA+DQo+ID4gPiBJIHRob3VnaHQgL2Rldi9jb25zb2xlIGNvdWxk
-IGFsc28gYmUgY3JlYXRlZCBieSB0aGUga2VybmVsIGl0c2VsZiBvbnRvDQo+ID4gPiBhICJ0ZW1w
-b3JhcnkgZmlsZXN5c3RlbSBmb3IgZGV2aWNlIG5vZGVzIiAoREVWVE1QRlMpLg0KPiA+ID4gSSBh
-bSBub3Qgc3VyZSwgYnV0IGhlcmUgaXMgYSBzaW1pbGFyIGNhc2U6DQo+ID4gPiBodHRwczovL3Vy
-bGRlZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cC0zQV9fbGlzdHMuYnVzeWJveC5u
-ZXRfcGlwZXJtYWlsX2J1aWxkcm9vdF8yMDE1LQ0KPiA+ID4NCj4gMkRNYXJjaF8xMjMzMDkuaHRt
-bCZkPUR3SUJhUSZjPURQTDZfWF82SmtYRng3QVhXcUIwdGcmcj1scWRlZVNTRWVzMEdGRERsNjU2
-ZVZpWE83YnJlUzU1eXRXa2hwazVSODFJJm09DQo+ID4gPiA5eGFiXzZPU0l4aGs2c0NpcVNGRXdU
-VUFTQklhQV8tQ193R2lTTWZKbjNvJnM9U0o5WDdRVldyZDFnQ2R5QnNMOWZkWTg0MUk0cUcyeTQ3
-VkgzU3ctSVJGNCZlPQ0KPiA+ID4NCj4gPiA+IElzIHlvdXIgKG90aGVyKSBrZXJuZWwgY29uZmln
-dXJlZCB3aXRoIENPTkZJR19ERVZUTVBGUz15Pw0KPiA+DQo+ID4gSW5kZWVkIGl0IGlzLg0KPiA+
-DQo+ID4gVGhlIHByb2JsZW0gaXMgZGV2dG1wZnMgaXMgYXV0by1tb3VudGVkIGluIHByZXBhcmVf
-bmFtZXNwYWNlKCkgd2hpY2gNCj4gPiBpcyBub3QgZXhlY3V0ZWQgaW4gY2FzZSBvZiBpbml0cmFt
-ZnMgYmVjYXVzZSBpbiBjYXNlIG9mIGluaXRyYW1mcyB3ZQ0KPiA+IGV4cGVjdCBpdHMgIi9pbml0
-IiB3aWxsIGRvIGV2ZXJ5dGhpbmcgaXRzZWxmLCBzZWUgWzFdLg0KPiANCj4gSGksDQo+IEkganVt
-cCBpbiBiZWNhdXNlIEkgd2FzIGF0IHRoZSBzYW1lIHBvaW50IHllYXJzIGFnbyBbMV06IHRoZSBp
-c3N1ZQ0KPiBoZXJlIGlzIGJhc2ljYWxseSB0aGUgbGludXgteW9jdG8gc3BlY2lmaWMgcGF0Y2gg
-YWRkaW5nIHRoZSBjaGVjayBmb3INCj4gY29uc29sZS4NCj4gSXQgd2FzIHNpbXBseSByZXZlcnRl
-ZCBpbiBvdXIgY2FzZS4uLg0KDQpTZWUgdGhpcyBpcyBmaXhlZCBpbiBsaW51eC15b2N0byBub3cg
-YnkgWzFdLg0KDQpbMV0gaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL2xpbnV4
-LXlvY3RvL2NvbW1pdC8/aWQ9MTFlMGU2MTZlZDA5NWJiODAxMmUxYjRhMjMxMjU0Yzk2NTZhMDE5
-MyZoPW1hc3Rlcg0KDQotQWxleGV5DQo=
+In this particular case, "echo -e 'cd {}'" is interpreted
+as "-e cd {}", which causes the first line of the command
+to fail, and causing cp to always place the source file
+in the filesystem's root.
+
+This issue only affects "wic cp" for ext* filesystems.
+
+[1] https://docs.python.org/2/library/subprocess.html
+[2] https://docs.python.org/3/library/subprocess.html
+[3] http://pubs.opengroup.org/onlinepubs/9699919799
+
+Signed-off-by: Leonardo Augusto <leobsd@gmail.com>
+---
+ scripts/lib/wic/engine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 4662c665c0..b4be796752 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -331,7 +331,7 @@ class Disk:
+     def copy(self, src, pnum, path):
+         """Copy partition image into wic image."""
+         if self.partitions[pnum].fstype.startswith('ext'):
+-            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
++            cmd = "echo 'cd {}\nwrite {} {}' | {} -w {}".\
+                       format(path, src, os.path.basename(src),
+                              self.debugfs, self._get_part_image(pnum))
+         else: # fat
+-- 
+2.17.1
+
 
