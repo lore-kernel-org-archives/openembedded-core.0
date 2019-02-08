@@ -1,53 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E9AA71A0C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 428F179DCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 23:12:54 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f16so5956585wmh.4
+	Fri,  8 Feb 2019 23:32:24 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id e24so8674613otp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 15:12:56 -0800 (PST)
+	Fri, 08 Feb 2019 15:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ycJvgGECRrYddugyBB6AsMTuV7SB1c9gpWhVJ3CcLuw=;
-	b=Zt9ZUF/FWAntvt9QISa4bfUljXC3NJTYbuGiXeVhdEHXrU+qb3YO5zSPRI/4EY1bpE
-	lPglKnaeG1VWwv3YTEC0bbvo8k9BO3fB+SMmSVGaIzxpSvriCQMp9DojrgcoukyCssIX
-	SjFblCiZYxbiR1NZqRXrZpkXTXfWxvdDeVwlXqYEA9pq4HOEKnzjpujcspet7eulv3Ji
-	IqjrchHeAgti/HgzNooxTBUb2BZ0BAvZjG9fAAiNykmKmWAF+N5CXTQOTJkecynl4vNe
-	nZYQTSIh7+8HAWDYzWXq/aO5wTHPwYJQREo0ox0CWxPhZ4YxmvkxyaSMH7DzdGApZP2Z
-	nQUg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TYcxizaSwB6wlAOxXzcDLe6TOxEzpaybODEGLeabWuc=;
+	b=rZiML6UKLciHOAifQjdeMVCadZvCrotcBqLLyKwqMre2y+xyABzEFPRhIZ7B9wMhst
+	t91EJa9sabLLQ8GWYRYiWEVScwOcF7GgwnAtO38lOGbQ4AGuBnFZGb0BIvL6Ty7CFC2X
+	M1Nib5wwYSL9u7p2WaPS+XkJZ63lcgp9YjLKUuvEi9YpiX8fCQPRLewMX63a9sZ0AJuV
+	XSf9dW4cCySR4Sj5PB8g/9yv9NjygmNMQFkCZIFVLB/le6b6XKFhr49v4KOvonCxfgFD
+	80iWFAKEplca5yNX2Q/D0nrRhRtZiwfB4UqBbrYKfNbxmcayUTgO7ddtkhcXFWZpNFHU
+	8Mqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ycJvgGECRrYddugyBB6AsMTuV7SB1c9gpWhVJ3CcLuw=;
-	b=PUZd/rU5iASNwnZRlPd06ZU4OzWD3qK/Dy52rhwjLWMWX8y6epEVO1wt2oaxW+ttWX
-	qhn2JPEPs53NLvKc3I60kabjllbd0BRBLHgxn/dWtbvFtvWuqt6ZXuLniy/AP09G1uTE
-	J0Vi8Lpe1v4s1KsHdM48F1Wq6F6usMIt5SAhIObYOTgSmQD216pngAmur2C6PcJWJkoF
-	WDAbkS1Z7qCuQ91/opUJxR0l1nBMr1xnkAyY/Vn3TqNIu3lNt/AhKjdV1LTFk2bFt7Mr
-	YXp+tkRsxZB2eGw78tnWyFnPgpGACjxzQVUeO2PrUnJcL5yvC4c4a0n1lEnbTrIove/8
-	ANmA==
-X-Gm-Message-State: AHQUAuafUw/7IvbDTdv7hVBlijP3Cy3HKmFA/MKs29twIMO0rqiS+zg5
-	1IQpzunro9+NLDEwTMEWEKg=
-X-Google-Smtp-Source: AHgI3IabPFGoCOjY0FUPBXP8v8CQCkVMqMggZEKtpzU8d4CjLFBC89WnmcVdS5TZnKjNbQDq3HujFQ==
-X-Received: by 2002:adf:f903:: with SMTP id b3mr19179813wrr.82.1549667575631; 
-	Fri, 08 Feb 2019 15:12:55 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id z17sm539281wrs.75.2019.02.08.15.12.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Feb 2019 15:12:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 9 Feb 2019 00:12:55 +0100
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190208231255.GA2258@jama>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TYcxizaSwB6wlAOxXzcDLe6TOxEzpaybODEGLeabWuc=;
+	b=dcFSvKFzeHbrTibh7kxEL1/94h16XNfmgHfhy/IpS2+CjInE/kueY6AUJqz0Xb0aJV
+	uXf2L8MXR2CcaqQZ9H8oEB7YPezKgX/Yk+vJtKmUkUA39K+1b0yUPBrw8H/FGV3RItiv
+	HuQsp4wLZacAI2+PXE94ltnJ4TBJbvG54YH3a0MKZjP0L+cYAwymW3UdJMOXrQwHg5KR
+	v0NbB7eAXMmmfKY/oat/+5HzDFGQ4gTmaJgUPsQzehhcQZLUdeLzvN8PwxuHPuZ+KSrh
+	vGYcc0jfts1jbqiQ/GROEHeyZFRtCKKQOpRN+tRstIAGJHccrk47jL1dC7tEVD9l2rvN
+	a14w==
+X-Gm-Message-State: AHQUAuY4ZnK464s3eJyfVXYtgJcOUgd7yVktiT5T5VFOrCKzqrpRjEH+
+	I2HrNBJnqcKGUeT9T1STX0YqVLV40VvwLEz+MzE=
+X-Google-Smtp-Source: AHgI3IaSbqC3KBDgQKQaoSw3D4qmKlCK20KJlc9WIXIcuRYqGGbgamR/UBWa8KajcaeGJJwzUkGIX5wzG52/y+5thf0=
+X-Received: by 2002:a9d:5f18:: with SMTP id f24mr687651oti.96.1549668745301;
+	Fri, 08 Feb 2019 15:32:25 -0800 (PST)
+MIME-Version: 1.0
 References: <cover.1549637121.git.alex.kanavin@gmail.com>
 	<bb8c993db03526b5f7ef16b2c076055b1ce6de40.1549637121.git.alex.kanavin@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <bb8c993db03526b5f7ef16b2c076055b1ce6de40.1549637121.git.alex.kanavin@gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Cc: openembedded-core@lists.openembedded.org
+	<20190208231255.GA2258@jama>
+In-Reply-To: <20190208231255.GA2258@jama>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 9 Feb 2019 00:32:13 +0100
+Message-ID: <CANNYZj-LeigbBS592R5qwvfG5yCApqgQhU_Fjhiz79U=y-ZddA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 02/12] qemu: enable virglrenderer and glx options for native/nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,77 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 23:12:55 -0000
-X-Groupsio-MsgNum: 120997
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Feb 2019 23:32:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---VS++wcV0S1rZb1Fb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 9 Feb 2019 at 00:12, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >  "
+> > -PACKAGECONFIG_class-native ??= "fdt alsa kvm"
+> > -PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
+> > +PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
+> > +PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
+>
+> Didn't you want to enable gtk+ here as well?
 
-On Fri, Feb 08, 2019 at 03:45:43PM +0100, Alexander Kanavin wrote:
-> Except for ming32/darwin, which do not support them.
->=20
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index c127434b020..95e9e0ede77 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -74,15 +74,15 @@ PACKAGECONFIG ??=3D " \
->      fdt sdl kvm \
->      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
->  "
-> -PACKAGECONFIG_class-native ??=3D "fdt alsa kvm"
-> -PACKAGECONFIG_class-nativesdk ??=3D "fdt sdl kvm"
-> +PACKAGECONFIG_class-native ??=3D "fdt alsa kvm virglrenderer glx"
-> +PACKAGECONFIG_class-nativesdk ??=3D "fdt sdl kvm virglrenderer glx"
+Nope; it's enabled in a separate patch in meta-poky/local.conf
+template, in the same way as sdl is enabled there currently.
 
-Didn't you want to enable gtk+ here as well?
+On the other hand... maybe we can just simplify it all, and enable gtk
+directly in the recipe.
 
->  # Handle distros such as CentOS 5 32-bit that do not have kvm support
->  PACKAGECONFIG_class-native_remove =3D "${@'kvm' if not os.path.exists('/=
-usr/include/linux/kvm.h') else ''}"
-> =20
-> -# Disable kvm on targets that do not support it
-> -PACKAGECONFIG_remove_darwin =3D "kvm"
-> -PACKAGECONFIG_remove_mingw32 =3D "kvm"
-> +# Disable kvm/virgl/mesa on targets that do not support it
-> +PACKAGECONFIG_remove_darwin =3D "kvm virglrenderer glx gtk+"
-> +PACKAGECONFIG_remove_mingw32 =3D "kvm virglrenderer glx gtk+"
-> =20
->  PACKAGECONFIG[sdl] =3D "--enable-sdl --with-sdlabi=3D2.0,--disable-sdl,l=
-ibsdl2"
->  PACKAGECONFIG[virtfs] =3D "--enable-virtfs --enable-attr,--disable-virtf=
-s,libcap attr,"
-> --=20
-> 2.17.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---VS++wcV0S1rZb1Fb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXF4M9wAKCRA3VSO3ZXaA
-HL8TAKCclaa521Fxh/4shedvqLNq0NtK4QCdHIV+SMIfVWNM6oXqXXZPyUr8/3M=
-=96n5
------END PGP SIGNATURE-----
-
---VS++wcV0S1rZb1Fb--
