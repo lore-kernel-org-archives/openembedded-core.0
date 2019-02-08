@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EA7E97C5C0
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A2DD37C5C0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 14:46:02 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id d15so3687364wmb.3
+	Fri,  8 Feb 2019 14:46:03 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v13so3856326wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 06:46:04 -0800 (PST)
+	Fri, 08 Feb 2019 06:46:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Ub6W4KcDym9ciJ/jQSrDTzt8K56eD9qNdAqAFFEb/SE=;
-	b=ivsIE3qrcZ4VkXn/kCm1qrVpF1zsCH4WXMSRSNoDN+SpWMM7JzcE4irqhpz4XcEJGp
-	O9sLNFq4b8BtTT44KBu+/IhJGjxawEwcG7DlBV3+0ASgYSCBS+FMYpNF6x7oyWOseq+9
-	8nf6sP5X/MvqBMesMI/QKzhZ4+HeiLBWklR/QxeIacBKoxhxgBXQ8qqAt7Vd5wSgZtZV
-	H1cqlK7PyY0uH+L6+iP+8k8pGc4JZiiTbLb1UGgOlSt0QlPXFX00icq1C9tIwXSJFuwM
-	ancHRgdS6JZ5PO+jYa+XfwzRdkOZqeoXRXGsO20pkpKyXsYFfPFjfnzGH1FziEBKmMYJ
-	zVRg==
+	bh=qYYAsecWaONxSWmkSSn0G5sTmUAfSiqAUoFA3YEaDHQ=;
+	b=SLoin7ztta966AXLeXF37Lai9zFDIAkatBaq6NeB5y+KoiO30oBKaExmjxuAdHSv9V
+	OhAdJSSiwGD+hTxvmwdyoSPcJ4AoX08Ii17aRwxIDMUAerazi4Pb5MwyLD3cIM0nidqQ
+	lkMAjnc6eT2yIQN9RhxOIPG/WilHnbcu2hbuGAg8NGtI6VngYpcE9IAIJ7D95+A1hNaB
+	PgYiGLG6YZJotk9DXRoKFKqRhnuXXua2PQ3HTlRB++5Ipzzb/ikG5EsgN4XFHh+WkPQQ
+	LGTqdVcWADrJlmjN7czP3fWMU+QMpR7oQ7+LlIsjwxYtNI7O+R8T15uFu5ne1gDI/Mah
+	xVww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ub6W4KcDym9ciJ/jQSrDTzt8K56eD9qNdAqAFFEb/SE=;
-	b=Chtlgu5lTU3uslGzQWmU3i1czxLsZTwTOiOjrxWH4S8WQQZU+0Tn4cUddspsPjrfp4
-	ylKEq/pPAjrKuaysi7NPmG0J5zOg/znHLcAL6fhy1ktrV8rRgjaEciQB5aBdatw9sxvM
-	mZBSVT1SW7pQx7i/XwFpjQrTeI1yEYzspiWHMZ8AGRZPB7jpD5Y6NGtGI2O2uJh5V5G0
-	3smPyrBGe/epMdu35a51jTMghfQQEMmgmFyyBIbZeBoIDmLyR1fgBqQXY1Y/0dq8j51o
-	cVMx7ErJGv1BtiyagkZedNoKoq0EYRGAoMr/ejGUB58FVlw3d1uQR2HP5+OaqwJJ+cLO
-	RZ2Q==
-X-Gm-Message-State: AHQUAuY4c2jvsL/ZeBRCoqDajeSRGqq/sLNlDqUh4XLPy0n4jNaANna3
-	5DXkn6YzeNUlP74aM1mCVXpViHO4
-X-Google-Smtp-Source: AHgI3IbzVwf0nQWbmc7lTCXws1XYX1HCNT9wvVIh6Rd+y2s4V5jbrdHZZ6VbIoFdFoBaNhhKfaYUvg==
-X-Received: by 2002:a7b:c5d1:: with SMTP id n17mr11960314wmk.152.1549637163359;
-	Fri, 08 Feb 2019 06:46:03 -0800 (PST)
+	bh=qYYAsecWaONxSWmkSSn0G5sTmUAfSiqAUoFA3YEaDHQ=;
+	b=iHhAhlrkmykBlSrer1IhxVyNPtWXvjoLzQQ6ja1+2ElXVwLetVi71b41WvH1qEPEjv
+	h3YbMK86llZbGTm8aTMSH6o9/4lnF+p+Xy8dlBiNUlr9ohgY0mw8DzmcSfcLGbjkpuzY
+	3perNAoUcnga9jAB06bbZZ4SPE6uS4jcsaduKKStjUALAcPfykfVRXFZU0qTMdafEvQV
+	HgFOeC/MhYquu7NwWvdWGDByPd3KPC0x38oJC4NkmSqjQB+eu+W7kIitRbrGs9RV5gfN
+	lPziuXTgxQry4JVU6X65Dl0NO1je23yFWlTtIsIDPKBF2UlRtGtb+6OCntcmicLJGbRO
+	JG5A==
+X-Gm-Message-State: AHQUAuZgvCBSdWeuRKLE2BgDtwxNwNFRtxaubTt0jFA3gx/xm3dielzQ
+	9sViwrp1uvxLAFqKT+SARwsCG9hC
+X-Google-Smtp-Source: AHgI3IYK03OEKNzkLYgOLr+/oLdNnEOpMm0Xf/olFookO5Cm64wY2Uh5VjFY2hjEt4ZuuxzyZNABfQ==
+X-Received: by 2002:adf:f3c5:: with SMTP id g5mr8230555wrp.247.1549637164184; 
+	Fri, 08 Feb 2019 06:46:04 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id j3sm3365709wmb.39.2019.02.08.06.46.02
+	by smtp.gmail.com with ESMTPSA id j3sm3365709wmb.39.2019.02.08.06.46.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Feb 2019 06:46:02 -0800 (PST)
+	Fri, 08 Feb 2019 06:46:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2019 15:45:44 +0100
-Message-Id: <e1cfbbc1b6ff942ca13ed464904d98496d1d0ff4.1549637121.git.alex.kanavin@gmail.com>
+Date: Fri,  8 Feb 2019 15:45:45 +0100
+Message-Id: <a85aa0f19d694bd828ddde75c92d96bd7bbf4778.1549637121.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1549637121.git.alex.kanavin@gmail.com>
 References: <cover.1549637121.git.alex.kanavin@gmail.com>
-Subject: [PATCH 03/12] local.conf.sample: adjust the qemu config to enable gtk+ instead of sdl
+Subject: [PATCH 04/12] qemu: build target variant with gtk+, and nativesdk variant without sdl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +59,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Feb 2019 14:46:03 -0000
 
+As sdl is deprecated in favor of gtk+, it should not be the default.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta-poky/conf/local.conf.sample | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index cf96598819c..961387acbae 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -236,12 +236,9 @@ BB_DISKMON_DIRS ??= "\
- # Qemu configuration
- #
- # By default qemu will build with a builtin VNC server where graphical output can be
--# seen. The two lines below enable the SDL backend too. By default libsdl2-native will
--# be built, if you want to use your host's libSDL instead of the minimal libsdl built
--# by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
--PACKAGECONFIG_append_pn-qemu-native = " sdl"
--PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
--#ASSUME_PROVIDED += "libsdl2-native"
-+# seen. The two lines below enable the Gtk UI frontend.
-+PACKAGECONFIG_append_pn-qemu-native = " gtk+"
-+PACKAGECONFIG_append_pn-nativesdk-qemu = " gtk+"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 95e9e0ede77..07f78058e7b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -71,11 +71,11 @@ do_install_append() {
+ # END of qemu-mips workaround
  
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
- # track the version of this file when it was generated. This can safely be ignored if
+ PACKAGECONFIG ??= " \
+-    fdt sdl kvm \
++    fdt gtk+ kvm \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+ "
+ PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
+-PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
++PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
+ 
+ # Handle distros such as CentOS 5 32-bit that do not have kvm support
+ PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
 -- 
 2.17.1
 
