@@ -1,48 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E26B7C583
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B49CD7C5DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 15:43:02 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id t14so2851619lfk.7
+	Fri,  8 Feb 2019 15:43:49 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id z19so2468868otm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 07:43:03 -0800 (PST)
+	Fri, 08 Feb 2019 07:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7QsVwbcANSnKGw/TyKvrdSnV2IckqvtcholdQAjQSkI=;
-	b=WS5CYMwsvistJ39Jp0s0Dx3ibxIqk7OAWjFtjwCOjJqW5RgCU/YtsJd5Pb+CeTEwMM
-	EpfUnpmwRgw4zbYTq3n813fduJIUKTXT0feKjofFrdYd4WOuX57WvrFthomzRYOJJ0e3
-	YFJ0zDIdhzX0SrunEcoU/FzRi9d+Xkpdno7ZwtznagCQ+dWxVhCjJ1SZtQblpKcyUfdi
-	D/VPlXgxnRkqWOH9se4qF4O8saPUIjVI1DHZyXf/iwlVPdW/EiWVMNlA8nS3qiugaJCz
-	g6Bubxp2h79w3OfK6MUF/q1HdeC3AINZtDNzqLLx8nkEKz2urgfA/GH+jdr4hALLgqy/
-	R5Uw==
+	:cc; bh=oS8YU4jAutX8/8d1EXZLUxNJI55IUjTs5qT7Y6vjAVI=;
+	b=g9wVfhhWwsvfKhs93T4lqLFufJiWyy7dOMj3pl65YWTTyQ3FNmCNnnChQhrC0R1YYg
+	4ExwXGE8/gyi1u57w8yKtnR7V1CnTZKLP4goo5YjJ1Rl0kjDjiI+/mXTgbMqKJfEhDYb
+	5uay0pue1po/XxyVV20ZE29QTaN0k7BEzNPGHc0hh30aG235mWXxdZ4C6yK4q6BTS89v
+	2HYKiIabsK9kDxX5vJeH3h5Z77RzUuAZvtj+tJxhoOEZeNGLNpcbJL2AJ63CwO3VO+Fo
+	2TTqmCbverS/WxoHb6yUZJlxlLnmGGlAU3jyX7A7pi8SDmTJg7VxLhaNFvlaBQh6FhKr
+	FXRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=7QsVwbcANSnKGw/TyKvrdSnV2IckqvtcholdQAjQSkI=;
-	b=muu1FymhBh+5m7y+5he2YE/uc8T/1hFC+y2F+v2f/wrSrkFezFM4aZIVaNTgOBdUR6
-	OgIrzsQNM+/c9fNoEX4cqLDpv2lFIrUnOkMjHcLKc7ovk/I5ulOyqZmttKdvYghROgIu
-	YiPvP/Dd8BAY+q/zUD/41A1bT3IEowqqNTBrduj2HJyhqPmGtNFjGhE1raPWIu3pMZz5
-	HKbMf1eL+XJMggbwt65PL5O89quz9CUk0TzeWBNrcdz2u5V+Mi83ARLk2TD8UEwcKM6d
-	Tp3VUoTqHy3oCTo3gB62EExZwzmiyqacnUaIuc/oyzHo/ghYqGxFZLeblFivIqbGUARg
-	d/hw==
-X-Gm-Message-State: AHQUAuZsVcwlVeqPX7V68t0V3Vc+5Kh2i2cmYZvXHFzIhVuZo6QwR6Kp
-	9OCgK2f0ffKnKGi6vSzfJXOD9013YG/TYanidng=
-X-Google-Smtp-Source: AHgI3Ia8+PIb6FLn8LZ9wHf1NOZfQbmEi7CJKi2KxC2vQ5bX/A4pMcasKkx2UI5kT00N3lT7z/Hqjl/wE36JKhQQ2ig=
-X-Received: by 2002:a19:4f15:: with SMTP id d21mr9049902lfb.86.1549640582692; 
-	Fri, 08 Feb 2019 07:43:02 -0800 (PST)
+	bh=oS8YU4jAutX8/8d1EXZLUxNJI55IUjTs5qT7Y6vjAVI=;
+	b=Cad1Hzuj6dSh/jihw365L+pQpKzmPc4e4iYFspnBQr1Cfn0q8h5qhHTWT/0l5x3HxL
+	2ykj6NutzTsiIXGEKRruZHVzs9Of2f5h0T0M3xGOzak7sbSPiQYcIbw+XF7UQqjYWvNn
+	2FnpnV5KrZf3bD64Bh2dV+7SJ2c9RZwK3pV2R1WksOmsijapa2kgq6/sxsS4IkvGnFke
+	z38k6SEbBI4hzXh91fPDePVodDEwwEbikd90QT4dtLOZT2cc3pKWq9uznd5HYbeOmCrz
+	rMRi0Ef4jKOTySDZh8Mi6o4cjwxsADRQOSX7J9xCqy7bJYJhTITMtVbu22lnS1VUMv3V
+	8NjA==
+X-Gm-Message-State: AHQUAuZ0CkIKYoGlkVOCuFyPjllx/KHFWfLxyRRhoeM8lCTZz/thvWVf
+	tZpqZimYMMx/LW4UDISYB6v8R8Z/laeqgsmK2OMgUF0s
+X-Google-Smtp-Source: AHgI3IYP8RyYF8FYb0QOaAp5d/XgZRrMNiC1y2dh3h7vsuIbuvkh0LubBpohQsyFcc6eA4GCgBtGxzYqWwPWRDvbvF0=
+X-Received: by 2002:a9d:4c88:: with SMTP id m8mr13894006otf.360.1549640630707; 
+	Fri, 08 Feb 2019 07:43:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20190208153221.4335-1-abrodkin@synopsys.com>
-In-Reply-To: <20190208153221.4335-1-abrodkin@synopsys.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 8 Feb 2019 10:42:51 -0500
-Message-ID: <CADkTA4PoA5=XHbzS=dLcJOB92+Yc-=RDfNhTgNMPmOUEaL7sUg@mail.gmail.com>
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto: Add dependency on libgcc for ARC
+References: <cover.1549637121.git.alex.kanavin@gmail.com>
+	<a85aa0f19d694bd828ddde75c92d96bd7bbf4778.1549637121.git.alex.kanavin@gmail.com>
+	<c7c7fd8c-6e73-ab1e-44bb-7df106c20c62@windriver.com>
+In-Reply-To: <c7c7fd8c-6e73-ab1e-44bb-7df106c20c62@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 8 Feb 2019 16:43:35 +0100
+Message-ID: <CANNYZj9_cnyn92RBOQC+cs4iWitwvTGgKWFOF9DjgpW7zkbrSg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/12] qemu: build target variant with gtk+, and nativesdk variant without sdl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 15:43:02 -0000
+X-List-Received-Date: Fri, 08 Feb 2019 15:43:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 8, 2019 at 10:32 AM Alexey Brodkin
-<alexey.brodkin@synopsys.com> wrote:
+Patch 3 changes things in meta-poky/, and patch 4 changes things in
+meta/, so they cannot be combined unfortunately. I can however swap
+their order, so that there is less confusion.
+
+Alex
+
+On Fri, 8 Feb 2019 at 16:31, Mark Hatle <mark.hatle@windriver.com> wrote:
 >
-> As of now in case of ARC there's no in-kernel implementation of basic libgcc
-> functions used for millicode, multiplication, division etc instead we simply
-> link with libgcc.a which provides everything used by the compiler.
-
-I'll grab this for my queue.
-
-Cheers,
-
-Bruce
-
+> I may be nitpicking slightly, but this patch 4 and 3 should probably be
+> combined.. I looked at '3' and went "this looks wrong, I have no idea why"..
+> then saw '4' and it became clear.  Since they're both tied together (same
+> purpose) it may make sense to combine them...
 >
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
->  1 file changed, 4 insertions(+)
+> On 2/8/19 8:45 AM, Alexander Kanavin wrote:
+> > As sdl is deprecated in favor of gtk+, it should not be the default.
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 1ebfb606da..f191946f2a 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
->  KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->  KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+> At a minimum the commit message above should be included in 3/12.
 >
-> +DEPENDS_append_arc = " libgcc"
-> +KERNEL_CC_append_arc = " ${TOOLCHAIN_OPTIONS}"
-> +KERNEL_LD_append_arc = " ${TOOLCHAIN_OPTIONS}"
-> +
->  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+> --Mark
 >
->  KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> --
-> 2.16.2
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  meta/recipes-devtools/qemu/qemu.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> > index 95e9e0ede77..07f78058e7b 100644
+> > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > @@ -71,11 +71,11 @@ do_install_append() {
+> >  # END of qemu-mips workaround
+> >
+> >  PACKAGECONFIG ??= " \
+> > -    fdt sdl kvm \
+> > +    fdt gtk+ kvm \
+> >      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+> >  "
+> >  PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
+> > -PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
+> > +PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
+> >
+> >  # Handle distros such as CentOS 5 32-bit that do not have kvm support
+> >  PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
+> >
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
