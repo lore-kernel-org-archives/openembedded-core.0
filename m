@@ -1,152 +1,46 @@
-Return-Path: <alexey.brodkin@synopsys.com>
-Received: from smtprelay.synopsys.com (us01smtprelay-2.synopsys.com
-	[198.182.60.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 052F47C5BA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CA1E7C3D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 17:35:31 +0000 (UTC)
-Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com
-	[10.12.135.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtprelay.synopsys.com (Postfix) with ESMTPS id E065F10C0ED1;
-	Fri,  8 Feb 2019 09:35:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1549647333; bh=LmOdG/+882r4fxAqH/wSLNFD0w9Gx6UKExOLqKZalVI=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=gNsA4esKKZ9juqxZKTqWAPks4G8qBuufJBH28V/7nIVSLEVtIiNaQvoEcrJFSzF07
-	3Xb/YuHXVjpZ4RD936FtieLsuiuVKv9SpHrH0vQgX0cclMx7wx0cv7rCJXa3GiIU3i
-	KnSaFrdI77iv1k32KF4uOHrYiIwCmjnnppLX+NnQOoI/0E1pymFZaFlBJ1WMY4fiQV
-	qG/qrG33kBlVMQp1FnaCoaps85K5AVAap0AbIw1y9RvwTNG1G0FYOuxL+rru+GR45u
-	WMP+pf99c5mN+SHIca7KhV5DCwrLkgAIM3qsoCjnrXBotnEEAQz6stjitbl/nt07/w
-	MsLzfvkmQXbhQ==
-Received: from US01WEHTC2.internal.synopsys.com
-	(us01wehtc2.internal.synopsys.com [10.12.239.237])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 8A182A0097;
-	Fri,  8 Feb 2019 17:35:32 +0000 (UTC)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
-	US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Fri, 8 Feb 2019 09:34:57 -0800
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
-	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id
-	14.03.0415.000; Fri, 8 Feb 2019 18:34:55 +0100
-From: Alexey Brodkin <alexey.brodkin@synopsys.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [PATCH] linux-yocto: Add dependency on libgcc for ARC
-Thread-Index: AQHUv8N/acXM/k/av0KS1mIyCmIHKqXWFwaAgAAREPA=
-Date: Fri, 8 Feb 2019 17:34:54 +0000
-Message-ID: <4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
+	Fri,  8 Feb 2019 17:41:55 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id w204so2613984qka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2019 09:41:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=j1JbS3v09p5PzXoMZP02uV8/T7ifI70BU5n4bmKHjsE=;
+	b=sXLRrGcI0Eq2sDAlMly0eIZUQq68jn6IAjKrJ7dGCfzzsM753ddpumzkoWr8WCS4hO
+	6rKPrZu82Go7xrWTg+FOAG7r81Y4Q2UiuMTcx2BvlWqjSBtHEAXfNH5koBwIZfFlMtYC
+	aK6Tgkpc1tuAZ7XvhJEhC5MN0OBJ+bGwGseBxt73KHmmsX4vU6qQ0vay9XUMj15lBiub
+	JxFeQwEuCrSPUWmYmTOtS4WcBer1B8EfJ5qfzGMxy/ItjmohkkMXxqleeFAKMzFjbmu+
+	vNx8++Y5kNvJF41V4XYnqr35fGzXZ/NgpYSiC4jLFp/4q0SprwqlJFYpntWIVSUyE+4E
+	PkJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=j1JbS3v09p5PzXoMZP02uV8/T7ifI70BU5n4bmKHjsE=;
+	b=gytlF0+hNqdxSXW60HqwoUDU/ZWm9HCYyaoHC8fzGpPu7HUvVztPlL2zOQjPLAYcMt
+	fUi7UOqnhaxChuVlUUjdSfn5HvXNluhIiIdNDILAQK+qe7++1bPbv6WtnF4ZJ5qMQ5wp
+	yNOLr0vtFYaIV602aA8vcWA6e7X1hWPIzpsW2jQh5wlj24EHFNHaIdkqx3txOL89PMoa
+	LNLd556HkP9XkSLNI/zbowCUEpqY5Br7vLm4mpuCn+xyqJtHa7cho7pKiOFC1gqBKS4B
+	cj8sbSqJv2Ryafpt16TFKpBnwAyR3d2megV3+giRN3BUPHp9am2J2609zlgtmKStMST5
+	IDxw==
+X-Gm-Message-State: AHQUAuYeZaqY5+IrlUKInDVl4muqACL4dVFHrtHdBn6+icu42A6waSf5
+	2Gzgt+CDwj8HvGqkWN84mvO1JPAZOckB3VxrMxM=
+X-Google-Smtp-Source: AHgI3IYKI63al8hvWF6trnE3dSiinrEXTjgBAQ2LH6+OzDfBHDQrdwfPJ9UmwokEiy0tPKOsd6qBNhSvz9oEc9hLzwc=
+X-Received: by 2002:a37:4c41:: with SMTP id z62mr16673230qka.206.1549647715999;
+	Fri, 08 Feb 2019 09:41:55 -0800 (PST)
+MIME-Version: 1.0
 References: <20190208153221.4335-1-abrodkin@synopsys.com>
 	<CAMKF1sqY_1h8j2KR322gF8swrvFapx1mJvicHn-U3bm0+m4-7g@mail.gmail.com>
-In-Reply-To: <CAMKF1sqY_1h8j2KR322gF8swrvFapx1mJvicHn-U3bm0+m4-7g@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
-	=?utf-8?B?bk5jWVdKeWIyUnJhVzVjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
-	=?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
-	=?utf-8?B?elhHMXpaeTFrTnpVNE0yWTJOQzB5WW1NM0xURXhaVGt0WW1WalppMWhORFJq?=
-	=?utf-8?B?WXpoa05UTTBaV1pjWVcxbExYUmxjM1JjWkRjMU9ETm1Oall0TW1Kak55MHhN?=
-	=?utf-8?B?V1U1TFdKbFkyWXRZVFEwWTJNNFpEVXpOR1ZtWW05a2VTNTBlSFFpSUhONlBT?=
-	=?utf-8?B?SXhORFE0SWlCMFBTSXhNekU1TkRFeU1EZzVNek13TXpneE1qa2lJR2c5SW5G?=
-	=?utf-8?B?WE1ISnRSSEZKWVZwRVJuWjFjRE5OTUZZeWEzYzNPWGxYUVQwaUlHbGtQU0lp?=
-	=?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
-	=?utf-8?B?azVEWjFWQlFVSlJTa0ZCUVhobFRFTmFNVXd2VlVGVk56TTVlVk5KTWt4VE1G?=
-	=?utf-8?B?UjJaak5LU1dwWmRFeFJUMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRklRVUZCUVVOclEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGRlFVRlJRVUpCUVVGQlpXWjRVMnAzUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
-	=?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
-	=?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
-	=?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
-	=?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
-	=?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
-	=?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
-	=?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
-	=?utf-8?B?MmRDZWtGR09FRmpkMEpvUVVjd1FXTjNRakZCUnpSQlduZENaa0ZJU1VGYVVV?=
-	=?utf-8?B?SjZRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
-	=?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
-	=?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSE1FRmhVVUpxUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
-	=?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
-	=?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNFMUJaRUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
-	=?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JC?=
-	=?utf-8?B?UW5wQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkWlFXSjNR?=
-	=?utf-8?B?akZCUnpSQldrRkNlVUZJYTBGWWQwSjNRVWRGUVdOblFqQkJSelJCV2xGQ2VV?=
-	=?utf-8?B?RklUVUZZZDBJeFFVY3dRVmwzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
-	=?utf-8?B?QlFVRmFkMEl3UVVoTlFWaDNRbmRCU0VsQlluZENhMEZJVlVGWmQwSXdRVVk0?=
-	=?utf-8?B?UVdSQlFubEJSMFZCWVZGQ2RVRkhhMEZpWjBKdVFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
-	=?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbWhCUjAxQldY?=
-	=?utf-8?B?ZENka0ZJVlVGaVowSXdRVVk0UVdOQlFuTkJSMFZCWW1kQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJXVkZDYzBGSFZVRmpkMEpt?=
-	=?utf-8?B?UVVoRlFXUlJRblpCU0ZGQldsRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
-	=?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
-	=?utf-8?B?alowSjBRVVk0UVUxUlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
-	=?utf-8?B?UVVKNlFVYzBRV05CUW5wQlJqaEJZa0ZDY0VGSFRVRmFVVUoxUVVoTlFWcFJR?=
-	=?utf-8?B?bVpCU0ZGQldsRkNlVUZITUVGWWQwSjZRVWhSUVdSUlFtdEJSMVZCWW1kQ01F?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
-	=?utf-8?B?RkJRVUZCYm1kQlFVRklXVUZhZDBKbVFVZHpRVnBSUWpWQlNHTkJZbmRDZVVG?=
-	=?utf-8?B?SFVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
-	=?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
-	=?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
-	=?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
-	=?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJRVUZC?=
-	=?utf-8?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: 
-x-originating-ip: [10.225.15.89]
-MIME-Version: 1.0
+	<4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
+In-Reply-To: <4881796E12491D4BB15146FE0209CE64681D6A80@DE02WEMBXB.internal.synopsys.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 8 Feb 2019 09:41:30 -0800
+Message-ID: <CAMKF1sp8g3AVQUQY-qiKSw7PpO1Su1NRavA-eW7yN2tnAcOnwA@mail.gmail.com>
+To: Alexey Brodkin <alexey.brodkin@synopsys.com>
 Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
 	Vineet Gupta <vineet.gupta1@synopsys.com>,
 	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
@@ -165,33 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 17:35:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Feb 2019 17:41:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgS2hlbSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJh
-aiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiBTZW50OiBGcmlkYXksIEZlYnJ1YXJ5IDgsIDIwMTkg
-ODoyOCBQTQ0KPiBUbzogQWxleGV5IEJyb2RraW4gPGFsZXhleS5icm9ka2luQHN5bm9wc3lzLmNv
-bT4NCj4gQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVy
-IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPjsgUm9zcw0KPiBCdXJ0
-b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT47IGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVh
-ZC5vcmc7IEJydWNlIEFzaGZpZWxkDQo+IDxicnVjZS5hc2hmaWVsZEB3aW5kcml2ZXIuY29tPg0K
-PiBTdWJqZWN0OiBSZTogW1BBVENIXSBsaW51eC15b2N0bzogQWRkIGRlcGVuZGVuY3kgb24gbGli
-Z2NjIGZvciBBUkMNCj4gDQo+IE9uIEZyaSwgRmViIDgsIDIwMTkgYXQgNzozMiBBTSBBbGV4ZXkg
-QnJvZGtpbg0KPiA8YWxleGV5LmJyb2RraW5Ac3lub3BzeXMuY29tPiB3cm90ZToNCj4gPg0KPiA+
-IEFzIG9mIG5vdyBpbiBjYXNlIG9mIEFSQyB0aGVyZSdzIG5vIGluLWtlcm5lbCBpbXBsZW1lbnRh
-dGlvbiBvZiBiYXNpYyBsaWJnY2MNCj4gPiBmdW5jdGlvbnMgdXNlZCBmb3IgbWlsbGljb2RlLCBt
-dWx0aXBsaWNhdGlvbiwgZGl2aXNpb24gZXRjIGluc3RlYWQgd2Ugc2ltcGx5DQo+ID4gbGluayB3
-aXRoIGxpYmdjYy5hIHdoaWNoIHByb3ZpZGVzIGV2ZXJ5dGhpbmcgdXNlZCBieSB0aGUgY29tcGls
-ZXIuDQo+ID4NCj4gDQo+IHRoaXMgaXMgc29tZXRoaW5nIHlvdSB3b3VsZCBiZSBmaXhpbmcgaW4g
-a2VybmVsIGV2ZW50dWFsbHk/DQo+IHdlIGNhbiBjYXJyeSB0aGlzIGFzIGEgd29ya2Fyb3VuZCB1
-bnRpbCB0aGVuIGJ1dCBpdCByZWFsbHkgbmVlZHMgdG8gYmUNCj4gZml4ZWQgaW4ga2VybmVsLg0K
-DQpXZWxsIHdlIGRvIGhhdmUgaXQgaW4gb3VyIHBsYW5zIGJ1dCBnaXZlbiB0aGlzIGlzIG1vcmUg
-YSBuaWNlIGZlYXR1cmUNCnRoYW4gc29tZXRoaW5nIGNyaXRpY2FsIChhcyBjdXJyZW50bHkgdXNl
-ZCBhcHByb2FjaCB3aXRoIGxpYmdjYyB3b3Jrcw0KcGVyZmVjdGx5IGZpbmUpIGl0IG1pZ2h0IG5v
-dCBiZSBkb25lIHZlcnkgc29vbi4NCg0KVGh1cyB3ZSdsbCBuZWVkIHRvIGtlZXAgdGhpcyB3b3Jr
-LWFyb3VuZCBmb3Igbm93Lg0KDQpCVFcgZXhwb3J0aW5nIG9mIGxpYmdjYyBwYXJ0cyBpbnRvIGtl
-cm5lbCBtZWFucyB3ZSdsbCBuZWVkIHRvDQprZWVwIGl0IGluIHN5bmMgd2l0aCByZWFsIGxpYmdj
-YyBsYXRlciB3aGljaCBpcyBub3Qgb3B0aW1hbCBhcyB3ZWxsLg0KDQotQWxleGV5DQo=
+On Fri, Feb 8, 2019 at 9:35 AM Alexey Brodkin
+<alexey.brodkin@synopsys.com> wrote:
+>
+> Hi Khem,
+>
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: Friday, February 8, 2019 8:28 PM
+> > To: Alexey Brodkin <alexey.brodkin@synopsys.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>; Ross
+> > Burton <ross.burton@intel.com>; linux-snps-arc@lists.infradead.org; Bruce Ashfield
+> > <bruce.ashfield@windriver.com>
+> > Subject: Re: [PATCH] linux-yocto: Add dependency on libgcc for ARC
+> >
+> > On Fri, Feb 8, 2019 at 7:32 AM Alexey Brodkin
+> > <alexey.brodkin@synopsys.com> wrote:
+> > >
+> > > As of now in case of ARC there's no in-kernel implementation of basic libgcc
+> > > functions used for millicode, multiplication, division etc instead we simply
+> > > link with libgcc.a which provides everything used by the compiler.
+> > >
+> >
+> > this is something you would be fixing in kernel eventually?
+> > we can carry this as a workaround until then but it really needs to be
+> > fixed in kernel.
+>
+> Well we do have it in our plans but given this is more a nice feature
+> than something critical (as currently used approach with libgcc works
+> perfectly fine) it might not be done very soon.
+>
+> Thus we'll need to keep this work-around for now.
+>
+> BTW exporting of libgcc parts into kernel means we'll need to
+> keep it in sync with real libgcc later which is not optimal as well.
+
+aarch64 kernel also bootstrapped with lbgcc for quite a while and then
+moved away
+I can understand that there might be bigger fish to fry, but this is
+not a insignificant issue
+where you make kernel dependency on toolchain runtime go away.
+
+>
+> -Alexey
 
