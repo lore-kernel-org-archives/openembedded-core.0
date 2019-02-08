@@ -1,50 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 914B57C583
+Return-Path: <leobsd@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EB8FF7C5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 15:58:38 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id t5so6646982otk.1
+	Fri,  8 Feb 2019 16:35:37 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id a14so1904724plm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 07:58:40 -0800 (PST)
+	Fri, 08 Feb 2019 08:35:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=n4SlPwMJkd07oh5jeFXLnMuTH/IyPI2iQVNSrLTQqjc=;
-	b=NMxJH1LkrE0MiCmXDZl2eG8M83dg9C9+B8SjirROBiSo3FXiwlFIQXZzXTmmJzQJTG
-	DQ1a+sP63k07iVb1D8OfysQBz6lJO9MhA4nnHPYsiRTsR8zE1FcrGIexmSwv5KOuGcWX
-	wZAxTVIedkRLBPQSrgrT17iFJfrpNO6p1mYHr8d20fcmKBGxMfhp71fUb7cwVs35qR94
-	R6OnSczs8zjxqH7Ppsewj8jDlsHnrcr2pPQj9+JQqhOsWa76z5RNjUDsdbLljofQ3fbl
-	IcBdqm6xfRP49C4F8BaQNU7BrEOCfJk+kxNqhjmoQt1cBkTwhQTQVJAoVZX8LXOAlK6G
-	9e+g==
+	h=from:to:cc:subject:date:message-id;
+	bh=iZA02skgNTQqhm18oH6Acr0e6VeDWWEHlcC82xsXXGQ=;
+	b=hxndV5+WHRm+6SVw0LSRN6QtIQKwk70p2N38AvXvUEqVe2B0UCQFpS0PxW+Dg0tRSD
+	bapmLlGpCwY9ClDOWHe9Z9Zxvko5bgO+nOINxW3Pk5DtQZp/HSnP10ZvdXLIBGhX/bmc
+	tNixEItjHV9uQsZRWXw/ZG57+NzsKHZwauMZxepi3TXIRv1tU+wiRC4BJO3LuIABgCSN
+	eQw1IttbbKviY5T68UcuN+B8m6eMdQXtchf9jRe9UfNaLk/UuZy9dyvOC+h3Rafcc0PT
+	8LMEot59YkRB+D+nOuXF1/PAo+GPajogwUskFCqiAIwg0DR6EL196cRd0N/jCAMHudcy
+	kfgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=n4SlPwMJkd07oh5jeFXLnMuTH/IyPI2iQVNSrLTQqjc=;
-	b=tvIPwpswK8Slly0NGjgf1kh/HDWKmdjtin5ReM9LQCqu6y1ZkRAtGROWtgb94zZ0wJ
-	NuJAyCcpXTljxL4x8AA7SF56ptAy+gYT3ix9i1JiUSKfvl5BDJLAEpCUuv8SBq7e3yTc
-	uGLFKtrH8bre1l5Mbe6ufUEdIfvgoWaitkD6olzEmPa93yYNxZk+VoSqGhDl7+gxv7HJ
-	zei4JvXk7FClhFBbgUkcSNDqSxdH+Yy3oEsGmejho8loRgDVbflMctr/d7HIsLlu4+4z
-	d/Eqc6CFGlnAuBBfEpgjl7g4w/9qUVwbFiqZY1M+ysUtbGWus9ed0WGCKE9ArPMtESeG
-	r/dw==
-X-Gm-Message-State: AHQUAuZC+QgkL+LErvdekLGZrJrmtttpQvBdPCx2/h4Bte/IwUaBsbM2
-	OlCDIBdquhXAfA1IoVHvkWtwnswCGMGx5UXcP5o=
-X-Google-Smtp-Source: AHgI3Iaa16XRgsGr6Lx3MgfFYRaFObLBSHI5N594+FyyTHRgHB2ca2kHdhnVeVDj8X2w1+LBqqGYo03VK4Z7OFqkhSo=
-X-Received: by 2002:a9d:640d:: with SMTP id h13mr13796867otl.153.1549641519739;
-	Fri, 08 Feb 2019 07:58:39 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1549637121.git.alex.kanavin@gmail.com>
-	<a85aa0f19d694bd828ddde75c92d96bd7bbf4778.1549637121.git.alex.kanavin@gmail.com>
-	<c7c7fd8c-6e73-ab1e-44bb-7df106c20c62@windriver.com>
-	<CANNYZj9_cnyn92RBOQC+cs4iWitwvTGgKWFOF9DjgpW7zkbrSg@mail.gmail.com>
-	<97a2de37-cc7b-3731-2933-b59aeae92446@windriver.com>
-In-Reply-To: <97a2de37-cc7b-3731-2933-b59aeae92446@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 8 Feb 2019 16:58:26 +0100
-Message-ID: <CANNYZj8-44W5RyA+VF_7QPWxdouh=GbHtKwutWKeVwpjTgP_ng@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/12] qemu: build target variant with gtk+, and nativesdk variant without sdl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=iZA02skgNTQqhm18oH6Acr0e6VeDWWEHlcC82xsXXGQ=;
+	b=DlPmB6Ay3PT5V5ua8C99LFrAuq0YZ0zZ049zRfXLAnIy1HjbPfwL7WMd+xqPbye17g
+	0noWJ1zxQmdmUQQJRtPHsq4TKOdQMNUEAeqGxRrldljnfQT3AMWknkA8Ytl6FeeGSSWY
+	HmXROnPD1L9FkXTqi9zXAqu3wKa0/dDyqrUMo6H/otmrrUITziZ1ZBD77sVuIKFxK8qI
+	UDgculjt6RJdV2Ke+QHfAONiqBMEDvz62CTQNJRzsGVmjGjtwiCBQHEz+ACXNIVwNkfW
+	3fSHhxrsxy8zCaoqQaKjocPJRVHRz+CaTiUhzyaDV5ul+nLuWqXWua6F2cyGEsQ9QIjj
+	gGDA==
+X-Gm-Message-State: AHQUAuZmvDtpY1zEw6PQGalSsHkR//gCQmvppdnTzNUS/jbfvAjASLHE
+	iIz2y6wUP8yU39hsG7timzBmQCiZJuPjXA==
+X-Google-Smtp-Source: AHgI3IZBI3Zy80gb/IC85bp0OcA6N6JhnpvRvqgb0dRSryzD2BgLKjIYsMptOFj/KR8Ad+dl5vwa6Q==
+X-Received: by 2002:a17:902:9a07:: with SMTP id
+	v7mr23122188plp.247.1549643738449; 
+	Fri, 08 Feb 2019 08:35:38 -0800 (PST)
+Received: from localhost.localdomain
+	(node-1w7jr9qpx9oqtmftzk0df307j.ipv6.telus.net.
+	[2001:569:790a:d400:8541:be6d:a320:e6cf])
+	by smtp.gmail.com with ESMTPSA id
+	w12sm2470031pgp.38.2019.02.08.08.35.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Feb 2019 08:35:37 -0800 (PST)
+From: Leonardo Augusto <leobsd@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2019 08:35:12 -0800
+Message-Id: <20190208163512.24889-1-leobsd@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v3] Fix cp's target path for ext* filesystems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 15:58:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Feb 2019 16:35:38 -0000
 
-On Fri, 8 Feb 2019 at 16:56, Mark Hatle <mark.hatle@windriver.com> wrote:
-> > Patch 3 changes things in meta-poky/, and patch 4 changes things in
-> > meta/, so they cannot be combined unfortunately. I can however swap
-> > their order, so that there is less confusion.
->
-> Swap the order and add a copy of the commit message (from 4 to 3) then.  That
-> should lesson anyone's questions if they need to figure out why it changed in
-> the future.
+Python subprocess' shell=True defaults to /bin/sh[1][2], which
+often refers to a POSIX-compliant shell. As the -e flag is
+not defined in the POSIX standard[3], some shells may
+interpret "-e" as the first argument to the echo command,
+causing the rest of the command line to fail.
 
-Currently the commits are:
+In this particular case, "echo -e 'cd {}'" is interpreted
+as "-e cd {}", which causes the first line of the command
+to fail, and causing cp to always place the source file
+in the filesystem's root.
 
-commit 341ab87cf326dc1f1d7a3b83d624cde04047f43e
-Author: Alexander Kanavin <alex.kanavin@gmail.com>
-Date:   Thu Dec 27 15:17:26 2018 +0100
+Replacing "echo -e" for a printf command makes this
+more portable.
 
-    local.conf.sample: adjust the qemu config to enable gtk+ instead of sdl
+This issue only affects "wic cp" for ext* filesystems.
 
-    Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+[1] https://docs.python.org/2/library/subprocess.html
+[2] https://docs.python.org/3/library/subprocess.html
+[3] http://pubs.opengroup.org/onlinepubs/9699919799
 
-commit 1170d353029dfb3f1a5ed9bab567e353bd034dfa
-Author: Alexander Kanavin <alex.kanavin@gmail.com>
-Date:   Thu Dec 27 15:33:27 2018 +0100
+Signed-off-by: Leonardo Augusto <leobsd@gmail.com>
+---
+ scripts/lib/wic/engine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    qemu: build target variant with gtk+, and nativesdk variant without sdl
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 4662c665c0..97f5e848cc 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -331,7 +331,7 @@ class Disk:
+     def copy(self, src, pnum, path):
+         """Copy partition image into wic image."""
+         if self.partitions[pnum].fstype.startswith('ext'):
+-            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
++            cmd = "printf 'cd {}\nwrite {} {}' | {} -w {}".\
+                       format(path, src, os.path.basename(src),
+                              self.debugfs, self._get_part_image(pnum))
+         else: # fat
+-- 
+2.17.1
 
-    As sdl is deprecated in favor of gtk+, it should not be the default.
-
-    Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-
-I'm confused, what should go where?
-
-Alex
 
