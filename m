@@ -1,56 +1,76 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D2A4E6BE39
+Return-Path: <brett.grandbois@opengear.com>
+X-Greylist: delayed 75087 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 09 Feb 2019 13:54:14 UTC
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+	(mail-eopbgr740052.outbound.protection.outlook.com [40.107.74.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5DE6B511
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 13:19:40 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a62so8377104wmh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 05:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=B/d9W7dt+olbGChGSzatm8azOYUsaCPvWN7oldf6Ofk=;
-	b=p5sF86LqRNf/zTnz5N334/EqRwih7WBZS0n4WPXKu8lurpk0/deVip15T3Gx0bGn5z
-	3L0Aw9Fypvh67TPG8GxM45auhu+LxYLAuDEzrE+KAsYhXgoI63aYMn7kwjL/Myq0wOzt
-	4LTIq9U10TveA2sI1S4IdNz3XO1IopvOyggFb2/PmdyDLVLoTace+xx6jfxjHbsxRe9L
-	ce+6YnZe9+a6BQlz9Ssy/y58KuLypaGBMId9VsOBlDeIstm7bXbxqHJAuiLmWMpFmNLo
-	NVoX/caO/SZWsDYjnwbeWMhKo/Cd6C616LzfiPQEusOMloFXh/NKgSNDO+PhTgL7FltN
-	xY6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=B/d9W7dt+olbGChGSzatm8azOYUsaCPvWN7oldf6Ofk=;
-	b=mRggWpXBd5KwTcwmafyjn3uDUCmGAJyjOaTrWUGMf3FpJ8aejQ7JTT0lEqC9EAPg7b
-	mHwNbqOSd2kt73jLzxr+RZTEA4Lp2sX3cZsENYZ1WN1uTDgMkaSIdR6AvI8BoN07Usup
-	uthAgLsAhWBzp5bgFimuHDv3wAJlJ7acOuB6ueBHUHIM5IR1653ZTA5Wsz7Gzv7Fi8vs
-	JGZpwAjSx8Eqf4Sm1peOltbneMvzK9jJty5YKbMe76uWvk6CbsVgQ1UpW8bCPzZCSq7K
-	SrjxNjeydytlLU1Tzry1wvJ0umQc0ydIqRnt0oeGAZg8fxSHLIhyfY0oy8wPpyoRlyFi
-	41nQ==
-X-Gm-Message-State: AHQUAuYNAO0+Dd3yA9qPe8Tcc6LEFczMCZZY+D2gpNEvfX5R/FSq7ZxQ
-	3Y3ksQP4Yme/XB8IzwCPdTM=
-X-Google-Smtp-Source: AHgI3IZAwzUC0JPcI7CludvSrM+JqlOkdTBAkcgNO4ViZddp0zzNALcDh+5NXQ7zzaOVt+5nIVJJAQ==
-X-Received: by 2002:adf:9083:: with SMTP id i3mr20470811wri.124.1549718381326; 
-	Sat, 09 Feb 2019 05:19:41 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	c196sm9275249wme.5.2019.02.09.05.19.40
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 09 Feb 2019 05:19:40 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 9 Feb 2019 14:19:42 +0100
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190209131942.GD2258@jama>
-References: <cover.1549637121.git.alex.kanavin@gmail.com>
-	<c6c6c5555d11044b88591d5e760d26352d84c65b.1549637121.git.alex.kanavin@gmail.com>
-	<20190209094419.GC2258@jama>
-	<CANNYZj9NEMz8O3wJ-CjGx1SXLh9NTXu-fm-TgLa8n9HFU1x4QA@mail.gmail.com>
+	Sat,  9 Feb 2019 13:54:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=acnKRLjKtRyojha1MsRS62TGKdPUjKSbwL0P9lLy2bA=;
+	b=Dw5gF01w4rqmUQng69G7hlTgn67AiElNTKglZJLhCnybvSH/sedq+nGs5YBCm0PQmoeYOUtoyiU+G56ARCNRgmSVuDmhcMQ05ynYksKK+4i03ji7fW7xUKXnJQN9DDllxU2w3+deZ8v1kTBaOac2G4frUamrRVgjsFmYCU2etO4=
+Received: from MW2PR1501MB2059.namprd15.prod.outlook.com (52.132.150.23) by
+	MW2PR1501MB2139.namprd15.prod.outlook.com (52.132.150.147) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1601.21; Fri, 8 Feb 2019 01:30:34 +0000
+Received: from MW2PR1501MB2059.namprd15.prod.outlook.com
+	([fe80::580d:3cb2:b0dc:8f6f]) by
+	MW2PR1501MB2059.namprd15.prod.outlook.com
+	([fe80::580d:3cb2:b0dc:8f6f%4]) with mapi id 15.20.1601.016;
+	Fri, 8 Feb 2019 01:30:34 +0000
+From: "Grandbois, Brett" <brett.grandbois@opengear.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] ruby: remove CVE-2018-1000073.patch as already fixed
+Thread-Index: AQHUv03jp8RKom0M7U2G3IOhjLt1AA==
+Date: Fri, 8 Feb 2019 01:30:34 +0000
+Message-ID: <20190208013017.10582-1-brett.grandbois@opengear.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SG2PR0401CA0015.apcprd04.prod.outlook.com
+	(2603:1096:3:1::25) To MW2PR1501MB2059.namprd15.prod.outlook.com
+	(2603:10b6:302:c::23)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=brett.grandbois@opengear.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [60.241.24.90]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; MW2PR1501MB2139;
+	6:qIiNsx8aiOvLClEBbQ/ObIhuD5K8J6CzvL3+aJDneMHPe9x0OT7snkAbkBptlQw9UrTNIKTlodFt6/Z8XIorIL7149cctrdDt6CQidsPUas07KwyZPZwp4ZlFyU76UhmjLZ70iaRMpN0Fmgi4cq/G2en4twMLQn0f3aZ39Qmn4EkJDKSLgS9n/LMXRoNRNUE+vBwbCEV7XOiWlzBUkgtr3URIKSMaFIIQMN1bDwVk4OpKTaO9Qga8Mjg+3+PyOyBE3OU2sWlHEjg8q/wuqx6X/JDfxtvV8m5WWKHWW7Pakk3JDN00wPwkgS5t5JFMLSm9obV558nu+CofbvThBu6AE3ansqJZmwMiFykvyNdMu0Jd3dWW2YWvNMfaqh3YsV46sNEn0jUm1rYNclaBskr+bgYKXawZXPRNDoW+JO6NYqoiCPExhg77/0ldjR5JKSRIM71K3cIBkez/o1FQ3z4iw==;
+	5:I9ZIeX6v4FWwJ/WUpif6jueHifzYGSeIiA/I87TMJCBktzF/e9XnCz1ZfxWJpph8DtUFWek1gDbO1tOlKaWyYOAK7X+TB0fwSDBtB5gepnplK5UEzWum0lizq73CROibRK2rf7k2A0S9JIbVoRU73Zo5+19CZgGrJ/JJRcjv6t1u2vrr/Kdj/H9Lwb3gf8Be37k6bOczZcE5ru8H7xEezw==;
+	7:ScieZ42dusBryL6nO0Lwdi1FvjHxvvu5QFW5PEDc0NoelzmBYrS9T2tH+XlRlpDblfGa27ZmAQEzd9aNJmToi2IboCQncBLpn94YEpX0WN0cRwkJliGCqwDj4LSm3MweHdZ/1ooYDhPJZY4laR8UPw==
+x-ms-office365-filtering-correlation-id: 20178455-5232-4ce9-57b6-08d68d65058c
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(2017052603328)(7153060)(7193020);
+	SRVR:MW2PR1501MB2139; 
+X-MS-TrafficTypeDiagnostic: MW2PR1501MB2139:|MW2PR1501MB2139:
+x-microsoft-antispam-prvs: <MW2PR1501MB2139CD9E8B329C1F8F56B87E82690@MW2PR1501MB2139.namprd15.prod.outlook.com>
+x-forefront-prvs: 094213BFEA
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(396003)(346002)(366004)(136003)(39840400004)(376002)(189003)(199004)(25786009)(71190400001)(71200400001)(256004)(2351001)(50226002)(52116002)(8676002)(36756003)(2501003)(186003)(26005)(14444005)(6512007)(2906002)(14454004)(106356001)(99286004)(1076003)(478600001)(86362001)(3846002)(66066001)(316002)(105586002)(6506007)(386003)(68736007)(97736004)(6116002)(6916009)(53936002)(486006)(81156014)(102836004)(2616005)(8936002)(476003)(6486002)(5640700003)(305945005)(81166006)(7736002)(6436002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MW2PR1501MB2139;
+	H:MW2PR1501MB2059.namprd15.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: opengear.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: C15Uo7vZqT9EH71ZFmzOoKjzDL5odmMwf9TDCjEJ7/CKgTZdV/J8YV5syKAGciT9yzSF42M45/l6bRDSS8i42vRVPJJn8MTWkIiic5TPNMfYWNsiKtdKwoqrsOFn+FOfA0zkqa7VEiisfIxU6Cj+gIEZ3OrVuo4joGgTeVUsUojj/L1oynO0VSGC0MAP8vmswy9Ltoa7mkCg7ix5tcxoJSEKunpm4uT1YuEqpGRNv7bFEkCuYgfH3LZWhJ4bSKwoHPqWtlaSQSQ9PJ1cPWJdsoHZpqQdIeTzU/LmEcuc0L5+54rHj9OPhF3asMVFLzfZuWVAbqdUNvlq8oT++0RZu/CS8dofoAHq7bHK2mysDRUEE/SIhf1Yo+gS+qqg+Lh/zyIDWpF06FdZMRvPWkGsBsrwgHWUCr15vMrOa6AiAc4=
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj9NEMz8O3wJ-CjGx1SXLh9NTXu-fm-TgLa8n9HFU1x4QA@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20178455-5232-4ce9-57b6-08d68d65058c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2019 01:30:33.3253 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-id: a6251c26-d21f-4164-a225-1f4eaebf5f9a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR1501MB2139
+X-Microsoft-Exchange-Diagnostics: 1; MW2PR1501MB2139;
+	23:thGRMGD4ISek0ZL3C0Aph32GsfgXUoUByNm81oyd+fX0zA4HxuJUuexqzhByGs/bav3p4dswidT7AxrB1KKJQoiwTUsmcxSMVZC1P5YjP5+5UR1rjoDpGYAEqcex616K2RI50e9bt6+7FOz0UnzjZQ==
+X-OriginatorOrg: opengear.com
+Subject: [PATCH] ruby: remove CVE-2018-1000073.patch as already fixed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,161 +83,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 13:19:41 -0000
-X-Groupsio-MsgNum: 121006
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="iVCmgExH7+hIHJ1A"
-Content-Disposition: inline
-
---iVCmgExH7+hIHJ1A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 09 Feb 2019 13:54:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 09, 2019 at 11:06:47AM +0100, Alexander Kanavin wrote:
-> On Sat, 9 Feb 2019 at 10:44, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > Does it need to depend on mesa directly instead of one of virtual/*
-> > providers?
-> >
-> > It fails to build for targets which use different mesa, e.g. mesa-gl:
-> >
-> > ERROR: Nothing PROVIDES 'mesa' (but /OE/build/luneos-master/webos-ports=
-/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb=
- DEPENDS on or otherwise requires it)
-> > mesa was skipped: PREFERRED_PROVIDER_virtual/libgl set to mesa-gl, not =
-mesa
-> > ERROR: Required build target 'virglrenderer' has no buildable providers.
-> > Missing or unbuildable dependency chain was: ['virglrenderer', 'mesa']
->=20
-> Yes, mesa-gl isn't going to work. Virgl needs the following bits (set
-> in mesa recipe):
-> PACKAGECONFIG_class-native ?=3D "gbm dri-native egl"
->=20
-> dri-native is same as dri, but without drivers to save build time.
+rubygems 2.7.6 which is in ruby 2.5.3 has this fix and as currently
+applied all gem extraction fails as the realpath check is done against
+the full path including the file to be extracted which will always fail
+as the file hasnt been extracted yet
 
-OK, then with mesa used in qemux86* it still fails with:
+Signed-off-by: Brett Grandbois <brett.grandbois@opengear.com>
+---
+ .../ruby/ruby/CVE-2018-1000073.patch          | 34 -------------------
+ meta/recipes-devtools/ruby/ruby_2.5.3.bb      |  1 -
+ 2 files changed, 35 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2018-1000073.patch
 
-| Making all in vtest
-| make[2]: Entering directory '/OE/build/luneos-master/webos-ports/tmp-glib=
-c/work/i586-webos-linux/virglrenderer/0.7.0-r0/build/vtest'
-| i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-mas=
-ter/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/reci=
-pe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/ga=
-llium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/gallium=
-/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../git/=
-src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux=
-/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X11=
-_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -fd=
-ebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-w=
-ebos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0  =
-                    -fdebug-prefix-map=3D/OE/build/luneos-master/webos-port=
-s/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=3D =
-                     -fdebug-prefix-map=3D/OE/build/luneos-master/webos-por=
-ts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot-na=
-tive=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -Werro=
-r=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-cast -=
-c -o util.o ../../git/vtest/util.c
-| i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-mas=
-ter/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/reci=
-pe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/ga=
-llium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/gallium=
-/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../git/=
-src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux=
-/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X11=
-_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -fd=
-ebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-w=
-ebos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0  =
-                    -fdebug-prefix-map=3D/OE/build/luneos-master/webos-port=
-s/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=3D =
-                     -fdebug-prefix-map=3D/OE/build/luneos-master/webos-por=
-ts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot-na=
-tive=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -Werro=
-r=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-cast -=
-c -o vtest_server.o ../../git/vtest/vtest_server.c
-| i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-mas=
-ter/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/reci=
-pe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/ga=
-llium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/gallium=
-/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../git/=
-src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux=
-/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X11=
-_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -fd=
-ebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-w=
-ebos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0  =
-                    -fdebug-prefix-map=3D/OE/build/luneos-master/webos-port=
-s/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=3D =
-                     -fdebug-prefix-map=3D/OE/build/luneos-master/webos-por=
-ts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot-na=
-tive=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -Werro=
-r=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-cast -=
-c -o vtest_renderer.o ../../git/vtest/vtest_renderer.c
-| ../i586-webos-linux-libtool  --tag=3DCC   --mode=3Dlink i586-webos-linux-=
-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-master/webos-ports/tmp=
--glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot -I../../=
-git/src/gallium/drivers/virgl -I../../git/src/gallium/include -I../../git/s=
-rc/gallium/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I=
-=2E./../git/src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586=
--webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMES=
-A_EGL_NO_X11_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-deb=
-ug-types -fdebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc=
-/work/i586-webos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrendere=
-r/0.7.0-r0                      -fdebug-prefix-map=3D/OE/build/luneos-maste=
-r/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe=
--sysroot=3D                      -fdebug-prefix-map=3D/OE/build/luneos-mast=
-er/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recip=
-e-sysroot-native=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declar=
-ation -Werror=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-po=
-inter-cast  -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o virgl_test_se=
-rver util.o vtest_server.o vtest_renderer.o ../src/libvirglrenderer.la
-| i586-webos-linux-libtool: link: i586-webos-linux-gcc -m32 -march=3Di586 -=
--sysroot=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-li=
-nux/virglrenderer/0.7.0-r0/recipe-sysroot -I../../git/src/gallium/drivers/v=
-irgl -I../../git/src/gallium/include -I../../git/src/gallium/auxiliary -I..=
-/../git/src/gallium/drivers -I../../git/include -I../../git/src -I/OE/build=
-/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.=
-7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X11_HEADERS -O -fno-=
-omit-frame-pointer -g -feliminate-unused-debug-types -fdebug-prefix-map=3D/=
-OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/virglren=
-derer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0 -fdebug-prefix-map=
-=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/virg=
-lrenderer/0.7.0-r0/recipe-sysroot=3D -fdebug-prefix-map=3D/OE/build/luneos-=
-master/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/r=
-ecipe-sysroot-native=3D -pipe -Wall -Wextra -Werror=3Dimplicit-function-dec=
-laration -Werror=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to=
--pointer-cast -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o .libs/virgl=
-_test_server util.o vtest_server.o vtest_renderer.o  ../src/.libs/libvirglr=
-enderer.so -lm -lgbm -lepoxy -pthread
-| ../src/.libs/libvirglrenderer.so: error: undefined reference to 'drmPrime=
-HandleToFD'
-| collect2: error: ld returned 1 exit status
-| Makefile:429: recipe for target 'virgl_test_server' failed
-| make[2]: *** [virgl_test_server] Error 1
-| make[2]: Leaving directory '/OE/build/luneos-master/webos-ports/tmp-glibc=
-/work/i586-webos-linux/virglrenderer/0.7.0-r0/build/vtest'
-| Makefile:510: recipe for target 'all-recursive' failed
-| make[1]: *** [all-recursive] Error 1
-| make[1]: Leaving directory '/OE/build/luneos-master/webos-ports/tmp-glibc=
-/work/i586-webos-linux/virglrenderer/0.7.0-r0/build'
-| Makefile:419: recipe for target 'all' failed
-| make: *** [all] Error 2
-| ERROR: oe_runmake failed
-
-The fix from
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/qem=
-u&id=3Dc29d4ccfe0a5f53c49883e55c2c2bb444997b1cf
-is still applicable and fixes this.
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2018-1000073.patch b/meta/=
+recipes-devtools/ruby/ruby/CVE-2018-1000073.patch
+deleted file mode 100644
+index 22fa1b5f4d..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/CVE-2018-1000073.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 1b931fc03b819b9a0214be3eaca844ef534175e2 Mon Sep 17 00:00:00 2001
+-From: Jonathan Claudius <jclaudius@mozilla.com>
+-Date: Wed, 7 Feb 2018 23:54:52 -0500
+-Subject: [PATCH] Non-working patch for deducing symlinked base-dirs
+-
+----
+-CVE: CVE-2018-1000073
+-
+-Fixed in ruby 2.7.6.
+-
+-Upstream-Status: Backport [github.com/rubygems/rubygems/commit/1b931fc...]
+-
+-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+-
+----
+- lib/rubygems/package.rb |    2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/lib/rubygems/package.rb b/lib/rubygems/package.rb
+-index dede959..cb9c74a 100644
+---- a/lib/rubygems/package.rb
+-+++ b/lib/rubygems/package.rb
+-@@ -421,6 +421,8 @@ EOM
+-     destination_dir =3D File.expand_path destination_dir
+-=20
+-     destination =3D File.join destination_dir, filename
+-+    destination =3D File.realpath destination if
+-+      File.respond_to? :realpath
+-     destination =3D File.expand_path destination
+-=20
+-     raise Gem::Package::PathError.new(destination, destination_dir) unles=
+s
+---=20
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/ruby/ruby_2.5.3.bb b/meta/recipes-devtoo=
+ls/ruby/ruby_2.5.3.bb
+index e9f0453788..3fb427e90e 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.5.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.5.3.bb
+@@ -3,7 +3,6 @@ require ruby.inc
+ SRC_URI +=3D " \
+            file://ruby-CVE-2017-9226.patch \
+            file://ruby-CVE-2017-9228.patch \
+-           file://CVE-2018-1000073.patch \
+            "
+=20
+ SRC_URI[md5sum] =3D "20c85b67846d49622ef3b24230803fef"
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+2.17.1
 
---iVCmgExH7+hIHJ1A
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXF7TbQAKCRA3VSO3ZXaA
-HE72AJ9lzIIjwC8ejqZ6W9jbmC65iq6x3ACgi+vpSkPbBnQzG5K8S6Jz6dq5I4k=
-=pxo5
------END PGP SIGNATURE-----
-
---iVCmgExH7+hIHJ1A--
