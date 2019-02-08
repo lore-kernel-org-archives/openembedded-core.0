@@ -1,50 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5331C7C5C5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 61F2F65CE9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Feb 2019 14:46:12 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id v16so3802422wrn.11
+	Fri,  8 Feb 2019 15:21:28 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id b8so4236165qtr.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2019 06:46:13 -0800 (PST)
+	Fri, 08 Feb 2019 07:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JhTF8M79NNdWaJf+3HDEpkyIrwkX9BnCKBdCINNuB9g=;
-	b=YhAzTrjY8TOcXvjwQ6P1P+Qm1em7+JrZIZOCAPoiIiJezKFYyt7eupHjMuttn0F92O
-	scPDPr2aFIXllnpmMat7XwWAS356b9I1VzWRnHj3Jreazt+CKKk9Ed8qt04imaqGVlpn
-	dh8FzDOfcTeFUf+tTbzSqh3/OeRe4zEW5vSz1ZXYk24rL84LlhkvwCqqrDfJUGc5rz7H
-	E3tHRTmlLiduKRm3WqqiOQZ8KOtD8NVG0x90CYn562gsu1xjCvlSLvFEIu+NfGc7S67G
-	Gg557XupBbr15J0QgZaUaz10bW16bUf2lYvJDaRX0IQ9cumo6nbULW930Z+f6IbSIgUA
-	ocjA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0OtzkgV03K3lh1ofLWp+EcksCI7xI/MfwgQz2GhEPTM=;
+	b=LATVLZZPBq237BtjOd5ZEMSubTG83IHaC84jMYNRRyPJZJPiPCDlIP24tB8/JlyzHQ
+	Ku3GNWuagHLvZ2vNqHYMbPHlFGeHbziP9wMdAm4nTiQzj3hKtCa1IrDvHXmHRG7XXxAJ
+	U0HTgdZrt+BJVwYYJkROcWvC/emwIM3f5qPbYIpueYY+94gceMl5Y+AYjrLA+SsTGq+C
+	PEatnl95dLWjOu5M+R9qMLzoFoZ8aADaUskRuK2IEQipsCfBeqrdrlYwkTy7uTgQedPr
+	ZXUsFunGwxbLa1dHM+boAeVbg1mqTWeO4OXBVJ8b8oWaX8Ugm30Qa5x7/JN6jlW7uNek
+	PTWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=JhTF8M79NNdWaJf+3HDEpkyIrwkX9BnCKBdCINNuB9g=;
-	b=Y98Rdd24VcdLXRqeeixgFV4MDxJd+qggApukWRfdcxzA7wILSsLDh9n3zIyoD7hQ7B
-	4NGKvw2WclDgxQyFaNiRLqpxOO3FH0CpJKLEpSM5yxa6VReeXPloYJWLM1nhfxKEBbg8
-	Jsf2kuPBkckT2X2r4ylLk9aC80RywoxrLIbrwYPB7ww1CPYrMx2qkCITcv9FfjVAhwLd
-	NOuTW/Kpe/UBPFqa0DPfGYa4MzanX9UgRTMAmjgAl3w/4i8I3JQeaOtXtlAQHN8ra4YX
-	8Y4AeT6eLbkOkalvbxvTndUEAeuFfnRApz+RkkNyFXSCRQebed54WTT7HhGVX9IsDUpe
-	K8/Q==
-X-Gm-Message-State: AHQUAubDtQFUv6WKpWsF61wEmLVUZRrIYfyTCDD/BpjOHq8T8EyDGZdD
-	F/XEJTOqFdieHR42XU+zfhsFiPT5
-X-Google-Smtp-Source: AHgI3IY7maZvbZmskoSnoE4xvQq0V0hNcOOly4nWN/qn1cj0vFzzz/MTB4ozNwlUwkU7QuCtlSgNgg==
-X-Received: by 2002:a5d:6b89:: with SMTP id n9mr15179882wrx.99.1549637172657; 
-	Fri, 08 Feb 2019 06:46:12 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id j3sm3365709wmb.39.2019.02.08.06.46.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Feb 2019 06:46:11 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2019 15:45:53 +0100
-Message-Id: <30c85a9db0e12bcb76fde2681ed567860decb6a6.1549637121.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1549637121.git.alex.kanavin@gmail.com>
-References: <cover.1549637121.git.alex.kanavin@gmail.com>
-Subject: [PATCH 12/12] selftest: add tests for virgl GL acceleration
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0OtzkgV03K3lh1ofLWp+EcksCI7xI/MfwgQz2GhEPTM=;
+	b=RJhwjsKiMUDHMzuuJ97SvjId+tx8ZBJSM56UxlSmxOndlsfQofzGeLEwKt33+9FndA
+	ifIFcndplYNWopyhrpPVNrxYZ1WFP2LrmQBYLYyE7k9HRLgVnGNRUlQcBCLOWzYUL1vR
+	eU6UveEWrMKMQsvrRRTo/DYcdEkf2pGcpH9s22btMI/GDLvVsE5a0KzO8CM7c0ktH3Zk
+	qJjNlL5PxAHBw8MK1cNsQ6fZR3pEKDdW9GDicv/LHj0Q2PbkMdEO7SHiZF0OziICp0yU
+	VFbEJLDb5gBebHnlDvBpctfbPwN7zMuLThiL6dzg/uG7nHBAB76m+zrKOgjtTyMvtrR3
+	CT0Q==
+X-Gm-Message-State: AHQUAuZxvSGJ1xavqWzZWH7IJ8XnyG5VaPCtgIgNYPPA45t7L7+Mz47K
+	6X42O8ipUtsjPUg+oR7fdTeSRelK7sA3gBAmLiw=
+X-Google-Smtp-Source: AHgI3IZQP9V6aB/s66n9H5hxKZ5uBX/UM0aF0NTiAe/eTSd8puLTdDs7Glx6FFWvyBA/P8hBB/EvrqlgRxZPvcQirJg=
+X-Received: by 2002:a0c:c103:: with SMTP id f3mr14949828qvh.194.1549639288904; 
+	Fri, 08 Feb 2019 07:21:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20190208005611.8039-1-raj.khem@gmail.com>
+	<2b5d0361200b48969cbbb269ca2272ee@XBOX04.axis.com>
+In-Reply-To: <2b5d0361200b48969cbbb269ca2272ee@XBOX04.axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 8 Feb 2019 07:21:02 -0800
+Message-ID: <CAMKF1sr-s=7m1-0kajeNYesLZ9qpmHhNu7mS1-bEfjunvfPigQ@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,116 +55,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2019 14:46:12 -0000
+X-List-Received-Date: Fri, 08 Feb 2019 15:21:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Note that the tests require that the host machine has a X display,
-has mesa development files installed and is able to create OpenGL contexts.
+On Fri, Feb 8, 2019 at 12:44 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+> > Sent: den 8 februari 2019 01:56
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
+> > install utility instead of cp
+> >
+> > This has been a constant source of trouble for build failures due to
+> > host-user-contaminated QA errors of sort
+> >
+> > ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-
+> > es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid
+> > 3004, which is the same as the user running bitbake. This may be due to
+> > host contamination [host-user-contaminated]
+> >
+> > So far we have tried to mould cp command into not carrying the build
+> > user permissions into install area but it is never entirely fixed since
+> > the issue keeps popping up in various scenes
+> >
+> > This patch replaces use of cp with install utility and specifies install
+> > mode for files explcitly
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc-locale.inc | 41 ++++++++++++------------
+> >  1 file changed, 20 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+> > index 6384f9cbf1..9cce61bf0b 100644
+> > --- a/meta/recipes-core/glibc/glibc-locale.inc
+> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> > @@ -71,28 +71,27 @@ FILES_localedef = "${bindir}/localedef"
+> >
+> >  LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+> >
+> > -do_install () {
+> > -     mkdir -p ${D}${bindir} ${D}${datadir}
+> > -     if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+> > -     fi
+> > -     if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+> > -             mkdir -p ${D}${localedir}
+> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
+> > -     fi
+> > -     if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+> > -             mkdir -p ${D}${libdir}
+> > -             if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+> > -                     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+> > -             fi
+> > -             if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+> > -                     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+> > -             fi
+> > -     fi
+> > -     if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+> > -             cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
+> > +copy_locale_files() {
+> > +     local dir=$1 mode=$2
+> > +
+> > +     [ -e "${LOCALETREESRC}$dir" ] || return 0
+> > +
+> > +     for d in . $(find "${LOCALETREESRC}$dir" -type d -printf '%P '); do
+> > +             install -d ${D}$dir/$d
+> > +             find "${LOCALETREESRC}$dir/$d" -maxdepth 1 -type f \
+> > +             -exec install -m $mode -t "${D}$dir/$d" {} \;
+>
+> I know I am a sucker for details, but please align the broken find line so
+> that it is more obvious that the second line is a continuation, i.e.:
+>
+>                 find "${LOCALETREESRC}$dir/$d" -maxdepth 1 -type f \
+>                      -exec install -m $mode -t "${D}$dir/$d" {} \;
+>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 28 ++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 52 +++++++++++++++++++
- 2 files changed, 80 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+You are doing good here, I really appreciate the feedback. Do you
+think aligning it
+under beginning of quote is more readable or aligning where find cmd
+begins is better ?
+I will make this as a followup patch and send it with next lot of
+minor changes that I have in
+queue.
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-new file mode 100644
-index 00000000000..cc25e77d9c0
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,28 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+import oe
-+
-+class VirglTest(OERuntimeTestCase):
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
-+
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        from fnmatch import fnmatch
-+
-+        try:
-+            distro = oe.lsb.distro_identifier()
-+        except Exception:
-+            distro = None
-+
-+        if distro and fnmatch(distro, 'centos-7'):
-+            self.skipTest('kmscube is not working when centos 7 is the host OS')
-+
-+        status, output = self.target.run('kmscube', timeout=30)
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..3cecdc8e42b 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,58 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
- 
-+    @OETestID(1883)
-+    def test_testimage_virgl_gtk(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        if "DISPLAY" not in os.environ:
-+            self.skipTest("virgl gtk test must be run inside a X session")
-+        qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-native')
-+        features = 'INHERIT += "testimage"\n'
-+        if 'gtk+' not in qemu_packageconfig:
-+            features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
-+    @OETestID(1883)
-+    def test_testimage_virgl_headless(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        import subprocess, os
-+        try:
-+            content = os.listdir("/dev/dri")
-+            if len([i for i in content if i.startswith('render')]) == 0:
-+                self.skipTest("No render nodes found in /dev/dri: %s" %(content))
-+        except FileNotFoundError:
-+            self.skipTest("/dev/dri directory does not exist; no render nodes available on this machine.")
-+        try:
-+            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-+        except subprocess.CalledProcessError as e:
-+            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
--- 
-2.17.1
-
+> > +     done
+> > +}
+> > +
+> > +do_install() {
+> > +     copy_locale_files ${bindir} 0755
+> > +     copy_locale_files ${localedir} 0644
+> > +     if [ ${PACKAGE_NO_GCONV} -eq 0 ]; then
+> > +             copy_locale_files ${libdir}/gconv 0755
+> > +             copy_locale_files ${datadir}/i18n 0644
+> >       fi
+> > -     cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+> > +     copy_locale_files ${datadir}/locale 0644
+> > +     install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+> >  }
+> >
+> >  inherit libc-package
+> > --
+> > 2.20.1
+>
+> //Peter
+>
 
