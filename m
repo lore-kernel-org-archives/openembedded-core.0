@@ -1,51 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B93C7C4A6
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 23D2E7C5D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 17:23:43 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id r21so4017803qkl.11
+	Sat,  9 Feb 2019 18:07:07 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id p15so2421578qkl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 09:23:44 -0800 (PST)
+	Sat, 09 Feb 2019 10:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=9+BcZCltZS1MU9Kg77RAlp0LpY7jxUidgfnFtBSjxgw=;
-	b=Omv+xOCtwCrjZSxybEVa5Q9jxEIOdX2ySD9FdQwF+LCTIdwoiEAKlMBm7d0gnzM+kg
-	8cIp14veRZ54aIg90ugt3W4Ir2BwWsOW2u4TF8JGH+FrVPZc9qm0dXNPCFpE0bYXcaCf
-	9n+o5Fo00ZGzgOHVxz3N/pN+hSKhHjdAHfSQzMMergQpIMTCPGUONsDdjTXeztz0LH8t
-	47JHEfV4i3v3TBSUPEprOPonrx/7xz/hvOFKN8Tc9Zqq/VzeKv1c4vGAoeoVLX/02PfQ
-	vhk0hN4e/SsPh+xXLVSjOUW7xWDQBzR6dDAqDPaZERfWSaHLKkyfllkXSMddUOXPaT9U
-	Aawg==
+	:cc; bh=75I4vAqOlUVU9LOhkF/GGJgpccLyhoQIw5Q94jH3VwA=;
+	b=LBJkeBCrby04TCCtiYgHcj0b0uGQ4SVgl2qYhNcyj0L3p4cJMn3vuvg9VGlFnyGBNq
+	NOhQomHeNHYnvyIdxvB+T/vO3lTTQcbZlckU9VcSyFDpVRZKsiFMOAQUBmE1vtdjYHmR
+	cWIzvcd26pzlpiovth5HC+qMrBdVybRoPStKEfkH+q13ZYm1H2kMIDi/shI9j0EI0uxl
+	/MhAkyb5i2y46y5uq0cyQRiifQWEIg3Frv4bnkH+rOr5IsHAXOorLJLuoPG72g0WhkWU
+	8o8nSEvK00XZToiepuDzS0E5m+iFUmrZU4g50eCJQhEp/BK3gWgVgkzdoO/j03a3I+MA
+	pQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=9+BcZCltZS1MU9Kg77RAlp0LpY7jxUidgfnFtBSjxgw=;
-	b=maEFzNiGNgfjyhry1R8RQWO7bSNVPF0ZgjEwHTkPSRuvKyBBS5X/U5B4R8dlI3MfN/
-	EhxzNfj967z+zIGjcz10yve7rNhJEOSn+0ciLmL83hVxSmIvGCCYtjs8LENc17tzznJG
-	rVtEvbNfrJUUQO0fqxjwVYY3DQX/EGMduavONpQgPNG/P9e+6AT7WweALr+5g90Ii2Qr
-	M8tFoFFqlS4fyGNVhMBrgeFO+Wy6qUAyeMBAhpsweWg8KvEZkATSGz8z0cRlSPxpLlFY
-	KKrZwdXKD/ZxnNx8kCGiAImOcJzyJfFQhggBIYWGWd26vABIaGERapmtGkSa/e7en2G3
-	pG5Q==
-X-Gm-Message-State: AHQUAuY+ZBilgb9r7A94jNqGIiKsdsvsexipQ5oulj+6RfpvxCxIRQQv
-	NgVonUVV6zuywk7kFVo8xYSkMApbkcGcO1FWiLI=
-X-Google-Smtp-Source: AHgI3IaApAWuufWG1odcJVSvk0CW51mlTtmNEjbi+Zk8qvy3D6GusOLbtA7irzGEe+Dayxlppo+szoQiYlCq/Ipq44c=
-X-Received: by 2002:a37:4c41:: with SMTP id z62mr20132126qka.206.1549733023756;
-	Sat, 09 Feb 2019 09:23:43 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=75I4vAqOlUVU9LOhkF/GGJgpccLyhoQIw5Q94jH3VwA=;
+	b=cOFlnNjE85WxPxsI+ipQMwBkriBR3eqIRMxWEEKOH2JTjUYtPshWsthyu9NvyC/jhX
+	efp9VFNJpJ+JhDVtyc/i8+lxwM3AyttIHsJOAzzMiGJzG1qoPvYaDKpkselAJ9ll2ogC
+	pfe2m+YlPwgYT+YOpMZB4tuVO6wBm3dL1KfxF8Kd1OZvV5TfJS0YzOZQ7pbYI+KdgXHM
+	7RrbzvFJnDDbihWH/WaY9PY7vIGuSVK/T0sn9FFWaljwmvdGI/ZfFOOsRNdw1i6W8km/
+	MxAO/5P+aOzHyN25ZrXRS6Twme0RjP8+Q+Zn6gfWcxFPj+9WaJgva/ydADglppFev24q
+	lShQ==
+X-Gm-Message-State: AHQUAuah/OajzOjKGfpP0uw+mgK+K2sOhvoqM/aCFmPe6A4SwQ8m3QNP
+	UVxCqW/d9wV1CR2kiAl2lGdpVJ7M50dm5QfD5QY=
+X-Google-Smtp-Source: AHgI3IaQ3IHqEsk0HFaO8S3IEhmmWYizuqbi1S2QHqFmzEJqkMK5VtZYFx74sZ4JDyHkQzdgfpk2YSWhYuCHD+GbaTw=
+X-Received: by 2002:a37:a7ca:: with SMTP id q193mr803307qke.102.1549735628822; 
+	Sat, 09 Feb 2019 10:07:08 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1549637121.git.alex.kanavin@gmail.com>
-	<c6c6c5555d11044b88591d5e760d26352d84c65b.1549637121.git.alex.kanavin@gmail.com>
-	<20190209094419.GC2258@jama>
-	<CANNYZj9NEMz8O3wJ-CjGx1SXLh9NTXu-fm-TgLa8n9HFU1x4QA@mail.gmail.com>
-	<20190209131942.GD2258@jama>
-In-Reply-To: <20190209131942.GD2258@jama>
+References: <20190209012850.17425-1-raj.khem@gmail.com>
+	<CAJ86T=Ug9meGkuDsg2=meaqB=rephcMCkgiu3Dw3Qd476yrsRw@mail.gmail.com>
+In-Reply-To: <CAJ86T=Ug9meGkuDsg2=meaqB=rephcMCkgiu3Dw3Qd476yrsRw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 9 Feb 2019 09:23:17 -0800
-Message-ID: <CAMKF1sqARPtVioVjYi5SLZBVn0j5juK_4a3a_3z7kNqoDiDYgA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
+Date: Sat, 9 Feb 2019 10:06:42 -0800
+Message-ID: <CAMKF1soN2q6aG4CCCDWMv+FS2SBO8VWLB4oH6CGw9LCWMo2BWQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types.bbclass: Set 70% RAM memory usage limit for xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,154 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 17:23:43 -0000
+X-List-Received-Date: Sat, 09 Feb 2019 18:07:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-dump ld.bfd generated .so and see if this symbol is present
+On Fri, Feb 8, 2019 at 7:27 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Fri, Feb 8, 2019 at 5:29 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > when building with opkg backend and huge packages e.g. chromium/llvm all
+> > going in parallel, memory pressure causes xz to catapult with
+> >
+> > do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
+> >
+> > since there are many tasks going on in parallel, xz adds to memory pressure
+> > and it wants it all, put an upper limit for memory xz can use
+> >
+> > We add a variable XZ_MAXRAM with 70% of RAM limit and can be customized
+> > if builders have more memory one can set it like
+> >
+> > XZMAX_RAM = "-M 0"
+>
+> This needs a little more explanation. How does a change to command
+> used to create .xz images help when running out of memory in
+> do_package_write_ipk? Doesn't the image get created a lot later?
 
-On Sat, Feb 9, 2019 at 5:20 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+I think I have sent v1 patch which was not the one I intended to send.
+will send v2 soon which should be complete.
+
 >
-> On Sat, Feb 09, 2019 at 11:06:47AM +0100, Alexander Kanavin wrote:
-> > On Sat, 9 Feb 2019 at 10:44, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
-> > > Does it need to depend on mesa directly instead of one of virtual/*
-> > > providers?
-> > >
-> > > It fails to build for targets which use different mesa, e.g. mesa-gl:
-> > >
-> > > ERROR: Nothing PROVIDES 'mesa' (but /OE/build/luneos-master/webos-por=
-ts/openembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_git.=
-bb DEPENDS on or otherwise requires it)
-> > > mesa was skipped: PREFERRED_PROVIDER_virtual/libgl set to mesa-gl, no=
-t mesa
-> > > ERROR: Required build target 'virglrenderer' has no buildable provide=
-rs.
-> > > Missing or unbuildable dependency chain was: ['virglrenderer', 'mesa'=
-]
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+> > ---
+> >  meta/classes/image_types.bbclass | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > Yes, mesa-gl isn't going to work. Virgl needs the following bits (set
-> > in mesa recipe):
-> > PACKAGECONFIG_class-native ?=3D "gbm dri-native egl"
+> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> > index 70bd315306..9c8ea0643c 100644
+> > --- a/meta/classes/image_types.bbclass
+> > +++ b/meta/classes/image_types.bbclass
+> > @@ -57,6 +57,7 @@ def imagetypes_getdepends(d):
+> >  XZ_COMPRESSION_LEVEL ?= "-3"
+> >  XZ_INTEGRITY_CHECK ?= "crc32"
+> >  XZ_THREADS ?= "-T 0"
+> > +XZ_MAXRAM ?= "-M 70%"
 > >
-> > dri-native is same as dri, but without drivers to save build time.
->
-> OK, then with mesa used in qemux86* it still fails with:
->
-> | Making all in vtest
-> | make[2]: Entering directory '/OE/build/luneos-master/webos-ports/tmp-gl=
-ibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/build/vtest'
-> | i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-m=
-aster/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/re=
-cipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/=
-gallium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/galli=
-um/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../gi=
-t/src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-lin=
-ux/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X=
-11_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -=
-fdebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586=
--webos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0=
-                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos-po=
-rts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=
-=3D                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos=
--ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroo=
-t-native=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -W=
-error=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-ca=
-st -c -o util.o ../../git/vtest/util.c
-> | i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-m=
-aster/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/re=
-cipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/=
-gallium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/galli=
-um/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../gi=
-t/src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-lin=
-ux/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X=
-11_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -=
-fdebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586=
--webos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0=
-                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos-po=
-rts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=
-=3D                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos=
--ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroo=
-t-native=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -W=
-error=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-ca=
-st -c -o vtest_server.o ../../git/vtest/vtest_server.c
-> | i586-webos-linux-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-m=
-aster/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/re=
-cipe-sysroot -DHAVE_CONFIG_H -I. -I../../git/vtest -I..    -I../../git/src/=
-gallium/drivers/virgl -I../../git/src/gallium/include -I../../git/src/galli=
-um/auxiliary -I../../git/src/gallium/drivers -I../../git/include -I../../gi=
-t/src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-lin=
-ux/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X=
-11_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-debug-types -=
-fdebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586=
--webos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0=
-                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos-po=
-rts/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot=
-=3D                      -fdebug-prefix-map=3D/OE/build/luneos-master/webos=
--ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroo=
-t-native=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declaration -W=
-error=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-pointer-ca=
-st -c -o vtest_renderer.o ../../git/vtest/vtest_renderer.c
-> | ../i586-webos-linux-libtool  --tag=3DCC   --mode=3Dlink i586-webos-linu=
-x-gcc  -m32 -march=3Di586 --sysroot=3D/OE/build/luneos-master/webos-ports/t=
-mp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot -I../.=
-./git/src/gallium/drivers/virgl -I../../git/src/gallium/include -I../../git=
-/src/gallium/auxiliary -I../../git/src/gallium/drivers -I../../git/include =
--I../../git/src   -I/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586=
--webos-linux/virglrenderer/0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMES=
-A_EGL_NO_X11_HEADERS   -O -fno-omit-frame-pointer -g -feliminate-unused-deb=
-ug-types -fdebug-prefix-map=3D/OE/build/luneos-master/webos-ports/tmp-glibc=
-/work/i586-webos-linux/virglrenderer/0.7.0-r0=3D/usr/src/debug/virglrendere=
-r/0.7.0-r0                      -fdebug-prefix-map=3D/OE/build/luneos-maste=
-r/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recipe=
--sysroot=3D                      -fdebug-prefix-map=3D/OE/build/luneos-mast=
-er/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0/recip=
-e-sysroot-native=3D  -pipe -Wall -Wextra -Werror=3Dimplicit-function-declar=
-ation -Werror=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-to-po=
-inter-cast  -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o virgl_test_se=
-rver util.o vtest_server.o vtest_renderer.o ../src/libvirglrenderer.la
-> | i586-webos-linux-libtool: link: i586-webos-linux-gcc -m32 -march=3Di586=
- --sysroot=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-=
-linux/virglrenderer/0.7.0-r0/recipe-sysroot -I../../git/src/gallium/drivers=
-/virgl -I../../git/src/gallium/include -I../../git/src/gallium/auxiliary -I=
-../../git/src/gallium/drivers -I../../git/include -I../../git/src -I/OE/bui=
-ld/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/=
-0.7.0-r0/recipe-sysroot/usr/include/libdrm -DMESA_EGL_NO_X11_HEADERS -O -fn=
-o-omit-frame-pointer -g -feliminate-unused-debug-types -fdebug-prefix-map=
-=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/virg=
-lrenderer/0.7.0-r0=3D/usr/src/debug/virglrenderer/0.7.0-r0 -fdebug-prefix-m=
-ap=3D/OE/build/luneos-master/webos-ports/tmp-glibc/work/i586-webos-linux/vi=
-rglrenderer/0.7.0-r0/recipe-sysroot=3D -fdebug-prefix-map=3D/OE/build/luneo=
-s-master/webos-ports/tmp-glibc/work/i586-webos-linux/virglrenderer/0.7.0-r0=
-/recipe-sysroot-native=3D -pipe -Wall -Wextra -Werror=3Dimplicit-function-d=
-eclaration -Werror=3Dmissing-prototypes -Wmissing-prototypes -Werror=3Dint-=
-to-pointer-cast -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o .libs/vir=
-gl_test_server util.o vtest_server.o vtest_renderer.o  ../src/.libs/libvirg=
-lrenderer.so -lm -lgbm -lepoxy -pthread
-> | ../src/.libs/libvirglrenderer.so: error: undefined reference to 'drmPri=
-meHandleToFD'
-> | collect2: error: ld returned 1 exit status
-> | Makefile:429: recipe for target 'virgl_test_server' failed
-> | make[2]: *** [virgl_test_server] Error 1
-> | make[2]: Leaving directory '/OE/build/luneos-master/webos-ports/tmp-gli=
-bc/work/i586-webos-linux/virglrenderer/0.7.0-r0/build/vtest'
-> | Makefile:510: recipe for target 'all-recursive' failed
-> | make[1]: *** [all-recursive] Error 1
-> | make[1]: Leaving directory '/OE/build/luneos-master/webos-ports/tmp-gli=
-bc/work/i586-webos-linux/virglrenderer/0.7.0-r0/build'
-> | Makefile:419: recipe for target 'all' failed
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
->
-> The fix from
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/q=
-emu&id=3Dc29d4ccfe0a5f53c49883e55c2c2bb444997b1cf
-> is still applicable and fixes this.
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >  ZIP_COMPRESSION_LEVEL ?= "-9"
+> >
+> > @@ -284,7 +285,7 @@ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha25
+> >  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >  CONVERSION_CMD_gz = "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+> >  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> > -CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+> > +CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} ${XZ_MAXRAM} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+> >  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+> >  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> > --
+> > 2.20.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
