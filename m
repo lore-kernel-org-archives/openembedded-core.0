@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 487A37C5E0
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+	[209.85.210.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ACD97C5C8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 18:58:29 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id n2so3036994pgm.3
+	Sat,  9 Feb 2019 19:23:46 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id i20so11499538otl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 10:58:30 -0800 (PST)
+	Sat, 09 Feb 2019 11:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pD1obns3jwmmk4gxCGMnvNPa91xWQSNSo0VKJ6hLzrY=;
-	b=cAiyBPXOoMWHGBR25+JceFM899ZKkWeQ+DOUrW48w4DEX7HRokRErQQtcixUD/47/7
-	L934cuVsEmrI6Xcr1acuPqtrPeINh/VLU6bieQyw8j0v6tjAjYdpJ6uQ+9zlRK06zMy2
-	V9lqF0uWNwWv/NcDyHC+igtClKTAYnEIHWlf0tsg6B7moWrcRh3RFpA5yrFTrjY0djMV
-	egzWNZqjaKJNrFkz+Vl8Ao41fEiIHh9WyPwywwksnLCWAl7JTpdsV/j9k/yUIrPyF9Sq
-	ncPz5yeDAKNfSjSMUgqdV4IIoIc4HkBBp1/WgHVtCfXsK6l9ka2IzRxE3GPWaDmzmcGE
-	cp9A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=pFCvkij3bBONWK1F1zo75/VA7zFfmGej43KUNLTNeWs=;
+	b=sm3YxnqIdeIos3tF97GF5+Oe3H9XiJUlkqlFDMaNHepHDDSAb9cBNOMP6zHS7UN09v
+	dZBcZX2vqOpFJD5O3HddD4mCUsbF4zdMZuGXYMDu0Fv5ml6G8TZn+OpHvWSkVzC4jeuV
+	tmixHNygY03kIh8HG/4w3bpUKm8dKK9WI+C1Yu6xITO9Lm0mdraq+Nlowru6VRSjAPd6
+	IkYFrV9dDSTOi/fBapC1YYv6HmFdTx3zk3cDE/J7/cvPHEHpJzSozqDFGeDeSl1spHYG
+	UVakHxJ0lFLrmvos9CMhcIGmKXs0EKpRoWfmlUMgm5cit3msRWe654/SvBm3l6POH9Vj
+	2LPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pD1obns3jwmmk4gxCGMnvNPa91xWQSNSo0VKJ6hLzrY=;
-	b=Jdo240zAjUJ1VpzVYJjq8m9HgHlgpLzpq4bW4Tv9ulYZN1SFiZq04OLOhfYszj2tYC
-	rUpO1PLyyGR26amaczFyHjI0vcoXEstEAL9YaFbneA6dp/k2hznPPUP8tHQaawy1KgPf
-	0jiaXMsm4WaZTxc1FVyezF1Um0w85sUc2BlMRDgTH6C+X7VI4krH8i/EBJ/AC2M0NLPT
-	Koioib5sVriaWeTHpPzgKUNXMg2sabtU8yvNmbGyYRMNYEhyOO8dvLfnDC4bZt0JCNyN
-	GOhs4c210+vHXKImdqDZKjmWWirUVBFIDEJy9mp8TCKpwAjq+c3Es5yLLDmD6NxrihzJ
-	VK+g==
-X-Gm-Message-State: AHQUAua+i105l4Uau9eHx5tQMUdHrkkH7Ih89NnZBL2NHn2CTlBbt/DP
-	QUW750w5FZLaDBnK9KnU4kba122e
-X-Google-Smtp-Source: AHgI3Ibde9JAB/MCtpVXmLy+/laZh5oYXGTaWTtL4B56KjBBld/rQ+yA/u34RMkf9vwVBIfqiJ1awg==
-X-Received: by 2002:a65:6150:: with SMTP id o16mr24397470pgv.434.1549738709990;
-	Sat, 09 Feb 2019 10:58:29 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::dc44])
-	by smtp.gmail.com with ESMTPSA id
-	x23sm18351816pfe.0.2019.02.09.10.58.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Feb 2019 10:58:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Feb 2019 10:58:22 -0800
-Message-Id: <20190209185822.19934-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=pFCvkij3bBONWK1F1zo75/VA7zFfmGej43KUNLTNeWs=;
+	b=so+/X6JMHV+qZu0Fn9w/AOXg0mSELn9NxIokEQvA7EsL6TnU3xmj1/MfUzi5d98JjS
+	r0iO0r4TLAyJVTRq+oo2un07w2AoMN3GZcMcwZFqLEPZBpwxQyOJ0BYzrlshEkTNXQLe
+	5zXODOkIY8ppqut3VRCstsw1y5jyp7FFrTgkS4QPZ8msksOKBeGyNBs1uYuTz2/iVkwS
+	APYNzcHbMqBQh6U1iQX1GaLvqR4agJdFphLCEb7ekAMy0hvhuSZAt4wnX68PYFQT0GQh
+	c+rN8nvXvo8J1bzGKb2hAsF2HyPp9Rw562EaEqrJ1D7kDZQephgjKzQJMeVGoNqf1SEC
+	YJ3g==
+X-Gm-Message-State: AHQUAubftuXjzcwLPyi29drc3BBpKR5vXPc4iiMtBbmYzZ4QQc9bJih2
+	XNV8dh5a/2PgvE7fuwMWISsj2tuPTFbugoHoXnAmbA==
+X-Google-Smtp-Source: AHgI3IajH5cYCxHurh/wI3BwS4217PYQDE2033LLH7KeQuz5VBYd/I+d26+MID+MP0CLE79rfEzdsEF1s7pZL3Fw93k=
+X-Received: by 2002:a9d:7653:: with SMTP id o19mr19537752otl.12.1549740227670; 
+	Sat, 09 Feb 2019 11:23:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH V2] image_types.bbclass: Set 70% RAM memory usage limit and -T for xz
+References: <VI1PR01MB51675AC59E6B6C4D17536D3F88690@VI1PR01MB5167.eurprd01.prod.exchangelabs.com>
+In-Reply-To: <VI1PR01MB51675AC59E6B6C4D17536D3F88690@VI1PR01MB5167.eurprd01.prod.exchangelabs.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 9 Feb 2019 20:23:36 +0100
+Message-ID: <CANNYZj8NRcP=bFqy1oHY106V2=8d--HOFypBTWrpRnsnZe0kpw@mail.gmail.com>
+To: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Problem with blocked signals in daemons started from rpm postinstall scriptlet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,118 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 18:58:29 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 09 Feb 2019 19:23:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-when building with opkg backend and huge packages e.g. chromium/llvm all
-going in parallel, memory pressure causes xz to catapult with
+On Sat, 9 Feb 2019 at 19:55, Diego Santa Cruz via Openembedded-core
+<openembedded-core@lists.openembedded.org> wrote:
+> I am having problems with daemons that get started from the rpm postinsta=
+ll scriptlet, via update-rc.d, that they cannot be killed. Investigating I =
+discovered that they have most signals blocked. My guess is that rpm blocks=
+ almost all signals so that scriptlets do not fail, but as the signal mask =
+is inherited across fork and exec the daemons end up being blocked. Looking=
+ at update-rc.d it is a simple shell script which does not reset the signal=
+ mask, so any daemons started from there inherit the signal mask.
+>
+> Even worse, things like ntp which rely on SIGALRM fail to work properly w=
+hen started from the postinstall scriptlet.
+>
+> Any ideas on how could this be solved, I am considering tweaking update-r=
+c.d to ignore the -s option as a workaround, at least it avoids the issue a=
+nd anyhow in my setup I always reboot after installing or updating packages=
+. Any other ideas?
 
-do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
+I'd suggest you take this to rpm upstream. Obviously rpm is widely
+used in Fedora, RHEL and other distros, so somehow people can find a
+way around this.
 
-since there are many tasks going on in parallel, xz adds to memory pressure
-and it wants it all, put an upper limit for memory xz can use
-
-We add a variable XZ_MAXRAM with 30% of RAM limit and can be customized
-if builders have more memory one can set it like
-
-XZ_DEFAULTS = "-M 0 -T 0"
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-V2: Consider all locations of xz use
-
- meta/classes/image_types.bbclass       | 9 ++++-----
- meta/classes/package_ipk.bbclass       | 2 +-
- meta/classes/populate_sdk_base.bbclass | 2 +-
- meta/conf/bitbake.conf                 | 3 +++
- 4 files changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 70bd315306..b12420310f 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -56,7 +56,6 @@ def imagetypes_getdepends(d):
- 
- XZ_COMPRESSION_LEVEL ?= "-3"
- XZ_INTEGRITY_CHECK ?= "crc32"
--XZ_THREADS ?= "-T 0"
- 
- ZIP_COMPRESSION_LEVEL ?= "-9"
- 
-@@ -152,12 +151,12 @@ UBI_VOLNAME ?= "${MACHINE}-rootfs"
- multiubi_mkfs() {
- 	local mkubifs_args="$1"
- 	local ubinize_args="$2"
--    
-+
-         # Added prompt error message for ubi and ubifs image creation.
-         if [ -z "$mkubifs_args" ] || [ -z "$ubinize_args" ]; then
-             bbfatal "MKUBIFS_ARGS and UBINIZE_ARGS have to be set, see http://www.linux-mtd.infradead.org/faq/ubifs.html for details"
-         fi
--    
-+
- 	if [ -z "$3" ]; then
- 		local vname=""
- 	else
-@@ -284,7 +283,7 @@ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha25
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
-+CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
- CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
- CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -317,7 +316,7 @@ CONVERSION_DEPENDS_qcow2 = "qemu-native"
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
- 
--DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
-+DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
- 
- # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
- # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 508b7dcaff..d1b317b42b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -8,7 +8,7 @@ IPKGCONF_SDK =  "${WORKDIR}/opkg-sdk.conf"
- PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
- 
- # Program to be used to build opkg packages
--OPKGBUILDCMD ??= 'opkg-build -Z xz -a "--threads 0"'
-+OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
- 
- OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
- OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 80fa443e4c..ebc30d39b3 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -226,7 +226,7 @@ fakeroot tar_sdk() {
- 	# Package it up
- 	mkdir -p ${SDKDEPLOYDIR}
- 	cd ${SDK_OUTPUT}/${SDKPATH}
--	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-+	tar ${SDKTAROPTS} -cf - . | xz ${XZ_DEFAULTS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
- }
- 
- TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9452d5ac4f..3f5d84d348 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -791,6 +791,9 @@ BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
- # Default to setting automatically based on cpu count
- PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
- 
-+# Default parallelism and resource usage for xz
-+XZ_DEFAULTS ?= "--memlimit=30% --threads=${BB_NUMBER_THREADS}"
-+
- ##################################################################
- # Magic Cookie for SANITY CHECK
- ##################################################################
--- 
-2.20.1
-
+Alex
 
