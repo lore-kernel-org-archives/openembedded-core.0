@@ -1,54 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E5AB6BBDE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B867D6C538
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 09:44:16 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id y185so9022751wmd.1
+	Sat,  9 Feb 2019 10:04:57 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id i20so10172727otl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 01:44:18 -0800 (PST)
+	Sat, 09 Feb 2019 02:04:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=CwVIRvQlSKmo6fQ481p52nU6xAp7dFlDZzcEfHlo+jM=;
-	b=tmIiULOF8rVj1T6rFLPRWDH7jluC0tNVQjQ6qu3lI5GB8BoryjeJ99YdTQ+iPjz+ta
-	Wct0n9PCgm2+YNk8gxBj+g6oBMgw/OW6yYa0ig1xy5p5DAUiVg4cbbUc6mc+w7K69SHF
-	KVrLeOBzR9csPP7JNd7mpEzN3Cql8udv3yUVVjhiJqqueCwW0UKqUaBZ1hHCw3NVlo6i
-	a+38KPZfZBwBK9q5YPJhV610KvcXHW2JNOQHO1bHfRsWs93V1x7WIdxwzYIbr1uMUd4E
-	q0nbVbqk9UxPWO+skISa7bffV5om5Og76oo8rysW3Q8GYOSP8dyQIu5yWtPyXjTgTy88
-	U9Ag==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jTT4cAGs/woxXnJUirD/Xr/R8m4Ivcx3axtinPu+oOk=;
+	b=DN2A46/RCbmCe8/j/F1jO2DhAPYhYbx8n3Ed7gkyfKYiM1jQyxyVQcK4+v31BheMbZ
+	XZ9kFGY0kOWtVKHngAn1sWr9wVmbQzaveq6RYBJFqf9DAFl6lI5HatrlF+zdaejRQAcD
+	TD1XhOYf3mo09yxCblj3S+nPO/Lq0SkeaVwBWWipCaR8AfGYfKQageGH8uvZfNTGT3oB
+	unME8C8AKCgV8+2pHFV4jj1Q/yoVmPXvGR46OYMi5mBNoCgVqdVnT29Rznpvrn4DX/6t
+	EUnPBgPXq9O9JSvIjVzjyxHFOZzFPdfQtPGcGtRKffgpwBDnteZNDrXIO8t6kbtwME3j
+	1Rnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=CwVIRvQlSKmo6fQ481p52nU6xAp7dFlDZzcEfHlo+jM=;
-	b=FfQ5iAFE8nglIy0fzSGjarPNIo5fiRpXWyC+8jvgijxdskHeX3cCZ4o9MZFoXLgmtp
-	+8k8n+PO/fm0EXLlgx8FMYgnfQRTJZh6ushopstLACDP5XgQKeC1QtPqZsEKTUWIa7Xg
-	DBGYWh/8TP/7QwRw6F7vLxDQBsKLNSw1KDE7mDCduAZzWgQnUxrgiXEbxDoyabFJ0k2v
-	hWx8fLQGkoCsUsY9upZQAjJy97moWnFnnyT5aqr9dkmROtf9r22l+FYHQXWMcy4ShLgG
-	uLTThREVktiV1vQQ6CmwF0tUqnP8fI6Mc/qeRxn3dHJEf828oSxMjwHUMlg9ZEcSx+4N
-	EXNg==
-X-Gm-Message-State: AHQUAua0RwDJ503alBb3dzDoPdI2nMLfwJxBGvWE3W3tcZT78gHRXZ+/
-	AW/dA+/ognT/2ZoSR3CVlEI=
-X-Google-Smtp-Source: AHgI3IZPkWF+6vct0N11rDWskwWd9W4vsJwybznNfFWQ6NeRETK4J3oDeAjT6H4/j3l7+/HuaRovrg==
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr16793701wrw.131.1549705457466;
-	Sat, 09 Feb 2019 01:44:17 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id j3sm5833529wmb.39.2019.02.09.01.44.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 09 Feb 2019 01:44:16 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 9 Feb 2019 10:44:19 +0100
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190209094419.GC2258@jama>
-References: <cover.1549637121.git.alex.kanavin@gmail.com>
-	<c6c6c5555d11044b88591d5e760d26352d84c65b.1549637121.git.alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=jTT4cAGs/woxXnJUirD/Xr/R8m4Ivcx3axtinPu+oOk=;
+	b=san9aBU51OWvl/KUF7bmYjjZcr6xW/t2x+HZWmiQrgf9HQ4hroFb89Ku/LgN3zgSx3
+	kOyhDAyskpyAEgIxdaUotRCgI6drsM2PwP9T5LAILecxkrpDRiadl3BjztIAxDGDRgpL
+	b/Lbjd3EWuTbzWSJnj7G4vUgSwqfhYq7nW2TewhHtxBX8UNXsf2F8AIjf+J5BbeA7A44
+	Xfnr4I3wn1zXWykfTZN7fMX2TpfUrx0cAKkapkwhAHuTlyOWjLg+LDcPns8SbtP8qywS
+	dLGlDhjPJrJt1sWvcTFUYwKQE4xgmdhLRlSBc1rSraK4CvW9PeGF4CPuiq8PIBnaMH3y
+	1Vog==
+X-Gm-Message-State: AHQUAuY2ojEEVy5xcZaCA72YhouxFbvjYQrMyxMNttcOkF3L2CKIup3a
+	MNR26lLHhXSH7750dtGY2Kc3mDxeGTZHFNkxmlM=
+X-Google-Smtp-Source: AHgI3Ib+9LBZJMWmo9zp1RigEhw3wuCN5bnY5EZBmxki7hgWK0+1SbAdFeCBGPKqH0exWTSg+4HudqacCTjk3Upew0Y=
+X-Received: by 2002:a9d:6a91:: with SMTP id l17mr7637501otq.354.1549706698593; 
+	Sat, 09 Feb 2019 02:04:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c6c6c5555d11044b88591d5e760d26352d84c65b.1549637121.git.alex.kanavin@gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
+References: <cover.1549637121.git.alex.kanavin@gmail.com>
+	<bb8c993db03526b5f7ef16b2c076055b1ce6de40.1549637121.git.alex.kanavin@gmail.com>
+	<20190208231255.GA2258@jama>
+	<CANNYZj-LeigbBS592R5qwvfG5yCApqgQhU_Fjhiz79U=y-ZddA@mail.gmail.com>
+	<20190209093259.GB2258@jama>
+In-Reply-To: <20190209093259.GB2258@jama>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 9 Feb 2019 11:04:47 +0100
+Message-ID: <CANNYZj9dH=ursLkSb_uDnac48p_RmW1dZ573zLzs6WiCd4Tr=Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/12] qemu: enable virglrenderer and glx options for native/nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,167 +57,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 09:44:17 -0000
-X-Groupsio-MsgNum: 121003
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jy6Sn24JjFx/iggw"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 09 Feb 2019 10:04:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---jy6Sn24JjFx/iggw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 9 Feb 2019 at 10:32, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-On Fri, Feb 08, 2019 at 03:45:42PM +0100, Alexander Kanavin wrote:
-> This component enables hardware-accelerated GL inside QEMU guests.
-> For more information, see here:
->=20
-> https://lwn.net/Articles/767970/
-> https://www.collabora.com/news-and-blog/blog/2018/02/12/virtualizing-gpu-=
-access/
-> https://www.collabora.com/news-and-blog/blog/2018/05/09/gpu-virtualizatio=
-n-update/
->=20
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../0001-vtest-add-missing-includes.patch     | 38 +++++++++++++++++++
->  .../virglrenderer/virglrenderer_git.bb        | 19 ++++++++++
->  3 files changed, 58 insertions(+)
->  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/000=
-1-vtest-add-missing-includes.patch
->  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_git=
-=2Ebb
->=20
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index 122fdbcff4b..f7d43d20b7f 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -700,6 +700,7 @@ RECIPE_MAINTAINER_pn-util-macros =3D "Armin Kuster <a=
-kuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-v86d =3D "Alexander Kanavin <alex.kanavin@gmail.com=
->"
->  RECIPE_MAINTAINER_pn-vala =3D "Alexander Kanavin <alex.kanavin@gmail.com=
->"
->  RECIPE_MAINTAINER_pn-valgrind =3D "Alexander Kanavin <alex.kanavin@gmail=
-=2Ecom>"
-> +RECIPE_MAINTAINER_pn-virglrenderer =3D "Alexander Kanavin <alex.kanavin@=
-gmail.com>"
->  RECIPE_MAINTAINER_pn-volatile-binds =3D "Chen Qi <Qi.Chen@windriver.com>"
->  RECIPE_MAINTAINER_pn-vte =3D "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER_pn-vulkan =3D "Ross Burton <ross.burton@intel.com>"
-> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest=
--add-missing-includes.patch b/meta/recipes-graphics/virglrenderer/virglrend=
-erer/0001-vtest-add-missing-includes.patch
-> new file mode 100644
-> index 00000000000..b565c48ee66
-> --- /dev/null
-> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-mi=
-ssing-includes.patch
-> @@ -0,0 +1,38 @@
-> +From 05c5c5f43fbffb3317bd9da27d414890d2ef493c Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Fri, 18 Jan 2019 13:47:23 +0100
-> +Subject: [PATCH] vtest: add missing includes
-> +
-> +This fixes build failures with musl C library
-> +
-> +Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglre=
-nderer/merge_requests/125]
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + vtest/util.c         | 1 +
-> + vtest/vtest_server.c | 1 +
-> + 2 files changed, 2 insertions(+)
-> +
-> +diff --git a/vtest/util.c b/vtest/util.c
-> +index 0d3c78f..c605253 100644
-> +--- a/vtest/util.c
-> ++++ b/vtest/util.c
-> +@@ -26,6 +26,7 @@
-> + #include <stdio.h>
-> + #include <string.h>
-> + #include <unistd.h>
-> ++#include <sys/select.h>
-> +=20
-> + int vtest_wait_for_fd_read(int fd)
-> + {
-> +diff --git a/vtest/vtest_server.c b/vtest/vtest_server.c
-> +index bc6c95f..010721f 100644
-> +--- a/vtest/vtest_server.c
-> ++++ b/vtest/vtest_server.c
-> +@@ -31,6 +31,7 @@
-> + #include <netinet/in.h>
-> + #include <sys/un.h>
-> + #include <fcntl.h>
-> ++#include <string.h>
-> +=20
-> + #include "util.h"
-> + #include "vtest.h"
-> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb b/m=
-eta/recipes-graphics/virglrenderer/virglrenderer_git.bb
-> new file mode 100644
-> index 00000000000..93fc35feb8d
-> --- /dev/null
-> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb
-> @@ -0,0 +1,19 @@
-> +SUMMARY =3D "VirGL virtual OpenGL renderer"
-> +HOMEPAGE =3D "https://virgil3d.github.io/"
-> +
-> +LICENSE =3D "MIT"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc81c08eeefd9418fca8f88309a76d=
-b10"
-> +
-> +DEPENDS =3D "libdrm mesa libepoxy"
+> Does enabling virglrenderer and glx do anything useful without any UI?
+> If not then I guess it should be enabled directly here or all 3 enabled
+> only in the poky's local.conf.
 
-Does it need to depend on mesa directly instead of one of virtual/*
-providers?
+Yes, absolutely. You can instruct qemu to render to an off-screen
+buffer, and access that with vnc, even across the network (and maybe
+spice will work too, I didn't try :). I explained this in the cover
+letter...
 
-It fails to build for targets which use different mesa, e.g. mesa-gl:
+Alex
 
-ERROR: Nothing PROVIDES 'mesa' (but /OE/build/luneos-master/webos-ports/ope=
-nembedded-core/meta/recipes-graphics/virglrenderer/virglrenderer_git.bb DEP=
-ENDS on or otherwise requires it)
-mesa was skipped: PREFERRED_PROVIDER_virtual/libgl set to mesa-gl, not mesa
-ERROR: Required build target 'virglrenderer' has no buildable providers.
-Missing or unbuildable dependency chain was: ['virglrenderer', 'mesa']
-
-Regards,
-
-> +PV =3D "0.7.0"
-> +SRCREV =3D "402c228861c9893f64cffbbcb4cb23044b8c721c"
-> +SRC_URI =3D "git://anongit.freedesktop.org/virglrenderer \
-> +           file://0001-vtest-add-missing-includes.patch \
-> +           "
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> +
-> --=20
-> 2.17.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---jy6Sn24JjFx/iggw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXF6g8gAKCRA3VSO3ZXaA
-HJWKAJ9ple7x1eTxZPp8YjXd5itqy1ZNQgCeOzyDVx+nkRq0RCa1oYg1xTVU968=
-=/PuR
------END PGP SIGNATURE-----
-
---jy6Sn24JjFx/iggw--
