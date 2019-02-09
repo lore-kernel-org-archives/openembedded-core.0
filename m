@@ -1,47 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D2E7C5D4
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E2A57C578
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Feb 2019 18:07:07 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id p15so2421578qkl.5
+	Sat,  9 Feb 2019 18:37:09 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id i145so16997842ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2019 10:07:09 -0800 (PST)
+	Sat, 09 Feb 2019 10:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=75I4vAqOlUVU9LOhkF/GGJgpccLyhoQIw5Q94jH3VwA=;
-	b=LBJkeBCrby04TCCtiYgHcj0b0uGQ4SVgl2qYhNcyj0L3p4cJMn3vuvg9VGlFnyGBNq
-	NOhQomHeNHYnvyIdxvB+T/vO3lTTQcbZlckU9VcSyFDpVRZKsiFMOAQUBmE1vtdjYHmR
-	cWIzvcd26pzlpiovth5HC+qMrBdVybRoPStKEfkH+q13ZYm1H2kMIDi/shI9j0EI0uxl
-	/MhAkyb5i2y46y5uq0cyQRiifQWEIg3Frv4bnkH+rOr5IsHAXOorLJLuoPG72g0WhkWU
-	8o8nSEvK00XZToiepuDzS0E5m+iFUmrZU4g50eCJQhEp/BK3gWgVgkzdoO/j03a3I+MA
-	pQqA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0dtW24k4R9eJf0+/guqFCmBLQqIzaFkZwKAVDwfx6Zg=;
+	b=NJMjjKrp/x+Wl0vrmMNSYbhZE23E5SbwpMFZDzYI7h+WUk3bp1fXJ7HSAVBz9k93YZ
+	XnJyBBmfHeKYTA4OwpHWXgliZPkitTdO2+P7BK7A2wt9l97j7+vNp/Inoh+RVk5tVlxy
+	NSPD+P139QTf7HojkCQXOmoieLPOfryA2CbjUwrFBFXX+przY3uCVC4GkdzB58ow+kB+
+	fnc/UwWXinovti3FNC1xDJ9LI17d/xPdH6uCsvZDfyJoJExbFfM+JFjo24FqvlfilM0n
+	LcI47gaRXq3qFOrludj7SxKE8GCbi+OD15PrTjYj5+NjIrkQkbR2rx0WoCWD+FaWzPpX
+	jRZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=75I4vAqOlUVU9LOhkF/GGJgpccLyhoQIw5Q94jH3VwA=;
-	b=cOFlnNjE85WxPxsI+ipQMwBkriBR3eqIRMxWEEKOH2JTjUYtPshWsthyu9NvyC/jhX
-	efp9VFNJpJ+JhDVtyc/i8+lxwM3AyttIHsJOAzzMiGJzG1qoPvYaDKpkselAJ9ll2ogC
-	pfe2m+YlPwgYT+YOpMZB4tuVO6wBm3dL1KfxF8Kd1OZvV5TfJS0YzOZQ7pbYI+KdgXHM
-	7RrbzvFJnDDbihWH/WaY9PY7vIGuSVK/T0sn9FFWaljwmvdGI/ZfFOOsRNdw1i6W8km/
-	MxAO/5P+aOzHyN25ZrXRS6Twme0RjP8+Q+Zn6gfWcxFPj+9WaJgva/ydADglppFev24q
-	lShQ==
-X-Gm-Message-State: AHQUAuah/OajzOjKGfpP0uw+mgK+K2sOhvoqM/aCFmPe6A4SwQ8m3QNP
-	UVxCqW/d9wV1CR2kiAl2lGdpVJ7M50dm5QfD5QY=
-X-Google-Smtp-Source: AHgI3IaQ3IHqEsk0HFaO8S3IEhmmWYizuqbi1S2QHqFmzEJqkMK5VtZYFx74sZ4JDyHkQzdgfpk2YSWhYuCHD+GbaTw=
-X-Received: by 2002:a37:a7ca:: with SMTP id q193mr803307qke.102.1549735628822; 
-	Sat, 09 Feb 2019 10:07:08 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0dtW24k4R9eJf0+/guqFCmBLQqIzaFkZwKAVDwfx6Zg=;
+	b=Qt67LYjmghbD69N6ey61DCYzi3ERX480WivaMomqGLATzGbQj8JLQBwE0N2wjMXoVt
+	KGzzTZRV2YDNvUJcfqM/WTzlxgdyi358dqJycsq6dmmIGEacbzi6ez4a34qb5GS/LsI3
+	HfZaa7lC9cCqkagfXQMVsmITeGmZJhCDo5aJpfgGy4wXXR+lMC9616geZCJJ7vAuypnL
+	2BIhVneE3pRF/TE18w1vh927HAXLR80ZGnBvSrkQnGTz/gfODReZc4cim3ReTBHpbjiL
+	lT5rAqBjKQ6gmHNjlRhPDM8OilRy59qK11qGzq+AUtBV68TuffPRArfA6fJY2UNTOhS2
+	jSGQ==
+X-Gm-Message-State: AHQUAuZqAyE+u2MxlK1uRWG/45fECVSDwOLHjx7x0r07cMA/reOa4yUu
+	uKGNLBWKCNk0wHDZTbdBtOLgPpEarAlCcQ==
+X-Google-Smtp-Source: AHgI3IapIw0Go7MlTn+ut5ifaCQ1REuthKA2jMRGTBZLVugtZHeLel06DInJ6Xj7dsaEfoQwlOrzGw==
+X-Received: by 2002:a6b:e608:: with SMTP id g8mr11436715ioh.188.1549737430737; 
+	Sat, 09 Feb 2019 10:37:10 -0800 (PST)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195])
+	by smtp.gmail.com with ESMTPSA id h2sm2633643itk.0.2019.02.09.10.37.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 09 Feb 2019 10:37:09 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Sat,  9 Feb 2019 18:37:04 +0000
+Message-Id: <cover.1549737160.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190209012850.17425-1-raj.khem@gmail.com>
-	<CAJ86T=Ug9meGkuDsg2=meaqB=rephcMCkgiu3Dw3Qd476yrsRw@mail.gmail.com>
-In-Reply-To: <CAJ86T=Ug9meGkuDsg2=meaqB=rephcMCkgiu3Dw3Qd476yrsRw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 9 Feb 2019 10:06:42 -0800
-Message-ID: <CAMKF1soN2q6aG4CCCDWMv+FS2SBO8VWLB4oH6CGw9LCWMo2BWQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: Set 70% RAM memory usage limit for xz
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +59,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2019 18:07:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 09 Feb 2019 18:37:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 8, 2019 at 7:27 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Fri, Feb 8, 2019 at 5:29 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > when building with opkg backend and huge packages e.g. chromium/llvm all
-> > going in parallel, memory pressure causes xz to catapult with
-> >
-> > do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
-> >
-> > since there are many tasks going on in parallel, xz adds to memory pressure
-> > and it wants it all, put an upper limit for memory xz can use
-> >
-> > We add a variable XZ_MAXRAM with 70% of RAM limit and can be customized
-> > if builders have more memory one can set it like
-> >
-> > XZMAX_RAM = "-M 0"
->
-> This needs a little more explanation. How does a change to command
-> used to create .xz images help when running out of memory in
-> do_package_write_ipk? Doesn't the image get created a lot later?
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I think I have sent v1 patch which was not the one I intended to send.
-will send v2 soon which should be complete.
+Hi all,
 
->
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-> > ---
-> >  meta/classes/image_types.bbclass | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> > index 70bd315306..9c8ea0643c 100644
-> > --- a/meta/classes/image_types.bbclass
-> > +++ b/meta/classes/image_types.bbclass
-> > @@ -57,6 +57,7 @@ def imagetypes_getdepends(d):
-> >  XZ_COMPRESSION_LEVEL ?= "-3"
-> >  XZ_INTEGRITY_CHECK ?= "crc32"
-> >  XZ_THREADS ?= "-T 0"
-> > +XZ_MAXRAM ?= "-M 70%"
-> >
-> >  ZIP_COMPRESSION_LEVEL ?= "-9"
-> >
-> > @@ -284,7 +285,7 @@ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha25
-> >  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> >  CONVERSION_CMD_gz = "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
-> >  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> > -CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
-> > +CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} ${XZ_MAXRAM} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
-> >  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
-> >  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> >  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Sending out my queued patches for linux-yocto. These are mostly for ARC
+support, but there are also -stable updates pushed for 4.4/4.9 if anyone
+is using those kernels. SRCREV patches for maintained branches will follow
+for those changes.
+
+Cheers,
+
+Bruce
+
+The following changes since commit c4f1276721a6e2ea5c4b5e536711072e037a2d7b:
+
+  arch-armv7*.inc: Add Cortex vfpv4-d16 support (2019-02-08 23:15:32 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Alexey Brodkin (1):
+  linux-yocto: Add dependency on libgcc for ARC
+
+Bruce Ashfield (2):
+  linux-yocto: tweak console boot check
+  linux-yocto: add baseline ARC support
+
+ .../linux/linux-yocto-rt_4.19.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_4.19.bb             |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto.inc      |  4 ++++
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb  | 18 +++++++++---------
+ 4 files changed, 18 insertions(+), 14 deletions(-)
+
+-- 
+2.19.1
+
 
