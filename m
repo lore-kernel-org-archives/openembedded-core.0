@@ -1,62 +1,58 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 356806011C
+	by mail.openembedded.org (Postfix) with ESMTP id CD8716D74B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2019 00:34:29 +0000 (UTC)
+	Sun, 10 Feb 2019 01:29:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id B7A151830E;
-	Sun, 10 Feb 2019 01:34:29 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTP id 1A7581830E;
+	Sun, 10 Feb 2019 02:29:23 +0100 (CET)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id J5WYu4k54Zjn; Sun, 10 Feb 2019 01:34:28 +0100 (CET)
+	with LMTP id vwt1GZz9kJPN; Sun, 10 Feb 2019 02:29:22 +0100 (CET)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C368A182BF;
-	Sun, 10 Feb 2019 01:34:28 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTPS id EBE49182AA;
+	Sun, 10 Feb 2019 02:29:21 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB4221E057;
-	Sun, 10 Feb 2019 01:34:28 +0100 (CET)
+	by IMSVA (Postfix) with ESMTP id D91E01E057;
+	Sun, 10 Feb 2019 02:29:21 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9ED261E056;
-	Sun, 10 Feb 2019 01:34:28 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by IMSVA (Postfix) with ESMTP id CD36B1E056;
+	Sun, 10 Feb 2019 02:29:21 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sun, 10 Feb 2019 01:34:28 +0100 (CET)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by seth.se.axis.com (Postfix) with ESMTP id 901742B1E;
-	Sun, 10 Feb 2019 01:34:28 +0100 (CET)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
+	Sun, 10 Feb 2019 02:29:21 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id BE89F1DA;
+	Sun, 10 Feb 2019 02:29:21 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
 	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Sun, 10 Feb 2019 01:34:28 +0100
-Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Sun, 10 Feb 2019 01:34:28 +0100
+	Sun, 10 Feb 2019 02:29:21 +0100
 Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
 	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Sun, 10 Feb 2019 01:34:28 +0100
+	15.00.1365.000; Sun, 10 Feb 2019 02:29:21 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Thread-Topic: [OE-core] [PATCH] glibc-locale: Rewrite do_install using install
 	utility instead of cp
-Thread-Index: AQHUv8H4S05K/Dw9N0KsF3v09ipIeaXYMMiQ
-Date: Sun, 10 Feb 2019 00:34:27 +0000
-Message-ID: <fee2404e2b1647a389091ae2b7de3fb3@XBOX04.axis.com>
-References: <20190208005611.8039-1-raj.khem@gmail.com>
-	<2b5d0361200b48969cbbb269ca2272ee@XBOX04.axis.com>
-	<CAMKF1sr-s=7m1-0kajeNYesLZ9qpmHhNu7mS1-bEfjunvfPigQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sr-s=7m1-0kajeNYesLZ9qpmHhNu7mS1-bEfjunvfPigQ@mail.gmail.com>
+Thread-Index: AQHUvsO2NPNJPiVEfkiTK0smTe4s2KXYM3gA
+Date: Sun, 10 Feb 2019 01:29:21 +0000
+Message-ID: <770bd2ba38ec4688a45c1df281a1e112@XBOX04.axis.com>
+References: <20190207003537.7135-1-raj.khem@gmail.com>
+	<88a02e81ed831ed4fba8adbd9e18f1a35dbf098d.camel@linuxfoundation.org>
+In-Reply-To: <88a02e81ed831ed4fba8adbd9e18f1a35dbf098d.camel@linuxfoundation.org>
 Accept-Language: en-US
-X-MS-Has-Attach: 
+X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -70,101 +66,254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2019 00:34:30 -0000
+X-List-Received-Date: Sun, 10 Feb 2019 01:29:23 -0000
+X-Groupsio-MsgNum: 121022
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/mixed;
+	boundary="_002_770bd2ba38ec4688a45c1df281a1e112XBOX04axiscom_"
+
+--_002_770bd2ba38ec4688a45c1df281a1e112XBOX04axiscom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 7 februari 2019 10:01
+> To: Khem Raj <raj.khem@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
+> install utility instead of cp
+>=20
+> On Wed, 2019-02-06 at 16:35 -0800, Khem Raj wrote:
+> > This has been a constant source of trouble for build failures due to
+> host-user-contaminated QA
+> > errors of sort
+> >
+> > ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-
+> es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid
+> 3004, which is the same as the user running bitbake. This may be due to
+> host contamination [host-user-contaminated]
+> >
+> > So far we have tried to mould cp command into not carrying the build
+> > user permissions into install area but it is never entirely fixed
+> since
+> > the issue keeps popping up in various scenes
+> >
+> > This patch replaces use of cp with install utility and specifies
+> install
+> > mode for files explcitly
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++--------
+> --
+> >  1 file changed, 25 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-
+> core/glibc/glibc-locale.inc
+> > index 6384f9cbf1..9b256a5108 100644
+> > --- a/meta/recipes-core/glibc/glibc-locale.inc
+> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> > @@ -72,27 +72,33 @@ FILES_localedef =3D "${bindir}/localedef"
+> >  LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-
+> locale"
+> >
+> >  do_install () {
+> > -	mkdir -p ${D}${bindir} ${D}${datadir}
+> > -	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
+> > -		cp -R --no-dereference --preserve=3Dmode,links
+> ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+> > -	fi
+> > -	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
+> > -		mkdir -p ${D}${localedir}
+> > -		cp -R --no-dereference --preserve=3Dmode,links
+> ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
+> > -	fi
+> > +        install -d ${D}${bindir}
+> > +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
+> > +        -exec install -m 0755 -t "${D}${bindir}" {} \;
+> > +
+> > +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d -
+> printf '%P ') ; do
+> > +                install -d "${D}${localedir}/$d"
+> > +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1
+> -type f \
+> > +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
+> > +        done
+> >  	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
+> > -		mkdir -p ${D}${libdir}
+> > -		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
+> > -			cp -R --no-dereference --
+> preserve=3Dmode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+> > -		fi
+> > -		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
+> > -			cp -R --no-dereference --
+> preserve=3Dmode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+> > -		fi
+> > -	fi
+> > -	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
+> > -		cp -R --no-dereference --preserve=3Dmode,links
+> ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
+> > +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv"
+> -type d -printf '%P ') ; do
+> > +                        install -d "${D}${libdir}/gconv/$d"
+> > +                        find "${LOCALETREESRC}/${libdir}/gconv/$d" -
+> maxdepth 1 -type f \
+> > +                        -exec install -m 0755 -t
+> "${D}${libdir}/gconv/$d" {} \;
+> > +                done
+> > +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n"
+> -type d -printf '%P ') ; do
+> > +                        install -d "${D}${datadir}/i18n/$d"
+> > +                        find "${LOCALETREESRC}/${datadir}/i18n/$d" -
+> maxdepth 1 -type f \
+> > +                        -exec install -m 0644 -t
+> "${D}${datadir}/i18n/$d" {} \;
+> > +                done
+> >  	fi
+> > -	cp -R --no-dereference --preserve=3Dmode,links
+> ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+> > +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type
+> d -printf '%P ') ; do
+> > +                install -d "${D}${datadir}/locale/$d"
+> > +                find "${LOCALETREESRC}/${datadir}/locale/$d" -
+> maxdepth 1 -type f \
+> > +                -exec install -m 0644 -t "${D}${datadir}/locale/$d"
+> {} \;
+> > +        done
+> > +	install -m 0644 ${LOCALETREESRC}/SUPPORTED
+> ${WORKDIR}/SUPPORTED
+> >  }
+> >
+> >  inherit libc-package
+>=20
+> The trouble is this is a workaround. The cp commands should work and
+> there is some underlying issue in pseudo causing this. We really need
+> to figure out what that is since this will likely just mean we see the
+> problem somewhere else :(
+>=20
+> I still suspect some kind of inode number reuse problem which these cp
+> commands trigger...
+>=20
+> Cheers,
+>=20
+> Richard
+
+For the record, even if I think the patch was the right thing to do, it=20
+did not help the situation. The first build I did after it was integrated,=
+=20
+I was bit by the following:
+
+  Failed to determine the user name of UID 323 for=20
+  tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/package/usr/lib/locale
+
+where UID 323 is my UID. If you do not recognize the error message, it is=20
+because it comes from a local patch we have for rpm to protect us from any=
+=20
+incorrect UIDs/GIDs causing incorrect RPMs to be generated (see below). I=20
+checked the build directory and the /usr/lib/locale directory was the only=
+=20
+file or directory with an incorrect owner, which is typical of these=20
+pseudo related problems with incorrect owners.
+
+[rpm will by default silently fall back to use root for any files where it=
+=20
+cannot determine the name of the user or group based on its UID/GID. This=20
+can be due to missing information in the /etc/passwd or /etc/groups files,=
+=20
+typically due to relying on another recipe in DEPENDS to create the user=20
+without also having an RDEPENDS on the package that creates the user, or=20
+because of pseudo messing up. After this bit us once where a device in=20
+/dev ended up in an rpm in the sstate cache with root as group instead of=20
+the intended video group, which in turn caused the video application to=20
+fail as it was no longer allowed to open its device, I created the patch.=20
+It is causing a fair bit of grief as it causes builds to fail randomly,=20
+but at least we don't end up with an incorrect sstate anymore, which is=20
+worse. I am not sure this patch is suitable for integration to OE-Core,=20
+but I have attached it if anyone is interested.]=20
+
+//Peter
+
+
+--_002_770bd2ba38ec4688a45c1df281a1e112XBOX04axiscom_
+Content-Type: application/octet-stream;
+	name="0001-rpm-Make-it-an-error-if-a-UID-GID-cannot-be-turned-i.patch"
+Content-Description: 0001-rpm-Make-it-an-error-if-a-UID-GID-cannot-be-turned-i.patch
+Content-Disposition: attachment;
+	filename="0001-rpm-Make-it-an-error-if-a-UID-GID-cannot-be-turned-i.patch";
+	size=3889; creation-date="Sun, 10 Feb 2019 01:14:16 GMT";
+	modification-date="Sun, 10 Feb 2019 01:13:07 GMT"
 Content-Transfer-Encoding: base64
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gOCBmZWJydWFyaSAyMDE5IDE2OjIxDQo+IFRvOiBQZXRl
-ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gQ2M6IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0hdIGdsaWJjLWxvY2FsZTogUmV3cml0ZSBkb19pbnN0YWxsIHVzaW5nDQo+IGlu
-c3RhbGwgdXRpbGl0eSBpbnN0ZWFkIG9mIGNwDQo+IA0KPiBPbiBGcmksIEZlYiA4LCAyMDE5IGF0
-IDEyOjQ0IEFNIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
-Y29tPiB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+
-IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
-PiA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+IE9uIEJlaGFsZiBPZiBLaGVtIFJhag0KPiA+ID4gU2VudDogZGVuIDggZmVicnVhcmkgMjAx
-OSAwMTo1Ng0KPiA+ID4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcNCj4gPiA+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0hdIGdsaWJjLWxvY2FsZTogUmV3cml0
-ZSBkb19pbnN0YWxsIHVzaW5nDQo+ID4gPiBpbnN0YWxsIHV0aWxpdHkgaW5zdGVhZCBvZiBjcA0K
-PiA+ID4NCj4gPiA+IFRoaXMgaGFzIGJlZW4gYSBjb25zdGFudCBzb3VyY2Ugb2YgdHJvdWJsZSBm
-b3IgYnVpbGQgZmFpbHVyZXMgZHVlDQo+IHRvDQo+ID4gPiBob3N0LXVzZXItY29udGFtaW5hdGVk
-IFFBIGVycm9ycyBvZiBzb3J0DQo+ID4gPg0KPiA+ID4gRVJST1I6IFFBIElzc3VlOiBnbGliYy1s
-b2NhbGU6IC9nbGliYy1iaW5hcnktbG9jYWxlZGF0YS1jYS0NCj4gPiA+IGVzK3ZhbGVuY2lhL3Vz
-ci9saWIvbG9jYWxlL2NhX0VTQHZhbGVuY2lhL0xDX01PTkVUQVJZIGlzIG93bmVkIGJ5DQo+IHVp
-ZA0KPiA+ID4gMzAwNCwgd2hpY2ggaXMgdGhlIHNhbWUgYXMgdGhlIHVzZXIgcnVubmluZyBiaXRi
-YWtlLiBUaGlzIG1heSBiZQ0KPiBkdWUgdG8NCj4gPiA+IGhvc3QgY29udGFtaW5hdGlvbiBbaG9z
-dC11c2VyLWNvbnRhbWluYXRlZF0NCj4gPiA+DQo+ID4gPiBTbyBmYXIgd2UgaGF2ZSB0cmllZCB0
-byBtb3VsZCBjcCBjb21tYW5kIGludG8gbm90IGNhcnJ5aW5nIHRoZQ0KPiBidWlsZA0KPiA+ID4g
-dXNlciBwZXJtaXNzaW9ucyBpbnRvIGluc3RhbGwgYXJlYSBidXQgaXQgaXMgbmV2ZXIgZW50aXJl
-bHkgZml4ZWQNCj4gc2luY2UNCj4gPiA+IHRoZSBpc3N1ZSBrZWVwcyBwb3BwaW5nIHVwIGluIHZh
-cmlvdXMgc2NlbmVzDQo+ID4gPg0KPiA+ID4gVGhpcyBwYXRjaCByZXBsYWNlcyB1c2Ugb2YgY3Ag
-d2l0aCBpbnN0YWxsIHV0aWxpdHkgYW5kIHNwZWNpZmllcw0KPiBpbnN0YWxsDQo+ID4gPiBtb2Rl
-IGZvciBmaWxlcyBleHBsY2l0bHkNCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJh
-aiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgbWV0YS9yZWNpcGVzLWNv
-cmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYyB8IDQxICsrKysrKysrKysrKy0tLS0tLS0tDQo+IC0t
-LS0NCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25z
-KC0pDQo+ID4gPg0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2ds
-aWJjLWxvY2FsZS5pbmMNCj4gYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUu
-aW5jDQo+ID4gPiBpbmRleCA2Mzg0ZjljYmYxLi45Y2NlNjFiZjBiIDEwMDY0NA0KPiA+ID4gLS0t
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYw0KPiA+ID4gKysrIGIv
-bWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYw0KPiA+ID4gQEAgLTcxLDI4
-ICs3MSwyNyBAQCBGSUxFU19sb2NhbGVkZWYgPSAiJHtiaW5kaXJ9L2xvY2FsZWRlZiINCj4gPiA+
-DQo+ID4gPiAgTE9DQUxFVFJFRVNSQyA9ICIke0NPTVBPTkVOVFNfRElSfS8ke1BBQ0tBR0VfQVJD
-SH0vZ2xpYmMtc3Rhc2gtDQo+IGxvY2FsZSINCj4gPiA+DQo+ID4gPiAtZG9faW5zdGFsbCAoKSB7
-DQo+ID4gPiAtICAgICBta2RpciAtcCAke0R9JHtiaW5kaXJ9ICR7RH0ke2RhdGFkaXJ9DQo+ID4g
-PiAtICAgICBpZiBbIC1uICIkKGxzICR7TE9DQUxFVFJFRVNSQ30vJHtiaW5kaXJ9KSIgXTsgdGhl
-bg0KPiA+ID4gLSAgICAgICAgICAgICBjcCAtUiAtLW5vLWRlcmVmZXJlbmNlIC0tcHJlc2VydmU9
-bW9kZSxsaW5rcw0KPiAke0xPQ0FMRVRSRUVTUkN9LyR7YmluZGlyfS8qICR7RH0ke2JpbmRpcn0N
-Cj4gPiA+IC0gICAgIGZpDQo+ID4gPiAtICAgICBpZiBbIC1uICIkKGxzICR7TE9DQUxFVFJFRVNS
-Q30vJHtsb2NhbGVkaXJ9KSIgXTsgdGhlbg0KPiA+ID4gLSAgICAgICAgICAgICBta2RpciAtcCAk
-e0R9JHtsb2NhbGVkaXJ9DQo+ID4gPiAtICAgICAgICAgICAgIGNwIC1SIC0tbm8tZGVyZWZlcmVu
-Y2UgLS1wcmVzZXJ2ZT1tb2RlLGxpbmtzDQo+ICR7TE9DQUxFVFJFRVNSQ30vJHtsb2NhbGVkaXJ9
-LyogJHtEfSR7bG9jYWxlZGlyfQ0KPiA+ID4gLSAgICAgZmkNCj4gPiA+IC0gICAgIGlmIFsgJHtA
-ZC5nZXRWYXIoJ1BBQ0tBR0VfTk9fR0NPTlYnKX0gLWVxIDAgXTsgdGhlbg0KPiA+ID4gLSAgICAg
-ICAgICAgICBta2RpciAtcCAke0R9JHtsaWJkaXJ9DQo+ID4gPiAtICAgICAgICAgICAgIGlmIFsg
-LWUgJHtMT0NBTEVUUkVFU1JDfS8ke2xpYmRpcn0vZ2NvbnYgXTsgdGhlbg0KPiA+ID4gLSAgICAg
-ICAgICAgICAgICAgICAgIGNwIC1SIC0tbm8tZGVyZWZlcmVuY2UgLS1wcmVzZXJ2ZT1tb2RlLGxp
-bmtzDQo+ICR7TE9DQUxFVFJFRVNSQ30vJHtsaWJkaXJ9L2djb252ICR7RH0ke2xpYmRpcn0NCj4g
-PiA+IC0gICAgICAgICAgICAgZmkNCj4gPiA+IC0gICAgICAgICAgICAgaWYgWyAtZSAke0xPQ0FM
-RVRSRUVTUkN9LyR7ZGF0YWRpcn0vaTE4biBdOyB0aGVuDQo+ID4gPiAtICAgICAgICAgICAgICAg
-ICAgICAgY3AgLVIgLS1uby1kZXJlZmVyZW5jZSAtLXByZXNlcnZlPW1vZGUsbGlua3MNCj4gJHtM
-T0NBTEVUUkVFU1JDfS8ke2RhdGFkaXJ9L2kxOG4gJHtEfSR7ZGF0YWRpcn0NCj4gPiA+IC0gICAg
-ICAgICAgICAgZmkNCj4gPiA+IC0gICAgIGZpDQo+ID4gPiAtICAgICBpZiBbIC1lICR7TE9DQUxF
-VFJFRVNSQ30vJHtkYXRhZGlyfS9sb2NhbGUgXTsgdGhlbg0KPiA+ID4gLSAgICAgICAgICAgICBj
-cCAtUiAtLW5vLWRlcmVmZXJlbmNlIC0tcHJlc2VydmU9bW9kZSxsaW5rcw0KPiAke0xPQ0FMRVRS
-RUVTUkN9LyR7ZGF0YWRpcn0vbG9jYWxlICR7RH0ke2RhdGFkaXJ9DQo+ID4gPiArY29weV9sb2Nh
-bGVfZmlsZXMoKSB7DQo+ID4gPiArICAgICBsb2NhbCBkaXI9JDEgbW9kZT0kMg0KPiA+ID4gKw0K
-PiA+ID4gKyAgICAgWyAtZSAiJHtMT0NBTEVUUkVFU1JDfSRkaXIiIF0gfHwgcmV0dXJuIDANCj4g
-PiA+ICsNCj4gPiA+ICsgICAgIGZvciBkIGluIC4gJChmaW5kICIke0xPQ0FMRVRSRUVTUkN9JGRp
-ciIgLXR5cGUgZCAtcHJpbnRmICclUA0KPiAnKTsgZG8NCj4gPiA+ICsgICAgICAgICAgICAgaW5z
-dGFsbCAtZCAke0R9JGRpci8kZA0KPiA+ID4gKyAgICAgICAgICAgICBmaW5kICIke0xPQ0FMRVRS
-RUVTUkN9JGRpci8kZCIgLW1heGRlcHRoIDEgLXR5cGUgZiBcDQo+ID4gPiArICAgICAgICAgICAg
-IC1leGVjIGluc3RhbGwgLW0gJG1vZGUgLXQgIiR7RH0kZGlyLyRkIiB7fSBcOw0KPiA+DQo+ID4g
-SSBrbm93IEkgYW0gYSBzdWNrZXIgZm9yIGRldGFpbHMsIGJ1dCBwbGVhc2UgYWxpZ24gdGhlIGJy
-b2tlbiBmaW5kDQo+IGxpbmUgc28NCj4gPiB0aGF0IGl0IGlzIG1vcmUgb2J2aW91cyB0aGF0IHRo
-ZSBzZWNvbmQgbGluZSBpcyBhIGNvbnRpbnVhdGlvbiwgaS5lLjoNCj4gPg0KPiA+ICAgICAgICAg
-ICAgICAgICBmaW5kICIke0xPQ0FMRVRSRUVTUkN9JGRpci8kZCIgLW1heGRlcHRoIDEgLXR5cGUg
-ZiBcDQo+ID4gICAgICAgICAgICAgICAgICAgICAgLWV4ZWMgaW5zdGFsbCAtbSAkbW9kZSAtdCAi
-JHtEfSRkaXIvJGQiIHt9IFw7DQo+ID4NCj4gDQo+IFlvdSBhcmUgZG9pbmcgZ29vZCBoZXJlLCBJ
-IHJlYWxseSBhcHByZWNpYXRlIHRoZSBmZWVkYmFjay4gRG8geW91DQo+IHRoaW5rIGFsaWduaW5n
-IGl0DQo+IHVuZGVyIGJlZ2lubmluZyBvZiBxdW90ZSBpcyBtb3JlIHJlYWRhYmxlIG9yIGFsaWdu
-aW5nIHdoZXJlIGZpbmQgY21kDQo+IGJlZ2lucyBpcyBiZXR0ZXIgPw0KPiBJIHdpbGwgbWFrZSB0
-aGlzIGFzIGEgZm9sbG93dXAgcGF0Y2ggYW5kIHNlbmQgaXQgd2l0aCBuZXh0IGxvdCBvZg0KPiBt
-aW5vciBjaGFuZ2VzIHRoYXQgSSBoYXZlIGluDQo+IHF1ZXVlLg0KDQpUaGUgcGF0Y2gsIGFzIGl0
-IHdhcyBpbnRlZ3JhdGVkIHRvIG1hc3RlciwgaXMgZmluZS4NCg0KPiA+ID4gKyAgICAgZG9uZQ0K
-PiA+ID4gK30NCj4gPiA+ICsNCj4gPiA+ICtkb19pbnN0YWxsKCkgew0KPiA+ID4gKyAgICAgY29w
-eV9sb2NhbGVfZmlsZXMgJHtiaW5kaXJ9IDA3NTUNCj4gPiA+ICsgICAgIGNvcHlfbG9jYWxlX2Zp
-bGVzICR7bG9jYWxlZGlyfSAwNjQ0DQo+ID4gPiArICAgICBpZiBbICR7UEFDS0FHRV9OT19HQ09O
-Vn0gLWVxIDAgXTsgdGhlbg0KPiA+ID4gKyAgICAgICAgICAgICBjb3B5X2xvY2FsZV9maWxlcyAk
-e2xpYmRpcn0vZ2NvbnYgMDc1NQ0KPiA+ID4gKyAgICAgICAgICAgICBjb3B5X2xvY2FsZV9maWxl
-cyAke2RhdGFkaXJ9L2kxOG4gMDY0NA0KPiA+ID4gICAgICAgZmkNCj4gPiA+IC0gICAgIGNwIC1S
-IC0tbm8tZGVyZWZlcmVuY2UgLS1wcmVzZXJ2ZT1tb2RlLGxpbmtzDQo+ICR7TE9DQUxFVFJFRVNS
-Q30vU1VQUE9SVEVEICR7V09SS0RJUn0NCj4gPiA+ICsgICAgIGNvcHlfbG9jYWxlX2ZpbGVzICR7
-ZGF0YWRpcn0vbG9jYWxlIDA2NDQNCj4gPiA+ICsgICAgIGluc3RhbGwgLW0gMDY0NCAke0xPQ0FM
-RVRSRUVTUkN9L1NVUFBPUlRFRA0KPiAke1dPUktESVJ9L1NVUFBPUlRFRA0KPiA+ID4gIH0NCj4g
-PiA+DQo+ID4gPiAgaW5oZXJpdCBsaWJjLXBhY2thZ2UNCj4gPiA+IC0tDQo+ID4gPiAyLjIwLjEN
-Cj4gPg0KPiA+IC8vUGV0ZXINCj4gPg0KDQovL1BldGVyDQoNCg==
+RnJvbSAwZjk2Yjc0YmNlNGNmMDcxZWU1YzIyYzQ3NzZmMTM1MmExZjQzODEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBrakBheGlzLmNvbT4KRGF0
+ZTogRnJpLCAzIE5vdiAyMDE3IDEzOjQ0OjQwICswMTAwClN1YmplY3Q6IFtQQVRDSF0gcnBtOiBN
+YWtlIGl0IGFuIGVycm9yIGlmIGEgVUlEL0dJRCBjYW5ub3QgYmUgdHVybmVkIGludG8gYQogbmFt
+ZQoKQmVmb3JlLCBhbnkgdW5rbm93biBVSUQgb3IgR0lEIHdvdWxkIHJlc3VsdCBpbiB0aGUgbmFt
+ZSBvZiB0aGUgY3VycmVudAp1c2VyICh0eXBpY2FsbHkgcm9vdCkgYmVpbmcgc2lsZW50bHkgdXNl
+ZCBpbnN0ZWFkLCB3aGljaCBsZWFkcyB0bwp1bmRldGVybWluaXN0aWMgYmVoYXZpb3IgZGVwZW5k
+aW5nIG9uIHdoZXRoZXIgdGhlIHJlcXVpcmVkIHVzZXIgb3IKZ3JvdXAgbmFtZSBpcyBhdmFpbGFi
+bGUgaW4gL2V0Yy9wYXNzd2Qgb3IgL2V0Yy9ncm91cCwgb3Igbm90LgoKVGhpcyBpcyBvbmx5IGFw
+cHJvcHJpYXRlIGZvciB0aGUgbmF0aXZlIGFuZCBuYXRpdmVzZGsgdmVyc2lvbnMuCgpTaWduZWQt
+b2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4K
+LS0tCiAuLi5lcnJvci1pZi1hLVVJRC1HSUQtY2Fubm90LWJlLXR1cm5lZC1pbnRvLS5wYXRjaCB8
+IDQ5ICsrKysrKysrKysrKysrKysrKysrKysKIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBt
+XzQuMTQuMi4xLmJiICAgICAgICAgIHwgIDIgKwogMiBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNlcnRp
+b25zKCspCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9maWxl
+cy8wMDAxLU1ha2UtaXQtYW4tZXJyb3ItaWYtYS1VSUQtR0lELWNhbm5vdC1iZS10dXJuZWQtaW50
+by0ucGF0Y2gKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL2ZpbGVzLzAw
+MDEtTWFrZS1pdC1hbi1lcnJvci1pZi1hLVVJRC1HSUQtY2Fubm90LWJlLXR1cm5lZC1pbnRvLS5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vZmlsZXMvMDAwMS1NYWtlLWl0LWFuLWVy
+cm9yLWlmLWEtVUlELUdJRC1jYW5ub3QtYmUtdHVybmVkLWludG8tLnBhdGNoCm5ldyBmaWxlIG1v
+ZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLmE5NDY3ZGMyOTgKLS0tIC9kZXYvbnVsbAorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL2ZpbGVzLzAwMDEtTWFrZS1pdC1hbi1lcnJvci1p
+Zi1hLVVJRC1HSUQtY2Fubm90LWJlLXR1cm5lZC1pbnRvLS5wYXRjaApAQCAtMCwwICsxLDQ5IEBA
+CitGcm9tIDQ3NzdkYzM4Yzc1NTQ3ODdjYWY5YTM3NTc1YzNlMjkxMjc4M2VkMjMgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJz
+dGVkdEBheGlzLmNvbT4KK0RhdGU6IEZyaSwgMyBOb3YgMjAxNyAxMzo0MTowOSArMDEwMAorU3Vi
+amVjdDogW1BBVENIXSBNYWtlIGl0IGFuIGVycm9yIGlmIGEgVUlEL0dJRCBjYW5ub3QgYmUgdHVy
+bmVkIGludG8gYSBuYW1lCisKK0JlZm9yZSwgYW55IHVua25vd24gVUlEIG9yIEdJRCB3b3VsZCBy
+ZXN1bHQgaW4gdGhlIG5hbWUgb2YgdGhlIGN1cnJlbnQKK3VzZXIgKHR5cGljYWxseSByb290KSBi
+ZWluZyBzaWxlbnRseSB1c2VkIGluc3RlYWQsIHdoaWNoIGxlYWRzIHRvCit1bmRldGVybWluaXN0
+aWMgYmVoYXZpb3IgZGVwZW5kaW5nIG9uIHdoZXRoZXIgdGhlIHJlcXVpcmVkIHVzZXIgb3IKK2dy
+b3VwIG5hbWUgaXMgYXZhaWxhYmxlIGluIC9ldGMvcGFzc3dkIG9yIC9ldGMvZ3JvdXAsIG9yIG5v
+dC4KKworVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlCitTaWduZWQtb2ZmLWJ5OiBQZXRl
+ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4KKworLS0tCisgYnVp
+bGQvZmlsZXMuYyB8IDE4ICsrKysrKysrKysrLS0tLS0tLQorIDEgZmlsZSBjaGFuZ2VkLCAxMSBp
+bnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQorCitkaWZmIC0tZ2l0IGEvYnVpbGQvZmlsZXMu
+YyBiL2J1aWxkL2ZpbGVzLmMKK2luZGV4IDU4NWQ3M2UzZi4uZjkyZWJkOWU5IDEwMDY0NAorLS0t
+IGEvYnVpbGQvZmlsZXMuYworKysrIGIvYnVpbGQvZmlsZXMuYworQEAgLTEzNzMsMTMgKzEzNzMs
+MTcgQEAgc3RhdGljIHJwbVJDIGFkZEZpbGUoRmlsZUxpc3QgZmwsIGNvbnN0IGNoYXIgKiBkaXNr
+UGF0aCwKKyAgICAgfSBlbHNlIHsKKyAJZmlsZUduYW1lID0gcnBtdWdHbmFtZShmaWxlR2lkKTsK
+KyAgICAgfQorLQkKKy0gICAgLyogRGVmYXVsdCB1c2VyL2dyb3VwIHRvIGJ1aWxkZXIncyB1c2Vy
+L2dyb3VwICovCistICAgIGlmIChmaWxlVW5hbWUgPT0gTlVMTCkKKy0JZmlsZVVuYW1lID0gcnBt
+dWdVbmFtZShnZXR1aWQoKSk7CistICAgIGlmIChmaWxlR25hbWUgPT0gTlVMTCkKKy0JZmlsZUdu
+YW1lID0gcnBtdWdHbmFtZShnZXRnaWQoKSk7CistICAgIAorKworKyAgICAvKiBGYWlsIGlmIHRo
+ZSB1c2VyIGFuZC9vciBncm91cCBuYW1lIGNhbm5vdCBiZSBkZXRlcm1pbmVkICovCisrICAgIGlm
+IChmaWxlVW5hbWUgPT0gTlVMTCkgeworKwlycG1sb2coUlBNTE9HX0VSUiwgXygiRmFpbGVkIHRv
+IGRldGVybWluZSB0aGUgdXNlciBuYW1lIG9mIFVJRCAlZCBmb3IgJXNcbiIpLCBmaWxlVWlkLCBk
+aXNrUGF0aCk7CisrCWdvdG8gZXhpdDsKKysgICAgfQorKyAgICBpZiAoZmlsZUduYW1lID09IE5V
+TEwpIHsKKysJcnBtbG9nKFJQTUxPR19FUlIsIF8oIkZhaWxlZCB0byBkZXRlcm1pbmUgdGhlIGdy
+b3VwIG5hbWUgb2YgR0lEICVkIGZvciAlc1xuIiksIGZpbGVHaWQsIGRpc2tQYXRoKTsKKysJZ290
+byBleGl0OworKyAgICB9CisrCisgICAgIC8qIFNfWFhYIG1hY3JvIG11c3QgYmUgY29uc2lzdGVu
+dCB3aXRoIHR5cGUgaW4gZmluZCBjYWxsIGF0IGNoZWNrLWZpbGVzIHNjcmlwdCAqLworICAgICBp
+ZiAoY2hlY2tfZmlsZUxpc3QgJiYgKFNfSVNSRUcoZmlsZU1vZGUpIHx8IFNfSVNMTksoZmlsZU1v
+ZGUpKSkgeworIAlhcHBlbmRTdHJpbmdCdWYoY2hlY2tfZmlsZUxpc3QsIGRpc2tQYXRoKTsKKy0t
+IAorMi4xMi4wCisKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtXzQu
+MTQuMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9ycG1fNC4xNC4yLjEuYmIKaW5k
+ZXggMDYzZjQyNjlhNS4uMzMxNmM3ZDYwZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3JwbS9ycG1fNC4xNC4yLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9y
+cG1fNC4xNC4yLjEuYmIKQEAgLTQyLDYgKzQyLDggQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
+Y29tL3JwbS1zb2Z0d2FyZS1tYW5hZ2VtZW50L3JwbTticmFuY2g9cnBtLTQuMTQueCBcCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDAxLXJwbS1ycG1pby5jLXJlc3RyaWN0LXZpcnR1YWwtbWVtb3J5LXVz
+YWdlLWlmLWxpbWl0LXMucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAxNi1ycG1zY3JpcHQu
+Yy1jaGFuZ2UtbG9nZ2luZy1sZXZlbC1hcm91bmQtc2NyaXB0bGV0cy10LnBhdGNoIFwKICAgICAg
+ICAgICAgIgorU1JDX1VSSV9hcHBlbmRfY2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1NYWtl
+LWl0LWFuLWVycm9yLWlmLWEtVUlELUdJRC1jYW5ub3QtYmUtdHVybmVkLWludG8tLnBhdGNoIgor
+U1JDX1VSSV9hcHBlbmRfY2xhc3MtbmF0aXZlc2RrID0gIiBmaWxlOi8vMDAwMS1NYWtlLWl0LWFu
+LWVycm9yLWlmLWEtVUlELUdJRC1jYW5ub3QtYmUtdHVybmVkLWludG8tLnBhdGNoIgogCiBQRSA9
+ICIxIgogU1JDUkVWID0gIjRhOTQ0MDAwNjM5ODY0NjU4M2YwZDlhZTE4MzdkYWQyODc1MDEzYWEi
+Ci0tIAoyLjEyLjAKCg==
 
+--_002_770bd2ba38ec4688a45c1df281a1e112XBOX04axiscom_--
