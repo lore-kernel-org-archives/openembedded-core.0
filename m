@@ -1,60 +1,74 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C9A779AE7
+Return-Path: <Diego.SantaCruz@spinetix.com>
+X-Greylist: delayed 129436 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 10 Feb 2019 15:51:29 UTC
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr140049.outbound.protection.outlook.com [40.107.14.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E866D523
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2019 06:25:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id F1EEA18297;
-	Sun, 10 Feb 2019 07:25:11 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id NAsq3tlO6CuI; Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C38F518117;
-	Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A404F1E066;
-	Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 980291E05C;
-	Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 8B71A44C;
-	Sun, 10 Feb 2019 07:25:10 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Sun, 10 Feb 2019 07:25:10 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Sun, 10 Feb 2019 07:25:10 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] glibc-locale: Rewrite do_install using install
-	utility instead of cp
-Thread-Index: AQHUvsO2NPNJPiVEfkiTK0smTe4s2KXYM3gAgABavrA=
-Date: Sun, 10 Feb 2019 06:25:10 +0000
-Message-ID: <78add39e738e4038993d4266b92445f0@XBOX04.axis.com>
-References: <20190207003537.7135-1-raj.khem@gmail.com>
-	<88a02e81ed831ed4fba8adbd9e18f1a35dbf098d.camel@linuxfoundation.org>
-	<770bd2ba38ec4688a45c1df281a1e112@XBOX04.axis.com>
-In-Reply-To: <770bd2ba38ec4688a45c1df281a1e112@XBOX04.axis.com>
-Accept-Language: en-US
+	Sun, 10 Feb 2019 15:51:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=diIbrSiFXoSB630E4xMKCcqKrbkIyu4pBDy1lhAPPjQ=;
+	b=ttv+YKAlWE+QEFZyQB/zXKc1PRPqBsbEcpX6aXDZ7FHqfNEK7CJHoC2+Lrjow1eM2iYro60u3jp3Nb+AR8CGW7xTstAcMHgbXKOi/oh8snl9ri0chm7r+8aPOuSvJg9ZEuDerA4Vp6iFnpR2e7aSgcs1Ik6HJl5uXNjFx8qHg38=
+Received: from VI1PR01MB5167.eurprd01.prod.exchangelabs.com (20.178.120.225)
+	by VI1PR01MB5343.eurprd01.prod.exchangelabs.com (20.178.122.97) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1601.19;
+	Sun, 10 Feb 2019 13:18:54 +0000
+Received: from VI1PR01MB5167.eurprd01.prod.exchangelabs.com
+	([fe80::f933:d84e:cb4c:71be]) by
+	VI1PR01MB5167.eurprd01.prod.exchangelabs.com
+	([fe80::f933:d84e:cb4c:71be%5]) with mapi id 15.20.1601.023;
+	Sun, 10 Feb 2019 13:18:54 +0000
+From: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] Problem with blocked signals in daemons started from
+	rpm postinstall scriptlet
+Thread-Index: AdS/67mdnLMJ4wCyS5atu3K3O4lGXgAwTpQAACVwA6A=
+Date: Sun, 10 Feb 2019 13:18:54 +0000
+Message-ID: <VI1PR01MB5167533CA48B792978BEFDBA886B0@VI1PR01MB5167.eurprd01.prod.exchangelabs.com>
+References: <VI1PR01MB51675AC59E6B6C4D17536D3F88690@VI1PR01MB5167.eurprd01.prod.exchangelabs.com>
+	<CANNYZj8NRcP=bFqy1oHY106V2=8d--HOFypBTWrpRnsnZe0kpw@mail.gmail.com>
+In-Reply-To: <CANNYZj8NRcP=bFqy1oHY106V2=8d--HOFypBTWrpRnsnZe0kpw@mail.gmail.com>
+Accept-Language: en-GB, fr-CH, fr-FR, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Diego.SantaCruz@spinetix.com; 
+x-originating-ip: [2a02:1205:5076:2250:89a1:d17:cd88:f509]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; VI1PR01MB5343;
+	6:RYRIbCnleOsO1HRC2t0QBQQ8pkq0giPXEsR3fZvPEBX457GymaIY/A4L9uTtg+dnB6T/XoQSnl3HQxH3bKpdq8J2RllohOtodi5+hYKjg47UPyUzHwhrp1wMEap+GoiNkNjHFKAByG/vXAxnWqW75c5OjgUSQVH/MYR1JRo4P1sjWv1W0OFMtQ/IrUAluon0xc9bWWW+/5uDpfTnUDvbP/XGJooRwB7MPAhZ46/CIwhyBaJUNcRz1rzLP19dBb5bIlP3+3faQ8j9Rl9rDrAYnEE/PAJZMwjdqDjs5587jIYdy0K/jK+KPCqCupdX5a3s/x0Wc1iTE8IaLxj230dHXV9neRlIBzfij51KAj8R+zC6jYghxFWm8BB8ytXO5htPNkXUY0TGCcqzX5RI6J68QptXZw3IRBJLR4iOXzHDQAf1u6AFRNrg9kYed0alggesdUkxk3XPywyInb7cQBzH5w==;
+	5:eXSzbHY2Dh6AYlJM6RHhkwZxyv0rHuhD+TbaU0bFhj6huWQSVHw8x4WgnQVanoTXRg1hAT0tlNrDs4V1vlydIz1ULtOWKGuvLURse8qrWO2lR2rJOxCF0aiOrzLgbwY8+wpNKFavO6I+dx0rt8T3axZKENAqOdIF/eRt4wFDZQ1dKjgJ4zYci9XY9N+mZlRLUv7/m/Yp1XpmmEjO2mPfHg==;
+	7:UTZ0LigVIJ8b1HoAHXU7YG+ku8D6NE1Y0K3tgKFPbF0BZbcnFfvOKmoS8Do5K8VI1snYGUwsedmLHjHQNmDtoRY2lX9MnOiBlfmdSJLEv693QFqlMVWrxsR/3/sagn/OGLmvxmjZCmskiCKKjjl8lg==
+x-ms-office365-filtering-correlation-id: 69aa06d2-f55f-4a0f-70e4-08d68f5a4e6b
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600110)(711020)(4605077)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR01MB5343; 
+x-ms-traffictypediagnostic: VI1PR01MB5343:
+x-microsoft-antispam-prvs: <VI1PR01MB53431F0667B4CFE9506DB5EE886B0@VI1PR01MB5343.eurprd01.prod.exchangelabs.com>
+x-forefront-prvs: 09443CAA7E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(39830400003)(346002)(366004)(376002)(396003)(136003)(199004)(189003)(13464003)(316002)(74316002)(25786009)(33656002)(186003)(46003)(102836004)(86362001)(15650500001)(105586002)(53936002)(14444005)(106356001)(256004)(99286004)(6506007)(7736002)(305945005)(6116002)(6246003)(7696005)(76176011)(53546011)(97736004)(486006)(4326008)(446003)(55016002)(81166006)(81156014)(6436002)(11346002)(6916009)(229853002)(68736007)(9686003)(8676002)(8936002)(476003)(71190400001)(71200400001)(508600001)(14454004)(2906002)(72206003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR01MB5343;
+	H:VI1PR01MB5167.eurprd01.prod.exchangelabs.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: spinetix.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: gfDDSLPuAP/LxkKdXQA1Y9QnIYdPnSNhDOcLNCC+UHrYO8CB9raibUVWJ+JpN7DlGJJzY5lVHPnjXKQMLALM6mE2zYFk76OiP7Z8UMk19L0eAh1Wd5P257yj9ndKHunRZqVTT7i6/MbjH2Tt2LGlN7f9e1Bn71Gqo4wipxPg2nlwUiaTGhRiZwKHlsZJSqj5PGWNLweg75qURWdPPO5NppKlFssJyfBcvZ2tXhFu7gIKO15nXnqtQD6O6bMsH8QOGuoWdDX1V/jDw3o0O9YzhHcapkfwDlUtGfgiQ2al4FiF2mDLW03cP9EyT00UN95nO8JtR1XqQMiPRQAtFfx6ny+m3i+OWKt29uwPSJ2ekKXM0dAwlB3gLGWebEY0xdLaQXy4CDULGc6xDJmpC5C5Y2cZQXTfl+fADWdLHQQT5Gg=
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
+X-OriginatorOrg: spinetix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69aa06d2-f55f-4a0f-70e4-08d68f5a4e6b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2019 13:18:54.3845 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR01MB5343
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Problem with blocked signals in daemons started from rpm postinstall scriptlet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,213 +81,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2019 06:25:14 -0000
+X-List-Received-Date: Sun, 10 Feb 2019 15:51:31 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 10 februari 2019 02:29
-> To: Richard Purdie <richard.purdie@linuxfoundation.org>; Khem Raj
-> <raj.khem@gmail.com>; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
-> install utility instead of cp
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 7 februari 2019 10:01
-> > To: Khem Raj <raj.khem@gmail.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] glibc-locale: Rewrite do_install using
-> > install utility instead of cp
-> >
-> > On Wed, 2019-02-06 at 16:35 -0800, Khem Raj wrote:
-> > > This has been a constant source of trouble for build failures due
-> to
-> > host-user-contaminated QA
-> > > errors of sort
-> > >
-> > > ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-
-> > es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid
-> > 3004, which is the same as the user running bitbake. This may be due
-> to
-> > host contamination [host-user-contaminated]
-> > >
-> > > So far we have tried to mould cp command into not carrying the
-> build
-> > > user permissions into install area but it is never entirely fixed
-> > since
-> > > the issue keeps popping up in various scenes
-> > >
-> > > This patch replaces use of cp with install utility and specifies
-> > install
-> > > mode for files explcitly
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++------
-> --
-> > --
-> > >  1 file changed, 25 insertions(+), 19 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-core/glibc/glibc-locale.inc
-> b/meta/recipes-
-> > core/glibc/glibc-locale.inc
-> > > index 6384f9cbf1..9b256a5108 100644
-> > > --- a/meta/recipes-core/glibc/glibc-locale.inc
-> > > +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> > > @@ -72,27 +72,33 @@ FILES_localedef =3D "${bindir}/localedef"
-> > >  LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-
-> > locale"
-> > >
-> > >  do_install () {
-> > > -	mkdir -p ${D}${bindir} ${D}${datadir}
-> > > -	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
-> > > -		cp -R --no-dereference --preserve=3Dmode,links
-> > ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
-> > > -	fi
-> > > -	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
-> > > -		mkdir -p ${D}${localedir}
-> > > -		cp -R --no-dereference --preserve=3Dmode,links
-> > ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
-> > > -	fi
-> > > +        install -d ${D}${bindir}
-> > > +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
-> > > +        -exec install -m 0755 -t "${D}${bindir}" {} \;
-> > > +
-> > > +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d
-> -
-> > printf '%P ') ; do
-> > > +                install -d "${D}${localedir}/$d"
-> > > +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth
-> 1
-> > -type f \
-> > > +                -exec install -m 0644 -t "${D}${localedir}/$d" {}
-> \;
-> > > +        done
-> > >  	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
-> > > -		mkdir -p ${D}${libdir}
-> > > -		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
-> > > -			cp -R --no-dereference --
-> > preserve=3Dmode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
-> > > -		fi
-> > > -		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
-> > > -			cp -R --no-dereference --
-> > preserve=3Dmode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
-> > > -		fi
-> > > -	fi
-> > > -	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
-> > > -		cp -R --no-dereference --preserve=3Dmode,links
-> > ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
-> > > +                for d in . $(find
-> "${LOCALETREESRC}/${libdir}/gconv"
-> > -type d -printf '%P ') ; do
-> > > +                        install -d "${D}${libdir}/gconv/$d"
-> > > +                        find "${LOCALETREESRC}/${libdir}/gconv/$d"
-> -
-> > maxdepth 1 -type f \
-> > > +                        -exec install -m 0755 -t
-> > "${D}${libdir}/gconv/$d" {} \;
-> > > +                done
-> > > +                for d in . $(find
-> "${LOCALETREESRC}/${datadir}/i18n"
-> > -type d -printf '%P ') ; do
-> > > +                        install -d "${D}${datadir}/i18n/$d"
-> > > +                        find "${LOCALETREESRC}/${datadir}/i18n/$d"
-> -
-> > maxdepth 1 -type f \
-> > > +                        -exec install -m 0644 -t
-> > "${D}${datadir}/i18n/$d" {} \;
-> > > +                done
-> > >  	fi
-> > > -	cp -R --no-dereference --preserve=3Dmode,links
-> > ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
-> > > +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -
-> type
-> > d -printf '%P ') ; do
-> > > +                install -d "${D}${datadir}/locale/$d"
-> > > +                find "${LOCALETREESRC}/${datadir}/locale/$d" -
-> > maxdepth 1 -type f \
-> > > +                -exec install -m 0644 -t
-> "${D}${datadir}/locale/$d"
-> > {} \;
-> > > +        done
-> > > +	install -m 0644 ${LOCALETREESRC}/SUPPORTED
-> > ${WORKDIR}/SUPPORTED
-> > >  }
-> > >
-> > >  inherit libc-package
-> >
-> > The trouble is this is a workaround. The cp commands should work and
-> > there is some underlying issue in pseudo causing this. We really need
-> > to figure out what that is since this will likely just mean we see
-> the
-> > problem somewhere else :(
-> >
-> > I still suspect some kind of inode number reuse problem which these
-> cp
-> > commands trigger...
-> >
-> > Cheers,
-> >
-> > Richard
->=20
-> For the record, even if I think the patch was the right thing to do,=20
-> it did not help the situation. The first build I did after it was
-> integrated, I was bit by the following:
->=20
->   Failed to determine the user name of UID 323 for
->   tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/package/usr/lib/local=
-e
->=20
-> where UID 323 is my UID. If you do not recognize the error message,=20
-> it is because it comes from a local patch we have for rpm to protect=20
-> us from any incorrect UIDs/GIDs causing incorrect RPMs to be generated=20
-> (see below). I checked the build directory and the /usr/lib/locale=20
-> directory was the only file or directory with an incorrect owner,=20
-> which is typical of these pseudo related problems with incorrect=20
-> owners.
->=20
-> [rpm will by default silently fall back to use root for any files=20
-> where it cannot determine the name of the user or group based on=20
-> its UID/GID. This can be due to missing information in the=20
-> /etc/passwd or /etc/groups files, typically due to relying on=20
-> another recipe in DEPENDS to create the user without also having=20
-> an RDEPENDS on the package that creates the user, or because of=20
-> pseudo messing up. After this bit us once where a device in /dev=20
-> ended up in an rpm in the sstate cache with root as group instead
-> of the intended video group, which in turn caused the video=20
-> application to fail as it was no longer allowed to open its device,=20
-> I created the patch. It is causing a fair bit of grief as it causes=20
-> builds to fail randomly, but at least we don't end up with an=20
-> incorrect sstate anymore, which is worse. I am not sure this patch=20
-> is suitable for integration to OE-Core, but I have attached it if=20
-> anyone is interested.]
->=20
-> //Peter
-
-Ok, this just got a lot more weird. At the time I wrote the mail=20
-above, I had only tried to rebuild once. Now I have done it a number=20
-of more times, and the result is not random any more. Every build=20
-fails the same way. I've done `bitbake glibc-locale -c cleansstate`=20
-followed by `bitbake glibc-locale` and the result is consistent.=20
-What I have noted now, is that it is _not_ do_install that causes=20
-the problem. The /usr/lib/locale directory created in ${D} has=20
-the correct owner. It is when the data is copied to ${PKGD} that=20
-it somehow ends up with the wrong owner. I cannot tell from a quick=20
-glance what differs /usr/lib/locale from, e.g., /usr/lib/gconv,=20
-where the latter does get the correct owner.
-
-Unfortunately, I do not have more time to look at this right now,=20
-but I thought I should share this information with you. If anyone=20
-has any ideas of what to look at to determine why=20
-${PKGD}/usr/lib/locale ends up with the wrong owner, I'm all ears.=20
-It would also be interesting to hear if the result is the same for=20
-anyone else with the patch I provided in my previous mail applied.
-
-//Peter
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogU2F0dXJkYXksIEZlYnJ1YXJ5IDksIDIw
+MTkgODoyNCBQTQ0KPiBUbzogRGllZ28gU2FudGEgQ3J1eiA8RGllZ28uU2FudGFDcnV6QHNwaW5l
+dGl4LmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBQcm9ibGVtIHdpdGggYmxvY2tlZCBzaWduYWxzIGlu
+IGRhZW1vbnMgc3RhcnRlZCBmcm9tDQo+IHJwbSBwb3N0aW5zdGFsbCBzY3JpcHRsZXQNCj4gDQo+
+IE9uIFNhdCwgOSBGZWIgMjAxOSBhdCAxOTo1NSwgRGllZ28gU2FudGEgQ3J1eiB2aWEgT3BlbmVt
+YmVkZGVkLWNvcmUNCj4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IHdyb3RlOg0KPiA+IEkgYW0gaGF2aW5nIHByb2JsZW1zIHdpdGggZGFlbW9ucyB0aGF0IGdldCBz
+dGFydGVkIGZyb20gdGhlIHJwbQ0KPiBwb3N0aW5zdGFsbCBzY3JpcHRsZXQsIHZpYSB1cGRhdGUt
+cmMuZCwgdGhhdCB0aGV5IGNhbm5vdCBiZSBraWxsZWQuIEludmVzdGlnYXRpbmcgSQ0KPiBkaXNj
+b3ZlcmVkIHRoYXQgdGhleSBoYXZlIG1vc3Qgc2lnbmFscyBibG9ja2VkLiBNeSBndWVzcyBpcyB0
+aGF0IHJwbSBibG9ja3MNCj4gYWxtb3N0IGFsbCBzaWduYWxzIHNvIHRoYXQgc2NyaXB0bGV0cyBk
+byBub3QgZmFpbCwgYnV0IGFzIHRoZSBzaWduYWwgbWFzayBpcw0KPiBpbmhlcml0ZWQgYWNyb3Nz
+IGZvcmsgYW5kIGV4ZWMgdGhlIGRhZW1vbnMgZW5kIHVwIGJlaW5nIGJsb2NrZWQuIExvb2tpbmcg
+YXQNCj4gdXBkYXRlLXJjLmQgaXQgaXMgYSBzaW1wbGUgc2hlbGwgc2NyaXB0IHdoaWNoIGRvZXMg
+bm90IHJlc2V0IHRoZSBzaWduYWwgbWFzaywgc28NCj4gYW55IGRhZW1vbnMgc3RhcnRlZCBmcm9t
+IHRoZXJlIGluaGVyaXQgdGhlIHNpZ25hbCBtYXNrLg0KPiA+DQo+ID4gRXZlbiB3b3JzZSwgdGhp
+bmdzIGxpa2UgbnRwIHdoaWNoIHJlbHkgb24gU0lHQUxSTSBmYWlsIHRvIHdvcmsgcHJvcGVybHkN
+Cj4gd2hlbiBzdGFydGVkIGZyb20gdGhlIHBvc3RpbnN0YWxsIHNjcmlwdGxldC4NCj4gPg0KPiA+
+IEFueSBpZGVhcyBvbiBob3cgY291bGQgdGhpcyBiZSBzb2x2ZWQsIEkgYW0gY29uc2lkZXJpbmcg
+dHdlYWtpbmcgdXBkYXRlLQ0KPiByYy5kIHRvIGlnbm9yZSB0aGUgLXMgb3B0aW9uIGFzIGEgd29y
+a2Fyb3VuZCwgYXQgbGVhc3QgaXQgYXZvaWRzIHRoZSBpc3N1ZSBhbmQNCj4gYW55aG93IGluIG15
+IHNldHVwIEkgYWx3YXlzIHJlYm9vdCBhZnRlciBpbnN0YWxsaW5nIG9yIHVwZGF0aW5nIHBhY2th
+Z2VzLg0KPiBBbnkgb3RoZXIgaWRlYXM/DQo+IA0KPiBJJ2Qgc3VnZ2VzdCB5b3UgdGFrZSB0aGlz
+IHRvIHJwbSB1cHN0cmVhbS4gT2J2aW91c2x5IHJwbSBpcyB3aWRlbHkNCj4gdXNlZCBpbiBGZWRv
+cmEsIFJIRUwgYW5kIG90aGVyIGRpc3Ryb3MsIHNvIHNvbWVob3cgcGVvcGxlIGNhbiBmaW5kIGEN
+Cj4gd2F5IGFyb3VuZCB0aGlzLg0KPiANCg0KSSdsbCB0cnkgdG8sIGJ1dCBJIHRoaXMgaXMgYSBu
+b24taXNzdWUgb24gdGhvc2UgZGlzdHJvcy4gVGhleSB1c2Ugc3lzdGVtZCBhbmQgaW4gdGhhdCBj
+b250ZXh0IHRoZSBkYWVtb25zIGFyZSBub3Qgc3RhcnRlZCBieSB0aGUgcnBtIHBvc3QtaW5zdGFs
+bCwgYnV0IGZyb20gc3lzdGVtZCwgc28gdGhlcmUgaXMgbm8gaXNzdWUgd2l0aCBkYWVtb25zIGlu
+aGVyaXRpbmcgdGhlIHNpZ25hbCBtYXNrIChub3Igb3RoZXIgcHJvY2VzcyBzZXR0aW5ncyk7IHRo
+ZSBwb3N0LWluc3RhbGwganVzdCByZXF1ZXN0cyB0aGF0IHN5c3RlbWQgc3RhcnRzIHRoZSBkYWVt
+b24uDQoNCi0tIA0KRGllZ28gU2FudGEgQ3J1eiwgUGhEDQpUZWNobm9sb2d5IEFyY2hpdGVjdA0K
+c3BpbmV0aXguY29tDQoNCg==
 
