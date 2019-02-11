@@ -1,52 +1,47 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 17D5979CB6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
+	[209.85.222.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DBD017C4A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 17:19:34 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id z11so5250980pgu.0
+	Mon, 11 Feb 2019 18:11:32 +0000 (UTC)
+Received: by mail-ua1-f65.google.com with SMTP id j3so3742330uap.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 09:19:36 -0800 (PST)
+	Mon, 11 Feb 2019 10:11:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=wVDeCVxwKMsb+T4YRPckkVGkzMRg2rNkRZZT83cJ1sM=;
-	b=GRmjn0MCGmrPSlAEea9Yzy5+B8ibYfqO5Vp8ZkFKBnA8dgbQuzCJ6byQh2FuInJSyh
-	EF3lbQR1M/Z3vWWtMX3EXF2t+gdPmxhLYY2FaeRIwoHsh57U9oOU23fy83LXuDmcFJyR
-	zA1Pp+pYjTuVt/XOjbMuu9vjpve6g1ZrOZEMNYjRYiA5naiFNJaTNQFqczYGecvtrz2k
-	nreIDBAF/v+3tIWiURY7CDFERtCIdkAIUlKsqDuJSgsfmE4m4hM0PJqgSf9kSrXhPjdF
-	0fZmGURO+ZuBGgEVParltZMGF9sPIzE5Lu99KBVRm95BXFnfWUgXuwkwewFIkyJsdVze
-	5qFw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=ky2LWj68Kdcr54hJLeLlaixQw50MhLLvGU8lkKujO6o=;
+	b=I35zMPStAia+n446In4W0b+u5WAARMOrnM9ifTT+g9EwcD6b24m4TmabtOdaYpe0dQ
+	jg3B3WKxwv8SCix+LAiX6AD8OpympRBnoCv4U6jOlpd+eFMoXXKq/HHqy77sG2ndhvu2
+	EMrtNzXfrZ+KrVHHMvWd1CTUexeueZs3CwtiJrU3Bbfz4pwdC7/F2DXwuxt8CAJPUgry
+	OSzGBBfRYI+wyGV3zsuv33wPUD72A2Snujc6ehhL4rReZ/Ccqq2BkW2Xk51tO2+IIDeI
+	lH/Ycu+hgeh3YjQBoStbozdJuhJ3vaM9Q8Pt4WEkEhLllprcKDJb/jgVDuYuK+qu/j5X
+	IMAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=wVDeCVxwKMsb+T4YRPckkVGkzMRg2rNkRZZT83cJ1sM=;
-	b=abiZimoNyBpuNt53LXKJcX9Zy1Y4FpFVl2PHcU+3Q8qqG5bBz53BF8/cVC4uSrlyrc
-	I2ADmaoOas9MSXbNdW6SJk2Ae+Srz8fYMyewQdQZHM2rTbMSMn7EsNFBhMyRmFhs0pTv
-	rQt3EN2TIb9Wy03jLuDa7F5JnFx/8w+2CuvV46HFTe54rnfN9IDlH1m6E8p+qUelDons
-	Inx4noWo/zZUlRYIxaAYMmSyWVY2BS8w5++dWeRTqw64+f+ujuJNRcq7lxeC7XrzkiHU
-	owcehYqDVUjQmKUa45Kh9E/rrobJkuAHHm9SYZ6s8sm7aM4ddEIxAGgcKGxOjajpwZR7
-	llXQ==
-X-Gm-Message-State: AHQUAua1r1x7pDGtluJn0Fth57Nlrvh1iIv04nrWbdq2lCZhLmGq66iN
-	LMkfFJOtZMe5hjnMHnPS0Zl69P4K
-X-Google-Smtp-Source: AHgI3IZ2EkqdQwgUaGPtIhG8Alnqthlfnmq09bQ49fEOR5jDSM1jiXaluJNSynricfH5QQOtpod4RA==
-X-Received: by 2002:a63:d20f:: with SMTP id a15mr34240089pgg.171.1549905576070;
-	Mon, 11 Feb 2019 09:19:36 -0800 (PST)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	r130sm19563227pfr.48.2019.02.11.09.19.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Feb 2019 09:19:35 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Feb 2019 09:19:34 -0800
-Message-ID: <01d701d4c22d$f58d1dd0$e0a75970$@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=ky2LWj68Kdcr54hJLeLlaixQw50MhLLvGU8lkKujO6o=;
+	b=KcPPJcGjSd6ib2UY2gps03i5Ke028DKL+EQyC3Xg5iSvds4V+oNplOYS31G8n83k4q
+	7OQ4un0LmO1wb+VNEHLlKwzPwtIGdMbFOPwWG+rvCgatA3oLhLFRqR93OhyRseQPP2JY
+	t5xPK4fCzR40d1FtPVe+maXKw6DxhQqylIPVoOKQUKAY25kjNBKjKowWrTGVDF2RuWer
+	3sXDZNX/HImwpVBtc/1ig+IwQ2SxcMnYYZYCCPSybXjj+hpfcm8NkTZxHm15g8eQNf1Z
+	/KSX10vBk8gGEkZ3BEv0vOIfLvm+X62ubRsVtpFXDxJ03eI4zYtJPCc2ZwxqRRu3oV9C
+	k1qw==
+X-Gm-Message-State: AHQUAuYqRKXRfwyg10awES7ww76CY1kNquiiG8BgBuoLE9UseWjblOkp
+	M1kMFEE6tTfQaDhs+3ClB+aF5sAPAu2cXuvQ8+98EdHd
+X-Google-Smtp-Source: AHgI3IZMnvcfdmQOvkdlqI4M4LkKvoFXRQJHIyulK1ErhWVssH1/DUZn9n05Dpm+tvvyF73IIFzTfE3okMZOOdBjV/0=
+X-Received: by 2002:a9f:3f41:: with SMTP id i1mr13367846uaj.42.1549908693575; 
+	Mon, 11 Feb 2019 10:11:33 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHgtBIqj62WU/bdCypKvcvfsMcPZg==
-Subject: Yocto Project Unassigned Bugs - Help Needed
+References: <20190211112106.4530-1-git@andred.net>
+In-Reply-To: <20190211112106.4530-1-git@andred.net>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 11 Feb 2019 10:11:24 -0800
+Message-ID: <CAJ86T=VvSJ1NrRxv8YCjPozcHRCzGN-q=zX0gDiMUS70_ysKvw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] sysvinit-inittab: support non-busybox-getty on serial consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,228 +54,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 17:19:35 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_01D8_01D4C1EA.E76AC830"
-Content-Language: en-us
-
-------=_NextPart_000_01D8_01D4C1EA.E76AC830
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team meets weekly and does its best to handle the bugs reported
-into the Bugzilla. The number of people attending that meeting has fallen,
-as have the number of people available to help fix bugs. One of the things
-we hear users report is they don't know how to help. We (the triage team)
-are therefore going to start reporting out the currently 294 unassigned
-bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.
-
- 
-
-Bugs are split into two types, "true bugs" where things don't work as they
-should and "enhancements" which are features we'd want to add to the system.
-
- 
-
-There are also roughly four different "priority" classes right now, "2.7",
-"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7"
-and then "2.8".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me
-(Stephen.k.jolley@intel.com <mailto:Stephen.k.jolley@intel.com> ) an e-mail
-with the bug number you would like and I will assign it to you (please make
-sure you have a Bugzilla account).
-
- 
-
-The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124 
-
-*    Cell:                (208) 244-4460
-
-* Email:                             stephen.k.jolley@intel.com
-
- 
-
-
-------=_NextPart_000_01D8_01D4C1EA.E76AC830
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0125_01D4BC6D.8CD0D360";
-	charset="us-ascii"
+X-List-Received-Date: Mon, 11 Feb 2019 18:11:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team meets weekly and does its best to handle the bugs reported =
-into the Bugzilla. The number of people attending that meeting has =
-fallen, as have the number of people available to help fix bugs. One of =
-the things we hear users report is they don't know how to help. We (the =
-triage team) are therefore going to start reporting out the currently =
-294 unassigned bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Bugs =
-are split into two types, &quot;true bugs&quot; where things don't work =
-as they should and &quot;enhancements&quot; which are features we'd want =
-to add to the system.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
-are also roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com</a>=
-) an e-mail with the bug number you would like and I will assign it to =
-you (please make sure you have a Bugzilla account).<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs">ht=
-tps://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><span =
-style=3D'font-size:10.0pt;font-family:"Courier =
-New";color:fuchsia'>INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, =
-OR 97124 <o:p></o:p></span></b></p><p class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <u><span =
-style=3D'color:blue'>stephen.k.jolley@intel.com</span></u></span><span =
-lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+On Mon, Feb 11, 2019 at 3:21 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
+> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> Busybox' getty has code to try to make itself a session leader,
+> whereas util-linux' agetty doesn't. It expects this to happen
+> from outside.
+> When getty is not a session leader, many things don't work on
+> the serial console, e.g. setting the terminal process group,
+> job control doesn't work, etc.
+>
+> Executing image tests also fails with AssertionErrors, because
+>     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot get controll=
+ing tty: Operation not permitted
+>     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot set process =
+group: Inappropriate ioctl for device
+>
+> Update the start_getty script to invoke getty via the setsid
+> utility if needed, i.e. if /sbin/getty is not busybox getty.
+>
+> [YOCTO #13058]
+>
+> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+>
+> ---
+> v3: also get rid of eval
+> v2: fork fewer processes
+> ---
+>  .../sysvinit/sysvinit-inittab/start_getty          | 14 +++++++++++++-
+>  .../sysvinit/sysvinit-inittab_2.88dsf.bb           |  1 +
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/me=
+ta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> index e15ae35f90..96fd6cfcfd 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+> @@ -13,6 +13,18 @@ active_serial=3D$(grep "serial" /proc/tty/drivers | cu=
+t -d/ -f1 | sed "s/ *$//")
+>  # Rephrase input parameter from ttyS target index (ttyS1, ttyS2, ttyAMA0=
+, etc).
+>  runtime_tty=3D$(echo $2 | grep -oh '[0-9]')
+>
+> +# busybox' getty does this itself, util-linux' agetty needs extra help
+> +getty=3D"/sbin/getty"
+> +case $(readlink -f "${getty}") in
 
-------=_NextPart_000_01D8_01D4C1EA.E76AC830--
+Maybe directly checking the output of "getty --version" would be even
+more efficient than trying to infer busybox -vs- util-linux based on
+symlinks?
+
+Checking symlinks will fail if busybox is built with
+CONFIG_FEATURE_INDIVIDUAL (which we do have support for in the busybox
+recipe... even if no one actually uses it).
+
+> +    */busybox*)
+> +        ;;
+> +    *)
+> +        if [ -x "/usr/bin/setsid" ] ; then
+> +            setsid=3D"/usr/bin/setsid"
+> +        fi
+> +        ;;
+> +esac
+> +
+>  # Backup $IFS.
+>  DEFAULT_IFS=3D$IFS
+>  # Customize Internal Field Separator.
+> @@ -31,7 +43,7 @@ for line in $active_serial; do
+>                         then
+>                                 if [ -c /dev/$2 ]
+>                                 then
+> -                                   /sbin/getty -L $1 $2 $3
+> +                                   ${setsid:-} ${getty} -L $1 $2 $3
+>                                 fi
+>                                 break
+>                         fi
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/met=
+a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index 8585a418ab..bfd890d924 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -20,6 +20,7 @@ do_install() {
+>      install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+>      install -d ${D}${base_bindir}
+>      install -m 0755 ${WORKDIR}/start_getty ${D}${base_bindir}/start_gett=
+y
+> +    sed -e 's,/usr/bin,${bindir},g' -i ${D}${base_bindir}/start_getty
+>
+>      set -x
+>      tmp=3D"${SERIAL_CONSOLES}"
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
