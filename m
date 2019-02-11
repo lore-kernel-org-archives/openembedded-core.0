@@ -1,47 +1,42 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DBD017C4A0
+Return-Path: <wbourque@gmail.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+	[209.85.210.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5447C439
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 18:11:32 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id j3so3742330uap.3
+	Mon, 11 Feb 2019 20:00:59 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id m1so288834otf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 10:11:34 -0800 (PST)
+	Mon, 11 Feb 2019 12:01:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=ky2LWj68Kdcr54hJLeLlaixQw50MhLLvGU8lkKujO6o=;
-	b=I35zMPStAia+n446In4W0b+u5WAARMOrnM9ifTT+g9EwcD6b24m4TmabtOdaYpe0dQ
-	jg3B3WKxwv8SCix+LAiX6AD8OpympRBnoCv4U6jOlpd+eFMoXXKq/HHqy77sG2ndhvu2
-	EMrtNzXfrZ+KrVHHMvWd1CTUexeueZs3CwtiJrU3Bbfz4pwdC7/F2DXwuxt8CAJPUgry
-	OSzGBBfRYI+wyGV3zsuv33wPUD72A2Snujc6ehhL4rReZ/Ccqq2BkW2Xk51tO2+IIDeI
-	lH/Ycu+hgeh3YjQBoStbozdJuhJ3vaM9Q8Pt4WEkEhLllprcKDJb/jgVDuYuK+qu/j5X
-	IMAw==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=zl5owTxKClUFn5CZ5dUSXzNzFJNfZ3Ik096s8ffLKKY=;
+	b=tJTMIGKtcBa2TNiiI+W1eNvlMmze1TohSHVFcUsifqnFkmkwQz1yqNdbfZxKWuf8YZ
+	XjcH2oLL2/vkspK5TKG7KZfuYg6UI8DU7VDHNIVGw5N77JRZFYahatGA7l2dZLm3Jxw7
+	h1UebI9Aqa7o86VtW9iy8ySHuR4SlNh2LgGPT3M6S6T1JA/6PoW1O6ZQfQYSAE+SokKZ
+	pGjuxpG0XRJ3TnFFKCprrpJ9DTn1+ueK4I84LLcfTteQD3y6XmYp2bj5t53HfuPgqIOB
+	RZ41Cxkl0VsMYD+2r+H/zh65u5gueHiNc8PwFuNmyWswaolVDv/jmuXZw94ceBFb3In7
+	TrcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ky2LWj68Kdcr54hJLeLlaixQw50MhLLvGU8lkKujO6o=;
-	b=KcPPJcGjSd6ib2UY2gps03i5Ke028DKL+EQyC3Xg5iSvds4V+oNplOYS31G8n83k4q
-	7OQ4un0LmO1wb+VNEHLlKwzPwtIGdMbFOPwWG+rvCgatA3oLhLFRqR93OhyRseQPP2JY
-	t5xPK4fCzR40d1FtPVe+maXKw6DxhQqylIPVoOKQUKAY25kjNBKjKowWrTGVDF2RuWer
-	3sXDZNX/HImwpVBtc/1ig+IwQ2SxcMnYYZYCCPSybXjj+hpfcm8NkTZxHm15g8eQNf1Z
-	/KSX10vBk8gGEkZ3BEv0vOIfLvm+X62ubRsVtpFXDxJ03eI4zYtJPCc2ZwxqRRu3oV9C
-	k1qw==
-X-Gm-Message-State: AHQUAuYqRKXRfwyg10awES7ww76CY1kNquiiG8BgBuoLE9UseWjblOkp
-	M1kMFEE6tTfQaDhs+3ClB+aF5sAPAu2cXuvQ8+98EdHd
-X-Google-Smtp-Source: AHgI3IZMnvcfdmQOvkdlqI4M4LkKvoFXRQJHIyulK1ErhWVssH1/DUZn9n05Dpm+tvvyF73IIFzTfE3okMZOOdBjV/0=
-X-Received: by 2002:a9f:3f41:: with SMTP id i1mr13367846uaj.42.1549908693575; 
-	Mon, 11 Feb 2019 10:11:33 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=zl5owTxKClUFn5CZ5dUSXzNzFJNfZ3Ik096s8ffLKKY=;
+	b=Kjo2ZnVBx8VPDteNGd4sNIlP8l/uuXE+vWEZKePeu8aGcpaQBT7tBp+NB4jCYrsX9H
+	UOFRcW5N9eT9vOwMU0CRxuHlmUX1T5Vf4reqKtBCI2N5QX02aKvKQZA7nI6ZUzMcJa+z
+	Wbx3EUump3rfKJCJY+nvyp0vXj8dNzewMzIl9jUZhmBUSDz/M+oUdlu+2AJjmUbmVUro
+	no/x9CfhLAiKfHDn7avSV/hr4VgS8XYdMSaAFDxcMnuc2ZSg8eg1hsEMjUhqjagRAP8e
+	GeDwSs8G5A+JbGJCFlDMXPPJvvEcI8rIx/A8yZEXHzBGOE+9XGXqdwXwazoz3yd3dS+K
+	6osQ==
+X-Gm-Message-State: AHQUAuaIAGxSt6fmO/SMocBtTQy6Nv4HqHpYD2OkM4HiEFUKnu8SALh1
+	byoyLImXPPxdQssJ1wcU+XZ5cvJCji/+Uyb+EeRDr4UmlA4=
+X-Google-Smtp-Source: AHgI3Ibt7cEVrdCgqlKKcpXJGTpUO6vDUJn9VAFNEL38y4joXRCiHSev9Kj8dvccTELHWKPcqxjg5RmIpao4sdo9pA4=
+X-Received: by 2002:a9d:7f8d:: with SMTP id t13mr19478526otp.281.1549915260271;
+	Mon, 11 Feb 2019 12:01:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20190211112106.4530-1-git@andred.net>
-In-Reply-To: <20190211112106.4530-1-git@andred.net>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 11 Feb 2019 10:11:24 -0800
-Message-ID: <CAJ86T=VvSJ1NrRxv8YCjPozcHRCzGN-q=zX0gDiMUS70_ysKvw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] sysvinit-inittab: support non-busybox-getty on serial consoles
+From: William Bourque <wbourque@gmail.com>
+Date: Mon, 11 Feb 2019 15:00:48 -0500
+Message-ID: <CANBSh+Mn5KqNz21ySUhtx_PDnujqGEo65wJwiS4jS2N0ASEq1Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] wic/engine.py: Load paths from PATH environment variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,104 +49,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 18:11:33 -0000
+X-List-Received-Date: Mon, 11 Feb 2019 20:00:59 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 11, 2019 at 3:21 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
-> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
-> Busybox' getty has code to try to make itself a session leader,
-> whereas util-linux' agetty doesn't. It expects this to happen
-> from outside.
-> When getty is not a session leader, many things don't work on
-> the serial console, e.g. setting the terminal process group,
-> job control doesn't work, etc.
->
-> Executing image tests also fails with AssertionErrors, because
->     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot get controll=
-ing tty: Operation not permitted
->     Feb  5 16:12:55 qemuarm getty[590]: /dev/ttyAMA1: cannot set process =
-group: Inappropriate ioctl for device
->
-> Update the start_getty script to invoke getty via the setsid
-> utility if needed, i.e. if /sbin/getty is not busybox getty.
->
-> [YOCTO #13058]
->
-> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
->
-> ---
-> v3: also get rid of eval
-> v2: fork fewer processes
-> ---
->  .../sysvinit/sysvinit-inittab/start_getty          | 14 +++++++++++++-
->  .../sysvinit/sysvinit-inittab_2.88dsf.bb           |  1 +
->  2 files changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/me=
-ta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-> index e15ae35f90..96fd6cfcfd 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-> @@ -13,6 +13,18 @@ active_serial=3D$(grep "serial" /proc/tty/drivers | cu=
-t -d/ -f1 | sed "s/ *$//")
->  # Rephrase input parameter from ttyS target index (ttyS1, ttyS2, ttyAMA0=
-, etc).
->  runtime_tty=3D$(echo $2 | grep -oh '[0-9]')
->
-> +# busybox' getty does this itself, util-linux' agetty needs extra help
-> +getty=3D"/sbin/getty"
-> +case $(readlink -f "${getty}") in
+Load self.paths from environment variable and
+if it fails, fall back to hardcoded list.
+This is required for users that would need to load
+different e2fsprogs binaries if their system's ones
+are not recent enought
 
-Maybe directly checking the output of "getty --version" would be even
-more efficient than trying to infer busybox -vs- util-linux based on
-symlinks?
+Signed-off-by: William Bourque <wbourque@gmail.com>
+---
+ scripts/lib/wic/engine.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Checking symlinks will fail if busybox is built with
-CONFIG_FEATURE_INDIVIDUAL (which we do have support for in the busybox
-recipe... even if no one actually uses it).
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 4662c66..880e464 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -244,8 +244,13 @@ class Disk:
+         self._psector_size = None
+         self._ptable_format = None
 
-> +    */busybox*)
-> +        ;;
-> +    *)
-> +        if [ -x "/usr/bin/setsid" ] ; then
-> +            setsid=3D"/usr/bin/setsid"
-> +        fi
-> +        ;;
-> +esac
-> +
->  # Backup $IFS.
->  DEFAULT_IFS=3D$IFS
->  # Customize Internal Field Separator.
-> @@ -31,7 +43,7 @@ for line in $active_serial; do
->                         then
->                                 if [ -c /dev/$2 ]
->                                 then
-> -                                   /sbin/getty -L $1 $2 $3
-> +                                   ${setsid:-} ${getty} -L $1 $2 $3
->                                 fi
->                                 break
->                         fi
-> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/met=
-a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> index 8585a418ab..bfd890d924 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> @@ -20,6 +20,7 @@ do_install() {
->      install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
->      install -d ${D}${base_bindir}
->      install -m 0755 ${WORKDIR}/start_getty ${D}${base_bindir}/start_gett=
-y
-> +    sed -e 's,/usr/bin,${bindir},g' -i ${D}${base_bindir}/start_getty
->
->      set -x
->      tmp=3D"${SERIAL_CONSOLES}"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-        # find parted
+-        self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
++        # read paths from $PATH environment variable
++        # if it fails, use hardcoded paths
++        try:
++            self.paths = os.environ['PATH']
++        except KeyError:
++            self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
++
+         if native_sysroot:
+             for path in self.paths.split(':'):
+                 self.paths = "%s%s:%s" % (native_sysroot, path, self.paths)
+-- 
+2.7.4
 
