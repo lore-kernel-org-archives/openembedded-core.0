@@ -1,42 +1,42 @@
 Return-Path: <wbourque@gmail.com>
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
-	[209.85.210.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C5447C439
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+	[209.85.210.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E1027C49B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 20:00:59 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id m1so288834otf.5
+	Mon, 11 Feb 2019 20:01:00 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id n8so281871otl.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 12:01:01 -0800 (PST)
+	Mon, 11 Feb 2019 12:01:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:from:date:message-id:subject:to;
-	bh=zl5owTxKClUFn5CZ5dUSXzNzFJNfZ3Ik096s8ffLKKY=;
-	b=tJTMIGKtcBa2TNiiI+W1eNvlMmze1TohSHVFcUsifqnFkmkwQz1yqNdbfZxKWuf8YZ
-	XjcH2oLL2/vkspK5TKG7KZfuYg6UI8DU7VDHNIVGw5N77JRZFYahatGA7l2dZLm3Jxw7
-	h1UebI9Aqa7o86VtW9iy8ySHuR4SlNh2LgGPT3M6S6T1JA/6PoW1O6ZQfQYSAE+SokKZ
-	pGjuxpG0XRJ3TnFFKCprrpJ9DTn1+ueK4I84LLcfTteQD3y6XmYp2bj5t53HfuPgqIOB
-	RZ41Cxkl0VsMYD+2r+H/zh65u5gueHiNc8PwFuNmyWswaolVDv/jmuXZw94ceBFb3In7
-	TrcQ==
+	bh=PYIgW0f8kzAnl50DSR1e4yLWvZjyWWkD6Mo7s811YHc=;
+	b=JsPoCWCsNrQTzhY1zh4V11edPq0anYm0HTyhjh6THVWFP7IP/b3eMRnZ9iVfX0AxuQ
+	gOWa5x2RyPYVJAzGxtvwXtai+fIGUd6rkePvc6dEooUEp1efJ4duai1R0W8c1fhPYPrl
+	/66RPPKbCV6nkzk4mkDaAT4PZRDW/kPTIfkvMQ0mbqNRR1dROk4f2akV1EGlvPO0pMQZ
+	qZwLZ8mRHHwVODHVdI2iixZ1cQYXqtYlMXPiiBRCEa1lpAjKyb5WA8uO428OUld2J0w7
+	rKgRiH31rkWWBWpFEJXKBfWrqSlLaRay1+iEFt4QdyGaG3EDcGtlvNSFyPEiDe+WDm6e
+	89yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=zl5owTxKClUFn5CZ5dUSXzNzFJNfZ3Ik096s8ffLKKY=;
-	b=Kjo2ZnVBx8VPDteNGd4sNIlP8l/uuXE+vWEZKePeu8aGcpaQBT7tBp+NB4jCYrsX9H
-	UOFRcW5N9eT9vOwMU0CRxuHlmUX1T5Vf4reqKtBCI2N5QX02aKvKQZA7nI6ZUzMcJa+z
-	Wbx3EUump3rfKJCJY+nvyp0vXj8dNzewMzIl9jUZhmBUSDz/M+oUdlu+2AJjmUbmVUro
-	no/x9CfhLAiKfHDn7avSV/hr4VgS8XYdMSaAFDxcMnuc2ZSg8eg1hsEMjUhqjagRAP8e
-	GeDwSs8G5A+JbGJCFlDMXPPJvvEcI8rIx/A8yZEXHzBGOE+9XGXqdwXwazoz3yd3dS+K
-	6osQ==
-X-Gm-Message-State: AHQUAuaIAGxSt6fmO/SMocBtTQy6Nv4HqHpYD2OkM4HiEFUKnu8SALh1
-	byoyLImXPPxdQssJ1wcU+XZ5cvJCji/+Uyb+EeRDr4UmlA4=
-X-Google-Smtp-Source: AHgI3Ibt7cEVrdCgqlKKcpXJGTpUO6vDUJn9VAFNEL38y4joXRCiHSev9Kj8dvccTELHWKPcqxjg5RmIpao4sdo9pA4=
-X-Received: by 2002:a9d:7f8d:: with SMTP id t13mr19478526otp.281.1549915260271;
-	Mon, 11 Feb 2019 12:01:00 -0800 (PST)
+	bh=PYIgW0f8kzAnl50DSR1e4yLWvZjyWWkD6Mo7s811YHc=;
+	b=RzIV1BgZEGUEcj7+CA4FTcNk3dIiBKfnkuPejgiD+LXIsGZE8Xv26p+hwjMbon5ho4
+	U9AN6etc1AzsuYjs7C6kmfIHNpsiE61N3vQ2IwoL9Djindl0muaZ/Z8aNKCSQyeIlFoj
+	sZwxszxLVY94hKwYdhNPL5Bg66nZxTwVZrZyvfFHk598VTVBxWkqN/MnzNgrhQ4SeYA2
+	HQkgjmc0JsZirRpT6GrXDDqNEi7GahWRpbM1a7HILCEK+DIhL+Zqgr/jNS60iItJHIef
+	VeDJWxxX0sWAYyyHP5TEsQ3w9bcU4P0EeCW8gqtcYO2eWL3q2ZUEFlVtx+eADEzGfK+x
+	bzdA==
+X-Gm-Message-State: AHQUAuZfoiRFy6kmHPUWZCkGbgRPh7ifWJ+IjaRxJZz7DqKgqs+zV2CR
+	DVDv0vkPwh21tIEZ92A+jqqYh3h85SlhXoLO2YDahUisjZ0=
+X-Google-Smtp-Source: AHgI3IbAwu3Weoxv0mVE5pD1dX04ApmPDMln4lXf+hscwVSEA82pvEaxrGQsI4BhxuCdZZQRypmRsJu3z/PHBOQd7E8=
+X-Received: by 2002:a9d:5d03:: with SMTP id b3mr29032444oti.220.1549915261992; 
+	Mon, 11 Feb 2019 12:01:01 -0800 (PST)
 MIME-Version: 1.0
 From: William Bourque <wbourque@gmail.com>
-Date: Mon, 11 Feb 2019 15:00:48 -0500
-Message-ID: <CANBSh+Mn5KqNz21ySUhtx_PDnujqGEo65wJwiS4jS2N0ASEq1Q@mail.gmail.com>
+Date: Mon, 11 Feb 2019 15:00:51 -0500
+Message-ID: <CANBSh+OySyKjCYzbOnuJXq4fV74E2QKx9ebAsWZOab_ceoevHw@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] wic/engine.py: Load paths from PATH environment variable
+Subject: [PATCH 2/2] wic/engine.py: Use printf instead of echo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,40 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 20:00:59 -0000
+X-List-Received-Date: Mon, 11 Feb 2019 20:01:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Load self.paths from environment variable and
-if it fails, fall back to hardcoded list.
-This is required for users that would need to load
-different e2fsprogs binaries if their system's ones
-are not recent enought
+Some distributions default shell (ex: /bin/dash)
+does not support "-e" argument to echo.
+Hence, using "printf" is safer as it, unlike echo,
+always inteprets \n correctly.
 
 Signed-off-by: William Bourque <wbourque@gmail.com>
 ---
- scripts/lib/wic/engine.py | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ scripts/lib/wic/engine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 4662c66..880e464 100644
+index 880e464..189253a 100644
 --- a/scripts/lib/wic/engine.py
 +++ b/scripts/lib/wic/engine.py
-@@ -244,8 +244,13 @@ class Disk:
-         self._psector_size = None
-         self._ptable_format = None
-
--        # find parted
--        self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
-+        # read paths from $PATH environment variable
-+        # if it fails, use hardcoded paths
-+        try:
-+            self.paths = os.environ['PATH']
-+        except KeyError:
-+            self.paths = "/bin:/usr/bin:/usr/sbin:/sbin/"
-+
-         if native_sysroot:
-             for path in self.paths.split(':'):
-                 self.paths = "%s%s:%s" % (native_sysroot, path, self.paths)
+@@ -336,7 +336,7 @@ class Disk:
+     def copy(self, src, pnum, path):
+         """Copy partition image into wic image."""
+         if self.partitions[pnum].fstype.startswith('ext'):
+-            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
++            cmd = "printf 'cd {}\nwrite {} {}' | {} -w {}".\
+                       format(path, src, os.path.basename(src),
+                              self.debugfs, self._get_part_image(pnum))
+         else: # fat
 -- 
 2.7.4
 
