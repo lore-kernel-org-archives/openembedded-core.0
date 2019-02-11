@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A6FF26076F
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 879686B463
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 10:27:35 +0000 (UTC)
-Received: by mail-it1-f173.google.com with SMTP id z20so24877610itc.3
+	Mon, 11 Feb 2019 11:04:29 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id r17so16895209wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 02:27:37 -0800 (PST)
+	Mon, 11 Feb 2019 03:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dITHKxbxnVZAwq+O6sU0G+2oO+3voDYxKuTRBrbtoZA=;
-	b=w7fwteIe5P5mY+tV65tuI6lXesTnY5GjYMRXLrW24bxwjtU1wLc3/zY09m0SHgv4OY
-	eFF6DL/M2shaiN2fJUbFfQJoyTuoCVVWCzyweu5l/O2wG49hViSQIVo90T8fRCRhVAO/
-	xmGRfyKFJrccOdvbVpMYUKyncsbtT7xm3uyipFWyyzIt2DwqKSk7ROwcmL5Por/had90
-	WGNbS1bMqOtxfI2Ps49Gwie36l/+LtRn8yREWpWdAT3OGKuxE2srPWt37fR0zmO1vv/K
-	LTj+nShaZB1B22ZSlB/YrldmCmWyHuNzvP/t8R0vxTVc05I/P6+hf3Aitrl8vL9q380D
-	3aXw==
+	h=from:to:subject:date:message-id;
+	bh=+XxVQoueyrQDoxOhDh4VPQYBVvDOhSZSbUtfWKqg1HY=;
+	b=cQhduSVZNtwZNVA9kZiwTUqKBv/xKnChDvrCdBBpM7kZrmQ/vR+yFO6mcfWi9XID2z
+	zca0zzw+nttK1uFr1bxmRbqHTrE9TT3r+WVGZ6S97L7mQSNF5czZNstaY/ZHFBr8pPaI
+	a+HpI0txDFrSqSsbIrWmWRVlvxNeEGGIWrg2UVgZtfhBthINuN86F42+OXiW2ZOH3+o3
+	3NumrxX7JD2NXQky04fBUGe7h4Eb2c46NnshPsKmRqK4e2p2wZw/i6H8vQ20AXZzz526
+	KmzTqCIL56cPRXAYPFIsl+aEjYGDTRCUvFF18URhrZzMNsxtsBWvWdln6VXNN89XIJ8q
+	4xkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dITHKxbxnVZAwq+O6sU0G+2oO+3voDYxKuTRBrbtoZA=;
-	b=KqR0jcShFMSS3b+UgznzH0UncP6iQnnc+cCyPmcWCRQFQ+3aS0wgedHgH5b//rMut7
-	095qgIKuzv6Ial3kOYHE6bQk1CWq0YzYjfNYz42UpZFnoiO5hBkPoeZyXipCx/LAmsf9
-	4Ms2VKFl0m4yDNk1vC3vUFDCGP5r+st1UIHPA9jeScenvaaXOTs6iFD+mFviMyTFUzn7
-	91j4m/UQNT4UeuZWv2gQyb1mkB9dtFqf9cI7wZ+s/BJtyoLMDaIfxxBZFiZj8w28nthF
-	1V0Xnz9b6sWh7RDY9lkgs350m6R2MOOwP7YPNM4kZG2bdDZbE+XSSW6JFZHJFOi0bjhd
-	Kh3g==
-X-Gm-Message-State: AHQUAubDw70FwoRtjF8PedeKatPjAEt4bwtpT4tsZRh4P5+NpPVtb7Cz
-	tICx56gv8hVjqsEXj0r7qHQD8ZJjnBzI7fQjiXdELQ==
-X-Google-Smtp-Source: AHgI3IbLdqIKtf7Ei0pV6HwWGgWpCTfBM82grYiZiB2PqGiNsFMGra9bZPNBe9BNOORZ3ZMSUBdjq+hMrJlH72i1uVg=
-X-Received: by 2002:a24:1d4a:: with SMTP id 71mr4815946itj.62.1549880856412;
-	Mon, 11 Feb 2019 02:27:36 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1549821635.git.silvio.fricke@gmail.com>
-	<4c3dabb9814914747119a28172f38e2a32c0bd36.1549821635.git.silvio.fricke@gmail.com>
-In-Reply-To: <4c3dabb9814914747119a28172f38e2a32c0bd36.1549821635.git.silvio.fricke@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Feb 2019 10:27:25 +0000
-Message-ID: <CAJTo0Laft-Z97PmWL8G4i-qrHxQUmurL6dYz_fp1PJjkwmS2hw@mail.gmail.com>
-To: Silvio Fricke <silvio.fricke@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v1 1/1] image_types: add base64 conversion
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+XxVQoueyrQDoxOhDh4VPQYBVvDOhSZSbUtfWKqg1HY=;
+	b=kzg/V1S7IcZmmBJHl9lRwY/iih1gFLpCog9pyi6tRIV5MhJyqacxKudIh2lDrP+qTv
+	K1DhTwaRACp4u7K/lTr3dygrf3twXzfMly625eGzjaC4N5PAyMmOBnElEij2TgbSEXgT
+	CpFT3Sa4fIeNXtyp4SYc7Ssv8VUDgQvY3dk+25qiu5nkshdZD56HwnsQK3K86tWpyzFB
+	7auThaFlQgnX6iVJJ/JLQr5uwzOmhh03DjPBcmCJsnDpH20BwANiAssGOFvI1ABmfT7s
+	vlv8ZfwwZXPi+aG30HlYIkTywqHvh0aZP1eOgFsg6yyZI9trac7Xbmr8T829zA7o74fh
+	ae9w==
+X-Gm-Message-State: AHQUAua2msmLGk4gEezttDXhWAoG72U9xbivTQ/+bnpEs3iq/NQTAJBf
+	f5DLbSfFVCAIFKY+dTtpW4eXB9IHbPI=
+X-Google-Smtp-Source: AHgI3IZuSJKUdH+Ahccx0pEXAJWcljA8/kLdXvbBifkwQb7f7CUuBG/Cjx4ktM3TWtbPqbQJv1/yQQ==
+X-Received: by 2002:a5d:4349:: with SMTP id u9mr28044830wrr.223.1549883069688; 
+	Mon, 11 Feb 2019 03:04:29 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	j33sm18215321wre.91.2019.02.11.03.04.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Feb 2019 03:04:28 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Feb 2019 11:04:22 +0000
+Message-Id: <20190211110425.11105-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/4] site.conf.sample: remove seq from HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,158 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 10:27:35 -0000
-Content-Type: multipart/alternative; boundary="000000000000e4102f05819bc141"
+X-List-Received-Date: Mon, 11 Feb 2019 11:04:30 -0000
 
---000000000000e4102f05819bc141
-Content-Type: text/plain; charset="UTF-8"
+This is now in the default HOSTTOOLS so can be removed from here.
 
-Is it?  I'm genuinely curious when a base64 encoded image is useful.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta-poky/conf/site.conf.sample | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta-poky/conf/site.conf.sample b/meta-poky/conf/site.conf.sample
+index a4c2f9feed9..5164fedf630 100644
+--- a/meta-poky/conf/site.conf.sample
++++ b/meta-poky/conf/site.conf.sample
+@@ -26,7 +26,7 @@ SCONF_VERSION = "1"
+ # If you wish to use certain hosts without the proxy, specify them in NO_PROXY.
+ # See the script for details on syntax. The script oe-git-proxy uses some tools
+ # that may not be included on HOSTTOOLS, thus  add them manually through
+-# HOSTTOOLS += "getent seq"
++# HOSTTOOLS += "getent"
+ 
+ # Uncomment this to use a shared download directory
+ #DL_DIR = "/some/shared/download/directory/"
+-- 
+2.11.0
 
-On Mon, 11 Feb 2019 at 06:03, Silvio Fricke <silvio.fricke@gmail.com> wrote:
 
-> Sometimes it is useful to have a base64 representation of an image.
->
-> Signed-off-by: Silvio Fricke <silvio.fricke@gmail.com>
-> ---
->  meta/classes/image_types.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> index 70bd315306..ddca5b624e 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -280,7 +280,7 @@ IMAGE_TYPES = " \
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?= ""
->
-> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
-> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2
-> ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
-> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64
-> ${COMPRESSIONTYPES}"
->  CONVERSION_CMD_lzma = "lzma -k -f -7
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD_gz = "pigz -f -9 -n -c
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->  CONVERSION_CMD_bz2 = "pbzip2 -f -k
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> @@ -300,6 +300,7 @@ CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O
-> linux -T ramdisk -C none -n
->  CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
->  CONVERSION_CMD_vdi = "qemu-img convert -O vdi
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
->  CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
-> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
-> +CONVERSION_CMD_base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
-> > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
->  CONVERSION_DEPENDS_lzma = "xz-native"
->  CONVERSION_DEPENDS_gz = "pigz-native"
->  CONVERSION_DEPENDS_bz2 = "pbzip2-native"
-> @@ -313,6 +314,7 @@ CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
->  CONVERSION_DEPENDS_vmdk = "qemu-native"
->  CONVERSION_DEPENDS_vdi = "qemu-native"
->  CONVERSION_DEPENDS_qcow2 = "qemu-native"
-> +CONVERSION_DEPENDS_base64 = "coreutils-native"
->
->  RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
->  RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000e4102f05819bc141
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Is it?=C2=A0 I&#39;m genuinely curious when a base64 encod=
-ed image is useful.=C2=A0<div><br></div><div>Ross</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 11 Feb 2019 =
-at 06:03, Silvio Fricke &lt;<a href=3D"mailto:silvio.fricke@gmail.com">silv=
-io.fricke@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;border-left-color:rgb(204,204,204);padding-left:1ex">Sometimes it i=
-s useful to have a base64 representation of an image.<br>
-<br>
-Signed-off-by: Silvio Fricke &lt;<a href=3D"mailto:silvio.fricke@gmail.com"=
- target=3D"_blank">silvio.fricke@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/image_types.bbclass | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bb=
-class<br>
-index 70bd315306..ddca5b624e 100644<br>
---- a/meta/classes/image_types.bbclass<br>
-+++ b/meta/classes/image_types.bbclass<br>
-@@ -280,7 +280,7 @@ IMAGE_TYPES =3D &quot; \<br>
-=C2=A0# CONVERSION_CMD/DEPENDS.<br>
-=C2=A0COMPRESSIONTYPES ?=3D &quot;&quot;<br>
-<br>
--CONVERSIONTYPES =3D &quot;gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sh=
-a224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESS=
-IONTYPES}&quot;<br>
-+CONVERSIONTYPES =3D &quot;gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sh=
-a224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${C=
-OMPRESSIONTYPES}&quot;<br>
-=C2=A0CONVERSION_CMD_lzma =3D &quot;lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME=
-_SUFFIX}.${type}&quot;<br>
-=C2=A0CONVERSION_CMD_gz =3D &quot;pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAM=
-E_SUFFIX}.${type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz&quot;<b=
-r>
-=C2=A0CONVERSION_CMD_bz2 =3D &quot;pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_S=
-UFFIX}.${type}&quot;<br>
-@@ -300,6 +300,7 @@ CONVERSION_CMD_u-boot =3D &quot;mkimage -A ${UBOOT_ARCH=
-} -O linux -T ramdisk -C none -n<br>
-=C2=A0CONVERSION_CMD_vmdk =3D &quot;qemu-img convert -O vmdk ${IMAGE_NAME}$=
-{IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk&=
-quot;<br>
-=C2=A0CONVERSION_CMD_vdi =3D &quot;qemu-img convert -O vdi ${IMAGE_NAME}${I=
-MAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi&quo=
-t;<br>
-=C2=A0CONVERSION_CMD_qcow2 =3D &quot;qemu-img convert -O qcow2 ${IMAGE_NAME=
-}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qco=
-w2&quot;<br>
-+CONVERSION_CMD_base64 =3D &quot;base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
-{type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64&quot;<br>
-=C2=A0CONVERSION_DEPENDS_lzma =3D &quot;xz-native&quot;<br>
-=C2=A0CONVERSION_DEPENDS_gz =3D &quot;pigz-native&quot;<br>
-=C2=A0CONVERSION_DEPENDS_bz2 =3D &quot;pbzip2-native&quot;<br>
-@@ -313,6 +314,7 @@ CONVERSION_DEPENDS_u-boot =3D &quot;u-boot-tools-native=
-&quot;<br>
-=C2=A0CONVERSION_DEPENDS_vmdk =3D &quot;qemu-native&quot;<br>
-=C2=A0CONVERSION_DEPENDS_vdi =3D &quot;qemu-native&quot;<br>
-=C2=A0CONVERSION_DEPENDS_qcow2 =3D &quot;qemu-native&quot;<br>
-+CONVERSION_DEPENDS_base64 =3D &quot;coreutils-native&quot;<br>
-<br>
-=C2=A0RUNNABLE_IMAGE_TYPES ?=3D &quot;ext2 ext3 ext4&quot;<br>
-=C2=A0RUNNABLE_MACHINE_PATTERNS ?=3D &quot;qemu&quot;<br>
--- <br>
-2.20.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000e4102f05819bc141--
