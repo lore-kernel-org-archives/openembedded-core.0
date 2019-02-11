@@ -1,28 +1,48 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49D756C4F2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
+	[209.85.166.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A6FF26076F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 07:12:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1B7CUkX000929
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 11 Feb 2019 10:27:35 +0000 (UTC)
+Received: by mail-it1-f173.google.com with SMTP id z20so24877610itc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2019 23:12:31 -0800 (PST)
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Sun, 10 Feb 2019 23:12:30 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <CAJTo0LZKFXDNUUvo==S+7BjM1s5OZxOffq-einXho6M9A8mvyg@mail.gmail.com>
-	<1548048935-326977-1-git-send-email-changqing.li@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <e53e14ae-d634-c7a4-e04a-7b9ccf2ea033@windriver.com>
-Date: Mon, 11 Feb 2019 15:12:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Mon, 11 Feb 2019 02:27:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=dITHKxbxnVZAwq+O6sU0G+2oO+3voDYxKuTRBrbtoZA=;
+	b=w7fwteIe5P5mY+tV65tuI6lXesTnY5GjYMRXLrW24bxwjtU1wLc3/zY09m0SHgv4OY
+	eFF6DL/M2shaiN2fJUbFfQJoyTuoCVVWCzyweu5l/O2wG49hViSQIVo90T8fRCRhVAO/
+	xmGRfyKFJrccOdvbVpMYUKyncsbtT7xm3uyipFWyyzIt2DwqKSk7ROwcmL5Por/had90
+	WGNbS1bMqOtxfI2Ps49Gwie36l/+LtRn8yREWpWdAT3OGKuxE2srPWt37fR0zmO1vv/K
+	LTj+nShaZB1B22ZSlB/YrldmCmWyHuNzvP/t8R0vxTVc05I/P6+hf3Aitrl8vL9q380D
+	3aXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=dITHKxbxnVZAwq+O6sU0G+2oO+3voDYxKuTRBrbtoZA=;
+	b=KqR0jcShFMSS3b+UgznzH0UncP6iQnnc+cCyPmcWCRQFQ+3aS0wgedHgH5b//rMut7
+	095qgIKuzv6Ial3kOYHE6bQk1CWq0YzYjfNYz42UpZFnoiO5hBkPoeZyXipCx/LAmsf9
+	4Ms2VKFl0m4yDNk1vC3vUFDCGP5r+st1UIHPA9jeScenvaaXOTs6iFD+mFviMyTFUzn7
+	91j4m/UQNT4UeuZWv2gQyb1mkB9dtFqf9cI7wZ+s/BJtyoLMDaIfxxBZFiZj8w28nthF
+	1V0Xnz9b6sWh7RDY9lkgs350m6R2MOOwP7YPNM4kZG2bdDZbE+XSSW6JFZHJFOi0bjhd
+	Kh3g==
+X-Gm-Message-State: AHQUAubDw70FwoRtjF8PedeKatPjAEt4bwtpT4tsZRh4P5+NpPVtb7Cz
+	tICx56gv8hVjqsEXj0r7qHQD8ZJjnBzI7fQjiXdELQ==
+X-Google-Smtp-Source: AHgI3IbLdqIKtf7Ei0pV6HwWGgWpCTfBM82grYiZiB2PqGiNsFMGra9bZPNBe9BNOORZ3ZMSUBdjq+hMrJlH72i1uVg=
+X-Received: by 2002:a24:1d4a:: with SMTP id 71mr4815946itj.62.1549880856412;
+	Mon, 11 Feb 2019 02:27:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1548048935-326977-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH V3] populate_sdk_base: provide options to set sdk type
+References: <cover.1549821635.git.silvio.fricke@gmail.com>
+	<4c3dabb9814914747119a28172f38e2a32c0bd36.1549821635.git.silvio.fricke@gmail.com>
+In-Reply-To: <4c3dabb9814914747119a28172f38e2a32c0bd36.1549821635.git.silvio.fricke@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Feb 2019 10:27:25 +0000
+Message-ID: <CAJTo0Laft-Z97PmWL8G4i-qrHxQUmurL6dYz_fp1PJjkwmS2hw@mail.gmail.com>
+To: Silvio Fricke <silvio.fricke@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1 1/1] image_types: add base64 conversion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,99 +55,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 07:12:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 11 Feb 2019 10:27:35 -0000
+Content-Type: multipart/alternative; boundary="000000000000e4102f05819bc141"
 
-ping
+--000000000000e4102f05819bc141
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/21/19 1:35 PM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+Is it?  I'm genuinely curious when a base64 encoded image is useful.
+
+Ross
+
+On Mon, 11 Feb 2019 at 06:03, Silvio Fricke <silvio.fricke@gmail.com> wrote:
+
+> Sometimes it is useful to have a base64 representation of an image.
 >
-> Current sdk type is tar.xz, but for mingw sdk, since we
-> have symlink under the sdk folder, 7zip which used to
-> extract tar.xz cannot handle it, refer 7zip upstream bug:
-> https://sourceforge.net/p/sevenzip/discussion/45797/thread/c71d6b96/
-> so add option for usr can select the sdk type.
->
-> default type is tar.xz, and also support type zip.
-> user want to use zip type can set SDK_ARCHIVE_TYPE to zip.
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Silvio Fricke <silvio.fricke@gmail.com>
 > ---
->   meta/classes/populate_sdk_base.bbclass | 28 +++++++++++++++++++++-------
->   1 file changed, 21 insertions(+), 7 deletions(-)
+>  meta/classes/image_types.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index 677ba3c..3e7aec8 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -44,8 +44,23 @@ TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalon
->   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
->   TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
->   
-> +# Default archived SDK's suffix
-> +SDK_ARCHIVE_TYPE ?= "tar.xz"
-> +
-> +# To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
-> +python () {
-> +    if d.getVar('SDK_ARCHIVE_TYPE') == 'zip':
-> +       d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
-> +       # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
-> +       # recommand to cd into input dir first to avoid archive with buildpath
-> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
-> +    else:
-> +       d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
-> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-> +}
-> +
->   SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
-> -SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
-> +SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
->   PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
->   SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
->   
-> @@ -103,7 +118,7 @@ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
->   POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
->   POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
->   SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
-> -SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
-> +SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; archive_sdk; ${SDK_PACKAGING_COMMAND} "
->   
->   def populate_sdk_common(d):
->       from oe.sdk import populate_sdk
-> @@ -221,11 +236,10 @@ python check_sdk_sysroots() {
->   
->   SDKTAROPTS = "--owner=root --group=root"
->   
-> -fakeroot tar_sdk() {
-> +fakeroot archive_sdk() {
->   	# Package it up
->   	mkdir -p ${SDKDEPLOYDIR}
-> -	cd ${SDK_OUTPUT}/${SDKPATH}
-> -	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-> +	${SDK_ARCHIVE_CMD}
->   }
->   
->   TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
-> @@ -268,10 +282,10 @@ EOF
->   	chmod +x ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
->   
->   	# append the SDK tarball
-> -	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
-> +	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
->   
->   	# delete the old tarball, we don't need it anymore
-> -	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-> +	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}
->   }
->   
->   populate_sdk_log_check() {
+> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> index 70bd315306..ddca5b624e 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -280,7 +280,7 @@ IMAGE_TYPES = " \
+>  # CONVERSION_CMD/DEPENDS.
+>  COMPRESSIONTYPES ?= ""
+>
+> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
+> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2
+> ${COMPRESSIONTYPES}"
+> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
+> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64
+> ${COMPRESSIONTYPES}"
+>  CONVERSION_CMD_lzma = "lzma -k -f -7
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>  CONVERSION_CMD_gz = "pigz -f -9 -n -c
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>  CONVERSION_CMD_bz2 = "pbzip2 -f -k
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> @@ -300,6 +300,7 @@ CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O
+> linux -T ramdisk -C none -n
+>  CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
+>  CONVERSION_CMD_vdi = "qemu-img convert -O vdi
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+>  CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+> +CONVERSION_CMD_base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
+>  CONVERSION_DEPENDS_lzma = "xz-native"
+>  CONVERSION_DEPENDS_gz = "pigz-native"
+>  CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+> @@ -313,6 +314,7 @@ CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+>  CONVERSION_DEPENDS_vmdk = "qemu-native"
+>  CONVERSION_DEPENDS_vdi = "qemu-native"
+>  CONVERSION_DEPENDS_qcow2 = "qemu-native"
+> +CONVERSION_DEPENDS_base64 = "coreutils-native"
+>
+>  RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+>  RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
--- 
-BRs
+--000000000000e4102f05819bc141
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sandy(Li Changqing)
+<div dir=3D"ltr">Is it?=C2=A0 I&#39;m genuinely curious when a base64 encod=
+ed image is useful.=C2=A0<div><br></div><div>Ross</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 11 Feb 2019 =
+at 06:03, Silvio Fricke &lt;<a href=3D"mailto:silvio.fricke@gmail.com">silv=
+io.fricke@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
+e:solid;border-left-color:rgb(204,204,204);padding-left:1ex">Sometimes it i=
+s useful to have a base64 representation of an image.<br>
+<br>
+Signed-off-by: Silvio Fricke &lt;<a href=3D"mailto:silvio.fricke@gmail.com"=
+ target=3D"_blank">silvio.fricke@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/image_types.bbclass | 4 +++-<br>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bb=
+class<br>
+index 70bd315306..ddca5b624e 100644<br>
+--- a/meta/classes/image_types.bbclass<br>
++++ b/meta/classes/image_types.bbclass<br>
+@@ -280,7 +280,7 @@ IMAGE_TYPES =3D &quot; \<br>
+=C2=A0# CONVERSION_CMD/DEPENDS.<br>
+=C2=A0COMPRESSIONTYPES ?=3D &quot;&quot;<br>
+<br>
+-CONVERSIONTYPES =3D &quot;gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sh=
+a224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESS=
+IONTYPES}&quot;<br>
++CONVERSIONTYPES =3D &quot;gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sh=
+a224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${C=
+OMPRESSIONTYPES}&quot;<br>
+=C2=A0CONVERSION_CMD_lzma =3D &quot;lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME=
+_SUFFIX}.${type}&quot;<br>
+=C2=A0CONVERSION_CMD_gz =3D &quot;pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAM=
+E_SUFFIX}.${type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz&quot;<b=
+r>
+=C2=A0CONVERSION_CMD_bz2 =3D &quot;pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_S=
+UFFIX}.${type}&quot;<br>
+@@ -300,6 +300,7 @@ CONVERSION_CMD_u-boot =3D &quot;mkimage -A ${UBOOT_ARCH=
+} -O linux -T ramdisk -C none -n<br>
+=C2=A0CONVERSION_CMD_vmdk =3D &quot;qemu-img convert -O vmdk ${IMAGE_NAME}$=
+{IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk&=
+quot;<br>
+=C2=A0CONVERSION_CMD_vdi =3D &quot;qemu-img convert -O vdi ${IMAGE_NAME}${I=
+MAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi&quo=
+t;<br>
+=C2=A0CONVERSION_CMD_qcow2 =3D &quot;qemu-img convert -O qcow2 ${IMAGE_NAME=
+}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qco=
+w2&quot;<br>
++CONVERSION_CMD_base64 =3D &quot;base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
+{type} &gt; ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64&quot;<br>
+=C2=A0CONVERSION_DEPENDS_lzma =3D &quot;xz-native&quot;<br>
+=C2=A0CONVERSION_DEPENDS_gz =3D &quot;pigz-native&quot;<br>
+=C2=A0CONVERSION_DEPENDS_bz2 =3D &quot;pbzip2-native&quot;<br>
+@@ -313,6 +314,7 @@ CONVERSION_DEPENDS_u-boot =3D &quot;u-boot-tools-native=
+&quot;<br>
+=C2=A0CONVERSION_DEPENDS_vmdk =3D &quot;qemu-native&quot;<br>
+=C2=A0CONVERSION_DEPENDS_vdi =3D &quot;qemu-native&quot;<br>
+=C2=A0CONVERSION_DEPENDS_qcow2 =3D &quot;qemu-native&quot;<br>
++CONVERSION_DEPENDS_base64 =3D &quot;coreutils-native&quot;<br>
+<br>
+=C2=A0RUNNABLE_IMAGE_TYPES ?=3D &quot;ext2 ext3 ext4&quot;<br>
+=C2=A0RUNNABLE_MACHINE_PATTERNS ?=3D &quot;qemu&quot;<br>
+-- <br>
+2.20.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-
+--000000000000e4102f05819bc141--
