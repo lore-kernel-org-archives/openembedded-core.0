@@ -1,50 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f172.google.com (mail-it1-f172.google.com
-	[209.85.166.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A3BC979980
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 22A856BD57
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 12:29:04 +0000 (UTC)
-Received: by mail-it1-f172.google.com with SMTP id r11so20415249itc.2
+	Mon, 11 Feb 2019 14:35:51 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id b8so12302686qtr.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 04:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 11 Feb 2019 06:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OKASGjfjQifRPbySR5Q+tftHQ05Rt64zpjhWZNcl+v8=;
-	b=p2YwIuDtD7kmnqjPF73abKt24mvZhjEvrDMoEbFExZ+3yqGdbAqFM5ifV7osAdePfC
-	LP2HK1f9Gq7B+ok3VhBWTu+VBN8sd+y7Aajzx2CGnRADXX54f1Az4QxX9etHqeSyd28J
-	viPqRL4pwxXgbu5Tr5HA0xu+cB5G3hVvpoEVSD8rBiJrtVoGGusk+7RUOoBOHAIQmP+n
-	h2w2suKgFBlTg0U6ayEqVzraANwDehuzpcxWA+RJBlKRTQnY/GoFuCK1sbrTRAtqJRty
-	j8oIdWQn5kUl4tTcIrcjrfpfQisc1CIvGSUwuZ78oOrpap3Ej0EmZPJqLol33HOGSdVX
-	Mx5Q==
+	:cc; bh=953kf/S98iYnUnoo8bAPlXRO3WF234jqVCI+BK1bh5I=;
+	b=Nfe0ICLekVwbE8Jxdhs3cce+RRRe02WLBT9QrVvmY9JpdTW1Fyf3BBtcNsZCzWD/EE
+	SbV8mO08aVhdENzS3eZSIkUbnhsllp3CRndX7+dRWz9RL132S68FUOWTbaNe4PA4RzzU
+	zN1B13R26WKygOrpUtv/x1jEVwoeKTQPTA56SmklT0mCvb7EGy9yoO7SzStKmQIopNDY
+	iAcjWLSCsVKrjK7pgE0Mu9XEPrI/Y/vSeORgA7R1wgzPthYLZOaC/zyko8EzK12S55JN
+	wlApBlwnFSV4vm+h9sOFb6C6g9cPOAP0ODr+xBa2cGRAX6pmoQoW5ApfTxdchrfrNwDv
+	gmmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=OKASGjfjQifRPbySR5Q+tftHQ05Rt64zpjhWZNcl+v8=;
-	b=Ja/sYt1JIucCmUDEZEEbUKXDaOqxCCa1Q3+bzgfalHNkCJcK8qYFx+lAtxqHpez/jE
-	J27PojceU3VLOSMJ9sh0WDrBQ+2tcyelv+fX/b3Wp/prpSHo6zRpjA1/f3NNEH/O0Eql
-	vwfv7GCtdXx/Z7mYs1RrTOmL5PiaXiVySE/FefnHqIXsu/dyJlxGnJaE6diEBWeg553s
-	JmITeoUUpDwrQNGK7HKPe3ZJpV7P9pBNyF0OPNovcrQDk/o+mSwbqWPntz1kiTQsRQ6+
-	E5D7sldzLIgVu9/Ffl/GrmPsFU56Hdrcvter8y5bR7KOffhv1g20pwnP31B+RFNgu2L5
-	zNTA==
-X-Gm-Message-State: AHQUAuZKpVCup0t4GXU8Zc7J1QxIVabFxFQbed7MqYRwKrfPvhzeMYiJ
-	yao11qrHJS4Wl3PcPySOzsn8y4gZDfPiiO0yaHUkBg==
-X-Google-Smtp-Source: AHgI3Ib63jiP9423SdKLXBzLufvFxN4KMr9hpluakTpXWvIRP2PEReQCG/6O2KyUk7RPqToFE6d8v7pP5tGaVHytj84=
-X-Received: by 2002:a5d:848b:: with SMTP id t11mr4075866iom.270.1549888145731; 
-	Mon, 11 Feb 2019 04:29:05 -0800 (PST)
+	bh=953kf/S98iYnUnoo8bAPlXRO3WF234jqVCI+BK1bh5I=;
+	b=YSJo94crijvFdC07bhZbjGu7SdDFY4dCZdVixxjIywVdIG+6zKVJH9gOXmO2axKfPf
+	EamZHwUNt6pv0FtXu7HI9bSGiQL3pFnr64GDEv23Ks05gTFRDaw3OaO5lKC8mL3epw/J
+	np+QeOIyyQo4nxay2jMjHNJ+equMfetq2QO+CyvW/OO3dGgkcT9i4ejmcf9ONfd9XtL4
+	cpZu6hmHckuGlXyTPiXG9ergc33vI57mH48vwFnTlJyE3aF9NKqcfuRE/l6KVt8fIqSj
+	Wfk8a8DZ48umaowPvI227yEU0BXnB+axm3qhqxFskBojRB4DsnN9B1RmU8r23tQ7QWwG
+	JwJQ==
+X-Gm-Message-State: AHQUAubgnJtpcS+QPYDobowZ6cda/3imf5bPo/P36G+UMxck7czgVxov
+	v7X2F2Kjddt/AnGxp1D9fXahF1fE5yUsV9YqFRw=
+X-Google-Smtp-Source: AHgI3IY5hMxHHoht5wZ6MoW18cjoa2ApVe46wK7YXvN82Z6XQG7BVFlgI5PLXWU8+wZOdKvTFOhn4llKzQ3O1TPYn04=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr18961354qtn.253.1549895752686; 
+	Mon, 11 Feb 2019 06:35:52 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1549821635.git.silvio.fricke@gmail.com>
-	<4c3dabb9814914747119a28172f38e2a32c0bd36.1549821635.git.silvio.fricke@gmail.com>
-	<CAJTo0Laft-Z97PmWL8G4i-qrHxQUmurL6dYz_fp1PJjkwmS2hw@mail.gmail.com>
-	<20190211121417.podjcgrldnykucgb@sfserver>
-In-Reply-To: <20190211121417.podjcgrldnykucgb@sfserver>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Feb 2019 12:28:55 +0000
-Message-ID: <CAJTo0LYKNFDGmLkTeFhxWRbO1tyJkaOKpNDFGQUTAKBoaThYcg@mail.gmail.com>
-To: "S. Fricke" <silvio.fricke@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v1 1/1] image_types: add base64 conversion
+References: <20181207120605.11344-1-richard.purdie@linuxfoundation.org>
+	<20181207120605.11344-2-richard.purdie@linuxfoundation.org>
+	<fae0fb29acedc0c26cf9d5860e053d1427316cb8.camel@linuxfoundation.org>
+	<857809ce-49de-16c2-f26d-805acc3601c2@siemens.com>
+	<31abffa69bca5ee313a7d6c30dd7fc06011a14e5.camel@linuxfoundation.org>
+	<8ac88775-35f9-e3f6-a0c6-f218aa697e70@siemens.com>
+	<81618ab958486def551d22764d960944fb09b73d.camel@linuxfoundation.org>
+	<b269e78b-ebc9-751a-1253-dacf881f0a36@electromag.com.au>
+In-Reply-To: <b269e78b-ebc9-751a-1253-dacf881f0a36@electromag.com.au>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 11 Feb 2019 06:35:26 -0800
+Message-ID: <CAMKF1srR3zd+-wC3npBO+ULJxjEzYRMVejw+vNHcQ8p=n9KGRQ@mail.gmail.com>
+To: Phil Reid <preid@electromag.com.au>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +61,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2019 12:29:04 -0000
-Content-Type: multipart/alternative; boundary="0000000000005e42db05819d7467"
-
---0000000000005e42db05819d7467
+X-List-Received-Date: Mon, 11 Feb 2019 14:35:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 11 Feb 2019 at 12:14, S. Fricke <silvio.fricke@gmail.com> wrote:
-
-> Hi,
+On Wed, Feb 6, 2019 at 6:39 PM Phil Reid <preid@electromag.com.au> wrote:
 >
-> >    Is it?  I'm genuinely curious when a base64 encoded image is useful.
+> On 3/01/2019 9:59 pm, Richard Purdie wrote:
+> > On Mon, 2018-12-31 at 20:56 +0100, Andrej Valek wrote:
+> >> Your previous solution is working for me, so I was not working on
+> >> fixing
+> >> this. I thought, that You will just add missing packages, and that
+> >> is.
+> >> I don't have setup for failing machine.
+> >>
+> >> Is there any simple way to get all missing perl packages?
+> >
+> > I reworked the patch a bit, tested and just merged a working version of
+> > it:
+> >
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d4e27863f3874fb7dc543eed8dcf6a8c4d146fb5
+> >
+> > Cheers,
+> >
+> > Richard
+> >
 >
-> It is! :-)
-> We are using a softwarestack which use base64 (I am delighted thats no one
-> is
-> using uuencode ^^) encoded images to transfer them via wire. I can not
-> change
-> this stack.
+> This patch seems to trigger the following new warning for me during populate_sdk
+>
+> Collected errors:
+>   * Solver encountered 1 problem(s):
+>   * Problem 1/1:
+>   *   - package busybox-dev-1.29.2-r0.4.cortexa9t2hf-neon requires busybox = 1.29.2-r0.4, but none of the providers can be installed
+>   *
+>   * Solution 1:
+>   *   - allow deinstallation of target-sdk-provides-dummy-1.0-r0.9.sdk-provides-dummy-target
+>
+>   *   - do not ask to install a package providing target-sdk-provides-dummy-dev
+>
+>   * Solution 2:
+>   *   - do not ask to install a package providing busybox-dev
+>
+>
+> Not sure what is request busybox-dev to be istalled in the sdk.
+> Any thoughts?
 >
 
-Ah, fair enough.  Yes in that case I guess that it's not uu is good :)
+Richard
+
+I am seeing same failure as well. I solved it by adding
+
+RDEPENDS_${PN}-dev = "" in busybox recipe.
+
+I am not sure if thats right solution, busybox-dev seems to be empty package.
 
 
-> If this isn't useful, maybe you can help me to get a own conversion cmd
-> into
-> my own bbclasses? I have tried it in several ways, but nothing worked. The
-> last approach was to change the image_type.bbclass.
+>
+>
+> --
+> Regards
+> Phil Reid
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-
-It's very low-impact so I don't object to this in oe-core.
-
-Ross
-
---0000000000005e42db05819d7467
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 11 Feb 2019 at 12:14, S. Fricke &=
-lt;<a href=3D"mailto:silvio.fricke@gmail.com">silvio.fricke@gmail.com</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-st=
-yle:solid;border-left-color:rgb(204,204,204);padding-left:1ex">Hi,<br>
-<br>
-&gt;=C2=A0 =C2=A0 Is it?=C2=A0 I&#39;m genuinely curious when a base64 enco=
-ded image is useful.=C2=A0<br>
-<br>
-It is! :-)<br>
-We are using a softwarestack which use base64 (I am delighted thats no one =
-is<br>
-using uuencode ^^) encoded images to transfer them via wire. I can not chan=
-ge<br>
-this stack.<br></blockquote><div><br></div><div>Ah, fair enough.=C2=A0 Yes =
-in that case I guess that it&#39;s not uu is good :)</div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);p=
-adding-left:1ex">
-If this isn&#39;t useful, maybe you can help me to get a own conversion cmd=
- into<br>
-my own bbclasses? I have tried it in several ways, but nothing worked. The<=
-br>
-last approach was to change the image_type.bbclass.</blockquote><div><br></=
-div><div>It&#39;s very low-impact so I don&#39;t object to this in oe-core.=
-</div><div><br></div><div>Ross</div></div></div>
-
---0000000000005e42db05819d7467--
