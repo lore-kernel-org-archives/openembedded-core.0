@@ -1,75 +1,25 @@
-Return-Path: <JAEWON@xilinx.com>
-X-Greylist: delayed 34232 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 12 Feb 2019 04:55:27 UTC
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
-	(mail-eopbgr740047.outbound.protection.outlook.com [40.107.74.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 495A66C4E6
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3143B607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2019 04:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=8zzZRtaDklBYTgreKNiuVbAi+eUNE3YWptYbGIAcQXM=;
-	b=P9sU5qf0NhXBQCysj+ftASoQBHcJkxQesICAOEElPMB+xCASCBrZdvgN1JL8E/bfDSSdlwCm/q11eoxLoTQQiZ5j7ZAdi5GEK49qD3yzDVMkpCr01eDUh9OzpDpVGq7tLUmovebBhVfkC4cYE2U8TbTTSDxpTwnlvsEocN+V23M=
-Received: from MWHPR02MB2768.namprd02.prod.outlook.com (10.175.49.146) by
-	MWHPR02MB2606.namprd02.prod.outlook.com (10.168.205.148) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1601.22; Mon, 11 Feb 2019 19:22:22 +0000
-Received: from MWHPR02MB2768.namprd02.prod.outlook.com
-	([fe80::50c6:4927:8a6b:7300]) by
-	MWHPR02MB2768.namprd02.prod.outlook.com
-	([fe80::50c6:4927:8a6b:7300%10]) with mapi id 15.20.1601.023;
-	Mon, 11 Feb 2019 19:22:22 +0000
-From: Jaewon Lee <JAEWON@xilinx.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] Support kmeta directory usage with devtool
-	modify/finish
-Thread-Index: AQHUlA6pSjEqrWlH6kSIHkkRtyVr06XFl2LggBW+sCA=
-Date: Mon, 11 Feb 2019 19:22:22 +0000
-Message-ID: <MWHPR02MB27688D3C582D786B154D2E4AAF640@MWHPR02MB2768.namprd02.prod.outlook.com>
-References: <1544834362-5755-1-git-send-email-jaewon.lee@xilinx.com>
-	<MWHPR02MB27682793325E802E40953AEEAF960@MWHPR02MB2768.namprd02.prod.outlook.com>
-In-Reply-To: <MWHPR02MB27682793325E802E40953AEEAF960@MWHPR02MB2768.namprd02.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=JAEWON@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; MWHPR02MB2606;
-	6:/4ITmNVjzE743W1RUajGSFv8PwXZgNAwUDvmzKf8PTP273cflGzVxKD89u7WU/kvsNFdi0crtEFCI4sctxG6xT+vDccVqyFrf7Awdlz0mGY8TsCSBkMRxZYfc6dHW51DCct0L6K5YNyvQDNX/S1iM/mh6jvOq4AhZxHgtE79huMDIwTpN4oMkDi8ZRYuvS7DADccO6JEgdcNuwDMLjIRVByFFbCMvl81W3ItswNDb3Pbyw+8ExYTCq9anCo+zCeiBJQb0Qu6gQJKyhzmUp6I+KvdnF9HG5/4yDmVtMY/tv3ROv34CuBQoJ8ybQwwGUZWoulpStdAMNXOhDvXjVqrVC5f89nNFW6NgJfi25wpoBJFg+2/EgJ5NVQUY9vCGPXl8MjLynzc9d4xlCZbjX9KCvVuP6CHRRbC/Ao987vo9M2nkt6GxCRzyIlyY52QspRGofdli2dheTtfx2SsBLsddw==;
-	5:Vr85tZZOzN4ciWprLdjTsEEeI1dDlbjuxL5fS+QuWKVQHjNudqXqwTC7Ep8p8dSB11QP+D0+C3GADi8VIpDVSVS0AyhY03Bi6RSMgtw/zGXtVKPIllMxxgqOjgvAMff0WPC7WOizek+EDfKNwDZZygMi1YRHMnjPBbW0/6LVd+ATROnP7Dgh6hZfLBK6mYV5rwaIrfqwdx5bgTVx/IUGIA==;
-	7:C6g2PAG4Mi40MfOZjtlLCAodOnzwrktDspb8kv6o7zzH7eamNehxeKUz/6tZo47lOV/+16IRPnj7LJR91WaTieYpySyOLrXIu2ZV8FbpSJ7adzdciAyplpjHRPuuJMMsmQC2UbKXV2MeFCIdXr5M6A==
-x-ms-office365-filtering-correlation-id: daef7403-47d6-4b7f-1587-08d690563f81
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:MWHPR02MB2606; 
-x-ms-traffictypediagnostic: MWHPR02MB2606:
-x-microsoft-antispam-prvs: <MWHPR02MB26061CA3C5C731DD54D14F26AF640@MWHPR02MB2606.namprd02.prod.outlook.com>
-x-forefront-prvs: 0945B0CC72
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(376002)(346002)(136003)(366004)(396003)(39860400002)(13464003)(199004)(189003)(33656002)(11346002)(97736004)(4326008)(2501003)(25786009)(6506007)(53546011)(86362001)(8676002)(9686003)(446003)(8936002)(81166006)(72206003)(81156014)(6916009)(7736002)(305945005)(2906002)(186003)(26005)(102836004)(55016002)(74316002)(3846002)(6116002)(66066001)(476003)(76176011)(53936002)(5640700003)(6246003)(106356001)(6436002)(68736007)(99286004)(14454004)(7696005)(316002)(229853002)(478600001)(486006)(256004)(71200400001)(14444005)(105586002)(71190400001)(2351001)(107886003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2606;
-	H:MWHPR02MB2768.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: d0GPUxCu5FdTWlJdKNTxLyYRbyKJUo2Q6cbQtuK2XWphXLprewO6A/pMh9AsNjvGR8vzwtwlS1eLOhNmR2DAqXInUizomCtogXVE2xSLF2PBwOgmF6Pn1R3qSFi43yFXnmH7MdQ0+Izhw/5HvvuhxwGDGuCXxpcTrrelLqXCYmRkYjFycbMgE4alwalHm+l966J1IUgVxmtZPoc5hTOtO+hO6bGhjU4Pvtt0Oxgj+gPamNte3iSx0m1rOg4NX1H35jvnim4rEKi5L2QeWcGT56P4zXAfzpVeUDU1wIqBNz2+cxwnrY3CKD86SkkrkU6XgpGxEEybvG02gipZCxmSW/H8yU+HxcvpG6CrzjbsPF3yiNaRucYwecynBwA4kePv/czxC4EQXxQvkFSDQFR7bMI6/ZLOzw0qEgOPPJj2KxU=
+	Tue, 12 Feb 2019 05:10:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1C5AhMf010314
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Feb 2019 21:10:44 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.435.0; Mon, 11 Feb 2019 21:10:43 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Feb 2019 13:10:41 +0800
+Message-ID: <1549948241-309157-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
+References: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: daef7403-47d6-4b7f-1587-08d690563f81
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2019 19:22:22.4013 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2606
-Subject: Re: [PATCH] Support kmeta directory usage with devtool modify/finish
+Subject: [PATCH V2] gcc-runtime: fix C++ header mapping for n32/x32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,121 +32,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2019 04:55:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Feb 2019 05:10:43 -0000
+Content-Type: text/plain
 
-ping
+From: Changqing Li <changqing.li@windriver.com>
 
------Original Message-----
-From: Jaewon Lee=20
-Sent: Monday, January 28, 2019 3:18 PM
-To: Jaewon Lee <JAEWON@xilinx.com>; openembedded-core@lists.openembedded.or=
-g
-Cc: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-Subject: RE: [OE-core][PATCH] Support kmeta directory usage with devtool mo=
-dify/finish
+    The SDK was unable to find the C++ header pieces correctly since it's
+    using a generic compiler, not one specifically targeting the multilib
+    vendor prefix and default tune.  This adds the right mapping to ensure
+    SDKs work as expected. And fix problem in below configurations:
 
-ping
+    multilib configuration 1:
+    MACHINE="qemumips64"
+    MULTILIBS ?= "multilib:lib32 multilib:libn32"
+    DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+    DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+    MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+    require conf/multilib.conf
 
------Original Message-----
-From: Jaewon Lee [mailto:jaewon.lee@xilinx.com]=20
-Sent: Friday, December 14, 2018 4:39 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Jaewon Lee <JAEWON@xilinx.com>; Alejandro Enedino Hernandez Samaniego <=
-alejandr@xilinx.com>
-Subject: [OE-core][PATCH] Support kmeta directory usage with devtool modify=
-/finish
+    ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
 
-When using Kmeta directories, devtool finish will add every single file in =
-the directory to the bbappend. This is because in the current implementatio=
-n, the get_recipe_local_files function treats the kmeta directory like a fi=
-le. Modifying the function to loop through the provided directories and ret=
-urn all included files instead of just the top level directory. This will e=
-nable correct file to file comparison when determing which files are new/ch=
-anged and need to be added to the bbappend.
+    multilib configuration 2:
+    MACHINE="qemumips64"
+    MULTILIBS = 'multilib:lib64 multilib:lib32'
+    DEFAULTTUNE = 'mips64-n32'
+    DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+    DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+    require conf/multilib.conf
 
-Adding an extra check in devtool-source.bbclass to not copy the cfg file if=
- its already included somewhere in the kmeta directory
+    For this configuration:
+    for target gcc-runtime, need to create symlink like mips64-poly-linux --> mips64-poky-linux-gnu32
+    for target lib64-gcc-runtime, need to create symlink like mips64-poly-linux/32 --> mips64-pokymllib64-linux
+    in order to avoid conflict during populate_sdk, create symlink for subfoler bits/ext for target gcc-runtime,
+    this is ugly, but seems no better way to cover all kinds of configuration.
 
-Also during 'modify', when moving necessary files in the kmeta directory fr=
-om the workdir to oe-local-files, the dangling parent directories are left =
-behind.  This in itself is not an issue as the temporary devtool workspace =
-is automatically deleted, but this causes an incorrect include directory to=
- be added in kernel-yocto.bbclass.  Changing the order of the if statements=
- to catch the correct conditional. This is safe to do as when not in the de=
-vtool context, there will be no oe-local-files directory.
+    single lib configuration:
+    MACHINE="qemumips64"
+    DEFAULTTUNE = "mips64-n32"
 
-Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/devtool-source.bbclass | 6 ++++--
- meta/classes/kernel-yocto.bbclass   | 4 ++--
- meta/lib/oe/recipeutils.py          | 9 ++++++++-
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-sou=
-rce.bbclass
-index 1372e32..a811000 100644
---- a/meta/classes/devtool-source.bbclass
-+++ b/meta/classes/devtool-source.bbclass
-@@ -103,8 +103,10 @@ python devtool_post_unpack() {
-                 for l in sccfile:
-                     line =3D l.split()
-                     if line and line[0] in ('kconf', 'patch'):
--                        local_files[line[-1]] =3D os.path.join(os.path.dir=
-name(local_files[key]), line[-1])
--                        shutil.copy2(os.path.join(os.path.dirname(local_fi=
-les[key]), line[-1]), workdir)
-+                        cfg =3D os.path.join(os.path.dirname(local_files[k=
-ey]), line[-1])
-+                        if not cfg in local_files.values():
-+                            local_files[line[-1]] =3D cfg
-+                            shutil.copy2(cfg, workdir)
-                 sccfile.close()
-=20
-     # Ignore local files with subdir=3D{BP} diff --git a/meta/classes/kern=
-el-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 496c8a7..2f556ca 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -138,10 +138,10 @@ do_kernel_metadata() {
- 	for f in ${feat_dirs}; do
- 		if [ -d "${WORKDIR}/$f/meta" ]; then
- 			includes=3D"$includes -I${WORKDIR}/$f/kernel-meta"
--	        elif [ -d "${WORKDIR}/$f" ]; then
--			includes=3D"$includes -I${WORKDIR}/$f"
- 		elif [ -d "${WORKDIR}/../oe-local-files/$f" ]; then
- 			includes=3D"$includes -I${WORKDIR}/../oe-local-files/$f"
-+	        elif [ -d "${WORKDIR}/$f" ]; then
-+			includes=3D"$includes -I${WORKDIR}/$f"
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 50ecc81..f92becc 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -85,10 +85,6 @@ do_install () {
+ 	if [ -d ${D}${infodir} ]; then
+ 		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+ 	fi
+-	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+-		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
+-	fi
+-
+ }
+ 
+ do_install_append_class-target () {
+@@ -97,20 +93,29 @@ do_install_append_class-target () {
+ 	fi
+ 
+ 	if [ "${TARGET_OS}" = "linux-gnun32" ]; then
+-		if [ "${MULTILIBS}" != "" ]; then
+-			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
+-			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
++		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
++			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
++			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
++		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
++			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
++			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+ 		else
+ 			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
  		fi
- 	done
- 	for s in ${sccs} ${patches}; do
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py index =
-9c99164..e63f7ae 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -480,7 +480,14 @@ def get_recipe_local_files(d, patches=3DFalse, archive=
-s=3DFalse):
-                     unpack =3D fetch.ud[uri].parm.get('unpack', True)
-                     if unpack:
-                         continue
--            ret[fname] =3D localpath
-+            if os.path.isdir(localpath):
-+                for root, dirs, files in os.walk(localpath):
-+                    for fname in files:
-+                        fileabspath =3D os.path.join(root,fname)
-+                        srcdir =3D os.path.dirname(localpath)
-+                        ret[os.path.relpath(fileabspath,srcdir)] =3D filea=
-bspath
-+            else:
-+                ret[fname] =3D localpath
-     return ret
-=20
-=20
---
-2.7.5
+-	fi
+-	if [ "${TARGET_OS}" = "linux-gnux32" ]; then
+-		if [ "${MULTILIBS}" != "" ]; then
+-			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
+-			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
++	elif [ "${TARGET_OS}" = "linux-gnux32" ]; then
++		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
++			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
++			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
++		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
++			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
++			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+ 		else
+ 			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+ 		fi
++	elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
++		mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
++		ln -s ../${TARGET_SYS}/bits ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
++		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
+ 	fi
+ 
+ 	if [ "${TCLIBC}" != "glibc" ]; then
+-- 
+2.7.4
 
 
