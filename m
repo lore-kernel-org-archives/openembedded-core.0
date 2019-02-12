@@ -1,42 +1,29 @@
-Return-Path: <freakforever@gmail.com>
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
-	[209.85.222.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 55BF66D6EA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2019 17:54:20 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id p9so1183088uaa.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2019 09:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=3weRH/mhiPSbreOqUdoOQ8UwEsORc6nNXlAJEzjPy54=;
-	b=X1y4WDIFcXR9L8MVpiEUYSo1/dRKEZm76FapWVUCQPxzNjrxAlYBBNvKyZjIETX63Z
-	QrVm3eQkISWaOxKndoWYbZymot7cS9VAb/WpMepIoOpRvNe2Z+hUgIOPiIiZBAWTwehk
-	WljfP6a/BTorHUytPdXimjlVz7A1J8Z9YSCMsucZGDsYcVfEASUMtyQEqVSBkt2/s0P7
-	KWaUzTEnepL2ZsO10CuVZ2d3f7/BRjY4bRrltRuVB3d9LE2Fx0AxwCQC5aw28lbM6ghO
-	2zCkVVen3bPtwKUDio08w3ib9XLGz9F+DCYSQfV+XApJlbisnLnWuwpi9iULd0HR1P2l
-	X1wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=3weRH/mhiPSbreOqUdoOQ8UwEsORc6nNXlAJEzjPy54=;
-	b=mm5nTZB4lICU7ly/6LFErq8Gq+HxSRABD58uuF/qaoArSrcMftFRi5THVwaQtVqFI4
-	eZTHoWsq65IxfNSljYkU8EwDH55QKftjpK8inLHLsQTvAV8LgmJPckcc0t52FZJBkAJH
-	re4eb8n7QS+ATUxBCfrcqRT9KXGrhsTNA2r8bNLVee0sD+oWHeGHpVqwuJHdIxedZkUT
-	QoxgTG6YFs4pgxHDP5+RseMTXWykvR0/vqi2CvDiZAw+eChAxYts8P1TZSFqGuQTe/Wj
-	dXfwK5yFrfgqI0glca4SX6o3IyRkyahpGu4P5dhtSJjaqBeR1XYYnblasgqZC2Kpg+7E
-	siew==
-X-Gm-Message-State: AHQUAuaYx80DPGJzvApQG+/5czEhzb5LEe2ZHp+iCFxH8cllIl4gXf12
-	NXOtzMme9E+O5RzXUDy9FLoXIvM0WrVYbcUTts6C3lBx
-X-Google-Smtp-Source: AHgI3IbRO4HpHlmxBvnfI5Kq46dzFvuvl1aWuaxnQyxvw1IXxJoIERDooHFut517sfSmBhnBciPnLFuv+NpiV2NcAK4=
-X-Received: by 2002:ab0:70b7:: with SMTP id q23mr1868161ual.15.1549994061148; 
-	Tue, 12 Feb 2019 09:54:21 -0800 (PST)
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DA0FC6D6EA;
+	Tue, 12 Feb 2019 18:06:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1CI6Jnl015279
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Feb 2019 10:06:19 -0800 (PST)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.435.0;
+	Tue, 12 Feb 2019 10:06:18 -0800
+To: Felix Snow <fsnow@phoenixcontact.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+References: <AM6PR05MB6357644B9FBDB2505BE9F0D3DB650@AM6PR05MB6357.eurprd05.prod.outlook.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <89277db3-0af7-419d-6b49-66a8f42434e8@windriver.com>
+Date: Tue, 12 Feb 2019 13:06:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-From: =?UTF-8?Q?Jo=C3=A3o_Rasta?= <freakforever@gmail.com>
-Date: Tue, 12 Feb 2019 17:54:10 +0000
-Message-ID: <CAHN4dxphUCH+QvMFStdoPe_6BJYUKpzfQy-iR8vEZMUJ+k41LA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: gl support for qemuaarch64
+In-Reply-To: <AM6PR05MB6357644B9FBDB2505BE9F0D3DB650@AM6PR05MB6357.eurprd05.prod.outlook.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: version upgrade to python-click
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,39 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2019 17:54:20 -0000
-Content-Type: multipart/alternative; boundary="0000000000006b372e0581b61d2d"
+X-List-Received-Date: Tue, 12 Feb 2019 18:06:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
---0000000000006b372e0581b61d2d
-Content-Type: text/plain; charset="UTF-8"
+On 2/12/19 5:02 AM, Felix Snow wrote:
+> Hello,
+> 
+> it seems that the latest version of python-click in open-embedded is 6.7 :
+> 
+> https://layers.openembedded.org/layerindex/recipe/52136/
+> 
+> This was released in January 2017, but 7.0 came out in September 2018:
+> 
+> https://pypi.org/project/click/#history
+> 
+> I have had a considerable struggle with click on our embedded linux 
+> around locale.
+> 
+> It was a hard requirement and there are were a lot of complaints prior 
+> to version 7.0
+> 
+> Here are a few examples:
+> 
+> https://github.com/NixOS/nixpkgs/pull/41843
+> 
+> https://github.com/NixOS/nixpkgs/issues/40146
+> 
+> https://github.com/NixOS/nixpkgs/issues/38991
+> 
+> I believe they removed the hard dependency in this pull request - 
+> https://github.com/pallets/click/pull/880
+> 
+> which went into version 7.0
+> 
+> If you look at the code of that request there is very little which fixes 
+> this, but it would probably still be cleaner at least long term to have 
+> the newer version of click than to patch that in our system.  The locale 
+> issue is one of a long list of changes in 7.0 
+> http://click.palletsprojects.com/en/7.x/changelog/
 
-Hi,
+Thanks for pointing that out.
 
-I was trying to build virgl-gtk branch for ARM qemu target, but I'm not
-completely sure if it's possible as it generally seems to require KVM.
+Can you update the recipe, test it and send a patch to:
+    openembedded-devel@lists.openembedded.org
+as per:
+    https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
-qemu-system-aarch64 has the virtio-gpu-pci device, which i'd assume to
-support GL forwarding to the host if compiled with libvirglrenderer. I've
-also been able to run a cross-compiled image reporting [drm] 3d
-Acceleration enabled. However, I was not able to start any graphics
-application on the guest.
+../Randy
 
-Could someone pls clarify this?
+> 
+> Actually, click is not explicitly mentioned in the bb file, but 
+> python-flask is, and that somehow installs click with it, I think as 
+> there is another recipe for python-flask which includes click.
+> 
+> Cheers,
+> 
+> Felix
+> 
+> .......................................................................................
+> 
+> PHOENIX CONTACT Cyber Security GmbH　
+> 
+> Richard-Willstätter-Straße 6 　
+> 
+> D-12489 Berlin 　
+> 
+> 　
+> 
+> Register Court: AG Charlottenburg, HR B 202908　
+> 
+> Geschäftsführer/General Manager: Kilian Golm
+> 
+> //
+> 
 
-Thanks.
 
---0000000000006b372e0581b61d2d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+# Randy MacLeod
+# Wind River Linux
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,<div><br></div><div>I was trying to bu=
-ild virgl-gtk branch for ARM qemu target, but I&#39;m not completely sure i=
-f it&#39;s possible as it generally seems to require KVM.</div><div><br></d=
-iv><div>qemu-system-aarch64 has the virtio-gpu-pci device, which i&#39;d as=
-sume to support GL forwarding to the host if compiled with libvirglrenderer=
-. I&#39;ve also been able to run a cross-compiled image reporting [drm] 3d =
-Acceleration enabled. However, I was not able to start any graphics applica=
-tion on the guest.</div><div><br></div><div>Could someone pls clarify this?=
-</div><div><br></div><div>Thanks.</div></div></div>
-
---0000000000006b372e0581b61d2d--
