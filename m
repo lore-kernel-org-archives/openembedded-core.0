@@ -1,25 +1,50 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3143B607A5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CAE66BF38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2019 05:10:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1C5AhMf010314
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Feb 2019 05:48:00 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id j3so740179pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 21:10:44 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.435.0; Mon, 11 Feb 2019 21:10:43 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Feb 2019 13:10:41 +0800
-Message-ID: <1549948241-309157-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
-References: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
+	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ruBwcjZ5zTzzi1F5VCR1GX7kidmeH+th+wTq9hqp8Iw=;
+	b=bOxHOnGASaDgW/5TeTWlUs4aVBpw4kdcmSBrazteI5M7pobmgAGPbZjPzQYhux0Ql6
+	JHjY3LFntjhu+jfM6OmuZaYXYJAjllM/bGMQUw7VuVBll/QxhIc/5fNZfXalZfiTS0Fx
+	XGl+K4V55kv1KAuC+AF5DGVte6ZpPsULBos8RiCmSKs2+5bfGiiBb41jD2bbJYfv7JbA
+	RACeG6kJTkji1KjoxZJEqV469H2jMfNQyGJ0mmL52j08K+rTkpKDNH3vgaQ++zSOpHzT
+	xAeerRWWRVEiMGNacmyL0ELQ+gQHFrMUAtVPmEyqMtq9O+mnscEuJU3IKqORU2DMz1XO
+	lcJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ruBwcjZ5zTzzi1F5VCR1GX7kidmeH+th+wTq9hqp8Iw=;
+	b=jnIjsJh8/rfSnefzsXMbuNp2Fdd2FXFo+Scmgvz4ps1uEMbyV/uMOrcWLFJp9NzbGT
+	akfbmINlhZNfboEmxVLy4+m7WfJysxDHTD3HJxGhJ++0HONshjkr4lz/yryLgiO2yYMw
+	jmz310mPBYiy++puKV3qE6I3edcV/z4SV2Oaah7Rn47FNQbaBj0NvswO8MVQ78qOWvOM
+	1+fyJsHFlUpBCGtHBsGQJPtjjw4RTX/wAt0J2u9j+YPjhh987Ir71k8/j+gh1p7R4gXE
+	T349nOY5gxHk13uIMqnycWwdj6Xvw5ckqqbphsq+5qas7ICaILS5L6BtuBrjGu8Z/Vxi
+	iE/g==
+X-Gm-Message-State: AHQUAuZFff8O7904jg7iwKBoZz+7d5Vx6FuLGqUsQmfgZqBpqsZ5NAm5
+	vMPbVeDUxp1kfudAmwWhG606A3mh
+X-Google-Smtp-Source: AHgI3IZ2gAq61ehdsIqonuDs3yau/h4FZKjxQc3Rb7oJ66qL2CMUSFcowLF9pUOdAgsKjV+k+CHPPA==
+X-Received: by 2002:a62:3241:: with SMTP id y62mr2257292pfy.178.1549950481049; 
+	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::dc44])
+	by smtp.gmail.com with ESMTPSA id
+	b15sm2020017pfj.44.2019.02.11.21.48.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Feb 2019 21:48:00 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Feb 2019 21:47:52 -0800
+Message-Id: <20190212054754.2801-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH V2] gcc-runtime: fix C++ header mapping for n32/x32 tune
+Subject: [PATCH 1/3] busybox: Remove PN from rdeps of PN-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,103 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2019 05:10:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Feb 2019 05:48:00 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+PN-dev is empty and causes dependency loops during SDK build
 
-    The SDK was unable to find the C++ header pieces correctly since it's
-    using a generic compiler, not one specifically targeting the multilib
-    vendor prefix and default tune.  This adds the right mapping to ensure
-    SDKs work as expected. And fix problem in below configurations:
-
-    multilib configuration 1:
-    MACHINE="qemumips64"
-    MULTILIBS ?= "multilib:lib32 multilib:libn32"
-    DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
-    DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-    MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-    require conf/multilib.conf
-
-    ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
-
-    multilib configuration 2:
-    MACHINE="qemumips64"
-    MULTILIBS = 'multilib:lib64 multilib:lib32'
-    DEFAULTTUNE = 'mips64-n32'
-    DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
-    DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
-    require conf/multilib.conf
-
-    For this configuration:
-    for target gcc-runtime, need to create symlink like mips64-poly-linux --> mips64-poky-linux-gnu32
-    for target lib64-gcc-runtime, need to create symlink like mips64-poly-linux/32 --> mips64-pokymllib64-linux
-    in order to avoid conflict during populate_sdk, create symlink for subfoler bits/ext for target gcc-runtime,
-    this is ugly, but seems no better way to cover all kinds of configuration.
-
-    single lib configuration:
-    MACHINE="qemumips64"
-    DEFAULTTUNE = "mips64-n32"
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 50ecc81..f92becc 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -85,10 +85,6 @@ do_install () {
- 	if [ -d ${D}${infodir} ]; then
- 		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
- 	fi
--	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
--		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
--	fi
--
- }
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 24c15e4aee..2444afabd5 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -21,6 +21,7 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
+ EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
  
- do_install_append_class-target () {
-@@ -97,20 +93,29 @@ do_install_append_class-target () {
- 	fi
+ PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
++RDEPENDS_${PN}-dev = ""
  
- 	if [ "${TARGET_OS}" = "linux-gnun32" ]; then
--		if [ "${MULTILIBS}" != "" ]; then
--			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
--			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
-+		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
-+			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-+			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
-+		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
-+			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-+			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
- 		else
- 			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
- 		fi
--	fi
--	if [ "${TARGET_OS}" = "linux-gnux32" ]; then
--		if [ "${MULTILIBS}" != "" ]; then
--			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
--			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
-+	elif [ "${TARGET_OS}" = "linux-gnux32" ]; then
-+		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
-+			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-+			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
-+		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
-+			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-+			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
- 		else
- 			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
- 		fi
-+	elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
-+		mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-+		ln -s ../${TARGET_SYS}/bits ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
-+		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
- 	fi
- 
- 	if [ "${TCLIBC}" != "glibc" ]; then
+ FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
+ FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
 -- 
-2.7.4
+2.20.1
 
 
