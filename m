@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CAE66BF38
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BB646BF38
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Feb 2019 05:48:00 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id j3so740179pfi.12
+Received: by mail-pg1-f194.google.com with SMTP id g189so726797pgc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
+	Mon, 11 Feb 2019 21:48:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ruBwcjZ5zTzzi1F5VCR1GX7kidmeH+th+wTq9hqp8Iw=;
-	b=bOxHOnGASaDgW/5TeTWlUs4aVBpw4kdcmSBrazteI5M7pobmgAGPbZjPzQYhux0Ql6
-	JHjY3LFntjhu+jfM6OmuZaYXYJAjllM/bGMQUw7VuVBll/QxhIc/5fNZfXalZfiTS0Fx
-	XGl+K4V55kv1KAuC+AF5DGVte6ZpPsULBos8RiCmSKs2+5bfGiiBb41jD2bbJYfv7JbA
-	RACeG6kJTkji1KjoxZJEqV469H2jMfNQyGJ0mmL52j08K+rTkpKDNH3vgaQ++zSOpHzT
-	xAeerRWWRVEiMGNacmyL0ELQ+gQHFrMUAtVPmEyqMtq9O+mnscEuJU3IKqORU2DMz1XO
-	lcJw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=pPrWUhqEw4CtFMdMUz8OR0TgIP8L0gTgO7rzpuEuAwg=;
+	b=LZPXsB3Tgo79YlDnjmkiFkhg0q+jLdzQ0KAVvMUYMKyYBMhKnaC9trR8uNhL5SaTxU
+	z83ms8870llD21j9Ebh/QDVJia44AaKuMIA7UsHw+FkJwbqUd4LryuLG7r2gzbDRIres
+	ZznWPifW0sXNxNMzP9Yeb3Vnj0M1DMddh9zFyfeDy3r0k9hLNh+48pLkqw5qsZu7TSzf
+	CKd93+bhey+Epm6I4x5CVYfrkWUSVsxv647nPaicCey8iqP1mpgMNWFoRjuWyvP/aCW5
+	8pMlwzPcgZ5RUwSJinthdbGqHU2fuT+tuAausgxdlTnHAbG+t+g+hJiv7CkAxVqUCo0+
+	4zVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ruBwcjZ5zTzzi1F5VCR1GX7kidmeH+th+wTq9hqp8Iw=;
-	b=jnIjsJh8/rfSnefzsXMbuNp2Fdd2FXFo+Scmgvz4ps1uEMbyV/uMOrcWLFJp9NzbGT
-	akfbmINlhZNfboEmxVLy4+m7WfJysxDHTD3HJxGhJ++0HONshjkr4lz/yryLgiO2yYMw
-	jmz310mPBYiy++puKV3qE6I3edcV/z4SV2Oaah7Rn47FNQbaBj0NvswO8MVQ78qOWvOM
-	1+fyJsHFlUpBCGtHBsGQJPtjjw4RTX/wAt0J2u9j+YPjhh987Ir71k8/j+gh1p7R4gXE
-	T349nOY5gxHk13uIMqnycWwdj6Xvw5ckqqbphsq+5qas7ICaILS5L6BtuBrjGu8Z/Vxi
-	iE/g==
-X-Gm-Message-State: AHQUAuZFff8O7904jg7iwKBoZz+7d5Vx6FuLGqUsQmfgZqBpqsZ5NAm5
-	vMPbVeDUxp1kfudAmwWhG606A3mh
-X-Google-Smtp-Source: AHgI3IZ2gAq61ehdsIqonuDs3yau/h4FZKjxQc3Rb7oJ66qL2CMUSFcowLF9pUOdAgsKjV+k+CHPPA==
-X-Received: by 2002:a62:3241:: with SMTP id y62mr2257292pfy.178.1549950481049; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=pPrWUhqEw4CtFMdMUz8OR0TgIP8L0gTgO7rzpuEuAwg=;
+	b=Io5KRRwrO1y1Oqja9GQFO1k+JKFQZGNkZ68Wx6hqIvGMHPY0845XoESp6Ex6o7Mb5C
+	hrY9ykekfdt7zEtyHV/pvZikq+eUyFvhFOfhHmrl5nWHRFMK/AUIFE0YG8AYeUjibE7w
+	yyu2mpeb7oP6ib2NQjmgGAuWdHQGBacECCvgJYTG4HqtGfXw3PadoJp1lHOFfGA9Fiox
+	bklzCV/hkhJiwq2Mr/R7NLhYmacf3PwKyicGERhJm5PHwhnXADbgd+WiwdieiyBcMeQ3
+	VHfBEqMelorzA66Pl/+D3lXBPjhck0BYCAjqOZPTyzEiNq1jEqGbb4CkJ7dFgw0cf9Jo
+	KLaA==
+X-Gm-Message-State: AHQUAua4SmLu9rl5zqIn0HBmTbV5lQlMtAtIGM6iIykT9QpGu5d4rHP4
+	6F9iXABQEHi2PvBZcedIaq7jCCc3
+X-Google-Smtp-Source: AHgI3IZoqEjgdlv60qPuvgJmawAg2j2jKMFPxEu5GS1yC8Nd1OOM29IJ8MPe8iDsEkXVH/8x+3rzdA==
+X-Received: by 2002:a65:6497:: with SMTP id e23mr2045643pgv.89.1549950481696; 
 	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::dc44])
 	by smtp.gmail.com with ESMTPSA id
-	b15sm2020017pfj.44.2019.02.11.21.48.00
+	b15sm2020017pfj.44.2019.02.11.21.48.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Feb 2019 21:48:00 -0800 (PST)
+	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Feb 2019 21:47:52 -0800
-Message-Id: <20190212054754.2801-1-raj.khem@gmail.com>
+Date: Mon, 11 Feb 2019 21:47:53 -0800
+Message-Id: <20190212054754.2801-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190212054754.2801-1-raj.khem@gmail.com>
+References: <20190212054754.2801-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] busybox: Remove PN from rdeps of PN-dev
+Subject: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2019 05:48:00 -0000
+X-List-Received-Date: Tue, 12 Feb 2019 05:48:01 -0000
 Content-Transfer-Encoding: 8bit
 
-PN-dev is empty and causes dependency loops during SDK build
+Could fix issues where dirs with wrong permission is created with mkdir -p
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/libc-package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 24c15e4aee..2444afabd5 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -21,6 +21,7 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
- EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
- 
- PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
-+RDEPENDS_${PN}-dev = ""
- 
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 0b4c666a74..34025635ce 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -61,7 +61,7 @@ LOCALETREESRC ?= "${PKGD}"
+ do_prep_locale_tree() {
+ 	treedir=${WORKDIR}/locale-tree
+ 	rm -rf $treedir
+-	mkdir -p $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
++	install -d $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
+ 	tar -cf - -C ${LOCALETREESRC}${datadir} -p i18n | tar -xf - -C $treedir/${datadir}
+ 	# unzip to avoid parsing errors
+ 	for i in $treedir/${datadir}/i18n/charmaps/*gz; do 
 -- 
 2.20.1
 
