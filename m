@@ -1,52 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BD11F7C445
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 1196 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 12 Feb 2019 09:51:21 UTC
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9596010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2019 05:48:01 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id h1so751084pfo.7
+	Tue, 12 Feb 2019 09:51:21 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x1C9VQUE016539
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2019 21:48:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=s8Of4ant40YGob0kjeYQ1/kt/nJgfkUNFQrF74QlVU4=;
-	b=QYIsAUyiAGhLkcGUu0ojHo8GYnj5cTqs5aKUM1AcXQAeskfUpDA1HCPBhbZSPuaE/R
-	X/ZLo011nrE42u3mGqtO8f3uryeZqOAr6bXEx97POT+cIiyVkFh2uTChPRZDnJgB1rNh
-	JZvGu/EU8XuZepeZXeSLuDYzZKaJ6VZv9NOWY6JbcfkKVxOZyNVIts1f+zS73WA/62u8
-	gYvm6eHqulXoPnq7B2g+RR0Mou+cpOOusiuQwfpA3gNLM2xulwPANatxDpD9LSLFje2f
-	/XckMWuzzZVlKsiTNQfh5u8IC532tmniTk4N3iCxO7LyzGn8mea1JsOIAlyzRIwuQwdE
-	7RoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=s8Of4ant40YGob0kjeYQ1/kt/nJgfkUNFQrF74QlVU4=;
-	b=Rj9cmy8jGtIa02xy/RcPfebsQhmqACGpkNjyDBja6+vOebJJVti8achgtgLjhynF/3
-	5cmOU6p2oRpIpX5CAr2V62qWhxUH8TxS7rrds8XgP0hVKFTj+b69zbg4JdiruKdC5xZA
-	Eh53u0KOSmpEmFq2caRwz7HrtuOY45A5pEhk0m2ZtEelqUU5uW4zi+pyky5Rv2o3m0YP
-	Es4O1Jn7qSoIV+eAh/qm8C63waW9OcDZ4tkMFanbSJArusLCS1a4nIHLFgVXES3rTlFH
-	jnJaywCk1P3Q2kgnLg3J3vMb8r0yPmZAJbIHP4N5wdmMq9HSD+aFRvHzY8jQSqsQ1JZj
-	l74g==
-X-Gm-Message-State: AHQUAuazRhyc9wSndA3vNenYSPNpG1jTcbYKTQZvXIIEnGTO4ZMcUqrG
-	yLd469BlX6vnlX/sCJUZFWxZq1XY
-X-Google-Smtp-Source: AHgI3IY9qXMjTHbOE994M2I63rkd3KJa0IylpyzCuQCCgl87fI0odH2E6nnxfPRNgOExDusQOvy4AQ==
-X-Received: by 2002:a62:a1a:: with SMTP id s26mr2253366pfi.31.1549950482422;
-	Mon, 11 Feb 2019 21:48:02 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::dc44])
-	by smtp.gmail.com with ESMTPSA id
-	b15sm2020017pfj.44.2019.02.11.21.48.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Feb 2019 21:48:01 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 12 Feb 2019 10:31:26 +0100
+Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
+	[139.16.77.77])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x1C9VQKr025149;
+	Tue, 12 Feb 2019 10:31:26 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id D761E10D47AA;
+	Tue, 12 Feb 2019 10:31:25 +0100 (CET)
+From: Pascal Bach <pascal.bach@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Feb 2019 21:47:54 -0800
-Message-Id: <20190212054754.2801-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190212054754.2801-1-raj.khem@gmail.com>
-References: <20190212054754.2801-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH v3 3/3] image_types.bbclass: Set memory usage limit and CPU threads for xz
+Date: Tue, 12 Feb 2019 10:30:48 +0100
+Message-Id: <20190212093048.25238-1-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] cmake: update to 3.13.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,118 +35,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2019 05:48:02 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Feb 2019 09:51:22 -0000
 
-when building with opkg backend and huge packages e.g. chromium/llvm all
-going in parallel, memory pressure causes xz to catapult with
+All patches have been rebased on top of the 3.13.4 release.
 
-do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
+I successfully built all CMake recipes in oe-core and meta-oe.
 
-since there are many tasks going on in parallel, xz adds to memory pressure
-and it wants it all, put an upper limit for memory xz can use
 
-We add a variable XZ_MAXRAM with 30% of RAM limit and can be customized
-if builders have more memory one can set it like
-
-XZ_DEFAULTS = "-M 0 -T 0"
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
-V2: Consider all locations of xz use
-v3: Use ${@oe.utils.cpu_count()} in place of BB_NUMBER_THREADS
+ ...ake-native_3.12.2.bb => cmake-native_3.13.4.bb} |  0
+ meta/recipes-devtools/cmake/cmake.inc              |  4 ++--
+ ...ineSystem-use-oe-environment-vars-to-load.patch |  7 +++---
+ .../0002-cmake-Prevent-the-detection-of-Qt5.patch  | 27 +++++++++++-----------
+ ...upport-OpenEmbedded-Qt4-tool-binary-names.patch |  7 +++---
+ ...ently-if-system-Qt-installation-is-broken.patch |  7 +++---
+ ...-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch |  9 ++++----
+ .../cmake/{cmake_3.12.2.bb => cmake_3.13.4.bb}     |  0
+ 8 files changed, 28 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.12.2.bb => cmake-native_3.13.4.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.12.2.bb => cmake_3.13.4.bb} (100%)
 
- meta/classes/image_types.bbclass       | 9 ++++-----
- meta/classes/package_ipk.bbclass       | 2 +-
- meta/classes/populate_sdk_base.bbclass | 2 +-
- meta/conf/bitbake.conf                 | 3 +++
- 4 files changed, 9 insertions(+), 7 deletions(-)
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.13.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.12.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.13.4.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 09e28b73dd..68a71e9139 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
+ 
+-SRC_URI[md5sum] = "6e7c550cfa1c2e216b35903dc70d80af"
+-SRC_URI[sha256sum] = "0f97485799e51a7070cc11494f3e02349b0fc3a24cc12b082e737bf67a0581a4"
++SRC_URI[md5sum] = "b5a544ffc73f6922a6cf371fcb6bae22"
++SRC_URI[sha256sum] = "fdd928fee35f472920071d1c7f1a6a2b72c9b25e04f7a37b409349aef3f20e9b"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+index f690720870..13234240bf 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+@@ -1,9 +1,8 @@
+-From 71085723f8028b3e1c4029fc1abe1243ac49ffc6 Mon Sep 17 00:00:00 2001
++From a072ad261b717b054c2deeb3eba1b206370e088e Mon Sep 17 00:00:00 2001
+ From: Cody P Schafer <dev@codyps.com>
+ Date: Thu, 27 Apr 2017 11:35:05 -0400
+ Subject: [PATCH 1/5] CMakeDetermineSystem: use oe environment vars to load
+  default toolchain file in sdk
+-Organization: O.S. Systems Software LTDA.
+ 
+ Passing the toolchain by:
+ 
+@@ -25,7 +24,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 7 insertions(+)
+ 
+ diff --git a/Modules/CMakeDetermineSystem.cmake b/Modules/CMakeDetermineSystem.cmake
+-index 600d5580e..32d7f1945 100644
++index 600d5580e1..32d7f19459 100644
+ --- a/Modules/CMakeDetermineSystem.cmake
+ +++ b/Modules/CMakeDetermineSystem.cmake
+ @@ -82,6 +82,13 @@ else()
+@@ -43,5 +42,5 @@ index 600d5580e..32d7f1945 100644
+  # in this case read the toolchain file and keep the CMAKE_HOST_SYSTEM_*
+  # variables around so they can be used in CMakeLists.txt.
+ -- 
+-2.18.0
++2.11.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+index 6f788ada00..aa21aa54a2 100644
+--- a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
++++ b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+@@ -1,8 +1,7 @@
+-From 7a1f4e724f9c68498f401244c2938e784a2e6fbd Mon Sep 17 00:00:00 2001
++From 1df23cf04e19be465cc25b0bc068fbccd4e92d5b Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Wed, 17 Jan 2018 10:02:14 -0200
+ Subject: [PATCH 2/5] cmake: Prevent the detection of Qt5
+-Organization: O.S. Systems Software LTDA.
+ 
+ CMake doesn't have dependency on qt4/qt5, so these tests usually fail
+ but still can cause undeterministic results or build failures (when
+@@ -23,7 +22,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  7 files changed, 8 insertions(+), 8 deletions(-)
+ 
+ diff --git a/Source/QtDialog/CMakeLists.txt b/Source/QtDialog/CMakeLists.txt
+-index 330b74729..e7709dee6 100644
++index 330b747290..e7709dee67 100644
+ --- a/Source/QtDialog/CMakeLists.txt
+ +++ b/Source/QtDialog/CMakeLists.txt
+ @@ -6,7 +6,7 @@ if(POLICY CMP0020)
+@@ -36,10 +35,10 @@ index 330b74729..e7709dee6 100644
+    include_directories(${Qt5Widgets_INCLUDE_DIRS})
+    add_definitions(${Qt5Widgets_DEFINITONS})
+ diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
+-index b8b724ed8..63f6bb6d2 100644
++index 0de6c416e5..6a37ffa02c 100644
+ --- a/Tests/CMakeLists.txt
+ +++ b/Tests/CMakeLists.txt
+-@@ -1322,7 +1322,7 @@ ${CMake_BINARY_DIR}/bin/cmake -DDIR=dev -P ${CMake_SOURCE_DIR}/Utilities/Release
++@@ -1297,7 +1297,7 @@ ${CMake_BINARY_DIR}/bin/cmake -DDIR=dev -P ${CMake_SOURCE_DIR}/Utilities/Release
+      set(CMake_TEST_Qt5 1)
+    endif()
+    if(CMake_TEST_Qt5)
+@@ -49,7 +48,7 @@ index b8b724ed8..63f6bb6d2 100644
+    if(CMake_TEST_Qt5 AND Qt5Widgets_FOUND)
+      add_subdirectory(Qt5Autogen)
+ diff --git a/Tests/Qt4And5Automoc/CMakeLists.txt b/Tests/Qt4And5Automoc/CMakeLists.txt
+-index ad74961d9..a9dd74b15 100644
++index ad74961d9f..a9dd74b151 100644
+ --- a/Tests/Qt4And5Automoc/CMakeLists.txt
+ +++ b/Tests/Qt4And5Automoc/CMakeLists.txt
+ @@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 2.8.12)
+@@ -67,20 +66,20 @@ index ad74961d9..a9dd74b15 100644
+  
+  set(CMAKE_AUTOMOC ON)
+ diff --git a/Tests/QtAutogen/AutogenTest.cmake b/Tests/QtAutogen/AutogenTest.cmake
+-index 8c0a14fca..e9923b21a 100644
++index 3969a89314..c5343f912c 100644
+ --- a/Tests/QtAutogen/AutogenTest.cmake
+ +++ b/Tests/QtAutogen/AutogenTest.cmake
+-@@ -22,7 +22,7 @@ if (QT_TEST_VERSION STREQUAL 4)
++@@ -22,7 +22,7 @@ if (QT_TEST_VERSION EQUAL 4)
+    endmacro()
+  
+- elseif(QT_TEST_VERSION STREQUAL 5)
++ elseif(QT_TEST_VERSION EQUAL 5)
+ -  find_package(Qt5Widgets REQUIRED)
+ +  #find_package(Qt5Widgets REQUIRED)
+  
+    set(QT_QTCORE_TARGET Qt5::Core)
+    set(QT_QTGUI_TARGET Qt5::Widgets)
+ diff --git a/Tests/QtAutogen/MacOsFW/CMakeLists.txt b/Tests/QtAutogen/MacOsFW/CMakeLists.txt
+-index 26d201926..e48e1c8de 100644
++index 26d2019265..e48e1c8de0 100644
+ --- a/Tests/QtAutogen/MacOsFW/CMakeLists.txt
+ +++ b/Tests/QtAutogen/MacOsFW/CMakeLists.txt
+ @@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
+@@ -93,10 +92,10 @@ index 26d201926..e48e1c8de 100644
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/bin)
+ diff --git a/Tests/RunCMake/CMakeLists.txt b/Tests/RunCMake/CMakeLists.txt
+-index 637c5c2cb..c0376effc 100644
++index 27413dde18..9f697c69b7 100644
+ --- a/Tests/RunCMake/CMakeLists.txt
+ +++ b/Tests/RunCMake/CMakeLists.txt
+-@@ -291,7 +291,7 @@ add_RunCMake_test(configure_file)
++@@ -310,7 +310,7 @@ add_RunCMake_test(configure_file)
+  add_RunCMake_test(CTestTimeoutAfterMatch)
+  
+  find_package(Qt4 QUIET)
+@@ -106,7 +105,7 @@ index 637c5c2cb..c0376effc 100644
+    add_RunCMake_test(IncompatibleQt)
+  endif()
+ diff --git a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
+-index 4fccdc418..b76e1e531 100644
++index 4fccdc418f..b76e1e5313 100644
+ --- a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
+ +++ b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
+ @@ -1,6 +1,6 @@
+@@ -118,5 +117,5 @@ index 4fccdc418..b76e1e531 100644
+  add_executable(mainexe main.cpp)
+  target_link_libraries(mainexe Qt4::QtCore Qt5::Core)
+ -- 
+-2.18.0
++2.11.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
+index 55cf47188a..b347d3b149 100644
+--- a/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
++++ b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
+@@ -1,8 +1,7 @@
+-From c783ceeef485c23e13c3d9f0418719cb0e0b86ee Mon Sep 17 00:00:00 2001
++From 9e6fca8d0791e44fc0e9ca660c8602455ac4d66a Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 12 May 2011 15:36:03 +0000
+ Subject: [PATCH 3/5] cmake: support OpenEmbedded Qt4 tool binary names
+-Organization: O.S. Systems Software LTDA.
+ 
+ The FindQt4 module looks for Qt4 binaries to be able to gather the
+ paths used for compilation and also to be using during other processes
+@@ -25,7 +24,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
+-index 847a798af..7ad981879 100644
++index 847a798af0..7ad9818793 100644
+ --- a/Modules/FindQt4.cmake
+ +++ b/Modules/FindQt4.cmake
+ @@ -517,7 +517,7 @@ endfunction()
+@@ -55,5 +54,5 @@ index 847a798af..7ad981879 100644
+    _find_qt4_program(QT_LINGUIST_EXECUTABLE Qt4::linguist linguist-qt4 linguist4 linguist)
+  
+ -- 
+-2.18.0
++2.11.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
+index a59c680454..258d068cf8 100644
+--- a/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
++++ b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
+@@ -1,8 +1,7 @@
+-From 9516fc4260f701c6d9db0c341bb36480362e1747 Mon Sep 17 00:00:00 2001
++From 30a9333861b68056114e2114b6b2f5f86a4de9be Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:26:48 -0300
+ Subject: [PATCH 4/5] Fail silently if system Qt installation is broken
+-Organization: O.S. Systems Software LTDA.
+ 
+ Fixes a regression in behaviour from 2.8.10 to 2.8.11 resulting in the
+ following error if the system Qt installation is broken:
+@@ -28,7 +27,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 20 insertions(+), 19 deletions(-)
+ 
+ diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
+-index 7ad981879..8b6f43cda 100644
++index 7ad9818793..8b6f43cdac 100644
+ --- a/Modules/FindQt4.cmake
+ +++ b/Modules/FindQt4.cmake
+ @@ -987,25 +987,26 @@ if (QT_QMAKE_EXECUTABLE AND
+@@ -78,5 +77,5 @@ index 7ad981879..8b6f43cda 100644
+    foreach(QT_MODULE ${QT_MODULES})
+      _QT4_ADJUST_LIB_VARS(${QT_MODULE})
+ -- 
+-2.18.0
++2.11.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index 23ce8e9e4a..024bbc2480 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,9 +1,8 @@
+-From 0df8d46d14c371f21c327966a553c4c187a8acfe Mon Sep 17 00:00:00 2001
++From d6ac35a6c43940105e134af4076475ffd2e730cb Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH 5/5] Disable use of ext2fs/ext2_fs.h by cmake's internal
+  libarchive copy
+-Organization: O.S. Systems Software LTDA.
+ 
+ We don't want to add a dependency on e2fsprogs-native for cmake-native,
+ and we don't use CPack so just disable this functionality.
+@@ -17,10 +16,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 2 insertions(+), 6 deletions(-)
+ 
+ diff --git a/Utilities/cmlibarchive/CMakeLists.txt b/Utilities/cmlibarchive/CMakeLists.txt
+-index 206f3c6a5..642fb0dd9 100644
++index d7af6e2b6b..51b4efffd3 100644
+ --- a/Utilities/cmlibarchive/CMakeLists.txt
+ +++ b/Utilities/cmlibarchive/CMakeLists.txt
+-@@ -400,12 +400,8 @@ LA_CHECK_INCLUDE_FILE("copyfile.h" HAVE_COPYFILE_H)
++@@ -430,12 +430,8 @@ LA_CHECK_INCLUDE_FILE("copyfile.h" HAVE_COPYFILE_H)
+  LA_CHECK_INCLUDE_FILE("direct.h" HAVE_DIRECT_H)
+  LA_CHECK_INCLUDE_FILE("dlfcn.h" HAVE_DLFCN_H)
+  LA_CHECK_INCLUDE_FILE("errno.h" HAVE_ERRNO_H)
+@@ -36,5 +35,5 @@ index 206f3c6a5..642fb0dd9 100644
+  LA_CHECK_INCLUDE_FILE("grp.h" HAVE_GRP_H)
+  LA_CHECK_INCLUDE_FILE("inttypes.h" HAVE_INTTYPES_H)
+ -- 
+-2.18.0
++2.11.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.12.2.bb b/meta/recipes-devtools/cmake/cmake_3.13.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.12.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.13.4.bb
+-- 
+2.11.0
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index ddca5b624e..f9890581b3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -56,7 +56,6 @@ def imagetypes_getdepends(d):
-
- XZ_COMPRESSION_LEVEL ?= "-3"
- XZ_INTEGRITY_CHECK ?= "crc32"
--XZ_THREADS ?= "-T 0"
-
- ZIP_COMPRESSION_LEVEL ?= "-9"
-
-@@ -152,12 +151,12 @@ UBI_VOLNAME ?= "${MACHINE}-rootfs"
- multiubi_mkfs() {
- 	local mkubifs_args="$1"
- 	local ubinize_args="$2"
--
-+
-         # Added prompt error message for ubi and ubifs image creation.
-         if [ -z "$mkubifs_args" ] || [ -z "$ubinize_args" ]; then
-             bbfatal "MKUBIFS_ARGS and UBINIZE_ARGS have to be set, see http://www.linux-mtd.infradead.org/faq/ubifs.html for details"
-         fi
--
-+
- 	if [ -z "$3" ]; then
- 		local vname=""
- 	else
-@@ -284,7 +283,7 @@ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha25
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "pigz -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
-+CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
- CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
- CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -319,7 +318,7 @@ CONVERSION_DEPENDS_base64 = "coreutils-native"
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-
--DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
-+DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
-
- # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
- # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 508b7dcaff..d1b317b42b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -8,7 +8,7 @@ IPKGCONF_SDK =  "${WORKDIR}/opkg-sdk.conf"
- PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
-
- # Program to be used to build opkg packages
--OPKGBUILDCMD ??= 'opkg-build -Z xz -a "--threads 0"'
-+OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
-
- OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
- OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 80fa443e4c..ebc30d39b3 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -226,7 +226,7 @@ fakeroot tar_sdk() {
- 	# Package it up
- 	mkdir -p ${SDKDEPLOYDIR}
- 	cd ${SDK_OUTPUT}/${SDKPATH}
--	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-+	tar ${SDKTAROPTS} -cf - . | xz ${XZ_DEFAULTS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
- }
-
- TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 21fd93e58d..6e063dc14d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -791,6 +791,9 @@ BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
- # Default to setting automatically based on cpu count
- PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
-
-+# Default parallelism and resource usage for xz
-+XZ_DEFAULTS ?= "--memlimit=50% --threads=${@oe.utils.cpu_count()}"
-+
- ##################################################################
- # Magic Cookie for SANITY CHECK
- ##################################################################
---
-2.20.1
 
