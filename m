@@ -1,47 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
-	[209.85.210.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FD6D6C198
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F7486BF3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 10:52:48 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id s5so3144258oth.7
+	Wed, 13 Feb 2019 13:25:55 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id f14so2510254wrg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 02:52:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Y+phrHLjNEgqUaTUh86XltFzNFqjmVnAeMrAdYRHpg8=;
-	b=S/4M1pzePRanxQS9RdjLxL15NPaR302ZObCOQ4IrAoZzwZaZUUvQiGRIlYLTyoy+8z
-	wLvXx08HBRQH1tOmkI75MBqKcUJCrrsMHqzJ6BtyqAoYY6plYAZ8f8jWtbFugavtqoMe
-	zjXCJnlCxIEnW8G7aeYVijaRsV283hgPAHnJ8cRfntcaQnu1lya3StsOuRnfjv6a7uwV
-	DWTbTk/l37Wj/UF/a4jxKoW4AaXl7qrYp+AGJILfvg3HdSTzrEcse/1XISsnLg+juSGy
-	4sGaXi4BqQz7VPbwpgom//ZiWUOofUpk09/dDkDiN0X63ziiJ6Xyj3wfUE8vhA18jwW+
-	AQxg==
+	Wed, 13 Feb 2019 05:25:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=pOpfGB2xon+bRCC6ZttciWQcp2nCBSQwquBayRPeq3Q=;
+	b=K/S6LNiTH8xKv9dqrd9jpeBl9tYizILZhtWF76/rMsZ8FwwetC3tatm9fPc8tz9ZBi
+	4g/3YtWEh3bROoz/yxb4JeOc9Gj7RACM/mFL02L09viYWZ+sWENKoxQYItuWwlEG3KjL
+	y4Zzs1n+IfiDyaAarlbY5gr0SWj0kNH3gfHTAc63+p4lJeLYJ86b1zIEvsI+XwG/zAwU
+	ZZz8tp/pyQ/NNuAC3hkD2YL1AUy/tzpDX34Tow7uYQdRdC8BTspH36BFALMih1L46ABx
+	WmQmo2kkwOA4rjTYrob+kNor6c47I8EMFNzeOhP62W/3AhtbRfkk118a85Jg1rjAghGr
+	zbSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Y+phrHLjNEgqUaTUh86XltFzNFqjmVnAeMrAdYRHpg8=;
-	b=D8du2lCsAPYTW+DKyc216ltLpBHUPoYRfjumNqAJfh9rqO09zxVhaeODWtkPeoQn38
-	1Xvp/b2AOHImA0NE7a3gfQIDfLgiwC1/8vKnIQGLLasP73ZJRnP4Z/7mOLGM1v+0Jolo
-	bXrgbg8C9iI+1wMA4ZCMA5f5dyIoVO+fEY/SNJQ09DyHIYs1u2oV5CI9gS6KIn1wrXmF
-	AdjnAzX7/P/d7/wR7SGdjCuK5lql8UuRQriZkvKfD2F5NW74PqqDarmb1lGqMdTDwPZW
-	/oVCIyxyANd765npuS+fGpFeuRsMsWjxDgtZJRoE8oJh4L8sNC1uHle0s1X1QYDdM/Xe
-	b6oQ==
-X-Gm-Message-State: AHQUAuYciN/UnXQi9V6LCh8klEIfCnfwOUDodrAoKW80UOLNjJD0p6Ku
-	aE9XPfw5vmotSwQrfOpznJDtdoTjaLOnnyrEuhA=
-X-Google-Smtp-Source: AHgI3IZD5GvWikMsTZv99s5z1429l6cNGMlDhJ/yaBbfBtHYQUIA8InrPuvNj7tD/8Vaa6W4qFJQfrVGkvId94OLOYs=
-X-Received: by 2002:a9d:7653:: with SMTP id o19mr7851937otl.12.1550055169160; 
-	Wed, 13 Feb 2019 02:52:49 -0800 (PST)
-MIME-Version: 1.0
-References: <CAHN4dxphUCH+QvMFStdoPe_6BJYUKpzfQy-iR8vEZMUJ+k41LA@mail.gmail.com>
-In-Reply-To: <CAHN4dxphUCH+QvMFStdoPe_6BJYUKpzfQy-iR8vEZMUJ+k41LA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 13 Feb 2019 11:52:34 +0100
-Message-ID: <CANNYZj9VonBDOVD0fyH7JcwdwUQxhAuyM1AcwRGEyLeeg74xBw@mail.gmail.com>
-To: =?UTF-8?Q?Jo=C3=A3o_Rasta?= <freakforever@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: gl support for qemuaarch64
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pOpfGB2xon+bRCC6ZttciWQcp2nCBSQwquBayRPeq3Q=;
+	b=BAEW1HGpvu3szzYoTARO7TIk0PnNFprMVsBS6pp9EGWSoEL1TEnXxG/gBC2JI0MOAZ
+	+aItYaYTsGG/0OdLTwHziS3xcrTFgA/d1xJMLzrTZpKRdRnssZJYYtSjK6DQPuxyekfe
+	gH+83PqN1oW3nWqprHhLigyyo7UZEZu22bf+r5VaOBdyWwDMZP+1ZIrKlIq1faf3o4TI
+	vtSaOgqkohlVj/yCOclWkVqp8jgB/iHJeepmBag9Efv0szCHkOzjkQey4xkrGQ908eit
+	tsQWgOTlQYyK0P8kpAGiHBUHXSuqM8UG3NtXlsWTk+hDNlba0LiHuGg+8ZHKC35AtIoi
+	Ivvg==
+X-Gm-Message-State: AHQUAuZc0J4XhnY0xcDSwYlBYBYzwSGg2Lxk8ZYElZ6LfwgwBPLedVVI
+	yzulkIcoSbvxwIc5rP/Tkg4/oYf2Cow=
+X-Google-Smtp-Source: AHgI3IYdQPl3woCMxqMxGGqN0f0isjbwBSNcQnxU7d3HUj1QGiSx+j4TogudfmeVOy5mu8fPg6o8yg==
+X-Received: by 2002:adf:ecc6:: with SMTP id s6mr435874wro.144.1550064356251;
+	Wed, 13 Feb 2019 05:25:56 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	l129sm4517400wml.42.2019.02.13.05.25.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Feb 2019 05:25:54 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Feb 2019 13:25:51 +0000
+Message-Id: <20190213132552.24550-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] utils: add -src to system package name blacklist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2019 10:52:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Feb 2019 13:25:56 -0000
 
-On Tue, 12 Feb 2019 at 18:54, Jo=C3=A3o Rasta <freakforever@gmail.com> wrot=
-e:
-> I was trying to build virgl-gtk branch for ARM qemu target, but I'm not c=
-ompletely sure if it's possible as it generally seems to require KVM.
->
-> qemu-system-aarch64 has the virtio-gpu-pci device, which i'd assume to su=
-pport GL forwarding to the host if compiled with libvirglrenderer. I've als=
-o been able to run a cross-compiled image reporting [drm] 3d Acceleration e=
-nabled. However, I was not able to start any graphics application on the gu=
-est.
->
-> Could someone pls clarify this?
+oe.utils.packages_filter_out_system() returns PACKAGES after removing "system"
+packages but it doesn't handle ${PN}-src as generated by
+PACKAGE_DEBUG_SPLIT_STYLE=debug-with-srcpkg.
 
-First, do you need specifically qemuarm64? qemux86_64 is significantly
-faster because it has kvm. I never tried arm or other emulation
-targets because of that, it's all tested with x86*.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The tests you need to do are:
-a) run 'dmesg | grep drm'. What do you see?
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 7b574ffd30d..0c1d48a209e 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -214,7 +214,7 @@ def packages_filter_out_system(d):
+     PN-dbg PN-doc PN-locale-eb-gb removed.
+     """
+     pn = d.getVar('PN')
+-    blacklist = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev')]
++    blacklist = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev', '-src')]
+     localepkg = pn + "-locale-"
+     pkgs = []
+ 
+-- 
+2.11.0
 
-b) add kmscube to your image and run that. There is a demo video I
-made so you can see how it works:
-https://www.youtube.com/watch?v=3D0YBuku3JESc&feature=3Dyoutu.be
-
-Alex
 
