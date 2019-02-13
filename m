@@ -1,49 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7486BF3E
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E7A36BF3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 13:25:55 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id f14so2510254wrg.1
+	Wed, 13 Feb 2019 13:25:57 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id x7so2439093wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 05:25:57 -0800 (PST)
+	Wed, 13 Feb 2019 05:25:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=pOpfGB2xon+bRCC6ZttciWQcp2nCBSQwquBayRPeq3Q=;
-	b=K/S6LNiTH8xKv9dqrd9jpeBl9tYizILZhtWF76/rMsZ8FwwetC3tatm9fPc8tz9ZBi
-	4g/3YtWEh3bROoz/yxb4JeOc9Gj7RACM/mFL02L09viYWZ+sWENKoxQYItuWwlEG3KjL
-	y4Zzs1n+IfiDyaAarlbY5gr0SWj0kNH3gfHTAc63+p4lJeLYJ86b1zIEvsI+XwG/zAwU
-	ZZz8tp/pyQ/NNuAC3hkD2YL1AUy/tzpDX34Tow7uYQdRdC8BTspH36BFALMih1L46ABx
-	WmQmo2kkwOA4rjTYrob+kNor6c47I8EMFNzeOhP62W/3AhtbRfkk118a85Jg1rjAghGr
-	zbSg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=/DYb2QSZLk6L1YD/pD1BkI7Qgox9oEZGd5lTmHfhxc4=;
+	b=pwEnMJ4VMY1IflJK8IrSmJD7Jjnj5g7kfqwF1N4F0TFuwAp3BIzMz7OZmlUzl4wd2J
+	Z3IHJDwKDf11jQVtrEemAQp84n2BPbRSZ8ZHfzNitCm/NdEQOyPWCRlhDEq1SGnTuU5C
+	eaEM0QxLntn24eR6fnXKtXDzttcXw58hAyaIoFjh2xrffX0FiPZ1qY39MJ9mh+k1eC6H
+	gyXTB9OEfbhU2HTAY9mgx3j9x88NffrTH42pQhgAGTBd6tL1dcYQkKjr0Dtgo3O1kwd8
+	23PC64gB6jTbYUAgk65gMN2aZYMvPXmTVySVFN3WdXmBT5+AjeicdyiwUnzb5kj/XZ/l
+	M1IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=pOpfGB2xon+bRCC6ZttciWQcp2nCBSQwquBayRPeq3Q=;
-	b=BAEW1HGpvu3szzYoTARO7TIk0PnNFprMVsBS6pp9EGWSoEL1TEnXxG/gBC2JI0MOAZ
-	+aItYaYTsGG/0OdLTwHziS3xcrTFgA/d1xJMLzrTZpKRdRnssZJYYtSjK6DQPuxyekfe
-	gH+83PqN1oW3nWqprHhLigyyo7UZEZu22bf+r5VaOBdyWwDMZP+1ZIrKlIq1faf3o4TI
-	vtSaOgqkohlVj/yCOclWkVqp8jgB/iHJeepmBag9Efv0szCHkOzjkQey4xkrGQ908eit
-	tsQWgOTlQYyK0P8kpAGiHBUHXSuqM8UG3NtXlsWTk+hDNlba0LiHuGg+8ZHKC35AtIoi
-	Ivvg==
-X-Gm-Message-State: AHQUAuZc0J4XhnY0xcDSwYlBYBYzwSGg2Lxk8ZYElZ6LfwgwBPLedVVI
-	yzulkIcoSbvxwIc5rP/Tkg4/oYf2Cow=
-X-Google-Smtp-Source: AHgI3IYdQPl3woCMxqMxGGqN0f0isjbwBSNcQnxU7d3HUj1QGiSx+j4TogudfmeVOy5mu8fPg6o8yg==
-X-Received: by 2002:adf:ecc6:: with SMTP id s6mr435874wro.144.1550064356251;
-	Wed, 13 Feb 2019 05:25:56 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=/DYb2QSZLk6L1YD/pD1BkI7Qgox9oEZGd5lTmHfhxc4=;
+	b=cp0ReD4LyFhatV1R8wmuVQp6MueucnVB6J0MmF2qggMO1iEg4FD5grOJrchz0x0zD8
+	ShoPEniOwvTJvSzfea8kCpsQz7nhu2kCe/lMqVFezFnkPXbtmqCm4SJVBOvSRJbV9FLF
+	TTI3A7w1Yk3nQWCUnJX1F8I3wWph/hWal/M402pLBuwkya7U4LbQ/GAHTEhj/Fd4pikb
+	fxvW+H3Vd66+EGykSKqlRxx+ov0p1sCL/McFDlLxSnKgbFI8CLnPTzVyUDOsx7m8u60a
+	d2R1GO4rpQ+MUHMt09fGzGkpttKzD5xrazKqCJMgUQK8SqfEd3X8A1kXAu7/VlyHpWNs
+	mAVA==
+X-Gm-Message-State: AHQUAubwFrtSnemOmsuxz0ipZnr5nNo3Q+lfd54nnFqQ/AxPTN1mkNsc
+	tBF9WdaiABNkSnj+R9nebVxmzUrOXi4=
+X-Google-Smtp-Source: AHgI3IYyTNJFdl/yJG2/uf9ud+16mJ5imNck6yv5sz+E5huf/3GCQIKgKepoemwIx0+GyWcJixzDmQ==
+X-Received: by 2002:a05:600c:2102:: with SMTP id
+	u2mr323459wml.152.1550064357406; 
+	Wed, 13 Feb 2019 05:25:57 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	l129sm4517400wml.42.2019.02.13.05.25.54
+	l129sm4517400wml.42.2019.02.13.05.25.56
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Feb 2019 05:25:54 -0800 (PST)
+	Wed, 13 Feb 2019 05:25:56 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Feb 2019 13:25:51 +0000
-Message-Id: <20190213132552.24550-1-ross.burton@intel.com>
+Date: Wed, 13 Feb 2019 13:25:52 +0000
+Message-Id: <20190213132552.24550-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/2] utils: add -src to system package name blacklist
+In-Reply-To: <20190213132552.24550-1-ross.burton@intel.com>
+References: <20190213132552.24550-1-ross.burton@intel.com>
+Subject: [PATCH 2/2] gstreamer: improve metadata dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +60,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2019 13:25:56 -0000
+X-List-Received-Date: Wed, 13 Feb 2019 13:25:57 -0000
 
-oe.utils.packages_filter_out_system() returns PACKAGES after removing "system"
-packages but it doesn't handle ${PN}-src as generated by
-PACKAGE_DEBUG_SPLIT_STYLE=debug-with-srcpkg.
+Instead of maintaining its own copy of the 'system' packages, reuse
+oe.utils.packages_filter_out_system().
+
+This stops ${PN}-src being added to the meta package, which meant anything
+depending on the meta package was also pulling in the sources.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/utils.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gst-plugins-package.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 7b574ffd30d..0c1d48a209e 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -214,7 +214,7 @@ def packages_filter_out_system(d):
-     PN-dbg PN-doc PN-locale-eb-gb removed.
-     """
-     pn = d.getVar('PN')
--    blacklist = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev')]
-+    blacklist = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev', '-src')]
-     localepkg = pn + "-locale-"
-     pkgs = []
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+index c995e29e09d..6781e98c319 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+@@ -15,17 +15,17 @@ python split_gstreamer10_packages () {
  
+ python set_metapkg_rdepends () {
+     import os
++    import oe.utils
+ 
+     pn = d.getVar('PN')
+     metapkg =  pn + '-meta'
+     d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+     d.setVar('FILES_' + metapkg, "")
+-    blacklist = [ pn, pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc', pn + '-meta' ]
++    blacklist = [ pn, pn + '-meta' ]
+     metapkg_rdepends = []
+-    packages = d.getVar('PACKAGES').split()
+     pkgdest = d.getVar('PKGDEST')
+-    for pkg in packages[1:]:
+-        if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-staticdev'):
++    for pkg in oe.utils.packages_filter_out_system(d):
++        if pkg not in blacklist and pkg not in metapkg_rdepends:
+             # See if the package is empty by looking at the contents of its PKGDEST subdirectory. 
+             # If this subdirectory is empty, then the package is.
+             # Empty packages do not get added to the meta package's RDEPENDS
 -- 
 2.11.0
 
