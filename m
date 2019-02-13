@@ -1,47 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 484B36C104
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C1A79D13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 16:54:35 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id j36so3343724qta.7
+	Wed, 13 Feb 2019 16:57:35 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id x131so6118161itc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 08:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 13 Feb 2019 08:57:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MMUIUWeOCeQ5xKrW8C5cvk3KNWhtaautewP3sImKTAI=;
-	b=hlVhh0Zoy3FORFsfMmdXlnCQIFScBoyL48reebfkIWOGHfDlU79yaFY2NH8GMXAup8
-	muXbSa67QtTtpxiF1Zn1IfBs6yFXW3NIg9fGq4MXAMVdEbqOMrkua37XHzFPU8tZWSa7
-	Xtqhvmkl5Btz4sl2ZudHxM1Z56v3zplwhKHKXDKUGtDl6lwG0xXkd1S0ihvNxG8+Zh29
-	xikCa/6nlrXn5jJTTbSlWzupUXSi6wT8okcXx4th6MPqEqixl6HwersES3Ugtcsi5/OM
-	vvuuKBbTuWRwkRXrKQkG8d5UcA+NrRa4VrDFP+hTCLoP21Vw2JuTK2VfxN3VKv7vde1B
-	VbIQ==
+	:cc; bh=cNSERrNlVEcsMamHBPA4yz7pKo3b8q/nKWOQ4LG9vCU=;
+	b=Up0rObFIjxBlVWaWRHRz3BJ7g6fGvMEpX4yIOrqI94CRqSSXrNjEZnq54EY5ITIzzd
+	QItbTx3wCeXRSHGoV5UBLgFPD2uCDhme05JOQaTQykVFaSePkrcL5gfHEMxrMAmlz6Sz
+	SuO9aJX4eYpBJvOEmO+6MStKGZ0aTT/pttxKFrIwXdKSnAYEqUcl6J/aPmEOjPFlybVZ
+	Nwa3C3wjMZzNBamB/MxKmDsOOsJN1hqOaeoN7BkDlCx2cRUkv7oWTciwwoUvjKCQddTs
+	I2c2k+6uzYAgj7muLRLVDarQ02W3c9ceSw1VFeicu9kKUartPzmNRmaC9e5Y88BC623h
+	m9yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=MMUIUWeOCeQ5xKrW8C5cvk3KNWhtaautewP3sImKTAI=;
-	b=nOkRdlrMsbQhRThS4CUBUJYK3pfxfc4bUUvi8Pg6vCU2FPfex+CQKikCV07upco4xe
-	OT2grg4kNvdplD78HzuXJKXJCFV+b6+AGhy/uaGOwvctXThyEqqXsDgUce/zuKaqNusj
-	w+v638yYXnGIWjyrAsz/bB/Q++W+eACHIOiqgLY0x0Exvi8n0ts5szE9v8cFj+EBFn7W
-	ipgtScoIij+RGooawv6nyidqURX0Jlf4tBz82mAW7q74Glr3TnPPMVRLzwfUFQlWzJDp
-	ytEZsDEht7c0kOG8HjTfjjicuu8HmKxCDar4eUy85FOKYulVRmVHEiOL/0RDUzB83aQl
-	PypQ==
-X-Gm-Message-State: AHQUAuZUe6l2cbwybPeBQYd//ADDoJ4iEnMpztd0ltasSCBxONuH/bVY
-	fG/eMBT+RIzVVkJkuIpHsrtRWIMe2iFKsdlYex8=
-X-Google-Smtp-Source: AHgI3IZoAjkUZ8gco5QGMSJQYrHCC2/KfXMnV6oDgCPzrG1eZQFEDGPn+6TEZuvDVnbM1JTheiGuBGdw92DtCUm1bVs=
-X-Received: by 2002:a0c:d80f:: with SMTP id h15mr1158771qvj.228.1550076875843; 
-	Wed, 13 Feb 2019 08:54:35 -0800 (PST)
+	bh=cNSERrNlVEcsMamHBPA4yz7pKo3b8q/nKWOQ4LG9vCU=;
+	b=e1HF0IrIW9BXCyYFIlvAXDAkKU5XTqN5LnqF86LTpizzsTj+hE4mA5kltseZNFTSMK
+	OunVuINVp/ggRFsDPANjHfeo+u4Ti5GCleqMw7s4gr00/PJARjZayaw5FJHgJTjip4nh
+	CDVO2tzbT/249vFFJEumw+fdAC+vD6G/VdrxcaYQkVRYOmZtyt/h0EA9pqCEoY8sa9q9
+	jpfMvPm+4sLANxQdO5JbSXX8Nu2KRRG8QWuC/fUTT6oxq/AEFo8JUdUfiB//tAxRkMhV
+	9EnbhRXZk62SQAIrC8qzOV6orDeoYAmfhz4GuZRvigdbJvaxfMBLKPy9UFutszSCrr4v
+	F4Gw==
+X-Gm-Message-State: AHQUAuZqkHhzDYt13kudJX/Z1gKCA8eN4fuAAGRIdbP1GVapyJb2sX3s
+	8VbfqVNaVAc7zs6cpzIzXoVCufpJJhVyuzIj5tsbnA==
+X-Google-Smtp-Source: AHgI3IavZ3QNSghAuFiLjfmCePmbg9mjbqEFWP7xdN3Q/WkIHKFxR6OOF+q4tIRSXo0DWOhiUkR67O90gRk4e6hMsnA=
+X-Received: by 2002:a02:cd11:: with SMTP id g17mr906998jaq.79.1550077056322;
+	Wed, 13 Feb 2019 08:57:36 -0800 (PST)
 MIME-Version: 1.0
 References: <20190210181543.CB202686B78@ypperf-ubuntu16-xeon.fi.intel.com>
 	<CAJTo0LafFjGDpm85gkY-Vqup2amBMume_pUDBgbNz4RmQBiztw@mail.gmail.com>
 	<CAMKF1soi+sJhdizdR20cb9yBTv18QNyZL2ZbX+mkfv=+h6M+Ug@mail.gmail.com>
 	<CAJTo0LagmyKNHaWBcvAc6q85BSN5xjqNB5pZNm-yT=Wc-BzMjg@mail.gmail.com>
-In-Reply-To: <CAJTo0LagmyKNHaWBcvAc6q85BSN5xjqNB5pZNm-yT=Wc-BzMjg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Feb 2019 08:54:09 -0800
-Message-ID: <CAMKF1srMOrWAbM79E5jKq_NRmA_wUs_2JL49Y3BoSkgWoPzsJQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAMKF1srMOrWAbM79E5jKq_NRmA_wUs_2JL49Y3BoSkgWoPzsJQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srMOrWAbM79E5jKq_NRmA_wUs_2JL49Y3BoSkgWoPzsJQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Feb 2019 16:57:22 +0000
+Message-ID: <CAJTo0LYeknuAneEqnpf_nfNRrz-R4QAsoaDwzLc4Shwa1090LA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [yocto-perf] Build Perf Test Report for Ubuntu 16.04.3 LTS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,292 +58,308 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2019 16:54:35 -0000
-X-Groupsio-MsgNum: 121098
-Content-Type: multipart/related; boundary="00000000000090c0620581c9651a"
+X-List-Received-Date: Wed, 13 Feb 2019 16:57:35 -0000
+X-Groupsio-MsgNum: 121099
+Content-Type: multipart/related; boundary="00000000000051b37c0581c970ce"
 
---00000000000090c0620581c9651a
-Content-Type: multipart/alternative; boundary="00000000000090c0600581c96519"
+--00000000000051b37c0581c970ce
+Content-Type: multipart/alternative; boundary="00000000000051b37a0581c970cd"
 
---00000000000090c0600581c96519
+--00000000000051b37a0581c970cd
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 13, 2019 at 8:52 AM Burton, Ross <ross.burton@intel.com> wrote:
+There used to be a wiki that was updated but I'm not sure they are
+anymore.  Something to sort out I guess.
 
-> The mails go to the yocto-perf list, so anyone interested can subscribe.
->
-
-ah thanks, is it accessible on yp website too ? just like errors.yp.org ?
-
-
+On Wed, 13 Feb 2019 at 16:55, Khem Raj <raj.khem@gmail.com> wrote:
 
 >
-> On Wed, 13 Feb 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
 >
->> this is really useful information, maybe a weekly such email from
->> autobuilder would be helpful
->> in catching issues early. Secondly, how can one access this information =
-(
->> links ?)
+> On Wed, Feb 13, 2019 at 8:52 AM Burton, Ross <ross.burton@intel.com>
+> wrote:
+>
+>> The mails go to the yocto-perf list, so anyone interested can subscribe.
 >>
->> On Wed, Feb 13, 2019 at 5:43 AM Burton, Ross <ross.burton@intel.com>
->> wrote:
+>
+> ah thanks, is it accessible on yp website too ? just like errors.yp.org ?
+>
+>
+>
 >>
->>> This is why we have build performance machines running constantly.  I
->>> looked at the logs for the first time in a week and noticed a huge step=
- in
->>> rootfs size.  Trivial enough to get the oe-core SHAs around the step, b=
-uild
->>> those and get the buildhistory, and voila.  The debug split change mean=
-t
->>> that gstreamer-plugins-*-meta was depending on gstreamer-plugins-*-src,=
- so
->>> pulling in the source code into the images.
+>> On Wed, 13 Feb 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>> this is really useful information, maybe a weekly such email from
+>>> autobuilder would be helpful
+>>> in catching issues early. Secondly, how can one access this information
+>>> ( links ?)
 >>>
->>> Patches on the list.
->>>
->>> Ross
->>>
->>> On Sun, 10 Feb 2019 at 18:15, Ubuntu16 Tester <no-reply@yoctoproject.or=
-g>
+>>> On Wed, Feb 13, 2019 at 5:43 AM Burton, Ross <ross.burton@intel.com>
 >>> wrote:
 >>>
->>>> General
->>>> ------------------------------
->>>> Current commit Comparing with
->>>> Hostname ypperf-ubuntu16-xeon ypperf-ubuntu16-xeon
->>>> Branch master master
->>>> Commit number 53218 53211
->>>> Commit c4f1276721a
->>>> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?id=3Dc4f1276721a6=
-e2ea5c4b5e536711072e037a2d7b>
->>>> 29099c8a49b
->>>> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?id=3D29099c8a49bf=
-9d35514bbc1e77657655598a80cc>
->>>> Number of test runs 7 2 Test result summary
->>>> ------------------------------
->>>> test1: Build core-image-sato build time 41:42.4 +10.6 s +0.4 %
->>>> tmpdir size 34.66 GiB +3.08 MiB +0.0 %
->>>> rootfs size 278.52 MiB +80.0 kiB +0.0 %
->>>> test12: Build virtual/kernel build time 4:54.3 +2.0 s +0.7 %
->>>> test13: Build core-image-sato with rm_work enabled build time 43:26.3 =
-+3.2
->>>> s +0.1 %
->>>> tmpdir size 6.60 GiB -420.0 kiB -0.0 %
->>>> test2: Run core-image-sato do_rootfs with sstate do_rootfs time 2:32.8=
- +2.1
->>>> s +1.4 %
->>>> test3: Bitbake parsing (bitbake -p) parse_1 time 9.8 s +0.05 s +0.5 %
->>>> parse_2 time 6.7 s -0.07 s -1.1 %
->>>> parse_3 time 2.7 s +0.14 s +5.6 %
->>>> test4: eSDK metrics installer_bin size 1.29 GiB +405.0 kiB +0.0 %
->>>> deploy time 2:13.1 +2.6 s +2.0 %
->>>> deploy_dir size 4.24 GiB +272.6 kiB +0.0 % test1: Build core-image-sat=
-o
->>>> ------------------------------
->>>> build time
->>>> 41:42.4 +10.6 s (+0.4 %)
->>>> Test runs 7
->>>> -/+ -19.2 s / +30.1 s
->>>> Min 41:23.2
->>>> Max 42:12.5
->>>> Stdev 16.6 s
->>>> Task resource usage
->>>> Number of tasks Top consumers of cputime
->>>> 5487 (+0)
->>>> qemu-native.do_compile 2582 s
->>>> linux-yocto.do_compile 2218 s
->>>> linux-yocto.do_compile_kernelmodules 1964 s
->>>> gcc-cross-i586.do_compile 1621 s
->>>> mesa.do_compile 1582 s
->>>> Biggest increase in cputime Biggest decrease in cputime
->>>> qemu-native.do_compile +17 s
->>>> perl.do_compile +13 s
->>>> glibc-locale.do_package +11 s
->>>> coreutils.do_compile +9 s
->>>> sudo.do_compile +8 s
->>>> linux-yocto.do_compile -29 s
->>>> gcc-runtime.do_compile -26 s
->>>> linux-yocto.do_compile_kernelmodules -19 s
->>>> gcc-cross-i586.do_compile -15 s
->>>> python3.do_package -9 s
->>>> Recipe version changes
->>>> Version changed
->>>> wayland-protocols 1.16 =E2=86=92 1.17
->>>> wpa-supplicant 2.6 =E2=86=92 2.7
->>>> tmpdir size
->>>> 34.66 GiB +3.08 MiB (+0.0 %)
->>>> Test runs 7
->>>> -/+ -2.89 MiB / +6.96 MiB
->>>> Min 34.66 GiB
->>>> Max 34.67 GiB
->>>> Stdev 3.65 MiB
->>>> rootfs size
->>>> 278.52 MiB +80.0 kiB (+0.0 %)
->>>> Test runs 7
->>>> -/+ -4.0 kiB / +4.0 kiB
->>>> Min 278.51 MiB
->>>> Max 278.52 MiB
->>>> Stdev 4.0 kiB
->>>> test12: Build virtual/kernel
->>>> ------------------------------
->>>> build time
->>>> 4:54.3 +2.0 s (+0.7 %)
->>>> Test runs 7
->>>> -/+ -4.3 s / +3.6 s
->>>> Min 4:50.0
->>>> Max 4:57.9
->>>> Stdev 2.8 s
->>>> test13: Build core-image-sato with rm_work enabled
->>>> ------------------------------
->>>> build time
->>>> 43:26.3 +3.2 s (+0.1 %)
->>>> Test runs 7
->>>> -/+ -18.2 s / +12.3 s
->>>> Min 43:08.1
->>>> Max 43:38.6
->>>> Stdev 10.4 s
->>>> Task resource usage
->>>> Number of tasks Top consumers of cputime
->>>> 5955 (+0)
->>>> qemu-native.do_compile 2567 s
->>>> linux-yocto.do_compile 2194 s
->>>> linux-yocto.do_compile_kernelmodules 1961 s
->>>> gcc-cross-i586.do_compile 1636 s
->>>> mesa.do_compile 1574 s
->>>> Biggest increase in cputime Biggest decrease in cputime
->>>> binutils.do_compile +23 s
->>>> openssl.do_package_write_rpm +12 s
->>>> qemu-native.do_compile +12 s
->>>> glibc.do_compile +11 s
->>>> gtk+3-native.do_compile +11 s
->>>> perl.do_compile -16 s
->>>> linux-yocto.do_compile -15 s
->>>> glibc-locale.do_package -15 s
->>>> mesa.do_compile -11 s
->>>> binutils-cross-i586.do_compile -10 s
->>>> Recipe version changes
->>>> Version changed
->>>> wayland-protocols 1.16 =E2=86=92 1.17
->>>> wpa-supplicant 2.6 =E2=86=92 2.7
->>>> tmpdir size
->>>> 6.60 GiB -420.0 kiB (-0.0 %)
->>>> Test runs 7
->>>> -/+ -1.16 MiB / +688.0 kiB
->>>> Min 6.60 GiB
->>>> Max 6.60 GiB
->>>> Stdev 667.7 kiB
->>>> test2: Run core-image-sato do_rootfs with sstate
->>>> ------------------------------
->>>> do_rootfs time
->>>> 2:32.8 +2.1 s (+1.4 %)
->>>> Test runs 7
->>>> -/+ -4.0 s / +3.2 s
->>>> Min 2:28.9
->>>> Max 2:36.0
->>>> Stdev 2.6 s
->>>> test3: Bitbake parsing (bitbake -p)
->>>> ------------------------------
->>>> parse_1 time
->>>> 9.8 s +0.05 s (+0.5 %)
->>>> Test runs 7
->>>> -/+ -0.14 s / +0.25 s
->>>> Min 9.6 s
->>>> Max 10.0 s
->>>> Stdev 0.16 s
->>>> parse_2 time
->>>> 6.7 s -0.07 s (-1.1 %)
->>>> Test runs 7
->>>> -/+ -0.18 s / +0.32 s
->>>> Min 6.6 s
->>>> Max 7.1 s
->>>> Stdev 0.17 s
->>>> parse_3 time
->>>> 2.7 s +0.14 s (+5.6 %)
->>>> Test runs 7
->>>> -/+ -0.17 s / +0.56 s
->>>> Min 2.5 s
->>>> Max 3.2 s
->>>> Stdev 0.25 s
->>>> test4: eSDK metrics
->>>> ------------------------------
->>>> installer_bin size
->>>> 1.29 GiB +405.0 kiB (+0.0 %)
->>>> Test runs 7
->>>> -/+ -370.0 kiB / +225.0 kiB
->>>> Min 1.29 GiB
->>>> Max 1.29 GiB
->>>> Stdev 191.8 kiB
->>>> deploy time
->>>> 2:13.1 +2.6 s (+2.0 %)
->>>> Test runs 7
->>>> -/+ -5.1 s / +6.3 s
->>>> Min 2:08.0
->>>> Max 2:19.5
->>>> Stdev 4.1 s
->>>> deploy_dir size
->>>> 4.24 GiB +272.6 kiB (+0.0 %)
->>>> Test runs 7
->>>> -/+ -511.6 kiB / +314.4 kiB
->>>> Min 4.24 GiB
->>>> Max 4.24 GiB
->>>> Stdev 305.6 kiB
->>>> _______________________________________________
->>>> yocto-perf mailing list
->>>> yocto-perf@yoctoproject.org
->>>> https://lists.yoctoproject.org/listinfo/yocto-perf
+>>>> This is why we have build performance machines running constantly.  I
+>>>> looked at the logs for the first time in a week and noticed a huge ste=
+p in
+>>>> rootfs size.  Trivial enough to get the oe-core SHAs around the step, =
+build
+>>>> those and get the buildhistory, and voila.  The debug split change mea=
+nt
+>>>> that gstreamer-plugins-*-meta was depending on gstreamer-plugins-*-src=
+, so
+>>>> pulling in the source code into the images.
 >>>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>> Patches on the list.
+>>>>
+>>>> Ross
+>>>>
+>>>> On Sun, 10 Feb 2019 at 18:15, Ubuntu16 Tester <
+>>>> no-reply@yoctoproject.org> wrote:
+>>>>
+>>>>> General
+>>>>> ------------------------------
+>>>>> Current commit Comparing with
+>>>>> Hostname ypperf-ubuntu16-xeon ypperf-ubuntu16-xeon
+>>>>> Branch master master
+>>>>> Commit number 53218 53211
+>>>>> Commit c4f1276721a
+>>>>> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?id=3Dc4f1276721a=
+6e2ea5c4b5e536711072e037a2d7b>
+>>>>> 29099c8a49b
+>>>>> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?id=3D29099c8a49b=
+f9d35514bbc1e77657655598a80cc>
+>>>>> Number of test runs 7 2 Test result summary
+>>>>> ------------------------------
+>>>>> test1: Build core-image-sato build time 41:42.4 +10.6 s +0.4 %
+>>>>> tmpdir size 34.66 GiB +3.08 MiB +0.0 %
+>>>>> rootfs size 278.52 MiB +80.0 kiB +0.0 %
+>>>>> test12: Build virtual/kernel build time 4:54.3 +2.0 s +0.7 %
+>>>>> test13: Build core-image-sato with rm_work enabled build time 43:26.3=
+ +3.2
+>>>>> s +0.1 %
+>>>>> tmpdir size 6.60 GiB -420.0 kiB -0.0 %
+>>>>> test2: Run core-image-sato do_rootfs with sstate do_rootfs time 2:32.=
+8 +2.1
+>>>>> s +1.4 %
+>>>>> test3: Bitbake parsing (bitbake -p) parse_1 time 9.8 s +0.05 s +0.5 %
+>>>>> parse_2 time 6.7 s -0.07 s -1.1 %
+>>>>> parse_3 time 2.7 s +0.14 s +5.6 %
+>>>>> test4: eSDK metrics installer_bin size 1.29 GiB +405.0 kiB +0.0 %
+>>>>> deploy time 2:13.1 +2.6 s +2.0 %
+>>>>> deploy_dir size 4.24 GiB +272.6 kiB +0.0 % test1: Build
+>>>>> core-image-sato
+>>>>> ------------------------------
+>>>>> build time
+>>>>> 41:42.4 +10.6 s (+0.4 %)
+>>>>> Test runs 7
+>>>>> -/+ -19.2 s / +30.1 s
+>>>>> Min 41:23.2
+>>>>> Max 42:12.5
+>>>>> Stdev 16.6 s
+>>>>> Task resource usage
+>>>>> Number of tasks Top consumers of cputime
+>>>>> 5487 (+0)
+>>>>> qemu-native.do_compile 2582 s
+>>>>> linux-yocto.do_compile 2218 s
+>>>>> linux-yocto.do_compile_kernelmodules 1964 s
+>>>>> gcc-cross-i586.do_compile 1621 s
+>>>>> mesa.do_compile 1582 s
+>>>>> Biggest increase in cputime Biggest decrease in cputime
+>>>>> qemu-native.do_compile +17 s
+>>>>> perl.do_compile +13 s
+>>>>> glibc-locale.do_package +11 s
+>>>>> coreutils.do_compile +9 s
+>>>>> sudo.do_compile +8 s
+>>>>> linux-yocto.do_compile -29 s
+>>>>> gcc-runtime.do_compile -26 s
+>>>>> linux-yocto.do_compile_kernelmodules -19 s
+>>>>> gcc-cross-i586.do_compile -15 s
+>>>>> python3.do_package -9 s
+>>>>> Recipe version changes
+>>>>> Version changed
+>>>>> wayland-protocols 1.16 =E2=86=92 1.17
+>>>>> wpa-supplicant 2.6 =E2=86=92 2.7
+>>>>> tmpdir size
+>>>>> 34.66 GiB +3.08 MiB (+0.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -2.89 MiB / +6.96 MiB
+>>>>> Min 34.66 GiB
+>>>>> Max 34.67 GiB
+>>>>> Stdev 3.65 MiB
+>>>>> rootfs size
+>>>>> 278.52 MiB +80.0 kiB (+0.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -4.0 kiB / +4.0 kiB
+>>>>> Min 278.51 MiB
+>>>>> Max 278.52 MiB
+>>>>> Stdev 4.0 kiB
+>>>>> test12: Build virtual/kernel
+>>>>> ------------------------------
+>>>>> build time
+>>>>> 4:54.3 +2.0 s (+0.7 %)
+>>>>> Test runs 7
+>>>>> -/+ -4.3 s / +3.6 s
+>>>>> Min 4:50.0
+>>>>> Max 4:57.9
+>>>>> Stdev 2.8 s
+>>>>> test13: Build core-image-sato with rm_work enabled
+>>>>> ------------------------------
+>>>>> build time
+>>>>> 43:26.3 +3.2 s (+0.1 %)
+>>>>> Test runs 7
+>>>>> -/+ -18.2 s / +12.3 s
+>>>>> Min 43:08.1
+>>>>> Max 43:38.6
+>>>>> Stdev 10.4 s
+>>>>> Task resource usage
+>>>>> Number of tasks Top consumers of cputime
+>>>>> 5955 (+0)
+>>>>> qemu-native.do_compile 2567 s
+>>>>> linux-yocto.do_compile 2194 s
+>>>>> linux-yocto.do_compile_kernelmodules 1961 s
+>>>>> gcc-cross-i586.do_compile 1636 s
+>>>>> mesa.do_compile 1574 s
+>>>>> Biggest increase in cputime Biggest decrease in cputime
+>>>>> binutils.do_compile +23 s
+>>>>> openssl.do_package_write_rpm +12 s
+>>>>> qemu-native.do_compile +12 s
+>>>>> glibc.do_compile +11 s
+>>>>> gtk+3-native.do_compile +11 s
+>>>>> perl.do_compile -16 s
+>>>>> linux-yocto.do_compile -15 s
+>>>>> glibc-locale.do_package -15 s
+>>>>> mesa.do_compile -11 s
+>>>>> binutils-cross-i586.do_compile -10 s
+>>>>> Recipe version changes
+>>>>> Version changed
+>>>>> wayland-protocols 1.16 =E2=86=92 1.17
+>>>>> wpa-supplicant 2.6 =E2=86=92 2.7
+>>>>> tmpdir size
+>>>>> 6.60 GiB -420.0 kiB (-0.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -1.16 MiB / +688.0 kiB
+>>>>> Min 6.60 GiB
+>>>>> Max 6.60 GiB
+>>>>> Stdev 667.7 kiB
+>>>>> test2: Run core-image-sato do_rootfs with sstate
+>>>>> ------------------------------
+>>>>> do_rootfs time
+>>>>> 2:32.8 +2.1 s (+1.4 %)
+>>>>> Test runs 7
+>>>>> -/+ -4.0 s / +3.2 s
+>>>>> Min 2:28.9
+>>>>> Max 2:36.0
+>>>>> Stdev 2.6 s
+>>>>> test3: Bitbake parsing (bitbake -p)
+>>>>> ------------------------------
+>>>>> parse_1 time
+>>>>> 9.8 s +0.05 s (+0.5 %)
+>>>>> Test runs 7
+>>>>> -/+ -0.14 s / +0.25 s
+>>>>> Min 9.6 s
+>>>>> Max 10.0 s
+>>>>> Stdev 0.16 s
+>>>>> parse_2 time
+>>>>> 6.7 s -0.07 s (-1.1 %)
+>>>>> Test runs 7
+>>>>> -/+ -0.18 s / +0.32 s
+>>>>> Min 6.6 s
+>>>>> Max 7.1 s
+>>>>> Stdev 0.17 s
+>>>>> parse_3 time
+>>>>> 2.7 s +0.14 s (+5.6 %)
+>>>>> Test runs 7
+>>>>> -/+ -0.17 s / +0.56 s
+>>>>> Min 2.5 s
+>>>>> Max 3.2 s
+>>>>> Stdev 0.25 s
+>>>>> test4: eSDK metrics
+>>>>> ------------------------------
+>>>>> installer_bin size
+>>>>> 1.29 GiB +405.0 kiB (+0.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -370.0 kiB / +225.0 kiB
+>>>>> Min 1.29 GiB
+>>>>> Max 1.29 GiB
+>>>>> Stdev 191.8 kiB
+>>>>> deploy time
+>>>>> 2:13.1 +2.6 s (+2.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -5.1 s / +6.3 s
+>>>>> Min 2:08.0
+>>>>> Max 2:19.5
+>>>>> Stdev 4.1 s
+>>>>> deploy_dir size
+>>>>> 4.24 GiB +272.6 kiB (+0.0 %)
+>>>>> Test runs 7
+>>>>> -/+ -511.6 kiB / +314.4 kiB
+>>>>> Min 4.24 GiB
+>>>>> Max 4.24 GiB
+>>>>> Stdev 305.6 kiB
+>>>>> _______________________________________________
+>>>>> yocto-perf mailing list
+>>>>> yocto-perf@yoctoproject.org
+>>>>> https://lists.yoctoproject.org/listinfo/yocto-perf
+>>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>
 >>>
->>
 
---00000000000090c0600581c96519
+--00000000000051b37a0581c970cd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:monospace,monospace"><br></div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 13, 2019 at 8:52 AM Bur=
-ton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><div dir=3D"ltr">The mails go to the yocto-perf list, so anyone interested=
- can subscribe.</div></blockquote><div><br></div><div><div class=3D"gmail_d=
-efault" style=3D"font-family:monospace,monospace">ah thanks, is it accessib=
-le on yp website too ? just like <a href=3D"http://errors.yp.org">errors.yp=
-.org</a> ?</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Wed, 13 Feb 2019 at 16:51, Khem Raj &lt;<a href=3D"mailto:ra=
-j.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div=
- style=3D"font-family:monospace,monospace">this is really useful informatio=
-n, maybe a weekly such email from autobuilder would be helpful</div><div st=
-yle=3D"font-family:monospace,monospace">in catching issues early. Secondly,=
- how can one access this information ( links ?)</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 13, 2019=
- at 5:43 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com" targe=
-t=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><div dir=3D"ltr">This is why we have buil=
-d performance machines running constantly.=C2=A0 I looked at the logs for t=
-he first time in a week and noticed a huge step in rootfs size.=C2=A0 Trivi=
-al enough to get the oe-core SHAs around the step, build those and get the =
-buildhistory, and voila.=C2=A0 The debug split change meant that gstreamer-=
-plugins-*-meta was depending on gstreamer-plugins-*-src, so pulling in the =
-source code into the images.<div><br></div><div>Patches on the list.</div><=
-div><br></div><div>Ross</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Sun, 10 Feb 2019 at 18:15, Ubuntu16 Tester=
- &lt;<a href=3D"mailto:no-reply@yoctoproject.org" target=3D"_blank">no-repl=
-y@yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><u></u>
+<div dir=3D"ltr">There used to be a wiki that was updated but I&#39;m not s=
+ure they are anymore.=C2=A0 Something to sort out I guess.</div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 13 Feb 20=
+19 at 16:55, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;bord=
+er-left-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
+=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospace,monosp=
+ace"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Feb 13, 2019 at 8:52 AM Burton, Ross &lt;<a href=3D=
+"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-colo=
+r:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">The mails go to the y=
+octo-perf list, so anyone interested can subscribe.</div></blockquote><div>=
+<br></div><div><div class=3D"gmail_default" style=3D"font-family:monospace,=
+monospace">ah thanks, is it accessible on yp website too ? just like <a hre=
+f=3D"http://errors.yp.org" target=3D"_blank">errors.yp.org</a> ?</div><br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
+lor:rgb(204,204,204);padding-left:1ex"><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Wed, 13 Feb 2019 at 16:51, Khem Raj &lt=
+;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left=
+-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div style=3D"fo=
+nt-family:monospace,monospace">this is really useful information, maybe a w=
+eekly such email from autobuilder would be helpful</div><div style=3D"font-=
+family:monospace,monospace">in catching issues early. Secondly, how can one=
+ access this information ( links ?)</div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 13, 2019 at 5:43 AM Bu=
+rton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">r=
+oss.burton@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-sty=
+le:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr">This is why we have build performance machines running constantly.=C2=
+=A0 I looked at the logs for the first time in a week and noticed a huge st=
+ep in rootfs size.=C2=A0 Trivial enough to get the oe-core SHAs around the =
+step, build those and get the buildhistory, and voila.=C2=A0 The debug spli=
+t change meant that gstreamer-plugins-*-meta was depending on gstreamer-plu=
+gins-*-src, so pulling in the source code into the images.<div><br></div><d=
+iv>Patches on the list.</div><div><br></div><div>Ross</div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 10 Feb 2=
+019 at 18:15, Ubuntu16 Tester &lt;<a href=3D"mailto:no-reply@yoctoproject.o=
+rg" target=3D"_blank">no-reply@yoctoproject.org</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padd=
+ing-left:1ex"><u></u>
 
 
 
@@ -355,9 +373,9 @@ padding-left:1ex"><u></u>
  =20
   <h2>General</h2>
   <hr>
-  <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046281722005935gm=
-ail-m_-8285245864459497720gmail-m_6977441312099282814meta-table" style=3D"w=
-idth:100%">
+  <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309042971080230gm=
+ail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774413120992=
+82814meta-table" style=3D"width:100%">
     <tbody><tr>
       <th></th>
       <th>Current commit</th>
@@ -413,9 +431,9 @@ b</a></td>
  =20
   <h2>Test result summary</h2>
   <hr>
-  <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046281722005935gm=
-ail-m_-8285245864459497720gmail-m_6977441312099282814summary" style=3D"widt=
-h:100%">
+  <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309042971080230gm=
+ail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774413120992=
+82814summary" style=3D"width:100%">
    =20
      =20
        =20
@@ -660,8 +678,9 @@ h:100%">
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>build time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">41:42.4</span>
@@ -680,10 +699,11 @@ h:100%">
 <img src=3D"cid:168e716df60c204bfcc9">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -705,9 +725,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
          =20
             Task resource usage
-            <table class=3D"gmail-m_-3885309042971080230gmail-m_62830462817=
-22005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details" sty=
-le=3D"width:100%">
+            <table class=3D"gmail-m_1393518312232067089gmail-m_-38853090429=
+71080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977=
+441312099282814details" style=3D"width:100%">
               <tbody><tr>
                 <th>Number of tasks</th>
                 <th>Top consumers of cputime</th>
@@ -716,10 +736,11 @@ le=3D"width:100%">
                 <td style=3D"vertical-align:top">5487 (+0)</td>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>qemu-native.do_compile</th>
@@ -756,10 +777,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
               <tr>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>qemu-native.do_compile</th>
@@ -790,10 +812,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
                 </td>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>linux-yocto.do_compile</th>
@@ -828,8 +851,9 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
            =20
            =20
               <div style=3D"margin-top:16px">Recipe version changes</div>
-              <table class=3D"gmail-m_-3885309042971080230gmail-m_628304628=
-1722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details">
+              <table class=3D"gmail-m_1393518312232067089gmail-m_-388530904=
+2971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69=
+77441312099282814details">
                =20
                   <tbody><tr>
                     <th colspan=3D"2">Version changed</th>
@@ -851,8 +875,9 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>tmpdir size</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">34.66 GiB</span>
@@ -871,10 +896,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
 <img src=3D"cid:168e716df60c204bfccc">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -897,8 +923,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>rootfs size</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">278.52 MiB</span>
@@ -917,10 +944,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc2">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -950,8 +978,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>build time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">4:54.3</span>
@@ -970,10 +999,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfccd">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1003,8 +1033,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>build time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">43:26.3</span>
@@ -1023,10 +1054,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcca">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1048,9 +1080,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
          =20
             Task resource usage
-            <table class=3D"gmail-m_-3885309042971080230gmail-m_62830462817=
-22005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details" sty=
-le=3D"width:100%">
+            <table class=3D"gmail-m_1393518312232067089gmail-m_-38853090429=
+71080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977=
+441312099282814details" style=3D"width:100%">
               <tbody><tr>
                 <th>Number of tasks</th>
                 <th>Top consumers of cputime</th>
@@ -1059,10 +1091,11 @@ le=3D"width:100%">
                 <td style=3D"vertical-align:top">5955 (+0)</td>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>qemu-native.do_compile</th>
@@ -1099,10 +1132,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
               <tr>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>binutils.do_compile</th>
@@ -1133,10 +1167,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
                 </td>
                =20
                 <td>
-                  <table class=3D"gmail-m_-3885309042971080230gmail-m_62830=
-46281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814detail=
-s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
-4459497720gmail-m_6977441312099282814plain">
+                  <table class=3D"gmail-m_1393518312232067089gmail-m_-38853=
+09042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-=
+m_6977441312099282814details gmail-m_1393518312232067089gmail-m_-3885309042=
+971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_697=
+7441312099282814plain">
                    =20
                     <tbody><tr>
                       <th>perl.do_compile</th>
@@ -1171,8 +1206,9 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
            =20
            =20
               <div style=3D"margin-top:16px">Recipe version changes</div>
-              <table class=3D"gmail-m_-3885309042971080230gmail-m_628304628=
-1722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details">
+              <table class=3D"gmail-m_1393518312232067089gmail-m_-388530904=
+2971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69=
+77441312099282814details">
                =20
                   <tbody><tr>
                     <th colspan=3D"2">Version changed</th>
@@ -1194,8 +1230,9 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>tmpdir size</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">6.60 GiB</span>
@@ -1214,10 +1251,11 @@ s gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-828524586=
 <img src=3D"cid:168e716df60c204bfcc5">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1247,8 +1285,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>do_rootfs time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">2:32.8</span>
@@ -1267,10 +1306,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc6">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1300,8 +1340,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>parse_1 time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">9.8 s</span>
@@ -1320,10 +1361,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfccb">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1346,8 +1388,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>parse_2 time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">6.7 s</span>
@@ -1366,10 +1409,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc3">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1392,8 +1436,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>parse_3 time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">2.7 s</span>
@@ -1412,10 +1457,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc8">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1445,8 +1491,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
   <hr>
    =20
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>installer_bin size</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">1.29 GiB</span>
@@ -1465,10 +1512,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc1">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1491,8 +1539,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>deploy time</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">2:13.1</span>
@@ -1511,10 +1560,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc4">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1537,8 +1587,9 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
          =20
         </div>
      =20
-        <div class=3D"gmail-m_-3885309042971080230gmail-m_62830462817220059=
-35gmail-m_-8285245864459497720gmail-m_6977441312099282814measurement">
+        <div class=3D"gmail-m_1393518312232067089gmail-m_-38853090429710802=
+30gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_6977441312=
+099282814measurement">
           <h3>deploy_dir size</h3>
           <div style=3D"font-weight:bold">
             <span style=3D"font-size:23px">4.24 GiB</span>
@@ -1557,10 +1608,11 @@ gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
 <img src=3D"cid:168e716df60c204bfcc7">
               </td><td>
                =20
-                <table class=3D"gmail-m_-3885309042971080230gmail-m_6283046=
-281722005935gmail-m_-8285245864459497720gmail-m_6977441312099282814details =
-gmail-m_-3885309042971080230gmail-m_6283046281722005935gmail-m_-82852458644=
-59497720gmail-m_6977441312099282814plain">
+                <table class=3D"gmail-m_1393518312232067089gmail-m_-3885309=
+042971080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_=
+6977441312099282814details gmail-m_1393518312232067089gmail-m_-388530904297=
+1080230gmail-m_6283046281722005935gmail-m_-8285245864459497720gmail-m_69774=
+41312099282814plain">
                   <tbody><tr>
                     <th>Test runs</th><td>7</td>
                   </tr><tr>
@@ -1608,10 +1660,11 @@ n/listinfo/openembedded-core</a><br>
 </blockquote></div>
 </blockquote></div>
 </blockquote></div></div>
+</blockquote></div>
 
---00000000000090c0600581c96519--
+--00000000000051b37a0581c970cd--
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -1784,7 +1837,7 @@ H/7BD36Qnp5eV1dHW2g7cZZORXumpqZSyfGXv/zln//85/DwMNvIWoSuXbv2/vvv79+/X9/ET/u/
 sLCYmBhFUbTz+PgrPCFwH4IgCAL3IQiCwH0IgiAI3IcgCILAfQiCIAjchyAIgsB9CIIgyLP0/+Gs
 JLVyXrLAAAAAAElFTkSuQmCC
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -1949,7 +2002,7 @@ RtNLL7744vnz51nfgnZCnyQpKYneKz09fen36u7uZid76S/t55133mH9BkVRoqKiqHNw6NChhIQE
 VVX1/QT5IzwhcB+CIAgC9yEIgsB9CIIgCNyHIAiCwH0IgiAI3IcgCILAfQiCIMi/9P9gWWbY8tNa
 9QAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -2142,7 +2195,7 @@ tgyMxo9effXVU6dOibYFvgT/kri4OPyu5ORk37+rsbFRDPbiT3zP+++/L9oNqqpu2bIFjYOIiIiY
 mBhN0/TvCfMjPClyn6IoiiL3KYqiyH2KoiiK3KcoiqLIfYqiKIrcpyiKosh9iqIoKrD0/2rMr9Y2
 2UbBAAAAAElFTkSuQmCC
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -2374,7 +2427,7 @@ ffbs2bMcW9BD6C+Jj4+n35WSkuL5d926dYsne+lfes7rr7/OcYMkSVFRURQc7N+/PzY2VpZl7Tlr
 /AhPALoPAAAAQPcBAACg+wAAAAB0HwAAAIDuAwAAANB9AAAAALoPAAAAhBf+H5UAFYYTdnXvAAAA
 AElFTkSuQmCC
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -2548,7 +2601,7 @@ pWeffbayslL0LXASfJL09HS8V1ZW1vzvdevWLXGxF39xnjfeeEP0GxRF+fzzz9E5iIuLS01NVVVV
 P0+EP8KTIvcpiqIocp+iKIrcpyiKosh9iqIoitynKIqiyH2KoiiK3KcoiqKCS/8PYKzu1EnsIi8A
 AAAASUVORK5CYII=
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -2754,7 +2807,7 @@ aWkpGgRO96Eocp8Kl5B/3bp1n3/+OYgJvKozOJuamt57770vv/xy/fr1YluuPXv2vPTSSwkJCYi4
 fVe0G2RZ3rFjBxoHUVFRMTExiqKo9wnzLTwpcp+iKIoi9ymKosh9iqIoitynKIqiyH2KoiiK3Kco
 iqLIfYqiKCq09P9b37EpvXPuHwAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -2931,7 +2984,7 @@ cb/77rt///vfzWZzWFjYD37wA4PBUFdXRzmUT5ylS9GZWVlZ1HL85S9/+ec//zk8PMwy2YjQ5cuX
 /PBD1m+QZTk8PJw6B4cPHz579qyiKNp1gnwLTwjchyAIgsB9CIIgcB+CIAgC9yEIgiBwH4IgCAL3
 IQiCIHAfgiAI8i/9P+xBrpC2JgAUAAAAAElFTkSuQmCC
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -3114,7 +3167,7 @@ f/348eOibYE3wTeJiYnBZyUmJvr+rObmZnGzF//H+3z00Uei3aCq6oYNG9A42LFjR1RUlKZpxvtE
 +BaeFLlPURRFkfsURVHkPkVRFEXuUxRFUeQ+RVEURe5TFEVR5D5FURQVXvp/Qcsz9RhqeWoAAAAA
 SUVORK5CYII=
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -3286,7 +3339,7 @@ ve99LyUlpbKyEmuwHpzFrvDNpKQk1Bx/+tOf/v73v3d2doqVokeooKDg7bffXr9+vbmLH99/9dVX
 MDIyUtd1Yz9B/gpPitynKIqiyH2Koihyn6IoiiL3KYqiKHKfoiiKIvcpiqIocp+iKIoKLP0/5OTt
 ZkbP2EsAAAAASUVORK5CYII=
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -3466,7 +3519,7 @@ v/+9vb1906ZNP/jBD1JSUsrLy3EEx8FZXArvTEpKQs3xl7/85Z///GdnZ6c4KHqE8vLy3nzzzXXr
 adq2bdvQOPjiiy+ioqJ0XTeuE+SP8KTIfYqiKIrcpyiKIvcpiqIocp+iKIoi9ymKoihyn6IoiiL3
 KYqiqMDS/wPzdIDAFP50sQAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -3648,7 +3701,7 @@ iy+uXbsWjMY/Pf/886dPnxZtC1wEdxITE4PvSkxM9P5dbW1tYrAX/8V13nzzTdFu0DRt165daByE
 hoZGRUXpum5cJ8hf4UmR+xRFURS5T1EURe5TFEVR5D5FURRF7lMURVHkPkVRFEXuUxRFUf6l/w/C
 U1ZNAihBjgAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -3833,7 +3886,7 @@ u4nR9NHzzz9vNptZ24IuQt8kISGB7pWcnLz0ve7du8cGe+lfus727dtZu0GW5ZCQEGocRERE6HQ6
 RVHU6wT4KzwhcB+CIAgC9yEIgsB9CIIgCNyHIAiCwH0IgiAI3IcgCILAfQiCIGhz6f9f2VDct561
 NAAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a
+--00000000000051b37c0581c970ce
 Content-Type: image/png; name=noname
 Content-Disposition: inline; filename=noname
 Content-Transfer-Encoding: base64
@@ -4047,4 +4100,4 @@ On/+/GuvvfbBBx/ou/hx/Ysvvrhx40YwGj96/vnnz549K9oWeAi+SVxcHH5XcnKy7991//598bIX
 /+I5b7zxhmg3yLK8Z88eNA4iIiJiYmIURdGeE+JbeFLkPkVRFEXuUxRFkfsURVEUuU9RFEWR+xRF
 URS5T1EURZH7FEVRVHDp/wFiEko1aM8IXAAAAABJRU5ErkJggg==
 
---00000000000090c0620581c9651a--
+--00000000000051b37c0581c970ce--
