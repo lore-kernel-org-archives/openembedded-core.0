@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E23017BFA4
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 953E76010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 06:18:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1E6Ie60004364
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2019 22:18:50 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.435.0; Wed, 13 Feb 2019 22:18:30 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Feb 2019 14:37:19 +0800
-Message-ID: <5729c139f7de24d4285e2d05fe5469dae5883560.1550126097.git.liezhi.yang@windriver.com>
+	Thu, 14 Feb 2019 06:21:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Feb 2019 22:21:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,367,1544515200"; d="scan'208";a="318895891"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga006.fm.intel.com with ESMTP; 13 Feb 2019 22:21:47 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Feb 2019 13:50:36 +0800
+Message-Id: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1550126097.git.liezhi.yang@windriver.com>
-References: <cover.1550126097.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1 V2] base.bbclass: Check BuildStarted for HOSTTOOLS
+Subject: [PATCH 0/2 v7] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 06:19:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Feb 2019 06:21:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-There might be no bb.event.ConfigParsed event if bitbake server is running, so
-check bb.event.BuildStarted too to make sure HOSTTOOLS_DIR exists.
+v1:
+  Face key error from oe-git-archive
+  Undesirable behavior when storing to multiple git branch
 
-Fixed:
-$ export BB_SERVER_TIMEOUT=-1
-$ bitbake quilt-native
-$ rm -fr tmp
-$ bitbake quilt-native
-ERROR: Error running gcc  --version: /bin/sh: gcc: command not found
+v2: 
+  Include fix for oe-git-archive
+  Include fix for store result to multiple git branch
+  Improve git commit message   
 
-This error is caused by enable_uninative(), it runs twice (ConfigParsed and
-BuildStarted), the error would happen when there is no ConfigParsed event
-(no hosttools is created), but BuildStarted. This patch can fix the problem.
+v3:
+  Enhance fix for oe-git-archive by using exception catch to
+  improve code readability and easy to understand
 
-[YOCTO #13022]
+v4:
+  Add new features, merge result files & regression analysis 
+  Add selftest to merge, store, report and regression functionalities
+  Revise codebase for pythonic
+  
+v5:
+  Add required files for selftest testing store
+  
+v6:
+  Add regression for directory and git repository
+  Enable regression pairing base set to multiple target sets 
+  Revise selftest testing for regression
+  
+v7: 
+  Optimize regression computation for ptest results
+  Rename entry point script to resulttool
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/base.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+Mazliana (1):
+  scripts/resulttool: enable manual execution and result creation
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f1a3c0e..8ece51f 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -228,6 +228,12 @@ python base_eventhandler() {
-         if not d.getVar("NATIVELSBSTRING", False):
-             d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
-         d.setVar('BB_VERSION', bb.__version__)
-+
-+    # There might be no bb.event.ConfigParsed event if bitbake server is
-+    # running, so check bb.event.BuildStarted too to make sure ${HOSTTOOLS_DIR}
-+    # exists.
-+    if isinstance(e, bb.event.ConfigParsed) or \
-+            (isinstance(e, bb.event.BuildStarted) and not os.path.exists(d.getVar('HOSTTOOLS_DIR'))):
-         # Works with the line in layer.conf which changes PATH to point here
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
-         setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
+Yeoh Ee Peng (1):
+  resulttool: enable merge, store, report and regression analysis
+
+ meta/lib/oeqa/files/testresults/testresults.json   |  40 ++++
+ meta/lib/oeqa/selftest/cases/resulttooltests.py    | 104 +++++++++++
+ scripts/lib/resulttool/__init__.py                 |   0
+ scripts/lib/resulttool/manualexecution.py          | 137 ++++++++++++++
+ scripts/lib/resulttool/merge.py                    |  71 +++++++
+ scripts/lib/resulttool/regression.py               | 208 +++++++++++++++++++++
+ scripts/lib/resulttool/report.py                   | 113 +++++++++++
+ scripts/lib/resulttool/resultsutils.py             |  67 +++++++
+ scripts/lib/resulttool/store.py                    | 110 +++++++++++
+ .../resulttool/template/test_report_full_text.txt  |  35 ++++
+ scripts/resulttool                                 |  92 +++++++++
+ 11 files changed, 977 insertions(+)
+ create mode 100644 meta/lib/oeqa/files/testresults/testresults.json
+ create mode 100644 meta/lib/oeqa/selftest/cases/resulttooltests.py
+ create mode 100644 scripts/lib/resulttool/__init__.py
+ create mode 100755 scripts/lib/resulttool/manualexecution.py
+ create mode 100644 scripts/lib/resulttool/merge.py
+ create mode 100644 scripts/lib/resulttool/regression.py
+ create mode 100644 scripts/lib/resulttool/report.py
+ create mode 100644 scripts/lib/resulttool/resultsutils.py
+ create mode 100644 scripts/lib/resulttool/store.py
+ create mode 100644 scripts/lib/resulttool/template/test_report_full_text.txt
+ create mode 100755 scripts/resulttool
+
 -- 
 2.7.4
 
