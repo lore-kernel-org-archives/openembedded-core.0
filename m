@@ -1,55 +1,31 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 00BC579F3D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EBF07BD84
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 06:05:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 42C171853B;
-	Thu, 14 Feb 2019 07:05:40 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id eNjBKZ-W9fZX; Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 50CBF18531;
-	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 360591E07C;
-	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2A5F41E07B;
-	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 1E83C171F;
-	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 14 Feb 2019 07:05:38 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Thu, 14 Feb 2019 07:05:38 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	Thu, 14 Feb 2019 06:07:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1E67D5Q006626
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Feb 2019 22:07:13 -0800 (PST)
+Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.435.0; Wed, 13 Feb 2019 22:06:54 -0800
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install utility
-	to create directories with right permissions
-Thread-Index: AdTEK0xGMZDJ1DQcTvO8sjAtRXL8qQ==
-Date: Thu, 14 Feb 2019 06:05:38 +0000
-Message-ID: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+References: <cover.1550113052.git.liezhi.yang@windriver.com>
+	<b897d0a2643af36791269bf303b0d0dd74a47411.1550113052.git.liezhi.yang@windriver.com>
+	<02b5abb67627419e92bce1ce29d22510@XBOX04.axis.com>
+	<5323c75d-5a4a-42e0-af0d-f309d23ef15e@windriver.com>
+	<6144b418cab34c7189db037e0aa97a8c@XBOX04.axis.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <0e529da1-7d26-857e-0c6f-9b821c13aa61@windriver.com>
+Date: Thu, 14 Feb 2019 14:11:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
+In-Reply-To: <6144b418cab34c7189db037e0aa97a8c@XBOX04.axis.com>
+Subject: Re: [PATCH 1/1] base.bbclass: Check BuildStarted for HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,71 +38,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 06:05:41 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 06:07:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> Sent: den 12 februari 2019 06:48
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install
-> utility to create directories with right permissions
->=20
-> Could fix issues where dirs with wrong permission is created with mkdir -=
-p
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/libc-package.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-
-> package.bbclass
-> index 0b4c666a74..34025635ce 100644
-> --- a/meta/classes/libc-package.bbclass
-> +++ b/meta/classes/libc-package.bbclass
-> @@ -61,7 +61,7 @@ LOCALETREESRC ?=3D "${PKGD}"
->  do_prep_locale_tree() {
->  	treedir=3D${WORKDIR}/locale-tree
->  	rm -rf $treedir
-> -	mkdir -p $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${dat=
-adir} $treedir/${localedir}
-> +	install -d $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${d=
-atadir} $treedir/${localedir}
 
-This does not change anything (install -d and mkdir -p does the same thing)=
-.=20
 
->  	tar -cf - -C ${LOCALETREESRC}${datadir} -p i18n | tar -xf - -C $treedir=
-/${datadir}
->  	# unzip to avoid parsing errors
->  	for i in $treedir/${datadir}/i18n/charmaps/*gz; do
->		gunzip $i
->	done
->	tar -cf - -C ${LOCALETREESRC}${base_libdir} -p . | tar -xf - -C $treedir/=
-${base_libdir}
+On 2/14/19 11:43 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+>> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
+>> Sent: den 14 februari 2019 04:22
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 1/1] base.bbclass: Check BuildStarted for
+>> HOSTTOOLS
+>>
+>> On 2/14/19 11:05 AM, Peter Kjellerstedt wrote:
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org
+>> <openembedded-
+>>>> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
+>>>> Sent: den 14 februari 2019 03:59
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: [OE-core] [PATCH 1/1] base.bbclass: Check BuildStarted for
+>>>> HOSTTOOLS
+>>>>
+>>>> There might be no bb.event.ConfigParsed event bitbake server is
+>>>> running,
+>>>> so check bb.event.BuildStarted to make sure HOSTTOOLS_DIR existed
+>> when
+>>>> BuildStarted.
+>>>>
+>>>> Fixed:
+>>>> $ export BB_SERVER_TIMEOUT=-1
+>>>> $ bitbake quilt-native
+>>>> $ rm -fr tmp
+>>>> $ bitbake quilt-native
+>>>> ERROR: Error running gcc  --version: /bin/sh: gcc: command not found
+>>>>
+>>>> This error is caused by enable_uninative(), it runs twice
+>> (ConfigParsed
+>>>> and
+>>>> BuildStarted), the error would happen when there is no ConfigParsed
+>>>> event
+>>>> (no hosttools is created), but BuildStarted. This patch can fix the
+>>>> problem.
+>>>>
+>>>> [YOCTO #13022]
+>>>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>    meta/classes/base.bbclass | 6 +++++-
+>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>>>> index f1a3c0e..283cb0f 100644
+>>>> --- a/meta/classes/base.bbclass
+>>>> +++ b/meta/classes/base.bbclass
+>>>> @@ -224,7 +224,11 @@ base_eventhandler[eventmask] =
+>>>> "bb.event.ConfigParsed bb.event.MultiConfigParsed
+>>>>    python base_eventhandler() {
+>>>>        import bb.runqueue
+>>>>
+>>>> -    if isinstance(e, bb.event.ConfigParsed):
+>>>> +    # There might be no bb.event.ConfigParsed event bitbake server
+>> is running,
+>>>> +    # so check bb.event.BuildStarted to make sure HOSTTOOLS_DIR
+>> existed when
+>>>> +    # BuildStarted.
+>>>> +    if isinstance(e, bb.event.ConfigParsed) or \
+>>>> +            (isinstance(e, bb.event.BuildStarted) and not
+>> os.path.exists(d.getVar('HOSTTOOLS_DIR'))):
+>>>
+>>> I don't think you want to do this here since not all of this if
+>> statement
+>>
+>> That can make the code simple and avoid duplicated, the only code which
+>> may run twice is "d.setVar('BB_VERSION', bb.__version__)", I don't
+>> think it's a problem since it is very light.
+> 
+> Well, true, but I still don't think you should mix them. Have one case
+> for what only needs to be done for bb.event.ConfigParsed, one for only
+> bb.event.BuildStarted and one for either.
 
-This is where the problem happens. When the files are copied from=20
-${LOCALETREESRC}, the ownership of $treedir${localedir} is changed to that=
-=20
-of ${LOCALETREESRC}${localedir}. However, I now realized that the problem=20
-may be due to the fact that I have usrmerge enabled in DISTRO_FEATURES,=20
-which causes the above line to copy things it was never meant to copy, in=20
-this case ${LOCALETREESRC}${localedir}. I tried to just remove the line=20
-altogether and then it built just fine. But I do not know what the=20
-consequences are of removing it... I guess it is related to setting up an=20
-environment for qemu to run in, but since that seems to work fine without=20
-the files copied by the above line, maybe it is not needed? Or maybe it=20
-is just not needed when having usrmerge in DISTRO_FEATURES? I tried to=20
-backtrack it through the commit logs, but it was introduced with the=20
-do_prep_locale_tree() function, so no help there.
+Yeah, it's not a big problem, I will update it in V2.
 
-> --
-> 2.20.1
+> 
+>>> should be done for the BuildStarted event. I think it is better to
+>> add a
+>>> separate if statement just for the HOSTTOOLS part (see below). Also,
+>> I don't
+>>> think you should be checking if the HOSTTOOLS_DIR exists, because the
+>>> contents of ${HOSTTOOLS} and ${HOSTTOOLS_NONFATAL} may have changed,
+>> in
+>>> which case any new tools need to be added to the directory.
+>>
+>> You don't have to worry about this since bitbake server can handle it
+>> when HOSTTOOLS are changed in conf files, you can try this:
+>>
+>> $ export BB_SERVER_TIMEOUT=-1
+>> $ bitbake quilt-native
+>>
+>> Add HOSTTOOLS += "passwd" to conf/local.conf, and:
+>>
+>> $ bitbake quilt-native
+>> $ ls tmp/hosttools/ | grep passwd
+>> passwd
+>>
+>> The passwd will be created.
+>>
+>>>
+>>>>            if not d.getVar("NATIVELSBSTRING", False):
+>>>>                d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
+>>>>            d.setVar('BB_VERSION', bb.__version__)
+>>>> --
+>>>> 2.7.4
+>>>
+>>> This is my suggestion for how to split the current handling of
+>>> bb.event.ConfigParsed (also note that I corrected the comment before
+>>> the new if statement):
+>>>
+>>>       if isinstance(e, bb.event.ConfigParsed):
+>>>           if not d.getVar("NATIVELSBSTRING", False):
+>>>               d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
+>>>           d.setVar('BB_VERSION', bb.__version__)
+>>>
+>>>       # There might be no bb.event.ConfigParsed event if the bitbake server is
+>>
+>> Thanks for the correction.
+>>
+>>>       # running, so check bb.event.BuildStarted too to make sure ${HOSTTOOLS_DIR}
+>>>       # exists.
+>>>       if isinstance(e, bb.event.ConfigParsed) or isinstance(e, bb.event.BuildStarted):
+>>
+>> I'm afraid that it doesn't work since it would make hosttools generate
+>> twice when bitbake sever is not running, which seems not a good idea.
+> 
+> I don't think that's a problem in practice since the generation of
 
-//Peter
+It may cause a race issue when tools in tmp/hosttools are being used, but 
+BuildStarted removes them at the same time.
 
+// Robert
+
+
+> ${HOSTTOLS_DIR} should be pretty fast if it is already populated, but I
+> guess you could use your original if statement to avoid that:
+> 
+>      if isinstance(e, bb.event.ConfigParsed) or \
+>              (isinstance(e, bb.event.BuildStarted) and not os.path.exists(d.getVar('HOSTTOOLS_DIR'))):
+> 
+>> // Robert
+>>
+>>>           # Works with the line in layer.conf which changes PATH to point here
+>>>           setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
+>>>           setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
+>>>
+>>> //Peter
+>>>
+>>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
