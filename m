@@ -1,45 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B55A7C614
+Return-Path: <pascal.bach@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id D84B765CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 16:22:59 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id z9so14535233itc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 08:23:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nOSVjbm58gQmKJo7XmCspdsH34u4nPhBrrkHUFnfjmw=;
-	b=aEjvaX2HqWn3xvcSR9hL6aHDi7pzyKWg6dnCdiOprUlg2Hg8D8Ulxiwmp2CZaGuolE
-	rA38aRVzEPClB8lMR3BWWjEv417itdw3TKOeDtQXS0Isji3bbVY/K6BDVYvm71Ls2eKX
-	mTXQuJOD4uDfUcbOsRjAsxDw6FXNLfrxTmfz+Mvoa+rpCs/ASc12FJQivc9hyIOb6iQE
-	XTFNCZn5Ksfg/oysjYEY3UvYznmbOecl/3lgEKEHgR98NexjJwhB5tz+5cI9cMHRWVGL
-	GMZzyQ0DTJrcYzTaCvp9/CiWbg3ZSxabJLW1y92HyryyxNj3bluWrCbJ24FZve9brgV2
-	MFBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=nOSVjbm58gQmKJo7XmCspdsH34u4nPhBrrkHUFnfjmw=;
-	b=b4x6gUWJptZyHZna7/lyCqWZnV1Ez76f+JD5cArAPvMDgXBX06PSMpA4PXgK/DeL4S
-	HaEJcnynVVyR+DZKM+3qIozFeF+/KauVJj/P33isRgwN+uf29fCG0MjpOkRgLd5zSP5D
-	Dy5+aLhPKY0Y3RzHRVDSz+6ZucTFngJ0Lw39J/W4VWxo9B4Yeo0Vn7VbRPVbzchF2vaa
-	2VhUrlmdeYPaYffaH+7Q+cUhD081PhGLveINcZMYO0zoj7OUiEo7PcYdEBwnYP+RPt3Z
-	uaFSoVg1VEMZinEpVUU31KcuWV7kORd90dUJLmeVLaOCV+SMVhGJejcuxnGWj1cGL2wB
-	Eh6w==
-X-Gm-Message-State: AHQUAubYJt3HNWFX9W+3tX5wkFn2bEs8kzOhsKx6AyfYinjYk5LwigrG
-	EPK1+FT7EAX81d0x+XEdGzX6qYrSX184gPQsxfhB2A==
-X-Google-Smtp-Source: AHgI3Ia9bzRvqh49D1oSJTZuJRDABan8d3Lhf3Rrco8RBrsM7c3Civ0JMYi8WmO2AQKOXI8HLH9tAX/Z213DBeqqFm8=
-X-Received: by 2002:a6b:ee1a:: with SMTP id i26mr2534174ioh.201.1550161380431; 
-	Thu, 14 Feb 2019 08:23:00 -0800 (PST)
-MIME-Version: 1.0
+	Thu, 14 Feb 2019 16:51:01 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x1EGoxMF021259
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Thu, 14 Feb 2019 17:50:59 +0100
+Received: from DEFTHW99ERKMSX.ww902.siemens.net
+	(defthw99erkmsx.ww902.siemens.net [139.22.70.147])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id x1EGobZi024329
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Thu, 14 Feb 2019 17:50:59 +0100
+Received: from DENBGAT9EL2MSX.ww902.siemens.net ([169.254.9.6]) by
+	DEFTHW99ERKMSX.ww902.siemens.net ([139.22.70.147]) with mapi id
+	14.03.0435.000; Thu, 14 Feb 2019 17:50:41 +0100
+From: "Bach, Pascal" <pascal.bach@siemens.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] nfs-utils: build tools with target compiler
+Thread-Index: AQHUxICDKW+1G3HGN0SUWHBIC6M8P6XfaUiAgAAXWHA=
+Date: Thu, 14 Feb 2019 16:50:40 +0000
+Message-ID: <355BE46A91031048906B695426A8D8E61C3E5F1F@DENBGAT9EL2MSX.ww902.siemens.net>
 References: <20190214161529.25843-1-pascal.bach@siemens.com>
-In-Reply-To: <20190214161529.25843-1-pascal.bach@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Feb 2019 16:22:49 +0000
-Message-ID: <CAJTo0LbyT8_1wrD=Eb5kg1Ya3nG46JjK6k3gyxvjOrHyJnTNeA@mail.gmail.com>
-To: Pascal Bach <pascal.bach@siemens.com>
+	<CAJTo0LbyT8_1wrD=Eb5kg1Ya3nG46JjK6k3gyxvjOrHyJnTNeA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbyT8_1wrD=Eb5kg1Ya3nG46JjK6k3gyxvjOrHyJnTNeA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.17]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] nfs-utils: build tools with target compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,166 +43,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 16:22:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Feb 2019 16:51:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Will you be sending that fix upstream too?
-
-On Thu, 14 Feb 2019 at 16:16, Pascal Bach <pascal.bach@siemens.com> wrote:
->
-> Some tools were built with CC_FOR_BUILD which points to the target
-> compiler. The current patch avoided issues by deleting some of the
-> binaries during install.
->
-> This patch replaces the CC_FOR_BUILD with CC so the tools are built with
-> the target compiler. This means the binaries no longer need to be
-> deleted.
->
-> I stumbled upon this by trying to globally add "--ffile-prefix-map", which
-> is not supported by my host GCC, to get rid of some "buildpaths" QA Warnings.
->
-> Cc: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> ---
->  .../0001-Don-t-build-tools-with-CC_FOR_BUILD.patch | 40 +++++++++++++++++++++
->  ...-Do-not-pass-CFLAGS-to-gcc-while-building.patch | 42 ----------------------
->  .../nfs-utils/nfs-utils_2.3.3.bb                   |  7 +---
->  3 files changed, 41 insertions(+), 48 deletions(-)
->  create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Don-t-build-tools-with-CC_FOR_BUILD.patch
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch
->
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Don-t-build-tools-with-CC_FOR_BUILD.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Don-t-build-tools-with-CC_FOR_BUILD.patch
-> new file mode 100644
-> index 0000000000..23bc3eaf72
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Don-t-build-tools-with-CC_FOR_BUILD.patch
-> @@ -0,0 +1,40 @@
-> +From 79019d976584c598f8d0a9d8de43c989946f974b Mon Sep 17 00:00:00 2001
-> +From: Pascal Bach <pascal.bach@siemens.com>
-> +Date: Wed, 13 Feb 2019 09:28:07 +0100
-> +Subject: [PATCH] Don't build tools with CC_FOR_BUILD
-> +
-> +The tools are intended for the target not for the host.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +---
-> + tools/locktest/Makefile.am | 1 -
-> + tools/rpcgen/Makefile.am   | 1 -
-> + 2 files changed, 2 deletions(-)
-> +
-> +diff --git a/tools/locktest/Makefile.am b/tools/locktest/Makefile.am
-> +index 3156815..87d0bac 100644
-> +--- a/tools/locktest/Makefile.am
-> ++++ b/tools/locktest/Makefile.am
-> +@@ -1,6 +1,5 @@
-> + ## Process this file with automake to produce Makefile.in
-> +
-> +-CC=$(CC_FOR_BUILD)
-> + LIBTOOL = @LIBTOOL@ --tag=CC
-> +
-> + noinst_PROGRAMS = testlk
-> +diff --git a/tools/rpcgen/Makefile.am b/tools/rpcgen/Makefile.am
-> +index 8a9ec89..3e092c9 100644
-> +--- a/tools/rpcgen/Makefile.am
-> ++++ b/tools/rpcgen/Makefile.am
-> +@@ -1,6 +1,5 @@
-> + ## Process this file with automake to produce Makefile.in
-> +
-> +-CC=$(CC_FOR_BUILD)
-> + LIBTOOL = @LIBTOOL@ --tag=CC
-> +
-> + noinst_PROGRAMS = rpcgen
-> +--
-> +2.11.0
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch
-> deleted file mode 100644
-> index 993f1e5ea5..0000000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -nfs-utils: Do not pass CFLAGS to gcc while building
-> -
-> -Do not pass CFLAGS/LDFLAGS to gcc while building, The needed flags has
-> -been passed by xxx_CFLAGS=$(CFLAGS_FOR_BUILD).
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ----
-> - tools/locktest/Makefile.am |    2 ++
-> - tools/rpcgen/Makefile.am   |    2 ++
-> - 2 files changed, 4 insertions(+)
-> -
-> -diff --git a/tools/locktest/Makefile.am b/tools/locktest/Makefile.am
-> -index 3156815..1729fd1 100644
-> ---- a/tools/locktest/Makefile.am
-> -+++ b/tools/locktest/Makefile.am
-> -@@ -1,6 +1,8 @@
-> - ## Process this file with automake to produce Makefile.in
-> -
-> - CC=$(CC_FOR_BUILD)
-> -+CFLAGS=
-> -+LDFLAGS=
-> - LIBTOOL = @LIBTOOL@ --tag=CC
-> -
-> - noinst_PROGRAMS = testlk
-> -diff --git a/tools/rpcgen/Makefile.am b/tools/rpcgen/Makefile.am
-> -index 8a9ec89..8bacdaa 100644
-> ---- a/tools/rpcgen/Makefile.am
-> -+++ b/tools/rpcgen/Makefile.am
-> -@@ -1,6 +1,8 @@
-> - ## Process this file with automake to produce Makefile.in
-> -
-> - CC=$(CC_FOR_BUILD)
-> -+CFLAGS=
-> -+LDFLAGS=
-> - LIBTOOL = @LIBTOOL@ --tag=CC
-> -
-> - noinst_PROGRAMS = rpcgen
-> ---
-> -1.7.9.5
-> -
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-> index 84530f698b..ac4437b925 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-> @@ -26,7 +26,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->             file://nfs-mountd.service \
->             file://nfs-statd.service \
->             file://proc-fs-nfsd.mount \
-> -           file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
->             file://nfs-utils-debianize-start-statd.patch \
->             file://bugfix-adjust-statd-service-name.patch \
->             file://nfs-utils-musl-limits.patch \
-> @@ -35,6 +34,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->             file://clang-format-string.patch \
->             file://0001-Makefile.am-update-the-path-of-libnfs.a.patch \
->             file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-> +           file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
->  "
->  SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
->  SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
-> @@ -147,11 +147,6 @@ do_install_append () {
->         chown -R rpcuser:rpcuser ${D}${localstatedir}/lib/nfs/statd
->         chmod 0644 ${D}${localstatedir}/lib/nfs/statd/state
->
-> -       # the following are built by CC_FOR_BUILD
-> -       rm -f ${D}${sbindir}/rpcdebug
-> -       rm -f ${D}${sbindir}/rpcgen
-> -       rm -f ${D}${sbindir}/locktest
-> -
->          # Make python tools use python 3
->          sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${sbindir}/mountstats ${D}${sbindir}/nfsiostat
->
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+PiBXaWxsIHlvdSBiZSBzZW5kaW5nIHRoYXQgZml4IHVwc3RyZWFtIHRvbz8NCg0KSSdtIHBsYW5u
+aW5nIHRvLiBIb3dldmVyIEknbSBzdHJ1Z2dsaW5nIGEgYml0IHRvIGZpZ3VyZSBvdXQgd2hlcmUg
+ZXhhY3RseSBJIHNob3VsZCBzZW5kIHRoaXMgcGF0Y2guDQpJdCdzIG5vdCBjbGVhciB0byBtZSBo
+b3cgdGhlIG5mcy11dGlscyBwcm9qZWN0IGlzIHN0cnVjdHVyZWQuDQoNCj4gDQo+IE9uIFRodSwg
+MTQgRmViIDIwMTkgYXQgMTY6MTYsIFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNv
+bT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBTb21lIHRvb2xzIHdlcmUgYnVpbHQgd2l0aCBDQ19GT1Jf
+QlVJTEQgd2hpY2ggcG9pbnRzIHRvIHRoZSB0YXJnZXQNCj4gPiBjb21waWxlci4gVGhlIGN1cnJl
+bnQgcGF0Y2ggYXZvaWRlZCBpc3N1ZXMgYnkgZGVsZXRpbmcgc29tZSBvZiB0aGUNCj4gPiBiaW5h
+cmllcyBkdXJpbmcgaW5zdGFsbC4NCj4gPg0KPiA+IFRoaXMgcGF0Y2ggcmVwbGFjZXMgdGhlIEND
+X0ZPUl9CVUlMRCB3aXRoIENDIHNvIHRoZSB0b29scyBhcmUgYnVpbHQNCj4gPiB3aXRoIHRoZSB0
+YXJnZXQgY29tcGlsZXIuIFRoaXMgbWVhbnMgdGhlIGJpbmFyaWVzIG5vIGxvbmdlciBuZWVkIHRv
+IGJlDQo+ID4gZGVsZXRlZC4NCj4gPg0KPiA+IEkgc3R1bWJsZWQgdXBvbiB0aGlzIGJ5IHRyeWlu
+ZyB0byBnbG9iYWxseSBhZGQgIi0tZmZpbGUtcHJlZml4LW1hcCIsDQo+ID4gd2hpY2ggaXMgbm90
+IHN1cHBvcnRlZCBieSBteSBob3N0IEdDQywgdG8gZ2V0IHJpZCBvZiBzb21lICJidWlsZHBhdGhz
+IiBRQQ0KPiBXYXJuaW5ncy4NCj4gPg0KPiA+IENjOiBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdA
+d2luZHJpdmVyLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJh
+Y2hAc2llbWVucy5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi8wMDAxLURvbi10LWJ1aWxkLXRvb2xz
+LXdpdGgtQ0NfRk9SX0JVSUxELnBhdGNoIHwgNDANCj4gPiArKysrKysrKysrKysrKysrKysrKysg
+IC4uLi1Eby1ub3QtcGFzcy1DRkxBR1MtdG8tZ2NjLXdoaWxlLQ0KPiBidWlsZGluZy5wYXRjaCB8
+IDQyIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAgLi4uL25mcy11dGlscy9uZnMtdXRpbHNf
+Mi4zLjMuYmIgICAgICAgICAgICAgICAgICAgfCAgNyArLS0tDQo+ID4gIDMgZmlsZXMgY2hhbmdl
+ZCwgNDEgaW5zZXJ0aW9ucygrKSwgNDggZGVsZXRpb25zKC0pICBjcmVhdGUgbW9kZQ0KPiA+IDEw
+MDY0NA0KPiA+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8w
+MDAxLURvbi10LWJ1aWxkLXRvb2xzLXcNCj4gPiBpdGgtQ0NfRk9SX0JVSUxELnBhdGNoICBkZWxl
+dGUgbW9kZSAxMDA2NDQNCj4gPiBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9u
+ZnMtdXRpbHMvbmZzLXV0aWxzLURvLW5vdC1wYXNzLUNGDQo+ID4gTEFHUy10by1nY2Mtd2hpbGUt
+YnVpbGRpbmcucGF0Y2gNCj4gPg0KPiA+IGRpZmYgLS1naXQNCj4gPiBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8wMDAxLURvbi10LWJ1aWxkLXRvb2xzDQo+
+ID4gLXdpdGgtQ0NfRk9SX0JVSUxELnBhdGNoDQo+ID4gYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwMS1Eb24tdC1idWlsZC10b29scw0KPiA+IC13aXRo
+LUNDX0ZPUl9CVUlMRC5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXgg
+MDAwMDAwMDAwMC4uMjNiYzNlYWY3Mg0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwMS1Eb24tdC1idWls
+ZC10DQo+ID4gKysrIG9vbHMtd2l0aC1DQ19GT1JfQlVJTEQucGF0Y2gNCj4gPiBAQCAtMCwwICsx
+LDQwIEBADQo+ID4gK0Zyb20gNzkwMTlkOTc2NTg0YzU5OGY4ZDBhOWQ4ZGU0M2M5ODk5NDZmOTc0
+YiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gKzIwMDENCj4gPiArRnJvbTogUGFzY2FsIEJhY2gg
+PHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPg0KPiA+ICtEYXRlOiBXZWQsIDEzIEZlYiAyMDE5IDA5
+OjI4OjA3ICswMTAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gRG9uJ3QgYnVpbGQgdG9vbHMgd2l0
+aCBDQ19GT1JfQlVJTEQNCj4gPiArDQo+ID4gK1RoZSB0b29scyBhcmUgaW50ZW5kZWQgZm9yIHRo
+ZSB0YXJnZXQgbm90IGZvciB0aGUgaG9zdC4NCj4gPiArDQo+ID4gK1Vwc3RyZWFtLVN0YXR1czog
+UGVuZGluZw0KPiA+ICsNCj4gPiArU2lnbmVkLW9mZi1ieTogUGFzY2FsIEJhY2ggPHBhc2NhbC5i
+YWNoQHNpZW1lbnMuY29tPg0KPiA+ICstLS0NCj4gPiArIHRvb2xzL2xvY2t0ZXN0L01ha2VmaWxl
+LmFtIHwgMSAtDQo+ID4gKyB0b29scy9ycGNnZW4vTWFrZWZpbGUuYW0gICB8IDEgLQ0KPiA+ICsg
+MiBmaWxlcyBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBh
+L3Rvb2xzL2xvY2t0ZXN0L01ha2VmaWxlLmFtIGIvdG9vbHMvbG9ja3Rlc3QvTWFrZWZpbGUuYW0N
+Cj4gPiAraW5kZXggMzE1NjgxNS4uODdkMGJhYyAxMDA2NDQNCj4gPiArLS0tIGEvdG9vbHMvbG9j
+a3Rlc3QvTWFrZWZpbGUuYW0NCj4gPiArKysrIGIvdG9vbHMvbG9ja3Rlc3QvTWFrZWZpbGUuYW0N
+Cj4gPiArQEAgLTEsNiArMSw1IEBADQo+ID4gKyAjIyBQcm9jZXNzIHRoaXMgZmlsZSB3aXRoIGF1
+dG9tYWtlIHRvIHByb2R1Y2UgTWFrZWZpbGUuaW4NCj4gPiArDQo+ID4gKy1DQz0kKENDX0ZPUl9C
+VUlMRCkNCj4gPiArIExJQlRPT0wgPSBATElCVE9PTEAgLS10YWc9Q0MNCj4gPiArDQo+ID4gKyBu
+b2luc3RfUFJPR1JBTVMgPSB0ZXN0bGsNCj4gPiArZGlmZiAtLWdpdCBhL3Rvb2xzL3JwY2dlbi9N
+YWtlZmlsZS5hbSBiL3Rvb2xzL3JwY2dlbi9NYWtlZmlsZS5hbQ0KPiA+ICtpbmRleCA4YTllYzg5
+Li4zZTA5MmM5IDEwMDY0NA0KPiA+ICstLS0gYS90b29scy9ycGNnZW4vTWFrZWZpbGUuYW0NCj4g
+PiArKysrIGIvdG9vbHMvcnBjZ2VuL01ha2VmaWxlLmFtDQo+ID4gK0BAIC0xLDYgKzEsNSBAQA0K
+PiA+ICsgIyMgUHJvY2VzcyB0aGlzIGZpbGUgd2l0aCBhdXRvbWFrZSB0byBwcm9kdWNlIE1ha2Vm
+aWxlLmluDQo+ID4gKw0KPiA+ICstQ0M9JChDQ19GT1JfQlVJTEQpDQo+ID4gKyBMSUJUT09MID0g
+QExJQlRPT0xAIC0tdGFnPUNDDQo+ID4gKw0KPiA+ICsgbm9pbnN0X1BST0dSQU1TID0gcnBjZ2Vu
+DQo+ID4gKy0tDQo+ID4gKzIuMTEuMA0KPiA+ICsNCj4gPiBkaWZmIC0tZ2l0DQo+ID4gYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvbmZzLXV0aWxzLURvLW5v
+dC1wYXNzLQ0KPiA+IENGTEFHUy10by1nY2Mtd2hpbGUtYnVpbGRpbmcucGF0Y2gNCj4gPiBiL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy9uZnMtdXRpbHMtRG8t
+bm90LXBhc3MtDQo+ID4gQ0ZMQUdTLXRvLWdjYy13aGlsZS1idWlsZGluZy5wYXRjaA0KPiA+IGRl
+bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDk5M2YxZTVlYTUuLjAwMDAwMDAwMDAN
+Cj4gPiAtLS0NCj4gPiBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11
+dGlscy9uZnMtdXRpbHMtRG8tbm90LXBhc3MtDQo+ID4gQ0ZMQUdTLXRvLWdjYy13aGlsZS1idWls
+ZGluZy5wYXRjaA0KPiA+ICsrKyAvZGV2L251bGwNCj4gPiBAQCAtMSw0MiArMCwwIEBADQo+ID4g
+LW5mcy11dGlsczogRG8gbm90IHBhc3MgQ0ZMQUdTIHRvIGdjYyB3aGlsZSBidWlsZGluZw0KPiA+
+IC0NCj4gPiAtRG8gbm90IHBhc3MgQ0ZMQUdTL0xERkxBR1MgdG8gZ2NjIHdoaWxlIGJ1aWxkaW5n
+LCBUaGUgbmVlZGVkIGZsYWdzDQo+ID4gaGFzIC1iZWVuIHBhc3NlZCBieSB4eHhfQ0ZMQUdTPSQo
+Q0ZMQUdTX0ZPUl9CVUlMRCkuDQo+ID4gLQ0KPiA+IC1VcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcN
+Cj4gPiAtDQo+ID4gLVNpZ25lZC1vZmYtYnk6IENob25nIEx1IDxDaG9uZy5MdUB3aW5kcml2ZXIu
+Y29tPg0KPiA+IC0tLS0NCj4gPiAtIHRvb2xzL2xvY2t0ZXN0L01ha2VmaWxlLmFtIHwgICAgMiAr
+Kw0KPiA+IC0gdG9vbHMvcnBjZ2VuL01ha2VmaWxlLmFtICAgfCAgICAyICsrDQo+ID4gLSAyIGZp
+bGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQ0KPiA+IC0NCj4gPiAtZGlmZiAtLWdpdCBhL3Rv
+b2xzL2xvY2t0ZXN0L01ha2VmaWxlLmFtIGIvdG9vbHMvbG9ja3Rlc3QvTWFrZWZpbGUuYW0NCj4g
+PiAtaW5kZXggMzE1NjgxNS4uMTcyOWZkMSAxMDA2NDQNCj4gPiAtLS0tIGEvdG9vbHMvbG9ja3Rl
+c3QvTWFrZWZpbGUuYW0NCj4gPiAtKysrIGIvdG9vbHMvbG9ja3Rlc3QvTWFrZWZpbGUuYW0NCj4g
+PiAtQEAgLTEsNiArMSw4IEBADQo+ID4gLSAjIyBQcm9jZXNzIHRoaXMgZmlsZSB3aXRoIGF1dG9t
+YWtlIHRvIHByb2R1Y2UgTWFrZWZpbGUuaW4NCj4gPiAtDQo+ID4gLSBDQz0kKENDX0ZPUl9CVUlM
+RCkNCj4gPiAtK0NGTEFHUz0NCj4gPiAtK0xERkxBR1M9DQo+ID4gLSBMSUJUT09MID0gQExJQlRP
+T0xAIC0tdGFnPUNDDQo+ID4gLQ0KPiA+IC0gbm9pbnN0X1BST0dSQU1TID0gdGVzdGxrDQo+ID4g
+LWRpZmYgLS1naXQgYS90b29scy9ycGNnZW4vTWFrZWZpbGUuYW0gYi90b29scy9ycGNnZW4vTWFr
+ZWZpbGUuYW0NCj4gPiAtaW5kZXggOGE5ZWM4OS4uOGJhY2RhYSAxMDA2NDQNCj4gPiAtLS0tIGEv
+dG9vbHMvcnBjZ2VuL01ha2VmaWxlLmFtDQo+ID4gLSsrKyBiL3Rvb2xzL3JwY2dlbi9NYWtlZmls
+ZS5hbQ0KPiA+IC1AQCAtMSw2ICsxLDggQEANCj4gPiAtICMjIFByb2Nlc3MgdGhpcyBmaWxlIHdp
+dGggYXV0b21ha2UgdG8gcHJvZHVjZSBNYWtlZmlsZS5pbg0KPiA+IC0NCj4gPiAtIENDPSQoQ0Nf
+Rk9SX0JVSUxEKQ0KPiA+IC0rQ0ZMQUdTPQ0KPiA+IC0rTERGTEFHUz0NCj4gPiAtIExJQlRPT0wg
+PSBATElCVE9PTEAgLS10YWc9Q0MNCj4gPiAtDQo+ID4gLSBub2luc3RfUFJPR1JBTVMgPSBycGNn
+ZW4NCj4gPiAtLS0NCj4gPiAtMS43LjkuNQ0KPiA+IC0NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzXzIuMy4zLmJiDQo+ID4gYi9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHNfMi4zLjMuYmINCj4g
+PiBpbmRleCA4NDUzMGY2OThiLi5hYzQ0MzdiOTI1IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjMuMy5iYg0KPiA+ICsrKyBi
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjMuMy5iYg0K
+PiA+IEBAIC0yNiw3ICsyNiw2IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51
+eC91dGlscy9uZnMtDQo+IHV0aWxzLyR7UFZ9L25mcy11dGlscy0ke1BWfS50YXIueA0KPiA+ICAg
+ICAgICAgICAgIGZpbGU6Ly9uZnMtbW91bnRkLnNlcnZpY2UgXA0KPiA+ICAgICAgICAgICAgIGZp
+bGU6Ly9uZnMtc3RhdGQuc2VydmljZSBcDQo+ID4gICAgICAgICAgICAgZmlsZTovL3Byb2MtZnMt
+bmZzZC5tb3VudCBcDQo+ID4gLSAgICAgICAgICAgZmlsZTovL25mcy11dGlscy1Eby1ub3QtcGFz
+cy1DRkxBR1MtdG8tZ2NjLXdoaWxlLWJ1aWxkaW5nLnBhdGNoIFwNCj4gPiAgICAgICAgICAgICBm
+aWxlOi8vbmZzLXV0aWxzLWRlYmlhbml6ZS1zdGFydC1zdGF0ZC5wYXRjaCBcDQo+ID4gICAgICAg
+ICAgICAgZmlsZTovL2J1Z2ZpeC1hZGp1c3Qtc3RhdGQtc2VydmljZS1uYW1lLnBhdGNoIFwNCj4g
+PiAgICAgICAgICAgICBmaWxlOi8vbmZzLXV0aWxzLW11c2wtbGltaXRzLnBhdGNoIFwgQEAgLTM1
+LDYgKzM0LDcgQEANCj4gPiBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRp
+bHMvbmZzLXV0aWxzLyR7UFZ9L25mcy11dGlscy0NCj4gJHtQVn0udGFyLngNCj4gPiAgICAgICAg
+ICAgICBmaWxlOi8vY2xhbmctZm9ybWF0LXN0cmluZy5wYXRjaCBcDQo+ID4gICAgICAgICAgICAg
+ZmlsZTovLzAwMDEtTWFrZWZpbGUuYW0tdXBkYXRlLXRoZS1wYXRoLW9mLWxpYm5mcy5hLnBhdGNo
+IFwNCj4gPg0KPiA+IGZpbGU6Ly8wMDAxLU1ha2VmaWxlLmFtLWZpeC11bmRlZmluZWQtZnVuY3Rp
+b24tZm9yLWxpYm5zbS5hLnBhdGNoIFwNCj4gPiArICAgICAgICAgICBmaWxlOi8vMDAwMS1Eb24t
+dC1idWlsZC10b29scy13aXRoLUNDX0ZPUl9CVUlMRC5wYXRjaCBcDQo+ID4gICINCj4gPiAgU1JD
+X1VSSV9hcHBlbmRfbGliYy1nbGliYyA9ICIgZmlsZTovLzAwMDEtY29uZmlndXJlLmFjLURvLW5v
+dC1mYXRhbGl6ZS0NCj4gV21pc3NpbmctcHJvdG90eXBlcy5wYXRjaCINCj4gPiAgU1JDX1VSSV9h
+cHBlbmRfbGliYy1tdXNsID0gIiBmaWxlOi8vbmZzLXV0aWxzLW11c2wtDQo+IHJlc19xdWVyeWRv
+bWFpbi5wYXRjaCINCj4gPiBAQCAtMTQ3LDExICsxNDcsNiBAQCBkb19pbnN0YWxsX2FwcGVuZCAo
+KSB7DQo+ID4gICAgICAgICBjaG93biAtUiBycGN1c2VyOnJwY3VzZXIgJHtEfSR7bG9jYWxzdGF0
+ZWRpcn0vbGliL25mcy9zdGF0ZA0KPiA+ICAgICAgICAgY2htb2QgMDY0NCAke0R9JHtsb2NhbHN0
+YXRlZGlyfS9saWIvbmZzL3N0YXRkL3N0YXRlDQo+ID4NCj4gPiAtICAgICAgICMgdGhlIGZvbGxv
+d2luZyBhcmUgYnVpbHQgYnkgQ0NfRk9SX0JVSUxEDQo+ID4gLSAgICAgICBybSAtZiAke0R9JHtz
+YmluZGlyfS9ycGNkZWJ1Zw0KPiA+IC0gICAgICAgcm0gLWYgJHtEfSR7c2JpbmRpcn0vcnBjZ2Vu
+DQo+ID4gLSAgICAgICBybSAtZiAke0R9JHtzYmluZGlyfS9sb2NrdGVzdA0KPiA+IC0NCj4gPiAg
+ICAgICAgICAjIE1ha2UgcHl0aG9uIHRvb2xzIHVzZSBweXRob24gMw0KPiA+ICAgICAgICAgIHNl
+ZCAtaSAtZSAnMXMsIyEuKnB5dGhvbi4qLCMhJHtiaW5kaXJ9L3B5dGhvbjMsJw0KPiA+ICR7RH0k
+e3NiaW5kaXJ9L21vdW50c3RhdHMgJHtEfSR7c2JpbmRpcn0vbmZzaW9zdGF0DQo+ID4NCj4gPiAt
+LQ0KPiA+IDIuMTEuMA0KPiA+DQo+ID4gLS0NCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXw0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlz
+dA0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBodHRw
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
+b3JlDQo=
 
