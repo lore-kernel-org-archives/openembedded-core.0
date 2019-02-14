@@ -1,47 +1,46 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 26F227C617
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+	[209.85.210.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C4D26D3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 21:10:07 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id l5so6982737wrw.6
+	Thu, 14 Feb 2019 21:17:14 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id n71so12998501ota.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 13:10:08 -0800 (PST)
+	Thu, 14 Feb 2019 13:17:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=pSkdVhMtyppoPrPu080oTZ/ohU2oMzJ/jRYDlTN8ljQ=;
-	b=iamUlKPZ0Z0YQVRvsC9nyg5rJU8uqBevh0t7G9moGtan+c8v44Dr8fysZCKlqX6IbX
-	zRMfby1fwvy+0/NvoyTNiorjhrrHTstdVVprEU82acEWDYXWDiC4NtuCO7DuCy1TUzSV
-	dr6U3rWeQ1yavSFv8rtv9aaMw9c2GG1InPD/9OWCk2FhP5SQmLUyHV/i1Pur2sPDilWo
-	BXpvZ3XvaOOdrqI/O6ev+XE+h4L9VbJqJVkEHJUu6ymPI2vcX3PLo4Ren8FgvOZirRuk
-	VkusS2Aogdjovt5AUF6Tz5T4Ql3a/brj/mpX1KxAQW6EUB7NRaMT35f7bDyUTtrhnBYV
-	LyBA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=gCKl2V4xtKeJZGO9heQAqk9ESnvbDjhybmrNcLHSiZg=;
+	b=Ti6tBt4bEouNHaeYkhulKZs4nytojfWlNOpoaB3VHk3Pul0tyCtOcJTrvcHh410qfO
+	NbR/QRkKjCiQGyFC6UsLMi57KwmxDkhUuEE6xY/tDHfmTVUukCTR5zIkb+ho0LRUhkk0
+	Irwnas9qw2SrW4yDEFzF3ay6Hxzpp+d8eSo3wNVPyAxqnmwKyOwHiu1z+9yochw4nPNR
+	bjDIE8WWvsKbGBZxwd9HUZ4i5TN9C9wIuIEI0xDhmyJg/7MzhEkUruoSEJ9tGPrQ8F69
+	ccIcjRG0+TIv09NAUcddwH0sJ/vwC8txDMbGMwP5N91v2Z+3cvmaHf4Z9RbJPrq83Oem
+	hmqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pSkdVhMtyppoPrPu080oTZ/ohU2oMzJ/jRYDlTN8ljQ=;
-	b=dWQ+Mh7cjrm76nWmc+iLfe6IjjBvnDj2FZI/ZxCBdQS6DO23HHt5QFqqFtU/9U3f9v
-	g94uMuhgF/MUS7TVxlC5Y37wOafXkMNv1Hsjz2k8g2BTHnPiKxNzV8BI+fFGqNRnwdCC
-	ym3H0Jmvw1eU433x6yBtx4KJD8ClqQbupWMw/AsWTXHDlahREFORPj8uK1oRe00xXHy4
-	n/BnGiGesBBpM2b/j8kgOO/bfZyg5J03JO/B0K6twXVT7NSOMYjZGazcskUUHHVPJRNy
-	nH/sKfdlAA4zGoooh3Q8EuoV8SIMvrb1pEdivGyMyisaAAcavgHOEsP4szY0NiVqOyFz
-	ogdg==
-X-Gm-Message-State: AHQUAubm2RFRbCptZe0m7tpYFJj2lMJCj/+taIdKG71VFibPzLEnHXX/
-	EZbkop2P36FPdza0GFMilQePYpiFE9K0Dw==
-X-Google-Smtp-Source: AHgI3IbxN86PyFd1keDUG+nNw3Crj2bcF4EtncbtSo7onr++ZYDt7Tpl9bwqlCjdrOaf93ZPr2ybQA==
-X-Received: by 2002:adf:c54d:: with SMTP id s13mr4125576wrf.169.1550178607509; 
-	Thu, 14 Feb 2019 13:10:07 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	m21sm5341306wmi.43.2019.02.14.13.10.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Feb 2019 13:10:06 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 21:09:49 +0000
-Message-Id: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] bmap-tools: update from 3.4 to 3.5
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=gCKl2V4xtKeJZGO9heQAqk9ESnvbDjhybmrNcLHSiZg=;
+	b=UJ1GdEpvbUPwLx0wzf9VRum+CH7eR49YDP3RHqpwjCaOB/JD79S38YEECOgr4ZF7qS
+	wNabNu/be0OSqzkC8elyRqazHpBtI1Pr8SVUEG1eHSG87gzVshQOfrMfzvqQF51hz5gN
+	kMDmHbSdFu7op1bDKD7L7r0YivhbacvVlEEfGhIuMq6sCw5927HQKWBLVoDbvrm4nLG6
+	cs2WHKGzXzczyS8uCE726iys8E50utBym2BpJAVT7QAgyKOgeUCRKCp53zclQVIX7HaJ
+	jxhT+xbEEYKqLfQhE+z2dQ9gHnUV5O6iLE1vnBpV4b8To5O6m+UzSRw2GQf7y6jaZ1S3
+	pT/Q==
+X-Gm-Message-State: AHQUAuY9n2QIaOvyeyP7BXx2zNnSpZ8NtdtFp5lwTuCgAA3duGdmd4ne
+	IhtFOsqTP2ek0f8RCPGeLV/5ckdzvxTiydaYcz4=
+X-Google-Smtp-Source: AHgI3IZqMKL2RJdA7aVo+nESgaPQUByv3VUNFHZioIdOzRg3Io2yFNdkTGbd3GbCG5ZbGBLuobVPBa8Z9+BGJofCNxA=
+X-Received: by 2002:aca:4d49:: with SMTP id a70mr3780403oib.135.1550179033818; 
+	Thu, 14 Feb 2019 13:17:13 -0800 (PST)
+MIME-Version: 1.0
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+In-Reply-To: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Feb 2019 22:17:01 +0100
+Message-ID: <CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +53,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 21:10:07 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 21:17:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-bmap-tools 3.5 was released August 2018 but has no release tarball, so
-switch to using the git fetcher. Also pull in the fix for StopIteration
-being transformed into RuntimeError for Python 3.7.
+On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com> wrote:
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+> +PV .= "+git${SRCPV}"
 
- .../bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb}          | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-support/bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb} (74%)
+This is unnecessary and adds clutter. Just the plain version number is enough.
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-similarity index 74%
-rename from meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-rename to meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-index 2aae9a3fe0d8..25d66df623a0 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-@@ -9,12 +9,13 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
-+SRC_URI = "git://github.com/intel/${BPN}"
- 
--SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
--SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
-+SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
-+S = "${WORKDIR}/git"
-+PV .= "+git${SRCPV}"
- 
--UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl"
- 
--- 
-2.7.4
-
+Alex
 
