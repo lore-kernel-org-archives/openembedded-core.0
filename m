@@ -1,33 +1,59 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F9B76B3D4
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A82327C36A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 09:11:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 440VxZ1Hftz3T
+	Thu, 14 Feb 2019 09:13:41 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id s22so2792185pfh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 10:11:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1550135474;
-	bh=woSygiPhKsjDpGL4JY/AM5cEJnPiF+HSFMz+gPbhnc8=;
-	h=From:To:Subject:Date:From;
-	b=ITNqC0NqJW6wzObHbBvnC/tbLUUUm+V1XMH1yMwRmhTwHN3Eznl3mITKU1q5KsB3m
-	LiVM3n7rTceqjB+KReix25B9+p7DEQIZ+GTSC4/KYZ3EtFgoaSD0n3AQMHvB4i0DGM
-	3LEgThaN0r/jGUXO7UOJr5fcedjlnMju+c+pApShgRiiJvrj7AbrcjlELBoqVk3S0x
-	9WfoWGA59tbXIHtrfiD9uiPGocTcPhqgxWPpyYw2Q8ZbB4DE1ruxI8oXFN1Kg6nGfH
-	gUd/XCd3u8vfIFSvR91KNM5RCeJf7UAXQ1mf7TaF14hqVLzQQmRtl5KV4TlGz4/ZXw
-	92mejUc9u6BPF4Jqcmv+CdvdRUjtLh5HlvKlc9N0l6J5FvatJIxwmpAF2fGZoUFo2l
-	y2KnKwoPstgBJyGQI07loOY6YyE4dBRSZYwlsnPaxx9kFv8O14DX4QVC6R0k9OJCS8
-	eR/aQSU1Qmzjqe1qFfBjJNS1Nwc9ZQIsy7JfTWxYHja+WnErKzUDcw5ryb1hX0nWru
-	bixF5WhavmKLkAacFCj6BTQY0UObbIZNclN/d9SFz3/JrHUh1ReCHAKpJx2ihpBPxC
-	S092AFOzBYEwCCS8RjBljcPL1mM3L62MxSoxt5KSb3Mre1+8USX86WOZy+QeJSMRop
-	wwSQkDM17xicr5KetVCqGGpY=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 11:11:13 +0200
-Message-Id: <20190214091113.26691-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bind: Move nsupdate to bind-utils
+	Thu, 14 Feb 2019 01:13:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=rQ/V+Z1YQZi9K+wCZb0l1ULffihAqm2DRy8b3lUdDyU=;
+	b=L1wslxy2IXG7FnaIxALNlTFZvn6rmV16AUIVBh/BUQQbs24bgC/e/+21YG550flBy3
+	gk95KN4g3YgffKJP9lHDcOrDeC8LABGEnBmRD+iPJkcbP23OYv6Am3w0RLJfQVELttDH
+	s7bPkAQReATKcDgeebBeQapCuBObd6IrlLw0Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=rQ/V+Z1YQZi9K+wCZb0l1ULffihAqm2DRy8b3lUdDyU=;
+	b=MElpDmlrhut1rh2VMnT/IV9txxJIMSd4N5mtAAHukXTShCoKg1T9LK4qzXxnktrzXx
+	wuZ8FnQAQaHyTqBW9fpYYsqvO0dOS59bHWSB6bpBOrAHJ7Txd4X7segy12uYqN8sy0Re
+	WNkTmvqhawO22BYbOr/Eyj9DdhBBwGfda3K1d4d6wB3Ldi8E6L6nKRrdBOWYuqLRbtEn
+	F6F2O+V+VGy51Ptn5sDq4LrgMrUa+eNZM/d6xs7saZGjz0Vi/S5ACnSAEZwnOs+PHAzF
+	PN1zzYMoAVFybcJMKWWi4zHe6Npmw0dj6Gc6+WPvPSqn00SdnH7l73Fe9Hj3428tXYcj
+	BUtQ==
+X-Gm-Message-State: AHQUAuaz3znCcTJrsCmgY16764kL0Cna77tSiSS9XOP7r1Dk7Aps7D1Z
+	I4mNNEkAHlB/3tB5vJrAepviIcXUNuk=
+X-Google-Smtp-Source: AHgI3IY9IuSC8ETPGyDX/YiAGk6RZeF97rhTD5GzUEaW2nvv7CdF17H/qf58GBjT6EJNCSyw+asmjQ==
+X-Received: by 2002:a63:f40e:: with SMTP id g14mr2775506pgi.326.1550135621708; 
+	Thu, 14 Feb 2019 01:13:41 -0800 (PST)
+Received: from [10.0.0.243] (c-67-189-24-112.hsd1.or.comcast.net.
+	[67.189.24.112]) by smtp.gmail.com with ESMTPSA id
+	g14sm4397731pfg.27.2019.02.14.01.13.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Feb 2019 01:13:40 -0800 (PST)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <03b301d4c2ed$7497f360$5dc7da20$@gmail.com>
+	<CANNYZj_PY61tmw=JjP7PPqqSVJff6kd=rsv=daNscx9eSkNWSA@mail.gmail.com>
+	<1634479.1jWiZZ8UfD@localhost.localdomain>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Organization: Linux Foundation
+Message-ID: <6cc49be5-a9f3-bf38-2570-b12048dc4471@linuxfoundation.org>
+Date: Thu, 14 Feb 2019 01:13:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <1634479.1jWiZZ8UfD@localhost.localdomain>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto Project Status WW07'19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,30 +66,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 09:11:14 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 09:13:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-This is a client tool that is usually not used one the same
-machine as the DNS server.
+The regular 3 hour update wasn't installed on the new server. I have 
+repaired that and added the RRS updates as well..
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-connectivity/bind/bind_9.11.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The update has been run several times in testing and I'm curious if RRS 
+has caught up as expected.
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.5.bb
-index 21e979fd9c..11990ee27e 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5.bb
-@@ -119,7 +119,7 @@ CONFFILES_${PN} = " \
- 	"
- 
- PACKAGE_BEFORE_PN += "${PN}-utils"
--FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig"
-+FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig ${bindir}/nsupdate"
- FILES_${PN}-dev += "${bindir}/isc-config.h"
- FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
- 
+On 2/12/19 5:57 PM, Paul Eggleton wrote:
+> Hi Alex
+>
+> On Wednesday, 13 February 2019 6:22:23 AM NZDT Alexander Kanavin wrote:
+>> On Tue, 12 Feb 2019 at 17:10, <sjolley.yp.pm@gmail.com> wrote:
+>>> The recipe reporting system integration with the layer index is available
+>>> at: https://layers.openembedded.org/rrs/recipes/OE-Core/2.7/M3/ and the
+>>> historical data has now been imported.
+>> Sadly the new RRS still seems to be suffering from the 'outdated info'
+>> problem. For example glibc, or python3 recipes have been updated to
+>> latest versions, yet RRS still shows that they haven't been.
+> We're reliant upon the layer index updating and it appears that's not working
+> at the moment. I have asked Michael to look into it. Thanks for the report,
+> I'll reply back here when things are sorted out.
+>
+> Cheers,
+> Paul
+>
 -- 
-2.11.0
+Michael Halstead
+Linux Foundation / SysAdmin
 
 
