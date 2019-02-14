@@ -1,50 +1,33 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 62BA07BFD0
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F9B76B3D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 06:48:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Feb 2019 22:48:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,367,1544515200"; d="scan'208";a="138500262"
-Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
-	by orsmga001.jf.intel.com with ESMTP; 13 Feb 2019 22:48:24 -0800
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.167]) by
-	pgsmsx113.gar.corp.intel.com ([169.254.6.236]) with mapi id
-	14.03.0415.000; Thu, 14 Feb 2019 14:48:21 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2 v5] resultstool: enable merge, store,
-	report and regression analysis
-Thread-Index: AQHUub5HpHvBwgH8Q0eNwakItiZVJ6Xe6G7w
-Date: Thu, 14 Feb 2019 06:48:21 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04348184D25@PGSMSX109.gar.corp.intel.com>
-References: <1548150131-65036-1-git-send-email-ee.peng.yeoh@intel.com>
-	<1548150131-65036-2-git-send-email-ee.peng.yeoh@intel.com>
-	<700a4fa3049746740929c83f6a61bdd5180404c3.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D04348170F12@PGSMSX109.gar.corp.intel.com>
-	<2e5c9d2f2ab6da1386bb73e7099371779422dec4.camel@linuxfoundation.org>
-	<E0805CCB83E6104E80E61FD34E5788AE55DD30DC@PGSMSX110.gar.corp.intel.com>
-	<9DDD2658D1FE414E99172D2DB1E4D04348172764@PGSMSX109.gar.corp.intel.com>
-	<19906ffeb347386b4b1ffbb66105dd98c97f0732.camel@linuxfoundation.org>
-In-Reply-To: <19906ffeb347386b4b1ffbb66105dd98c97f0732.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODA5NjE1YjMtNDA3OS00MzJlLWE5NzQtNzJhYzdmNzJmMDQ4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoia3QrQTRkVzhrbUJGK2pxMGI1Y09vSURROEtkcmh5KzNLUmZRTVRRWTFDS1FZRXJDWHdEMVVxeVozdXB1MEg3NCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
-MIME-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCH 1/2 v5] resultstool: enable merge, store, report and regression analysis
+	Thu, 14 Feb 2019 09:11:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 440VxZ1Hftz3T
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2019 10:11:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1550135474;
+	bh=woSygiPhKsjDpGL4JY/AM5cEJnPiF+HSFMz+gPbhnc8=;
+	h=From:To:Subject:Date:From;
+	b=ITNqC0NqJW6wzObHbBvnC/tbLUUUm+V1XMH1yMwRmhTwHN3Eznl3mITKU1q5KsB3m
+	LiVM3n7rTceqjB+KReix25B9+p7DEQIZ+GTSC4/KYZ3EtFgoaSD0n3AQMHvB4i0DGM
+	3LEgThaN0r/jGUXO7UOJr5fcedjlnMju+c+pApShgRiiJvrj7AbrcjlELBoqVk3S0x
+	9WfoWGA59tbXIHtrfiD9uiPGocTcPhqgxWPpyYw2Q8ZbB4DE1ruxI8oXFN1Kg6nGfH
+	gUd/XCd3u8vfIFSvR91KNM5RCeJf7UAXQ1mf7TaF14hqVLzQQmRtl5KV4TlGz4/ZXw
+	92mejUc9u6BPF4Jqcmv+CdvdRUjtLh5HlvKlc9N0l6J5FvatJIxwmpAF2fGZoUFo2l
+	y2KnKwoPstgBJyGQI07loOY6YyE4dBRSZYwlsnPaxx9kFv8O14DX4QVC6R0k9OJCS8
+	eR/aQSU1Qmzjqe1qFfBjJNS1Nwc9ZQIsy7JfTWxYHja+WnErKzUDcw5ryb1hX0nWru
+	bixF5WhavmKLkAacFCj6BTQY0UObbIZNclN/d9SFz3/JrHUh1ReCHAKpJx2ihpBPxC
+	S092AFOzBYEwCCS8RjBljcPL1mM3L62MxSoxt5KSb3Mre1+8USX86WOZy+QeJSMRop
+	wwSQkDM17xicr5KetVCqGGpY=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Feb 2019 11:11:13 +0200
+Message-Id: <20190214091113.26691-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] bind: Move nsupdate to bind-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,95 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 06:48:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 14 Feb 2019 09:11:14 -0000
 
-SGkgUlAsDQoNCkkgaGFkIGV4ZWN1dGVkIHRoZSBydW50aW1lL3B0ZXN0IHVzaW5nIHRoZSBsYXRl
-c3QgbWFzdGVyIHdpdGggdGhlIGxhdGVzdCBjaGFuZ2VzIHRvIHVuZGVyc3RhbmQgdGhlIG5ldyBp
-bXByb3ZlbWVudC4gDQoNCkZvciBub3csIHRoZSByZXN1bHR0b29sIHJlZ3Jlc3Npb24gd2lsbCBp
-Z25vcmUgYm90aCAncHRlc3RyZXN1bHQucmF3bG9ncycgJiAncHRlc3RyZXN1bHQuc2VjdGlvbnMn
-IGFzIGN1cnJlbnQgcmVncmVzc2lvbiBvcGVyYXRpb24gZm9jdXNlcyBvbiBjb21wYXJpbmcgdGhl
-ICJzdGF0dXMiIGRpZmZlcmVuY2VzIGFuZCBpdCBkb2VzIG5vdCBuZWVkIHRoZSBsb2cgYXMgd2Vs
-bCBhcyB0aGUgbmV3IHNlY3Rpb24gaW5mb3JtYXRpb24uICBCeSBpZ25vcmluZyBib3RoICdwdGVz
-dHJlc3VsdC5yYXdsb2dzJyAmICdwdGVzdHJlc3VsdC5zZWN0aW9ucycgLCB0aGUgcmVncmVzc2lv
-biB0aW1lIHdhcyBvcHRpbWl6ZWQgdG8gc2Vjb25kcyBpbnN0ZWFkIG9mIG1pbnV0ZXMgZm9yIHB0
-ZXN0LiAgDQoNCkZvciBhZGRpdGlvbmFsIGluZm9ybWF0aW9uIGluc2lkZSAncHRlc3RyZXN1bHQu
-c2VjdGlvbnMnLCBkbyB3ZSBuZWVkIHNpbWlsYXIgcmVncmVzc2lvbj8gQW55IGlkZWEgd2hpY2gg
-ZGF0YSBpbnNpZGUgJ3B0ZXN0cmVzdWx0LnNlY3Rpb25zJyB3aWxsIGJlIHVzZWZ1bCBmb3IgcmVn
-cmVzc2lvbj8gDQoNCkN1cnJlbnRseSwgcmVzdWx0dG9vbCByZWdyZXNzaW9uIHdpbGwgb25seSBw
-cmludCB0ZXh0IGJhc2VkIHJlcG9ydCwgaWYgaHRtbCByZXBvcnQgd2FzIG5lZWRlZCwgaXQgY2Fu
-IGJlIGV4dGVuZCBieSB1c2luZyBqaW5qYTIgZnJhbWV3b3JrLiAgRG8gd2UgbmVlZCBodG1sIHJl
-cG9ydCBmb3IgdGhpcyByZWdyZXNzaW9uPyBBbnkgcmVxdWlyZW1lbnQgZm9yIHRoZSBodG1sIHJl
-cG9ydD8gDQoNCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1i
-ZWRkZWQtY29yZS8yMDE5LUZlYnJ1YXJ5LzI3ODk3MS5odG1sDQpodHRwOi8vbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxOS1GZWJydWFyeS8yNzg5
-NzIuaHRtbA0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJl
-ZGRlZC1jb3JlLzIwMTktRmVicnVhcnkvMjc4OTczLmh0bWwNCg0KVGhhbmtzLA0KWWVvaCBFZSBQ
-ZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IEZyaWRh
-eSwgRmVicnVhcnkgMSwgMjAxOSA3OjQwIEFNDQpUbzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55
-ZW9oQGludGVsLmNvbT47ICdvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-JyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCkNjOiBFZ2dsZXRv
-biwgUGF1bCA8cGF1bC5lZ2dsZXRvbkBpbnRlbC5jb20+OyBCdXJ0b24sIFJvc3MgPHJvc3MuYnVy
-dG9uQGludGVsLmNvbT4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMiB2NV0gcmVz
-dWx0c3Rvb2w6IGVuYWJsZSBtZXJnZSwgc3RvcmUsIHJlcG9ydCBhbmQgcmVncmVzc2lvbiBhbmFs
-eXNpcw0KDQpPbiBUaHUsIDIwMTktMDEtMzEgYXQgMDU6MjMgKzAwMDAsIFllb2gsIEVlIFBlbmcg
-d3JvdGU6DQo+IEhpIFJQLA0KPiANCj4gSSBsb29rZWQgaW50byBwdGVzdCBhbmQgcmVncmVzc2lv
-bi4gVGhlIGV4aXN0aW5nICJyZXN1bHRzdG9vbCANCj4gcmVncmVzc2lvbiIgY2FuIGJlIHVzZWQg
-dG8gcGVyZm9ybSByZWdyZXNzaW9uIG9uIHB0ZXN0LCBzaW5jZSB0aGUgDQo+IHRlc3RyZXN1bHRz
-Lmpzb24gY2FwdHVyZSBwdGVzdCBzdGF0dXMuIEkgaGFkIGV4ZWN1dGVkIHJlZ3Jlc3Npb24gDQo+
-IHNjcmlwdCBmb3IgdGhlIGJlbG93IDIgcHRlc3QgdGVzdHJlc3VsdHMuanNvbi4gQXR0YWNoZWQg
-d2FzIHRoZSANCj4gcmVncmVzc2lvbiByZXBvcnQgZm9yIHB0ZXN0Lg0KPiANCj4gaHR0cHM6Ly9h
-dXRvYnVpbGRlci55b2N0by5pby9wdWIvcmVsZWFzZXMveW9jdG8tMi43X00yLnJjMS90ZXN0cmVz
-dWx0cw0KPiAvcWVtdXg4Ni02NC1wdGVzdC90ZXN0cmVzdWx0cy5qc29uDQo+IGh0dHBzOi8vYXV0
-b2J1aWxkZXIueW9jdG8uaW8vcHViL3JlbGVhc2VzL3lvY3RvLTIuN19NMS5yYzEvdGVzdHJlc3Vs
-dHMNCj4gL3FlbXV4ODYtNjQtcHRlc3QvdGVzdHJlc3VsdHMuanNvbg0KPiANCj4gVGhlIG9ubHkg
-Y2hhbGxlbmdlcyBub3cgd2FzIHNpbmNlIHB0ZXN0IHJlc3VsdCBzZXQgd2FzIHJlbGF0aXZlbHkg
-DQo+IGxhcmdlLCBpdCB3YXMgdGFraW5nIHNvbWUgdGltZSBmb3IgY29tcHV0aW5nIHRoZSByZWdy
-ZXNzaW9uLiBBbHNvIA0KPiB0aGVyZSB3YXMgdGhpcyAicHRlc3RyZXN1bHQucmF3bG9ncyIgdGVz
-dGNhc2UgdGhhdCBkb2VzIG5vdCBjb250YWluIA0KPiBzdGF0dXMgYnV0IHRoZSBsYXJnZSByYXds
-b2cuDQo+IA0KPiBJIGRpZCBhbiBleHBlcmltZW50IHdoZXJlIEkgcnVuIHRoZSByZWdyZXNzaW9u
-IG9uIHRlc3RyZXN1bHRzLmpzb24gDQo+IHdpdGggYW5kIHdpdGhvdXQgdGhlIHB0ZXN0IHJhd2xv
-Zy4gSXQgc2hvd3MgdGhlIHRpbWUgdGFrZW4gZm9yIA0KPiByZWdyZXNzaW9uIHdhcyBzaWduaWZp
-Y2FudGx5IGxhcmdlciB3aGVuIGl0IGNvbnRhaW4gdGhlIHJhd2xvZy4gSSB3aWxsIA0KPiB0cnkg
-dG8gaW1wcm92ZSB0aGUgcmVncmVzc2lvbiB0aW1lIGJ5IHRocm93IGF3YXkgdGhlIHJhd2xvZyBh
-dCBydW50aW1lIA0KPiB3aGVuIHBlcmZvcm0gY29tcHV0aW5nLg0KPiB0ZXN0cmVzdWx0cy5qc29u
-IHdpdGggcmF3bG9nDQo+IFJlZ3Jlc3Npb24gc3RhcnQgdGltZTogMjAxOTAxMzExMjI4MDUNCj4g
-UmVncmVzc2lvbiBlbmQgdGltZTogICAyMDE5MDEzMTEyNDQyNQ0KPiBUaW1lIHRha2VuOiAxNiBt
-aW5zIDIwIHNlYw0KPiANCj4gdGVzdHJlc3VsdHMuanNvbiB3aXRob3V0IHJhd2xvZw0KPiBSZWdy
-ZXNzaW9uIHN0YXJ0IHRpbWU6IDIwMTkwMTMxMTI0NTEyDQo+IFJlZ3Jlc3Npb24gZW5kIHRpbWU6
-ICAgMjAxOTAxMzExMjQ1MjkNCj4gVGltZSB0YWtlbjogMTcgc2VjDQoNCkFuYWx5c2luZyB0aGUg
-cmF3bG9nIG1ha2VzIG5vIHNlbnNlIHNvIHRoZSB0b29sIG5lZWRzIHRvIHNpbXBseSBpZ25vcmUg
-dGhhdC4gMTYgbWludXRlcyBpcyBmYXIgdG9vIGxvbmchIA0KDQpJJ3ZlIGp1c3QgbWVyZ2VkIHNv
-bWUgY2hhbmdlcyB3aGljaCBtZWFuIHRoZXJlIGFyZSBwcm9iYWJseSBzb21lIG90aGVyIHNlY3Rp
-b25zIGl0IHdpbGwgbmVlZCB0byBpZ25vcmUgbm93IHRvbyBzaW5jZSB0aGUgbG9ncyBhcmUgbm93
-IGJlaW5nIHNwbGl0IG91dCBwZXIgcHRlc3QgKHNlY3Rpb24pLiBJJ3ZlIGxlZnQgcmF3bG9ncyBp
-biBhcyBpdHMgdXNlZnVsIGZvciBkZWJ1Z2dpbmcgYnV0IG9uY2UgdGhlIHNlY3Rpb24gc3BsaXRz
-IGFyZSB3b3JraW5nIHdlIGNvdWxkIHJlbW92ZSBpdC4NCg0KVGhpcyBhZGRzIGluIHRpbWluZyBk
-YXRhIHNvIHdlIGtub3cgaG93IGxvbmcgZWFjaCBwdGVzdCB0b29rIHRvIHJ1biAoaW4gc2Vjb25k
-cyksIGl0IGFsc28gYWRkcyBpbiBleGl0IGNvZGUgYW5kIHRpbWVvdXQgZGF0YS4gVGhlc2UgYWxs
-IGNvbXBsaWNhdGUgdGhlIHJlZ3Jlc3Npb24gYW5hbHlzaXMgYnV0IHRoZSBmYWN0IHRoYXQgbHR0
-bmcgaGFzIGJlZW4gdGltaW5nIG91dCAoZm9yIGV4YW1wbGUpIGhhcyBiZWVuIG92ZXJsb29rZWQg
-dW50aWwgbm93IGFuZCBzaG93cyB3ZSBuZWVkIHRvIGFuYWx5c2UgdGhlc2UgdGhpbmdzLg0KDQpJ
-J20gY29uc2lkZXJpbmcgd2hldGhlciB3ZSBzaG91bGQgaGF2ZSBhIGNvbW1hbmQgaW4gcmVzdWx0
-dG9vbCB3aGljaCB0YWtlcyBqc29uIGRhdGEgYW5kIHdyaXRlcyBpdCBvdXQgaW4gYSAiZmlsZXN5
-c3RlbSIgZm9ybS4NCg0KVGhlIGNvZGUgaW4gbG9ncGFyc2VyLnB5IGFscmVhZHkgaGFzIGEgcnVk
-aW1lbnRhcnkgdmVyc2lvbiBvZiB0aGlzIGZvciBwdGVzdCBkYXRhLiBJdCBjb3VsZCBiZSBleHRl
-bmRlZCB0byB3cml0ZSBvdXQgYSBYLmxvZyBmb3IgZWFjaCBwdGVzdCBiYXNlZCBvbiB0aGUgc3Bs
-aXQgb3V0IGRhdGEgYW5kIG1heWJlIGR1cmF0aW9uIGFuZCB0aW1lb3V0IGluZm9ybWF0aW9uIGlu
-IHNvbWUgZm9ybSB0b28uDQoNClRoZSBpZGVhIGJlaGluZCBmbGF0IGZpbGVzeXN0ZW0gcmVwcmVz
-ZW50YXRpb25zIG9mIHRoZSBkYXRhIGlzIHRoYXQgYSB1c2VyIGNhbiBtb3JlIGVhc2lseSBleHBs
-b3JlIG9yIGNvbXBhcmUgdGhlbSwgdGhleSBhbHNvIHNob3cgdXAgd2VsbCBpbiBnaXQuDQoNCkl0
-cyBhbHNvIHdvcnRoIHRoaW5raW5nIGFib3V0IGhvdyB3ZSdsbCBlbmQgdXAgdXNpbmcgdGhpcy4g
-dGVzdHJlc3VsdCB3aWxsIGdldCBjYWxsZWQgYXQgdGhlIGVuZCBvZiBidWlsZHMgKHBhcnRpY3Vs
-YXJseSkgcmVsZWFzZSBidWlsZHMgYW5kIHdlJ2xsIHdhbnQgaXQgdG8gZ2VuZXJhdGUgYSBRQSBy
-ZXBvcnQgZm9yIHRoZSBhdXRvbWF0ZWQgdGVzdCBkYXRhLiBUaGUgYXV0b2J1aWxkZXIgd2lsbCBs
-aWtlbHkgcHV0IGFuIGh0dHAgbGluayBpbiB0aGUgInJlbGVhc2UgYnVpbGQgcmVhZHkiDQplbWFp
-bCB0byBhbiBodG1sIGxpa2UgcmVwb3J0IHN0b3JlZCBhbG9uZ3NpZGUgdGhlIHRlc3RyZXN1bHRz
-IGpzb24gZmlsZXMuDQoNCkknbSBzdGlsbCB0cnlpbmcgdG8gZmlndXJlIG91dCBob3cgdG8gbWFr
-ZSB0aGlzIGFsbCBmaXQgdG9nZXRoZXIgYW5kIGFsbG93IGF1dG9tYXRlZCBjb21wYXJpc29ucyBi
-dXQgdGhlIGJ1aWxkIHBlcmZvcm1hbmNlIGRhdGEgd291bGQgYWxzbyBmaXQgaW50byB0aGlzIChh
-bmQgYWxyZWFkeSBoYXMgaHRtbCByZXBvcnRzKS4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
+This is a client tool that is usually not used one the same
+machine as the DNS server.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-connectivity/bind/bind_9.11.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.5.bb
+index 21e979fd9c..11990ee27e 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5.bb
+@@ -119,7 +119,7 @@ CONFFILES_${PN} = " \
+ 	"
+ 
+ PACKAGE_BEFORE_PN += "${PN}-utils"
+-FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig"
++FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig ${bindir}/nsupdate"
+ FILES_${PN}-dev += "${bindir}/isc-config.h"
+ FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
+ 
+-- 
+2.11.0
+
 
