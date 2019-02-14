@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1FC6BE39
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+	[209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9227C615
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 15:56:50 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id 2so7378079qtb.5
+	Thu, 14 Feb 2019 15:59:00 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id y20so7313174qtm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 07:56:51 -0800 (PST)
+	Thu, 14 Feb 2019 07:59:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=B4+V+ak1M/gejvp8txPeDi+EV46A88vkA9MZccgWQ7g=;
-	b=O0eii9m4vBx86SVSuLeKyt1GHZ2yXZOyG74IfYfFsFsUMQLO36SkxJKf0/jk3D+iOl
-	KRpbbeb9qmn5daPqiWrcnIK/4mrKQoV7IbpYHOv9cQs7vrjHD4w+CFDzs0yfAVBySkcR
-	U7nA/D5LaM8iuLcSZFVeyfEYsr5jhuu9aE8lyNRQ04h33kp3DKI+lOMfYR8dCEEFOy+O
-	3GFUMGQ/4UaeIZIN2W2jh39iPnVfIDjQ5dyqiiQKHNaQYdWyqC/W7NYkjpfa22dq1SZj
-	rM+FcxEevKw91W/bj3EyXfKn2xJs7NfM+KVTcaUSHAeXW/sx7KP5IRRjTnPxSklWMYs8
-	1iOQ==
+	:cc; bh=AS8LJJTO/cnG0lWf0LOCygtx0R20Wvi0sTp/58FTikQ=;
+	b=nieowa68jGsqyUMQCzNXWNzmCAEHVenJyMEAjvPDXtS5//oo//ji2/otReW8NG3hGu
+	AIzIcpgc7neqAABX0HAsDVxtpJNEkV4Qd6wVXZNtgMytnt8urO/s+hrQMTKTOJNSLYlx
+	F4t9JhnbxnugcDJgiheZsqlaH4CZR0DrTXlWAaU+PaT6iJf835qe4ZkuP7OxzZ9JaKlg
+	XIoLG5bcEMn48s0djwbPiuN+KJITs1yTkGSKfX2/oulFayyX10cPLHJvw59mrPgi6U1y
+	0mJtYsODbOH9kKxEpwG+AGK1KYTCBE2adqeGB853J+SRZL0t8S9XyrJiXQ3IklvUmsyj
+	rAPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=B4+V+ak1M/gejvp8txPeDi+EV46A88vkA9MZccgWQ7g=;
-	b=pAaCiJ0ZaTAq+Do7U83lkROqXdhEHOZC9u2OwGUWw+P9HjjlSHdhnIJigqDTKDj8Qx
-	yd+z6DcNUVxHk37V3dDbSE1Rirn0y5XLMckwHbhGBtGqZI2DyFbKrDID3r7+TFHR0EsY
-	jmfRZnY78XPdCAh12N/OkY2qgy1NvEKarx+VPWsfspd545Pg8C8MdxWcic3lgEXqkhbW
-	/6oTYc7VEDpS5DSDHkpJyJTI+U6e9nLGWIPFtU2oEzrhcxSR0YNTEAgnRejerpLjVO2L
-	ZQ0d9gyU0XpKgbSa7wlpLho8XUeKnnLZ9Io+sJss1nH0/Peb3HAFusEqxPF0csmdUXAo
-	kalQ==
-X-Gm-Message-State: AHQUAuZF0cH31Dgd+l1eB3uxH90iIROm8np8M/cEHMycq2dB5vyB44HG
-	DONsdsR02Xh0pCIL1DXh6Q/jmW096lBRaMUm0Eo=
-X-Google-Smtp-Source: AHgI3Iay5UjpjBEm+9AyJ7KiVyJ3mN/3dEp+bkYWJyB4UYKk+64/8cvckV7EGtycFt/yAzWfTWOuSnlTyCSZYapkCZA=
-X-Received: by 2002:ac8:2c51:: with SMTP id e17mr3565094qta.254.1550159810882; 
-	Thu, 14 Feb 2019 07:56:50 -0800 (PST)
+	bh=AS8LJJTO/cnG0lWf0LOCygtx0R20Wvi0sTp/58FTikQ=;
+	b=Flg3tI20RmnvpXOhgRw8urywtDznqIuCdE0p2J6bjKaISMVrAZNj7Q85p1RIwAkqvP
+	+Whk2kekM5OAYIy8hmWiWQU2/YCMZr05tlYbt9ctH/2Nsn9Y2lS1uEP5eb5aDtFKSLop
+	OOxEZXzMV2lsNskY0J+ckLk0s3jyQwyF6Mhtw2/RSt0UVP4Ikt74T7n7CowdWy8jOcag
+	LCzRi/WrY0CuJhXUwiCryIfwKiIBSkQ9i3MQAdooa+Q2HMrvAXRfwBmRClgd0Plu90Ym
+	bMxnrbzoDDBgK+JoQyY7793rsw5/HF8OScJzNx0UJ4FbpKO5egYxXLNBYzoAXHiUrZNm
+	SoKQ==
+X-Gm-Message-State: AHQUAuZslVODCNQ54aYDafPTBur6SydZvkLU8DkTEUxwgx0S1CsU0q45
+	Yf0VQss3k0z6/rBj9ipSmbYMJJRt4/HwXu200SY=
+X-Google-Smtp-Source: AHgI3IZ8shkjj3/RnXjmgjPix9Hijr6ebOTM3tTxvDfEp3W38DDh9UYP4X0U7gjRVd0a2b86P5nLuaWxG9ZCM/94Udg=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr3687083qtn.253.1550159941619; 
+	Thu, 14 Feb 2019 07:59:01 -0800 (PST)
 MIME-Version: 1.0
-References: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
-In-Reply-To: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
+References: <20190214054857.18876-1-anuj.mittal@intel.com>
+	<20190214054857.18876-3-anuj.mittal@intel.com>
+In-Reply-To: <20190214054857.18876-3-anuj.mittal@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Feb 2019 07:56:24 -0800
-Message-ID: <CAMKF1spgmzAczHO27m5B48UKG6qE0N705C-kTUfTpWMdNBNxLw@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Date: Thu, 14 Feb 2019 07:58:35 -0800
+Message-ID: <CAMKF1sqiTB5-pPBQw8xSdg0h=_GTQ4MTtdqATM8_HvWJmWd+-Q@mail.gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
+Subject: Re: [PATCH 3/4] pixman: upgrade 0.34.0 -> 0.38.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,69 +55,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 15:56:50 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 15:59:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 13, 2019 at 10:05 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+On Wed, Feb 13, 2019 at 9:49 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
 >
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> > Sent: den 12 februari 2019 06:48
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install
-> > utility to create directories with right permissions
-> >
-> > Could fix issues where dirs with wrong permission is created with mkdir -p
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/classes/libc-package.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-
-> > package.bbclass
-> > index 0b4c666a74..34025635ce 100644
-> > --- a/meta/classes/libc-package.bbclass
-> > +++ b/meta/classes/libc-package.bbclass
-> > @@ -61,7 +61,7 @@ LOCALETREESRC ?= "${PKGD}"
-> >  do_prep_locale_tree() {
-> >       treedir=${WORKDIR}/locale-tree
-> >       rm -rf $treedir
-> > -     mkdir -p $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
-> > +     install -d $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
+> For changes, see:
 >
-> This does not change anything (install -d and mkdir -p does the same thing).
+> https://cgit.freedesktop.org/pixman/log/?qt=range&q=pixman-0.38.0...pixman-0.34.0
 >
-> >       tar -cf - -C ${LOCALETREESRC}${datadir} -p i18n | tar -xf - -C $treedir/${datadir}
-> >       # unzip to avoid parsing errors
-> >       for i in $treedir/${datadir}/i18n/charmaps/*gz; do
-> >               gunzip $i
-> >       done
-> >       tar -cf - -C ${LOCALETREESRC}${base_libdir} -p . | tar -xf - -C $treedir/${base_libdir}
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  .../xorg-lib/pixman/asm_include.patch         | 29 -------------------
+>  .../{pixman_0.34.0.bb => pixman_0.38.0.bb}    |  5 ++--
+>  2 files changed, 2 insertions(+), 32 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
+>  rename meta/recipes-graphics/xorg-lib/{pixman_0.34.0.bb => pixman_0.38.0.bb} (89%)
 >
-> This is where the problem happens. When the files are copied from
-> ${LOCALETREESRC}, the ownership of $treedir${localedir} is changed to that
-> of ${LOCALETREESRC}${localedir}. However, I now realized that the problem
-> may be due to the fact that I have usrmerge enabled in DISTRO_FEATURES,
-> which causes the above line to copy things it was never meant to copy, in
-> this case ${LOCALETREESRC}${localedir}. I tried to just remove the line
-> altogether and then it built just fine. But I do not know what the
-> consequences are of removing it... I guess it is related to setting up an
-> environment for qemu to run in, but since that seems to work fine without
-> the files copied by the above line, maybe it is not needed? Or maybe it
-> is just not needed when having usrmerge in DISTRO_FEATURES? I tried to
-> backtrack it through the commit logs, but it was introduced with the
-> do_prep_locale_tree() function, so no help there.
+> diff --git a/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch b/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
+> deleted file mode 100644
+> index b52a5707d6..0000000000
+> --- a/meta/recipes-graphics/xorg-lib/pixman/asm_include.patch
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -Fixes errors like
+> -
+> -Assembler messages:
+> -Fatal error: can't create .libs/pixman-mips-dspr2-asm.o: No such file or directory
+> -
+> -it works with glibc because it uses gcc fixed-headers but thats not right.
+> -
+> -We move the include under C block
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Upstream-Status: Pending
+> -Index: pixman-0.32.6/pixman/pixman-private.h
+> -===================================================================
+> ---- pixman-0.32.6.orig/pixman/pixman-private.h
+> -+++ pixman-0.32.6/pixman/pixman-private.h
+> -@@ -1,4 +1,3 @@
+> --#include <float.h>
+> -
+> - #ifndef PIXMAN_PRIVATE_H
+> - #define PIXMAN_PRIVATE_H
+> -@@ -17,6 +16,8 @@
+> -
+> - #ifndef __ASSEMBLER__
+> -
+> -+#include <float.h>
+> -+
+> - #ifndef PACKAGE
+> - #  error config.h must be included before pixman-private.h
+> - #endif
+> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb
+> similarity index 89%
+> rename from meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
+> rename to meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb
+> index c290fa4614..49c3d62342 100644
+> --- a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
+> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb
+> @@ -31,11 +31,10 @@ EXTRA_OECONF_class-nativesdk = "--disable-gtk"
 >
+>  SRC_URI += "\
+>              file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+> -           file://asm_include.patch \
 
-I wonder if we should use --preserve option to tar -xf call here for
-making it explicit.
+can you confirm you tested a build with musl/mips ?
 
-> > --
-> > 2.20.1
+>             file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
+>  "
 >
-> //Peter
+> -SRC_URI[md5sum] = "002a4fcb644ddfcb4b0e4191576a0d59"
+> -SRC_URI[sha256sum] = "39ba3438f3d17c464b0cb8be006dacbca0ab5aee97ebde69fec7ecdbf85794a0"
+> +SRC_URI[md5sum] = "04ecad28edcc14e7eb5f7ed6df29c7a0"
+> +SRC_URI[sha256sum] = "b768e3f7895ddebdc0f07478729d9cec4fe0a9d2201f828c900d67b0e5b436a8"
 >
+>  REQUIRED_DISTRO_FEATURES = ""
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
