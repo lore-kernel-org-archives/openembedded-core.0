@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A746C0F1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 93DBE7C61A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 11:19:32 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id x10so6013849wrs.8
+	Thu, 14 Feb 2019 11:49:43 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id a62so5965493wmh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 03:19:34 -0800 (PST)
+	Thu, 14 Feb 2019 03:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=rV/YwVnPyILes61siBbmyww4KVLfyMcATyRj7jUqnRc=;
-	b=XkuH/6earBoEn3dXXxUkYfyWXh9vk7YTo6+tMSEpE8jVRT2efw5yMswwLvRyShvtpO
-	0DRdcoMEhPTF9gzagF4w6zQjBgcMNBBLKIqe9gjOSYIioa+hGqL1H2XBMAk2lY6hx4t6
-	B2rePU6zhI4OBqi5gyF/Qj7bUlg9QrG1Zyoek=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=j/oPdpacVkyq+1q0cvZzSUkzgR2XGoFzimPs7DEVssc=;
+	b=tDar0k3s1//WNQouya/DIWoqoVtMHCSk12Uz5yDFES2KgQHB/f6ZwdgBnGBGQJoYLp
+	f5m/G3LAqvkRREL6sxFaCqN07IwBvJZ9/t9nQ5CwMh0qXmGUZjepm3p94NvuMA0lma/x
+	L7Nkuxv8BqVYmPcYT0OMCiwmhuz4KXWFL+utoTQmPCuhmL/FTVgp9juW5zXiSwxGkyHT
+	zr0CaXTtQuR/J9QWRDHJWSUOTF5ZaWbJMTLEwEek31qdRKG7+sNmDxLv0GQUXfDkS/TY
+	3KIAVymFs+0nKmhi4r50M1OU578doHHRFxyEXER+L8YS1vpRxrKKLfWI6E+FPPjmks4j
+	TPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rV/YwVnPyILes61siBbmyww4KVLfyMcATyRj7jUqnRc=;
-	b=Zqggg/OHiI578ZkceRXdBU/NuVNWKJrBADma5UzU35jMjEOAswQN/WB74XGBofamzh
-	/4HtuWGe1Q8KmBg3Mshtj8dAKdW/N6F3LoD5n6eDjH6Vyutni5RDa5Na/scp6fVlE/V2
-	S4B5lNSoqc5o36MFFZSzepF7VW84JN8e1CdxI7LBs5+cuTWvLtOzZbCfJO0ozF8rjZS8
-	DOd7f8K/tdQInCmJolMeJPVutBfoh5nLg0Sz5eqNd/7Dfevvg69mGHZvPpJuhwsBc/AH
-	doO9rpLx2Xu90PZzKAXpO9yzFZqAXhP4M2QZiJd/iCMVs+2YuGcIs0UevkEMj1oDqkkr
-	VU8A==
-X-Gm-Message-State: AHQUAubAGiR0w5zEz2raSxnU3ciuXaY0dxHbtoNKEoK0UWjjDEzcbp6U
-	bdO0dgiVoCnYgx8f0tpR7W1vscabDH0=
-X-Google-Smtp-Source: AHgI3IbXmsFj0a5aWrEa0lqPVOQIigsXThdYaYn31NWO7zElxzb+/+51dQ4Sd0PO4Rn28T14cDR4Kg==
-X-Received: by 2002:a5d:540f:: with SMTP id g15mr2599073wrv.126.1550143173203; 
-	Thu, 14 Feb 2019 03:19:33 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p16sm2900204wro.25.2019.02.14.03.19.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Feb 2019 03:19:32 -0800 (PST)
-Message-ID: <efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 11:19:30 +0000
-In-Reply-To: <1549948241-309157-1-git-send-email-changqing.li@windriver.com>
-References: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
-	<1549948241-309157-1-git-send-email-changqing.li@windriver.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH V2] gcc-runtime: fix C++ header mapping for n32/x32 tune
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=j/oPdpacVkyq+1q0cvZzSUkzgR2XGoFzimPs7DEVssc=;
+	b=LYELUpDAg8ivrvmJ4wSx82gBe5rVlE+7vgXAbhFnVUUTonoil9wB8mdttT2nj2RlaQ
+	ywbdndK5oeQ/1MduuF583ZIlUegI6+Vw6hhZmhpMmd5r+wvfO4X77nIAgHlUliu9kcVV
+	seOhk2XnUd2N2XY2DbTvEnvk5uTLXJ2NmcvxEK9/QnPb4fcSqjsOQfwtRzCShhuZuiX+
+	b4lnWwOL7k8yGzD7aNvqlOtb975xPV+B6N2QnI/6ciXWiT7QN8MEYZ/0PkuSL2uee5ea
+	BNVWzPp/kCx5zil8Hg//uWG4NOLTyBCFPmukM84/fnplne0U3VF4uSiTkhqAJ9A3TLld
+	bR2w==
+X-Gm-Message-State: AHQUAubrhM2cIP174FZaRFjc3olyQtljajfBIsJ8C6QiVHzIR25pwJ6p
+	Iy+KXyFpEsO5RQwfGacFKr0+JRybOXA=
+X-Google-Smtp-Source: AHgI3IbRxowNyAyioQAFEV1je3D5rRD2Cdz5gyj7+AakteKcJElbVl7Lp/Fvn7FyVAZYfxjEgUQzpQ==
+X-Received: by 2002:a7b:c756:: with SMTP id w22mr2447904wmk.12.1550144983896; 
+	Thu, 14 Feb 2019 03:49:43 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	c186sm3377326wmf.34.2019.02.14.03.49.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Feb 2019 03:49:43 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Feb 2019 11:49:38 +0000
+Message-Id: <20190214114938.3044-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH][thud] e2fsprogs: fix file system generation with large files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +56,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 11:19:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Feb 2019 11:49:44 -0000
 
-On Tue, 2019-02-12 at 13:10 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
->     The SDK was unable to find the C++ header pieces correctly since
-> it's
->     using a generic compiler, not one specifically targeting the
-> multilib
->     vendor prefix and default tune.  This adds the right mapping to
-> ensure
->     SDKs work as expected. And fix problem in below configurations:
-> 
->     multilib configuration 1:
->     MACHINE="qemumips64"
->     MULTILIBS ?= "multilib:lib32 multilib:libn32"
->     DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
->     DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
->     MULTILIB_GLOBAL_VARIANTS_append = " libn32"
->     require conf/multilib.conf
-> 
->     ignoring nonexistent directory "<path>/sysroots/mips64-poky-
-> linux/usr/include/c++/8.2.0/mips64-poky-linux/32
-> 
->     multilib configuration 2:
->     MACHINE="qemumips64"
->     MULTILIBS = 'multilib:lib64 multilib:lib32'
->     DEFAULTTUNE = 'mips64-n32'
->     DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
->     DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
->     require conf/multilib.conf
-> 
->     For this configuration:
->     for target gcc-runtime, need to create symlink like mips64-poly-
-> linux --> mips64-poky-linux-gnu32
->     for target lib64-gcc-runtime, need to create symlink like mips64-
-> poly-linux/32 --> mips64-pokymllib64-linux
->     in order to avoid conflict during populate_sdk, create symlink
-> for subfoler bits/ext for target gcc-runtime,
->     this is ugly, but seems no better way to cover all kinds of
-> configuration.
-> 
->     single lib configuration:
->     MACHINE="qemumips64"
->     DEFAULTTUNE = "mips64-n32"
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++--
-> ----------
->  1 file changed, 17 insertions(+), 12 deletions(-)
+When copying files into the file system the file offset was being truncated to a
+signed 32-bit value, so any files that are larger than 2^31 bytes were the right
+size, but no content after that point.
 
-I haven't looked into why and it took a bit of narrowing down to find
-the commit responsible but this is still causing a failure on the
-autobuilder:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...0001-create_inode-fix-copying-large-files.patch | 50 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/285
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
+new file mode 100644
+index 00000000000..c89581dce84
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-create_inode-fix-copying-large-files.patch
+@@ -0,0 +1,50 @@
++Upstream-Status: Submitted
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 674ab87b8338372338d20e21a350f88b4ff6c7c8 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 1 Feb 2019 10:59:59 +0000
++Subject: [PATCH] create_inode: fix copying large files
++
++When copying large files into a ext filesystem at mkfs time the copy fails at
++2^31 bytes in.  There are two problems:
++
++copy_file_chunk() passes an offset (off_t, 64-bit typically) to
++ext2fs_file_lseek() which expects a ext2_off_t (typedef to __u32) so the value
++is truncated. Solve by calling ext2fs_file_llseek() which takes a u64 offset
++instead.
++
++try_lseek_copy() rounds the data and hole offsets as found by lseek() to block
++boundaries, but the calculation gets truncated to 32-bits.  Solve by casting the
++32-bit blocksize to off_t to ensure this doesn't happen.
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ misc/create_inode.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/misc/create_inode.c b/misc/create_inode.c
++index 05aa6363..f106dcda 100644
++--- a/misc/create_inode.c
+++++ b/misc/create_inode.c
++@@ -438,7 +438,7 @@ static errcode_t copy_file_chunk(ext2_filsys fs, int fd, ext2_file_t e2_file,
++ 				ptr += blen;
++ 				continue;
++ 			}
++-			err = ext2fs_file_lseek(e2_file, off + bpos,
+++			err = ext2fs_file_llseek(e2_file, off + bpos,
++ 						EXT2_SEEK_SET, NULL);
++ 			if (err)
++ 				goto fail;
++@@ -481,7 +481,7 @@ static errcode_t try_lseek_copy(ext2_filsys fs, int fd, struct stat *statbuf,
++ 			return EXT2_ET_UNIMPLEMENTED;
++ 
++ 		data_blk = data & ~(fs->blocksize - 1);
++-		hole_blk = (hole + (fs->blocksize - 1)) & ~(fs->blocksize - 1);
+++		hole_blk = (hole + (off_t)(fs->blocksize - 1)) & ~(off_t)(fs->blocksize - 1);
++ 		err = copy_file_chunk(fs, fd, e2_file, data_blk, hole_blk, buf,
++ 				      zerobuf);
++ 		if (err)
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+index ce95dec5fec..cffb5362d6d 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.3.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
+             file://mkdir_p.patch \
+             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
++            file://0001-create_inode-fix-copying-large-files.patch \
+             "
+ 
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
+-- 
+2.11.0
 
 
