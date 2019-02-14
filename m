@@ -1,23 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8422C600B3
+	by mail.openembedded.org (Postfix) with ESMTP id D684779F3D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 14 Feb 2019 05:48:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Feb 2019 21:49:00 -0800
+	13 Feb 2019 21:49:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,367,1544515200"; d="scan'208";a="144143779"
+X-IronPort-AV: E=Sophos;i="5.58,367,1544515200"; d="scan'208";a="144143789"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.21.114])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2019 21:48:59 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2019 21:49:00 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 13:48:54 +0800
-Message-Id: <20190214054857.18876-1-anuj.mittal@intel.com>
+Date: Thu, 14 Feb 2019 13:48:55 +0800
+Message-Id: <20190214054857.18876-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/4] x264: update to latest on stable branch
+In-Reply-To: <20190214054857.18876-1-anuj.mittal@intel.com>
+References: <20190214054857.18876-1-anuj.mittal@intel.com>
+Subject: [PATCH 2/4] harfbuzz: upgrade 2.2.0 -> 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,49 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 05:48:59 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 05:49:00 -0000
 
 For changes, see:
 
-https://github.com/mirror/x264/compare/e9a5903edf8ca59ef20e6f4894c196f135af735e...0a84d986e7020f8344f00752e3600b9769cc1e85
-
-Remove the perlnative dependency that doesn't seem to be needed and
-remove the unnecessary copying of autotool scripts.
+https://github.com/harfbuzz/harfbuzz/releases
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-multimedia/x264/x264_git.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ .../harfbuzz/{harfbuzz_2.2.0.bb => harfbuzz_2.3.1.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.2.0.bb => harfbuzz_2.3.1.bb} (89%)
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 842ea2547c..0d9d01d8a4 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -14,13 +14,13 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.2.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb
+similarity index 89%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.2.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb
+index b62082f53d..4b292d8ea9 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.2.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ DEPENDS = "glib-2.0 cairo fontconfig freetype"
  
--SRCREV = "e9a5903edf8ca59ef20e6f4894c196f135af735e"
-+SRCREV = "0a84d986e7020f8344f00752e3600b9769cc1e85"
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "d9b8b2bc4d0cdf7f0824f4f0631d264b"
+-SRC_URI[sha256sum] = "b7ccfcbd56b970a709e8b9ea9fb46c922c606c2feef8f086fb6a8492e530f810"
++SRC_URI[md5sum] = "531de9df7c8a5405dd9c6a873fcee8c2"
++SRC_URI[sha256sum] = "f205699d5b91374008d6f8e36c59e419ae2d9a7bb8c5d9f34041b9a5abcae468"
  
--PV = "r2854+git${SRCPV}"
-+PV = "r2917+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
--inherit lib_package pkgconfig perlnative
-+inherit lib_package pkgconfig
- 
- X264_DISABLE_ASM = ""
- X264_DISABLE_ASM_x86 = "--disable-asm"
-@@ -44,8 +44,6 @@ EXTRA_OECONF = '--prefix=${prefix} \
-                '
- 
- do_configure() {
--    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
--    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
-     ./configure ${EXTRA_OECONF}
- }
+ inherit autotools pkgconfig lib_package gtk-doc
  
 -- 
 2.17.1
