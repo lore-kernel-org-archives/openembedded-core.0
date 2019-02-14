@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C74C7C4A9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E1FC6BE39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 15:05:28 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id q1so6828339wrp.7
+	Thu, 14 Feb 2019 15:56:50 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id 2so7378079qtb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 07:05:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xCAEjuHlXY+KgupF+/4F8gih5goXHBtBZXj7hAjrTME=;
-	b=mGnZrYe5CYe0vdARwiwPBf+dYlyvUPBrNbkUNhl7o+FGisBpMdgwiOzEvay2rCbA21
-	jAgIhaq1l3WOKPXTkV6dPmYC+/35rsLJIlG2eTXpGtY98Ro3H59jGzeqQ/jT3xY0nwEx
-	whrl/OKlSJJmfSgq8WJXOYOngqC+XH1iZHCGdGs8T9wyWzyIRYvVYUAumr3IFEk+pcex
-	QZyuIPrSSQF+77aWXZnrltVM10akNrzM7PSMysxACgz2E4uuXyWWj4GoIhQzACUoO0Pq
-	XsVTnDGgTddq/LE/WIGsYA5KWWNh9y4myWXPWxR0Cckzmos5RW7X8ikh5UI1GV/6hCiM
-	qYcQ==
+	Thu, 14 Feb 2019 07:56:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=B4+V+ak1M/gejvp8txPeDi+EV46A88vkA9MZccgWQ7g=;
+	b=O0eii9m4vBx86SVSuLeKyt1GHZ2yXZOyG74IfYfFsFsUMQLO36SkxJKf0/jk3D+iOl
+	KRpbbeb9qmn5daPqiWrcnIK/4mrKQoV7IbpYHOv9cQs7vrjHD4w+CFDzs0yfAVBySkcR
+	U7nA/D5LaM8iuLcSZFVeyfEYsr5jhuu9aE8lyNRQ04h33kp3DKI+lOMfYR8dCEEFOy+O
+	3GFUMGQ/4UaeIZIN2W2jh39iPnVfIDjQ5dyqiiQKHNaQYdWyqC/W7NYkjpfa22dq1SZj
+	rM+FcxEevKw91W/bj3EyXfKn2xJs7NfM+KVTcaUSHAeXW/sx7KP5IRRjTnPxSklWMYs8
+	1iOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xCAEjuHlXY+KgupF+/4F8gih5goXHBtBZXj7hAjrTME=;
-	b=EaU5fU5lUBopA3vq8MjbvMhNYuGwroRMUIXaGpoN5gEHtLN7xAUAUpuYVevCmHJ7V5
-	10qTkWa+JJDzv4/g9dtMS17yfONJKzCcM1o0x14HSjg5XHadAjtxWGkDeR88OmDmaHfW
-	JGQ2b+ZptORVLWTej2JhmUuhL79uMhow8TeEgSfH1FN2MRQxGV/yedsXMKP4HxS378eh
-	azH+2l1+VQLCn/tjG6yWfEAfcpC/LcSIrShR9vtoYV4KaU6CCKoK9l1yQG1pHOBEzekK
-	64zSSitH1BywPSzj2CVqbIaPS5pq0MRGJTHykgBaOdc/LypE3zRWmNzSACHxpSxp8Cco
-	rPPA==
-X-Gm-Message-State: AHQUAuagrFXdmened5OIE8jQ6DN4WCkXN79h+iMiFh889RJrXxQht48+
-	E0opTm12YINNUq3brNjkozUeo/qPQ0U=
-X-Google-Smtp-Source: AHgI3Iam1VESBGGEXxTnKzR7Jv0zq2j4WyUXgT1O6JT6+OTDkFEEjxiJjGdzBaZQ3yXLe0rdRFl7OA==
-X-Received: by 2002:adf:f4c8:: with SMTP id h8mr3449250wrp.6.1550156728742;
-	Thu, 14 Feb 2019 07:05:28 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h17sm1769264wmb.29.2019.02.14.07.05.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Feb 2019 07:05:27 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 15:05:26 +0000
-Message-Id: <20190214150526.5401-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] default-distrovars: set CONNECTIVITY_CHECK_URIS
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=B4+V+ak1M/gejvp8txPeDi+EV46A88vkA9MZccgWQ7g=;
+	b=pAaCiJ0ZaTAq+Do7U83lkROqXdhEHOZC9u2OwGUWw+P9HjjlSHdhnIJigqDTKDj8Qx
+	yd+z6DcNUVxHk37V3dDbSE1Rirn0y5XLMckwHbhGBtGqZI2DyFbKrDID3r7+TFHR0EsY
+	jmfRZnY78XPdCAh12N/OkY2qgy1NvEKarx+VPWsfspd545Pg8C8MdxWcic3lgEXqkhbW
+	/6oTYc7VEDpS5DSDHkpJyJTI+U6e9nLGWIPFtU2oEzrhcxSR0YNTEAgnRejerpLjVO2L
+	ZQ0d9gyU0XpKgbSa7wlpLho8XUeKnnLZ9Io+sJss1nH0/Peb3HAFusEqxPF0csmdUXAo
+	kalQ==
+X-Gm-Message-State: AHQUAuZF0cH31Dgd+l1eB3uxH90iIROm8np8M/cEHMycq2dB5vyB44HG
+	DONsdsR02Xh0pCIL1DXh6Q/jmW096lBRaMUm0Eo=
+X-Google-Smtp-Source: AHgI3Iay5UjpjBEm+9AyJ7KiVyJ3mN/3dEp+bkYWJyB4UYKk+64/8cvckV7EGtycFt/yAzWfTWOuSnlTyCSZYapkCZA=
+X-Received: by 2002:ac8:2c51:: with SMTP id e17mr3565094qta.254.1550159810882; 
+	Thu, 14 Feb 2019 07:56:50 -0800 (PST)
+MIME-Version: 1.0
+References: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
+In-Reply-To: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Feb 2019 07:56:24 -0800
+Message-ID: <CAMKF1spgmzAczHO27m5B48UKG6qE0N705C-kTUfTpWMdNBNxLw@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +54,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 15:05:28 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 15:56:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Connectivity checking is useful, so set a default value of https://example.com/.
-This checks both that we have connectivity and HTTPS makes it through any
-proxies.
+On Wed, Feb 13, 2019 at 10:05 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+> > Sent: den 12 februari 2019 06:48
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install
+> > utility to create directories with right permissions
+> >
+> > Could fix issues where dirs with wrong permission is created with mkdir -p
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/classes/libc-package.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-
+> > package.bbclass
+> > index 0b4c666a74..34025635ce 100644
+> > --- a/meta/classes/libc-package.bbclass
+> > +++ b/meta/classes/libc-package.bbclass
+> > @@ -61,7 +61,7 @@ LOCALETREESRC ?= "${PKGD}"
+> >  do_prep_locale_tree() {
+> >       treedir=${WORKDIR}/locale-tree
+> >       rm -rf $treedir
+> > -     mkdir -p $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
+> > +     install -d $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${datadir} $treedir/${localedir}
+>
+> This does not change anything (install -d and mkdir -p does the same thing).
+>
+> >       tar -cf - -C ${LOCALETREESRC}${datadir} -p i18n | tar -xf - -C $treedir/${datadir}
+> >       # unzip to avoid parsing errors
+> >       for i in $treedir/${datadir}/i18n/charmaps/*gz; do
+> >               gunzip $i
+> >       done
+> >       tar -cf - -C ${LOCALETREESRC}${base_libdir} -p . | tar -xf - -C $treedir/${base_libdir}
+>
+> This is where the problem happens. When the files are copied from
+> ${LOCALETREESRC}, the ownership of $treedir${localedir} is changed to that
+> of ${LOCALETREESRC}${localedir}. However, I now realized that the problem
+> may be due to the fact that I have usrmerge enabled in DISTRO_FEATURES,
+> which causes the above line to copy things it was never meant to copy, in
+> this case ${LOCALETREESRC}${localedir}. I tried to just remove the line
+> altogether and then it built just fine. But I do not know what the
+> consequences are of removing it... I guess it is related to setting up an
+> environment for qemu to run in, but since that seems to work fine without
+> the files copied by the above line, maybe it is not needed? Or maybe it
+> is just not needed when having usrmerge in DISTRO_FEATURES? I tried to
+> backtrack it through the commit logs, but it was introduced with the
+> do_prep_locale_tree() function, so no help there.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/default-distrovars.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+I wonder if we should use --preserve option to tar -xf call here for
+making it explicit.
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f5ec6cef91e..76edff64800 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -52,3 +52,9 @@ ARCH_DEFAULT_KERNELIMAGETYPE_x86 = "bzImage"
- ARCH_DEFAULT_KERNELIMAGETYPE_x86-64 = "bzImage"
- KERNEL_IMAGETYPE ??= "${ARCH_DEFAULT_KERNELIMAGETYPE}"
- KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
-+
-+# The CONNECTIVITY_CHECK_URIS are used to test whether we can succesfully
-+# fetch from the network (and warn you if not). To disable the test set
-+# the variable to be empty.
-+# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master
-+CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
--- 
-2.11.0
-
+> > --
+> > 2.20.1
+>
+> //Peter
+>
 
