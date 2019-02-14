@@ -1,25 +1,55 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 07C2779C9B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 00BC579F3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 05:49:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Feb 2019 21:49:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,367,1544515200"; d="scan'208";a="144143800"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.114])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2019 21:49:02 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2019 13:48:57 +0800
-Message-Id: <20190214054857.18876-4-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190214054857.18876-1-anuj.mittal@intel.com>
-References: <20190214054857.18876-1-anuj.mittal@intel.com>
-Subject: [PATCH 4/4] cairo: upgrade 1.14.12 -> 1.16.0
+	Thu, 14 Feb 2019 06:05:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 42C171853B;
+	Thu, 14 Feb 2019 07:05:40 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id eNjBKZ-W9fZX; Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 50CBF18531;
+	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 360591E07C;
+	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2A5F41E07B;
+	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 1E83C171F;
+	Thu, 14 Feb 2019 07:05:39 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 14 Feb 2019 07:05:38 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Thu, 14 Feb 2019 07:05:38 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install utility
+	to create directories with right permissions
+Thread-Index: AdTEK0xGMZDJ1DQcTvO8sjAtRXL8qQ==
+Date: Thu, 14 Feb 2019 06:05:38 +0000
+Message-ID: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,107 +62,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 05:49:02 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 06:05:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-* For changes, see:
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+> Sent: den 12 februari 2019 06:48
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install
+> utility to create directories with right permissions
+>=20
+> Could fix issues where dirs with wrong permission is created with mkdir -=
+p
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/libc-package.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-
+> package.bbclass
+> index 0b4c666a74..34025635ce 100644
+> --- a/meta/classes/libc-package.bbclass
+> +++ b/meta/classes/libc-package.bbclass
+> @@ -61,7 +61,7 @@ LOCALETREESRC ?=3D "${PKGD}"
+>  do_prep_locale_tree() {
+>  	treedir=3D${WORKDIR}/locale-tree
+>  	rm -rf $treedir
+> -	mkdir -p $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${dat=
+adir} $treedir/${localedir}
+> +	install -d $treedir/${base_bindir} $treedir/${base_libdir} $treedir/${d=
+atadir} $treedir/${localedir}
 
-https://www.cairographics.org/releases/ChangeLog.cairo-1.16.0
+This does not change anything (install -d and mkdir -p does the same thing)=
+.=20
 
-* Remove the backported patch.
+>  	tar -cf - -C ${LOCALETREESRC}${datadir} -p i18n | tar -xf - -C $treedir=
+/${datadir}
+>  	# unzip to avoid parsing errors
+>  	for i in $treedir/${datadir}/i18n/charmaps/*gz; do
+>		gunzip $i
+>	done
+>	tar -cf - -C ${LOCALETREESRC}${base_libdir} -p . | tar -xf - -C $treedir/=
+${base_libdir}
 
-* libcairo-trace isn't a version lib anymore, fix the packaging and
-include it in perf-utils.
+This is where the problem happens. When the files are copied from=20
+${LOCALETREESRC}, the ownership of $treedir${localedir} is changed to that=
+=20
+of ${LOCALETREESRC}${localedir}. However, I now realized that the problem=20
+may be due to the fact that I have usrmerge enabled in DISTRO_FEATURES,=20
+which causes the above line to copy things it was never meant to copy, in=20
+this case ${LOCALETREESRC}${localedir}. I tried to just remove the line=20
+altogether and then it built just fine. But I do not know what the=20
+consequences are of removing it... I guess it is related to setting up an=20
+environment for qemu to run in, but since that seems to work fine without=20
+the files copied by the above line, maybe it is not needed? Or maybe it=20
+is just not needed when having usrmerge in DISTRO_FEATURES? I tried to=20
+backtrack it through the commit logs, but it was introduced with the=20
+do_prep_locale_tree() function, so no help there.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../cairo/0001-cairo-Fix-CVE-2017-9814.patch  | 45 -------------------
- .../{cairo_1.14.12.bb => cairo_1.16.0.bb}     |  8 ++--
- 2 files changed, 3 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-graphics/cairo/cairo/0001-cairo-Fix-CVE-2017-9814.patch
- rename meta/recipes-graphics/cairo/{cairo_1.14.12.bb => cairo_1.16.0.bb} (92%)
+> --
+> 2.20.1
 
-diff --git a/meta/recipes-graphics/cairo/cairo/0001-cairo-Fix-CVE-2017-9814.patch b/meta/recipes-graphics/cairo/cairo/0001-cairo-Fix-CVE-2017-9814.patch
-deleted file mode 100644
-index 7d02ab9474..0000000000
---- a/meta/recipes-graphics/cairo/cairo/0001-cairo-Fix-CVE-2017-9814.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 042421e9e3d266ad0bb7805132041ef51ad3234d Mon Sep 17 00:00:00 2001
--From: Adrian Johnson <ajohnson@redneon.com>
--Date: Wed, 16 Aug 2017 22:52:35 -0400
--Subject: [PATCH] cairo: Fix CVE-2017-9814
--
--The bug happens because in some scenarios the variable size can
--have a value of 0 at line 1288. And malloc(0) is not returning
--NULL as some people could expect:
--
--    https://stackoverflow.com/questions/1073157/zero-size-malloc
--
--malloc(0) returns the smallest chunk possible. So the line 1290
--with the return is not execute. And the execution continues with
--an invalid map.
--
--Since the size is 0 the variable map is not initialized correctly
--at load_trutype_table. So, later when the variable map is accessed
--previous values from a freed chunk are used. This could allows an
--attacker to control the variable map.
--
--This patch have not merge in upstream now.
--
--Upstream-Status: Backport [https://bugs.freedesktop.org/show_bug.cgi?id=101547]
--CVE: CVE-2017-9814
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
-----
-- src/cairo-truetype-subset.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/cairo-truetype-subset.c b/src/cairo-truetype-subset.c
--index e3449a0..f77d11c 100644
----- a/src/cairo-truetype-subset.c
--+++ b/src/cairo-truetype-subset.c
--@@ -1285,7 +1285,7 @@ _cairo_truetype_reverse_cmap (cairo_scaled_font_t *scaled_font,
-- 	return CAIRO_INT_STATUS_UNSUPPORTED;
-- 
--     size = be16_to_cpu (map->length);
---    map = malloc (size);
--+    map = _cairo_malloc (size);
--     if (unlikely (map == NULL))
-- 	return _cairo_error (CAIRO_STATUS_NO_MEMORY);
-- 
---- 
--2.8.1
--
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.12.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/cairo/cairo_1.14.12.bb
-rename to meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index ad6745f60d..3e176930cc 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -24,11 +24,10 @@ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
- 
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
--           file://0001-cairo-Fix-CVE-2017-9814.patch \
-           "
- 
--SRC_URI[md5sum] = "9f0db9dbfca0966be8acd682e636d165"
--SRC_URI[sha256sum] = "8c90f00c500b2299c0a323dd9beead2a00353752b2092ead558139bd67f7bf16"
-+SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
-+SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
- 
- inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
- 
-@@ -81,7 +80,6 @@ DESCRIPTION_cairo-perf-utils = "The Cairo library performance utilities"
- FILES_${PN} = "${libdir}/libcairo.so.*"
- FILES_${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
- FILES_${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
--FILES_${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so.*"
--FILES_${PN}-dev += "${libdir}/cairo/*.so"
-+FILES_${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
+//Peter
 
 
