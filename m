@@ -1,47 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DEBAA7C611
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C74C7C4A9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 14:04:42 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id z7so15261658iti.0
+	Thu, 14 Feb 2019 15:05:28 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id q1so6828339wrp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 06:04:44 -0800 (PST)
+	Thu, 14 Feb 2019 07:05:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NCKDu+uOlH53E4h9Ov1+V1TBfxytvrv5M3tkTwBqJqk=;
-	b=u4/2MMISaFYym+xra8dzlTPpjp06+Gl82QeOMwdOZaeYFVbpNHkSuCwhCLMeK4PQoe
-	+BAAMAAQaN+0CWUu3EDl7pgUR/7Sz8OiYV0hQsnHk4jeiKquLcY+9FvPCaj5ByCH3G81
-	D3rS5KFhmhOJ90bCbpPtMKnCa9MdMwUHyqAoxsbpZyiypnYFeMxS0K2PQLo7ccguCZKZ
-	3NocToQU7r5eBKaYoaWSCdK6VJBYtY+C8vlK9lMkxogjZsIBKcjjQnRe4yszrBTswn4B
-	16EbclkhmbMZb2w1OvMfzMn6JWFI4+mT+s+0N2rK2A8Djvrh369R6V1c0UhalOQDTb1y
-	VfNQ==
+	h=from:to:subject:date:message-id;
+	bh=xCAEjuHlXY+KgupF+/4F8gih5goXHBtBZXj7hAjrTME=;
+	b=mGnZrYe5CYe0vdARwiwPBf+dYlyvUPBrNbkUNhl7o+FGisBpMdgwiOzEvay2rCbA21
+	jAgIhaq1l3WOKPXTkV6dPmYC+/35rsLJIlG2eTXpGtY98Ro3H59jGzeqQ/jT3xY0nwEx
+	whrl/OKlSJJmfSgq8WJXOYOngqC+XH1iZHCGdGs8T9wyWzyIRYvVYUAumr3IFEk+pcex
+	QZyuIPrSSQF+77aWXZnrltVM10akNrzM7PSMysxACgz2E4uuXyWWj4GoIhQzACUoO0Pq
+	XsVTnDGgTddq/LE/WIGsYA5KWWNh9y4myWXPWxR0Cckzmos5RW7X8ikh5UI1GV/6hCiM
+	qYcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NCKDu+uOlH53E4h9Ov1+V1TBfxytvrv5M3tkTwBqJqk=;
-	b=rb+DG9brRVNPomObz5u9s0tgocnDnt5fV+PZq7VUbmYP87Zmcm4E4FLT/m1b9HyBaZ
-	rBR3XhIJMYSH/n/VetAJkBBXhc9oHb6Wp5NAX6r6qQ/dNt4o8avYf66dpKI+afucYKGj
-	MDCgGTy7EimupF7VT0bVsh2QFwPhQuET3ps/wSGsrKpnfwpggamOH07wCG4sdETe+Rma
-	xeETayWQUjmHiQssw1K48n4l2H9eea7a/879w65rg6m1mTqZ9276xVpGtCD+Ylv7dkmj
-	9SWbW9tKoXmUTc0LJfpSVT/uLulmoLtYNNx/KbOl33MWySZNk1mxNvPCS4Y5bf8/xu+7
-	/IPw==
-X-Gm-Message-State: AHQUAuYDGnc87ENhO6N58S38y+HIYZ7KI1yd1QJcD14TwbzL3aMu4Ydl
-	pDSZfELE9+UgROK2kE/zPxX48UuvgJpBCSplvG6rfg==
-X-Google-Smtp-Source: AHgI3IaFrxpt/y/faGr89t7M9fCfrJ35HqS/v280cCPLdUNnWGQEyLgNSU2GYN5yvCemk2VnTTca1Jwn+NRofBFBOz4=
-X-Received: by 2002:a24:c601:: with SMTP id j1mr2410435itg.130.1550153083924; 
-	Thu, 14 Feb 2019 06:04:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20190214054857.18876-1-anuj.mittal@intel.com>
-In-Reply-To: <20190214054857.18876-1-anuj.mittal@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Feb 2019 14:04:32 +0000
-Message-ID: <CAJTo0LYLQRxrByBagTYWfEA2jES-+GfZrfjFCvEDq+ONLmOgDg@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] x264: update to latest on stable branch
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xCAEjuHlXY+KgupF+/4F8gih5goXHBtBZXj7hAjrTME=;
+	b=EaU5fU5lUBopA3vq8MjbvMhNYuGwroRMUIXaGpoN5gEHtLN7xAUAUpuYVevCmHJ7V5
+	10qTkWa+JJDzv4/g9dtMS17yfONJKzCcM1o0x14HSjg5XHadAjtxWGkDeR88OmDmaHfW
+	JGQ2b+ZptORVLWTej2JhmUuhL79uMhow8TeEgSfH1FN2MRQxGV/yedsXMKP4HxS378eh
+	azH+2l1+VQLCn/tjG6yWfEAfcpC/LcSIrShR9vtoYV4KaU6CCKoK9l1yQG1pHOBEzekK
+	64zSSitH1BywPSzj2CVqbIaPS5pq0MRGJTHykgBaOdc/LypE3zRWmNzSACHxpSxp8Cco
+	rPPA==
+X-Gm-Message-State: AHQUAuagrFXdmened5OIE8jQ6DN4WCkXN79h+iMiFh889RJrXxQht48+
+	E0opTm12YINNUq3brNjkozUeo/qPQ0U=
+X-Google-Smtp-Source: AHgI3Iam1VESBGGEXxTnKzR7Jv0zq2j4WyUXgT1O6JT6+OTDkFEEjxiJjGdzBaZQ3yXLe0rdRFl7OA==
+X-Received: by 2002:adf:f4c8:: with SMTP id h8mr3449250wrp.6.1550156728742;
+	Thu, 14 Feb 2019 07:05:28 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h17sm1769264wmb.29.2019.02.14.07.05.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Feb 2019 07:05:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Feb 2019 15:05:26 +0000
+Message-Id: <20190214150526.5401-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] default-distrovars: set CONNECTIVITY_CHECK_URIS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,21 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 14:04:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Feb 2019 15:05:28 -0000
 
-On Thu, 14 Feb 2019 at 05:49, Anuj Mittal <anuj.mittal@intel.com> wrote:
->  do_configure() {
-> -    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
-> -    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
->      ./configure ${EXTRA_OECONF}
->  }
+Connectivity checking is useful, so set a default value of https://example.com/.
+This checks both that we have connectivity and HTTPS makes it through any
+proxies.
 
-I wouldn't delete those copies, those files were last updated in 2015 upstream:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/default-distrovars.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-https://git.videolan.org/?p=x264.git;a=history;f=config.guess;h=375fa2a818f84ff8727cec0f516b9c8160ff5749;hb=HEAD
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index f5ec6cef91e..76edff64800 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -52,3 +52,9 @@ ARCH_DEFAULT_KERNELIMAGETYPE_x86 = "bzImage"
+ ARCH_DEFAULT_KERNELIMAGETYPE_x86-64 = "bzImage"
+ KERNEL_IMAGETYPE ??= "${ARCH_DEFAULT_KERNELIMAGETYPE}"
+ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
++
++# The CONNECTIVITY_CHECK_URIS are used to test whether we can succesfully
++# fetch from the network (and warn you if not). To disable the test set
++# the variable to be empty.
++# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master
++CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
+-- 
+2.11.0
 
-Up-to-date copies of these are required for building on new architectures.
-
-Ross
 
