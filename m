@@ -1,31 +1,23 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EBF07BD84
+	by mail.openembedded.org (Postfix) with ESMTP id CE6396010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 06:07:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1E67D5Q006626
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Feb 2019 22:07:13 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.177) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.435.0; Wed, 13 Feb 2019 22:06:54 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1550113052.git.liezhi.yang@windriver.com>
-	<b897d0a2643af36791269bf303b0d0dd74a47411.1550113052.git.liezhi.yang@windriver.com>
-	<02b5abb67627419e92bce1ce29d22510@XBOX04.axis.com>
-	<5323c75d-5a4a-42e0-af0d-f309d23ef15e@windriver.com>
-	<6144b418cab34c7189db037e0aa97a8c@XBOX04.axis.com>
+	Thu, 14 Feb 2019 06:18:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1E6ITSn006673
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Feb 2019 22:18:29 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.435.0; Wed, 13 Feb 2019 22:18:28 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <0e529da1-7d26-857e-0c6f-9b821c13aa61@windriver.com>
-Date: Thu, 14 Feb 2019 14:11:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Feb 2019 14:37:18 +0800
+Message-ID: <cover.1550126097.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <6144b418cab34c7189db037e0aa97a8c@XBOX04.axis.com>
-Subject: Re: [PATCH 1/1] base.bbclass: Check BuildStarted for HOSTTOOLS
+Subject: [PATCH 0/1 V2] base.bbclass: Check BuildStarted for HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,171 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 06:07:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Feb 2019 06:18:29 -0000
+Content-Type: text/plain
 
+* V2
+  - Tweak the position of BuildStarted a little and fix comments as Peter
+    Kjellerstedt suggested.
 
-
-On 2/14/19 11:43 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
->> Sent: den 14 februari 2019 04:22
->> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
->> core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH 1/1] base.bbclass: Check BuildStarted for
->> HOSTTOOLS
->>
->> On 2/14/19 11:05 AM, Peter Kjellerstedt wrote:
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org
->> <openembedded-
->>>> core-bounces@lists.openembedded.org> On Behalf Of Robert Yang
->>>> Sent: den 14 februari 2019 03:59
->>>> To: openembedded-core@lists.openembedded.org
->>>> Subject: [OE-core] [PATCH 1/1] base.bbclass: Check BuildStarted for
->>>> HOSTTOOLS
->>>>
->>>> There might be no bb.event.ConfigParsed event bitbake server is
->>>> running,
->>>> so check bb.event.BuildStarted to make sure HOSTTOOLS_DIR existed
->> when
->>>> BuildStarted.
->>>>
->>>> Fixed:
->>>> $ export BB_SERVER_TIMEOUT=-1
->>>> $ bitbake quilt-native
->>>> $ rm -fr tmp
->>>> $ bitbake quilt-native
->>>> ERROR: Error running gcc  --version: /bin/sh: gcc: command not found
->>>>
->>>> This error is caused by enable_uninative(), it runs twice
->> (ConfigParsed
->>>> and
->>>> BuildStarted), the error would happen when there is no ConfigParsed
->>>> event
->>>> (no hosttools is created), but BuildStarted. This patch can fix the
->>>> problem.
->>>>
->>>> [YOCTO #13022]
->>>>
->>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>> ---
->>>>    meta/classes/base.bbclass | 6 +++++-
->>>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
->>>> index f1a3c0e..283cb0f 100644
->>>> --- a/meta/classes/base.bbclass
->>>> +++ b/meta/classes/base.bbclass
->>>> @@ -224,7 +224,11 @@ base_eventhandler[eventmask] =
->>>> "bb.event.ConfigParsed bb.event.MultiConfigParsed
->>>>    python base_eventhandler() {
->>>>        import bb.runqueue
->>>>
->>>> -    if isinstance(e, bb.event.ConfigParsed):
->>>> +    # There might be no bb.event.ConfigParsed event bitbake server
->> is running,
->>>> +    # so check bb.event.BuildStarted to make sure HOSTTOOLS_DIR
->> existed when
->>>> +    # BuildStarted.
->>>> +    if isinstance(e, bb.event.ConfigParsed) or \
->>>> +            (isinstance(e, bb.event.BuildStarted) and not
->> os.path.exists(d.getVar('HOSTTOOLS_DIR'))):
->>>
->>> I don't think you want to do this here since not all of this if
->> statement
->>
->> That can make the code simple and avoid duplicated, the only code which
->> may run twice is "d.setVar('BB_VERSION', bb.__version__)", I don't
->> think it's a problem since it is very light.
-> 
-> Well, true, but I still don't think you should mix them. Have one case
-> for what only needs to be done for bb.event.ConfigParsed, one for only
-> bb.event.BuildStarted and one for either.
-
-Yeah, it's not a big problem, I will update it in V2.
-
-> 
->>> should be done for the BuildStarted event. I think it is better to
->> add a
->>> separate if statement just for the HOSTTOOLS part (see below). Also,
->> I don't
->>> think you should be checking if the HOSTTOOLS_DIR exists, because the
->>> contents of ${HOSTTOOLS} and ${HOSTTOOLS_NONFATAL} may have changed,
->> in
->>> which case any new tools need to be added to the directory.
->>
->> You don't have to worry about this since bitbake server can handle it
->> when HOSTTOOLS are changed in conf files, you can try this:
->>
->> $ export BB_SERVER_TIMEOUT=-1
->> $ bitbake quilt-native
->>
->> Add HOSTTOOLS += "passwd" to conf/local.conf, and:
->>
->> $ bitbake quilt-native
->> $ ls tmp/hosttools/ | grep passwd
->> passwd
->>
->> The passwd will be created.
->>
->>>
->>>>            if not d.getVar("NATIVELSBSTRING", False):
->>>>                d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
->>>>            d.setVar('BB_VERSION', bb.__version__)
->>>> --
->>>> 2.7.4
->>>
->>> This is my suggestion for how to split the current handling of
->>> bb.event.ConfigParsed (also note that I corrected the comment before
->>> the new if statement):
->>>
->>>       if isinstance(e, bb.event.ConfigParsed):
->>>           if not d.getVar("NATIVELSBSTRING", False):
->>>               d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
->>>           d.setVar('BB_VERSION', bb.__version__)
->>>
->>>       # There might be no bb.event.ConfigParsed event if the bitbake server is
->>
->> Thanks for the correction.
->>
->>>       # running, so check bb.event.BuildStarted too to make sure ${HOSTTOOLS_DIR}
->>>       # exists.
->>>       if isinstance(e, bb.event.ConfigParsed) or isinstance(e, bb.event.BuildStarted):
->>
->> I'm afraid that it doesn't work since it would make hosttools generate
->> twice when bitbake sever is not running, which seems not a good idea.
-> 
-> I don't think that's a problem in practice since the generation of
-
-It may cause a race issue when tools in tmp/hosttools are being used, but 
-BuildStarted removes them at the same time.
+* V1
+  - Initial version
 
 // Robert
 
+The following changes since commit 430bd28093fb743ba3bd032e11e40b4dd8e5bd1f:
 
-> ${HOSTTOLS_DIR} should be pretty fast if it is already populated, but I
-> guess you could use your original if statement to avoid that:
-> 
->      if isinstance(e, bb.event.ConfigParsed) or \
->              (isinstance(e, bb.event.BuildStarted) and not os.path.exists(d.getVar('HOSTTOOLS_DIR'))):
-> 
->> // Robert
->>
->>>           # Works with the line in layer.conf which changes PATH to point here
->>>           setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS', d)
->>>           setup_hosttools_dir(d.getVar('HOSTTOOLS_DIR'), 'HOSTTOOLS_NONFATAL', d, fatal=False)
->>>
->>> //Peter
->>>
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+  linux-yocto: add baseline ARC support (2019-02-12 14:04:24 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ht
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ht
+
+Robert Yang (1):
+  base.bbclass: Check BuildStarted for HOSTTOOLS
+
+ meta/classes/base.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+-- 
+2.7.4
+
 
