@@ -1,47 +1,48 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F442605B3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EE417C71C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 10:02:35 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id v16so9641075wrn.11
+	Fri, 15 Feb 2019 10:20:00 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id b3so15682840otp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 02:02:36 -0800 (PST)
+	Fri, 15 Feb 2019 02:20:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=aum0q10kA8gMT2jXeJ2dh3cVJFPTSTbfNt/2u/nDn5Y=;
-	b=WsoE96QELWI5XorSgebPhjQvG0xaBEEvAoE+UQIPz2Ru5OxfG0Kh30Nf192/9lTu1+
-	a07o4NSrC5AR3W9MK48gDaT3XstDk9TOBsa6oIsQmliP9Ady4ls0AYOra95psRVjcVXQ
-	5/Lx5fhB5J8+qP2kw0tdgvr7LFl/OwP2TcYIzzLmzyNeNhXC9xx0UjojBBSe+MsZphh2
-	mx8iW6KEiPuvryLOsV9SbkjZd99e7JeLcTeRCZD7A0j2cjt9mGUKlT6f7r2KQPbPlESD
-	fjlBxIXTlPYjz/dUHOR9mqaT/BpwoNfHiMpKbJMl+T5FxNgkwzDl5JVBIzBmNEIwfC/o
-	pGHQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mcuC2TNubYQxKtKvxOw8IDH0cgchevoJDDuhu5XYyyQ=;
+	b=Fh+JJ71IEUGAzbaHwOhF2B1tadvxsM5PtUUvVW4a9AE28i92bOlYKXU6leVl8rTLnC
+	XeFI3WbSxUmoCl5rVwqnOv2emJQzwIooToqRzUSh0pFnKBEzM9/y7O5lYO0mKsQHhSyN
+	JpRA39lra8EKYDRhxZGwWtZNYg2VpHHbhG9sQ8t3VFJ3S8Zp6PvZqeyS1mn2HrfUTEG0
+	oSGCepvFUGaqcG4ejfEa13pU7ShVVXcJl0BTfYLGKwdlRzzUyA+ZBfXwvpoIgebBYzU0
+	Re6QyNrcuKjJrGC/TEBY6we23pSMUgrMfGcjVm3WGl/u2dcEJJ97sWluBbvXDcYth/Z1
+	U5nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aum0q10kA8gMT2jXeJ2dh3cVJFPTSTbfNt/2u/nDn5Y=;
-	b=KM0gAdiRtc+ru+vw77fM10oHjNcdjeuaCL7QWgpxMoyUyBY79y/VAolKhh0Ywp/Y10
-	vbuxUTY/U+d+YR87nMrwZIqXzYJ48N7TOQPjJ9qMQLj8SvhnwESTLFQKl/v6Ux0vvEUF
-	Q62UVmDIIEfh01kHx3a8xMSDu3srGcHrgQ4HBrnKMcmgWO4JZzX9sPyLGJNeNqKFkbq+
-	SEd+Ho5/AAJLyIMl+SllH9TSG84BiwgPizeSntHZmpo4Q1K9QsPtmstn/66QjoLiN8GK
-	A81EzSsrfCZIgDDnEpEgkfPY+XhIVz7CPGp4EyiOZawlua9C2kSuyqTOJKx0g7tUeUVz
-	kcfQ==
-X-Gm-Message-State: AHQUAuaHBNYlFlDjf+2/c4jBHiKZd38HEJhOJfCD/4BGWw+Ba9OZ8bBe
-	YSE5jypUVLGXNObuMpkBcmNNNkgCHHYAfA==
-X-Google-Smtp-Source: AHgI3IakAALVRgOdV8ZqsGn0Zd6QHh8p40dEHKq2G7MkEDxKHIXAunfeZSHdvghsi63VL481VhrORQ==
-X-Received: by 2002:adf:b6a1:: with SMTP id j33mr6060780wre.55.1550224955881; 
-	Fri, 15 Feb 2019 02:02:35 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	s127sm3200794wmf.39.2019.02.15.02.02.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 Feb 2019 02:02:35 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Feb 2019 10:02:13 +0000
-Message-Id: <1550224933-20658-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2] bmap-tools: update from 3.4 to 3.5
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mcuC2TNubYQxKtKvxOw8IDH0cgchevoJDDuhu5XYyyQ=;
+	b=KEvACYzW4hNBgSO8FA2cqpAXcOnThSLbZdgtfqa0X73nQk3P8fYoU02RR+aUKG5TSB
+	7rI2OWscS9HiOudydgoD+0snkVBxY70zuxYp2MSnw8Xj4vfSqYISfgWsb2MP238hZJ84
+	oA1hjysDXgWrmm7hxtv9fF0hgw0V5gL30K4dXfdJUJg3ydA2h1W04c+8rqrVgnSpnUGg
+	kh2ALsMLZT7l45qNDLpLIGQBeDav3mnEw25jMIU2N04O8XiqA8exhbtd4TKI9fsv/xgc
+	lL5lZ/oLns8B4Qq7aLVUQJQtQAw24Eu09cfAdrTM6CB3hZQp/Spt0wQkY5EzLvE2TQjh
+	ubAg==
+X-Gm-Message-State: AHQUAuZUHF2NQlrVyQ18eXHqpoOnsCtHS3BkDVmoU5S0XTq/MSQZmfPn
+	GMUP8zRY13AoUubpTiXyqXgeBBcdZR6+mqDY6Pc=
+X-Google-Smtp-Source: AHgI3IadAJMjIln6UF/faj+f4wvKSnjF97Rus01lvW2ZqmeVZRq4N54dakNlEh77PnvQ4noVwVfvakw2ErG0HUyQCH8=
+X-Received: by 2002:a9d:7653:: with SMTP id o19mr5235023otl.12.1550226002137; 
+	Fri, 15 Feb 2019 02:20:02 -0800 (PST)
+MIME-Version: 1.0
+References: <20190215073207.30036-1-anuj.mittal@intel.com>
+	<20190215073207.30036-2-anuj.mittal@intel.com>
+	<b4ef5c60f8cbd104d635965b7e2243734e356cc3.camel@linuxfoundation.org>
+In-Reply-To: <b4ef5c60f8cbd104d635965b7e2243734e356cc3.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 15 Feb 2019 11:19:50 +0100
+Message-ID: <CANNYZj8yHH4h8Ozw4iUHncw5P5H9iMUVzFbtagG6Vfr4f53dSg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] mesa: upgrade 18.1.9 -> 18.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 10:02:35 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 10:20:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-bmap-tools 3.5 was released August 2018 but has no release tarball, so
-switch to using the git fetcher. Also pull in the fix for StopIteration
-being transformed into RuntimeError for Python 3.7.
+On Fri, 15 Feb 2019 at 10:54, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> > * For changes, see:
+> > https://www.mesa3d.org/relnotes/18.3.3.html
+> >
+> > * Convert from using autotools to meson and get rid of unnecessary
+> > patches.
+> >
+> > * Include a patch to fix detection of host os combinations that we
+> > build
+> > for.
+> >
+> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>
+> This is good but I think you and Alex may need to work together to sort
+> out mesa-native which fails after this patchset and is needed by the
+> virtgl work (queued in -next).
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/221
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Thanks, I'll take Anuj's patch and see what needs to be changed in it.
 
-Changes in v2:
-- Drop append of "+git${SRCPV}" to PV
-
- .../bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb}           | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb} (74%)
-
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-similarity index 74%
-rename from meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-rename to meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-index 2aae9a3fe0d8..4609a7071c5a 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-@@ -9,12 +9,12 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
-+SRC_URI = "git://github.com/intel/${BPN}"
- 
--SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
--SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
-+SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
-+S = "${WORKDIR}/git"
- 
--UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl"
- 
--- 
-2.7.4
-
+Alex
 
