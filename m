@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DA8E47C767
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E18DD7C767
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 16:04:06 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t18so10922314wrx.2
+	Fri, 15 Feb 2019 16:04:08 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id v16so10858843wrn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 08:04:08 -0800 (PST)
+	Fri, 15 Feb 2019 08:04:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=jT7UvoKp6l//Rk4EGDDeZTrp19hmuL0StXMn/L6okC8=;
-	b=QBcqhWvVNLN8XJIvq39tUi5i2R19oqMFViSNFQWQYOvyRuNPEsvrCOmyFfz1C4wtHC
-	f4Wpo5jk/SXfJwKN4vjJNlbKvnZoNJGMXG0VI5ebAVOUoFrmRAtJR2hAQjsnpkZfe8it
-	wSO2BrPVcn0sYmXtjzce0BeVo4JDhTec9AXwM=
+	bh=uiEWHSRvu9tKfELOtdP7Tje96gfZIYFxxfBH+PfwPe8=;
+	b=OAqr/eRSxbZLeV4SOm19XXBSRah/LW7MnM7mYJCmG1i3eOUU8n7Mt5f34Lt0nBPcgo
+	EJIJ+rfz1/7hogfC2drnkiW2OGuna4HNjrZ6aMTxh9Xz2JOfd38733mD0s0ULPnoQQkk
+	J2vgGr4KInnznxuSECmuAIikaFpPWGTeEsI7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jT7UvoKp6l//Rk4EGDDeZTrp19hmuL0StXMn/L6okC8=;
-	b=l2Ix7JU+QA7OPBAkCKXYT9/aq5ZAmOWcpPPYkGOp5OptIi3+Sxd+ky0k6HkGsQ7C1D
-	ybQsWGOINJR6cGRxGdU753zGTKTfqRyLjH3L1sCqevQhODHDVjqr2EzgtUn/oPCOplRs
-	QptqgOE5XLEiV9DSnc+OJ2Z9rEf3WWUbuHPXRTikI+8Aal12qRgKSXm+Z1oSMSo24jfr
-	tnjGQR/RchN5qMSmgBN2kZWA3nHKqlozCe7VMI+/Y29tbsOxXfrPBuBMJbWeTb02E4n+
-	yyUjhpp8is+ZqaZXbzeJI1dyjolIWM8ra6pmHEouugnyCCzqO367HwefyVZ3cj4wk6Cg
-	3Chw==
-X-Gm-Message-State: AHQUAuZ5Ox0JW8uQ00L80xB7VEwiefkyU/U2NPypKIgCcenYVBOKQtYf
-	W4DRu83WFHco0Ai3lcZjyp7z82Zb7PI=
-X-Google-Smtp-Source: AHgI3Ia9+o8EkQQOZJEP8jmp5wl6noKVPLSik3Ivi2fpYDdIzDL3YOb056SlG4qaQe8ONpe7uhEUSw==
-X-Received: by 2002:adf:e34e:: with SMTP id n14mr7757435wrj.195.1550246647274; 
-	Fri, 15 Feb 2019 08:04:07 -0800 (PST)
+	bh=uiEWHSRvu9tKfELOtdP7Tje96gfZIYFxxfBH+PfwPe8=;
+	b=TWx5AHrdFCYph085nRN6cmnUyw2fTksASF8KnZo0DbcqUMClFzrVeJ1WSlLuVKqti0
+	a0SUNssTRch5uks/e05BdZnbriVWS73ji+BQgcfwoAy3eVUVKwrMhvpkVTP9+G05RZ6N
+	++aYezZSJfuNiP6qme7kAXUwwFbem8QEKyfmELTiOz4tRuHIliHa5rQKSsVx6Dc1AodZ
+	MWPPfnQpbIQWR3Di8on0BXyFIxop9vvxGa/KN5Vw5KFg0hcMtTLiu4PvBrbzfXZTsi2Y
+	g113KSc8LTj1tgcg5unhPZIvzejgk1TmfTvZNDfVUwAQ5YL1/G+j8aHAsENnkKNkebPg
+	HN2g==
+X-Gm-Message-State: AHQUAuZonhqeU88DmdrxOQsmgH1N4FK0ZvrTBA5AN68W0I8KSVzRYzmH
+	ZA14dQRKeaA5bsh80NCBwJqJy15q348=
+X-Google-Smtp-Source: AHgI3IaEKBh8Cke67xO3zyn++5qAn7zXc21+d7g8yq7Jiuwz8LoEm9HBvnc6ZUddIUviIiezV1jdJg==
+X-Received: by 2002:adf:8143:: with SMTP id 61mr7126302wrm.47.1550246648788;
+	Fri, 15 Feb 2019 08:04:08 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e17sm3810424wrs.79.2019.02.15.08.04.05
+	e17sm3810424wrs.79.2019.02.15.08.04.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Feb 2019 08:04:06 -0800 (PST)
+	Fri, 15 Feb 2019 08:04:08 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Feb 2019 16:03:54 +0000
-Message-Id: <20190215160356.9764-3-richard.purdie@linuxfoundation.org>
+Date: Fri, 15 Feb 2019 16:03:55 +0000
+Message-Id: <20190215160356.9764-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
 References: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] lttng-ust: Upgrade 2.10.2 -> 2.10.3
+Subject: [PATCH 4/5] lib/buildstats: Improve error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 16:04:07 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 16:04:09 -0000
 Content-Transfer-Encoding: 8bit
+
+Just stating the recipe counts are different isn't helpful, showing
+the differences makes it much easier to understand what changed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../lttng/{lttng-ust_2.10.2.bb => lttng-ust_2.10.3.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-ust_2.10.2.bb => lttng-ust_2.10.3.bb} (90%)
+ scripts/lib/buildstats.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.2.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
-similarity index 90%
-rename from meta/recipes-kernel/lttng/lttng-ust_2.10.2.bb
-rename to meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
-index 3e5f37d8865..b5c43200d62 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.10.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
-@@ -23,8 +23,8 @@ PE = "2"
- SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://lttng-ust-doc-examples-disable.patch \
-           "
--SRC_URI[md5sum] = "a95333f76e2986113154b8193f5cfca3"
--SRC_URI[sha256sum] = "c4ca22b904eb08817b313a73d499e1b217ffee1f862156d0d52865317486c045"
-+SRC_URI[md5sum] = "ffcfa8c1ba9a52f002d240e936e9afa2"
-+SRC_URI[sha256sum] = "9e8420f90d5f963f7aa32bc6d44adc1e491136f687c69ffb7a3075d33b40852b"
- 
- CVE_PRODUCT = "ust"
+diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
+index d9aadf3cb80..f7db3eaf92e 100644
+--- a/scripts/lib/buildstats.py
++++ b/scripts/lib/buildstats.py
+@@ -263,7 +263,7 @@ class BuildStats(dict):
+         """Aggregate other buildstats into this"""
+         if set(self.keys()) != set(buildstats.keys()):
+             raise ValueError("Refusing to aggregate buildstats, set of "
+-                             "recipes is different")
++                             "recipes is different: %s" % (set(self.keys()) ^ set(buildstats.keys())))
+         for pkg, data in buildstats.items():
+             self[pkg].aggregate(data)
  
 -- 
 2.20.1
