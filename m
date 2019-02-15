@@ -1,52 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
-	[209.85.210.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 331BA7C6EA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B58C7C6DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 14:07:26 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id v62so7827784otb.3
+	Fri, 15 Feb 2019 14:31:47 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id p25so10765037qtb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 06:07:27 -0800 (PST)
+	Fri, 15 Feb 2019 06:31:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3si+070zM5jLH13143sMVqPC00XrfzBlc4z12PbJjTs=;
-	b=lHKxsMeEMrYLDqvLTmUT5ypIfmIk+0MIpeVH9PkVADwdCC1yK15SMGpNr8pEDNmfND
-	o3McpZOs4DBPXVnwSbdpHLcsq5WCOJMlZQXkp8kCV4nQZqYEcYVuARa3KvAPD55BodFY
-	bpIq9AjkAWaGSWKJ3B2xSJ48RxdQeBEsYIQpWtg5TDq+/qaepZDSUJDFBQ7DpwtTwi6b
-	vhPEFZz5t3cSl/JowwY3AmPScd9Gw5o7cKmSHtLDEJZ+Lz2mAbyxAxB4NwHt7k0lR4ZJ
-	LwCiZ2H/Y0CxONaJpWuyv8vQYEK3CLrRt/4RN53kZfwz8zqntfD1Jl4JXFOepnAQCxDS
-	ST5Q==
+	:cc; bh=jNXjY+M/mEiiHnPp1zurJD2FW3TQaxp5FL1UFr0urRo=;
+	b=p8+6rD/cCpASzeCLvOrx/8gHGWDzeyrpehgM4tgJDmO+DHRTASOH/J+aSzGhczU5WW
+	nAux2tun4O0qaEvCXAtBd/jUj1vq7Yf49mlm8vq/nLAruhC6e8W9EMk89A6kTbxphwnf
+	yHS14qM9l3XYiCa733UV2BJYoj7Ua2oD1mUMx09QDIeqQrfJYI/cBFC4anxXnOWVP8YQ
+	wsWiA8ANYjwzDaKaV3vUb6qWw4XxW0yEmpWJ2rKXbHjQPC+VZa0xWW5/5cNgs3fawvLy
+	U/+cyuYl08whinC5KlmW8B26C5JYagXIRo4u7FIaX5Yl/aShnLlXJFfEeaKkISSpDbe1
+	yRIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3si+070zM5jLH13143sMVqPC00XrfzBlc4z12PbJjTs=;
-	b=puXl4HHyZE0pgCax8ksIZKpRNInClUMc2siYiiGjcuaRAGjUIr+iv6G97djqVJdUKn
-	FLQXTD7OU4VhnbYCsjPp2js4sNTvozakbbQvypaOaXk4TQO2JkS0eOkXbSTAVcdd6h/I
-	MKnPBj5T6NcGldbU+jAVPFF4cU0nyWXse5ks2aqEeExfLrNfNCX01ARxgpd9xRZqrtU1
-	pKVCS0BfrV0bfCgOAArLpfOChPS3gVnPFxlvYBcDcNKX0X30nrwuFYsf4AvvBqETDnJz
-	jftsadcVt1rGqJuLJt9kiTbIGY5QSHKIq4XXmU5a9INTwBFgB12ydOFckYVXwj5i+bju
-	TLKA==
-X-Gm-Message-State: AHQUAubAWpsPmRab5wOiUQ6145mOXwgypgtXZsGuY5zbJRD5Tiquph10
-	gJExLlkv6HtANmtaRi8yG2/PD6X9q6POvcg+kfU=
-X-Google-Smtp-Source: AHgI3IZC1gYW3kmwlRWIDBA5CTg/7jLlacAe7WF9WzkiQKQ3ZLroWAvrlHQtiF+0rgfTEcViLT1umOPlql3K/420eAA=
-X-Received: by 2002:a9d:7544:: with SMTP id b4mr4863058otl.326.1550239647155; 
-	Fri, 15 Feb 2019 06:07:27 -0800 (PST)
+	bh=jNXjY+M/mEiiHnPp1zurJD2FW3TQaxp5FL1UFr0urRo=;
+	b=Nky3KgECVhq4nmGaxysb+6zVY/h5rpoixWz31qST8RiB42CREma97V/FFceZTlxsiD
+	pjn/dtpSGlit0MArLv81v8cFfGpmrMXeF1Q1LUEOxTHSnzf/8j06cS/e0efmiEcGebB8
+	V3iVQG4CUBT82Dw/fLOgDObY9pBl69BrO4qdFVaaLx7qnVkfqTmgtxiqwdDh01yeL6uE
+	KDgfwZVQukKQ2p2suGmXtJAAep9eeOvuLCosk1i1AIWcN2QfOYX9JSneGkU2V+g8Ejol
+	iEPqbm6imO2yd7fBWGsGJTVPHaxgNzgakpSOnOYuHwweQj4dyLZIRGGUIBMdD53h8bVJ
+	8iqg==
+X-Gm-Message-State: AHQUAuYp2tvKWFraF19QTZ8ta//KqWhRebh4O7yi0RRIwJcCjoO+tW5g
+	SKN6EupRWpNM13egWXqCYPD3xNI+3x/v4OA2gTg=
+X-Google-Smtp-Source: AHgI3IYSfu0E/Xcgo5rFwfnBIBYTH/JZ+MIrHH2CRw0TAi5UkQGCt75KESb6SqKlQke62vFkeK4E+DPCQjb9QxomcEw=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr7894252qtn.253.1550241107866; 
+	Fri, 15 Feb 2019 06:31:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20190215131047.64007-1-alex.kanavin@gmail.com>
-	<CAAPZna19N6iLvaxLZOmDjJoAyGnJ=hkH0K4wk0TYQb4to_95Sw@mail.gmail.com>
-	<CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
-	<CAP9ODKrP3jXE95Z84ne6y0CMOj30g8Jz+53rWX0ikNmJHYoqLg@mail.gmail.com>
-	<CANNYZj8-i-HQFyHoiHaJj9XW_pMSq2muP9g=vhkN9ukZXh-dBw@mail.gmail.com>
-	<CAP9ODKqi+bcaFt8+7xEzCSZ+=pPFJA8nPZz05WBZL2+hNq5VXA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqi+bcaFt8+7xEzCSZ+=pPFJA8nPZz05WBZL2+hNq5VXA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 15 Feb 2019 15:07:15 +0100
-Message-ID: <CANNYZj9Yui28g_Fcth8=MZFgfrdQ=72qECGAXrQAdP6kq_4nBw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <20190215073207.30036-1-anuj.mittal@intel.com>
+In-Reply-To: <20190215073207.30036-1-anuj.mittal@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Feb 2019 06:31:21 -0800
+Message-ID: <CAMKF1soOfyjys5MpoGDOqm99ZSHtd+wx3YkTC+pCJM35VNzptg@mail.gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: upgrade 18.1.9 -> 18.3.3
+Subject: Re: [PATCH 1/2] meson.bbclass: point to llvm-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 14:07:26 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 14:31:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 15 Feb 2019 at 14:59, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-
-> > I am not going to do it: this split, when done properly, would require
-> > separate rounds of testing of the commits, and I've already spent more
-> > time on it than I really want to.
+On Thu, Feb 14, 2019 at 11:32 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
 >
-> When I replied first, I said I was going to do the upgrade at our side
-> and later you guys could convert to meson.
+> Allow packages using llvm-config to find it using meson's dependency
+> interface.
 >
-> As Fabio pointed out, there are more changes and issues to be fixed
-> so, we will do the upgrade here. We then can you guys so your changes
-> can be rebased on top of this and we avoid duplicated work.
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  meta/classes/meson.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index dff0485b47..aaf873cad2 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -89,6 +89,7 @@ ld = ${@meson_array('LD', d)}
+>  strip = ${@meson_array('STRIP', d)}
+>  readelf = ${@meson_array('READELF', d)}
+>  pkgconfig = 'pkg-config'
+> +llvm-config = 'llvm-config8.0'
+>
 
-Fair enough, just please do so in a timely manner.
+i think llvm should install a symlink from llvm-config
+otherwise we will need to change this everytime
+we upgrade llvm tonew major version
 
-Alex
+>  [properties]
+>  needs_exe_wrapper = true
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
