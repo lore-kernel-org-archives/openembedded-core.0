@@ -1,48 +1,64 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 096CD6D4C6
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4666771984
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 12:15:56 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id g1so16085884otj.11
+	Fri, 15 Feb 2019 12:46:30 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id z19so16330989otm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 04:15:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UKMfIwE5QfLIi+vDfcNk4f5tRj5VrmrQDz/DxROSxIw=;
-	b=Yef3Hs7UMJ//PGtgAb1G+EPJcB/EREZhZLq8lRykJf0ThAVR5DSYgFNTJbWeOP7upW
-	pKEs8+ZlquYinHvKBIbbk5kTcOLeeiz/muWa4Jaez1YBTjmjMMr/WbaegzEoSEXxTFRB
-	vOBWT12314VlChdSdzoi/llO5DD67bdT0fmag1D2tb2W6DxnDjN0Jwt9JvPi9JraVNdM
-	XMCzc0P5fYjvilL0OWoAYw9OV1rQvOA836rOD8zfpXvVz5PgCtiqnGBot0bomjJ0lZvK
-	vpARTMLsj0ZQbbciiHy6skGMZ0uvdflRRYbjwcSxJHXFbYNbiP/ZH+1CVDO+m3i3/24+
-	qFLw==
+	Fri, 15 Feb 2019 04:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=Gg4bIZwegxSJd3ICEuFiO+vfZC6jXAF0Dpy6zHzKM8Q=;
+	b=agAbnMwt9nb6l/nDaJOieSoyzf45RxHux9lSLPZJJArZ0WgesOPR26/3to9njhP2MY
+	ABz57+CV+TSWhb1vTWYdeAFxi3ubAzw764BlCTB1KwYqcpvIXe15kMvbPH3/QinAe5eF
+	CTcCXLEPrOD0v7eMRKjN4SkWmW1O7mwyxYehPmVzykbb7dHLpL4FoqUPssThjJEcb/a3
+	8JCfbDX8oCEICMwHG8nsK3WmgjAqoxrtSTknseqs9oyFnRKWyQ1+t7DQDWMSAD4Xa3Qt
+	Fssnbbp+fMFTvJ2KLtCiD1RH+4et9gOzGA4nal66/hCdh+3zhmRuJIS8cxauyCt4kpfB
+	Z7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=UKMfIwE5QfLIi+vDfcNk4f5tRj5VrmrQDz/DxROSxIw=;
-	b=Widmc7RI1rYyt94XMOCebS+TVPDMTXH5l4bQnzPPFNtkP8rA/5iVoTa/ftZ0Rv/lCx
-	Li9NW16nJ54xYspGaOh5tZKkkE+Srmijcaf5m0XweVqnjJHNjzuqGuj2hOxD1MEetYAg
-	AfQq4wvhbhvi2PioPAV5BZraa27jyn7O1HBQPpgpUdV2fBGvhU/WKxsAyPfq7ueHn4gF
-	/u+M9u6MMo+WA5RCKTMku8yMUij0fX65rBHOvsrwc4SsRnywHcsG36lUNwBaz6YAUQdz
-	weeUhZv8n1iLZWWw0+M9UU4Dwj+ZnK5Y09PLEU7ODCgdlE2dLKMKUla1Kn4KDMuIpqBd
-	IjXQ==
-X-Gm-Message-State: AHQUAuYfP5MnrOcrzLma5bMOqWaCBs4dcZXbC+GNfzdMx6jNXvVxaQAJ
-	lFYLeQH2Hs3d+zpyJWt+lPBEUvGH4Bd5pyrrcfA=
-X-Google-Smtp-Source: AHgI3IZfQEKribIWUF+I2Q4FifS/3/oIBURLfPG5HZ3ysHqm98QufL0mSnaLPkBL/800LoFKHIsf2S8W+pX3/k/jhBA=
-X-Received: by 2002:a9d:66f:: with SMTP id 102mr5800654otn.293.1550232957999; 
-	Fri, 15 Feb 2019 04:15:57 -0800 (PST)
+	bh=Gg4bIZwegxSJd3ICEuFiO+vfZC6jXAF0Dpy6zHzKM8Q=;
+	b=QJS9OVhsNSYMvAhnk10s92n+8Kg8UWEyOsmlqCYu8GzWfFVrg7KeZR75yotZS+DY+B
+	PTfcMXUj98k0YEIPV/Otex1Ip7wA1B/bBPbq0D1Un3aPSgBEJCHg2If7OFVRlLf3tAb7
+	axdXyIvwfk5NyCXVy3oc/iF7oZweZCK6olwMPu269N8jim29r5bnI95TxDH2+Fs1j0hF
+	3nttW4SmKBah6Uk2Nz1wdi6Aq9cT1KEtnwziEDfn3aoLBTsuhlte5Lkyr6q2nWf7PM/P
+	71Zxxhvt458pT6uXDORDlSrQhGEMym5O2FaZiV8ElyMEgZYAxKMS36VxQ1Gbq7ZeOlB4
+	zWlQ==
+X-Gm-Message-State: AHQUAubqCMj911u4uoo9k2GS1a4UcvYprhyQXYkwn53CmKvfCyTh0NAC
+	N/5NgurYMZ54pBwyw2CZmEQGGwBoHD369A==
+X-Google-Smtp-Source: AHgI3IaJwITztVTm+VdKq2QhVxg4y9K9T85f0AyNO0mm3Fm44d+3oqNXOi5J5b4aDT0h6BUoLk5jLQ==
+X-Received: by 2002:a05:6830:15ce:: with SMTP id
+	j14mr5817089otr.82.1550234790725; 
+	Fri, 15 Feb 2019 04:46:30 -0800 (PST)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com.
+	[209.85.210.51])
+	by smtp.gmail.com with ESMTPSA id s12sm430705otk.0.2019.02.15.04.46.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Feb 2019 04:46:29 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f51.google.com with SMTP id s5so16265489oth.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Feb 2019 04:46:29 -0800 (PST)
+X-Received: by 2002:aca:50d0:: with SMTP id e199mr5462289oib.37.1550234788907; 
+	Fri, 15 Feb 2019 04:46:28 -0800 (PST)
 MIME-Version: 1.0
-References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
-	<CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
-	<1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
-In-Reply-To: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 15 Feb 2019 13:15:42 +0100
-Message-ID: <CANNYZj_Sk3mj5yyQV93ATB_RKmE6Ax1GdxTKWayA+3yF=0Ow-Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
+References: <20190215073207.30036-1-anuj.mittal@intel.com>
+	<20190215073207.30036-2-anuj.mittal@intel.com>
+In-Reply-To: <20190215073207.30036-2-anuj.mittal@intel.com>
+Date: Fri, 15 Feb 2019 10:46:17 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKq0zcHhXON4xWvTTUpnYRoMHOHvwd0RSJHwQeSa2d7P7w@mail.gmail.com>
+Message-ID: <CAP9ODKq0zcHhXON4xWvTTUpnYRoMHOHvwd0RSJHwQeSa2d7P7w@mail.gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>,
+	Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] mesa: upgrade 18.1.9 -> 18.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,25 +71,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 12:15:57 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 12:46:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 15 Feb 2019 at 12:27, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Fri, Feb 15, 2019 at 5:32 AM Anuj Mittal <anuj.mittal@intel.com> wrote:
 >
-> On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
-> > On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
-> > wrote:
-> >
-> > > +PV .= "+git${SRCPV}"
-> >
-> > This is unnecessary and adds clutter. Just the plain version number
-> > is enough.
+> * For changes, see:
+> https://www.mesa3d.org/relnotes/18.3.3.html
 >
-> If I read the original commit message correctly, it is necessary as the
-> version is 3.5 plus a bugfix?
+> * Convert from using autotools to meson and get rid of unnecessary
+> patches.
+>
+> * Include a patch to fix detection of host os combinations that we build
+> for.
+>
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 
-Seems so. Sorry for the noise.
+I think this patch should be split off. First we should upgrade to the
+newer release and later convert it to use meson.
 
-Alex
+This allows for better review and testing.
+
+If desired, we can do the upgrade on our side and Anuj can handle the
+meson convertion, next. Does it make sense?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
