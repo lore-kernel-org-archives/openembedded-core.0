@@ -1,45 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 175B77C704
+Return-Path: <zboszor@pr.hu>
+X-Greylist: delayed 2111 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 15 Feb 2019 13:08:43 UTC
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 232CE71984
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 12:57:07 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2019 04:57:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,372,1544515200"; d="scan'208";a="319304409"
-Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Feb 2019 04:57:07 -0800
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.205]) by
-	KMSMSX155.gar.corp.intel.com ([169.254.15.138]) with mapi id
-	14.03.0415.000; Fri, 15 Feb 2019 20:57:07 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH 2/2] mesa: upgrade 18.1.9 -> 18.3.3
-Thread-Index: AQHUxQC41HUTsbGqh0y4dq/4BTKb3KXgSMSAgAABq4CAAIcawA==
-Date: Fri, 15 Feb 2019 12:57:06 +0000
-Message-ID: <C0207330DF60C5409302EC78C3FE68F302290108@PGSMSX105.gar.corp.intel.com>
-References: <20190215073207.30036-1-anuj.mittal@intel.com>
-	<20190215073207.30036-2-anuj.mittal@intel.com>
-	<CAP9ODKq0zcHhXON4xWvTTUpnYRoMHOHvwd0RSJHwQeSa2d7P7w@mail.gmail.com>
-	<CANNYZj_pn3Ff0Bo+NhpSfq-psdeL9rwz0giS0NabW8Xa5S8ujg@mail.gmail.com>
-In-Reply-To: <CANNYZj_pn3Ff0Bo+NhpSfq-psdeL9rwz0giS0NabW8Xa5S8ujg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjM2MTdmNDctYWZiZS00ZDJmLTk0OWYtYmZjNWI1NGZlZmI3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicUhDeXM2cHlJaVJDRUI5MEVTTWVzcnVsb3pkRWtKZ1dzMzRPMktCc21CNnd5SWRHa1BcLzYwU0ExM1hFWnp3dEsifQ==
-x-originating-ip: [172.30.20.206]
+	Fri, 15 Feb 2019 13:08:43 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1gucgO-00053M-Jh
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Feb 2019 13:33:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:References:To:Subject:From:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Ao58LEwZRdWGG6JTGLtQAoxFzo3uOO95rdYVXM42Bto=;
+	b=TfoPLUPhJOoKItmRXsB782u0b6
+	EdlFgU3m+rGtRToOEiFomRuMc+Qe+A0gMsqt3M0OOmijfvplFB0qgAUSr88bBghOTMcY1SrsOTVb9
+	112TsPq8ku/sPvAaiIO12aTLmwu6eybLwWSlyg4kwycy/sGdQEmtTCN20RDTJmmK/QrQrGhoPSkmn
+	A4dPruLUi39LmhO+/IQzioPOUQOqTXA5ibibbAWRrH6EfysL2Qefx2D2lfTXurIV9OkZajUIjDVMX
+	hSH65qoWkeNEjYLN/26MEC3ukX00aIlHGNdboo8f7infNuHfKcIRYXZ49vgP3VCraYnzyLWz4w6Uj
+	6oqcX/Kw==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=localhost.localdomain)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>) id 1gucgK-0005jP-KI
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Feb 2019 13:33:30 +0100
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+References: <ff1a7a90-4a1e-f3d8-8c9f-8563f7847a71@pr.hu>
+Message-ID: <c499f911-0286-9044-04c9-819f40d1755e@pr.hu>
+Date: Fri, 15 Feb 2019 13:33:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Cc: Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] mesa: upgrade 18.1.9 -> 18.3.3
+In-Reply-To: <ff1a7a90-4a1e-f3d8-8c9f-8563f7847a71@pr.hu>
+X-Spam-Score: -1.2 (-)
+X-Scan-Signature: f51b28b80251e2f33265d70a8f4dc624
+X-Spam-Tracer: backend.mail.pr.hu -1.2 20190215123330Z
+Subject: Re: dracut is impossible to run in do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 12:57:08 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 13:08:44 -0000
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEthbmF2
-aW4gW21haWx0bzphbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KPiBTZW50OiBGcmlkYXksIEZlYnJ1
-YXJ5IDE1LCAyMDE5IDA4OjUyIFBNDQo+IFRvOiBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2
-YWRvckBvc3N5c3RlbXMuY29tLmJyPg0KPiBDYzogTWl0dGFsLCBBbnVqIDxhbnVqLm1pdHRhbEBp
-bnRlbC5jb20+OyBGYWJpbyBCZXJ0b24NCj4gPGZhYmlvLmJlcnRvbkBvc3N5c3RlbXMuY29tLmJy
-PjsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINCj4gPG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIIDIvMl0gbWVzYTogdXBncmFkZSAxOC4xLjkgLT4gMTguMy4zDQo+IA0K
-PiBPbiBGcmksIDE1IEZlYiAyMDE5IGF0IDEzOjQ2LCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5z
-YWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPg0KPiB3cm90ZToNCj4gDQo+ID4gSSB0aGluayB0aGlz
-IHBhdGNoIHNob3VsZCBiZSBzcGxpdCBvZmYuIEZpcnN0IHdlIHNob3VsZCB1cGdyYWRlIHRvIHRo
-ZQ0KPiA+IG5ld2VyIHJlbGVhc2UgYW5kIGxhdGVyIGNvbnZlcnQgaXQgdG8gdXNlIG1lc29uLg0K
-PiA+DQo+ID4gVGhpcyBhbGxvd3MgZm9yIGJldHRlciByZXZpZXcgYW5kIHRlc3RpbmcuDQo+ID4N
-Cj4gPiBJZiBkZXNpcmVkLCB3ZSBjYW4gZG8gdGhlIHVwZ3JhZGUgb24gb3VyIHNpZGUgYW5kIEFu
-dWogY2FuIGhhbmRsZSB0aGUNCj4gPiBtZXNvbiBjb252ZXJ0aW9uLCBuZXh0LiBEb2VzIGl0IG1h
-a2Ugc2Vuc2U/DQo+IA0KPiBOb3QgcmVhbGx5LCBpbiBteSBvcGluaW9uLCBpdCdzIGp1c3QgbW9y
-ZSBmcmljdGlvbiBhbmQgY29vcmRpbmF0aW9uLCBhbmQgZGVsYXlzLiBJdCdzDQo+IGJldHRlciB0
-byBqdXN0IGZpeCB0aGUgaXNzdWVzIHdpdGggdGhlIGV4aXN0aW5nIHBhdGNoLg0KPiBJJ2xsIHNl
-bmQgYSBmaXhlZCB2ZXJzaW9uIGluIGEgZmV3IG1pbnV0ZXMuDQo+IA0KDQpUaGFua3MgQWxleC4g
-DQoNCkkgZGlkbuKAmXQgd2FudCB0byBzcGVuZCB0aW1lIGluIHJlZnJlc2hpbmcgcGF0Y2hlcyBp
-biBvbmUgY29tbWl0IGFuZCB0ZXN0aW5nIGFuZCBtYWtpbmcgc3VyZSB0aGV5IHdlcmUgY29ycmVj
-dCB3aGVuIHNvbWUgb2YgdGhlbSB3ZXJlIGdvaW5nIHRvIGJlIHJlbW92ZWQgaW4gbmV4dC4gU28g
-SSB0b29rIHRoaXMgYXBwcm9hY2guDQoNClRoYW5rcywNCkFudWoNCg==
+Hi again,
+
+I am now replying to myself.
+
+If anyone is interested, I have solved it in dracut so it can use a sysroot.
+See: https://github.com/dracutdevs/dracut/pull/535
+
+Then, the dracut recipe also needs changes so it can be built as native.
+
+A recipe is needed for a cross-compiler ldd from this:
+https://gist.github.com/jerome-pouiller/c403786c1394f53f44a3b61214489e6f
+
+Then a dracut.bbclass to be used by a kernel recipe or anything else
+that wants to be included in the initramfs, like extra dracut modules
+or custom boot splash themes.
+
+I have all of this working now in Yocto 2.5 via a bbappend for dracut
+and the two extras.
+
+Eventually, I would like to upstream these changes when my dracut PR
+is merged, hopefully before 050 is released.
+
+2018. 11. 14. 10:53 keltezéssel, Böszörményi Zoltán via Openembedded-core írta:
+> Hi,
+> 
+> I need to create the initramfs for the target build during
+> do_rootfs using dracut to include systemd and plymouth into it and
+> using the modules from the kernel version the image was built with.
+> Currently I am on Yocto 2.5.
+> 
+> There are several problem I am facing.
+> 
+> First, the dracut recipe needs some fixes in the
+> RDEPENDS/RRECOMMENDS clauses to only use subpackages of the
+> recipes it depends on in class-target only. I could fix this
+> with a bbappend file.
+> 
+> Then, all the packages in the system that use the
+> update-alternatives.bbclass have unusable symlinks during the
+> do_rootfs stage.
+> 
+> E.g. coreutils's binaries use this:
+> 
+> zboszormenyi@buildbox-0001 rootfs]$ ls -l usr/bin/[
+> lrwxrwxrwx 1 zboszormenyi zboszormenyi 27 nov   14 03.51 usr/bin/[ -> 
+> /usr/bin/lbracket.coreutils
+> 
+> Of course, the target of the symlink does not exist on
+> the build host. As a consequence, dracut will not find anything
+> that it needs to copy to the initramfs.
+> 
+> Is there a way to tell update-alternatives.bbclass (e.g. globally
+> from my layer.conf) to just use the relative symlink it is given?
+> 
+> Thanks in advance,
+> Zoltán Böszörményi
+
 
