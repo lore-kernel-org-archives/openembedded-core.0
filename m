@@ -1,48 +1,48 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8146A7C723
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C61237C708
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 14:55:39 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id r201so5910619vsc.11
+	Fri, 15 Feb 2019 15:02:20 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id p25so10880266qtb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 06:55:40 -0800 (PST)
+	Fri, 15 Feb 2019 07:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7huipc3oiXQEBDkOfkkjP24/tiCV41BmsRWDahSEgs8=;
-	b=M7LnC1fJin2lFsFdQc/wa6ci5KP9tz76BBBaSmB3d8Ub0effLqiZvsq61d2uCxr/CH
-	gXULMPuupOsKJ9s+Zvt5O7w1VxViaaozHuXJDiMab6QQnyxicybSkylJL2FvIxFBYEQ2
-	mgvIpfuYiAh7vtc69gQT6wN01M7vjpM+5R/+lb1cTyRL8YysQtAtrYvpaVhpLrU9beOx
-	WX6Rp/Od9YH2Ek6WQQWi+k4cfjxQENbJ2/LgPymdm7Oz48oU3mj+6m2mPkE21AuHe0WV
-	hqjcxK+9eXFtyhah2T6bB3g0bDVWenmuhNf9yvbJuC8ArbVFOztiwnCfjilE6iBPbbme
-	ksTQ==
+	:cc; bh=eUMxV3b46+R+oDOKPNiAsJOLnwU+lOrq/Hh685bGws8=;
+	b=UtYgeEanc3pQlfmVBzJyDpvXFMwjqEpd2PpqEMq3wOlU6Xvi/EiZxr/WF6TjUI1bV+
+	I/04l6Z9x21pBQNAud7E+1ExUfPQDBLEnWE9D9C935RVQKpuujoiSRv3t134EUmFP5BD
+	50l/2VzOVGAJWrnRObOGPtHSgvrem0uA+lDP8efYPbrnx93pKYj4gIHRCQA/X8z0gYru
+	PaC321KWRAAdA3xGVPG4uKQyEJitEgCO1jwpS2m69kYM/Cg3pcz6dcII+YUt4IrT3Pzc
+	O5Xx4T+IQ8H/j8A/NtqPN0KbiC1Nl6Jc49XO1OhXLUJod34Ln8BhBJW9FbK+Gg0ka5E8
+	Jpag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=7huipc3oiXQEBDkOfkkjP24/tiCV41BmsRWDahSEgs8=;
-	b=k4AHccmDT9r/U5Fj4knfX35pMNA8FgPiHTqE9ajtgVd/HSAU4eaXeM/nRMONH+l8th
-	CgNGs62WcLkm80lxxmtljFInR5isNihHn37VjitnCvOdsCkmQAPhe8bjiIHRL0aeI+gE
-	m7vO2e564GJ4ct5PMlbBK4qJhZOWB4w/RPoe8Ty4TR2wHq/yA2dCr2XQ96WZ1emw/ua9
-	85mgb8/Ssg4XZ3bTxBhb9v5wZudKVlHS+cBfvSnRyM/8hZt0Z3bArnAWKydjOSwZIHUv
-	yGcqtULvqhGMH5TpD31vgJjH1iXKWnUbobMLS5Zi5oBO+R3Zje+FP24WwfPoObaRKCQL
-	sEfw==
-X-Gm-Message-State: AHQUAuafD4BYM+Y3PTAyGghVjxzXRcllM/Le77aey5YDBCsGsI3Zxtnm
-	+F+WmZg/1QQKEnqpzOWN44vQC61k3VUiUod6T5o=
-X-Google-Smtp-Source: AHgI3Iacx1PU5z0L/E8uTyE6YTbfGgmoDCU3jhndyB/7m8MdAkLBD6CyBJmCl7DeQsgAB33AmdBgRkLYFA/0dh/vdd8=
-X-Received: by 2002:a67:7d06:: with SMTP id y6mr5250409vsc.22.1550242540330;
-	Fri, 15 Feb 2019 06:55:40 -0800 (PST)
+	bh=eUMxV3b46+R+oDOKPNiAsJOLnwU+lOrq/Hh685bGws8=;
+	b=dfXikQuWWOJ2xlINfYIoE9oLfhdhksnBvt3EXeUV0PONyevg5DaJhj4rv2SNASnzvN
+	sx0B6Dwtx1XGHeqQTEoTu/vhj2z146WkaGhMdn2UKWswOGM5m/J6u1HSg+KetJZ6vnwH
+	fjeyZVzOF/DKrqJvNLpVKzC+0xZeJIeBoDzJST4RhjuxxcDveHEYdFG/6EutuAIBMWF1
+	1cHaSjGh+53+nAgkqoS7c0XGd/1avYfqbZegyKlV01zNMJJg0BlzEYIgDpygJ9DVVJZQ
+	0pVlIzhQaJDCrGIDKOiV4Qa07/orW/162VxgMA+trsbtsYwVyz4OslkobMDCpODs9AOg
+	KOww==
+X-Gm-Message-State: AHQUAuZHi00c3yh5C2c2gjDA2hUQxRmPNtnRjtXwKmDzu+mACMgwPrpd
+	T6GY52CHDt/G6UTvAkSxAdzp0mAaWROftm9JOF8=
+X-Google-Smtp-Source: AHgI3IbVUsR1yjTDraiS75cHKCnZG1MdsN04Qv1VlMayFLIO+YH9QoGGgmA/PF4Ip1vkodhCg7M1fweHcGBOUhHAkOY=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr8002508qtn.253.1550242941248; 
+	Fri, 15 Feb 2019 07:02:21 -0800 (PST)
 MIME-Version: 1.0
-References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
-	<CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
-	<1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
-In-Reply-To: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 15 Feb 2019 14:55:28 +0000
-Message-ID: <CAO5Uq5Q64Tf8=71TU69QFvSZVp272rtTpgtBfjDzC=c7jEh22w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20190212054754.2801-1-raj.khem@gmail.com>
+	<CAJTo0LYDstsDdmO-Y++5nkAuPgk4OFS+bpYTTYKh8edpzW=hkw@mail.gmail.com>
+	<CAMKF1srYzGOXxXkHKG04_AB5xcyMKe1KTP6aoYqO3pQJr=jy0A@mail.gmail.com>
+In-Reply-To: <CAMKF1srYzGOXxXkHKG04_AB5xcyMKe1KTP6aoYqO3pQJr=jy0A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Feb 2019 07:01:55 -0800
+Message-ID: <CAMKF1spu7DXTNqjEV4-oTryBxOnGo0ypcCv9W=A5OdibMcv6tA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
+Subject: Re: [PATCH 1/3] busybox: Remove PN from rdeps of PN-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 14:55:39 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 15:02:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 15, 2019 at 11:27 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Richard/Ross
+
+Are you able to reproduce the problem and have
+alternative solution?
+
+On Tue, Feb 12, 2019 at 11:04 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
-> > On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
-> > wrote:
+> On Tue, Feb 12, 2019 at 7:59 AM Burton, Ross <ross.burton@intel.com> wrote:
 > >
-> > > +PV .= "+git${SRCPV}"
+> > Would a neater solution be to PACKAGES_remove = ${PN}-dev?
 > >
-> > This is unnecessary and adds clutter. Just the plain version number
-> > is enough.
 >
-> If I read the original commit message correctly, it is necessary as the
-> version is 3.5 plus a bugfix?
+> That was first thing I tried too. It does not fix the problem
 >
-
-Yes it was 3.5 + a bug fix.
-
-Ignore v2 that I sent!
-
--- 
-Alex Kiernan
+> > Ross
+> >
+> > On Tue, 12 Feb 2019 at 05:48, Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > PN-dev is empty and causes dependency loops during SDK build
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  meta/recipes-core/busybox/busybox.inc | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> > > index 24c15e4aee..2444afabd5 100644
+> > > --- a/meta/recipes-core/busybox/busybox.inc
+> > > +++ b/meta/recipes-core/busybox/busybox.inc
+> > > @@ -21,6 +21,7 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
+> > >  EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+> > >
+> > >  PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
+> > > +RDEPENDS_${PN}-dev = ""
+> > >
+> > >  FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
+> > >  FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
+> > > --
+> > > 2.20.1
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
