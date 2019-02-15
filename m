@@ -1,23 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C75377C64E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 27CAF7C64E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 02:06:43 +0000 (UTC)
+	Fri, 15 Feb 2019 02:06:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1F26he7001011
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1F26iWB020180
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Feb 2019 18:06:43 -0800 (PST)
+	Thu, 14 Feb 2019 18:06:45 -0800 (PST)
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.435.0;
-	Thu, 14 Feb 2019 18:06:42 -0800
+	Thu, 14 Feb 2019 18:06:44 -0800
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 14 Feb 2019 21:06:34 -0500
-Message-ID: <cover.1550195817.git.kai.kang@windriver.com>
+Date: Thu, 14 Feb 2019 21:06:35 -0500
+Message-ID: <809eb7abfcb491007e7480032b6414f3191010df.1550195817.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.20.0
+In-Reply-To: <cover.1550195817.git.kai.kang@windriver.com>
+References: <cover.1550195817.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 0/4] Update default value of DEBUG_PREFIX_MAP
+Subject: [PATCH 1/4] bitbake.conf: update DEBUG_PREFIX_MAP with -fmacro-prefix-map
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 02:06:44 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 02:06:45 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-v2:
-* add -fmacro-prefix-map rather than -ffile-prefix-map that the latter one
-  could not be recognized by assembly compiler which causes buildpatchs issue for glibc
-* other fix for openssl and libidn2
+Add option '-fmacro-prefix-map' to DEBUG_PREFIX_MAP. It could resolve
+buildpaths qa warnings which caused by macros '__FILE__' and
+'__BASE_FILE__'.
 
-Build core-image-sato for qemux86, qemux86-64 and (qemuarm + musl).
-oe-selftest -r gotoolchain.oeGoToolchainSelfTest.test_go_dep_build PASS.
+Though option '-ffile-prefix-map' could cover '-fdebug-prefix-map' and
+'-fdebug-prefix-map' both, it is not supported by 'as' and causes
+buildpaths qa warnings of glibc:
 
-$ oe-selftest --skip-tests distrodata.Distrodata.test_checkpkg buildoptions.SourceMirroring.test_yocto_source_mirror -j 15
-2 selftest cases failed but seems not realated with my patches.
-2019-02-14 05:05:28,054 - oe-selftest - INFO - RESULTS - containerimage.ContainerImageTests.test_expected_files - Testcase 1619: FAILED (483.52s)
-2019-02-14 05:05:28,054 - oe-selftest - INFO - RESULTS - distrodata.Distrodata.test_checkpkg - Testcase 1902: FAILED (177.51s)
+| QA Issue: File
+|  /work/i586-poky-linux/glibc/2.29-r0/packages-split/glibc-dev/usr/lib/crti.o
+|  in package contained reference to tmpdir
 
-The following changes since commit 5fa3b5b15229babc9f96606c79436ab83651bf83:
+So only add '-fmacro-prefix-map' to DEBUG_PREFIX_MAP rather than replace
+'-fdebug-prefix-map' with '-ffile-prefix-map'.
 
-  bitbake: bitbake: cookerdata: Check duplicated BBFILE_COLLECTIONS (2019-02-14 11:21:58 +0000)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/prefix-map
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/prefix-map
-
-Kai Kang (4):
-  bitbake.conf: update DEBUG_PREFIX_MAP with -fmacro-prefix-map
-  go-cross-canadian: set default value of DEBUG_PREFIX_MAP
-  libidn2: fix buildpaths qa warning
-  openssl: update patch to fix buildpaths qa issue for
-    -fmacro-prefix-map
-
- meta/conf/bitbake.conf                                    | 3 ++-
- ...dinfo-strip-sysroot-and-debug-prefix-map-from-co.patch | 8 +++++++-
- meta/recipes-devtools/go/go-cross-canadian.inc            | 8 ++++++++
- meta/recipes-extended/libidn/libidn2_2.0.5.bb             | 4 ++++
- 4 files changed, 21 insertions(+), 2 deletions(-)
-
---
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6e063dc14d..435646a946 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -601,7 +601,8 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
+ # Optimization flags.
+ ##################################################################
+ # Beware: applied last to first
+-DEBUG_PREFIX_MAP ?= "-fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
++DEBUG_PREFIX_MAP ?= "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
++                     -fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
+                      -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+                      -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+ "
+-- 
 2.20.0
 
 
