@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3794E7C71F
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F442605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 09:57:42 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id i16so1411806wrs.13
+	Fri, 15 Feb 2019 10:02:35 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id v16so9641075wrn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 01:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=g6L3Hrvv6+mNWdKuM5J3StNamIKCrb+7CN9i5syMB9s=;
-	b=WlEOF7TAoy3PpDahd80SAwQWOXte0jGUvWx8UrstaA8//nelLmHgRLu+ikLvQeab6p
-	8lltuOFthA/FFWs81A53+4UhkxiePIkHja/d+Ar4THwAUhpAs2sPAeQDY5UKL0WU4L/L
-	3mg6Z3B6Cdb1AkTWwkSqlEnKmnrKz9Rq+fdEg=
+	Fri, 15 Feb 2019 02:02:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=aum0q10kA8gMT2jXeJ2dh3cVJFPTSTbfNt/2u/nDn5Y=;
+	b=WsoE96QELWI5XorSgebPhjQvG0xaBEEvAoE+UQIPz2Ru5OxfG0Kh30Nf192/9lTu1+
+	a07o4NSrC5AR3W9MK48gDaT3XstDk9TOBsa6oIsQmliP9Ady4ls0AYOra95psRVjcVXQ
+	5/Lx5fhB5J8+qP2kw0tdgvr7LFl/OwP2TcYIzzLmzyNeNhXC9xx0UjojBBSe+MsZphh2
+	mx8iW6KEiPuvryLOsV9SbkjZd99e7JeLcTeRCZD7A0j2cjt9mGUKlT6f7r2KQPbPlESD
+	fjlBxIXTlPYjz/dUHOR9mqaT/BpwoNfHiMpKbJMl+T5FxNgkwzDl5JVBIzBmNEIwfC/o
+	pGHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=g6L3Hrvv6+mNWdKuM5J3StNamIKCrb+7CN9i5syMB9s=;
-	b=O8IvgJyGM7HtOoc7szdSUSdmaLrw99CWaq/OPWmhNxFs+Y6JCyvmMGxQiRr9d61O7u
-	9mccSWxsx5tkxoI3B53qSg8yl2yCUoWtirf09FH2xeTj68SuwN25lTh9AwSZ0iMDHdtC
-	K11R+M5rn3UdrS6aYVeFYSBGGuGwSeFakg/DBkJh7xbEX6cub4EDa4e7VEZUfKmWfMDJ
-	b3FRAWJLi+nGclPZaxfavUT2hMX0HBMG+ORQ+G9Fia1yqdiSX31XBpWdZuKEWqkszifj
-	g07R4lFiz0utUiA3gn5pBiionJLByPGYbemS7sitvZhC28pAg1LIUGqH7A64OJTcJ4LH
-	BB9w==
-X-Gm-Message-State: AHQUAub88cNMoxOZ6vpkCU8B43uczgB4aGnYTS/GfWCJlrJZlzECWnHG
-	DT71ZXrjSfUJ4kDIUFjsu8sv4N+jFX0=
-X-Google-Smtp-Source: AHgI3IaHOFCkOWT3dpTMMFAbrAEre+VDWYvbnjw9578e+gExtiHVQ1opjD3+iHB+cPvgfHWxpMQOhA==
-X-Received: by 2002:adf:f845:: with SMTP id d5mr6574103wrq.113.1550224662861; 
-	Fri, 15 Feb 2019 01:57:42 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id s4sm2665235wmc.21.2019.02.15.01.57.41
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 15 Feb 2019 01:57:42 -0800 (PST)
-Message-ID: <b82ae00685d2a9a7c6dc2710391e6e0b78a85527.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kai.kang@windriver.com
-Date: Fri, 15 Feb 2019 09:57:41 +0000
-In-Reply-To: <4367f854b1ff23bc2972294715d3837725ee7c43.1550195817.git.kai.kang@windriver.com>
-References: <cover.1550195817.git.kai.kang@windriver.com>
-	<4367f854b1ff23bc2972294715d3837725ee7c43.1550195817.git.kai.kang@windriver.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] libidn2: fix buildpaths qa warning
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=aum0q10kA8gMT2jXeJ2dh3cVJFPTSTbfNt/2u/nDn5Y=;
+	b=KM0gAdiRtc+ru+vw77fM10oHjNcdjeuaCL7QWgpxMoyUyBY79y/VAolKhh0Ywp/Y10
+	vbuxUTY/U+d+YR87nMrwZIqXzYJ48N7TOQPjJ9qMQLj8SvhnwESTLFQKl/v6Ux0vvEUF
+	Q62UVmDIIEfh01kHx3a8xMSDu3srGcHrgQ4HBrnKMcmgWO4JZzX9sPyLGJNeNqKFkbq+
+	SEd+Ho5/AAJLyIMl+SllH9TSG84BiwgPizeSntHZmpo4Q1K9QsPtmstn/66QjoLiN8GK
+	A81EzSsrfCZIgDDnEpEgkfPY+XhIVz7CPGp4EyiOZawlua9C2kSuyqTOJKx0g7tUeUVz
+	kcfQ==
+X-Gm-Message-State: AHQUAuaHBNYlFlDjf+2/c4jBHiKZd38HEJhOJfCD/4BGWw+Ba9OZ8bBe
+	YSE5jypUVLGXNObuMpkBcmNNNkgCHHYAfA==
+X-Google-Smtp-Source: AHgI3IakAALVRgOdV8ZqsGn0Zd6QHh8p40dEHKq2G7MkEDxKHIXAunfeZSHdvghsi63VL481VhrORQ==
+X-Received: by 2002:adf:b6a1:: with SMTP id j33mr6060780wre.55.1550224955881; 
+	Fri, 15 Feb 2019 02:02:35 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	s127sm3200794wmf.39.2019.02.15.02.02.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 15 Feb 2019 02:02:35 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Feb 2019 10:02:13 +0000
+Message-Id: <1550224933-20658-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 09:57:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Feb 2019 10:02:35 -0000
 
-On Thu, 2019-02-14 at 21:06 -0500, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Fix buildpaths qa warning of libidn2:
-> 
-> > WARNING: libidn2-2.0.5-r0 do_package_qa: QA Issue: File
-> > /work/core2-64-poky-linux/libidn2/2.0.5-r0/packages-split/libidn2-
-> > dev/usr/lib/pkgconfig/libidn2.pc
-> > in package contained reference to tmpdir [buildpaths]
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-extended/libidn/libidn2_2.0.5.bb | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> index 0daf7a6877..da77c4402d 100644
-> --- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> +++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-> @@ -26,4 +26,8 @@ EXTRA_OECONF += "--disable-rpath \
->  LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
->  LICENSE_${PN}-bin = "GPLv3+"
->  
-> +do_install_append () {
-> +    sed -i 's#${RECIPE_SYSROOT}##'
-> ${D}${libdir}/pkgconfig/libidn2.pc
-> +}
-> +
->  BBCLASSEXTEND = "native nativesdk"
+bmap-tools 3.5 was released August 2018 but has no release tarball, so
+switch to using the git fetcher. Also pull in the fix for StopIteration
+being transformed into RuntimeError for Python 3.7.
 
-I have a strong dislike for editing .pc files after the fact. Part of
-the concern is sed expressions like this bitrot badly, its hard to tell
-if they still work as intended.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-Is there not a way we can generate a correct .pc file in the first
-place even if that means a patch?
+Changes in v2:
+- Drop append of "+git${SRCPV}" to PV
 
-Cheers,
+ .../bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb}           | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb} (74%)
 
-Richard
-
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+similarity index 74%
+rename from meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+rename to meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+index 2aae9a3fe0d8..4609a7071c5a 100644
+--- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
++++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+@@ -9,12 +9,12 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
++SRC_URI = "git://github.com/intel/${BPN}"
+ 
+-SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
+-SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
++SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
++S = "${WORKDIR}/git"
+ 
+-UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+ 
+ RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl"
+ 
+-- 
+2.7.4
 
 
