@@ -1,51 +1,46 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
-	[209.85.210.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BD04E7C75F
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+	[209.85.217.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BE3027C75E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 15:49:10 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id g1so17160772otj.11
+	Fri, 15 Feb 2019 15:59:27 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id b20so6059523vsl.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 07:49:12 -0800 (PST)
+	Fri, 15 Feb 2019 07:59:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=C/L5HlU5pDKXvFAnTQHITK8tHHwk0cICvOaStvC5Apo=;
-	b=Lb33iMyUYtX1mf0Rst8ftpedMc3i2YTMmWebZkIkum5HDY9zc7I9y0pTdnuk+O68zq
-	06hJ2vn4UMaW1uY5rwFOn2keJs2y7uYX92OdQC+i+V/Tmft6m0rhRYmFPc+NFeynaVtu
-	3fxSSEgEYuZ8oB6iKwTddxpHB1V699e0m81nuLe+Ttt6p7npjroiuALKcXt9ojUWET4p
-	FDz3J00eAIkag8RmxgUiyZU7/80Bynp8PBAq2zsmQ0wM1tOJZAzldwGD47y+9ox475EP
-	ERuBIXIqeIVap1L2CfpexwFWLkg/9QZ0EAOZH1QS5BgDPR/SinN7/5+erYpTS0IFXQBZ
-	v5Dg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=BGUVdpDDOzU/0rlaZt0Vxmr1HunlpdMCudG2wZFtetw=;
+	b=VR0H7Ta3oXj49B/znzPojkXABZ1dtpPseIiywz86F85gJt8nK1X0IJJ4xpk3z2ZL0U
+	AE4Yh1seKDhqZnDZ2XkqcmXz5rzMnRrQVO/NpA1fUzGwUlSEGwOHNFvGzuxIT7ena6D0
+	/XlL2+fuIDZaOgByDYa4MYQ4IOg7XyZkCtFrxSiGhvzT6ES6Kba/d9kq1jWz6DZzVyIK
+	fX42kOMqZdQgSI/kuns/2KH1DRaNcmTB0aUoKpOBcXYy2uedXTYqSIk+dy1Xs9iLm69u
+	mxpiAdkNBGZYj38LGTxYWhAedhkC3l4Dp8xraASsAQKTkkEXwlNmiXJMumHebmPv1TuW
+	TnEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=C/L5HlU5pDKXvFAnTQHITK8tHHwk0cICvOaStvC5Apo=;
-	b=A1EuGbsNydYlEGElUeEk04APLO7Q2U4x1Xj54JnLxMd6oa0jgjk3gFalNx8s/RM5Fg
-	3PpNyNpbU9m95iXxC3oLrE0ycDmuO1PTqj0PA6XudWTUegVfTlo/awp0TuyzObACdrIa
-	tiUy1soneqobMXdgNZabiPN60JbiX01KTS9n3OtdZMfnYozl7yPOM9glKi0o81ruG2lL
-	QWav7ccc+ON6x18ROf/EcN+yqB+jl6qM9PCzF5SvDvry6h+2e9kBi12VrxsSpdGFJ61b
-	i3wp2W2Zzd6mfrGMzlMO4x6EOq5KCVuTs/KfOl+EqudKlOyig5A688A3VosK5QHWgvRi
-	Fz/w==
-X-Gm-Message-State: AHQUAuYbRlAQuCaCipRLuYLETfPgT+HN51+sBcXHQYMYJt6vJcnydkYV
-	0K6w8cqdvmnUbpZWJ0yAsXXSzYspAlfRhp2XbZg=
-X-Google-Smtp-Source: AHgI3IYOryRCHH64YBpbavalUIl6QGzpmh2vGUFlUVulTixFTEx3G+CQ16DfTnpwF24S84ns4amhQP8XOpTOWv5z1bY=
-X-Received: by 2002:aca:c003:: with SMTP id q3mr5906733oif.119.1550245751588; 
-	Fri, 15 Feb 2019 07:49:11 -0800 (PST)
+	:message-id:subject:to;
+	bh=BGUVdpDDOzU/0rlaZt0Vxmr1HunlpdMCudG2wZFtetw=;
+	b=d6FpzZ5XlszmDphtm3l58/e+5f3LOzJ/MERL2beg1O/O5G+aHwuLyMKGjjfn4x+Jt3
+	swLBWj4dTBO/bWwFy9XqMdtGN3MVoLkV3q8V3+2JlZc9/HNyw/J/DTmdCq4fqaI4pOL7
+	pkPDn+ole5x5jvMiDS2uAo9RzUZuqF43cVIDQkLYKh/i6UFRcuG1Ys8SlXadJEbFHLE1
+	W8gbje7OLkaysW9zi0lp11YTRUCGVQ8dOczSDGE7gHu4a9lpZkeGjqhYB/oakVsvLK35
+	uAAyLSuVdC4tywcGp+WFbrDS9Dryn6GfYe+LlIkbKzilAnY8Kth0Newu4OWkhpUytp3w
+	PqqQ==
+X-Gm-Message-State: AHQUAuagb46ikWsO/G59+giLujD9ySLJDXHEhqH1GMLNVFLYwZARyAmr
+	soeUPdxErQnWKesQhoC76HhUyL0mxWU4RjAcCwfDIoIPePU=
+X-Google-Smtp-Source: AHgI3IYopKMvKdY7utS0AQ+aMMMvH3jFSQFDqYWW3jYaPhkUjLKcvXNj6+DSitE9pktHwhfHAxQ3+ooF09mlERtbEjE=
+X-Received: by 2002:a67:ea13:: with SMTP id g19mr5180992vso.77.1550246368480; 
+	Fri, 15 Feb 2019 07:59:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20190215131047.64007-1-alex.kanavin@gmail.com>
-	<CAAPZna19N6iLvaxLZOmDjJoAyGnJ=hkH0K4wk0TYQb4to_95Sw@mail.gmail.com>
-	<CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
-	<be4efd67-1b40-70de-29c0-9e0fdcc7deae@pr.hu>
-	<CAP9ODKqn67CQuO=pSGrdYDX-uJHOtQ7CCoa8QsVrwAbM+qxCNw@mail.gmail.com>
-In-Reply-To: <CAP9ODKqn67CQuO=pSGrdYDX-uJHOtQ7CCoa8QsVrwAbM+qxCNw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 15 Feb 2019 16:49:00 +0100
-Message-ID: <CANNYZj-cQPyN0hfEXZZ223y+wwnfggFij7Q2Pk5PDoXeYXRM0g@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+References: <1547535307-15876-1-git-send-email-alex.kiernan@gmail.com>
+In-Reply-To: <1547535307-15876-1-git-send-email-alex.kiernan@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 15 Feb 2019 15:59:17 +0000
+Message-ID: <CAO5Uq5SQt9-CyZ6iCca_xd-3vV83pyhOJeHxwUH12AaMEMj_Kw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: upgrade 18.1.9 -> 18.3.3
+Subject: Re: [PATCH] perf: Package libperf-jvmti.so as part of ${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 15:49:10 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 15:59:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 15 Feb 2019 at 16:16, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
+On Tue, Jan 15, 2019 at 6:55 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> perf's jvmti support builds libperf-jvmti.so that needs to be packaged
+> as part of the main package, not a developer package. Given there's no
+> files in the developer package, override FILES_SOLIBSDEV so it's not
+> gobbled by FILES_${PN}-dev, and then add just that file to FILES_${PN}
+> so that if in the future there other files which would be added to the
+> dev package we'll fail then.
+>
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
 
-> I don't see urgency in to do the convertion so if there is more people
-> which wishes to keep autotools for this release, we can skip it for
-> 19.0.1 upgrade.
+ping?
 
-The idea was to switch as many recipes as possible that are on the
-dependency path to qemu-native to meson, to improve build times. With
-the upcoming virgl patchset, mesa-native is in that set.
-
-I'll still provide the patch, as soon as mesa is updated. At least it
-could get a run on the AB to see where the known issues are.
-
-Alex
+-- 
+Alex Kiernan
 
