@@ -1,24 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 03F1E7C692
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EF0237C692
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 03:03:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1F33dCD004695
+	Fri, 15 Feb 2019 03:04:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1F34H6M009344
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2019 19:03:50 -0800
+	Thu, 14 Feb 2019 19:04:17 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.435.0; Thu, 14 Feb 2019 19:03:29 -0800
+	14.3.435.0; Thu, 14 Feb 2019 19:04:16 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Feb 2019 11:22:17 +0800
-Message-ID: <cover.1550200881.git.liezhi.yang@windriver.com>
+Date: Fri, 15 Feb 2019 11:22:21 +0800
+Message-ID: <b1072d66374be795a9a6210bdad5d2cb19f1a569.1550200881.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1550200881.git.liezhi.yang@windriver.com>
+References: <cover.1550200881.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] Recipes upgrade
+Subject: [PATCH 4/4] mklibs-native: 0.1.43 -> 0.1.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 03:03:59 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 03:04:16 -0000
 Content-Type: text/plain
 
-The following changes since commit a88bcbae850a2e6d182291d3f8e167aabdbe4842:
-
-  wic/engine.py: Load paths from PATH environment variable (2019-02-14 11:20:06 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/pu
-
-Robert Yang (4):
-  cryptodev: 1.9 -> 1.10
-  e2fsprogs: 1.44.3 -> 1.44.5
-  git: 2.18.1 -> 2.20.1
-  mklibs-native: 0.1.43 -> 0.1.44
-
- .../{e2fsprogs_1.44.3.bb => e2fsprogs_1.44.5.bb}   |   2 +-
- meta/recipes-devtools/git/git_2.18.1.bb            |  11 -
- meta/recipes-devtools/git/git_2.20.1.bb            |  11 +
- ...bs-native_0.1.43.bb => mklibs-native_0.1.44.bb} |   8 +-
- ...ptodev-linux_1.9.bb => cryptodev-linux_1.10.bb} |   0
- ...odev-module_1.9.bb => cryptodev-module_1.10.bb} |   5 -
- ...ptodev-tests_1.9.bb => cryptodev-tests_1.10.bb} |   1 -
- meta/recipes-kernel/cryptodev/cryptodev.inc        |   2 +-
- .../files/0001-Port-tests-to-openssl-1.1.patch     | 103 ---------
- .../0001-ioctl.c-Fix-build-with-linux-4.13.patch   |  49 ----
- .../0001-ioctl.c-Fix-build-with-linux-4.17.patch   |  43 ----
- ...-split-big-function-to-simplify-maintaina.patch | 250 ---------------------
- ...g-relocate-code-to-simplify-later-patches.patch |  64 ------
- ...ert-to-new-AEAD-interface-in-kernels-v4.2.patch | 102 ---------
- 14 files changed, 16 insertions(+), 635 deletions(-)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.44.3.bb => e2fsprogs_1.44.5.bb} (99%)
- delete mode 100644 meta/recipes-devtools/git/git_2.18.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.20.1.bb
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../mklibs/{mklibs-native_0.1.43.bb => mklibs-native_0.1.44.bb}   | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
  rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.43.bb => mklibs-native_0.1.44.bb} (71%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.9.bb => cryptodev-linux_1.10.bb} (100%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.9.bb => cryptodev-module_1.10.bb} (54%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.9.bb => cryptodev-tests_1.10.bb} (88%)
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Port-tests-to-openssl-1.1.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.13.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.17.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-refactoring-split-big-function-to-simplify-maintaina.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0002-refactoring-relocate-code-to-simplify-later-patches.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0003-convert-to-new-AEAD-interface-in-kernels-v4.2.patch
 
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+similarity index 71%
+rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb
+rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+index a161476..1784af1 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+@@ -5,7 +5,7 @@ SECTION = "devel"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20161123T152011Z/pool/main/m/mklibs/mklibs_${PV}.tar.xz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/m/mklibs/mklibs_${PV}.tar.xz \
+ 	file://ac_init_fix.patch\
+ 	file://fix_STT_GNU_IFUNC.patch\
+ 	file://sysrooted-ldso.patch \
+@@ -14,11 +14,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20161123T152011Z/pool/main/
+ 	file://fix_cross_compile.patch \
+ "
+ 
+-SRC_URI[md5sum] = "39b08a173454e5210ab3f598e94179bf"
+-SRC_URI[sha256sum] = "6f0cf24ade13fff76e943c003413d85c3e497c984c95c1ecea1c9731ca86f13c"
++SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
++SRC_URI[sha256sum] = "3af0b6bd35e5b6fc58d8b68827fbae2ff6b7e20dd2b238ccb9b49d84722066c2"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/mklibs/"
+ 
+ inherit autotools gettext native
+-
+-S = "${WORKDIR}/mklibs"
 -- 
 2.7.4
 
