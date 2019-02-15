@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D52487C700
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id EA2327C6FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 11:25:57 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id y185so6431372wmd.1
+	Fri, 15 Feb 2019 11:27:41 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id d15so9595091wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 03:25:59 -0800 (PST)
+	Fri, 15 Feb 2019 03:27:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ZFYW1D1rGfMlm51wlKBHZXsVb5aWslPokPivWo87O2g=;
-	b=NlbgDfGHLGBRvD9jmquQJYeE1IQRl/MsiZPf+l30PX8f2d5g04aTnmOdblodZH5mAs
-	JGaZqp3+A9m7MJDaKLvs15sWcaZdT/jIea6RlwvpbbszxYzc4rrtJhbDBBTo1DvXO6R+
-	rjIAgEd3yT3n7HTjjcRh7mFHxGB5FKL8VpWJg=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=Ykpmt4kn4LYCCuMT6DQY6ns3+qijwtvFCoDuWt/600Q=;
+	b=K4r5HsJNcn2XBYkCpHc5mEPfVHkbllQ+20JBPaLMSqDQGyHFN5HqitADBO6fsSo4+U
+	q8jWhgkh1/lrVYw2peqnDTQtxet49hFP+vsXHID1BF5w4LHWMPbWGUP38EwiKq4qCgrn
+	dNoXVAHKn1aKEYqUhU6B7M48ds92lkRjRAdDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ZFYW1D1rGfMlm51wlKBHZXsVb5aWslPokPivWo87O2g=;
-	b=nKqrH65em2RhaM3rwf6JtZvogbtb0MPWBhHUdC/3UfmHRckQkiUYctY40yC8saOJTU
-	dQtbkge0ERN1ud+VoJjlg0GX+Vp6ap+RUfWQE6CzYwrVxLopeDryIngbhKTieaAm/cjl
-	SGtc22i4kItaFc1SkbNllDTwYCDkxN4Ezd7X1DIl8eZsRpnTRBRFxbnZYY6Dto8Vy6a8
-	NQcK83tLsr/sM7Uv+CP1OaeaQtatX6KLAqxvfekBjW5rydX8Q4cFkCdaholsn3mhwVir
-	mxeizbwnh1QpysuJP257CKF5Gu8/c2XvVfWC8SRJGHn/JvJ0TbtIGoQQtI/bI/7R7X51
-	4LfA==
-X-Gm-Message-State: AHQUAuaXwW/4tMMgY/t8BSbSMPpO/CWelWWIxkzCJahIKlcRLmscaDON
-	T1K+yLh+ybLo5b5/Q+YbVDb/wCfaYVk=
-X-Google-Smtp-Source: AHgI3IZJmVWpyz+g1VzVkaJmuzf+2/A7iXxtnNLo5GFaY30L5B3NVzs8+BgzJC0xdPXnJ0Zhtl1pvQ==
-X-Received: by 2002:a1c:14:: with SMTP id 20mr5914160wma.91.1550229958166;
-	Fri, 15 Feb 2019 03:25:58 -0800 (PST)
+	bh=Ykpmt4kn4LYCCuMT6DQY6ns3+qijwtvFCoDuWt/600Q=;
+	b=K1VSmG6bJp0heMFZPwSsJRPOxpMzqkvsubV2rW36V6tjpb8kIMmzgG1234SV4DcEdm
+	uedptYO591ZdPRw6DzAr8UHrD4POfxO+x1c8UtMAz1UMaFGoDvJKlburLAKMlsDbsedJ
+	SSIm9dWI2l667ZBBmyvSSpTPLh8bzUO/Zfj148p0ihyX8cKYR5DMp9GeircPdba60hOr
+	gfFEwQ991YwNRjZz8n9IlgdhTu8GoXcTs4z6oKxTfzzL+wYo0SryWXqxjrfsUIYMggFT
+	SgHIZppq+jPvIkE903Hx2069VPilyuqneVKB1VBUDw0U7Rp/YtLNdelKBLj4x+VWpL9U
+	l8eQ==
+X-Gm-Message-State: AHQUAuaktrD/QlyECrQ8oajUvPwrVcIo0hm7kE+vg5S+HidktxqlWOyb
+	QXWMRfwQdDH7DDexCCN1FPOx0A==
+X-Google-Smtp-Source: AHgI3IajBqI1319aUNb0IA8UNrskS6QMEDePk7K/PFNKQoCKDO5Fg37c5qnbS6TbYdfoBFzIvH+gRg==
+X-Received: by 2002:a1c:ab87:: with SMTP id u129mr6229488wme.104.1550230062587;
+	Fri, 15 Feb 2019 03:27:42 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d15sm9337747wrw.36.2019.02.15.03.25.55
+	by smtp.gmail.com with ESMTPSA id y13sm512887wrw.31.2019.02.15.03.27.39
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 15 Feb 2019 03:25:57 -0800 (PST)
-Message-ID: <5753a5096418e3f0800b7120ac4a6c5a75bac119.camel@linuxfoundation.org>
+	Fri, 15 Feb 2019 03:27:41 -0800 (PST)
+Message-ID: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 15 Feb 2019 11:25:54 +0000
-In-Reply-To: <20190215082252.2726-1-andrej.valek@siemens.com>
-References: <20190215082252.2726-1-andrej.valek@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Alex Kiernan
+	<alex.kiernan@gmail.com>
+Date: Fri, 15 Feb 2019 11:27:35 +0000
+In-Reply-To: <CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+	<CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] busybox: 1.29.3 -> 1.30.1
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +59,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 11:25:58 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 11:27:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-02-15 at 09:22 +0100, Andrej Valek wrote:
-> - update to last stable version 1.30.1
-> - remove and refresh already merged patches
+On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
+> On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
+> wrote:
 > 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  ...inittab_1.29.3.bb => busybox-inittab_1.30.1.bb} |  0
->  ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ------------
-> ----------
->  ...-testsuite-check-uudecode-before-using-it.patch |  6 +-
->  .../{busybox_1.29.3.bb => busybox_1.30.1.bb}       |  5 +-
->  4 files changed, 5 insertions(+), 89 deletions(-)
->  rename meta/recipes-core/busybox/{busybox-inittab_1.29.3.bb =>
-> busybox-inittab_1.30.1.bb} (100%)
->  delete mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-
-> check-CONFIG_DESKTOP-before-using-od-t.patch
->  rename meta/recipes-core/busybox/{busybox_1.29.3.bb =>
-> busybox_1.30.1.bb} (89%)
+> > +PV .= "+git${SRCPV}"
+> 
+> This is unnecessary and adds clutter. Just the plain version number
+> is enough.
 
-There seems to be something not quite right with this:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/284
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/283
+If I read the original commit message correctly, it is necessary as the
+version is 3.5 plus a bugfix?
 
 Cheers,
 
