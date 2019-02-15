@@ -1,49 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F039E7C761
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 127836C4E6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 19:58:34 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id y195so6425040qka.12
+	Fri, 15 Feb 2019 23:16:50 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q1so11967227wrp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 11:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BrDMeVzqcg7IEkBnvNDiOoD7RTGeULPOB9qRhDGlVAc=;
-	b=buDaN+l5RDmZjiz3knN9kj1gbOb7fCtGrnTNHOqG08WTqFSD1Wj20phpB7/Mar3Ayu
-	Tx4qMbJcIDH1vxZfUqBgyMKPZipdfdCjTLxaVBoBnNle6dd/+xpYjphI1+7gnRUeOpZd
-	hC2SDCI+NJrsabbCM+pey0bsodY2Qy41aopiCA42Scr+BBHNac0s6aYxRGuqMi3Vbbob
-	Rqwqcd5qrVSKINfhIN7O7LOliWgvkAmBVbrhhVdTxd96/+wbxzSdq10xUlVrWxLgvd2/
-	xCavqjHsPnpsQoPbycatKzxCHdmX1cH9zxwQWrr/Jk8deUfkrqC4VUoPekGv/QabAW1W
-	fZUg==
+	Fri, 15 Feb 2019 15:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=gCESEM6T1cO8DkOzTiy9brKNp+YcKjfxOvZw2EeNuo8=;
+	b=A5DAO8Jjv2TqNju2tbFuk39aY/gt5E+QMeV+96ze+MPefnlt9p08snq5zhJ2HTRTTt
+	q8lzGbono1msu+LxJYc/VfHiFrr3QrK/HTyn/yWzAhMxD17nOB+XQ2ALRp8LZmp+0S86
+	B36T+R9oIP65SKeUN1xicadYEMTXgHWjJT1UA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=BrDMeVzqcg7IEkBnvNDiOoD7RTGeULPOB9qRhDGlVAc=;
-	b=lCMCY2miULb/bmrdfEcHODunPqO1eBH5mL+3bR+2dF7bZCz3xd02XYlm4Rr1eiPb1P
-	lBagLN2Waa8R+bPNNU8ny6iGwEpOzhuiDEtzE54WcdmCr3vl8jW9Jds9RDQLlRjDjlAP
-	NTtUsFFFx2dpDxzYRnc2+o610ivwC0FLOE1dwlcrWLmkJBcKn+nR5fSJtOENO7A2NMcA
-	dQicsu2wEgRdLEutglGKl7PhA3Ffc4GgiR/8zys+PETDuYXcF6Qo6EKQsCXgnPbPXQ9S
-	Y3NJPUZ4ZLm5El5aBrsDIoPX367mIC+EJcORI2MsrfNiwHdbptZopchcV0DccacRgFwZ
-	ZD0A==
-X-Gm-Message-State: AHQUAub5wvs6cNPSC8n3cZ9urCaQcNw8TsLJurIlePoX5INzWw1+ohxz
-	PO/T4RAXCWMdoJx4WWuc45V/yEelIY0JMAvHJYjWdA==
-X-Google-Smtp-Source: AHgI3IYX6jqoRZ+z+VQOuxfgYIF3ALH01qH8QXf0YL802M2UsIbWcGUOwWWHc3Nt2y2ktTmnsoz6Am+5S1PW/Z4L0S4=
-X-Received: by 2002:a37:9585:: with SMTP id x127mr8355288qkd.315.1550260715616;
-	Fri, 15 Feb 2019 11:58:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20190212054754.2801-1-raj.khem@gmail.com>
-	<20190212054754.2801-3-raj.khem@gmail.com>
-	<CAP9ODKoZoL7avYWkVTihunZXdZ5AJ9NPv6N3nL=Uk1geN+Vr4g@mail.gmail.com>
-In-Reply-To: <CAP9ODKoZoL7avYWkVTihunZXdZ5AJ9NPv6N3nL=Uk1geN+Vr4g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 15 Feb 2019 11:58:09 -0800
-Message-ID: <CAMKF1sr9j-chtC1n4x-LYwXdoSo+Hdxg2i6K1JmcWis2b2Lp5A@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 3/3] image_types.bbclass: Set memory usage limit and CPU threads for xz
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gCESEM6T1cO8DkOzTiy9brKNp+YcKjfxOvZw2EeNuo8=;
+	b=CCsbpwpA57S0KC47sQv71m8L4/PAIDK+IXdoBkIyik6TXEukOQ95g/4InmHBlxcIG8
+	S+bCOAzMpmlx3FR2sKhYS5DdcMRg7OZLdml5sl0MllFHIea+SJCJhtGtZpzpGj7Y5krL
+	gyixgdaEXxHyiphjqXcdhbzm/P7HJ2oBxT2INRkWT5EseIBqcvkrJQ6QXv8UCQgsiL4r
+	SJ2WWiE73J0ny9o6TCT9NefbYYOi7ZN9RFBe5V/iNHWe+xR+fS1KSF+0L4OVjJ1ZmiCh
+	rlx1Es2joo3VhNcYDAxLXjeUEgKOExaiZINIgkT/VVhC3J0VgqtIt5oqOrS4VIWYqlno
+	FtMg==
+X-Gm-Message-State: AHQUAuaAFN3ST2dy0zmf8TVJWSwUSHRO3hra2mG3nDLTmA/Ip+VDXZeR
+	Jyq1+LQ4ntO7LGgUTgKpZAIitg==
+X-Google-Smtp-Source: AHgI3IZdZzoRXX3yCzlO5fNKk/GP1Bs4oS1+w7laFBZQ0oPlJbySwiTSYP7MktTl2RWLW96RmoDRYg==
+X-Received: by 2002:a5d:4a89:: with SMTP id o9mr8206683wrq.323.1550272611692; 
+	Fri, 15 Feb 2019 15:16:51 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id d2sm4867678wrs.97.2019.02.15.15.16.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 15 Feb 2019 15:16:50 -0800 (PST)
+Message-ID: <76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 15 Feb 2019 23:16:49 +0000
+In-Reply-To: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +57,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 19:58:35 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 23:16:51 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 15, 2019 at 5:44 AM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
->
-> On Tue, Feb 12, 2019 at 3:48 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > when building with opkg backend and huge packages e.g. chromium/llvm all
-> > going in parallel, memory pressure causes xz to catapult with
-> >
-> > do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
-> >
-> > since there are many tasks going on in parallel, xz adds to memory pressure
-> > and it wants it all, put an upper limit for memory xz can use
-> >
-> > We add a variable XZ_MAXRAM with 30% of RAM limit and can be customized
-> > if builders have more memory one can set it like
->
-> The commit log refers to the wrong variable name, it seems.
->
+On Thu, 2019-02-14 at 21:09 +0000, Alex Kiernan wrote:
+> bmap-tools 3.5 was released August 2018 but has no release tarball,
+> so
+> switch to using the git fetcher. Also pull in the fix for
+> StopIteration
+> being transformed into RuntimeError for Python 3.7.
+> 
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 
-I think thats a good point. but we should submit right names for documentation
+Unfortunately this triggers a selftest failure:
 
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/236
+
+(ignore the virtgl piece, that is something else)
+
+oe-selftest -r wic.Wic2.test_bmap_short
+and
+oe-selftest -r wic.Wic2.test_bmap_long 
+
+should reproduce. Might be as simple as a missing RDEPENDS.
+
+Cheers,
+
+Richard
+
+> 
+>  .../bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb}          | 9
+> +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>  rename meta/recipes-support/bmap-tools/{bmap-tools_3.4.bb => bmap-
+> tools_3.5.bb} (74%)
+> 
+> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+> b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> similarity index 74%
+> rename from meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+> rename to meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> index 2aae9a3fe0d8..25d66df623a0 100644
+> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> @@ -9,12 +9,13 @@ SECTION = "console/utils"
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM =
+> "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  
+> -SRC_URI = "
+> https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
+> +SRC_URI = "git://github.com/intel/${BPN}"
+>  
+> -SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
+> -SRC_URI[sha256sum] =
+> "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
+> +SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
+> +S = "${WORKDIR}/git"
+> +PV .= "+git${SRCPV}"
+>  
+> -UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
+> +UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+>  
+>  RDEPENDS_${PN} = "python3-core python3-compression python3-mmap
+> python3-setuptools python3-fcntl"
+>  
+> -- 
+> 2.7.4
+> 
+
 
