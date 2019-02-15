@@ -1,50 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
-	[209.85.128.52])
-	by mail.openembedded.org (Postfix) with ESMTP id EA2327C6FD
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 096CD6D4C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 11:27:41 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id d15so9595091wmb.3
+	Fri, 15 Feb 2019 12:15:56 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id g1so16085884otj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 03:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Ykpmt4kn4LYCCuMT6DQY6ns3+qijwtvFCoDuWt/600Q=;
-	b=K4r5HsJNcn2XBYkCpHc5mEPfVHkbllQ+20JBPaLMSqDQGyHFN5HqitADBO6fsSo4+U
-	q8jWhgkh1/lrVYw2peqnDTQtxet49hFP+vsXHID1BF5w4LHWMPbWGUP38EwiKq4qCgrn
-	dNoXVAHKn1aKEYqUhU6B7M48ds92lkRjRAdDw=
+	Fri, 15 Feb 2019 04:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UKMfIwE5QfLIi+vDfcNk4f5tRj5VrmrQDz/DxROSxIw=;
+	b=Yef3Hs7UMJ//PGtgAb1G+EPJcB/EREZhZLq8lRykJf0ThAVR5DSYgFNTJbWeOP7upW
+	pKEs8+ZlquYinHvKBIbbk5kTcOLeeiz/muWa4Jaez1YBTjmjMMr/WbaegzEoSEXxTFRB
+	vOBWT12314VlChdSdzoi/llO5DD67bdT0fmag1D2tb2W6DxnDjN0Jwt9JvPi9JraVNdM
+	XMCzc0P5fYjvilL0OWoAYw9OV1rQvOA836rOD8zfpXvVz5PgCtiqnGBot0bomjJ0lZvK
+	vpARTMLsj0ZQbbciiHy6skGMZ0uvdflRRYbjwcSxJHXFbYNbiP/ZH+1CVDO+m3i3/24+
+	qFLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Ykpmt4kn4LYCCuMT6DQY6ns3+qijwtvFCoDuWt/600Q=;
-	b=K1VSmG6bJp0heMFZPwSsJRPOxpMzqkvsubV2rW36V6tjpb8kIMmzgG1234SV4DcEdm
-	uedptYO591ZdPRw6DzAr8UHrD4POfxO+x1c8UtMAz1UMaFGoDvJKlburLAKMlsDbsedJ
-	SSIm9dWI2l667ZBBmyvSSpTPLh8bzUO/Zfj148p0ihyX8cKYR5DMp9GeircPdba60hOr
-	gfFEwQ991YwNRjZz8n9IlgdhTu8GoXcTs4z6oKxTfzzL+wYo0SryWXqxjrfsUIYMggFT
-	SgHIZppq+jPvIkE903Hx2069VPilyuqneVKB1VBUDw0U7Rp/YtLNdelKBLj4x+VWpL9U
-	l8eQ==
-X-Gm-Message-State: AHQUAuaktrD/QlyECrQ8oajUvPwrVcIo0hm7kE+vg5S+HidktxqlWOyb
-	QXWMRfwQdDH7DDexCCN1FPOx0A==
-X-Google-Smtp-Source: AHgI3IajBqI1319aUNb0IA8UNrskS6QMEDePk7K/PFNKQoCKDO5Fg37c5qnbS6TbYdfoBFzIvH+gRg==
-X-Received: by 2002:a1c:ab87:: with SMTP id u129mr6229488wme.104.1550230062587;
-	Fri, 15 Feb 2019 03:27:42 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y13sm512887wrw.31.2019.02.15.03.27.39
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 15 Feb 2019 03:27:41 -0800 (PST)
-Message-ID: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Alex Kiernan
-	<alex.kiernan@gmail.com>
-Date: Fri, 15 Feb 2019 11:27:35 +0000
-In-Reply-To: <CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UKMfIwE5QfLIi+vDfcNk4f5tRj5VrmrQDz/DxROSxIw=;
+	b=Widmc7RI1rYyt94XMOCebS+TVPDMTXH5l4bQnzPPFNtkP8rA/5iVoTa/ftZ0Rv/lCx
+	Li9NW16nJ54xYspGaOh5tZKkkE+Srmijcaf5m0XweVqnjJHNjzuqGuj2hOxD1MEetYAg
+	AfQq4wvhbhvi2PioPAV5BZraa27jyn7O1HBQPpgpUdV2fBGvhU/WKxsAyPfq7ueHn4gF
+	/u+M9u6MMo+WA5RCKTMku8yMUij0fX65rBHOvsrwc4SsRnywHcsG36lUNwBaz6YAUQdz
+	weeUhZv8n1iLZWWw0+M9UU4Dwj+ZnK5Y09PLEU7ODCgdlE2dLKMKUla1Kn4KDMuIpqBd
+	IjXQ==
+X-Gm-Message-State: AHQUAuYfP5MnrOcrzLma5bMOqWaCBs4dcZXbC+GNfzdMx6jNXvVxaQAJ
+	lFYLeQH2Hs3d+zpyJWt+lPBEUvGH4Bd5pyrrcfA=
+X-Google-Smtp-Source: AHgI3IZfQEKribIWUF+I2Q4FifS/3/oIBURLfPG5HZ3ysHqm98QufL0mSnaLPkBL/800LoFKHIsf2S8W+pX3/k/jhBA=
+X-Received: by 2002:a9d:66f:: with SMTP id 102mr5800654otn.293.1550232957999; 
+	Fri, 15 Feb 2019 04:15:57 -0800 (PST)
+MIME-Version: 1.0
 References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
 	<CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
+	<1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
+In-Reply-To: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 15 Feb 2019 13:15:42 +0100
+Message-ID: <CANNYZj_Sk3mj5yyQV93ATB_RKmE6Ax1GdxTKWayA+3yF=0Ow-Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,24 +55,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 11:27:42 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 12:15:57 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
-> On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
-> wrote:
-> 
-> > +PV .= "+git${SRCPV}"
-> 
-> This is unnecessary and adds clutter. Just the plain version number
-> is enough.
+On Fri, 15 Feb 2019 at 12:27, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
+> > On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
+> > wrote:
+> >
+> > > +PV .= "+git${SRCPV}"
+> >
+> > This is unnecessary and adds clutter. Just the plain version number
+> > is enough.
+>
+> If I read the original commit message correctly, it is necessary as the
+> version is 3.5 plus a bugfix?
 
-If I read the original commit message correctly, it is necessary as the
-version is 3.5 plus a bugfix?
+Seems so. Sorry for the noise.
 
-Cheers,
-
-Richard
-
+Alex
 
