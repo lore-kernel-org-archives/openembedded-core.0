@@ -1,50 +1,62 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
 	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D5967C719
+	by mail.openembedded.org (Postfix) with ESMTP id 775817C71B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 13:43:41 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id v62so7707128otb.3
+	Fri, 15 Feb 2019 13:44:39 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id w25so16461096otm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 05:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wRtc4A5S83ISP0h3mUpSBfU6PsLsHh8TbIA0BKuw8mU=;
-	b=RP3gRHn36g5FWnrmM8AVyewXaKe/AaOQMt1kHBINnMa6SMHxMK4aYnMg1Tm0pzmEm5
-	L6axa15BJSa69l5KY/Dk0RWqwfVpfB4bjTH1kLuIPvKarOGiIIZSxB27J11u3bsynACN
-	vkEGT7ZjUGHZSU0kutt+0qBMVk+WAKo4P/pzhsWPKxSwzYIomR2Y7RBH+tVV7iBT0uWN
-	IqOuSmSB3cpSUmJCGAWKDTtacvcqMm485iB8joCuijXnyiVffq7SVOhIL/o8cNho2waM
-	0LtgdjWcTPNKODsIhbFT+NNsIdT7HinolhIYQHSTBmeHatL2aTBlPcPTy8a1Nq3566S+
-	k2XQ==
+	Fri, 15 Feb 2019 05:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=6O591ajbi5kFQESXB8l7E+kt8TB0UBsbj6FjnNgWkn0=;
+	b=YO4w8PSm3XjiVcbBzNa2Qb2PZaDYWIMwodgspL78e1zXHddbDi1TIdQtp+rM2veXgN
+	hyZ7yjawWhES9Da04LwrM5wRHG+sMRPJyCbcYR/ACTwaQVhWyrq4L0kmdNcc2iVRzGu8
+	LJ3EXll2lDAuWi6mJSPOo2MuKyjoSSFexXcIZa+f1jYewRLhEJIx6MC6SO0wcqR5VJgu
+	yA6KWCxa2oZ3mi8ja1e2jGPA+WMPddh5Fyq3a7FNDamG64GNm3y2chpjXL4YhSV2dzEL
+	5O0052460H/Y53Z7Pnr5+2FQBiAyGAXqDTUCypbsUFIzrkx9MCHA3dg4fr/oEEYoj9Rv
+	nqew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=wRtc4A5S83ISP0h3mUpSBfU6PsLsHh8TbIA0BKuw8mU=;
-	b=owWs01X0BgZ643mENgnLvXmYcMleEcV2tTzDhIJDH4+lqAxSOaW8xUqev5gXAPUJEM
-	C4gXlPgAjXApkRbxajCI46DYuAGpv083ut5JBAACbof5XM7ULJbll1cf1WBIu+UHssOg
-	0ZGTtsEXMwnEKI07HHzRxSPLzOPflZH+EhJs+7SoxnnfYoBtT0wv34P4Hwzl91KLef1L
-	X0Dk7rMG7B6S8+KAK/cKUgBZnZGxRfIDA17RTLa8VZ56mlI0ob7xCMYP1cEV3wSWl+LT
-	/l5USbEZfEZRMellJUefMHTC3edGCJtxzAJip0aNx9eqOv6VnhkImpTsQDwmoC7vKFzc
-	whew==
-X-Gm-Message-State: AHQUAuZ27us/T8JJx6D2rV9DBnojjkS+pNWsQprM7ZpkRJraQYBJ4TAe
-	+PBsUkUdhvlOJlwHiDAF8Weyj/G+MnlVen7+roI=
-X-Google-Smtp-Source: AHgI3IZFzZ7rSGdwLzNv7O2F/BKZ/eUpyGL4pgDH7gwfAsFteX7DKsYDgbaiiQlAj3D2hDyJyWhMprr/xNXUYzTAVDU=
-X-Received: by 2002:aca:30c2:: with SMTP id w185mr5814259oiw.163.1550238222841;
-	Fri, 15 Feb 2019 05:43:42 -0800 (PST)
+	bh=6O591ajbi5kFQESXB8l7E+kt8TB0UBsbj6FjnNgWkn0=;
+	b=faUxNUnQ9L9tAVRAnQE08cJfELw1W7MSDBRgmOxUsg+mTw4iAZj0sfebDQfGm7VtXY
+	hQxzKZz0u5vr+m9fhWds6U7acLE9hmiC8OqpXwnhZWVUockEES0D0Yidf2AkEMyEUtJA
+	9vHuAW6Fum1q/vCdtACtITivdF/eORdxKpnE46t1QisdiwWiSV/IY/zXI/gPbzAOdX/N
+	BZ/8ET/5rEsAngwNDvpmggczjLJr8VxIkyWks/H4XLjONyMwiWpspAmxyTOlzQWz2Sac
+	WsIi8yp/LJ6tdL2UapNvaFfNwbvP5lha7unSMBnGnzup2XDqZQfBIq+n00tHdFdRurob
+	UWVg==
+X-Gm-Message-State: AHQUAubca1nGYKTRKW4VFvB4/4HOn6LlGXmqftVYLTvp5R5BsWO6RXtA
+	eoyv5mi6aD+bjI0JUoVJl2TyM7EmKg2Kew==
+X-Google-Smtp-Source: AHgI3Ib1mBcgDcv5RwnpO2NN9Jjs8SARNzByEJWA1T1k0iSsezYsfKTmyxnITPWdpuQ3mYmfkfZPQw==
+X-Received: by 2002:a9d:c61:: with SMTP id 88mr5985970otr.335.1550238280230;
+	Fri, 15 Feb 2019 05:44:40 -0800 (PST)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com.
+	[209.85.210.45])
+	by smtp.gmail.com with ESMTPSA id d11sm714957otp.18.2019.02.15.05.44.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Feb 2019 05:44:39 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f45.google.com with SMTP id 98so16613025oty.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Feb 2019 05:44:39 -0800 (PST)
+X-Received: by 2002:aca:ecd5:: with SMTP id k204mr5479920oih.153.1550238278841;
+	Fri, 15 Feb 2019 05:44:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20190215131047.64007-1-alex.kanavin@gmail.com>
-	<CAAPZna19N6iLvaxLZOmDjJoAyGnJ=hkH0K4wk0TYQb4to_95Sw@mail.gmail.com>
-	<CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
-	<CAP9ODKrP3jXE95Z84ne6y0CMOj30g8Jz+53rWX0ikNmJHYoqLg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrP3jXE95Z84ne6y0CMOj30g8Jz+53rWX0ikNmJHYoqLg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 15 Feb 2019 14:43:31 +0100
-Message-ID: <CANNYZj8-i-HQFyHoiHaJj9XW_pMSq2muP9g=vhkN9ukZXh-dBw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <20190212054754.2801-1-raj.khem@gmail.com>
+	<20190212054754.2801-3-raj.khem@gmail.com>
+In-Reply-To: <20190212054754.2801-3-raj.khem@gmail.com>
+Date: Fri, 15 Feb 2019 11:44:27 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoZoL7avYWkVTihunZXdZ5AJ9NPv6N3nL=Uk1geN+Vr4g@mail.gmail.com>
+Message-ID: <CAP9ODKoZoL7avYWkVTihunZXdZ5AJ9NPv6N3nL=Uk1geN+Vr4g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: upgrade 18.1.9 -> 18.3.3
+Subject: Re: [PATCH v3 3/3] image_types.bbclass: Set memory usage limit and CPU threads for xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +69,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 13:43:42 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 13:44:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 15 Feb 2019 at 14:29, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-
+On Tue, Feb 12, 2019 at 3:48 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> I am NOT against the switch. I am against in a single commit doing
-> multiple changes at the same time.
+> when building with opkg backend and huge packages e.g. chromium/llvm all
+> going in parallel, memory pressure causes xz to catapult with
 >
-> So AS MAINTAINER of the recipe, I nack this commit.
+> do_package_write_ipk: Failed to create package, opkg-build failed with: xz: (stdin): Cannot allocate memory
+>
+> since there are many tasks going on in parallel, xz adds to memory pressure
+> and it wants it all, put an upper limit for memory xz can use
+>
+> We add a variable XZ_MAXRAM with 30% of RAM limit and can be customized
+> if builders have more memory one can set it like
 
-I have to point out that as the maintainer you are supposed to be
-doing the maintenance work. So if you feel that strongly about the
-issue, please take the patch, split it as you see fit, and send it,
-within reasonable time.
+The commit log refers to the wrong variable name, it seems.
 
-I am not going to do it: this split, when done properly, would require
-separate rounds of testing of the commits, and I've already spent more
-time on it than I really want to.
 
-Alex
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
