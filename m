@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5297C75E
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1356C7C75E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 16:04:03 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id x10so10865341wrs.8
+	Fri, 15 Feb 2019 16:04:05 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id v13so10884761wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 08:04:05 -0800 (PST)
+	Fri, 15 Feb 2019 08:04:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=otrIVdxTEBUo8nNqpl8JG8vL/vJHxF+EzLch3ugNbHQ=;
-	b=Mm0xiKGI/MfRpqAi+69QETJT26q+5RE8kGqz+JDu34BcYbY8rl4HtDx42wQ2WBnznq
-	xRw17X/NMUM72clfqC/SK5Y5qqXFynEzwmqBZPDxHIU4f0dx99Ht+aYSn4GxLgCmGLN1
-	+RP421gB9UUAizIBwjOeI79V5TW7OfNJOx+Sk=
+	bh=hddMQ5OQevFpitr2rrU43WSOIVWPSTc7QMfwj8GzuXw=;
+	b=MS6wNT5lm98/Ze0PTCW/Mun+2EOn8OkJg6tu9tihI/1B3Si+JW2rD5hGzII78UJ0NC
+	CgKm9lAlr3LMIlQVhxVsYLrS2Keu6I3fxeG8Gbm2cTuzJF4BLDMR1ZX071g2oMsZeg9q
+	bCsma2+bDvhp+L/Wdd9IQlK7++iINK+oSvwNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=otrIVdxTEBUo8nNqpl8JG8vL/vJHxF+EzLch3ugNbHQ=;
-	b=K23OW/AQHThRVrU0CUNzOAzuK7rxfsaGtHNHgQzFOP5IyYLjhajE0bf6ZH7vuhyp16
-	+AaUty4xB+MBWKAJavaSFjOeghbwjPOmdkrO2stwRsSUUtxUskCJIjjMOksltb6vpmHT
-	RlYFDm/B0jTCPKp1Zcs+yme2OtW15VCbxrm5lnNuMECEAl06L7DdHp3KHkK2rKdN5CZp
-	kLg59rrqo8a/f+EDYzWUznsffrxCCTdJb/Zq66eIEde5Akua1ymrjcuE8HtHdhk1yxwh
-	sG6Jow9PeIcHXu20KANo+X94aqhem6H6CgconCpZWoCc6/nL5CRLfe2KEQiibzipgIyJ
-	sIwQ==
-X-Gm-Message-State: AHQUAubZ/7xwBG1ZtxEGBic8sgXxovby0GVwnA9GtHOLqVuyUz4b+VAe
-	GD5Y6FGwbfdKh+22oK3DT9sQolqeHCs=
-X-Google-Smtp-Source: AHgI3IZUoWCCzlhiXOX4/qGPMKdFtCYV9aL63OwZRLusCmnjWoeQ5cbPwhGeyp8jyewEl3srGYedVQ==
-X-Received: by 2002:adf:e603:: with SMTP id p3mr6624137wrm.104.1550246643947; 
-	Fri, 15 Feb 2019 08:04:03 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=hddMQ5OQevFpitr2rrU43WSOIVWPSTc7QMfwj8GzuXw=;
+	b=VU0Cba2MhDap8vY0ZFX5FS3HJPOY19NYtQdZR+Z3NzPo3IodRhB3rRCJ7LDyjx24dK
+	RLMtU36yUxR2/yEZ87JclgtEriebebJ+Pw5fQuBgthnfPbjJh7qYGWVEaYLVt7C68VMf
+	fSV+UiG7HmLfsiprkasDDX+mY3aPVNLH+EuGkhTjFzCTbadsNWuxIlpbX1vRZ5kENnxR
+	h7nGyHP1BTQhhgT8oCDc3ZS7mH4ApcRwtT2e2hE/hOO0xtjxVzWiFz/cqUKPTblJiJnc
+	8hR053UJRgsHxN3oki/JDvqffQ+NYCNAugx+mQHfi1hEFuZEZzWvip0LLsfMuengt73V
+	hIwg==
+X-Gm-Message-State: AHQUAubpMVlWrrwQs9JOFag8zM/v9sPS34Mok2Pg00kGcCmO8llp56wZ
+	oiLJFvP+Pyu5FyHc3b7T9hR/vwN/NJU=
+X-Google-Smtp-Source: AHgI3Ib8jv96TXJbHHoPYv1h3lZbAW8zv8z3fnHhh+KOmS+596R6jtk7brZ1ps9nFm70bm7uiqIu0A==
+X-Received: by 2002:adf:9e0c:: with SMTP id u12mr7265844wre.216.1550246645473; 
+	Fri, 15 Feb 2019 08:04:05 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e17sm3810424wrs.79.2019.02.15.08.04.01
+	e17sm3810424wrs.79.2019.02.15.08.04.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Feb 2019 08:04:02 -0800 (PST)
+	Fri, 15 Feb 2019 08:04:04 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Feb 2019 16:03:52 +0000
-Message-Id: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
+Date: Fri, 15 Feb 2019 16:03:53 +0000
+Message-Id: <20190215160356.9764-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
+References: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] target-sdk-provides-dummy: Extend to -dev and -src packages
+Subject: [PATCH 2/5] lttng-tools: Upgrade 2.10.5 -> 2.10.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,56 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 16:04:04 -0000
+X-List-Received-Date: Fri, 15 Feb 2019 16:04:05 -0000
 Content-Transfer-Encoding: 8bit
-
-This avoids errors when running populate_sdk under opkg:
-
- * Problem 1/1:
- *   - package busybox-dev-1.30.1-r0.core2-64 requires busybox = 1.30.1-r0, but none of the providers can be installed
- *
- * Solution 1:
- *   - allow deinstallation of target-sdk-provides-dummy-1.0-r0.sdk-provides-dummy-target
-
- * Solution 2:
- *   - do not ask to install a package providing busybox-dev
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/target-sdk-provides-dummy.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../lttng/{lttng-tools_2.10.5.bb => lttng-tools_2.10.6.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.10.5.bb => lttng-tools_2.10.6.bb} (97%)
 
-diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-index 26716ace87b..60499f7b66a 100644
---- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-+++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-@@ -2,9 +2,17 @@ DUMMYARCH = "sdk-provides-dummy-target"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+similarity index 97%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+index 85ed3c691ba..13bab9068eb 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.5.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+@@ -34,8 +34,8 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://lttng-sessiond.service \
+            "
  
- DUMMYPROVIDES = "\
-     busybox \
-+    busybox-dev \
-+    busybox-src \
-     coreutils \
-+    coreutils-dev \
-+    coreutils-src \
-     bash \
-+    bash-dev \
-+    bash-src \
-     perl \
-+    perl-dev \
-+    perl-src \
-     perl-module-re \
-     perl-module-strict \
-     perl-module-vars \
-@@ -36,6 +44,8 @@ DUMMYPROVIDES = "\
-     /usr/bin/env \
-     /usr/bin/perl \
-     pkgconfig \
-+    pkgconfig-dev \
-+    pkgconfig-src \
- "
+-SRC_URI[md5sum] = "50e07676d5eb5d6cf4ece804863a6f74"
+-SRC_URI[sha256sum] = "a4868078ef961e83dc236c4f24fd848161bfa755344b064dece62c4c81a07411"
++SRC_URI[md5sum] = "e88c521b5da6bb48a8187af633336ecc"
++SRC_URI[sha256sum] = "f05df52bbebf8ce88d1b29e9e98cfc957d2ed738a345118018237ebdb581537c"
  
- require dummy-sdk-package.inc
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+ 
 -- 
 2.20.1
 
