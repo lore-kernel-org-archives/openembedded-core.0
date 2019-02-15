@@ -1,49 +1,48 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B07B77C6DE
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8146A7C723
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 14:36:29 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1guebO-0001PD-8G; Fri, 15 Feb 2019 15:36:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qDS1WHu376WlAEZYmITTnBDR+ltD4u1J8RCsFNqbvIM=;
-	b=PYhSoxL4nIOajXUEWH8h9WuhM8
-	4ehOHhJW4MDwlfDGRBOTv/fQ48JNbKTdWhOVtB9qbFeCJXyizFEpqezgGR6D4VliQSkNRmEvBu3Zu
-	g/BHZiM3MffY5qPCWyzgO4UEIs/DTNFHVaWTEiqeqHnWMAIGaha1UeXjdDZrtKlQnFvosoyDlE2m1
-	6PoT5tKFP8A59I29eXg0VQ6cwgGPmWD8yeWAFsVHC1GOPLN/ZXthcSEdCe+UxD6QdWqxptReqorWl
-	eF6ZbHIkeqE+MkJANXjz4Z3Eb43Q2ELlYPl9GmN9jdDTbcCtsZCDsNBNH9kUH0ZQ7gpuhkk29kaDE
-	i1KwUTFA==;
-Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
-	helo=localhost.localdomain)
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1guebK-0001he-8W; Fri, 15 Feb 2019 15:36:28 +0100
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Fabio Berton <fabio.berton@ossystems.com.br>
-References: <20190215131047.64007-1-alex.kanavin@gmail.com>
-	<CAAPZna19N6iLvaxLZOmDjJoAyGnJ=hkH0K4wk0TYQb4to_95Sw@mail.gmail.com>
-	<CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <be4efd67-1b40-70de-29c0-9e0fdcc7deae@pr.hu>
-Date: Fri, 15 Feb 2019 15:36:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+	Fri, 15 Feb 2019 14:55:39 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id r201so5910619vsc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Feb 2019 06:55:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7huipc3oiXQEBDkOfkkjP24/tiCV41BmsRWDahSEgs8=;
+	b=M7LnC1fJin2lFsFdQc/wa6ci5KP9tz76BBBaSmB3d8Ub0effLqiZvsq61d2uCxr/CH
+	gXULMPuupOsKJ9s+Zvt5O7w1VxViaaozHuXJDiMab6QQnyxicybSkylJL2FvIxFBYEQ2
+	mgvIpfuYiAh7vtc69gQT6wN01M7vjpM+5R/+lb1cTyRL8YysQtAtrYvpaVhpLrU9beOx
+	WX6Rp/Od9YH2Ek6WQQWi+k4cfjxQENbJ2/LgPymdm7Oz48oU3mj+6m2mPkE21AuHe0WV
+	hqjcxK+9eXFtyhah2T6bB3g0bDVWenmuhNf9yvbJuC8ArbVFOztiwnCfjilE6iBPbbme
+	ksTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7huipc3oiXQEBDkOfkkjP24/tiCV41BmsRWDahSEgs8=;
+	b=k4AHccmDT9r/U5Fj4knfX35pMNA8FgPiHTqE9ajtgVd/HSAU4eaXeM/nRMONH+l8th
+	CgNGs62WcLkm80lxxmtljFInR5isNihHn37VjitnCvOdsCkmQAPhe8bjiIHRL0aeI+gE
+	m7vO2e564GJ4ct5PMlbBK4qJhZOWB4w/RPoe8Ty4TR2wHq/yA2dCr2XQ96WZ1emw/ua9
+	85mgb8/Ssg4XZ3bTxBhb9v5wZudKVlHS+cBfvSnRyM/8hZt0Z3bArnAWKydjOSwZIHUv
+	yGcqtULvqhGMH5TpD31vgJjH1iXKWnUbobMLS5Zi5oBO+R3Zje+FP24WwfPoObaRKCQL
+	sEfw==
+X-Gm-Message-State: AHQUAuafD4BYM+Y3PTAyGghVjxzXRcllM/Le77aey5YDBCsGsI3Zxtnm
+	+F+WmZg/1QQKEnqpzOWN44vQC61k3VUiUod6T5o=
+X-Google-Smtp-Source: AHgI3Iacx1PU5z0L/E8uTyE6YTbfGgmoDCU3jhndyB/7m8MdAkLBD6CyBJmCl7DeQsgAB33AmdBgRkLYFA/0dh/vdd8=
+X-Received: by 2002:a67:7d06:: with SMTP id y6mr5250409vsc.22.1550242540330;
+	Fri, 15 Feb 2019 06:55:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
-X-Spam-Score: -1.2 (-)
-X-Scan-Signature: 7572fbe1482f51d378d5cb517c4344f1
-X-Spam-Tracer: backend.mail.pr.hu -1.2 20190215143628Z
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: upgrade 18.1.9 -> 18.3.3
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+	<CANNYZj-7Qe3-NwsBZKtmP9iyqsvQm5QP6gQzf9YU_-XYYs5_yQ@mail.gmail.com>
+	<1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
+In-Reply-To: <1581437706268e9141366523e891a9625a3a453c.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 15 Feb 2019 14:55:28 +0000
+Message-ID: <CAO5Uq5Q64Tf8=71TU69QFvSZVp272rtTpgtBfjDzC=c7jEh22w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 14:36:29 -0000
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 15 Feb 2019 14:55:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-2019. 02. 15. 14:26 keltezéssel, Alexander Kanavin írta:
-> On Fri, 15 Feb 2019 at 14:21, Fabio Berton
-> <fabio.berton@ossystems.com.br> wrote:
->> In my opinion, there is no relation with an update and change build
->> system, once we can use mesa 18.3.3 without meson.
-> 
-> Please see:
-> https://www.phoronix.com/scan.php?page=news_item&px=Mesa-19.0-Deprecates-Autotools
-> 
-> We might as well switch to meson now. The patches are ready and
-> (mostly) working.
+On Fri, Feb 15, 2019 at 11:27 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2019-02-14 at 22:17 +0100, Alexander Kanavin wrote:
+> > On Thu, 14 Feb 2019 at 22:10, Alex Kiernan <alex.kiernan@gmail.com>
+> > wrote:
+> >
+> > > +PV .= "+git${SRCPV}"
+> >
+> > This is unnecessary and adds clutter. Just the plain version number
+> > is enough.
+>
+> If I read the original commit message correctly, it is necessary as the
+> version is 3.5 plus a bugfix?
+>
 
-I have read the mesa-dev list constantly regarding this change.
+Yes it was 3.5 + a bug fix.
 
-The deprecation process was painful and issues in the meson
-build system still turn up occasionally.
+Ignore v2 that I sent!
 
-19.0 will still have a configure option to opt-in for autotools.
-In this upcoming release they have worked out all known issues
-for meson but I would in no way want to use meson for older main
-releases because these changes are not backported offically.
-
-So, either keep autotools for 8.3.3 or wait for 9.0 and switch to meson.
-
-Just my 2 eurocents.
-
-Best regards,
-Zoltán Böszörményi
-
-> 
-> Alex
-> 
-
+-- 
+Alex Kiernan
 
