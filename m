@@ -1,47 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B58C7C6DE
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id B07B77C6DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 14:31:47 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id p25so10765037qtb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 06:31:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jNXjY+M/mEiiHnPp1zurJD2FW3TQaxp5FL1UFr0urRo=;
-	b=p8+6rD/cCpASzeCLvOrx/8gHGWDzeyrpehgM4tgJDmO+DHRTASOH/J+aSzGhczU5WW
-	nAux2tun4O0qaEvCXAtBd/jUj1vq7Yf49mlm8vq/nLAruhC6e8W9EMk89A6kTbxphwnf
-	yHS14qM9l3XYiCa733UV2BJYoj7Ua2oD1mUMx09QDIeqQrfJYI/cBFC4anxXnOWVP8YQ
-	wsWiA8ANYjwzDaKaV3vUb6qWw4XxW0yEmpWJ2rKXbHjQPC+VZa0xWW5/5cNgs3fawvLy
-	U/+cyuYl08whinC5KlmW8B26C5JYagXIRo4u7FIaX5Yl/aShnLlXJFfEeaKkISSpDbe1
-	yRIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jNXjY+M/mEiiHnPp1zurJD2FW3TQaxp5FL1UFr0urRo=;
-	b=Nky3KgECVhq4nmGaxysb+6zVY/h5rpoixWz31qST8RiB42CREma97V/FFceZTlxsiD
-	pjn/dtpSGlit0MArLv81v8cFfGpmrMXeF1Q1LUEOxTHSnzf/8j06cS/e0efmiEcGebB8
-	V3iVQG4CUBT82Dw/fLOgDObY9pBl69BrO4qdFVaaLx7qnVkfqTmgtxiqwdDh01yeL6uE
-	KDgfwZVQukKQ2p2suGmXtJAAep9eeOvuLCosk1i1AIWcN2QfOYX9JSneGkU2V+g8Ejol
-	iEPqbm6imO2yd7fBWGsGJTVPHaxgNzgakpSOnOYuHwweQj4dyLZIRGGUIBMdD53h8bVJ
-	8iqg==
-X-Gm-Message-State: AHQUAuYp2tvKWFraF19QTZ8ta//KqWhRebh4O7yi0RRIwJcCjoO+tW5g
-	SKN6EupRWpNM13egWXqCYPD3xNI+3x/v4OA2gTg=
-X-Google-Smtp-Source: AHgI3IYSfu0E/Xcgo5rFwfnBIBYTH/JZ+MIrHH2CRw0TAi5UkQGCt75KESb6SqKlQke62vFkeK4E+DPCQjb9QxomcEw=
-X-Received: by 2002:ac8:2562:: with SMTP id 31mr7894252qtn.253.1550241107866; 
-	Fri, 15 Feb 2019 06:31:47 -0800 (PST)
+	Fri, 15 Feb 2019 14:36:29 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1guebO-0001PD-8G; Fri, 15 Feb 2019 15:36:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qDS1WHu376WlAEZYmITTnBDR+ltD4u1J8RCsFNqbvIM=;
+	b=PYhSoxL4nIOajXUEWH8h9WuhM8
+	4ehOHhJW4MDwlfDGRBOTv/fQ48JNbKTdWhOVtB9qbFeCJXyizFEpqezgGR6D4VliQSkNRmEvBu3Zu
+	g/BHZiM3MffY5qPCWyzgO4UEIs/DTNFHVaWTEiqeqHnWMAIGaha1UeXjdDZrtKlQnFvosoyDlE2m1
+	6PoT5tKFP8A59I29eXg0VQ6cwgGPmWD8yeWAFsVHC1GOPLN/ZXthcSEdCe+UxD6QdWqxptReqorWl
+	eF6ZbHIkeqE+MkJANXjz4Z3Eb43Q2ELlYPl9GmN9jdDTbcCtsZCDsNBNH9kUH0ZQ7gpuhkk29kaDE
+	i1KwUTFA==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=localhost.localdomain)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1guebK-0001he-8W; Fri, 15 Feb 2019 15:36:28 +0100
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Fabio Berton <fabio.berton@ossystems.com.br>
+References: <20190215131047.64007-1-alex.kanavin@gmail.com>
+	<CAAPZna19N6iLvaxLZOmDjJoAyGnJ=hkH0K4wk0TYQb4to_95Sw@mail.gmail.com>
+	<CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <be4efd67-1b40-70de-29c0-9e0fdcc7deae@pr.hu>
+Date: Fri, 15 Feb 2019 15:36:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190215073207.30036-1-anuj.mittal@intel.com>
-In-Reply-To: <20190215073207.30036-1-anuj.mittal@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 15 Feb 2019 06:31:21 -0800
-Message-ID: <CAMKF1soOfyjys5MpoGDOqm99ZSHtd+wx3YkTC+pCJM35VNzptg@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
+In-Reply-To: <CANNYZj89mDDm6cPRgEjJe-n7Jn=rCGQyUb+cnBBLsDBNh+BXgg@mail.gmail.com>
+X-Spam-Score: -1.2 (-)
+X-Scan-Signature: 7572fbe1482f51d378d5cb517c4344f1
+X-Spam-Tracer: backend.mail.pr.hu -1.2 20190215143628Z
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] meson.bbclass: point to llvm-config
+Subject: Re: [PATCH] mesa: upgrade 18.1.9 -> 18.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 14:31:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 15 Feb 2019 14:36:29 -0000
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 14, 2019 at 11:32 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
->
-> Allow packages using llvm-config to find it using meson's dependency
-> interface.
->
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  meta/classes/meson.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-> index dff0485b47..aaf873cad2 100644
-> --- a/meta/classes/meson.bbclass
-> +++ b/meta/classes/meson.bbclass
-> @@ -89,6 +89,7 @@ ld = ${@meson_array('LD', d)}
->  strip = ${@meson_array('STRIP', d)}
->  readelf = ${@meson_array('READELF', d)}
->  pkgconfig = 'pkg-config'
-> +llvm-config = 'llvm-config8.0'
->
+2019. 02. 15. 14:26 keltezéssel, Alexander Kanavin írta:
+> On Fri, 15 Feb 2019 at 14:21, Fabio Berton
+> <fabio.berton@ossystems.com.br> wrote:
+>> In my opinion, there is no relation with an update and change build
+>> system, once we can use mesa 18.3.3 without meson.
+> 
+> Please see:
+> https://www.phoronix.com/scan.php?page=news_item&px=Mesa-19.0-Deprecates-Autotools
+> 
+> We might as well switch to meson now. The patches are ready and
+> (mostly) working.
 
-i think llvm should install a symlink from llvm-config
-otherwise we will need to change this everytime
-we upgrade llvm tonew major version
+I have read the mesa-dev list constantly regarding this change.
 
->  [properties]
->  needs_exe_wrapper = true
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The deprecation process was painful and issues in the meson
+build system still turn up occasionally.
+
+19.0 will still have a configure option to opt-in for autotools.
+In this upcoming release they have worked out all known issues
+for meson but I would in no way want to use meson for older main
+releases because these changes are not backported offically.
+
+So, either keep autotools for 8.3.3 or wait for 9.0 and switch to meson.
+
+Just my 2 eurocents.
+
+Best regards,
+Zoltán Böszörményi
+
+> 
+> Alex
+> 
+
 
