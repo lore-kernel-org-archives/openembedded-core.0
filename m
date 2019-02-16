@@ -1,52 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 81E696C149
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB096B180
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 21:38:48 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o17so14054557wrw.3
+	Sat, 16 Feb 2019 21:46:41 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id x7so13427577wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 13:38:49 -0800 (PST)
+	Sat, 16 Feb 2019 13:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=iMbHr8uXwnkBDE4j2L8OAVdYn5MSF8F8AO4+LwPRC5A=;
-	b=TxDkSDBtB7qqonuSBClSZiXUjtBtiDaAfYJJCEa5giadwJ1yXehZ+K/9efN7gDEVft
-	jPh4csJpiHEtyv7c+R1D6Fqa+RzkQHTZ9iQcextFN4cBzVQ5Az1CJkxOLypTQCJM13n4
-	wdCtjwDNOzlFmdXifDV2O/P6AAU4LBkh5L/BU=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nRkJ8dsOeq3R+7heP39DSYkqPvvBMNZ7UwBQlzsK4d0=;
+	b=Brt0TOd/dP47dbAanJYQjbK+QOaLw1otlHLvG43XwXN4uNoKdagNE9Lrqi3M4Rmr10
+	764ZVPzaedjISrzkP/b2TWzvbaqMhBQzcOakzbJ6Ngnc1irkLqCOBMagD+fq+qKKrpLT
+	ykOK5m8qvIKkz/1MxrzBCHg2prC9p5Ha6/ODo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=iMbHr8uXwnkBDE4j2L8OAVdYn5MSF8F8AO4+LwPRC5A=;
-	b=U++cIjBBdAlNZVHGJrlWOSkbdRDd5Cxh0eVq9G2FgDikL8BNBXyBeFj8UMapldDgv0
-	OCXIep2I+KqsDJw4yOjx/VErGqJ13nk5puATcdEPWVb7EuUZiGft/5Yvr2VBj9O+erom
-	281BZSwaQTJAFqQbuA8lg8Cv+zp2v/dxemKEhvXhi/zMkZpeEWVNuBTKJjrkJEUdrI4m
-	0gnK1LKpyiXxucilOBe9s1ImRNjzdbKMG6fEJ15nUrLmZoT+Qk8wPlYpt8m0Sv4uRh6O
-	Di5B5ffGb9Bat5oJ8455V6mz1mGQsfddz9znK5vz/p0W1BEJ9GmlR9dzMiFprzFTMGOp
-	wv5Q==
-X-Gm-Message-State: AHQUAuaCFPUWOiz2ICjz9tewls0id5szsiyU+IgWHMbjbOM+tzC9axC+
-	3QKSJZuOJ2+zwR6GZsuYnmN1dg==
-X-Google-Smtp-Source: AHgI3Ib7eM9rccdFLzEl/rXAoY6/Dxh/o3X9O1/psMrB2Amgyl/e05UjDVliMPoeWtv+l70LicSr+g==
-X-Received: by 2002:a5d:4090:: with SMTP id o16mr10266436wrp.208.1550353129105;
-	Sat, 16 Feb 2019 13:38:49 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nRkJ8dsOeq3R+7heP39DSYkqPvvBMNZ7UwBQlzsK4d0=;
+	b=anF6FeU8ZLdxXLI+IBl4R4fg9orkT0yMlgtB5S34SdSWvJMInTAGcUb9pQUPgSKoNX
+	xg/HSMh3lOs/nC8biQ+94vI6OMQeuOjlXmb9/LRAZYOyQpHL8+nZmjx3kX43OPtwUNUm
+	4UqEz6RcahKtj/kVhs1Abq4vGxzEhzmjsw5ap/tor2FBC4YWEGXLVYAJJAh6/KJWPpID
+	UVCGSEIU5k/vNWnDl/Z6zQBZP5BWnP+txhG4rm5r3Ukjf4YRMUbHvtOtM2zClESnaF9d
+	0uXJyo0bjZeAnjMTy2CkWLsMWX+QX+k5K9i9IDSxlsJuKlYNV7KAH6x373ecQ3tyrImw
+	PsOQ==
+X-Gm-Message-State: AHQUAuZd+ToYt6HDxuXcABup8nx8XRdxMiDGrhhArVtTyCbRzLq1GQ6G
+	heQxE7c4hG9s1f/CbDnpjQCfaEmH9Qo=
+X-Google-Smtp-Source: AHgI3IYSBSetWtkobL/B++dt6pwC2xqgPr/pHpIXg/CE7lcmQnwdXLdC/v01qOwmvXIXK1/keTzJ2Q==
+X-Received: by 2002:a1c:a98b:: with SMTP id
+	s133mr10352602wme.129.1550353601513; 
+	Sat, 16 Feb 2019 13:46:41 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm5298060wmk.29.2019.02.16.13.38.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 16 Feb 2019 13:38:48 -0800 (PST)
-Message-ID: <d1a6ccb19112c13eed8bddba5900bd754717a804.camel@linuxfoundation.org>
+	n6sm7147773wmk.9.2019.02.16.13.46.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 16 Feb 2019 13:46:39 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 16 Feb 2019 21:38:47 +0000
-In-Reply-To: <20190216194048.6256-1-andrej.valek@siemens.com>
-References: <20190215082252.2726-1-andrej.valek@siemens.com>
-	<20190216194048.6256-1-andrej.valek@siemens.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 1/2] busybox: 1.29.3 -> 1.30.1
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 16 Feb 2019 21:46:32 +0000
+Message-Id: <20190216214638.11456-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/7] package: Rework debug source file handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +57,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 21:38:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 16 Feb 2019 21:46:41 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2019-02-16 at 20:40 +0100, Andrej Valek wrote:
-> - update to last stable version 1.30.1
-> - remove and refresh already merged patches
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  ...inittab_1.29.3.bb => busybox-inittab_1.30.1.bb} |  0
->  ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ------------
-> ----------
->  ...-testsuite-check-uudecode-before-using-it.patch |  6 +-
->  .../{busybox_1.29.3.bb => busybox_1.30.1.bb}       |  5 +-
->  4 files changed, 5 insertions(+), 89 deletions(-)
->  rename meta/recipes-core/busybox/{busybox-inittab_1.29.3.bb =>
-> busybox-inittab_1.30.1.bb} (100%)
->  delete mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-
-> check-CONFIG_DESKTOP-before-using-od-t.patch
->  rename meta/recipes-core/busybox/{busybox_1.29.3.bb =>
-> busybox_1.30.1.bb} (89%)
+Currently we parallel process the files we install running dwarfsrcfiles over
+each one in parallel threads but requiring a lock to write the results to one
+file. This is not ideal for performance and means we can't then use per file
+data for other purposes such as source code license processing.
 
-I had a closer look at this and I think we need to refresh the
-defconfig with the new version of busybox and be explicit about the new
-things we're taking or not taking...
+Rework the code so that the list of source files is generated per installed
+file and is reusable.
 
-Cheers,
+The code still generates a null separated debugsources.list file since this
+is used by a shell pipeline but it no longer needs locking.
 
-Richard
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package.bbclass | 50 +++++++++++++++++++-----------------
+ 1 file changed, 27 insertions(+), 23 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7dd1b09a874..749c7d9ea14 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -344,7 +344,7 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
+ 
+     return debugfiles.keys()
+ 
+-def append_source_info(file, sourcefile, d, fatal=True):
++def source_info(file, d, fatal=True):
+     import subprocess
+ 
+     cmd = ["dwarfsrcfiles", file]
+@@ -363,22 +363,15 @@ def append_source_info(file, sourcefile, d, fatal=True):
+         bb.note(msg)
+ 
+     debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
+-    # filenames are null-separated - this is an artefact of the previous use
+-    # of rpm's debugedit, which was writing them out that way, and the code elsewhere
+-    # is still assuming that.
+-    debuglistoutput = '\0'.join(debugsources) + '\0'
+-    lf = bb.utils.lockfile(sourcefile + ".lock")
+-    with open(sourcefile, 'a') as sf:
+-        sf.write(debuglistoutput)
+-    bb.utils.unlockfile(lf)
+ 
++    return list(debugsources)
+ 
+-def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir, sourcefile, d):
++def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d):
+     # Function to split a single file into two components, one is the stripped
+     # target system binary, the other contains any debugging information. The
+     # two files are linked to reference each other.
+     #
+-    # sourcefile is also generated containing a list of debugsources
++    # return a mapping of files:debugsources
+ 
+     import stat
+     import subprocess
+@@ -386,6 +379,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+     src = file[len(dvar):]
+     dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
+     debugfile = dvar + dest
++    sources = []
+ 
+     # Split the file...
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+@@ -397,7 +391,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+ 
+     # We ignore kernel modules, we don't generate debug info files.
+     if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
+-        return 1
++        return (file, sources)
+ 
+     newmode = None
+     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
+@@ -407,7 +401,7 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+ 
+     # We need to extract the debug src information here...
+     if debugsrcdir:
+-        append_source_info(file, sourcefile, d)
++        sources = source_info(file, d)
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+@@ -419,17 +413,26 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
+     if newmode:
+         os.chmod(file, origmode)
+ 
+-    return 0
++    return (file, sources)
+ 
+-def copydebugsources(debugsrcdir, d):
++def copydebugsources(debugsrcdir, sources, d):
+     # The debug src information written out to sourcefile is further processed
+     # and copied to the destination here.
+ 
+     import stat
+     import subprocess
+ 
+-    sourcefile = d.expand("${WORKDIR}/debugsources.list")
+-    if debugsrcdir and os.path.isfile(sourcefile):
++    if debugsrcdir and sources:
++        sourcefile = d.expand("${WORKDIR}/debugsources.list")
++        bb.utils.remove(sourcefile)
++
++        # filenames are null-separated - this is an artefact of the previous use
++        # of rpm's debugedit, which was writing them out that way, and the code elsewhere
++        # is still assuming that.
++        debuglistoutput = '\0'.join(sources) + '\0'
++        with open(sourcefile, 'a') as sf:
++           sf.write(debuglistoutput)
++
+         dvar = d.getVar('PKGD')
+         strip = d.getVar("STRIP")
+         objcopy = d.getVar("OBJCOPY")
+@@ -933,9 +936,6 @@ python split_and_strip_files () {
+         debuglibdir = ""
+         debugsrcdir = "/usr/src/debug"
+ 
+-    sourcefile = d.expand("${WORKDIR}/debugsources.list")
+-    bb.utils.remove(sourcefile)
+-
+     #
+     # First lets figure out all of the files we may have to process ... do this only once!
+     #
+@@ -1040,11 +1040,15 @@ python split_and_strip_files () {
+     # First lets process debug splitting
+     #
+     if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
+-        oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles), d, extraargs=(dvar, debugdir, debuglibdir, debugappend, debugsrcdir, sourcefile, d))
++        results = oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles), d, extraargs=(dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d))
+ 
+         if debugsrcdir and not targetos.startswith("mingw"):
+             for file in staticlibs:
+-                append_source_info(file, sourcefile, d, fatal=False)
++                results.extend(source_info(file, d, fatal=False))
++
++        sources = set()
++        for r in results:
++            sources.update(r[1])
+ 
+         # Hardlink our debug symbols to the other hardlink copies
+         for ref in inodes:
+@@ -1092,7 +1096,7 @@ python split_and_strip_files () {
+ 
+         # Process the debugsrcdir if requested...
+         # This copies and places the referenced sources for later debugging...
+-        copydebugsources(debugsrcdir, d)
++        copydebugsources(debugsrcdir, sources, d)
+     #
+     # End of debug splitting
+     #
+-- 
+2.20.1
 
 
