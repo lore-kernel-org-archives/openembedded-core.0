@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 15AA07C7A3
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 54BE77C7A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 21:46:42 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t200so13168819wmt.0
+	Sat, 16 Feb 2019 21:46:44 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id l5so12971400wrw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 13:46:44 -0800 (PST)
+	Sat, 16 Feb 2019 13:46:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=pOLrA1nUynd1BYNP1X6Kt/3nPRWEpD/ys943sCs4y30=;
-	b=Pg+OHyKKmIgHkAC8Mqri6q/FhAmiDIaAzLlMq+cFvs9iYep9pelleWLANMFzL/b+eE
-	JuYmlYVkP7lK3CBBpTEpDuOZsvsNx5XXvh+NcB2FnMUIJBg7HqEdvpkpb+Qqfi0FAffM
-	VcWu80CUgKCj3zhCMdWlH4L5M9x1f//DEC+Uc=
+	bh=0IRqwR98/h78CODP1NcobL9B8Pp2H1Xsx/BzHcz323k=;
+	b=Upe2syjS8DxuSTJu3Djv4SgnCurPccZpIqnGcLmTIDUyLIKJ8QXz1ujOrMXE7vInvN
+	MLN8C9Z9kY71Ho1qs0grLodzcaBYahOjT30h5HvsK0VJFHYK9dFIZ1RNf0JD8Tn7dtmO
+	9xlLFrrkDgl/U6Jrz6UnpCCx/JEdYfY0WpNeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=pOLrA1nUynd1BYNP1X6Kt/3nPRWEpD/ys943sCs4y30=;
-	b=rVU8O5+dcyrnAV+z2wpB6qfHiFqLIdKgv/fH1EjQUHurKqHZtzqugPw+sCpHDefevW
-	DYsZaaH/BCxea0+4x5CtKR1h2XZdWDYBD58WRHAA3sC3VP1Sizhsz1MqCU56/H48bajN
-	GheM134G/m3yC7856o96/Jt/jJgKQfJt/AFNru6d3hK8D0YmfJTjFi2OmIEXFit8S1pN
-	c+LVC01RWKhI2uLTZmKAQotXq7lBSDs/dlJD74Kwr9AOMpaGr0y69JeO/9nh6oJSoAx7
-	O9/EYOAq1gW2fSfD/HxTxrTXOfBgX7BiySzS/MoCkLupJ4F6xmLqUpc5fCWtj6P53tah
-	udTA==
-X-Gm-Message-State: AHQUAubqu6n/X2d63+N6nLbUuuQuVN2qZL0ySudUY/wvCDd8XSlw1KKG
-	GSabFjLmj4aZS6D2jmxGXGoLhrNVuzI=
-X-Google-Smtp-Source: AHgI3IYZBGi+uRutvGAjYF5BIanoQnKgDXvjP056LxdTKqEfl1E7AqJlZbEODGJxPJ0k06ERTENr7A==
-X-Received: by 2002:a1c:400a:: with SMTP id n10mr10496765wma.56.1550353603538; 
-	Sat, 16 Feb 2019 13:46:43 -0800 (PST)
+	bh=0IRqwR98/h78CODP1NcobL9B8Pp2H1Xsx/BzHcz323k=;
+	b=XLnCiWo02jkiyYHNAjdqoTQKj2S0EhYfPZy/d5HwuVqnnwhprzsJvgHjTTXHAnLyy1
+	cjYtTc2P2EZUOuFANSaaQBNK/usEXWeXDOxwjPXI0QC60Z7G0Z5oBSnKu5btk62lratH
+	6aba0Rq1FCkP9gziGnQLKaZbAVNxufd+sfWvOvwWxm90timvikvIbXGfLhU5RrMkZk/V
+	zSa0za73XpnIVaAzyecSMZT8sewiNCPQyrYfMw+5Pzx1BOa18QW9Aft47ZKeXNYMfdyH
+	2rarBw876M1N8XYVByOEn0Cr3YaQmBwnOb6Qz5FF2uuC8kX4lp/mcbyZvV+faF6Qs+mY
+	CfgQ==
+X-Gm-Message-State: AHQUAuYw/WnrbRIBSj3QyQRIroYU2Z5pv+IMVpYZzXMarzeUp0SAn4Eo
+	aRl0KBkx0kVJLyMDwuZT15lVEx4Yao0=
+X-Google-Smtp-Source: AHgI3IZibj1unnZy+BJoO8m2SF1DqDQiUYoMxgJAbsNoIOMQVGbRxrNEFdYwN4zKcEQbE5Li+cdh6A==
+X-Received: by 2002:a5d:4985:: with SMTP id r5mr10775972wrq.90.1550353604706; 
+	Sat, 16 Feb 2019 13:46:44 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	n6sm7147773wmk.9.2019.02.16.13.46.42
+	n6sm7147773wmk.9.2019.02.16.13.46.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 16 Feb 2019 13:46:42 -0800 (PST)
+	Sat, 16 Feb 2019 13:46:43 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Feb 2019 21:46:34 +0000
-Message-Id: <20190216214638.11456-3-richard.purdie@linuxfoundation.org>
+Date: Sat, 16 Feb 2019 21:46:35 +0000
+Message-Id: <20190216214638.11456-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190216214638.11456-1-richard.purdie@linuxfoundation.org>
 References: <20190216214638.11456-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/7] quilt-native: Remove RDEPENDS on util-linux-native
+Subject: [PATCH 4/7] glib-2.0-native: Break circular dependency on shared-mime-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 21:46:43 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 21:46:44 -0000
 Content-Transfer-Encoding: 8bit
 
-This code is actually inactive and inaccurate. If we fix other code to
-enable native RDEPENDS handling, this then breaks.
+If we fix native RDEPENDS handling, it exposes a problem where there
+is a circular dependency between shared-mime-utils and glib-2.0-native.
 
-quilt-native is early in the dependency tree and can't depend on
-util-linux-native which may need to applu patches. The pieces of
-util-linux which quilt needs are long established as part of HOSTTOOLS.
-
-The other RDEPENDS are already part of ASSUME_PROVIDED. util-linux-native
-doesn't belong there since it has multiple components and is used as a valid
-dependency elsewhere in the codebase.
+Break this dependency in the -native case.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/quilt/quilt-native.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glib-2.0/glib.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/quilt/quilt-native.inc b/meta/recipes-devtools/quilt/quilt-native.inc
-index c7067042e6a..f6b1bd53afa 100644
---- a/meta/recipes-devtools/quilt/quilt-native.inc
-+++ b/meta/recipes-devtools/quilt/quilt-native.inc
-@@ -1,4 +1,4 @@
--RDEPENDS_${PN} = "diffstat-native patch-native bzip2-native util-linux-native"
-+RDEPENDS_${PN} = "diffstat-native patch-native bzip2-native"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index c9093cee866..7e2847d4b22 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -80,6 +80,7 @@ FILES_${PN}-utils = "${bindir}/*"
+ RRECOMMENDS_${PN} += "shared-mime-info"
+ # When cross compiling for Windows we don't want to include this
+ RRECOMMENDS_${PN}_remove_mingw32 = "shared-mime-info"
++RRECOMMENDS_${PN}_class-native = ""
  
- INHIBIT_AUTOTOOLS_DEPS = "1"
- 
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
 -- 
 2.20.1
 
