@@ -1,55 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 64A4871B1D
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C67F7C6AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 10:22:34 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t200so12113729wmt.0
+	Sat, 16 Feb 2019 11:32:00 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q18so12952211wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 02:22:35 -0800 (PST)
+	Sat, 16 Feb 2019 03:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=+roPOeE4b0pK3xpuZti5DfTi9Omiztudr8bAYQvL344=;
-	b=RffoIjtVeYcR0NZVQ8V33rNUQ9thkeE/1daVZDJ8ylSbRYJFJoN/Q/SAPsH4spzIIN
-	aJ69oQq2l1Qg5in+2JRjDFteGnrZ4iGRlrkXzV838kLb8ga78qVnuPpbxA12Cv51DIDc
-	P0BRAzGhnnys32pjUYcXPIWt4KfEBEoytCQ+0=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=4xMoNTm6sGvWnWI/AY/ppmsr5cu/6SogGZl3ibOTsuA=;
+	b=FRfCorK+EpJK+JznuEmdragRjSAlvo41ydZ/NSbUGuIl2jf1eop939GR670fatbqwQ
+	kd7pKgdxMuow+XiWDnHKFKumT3aA9tmpTdvqaQ/yj5pcImDEXujhthFT1Qwr6c+EuMKN
+	xhiW0THZ3CvTQlVFaP2Y1wlyMBtMcEvid7DVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+roPOeE4b0pK3xpuZti5DfTi9Omiztudr8bAYQvL344=;
-	b=SEyExOzYBOFubMLSyGcmGQpW/HsJ8kU1EKCidrIv1dgUMnodMzbh1hivyDmUX3aMaY
-	NsR07WVJUrBcgDj7NhITcaLcVYUKinPOPGpCp7+3lxJql8jmNHIuQHHOX7wYw3qZF0g3
-	k4CirTVD6sIlsZWZYjw8pINT+1+R1AjhSShLeFeqjifETMpBoq0CUp15t5uEhGV9eths
-	V7W5EHCzW6inwcAVpGaHPmqBc02XtDHX7lg+fr1MH0NtIQX5x97/ZMt44RDzBriEHLBE
-	3+FVDUZ7ONBWGOJlLV9g1Xx52d5KnSavqIiGXHVoL+uq7bES+gAI28VIVnScq+ewT/xz
-	mUvw==
-X-Gm-Message-State: AHQUAuaCb5paJyRfMeYWER+wPcLbAxWjipsL4w+fr5Q7+f3F1MmpM1vL
-	q8IaGPsV+5hZs1uGFnOvRG/03MhrIsY=
-X-Google-Smtp-Source: AHgI3IZsQrfBcv54Z/los5LkoIEebvmvClOJC5xJ4w5KWcwkT+SGsGKzQXPv0e6laDhiHrcp3CBjlQ==
-X-Received: by 2002:a1c:a6c9:: with SMTP id p192mr9543417wme.58.1550312554967; 
-	Sat, 16 Feb 2019 02:22:34 -0800 (PST)
+	bh=4xMoNTm6sGvWnWI/AY/ppmsr5cu/6SogGZl3ibOTsuA=;
+	b=kaHTxGhhJVYWHYq550lT09skbNK+vi+KFKCc8QD9Y2bNHPSwLIw6N7T6OS8+BIp+6t
+	E4/KVqqKEN+jiz01hj3v+F58ecoU5lzkMqaEVBSIbdHvcFNeQoXU0VRvnu+JdLLenvt5
+	34pxkGRDWNqpXuVHuX7vopcOxdNDhMTuDgWEgRyx4d3+L5ZdeWKlQuSzVYKyGnnRXfX4
+	gnEBTfTeK4U5v3+Na0VNG6Mj5dkAZZc/JyIpbcWGpWxjicAqwzYesKMquIjoGMCVCyyR
+	9xUKrdyVlgij7ErOxhVP4o+W04pKP4nM3FcAxhhHVfnO8U4vgOHvgHya3jTli0Igyq6j
+	dCTA==
+X-Gm-Message-State: AHQUAuYVkVj67SngHrpBKlEGJidcKkwCXedUqbQVJVzy9S3xEFdtD7YT
+	P5Gy3fMPSeob41OfctjArl6CVA==
+X-Google-Smtp-Source: AHgI3Ia2v96sWAsi0DZUa5W91s39yRZYKorKILn7rA7hz+M5A8+TI0aa9EHvqg7I68Y1DbowJOb06w==
+X-Received: by 2002:a5d:654a:: with SMTP id z10mr7704270wrv.280.1550316721614; 
+	Sat, 16 Feb 2019 03:32:01 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id o7sm7176495wmc.44.2019.02.16.02.22.32
+	by smtp.gmail.com with ESMTPSA id
+	h13sm10712095wrs.42.2019.02.16.03.31.59
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 16 Feb 2019 02:22:34 -0800 (PST)
-Message-ID: <cc7016c6474ed98f24e875c1e80a93fb024d0b81.camel@linuxfoundation.org>
+	Sat, 16 Feb 2019 03:32:00 -0800 (PST)
+Message-ID: <689a3e6f6f81d9f9e300ea5d0d0e9641f753d87b.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 16 Feb 2019 10:22:30 +0000
-In-Reply-To: <4dff35a9-3309-927e-1155-3cd2ac5a888e@siemens.com>
-References: <20190215082252.2726-1-andrej.valek@siemens.com>
-	<5753a5096418e3f0800b7120ac4a6c5a75bac119.camel@linuxfoundation.org>
-	<47d7a2fb-57a2-1f37-25be-1140a2e038ed@siemens.com>
-	<65094bcd2eb9cbd4bcff181e8e6976c893562bf0.camel@linuxfoundation.org>
-	<4dff35a9-3309-927e-1155-3cd2ac5a888e@siemens.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 16 Feb 2019 11:31:59 +0000
+In-Reply-To: <CAO5Uq5R=cFd3h4QLmF_b=5iJORG2C2Zo3BXwtDL2MkR+PfucCA@mail.gmail.com>
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+	<76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
+	<CAO5Uq5R=cFd3h4QLmF_b=5iJORG2C2Zo3BXwtDL2MkR+PfucCA@mail.gmail.com>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] busybox: 1.29.3 -> 1.30.1
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +61,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 10:22:34 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 11:32:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-02-16 at 09:31 +0100, Andrej Valek wrote:
-> I used the default one, what is rpm. Maybe I can try it with ipk.
+On Sat, 2019-02-16 at 09:25 +0000, Alex Kiernan wrote:
+> On Fri, Feb 15, 2019 at 11:16 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2019-02-14 at 21:09 +0000, Alex Kiernan wrote:
+> > > bmap-tools 3.5 was released August 2018 but has no release tarball,
+> > > so
+> > > switch to using the git fetcher. Also pull in the fix for
+> > > StopIteration
+> > > being transformed into RuntimeError for Python 3.7.
+> > > 
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > 
+> > Unfortunately this triggers a selftest failure:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/236
+> > 
+> > (ignore the virtgl piece, that is something else)
+> > 
+> > oe-selftest -r wic.Wic2.test_bmap_short
+> > and
+> > oe-selftest -r wic.Wic2.test_bmap_long
+> > 
+> > should reproduce. Might be as simple as a missing RDEPENDS.
+> > 
+> 
+> Looks like it's gained a dependency on six. And thanks for the
+> reproducing steps - I've never got to grips with that stuff before.
+> 
+> That said I'm struggling to get the tests to actually pass. I've
+> added
+> in python3-six to RDEPENDS, but it still fails with
+> `ModuleNotFoundError: No module named 'six'`?
 
-I had another look at the error. My guess is that you need an image
-containing busybox and bc to reproduce. The bug is dependent on the
-installation order of the packages.
+We appear to have walked into spools of razor wire :/
 
-One is likely being managed by update-alternatives, one isn't. A
-further guess is that bc was somehow enabled in the new busybox. Do we
-need bc in busybox and is the fix a defconfig tweak?
+This is an open bug:
 
-Note, this is total guesswork so it all may be wrong! :)
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10113
+
+which I'm struggling to know how to fix.
+
+What does appear to work locally is adding something like:
+
+# We need the native dependency on python3-six at runtime
+# See bug 10113
+EXTRASYSROOTDEPTASK = ""
+EXTRASYSROOTDEPTASK_class-native = "do_populate_sysroot"
+do_populate_sysroot[rdeptask] = "${EXTRASYSROOTDEPTASK}"
+
+Whether this is the right thing to do I'm less sure about.
+
+It may be an idea to start introducing these dependencies where we need
+them to fix bugs, until we can sort the problem properly in
+native.bbclass.
 
 Cheers,
 
 Richard
+
+
+
 
 
