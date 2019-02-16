@@ -1,29 +1,52 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B43B7C7A3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 81E696C149
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 19:42:01 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x1GJg1br012998
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Sat, 16 Feb 2019 21:38:48 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id o17so14054557wrw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 20:42:01 +0100
-Received: from dev.vm6.ccp.siemens.com ([139.22.33.63])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x1GJg1aM027385;
-	Sat, 16 Feb 2019 20:42:01 +0100
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 2A67D98F566;
-	Sat, 16 Feb 2019 20:42:01 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Feb 2019 20:40:48 +0100
-Message-Id: <20190216194048.6256-2-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+	Sat, 16 Feb 2019 13:38:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=iMbHr8uXwnkBDE4j2L8OAVdYn5MSF8F8AO4+LwPRC5A=;
+	b=TxDkSDBtB7qqonuSBClSZiXUjtBtiDaAfYJJCEa5giadwJ1yXehZ+K/9efN7gDEVft
+	jPh4csJpiHEtyv7c+R1D6Fqa+RzkQHTZ9iQcextFN4cBzVQ5Az1CJkxOLypTQCJM13n4
+	wdCtjwDNOzlFmdXifDV2O/P6AAU4LBkh5L/BU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=iMbHr8uXwnkBDE4j2L8OAVdYn5MSF8F8AO4+LwPRC5A=;
+	b=U++cIjBBdAlNZVHGJrlWOSkbdRDd5Cxh0eVq9G2FgDikL8BNBXyBeFj8UMapldDgv0
+	OCXIep2I+KqsDJw4yOjx/VErGqJ13nk5puATcdEPWVb7EuUZiGft/5Yvr2VBj9O+erom
+	281BZSwaQTJAFqQbuA8lg8Cv+zp2v/dxemKEhvXhi/zMkZpeEWVNuBTKJjrkJEUdrI4m
+	0gnK1LKpyiXxucilOBe9s1ImRNjzdbKMG6fEJ15nUrLmZoT+Qk8wPlYpt8m0Sv4uRh6O
+	Di5B5ffGb9Bat5oJ8455V6mz1mGQsfddz9znK5vz/p0W1BEJ9GmlR9dzMiFprzFTMGOp
+	wv5Q==
+X-Gm-Message-State: AHQUAuaCFPUWOiz2ICjz9tewls0id5szsiyU+IgWHMbjbOM+tzC9axC+
+	3QKSJZuOJ2+zwR6GZsuYnmN1dg==
+X-Google-Smtp-Source: AHgI3Ib7eM9rccdFLzEl/rXAoY6/Dxh/o3X9O1/psMrB2Amgyl/e05UjDVliMPoeWtv+l70LicSr+g==
+X-Received: by 2002:a5d:4090:: with SMTP id o16mr10266436wrp.208.1550353129105;
+	Sat, 16 Feb 2019 13:38:49 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n26sm5298060wmk.29.2019.02.16.13.38.47
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 16 Feb 2019 13:38:48 -0800 (PST)
+Message-ID: <d1a6ccb19112c13eed8bddba5900bd754717a804.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 16 Feb 2019 21:38:47 +0000
 In-Reply-To: <20190216194048.6256-1-andrej.valek@siemens.com>
-References: <20190216194048.6256-1-andrej.valek@siemens.com>
-In-Reply-To: <20190215082252.2726-1-andrej.valek@siemens.com>
 References: <20190215082252.2726-1-andrej.valek@siemens.com>
-Subject: [PATCH v2 2/2] bc: fix conflict with busybox
+	<20190216194048.6256-1-andrej.valek@siemens.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 1/2] busybox: 1.29.3 -> 1.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 19:42:02 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 21:38:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- make bc compatible with update alternative
-- disable bc applet in busybox by default
+On Sat, 2019-02-16 at 20:40 +0100, Andrej Valek wrote:
+> - update to last stable version 1.30.1
+> - remove and refresh already merged patches
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>  ...inittab_1.29.3.bb => busybox-inittab_1.30.1.bb} |  0
+>  ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ------------
+> ----------
+>  ...-testsuite-check-uudecode-before-using-it.patch |  6 +-
+>  .../{busybox_1.29.3.bb => busybox_1.30.1.bb}       |  5 +-
+>  4 files changed, 5 insertions(+), 89 deletions(-)
+>  rename meta/recipes-core/busybox/{busybox-inittab_1.29.3.bb =>
+> busybox-inittab_1.30.1.bb} (100%)
+>  delete mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-
+> check-CONFIG_DESKTOP-before-using-od-t.patch
+>  rename meta/recipes-core/busybox/{busybox_1.29.3.bb =>
+> busybox_1.30.1.bb} (89%)
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- meta/recipes-core/busybox/busybox/defconfig | 1 +
- meta/recipes-extended/bc/bc_1.07.1.bb       | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+I had a closer look at this and I think we need to refresh the
+defconfig with the new version of busybox and be explicit about the new
+things we're taking or not taking...
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index d11707abc3..2633bc067b 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -784,6 +784,7 @@ CONFIG_FEATURE_BEEP_LENGTH_MS=0
- # CONFIG_FEATURE_CHAT_CLR_ABORT is not set
- # CONFIG_CHRT is not set
- # CONFIG_CRONTAB is not set
-+# CONFIG_BC is not set
- CONFIG_DC=y
- # CONFIG_FEATURE_DC_LIBM is not set
- # CONFIG_DEVFSD is not set
-diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
-index e80857745e..10e222a3cc 100644
---- a/meta/recipes-extended/bc/bc_1.07.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.07.1.bb
-@@ -27,7 +27,7 @@ do_compile_prepend() {
-     cp -f ${WORKDIR}/libmath.h ${B}/bc/libmath.h
- }
- 
--ALTERNATIVE_${PN} = "dc"
-+ALTERNATIVE_${PN} = "bc dc"
- ALTERNATIVE_PRIORITY = "100"
- 
- BBCLASSEXTEND = "native"
-\ No newline at end of file
--- 
-2.11.0
+Cheers,
+
+Richard
 
 
