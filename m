@@ -1,45 +1,53 @@
-Return-Path: <leobsd@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B80086C1CA
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id D5C897C68D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 07:40:35 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id q11so8837490lfd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2019 23:40:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=1aaUEC7qcXsHr2pSaJoL77J3/rivdhR8Z376VHXjGfc=;
-	b=bb4ySM186npvqwvhvt5pAboe5VkHcTkUcwRo0HY79mUBaZizY4aBX2v7XprP9gysU7
-	/Yp+XbXHiqT7d/ByNEExuFbnNbCnhDwPaeciaFZz/G18U/bfg1aJtfCHRZCy7yZbOliZ
-	8AELb1conOjBfeCZ9/UaRwQcpfbJJiqOaUUQ1Lm1Gzn7IteCiU8Pd3S4Eun61Js3g6N6
-	vU7SNMM5hZQpeiuN4lud48oiwJxE/gnsbLAcVzSzc/+8ciRnCMn+KP0vP868dFT9Allf
-	xoZveQUly6VI7xYKbODv//QNDX2Cn4ZXuZJB4f4IbZvts/shqeOt0VWyxJwz18Ar1GJZ
-	xJ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=1aaUEC7qcXsHr2pSaJoL77J3/rivdhR8Z376VHXjGfc=;
-	b=OIO7AB9VqdIPookaA0UNSpMuNwYG1tljRfREiWte9Fe3p9NpJ2UZehhbn/lxosc4E2
-	fEK6qOhnWpCMSeJMeDdey3fXUw8G2NPbZnUVvN8prQ1EgCOmA1cgYJ+IYwQTpFkilbNM
-	I2lQsKZWrCDTyazYBqxX23I/5TX1b8jOhvokK4qbLqNYXZbWm6lt9rSWhZuhEC0r3ORY
-	aEXhVi+89avUEH1WkjTeTLVh2ysGxvkWQkaBMYCW4c+aQ++1L1rI9UDURBrYAQ+4+0iD
-	rONvx5KJcNGaLMPUocvyCgwKQ6eQU5sByev21YASWjbxGMNtQdq++gido4Sl2tu+j/gn
-	wySQ==
-X-Gm-Message-State: AHQUAua2NMpx8jQ00peJtpz5LcEED3se0npi++khUJ5zhRLFs9eVGc+i
-	A66T0UgdGDreas8OnNA63IkX3HeLHUqKEzhHx97Cez97DNxtRQ==
-X-Google-Smtp-Source: AHgI3IZxoPHM+kVxG5EbM5t5+zbrPy46dgKzD1cB9zwnNIgIJtw5cHl7W0sHXzCDX/2jyNMlKTlZd8EXK4pzs+yIT04=
-X-Received: by 2002:ac2:5205:: with SMTP id a5mr7973122lfl.135.1550302835652; 
-	Fri, 15 Feb 2019 23:40:35 -0800 (PST)
+	Sat, 16 Feb 2019 07:51:42 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x1G7pfpq022082
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Sat, 16 Feb 2019 08:51:41 +0100
+Received: from [192.168.253.100] ([167.87.34.169])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x1G7pfwl026428;
+	Sat, 16 Feb 2019 08:51:41 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20190215082252.2726-1-andrej.valek@siemens.com>
+	<5753a5096418e3f0800b7120ac4a6c5a75bac119.camel@linuxfoundation.org>
+From: Andrej Valek <andrej.valek@siemens.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
+	mQENBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
+	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
+	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
+	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
+	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
+	AAG0J0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPokBPgQTAQIAKAUC
+	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
+	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
+	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
+	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
+	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
+	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO57kBDQRZEs03AQgA0oCu
+	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
+	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
+	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
+	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
+	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABiQElBBgBAgAPBQJZ
+	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
+	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
+	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
+	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
+	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
+	emYHzsJ3+vLapH+kAEI=
+Message-ID: <47d7a2fb-57a2-1f37-25be-1140a2e038ed@siemens.com>
+Date: Sat, 16 Feb 2019 08:51:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190208163512.24889-1-leobsd@gmail.com>
-In-Reply-To: <20190208163512.24889-1-leobsd@gmail.com>
-From: Leonardo Rangel <leobsd@gmail.com>
-Date: Fri, 15 Feb 2019 23:39:58 -0800
-Message-ID: <CAN7MDW_Ks88Y5v4=_Qmjs7zgbiVABMpdwLS3r1hTy=Fv8o6cHw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] Fix cp's target path for ext* filesystems
+In-Reply-To: <5753a5096418e3f0800b7120ac4a6c5a75bac119.camel@linuxfoundation.org>
+Subject: Re: [PATCH] busybox: 1.29.3 -> 1.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,95 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 07:40:36 -0000
-Content-Type: multipart/alternative; boundary="000000000000d03eed0581fe0197"
+X-List-Received-Date: Sat, 16 Feb 2019 07:51:43 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000d03eed0581fe0197
-Content-Type: text/plain; charset="UTF-8"
+Hello Richard
 
-Does anybody have other suggestions on this one?
+I have set-up new build (master-next):
 
-> Python subprocess' shell=True defaults to /bin/sh[1][2], which
-> often refers to a POSIX-compliant shell. As the -e flag is
-> not defined in the POSIX standard[3], some shells may
-> interpret "-e" as the first argument to the echo command,
-> causing the rest of the command line to fail.
->
-> In this particular case, "echo -e 'cd {}'" is interpreted
-> as "-e cd {}", which causes the first line of the command
-> to fail, and causing cp to always place the source file
-> in the filesystem's root.
->
-> Replacing "echo -e" for a printf command makes this
-> more portable.
->
-> This issue only affects "wic cp" for ext* filesystems.
->
-> [1] https://docs.python.org/2/library/subprocess.html
-> [2] https://docs.python.org/3/library/subprocess.html
-> [3] http://pubs.opengroup.org/onlinepubs/9699919799
->
-> Signed-off-by: Leonardo Augusto <leobsd@gmail.com>
-> ---
->  scripts/lib/wic/engine.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-> index 4662c665c0..97f5e848cc 100644
-> --- a/scripts/lib/wic/engine.py
-> +++ b/scripts/lib/wic/engine.py
-> @@ -331,7 +331,7 @@ class Disk:
->      def copy(self, src, pnum, path):
->          """Copy partition image into wic image."""
->          if self.partitions[pnum].fstype.startswith('ext'):
-> -            cmd = "echo -e 'cd {}\nwrite {} {}' | {} -w {}".\
-> +            cmd = "printf 'cd {}\nwrite {} {}' | {} -w {}".\
->                        format(path, src, os.path.basename(src),
->                               self.debugfs, self._get_part_image(pnum))
->          else: # fat
+Build Configuration:
+BB_VERSION           = "1.40.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "2.6+snapshot-20190215"
+TUNE_FEATURES        = "arm armv5 thumb dsp"
+TARGET_FPU           = "soft"
+meta
+meta-poky
+meta-yocto-bsp       =
+"master-next:227617e923ce25ee266df51828ac4cce4524d95a"
 
---000000000000d03eed0581fe0197
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Building tooks lot of hours from scratch. I have expected the same
+error, but build was successful.
+DEBUG: Python function do_rootfs finished
 
-<div dir=3D"ltr"><div dir=3D"ltr">Does anybody have other suggestions on th=
-is one?<br><br>&gt; Python subprocess&#39; shell=3DTrue defaults to /bin/sh=
-[1][2], which<br>&gt; often refers to a POSIX-compliant shell. As the -e fl=
-ag is<br>&gt; not defined in the POSIX standard[3], some shells may <br>&gt=
-; interpret &quot;-e&quot; as the first argument to the echo command,<br>&g=
-t; causing the rest of the command line to fail.<br>&gt; <br>&gt; In this p=
-articular case, &quot;echo -e &#39;cd {}&#39;&quot; is interpreted<br>&gt; =
-as &quot;-e cd {}&quot;, which causes the first line of the command<br>&gt;=
- to fail, and causing cp to always place the source file<br>&gt; in the fil=
-esystem&#39;s root.<br>&gt; <br>&gt; Replacing &quot;echo -e&quot; for a pr=
-intf command makes this<br>&gt; more portable.<br>&gt; <br>&gt; This issue =
-only affects &quot;wic cp&quot; for ext* filesystems.<br>&gt; <br>&gt; [1] =
-<a href=3D"https://docs.python.org/2/library/subprocess.html">https://docs.=
-python.org/2/library/subprocess.html</a><br>&gt; [2] <a href=3D"https://doc=
-s.python.org/3/library/subprocess.html">https://docs.python.org/3/library/s=
-ubprocess.html</a><br>&gt; [3] <a href=3D"http://pubs.opengroup.org/onlinep=
-ubs/9699919799">http://pubs.opengroup.org/onlinepubs/9699919799</a><br>&gt;=
- <br>&gt; Signed-off-by: Leonardo Augusto &lt;<a href=3D"mailto:leobsd@gmai=
-l.com">leobsd@gmail.com</a>&gt;<br>&gt; --- <br>&gt;=C2=A0 scripts/lib/wic/=
-engine.py | 2 +-<br>&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-=
-)<br>&gt; <br>&gt; diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic=
-/engine.py<br>&gt; index 4662c665c0..97f5e848cc 100644<br>&gt; --- a/script=
-s/lib/wic/engine.py<br>&gt; +++ b/scripts/lib/wic/engine.py<br>&gt; @@ -331=
-,7 +331,7 @@ class Disk:<br>&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def copy(sel=
-f, src, pnum, path):<br>&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 &quot;&quot;&quot;Copy partition image into wic image.&quot;&quot=
-;&quot;<br>&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if se=
-lf.partitions[pnum].fstype.startswith(&#39;ext&#39;):<br>&gt; -=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =3D &quot;echo -=
-e &#39;cd {}\nwrite {} {}&#39; | {} -w {}&quot;.\<br>&gt; +=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cmd =3D &quot;printf &#=
-39;cd {}\nwrite {} {}&#39; | {} -w {}&quot;.\<br>&gt;=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 format(path, src, os.path.basena=
-me(src),<br>&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.debugfs, self._get_pa=
-rt_image(pnum))<br>&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 else: # fat <br></div></div>
+Is it possible to provide some more detailed error log, to identify,
+what's really going there.
 
---000000000000d03eed0581fe0197--
+Thanks,
+Andrej
+
+On 2/15/19 12:25 PM, Richard Purdie wrote:
+> On Fri, 2019-02-15 at 09:22 +0100, Andrej Valek wrote:
+>> - update to last stable version 1.30.1
+>> - remove and refresh already merged patches
+>>
+>> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+>> ---
+>>  ...inittab_1.29.3.bb => busybox-inittab_1.30.1.bb} |  0
+>>  ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ------------
+>> ----------
+>>  ...-testsuite-check-uudecode-before-using-it.patch |  6 +-
+>>  .../{busybox_1.29.3.bb => busybox_1.30.1.bb}       |  5 +-
+>>  4 files changed, 5 insertions(+), 89 deletions(-)
+>>  rename meta/recipes-core/busybox/{busybox-inittab_1.29.3.bb =>
+>> busybox-inittab_1.30.1.bb} (100%)
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/0001-testsuite-
+>> check-CONFIG_DESKTOP-before-using-od-t.patch
+>>  rename meta/recipes-core/busybox/{busybox_1.29.3.bb =>
+>> busybox_1.30.1.bb} (89%)
+> 
+> There seems to be something not quite right with this:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/284
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/283
+> 
+> Cheers,
+> 
+> Richard
+> 
+
