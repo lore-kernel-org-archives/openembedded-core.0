@@ -1,47 +1,55 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BA7D67C771
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C12407C7F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 13:42:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l5so12105482wrw.6
+	Sat, 16 Feb 2019 15:08:35 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id v26so12503426wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 05:42:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=daQoEJwaTW2MTdnu31jHjkraaMmMssAQ6GDQ+9DgTm4=;
-	b=RopmpBai+sK0QemvnYkZvrOw5Sj/s/piEMPcYgjyhUty+h4lu2vm+meiqNGAX6EAUC
-	E1AyzeqiGeqcoJgAplLaV2LDjHs9TOtoD7ByWCUggosW42HahiGYYvU4FWc9DbTDX9Lf
-	d1CrGcNPsR2n2YPM8afMmiuFTnXPRCcWFA4nTqJqa4FYmT86IuUrpRuXHvryyD6eyJJK
-	OToeTgWHS5iHpKCqd1/efwhlwGgViZdq4nHaT4yX0MQMsvaWmi1mf2hbtugHM3jlGZzx
-	htln1iEd5s0D6z4YlS3KJNVy7/NzSOAUKMa31w7wVoLvbJIDK3Q6b0tAom00jAAxKrbA
-	oifA==
+	Sat, 16 Feb 2019 07:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=C/B+g+NWjTl9C9XyHs4sj45RUPZLaIkMe4PO8GUTH80=;
+	b=GpgWVcmsAlTvLQgZ07MryJF6X17t8W/jEVwC75EFenf0Snt4I+UyMmWmSoi0FVEtN2
+	ha59tvGqrCe4/rPrlrR5Y3ObYY+bnA2hpbYeqX85uHRKQkYSMTKqgKf4Ofs7lrqs11mF
+	sdvbRln6l4b8CO5zsAgtzvcBi2lvWKN4CkZP4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=daQoEJwaTW2MTdnu31jHjkraaMmMssAQ6GDQ+9DgTm4=;
-	b=gnxerrpByjlDqe7PtpvhOfSRq+ix0viiubDO68eJ5yTLV2RseSWgC7tE6kfcYpTVhV
-	xF0ml0cPzMmqKStQy606lWIjZ9LAgQx1J1KPhgvQHo/1EzUlZCzhG0Z107dRFiz5V6Fb
-	T4JMebjEyHuGVflkEyjVbWuH1k418//0Z+OPLEiPjxpOxgYNi41VA+i8N69rfvoUIJ1L
-	WzK0jMbOKqYKbfPqzdy9VzVln/h7KvXcdfKVY34NQpr4GCPOsgGnKjMMVkDu1hAnXqpN
-	dKYoV72SiP/xyoXTPq98Itn3GOtlGRjXjn4OHrVfDCJkmL/fvwOhnl+ICwY+ZowlsiyD
-	T+2g==
-X-Gm-Message-State: AHQUAublizDG48JskrzH9h+3ta/apT0f7GWWcG5z4IxewKBKGZcAULOg
-	Exp8uOjU4KNCcXB9xj7MvEDs5nM0rOY=
-X-Google-Smtp-Source: AHgI3IZ9XmlAbeBjrFEdrxQy4iwiTsjQ7CR7+ZmSPDQjhX8maJAsH/SYTAG9TAglSVMuhTjpja+bFA==
-X-Received: by 2002:adf:e60e:: with SMTP id p14mr10074471wrm.96.1550324521003; 
-	Sat, 16 Feb 2019 05:42:01 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	f134sm11784396wme.31.2019.02.16.05.41.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 16 Feb 2019 05:42:00 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Feb 2019 13:41:55 +0000
-Message-Id: <1550324515-12761-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3] bmap-tools: update from 3.4 to 3.5
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=C/B+g+NWjTl9C9XyHs4sj45RUPZLaIkMe4PO8GUTH80=;
+	b=Ch0LG+WCbMpB42nQsAb3sbkNjjVz1a8ijNssm8Yx1gBr4qITbUvE7izLXpMTm0Gvs8
+	oj3iucf98IGA91HBWptE6EVrFPZ3m/9ivSV1KqyHlYEnGlH/Yr5aKlr5tKs7EgW6viqB
+	zuq6Q8DWLJdHarj1EBSIQnLSlL3ARntqMpG1wBpj0b6mA7u3xONWKGwyCluMnhaIUBYN
+	BOmIdznXtQoDGHiQdQaIb00ArtjlS0pP10Z7usWKz+VTG1CvWelmLRSnuEt3VwSyHLiI
+	AP4GEnwtT1W31K6JpCt0PMhEcTQCjZ3dors38h9jTiohRVYARtoFxv2nq9KXUk58Gcn6
+	718Q==
+X-Gm-Message-State: AHQUAubgJfuJxJRonZZA8mojYYNIA3/jQ7kCkrQH1KE/XXMT8x551zkQ
+	CoZpl9rFBWH2atLPl00DaqlYkw==
+X-Google-Smtp-Source: AHgI3IbBAMO/1rzRYzzsx6FBr6uYUEa+jzP39kIsFqLHspHJhXMC0vaxYazRlQqWuQ4M81nxzUrg5A==
+X-Received: by 2002:a1c:ac85:: with SMTP id v127mr9099805wme.62.1550329716331; 
+	Sat, 16 Feb 2019 07:08:36 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id e9sm9790436wrc.56.2019.02.16.07.08.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 16 Feb 2019 07:08:35 -0800 (PST)
+Message-ID: <c339588bee3e0558f35652d08071543b96973079.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 16 Feb 2019 15:08:29 +0000
+In-Reply-To: <CAO5Uq5Q=GWBrsUGpk=uMGRrBapcnmB31XwYLve7OuhiXNOvp7g@mail.gmail.com>
+References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
+	<76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
+	<CAO5Uq5R=cFd3h4QLmF_b=5iJORG2C2Zo3BXwtDL2MkR+PfucCA@mail.gmail.com>
+	<689a3e6f6f81d9f9e300ea5d0d0e9641f753d87b.camel@linuxfoundation.org>
+	<CAO5Uq5Q=GWBrsUGpk=uMGRrBapcnmB31XwYLve7OuhiXNOvp7g@mail.gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,64 +62,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 13:42:01 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 15:08:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-bmap-tools 3.5 was released August 2018 but has no release tarball, so
-switch to using the git fetcher. Also pull in the fix for StopIteration
-being transformed into RuntimeError for Python 3.7.
+On Sat, 2019-02-16 at 12:22 +0000, Alex Kiernan wrote:
+> On Sat, Feb 16, 2019 at 11:32 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > We appear to have walked into spools of razor wire :/
+> > 
+> > This is an open bug:
+> > 
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10113
+> > 
+> > which I'm struggling to know how to fix.
+> > 
+> > What does appear to work locally is adding something like:
+> > 
+> > # We need the native dependency on python3-six at runtime
+> > # See bug 10113
+> > EXTRASYSROOTDEPTASK = ""
+> > EXTRASYSROOTDEPTASK_class-native = "do_populate_sysroot"
+> > do_populate_sysroot[rdeptask] = "${EXTRASYSROOTDEPTASK}"
+> > 
+> > Whether this is the right thing to do I'm less sure about.
+> > 
+> > It may be an idea to start introducing these dependencies where we
+> > need
+> > them to fix bugs, until we can sort the problem properly in
+> > native.bbclass.
+> > 
+> 
+> Thanks, that seems to work... I'd have been here forever trying to
+> find that.
+> 
+> I'll send a v3 with that change in it.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Thanks! I poked a bit more at that underlying RDEPENDS problem as it
+bothers me. Once I fixed the dependency loop detection code in bitbake,
+the real errors became clear and once two of them were fixed, things
+started working more as they should.
 
-Changes in v3:
-- Reinstate append of "+git${SRCPV}" to PV
-- Add workaround for https://bugzilla.yoctoproject.org/show_bug.cgi?id=10113
-  as suggested by Richard Purdie <richard.purdie@linuxfoundation.org>
+I've put together a patchset and thrown it at the autobuilder, see what
+it makes of it.
 
-Changes in v2:
-- Drop append of "+git${SRCPV}" to PV
+I'll either merge your patch with or without the hack depending on how
+that goes...
 
- .../bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb} | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
- rename meta/recipes-support/bmap-tools/{bmap-tools_3.4.bb => bmap-tools_3.5.bb} (63%)
+Cheers,
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-similarity index 63%
-rename from meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-rename to meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-index 2aae9a3fe0d8..25c1c694817f 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-@@ -9,16 +9,23 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "https://github.com/intel/${BPN}/releases/download/v${PV}/${BP}.tgz"
-+SRC_URI = "git://github.com/intel/${BPN}"
- 
--SRC_URI[md5sum] = "883420183611aa137cbaf68a91ef0d7e"
--SRC_URI[sha256sum] = "0064891270c180c190f41925b0f6fb9cecac3056f1168d2592dbe90e5f226c0a"
-+SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
-+S = "${WORKDIR}/git"
-+PV .= "+git${SRCPV}"
- 
--UPSTREAM_CHECK_URI = "https://github.com/intel/${BPN}/releases"
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
--RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl"
-+RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
- 
- inherit python3native
- inherit setuptools3
- 
-+# We need the native dependency on python3-six at runtime
-+# See bug 10113
-+EXTRASYSROOTDEPTASK = ""
-+EXTRASYSROOTDEPTASK_class-native = "do_populate_sysroot"
-+do_populate_sysroot[rdeptask] = "${EXTRASYSROOTDEPTASK}"
-+
- BBCLASSEXTEND = "native"
--- 
-2.7.4
+Richard
+
 
 
