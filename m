@@ -1,55 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C12407C7F4
+Return-Path: <tdhammer99@gmail.com>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+	[209.85.210.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E1297601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 15:08:35 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id v26so12503426wmh.3
+	Sat, 16 Feb 2019 15:28:36 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id w25so21465261otm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 07:08:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=C/B+g+NWjTl9C9XyHs4sj45RUPZLaIkMe4PO8GUTH80=;
-	b=GpgWVcmsAlTvLQgZ07MryJF6X17t8W/jEVwC75EFenf0Snt4I+UyMmWmSoi0FVEtN2
-	ha59tvGqrCe4/rPrlrR5Y3ObYY+bnA2hpbYeqX85uHRKQkYSMTKqgKf4Ofs7lrqs11mF
-	sdvbRln6l4b8CO5zsAgtzvcBi2lvWKN4CkZP4=
+	Sat, 16 Feb 2019 07:28:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=/zmmzBUB9pA0tAzAQybpFzpA6nRdpo8erGsiTq/4AYg=;
+	b=jRaBMOt5GEub6q52bi2p3LskXqr4reaw0fbE1i0mvszPBvblPVTiZrdF9/BwSv146U
+	0g9C7r7EbW9sb1UWeFz17tZHgB1Pdy3771iNYEVJReEsavWeO7D8gjct5ozKN2TtCIsS
+	NK1dMqWpTDBqBJ3UD8vcoXcPviuf0V9skuDQtcON+WUk4YIfLgMEb3AW7u6aHlEI832D
+	0HY7N+AyLq9gxIua9HATOolOPk/CwWminuUESKjb+hlczOwPL11XfBPKpEicP1LZcmDO
+	jtq2qiEb7X2a98u8gTxrs9eaGWvUF04GHp55qlX58m/kfxxs2I/3JTNR47CarOkIeuBS
+	YwpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=C/B+g+NWjTl9C9XyHs4sj45RUPZLaIkMe4PO8GUTH80=;
-	b=Ch0LG+WCbMpB42nQsAb3sbkNjjVz1a8ijNssm8Yx1gBr4qITbUvE7izLXpMTm0Gvs8
-	oj3iucf98IGA91HBWptE6EVrFPZ3m/9ivSV1KqyHlYEnGlH/Yr5aKlr5tKs7EgW6viqB
-	zuq6Q8DWLJdHarj1EBSIQnLSlL3ARntqMpG1wBpj0b6mA7u3xONWKGwyCluMnhaIUBYN
-	BOmIdznXtQoDGHiQdQaIb00ArtjlS0pP10Z7usWKz+VTG1CvWelmLRSnuEt3VwSyHLiI
-	AP4GEnwtT1W31K6JpCt0PMhEcTQCjZ3dors38h9jTiohRVYARtoFxv2nq9KXUk58Gcn6
-	718Q==
-X-Gm-Message-State: AHQUAubgJfuJxJRonZZA8mojYYNIA3/jQ7kCkrQH1KE/XXMT8x551zkQ
-	CoZpl9rFBWH2atLPl00DaqlYkw==
-X-Google-Smtp-Source: AHgI3IbBAMO/1rzRYzzsx6FBr6uYUEa+jzP39kIsFqLHspHJhXMC0vaxYazRlQqWuQ4M81nxzUrg5A==
-X-Received: by 2002:a1c:ac85:: with SMTP id v127mr9099805wme.62.1550329716331; 
-	Sat, 16 Feb 2019 07:08:36 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id e9sm9790436wrc.56.2019.02.16.07.08.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 16 Feb 2019 07:08:35 -0800 (PST)
-Message-ID: <c339588bee3e0558f35652d08071543b96973079.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 16 Feb 2019 15:08:29 +0000
-In-Reply-To: <CAO5Uq5Q=GWBrsUGpk=uMGRrBapcnmB31XwYLve7OuhiXNOvp7g@mail.gmail.com>
-References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
-	<76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
-	<CAO5Uq5R=cFd3h4QLmF_b=5iJORG2C2Zo3BXwtDL2MkR+PfucCA@mail.gmail.com>
-	<689a3e6f6f81d9f9e300ea5d0d0e9641f753d87b.camel@linuxfoundation.org>
-	<CAO5Uq5Q=GWBrsUGpk=uMGRrBapcnmB31XwYLve7OuhiXNOvp7g@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=/zmmzBUB9pA0tAzAQybpFzpA6nRdpo8erGsiTq/4AYg=;
+	b=GUAxQgUPhRi5JoEpht+Nhz1kqG1wC0XIbggT05WzeFo5eyw25mvL8jSKmfJJUGhctL
+	XhmtOFJvvo/D9tgpjjUjpvx6faD9tQheoCI8nRU4ljYn6H2WYpo0LBee2qjYJgnVL4pU
+	zIPrCYwqGMAtDWD+HRKOo2c26A5cSeMhUebPw+bjsJaGBI82G28R0jlyyYcLR1fC6/Ie
+	QTk7LMF7J0ECJ3KYCjn3CC1gy6FLc+7pp2+4aozsFvIA5hAYflAR6tYO7hoJME4pa13H
+	c8XC6qtKKXLr9CO4AwkZbgICp0I/uRsrgHlBLVFBBq8JOMuCKwruiqGz0WM1ZFiEs9v+
+	C/Vw==
+X-Gm-Message-State: AHQUAuZmHAennIeJmF/0Yf3vLnPJdZnecQxIRakUuy1TG8c3rODUb9Wj
+	o4xMeZP5BamxGhcnaoDzSkDiTccIvf21/alYJscR8l4cZwI=
+X-Google-Smtp-Source: AHgI3IYkCw4yq+pKNJqXjK1Ut7zL9xSEEy5w+gcMtfTfP8cW3ner4WOt13ZJ/1vTOdT8b+7uEBGWX6002jG8qE8n6pA=
+X-Received: by 2002:aca:cf8d:: with SMTP id f135mr9362313oig.14.1550330917691; 
+	Sat, 16 Feb 2019 07:28:37 -0800 (PST)
+MIME-Version: 1.0
+From: Tim Hammer <tdhammer99@gmail.com>
+Date: Sat, 16 Feb 2019 10:28:26 -0500
+Message-ID: <CALh9vaUZ1CEYJYO7B2SBN1k57kmXqKQEkz6uwhwKLMFYepdT3g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: U-Boot FW utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,56 +49,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 15:08:36 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 15:28:37 -0000
+Content-Type: multipart/alternative; boundary="000000000000a22a950582048bb4"
+
+--000000000000a22a950582048bb4
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-02-16 at 12:22 +0000, Alex Kiernan wrote:
-> On Sat, Feb 16, 2019 at 11:32 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > We appear to have walked into spools of razor wire :/
-> > 
-> > This is an open bug:
-> > 
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10113
-> > 
-> > which I'm struggling to know how to fix.
-> > 
-> > What does appear to work locally is adding something like:
-> > 
-> > # We need the native dependency on python3-six at runtime
-> > # See bug 10113
-> > EXTRASYSROOTDEPTASK = ""
-> > EXTRASYSROOTDEPTASK_class-native = "do_populate_sysroot"
-> > do_populate_sysroot[rdeptask] = "${EXTRASYSROOTDEPTASK}"
-> > 
-> > Whether this is the right thing to do I'm less sure about.
-> > 
-> > It may be an idea to start introducing these dependencies where we
-> > need
-> > them to fix bugs, until we can sort the problem properly in
-> > native.bbclass.
-> > 
-> 
-> Thanks, that seems to work... I'd have been here forever trying to
-> find that.
-> 
-> I'll send a v3 with that change in it.
+Building the u-boot-fw-utils recipe fails on the default configuration for
+my custom board, e.g.
+     | ***
+     | *** Can't find default configuration
+"arch/../configs/myboard_defconfig"
+     | ***
+     | scripts/kconfig/Makefile:121: recipe for target 'myboard_defconfig'
+failed
 
-Thanks! I poked a bit more at that underlying RDEPENDS problem as it
-bothers me. Once I fixed the dependency loop detection code in bitbake,
-the real errors became clear and once two of them were fixed, things
-started working more as they should.
-
-I've put together a patchset and thrown it at the autobuilder, see what
-it makes of it.
-
-I'll either merge your patch with or without the hack depending on how
-that goes...
-
-Cheers,
-
-Richard
+I can modify this recipe to add the same patches that are in the u-boot
+recipe append, but am wondering if I am missing something "simpler" that
+would share the patches already in u-boot?
 
 
+Alternatively, I attempted to build the envtools target in the u-boot
+recipe append file, but some include/generated/ header files were missing.
+I am guessing I could also modify the configure step, but am not confident
+enough in understanding OE processing to think this will be easy/simple.
 
+Any other options I have not considered?
+Thanks!
+-- 
+.Tim
+
+--000000000000a22a950582048bb4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Building the u-boot-fw-utils recipe fails on the default c=
+onfiguration for my custom board, e.g.<div>=C2=A0 =C2=A0 =C2=A0| ***</div><=
+div>=C2=A0 =C2=A0 =C2=A0| *** Can&#39;t find default configuration &quot;ar=
+ch/../configs/myboard_defconfig&quot;</div><div>=C2=A0 =C2=A0 =C2=A0| ***</=
+div><div>=C2=A0 =C2=A0 =C2=A0| scripts/kconfig/Makefile:121: recipe for tar=
+get &#39;myboard_defconfig&#39; failed</div><div><div><br></div><div>I can =
+modify this recipe to add the same patches that are in the u-boot recipe ap=
+pend, but am wondering if I am missing something &quot;simpler&quot; that w=
+ould share the patches already in u-boot?</div><div><br></div><div><br></di=
+v><div>Alternatively, I attempted to build the envtools target in the u-boo=
+t recipe append file, but some include/generated/ header files were missing=
+. I am guessing I could also modify the configure step, but am not confiden=
+t enough in understanding OE processing to think this will be easy/simple.<=
+/div><div><br></div><div>Any other options I have not considered?</div></di=
+v>Thanks!<div>--=C2=A0<div dir=3D"ltr" class=3D"gmail_signature" data-smart=
+mail=3D"gmail_signature"><div dir=3D"ltr"><span style=3D"font-family:arial =
+narrow,sans-serif">.Tim</span><br></div></div></div></div>
+
+--000000000000a22a950582048bb4--
