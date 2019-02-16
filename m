@@ -1,51 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CAA177C62D
+	by mail.openembedded.org (Postfix) with ESMTP id 63D037C79B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 22:45:49 +0000 (UTC)
+	Sat, 16 Feb 2019 22:48:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 0B22218324;
-	Sat, 16 Feb 2019 23:45:50 +0100 (CET)
+	by bastet.se.axis.com (Postfix) with ESMTP id 17EA218324;
+	Sat, 16 Feb 2019 23:48:14 +0100 (CET)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id rZNZgibAgIF8; Sat, 16 Feb 2019 23:45:49 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 6A254182BF;
-	Sat, 16 Feb 2019 23:45:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 548471E056;
-	Sat, 16 Feb 2019 23:45:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 48D731E054;
-	Sat, 16 Feb 2019 23:45:49 +0100 (CET)
+	with LMTP id bdrivJS0TLim; Sat, 16 Feb 2019 23:48:13 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 73245182BF;
+	Sat, 16 Feb 2019 23:48:13 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 613221A05E;
+	Sat, 16 Feb 2019 23:48:13 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 55FD81A05D;
+	Sat, 16 Feb 2019 23:48:13 +0100 (CET)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sat, 16 Feb 2019 23:45:49 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 3CAF9301F;
-	Sat, 16 Feb 2019 23:45:49 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Sat, 16 Feb 2019 23:48:13 +0100 (CET)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id 4A66BF67;
+	Sat, 16 Feb 2019 23:48:13 +0100 (CET)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
 	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Sat, 16 Feb 2019 23:45:48 +0100
+	Sat, 16 Feb 2019 23:48:13 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Sat, 16 Feb 2019 23:48:12 +0100
 Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
 	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Sat, 16 Feb 2019 23:45:48 +0100
+	15.00.1365.000; Sat, 16 Feb 2019 23:48:12 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 4/7] glib-2.0-native: Break circular dependency
-	on	shared-mime-utils
-Thread-Index: AQHUxkEvKYYOOR3BOUO//dblhMgAFaXjBZoQ
-Date: Sat, 16 Feb 2019 22:45:48 +0000
-Message-ID: <05262e8e31704f8a91db22e0ffb140db@XBOX04.axis.com>
+Thread-Topic: [OE-core] [PATCH 5/7] font-util: Break circular native RDEPENDS
+Thread-Index: AQHUxkExUWNO6gK6U0O2T9AtCuXvN6XjBpDw
+Date: Sat, 16 Feb 2019 22:48:12 +0000
+Message-ID: <d3b80a7844ad4c0c85fd93f81906205e@XBOX04.axis.com>
 References: <20190216214638.11456-1-richard.purdie@linuxfoundation.org>
-	<20190216214638.11456-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20190216214638.11456-4-richard.purdie@linuxfoundation.org>
+	<20190216214638.11456-5-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20190216214638.11456-5-richard.purdie@linuxfoundation.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -53,7 +55,7 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 4/7] glib-2.0-native: Break circular dependency on	shared-mime-utils
+Subject: Re: [PATCH 5/7] font-util: Break circular native RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,7 +68,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 22:45:50 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 22:48:13 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -76,39 +78,33 @@ Content-Transfer-Encoding: quoted-printable
 > core-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
 > Sent: den 16 februari 2019 22:47
 > To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 4/7] glib-2.0-native: Break circular
-> dependency on shared-mime-utils
->=20
-> If we fix native RDEPENDS handling, it exposes a problem where there
-> is a circular dependency between shared-mime-utils and glib-2.0-native.
->=20
-> Break this dependency in the -native case.
+> Subject: [OE-core] [PATCH 5/7] font-util: Break circular native
+> RDEPENDS
 >=20
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/recipes-core/glib-2.0/glib.inc | 1 +
->  1 file changed, 1 insertion(+)
+>  meta/recipes-graphics/xorg-font/font-util_1.3.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-
-> core/glib-2.0/glib.inc
-> index c9093cee866..7e2847d4b22 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -80,6 +80,7 @@ FILES_${PN}-utils =3D "${bindir}/*"
->  RRECOMMENDS_${PN} +=3D "shared-mime-info"
+> diff --git a/meta/recipes-graphics/xorg-font/font-util_1.3.1.bb
+> b/meta/recipes-graphics/xorg-font/font-util_1.3.1.bb
+> index 34646ff99b4..1289c1686c6 100644
+> --- a/meta/recipes-graphics/xorg-font/font-util_1.3.1.bb
+> +++ b/meta/recipes-graphics/xorg-font/font-util_1.3.1.bb
+> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D5df208ec65eb84ce5bb8d82d8f3b9675 \
+>  DEPENDS =3D "encodings util-macros"
+>  DEPENDS_class-native =3D "util-macros-native"
+>  RDEPENDS_${PN} =3D "mkfontdir mkfontscale encodings"
+> -RDEPENDS_${PN}_class-native =3D "mkfontdir-native mkfontscale-native"
+> +RDEPENDS_${PN}_class-native =3D ""
 
-Wouldn't it be clearer to change this to:
+And the RDEPENDS above could be changed to:
 
-RRECOMMENDS_${PN}_append_class-target =3D " shared-mime-info"
+RDEPENDS_${PN}_class-target =3D "mkfontdir mkfontscale encodings"
 
-instead of adding the RRECOMMENDS_${PN}_class-native below?
-
->  # When cross compiling for Windows we don't want to include this
->  RRECOMMENDS_${PN}_remove_mingw32 =3D "shared-mime-info"
-> +RRECOMMENDS_${PN}_class-native =3D ""
+>  BBCLASSEXTEND =3D "native"
 >=20
->  ARM_INSTRUCTION_SET_armv4 =3D "arm"
->  ARM_INSTRUCTION_SET_armv5 =3D "arm"
 > --
 > 2.20.1
 
