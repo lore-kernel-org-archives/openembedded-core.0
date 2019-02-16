@@ -1,48 +1,55 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C2F487C803
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 64A4871B1D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 09:25:36 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id i15so4345226vsd.10
+	Sat, 16 Feb 2019 10:22:34 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id t200so12113729wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2019 01:25:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3eRdSk+FacZWz1MAqSPFMR5DdIulPwF0WUQ1AVnYP4I=;
-	b=dnKkhMoYG4FoVjdHbIufzEy9GBlBgdIJ3nW/L3e4izirzp8Lk1BBVlqyupxppZsXG6
-	ibCbq2QV+HKMhNqjZGLEMFkFFIUDJP9bOudp68SlKvJqt+/Cq74Zoa4/cQtKbc7g1+ex
-	hTa4HWCeEWBrE+/gwl0NSuSTVK/7HkC5lQhT1CGi4XNE9/sVABy6yItt2jDhrHrPCvt0
-	FDr5qksv9T4AjxefWzEUi6x476JCFy1xMGkVr9Xw6qPWTSZHaJ7VlyF1A1phbcVqZ87h
-	QP8sm8vL2M+M2rhs4xSMV/DPnwCbMzjTlAKO6R1i9+/9yG9KbA635GG5xE1QbZvjUlWZ
-	9lqw==
+	Sat, 16 Feb 2019 02:22:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+roPOeE4b0pK3xpuZti5DfTi9Omiztudr8bAYQvL344=;
+	b=RffoIjtVeYcR0NZVQ8V33rNUQ9thkeE/1daVZDJ8ylSbRYJFJoN/Q/SAPsH4spzIIN
+	aJ69oQq2l1Qg5in+2JRjDFteGnrZ4iGRlrkXzV838kLb8ga78qVnuPpbxA12Cv51DIDc
+	P0BRAzGhnnys32pjUYcXPIWt4KfEBEoytCQ+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3eRdSk+FacZWz1MAqSPFMR5DdIulPwF0WUQ1AVnYP4I=;
-	b=jRgiqokwhDUI1XvzzpBEO4QlFe5sBQp8ujjTkQ5ghTOUkUWf2ZOdDAeGespuYzLpV/
-	Vm5QWGHrOgRHz0p17vRrQKl7dydZ3QkBcdw1rOhO76qwe6dBxrDXlfRoFStOsPSkQnzQ
-	ST9yvyoRZIfp2s+zqIrIuHBnDbXkmgmFCLIbcjjhNSTd9hOBPa31Na/58cs3bKTiKkTX
-	IJ3OalkEKmhsOBJ0wb+KLCfS5w/2APbryXgWrF+cyXKMSkp6N82q7JUIvEB45ZOo16Pg
-	7/ZYekEOwMtctFvSNSPEL2tQUjzBve9rJUn+snR5tqqDb5QUsoV6WdfGsR5uo12+rIJ5
-	hdxA==
-X-Gm-Message-State: AHQUAuZmKocCjMBLT0con1p/nUKUpM55rbOmKyQ6VyBYXSNqfLV+d1vb
-	oGFvIT+0HEjvqL17UCNVNtt/lBEk1X5o1q16XTPQUvaWJftCuA==
-X-Google-Smtp-Source: AHgI3IaDZmHgkwTuX56oMdMU2ovkVFpaiaHvxo3yAA3IO7dPVSXZwPM14fxIc/c85YESUR6VlfZH6TRJzeNujvLBwKw=
-X-Received: by 2002:a67:f90e:: with SMTP id t14mr750673vsq.181.1550309137542; 
-	Sat, 16 Feb 2019 01:25:37 -0800 (PST)
-MIME-Version: 1.0
-References: <1550178589-15839-1-git-send-email-alex.kiernan@gmail.com>
-	<76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
-In-Reply-To: <76d71f8af98a4ebe6154ff5b7ebb59ccf989408b.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 16 Feb 2019 09:25:26 +0000
-Message-ID: <CAO5Uq5R=cFd3h4QLmF_b=5iJORG2C2Zo3BXwtDL2MkR+PfucCA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+roPOeE4b0pK3xpuZti5DfTi9Omiztudr8bAYQvL344=;
+	b=SEyExOzYBOFubMLSyGcmGQpW/HsJ8kU1EKCidrIv1dgUMnodMzbh1hivyDmUX3aMaY
+	NsR07WVJUrBcgDj7NhITcaLcVYUKinPOPGpCp7+3lxJql8jmNHIuQHHOX7wYw3qZF0g3
+	k4CirTVD6sIlsZWZYjw8pINT+1+R1AjhSShLeFeqjifETMpBoq0CUp15t5uEhGV9eths
+	V7W5EHCzW6inwcAVpGaHPmqBc02XtDHX7lg+fr1MH0NtIQX5x97/ZMt44RDzBriEHLBE
+	3+FVDUZ7ONBWGOJlLV9g1Xx52d5KnSavqIiGXHVoL+uq7bES+gAI28VIVnScq+ewT/xz
+	mUvw==
+X-Gm-Message-State: AHQUAuaCb5paJyRfMeYWER+wPcLbAxWjipsL4w+fr5Q7+f3F1MmpM1vL
+	q8IaGPsV+5hZs1uGFnOvRG/03MhrIsY=
+X-Google-Smtp-Source: AHgI3IZsQrfBcv54Z/los5LkoIEebvmvClOJC5xJ4w5KWcwkT+SGsGKzQXPv0e6laDhiHrcp3CBjlQ==
+X-Received: by 2002:a1c:a6c9:: with SMTP id p192mr9543417wme.58.1550312554967; 
+	Sat, 16 Feb 2019 02:22:34 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o7sm7176495wmc.44.2019.02.16.02.22.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 16 Feb 2019 02:22:34 -0800 (PST)
+Message-ID: <cc7016c6474ed98f24e875c1e80a93fb024d0b81.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bmap-tools: update from 3.4 to 3.5
+Date: Sat, 16 Feb 2019 10:22:30 +0000
+In-Reply-To: <4dff35a9-3309-927e-1155-3cd2ac5a888e@siemens.com>
+References: <20190215082252.2726-1-andrej.valek@siemens.com>
+	<5753a5096418e3f0800b7120ac4a6c5a75bac119.camel@linuxfoundation.org>
+	<47d7a2fb-57a2-1f37-25be-1140a2e038ed@siemens.com>
+	<65094bcd2eb9cbd4bcff181e8e6976c893562bf0.camel@linuxfoundation.org>
+	<4dff35a9-3309-927e-1155-3cd2ac5a888e@siemens.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] busybox: 1.29.3 -> 1.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +62,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2019 09:25:37 -0000
+X-List-Received-Date: Sat, 16 Feb 2019 10:22:34 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 15, 2019 at 11:16 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-02-14 at 21:09 +0000, Alex Kiernan wrote:
-> > bmap-tools 3.5 was released August 2018 but has no release tarball,
-> > so
-> > switch to using the git fetcher. Also pull in the fix for
-> > StopIteration
-> > being transformed into RuntimeError for Python 3.7.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->
-> Unfortunately this triggers a selftest failure:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/236
->
-> (ignore the virtgl piece, that is something else)
->
-> oe-selftest -r wic.Wic2.test_bmap_short
-> and
-> oe-selftest -r wic.Wic2.test_bmap_long
->
-> should reproduce. Might be as simple as a missing RDEPENDS.
->
+On Sat, 2019-02-16 at 09:31 +0100, Andrej Valek wrote:
+> I used the default one, what is rpm. Maybe I can try it with ipk.
 
-Looks like it's gained a dependency on six. And thanks for the
-reproducing steps - I've never got to grips with that stuff before.
+I had another look at the error. My guess is that you need an image
+containing busybox and bc to reproduce. The bug is dependent on the
+installation order of the packages.
 
-That said I'm struggling to get the tests to actually pass. I've added
-in python3-six to RDEPENDS, but it still fails with
-`ModuleNotFoundError: No module named 'six'`?
+One is likely being managed by update-alternatives, one isn't. A
+further guess is that bc was somehow enabled in the new busybox. Do we
+need bc in busybox and is the fix a defconfig tweak?
 
--- 
-Alex Kiernan
+Note, this is total guesswork so it all may be wrong! :)
+
+Cheers,
+
+Richard
+
 
