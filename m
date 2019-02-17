@@ -1,59 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 260B77C740
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 05F806C108
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2019 15:04:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 810E618288;
-	Sun, 17 Feb 2019 16:04:46 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id WTtvNaGGidvu; Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id AB6601814A;
-	Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 986D01E060;
-	Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8C8101E057;
-	Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 80363413;
-	Sun, 17 Feb 2019 16:04:45 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Sun, 17 Feb 2019 16:04:45 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Sun, 17 Feb 2019 16:04:45 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 2/3] libc-package.bbclass: Use install utility
-	to create directories with right permissions
-Thread-Index: AdTEK0xGMZDJ1DQcTvO8sjAtRXL8qQASifoAAJa331A=
-Date: Sun, 17 Feb 2019 15:04:45 +0000
-Message-ID: <390b6cbcc6ed4789920483803133b986@XBOX04.axis.com>
-References: <532d6b9d7e8349699b24514c80ef8be9@XBOX04.axis.com>
-	<CAMKF1spgmzAczHO27m5B48UKG6qE0N705C-kTUfTpWMdNBNxLw@mail.gmail.com>
-In-Reply-To: <CAMKF1spgmzAczHO27m5B48UKG6qE0N705C-kTUfTpWMdNBNxLw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] libc-package.bbclass: Use install utility to create directories with right permissions
+	Sun, 17 Feb 2019 16:09:58 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id y185so10319185wmd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Feb 2019 08:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Wjyrrcqh3yf3nv0xB7sy7HXLEJeUy4FPYt03MCe2BPM=;
+	b=ihMsDtGTEr8d7GC5igh+WSUaktPBkfwdJgaqYZ2GMgBH5GRpgOQIBzw3ZY1lXbFyGJ
+	EqeHBjpGxVgDSOFBAeg50wuWzM0Aq21WsTLhXiJiefOUFN8OOTGXe4JSQddGm2ajWEoq
+	gVimruf9oeGYgCRfbpG2wikhnVbvQkJ6sX85U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Wjyrrcqh3yf3nv0xB7sy7HXLEJeUy4FPYt03MCe2BPM=;
+	b=YD/mwX3+FuHw85biMXtRUOh/UrQRNPHOyLPAaf309TqtBtG62LjeGUjH/78DLpLNDG
+	IXxlJ2OuLaSTtIImQ0Mg1IeAldopDQrXuho1N+9iXRbg7XMMAFeYut8xBc4X2+CXAhdy
+	tiFNvJeCXqyqKRLf8aO1HcVxNJM0kRoa9jUBQqJKyNVkVbONOUU4dfQP+7JOGv2F6RVb
+	BxkxCqHNEa3TXBgqJElGaq+m/oVFrz2PJQ8ogKogSxqeQtIZ81Q5gUdgphW0OLw1JheR
+	QT+WwcB/EAAzGPAFN4txeJk34r/wrDZgJVP3144RUBI6GiWYnAOG9cK7PjmllCOE0Qdk
+	JFow==
+X-Gm-Message-State: AHQUAuYp42mYkapTz6uqz7oneXuwPTF5ZWMUJLOTLQ9X9f7i8QuBRA0g
+	/FzZyvQC4m8p9O+RwRJKbHQuQA==
+X-Google-Smtp-Source: AHgI3IaVMEI5kUwu3ieq5TcSt1cl6b2m4kiOfVxdVfVNNogUZXSFucIUCZeuw/YhwT2NYkKzI5KjnA==
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr11040463wmg.144.1550419799394;
+	Sun, 17 Feb 2019 08:09:59 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	m16sm8985463wro.78.2019.02.17.08.09.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 17 Feb 2019 08:09:58 -0800 (PST)
+Message-ID: <f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 17 Feb 2019 16:09:57 +0000
+In-Reply-To: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/2 v7] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,82 +58,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2019 15:04:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sun, 17 Feb 2019 16:09:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTQgZmVicnVhcmkgMjAxOSAxNjo1Ng0KPiBUbzogUGV0
-ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENjOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIIDIvM10gbGliYy1wYWNrYWdlLmJiY2xhc3M6IFVzZSBpbnN0YWxsDQo+IHV0
-aWxpdHkgdG8gY3JlYXRlIGRpcmVjdG9yaWVzIHdpdGggcmlnaHQgcGVybWlzc2lvbnMNCj4gDQo+
-IE9uIFdlZCwgRmViIDEzLCAyMDE5IGF0IDEwOjA1IFBNIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8
-cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZS1ib3Vu
-Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBLaGVtIFJhag0KPiA+ID4g
-U2VudDogZGVuIDEyIGZlYnJ1YXJpIDIwMTkgMDY6NDgNCj4gPiA+IFRvOiBvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BB
-VENIIDIvM10gbGliYy1wYWNrYWdlLmJiY2xhc3M6IFVzZSBpbnN0YWxsDQo+ID4gPiB1dGlsaXR5
-IHRvIGNyZWF0ZSBkaXJlY3RvcmllcyB3aXRoIHJpZ2h0IHBlcm1pc3Npb25zDQo+ID4gPg0KPiA+
-ID4gQ291bGQgZml4IGlzc3VlcyB3aGVyZSBkaXJzIHdpdGggd3JvbmcgcGVybWlzc2lvbiBpcyBj
-cmVhdGVkIHdpdGggbWtkaXIgLXANCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJh
-aiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgbWV0YS9jbGFzc2VzL2xp
-YmMtcGFja2FnZS5iYmNsYXNzIHwgMiArLQ0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2Ns
-YXNzZXMvbGliYy1wYWNrYWdlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdlLmJi
-Y2xhc3MNCj4gPiA+IGluZGV4IDBiNGM2NjZhNzQuLjM0MDI1NjM1Y2UgMTAwNjQ0DQo+ID4gPiAt
-LS0gYS9tZXRhL2NsYXNzZXMvbGliYy1wYWNrYWdlLmJiY2xhc3MNCj4gPiA+ICsrKyBiL21ldGEv
-Y2xhc3Nlcy9saWJjLXBhY2thZ2UuYmJjbGFzcw0KPiA+ID4gQEAgLTYxLDcgKzYxLDcgQEAgTE9D
-QUxFVFJFRVNSQyA/PSAiJHtQS0dEfSINCj4gPiA+ICBkb19wcmVwX2xvY2FsZV90cmVlKCkgew0K
-PiA+ID4gICAgICAgdHJlZWRpcj0ke1dPUktESVJ9L2xvY2FsZS10cmVlDQo+ID4gPiAgICAgICBy
-bSAtcmYgJHRyZWVkaXINCj4gPiA+IC0gICAgIG1rZGlyIC1wICR0cmVlZGlyLyR7YmFzZV9iaW5k
-aXJ9ICR0cmVlZGlyLyR7YmFzZV9saWJkaXJ9ICR0cmVlZGlyLyR7ZGF0YWRpcn0gJHRyZWVkaXIv
-JHtsb2NhbGVkaXJ9DQo+ID4gPiArICAgICBpbnN0YWxsIC1kICR0cmVlZGlyLyR7YmFzZV9iaW5k
-aXJ9ICR0cmVlZGlyLyR7YmFzZV9saWJkaXJ9ICR0cmVlZGlyLyR7ZGF0YWRpcn0gJHRyZWVkaXIv
-JHtsb2NhbGVkaXJ9DQo+ID4NCj4gPiBUaGlzIGRvZXMgbm90IGNoYW5nZSBhbnl0aGluZyAoaW5z
-dGFsbCAtZCBhbmQgbWtkaXIgLXAgZG9lcyB0aGUgc2FtZQ0KPiA+IHRoaW5nKS4NCj4gPg0KPiA+
-ID4gICAgICAgdGFyIC1jZiAtIC1DICR7TE9DQUxFVFJFRVNSQ30ke2RhdGFkaXJ9IC1wIGkxOG4g
-fCB0YXIgLXhmIC0gLUMgJHRyZWVkaXIvJHtkYXRhZGlyfQ0KPiA+ID4gICAgICAgIyB1bnppcCB0
-byBhdm9pZCBwYXJzaW5nIGVycm9ycw0KPiA+ID4gICAgICAgZm9yIGkgaW4gJHRyZWVkaXIvJHtk
-YXRhZGlyfS9pMThuL2NoYXJtYXBzLypnejsgZG8NCj4gPiA+ICAgICAgICAgICAgICAgZ3Vuemlw
-ICRpDQo+ID4gPiAgICAgICBkb25lDQo+ID4gPiAgICAgICB0YXIgLWNmIC0gLUMgJHtMT0NBTEVU
-UkVFU1JDfSR7YmFzZV9saWJkaXJ9IC1wIC4gfCB0YXIgLXhmIC0gLUMgJHRyZWVkaXIvJHtiYXNl
-X2xpYmRpcn0NCj4gPg0KPiA+IFRoaXMgaXMgd2hlcmUgdGhlIHByb2JsZW0gaGFwcGVucy4gV2hl
-biB0aGUgZmlsZXMgYXJlIGNvcGllZCBmcm9tDQo+ID4gJHtMT0NBTEVUUkVFU1JDfSwgdGhlIG93
-bmVyc2hpcCBvZiAkdHJlZWRpciR7bG9jYWxlZGlyfSBpcyBjaGFuZ2VkIA0KPiA+IHRvIHRoYXQg
-b2YgJHtMT0NBTEVUUkVFU1JDfSR7bG9jYWxlZGlyfS4gSG93ZXZlciwgSSBub3cgcmVhbGl6ZWQg
-DQo+ID4gdGhhdCB0aGUgcHJvYmxlbSBtYXkgYmUgZHVlIHRvIHRoZSBmYWN0IHRoYXQgSSBoYXZl
-IHVzcm1lcmdlIGVuYWJsZWQgDQo+ID4gaW4gRElTVFJPX0ZFQVRVUkVTLCB3aGljaCBjYXVzZXMg
-dGhlIGFib3ZlIGxpbmUgdG8gY29weSB0aGluZ3MgaXQgDQo+ID4gd2FzIG5ldmVyIG1lYW50IHRv
-IGNvcHksIGluIHRoaXMgY2FzZSAke0xPQ0FMRVRSRUVTUkN9JHtsb2NhbGVkaXJ9LiANCj4gPiBJ
-IHRyaWVkIHRvIGp1c3QgcmVtb3ZlIHRoZSBsaW5lIGFsdG9nZXRoZXIgYW5kIHRoZW4gaXQgYnVp
-bHQganVzdCANCj4gPiBmaW5lLiBCdXQgSSBkbyBub3Qga25vdyB3aGF0IHRoZSBjb25zZXF1ZW5j
-ZXMgYXJlIG9mIHJlbW92aW5nIGl0Li4uDQoNCkl0IHR1cm5lZCBvdXQgdGhhdCB0aGUgY29uc2Vx
-dWVuY2UgaXMgdGhhdCBpZiBvbmUgYWN0dWFsbHkgZG9lcyB1c2UgcWVtdSANCnRvIGdlbmVyYXRl
-IHRoZSBsb2NhbGUgZmlsZXMsIHRoZW4gaXQgZmFpbHMgd2l0aG91dCB0aGF0IGxpbmUuIEhvd2V2
-ZXIsIA0Kc2luY2UgcWVtdSBpcyBub3QgdXNlZCBieSBkZWZhdWx0IGZvciB0aGlzIHNpbmNlIHF1
-aXRlIGEgbG9uZyB0aW1lIGFnbywgDQppdCBpcyBub3QgbmVlZGVkIGluIHRoZSBub3JtYWwgY2Fz
-ZS4NCiANCj4gPiBJIGd1ZXNzIGl0IGlzIHJlbGF0ZWQgdG8gc2V0dGluZyB1cCBhbiBlbnZpcm9u
-bWVudCBmb3IgcWVtdSB0byBydW4gDQo+ID4gaW4sIGJ1dCBzaW5jZSB0aGF0IHNlZW1zIHRvIHdv
-cmsgZmluZSB3aXRob3V0IHRoZSBmaWxlcyBjb3BpZWQgYnkgDQo+ID4gdGhlIGFib3ZlIGxpbmUs
-IG1heWJlIGl0IGlzIG5vdCBuZWVkZWQ/IE9yIG1heWJlIGl0IGlzIGp1c3Qgbm90IA0KPiA+IG5l
-ZWRlZCB3aGVuIGhhdmluZyB1c3JtZXJnZSBpbiBESVNUUk9fRkVBVFVSRVM/IEkgdHJpZWQgdG8g
-DQo+ID4gYmFja3RyYWNrIGl0IHRocm91Z2ggdGhlIGNvbW1pdCBsb2dzLCBidXQgaXQgd2FzIGlu
-dHJvZHVjZWQgd2l0aCB0aGUNCj4gPiBkb19wcmVwX2xvY2FsZV90cmVlKCkgZnVuY3Rpb24sIHNv
-IG5vIGhlbHAgdGhlcmUuDQo+IA0KPiBJIHdvbmRlciBpZiB3ZSBzaG91bGQgdXNlIC0tcHJlc2Vy
-dmUgb3B0aW9uIHRvIHRhciAteGYgY2FsbCBoZXJlIGZvcg0KPiBtYWtpbmcgaXQgZXhwbGljaXQu
-DQoNCkkgaGF2ZSBhZGRlZCBhIHBhdHRlcm4gdG8gdGhlIHRhciBjb21tYW5kIHRoYXQgdW5wYWNr
-cyB0aGUgZmlsZXMgc28gDQpvbmx5IHRoZSBmaWxlcyB0aGF0IGFyZSBuZWVkZWQgYnkgcWVtdSBh
-cmUgdW5wYWNrZWQgKHNlZSB0aGUgcGF0Y2ggDQpzZXJpZXMgSSBqdXN0IHNlbnQpLiBUaGF0IHNo
-b3VsZCBhdm9pZCB0aGUgcHJvYmxlbS4NCg0KSG93ZXZlciwgSSB3b25kZXIgaWYgYW55b25lIGFj
-dHVhbGx5IHNldHMgDQpMT0NBTEVfR0VORVJBVElPTl9XSVRIX0NST1NTLUxPQ0FMRURFRiB0byAw
-IChpdCBpcyAxIGJ5IGRlZmF1bHQpLCBhbmQgDQp1c2VzIHFlbXUgdG8gZ2VuZXJhdGUgdGhlIGxv
-Y2FsZSBmaWxlcz8gSXQgdGFrZXMgcXVpdGUgYSBsb3QgbG9uZ2VyIA0KKGZvdXIgdGltZXMgb24g
-bXkgbWFjaGluZSwgdG90YWxpbmcgbmVhcmx5IGhhbGYgYW4gaG91cikuIE90aGVyd2lzZSwgDQpp
-ZiB3ZSByZW1vdmVkIHRoYXQsIHRoZSBjb2RlIGNvdWxkIGJlIHNpbXBsaWZpZWQgYW5kIGF2b2lk
-IHRoZSBjb3B5aW5nIA0Kb2YgdGhlc2UgZmlsZXMgaW4gdGhlIGZpcnN0IHBsYWNlLg0KDQo+ID4g
-PiAtLQ0KPiA+ID4gMi4yMC4xDQo+ID4NCj4gPiAvL1BldGVyDQoNCi8vUGV0ZXINCg0K
+On Thu, 2019-02-14 at 13:50 +0800, Yeoh Ee Peng wrote:
+> v1:
+>   Face key error from oe-git-archive
+>   Undesirable behavior when storing to multiple git branch
+> 
+> v2: 
+>   Include fix for oe-git-archive
+>   Include fix for store result to multiple git branch
+>   Improve git commit message   
+> 
+> v3:
+>   Enhance fix for oe-git-archive by using exception catch to
+>   improve code readability and easy to understand
+> 
+> v4:
+>   Add new features, merge result files & regression analysis 
+>   Add selftest to merge, store, report and regression functionalities
+>   Revise codebase for pythonic
+>   
+> v5:
+>   Add required files for selftest testing store
+>   
+> v6:
+>   Add regression for directory and git repository
+>   Enable regression pairing base set to multiple target sets 
+>   Revise selftest testing for regression
+>   
+> v7: 
+>   Optimize regression computation for ptest results
+>   Rename entry point script to resulttool
+> 
+> Mazliana (1):
+>   scripts/resulttool: enable manual execution and result creation
+> 
+> Yeoh Ee Peng (1):
+>   resulttool: enable merge, store, report and regression analysis
+
+Hi Ee Peng,
+
+Thanks for working on this, it does get better each iteration. I've
+been struggling a little to explain what we need to do to finish this
+off. Firstly I wanted to give some feedback on some general python
+tips:
+
+a) We can't use subprocess.run() as its a python 3.6 feature and we
+have autobuilder workers with 3.5. This lead to failures like: 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/242
+We can use check_call or other functions instead.
+
+b) I'd not recommend using "file" as a variable name in python as its a
+keyword, similarly "dict" (in resultutils.py).
+
+c) get_dict_value() is something we can probably avoid needing if we
+use the .get() methods of dicts (you can specify a value to return if a
+value isn't present).
+
+I started to experiment with the tool to try and get it to follow the
+workflow we need with the autobuilder QA process. Right now I'm heavily
+focusing on what we need it to do to generate reports from the
+autobuilder, to the extent that I'm ignoring most other workflows.
+
+The reason for this is that I want to get it merged and use this to run
+2.7 M3 testing on the autobuilder. The other workflows can be added
+if/as/when we find we have need of them.
+
+I ended up making a few changes to alter the tool to do the things I
+think we need it to and to improve its output/usability. I'll send out
+a separate patch with my changes so far. I've tried to summarise some
+of the reasoning here:
+
+* Rename resultsutils -> resultutils to match the resultstool ->
+resulttool rename
+
+* Formalised the handling of "file_name" to "TESTSERIES" which the code
+will now add into the json configuration data if its not present, based
+on the directory name.
+
+* When we don't have failed test cases, print something saying so
+instead of an empty table
+
+* Tweak the table headers in the report to be more readable (reference
+"Test Series" instead if file_id and ID instead of results_id)
+
+* Improve/simplify the max string length handling
+
+* Merge the counts and percentage data into one table in the report
+since printing two reports of the same data confuses the user
+
+* Removed the confusing header in the regression report
+
+* Show matches, then regressions, then unmatched runs in the regression
+report, also remove chatting unneeded output
+
+* Try harder to "pair" up matching configurations to reduce noise in
+the regressions report
+
+* Abstracted the "mapping" table concept used to pairing in the
+regression code to general code in resultutils
+
+* Created multiple mappings for results analysis, results storage and
+'flattening' results data in a merge
+
+* Simplify the merge command to take a source and a destination,
+letting the destination be a directory or a file, removing the need for
+an output directory parameter
+
+* Add the 'IMAGE_PKGTYPE' and 'DISTRO' config options to the regression
+mappings
+
+* Have the store command place the testresults files in a layout from
+the mapping, making commits into the git repo for results storage more
+useful for simple comparison purposes
+
+* Set the oe-git-archive tag format appropriately for oeqa results
+storage (and simplify the commit messages closer to their defaults)
+
+
+Despite my changes there are things that still need to be done.
+Essential things which need to happen before this code merges:
+
+* oe-git-archive is importing using the commit/branch of the current 
+  repo, not the data in the results file.
+
+* Fix the -t option to merge command
+
+* Audit the command option help
+
+* Revisit and redo the way the git branch handling is happening. We 
+  really want to model how oe-build-perf-report handles git repos for 
+  comparisons:
+  - Its able to query data from git repos without changing the current 
+    working branch, 
+  - it can search on tag formats to find comparison data
+
+* Add ptest summary to the report command
+
+
+Things which may be "nice to have" which can come in the future:
+
+* Make the percentage vs. count in the report a commandline option? 
+  (not sure but I wondered if that would be better)
+
+* Add ptest sub-command to extract log data
+
+* Generate HTML report
+
+* Generate graphical ptest result charts
+
+
+I'd be interested in your feedback on my changes and hope you agree
+with them! I'll continue to work on some of the above items as I'd like
+to get this merged sooner than later. If you're going to work on any of
+them let me know first. I'll try and keep 
+http://git.yoctoproject.org/clean/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222
+up to date with my changes.
+
+Cheers,
+
+Richard
+
 
