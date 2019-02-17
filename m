@@ -1,52 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A7DF7C77E
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6917C80B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2019 10:18:12 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c8so15016824wrs.4
+	Sun, 17 Feb 2019 11:19:53 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id v26so14092355wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2019 02:18:13 -0800 (PST)
+	Sun, 17 Feb 2019 03:19:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=oMMsYT4O5h/HomRy/LmR79RHchcwtQQjhC0ci/F/1TI=;
-	b=g5b/JCkAP61OjO6QrrV1GFaFAtkUOcpyCVznj/kzCjW2DWsPHviyR4LTl1TDwagemL
-	zT+EWgKCR0RmEYqXXtfDxrJlfzF2cT5obLEroM8kX1GDGZ7S5JrD7GPRvOIoqgn9Fc1Y
-	jDo88EkBqNl8kJE5QkmliQysuYd2AHQSXTpH0=
+	bh=11Kvb7lzDXNhKXP9o+wpWC66ZxloA6605LaEJxpPETE=;
+	b=JnZfiFY2yj5WJSPlOshQpPrl+FJej/egcZZ75Gy51gW0QsHT74n0Ry2BBbzkk4S38Z
+	PB+++fGjoZCP/Bu280fmfAeuwzYn2pljalre1z+aiC1e86qekYNlTjtf3ERZduKI8Jl7
+	4B6Vzkkq6b3lpHKDeHWR3t1LaZ/xccyOs7YqY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=oMMsYT4O5h/HomRy/LmR79RHchcwtQQjhC0ci/F/1TI=;
-	b=VYeg1QDmasZQcAe4z0YgaoM0tx3S0Giw9LAyzWfnEpFUaoRXkZOa5f4pWM3n2uRwuw
-	1gAKP0MnwVEI9gGHNlx5fIfdQyVdUhHaD2BZn0vTGY1b/SNgcJDTXuZnfhBtoEDcUiGr
-	wLSPwflXHIM0feXV1WkkPQ8V58ApliOQmZ5ZjlFWaOt9dx9Aqds/1GTkSwh2RLM2mt34
-	puxfFPeE3yNsnuACUpHTNFenNn4OkujXdc/oyIRghtT2Pw6OwntPqpvnD/VZ5ZVz+RXf
-	HvLfYRSS642taT1SXIPB6rdw1XSTmm/mcggV4IAO8Dt74+SzfDJOhJeZhiXFVcWFYa+J
-	YZbQ==
-X-Gm-Message-State: AHQUAuasm6Se7gRaCZGysO3AOq0bTfBQV7MTI/teJIWTPRvrX8E3tO3U
-	tSC7AwAcW/d378myde5e6z/jXQOaENs=
-X-Google-Smtp-Source: AHgI3IZT4UxaaM2SbRU3q5ubipS5uI+4x7DfRyARvj2Ebq8yTrqLDmWLP+4PFFtcUVV8uWmHq8UUjA==
-X-Received: by 2002:adf:ed0f:: with SMTP id a15mr12987347wro.249.1550398692471;
-	Sun, 17 Feb 2019 02:18:12 -0800 (PST)
+	bh=11Kvb7lzDXNhKXP9o+wpWC66ZxloA6605LaEJxpPETE=;
+	b=hyrviBv0ZrlSzNExgOfwiVsfsRKA9Oo/th5Jaf3YMGNuaf8O8B8roTy9YkeBETz08Z
+	4v+SUGe+IESKHo6Pzh1Z6kT+PJpSio5jJy2BfcY0YGh0FNlRzKNnAcob5eNzGe2tFuGt
+	U8xvA7P/1lyiOC4MwuUT8IhlL5W+KRg5Dnf3jhOPNaY25YKJDzj9hak4IgBH/J2EpQWf
+	DiYzq2TLiYtNiq1T8hU1w/4149hevXUJfrPwcrEiFygFGcezdZwxfZhrL6pkfiCfqNqR
+	y1wku6PhKRS4Ce5wK1DhQNNfrMbKzb7Qjm6NbfrdKtSpzHct2tAQOWTF4yyxuaCwtqVO
+	OjKw==
+X-Gm-Message-State: AHQUAuYpvU17XRdkTKzXOsVnzCVOJIXU0H8gzYlhrdqkcObI0pnm/Xnb
+	PGaH7iscBZRCBbqfEAyw2qFUQA==
+X-Google-Smtp-Source: AHgI3IYb5fWsFqcb7ZG1v6A19xFILViLOxmgHhhQBm3MiVwPvTTcy1Reh9aMEQ51xC3mhPH0nPhWjg==
+X-Received: by 2002:a1c:c60b:: with SMTP id w11mr12366585wmf.39.1550402394180; 
+	Sun, 17 Feb 2019 03:19:54 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n3sm12024491wrs.10.2019.02.17.02.18.11
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id q6sm7849883wmq.4.2019.02.17.03.19.52
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 17 Feb 2019 02:18:11 -0800 (PST)
-Message-ID: <d525b0bc8235c7b3d9248be82e74a180805f0a5e.camel@linuxfoundation.org>
+	Sun, 17 Feb 2019 03:19:53 -0800 (PST)
+Message-ID: <dcb1186cb63fc3a8558e6863061576562a63b8ae.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Feb 2019 10:18:10 +0000
-In-Reply-To: <20190216214638.11456-6-richard.purdie@linuxfoundation.org>
-References: <20190216214638.11456-1-richard.purdie@linuxfoundation.org>
-	<20190216214638.11456-6-richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 17 Feb 2019 11:19:51 +0000
+In-Reply-To: <d1a6ccb19112c13eed8bddba5900bd754717a804.camel@linuxfoundation.org>
+References: <20190215082252.2726-1-andrej.valek@siemens.com>
+	<20190216194048.6256-1-andrej.valek@siemens.com>
+	<d1a6ccb19112c13eed8bddba5900bd754717a804.camel@linuxfoundation.org>
 User-Agent: Evolution 3.30.4-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 6/7] native: Enable RDEPENDS handling
+Subject: Re: [PATCH v2 1/2] busybox: 1.29.3 -> 1.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,137 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2019 10:18:12 -0000
+X-List-Received-Date: Sun, 17 Feb 2019 11:19:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-02-16 at 21:46 +0000, Richard Purdie wrote:
-> Native recipes don't currently honour their RDEPENDS. In the case of
-> some python scripts this has started causing problems since whilst they're
-> not needed at build time (DEPENDS), they are needed at runtime.
+On Sat, 2019-02-16 at 21:38 +0000, Richard Purdie wrote:
+> On Sat, 2019-02-16 at 20:40 +0100, Andrej Valek wrote:
+> > - update to last stable version 1.30.1
+> > - remove and refresh already merged patches
+> > 
+> > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> > ---
+> >  ...inittab_1.29.3.bb => busybox-inittab_1.30.1.bb} |  0
+> >  ...te-check-CONFIG_DESKTOP-before-using-od-t.patch | 83 ----------
+> > --
+> > ----------
+> >  ...-testsuite-check-uudecode-before-using-it.patch |  6 +-
+> >  .../{busybox_1.29.3.bb => busybox_1.30.1.bb}       |  5 +-
+> >  4 files changed, 5 insertions(+), 89 deletions(-)
+> >  rename meta/recipes-core/busybox/{busybox-inittab_1.29.3.bb =>
+> > busybox-inittab_1.30.1.bb} (100%)
+> >  delete mode 100644 meta/recipes-core/busybox/busybox/0001-
+> > testsuite-
+> > check-CONFIG_DESKTOP-before-using-od-t.patch
+> >  rename meta/recipes-core/busybox/{busybox_1.29.3.bb =>
+> > busybox_1.30.1.bb} (89%)
 > 
-> We put off making this change due to circular dependency issues. I believe
-> the two such problems in OE-Core are now fixed, as is the dependency loop
-> identfication code in bitbake so its time to improve this situation.
-> 
-> [YOCTO #10113]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/native.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
+> I had a closer look at this and I think we need to refresh the
+> defconfig with the new version of busybox and be explicit about the
+> new things we're taking or not taking...
 
-Just for interest, the diff for core-image-sato before/after this patch
-is included below. Ideally we'd bubble the dependency to
-do_prepare_recipe_sysroot rather than do_populate_sysroot but that
-isn't the way the system works. In reality this shouldn't make a huge
-difference to build performance other than changing task order a
-little.
+btw, in case it helps, I'd use meld to bring up a comparison of the
+old/new defconfigs and use that to merge the pieces back we need/want.
 
 Cheers,
 
 Richard
-
---- task-depends.dot	2019-02-17 10:11:12.216746214 +0000
-+++ task-depends1.dot	2019-02-17 10:10:20.682055039 +0000
-@@ -3055,6 +3055,8 @@
- "autoconf-native.do_populate_lic" -> "autoconf-native.do_patch"
- "autoconf-native.do_populate_sysroot" [label="autoconf-native do_populate_sysroot\n:2.69-r11\nvirtual:native:/media/build1/poky/meta/recipes-devtools/autoconf/autoconf_2.69.bb"]
- "autoconf-native.do_populate_sysroot" -> "autoconf-native.do_install"
-+"autoconf-native.do_populate_sysroot" -> "gnu-config-native.do_populate_sysroot"
-+"autoconf-native.do_populate_sysroot" -> "m4-native.do_populate_sysroot"
- "autoconf-native.do_prepare_recipe_sysroot" [label="autoconf-native do_prepare_recipe_sysroot\n:2.69-r11\nvirtual:native:/media/build1/poky/meta/recipes-devtools/autoconf/autoconf_2.69.bb"]
- "autoconf-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_fetch"
- "autoconf-native.do_prepare_recipe_sysroot" -> "gnu-config-native.do_populate_sysroot"
-@@ -3079,6 +3081,7 @@
- "automake-native.do_populate_lic" [label="automake-native do_populate_lic\n:1.16.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/automake/automake_1.16.1.bb"]
- "automake-native.do_populate_lic" -> "automake-native.do_patch"
- "automake-native.do_populate_sysroot" [label="automake-native do_populate_sysroot\n:1.16.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/automake/automake_1.16.1.bb"]
-+"automake-native.do_populate_sysroot" -> "autoconf-native.do_populate_sysroot"
- "automake-native.do_populate_sysroot" -> "automake-native.do_install"
- "automake-native.do_prepare_recipe_sysroot" [label="automake-native do_prepare_recipe_sysroot\n:1.16.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/automake/automake_1.16.1.bb"]
- "automake-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
-@@ -15498,6 +15501,7 @@
- "flex-native.do_populate_lic" -> "flex-native.do_patch"
- "flex-native.do_populate_sysroot" [label="flex-native do_populate_sysroot\n:2.6.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/flex/flex_2.6.0.bb"]
- "flex-native.do_populate_sysroot" -> "flex-native.do_install"
-+"flex-native.do_populate_sysroot" -> "m4-native.do_populate_sysroot"
- "flex-native.do_prepare_recipe_sysroot" [label="flex-native do_prepare_recipe_sysroot\n:2.6.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/flex/flex_2.6.0.bb"]
- "flex-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
- "flex-native.do_prepare_recipe_sysroot" -> "automake-native.do_populate_sysroot"
-@@ -17567,6 +17571,7 @@
- "gdk-pixbuf-native.do_populate_lic" -> "gdk-pixbuf-native.do_patch"
- "gdk-pixbuf-native.do_populate_sysroot" [label="gdk-pixbuf-native do_populate_sysroot\n:2.36.11-r0\nvirtual:native:/media/build1/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb"]
- "gdk-pixbuf-native.do_populate_sysroot" -> "gdk-pixbuf-native.do_install"
-+"gdk-pixbuf-native.do_populate_sysroot" -> "shared-mime-info-native.do_populate_sysroot"
- "gdk-pixbuf-native.do_prepare_recipe_sysroot" [label="gdk-pixbuf-native do_prepare_recipe_sysroot\n:2.36.11-r0\nvirtual:native:/media/build1/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb"]
- "gdk-pixbuf-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
- "gdk-pixbuf-native.do_prepare_recipe_sysroot" -> "automake-native.do_populate_sysroot"
-@@ -19362,6 +19367,7 @@
- "gobject-introspection-native.do_populate_lic" -> "gobject-introspection-native.do_patch"
- "gobject-introspection-native.do_populate_sysroot" [label="gobject-introspection-native do_populate_sysroot\n:1.58.3-r0\nvirtual:native:/media/build1/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.3.bb"]
- "gobject-introspection-native.do_populate_sysroot" -> "gobject-introspection-native.do_install"
-+"gobject-introspection-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
- "gobject-introspection-native.do_prepare_recipe_sysroot" [label="gobject-introspection-native do_prepare_recipe_sysroot\n:1.58.3-r0\nvirtual:native:/media/build1/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.3.bb"]
- "gobject-introspection-native.do_prepare_recipe_sysroot" -> "autoconf-archive-native.do_populate_sysroot"
- "gobject-introspection-native.do_prepare_recipe_sysroot" -> "bison-native.do_populate_sysroot"
-@@ -20028,6 +20034,7 @@
- "groff-native.do_populate_lic" -> "groff-native.do_patch"
- "groff-native.do_populate_sysroot" [label="groff-native do_populate_sysroot\n:1.22.3-r0\nvirtual:native:/media/build1/poky/meta/recipes-extended/groff/groff_1.22.3.bb"]
- "groff-native.do_populate_sysroot" -> "groff-native.do_install"
-+"groff-native.do_populate_sysroot" -> "perl-native.do_populate_sysroot"
- "groff-native.do_prepare_recipe_sysroot" [label="groff-native do_prepare_recipe_sysroot\n:1.22.3-r0\nvirtual:native:/media/build1/poky/meta/recipes-extended/groff/groff_1.22.3.bb"]
- "groff-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
- "groff-native.do_prepare_recipe_sysroot" -> "automake-native.do_populate_sysroot"
-@@ -23986,6 +23993,7 @@
- "intltool-native.do_populate_lic" -> "intltool-native.do_patch"
- "intltool-native.do_populate_sysroot" [label="intltool-native do_populate_sysroot\n:0.51.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/intltool/intltool_0.51.0.bb"]
- "intltool-native.do_populate_sysroot" -> "intltool-native.do_install"
-+"intltool-native.do_populate_sysroot" -> "libxml-parser-perl-native.do_populate_sysroot"
- "intltool-native.do_prepare_recipe_sysroot" [label="intltool-native do_prepare_recipe_sysroot\n:0.51.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/intltool/intltool_0.51.0.bb"]
- "intltool-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
- "intltool-native.do_prepare_recipe_sysroot" -> "automake-native.do_populate_sysroot"
-@@ -44211,6 +44219,8 @@
- "meson-native.do_populate_lic" -> "meson-native.do_patch"
- "meson-native.do_populate_sysroot" [label="meson-native do_populate_sysroot\n:0.49.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/meson/meson_0.49.0.bb"]
- "meson-native.do_populate_sysroot" -> "meson-native.do_install"
-+"meson-native.do_populate_sysroot" -> "ninja-native.do_populate_sysroot"
-+"meson-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
- "meson-native.do_prepare_recipe_sysroot" [label="meson-native do_prepare_recipe_sysroot\n:0.49.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/meson/meson_0.49.0.bb"]
- "meson-native.do_prepare_recipe_sysroot" -> "meson-native.do_fetch"
- "meson-native.do_prepare_recipe_sysroot" -> "python3-native.do_populate_sysroot"
-@@ -44527,6 +44537,7 @@
- "mkfontdir-native.do_populate_lic" -> "mkfontdir-native.do_patch"
- "mkfontdir-native.do_populate_sysroot" [label="mkfontdir-native do_populate_sysroot\n1:1.0.7-r8.0\nvirtual:native:/media/build1/poky/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb"]
- "mkfontdir-native.do_populate_sysroot" -> "mkfontdir-native.do_install"
-+"mkfontdir-native.do_populate_sysroot" -> "mkfontscale-native.do_populate_sysroot"
- "mkfontdir-native.do_prepare_recipe_sysroot" [label="mkfontdir-native do_prepare_recipe_sysroot\n1:1.0.7-r8.0\nvirtual:native:/media/build1/poky/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb"]
- "mkfontdir-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
- "mkfontdir-native.do_prepare_recipe_sysroot" -> "automake-native.do_populate_sysroot"
-@@ -58742,6 +58753,7 @@
- "python3-setuptools-native.do_populate_lic" [label="python3-setuptools-native do_populate_lic\n:40.0.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/python/python3-setuptools_40.0.0.bb"]
- "python3-setuptools-native.do_populate_lic" -> "python3-setuptools-native.do_patch"
- "python3-setuptools-native.do_populate_sysroot" [label="python3-setuptools-native do_populate_sysroot\n:40.0.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/python/python3-setuptools_40.0.0.bb"]
-+"python3-setuptools-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
- "python3-setuptools-native.do_populate_sysroot" -> "python3-setuptools-native.do_install"
- "python3-setuptools-native.do_prepare_recipe_sysroot" [label="python3-setuptools-native do_prepare_recipe_sysroot\n:40.0.0-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/python/python3-setuptools_40.0.0.bb"]
- "python3-setuptools-native.do_prepare_recipe_sysroot" -> "python3-native.do_populate_sysroot"
-@@ -59411,6 +59423,7 @@
- "qemu-helper-native.do_populate_lic" -> "qemu-helper-native.do_patch"
- "qemu-helper-native.do_populate_sysroot" [label="qemu-helper-native do_populate_sysroot\n:1.0-r1\n/media/build1/poky/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb"]
- "qemu-helper-native.do_populate_sysroot" -> "qemu-helper-native.do_install"
-+"qemu-helper-native.do_populate_sysroot" -> "qemu-native.do_populate_sysroot"
- "qemu-helper-native.do_prepare_recipe_sysroot" [label="qemu-helper-native do_prepare_recipe_sysroot\n:1.0-r1\n/media/build1/poky/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb"]
- "qemu-helper-native.do_prepare_recipe_sysroot" -> "qemu-helper-native.do_fetch"
- "qemu-helper-native.do_prepare_recipe_sysroot" -> "qemu-native.do_populate_sysroot"
-@@ -60626,6 +60639,8 @@
- "rpm-native.do_populate_lic" [label="rpm-native do_populate_lic\n1:4.14.2.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb"]
- "rpm-native.do_populate_lic" -> "rpm-native.do_patch"
- "rpm-native.do_populate_sysroot" [label="rpm-native do_populate_sysroot\n1:4.14.2.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb"]
-+"rpm-native.do_populate_sysroot" -> "perl-native.do_populate_sysroot"
-+"rpm-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
- "rpm-native.do_populate_sysroot" -> "rpm-native.do_install"
- "rpm-native.do_prepare_recipe_sysroot" [label="rpm-native do_prepare_recipe_sysroot\n1:4.14.2.1-r0\nvirtual:native:/media/build1/poky/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb"]
- "rpm-native.do_prepare_recipe_sysroot" -> "autoconf-native.do_populate_sysroot"
 
 
