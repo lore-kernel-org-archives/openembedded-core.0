@@ -1,48 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AD2BE7C87C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 739257C8A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 15:04:02 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id w4so19537104qtc.1
+	Mon, 18 Feb 2019 15:06:27 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id x7so17635851wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 07:04:03 -0800 (PST)
+	Mon, 18 Feb 2019 07:06:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4yAc8RPDt1U2bLmYWcWj24k61B8E5O/X1nTb1kWV8ek=;
-	b=ACtesKJtvrC/O3/n+72rYx84CgYafSkwGqaeA8wYwzho1zrrK8l6v+tCeL8G68BKEm
-	YUCknXwdjeJz/q3iL4B26x5FkV2Hlj46MGZEkXd/4lRSY4EAa2mS2xJg+488MaODYDW/
-	ImZ86WKS+yaBQ5DlAl/Zpqf/YhGf0H/bYJLeQNGyH1Y8QMHd5JHU/0V9ifPuWP3cGWb5
-	GJl+RuNgRjtC7zzRjS8MwrrUacvwItKHsaWtajc6PlYjJWRcIBo+Vo1ZQU8/ld3AvkdY
-	wtMFaILZBOBgi4cv/ESzMcXeguoFo5rrs2VrdZsksH5VO9zlwy+djvb/uQlx80vAutPW
-	OREA==
+	h=from:to:cc:subject:date:message-id;
+	bh=ltEnn6cUlPKDcK5mu6XN6Bkb/up3KOGPN10vzYCQXPg=;
+	b=HZ17gvOvzPhD7+Z78UPSC9gSPr6pWCxhnv9QewBSI2rZYkAjB2/SDGkG4FCawO0jta
+	mKHAcvJlvVrDfH8FInZGl8+zVZof878evsSW7hTe0nCYOBSrGGe1DpU7dl/sdKKPtzrJ
+	U+cmkzxPecsffeuafjVOTVdkjs6JEBZrE0yYsyefMrI2bH+D8n4uDUAhYQEA6E0VyEDh
+	aV8jghdBS2iGZbn3c/IqPBgThO7wBpsC6gCsDc6jYNDDqzRFif0MiQdaz3osxVOyFi11
+	euej80qO1iTUQdTz6sOdYVV9Mkv8CTa7dCQvsOsJpQ1u4qnuyyzxwETaNoUVvwglDECa
+	mYtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4yAc8RPDt1U2bLmYWcWj24k61B8E5O/X1nTb1kWV8ek=;
-	b=UwiwiSKsZ6g/4t6h/NuEIOCa9y0ARAEPpUZOLmRNh7J9fR+FHRYXyiE0M5kubAqdPI
-	YjVjfWgKO5SdWpLUErM429gPE0asOSXNdUB51qaZwxdw/fazdXcRySRSPt0TPigVzelJ
-	sgKIXK4SBOvkzIR9uYnJ8pSFcai9ih1S+LdbNFUwDvcuTVWkx406M/4YDvan67Cb48SV
-	7REc2z0ygj9U6Mf7MgkC0kpMIIuKN2xLwki++A/01neL5OhFN+oBN/a/GUNuFzjKaaqT
-	lAes0g3MSH02kpb3yEuvT1mj+VrmFKVejvqHn8njMc3Wx/8Pr4pyW2qqq/O0q9pAyPSR
-	PBOg==
-X-Gm-Message-State: AHQUAuaw5vtAE3qhylqfIT1Xt7F/6Fa5+cmOZUa/+5Gp+kp+jmKAmwtu
-	dVuJ53LaaTBG20zSmRY3PFJFj1uPO5XqBUxVFX4=
-X-Google-Smtp-Source: AHgI3Ib82nKo0y1eM/Y4VZNnK+chry3mKP4Sjkf8wkiJ0thhyFaS/t4qu2mfaHkHHXv3pn3EXE2OU8291Pc+ZHdrfmA=
-X-Received: by 2002:ac8:2c51:: with SMTP id e17mr18139904qta.254.1550502243134;
-	Mon, 18 Feb 2019 07:04:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20190131065016.21887-1-raj.khem@gmail.com>
-	<20190131065016.21887-6-raj.khem@gmail.com>
-	<CANNYZj8VWh4ZECFQdzqR7+eS6Lh5yt1oLOBqCx7rzKNTUUWj_w@mail.gmail.com>
-In-Reply-To: <CANNYZj8VWh4ZECFQdzqR7+eS6Lh5yt1oLOBqCx7rzKNTUUWj_w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Feb 2019 07:03:36 -0800
-Message-ID: <CAMKF1sqwwWS40ihF952tKBnzGvb_pO=sCZBnuU1cNJ=330mCxA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] llvm: Upgrade to upcoming 8.0.0 release
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ltEnn6cUlPKDcK5mu6XN6Bkb/up3KOGPN10vzYCQXPg=;
+	b=DyIk9Q9NpO/JDAVFm8P4gETIGvXoUgWIVJaj8GnCR2JJe2gqHlwJCNQarkTy3ryWJz
+	JaREtYamLLuwcxhM23Dt87puhGlHoPZO85OrqrgCvfU2t4EO6KzkMI0LZgtQk/qvwoO9
+	PkYlpmfM2Fa9H8thnK/usmPOqA8aWCoWHVwuF1077T9qq2ZrYcZ8PtUySmRnvWzdo4vJ
+	G137FB8xvBC3SiFHqM6TYh/erDUNSFyfjCa0ct0FqGZa4nx5Rx6Nt5Na4E0cOvHuDAUp
+	A8MnLmR14B3Xk/zD+yOztXyFiGhDywyQmLqJ9/0VBXA+sDy1Sg3Ab5o8Ym34ncWtBhiI
+	YgOw==
+X-Gm-Message-State: AHQUAuZl8Uri7jSubHd/tTdsx7t0yMhYaN39mhus+PsF2vl4D0SakwkC
+	Ow0SAHkUIxfvDw4A76fF6c1hKPHX
+X-Google-Smtp-Source: AHgI3IbaO1dzbGH16G3ECh4fnQP3Vzs8dZGXCF074xEftEX4gPXNYZqNT9eV2/64+9JyJPX0PeRrqg==
+X-Received: by 2002:a1c:7eca:: with SMTP id
+	z193mr17672029wmc.140.1550502387195; 
+	Mon, 18 Feb 2019 07:06:27 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	f196sm27798177wme.36.2019.02.18.07.06.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Feb 2019 07:06:26 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Feb 2019 16:06:21 +0100
+Message-Id: <20190218150621.67919-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] gdk-pixbuf: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,358 +55,506 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 15:04:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Feb 2019 15:06:27 -0000
 
-On Mon, Feb 18, 2019 at 1:47 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> There is now an official git repo for llvm, which also has version tags:
->
-> https://github.com/llvm/llvm-project
+Drop autotools-specific patches.
 
-yes there is and its intentional to use this mirror, since the
-llvm-project is a super repo and
-contains all llvm projects sources which is going to clone tonne
-unnecessary code.
+Rework jku's thumbnailer patch into meson configuration.
 
->
-> I'll make a patch to switch over to that.
->
-> Also note that final 8.0 is not yet out, so the recipe shouldn't make
-> it look like it is.
+Add a patch to disable tests in native builds.
 
-This is intentional too.
-Its in rc stages and there are no specific chages espcially in
-versioning schemes
-which will mark it rc etc.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../0001-Disable-tests-in-native-builds.patch |  30 ++++
+ ...f-decisions-around-cross-compilation.patch |  38 +++++
+ ...without-libtiff-not-having-an-effect.patch |  27 ----
+ ...nd-thumbnailer-cross-compile-failure.patch |  53 +++----
+ ...nd-thumbnailer-cross-compile-failure.patch | 131 ++++++++++++++++++
+ .../extending-libinstall-dependencies.patch   |  42 ------
+ .../gdk-pixbuf/hardcoded_libtool.patch        |  33 -----
+ .../gdk-pixbuf/gdk-pixbuf_2.36.11.bb          |  40 ++++--
+ 8 files changed, 247 insertions(+), 147 deletions(-)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
 
->
-> Alex
->
-> On Thu, 31 Jan 2019 at 07:51, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > License-Update: Copyright year updates from 2017-2019
-> >
-> > Refresh patches to apply on new version
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  ...ryInfo-Undefine-libc-functions-if-th.patch | 28 ++++----
-> >  ...-llvm-allow-env-override-of-exe-path.patch | 66 +++++++++++++++----
-> >  meta/recipes-devtools/llvm/llvm_git.bb        | 25 ++++---
-> >  3 files changed, 83 insertions(+), 36 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-> > index 209764c8ba..6dbbced7eb 100644
-> > --- a/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-> > +++ b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
-> > @@ -1,24 +1,22 @@
-> > -From 96558c4f25d5132936014f6f2d6252cfdfdf478a Mon Sep 17 00:00:00 2001
-> > +From 905cac8934fb17e20416a4df712a566e757471a3 Mon Sep 17 00:00:00 2001
-> >  From: Khem Raj <raj.khem@gmail.com>
-> >  Date: Sat, 21 May 2016 00:33:20 +0000
-> > -Subject: [PATCH 1/2] llvm: TargetLibraryInfo: Undefine libc functions if they
-> > - are macros
-> > +Subject: [PATCH 1/2] llvm: TargetLibraryInfo: Undefine libc functions if they are macros
-> >
-> >  musl defines some functions as macros and not inline functions
-> >  if this is the case then make sure to undefine them
-> >
-> > +Upstream-Status: Pending
-> >  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >  ---
-> > -Upstream-Status: Pending
-> > -
-> >   include/llvm/Analysis/TargetLibraryInfo.def | 21 +++++++++++++++++++++
-> >   1 file changed, 21 insertions(+)
-> >
-> >  diff --git a/include/llvm/Analysis/TargetLibraryInfo.def b/include/llvm/Analysis/TargetLibraryInfo.def
-> > -index a461ed813b9..f9fd9faeee0 100644
-> > +index 518a85ee1a0..6b4ead4efc6 100644
-> >  --- a/include/llvm/Analysis/TargetLibraryInfo.def
-> >  +++ b/include/llvm/Analysis/TargetLibraryInfo.def
-> > -@@ -665,6 +665,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
-> > +@@ -731,6 +731,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
-> >   TLI_DEFINE_ENUM_INTERNAL(fopen)
-> >   TLI_DEFINE_STRING_INTERNAL("fopen")
-> >   /// FILE *fopen64(const char *filename, const char *opentype)
-> > @@ -27,8 +25,8 @@ index a461ed813b9..f9fd9faeee0 100644
-> >  +#endif
-> >   TLI_DEFINE_ENUM_INTERNAL(fopen64)
-> >   TLI_DEFINE_STRING_INTERNAL("fopen64")
-> > - /// int fprintf(FILE *stream, const char *format, ...);
-> > -@@ -700,6 +703,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
-> > + /// int fork();
-> > +@@ -778,6 +781,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
-> >   /// int fseeko(FILE *stream, off_t offset, int whence);
-> >   TLI_DEFINE_ENUM_INTERNAL(fseeko)
-> >   TLI_DEFINE_STRING_INTERNAL("fseeko")
-> > @@ -38,7 +36,7 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   /// int fseeko64(FILE *stream, off64_t offset, int whence)
-> >   TLI_DEFINE_ENUM_INTERNAL(fseeko64)
-> >   TLI_DEFINE_STRING_INTERNAL("fseeko64")
-> > -@@ -710,6 +716,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
-> > +@@ -788,6 +794,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
-> >   TLI_DEFINE_ENUM_INTERNAL(fstat)
-> >   TLI_DEFINE_STRING_INTERNAL("fstat")
-> >   /// int fstat64(int filedes, struct stat64 *buf)
-> > @@ -48,7 +46,7 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   TLI_DEFINE_ENUM_INTERNAL(fstat64)
-> >   TLI_DEFINE_STRING_INTERNAL("fstat64")
-> >   /// int fstatvfs(int fildes, struct statvfs *buf);
-> > -@@ -725,6 +734,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
-> > +@@ -803,6 +812,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
-> >   TLI_DEFINE_ENUM_INTERNAL(ftello)
-> >   TLI_DEFINE_STRING_INTERNAL("ftello")
-> >   /// off64_t ftello64(FILE *stream)
-> > @@ -58,7 +56,7 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   TLI_DEFINE_ENUM_INTERNAL(ftello64)
-> >   TLI_DEFINE_STRING_INTERNAL("ftello64")
-> >   /// int ftrylockfile(FILE *file);
-> > -@@ -845,6 +857,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
-> > +@@ -929,6 +941,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
-> >   TLI_DEFINE_ENUM_INTERNAL(lstat)
-> >   TLI_DEFINE_STRING_INTERNAL("lstat")
-> >   /// int lstat64(const char *path, struct stat64 *buf);
-> > @@ -68,7 +66,7 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   TLI_DEFINE_ENUM_INTERNAL(lstat64)
-> >   TLI_DEFINE_STRING_INTERNAL("lstat64")
-> >   /// void *malloc(size_t size);
-> > -@@ -1064,6 +1079,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
-> > +@@ -1154,6 +1169,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
-> >   TLI_DEFINE_ENUM_INTERNAL(stat)
-> >   TLI_DEFINE_STRING_INTERNAL("stat")
-> >   /// int stat64(const char *path, struct stat64 *buf);
-> > @@ -78,7 +76,7 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   TLI_DEFINE_ENUM_INTERNAL(stat64)
-> >   TLI_DEFINE_STRING_INTERNAL("stat64")
-> >   /// int statvfs(const char *path, struct statvfs *buf);
-> > -@@ -1193,6 +1211,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
-> > +@@ -1283,6 +1301,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
-> >   TLI_DEFINE_ENUM_INTERNAL(tmpfile)
-> >   TLI_DEFINE_STRING_INTERNAL("tmpfile")
-> >   /// FILE *tmpfile64(void)
-> > @@ -89,5 +87,5 @@ index a461ed813b9..f9fd9faeee0 100644
-> >   TLI_DEFINE_STRING_INTERNAL("tmpfile64")
-> >   /// int toascii(int c);
-> >  --
-> > -2.16.1
-> > +2.20.1
-> >
-> > diff --git a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-> > index 6a9283323c..2970b0827b 100644
-> > --- a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-> > +++ b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
-> > @@ -1,4 +1,4 @@
-> > -From aeccf16eaccdd80e4d5ecaa51673ce4b2bac1130 Mon Sep 17 00:00:00 2001
-> > +From 0570fe02c07244a8724c1e6c0437f893c8aa8e93 Mon Sep 17 00:00:00 2001
-> >  From: Martin Kelly <mkelly@xevo.com>
-> >  Date: Fri, 19 May 2017 00:22:57 -0700
-> >  Subject: [PATCH 2/2] llvm: allow env override of exe path
-> > @@ -16,16 +16,16 @@ Upstream-Status: Inappropriate [OE-Specific]
-> >  Signed-off-by: Martin Kelly <mkelly@xevo.com>
-> >  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >  ---
-> > - tools/llvm-config/llvm-config.cpp | 17 ++++++++++++++++-
-> > - 1 file changed, 16 insertions(+), 1 deletion(-)
-> > + tools/llvm-config/llvm-config.cpp | 35 ++++++++++++++++++++++---------
-> > + 1 file changed, 25 insertions(+), 10 deletions(-)
-> >
-> >  diff --git a/tools/llvm-config/llvm-config.cpp b/tools/llvm-config/llvm-config.cpp
-> > -index 08b096afb05..360cc5abf4e 100644
-> > +index bec89fef98c..91b4d6e4c43 100644
-> >  --- a/tools/llvm-config/llvm-config.cpp
-> >  +++ b/tools/llvm-config/llvm-config.cpp
-> > -@@ -225,6 +225,13 @@ Typical components:\n\
-> > +@@ -226,6 +226,13 @@ Typical components:\n\
-> >
-> > - /// \brief Compute the path to the main executable.
-> > + /// Compute the path to the main executable.
-> >   std::string GetExecutablePath(const char *Argv0) {
-> >  +  // Hack for Yocto: we need to override the root path when we are using
-> >  +  // llvm-config from within a target sysroot.
-> > @@ -37,7 +37,25 @@ index 08b096afb05..360cc5abf4e 100644
-> >     // This just needs to be some symbol in the binary; C++ doesn't
-> >     // allow taking the address of ::main however.
-> >     void *P = (void *)(intptr_t)GetExecutablePath;
-> > -@@ -306,12 +313,20 @@ int main(int argc, char **argv) {
-> > +@@ -284,7 +291,7 @@ int main(int argc, char **argv) {
-> > +   // bin dir).
-> > +   sys::fs::make_absolute(CurrentPath);
-> > +   CurrentExecPrefix =
-> > +-      sys::path::parent_path(sys::path::parent_path(CurrentPath)).str();
-> > ++      sys::path::parent_path(sys::path::parent_path(sys::path::parent_path(CurrentPath))).str();
-> > +
-> > +   // Check to see if we are inside a development tree by comparing to possible
-> > +   // locations (prefix style or CMake style).
-> > +@@ -293,7 +300,7 @@ int main(int argc, char **argv) {
-> > +     DevelopmentTreeLayout = CMakeStyle;
-> > +     ActiveObjRoot = LLVM_OBJ_ROOT;
-> > +   } else if (sys::fs::equivalent(CurrentExecPrefix,
-> > +-                                 Twine(LLVM_OBJ_ROOT) + "/bin")) {
-> > ++                                 Twine(LLVM_OBJ_ROOT) + "/bin/llvm8.0")) {
-> > +     IsInDevelopmentTree = true;
-> > +     DevelopmentTreeLayout = CMakeBuildModeStyle;
-> > +     ActiveObjRoot = LLVM_OBJ_ROOT;
-> > +@@ -307,37 +314,45 @@ int main(int argc, char **argv) {
-> >     std::string ActivePrefix, ActiveBinDir, ActiveIncludeDir, ActiveLibDir,
-> >                 ActiveCMakeDir;
-> >     std::string ActiveIncludeOption;
-> > @@ -45,11 +63,12 @@ index 08b096afb05..360cc5abf4e 100644
-> >  +  // llvm-config from within a target sysroot.
-> >  +  std::string Multilibdir = std::getenv("YOCTO_ALTERNATE_MULTILIB_NAME");
-> >  +  if (Multilibdir.empty()) {
-> > -+    Multilibdir = "/lib" LLVM_LIBDIR_SUFFIX;
-> > ++    Multilibdir = "/lib/llvm8.0" LLVM_LIBDIR_SUFFIX;
-> >  +  }
-> >  +
-> >     if (IsInDevelopmentTree) {
-> > -     ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-> > +-    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-> > ++    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm8.0";
-> >       ActivePrefix = CurrentExecPrefix;
-> >
-> >       // CMake organizes the products differently than a normal prefix style
-> > @@ -57,8 +76,31 @@ index 08b096afb05..360cc5abf4e 100644
-> >  +
-> >       switch (DevelopmentTreeLayout) {
-> >       case CMakeStyle:
-> > -       ActiveBinDir = ActiveObjRoot + "/bin";
-> > -@@ -336,7 +351,7 @@ int main(int argc, char **argv) {
-> > +-      ActiveBinDir = ActiveObjRoot + "/bin";
-> > +-      ActiveLibDir = ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX;
-> > ++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0";
-> > ++      ActiveLibDir = ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX;
-> > +       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-> > +       break;
-> > +     case CMakeBuildModeStyle:
-> > +       ActivePrefix = ActiveObjRoot;
-> > +-      ActiveBinDir = ActiveObjRoot + "/bin/" + build_mode;
-> > ++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0/" + build_mode;
-> > +       ActiveLibDir =
-> > +-          ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-> > ++          ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-> > +       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-> > +       break;
-> > +     }
-> > +
-> > +     // We need to include files from both the source and object trees.
-> > +     ActiveIncludeOption =
-> > +-        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
-> > ++        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm8.0");
-> > +   } else {
-> > +     ActivePrefix = CurrentExecPrefix;
-> > +-    ActiveIncludeDir = ActivePrefix + "/include";
-> > ++    ActiveIncludeDir = ActivePrefix + "/include/llvm8.0";
-> >       SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
-> >       sys::fs::make_absolute(ActivePrefix, path);
-> >       ActiveBinDir = path.str();
-> > @@ -68,5 +110,5 @@ index 08b096afb05..360cc5abf4e 100644
-> >       ActiveIncludeOption = "-I" + ActiveIncludeDir;
-> >     }
-> >  --
-> > -2.18.0
-> > +2.20.1
-> >
-> > diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-> > index eb0779d6ec..a3dcab175d 100644
-> > --- a/meta/recipes-devtools/llvm/llvm_git.bb
-> > +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-> > @@ -6,7 +6,7 @@ HOMEPAGE = "http://llvm.org"
-> >  LICENSE = "NCSA"
-> >  SECTION = "devel"
-> >
-> > -LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=e825e017edc35cfd58e26116e5251771"
-> > +LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=c6b766a4e85dd28301eeed54a6684648"
-> >
-> >  DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
-> >
-> > @@ -19,18 +19,22 @@ PROVIDES += "llvm${PV}"
-> >  LLVM_RELEASE = "${PV}"
-> >  LLVM_DIR = "llvm${LLVM_RELEASE}"
-> >
-> > -SRCREV = "5136df4d089a086b70d452160ad5451861269498"
-> > -PV = "6.0"
-> > -BRANCH = "release_60"
-> > -PATCH_VERSION = "1"
-> > -SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH};protocol=http \
-> > +SRCREV = "5a46917218575e92e3f0f9378338fd215be39107"
-> > +BRANCH = "release_${MAJOR_VERSION}${MINOR_VERSION}"
-> > +MAJOR_VERSION = "8"
-> > +MINOR_VERSION = "0"
-> > +PATCH_VERSION = "0"
-> > +PV = "${MAJOR_VERSION}.${MINOR_VERSION}"
-> > +SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH} \
-> >             file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
-> >             file://0002-llvm-allow-env-override-of-exe-path.patch \
-> >            "
-> >  UPSTREAM_CHECK_COMMITS = "1"
-> > +
-> >  S = "${WORKDIR}/git"
-> >
-> >  LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
-> > +
-> >  def get_llvm_arch(bb, d, arch_var):
-> >      import re
-> >      a = d.getVar(arch_var)
-> > @@ -117,7 +121,7 @@ do_install() {
-> >         # Remove unnecessary cmake files
-> >         rm -rf ${D}${libdir}/${LLVM_DIR}/cmake
-> >
-> > -       ln -s ${LLVM_DIR}/libLLVM-${PV}${SOLIBSDEV} ${D}${libdir}/libLLVM-${PV}${SOLIBSDEV}
-> > +       ln -s ${LLVM_DIR}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV} ${D}${libdir}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV}
-> >
-> >         # We'll have to delete the libLLVM.so due to multiple reasons...
-> >         rm -rf ${D}${libdir}/${LLVM_DIR}/libLLVM.so
-> > @@ -126,7 +130,7 @@ do_install() {
-> >  do_install_class-native() {
-> >         install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
-> >         install -D -m 0755 ${B}/bin/llvm-config ${D}${bindir}/llvm-config${PV}
-> > -       install -D -m 0755 ${B}/lib/libLLVM-${PV}.so ${D}${libdir}/libLLVM-${PV}.so
-> > +       install -D -m 0755 ${B}/lib/libLLVM-${MAJOR_VERSION}.so ${D}${libdir}/libLLVM-${MAJOR_VERSION}.so
-> >  }
-> >
-> >  PACKAGES += "${PN}-bugpointpasses ${PN}-llvmhello"
-> > @@ -139,6 +143,7 @@ FILES_${PN}-dbg = " \
-> >      ${libdir}/${LLVM_DIR}/.debug/BugpointPasses.so \
-> >      ${libdir}/${LLVM_DIR}/.debug/LLVMHello.so \
-> >      ${libdir}/${LLVM_DIR}/.debug/libLTO.so* \
-> > +    ${libdir}/${LLVM_DIR}/.debug/libOptRemarks.so* \
-> >      ${libdir}/${LLVM_DIR}/.debug/llvm-config \
-> >      /usr/src/debug \
-> >  "
-> > @@ -147,6 +152,7 @@ FILES_${PN}-dev = " \
-> >      ${bindir}/${LLVM_DIR} \
-> >      ${includedir}/${LLVM_DIR} \
-> >      ${libdir}/${LLVM_DIR}/llvm-config \
-> > +    ${libdir}/${LLVM_DIR}/libOptRemarks.so \
-> >  "
-> >
-> >  RRECOMMENDS_${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello"
-> > @@ -156,6 +162,7 @@ FILES_${PN}-bugpointpasses = "\
-> >  "
-> >  FILES_${PN} += "\
-> >      ${libdir}/${LLVM_DIR}/libLTO.so.* \
-> > +    ${libdir}/${LLVM_DIR}/libOptRemarks.so.* \
-> >  "
-> >
-> >  FILES_${PN}-llvmhello = "\
-> > @@ -166,7 +173,7 @@ PACKAGES_DYNAMIC = "^libllvm${LLVM_RELEASE}-.*$"
-> >  NOAUTOPACKAGEDEBUG = "1"
-> >
-> >  INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELEASE}.${PATCH_VERSION} += "dev-so"
-> > -INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELEASE} += "dev-so"
-> > +INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${MAJOR_VERSION} += "dev-so"
-> >  INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm += "dev-so"
-> >
-> >  python llvm_populate_packages() {
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+new file mode 100644
+index 00000000000..c991635bb95
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+@@ -0,0 +1,30 @@
++From d44aad1858c9c0da74f389d3de4dabade28b56c3 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 18 Feb 2019 16:00:12 +0100
++Subject: [PATCH] Disable tests in native builds.
++
++They have found to be problematic at least on Centos 7:
++https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/296/steps/7/logs/step1b
++
++With autotools this was not a problem because it had a configuration
++switch for disabling test, which was used. Meson has no such facility :(
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 92c4049..0871c84 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -397,7 +397,7 @@ endif
++ # i18n
++ subdir('po')
++ 
++-subdir('tests')
+++#subdir('tests')
++ subdir('thumbnailer')
++ 
++ # Documentation
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
+new file mode 100644
+index 00000000000..90d4830df50
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
+@@ -0,0 +1,38 @@
++From 48cbdd56036728ffea431ad63cf5e2ad05cef69c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 14 Feb 2019 18:06:25 +0100
++Subject: [PATCH] Fix a couple of decisions around cross-compilation
++
++1. gobject-introspection can be build when cross compiling
++2. generating loaders.cache requires running a target binary which
++we do elsewhere (in postinsts)
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gdk-pixbuf/meson.build | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
++index 77c162b..fc3eb33 100644
++--- a/gdk-pixbuf/meson.build
+++++ b/gdk-pixbuf/meson.build
++@@ -230,6 +230,7 @@ foreach bin: gdkpixbuf_bin
++   set_variable(bin_name.underscorify(), bin)
++ endforeach
++ 
+++if not meson.is_cross_build()
++ # The 'loaders.cache' used for testing, so we don't accidentally
++ # load the installed cache; we always build it by default
++ loaders_cache = custom_target('loaders.cache',
++@@ -241,8 +242,9 @@ loaders_cache = custom_target('loaders.cache',
++                               ],
++                               build_by_default: true)
++ loaders_dep = declare_dependency(sources: [ loaders_cache ])
+++endif
++ 
++-build_gir = get_option('with_gir') and not meson.is_cross_build()
+++build_gir = get_option('with_gir')
++ if build_gir
++   gir_args = [
++     '--quiet',
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
+deleted file mode 100644
+index 2a54d8ed763..00000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 460befc992adb32434b0408b453be39a6866ccf8 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 10 Oct 2017 14:33:18 +0300
+-Subject: [PATCH] Fix --without-libtiff not having an effect.
+-
+-Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=788770]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 315e0cc..98e780c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -676,7 +676,7 @@ if test x$gio_can_sniff = x; then
+-   AC_DEFINE(GDK_PIXBUF_USE_GIO_MIME, 1, [Define if gio can sniff image data])
+- fi
+- 
+--AM_CONDITIONAL(HAVE_TIFF, test "x$libtiff_found" != x)
+-+AM_CONDITIONAL(HAVE_TIFF, test "x$libtiff_found" != xno)
+- AM_CONDITIONAL(HAVE_PNG, test "x$LIBPNG" != x)
+- AM_CONDITIONAL(HAVE_JPEG, test "x$LIBJPEG" != x)
+- AM_CONDITIONAL(HAVE_JASPER, test "x$LIBJASPER" != x)
+--- 
+-2.14.1
+-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
+index 31ed988f32b..110b32a4907 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
+@@ -1,47 +1,28 @@
+-From 6646e8aadc4030d891ac27c25494e5793d59dc85 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Wed, 22 Feb 2017 11:24:39 +0200
++From 8c7ced988def52654946458a3779e383b27f14f7 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 14 Feb 2019 17:56:10 +0100
+ Subject: [PATCH] Work-around thumbnailer cross-compile failure
+ 
+ Install gdk-pixbuf-print-mime-types that's needed for thumbnail
+ metadata generation.
+ 
+-Use native gdk-pixbuf-print-mime-types when generating the thumbnail
+-metadata. This works but the mime types will come from native
+-loader.cache (which will only contain in-tree loaders), not from the
+-target loader.cache.
+-
+ The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
+ 
+ Upstream-Status: Inappropriate [workaround]
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+- thumbnailer/Makefile.am | 7 +++----
+- 1 file changed, 3 insertions(+), 4 deletions(-)
++ thumbnailer/meson.build | 1 +
++ 1 file changed, 1 insertion(+)
+ 
+-diff --git a/thumbnailer/Makefile.am b/thumbnailer/Makefile.am
+-index c9fe123..b0c6c70 100644
+---- a/thumbnailer/Makefile.am
+-+++ b/thumbnailer/Makefile.am
+-@@ -1,5 +1,4 @@
+--bin_PROGRAMS = gdk-pixbuf-thumbnailer
+--noinst_PROGRAMS = gdk-pixbuf-print-mime-types
+-+bin_PROGRAMS = gdk-pixbuf-thumbnailer gdk-pixbuf-print-mime-types
+- 
+- gdk_pixbuf_thumbnailer_SOURCES = gdk-pixbuf-thumbnailer.c gnome-thumbnailer-skeleton.c gnome-thumbnailer-skeleton.h
+- gdk_pixbuf_thumbnailer_CPPFLAGS =			\
+-@@ -25,9 +24,9 @@ gdk_pixbuf_print_mime_types_LDADD =			\
++diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
++index e801144..aaafec8 100644
++--- a/thumbnailer/meson.build
+++++ b/thumbnailer/meson.build
++@@ -10,6 +10,7 @@ executable('gdk-pixbuf-thumbnailer',
++ gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
++                                          'gdk-pixbuf-print-mime-types.c',
++                                          c_args: common_cflags,
+++                                         install: true,
++                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
+  
+- thumbnailerdir = $(datadir)/thumbnailers/
+- thumbnailer_DATA = gdk-pixbuf-thumbnailer.thumbnailer
+--gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT) $(top_builddir)/gdk-pixbuf/loaders.cache
+-+gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT)
+- 	$(AM_V_GEN) $(SED) -e "s|\@bindir\@|$(bindir)|"						\
+--	-e "s|\@mimetypes\@|`GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata $(builddir)/gdk-pixbuf-print-mime-types`|" \
+-+	-e "s|\@mimetypes\@|`gdk-pixbuf-print-mime-types`|" \
+- 	$< > $@
+- 
+- EXTRA_DIST = gdk-pixbuf-thumbnailer.thumbnailer.in
+--- 
+-2.1.4
+-
++ custom_target('thumbnailer',
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
+new file mode 100644
+index 00000000000..b0cd838a8fd
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
+@@ -0,0 +1,131 @@
++From a184e6bfdd7761ad9807f3de9e873d49aff79e6d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 14 Feb 2019 17:56:34 +0100
++Subject: [PATCH] (target only) Work-around thumbnailer cross-compile failure
++
++Use native gdk-pixbuf-print-mime-types when generating the thumbnail
++metadata. This works but the mime types will come from native
++loader.cache (which will only contain in-tree loaders), not from the
++target loader.cache.
++
++The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
++
++Upstream-Status: Inappropriate [workaround]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ build-aux/gen-thumbnailer.py |  2 --
++ tests/meson.build            | 49 +-----------------------------------
++ thumbnailer/meson.build      |  5 +---
++ 3 files changed, 2 insertions(+), 54 deletions(-)
++
++diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
++index 05ac821..c5b99ab 100644
++--- a/build-aux/gen-thumbnailer.py
+++++ b/build-aux/gen-thumbnailer.py
++@@ -20,8 +20,6 @@ argparser.add_argument('output', help='Output file')
++ args = argparser.parse_args()
++ 
++ newenv = os.environ.copy()
++-newenv['GDK_PIXBUF_PIXDATA'] = args.pixdata
++-newenv['GDK_PIXBUF_MODULE_FILE'] = args.loaders
++ # 'nt': NT-based Windows, see https://docs.python.org/3/library/os.html
++ if os.name == 'nt':
++     gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
++diff --git a/tests/meson.build b/tests/meson.build
++index 77a427a..467f5b2 100644
++--- a/tests/meson.build
+++++ b/tests/meson.build
++@@ -1,38 +1,6 @@
++ # Resources; we cannot use gnome.compile_resources() here, because we need to
++ # override the environment in order to use the utilities we just built instead
++ # of the system ones
++-resources_c = custom_target('resources.c',
++-                            input: 'resources.gresource.xml',
++-                            output: 'resources.c',
++-                            command: [
++-                              gen_resources,
++-                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
++-                              '--loaders=@0@'.format(loaders_cache.full_path()),
++-                              '--sourcedir=@0@'.format(meson.current_source_dir()),
++-                              '--source',
++-                              '@INPUT@',
++-                              '@OUTPUT@',
++-                            ],
++-                            depends: [
++-                              gdk_pixbuf_pixdata,
++-                              loaders_cache,
++-                            ])
++-resources_h = custom_target('resources.h',
++-                            input: 'resources.gresource.xml',
++-                            output: 'resources.h',
++-                            command: [
++-                              gen_resources,
++-                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
++-                              '--loaders=@0@'.format(loaders_cache.full_path()),
++-                              '--sourcedir=@0@'.format(meson.current_source_dir()),
++-                              '--header',
++-                              '@INPUT@',
++-                              '@OUTPUT@',
++-                            ],
++-                            depends: [
++-                              gdk_pixbuf_pixdata,
++-                              loaders_cache,
++-                            ])
++ 
++ installed_tests = [
++   [ 'animation' ],
++@@ -94,7 +62,7 @@ foreach t: installed_tests
++   test_sources = [ test_name + '.c', 'test-common.c' ]
++   needs_resources = t.get(1, false)
++   if needs_resources
++-    test_sources += [ resources_c, resources_h ]
+++    test_sources += [ 'resources.c', 'resources.h' ]
++   endif
++ 
++   custom_target(test_name + '.test',
++@@ -116,21 +84,6 @@ foreach t: installed_tests
++                         ],
++                         c_args: common_cflags)
++ 
++-  # Two particularly slow tests
++-  if test_name == 'pixbuf-area-updated' or test_name == 'pixbuf-randomly-modified'
++-    timeout = 300
++-  else
++-    timeout = 30
++-  endif
++-
++-  test(test_name, test_bin,
++-       args: [ '-k', '--tap' ],
++-       env: [
++-         'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
++-         'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
++-         'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
++-       ],
++-       timeout: timeout)
++ endforeach
++ 
++ executable('pixbuf-read',
++diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
++index aaafec8..71bd61b 100644
++--- a/thumbnailer/meson.build
+++++ b/thumbnailer/meson.build
++@@ -18,9 +18,7 @@ custom_target('thumbnailer',
++               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
++               command: [
++                 gen_thumbnailer,
++-                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
++-                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
++-                '--loaders=@0@'.format(loaders_cache.full_path()),
+++                '--printer=gdk-pixbuf-print-mime-types',
++                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
++                 '@INPUT@',
++                 '@OUTPUT@',
++@@ -28,7 +26,6 @@ custom_target('thumbnailer',
++               depends: [
++                 gdk_pixbuf_print_mime_types,
++                 gdk_pixbuf_pixdata,
++-                loaders_cache,
++               ],
++               install: true,
++               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
+deleted file mode 100644
+index edbdced43a4..00000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Pending
+-
+-This patch fixes parallel install issue that lib libpixbufloader-png.la
+-depends on libgdk_pixbuf-2.0.la which will be regenerated during insta-
+-llation, if libgdk_pixbuf-2.0.la is regenerating and at the same time
+-libpixbufloader-png.la links it, the error will happen.
+-
+-Error message is:
+-* usr/bin/ld: cannot find -lgdk_pixbuf-2.0
+-* collect2: ld returned 1 exit status
+-
+-Make an explicit dependency to the libs install targets would fix this
+-issue.
+-
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+----
+- gdk-pixbuf/Makefile.am |    1 +
+- libdeps.mk             |    3 +++
+- 2 files changed, 4 insertions(+), 0 deletions(-)
+- create mode 100644 libdeps.mk
+-
+-diff --git a/gdk-pixbuf/Makefile.am b/gdk-pixbuf/Makefile.am
+-index 95a93a8..db44cae 100644
+---- a/gdk-pixbuf/Makefile.am
+-+++ b/gdk-pixbuf/Makefile.am
+-@@ -783,3 +783,4 @@ loaders.cache:
+- endif
+- 
+- -include $(top_srcdir)/git.mk
+-+-include $(top_srcdir)/libdeps.mk
+-diff --git a/libdeps.mk b/libdeps.mk
+-new file mode 100644
+-index 0000000..d7a10a8
+---- /dev/null
+-+++ b/libdeps.mk
+-@@ -0,0 +1,3 @@
+-+# Extending dependencies of install-loaderLTLIBRARIES:
+-+# The $(lib-LTLIBRARIES) is needed by relinking $(loader_LTLIBRARIES)
+-+install-loaderLTLIBRARIES: install-libLTLIBRARIES
+--- 
+-1.7.6.1
+-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
+deleted file mode 100644
+index ecca62a7129..00000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: gdk-pixbuf-2.22.1/configure.ac
+-===================================================================
+---- gdk-pixbuf-2.22.1.orig/configure.ac	2010-11-26 09:06:34.000000000 +0800
+-+++ gdk-pixbuf-2.22.1/configure.ac	2010-11-26 09:07:33.000000000 +0800
+-@@ -287,7 +287,7 @@
+- case $enable_explicit_deps in
+-   auto)
+-     export SED
+--    deplibs_check_method=`(./libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
+-+    deplibs_check_method=`(./$host_alias-libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
+-     if test "x$deplibs_check_method" '!=' xpass_all || test "x$enable_static" = xyes ; then
+-       enable_explicit_deps=yes
+-     else
+-@@ -484,7 +484,7 @@
+-     dnl Now we check to see if our libtool supports shared lib deps
+-     dnl (in a rather ugly way even)
+-     if $dynworks; then
+--        pixbuf_libtool_config="${CONFIG_SHELL-/bin/sh} ./libtool --config"
+-+        pixbuf_libtool_config="${CONFIG_SHELL-/bin/sh} ./$host_alias-libtool --config"
+-         pixbuf_deplibs_check=`$pixbuf_libtool_config | \
+-             grep '^[[a-z_]]*check[[a-z_]]*_method=[['\''"]]' | \
+-             sed 's/.*[['\''"]]\(.*\)[['\''"]]$/\1/'`
+-@@ -957,7 +957,7 @@
+- # We are using gmodule-no-export now, but I'm leaving the stripping
+- # code in place for now, since pango and atk still require gmodule.
+- export SED
+--export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
+-+export_dynamic=`(./$host_alias-libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
+- if test -n "$export_dynamic"; then
+-   GDK_PIXBUF_DEP_LIBS=`echo $GDK_PIXBUF_DEP_LIBS | sed -e "s/$export_dynamic//"`
+- fi
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
+index a7d3884d1fb..5e825afb3f5 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
+@@ -13,18 +13,40 @@ DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+-           file://hardcoded_libtool.patch \
+-           file://extending-libinstall-dependencies.patch \
+            file://run-ptest \
+            file://fatal-loader.patch \
+            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
+-           file://0001-Fix-without-libtiff-not-having-an-effect.patch \
++           file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
++           "
++
++SRC_URI_append_class-target = " \
++           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
++           "
++SRC_URI_append_class-nativesdk = " \
++           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
++           "
++SRC_URI_append_class-native = " \
++           file://0001-Disable-tests-in-native-builds.patch \
+            "
+ 
+ SRC_URI[md5sum] = "6e84e5485c17ce7c25df77fe76eb2d6a"
+ SRC_URI[sha256sum] = "ae62ab87250413156ed72ef756347b10208c00e76b222d82d9ed361ed9dde2f3"
+ 
+-inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
++inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
++
++GTKDOC_ENABLE_FLAG = "-Dwith_docs=true"
++GTKDOC_DISABLE_FLAG = "-Dwith_docs=false"
++
++GI_ENABLE_FLAG = "-Dwith_gir=true"
++GI_DISABLE_FLAG = "-Dwith_gir=false"
++
++EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
++
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
++                                                                                       '${GI_DISABLE_FLAG}', d)} "
++
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
++                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
+ 
+ LIBV = "2.10.0"
+ 
+@@ -34,12 +56,12 @@ PACKAGECONFIG ??= "${GDK_PIXBUF_LOADERS}"
+ PACKAGECONFIG_linuxstdbase = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} ${GDK_PIXBUF_LOADERS}"
+ PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
+ 
+-PACKAGECONFIG[png] = "--with-libpng,--without-libpng,libpng"
+-PACKAGECONFIG[jpeg] = "--with-libjpeg,--without-libjpeg,jpeg"
+-PACKAGECONFIG[tiff] = "--with-libtiff,--without-libtiff,tiff"
+-PACKAGECONFIG[jpeg2000] = "--with-libjasper,--without-libjasper,jasper"
++PACKAGECONFIG[png] = "-Denable_png=true,-Denable_png=false,libpng"
++PACKAGECONFIG[jpeg] = "-Denable_jpeg=true,-Denable_jpeg=false,jpeg"
++PACKAGECONFIG[tiff] = "-Denable_tiff=true,-Denable_tiff=false,tiff"
++PACKAGECONFIG[jpeg2000] = "-Denable_jasper=true,-Denable_jasper=false,jasper"
+ 
+-PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
++PACKAGECONFIG[x11] = ",,virtual/libx11"
+ 
+ PACKAGES =+ "${PN}-xlib"
+ 
+-- 
+2.17.1
+
 
