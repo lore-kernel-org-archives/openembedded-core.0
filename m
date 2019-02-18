@@ -1,62 +1,63 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 336EC7C895
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ACD47C898
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 13:41:44 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id g1so28206870otj.11
+	Mon, 18 Feb 2019 13:42:28 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id z19so28351633otm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 05:41:46 -0800 (PST)
+	Mon, 18 Feb 2019 05:42:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=2iLcOI9kYBGuqwPqNSVzC9wFCqteu2srptEak/Ag++M=;
-	b=jrg3nY3yWN+pQWIfi4nFpW4X9xONZ/3XM6y/I+St1yRBtOU+c2ExUWyi9Cl1RiEEX3
-	amfYU3UHtT2zr+dpPMdDfjX5s3T5SqMWXD1mCAQe9A2SP4X7SQWe2q8FA6gzyZ3qpwCY
-	Rv4A9/E8mRb/z2Vq4YkxUQ4LBicGq1rbVsSKEKd1d+H0411gE6DN6u+fR8P0NqR9UHBN
-	3V7yW19qWEAqVStV+BkYNb+TxY5JiS+BkWflp0BjLg/KvoZGEYOOZLkeyqNAIYO5IzKl
-	VybeKzIVtglEoRNqIlDR8yW5Sr5IroDL2D1R5nPl8OsKKBNr2/H7ZDyQ05wc9iLxLQuf
-	I76Q==
+	:cc; bh=MnBIKZG0bBqxD7yqWq9bwRUOquhEbpjyACrRgmPiQfc=;
+	b=q4g9d1DIWwaVxPmoR4Q2Jr7UxphMPXaH1yfYy54dHvvUu1Hpt92VHVRxTGPfjXC/vm
+	1BkyEmF32CPp1Ep9eRcGxRoPtksKb6CjzuNDEqMjdu7Vsb10zi7h1nOXm4hGdUvpdI8V
+	2wEnmAGMtBUUUOkxuwXRPW+wPUGG/43Q0h+/htur6lD2y1252pQe/bN/sdvPoC/9BPSF
+	lUflQL0FZSz9yIHiSUWSvMm2z0vPA0keF3qQCPZzXLZnQ7Ftkc+oO780TPYUt4q0B11n
+	MfE3YJZs/JHGpe/1laks7NbME4i0z2HINqq1UTBqRMa4KHQ7yZSroYXUki8wHmLYe00q
+	6PGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=2iLcOI9kYBGuqwPqNSVzC9wFCqteu2srptEak/Ag++M=;
-	b=maNhYo7oyFvoVkp220SuHk2NiDsVm1/CFSChD7xTitmyDq6WpIH+NG9IWvIAAhfXLX
-	7V2rqsaNTQGgu+ILbsudui2OMg/EzRLci3oV5NEeLlkdbjNJJDzUPGm79MDzHD+I1qld
-	SSqgjx+khtVZ/ixtLtOjueV4yGv/QAxc6q+tPa7XbuaSU1q/bT/VbVN9lTtrRleL/LQQ
-	FfkbA6yT+hOYCXNMBg8dd/AIaGDiUnHjkhomWpj+0gzy5jGVCYZy8ZsGrACkhOKI4pfW
-	wUMSsyWhSXDGfOeC77wty/FSVQH2eoLzNo0r9m4eqLfrjPuL2eudD2WmHBoKhjXEgtls
-	b/+g==
-X-Gm-Message-State: AHQUAuZgZXWDKPRINK2OHWiN4fT6T2yDXco36YjqHKthV3KasfRaIlIi
-	9SqhYvs+uQgyFRxkDp04lEzkqKHIAhrVKQ==
-X-Google-Smtp-Source: AHgI3IZaeMSUDuJjhJyfD4MyI14qFF6KMGRTAhjwrxxQ//5CuLxgtGCbp2UAZUvH1137UzzeGKSIjA==
-X-Received: by 2002:aca:84b:: with SMTP id 72mr13842629oii.87.1550497305411;
-	Mon, 18 Feb 2019 05:41:45 -0800 (PST)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com.
-	[209.85.210.54]) by smtp.gmail.com with ESMTPSA id
-	g128sm2666689oia.32.2019.02.18.05.41.44
+	bh=MnBIKZG0bBqxD7yqWq9bwRUOquhEbpjyACrRgmPiQfc=;
+	b=UelBku9qHOOvQPxPi67IjprHyV0JqalkL9HekLe3KchtaaLY7CKJEzY6Nm2CUh3oAm
+	HWkUMAq/YT320imiSefj+PY+4IOgwW1YPi4LQ9xuV8kyaLWujaanDqgkdqVCRdQYkekW
+	XHWFGj4jtT3fXPFENx3FXZeccvJdsFSLeK3mSwRTifxwYuR391cyLfs8HqmyBqUc64AJ
+	2nV3JFDejwANjTBZBMOkUCfe8b0mRLvxHyssedXRu2SrZiCczy/neF5l1+WekoMYsvma
+	BgjhBqoeb2D+xdq2dm5/nydVqPHnqbB0EjsFfHvNUHb7tfriU4TZKj3GFok7wnR/fmDa
+	mCUw==
+X-Gm-Message-State: AHQUAuZpz87E7nr2STfIaeEk2fHE9jQA28CfcPc5NQAQeOe3njarfvon
+	xKAhP0XXSfkvoNZ07k2BJCJiEb2SsfGMzA==
+X-Google-Smtp-Source: AHgI3IZXpHzKTev+OQBG3fZYMLEAxdRTDsL/5Bl2zoByqnqye+rB/lEHVU4GtLK8E/j7QL0CzJ6GCA==
+X-Received: by 2002:a9d:5f83:: with SMTP id g3mr15580247oti.346.1550497349317; 
+	Mon, 18 Feb 2019 05:42:29 -0800 (PST)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com.
+	[209.85.210.52])
+	by smtp.gmail.com with ESMTPSA id z6sm5450562otq.68.2019.02.18.05.42.28
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Feb 2019 05:41:44 -0800 (PST)
+	Mon, 18 Feb 2019 05:42:28 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot1-f54.google.com with SMTP id b3so28289054otp.4
+Received: by mail-ot1-f52.google.com with SMTP id s5so28280960oth.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 05:41:44 -0800 (PST)
-X-Received: by 2002:aca:ac45:: with SMTP id v66mr13764272oie.134.1550497303830;
-	Mon, 18 Feb 2019 05:41:43 -0800 (PST)
+	Mon, 18 Feb 2019 05:42:28 -0800 (PST)
+X-Received: by 2002:aca:ecd5:: with SMTP id
+	k204mr13570339oih.153.1550497347796; 
+	Mon, 18 Feb 2019 05:42:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20190218132948.27668-1-fabio.berton@ossystems.com.br>
-In-Reply-To: <20190218132948.27668-1-fabio.berton@ossystems.com.br>
-Date: Mon, 18 Feb 2019 10:41:31 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoV+=+X6X1qh6K4NQWMON5Pu9auTCGFadj0nVjRsxTn-w@mail.gmail.com>
-Message-ID: <CAP9ODKoV+=+X6X1qh6K4NQWMON5Pu9auTCGFadj0nVjRsxTn-w@mail.gmail.com>
+	<20190218132948.27668-2-fabio.berton@ossystems.com.br>
+In-Reply-To: <20190218132948.27668-2-fabio.berton@ossystems.com.br>
+Date: Mon, 18 Feb 2019 10:42:16 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo6=a1rF6=bxFPw4NAke6hCNDWuveHUcQ_2EVOUTr_m6A@mail.gmail.com>
+Message-ID: <CAP9ODKo6=a1rF6=bxFPw4NAke6hCNDWuveHUcQ_2EVOUTr_m6A@mail.gmail.com>
 To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] mesa: Update 18.1.9 -> 18.3.3
+Subject: Re: [PATCH 2/3] mesa: Replace dri-native with dri for native and nativesdk classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,34 +70,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 13:41:45 -0000
+X-List-Received-Date: Mon, 18 Feb 2019 13:42:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, Feb 18, 2019 at 10:30 AM Fabio Berton
 <fabio.berton@ossystems.com.br> wrote:
 >
->   - Refresh all patches.
+> Instead of using a native specific packageconfig option, we now set
+> the swrast as the supported driver.
 >
->   - Remove "Use Python 3 to execute the scripts" patch
->       Commit 986033a2750c1160a4cef3c8418fc7f9e2b4fb5a add support
->       for both python 2 and 3.
->
->   - Remove "dri: i965: Add missing time.h include" patch
->       Commit 3c288da5eec81ee58b85927df18d9194ead8f5c2 add time.h
->       header file.
->
->   - Remove --enable-texture-float.
->       Commit 66673bef941af344314fe9c91cad8cd330b245eb remove option to
->       unconditionally enable floating-point textures.
->
->   - Commit 30b10dbb7c6f6bdf3e489620f8333c727bd3a6dd moved
->     ${sysconfdir}/drirc to ${datadir}/drirc.d/00-mesa-defaults.conf
->
->   - Add patch to fix mesa-native build
+> Based on https://patchwork.openembedded.org/patch/158748/
 >
 > Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
 
 -- 
 Otavio Salvador                             O.S. Systems
