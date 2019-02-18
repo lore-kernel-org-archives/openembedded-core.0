@@ -1,51 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DEDF6C1F6
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B36D7C891
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 21:38:41 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id i5so30717579oto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 13:38:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4kUNwXKnZfM6y3h/nHwCPtizoeF5iwJblbl2MG+RxEg=;
-	b=WmukwhpEg77ITyWjinlM4GyNTq91JexXlxE7q69jAN8fX8xIwgRFegGeCTJTvjZMWq
-	VJzci+FbERWW/1LPpqqneENxepBPLfr2fWzgb5Y0MRW2ZAywLjeniFxxCyaB7ooFtyPr
-	pneVSV9YWjg3ySkqssX7CVWBvPik9sgmxxeXpYMeaDnjxqjH9kZ6X7TeSdDfPu913UZl
-	P5gU0YF4YJ5u7RY2DDCya7luTapysLd+z1ZeCZCaFX8n7Ug1SFd589xkCRV8ynYZlOO0
-	e9ZDlvc5bJ6/7YodhGT5pP+dr9eRenOqREBgTmyfM2w4XMhdbW7S4KOD9ddSjtNPhlhD
-	BzKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4kUNwXKnZfM6y3h/nHwCPtizoeF5iwJblbl2MG+RxEg=;
-	b=Hrci6GAN2IPMzkDCVZnX77w1dHoCItP+TUgKBcAvoKEkA1i9I1fRnKCqedcKu5ZIyG
-	55v79TP7q6/rSvSdFla5qEWU16KNmeimM1ihB5dxHNCiV7mwvPVFWl+Y4isXQ8u4ceMm
-	vgFK4V17RyCC10KQK4ygumbhj9P6hqS2DHqmfP7jTTKvuZ+cHEPKYrb1tPmGdeb55ROG
-	kT4uiRkM0oGawBK6UBzax/rsPqs+qCbOT0WXWirRxN0kqH6dyyVTasPtz5zcWhrPirln
-	bb6Xer4lm+pcvPHXgVwfHCtPVCAUa4Vy1kpeMmBowhfopQ0/a3bebpmNCFUu2yUyp5hZ
-	Ndnw==
-X-Gm-Message-State: AHQUAubjte3vB8Z96qe48TpdoheCNq25NoM1K/ZnYl4ayHplQGPM4PAl
-	sqsqq9bX13JbtJhiyHthArn43KC9/hM7Vwtv370=
-X-Google-Smtp-Source: AHgI3Ia+E/El35NF1jmxSadvB97fAbxMHH+j5A4nOyMgxFrdKN9ncdaaoKQ1TOOWZqqlIUXDd+QlkB3QrzZizEXzU2A=
-X-Received: by 2002:aca:c3cb:: with SMTP id t194mr563141oif.70.1550525922396; 
-	Mon, 18 Feb 2019 13:38:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20190218132948.27668-1-fabio.berton@ossystems.com.br>
-	<20190218132948.27668-2-fabio.berton@ossystems.com.br>
-	<b44b056e67f02f40a40be9cef5614123b1caf906.camel@linuxfoundation.org>
-	<CANNYZj_XPBcXkqEkpkRZNqY6YQZTq0iNOmxa7HJZP77kUUZ_5w@mail.gmail.com>
-	<730c5d1fe48cd4ed6063e0434271e3ab97ccd66e.camel@linuxfoundation.org>
-	<CANNYZj9jUGVhKv3muArOrvrBLkPoWSb0eOSZmbQJ3jDKctkBCA@mail.gmail.com>
-In-Reply-To: <CANNYZj9jUGVhKv3muArOrvrBLkPoWSb0eOSZmbQJ3jDKctkBCA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 18 Feb 2019 22:38:30 +0100
-Message-ID: <CANNYZj9+iNCrkA-8q2-m70F-PhyhfXhw1ZYtSe2ft-RbMoQFbA@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] mesa: Replace dri-native with dri for native and nativesdk classes
+	Mon, 18 Feb 2019 22:57:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id BABB240BB1;
+	Mon, 18 Feb 2019 22:49:22 +0000 (UTC)
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id pdqG1iJ4omOt; Mon, 18 Feb 2019 22:49:22 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 9B50E40B53;
+	Mon, 18 Feb 2019 22:49:21 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 22A1216B4D1;
+	Mon, 18 Feb 2019 17:49:20 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Feb 2019 17:49:03 -0500
+Message-Id: <db40582b90645c4f89fa527108eac7c9b1a2fecb.1550529998.git.denys@ti.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1550529998.git.denys@ti.com>
+References: <cover.1550529998.git.denys@ti.com>
+In-Reply-To: <cover.1550529998.git.denys@ti.com>
+References: <cover.1550529998.git.denys@ti.com>
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH 2/6] lzip: upgrade 1.20 -> 1.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,26 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 21:38:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Feb 2019 22:57:05 -0000
 
-Also, mesa 18.3.4 is out :) so you could add that in as well in v2.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Alex
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-extended/lzip/{lzip_1.20.bb => lzip_1.21.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lzip/{lzip_1.20.bb => lzip_1.21.bb} (88%)
 
-On Mon, 18 Feb 2019 at 19:20, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Mon, 18 Feb 2019 at 19:12, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->
-> > That does, I think the patch still needs DRIDRIVERS = "swrast" though?
-> > The details here should be in the commit message too.
->
-> Ah, I forgot one more detail which explains the above: there are two
-> swrast drivers, one dri-based, another gallium-based. Autotools lets
-> you build both (not sure which one is installed then), meson forces
-> you to choose. Thus DRIDRIVERS = "swrast" is only set for _native, as
-> for _target we get the gallium driver instead.
->
-> Alex
+diff --git a/meta/recipes-extended/lzip/lzip_1.20.bb b/meta/recipes-extended/lzip/lzip_1.21.bb
+similarity index 88%
+rename from meta/recipes-extended/lzip/lzip_1.20.bb
+rename to meta/recipes-extended/lzip/lzip_1.21.bb
+index ed648e8..bb3d2a6 100644
+--- a/meta/recipes-extended/lzip/lzip_1.20.bb
++++ b/meta/recipes-extended/lzip/lzip_1.21.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
+                     file://decoder.cc;beginline=3;endline=16;md5=db09fe3f9573f94d0076f7f07959e6e1"
+ 
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
+-SRC_URI[md5sum] = "21c1517da2ace9689fd953918660b3c3"
+-SRC_URI[sha256sum] = "c93b81a5a7788ef5812423d311345ba5d3bd4f5ebf1f693911e3a13553c1290c"
++SRC_URI[md5sum] = "c0061730d017ea593a09308edc547128"
++SRC_URI[sha256sum] = "e48b5039d3164d670791f9c5dbaa832bf2df080cb1fbb4f33aa7b3300b670d8b"
+ 
+ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
+-- 
+2.7.4
+
 
