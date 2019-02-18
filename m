@@ -1,23 +1,55 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DBC3F7C69A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B40FC6B513
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 05:16:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Feb 2019 21:16:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,383,1544515200"; d="scan'208";a="145117481"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.183])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2019 21:16:19 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Mon, 18 Feb 2019 07:08:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1F4AA18107
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:20 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id stqrHs5CEVO6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 7E69E182CF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 669F11E078
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5AA391E075
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 4EF66F96
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:19 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x1I78ISE024220
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 08:08:18 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x1I78Is0024219
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Feb 2019 08:08:18 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2019 13:16:17 +0800
-Message-Id: <20190218051617.5413-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] cairo: fix UPSTREAM_CHECK_REGEX
+Date: Mon, 18 Feb 2019 08:08:06 +0100
+Message-Id: <20190218070808.24163-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2 1/3] libc-package.bbclass: Correct a few paths for when usrmerge is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +62,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 05:16:19 -0000
+X-List-Received-Date: Mon, 18 Feb 2019 07:08:21 -0000
 
-Otherwise it matches versions for 'rcairo' as well.
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-graphics/cairo/cairo_1.16.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/libc-package.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index 3e176930cc..cdef023198 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -83,3 +83,5 @@ FILES_${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
- FILES_${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 0b4c666a74..60000a9547 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -68,8 +68,8 @@ do_prep_locale_tree() {
+ 		gunzip $i
+ 	done
+ 	tar -cf - -C ${LOCALETREESRC}${base_libdir} -p . | tar -xf - -C $treedir/${base_libdir}
+-	if [ -f ${STAGING_DIR_NATIVE}${prefix_native}/lib/libgcc_s.* ]; then
+-		tar -cf - -C ${STAGING_DIR_NATIVE}/${prefix_native}/${base_libdir} -p libgcc_s.* | tar -xf - -C $treedir/${base_libdir}
++	if [ -f ${STAGING_LIBDIR_NATIVE}/libgcc_s.* ]; then
++		tar -cf - -C ${STAGING_LIBDIR_NATIVE} -p libgcc_s.* | tar -xf - -C $treedir/${base_libdir}
+ 	fi
+ 	install -m 0755 ${LOCALETREESRC}${bindir}/localedef $treedir/${base_bindir}
+ }
+@@ -278,7 +278,7 @@ python package_do_split_gconvs () {
+             qemu_options = d.getVar('QEMU_OPTIONS')
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+UPSTREAM_CHECK_REGEX = "cairo-(?P<pver>\d+(\.\d+)+).tar.xz"
+             cmd = "PSEUDO_RELOADED=YES PATH=\"%s\" I18NPATH=\"%s\" %s -L %s \
+-                -E LD_LIBRARY_PATH=%s %s %s/bin/localedef %s" % \
++                -E LD_LIBRARY_PATH=%s %s %s${base_bindir}/localedef %s" % \
+                 (path, i18npath, qemu, treedir, ldlibdir, qemu_options, treedir, localedef_opts)
+ 
+         commands["%s/%s" % (outputpath, name)] = cmd
 -- 
-2.17.1
+2.12.0
 
 
