@@ -1,57 +1,44 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 586547C837
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F7C46BC3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 07:08:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2631118107
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:23 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id fOUDpJyOaD7i
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 75CEF182CF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6228C1A061
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 56C5A1A060
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 4AF7A1973
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:22 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x1I78LQP024230
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 08:08:21 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x1I78LJk024229
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2019 08:08:21 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2019 08:08:08 +0100
-Message-Id: <20190218070808.24163-3-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <20190218070808.24163-1-pkj@axis.com>
-References: <20190218070808.24163-1-pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2 3/3] libc-package.bbclass: Add a progress meter for the package task
+	Mon, 18 Feb 2019 08:09:07 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Feb 2019 00:09:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,383,1544515200"; d="scan'208";a="118764095"
+Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
+	by orsmga008.jf.intel.com with ESMTP; 18 Feb 2019 00:09:06 -0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.167]) by
+	KMSMSX156.gar.corp.intel.com ([169.254.1.240]) with mapi id
+	14.03.0415.000; Mon, 18 Feb 2019 16:09:05 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/2 v7] test-case-mgmt
+Thread-Index: AQHUxttIuwYb6D1IKEyU0QOXDjzg8qXjv9EAgABRY4CAARpdoA==
+Date: Mon, 18 Feb 2019 08:09:04 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434818607F@PGSMSX109.gar.corp.intel.com>
+References: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
+	<f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
+	<8f788c03bb214b6b23dacec18b9efbc32d6bf81c.camel@linuxfoundation.org>
+	<8f156c0c1b0cc7fe18bd25a03a8f5f0cdc4f422d.camel@linuxfoundation.org>
+In-Reply-To: <8f156c0c1b0cc7fe18bd25a03a8f5f0cdc4f422d.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNDUzYmE4ODctZmQ1MS00YjdjLWI3YmEtZDRkOGI3OTFjZGIwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQVRSUmpqVzIzUmo4MVo1Qm1wU0RneVpTVTFtNkQwNld6NFwvOVRmUENyR3BtRVVKVkdnZDlNdlN5OCtyUU4yOWUifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2 v7] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,41 +51,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 07:08:22 -0000
+X-List-Received-Date: Mon, 18 Feb 2019 08:09:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The package task for glibc-locale takes a very long time to execute,
-especially if using qemu. In that case, a progress meter helps a lot to
-show the progress of the task.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
-
-PATCHv2: Use enumerate().
-
- meta/classes/libc-package.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index cf0d8901e3..34c9151ae9 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -348,11 +348,14 @@ python package_do_split_gconvs () {
-         makefile = oe.path.join(d.getVar("WORKDIR"), "locale-tree", "Makefile")
-         m = open(makefile, "w")
-         m.write("all: %s\n\n" % " ".join(commands.keys()))
--        for cmd in commands:
-+        total = len(commands)
-+        for i, cmd in enumerate(commands):
-             m.write(cmd + ":\n")
-+            m.write("\t@echo 'Progress %d/%d'\n" % (i, total))
-             m.write("\t" + commands[cmd] + "\n\n")
-         m.close()
-         d.setVar("EXTRA_OEMAKE", "-C %s ${PARALLEL_MAKE}" % (os.path.dirname(makefile)))
-+        d.setVarFlag("oe_runmake", "progress", "outof:Progress\s(\d+)/(\d+)")
-         bb.note("Executing binary locale generation makefile")
-         bb.build.exec_func("oe_runmake", d)
-         bb.note("collecting binary locales from locale tree")
--- 
-2.12.0
-
+SGkgUlAsDQoNClRoYW5rIHlvdSB2ZXJ5IG11Y2ggYWdhaW4gZm9yIGNvbnRpbnVvdXNseSBwcm92
+aWRpbmcgeW91ciBwcmVjaW91cyBmZWVkYmFja3MgdG8gbWUuDQpBbHNvIHRoYW5rIHlvdSB2ZXJ5
+IG11Y2ggZm9yIHNwZW5kaW5nIGdyZWF0IGFtb3VudCBvZiB0aW1lIHRvIGltcHJvdmUgdGhpcyBw
+YXRjaHNldCBzaWdpbmlmaWNhbnRseS4gDQogDQpJIGRpZCBzb21lIHRlc3Rpbmcgd2l0aCB0aGUg
+bGF0ZXN0IGZyb20gcmVzdWx0dG9vbDogVXBkYXRlIHRvIHVzZSBnaXRhcmNoaXZlIGxpYnJhcnkg
+ZnVuY3Rpb24uIA0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3ktY29u
+dHJpYi9jb21taXQvP2g9cnB1cmRpZS90MjIyJmlkPWI5ZWVjYWFiZTU2ZGI1YmNhZmZmMzFlNjdj
+ZGFiYWRjNDJlMmQyZTQNCg0KSSBoYWQgMiBxdWVzdGlvbnMuIA0KMS4gRm9yICJyZXN1bHR0b29s
+IHJlZ3Jlc3Npb24iLCBjdXJyZW50bHkgaXQgd2FzIGNvbXBhcmluZyByZXN1bHQgaWQgc2V0IHdp
+dGhvdXQgY29tcHJlaGVuZGluZyB0aGUgZGlmZmVyZW5jZSBpbiB0aGUgaG9zdCBkaXN0cm8gdXNl
+ZCB0byBleGVjdXRlZCB0aGUgb2VzZWxmdGVzdC4gRXhhbXBsZTogaXQgd2FzIG1hdGNoaW5nIG9l
+c2VsZnRlc3QgcnVuIHdpdGggZmVkb3JhMjggaG9zdCBkaXN0cm8gd2l0aCBvZXNlbGZ0ZXN0IHJ1
+biB3aXRoIHVidW50dTE4IGhvc3QgZGlzdHJvLCBpcyB0aGlzIHRoZSBleHBlY3RlZCBiZWhhdmlv
+cj8gDQpNYXRjaDogb2VzZWxmdGVzdF9mZWRvcmEtMjhfcWVtdXg4Ni02NF8yMDE5MDIwMTE4MTY1
+Ng0KICAgICAgIG9lc2VsZnRlc3RfdWJ1bnR1LTE4LjA0X3FlbXV4ODYtNjRfMjAxOTAyMDExNzUw
+MjMNCk1hdGNoOiBvZXNlbGZ0ZXN0X2ZlZG9yYS0yNl9xZW11eDg2LTY0XzIwMTkwMTMxMTQ0MzE3
+DQogICAgICAgb2VzZWxmdGVzdF9mZWRvcmEtMjZfcWVtdXg4Ni02NF8yMDE5MDEzMTE0NDMxNw0K
+TWF0Y2g6IG9lc2VsZnRlc3RfdWJ1bnR1LTE4LjA0X3FlbXV4ODYtNjRfMjAxOTAyMDExNzUwMjMN
+CiAgICAgICBvZXNlbGZ0ZXN0X2ZlZG9yYS0yOF9xZW11eDg2LTY0XzIwMTkwMjAxMTgxNjU2DQpN
+YXRjaDogb2VzZWxmdGVzdF9vcGVuc3VzZS00Mi4zX3FlbXV4ODYtNjRfMjAxOTAxMjYxNTI2MTIN
+CiAgICAgICBvZXNlbGZ0ZXN0X29wZW5zdXNlLTQyLjNfcWVtdXg4Ni02NF8yMDE5MDEyNjE1MjYx
+Mg0KDQpJIGJlbGlldmUgdGhhdCB3ZSBzaGFsbCBjb21wcmVoZW5kIHRoZSAnSE9TVF9ESVNUUk8n
+IGNvbmZpZ3VyYXRpb24gaW5zaWRlIHRoZSByZWdyZXNzaW9uX21hcC4gIA0KcmVncmVzc2lvbl9t
+YXAgPSB7DQotICAgICJvZXNlbGZ0ZXN0IjogWydURVNUX1RZUEUnLCAnTUFDSElORSddLA0KKyAg
+ICAib2VzZWxmdGVzdCI6IFsnVEVTVF9UWVBFJywgJ0hPU1RfRElTVFJPJywgJ01BQ0hJTkUnXSwN
+CiAgICAgInJ1bnRpbWUiOiBbJ1RFU1RTRVJJRVMnLCAnVEVTVF9UWVBFJywgJ0lNQUdFX0JBU0VO
+QU1FJywgJ01BQ0hJTkUnLCAnSU1BR0VfUEtHVFlQRScsICdESVNUUk8nXSwNCiAgICAgInNkayI6
+IFsnVEVTVFNFUklFUycsICdURVNUX1RZUEUnLCAnSU1BR0VfQkFTRU5BTUUnLCAnTUFDSElORScs
+ICdTREtNQUNISU5FJ10sDQogICAgICJzZGtleHQiOiBbJ1RFU1RTRVJJRVMnLCAnVEVTVF9UWVBF
+JywgJ0lNQUdFX0JBU0VOQU1FJywgJ01BQ0hJTkUnLCAnU0RLTUFDSElORSddDQogfQ0KDQpBZnRl
+ciBjb21wcmVoZW5kaW5nIHRoaXMgJ0hPU1RfRElTVFJPJywgaXQgd2FzIGFibGUgdG8gcGVyZm9y
+bSByZWdyZXNzaW9uIGZvciBvZXNlbGZ0ZXN0IHdpdGggdGhlIG1hdGNoaW5nIGhvc3QgZGlzdHJv
+Lg0KTWF0Y2g6IG9lc2VsZnRlc3RfdWJ1bnR1LTE4LjA0X3FlbXV4ODYtNjRfMjAxOTAyMDExNzUw
+MjMNCiAgICAgICBvZXNlbGZ0ZXN0X3VidW50dS0xOC4wNF9xZW11eDg2LTY0XzIwMTkwMjAxMTc1
+MDIzDQpNYXRjaDogb2VzZWxmdGVzdF9vcGVuc3VzZS00Mi4zX3FlbXV4ODYtNjRfMjAxOTAxMjYx
+NTI2MTINCiAgICAgICBvZXNlbGZ0ZXN0X29wZW5zdXNlLTQyLjNfcWVtdXg4Ni02NF8yMDE5MDEy
+NjE1MjYxMg0KTWF0Y2g6IG9lc2VsZnRlc3RfZmVkb3JhLTI2X3FlbXV4ODYtNjRfMjAxOTAxMzEx
+NDQzMTcNCiAgICAgICBvZXNlbGZ0ZXN0X2ZlZG9yYS0yNl9xZW11eDg2LTY0XzIwMTkwMTMxMTQ0
+MzE3DQpNYXRjaDogb2VzZWxmdGVzdF9mZWRvcmEtMjhfcWVtdXg4Ni02NF8yMDE5MDIwMTE4MTY1
+Ng0KICAgICAgIG9lc2VsZnRlc3RfZmVkb3JhLTI4X3FlbXV4ODYtNjRfMjAxOTAyMDExODE2NTYN
+Cg0KMi4gRm9yICJyZXN1bHR0b29sIHN0b3JlIiwgSSBoYWQgbm90aWNlZCB0aGF0IGl0IHdpbGwg
+bm93IGdlbmVyYWxseSBzdG9yZWQgdGVzdHJlc3VsdHMuanNvbiBpbiBhIG1lYW5pbmdmdWwgZmls
+ZSBkaXJlY3Rvcnkgc3RydWN0dXJlIGJhc2VkIG9uIHRoZSBzdG9yZV9tYXAgZXhjZXB0IG9lc2Vs
+ZnRlc3QuIG9lc2VsZnRlc3QgY3VycmVudGx5IHN0b3JlIG11bHRpcGxlIHJlc3VsdCBpZCBzZXQg
+aW5zaWRlIG9zZWxmdGVzdCBmaWxlIGRpcmVjdG9yeSB3aXRob3V0IGNvbXByZWhlbmQgdGhlIGhv
+c3QgZGlzdHJvLiANCg0KRm9yIGV4YW1wbGUgcnVudGltZSwgc3RvcmUgdGVzdHJlc3VsdC5qc29u
+IHdpdGggdGhlIGNvbmZpZ3VyZWQgc3RvcmVfbWFwLiANCuKUnOKUgOKUgCBvZXNlbGZ0ZXN0DQri
+lILCoMKgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQrilJzilIDilIAgcnVudGltZQ0K4pSC
+wqDCoCDilJzilIDilIAgcG9reQ0K4pSCwqDCoCDilILCoMKgIOKUnOKUgOKUgCBxZW11YXJtDQri
+lILCoMKgIOKUgsKgwqAg4pSCwqDCoCDilJzilIDilIAgY29yZS1pbWFnZS1taW5pbWFsDQrilILC
+oMKgIOKUgsKgwqAg4pSCwqDCoCDilILCoMKgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQri
+lILCoMKgIOKUgsKgwqAg4pSCwqDCoCDilJzilIDilIAgY29yZS1pbWFnZS1zYXRvDQrilILCoMKg
+IOKUgsKgwqAg4pSCwqDCoCDilILCoMKgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQrilILC
+oMKgIOKUgsKgwqAg4pSCwqDCoCDilJTilIDilIAgY29yZS1pbWFnZS1zYXRvLXNkaw0K4pSCwqDC
+oCDilILCoMKgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQrilILCoMKg
+IOKUgsKgwqAg4pSc4pSA4pSAIHFlbXVhcm02NA0K4pSCwqDCoCDilILCoMKgIOKUgsKgwqAg4pSc
+4pSA4pSAIGNvcmUtaW1hZ2UtbWluaW1hbA0K4pSCwqDCoCDilILCoMKgIOKUgsKgwqAg4pSCwqDC
+oCDilJTilIDilIAgdGVzdHJlc3VsdHMuanNvbg0K4pSCwqDCoCDilILCoMKgIOKUgsKgwqAg4pSc
+4pSA4pSAIGNvcmUtaW1hZ2Utc2F0bw0K4pSCwqDCoCDilILCoMKgIOKUgsKgwqAg4pSCwqDCoCDi
+lJTilIDilIAgdGVzdHJlc3VsdHMuanNvbg0K4pSCwqDCoCDilILCoMKgIOKUgsKgwqAg4pSU4pSA
+4pSAIGNvcmUtaW1hZ2Utc2F0by1zZGsNCuKUgsKgwqAg4pSCwqDCoCDilILCoMKgICAgICDilJTi
+lIDilIAgdGVzdHJlc3VsdHMuanNvbg0KDQpJIGJlbGlldmUgdGhhdCB3ZSBzaGFsbCBhZ2FpbiBj
+b21wcmVoZW5kIHRoZSAnSE9TVF9ESVNUUk8nIGNvbmZpZ3VyYXRpb24gaW5zaWRlIHRoZSBzdG9y
+ZV9tYXAuICANCnN0b3JlX21hcCA9IHsNCi0gICAgIm9lc2VsZnRlc3QiOiBbJ1RFU1RfVFlQRSdd
+LA0KKyAgICAib2VzZWxmdGVzdCI6IFsnVEVTVF9UWVBFJywnSE9TVF9ESVNUUk8nXSwNCiAgICAg
+InJ1bnRpbWUiOiBbJ1RFU1RfVFlQRScsICdESVNUUk8nLCAnTUFDSElORScsICdJTUFHRV9CQVNF
+TkFNRSddLA0KICAgICAic2RrIjogWydURVNUX1RZUEUnLCAnTUFDSElORScsICdTREtNQUNISU5F
+JywgJ0lNQUdFX0JBU0VOQU1FJ10sDQogICAgICJzZGtleHQiOiBbJ1RFU1RfVFlQRScsICdNQUNI
+SU5FJywgJ1NES01BQ0hJTkUnLCAnSU1BR0VfQkFTRU5BTUUnXQ0KDQpEb2luZyBzbywgaXQgd2ls
+bCBzdG9yZSBvZXNlbGZ0ZXN0IGluIGEgbW9yZSB1c2VmdWwgZmlsZSBkaXJlY3Rvcnkgc3RydWN0
+dXJlIHdpdGggaG9zdCBkaXN0cm8gY29tcHJlaGVuZGVkLiANCuKUlOKUgOKUgCBvZXNlbGZ0ZXN0
+DQogICAg4pSc4pSA4pSAIGZlZG9yYS0yNg0KICAgIOKUgsKgwqAg4pSU4pSA4pSAIHRlc3RyZXN1
+bHRzLmpzb24NCiAgICDilJzilIDilIAgZmVkb3JhLTI4DQogICAg4pSCwqDCoCDilJTilIDilIAg
+dGVzdHJlc3VsdHMuanNvbg0KICAgIOKUnOKUgOKUgCBvcGVuc3VzZS00Mi4zDQogICAg4pSCwqDC
+oCDilJTilIDilIAgdGVzdHJlc3VsdHMuanNvbg0KICAgIOKUlOKUgOKUgCB1YnVudHUtMTguMDQN
+CiAgICAgICAg4pSU4pSA4pSAIHRlc3RyZXN1bHRzLmpzb24NCg0KUGxlYXNlIGxldCBtZSBrbm93
+IGlmIHlvdSBoYXZlIGFueSBxdWVzdGlvbiByZWxhdGVkIHRvIGFib3ZlLiANCg0KQmVzdCByZWdh
+cmRzLA0KWWVvaCBFZSBQZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
+UmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
+XSANClNlbnQ6IE1vbmRheSwgRmVicnVhcnkgMTgsIDIwMTkgNjo0NiBBTQ0KVG86IFllb2gsIEVl
+IFBlbmcgPGVlLnBlbmcueWVvaEBpbnRlbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAwLzIgdjddIHRl
+c3QtY2FzZS1tZ210DQoNCk9uIFN1biwgMjAxOS0wMi0xNyBhdCAxNzo1NCArMDAwMCwgUmljaGFy
+ZCBQdXJkaWUgd3JvdGU6DQo+ID4gRGVzcGl0ZSBteSBjaGFuZ2VzIHRoZXJlIGFyZSB0aGluZ3Mg
+dGhhdCBzdGlsbCBuZWVkIHRvIGJlIGRvbmUuDQo+ID4gRXNzZW50aWFsIHRoaW5ncyB3aGljaCBu
+ZWVkIHRvIGhhcHBlbiBiZWZvcmUgdGhpcyBjb2RlIG1lcmdlczoNCj4gPiANCj4gPiAqIG9lLWdp
+dC1hcmNoaXZlIGlzIGltcG9ydGluZyB1c2luZyB0aGUgY29tbWl0L2JyYW5jaCBvZiB0aGUgY3Vy
+cmVudA0KPiA+ICAgcmVwbywgbm90IHRoZSBkYXRhIGluIHRoZSByZXN1bHRzIGZpbGUuDQoNCkFs
+c28gbm93IGZpeGVkLiBJIHB1dCBteSBwYXRjaGVzIGludG8gbWFzdGVyLW5leHQgdG9vLg0KDQpX
+aXRoIHRoaXMgd29ya2luZywgSSB3YXMgYWJsZSB0byBydW4gc29tZXRoaW5nIGFsb25nIHRoZSBs
+aW5lcyBvZjoNCg0KZm9yIEQgaW4gJDEvKjsgZG8NCiAgICByZXN1bHR0b29sIHN0b3JlICREICQy
+IC0tYWxsb3ctZW1wdHkgZG9uZQ0KDQpvbiB0aGUgYXV0b2J1aWxkZXIncyByZWNlbnQgcmVzdWx0
+cyB3aGljaCBsZWFkIHRvIHRoZSBjcmVhdGlvbiBvZiB0aGlzDQpyZXBvc2l0b3J5Og0KDQpodHRw
+Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC5jZ2kveW9jdG8tdGVzdHJlc3VsdHMvDQoNCg0K
+PiA+ICogUmV2aXNpdCBhbmQgcmVkbyB0aGUgd2F5IHRoZSBnaXQgYnJhbmNoIGhhbmRsaW5nIGlz
+IGhhcHBlbmluZy4NCj4gPiBXZSANCj4gPiAgIHJlYWxseSB3YW50IHRvIG1vZGVsIGhvdyBvZS1i
+dWlsZC1wZXJmLXJlcG9ydCBoYW5kbGVzIGdpdCByZXBvcyANCj4gPiBmb3INCj4gPiAgIGNvbXBh
+cmlzb25zOg0KPiA+ICAgLSBJdHMgYWJsZSB0byBxdWVyeSBkYXRhIGZyb20gZ2l0IHJlcG9zIHdp
+dGhvdXQgY2hhbmdpbmcgdGhlIA0KPiA+IGN1cnJlbnQNCj4gPiAgICAgd29ya2luZyBicmFuY2gs
+IA0KPiA+ICAgLSBpdCBjYW4gc2VhcmNoIG9uIHRhZyBmb3JtYXRzIHRvIGZpbmQgY29tcGFyaXNv
+biBkYXRhDQoNCldoaWNoIG1lYW5zIHdlIG5vdyBuZWVkIHRvIG1ha2UgdGhlIGdpdCBicmFuY2gg
+ZnVuY3Rpb25hbGl0eSBvZiB0aGUgcmVwb3J0IGFuZCByZWdyZXNzaW9uIGNvbW1hbmRzIGNvbXBh
+cmUgd2l0aCB0aGUgYWJvdmUgcmVwbywgc28gd2UncmUgYSBzdGVwIGNsb3NlciB0byBnZXR0aW5n
+IHRoaWUgbWVyZ2VkLg0KDQpVbHRpbWF0ZWx5IHdlJ2xsIGF1dG8tcG9wdWxhdGUgdGhlIGFib3Zl
+IHJlcG8gYnkgaGF2aW5nIHRoZSBhdXRvYnVpbGRlciBydW4gYSAic3RvcmUiIGNvbW1hbmQgYXQg
+dGhlIGVuZCBvZiBpdHMgcnVucy4NCg0KSSBoYXZlIGEgZmVlbGluZyBJIG1heSBoYXZlIGJyb2tl
+biB0aGUgcmVzdWx0dG9vbCBzZWxmdGVzdHMgc28gdGhhdCBpcyBzb21ldGhpbmcgZWxzZSB3aGlj
+aCB3aWxsIG5lZWQgdG8gYmUgZml4ZWQgYmVmb3JlIGFueXRoaW5nIG1lcmdlcy4gVGltZSBmb3Ig
+bWUgdG8gc3RlcCBhd2F5IGZyb20gdGhlIGtleWJvYXJkIGZvciBhIGJpdCB0b28uDQoNCkNoZWVy
+cywNCg0KUmljaGFyZA0KDQoNCg==
 
