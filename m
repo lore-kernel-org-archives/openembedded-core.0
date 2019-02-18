@@ -1,46 +1,29 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id D30097C70A
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 22BD97C78D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 09:20:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Feb 2019 01:20:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,384,1544515200"; d="scan'208";a="275865329"
-Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
-	by orsmga004.jf.intel.com with ESMTP; 18 Feb 2019 01:20:36 -0800
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.167]) by
-	KMSMSX154.gar.corp.intel.com ([169.254.12.138]) with mapi id
-	14.03.0415.000; Mon, 18 Feb 2019 17:20:35 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2 v7] test-case-mgmt
-Thread-Index: AQHUx2liuwYb6D1IKEyU0QOXDjzg8qXlRl7A
-Date: Mon, 18 Feb 2019 09:20:35 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D043481860E7@PGSMSX109.gar.corp.intel.com>
-References: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
-	<f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
-	<8f788c03bb214b6b23dacec18b9efbc32d6bf81c.camel@linuxfoundation.org>
-	<8f156c0c1b0cc7fe18bd25a03a8f5f0cdc4f422d.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D0434818607F@PGSMSX109.gar.corp.intel.com>
-	<f8f1b23ffe248d9ad469b25ed2226fa426ed152c.camel@linuxfoundation.org>
-In-Reply-To: <f8f1b23ffe248d9ad469b25ed2226fa426ed152c.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTM2Nzc5NjItMTAyYS00ZDAyLTlmYjgtNjZiMWE3MjViZmU5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRnFLdEZPaWhcL0o5K2ZjRTFXS0NFbnFrV0VkQ3I3QnJuSWlmRmc1RmdtN1wvUVJuV2xkdHE4UGgrYjdoSzVhXC9KTCJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Mon, 18 Feb 2019 09:34:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1I9YFWk020547
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Feb 2019 01:34:26 -0800
+Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.435.0;
+	Mon, 18 Feb 2019 01:34:04 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1550195817.git.kai.kang@windriver.com>
+	<4367f854b1ff23bc2972294715d3837725ee7c43.1550195817.git.kai.kang@windriver.com>
+	<b82ae00685d2a9a7c6dc2710391e6e0b78a85527.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <8555dac8-afc3-392b-ba71-8c67d1cb92bd@windriver.com>
+Date: Mon, 18 Feb 2019 17:32:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2 v7] test-case-mgmt
+In-Reply-To: <b82ae00685d2a9a7c6dc2710391e6e0b78a85527.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] libidn2: fix buildpaths qa warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,88 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 09:20:37 -0000
+X-List-Received-Date: Mon, 18 Feb 2019 09:34:53 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-SGkgUmljaGFyZCwNCg0KVGhhbmsgeW91IGZvciBzaGFyaW5nIG9uIHRoZSBzZWxmdGVzdCBjb21w
-YXJpc29uIGNvbnNpZGVyYXRpb24hIA0KDQpJIGFncmVlZCB3aXRoIHlvdSB0aGF0IGluIHRoZSBo
-aWdoIGxldmVsLCBzZWxmdGVzdCBzaG91bGQgYmUgaW5kZXBlbmRlbnQgb2Ygd2hpY2ggSE9TVF9E
-SVNUUk8sIGl0IHNoYWxsIGNvbXBhcmVkIDIgc2VsZnRlc3QgZXZlbiB3aGVuIHRoZSBob3N0IGRp
-c3RybyBhcmUgZGlmZmVyZW50LiANCg0KQnV0IGluIHRoZSBjYXNlIHRoYXQgdGhlIGJ1aWxkIGhh
-dmUgbXVsdGlwbGUgc2V0IG9mIHNlbGZ0ZXN0IGVhY2ggd2l0aCBzbGlnaHRseSBkaWZmZXJlbnQg
-ZW52aXJvbm1lbnRzIChlZy4gaG9zdCBkaXN0cm8pLCBpbiB0aGF0IGNhc2UsIHdpbGwgaXQgYmV0
-dGVyIHRvIGNvbXBhcmUgc2VsZnRlc3QgbW9yZSBjbG9zZWx5IGlmIHBvc3NpYmxlIHdpdGggc2Ft
-ZSBob3N0IGRpc3RybyB1c2VkPyANCg0KQ2hlZXJzLA0KRWUgUGVuZyANCg0KLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBNb25kYXksIEZlYnJ1YXJ5IDE4LCAyMDE5
-IDU6MDggUE0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0ggMC8yIHY3XSB0ZXN0LWNhc2UtbWdtdA0KDQpIaSBFZSBQZW5nLA0KDQpPbiBN
-b24sIDIwMTktMDItMTggYXQgMDg6MDkgKzAwMDAsIFllb2gsIEVlIFBlbmcgd3JvdGU6IA0KPiBJ
-IGRpZCBzb21lIHRlc3Rpbmcgd2l0aCB0aGUgbGF0ZXN0IGZyb20gcmVzdWx0dG9vbDogVXBkYXRl
-IHRvIHVzZSANCj4gZ2l0YXJjaGl2ZSBsaWJyYXJ5IGZ1bmN0aW9uLg0KPiBodHRwOi8vZ2l0Lnlv
-Y3RvcHJvamVjdC5vcmcvY2dpdC5jZ2kvcG9reS1jb250cmliL2NvbW1pdC8/aD1ycHVyZGllL3Qy
-DQo+IDIyJmlkPWI5ZWVjYWFiZTU2ZGI1YmNhZmZmMzFlNjdjZGFiYWRjNDJlMmQyZTQNCj4gDQo+
-IEkgaGFkIDIgcXVlc3Rpb25zLiANCj4gMS4gRm9yICJyZXN1bHR0b29sIHJlZ3Jlc3Npb24iLCBj
-dXJyZW50bHkgaXQgd2FzIGNvbXBhcmluZyByZXN1bHQgaWQgDQo+IHNldCB3aXRob3V0IGNvbXBy
-ZWhlbmRpbmcgdGhlIGRpZmZlcmVuY2UgaW4gdGhlIGhvc3QgZGlzdHJvIHVzZWQgdG8gDQo+IGV4
-ZWN1dGVkIHRoZSBvZXNlbGZ0ZXN0LiBFeGFtcGxlOiBpdCB3YXMgbWF0Y2hpbmcgb2VzZWxmdGVz
-dCBydW4gd2l0aA0KPiBmZWRvcmEyOCBob3N0IGRpc3RybyB3aXRoIG9lc2VsZnRlc3QgcnVuIHdp
-dGggdWJ1bnR1MTggaG9zdCBkaXN0cm8sIGlzIA0KPiB0aGlzIHRoZSBleHBlY3RlZCBiZWhhdmlv
-cj8NCj4gTWF0Y2g6IG9lc2VsZnRlc3RfZmVkb3JhLTI4X3FlbXV4ODYtNjRfMjAxOTAyMDExODE2
-NTYNCj4gICAgICAgIG9lc2VsZnRlc3RfdWJ1bnR1LTE4LjA0X3FlbXV4ODYtNjRfMjAxOTAyMDEx
-NzUwMjMNCj4gTWF0Y2g6IG9lc2VsZnRlc3RfZmVkb3JhLTI2X3FlbXV4ODYtNjRfMjAxOTAxMzEx
-NDQzMTcNCj4gICAgICAgIG9lc2VsZnRlc3RfZmVkb3JhLTI2X3FlbXV4ODYtNjRfMjAxOTAxMzEx
-NDQzMTcNCj4gTWF0Y2g6IG9lc2VsZnRlc3RfdWJ1bnR1LTE4LjA0X3FlbXV4ODYtNjRfMjAxOTAy
-MDExNzUwMjMNCj4gICAgICAgIG9lc2VsZnRlc3RfZmVkb3JhLTI4X3FlbXV4ODYtNjRfMjAxOTAy
-MDExODE2NTYNCj4gTWF0Y2g6IG9lc2VsZnRlc3Rfb3BlbnN1c2UtNDIuM19xZW11eDg2LTY0XzIw
-MTkwMTI2MTUyNjEyDQo+ICAgICAgICBvZXNlbGZ0ZXN0X29wZW5zdXNlLTQyLjNfcWVtdXg4Ni02
-NF8yMDE5MDEyNjE1MjYxMg0KDQpUaGVyZSB3ZXJlIHR3byByZWFzb25zIGZvciB0aGlzOg0KDQph
-KSB0aGUgcmVzdWx0cyBvZiB0aGUgc2VsZnRlc3Qgc2hvdWxkIGJlIGluZGVwZW5kZW50IG9mIHdo
-aWNoIEhPU1RfRElTVFJPIHRoZXkncmUgcnVuIG9uIHNvIHRoZXkgY2FuIGJlIGNvbXBhcmVkLg0K
-DQpiKSBzb21lIGJ1aWxkcyBvbmx5IGhhdmUgb25lIG9lLXNlbGZ0ZXN0IChhLXF1aWNrKSBhbmQg
-c29tZSBoYXZlIGZvdXIgKGEtZnVsbCkuIEluIGFuIGEtcXVpY2sgYnVpbGQsIHRoZSBIT1NUX0RJ
-U1RSTyB3b3VsZCBsaWtlbHkgdGhlcmVmb3JlIGJlIGRpZmZlcmVudCBiZXR3ZWVuIHR3byBidWls
-ZHMgYnV0IHdlIHN0aWxsIHdvdWxkIGxpa2UgdGhlIHRvb2wgdG8gY29tcGFyZSB0aGVtLg0KDQo+
-IDIuIEZvciAicmVzdWx0dG9vbCBzdG9yZSIsIEkgaGFkIG5vdGljZWQgdGhhdCBpdCB3aWxsIG5v
-dyBnZW5lcmFsbHkgDQo+IHN0b3JlZCB0ZXN0cmVzdWx0cy5qc29uIGluIGEgbWVhbmluZ2Z1bCBm
-aWxlIGRpcmVjdG9yeSBzdHJ1Y3R1cmUgYmFzZWQgDQo+IG9uIHRoZSBzdG9yZV9tYXAgZXhjZXB0
-IG9lc2VsZnRlc3QuIG9lc2VsZnRlc3QgY3VycmVudGx5IHN0b3JlIA0KPiBtdWx0aXBsZSByZXN1
-bHQgaWQgc2V0IGluc2lkZSBvc2VsZnRlc3QgZmlsZSBkaXJlY3Rvcnkgd2l0aG91dCANCj4gY29t
-cHJlaGVuZCB0aGUgaG9zdCBkaXN0cm8uDQo+IA0KPiBGb3IgZXhhbXBsZSBydW50aW1lLCBzdG9y
-ZSB0ZXN0cmVzdWx0Lmpzb24gd2l0aCB0aGUgY29uZmlndXJlZCANCj4gc3RvcmVfbWFwLg0KPiDi
-lJzilIDilIAgb2VzZWxmdGVzdA0KPiDilIIgICDilJTilIDilIAgdGVzdHJlc3VsdHMuanNvbg0K
-PiDilJzilIDilIAgcnVudGltZQ0KPiDilIIgICDilJzilIDilIAgcG9reQ0KPiDilIIgICDilIIg
-ICDilJzilIDilIAgcWVtdWFybQ0KPiDilIIgICDilIIgICDilIIgICDilJzilIDilIAgY29yZS1p
-bWFnZS1taW5pbWFsDQo+IOKUgiAgIOKUgiAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgCB0ZXN0cmVz
-dWx0cy5qc29uDQo+IOKUgiAgIOKUgiAgIOKUgiAgIOKUnOKUgOKUgCBjb3JlLWltYWdlLXNhdG8N
-Cj4g4pSCICAg4pSCICAg4pSCICAg4pSCICAg4pSU4pSA4pSAIHRlc3RyZXN1bHRzLmpzb24NCj4g
-4pSCICAg4pSCICAg4pSCICAg4pSU4pSA4pSAIGNvcmUtaW1hZ2Utc2F0by1zZGsNCj4g4pSCICAg
-4pSCICAg4pSCICAgICAgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQo+IOKUgiAgIOKUgiAg
-IOKUnOKUgOKUgCBxZW11YXJtNjQNCj4g4pSCICAg4pSCICAg4pSCICAg4pSc4pSA4pSAIGNvcmUt
-aW1hZ2UtbWluaW1hbA0KPiDilIIgICDilIIgICDilIIgICDilIIgICDilJTilIDilIAgdGVzdHJl
-c3VsdHMuanNvbg0KPiDilIIgICDilIIgICDilIIgICDilJzilIDilIAgY29yZS1pbWFnZS1zYXRv
-DQo+IOKUgiAgIOKUgiAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQo+
-IOKUgiAgIOKUgiAgIOKUgiAgIOKUlOKUgOKUgCBjb3JlLWltYWdlLXNhdG8tc2RrDQo+IOKUgiAg
-IOKUgiAgIOKUgiAgICAgICDilJTilIDilIAgdGVzdHJlc3VsdHMuanNvbg0KPiANCj4gSSBiZWxp
-ZXZlIHRoYXQgd2Ugc2hhbGwgYWdhaW4gY29tcHJlaGVuZCB0aGUgJ0hPU1RfRElTVFJPJw0KPiBj
-b25maWd1cmF0aW9uIGluc2lkZSB0aGUgc3RvcmVfbWFwLiAgDQo+IHN0b3JlX21hcCA9IHsNCj4g
-LSAgICAib2VzZWxmdGVzdCI6IFsnVEVTVF9UWVBFJ10sDQo+ICsgICAgIm9lc2VsZnRlc3QiOiBb
-J1RFU1RfVFlQRScsJ0hPU1RfRElTVFJPJ10sDQo+ICAgICAgInJ1bnRpbWUiOiBbJ1RFU1RfVFlQ
-RScsICdESVNUUk8nLCAnTUFDSElORScsICdJTUFHRV9CQVNFTkFNRSddLA0KPiAgICAgICJzZGsi
-OiBbJ1RFU1RfVFlQRScsICdNQUNISU5FJywgJ1NES01BQ0hJTkUnLCAnSU1BR0VfQkFTRU5BTUUn
-XSwNCj4gICAgICAic2RrZXh0IjogWydURVNUX1RZUEUnLCAnTUFDSElORScsICdTREtNQUNISU5F
-JywgDQo+ICdJTUFHRV9CQVNFTkFNRSddDQo+IA0KPiBEb2luZyBzbywgaXQgd2lsbCBzdG9yZSBv
-ZXNlbGZ0ZXN0IGluIGEgbW9yZSB1c2VmdWwgZmlsZSBkaXJlY3RvcnkgDQo+IHN0cnVjdHVyZSB3
-aXRoIGhvc3QgZGlzdHJvIGNvbXByZWhlbmRlZC4NCj4g4pSU4pSA4pSAIG9lc2VsZnRlc3QNCj4g
-ICAgIOKUnOKUgOKUgCBmZWRvcmEtMjYNCj4gICAgIOKUgiAgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0
-cy5qc29uDQo+ICAgICDilJzilIDilIAgZmVkb3JhLTI4DQo+ICAgICDilIIgICDilJTilIDilIAg
-dGVzdHJlc3VsdHMuanNvbg0KPiAgICAg4pSc4pSA4pSAIG9wZW5zdXNlLTQyLjMNCj4gICAgIOKU
-giAgIOKUlOKUgOKUgCB0ZXN0cmVzdWx0cy5qc29uDQo+ICAgICDilJTilIDilIAgdWJ1bnR1LTE4
-LjA0DQo+ICAgICAgICAg4pSU4pSA4pSAIHRlc3RyZXN1bHRzLmpzb24NCg0KVGhlIHJlYXNvbmlu
-ZyBpcyB0aGUgc2FtZSBhcyB0aGUgYWJvdmUsIGl0cyBtb3JlIHVzZWZ1bCB0byBhbGxvdyB0aGUg
-ZmlsZXMgdG8gYmUgZGlyZWN0bHkgY29tcGFyZWQgYmV0d2VlbiBkaWZmZXJlbnQgaG9zdCBkaXN0
-cm9zLg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg==
+On 2019/2/15 下午5:57, Richard Purdie wrote:
+> On Thu, 2019-02-14 at 21:06 -0500, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Fix buildpaths qa warning of libidn2:
+>>
+>>> WARNING: libidn2-2.0.5-r0 do_package_qa: QA Issue: File
+>>> /work/core2-64-poky-linux/libidn2/2.0.5-r0/packages-split/libidn2-
+>>> dev/usr/lib/pkgconfig/libidn2.pc
+>>> in package contained reference to tmpdir [buildpaths]
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-extended/libidn/libidn2_2.0.5.bb | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+>> b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+>> index 0daf7a6877..da77c4402d 100644
+>> --- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+>> +++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+>> @@ -26,4 +26,8 @@ EXTRA_OECONF += "--disable-rpath \
+>>   LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
+>>   LICENSE_${PN}-bin = "GPLv3+"
+>>   
+>> +do_install_append () {
+>> +    sed -i 's#${RECIPE_SYSROOT}##'
+>> ${D}${libdir}/pkgconfig/libidn2.pc
+>> +}
+>> +
+>>   BBCLASSEXTEND = "native nativesdk"
+> I have a strong dislike for editing .pc files after the fact. Part of
+> the concern is sed expressions like this bitrot badly, its hard to tell
+> if they still work as intended.
+>
+> Is there not a way we can generate a correct .pc file in the first
+> place even if that means a patch?
+
+The buildpaths qa issue is caused by a patch to fix compile-host-path qa 
+issue. But I could NOT reproduce compile-host-path issue when revert the 
+patch.
+I'll turn Khem for some help to check whether could revert that patch.
+
+commit e87b501659eecc22f48b3e3ca8cde6b4de9f663a
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Sun Aug 19 10:23:41 2018 -0700
+
+     libidn2: Fix libunistring detection
+
+     libunistring is one such library which many autotooled packages
+     mistake to use from build system if its installed on it. This
+     is specifically toxic when build host arch is same as target arch
+     since we only see the problem during runtime but thankfully OE
+     has build time QA which warns about it.
+
+     QA Issue: libidn2: The compile log indicates that host include 
+and/or library paths were used.
+
+     Using --with-libunistring-prefix nudges the autoconf system for the
+     component to first look into target sysroot before going on to search
+     on the build host
+
+     (From OE-Core rev: 9a4ea4ff856e2379888ea5cdcc0e761956e1f53b)
+
+     Signed-off-by: Khem Raj <raj.khem@gmail.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb 
+b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+index 0d7bddbc7f..0daf7a6877 100644
+--- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
++++ b/meta/recipes-extended/libidn/libidn2_2.0.5.bb
+@@ -19,6 +19,10 @@ DEPENDS = "virtual/libiconv libunistring"
+
+  inherit pkgconfig autotools gettext texinfo gtk-doc lib_package
+
++EXTRA_OECONF += "--disable-rpath \
++ --with-libunistring-prefix=${STAGING_EXECPREFIXDIR} \
++                 "
++
+  LICENSE_${PN} = "(GPLv2+ | LGPLv3)"
+  LICENSE_${PN}-bin = "GPLv3+"
+
+Thanks.
+Kai
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+-- 
+Kai Kang
+
 
