@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
-	[209.85.208.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FBC17C85D
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+	[209.85.208.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 963F07C880
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 12:41:21 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id s5-v6so14169199ljd.12
+	Mon, 18 Feb 2019 12:41:22 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id r10-v6so14240035ljj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 04:41:22 -0800 (PST)
+	Mon, 18 Feb 2019 04:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=v6YzI0b01XCCzwa7tXjAivulMrt4f6mkS/j1+MfLzvE=;
-	b=mKIE01lVwVd9bDQABCa1KY2T2WzXDFxEnEjvI23WPlPJ0tAcOC4V1Km0kwVWmd+gfs
-	iG9UbUqKHqh0Ch9TVDZaCdJQla9qq+4Gih5qKXjeZZFlIrrUFiE/QCFcfkfFplEJFgCL
-	2EUn7OR/09kvzrqz3Wf8NM7GFDwZVpHhWZNV1jCo13Ez3BCM+FyZKpowPatfkGkj43y/
-	YwBV+2XK4GGOiy8lOkabRSfNydivJGT2Nw6krm4JTaoGzmGIRR1jArVuDZFFhM/wspB3
-	iYXnbKstuZUjR7D7pawDPcZXbkvDrXxf2apL5tQnsrhaGkj1vXArEuGXnneWExf//uZv
-	IACw==
+	bh=XBeCuBfcVSAQ3DZuNtp+4TeVh+2tGNTCKBZjYlmnaw4=;
+	b=L+xUtmITUJ/NRYcytJkBqbUcWKXeEajVBJljcfi+4tXhARMH1Ih6d2fsl513Ja+j4c
+	c+T3yxO0cmUhOzJX/UHkxMZXzuZdkHuatwYSezVpQmHlYXA5SJWoXuAoRsyfTYJSHHQz
+	3MurhtFTo3EeuJ3zNy/y9vIScb7qbxQzOtTcC+H442DeuA24rCsg8bER5xpJyeQcWmgq
+	F196xxSyzwj8O2NkJ2Y6lfTjvZ1kRSg/rUq/6eAVIcFNruwlXvWU9wnZhCaBSx55cypo
+	OJT2qZr6RKfQjLmDrJ6jdfpgfMxreN/AA1WtgCVEVuMIzVdva+s9/I4s1ySpk7IYj4bH
+	ybFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=v6YzI0b01XCCzwa7tXjAivulMrt4f6mkS/j1+MfLzvE=;
-	b=oxUYOIiNwyU9jBlpPgITijiNu9QpAnpe6RsmmnDr5BpYmDxorMumlBd07YTHF0TgyE
-	zjCeEZoB3gE7TMh4A7TD0BGPvi+8fS3HQlpjIwYWiguzwtkG0jugp0hbtSK2/3PVLjxV
-	gb/rql16TgtQ4NjRJrTQuDj6eKiyo6hDdOXsUnPVMKm80MU73u71MF5Y7vS6sD0xEZTi
-	4GQC9N18RfAJWNzbjd6+LZTkeZyqNzEqTBjAx2inZkC7WOtiNbg8XuzJRFXsnwOnLkcV
-	j8NrMPhyKysajDvQD3MczP9VEeXyxjS54dqMlC0H2fqqyWc4uq7ebmHixrXmaWalPPm0
-	SAeQ==
-X-Gm-Message-State: AHQUAuZrPM0za6ppqUMc/E0Rx4EaSkWfm7jRQyflZ7E+/A2I+qWWMauN
-	T910u19yaeI8qR8rXf8SI3e4uxf1
-X-Google-Smtp-Source: AHgI3IbTfd97Pv8eonFCo/iWd0Mc5Xq8SuFhOW3FBTRoLlK35SCutbhi/YAv9HmJHljjFuc8qrBBGg==
-X-Received: by 2002:a2e:5d59:: with SMTP id r86mr7674302ljb.158.1550493681700; 
-	Mon, 18 Feb 2019 04:41:21 -0800 (PST)
+	bh=XBeCuBfcVSAQ3DZuNtp+4TeVh+2tGNTCKBZjYlmnaw4=;
+	b=nrtp/oOl5xgJhtV/sFAbBJpiCGfD2Xms4rA6JpPeII+fqpln+2u8u2aP4RQyKz1uiN
+	LPTmlb3B+7d/lAXGDPKc3OGGabv3UPmk918MvjWmdJEfRmRnXgWFFzlF/FbP8V++zVzu
+	9MZIeZ2jEjTxZWk//1neOhScR0MHXUxNG9atlFNoZWFjs3NMFxx7C+eLIHqwRATEv5fo
+	3Alx0B6K90ZGkAnfuKVi1HUWpkEPn+YMeyNtthd77Rg3Khvfc6NBtbYXpRvZvYjJx7Kz
+	+7J73S7depXbLwWIWWGOSye08FTLtaYRv0cVjNhPdsrkuGhPSZkUPWCzqgBow53uakRD
+	EscQ==
+X-Gm-Message-State: AHQUAuZOeHEwnTD5+vDy7RYlB1g/Lx/AMsvp9U3jYO3HdZAe1lXrWCtu
+	NTgYUL+AuVTgMTgKmeu1DpAtQ4UD
+X-Google-Smtp-Source: AHgI3Ibg8AuJ/KcKHmfLIcpyXPQ5nj9+mWyum/H7jaSITzc7acVB1g32/4JcHCduCfZ174OWRQsbcA==
+X-Received: by 2002:a2e:9209:: with SMTP id
+	k9-v6mr14024760ljg.12.1550493682910; 
+	Mon, 18 Feb 2019 04:41:22 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id h3sm3733898lfj.25.2019.02.18.04.41.20
+	by smtp.gmail.com with ESMTPSA id h3sm3733898lfj.25.2019.02.18.04.41.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Feb 2019 04:41:21 -0800 (PST)
+	Mon, 18 Feb 2019 04:41:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2019 13:41:07 +0100
-Message-Id: <20190218124108.7846-7-alex.kanavin@gmail.com>
+Date: Mon, 18 Feb 2019 13:41:08 +0100
+Message-Id: <20190218124108.7846-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190218124108.7846-1-alex.kanavin@gmail.com>
 References: <20190218124108.7846-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/8] glib-2.0: convert from autotools to meson
+Subject: [PATCH 8/8] llvm: switch to the official git repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,494 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 12:41:22 -0000
+X-List-Received-Date: Mon, 18 Feb 2019 12:41:23 -0000
 
-PRINTF settings no longer seem necessary (tested with mingw).
+Until now an unoffcial mirror was used, which may or may not
+be maintained in the longer run, as the need for it has gone.
 
-Add meson-specific bits to Enable-more-tests-while-cross-compiling.patch and
-0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+Also, the official mirror has version tags which allows us
+to track upstream development in an automated manner.
 
-Add 0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-to allow 'mingw32' as target machine in addition to 'windows'.
+${S} has changed as upstream decided to use a monorepo for all
+of the llvm-related projects.
 
-Drop configure-libtool.patch and uclibc_musl_translation.patch
-(both autotools-specific).
+Further info:
+https://www.phoronix.com/scan.php?page=news_item&px=LLVM-GitHub-Mono-Repo
+https://llvm.org/docs/GettingStarted.html#checkout-llvm-from-git
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...t-write-bindir-into-pkg-config-files.patch | 50 ++++++++++
- ...-gio-querymodules-as-libexec_PROGRAM.patch | 17 +++-
- ...-correctly-when-building-with-mingw3.patch | 81 +++++++++++++++++
- ...ble-more-tests-while-cross-compiling.patch | 91 ++++++++++++++++++-
- .../glib-2.0/glib-2.0/configure-libtool.patch | 44 ---------
- .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
- .../glib-2.0/uclibc_musl_translation.patch    | 22 -----
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |  4 +-
- meta/recipes-core/glib-2.0/glib.inc           | 33 ++++---
- 9 files changed, 256 insertions(+), 88 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
+ meta/recipes-devtools/llvm/llvm_git.bb | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
-new file mode 100644
-index 00000000000..ede29c90bab
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
-@@ -0,0 +1,50 @@
-+From 474e59abec88de0c455836c1f53152bf2aa26c34 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 15 Feb 2019 11:17:27 +0100
-+Subject: [PATCH] Do not write $bindir into pkg-config files
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index eca78af09e4..9e9b15bddec 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,20 +19,24 @@ PROVIDES += "llvm${PV}"
+ LLVM_RELEASE = "${PV}"
+ LLVM_DIR = "llvm${LLVM_RELEASE}"
+ 
+-SRCREV = "e5cc6808dc0d5b773479bf36c51d59d0d3174733"
+-BRANCH = "release_${MAJOR_VERSION}${MINOR_VERSION}"
++# SRCREV is set to the revision of 8.0.0-rc2 tag, while latest release
++# tag is 7.0.1 as of Feb 18 2019, hence the need for UPSTREAM_CHECK_UNKNOWN
++# Remove the UPSTREAM_CHECK_UNKNOWN line once 8.0.0 final is tagged
++UPSTREAM_CHECK_UNKNOWN = "1"
++SRCREV = "98ebe7460199b9cd79eb562b5e8705ad28f5513f"
 +
-+This would otherwise break when using the files to build other target
-+components (we need to rely on PATH containing the paths to utilities,
-+rather than use target paths).
-+
-+Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gio/meson.build  | 6 +++---
-+ glib/meson.build | 6 +++---
-+ 2 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/gio/meson.build b/gio/meson.build
-+index 85d8b14..657720a 100644
-+--- a/gio/meson.build
-++++ b/gio/meson.build
-+@@ -813,9 +813,9 @@ pkg.generate(libraries : libgio,
-+                'schemasdir=' + join_paths('${datadir}', schemas_subdir),
-+                'bindir=' + join_paths('${prefix}', get_option('bindir')),
-+                'giomoduledir=' + giomodulesdir,
-+-               'glib_compile_schemas=' + join_paths('${bindir}', 'glib-compile-schemas'),
-+-               'glib_compile_resources=' + join_paths('${bindir}', 'glib-compile-resources'),
-+-               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen')],
-++               'glib_compile_schemas=glib-compile-schemas',
-++               'glib_compile_resources=glib-compile-resources',
-++               'gdbus_codegen=gdbus-codegen'],
-+   version : glib_version,
-+   install_dir : glib_pkgconfigreldir,
-+   filebase : 'gio-2.0',
-+diff --git a/glib/meson.build b/glib/meson.build
-+index c05c694..434e8b1 100644
-+--- a/glib/meson.build
-++++ b/glib/meson.build
-+@@ -261,9 +261,9 @@ pkg.generate(libraries : [libglib, libintl],
-+   subdirs : ['glib-2.0'],
-+   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
-+   variables : ['bindir=' + join_paths('${prefix}', get_option('bindir')),
-+-               'glib_genmarshal=' + join_paths('${bindir}', 'glib-genmarshal'),
-+-               'gobject_query=' + join_paths('${bindir}', 'gobject-query'),
-+-               'glib_mkenums=' + join_paths('${bindir}', 'glib-mkenums')],
-++               'glib_genmarshal=glib-genmarshal',
-++               'gobject_query=gobject-query',
-++               'glib_mkenums=glib-mkenums'],
-+   version : glib_version,
-+   install_dir : glib_pkgconfigreldir,
-+   filebase : 'glib-2.0',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-index 97d0aff5d6c..f246254942e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-@@ -1,4 +1,4 @@
--From 856045927b9ab391165c0ebabf401835f8439eab Mon Sep 17 00:00:00 2001
-+From 17fc9230fb932432d8faaaabf8c56fdc4845495e Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 22 Mar 2016 15:14:58 +0200
- Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
-@@ -11,7 +11,8 @@ Upstream-Status: Inappropriate [OE specific]
++BRANCH = "release/${MAJOR_VERSION}.x"
+ MAJOR_VERSION = "8"
+ MINOR_VERSION = "0"
+ PATCH_VERSION = "0"
+ SOLIBVER = "1"
+ PV = "${MAJOR_VERSION}.${MINOR_VERSION}"
+-SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH} \
++SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
+            file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
+            file://0002-llvm-allow-env-override-of-exe-path.patch \
+           "
+-UPSTREAM_CHECK_COMMITS = "1"
  
- ---
-  gio/Makefile.am | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
-+ gio/meson.build | 1 +
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
+-S = "${WORKDIR}/git"
++S = "${WORKDIR}/git/llvm"
  
- diff --git a/gio/Makefile.am b/gio/Makefile.am
- index e14cad2..bf2bcc7 100644
-@@ -27,3 +28,15 @@ index e14cad2..bf2bcc7 100644
-  
-  glib_compile_resources_LDADD = libgio-2.0.la 		\
-  	$(top_builddir)/gobject/libgobject-2.0.la	\
-+diff --git a/gio/meson.build b/gio/meson.build
-+index b83d8f5..85d8b14 100644
-+--- a/gio/meson.build
-++++ b/gio/meson.build
-+@@ -925,6 +925,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
-+   c_args : gio_c_args,
-+   # intl.lib is not compatible with SAFESEH
-+   link_args : noseh_link_args,
-++  install_dir: glib_libexecdir,
-+   dependencies : [libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+ 
-+ glib_compile_schemas = executable('glib-compile-schemas',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-new file mode 100644
-index 00000000000..17fe133fea9
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-@@ -0,0 +1,81 @@
-+From 133e2d15917c29268f9ca204424d12ad04a1ed99 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 13 Feb 2019 15:32:05 +0100
-+Subject: [PATCH] Set host_machine correctly when building with mingw32
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ gio/tests/meson.build  | 6 +++---
-+ glib/tests/meson.build | 4 ++--
-+ meson.build            | 3 +++
-+ 3 files changed, 8 insertions(+), 5 deletions(-)
-+
-+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-+index 181f5c7..88a6c55 100644
-+--- a/gio/tests/meson.build
-++++ b/gio/tests/meson.build
-+@@ -122,7 +122,7 @@ if dbus1_dep.found()
-+ endif
-+ 
-+ #  Test programs buildable on UNIX only
-+-if host_machine.system() != 'windows'
-++if host_system != 'windows'
-+   gio_tests += [{
-+     'file' : {},
-+     'gdbus-peer' : {
-+@@ -314,7 +314,7 @@ if host_machine.system() != 'windows'
-+ endif # unix
-+ 
-+ #  Test programs buildable on Windows only
-+-if host_machine.system() == 'windows'
-++if host_system == 'windows'
-+   gio_tests += [{'win32-streams' : {}}]
-+ endif
-+ 
-+@@ -379,7 +379,7 @@ if cc.get_id() != 'msvc'
-+   }]
-+ endif
-+ 
-+-if host_machine.system() != 'windows'
-++if host_system != 'windows'
-+   test_extra_programs += [{
-+     'gdbus-example-unix-fd-client' : {
-+       'install' : false,
-+diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-+index d7b6a7a..6678a08 100644
-+--- a/glib/tests/meson.build
-++++ b/glib/tests/meson.build
-+@@ -45,7 +45,7 @@ glib_tests = {
-+   'hook' : {},
-+   'hostutils' : {},
-+   'include' : {
-+-    'skip' : host_machine.system() == 'windows',
-++    'skip' : host_system == 'windows',
-+   },
-+   'keyfile' : {},
-+   'list' : {},
-+@@ -112,7 +112,7 @@ glib_tests = {
-+   'utils' : {},
-+   'unicode' : {},
-+   'unix' : {
-+-    'skip' : host_machine.system() == 'windows',
-++    'skip' : host_system == 'windows',
-+   },
-+   'uri' : {},
-+   '1bit-mutex' : {},
-+diff --git a/meson.build b/meson.build
-+index f7405a2..4348f20 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -31,6 +31,9 @@ else
-+ endif
-+ 
-+ host_system = host_machine.system()
-++if host_system == 'mingw32'
-++  host_system = 'windows'
-++endif
-+ 
-+ glib_version = meson.project_version()
-+ glib_api_version = '2.0'
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-index 50608809264..5ccd3203fb2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-@@ -1,4 +1,4 @@
--From 70e462e070f8eb20b7660c1cf88271c0449e43cc Mon Sep 17 00:00:00 2001
-+From 1481c6d5f08f9dbbe10abc87b372a1f61db36476 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Mon, 9 Nov 2015 11:07:27 +0200
- Subject: [PATCH] Enable more tests while cross-compiling
-@@ -10,8 +10,10 @@ case we can depend on glib-2.0-native.
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- ---
-- gio/tests/Makefile.am | 10 ++++++----
-- 1 file changed, 6 insertions(+), 4 deletions(-)
-+ gio/tests/Makefile.am     | 10 ++++++----
-+ gio/tests/meson.build     | 15 ++++++++-------
-+ tests/gobject/Makefile.am |  6 ++++++
-+ 3 files changed, 20 insertions(+), 11 deletions(-)
- 
- diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
- index c4e7a92..633e85c 100644
-@@ -50,3 +52,86 @@ index c4e7a92..633e85c 100644
-  
-  BUILT_SOURCES += giotypefuncs.inc
-  
-+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-+index dca33bd..181f5c7 100644
-+--- a/gio/tests/meson.build
-++++ b/gio/tests/meson.build
-+@@ -173,7 +173,7 @@ if host_machine.system() != 'windows'
-+ 
-+   #  Test programs that need to bring up a session bus (requires dbus-daemon)
-+   have_dbus_daemon = find_program('dbus-daemon', required : false).found()
-+-  if have_dbus_daemon
-++  if true
-+     annotate_args = [
-+       '--annotate', 'org.project.Bar', 'Key1', 'Value1',
-+       '--annotate', 'org.project.Bar', 'org.gtk.GDBus.Internal', 'Value2',
-+@@ -406,12 +406,13 @@ if installed_tests_enabled
-+   install_subdir('cert-tests', install_dir : installed_tests_execdir)
-+ endif
-+ 
-+-if not meson.is_cross_build() or meson.has_exe_wrapper()
-++#if not meson.is_cross_build() or meson.has_exe_wrapper()
-++if meson.is_cross_build()
-+ 
-+   plugin_resources_c = custom_target('plugin-resources.c',
-+     input : 'test4.gresource.xml',
-+     output : 'plugin-resources.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate-source',
-+@@ -428,7 +429,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_gresource = custom_target('test.gresource',
-+     input : 'test.gresource.xml',
-+     output : 'test.gresource',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--sourcedir=' + meson.current_build_dir(),
-+@@ -439,7 +440,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources2_c = custom_target('test_resources2.c',
-+     input : 'test3.gresource.xml',
-+     output : 'test_resources2.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate',
-+@@ -450,7 +451,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources2_h = custom_target('test_resources2.h',
-+     input : 'test3.gresource.xml',
-+     output : 'test_resources2.h',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate',
-+@@ -461,7 +462,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources_c = custom_target('test_resources.c',
-+     input : 'test2.gresource.xml',
-+     output : 'test_resources.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate-source',
-+diff --git a/tests/gobject/Makefile.am b/tests/gobject/Makefile.am
-+index 1bcefbe..77e646a 100644
-+--- a/tests/gobject/Makefile.am
-++++ b/tests/gobject/Makefile.am
-+@@ -51,7 +51,13 @@ if ENABLE_TIMELOOP
-+ installed_test_programs += timeloop-closure
-+ endif
-+ 
-++# The marshal test requires running a binary, which means we require
-++# glib-native when cross-compiling
-++if !CROSS_COMPILING
-+ glib_genmarshal=$(top_builddir)/gobject/glib-genmarshal
-++else
-++glib_genmarshal=$(shell which glib-genmarshal)
-++endif
-+ 
-+ testmarshal.h: stamp-testmarshal.h
-+ 	@true
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
-deleted file mode 100644
-index 59b891347da..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 1dd1e6ddca5deada049bac2e1ee1fe4ecc5342c5 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Sat, 28 Apr 2012 18:24:50 +0200
--Subject: [PATCH 01/10] configure: use $host_alias-libtool instead of libtool
-- directly
--
--Poky renames libtool to $host_alias-libtool.
--./$host_alias-libtool isn't created until after configure runs with
--libtool >= 2.2.2
--so we can't call # it at this point. We can safely assume a version is
--available
--from PATH though
--
--Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
--Rebased to glib-2.32.1 by Martin Jansa <Martin.Jansa@gmail.com>
--Rebased to glib-2.31.20+ by Andre McCurdy <armccurdy@gmail.com>
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
-----
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 6fa6eb0..b6f78a6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1428,9 +1428,9 @@ AS_IF([ test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL" ], [
-- 	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
-- dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
-- 	echo "void glib_plugin_test(void) { }" > plugin.c
---	${SHELL} ./libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
--+	${SHELL} ./$host_alias-libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
-- 		${CPPFLAGS} -c -o plugin.lo plugin.c >/dev/null 2>&1
---	${SHELL} ./libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
--+	${SHELL} ./$host_alias-libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
-- 		${LDFLAGS} -module -o plugin.la -export-dynamic \
-- 		-shrext ".o" -avoid-version plugin.lo \
-- 		-rpath /dont/care >/dev/null 2>&1
---- 
--2.14.1
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index 9ec011a0950..d62429b9729 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From 43967e85b7a87f9c2e780504ef30f4c9bf56f8f5 Mon Sep 17 00:00:00 2001
-+From ca9ab8975e46217fdb391610a07b8b16986b5a19 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch b/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
-deleted file mode 100644
-index 7aa6217d693..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Fix DATADIRNAME on uclibc/Linux
--
--translation files are always installed under PREFIX/share/locale in uclibc
--based systems therefore lets set DATADIRNAME to "share".
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--Index: glib-2.46.1/m4macros/glib-gettext.m4
--===================================================================
----- glib-2.46.1.orig/m4macros/glib-gettext.m4
--+++ glib-2.46.1/m4macros/glib-gettext.m4
--@@ -243,6 +243,10 @@ msgstr ""
-- 	    CATOBJEXT=.mo
--             DATADIRNAME=share
-- 	    ;;
--+	    *-*-musl* | *-*-linux-uclibc*)
--+	    CATOBJEXT=.gmo
--+            DATADIRNAME=share
--+	    ;;
-- 	    *)
-- 	    CATOBJEXT=.mo
--             DATADIRNAME=lib
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-index 8aad570fa9d..9bc18dac7ee 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-@@ -5,15 +5,15 @@ PE = "1"
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
--           file://configure-libtool.patch \
-            file://run-ptest \
--           file://uclibc_musl_translation.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
-            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
-            file://0001-Do-not-ignore-return-value-of-write.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-            file://0001-Revert-Use-absolute-paths-in-pkg-config-files.patch \
-+           file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
-+           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            "
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index a186c1d9eb6..b57fb698684 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -29,7 +29,11 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
- 
- LEAD_SONAME = "libglib-2.0.*"
- 
--inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
-+inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
-+
-+# This avoids the need to depend on target python3, which in case of mingw is not even possible.
-+# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
-+unset _PYTHON_SYSCONFIGDATA_NAME
- 
- REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
- 
-@@ -37,21 +41,17 @@ S = "${WORKDIR}/glib-${PV}"
- 
- PACKAGECONFIG ??= "system-pcre libmount"
- # To use the system pcre it must be configured with --enable-unicode-properties
--PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
--PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
--PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
--PACKAGECONFIG[libelf] = "--enable-libelf,--disable-libelf,elfutils"
--
--CORECONF = "--disable-dtrace --disable-fam --disable-systemtap"
-+PACKAGECONFIG[system-pcre] = "-Dinternal_pcre=false,-Dinternal_pcre=true,libpcre"
-+PACKAGECONFIG[libmount] = "-Dlibmount=true,-Dlibmount=false,util-linux"
-+PACKAGECONFIG[manpages] = "-Dman=true, -Dman=false, libxslt-native xmlto-native"
-+# libelf is auto-detected without a configuration option
-+PACKAGECONFIG[libelf] = ",,elfutils"
- 
--PRINTF = "--enable-included-printf=no"
--PRINTF_darwin = "--enable-included-printf=yes"
--PRINTF_mingw32 = "--enable-included-printf=yes"
--EXTRA_OECONF = "${PRINTF} ${CORECONF}"
--EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
-+CORECONF = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
- 
--# Tell configure that we'll have dbus-daemon on the target for the tests
--EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ac_cv_prog_DBUS_DAEMON=dbus-daemon', '', d)}"
-+EXTRA_OEMESON = "${CORECONF} ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
-+EXTRA_OEMESON_class-native = "${CORECONF} -Dinstalled_tests=false"
-+EXTRA_OEMESON_class-nativesdk = "${CORECONF} -Dinstalled_tests=false"
- 
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
-@@ -129,6 +129,11 @@ do_install_append_class-target () {
- 	fi
- }
- 
-+# As we do not build python3 for windows, makes no sense to ship the script that's using it
-+do_install_append_mingw32() {
-+        rm -f ${D}${bindir}/gtester-report
-+}
-+
- CODEGEN_PYTHON_RDEPENDS = "python3 python3-distutils python3-xml"
- CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
+ LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
  
 -- 
 2.17.1
