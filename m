@@ -1,48 +1,42 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
-	[209.85.210.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AAE9A7C753
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B6FB57C6E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 01:21:23 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id 32so25574268ota.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2019 17:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HlkYURV+pfcli2cNlL90nsW62PD9+PuAAVDIMoTzyO0=;
-	b=CHx2lnQG2ffsuR7caJJMAGwb1ONKNS1E2dxA7bhVIUOlUSyB3SK3H7O4gakqA9tWJL
-	7EJOsYcbM7ZCa89PKxdHdhksK0Ya4N83Ndn6tiIIt+FNSkNxsgxKXjEnv6dyc7fbJ4Wt
-	EtgMI5vqibhjsVy6dRgdqEINpxuXff/S8adbCSebJmvVEj6Euhv6QX1+Ab7yP4bZN6aY
-	DEdhRGN9Q6wLB5CIZ0OtNfojSQU5p4RBEyzlWiUXuq0Eb/4YiM/UbcPRbWVU+HCcCGUk
-	yUGrrbk/2fYu6f1KKHKueRh0lrmmhnJ5xqXAwJehNO/9YzH6keYbSR3ueMUIgcfHt+73
-	lAwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HlkYURV+pfcli2cNlL90nsW62PD9+PuAAVDIMoTzyO0=;
-	b=L1fsJTPZxFnRFY8Li2fclR+gwKEpEpPY4lUmknuUp0+xAS5NpgmxP7cwA37hI/vAcH
-	QGb00OqTFzWRbO1Dk1BGPsk2LT5WyYW613uAztNzt9FXPEV2N1y5KS/36CQd6DUNe+Yd
-	ngxeELBFpdIvwIScdE72JuMTjebH2MtmHS3S/I9IWstQ6l8Rbn/h3kFmxeqTyju2EWAh
-	C4x2Vte71iKfkwEBsmJiMHyPE5DApZPB2oXKJM0jg+XuPZUNVehODhnNnEtHXajpQfuv
-	/0IAu3K6Y+TYHMK6SSPhnnbdMWVVDi95tEVeSf4PCDnVHUJqV7HbD6GeaxTwqTx7zzp9
-	QZ1g==
-X-Gm-Message-State: AHQUAuYcjx6jR5SVHc4NLk8fmKNoRuyAbkHsP0r9SPnghaJAth5rxMH0
-	6vgL43/K23d/9l6ScftZdYGXBWdqGyisFVd7dvfRTUbZ
-X-Google-Smtp-Source: AHgI3IbsYvfNpVd16HcpPmFT0WPsKxDWS7//nQG+UDNgZVdq5cTXdEzHZJFAeAJY8F9MS6I8usxVjBJ9H2fitBsNlJk=
-X-Received: by 2002:a9d:66f:: with SMTP id 102mr13555943otn.293.1550452884424; 
-	Sun, 17 Feb 2019 17:21:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20190217145107.2796-1-pkj@axis.com>
-	<20190217145107.2796-3-pkj@axis.com>
-In-Reply-To: <20190217145107.2796-3-pkj@axis.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Sun, 17 Feb 2019 18:21:13 -0700
-Message-ID: <CABcZANkrFaJ8SMDBHND-=TfBtxyq59K1d1g9vjkizSVUiSfHcg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 18 Feb 2019 01:28:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Feb 2019 17:28:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,382,1544515200"; d="scan'208";a="147636956"
+Received: from kmsmsx152.gar.corp.intel.com ([172.21.73.87])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2019 17:28:30 -0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.167]) by
+	KMSMSX152.gar.corp.intel.com ([169.254.11.49]) with mapi id
+	14.03.0415.000; Mon, 18 Feb 2019 09:28:29 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libc-package.bbclass: Add a progress meter for the package task
+Thread-Topic: [OE-core] [PATCH 0/2 v7] test-case-mgmt
+Thread-Index: AQHUxttIuwYb6D1IKEyU0QOXDjzg8qXkxAZg
+Date: Mon, 18 Feb 2019 01:28:29 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04348185EDD@PGSMSX109.gar.corp.intel.com>
+References: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
+	<f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
+In-Reply-To: <f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGVjYWUwMWQtZTQ2MC00MTUzLWE1ZWUtYWM5MmEyNjNmYjI3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiXC82U1RVY3pYYmY4UUE5NUV3Ulp1T2hUM09NbHgrZ0hCUGpJT0dlSFhxOWd5VlVPd1pjdmRJWDRzT08zSldrUW0ifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2 v7] test-case-mgmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,84 +49,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2019 01:21:23 -0000
-Content-Type: multipart/alternative; boundary="0000000000006acd7d058220f142"
+X-List-Received-Date: Mon, 18 Feb 2019 01:28:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---0000000000006acd7d058220f142
-Content-Type: text/plain; charset="UTF-8"
+SGkgUlAsDQoNClRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9yIHByb3ZpZGluZyBtZSB5b3VyIHByZWNp
+b3VzIGFkdmljZXMgYW5kIEkgd2lsbCBkZWZpbml0ZWx5IGxvb2sgaW50byB0aGVtLiANCg0KTGV0
+IG1lIGxvb2sgaW50byBhbGwgdGhlIGltcHJvdmVtZW50cyB0aGF0IHlvdSBoYWQgZGV2ZWxvcGVk
+IGFuZCBJIHdpbGwgdHJ5IG15IGJlc3QgdG8gcHJvdmlkZSBmdXJ0aGVyIGltcHJvdmVtZW50IG5l
+ZWRlZC4gDQoNCkJlc3QgcmVnYXJkcywNClllb2ggRWUgUGVuZyANCg0KLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBNb25kYXksIEZlYnJ1YXJ5IDE4LCAyMDE5IDEy
+OjEwIEFNDQpUbzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIIDAvMiB2N10gdGVzdC1jYXNlLW1nbXQNCg0KT24gVGh1LCAyMDE5LTAyLTE0IGF0
+IDEzOjUwICswODAwLCBZZW9oIEVlIFBlbmcgd3JvdGU6DQo+IHYxOg0KPiAgIEZhY2Uga2V5IGVy
+cm9yIGZyb20gb2UtZ2l0LWFyY2hpdmUNCj4gICBVbmRlc2lyYWJsZSBiZWhhdmlvciB3aGVuIHN0
+b3JpbmcgdG8gbXVsdGlwbGUgZ2l0IGJyYW5jaA0KPiANCj4gdjI6IA0KPiAgIEluY2x1ZGUgZml4
+IGZvciBvZS1naXQtYXJjaGl2ZQ0KPiAgIEluY2x1ZGUgZml4IGZvciBzdG9yZSByZXN1bHQgdG8g
+bXVsdGlwbGUgZ2l0IGJyYW5jaA0KPiAgIEltcHJvdmUgZ2l0IGNvbW1pdCBtZXNzYWdlICAgDQo+
+IA0KPiB2MzoNCj4gICBFbmhhbmNlIGZpeCBmb3Igb2UtZ2l0LWFyY2hpdmUgYnkgdXNpbmcgZXhj
+ZXB0aW9uIGNhdGNoIHRvDQo+ICAgaW1wcm92ZSBjb2RlIHJlYWRhYmlsaXR5IGFuZCBlYXN5IHRv
+IHVuZGVyc3RhbmQNCj4gDQo+IHY0Og0KPiAgIEFkZCBuZXcgZmVhdHVyZXMsIG1lcmdlIHJlc3Vs
+dCBmaWxlcyAmIHJlZ3Jlc3Npb24gYW5hbHlzaXMgDQo+ICAgQWRkIHNlbGZ0ZXN0IHRvIG1lcmdl
+LCBzdG9yZSwgcmVwb3J0IGFuZCByZWdyZXNzaW9uIGZ1bmN0aW9uYWxpdGllcw0KPiAgIFJldmlz
+ZSBjb2RlYmFzZSBmb3IgcHl0aG9uaWMNCj4gICANCj4gdjU6DQo+ICAgQWRkIHJlcXVpcmVkIGZp
+bGVzIGZvciBzZWxmdGVzdCB0ZXN0aW5nIHN0b3JlDQo+ICAgDQo+IHY2Og0KPiAgIEFkZCByZWdy
+ZXNzaW9uIGZvciBkaXJlY3RvcnkgYW5kIGdpdCByZXBvc2l0b3J5DQo+ICAgRW5hYmxlIHJlZ3Jl
+c3Npb24gcGFpcmluZyBiYXNlIHNldCB0byBtdWx0aXBsZSB0YXJnZXQgc2V0cyANCj4gICBSZXZp
+c2Ugc2VsZnRlc3QgdGVzdGluZyBmb3IgcmVncmVzc2lvbg0KPiAgIA0KPiB2NzogDQo+ICAgT3B0
+aW1pemUgcmVncmVzc2lvbiBjb21wdXRhdGlvbiBmb3IgcHRlc3QgcmVzdWx0cw0KPiAgIFJlbmFt
+ZSBlbnRyeSBwb2ludCBzY3JpcHQgdG8gcmVzdWx0dG9vbA0KPiANCj4gTWF6bGlhbmEgKDEpOg0K
+PiAgIHNjcmlwdHMvcmVzdWx0dG9vbDogZW5hYmxlIG1hbnVhbCBleGVjdXRpb24gYW5kIHJlc3Vs
+dCBjcmVhdGlvbg0KPiANCj4gWWVvaCBFZSBQZW5nICgxKToNCj4gICByZXN1bHR0b29sOiBlbmFi
+bGUgbWVyZ2UsIHN0b3JlLCByZXBvcnQgYW5kIHJlZ3Jlc3Npb24gYW5hbHlzaXMNCg0KSGkgRWUg
+UGVuZywNCg0KVGhhbmtzIGZvciB3b3JraW5nIG9uIHRoaXMsIGl0IGRvZXMgZ2V0IGJldHRlciBl
+YWNoIGl0ZXJhdGlvbi4gSSd2ZSBiZWVuIHN0cnVnZ2xpbmcgYSBsaXR0bGUgdG8gZXhwbGFpbiB3
+aGF0IHdlIG5lZWQgdG8gZG8gdG8gZmluaXNoIHRoaXMgb2ZmLiBGaXJzdGx5IEkgd2FudGVkIHRv
+IGdpdmUgc29tZSBmZWVkYmFjayBvbiBzb21lIGdlbmVyYWwgcHl0aG9uDQp0aXBzOg0KDQphKSBX
+ZSBjYW4ndCB1c2Ugc3VicHJvY2Vzcy5ydW4oKSBhcyBpdHMgYSBweXRob24gMy42IGZlYXR1cmUg
+YW5kIHdlIGhhdmUgYXV0b2J1aWxkZXIgd29ya2VycyB3aXRoIDMuNS4gVGhpcyBsZWFkIHRvIGZh
+aWx1cmVzIGxpa2U6IA0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhv
+b24vIy9idWlsZGVycy81Ni9idWlsZHMvMjQyDQpXZSBjYW4gdXNlIGNoZWNrX2NhbGwgb3Igb3Ro
+ZXIgZnVuY3Rpb25zIGluc3RlYWQuDQoNCmIpIEknZCBub3QgcmVjb21tZW5kIHVzaW5nICJmaWxl
+IiBhcyBhIHZhcmlhYmxlIG5hbWUgaW4gcHl0aG9uIGFzIGl0cyBhIGtleXdvcmQsIHNpbWlsYXJs
+eSAiZGljdCIgKGluIHJlc3VsdHV0aWxzLnB5KS4NCg0KYykgZ2V0X2RpY3RfdmFsdWUoKSBpcyBz
+b21ldGhpbmcgd2UgY2FuIHByb2JhYmx5IGF2b2lkIG5lZWRpbmcgaWYgd2UgdXNlIHRoZSAuZ2V0
+KCkgbWV0aG9kcyBvZiBkaWN0cyAoeW91IGNhbiBzcGVjaWZ5IGEgdmFsdWUgdG8gcmV0dXJuIGlm
+IGEgdmFsdWUgaXNuJ3QgcHJlc2VudCkuDQoNCkkgc3RhcnRlZCB0byBleHBlcmltZW50IHdpdGgg
+dGhlIHRvb2wgdG8gdHJ5IGFuZCBnZXQgaXQgdG8gZm9sbG93IHRoZSB3b3JrZmxvdyB3ZSBuZWVk
+IHdpdGggdGhlIGF1dG9idWlsZGVyIFFBIHByb2Nlc3MuIFJpZ2h0IG5vdyBJJ20gaGVhdmlseSBm
+b2N1c2luZyBvbiB3aGF0IHdlIG5lZWQgaXQgdG8gZG8gdG8gZ2VuZXJhdGUgcmVwb3J0cyBmcm9t
+IHRoZSBhdXRvYnVpbGRlciwgdG8gdGhlIGV4dGVudCB0aGF0IEknbSBpZ25vcmluZyBtb3N0IG90
+aGVyIHdvcmtmbG93cy4NCg0KVGhlIHJlYXNvbiBmb3IgdGhpcyBpcyB0aGF0IEkgd2FudCB0byBn
+ZXQgaXQgbWVyZ2VkIGFuZCB1c2UgdGhpcyB0byBydW4NCjIuNyBNMyB0ZXN0aW5nIG9uIHRoZSBh
+dXRvYnVpbGRlci4gVGhlIG90aGVyIHdvcmtmbG93cyBjYW4gYmUgYWRkZWQgaWYvYXMvd2hlbiB3
+ZSBmaW5kIHdlIGhhdmUgbmVlZCBvZiB0aGVtLg0KDQpJIGVuZGVkIHVwIG1ha2luZyBhIGZldyBj
+aGFuZ2VzIHRvIGFsdGVyIHRoZSB0b29sIHRvIGRvIHRoZSB0aGluZ3MgSSB0aGluayB3ZSBuZWVk
+IGl0IHRvIGFuZCB0byBpbXByb3ZlIGl0cyBvdXRwdXQvdXNhYmlsaXR5LiBJJ2xsIHNlbmQgb3V0
+IGEgc2VwYXJhdGUgcGF0Y2ggd2l0aCBteSBjaGFuZ2VzIHNvIGZhci4gSSd2ZSB0cmllZCB0byBz
+dW1tYXJpc2Ugc29tZSBvZiB0aGUgcmVhc29uaW5nIGhlcmU6DQoNCiogUmVuYW1lIHJlc3VsdHN1
+dGlscyAtPiByZXN1bHR1dGlscyB0byBtYXRjaCB0aGUgcmVzdWx0c3Rvb2wgLT4gcmVzdWx0dG9v
+bCByZW5hbWUNCg0KKiBGb3JtYWxpc2VkIHRoZSBoYW5kbGluZyBvZiAiZmlsZV9uYW1lIiB0byAi
+VEVTVFNFUklFUyIgd2hpY2ggdGhlIGNvZGUgd2lsbCBub3cgYWRkIGludG8gdGhlIGpzb24gY29u
+ZmlndXJhdGlvbiBkYXRhIGlmIGl0cyBub3QgcHJlc2VudCwgYmFzZWQgb24gdGhlIGRpcmVjdG9y
+eSBuYW1lLg0KDQoqIFdoZW4gd2UgZG9uJ3QgaGF2ZSBmYWlsZWQgdGVzdCBjYXNlcywgcHJpbnQg
+c29tZXRoaW5nIHNheWluZyBzbyBpbnN0ZWFkIG9mIGFuIGVtcHR5IHRhYmxlDQoNCiogVHdlYWsg
+dGhlIHRhYmxlIGhlYWRlcnMgaW4gdGhlIHJlcG9ydCB0byBiZSBtb3JlIHJlYWRhYmxlIChyZWZl
+cmVuY2UgIlRlc3QgU2VyaWVzIiBpbnN0ZWFkIGlmIGZpbGVfaWQgYW5kIElEIGluc3RlYWQgb2Yg
+cmVzdWx0c19pZCkNCg0KKiBJbXByb3ZlL3NpbXBsaWZ5IHRoZSBtYXggc3RyaW5nIGxlbmd0aCBo
+YW5kbGluZw0KDQoqIE1lcmdlIHRoZSBjb3VudHMgYW5kIHBlcmNlbnRhZ2UgZGF0YSBpbnRvIG9u
+ZSB0YWJsZSBpbiB0aGUgcmVwb3J0IHNpbmNlIHByaW50aW5nIHR3byByZXBvcnRzIG9mIHRoZSBz
+YW1lIGRhdGEgY29uZnVzZXMgdGhlIHVzZXINCg0KKiBSZW1vdmVkIHRoZSBjb25mdXNpbmcgaGVh
+ZGVyIGluIHRoZSByZWdyZXNzaW9uIHJlcG9ydA0KDQoqIFNob3cgbWF0Y2hlcywgdGhlbiByZWdy
+ZXNzaW9ucywgdGhlbiB1bm1hdGNoZWQgcnVucyBpbiB0aGUgcmVncmVzc2lvbiByZXBvcnQsIGFs
+c28gcmVtb3ZlIGNoYXR0aW5nIHVubmVlZGVkIG91dHB1dA0KDQoqIFRyeSBoYXJkZXIgdG8gInBh
+aXIiIHVwIG1hdGNoaW5nIGNvbmZpZ3VyYXRpb25zIHRvIHJlZHVjZSBub2lzZSBpbiB0aGUgcmVn
+cmVzc2lvbnMgcmVwb3J0DQoNCiogQWJzdHJhY3RlZCB0aGUgIm1hcHBpbmciIHRhYmxlIGNvbmNl
+cHQgdXNlZCB0byBwYWlyaW5nIGluIHRoZSByZWdyZXNzaW9uIGNvZGUgdG8gZ2VuZXJhbCBjb2Rl
+IGluIHJlc3VsdHV0aWxzDQoNCiogQ3JlYXRlZCBtdWx0aXBsZSBtYXBwaW5ncyBmb3IgcmVzdWx0
+cyBhbmFseXNpcywgcmVzdWx0cyBzdG9yYWdlIGFuZCAnZmxhdHRlbmluZycgcmVzdWx0cyBkYXRh
+IGluIGEgbWVyZ2UNCg0KKiBTaW1wbGlmeSB0aGUgbWVyZ2UgY29tbWFuZCB0byB0YWtlIGEgc291
+cmNlIGFuZCBhIGRlc3RpbmF0aW9uLCBsZXR0aW5nIHRoZSBkZXN0aW5hdGlvbiBiZSBhIGRpcmVj
+dG9yeSBvciBhIGZpbGUsIHJlbW92aW5nIHRoZSBuZWVkIGZvciBhbiBvdXRwdXQgZGlyZWN0b3J5
+IHBhcmFtZXRlcg0KDQoqIEFkZCB0aGUgJ0lNQUdFX1BLR1RZUEUnIGFuZCAnRElTVFJPJyBjb25m
+aWcgb3B0aW9ucyB0byB0aGUgcmVncmVzc2lvbiBtYXBwaW5ncw0KDQoqIEhhdmUgdGhlIHN0b3Jl
+IGNvbW1hbmQgcGxhY2UgdGhlIHRlc3RyZXN1bHRzIGZpbGVzIGluIGEgbGF5b3V0IGZyb20gdGhl
+IG1hcHBpbmcsIG1ha2luZyBjb21taXRzIGludG8gdGhlIGdpdCByZXBvIGZvciByZXN1bHRzIHN0
+b3JhZ2UgbW9yZSB1c2VmdWwgZm9yIHNpbXBsZSBjb21wYXJpc29uIHB1cnBvc2VzDQoNCiogU2V0
+IHRoZSBvZS1naXQtYXJjaGl2ZSB0YWcgZm9ybWF0IGFwcHJvcHJpYXRlbHkgZm9yIG9lcWEgcmVz
+dWx0cyBzdG9yYWdlIChhbmQgc2ltcGxpZnkgdGhlIGNvbW1pdCBtZXNzYWdlcyBjbG9zZXIgdG8g
+dGhlaXIgZGVmYXVsdHMpDQoNCg0KRGVzcGl0ZSBteSBjaGFuZ2VzIHRoZXJlIGFyZSB0aGluZ3Mg
+dGhhdCBzdGlsbCBuZWVkIHRvIGJlIGRvbmUuDQpFc3NlbnRpYWwgdGhpbmdzIHdoaWNoIG5lZWQg
+dG8gaGFwcGVuIGJlZm9yZSB0aGlzIGNvZGUgbWVyZ2VzOg0KDQoqIG9lLWdpdC1hcmNoaXZlIGlz
+IGltcG9ydGluZyB1c2luZyB0aGUgY29tbWl0L2JyYW5jaCBvZiB0aGUgY3VycmVudA0KICByZXBv
+LCBub3QgdGhlIGRhdGEgaW4gdGhlIHJlc3VsdHMgZmlsZS4NCg0KKiBGaXggdGhlIC10IG9wdGlv
+biB0byBtZXJnZSBjb21tYW5kDQoNCiogQXVkaXQgdGhlIGNvbW1hbmQgb3B0aW9uIGhlbHANCg0K
+KiBSZXZpc2l0IGFuZCByZWRvIHRoZSB3YXkgdGhlIGdpdCBicmFuY2ggaGFuZGxpbmcgaXMgaGFw
+cGVuaW5nLiBXZQ0KICByZWFsbHkgd2FudCB0byBtb2RlbCBob3cgb2UtYnVpbGQtcGVyZi1yZXBv
+cnQgaGFuZGxlcyBnaXQgcmVwb3MgZm9yDQogIGNvbXBhcmlzb25zOg0KICAtIEl0cyBhYmxlIHRv
+IHF1ZXJ5IGRhdGEgZnJvbSBnaXQgcmVwb3Mgd2l0aG91dCBjaGFuZ2luZyB0aGUgY3VycmVudCAN
+CiAgICB3b3JraW5nIGJyYW5jaCwNCiAgLSBpdCBjYW4gc2VhcmNoIG9uIHRhZyBmb3JtYXRzIHRv
+IGZpbmQgY29tcGFyaXNvbiBkYXRhDQoNCiogQWRkIHB0ZXN0IHN1bW1hcnkgdG8gdGhlIHJlcG9y
+dCBjb21tYW5kDQoNCg0KVGhpbmdzIHdoaWNoIG1heSBiZSAibmljZSB0byBoYXZlIiB3aGljaCBj
+YW4gY29tZSBpbiB0aGUgZnV0dXJlOg0KDQoqIE1ha2UgdGhlIHBlcmNlbnRhZ2UgdnMuIGNvdW50
+IGluIHRoZSByZXBvcnQgYSBjb21tYW5kbGluZSBvcHRpb24/IA0KICAobm90IHN1cmUgYnV0IEkg
+d29uZGVyZWQgaWYgdGhhdCB3b3VsZCBiZSBiZXR0ZXIpDQoNCiogQWRkIHB0ZXN0IHN1Yi1jb21t
+YW5kIHRvIGV4dHJhY3QgbG9nIGRhdGENCg0KKiBHZW5lcmF0ZSBIVE1MIHJlcG9ydA0KDQoqIEdl
+bmVyYXRlIGdyYXBoaWNhbCBwdGVzdCByZXN1bHQgY2hhcnRzDQoNCg0KSSdkIGJlIGludGVyZXN0
+ZWQgaW4geW91ciBmZWVkYmFjayBvbiBteSBjaGFuZ2VzIGFuZCBob3BlIHlvdSBhZ3JlZSB3aXRo
+IHRoZW0hIEknbGwgY29udGludWUgdG8gd29yayBvbiBzb21lIG9mIHRoZSBhYm92ZSBpdGVtcyBh
+cyBJJ2QgbGlrZSB0byBnZXQgdGhpcyBtZXJnZWQgc29vbmVyIHRoYW4gbGF0ZXIuIElmIHlvdSdy
+ZSBnb2luZyB0byB3b3JrIG9uIGFueSBvZiB0aGVtIGxldCBtZSBrbm93IGZpcnN0LiBJJ2xsIHRy
+eSBhbmQga2VlcA0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NsZWFuL2NnaXQuY2dpL3Bv
+a3ktY29udHJpYi9jb21taXQvP2g9cnB1cmRpZS90MjIyDQp1cCB0byBkYXRlIHdpdGggbXkgY2hh
+bmdlcy4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
 
-On Sun, Feb 17, 2019 at 7:51 AM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> The package task for glibc-locale takes a very long time to execute,
-> especially if using qemu. In that case, a progress meter helps a lot to
-> show the progress of the task.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/libc-package.bbclass | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/classes/libc-package.bbclass
-> b/meta/classes/libc-package.bbclass
-> index ee598905b0..f1c0545c67 100644
-> --- a/meta/classes/libc-package.bbclass
-> +++ b/meta/classes/libc-package.bbclass
-> @@ -348,11 +348,16 @@ python package_do_split_gconvs () {
->          makefile = oe.path.join(d.getVar("WORKDIR"), "locale-tree",
-> "Makefile")
->          m = open(makefile, "w")
->          m.write("all: %s\n\n" % " ".join(commands.keys()))
-> +        i = 1
-> +        total = len(commands)
->          for cmd in commands:
->
-
-for i, cmd in enumerate(commands):
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---0000000000006acd7d058220f142
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 17, 2019 at 7:51 AM Peter=
- Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjel=
-lerstedt@axis.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
-solid;border-left-color:rgb(204,204,204);padding-left:1ex">The package task=
- for glibc-locale takes a very long time to execute,<br>
-especially if using qemu. In that case, a progress meter helps a lot to<br>
-show the progress of the task.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
-axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/libc-package.bbclass | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
-<br>
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.=
-bbclass<br>
-index ee598905b0..f1c0545c67 100644<br>
---- a/meta/classes/libc-package.bbclass<br>
-+++ b/meta/classes/libc-package.bbclass<br>
-@@ -348,11 +348,16 @@ python package_do_split_gconvs () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0makefile =3D oe.path.join(d.getVar(&quot;=
-WORKDIR&quot;), &quot;locale-tree&quot;, &quot;Makefile&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m =3D open(makefile, &quot;w&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.write(&quot;all: %s\n\n&quot; % &quot; =
-&quot;.join(commands.keys()))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 i =3D 1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 total =3D len(commands)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for cmd in commands:<br></blockquote><div=
-><br></div><div>for i, cmd in enumerate(commands):</div></div>-- <br><div d=
-ir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"=
->Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenE=
-mbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div=
-></div></div></div>
-
---0000000000006acd7d058220f142--
