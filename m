@@ -1,48 +1,50 @@
-Return-Path: <leon@sidebranch.com>
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
-	[209.85.222.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B6E87C965
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 55E3D7C9C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 17:13:25 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id k5so2399497uao.2
+	Tue, 19 Feb 2019 17:47:22 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id n2so10792605wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 09:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FRYlnZ9x4n/fAwcGHk/PS7SU0CqM9hCkZb8mYU+axfs=;
-	b=DYSe7cQxf01TidUXrlM6MLEAreuq10RJibOWLXClkr2hzx638iws43mmL8MLgc8T6+
-	S27WxPUwjFdWmrIst7rW+Jyi3xeliagI8d1b/uNncprKYiFn/ApEE4V/4mFRCt01p1JE
-	9HaIZb10k2W+csftp1em5ZLg0kOw/yKRH3ItoLT7MyffjU6lgMmDP46bAmdzs0JV6rDZ
-	6FLHyBkLKrIKM62KTPzpf6/LqlFJjY+T9W0pRjJvL5u25fHyAXvf+v0x4lXWFX6FvdBG
-	hXjDeYbQDPAmvav4r2l9hf8wQkCqAr1EgUWp5myZo4SIPKI6husllxPuOa4/8HX+/IRe
-	IITA==
+	Tue, 19 Feb 2019 09:47:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=K3nQ59Ktr84MpRs9I1gRrPtYkD5QZi2+Cw4w0TMLE8E=;
+	b=jZAg2jYEPKCeRD1TrlOJHNIZCT0I0JiiizGE8KaF0rfs4RtX5hT+qwdAKCemIo6wkK
+	Bgx+UCOxeDqEfESkkqfT0EZi+pkiMLEiwl+Xy6DqGo5SIqmZ5klpvWTG0EqQ3HZACXtU
+	jRIQC32u5CnWjDZgKyCWRh7nsD2HrzvcQ/3CdbkjRwCmtqwINON+df5YGi5bUvQrb7+t
+	WHE6ptOGDe+EWUnQJf5cOwk//J1Cst4Wcph0gqHT/Pok96EJnnF7L8KOzPzm/j/VmqNf
+	rgnWyRcskW6oN5KOgFzR6z9c7lJkpuY0XRBKTSlW+vpE16uRSWioF0dw2NeGUTUUsYqe
+	bNyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=FRYlnZ9x4n/fAwcGHk/PS7SU0CqM9hCkZb8mYU+axfs=;
-	b=AJE3KDqNIRW6SUZXMzN4T7+33z5cOoMvkpzNSnvhOidfKd/NQXQjjVlCR+Nxwor+LA
-	jBlyvglW113r82sIkJzKXsfq+ZWRJuqqHXBUx0OCrx0CxZQGBeXlZwMLD7CaofNnQ8cX
-	KNVURpMp8ErlQL/9gHc2cyQn6w0pFHM82ekTOQMc0lo4iWkoUuDm1GJ11jFftI111M46
-	Sb4RGEMvhm0pcPjg76ILRf9XCEf8/Nd0BkCmQ2/8ixXxHL66qrwBG3J16aLhysYQafGN
-	ogGw7Wm6Mz/3cL5Aa30eRgWLCrFE3+sWFPJB5RUThLpuq0SHxLT6GJjtvtm9KZvpuac1
-	iz7w==
-X-Gm-Message-State: AHQUAuajM7jbAdMnwLruwgrXiYmKgpTdjRKwnX75pV7+YfgQ3LlxxyP3
-	P59r5PrV9jXXEMddIj2k359pmGg78tVjZCa1P5NagH0bloo=
-X-Google-Smtp-Source: AHgI3IZiXrST2hODnLniaIOfxNeVgOWPivFQrsRmp5Onp6NyWsKSm9CTPLOJmQKRSJrGg/zgzBIOOMsVgSn54Uuq/0U=
-X-Received: by 2002:a9f:300d:: with SMTP id h13mr15092819uab.80.1550596406689; 
-	Tue, 19 Feb 2019 09:13:26 -0800 (PST)
-MIME-Version: 1.0
-References: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
-In-Reply-To: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
-From: Leon Woestenberg <leon@sidebranch.com>
-Date: Tue, 19 Feb 2019 18:13:15 +0100
-Message-ID: <CAMjhiJjO0+0=_6HOmVM67U0nnbW=iu-FiMTzJBe4ZCvceuguuA@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: wic creates ext4 images that read really slow in u-boot
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=K3nQ59Ktr84MpRs9I1gRrPtYkD5QZi2+Cw4w0TMLE8E=;
+	b=YZhG7X4IxnHGZ7SqoFdr+21nviA5Krfyg8vcPX/3US5/mYwgMMaEfayJkJUnAibZCm
+	YlYjflSE2N0Q0vyhFOBNrACYaWaxcHO1+68d2bPPJnUtJXldOslJ+hHOLdxlHTj4uBCh
+	G5eHlO1WtpTauQ24hd1aCVA+sEmIQBojX1r1BcTf5Crch96i9nJiVuoGOc5OnLL7L8a1
+	6MF8YwbznQtbFjwwFmfO1ib3wwiCoe53mAg4yqOQxsVWt8xRIhtKZo8Y8JG3yKDmdSA9
+	YVJFJTfQhP4vhybygDxq4dZrSEVpzjLPoMFI1LNR6ErAOv4jwyKEPoj7PKaC1luZ3Oj7
+	vylg==
+X-Gm-Message-State: AHQUAuZ6WgoBCFiVSGEktUIOmqvsoZdr2YoZ54rtQLSw8NgHfZ4mxii1
+	xPfYGLAszYkQfAVCWNI4QYXsCc00
+X-Google-Smtp-Source: AHgI3IYGNruHCAqKY/wKJJSo/qSIc7QMWwuDma9j5Po7OS1tMYJGd4/ZKFwabBFYI+wG4a2FikmsXg==
+X-Received: by 2002:a5d:4605:: with SMTP id t5mr21126571wrq.311.1550598442741; 
+	Tue, 19 Feb 2019 09:47:22 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	z15sm2006684wmi.46.2019.02.19.09.47.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Feb 2019 09:47:22 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2019 18:46:54 +0100
+Message-Id: <20190219174712.60694-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190219174712.60694-1-alex.kanavin@gmail.com>
+References: <20190219174712.60694-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/20] libmodulemd: update to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,113 +57,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 17:13:26 -0000
-Content-Type: multipart/alternative; boundary="00000000000002d6f30582425c0f"
+X-List-Received-Date: Tue, 19 Feb 2019 17:47:22 -0000
 
---00000000000002d6f30582425c0f
-Content-Type: text/plain; charset="UTF-8"
+Add support for gobject-introspection.
 
-Hello Mike,
+Add v2 API fixes to the gtkdoc/gi disabling patch.
+Add a dependency on glib-native to allow use of glib-mkenums.
 
-sounds familiar.
+Disable v2 API/library for now as libdnf is not compatible with it,
+yet is erroneously linked against it (if it's enabled).
 
-On Tue, 19 Feb 2019 at 17:55, Mike Looijmans <mike.looijmans@topic.nl>
-wrote:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...ec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch |  7 +-
+ ...n.build-do-not-generate-gir-or-gtkdo.patch | 76 ++++++++++---------
+ .../libmodulemd/libmodulemd_git.bb            | 19 +++--
+ 3 files changed, 57 insertions(+), 45 deletions(-)
 
-> Took me a while to figure out why my board took 90 seconds to boot
-> suddenly.
->
-> The issue turned out to be the ext4 partition created by wic.
-
-
-I suspect it's not WIC's fault.
-
-
-> ZynqMP> load mmc 0:2 0x100000 /lib/firmware/fpga.bin
-> 19311092 bytes read in 85529 ms (219.7 KiB/s)
->
-> Now if I boot the board rename and copy that file onto itself, then it's
-> suddenly normal again when I reboot the board:
->
-> ZynqMP> load mmc 0:2 0x10000
-> I'm not knowledgeable on ext4, so any ideas what's being passed onto the
-> image
-> creation tool that causes this?
-
-
-I suspect your version of U-Boot does not handle files spread across
-multiple filesystems (allocation) extends efficiently.
-
-Copying the file makes the copy being layed out in one extend probably.
-
-I am aware of two fixes for U-Boot. I will look them up, and reply again to
-this thread.
-
-Regards, Leon
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch
+index 9465c385202..2598c177c4c 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch
+@@ -1,16 +1,17 @@
+-From 590bd5ec9f378ab727ee404bb32f615e1bbd15bf Mon Sep 17 00:00:00 2001
++From 74ea6a665d0f3417e75f1d3d02f27a12f128ec70 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 6 Nov 2018 13:41:29 +0100
+ Subject: [PATCH] spec_tmpl.sh: use /bin/sh, not /usr/bin/sh
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  spec_tmpl.sh | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/spec_tmpl.sh b/spec_tmpl.sh
+-index 45009c3..307c0c2 100755
++index 14e895a..fc80fc6 100755
+ --- a/spec_tmpl.sh
+ +++ b/spec_tmpl.sh
+ @@ -1,4 +1,4 @@
+@@ -18,4 +19,4 @@ index 45009c3..307c0c2 100755
+ +#!/bin/sh
+  
+  version=$1
+- template=$2
++ libmodulemd_v1_version=$2
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch b/meta/recipes-devtools/libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch
+index e94abd27c39..a3e62bf52ca 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch
+@@ -1,65 +1,67 @@
+-From b6c8039afe016d25c17cdf1b2462d6a53d49fad1 Mon Sep 17 00:00:00 2001
++From b77c9c3d07430b014b2d1bff42027f483c81f15a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 6 Nov 2018 13:43:00 +0100
+-Subject: [PATCH] modulemd/v1/meson.build: do not generate gir or gtkdoc
++Subject: [PATCH] modulemd/v[12]/meson.build: do not generate gtkdoc or python
++ bindings
+ 
+-Both of these really need a configuration option.
++All of these really need a configuration option.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ ---
+- meson.build             |  1 -
+- modulemd/v1/meson.build | 20 --------------------
+- 2 files changed, 21 deletions(-)
++ meson.build             | 3 +--
++ modulemd/v1/meson.build | 8 --------
++ modulemd/v2/meson.build | 8 --------
++ 3 files changed, 1 insertion(+), 18 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index db7c6a1..e0ea61a 100644
++index 228bd34..a1e60bb 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -49,7 +49,6 @@ gnome = import('gnome')
++@@ -52,7 +52,6 @@ gnome = import('gnome')
+  pkg = import('pkgconfig')
+  gobject = dependency('gobject-2.0')
+  yaml = dependency('yaml-0.1')
+ -gtkdoc = dependency('gtk-doc')
+  
+- spec_tmpl = find_program('spec_tmpl.sh')
++ sh = find_program('sh')
++ sed = find_program('sed')
++@@ -110,4 +109,4 @@ configure_file(
++ )
+  
++ subdir('modulemd')
++-subdir('bindings/python')
+++
+ diff --git a/modulemd/v1/meson.build b/modulemd/v1/meson.build
+-index 38e0d15..d59e519 100644
++index 74db89a..4d54e69 100644
+ --- a/modulemd/v1/meson.build
+ +++ b/modulemd/v1/meson.build
+-@@ -311,19 +311,6 @@ if valgrind.found()
+-           timeout : 300)
+- endif
++@@ -341,11 +341,3 @@ configure_file(
++   configuration : xcdata
++ )
+  
+--gnome.generate_gir(
+--    modulemd_v1_lib,
+--    sources : modulemd_v1_srcs + modulemd_v1_hdrs,
+--    nsversion : '.'.join([libmodulemd_version_array[0], '0']),
+--    namespace : 'Modulemd',
+--    symbol_prefix : 'modulemd_',
+--    identifier_prefix : 'Modulemd',
+--    includes : [
+--        'GObject-2.0',
+--    ],
++-gnome.gtkdoc(
++-    'modulemd-1.0',
++-    install_dir: 'modulemd-1.0',
++-    src_dir : './modulemd/v1',
++-    main_xml : 'modulemd-v1-docs.xml',
+ -    install : true,
+--    )
++-)
+ -
+- xcdata = configuration_data()
+- xcdata.set('VERSION', libmodulemd_version)
+- configure_file(
+-@@ -339,13 +326,6 @@ configure_file(
+-   configuration : cdata
++diff --git a/modulemd/v2/meson.build b/modulemd/v2/meson.build
++index 7b94e0c..c5f72b9 100644
++--- a/modulemd/v2/meson.build
+++++ b/modulemd/v2/meson.build
++@@ -530,11 +530,3 @@ configure_file(
++   configuration : xcdata
+  )
+  
+ -gnome.gtkdoc(
+--    'modulemd-1.0',
+--    install_dir: 'modulemd-1.0',
+--    src_dir : './',
+--    main_xml : 'modulemd-docs.xml',
+--    install : true)
++-    'modulemd-2.0',
++-    install_dir: 'modulemd-2.0',
++-    src_dir : './modulemd/v2',
++-    main_xml : 'modulemd-v2-docs.xml',
++-    install : true,
++-)
+ -
+- pkg.generate(
+-     libraries : modulemd_v1_lib,
+-     subdirs : v1_header_path,
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index d9bfdc0878f..87e92114c8d 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -7,15 +7,24 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https \
+            file://0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch \
+            "
+ 
+-PV = "1.7.0"
+-SRCREV = "9af3e7b4bec2f8daaa857fa668b858e484487710"
++PV = "2.1.0"
++SRCREV = "072e6ee791fe7822a6d423bdac7e4a5cbb118bce"
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit meson
++inherit meson gobject-introspection
+ 
+-EXTRA_OEMESON = "-Ddeveloper_build=false"
++EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true -Dbuild_api_v2=false"
+ 
+-DEPENDS += "glib-2.0 libyaml"
++DEPENDS += "glib-2.0 libyaml glib-2.0-native"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++GI_ENABLE_FLAG = "-Dskip_introspection=false"
++GI_DISABLE_FLAG = "-Dskip_introspection=true"
++
++EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
++EXTRA_OEMESON_append_class-native = " ${GI_DISABLE_FLAG}"
++
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
++                                                                                       '${GI_DISABLE_FLAG}', d)} "
 -- 
-Leon Woestenberg
-leon@sidebranch.com
-T: +31 40 711 42 76
-M: +31 6 472 30 372
+2.17.1
 
-Sidebranch
-Embedded Systems
-Eindhoven, The Netherlands
-http://www.sidebranch.com
 
---00000000000002d6f30582425c0f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto">Hello Mike,</div></div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">sounds familiar.</div><div dir=3D"auto"><br></div><div><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 19 Fe=
-b 2019 at 17:55, Mike Looijmans &lt;<a href=3D"mailto:mike.looijmans@topic.=
-nl">mike.looijmans@topic.nl</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">Took me a while to figure out why my board took 90 seconds to boot =
-suddenly.<br>
-<br>
-The issue turned out to be the ext4 partition created by wic.</blockquote><=
-div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote><div=
- dir=3D"auto">I suspect it&#39;s not WIC&#39;s fault.</div><div dir=3D"auto=
-"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"></blockquote><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><br>
-ZynqMP&gt; load mmc 0:2 0x100000 /lib/firmware/fpga.bin<br>
-19311092 bytes read in 85529 ms (219.7 KiB/s)<br><br>
-Now if I boot the board rename and copy that file onto itself, then it&#39;=
-s <br>
-suddenly normal again when I reboot the board:<br>
-<br>
-ZynqMP&gt; load mmc 0:2 0x10000<br>
-I&#39;m not knowledgeable on ext4, so any ideas what&#39;s being passed ont=
-o the image <br>
-creation tool that causes this?</blockquote><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I suspect your v=
-ersion of U-Boot does not handle files spread across multiple filesystems (=
-allocation) extends efficiently.=C2=A0</div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Copying the file makes the copy being layed out in one exten=
-d probably.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I am aware o=
-f two fixes for U-Boot. I will look them up, and reply again to this thread=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Regards, Leon</div></d=
-iv></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
-=3D"gmail_signature"><div dir=3D"ltr"><div style=3D"color:rgb(0,0,0);font-f=
-amily:Helvetica">Leon Woestenberg</div><div style=3D"color:rgb(0,0,0);font-=
-family:Helvetica"><a href=3D"mailto:leon@sidebranch.com" style=3D"color:rgb=
-(17,85,204)" target=3D"_blank">leon@sidebranch.com</a></div><div style=3D"c=
-olor:rgb(0,0,0);font-family:Helvetica"><div>T: +31 40 711 42 76</div><div>M=
-: +31 6 472 30 372</div></div><div style=3D"color:rgb(0,0,0);font-family:He=
-lvetica"><br></div><div style=3D"color:rgb(0,0,0);font-family:Helvetica">Si=
-debranch</div><div style=3D"color:rgb(0,0,0);font-family:Helvetica">Embedde=
-d Systems</div><div style=3D"color:rgb(0,0,0);font-family:Helvetica">Eindho=
-ven, The Netherlands</div><a href=3D"http://www.sidebranch.com/" style=3D"c=
-olor:rgb(17,85,204);font-family:Helvetica" target=3D"_blank">http://www.sid=
-ebranch.com</a><div><br></div><div><img src=3D"http://www.sidebranch.nl/sit=
-es/default/files/images/unnamed.png" style=3D"color:rgb(0,0,0);font-family:=
-Helvetica"><br></div><div><br><div><br></div></div></div></div>
-
---00000000000002d6f30582425c0f--
