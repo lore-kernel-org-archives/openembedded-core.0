@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 31AE27C771
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AE727C8CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 13:58:22 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d17so7659124wre.10
+	Tue, 19 Feb 2019 13:58:23 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id e74so2367646wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 05:58:23 -0800 (PST)
+	Tue, 19 Feb 2019 05:58:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=GrA70DTgU+6kGwmdArZIGDpp6uWJhzQkm+w2bYvJ+Eg=;
-	b=Ad+38dAHqgEaq3nuNbqiJyU3qswhalAeFsvZ7CfJ1upuVtpNmhYDVnxJ1oNbWAeg84
-	AF7wzleh+7IZIefYC5WUMm2GtttmzH8XMaPnEUH8jkEChYNTw4b63rEEI2GgYIJ3J8wc
-	66oJUJaiPoT2OHk1wZVUrkpZM12dIUeE7KdoQE5T1EsTuGQEtnOGxkhKUDfmT94s0jNI
-	BQ+l6ktc688OJupkBuMs5iQ8ga53lkeFa7lMiQHsp8yOTVMIGWXSzM+2vMukQn4oFx5u
-	PUtUciLjVMEkuf2t1drZhz7jkMv/5rPsoz0zrwXrHfvvjmHOH4RHmdTDYD+yd7VC93BC
-	8JIA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=9QIWOxJQ2ZjwuptQL8AXpa88vpF8jlk5mJj1VIS0Nj8=;
+	b=c6DvLGGZN50YSVhNGkTKVOVX6TgvH7s39c44+gYyzenYTo7jX6O3KuAreNw4inAw2C
+	/DnBSo3KWcxJgvRfQ6/pkFDHMt46AwxGtJ60UdaLTPi7iMdKbg4y1VA6Td18lD09eudt
+	RvQ0tPTLp8uSIpFIRZjmEWrAEwxoZTiTOZcWv/yTfdMqF/rwKIn5VefmbdgyZ3pjcVw5
+	+dBXzmS6D51ZmFzq5vgplCp8E+LPHVP65L6/p7Ks8aKt5qNVg4PRNL2Fxsmabi3T9fyz
+	uBLhfAcFB7kmaxMQP44cR2GWekSaixbgIWm4s6O9vQbVHmPh7PqeK/HVDjsQLo9m+UK4
+	Rk0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GrA70DTgU+6kGwmdArZIGDpp6uWJhzQkm+w2bYvJ+Eg=;
-	b=cYNc7vJlkXm/Z9mleruOevgl7NuTyrvk7eoLliY/hi1DyAEms83iN5CpeN8VJjahC1
-	uLjHd0p5AaHio3mC3iuCuO7AUu3KHys62+KyeunKJOeALSu2eMCzJHESU7QvdKp4ysO4
-	LJWvHfcN7WbQ5xQwJ2sOQuNmwuAK7cJ/S/SRpnCx55WUPcrTbC7WUdG4Kp138NMLt4qM
-	TTcTuHFQp0bi+5OvSjDclB7GuhMci8OpVkXPryZes5H+9kd1BVfllcfb5D+48ydGRMKp
-	YwEqIBuB2O3gImJq9KW+H6oVlJJ7uNpyFcFYhhQJ0q5jedy5BD7M4tWa2p2V5kq4Twdd
-	yq7A==
-X-Gm-Message-State: AHQUAubcdcM9bOS++HzgG/WR7ItDqVthY8IqUxA3s6Ckb7vCbK2mf+tZ
-	fe3Lyu5b0zmHjWigJiQFgq2Vq7le
-X-Google-Smtp-Source: AHgI3Ib9JUgPRhzSaDmZa9okNPFN+i3KF5De5dnuZbHg7uEuo22TISHJH0DUPWQaoSAKC7TilIlq+w==
-X-Received: by 2002:adf:c54d:: with SMTP id s13mr19912766wrf.169.1550584702467;
-	Tue, 19 Feb 2019 05:58:22 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=9QIWOxJQ2ZjwuptQL8AXpa88vpF8jlk5mJj1VIS0Nj8=;
+	b=c1Mp1BQX89QzdraY6yYIgcOQ1wvHfgYOWIAKx87kYPPRI7tJrsMRKlxsP/q1Seh65Y
+	suVUB2dflSgyKYrcyVxCNC9A2FchTesK6M8co+Sk5yvnUExVpDiOsY+Dxrzol+6GWFXd
+	oZ1lB+RUvFg/TkI6B6suvaQlpVnhg/wzYDMD9YEkXVjOQ7vAgtRmB6P64N+rTgGoRItC
+	zkwA1zqExPEXkKQBwOrfPPgcohFU5nYCfinIZbBAPIh2JKC9Mre7XMVXGBL5PetA4yrr
+	ZR6GUrplJ1c7RVBtb/HWj6+CX7Qcbpyw3ShFPin0gG4YRCBR397Be5NTVirVAxnDHqjD
+	UAfA==
+X-Gm-Message-State: AHQUAuYaE9AHk/+T+nSgGfxYHwRlnpGyKiA6wqJrg8BPr1ZS1sjeDRzR
+	i2zY7mCXMrLkkOwSeKuj7p3AQdhX
+X-Google-Smtp-Source: AHgI3IaJ8oUDsozTH+cCKJNQqSQlmUNDaqAsq6iRxzE1M5M2WgjtsVctZTj+TieW1WPTxshUJ7+bfw==
+X-Received: by 2002:a1c:4d17:: with SMTP id o23mr3077670wmh.53.1550584703840; 
+	Tue, 19 Feb 2019 05:58:23 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	q24sm1959656wmq.16.2019.02.19.05.58.21
+	q24sm1959656wmq.16.2019.02.19.05.58.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Feb 2019 05:58:21 -0800 (PST)
+	Tue, 19 Feb 2019 05:58:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2019 14:58:08 +0100
-Message-Id: <20190219135815.18177-1-alex.kanavin@gmail.com>
+Date: Tue, 19 Feb 2019 14:58:09 +0100
+Message-Id: <20190219135815.18177-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/8] clutter-gtk-1.0: convert to meson
+In-Reply-To: <20190219135815.18177-1-alex.kanavin@gmail.com>
+References: <20190219135815.18177-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/8] meson: add a couple of patches to help with mingw builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,123 +57,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 13:58:22 -0000
-
-This required adding an option to control gobject introspection
-via a custom patch, and tweaking clutter.bbclass to not enforce
-autotools.
+X-List-Received-Date: Tue, 19 Feb 2019 13:58:23 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/clutter.bbclass                  |  3 +-
- .../clutter/clutter-gtk-1.0.inc               | 20 +++++++++-
- ...iable-for-enabling-disabling-introsp.patch | 37 +++++++++++++++++++
- .../clutter/clutter-gtk-1.0_1.8.4.bb          |  1 +
- 4 files changed, 58 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0/0001-Add-a-config-variable-for-enabling-disabling-introsp.patch
+ meta/recipes-devtools/meson/meson.inc         |  2 ++
+ ...s-windows-split-WINDRES-env-variable.patch | 26 +++++++++++++++++++
+ ...etect-windows-also-if-the-system-str.patch | 25 ++++++++++++++++++
+ 3 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-modules-windows-split-WINDRES-env-variable.patch
+ create mode 100644 meta/recipes-devtools/meson/meson/0002-environment.py-detect-windows-also-if-the-system-str.patch
 
-diff --git a/meta/classes/clutter.bbclass b/meta/classes/clutter.bbclass
-index 5edab0e55d6..24b53a13e40 100644
---- a/meta/classes/clutter.bbclass
-+++ b/meta/classes/clutter.bbclass
-@@ -14,4 +14,5 @@ REALNAME = "${@get_real_name("${BPN}")}"
- SRC_URI = "${GNOME_MIRROR}/${REALNAME}/${VERMINOR}/${REALNAME}-${PV}.tar.xz;name=archive"
- S = "${WORKDIR}/${REALNAME}-${PV}"
- 
--inherit autotools pkgconfig gtk-doc gettext
-+CLUTTERBASEBUILDCLASS ??= "autotools"
-+inherit ${CLUTTERBASEBUILDCLASS} pkgconfig gtk-doc gettext
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-index 05c4e5f5caa..4e82f566057 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-@@ -2,7 +2,9 @@ SUMMARY = "Library for embedding a Clutter canvas in a GTK+ application"
- HOMEPAGE = "http://www.clutter-project.org/"
- LICENSE = "LGPLv2+"
- 
--inherit clutter distro_features_check upstream-version-is-even gobject-introspection
-+CLUTTERBASEBUILDCLASS = "meson"
-+inherit clutter distro_features_check upstream-version-is-even gobject-introspection gtk-doc
-+
- # depends on clutter-1.0 which depends on cogl-1.0
- REQUIRED_DISTRO_FEATURES ?= "opengl"
- # depends on gtk+3
-@@ -10,6 +12,20 @@ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
- DEPENDS = "clutter-1.0 gtk+3"
- PACKAGES  =+ "${PN}-examples"
--AUTOTOOLS_AUXDIR = "${S}/build"
-+
-+GTKDOC_ENABLE_FLAG = "-Denable_docs=true"
-+GTKDOC_DISABLE_FLAG = "-Denable_docs=false"
-+
-+GI_ENABLE_FLAG = "-Denable_gi=true"
-+GI_DISABLE_FLAG = "-Denable_gi=false"
-+
-+EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-+                                                                                       '${GI_DISABLE_FLAG}', d)} "
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-+                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
-+
- 
- 
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0/0001-Add-a-config-variable-for-enabling-disabling-introsp.patch b/meta/recipes-graphics/clutter/clutter-gtk-1.0/0001-Add-a-config-variable-for-enabling-disabling-introsp.patch
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index d37afc3b0dc..c39b1a3d5e2 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -12,6 +12,8 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-python-module-do-not-manipulate-the-environment-when.patch \
+            file://disable-rpath-handling.patch \
+            file://cross-libdir.patch \
++           file://0001-modules-windows-split-WINDRES-env-variable.patch \
++           file://0002-environment.py-detect-windows-also-if-the-system-str.patch \
+            "
+ SRC_URI[sha256sum] = "fb0395c4ac208eab381cd1a20571584bdbba176eb562a7efa9cb17cace0e1551"
+ SRC_URI[md5sum] = "3c35b91e8040901034809576d54007c6"
+diff --git a/meta/recipes-devtools/meson/meson/0001-modules-windows-split-WINDRES-env-variable.patch b/meta/recipes-devtools/meson/meson/0001-modules-windows-split-WINDRES-env-variable.patch
 new file mode 100644
-index 00000000000..e21c6fd9036
+index 00000000000..c334e6dd66b
 --- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0/0001-Add-a-config-variable-for-enabling-disabling-introsp.patch
-@@ -0,0 +1,37 @@
-+From 7233883c6bd4e80c0e91b29b5c76fe798023e9fe Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/meson/meson/0001-modules-windows-split-WINDRES-env-variable.patch
+@@ -0,0 +1,26 @@
++From 5293d0f5067b2aeefe9ce3c175c972de367589bc Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 11 Feb 2019 16:41:13 +0100
-+Subject: [PATCH] Add a config variable for enabling/disabling introspection
++Date: Wed, 13 Feb 2019 17:43:54 +0100
++Subject: [PATCH] modules/windows: split WINDRES env variable
++
++As it may contain not just the binary, but also the arguments to it.
 +
 +Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ clutter-gtk/meson.build | 2 +-
-+ meson_options.txt       | 4 ++++
-+ 2 files changed, 5 insertions(+), 1 deletion(-)
++ mesonbuild/modules/windows.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/clutter-gtk/meson.build b/clutter-gtk/meson.build
-+index 5d6847d..5d934b6 100644
-+--- a/clutter-gtk/meson.build
-++++ b/clutter-gtk/meson.build
-+@@ -49,7 +49,7 @@ clutter_gtk_dep = declare_dependency(link_with: clutter_gtk,
-+                                      dependencies: [ mathlib_dep, clutter_dep, gtk_dep ],
-+                                      include_directories: include_directories('.'))
++diff --git a/mesonbuild/modules/windows.py b/mesonbuild/modules/windows.py
++index d185d89..dbaeb9b 100644
++--- a/mesonbuild/modules/windows.py
+++++ b/mesonbuild/modules/windows.py
++@@ -56,7 +56,7 @@ class WindowsModule(ExtensionModule):
++             if 'WINDRES' in os.environ:
++                 # Pick-up env var WINDRES if set. This is often used for
++                 # specifying an arch-specific windres.
++-                rescomp = ExternalProgram('windres', command=os.environ.get('WINDRES'), silent=True)
+++                rescomp = ExternalProgram('windres', command=os.environ.get('WINDRES').split(), silent=True)
 + 
-+-if not meson.is_cross_build()
-++if get_option('enable_gi')
-+   gnome.generate_gir(clutter_gtk,
-+                      sources: clutter_gtk_headers + clutter_gtk_sources,
-+                      namespace: 'GtkClutter',
-+diff --git a/meson_options.txt b/meson_options.txt
-+index aaf59f1..b7e51c3 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -2,3 +2,7 @@ option('enable_docs',
-+        type: 'boolean',
-+        value: false,
-+        description: 'Enable generating the API reference (depends on GTK-Doc)')
-++option('enable_gi',
-++       type: 'boolean',
-++       value: false,
-++       description: 'Enable gobject introspection')
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.4.bb b/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.4.bb
-index f0300c7164c..53948c89442 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.4.bb
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.4.bb
-@@ -2,5 +2,6 @@ require clutter-gtk-1.0.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
-+SRC_URI += " file://0001-Add-a-config-variable-for-enabling-disabling-introsp.patch"
- SRC_URI[archive.md5sum] = "b363ac9878e2337be887b8ee9e1da00e"
- SRC_URI[archive.sha256sum] = "521493ec038973c77edcb8bc5eac23eed41645117894aaee7300b2487cb42b06"
++         if not rescomp or not rescomp.found():
++             # Take windres from the config file after the environment, which is
+diff --git a/meta/recipes-devtools/meson/meson/0002-environment.py-detect-windows-also-if-the-system-str.patch b/meta/recipes-devtools/meson/meson/0002-environment.py-detect-windows-also-if-the-system-str.patch
+new file mode 100644
+index 00000000000..1be5d663291
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0002-environment.py-detect-windows-also-if-the-system-str.patch
+@@ -0,0 +1,25 @@
++From 7bf4c2c02eb7fe1bf24b23e3ba2d7df36495e0aa Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 13 Feb 2019 17:45:09 +0100
++Subject: [PATCH] environment.py: detect windows also if the system string
++ contains 'mingw'
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ mesonbuild/environment.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index b4fc0dc..845077e 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -1247,7 +1247,7 @@ class MachineInfo:
++         """
++         Machine is windows?
++         """
++-        return self.system == 'windows'
+++        return self.system == 'windows' or 'mingw' in self.system
++ 
++     def is_cygwin(self):
++         """
 -- 
 2.17.1
 
