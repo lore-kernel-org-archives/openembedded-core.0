@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9917B7C8C1
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C14FC7C8D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 13:58:24 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id a62so2933114wmh.4
+	Tue, 19 Feb 2019 13:58:25 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id d17so7659354wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 05:58:26 -0800 (PST)
+	Tue, 19 Feb 2019 05:58:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1h1J+dh3ZZZT4KINGL3ZE+IHoqcr0snYP+nPfHB7C3o=;
-	b=ML00D1ZkrJFNeYsPCU6M/5HGz1YgtwK6nCqTVJVfhse5cNpTa9WtJwijDkG6U4OAZu
-	ZkIkFG58zncaE1G/jcEJY2ytrv+q35EP74KDjIUk2nj5r80ei6Et759VopnfI7GLMLMO
-	yRm9zqYQyo8vkRTqCoruSxTarTqQCLZc/IIO5DVDaHWzgsj1l1mHjfYrQJw5vpn4PaHo
-	Eu4sWjxhKF8VkSNIBRfBDC8j5ecEmTVW2fmi5pEsXG3pg7CPdRY1gATwHiUtEDP1q5Hq
-	qwync7g54aSSVYtZZZDUGRReqcvlKgQjJ1igsFD+u9dg4j5rd+754LC20ZrMWei4Etbm
-	gsmA==
+	bh=9hQqro8smR6AaYNSqLpBinOyYSSGGtysXkyEALx8yyM=;
+	b=DBsPHF4EfqOsquGMf9+JGJuf64JUHPdi351bemdV6R/auBwAlHSsiNO5EaQ6juhwcj
+	r9X2BWsGW4d6hCjpXSlpiNNkKOijUMvuaHm99v5Wm3yPbt6DMOx5BhWewz29MP4b15wk
+	VXT9swRCs7nNTDcjPTKvhn0m5sZe7KkGWxeDAfZo9EywB0IoNjTKXcLweXm5JoQrWnIh
+	Lfaoxfh7bA5UK3NgZofhMf3nrNLr1xbb0YrxkTX1TnuJ1WJXOLWyDRw75egH6vtmZkSa
+	9OMepfw36oFEItxFXjyy78z9pbYWHeIfgE8R12Ve3dckchDDD/XfHViFQGXscluPUZHS
+	ONXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1h1J+dh3ZZZT4KINGL3ZE+IHoqcr0snYP+nPfHB7C3o=;
-	b=U5gCpkwQY+YExh6lwPLnrNiE4G9Px7nfqfXDEomERpQhyQhrCK+kVqh0M4IRlsyEoV
-	ENCTW9SbffhsKqdW1FZoobWmn5z0zigV7OUYMVhVylJ8pxwMzYGz18rl2zNDCt0rldjH
-	Gxlulpe1Y+U1p9qrS6dFAfi9jvI13m947SvCQzzZ1HSjTAN9tYDthHXuXbQ7FPYs/8e9
-	6UacNZhro0an+ISUFHTEB8XCHmcQd9aUbjq9cnDbMATQmny0hQ3WyV2eP4bNdjyiHJwr
-	VqOosQMQFnW3qoF1Fkf0mUgNqDYoTslTfp8blwGEqtG1eRg/pGaoC3cmytGXnABVhep6
-	c7wg==
-X-Gm-Message-State: AHQUAuYGdgW5Q1dMPaIGcdzf/+2bGRPWMTFXkqLN7ynBlkTe8Anhj9Tl
-	rSj+wAf1+Mm/w56yFcXDqRQgpYaQ
-X-Google-Smtp-Source: AHgI3Ia7xpPbOPwdwja7pFMPDsn9bcBFFgfPQ3Od84npVhbApuHCft/ksy8MD5Fiy522unHPDfjzAA==
-X-Received: by 2002:a1c:2358:: with SMTP id j85mr2798004wmj.130.1550584705052; 
-	Tue, 19 Feb 2019 05:58:25 -0800 (PST)
+	bh=9hQqro8smR6AaYNSqLpBinOyYSSGGtysXkyEALx8yyM=;
+	b=ReTeoMvd0HBNz91nHy2egYnY+xHgolASfTMKQVVsOnH/fyG2QWOUP8IdS3TFHjsQTZ
+	AsnS681VlHW/viPfq/IkdCxuC6TxKGiI69W36wJo7sr4hQ6HM161kM3bTWi34z+C8vCL
+	4z/DVbhpGKNf6sFAiAb0PdcRswxhUzXk8l6LONOkkWiR4QENOEa6/1btJ3H2AueA2rt5
+	nyWxb1vsD8tcYWBuiP4uOQKI7QSXXR52Rd3YGeg1KkCZxzacz6HyrIRKtos7GBAe2J9i
+	iex3KyTQu1oGUHb5StT48F0HkEssYDyFmsYtvg3J63okO78kgYrcy8lRhdO7Ajbx9qSn
+	AQHA==
+X-Gm-Message-State: AHQUAuYitBJX4m/QgLCc7+dRojpDcQmq8yICXRSGrOWSiXWN2g+0FLj0
+	Sa2A8OqVN9n+DTV4dc4Wr0nzhQ5j
+X-Google-Smtp-Source: AHgI3IZnhfG8bxRhgHeTNMxOn3ccYwQu8bwjULzffBWr8qTL7eZMLSKPOKlP1fTgv7YL2YlsfQz8xw==
+X-Received: by 2002:a5d:6207:: with SMTP id y7mr9461403wru.60.1550584706162;
+	Tue, 19 Feb 2019 05:58:26 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	q24sm1959656wmq.16.2019.02.19.05.58.23
+	q24sm1959656wmq.16.2019.02.19.05.58.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Feb 2019 05:58:24 -0800 (PST)
+	Tue, 19 Feb 2019 05:58:25 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2019 14:58:10 +0100
-Message-Id: <20190219135815.18177-3-alex.kanavin@gmail.com>
+Date: Tue, 19 Feb 2019 14:58:11 +0100
+Message-Id: <20190219135815.18177-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190219135815.18177-1-alex.kanavin@gmail.com>
 References: <20190219135815.18177-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/8] libsoup-2.4: convert from autotools to meson
+Subject: [PATCH 4/8] libxkbcommon: update to 0.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,92 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 13:58:24 -0000
+X-List-Received-Date: Tue, 19 Feb 2019 13:58:26 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...no-introspection-when-cross-building.patch | 24 +++++++++++++++++
- .../libsoup/libsoup-2.4_2.64.2.bb             | 27 +++++++++++++++----
- 2 files changed, 46 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch
+ .../xorg-lib/{libxkbcommon_0.8.2.bb => libxkbcommon_0.8.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.8.2.bb => libxkbcommon_0.8.3.bb} (83%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch
-new file mode 100644
-index 00000000000..72b029a80b6
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch
-@@ -0,0 +1,24 @@
-+From 921888affe66953c92a08ae440e911b016b124be Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 15 Feb 2019 14:21:06 +0100
-+Subject: [PATCH] Do not enforce no-introspection when cross-building
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 5a92cda..cfb3520 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -262,7 +262,7 @@ enable_gnome = get_option('gnome') and host_machine.system() != 'windows'
-+ #########################
-+ # GObject introspection #
-+ #########################
-+-enable_introspection = get_option('introspection') and find_program('g-ir-scanner', required: false).found() and not meson.is_cross_build()
-++enable_introspection = get_option('introspection') and find_program('g-ir-scanner', required: false).found()
-+ 
-+ ############
-+ # Vala API #
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-index 9f852d5c054..ae7c1a68636 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-@@ -9,20 +9,37 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native libpsl"
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.2.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb
+similarity index 83%
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb
+index 8cf508b0bff..ff0f0690b67 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb
+@@ -9,8 +9,8 @@ DEPENDS = "util-macros flex-native bison-native"
  
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
  
--SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-+           file://0001-Do-not-enforce-no-introspection-when-cross-building.patch \
-+           "
- SRC_URI[md5sum] = "cac755dc6c6acd6e0c70007f547548f5"
- SRC_URI[sha256sum] = "75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774104457b3a786c6"
+-SRC_URI[md5sum] = "5f7f8533f907ebcfb1cf8dceb9501264"
+-SRC_URI[sha256sum] = "7ab8c4b3403d89d01898066b72cb6069bddeb5af94905a65368f671a026ed58c"
++SRC_URI[md5sum] = "8225a206e00c4146d2e06f5e688b28e7"
++SRC_URI[sha256sum] = "b855c629849a97ab9835a4ad99d6b749a636f70d38a03f070c6ef72024825540"
  
- S = "${WORKDIR}/libsoup-${PV}"
+ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
  
--inherit autotools gettext pkgconfig upstream-version-is-even gobject-introspection gtk-doc
-+inherit meson gettext pkgconfig upstream-version-is-even gobject-introspection gtk-doc
- 
- # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
- PACKAGECONFIG ??= ""
--PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
--PACKAGECONFIG[gssapi] = "--with-gssapi,--without-gssapi,krb5"
-+PACKAGECONFIG[gnome] = "-Dgnome=true,-Dgnome=false"
-+PACKAGECONFIG[gssapi] = "-Dgssapi=true,-Dgssapi=false,krb5"
-+
-+EXTRA_OEMESON_append = " -Dvapi=false"
-+
-+GTKDOC_ENABLE_FLAG = "-Ddoc=true"
-+GTKDOC_DISABLE_FLAG = "-Ddoc=false"
-+
-+GI_ENABLE_FLAG = "-Dintrospection=true"
-+GI_DISABLE_FLAG = "-Dintrospection=false"
-+
-+EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-+                                                                                       '${GI_DISABLE_FLAG}', d)} "
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-+                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
- 
--EXTRA_OECONF = "--disable-vala"
- 
- # When built without gnome support, libsoup-2.4 will contain only one shared lib
- # and will therefore become subject to renaming by debian.bbclass. Prevent
 -- 
 2.17.1
 
