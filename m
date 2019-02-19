@@ -1,184 +1,53 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 18064 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 19 Feb 2019 16:54:53 UTC
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr20065.outbound.protection.outlook.com [40.107.2.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E8BB97C9B8
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E3BE6C498
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 16:54:53 +0000 (UTC)
+	Tue, 19 Feb 2019 16:59:18 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id h28so86354qkk.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2019 08:59:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector1-TopicProducts-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=8TTVSFCPsiFSvH8/fVetQZvVSAPxvnO+IyHaFv3rO8U=;
-	b=gOiMnHiCm9uJO7N8xKYwempZmdCxaIa3IDkvGukTCatI2ohlQlFxz9LlW8RsOpym/cMLSlqKXD1jOebRYFDB/jx6jSbd6JwwHo7cOfGLcwGXmEn6S5ni4q4xJbcjWnY5Z+XRsBCHiC0MhvNdgq2v6n0ohRPgV0VtLOCPJNQbeC4=
-Received: from AM3PR04CA0146.eurprd04.prod.outlook.com (2603:10a6:207::30) by
-	DB7PR04MB5482.eurprd04.prod.outlook.com (2603:10a6:10:86::15) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1622.19; Tue, 19 Feb 2019 11:20:39 +0000
-Received: from HE1EUR01FT031.eop-EUR01.prod.protection.outlook.com
-	(2a01:111:f400:7e1f::209) by AM3PR04CA0146.outlook.office365.com
-	(2603:10a6:207::30) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1622.16 via
-	Frontend Transport; Tue, 19 Feb 2019 11:20:39 +0000
-Authentication-Results: spf=pass (sender IP is 52.236.92.113)
-	smtp.mailfrom=topicproducts.com; lists.openembedded.org;
-	dkim=pass (signature
-	was verified) header.d=topicbv.onmicrosoft.com; lists.openembedded.org; 
-	dmarc=none action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
-	designates 52.236.92.113 as permitted sender)
-	receiver=protection.outlook.com; client-ip=52.236.92.113;
-	helo=eu2-emailsignatures-cloud.codetwo.com;
-Received: from eu2-emailsignatures-cloud.codetwo.com (52.236.92.113) by
-	HE1EUR01FT031.mail.protection.outlook.com (10.152.0.177) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.20.1580.10 via Frontend Transport; Tue, 19 Feb 2019 11:20:39 +0000
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (104.47.4.53) by
-	eu2-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server
-	(TLS12) via SMTP; Tue, 19 Feb 2019 11:20:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector1-TopicProducts-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=8TTVSFCPsiFSvH8/fVetQZvVSAPxvnO+IyHaFv3rO8U=;
-	b=gOiMnHiCm9uJO7N8xKYwempZmdCxaIa3IDkvGukTCatI2ohlQlFxz9LlW8RsOpym/cMLSlqKXD1jOebRYFDB/jx6jSbd6JwwHo7cOfGLcwGXmEn6S5ni4q4xJbcjWnY5Z+XRsBCHiC0MhvNdgq2v6n0ohRPgV0VtLOCPJNQbeC4=
-Received: from DB7PR04MB5260.eurprd04.prod.outlook.com (20.176.236.92) by
-	DB7PR04MB4044.eurprd04.prod.outlook.com (52.135.130.21) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1622.19; Tue, 19 Feb 2019 11:20:34 +0000
-Received: from DB7PR04MB5260.eurprd04.prod.outlook.com
-	([fe80::6d60:d2ab:9dc6:42b]) by DB7PR04MB5260.eurprd04.prod.outlook.com
-	([fe80::6d60:d2ab:9dc6:42b%6]) with mapi id 15.20.1643.014;
-	Tue, 19 Feb 2019 11:20:34 +0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: wic creates ext4 images that read really slow in u-boot
-Thread-Index: AQHUyEUhsy1Bylny30iv3ZodHjtW5w==
-Date: Tue, 19 Feb 2019 11:20:34 +0000
-Message-ID: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
-Accept-Language: nl-NL, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
-x-clientproxiedby: AM6PR0502CA0050.eurprd05.prod.outlook.com
-	(2603:10a6:20b:56::27) To DB7PR04MB5260.eurprd04.prod.outlook.com
-	(2603:10a6:10:21::28)
-Authentication-Results-Original: spf=none (sender IP is )
-	smtp.mailfrom=mike.looijmans@topicproducts.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [81.173.50.109]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 8c6c399b-2c38-4d5d-30e7-08d6965c471f
-X-Microsoft-Antispam-Untrusted: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600110)(711020)(4605104)(2017052603328)(7153060)(7193020);
-	SRVR:DB7PR04MB4044; 
-X-MS-TrafficTypeDiagnostic: DB7PR04MB4044:|DB7PR04MB5482:
-X-Microsoft-Exchange-Diagnostics-untrusted: =?utf-8?B?MTtEQjdQUjA0TUI0MDQ0OzIzOnR2QWRFRjJxR3E0K212YjRVLzdDOFBuWlNx?=
-	=?utf-8?B?b0hsbHdFUkJycGhTR0xvd01lV3hzd3NMZjIyeUhaSVJBL2pyOUxTTmJuOU15?=
-	=?utf-8?B?bW1zYmxveHJjOVNyb2NCT2Z1RlVzMjhRQ2VGZkJ5NTM4Q2VnR25rWlBUQXpJ?=
-	=?utf-8?B?bitTQU9BdElERkFIQzFSS0RrLzB3VXhsZGJuaFUzNno3WmhYU0g5NzZZTmFm?=
-	=?utf-8?B?Y3BJc1h2R3FjMW5NVzRrU1RCV09tQWpkbVo4UURlOUovYXFzQWljaW1ZRWdU?=
-	=?utf-8?B?RDBXeW9jOTVBejJVVTdZWkpvRU1jdzVGdzhzWmlLei82YW93VVNGbHNYVjVJ?=
-	=?utf-8?B?QjE5Uzk5MXpFVEh5L1JhTXVvT29TdVlNdnF2azNUTHRUb01tT0dDMjRzcHo1?=
-	=?utf-8?B?RTMxSHkxeTFrWlR0YXRqbEZ3WEt2NHIvQjFiS2lPMURaejhZdzdoSXJFT0RW?=
-	=?utf-8?B?aVcrUmN3Unl1NUdFLzRkbzBiVXl0ck5PUDAzRTBYUzRYUzRFV3gwbFJCYXhS?=
-	=?utf-8?B?dUlFbTFJeldreTlKQ0tlOXVndFVReFVUU092L0I1cUdMajF2MG9vbzR6NVpR?=
-	=?utf-8?B?bVZ0WWhZbnl1a1FveFYvRC9NNk15SjNkc0RUZm9STFo3cDBOZlFvblNGY3c3?=
-	=?utf-8?B?M0h6ems3NGoxRTVKbnNxUWFRQUFZYS9QZUpvTjlJeHF3M3A3TVR4aStCbmxW?=
-	=?utf-8?B?N3RieEFrOEtEYkJ3ek9oVGwvT21hVlhCeFEyTTAyWE8xdlpCS3pDNGZjSXkv?=
-	=?utf-8?B?NG5yRzc4dzZBN0pIenZJdVZYVGRNWmV6SzRZVE1CS3ZDNUNKbWhsNFZyV2xT?=
-	=?utf-8?B?S3ZhY3JBRG5PVTc5M2l1NnRBWXlvb09yN21sdDkySEtBZHA0bTkxV0lmWjk0?=
-	=?utf-8?B?NTNDYjlWaXBFM0FRUjg2MjJYTXVsc0xJcmlmbjVrN3FnZEsrQnIrK1kxdEFY?=
-	=?utf-8?B?bVBzd1BSTHhZYVA3cVY1MlFhb1QxL0RRSFpzMkRyaDF5WSsya0lCT3VUeUdK?=
-	=?utf-8?B?WTJaWVJaa2xYRzFUYnVnb1E4aTR1anVBeEYzc2RIWGdGWk9TSWFRNUVKclBr?=
-	=?utf-8?B?K0RPK3RrK24rRFExamp2b3hZUVVjQ2hGTm1lVnhibVcwckxDbUpXMmdLQ29H?=
-	=?utf-8?B?dXNCdG43WHV3QTB6ak9FVExPbExoMlFlUlZrS082Q1J5NitBUnBxMzRzZmFB?=
-	=?utf-8?B?NUZ3TU5RQ2s1TkJ1SU9JSmxNclJDam1FN0I0b05Ta3VXL2x5bEFkWWtzTHJq?=
-	=?utf-8?B?ckc2dG9id1F3Y3BpNW1qSW51VzRhMzVqNmN4YzIzb2UvRTNNcWRFa2Q4N2FC?=
-	=?utf-8?B?QlNnSWl6NVlGcXBIcTlmMFFFb044aS8zTFcwM2pieFBzWEZpSll3SnhRZHJh?=
-	=?utf-8?B?Rit1UmtzT2tPUTN0U0k5REdwVDQxOVBpMk9FQS81ZTNQK3Y1cmE2OW1hb0g3?=
-	=?utf-8?B?dDQrdVBxVE02UkplSG8vdUZQa2dmemU1R2NVS0dUbW5uUk1BKzVvcmwrNHF1?=
-	=?utf-8?B?bE5YdWhMTkMyRU5XTFdxdW5wZDhMdVJ3TmdUWjBSTndLSlRyaG5Hc2ZDdjQ1?=
-	=?utf-8?B?ZmdtaGp4L1ovU1FaQ0FRQVRhZmU2c1ppVHFKc3NGalNqOFJYQnNpMktZN1pl?=
-	=?utf-8?B?VUpmZW4rbXV3anhsbGlqMWF2REk4YWpzQlR6S1hrbXpIU2hmNDNoZUoxTEVj?=
-	=?utf-8?B?Ykg4SlM4c1dFZm9VQklqNnVZTzB5OWl4MVl5K1JFcXpNL0UzRE8xdTc1L24z?=
-	=?utf-8?B?R2IzT0ZjWWppSHhuN2tRUVgwQkl6MnJsYXZqQUhDcUUrdkNFanhNOGZqOTU3?=
-	=?utf-8?Q?v/7+Ld14sgIWh?=
-X-Microsoft-Antispam-PRVS: <DB7PR04MB5482699CDE4FEF1F918B467D967C0@DB7PR04MB5482.eurprd04.prod.outlook.com>
-x-forefront-prvs: 09538D3531
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
-	SFS:(10009020)(376002)(396003)(366004)(136003)(346002)(39840400004)(189003)(199004)(68736007)(71190400001)(74482002)(6512007)(65806001)(6486002)(186003)(52116002)(64126003)(25786009)(31686004)(44832011)(8676002)(256004)(486006)(81156014)(81166006)(71200400001)(476003)(6506007)(2906002)(386003)(4744005)(508600001)(99286004)(316002)(65956001)(102836004)(66066001)(6436002)(58126008)(5660300002)(2616005)(53936002)(2501003)(31696002)(105586002)(7736002)(42882007)(106356001)(2351001)(3846002)(5640700003)(6916009)(26005)(97736004)(6116002)(8936002)(305945005)(36756003)(65826007)(14454004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4044;
-	H:DB7PR04MB5260.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: topicproducts.com does not
-	designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info-Original: 9rwhVK5RxmUGGYVJKoIIhavCCgqVAxOkZgzauLzDTrJG7JWR/3Pu01v9a2qYWipco5Xb8FLmdEXHo/bYKyvmMdfc0C+REJ8Nc1lkTBDQO+ud4RCD2dUrVc8Xa7BlfSYthQ9qfPHjb7bElA7E9GqzUit0nTl+onZvHjFZmbf03MMo12Zl57PKpRdCbjnUXlZaStgkhOOeXfOxmzHeuyvoFZvad6b5z1XVVJEUwxmn8nGEFZXt82rDIkqp7PxZC6J2EVqJBn3+t4m87AfUWe5Lo9o+4dUfbUbfcN4ObAKq+ZHUPM+W2gLKAnjkYp0KnDq5TF+zvuld8DIhLQnwoI49mgtZusawW25q1VEadRK0nuDZwcGAQ+33qze0IbGK0KFjJ/7VAtBHPiU+o9I7Fu4lcwdUUS2gUG528fuTz6sf50c=
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=JdVhO9EumF4uCnPEVh8LPeSKo/cFB26IAOT2X2fW9jk=;
+	b=w9HABAH2a8NCoBraUc1zgqLoXdLdROF5AmE4/b3AmbwuU/DV5p9f5qkJlKjAI0EItG
+	TWuP7K+wDlxz5MA8HFGJ00Ev3ezNyVhLNa80/NV09qRIkwhCwHoKo5qMgFinxkCKR2Ta
+	w14kARxR37ZnFWSiHXf2hJuHQdt1RvOs3JbK6UwabJvVYvp2WBTwottYQHoaS8yoxcdY
+	ep61B8dwrECtIJMLenN8rAYzig3TQB4QklW7OZ2jf+kYGOYK615sWT1ZM4/cChfLMZsk
+	pJcbhs+ojYnrDRHNk9oN4A9TlDCQjCyAFmhaekUREBbLZqwWGPPXEWTX70HYCmNav9Y/
+	WrTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=JdVhO9EumF4uCnPEVh8LPeSKo/cFB26IAOT2X2fW9jk=;
+	b=cRFDVTZlkvicKdk/dQyfU9EiTxJ7qs3H5sL5pwr+k0OZ/BZ2HxCbTuIxEcJ1eWarGn
+	vyco7xr63RAAl2v6tZKnRVZrJaw2kG5Vo0GCjOJlVdwXjnlIYHGwxmVJAoy0P+3JskHg
+	6UUlta12pyX9eHkcyAP474VXwztFeQARRQYZiH6AZji178IsVaZAMj13uAc96SESyWVj
+	3la82RaXHY1ShRLk12OyrgFHH1SWVaTK0+26d7kQc0wuquvSjkz53SplhqvUjhjfXeM+
+	mNQJlXF7ax44QBetg517yuBgaxqxrRXtrCOeyPZU0F/21X+qOr3MBVGpS/Rjrb/gB3ut
+	tQAg==
+X-Gm-Message-State: AHQUAuayC360MPwGu4SYBbXWTfHHKodBt8SGHOQREyRuxwhI20YGayOg
+	61Gmi/gLkkgMMIBr3QqM33gqz1A9o98UPQ==
+X-Google-Smtp-Source: AHgI3IbuQrG+9rmt3Jkjck80VM09PQwc6IIERYXAP29AsAGjIYyxzhYGB7aPqYfh7NjXXpi3GIYCEQ==
+X-Received: by 2002:a37:4f45:: with SMTP id d66mr21520812qkb.81.1550595558752; 
+	Tue, 19 Feb 2019 08:59:18 -0800 (PST)
+Received: from centrium.lab.ossystems ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id
+	t20sm2003377qtb.58.2019.02.19.08.59.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Feb 2019 08:59:18 -0800 (PST)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2019 13:59:04 -0300
+Message-Id: <20190219165906.14377-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4044
-X-CodeTwo-MessageID: 20190219112035.8a33417a-e6b4-44f8-b23c-2b18bf82ad76@eu2-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: HE1EUR01FT031.eop-EUR01.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:52.236.92.113; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(376002)(346002)(396003)(136003)(39840400004)(2980300002)(199004)(189003)(316002)(6512007)(5640700003)(23676004)(4744005)(31696002)(14454004)(508600001)(356004)(2486003)(65826007)(6486002)(6916009)(99286004)(25786009)(64126003)(66066001)(65806001)(65956001)(47776003)(3846002)(6116002)(186003)(2351001)(26005)(106466001)(6506007)(31686004)(50466002)(8676002)(2906002)(2501003)(102836004)(246002)(106002)(486006)(2616005)(44832011)(126002)(476003)(5660300002)(7596002)(305945005)(74482002)(7736002)(7636002)(336012)(8936002)(42882007)(36756003)(58126008)(386003)(436003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB5482;
-	H:eu2-emailsignatures-cloud.codetwo.com; FPR:; SPF:Pass; LANG:en;
-	PTR:eu2-emailsignatures-cloud.codetwo.com; A:1; MX:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 2d57efec-f860-41cd-42d2-08d6965c43de
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600110)(710020)(711020)(4605104)(2017052603328)(7153060)(7193020);
-	SRVR:DB7PR04MB5482; 
-X-Microsoft-Exchange-Diagnostics: 1; DB7PR04MB5482;
-	20:5uYcMxE5PkMElxR4G5w6usydbTiWWVGv17j96V6NThu/TZ0ARhfSvkys0oWpT2pwAB5D/sjGrLfQvoK+0IORapttNsdUEBZZNnfh+E2ctCKd2fQ88MdY3WQSayEmEyRUyw/Ps0VVUKavq65eoY3CuEQdt/xMlEd2sQNl+y1sK0c=
-X-Forefront-PRVS: 09538D3531
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtEQjdQUjA0TUI1NDgyOzIzOjc5UWJnZmdabTMxQWJseDFDVXJnc2YrWW1p?=
-	=?utf-8?B?cEtHZURKcWwrY3lkZlpGRFlod2Z5NXFjOUY4dnlsd0pJY01MQ0xzNnJtU2hj?=
-	=?utf-8?B?c1A3UDlJb2tlQU9qSW1CL1lrRXNRTHNIZ29XWVp3TlY0cmp6TTd5b1RWbzc3?=
-	=?utf-8?B?MHg3QWVTekU4ZU4zQWJwQ3B2a3oraUkwbE1UM3dLMTduWlJodWkvK0RpZUY0?=
-	=?utf-8?B?UUV2SkpWZ0N2WTZPMHNpb3FBK0VIZDR4Y0ZJSkFxc2dNOU05Z1NNVmNPVFpo?=
-	=?utf-8?B?TVhvZ0xORXVKUGdhWldLVzQwQVNRL09tbngwV2lZRHFjWmdjRG9aRnJYUEZX?=
-	=?utf-8?B?Vjlob3BJOXhMb2dPTEEvd0RyUnFFc3ltN0trYlJ4RS9zb2FMbmVZVnZXZ2tj?=
-	=?utf-8?B?REN3cEVOcmFaZy8zZHE4emRPM2h4VHQxRElBL0FlQkhqZnkrWFhSbm5Gek9w?=
-	=?utf-8?B?WTF4SGM2aEpQUnNZSVVlNjcySnFJU2RUZTBvc2VpNDFHQ0VGeFFEUG5YK3kz?=
-	=?utf-8?B?a2YvOGJGSlVRM1VKZGlSb2ZreFJWdXBoNUUvYXU0OGZrekg0OHJqTnVlR0JQ?=
-	=?utf-8?B?akFON3hMVkJ6Snk2UlZqUTFHa1dYMHgxY2VFZC9JQjBrRE5xaUpxVzl0UjFw?=
-	=?utf-8?B?cElXNVdiY1g0clVUdklrbG5INW1haGY5bXNlNVkzZTROaGFYQW13Wk5PMy9z?=
-	=?utf-8?B?cGlYYlJjMlk5WmU5Qk9mZFBaTmNuR1FURXh3NjIxMHpFOGtqVmhYQ2kvWEFq?=
-	=?utf-8?B?VFRsRGdESG82TndadVBpTkp2WTh5bWcwRGtWN1VVOFFNdzEwUDdvL0J4WThz?=
-	=?utf-8?B?Wk5YUDNmY3NNSlNDUEM4UWFFY0NjUDR0SUFmdVA4ekpleUlNMG5iRDVjbmlB?=
-	=?utf-8?B?aVZPejIvVUxWM1krZjduUnZ4RzgvazJSd1MrLytDMzdQMDJNaDdpc1pqbktn?=
-	=?utf-8?B?ck04QUE4SVJ0UmtUUmk2YkZuSVErWklZUWRnSC9LOE01djdnWG9nV1FBNjBi?=
-	=?utf-8?B?ejZaN1FTZmpqT2I4Q0NFOW45ckNORm85N0c3bDBDUDMyNGg1V1d6Nk5WcXE5?=
-	=?utf-8?B?c0E3L1EzZkhnUE1pWVF5dm9uWUJnMTZWaEZXeFZjZkpReFZtcWtSTGYrd1BE?=
-	=?utf-8?B?RWY0aXV5cDR1MFlmTzBkZVdmaXIzNGVuc2orcHVHTndXRm8xZzlWVExLZ1dr?=
-	=?utf-8?B?eWUxaFlCOWM3UXFUMnphaUpBZUpxdXprbCtlUGRpcm1FRTM3RUk0bjZEUjFn?=
-	=?utf-8?B?Rmk5VFVVdXFacFZzMGM5empFNDZiaDFPWGlqUExEQXUvZ3gwcFdpSnhIUFRr?=
-	=?utf-8?B?aXplNlZ2NDFVY1pqL3ppSngxaUxXUU5KZ2E4a3dVQmd1bFp6TkRKZzlXN3Bt?=
-	=?utf-8?B?RTBlanF4NTZIVGIwZDdDa0dHd2hwTlV6UUNMZ2RBRTBhb05qVG1Qc3FSaHQ1?=
-	=?utf-8?B?cm9jd015QjNlV0YyU1N2VC9KNWdUcExzL3lTNjNjd2ZNUWQ5WWNla3NCNGFz?=
-	=?utf-8?B?UEF6MlhqMy9yaFhmMHNpNTI2UHM1Rm5tSEFuQlBCUUFIckVjTzhVQW5JWlZ2?=
-	=?utf-8?B?U3JEYk1Oa0VBdlNia1poNUJpSk1IbXovNGxaeGZhUFJmTStBTTgvRTc5STRC?=
-	=?utf-8?B?V09zMnM5SmZ4YzRRZG5aVXc3YTZ2U1BCazFWV2ZPdGlTSklHaDVoWmNjL05s?=
-	=?utf-8?B?VVlpNEJEME5kQVZkTE9BMGUxelYyMHFRTmpUUy9TQTA5STFvY3VRZGUyZjVX?=
-	=?utf-8?B?VHRqR2JNSVFsZGFPWE4wbFJJZ2tUNTMvbGJJTExxdmFJSG1YN0tldndHcGdJ?=
-	=?utf-8?Q?GTpRJBicEP1aO?=
-X-Microsoft-Antispam-Message-Info: eCWcMRI2HHtdoAJclaOK9OHonzrArXFOI/QBRdh6Gok/sxxVwSsfZzBY3k0i0aWiyzBhD64ui9xYDiYORhDXJ8dhWACL39Yg2OTqYHCX6rd6rvc+i/Lu9qLZ3B1GaAlAqCXJlRYm9nwJIf6SK7NaN1m0eODRHSVf0kdOdinMn8RWa/kNbv6mjJZgzwsrWOiI/KxZlcwaqHO+j9+71EHn+/F1Ywtgd0CdDUdlnOfTrj+7L66OuLsITSPhYe/t6WWsknZbh6TC0QTt2e/5OL8SjcErYa4Z0RIWgwl1NryoQS+vSRE3XWS1LU97lJSrcHrjLE/01TDErJO+WjQi2WT3nphPiOr2wHIzfeb69VYRVEx8mSKMoJqvdr7ZNbEob/ImPjmY47GPeGtF59q9EfoHBVrc6HCBD+kZdefVSUjAjx0=
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2019 11:20:39.2406 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c6c399b-2c38-4d5d-30e7-08d6965c471f
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;
-	Ip=[52.236.92.113]; Helo=[eu2-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5482
-Subject: wic creates ext4 images that read really slow in u-boot
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2 1/3] mesa: Update 18.1.9 -> 18.3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -191,25 +60,415 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 16:54:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2975704E6A64AB468075B723602524B8@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 19 Feb 2019 16:59:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-VG9vayBtZSBhIHdoaWxlIHRvIGZpZ3VyZSBvdXQgd2h5IG15IGJvYXJkIHRvb2sgOTAgc2Vjb25k
-cyB0byBib290IHN1ZGRlbmx5Lg0KDQpUaGUgaXNzdWUgdHVybmVkIG91dCB0byBiZSB0aGUgZXh0
-NCBwYXJ0aXRpb24gY3JlYXRlZCBieSB3aWMuDQoNCk9uIGEgIndpYyIgY3JlYXRlZCBleHQ0IGRp
-c2ssIHRoaXMgaXMgd2hhdCB1LWJvb3QgZG9lczoNCg0KWnlucU1QPiBsb2FkIG1tYyAwOjIgMHgx
-MDAwMDAgL2xpYi9maXJtd2FyZS9mcGdhLmJpbg0KMTkzMTEwOTIgYnl0ZXMgcmVhZCBpbiA4NTUy
-OSBtcyAoMjE5LjcgS2lCL3MpDQoNCg0KTm93IGlmIEkgYm9vdCB0aGUgYm9hcmQgcmVuYW1lIGFu
-ZCBjb3B5IHRoYXQgZmlsZSBvbnRvIGl0c2VsZiwgdGhlbiBpdCdzIA0Kc3VkZGVubHkgbm9ybWFs
-IGFnYWluIHdoZW4gSSByZWJvb3QgdGhlIGJvYXJkOg0KDQpaeW5xTVA+IGxvYWQgbW1jIDA6MiAw
-eDEwMDAwMCAvbGliL2Zpcm13YXJlL2ZwZ2EuYmluDQoxOTMxMTA5MiBieXRlcyByZWFkIGluIDE0
-MjYgbXMgKDEyLjkgTWlCL3MpDQoNCg0KSSBjaGVja2VkIHdpdGggb3RoZXIgZmlsZXMsIGFuZCBp
-dCB0dXJucyBvdXQgdGhhdCBBTlkgYmlnIGZpbGUgd3JpdHRlbiBieSB3aWMgDQp3aWxsIHJlYWQg
-dmVyeSBzbG93IChhdCAyMDBrL3MpIGJ1dCBpZiBJIG1ha2UgYSBjb3B5IGZyb20gYSBydW5uaW5n
-IHN5c3RlbSwgaXQgDQpzdWRkZW5seSByZWFkcyBmYXN0Lg0KDQpJJ20gbm90IGtub3dsZWRnZWFi
-bGUgb24gZXh0NCwgc28gYW55IGlkZWFzIHdoYXQncyBiZWluZyBwYXNzZWQgb250byB0aGUgaW1h
-Z2UgDQpjcmVhdGlvbiB0b29sIHRoYXQgY2F1c2VzIHRoaXM/DQoNCg==
+  - Refresh all patches.
+
+  - Remove "Use Python 3 to execute the scripts" patch
+      Commit 986033a2750c1160a4cef3c8418fc7f9e2b4fb5a add support
+      for both python 2 and 3.
+
+  - Remove "dri: i965: Add missing time.h include" patch
+      Commit 3c288da5eec81ee58b85927df18d9194ead8f5c2 add time.h
+      header file.
+
+  - Remove --enable-texture-float.
+      Commit 66673bef941af344314fe9c91cad8cd330b245eb remove option to
+      unconditionally enable floating-point textures.
+
+  - Commit 30b10dbb7c6f6bdf3e489620f8333c727bd3a6dd moved
+    ${sysconfdir}/drirc to ${datadir}/drirc.d/00-mesa-defaults.conf
+
+  - Add patch to fix mesa-native build
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ ...0001-Simplify-wayland-scanner-lookup.patch | 20 +++++---
+ ...-winsys-svga-drm-Include-sys-types.h.patch |  8 +--
+ ...M-version-when-using-LLVM-Git-releas.patch | 12 ++---
+ ...-Use-Python-3-to-execute-the-scripts.patch | 32 ------------
+ ...-for-defining-WAYLAND_PROTOCOLS_DAT.patch} | 23 ++++-----
+ ...-dri-i965-Add-missing-time.h-include.patch | 36 --------------
+ ...sing-include-stddef.h-in-egldevice.h.patch | 49 +++++++++++++++++++
+ .../{mesa-gl_18.1.9.bb => mesa-gl_18.3.4.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc           |  4 +-
+ .../mesa/{mesa_18.1.9.bb => mesa_18.3.4.bb}   |  9 ++--
+ 10 files changed, 89 insertions(+), 104 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0004-Use-Python-3-to-execute-the-scripts.patch
+ rename meta/recipes-graphics/mesa/files/{0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch => 0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch} (60%)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0005-dri-i965-Add-missing-time.h-include.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_18.1.9.bb => mesa-gl_18.3.4.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_18.1.9.bb => mesa_18.3.4.bb} (69%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
+index a50d2a2ba2..e765356fe1 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
+@@ -1,7 +1,7 @@
+-From 7e8e0f8a8ac2425e19a2f340c9e3da9345f25940 Mon Sep 17 00:00:00 2001
++From 7338667148cb7fcefee76b27359bc1e11656c132 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 15 Nov 2016 15:20:49 +0200
+-Subject: [PATCH 1/6] Simplify wayland-scanner lookup
++Subject: [PATCH 1/5] Simplify wayland-scanner lookup
+ Organization: O.S. Systems Software LTDA.
+ 
+ Don't use pkg-config to lookup the path of a binary that's in the path.
+@@ -13,20 +13,24 @@ Upstream-Status: Pending
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ ---
+- configure.ac | 7 +------
+- 1 file changed, 1 insertion(+), 6 deletions(-)
++ configure.ac | 11 +----------
++ 1 file changed, 1 insertion(+), 10 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 14f1af2b2f..916d0bd207 100644
++index cd9ff259fad..cbc455e130f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1825,12 +1825,7 @@ for plat in $platforms; do
+-         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
++@@ -1841,16 +1841,7 @@ for plat in $platforms; do
++         fi
+          WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+  
+ -        PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+ -                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
+ -                          WAYLAND_SCANNER='')
++-        PKG_CHECK_EXISTS([wayland-scanner >= 1.15],
++-                          AC_SUBST(SCANNER_ARG, 'private-code'),
++-                          AC_SUBST(SCANNER_ARG, 'code'))
++-
+ -        if test "x$WAYLAND_SCANNER" = x; then
+ -            AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+ -        fi
+@@ -35,5 +39,5 @@ index 14f1af2b2f..916d0bd207 100644
+          if test "x$WAYLAND_SCANNER" = "x:"; then
+                  AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
+ -- 
+-2.18.0
++2.20.1
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+index ffb3bf7a63..12dca61e19 100644
+--- a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
++++ b/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+@@ -1,7 +1,7 @@
+-From 7792f228991744a0396b8bf811e281dca86165d3 Mon Sep 17 00:00:00 2001
++From 34c3d07b67e6c08f555473a86ff158951abb6000 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 16 Aug 2017 18:58:20 -0700
+-Subject: [PATCH 2/6] winsys/svga/drm: Include sys/types.h
++Subject: [PATCH 2/5] winsys/svga/drm: Include sys/types.h
+ Organization: O.S. Systems Software LTDA.
+ 
+ vmw_screen.h uses dev_t which is defines in sys/types.h
+@@ -18,7 +18,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/src/gallium/winsys/svga/drm/vmw_screen.h b/src/gallium/winsys/svga/drm/vmw_screen.h
+-index f21cabb51f..4c972fdaa9 100644
++index a87c087d9c5..cb34fec48e7 100644
+ --- a/src/gallium/winsys/svga/drm/vmw_screen.h
+ +++ b/src/gallium/winsys/svga/drm/vmw_screen.h
+ @@ -41,6 +41,7 @@
+@@ -30,5 +30,5 @@ index f21cabb51f..4c972fdaa9 100644
+  #define VMW_GMR_POOL_SIZE (16*1024*1024)
+  #define VMW_QUERY_POOL_SIZE (8192)
+ -- 
+-2.18.0
++2.20.1
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch b/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+index 5e735ca105..59b118d9f4 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+@@ -1,7 +1,7 @@
+-From 8b42fb47138f91d9378439ab716bac7701e4e326 Mon Sep 17 00:00:00 2001
++From c5b5bf6c31be1823be1d0317eabe16558a4f0762 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Tue, 5 Jun 2018 11:11:10 -0300
+-Subject: [PATCH 3/6] Properly get LLVM version when using LLVM Git releases
++Subject: [PATCH 3/5] Properly get LLVM version when using LLVM Git releases
+ Organization: O.S. Systems Software LTDA.
+ 
+ $ llvm-config-host --version
+@@ -18,10 +18,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 916d0bd207..dd172f1ebe 100644
++index cbc455e130f..0065376f4b7 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1090,7 +1090,7 @@ strip_unwanted_llvm_flags() {
++@@ -1111,7 +1111,7 @@ strip_unwanted_llvm_flags() {
+  
+  llvm_set_environment_variables() {
+      if test "x$LLVM_CONFIG" != xno; then
+@@ -30,7 +30,7 @@ index 916d0bd207..dd172f1ebe 100644
+          LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
+          LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
+          LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
+-@@ -2808,7 +2808,7 @@ detect_old_buggy_llvm() {
++@@ -2860,7 +2860,7 @@ detect_old_buggy_llvm() {
+      dnl ourselves.
+      dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
+      dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
+@@ -40,5 +40,5 @@ index 916d0bd207..dd172f1ebe 100644
+  
+      if test "x$llvm_have_one_so" = xyes; then
+ -- 
+-2.18.0
++2.20.1
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0004-Use-Python-3-to-execute-the-scripts.patch b/meta/recipes-graphics/mesa/files/0004-Use-Python-3-to-execute-the-scripts.patch
+deleted file mode 100644
+index 8953c4a18f..0000000000
+--- a/meta/recipes-graphics/mesa/files/0004-Use-Python-3-to-execute-the-scripts.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From ebe6077a1d74e56b28249f71e8760295fa846ed2 Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Fri, 29 Dec 2017 10:27:59 -0200
+-Subject: [PATCH 4/6] Use Python 3 to execute the scripts
+-Organization: O.S. Systems Software LTDA.
+-
+-The MESA build system uses Python 2 but as OE-Core has moved away from
+-it, we change it to use Python 3 instead.
+-
+-Upstream-Status: Inappropriate [ configuration ]
+-
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index dd172f1ebe..40cac36ac2 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -122,7 +122,7 @@ AM_PROG_CC_C_O
+- AC_PROG_NM
+- AM_PROG_AS
+- AX_CHECK_GNU_MAKE
+--AC_CHECK_PROGS([PYTHON2], [python2.7 python2 python])
+-+AC_CHECK_PROGS([PYTHON2], [python3.5 python3 python])
+- AC_PROG_SED
+- AC_PROG_MKDIR_P
+- 
+--- 
+-2.18.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch b/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+similarity index 60%
+rename from meta/recipes-graphics/mesa/files/0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+rename to meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+index 0212922c5d..d4f1d9dcf4 100644
+--- a/meta/recipes-graphics/mesa/files/0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
++++ b/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+@@ -1,7 +1,7 @@
+-From 754ccf89a732fc3da6e9bc62ebd6b28686ff3d26 Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Wed, 29 Aug 2018 22:10:30 -0300
+-Subject: [PATCH 6/6] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
++From f48b8f073f921ce5be859130313e9d392ef3e78e Mon Sep 17 00:00:00 2001
++From: Fabio Berton <fabio.berton@ossystems.com.br>
++Date: Fri, 15 Feb 2019 10:57:06 -0200
++Subject: [PATCH 4/5] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
+ Organization: O.S. Systems Software LTDA.
+ 
+ This allows to override the wayland-protocols pkgdatadir with the
+@@ -11,27 +11,28 @@ pkgconfig would return an absolute path in
+ /usr/share/wayland-protocols
+ for the pkgdatadir value, which is not suitable for cross-compiling.
+ 
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
+ 
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 40cac36ac2..728bbdcbc4 100644
++index 0065376f4b7..b21fb2210c6 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1823,7 +1823,7 @@ for plat in $platforms; do
+-         PKG_CHECK_MODULES([WAYLAND_CLIENT], [wayland-client >= $WAYLAND_REQUIRED])
+-         PKG_CHECK_MODULES([WAYLAND_SERVER], [wayland-server >= $WAYLAND_REQUIRED])
+-         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
++@@ -1839,7 +1839,7 @@ for plat in $platforms; do
++         if test "x$enable_egl" = xyes; then
++           PKG_CHECK_MODULES([WAYLAND_EGL], [wayland-egl-backend >= $WAYLAND_EGL_BACKEND_REQUIRED])
++         fi
+ -        WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+ +        PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
+  
+          AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+  
+ -- 
+-2.18.0
++2.20.1
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0005-dri-i965-Add-missing-time.h-include.patch b/meta/recipes-graphics/mesa/files/0005-dri-i965-Add-missing-time.h-include.patch
+deleted file mode 100644
+index d40e7b5855..0000000000
+--- a/meta/recipes-graphics/mesa/files/0005-dri-i965-Add-missing-time.h-include.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 9e0368af471af3a36e0eb526453f892598120065 Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Wed, 6 Jun 2018 09:50:35 -0300
+-Subject: [PATCH 5/6] dri: i965: Add missing time.h include
+-Organization: O.S. Systems Software LTDA.
+-
+-This fixes a build error when using musl:
+-
+-,----
+-| In file included from .../src/mesa/drivers/dri/i965/intel_upload.c:33:0:
+-| .../src/mesa/drivers/dri/i965/brw_bufmgr.h:132:4: error: unknown type name 'time_t'
+-|     time_t free_time;
+-|     ^~~~~~
+-`----
+-
+-Upstream-Status: Backport [3c288da5eec81ee58b85927df18d9194ead8f5c2]
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- src/mesa/drivers/dri/i965/brw_bufmgr.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/mesa/drivers/dri/i965/brw_bufmgr.h b/src/mesa/drivers/dri/i965/brw_bufmgr.h
+-index 68f5e0c2c8..5b60a23763 100644
+---- a/src/mesa/drivers/dri/i965/brw_bufmgr.h
+-+++ b/src/mesa/drivers/dri/i965/brw_bufmgr.h
+-@@ -37,6 +37,7 @@
+- #include <stdbool.h>
+- #include <stdint.h>
+- #include <stdio.h>
+-+#include <time.h>
+- #include "util/u_atomic.h"
+- #include "util/list.h"
+- 
+--- 
+-2.18.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch b/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+new file mode 100644
+index 0000000000..1782576db2
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+@@ -0,0 +1,49 @@
++From f452e30ab664fe608acc107cc03d2efa8731d938 Mon Sep 17 00:00:00 2001
++From: Gurchetan Singh <gurchetansingh@chromium.org>
++Date: Wed, 28 Nov 2018 08:39:34 -0800
++Subject: [PATCH 5/5] egl: add missing #include <stddef.h> in egldevice.h
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++Organization: O.S. Systems Software LTDA.
++
++Otherwise, I get this error:
++
++main/egldevice.h:54:13: error: ‘NULL’ undeclared (first use in this function)
++       dev = NULL;
++             ^~~~
++with this config:
++
++./autogen.sh --enable-gles1 --enable-gles2 --with-platforms='surfaceless' --disable-glx
++             --with-dri-drivers="i965" --with-gallium-drivers="" --enable-gbm
++
++v3: Use stddef.h (Matt)
++v4: Modify commit message (Eric)
++
++Reviewed-by: Matt Turner <mattst88@gmail.com>
++Reviewed-by: Eric Engestrom <eric.engestrom@intel.com>
++
++Upstream-Status: Backport [https://cgit.freedesktop.org/mesa/mesa/commit/?id=eb44c36cf1729e7e200b77cf8ea755dff72d1639]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ src/egl/main/egldevice.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/egl/main/egldevice.h b/src/egl/main/egldevice.h
++index ddcdcd17f5a..83a47d5eacc 100644
++--- a/src/egl/main/egldevice.h
+++++ b/src/egl/main/egldevice.h
++@@ -31,9 +31,9 @@
++ 
++ 
++ #include <stdbool.h>
+++#include <stddef.h>
++ #include "egltypedefs.h"
++ 
++-
++ #ifdef __cplusplus
++ extern "C" {
++ #endif
++-- 
++2.20.1
++
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb b/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_18.1.9.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 66ed649efe..a57438b295 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -104,7 +104,7 @@ GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',r600',
+ GALLIUMDRIVERS_append = ",virgl"
+ 
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+-PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
++PACKAGECONFIG[gallium] = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+ MESA_LLVM_RELEASE ?= "8.0"
+ PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+@@ -219,7 +219,7 @@ PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
+ 
+ PACKAGES_DYNAMIC += "^mesa-driver-.*"
+ 
+-FILES_${PN} += "${sysconfdir}/drirc"
++FILES_${PN} += "${datadir}/drirc.d"
+ FILES_mesa-megadriver = "${libdir}/dri/*"
+ FILES_mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
+ FILES_libegl-mesa = "${libdir}/libEGL.so.*"
+diff --git a/meta/recipes-graphics/mesa/mesa_18.1.9.bb b/meta/recipes-graphics/mesa/mesa_18.3.4.bb
+similarity index 69%
+rename from meta/recipes-graphics/mesa/mesa_18.1.9.bb
+rename to meta/recipes-graphics/mesa/mesa_18.3.4.bb
+index 86d6a6bf3a..27f4f0241f 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.1.9.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.3.4.bb
+@@ -4,13 +4,12 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Simplify-wayland-scanner-lookup.patch \
+            file://0002-winsys-svga-drm-Include-sys-types.h.patch \
+            file://0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
+-           file://0004-Use-Python-3-to-execute-the-scripts.patch \
+-           file://0005-dri-i965-Add-missing-time.h-include.patch \
+-           file://0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
++           file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
++           file://0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch \
+ "
+ 
+-SRC_URI[md5sum] = "2f8d2098ab478bc3907e42130577b54a"
+-SRC_URI[sha256sum] = "55f5778d58a710a63d6635f000535768faf7db9e8144dc0f4fd1989f936c1a83"
++SRC_URI[md5sum] = "6f2a5e01dd5cb91d05a9534f5a80c35d"
++SRC_URI[sha256sum] = "32314da4365d37f80d84f599bd9625b00161c273c39600ba63b45002d500bb07"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.20.1
+
 
