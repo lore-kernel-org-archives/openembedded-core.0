@@ -1,49 +1,39 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
-	[209.85.222.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 694DA7C991
+Return-Path: <prvs=395392ef89=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 812167C9F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 19:28:20 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id j8so7330324uae.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 11:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Lt3UoY0LtjpfhQfPq7+p82uR+HstfmeFW8XnJXvYqaU=;
-	b=hLq4mKoZQkGJfFixj49J7bhhQwffqw+NIdLfQP72poHuK70Y6GDa2W33GxlTCEKUPE
-	LpNqsiLqBqG6uEip8DUChDFTlYTwmheHAOViHUMoNVaaauM6IXigxepSAXcObpjUJgZV
-	37SXbXAuey5PzVpAFEsvJczN48ZlpDBAUI95tvo812yWePFMJQFvaA3xwLqdNxRO4ti7
-	ojirYNE6w5fXCak5Zde1zFLbCfnUo1tLJnx0hTtqWvog/WYuSPrIys3sscYVV2v2mDf5
-	GB3D+9MqNm0TKUxr1iByG4dUhyjK12/k5t3hYOwpcQgvSXVNVwHkzg0LtV4arBNsM1hn
-	ZdTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Lt3UoY0LtjpfhQfPq7+p82uR+HstfmeFW8XnJXvYqaU=;
-	b=bBxxQQltdZDEvSOGcMwIo4YlpvcXMiQ12g0PGDbZjV/4oAssqb+HtPoMRmZqeCzms4
-	YyV7InEhJyETjTB3WOEvPCYLGBlPxadbH0Ny5PwKT7Iy4+TDwnmKFYl1Pctu6Q852bc6
-	OmJvna7fAng4AYDN5cQGm958QheOEvKZdZpvsrHmHCMB7CXNrVJ/stZ/5Ggf4+1u8vY4
-	LLaSYdJrkaLDRwfIy4ioQK5H6FeeEQzlgy7EvYuYFbpuTRlVMIoHCJr6gRi7uEpmhJjb
-	Lj54Ta7g1+cSD5nBLOKLGbvM1CC7HVxzrZwW5Ghp4uUr3TV4j6yenYG9MCJd5mvbn07r
-	Pb2A==
-X-Gm-Message-State: AHQUAubHXT8dNUnAhhOy1Oi2GG9GuYz/FY4iXndJ+h+OviS+Im2zC/lS
-	5Imin7t+CwAKoz4jic7yk+S+ZmSjR+dYt/GvPyrAWA==
-X-Google-Smtp-Source: AHgI3IbmPVdZ2d3zZQi/XiiJeQGxZdBqqX7qJoAoauv6ilvTbdvB7rchrMMrP2KELU9wNWDsxKjSI6zpKEdYzUV5xJQ=
-X-Received: by 2002:ab0:4a1:: with SMTP id 30mr14805082uaw.86.1550604501063;
-	Tue, 19 Feb 2019 11:28:21 -0800 (PST)
+	Tue, 19 Feb 2019 19:44:10 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x1JJg5jo026765; Tue, 19 Feb 2019 13:44:11 -0600
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2qrp7ugc05-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 19 Feb 2019 13:44:11 -0600
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod3.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	x1JJiAgi010168
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 19 Feb 2019 13:44:10 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Tue, 19 Feb 2019 13:44:10 -0600
+Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Tue, 19 Feb 2019 13:44:10 -0600
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Feb 2019 13:44:09 -0600
+Message-ID: <20190219194409.1287-1-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
-	<CAMjhiJjO0+0=_6HOmVM67U0nnbW=iu-FiMTzJBe4ZCvceuguuA@mail.gmail.com>
-In-Reply-To: <CAMjhiJjO0+0=_6HOmVM67U0nnbW=iu-FiMTzJBe4ZCvceuguuA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 19 Feb 2019 11:28:09 -0800
-Message-ID: <CAJ86T=Vy6AMbJ0J23V_9K+GJxwCFjD-Gq7NQwZ7AeJSW5Lum_A@mail.gmail.com>
-To: Leon Woestenberg <leon@sidebranch.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: wic creates ext4 images that read really slow in u-boot
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-02-19_13:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH] opkg-utils: do not set mtime on data.tar.X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,135 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 19:28:20 -0000
-Content-Type: multipart/alternative; boundary="000000000000791a0e0582443eb8"
+X-List-Received-Date: Tue, 19 Feb 2019 19:44:10 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000791a0e0582443eb8
-Content-Type: text/plain; charset="UTF-8"
+Suggested-by: Tristan Ramseyer <t@ramseyer.email>
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...build-do-not-set-mtime-on-data.tar.X.patch | 33 +++++++++++++++++++
+ .../opkg-utils/opkg-utils_0.4.0.bb            |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
 
-On Tue, Feb 19, 2019 at 9:13 AM Leon Woestenberg <leon@sidebranch.com>
-wrote:
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
+new file mode 100644
+index 0000000000..6c058c71d7
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
+@@ -0,0 +1,33 @@
++From 42afc1f652d28dce3c5b9915d0cd3087a144e445 Mon Sep 17 00:00:00 2001
++From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++Date: Mon, 18 Feb 2019 11:25:43 -0600
++Subject: [PATCH] opkg-build: do not set mtime on data.tar.X
++
++Opkg should make sure the binaries it creates are created in a
++repoducibe way, but it shouldn't modify the mtime of the binaries it
++consumes. Doing so has side effects, for exmaple, Python pyc files are
++invalidated.
++
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++
++Upstream-Status: Submitted
++---
++ opkg-build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/opkg-build b/opkg-build
++index 13782ee..363cd01 100755
++--- a/opkg-build
+++++ b/opkg-build
++@@ -301,7 +301,7 @@ build_date="${SOURCE_DATE_EPOCH:-$(date +%s)}"
++ 
++ ( cd $pkg_dir/$CONTROL && find . -type f > $tmp_dir/control_list )
++ ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -print > $tmp_dir/file_list )
++-( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+++( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
++ ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
++ rm $tmp_dir/file_list
++ rm $tmp_dir/control_list
++-- 
++2.20.1
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
+index eab74eabd6..9a3e06b92e 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
+@@ -9,6 +9,7 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
+ 
+ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
+            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
++           file://0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch \
+ "
+ UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
+ 
+-- 
+2.20.1
 
-> Hello Mike,
->
-> sounds familiar.
->
-> On Tue, 19 Feb 2019 at 17:55, Mike Looijmans <mike.looijmans@topic.nl>
-> wrote:
->
->> Took me a while to figure out why my board took 90 seconds to boot
->> suddenly.
->>
->> The issue turned out to be the ext4 partition created by wic.
->
->
-> I suspect it's not WIC's fault.
->
->
->> ZynqMP> load mmc 0:2 0x100000 /lib/firmware/fpga.bin
->> 19311092 bytes read in 85529 ms (219.7 KiB/s)
->>
->> Now if I boot the board rename and copy that file onto itself, then it's
->> suddenly normal again when I reboot the board:
->>
->> ZynqMP> load mmc 0:2 0x10000
->> I'm not knowledgeable on ext4, so any ideas what's being passed onto the
->> image
->> creation tool that causes this?
->
->
-> I suspect your version of U-Boot does not handle files spread across
-> multiple filesystems (allocation) extends efficiently.
->
-> Copying the file makes the copy being layed out in one extend probably.
->
 
-If WIC is generating filesystem images from scratch there's no excuse for
-files to be unnecessarily fragmented.
-
-Even if some of all of the boot time can be recovered by a patch to u-boot
-that won't help systems which have already been deployed and don't have a
-way to update the bootloader.
-
-I am aware of two fixes for U-Boot. I will look them up, and reply again to
-> this thread.
->
-> Regards, Leon
-> --
-> Leon Woestenberg
-> leon@sidebranch.com
-> T: +31 40 711 42 76
-> M: +31 6 472 30 372
->
-> Sidebranch
-> Embedded Systems
-> Eindhoven, The Netherlands
-> http://www.sidebranch.com
->
-
---000000000000791a0e0582443eb8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Feb 19, 2019 at 9:13 AM Leon Woes=
-tenberg &lt;<a href=3D"mailto:leon@sidebranch.com">leon@sidebranch.com</a>&=
-gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><div><div dir=3D"auto">Hello Mike,</div></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">sounds familiar.</div><div dir=3D"au=
-to"><br></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">On Tue, 19 Feb 2019 at 17:55, Mike Looijmans &lt;<a href=3D"mailto=
-:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Took me =
-a while to figure out why my board took 90 seconds to boot suddenly.<br>
-<br>
-The issue turned out to be the ext4 partition created by wic.</blockquote><=
-div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"></blockquote><div dir=3D"auto">I suspect it&#39;s not WIC&#39;s fault.</d=
-iv><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-ZynqMP&gt; load mmc 0:2 0x100000 /lib/firmware/fpga.bin<br>
-19311092 bytes read in 85529 ms (219.7 KiB/s)<br><br>
-Now if I boot the board rename and copy that file onto itself, then it&#39;=
-s <br>
-suddenly normal again when I reboot the board:<br>
-<br>
-ZynqMP&gt; load mmc 0:2 0x10000<br>
-I&#39;m not knowledgeable on ext4, so any ideas what&#39;s being passed ont=
-o the image <br>
-creation tool that causes this?</blockquote><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"></blockquote><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">I suspect your version of U-Boot does not handle files spread across mul=
-tiple filesystems (allocation) extends efficiently.=C2=A0</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Copying the file makes the copy being lay=
-ed out in one extend probably.</div></div></div></blockquote><div><br></div=
-><div>If WIC is generating filesystem images from scratch there&#39;s no ex=
-cuse for files to be unnecessarily fragmented.<br></div><div><br></div><div=
->Even if some of all of the boot time can be recovered by a patch to u-boot=
- that won&#39;t help systems which have already been deployed and don&#39;t=
- have a way to update the bootloader.<br></div><br><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div><div class=3D"gmail_quote"><div dir=3D"auto"=
->I am aware of two fixes for U-Boot. I will look them up, and reply again t=
-o this thread.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Regards, =
-Leon</div></div></div>-- <br><div dir=3D"ltr" class=3D"gmail-m_-82634879305=
-86811828gmail_signature"><div dir=3D"ltr"><div style=3D"color:rgb(0,0,0);fo=
-nt-family:Helvetica">Leon Woestenberg</div><div style=3D"color:rgb(0,0,0);f=
-ont-family:Helvetica"><a href=3D"mailto:leon@sidebranch.com" style=3D"color=
-:rgb(17,85,204)" target=3D"_blank">leon@sidebranch.com</a></div><div style=
-=3D"color:rgb(0,0,0);font-family:Helvetica"><div>T: +31 40 711 42 76</div><=
-div>M: +31 6 472 30 372</div></div><div style=3D"color:rgb(0,0,0);font-fami=
-ly:Helvetica"><br></div><div style=3D"color:rgb(0,0,0);font-family:Helvetic=
-a">Sidebranch</div><div style=3D"color:rgb(0,0,0);font-family:Helvetica">Em=
-bedded Systems</div><div style=3D"color:rgb(0,0,0);font-family:Helvetica">E=
-indhoven, The Netherlands</div><a href=3D"http://www.sidebranch.com/" style=
-=3D"color:rgb(17,85,204);font-family:Helvetica" target=3D"_blank">http://ww=
-w.sidebranch.com</a><br>
-</div></div></blockquote></div></div>
-
---000000000000791a0e0582443eb8--
