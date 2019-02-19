@@ -1,39 +1,51 @@
-Return-Path: <prvs=395392ef89=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 812167C9F1
+Return-Path: <leon@sidebranch.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EB547C97F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 19:44:10 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x1JJg5jo026765; Tue, 19 Feb 2019 13:44:11 -0600
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2qrp7ugc05-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 19 Feb 2019 13:44:11 -0600
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
-	x1JJiAgi010168
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 19 Feb 2019 13:44:10 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 19 Feb 2019 13:44:10 -0600
-Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1395.4 via Frontend Transport; Tue, 19 Feb 2019 13:44:10 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2019 13:44:09 -0600
-Message-ID: <20190219194409.1287-1-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 19 Feb 2019 20:45:35 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id t13so12590622vsk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2019 12:45:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ZKuAAPWWfRgXyqRDfkyQvxaARtlaPI85RoIB3L1WYwQ=;
+	b=uTLmTJSjcWasguJJgrGib8Y03vHdkEUtbyb8hqL2GsUn2M2kMZEi8UPxqHCKtuZtfj
+	Gte65uuEllemaOIUFxiMS6nrRYPZG2qzbDjGV1G8hsPuL9sepYS99nRT5IGmCJaZyZRW
+	sIIKsBL7Y3s3nV+3hn/z5GJt/5q4bRwg4AzDiGkpiTLEpb32ckUqHiwbMMwDXrEQp+TX
+	XrW/+Cp/HJYPdpSMFgLIV1vG3zrCsQyc/Rt/gJ/Cjao8F8ToQcQsFmQSbqX+EcWy6dY6
+	4tm7G6yLJdS27icxGWlVXhH5V/6L6aUWRLPVnSdKZGpvk5XRKXv8cGEJtR3SQcFSjbNU
+	asAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZKuAAPWWfRgXyqRDfkyQvxaARtlaPI85RoIB3L1WYwQ=;
+	b=AVyqpi5A87KAPfqsnYEVMKrpTh/LOGm3y1KmpHeV5hi1FhukBkmO92aIRik75edyxd
+	GQ/huEMDk7rDWc3JPI6Z6qRcwdUSujUbtd8NlKEg15osdU3ltHu0AeDH+k49zeVrqTbV
+	SOXRZuUyX8PaiXOwUQR0SIgkxBs7eFUeiOwYc66M1x9AuzAYRZgEg5p8vPIz1WKm8fcU
+	O/uNCtG2coSVQG0pHm+yhNznL3phYyLQ3ZGDyyf1JK2lKuEtR7RuuG30rxK4EHOjnWNu
+	hbJuR+aYbrNxAioqtiE+mdwbNmYHnpyIErisqqfmapVXGyfpXs0wt2JfxRXqo93jjbo9
+	VC2g==
+X-Gm-Message-State: AHQUAubnLKnUKONnhEE5iJPdgV/FQTmx5xgwdh0DtU6OEifnGW60Ipi3
+	QEQUNGZV6pYuDYtxv9rbaazz547yhn3iRaq4VL5zbg==
+X-Google-Smtp-Source: AHgI3IY5Q5NXvd/uRacKdeSNNp8gL+ccB5vt3eYB0oF0bmclxsyDuO8h4DGYE31VShVG7Nk5RI4PVvJXVSRKhbq4aJw=
+X-Received: by 2002:a67:ec8d:: with SMTP id h13mr15555802vsp.92.1550609134320; 
+	Tue, 19 Feb 2019 12:45:34 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-02-19_13:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH] opkg-utils: do not set mtime on data.tar.X
+References: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
+	<CAMjhiJjO0+0=_6HOmVM67U0nnbW=iu-FiMTzJBe4ZCvceuguuA@mail.gmail.com>
+	<CAJ86T=Vy6AMbJ0J23V_9K+GJxwCFjD-Gq7NQwZ7AeJSW5Lum_A@mail.gmail.com>
+In-Reply-To: <CAJ86T=Vy6AMbJ0J23V_9K+GJxwCFjD-Gq7NQwZ7AeJSW5Lum_A@mail.gmail.com>
+From: Leon Woestenberg <leon@sidebranch.com>
+Date: Tue, 19 Feb 2019 21:45:22 +0100
+Message-ID: <CAMjhiJgFxSH3Rz+ot6qAZN1LPF=WmZ1ySt0Y4TSCg0S0m7YsxQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: wic creates ext4 images that read really slow in u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +58,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 19:44:10 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Feb 2019 20:45:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Suggested-by: Tristan Ramseyer <t@ramseyer.email>
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...build-do-not-set-mtime-on-data.tar.X.patch | 33 +++++++++++++++++++
- .../opkg-utils/opkg-utils_0.4.0.bb            |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
+Hello all,
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
-new file mode 100644
-index 0000000000..6c058c71d7
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch
-@@ -0,0 +1,33 @@
-+From 42afc1f652d28dce3c5b9915d0cd3087a144e445 Mon Sep 17 00:00:00 2001
-+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Date: Mon, 18 Feb 2019 11:25:43 -0600
-+Subject: [PATCH] opkg-build: do not set mtime on data.tar.X
-+
-+Opkg should make sure the binaries it creates are created in a
-+repoducibe way, but it shouldn't modify the mtime of the binaries it
-+consumes. Doing so has side effects, for exmaple, Python pyc files are
-+invalidated.
-+
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+
-+Upstream-Status: Submitted
-+---
-+ opkg-build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/opkg-build b/opkg-build
-+index 13782ee..363cd01 100755
-+--- a/opkg-build
-++++ b/opkg-build
-+@@ -301,7 +301,7 @@ build_date="${SOURCE_DATE_EPOCH:-$(date +%s)}"
-+ 
-+ ( cd $pkg_dir/$CONTROL && find . -type f > $tmp_dir/control_list )
-+ ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -print > $tmp_dir/file_list )
-+-( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-++( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+ ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
-+ rm $tmp_dir/file_list
-+ rm $tmp_dir/control_list
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
-index eab74eabd6..9a3e06b92e 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.0.bb
-@@ -9,6 +9,7 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- 
- SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \
-            file://0001-Switch-all-scripts-to-use-Python-3.x.patch \
-+           file://0001-opkg-build-do-not-set-mtime-on-data.tar.X.patch \
- "
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
- 
--- 
-2.20.1
+On Tue, Feb 19, 2019 at 8:28 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Tue, Feb 19, 2019 at 9:13 AM Leon Woestenberg <leon@sidebranch.com> wrote:
+>>
+>> Hello Mike,
+>>
+>> sounds familiar.
+>>
+>> On Tue, 19 Feb 2019 at 17:55, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+>>>
+>>> Took me a while to figure out why my board took 90 seconds to boot suddenly.
+>>> The issue turned out to be the ext4 partition created by wic.
+>>
+>> I suspect it's not WIC's fault.
+>>>
+>>> ZynqMP> load mmc 0:2 0x100000 /lib/firmware/fpga.bin
+>>> 19311092 bytes read in 85529 ms (219.7 KiB/s)
+>>>
+>>> Now if I boot the board rename and copy that file onto itself, then it's
+>>> suddenly normal again when I reboot the board:
+>>>
+>>> ZynqMP> load mmc 0:2 0x10000
+>>> I'm not knowledgeable on ext4, so any ideas what's being passed onto the image
+>>> creation tool that causes this?
+>>
+>> I suspect your version of U-Boot does not handle files spread across multiple filesystems (allocation) extends efficiently.
+>>
+>> Copying the file makes the copy being layed out in one extend probably.
+>
+>
+> If WIC is generating filesystem images from scratch there's no excuse for files to be unnecessarily fragmented.
+>
+> Even if some of all of the boot time can be recovered by a patch to u-boot that won't help systems which have already been deployed and don't have a way to update the bootloader.
+>
+I am not sure if "fragmented" is the right term in terms of filesystem
+details. Filesystem allocation extents (not "extends" as I mistyped
+earlier) are different from heavy file fragmentation. However, I agree
+things can be made more optimal.
 
+So, with adding the above, there are *two* issues at play here:
+1) Most/older versions of U-Boot not able to efficiently load files
+from ext4 filesystems, that cross multiple extents. I am aware of two
+fixes, see below.
+2) WIC uses mkext4fs in such a way that files can cross multiple
+(allocation) extents. This is sub-optimal and know to cause issues
+with many U-Boot versions (deployed on existing systems in the field).
+The problems shows "randomly" with large files being deployed to the
+ext4 filesystem. We (OE/Yocto) may want to fix this.
+
+>> I am aware of two fixes for U-Boot. I will look them up, and reply again to this thread.
+
+Google for these two commits. I cherry-picked the first one for my
+project and can confirm it brings back the desired performance. (Still
+assuming this is the identical cause as for TO/Mike.)
+
+commit 855b8e4f9f255415a7753819e392e4b5d984f35c
+Author: Matt Madison <matt@madison.systems>
+Date:   Sat Aug 19 08:46:46 2017 -0700
+
+    ext4: cache extent blocks during file reads
+
+    A simpler and less-efficient approach to solving
+    the problem with extent index blocks than what
+    was in fc0fc50f38a4d7d0554558076a79dfe8b0d78cd5,
+    but one that does not break write operations.
+
+    Signed-off-by: Matt Madison <matt@madison.systems>
+
+Regards,
+
+Leon.
+
+p.s. excuse the earlier HTML mail with signature
 
