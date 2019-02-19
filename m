@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D7687C9D3
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14BE47C9C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 17:47:27 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id d17so8530111wre.10
+	Tue, 19 Feb 2019 17:47:28 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t15so3645845wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 09:47:28 -0800 (PST)
+	Tue, 19 Feb 2019 09:47:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4pIXHV7tbcTdFiO/1aykTXwNvdfkGr1trrMAyk4iL+M=;
-	b=Fq2SqfkdRNzgdt97rkVRuMUxiz1keCtS6ZP76e1FxU0kw5yelgQY3jx/WX6H042oQw
-	PCHxlcjkzPK6SG50EYM+RLpKVYXGnvz2hIerJ0740muffYtJogcQ3b4LOACuQfy0oE+Q
-	/fVRwNs68byvIegvwiD3Ps1ZwuibjT5i32gcU3i3HdRAoGnH8DxQ24dS02hZ7WC8E3Ca
-	6t/gKkdb6is1COJEl8w3QXVLYuph5ScB8Fz9vUnm6X/WRs69FHsJAPnB/Vnh+NYSjEGR
-	RFgq43zIdHSGr+6uy5CcYFiGe4q1UTwufrce+zsfEL8RFwDpfOp5OSwliADCOTWc3i3I
-	blkg==
+	bh=FibMovxJp7W6kkmOWxVHqpsq3Cdia2inau5FQMCQrXs=;
+	b=GmHJnba9Ku40IbV+Je7YsqEI8GUYed9IQCs7mlSEnyuvUaCR1a1xgSx8Y93UtCyh++
+	Nl3Z1Lf2q+2XgGM1SczAdfL9jwZX4F0AEDDCOph824YX7LSgB17TQ1hoJHnQkkVveAGv
+	8S2lq6iu7oqQRoKu/bVGQ4KwYwlpFOy1OQS7Q2U/ZiHLbxXfoR+YoA9Ff9y15t4PqXBj
+	aRN5baxzcb29XUdOPBAt9Qex9AaRR9piAiH4RFlp1JsH4dQ1utJMMWShgP2kfmzejJEW
+	DaQmxfuX8wInyUWpomQtL/IEFzYIMfRQQLvi1oynEARFWnWPySDLCZ+7macwfu3SGzHk
+	LW4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4pIXHV7tbcTdFiO/1aykTXwNvdfkGr1trrMAyk4iL+M=;
-	b=awI9T1mlrhvPz72C61o4oqnLth4jp1PJGJEP46s+mtK43VVN651YlOL8uBjDwyf74g
-	xq0A6LZ1LOlF4jz386yde7zLbaAuIEVh5GiKaEVvIgFJCAwZFGe8k3cHHBBL+vZNf42g
-	qCdJxrEbjzaFYZkmEF52P9syr1VP3+C5OiKKBx35qtExfvlvxM2sb7WbhbtZMbnRNOG0
-	hpsvq1sUMwxhJAHQo2pdlkGSOC1FcglhNAUrxN/BeuKRjfPUzBu1TAfexT+d8+0K36o+
-	72pvFdIaWnQQjPRQkNMxOIWhvRC4vXus34nlv4/NBWzHP2Jl9FDuScMqdf385GvVMaws
-	wiVQ==
-X-Gm-Message-State: AHQUAubnk4Aca/RarpiUrcO2N0jx/z3ImEfdkOQEeZ6c0mfc4Ika3tcm
-	5egY7Aft/hwecDreOIWkmGkoBYCQ
-X-Google-Smtp-Source: AHgI3IbzvuNyxN8npcw3kdD1+gv57FTylY5z4GrlIEKajQEmJv0+/+S0rjbbmpf5+3zSVsEeno0jcQ==
-X-Received: by 2002:a5d:4e43:: with SMTP id r3mr22237781wrt.162.1550598447949; 
-	Tue, 19 Feb 2019 09:47:27 -0800 (PST)
+	bh=FibMovxJp7W6kkmOWxVHqpsq3Cdia2inau5FQMCQrXs=;
+	b=OKs5kB3S9A6xVWdGZ+B1YyCns4azYq8bH8VuE/xqCafKRxjVwwOjcIv6dOJw9awgbn
+	Yg6hW7ILTG1VrLhaels5UPZznS+w79S6UYpg8v2UDHMaWSCi+OKtXq/l+RPDsazlPqQr
+	uCE2unL82JVcCqgb7QIcDI4bpa9fxQYBlJ0MTjXrUmpqWbvViYIA680xnY8V7Wa6K3rO
+	oA/sC0LtRG00og+Nn58nT2oZwneqPzaxmI0lkMTeYc8Uo4dAJDqIFixRuYrjdeO58Mds
+	xArG8MXVYk+cAmWOB8CRu2TZeVwcQc2ZN4JmJitBXlfe+i2WsrhCM7aGQlJkUpBJnyWf
+	aQGw==
+X-Gm-Message-State: AHQUAuZ7QE9X+sSQt7REbPW5IyzZJ9KdJRwU2jwDcE9HF/mfFh8d1a8J
+	dKSIFDHsPsS/FmA1qjTshEp3ZicL
+X-Google-Smtp-Source: AHgI3IYj6tGhuAzi3XI9TzrsT1QaL/YP1DFLF+7Zmd0eVio1e1L4KTjXBMHzJO4wafrJafgWb6WR5w==
+X-Received: by 2002:a7b:cc18:: with SMTP id f24mr2692825wmh.42.1550598449014; 
+	Tue, 19 Feb 2019 09:47:29 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	z15sm2006684wmi.46.2019.02.19.09.47.26
+	z15sm2006684wmi.46.2019.02.19.09.47.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Feb 2019 09:47:27 -0800 (PST)
+	Tue, 19 Feb 2019 09:47:28 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2019 18:46:59 +0100
-Message-Id: <20190219174712.60694-7-alex.kanavin@gmail.com>
+Date: Tue, 19 Feb 2019 18:47:00 +0100
+Message-Id: <20190219174712.60694-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190219174712.60694-1-alex.kanavin@gmail.com>
 References: <20190219174712.60694-1-alex.kanavin@gmail.com>
-Subject: [PATCH 07/20] p11-kit: upgrade 0.23.14 -> 0.23.15
+Subject: [PATCH 08/20] iso-codes: upgrade 4.1 -> 4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 17:47:27 -0000
+X-List-Received-Date: Tue, 19 Feb 2019 17:47:29 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../p11-kit/{p11-kit_0.23.14.bb => p11-kit_0.23.15.bb}          | 2 +-
+ .../iso-codes/{iso-codes_4.1.bb => iso-codes_4.2.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.14.bb => p11-kit_0.23.15.bb} (97%)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.1.bb => iso-codes_4.2.bb} (92%)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.14.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.15.bb
-similarity index 97%
-rename from meta/recipes-support/p11-kit/p11-kit_0.23.14.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.23.15.bb
-index dd25c381329..59e675b5428 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.14.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.23.15.bb
-@@ -9,7 +9,7 @@ DEPENDS = "libtasn1 libffi"
- SRC_URI = "git://github.com/p11-glue/p11-kit \
-            file://0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch \
-            "
--SRCREV = "3770793f026e46a000d2d8816d56122598289d5c"
-+SRCREV = "1ba80c67c492f25581ed97c8c31ffb5f20636d06"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-support/iso-codes/iso-codes_4.1.bb b/meta/recipes-support/iso-codes/iso-codes_4.2.bb
+similarity index 92%
+rename from meta/recipes-support/iso-codes/iso-codes_4.1.bb
+rename to meta/recipes-support/iso-codes/iso-codes_4.2.bb
+index 1761ded44e1..15130dd7c44 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_4.1.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_4.2.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- AUTOTOOLS_AUXDIR = "${S}/build/litter"
+ SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http"
+-SRCREV = "164802d5fd8c7a8167816fd86a62b286680619f0"
++SRCREV = "58a4f20f8e6f4d8f9545333f3eae4cfe5678de16"
+ 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
 -- 
 2.17.1
 
