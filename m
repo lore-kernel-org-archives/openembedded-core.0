@@ -1,24 +1,23 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37FDA6067C
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C98AA7C8C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 01:11:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1J1Aja5010695
+	Tue, 19 Feb 2019 01:43:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1J1hpJ8028406
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2019 17:10:55 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.435.0; Mon, 18 Feb 2019 17:10:34 -0800
-From: <changqing.li@windriver.com>
+	Mon, 18 Feb 2019 17:43:51 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.435.0; Mon, 18 Feb 2019 17:43:50 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2019 09:10:33 +0800
-Message-ID: <1550538633-211116-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Tue, 19 Feb 2019 09:53:09 +0800
+Message-ID: <cover.1550541019.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] python3: fix INCLDIRSTOMAKE in _sysconfigdata.py
+Subject: [PATCH 0/5] PU: cups, dbus, dbus-test, diffutils, sudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 01:11:05 -0000
+X-List-Received-Date: Tue, 19 Feb 2019 01:43:50 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+The following changes since commit 4972d5dbd94a5a1fe9848e20730245f0f715501f:
 
-recipe glade do_configure failed after python upgrade
-to 3.7.2, it will do runtime check of python headers
-with native python3 under recipe-sysroot-native, it will check under
-path INCLDIRSTOMAKE, but this value is '/usr/include /usr/include
-/usr/include/python3.7m /usr/include/python3.7m', which will cause
-below error:
+  glib-2.0: Improve shared-mime-info dependency handling (2019-02-18 10:33:13 +0000)
 
-ERROR: This autoconf log indicates errors, it looked at host include and/or
-library paths while determining system capabilities.
+are available in the git repository at:
 
-fix it by replace /usr/include to STAGING_INCDIR
+  git://git.pokylinux.org/poky-contrib ChenQi/PU-20190219
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20190219
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-devtools/python/python3_3.7.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Chen Qi (5):
+  cups: upgrade to 2.2.10
+  dbus: upgrade to 1.12.12
+  dbus-test: upgrade to 1.12.12
+  diffutils: upgrade to 3.7
+  sudo: upgrade to 1.8.27
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
-index 8f9d7dc..4a1cbae 100644
---- a/meta/recipes-devtools/python/python3_3.7.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.2.bb
-@@ -124,6 +124,8 @@ do_install_append() {
-                 -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
-                 -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
-                 -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
-+                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INCDIR},g}" \
-+                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
-                 ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
- }
- 
+ .../{dbus-test_1.12.10.bb => dbus-test_1.12.12.bb} |  4 +--
+ .../dbus/{dbus_1.12.10.bb => dbus_1.12.12.bb}      |  4 +--
+ .../cups/{cups_2.2.9.bb => cups_2.2.10.bb}         |  4 +--
+ ...need_charset_alias-when-building-for-musl.patch | 33 ----------------------
+ .../0001-explicitly-disable-replacing-getopt.patch | 30 --------------------
+ .../{diffutils-3.6 => diffutils}/run-ptest         |  0
+ .../{diffutils_3.6.bb => diffutils_3.7.bb}         |  6 ++--
+ meta/recipes-extended/sudo/sudo.inc                |  2 +-
+ .../sudo/{sudo_1.8.26.bb => sudo_1.8.27.bb}        | 25 ++++++++++++++--
+ 9 files changed, 32 insertions(+), 76 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.12.10.bb => dbus-test_1.12.12.bb} (95%)
+ rename meta/recipes-core/dbus/{dbus_1.12.10.bb => dbus_1.12.12.bb} (97%)
+ rename meta/recipes-extended/cups/{cups_2.2.9.bb => cups_2.2.10.bb} (40%)
+ delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.6/0001-Unset-need_charset_alias-when-building-for-musl.patch
+ delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.6/0001-explicitly-disable-replacing-getopt.patch
+ rename meta/recipes-extended/diffutils/{diffutils-3.6 => diffutils}/run-ptest (100%)
+ rename meta/recipes-extended/diffutils/{diffutils_3.6.bb => diffutils_3.7.bb} (77%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.26.bb => sudo_1.8.27.bb} (66%)
+
 -- 
-2.7.4
+1.9.1
 
 
