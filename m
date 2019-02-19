@@ -1,48 +1,24 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D771A6BE3A
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37FDA6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 01:02:02 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Feb 2019 17:02:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,385,1544515200"; d="scan'208";a="117209001"
-Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
-	by orsmga006.jf.intel.com with ESMTP; 18 Feb 2019 17:02:02 -0800
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.167]) by
-	PGSMSX102.gar.corp.intel.com ([169.254.6.107]) with mapi id
-	14.03.0415.000; Tue, 19 Feb 2019 09:02:01 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2 v7] test-case-mgmt
-Thread-Index: AQHUx3JruwYb6D1IKEyU0QOXDjzg8qXmTjrQ
-Date: Tue, 19 Feb 2019 01:02:01 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D0434818652D@PGSMSX109.gar.corp.intel.com>
-References: <1550123438-37723-1-git-send-email-ee.peng.yeoh@intel.com>
-	<f26f1ce6b9b79817950b93f9aa0e38d32671e78f.camel@linuxfoundation.org>
-	<8f788c03bb214b6b23dacec18b9efbc32d6bf81c.camel@linuxfoundation.org>
-	<8f156c0c1b0cc7fe18bd25a03a8f5f0cdc4f422d.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D0434818607F@PGSMSX109.gar.corp.intel.com>
-	<f8f1b23ffe248d9ad469b25ed2226fa426ed152c.camel@linuxfoundation.org>
-	<9DDD2658D1FE414E99172D2DB1E4D043481860E7@PGSMSX109.gar.corp.intel.com>
-	<f4c88aab6ff934328e03be66ade30d04a679e65f.camel@linuxfoundation.org>
-In-Reply-To: <f4c88aab6ff934328e03be66ade30d04a679e65f.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMDMxOThjZDItMzc2YS00Y2I4LTllNzItZTY1MjZmNWU4Yzc0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicHZJQ3BtM3BRM0FYek1UNEd0MVljeWRuc0RheHQwajhZaVZQdndwU21iM2ZicGdOeXpqd0htbExUck9QVVhYYiJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Tue, 19 Feb 2019 01:11:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1J1Aja5010695
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2019 17:10:55 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.435.0; Mon, 18 Feb 2019 17:10:34 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Feb 2019 09:10:33 +0800
+Message-ID: <1550538633-211116-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2 v7] test-case-mgmt
+Subject: [PATCH] python3: fix INCLDIRSTOMAKE in _sysconfigdata.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,28 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 01:02:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 19 Feb 2019 01:11:05 -0000
+Content-Type: text/plain
 
-UlAsIA0KTm90ZWQsIHRoYW5rcy4gDQoNCkNoZWVycywNCkVlIFBlbmcgDQoNCi0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVy
-ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogTW9uZGF5LCBGZWJydWFyeSAxOCwgMjAx
-OSA2OjEyIFBNDQpUbzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIIDAvMiB2N10gdGVzdC1jYXNlLW1nbXQNCg0KT24gTW9uLCAyMDE5LTAyLTE4
-IGF0IDA5OjIwICswMDAwLCBZZW9oLCBFZSBQZW5nIHdyb3RlOg0KPiBUaGFuayB5b3UgZm9yIHNo
-YXJpbmcgb24gdGhlIHNlbGZ0ZXN0IGNvbXBhcmlzb24gY29uc2lkZXJhdGlvbiEgDQo+IA0KPiBJ
-IGFncmVlZCB3aXRoIHlvdSB0aGF0IGluIHRoZSBoaWdoIGxldmVsLCBzZWxmdGVzdCBzaG91bGQg
-YmUgDQo+IGluZGVwZW5kZW50IG9mIHdoaWNoIEhPU1RfRElTVFJPLCBpdCBzaGFsbCBjb21wYXJl
-ZCAyIHNlbGZ0ZXN0IGV2ZW4gDQo+IHdoZW4gdGhlIGhvc3QgZGlzdHJvIGFyZSBkaWZmZXJlbnQu
-DQo+IA0KPiBCdXQgaW4gdGhlIGNhc2UgdGhhdCB0aGUgYnVpbGQgaGF2ZSBtdWx0aXBsZSBzZXQg
-b2Ygc2VsZnRlc3QgZWFjaCB3aXRoIA0KPiBzbGlnaHRseSBkaWZmZXJlbnQgZW52aXJvbm1lbnRz
-IChlZy4gaG9zdCBkaXN0cm8pLCBpbiB0aGF0IGNhc2UsIHdpbGwgDQo+IGl0IGJldHRlciB0byBj
-b21wYXJlIHNlbGZ0ZXN0IG1vcmUgY2xvc2VseSBpZiBwb3NzaWJsZSB3aXRoIHNhbWUgaG9zdCAN
-Cj4gZGlzdHJvIHVzZWQ/DQoNCkluIGFuIGlkZWFsIHdvcmxkLCB5ZXMuIEluIHJlYWxpdHkgdHJ5
-aW5nIHRvIGRvIHRoYXQgYW5kIG1ha2luZyBpdCBjb25kaXRpb25hbCB3aWxsIGNvbXBsaWNhdGUg
-dGhlIGNvZGUgZm9yIGxpdHRsZSAicmVhbCIgZW5kIGRpZmZlcmVuY2UgdGhvdWdoPw0KDQpDaGVl
-cnMsDQoNClJpY2hhcmQNCg0K
+From: Changqing Li <changqing.li@windriver.com>
+
+recipe glade do_configure failed after python upgrade
+to 3.7.2, it will do runtime check of python headers
+with native python3 under recipe-sysroot-native, it will check under
+path INCLDIRSTOMAKE, but this value is '/usr/include /usr/include
+/usr/include/python3.7m /usr/include/python3.7m', which will cause
+below error:
+
+ERROR: This autoconf log indicates errors, it looked at host include and/or
+library paths while determining system capabilities.
+
+fix it by replace /usr/include to STAGING_INCDIR
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/python/python3_3.7.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
+index 8f9d7dc..4a1cbae 100644
+--- a/meta/recipes-devtools/python/python3_3.7.2.bb
++++ b/meta/recipes-devtools/python/python3_3.7.2.bb
+@@ -124,6 +124,8 @@ do_install_append() {
+                 -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
+                 -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
+                 -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
++                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INCDIR},g}" \
++                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
+                 ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
+ }
+ 
+-- 
+2.7.4
+
 
