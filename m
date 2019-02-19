@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8132A7C9C7
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 743617C9CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 17:47:29 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id o17so22977951wrw.3
+	Tue, 19 Feb 2019 17:47:30 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id i12so23033113wrw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 09:47:30 -0800 (PST)
+	Tue, 19 Feb 2019 09:47:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0CT3UWGfO05tOFP/tl9Khi1ZTZM35jyfVZ/HfSaZflQ=;
-	b=WCi0NqY9UvvJQ5aVFWkk2bB31LR3QcVnreT2DMv6cR+H3XoSE499n7AM+hJ1tN0SOO
-	G+buu0cfKt3lwobJAmhL5JcMgtxkfNRWXRq40jmKV+PRm4aCXhIzTUVH0QN6wbrzK0o2
-	6l81HNPDSzvt8Q5FdB7qRVaJ5gfCs3Iu+vQ5sV6YKgbgX69Gw8k/ygFSFwoiVpq3h/xm
-	zELiRsIdAAiY5YMgvWbLJ9ln2CgMeCxamtVQ+bwrCluJ8hNxDDJCnNQ83JJMCzakWwXy
-	zvJlschqWGsQBY1JFMtdFO3cBw2IVkGNOVNlVgfVTktQo213Zy7VwGaGJefiBVKQOCff
-	J6uQ==
+	bh=cLZMMlrDerOEN6DAu6bVmnnjSXHBFoVo939WSqerJ7o=;
+	b=ka4JqonzJKxP+12QSPYmltUYUEzmhACEItlYuU3kaHI0c7zirQ5gLwjgKXA2Jn6NgU
+	k+/ciUi1MULrNgWAIfCZv42izGPKr8I/eFvcVrIFXdQE/5kEQxLqH0+/69dgSN129RqP
+	k10NTrj/ZCsnYwxRjbEtC2UJ4NzchwdmILnJGk9JoMKp0OsHaBXRCt1+Vk6nr/6WRcrr
+	0C6VfBBB9hruBXeI0atQWjHho6OCZZhFpPp1/QmiunSE5RXBrEWgzSzbLCE8emmioQgH
+	um9hs+2+8peNLl3gGIx7t+ooQ0fXUfnR2dihlZdhUEuFVpP9Yhf9A7ti6D+3BVQic8s9
+	Hjaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0CT3UWGfO05tOFP/tl9Khi1ZTZM35jyfVZ/HfSaZflQ=;
-	b=bZeMfUmarJ9MzYMAxqaEolFPtpBOSTYFb6OAI6Q5xYCB4d+BSvNg9vZwgEU1+G3TOh
-	gZvG+JXbpCCyf4gTq1GtwV4z/0GEB0gcXAgtXVPeYwgaDr8u7AaDYWx5eHiMhz9c9g/r
-	fEXDhYxg771Lk1nnI+fpTvm40IdjNuiskfDuXtvJqAgqx211PGUbf04+wRR/pg+BCScT
-	k8rD0qIgllb31iaVW9Zs7NXXFePOMzH7jZ5uVRPLQeDjcpdDWMmD/CBw4rEf0AAg6SCS
-	6zgshI1uRLJJr9uOD9DiHkbf8SzrxS2idJ8BVogPgg2ShbJZQSCs7rFfWPEz/Xp3/hsX
-	QpLQ==
-X-Gm-Message-State: AHQUAuZVQPGPgId1s1jcju++23QzEHJnNxxSxrYkBAjK2suAqdu6Cg9t
-	dILVRrIP8YAl8O5BOVg/TJYvycKr
-X-Google-Smtp-Source: AHgI3IboRrnhkbb6qX0wlwWpFpe2m+oV9dLcEd/lCURs3LexvszK9yyXr5NR24ZzEI6g2+9gjSDqaQ==
-X-Received: by 2002:adf:e8cf:: with SMTP id k15mr20810604wrn.193.1550598450001;
+	bh=cLZMMlrDerOEN6DAu6bVmnnjSXHBFoVo939WSqerJ7o=;
+	b=ehYU0/9X/6qA7Sle23lg6oaFVIJpcSMaaaxN/q/WU9AzRKjo1t0d5/jSqnhTvk50jn
+	OkeyQlI8BN26ffxXyOq8vOhYRYM8Rb+G98ZF7bImjbs44p5nHnyppH45XY7sIskvDd5f
+	3MMxDlxDRYOhkANdVBBEmGMvBCBW0qW9bGHZWKkX8XSPqtbnZmI2qC0GvzYabRiYAt2i
+	hh5sUmshL5nCVeKM1L7NCNoFrSVIJakS65+Tuvw9JLv/UX9FT/xdXonJ0iNzCQ5dIokP
+	KYUrfuxa+KSJF3bT34yXkQ21X+LvNNXHghtcVsYEt/NhcvDECS5ue7etacYvT8vDvJNe
+	MPNA==
+X-Gm-Message-State: AHQUAuYd6rNYg8Q0XmCXVQegB6LdW1N8h2hZKw9KI5tEjrShUoEdLs8j
+	ztSMVcK+jLTpig6lS2nWGyZ+pInD
+X-Google-Smtp-Source: AHgI3IZCdhqaZXursfJqV7lIrNh4ih77j+HcVLbBHOCooqW7Wgnke+F7gnJNc9y2iEZqZOA8d8lsIw==
+X-Received: by 2002:a5d:4985:: with SMTP id r5mr20438930wrq.90.1550598450924; 
 	Tue, 19 Feb 2019 09:47:30 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	z15sm2006684wmi.46.2019.02.19.09.47.29
+	z15sm2006684wmi.46.2019.02.19.09.47.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Feb 2019 09:47:29 -0800 (PST)
+	Tue, 19 Feb 2019 09:47:30 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2019 18:47:01 +0100
-Message-Id: <20190219174712.60694-9-alex.kanavin@gmail.com>
+Date: Tue, 19 Feb 2019 18:47:02 +0100
+Message-Id: <20190219174712.60694-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190219174712.60694-1-alex.kanavin@gmail.com>
 References: <20190219174712.60694-1-alex.kanavin@gmail.com>
-Subject: [PATCH 09/20] libcomps: upgrade 0.1.9 -> 0.1.10
+Subject: [PATCH 10/20] lighttpd: upgrade 1.4.52 -> 1.4.53
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,24 +61,28 @@ X-List-Received-Date: Tue, 19 Feb 2019 17:47:30 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/libcomps/libcomps_git.bb | 4 ++--
+ .../lighttpd/{lighttpd_1.4.52.bb => lighttpd_1.4.53.bb}       | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.52.bb => lighttpd_1.4.53.bb} (96%)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index 500d412340f..ff6820851fe 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -9,8 +9,8 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0001-Add-crc32.c-to-sources-list.patch \
-            "
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.52.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+similarity index 96%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.52.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+index fb76a8bbb1a..a58faa17be3 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.52.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
+         "
  
--PV = "0.1.9"
--SRCREV = "58be208122179ca6e4edc0635a26f02bf733d6a9"
-+PV = "0.1.10"
-+SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
+-SRC_URI[md5sum] = "34f5c79137325ba31484bed1e54e66e6"
+-SRC_URI[sha256sum] = "27bc0991c530b7c6335e6efff2181934d3c1a1c516f7401ea71d8302cefda764"
++SRC_URI[md5sum] = "f93436d8d400b2b0e26ee4bcc60b9ac7"
++SRC_URI[sha256sum] = "3bdfce1cf3e9650a556a8c26fb15342c5717c63f530c54693db632b0371dcb78"
  
- S = "${WORKDIR}/git"
- 
+ PACKAGECONFIG ??= "openssl pcre zlib \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
 -- 
 2.17.1
 
