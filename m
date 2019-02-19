@@ -1,94 +1,46 @@
-Return-Path: <chunrong.guo@nxp.com>
-X-Greylist: delayed 100578 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 19 Feb 2019 08:46:20 UTC
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr140072.outbound.protection.outlook.com [40.107.14.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 36D617C893
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4592F7C8FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 08:46:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=GennInUPsNgw6rHnCmn2vD+5xSDS4WiEo3Xhv+WhLlI=;
-	b=T052fK4U4dUgWl5/QQVdrh+N5znGHPbmbrjtHLRX3850lClpv2pglPE2LWFUJGvY/ovZBdqeceJT0xXPp5T9WiV6qFtLIwsdtH0WBHZmTppnxDlEpAvIPOmNi1eoRI/Fjut7z41phdBOzkmQilHTztAmyDzPoufr/yjr1o3Zpjg=
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
-	DB7PR04MB4780.eurprd04.prod.outlook.com (20.176.233.90) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1622.19; Mon, 18 Feb 2019 03:18:19 +0000
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::b84d:485a:ecdd:b52a]) by
-	DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::b84d:485a:ecdd:b52a%2]) with mapi id 15.20.1622.018;
-	Mon, 18 Feb 2019 03:18:19 +0000
-From: "C.r. Guo" <chunrong.guo@nxp.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] glibc: support powerpc e5500 and e6500
-Thread-Index: AQHUxziYPOnBbILmnE2jKg+Jmmpjkw==
-Date: Mon, 18 Feb 2019 03:18:19 +0000
-Message-ID: <1550459871-25701-1-git-send-email-chunrong.guo@nxp.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HK2P15301CA0021.APCP153.PROD.OUTLOOK.COM
-	(2603:1096:202:1::31) To DB7PR04MB5068.eurprd04.prod.outlook.com
-	(2603:10a6:10:1c::12)
-x-mailer: git-send-email 2.7.4
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chunrong.guo@nxp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [119.31.174.73]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 350ed9f1-76b3-4d1b-8e34-08d6954fbade
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:DB7PR04MB4780; 
-x-ms-traffictypediagnostic: DB7PR04MB4780:
-x-microsoft-exchange-diagnostics: =?iso-8859-1?Q?1; DB7PR04MB4780;
-	23:/QMUhxcHflwFpfbuJInkoaHt7rv26EUL/j0w27b?=
-	=?iso-8859-1?Q?sH9Iz1N9wxFZo3s1AYE2SEFm0Dn1WBQssr+rfG84h5ANkO+NWQ4XtXW1ED?=
-	=?iso-8859-1?Q?wPUaoWeyeIRuRuw4qymmyMOIsY/eFSygbCTMYggp31zNbh30dG2qzPLwHk?=
-	=?iso-8859-1?Q?/SRM/EGFfA4LGjznQ+IGbhMyeKPW6s3Q43wiejFx4VRFaHTwsXdDPZbnmZ?=
-	=?iso-8859-1?Q?BInIhpUxzlQEtcWv1jPoWToxHjB8c0fNYamakVs3OVqU22vByuKFN/bQZg?=
-	=?iso-8859-1?Q?fcKhfw6O/6FnArl3lPyN0E+a1LYlZPjtJd9KKImXm/yfETl3oCdh7v+daQ?=
-	=?iso-8859-1?Q?9cI9VpjL3isGdM8oX3UrnEREIEKXMx0lz0YRhhWAXTQfUXPTCaHe70SUDI?=
-	=?iso-8859-1?Q?0GEu+wJDU2Whw0E62wputRJIyNbEJfvZHiHbrwcCgQ/KZNKSmvFDqP5s1R?=
-	=?iso-8859-1?Q?q3V+hRvwnYJPqC4okF5lT3/ASkoDp6ijAx75uIz8lE2lHHHh8Nw/3Zi8zw?=
-	=?iso-8859-1?Q?3cDBLYrHKrg7KABI+rdK0UsvuAdB9+rZThv+Hborz2x+dq6xOg4nBiqyWz?=
-	=?iso-8859-1?Q?7GbYWFRB74nBeoEI2PhK4i4W0nHSSSwZWEu+b+jxgV1GxaDK+mBRNji5ml?=
-	=?iso-8859-1?Q?ZaoyRBsbnNb9VLX2SO7hzLqLlA3cAxk3SH63t3+XRF/BkYt/4H/TDsLzPQ?=
-	=?iso-8859-1?Q?yNn5sIY20kM5SsrPEiKsmjZAv+xoTSDmfHE2WLzdcHkbr2Z06tEMa6J5uc?=
-	=?iso-8859-1?Q?TQz8JlsxYLmddmog5M843Dc4W0E9wlBntRyBwggebkS7VSu1U9BDHOs2Nl?=
-	=?iso-8859-1?Q?40CKDYfF+X2qWa3Ytl6w+Hzxf/R1COHbD3mp9daS0ZONLeT5rh81Zo5utH?=
-	=?iso-8859-1?Q?Ho2rkRzLVUF0IIiGbSWY32ME7tvx9puvSl8iXzVtPXAYq2bxkSdFFka1y8?=
-	=?iso-8859-1?Q?tpSk/1dYrDzXg2e2VHCRa772XMkIKPvKDPa9hM9lFtz9o/LUskzvBy9Upk?=
-	=?iso-8859-1?Q?zzTFA2PRJZsvU7tc8bJpIMTh8SywQN/qsyTRLtxQdeR1SdyRBGHQSvAl+W?=
-	=?iso-8859-1?Q?W8FVIqea0miyH2RW+PHsx/yn5kJx/xgj+LbuAMlT9yAy2M0Mx2st7+GTvA?=
-	=?iso-8859-1?Q?bqZzt+2kSwmic7CjpCgaP9pStm32OI2mGdrX83fMoL5wiIlAvfD9/hKDX+?=
-	=?iso-8859-1?Q?DuJmeckovoz84+kvwrGUXPwLoeTK8dT/3tGRRIdets7sjvJxRxb68fh00O?=
-	=?iso-8859-1?Q?XCNHh+UUQk/TxYqpmdy6jB2XFaFUdNx4JGp3nhZ/9RIwBlKNsZ2yKuFMlN?=
-	=?iso-8859-1?Q?PlaO7izJoqp9F5baUasyu5q?=
-x-microsoft-antispam-prvs: <DB7PR04MB47805EE4BA5D159D823EB28484630@DB7PR04MB4780.eurprd04.prod.outlook.com>
-x-forefront-prvs: 09525C61DB
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(366004)(396003)(136003)(346002)(376002)(189003)(199004)(5660300002)(68736007)(52116002)(14444005)(256004)(3846002)(36756003)(102836004)(6116002)(5640700003)(99286004)(86362001)(50226002)(81166006)(81156014)(8676002)(305945005)(7736002)(476003)(2906002)(14454004)(2616005)(8936002)(478600001)(486006)(2351001)(71200400001)(71190400001)(6916009)(106356001)(186003)(6512007)(26005)(53946003)(66066001)(97736004)(6486002)(6506007)(386003)(53936002)(6436002)(316002)(30864003)(105586002)(25786009)(2501003)(4326008)(2004002)(579004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4780;
-	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: pAT1cynvqdzwu3tgCRFGwpA28e9pNJ11rS5/FAV53aT2zl3NDoBm1qyqCqa+MZPFeWwyDleqAK/GKYs6+V282Bv9H2W5MGjrIR9t7MpnLs3HYL2uCyndKxD9UZ8GHSGjWG22PA88iDam9G3OAHyMvOu5lne8XSv49kuGCR/XmqQnyXaMwhqRNnaaaQ6FGu+WpXnptFLlV1SOG30zk9m6C0VX2BNeK9g6UM6NT7FLTGToXVr6bIkH6P14cN6h8egkKE+WB0MHleJbJgzzaPhu1+JBa+fgMIj1gXRZ+GKqWDNfIdAWVZAeFgp8zgVMPWNcbhSvhP/C74KM4RQhVbPx2l/klDU1ofktaMauHrMjTm+r1S0LmvtMWSKDbyM/ErF/EVkgn1RABjSq3XB0oyVDZcZvT87uWt2ICf11m/GN6KQ=
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 350ed9f1-76b3-4d1b-8e34-08d6954fbade
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2019 03:18:17.7527 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4780
-Subject: [PATCH] glibc: support powerpc e5500 and e6500
+	Tue, 19 Feb 2019 09:41:26 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id w2so6776112wrt.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2019 01:41:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=svHDrJYFvpdTRpTnpSr6sCPiUlYsCesf4ZG+hBqz8so=;
+	b=YA+NABlbLMvL0RpuiGQudyU5rjXnoqpBRd8I/X2ARZ/u7Ad1CK241NZAG558PopFV8
+	RFkRMfzPufdsfoFDD8lp7OD2X7Cd0Zlp2dW+ricrn2YP0flKdrC9mBnveGiLUbTtpzta
+	r63YcyGDZpK4FTW+Qr8AisU33jnRlxwosjGMVvKh9AH5Cb/kza6XUE16FTVOJBNUv+1o
+	/NEJfUy8iICvjJOWsN3tPmyeT47SBMg2WYA3SCWBKUhtf0eMgTvmyfty1pdxI2aMWOT5
+	iMxMUrcmJLH+17FB5B0g1a4pmteGuHslVkj9oGzhM70c43riIe3h+awJiTgCF3kvTJ+V
+	iGkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=svHDrJYFvpdTRpTnpSr6sCPiUlYsCesf4ZG+hBqz8so=;
+	b=isLsMIzpxr7UFe4UN5yv+35CBu0sRcXL9/IFA5MMyFmH3gDZlTSh9n/789EOqafpBR
+	b9c4L1Ouz+Ks1CVCv1peY/+sKgfjRvzb2u/uUdAtcroP/sZ5pltmURWi8u7DdkbrL0wx
+	zj8BQzgKoP+j5cyytYRUnPSnzr6P0/IdCBMGge3ry5HgI618tk7Q8WL+lJHPO1fGhtGn
+	bIpnTGZl6HLaxT/OUpwOtF1uYo82AnO7v6tZfO/6kBbDVts7jH0Zn+Q6hkr7e19E1U13
+	QCnKZCZ0bUtlefQTvjoNNCyqaswgEWaxnqpQvaoyGn843Qq+0s7BkukAR19L+vscnlu0
+	tOEg==
+X-Gm-Message-State: AHQUAuZhGQWiPZnOTXDwD64PJzRG0wes9qhHRlHst5FTPfN/TxvQRpEo
+	W+MSvsYRGkk/GvZgr2Tc7tAezTId
+X-Google-Smtp-Source: AHgI3IbRu3iIhQz2VJ1iQBipLlX8t3pMnTgBNz4y5haXiCjWXo/e0vr6F0iCkUQd5gAcNGB36DJtZg==
+X-Received: by 2002:a5d:680d:: with SMTP id w13mr18974172wru.196.1550569286284;
+	Tue, 19 Feb 2019 01:41:26 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id z10sm574703wml.39.2019.02.19.01.41.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Feb 2019 01:41:25 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2019 10:41:16 +0100
+Message-Id: <20190219094116.45041-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] glib-2.0: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -101,655 +53,544 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 08:46:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Feb 2019 09:41:26 -0000
 
-From: Chunrong Guo <chunrong.guo@nxp.com>
+PRINTF settings no longer seem necessary (tested with mingw).
 
-Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+Add meson-specific bits to Enable-more-tests-while-cross-compiling.patch and
+0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+
+Add 0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+to allow 'mingw32' as target machine in addition to 'windows'.
+
+Add 0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch to
+correct ARM build errors.
+
+Drop configure-libtool.patch and uclibc_musl_translation.patch
+(both autotools-specific).
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../glibc/0031-glibc-support-e5500-and-e6500.patch | 564 +++++++++++++++++=
-++++
- meta/recipes-core/glibc/glibc_2.29.bb              |   1 +
- 2 files changed, 565 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0031-glibc-support-e5500-=
-and-e6500.patch
+ ...t-write-bindir-into-pkg-config-files.patch | 50 ++++++++++
+ ...-gio-querymodules-as-libexec_PROGRAM.patch | 17 +++-
+ ...-correctly-when-building-with-mingw3.patch | 81 +++++++++++++++++
+ ...ot-hardcode-linux-as-the-host-system.patch | 27 ++++++
+ ...ble-more-tests-while-cross-compiling.patch | 91 ++++++++++++++++++-
+ .../glib-2.0/glib-2.0/configure-libtool.patch | 44 ---------
+ .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
+ .../glib-2.0/uclibc_musl_translation.patch    | 22 -----
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |  5 +-
+ meta/recipes-core/glib-2.0/glib.inc           | 35 ++++---
+ 10 files changed, 286 insertions(+), 88 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0031-glibc-support-e5500-and-e65=
-00.patch b/meta/recipes-core/glibc/glibc/0031-glibc-support-e5500-and-e6500=
-.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
 new file mode 100644
-index 0000000..146115a
+index 00000000000..ede29c90bab
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0031-glibc-support-e5500-and-e6500.patc=
-h
-@@ -0,0 +1,564 @@
-+From 70dc75d3da86dea8b6ebdaedfa76e625a076678e Mon Sep 17 00:00:00 2001
-+From: Chunrong Guo <chunrong.guo@nxp.com>
-+Date: Wed, 31 Oct 2018 17:56:24 +0800
-+Subject: [PATCH] glibc: support e5500 and e6500
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+@@ -0,0 +1,50 @@
++From 474e59abec88de0c455836c1f53152bf2aa26c34 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 15 Feb 2019 11:17:27 +0100
++Subject: [PATCH] Do not write $bindir into pkg-config files
++
++This would otherwise break when using the files to build other target
++components (we need to rely on PATH containing the paths to utilities,
++rather than use target paths).
++
++Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gio/meson.build  | 6 +++---
++ glib/meson.build | 6 +++---
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/gio/meson.build b/gio/meson.build
++index 85d8b14..657720a 100644
++--- a/gio/meson.build
+++++ b/gio/meson.build
++@@ -813,9 +813,9 @@ pkg.generate(libraries : libgio,
++                'schemasdir=' + join_paths('${datadir}', schemas_subdir),
++                'bindir=' + join_paths('${prefix}', get_option('bindir')),
++                'giomoduledir=' + giomodulesdir,
++-               'glib_compile_schemas=' + join_paths('${bindir}', 'glib-compile-schemas'),
++-               'glib_compile_resources=' + join_paths('${bindir}', 'glib-compile-resources'),
++-               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen')],
+++               'glib_compile_schemas=glib-compile-schemas',
+++               'glib_compile_resources=glib-compile-resources',
+++               'gdbus_codegen=gdbus-codegen'],
++   version : glib_version,
++   install_dir : glib_pkgconfigreldir,
++   filebase : 'gio-2.0',
++diff --git a/glib/meson.build b/glib/meson.build
++index c05c694..434e8b1 100644
++--- a/glib/meson.build
+++++ b/glib/meson.build
++@@ -261,9 +261,9 @@ pkg.generate(libraries : [libglib, libintl],
++   subdirs : ['glib-2.0'],
++   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
++   variables : ['bindir=' + join_paths('${prefix}', get_option('bindir')),
++-               'glib_genmarshal=' + join_paths('${bindir}', 'glib-genmarshal'),
++-               'gobject_query=' + join_paths('${bindir}', 'gobject-query'),
++-               'glib_mkenums=' + join_paths('${bindir}', 'glib-mkenums')],
+++               'glib_genmarshal=glib-genmarshal',
+++               'gobject_query=gobject-query',
+++               'glib_mkenums=glib-mkenums'],
++   version : glib_version,
++   install_dir : glib_pkgconfigreldir,
++   filebase : 'glib-2.0',
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+index 97d0aff5d6c..f246254942e 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+@@ -1,4 +1,4 @@
+-From 856045927b9ab391165c0ebabf401835f8439eab Mon Sep 17 00:00:00 2001
++From 17fc9230fb932432d8faaaabf8c56fdc4845495e Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 22 Mar 2016 15:14:58 +0200
+ Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
+@@ -11,7 +11,8 @@ Upstream-Status: Inappropriate [OE specific]
+ 
+ ---
+  gio/Makefile.am | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
++ gio/meson.build | 1 +
++ 2 files changed, 3 insertions(+), 1 deletion(-)
+ 
+ diff --git a/gio/Makefile.am b/gio/Makefile.am
+ index e14cad2..bf2bcc7 100644
+@@ -27,3 +28,15 @@ index e14cad2..bf2bcc7 100644
+  
+  glib_compile_resources_LDADD = libgio-2.0.la 		\
+  	$(top_builddir)/gobject/libgobject-2.0.la	\
++diff --git a/gio/meson.build b/gio/meson.build
++index b83d8f5..85d8b14 100644
++--- a/gio/meson.build
+++++ b/gio/meson.build
++@@ -925,6 +925,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
++   c_args : gio_c_args,
++   # intl.lib is not compatible with SAFESEH
++   link_args : noseh_link_args,
+++  install_dir: glib_libexecdir,
++   dependencies : [libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++ 
++ glib_compile_schemas = executable('glib-compile-schemas',
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+new file mode 100644
+index 00000000000..17fe133fea9
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+@@ -0,0 +1,81 @@
++From 133e2d15917c29268f9ca204424d12ad04a1ed99 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 13 Feb 2019 15:32:05 +0100
++Subject: [PATCH] Set host_machine correctly when building with mingw32
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ gio/tests/meson.build  | 6 +++---
++ glib/tests/meson.build | 4 ++--
++ meson.build            | 3 +++
++ 3 files changed, 8 insertions(+), 5 deletions(-)
++
++diff --git a/gio/tests/meson.build b/gio/tests/meson.build
++index 181f5c7..88a6c55 100644
++--- a/gio/tests/meson.build
+++++ b/gio/tests/meson.build
++@@ -122,7 +122,7 @@ if dbus1_dep.found()
++ endif
++ 
++ #  Test programs buildable on UNIX only
++-if host_machine.system() != 'windows'
+++if host_system != 'windows'
++   gio_tests += [{
++     'file' : {},
++     'gdbus-peer' : {
++@@ -314,7 +314,7 @@ if host_machine.system() != 'windows'
++ endif # unix
++ 
++ #  Test programs buildable on Windows only
++-if host_machine.system() == 'windows'
+++if host_system == 'windows'
++   gio_tests += [{'win32-streams' : {}}]
++ endif
++ 
++@@ -379,7 +379,7 @@ if cc.get_id() != 'msvc'
++   }]
++ endif
++ 
++-if host_machine.system() != 'windows'
+++if host_system != 'windows'
++   test_extra_programs += [{
++     'gdbus-example-unix-fd-client' : {
++       'install' : false,
++diff --git a/glib/tests/meson.build b/glib/tests/meson.build
++index d7b6a7a..6678a08 100644
++--- a/glib/tests/meson.build
+++++ b/glib/tests/meson.build
++@@ -45,7 +45,7 @@ glib_tests = {
++   'hook' : {},
++   'hostutils' : {},
++   'include' : {
++-    'skip' : host_machine.system() == 'windows',
+++    'skip' : host_system == 'windows',
++   },
++   'keyfile' : {},
++   'list' : {},
++@@ -112,7 +112,7 @@ glib_tests = {
++   'utils' : {},
++   'unicode' : {},
++   'unix' : {
++-    'skip' : host_machine.system() == 'windows',
+++    'skip' : host_system == 'windows',
++   },
++   'uri' : {},
++   '1bit-mutex' : {},
++diff --git a/meson.build b/meson.build
++index f7405a2..4348f20 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -31,6 +31,9 @@ else
++ endif
++ 
++ host_system = host_machine.system()
+++if host_system == 'mingw32'
+++  host_system = 'windows'
+++endif
++ 
++ glib_version = meson.project_version()
++ glib_api_version = '2.0'
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+new file mode 100644
+index 00000000000..5a1a5898908
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+@@ -0,0 +1,27 @@
++From 635fe26af51f20194c8b208e7d01303be1086d68 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 19 Feb 2019 10:31:11 +0100
++Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
++
++OE build system can set this to other values that include 'linux',
++e.g. 'linux-gnueabi'
 +
 +Upstream-Status: Pending
-+
-+Signed-off-by: BJ DevOps Team <bjdevops@NXP1.onmicrosoft.com>
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ sysdeps/powerpc/powerpc64/be/e5500/Implies         |   2 +
-+ sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrt.c    | 137 ++++++++++++++++=
-+++++
-+ sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrtf.c   | 103 ++++++++++++++++
-+ .../powerpc/powerpc64/be/e5500/multiarch/Implies   |   1 +
-+ sysdeps/powerpc/powerpc64/be/e6500/Implies         |   2 +
-+ sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrt.c    | 137 ++++++++++++++++=
-+++++
-+ sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrtf.c   | 103 ++++++++++++++++
-+ .../powerpc/powerpc64/be/e6500/multiarch/Implies   |   1 +
-+ 8 files changed, 486 insertions(+)
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e5500/Implies
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrt.c
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrtf.c
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e5500/multiarch/Implies
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e6500/Implies
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrt.c
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrtf.c
-+ create mode 100644 sysdeps/powerpc/powerpc64/be/e6500/multiarch/Implies
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/sysdeps/powerpc/powerpc64/be/e5500/Implies b/sysdeps/powerpc/=
-powerpc64/be/e5500/Implies
-+new file mode 100644
-+index 0000000..a795586
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e5500/Implies
-+@@ -0,0 +1,2 @@
-++powerpc/powerpc64/e5500
-++
-+diff --git a/sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrt.c b/sysdeps/pow=
-erpc/powerpc64/be/e5500/fpu/e_sqrt.c
-+new file mode 100644
-+index 0000000..13a8197
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrt.c
-+@@ -0,0 +1,137 @@
-++/* Double-precision floating point square root.
-++   Copyright (C) 2010 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, write to the Free
-++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-++   02111-1307 USA.  */
-++
-++#include <math.h>
-++#include <math_private.h>
-++#include <fenv_libc.h>
-++#include <inttypes.h>
-++
-++#include <sysdep.h>
-++#include <ldsodefs.h>
-++
-++static const ieee_float_shape_type a_nan =3D {.word =3D 0x7fc00000 };
-++static const ieee_float_shape_type a_inf =3D {.word =3D 0x7f800000 };
-++static const float two108 =3D 3.245185536584267269e+32;
-++static const float twom54 =3D 5.551115123125782702e-17;
-++static const float half =3D 0.5;
-++
-++/* The method is based on the descriptions in:
-++
-++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapte=
-r 5;
-++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, ch=
-apter 9
-++
-++   We find the actual square root and half of its reciprocal
-++   simultaneously.  */
-++
-++double
-++__slow_ieee754_sqrt (double b)
-++{
-++  if (__builtin_expect (b > 0, 1))
-++    {
-++      double y, g, h, d, r;
-++      ieee_double_shape_type u;
-++
-++      if (__builtin_expect (b !=3D a_inf.value, 1))
-++        {
-++          fenv_t fe;
-++
-++          fe =3D fegetenv_register ();
-++
-++          u.value =3D b;
-++
-++          relax_fenv_state ();
-++
-++          __asm__ ("frsqrte %[estimate], %[x]\n"
-++                   : [estimate] "=3Df" (y) : [x] "f" (b));
-++
-++          /* Following Muller et al, page 168, equation 5.20.
-++
-++             h goes to 1/(2*sqrt(b))
-++             g goes to sqrt(b).
-++
-++             We need three iterations to get within 1ulp.  */
-++
-++          /* Indicate that these can be performed prior to the branch.  G=
-CC
-++             insists on sinking them below the branch, however; it seems =
-like
-++             they'd be better before the branch so that we can cover any =
-latency
-++             from storing the argument and loading its high word.  Oh wel=
-l.  */
-++
-++          g =3D b * y;
-++          h =3D 0.5 * y;
-++
-++          /* Handle small numbers by scaling.  */
-++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <=3D 0x0200000=
-0, 0))
-++            return __slow_ieee754_sqrt (b * two108) * twom54;
-++
-++#define FMADD(a_, c_, b_)                                               \
-++          ({ double __r;                                                \
-++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
-++                   : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "=
-f" (b_)); \
-++          __r;})
-++#define FNMSUB(a_, c_, b_)                                          \
-++          ({ double __r;                                                \
-++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     =
-\
-++                   : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "=
-f" (b_)); \
-++          __r;})
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          /* g is now +/- 1ulp, or exactly equal to, the square root of b=
-.  */
-++
-++          /* Final refinement.  */
-++          d =3D FNMSUB (g, g, b);
-++
-++          fesetenv_register (fe);
-++          return FMADD (d, h, g);
-++        }
-++    }
-++  else if (b < 0)
-++    {
-++      /* For some reason, some PowerPC32 processors don't implement
-++         FE_INVALID_SQRT.  */
-++#ifdef FE_INVALID_SQRT
-++      feraiseexcept (FE_INVALID_SQRT);
-++
-++      fenv_union_t u =3D { .fenv =3D fegetenv_register () };
-++      if ((u.l & FE_INVALID) =3D=3D 0)
-++#endif
-++	feraiseexcept (FE_INVALID);
-++      b =3D a_nan.value;
-++    }
-++  return f_wash (b);
-++}
-++
-++#undef __ieee754_sqrt
-++double
-++__ieee754_sqrt (double x)
-++{
-++  return __slow_ieee754_sqrt (x);
-++}
-++
-++strong_alias (__ieee754_sqrt, __sqrt_finite)
-+diff --git a/sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrtf.c b/sysdeps/po=
-werpc/powerpc64/be/e5500/fpu/e_sqrtf.c
-+new file mode 100644
-+index 0000000..fae2d81
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e5500/fpu/e_sqrtf.c
-+@@ -0,0 +1,103 @@
-++/* Single-precision floating point square root.
-++   Copyright (C) 2010 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, write to the Free
-++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-++   02111-1307 USA.  */
-++
-++#include <math.h>
-++#include <math_private.h>
-++#include <fenv_libc.h>
-++#include <inttypes.h>
-++
-++#include <sysdep.h>
-++#include <ldsodefs.h>
-++
-++static const ieee_float_shape_type a_nan =3D {.word =3D 0x7fc00000 };
-++static const ieee_float_shape_type a_inf =3D {.word =3D 0x7f800000 };
-++static const float threehalf =3D 1.5;
-++
-++/* The method is based on the descriptions in:
-++
-++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapte=
-r 5;
-++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, ch=
-apter 9
-++
-++   We find the reciprocal square root and use that to compute the actual
-++   square root.  */
-++
-++float
-++__slow_ieee754_sqrtf (float b)
-++{
-++  if (__builtin_expect (b > 0, 1))
-++    {
-++#define FMSUB(a_, c_, b_)                                               \
-++      ({ double __r;                                                    \
-++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
-++                 : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f"=
- (b_)); \
-++        __r;})
-++#define FNMSUB(a_, c_, b_)                                              \
-++      ({ double __r;                                                    \
-++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
-++                 : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f"=
- (b_)); \
-++        __r;})
-++
-++      if (__builtin_expect (b !=3D a_inf.value, 1))
-++        {
-++          double y, x;
-++          fenv_t fe;
-++
-++          fe =3D fegetenv_register ();
-++
-++          relax_fenv_state ();
-++
-++          /* Compute y =3D 1.5 * b - b.  Uses fewer constants than y =3D =
-0.5 * b.  */
-++          y =3D FMSUB (threehalf, b, b);
-++
-++          /* Initial estimate.  */
-++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=3Df" (x) : [b] "f" (b))=
-;
-++
-++          /* Iterate.  x_{n+1} =3D x_n * (1.5 - y * (x_n * x_n)).  */
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++
-++          /* All done.  */
-++          fesetenv_register (fe);
-++          return x * b;
-++        }
-++    }
-++  else if (b < 0)
-++    {
-++      /* For some reason, some PowerPC32 processors don't implement
-++         FE_INVALID_SQRT.  */
-++#ifdef FE_INVALID_SQRT
-++      feraiseexcept (FE_INVALID_SQRT);
-++
-++      fenv_union_t u =3D { .fenv =3D fegetenv_register () };
-++      if ((u.l & FE_INVALID) =3D=3D 0)
-++#endif
-++	feraiseexcept (FE_INVALID);
-++      b =3D a_nan.value;
-++    }
-++  return f_washf (b);
-++}
-++#undef __ieee754_sqrtf
-++float
-++__ieee754_sqrtf (float x)
-++{
-++  return __slow_ieee754_sqrtf (x);
-++}
-++
-++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
-+diff --git a/sysdeps/powerpc/powerpc64/be/e5500/multiarch/Implies b/sysdep=
-s/powerpc/powerpc64/be/e5500/multiarch/Implies
-+new file mode 100644
-+index 0000000..30edcf7
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e5500/multiarch/Implies
-+@@ -0,0 +1 @@
-++powerpc/powerpc64/multiarch
-+diff --git a/sysdeps/powerpc/powerpc64/be/e6500/Implies b/sysdeps/powerpc/=
-powerpc64/be/e6500/Implies
-+new file mode 100644
-+index 0000000..9b8fc07
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e6500/Implies
-+@@ -0,0 +1,2 @@
-++powerpc/powerpc64/e6500
-++
-+diff --git a/sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrt.c b/sysdeps/pow=
-erpc/powerpc64/be/e6500/fpu/e_sqrt.c
-+new file mode 100644
-+index 0000000..13a8197
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrt.c
-+@@ -0,0 +1,137 @@
-++/* Double-precision floating point square root.
-++   Copyright (C) 2010 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, write to the Free
-++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-++   02111-1307 USA.  */
-++
-++#include <math.h>
-++#include <math_private.h>
-++#include <fenv_libc.h>
-++#include <inttypes.h>
-++
-++#include <sysdep.h>
-++#include <ldsodefs.h>
-++
-++static const ieee_float_shape_type a_nan =3D {.word =3D 0x7fc00000 };
-++static const ieee_float_shape_type a_inf =3D {.word =3D 0x7f800000 };
-++static const float two108 =3D 3.245185536584267269e+32;
-++static const float twom54 =3D 5.551115123125782702e-17;
-++static const float half =3D 0.5;
-++
-++/* The method is based on the descriptions in:
-++
-++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapte=
-r 5;
-++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, ch=
-apter 9
-++
-++   We find the actual square root and half of its reciprocal
-++   simultaneously.  */
-++
-++double
-++__slow_ieee754_sqrt (double b)
-++{
-++  if (__builtin_expect (b > 0, 1))
-++    {
-++      double y, g, h, d, r;
-++      ieee_double_shape_type u;
-++
-++      if (__builtin_expect (b !=3D a_inf.value, 1))
-++        {
-++          fenv_t fe;
-++
-++          fe =3D fegetenv_register ();
-++
-++          u.value =3D b;
-++
-++          relax_fenv_state ();
-++
-++          __asm__ ("frsqrte %[estimate], %[x]\n"
-++                   : [estimate] "=3Df" (y) : [x] "f" (b));
-++
-++          /* Following Muller et al, page 168, equation 5.20.
-++
-++             h goes to 1/(2*sqrt(b))
-++             g goes to sqrt(b).
-++
-++             We need three iterations to get within 1ulp.  */
-++
-++          /* Indicate that these can be performed prior to the branch.  G=
-CC
-++             insists on sinking them below the branch, however; it seems =
-like
-++             they'd be better before the branch so that we can cover any =
-latency
-++             from storing the argument and loading its high word.  Oh wel=
-l.  */
-++
-++          g =3D b * y;
-++          h =3D 0.5 * y;
-++
-++          /* Handle small numbers by scaling.  */
-++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <=3D 0x0200000=
-0, 0))
-++            return __slow_ieee754_sqrt (b * two108) * twom54;
-++
-++#define FMADD(a_, c_, b_)                                               \
-++          ({ double __r;                                                \
-++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
-++                   : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "=
-f" (b_)); \
-++          __r;})
-++#define FNMSUB(a_, c_, b_)                                          \
-++          ({ double __r;                                                \
-++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     =
-\
-++                   : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "=
-f" (b_)); \
-++          __r;})
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          r =3D FNMSUB (g, h, half);
-++          g =3D FMADD (g, r, g);
-++          h =3D FMADD (h, r, h);
-++
-++          /* g is now +/- 1ulp, or exactly equal to, the square root of b=
-.  */
-++
-++          /* Final refinement.  */
-++          d =3D FNMSUB (g, g, b);
-++
-++          fesetenv_register (fe);
-++          return FMADD (d, h, g);
-++        }
-++    }
-++  else if (b < 0)
-++    {
-++      /* For some reason, some PowerPC32 processors don't implement
-++         FE_INVALID_SQRT.  */
-++#ifdef FE_INVALID_SQRT
-++      feraiseexcept (FE_INVALID_SQRT);
-++
-++      fenv_union_t u =3D { .fenv =3D fegetenv_register () };
-++      if ((u.l & FE_INVALID) =3D=3D 0)
-++#endif
-++	feraiseexcept (FE_INVALID);
-++      b =3D a_nan.value;
-++    }
-++  return f_wash (b);
-++}
-++
-++#undef __ieee754_sqrt
-++double
-++__ieee754_sqrt (double x)
-++{
-++  return __slow_ieee754_sqrt (x);
-++}
-++
-++strong_alias (__ieee754_sqrt, __sqrt_finite)
-+diff --git a/sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrtf.c b/sysdeps/po=
-werpc/powerpc64/be/e6500/fpu/e_sqrtf.c
-+new file mode 100644
-+index 0000000..fae2d81
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e6500/fpu/e_sqrtf.c
-+@@ -0,0 +1,103 @@
-++/* Single-precision floating point square root.
-++   Copyright (C) 2010 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, write to the Free
-++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-++   02111-1307 USA.  */
-++
-++#include <math.h>
-++#include <math_private.h>
-++#include <fenv_libc.h>
-++#include <inttypes.h>
-++
-++#include <sysdep.h>
-++#include <ldsodefs.h>
-++
-++static const ieee_float_shape_type a_nan =3D {.word =3D 0x7fc00000 };
-++static const ieee_float_shape_type a_inf =3D {.word =3D 0x7f800000 };
-++static const float threehalf =3D 1.5;
-++
-++/* The method is based on the descriptions in:
-++
-++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapte=
-r 5;
-++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, ch=
-apter 9
-++
-++   We find the reciprocal square root and use that to compute the actual
-++   square root.  */
-++
-++float
-++__slow_ieee754_sqrtf (float b)
-++{
-++  if (__builtin_expect (b > 0, 1))
-++    {
-++#define FMSUB(a_, c_, b_)                                               \
-++      ({ double __r;                                                    \
-++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
-++                 : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f"=
- (b_)); \
-++        __r;})
-++#define FNMSUB(a_, c_, b_)                                              \
-++      ({ double __r;                                                    \
-++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
-++                 : [r] "=3Df" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f"=
- (b_)); \
-++        __r;})
-++
-++      if (__builtin_expect (b !=3D a_inf.value, 1))
-++        {
-++          double y, x;
-++          fenv_t fe;
-++
-++          fe =3D fegetenv_register ();
-++
-++          relax_fenv_state ();
-++
-++          /* Compute y =3D 1.5 * b - b.  Uses fewer constants than y =3D =
-0.5 * b.  */
-++          y =3D FMSUB (threehalf, b, b);
-++
-++          /* Initial estimate.  */
-++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=3Df" (x) : [b] "f" (b))=
-;
-++
-++          /* Iterate.  x_{n+1} =3D x_n * (1.5 - y * (x_n * x_n)).  */
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++          x =3D x * FNMSUB (y, x * x, threehalf);
-++
-++          /* All done.  */
-++          fesetenv_register (fe);
-++          return x * b;
-++        }
-++    }
-++  else if (b < 0)
-++    {
-++      /* For some reason, some PowerPC32 processors don't implement
-++         FE_INVALID_SQRT.  */
-++#ifdef FE_INVALID_SQRT
-++      feraiseexcept (FE_INVALID_SQRT);
-++
-++      fenv_union_t u =3D { .fenv =3D fegetenv_register () };
-++      if ((u.l & FE_INVALID) =3D=3D 0)
-++#endif
-++	feraiseexcept (FE_INVALID);
-++      b =3D a_nan.value;
-++    }
-++  return f_washf (b);
-++}
-++#undef __ieee754_sqrtf
-++float
-++__ieee754_sqrtf (float x)
-++{
-++  return __slow_ieee754_sqrtf (x);
-++}
-++
-++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
-+diff --git a/sysdeps/powerpc/powerpc64/be/e6500/multiarch/Implies b/sysdep=
-s/powerpc/powerpc64/be/e6500/multiarch/Implies
-+new file mode 100644
-+index 0000000..30edcf7
-+--- /dev/null
-++++ b/sysdeps/powerpc/powerpc64/be/e6500/multiarch/Implies
-+@@ -0,0 +1 @@
-++powerpc/powerpc64/multiarch
-+--=20
-+1.8.3.1
++diff --git a/meson.build b/meson.build
++index 4348f20..af5ed63 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -1574,7 +1574,7 @@ atomicdefine = '''
++ # We know that we can always use real ("lock free") atomic operations with MSVC
++ if cc.get_id() == 'msvc' or cc.links(atomictest, name : 'atomic ops')
++   have_atomic_lock_free = true
++-  if (host_system == 'android' or host_system == 'linux') and not cc.compiles(atomicdefine, name : 'atomic ops define')
+++  if (host_system == 'android' or host_system.contains('linux')) and not cc.compiles(atomicdefine, name : 'atomic ops define')
++     # When building for armv5 on Linux, gcc provides
++     # __sync_bool_compare_and_swap but doesn't define
++     # __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+index 50608809264..5ccd3203fb2 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+@@ -1,4 +1,4 @@
+-From 70e462e070f8eb20b7660c1cf88271c0449e43cc Mon Sep 17 00:00:00 2001
++From 1481c6d5f08f9dbbe10abc87b372a1f61db36476 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Mon, 9 Nov 2015 11:07:27 +0200
+ Subject: [PATCH] Enable more tests while cross-compiling
+@@ -10,8 +10,10 @@ case we can depend on glib-2.0-native.
+ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ ---
+- gio/tests/Makefile.am | 10 ++++++----
+- 1 file changed, 6 insertions(+), 4 deletions(-)
++ gio/tests/Makefile.am     | 10 ++++++----
++ gio/tests/meson.build     | 15 ++++++++-------
++ tests/gobject/Makefile.am |  6 ++++++
++ 3 files changed, 20 insertions(+), 11 deletions(-)
+ 
+ diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
+ index c4e7a92..633e85c 100644
+@@ -50,3 +52,86 @@ index c4e7a92..633e85c 100644
+  
+  BUILT_SOURCES += giotypefuncs.inc
+  
++diff --git a/gio/tests/meson.build b/gio/tests/meson.build
++index dca33bd..181f5c7 100644
++--- a/gio/tests/meson.build
+++++ b/gio/tests/meson.build
++@@ -173,7 +173,7 @@ if host_machine.system() != 'windows'
++ 
++   #  Test programs that need to bring up a session bus (requires dbus-daemon)
++   have_dbus_daemon = find_program('dbus-daemon', required : false).found()
++-  if have_dbus_daemon
+++  if true
++     annotate_args = [
++       '--annotate', 'org.project.Bar', 'Key1', 'Value1',
++       '--annotate', 'org.project.Bar', 'org.gtk.GDBus.Internal', 'Value2',
++@@ -406,12 +406,13 @@ if installed_tests_enabled
++   install_subdir('cert-tests', install_dir : installed_tests_execdir)
++ endif
++ 
++-if not meson.is_cross_build() or meson.has_exe_wrapper()
+++#if not meson.is_cross_build() or meson.has_exe_wrapper()
+++if meson.is_cross_build()
++ 
++   plugin_resources_c = custom_target('plugin-resources.c',
++     input : 'test4.gresource.xml',
++     output : 'plugin-resources.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate-source',
++@@ -428,7 +429,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_gresource = custom_target('test.gresource',
++     input : 'test.gresource.xml',
++     output : 'test.gresource',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--sourcedir=' + meson.current_build_dir(),
++@@ -439,7 +440,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources2_c = custom_target('test_resources2.c',
++     input : 'test3.gresource.xml',
++     output : 'test_resources2.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate',
++@@ -450,7 +451,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources2_h = custom_target('test_resources2.h',
++     input : 'test3.gresource.xml',
++     output : 'test_resources2.h',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate',
++@@ -461,7 +462,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources_c = custom_target('test_resources.c',
++     input : 'test2.gresource.xml',
++     output : 'test_resources.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate-source',
++diff --git a/tests/gobject/Makefile.am b/tests/gobject/Makefile.am
++index 1bcefbe..77e646a 100644
++--- a/tests/gobject/Makefile.am
+++++ b/tests/gobject/Makefile.am
++@@ -51,7 +51,13 @@ if ENABLE_TIMELOOP
++ installed_test_programs += timeloop-closure
++ endif
++ 
+++# The marshal test requires running a binary, which means we require
+++# glib-native when cross-compiling
+++if !CROSS_COMPILING
++ glib_genmarshal=$(top_builddir)/gobject/glib-genmarshal
+++else
+++glib_genmarshal=$(shell which glib-genmarshal)
+++endif
++ 
++ testmarshal.h: stamp-testmarshal.h
++ 	@true
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+deleted file mode 100644
+index 59b891347da..00000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 1dd1e6ddca5deada049bac2e1ee1fe4ecc5342c5 Mon Sep 17 00:00:00 2001
+-From: Martin Jansa <Martin.Jansa@gmail.com>
+-Date: Sat, 28 Apr 2012 18:24:50 +0200
+-Subject: [PATCH 01/10] configure: use $host_alias-libtool instead of libtool
+- directly
+-
+-Poky renames libtool to $host_alias-libtool.
+-./$host_alias-libtool isn't created until after configure runs with
+-libtool >= 2.2.2
+-so we can't call # it at this point. We can safely assume a version is
+-available
+-from PATH though
+-
+-Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
+-Rebased to glib-2.32.1 by Martin Jansa <Martin.Jansa@gmail.com>
+-Rebased to glib-2.31.20+ by Andre McCurdy <armccurdy@gmail.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-
+----
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 6fa6eb0..b6f78a6 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1428,9 +1428,9 @@ AS_IF([ test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL" ], [
+- 	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
+- dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
+- 	echo "void glib_plugin_test(void) { }" > plugin.c
+--	${SHELL} ./libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+-+	${SHELL} ./$host_alias-libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+- 		${CPPFLAGS} -c -o plugin.lo plugin.c >/dev/null 2>&1
+--	${SHELL} ./libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+-+	${SHELL} ./$host_alias-libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+- 		${LDFLAGS} -module -o plugin.la -export-dynamic \
+- 		-shrext ".o" -avoid-version plugin.lo \
+- 		-rpath /dont/care >/dev/null 2>&1
+--- 
+-2.14.1
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 9ec011a0950..0e4c76e4ce3 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From 43967e85b7a87f9c2e780504ef30f4c9bf56f8f5 Mon Sep 17 00:00:00 2001
++From 02e45209745f3ce10572c61b1450d80d8521b4c4 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch b/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
+deleted file mode 100644
+index 7aa6217d693..00000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Fix DATADIRNAME on uclibc/Linux
+-
+-translation files are always installed under PREFIX/share/locale in uclibc
+-based systems therefore lets set DATADIRNAME to "share".
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-Index: glib-2.46.1/m4macros/glib-gettext.m4
+-===================================================================
+---- glib-2.46.1.orig/m4macros/glib-gettext.m4
+-+++ glib-2.46.1/m4macros/glib-gettext.m4
+-@@ -243,6 +243,10 @@ msgstr ""
+- 	    CATOBJEXT=.mo
+-             DATADIRNAME=share
+- 	    ;;
+-+	    *-*-musl* | *-*-linux-uclibc*)
+-+	    CATOBJEXT=.gmo
+-+            DATADIRNAME=share
+-+	    ;;
+- 	    *)
+- 	    CATOBJEXT=.mo
+-             DATADIRNAME=lib
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+index 8aad570fa9d..8f31ccc2e7b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+@@ -5,15 +5,16 @@ PE = "1"
+ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+-           file://configure-libtool.patch \
+            file://run-ptest \
+-           file://uclibc_musl_translation.patch \
+            file://Enable-more-tests-while-cross-compiling.patch \
+            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://0001-Revert-Use-absolute-paths-in-pkg-config-files.patch \
++           file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
++           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
++           file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index a186c1d9eb6..4d7fdeebbbd 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -29,7 +29,11 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
+ 
+ LEAD_SONAME = "libglib-2.0.*"
+ 
+-inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
++inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glib=
-c/glibc_2.29.bb
-index 72db00c..2b495c4 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -56,6 +56,7 @@ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
-=3Dglibc \
-            file://0028-intl-Emit-no-lines-in-bison-generated-files.patch \
-            file://0029-inject-file-assembly-directives.patch \
-            file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-B=
-Z.patch \
-+           file://0031-glibc-support-e5500-and-e6500.patch \
- "
-=20
- S =3D "${WORKDIR}/git"
---=20
-2.7.4
++# This avoids the need to depend on target python3, which in case of mingw is not even possible.
++# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
++unset _PYTHON_SYSCONFIGDATA_NAME
+ 
+ REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+ 
+@@ -37,21 +41,17 @@ S = "${WORKDIR}/glib-${PV}"
+ 
+ PACKAGECONFIG ??= "system-pcre libmount"
+ # To use the system pcre it must be configured with --enable-unicode-properties
+-PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
+-PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
+-PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
+-PACKAGECONFIG[libelf] = "--enable-libelf,--disable-libelf,elfutils"
+-
+-CORECONF = "--disable-dtrace --disable-fam --disable-systemtap"
++PACKAGECONFIG[system-pcre] = "-Dinternal_pcre=false,-Dinternal_pcre=true,libpcre"
++PACKAGECONFIG[libmount] = "-Dlibmount=true,-Dlibmount=false,util-linux"
++PACKAGECONFIG[manpages] = "-Dman=true, -Dman=false, libxslt-native xmlto-native"
++# libelf is auto-detected without a configuration option
++PACKAGECONFIG[libelf] = ",,elfutils"
+ 
+-PRINTF = "--enable-included-printf=no"
+-PRINTF_darwin = "--enable-included-printf=yes"
+-PRINTF_mingw32 = "--enable-included-printf=yes"
+-EXTRA_OECONF = "${PRINTF} ${CORECONF}"
+-EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
++CORECONF = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
+ 
+-# Tell configure that we'll have dbus-daemon on the target for the tests
+-EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ac_cv_prog_DBUS_DAEMON=dbus-daemon', '', d)}"
++EXTRA_OEMESON = "${CORECONF} ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
++EXTRA_OEMESON_class-native = "${CORECONF} -Dinstalled_tests=false"
++EXTRA_OEMESON_class-nativesdk = "${CORECONF} -Dinstalled_tests=false"
+ 
+ do_configure_prepend() {
+ 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+@@ -117,6 +117,8 @@ do_install_append () {
+         if test "x${MLPREFIX}" != "x"; then
+                 mv ${D}${libexecdir}/gio-querymodules${EXEEXT} ${D}${libexecdir}/${MLPREFIX}gio-querymodules${EXEEXT}
+         fi
++        # Autotools does this, meson does not
++        mkdir -p ${D}${libdir}/gio/modules
+ }
+ 
+ do_install_append_class-target () {
+@@ -129,6 +131,11 @@ do_install_append_class-target () {
+ 	fi
+ }
+ 
++# As we do not build python3 for windows, makes no sense to ship the script that's using it
++do_install_append_mingw32() {
++        rm -f ${D}${bindir}/gtester-report
++}
++
+ CODEGEN_PYTHON_RDEPENDS = "python3 python3-distutils python3-xml"
+ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
+ 
+-- 
+2.17.1
 
 
