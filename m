@@ -1,51 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BBA937C8D0
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A7687C948
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 13:58:30 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id h22so2332817wmb.0
+	Tue, 19 Feb 2019 16:00:28 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id h11so7974091pgl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 05:58:32 -0800 (PST)
+	Tue, 19 Feb 2019 08:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nEWypKGt5EURQekN8a0XMUMAGWooRyjr9KTfDEeT+6M=;
-	b=a1ziy+C0K7EtLJflhjjwYREgM12gU0PH6Lyjn8Ck026eD9R3bht4yeA9DIjjFdfvdr
-	mI1tathfnAKMcDTIY72pm/ry2DjYnFDHiXQk1Ib05Oquc3+vm4k6hfSIyp26lEQ1UOZz
-	jbLTG4b5E9pC0dcDAJrcb5IHgmJ+I3obFJ6J55BFNcssPR0Q7er93CtXca9bHjZzLR1u
-	h1ApeyjozYGcHbxp8g9ggLx6x5VifUVP9Sh1kdCFQDplvKyKUDmrosGwwNiva86aFMPg
-	V+cygjI1ZLR0PIt8XviN1rqViXPO/4Ed0GQi3velerubpDYpUDlrRSdChPEFFzWIHbKs
-	ZPQQ==
+	h=from:to:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=5BSruX1QO0+nnF+aezrm2XqHzp/QjDwus7J3ih8kWDM=;
+	b=DusTcH0LjuS4yNnJNXQaS9S/jAZTYFd31yr7VosGyBQEPdRtFyVD+pukULmIli4xuj
+	RsCxApKEie8dTSbr6zLgjz5m0+RrVroPBTMzXIyxZtS81cA1pFOx0UgeD64GfA25PuM8
+	wGyICXiS3rCo2Vg68IowSOVkz20LzIT0tCx8JnhQDpKOtoAHkrwRjEPzHdp8Uglw79JS
+	vBDYqQajvMDBUrpTeSdaF8aZt6jh+8UkdTfnhBSH5Q19Zb3hU5OmbBHqhQKnVr7JFMGk
+	wSwr2YNQS5RvFvVu2nQneXEVucmPRm+pbHivKUwIMPUwia76ZLOh9KQ1naST46Y4ufB9
+	QsoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nEWypKGt5EURQekN8a0XMUMAGWooRyjr9KTfDEeT+6M=;
-	b=YFxZKzaftgMZPWdWCidvgUoZDzsh46ClLuqxS0Qr+3rg6vm/lcraIjOVO2LyvbpfO6
-	4XmZyLT3uxdLwRgPypERz5+vPtwzMV/i0ivBFDHu5ynj6I9SwBWxDgvyj+Hn6CfB8GRy
-	7m5BjyT6FFuxLu8DdS37ssqEn+A2L5KMDy0OPmjX7mwAPQPMzUhaudb+VCxiUbkX4103
-	MCXo8sp3T2+Xvxi4LKa4176AV/EzbDHmMg1igAVRf26oLT+ZoOBvHISOedx8K5wrcW5j
-	dtJ0uwxYOics20MRfharfo06mWTDSIuimqzsNvZ2PWpsuUjV9umvRI/OyYgZMzWuaXdX
-	yfSQ==
-X-Gm-Message-State: AHQUAuZbJR+oQn2WZBpp6dvRAb3sYWKT5t4UZuv92aTwN4sq6E8HE/At
-	REmTxu4DKQp2st69glDggsqhGSan
-X-Google-Smtp-Source: AHgI3IaCqwedWcot03FVAd0xRXJ923H5ZGVIAPNGjVl/RP9r6UJcDpra4aWhLu3rlELBuQpGIEn7iw==
-X-Received: by 2002:a05:600c:21d9:: with SMTP id
-	x25mr3113601wmj.136.1550584710982; 
-	Tue, 19 Feb 2019 05:58:30 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	q24sm1959656wmq.16.2019.02.19.05.58.29
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:thread-index:content-language;
+	bh=5BSruX1QO0+nnF+aezrm2XqHzp/QjDwus7J3ih8kWDM=;
+	b=bcB6hf0m0u/MdqoJwTfY7H+hDNC8Z4gejy9qxuc4Kcbd0Wn0E6wC0w2kTKfIRcNmji
+	DPmYtQ8bDgvMG6SADU3jXxGlALAJWdt5Am3iQxDDMPPPIemMY0oglTx+c5CuPPOiJigk
+	RcqRvTNX9C9wU3LStbkEgtoU5/s7D9OtMw9+dY0YgFXTsqCQjuSHnCruaBaRjMHlvFCO
+	Lbx0IXs68nfKLiJO70JntaadmE8UOXhgaaa/aP34LChQPGVcw90q30cdnThIRYuLrYxN
+	nIWtbW0mM/Ic/v8IS8oN/264wpQOtsibRm5qzMfnMNIV1GPIFbsKVdKzEPn4RIA0Xk+a
+	C1TA==
+X-Gm-Message-State: AHQUAuZbTFjDTGBz29aitLegLZ9bTuXyk4y38u/hboBMMImNNhbZdYU7
+	e774zF+ONxJTQGkHM3u70YOWvXgE
+X-Google-Smtp-Source: AHgI3IbAcy/gZJPRVs1bHP+DyU0p8NAwejsdZ8GjAadaqAnTM5TaS2163heEO/opi6XD0JIN7WwBmQ==
+X-Received: by 2002:a63:f40e:: with SMTP id g14mr24470539pgi.326.1550592029248;
+	Tue, 19 Feb 2019 08:00:29 -0800 (PST)
+Received: from DESKTOPPJ18936 (c-71-59-136-149.hsd1.or.comcast.net.
+	[71.59.136.149]) by smtp.gmail.com with ESMTPSA id
+	u18sm19848355pfa.176.2019.02.19.08.00.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Feb 2019 05:58:30 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2019 14:58:15 +0100
-Message-Id: <20190219135815.18177-8-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190219135815.18177-1-alex.kanavin@gmail.com>
-References: <20190219135815.18177-1-alex.kanavin@gmail.com>
-Subject: [PATCH 8/8] glib-2.0: convert from autotools to meson
+	Tue, 19 Feb 2019 08:00:28 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Feb 2019 08:00:30 -0800
+Message-ID: <011d01d4c86c$3d2c65d0$b7853170$@gmail.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdTIbCwdQE7QN0tESPuCsV0CpfFIsQ==
+Subject: Yocto Project Status WW08'19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,535 +59,1201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 13:58:31 -0000
+X-List-Received-Date: Tue, 19 Feb 2019 16:00:28 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_011E_01D4C829.2F0B6FC0"
+Content-Language: en-us
 
-PRINTF settings no longer seem necessary (tested with mingw).
+------=_NextPart_000_011E_01D4C829.2F0B6FC0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Add meson-specific bits to Enable-more-tests-while-cross-compiling.patch and
-0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+Current Dev Position: YP 2.7 M3
 
-Add 0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-to allow 'mingw32' as target machine in addition to 'windows'.
+Next Deadline: YP 2.7 M3 Cutoff is Feb. 25, 2019
 
-Add 0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch to
-correct ARM build errors.
+ 
 
-Drop configure-libtool.patch (autotools-specific).
+SWAT Team Rotation:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...t-write-bindir-into-pkg-config-files.patch |  50 +++++++++
- ...-gio-querymodules-as-libexec_PROGRAM.patch |  17 ++-
- ...-correctly-when-building-with-mingw3.patch | 104 ++++++++++++++++++
- ...ot-hardcode-linux-as-the-host-system.patch |  27 +++++
- ...ble-more-tests-while-cross-compiling.patch |  91 ++++++++++++++-
- .../glib-2.0/glib-2.0/configure-libtool.patch |  44 --------
- .../glib-2.0/glib-2.0/relocate-modules.patch  |   2 +-
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |   4 +-
- meta/recipes-core/glib-2.0/glib.inc           |  35 +++---
- 9 files changed, 309 insertions(+), 65 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+*	SWAT lead is currently: Amanda
+*	SWAT team rotation: Amanda -> Ross on Feb. 22, 2019
+*	SWAT team rotation: Ross -> Chen on Mar. 1, 2019
+*	 <https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team>
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
-new file mode 100644
-index 00000000000..ede29c90bab
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
-@@ -0,0 +1,50 @@
-+From 474e59abec88de0c455836c1f53152bf2aa26c34 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 15 Feb 2019 11:17:27 +0100
-+Subject: [PATCH] Do not write $bindir into pkg-config files
-+
-+This would otherwise break when using the files to build other target
-+components (we need to rely on PATH containing the paths to utilities,
-+rather than use target paths).
-+
-+Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gio/meson.build  | 6 +++---
-+ glib/meson.build | 6 +++---
-+ 2 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/gio/meson.build b/gio/meson.build
-+index 85d8b14..657720a 100644
-+--- a/gio/meson.build
-++++ b/gio/meson.build
-+@@ -813,9 +813,9 @@ pkg.generate(libraries : libgio,
-+                'schemasdir=' + join_paths('${datadir}', schemas_subdir),
-+                'bindir=' + join_paths('${prefix}', get_option('bindir')),
-+                'giomoduledir=' + giomodulesdir,
-+-               'glib_compile_schemas=' + join_paths('${bindir}', 'glib-compile-schemas'),
-+-               'glib_compile_resources=' + join_paths('${bindir}', 'glib-compile-resources'),
-+-               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen')],
-++               'glib_compile_schemas=glib-compile-schemas',
-++               'glib_compile_resources=glib-compile-resources',
-++               'gdbus_codegen=gdbus-codegen'],
-+   version : glib_version,
-+   install_dir : glib_pkgconfigreldir,
-+   filebase : 'gio-2.0',
-+diff --git a/glib/meson.build b/glib/meson.build
-+index c05c694..434e8b1 100644
-+--- a/glib/meson.build
-++++ b/glib/meson.build
-+@@ -261,9 +261,9 @@ pkg.generate(libraries : [libglib, libintl],
-+   subdirs : ['glib-2.0'],
-+   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
-+   variables : ['bindir=' + join_paths('${prefix}', get_option('bindir')),
-+-               'glib_genmarshal=' + join_paths('${bindir}', 'glib-genmarshal'),
-+-               'gobject_query=' + join_paths('${bindir}', 'gobject-query'),
-+-               'glib_mkenums=' + join_paths('${bindir}', 'glib-mkenums')],
-++               'glib_genmarshal=glib-genmarshal',
-++               'gobject_query=gobject-query',
-++               'glib_mkenums=glib-mkenums'],
-+   version : glib_version,
-+   install_dir : glib_pkgconfigreldir,
-+   filebase : 'glib-2.0',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-index 97d0aff5d6c..f246254942e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-@@ -1,4 +1,4 @@
--From 856045927b9ab391165c0ebabf401835f8439eab Mon Sep 17 00:00:00 2001
-+From 17fc9230fb932432d8faaaabf8c56fdc4845495e Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 22 Mar 2016 15:14:58 +0200
- Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
-@@ -11,7 +11,8 @@ Upstream-Status: Inappropriate [OE specific]
  
- ---
-  gio/Makefile.am | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
-+ gio/meson.build | 1 +
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+Key Status/Updates:
+
+*	YP 2.7 M2 rc2 is in QA and 94% complete.  See:
+<https://wiki.yoctoproject.org/wiki/2.7_QA_Status>
+https://wiki.yoctoproject.org/wiki/2.7_QA_Status
+*	YP M2 rc1 had major problems in perl as fallout from the perl
+upgrade and switch to perl-cross. We've therefore built an rc2 based on a
+more recent master.
+*	The project is considering moving its mailing list hosting to
+groups.io, if anyone has any experience of that, positive or negative please
+let Michael, Nico and Richard know. Note that google has made further
+significant changes to its mail processing at the detriment to mailing
+lists:
+<https://lists.freedesktop.org/archives/freedesktop/2019-February/000396.htm
+l>
+https://lists.freedesktop.org/archives/freedesktop/2019-February/000396.html
+*	RDEPENDS handling in native recipes had a significant change, fixing
+some long standing bugs but also needing some circular dependencies to be
+fixed. The change may impact other layers.
+*	Circular dependency debugging from bitbake was fixed and should no
+longer hang, another long standing issue which when fixed, allowed the
+native RDEPENDS to be debugged and fixed.
+*	The default compiler path mappings were enhanced and should now also
+cover macro files.
+*	There is major work/review going on for "resulttool" with a view to
+using this for QAing M3.
+*	A new round of AUH (Automatic upgrade Helper) patches has been sent,
+thanks to everyone who's processed and responded to those! It was able to
+upgrade around half the recipes needing upgrading.
+
  
- diff --git a/gio/Makefile.am b/gio/Makefile.am
- index e14cad2..bf2bcc7 100644
-@@ -27,3 +28,15 @@ index e14cad2..bf2bcc7 100644
-  
-  glib_compile_resources_LDADD = libgio-2.0.la 		\
-  	$(top_builddir)/gobject/libgobject-2.0.la	\
-+diff --git a/gio/meson.build b/gio/meson.build
-+index b83d8f5..85d8b14 100644
-+--- a/gio/meson.build
-++++ b/gio/meson.build
-+@@ -925,6 +925,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
-+   c_args : gio_c_args,
-+   # intl.lib is not compatible with SAFESEH
-+   link_args : noseh_link_args,
-++  install_dir: glib_libexecdir,
-+   dependencies : [libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+ 
-+ glib_compile_schemas = executable('glib-compile-schemas',
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-new file mode 100644
-index 00000000000..2b7fab7bded
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-@@ -0,0 +1,104 @@
-+From 4169f11beedacfbb8c7934a4c99189d44935a6b9 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 13 Feb 2019 15:32:05 +0100
-+Subject: [PATCH] Set host_machine correctly when building with mingw32
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ gio/tests/meson.build  | 8 ++++----
-+ glib/tests/meson.build | 4 ++--
-+ meson.build            | 3 +++
-+ tests/meson.build      | 2 +-
-+ 4 files changed, 10 insertions(+), 7 deletions(-)
-+
-+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-+index 181f5c7..11a1f12 100644
-+--- a/gio/tests/meson.build
-++++ b/gio/tests/meson.build
-+@@ -12,7 +12,7 @@ test_c_args = [
-+   '-DGLIB_COMPILE_SCHEMAS="@0@"'.format(glib_compile_schemas.full_path()),
-+ ]
-+ 
-+-if host_machine.system() == 'windows'
-++if host_system == 'windows'
-+   common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
-+ endif
-+ 
-+@@ -122,7 +122,7 @@ if dbus1_dep.found()
-+ endif
-+ 
-+ #  Test programs buildable on UNIX only
-+-if host_machine.system() != 'windows'
-++if host_system != 'windows'
-+   gio_tests += [{
-+     'file' : {},
-+     'gdbus-peer' : {
-+@@ -314,7 +314,7 @@ if host_machine.system() != 'windows'
-+ endif # unix
-+ 
-+ #  Test programs buildable on Windows only
-+-if host_machine.system() == 'windows'
-++if host_system == 'windows'
-+   gio_tests += [{'win32-streams' : {}}]
-+ endif
-+ 
-+@@ -379,7 +379,7 @@ if cc.get_id() != 'msvc'
-+   }]
-+ endif
-+ 
-+-if host_machine.system() != 'windows'
-++if host_system != 'windows'
-+   test_extra_programs += [{
-+     'gdbus-example-unix-fd-client' : {
-+       'install' : false,
-+diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-+index d7b6a7a..6678a08 100644
-+--- a/glib/tests/meson.build
-++++ b/glib/tests/meson.build
-+@@ -45,7 +45,7 @@ glib_tests = {
-+   'hook' : {},
-+   'hostutils' : {},
-+   'include' : {
-+-    'skip' : host_machine.system() == 'windows',
-++    'skip' : host_system == 'windows',
-+   },
-+   'keyfile' : {},
-+   'list' : {},
-+@@ -112,7 +112,7 @@ glib_tests = {
-+   'utils' : {},
-+   'unicode' : {},
-+   'unix' : {
-+-    'skip' : host_machine.system() == 'windows',
-++    'skip' : host_system == 'windows',
-+   },
-+   'uri' : {},
-+   '1bit-mutex' : {},
-+diff --git a/meson.build b/meson.build
-+index f7405a2..4348f20 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -31,6 +31,9 @@ else
-+ endif
-+ 
-+ host_system = host_machine.system()
-++if host_system == 'mingw32'
-++  host_system = 'windows'
-++endif
-+ 
-+ glib_version = meson.project_version()
-+ glib_api_version = '2.0'
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 80e45d7..9f3869f 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -67,7 +67,7 @@ test_extra_programs = {
-+   'unicode-collate' : {},
-+ }
-+ 
-+-if host_machine.system() != 'windows'
-++if host_system != 'windows'
-+   tests += [{
-+     'timeloop' : {},
-+     'spawn-test' : {},
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-new file mode 100644
-index 00000000000..5a1a5898908
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-@@ -0,0 +1,27 @@
-+From 635fe26af51f20194c8b208e7d01303be1086d68 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 19 Feb 2019 10:31:11 +0100
-+Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
-+
-+OE build system can set this to other values that include 'linux',
-+e.g. 'linux-gnueabi'
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 4348f20..af5ed63 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1574,7 +1574,7 @@ atomicdefine = '''
-+ # We know that we can always use real ("lock free") atomic operations with MSVC
-+ if cc.get_id() == 'msvc' or cc.links(atomictest, name : 'atomic ops')
-+   have_atomic_lock_free = true
-+-  if (host_system == 'android' or host_system == 'linux') and not cc.compiles(atomicdefine, name : 'atomic ops define')
-++  if (host_system == 'android' or host_system.contains('linux')) and not cc.compiles(atomicdefine, name : 'atomic ops define')
-+     # When building for armv5 on Linux, gcc provides
-+     # __sync_bool_compare_and_swap but doesn't define
-+     # __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-index 50608809264..5ccd3203fb2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-@@ -1,4 +1,4 @@
--From 70e462e070f8eb20b7660c1cf88271c0449e43cc Mon Sep 17 00:00:00 2001
-+From 1481c6d5f08f9dbbe10abc87b372a1f61db36476 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Mon, 9 Nov 2015 11:07:27 +0200
- Subject: [PATCH] Enable more tests while cross-compiling
-@@ -10,8 +10,10 @@ case we can depend on glib-2.0-native.
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- ---
-- gio/tests/Makefile.am | 10 ++++++----
-- 1 file changed, 6 insertions(+), 4 deletions(-)
-+ gio/tests/Makefile.am     | 10 ++++++----
-+ gio/tests/meson.build     | 15 ++++++++-------
-+ tests/gobject/Makefile.am |  6 ++++++
-+ 3 files changed, 20 insertions(+), 11 deletions(-)
+
+Planned Releases for YP 2.7:
+
+*	YP 2.7 M2 is in QA for rc2.
+*	YP 2.7 M2 Release Target is Feb. 1, 2019
+*	YP 2.7 M3 Cutoff is Feb. 25, 2019
+*	YP 2.7 M3 Release Target is Mar. 8, 2019
+*	YP 2.7 M4 Cutoff is Apr. 1, 2019
+*	YP 2.7 M4 Release Target is Apr. 26, 2019
+
  
- diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
- index c4e7a92..633e85c 100644
-@@ -50,3 +52,86 @@ index c4e7a92..633e85c 100644
-  
-  BUILT_SOURCES += giotypefuncs.inc
-  
-+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-+index dca33bd..181f5c7 100644
-+--- a/gio/tests/meson.build
-++++ b/gio/tests/meson.build
-+@@ -173,7 +173,7 @@ if host_machine.system() != 'windows'
-+ 
-+   #  Test programs that need to bring up a session bus (requires dbus-daemon)
-+   have_dbus_daemon = find_program('dbus-daemon', required : false).found()
-+-  if have_dbus_daemon
-++  if true
-+     annotate_args = [
-+       '--annotate', 'org.project.Bar', 'Key1', 'Value1',
-+       '--annotate', 'org.project.Bar', 'org.gtk.GDBus.Internal', 'Value2',
-+@@ -406,12 +406,13 @@ if installed_tests_enabled
-+   install_subdir('cert-tests', install_dir : installed_tests_execdir)
-+ endif
-+ 
-+-if not meson.is_cross_build() or meson.has_exe_wrapper()
-++#if not meson.is_cross_build() or meson.has_exe_wrapper()
-++if meson.is_cross_build()
-+ 
-+   plugin_resources_c = custom_target('plugin-resources.c',
-+     input : 'test4.gresource.xml',
-+     output : 'plugin-resources.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate-source',
-+@@ -428,7 +429,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_gresource = custom_target('test.gresource',
-+     input : 'test.gresource.xml',
-+     output : 'test.gresource',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--sourcedir=' + meson.current_build_dir(),
-+@@ -439,7 +440,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources2_c = custom_target('test_resources2.c',
-+     input : 'test3.gresource.xml',
-+     output : 'test_resources2.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate',
-+@@ -450,7 +451,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources2_h = custom_target('test_resources2.h',
-+     input : 'test3.gresource.xml',
-+     output : 'test_resources2.h',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate',
-+@@ -461,7 +462,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+   test_resources_c = custom_target('test_resources.c',
-+     input : 'test2.gresource.xml',
-+     output : 'test_resources.c',
-+-    command : [glib_compile_resources,
-++    command : ['glib-compile-resources',
-+                '--target=@OUTPUT@',
-+                '--sourcedir=' + meson.current_source_dir(),
-+                '--generate-source',
-+diff --git a/tests/gobject/Makefile.am b/tests/gobject/Makefile.am
-+index 1bcefbe..77e646a 100644
-+--- a/tests/gobject/Makefile.am
-++++ b/tests/gobject/Makefile.am
-+@@ -51,7 +51,13 @@ if ENABLE_TIMELOOP
-+ installed_test_programs += timeloop-closure
-+ endif
-+ 
-++# The marshal test requires running a binary, which means we require
-++# glib-native when cross-compiling
-++if !CROSS_COMPILING
-+ glib_genmarshal=$(top_builddir)/gobject/glib-genmarshal
-++else
-++glib_genmarshal=$(shell which glib-genmarshal)
-++endif
-+ 
-+ testmarshal.h: stamp-testmarshal.h
-+ 	@true
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
-deleted file mode 100644
-index 59b891347da..00000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 1dd1e6ddca5deada049bac2e1ee1fe4ecc5342c5 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Sat, 28 Apr 2012 18:24:50 +0200
--Subject: [PATCH 01/10] configure: use $host_alias-libtool instead of libtool
-- directly
--
--Poky renames libtool to $host_alias-libtool.
--./$host_alias-libtool isn't created until after configure runs with
--libtool >= 2.2.2
--so we can't call # it at this point. We can safely assume a version is
--available
--from PATH though
--
--Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
--Rebased to glib-2.32.1 by Martin Jansa <Martin.Jansa@gmail.com>
--Rebased to glib-2.31.20+ by Andre McCurdy <armccurdy@gmail.com>
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
-----
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 6fa6eb0..b6f78a6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1428,9 +1428,9 @@ AS_IF([ test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL" ], [
-- 	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
-- dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
-- 	echo "void glib_plugin_test(void) { }" > plugin.c
---	${SHELL} ./libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
--+	${SHELL} ./$host_alias-libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
-- 		${CPPFLAGS} -c -o plugin.lo plugin.c >/dev/null 2>&1
---	${SHELL} ./libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
--+	${SHELL} ./$host_alias-libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
-- 		${LDFLAGS} -module -o plugin.la -export-dynamic \
-- 		-shrext ".o" -avoid-version plugin.lo \
-- 		-rpath /dont/care >/dev/null 2>&1
---- 
--2.14.1
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index 9ec011a0950..a4e0c9201f2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From 43967e85b7a87f9c2e780504ef30f4c9bf56f8f5 Mon Sep 17 00:00:00 2001
-+From 9d985803c50cfb99253c757934985f937da34822 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-index 8aad570fa9d..2de2affa51a 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-@@ -5,7 +5,6 @@ PE = "1"
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+
+Planned upcoming dot releases:
+
+*	YP 2.5.3 (Sumo) will be targeted after YP 2.7 M2 is done.
+*	YP 2.5.4 (Sumo) will be targeted after YP 2.7 M4 is done.
+*	YP 2.6.2 (Thud) will be targeted after YP 2.5.4 is done.
+
  
- SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
--           file://configure-libtool.patch \
-            file://run-ptest \
-            file://uclibc_musl_translation.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
-@@ -14,6 +13,9 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-ignore-return-value-of-write.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-            file://0001-Revert-Use-absolute-paths-in-pkg-config-files.patch \
-+           file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
-+           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-+           file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
-            "
+
+Tracking Metrics:
+
+*	WDD 2392 (last week 2353) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	Poky Patch Metrics  
+
+*	Total patches found: 1527 (last week 1527
+*	Patches in the Pending State: 663 (43%) [last week 663 (43%)]
+
  
- SRC_URI_append_class-native = " file://relocate-modules.patch"
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index a186c1d9eb6..4d7fdeebbbd 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -29,7 +29,11 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
+
+Key Status Links for YP:
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status>
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule>
+https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features>
+https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features
+
  
- LEAD_SONAME = "libglib-2.0.*"
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
  
--inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
-+inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
-+
-+# This avoids the need to depend on target python3, which in case of mingw is not even possible.
-+# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
-+unset _PYTHON_SYSCONFIGDATA_NAME
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
  
- REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+
+Thanks,
+
  
-@@ -37,21 +41,17 @@ S = "${WORKDIR}/glib-${PV}"
+
+Stephen K. Jolley
+
+Yocto Project Project Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
  
- PACKAGECONFIG ??= "system-pcre libmount"
- # To use the system pcre it must be configured with --enable-unicode-properties
--PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
--PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
--PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
--PACKAGECONFIG[libelf] = "--enable-libelf,--disable-libelf,elfutils"
--
--CORECONF = "--disable-dtrace --disable-fam --disable-systemtap"
-+PACKAGECONFIG[system-pcre] = "-Dinternal_pcre=false,-Dinternal_pcre=true,libpcre"
-+PACKAGECONFIG[libmount] = "-Dlibmount=true,-Dlibmount=false,util-linux"
-+PACKAGECONFIG[manpages] = "-Dman=true, -Dman=false, libxslt-native xmlto-native"
-+# libelf is auto-detected without a configuration option
-+PACKAGECONFIG[libelf] = ",,elfutils"
- 
--PRINTF = "--enable-included-printf=no"
--PRINTF_darwin = "--enable-included-printf=yes"
--PRINTF_mingw32 = "--enable-included-printf=yes"
--EXTRA_OECONF = "${PRINTF} ${CORECONF}"
--EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
-+CORECONF = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
- 
--# Tell configure that we'll have dbus-daemon on the target for the tests
--EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ac_cv_prog_DBUS_DAEMON=dbus-daemon', '', d)}"
-+EXTRA_OEMESON = "${CORECONF} ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
-+EXTRA_OEMESON_class-native = "${CORECONF} -Dinstalled_tests=false"
-+EXTRA_OEMESON_class-nativesdk = "${CORECONF} -Dinstalled_tests=false"
- 
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
-@@ -117,6 +117,8 @@ do_install_append () {
-         if test "x${MLPREFIX}" != "x"; then
-                 mv ${D}${libexecdir}/gio-querymodules${EXEEXT} ${D}${libexecdir}/${MLPREFIX}gio-querymodules${EXEEXT}
-         fi
-+        # Autotools does this, meson does not
-+        mkdir -p ${D}${libdir}/gio/modules
- }
- 
- do_install_append_class-target () {
-@@ -129,6 +131,11 @@ do_install_append_class-target () {
- 	fi
- }
- 
-+# As we do not build python3 for windows, makes no sense to ship the script that's using it
-+do_install_append_mingw32() {
-+        rm -f ${D}${bindir}/gtester-report
-+}
-+
- CODEGEN_PYTHON_RDEPENDS = "python3 python3-distutils python3-xml"
- CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
- 
--- 
-2.17.1
 
 
+------=_NextPart_000_011E_01D4C829.2F0B6FC0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_03B4_01D4C2AA.667612F0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:338429312;
+	mso-list-template-ids:1784317356;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:1202326758;
+	mso-list-template-ids:-115583536;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:1316492762;
+	mso-list-template-ids:-573955092;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:1330523437;
+	mso-list-template-ids:-2076256000;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:1364329115;
+	mso-list-template-ids:674246342;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:1440565146;
+	mso-list-template-ids:730133928;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1568346930;
+	mso-list-template-ids:613966294;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1644700854;
+	mso-list-template-ids:766140848;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1705906403;
+	mso-list-template-ids:793656710;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:1947423152;
+	mso-list-template-ids:26767430;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 2.7 M3</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
+2.7 M3 Cutoff is Feb. 25, 2019</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>SWAT Team =
+Rotation:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l6 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT lead is currently: =
+Amanda<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l6 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Amanda =
+-&gt; Ross on Feb. 22, 2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l6 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Ross -&gt; =
+Chen on Mar. 1, 2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l6 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:Consolas'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"=
+><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Yocto_Build_Fa=
+ilure_Swat_Team</span></a><o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M2 rc2 is in QA and 94% =
+complete. &nbsp;See: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/2.7_QA_Status"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/2.7_QA_Status<=
+/span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP M2 rc1 had major problems in =
+perl as fallout from the perl upgrade and switch to perl-cross. =
+We&#8217;ve therefore built an rc2 based on a more recent =
+master.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The project is considering =
+moving its mailing list hosting to groups.io, if anyone has any =
+experience of that, positive or negative please let Michael, Nico and =
+Richard know. Note that google has made further significant changes to =
+its mail processing at the detriment to mailing lists: <a =
+href=3D"https://lists.freedesktop.org/archives/freedesktop/2019-February/=
+000396.html"><span =
+style=3D'color:#1155CC'>https://lists.freedesktop.org/archives/freedeskto=
+p/2019-February/000396.html</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>RDEPENDS handling in native =
+recipes had a significant change, fixing some long standing bugs but =
+also needing some circular dependencies to be fixed. The change may =
+impact other layers.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Circular dependency debugging =
+from bitbake was fixed and should no longer hang, another long standing =
+issue which when fixed, allowed the native RDEPENDS to be debugged and =
+fixed.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The default compiler path =
+mappings were enhanced and should now also cover macro =
+files.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There is major work/review =
+going on for &#8220;resulttool&#8221; with a view to using this for =
+QAing M3.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>A new round of AUH (Automatic =
+upgrade Helper) patches has been sent, thanks to everyone who&#8217;s =
+processed and responded to those! It was able to upgrade around half the =
+recipes needing upgrading.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned Releases =
+for YP 2.7:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M2 is in QA for =
+rc2.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M2 Release Target is =
+Feb. 1, 2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M3 Cutoff is Feb. 25, =
+2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M3 Release Target is =
+Mar. 8, 2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M4 Cutoff is Apr. 1, =
+2019<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7 M4 Release Target is =
+Apr. 26, 2019<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
+dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.5.3 (Sumo) will be =
+targeted after YP 2.7 M2 is done.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.5.4 (Sumo) will be =
+targeted after YP 2.7 M4 is done.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.6.2 (Thud) will be =
+targeted after YP 2.5.4 is done.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2392 (last week =
+2353)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Poky Patch Metrics =
+&nbsp;</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1527 (last =
+week 1527<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+663 (43%) [last week 663 (43%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key Status Links =
+for YP:</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status"><sp=
+an =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_Project_v2.7_Status</span></a><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule"><span =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_2.7_Schedule</span></a><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features"><span =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_2.7_Features</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Project Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_011E_01D4C829.2F0B6FC0--
