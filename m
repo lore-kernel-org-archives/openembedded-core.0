@@ -1,27 +1,29 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93D016C466
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 1126E6BD57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2019 01:49:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1J1nCJY028829
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Feb 2019 17:49:12 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Mon, 18 Feb 2019 17:49:12 -0800
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1550036608-438891-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5C6B6255.1010001@windriver.com>
-Date: Tue, 19 Feb 2019 09:56:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Tue, 19 Feb 2019 05:55:36 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,387,1544457600"; d="scan'208";a="54693526"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Feb 2019 13:55:36 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 72F804B4030E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2019 13:55:31 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 19 Feb 2019 13:55:44 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <1548834957-43446-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1550036608-438891-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH] logrotate.py: restore /etc/logrotate.d/wtmp
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 72F804B4030E.AAA9F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] icu: Added armeb support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,96 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2019 01:49:12 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 19 Feb 2019 05:55:37 -0000
+X-Original-Date: Wed, 30 Jan 2019 15:55:57 +0800
+X-List-Received-Date: Tue, 19 Feb 2019 05:55:37 -0000
+Content-Type: text/plain
 
-Ping.
+Make icu support arm32 BE.
 
-This patch is used to fix the incomplete cleanup for logrotate test in oeqa.
+Upstream-Status: Pending
 
-Thanks,
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ .../icu/icu/0001-Make-icu-support-arm-BE.patch     | 28 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_63.1.bb               |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/0001-Make-icu-support-arm-BE.patch
 
-On 2019年02月13日 13:43, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> During the test logrotate.LogrotateTest.test_1_logrotate_setup,
-> there is below logic:
->   # mkdir $HOME/logrotate_dir
->   # sed -i "s#wtmp {#wtmp {\n    olddir $HOME/logrotate_dir#" /etc/logrotate.d/wtmp
->
-> After all logrotate.LogrotateTest finished, only cleanup
-> $HOME/logrotate_dir as below, but don't restore
-> the config file /etc/logrotate.d/wtmp.
-> [snip]
-> def tearDownClass(cls):
->      cls.tc.target.run('rm -rf $HOME/logrotate_dir')
-> [snip]
->
-> That's to say, there is one additional line added
-> to /etc/logrotate.d/wtmp and will make the logrotate
-> service start failed when run systemd.SystemdBasicTests.test_systemd_failed
->
-> Take an example as below when run test as root:
->   # cat /etc/logrotate.d/wtmp
->   # no packages own wtmp -- we'll rotate it here
->   /var/log/wtmp {
->      olddir /root/logrotate_dir
->      missingok
->      monthly
->      create 0664 root utmp
->      minsize 1M
->      rotate 1
->   }
->
->   # ls /root/logrotate_dir
->   ls: cannot access '/root/logrotate_dir': No such file or directory
->
->   # systemctl start logrotate
->   Job for logrotate.service failed because the control process exited with error code.
->   See "systemctl status logrotate.service" and "journalctl -xe" for details.
->
->   # systemctl status logrotate
->    logrotate.service - Rotate log files
->     Loaded: loaded (/lib/systemd/system/logrotate.service; static; vendor preset>
->     Active: failed (Result: exit-code) since Wed 2019-02-13 03:35:19 UTC; 7s ago
->       Docs: man:logrotate(8)
->             man:logrotate.conf(5)
->     Process: 540 ExecStart=/usr/sbin/logrotate /etc/logrotate.conf (code=exited, status=1/FAILURE)
->     Main PID: 540 (code=exited, status=1/FAILURE)
->
->    Feb 13 03:35:18 qemumips systemd[1]: Starting Rotate log files...
->    Feb 13 03:35:19 qemumips logrotate[540]: error: wtmp:9 error verifying olddir path /root/logrotate_dir: No such file or directory
->    Feb 13 03:35:19 qemumips logrotate[540]: error: found error in file wtmp, skipping
->    Feb 13 03:35:19 qemumips systemd[1]: logrotate.service: Main process exited, code=exited, status=1/FAILURE
->    Feb 13 03:35:19 qemumips systemd[1]: logrotate.service: Failed with result 'exit-code'.
->    Feb 13 03:35:19 qemumips systemd[1]: Failed to start Rotate log files.
->
-> Add the logic to restore /etc/logrotate.d/wtmp to
-> make the cleanup complete to fix the above issue.
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/lib/oeqa/runtime/cases/logrotate.py | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
-> index db6e695..d266644 100644
-> --- a/meta/lib/oeqa/runtime/cases/logrotate.py
-> +++ b/meta/lib/oeqa/runtime/cases/logrotate.py
-> @@ -9,8 +9,12 @@ from oeqa.runtime.decorator.package import OEHasPackage
->   class LogrotateTest(OERuntimeTestCase):
->
->       @classmethod
-> +    def setUpClass(cls):
-> +        cls.tc.target.run('cp /etc/logrotate.d/wtmp $HOME/wtmp.oeqabak')
-> +
-> +    @classmethod
->       def tearDownClass(cls):
-> -        cls.tc.target.run('rm -rf $HOME/logrotate_dir')
-> +        cls.tc.target.run('mv -f $HOME/wtmp.oeqabak /etc/logrotate.d/wtmp && rm -rf $HOME/logrotate_dir')
->
->       @OETestID(1544)
->       @OETestDepends(['ssh.SSHTest.test_ssh'])
->
+diff --git a/meta/recipes-support/icu/icu/0001-Make-icu-support-arm-BE.patch b/meta/recipes-support/icu/icu/0001-Make-icu-support-arm-BE.patch
+new file mode 100644
+index 0000000..019d09e
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/0001-Make-icu-support-arm-BE.patch
+@@ -0,0 +1,28 @@
++From 8fa6cbf2d3de73bdca5e65f6523e4cce334aeee7 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Fri, 14 Dec 2018 16:07:31 +0900
++Subject: [PATCH] Make icu support arm BE.
++
++Upstream-Status: Pending
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ i18n/double-conversion-utils.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/i18n/double-conversion-utils.h b/source/i18n/double-conversion-utils.h
++index 0bd3e83..9288e28 100644
++--- a/i18n/double-conversion-utils.h
+++++ b/i18n/double-conversion-utils.h
++@@ -77,7 +77,7 @@ inline void abort_noreturn() { abort(); }
++ // On Linux,x86 89255e-22 != Div_double(89255.0/1e22)
++ // ICU PATCH: Enable ARM32 & ARM64 builds for Windows with 'defined(_M_ARM) || defined(_M_ARM64)'.
++ #if defined(_M_X64) || defined(__x86_64__) || \
++-    defined(__ARMEL__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
+++    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
++     defined(__hppa__) || defined(__ia64__) || \
++     defined(__mips__) || \
++     defined(__powerpc__) || defined(__ppc__) || defined(__ppc64__) || \
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/icu/icu_63.1.bb b/meta/recipes-support/icu/icu_63.1.bb
+index e593dc1..38bfa6a 100644
+--- a/meta/recipes-support/icu/icu_63.1.bb
++++ b/meta/recipes-support/icu/icu_63.1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
+            file://0002-Add-ARC-support.patch \
++           file://0001-Make-icu-support-arm-BE.patch \
+            "
+ 
+ SRC_URI_append_class-target = "\
+-- 
+2.7.4
+
+
+
 
