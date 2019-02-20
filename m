@@ -1,51 +1,27 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A9D1E7C6D7
+Return-Path: <prvs=9475a7293=Richard.Leitner@skidata.com>
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+	by mail.openembedded.org (Postfix) with ESMTP id BCCD97C947
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 08:22:21 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id i5so38769279oto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 00:22:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AkPcaexaVogOQDLc/SM61ngeOAeo8WEXnX69MTrXi5A=;
-	b=gpzXr1KgfO/30fO5r8MWX9LLuKdxw5c3RXyVxqhwU8xb4F52K//Lmhe9voadWwqQVK
-	tMpJG7/r5W05Rt5lPzjoW1IOmLnqmEFcQiiR5qUZnIqdpimAhTrPoOATvrJLMryiIw4z
-	3sK0/e+YY1JA0Z8/JnbaXyrVdiXCR6N4KgyjRMhG545lLazNP5wV3JLji7vHlpytOlsy
-	RRx+TiJxgArSdtl+Q1Dc8mdEPOC7p/QCNYHpepfU/GZwhvrhIxNhDIz5ISs/5PEw94CE
-	6kWyMSSiniDogl9vuzHlQ7zpdZiWqI98gHt/XqoHoQGyl/uhQr+H+1+HF6wOQw3Xm7Hz
-	J1yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=AkPcaexaVogOQDLc/SM61ngeOAeo8WEXnX69MTrXi5A=;
-	b=mvzoFly5yVbimds+QvD7Em5IT3gHU0V6lNQojfsHUQOEZnYJG5FhqQ7x+52t8l3BFr
-	B/5UBvRdAB3w21ZkJQd3dXKEAT0aK7i17DOFp91nGYoQStmvBk9KsMnWN6BL0v9nduuq
-	j2+KqBdZQIy3oHUaMg3CgajUCkfl39p7DGgYTJ0eUQ3KZt5qmmKIUNstCJHpQbUbFGX8
-	Y05YsE6JXV52tGSrTPLCnHqFVviYJgJ6vymrTNYDvaQSgYpAthLioxkGZEqTWqQBerfQ
-	oB0jeL5AHhHXQiTYsSvQgG+MmW9qLobUNkkG0LqyzV856V3Fi3cX8ts3rhQOwPiRl0Ff
-	Jmog==
-X-Gm-Message-State: AHQUAuarwqjPX8K7HY7LKTPBOIKOjyBby+1HQ2LugNE2Uhq7E8+YYJB0
-	cqqBb6XL64/Y+tm0gpzXi+7G63jhAM1fWt1HLyM=
-X-Google-Smtp-Source: AHgI3IZhBgtWTNTj1EY8l6baOqmXFCxZ7GlNs58b5sxYwhLLY3pcCUA4kYJk/rkSkcFUGSd/KPdtWyM4VsgoK4gQb7Y=
-X-Received: by 2002:a9d:4ca:: with SMTP id 68mr10744460otm.96.1550650942721;
-	Wed, 20 Feb 2019 00:22:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20190219165906.14377-1-fabio.berton@ossystems.com.br>
-	<CAMKF1souMyUMczQ+-s_+W2Tomi=Q-7dj7Us1bwQ23rDS5CPx=Q@mail.gmail.com>
-	<CANNYZj9Abo0ZeUVq7jgkHLc6rENns=GptXNHq9eN-j_rJ20noA@mail.gmail.com>
-	<bd16855764cfba4d700e2be8c8ea7cecbf2dec9e.camel@linuxfoundation.org>
-In-Reply-To: <bd16855764cfba4d700e2be8c8ea7cecbf2dec9e.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Feb 2019 09:22:10 +0100
-Message-ID: <CANNYZj98LDCmKD2va9zX26OJCFhTS-jNs6=aikLrAx8VW-CNeA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+	Wed, 20 Feb 2019 08:37:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,390,1544482800"; d="scan'208";a="15253003"
+To: Robert Yang <liezhi.yang@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] mesa: Update 18.1.9 -> 18.3.4
+References: <2eb8bebf-cee5-3390-2fae-7b051df359f9@skidata.com>
+	<6161b390-971a-fe7c-a5f5-449a8f7e94b3@windriver.com>
+	<83b8b17a-40c4-4876-8880-b89f95dc6f43@windriver.com>
+	<4b6021ac-ccee-8f88-a45a-7b0a1bfc4aa9@skidata.com>
+	<e8623db4-2e8e-8ba6-b780-369deb0ee3e1@windriver.com>
+From: Richard Leitner <richard.leitner@skidata.com>
+Message-ID: <ebc77c92-1440-d907-5ac1-35e224b8a3eb@skidata.com>
+Date: Wed, 20 Feb 2019 09:37:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.0
+MIME-Version: 1.0
+In-Reply-To: <e8623db4-2e8e-8ba6-b780-369deb0ee3e1@windriver.com>
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
+	sdex5srv.skidata.net (192.168.111.83)
+Subject: Re: How to include fitImage-initramfs in rootfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,21 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 08:22:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 20 Feb 2019 08:37:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, 20 Feb 2019 at 08:58, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > I guess xrandr needs to be in X11_DEPS, this was added in the
-> > original
-> > mega-patch, but overlooked in the split version.
->
-> There were failures all over the autobuilder from this as well :(
+On 24/01/2019 09:15, Robert Yang wrote:
+> On 1/24/19 3:56 PM, Richard Leitner wrote:
+>> On 24/01/2019 08:52, Robert Yang wrote:
+>>> On 1/24/19 3:31 PM, Robert Yang wrote:
+>>>> On 1/24/19 3:09 PM, Richard Leitner wrote:
+>>>>> Hi,
+>>>>> I'm currently facing issues on how to include a fitImage with 
+>>>>> devicetrees and a INITRAMFS_IMAGE in my rootfs image.
+>>>
+>>>
+>>> I think that set both INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE 
+>>> should work,
+>>> you have set INITRAMFS_IMAGE, so also set:
+>>>
+>>> INITRAMFS_IMAGE_BUNDLE = "1"
+>>
+>> That was also my first thought, but unfortunately this doesn't work. 
+>> There's still one fitImage and one fitImage-initramfs-mine in the 
+>> deploy dir and the one included in the rootfs image has the same 
+>> checksum and size as the fitImage without the initramfs.
+> 
+> Try:
+> 
+> $ bitbake virtual/kernel -e >kernel.py
+> 
+> And check INITRAMFS_IMAGE_NAME in kernel.py, make sure it contains 
+> initramfs-mine, and try:
 
-That's why I still think it would've been better just to test and
-merge the original all-in-one patch, with follow up patches if
-necessary. Doing this split and delaying meson into 19.0 is just more
-overhead and work for everyone.
+The INITRAMFS_IMAGE_NAME is set correctly.
 
-Alex
+> 
+> $ bitbake virtual/kernel <your image> -ccleansstate
+> $ bitbake <your image>
+
+Nonetheless unfortunately the image still includes the fitImage without 
+initramfs... Any further ideas?
+
+Thank you!
+
+> 
+> // Robert
+
+regards;Richard.L
 
