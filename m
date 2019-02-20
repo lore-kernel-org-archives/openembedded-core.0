@@ -1,24 +1,37 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F45D79BA6
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id A51CE6025E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 08:54:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1K8sEsm026871
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 00:54:49 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.435.0; Wed, 20 Feb 2019 00:54:21 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Feb 2019 16:54:20 +0800
-Message-ID: <1550652860-174988-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 20 Feb 2019 09:14:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 444Bky2lsCz23;
+	Wed, 20 Feb 2019 10:14:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1550654090;
+	bh=WBl6qnoN0mdKLjOoCPkLIU6KObK+dAAgHYdbrtMZ6p8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FQprkIcy/W0nivXr/WXcAhPAaiccEwGerfZDINJgXso90M4noWXwA7w8Dac1+dPwU
+	2ef5sZvAQ1ax72U8KlRs9jXzlESJer4gW0qI3uix5AbhzdAE2LIjZyWaT8ErPwBTdS
+	dxNUf9bwmuY34W9c4Tz8X6hT649gbDMRix6+iEUyBfC+PR4wRr4A485Z1CnQYJUDXQ
+	rVS4oCgHX+8Qoy3nRB5Tr4Bg1JFukrKNKBLwRrlR4gYcCdJ+RbT4AXtTEBEEq5IR2c
+	/qyNy4MxGAtbQD8aP9r0srvU4HF4bCEYIu+d/DkDVxjDD/qk7yXkIfZ1C8asg3dqMr
+	7WxVBhAtyQBjzA+qGi9KcY+0cCg0zHYIYePQ8RYyh+0y2FFHKiqOsr5dmeuMDiiG1J
+	CP/8KNivzEaYWUC2HoHqZVVqj6TKFZeQXUDHP/2XGG/tieEXZMVtBK4WTeMNIEBE6X
+	dG/vGMpftPRhslZnpH12LtWMBAynKVVz5i9RAK21q54Fq8UpmuR1VcL2r7GI2vMyKt
+	HELADUPtXYv7IfbWouh86FMhpK4zbVJLWe/C/Uhy0FuL4rAqe9KoGTMmjj1BFMVjMe
+	9Z0x3YWKP63pdlsMTo3vIsOgOgIP4/adXC+YDSDEuihl/QkcINQPujDrL+Zr8mW36H
+	dXSArujOfHlyq3klWAfZv+Fc=
+Date: Wed, 20 Feb 2019 11:14:48 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20190220091448.GA11931@localhost>
+References: <cover.1550626729.git.Qi.Chen@windriver.com>
+	<893bfb66e32bb3bc8a2ef21fa5255873c508f0a3.1550626729.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] libsndfile1: Security fix CVE-2018-19432
+In-Reply-To: <893bfb66e32bb3bc8a2ef21fa5255873c508f0a3.1550626729.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] kmod: upgrade to 26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,152 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 08:54:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Feb 2019 09:14:51 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Changqing Li <changqing.li@windriver.com>
+On Wed, Feb 20, 2019 at 09:40:35AM +0800, Chen Qi wrote:
+>...
+> --- a/meta/recipes-kernel/kmod/kmod.inc
+> +++ b/meta/recipes-kernel/kmod/kmod.inc
+> @@ -14,9 +14,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>                     "
+>  inherit autotools gtk-doc pkgconfig manpages
+>  
+> -SRCREV = "aca4eca103d6699543f7ed663335c28c2e9908bb"
+> +SRCREV = "58133a96c894c043e48c74ddf0bfe8db90bac62f"
+>  # Lookout for PV bump too when SRCREV is changed
+> -PV = "25+git${SRCPV}"
+> +PV = "26+git${SRCPV}"
+>...
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../libsndfile/libsndfile1/CVE-2018-19432.patch    | 115 +++++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.28.bb               |   1 +
- 2 files changed, 116 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19432.patch
+Shouldn't this be PV = "26" when the commit is exactly the release?
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19432.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19432.patch
-new file mode 100644
-index 0000000..8ded2c0
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19432.patch
-@@ -0,0 +1,115 @@
-+From 6f3266277bed16525f0ac2f0f03ff4626f1923e5 Mon Sep 17 00:00:00 2001
-+From: Erik de Castro Lopo <erikd@mega-nerd.com>
-+Date: Thu, 8 Mar 2018 18:00:21 +1100
-+Subject: [PATCH] Fix max channel count bug
-+
-+The code was allowing files to be written with a channel count of exactly
-+`SF_MAX_CHANNELS` but was failing to read some file formats with the same
-+channel count.
-+
-+Upstream-Status: Backport [https://github.com/erikd/libsndfile/
-+commit/6f3266277bed16525f0ac2f0f03ff4626f1923e5]
-+
-+CVE: CVE-2018-19432
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+---
-+ src/aiff.c |    6 +++---
-+ src/rf64.c |    4 ++--
-+ src/w64.c  |    4 ++--
-+ src/wav.c  |    4 ++--
-+ 4 files changed, 9 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/aiff.c b/src/aiff.c
-+index fbd43cb..6386bce 100644
-+--- a/src/aiff.c
-++++ b/src/aiff.c
-+@@ -1,5 +1,5 @@
-+ /*
-+-** Copyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
-++** Copyright (C) 1999-2018 Erik de Castro Lopo <erikd@mega-nerd.com>
-+ ** Copyright (C) 2005 David Viens <davidv@plogue.com>
-+ **
-+ ** This program is free software; you can redistribute it and/or modify
-+@@ -950,7 +950,7 @@ aiff_read_header (SF_PRIVATE *psf, COMM_
-+ 	if (psf->sf.channels < 1)
-+ 		return SFE_CHANNEL_COUNT_ZERO ;
-+ 
-+-	if (psf->sf.channels >= SF_MAX_CHANNELS)
-++	if (psf->sf.channels > SF_MAX_CHANNELS)
-+ 		return SFE_CHANNEL_COUNT ;
-+ 
-+ 	if (! (found_chunk & HAVE_FORM))
-+@@ -1030,7 +1030,7 @@ aiff_read_comm_chunk (SF_PRIVATE *psf, C
-+ 	psf_log_printf (psf, "  Sample Rate : %d\n", samplerate) ;
-+ 	psf_log_printf (psf, "  Frames      : %u%s\n", comm_fmt->numSampleFrames, (comm_fmt->numSampleFrames == 0 && psf->filelength > 104) ? " (Should not be 0)" : "") ;
-+ 
-+-	if (comm_fmt->numChannels < 1 || comm_fmt->numChannels >= SF_MAX_CHANNELS)
-++	if (comm_fmt->numChannels < 1 || comm_fmt->numChannels > SF_MAX_CHANNELS)
-+ 	{	psf_log_printf (psf, "  Channels    : %d (should be >= 1 and < %d)\n", comm_fmt->numChannels, SF_MAX_CHANNELS) ;
-+ 		return SFE_CHANNEL_COUNT_BAD ;
-+ 		} ;
-+diff --git a/src/rf64.c b/src/rf64.c
-+index d57f0f3..876cd45 100644
-+--- a/src/rf64.c
-++++ b/src/rf64.c
-+@@ -1,5 +1,5 @@
-+ /*
-+-** Copyright (C) 2008-2017 Erik de Castro Lopo <erikd@mega-nerd.com>
-++** Copyright (C) 2008-2018 Erik de Castro Lopo <erikd@mega-nerd.com>
-+ ** Copyright (C) 2009      Uli Franke <cls@nebadje.org>
-+ **
-+ ** This program is free software; you can redistribute it and/or modify
-+@@ -382,7 +382,7 @@ rf64_read_header (SF_PRIVATE *psf, int *
-+ 	if (psf->sf.channels < 1)
-+ 		return SFE_CHANNEL_COUNT_ZERO ;
-+ 
-+-	if (psf->sf.channels >= SF_MAX_CHANNELS)
-++	if (psf->sf.channels > SF_MAX_CHANNELS)
-+ 		return SFE_CHANNEL_COUNT ;
-+ 
-+ 	/* WAVs can be little or big endian */
-+diff --git a/src/w64.c b/src/w64.c
-+index 939b716..a37d2c5 100644
-+--- a/src/w64.c
-++++ b/src/w64.c
-+@@ -1,5 +1,5 @@
-+ /*
-+-** Copyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
-++** Copyright (C) 1999-2018 Erik de Castro Lopo <erikd@mega-nerd.com>
-+ **
-+ ** This program is free software; you can redistribute it and/or modify
-+ ** it under the terms of the GNU Lesser General Public License as published by
-+@@ -383,7 +383,7 @@ w64_read_header	(SF_PRIVATE *psf, int *b
-+ 	if (psf->sf.channels < 1)
-+ 		return SFE_CHANNEL_COUNT_ZERO ;
-+ 
-+-	if (psf->sf.channels >= SF_MAX_CHANNELS)
-++	if (psf->sf.channels > SF_MAX_CHANNELS)
-+ 		return SFE_CHANNEL_COUNT ;
-+ 
-+ 	psf->endian = SF_ENDIAN_LITTLE ;		/* All W64 files are little endian. */
-+diff --git a/src/wav.c b/src/wav.c
-+index 7bd97bc..dc97545 100644
-+--- a/src/wav.c
-++++ b/src/wav.c
-+@@ -1,5 +1,5 @@
-+ /*
-+-** Copyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
-++** Copyright (C) 1999-2018 Erik de Castro Lopo <erikd@mega-nerd.com>
-+ ** Copyright (C) 2004-2005 David Viens <davidv@plogue.com>
-+ **
-+ ** This program is free software; you can redistribute it and/or modify
-+@@ -627,7 +627,7 @@ wav_read_header	(SF_PRIVATE *psf, int *b
-+ 	if (psf->sf.channels < 1)
-+ 		return SFE_CHANNEL_COUNT_ZERO ;
-+ 
-+-	if (psf->sf.channels >= SF_MAX_CHANNELS)
-++	if (psf->sf.channels > SF_MAX_CHANNELS)
-+ 		return SFE_CHANNEL_COUNT ;
-+ 
-+ 	if (format != WAVE_FORMAT_PCM && (parsestage & HAVE_fact) == 0)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index 13248f5..9700f4a 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
-            file://CVE-2017-14634.patch \
-            file://CVE-2018-13139.patch \
-            file://0001-a-ulaw-fix-multiple-buffer-overflows-432.patch \
-+           file://CVE-2018-19432.patch \
-           "
- 
- SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+cu
+Adrian
+
 -- 
-2.7.4
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
