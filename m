@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 639607CA88
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C9F997CAB1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 20:10:35 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v13so27471475wrw.5
+	Wed, 20 Feb 2019 20:10:36 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id v26so7690923wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 12:10:36 -0800 (PST)
+	Wed, 20 Feb 2019 12:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1ZcyqU24et53pm5k9aUJD54T3ZeFFs0G7LY32lHv25U=;
-	b=o/LlE92JP4z9bLT6yLfNrvrMiUSdjaEuYx2qMudVHeaYKD/Y4ZTZjY09s1IOZCSt0R
-	YJoiq7Bd4eg/OiNytA1SFhMj6tTcsvBvp7MHSoFiM+wVSrH9547stx+qnpT4mDfOa5pj
-	mmAiEiri0OgvSJJyVTgi28aNfGkhIuXQmlVQMCBEUJ7iyFt15nZdy+5OxPkDIV5CWOui
-	yvlEvaOZp0oqcRpugjwPwm5TnvmpoSzXm5mdKB+JK/6dqvnksvt69t1P4ZhshyK3T7QS
-	XDeTAfVaEU46GVUoT/IH5/1lsi7JGbdpbacPMuxbKn40J5r/Na1K7Gz3GtPwWsMRVN8a
-	ejPg==
+	bh=E1+Cbs/f3wAXFP3Lqe4tx2XwZt+jHag29NzMOcd7kH8=;
+	b=ADtWWVFTvb/4g1jYxewnapI1o4TtUcbTmYz93GrwpqYBHAU2agYVU5x4+wsh/I6IEt
+	Z2kOXmhgIQMmI/9WWchBMmCeimgmzDCncDW/XyOaBTvYaAalO49Jvy6oh8EdDwxPSyYw
+	IaZnsX7puxegWymcXXfPxnm0YQKw6O6ogTjqFCacaaryLyV7mVpnx4d/W3AUk1+13GPo
+	GmM26tNUZoUZ3LXHqyejcBIiXwAAXLQy3Q+o1QO1OQ9LLDviR+BDPYIfwUpaSYVAJrnE
+	Ph6U3klcCbU2+HIs0jpCW8qgjFzDLyMSE2G7Y4RtTIPSl0x443SywzGfuq/IsACsKHpw
+	b29g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1ZcyqU24et53pm5k9aUJD54T3ZeFFs0G7LY32lHv25U=;
-	b=iPZtvHqeAeDIv4zYWr8OWbPzURS+5nrEMsVAiqc/W4Az6FmyBaBAYVOCrTmdxu24kn
-	WEj1n1aP421dCUjulrVGDLptBISA8YdfzEqNIMsRwV8PqwvI2ZbucBtOTcn1xDCP7vrJ
-	63bu+SsBEMZcGicuG/1ORIfcARcVqzIpkIhHbjdYR0BsPWQ6eqDkj8O95CRI+/1N8QYH
-	QZOHjw+9JuhbfaQv9jd2L0apfdrDFUrcCCFFeNkyjMJ/yPvfiW59n3m464xRn9s14u2h
-	aax9Hde2dVj0H8sJnsMc22Ku6or/2VtxDOwTJtEGfQufKTNIvpN4/UelAAKTStCVB6cE
-	oRQA==
-X-Gm-Message-State: AHQUAuZVwOTzbYgoHVctJ20iExUFMhF6ZT6fmV+005v9LiGSBw/zQo9Y
-	T8InXUjQPTVDbuthYXarqcZ4y0Shslw=
-X-Google-Smtp-Source: AHgI3IZjihz3jVpfnVDksLgPSqXRYS1rxnu8nDsjmRzUeyrWIzByw8XUrYT47wRcb1lga3E8AtRdkQ==
-X-Received: by 2002:adf:ba8d:: with SMTP id p13mr27120580wrg.53.1550693435354; 
-	Wed, 20 Feb 2019 12:10:35 -0800 (PST)
+	bh=E1+Cbs/f3wAXFP3Lqe4tx2XwZt+jHag29NzMOcd7kH8=;
+	b=N+xgOJmA26WsTFJLkYwxDC7G42+dexpb/H2F9cUf3bQQFTwcRmfAX/BTSP5EjwiDID
+	oRdWINaKl3ieSE6TsNnvq4zwFi8/LW0Yua1fu+vjOahGU5P6d2/vtaaJcwmBA1+62Iiu
+	u9P7KBPgdXhRN/QITZw5gZHkqc+8oWdeZ032sNcIjXWuxjIuF+IAKNcUEulQ0YPS+hy2
+	SHD2MP7W56kt33D4M8YDHaEQ2b61h4qqw+9my07nWhYz0J/J6lgtKnp8XkKg22H4kgMo
+	pL5yUXE5JbTcqdkCO7+j/Wco4tOx474AT35OnyX8FEpA+ebx/s+PBVubPZjxjMMELnoW
+	xV7A==
+X-Gm-Message-State: AHQUAuZRFFCzZagJcg0li4+kqexIvnt+onIqlUPo0NfD9svp1/Ymivwu
+	N4VxMs6fzdm2EaTyJw0PMfDndQL6zE0=
+X-Google-Smtp-Source: AHgI3IY+QvnPe6JNelHlcXLf/6NhIsqdxgwt+u5CJvTFpI4VMto9GKcOQ57PN5xzBwKeV4mTBbxRzg==
+X-Received: by 2002:a1c:9692:: with SMTP id y140mr8089778wmd.67.1550693436781; 
+	Wed, 20 Feb 2019 12:10:36 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	g202sm4997205wme.26.2019.02.20.12.10.33
+	g202sm4997205wme.26.2019.02.20.12.10.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Feb 2019 12:10:34 -0800 (PST)
+	Wed, 20 Feb 2019 12:10:35 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Feb 2019 21:10:25 +0100
-Message-Id: <20190220201026.70803-3-alex.kanavin@gmail.com>
+Date: Wed, 20 Feb 2019 21:10:26 +0100
+Message-Id: <20190220201026.70803-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190220201026.70803-1-alex.kanavin@gmail.com>
 References: <20190220201026.70803-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/4] gdk-pixbuf: convert from autotools to meson
+Subject: [PATCH 4/4] glib-2.0: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,577 +57,548 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 20:10:35 -0000
+X-List-Received-Date: Wed, 20 Feb 2019 20:10:37 -0000
 
-Drop autotools-specific patches.
+PRINTF settings no longer seem necessary (tested with mingw).
 
-Rework jku's thumbnailer patch into meson configuration.
+Add meson-specific bits to Enable-more-tests-while-cross-compiling.patch and
+0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+
+Add 0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+to allow 'mingw32' as target machine in addition to 'windows'.
+
+Add 0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch to
+correct ARM build errors.
+
+Drop configure-libtool.patch (autotools-specific).
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-Disable-tests-in-native-builds.patch |  31 +++++
- ...f-decisions-around-cross-compilation.patch |  38 +++++
- ...without-libtiff-not-having-an-effect.patch |  27 ----
- ...nd-thumbnailer-cross-compile-failure.patch |  53 +++----
- ...-depend-on-loaders-being-fully-build.patch |  51 +++++++
- ...nd-thumbnailer-cross-compile-failure.patch | 131 ++++++++++++++++++
- .../extending-libinstall-dependencies.patch   |  42 ------
- .../gdk-pixbuf/hardcoded_libtool.patch        |  33 -----
- .../gdk-pixbuf/gdk-pixbuf_2.36.11.bb          |  47 +++++--
- 9 files changed, 306 insertions(+), 147 deletions(-)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-loaders.cache-depend-on-loaders-being-fully-build.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
+ ...t-write-bindir-into-pkg-config-files.patch |  50 +++++++++
+ ...-gio-querymodules-as-libexec_PROGRAM.patch |  17 ++-
+ ...-correctly-when-building-with-mingw3.patch | 104 ++++++++++++++++++
+ ...ot-hardcode-linux-as-the-host-system.patch |  27 +++++
+ ...dcode-python-path-into-various-tools.patch |   2 +-
+ ...ble-more-tests-while-cross-compiling.patch |  91 ++++++++++++++-
+ .../glib-2.0/glib-2.0/configure-libtool.patch |  44 --------
+ .../glib-2.0/glib-2.0/relocate-modules.patch  |   2 +-
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |   4 +-
+ meta/recipes-core/glib-2.0/glib.inc           |  35 +++---
+ 10 files changed, 310 insertions(+), 66 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
 new file mode 100644
-index 00000000000..1e45b716b93
+index 00000000000..ede29c90bab
 --- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
-@@ -0,0 +1,31 @@
-+From b287cb313dbfac3257f1ab451b19ba59580f78e1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+@@ -0,0 +1,50 @@
++From 474e59abec88de0c455836c1f53152bf2aa26c34 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 18 Feb 2019 16:00:12 +0100
-+Subject: [PATCH] Disable tests in native builds.
++Date: Fri, 15 Feb 2019 11:17:27 +0100
++Subject: [PATCH] Do not write $bindir into pkg-config files
 +
-+They have found to be problematic at least on Centos 7:
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/296/steps/7/logs/step1b
++This would otherwise break when using the files to build other target
++components (we need to rely on PATH containing the paths to utilities,
++rather than use target paths).
 +
-+With autotools this was not a problem because it had a configuration
-+switch for disabling test, which was used. Meson has no such facility :(
++Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gio/meson.build  | 6 +++---
++ glib/meson.build | 6 +++---
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/gio/meson.build b/gio/meson.build
++index 85d8b14..657720a 100644
++--- a/gio/meson.build
+++++ b/gio/meson.build
++@@ -813,9 +813,9 @@ pkg.generate(libraries : libgio,
++                'schemasdir=' + join_paths('${datadir}', schemas_subdir),
++                'bindir=' + join_paths('${prefix}', get_option('bindir')),
++                'giomoduledir=' + giomodulesdir,
++-               'glib_compile_schemas=' + join_paths('${bindir}', 'glib-compile-schemas'),
++-               'glib_compile_resources=' + join_paths('${bindir}', 'glib-compile-resources'),
++-               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen')],
+++               'glib_compile_schemas=glib-compile-schemas',
+++               'glib_compile_resources=glib-compile-resources',
+++               'gdbus_codegen=gdbus-codegen'],
++   version : glib_version,
++   install_dir : glib_pkgconfigreldir,
++   filebase : 'gio-2.0',
++diff --git a/glib/meson.build b/glib/meson.build
++index c05c694..434e8b1 100644
++--- a/glib/meson.build
+++++ b/glib/meson.build
++@@ -261,9 +261,9 @@ pkg.generate(libraries : [libglib, libintl],
++   subdirs : ['glib-2.0'],
++   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
++   variables : ['bindir=' + join_paths('${prefix}', get_option('bindir')),
++-               'glib_genmarshal=' + join_paths('${bindir}', 'glib-genmarshal'),
++-               'gobject_query=' + join_paths('${bindir}', 'gobject-query'),
++-               'glib_mkenums=' + join_paths('${bindir}', 'glib-mkenums')],
+++               'glib_genmarshal=glib-genmarshal',
+++               'gobject_query=gobject-query',
+++               'glib_mkenums=glib-mkenums'],
++   version : glib_version,
++   install_dir : glib_pkgconfigreldir,
++   filebase : 'glib-2.0',
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+index 97d0aff5d6c..f246254942e 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+@@ -1,4 +1,4 @@
+-From 856045927b9ab391165c0ebabf401835f8439eab Mon Sep 17 00:00:00 2001
++From 17fc9230fb932432d8faaaabf8c56fdc4845495e Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 22 Mar 2016 15:14:58 +0200
+ Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
+@@ -11,7 +11,8 @@ Upstream-Status: Inappropriate [OE specific]
+ 
+ ---
+  gio/Makefile.am | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
++ gio/meson.build | 1 +
++ 2 files changed, 3 insertions(+), 1 deletion(-)
+ 
+ diff --git a/gio/Makefile.am b/gio/Makefile.am
+ index e14cad2..bf2bcc7 100644
+@@ -27,3 +28,15 @@ index e14cad2..bf2bcc7 100644
+  
+  glib_compile_resources_LDADD = libgio-2.0.la 		\
+  	$(top_builddir)/gobject/libgobject-2.0.la	\
++diff --git a/gio/meson.build b/gio/meson.build
++index b83d8f5..85d8b14 100644
++--- a/gio/meson.build
+++++ b/gio/meson.build
++@@ -925,6 +925,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
++   c_args : gio_c_args,
++   # intl.lib is not compatible with SAFESEH
++   link_args : noseh_link_args,
+++  install_dir: glib_libexecdir,
++   dependencies : [libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++ 
++ glib_compile_schemas = executable('glib-compile-schemas',
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+new file mode 100644
+index 00000000000..2b7fab7bded
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+@@ -0,0 +1,104 @@
++From 4169f11beedacfbb8c7934a4c99189d44935a6b9 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 13 Feb 2019 15:32:05 +0100
++Subject: [PATCH] Set host_machine correctly when building with mingw32
 +
 +Upstream-Status: Inappropriate [oe-core specific]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
 +---
++ gio/tests/meson.build  | 8 ++++----
++ glib/tests/meson.build | 4 ++--
++ meson.build            | 3 +++
++ tests/meson.build      | 2 +-
++ 4 files changed, 10 insertions(+), 7 deletions(-)
++
++diff --git a/gio/tests/meson.build b/gio/tests/meson.build
++index 181f5c7..11a1f12 100644
++--- a/gio/tests/meson.build
+++++ b/gio/tests/meson.build
++@@ -12,7 +12,7 @@ test_c_args = [
++   '-DGLIB_COMPILE_SCHEMAS="@0@"'.format(glib_compile_schemas.full_path()),
++ ]
++ 
++-if host_machine.system() == 'windows'
+++if host_system == 'windows'
++   common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
++ endif
++ 
++@@ -122,7 +122,7 @@ if dbus1_dep.found()
++ endif
++ 
++ #  Test programs buildable on UNIX only
++-if host_machine.system() != 'windows'
+++if host_system != 'windows'
++   gio_tests += [{
++     'file' : {},
++     'gdbus-peer' : {
++@@ -314,7 +314,7 @@ if host_machine.system() != 'windows'
++ endif # unix
++ 
++ #  Test programs buildable on Windows only
++-if host_machine.system() == 'windows'
+++if host_system == 'windows'
++   gio_tests += [{'win32-streams' : {}}]
++ endif
++ 
++@@ -379,7 +379,7 @@ if cc.get_id() != 'msvc'
++   }]
++ endif
++ 
++-if host_machine.system() != 'windows'
+++if host_system != 'windows'
++   test_extra_programs += [{
++     'gdbus-example-unix-fd-client' : {
++       'install' : false,
++diff --git a/glib/tests/meson.build b/glib/tests/meson.build
++index d7b6a7a..6678a08 100644
++--- a/glib/tests/meson.build
+++++ b/glib/tests/meson.build
++@@ -45,7 +45,7 @@ glib_tests = {
++   'hook' : {},
++   'hostutils' : {},
++   'include' : {
++-    'skip' : host_machine.system() == 'windows',
+++    'skip' : host_system == 'windows',
++   },
++   'keyfile' : {},
++   'list' : {},
++@@ -112,7 +112,7 @@ glib_tests = {
++   'utils' : {},
++   'unicode' : {},
++   'unix' : {
++-    'skip' : host_machine.system() == 'windows',
+++    'skip' : host_system == 'windows',
++   },
++   'uri' : {},
++   '1bit-mutex' : {},
++diff --git a/meson.build b/meson.build
++index f7405a2..4348f20 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -31,6 +31,9 @@ else
++ endif
++ 
++ host_system = host_machine.system()
+++if host_system == 'mingw32'
+++  host_system = 'windows'
+++endif
++ 
++ glib_version = meson.project_version()
++ glib_api_version = '2.0'
++diff --git a/tests/meson.build b/tests/meson.build
++index 80e45d7..9f3869f 100644
++--- a/tests/meson.build
+++++ b/tests/meson.build
++@@ -67,7 +67,7 @@ test_extra_programs = {
++   'unicode-collate' : {},
++ }
++ 
++-if host_machine.system() != 'windows'
+++if host_system != 'windows'
++   tests += [{
++     'timeloop' : {},
++     'spawn-test' : {},
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+new file mode 100644
+index 00000000000..5a1a5898908
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+@@ -0,0 +1,27 @@
++From 635fe26af51f20194c8b208e7d01303be1086d68 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 19 Feb 2019 10:31:11 +0100
++Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
++
++OE build system can set this to other values that include 'linux',
++e.g. 'linux-gnueabi'
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
 + meson.build | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
 +diff --git a/meson.build b/meson.build
-+index 92c4049..0871c84 100644
++index 4348f20..af5ed63 100644
 +--- a/meson.build
 ++++ b/meson.build
-+@@ -397,7 +397,7 @@ endif
-+ # i18n
-+ subdir('po')
++@@ -1574,7 +1574,7 @@ atomicdefine = '''
++ # We know that we can always use real ("lock free") atomic operations with MSVC
++ if cc.get_id() == 'msvc' or cc.links(atomictest, name : 'atomic ops')
++   have_atomic_lock_free = true
++-  if (host_system == 'android' or host_system == 'linux') and not cc.compiles(atomicdefine, name : 'atomic ops define')
+++  if (host_system == 'android' or host_system.contains('linux')) and not cc.compiles(atomicdefine, name : 'atomic ops define')
++     # When building for armv5 on Linux, gcc provides
++     # __sync_bool_compare_and_swap but doesn't define
++     # __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+index 697d63d5feb..872340df964 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+@@ -12,7 +12,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 3 insertions(+), 3 deletions(-)
+ 
+ diff --git a/gio/gdbus-2.0/codegen/gdbus-codegen.in b/gio/gdbus-2.0/codegen/gdbus-codegen.in
+-index 8050981..e693ef3 100644
++index 8050981..e693ef3 100755
+ --- a/gio/gdbus-2.0/codegen/gdbus-codegen.in
+ +++ b/gio/gdbus-2.0/codegen/gdbus-codegen.in
+ @@ -1,4 +1,4 @@
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+index 50608809264..5ccd3203fb2 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+@@ -1,4 +1,4 @@
+-From 70e462e070f8eb20b7660c1cf88271c0449e43cc Mon Sep 17 00:00:00 2001
++From 1481c6d5f08f9dbbe10abc87b372a1f61db36476 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Mon, 9 Nov 2015 11:07:27 +0200
+ Subject: [PATCH] Enable more tests while cross-compiling
+@@ -10,8 +10,10 @@ case we can depend on glib-2.0-native.
+ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ ---
+- gio/tests/Makefile.am | 10 ++++++----
+- 1 file changed, 6 insertions(+), 4 deletions(-)
++ gio/tests/Makefile.am     | 10 ++++++----
++ gio/tests/meson.build     | 15 ++++++++-------
++ tests/gobject/Makefile.am |  6 ++++++
++ 3 files changed, 20 insertions(+), 11 deletions(-)
+ 
+ diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
+ index c4e7a92..633e85c 100644
+@@ -50,3 +52,86 @@ index c4e7a92..633e85c 100644
+  
+  BUILT_SOURCES += giotypefuncs.inc
+  
++diff --git a/gio/tests/meson.build b/gio/tests/meson.build
++index dca33bd..181f5c7 100644
++--- a/gio/tests/meson.build
+++++ b/gio/tests/meson.build
++@@ -173,7 +173,7 @@ if host_machine.system() != 'windows'
 + 
-+-subdir('tests')
-++#subdir('tests')
-+ subdir('thumbnailer')
++   #  Test programs that need to bring up a session bus (requires dbus-daemon)
++   have_dbus_daemon = find_program('dbus-daemon', required : false).found()
++-  if have_dbus_daemon
+++  if true
++     annotate_args = [
++       '--annotate', 'org.project.Bar', 'Key1', 'Value1',
++       '--annotate', 'org.project.Bar', 'org.gtk.GDBus.Internal', 'Value2',
++@@ -406,12 +406,13 @@ if installed_tests_enabled
++   install_subdir('cert-tests', install_dir : installed_tests_execdir)
++ endif
 + 
-+ # Documentation
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
-new file mode 100644
-index 00000000000..90d4830df50
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
-@@ -0,0 +1,38 @@
-+From 48cbdd56036728ffea431ad63cf5e2ad05cef69c Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 14 Feb 2019 18:06:25 +0100
-+Subject: [PATCH] Fix a couple of decisions around cross-compilation
-+
-+1. gobject-introspection can be build when cross compiling
-+2. generating loaders.cache requires running a target binary which
-+we do elsewhere (in postinsts)
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gdk-pixbuf/meson.build | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
-+index 77c162b..fc3eb33 100644
-+--- a/gdk-pixbuf/meson.build
-++++ b/gdk-pixbuf/meson.build
-+@@ -230,6 +230,7 @@ foreach bin: gdkpixbuf_bin
-+   set_variable(bin_name.underscorify(), bin)
-+ endforeach
++-if not meson.is_cross_build() or meson.has_exe_wrapper()
+++#if not meson.is_cross_build() or meson.has_exe_wrapper()
+++if meson.is_cross_build()
 + 
-++if not meson.is_cross_build()
-+ # The 'loaders.cache' used for testing, so we don't accidentally
-+ # load the installed cache; we always build it by default
-+ loaders_cache = custom_target('loaders.cache',
-+@@ -241,8 +242,9 @@ loaders_cache = custom_target('loaders.cache',
-+                               ],
-+                               build_by_default: true)
-+ loaders_dep = declare_dependency(sources: [ loaders_cache ])
++   plugin_resources_c = custom_target('plugin-resources.c',
++     input : 'test4.gresource.xml',
++     output : 'plugin-resources.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate-source',
++@@ -428,7 +429,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_gresource = custom_target('test.gresource',
++     input : 'test.gresource.xml',
++     output : 'test.gresource',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--sourcedir=' + meson.current_build_dir(),
++@@ -439,7 +440,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources2_c = custom_target('test_resources2.c',
++     input : 'test3.gresource.xml',
++     output : 'test_resources2.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate',
++@@ -450,7 +451,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources2_h = custom_target('test_resources2.h',
++     input : 'test3.gresource.xml',
++     output : 'test_resources2.h',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate',
++@@ -461,7 +462,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
++   test_resources_c = custom_target('test_resources.c',
++     input : 'test2.gresource.xml',
++     output : 'test_resources.c',
++-    command : [glib_compile_resources,
+++    command : ['glib-compile-resources',
++                '--target=@OUTPUT@',
++                '--sourcedir=' + meson.current_source_dir(),
++                '--generate-source',
++diff --git a/tests/gobject/Makefile.am b/tests/gobject/Makefile.am
++index 1bcefbe..77e646a 100644
++--- a/tests/gobject/Makefile.am
+++++ b/tests/gobject/Makefile.am
++@@ -51,7 +51,13 @@ if ENABLE_TIMELOOP
++ installed_test_programs += timeloop-closure
++ endif
++ 
+++# The marshal test requires running a binary, which means we require
+++# glib-native when cross-compiling
+++if !CROSS_COMPILING
++ glib_genmarshal=$(top_builddir)/gobject/glib-genmarshal
+++else
+++glib_genmarshal=$(shell which glib-genmarshal)
 ++endif
 + 
-+-build_gir = get_option('with_gir') and not meson.is_cross_build()
-++build_gir = get_option('with_gir')
-+ if build_gir
-+   gir_args = [
-+     '--quiet',
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
++ testmarshal.h: stamp-testmarshal.h
++ 	@true
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
 deleted file mode 100644
-index 2a54d8ed763..00000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
+index 59b891347da..00000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
 +++ /dev/null
-@@ -1,27 +0,0 @@
--From 460befc992adb32434b0408b453be39a6866ccf8 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 10 Oct 2017 14:33:18 +0300
--Subject: [PATCH] Fix --without-libtiff not having an effect.
+@@ -1,44 +0,0 @@
+-From 1dd1e6ddca5deada049bac2e1ee1fe4ecc5342c5 Mon Sep 17 00:00:00 2001
+-From: Martin Jansa <Martin.Jansa@gmail.com>
+-Date: Sat, 28 Apr 2012 18:24:50 +0200
+-Subject: [PATCH 01/10] configure: use $host_alias-libtool instead of libtool
+- directly
 -
--Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=788770]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Poky renames libtool to $host_alias-libtool.
+-./$host_alias-libtool isn't created until after configure runs with
+-libtool >= 2.2.2
+-so we can't call # it at this point. We can safely assume a version is
+-available
+-from PATH though
+-
+-Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
+-Rebased to glib-2.32.1 by Martin Jansa <Martin.Jansa@gmail.com>
+-Rebased to glib-2.31.20+ by Andre McCurdy <armccurdy@gmail.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-
 ----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
 -diff --git a/configure.ac b/configure.ac
--index 315e0cc..98e780c 100644
+-index 6fa6eb0..b6f78a6 100644
 ---- a/configure.ac
 -+++ b/configure.ac
--@@ -676,7 +676,7 @@ if test x$gio_can_sniff = x; then
--   AC_DEFINE(GDK_PIXBUF_USE_GIO_MIME, 1, [Define if gio can sniff image data])
-- fi
-- 
---AM_CONDITIONAL(HAVE_TIFF, test "x$libtiff_found" != x)
--+AM_CONDITIONAL(HAVE_TIFF, test "x$libtiff_found" != xno)
-- AM_CONDITIONAL(HAVE_PNG, test "x$LIBPNG" != x)
-- AM_CONDITIONAL(HAVE_JPEG, test "x$LIBJPEG" != x)
-- AM_CONDITIONAL(HAVE_JASPER, test "x$LIBJASPER" != x)
+-@@ -1428,9 +1428,9 @@ AS_IF([ test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL" ], [
+- 	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
+- dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
+- 	echo "void glib_plugin_test(void) { }" > plugin.c
+--	${SHELL} ./libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+-+	${SHELL} ./$host_alias-libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+- 		${CPPFLAGS} -c -o plugin.lo plugin.c >/dev/null 2>&1
+--	${SHELL} ./libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+-+	${SHELL} ./$host_alias-libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+- 		${LDFLAGS} -module -o plugin.la -export-dynamic \
+- 		-shrext ".o" -avoid-version plugin.lo \
+- 		-rpath /dont/care >/dev/null 2>&1
 --- 
 -2.14.1
 -
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
-index 31ed988f32b..110b32a4907 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
-@@ -1,47 +1,28 @@
--From 6646e8aadc4030d891ac27c25494e5793d59dc85 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Wed, 22 Feb 2017 11:24:39 +0200
-+From 8c7ced988def52654946458a3779e383b27f14f7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 14 Feb 2019 17:56:10 +0100
- Subject: [PATCH] Work-around thumbnailer cross-compile failure
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 9ec011a0950..a4e0c9201f2 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From 43967e85b7a87f9c2e780504ef30f4c9bf56f8f5 Mon Sep 17 00:00:00 2001
++From 9d985803c50cfb99253c757934985f937da34822 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+index 8aad570fa9d..2de2affa51a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+@@ -5,7 +5,6 @@ PE = "1"
+ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- Install gdk-pixbuf-print-mime-types that's needed for thumbnail
- metadata generation.
- 
--Use native gdk-pixbuf-print-mime-types when generating the thumbnail
--metadata. This works but the mime types will come from native
--loader.cache (which will only contain in-tree loaders), not from the
--target loader.cache.
--
- The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
- 
- Upstream-Status: Inappropriate [workaround]
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- thumbnailer/Makefile.am | 7 +++----
-- 1 file changed, 3 insertions(+), 4 deletions(-)
-+ thumbnailer/meson.build | 1 +
-+ 1 file changed, 1 insertion(+)
- 
--diff --git a/thumbnailer/Makefile.am b/thumbnailer/Makefile.am
--index c9fe123..b0c6c70 100644
----- a/thumbnailer/Makefile.am
--+++ b/thumbnailer/Makefile.am
--@@ -1,5 +1,4 @@
---bin_PROGRAMS = gdk-pixbuf-thumbnailer
---noinst_PROGRAMS = gdk-pixbuf-print-mime-types
--+bin_PROGRAMS = gdk-pixbuf-thumbnailer gdk-pixbuf-print-mime-types
-- 
-- gdk_pixbuf_thumbnailer_SOURCES = gdk-pixbuf-thumbnailer.c gnome-thumbnailer-skeleton.c gnome-thumbnailer-skeleton.h
-- gdk_pixbuf_thumbnailer_CPPFLAGS =			\
--@@ -25,9 +24,9 @@ gdk_pixbuf_print_mime_types_LDADD =			\
-+diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
-+index e801144..aaafec8 100644
-+--- a/thumbnailer/meson.build
-++++ b/thumbnailer/meson.build
-+@@ -10,6 +10,7 @@ executable('gdk-pixbuf-thumbnailer',
-+ gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
-+                                          'gdk-pixbuf-print-mime-types.c',
-+                                          c_args: common_cflags,
-++                                         install: true,
-+                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
-  
-- thumbnailerdir = $(datadir)/thumbnailers/
-- thumbnailer_DATA = gdk-pixbuf-thumbnailer.thumbnailer
---gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT) $(top_builddir)/gdk-pixbuf/loaders.cache
--+gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT)
-- 	$(AM_V_GEN) $(SED) -e "s|\@bindir\@|$(bindir)|"						\
---	-e "s|\@mimetypes\@|`GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata $(builddir)/gdk-pixbuf-print-mime-types`|" \
--+	-e "s|\@mimetypes\@|`gdk-pixbuf-print-mime-types`|" \
-- 	$< > $@
-- 
-- EXTRA_DIST = gdk-pixbuf-thumbnailer.thumbnailer.in
---- 
--2.1.4
--
-+ custom_target('thumbnailer',
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-loaders.cache-depend-on-loaders-being-fully-build.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-loaders.cache-depend-on-loaders-being-fully-build.patch
-new file mode 100644
-index 00000000000..2a7751511bb
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-loaders.cache-depend-on-loaders-being-fully-build.patch
-@@ -0,0 +1,51 @@
-+From 116bc8f7a6034ce43053876a72a132fcd4e1e472 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 20 Feb 2019 19:53:07 +0100
-+Subject: [PATCH] loaders.cache: depend on loaders being fully build
-+
-+Otherwise, races have been observed:
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/310/steps/7/logs/step1b
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ gdk-pixbuf/meson.build | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
-+index fc3eb33..4e7ed20 100644
-+--- a/gdk-pixbuf/meson.build
-++++ b/gdk-pixbuf/meson.build
-+@@ -171,6 +171,7 @@ gdkpixbuf_dep = declare_dependency(link_with: gdkpixbuf,
-+ # Now check if we are building loaders as installed shared modules
-+ # We do this here because shared modules depend on libgdk-pixbuf
-+ dynamic_loaders = []
-++dynamic_loaders_dep = []
-+ 
-+ foreach l: loaders
-+   name = l[0]
-+@@ -189,6 +190,7 @@ foreach l: loaders
-+ 
-+     # We need the path to build loaders.cache for tests
-+     dynamic_loaders += mod.full_path()
-++    dynamic_loaders_dep += mod
-+   endif
-+ endforeach
-+ 
-+@@ -206,6 +208,7 @@ if enable_native_windows_loaders
-+                           install: true,
-+                           install_dir: gdk_pixbuf_loaderdir)
-+       dynamic_loaders += mod.full_path()
-++      dynamic_loaders_dep += mod
-+     endforeach
-+   endif
-+ endif
-+@@ -236,6 +239,7 @@ if not meson.is_cross_build()
-+ loaders_cache = custom_target('loaders.cache',
-+                               output: 'loaders.cache',
-+                               capture: true,
-++                              depends: [ dynamic_loaders_dep ],
-+                               command: [
-+                                 gdk_pixbuf_query_loaders,
-+                                 dynamic_loaders,
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
-new file mode 100644
-index 00000000000..b0cd838a8fd
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
-@@ -0,0 +1,131 @@
-+From a184e6bfdd7761ad9807f3de9e873d49aff79e6d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 14 Feb 2019 17:56:34 +0100
-+Subject: [PATCH] (target only) Work-around thumbnailer cross-compile failure
-+
-+Use native gdk-pixbuf-print-mime-types when generating the thumbnail
-+metadata. This works but the mime types will come from native
-+loader.cache (which will only contain in-tree loaders), not from the
-+target loader.cache.
-+
-+The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
-+
-+Upstream-Status: Inappropriate [workaround]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ build-aux/gen-thumbnailer.py |  2 --
-+ tests/meson.build            | 49 +-----------------------------------
-+ thumbnailer/meson.build      |  5 +---
-+ 3 files changed, 2 insertions(+), 54 deletions(-)
-+
-+diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
-+index 05ac821..c5b99ab 100644
-+--- a/build-aux/gen-thumbnailer.py
-++++ b/build-aux/gen-thumbnailer.py
-+@@ -20,8 +20,6 @@ argparser.add_argument('output', help='Output file')
-+ args = argparser.parse_args()
-+ 
-+ newenv = os.environ.copy()
-+-newenv['GDK_PIXBUF_PIXDATA'] = args.pixdata
-+-newenv['GDK_PIXBUF_MODULE_FILE'] = args.loaders
-+ # 'nt': NT-based Windows, see https://docs.python.org/3/library/os.html
-+ if os.name == 'nt':
-+     gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 77a427a..467f5b2 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -1,38 +1,6 @@
-+ # Resources; we cannot use gnome.compile_resources() here, because we need to
-+ # override the environment in order to use the utilities we just built instead
-+ # of the system ones
-+-resources_c = custom_target('resources.c',
-+-                            input: 'resources.gresource.xml',
-+-                            output: 'resources.c',
-+-                            command: [
-+-                              gen_resources,
-+-                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-+-                              '--loaders=@0@'.format(loaders_cache.full_path()),
-+-                              '--sourcedir=@0@'.format(meson.current_source_dir()),
-+-                              '--source',
-+-                              '@INPUT@',
-+-                              '@OUTPUT@',
-+-                            ],
-+-                            depends: [
-+-                              gdk_pixbuf_pixdata,
-+-                              loaders_cache,
-+-                            ])
-+-resources_h = custom_target('resources.h',
-+-                            input: 'resources.gresource.xml',
-+-                            output: 'resources.h',
-+-                            command: [
-+-                              gen_resources,
-+-                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-+-                              '--loaders=@0@'.format(loaders_cache.full_path()),
-+-                              '--sourcedir=@0@'.format(meson.current_source_dir()),
-+-                              '--header',
-+-                              '@INPUT@',
-+-                              '@OUTPUT@',
-+-                            ],
-+-                            depends: [
-+-                              gdk_pixbuf_pixdata,
-+-                              loaders_cache,
-+-                            ])
-+ 
-+ installed_tests = [
-+   [ 'animation' ],
-+@@ -94,7 +62,7 @@ foreach t: installed_tests
-+   test_sources = [ test_name + '.c', 'test-common.c' ]
-+   needs_resources = t.get(1, false)
-+   if needs_resources
-+-    test_sources += [ resources_c, resources_h ]
-++    test_sources += [ 'resources.c', 'resources.h' ]
-+   endif
-+ 
-+   custom_target(test_name + '.test',
-+@@ -116,21 +84,6 @@ foreach t: installed_tests
-+                         ],
-+                         c_args: common_cflags)
-+ 
-+-  # Two particularly slow tests
-+-  if test_name == 'pixbuf-area-updated' or test_name == 'pixbuf-randomly-modified'
-+-    timeout = 300
-+-  else
-+-    timeout = 30
-+-  endif
-+-
-+-  test(test_name, test_bin,
-+-       args: [ '-k', '--tap' ],
-+-       env: [
-+-         'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
-+-         'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
-+-         'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
-+-       ],
-+-       timeout: timeout)
-+ endforeach
-+ 
-+ executable('pixbuf-read',
-+diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
-+index aaafec8..71bd61b 100644
-+--- a/thumbnailer/meson.build
-++++ b/thumbnailer/meson.build
-+@@ -18,9 +18,7 @@ custom_target('thumbnailer',
-+               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
-+               command: [
-+                 gen_thumbnailer,
-+-                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
-+-                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-+-                '--loaders=@0@'.format(loaders_cache.full_path()),
-++                '--printer=gdk-pixbuf-print-mime-types',
-+                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
-+                 '@INPUT@',
-+                 '@OUTPUT@',
-+@@ -28,7 +26,6 @@ custom_target('thumbnailer',
-+               depends: [
-+                 gdk_pixbuf_print_mime_types,
-+                 gdk_pixbuf_pixdata,
-+-                loaders_cache,
-+               ],
-+               install: true,
-+               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
-deleted file mode 100644
-index edbdced43a4..00000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/extending-libinstall-dependencies.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Upstream-Status: Pending
--
--This patch fixes parallel install issue that lib libpixbufloader-png.la
--depends on libgdk_pixbuf-2.0.la which will be regenerated during insta-
--llation, if libgdk_pixbuf-2.0.la is regenerating and at the same time
--libpixbufloader-png.la links it, the error will happen.
--
--Error message is:
--* usr/bin/ld: cannot find -lgdk_pixbuf-2.0
--* collect2: ld returned 1 exit status
--
--Make an explicit dependency to the libs install targets would fix this
--issue.
--
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-----
-- gdk-pixbuf/Makefile.am |    1 +
-- libdeps.mk             |    3 +++
-- 2 files changed, 4 insertions(+), 0 deletions(-)
-- create mode 100644 libdeps.mk
--
--diff --git a/gdk-pixbuf/Makefile.am b/gdk-pixbuf/Makefile.am
--index 95a93a8..db44cae 100644
----- a/gdk-pixbuf/Makefile.am
--+++ b/gdk-pixbuf/Makefile.am
--@@ -783,3 +783,4 @@ loaders.cache:
-- endif
-- 
-- -include $(top_srcdir)/git.mk
--+-include $(top_srcdir)/libdeps.mk
--diff --git a/libdeps.mk b/libdeps.mk
--new file mode 100644
--index 0000000..d7a10a8
----- /dev/null
--+++ b/libdeps.mk
--@@ -0,0 +1,3 @@
--+# Extending dependencies of install-loaderLTLIBRARIES:
--+# The $(lib-LTLIBRARIES) is needed by relinking $(loader_LTLIBRARIES)
--+install-loaderLTLIBRARIES: install-libLTLIBRARIES
---- 
--1.7.6.1
--
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
-deleted file mode 100644
-index ecca62a7129..00000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/hardcoded_libtool.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Index: gdk-pixbuf-2.22.1/configure.ac
--===================================================================
----- gdk-pixbuf-2.22.1.orig/configure.ac	2010-11-26 09:06:34.000000000 +0800
--+++ gdk-pixbuf-2.22.1/configure.ac	2010-11-26 09:07:33.000000000 +0800
--@@ -287,7 +287,7 @@
-- case $enable_explicit_deps in
--   auto)
--     export SED
---    deplibs_check_method=`(./libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
--+    deplibs_check_method=`(./$host_alias-libtool --config; echo 'eval echo \"$deplibs_check_method\"') | sh`
--     if test "x$deplibs_check_method" '!=' xpass_all || test "x$enable_static" = xyes ; then
--       enable_explicit_deps=yes
--     else
--@@ -484,7 +484,7 @@
--     dnl Now we check to see if our libtool supports shared lib deps
--     dnl (in a rather ugly way even)
--     if $dynworks; then
---        pixbuf_libtool_config="${CONFIG_SHELL-/bin/sh} ./libtool --config"
--+        pixbuf_libtool_config="${CONFIG_SHELL-/bin/sh} ./$host_alias-libtool --config"
--         pixbuf_deplibs_check=`$pixbuf_libtool_config | \
--             grep '^[[a-z_]]*check[[a-z_]]*_method=[['\''"]]' | \
--             sed 's/.*[['\''"]]\(.*\)[['\''"]]$/\1/'`
--@@ -957,7 +957,7 @@
-- # We are using gmodule-no-export now, but I'm leaving the stripping
-- # code in place for now, since pango and atk still require gmodule.
-- export SED
---export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
--+export_dynamic=`(./$host_alias-libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
-- if test -n "$export_dynamic"; then
--   GDK_PIXBUF_DEP_LIBS=`echo $GDK_PIXBUF_DEP_LIBS | sed -e "s/$export_dynamic//"`
-- fi
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
-index a7d3884d1fb..5f081fbb945 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
-@@ -13,18 +13,42 @@ DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://hardcoded_libtool.patch \
--           file://extending-libinstall-dependencies.patch \
+ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+-           file://configure-libtool.patch \
             file://run-ptest \
-            file://fatal-loader.patch \
-            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
--           file://0001-Fix-without-libtiff-not-having-an-effect.patch \
-+           file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
-+           file://0001-loaders.cache-depend-on-loaders-being-fully-build.patch \
-+           "
-+
-+SRC_URI_append_class-target = " \
-+           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
-+           "
-+SRC_URI_append_class-nativesdk = " \
-+           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
-+           file://0001-Disable-tests-in-native-builds.patch \
-+           "
-+SRC_URI_append_class-native = " \
-+           file://0001-Disable-tests-in-native-builds.patch \
+            file://uclibc_musl_translation.patch \
+            file://Enable-more-tests-while-cross-compiling.patch \
+@@ -14,6 +13,9 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://0001-Revert-Use-absolute-paths-in-pkg-config-files.patch \
++           file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
++           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
++           file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
             "
  
- SRC_URI[md5sum] = "6e84e5485c17ce7c25df77fe76eb2d6a"
- SRC_URI[sha256sum] = "ae62ab87250413156ed72ef756347b10208c00e76b222d82d9ed361ed9dde2f3"
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index a186c1d9eb6..4d7fdeebbbd 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -29,7 +29,11 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
  
--inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
-+inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
+ LEAD_SONAME = "libglib-2.0.*"
+ 
+-inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
++inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
 +
-+GTKDOC_ENABLE_FLAG = "-Dwith_docs=true"
-+GTKDOC_DISABLE_FLAG = "-Dwith_docs=false"
-+
-+GI_ENABLE_FLAG = "-Dwith_gir=true"
-+GI_DISABLE_FLAG = "-Dwith_gir=false"
-+
-+EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-+                                                                                       '${GI_DISABLE_FLAG}', d)} "
-+
-+EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-+                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
++# This avoids the need to depend on target python3, which in case of mingw is not even possible.
++# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
++unset _PYTHON_SYSCONFIGDATA_NAME
  
- LIBV = "2.10.0"
+ REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
  
-@@ -34,12 +58,12 @@ PACKAGECONFIG ??= "${GDK_PIXBUF_LOADERS}"
- PACKAGECONFIG_linuxstdbase = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} ${GDK_PIXBUF_LOADERS}"
- PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
+@@ -37,21 +41,17 @@ S = "${WORKDIR}/glib-${PV}"
  
--PACKAGECONFIG[png] = "--with-libpng,--without-libpng,libpng"
--PACKAGECONFIG[jpeg] = "--with-libjpeg,--without-libjpeg,jpeg"
--PACKAGECONFIG[tiff] = "--with-libtiff,--without-libtiff,tiff"
--PACKAGECONFIG[jpeg2000] = "--with-libjasper,--without-libjasper,jasper"
-+PACKAGECONFIG[png] = "-Denable_png=true,-Denable_png=false,libpng"
-+PACKAGECONFIG[jpeg] = "-Denable_jpeg=true,-Denable_jpeg=false,jpeg"
-+PACKAGECONFIG[tiff] = "-Denable_tiff=true,-Denable_tiff=false,tiff"
-+PACKAGECONFIG[jpeg2000] = "-Denable_jasper=true,-Denable_jasper=false,jasper"
+ PACKAGECONFIG ??= "system-pcre libmount"
+ # To use the system pcre it must be configured with --enable-unicode-properties
+-PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
+-PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
+-PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
+-PACKAGECONFIG[libelf] = "--enable-libelf,--disable-libelf,elfutils"
+-
+-CORECONF = "--disable-dtrace --disable-fam --disable-systemtap"
++PACKAGECONFIG[system-pcre] = "-Dinternal_pcre=false,-Dinternal_pcre=true,libpcre"
++PACKAGECONFIG[libmount] = "-Dlibmount=true,-Dlibmount=false,util-linux"
++PACKAGECONFIG[manpages] = "-Dman=true, -Dman=false, libxslt-native xmlto-native"
++# libelf is auto-detected without a configuration option
++PACKAGECONFIG[libelf] = ",,elfutils"
  
--PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
-+PACKAGECONFIG[x11] = ",,virtual/libx11"
+-PRINTF = "--enable-included-printf=no"
+-PRINTF_darwin = "--enable-included-printf=yes"
+-PRINTF_mingw32 = "--enable-included-printf=yes"
+-EXTRA_OECONF = "${PRINTF} ${CORECONF}"
+-EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
++CORECONF = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
  
- PACKAGES =+ "${PN}-xlib"
+-# Tell configure that we'll have dbus-daemon on the target for the tests
+-EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' ac_cv_prog_DBUS_DAEMON=dbus-daemon', '', d)}"
++EXTRA_OEMESON = "${CORECONF} ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
++EXTRA_OEMESON_class-native = "${CORECONF} -Dinstalled_tests=false"
++EXTRA_OEMESON_class-nativesdk = "${CORECONF} -Dinstalled_tests=false"
  
-@@ -81,6 +105,11 @@ do_install_append() {
- 	# Move gdk-pixbuf-query-loaders into libdir so it is always available
- 	# in multilib builds.
- 	mv ${D}/${bindir}/gdk-pixbuf-query-loaders ${D}/${libdir}/gdk-pixbuf-2.0/
-+
-+	# Do not install ptests if ptest is not enabled; gdk-pixbuf has no configuration option for this
-+	if [ "${PTEST_ENABLED}" != "1" ]; then
-+		rm -rf ${D}${datadir}/installed-tests
-+	fi
+ do_configure_prepend() {
+ 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+@@ -117,6 +117,8 @@ do_install_append () {
+         if test "x${MLPREFIX}" != "x"; then
+                 mv ${D}${libexecdir}/gio-querymodules${EXEEXT} ${D}${libexecdir}/${MLPREFIX}gio-querymodules${EXEEXT}
+         fi
++        # Autotools does this, meson does not
++        mkdir -p ${D}${libdir}/gio/modules
  }
  
- do_install_append_class-native() {
+ do_install_append_class-target () {
+@@ -129,6 +131,11 @@ do_install_append_class-target () {
+ 	fi
+ }
+ 
++# As we do not build python3 for windows, makes no sense to ship the script that's using it
++do_install_append_mingw32() {
++        rm -f ${D}${bindir}/gtester-report
++}
++
+ CODEGEN_PYTHON_RDEPENDS = "python3 python3-distutils python3-xml"
+ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
+ 
 -- 
 2.17.1
 
