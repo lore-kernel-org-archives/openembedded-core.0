@@ -1,23 +1,48 @@
-Return-Path: <ml@embed.me.uk>
-X-Greylist: delayed 1598 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 Feb 2019 09:38:42 UTC
-Received: from legacy.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F0287C66D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 08AA171AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 09:38:42 +0000 (UTC)
+	Wed, 20 Feb 2019 11:31:37 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id w2so10941796wrt.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2019 03:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hdf16cgxNDnC+iSRbg+pygJxFv9JeLyNN16hpOqIr/Y=;
+	b=IbGM8RVsAeaFqdfJ8W/LgUGUjz9evFHSjOYuaL+OsMYlVK1LhGiYpXIQSulkWKclq/
+	CoLoIJTv5x82pqXPXcj16tw7VWjZcgd1v4SgOX7NCcpAvvu7nv+UTlHZXkP5mFwPDrwH
+	l4KN6/A3aegE0pw2ghDydGP75hUWy0BK101vk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hdf16cgxNDnC+iSRbg+pygJxFv9JeLyNN16hpOqIr/Y=;
+	b=L9iGg4da+6AGcbIp9+PaL/drQZFBKY7rByrzL1zDyaoOUm5wWZ9xgaH/jg3QNouIwF
+	BB+H4dUzl4ESkj4PdJ6uHZ+lxFbrEnMhGoXiG+nIpwk6bZQ1ma8mxuGvd/sRuP4+yjKi
+	mHxtcILxmF/nHZeocu3h5xk6OrFwjdLsFgHm1uiL1mkmdcbXnnTukqLta1ax8iYOcBzg
+	cTG27CxGg+ZaDy0hiBpdCAS45DjSs+8FaIyYcQ+dNa3uXPVSDQQkcJNQJG4VFRsCh8xu
+	K2b7KP5M9OEHyghb8FNDxiwPuoTrLAJjVkAiVC+R41t0BazqJpObTPFLaTgGhcxR3Bpb
+	terw==
+X-Gm-Message-State: AHQUAubmt48fpFn81DU7E3QFlp7qmnrCgq3kf94r2vxTxq3UmfROLWlF
+	x9G99rm0ZrA353gR8+DUqLCFlA7P74k=
+X-Google-Smtp-Source: AHgI3IZT8MIYe5KdxY1y7sbKhwCyPw5cvF63aVqopdSVp9OXngIO9oS1+m82/W5gKh4gzA5x2s5oAA==
+X-Received: by 2002:a5d:6252:: with SMTP id m18mr5932015wrv.199.1550662298173; 
+	Wed, 20 Feb 2019 03:31:38 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l125sm10377824wml.18.2019.02.20.03.31.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Feb 2019 03:31:37 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-References: <83ec17fa-88b0-04fa-adab-b402b10c6339@topic.nl>
-	<CAMjhiJjO0+0=_6HOmVM67U0nnbW=iu-FiMTzJBe4ZCvceuguuA@mail.gmail.com>
-	<CAJ86T=Vy6AMbJ0J23V_9K+GJxwCFjD-Gq7NQwZ7AeJSW5Lum_A@mail.gmail.com>
-	<CAMjhiJgFxSH3Rz+ot6qAZN1LPF=WmZ1ySt0Y4TSCg0S0m7YsxQ@mail.gmail.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <647c28e3-fe28-cc3c-505e-2520ef11a4b6@embed.me.uk>
-Date: Wed, 20 Feb 2019 09:12:03 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.0
+Date: Wed, 20 Feb 2019 11:31:32 +0000
+Message-Id: <20190220113136.25171-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAMjhiJgFxSH3Rz+ot6qAZN1LPF=WmZ1ySt0Y4TSCg0S0m7YsxQ@mail.gmail.com>
-Subject: Re: wic creates ext4 images that read really slow in u-boot
+Subject: [PATCH 1/5] python3-gitdb: upgrade 2.0.4 -> 2.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,93 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 09:38:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Feb 2019 11:31:38 -0000
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python-gitdb.inc                 | 4 ++--
+ .../python/{python3-gitdb_2.0.4.bb => python3-gitdb_2.0.5.bb} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-gitdb_2.0.4.bb => python3-gitdb_2.0.5.bb} (100%)
 
+diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
+index aeaf55e610b..633752fd1b0 100644
+--- a/meta/recipes-devtools/python/python-gitdb.inc
++++ b/meta/recipes-devtools/python/python-gitdb.inc
+@@ -8,8 +8,8 @@ inherit pypi
+ 
+ PYPI_PACKAGE = "gitdb2"
+ 
+-SRC_URI[md5sum] = "6e21f5795a204f7afecb0a72fff66932"
+-SRC_URI[sha256sum] = "bb4c85b8a58531c51373c89f92163b92f30f81369605a67cd52d1fc21246c044"
++SRC_URI[md5sum] = "94e59e5fb00960541f6e137b1456ab0a"
++SRC_URI[sha256sum] = "83361131a1836661a155172932a13c08bda2db3674e4caa32368aa6eb02f38c2"
+ 
+ DEPENDS = "${PYTHON_PN}-async ${PYTHON_PN}-setuptools-native ${PYTHON_PN}-smmap"
+ 
+diff --git a/meta/recipes-devtools/python/python3-gitdb_2.0.4.bb b/meta/recipes-devtools/python/python3-gitdb_2.0.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-gitdb_2.0.4.bb
+rename to meta/recipes-devtools/python/python3-gitdb_2.0.5.bb
+-- 
+2.20.1
 
-On 19/02/2019 20:45, Leon Woestenberg wrote:
-> Hello all,
-> 
-> On Tue, Feb 19, 2019 at 8:28 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Tue, Feb 19, 2019 at 9:13 AM Leon Woestenberg <leon@sidebranch.com> wrote:
->>>
->>> Hello Mike,
->>>
->>> sounds familiar.
->>>
->>> On Tue, 19 Feb 2019 at 17:55, Mike Looijmans <mike.looijmans@topic.nl> wrote:
->>>>
->>>> Took me a while to figure out why my board took 90 seconds to boot suddenly.
->>>> The issue turned out to be the ext4 partition created by wic.
->>>
->>> I suspect it's not WIC's fault.
->>>>
->>>> ZynqMP> load mmc 0:2 0x100000 /lib/firmware/fpga.bin
->>>> 19311092 bytes read in 85529 ms (219.7 KiB/s)
->>>>
->>>> Now if I boot the board rename and copy that file onto itself, then it's
->>>> suddenly normal again when I reboot the board:
->>>>
->>>> ZynqMP> load mmc 0:2 0x10000
->>>> I'm not knowledgeable on ext4, so any ideas what's being passed onto the image
->>>> creation tool that causes this?
->>>
->>> I suspect your version of U-Boot does not handle files spread across multiple filesystems (allocation) extends efficiently.
->>>
->>> Copying the file makes the copy being layed out in one extend probably.
->>
->>
->> If WIC is generating filesystem images from scratch there's no excuse for files to be unnecessarily fragmented.
->>
->> Even if some of all of the boot time can be recovered by a patch to u-boot that won't help systems which have already been deployed and don't have a way to update the bootloader.
->>
-> I am not sure if "fragmented" is the right term in terms of filesystem
-> details. Filesystem allocation extents (not "extends" as I mistyped
-> earlier) are different from heavy file fragmentation. However, I agree
-> things can be made more optimal.
-> 
-> So, with adding the above, there are *two* issues at play here:
-> 1) Most/older versions of U-Boot not able to efficiently load files
-> from ext4 filesystems, that cross multiple extents. I am aware of two
-> fixes, see below.
-> 2) WIC uses mkext4fs in such a way that files can cross multiple
-> (allocation) extents. This is sub-optimal and know to cause issues
-> with many U-Boot versions (deployed on existing systems in the field).
-> The problems shows "randomly" with large files being deployed to the
-> ext4 filesystem. We (OE/Yocto) may want to fix this.
-> 
->>> I am aware of two fixes for U-Boot. I will look them up, and reply again to this thread.
-> 
-> Google for these two commits. I cherry-picked the first one for my
-> project and can confirm it brings back the desired performance. (Still
-> assuming this is the identical cause as for TO/Mike.)
-> 
-> commit 855b8e4f9f255415a7753819e392e4b5d984f35c
-> Author: Matt Madison <matt@madison.systems>
-> Date:   Sat Aug 19 08:46:46 2017 -0700
-> 
->     ext4: cache extent blocks during file reads
-> 
->     A simpler and less-efficient approach to solving
->     the problem with extent index blocks than what
->     was in fc0fc50f38a4d7d0554558076a79dfe8b0d78cd5,
->     but one that does not break write operations.
-> 
->     Signed-off-by: Matt Madison <matt@madison.systems>
-> 
-> Regards,
-> 
-> Leon.
-> 
-> p.s. excuse the earlier HTML mail with signature
-> 
-
-I can concur that I have also used this patch to fix speed issues with
-ext4 reads. The problem becomes particularly prominent when you have
-large files on a small partition which get over-written. I'm sure I have
-seen a patch go into uboot mainline recently which improved performance
-but I can't find it or it never actually made it into the tree.
 
