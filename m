@@ -1,23 +1,114 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A5427CBC8
+Return-Path: <MANJUKUM@xilinx.com>
+X-Greylist: delayed 68148 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Feb 2019 07:03:46 UTC
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr720066.outbound.protection.outlook.com [40.107.72.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C4C607CB03
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 06:47:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1M6lLDt016496
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 22:47:21 -0800 (PST)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.435.0;
-	Thu, 21 Feb 2019 22:47:20 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Feb 2019 01:47:16 -0500
-Message-ID: <20190222064716.191069-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Fri, 22 Feb 2019 07:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=p3dGR4c2oD4meQLZin+LwxzW5WsZ5eEASMnEvVW4Jqo=;
+	b=YFth9VDxs4fywHahNrL+Vsvyo7vNSPyIc1UWSmxnpJnmuBZQXQzqAWxliZ7OH6zgvlPljf6ef7LYduHPadDXFWGc1gYxTRikRuCwejSyIo0emoiLRjx4qGzPG0olaAFt3gtefzUcy0utFOHobB6xdVTO1/yGHgdmjo8+vYqhnfc=
+Received: from SN6PR02CA0026.namprd02.prod.outlook.com (2603:10b6:805:a2::39)
+	by BYAPR02MB4631.namprd02.prod.outlook.com (2603:10b6:a03:5f::30)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1622.19;
+	Wed, 20 Feb 2019 18:29:18 +0000
+Received: from BL2NAM02FT044.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::205) by SN6PR02CA0026.outlook.office365.com
+	(2603:10b6:805:a2::39) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1622.16 via
+	Frontend Transport; Wed, 20 Feb 2019 18:29:17 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; balister.org; dkim=none (message not signed)
+	header.d=none;balister.org; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2NAM02FT044.mail.protection.outlook.com (10.152.77.35) with Microsoft
+	SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1643.11
+	via Frontend Transport; Wed, 20 Feb 2019 18:29:16 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1gwWcO-00022x-4Z; Wed, 20 Feb 2019 10:29:16 -0800
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1gwWcJ-0006KA-0K; Wed, 20 Feb 2019 10:29:11 -0800
+Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66] (may be forged))
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x1KIT7d2003097; Wed, 20 Feb 2019 10:29:07 -0800
+Received: from [172.19.2.216] (helo=xsjmanjukum50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1gwWcF-0006JQ-5D; Wed, 20 Feb 2019 10:29:07 -0800
+From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>, <philip@balister.org>
+Date: Wed, 20 Feb 2019 10:29:06 -0800
+Message-ID: <1550687346-2348-2-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1550687346-2348-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+References: <1550687346-2348-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(376002)(39860400002)(396003)(136003)(346002)(2980300002)(189003)(199004)(54534003)(11346002)(486006)(47776003)(2616005)(50466002)(336012)(316002)(16586007)(126002)(476003)(446003)(106002)(51416003)(110136005)(106466001)(7696005)(76176011)(5660300002)(426003)(48376002)(356004)(36386004)(2906002)(36756003)(4326008)(63266004)(72206003)(107886003)(478600001)(50226002)(305945005)(9786002)(77096007)(26005)(14444005)(81156014)(81166006)(186003)(8936002)(8676002)(107986001)(43043002)(42866002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4631; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
 MIME-Version: 1.0
-Subject: [PATCH] dpkg: 1.18.25 -> 1.19.4
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 26246a6f-c4b7-4b28-adfa-08d69761526a
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605104)(4608103)(4709054)(2017052603328)(7153060);
+	SRVR:BYAPR02MB4631; 
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4631:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Exchange-Diagnostics: 1; BYAPR02MB4631;
+	20:p0fgYgNz7ec+QE8D3GqN2ezioiX9NOyk0rQNNn+YnwBhQYUTFnctzTV8JmSwB9w5Hm3ZAonYvKypiUIsgCCG+q8UMu9I408qpftL1BIMocz5OdPCP49+VYVSFRb6Yr6/IHvPuL+UWOwWeCRHR3SOh20blU1R92HbLAhRCSc+KFFk/iDL2lDScA0OusLBGbDnYIfzDxRqGQe7aN0ycX54Hx7lIta1YhtLRY8cflKodIcTnSunCCIq1Im2pSH53raIOrnoBmD3vmNXNEmnVDiHDgz9JveBs7/yAdLa2fhKiEOZlNW78cyC/6Up0RrDxoDlcV+i90Mv0ZTpqK7KflEjg7RKxF54KVgDZYgHqUip0fKsH0sNGsy24ZY6OawHtfresOiIO9UL+BsJS8BI5hnXh7SKFVKa2SW/TZMbcof5AoPixRqUk/o9FgOmjEqPGy/BZah+bM5FDGLa3csZzV/hkMSBKSSep7wUV5xsqk7Uj46jPwqDMVKiV1LNJXhZ9vwg
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4631ED3DE69E236F3E9B1973B97D0@BYAPR02MB4631.namprd02.prod.outlook.com>
+X-Forefront-PRVS: 0954EE4910
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BYAPR02MB4631;
+	23:kr2+RCvDs8umNf6KoXFhbh2dD41LU9jqcZQU7uFy8?=
+	=?us-ascii?Q?nKw/xBiMUJJ3tzi6BFTathV/Hir/b6eJtQiJcRM9o+wK2SidxpGMsy0FWYjU?=
+	=?us-ascii?Q?RlUH7oJkjp76nfXh8936hDrVHKi8P2vCELAUPfQJBDxTX7sw0DHugYQOC/Uw?=
+	=?us-ascii?Q?B9mckgq9rCVm9xwPe0DIVOxybYilMQhay/OBxV29Rc7tfEjWl9cQMA3KNHf8?=
+	=?us-ascii?Q?gmaa7tVl/5IbcGm7EWKp9jxxg0h2J3vPw0BcOVstMASUgnjLEZEWqjVydVBK?=
+	=?us-ascii?Q?fgVn7PYxLvBfIeSpKXzFzebwzOfRUZUWFJXK1t3foIQz+4NKavz4rgtj6Xls?=
+	=?us-ascii?Q?T/UGUYGl3aFVc71yCRyJUF/NmloBN/gLOgnht6AzFBGEgkRNOwYGvv9LKSPg?=
+	=?us-ascii?Q?KRZBv032DE47X0t2ORFyw3vSYuJ7W+lnnGjcayz8XCue5sMjhccoq0MaMj+1?=
+	=?us-ascii?Q?8FoDwHQu7nk35w7iV4nzWjvMztDralbzb9iaXXAQQ6WBvChncHWeTz/PoTVb?=
+	=?us-ascii?Q?xGqg6tzfEHgjtYYj++1pGyaNt2oyPAyBNX9RK9CxVgVaD29P4wJuHH6wKDkl?=
+	=?us-ascii?Q?K9TDteGJilsSos4arLpI6zgq83NhGky2gRnx5jvMtfDLu1tY0bGYnyG3GK93?=
+	=?us-ascii?Q?iy7GLClwNOeHJJKyb0VeWo1ciBLl1Fgs4amOfH/5pvMPl5fmbx49hf5HcCCI?=
+	=?us-ascii?Q?Fx5XU8qKKezLyKF5Ebusw1Hb/jdA8u9KyVjnKORBXOGHYvNuhHVx8MfIHiZN?=
+	=?us-ascii?Q?GFzrHgUrq+pS7vFTyo0k1DY9/nK3hsg9hkcM0AWylYBhGYoI0a9V9adaydRs?=
+	=?us-ascii?Q?rWPHkXIeccA37W7/E0qmwRXRTk/ALm8eKSZSNz5eEDekdq0QhiPfL4mw1t2V?=
+	=?us-ascii?Q?NUjD+EMRARWQpA9ziiqEQkLZ1JDRuFzv4Wrcgr4zheg35VSBI6f3Jc8mXCZC?=
+	=?us-ascii?Q?1FC7paBB9hZLaCbXrqNu8jowqfFzmFArex/9gyn4OTZgNxt0M3X1dCAADLFC?=
+	=?us-ascii?Q?ygf4iG2YBDE6yJPwwV1Vzi3FRmku80aTxrHNB+4ia5jRgLvhRsHJLLttsBL5?=
+	=?us-ascii?Q?7loNuK0YQ6jUGDL14qb2DPAIEDpTLqPRr07lzmfGnLi1bSpT78toUBxS0ATg?=
+	=?us-ascii?Q?JR1AxdKZVaEW1C2FrlQT3LIhmih9FQyzgM9s4DLzDhwQTcwVDKO+w=3D=3D?=
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: FYKQc/h4q9cc1FB5gLW1fuwifb9d2gALaXf8SB5PhR5y//Y7K5+Qrb0LECdjv6Glq+XWQFD6izLPN3cVRQBp89DHWMimp7r1M5SWPOWr/zKNEXUxlY4WCy2CcI7B6v9KcItMoH/WzLjyo87bjkYqbHwD1I8ZsF97YhyP6wwsOhPjlOiw5jCtOw+1Bba0h17Xv9i2D7D176B48X2HICd3PllIuciq1Zv54y+TUVJ+seNTYED9dpEBOAocXxf1WxWikeup4mKHMtAgzEjkBCZ6PbUEjpbRUrf/tjQyDKoJWFV4t1hcHGfQVOTMbHAF5vNvakyGS3krVnmm6o4OMWbm3Pg1FlXcRPKu3C2Z39H4KWCCY9k7pMqULpKxd23JygpSVUazvacHEiu0QSljmAd4JErtTvg43tA7hwSPIgwHnnE=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2019 18:29:16.8087 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26246a6f-c4b7-4b28-adfa-08d69761526a
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4631
+Subject: [PATCH v2 2/2] kernel-fitimage.bbclass: Introduce a way to provide external dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,357 +121,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 06:47:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Feb 2019 07:03:47 -0000
+Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+Currently kernel-fitimage gets the dtb from KERNEL_DEVICETREE, however
+there are instances when the DTB file can be generated using other
+recipes, provide a way to include the DTB instead of inkernel device
+tree.
 
-Upgrade dpkg from 1.18.25 to 1.19.4:
+Add support for external device tree during the creation of fitimage.  If
+virtual/dtb is set using PREFERRED_PROVIDER_virtual/dtb = "devicetree", which
+inherits the devicetree.bbclass then use the path provided in
+EXTERNAL_KERNEL_DEVICETREE else use KERNEL_DEVICETREE during fitimage process
 
-* update SRC_URI which DEBIAN_MIRROR
-* un-export PERL which causes script scripts/dpkg-architecture.pl fails
-  to get cpu type and package arch
-* add configure option '--disable-update-alternatives' which causes
-  installed-vs-shipped issue
-* add patch for dpkg-native to resolve host tar may not support
-  options --owner=NAME:ID and --group=NAME:ID
-* update context of patches
-* drop dpkg-configure.service that apt provides a systemd timer to do it
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc           | 25 +++--------------
- ...s-expect-D-to-be-set-when-running-in.patch | 19 ++++++++++---
- .../0005-dpkg-compiler.m4-remove-Wvla.patch   | 16 ++++++-----
- ...c-Remove-usage-of-clamp-mtime-in-tar.patch | 12 ++++++---
- .../dpkg/dpkg/dpkg-configure.service          | 17 ------------
- .../dpkg/dpkg/glibc2.5-sync_file_range.patch  | 11 +++++---
- .../dpkg/tweak-options-require-tar-1.27.patch | 27 +++++++++++++++++++
- .../dpkg/{dpkg_1.18.25.bb => dpkg_1.19.4.bb}  | 11 ++++----
- 8 files changed, 77 insertions(+), 61 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.25.bb => dpkg_1.19.4.bb} (73%)
+Changelog v2:
+Update commit message to indicate PREFERRED_PROVIDER_virtual/dtb = "devicetree"
+to set external devicetree recipe
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index fe4732d1db..fee7a75814 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -9,15 +9,8 @@ RDEPENDS_${PN}_class-native = ""
+ meta/classes/kernel-fitimage.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 8ebd3dd..3adb1c9 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -30,6 +30,13 @@ python __anonymous () {
+         if image:
+             d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
  
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
- 
--inherit autotools gettext perlnative pkgconfig systemd perl-version
-+inherit autotools gettext perlnative pkgconfig perl-version
- 
--python () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
--        pn = d.getVar('PN')
--        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'dpkg-configure.service')
--}
--
--export PERL = "${bindir}/perl"
- PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
- 
- export PERL_LIBDIR = "${libdir}/perl/${@get_perl_version(d)}"
-@@ -29,14 +22,14 @@ EXTRA_OECONF = "\
- 		--with-libz \
- 		--with-libbz2 \
- 		--without-libselinux \
-+		TAR=tar \
- 		"
- 
-+EXTRA_OECONF_append_class-target = " --disable-update-alternatives DEB_HOST_ARCH=${DPKG_ARCH}"
++	#check if there are any dtb providers
++        providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
++        if providerdtb:
++            d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
++            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
++            d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
 +
- PACKAGECONFIG = "liblzma"
- PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
- 
--EXTRA_OECONF += "TAR=tar"
--EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
--
- do_install_append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
-@@ -45,16 +38,6 @@ do_install_append () {
- 	else
- 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
+         # Verified boot will sign the fitImage and append the public key to
+         # U-Boot dtb. We ensure the U-Boot dtb is deployed before assembling
+         # the fitImage:
+@@ -373,7 +380,8 @@ fitimage_assemble() {
+ 	#
+ 	# Step 2: Prepare a DTB image section
+ 	#
+-	if [ -n "${KERNEL_DEVICETREE}" ]; then
++
++	if [ -z "${EXTERNAL_KERNEL_DEVICETREE}" ] && [ -n "${KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+ 		for DTB in ${KERNEL_DEVICETREE}; do
+ 			if echo ${DTB} | grep -q '/dts/'; then
+@@ -391,6 +399,16 @@ fitimage_assemble() {
+ 		done
  	fi
--
--	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
--		install -d ${D}${systemd_unitdir}/system
--		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system/
--		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
--			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
--			-e 's,@BINDIR@,${bindir},g' \
--			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
--			${D}${systemd_unitdir}/system/dpkg-configure.service
--	fi
- }
  
- PROV = "virtual/update-alternatives"
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-index 93d870443c..b88be87490 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-@@ -10,15 +10,16 @@ Upstream-Status: Inappropriate [OE Specific]
- RP 2011/12/07
- ALIMON 2016/05/26
- ALIMON 2017/02/21
-+KKang 2019/02/20
- ---
-  src/script.c | 44 +++-----------------------------------------
-  1 file changed, 3 insertions(+), 41 deletions(-)
- 
- diff --git a/src/script.c b/src/script.c
--index 2f252ae..768a9d1 100644
-+index 0865b95..73ed35d 100644
- --- a/src/script.c
- +++ b/src/script.c
--@@ -97,48 +97,10 @@ setexecute(const char *path, struct stat *stab)
-+@@ -96,58 +96,11 @@ setexecute(const char *path, struct stat *stab)
-  static const char *
-  maintscript_pre_exec(struct command *cmd)
-  {
-@@ -32,6 +33,8 @@ index 2f252ae..768a9d1 100644
- -		changedir = "/";
- -
- -	if (instdirlen > 0 && !fc_script_chrootless) {
-+-		int rc;
-+-
- -		if (strncmp(admindir, instdir, instdirlen) != 0)
- -			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
- -		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
-@@ -39,7 +42,12 @@ index 2f252ae..768a9d1 100644
- -		if (setenv("DPKG_ROOT", "", 1) < 0)
- -			ohshite(_("unable to setenv for subprocesses"));
- -
---		if (chroot(instdir))
-+-		rc = chroot(instdir);
-+-		if (rc && fc_nonroot && errno == EPERM)
-+-			ohshit(_("not enough privileges to change root "
-+-			         "directory with --force-not-root, consider "
-+-			         "using --force-script-chrootless?"));
-+-		else if (rc)
- -			ohshite(_("failed to chroot to '%.250s'"), instdir);
- +	if (*instdir) {
- +		setenv("D", instdir, 1);
-@@ -64,7 +72,10 @@ index 2f252ae..768a9d1 100644
- -	if (instdirlen == 0 || fc_script_chrootless)
- -		return cmd->filename;
- -
---	assert(strlen(cmd->filename) >= instdirlen);
-+-	if (strlen(cmd->filename) < instdirlen)
-+-		internerr("maintscript name '%s' length < instdir length %zd",
-+-		          cmd->filename, instdirlen);
-+ 
- -	return cmd->filename + instdirlen;
- +	return cmd->filename;
-  }
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch b/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
-index 96e96f277b..b368508862 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
-@@ -15,22 +15,26 @@ Upstream-Status: Pending
- Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
++		dtbcount=1
++		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
++			DTB=`basename ${DTBFILE}`
++			DTB=$(echo "${DTB}" | tr '/' '_')
++			DTBS="${DTBS} ${DTB}"
++			fitimage_emit_section_dtb ${1} ${DTB} ${DTBFILE}
++		done
++	fi
 +
-+Update patch context for dpkg 1.19.4.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
- ---
-  m4/dpkg-compiler.m4 | 1 -
-  1 file changed, 1 deletion(-)
- 
- diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
--index 682857c..23ed7d0 100644
-+index a6192f6..4c7bf2e 100644
- --- a/m4/dpkg-compiler.m4
- +++ b/m4/dpkg-compiler.m4
--@@ -52,7 +52,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
--   DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
--   DPKG_CHECK_COMPILER_FLAG([-Wlogical-not-parentheses])
-+@@ -67,7 +67,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
-+   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
-+   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
-    DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
- -  DPKG_CHECK_COMPILER_FLAG([-Wvla])
--   DPKG_CHECK_COMPILER_FLAG([-Winit-self])
-    DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
--   DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
-+ 
-+   AC_LANG_CASE(
- -- 
- 2.1.4
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-index 1b985df0f5..4f79a40d8b 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-@@ -18,22 +18,26 @@ Upstream-Status: Inappropriate [Configuration]
- 
- [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=759999#20
- [2] https://lists.gnu.org/archive/html/help-tar/2016-01/msg00000.html
-+
-+Update patch context for dpkg 1.19.4.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
- ---
-  dpkg-deb/build.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
--index a92b58e..a3d1912 100644
-+index 68d1875..053fcb7 100644
- --- a/dpkg-deb/build.c
- +++ b/dpkg-deb/build.c
--@@ -450,7 +450,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+@@ -457,7 +457,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-  
-      command_init(&cmd, TAR, "tar -cf");
-      command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
- -                           "--mtime", mtime, "--clamp-mtime", NULL);
- +                           "--mtime", mtime, NULL);
-      /* Mode might become a positional argument, pass it before -T. */
--     if (mode)
--       command_add_args(&cmd, "--mode", mode, NULL);
-+     if (options->mode)
-+       command_add_args(&cmd, "--mode", options->mode, NULL);
- -- 
- 2.11.0
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-deleted file mode 100644
-index 9a248ccb4a..0000000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-+++ /dev/null
-@@ -1,17 +0,0 @@
--[Unit]
--Description=dpkg first boot configure
--DefaultDependencies=no
--After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
--Before=sysinit.target
--
--[Service]
--Type=oneshot
--EnvironmentFile=-@SYSCONFDIR@/default/postinst
--ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/dpkg --configure -a > $LOGFILE 2>&1; else @BINDIR@/dpkg --configure -a; fi"
--ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable dpkg-configure.service
--StandardOutput=syslog
--RemainAfterExit=No
--
--[Install]
--WantedBy=basic.target
--WantedBy=sysinit.target
-diff --git a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
-index d48386647e..5debcc5209 100644
---- a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
-@@ -66,15 +66,18 @@ Upstream-Status: Inappropriate [everyone else builds on newer hosts :-)]
- Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
- Signed-off-by: Lei Liu <lei.liu2@windriver.com>
- 
-+Update patch context for dpkg 1.19.4.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
- ---
-  src/archives.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/archives.c b/src/archives.c
--index 4b2fc92..a92b795 100644
-+index 8476a5c..b05a63f 100644
- --- a/src/archives.c
- +++ b/src/archives.c
--@@ -69,7 +69,7 @@ fd_writeback_init(int fd)
-+@@ -68,7 +68,7 @@ fd_writeback_init(int fd)
-    /* Ignore the return code as it should be considered equivalent to an
-     * asynchronous hint for the kernel, we are doing an fsync() later on
-     * anyway. */
-@@ -83,14 +86,14 @@ index 4b2fc92..a92b795 100644
-    sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
-  #elif defined(HAVE_POSIX_FADVISE)
-    posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
--@@ -1078,7 +1078,7 @@ tarobject(void *ctx, struct tar_entry *ti)
-+@@ -1093,7 +1093,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
-    return 0;
-  }
-  
- -#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
- +#if defined(SYNC_FILE_RANGE_WAIT_BEFORE) && __GLIBC_PREREQ(2, 6)
-  static void
-- tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
-+ tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
-  {
- -- 
- 2.16.2
-diff --git a/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch b/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
-new file mode 100644
-index 0000000000..e9119918b1
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
-@@ -0,0 +1,27 @@
-+GNU tar >= 1.27 is required for --owner=NAME:ID and --group=NAME:ID. And fails
-+to build .deb packages with error:
-+
-+| dpkg-deb: building package 'linux-libc-headers-dbg' in '.../tmp/work/i586-poky-linux/linux-libc-headers/4.19-r0/deploy-debs/i586/linux-libc-headers-dbg_ 4.19-r0.0_i386.deb'.
-+| tar: root\:0: Invalid owner
-+| tar: Error is not recoverable: exiting now
-+| dpkg-deb: error: tar -cf subprocess returned error exit status 2
-+
-+Tweak tar options in dpkg-deb source code to make it work on old machines.
-+
-+Upstream-Status: Inappropriate [cross build specific]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
-+index 68d187511..86fe22e25 100644
-+--- a/dpkg-deb/build.c
-++++ b/dpkg-deb/build.c
-+@@ -462,7 +462,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-+     if (options->mode)
-+       command_add_args(&cmd, "--mode", options->mode, NULL);
-+     if (options->root_owner_group)
-+-      command_add_args(&cmd, "--owner", "root:0", "--group", "root:0", NULL);
-++      command_add_args(&cmd, "--owner", "root", "--group", "root", NULL);
-+     command_add_args(&cmd, "--null", "--no-unquote", "--no-recursion",
-+                            "-T", "-", NULL);
-+     command_exec(&cmd);
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.25.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-similarity index 73%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.25.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-index 350bd94f54..c3dbda77a4 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.25.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-@@ -1,11 +1,10 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20181228T152949Z/pool/main/d/dpkg/dpkg_1.18.25.tar.xz \
-+SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-            file://noman.patch \
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
--           file://dpkg-configure.service \
-            file://add_armeb_triplet_entry.patch \
-            file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
-            file://0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch \
-@@ -15,7 +14,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20181228T152949Z/pool/main/
-            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
-            file://0001-dpkg-Support-muslx32-build.patch \
-            "
--SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch "
-+SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch \
-+                                file://tweak-options-require-tar-1.27.patch \
-+"
- 
--SRC_URI[md5sum] = "e463f58b04acb23659df23d2a7a05cff"
--SRC_URI[sha256sum] = "c49c371953aea03f543814dcae37c069e86069333fb2e24e9252e76647663492"
-+SRC_URI[md5sum] = "1e4420409426d8c58bbe13a8e07c0c0b"
-+SRC_URI[sha256sum] = "c15234e98655689586bff2d517a6fdc6135d139c54d52ae9cfa6a90007fee0ae"
+ 	#
+ 	# Step 3: Prepare a setup section. (For x86)
+ 	#
 -- 
-2.20.0
+2.7.4
 
 
