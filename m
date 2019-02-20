@@ -1,47 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6910760248
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EF1F97C946
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 18:15:23 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id t7so25351162otk.8
+	Wed, 20 Feb 2019 18:56:51 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id b8so28425693qtr.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 10:15:24 -0800 (PST)
+	Wed, 20 Feb 2019 10:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=piTchM+w2Hpnij3Q2UdZfLw47GZZWm7eS6LnVu/OiUI=;
-	b=YkJI+jXVKg8IbZBIyFAVipmtt4k6ns7ENfxx4XIaYz/jZWa1Mxa7VSc8fR7KdsC1Ma
-	hEHvnjl3UKaMF7c7YDIJg9sXW+V5hpcKd3nbcdfCaXiNKzbASX10xr4808TVOZzmY8bT
-	e48gh+ereOtilFbM6JEbd11Egxf8lEc95cgXYIcq9D/2PB8dUO7r7IyZZREAoWMW0vfn
-	DSllJrx7PPK50TccxXQGcO9pSDOa6pnQ6qGVoxDvpdXQ31QHxblFwuc8JjJ0cFSkGF6n
-	wYa9bTF3Niw7N89ekk5EoXT1h+50geKSJc1vfeDF+RTWFzuODNBytijGQb8UKD9H2S5S
-	+dXQ==
+	:cc; bh=M2pnl+Pln+dM02h/r+SsYePS2/8R5Tq3FXo4h4iN/z8=;
+	b=Y3V/vslr7JLytXYf51abod4GMNJ4v0nIHK6gNES1v0cXFG8cRhFGezuiQ2FiC45MTO
+	TL4n7e3p+Dz1RPTwKiTaJLZU448Q/wljXJvkNWR7n7V2oEOYmYngVgSqjkq0rPM+V39g
+	Ex7/Z4uJlqavLD1kR5EnftnyKKXJWUrfo8PFhkC2LKc0tQ/kPSdRE1eoshI1IxE4WVKE
+	zNLRDaxh+f9VzUWuOzVcgV5UHreJulN/MlXTY3x+anEfpE4xCOh9m3tQSXL3SVgXK1bk
+	qVyv7Wytgmv2hhqBzeA/677KibEp81vn/UWNBzTjRtiUrxBV9gSDE2syxckf28pdJAVS
+	wTLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=piTchM+w2Hpnij3Q2UdZfLw47GZZWm7eS6LnVu/OiUI=;
-	b=H62NSVZ+54QvfyU0WHIuVMhLAzdjTGIu6wj4O4yq5l1wa/XVCxJ5pzgEHfPzJ8bq6A
-	SAH+BWsaqKQGbmOS8kX1ivEvaJc5+6Wd6cxX1XvJTy9Qs97UzAsD3/z+5DaJSkhb5MIS
-	H919t0010jerXHzsnTLzHXTEmPIGlmh6Ao2HQXeXgnDE1U09h7FtY+EY9pFhh41ofDY7
-	Gl5oRnZrbpdYQ7G2nHmNpwJxb+oaMcO7B9IlpmkgOsFcauG6xJdhapNRU4BzxkWPMnhk
-	ldqjEIglmUhGgvTO/iw1g8AFVBuB96c6wVW7utmHJ9gqn065xAY2j4EOWDgNKMwKI8IN
-	HiVA==
-X-Gm-Message-State: AHQUAub8nXJTolCft53o4Uy6Cw/8xfqgrFAOFi1u3E+c5XBxHzDAkxQO
-	+xTrkFOMyI6G2eUuoT0I2udKQUlDvMXzYXsWx94=
-X-Google-Smtp-Source: AHgI3IY8ESpTJuiVz9hkxVTNa1q2qw3OyLgAg/N2ukizfQ2Ui692v/tDfoaIV+9xSTMoq5hr8NJgPJwWd53sQt9I/Zw=
-X-Received: by 2002:aca:6206:: with SMTP id w6mr6903153oib.132.1550686523804; 
-	Wed, 20 Feb 2019 10:15:23 -0800 (PST)
+	bh=M2pnl+Pln+dM02h/r+SsYePS2/8R5Tq3FXo4h4iN/z8=;
+	b=YekCKqEEkfqPUkhpuJ9P3594BsbZ/V0krFQHa4FieTTnf0i+b09Ywg7n1ZytYzTjtb
+	q3hbC+MRdKW9yVsRnE6ocrfl0wklf3T9UdxUE6ZndbxcFedw+Z2pxGxFj89XI264RPm1
+	RB9SDOkpPTOJJcSOnE5v0uu8NIhcD7ZQhVTLDzf0IDAfZOU8qyzFhJBr9c6V87qfO9DA
+	OZXxoECMojtvo+0WoehIpNTFCohGc3bvLQW78iXPx84A5Tk+C05hZ1OSmEz3zbNfTYJB
+	IKu5qNtydNBHcj6UBV9yCCTLoBIAjAAbXs+vbLctuT9oxYbVpIVL2BiV9SNeYhGadWul
+	Z9rA==
+X-Gm-Message-State: AHQUAuZsh4S36hKdNgu6FQtHBCwAowfkxVr255H5IFHVbswgaTHhUbW6
+	idosnphOra8OJSjCZJG8uqEhM+k42Q1i0RXdLZI=
+X-Google-Smtp-Source: AHgI3IYjzUT3NQA9wpmhktSVkJR6FpbBGn/FobGvjMbve/KGhP4165H3/tL8+gERJNqUX62Ci2MiKNOKhuBQ91VkPRA=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr28799738qtn.253.1550689012553; 
+	Wed, 20 Feb 2019 10:56:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20190220135043.25837-1-alex.kanavin@gmail.com>
-	<7e7bf60a91548dc0373fd53b32baa28f163cb86a.camel@linuxfoundation.org>
-In-Reply-To: <7e7bf60a91548dc0373fd53b32baa28f163cb86a.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Feb 2019 19:15:11 +0100
-Message-ID: <CANNYZj9PO4jPdkesW0t3hRUAx7Jo=m01G7a67EUChRjLfUS5sA@mail.gmail.com>
+References: <20190219000849.6177-1-richard.purdie@linuxfoundation.org>
+	<20190219000849.6177-3-richard.purdie@linuxfoundation.org>
+	<CAMKF1sqKePayLE9-WXUe5Q9uv2qqFY7BRzfw67PdPbfDLAPijw@mail.gmail.com>
+In-Reply-To: <CAMKF1sqKePayLE9-WXUe5Q9uv2qqFY7BRzfw67PdPbfDLAPijw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Feb 2019 10:56:26 -0800
+Message-ID: <CAMKF1sp85fu5chPQfwL9TRQ+WHHrzddAj9FLJxQEd9VybW4mjg@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] pango: convert from autotools to meson
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] gtk+3: upgrade 3.24.1 -> 3.24.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,17 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 18:15:23 -0000
+X-List-Received-Date: Wed, 20 Feb 2019 18:56:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 20 Feb 2019 at 17:43, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> and I think we have a race:
+This has been applied to master but here is another failure on musl/x86
+
+https://errors.yoctoproject.org/Errors/Details/229302/
+
+
+On Mon, Feb 18, 2019 at 11:07 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> http://errors.yoctoproject.org/Errors/Details/229403/
-
-Somehow this link won't open here, but I think the race is this one?
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/310/steps/7/logs/step1b
-
-Alex
+> on ubuntu 14.04 https://errors.yoctoproject.org/Errors/Details/228774/
+>
+> On Mon, Feb 18, 2019 at 4:10 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/recipes-gnome/gtk+/{gtk+3_3.24.1.bb => gtk+3_3.24.5.bb} | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-gnome/gtk+/{gtk+3_3.24.1.bb => gtk+3_3.24.5.bb} (83%)
+> >
+> > diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.1.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
+> > similarity index 83%
+> > rename from meta/recipes-gnome/gtk+/gtk+3_3.24.1.bb
+> > rename to meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
+> > index 6de3e73f2f0..799cbd4707e 100644
+> > --- a/meta/recipes-gnome/gtk+/gtk+3_3.24.1.bb
+> > +++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
+> > @@ -7,8 +7,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+> >             file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
+> >             file://0003-Add-disable-opengl-configure-option.patch \
+> >            "
+> > -SRC_URI[md5sum] = "9dfe16f486573815f242fa400763feb7"
+> > -SRC_URI[sha256sum] = "68387be307b99aadcdc653561d7a2a7f0113b93561fb18ded7075ec9ced5b02f"
+> > +SRC_URI[md5sum] = "32862355c08f6af3e7848c695cd4081b"
+> > +SRC_URI[sha256sum] = "0be5fb0d302bc3de26ab58c32990d895831e2b7c7418d0ffea1206d6a3ddb02f"
+> >
+> >  S = "${WORKDIR}/gtk+-${PV}"
+> >
+> > --
+> > 2.20.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
