@@ -1,33 +1,64 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 50D067CA1C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 535C27C37F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 16:47:29 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id wV1tggh9Nx6b6wV1ugO2uN; Wed, 20 Feb 2019 16:47:30 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=CFTnQlWoA9kA:10 a=su2x02aN6ig_gsdQJIUA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gwV1t-0005n7-40; Wed, 20 Feb 2019 16:47:29 +0000
-Date: Wed, 20 Feb 2019 16:47:29 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20190220164729.4rkhazvhtyzwkeh3@mcrowe.com>
-References: <20190111164951.8329-1-mac@mcrowe.com>
-	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
-	<20190111165944.gussrefs6j5o6ffq@mcrowe.com>
-	<20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
+	Wed, 20 Feb 2019 17:35:38 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id v62so32684027otb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2019 09:35:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=Cq925XtWVIVmLN4eaJE5hX1hdp9eF4zJmlVKsm3fH8g=;
+	b=GAcW5jnvdOWwbWPO4vRoXGP0f1Zp8KRhU851eNcN0TEuZXz0LXzGENC0muEupwRsA3
+	yNjzE7cTH2DBA+Zfon0F5UaJSuYwnE9mFod2DT5loLFeH+Px/qNGzXNBTlQHqz9ZtXfX
+	xhsGu/C26V0HErlFYpH8XwxmImj89Avsy+VRl70YBqng897DSIhk1P+UbCUBWK2DEZem
+	vzY0QwQPb6nugBPUa1bA5gOT5s5s1bw4ip6T9o7wQSjZwlCefymiVwLcuNphcsRa3hmF
+	XEr9dz6+2Pj0agfJAZ+i/mXxkGl5hfvE05zN/LRa3H/xrak6qcORa+IUYNEPxQcbF0Bq
+	i3AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=Cq925XtWVIVmLN4eaJE5hX1hdp9eF4zJmlVKsm3fH8g=;
+	b=YZDONqZrWCgOyxw5X+0owrRYPnuuFz2yti5SCAEdvdl/ZzJzHzTmi2xtrRha2nFi02
+	Zs+8yaDSecBHXdFSiv673bDufUM2FhTgiAq89AKE5ZH41EKSKtaRwudh+XFf2O9obpop
+	KmVKU3yUcmTdMsL30k1KHmYovdSFl6boXIYJvGmKP/vcGDFVJC+yTrId3k8HXx+RmdF2
+	k/xoeevIZJFHsn7n6JNSYVwIqEzJGt7TiougLM8IqT02JOZIh4W4ADO6vadBgOCBuTjC
+	IfFMONGWC9xNYDZtHDBz0wwA0Jdu3TK7Si+KiGSc1k75QXdYqS6iZBzE94pCFl9gwyaW
+	cSQg==
+X-Gm-Message-State: AHQUAuaGFcnOopxrgMwSpoiSKAHEc5gzDk+NHF7LfJOeyGPeQ05eomAs
+	C+TLOHHu8E71czYywisno+tR3DQmHRw7EQ==
+X-Google-Smtp-Source: AHgI3IbgIVhCHOo9ENUlSe6VokhwKxK0eVtdvNHn4VVysp99Xamtlr/xmQmk8uQCJbwmZYhIBgAljg==
+X-Received: by 2002:aca:ad0f:: with SMTP id w15mr6794346oie.131.1550684138950; 
+	Wed, 20 Feb 2019 09:35:38 -0800 (PST)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com.
+	[209.85.210.49])
+	by smtp.gmail.com with ESMTPSA id q5sm3480066otf.73.2019.02.20.09.35.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Feb 2019 09:35:36 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f49.google.com with SMTP id v20so9566826otk.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2019 09:35:36 -0800 (PST)
+X-Received: by 2002:a9d:7390:: with SMTP id j16mr10100347otk.231.1550684135875;
+	Wed, 20 Feb 2019 09:35:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfIKwfaD5nXfDEQ674y0vl3Ryh3mEp6AS3YgJHxL+z+43toaOq+zYcxcbGj0PM7Pk/w4dsL+hYB9fmYYfhx8gHOSKXBVw0/voUGG3jTpjAQTjyT+qgP51
-	dZgR3sJxuuzhrq4G4zZ52kbQIpRijcyWEQQHYmPvIf8ZjMl88DiDrpjO
-Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
+References: <20190220121544.9462-1-fabio.berton@ossystems.com.br>
+	<20190220121544.9462-2-fabio.berton@ossystems.com.br>
+	<CANNYZj9yLw3oYy0AK6ey2F85JTV9onR47fdxCpNTMjMsyg5R_A@mail.gmail.com>
+	<6620040d80c34ea1a79f622e1ceea4c15f095f0b.camel@linuxfoundation.org>
+In-Reply-To: <6620040d80c34ea1a79f622e1ceea4c15f095f0b.camel@linuxfoundation.org>
+Date: Wed, 20 Feb 2019 14:35:23 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKodjXx1qG4pVt85HrGgChcBupwqS28A_92xHB_vvfnhWg@mail.gmail.com>
+Message-ID: <CAP9ODKodjXx1qG4pVt85HrGgChcBupwqS28A_92xHB_vvfnhWg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/3] mesa: Replace dri-native with dri for native and nativesdk classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,134 +71,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 16:47:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Feb 2019 17:35:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday 23 January 2019 at 16:27:59 +0000, Mike Crowe wrote:
-> On Friday 11 January 2019 at 16:59:44 +0000, Mike Crowe wrote:
-> > On Friday 11 January 2019 at 16:53:47 +0000, Richard Purdie wrote:
-> > > On Fri, 2019-01-11 at 16:49 +0000, Mike Crowe wrote:
-> > > > Until now, glibc was responsible for creating an AArch64 dynamic
-> > > > loader symlink if required for ABI compatibility.
-> > > > 
-> > > > Unfortunately, using multilib with AArch64 caused the rmdir in
-> > > > glibc-package.inc:do_poststash_install_cleanup to fail because that
-> > > > task did not expect to find the dynamic loader symlink in /lib.
-> > > > 
-> > > > Also, although glibc-package.inc:do_install_append_aarch64 made use
-> > > > of ${nonarch_base_libdir} to create the dynamic loader symlink in a
-> > > > way that was compatible with usrmerge, it unfortunately explicitly
-> > > > added only /lib to libc_baselibs, so the symlink was not packaged
-> > > > correctly when using usrmerge.
-> > > > 
-> > > > Attempting to fix both of these problems within glibc-package.inc in
-> > > > various ways created a bit of a mess. It seemed much simpler to
-> > > > invent a new package for the symlink and have glibc RDEPEND on that
-> > > > package if required.
-> > > > 
-> > > > Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be
-> > > > used in this way. I've switched to using ${root_prefix}/lib which
-> > > > continues to work both with and without usrmerge.
-> > > > 
-> > > > Unfortunately, it appears not to be possible to specify the name of
-> > > > the loader via a variable with an override, since the _aarch64
-> > > > override is applied even for _aarch64-be.
-> > > 
-> > > I wish there was a simpler way to do this. How ugly is the patch to fix
-> > > this without adding the new recipe? Adding new recipes which are arch
-> > > specific like this is a pain for world builds and I think this patch
-> > > will have problems with those :(.
-> > 
-> > This is how far I got before deciding that it was too ugly. This patch
-> > needs some cleaning up, and similar hackery to the separate-recipe patch
-> > because the aarch64-be override doesn't work. :(
-> > 
-> > I tried to make both patches at least slightly generic in case some other
-> > architecture needs something similar in the future. That's why the code has
-> > moved into a plain do_install_append. This isn't required though, and
-> > perhaps it would be clearer if the variable were actually
-> > AARCH64_DYNAMIC_LOADER anyway.
-> > 
-> > Thanks.
-> > 
-> > Mike.
-> > 
-> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-> > index a98ae1a29c..0181aa7b32 100644
-> > --- a/meta/recipes-core/glibc/glibc-package.inc
-> > +++ b/meta/recipes-core/glibc/glibc-package.inc
-> > @@ -15,7 +15,13 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
-> >  RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
-> >  RPROVIDES_${PN}-dbg = "eglibc-dbg"
-> >  libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
-> > -libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
-> > +ARCH_DYNAMIC_LOADER = ""
-> > +# The aarch64 ABI says the dynamic linker -must- be
-> > +# /lib/ld-linux-aarch64[_be].so.1. With usrmerge, that may mean that
-> > +# we need to install it in /usr/lib.
-> > +ARCH_DYNAMIC_LOADER_aarch64 = "ld-linux-aarch64.so.1"
-> > +ARCH_DYNAMIC_LOADER_aarch64_be = "ld-linux-aarch64_be.so.1"
-> > +libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
-> >  INSANE_SKIP_${PN}_append_aarch64 = " libdir"
-> > 
-> >  FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
-> > @@ -112,20 +118,20 @@ do_install_append () {
-> >  		echo "d root root 0755 /var/run/nscd none" \
-> >  			> ${D}${sysconfdir}/default/volatiles/98_nscd
-> >  	fi
-> > +
-> > +	# The dynamic loader will have been installed into
-> > +	# ${base_libdir}. However, if that isn't going to end up being
-> > +	# available in the ABI-mandated location, then a symlink must
-> > +        # be created.
-> > +
-> > +	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
-> > +		install -d ${D}${root_prefix}/lib
-> > +		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
-> > +				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
-> > +	fi
-> >  }
-> > 
-> >  do_install_append_aarch64 () {
-> > -	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
-> > -		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
-> > -		install -d ${D}${nonarch_base_libdir}
-> > -		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
-> > -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
-> > -				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
-> > -		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
-> > -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
-> > -				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
-> > -		fi
-> > -	fi
-> >  	do_install_armmultilib
-> >  }
-> > 
-> > @@ -207,7 +213,7 @@ do_poststash_install_cleanup () {
-> >  	rm -rf ${D}/${localedir}
-> >  	rm -rf ${D}${datadir}/locale
-> >  	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
-> > -		if [ -d ${D}${exec_prefix}/lib ]; then
-> > +		if [ -d ${D}${exec_prefix}/lib -a ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
-> >  			# error out if directory isn't empty
-> >  			# this dir should only contain locale dir
-> >  			# which has been deleted in the previous step
-> 
-> Does the lack of response mean that both approaches are horrendous? If so,
-> do you have any better ideas?
+On Wed, Feb 20, 2019 at 12:22 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2019-02-20 at 15:47 +0100, Alexander Kanavin wrote:
+> > On Wed, 20 Feb 2019 at 13:16, Fabio Berton
+> > <fabio.berton@ossystems.com.br> wrote:
+> > > -DRIDRIVERS = "swrast"
+> > > -DRIDRIVERS_append_x86_class-target =
+> > > ",radeon,r200,nouveau,i965,i915"
+> > > -DRIDRIVERS_append_x86-64_class-target =
+> > > ",radeon,r200,nouveau,i965,i915"
+> > > +DRIDRIVERS_class-native = "swrast"
+> > > +DRIDRIVERS_class-nativesdk = "swrast"
+> > > +DRIDRIVERS_append_x86_class-target =
+> > > ",r100,r200,nouveau,i965,i915"
+> > > +DRIDRIVERS_append_x86-64_class-target =
+> > > ",r100,r200,nouveau,i965,i915"
+> >
+> > This produces:
+> > > configure: error: classic DRI driver 'r100' does not exist
+> >
+> > radeon has been renamed to r100 in meson builds, until then it should
+> > be still 'radeon'.
+>
+> Its getting a bit frustrating/tedious to kill all the builds and drop
+> the mesa patches again :(
 
-There doesn't seem to be much interest in this one.
+We are doing our best. It is unfortunate it ended being a
+"one-big-do-everything-together" patch. This should have been done in
+steps since the beginning.
 
-The only other idea I've had is to create the symlink at rootfs-creation
-time. However, that seems to be detaching it too much from glibc, which
-would cause confusion.
+Fabio prepared the new version. We hope it finishes this patchset.
 
-I can apply one of my fixes locally (we currently have some far uglier
-hacks than these that I'd like to remove), but I'd really rather not have
-to diverge from upstream this much.
-
-Thanks.
-
-Mike.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
