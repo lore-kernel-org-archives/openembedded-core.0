@@ -1,51 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A937F6C466
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 50D067CA1C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 16:43:21 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id x7so7272193wmj.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 08:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=BtHUXn6wVJ6Cj29L6R7GwCR1U09OBuOvCrKFe5Zgud4=;
-	b=NuFhtQ93GPYplM0UBZ1osV38TWZcHtvN+asetn4KYx+vIL4yfn4k2POHrTs5r2yyoG
-	fpEFADaBP2JZMycwXdrpFNaSPHa7Q4RaAw2gqIZEkRpvYVAxQu00zO/Fjw0hnyaXLBuZ
-	jHyOue6ZGyzPF3+57/YCD/7n+dD4iFHqUUySc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=BtHUXn6wVJ6Cj29L6R7GwCR1U09OBuOvCrKFe5Zgud4=;
-	b=XP9w63ZHVN0i3qT12MaxUSL8DeOX2G4nMTo1twERlPrHPHnckm46ML+gKjpTtUQGbh
-	91iyEMOvW5rJadpSMbohVoEsnZNlXgeN48/8IIg4QvPb2j6ECXJS8+D3vzi36P7gx7JB
-	5mgeYcdJiYWa4IMwMnxFkZ/NTkLORoK9/1vHvFpLIF7PE1881zNllUFHQDJmTHH6x+2q
-	oH9wm+v7MLKs35j7/8AAMfQ+k2BS0x+0d7Ej1UJbY+Dw4N3j2Qe6hovnxGnswhjYIOOv
-	KSxH6Yf3sYohDdIwZHz4aGEI0ds0SAWQN2bFaj/z3ivC3lD+q1eHH6/GsXCILEL8YSOS
-	czvA==
-X-Gm-Message-State: AHQUAuaI7EBOtTW01nLxBuhkTclziZOiXXdS1/4Xj+3nTvZArdJlaWx5
-	VStFl9U03W7hZ0wgaYSCUPmBAw==
-X-Google-Smtp-Source: AHgI3IafyUjFgisXWdEk2vYCAjcylpzoADk5jcT6+DPrr5caYCCRrJPRFGsbJFVQGpOBgSl1PkRl7A==
-X-Received: by 2002:a1c:2885:: with SMTP id o127mr2263629wmo.135.1550681002155;
-	Wed, 20 Feb 2019 08:43:22 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u15sm7347680wmu.17.2019.02.20.08.43.20
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 20 Feb 2019 08:43:20 -0800 (PST)
-Message-ID: <7e7bf60a91548dc0373fd53b32baa28f163cb86a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Wed, 20 Feb 2019 16:47:29 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id wV1tggh9Nx6b6wV1ugO2uN; Wed, 20 Feb 2019 16:47:30 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=CFTnQlWoA9kA:10 a=su2x02aN6ig_gsdQJIUA:9
+	a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1gwV1t-0005n7-40; Wed, 20 Feb 2019 16:47:29 +0000
+Date: Wed, 20 Feb 2019 16:47:29 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Wed, 20 Feb 2019 16:43:19 +0000
-In-Reply-To: <20190220135043.25837-1-alex.kanavin@gmail.com>
-References: <20190220135043.25837-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.31.90-1 
+Message-ID: <20190220164729.4rkhazvhtyzwkeh3@mcrowe.com>
+References: <20190111164951.8329-1-mac@mcrowe.com>
+	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
+	<20190111165944.gussrefs6j5o6ffq@mcrowe.com>
+	<20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] pango: convert from autotools to meson
+In-Reply-To: <20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfIKwfaD5nXfDEQ674y0vl3Ryh3mEp6AS3YgJHxL+z+43toaOq+zYcxcbGj0PM7Pk/w4dsL+hYB9fmYYfhx8gHOSKXBVw0/voUGG3jTpjAQTjyT+qgP51
+	dZgR3sJxuuzhrq4G4zZ52kbQIpRijcyWEQQHYmPvIf8ZjMl88DiDrpjO
+Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +40,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 16:43:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Feb 2019 16:47:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2019-02-20 at 14:50 +0100, Alexander Kanavin wrote:
-> libxft is a hard dependency now, accordingly drop the patch that
-> was made for it being optional.
+On Wednesday 23 January 2019 at 16:27:59 +0000, Mike Crowe wrote:
+> On Friday 11 January 2019 at 16:59:44 +0000, Mike Crowe wrote:
+> > On Friday 11 January 2019 at 16:53:47 +0000, Richard Purdie wrote:
+> > > On Fri, 2019-01-11 at 16:49 +0000, Mike Crowe wrote:
+> > > > Until now, glibc was responsible for creating an AArch64 dynamic
+> > > > loader symlink if required for ABI compatibility.
+> > > > 
+> > > > Unfortunately, using multilib with AArch64 caused the rmdir in
+> > > > glibc-package.inc:do_poststash_install_cleanup to fail because that
+> > > > task did not expect to find the dynamic loader symlink in /lib.
+> > > > 
+> > > > Also, although glibc-package.inc:do_install_append_aarch64 made use
+> > > > of ${nonarch_base_libdir} to create the dynamic loader symlink in a
+> > > > way that was compatible with usrmerge, it unfortunately explicitly
+> > > > added only /lib to libc_baselibs, so the symlink was not packaged
+> > > > correctly when using usrmerge.
+> > > > 
+> > > > Attempting to fix both of these problems within glibc-package.inc in
+> > > > various ways created a bit of a mess. It seemed much simpler to
+> > > > invent a new package for the symlink and have glibc RDEPEND on that
+> > > > package if required.
+> > > > 
+> > > > Richard Purdie suggested[1] that ${nonarch_base_libdir} should not be
+> > > > used in this way. I've switched to using ${root_prefix}/lib which
+> > > > continues to work both with and without usrmerge.
+> > > > 
+> > > > Unfortunately, it appears not to be possible to specify the name of
+> > > > the loader via a variable with an override, since the _aarch64
+> > > > override is applied even for _aarch64-be.
+> > > 
+> > > I wish there was a simpler way to do this. How ugly is the patch to fix
+> > > this without adding the new recipe? Adding new recipes which are arch
+> > > specific like this is a pain for world builds and I think this patch
+> > > will have problems with those :(.
+> > 
+> > This is how far I got before deciding that it was too ugly. This patch
+> > needs some cleaning up, and similar hackery to the separate-recipe patch
+> > because the aarch64-be override doesn't work. :(
+> > 
+> > I tried to make both patches at least slightly generic in case some other
+> > architecture needs something similar in the future. That's why the code has
+> > moved into a plain do_install_append. This isn't required though, and
+> > perhaps it would be clearer if the variable were actually
+> > AARCH64_DYNAMIC_LOADER anyway.
+> > 
+> > Thanks.
+> > 
+> > Mike.
+> > 
+> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> > index a98ae1a29c..0181aa7b32 100644
+> > --- a/meta/recipes-core/glibc/glibc-package.inc
+> > +++ b/meta/recipes-core/glibc/glibc-package.inc
+> > @@ -15,7 +15,13 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+> >  RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+> >  RPROVIDES_${PN}-dbg = "eglibc-dbg"
+> >  libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+> > -libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+> > +ARCH_DYNAMIC_LOADER = ""
+> > +# The aarch64 ABI says the dynamic linker -must- be
+> > +# /lib/ld-linux-aarch64[_be].so.1. With usrmerge, that may mean that
+> > +# we need to install it in /usr/lib.
+> > +ARCH_DYNAMIC_LOADER_aarch64 = "ld-linux-aarch64.so.1"
+> > +ARCH_DYNAMIC_LOADER_aarch64_be = "ld-linux-aarch64_be.so.1"
+> > +libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
+> >  INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+> > 
+> >  FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+> > @@ -112,20 +118,20 @@ do_install_append () {
+> >  		echo "d root root 0755 /var/run/nscd none" \
+> >  			> ${D}${sysconfdir}/default/volatiles/98_nscd
+> >  	fi
+> > +
+> > +	# The dynamic loader will have been installed into
+> > +	# ${base_libdir}. However, if that isn't going to end up being
+> > +	# available in the ABI-mandated location, then a symlink must
+> > +        # be created.
+> > +
+> > +	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+> > +		install -d ${D}${root_prefix}/lib
+> > +		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
+> > +				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
+> > +	fi
+> >  }
+> > 
+> >  do_install_append_aarch64 () {
+> > -	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
+> > -		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
+> > -		install -d ${D}${nonarch_base_libdir}
+> > -		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
+> > -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
+> > -				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
+> > -		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
+> > -			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
+> > -				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
+> > -		fi
+> > -	fi
+> >  	do_install_armmultilib
+> >  }
+> > 
+> > @@ -207,7 +213,7 @@ do_poststash_install_cleanup () {
+> >  	rm -rf ${D}/${localedir}
+> >  	rm -rf ${D}${datadir}/locale
+> >  	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
+> > -		if [ -d ${D}${exec_prefix}/lib ]; then
+> > +		if [ -d ${D}${exec_prefix}/lib -a ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+> >  			# error out if directory isn't empty
+> >  			# this dir should only contain locale dir
+> >  			# which has been deleted in the previous step
+> 
+> Does the lack of response mean that both approaches are horrendous? If so,
+> do you have any better ideas?
 
-That breaks the no-x11 builds:
+There doesn't seem to be much interest in this one.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/311
+The only other idea I've had is to create the symlink at rootfs-creation
+time. However, that seems to be detaching it too much from glibc, which
+would cause confusion.
 
-I'm also wondering about the warnings in:
+I can apply one of my fixes locally (we currently have some far uglier
+hacks than these that I'd like to remove), but I'd really rather not have
+to diverge from upstream this much.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/309/steps/7/logs/warnings
+Thanks.
 
-and I think we have a race:
-
-http://errors.yoctoproject.org/Errors/Details/229403/
-
-So making progress but not quite there yet! :)
-
-Cheers,
-
-Richard
-
+Mike.
 
