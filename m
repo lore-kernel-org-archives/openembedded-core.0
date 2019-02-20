@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 400327C990
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C4FCA7C984
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 11:31:40 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id h22so4485893wmb.0
+	Wed, 20 Feb 2019 11:31:41 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id l5so24461384wrw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 03:31:41 -0800 (PST)
+	Wed, 20 Feb 2019 03:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=1GfwD2IQ/VGWYX+fSF8QIq0wsWA/DCun48EiYobliUU=;
-	b=XSNBiTnGPSiPNL5MQM9c5H65KmpVTJrQW+Vx+x7yoasUSA/4DgmhQKLwCmR795aVYQ
-	DJkIHTryH3gNCG/zH4mxHELBSGffVG6XjnXMmEDFfY6C6JmF7oJZ4dvuIwFgzIACClj4
-	6bhALBxmGC8djpW2N1vRwtdBk7YaCHNidMuE0=
+	bh=kgzQR3EdQ7GjxZ/hBOTxXSxIEPXIOn5oltZEXgsE2so=;
+	b=A20QCCm+vv4t65XlKyp7EncHwkgk81YbD4mmP7S0jmVzGwzfkbKG73jKLITabfJS/j
+	L+VpORtHHnznGViJboLuU8RZKjE9ErJhRAFNjrxitAHur3YitnWlnt14ZqCoUsR+RkUz
+	A0Svbsn9tm29hWtJAQv3/hsXKGMVGdPFCoe9g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=1GfwD2IQ/VGWYX+fSF8QIq0wsWA/DCun48EiYobliUU=;
-	b=aF7OYk8t1UApQG9d4DQ7jhYNVt/GNw47JyWtRNUl/sO94qVYpMMkHG3Gu3OwM1jZvD
-	XsZ9YnPI3dRiN8DNq2BRQSMOmloN6XEcK1piVuzbDJW/NYt1GhAvEhdfX+FLhab0QkoM
-	3g8WbWjdOgn6SOZpp9xWM8xQNFj5x/N9C2dWQ1FEE9vD8ZXhK2lEANbv8+Ci10D1xHm0
-	eMQeI55zc3iphRWSNbLs4ZuED1FBdydg1jEOmWtLN35qMwDCITClrfK9yNUcvnCxMIff
-	T5UPfsR7ZFzUlssf06IQato8q4mgcmsMHUzCN/rEW5drsEB6oIb0gFU++AzVyL0zRZ6+
-	xJPA==
-X-Gm-Message-State: AHQUAuanMFmfE+rCHQSVgjqPUbbO8aV+QUF598Go9oIkDwD57Vyjf8JB
-	/2gQxLVyRNN0Ii6jvQJM/pxPzSiVKBw=
-X-Google-Smtp-Source: AHgI3IawbMyCZVfr2O6vxYF5WjsSFkfAkcZfmUmqOShwHpJVdaVlvgw2vdDfLfkklCGUu2B607xCig==
-X-Received: by 2002:a1c:e911:: with SMTP id q17mr6886507wmc.31.1550662300646; 
-	Wed, 20 Feb 2019 03:31:40 -0800 (PST)
+	bh=kgzQR3EdQ7GjxZ/hBOTxXSxIEPXIOn5oltZEXgsE2so=;
+	b=FG0YvCBJwUxtdVyfrUVvby45NrC5eCWeXeR2UNgwOqwRyllIBF2Ai5USrfPfFIizX7
+	A+QceKU9QrS+USm/B7SSpiGw5xNbKOe6ScS4VoGaM2DT6ER77NZ3AJ+Z45t4AkhJx4Vx
+	9yaR3Lg2e46TOXhQeMVsMWS+fR2unb2dsc3Ycp5dK/hseDieTUfPEuizPOmcwzHDcnDv
+	QteXGc7ip+H+IUbIwKdGoIVjMLRS9C5UFQ0Oxjnf7AADvYTJMMp5HQ0sRhxWv+xgVlPB
+	qZamEBssvvjV0AT54Ho2mhDU2tnybG8PzQZ4FUDnBikcnXaFMH5Rl3FvpWFs0e3JNLXg
+	SFMA==
+X-Gm-Message-State: AHQUAuZB6/laQg5MMGCO6VhJQ8+s5E39TxMDw5X3saLXeGgRBAC4Re3E
+	vyU7x47GOtPzASjp+PUYLEXvrPGCOAA=
+X-Google-Smtp-Source: AHgI3IZNXfkADQ3SG2QPF0WKdZ3Rzvpci47h1dNfMD2tEGkE2caL1RmfbZldADuU+PMUctqfNafuXg==
+X-Received: by 2002:adf:a749:: with SMTP id e9mr23209002wrd.210.1550662302038; 
+	Wed, 20 Feb 2019 03:31:42 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	l125sm10377824wml.18.2019.02.20.03.31.39
+	l125sm10377824wml.18.2019.02.20.03.31.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Feb 2019 03:31:39 -0800 (PST)
+	Wed, 20 Feb 2019 03:31:40 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Feb 2019 11:31:34 +0000
-Message-Id: <20190220113136.25171-3-richard.purdie@linuxfoundation.org>
+Date: Wed, 20 Feb 2019 11:31:35 +0000
+Message-Id: <20190220113136.25171-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190220113136.25171-1-richard.purdie@linuxfoundation.org>
 References: <20190220113136.25171-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] python3-pip: upgrade 18.0 -> 19.0.2
+Subject: [PATCH 4/5] python3-setuptools: upgrade 40.0.0 -> 40.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +57,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 11:31:40 -0000
+X-List-Received-Date: Wed, 20 Feb 2019 11:31:42 -0000
 Content-Transfer-Encoding: 8bit
-
-The license checksum changed due to copyright year changes.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/{python3-pip_18.0.bb => python3-pip_19.0.2.bb}   | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_18.0.bb => python3-pip_19.0.2.bb} (71%)
+ ...nditionally-do-not-fetch-code-by-easy_install.patch | 10 ++++------
+ meta/recipes-devtools/python/python-setuptools.inc     |  4 ++--
+ ...etuptools_40.0.0.bb => python-setuptools_40.8.0.bb} |  0
+ ...tuptools_40.0.0.bb => python3-setuptools_40.8.0.bb} |  0
+ 4 files changed, 6 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_40.0.0.bb => python-setuptools_40.8.0.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_40.0.0.bb => python3-setuptools_40.8.0.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_18.0.bb b/meta/recipes-devtools/python/python3-pip_19.0.2.bb
-similarity index 71%
-rename from meta/recipes-devtools/python/python3-pip_18.0.bb
-rename to meta/recipes-devtools/python/python3-pip_19.0.2.bb
-index 3fcdb8014ac..d81a60caa2b 100644
---- a/meta/recipes-devtools/python/python3-pip_18.0.bb
-+++ b/meta/recipes-devtools/python/python3-pip_19.0.2.bb
-@@ -2,12 +2,12 @@ SUMMARY = "The PyPA recommended tool for installing Python packages"
- HOMEPAGE = "https://pypi.python.org/pypi/pip"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=593c6cd9d639307226978cbcae61ad4b"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 4b179218804..169d1b155bd 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 019422d19c6401fa8f45b1311ecd31bb087c809d Mon Sep 17 00:00:00 2001
++From 5bba4f57f048016aa92ce5909e9e372db619554e Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -9,15 +9,16 @@ internet by easy_install.
+ Upstream-Status: Inappropriate [oe specific]
  
- DEPENDS += "python3 python3-setuptools-native"
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  setuptools/command/easy_install.py | 5 +++++
+  1 file changed, 5 insertions(+)
  
--SRC_URI[md5sum] = "52f75ceb21e96c258f289859a2996b60"
--SRC_URI[sha256sum] = "a0e11645ee37c90b40c46d607070c4fd583e2cd46231b1c06e389c5e814eed76"
-+SRC_URI[md5sum] = "526fd9ec1e6ea956b3571ebfb42cf83c"
-+SRC_URI[sha256sum] = "f851133f8b58283fa50d8c78675eb88d4ff4cde29b6c41205cd938b06338e0e5"
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 85ee40f..7eb9d2a 100755
++index 05508ce..945e118 100755
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -637,6 +637,11 @@ class easy_install(Command):
++@@ -640,6 +640,11 @@ class easy_install(Command):
+              os.path.exists(tmpdir) and rmtree(rmtree_safe(tmpdir))
+  
+      def easy_install(self, spec, deps=False):
+@@ -29,6 +30,3 @@ index 85ee40f..7eb9d2a 100755
+          if not self.editable:
+              self.install_site_py()
+  
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 315ba313965..9092d7ad03a 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
  
- inherit pypi distutils3
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
  
+-SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+-SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
++SRC_URI[md5sum] = "712697a5bc975cf479d487cd68206c20"
++SRC_URI[sha256sum] = "6e4eec90337e849ade7103723b9a99631c1f0d19990d6e8412dc42f5ae8b304d"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.8.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_40.8.0.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_40.8.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_40.0.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_40.8.0.bb
 -- 
 2.20.1
 
