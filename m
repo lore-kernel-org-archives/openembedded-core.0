@@ -1,51 +1,47 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 89B077CA2C
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6910760248
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 17:50:37 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id i5so41574318oto.9
+	Wed, 20 Feb 2019 18:15:23 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id t7so25351162otk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 09:50:38 -0800 (PST)
+	Wed, 20 Feb 2019 10:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OmNVxMJ+dBqTaNLVuOy0ih8ESWIIeWHe7bhcB7tm+Qk=;
-	b=mEULmsjA7qJPkUIvxo4IFW33I/DqeBmfIq6q0J2FXBG0BTlvHU2/7CkZuBZUFDX9HG
-	TkITPctOf09VLgl6t6wQtXNF2ZXn4GRTxt71QUzFbnX3omXIZITkf1Wm6cYGSTVARL/7
-	zV40Ivj47d1t9FpOV/wETSH6YOQjKCqnJiSUCdUXZdttFzmEkLIJGVqwC5LkEJepfh3r
-	Q+YKIXrNZKYdYDV9JcaPZhuvlgST/uvWuYucxIsKKFpz5vm7yYKePhVSGX56Caaral6Q
-	ULPFM/5mpzK7YOu2yEHN3aS6fY2SYHMf5aD0TDv9YvNMIBnTbH0YJgRExQ241mwV6kK9
-	pJ0A==
+	:cc; bh=piTchM+w2Hpnij3Q2UdZfLw47GZZWm7eS6LnVu/OiUI=;
+	b=YkJI+jXVKg8IbZBIyFAVipmtt4k6ns7ENfxx4XIaYz/jZWa1Mxa7VSc8fR7KdsC1Ma
+	hEHvnjl3UKaMF7c7YDIJg9sXW+V5hpcKd3nbcdfCaXiNKzbASX10xr4808TVOZzmY8bT
+	e48gh+ereOtilFbM6JEbd11Egxf8lEc95cgXYIcq9D/2PB8dUO7r7IyZZREAoWMW0vfn
+	DSllJrx7PPK50TccxXQGcO9pSDOa6pnQ6qGVoxDvpdXQ31QHxblFwuc8JjJ0cFSkGF6n
+	wYa9bTF3Niw7N89ekk5EoXT1h+50geKSJc1vfeDF+RTWFzuODNBytijGQb8UKD9H2S5S
+	+dXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=OmNVxMJ+dBqTaNLVuOy0ih8ESWIIeWHe7bhcB7tm+Qk=;
-	b=fPmk/x5xGNKQ50GeTama6GPHlGnQiHMqzi7xd0ttIYM5fFw3PEHp+nQHrLTmE8rkRN
-	yZ2XEiGgwydaaKqPiUmwFAK/xS69MrEOur70jVqViuhlMuK1wrc0g43a1ZUiZnF6B8O0
-	gXqkO9TJfTlPl2hd29ETEAManpfcHCdLwWLxRPuzWZBJKInrJDSDNGMA6rvNXHdHwWBm
-	UuJK61sf5D6na2pSUnz1xN2YTQuQ1YiftsXYWkHRFKcnUuDeDDTsWGgXsYpln35Hbjd2
-	4GOs8G58HrLL5EvkdzyurPYzxmCoiMTLv/nJCXtDCxP+4Mebh6Kq66NybtuGYL3cXvPx
-	Ls/Q==
-X-Gm-Message-State: AHQUAuYkd25o6wETPTj36lVE0IOPVZUQh/3/qtIZXhV3IVlk2GqLljp1
-	R2f1RCSKaOYOprmHcFIX2286rswCaa8UtZgd+ZM=
-X-Google-Smtp-Source: AHgI3IYa1+ssv6NB9c0H6Uxh+Sr660IyR5lbSS9r6gZvHBw3Bz1k5eMjze8/w6MZckDKJtrosj/DFsp16mmuDlK0wLg=
-X-Received: by 2002:a9d:7653:: with SMTP id o19mr21726744otl.12.1550685038576; 
-	Wed, 20 Feb 2019 09:50:38 -0800 (PST)
+	bh=piTchM+w2Hpnij3Q2UdZfLw47GZZWm7eS6LnVu/OiUI=;
+	b=H62NSVZ+54QvfyU0WHIuVMhLAzdjTGIu6wj4O4yq5l1wa/XVCxJ5pzgEHfPzJ8bq6A
+	SAH+BWsaqKQGbmOS8kX1ivEvaJc5+6Wd6cxX1XvJTy9Qs97UzAsD3/z+5DaJSkhb5MIS
+	H919t0010jerXHzsnTLzHXTEmPIGlmh6Ao2HQXeXgnDE1U09h7FtY+EY9pFhh41ofDY7
+	Gl5oRnZrbpdYQ7G2nHmNpwJxb+oaMcO7B9IlpmkgOsFcauG6xJdhapNRU4BzxkWPMnhk
+	ldqjEIglmUhGgvTO/iw1g8AFVBuB96c6wVW7utmHJ9gqn065xAY2j4EOWDgNKMwKI8IN
+	HiVA==
+X-Gm-Message-State: AHQUAub8nXJTolCft53o4Uy6Cw/8xfqgrFAOFi1u3E+c5XBxHzDAkxQO
+	+xTrkFOMyI6G2eUuoT0I2udKQUlDvMXzYXsWx94=
+X-Google-Smtp-Source: AHgI3IY8ESpTJuiVz9hkxVTNa1q2qw3OyLgAg/N2ukizfQ2Ui692v/tDfoaIV+9xSTMoq5hr8NJgPJwWd53sQt9I/Zw=
+X-Received: by 2002:aca:6206:: with SMTP id w6mr6903153oib.132.1550686523804; 
+	Wed, 20 Feb 2019 10:15:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20190220121544.9462-1-fabio.berton@ossystems.com.br>
-	<20190220121544.9462-2-fabio.berton@ossystems.com.br>
-	<CANNYZj9yLw3oYy0AK6ey2F85JTV9onR47fdxCpNTMjMsyg5R_A@mail.gmail.com>
-	<6620040d80c34ea1a79f622e1ceea4c15f095f0b.camel@linuxfoundation.org>
-	<CAP9ODKodjXx1qG4pVt85HrGgChcBupwqS28A_92xHB_vvfnhWg@mail.gmail.com>
-In-Reply-To: <CAP9ODKodjXx1qG4pVt85HrGgChcBupwqS28A_92xHB_vvfnhWg@mail.gmail.com>
+References: <20190220135043.25837-1-alex.kanavin@gmail.com>
+	<7e7bf60a91548dc0373fd53b32baa28f163cb86a.camel@linuxfoundation.org>
+In-Reply-To: <7e7bf60a91548dc0373fd53b32baa28f163cb86a.camel@linuxfoundation.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Feb 2019 18:50:26 +0100
-Message-ID: <CANNYZj_YqMe3ujHuacoDsCZJTUnehSbWoGRJT=xn3-9WcRmByQ@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH v3 2/3] mesa: Replace dri-native with dri for native and nativesdk classes
+Date: Wed, 20 Feb 2019 19:15:11 +0100
+Message-ID: <CANNYZj9PO4jPdkesW0t3hRUAx7Jo=m01G7a67EUChRjLfUS5sA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] pango: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +54,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 17:50:37 -0000
+X-List-Received-Date: Wed, 20 Feb 2019 18:15:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 20 Feb 2019 at 18:35, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> > On Wed, 2019-02-20 at 15:47 +0100, Alexander Kanavin wrote:
-> > > On Wed, 20 Feb 2019 at 13:16, Fabio Berton
-> > > <fabio.berton@ossystems.com.br> wrote:
-> > > > -DRIDRIVERS = "swrast"
-> > > > -DRIDRIVERS_append_x86_class-target =
-> > > > ",radeon,r200,nouveau,i965,i915"
-> > > > -DRIDRIVERS_append_x86-64_class-target =
-> > > > ",radeon,r200,nouveau,i965,i915"
-> > > > +DRIDRIVERS_class-native = "swrast"
-> > > > +DRIDRIVERS_class-nativesdk = "swrast"
-> > > > +DRIDRIVERS_append_x86_class-target =
-> > > > ",r100,r200,nouveau,i965,i915"
-> > > > +DRIDRIVERS_append_x86-64_class-target =
-> > > > ",r100,r200,nouveau,i965,i915"
-> > >
-> > > This produces:
-> > > > configure: error: classic DRI driver 'r100' does not exist
-> > >
-> > > radeon has been renamed to r100 in meson builds, until then it should
-> > > be still 'radeon'.
-> >
-> > Its getting a bit frustrating/tedious to kill all the builds and drop
-> > the mesa patches again :(
+On Wed, 20 Feb 2019 at 17:43, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> and I think we have a race:
 >
-> We are doing our best. It is unfortunate it ended being a
-> "one-big-do-everything-together" patch. This should have been done in
-> steps since the beginning.
->
-> Fabio prepared the new version. We hope it finishes this patchset.
+> http://errors.yoctoproject.org/Errors/Details/229403/
 
-Before you submit any new version, here's another issue, not sure
-what's causing it:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/312/steps/7/logs/step1b
-(line 14055 onwards).
-
-'Steps' approach works when each step can be tested quickly. Running
-tests on the autobuilder is an expensive, time-consuming operation
-(both for the machines, and for RP dealing with the outcome), so those
-rounds should be minimized. It is for this reason I did recent perl
-and python major version upgrades and recipe rewrites both as single
-mega-patches, and not as series - this ensured the minimum possible
-amount of testing rounds. Fortunately I also didn't have to convince
-anyone about it.
+Somehow this link won't open here, but I think the race is this one?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/310/steps/7/logs/step1b
 
 Alex
 
