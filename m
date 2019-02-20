@@ -1,68 +1,53 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 159227CA4B
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DF5377CA8B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 13:02:11 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id n71so39922542ota.10
+	Wed, 20 Feb 2019 13:48:55 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id s1so1022513qte.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 05:02:13 -0800 (PST)
+	Wed, 20 Feb 2019 05:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=QYMMcA26yIaNCf0PKOMbYgLAa84tLTN/m1v87alfvuA=;
-	b=VZkseZwc5dTYhAGYx+OonBqHBSCDvpUrwrgfLnCI7+nV+hz4h4480HZY2WlXso2fpy
-	xOerIQZuDbkCUwxvRXWjXueFGKYqnQJSYJrglmO3NSbKQCcBkbP8nvlMihR6HnjzbTny
-	vsL97ugYKDMQJ7llt6IwVTgsNksa0ESdFJg+Y0Wy3xs1pG7UQjLAq66y40uhfIfaqpTh
-	vVujdwTwEpCnSSDXnV8CCYbJLAdsS+4kXvpkH2VcUO/oBgXGw95GP4B/MPZE0i4M48Fj
-	I21x8ka9OkzBVhJuQqhvLlB/cNN0TILtN9YUmtF9rYzvtbvE7AE02nRWdCfz6iJ/jP+M
-	7+XA==
+	h=from:to:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=0vUv27TI2wiHZA/sFLejXT26kQtVYuzD7Cev7FuVdMc=;
+	b=xdFCZV5yfQWsJ4W4bTJr7a3Df3+dPT6LwAojhUVNEgzpMSba1JLoc5b3wq+Xldck0c
+	eFIcMMHR6+Y/i6S67pR0/HMWs+1W32a227mqoSChEzrFViLFnlvwnBaXTqRS81vyW2xG
+	j5BqWip5AxSwEMEz9Ko+5ASmoxxxDM5Rx0bR9PsE3mge85/gA4V7PUMStGmPoBkT7bXQ
+	ytG2oZCHEYXA9scN8ujYywpX6l1gNl3tySH8U70uKtvYyEOulRGxhgmxo0buWxZm6tk7
+	IpzTbBWasZbLiYzaawDsl+vgVPqzfntJvg0Bfzs0gswbBKH5WEZH4ItL8go2QHi1ea2s
+	zVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=QYMMcA26yIaNCf0PKOMbYgLAa84tLTN/m1v87alfvuA=;
-	b=JDQGjBEFjzse987zx5y6uawrf/hNwOUP5SsS7JYPibank7VRDCGZFLyO1VEboLLecd
-	MYxIrEGHVSe4BeVaciaK14zQCFMym+53E1wK5MX+YhCkZMpYKziwgYx8o9hfd0JwdITK
-	67GBiaKv43BeW4QzGc3Eo7EnWHAyHjwvWkt+w+FQt3inzEwWAca2SMMjjnzQ7WKRTVuu
-	vpbcsUAHKwKUxF7dXCeESnQAT7j2yM0Wl+DH0xV5UNVF4H47k2FzReNzfybrOgzMlZjc
-	1RKr+oPkNwm4zLCfa2yGhl6FlW+0F7zc/CqqyhshPzUzTepHdhxtVTGeIhHhV5XSc+nG
-	797Q==
-X-Gm-Message-State: AHQUAuaxBmgY7CAo4rFS++B31wB1+GQPn2zDSGKzhFGzg7QVM9ErPIXE
-	4ED2jyj0lQ/1kYBTSFp+/2V1/ovaT+nLLA==
-X-Google-Smtp-Source: AHgI3Ia7t4tosvCgjQm/hgzS9akVfSHMq7Ob9gg/xwohw4JGePRy/GDV25C7JLisY1GvmOjI0bEFEw==
-X-Received: by 2002:a9d:19a8:: with SMTP id k37mr21733285otk.283.1550667732412;
-	Wed, 20 Feb 2019 05:02:12 -0800 (PST)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com.
-	[209.85.210.45]) by smtp.gmail.com with ESMTPSA id
-	e125sm108501oia.18.2019.02.20.05.02.11
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=0vUv27TI2wiHZA/sFLejXT26kQtVYuzD7Cev7FuVdMc=;
+	b=LvgeMnkks0r00qljGR12VKUx6NI3SdAGUeZKsQIoGiEMztsX8pVm+ScOUyVKJGzeLG
+	Vmj8p2wMvcW/bHC2DPRCLfhRAGl4XY7obfAekCgilrZHfed8YhPkCe0njHYveisYKPop
+	Ipyu/hxXwyFU34w+PPwlJ/35jePTvqqxUcVHvKY0osiVda2s66zCg+5uTI79s0UD9ziw
+	CFCsYKXfq6un4cVTP0EcnlE+dxx7foFE+dWpgOHBx/iLobh8tHK9sNPRlVZIy27llrQK
+	T5lclwo+ISh/ZV5yLIRrftCuHuZcpqe3+6AHM09egWam+MirFu6i91z6dNJ4WcPiFkz1
+	uXsg==
+X-Gm-Message-State: AHQUAuaj3PUTsOSCXw1q8MhUJwbzb8TFi32NOq2NyxgD5rnFsTYCcFQU
+	C8dpMN+t2Ro0fLbMtWCS5/9Giu230IJMFw==
+X-Google-Smtp-Source: AHgI3IbwChapgbjbuRMEzQIIEYw/Eumsn4RVGnnx3gaFMGlIUDoF6DFLpjp9mHKYvIXzoDF9D3HZqA==
+X-Received: by 2002:a0c:d4ab:: with SMTP id u40mr26161159qvh.30.1550670536580; 
+	Wed, 20 Feb 2019 05:48:56 -0800 (PST)
+Received: from centrium.lab.ossystems ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id
+	y11sm19500140qky.2.2019.02.20.05.48.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Feb 2019 05:02:11 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot1-f45.google.com with SMTP id i5so39920253oto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 05:02:11 -0800 (PST)
-X-Received: by 2002:a9d:70d4:: with SMTP id w20mr11896667otj.253.1550667730974;
-	Wed, 20 Feb 2019 05:02:10 -0800 (PST)
+	Wed, 20 Feb 2019 05:48:55 -0800 (PST)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Feb 2019 10:48:43 -0300
+Message-Id: <20190220134843.7699-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190219165906.14377-1-fabio.berton@ossystems.com.br>
-	<CAMKF1souMyUMczQ+-s_+W2Tomi=Q-7dj7Us1bwQ23rDS5CPx=Q@mail.gmail.com>
-	<CANNYZj9Abo0ZeUVq7jgkHLc6rENns=GptXNHq9eN-j_rJ20noA@mail.gmail.com>
-	<bd16855764cfba4d700e2be8c8ea7cecbf2dec9e.camel@linuxfoundation.org>
-	<CANNYZj98LDCmKD2va9zX26OJCFhTS-jNs6=aikLrAx8VW-CNeA@mail.gmail.com>
-	<CAP9ODKoQFi=UbZHQPXmTCw5Sqb2oVcB9GxsrVk0Bet5GdL7gUA@mail.gmail.com>
-	<CANNYZj8hjgxiN6O+9xe5sHzy2307y8bRkxAbXshc7PY_auVVag@mail.gmail.com>
-In-Reply-To: <CANNYZj8hjgxiN6O+9xe5sHzy2307y8bRkxAbXshc7PY_auVVag@mail.gmail.com>
-Date: Wed, 20 Feb 2019 10:01:58 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrD=QuY4M8HNCzXXZ1JqkjGZ+XJX_9u2K6v92Z78-iQhQ@mail.gmail.com>
-Message-ID: <CAP9ODKrD=QuY4M8HNCzXXZ1JqkjGZ+XJX_9u2K6v92Z78-iQhQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] mesa: Update 18.1.9 -> 18.3.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] libdrm: Upgrade 2.4.96 -> 2.4.97
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,37 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 13:02:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 20 Feb 2019 13:48:56 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 20, 2019 at 9:32 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Wed, 20 Feb 2019 at 12:57, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
-> > > On Wed, 20 Feb 2019 at 08:58, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > I guess xrandr needs to be in X11_DEPS, this was added in the
-> > > > > original
-> > > > > mega-patch, but overlooked in the split version.
-> > > >
-> > > > There were failures all over the autobuilder from this as well :(
-> > >
-> > > That's why I still think it would've been better just to test and
-> > > merge the original all-in-one patch, with follow up patches if
-> > > necessary. Doing this split and delaying meson into 19.0 is just more
-> > > overhead and work for everyone.
-> >
-> > Patches should be logical units and a "do all once" is wrong. We are
-> > doing the fixes so it is not adding overhead.
->
-> By the way, can you send in the libdrm upgrade as well please? You
-> should have the patch from AUH.
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ .../drm/{libdrm_2.4.96.bb => libdrm_2.4.97.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.96.bb => libdrm_2.4.97.bb} (95%)
 
-Sure; will cook it now.
-
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.96.bb b/meta/recipes-graphics/drm/libdrm_2.4.97.bb
+similarity index 95%
+rename from meta/recipes-graphics/drm/libdrm_2.4.96.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.97.bb
+index 1c9e0e9f95..bbe9a33ba9 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.96.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.97.bb
+@@ -12,8 +12,8 @@ DEPENDS = "libpthread-stubs"
+ 
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://musl-ioctl.patch"
+-SRC_URI[md5sum] = "f296d87272b1befeada3bb135751ab3d"
+-SRC_URI[sha256sum] = "0d561acf7bb4cc59dc82415100e6c1a44860e8c380e00f9592923e3cd08db393"
++SRC_URI[md5sum] = "acef22d0c62c89692348c2dd5591393e"
++SRC_URI[sha256sum] = "77d0ccda3e10d6593398edb70b1566bfe1a23a39bd3da98ace2147692eadd123"
+ 
+ inherit meson pkgconfig manpages
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.20.1
+
 
