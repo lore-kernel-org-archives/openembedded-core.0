@@ -1,53 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D7F7B7CBB7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
+	[209.85.166.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 958857CBA3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 15:09:31 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id d18so21778890qtg.12
+	Thu, 21 Feb 2019 15:44:24 +0000 (UTC)
+Received: by mail-it1-f173.google.com with SMTP id h6so23509205itl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:09:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nK8L3Qwa+Tm8rRplqM8x+bFZuWT3ngplSbG4YyyF2Rc=;
-	b=Kqv3ltB+wd2QVPPKZOWcXDLfTh4SQCZIrDtZktkKazJa8KgslXZv5eP8ZLIX07JaU8
-	v0TkfYVxP2lAn3r7eyPxTEN1lMFIYeuEcvjRHz0id56liuEXx9JngBmH52iFUIdMA23n
-	mBQ5Rkgd4mvIZkgYOf3txqrNocgG8XdIIJPU76Tx/lmVYYdKN7QTTvCzvDP80CjLRWWS
-	3Me3rueh94rAS00nOttaz7cD7s1fnRuV+gZ0I4NoKO6PA/Ymh7JbBE+qs8jIo8awwJry
-	46Tx+7omvre1PnREs34i6wHAybExicAKxdu0cwdaZzVtihZ1E03xeQ+bALgLcq0MEzBA
-	pSsg==
+	Thu, 21 Feb 2019 07:44:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=RB395Ncqrrb4FgmXvHMCGmuz1xvsKQhCIwuFpEUb/I4=;
+	b=F7wWm9/QA/1qe0+x2pS1B6apCSq+ayQbgwD/zwk23mRQ6PFHtkgGywtXqL+xvrSm+L
+	ayXb9qwZcUCshARZElCefTQQM3wE34go1f7XsZWemV3NlRw6gjfbl+3WVxGYler9RpeW
+	1asiMMl2tavvxJlZ8vMw2pLqeDP9r9maWLdFz+afhpWUYunOWnxCA//Ai9merqcTPd9i
+	8J7vVHjFhSyyoaevIA7yw010fsEbwQHDD1IbqCWRyBCdHFPKNavN/b4JahdHGJF1pbDv
+	NLlVuhJvU2R7rf57QM6OtdBwAWapxpqE3eWSY8ULBQK8DHEM+w7rr+AbXLODB/fOpVxw
+	VeBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=nK8L3Qwa+Tm8rRplqM8x+bFZuWT3ngplSbG4YyyF2Rc=;
-	b=fBp+rIcjarDq3BJMTFlcVL6x0VfpO01g9OgqTAndeWdlhytMODSdKbu24/Zn+vdsYV
-	WoJUW2TSM8rx/2sM3rpGIQT+fEjVftTwxCNfVAYIGPaj0e77fL1T6F8WTzypr1xHS2P8
-	DkjHR2qobr47t2q3IRm/kjsi8hDvPwO7TZ/bJRzHGHKZ+etUU+E89PCFeSWFKgF4S096
-	cl58HWOHciGSSIGTy+UN9YfxclYdHOhXJMcIcFbje7Y77Bj195HlTUO3XNorUSQpo3He
-	N6OSlk7aiZ1CKt23G8Zz9/2FaiyB1m2U41XCa4YT9MUAxzqcHVaS3qpIYymV6TcQ+zhl
-	KDoQ==
-X-Gm-Message-State: AHQUAuYy/Lo7fiKcKId+9CcenaQUHDf4B10U4AbBGHZGUAtFLdcHtYea
-	s7xQAgCd/tiGyAChLN26MfDkiArwvWTnPWsAToU=
-X-Google-Smtp-Source: AHgI3IZchz5D5vf4OVjrm4/HwnNMSpt2iQADT3W6MYBCguv8FxQoHrthPc/pMHyOC8CWsfQq90TiR8k0Pw80BOHierM=
-X-Received: by 2002:ac8:67d3:: with SMTP id r19mr31173081qtp.196.1550761772354;
-	Thu, 21 Feb 2019 07:09:32 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=RB395Ncqrrb4FgmXvHMCGmuz1xvsKQhCIwuFpEUb/I4=;
+	b=lQHoSN7u02MuCRS4BlwgYhk1EtMlq2dtBLFQ0iIAJMzAn6Hs/+ur9Em5Q7tVAxN6dP
+	9L8VP+rw5iibiXGsGbhsyb7nmeUkNWqbgSyWuJd91bC17AXltD6rvJ4tKsigIIhNht5t
+	Qcj19n0zE0ezvMWY9IEtQN3ys1NF+M4lNaOXu2EzB1vOOMnDQ9cHLF0xvhjGeV+6yid+
+	6W7VOHhsq3LeKTBQtHZ1qDBYnyuME7fCwLr6sfH7nUZiAYxNYZxDnzhV8sk0OA3kf37T
+	CQWAdBVBBefSW/R/WeOzlFTosqVChPWNk/25ZaHQXFnTXaaMJUVGtGPoSRxkhgaN2l9p
+	2WXw==
+X-Gm-Message-State: AHQUAuY7kJsn1rT5u2NBa4WHVQpmnNpj6PJWl1D+GP7sLjEDCo67sFD+
+	+p6njxWsghvjcfr3O+xtwshYfbRuQG8f8D1P+dmmgywwxtc=
+X-Google-Smtp-Source: AHgI3IZp15HopSZbJkOewsIFS/e5iGih/+qHpIMpgdsl1cmXLJcjQcAO2ljDuZfSrtZGEjTlsC/cJvopP0ndkuVOA3g=
+X-Received: by 2002:a02:240d:: with SMTP id f13mr23080202jaa.105.1550763865307;
+	Thu, 21 Feb 2019 07:44:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20190220211034.27159-1-fabio.berton@ossystems.com.br>
-	<451a3c0d5250062208cb29a8e16e9c8373538ce6.camel@intel.com>
-	<CAMKF1sqss0=crDQ0pGGA8FHXjjRYv+9tHE5i5ohZneipW6J7TA@mail.gmail.com>
-	<CAMKF1srcbPFfGcEFWdNT+P=bmv+eweQN4d2uR_Cena8tvBvd1A@mail.gmail.com>
-	<CANNYZj8v+j1r5pM_1kRS77PXzu6GkUCYkxYwg8zHmJjQvBRHsQ@mail.gmail.com>
-	<CAMKF1spi6OhkAa7O0a7kVhovvsAn3MYBfwk=yA5Y51NBo3RoEQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spi6OhkAa7O0a7kVhovvsAn3MYBfwk=yA5Y51NBo3RoEQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Feb 2019 07:09:06 -0800
-Message-ID: <CAMKF1srBm-CjkLNy=3n+=mq6WrfiSiTUHs8Mk+itNZJHnWS_hQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>
-Subject: Re: [RFC][PATCH v3] mesa: Convert recipe to use meson build system
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Feb 2019 15:44:13 +0000
+Message-ID: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Subject: Incorporating deploy artefacts from one multiconfig in another multiconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,47 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 15:09:32 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 15:44:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 21, 2019 at 7:04 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Thu, Feb 21, 2019 at 7:01 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > On Thu, 21 Feb 2019 at 15:56, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > still seeing errors when building for rpi3-64
-> > > >
-> > > > | checking for xrandr... no
-> > > > | configure: error: Package requirements (xrandr) were not met:
-> > > > |
-> > > > | No package 'xrandr' found
-> > > > |
-> > > > | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> > > > | installed software in a non-standard prefix.
-> > > >
-> > >
-> > > This is fixed with latest commit so we can move on but there is new one
-> > > on aarch64/rpi
-> > >
-> > > https://errors.yoctoproject.org/Errors/Details/229582/
-> > >
-> > > seems to be due to this commit.
-> > >
-> > > https://gitlab.freedesktop.org/mesa/drm/commit/b541d21a0a908bf98d44375720f4430297720743
-> > >
-> > > probably a revert of the above patch is what can get us further.
-> >
-> > Shouldn't we rather add a dependency on the component providing the
-> > missing include?
->
-> fredreno build uses its own copy of libdrm IIRC and this might end up
-> in unexpected results
-> so revert would be safest
->
+So I'd like to use multiconfig for a fairly typical host/container use
+case.  I've a class which can be used to build packages from images in
+a fairly simple manner, essential just taking files from DEPLOY_DIR
+when creating a package:
 
-infact upstream has reverted it too
-https://gitlab.freedesktop.org/mesa/drm/commit/e09f327765902f3b7d31874ccf0f45b783299bc0
-> >
-> > Alex
+core-image-minimal-package.bb:
+do_install[depends] += "core-image-minimal:do_image_complete
+virtual/kernel:do_deploy"
+do_install () {
+    install -d ${D}/var/lib/machines/
+    install ${DEPLOY_DIR_IMAGE}/core-image-minimal-${MACHINE}.ext4
+${D}/var/lib/machines/core-image-minimal.ext4
+    install ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
+${D}/var/lib/machines/${IMAGE_NAME}.${KERNEL_IMAGETYPE}
+}
+
+This part works fine, but the problem is straddling multiconfig boundaries...
+
+I can't just add "core-image-minimal-package" to IMAGE_INSTALL because
+it will build that for the current configuration.  I can't just add
+"multiconfig:uos:core-image-minimal-package" because that will look
+for a recipe with that name.  I've a rather ugly hack to call opkg
+directly in a post-rootfs hook which sort of works.  Linking in bits
+of the other configuration's deploy directory in a pre-rootfs hook and
+extending IMAGE_INSTALL there almost works, apart from the rootfs code
+then looks at the task dependencies to generate a pruned deploy dir,
+which is missing the pieces I linked in.
+
+I suspect this is now breaking new ground: the multiconfiguration
+support lets you do builds but so far the artefact sharing hasn't
+really been explored.  Has anyone dug further into this?
+
+Ross
 
