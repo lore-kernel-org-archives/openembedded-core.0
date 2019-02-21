@@ -1,50 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B11027CB9E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 98C217C763
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 18:33:19 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id z14so2207404oid.0
+	Thu, 21 Feb 2019 18:44:06 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id p25so32439073qtb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 10:33:21 -0800 (PST)
+	Thu, 21 Feb 2019 10:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4cwUAKm+pQWfPJ4M96A2FRgZ+ys9dYrJwhpy2Aatcvo=;
-	b=IgMU3CD4L3yGrJXnukJOWjkFc7YJazZa7bBOR1xHOor7Wwa5QpGA/d8uFee+C24LJ/
-	eMFlQ/1YqkAkwVbhRLro0smc8IiL2B+3gqgumq8CbeMu8SMq6CXMOt8zvu0Zv5+kX8Xp
-	8crYFicdHR60zKs5pVHBTZ+3HIPrenP80ydpj01xElYj9UdNJgHMiHuEi1J3Ei8ZARM0
-	0tAjZmzoVKy0H+Te+EA5uUwEovyUphJytGky2F/4fMaOTTI5UEeIShEbB0ASAUO8FIPb
-	fBkigmP+YAaV9kydspk3n0ERC6kZUlq9DnJgtJrocCs+cFsPSPNALaGsSAsnnbggqGXU
-	R9OA==
+	:cc; bh=Q66JK72nlM2ANmpRaFpXlXi3stW0/tkry1VJtEfEZ98=;
+	b=LVg80skeabSCYhmHuKrKhtn7jFD96PADbZAdiPP9rjy7bnzL+NrPMcrqaLgZy0uVmR
+	3Ws7ZdBoNGuqIf/1WimDdgaZhXn4EIVrOgvY2Ingsldt6POiDLPisRnlq3xV6F9099xu
+	PI+Lzxt6BTWq0VvHS4xaFQQLyY9s1y+5cT00ODbCNRAoc6UJc0bma6Qs4q4Nj5n8hOde
+	8mVz35bVjedBKFct4n35hTK78IEKPfnvdJohrT7YngnT8tHJfxClFpryKxU6RSNyTBbW
+	2Rhek2mgyeo0+zwbNFibFjXm+32zvhiOsj/F5KSnaIN6HoUs7eiI+X7RrpZAg8b3r/2d
+	3Fuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=4cwUAKm+pQWfPJ4M96A2FRgZ+ys9dYrJwhpy2Aatcvo=;
-	b=WC0UuKzbgC7p1/H1mTcrDlOt4Uyk/Y3THApW2uleOQSBgNQZ8HyWAEvOLHZ8o6++mS
-	Br7AAyCghk8aYHGdUXzz3lVkRRZDVRr1nG7/iQP9qjCqO/Degh7Zujukt6XOUB+v/+Ck
-	U8C/xMY1SqwVhxBcT+Ts/rxvojgTXhMkIxHmx+TDDQejcYPJ2/kkhZjq7xir67VFtjJi
-	OXummIxdnXy/R1X371U+H37MigK7D9ME0+sdjvhHPszF9uJERlwBtJxDXyTEnBJuz5CI
-	pu1hCpTIvEE6vIA6UBJOQiX86GBiI2IP9fsMyQG40k0wnbYJNMR765psgT0J8EYIPx/x
-	+xmA==
-X-Gm-Message-State: AHQUAuZMd3HFIleY0YquFZeT+0ELLmczJkOEembPXpsg5YtK/vDz6YF/
-	RLxievfb/6MYcxiCXn/DbV7N7h3lbwd4xxfqjbBCREqVlqw=
-X-Google-Smtp-Source: AHgI3IZFJa83nwh2sIj7e5SDVVypJcuf7Rd0YiFsf1ey8rvvl4o/B7YipZ7IIR0AH1f1FshaFw3sObSycr7NBDteyto=
-X-Received: by 2002:aca:bb46:: with SMTP id l67mr9918085oif.119.1550774000587; 
-	Thu, 21 Feb 2019 10:33:20 -0800 (PST)
+	bh=Q66JK72nlM2ANmpRaFpXlXi3stW0/tkry1VJtEfEZ98=;
+	b=shm9XMMm2Ga3qPnFiJdB35vb1Z9x7pyslQERT9aHqU8jX/QLbGPThOHvEb84U5kqdi
+	at4YhzgmpN67cc+8gNRrazNEsFQI36KKBZ+CPWC4ggHsCQBNbI7ZxSsymVx4YST46sL8
+	JLIsmv2mJlLfylpbwXB3E9hvkHMPc5sq9u4pAnatGiOFBR2B4d12Z93Ra0xuMCihAxcD
+	t7vmNUWr7hUiMEBXcOB4/NL/UGVPMcUKrhVEEmnSiu3QF5P7n5rDlvwxWlLa7wPAMBdN
+	pXc3bdqjBiuq8k4p+0JGRXPoLGgYKtKsp4BRZ/wxIIGhJO3Prb83BYSMoBlN9Vr275/L
+	JmMQ==
+X-Gm-Message-State: AHQUAuaMMwUqC8YUJgaWJzQwYUNQ74uyG5H+N0sIdm5RWhzWugEQWc+W
+	m+jtPF0HPVuXrAkjqODkhqHjUVxq0jujVrTfsLY=
+X-Google-Smtp-Source: AHgI3IZitpyk5KytBc6m4+4KYFqFLuf5DOju2y9JzBw+lyrYe0HTXMBcnwMygRhJPQYxKhxgO4ahHhWDWYGRW6mQjwc=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr33282018qtn.253.1550774647235; 
+	Thu, 21 Feb 2019 10:44:07 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1550755109.git.tanuk@iki.fi>
-	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
-	<CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
-	<236c2e06d12bde612ffa2399cedb9bbfce7dd5dc.camel@iki.fi>
-	<CANNYZj-PdeoHukCN7_i8RgZDYRCS3dc3xWDhKXvuienyNzUFVA@mail.gmail.com>
-In-Reply-To: <CANNYZj-PdeoHukCN7_i8RgZDYRCS3dc3xWDhKXvuienyNzUFVA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Feb 2019 19:33:08 +0100
-Message-ID: <CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
+	<4adb54612485c88c98ae65860adc8d820f5b51c3.1550755110.git.tanuk@iki.fi>
+In-Reply-To: <4adb54612485c88c98ae65860adc8d820f5b51c3.1550755110.git.tanuk@iki.fi>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Feb 2019 10:43:41 -0800
+Message-ID: <CAMKF1srNi9+LnpUdg5qoXse6EZ6kKN5i2AJjLBYU4B1eBJ0oGQ@mail.gmail.com>
 To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] alsa recipe updates
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] alsa-lib: 1.1.6 -> 1.1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,95 +55,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 18:33:19 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 18:44:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-ftp://ftp.alsa.org seems inaccessible or unstable:
+WARNING: alsa-lib-native-1.1.8-r0 do_fetch: Failed to fetch URL
+ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.8.tar.bz2, attempting
+MIRRORS if available
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/317/steps/7/logs/step1b
-(also can't open it on my local machine)
-and generally we prefer http:// sources over ftp, if available.
+we might need a better source
 
-Alsa does have one: https://www.alsa-project.org/files/
-
-so can you please resend with SRC_URIs changed to use it? (also for
-alsa-tools and everywhere where the ftp is currently used)
-
-Alex
-
-On Thu, 21 Feb 2019 at 19:09, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+On Thu, Feb 21, 2019 at 5:34 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
 >
-> Bah, and I often point out to people that they should read *my* cover letters :)
-> Thanks!
+> Changelogs:
+> http://alsa-project.org/main/index.php/Changes_v1.1.6_v1.1.7
+> http://alsa-project.org/main/index.php/Changes_v1.1.7_v1.1.8
 >
-> Alex
+> One significant change was that the search path of add-on configuration
+> files was changed from /usr/share/alsa/alsa.conf.d to /etc/alsa/conf.d.
+> Packages that install such files should still use the /usr/share
+> location, though. Symlinks need to be created from /etc to /usr/share.
+> The rationale for using /etc is that the system administrator can better
+> control the configuration that way, and the rationale for installing
+> files under /usr/share is that configuration snippets that are installed
+> by packages are not meant to be directly edited by the administrator.
 >
-> On Thu, 21 Feb 2019 at 17:41, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> >
-> > Richard already sent the update for sbc, so I left it out. As for alsa-
-> > tools, if you read the cover letter in more detail, you'll find the
-> > answer there :) (Spoiler: I'll send it, but it's not ready yet.)
-> >
-> > -- Tanu
-> >
-> > On Thu, 2019-02-21 at 15:57 +0100, Alexander Kanavin wrote:
-> > > (Also sbc needs an update, I think)
-> > >
-> > > Alex
-> > >
-> > >
-> > > On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > > > Thanks! Will you be also sending an update to alsa-tools?
-> > > >
-> > > > Alex
-> > > >
-> > > > On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > > > > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
-> > > > >
-> > > > >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
-> > > > >
-> > > > > are available in the Git repository at:
-> > > > >
-> > > > >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
-> > > > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
-> > > > >
-> > > > >
-> > > > > The alsa-tools update is missing, because the recipe upgrade deadline is
-> > > > > near and the changes in alsa-tools look like a potential rabbit hole.
-> > > > > I'll send the alsa-tools update separately when it's ready. The main
-> > > > > change in alsa-tools is that the hwmixvolume program got ported from
-> > > > > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
-> > > > > actually is using that program, it's not even built by default.
-> > > > >
-> > > > >
-> > > > > Tanu Kaskinen (3):
-> > > > >   alsa-lib: 1.1.6 -> 1.1.8
-> > > > >   alsa-plugins: 1.1.6 -> 1.1.8
-> > > > >   alsa-utils: 1.1.6 -> 1.1.8
-> > > > >
-> > > > >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
-> > > > >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
-> > > > >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
-> > > > >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
-> > > > >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
-> > > > >  5 files changed, 85 insertions(+), 15 deletions(-)
-> > > > >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
-> > > > >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
-> > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
-> > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
-> > > > >
-> > > > > --
-> > > > > 2.20.1
-> > > > >
-> > > > > --
-> > > > > _______________________________________________
-> > > > > Openembedded-core mailing list
-> > > > > Openembedded-core@lists.openembedded.org
-> > > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > --
-> > Tanu
-> >
-> > https://www.patreon.com/tanuk
-> > https://liberapay.com/tanuk
-> >
+> alsa-plugins had to be modified to add symlinks for the configuration
+> snippets that it installs. I also added FILES_${PN} = "", because the
+> alsa-plugins package is supposed to be empty, but also because for some
+> reason that I don't understand the symlinks would otherwise go to the
+> alsa-plugins package rather than alsa-plugins-pulseaudio-conf.
+>
+> Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+> ---
+>  .../alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}   |  4 ++--
+>  meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb  | 13 ++++++++++++-
+>  2 files changed, 14 insertions(+), 3 deletions(-)
+>  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
+>
+> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb
+> similarity index 88%
+> rename from meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> rename to meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb
+> index 25e7a3c6b7..bb22acdd33 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.6.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+>                      "
+>
+>  SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2"
+> -SRC_URI[md5sum] = "2f981a8f7897c59ec2ddc44916d33788"
+> -SRC_URI[sha256sum] = "5f2cd274b272cae0d0d111e8a9e363f08783329157e8dd68b3de0c096de6d724"
+> +SRC_URI[md5sum] = "0eec0d657a07927795809c8f87fb76ca"
+> +SRC_URI[sha256sum] = "3cdc3a93a6427a26d8efab4ada2152e64dd89140d981f6ffa003e85be707aedf"
+>
+>  inherit autotools pkgconfig
+>
+> diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
+> index 7ede8be98a..ee06191ea9 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
+> @@ -47,14 +47,23 @@ PACKAGES_DYNAMIC = "^libasound-module-.*"
+>
+>  # The alsa-plugins package doesn't itself contain anything, it just depends on
+>  # all built plugins.
+> +FILES_${PN} = ""
+>  ALLOW_EMPTY_${PN} = "1"
+>
+>  do_install_append() {
+>         rm ${D}${libdir}/alsa-lib/*.la
+>
+> -       # We use the example as is, so just drop the .example suffix.
+>         if [ "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'yes', 'no', d)}" = "yes" ]; then
+> +               # We use the example as is, so just drop the .example suffix.
+>                 mv ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf.example ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf
+> +
+> +               # The conf.d files are installed in datadir, but alsa-lib
+> +               # searches for conf.d files only in sysconfdir. Distributions
+> +               # are expected to create symlinks in sysconfdir, so that's what
+> +               # we do here.
+> +               mkdir -p ${D}${sysconfdir}/alsa/conf.d
+> +               ln -s ${datadir}/alsa/alsa.conf.d/50-pulseaudio.conf ${D}${sysconfdir}/alsa/conf.d/50-pulseaudio.conf
+> +               ln -s ${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf ${D}${sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf
+>         fi
+>  }
+>
+> @@ -94,6 +103,8 @@ INSANE_SKIP_${MLPREFIX}libasound-module-rate-speexrate = "dev-so"
+>  FILES_${PN}-pulseaudio-conf += "\
+>          ${datadir}/alsa/alsa.conf.d/50-pulseaudio.conf \
+>          ${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf \
+> +        ${sysconfdir}/alsa/conf.d/50-pulseaudio.conf \
+> +        ${sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf \
+>  "
+>
+>  RDEPENDS_${PN}-pulseaudio-conf += "\
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
