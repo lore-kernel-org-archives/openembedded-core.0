@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id F41BE7CB12
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 41F707CB20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 12:41:45 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id i12so29946665wrw.0
+	Thu, 21 Feb 2019 12:41:47 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id t18so29941202wrx.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 04:41:47 -0800 (PST)
+	Thu, 21 Feb 2019 04:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=b95/dK37qsE83qw7zp6lBj/TFiqtET4wPUlYR4o4YsU=;
-	b=McOuWZ8NUVCW7GFV+vubcaK9wV15qv/n7G/FARl2m+/HZ1UeZSeO+Y93PFEHtk9mm5
-	UX+AP/Xn/wdsvRILzh+kQIx4prJTY/mMvq4LWukEga3UgkE26h/E1smMY0yYPOL9gzUh
-	vpsC1SSFse5XW2jrmBw4KEYSo1dRIZ22W3fcw=
+	bh=FVJIJzZdDY1PbiQpVO1m4EB3NEh+6Qi1yYbjfhEySYw=;
+	b=HcBMyHETmzGj2NtRC29AVNoYfiTjyNEOF/X4RA3V43CiYXlh2CXnUToN2LvE86sEwB
+	hZWz3Vhuj1UZw8N0hGMRXMK+Zl1ESFzo8wkWYEJqbb3HVKndft6y2rov+rOeHjsf8XgF
+	mYMm40iBaZ2RxvynaXGb7pK3CAH18Bt2YxFuQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=b95/dK37qsE83qw7zp6lBj/TFiqtET4wPUlYR4o4YsU=;
-	b=ohEns9WGCIoL057kzhRSsqi2PH5FHS1aZGC+UE3ymJQMtMl8DBfTRfZqK6tviEEX1i
-	5ikLtYmvoaDF2y73NWV+e3k9JEmFDTCt+m/dV3LiH7wEb3FN5PiJKZOiAPUhy5myhBni
-	6pWzL9HERRidzuisWJcn3372KYdnxPP1dhN0/QdjIMT4WibBzcpbWjTfByGlpux7C5GL
-	P4Jk186d8PvLQrKMLpmY0E7etrlUENW10yeFwhoEYbNn6D5V6jgZH2C8/Pl+xDPdWcrJ
-	n0vreVWKJo85wRBwJRfP9YCh5XhaIKFkmdFUTlj1/5Otes10VcQMrYBUzLufhjWD1BMo
-	xu/g==
-X-Gm-Message-State: AHQUAuY3Wkv96fi92/jFlwOl2qsH5fobjRYre5eNADfdM/j1v1RLNkeX
-	KqcA5R/H0e2nRBhRWz4LqWhGyQ1BaSc=
-X-Google-Smtp-Source: AHgI3IZXt1cpalT8M5PEXmk/+Km4Coy2RUypWh95HZDUkfOZJYDFP1BFnwS7gYdUZOyW4Qj3fBQhmQ==
-X-Received: by 2002:a1c:1a08:: with SMTP id a8mr9961747wma.37.1550752906482;
-	Thu, 21 Feb 2019 04:41:46 -0800 (PST)
+	bh=FVJIJzZdDY1PbiQpVO1m4EB3NEh+6Qi1yYbjfhEySYw=;
+	b=k7N04qorCpGj4Rnx/PGeKrtcYThwOU9rhra3tQvWV0AaBNVjz1T1WjcaRiU5XS2KMf
+	2A4WDFQQa3nrnBXUMn7vENs6dVjVIlJTI287OVs0Ae5BIenLegeRtFmei8FTLdmKPJpH
+	qnAeCKdtLfiJauHsbOxWa5kl/QqsyMd0b4hfmJJpLVwNTQ+Ya5JnvI0FzIi3ham61nis
+	Xi/P/2F86XNUwYn8ugZv2EHuVd0tlZbEeG6nWTxwGJD1ueFLoy5rMOOXf+x2G6nJsdg5
+	76wPWTRie4u0Q79I7aOY+XCNHB5tliBGJITT3//PM201tCUuzWdtUzZgi2mOdTnEZ0KP
+	V+fg==
+X-Gm-Message-State: AHQUAuYgzEzDPK+kCFWFTzS0r4Ws+uvXFF/zhObc0GCXqKBlqLU3GmVw
+	zVmqJw6KMHFc/IIgsbdajXjyfK73P2c=
+X-Google-Smtp-Source: AHgI3IabdqKS83FyN96mI5gfIgFP7dewiX2ETvi4iON8n/HPjo6i6+mIWuooG9bjJNQe6MVu6H9bmg==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr10215889wmb.80.1550752907617; 
+	Thu, 21 Feb 2019 04:41:47 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	d16sm20787379wru.52.2019.02.21.04.41.45
+	d16sm20787379wru.52.2019.02.21.04.41.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Feb 2019 04:41:45 -0800 (PST)
+	Thu, 21 Feb 2019 04:41:46 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Feb 2019 12:41:29 +0000
-Message-Id: <20190221124130.25733-13-richard.purdie@linuxfoundation.org>
+Date: Thu, 21 Feb 2019 12:41:30 +0000
+Message-Id: <20190221124130.25733-14-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190221124130.25733-1-richard.purdie@linuxfoundation.org>
 References: <20190221124130.25733-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 13/14] xkeyboard-config: upgrade 2.25 -> 2.26
+Subject: [PATCH 14/14] gnu-config: upgrade to 20181128 revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 12:41:46 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 12:41:47 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{xkeyboard-config_2.25.bb => xkeyboard-config_2.26.bb}    | 4 ++--
+ meta/recipes-devtools/gnu-config/gnu-config_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.25.bb => xkeyboard-config_2.26.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.25.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.26.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.25.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.26.bb
-index b67dfa566ba..5c232884561 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.25.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.26.bb
-@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+index 4745f19ceee..e597ebedbc1 100644
+--- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
++++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+@@ -8,8 +8,8 @@ DEPENDS_class-native = "hostperl-runtime-native"
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
+ INHIBIT_DEFAULT_DEPS = "1"
  
--SRC_URI[md5sum] = "a0238f95118f39f5f685dd28fbd9d24f"
--SRC_URI[sha256sum] = "fec6c25a8d3931bd9afca49a1653b0fa222c85610502d7b77699bb61262934b2"
-+SRC_URI[md5sum] = "e2e980629bfeb9f40a7d44488b18ba12"
-+SRC_URI[sha256sum] = "393718c7460cd06c4e8cb819d943ca54812ea476f32714c4d8975c77031a038e"
+-SRCREV = "30d53fc428ea42af9d6f4d355db0022e3918a824"
+-PV = "20180713+git${SRCPV}"
++SRCREV = "058639be227bbe8f03cc39f79f7ce84918012143"
++PV = "20181128+git${SRCPV}"
  
- SECTION = "x11/libs"
- DEPENDS = "intltool-native util-macros libxslt-native"
+ SRC_URI = "git://git.savannah.gnu.org/config.git \
+            file://gnu-configize.in"
 -- 
 2.20.1
 
