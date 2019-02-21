@@ -1,54 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D41BD7C661
+Return-Path: <o.mandel@menlosystems.com>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 21 Feb 2019 13:18:01 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id BD7607BE4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 13:01:28 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id o17so30011323wrw.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 05:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ry7quzS8yDIRMMcWRGZEWlX0yHIrqQo/suQN3AJAbj0=;
-	b=GlM1V1Fq1ynlhCS+fqUQou8Bnb0xed6ehfd161qmfwRCAy0QszmVJZ0GNtNAsXoc/c
-	qgMrLte3vYr9H8pfO/5Of+sM53r6q1koUvKa6gCd9i/44Wts1/d4VmQnb8kBQMXViae4
-	JHgPU3Nlj/68j2ktfCLTqrSssAAWEM/irKD2s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ry7quzS8yDIRMMcWRGZEWlX0yHIrqQo/suQN3AJAbj0=;
-	b=ENUMI4Kn43qfKGYZYzEAmC13z8jdfhFLAtsWOD8gGAl42y6WfS4EMBgUtOvbhgkMw/
-	guCkHodxixAzuyugBmGR+mboCwvsk5TcKzQJCHRu+fqiIjBVmNL6SoPB01zfzHdKZsQ8
-	edb49v+xYmFFJOh1g5pV7TTc6MgVRms+R+Kut4lZOmu+XN37IvBYdi3uKH1d9pE4w6+K
-	Vu1hjA3s9H/FUcAsYQrcwOzvWHF7kkumnNus2A1oifCoBTxFtvCm/uiK3g4Z7k79CUQ/
-	cUSpuT4kP3HISVNOjDNj9MTuzKchLIrM1r/j3TEJfP+50pGXA6LqIyjpoT3cbyaKI9kX
-	f4mA==
-X-Gm-Message-State: AHQUAuZHnzq19axQWBv8GIg2bszvoj40pn/ir+YGSq5jSHcXjE0+cHEj
-	jwRSR5M+epyTC6uPZaWoN0fXKnZy+44=
-X-Google-Smtp-Source: AHgI3IYEUHEwc3pq+8mjlUV+FfzGgMMcZSy/ftcQEF1y1DzfeNSH2zuila6jXkvAQG0Tp3WLc1SPig==
-X-Received: by 2002:a5d:4e52:: with SMTP id r18mr17057216wrt.7.1550754089515; 
-	Thu, 21 Feb 2019 05:01:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n26sm6696176wmk.29.2019.02.21.05.01.28
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 21 Feb 2019 05:01:28 -0800 (PST)
-Message-ID: <5471c44e078f61500d0d0801e3c9c43a093d6006.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 21 Feb 2019 13:01:27 +0000
-In-Reply-To: <20190220164729.4rkhazvhtyzwkeh3@mcrowe.com>
-References: <20190111164951.8329-1-mac@mcrowe.com>
-	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
-	<20190111165944.gussrefs6j5o6ffq@mcrowe.com>
-	<20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
-	<20190220164729.4rkhazvhtyzwkeh3@mcrowe.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
-Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
+	Thu, 21 Feb 2019 13:18:01 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 444vwx2h5Sz1r0QY;
+	Thu, 21 Feb 2019 14:10:57 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 444vwx2YwCz1r2J8;
+	Thu, 21 Feb 2019 14:10:57 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id esdga8IN1fgG; Thu, 21 Feb 2019 14:10:56 +0100 (CET)
+X-Auth-Info: MXXAtjq9hpcyK4OooTZSxumajplvE86IKJtZKDn9qCwolayonIvpyYyzTr1/AabL
+Received: from menlobldserver.menlosystems.local
+	(host-141-40-253-35.customer.izb-online.de [141.40.253.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Thu, 21 Feb 2019 14:10:56 +0100 (CET)
+From: Olaf Mandel <o.mandel@menlosystems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Feb 2019 13:10:45 +0000
+Message-Id: <20190221131045.20591-1-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH] devtool: deploy-target: allow use of alternate ssh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,45 +42,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 13:01:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Feb 2019 13:18:02 -0000
 
-On Wed, 2019-02-20 at 16:47 +0000, Mike Crowe wrote:
-> On Wednesday 23 January 2019 at 16:27:59 +0000, Mike Crowe wrote:
-> > 
-> > Does the lack of response mean that both approaches are horrendous?
-> > If so, do you have any better ideas?
-> 
-> There doesn't seem to be much interest in this one.
-> 
-> The only other idea I've had is to create the symlink at rootfs-creation
-> time. However, that seems to be detaching it too much from glibc, which
-> would cause confusion.
-> 
-> I can apply one of my fixes locally (we currently have some far uglier
-> hacks than these that I'd like to remove), but I'd really rather not have
-> to diverge from upstream this much.
+Allow the use of an alternate SSH executable for deploy-target and
+undeploy-target. The command can be specified with -e / --ssh-exec.
 
-Sorry for the lack of feedback.
+Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
+---
+ scripts/lib/devtool/deploy.py | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-I'm fairly strongly against a separate aarch64 only recipe for this.
-Realistically we therefore have to fix this in the existing
-class/code/recipe.
-
-The changes you sent previously didn't look that horrific, did you find
-a working version of that?
-
-I'm wondering if we can come up with something which works and
-hopefully we can spot some way to then clean it up to be a bit nicer...
-
-The delay was that I was going to try and come up with something but
-that hasn't happened yet. If you have a horrific non-separate recipe
-version that is complete, we can see if we can do anything to improve
-it.
-
-Cheers,
-
-Richard
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 886004b5d0..f345f31b7b 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -211,6 +211,11 @@ def deploy(args, config, basepath, workspace):
+         if not args.show_status:
+             extraoptions += ' -q'
+ 
++        scp_sshexec = ''
++        ssh_sshexec = 'ssh'
++        if args.ssh_exec:
++            scp_sshexec = "-S %s" % args.ssh_exec
++            ssh_sshexec = args.ssh_exec
+         scp_port = ''
+         ssh_port = ''
+         if args.port:
+@@ -238,7 +243,7 @@ def deploy(args, config, basepath, workspace):
+                 for fpath, fsize in filelist:
+                     f.write('%s %d\n' % (fpath, fsize))
+             # Copy them to the target
+-            ret = subprocess.call("scp %s %s %s/* %s:%s" % (scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
++            ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
+             if ret != 0:
+                 raise DevtoolError('Failed to copy script to %s - rerun with -s to '
+                                 'get a complete error message' % args.target)
+@@ -246,7 +251,7 @@ def deploy(args, config, basepath, workspace):
+             shutil.rmtree(tmpdir)
+ 
+         # Now run the script
+-        ret = exec_fakeroot(rd, 'tar cf - . | ssh  %s %s %s \'sh %s %s %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
+         if ret != 0:
+             raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+                             'error message')
+@@ -276,6 +281,11 @@ def undeploy(args, config, basepath, workspace):
+     if not args.show_status:
+         extraoptions += ' -q'
+ 
++    scp_sshexec = ''
++    ssh_sshexec = 'ssh'
++    if args.ssh_exec:
++        scp_sshexec = "-S %s" % args.ssh_exec
++        ssh_sshexec = args.ssh_exec
+     scp_port = ''
+     ssh_port = ''
+     if args.port:
+@@ -292,7 +302,7 @@ def undeploy(args, config, basepath, workspace):
+         with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
+             f.write(shellscript)
+         # Copy it to the target
+-        ret = subprocess.call("scp %s %s %s/* %s:%s" % (scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
++        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
+         if ret != 0:
+             raise DevtoolError('Failed to copy script to %s - rerun with -s to '
+                                 'get a complete error message' % args.target)
+@@ -300,7 +310,7 @@ def undeploy(args, config, basepath, workspace):
+         shutil.rmtree(tmpdir)
+ 
+     # Now run the script
+-    ret = subprocess.call('ssh %s %s %s \'sh %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, args.recipename), shell=True)
++    ret = subprocess.call('%s %s %s %s \'sh %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename), shell=True)
+     if ret != 0:
+         raise DevtoolError('Undeploy failed - rerun with -s to get a complete '
+                            'error message')
+@@ -324,6 +334,7 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
+     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
++    parser_deploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
+     parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
+ 
+     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
+@@ -346,5 +357,6 @@ def register_commands(subparsers, context):
+     parser_undeploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
+     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
+     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
++    parser_undeploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
+     parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
+     parser_undeploy.set_defaults(func=undeploy)
+-- 
+2.11.0
 
 
