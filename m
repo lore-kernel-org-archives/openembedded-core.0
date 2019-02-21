@@ -1,58 +1,58 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2DFA71BEE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E6D476BDDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 23:46:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4960418606;
-	Fri, 22 Feb 2019 00:46:05 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id mOKxDkeyKx9a; Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id B464D1832D;
-	Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 950361A067;
-	Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 89CDC1A062;
-	Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 7DCB51EDE;
-	Fri, 22 Feb 2019 00:46:03 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Fri, 22 Feb 2019 00:46:03 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Fri, 22 Feb 2019 00:46:03 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/2] glib-networking: upgrade 2.54.1 -> 2.58.0
-Thread-Index: AQHUyOvCCR4DDBy3dE+snywzQFT/VKXq1vsw
-Date: Thu, 21 Feb 2019 23:46:03 +0000
-Message-ID: <0414b3b6a2c7404883f691c4198b8007@XBOX04.axis.com>
-References: <20190220071247.3758-1-anuj.mittal@intel.com>
-	<20190220071247.3758-2-anuj.mittal@intel.com>
-In-Reply-To: <20190220071247.3758-2-anuj.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 21 Feb 2019 23:51:15 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id t15so319122wmi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2019 15:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=BDV6gQm7OKXoxCX8pp8MOQ6Qv4vEjv72pK+SDcNbD58=;
+	b=UemYWPSEFNNp4y8iEeg2MuHSYgTV3EaL7sZ0whXoG3/ccQUCFVkH83d3sHrYEy/B8c
+	YED29E1bg5I+uUxs7uT3jEdThgroE+vhv0boAwNZKNu4p+1zQAxg5aq9P664WIsuu8Rv
+	scRNtFY4C2Vjc6ZxDcI8wTylPLMVrHc0dtpmQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BDV6gQm7OKXoxCX8pp8MOQ6Qv4vEjv72pK+SDcNbD58=;
+	b=n/LtCfNdgILgG7nhXkqfivqXCrHz5CeVnhWFfs65L4TihWg3GwPTj+JqnXja58nNI+
+	9/JzbLKryOwBr/7/CnzuXRFUPvJmgFosuppoEjHhyOt/0R8aAb5tR9R8Y1af4e+a+zzB
+	q1L3b0FsjhrmSpIguMohb8PA9KSoyx8HyFWGdXg2+pvlTKSMCYG9L7BZNJJRz9HtoVKI
+	krFrRh3IiNfmHNIP4oVg6bfNNqmnbyxhWTusolIGZd2SbjY+FPkjTy7finc6Sr/6A69h
+	6c4PqO6ECzLrjpajlB+DLRW8WD/eoLIpruuJ6ZLSk/MqT1qfWeS/cbuiVQylHT1QJnAc
+	qNXg==
+X-Gm-Message-State: AHQUAuZQw4OP/JvZ0ceV4tuWzcvhEvSa/qONdLdDe5k1mg36WmMF3TeB
+	d7qKBW7onU0dvVlTxj+fyC7e+w==
+X-Google-Smtp-Source: AHgI3Ib1YuLuIuw3h9YLcNCIuvdRcy9Yt3/ks+9we2NXQO5QSYN5oGf/FCLRjQepisi7/EVOVIkCCA==
+X-Received: by 2002:a1c:ca01:: with SMTP id a1mr559694wmg.124.1550793076574;
+	Thu, 21 Feb 2019 15:51:16 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h142sm521902wme.33.2019.02.21.15.51.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 21 Feb 2019 15:51:15 -0800 (PST)
+Message-ID: <6673aa01794a9a5466969fa4a39d28b46649173d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rich Persaud <persaur@gmail.com>, Mark Hatle <mark.hatle@windriver.com>,
+	Ross Burton <ross.burton@intel.com>
+Date: Thu, 21 Feb 2019 23:51:14 +0000
+In-Reply-To: <6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
+References: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
+	<20734cff-3215-7a9d-8bc1-87d7238876fb@windriver.com>
+	<6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 2/2] glib-networking: upgrade 2.54.1 -> 2.58.0
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Incorporating deploy artefacts from one multiconfig in another multiconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,121 +65,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 23:46:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Feb 2019 23:51:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This does not build any more if USE_NLS =3D "no" is used. Has anyone=20
-looked at making this work together with meson? Otherwise I guess=20
-there is trouble ahead now that more and more packages are being=20
-converted to use meson, since the code in gettext.bbclass currently=20
-only supports autotools. A quick look at meson's i18n.py module does=20
-not indicate that there is any easy way to disable the gettext=20
-support, corresponding to autotools' --disable-nls. Apparently it=20
-was discussed in https://github.com/mesonbuild/meson/issues/821, but=20
-it seems they only added detection of the gettext tools without=20
-adding support for disabling gettext and then closed the issue.
+Multiconfig is meant to support this workflow. Unfortunately there are
+open bugs and people haven't the time to work on it so its stalled.
+That said, the key pieces are already there.
 
-Looking at 1d6648102 (json-glib: fix native build), it seems Ross=20
-encountered a similar problem for json-glib and opted to workaround=20
-the problem by overriding USE_NLS. However, that does not seem like=20
-a long term solution...
+A picture is worth a thousand words. I thought a demo might interest
+people and "prove" this can work.
 
-//Peter
+To make it work you need four patches:
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Anuj Mittal
-> Sent: den 20 februari 2019 08:13
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/2] glib-networking: upgrade 2.54.1 ->
-> 2.58.0
->=20
-> * Autotools support has been removed upstream, so migrate recipe to
-> meson. For changes, see:
-> https://gitlab.gnome.org/GNOME/glib-networking/blob/glib-2-58/NEWS
->=20
-> * Remove unsupported configure options: pkcs11, ca-certificates. See:
-> https://bugzilla.gnome.org/show_bug.cgi?id=3D793281
-> https://bugzilla.gnome.org/show_bug.cgi?id=3D753260
->=20
-> License-Update: Change to LGPLv2.1
->=20
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  ...ng_2.54.1.bb =3D> glib-networking_2.58.0.bb} | 26 ++++++++++---------
->  1 file changed, 14 insertions(+), 12 deletions(-)
->  rename meta/recipes-core/glib-networking/{glib-networking_2.54.1.bb =3D>
-> glib-networking_2.58.0.bb} (40%)
->=20
-> diff --git a/meta/recipes-core/glib-networking/glib-
-> networking_2.54.1.bb b/meta/recipes-core/glib-networking/glib-
-> networking_2.58.0.bb
-> similarity index 40%
-> rename from meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
-> rename to meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> index 5d17a824f0..f3190e1cae 100644
-> --- a/meta/recipes-core/glib-networking/glib-networking_2.54.1.bb
-> +++ b/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> @@ -3,27 +3,29 @@ DESCRIPTION =3D "glib-networking contains the
-> implementations of certain GLib netw
->  HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/glib-networking/"
->  BUGTRACKER =3D "http://bugzilla.gnome.org"
->=20
-> -LICENSE =3D "LGPLv2"
-> -LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522ec2"
-> +LICENSE =3D "LGPLv2.1"
-> +LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D4fbd65380cdd255951079008b364516c"
->=20
->  SECTION =3D "libs"
->  DEPENDS =3D "glib-2.0"
->=20
-> -SRC_URI[archive.md5sum] =3D "99867463f182c2767bce0c74bc9cc981"
-> -SRC_URI[archive.sha256sum] =3D
-> "eaa787b653015a0de31c928e9a17eb57b4ce23c8cf6f277afaec0d685335012f"
-> +SRC_URI[archive.md5sum] =3D "75b14b7e73a67753be9ce307751c661d"
-> +SRC_URI[archive.sha256sum] =3D
-> "bdfa0255e031b8ee003cc283002536b77ee76450105f1dc6ab066b9bf4330068"
->=20
-> -PACKAGECONFIG ??=3D "ca-certificates gnutls"
-> +PACKAGECONFIG ??=3D "gnutls"
->=20
-> -# No explicit dependency as it works without ca-certificates installed
-> -PACKAGECONFIG[ca-certificates] =3D "--with-ca-
-> certificates=3D${sysconfdir}/ssl/certs/ca-certificates.crt,--without-ca-
-> certificates"
-> -PACKAGECONFIG[gnutls] =3D "--with-gnutls,--without-gnutls,gnutls"
-> -PACKAGECONFIG[libproxy] =3D "--with-libproxy,--without-
-> libproxy,libproxy"
-> -PACKAGECONFIG[pkcs11] =3D "--with-pkcs11,--without-pkcs11,p11-kit"
-> +PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
-> +PACKAGECONFIG[libproxy] =3D "-Dlibproxy_support=3Dtrue,-
-> Dlibproxy_support=3Dfalse,libproxy"
->=20
-> -EXTRA_OECONF =3D "--without-gnome-proxy"
-> +EXTRA_OEMESON =3D "-Dgnome_proxy_support=3Dfalse"
->=20
-> +GNOMEBASEBUILDCLASS =3D "meson"
->  inherit gnomebase gettext upstream-version-is-even gio-module-cache
->=20
-> -FILES_${PN} +=3D "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-
-> 1/services/"
-> +FILES_${PN} +=3D "\
-> +                ${libdir}/gio/modules/libgio*.so \
-> +                ${datadir}/dbus-1/services/ \
-> +                ${systemd_user_unitdir} \
-> +                "
->  FILES_${PN}-dev +=3D "${libdir}/gio/modules/libgio*.la"
->  FILES_${PN}-staticdev +=3D "${libdir}/gio/modules/libgio*.a"
-> --
-> 2.17.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=b896b2238c100d486e7c43992b49001150749d04
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=e5ef6b008e85f42b5e4ffd72fae7036dd68b2ea5
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=5d2bd43d14315ef3212e0d09a16446bd74305a2f
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=abdb83576b699448b76293294809aaa04b8e853b
+
+The first two are fixes from Alejandro which haven't merged as they're
+not right. The third patch was me hitting the fixes and bitbake to make
+the demo work. That proves they're not right and hints at where we have
+some problems in bitbake too. We can get those issues sorted fairly
+easily and I'm going to block 2.7 M3 on them.
+
+The final patch is the interesting one.
+
+It adds a layer, meta-multiconfig-example layer with a README about how
+to configure it. Basically you create two multiconfig configurations,
+"musl" and "tiny".
+
+The demo is to run "bitbake core-image-full-cmdline".
+
+The result is a core-image-full-cmdline image with a tiny qemux86 image
+and a musl based qemux86-64 image installed into /var/lib/machines/
+
+The way it does this is creative, having a recipe called image-packer
+which creates virtclass variants of itself which depend on the
+appropriate multiconfig. It pulls in the images and creates a package
+containing them which the bbappend to core-image-full-cmdline can then
+install. It'd be very easy to turn this into a list driven piece of
+code rather than the two values currently listed.
+
+Its late here, some of the above code is horrible. I have rushed this
+but hopefully it shows this is possible! :)
+
+I've love to turn this into an oe-selftest, that is my ultimate 
+intention for this code.
+
+As things stand today you can't query one multiconfig from another. As
+this demo shows, that doesn't need to stop you making interesting
+things though. We will do something with such querying eventually to
+make things easier but until then, much is still possible.
+
+Cheers,
+
+Richard
+
+
 
