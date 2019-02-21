@@ -1,53 +1,33 @@
-Return-Path: <tuanha@viosoft.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9C37CB51
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 488547CB0B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:33:43 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id q206so13363078pgq.4
+	Thu, 21 Feb 2019 08:32:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 444nlg4f05z5p
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 23:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=viosoft-com.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding:content-language;
-	bh=PYLpMaewvO5m5Q9IBPU2+0k9/ajarTcNQfs7+9UCaiI=;
-	b=Ae5MX2rEzNuaxcziRA3akJHiwTF5EdfAVD0anSAa/6m6aGlUEGm5joF7AqJHp2ex+n
-	WZSDyiZheSbY3sxqzr3XnCHSPoGzhx0Y/RpYoUbVBNtenODSVpkjcd0mVWAuE0Xkp32B
-	rqhTcKODPCQq3OK2U8ZEHLIoPMBuwMT0EKlNOCK5sxM/Zj7Zy7/Z6Al2FV7B0ckc5SeF
-	Tm9zDzmC6QSqh8zYdbKKTyPfvJvxgAmQNuoXljvZeroj+ZsCKNg3IX2U3AgvLVeyXpuf
-	mKyCT89g6hCoP2SMKwxV2BUgzL8WGsNJa+JOmAZwDt+TzImt5K7vuCPdQZEH32pqPJUC
-	hk6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=PYLpMaewvO5m5Q9IBPU2+0k9/ajarTcNQfs7+9UCaiI=;
-	b=bpGr0tHK52OnMl0+k5Gucos+bNZnN6Sct6sPiTeU0lNt5Vx9UC1DObU3z4rt6eoT3v
-	TjUMbkeQtBRJBS6hL7i3zyjBYHT2lhs7j3IhsEwLPum93C/XAZ75XCf4JITWB+/hlQmQ
-	RyIwJPBAqmIaiZ20nl/z+dPiwBSXHOy2QL2pPwGMkl+A8pUBvriv9tI0NvFvBMD2Vo5H
-	vd0MdKVb5s3a6sXG1YtcrjmV0BTcaAorXPR8VFNV40nysX6A1+fhvUBcVKlfc7kXtLBs
-	DAmBJd3D7601Xc+Bpe/G/sVAx9pOZgTE9CrOmYoU9Cl12pu/sYouiJkEvrZNThmDzQ7g
-	TZfw==
-X-Gm-Message-State: AHQUAuadgJsehz09Qtvx3eJ3ENzJ6FguIcl+Z0GuCriaRdFQi7mMYNx/
-	KEnsADWSVTcj8edmjLsW2COR/QeMkhyxWw==
-X-Google-Smtp-Source: AHgI3Ibndsfh8d5BpXqDYezA1fT9smbdEwfUZurBqjgYWzBKqhXm9BlR4Fi3IiZOuMkM3PogNavOWQ==
-X-Received: by 2002:a63:5964:: with SMTP id j36mr33109277pgm.210.1550734424578;
-	Wed, 20 Feb 2019 23:33:44 -0800 (PST)
-Received: from [192.168.100.13] ([123.16.252.182])
-	by smtp.gmail.com with ESMTPSA id
-	s6sm17426966pgi.56.2019.02.20.23.33.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Feb 2019 23:33:43 -0800 (PST)
+	Thu, 21 Feb 2019 09:32:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1550737951;
+	bh=ywK/LWl7YcShmqt5aXhPgEYcKKZzpc+lhKAIvRegmXc=;
+	h=From:To:Subject:Date:From;
+	b=rwYXgNDF8Lp1Hw8lKOfSvTubH49JkV8pMgkadD4U9O/QFN5A4TlhpaNZVwCSmdhcN
+	lJMI9JQmxD6uH611KRNfHiFm1LJTqibMssndfNEEf/H78z7+8fYZvaiW54Btttygt9
+	O87fJz8/v1WIeywLP2VMenY2xdVZnWo0V3lSt21TtlhlFK6nfaKFjrhltTx+0u4Kfn
+	bxwus8KPc4SQ///Z6d+4dFB1Gp8uwRPhBttjNaZCBW3XiSnMyNLGLvzaWOFui/5LLm
+	FQrmuA9yCSkx2XIpmQOT/L1yrrKv35oX7QRzb4IPhcD8jTMKdig4YB+vED0hABurIu
+	lpqJ60I4WDm2tmyGzpzTT9ZmHi4qV7eZhwDFa3h0ralejXDT9tDgmwl7bQDsi8Uk4a
+	8vCVuiGMz5vzkfqic3Kw1YARcOftwEB+kOjKXfyePVxmSeZPLfGKQ1MbSAvbPSNeAe
+	aL5uI4axAgs9Q9nHIKPwFgCqoKIgHXYau1H1HUnItj1ButFUbPh3P0lOI6oknEnB80
+	s9I5K27ZOmBvjIPjUIb9LGld/WjhxWr211WlDk6NQOlu05J5N8Fr9SBOS11AXiU9by
+	NZI3eZR7n//Uy5ZdRmmVUyyC7vuPSR3uFbwPAi8lLQfq6szDDqD0PZdtAAifJwrcwG
+	DDXxNXDKD2pt+7pkZ+zURqjo=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-From: Hoang Anh Tuan <tuanha@viosoft.com>
-Message-ID: <f4138dfe-562a-b30d-89bd-cde546bfc762@viosoft.com>
-Date: Thu, 21 Feb 2019 14:33:42 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
-MIME-Version: 1.0
-Subject: [meta-oe] [PATCH 2/2] gtkwave: add version 3.3.98
+Date: Thu, 21 Feb 2019 10:32:31 +0200
+Message-Id: <20190221083232.29419-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] busybox: enable CONFIG_FLOAT_DURATION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 07:33:44 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 21 Feb 2019 08:32:32 -0000
 
+The 1.29.3 -> 1.30.1 upgrade lost support for sleep with
+float values (e.g. "sleep 0.1") since this replacement for
+CONFIG_FEATURE_FLOAT_SLEEP (enabled in thud) was missing.
 
-Signed-off-by: Hoang Anh Tuan <tuanha@viosoft.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
-  meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb | 19 
-+++++++++++++++++++
-  1 file changed, 19 insertions(+)
-  create mode 100644 meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
+ meta/recipes-core/busybox/busybox/defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb 
-b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
-new file mode 100644
-index 0000000..6fd9392
---- /dev/null
-+++ b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "VCD (Value Change Dump) file waveform viewer"
-+DESCRIPTION = "gtkwave is a viewer for VCD (Value Change Dump) files 
-which are usually created by digital circuit simulators. (These files 
-have no connection to video CDs!) "
-+HOMEPAGE = "http://gtkwave.sourceforge.net/"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=75859989545e37968a99b631ef42722e"
-+
-+SRC_URI = "http://gtkwave.sourceforge.net/${PN}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "eac3073ef381e0c09da33590296ca37f"
-+SRC_URI[sha256sum] = 
-"efa6bbbeb3bd54104425a69a2aa0d079bb5c3ecc1c420ba57dcaa1c97c5a22f6"
-+
-+inherit pkgconfig autotools gettext texinfo
-+DEPENDS = "tcl tk gperf-native bzip2 xz pango zlib gtk+ gdk-pixbuf 
-glib-2.0"
-+RDEPENDS_${PN} = "tk-lib"
-+
-+EXTRA_OECONF = "--with-tcl=${STAGING_BINDIR_CROSS} 
---with-tk=${STAGING_BINDIR_CROSS}"
-+
-+FILES_${PN} = "${bindir} ${datadir}"
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index a209eea5a1..493db28e86 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -83,7 +83,7 @@ CONFIG_NO_DEBUG_LIB=y
+ # Library Tuning
+ #
+ # CONFIG_FEATURE_USE_BSS_TAIL is not set
+-# CONFIG_FLOAT_DURATION is not set
++CONFIG_FLOAT_DURATION=y
+ CONFIG_FEATURE_RTMINMAX=y
+ # CONFIG_FEATURE_RTMINMAX_USE_LIBC_DEFINITIONS is not set
+ CONFIG_FEATURE_BUFFERS_USE_MALLOC=y
 -- 
-2.7.4
+2.11.0
 
 
