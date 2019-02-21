@@ -1,33 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4791B7C8B3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B74A37CB0B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 08:32:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 444nlh0SDLz5w
+	Thu, 21 Feb 2019 08:37:23 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id x10so8956844wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 09:32:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1550737952;
-	bh=A6WrCYIY4MfFW6lnRHLW53xDaRvEe4Nzhymvq8385BI=;
-	h=From:To:Subject:Date:From;
-	b=h42tB46YIGN73EYJ11FRzvrMiFX8FlknVUF092MXVXGv8O4sK966HrdpsG7uEDNOn
-	8KXXbH03LqStcM0lJIdSxVN17GCjJ6WGQcHAz24w5E64cggCNKU1nbx4XT7EXHyggU
-	WPXUP9xL7zaE5wlgd4bMSOh7lXCiEou2LCJU28bYh1HWsyM7wWRXYnxSMJRyekwFDT
-	UdpxdaQbpGBlr51viGf40tcCMDsmDk8VzcOJ+hYrzJ62SqRLI55tcFBMe7G5nrr933
-	N1xP0HjLuSGXVo49I0B1sI4J7VivMK7+QnVD15mFf+Djj3F1Vv4B6WhnWzHZxiXV9g
-	KMHZtTJracgU0B8XXzz+vlJsLt17+Jwt9haTBV+NwvAM8sMmZX9+//xDV2dF3fmDBO
-	B9m89PLJZN/oyOMs4xtNVRzJ4Mcb+U0Ww8hr3Td16NmA1GAQw8WA3Y7yiCTgwfzUL9
-	LZIFDFKpBJ8PVl121j2tWFAizxw1TbVPZXBn4J4a3co1KlyayG3UHN+Z6aRvT5W6SE
-	2nCiv8ZM8oDafB+1ihFG7QfYATObxRHgGysTfutm3z2qQpGGag1naiVT0SO0+0n08a
-	8MYSdI9iK8b5TRSua2i3igEaNj2hZcm6kBzM9f9jrORaIx2zAHbpd+CK0InO3qZFSR
-	a0o9fEfqm0IflXQ4D0pAGr7I=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Feb 2019 10:32:32 +0200
-Message-Id: <20190221083232.29419-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] lighttpd: Use the upstream lighttpd.service
+	Thu, 21 Feb 2019 00:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=gLsz8uaDJ4kLGBsdJcLp2LWPuwrMujZIdtsbl5upxeY=;
+	b=XubrFB+vSx+UBV9Nc0kyDP1XStka8DyKiCOvEdmdShDSTolmvOn9Ic7qbL7otcOqpo
+	UaCCrdSEtR4SExnKcbT3N/r23k/d61EW1bexAJvzswiBGY+CISaNOLzze6kyq6TgDPfm
+	J1UcStXRYd2teM3/1Dgmoqix8Srn5Phr4IEO4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gLsz8uaDJ4kLGBsdJcLp2LWPuwrMujZIdtsbl5upxeY=;
+	b=EVUVTyUMXTTg9L0LATBenSsWTjPhy4EbaPCKv+ZYxtWbedVC8C5IOGVCD6fMV/g77W
+	O9d/m8SZLV5opnSYX8MAjzU4aRVtSKaJVK69yKv84DVX5euf22faprA7OmLQZzQoZnYo
+	lgMzy9O0qsS/i3kBFLV+VpmqtZpHE5TSEkWE9K9BLqnwVAUa1+npBJxkNnythTTOVYAo
+	cbEffhjGoGrt6cSWjU2TXBZiqMIq+ylxS/e09kzCZoHDlPemZpXoEpZLcP0IUAo6JL19
+	auCFcMb4z+BqP1yu0a7edfoWAUZHWsbJLg59j8AvbwKvuT7AWCshwDipyVsGsnURMPek
+	Br6w==
+X-Gm-Message-State: AHQUAuZ8DmOr0eEglVOjyh/K6TZziDBK8jWzLEWY1dPDQ/wzzIxemDQN
+	ltx20fJE1fxugSSninJ+eMnWmw==
+X-Google-Smtp-Source: AHgI3IaV3ny//rNlAci0XjuPv0HFg4opnPlbFh129EO53mjNkB1KRPffuPO3ZhosxEaECnGlgFPoMA==
+X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr9357612wmg.76.1550738244320; 
+	Thu, 21 Feb 2019 00:37:24 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h137sm13094635wmg.41.2019.02.21.00.37.23
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 21 Feb 2019 00:37:23 -0800 (PST)
+Message-ID: <853fdac8bdfc6fc7222fce906172b08852a4eed3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>, Philip Balister
+	<philip@balister.org>
+Date: Thu, 21 Feb 2019 08:37:22 +0000
+In-Reply-To: <BYAPR02MB6005A0C02E838863D370C7B4B97E0@BYAPR02MB6005.namprd02.prod.outlook.com>
+References: <1550192184-13460-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<1550192184-13460-2-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<679c61e2-f179-c986-b6ca-b69b95b5e22a@balister.org>
+	<BYAPR02MB6005274C95E7FE6ACA65292DB97C0@BYAPR02MB6005.namprd02.prod.outlook.com>
+	<6fe6cbadaf29e01975ec71a1b005d2fdb7885484.camel@linuxfoundation.org>
+	<BYAPR02MB6005A0C02E838863D370C7B4B97E0@BYAPR02MB6005.namprd02.prod.outlook.com>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel-fitimage.bbclass: Introduce a way to provide external dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,91 +64,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 08:32:32 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 08:37:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We shipped an old version that was missing several fixes.
+On Thu, 2019-02-21 at 03:53 +0000, Manjukumar Harthikote Matha wrote:
+> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > On Tue, 2019-02-19 at 19:34 +0000, Manjukumar Harthikote Matha
+> > 
+> > > > PREFERRED_PROVIDER_virtual/dtb = "devicetree"
+> > > > 
+> > > 
+> > > Yes, I should have added this in the commit message. I will
+> > > update it
+> > > and re-send V2
+> > 
+> > What may also help a lot here would be some tests. This is
+> > currently a blackhole in
+> > the tests :(
+> > 
+> Are there examples of having tests only for bbclass in OE-Core? 
 
-A minor incompatibility is that this moves
-/etc/lighttpd.conf -> /etc/lighttpd/lighttpd.conf
+There are. See meta/lib/oeqa/selftest/cases/wic.py
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-extended/lighttpd/lighttpd/lighttpd         |  2 +-
- meta/recipes-extended/lighttpd/lighttpd/lighttpd.service | 12 ------------
- meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb        |  9 ++++-----
- 3 files changed, 5 insertions(+), 18 deletions(-)
- delete mode 100644 meta/recipes-extended/lighttpd/lighttpd/lighttpd.service
+I appreciate wic is a tool, not a class but the examples there should
+help. You can trigger them with oe-selftest -r wic.
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/lighttpd b/meta/recipes-extended/lighttpd/lighttpd/lighttpd
-index bf89a60b7d..82fbaa523b 100644
---- a/meta/recipes-extended/lighttpd/lighttpd/lighttpd
-+++ b/meta/recipes-extended/lighttpd/lighttpd/lighttpd
-@@ -4,7 +4,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
- DAEMON=/usr/sbin/lighttpd
- NAME=lighttpd
- DESC="Lighttpd Web Server"
--OPTS="-f /etc/lighttpd.conf"
-+OPTS="-f /etc/lighttpd/lighttpd.conf"
- 
- case "$1" in
-   start)
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.service b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.service
-deleted file mode 100644
-index 66a907aa17..0000000000
---- a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.service
-+++ /dev/null
-@@ -1,12 +0,0 @@
--[Unit]
--Description=Lightning Fast Webserver With Light System Requirements
--After=network.target
--
--[Service]
--ExecStartPre=@SBINDIR@/lighttpd -t -f @SYSCONFDIR@/lighttpd.conf
--ExecStart=@SBINDIR@/lighttpd -D -f @SYSCONFDIR@/lighttpd.conf
--ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
--
--[Install]
--WantedBy=multi-user.target
--
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-index a58faa17be..a0b350f358 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-@@ -16,7 +16,6 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://index.html.lighttpd \
-         file://lighttpd.conf \
-         file://lighttpd \
--        file://lighttpd.service \
-         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
-         "
- 
-@@ -57,13 +56,13 @@ INITSCRIPT_PARAMS = "defaults 70"
- SYSTEMD_SERVICE_${PN} = "lighttpd.service"
- 
- do_install_append() {
--	install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd.d ${D}/www/pages/dav
-+	install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd ${D}${sysconfdir}/lighttpd.d ${D}/www/pages/dav
- 	install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
--	install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-+	install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}/lighttpd
- 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
- 
- 	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
-+	install -m 0644 ${S}/doc/systemd/lighttpd.service ${D}${systemd_unitdir}/system
- 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
- 		-e 's,@BASE_BINDIR@,${base_bindir},g' \
-@@ -75,7 +74,7 @@ do_install_append() {
- 
- FILES_${PN} += "${sysconfdir} /www"
- 
--CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
-+CONFFILES_${PN} = "${sysconfdir}/lighttpd/lighttpd.conf"
- 
- PACKAGES_DYNAMIC += "^lighttpd-module-.*"
- 
--- 
-2.11.0
+Another example which is a bbclass is selftest/cases/archiver.py which
+does use a class inherit.
+
+> We need a recipe or create-one to inherit this class and probably add
+> that as a testcase. 
+> I am not sure how to proceed, any example would help to implement the
+> same
+
+See above, they show how to add small config fragments. If you do need
+a full recipe, then the meta-selftest layer of OE-Core should be able
+to help too.
+
+If you have any other questions or run into issues please do ask!
+
+Cheers,
+
+Richard
+
+
 
 
