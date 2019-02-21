@@ -1,101 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A53CB7CBAF
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+	[209.85.167.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D613C7CBAF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 21 Feb 2019 14:57:52 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id j5so9446275pfa.2
+Received: by mail-oi1-f193.google.com with SMTP id w66so1600117oia.4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 21 Feb 2019 06:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=sGTuJRPupOkpX543ZkrstOAtKko5dZAaYuM0Zzy/udk=;
-	b=ie5sZAr+DI5HRDEItF+z3FTHRT90KMIbUl3SzWKFCUszi/9+bTqXhnWMdUWQics/uF
-	rH7ryDWEwuupHAxSkNpEpjWvna4eoFJQasjPjqB1t87Acmw+2CR2fsuJyeutrE1cFHxY
-	m23NcCYo7OKysMX5gAKACNN+rwVhBogo5K14659/laYR1NDONKHQkv6Ximrrly0LyOgk
-	6xAp9qnfit8QVxBUsHbXmeYN8krmpi5DaHUm1Sris4r3UIInFTGGyhdxuUrRB3VZsHQV
-	2oie7p4Ql/EWdJNzLAU2DimfbVd2IhwkhJGJWxsQugnCP4jMQT/R8o2YznNsitK1m+v4
-	sa4A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=yK5V4D4FjSluf4WcYy64ZPdxFfYTEXafB6O4Jy4Gw3o=;
+	b=u/nOBeMcqWZGxJMvr7AUWb51yRg/aRL1Y1leMdgg3CC4P/y+Tc8eEzYHqz+cs4V1Ig
+	2+7Cv+fg2rsffzlAe77Vj3yMcKBbED0m4ORTw37pSy7W/Y2pJEdFJxUh4CU243jAQQsk
+	OJNLNxn+hjrRti/1ZLfxye4z7VPCRVCDiZAQxW/yLdQ7iM5enuNolCUy6nuc4ZmVKtyc
+	k0oKXoG0XezYXNqlcYJb7L83T+dDV0BvxW6GScKGIP/r7Rc2kqaa+EODDiQlXTHtl0ZU
+	OiNEXoXLSkD4qLyuLYTO48sz/3SJZNsSr5IBWVFLGfgcUUAP2r04fB+befs+cMB5/lRf
+	oTRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=sGTuJRPupOkpX543ZkrstOAtKko5dZAaYuM0Zzy/udk=;
-	b=CSTS6LPnRRXVCwgY8zjijjxWt2f1SEOZWTLbzJnjme++UBMzmsGPsnzAI39WIbLvVg
-	svcNWdWjpEgN4vgFpzsqJpJqJEmyyGzyU1wBDbYokaRzZmomxi96RZk2L8s6CiIPH9lF
-	6WoByQcXAXuREg71koK9Ug1QlVeqpvhz7hAE/ymmXmJwYyWTOg0PIB4SJ02z+DdDXAVi
-	XrqsszDRcZYEsPvuHBjpBot2pLACkJJqZ7p8L7JiJg69vrdY9347bTtxcfi8Ei8P4tdZ
-	eOCQYORjeol6S34inXgUdZSogoQm+Ur283RXZ1zJr2Blo1EYstpk9fOpnlvPAuEGlSID
-	0hWw==
-X-Gm-Message-State: AHQUAua6fKYN16PAf4nqAjOvL+bDX1w3EsZolrQYSNr7V/uQGdgceRoF
-	+7DX9xm9DQlVf4x7ObE7qLwSPe4T
-X-Google-Smtp-Source: AHgI3IaU/sgvopwVULJWD5eWuGINsZtKNJqAtT5SBna1OlFSX1+6xOYJ7RfxNqfGn5p8qR9JZHjOgA==
-X-Received: by 2002:a63:e447:: with SMTP id i7mr34583954pgk.70.1550761073399; 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=yK5V4D4FjSluf4WcYy64ZPdxFfYTEXafB6O4Jy4Gw3o=;
+	b=BotdIU+At114YuLJQoTBo1Sw9CqU5xo+D3p1QVlWgZRYlQVewBzHVDcFvQy5PZJ2st
+	VO3loldXAfxTHfWJZjN0mryrqNKz0hzf83917IMAuvXDGsybXyK1Ev6aHaU7qvlxFyEc
+	U9cVnACAHaiMwm9f6ccU+SYtpgUKc+QxDM4wnEyOblNGCWVqmA2BU73fY/3kIQhvsRoi
+	e6mPFxoS/XsgcQ9pf8OD7mZdFpHYeAWnYd4QVFWYcGVU+8yJWbnTbNNuTmBBe6ah3vRJ
+	bzuMInBCvlCRKNjggpWhCHABjQ6RqROXIRlYATFh4dPLNqKtjX0/pLzJ8Y5/fMAGJM/O
+	eslA==
+X-Gm-Message-State: AHQUAuZRvndrvhVkU8JGi2dOewV75NkKdNOiZwoB6QopklQqygwRxjdC
+	QNp0Q5eMH1A3m3ne63ynUHsowp5ZOfOqiixe2ow=
+X-Google-Smtp-Source: AHgI3IbZBb8Zw3CWFFHFXYeVw/PVoF9cqmRkg4uy34ztkVNvMW5dILIElOLaZxnCyTPHdxneEEv4M7yxSh8ceHVb/3w=
+X-Received: by 2002:aca:4c58:: with SMTP id z85mr9291614oia.140.1550761073814; 
 	Thu, 21 Feb 2019 06:57:53 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:f89a:1cd7:1eb2:3c81?
-	([2601:202:4180:c33:f89a:1cd7:1eb2:3c81])
-	by smtp.gmail.com with ESMTPSA id
-	e9sm83361214pfh.42.2019.02.21.06.57.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Feb 2019 06:57:52 -0800 (PST)
-To: Hoang Anh Tuan <tuanha@viosoft.com>,
-	openembedded-core@lists.openembedded.org
-References: <f4138dfe-562a-b30d-89bd-cde546bfc762@viosoft.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <dd5bcd00-9995-9f65-bf36-657a737a33eb@gmail.com>
-Date: Thu, 21 Feb 2019 06:57:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <f4138dfe-562a-b30d-89bd-cde546bfc762@viosoft.com>
-Subject: Re: [meta-oe] [PATCH 2/2] gtkwave: add version 3.3.98
+References: <cover.1550755109.git.tanuk@iki.fi>
+	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+In-Reply-To: <CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Feb 2019 15:57:42 +0100
+Message-ID: <CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] alsa recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,54 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 14:57:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 21 Feb 2019 14:57:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+
+(Also sbc needs an update, I think)
+
+Alex
 
 
-
-On 2/20/19 11:33 PM, Hoang Anh Tuan wrote:
+On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> Signed-off-by: Hoang Anh Tuan <tuanha@viosoft.com>
-
-Wrong ML, please send to openembedded-devel@lists.openembedded.org
-> ---
->  meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb | 19
-> +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->  create mode 100644 meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
+> Thanks! Will you be also sending an update to alsa-tools?
 >
-> diff --git a/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
-> b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
-> new file mode 100644
-> index 0000000..6fd9392
-> --- /dev/null
-> +++ b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
-> @@ -0,0 +1,19 @@
-> +SUMMARY = "VCD (Value Change Dump) file waveform viewer"
-> +DESCRIPTION = "gtkwave is a viewer for VCD (Value Change Dump) files
-> which are usually created by digital circuit simulators. (These files
-> have no connection to video CDs!) "
-> +HOMEPAGE = "http://gtkwave.sourceforge.net/"
-> +
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=75859989545e37968a99b631ef42722e"
-> +
-> +SRC_URI = "http://gtkwave.sourceforge.net/${PN}-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "eac3073ef381e0c09da33590296ca37f"
-> +SRC_URI[sha256sum] =
-> "efa6bbbeb3bd54104425a69a2aa0d079bb5c3ecc1c420ba57dcaa1c97c5a22f6"
-> +
-> +inherit pkgconfig autotools gettext texinfo
-> +DEPENDS = "tcl tk gperf-native bzip2 xz pango zlib gtk+ gdk-pixbuf
-> glib-2.0"
-> +RDEPENDS_${PN} = "tk-lib"
-> +
-> +EXTRA_OECONF = "--with-tcl=${STAGING_BINDIR_CROSS}
-> --with-tk=${STAGING_BINDIR_CROSS}"
-> +
-> +FILES_${PN} = "${bindir} ${datadir}"
-
+> Alex
+>
+> On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> >
+> > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
+> >
+> >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
+> >
+> >
+> > The alsa-tools update is missing, because the recipe upgrade deadline is
+> > near and the changes in alsa-tools look like a potential rabbit hole.
+> > I'll send the alsa-tools update separately when it's ready. The main
+> > change in alsa-tools is that the hwmixvolume program got ported from
+> > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
+> > actually is using that program, it's not even built by default.
+> >
+> >
+> > Tanu Kaskinen (3):
+> >   alsa-lib: 1.1.6 -> 1.1.8
+> >   alsa-plugins: 1.1.6 -> 1.1.8
+> >   alsa-utils: 1.1.6 -> 1.1.8
+> >
+> >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
+> >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
+> >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
+> >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
+> >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
+> >  5 files changed, 85 insertions(+), 15 deletions(-)
+> >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
+> >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
+> >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
+> >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
+> >
+> > --
+> > 2.20.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
