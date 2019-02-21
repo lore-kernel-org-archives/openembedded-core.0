@@ -1,30 +1,53 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9447CB5B
+Return-Path: <tuanha@viosoft.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 313757CB10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:06:28 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,394,1544457600"; d="scan'208";a="54862704"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 21 Feb 2019 15:06:29 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4B4A44C4BB93
+	Thu, 21 Feb 2019 07:32:15 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id s22so13335661pfh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 15:06:21 +0800 (CST)
-Received: from ubuntu.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Thu, 21 Feb 2019 15:06:38 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Feb 2019 14:06:42 -0800
-Message-ID: <1550786802-29862-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 20 Feb 2019 23:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=viosoft-com.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding:content-language;
+	bh=ygaP7TTLArxfZesR5pDm1t+3v6bsc8CCTjIPExmgLZw=;
+	b=QMbUUG+TtP+qBIQO/DGoOJfojjLvAR/e37hEwMwy8981BYpuOhHpdxYmifUXxUmOGE
+	mNt24Mox05J8z0QMXs4dAuZwlAhqRPvIvo2QaBUuJef/8gY1iYXuY8QnrApzMJywo3lI
+	yYjnSYUs/ZHu0AaXQMhLrVviSrppfsJzde4vplEtVo462y3aEtDMqfvR5urfxUngk7z5
+	voyyVdgbDVXCxKPL3zUn5iej4vhEere31oX7wip/I+Y9dRBgycT5H5jN8jx9gKTtfkG3
+	7I8EYYM5kt7DnzUAzkbeJooA/1tlKNFvuCL1TpNtKm2Z+puziXDYwh+ovWmVYexD72bP
+	hUgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=ygaP7TTLArxfZesR5pDm1t+3v6bsc8CCTjIPExmgLZw=;
+	b=TuM6uBgK5AmaW0iM/pmDWBWRIo4x0HHwDASv9FuFGYOwst7u364OvD2Q2x7PaLqX4k
+	Xd2OWXU5JwFNc+6W00CrSXi1F+twLhcpmPgxf4dYTiXtHh52LQu9CEk3h1plV+tcI50L
+	c0g/o1QOKwCOjiJMGVzW9VXOgmjAgt7pkixyPIGWcQRA0SVrQIebsNylAamuq9ZkcKgw
+	UxbHn4t2SZq/CaO5R50AL1SOue+A7YpRGBA4fscwlH/K1HdrBUa2wYfYrx/SIu/smr04
+	wxonKNYtQy2zt/WvI/bLnOtLUBefNWtYewSy8BrOMQxLoXh0FLeXK/w/aNt45K4RWyDQ
+	SICA==
+X-Gm-Message-State: AHQUAuZ2egRg/2YGkGsnzimWpbTbYdk6VHx09Vc1uRTOsQGgFA5D2hy6
+	BkMHfpL19YS9f4eSj9PkXI4HB+QFo8857w==
+X-Google-Smtp-Source: AHgI3Ibj0lkPvZbgSpGH/IwZ+YeFW6qnzSgRXKkXdv88yiQ2TSDmcUfNxTcNwEhojCMpcphS6lHo0w==
+X-Received: by 2002:a62:f204:: with SMTP id m4mr38415023pfh.58.1550734335841; 
+	Wed, 20 Feb 2019 23:32:15 -0800 (PST)
+Received: from [192.168.100.13] ([123.16.252.182])
+	by smtp.gmail.com with ESMTPSA id
+	s190sm33549094pfb.103.2019.02.20.23.32.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Feb 2019 23:32:14 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+From: Hoang Anh Tuan <tuanha@viosoft.com>
+Message-ID: <e4dd5e32-cfe0-d0cf-caa2-0ca7ff7041c4@viosoft.com>
+Date: Thu, 21 Feb 2019 14:32:13 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 4B4A44C4BB93.A7384
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2][thud] mdadm: add init and service scripts
+Subject: [meta-oe] [PATCH 1/2] tk_8.6.9: Add tkConfig.sh in crossscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,174 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 07:06:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Feb 2019 07:32:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Add init script and service file for sysvinit and systemd.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Signed-off-by: Hoang Anh Tuan <tuanha@viosoft.com>
 ---
- meta/recipes-extended/mdadm/files/mdadm.init       | 72 ++++++++++++++++++++++
- .../recipes-extended/mdadm/files/mdmonitor.service | 19 ++++++
- meta/recipes-extended/mdadm/mdadm_4.0.bb           | 17 ++++-
- 3 files changed, 106 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/mdadm/files/mdadm.init
- create mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
+  meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb | 25 +++++++++++++++++++++++++
+  1 file changed, 25 insertions(+)
 
-diff --git a/meta/recipes-extended/mdadm/files/mdadm.init b/meta/recipes-extended/mdadm/files/mdadm.init
-new file mode 100644
-index 0000000..cab91b9
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdadm.init
-@@ -0,0 +1,72 @@
-+#!/bin/sh
-+#
-+# Start the MD monitor daemon for all active MD arrays if desired.
-+#
-+### BEGIN INIT INFO
-+# Provides:          mdadm
-+# Required-Start:    $local_fs $syslog mdadm-raid
-+# Required-Stop:     $local_fs $syslog mdadm-raid
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: MD monitoring daemon
-+# Description:       mdadm provides a monitor mode, in which it will scan for
-+#                    problems with the MD devices. If a problem is found, the
-+#                    administrator is alerted via email, or a custom script is
-+#                    run.
-+### END INIT INFO
-+#
+diff --git a/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb 
+b/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
+index 9eec4bb..459ae82 100644
+--- a/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
++++ b/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
+@@ -50,6 +50,11 @@ do_install_append() {
+      ln -sf libtk${VER}.so ${D}${libdir}/libtk${VER}.so.0
+      oe_libinstall -so libtk${VER} ${D}${libdir}
+      ln -sf wish${VER} ${D}${bindir}/wish
 +
-+MDADM=/sbin/mdadm
-+RUNDIR=/var/run/mdadm
-+PIDFILE=$RUNDIR/monitor.pid
-+DEBIANCONFIG=/etc/default/mdadm
++    sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tkConfig.sh
++    sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tkConfig.sh
++    install -d ${D}${bindir_crossscripts}
++    install -m 0755 tkConfig.sh ${D}${bindir_crossscripts}
+  }
+
+  PACKAGECONFIG ??= "xft"
+@@ -69,3 +74,23 @@ BBCLASSEXTEND = "native nativesdk"
+
+  # Fix the path in sstate
+  SSTATE_SCAN_FILES += "*Config.sh"
 +
-+test -x "$MDADM" || exit 0
++inherit binconfig
 +
-+test -f /proc/mdstat || exit 0
++SYSROOT_DIRS += "${bindir_crossscripts}"
 +
-+START_DAEMON=true
-+test -f $DEBIANCONFIG && . $DEBIANCONFIG
++# Fix some paths that might be used by Tcl extensions
++BINCONFIG_GLOB = "*Config.sh"
 +
-+. /lib/lsb/init-functions
++# Cleanup host path from ${libdir}/tclConfig.sh and remove the
++# ${bindir_crossscripts}/tclConfig.sh from target
++PACKAGE_PREPROCESS_FUNCS += "tcl_package_preprocess"
++tcl_package_preprocess() {
++        sed -i -e "s;${DEBUG_PREFIX_MAP};;g" \
++               -e "s;-L${STAGING_LIBDIR};-L${libdir};g" \
++               -e "s;${STAGING_INCDIR};${includedir};g" \
++               -e "s;--sysroot=${RECIPE_SYSROOT};;g" \
++               ${PKGD}${libdir}/tkConfig.sh
 +
-+# Include functions
-+. /etc/init.d/functions
-+
-+case "${1:-}" in
-+  start)
-+    if is_true $START_DAEMON; then
-+      log_daemon_msg "Starting MD monitoring service" "mdadm --monitor"
-+      mkdir -p $RUNDIR
-+      start-stop-daemon -S -p $PIDFILE -x $MDADM -- \
-+        --monitor --pid-file $PIDFILE --daemonise --scan ${DAEMON_OPTIONS:-}
-+      RETVAL=$?
-+      log_end_msg $RETVAL
-+      exit $RETVAL
-+    fi
-+    ;;
-+  stop)
-+    if [ -f $PIDFILE ] ; then
-+      log_daemon_msg "Stopping MD monitoring service" "mdadm --monitor"
-+      start-stop-daemon -K -p $PIDFILE -x $MDADM
-+      RETVAL=$?
-+      rm -f $PIDFILE
-+      log_end_msg $RETVAL
-+      exit $RETVAL
-+    fi
-+    ;;
-+  status)
-+    status -p $PIDFILE "$MDADM" && exit 0 || exit $?
-+    ;;
-+  restart|reload|force-reload)
-+    ${0:-} stop
-+    ${0:-} start
-+    ;;
-+  *)
-+    echo "Usage: ${0:-} {start|stop|status|restart|reload|force-reload}" >&2
-+    exit 1
-+    ;;
-+esac
-+
-+exit 0
-+
-diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
-new file mode 100644
-index 0000000..bd243b4
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdmonitor.service
-@@ -0,0 +1,19 @@
-+#  This file is part of mdadm.
-+#
-+#  mdadm is free software; you can redistribute it and/or modify it
-+#  under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation; either version 2 of the License, or
-+#  (at your option) any later version.
-+
-+[Unit]
-+Description=Software RAID monitoring and management
-+ConditionPathExists=/etc/mdadm.conf
-+
-+[Service]
-+Type=forking
-+PIDFile=/var/run/mdadm/mdadm.pid
-+EnvironmentFile=-/etc/sysconfig/mdmonitor
-+ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/mdadm/mdadm.pid
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.0.bb b/meta/recipes-extended/mdadm/mdadm_4.0.bb
-index 2c4d88a..8155ae4 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.0.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.0.bb
-@@ -24,12 +24,14 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
-            file://0001-use-memmove-instead-of-memcpy-on-overlapping-region.patch \
-            file://0001-Disable-gcc8-warnings.patch \
-+           file://mdadm.init \
-+           file://mdmonitor.service \
-            "
- SRC_URI[md5sum] = "2cb4feffea9167ba71b5f346a0c0a40d"
- SRC_URI[sha256sum] = "1d6ae7f24ced3a0fa7b5613b32f4a589bb4881e3946a5a2c3724056254ada3a9"
- 
- CFLAGS += "-fno-strict-aliasing"
--inherit autotools-brokensep
-+inherit autotools-brokensep systemd
- 
- EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
- # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
-@@ -51,7 +53,17 @@ do_install() {
- 	autotools_do_install
- }
- 
--inherit ptest
-+do_install_append() {
-+    install -d ${D}/${sysconfdir}/
-+    install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
-+    install -d ${D}/${systemd_unitdir}/system
-+    install -m 644 ${S}/systemd/mdmonitor.service ${D}/${systemd_unitdir}/system
-+    install -d ${D}/${sysconfdir}/init.d
-+    install -m 755 ${WORKDIR}/mdadm.init    ${D}${sysconfdir}/init.d/mdmonitor
++        rm -f ${PKGD}${bindir_crossscripts}/tkConfig.sh
 +}
-+
-+SYSTEMD_SERVICE_${PN} = "mdmonitor.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
- 
- do_compile_ptest() {
- 	oe_runmake test
-@@ -67,6 +79,7 @@ do_install_ptest() {
- 		install -D -m 755 $prg ${D}${PTEST_PATH}/
- 	done
- }
-+
- RDEPENDS_${PN}-ptest += "bash"
- RRECOMMENDS_${PN}-ptest += " \
-     coreutils \
 -- 
 2.7.4
-
-
 
 
