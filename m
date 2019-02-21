@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 925FE6BE2A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D687CA9A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 21:08:55 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id i2so43130ite.5
+	Thu, 21 Feb 2019 22:18:46 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id e5so95540plb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 13:08:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bQq2xslx2f/INdB7UzY4uXmJF5DrJanZCBBklkI9G1I=;
-	b=rE4t8sNydyzRxaZxpHl9V6vJr3c27qdOo1i2vPdtpfKgIywZf3dBWTHYh3MFCqprud
-	w8U165npTfJD36WYTxLvkFyT+cC2RtLrU35+s52lf6BgCF4jn+cxYwaByc2/XRKfNQ8r
-	DOal2G83ddBeP6F627HTfVTdZcSPaSWtFANAireQqhPhQ/KIS+uq7DX+GAEYJXzh32Vz
-	xhUukqsPWg7QUS+dFRqRJT1/FCZALFlTQzOLs0GAfL58MlqOXOvwRoxew73WJ8LZie8B
-	L2gXRmlEJoiRXTU+1MnHH0HCZ6ffVc2ZVU8jJuJ9f5+BadOxb96v+AGOe6QdmyXn+wRQ
-	CPKQ==
+	Thu, 21 Feb 2019 14:18:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6md6lrUSewvLTsKZBe+/Os50uDjq6PJCpeOiKQPP+NE=;
+	b=PQX3PGcobKtimvuozCtrJfrkIm4nDthHC19/z30Ea/tnZVw6VUk7cjafrTpLzOH23p
+	wCj/Bg2PiFLIR331Gdzn76GBFP9J/in6rJn15LPGDNkWSTvJDI+QWEytbII2QsYdBEI/
+	HnDgAa3CVX6Ph/15Ld4+qCjR6/CsdLmrCChvQI23v9vjeibRpKeJj2QObD2bptdtHoZm
+	7PKojo9JBuMeAW3+Ebfbhr+qW+xltrjafevkXxLrchkIkqmturw4Z9fcloYsWdM2Ym3S
+	+1HGbG/JJzeMblOGkYeY0K3exOnFmHhk1NQ15Z44M2f/unNw05hrRXOy9vFWHo4dqFlt
+	sXRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bQq2xslx2f/INdB7UzY4uXmJF5DrJanZCBBklkI9G1I=;
-	b=t3w31YaWDDsrtB/nhJ7wlTyxndprBUnNWGvDdEfGRqG3opgJyajSBe9JiUgyezQQsh
-	HpxubdTtAryqAhumL3nVYmffP4IWXbWnz3GBGt9o+0u71EB+VXy5jIq0o32QUO+yoTm2
-	oOmpS5v/ZjVca9iSi9/E2OGyQswEvgJB/0sLyro8Q6ZjSF4fMvBHE+tHJNWop9ZMGQes
-	Ro5gmmO9RU17901gsgDWSfMQfS/Med7EI/3X5uLEO8I4zVxrMO/Mx2jf4/uFJZGJl266
-	w/Nmt2KrTuSqklq6tV7vlJLJ0AXfz6i8BziVDueeCpW1gwWHUmHly0JLJ7HZcW8kDGsv
-	xTHw==
-X-Gm-Message-State: AHQUAualg7RVhNvhmXFxVQjHOb4TDXp7pioXCXTrCe3BsvBotmLrxqWg
-	ASL0y0Aa83jOG38vtxwKy1xOH7GZMRUyCruVmhZpME89eEg=
-X-Google-Smtp-Source: AHgI3IYlSdQtSpfTzS5dPzOTgZSxcWS/lzVouUpHRqlBiUKSK1vuJahQ6W/xMOCh+VSzA2w155C6CEUjH/dppviZ3DE=
-X-Received: by 2002:a24:2ec2:: with SMTP id i185mr368122ita.62.1550783336356; 
-	Thu, 21 Feb 2019 13:08:56 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6md6lrUSewvLTsKZBe+/Os50uDjq6PJCpeOiKQPP+NE=;
+	b=tTmFdRM0LwxybBbQFHnQIn0Ol3bTeR8G+fxz8lVHwX5o9NfPYLCkBQoJ/FvMvCksl0
+	X7q5DPXwQbAJGRHgglersenhQvn4A6kXk1bTNIxRTZ5cO8FfZUkiabceoEf7xbhEL9wW
+	SiJcvwZ1XaPtcI0+O49CfgIf68iCsVLKv6NtHB24sWdgVYQZI0Q9JPFJsgEUf6ffu9j9
+	62+bOMYQAI4sLhp6D2s1Wf39/Rz1dg4p9e8adedJ8M/IQRD0cHnxU9kHKsS5PMIL4irg
+	s1AXMw9WGepctodrpXy+Nx8QIWUykmF2ENAGUvGWHtX88xhqfjDWNBLZCRPdYLKugoUz
+	L8/Q==
+X-Gm-Message-State: AHQUAuY8+yd8u1S+eLyhS/gsdOVe+x9jzADOEnafedbuIu2t5srlTgVP
+	/p65vbVFIOt+petfsXQGmatR+cSk
+X-Google-Smtp-Source: AHgI3IZZ5rUIUCOBkX43bqUging5OGsufP9d+MvXcD42iuCZjNNktMT3fOOSkNIslJaPSpSVznmkWg==
+X-Received: by 2002:a17:902:108a:: with SMTP id
+	c10mr826340pla.131.1550787526683; 
+	Thu, 21 Feb 2019 14:18:46 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::27a8])
+	by smtp.gmail.com with ESMTPSA id g6sm51815pgq.18.2019.02.21.14.18.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Feb 2019 14:18:46 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Feb 2019 14:18:34 -0800
+Message-Id: <20190221221834.37807-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190114125632.4780-1-git@andred.net>
-	<20190205023241.29707-1-git@andred.net>
-	<20190205023241.29707-14-git@andred.net>
-In-Reply-To: <20190205023241.29707-14-git@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Feb 2019 21:08:45 +0000
-Message-ID: <CAJTo0LbAe_VNjcn=-ehnD4wqJKprn5CBj2cfM9cjSUMaF=ssDQ@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 13/13] util-linux: final cleanup
+Subject: [PATCH] gtk+3: Fix build failure with gold linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,13 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 21:08:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Feb 2019 22:18:46 -0000
+Content-Transfer-Encoding: 8bit
 
-Looks like the manpage cleanup didn't quite work:
+Explicitly link in libfribidi
 
-WARNING: util-linux-2.32.1-r0 do_configure: QA Issue: util-linux:
-invalid PACKAGECONFIG: manpages [invalid-packageconfig]
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../gtk+/gtk+3/link_fribidi.patch             | 19 +++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb       |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/link_fribidi.patch
 
-Ross
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/link_fribidi.patch b/meta/recipes-gnome/gtk+/gtk+3/link_fribidi.patch
+new file mode 100644
+index 0000000000..e4bbd799f1
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3/link_fribidi.patch
+@@ -0,0 +1,19 @@
++Link with libfribidi, this is to avoid under linking where these functions are
++used but the library is not linked in, and they are marked undefined by BFD linker
++but gold linker refuses to link
++
++| ./.libs/libgdk-3.so: error: undefined reference to 'fribidi_get_bidi_type'
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++--- a/gdk/Makefile.am
+++++ b/gdk/Makefile.am
++@@ -55,6 +55,7 @@ LDADD = 					\
++ 	-version-info $(LT_VERSION_INFO)	\
++ 	-export-dynamic 			\
++ 	-rpath $(libdir) 			\
+++	-lfribidi	 			\
++ 	$(no_undefined)
++ 
++ #
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
+index 799cbd4707..92c9a3ebfb 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb
+@@ -6,6 +6,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0001-Hardcoded-libtool.patch \
+            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
+            file://0003-Add-disable-opengl-configure-option.patch \
++           file://link_fribidi.patch \
+           "
+ SRC_URI[md5sum] = "32862355c08f6af3e7848c695cd4081b"
+ SRC_URI[sha256sum] = "0be5fb0d302bc3de26ab58c32990d895831e2b7c7418d0ffea1206d6a3ddb02f"
+-- 
+2.20.1
+
 
