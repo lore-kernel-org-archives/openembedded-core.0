@@ -1,53 +1,53 @@
 Return-Path: <tuanha@viosoft.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 313757CB10
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9C37CB51
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:32:15 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id s22so13335661pfh.4
+	Thu, 21 Feb 2019 07:33:43 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id q206so13363078pgq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 23:32:16 -0800 (PST)
+	Wed, 20 Feb 2019 23:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=viosoft-com.20150623.gappssmtp.com; s=20150623;
 	h=to:from:subject:message-id:date:user-agent:mime-version
 	:content-transfer-encoding:content-language;
-	bh=ygaP7TTLArxfZesR5pDm1t+3v6bsc8CCTjIPExmgLZw=;
-	b=QMbUUG+TtP+qBIQO/DGoOJfojjLvAR/e37hEwMwy8981BYpuOhHpdxYmifUXxUmOGE
-	mNt24Mox05J8z0QMXs4dAuZwlAhqRPvIvo2QaBUuJef/8gY1iYXuY8QnrApzMJywo3lI
-	yYjnSYUs/ZHu0AaXQMhLrVviSrppfsJzde4vplEtVo462y3aEtDMqfvR5urfxUngk7z5
-	voyyVdgbDVXCxKPL3zUn5iej4vhEere31oX7wip/I+Y9dRBgycT5H5jN8jx9gKTtfkG3
-	7I8EYYM5kt7DnzUAzkbeJooA/1tlKNFvuCL1TpNtKm2Z+puziXDYwh+ovWmVYexD72bP
-	hUgQ==
+	bh=PYLpMaewvO5m5Q9IBPU2+0k9/ajarTcNQfs7+9UCaiI=;
+	b=Ae5MX2rEzNuaxcziRA3akJHiwTF5EdfAVD0anSAa/6m6aGlUEGm5joF7AqJHp2ex+n
+	WZSDyiZheSbY3sxqzr3XnCHSPoGzhx0Y/RpYoUbVBNtenODSVpkjcd0mVWAuE0Xkp32B
+	rqhTcKODPCQq3OK2U8ZEHLIoPMBuwMT0EKlNOCK5sxM/Zj7Zy7/Z6Al2FV7B0ckc5SeF
+	Tm9zDzmC6QSqh8zYdbKKTyPfvJvxgAmQNuoXljvZeroj+ZsCKNg3IX2U3AgvLVeyXpuf
+	mKyCT89g6hCoP2SMKwxV2BUgzL8WGsNJa+JOmAZwDt+TzImt5K7vuCPdQZEH32pqPJUC
+	hk6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
 	:mime-version:content-transfer-encoding:content-language;
-	bh=ygaP7TTLArxfZesR5pDm1t+3v6bsc8CCTjIPExmgLZw=;
-	b=TuM6uBgK5AmaW0iM/pmDWBWRIo4x0HHwDASv9FuFGYOwst7u364OvD2Q2x7PaLqX4k
-	Xd2OWXU5JwFNc+6W00CrSXi1F+twLhcpmPgxf4dYTiXtHh52LQu9CEk3h1plV+tcI50L
-	c0g/o1QOKwCOjiJMGVzW9VXOgmjAgt7pkixyPIGWcQRA0SVrQIebsNylAamuq9ZkcKgw
-	UxbHn4t2SZq/CaO5R50AL1SOue+A7YpRGBA4fscwlH/K1HdrBUa2wYfYrx/SIu/smr04
-	wxonKNYtQy2zt/WvI/bLnOtLUBefNWtYewSy8BrOMQxLoXh0FLeXK/w/aNt45K4RWyDQ
-	SICA==
-X-Gm-Message-State: AHQUAuZ2egRg/2YGkGsnzimWpbTbYdk6VHx09Vc1uRTOsQGgFA5D2hy6
-	BkMHfpL19YS9f4eSj9PkXI4HB+QFo8857w==
-X-Google-Smtp-Source: AHgI3Ibj0lkPvZbgSpGH/IwZ+YeFW6qnzSgRXKkXdv88yiQ2TSDmcUfNxTcNwEhojCMpcphS6lHo0w==
-X-Received: by 2002:a62:f204:: with SMTP id m4mr38415023pfh.58.1550734335841; 
-	Wed, 20 Feb 2019 23:32:15 -0800 (PST)
+	bh=PYLpMaewvO5m5Q9IBPU2+0k9/ajarTcNQfs7+9UCaiI=;
+	b=bpGr0tHK52OnMl0+k5Gucos+bNZnN6Sct6sPiTeU0lNt5Vx9UC1DObU3z4rt6eoT3v
+	TjUMbkeQtBRJBS6hL7i3zyjBYHT2lhs7j3IhsEwLPum93C/XAZ75XCf4JITWB+/hlQmQ
+	RyIwJPBAqmIaiZ20nl/z+dPiwBSXHOy2QL2pPwGMkl+A8pUBvriv9tI0NvFvBMD2Vo5H
+	vd0MdKVb5s3a6sXG1YtcrjmV0BTcaAorXPR8VFNV40nysX6A1+fhvUBcVKlfc7kXtLBs
+	DAmBJd3D7601Xc+Bpe/G/sVAx9pOZgTE9CrOmYoU9Cl12pu/sYouiJkEvrZNThmDzQ7g
+	TZfw==
+X-Gm-Message-State: AHQUAuadgJsehz09Qtvx3eJ3ENzJ6FguIcl+Z0GuCriaRdFQi7mMYNx/
+	KEnsADWSVTcj8edmjLsW2COR/QeMkhyxWw==
+X-Google-Smtp-Source: AHgI3Ibndsfh8d5BpXqDYezA1fT9smbdEwfUZurBqjgYWzBKqhXm9BlR4Fi3IiZOuMkM3PogNavOWQ==
+X-Received: by 2002:a63:5964:: with SMTP id j36mr33109277pgm.210.1550734424578;
+	Wed, 20 Feb 2019 23:33:44 -0800 (PST)
 Received: from [192.168.100.13] ([123.16.252.182])
 	by smtp.gmail.com with ESMTPSA id
-	s190sm33549094pfb.103.2019.02.20.23.32.14
+	s6sm17426966pgi.56.2019.02.20.23.33.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Feb 2019 23:32:14 -0800 (PST)
+	Wed, 20 Feb 2019 23:33:43 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
 From: Hoang Anh Tuan <tuanha@viosoft.com>
-Message-ID: <e4dd5e32-cfe0-d0cf-caa2-0ca7ff7041c4@viosoft.com>
-Date: Thu, 21 Feb 2019 14:32:13 +0700
+Message-ID: <f4138dfe-562a-b30d-89bd-cde546bfc762@viosoft.com>
+Date: Thu, 21 Feb 2019 14:33:42 +0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.4.0
 MIME-Version: 1.0
-Subject: [meta-oe] [PATCH 1/2] tk_8.6.9: Add tkConfig.sh in crossscript
+Subject: [meta-oe] [PATCH 2/2] gtkwave: add version 3.3.98
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 07:32:15 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 07:33:44 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -68,50 +68,42 @@ Content-Language: en-US
 
 Signed-off-by: Hoang Anh Tuan <tuanha@viosoft.com>
 ---
-  meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb | 25 +++++++++++++++++++++++++
-  1 file changed, 25 insertions(+)
+  meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb | 19 
++++++++++++++++++++
+  1 file changed, 19 insertions(+)
+  create mode 100644 meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
 
-diff --git a/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb 
-b/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
-index 9eec4bb..459ae82 100644
---- a/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
-+++ b/meta-oe/recipes-devtools/tcltk/tk_8.6.9.bb
-@@ -50,6 +50,11 @@ do_install_append() {
-      ln -sf libtk${VER}.so ${D}${libdir}/libtk${VER}.so.0
-      oe_libinstall -so libtk${VER} ${D}${libdir}
-      ln -sf wish${VER} ${D}${bindir}/wish
+diff --git a/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb 
+b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
+new file mode 100644
+index 0000000..6fd9392
+--- /dev/null
++++ b/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.98.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "VCD (Value Change Dump) file waveform viewer"
++DESCRIPTION = "gtkwave is a viewer for VCD (Value Change Dump) files 
+which are usually created by digital circuit simulators. (These files 
+have no connection to video CDs!) "
++HOMEPAGE = "http://gtkwave.sourceforge.net/"
 +
-+    sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tkConfig.sh
-+    sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tkConfig.sh
-+    install -d ${D}${bindir_crossscripts}
-+    install -m 0755 tkConfig.sh ${D}${bindir_crossscripts}
-  }
-
-  PACKAGECONFIG ??= "xft"
-@@ -69,3 +74,23 @@ BBCLASSEXTEND = "native nativesdk"
-
-  # Fix the path in sstate
-  SSTATE_SCAN_FILES += "*Config.sh"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=75859989545e37968a99b631ef42722e"
 +
-+inherit binconfig
++SRC_URI = "http://gtkwave.sourceforge.net/${PN}-${PV}.tar.gz"
 +
-+SYSROOT_DIRS += "${bindir_crossscripts}"
++SRC_URI[md5sum] = "eac3073ef381e0c09da33590296ca37f"
++SRC_URI[sha256sum] = 
+"efa6bbbeb3bd54104425a69a2aa0d079bb5c3ecc1c420ba57dcaa1c97c5a22f6"
 +
-+# Fix some paths that might be used by Tcl extensions
-+BINCONFIG_GLOB = "*Config.sh"
++inherit pkgconfig autotools gettext texinfo
++DEPENDS = "tcl tk gperf-native bzip2 xz pango zlib gtk+ gdk-pixbuf 
+glib-2.0"
++RDEPENDS_${PN} = "tk-lib"
 +
-+# Cleanup host path from ${libdir}/tclConfig.sh and remove the
-+# ${bindir_crossscripts}/tclConfig.sh from target
-+PACKAGE_PREPROCESS_FUNCS += "tcl_package_preprocess"
-+tcl_package_preprocess() {
-+        sed -i -e "s;${DEBUG_PREFIX_MAP};;g" \
-+               -e "s;-L${STAGING_LIBDIR};-L${libdir};g" \
-+               -e "s;${STAGING_INCDIR};${includedir};g" \
-+               -e "s;--sysroot=${RECIPE_SYSROOT};;g" \
-+               ${PKGD}${libdir}/tkConfig.sh
++EXTRA_OECONF = "--with-tcl=${STAGING_BINDIR_CROSS} 
+--with-tk=${STAGING_BINDIR_CROSS}"
 +
-+        rm -f ${PKGD}${bindir_crossscripts}/tkConfig.sh
-+}
++FILES_${PN} = "${bindir} ${datadir}"
 -- 
 2.7.4
 
