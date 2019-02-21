@@ -1,55 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 808B07CB35
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C134C7CAF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 23:15:50 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id r5so14560433wrg.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2019 15:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=bRXk35S8QSvl+NEhGoTMHnjhYjAE8ab4WChP6esvhRw=;
-	b=GJVHh54O5ch5rESqPqhsgHE0ld+DrYv2DBwhgtwBCMjB0xme9Iz0G9HZQCcK58CXwD
-	d0DSLEnVMm7oGCatPeFHQDRa/Mu5OLS0sQw8JmQ8SkeHqPLauEVOGwWUHQG/koyuO/Ku
-	yveY3NxUY0jd+YNfsYawneV5EO5lZXLRi0I8E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=bRXk35S8QSvl+NEhGoTMHnjhYjAE8ab4WChP6esvhRw=;
-	b=ALdPxMc20Bx+8cvhOpWjpoG0N94y04Fpa/QV4A5KzBAdWMVZHhZWle/VyGtta4TXn/
-	trHqTk+tiywk+JsFR60abdUxD4ikE81pTRfFLF6jy+bj6tUi6h98zkiyn7ryfj7uJ3eS
-	ujXnzIdf/o0Dzjh0NFwLw+ZgCH4Obrhk6MgDBQCkXlGnGmsoNtnq3pdk0S5LNzvzPPg8
-	XnYLWoM7MYacvZGD+nNB4cZn+o+ih2NkD8ywMlmh2OpyU1eircH3HbvINRUUokGdL8zv
-	utnvhnIJ3I2P6WVA4OLKDcKUEoitBVGtoXDu0YeK73NABGZSC4Sv5CJeMUEPxc8mbzK0
-	PVyg==
-X-Gm-Message-State: AHQUAuYqzpaKiMOd35lynH+FqwE0B6sCqDt3AppaFi25Qul86z9G3K87
-	4I0AlHk3oNznonf8vAJKlH04Vg==
-X-Google-Smtp-Source: AHgI3IYQgJE1LNj1eP5YywTEJctA1VzD6HTUSfodjwFjfl/jlWTVhShF7Yd0Dd3gDujM1ByXE3MOCA==
-X-Received: by 2002:adf:ed0f:: with SMTP id a15mr26325922wro.249.1550704551183;
-	Wed, 20 Feb 2019 15:15:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g10sm7378202wrq.61.2019.02.20.15.15.49
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 20 Feb 2019 15:15:50 -0800 (PST)
-Message-ID: <6fe6cbadaf29e01975ec71a1b005d2fdb7885484.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>, Philip Balister
-	<philip@balister.org>
-Date: Wed, 20 Feb 2019 23:15:49 +0000
-In-Reply-To: <BYAPR02MB6005274C95E7FE6ACA65292DB97C0@BYAPR02MB6005.namprd02.prod.outlook.com>
-References: <1550192184-13460-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<1550192184-13460-2-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<679c61e2-f179-c986-b6ca-b69b95b5e22a@balister.org>
-	<BYAPR02MB6005274C95E7FE6ACA65292DB97C0@BYAPR02MB6005.namprd02.prod.outlook.com>
-User-Agent: Evolution 3.31.90-1 
+	Thu, 21 Feb 2019 00:40:33 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Feb 2019 16:40:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,392,1544515200"; d="scan'208";a="117821862"
+Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
+	by orsmga006.jf.intel.com with ESMTP; 20 Feb 2019 16:40:33 -0800
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.205]) by
+	PGSMSX101.gar.corp.intel.com ([169.254.1.233]) with mapi id
+	14.03.0415.000; Thu, 21 Feb 2019 08:40:32 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "fabio.berton@ossystems.com.br" <fabio.berton@ossystems.com.br>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [RFC][PATCH v3] mesa: Convert recipe to use meson
+	build system
+Thread-Index: AQHUyX4NPd3eWgP3bkC5IWugR5mvyA==
+Date: Thu, 21 Feb 2019 00:40:32 +0000
+Message-ID: <451a3c0d5250062208cb29a8e16e9c8373538ce6.camel@intel.com>
+References: <20190220211034.27159-1-fabio.berton@ossystems.com.br>
+In-Reply-To: <20190220211034.27159-1-fabio.berton@ossystems.com.br>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.178.117]
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel-fitimage.bbclass: Introduce a way to provide external dtb
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>
+Subject: Re: [RFC][PATCH v3] mesa: Convert recipe to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,41 +45,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 23:15:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Feb 2019 00:40:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <130332C2631AF94D868AA29F0182FBC8@intel.com>
+Content-Transfer-Encoding: base64
 
-On Tue, 2019-02-19 at 19:34 +0000, Manjukumar Harthikote Matha wrote:
-> Hi Philip,
-> 
-> > -----Original Message-----
-> > From: Philip Balister [mailto:philip@balister.org]
-> > Sent: Sunday, February 17, 2019 3:47 PM
-> > To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-> > Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-> > Subject: Re: [OE-core][PATCH 2/2] kernel-fitimage.bbclass:
-> > Introduce a way to
-> > provide external dtb
-> > 
-> > With these patches, I made a fitImage that booted on the mini-zed.
-> > It would be nice
-> > to include a note on how to enable this. I took at few stabs at it
-> > and ended up with
-> 
-> Thanks for testing it out on mini-zed
-> 
-> > PREFERRED_PROVIDER_virtual/dtb = "devicetree"
-> > 
-> 
-> Yes, I should have added this in the commit message. I will update it
-> and re-send V2
-
-What may also help a lot here would be some tests. This is currently a
-blackhole in the tests :(
-
-
-Cheers,
-
-Richard
-
+T24gV2VkLCAyMDE5LTAyLTIwIGF0IDE4OjEwIC0wMzAwLCBGYWJpbyBCZXJ0b24gd3JvdGU6DQo+
+ICtQQUNLQUdFQ09ORklHW3h2bWNdID0gIi1nYWxsaXVtLXh2bWM9dHJ1ZSwtRGdhbGxpdW0tDQo+
+IHh2bWM9ZmFsc2UsbGlieHZtYyINCg0KVGhpcyBpcyBtaXNzaW5nIGEgJy1EJyAuLi4gV2FzIGEg
+cHJvYmxlbSB3aXRoIG15IG9yaWdpbmFsIHBhdGNoIGFzDQp3ZWxsLg0K
 
