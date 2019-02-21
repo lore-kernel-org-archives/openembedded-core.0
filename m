@@ -1,30 +1,30 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id E0E097CA2C
+	by mail.openembedded.org (Postfix) with ESMTP id DD9447CB5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:06:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,394,1544457600"; d="scan'208";a="54862673"
+	Thu, 21 Feb 2019 07:06:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,394,1544457600"; d="scan'208";a="54862704"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 21 Feb 2019 15:06:17 +0800
+	by heian.cn.fujitsu.com with ESMTP; 21 Feb 2019 15:06:29 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 03D3D4C4FA35
+	by cn.fujitsu.com (Postfix) with ESMTP id 4B4A44C4BB93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 15:06:13 +0800 (CST)
+	Thu, 21 Feb 2019 15:06:21 +0800 (CST)
 Received: from ubuntu.localdomain (10.167.225.35) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Thu, 21 Feb 2019 15:06:29 +0800
+	Server (TLS) id 14.3.408.0; Thu, 21 Feb 2019 15:06:38 +0800
 From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Feb 2019 14:06:27 -0800
-Message-ID: <1550786787-29816-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Thu, 21 Feb 2019 14:06:42 -0800
+Message-ID: <1550786802-29862-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 03D3D4C4FA35.A5BAD
+X-yoursite-MailScanner-ID: 4B4A44C4BB93.A7384
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] mdadm: add init and service scripts
+Subject: [PATCH v2][thud] mdadm: add init and service scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 07:06:19 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 07:06:29 -0000
 Content-Type: text/plain
 
 Add init script and service file for sysvinit and systemd.
@@ -47,8 +47,8 @@ Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
  meta/recipes-extended/mdadm/files/mdadm.init       | 72 ++++++++++++++++++++++
  .../recipes-extended/mdadm/files/mdmonitor.service | 19 ++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           | 16 ++++-
- 3 files changed, 106 insertions(+), 1 deletion(-)
+ meta/recipes-extended/mdadm/mdadm_4.0.bb           | 17 ++++-
+ 3 files changed, 106 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-extended/mdadm/files/mdadm.init
  create mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
 
@@ -155,44 +155,53 @@ index 0000000..bd243b4
 +
 +[Install]
 +WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 7663a6b..2d7ade6 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -17,11 +17,16 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.0.bb b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+index 2c4d88a..8155ae4 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.0.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.0.bb
+@@ -24,12 +24,14 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
             file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
-            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-            file://0001-fix-gcc-8-format-truncation-warning.patch \
-+	   file://mdadm.init \
-+	   file://mdmonitor.service \
+            file://0001-use-memmove-instead-of-memcpy-on-overlapping-region.patch \
+            file://0001-Disable-gcc8-warnings.patch \
++           file://mdadm.init \
++           file://mdmonitor.service \
             "
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+ SRC_URI[md5sum] = "2cb4feffea9167ba71b5f346a0c0a40d"
+ SRC_URI[sha256sum] = "1d6ae7f24ced3a0fa7b5613b32f4a589bb4881e3946a5a2c3724056254ada3a9"
  
--inherit autotools-brokensep ptest
-+inherit autotools-brokensep ptest systemd
+ CFLAGS += "-fno-strict-aliasing"
+-inherit autotools-brokensep
++inherit autotools-brokensep systemd
+ 
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+@@ -51,7 +53,17 @@ do_install() {
+ 	autotools_do_install
+ }
+ 
+-inherit ptest
++do_install_append() {
++    install -d ${D}/${sysconfdir}/
++    install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
++    install -d ${D}/${systemd_unitdir}/system
++    install -m 644 ${S}/systemd/mdmonitor.service ${D}/${systemd_unitdir}/system
++    install -d ${D}/${sysconfdir}/init.d
++    install -m 755 ${WORKDIR}/mdadm.init    ${D}${sysconfdir}/init.d/mdmonitor
++}
 +
 +SYSTEMD_SERVICE_${PN} = "mdmonitor.service"
 +SYSTEMD_AUTO_ENABLE = "disable"
  
- CFLAGS_append_toolchain-clang = " -Wno-error=address-of-packed-member"
- 
-@@ -46,6 +51,15 @@ do_install() {
- 	autotools_do_install
- }
- 
-+do_install_append() {
-+        install -d ${D}/${sysconfdir}/
-+        install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
-+        install -d ${D}/${systemd_unitdir}/system
-+        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
-+        install -d ${D}/${sysconfdir}/init.d
-+        install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
-+}
-+
  do_compile_ptest() {
  	oe_runmake test
+@@ -67,6 +79,7 @@ do_install_ptest() {
+ 		install -D -m 755 $prg ${D}${PTEST_PATH}/
+ 	done
  }
++
+ RDEPENDS_${PN}-ptest += "bash"
+ RRECOMMENDS_${PN}-ptest += " \
+     coreutils \
 -- 
 2.7.4
 
