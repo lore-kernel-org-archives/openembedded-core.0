@@ -1,35 +1,49 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 848587CB36
+Return-Path: <tanuk@iki.fi>
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+	[64.147.123.25])
+	by mail.openembedded.org (Postfix) with ESMTP id CF9147CB4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 13:25:23 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id woLqgibxfx6b6woLrgOpf3; Thu, 21 Feb 2019 13:25:24 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=CFTnQlWoA9kA:10 a=qx-tHiomXqrDvtMcUc8A:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gwoLq-0007H5-Oc; Thu, 21 Feb 2019 13:25:22 +0000
-Date: Thu, 21 Feb 2019 13:25:22 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190221132522.3c43l5bmk5m2cvud@mcrowe.com>
-References: <20190111164951.8329-1-mac@mcrowe.com>
-	<47731964b9ae52ac23e67b92bbfd1a1ad3e2acc0.camel@linuxfoundation.org>
-	<20190111165944.gussrefs6j5o6ffq@mcrowe.com>
-	<20190123162759.yjdev2mpx24zwbaf@mcrowe.com>
-	<20190220164729.4rkhazvhtyzwkeh3@mcrowe.com>
-	<5471c44e078f61500d0d0801e3c9c43a093d6006.camel@linuxfoundation.org>
+	Thu, 21 Feb 2019 13:34:23 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id C287C31E1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2019 08:26:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+	by compute5.internal (MEProxy); Thu, 21 Feb 2019 08:26:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8cx6CEad5midMhX6S
+	PFog6H6H2XOGI5kN/M54vqwLaw=; b=o6ZcS22CqQFKg+pN7KxkaWDbZssUYHAI3
+	rqmDUqAam30+xpYJWrOPjDkYQXMDDx1QuOGusDDaz6sBdfmVk8lyD4JGWs/EIhHv
+	9FHX9p3xQ/0QmTmalNC8xdHiHVSC/VhxF3rLIsisiDvxHUrAXysQJggHq19rGO0v
+	/yOnMcDp023dNVFjOj2abWMNAyUAyj1+LjvOUWEoZHOde3X5H+lEveg9c3TD8mIF
+	oTIWewlDJGWZe54+v9u+kQJ9CBaFE9cQx+07lAjVyZ+AoLqU9WztTfWGtJ8aKyEd
+	5gJXQd3PsNN2pPi3IQte6kWqgns6tLgMHomCECr1ZiW5X2e/k6z0A==
+X-ME-Sender: <xms:AqduXLLy8qNjhAj9N7JBb-wrEnaVIAuAoWa2DPJ64wDsGftY7MJnrA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrtdekgdehfeculddtuddrgedtledrtddtmd
+	cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthen
+	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+	dttdenucfhrhhomhepvfgrnhhuucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhf
+	iheqnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucfkphepkeekrd
+	duudefrddvuddurdejvdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhukhesihhk
+	ihdrfhhinecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:AqduXMWYzUIvW3XTDHbBM0jusvzzBH_CtyDdYarZf4I9LogFxLHMPg>
+	<xmx:AqduXIOCHszr6IgTrrN8Roqr-QWebIKNDqvReKe3hsV24GYFwmDzzg>
+	<xmx:AqduXAlLzFL6LEwH86fiAJqQQ7w4k-5Z3g6Jn_GCoR0Q5Ukss5jDsQ>
+	<xmx:AqduXPaVk7hZwDWX2yjV_habsJTxB2mKmYMrcznzNyMzi0RfKdZqgA>
+Received: from localhost.localdomain (88-113-211-72.elisa-laajakaista.fi
+	[88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id A4261E4559
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2019 08:26:25 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Feb 2019 15:26:18 +0200
+Message-Id: <cover.1550755109.git.tanuk@iki.fi>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <5471c44e078f61500d0d0801e3c9c43a093d6006.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfMUrpuTM5UiNbSbcnclv0N4JhrtgdTyAorUcHlD1icp8/ReV5HkY2Wd02d1dMVgmd5JRNM9nn/aXkCrvrQ3zNrFnOa1xEftgPnPzq9t3vX3j/E2cbySF
-	bv00LaZ9lXBd0oUzCiw8cD2y9U22ydbm5mDL6bAtYyDq/LecOwOXRhWO
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] glibc: Separate out AArch64 multilib loader symlink creation
+Subject: [PATCH 0/3] alsa recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 13:25:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 21 Feb 2019 13:34:24 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thursday 21 February 2019 at 13:01:27 +0000, Richard Purdie wrote:
-> On Wed, 2019-02-20 at 16:47 +0000, Mike Crowe wrote:
-> > On Wednesday 23 January 2019 at 16:27:59 +0000, Mike Crowe wrote:
-> > > 
-> > > Does the lack of response mean that both approaches are horrendous?
-> > > If so, do you have any better ideas?
-> > 
-> > There doesn't seem to be much interest in this one.
-> > 
-> > The only other idea I've had is to create the symlink at rootfs-creation
-> > time. However, that seems to be detaching it too much from glibc, which
-> > would cause confusion.
-> > 
-> > I can apply one of my fixes locally (we currently have some far uglier
-> > hacks than these that I'd like to remove), but I'd really rather not have
-> > to diverge from upstream this much.
-> 
-> Sorry for the lack of feedback.
-> 
-> I'm fairly strongly against a separate aarch64 only recipe for this.
-> Realistically we therefore have to fix this in the existing
-> class/code/recipe.
-> 
-> The changes you sent previously didn't look that horrific, did you find
-> a working version of that?
-> 
-> I'm wondering if we can come up with something which works and
-> hopefully we can spot some way to then clean it up to be a bit nicer...
-> 
-> The delay was that I was going to try and come up with something but
-> that hasn't happened yet. If you have a horrific non-separate recipe
-> version that is complete, we can see if we can do anything to improve
-> it.
+The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
 
-I had suspected that was the reason for the delay.
+  libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
 
-I shall knock my modifications to glibc-package.inc into shape and send a
-tested patch. I've already improved it a little compared to the version I
-sent previously.
+are available in the Git repository at:
 
-Thanks for the response.
+  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
 
-Mike.
+
+The alsa-tools update is missing, because the recipe upgrade deadline is
+near and the changes in alsa-tools look like a potential rabbit hole.
+I'll send the alsa-tools update separately when it's ready. The main
+change in alsa-tools is that the hwmixvolume program got ported from
+PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
+actually is using that program, it's not even built by default.
+
+
+Tanu Kaskinen (3):
+  alsa-lib: 1.1.6 -> 1.1.8
+  alsa-plugins: 1.1.6 -> 1.1.8
+  alsa-utils: 1.1.6 -> 1.1.8
+
+ .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
+ ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
+ ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
+ ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
+ 5 files changed, 85 insertions(+), 15 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
+ rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
+
+-- 
+2.20.1
+
 
