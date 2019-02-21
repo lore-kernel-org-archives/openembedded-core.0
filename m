@@ -1,47 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D613C7CBAF
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DFB87CBAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 14:57:52 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id w66so1600117oia.4
+	Thu, 21 Feb 2019 15:01:47 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id n71so45096049ota.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 06:57:54 -0800 (PST)
+	Thu, 21 Feb 2019 07:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yK5V4D4FjSluf4WcYy64ZPdxFfYTEXafB6O4Jy4Gw3o=;
-	b=u/nOBeMcqWZGxJMvr7AUWb51yRg/aRL1Y1leMdgg3CC4P/y+Tc8eEzYHqz+cs4V1Ig
-	2+7Cv+fg2rsffzlAe77Vj3yMcKBbED0m4ORTw37pSy7W/Y2pJEdFJxUh4CU243jAQQsk
-	OJNLNxn+hjrRti/1ZLfxye4z7VPCRVCDiZAQxW/yLdQ7iM5enuNolCUy6nuc4ZmVKtyc
-	k0oKXoG0XezYXNqlcYJb7L83T+dDV0BvxW6GScKGIP/r7Rc2kqaa+EODDiQlXTHtl0ZU
-	OiNEXoXLSkD4qLyuLYTO48sz/3SJZNsSr5IBWVFLGfgcUUAP2r04fB+befs+cMB5/lRf
-	oTRQ==
+	:cc; bh=M/VziQAcBb06qqQetdhrnWtvuGKZi1e5Z8rM0yT0N0A=;
+	b=Qs8qiaqhSgRhzVUP6L5HEppVW4MokJcOCid3rJ9DQXWKOtY2NYl2vmUA+FJyIy7Qiq
+	0vQ8iVoOsfy5CByDmqwSVuVzs/R89pCp7vmGSVA1SoCMYdM9cDWxOMhYiDSRXzqv+xjB
+	Vi3OhFE1LyQtUIQuJQZjMw1WjwU0MQj6p4Y0X1GWbnuHCOZmq26hOupdztt6zRASR6KU
+	KmsvlwOSrHUautn+YgYDIwxPtUDWtCnnYXDPG1dHwW+UfPj+2AfjLjZx5JakjRjPbcA0
+	qT4NRTd6YhZq+F+Kj+I8Vfgld7s9tVjLVOHSjtvIz3txlymfhjWdIfOWy6NPO/zo4Y2A
+	k9GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yK5V4D4FjSluf4WcYy64ZPdxFfYTEXafB6O4Jy4Gw3o=;
-	b=BotdIU+At114YuLJQoTBo1Sw9CqU5xo+D3p1QVlWgZRYlQVewBzHVDcFvQy5PZJ2st
-	VO3loldXAfxTHfWJZjN0mryrqNKz0hzf83917IMAuvXDGsybXyK1Ev6aHaU7qvlxFyEc
-	U9cVnACAHaiMwm9f6ccU+SYtpgUKc+QxDM4wnEyOblNGCWVqmA2BU73fY/3kIQhvsRoi
-	e6mPFxoS/XsgcQ9pf8OD7mZdFpHYeAWnYd4QVFWYcGVU+8yJWbnTbNNuTmBBe6ah3vRJ
-	bzuMInBCvlCRKNjggpWhCHABjQ6RqROXIRlYATFh4dPLNqKtjX0/pLzJ8Y5/fMAGJM/O
-	eslA==
-X-Gm-Message-State: AHQUAuZRvndrvhVkU8JGi2dOewV75NkKdNOiZwoB6QopklQqygwRxjdC
-	QNp0Q5eMH1A3m3ne63ynUHsowp5ZOfOqiixe2ow=
-X-Google-Smtp-Source: AHgI3IbZBb8Zw3CWFFHFXYeVw/PVoF9cqmRkg4uy34ztkVNvMW5dILIElOLaZxnCyTPHdxneEEv4M7yxSh8ceHVb/3w=
-X-Received: by 2002:aca:4c58:: with SMTP id z85mr9291614oia.140.1550761073814; 
-	Thu, 21 Feb 2019 06:57:53 -0800 (PST)
+	bh=M/VziQAcBb06qqQetdhrnWtvuGKZi1e5Z8rM0yT0N0A=;
+	b=KoNz5eR9naG7gaRCNf75DgIPLt97jv52dAKajubEtm7z+pT1g6YroVS0pq2KTLeIJV
+	idvGMkR5PU9oe8ZN7GR/ejk5MI2vlLMeHg9T1ARw1V0ougXEJJ/iPhbLtAQjSw+4eKPG
+	aXCcTG6d6Ppj4aHiR0mM38MqW6daJUENRjH25pqx7Vip5jGbQRwYMChxAfDFggEDCJmR
+	yv9TTbdflLd+T26TVVd7nYYbXGwziskuDkVrDsfxQLRHKIRtqaanboVqNfmkl2VJV0kD
+	JzEE2dyEWsy1LGmoSgbtvxZs/AXNAwsdHJc7frI9mdAnNp7E3VRf34kIA1v2l+t40CVH
+	noQg==
+X-Gm-Message-State: AHQUAuZahW4C8LL6xDDlKP1Wf5SWaS8Pu9g6OrWHwmrvzADkHOjN12ZY
+	xwOMndaDvKrQpMbvmvLoYcYWw9HtxeETYVSuSFQ=
+X-Google-Smtp-Source: AHgI3IbgTthEAyjWeaOf6x6uMXcFYAvhcKk5li9e91VglKSmzD4H51spbEInvk1YqmJdBhEc+A7jlntvMvYrfFnd4iA=
+X-Received: by 2002:a9d:640d:: with SMTP id h13mr24818714otl.153.1550761308191;
+	Thu, 21 Feb 2019 07:01:48 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1550755109.git.tanuk@iki.fi>
-	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
-In-Reply-To: <CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+References: <20190220211034.27159-1-fabio.berton@ossystems.com.br>
+	<451a3c0d5250062208cb29a8e16e9c8373538ce6.camel@intel.com>
+	<CAMKF1sqss0=crDQ0pGGA8FHXjjRYv+9tHE5i5ohZneipW6J7TA@mail.gmail.com>
+	<CAMKF1srcbPFfGcEFWdNT+P=bmv+eweQN4d2uR_Cena8tvBvd1A@mail.gmail.com>
+In-Reply-To: <CAMKF1srcbPFfGcEFWdNT+P=bmv+eweQN4d2uR_Cena8tvBvd1A@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Feb 2019 15:57:42 +0100
-Message-ID: <CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] alsa recipe updates
+Date: Thu, 21 Feb 2019 16:01:28 +0100
+Message-ID: <CANNYZj8v+j1r5pM_1kRS77PXzu6GkUCYkxYwg8zHmJjQvBRHsQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"otavio@ossystems.com.br" <otavio@ossystems.com.br>
+Subject: Re: [RFC][PATCH v3] mesa: Convert recipe to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 14:57:53 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 15:01:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-(Also sbc needs an update, I think)
+On Thu, 21 Feb 2019 at 15:56, Khem Raj <raj.khem@gmail.com> wrote:
+> > still seeing errors when building for rpi3-64
+> >
+> > | checking for xrandr... no
+> > | configure: error: Package requirements (xrandr) were not met:
+> > |
+> > | No package 'xrandr' found
+> > |
+> > | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+> > | installed software in a non-standard prefix.
+> >
+>
+> This is fixed with latest commit so we can move on but there is new one
+> on aarch64/rpi
+>
+> https://errors.yoctoproject.org/Errors/Details/229582/
+>
+> seems to be due to this commit.
+>
+> https://gitlab.freedesktop.org/mesa/drm/commit/b541d21a0a908bf98d44375720f4430297720743
+>
+> probably a revert of the above patch is what can get us further.
+
+Shouldn't we rather add a dependency on the component providing the
+missing include?
 
 Alex
-
-
-On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Thanks! Will you be also sending an update to alsa-tools?
->
-> Alex
->
-> On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> >
-> > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
-> >
-> >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
-> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
-> >
-> >
-> > The alsa-tools update is missing, because the recipe upgrade deadline is
-> > near and the changes in alsa-tools look like a potential rabbit hole.
-> > I'll send the alsa-tools update separately when it's ready. The main
-> > change in alsa-tools is that the hwmixvolume program got ported from
-> > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
-> > actually is using that program, it's not even built by default.
-> >
-> >
-> > Tanu Kaskinen (3):
-> >   alsa-lib: 1.1.6 -> 1.1.8
-> >   alsa-plugins: 1.1.6 -> 1.1.8
-> >   alsa-utils: 1.1.6 -> 1.1.8
-> >
-> >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
-> >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
-> >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
-> >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
-> >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
-> >  5 files changed, 85 insertions(+), 15 deletions(-)
-> >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
-> >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
-> >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
-> >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
-> >
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
