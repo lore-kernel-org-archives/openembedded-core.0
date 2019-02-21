@@ -1,45 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f173.google.com (mail-it1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 958857CBA3
+Return-Path: <tanuk@iki.fi>
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+	[64.147.123.25])
+	by mail.openembedded.org (Postfix) with ESMTP id E11B37CB8E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 15:44:24 +0000 (UTC)
-Received: by mail-it1-f173.google.com with SMTP id h6so23509205itl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 07:44:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=RB395Ncqrrb4FgmXvHMCGmuz1xvsKQhCIwuFpEUb/I4=;
-	b=F7wWm9/QA/1qe0+x2pS1B6apCSq+ayQbgwD/zwk23mRQ6PFHtkgGywtXqL+xvrSm+L
-	ayXb9qwZcUCshARZElCefTQQM3wE34go1f7XsZWemV3NlRw6gjfbl+3WVxGYler9RpeW
-	1asiMMl2tavvxJlZ8vMw2pLqeDP9r9maWLdFz+afhpWUYunOWnxCA//Ai9merqcTPd9i
-	8J7vVHjFhSyyoaevIA7yw010fsEbwQHDD1IbqCWRyBCdHFPKNavN/b4JahdHGJF1pbDv
-	NLlVuhJvU2R7rf57QM6OtdBwAWapxpqE3eWSY8ULBQK8DHEM+w7rr+AbXLODB/fOpVxw
-	VeBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=RB395Ncqrrb4FgmXvHMCGmuz1xvsKQhCIwuFpEUb/I4=;
-	b=lQHoSN7u02MuCRS4BlwgYhk1EtMlq2dtBLFQ0iIAJMzAn6Hs/+ur9Em5Q7tVAxN6dP
-	9L8VP+rw5iibiXGsGbhsyb7nmeUkNWqbgSyWuJd91bC17AXltD6rvJ4tKsigIIhNht5t
-	Qcj19n0zE0ezvMWY9IEtQN3ys1NF+M4lNaOXu2EzB1vOOMnDQ9cHLF0xvhjGeV+6yid+
-	6W7VOHhsq3LeKTBQtHZ1qDBYnyuME7fCwLr6sfH7nUZiAYxNYZxDnzhV8sk0OA3kf37T
-	CQWAdBVBBefSW/R/WeOzlFTosqVChPWNk/25ZaHQXFnTXaaMJUVGtGPoSRxkhgaN2l9p
-	2WXw==
-X-Gm-Message-State: AHQUAuY7kJsn1rT5u2NBa4WHVQpmnNpj6PJWl1D+GP7sLjEDCo67sFD+
-	+p6njxWsghvjcfr3O+xtwshYfbRuQG8f8D1P+dmmgywwxtc=
-X-Google-Smtp-Source: AHgI3IZp15HopSZbJkOewsIFS/e5iGih/+qHpIMpgdsl1cmXLJcjQcAO2ljDuZfSrtZGEjTlsC/cJvopP0ndkuVOA3g=
-X-Received: by 2002:a02:240d:: with SMTP id f13mr23080202jaa.105.1550763865307;
-	Thu, 21 Feb 2019 07:44:25 -0800 (PST)
-MIME-Version: 1.0
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Feb 2019 15:44:13 +0000
-Message-ID: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-Subject: Incorporating deploy artefacts from one multiconfig in another multiconfig
+	Thu, 21 Feb 2019 16:41:05 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id C1FD033C4;
+	Thu, 21 Feb 2019 11:41:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute5.internal (MEProxy); Thu, 21 Feb 2019 11:41:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=yxoq5cEE7kaUjpnZUHLgMQIpP8nFd2gdqEFokVf+G
+	h0=; b=dog0yrAMTA7nHMJw7r4+cUeJgxuW8cuFMkYRXylJaKo7Vzy5bIFB524n8
+	I3ixOv/p+o68MfXJQhWFNw0+uQVjx53Ps8g5GpqAm3UJIHSsFsGf6Ymj/yYbli9g
+	RR7aLyTP++0OGa06CXyN6M3X7ZyD/mdsIme6WRfB+anjTpQ6ZR0tutxyvUqiSsyv
+	g9eX1qeAyNYnHajGlqY5njymqqQH3ZLkh0oXgigktpCpKmHoC8Penfdw3BbgQGYG
+	f62JEZeGxvI56bU6oCLHK7uS+0lncx4McxxA8TaPNoSlkIXPNrxTHowqiDWlfWn9
+	FC2IEXJdwhDEfUogunZTsszSQ04RQ==
+X-ME-Sender: <xms:otRuXBsrUhB6euE-vWwUuTpHqOCmggzzD2VNPtqTMai1SswHRUzcDg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrtdekgdelfeculddtuddrgedtledrtddtmd
+	cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthen
+	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+	cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepvfgrnhhu
+	ucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhfiheqnecuffhomhgrihhnpehlih
+	gsvghrrghprgihrdgtohhmpdhophgvnhgvmhgsvgguuggvugdrohhrghdpphgrthhrvgho
+	nhdrtghomhenucfkphepkeekrdduudefrddvuddurdejvdenucfrrghrrghmpehmrghilh
+	hfrhhomhepthgrnhhukhesihhkihdrfhhinecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:otRuXFhDj1IYcMNmtglWn0QA5GvprSK1wAIg1qa-dybAEDsztVUJzQ>
+	<xmx:otRuXM1LJRxaWwC3VIG9LVT-7IsB5SeC8HhuLW4Jr9yZEbcUhqT5Iw>
+	<xmx:otRuXKetX9Hoznqa3qYItSmE7J37_ExqtFyhkiyWvULQpOrsZ2dayw>
+	<xmx:otRuXATOq5z2TM20fXcE-u7WrNTvMdU8Wwgev5gGoHVcHNBSzHu27w>
+Received: from laptop (88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 6B69510319;
+	Thu, 21 Feb 2019 11:41:05 -0500 (EST)
+Message-ID: <236c2e06d12bde612ffa2399cedb9bbfce7dd5dc.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Feb 2019 18:41:00 +0200
+In-Reply-To: <CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
+References: <cover.1550755109.git.tanuk@iki.fi>
+	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+	<CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] alsa recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +60,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 15:44:24 -0000
+X-List-Received-Date: Thu, 21 Feb 2019 16:41:06 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-So I'd like to use multiconfig for a fairly typical host/container use
-case.  I've a class which can be used to build packages from images in
-a fairly simple manner, essential just taking files from DEPLOY_DIR
-when creating a package:
+Richard already sent the update for sbc, so I left it out. As for alsa-
+tools, if you read the cover letter in more detail, you'll find the
+answer there :) (Spoiler: I'll send it, but it's not ready yet.)
 
-core-image-minimal-package.bb:
-do_install[depends] += "core-image-minimal:do_image_complete
-virtual/kernel:do_deploy"
-do_install () {
-    install -d ${D}/var/lib/machines/
-    install ${DEPLOY_DIR_IMAGE}/core-image-minimal-${MACHINE}.ext4
-${D}/var/lib/machines/core-image-minimal.ext4
-    install ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
-${D}/var/lib/machines/${IMAGE_NAME}.${KERNEL_IMAGETYPE}
-}
+-- Tanu
 
-This part works fine, but the problem is straddling multiconfig boundaries...
+On Thu, 2019-02-21 at 15:57 +0100, Alexander Kanavin wrote:
+> (Also sbc needs an update, I think)
+> 
+> Alex
+> 
+> 
+> On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > Thanks! Will you be also sending an update to alsa-tools?
+> > 
+> > Alex
+> > 
+> > On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
+> > > 
+> > >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+> > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
+> > > 
+> > > 
+> > > The alsa-tools update is missing, because the recipe upgrade deadline is
+> > > near and the changes in alsa-tools look like a potential rabbit hole.
+> > > I'll send the alsa-tools update separately when it's ready. The main
+> > > change in alsa-tools is that the hwmixvolume program got ported from
+> > > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
+> > > actually is using that program, it's not even built by default.
+> > > 
+> > > 
+> > > Tanu Kaskinen (3):
+> > >   alsa-lib: 1.1.6 -> 1.1.8
+> > >   alsa-plugins: 1.1.6 -> 1.1.8
+> > >   alsa-utils: 1.1.6 -> 1.1.8
+> > > 
+> > >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
+> > >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
+> > >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
+> > >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
+> > >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
+> > >  5 files changed, 85 insertions(+), 15 deletions(-)
+> > >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
+> > >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
+> > >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
+> > >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
+> > > 
+> > > --
+> > > 2.20.1
+> > > 
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Tanu
 
-I can't just add "core-image-minimal-package" to IMAGE_INSTALL because
-it will build that for the current configuration.  I can't just add
-"multiconfig:uos:core-image-minimal-package" because that will look
-for a recipe with that name.  I've a rather ugly hack to call opkg
-directly in a post-rootfs hook which sort of works.  Linking in bits
-of the other configuration's deploy directory in a pre-rootfs hook and
-extending IMAGE_INSTALL there almost works, apart from the rootfs code
-then looks at the task dependencies to generate a pruned deploy dir,
-which is missing the pieces I linked in.
+https://www.patreon.com/tanuk
+https://liberapay.com/tanuk
 
-I suspect this is now breaking new ground: the multiconfiguration
-support lets you do builds but so far the artefact sharing hasn't
-really been explored.  Has anyone dug further into this?
-
-Ross
 
