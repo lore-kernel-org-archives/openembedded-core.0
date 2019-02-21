@@ -1,58 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D476BDDC
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 475 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Feb 2019 00:04:18 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id B241E6BDDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 23:51:15 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t15so319122wmi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 15:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=BDV6gQm7OKXoxCX8pp8MOQ6Qv4vEjv72pK+SDcNbD58=;
-	b=UemYWPSEFNNp4y8iEeg2MuHSYgTV3EaL7sZ0whXoG3/ccQUCFVkH83d3sHrYEy/B8c
-	YED29E1bg5I+uUxs7uT3jEdThgroE+vhv0boAwNZKNu4p+1zQAxg5aq9P664WIsuu8Rv
-	scRNtFY4C2Vjc6ZxDcI8wTylPLMVrHc0dtpmQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=BDV6gQm7OKXoxCX8pp8MOQ6Qv4vEjv72pK+SDcNbD58=;
-	b=n/LtCfNdgILgG7nhXkqfivqXCrHz5CeVnhWFfs65L4TihWg3GwPTj+JqnXja58nNI+
-	9/JzbLKryOwBr/7/CnzuXRFUPvJmgFosuppoEjHhyOt/0R8aAb5tR9R8Y1af4e+a+zzB
-	q1L3b0FsjhrmSpIguMohb8PA9KSoyx8HyFWGdXg2+pvlTKSMCYG9L7BZNJJRz9HtoVKI
-	krFrRh3IiNfmHNIP4oVg6bfNNqmnbyxhWTusolIGZd2SbjY+FPkjTy7finc6Sr/6A69h
-	6c4PqO6ECzLrjpajlB+DLRW8WD/eoLIpruuJ6ZLSk/MqT1qfWeS/cbuiVQylHT1QJnAc
-	qNXg==
-X-Gm-Message-State: AHQUAuZQw4OP/JvZ0ceV4tuWzcvhEvSa/qONdLdDe5k1mg36WmMF3TeB
-	d7qKBW7onU0dvVlTxj+fyC7e+w==
-X-Google-Smtp-Source: AHgI3Ib1YuLuIuw3h9YLcNCIuvdRcy9Yt3/ks+9we2NXQO5QSYN5oGf/FCLRjQepisi7/EVOVIkCCA==
-X-Received: by 2002:a1c:ca01:: with SMTP id a1mr559694wmg.124.1550793076574;
-	Thu, 21 Feb 2019 15:51:16 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h142sm521902wme.33.2019.02.21.15.51.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Feb 2019 15:51:15 -0800 (PST)
-Message-ID: <6673aa01794a9a5466969fa4a39d28b46649173d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rich Persaud <persaur@gmail.com>, Mark Hatle <mark.hatle@windriver.com>,
-	Ross Burton <ross.burton@intel.com>
-Date: Thu, 21 Feb 2019 23:51:14 +0000
-In-Reply-To: <6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
-References: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
-	<20734cff-3215-7a9d-8bc1-87d7238876fb@windriver.com>
-	<6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
-User-Agent: Evolution 3.31.90-1 
+	Fri, 22 Feb 2019 00:04:18 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 445BFg6jtCz1qxQ8;
+	Fri, 22 Feb 2019 00:56:23 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 445BFg6FdHz1qswx;
+	Fri, 22 Feb 2019 00:56:23 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id ZM6_tVMRvvMy; Fri, 22 Feb 2019 00:56:22 +0100 (CET)
+X-Auth-Info: ruR1plXXeXYU48feR9I8KAJtaVT24//oEn3NJIL6OaQ=
+Received: from kurokawa.lan (ip-86-49-110-70.net.upcbroadband.cz
+	[86.49.110.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 22 Feb 2019 00:56:22 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Feb 2019 00:56:18 +0100
+Message-Id: <20190221235618.29059-1-marex@denx.de>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Incorporating deploy artefacts from one multiconfig in another multiconfig
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot: Upgrade to 2019.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,65 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2019 23:51:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Feb 2019 00:04:19 -0000
+Content-Transfer-Encoding: 8bit
 
-Multiconfig is meant to support this workflow. Unfortunately there are
-open bugs and people haven't the time to work on it so its stalled.
-That said, the key pieces are already there.
+This upgrades the U-Boot to latest 2019.01 release.
 
-A picture is worth a thousand words. I thought a demo might interest
-people and "prove" this can work.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
+ .../{u-boot-fw-utils_2018.11.bb => u-boot-fw-utils_2019.01.bb}  | 0
+ .../u-boot/{u-boot-tools_2018.11.bb => u-boot-tools_2019.01.bb} | 0
+ .../recipes-bsp/u-boot/{u-boot_2018.11.bb => u-boot_2019.01.bb} | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2018.11.bb => u-boot-fw-utils_2019.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2018.11.bb => u-boot-tools_2019.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2018.11.bb => u-boot_2019.01.bb} (100%)
 
-To make it work you need four patches:
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=b896b2238c100d486e7c43992b49001150749d04
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=e5ef6b008e85f42b5e4ffd72fae7036dd68b2ea5
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=5d2bd43d14315ef3212e0d09a16446bd74305a2f
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=abdb83576b699448b76293294809aaa04b8e853b
-
-The first two are fixes from Alejandro which haven't merged as they're
-not right. The third patch was me hitting the fixes and bitbake to make
-the demo work. That proves they're not right and hints at where we have
-some problems in bitbake too. We can get those issues sorted fairly
-easily and I'm going to block 2.7 M3 on them.
-
-The final patch is the interesting one.
-
-It adds a layer, meta-multiconfig-example layer with a README about how
-to configure it. Basically you create two multiconfig configurations,
-"musl" and "tiny".
-
-The demo is to run "bitbake core-image-full-cmdline".
-
-The result is a core-image-full-cmdline image with a tiny qemux86 image
-and a musl based qemux86-64 image installed into /var/lib/machines/
-
-The way it does this is creative, having a recipe called image-packer
-which creates virtclass variants of itself which depend on the
-appropriate multiconfig. It pulls in the images and creates a package
-containing them which the bbappend to core-image-full-cmdline can then
-install. It'd be very easy to turn this into a list driven piece of
-code rather than the two values currently listed.
-
-Its late here, some of the above code is horrible. I have rushed this
-but hopefully it shows this is possible! :)
-
-I've love to turn this into an oe-selftest, that is my ultimate 
-intention for this code.
-
-As things stand today you can't query one multiconfig from another. As
-this demo shows, that doesn't need to stop you making interesting
-things though. We will do something with such querying eventually to
-make things easier but until then, much is still possible.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 6f4a10b7a4..dcfb9cc63f 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -8,7 +8,7 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
++SRCREV = "d3689267f92c5956e09cc7d1baa4700141662bff"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2018.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.11.bb b/meta/recipes-bsp/u-boot/u-boot_2019.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2018.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2019.01.bb
+-- 
+2.19.2
 
 
