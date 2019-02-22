@@ -1,50 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id EF35B7CBE1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E9227CBED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 14:34:05 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id i12so2644855wrw.0
+	Fri, 22 Feb 2019 15:01:35 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id d2so2737079qti.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 06:34:07 -0800 (PST)
+	Fri, 22 Feb 2019 07:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JhTF8M79NNdWaJf+3HDEpkyIrwkX9BnCKBdCINNuB9g=;
-	b=Mv2V+4ekqY9CTbD6g5UBcT1D4lShRWfZfCq9NAp4s0fgC3btjxBKY5MAyG9Gylqb6s
-	aQmORrPf6Embts3QKQObx0+Dg1nSFY7m9UyVCCwDtYLEggFDIKEisJiXyxL0jQteDipw
-	aZM36xuxf6uD9XNOIo2G2hnX0PXmK0wLjAuv5NXtZ4I1DSYdVcjbwJ1q+awBhM0mS3Hh
-	kUVU4H0JEh0PvEVEb0WEG9FAqHP+hQaqKKWis+qc8bx4NdO2n2o3i65Rc7noQWZYubxo
-	Bz5xCYxpjYB7fKn2k6bTB8SKaedKeHW+on/AGdYr/zLer0BSc3NbMga2c8x8opyQ8L8G
-	iLhQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YYbTNhgdDjeQzRD52KPlR/9JpyPWvQYd8Qpmhfr+1sU=;
+	b=f33R+HWGieqn/sftY0OOGRFk9QMEjV5cRXMRPCtT0wpJ+g9VERXxpeJd+dUfBMGE//
+	AXKl/JxEuFrWnIsiY7UTFPwzuQCIn5pdJMo3KiDg3taCtWt0wa2e/SFs83rQN81mhtiy
+	m9Dkk9REVkFbNvDnooTuZYpjyzyn0CotCiTPj274luXFaxPJVZIt3cxR4uLfIikX4k55
+	QVTQyjlEZy3WpumGGTSYtID91WzURDfMKAhjh93l0mEhsLPDX7AfQhqcLTgwSyMHXUN7
+	otM58ECGf/10sc6UVwb/w5++1kqtnbaSRpDpfi75wHqa/9eaIX2ITHcPX/flOJ26z1mH
+	drFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=JhTF8M79NNdWaJf+3HDEpkyIrwkX9BnCKBdCINNuB9g=;
-	b=oVLJYiUUQgjxgEtL2vf7b4SJbRAjvAuY72SDatqNL4bIsBLCtACOtvcsuXAl7bLLdh
-	YaH5jCZDlJ0WRBvu24J3DQNZ8tHaLi8+YuRv8T+1Wn1UFrmUj1xtxVYkTBgSmpgAYfQ+
-	JIk89FkRL0Fv5qlAEy2pWzyFllqSbw52enLKZhG/yqs1DZ/yn7cSnNJhcYo8igo/OS5O
-	Uq1+j/2skIJl0kyrXV3U+4akkoYCu7zcrdY/vMugffoXoDjPaJaSc8A6bXxJZx7A6dBy
-	MkK54d1lknR1qjC5yAqa54Czu2lvg3aG9uVEpLJ6/KTl3CsZFKUFMdTQVYLQQphzoR8d
-	QV2Q==
-X-Gm-Message-State: AHQUAuZ6kbI8UvbzbC+XUqK539OeRX91ONLSP0TuE5EzRvoMTtk2d/5V
-	e9uXhjBS05cZIoGdErnfpKA82VHD
-X-Google-Smtp-Source: AHgI3IaH9Qhq+odcHsZxlgetVjssScXX4Nj9hog+0GPdOggpLLNoONAB/b6EN2valibw+iE0TQ8zDA==
-X-Received: by 2002:adf:face:: with SMTP id a14mr3472326wrs.320.1550846046409; 
-	Fri, 22 Feb 2019 06:34:06 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id p1sm2085184wrx.50.2019.02.22.06.34.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Feb 2019 06:34:05 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Feb 2019 15:33:47 +0100
-Message-Id: <2677b3a9726cde5432b249b3ed1ee18aea85bcc0.1550845989.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1550845989.git.alex.kanavin@gmail.com>
-References: <cover.1550845989.git.alex.kanavin@gmail.com>
-Subject: [PATCH 12/12] selftest: add tests for virgl GL acceleration
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YYbTNhgdDjeQzRD52KPlR/9JpyPWvQYd8Qpmhfr+1sU=;
+	b=TxNUUVyFiGDkaCNOs9BpFxsLKNWmbzU0gZUCWAQg4QF+py21VXdI4+vvqQZLFN2WoX
+	S7ejh87sv6WeZdb/VQnBzKzxyBHQWORkbOhjIcVbJODwZ8PyrMZHlLqI62MljZtp2Yfo
+	vVsrKp0sZ11cOMQvAHmiMoBsPqbhA1DMAIwrBgCONNWwzMVixOWOmM+6WAoUb/Ei3Rdx
+	T9j9cFzNXgbkwpC/i49Ps6MEJ4Qu4POeYoRWr55Ecjfbu4iig4wclSbmrCMTSv4mghQw
+	EiHI2KzU5EfloujfFlMbdCWxn9Uw4Jwe2CWiD8AaspF983t5yBGHZ+B3OjV90CAdEl1S
+	uIoA==
+X-Gm-Message-State: AHQUAuZFYMBNpHy8mU/MYfPpAB/SrZ0SU5nJ6VcURVQKNXzyT+ukH45Q
+	sEWSue8tVCte58aXM6+Bg7Jyq2pmQI+jqWjc0NfT5/hr
+X-Google-Smtp-Source: AHgI3IYBhLtDhewnEg8AAlCflQblbDISAMDmDAmrRx2Tw84XZFMiFkR9TCcu9h16Rc1v4ZGQ7NETLefp2zKlyULNDmk=
+X-Received: by 2002:aed:2268:: with SMTP id o37mr3445173qtc.29.1550847696042; 
+	Fri, 22 Feb 2019 07:01:36 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1550755109.git.tanuk@iki.fi>
+	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+	<CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
+	<236c2e06d12bde612ffa2399cedb9bbfce7dd5dc.camel@iki.fi>
+	<CANNYZj-PdeoHukCN7_i8RgZDYRCS3dc3xWDhKXvuienyNzUFVA@mail.gmail.com>
+	<CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
+In-Reply-To: <CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Feb 2019 07:01:09 -0800
+Message-ID: <CAMKF1soTbbU-ht1A7Pm6NRh8i4r7Lf4UtkVQzBsy7GfUHWd=uw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Tanu Kaskinen <tanuk@iki.fi>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] alsa recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,116 +59,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 14:34:06 -0000
+X-List-Received-Date: Fri, 22 Feb 2019 15:01:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Note that the tests require that the host machine has a X display,
-has mesa development files installed and is able to create OpenGL contexts.
+On Thu, Feb 21, 2019 at 10:33 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> ftp://ftp.alsa.org seems inaccessible or unstable:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/317/steps/7/logs/step1b
+> (also can't open it on my local machine)
+> and generally we prefer http:// sources over ftp, if available.
+>
+> Alsa does have one: https://www.alsa-project.org/files/
+>
+> so can you please resend with SRC_URIs changed to use it? (also for
+> alsa-tools and everywhere where the ftp is currently used)
+>
+> Alex
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 28 ++++++++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 52 +++++++++++++++++++
- 2 files changed, 80 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/cases/virgl.py
+seeing this fetch issue building alsa-utils-scripts
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-new file mode 100644
-index 00000000000..cc25e77d9c0
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -0,0 +1,28 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+import subprocess
-+import oe
-+
-+class VirglTest(OERuntimeTestCase):
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kernel_driver(self):
-+        status, output = self.target.run('dmesg|grep virgl')
-+        self.assertEqual(status, 0, "Checking for virgl driver in dmesg returned non-zero: %d\n%s" % (status, output))
-+        self.assertIn("virgl 3d acceleration enabled", output, "virgl acceleration seems to be disabled:\n%s" %(output))
-+
-+    @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-+    def test_kmscube(self):
-+        from fnmatch import fnmatch
-+
-+        try:
-+            distro = oe.lsb.distro_identifier()
-+        except Exception:
-+            distro = None
-+
-+        if distro and fnmatch(distro, 'centos-7'):
-+            self.skipTest('kmscube is not working when centos 7 is the host OS')
-+
-+        status, output = self.target.run('kmscube', timeout=30)
-+        self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-+        self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 906e460d4f8..3cecdc8e42b 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,6 +168,58 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
- 
-+    @OETestID(1883)
-+    def test_testimage_virgl_gtk(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        if "DISPLAY" not in os.environ:
-+            self.skipTest("virgl gtk test must be run inside a X session")
-+        qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-native')
-+        features = 'INHERIT += "testimage"\n'
-+        if 'gtk+' not in qemu_packageconfig:
-+            features += 'PACKAGECONFIG_append_pn-qemu-native = " gtk+"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "gl"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
-+    @OETestID(1883)
-+    def test_testimage_virgl_headless(self):
-+        """
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with egl-headless frontend
-+        Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-+                  2. Check that kmscube demo runs without crashing.
-+        Product: oe-core
-+        Author: Alexander Kanavin <alex.kanavin@gmail.com>
-+        """
-+        import subprocess, os
-+        try:
-+            content = os.listdir("/dev/dri")
-+            if len([i for i in content if i.startswith('render')]) == 0:
-+                self.skipTest("No render nodes found in /dev/dri: %s" %(content))
-+        except FileNotFoundError:
-+            self.skipTest("/dev/dri directory does not exist; no render nodes available on this machine.")
-+        try:
-+            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-+        except subprocess.CalledProcessError as e:
-+            self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh virgl"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'IMAGE_INSTALL_append = " kmscube"\n'
-+        features += 'TEST_RUNQEMUPARAMS = "egl-headless"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
- class Postinst(OESelftestTestCase):
-     @OETestID(1540)
-     @OETestID(1545)
--- 
-2.17.1
+ERROR: Fetcher failure for URL:
+'https://www.alsa-project.org/files/pub/utils/alsa-utils-scripts-1.1.8.tar.bz2'.
+Unable to fetch URL from any source.
 
+
+>
+> On Thu, 21 Feb 2019 at 19:09, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> >
+> > Bah, and I often point out to people that they should read *my* cover letters :)
+> > Thanks!
+> >
+> > Alex
+> >
+> > On Thu, 21 Feb 2019 at 17:41, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > >
+> > > Richard already sent the update for sbc, so I left it out. As for alsa-
+> > > tools, if you read the cover letter in more detail, you'll find the
+> > > answer there :) (Spoiler: I'll send it, but it's not ready yet.)
+> > >
+> > > -- Tanu
+> > >
+> > > On Thu, 2019-02-21 at 15:57 +0100, Alexander Kanavin wrote:
+> > > > (Also sbc needs an update, I think)
+> > > >
+> > > > Alex
+> > > >
+> > > >
+> > > > On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > > > > Thanks! Will you be also sending an update to alsa-tools?
+> > > > >
+> > > > > Alex
+> > > > >
+> > > > > On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > > > > > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
+> > > > > >
+> > > > > >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
+> > > > > >
+> > > > > > are available in the Git repository at:
+> > > > > >
+> > > > > >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+> > > > > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
+> > > > > >
+> > > > > >
+> > > > > > The alsa-tools update is missing, because the recipe upgrade deadline is
+> > > > > > near and the changes in alsa-tools look like a potential rabbit hole.
+> > > > > > I'll send the alsa-tools update separately when it's ready. The main
+> > > > > > change in alsa-tools is that the hwmixvolume program got ported from
+> > > > > > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
+> > > > > > actually is using that program, it's not even built by default.
+> > > > > >
+> > > > > >
+> > > > > > Tanu Kaskinen (3):
+> > > > > >   alsa-lib: 1.1.6 -> 1.1.8
+> > > > > >   alsa-plugins: 1.1.6 -> 1.1.8
+> > > > > >   alsa-utils: 1.1.6 -> 1.1.8
+> > > > > >
+> > > > > >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
+> > > > > >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
+> > > > > >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
+> > > > > >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
+> > > > > >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
+> > > > > >  5 files changed, 85 insertions(+), 15 deletions(-)
+> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
+> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
+> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
+> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
+> > > > > >
+> > > > > > --
+> > > > > > 2.20.1
+> > > > > >
+> > > > > > --
+> > > > > > _______________________________________________
+> > > > > > Openembedded-core mailing list
+> > > > > > Openembedded-core@lists.openembedded.org
+> > > > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > > --
+> > > Tanu
+> > >
+> > > https://www.patreon.com/tanuk
+> > > https://liberapay.com/tanuk
+> > >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
