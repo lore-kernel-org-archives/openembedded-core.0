@@ -1,29 +1,30 @@
-Return-Path: <Haitao.Liu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AED027C6AF
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C8257C3AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 08:19:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1M8ISLH029393
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Feb 2019 00:18:49 -0800
-Received: from localhost.localdomain (128.224.162.215) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.435.0; Fri, 22 Feb 2019 00:18:30 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1550815380-192596-1-git-send-email-haitao.liu@windriver.com>
-	<939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org>
-From: Haitaoliu <Haitao.Liu@windriver.com>
-Message-ID: <fcde04af-b11c-c6a1-96a8-e392f6433cc9@windriver.com>
-Date: Fri, 22 Feb 2019 16:15:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.0
+	Fri, 22 Feb 2019 09:36:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,398,1544457600"; d="scan'208";a="54956791"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 Feb 2019 17:36:15 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id A174246BA6D7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Feb 2019 17:36:07 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Fri, 22 Feb 2019 17:36:16 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Feb 2019 17:37:25 +0800
+Message-ID: <20190222093725.624-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-In-Reply-To: <939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.215]
-Subject: Re: [PATCH] bitbake.conf:update FETCHCMD_wget with --no-passive-ftp
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: A174246BA6D7.AEB7B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] cairo:upgrade to 1.17.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,147 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 08:19:15 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F44D801B8FA93C1E83C75A35"
-Content-Language: en-US
+X-List-Received-Date: Fri, 22 Feb 2019 09:36:14 -0000
+Content-Type: text/plain
 
---------------F44D801B8FA93C1E83C75A35
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Upgrade cairo from 1.16.0 to 1.17.2
 
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+---
+ .../cairo/{cairo_1.16.0.bb => cairo_1.17.2.bb}              | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.17.2.bb} (94%)
 
-On 2019/2/22 下午3:17, Richard Purdie wrote:
-> On Fri, 2019-02-22 at 14:03 +0800, Liu Haitao wrote:
->> When fetching the source of alsa it would trigger the following
->> WARNING:
->>
->>> WARNING: alsa-lib-1.1.6-r0 do_fetch: Failed to fetch URL
->>> ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2,
->>> attempting MIRRORS if
->>> available
->> Bitbake would use wget with "--no-passive" to fetch the source.
->> Behind most firewall and NAT
->> configurations it could work well.However, in some rare firewall
->> configurations,
->> active FTP actually works when passive FTP doesn't.
->>
->> So disable the use of the passive FTP transfer mode for wget.
-> As you say, its much more likely that passive ftp would work than
-> active ftp, so this change would make things worse for more people?
->
-This change maybe make some trouble for others. But I have not found any 
-errors  since  applying the change into the latest yocto.
-
-Each of two mode(active and passive) has its own advantages and 
-disadvantages.  Now most servers and firewalls support passive ftp,
-
-  while the ALSA is an exception that does not support it.
-
-> We're trying to get away from having ftp urls in oe-core at all so
-> hopefully this isn't a big deal.
-
-Thanks for your reminding, I could  try to use https url instead of ftp 
-url in alsa-lib_1.1.6.bb.  The alsa also provides the HTTP server for 
-downing the packages. 
-"https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2"
-
-thanks,
-
-haitao
-
-> Cheers,
->
-> Richard
->
->
-
---------------F44D801B8FA93C1E83C75A35
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2019/2/22 下午3:17, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">On Fri, 2019-02-22 at 14:03 +0800, Liu Haitao wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">When fetching the source of alsa it would trigger the following
-WARNING:
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">WARNING: alsa-lib-1.1.6-r0 do_fetch: Failed to fetch URL
-<a class="moz-txt-link-freetext" href="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2">ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2</a>,
-attempting MIRRORS if
-available
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Bitbake would use wget with "--no-passive" to fetch the source.
-Behind most firewall and NAT
-configurations it could work well.However, in some rare firewall
-configurations,
-active FTP actually works when passive FTP doesn't.
-
-So disable the use of the passive FTP transfer mode for wget.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-As you say, its much more likely that passive ftp would work than
-active ftp, so this change would make things worse for more people?
-
-</pre>
-    </blockquote>
-    <p><span><span><span>This change maybe make some trouble for others.
-            But I have not found any errors  since  applying the change
-            into the latest yocto.<br>
-          </span></span></span></p>
-    <p><span> </span><span><span>Each of two mode(active and passive)
-          has its own </span><span id="tran_2_5" class=""></span><span></span><span
-          id="tran_2_6" class=""></span><span>advantages and
-          disadvantages</span><span>.  Now most servers and firewalls
-          support passive ftp,</span></span></p>
-    <p><span><span> while the ALSA is an exception that does not support
-          it. <br>
-        </span></span></p>
-    <p><span><span></span></span></p>
-    <blockquote type="cite"
-cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-We're trying to get away from having ftp urls in oe-core at all so
-hopefully this isn't a big deal.
-</pre>
-    </blockquote>
-    <p>Thanks for your reminding, I could  try to use https url instead
-      of ftp url in alsa-lib_1.1.6.bb.  The alsa also provides the HTTP
-      server for downing the packages. 
-      <a class="moz-txt-link-rfc2396E" href="https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2">"https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2"</a>
-      <br>
-    </p>
-    <p>thanks,</p>
-    <p>haitao<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.17.2.bb
+similarity index 94%
+rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+rename to meta/recipes-graphics/cairo/cairo_1.17.2.bb
+index 3e176930cc..fadec5711b 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.17.2.bb
+@@ -22,12 +22,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+ 
+-SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
++SRC_URI = "http://cairographics.org/snapshots/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
+           "
+ 
+-SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+-SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
++SRC_URI[md5sum] = "321a07adaeb125cb5513079256d465fb"
++SRC_URI[sha256sum] = "6b70d4655e2a47a22b101c666f4b29ba746eda4aa8a0f7255b32b2e9408801df"
+ 
+ inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
+ 
+-- 
+2.17.2
 
 
-</pre>
-    </blockquote>
-  </body>
-</html>
 
---------------F44D801B8FA93C1E83C75A35--
+
