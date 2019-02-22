@@ -1,47 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4225F7CB6C
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A92417CBDA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 14:16:56 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r5so2525670wrg.9
+	Fri, 22 Feb 2019 14:23:50 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id w4so2663474qtc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 06:16:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=5GwwfhNlW/xELLvxViS+sBuEkXM78TkChYcTKr0Yk9g=;
-	b=JjBqgBYXIY6JK4JOnf7R/uXv15X4/iFpwvVvWjjmwNJziRqoiRAa6rZ9mp66p0qIjB
-	jnhMpIZ3paGelVd/m2sgd6E9P1YtuL5HQa7xYBUsUTbckq6AI6j2X8cmoprt00tTu5cC
-	vuy7zJJ5YkHySaPC6hrHQUM3s8X9Mu4LPS+4FAlnZWdCrQqn5E7k37aPwTBmI4s0/eeF
-	ZW33VfOi/dxAFFCqtXs2UqGvERZDCo38MvhLVod3Sd6ikM89XS4TtuPYdLed0cFzR8Vj
-	QkclNZZgig+7rgLFMb6nHg86aaa2ctXE9WMYP+FApQOaqZJuDFOBINuV6NgyCpMVY43s
-	4xlQ==
+	Fri, 22 Feb 2019 06:23:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=Cy/eA01zbyFeXbxBuzfeDUZSeDtbxejrVg2W9BjrXa0=;
+	b=ekZqD2PqsbFjpMqTqIgcWleyb0tRl0Kdiiz3k/UQyG+/8Izcl3l6nkNn216/MRjvMK
+	+VhT7MjAOUAdh32LN1PKj8sxLPE2OnzZvpImoeHmSiw6HI63+lMUxM9EgCArZlBTFl/t
+	ZEa7Ztj4hVrx3MV4LW52+8phfV2Bgt66qkxQbGl3kbKAKxUv9NMRqXe41aHR7zzkXQuy
+	muAgV76wWWw8rQYNiVL+KpgNqExVcpHc8hqj8GJWRYhKSURMLGvRIaCPqR8pq0YELaFp
+	DDPM869Du1xiMzAHP1ZWnYFvUgFWrT5Z/p8ENdagDJcfhbIICMgfavWspNVDUdrj18R8
+	bnVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5GwwfhNlW/xELLvxViS+sBuEkXM78TkChYcTKr0Yk9g=;
-	b=ITx2FgvuLN3xSpRSYtVsXpqCU3InaBSPaAxTbp0m8Rqp7zelLe6sI+YDZO4ITBfw9w
-	wNtrjuXVHg1gQK+QESSKpFx+SWsVcnZJEvsf+B03o7Dp5avwbUQuhAL7FkWJSCI6R6Qz
-	PNGkljcD1e+pjElf55gEeSDWo+/34DWSQkmnKlxrWjxDM+f5qsG/fO6R7AmGo6ViVuZD
-	LbKHqERzQjUA9cJvHO975+MxRMw+aMSh5K1Og5/y08kTnnlkuU9HNBH6ugKIr5ZcvAA3
-	8GnBVvrCCty9SUkWdRzvCqgRprXONL/fXllyhS2067rP2hVrK9zf5bGxKdiM/05sgyzx
-	bVqA==
-X-Gm-Message-State: AHQUAubHEkR5Zw8e3geost9s+/6BA8PwdfWeIhsUUWu0XaKS5QCeIr8X
-	ECRgFHlyAkMawSXM3S4Del8usNmB
-X-Google-Smtp-Source: AHgI3IZhBOCyl/Bf3630RrSp9GJY2sqyj1Ek9JVV8RQ94Iai+V8FYv4/8+u4Uw/iRuNKqaa174ZfvA==
-X-Received: by 2002:adf:8447:: with SMTP id 65mr2995043wrf.328.1550845015946; 
-	Fri, 22 Feb 2019 06:16:55 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=Cy/eA01zbyFeXbxBuzfeDUZSeDtbxejrVg2W9BjrXa0=;
+	b=KBP6DnK9/PEnNMyWuQCcn8/A/RzA9OLR1ZDomLVPffi2QzjEKT86bcc+4vz89FxIXz
+	Msnf33MFU4d1bLAmqvEG4bzYRLw7vSgr2uCYGdc7sC9QKmS4PMETAhpnUlcMvkUVRcdb
+	Hhnwpw+OKtK8jJrXav13ZTIr9+k2YukuVjlc+gpKrOnujsBl4Q6QZUlDiPMFGf3WgJCh
+	NXL6Th6ImvkxCKWEoNq/2syZ6xOnCx1HT8ACGy4zpLCstPRMOrcef0ZeXXpHqBZXjxgS
+	QP/r2jZ46Mh8BTK/GeVxuIXYBN1x/vYcaXBoxgTGG2iy28/FalrZMJXvPnm7zRsUUkt/
+	GSYQ==
+X-Gm-Message-State: AHQUAuaQ4ujD6dRHgIds9LqUnuJvL4Lz0IiX+6vLFC5OVUhKSIopQcPh
+	K5eHVNy2k0G74+HaZY9Cwg2GYb+6S7ns5g==
+X-Google-Smtp-Source: AHgI3IZMX947g3MwaBZwxoRuXlsOBRoWrHLnPOT+U5FKvCtVr9A3dkEfLwSZ9TM+lJzzwlZ77uxwhw==
+X-Received: by 2002:aed:2268:: with SMTP id o37mr3314259qtc.29.1550845430911; 
+	Fri, 22 Feb 2019 06:23:50 -0800 (PST)
+Received: from centrium.lab.ossystems ([177.194.204.148])
 	by smtp.gmail.com with ESMTPSA id
-	h13sm1377309wrs.42.2019.02.22.06.16.54
+	j139sm889438qke.26.2019.02.22.06.23.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Feb 2019 06:16:55 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri, 22 Feb 2019 06:23:49 -0800 (PST)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Feb 2019 15:16:49 +0100
-Message-Id: <20190222141650.46895-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] gdk-pixbuf: update to 2.38.0
+Date: Fri, 22 Feb 2019 11:23:33 -0300
+Message-Id: <20190222142333.9780-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [RFC][PATCH v4] mesa: Convert recipe to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,639 +61,439 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 14:16:56 -0000
+X-List-Received-Date: Fri, 22 Feb 2019 14:23:50 -0000
+Content-Transfer-Encoding: 8bit
 
-Drop 0001-Disable-tests-in-native-builds.patch as upstream has fixed the issue.
+  - Remove all non related meson patches
+  - Change radeon driver to r100
 
-Rework 0001-Fix-a-couple-of-decisions-around-cross-compilation.patch to
-enable generation of loaders.cache in target builds (using a native tool),
-because otherwise building tests becomes impossible.
+Based on https://patchwork.openembedded.org/patch/158748/
 
-Rework 0002-Work-around-thumbnailer-cross-compile-failure.patch into
-0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
-(which deals with substituting native tools in cross builds) and
-0004-Do-not-run-tests-when-building.patch (which avoids running
-test binaries during cross builds).
-
-Rebase fatal-loader.patch.
-
-License checksum updates as COPYING file had 2.0 version of LGPL and
-has been replaced with 2.1 version.
-
-Take meson's x11 and installed_tests options into use.
-
-Install gdk-pixbuf-query-loaders also into $bindir, as we need the native
-version during cross compile.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 ---
- .../0001-Disable-tests-in-native-builds.patch |  31 -----
- ...f-decisions-around-cross-compilation.patch |  38 +++--
- ...nd-thumbnailer-cross-compile-failure.patch | 131 ------------------
- ...-around-thumbnailer-cross-compile-fa.patch |  96 +++++++++++++
- .../0004-Do-not-run-tests-when-building.patch |  39 ++++++
- .../gdk-pixbuf/gdk-pixbuf/fatal-loader.patch  |  37 +++--
- ...pixbuf_2.36.11.bb => gdk-pixbuf_2.38.0.bb} |  44 +++---
- 7 files changed, 197 insertions(+), 219 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.11.bb => gdk-pixbuf_2.38.0.bb} (76%)
+ ...0001-Simplify-wayland-scanner-lookup.patch | 42 --------------
+ ...ing-include-stddef.h-in-egldevice.h.patch} |  4 +-
+ ...k-for-all-linux-host_os-combinations.patch | 50 ++++++++++++++++
+ ...-winsys-svga-drm-Include-sys-types.h.patch | 34 -----------
+ ...M-version-when-using-LLVM-Git-releas.patch | 44 --------------
+ ...R-for-defining-WAYLAND_PROTOCOLS_DAT.patch | 35 -----------
+ meta/recipes-graphics/mesa/mesa.inc           | 58 +++++++++----------
+ meta/recipes-graphics/mesa/mesa_18.3.4.bb     |  7 +--
+ 8 files changed, 81 insertions(+), 193 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
+ rename meta/recipes-graphics/mesa/files/{0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch => 0001-egl-add-missing-include-stddef.h-in-egldevice.h.patch} (91%)
+ create mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-check-for-all-linux-host_os-combinations.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
 deleted file mode 100644
-index 1e45b716b93..00000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Disable-tests-in-native-builds.patch
+index 1c2ded0e60..0000000000
+--- a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
 +++ /dev/null
-@@ -1,31 +0,0 @@
--From b287cb313dbfac3257f1ab451b19ba59580f78e1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 18 Feb 2019 16:00:12 +0100
--Subject: [PATCH] Disable tests in native builds.
+@@ -1,42 +0,0 @@
+-From 81bcaa1aeecf1e66b4d94181e9a827d68e970b03 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 20 Feb 2019 16:17:00 -0300
+-Subject: [PATCH 1/5] Simplify wayland-scanner lookup
+-Organization: O.S. Systems Software LTDA.
 -
--They have found to be problematic at least on Centos 7:
--https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/296/steps/7/logs/step1b
+-Don't use pkg-config to lookup the path of a binary that's in the path.
 -
--With autotools this was not a problem because it had a configuration
--switch for disabling test, which was used. Meson has no such facility :(
+-Alternatively we'd have to prefix the path returned by pkg-config with
+-PKG_CONFIG_SYSROOT_DIR.
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
+-Upstream-Status: Pending
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ----
-- meson.build | 2 +-
+- configure.ac | 7 +------
+- 1 file changed, 1 insertion(+), 6 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index cd9ff259fad..402b4a91946 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1841,16 +1841,11 @@ for plat in $platforms; do
+-         fi
+-         WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+-
+--        PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+--                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
+--                          WAYLAND_SCANNER='')
+-         PKG_CHECK_EXISTS([wayland-scanner >= 1.15],
+-                           AC_SUBST(SCANNER_ARG, 'private-code'),
+-                           AC_SUBST(SCANNER_ARG, 'code'))
+-
+--        if test "x$WAYLAND_SCANNER" = x; then
+--            AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+--        fi
+-+        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+-
+-         if test "x$WAYLAND_SCANNER" = "x:"; then
+-                 AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
+---
+-2.20.1
+diff --git a/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch b/meta/recipes-graphics/mesa/files/0001-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+similarity index 91%
+rename from meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+rename to meta/recipes-graphics/mesa/files/0001-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+index 1782576db2..08d128e919 100644
+--- a/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
++++ b/meta/recipes-graphics/mesa/files/0001-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+@@ -1,7 +1,7 @@
+-From f452e30ab664fe608acc107cc03d2efa8731d938 Mon Sep 17 00:00:00 2001
++From d2d5acdcb10465c024c8b0931d49e49660210d2c Mon Sep 17 00:00:00 2001
+ From: Gurchetan Singh <gurchetansingh@chromium.org>
+ Date: Wed, 28 Nov 2018 08:39:34 -0800
+-Subject: [PATCH 5/5] egl: add missing #include <stddef.h> in egldevice.h
++Subject: [PATCH 1/2] egl: add missing #include <stddef.h> in egldevice.h
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-check-for-all-linux-host_os-combinations.patch
+new file mode 100644
+index 0000000000..f4650adf0f
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0002-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -0,0 +1,50 @@
++From a4f6630f4563c2f3f619003706f541c380b49027 Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anuj.mittal@intel.com>
++Date: Mon, 11 Feb 2019 20:55:27 +0800
++Subject: [PATCH 2/2] meson.build: check for all linux host_os combinations
++Organization: O.S. Systems Software LTDA.
++
++Make sure that we are also looking for our host_os combinations like
++linux-musl etc. when assuming support for DRM/KMS.
++
++Also delete a duplicate line.
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ meson.build | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index f11c556d359..e5f9b8a24be 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -34,7 +34,7 @@ cpp = meson.get_compiler('cpp')
++ 
++ null_dep = dependency('', required : false)
++ 
++-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly', 'linux'].contains(host_machine.system())
+++system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].contains(host_machine.system()) or host_machine.system().startswith('linux')
++ 
++ # Arguments for the preprocessor, put these in a separate array from the C and
++ # C++ (cpp in meson terminology) arguments since they need to be added to the
++@@ -92,8 +92,6 @@ if (with_gles1 or with_gles2) and not with_opengl
++   error('building OpenGL ES without OpenGL is not supported.')
++ endif
++ 
++-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly', 'linux'].contains(host_machine.system())
++-
++ _drivers = get_option('dri-drivers')
++ if _drivers.contains('auto')
++   if system_has_kms_drm
++@@ -799,7 +797,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
++ endif
++ 
++ # TODO: this is very incomplete
++-if ['linux', 'cygwin', 'gnu'].contains(host_machine.system())
+++if ['cygwin', 'gnu'].contains(host_machine.system()) or host_machine.system().startswith('linux')
++   pre_args += '-D_GNU_SOURCE'
++ endif
++ 
++-- 
++2.20.1
++
+diff --git a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+deleted file mode 100644
+index 12dca61e19..0000000000
+--- a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 34c3d07b67e6c08f555473a86ff158951abb6000 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 16 Aug 2017 18:58:20 -0700
+-Subject: [PATCH 2/5] winsys/svga/drm: Include sys/types.h
+-Organization: O.S. Systems Software LTDA.
+-
+-vmw_screen.h uses dev_t which is defines in sys/types.h
+-this header is required to be included for getting dev_t
+-definition. This issue happens on musl C library, it is hidden
+-on glibc since sys/types.h is included through another
+-system headers
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Backport [7dfdfbf8c37e52e7b9b09f7d1d434edad3ebc864]
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/gallium/winsys/svga/drm/vmw_screen.h b/src/gallium/winsys/svga/drm/vmw_screen.h
+-index a87c087d9c5..cb34fec48e7 100644
+---- a/src/gallium/winsys/svga/drm/vmw_screen.h
+-+++ b/src/gallium/winsys/svga/drm/vmw_screen.h
+-@@ -41,6 +41,7 @@
+- #include "svga_winsys.h"
+- #include "pipebuffer/pb_buffer_fenced.h"
+- #include <os/os_thread.h>
+-+#include <sys/types.h>
+- 
+- #define VMW_GMR_POOL_SIZE (16*1024*1024)
+- #define VMW_QUERY_POOL_SIZE (8192)
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch b/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+deleted file mode 100644
+index 59b118d9f4..0000000000
+--- a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From c5b5bf6c31be1823be1d0317eabe16558a4f0762 Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Tue, 5 Jun 2018 11:11:10 -0300
+-Subject: [PATCH 3/5] Properly get LLVM version when using LLVM Git releases
+-Organization: O.S. Systems Software LTDA.
+-
+-$ llvm-config-host --version
+-5.0.0git-9a5c333388c
+-
+-We need to ignore everything after 5.0.0 which is what the cut cmd is
+-doing
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index cbc455e130f..0065376f4b7 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1111,7 +1111,7 @@ strip_unwanted_llvm_flags() {
+- 
+- llvm_set_environment_variables() {
+-     if test "x$LLVM_CONFIG" != xno; then
+--        LLVM_VERSION=`$LLVM_CONFIG --version | egrep -o '^[[0-9.]]+'`
+-+        LLVM_VERSION=`$LLVM_CONFIG --version | cut -c1-5`
+-         LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
+-         LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
+-         LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
+-@@ -2860,7 +2860,7 @@ detect_old_buggy_llvm() {
+-     dnl ourselves.
+-     dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
+-     dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
+--    LLVM_SO_NAME=LLVM-`$LLVM_CONFIG --version`
+-+    LLVM_SO_NAME=LLVM-`$LLVM_CONFIG --version | cut -c1-5`
+-     AS_IF([test -f "$LLVM_LIBDIR/lib$LLVM_SO_NAME.$IMP_LIB_EXT"], [llvm_have_one_so=yes])
+- 
+-     if test "x$llvm_have_one_so" = xyes; then
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch b/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+deleted file mode 100644
+index 8c91790249..0000000000
+--- a/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From f48b8f073f921ce5be859130313e9d392ef3e78e Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Fri, 15 Feb 2019 10:57:06 -0200
+-Subject: [PATCH 4/5] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
+-Organization: O.S. Systems Software LTDA.
+-
+-This allows to override the wayland-protocols pkgdatadir with the
+-WAYLAND_PROTOCOLS_DATADIR from environment.
+-
+-pkgconfig would return an absolute path in
+-/usr/share/wayland-protocols
+-for the pkgdatadir value, which is not suitable for cross-compiling.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+----
+- configure.ac | 2 +-
 - 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/meson.build b/meson.build
--index 92c4049..0871c84 100644
----- a/meson.build
--+++ b/meson.build
--@@ -397,7 +397,7 @@ endif
-- # i18n
-- subdir('po')
+-diff --git a/configure.ac b/configure.ac
+-index 0065376f4b7..b21fb2210c6 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1839,7 +1839,7 @@ for plat in $platforms; do
+-         if test "x$enable_egl" = xyes; then
+-           PKG_CHECK_MODULES([WAYLAND_EGL], [wayland-egl-backend >= $WAYLAND_EGL_BACKEND_REQUIRED])
+-         fi
+--        WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+-+        PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
 - 
---subdir('tests')
--+#subdir('tests')
-- subdir('thumbnailer')
-- 
-- # Documentation
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
-index 90d4830df50..e638fd3b6f3 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch
-@@ -1,23 +1,23 @@
--From 48cbdd56036728ffea431ad63cf5e2ad05cef69c Mon Sep 17 00:00:00 2001
-+From bf71999b6e64d1f1919b0351b27c1c417e2b8856 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 14 Feb 2019 18:06:25 +0100
--Subject: [PATCH] Fix a couple of decisions around cross-compilation
-+Subject: [PATCH] Generate loaders.cache using a native tool when
-+ cross-compiling
+-         PKG_CHECK_EXISTS([wayland-scanner >= 1.15],
+-                           AC_SUBST(SCANNER_ARG, 'private-code'),
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 59e8a204c7..001ff2b7f1 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c
  
--1. gobject-introspection can be build when cross compiling
--2. generating loaders.cache requires running a target binary which
--we do elsewhere (in postinsts)
-+Otherwise meson would attempt to run a target binary.
+ PE = "2"
  
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-- gdk-pixbuf/meson.build | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
-+ gdk-pixbuf/meson.build | 13 +++++++++++++
-+ 1 file changed, 13 insertions(+)
+-DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native"
++DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native"
+ EXTRANATIVEPATH += "chrpath-native"
+ PROVIDES = " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
+@@ -24,7 +24,7 @@ PROVIDES = " \
+     virtual/mesa \
+     "
  
- diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
--index 77c162b..fc3eb33 100644
-+index 1995ffd..d692cb7 100644
- --- a/gdk-pixbuf/meson.build
- +++ b/gdk-pixbuf/meson.build
--@@ -230,6 +230,7 @@ foreach bin: gdkpixbuf_bin
-+@@ -291,6 +291,7 @@ foreach bin: gdkpixbuf_bin
-    set_variable(bin_name.underscorify(), bin)
-  endforeach
-  
-@@ -25,14 +25,22 @@ index 77c162b..fc3eb33 100644
-  # The 'loaders.cache' used for testing, so we don't accidentally
-  # load the installed cache; we always build it by default
-  loaders_cache = custom_target('loaders.cache',
--@@ -241,8 +242,9 @@ loaders_cache = custom_target('loaders.cache',
-+@@ -302,6 +303,18 @@ loaders_cache = custom_target('loaders.cache',
-                                ],
-                                build_by_default: true)
-  loaders_dep = declare_dependency(sources: [ loaders_cache ])
-++else
-++loaders_cache = custom_target('loaders.cache',
-++                              output: 'loaders.cache',
-++                              capture: true,
-++                              depends: [ dynamic_loaders_dep ],
-++                              command: [
-++                                'gdk-pixbuf-query-loaders',
-++                                dynamic_loaders,
-++                              ],
-++                              build_by_default: true)
-++loaders_dep = declare_dependency(sources: [ loaders_cache ])
- +endif
-  
---build_gir = get_option('with_gir') and not meson.is_cross_build()
--+build_gir = get_option('with_gir')
-- if build_gir
--   gir_args = [
--     '--quiet',
-+ pkgconfig = import('pkgconfig')
-+ pkgconfig.generate(
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
-deleted file mode 100644
-index b0cd838a8fd..00000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0002-Work-around-thumbnailer-cross-compile-failure.patch
-+++ /dev/null
-@@ -1,131 +0,0 @@
--From a184e6bfdd7761ad9807f3de9e873d49aff79e6d Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 14 Feb 2019 17:56:34 +0100
--Subject: [PATCH] (target only) Work-around thumbnailer cross-compile failure
--
--Use native gdk-pixbuf-print-mime-types when generating the thumbnail
--metadata. This works but the mime types will come from native
--loader.cache (which will only contain in-tree loaders), not from the
--target loader.cache.
--
--The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
--
--Upstream-Status: Inappropriate [workaround]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- build-aux/gen-thumbnailer.py |  2 --
-- tests/meson.build            | 49 +-----------------------------------
-- thumbnailer/meson.build      |  5 +---
-- 3 files changed, 2 insertions(+), 54 deletions(-)
--
--diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
--index 05ac821..c5b99ab 100644
----- a/build-aux/gen-thumbnailer.py
--+++ b/build-aux/gen-thumbnailer.py
--@@ -20,8 +20,6 @@ argparser.add_argument('output', help='Output file')
-- args = argparser.parse_args()
-- 
-- newenv = os.environ.copy()
---newenv['GDK_PIXBUF_PIXDATA'] = args.pixdata
---newenv['GDK_PIXBUF_MODULE_FILE'] = args.loaders
-- # 'nt': NT-based Windows, see https://docs.python.org/3/library/os.html
-- if os.name == 'nt':
--     gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
--diff --git a/tests/meson.build b/tests/meson.build
--index 77a427a..467f5b2 100644
----- a/tests/meson.build
--+++ b/tests/meson.build
--@@ -1,38 +1,6 @@
-- # Resources; we cannot use gnome.compile_resources() here, because we need to
-- # override the environment in order to use the utilities we just built instead
-- # of the system ones
---resources_c = custom_target('resources.c',
---                            input: 'resources.gresource.xml',
---                            output: 'resources.c',
---                            command: [
---                              gen_resources,
---                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
---                              '--loaders=@0@'.format(loaders_cache.full_path()),
---                              '--sourcedir=@0@'.format(meson.current_source_dir()),
---                              '--source',
---                              '@INPUT@',
---                              '@OUTPUT@',
---                            ],
---                            depends: [
---                              gdk_pixbuf_pixdata,
---                              loaders_cache,
---                            ])
---resources_h = custom_target('resources.h',
---                            input: 'resources.gresource.xml',
---                            output: 'resources.h',
---                            command: [
---                              gen_resources,
---                              '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
---                              '--loaders=@0@'.format(loaders_cache.full_path()),
---                              '--sourcedir=@0@'.format(meson.current_source_dir()),
---                              '--header',
---                              '@INPUT@',
---                              '@OUTPUT@',
---                            ],
---                            depends: [
---                              gdk_pixbuf_pixdata,
---                              loaders_cache,
---                            ])
-- 
-- installed_tests = [
--   [ 'animation' ],
--@@ -94,7 +62,7 @@ foreach t: installed_tests
--   test_sources = [ test_name + '.c', 'test-common.c' ]
--   needs_resources = t.get(1, false)
--   if needs_resources
---    test_sources += [ resources_c, resources_h ]
--+    test_sources += [ 'resources.c', 'resources.h' ]
--   endif
-- 
--   custom_target(test_name + '.test',
--@@ -116,21 +84,6 @@ foreach t: installed_tests
--                         ],
--                         c_args: common_cflags)
-- 
---  # Two particularly slow tests
---  if test_name == 'pixbuf-area-updated' or test_name == 'pixbuf-randomly-modified'
---    timeout = 300
---  else
---    timeout = 30
---  endif
---
---  test(test_name, test_bin,
---       args: [ '-k', '--tap' ],
---       env: [
---         'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
---         'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
---         'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
---       ],
---       timeout: timeout)
-- endforeach
-- 
-- executable('pixbuf-read',
--diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
--index aaafec8..71bd61b 100644
----- a/thumbnailer/meson.build
--+++ b/thumbnailer/meson.build
--@@ -18,9 +18,7 @@ custom_target('thumbnailer',
--               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
--               command: [
--                 gen_thumbnailer,
---                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
---                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
---                '--loaders=@0@'.format(loaders_cache.full_path()),
--+                '--printer=gdk-pixbuf-print-mime-types',
--                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
--                 '@INPUT@',
--                 '@OUTPUT@',
--@@ -28,7 +26,6 @@ custom_target('thumbnailer',
--               depends: [
--                 gdk_pixbuf_print_mime_types,
--                 gdk_pixbuf_pixdata,
---                loaders_cache,
--               ],
--               install: true,
--               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
-new file mode 100644
-index 00000000000..928962d230b
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
-@@ -0,0 +1,96 @@
-+From 6fc7f341399ec49ab06c94426f50dbdca49a2844 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 22 Feb 2019 13:22:06 +0100
-+Subject: [PATCH] (target only) Work-around thumbnailer and pixdata
-+ cross-compile failure
-+
-+Use native gdk-pixbuf-print-mime-types and gdk-pixbuf-pixdata
-+when generating the thumbnail metadata and resources.
-+
-+This works but the mime types will come from native
-+loader.cache (which will only contain in-tree loaders), not from the
-+target loader.cache.
-+
-+The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
-+
-+Upstream-Status: Inappropriate [workaround]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ build-aux/gen-thumbnailer.py |  2 --
-+ tests/meson.build            | 11 +++++++++--
-+ thumbnailer/meson.build      |  5 +----
-+ 3 files changed, 10 insertions(+), 8 deletions(-)
-+
-+diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
-+index 05ac821..c5b99ab 100644
-+--- a/build-aux/gen-thumbnailer.py
-++++ b/build-aux/gen-thumbnailer.py
-+@@ -20,8 +20,6 @@ argparser.add_argument('output', help='Output file')
-+ args = argparser.parse_args()
-+ 
-+ newenv = os.environ.copy()
-+-newenv['GDK_PIXBUF_PIXDATA'] = args.pixdata
-+-newenv['GDK_PIXBUF_MODULE_FILE'] = args.loaders
-+ # 'nt': NT-based Windows, see https://docs.python.org/3/library/os.html
-+ if os.name == 'nt':
-+     gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 4fa3fbc..eca5166 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -1,12 +1,19 @@
-+ # Resources; we cannot use gnome.compile_resources() here, because we need to
-+ # override the environment in order to use the utilities we just built instead
-+ # of the system ones
-++
-++if not meson.is_cross_build()
-++pixdata_binary = gdk_pixbuf_pixdata.full_path()
-++else
-++pixdata_binary = 'gdk-pixbuf-pixdata'
-++endif
-++
-+ resources_c = custom_target('resources.c',
-+   input: 'resources.gresource.xml',
-+   output: 'resources.c',
-+   command: [
-+     gen_resources,
-+-    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-++    '--pixdata=@0@'.format(pixdata_binary),
-+     '--loaders=@0@'.format(loaders_cache.full_path()),
-+     '--sourcedir=@0@'.format(meson.current_source_dir()),
-+     '--source',
-+@@ -24,7 +31,7 @@ resources_h = custom_target('resources.h',
-+   output: 'resources.h',
-+   command: [
-+     gen_resources,
-+-    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-++    '--pixdata=@0@'.format(pixdata_binary),
-+     '--loaders=@0@'.format(loaders_cache.full_path()),
-+     '--sourcedir=@0@'.format(meson.current_source_dir()),
-+     '--header',
-+diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
-+index aaafec8..71bd61b 100644
-+--- a/thumbnailer/meson.build
-++++ b/thumbnailer/meson.build
-+@@ -18,9 +18,7 @@ custom_target('thumbnailer',
-+               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
-+               command: [
-+                 gen_thumbnailer,
-+-                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
-+-                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
-+-                '--loaders=@0@'.format(loaders_cache.full_path()),
-++                '--printer=gdk-pixbuf-print-mime-types',
-+                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
-+                 '@INPUT@',
-+                 '@OUTPUT@',
-+@@ -28,7 +26,6 @@ custom_target('thumbnailer',
-+               depends: [
-+                 gdk_pixbuf_print_mime_types,
-+                 gdk_pixbuf_pixdata,
-+-                loaders_cache,
-+               ],
-+               install: true,
-+               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
-new file mode 100644
-index 00000000000..96c546f271a
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
-@@ -0,0 +1,39 @@
-+From 3c4a6c147ae8a0962ba9194373d8a41d14eed44f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 22 Feb 2019 13:23:55 +0100
-+Subject: [PATCH] Do not run tests when building
-+
-+Upstream-Status: Inappropriate [cross-compile specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ tests/meson.build | 17 -----------------
-+ 1 file changed, 17 deletions(-)
-+
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 4fa3fbc..6ef7884 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -138,23 +138,6 @@ foreach t: installed_tests
-+     install_dir: installed_test_bindir,
-+   )
-+ 
-+-  # Two particularly slow tests
-+-  if test_suites.contains('slow')
-+-    timeout = 300
-+-  else
-+-    timeout = 30
-+-  endif
-+-
-+-  test(test_name, test_bin,
-+-    suite: test_suites,
-+-    args: [ '-k', '--tap' ],
-+-    env: [
-+-      'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
-+-      'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
-+-      'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
-+-    ],
-+-    timeout: timeout,
-+-  )
-+ endforeach
-+ 
-+ executable('pixbuf-read',
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
-index 7d0d54bafea..25410b11ea2 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/fatal-loader.patch
-@@ -1,7 +1,7 @@
--From b6a7b30522455cab39a0b9ea8463313380146e70 Mon Sep 17 00:00:00 2001
-+From f00603d58d844422363b896ea7d07aaf48ddaa66 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 1 Apr 2014 17:23:36 +0100
--Subject: [PATCH 3/4] gdk-pixbuf: add an option so that loader errors are fatal
-+Subject: [PATCH] gdk-pixbuf: add an option so that loader errors are fatal
+-inherit autotools pkgconfig python3native gettext distro_features_check
++inherit meson pkgconfig python3native gettext distro_features_check
  
- If an environment variable is specified set the return value from main() to
- non-zero if the loader had errors (missing libraries, generally).
-@@ -14,10 +14,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 15 insertions(+), 4 deletions(-)
- 
- diff --git a/gdk-pixbuf/queryloaders.c b/gdk-pixbuf/queryloaders.c
--index a81c804..350bec8 100644
-+index 312aa78..b813d99 100644
- --- a/gdk-pixbuf/queryloaders.c
- +++ b/gdk-pixbuf/queryloaders.c
--@@ -146,7 +146,7 @@ write_loader_info (GString *contents, const char *path, GdkPixbufFormat *info)
-+@@ -212,7 +212,7 @@ write_loader_info (GString *contents, const char *path, GdkPixbufFormat *info)
-          g_string_append_c (contents, '\n');
-  }
-  
-@@ -26,7 +26,7 @@ index a81c804..350bec8 100644
-  query_module (GString *contents, const char *dir, const char *file)
-  {
-          char *path;
--@@ -155,6 +155,7 @@ query_module (GString *contents, const char *dir, const char *file)
-+@@ -221,6 +221,7 @@ query_module (GString *contents, const char *dir, const char *file)
-          void                    (*fill_vtable)   (GdkPixbufModule *module);
-          gpointer fill_info_ptr;
-          gpointer fill_vtable_ptr;
-@@ -34,7 +34,7 @@ index a81c804..350bec8 100644
-  
-          if (g_path_is_absolute (file))
-                  path = g_strdup (file);
--@@ -204,10 +205,13 @@ query_module (GString *contents, const char *dir, const char *file)
-+@@ -270,10 +271,13 @@ query_module (GString *contents, const char *dir, const char *file)
-                                     g_module_error());
-                  else
-                          g_fprintf (stderr, "Cannot load loader %s\n", path);
-@@ -48,26 +48,26 @@ index a81c804..350bec8 100644
-  }
-  
-  #ifdef G_OS_WIN32
--@@ -257,6 +261,7 @@ int main (int argc, char **argv)
--         GString *contents;
--         gchar *cache_file = NULL;
-+@@ -314,6 +318,7 @@ int main (int argc, char **argv)
-          gint first_file = 1;
-+         GFile *pixbuf_libdir_file;
-+         gchar *pixbuf_libdir;
- +        gboolean success = TRUE;
-  
-  #ifdef G_OS_WIN32
-          gchar *libdir;
--@@ -370,7 +375,9 @@ int main (int argc, char **argv)
-+@@ -452,7 +457,9 @@ int main (int argc, char **argv)
-                  }
-                  modules = g_list_sort (modules, (GCompareFunc)strcmp);
-                  for (l = modules; l != NULL; l = l->next)
---                        query_module (contents, path, l->data);
--+                        if (!query_module (contents, path, l->data))
-+-                        query_module (contents, moduledir, l->data);
-++                        if (!query_module (contents, moduledir, l->data))
- +                                success = FALSE;
- +
-                  g_list_free_full (modules, g_free);
-+                 g_free (moduledir);
-  #else
--                 g_string_append_printf (contents, "# dynamic loading of modules not supported\n");
--@@ -385,7 +392,8 @@ int main (int argc, char **argv)
-+@@ -468,7 +475,8 @@ int main (int argc, char **argv)
-                          infilename = g_locale_to_utf8 (infilename,
-                                                         -1, NULL, NULL, NULL);
-  #endif
-@@ -77,9 +77,9 @@ index a81c804..350bec8 100644
-                  }
-                  g_free (cwd);
-          }
--@@ -401,5 +409,8 @@ int main (int argc, char **argv)
--         else
--                 g_print ("%s\n", contents->str);
-+@@ -486,5 +494,8 @@ int main (int argc, char **argv)
-+ 
-+         g_free (pixbuf_libdir);
-  
- -        return 0;
- +        if (g_getenv ("GDK_PIXBUF_FATAL_LOADER"))
-@@ -87,6 +87,3 @@ index a81c804..350bec8 100644
- +        else
- +                return 0;
-  }
---- 
--2.14.1
--
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-similarity index 76%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-index 5f081fbb945..3a544bd8a60 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.11.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-@@ -2,9 +2,10 @@ SUMMARY = "Image loading library for GTK+"
- HOMEPAGE = "http://www.gtk.org/"
- BUGTRACKER = "https://bugzilla.gnome.org/"
- 
--LICENSE = "LGPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
--                    file://gdk-pixbuf/gdk-pixbuf.h;endline=26;md5=72b39da7cbdde2e665329fef618e1d6b"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-+                    file://gdk-pixbuf/gdk-pixbuf.h;endline=26;md5=72b39da7cbdde2e665329fef618e1d6b \
-+                    "
- 
- SECTION = "libs"
- 
-@@ -18,29 +19,26 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
-            file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
-            file://0001-loaders.cache-depend-on-loaders-being-fully-build.patch \
-+           file://0004-Do-not-run-tests-when-building.patch \
-            "
- 
- SRC_URI_append_class-target = " \
--           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
-+           file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
-            "
- SRC_URI_append_class-nativesdk = " \
--           file://0002-Work-around-thumbnailer-cross-compile-failure.patch \
--           file://0001-Disable-tests-in-native-builds.patch \
--           "
--SRC_URI_append_class-native = " \
--           file://0001-Disable-tests-in-native-builds.patch \
-+           file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
-            "
- 
--SRC_URI[md5sum] = "6e84e5485c17ce7c25df77fe76eb2d6a"
--SRC_URI[sha256sum] = "ae62ab87250413156ed72ef756347b10208c00e76b222d82d9ed361ed9dde2f3"
-+SRC_URI[md5sum] = "77765f24496dc8c90c6e0cbe10fd8f0e"
-+SRC_URI[sha256sum] = "dd50973c7757bcde15de6bcd3a6d462a445efd552604ae6435a0532fbbadae47"
- 
- inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
- 
--GTKDOC_ENABLE_FLAG = "-Dwith_docs=true"
--GTKDOC_DISABLE_FLAG = "-Dwith_docs=false"
-+GTKDOC_ENABLE_FLAG = "-Ddocs=true"
-+GTKDOC_DISABLE_FLAG = "-Ddocs=false"
- 
--GI_ENABLE_FLAG = "-Dwith_gir=true"
--GI_DISABLE_FLAG = "-Dwith_gir=false"
-+GI_ENABLE_FLAG = "-Dgir=true"
-+GI_DISABLE_FLAG = "-Dgir=false"
- 
- EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
- 
-@@ -50,6 +48,8 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'T
- EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
-                                                                                      '${GTKDOC_DISABLE_FLAG}', d)} "
- 
-+EXTRA_OEMESON_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
-+
- LIBV = "2.10.0"
- 
- GDK_PIXBUF_LOADERS ?= "png jpeg"
-@@ -63,7 +63,7 @@ PACKAGECONFIG[jpeg] = "-Denable_jpeg=true,-Denable_jpeg=false,jpeg"
- PACKAGECONFIG[tiff] = "-Denable_tiff=true,-Denable_tiff=false,tiff"
- PACKAGECONFIG[jpeg2000] = "-Denable_jasper=true,-Denable_jasper=false,jasper"
- 
--PACKAGECONFIG[x11] = ",,virtual/libx11"
-+PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
- 
- PACKAGES =+ "${PN}-xlib"
- 
-@@ -102,14 +102,10 @@ python populate_packages_prepend () {
- }
- 
- do_install_append() {
--	# Move gdk-pixbuf-query-loaders into libdir so it is always available
-+	# Copy gdk-pixbuf-query-loaders into libdir so it is always available
- 	# in multilib builds.
--	mv ${D}/${bindir}/gdk-pixbuf-query-loaders ${D}/${libdir}/gdk-pixbuf-2.0/
-+	cp ${D}/${bindir}/gdk-pixbuf-query-loaders ${D}/${libdir}/gdk-pixbuf-2.0/
- 
--	# Do not install ptests if ptest is not enabled; gdk-pixbuf has no configuration option for this
--	if [ "${PTEST_ENABLED}" != "1" ]; then
--		rm -rf ${D}${datadir}/installed-tests
--	fi
- }
- 
- do_install_append_class-native() {
-@@ -127,5 +123,9 @@ do_install_append_class-native() {
- 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
- 		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
-+
-+	create_wrapper ${D}/${bindir}/gdk-pixbuf-query-loaders \
-+		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
-+		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
- }
  BBCLASSEXTEND = "native nativesdk"
+ 
+@@ -34,15 +34,14 @@ PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
+                ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)} \
+                surfaceless"
+ 
+-export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
+ export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
+ export YOCTO_ALTERNATE_MULTILIB_NAME = "${base_libdir}"
+-EXTRA_OECONF = "--enable-shared-glapi \
+-                --disable-opencl \
+-                --enable-glx-read-only-text \
+-                PYTHON2=python2 \
+-                --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
+-                --with-platforms='${PLATFORMS}'"
++EXTRA_OEMESON = " \
++    -Dshared-glapi=true \
++    -Dgallium-opencl=disabled \
++    -Dglx-read-only-text=true \
++    -Dplatforms='${@",".join("${PLATFORMS}".split())}' \
++"
+ 
+ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+@@ -53,36 +52,36 @@ PACKAGECONFIG_class-native ?= "gbm dri egl opengl"
+ PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl"
+ 
+ # "gbm" requires "dri", "opengl"
+-PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
++PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+ 
+ X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
+ # "x11" requires "opengl"
+-PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+-PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
++PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
++PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+ DRIDRIVERS_class-native = "swrast"
+ DRIDRIVERS_class-nativesdk = "swrast"
+-DRIDRIVERS_append_x86_class-target = ",radeon,r200,nouveau,i965,i915"
+-DRIDRIVERS_append_x86-64_class-target = ",radeon,r200,nouveau,i965,i915"
++DRIDRIVERS_append_x86_class-target = ",r100,r200,nouveau,i965,i915"
++DRIDRIVERS_append_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
+ # "dri" requires "opengl"
+-PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, xorgproto libdrm"
+-PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, xorgproto libxshmfence"
++PACKAGECONFIG[dri] = "-Ddri-drivers=${DRIDRIVERS}, -Ddri-drivers='', xorgproto libdrm"
++PACKAGECONFIG[dri3] = "-Ddri3=true, -Ddri3=false, xorgproto libxshmfence"
+ 
+ # Vulkan drivers need dri3 enabled
+ # radeon could be enabled as well but requires gallium-llvm with llvm >= 3.9
+ VULKAN_DRIVERS = ""
+ VULKAN_DRIVERS_append_x86_class-target = ",intel"
+ VULKAN_DRIVERS_append_x86-64_class-target = ",intel"
+-PACKAGECONFIG[vulkan] = "--with-vulkan-drivers=${VULKAN_DRIVERS}, --without-vulkan-drivers, python3-mako-native"
++PACKAGECONFIG[vulkan] = "-Dvulkan-drivers=${VULKAN_DRIVERS}, -Dvulkan-drivers='',"
+ 
+-PACKAGECONFIG[opengl] = "--enable-opengl, --disable-opengl"
++PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
+ 
+ # "gles" requires "opengl"
+-PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
++PACKAGECONFIG[gles] = "-Dgles1=true -Dgles2=true, -Dgles1=false -Dgles2=false"
+ 
+ # "egl" requires "dri", "opengl"
+-PACKAGECONFIG[egl] = "--enable-egl, --disable-egl"
++PACKAGECONFIG[egl] = "-Degl=true, -Degl=false"
+ 
+ PACKAGECONFIG[etnaviv] = ""
+ PACKAGECONFIG[imx] = ""
+@@ -103,27 +102,25 @@ GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',r600',
+ GALLIUMDRIVERS_append = ",virgl"
+ 
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+-PACKAGECONFIG[gallium] = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
++PACKAGECONFIG[gallium] = "-Dgallium-drivers=${GALLIUMDRIVERS}, -Dgallium-drivers=''"
+ MESA_LLVM_RELEASE ?= "8.0"
+-PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
++PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+-PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
++PACKAGECONFIG[xa]  = "-Dgallium-xa=true, -Dgallium-xa=false"
+ 
+-OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium-osmesa', 'osmesa', d)}"
+-PACKAGECONFIG[osmesa] = "--enable-${OSMESA},--disable-${OSMESA}"
++OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium', 'classic', d)}"
++PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
+ 
+-PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
++PACKAGECONFIG[unwind] = "-Dlibunwind=true,-Dlibunwind=false,libunwind"
+ 
+-EXTRA_OECONF_remove_libc-musl = "--enable-glx-tls"
+-EXTRA_OECONF_append_libc-musl = " --disable-glx-tls"
+-EXTRA_OECONF_append_libc-musl_x86 = " --disable-asm"
++# mesa tries to run cross-built gen_matypes on build machine to get struct size information
++EXTRA_OEMESON_append = " -Dasm=false"
+ 
+ # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+ 
+ CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
+-EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
+ 
+ # Remove the mesa dependency on mesa-dev, as mesa is empty
+ RDEPENDS_${PN}-dev = ""
+@@ -156,7 +153,6 @@ do_install_append () {
+     # libwayland-egl has been moved to wayland 1.15+
+     rm -f ${D}${libdir}/libwayland-egl*
+     rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
+-    rmdir --ignore-fail-on-non-empty ${D}${libdir}/pkgconfig
+ }
+ 
+ # For the packages that make up the OpenGL interfaces, inject variables so that
+diff --git a/meta/recipes-graphics/mesa/mesa_18.3.4.bb b/meta/recipes-graphics/mesa/mesa_18.3.4.bb
+index 27f4f0241f..7afb15be10 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.3.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.3.4.bb
+@@ -1,11 +1,8 @@
+ require ${BPN}.inc
+ 
+ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+-           file://0001-Simplify-wayland-scanner-lookup.patch \
+-           file://0002-winsys-svga-drm-Include-sys-types.h.patch \
+-           file://0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
+-           file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+-           file://0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch \
++           file://0001-egl-add-missing-include-stddef.h-in-egldevice.h.patch \
++           file://0002-meson.build-check-for-all-linux-host_os-combinations.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6f2a5e01dd5cb91d05a9534f5a80c35d"
 -- 
-2.17.1
+2.20.1
 
 
