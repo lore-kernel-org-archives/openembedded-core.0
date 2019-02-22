@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AF447CBE4
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F31847CBFF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 14:34:02 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id v26so2166701wmh.3
+	Fri, 22 Feb 2019 14:34:03 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w17so2577004wrn.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 06:34:04 -0800 (PST)
+	Fri, 22 Feb 2019 06:34:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eWPDj60+exZxV/yyvQsNANQL16N11ETa87iyMcQicMY=;
-	b=b1Bvm6F6mh6k16mG6a554MfL4jJlHwSZRcqm4DkgTYsLdL4PgbLulixQ8NIuL7KJ9u
-	5cBqLUr167oiS1LDDodOfk2RVzIpYDyOOuyFeLXMZrmhtPUjEDN1KosTP9v3gCIOxkHe
-	MQn6CX/Iix4ySYGjZdHnPvNbZPbhy9dHJbt0U4+ZpcTSXChYK6+9DNAdTZqIRsQZ7L7Q
-	A9sxNFIB8bJ0d6Wz/MITwcxSFN4O1hgcbpnVDOSgF25e/7uuMkJIHSscGQGE63xYEo6n
-	51ux8CuoC3/x9aqzCLlGDJETXjN+2cbnuKuKDDyNkR/BwVNF5pP4RBeRn7voZjBHFvHw
-	eo3g==
+	bh=nRURMmNtnUA5lDoYqC1qIFp/P94ARF234zwEWQoi5pg=;
+	b=qBDBG1EgpD4BO/BEQ0QzHel2qcTf9t/21e05gt3iVZH+Sfg/JWmXbILPwvcH9v9jY+
+	kWaRLJDl78RcdMfXL7H9PG5hx6pQz1MG/JFYKEv+kmD+gZicxR+5XTX2SFNDLaViKsqZ
+	k9DfEQJKcqL5Ghg7/P2eNNeYkRsc60uBzCYquACfBAM8yT1C/Uvq/5BQVc0wq8okGeqF
+	+RQmZT11w4rp8k6SzW95Z/9kG4qFJ2FLtgwh6+XhNlzcSpxe22Tz6WWJtdss6eI4GHHB
+	C6umtkZ7xBQIkI3OcWpvskbQyfuAcO+BdPcULpt4nFR5r3we4kH9333/M7zczyLd+yvj
+	PruQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eWPDj60+exZxV/yyvQsNANQL16N11ETa87iyMcQicMY=;
-	b=qvh6s+2ek3f01ywz9mF74RianMoKHD+ZGJrI9D+5IwHtaErmztXMW5I2xDZ2RQRAF1
-	4Iirv8Selw4pvUNgCMIbY3r1GFWw3r8XenmeR9hjQ4z73N9SJqofnkZMYBoNMMSefxs9
-	Douoi0B8r99u6BBqqVoKwYiNWV0aOdIupMufUPUkd4gqT91pQZ/+fxX7rN+8wh1Qqfvr
-	0316YZu3hm1VbZxEP8zykUrWelXaAyu+itvw232mfN1PVXug1SAMdtwfjBew+6vOBLjm
-	7igmgy9jQQ1j5PscGWMsYKaaGWptfui991A1gIwEL1AJbWhaEkxc+/donRuOwLXgfSF4
-	6cSw==
-X-Gm-Message-State: AHQUAuZ4WKmoPF/fInIEgxHyMfSUthppD5fQq+qtLQcrWaY52L1o7JaT
-	Ca5ZYyuDIlvL3nrdenjgG1CRuWXt
-X-Google-Smtp-Source: AHgI3IbTlPnUfW1F9BOlNUW5MlaPcLO3C0UO5qsRjbABh/OB/yBaME2/Ca7cYoIybCASAOV8OUup5g==
-X-Received: by 2002:a1c:e715:: with SMTP id e21mr2653023wmh.122.1550846043501; 
-	Fri, 22 Feb 2019 06:34:03 -0800 (PST)
+	bh=nRURMmNtnUA5lDoYqC1qIFp/P94ARF234zwEWQoi5pg=;
+	b=fHrEJW7sXai4tT7OxWype/avEizjTVyumKQuX4TBCgvMcqL9F6/L/hjiiRz0xW9WK0
+	Orbqro1+bN2X6GJMcx/DXCRoa7c6h4H3XxsKRMXpOotU2psLcagEUUdZhMl+SI8twUYR
+	FChTqGqvtWDy5E0CSPweDsK5bKKOiujMsLZUKgSOs0Aws1WupLsi6B51rbAIYbsV1ocB
+	2wcIS1jeiQ6zjNkFzBnIqlwPOU4J3c3GzHaAX2UBtB4JOyZ5la0/mhjX7tWmoS1yqRQS
+	ptGyCm/YXXs4t43+Tt6gIsxeRBy2OIaSpKDGnU+MUEQhlqWqP6mZte3XR/ta94/vBeqg
+	1sQw==
+X-Gm-Message-State: AHQUAubap0iyUbv1cUkj/5JwhtxKZaPHY9XHVQ9OidfDUvGEVsvg3juz
+	Lj5ZZMdwuUnN46B3k6Ie8wMY44jm
+X-Google-Smtp-Source: AHgI3IaoT68u8CTSLK+qaiWvJf5mYdObetAL8tU/FAVRKdeUIKmOSQyEu5OM37YGG+WJMC6bd7rrsA==
+X-Received: by 2002:a5d:5111:: with SMTP id s17mr3141379wrt.183.1550846044435; 
+	Fri, 22 Feb 2019 06:34:04 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id p1sm2085184wrx.50.2019.02.22.06.34.02
+	by smtp.gmail.com with ESMTPSA id p1sm2085184wrx.50.2019.02.22.06.34.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Feb 2019 06:34:02 -0800 (PST)
+	Fri, 22 Feb 2019 06:34:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Feb 2019 15:33:44 +0100
-Message-Id: <1f49a95e2a00d7c75620194aab6ad3de526ffd80.1550845989.git.alex.kanavin@gmail.com>
+Date: Fri, 22 Feb 2019 15:33:45 +0100
+Message-Id: <63c6971f71fd27cf52e3a5ae1f7fe9d50ad5b3d1.1550845989.git.alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1550845989.git.alex.kanavin@gmail.com>
 References: <cover.1550845989.git.alex.kanavin@gmail.com>
-Subject: [PATCH 09/12] qemu: add a backported patch to fix egl-headless support
+Subject: [PATCH 10/12] runqemu: add options for enabling virgl GL acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 14:34:03 -0000
+X-List-Received-Date: Fri, 22 Feb 2019 14:34:04 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-egl-headless-add-egl_create_context.patch | 50 +++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.1.0.bb      |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
+ scripts/runqemu | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch b/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
-new file mode 100644
-index 00000000000..d9326c017ad
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-egl-headless-add-egl_create_context.patch
-@@ -0,0 +1,50 @@
-+From 952e5d584f5aabe41298c278065fe628f3f7aa7a Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Thu, 29 Nov 2018 13:35:02 +0100
-+Subject: [PATCH] egl-headless: add egl_create_context
-+
-+We must set the correct context (via eglMakeCurrent) before
-+calling qemu_egl_create_context, so we need a thin wrapper and can't
-+hook qemu_egl_create_context directly as ->dpy_gl_ctx_create callback.
-+
-+Reported-by: Frederik Carlier <frederik.carlier@quamotion.mobi>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Message-id: 20181129123502.30129-1-kraxel@redhat.com
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=952e5d584f5aabe41298c278065fe628f3f7aa7a]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ ui/egl-headless.c | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-+index 4cf3bbc0e4..519e7bad32 100644
-+--- a/ui/egl-headless.c
-++++ b/ui/egl-headless.c
-+@@ -38,6 +38,14 @@ static void egl_gfx_switch(DisplayChangeListener *dcl,
-+     edpy->ds = new_surface;
-+ }
-+ 
-++static QEMUGLContext egl_create_context(DisplayChangeListener *dcl,
-++                                        QEMUGLParams *params)
-++{
-++    eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
-++                   qemu_egl_rn_ctx);
-++    return qemu_egl_create_context(dcl, params);
-++}
-++
-+ static void egl_scanout_disable(DisplayChangeListener *dcl)
-+ {
-+     egl_dpy *edpy = container_of(dcl, egl_dpy, dcl);
-+@@ -150,7 +158,7 @@ static const DisplayChangeListenerOps egl_ops = {
-+     .dpy_gfx_update          = egl_gfx_update,
-+     .dpy_gfx_switch          = egl_gfx_switch,
-+ 
-+-    .dpy_gl_ctx_create       = qemu_egl_create_context,
-++    .dpy_gl_ctx_create       = egl_create_context,
-+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
-+     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
-+     .dpy_gl_ctx_get_current  = qemu_egl_get_current_context,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_3.1.0.bb b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-index cd7cd67a3f0..ea4277eddea 100644
---- a/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
-            file://0001-Add-a-missing-X11-include.patch \
-+           file://0001-egl-headless-add-egl_create_context.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index d171c4f8945..054037312b8 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -74,6 +74,9 @@ of the following environment variables (in any order):
+   MACHINE - the machine name (optional, autodetected from KERNEL filename if unspecified)
+   Simplified QEMU command-line options can be passed with:
+     nographic - disable video console
++    gl - enable virgl-based GL acceleration
++    gl-es - enable virgl-based GL acceleration, using OpenGL ES
++    egl-headless - enable headless EGL output; use vnc or spice to see it
+     serial - enable a serial console on /dev/ttyS0
+     serialstdio - enable a serial console on the console (regardless of graphics mode)
+     slirp - enable user networking, no root privileges is required
+@@ -434,6 +437,26 @@ class BaseConfig(object):
+             elif arg == 'nographic':
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
++            elif arg == 'gl':
++                self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
++            elif arg == 'gl-es':
++                self.qemu_opt_script += ' -vga virtio -display gtk,gl=es'
++            elif arg == 'egl-headless':
++                self.qemu_opt_script += ' -vga virtio -display egl-headless'
++                # As runqemu can be run within bitbake (when using testimage, for example),
++                # we need to ensure that we run host pkg-config, and that it does not
++                # get mis-directed to native build paths set by bitbake.
++                try:
++                    del os.environ['PKG_CONFIG_PATH']
++                    del os.environ['PKG_CONFIG_DIR']
++                    del os.environ['PKG_CONFIG_LIBDIR']
++                except KeyError:
++                    pass
++                try:
++                    dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
++                except subprocess.CalledProcessError as e:
++                    raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
++                os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
+             elif arg == 'serial':
+                 self.kernel_cmdline_script += ' console=ttyS0'
+                 self.serialconsole = True
 -- 
 2.17.1
 
