@@ -1,49 +1,46 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B647CBCC
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8908F7CC0F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 17:04:09 +0000 (UTC)
-Received: (qmail 9770 invoked by uid 1003); 22 Feb 2019 17:04:10 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	22 Feb 2019 17:04:10 -0000
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Reply-To: board <board@openembedded.org>
-Message-ID: <e3fb503f-50fa-30e1-0af5-3e8d12da9cb5@balister.org>
-Date: Fri, 22 Feb 2019 12:04:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Fri, 22 Feb 2019 17:04:12 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id 98so2475399oty.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Feb 2019 09:04:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Vcuak52iUGksg3mNkC5jVVlpch9pDS1oH0oddDAxy2U=;
+	b=ajjawGns8DbyozFJuxnP3e5eabOd7w++ZBHZOgFk8tsP92hdjsSBoQNobIfB+aT9rN
+	u4MhXBt1uLagyIDYWJ1/dKRKzGSpmbnmLGhoRdd3lu7tMZgqTiBSAOWQD3a4KNrha/cs
+	PF6E+Yzk03MYOhNIqCVvZtLb88ikWmVITIRcVGI19i8Jc4f9//60l4mKNWpr1+FXgZYC
+	Boq8sUw4ziTtRzUblNJuD3A7XWsYOtWMHnqr1skskkwcg874WFQjA2Fx+Qs64q6yxyQn
+	/a7Gqh92dg2PzJY9xYSVTuGh9yjz/yvqoKomr3ZnhKspCrs/ej7LBB43eA3HLiuWUrDa
+	Qfmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Vcuak52iUGksg3mNkC5jVVlpch9pDS1oH0oddDAxy2U=;
+	b=kPCF49DHrLrr3wzLo4pu6pPPsE2UruBfc23Cs3v9J1oaUqZRTtCzDeXaldhbgC4Z68
+	0tK7kzFWXiblGlEjWabGXhER4n9BDx8+ddZmgsZs40GlZdbneHIiHRZLrKgLMzkmTyfO
+	hX9ADpxhSzweqDldSJrHlH1IAy2HSb6JYdobVll0pJznklq1omyfvC7Dqflh2nvMtSy7
+	/PHWC3RmW9ikIocVqImOXwnGqu3Ptbx1egoMzuR5ijh0iof4PXOd7KSyDIcImDq4DLI+
+	g4Q/rY/GT3xZkJwlGrnSqtL08GUlR/Oo2KLEdCTfYVzXBv8pHEjsskEaCdkwbO3sxIZP
+	UYwg==
+X-Gm-Message-State: AHQUAuZUOovkQR+yoYTEbabHqjdMtx2HsfP5leZypQd5Ff3wmxYhn9hh
+	R7AOEH2AjAcC+Ygd0I5DQuLzdrf4thFkBwsZjDyZIA==
+X-Google-Smtp-Source: AHgI3IZmP3BFEcXzQaACR457QEAFOUOgPadgL8MrMbseEkjRfaLp7omNZ+CGW382hfmBVpgqVoEpVH/bpGWMdBFDYB4=
+X-Received: by 2002:a9d:d0e:: with SMTP id 14mr3481723oti.360.1550855053438;
+	Fri, 22 Feb 2019 09:04:13 -0800 (PST)
 MIME-Version: 1.0
-Subject: OpenEmbedded Fund Raising
+References: <20190222165450.30773-1-george.mccollister@gmail.com>
+In-Reply-To: <20190222165450.30773-1-george.mccollister@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Feb 2019 18:04:01 +0100
+Message-ID: <CANNYZj-Fx7W5MKb8hp9F5mPC05fhxq1S56_F9-PDr38yK1ofVw@mail.gmail.com>
+To: George McCollister <george.mccollister@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: fix CVE-2019-6454
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 17:04:10 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Feb 2019 17:04:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-People of OpenEmbedded, it is time to get serious about fund raising to
-cover some basic expenses, such as meeting rooms for OpenEmbedded
-related events, travel for people representing the organization etc.
-We've been very dependent on the generosity of a few people for our
-basic needs.
+On Fri, 22 Feb 2019 at 17:55, George McCollister
+<george.mccollister@gmail.com> wrote:
+> Apply patches from systemd_239-7ubuntu10.8 to fix CVE-2019-6454.
+> CVE-2019-6454 is an issue in which systemd (PID1) can be crashed with a
+> specially formed D-Bus message.
+> +
+> +For information see:
+> +https://usn.ubuntu.com/3891-1/
+> +https://git.launchpad.net/ubuntu/+source/systemd/commit/?id=f8e75d5634904c8e672658856508c3a02f349adb
+> +
+> +CVE: CVE-2019-6454
+> +Upstream-Status: Backport
 
-In the past, we have worked with the Yocto Project to fund things like
-space for meetings that benefited both organisations. Over the past
-year, the Yocto Budget for these activities has been reduced. The Yocto
-Project focus for the next six months is more on expanding membership to
-resolve some budget issues.
+It would be better to update systemd to latest upstream release, are
+you able to do this?
 
-This highlights a need for OpenEmbedded to actively fund raise now. We
-have around 660 usd in our account with Software in the Public Interest.
-Our income source is a handful of recurring contributions from a handful
-of generous individuals. I'd like to take this chance to thank them.
-
-We'd like to see two things happen to help kick start this process. One
-time donations via the donation page are great, but what really helps is
-signing up for a small donation each month. This develops a revenue
-stream the board can plan around.
-
-I've created a web page explaining how to donate and providing some
-resources for obtaining matching contributions and credit for volunteer
-hours:
-
-https://www.openembedded.org/wiki/Donating_to_OpenEmbedded
-
-We'd love to talk about corporate donations, but we need to be sensitive
-to Yocto Project recruiting efforts. I do feel we should talk with
-companies that are too small for the Linux Foundation.
-
-Long term, we have more ideas of projects that require money, but I'd
-like to get a baseline in place before larger funding campaigns.
-
-If you have specific questions, send them to board@openembedded.org.
-
-Philip
+Alex
 
