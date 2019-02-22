@@ -1,104 +1,59 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B4C587CBF1
+Return-Path: <tanuk@iki.fi>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+	[66.111.4.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 8922A7CBE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 15:20:39 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id y5so1233494plk.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 07:20:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=6wD0KJgN5NOispCz+vsTPVbqM7XOMcH1xxulf3UfeGQ=;
-	b=eif/5Cy2Tcu7qKvbpWY28u7oDYFefd2FSwsNU1z4wT0DP8zD2JMmIOem5vYOzePa3U
-	fR7oyNIMmKKIa1qZfn0XDlrsCCawDS3MgfiibikPs0XyMZ4arXHxe+Yb7302NE3EJbGv
-	W+vvk7pHoclViAYcvZ/qDJ0N10quiOByTWDB97JaFpK2TA5gLi+XF8Wn+6KeNcv2O7EE
-	gX6PiaxqS3+Nxk7cP/7//bpgYg1qd9Fh9qj/qRVAwJU/DzATcwJFlmw58DT0MAZOAMbV
-	T7UcuwBWy1bQ5a26ROi66J55brGdh/qw4UNUhfXZAdb//HxoMqkOOFVBcj1Vqzl23eOe
-	wM6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=6wD0KJgN5NOispCz+vsTPVbqM7XOMcH1xxulf3UfeGQ=;
-	b=MLo74EXsdHCuKi1C4uyuNHY7tVhgXQi9S6NsQo34kLLV+4BLDlg8vYZv1G+0A6Lwz0
-	KBHib30UL2hwp3Nx9WFlgOxd+aFx+Ly4oCrIiZ3VMSaSyG97H79wo97Lj7KzZQSpp8la
-	7w0zZgf3RXAivfAcYqRK+zrTyz+Gtl8UWi6T+nOJ1FJ1U8VzSCtSbDuiakBvUg1Qn+zs
-	iSOZiIGbQaf5IMTYm2UwGTlicvH9IUQgKsYoWf33J/ZtorHYGNqq3ENVVRtS/TQc42bf
-	G7wd96jUfe8DlvGGFnoCyE/PJSddbwQ1pbvF3oGXU5uMRdaJjy33Qzocl8DfL2CYFuhp
-	rZcw==
-X-Gm-Message-State: AHQUAuav92TctuD7Q8MkuNP9W6dXRBNN1dxS9ofKSQonFRxLgpIpaEE3
-	Iq/FWScnnpplanryt2AuZwsbSVZ5
-X-Google-Smtp-Source: AHgI3IbUdxA0vLRDYVTho3Rg+mM4TRYyMgLKokIroJ+t218K1yW/NFuU25QWVBrRbSJZ2nhNlYEJDA==
-X-Received: by 2002:a17:902:1486:: with SMTP id
-	k6mr4818156pla.49.1550848840476; 
-	Fri, 22 Feb 2019 07:20:40 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:70ef:357b:adf:5cc4?
-	([2601:202:4180:c33:70ef:357b:adf:5cc4])
-	by smtp.gmail.com with ESMTPSA id
-	p29sm2208861pgm.78.2019.02.22.07.20.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Feb 2019 07:20:39 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-References: <20181222221322.3768-1-pkj@axis.com>
-	<db68711ecba94d9aa3fd99ff16652e78@XBOX04.axis.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <f272c949-3c12-a35c-40e3-2c8ce5cb9fab@gmail.com>
-Date: Fri, 22 Feb 2019 07:20:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <db68711ecba94d9aa3fd99ff16652e78@XBOX04.axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [thud][PATCH 1/2] libaio: Extend to native
+	Fri, 22 Feb 2019 15:44:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 86C5621957;
+	Fri, 22 Feb 2019 10:44:32 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute5.internal (MEProxy); Fri, 22 Feb 2019 10:44:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=lesv0IXwE4hedzesEvkEzHq7seCsfzzlrrt9k1xdq
+	zE=; b=p2ZBGpeHIuGUSNRWONoEWXJ6Om3T1IXaIC7jho0/3UJlt8MJ1NRNTRqLG
+	k7XqesBP+ohcEAYcq13L4tval443le3ryDOclaGdiOhDZBfv9l7J/dvc1GefPk49
+	TewsrzEqm/BnFWomLgpwc1f/2BpQ4aKHzOzovmcBjqBCpezcmZ5ARCh3iilyto/h
+	OG3+8b1CIo2gYnkH6V5Nfz/wfIlmzNc/dW7MWVUbePmigntZkY7qhiaCX7R+6XC/
+	3jq4u7dgfVkcdqc3F/AIDOYQVJlypeCCRLSxvXQXLrS2RYs3pbEs6QbHI/yI67d3
+	B/pKBd0izg01zIIC3z3xp62nO0nFw==
+X-ME-Sender: <xms:4BhwXPK8JGxgiLrrWpnA5gd4iX9qmplomPbKeFoK3FSFJ_piyNp7qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddruddtgdekvdculddtuddrgedtledrtddtmd
+	cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthen
+	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+	cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepvfgrnhhu
+	ucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhfiheqnecuffhomhgrihhnpehlih
+	gsvghrrghprgihrdgtohhmpdgrlhhsrgdrohhrghdphihotghtohhprhhojhgvtghtrdho
+	rhhgpdgrlhhsrgdqphhrohhjvggtthdrohhrghdpohhpvghnvghmsggvugguvggurdhorh
+	hgpdhprghtrhgvohhnrdgtohhmnecukfhppeekkedruddufedrvdduuddrjedvnecurfgr
+	rhgrmhepmhgrihhlfhhrohhmpehtrghnuhhksehikhhirdhfihenucevlhhushhtvghruf
+	hiiigvpedt
+X-ME-Proxy: <xmx:4BhwXHbUorkAb07l_ReNYwe9lqfsG0gHE90kXaFGw9YMj55rLTn_YA>
+	<xmx:4BhwXCtnqUcNggte0qYGZRo8TFU17Gf3zi8rMoeUQQ30LMJX22hatg>
+	<xmx:4BhwXMuYdCpcuV5sZqJTdKVqAeYOZPC1xeEaL9JU77WaFE1o5gcM4w>
+	<xmx:4BhwXAXHtUA3bdaJjyTuufDa3OZNfgSh5uw1sriHaHI_n2ztne3KzA>
+Received: from laptop (88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 52F0B10338;
+	Fri, 22 Feb 2019 10:44:31 -0500 (EST)
+Message-ID: <27075bf6603464acccbbac21c2fe369a8a4c191b.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Feb 2019 17:44:27 +0200
+In-Reply-To: <CAMKF1soTbbU-ht1A7Pm6NRh8i4r7Lf4UtkVQzBsy7GfUHWd=uw@mail.gmail.com>
+References: <cover.1550755109.git.tanuk@iki.fi>
+	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
+	<CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
+	<236c2e06d12bde612ffa2399cedb9bbfce7dd5dc.camel@iki.fi>
+	<CANNYZj-PdeoHukCN7_i8RgZDYRCS3dc3xWDhKXvuienyNzUFVA@mail.gmail.com>
+	<CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
+	<CAMKF1soTbbU-ht1A7Pm6NRh8i4r7Lf4UtkVQzBsy7GfUHWd=uw@mail.gmail.com>
+User-Agent: Evolution 3.30.4-1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] alsa recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,57 +66,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 15:20:39 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 22 Feb 2019 15:44:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
+On Fri, 2019-02-22 at 07:01 -0800, Khem Raj wrote:
+> On Thu, Feb 21, 2019 at 10:33 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> > ftp://ftp.alsa.org seems inaccessible or unstable:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/317/steps/7/logs/step1b
+> > (also can't open it on my local machine)
+> > and generally we prefer http:// sources over ftp, if available.
+> > 
+> > Alsa does have one: https://www.alsa-project.org/files/
+> > 
+> > so can you please resend with SRC_URIs changed to use it? (also for
+> > alsa-tools and everywhere where the ftp is currently used)
+> > 
+> > Alex
+> 
+> seeing this fetch issue building alsa-utils-scripts
+> 
+> ERROR: Fetcher failure for URL:
+> 'https://www.alsa-project.org/files/pub/utils/alsa-utils-scripts-1.1.8.tar.bz2'.
+> Unable to fetch URL from any source.
 
+Fixed in master-next:
+http://cgit.openembedded.org/openembedded-core/commit/?h=master-next&id=865147cdfff8dd2762aa9ccf4672aacec0a8040f
 
-On 2/22/19 3:00 AM, Peter Kjellerstedt wrote:
-> *ping*
->
-> //Peter
+-- 
+Tanu
 
-you mean this?
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-extended/libaio?h=thud&id=40350b46d5c053b4336cc128922f44ce80e7da9a
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
->> Sent: den 22 december 2018 23:13
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [thud][PATCH 1/2] libaio: Extend to native
->>
->> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->>
->> lvm2 currently requires libaio. So building lvm2-native will result in
->> the following error.
->>
->>   ERROR: Required build target 'lvm2-native' has no buildable providers.
->>   Missing or unbuildable dependency chain was: ['lvm2-native', 'libaio-native']
->>
->> Extend libaio to native to fix this issue.
->>
->> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>
->> This is a backport from master.
->>
->>  meta/recipes-extended/libaio/libaio_0.3.111.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-extended/libaio/libaio_0.3.111.bb b/meta/recipes-extended/libaio/libaio_0.3.111.bb
->> index 04b50b61ec..8e1cd349a0 100644
->> --- a/meta/recipes-extended/libaio/libaio_0.3.111.bb
->> +++ b/meta/recipes-extended/libaio/libaio_0.3.111.bb
->> @@ -20,4 +20,4 @@ do_install () {
->>      oe_runmake install DESTDIR=${D}
->>  }
->>
->> -BBCLASSEXTEND = "nativesdk"
->> +BBCLASSEXTEND = "native nativesdk"
->> --
->> 2.12.0
+https://www.patreon.com/tanuk
+https://liberapay.com/tanuk
 
 
