@@ -1,52 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E9227CBED
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id E8AF67CBE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 15:01:35 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id d2so2737079qti.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 07:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YYbTNhgdDjeQzRD52KPlR/9JpyPWvQYd8Qpmhfr+1sU=;
-	b=f33R+HWGieqn/sftY0OOGRFk9QMEjV5cRXMRPCtT0wpJ+g9VERXxpeJd+dUfBMGE//
-	AXKl/JxEuFrWnIsiY7UTFPwzuQCIn5pdJMo3KiDg3taCtWt0wa2e/SFs83rQN81mhtiy
-	m9Dkk9REVkFbNvDnooTuZYpjyzyn0CotCiTPj274luXFaxPJVZIt3cxR4uLfIikX4k55
-	QVTQyjlEZy3WpumGGTSYtID91WzURDfMKAhjh93l0mEhsLPDX7AfQhqcLTgwSyMHXUN7
-	otM58ECGf/10sc6UVwb/w5++1kqtnbaSRpDpfi75wHqa/9eaIX2ITHcPX/flOJ26z1mH
-	drFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YYbTNhgdDjeQzRD52KPlR/9JpyPWvQYd8Qpmhfr+1sU=;
-	b=TxNUUVyFiGDkaCNOs9BpFxsLKNWmbzU0gZUCWAQg4QF+py21VXdI4+vvqQZLFN2WoX
-	S7ejh87sv6WeZdb/VQnBzKzxyBHQWORkbOhjIcVbJODwZ8PyrMZHlLqI62MljZtp2Yfo
-	vVsrKp0sZ11cOMQvAHmiMoBsPqbhA1DMAIwrBgCONNWwzMVixOWOmM+6WAoUb/Ei3Rdx
-	T9j9cFzNXgbkwpC/i49Ps6MEJ4Qu4POeYoRWr55Ecjfbu4iig4wclSbmrCMTSv4mghQw
-	EiHI2KzU5EfloujfFlMbdCWxn9Uw4Jwe2CWiD8AaspF983t5yBGHZ+B3OjV90CAdEl1S
-	uIoA==
-X-Gm-Message-State: AHQUAuZFYMBNpHy8mU/MYfPpAB/SrZ0SU5nJ6VcURVQKNXzyT+ukH45Q
-	sEWSue8tVCte58aXM6+Bg7Jyq2pmQI+jqWjc0NfT5/hr
-X-Google-Smtp-Source: AHgI3IYBhLtDhewnEg8AAlCflQblbDISAMDmDAmrRx2Tw84XZFMiFkR9TCcu9h16Rc1v4ZGQ7NETLefp2zKlyULNDmk=
-X-Received: by 2002:aed:2268:: with SMTP id o37mr3445173qtc.29.1550847696042; 
-	Fri, 22 Feb 2019 07:01:36 -0800 (PST)
+	Fri, 22 Feb 2019 15:14:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 445Zcw2XqfzJs;
+	Fri, 22 Feb 2019 16:14:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1550848464;
+	bh=I/W08zjnPSLTWOWu3Td49/euFyzmCnILymADohI96v8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QFlJhyb9GfHLeV35m4N7sNJ26T5sPEQ92QYeQDC8vpummwAXToWHbviSZoQTb6Eyn
+	ZUmry4XRWvb9aXH910ziYT33wz6v05eeCMRPC0RD5zB857o3yNNxdDO68TURhcFPaP
+	CEZVUL3UTtYiZDls2YobvPDKshdV2GBdGk2K7/hiRqDPO8TlOBrtxmM1n1xC1Ay2+d
+	2DY28RDAceD2CgIAy7ZTPSv5Gtt0v48BNtXPLRt9EbSVEyvJAO9KOGdOfk6LmNDzpV
+	fx+MsrstZk4nuGjv/q43Pz0CzaKRdQRoe0nnnfiAa2VJGumnCJ49Uyy1So5J1vVMGI
+	9UYwD819mYi3E6BNy7/lzTAQKLDxMAgbS0TgTdjL+3nsM43Nk7IL1KydjSYxmv+q8f
+	SZXm8kOUTirxrteMn57L4m3LTY2UvkBLHBFAgkTE7Vu945azdePJZfMHkeP4wF46Ye
+	8MceAAeqM0x8z3iNEHUeJ7Qjv4C8fISzfJ79+nirUagS14vcdwdrQwk5QAYyE6SkGb
+	vagizCLgnapcqOgN45oao1CMKQqpTMJB2HASHP60vnZS430LOcIo7IT+XU2mr5RmoG
+	Q11zZjUDYG3SeU2KW94dbTYyW6wFnHlaognlIr6u0oElqNdJVI+qX7TUPY74rPOMuO
+	3z6pL9cB53/p5HLwWB8rki40=
+Date: Fri, 22 Feb 2019 17:14:23 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190222151423.GA24699@localhost>
+References: <20190221124130.25733-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <cover.1550755109.git.tanuk@iki.fi>
-	<CANNYZj8f0SMDZd3wryCZ0A2=RjLfOAR6q5=bLsV+QgWDakJ_7g@mail.gmail.com>
-	<CANNYZj-8euMhvqpAwHoZfofAm=FdCtJSb9i7QOMiTGMhv=322w@mail.gmail.com>
-	<236c2e06d12bde612ffa2399cedb9bbfce7dd5dc.camel@iki.fi>
-	<CANNYZj-PdeoHukCN7_i8RgZDYRCS3dc3xWDhKXvuienyNzUFVA@mail.gmail.com>
-	<CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
-In-Reply-To: <CANNYZj85xGjdwMLRc3EzWzyZh6xBc+-GKhM5hwyxf3uXjS5epw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Feb 2019 07:01:09 -0800
-Message-ID: <CAMKF1soTbbU-ht1A7Pm6NRh8i4r7Lf4UtkVQzBsy7GfUHWd=uw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Tanu Kaskinen <tanuk@iki.fi>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] alsa recipe updates
+In-Reply-To: <20190221124130.25733-1-richard.purdie@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/14] blktool: upgrade 4-7 -> 4-7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,111 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 15:01:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 22 Feb 2019 15:14:25 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, Feb 21, 2019 at 10:33 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> ftp://ftp.alsa.org seems inaccessible or unstable:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/317/steps/7/logs/step1b
-> (also can't open it on my local machine)
-> and generally we prefer http:// sources over ftp, if available.
->
-> Alsa does have one: https://www.alsa-project.org/files/
->
-> so can you please resend with SRC_URIs changed to use it? (also for
-> alsa-tools and everywhere where the ftp is currently used)
->
-> Alex
+On Thu, Feb 21, 2019 at 12:41:17PM +0000, Richard Purdie wrote:
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../blktool/{blktool_4-7.bb => blktool_4-7.1.bb}                | 2 ++
+>  1 file changed, 2 insertions(+)
+>  rename meta/recipes-extended/blktool/{blktool_4-7.bb => blktool_4-7.1.bb} (90%)
+> 
+> diff --git a/meta/recipes-extended/blktool/blktool_4-7.bb b/meta/recipes-extended/blktool/blktool_4-7.1.bb
+> similarity index 90%
+> rename from meta/recipes-extended/blktool/blktool_4-7.bb
+> rename to meta/recipes-extended/blktool/blktool_4-7.1.bb
+> index 0e6f7ee6df1..468925e329b 100644
+> --- a/meta/recipes-extended/blktool/blktool_4-7.bb
+> +++ b/meta/recipes-extended/blktool/blktool_4-7.1.bb
+> @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>  
+>  DEPENDS = "glib-2.0"
+>  
+> +SRC_URI[sha256sum] = "b1e6d5912546d2a4b704ec65c2b9664aa3b4663e7d800e06803330335a2cb764"
+> +SRC_URI[md5sum] = "62edc09c9908107e69391c87f4f3fd40"
 
-seeing this fetch issue building alsa-utils-scripts
+Adding hashes insted of updating them looks wrong.
 
-ERROR: Fetcher failure for URL:
-'https://www.alsa-project.org/files/pub/utils/alsa-utils-scripts-1.1.8.tar.bz2'.
-Unable to fetch URL from any source.
+>  SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/b/${BPN}/${BPN}_4.orig.tar.gz;name=tarball \
+>...
 
+And the recipe seems to build the stale upstream version 4,
+not the Debian-patched package.
 
->
-> On Thu, 21 Feb 2019 at 19:09, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> >
-> > Bah, and I often point out to people that they should read *my* cover letters :)
-> > Thanks!
-> >
-> > Alex
-> >
-> > On Thu, 21 Feb 2019 at 17:41, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > >
-> > > Richard already sent the update for sbc, so I left it out. As for alsa-
-> > > tools, if you read the cover letter in more detail, you'll find the
-> > > answer there :) (Spoiler: I'll send it, but it's not ready yet.)
-> > >
-> > > -- Tanu
-> > >
-> > > On Thu, 2019-02-21 at 15:57 +0100, Alexander Kanavin wrote:
-> > > > (Also sbc needs an update, I think)
-> > > >
-> > > > Alex
-> > > >
-> > > >
-> > > > On Thu, 21 Feb 2019 at 15:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > > > > Thanks! Will you be also sending an update to alsa-tools?
-> > > > >
-> > > > > Alex
-> > > > >
-> > > > > On Thu, 21 Feb 2019 at 14:34, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > > > > > The following changes since commit f15ceac287c094abdeda64b03628455d92e0ce74:
-> > > > > >
-> > > > > >   libdrm: Upgrade 2.4.96 -> 2.4.97 (2019-02-20 21:22:28 +0000)
-> > > > > >
-> > > > > > are available in the Git repository at:
-> > > > > >
-> > > > > >   git://git.openembedded.org/openembedded-core-contrib tanuk/updates
-> > > > > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=tanuk/updates
-> > > > > >
-> > > > > >
-> > > > > > The alsa-tools update is missing, because the recipe upgrade deadline is
-> > > > > > near and the changes in alsa-tools look like a potential rabbit hole.
-> > > > > > I'll send the alsa-tools update separately when it's ready. The main
-> > > > > > change in alsa-tools is that the hwmixvolume program got ported from
-> > > > > > PyGTK to gobject-introspection, and from GTK2 to GTK3. I doubt anyone
-> > > > > > actually is using that program, it's not even built by default.
-> > > > > >
-> > > > > >
-> > > > > > Tanu Kaskinen (3):
-> > > > > >   alsa-lib: 1.1.6 -> 1.1.8
-> > > > > >   alsa-plugins: 1.1.6 -> 1.1.8
-> > > > > >   alsa-utils: 1.1.6 -> 1.1.8
-> > > > > >
-> > > > > >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  4 +-
-> > > > > >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 84 +++++++++++++++++--
-> > > > > >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
-> > > > > >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 10 +--
-> > > > > >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
-> > > > > >  5 files changed, 85 insertions(+), 15 deletions(-)
-> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb} (88%)
-> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} (51%)
-> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} (100%)
-> > > > > >  rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} (92%)
-> > > > > >
-> > > > > > --
-> > > > > > 2.20.1
-> > > > > >
-> > > > > > --
-> > > > > > _______________________________________________
-> > > > > > Openembedded-core mailing list
-> > > > > > Openembedded-core@lists.openembedded.org
-> > > > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > > --
-> > > Tanu
-> > >
-> > > https://www.patreon.com/tanuk
-> > > https://liberapay.com/tanuk
-> > >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+In a related note, an actual upgrade 4-7 -> 4-7.1 would have failed 
+since the new patch in 4-7.1 is already applied in yocto.
+
+# for this package we're mostly interested in tracking debian patches,
+# and not in the upstream version where all development has effectively stopped
+
+This seems to imply that every new "upstream" version requires manual 
+checking of the Debian changes, and an automatic upgrade does nothing.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
