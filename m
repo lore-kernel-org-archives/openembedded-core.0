@@ -1,50 +1,59 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B94107CBCE
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BA387CBCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 07:25:51 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id x10so968930wmg.2
+	Fri, 22 Feb 2019 07:35:13 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id i16so1190228wrs.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 23:25:53 -0800 (PST)
+	Thu, 21 Feb 2019 23:35:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=yk7UMIzcANFytMCm3UeuKmnVO36z8/qJTPeIgonv2BY=;
-	b=Qlsl6WIcNn3S73vXvPCWzuDg7bHf1UFrvV9ZyQh3dcK6BUyB++kfuY6wECv4BVDz8K
-	n4DWUSfXWmQPwRPbcXMhHqz5PZLUBmh5fBXkSHjxjPBRuqMsGZAUKw7FBbPVW5Al1PzU
-	zm5la2GfLDdlIoykl1Odf22yTaNpgNKYOZX84=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=WBpu6osC7WWhjsIOZyBB1mr6EWh4jwun+/V/qxNw0Ag=;
+	b=E7hwsjVSMfDZAxzers9Km1MmPSL/5nBDmu+pV4iJGRbVCFNT0ldv8ux//7/pHAxzI9
+	qf7O65rjRolOPFnkwfwW610QcuBZs5NXVDfCBQT3HOaSTH3Vag/avJ8wrzKyRK2Lpvnp
+	m1fT7uqFrXJE/baijtSN4XCVi4djRBUtqNM9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=yk7UMIzcANFytMCm3UeuKmnVO36z8/qJTPeIgonv2BY=;
-	b=PujYKtOJgFnD3WAzbkN5Ow3Oafqvi4l+RsL7DQeRl7h4Ths7tNa+w/iHFjabjJH/EL
-	8bSBYp3uLcyCpVj9wihJrdCtTZ2LwBd4WuqoDpg3VgchWRQJG2slfKuy0vVpoZv9TeU/
-	CA9J0aSmJu8Td7gj5NtZ38CkM5QiUvqxLKdxr6P06QwVOsoNZ9Nr/couTYNwbqyGkMDf
-	CTHLKiuLaGRYB/vlm9gZmkWtJYjD7tpwb10NhBbdaympNbNt9+pDC/GM1XqhvMczQlr4
-	mY+Epp+fXFGqsSAOpIDCP6S2qijEgilabSTE9S26suweCywnva9r+2qmXl+XNg8PNiuw
-	nMEQ==
-X-Gm-Message-State: AHQUAuazY4UOT0bqIib4Ur+WU0lmsVx1tWGlxnrAh1H+zy22toUTFaCT
-	ja+ga8wuue5giKOaoT02gmpuCg==
-X-Google-Smtp-Source: AHgI3IZlwXWACCq4A9fV1gJMdKw/cBIyJ4pGSKG3RRwUsyzgrUpM49FVnttuQqG08mAmZujZh/5wEQ==
-X-Received: by 2002:a1c:7a1a:: with SMTP id v26mr1385312wmc.129.1550820352226; 
-	Thu, 21 Feb 2019 23:25:52 -0800 (PST)
+	bh=WBpu6osC7WWhjsIOZyBB1mr6EWh4jwun+/V/qxNw0Ag=;
+	b=WatE1L+d4w7A8iH0TBXONCNQ1XiMLFAmXIrb8r5fMNiCqS0Yxk9xaXpwk0bSHCYvw4
+	9ayB6b0YKjCnvvd3ZYnY0jWak5Cx1L6Xg7ZWiRW4DJoV2KIPu6+OJS5Vu06n8MHU+Fx0
+	kcOWBWh00Sgskw4eK1fGVnSNNdRnbJ5aDLibWmbJSoYDDnJeO1nz3SB3h+C63ioGLbG2
+	WqQ1Ucn7+lCAE+usK1PAe+m+hTxIHq+or4w761QR0avcPo79+s3YLm1m35fN1Kxx6Y+S
+	v/4F5nKivyhMYyM3p6S/1uqT1uqKRPe9xmphTWyFry8ARhprC3+9zIMIYNNR4IcIbkid
+	wZsg==
+X-Gm-Message-State: AHQUAuYT8tzqxKCJ7egumq1RcYCXBwLtB4sEaXdfvlEz0NvkUQyb0pZm
+	nAiouKigkwkLyTkoJfm6oiUY0g==
+X-Google-Smtp-Source: AHgI3IbtxOI3OovlwGqSdBnbi6bXwUYXDkCXB1bP85r5c6gBJzO5WEK+tsMxof5LO+flG+RJXZeIaQ==
+X-Received: by 2002:adf:dc10:: with SMTP id t16mr1868542wri.40.1550820914734; 
+	Thu, 21 Feb 2019 23:35:14 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id k6sm1331672wrq.82.2019.02.21.23.25.51
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Feb 2019 23:25:51 -0800 (PST)
-Message-ID: <7a1ce7ab12631b1980d4815ee955d10958275f1d.camel@linuxfoundation.org>
+	by smtp.gmail.com with ESMTPSA id
+	i74sm1267342wmg.48.2019.02.21.23.35.13
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 21 Feb 2019 23:35:13 -0800 (PST)
+Message-ID: <255f8e465f5495754319c372b39b5f94293a8d5d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tanu Kaskinen <tanuk@iki.fi>, openembedded-core@lists.openembedded.org
-Date: Fri, 22 Feb 2019 07:25:50 +0000
-In-Reply-To: <52ec539cbf4ec7511f1259fef31e0c13244b0836.1550779769.git.tanuk@iki.fi>
-References: <cover.1550779769.git.tanuk@iki.fi>
-	<52ec539cbf4ec7511f1259fef31e0c13244b0836.1550779769.git.tanuk@iki.fi>
+To: Rich Persaud <persaur@gmail.com>
+Date: Fri, 22 Feb 2019 07:35:12 +0000
+In-Reply-To: <4C429FC4-E68A-4AFC-B8D6-61DFF45CE2AA@gmail.com>
+References: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
+	<20734cff-3215-7a9d-8bc1-87d7238876fb@windriver.com>
+	<6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
+	<6673aa01794a9a5466969fa4a39d28b46649173d.camel@linuxfoundation.org>
+	<4C429FC4-E68A-4AFC-B8D6-61DFF45CE2AA@gmail.com>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 3/3] alsa-utils: 1.1.6 -> 1.1.8
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Incorporating deploy artefacts from one multiconfig in another multiconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +66,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 07:25:51 -0000
+X-List-Received-Date: Fri, 22 Feb 2019 07:35:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-02-21 at 22:13 +0200, Tanu Kaskinen wrote:
-> SRC_URI was changed to a more reliable source (at least currently the
-> ftp server is flaky).
+On Thu, 2019-02-21 at 20:09 -0500, Rich Persaud wrote:
+> > On Feb 21, 2019, at 18:51, Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > Multiconfig is meant to support this workflow. Unfortunately there
+> > are
+> > open bugs and people haven't the time to work on it so its stalled.
+> > That said, the key pieces are already there.
+> > 
+> > A picture is worth a thousand words. I thought a demo might
+> > interest
+> > people and "prove" this can work.
 > 
-> [...]
->  
-> -SRC_URI = "
-> ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-> -          "
-> -
-> -SRC_URI[md5sum] = "50ae75567459646b843bed78d916b002"
-> -SRC_URI[sha256sum] =
-> "155caecc40b2220f686f34ba3655a53e3bdbc0586adb1056733949feaaf7d36e"
-> +SRC_URI = "
-> https://www.alsa-project.org/files/pub/utils/${BP}.tar.bz2"
-> +SRC_URI[md5sum] = "54d6f9b483144823d0fc0c26e8cea028"
-> +SRC_URI[sha256sum] =
-> "fd9bf528922b3829a91913b89a1858c58a0b24271a7b5f529923aa9ea12fa4cf"
+> Thank you for the patches and PoC.  We will test and are motivated to
+> see this work.
 
-Thanks for the upgrades, its much appreciated!
+I've been thinking about what Alejandro and I discussed and I think the
+correct fix for the multiconfig code is to filter the BB_TASKDEPDATA at
+source in bitbake to remove the multiconfig entries for other
+multiconfigs. I'll try and work up a patch for that in the next day or
+two as the hacks on my branch that do this are fragile right now.
 
-I have a small fixup queued in master-next for this, the SRC_URI uses
-alsa-utils-${PV} because of the alsa-utils-scripts recipe. I'll squash
-that in when merging if that is ok.
+> I will also be experimenting with the generation of "immutable
+> infrastructure" from source code, to learn whether a single Packer.io
+> template can be used to both:
+> 
+> (a) modify binary images, in the traditional Packer model, e.g. start
+> a bitbake-generated image in a VM or container, make runtime
+> configuration changes, then repack the machine image
+> 
+> (b) perform automated customization  of _inputs_ to bitbake recipes
+> and package source code, such that a machine image built by bitbake +
+> Packer template is equivalent to the image generated by Packer at
+> runtime
+> 
+> If feasible, this would combine the agility of image customizations
+> with the security of bitbake's reproducible builds and supply chain
+> integrity.
+
+(a) definitely sounds easier than (b). I've not used packer.io but I'd
+be curious to see how that works out. People do find our image
+customisation hard to get to grips with :(
 
 Cheers,
 
