@@ -1,53 +1,48 @@
-Return-Path: <i.efimov@inango-systems.com>
-Received: from mail.inango-sw.com (mail.inango-systems.com [213.136.71.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E877CBE5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E9227CC0E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 18:32:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-sw.com (Postfix) with ESMTP id 04ADF7A24DD
+	Fri, 22 Feb 2019 18:54:37 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id x6so1764719qki.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 20:32:01 +0200 (IST)
-Received: from mail.inango-sw.com ([127.0.0.1])
-	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id nB3wsWAGzj8l
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 20:31:58 +0200 (IST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-sw.com (Postfix) with ESMTP id A38097A24DF
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 20:31:58 +0200 (IST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-sw.com A38097A24DF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
-	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1550860318;
-	bh=LlMKTlrKolhfh7u/7PTuaq0BPAolJZClq+LJVyJykk8=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=oGjPoABidgDloDlZoCdPdA8KdEsuzaX1haGFF0GjqqpBnvlY6m3Ep98TtLP2EncoD
-	wSnHEzYeOdd87Gtp3w6klCW1Y2+3gioxzYajwXRUkWAm0ufHd2rC83BSh9qNkPwe5P
-	u/EdfW1k57ecEYSUAb5YkY0AyW7n9QA16kOrLq6j6If1lQkkvr/XcSV1vdqJrA6E+O
-	A6DoOBdcmuP+DPdtPt6eTYvr+FpQLC5v3b9jZDFUMJbkIkj9c0tirEGWg8I9MkvfTk
-	Lq4R1GWeIXh5dqQI7iTT5WpWSmCwuupOrwpO8GAsSF8uhfp/MpsH2Bh219DtR/VsMj
-	N3SH5FNZpcd9A==
-X-Virus-Scanned: amavisd-new at inango-sw.com
-Received: from mail.inango-sw.com ([127.0.0.1])
-	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dXDXSLbi5BhU
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 20:31:58 +0200 (IST)
-Received: from mail.inango-sw.com (mail.inango-sw.com [172.17.220.3])
-	by mail.inango-sw.com (Postfix) with ESMTP id 62D317A24DD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 20:31:58 +0200 (IST)
-Date: Fri, 22 Feb 2019 20:31:58 +0200 (IST)
-From: Ivan Efimov <i.efimov@inango-systems.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <1928708604.1124302.1550860318265.JavaMail.zimbra@inango-systems.com>
+	Fri, 22 Feb 2019 10:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=5o/K2s7kKTWxakrRePe9vuwqYG2h+K35V+5FrKEi3UU=;
+	b=KZh/FQh46tdeZWJmfcYdBn2nz+ytrFWeiwh64tTCJR+8dOBMScJLHmY0MxR5ThFUjU
+	dQ6hVKOLHJOjz+VXKxNjqUxcw45HIs7d4wmmP/jdqsBZgKR+E0dYK07UEjt94Ih7W2a/
+	Chg504ASmhs+8A3BBoMRF23QjYP2pZ66VNTA4690ucO/HTATnywwn/8Lx+ITehvzmDir
+	Eod/w1BJKe0V5iwzVNO9khDNezEpYhrBnfmc0dxQ7eSXwOrku+P1pESbCOPXhYEilfS+
+	0pBWubEps8EZUNG6l0RGNNfB4tkag+u0stscPEkmQ4fHwh0bAu8hq0iDQiKBZ0rCSFA8
+	bVYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=5o/K2s7kKTWxakrRePe9vuwqYG2h+K35V+5FrKEi3UU=;
+	b=RyEakxZAeVNyH5TNZ0cuhiu5N1zRCBFmC4LKXRjqggkLcvpd0C5gm8PGpqpyXwNKGY
+	xXMCu/Y0/MdhNZHPO8FDHZMkLYfj036X8aqPfwgY9RslOJno4gj09jmxpxM8Ublie3xR
+	kcgEckdNT6wolXVUxulPpP0saGvkfWFe2BV/WktCqJvJz7RRF2sffBuidYdsRYy61823
+	japFBm5rijw+efQLwSdmpfRM3T2Nm9VZZGuR8JrV+4yf2mW7C3HSe8sYLDfoUVJVlozz
+	9eZRu5Y4MfjGd5eo7x2Byj5AZl2SEr3KncpeSQugfPsobNwU+DzyHvu0HvkewpXCPtfH
+	bcdA==
+X-Gm-Message-State: AHQUAuZuGy0/sUyHatMmEGyvFSlCIQ7lPEiwWOoYdNqIi7CxEZT35niF
+	whCaKgfZDgYDESCYRGI8CCALnt81z3SBRNpPy+A=
+X-Google-Smtp-Source: AHgI3Ib2zQ6lzGDE7uKZc1w4fn0hGKqdz9AFUTO2eRDroUKwKDf9bgbLaPSkKvNVRLRTvQTORMjM5ziEkFBn/42CCFk=
+X-Received: by 2002:a37:3d6:: with SMTP id 205mr3998552qkd.223.1550861678660; 
+	Fri, 22 Feb 2019 10:54:38 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [172.17.220.3]
-X-Mailer: Zimbra 8.8.9_GA_3006 (ZimbraWebClient - FF65 (Linux)/8.8.9_GA_3006)
-Thread-Index: rhjJpcJ3VrJLIvmJLDhyU/mtc13vxw==
-Thread-Topic: btrfs-tools Makefile: remove duplicated '-o $@' option from CC
-	cmdline for libbtrfsutil/ subfolder
-Subject: [PATCH] btrfs-tools Makefile: remove duplicated '-o $@' option from CC cmdline for libbtrfsutil/ subfolder
+References: <cover.1550845989.git.alex.kanavin@gmail.com>
+	<bd7acae5310c012ee39c5142fa0059c88fcc4b57.1550845989.git.alex.kanavin@gmail.com>
+In-Reply-To: <bd7acae5310c012ee39c5142fa0059c88fcc4b57.1550845989.git.alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Feb 2019 10:54:12 -0800
+Message-ID: <CAMKF1sqHzK6Q8-GNLV6Yc5_QuWjKaUMWO==twypXYmRtmvGpKg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,112 +55,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 18:32:01 -0000
-Content-Type: multipart/alternative; 
-	boundary="=_e4bb9630-75eb-42d5-b726-58ef14653d89"
+X-List-Received-Date: Fri, 22 Feb 2019 18:54:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---=_e4bb9630-75eb-42d5-b726-58ef14653d89
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+https://errors.yoctoproject.org/Errors/Details/229902/
 
-Command line for target "libbtrfsutil/%.o" contained 
-double usage of '-o $@' option and causes compilation error: 
+mips/glibc
 
-cc1: error: too many filenames given 
+On Fri, Feb 22, 2019 at 6:34 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> This component enables hardware-accelerated GL inside QEMU guests.
+> For more information, see here:
+>
+> https://lwn.net/Articles/767970/
+> https://www.collabora.com/news-and-blog/blog/2018/02/12/virtualizing-gpu-access/
+> https://www.collabora.com/news-and-blog/blog/2018/05/09/gpu-virtualization-update/
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  ...efile.am-explicitly-link-with-libdrm.patch | 31 +++++++++++++++
+>  .../0001-vtest-add-missing-includes.patch     | 38 +++++++++++++++++++
+>  .../virglrenderer/virglrenderer_0.7.0.bb      | 19 ++++++++++
+>  4 files changed, 89 insertions(+)
+>  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-Makefile.am-explicitly-link-with-libdrm.patch
+>  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-missing-includes.patch
+>  create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 4e3fc103afc..f5e6343904b 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -700,6 +700,7 @@ RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-v86d = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-vala = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-valgrind = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER_pn-virglrenderer = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER_pn-vte = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-vulkan = "Ross Burton <ross.burton@intel.com>"
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Makefile.am-explicitly-link-with-libdrm.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Makefile.am-explicitly-link-with-libdrm.patch
+> new file mode 100644
+> index 00000000000..aa8d814845e
+> --- /dev/null
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Makefile.am-explicitly-link-with-libdrm.patch
+> @@ -0,0 +1,31 @@
+> +From d61f7073b8ce159d21811b291c22b273b040c330 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Tue, 12 Feb 2019 12:04:52 +0100
+> +Subject: [PATCH] Makefile.am: explicitly link with libdrm
+> +
+> +Otherwise, a failure happens with gold linker:
+> +
+> +../src/.libs/libvirglrenderer.so: error: undefined reference to 'drmPrimeHandleToFD'
+> +
+> +https://errors.yoctoproject.org/Errors/Details/222046/
+> +
+> +Upstream-Status: Accepted [https://gitlab.freedesktop.org/virgl/virglrenderer/merge_requests/153]
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + src/Makefile.am | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/src/Makefile.am b/src/Makefile.am
+> +index 9a0a44e..9b668c8 100644
+> +--- a/src/Makefile.am
+> ++++ b/src/Makefile.am
+> +@@ -1,5 +1,6 @@
+> + SUBDIRS := gallium/auxiliary
+> + AM_LDFLAGS = -lm \
+> ++      $(LIBDRM_LIBS) \
+> +       $(GBM_LIBS) \
+> +       $(EPOXY_LIBS) \
+> +       $(X11_LIBS) \
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-missing-includes.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-missing-includes.patch
+> new file mode 100644
+> index 00000000000..2b4ffa932de
+> --- /dev/null
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-missing-includes.patch
+> @@ -0,0 +1,38 @@
+> +From 05c5c5f43fbffb3317bd9da27d414890d2ef493c Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Fri, 18 Jan 2019 13:47:23 +0100
+> +Subject: [PATCH] vtest: add missing includes
+> +
+> +This fixes build failures with musl C library
+> +
+> +Upstream-Status: Accepted [https://gitlab.freedesktop.org/virgl/virglrenderer/merge_requests/125]
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + vtest/util.c         | 1 +
+> + vtest/vtest_server.c | 1 +
+> + 2 files changed, 2 insertions(+)
+> +
+> +diff --git a/vtest/util.c b/vtest/util.c
+> +index 0d3c78f..c605253 100644
+> +--- a/vtest/util.c
+> ++++ b/vtest/util.c
+> +@@ -26,6 +26,7 @@
+> + #include <stdio.h>
+> + #include <string.h>
+> + #include <unistd.h>
+> ++#include <sys/select.h>
+> +
+> + int vtest_wait_for_fd_read(int fd)
+> + {
+> +diff --git a/vtest/vtest_server.c b/vtest/vtest_server.c
+> +index bc6c95f..010721f 100644
+> +--- a/vtest/vtest_server.c
+> ++++ b/vtest/vtest_server.c
+> +@@ -31,6 +31,7 @@
+> + #include <netinet/in.h>
+> + #include <sys/un.h>
+> + #include <fcntl.h>
+> ++#include <string.h>
+> +
+> + #include "util.h"
+> + #include "vtest.h"
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> new file mode 100644
+> index 00000000000..500ed4f2d8b
+> --- /dev/null
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> @@ -0,0 +1,19 @@
+> +SUMMARY = "VirGL virtual OpenGL renderer"
+> +HOMEPAGE = "https://virgil3d.github.io/"
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+> +
+> +DEPENDS = "libdrm mesa libepoxy"
+> +SRCREV = "402c228861c9893f64cffbbcb4cb23044b8c721c"
+> +SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+> +           file://0001-vtest-add-missing-includes.patch \
+> +           file://0001-Makefile.am-explicitly-link-with-libdrm.patch \
+> +           "
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools pkgconfig
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> +
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Signed-off-by: Ivan Efimov <i.efimov@inango-systems.com> 
---- 
-...01-Makefile-fix-double-o-compiler-option-using.patch | 17 +++++++++++++++++ 
-meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb | 1 + 
-2 files changed, 18 insertions(+) 
-create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch 
-
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-dou$ 
-le-o-compiler-option-using.patch 
-new file mode 100644 
-index 0000000000..335067bc1f 
---- /dev/null 
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch 
-@@ -0,0 +1,17 @@ 
-+Command line for target "libbtrfsutil/%.o" contained double usage 
-+ of '-o $@' option and caused error: 
-+ cc1: error: too many filenames given 
-+ 
-+Index: git/Makefile 
-+=================================================================== 
-+--- git.orig/Makefile 
-++++ git/Makefile 
-+@@ -414,7 +414,7 @@ libbtrfs.so.0 libbtrfs.so: libbtrfs.so.0 
-+ 
-+ libbtrfsutil/%.o: libbtrfsutil/%.c 
-+ @echo " [CC] $@" 
-+- $(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -o $@ -c $< -o $@ 
-++ $(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -c $< -o $@ 
-+ 
-+ libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects) 
-+ @echo " [LD] $@" 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb 
-index 1b4f515cb6..f1c4691313 100644 
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb 
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb 
-@@ -19,6 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \ 
-file://0001-Makefile-build-mktables-using-native-gcc.patch \ 
-file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \ 
-file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \ 
-+ file://0001-Makefile-fix-double-o-compiler-option-using.patch \ 
-" 
-
-inherit autotools-brokensep pkgconfig manpages distutils3-base 
--- 
-2.14.1 
-
---=_e4bb9630-75eb-42d5-b726-58ef14653d89
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
-ize: 12pt; color: #000000"><div>Command line for target "libbtrfsutil/%.o" =
-contained<br>double usage of '-o $@' option and causes compilation error:<b=
-r><br>&nbsp;&nbsp;&nbsp;&nbsp; cc1: error: too many filenames given<br><br>=
-Signed-off-by: Ivan Efimov &lt;i.efimov@inango-systems.com&gt;<br>---<br>&n=
-bsp;...01-Makefile-fix-double-o-compiler-option-using.patch | 17 ++++++++++=
-+++++++<br>&nbsp;meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb |&=
-nbsp; 1 +<br>&nbsp;2 files changed, 18 insertions(+)<br>&nbsp;create mode 1=
-00644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-doubl=
-e-o-compiler-option-using.patch<br><br>diff --git a/meta/recipes-devtools/b=
-trfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.pat=
-ch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-dou$<b=
-r>le-o-compiler-option-using.patch<br>new file mode 100644<br>index 0000000=
-000..335067bc1f<br>--- /dev/null<br>+++ b/meta/recipes-devtools/btrfs-tools=
-/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch<br>@@ -=
-0,0 +1,17 @@<br>+Command line for target "libbtrfsutil/%.o" contained doubl=
-e usage<br>+&nbsp; of '-o $@' option and caused error:<br>+&nbsp;&nbsp;&nbs=
-p; cc1: error: too many filenames given<br>+<br>+Index: git/Makefile<br>+=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>+--- git.orig/Makefi=
-le<br>++++ git/Makefile<br>+@@ -414,7 +414,7 @@ libbtrfs.so.0 libbtrfs.so: =
-libbtrfs.so.0<br>+ <br>+ libbtrfsutil/%.o: libbtrfsutil/%.c<br>+&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; @echo "&nbsp;&nbsp;&nbsp; [CC]&nbsp;&nbsp;&nbsp;&=
-nbsp; $@"<br>+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(Q)$(CC) $(LIBBTRFSUTIL_CFLA=
-GS) -o $@ -c $&lt; -o $@<br>++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(Q)$(CC) $(LI=
-BBTRFSUTIL_CFLAGS) -c $&lt; -o $@<br>+ <br>+ libbtrfsutil.so.$(libbtrfsutil=
-_version): $(libbtrfsutil_objects)<br>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- @echo "&nbsp;&nbsp;&nbsp; [LD]&nbsp;&nbsp;&nbsp;&nbsp; $@"<br>diff --git a=
-/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb b/meta/recipes-dev=
-tools/btrfs-tools/btrfs-tools_4.20.1.bb<br>index 1b4f515cb6..f1c4691313 100=
-644<br>--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb<br>+++=
- b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb<br>@@ -19,6 +19,=
-7 @@ SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs=
--progs.git \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; file://0001-Makefile-build-mktables-using-native-gcc.patch \<br>&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file://0001=
--Add-LDFLAGS-when-building-libbtrfsutil.so.patch \<br>&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file://0001-Add-a-possibility=
--to-specify-where-python-modules-ar.patch \<br>+&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file://0001-Makefile-fix-double-o-compile=
-r-option-using.patch \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; "<br>&nbsp;<br>&nbsp;inherit autotools-brokensep pkgconfi=
-g manpages distutils3-base<br>-- <br>2.14.1<br></div></div></body></html>
-
---=_e4bb9630-75eb-42d5-b726-58ef14653d89--
