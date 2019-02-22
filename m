@@ -1,52 +1,29 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 13A357C679
+Return-Path: <Haitao.Liu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AED027C6AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 08:06:57 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id B1764220B3;
-	Fri, 22 Feb 2019 02:57:41 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute5.internal (MEProxy); Fri, 22 Feb 2019 02:57:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=0oF4NOgKRgt81CeScWUjOAY3+2N3sq19ZuzdF1gW9
-	o4=; b=PEIPjG1iaHXdL8qYG2oZkXeR3b1VCbL/fp8mqUHjXkjOtMlIRr+LrFO+0
-	DXJeoW8X4Y7+8o+qZ8u9oQVeRO7uWl0IMDdX0P+3X63j+pOFs/3hAo2zI0eol0pk
-	feJ2NEMHLQg+SY2O1FHKGEaVEq6h+GVisWblNbG3XDvgoZZtkxbqHjkWDR/3oiAQ
-	cih6tayRCoQgoAgMb9znb+J/yfycYFTZKuMs1tr8jNZaQbojTAzWD43HagRPGr8d
-	0UK7u6c8mzsZtCO6TB4G5h1kVneu8x2PdNKCItaNjSuySqww5zO5GGCgclsuHUA/
-	Tipzb+e/HnAy1NV9j4J7MphkAbzUg==
-X-ME-Sender: <xms:datvXLiBSgSfwNk_PHb-tJcvnU66xi9Teh_HC83yvZeuvaO8MnXI0g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrtdelgdduudefucdltddurdegtdelrddttd
-	dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhht
-	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-	enucfjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghn
-	uhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinheplh
-	hisggvrhgrphgrhidrtghomhdpphgrthhrvghonhdrtghomhenucfkphepkeekrdduudef
-	rddvuddurdejvdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhukhesihhkihdrfh
-	hinecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:datvXMSACYs4gY_mOY7TJbBr4qeNEOoBRiYt3hscdB3P4oLR5-GcmA>
-	<xmx:datvXGHYFitZiPhjNZlDGCMnfHadasFzZtGwgdvfaxahvAB_aMinYg>
-	<xmx:datvXMlQjIVlJzJZFdKrcUciI0497Q7qAZ7B_BOuzzxCQezipgRleg>
-	<xmx:datvXNZkHkfQZWoa2OHIrlnHDcCpXqttoDrkacbUhNiBnzRW_Y4ITg>
-Received: from laptop (88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C2D06E412B;
-	Fri, 22 Feb 2019 02:57:40 -0500 (EST)
-Message-ID: <8d6f73b49161cbbd2cffe2f756ec652ca11bafaa.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 22 Feb 2019 09:57:37 +0200
-In-Reply-To: <CANNYZj90S9_U-_6Qh0_vCG4cQEc5StRcdb1AdRNmr1BwCjRYqA@mail.gmail.com>
-References: <cover.1550779769.git.tanuk@iki.fi>
-	<CANNYZj90S9_U-_6Qh0_vCG4cQEc5StRcdb1AdRNmr1BwCjRYqA@mail.gmail.com>
-User-Agent: Evolution 3.30.4-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/3] alsa recipe updates
+	Fri, 22 Feb 2019 08:19:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1M8ISLH029393
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 22 Feb 2019 00:18:49 -0800
+Received: from localhost.localdomain (128.224.162.215) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.435.0; Fri, 22 Feb 2019 00:18:30 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1550815380-192596-1-git-send-email-haitao.liu@windriver.com>
+	<939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org>
+From: Haitaoliu <Haitao.Liu@windriver.com>
+Message-ID: <fcde04af-b11c-c6a1-96a8-e392f6433cc9@windriver.com>
+Date: Fri, 22 Feb 2019 16:15:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.0
+MIME-Version: 1.0
+In-Reply-To: <939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.215]
+Subject: Re: [PATCH] bitbake.conf:update FETCHCMD_wget with --no-passive-ftp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +36,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 08:06:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Feb 2019 08:19:15 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F44D801B8FA93C1E83C75A35"
+Content-Language: en-US
 
-On Thu, 2019-02-21 at 21:28 +0100, Alexander Kanavin wrote:
-> On Thu, 21 Feb 2019 at 21:13, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > Changes in v2:
-> >  - More reliable SRC_URIs.
-> > 
-> > 
-> > Tanu Kaskinen (3):
-> >   alsa-lib: 1.1.6 -> 1.1.8
-> >   alsa-plugins: 1.1.6 -> 1.1.8
-> >   alsa-utils: 1.1.6 -> 1.1.8
-> > 
-> >  .../{alsa-lib_1.1.6.bb => alsa-lib_1.1.8.bb}  |  6 +-
-> >  ...plugins_1.1.6.bb => alsa-plugins_1.1.8.bb} | 86 +++++++++++++++++--
-> >  ...s_1.1.6.bb => alsa-utils-scripts_1.1.8.bb} |  0
-> >  ...lsa-utils_1.1.6.bb => alsa-utils_1.1.8.bb} | 14 ++-
-> >  .../recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb |  2 +-
-> 
-> I guess alsa-tools should also get an updated SRC_URI, even without a
-> version upgrade for now?
-
-Yes, you're right. I didn't get your point the first time you requested
-this, sorry...
-
--- 
-Tanu
-
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
+--------------F44D801B8FA93C1E83C75A35
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+On 2019/2/22 下午3:17, Richard Purdie wrote:
+> On Fri, 2019-02-22 at 14:03 +0800, Liu Haitao wrote:
+>> When fetching the source of alsa it would trigger the following
+>> WARNING:
+>>
+>>> WARNING: alsa-lib-1.1.6-r0 do_fetch: Failed to fetch URL
+>>> ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2,
+>>> attempting MIRRORS if
+>>> available
+>> Bitbake would use wget with "--no-passive" to fetch the source.
+>> Behind most firewall and NAT
+>> configurations it could work well.However, in some rare firewall
+>> configurations,
+>> active FTP actually works when passive FTP doesn't.
+>>
+>> So disable the use of the passive FTP transfer mode for wget.
+> As you say, its much more likely that passive ftp would work than
+> active ftp, so this change would make things worse for more people?
+>
+This change maybe make some trouble for others. But I have not found any 
+errors  since  applying the change into the latest yocto.
+
+Each of two mode(active and passive) has its own advantages and 
+disadvantages.  Now most servers and firewalls support passive ftp,
+
+  while the ALSA is an exception that does not support it.
+
+> We're trying to get away from having ftp urls in oe-core at all so
+> hopefully this isn't a big deal.
+
+Thanks for your reminding, I could  try to use https url instead of ftp 
+url in alsa-lib_1.1.6.bb.  The alsa also provides the HTTP server for 
+downing the packages. 
+"https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2"
+
+thanks,
+
+haitao
+
+> Cheers,
+>
+> Richard
+>
+>
+
+--------------F44D801B8FA93C1E83C75A35
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2019/2/22 下午3:17, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">On Fri, 2019-02-22 at 14:03 +0800, Liu Haitao wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">When fetching the source of alsa it would trigger the following
+WARNING:
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">WARNING: alsa-lib-1.1.6-r0 do_fetch: Failed to fetch URL
+<a class="moz-txt-link-freetext" href="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2">ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.6.tar.bz2</a>,
+attempting MIRRORS if
+available
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Bitbake would use wget with "--no-passive" to fetch the source.
+Behind most firewall and NAT
+configurations it could work well.However, in some rare firewall
+configurations,
+active FTP actually works when passive FTP doesn't.
+
+So disable the use of the passive FTP transfer mode for wget.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+As you say, its much more likely that passive ftp would work than
+active ftp, so this change would make things worse for more people?
+
+</pre>
+    </blockquote>
+    <p><span><span><span>This change maybe make some trouble for others.
+            But I have not found any errors  since  applying the change
+            into the latest yocto.<br>
+          </span></span></span></p>
+    <p><span> </span><span><span>Each of two mode(active and passive)
+          has its own </span><span id="tran_2_5" class=""></span><span></span><span
+          id="tran_2_6" class=""></span><span>advantages and
+          disadvantages</span><span>.  Now most servers and firewalls
+          support passive ftp,</span></span></p>
+    <p><span><span> while the ALSA is an exception that does not support
+          it. <br>
+        </span></span></p>
+    <p><span><span></span></span></p>
+    <blockquote type="cite"
+cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+We're trying to get away from having ftp urls in oe-core at all so
+hopefully this isn't a big deal.
+</pre>
+    </blockquote>
+    <p>Thanks for your reminding, I could  try to use https url instead
+      of ftp url in alsa-lib_1.1.6.bb.  The alsa also provides the HTTP
+      server for downing the packages. 
+      <a class="moz-txt-link-rfc2396E" href="https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2">"https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.6.tar.bz2"</a>
+      <br>
+    </p>
+    <p>thanks,</p>
+    <p>haitao<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:939bc06d030a91fc7f2376171997fdd010124b5d.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+Cheers,
+
+Richard
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------F44D801B8FA93C1E83C75A35--
