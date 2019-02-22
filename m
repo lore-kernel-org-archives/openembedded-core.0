@@ -1,45 +1,46 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 955F07CBDD
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9460B7CC05
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 17:13:13 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id s16so2259539oih.9
+	Fri, 22 Feb 2019 17:18:58 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id s16so2274539oih.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 09:13:15 -0800 (PST)
+	Fri, 22 Feb 2019 09:18:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Wih1ty3m4WfD659ioPzULMR9hJeCNWh61o6VMIC5tAc=;
-	b=nELQj0m+ESmqYyztUd/Lpo8sE69nSTcaAo65R5AWKcugM3YsNXb8g18EKTrbQAUnBd
-	Wgc8uA9z+mCPZEDbOBCf02N5Ti6GVrfem09BiEBSohlLdOBjFO03wlfobCqvThDOB2dl
-	xXEsKSXo1TvtNcI16LYDVk5KGbTREmHyje81I5gxVuQ5rbzfXvx/zHMIaXBgUutKWmOY
-	gBQWsZcnO/avjLF6BIjy1Y5EemV5NaZHOWDksfcIgO8UN8j3q8jNWqOOrvrkyEtaJOPc
-	5ELfaMfGgoWOW01FtnJ7fyePLZ0fSDCu+KbqDBLb45Hq/hIEM0lXU7Ekkredkze2TEjE
-	ihEg==
+	:cc; bh=NlOjah/eg2Mmt0m+u5NhAsU665XvwYffge76EKjfHow=;
+	b=gMXVXxK6oc94HquK7L0BpHDnQ09OnWITS7T2WUjwC9lim5ftGIfXW9bg+vuLnV6mg8
+	kFZbM9mQJ9sNSCM/C5CuzJ11ZX4NxrtWpJoDCwonVoGNXJ81yKuivZM4obZwPzOcoVgf
+	7rtcGy6RzyLMyL1YzzhFR1aEur7nU0xzioOIBrUE8/sumD8mPGpxz7xcVZgLi3v+YGF0
+	ldr9mebX3P5vD9MKWiijxR+MoYHlkPoQQ2wPtHL8xVdW1p7RTQEoyPGlCcjClkIbOKyj
+	eOS4t3yCfnVEbte2cfPk8v8DN+qt0QDbcE3vMALC9z9M8/lB9QsCvYbQ+xCN8gZvG6/c
+	OoSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Wih1ty3m4WfD659ioPzULMR9hJeCNWh61o6VMIC5tAc=;
-	b=RgDHm7jTpF+62cr4zuty7590fHjpVsjpEcoGo0RB2wsdzrk5iRnIE2CqjE+v3iZJj/
-	dGirRC011sHaeE2bkEL72JjkSuWM049wu+jTB05pAHoPqUOFCc6tdBcvtAo7HAwRwSFD
-	Ua3wMCq+aZEh3VXM2FvrnWof2OnowO48kIKtP+f/xRv61e4V3b7clxUwvtbIKyuXsN00
-	ONWvSlYcMu2+wqSpn3ysuhSKH7AvzNIcz32B7rR1ioSbn7OwNT3m4XUct9jvtkZCHbT/
-	k8f3qdGIW4N6wnFRAwkow4p6CB+KLVg1JVFbbdzKfpTAeM/T9P2GmGRvmK0CNyi5Ubpf
-	mTyA==
-X-Gm-Message-State: AHQUAuY3ZAdlKcIl7xfrF+heN8+qiZ9gcunPJwZ8VzFYDpTy8tHXELtM
-	HcWbV6MYm17CFtoPvqjMBlnw9vBnIpsONN4y7g==
-X-Google-Smtp-Source: AHgI3IYFOSYld7C8s2/iSVHHT8D6WO+RN9Iu2Gip7Yjt9Ra9afIsd/VqXVK8HCNGOvnDrVGW9zGIpyeJA3YpYsITiG0=
-X-Received: by 2002:aca:fc06:: with SMTP id a6mr3205954oii.0.1550855594374;
-	Fri, 22 Feb 2019 09:13:14 -0800 (PST)
+	bh=NlOjah/eg2Mmt0m+u5NhAsU665XvwYffge76EKjfHow=;
+	b=UFZcbFY7DIKFTLULAgS9DN7AaC+moW3UION8Q/UvNRzE47CE0PsNDq7tllG3P5YAnQ
+	ezf4JZB15w0aGBDLNck9vJLmI6HaNb4sYsLMKIITwszpa/3/rLmRNAZJQTsF7CAWf+T2
+	RgZlNd2oYNzzDcVWqEBUNppIWayNG2ccUlpzWT5k0DJlaq7W1QS//ihCn5lc7DHG/+2t
+	X6ogg4O5DZ1TpRRSD2OgDDKOc1nLGAVKts8dNxTEYBiJurjaFaaPx6Qj7GjTIeF3Ec4z
+	hP6HMEc2gzHfkH6TI7OHQTYF/t7YFHKJkPg6kL1Ra1L7iDKkEhIyBDuSH+Px6Ki2mxmb
+	cl4Q==
+X-Gm-Message-State: AHQUAuY3fPfHF7ovx06avp5VK50u/cHul9COdJf4bmFO6G9WSbvTpAr1
+	/wM2fU4lbjCH5eGuUhi+DTXs3bghTuiVN7JwqPQ=
+X-Google-Smtp-Source: AHgI3IZ6p870HfcXbUQEmHCFpnzd8ZFJz6WQlncWQAmrMHVupCd/BP9S4p7odiuwc7HW7b9B0FrfuqsGp9veoRaw88I=
+X-Received: by 2002:aca:30c2:: with SMTP id w185mr3205910oiw.163.1550855939518;
+	Fri, 22 Feb 2019 09:18:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20190222165450.30773-1-george.mccollister@gmail.com>
 	<CANNYZj-Fx7W5MKb8hp9F5mPC05fhxq1S56_F9-PDr38yK1ofVw@mail.gmail.com>
-In-Reply-To: <CANNYZj-Fx7W5MKb8hp9F5mPC05fhxq1S56_F9-PDr38yK1ofVw@mail.gmail.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Fri, 22 Feb 2019 11:13:02 -0600
-Message-ID: <CAFSKS=M3WckCq3mwaMVWUoo6HaBOR1tBbMyYrg5nJw6=E_0XZQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CAFSKS=M3WckCq3mwaMVWUoo6HaBOR1tBbMyYrg5nJw6=E_0XZQ@mail.gmail.com>
+In-Reply-To: <CAFSKS=M3WckCq3mwaMVWUoo6HaBOR1tBbMyYrg5nJw6=E_0XZQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Feb 2019 18:18:48 +0100
+Message-ID: <CANNYZj-dz6xKtuuOTVAKz-j-+w_qeQXrC_5PTG8cxNeJFs4ZDg@mail.gmail.com>
+To: George McCollister <george.mccollister@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: fix CVE-2019-6454
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,35 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 17:13:13 -0000
+X-List-Received-Date: Fri, 22 Feb 2019 17:18:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I believe this was discussed before and the recommendation was to wait
-until 241 to be release. In any case I currently have no interest in
-upgrading it. My main motivation is to patch this CVE in sumo but
-maintainers seem to want it in master first (even though different
-version of the patches are required).
+On Fri, 22 Feb 2019 at 18:13, George McCollister
+<george.mccollister@gmail.com> wrote:
+>
+> I believe this was discussed before and the recommendation was to wait
+> until 241 to be release. In any case I currently have no interest in
+> upgrading it. My main motivation is to patch this CVE in sumo but
+> maintainers seem to want it in master first (even though different
+> version of the patches are required).
 
--George
+241 has been released:
+https://github.com/systemd/systemd/releases
 
-On Fri, Feb 22, 2019 at 11:04 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Fri, 22 Feb 2019 at 17:55, George McCollister
-> <george.mccollister@gmail.com> wrote:
-> > Apply patches from systemd_239-7ubuntu10.8 to fix CVE-2019-6454.
-> > CVE-2019-6454 is an issue in which systemd (PID1) can be crashed with a
-> > specially formed D-Bus message.
-> > +
-> > +For information see:
-> > +https://usn.ubuntu.com/3891-1/
-> > +https://git.launchpad.net/ubuntu/+source/systemd/commit/?id=f8e75d5634904c8e672658856508c3a02f349adb
-> > +
-> > +CVE: CVE-2019-6454
-> > +Upstream-Status: Backport
->
-> It would be better to update systemd to latest upstream release, are
-> you able to do this?
->
-> Alex
+It's fine if you don't want to do the upgrade, just wanted to correct
+that point.
+
+Alex
 
