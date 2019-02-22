@@ -1,52 +1,25 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A676BF3E
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EF847CB4E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2019 01:06:56 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id o125so249745qkf.3
+	Fri, 22 Feb 2019 01:55:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1M1tC6I019914
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2019 17:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=TjC74L0RTDTbZzpmmYWPNbfIGlK6CgocG3rEXif9ErQ=;
-	b=fFXnQjvvmclLM9X2sjxP+SNpIFPYSdYGSVi32COYhPxNkhhFM6xw/OWT55UgwHVr95
-	LMK3Z+sRHKBWfIjLmnOdGSy8sSzJakxr5Kswy25a+RZy8K/s02n1dg5MFNKkngfW9XkI
-	BcUhzNirvY/XM8IHtZo1YNWYU2I+NBri6CpsQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=TjC74L0RTDTbZzpmmYWPNbfIGlK6CgocG3rEXif9ErQ=;
-	b=QqijocPi1R1L4rwNA6t8D852Zp9tZ7Ch03ZhCgLbNSa8K6bgX8c1Y75RlrCa5j8iSI
-	GKqFdRylJAUzLz726XcVeLA2937Xgj7QxiUTzJ8k+PthDZEsb6SU/kDuClu3jGCGANOf
-	f7+NoawiBL1tezfkhUXUKjx5wm4GL1aqj1mVCquy2a7M237/12S65lXshkAX/VdiBSUR
-	l0jEkzOCsEkyJholktGSJOraG2cinmhBiXCgeEtR57psJ6kj2l0nFdlI8vDy1LcvNorl
-	cZ68QCRvbssm7EXkzlQA+LfkU9nOI1PBlH71nJuvo9VZAozH4V21nbHbT4uCDA1082+u
-	shQw==
-X-Gm-Message-State: AHQUAuZcv27U59zJtzSvjO03rzv1qX+Ic98kngFezZAZEPMdSH3EQ1CQ
-	Al2nhpFMDsvub0ZHuqbChUk4eA==
-X-Google-Smtp-Source: AHgI3IaxMbx/iDD/gc5wOQHeU5PLe+jDlJn/UtE/Z42busa044NoF9OW9NT+gFr/O7tgDTu8qRc4eQ==
-X-Received: by 2002:ae9:ec0e:: with SMTP id h14mr1109076qkg.301.1550797617394; 
-	Thu, 21 Feb 2019 17:06:57 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-861F-4037-1793-9FE5-B673.dyn6.twc.com.
-	[2606:a000:1401:861f:4037:1793:9fe5:b673])
-	by smtp.gmail.com with ESMTPSA id 50sm2454qtr.96.2019.02.21.17.06.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Feb 2019 17:06:56 -0800 (PST)
-Date: Thu, 21 Feb 2019 20:06:54 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20190222010654.GN12379@bill-the-cat>
-References: <20190221235618.29059-1-marex@denx.de>
+	Thu, 21 Feb 2019 17:55:43 -0800
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
+	Thu, 21 Feb 2019 17:55:17 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Feb 2019 09:55:15 +0800
+Message-ID: <1550800515-3587-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20190221235618.29059-1-marex@denx.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Upgrade to 2019.01 release
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] debianutils: update to 4.8.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,21 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2019 01:06:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Feb 2019 01:55:52 -0000
+Content-Type: text/plain
 
-On Fri, Feb 22, 2019 at 12:56:18AM +0100, Marek Vasut wrote:
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../debianutils/{debianutils_4.8.6.bb => debianutils_4.8.6.1.bb}  | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/debianutils/{debianutils_4.8.6.bb => debianutils_4.8.6.1.bb} (86%)
 
-> This upgrades the U-Boot to latest 2019.01 release.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Ross Burton <ross.burton@intel.com>
-
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
+diff --git a/meta/recipes-support/debianutils/debianutils_4.8.6.bb b/meta/recipes-support/debianutils/debianutils_4.8.6.1.bb
+similarity index 86%
+rename from meta/recipes-support/debianutils/debianutils_4.8.6.bb
+rename to meta/recipes-support/debianutils/debianutils_4.8.6.1.bb
+index c37e842..7cc78a6 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.8.6.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.8.6.1.bb
+@@ -3,13 +3,15 @@ SECTION = "base"
+ LICENSE = "GPLv2 & SMAIL_GPL"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20180626T205238Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "http://snapshot.debian.org/archive/debian/20190217T160716Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+ 
+-SRC_URI[md5sum] = "f0f1fa39383815fb7950dcee52be4361"
+-SRC_URI[sha256sum] = "db09047144dadf6a35d0f28977fbef83b0dd60ca32e6c8512cce2444a6423f73"
++SRC_URI[md5sum] = "80e2e670d8f6c0036770e971237f1f5c"
++SRC_URI[sha256sum] = "099f1e8a7278b26145a2ba2dda84c4118403bfab38c8d7070a6235a7ffcb55ed"
++
++S = "${WORKDIR}/${BPN}"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
-Tom
+2.7.4
+
 
