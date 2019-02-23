@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9205E7CAAB
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id DB98E7CAAB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 17:00:29 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id d2so6036464qti.11
+	Sat, 23 Feb 2019 17:08:47 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id i130so2558289pgd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 09:00:31 -0800 (PST)
+	Sat, 23 Feb 2019 09:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Textn9rQoASX0jzX7MBEFSYsl2OLcLx4nssmMDQZCgQ=;
-	b=UQPOw+tCIe1WUHzj1/xCwzzfXXMEDD8osk4G5z5y26Kr1YU0ZcNhTRAok8aqEuR0A4
-	U44/lzD9Pq2QAzwvLnoqBMhgXcMJSWURU3iT5+Qv5yB/7wUz4SwJtkyE3qELIpEsAm8B
-	4ik83apGJMOX+7ugEs6Ix4m1qCBYYd8qlTuT3OaeUzE35gohVuql+HA2B90B8wZln+BA
-	gDo+fFL/QJTqlAsvXEPBm6dzRVGw12j/GsdGpP/bGES2KQV6ugFmyCtNJLdiUornPDxZ
-	UdGvvzE/mK0fTFP+kmpNTQ2pfW8FQRdQ0/ab3x2TMclt/oIVsn35juuTETb83pyKDb3Z
-	ZU7Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OODrRMHtHPqEOukt+mttOX5bCMOf+96ljDdGV6m29s0=;
+	b=CZQnInCDyMrmy7DByCBDm0KD3Hkbp9T2je45xbMD13RktFY8OqV8EoQgBWRHZoYO6b
+	DwgEvsgM2c1KUZhIPQwEYMUiSfSc96MfJR1T3tlbzezb/A+x+IOpO6DUI0Msbq3JDtaW
+	y0IEUP9EHas0CbBlulVBXFP9R3FsboqPezizcbL3UaYwIQQCydf5cR+EaRaPI4YGnBWZ
+	k6OQl+Yr+KK82iwmwlP79Dhc7YCIpz6rdDQjPlh7xrMl1JwXI4Wvna3us43YEzEoYjaH
+	DvrC0L9nQyV/l1Bn/NFMyRAqPlElKXovHlwxbHDxxKzE8TUn2k8YaBRB/i9IBb483ECB
+	J5VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Textn9rQoASX0jzX7MBEFSYsl2OLcLx4nssmMDQZCgQ=;
-	b=YNG+7HyouTNyrNqX0yrNtPXPcubShooUXpLLSwOJR3nS7G7YaMBQF4Yc3R+dmlXxJb
-	w8KeH3IOXZPCDHFreRbwZwdQtLq5nenCN7LoPjpmt9RYd9IFkGavJx/EKYBOXKaN4siQ
-	7n0nn5GBE3sphHRd1EADVwOAv3nYbJYe91QWJ34LHnsUjlleMV6oZO3lFbCi1GwI2vfX
-	XY7FFqNGX/Lm6wvz8hLkX6ns734Sda02+z7ecShOsmFsghI48OY7wQJnejM/sd4EKtB7
-	eyE6/9sWNX+F9kVZ72DSWvr6GFm+fShU1Ky7HlBnEaJv7bcv8R/GoKuaCye0JCG449mU
-	8bfA==
-X-Gm-Message-State: AHQUAuanKbOfHrfCqbKKWqY8cIbngZBUIN5cOXifG4io2462SN/450lL
-	rDrpXFN1xLPOXJLqVVHSXjJubXLOWZjDyRVkEvw=
-X-Google-Smtp-Source: AHgI3Ibh4PLa/DGZRUBBalsdgDAJnNZ1LnzE4WO7YsIYZqeSU+fBK9Lg87YfKqHkTcfR6qLT3PkgadNAkulrUe4Qvks=
-X-Received: by 2002:ac8:2562:: with SMTP id 31mr7814276qtn.253.1550941230239; 
-	Sat, 23 Feb 2019 09:00:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20190115230612.18947-1-petr.vorel@gmail.com>
-	<f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
-	<CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
-	<20190116152809.GA407@x230>
-	<c2b3d2ad4287960a5805627ef550dad30e2b82d3.camel@linuxfoundation.org>
-In-Reply-To: <c2b3d2ad4287960a5805627ef550dad30e2b82d3.camel@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OODrRMHtHPqEOukt+mttOX5bCMOf+96ljDdGV6m29s0=;
+	b=n9N2OMXHKVQQuEz7Fx+PJdB0X93XeJ6bOkQg4GHqPe/uBiGbKNqa6BJoIlr2aDtey2
+	iWagqvbv3YHxfMpWHW0esjzfbqCDDWCeDvpEIwE9oboy9SHQiqxFKaTXND5JqxdTx++u
+	bmMmlKpYnuVOICPB43B9G4eHhem7a20DKaV45m5hOW9+5isbr0gfadsj6lafX12a9RJa
+	/fNL4GEQhQY7K0OUEkA/g30DefCm/FO4roC5ob46/LjKH2jxI/g647u6KDQvE48IPwO1
+	GNv1JU97QbCXX+XpRw3rnNZMkMCXKvuzmRfk5aA8cGjawMa+YwCy3o8xMJ44wPU1lTY1
+	J3lA==
+X-Gm-Message-State: AHQUAuaWV76xG6g6eIxTAP/Rlwv5jrA8GwE5/Ger7Oh7msVvZVMcA6sp
+	tdU0YDY1Kgz/8szfw5GJQ24pB8Q+
+X-Google-Smtp-Source: AHgI3IaErE+Jmw3a+fOsSslpxWX9S8150yU96ju13ZglcLUw0FspZ7FjP/UHzy5LaYKvkGiwByRjEA==
+X-Received: by 2002:aa7:9090:: with SMTP id i16mr10009267pfa.85.1550941728269; 
+	Sat, 23 Feb 2019 09:08:48 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1cf2])
+	by smtp.gmail.com with ESMTPSA id
+	f67sm12081540pfc.141.2019.02.23.09.08.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 23 Feb 2019 09:08:47 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 23 Feb 2019 09:00:04 -0800
-Message-ID: <CAMKF1sqWVxZwT93wT0=habRrZW6M1FAAcvVcaXnc_ZSRfY147A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] ltp: Update to 20190115
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 23 Feb 2019 09:08:35 -0800
+Message-Id: <20190223170835.6169-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] musl: Update to latest beyond 1.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,57 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 17:00:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 23 Feb 2019 17:08:48 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 23, 2019 at 8:12 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2019-01-16 at 16:28 +0100, Petr Vorel wrote:
-> > Hi Richard, Khem,
-> >
-> > > > Thanks for looking at this. Unfortunately it failed in testing on
-> > > > most
-> > > > targets:
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/181/steps/7/logs/step1b
-> > > > (one failure given as an example).
-> > > > Warnings as errors are good during development but sometimes less
-> > > > useful during release due to the variety of end user
-> > > > configurations.
-> > > with glibc 2.29 in play
-> > > http://errors.yoctoproject.org/Errors/Details/216829/
-> >
-> > Thanks for your reports.
-> > Is there any way I could easily reproduce it?
-> > Some config I can download?
-> > I'm testing with default config.
-> > I'm sorry for dummy question, I'm more experienced with Buildroot.
->
-> Sorry for not replying sooner. We just hit this issue again:
->
-> http://errors.yoctoproject.org/Errors/Latest/?filter=480efd388db578106a8a2129c0382b7e56a1ee36&type=commit&limit=150
->
-> This time I think I understand where the error is coming from though:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/security_flags.inc
->
-> does:
->
-> security_flags.inc:SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
-> security_flags.inc:SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->
-> so the reproducer should be to add "-Wformat -Wformat-security
-> -Werror=format-security" to CFLAGS when building ltp.
->
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=1691b23955590d1eb66a11158fdd91c86337e886..ad795d56ba3fb9d69f524ee676e3b1e2355cceb7
 
-I think this must be new, we are carrying patches to fix similar
-issues in other parts of ltp. Probably something to consider for
-upstreaming
-e.g.
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 73906d0f3c..f84c17d295 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "1691b23955590d1eb66a11158fdd91c86337e886"
++SRCREV = "ad795d56ba3fb9d69f524ee676e3b1e2355cceb7"
+ 
+ BASEVER = "1.1.21"
+ 
+-- 
+2.20.1
+
 
