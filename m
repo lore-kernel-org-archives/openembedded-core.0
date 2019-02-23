@@ -1,30 +1,52 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AC9365C8F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DF447C6EC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 19:37:32 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id xd75gnXeWx6b6xd76gREoT; Sat, 23 Feb 2019 19:37:32 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=CFTnQlWoA9kA:10 a=FQ2ngexZAAAA:8 a=pGLkceISAAAA:8
-	a=U4TdsVQjmYHKCgqNpKUA:9 a=CjuIK1q_8ugA:10 a=krBoxCghJ-HPrPY7c7jj:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gxd75-0006G8-AO; Sat, 23 Feb 2019 19:37:31 +0000
-Date: Sat, 23 Feb 2019 19:37:31 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Khem Raj <raj.khem@gmail.com>, Randy Li <ayaka@soulik.info>
-Message-ID: <20190223193731.hccdkg3vych4y6jr@mcrowe.com>
-References: <20190205025727.1937-1-raj.khem@gmail.com>
+	Sat, 23 Feb 2019 19:58:25 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id i5so3113337qkd.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 23 Feb 2019 11:58:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TynxZR1SKRcE7d4xhCnrLnJq6VR6J9dcnykK9dIL+nY=;
+	b=FJ67PIUqd/pq4DtoS18kowBVXAvCcee/zb4QM7Xidywu2269H/8uwX5+yDuOc71YyP
+	i1sMn4gPUhN4X6RTBiMxoA+PwbvBRMnbKZiddJ2pmltjYwOkLMJ6LxsJZ0pNuWNa8Dzz
+	ifxU3XG/tN/X2z98Z/5MxOc0ETI9wUG0YvMLhdNj+j0qTPkCsbB+7Je1xd6RXwqcJF+r
+	8ov4+rDN6ooF1qu5rlH+t6z2OK1W6jKA1ut9eUvIhAGnPvHj5DEXJTWaBdOtHs9ZUcqj
+	HVnIB9H+KpLhLG7O/BWI/9PB02Ilz1VhuNX7nyw6DQ03++nxn9R9ihUYkKuE/6FBlzpq
+	DTZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TynxZR1SKRcE7d4xhCnrLnJq6VR6J9dcnykK9dIL+nY=;
+	b=qhvWUsT+Mpb/xsMGJ7k5U2+ehRUfntvUygACcvPcqhji6ILe5/B/Uz3aknQ4atHqsP
+	QIfcvXCx9YodEQhc+uX5Avz9nI105G3jBSNGjwyZyS7NUMFJVfqKVITiI4b1M3xKVat7
+	e8gUeIEDpuh+GGRA9DllFUtDZ2Y4DYgpwgi3I2EItvtz3XlAulXdS9l1nOT0IBTR/NU1
+	kPIqIXrEQTee1jaBXL3DJx0hW/99+HhS519CXL3SYkuwif3dqh65SEybqICyAVxHMJpq
+	F2j+OvXqA/8n5cLHF55nIMM3if0ZzoOLqRwEhjOjIkHm37jFLjpj+Rca3ya4Ejsxqkks
+	/vwA==
+X-Gm-Message-State: AHQUAuY1O6ofcmor2cSiM968TKUyszUmC+TVuSrGEp0Jdv3TUOESPhZf
+	ada+sllW66vRmldx/r2m4uQvlzc22TYoI39GL7E=
+X-Google-Smtp-Source: AHgI3IYE1UNXkWJYqP9xcah1qZzBbXL3VWEftxyaj4kwt+Zu6pyr+ooyCiJc9PXG7ENabAifF6jor60wdQg8Eprp1Bw=
+X-Received: by 2002:a37:4c88:: with SMTP id z130mr7556239qka.206.1550951905711;
+	Sat, 23 Feb 2019 11:58:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20190205025727.1937-1-raj.khem@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfC4eEeBe3Ari57FUOXi8zZft18MonvIb5SVq4GvDCKaTOdY+hAMygeMyDgIMR4PCt1lYWX3DaQTZuTfPeTdcZq8PYLU8CgL4JZUqcabi0KI/1iZZv8Eh
-	O+JV5trLL56S6fVymJ/njNRKvghIZ33r+JI=
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] arch-armv8a.inc: add tune include for armv8
+References: <cover.1550845989.git.alex.kanavin@gmail.com>
+	<bd7acae5310c012ee39c5142fa0059c88fcc4b57.1550845989.git.alex.kanavin@gmail.com>
+	<CAMKF1sqHzK6Q8-GNLV6Yc5_QuWjKaUMWO==twypXYmRtmvGpKg@mail.gmail.com>
+	<CANNYZj8pxkyaYwp+Ob2ZzH=G2iA=F_E1PzOz-L4-q5LdC-C06g@mail.gmail.com>
+	<CAMKF1sr+UW3vBu3p+5-mWK89VU0LYVHo_O5vzopb7131bQLNBw@mail.gmail.com>
+	<b333823bfa0d9a3b34a02fa49d23002048fe12e3.camel@linuxfoundation.org>
+In-Reply-To: <b333823bfa0d9a3b34a02fa49d23002048fe12e3.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 23 Feb 2019 11:57:59 -0800
+Message-ID: <CAMKF1sqcSUWyem7Yb0TeR0zjmGazNP+k0EriDq8KkK6dS5gt+Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,107 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 19:37:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 23 Feb 2019 19:58:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Monday 04 February 2019 at 18:57:22 -0800, Khem Raj wrote:
-> From: ayaka <ayaka@soulik.info>
-> 
-> There are some addtional instructions apart from bare armv8,
-> also there is armv8.1, armv8.2.
-> 
-> Most the processor would support crc, except X-gene 1.
-> 
-> Signed-off-by: Randy Li <ayaka@soulik.info>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
->  meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++
->  2 files changed, 28 insertions(+), 1 deletion(-)
->  delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
-> 
-> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-> deleted file mode 100644
-> index 5e832fae6d..0000000000
-> --- a/meta/conf/machine/include/arm/arch-armv8.inc
-> +++ /dev/null
-> @@ -1 +0,0 @@
-> -require conf/machine/include/arm/arch-arm64.inc
-> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-> new file mode 100644
-> index 0000000000..323d0d7f0f
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-> @@ -0,0 +1,28 @@
-> +DEFAULTTUNE ?= "armv8a-crc"
-> +
-> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
-> +TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
-> +TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
-> +TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
-> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
-> +
-> +require conf/machine/include/arm/arch-arm64.inc
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "armv8a armv8a-crc armv8a-crc-crypto armv8a-crypto"
-> +ARMPKGARCH_tune-armv8a                    ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
-> +ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
-> +TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
-> +TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
-> +TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
-> +TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
-> -- 
-> 2.20.1
+On Sat, Feb 23, 2019 at 10:07 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2019-02-23 at 09:56 -0800, Khem Raj wrote:
+> > On Fri, Feb 22, 2019 at 11:11 AM Alexander Kanavin
+> > <alex.kanavin@gmail.com> wrote:
+> > > Probably this is the very first time virgl is built for mips :-)
+> > >
+> > > Note that it is useful only if you intend to run qemu on that
+> > > platform, so I wonder if we could just blacklist it...
+> > >
+> >
+> > I would have thought world build should have caught it on AB for
+> > mips.
+> > Which tells me it could be
+> > musl+mips specific
+>
+> The AB does not run world builds for everything. It does them for musl+
+> qemux86, musl+qemux86-64, qemux86, qemux86-lsb and no-x11 if I recall
+> correctly.
 
-I believe that this change, along with
-6719de403620dded075dc74f2976669d95bffd7a, may have broken multilib for
-AArch64. :(
+Thats right, I meant to say mips/glibc world builds, I think they are
+run regularly
+and should have caught it if it was mips specific and musl builds
+should have caught it
+if it was musl specific, so its probably a combination musl+mips which
+causes this
 
-When I enable multilib in local.conf with:
-
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
-
-then both the primary target and lib32- packages end up installing stuff
-into /usr/lib (and would presumably conflict, if I got as far as installing
-them.)
-
-If I revert 6719de403620dded075dc74f2976669d95bffd7a and
-d1db78b0e284e1a1f370e71183ded0cbdc1475db then the primary target packages
-end up installing stuff in /usr/lib64 as would be expected.
-
-This appears to be because baselib = "lib" rather than "lib64". That in
-turn may be because BASE_LIB_tune-armv8a-crc does not exist.
-
-If I apply this patch:
-
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-index 323d0d7f0f..649deca61b 100644
---- a/meta/conf/machine/include/arm/arch-armv8a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -26,3 +26,4 @@ PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
-+BASE_LIB_tune-armv8a-crc = "lib64"
-
-then multilib behaves as it did before. Is this the correct fix?
-
-Thanks.
-
-Mike.
+>
+> Cheers,
+>
+> Richard
+>
 
