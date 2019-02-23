@@ -1,46 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B62817CC62
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 358117CC74
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 12:42:55 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id t15so4202225wmi.5
+	Sat, 23 Feb 2019 12:43:00 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id o17so5169779wrw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 04:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=wEcs9sij53X+4pj0Fv6rTkw+pSHsAJ4tR8Q0K+my4hY=;
-	b=vGx3H2rtY/AIw4c18Az3A3pgJgwVC4eT+SrZsHufOZfaZDR1MjwKIl9fMn0avEeXRl
-	qIhgZfGIXqcJveo3NvRf43NAqyR/J65wMI3RWbh2Xy9bvzhjBy1+xmF6rpMdDOAEAwkP
-	dGfyEw0BfUwyTa6RH+GvTgpNr2AIZf9tza0hIGzVOQHkb0VhOxDhWNxnFYvsl/L2VaXS
-	PwjpdUdcWDKn188/cYe7B1pi0luE1fj8PiroI4iZXAZEF1jnzNa2LUzTJrWgim2jhxdU
-	57LzTc7+ElUB16TbCBAEFbsG5WhGipZgojfkEdIqmHihdLPcC36j8L8aYF5554gC3f3q
-	NL0g==
+	Sat, 23 Feb 2019 04:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=zbeRhyzCGC/vpQ+86mrrp2bhcZIo8Sfes0diaPlRrWg=;
+	b=ZgySXb4XkztXlhGwrf8FlpfgzKxxR++qKI9tR/IN9SG3YyAMtXU1tQG8dTSj0q1KH7
+	ST5pTsK2z5dQhwLnSpgHwLnsXxp79HgBtHfxsqYEn5tWvekWcihh6M0SFdEXjPfUI495
+	Jut+CRI7PL5LjZcYZrwYoAGr2F9x6WTSylwvs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wEcs9sij53X+4pj0Fv6rTkw+pSHsAJ4tR8Q0K+my4hY=;
-	b=a+Ycnd59ffD3IsGMS7o12l+JNPZezlEUp+EASvtOZS0SqqXchq7N+e5uADa9ar6Q0L
-	Db5rGY/2avja1wpGLSt8XVnppJUYYVz+dyyRhb6zm/TjrvLI7Q81sKHbLxtfpufeB82i
-	0mP3zJFt3CJWpxw09YVqlRcVeRSdVw5MIHdtl+3WjzUSUAZCvoWVk4IDdk7ohO0TMUOM
-	4J/IU7nVZQBlnM7VwtzEEMcCAhHKtnh/oDxZVGdhcz3uXxk8en7m/nB1fL6y1C4wLd1r
-	0lUKJUVlMUw6RO1yIrP/pWQeHPguxNkwBDthR8yarFGfe/3665PcK+8/ESj/OVqUOYmQ
-	fIZA==
-X-Gm-Message-State: AHQUAuaDB+I81l+MopDlCo5lehTM2V+I4wIp72T5a72kJ4MO+HPTcvNS
-	rQonXdcS9MAWZHKikL5a0NkqCPn/
-X-Google-Smtp-Source: AHgI3IZF8/o8GulUYrNf3NjoyQCx+HtF8njY0VvE8GbWO4N/uGIcSn6DvKamdbrqgrcqADLmiPJg2w==
-X-Received: by 2002:a1c:e1c4:: with SMTP id y187mr5529980wmg.50.1550925775951; 
-	Sat, 23 Feb 2019 04:42:55 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id u12sm3290125wrt.2.2019.02.23.04.42.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 23 Feb 2019 04:42:55 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Feb 2019 13:42:49 +0100
-Message-Id: <20190223124249.14744-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gtk-doc.bbclass: unset LD_LIBRARY_PATH
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=zbeRhyzCGC/vpQ+86mrrp2bhcZIo8Sfes0diaPlRrWg=;
+	b=Jkjn9Ortb3+IwU0/aTFrR5/2+7HRHQp2GsTRg2OEgkILhh1oMuTkY+Y8qVmcXYiMIm
+	E4mc0beTf9NzJtINNa7vUhPb7JGXoac+cfxozbAul2MbJAD8oSaeF6M7/3j7D9tu6R0+
+	dn7sU5lJM9lQnIA8NZ7TQIYfw0szjD/h3XPSwkgjj/m9ckS2MEvQYYOayAwlKFYD4Ix5
+	tt605pv0pJhtqzB0cnFOj/xWMoFi9blOx6tuTZOeUkwDT4dyh8SCgufU4gZFq48nTc1A
+	Kg4jMRWkDDrkSDOhBDyUciaUKEtY6/g8VBz7Wle+TXSJf7Ie+gwkngcvZ0lWJmjKYmIT
+	MQJw==
+X-Gm-Message-State: AHQUAuYVlws0kreyZftjAvbg+z9jd4OssKSMHNK7a80D/DHMfn3A9hcd
+	7/fONIOBDa+MSvxwR8mXJ9RF0w==
+X-Google-Smtp-Source: AHgI3IYlJVvYvY9TX7MPvJ8LMEE4WyutB9+Uy/Cq1/BuJIvt8OP1Yks6YSV1s1HbX8ntkNyt5ekNnQ==
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr6242230wrw.314.1550925780890; 
+	Sat, 23 Feb 2019 04:43:00 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id a1sm5921725wrq.96.2019.02.23.04.42.59
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 23 Feb 2019 04:43:00 -0800 (PST)
+Message-ID: <10aa3afa4b558884e16f600954422435aa8a6023.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 23 Feb 2019 12:42:59 +0000
+In-Reply-To: <6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
+References: <20190220201026.70803-1-alex.kanavin@gmail.com>
+	<20190220201026.70803-3-alex.kanavin@gmail.com>
+	<6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/4] gdk-pixbuf: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 12:42:55 -0000
+X-List-Received-Date: Sat, 23 Feb 2019 12:43:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-meson has been found to set it erroneously.
+On Sat, 2019-02-23 at 12:29 +0000, Richard Purdie wrote:
+> On Wed, 2019-02-20 at 21:10 +0100, Alexander Kanavin wrote:
+> > Drop autotools-specific patches.
+> > 
+> > Rework jku's thumbnailer patch into meson configuration.
+> > 
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> 
+> We've seen it before but its happened again:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/326
+> 
+> I went into the failed build directory and ran "bitbake core-image-
+> sato -c testsdkext" and it succeeded so I'm not sure sure how we're
+> going to debug this one...
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/classes/gtk-doc.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+From staring at the log, I think do_build_target_sysroot in build-
+sysroots.bb may need to depend on do_build_native_sysroot.
 
-diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
-index bedb36ec8b7..707d74d1083 100644
---- a/meta/classes/gtk-doc.bbclass
-+++ b/meta/classes/gtk-doc.bbclass
-@@ -51,6 +51,9 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
- GIR_EXTRA_LIBS_PATH=\`find ${B} -name *.so -printf "%h\n"|sort|uniq| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
- GIR_EXTRA_LIBS_PATH=\`find ${B} -name .libs| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
- 
-+# meson sets this wrongly (only to libs in build-dir), qemu-wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
-+unset LD_LIBRARY_PATH
-+
- if [ -d ".libs" ]; then
-     $qemu_binary ".libs/\$@"
- else
--- 
-2.17.1
+They're both running at the same time and potentially racing?
+
+Cheers,
+
+Richard
 
 
