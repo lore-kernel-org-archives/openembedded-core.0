@@ -1,54 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 78B5A60229
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CC7D17CBDF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 12:11:20 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id m1so4203664wml.2
+	Sat, 23 Feb 2019 12:29:52 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a62so4210300wmh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 04:11:21 -0800 (PST)
+	Sat, 23 Feb 2019 04:29:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ARI+cWxXCXVgwmXs1jPP+JXHcHDOhFD9+VJ1dfxWa3c=;
-	b=VbdieX7uUxOftKffO05XVSFfwOr4PN8u3SjovXK0M2G2UIt6J9ACNhEmVPD1uvVgU7
-	w54LyA0uPgstrKblZE+5d847CXcYAtoig5zJpSzVgMryehoMcorqA4VyG6ODb9waMDWb
-	vatjIJVPsTBvLcxIYF8zB7jGB9FiQcew1b1NA=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=G4zxFHM4McxbJ0EPa8nQGMcxFUUpJ8RkDKRP4/APyHQ=;
+	b=V0BgqWY2dkd7m7Vo2En57cVRzY8TCk/AgAdbjDQJd0k9TeT+QQOpORw04oAP1Uzz6q
+	BHOucbVkwAgNSHWu5H16yeWv/BiutMkfp1VRQKwnYx18ut8zVXiYq02h1KOIka/ROwqP
+	SN5pyPCooYgK1huotYe0TDzOTH66uIe1cbxvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ARI+cWxXCXVgwmXs1jPP+JXHcHDOhFD9+VJ1dfxWa3c=;
-	b=A/ZqrITJ8y6IUclBEXTWXlHMb0/aL2I/BQJHD4IfuDcDzmniIa6IO9t6ds3O+qHWbw
-	UHxtDQQz9/9VetwCYq/YCVM8O2DOnUslO2uHV7hu6Z9TnQCuqBB32VaUhvUoFz+COq73
-	DtjjKa1DWWX1BjHyXFIO3sl72hDaQ1/Ad4q09TAu374y2BHqsVCNQyjgF0XuDwaHY48m
-	CvfSqjfkbv6vQjv5MBkGAHi/jj+eodAyste/j4+zeXIyI80R+izA/P+rY6T0Z6rHo1aQ
-	91/USRHxv7tBggZXngpOotVuPPUO0IuPrksXK6NTFXgIgeL1zYXLyBZ8xzGR85IgyaZY
-	wqEg==
-X-Gm-Message-State: AHQUAuagL+Ihq2gGEAIm5Eyxk7cO/0gzytyhNCbiznBwXwXwJ6tzoOqJ
-	ur8rkLJJWtSjniVYHf0WAiytyw==
-X-Google-Smtp-Source: AHgI3IYKEO2hnVRRcugMNogeFmXhePH2fiw6EZvXJhzqN0GEckOuXQtruA5JcgOLwP7QxDMCqJA6aw==
-X-Received: by 2002:a1c:a4c4:: with SMTP id n187mr5376768wme.15.1550923881085; 
-	Sat, 23 Feb 2019 04:11:21 -0800 (PST)
+	bh=G4zxFHM4McxbJ0EPa8nQGMcxFUUpJ8RkDKRP4/APyHQ=;
+	b=R0iomfi8OP2IyuYzqVLhxE8P0M7k1iTEVHBCPeScMKByptm1Frw96e1GSjEf1a5XKo
+	ljo43lAqR0nBXj7z7pKQAE54VOjHrKZuvlco5fxCc2AMI2lSPvmXhNehGUTRcvHxDYiB
+	530gZQkETj4XAN2ApSpJLx+nMLZrazkbo/BwEupJLfxrUx62KdTHRQ7sVQ1me88cTn3/
+	ZQ4dM6OMlv8qVzUN9DgY5+I55o5X7Mw0DAJNTJh49CPX6+tJS7JbK1H3B5/qr6EoGXBE
+	Kh6CN1qjBoE6V8crJTiBwBdazLR73R9w6t2fcnMoXS1lhaabXhj7a6Jjd/DsLLDpT5gG
+	7tMw==
+X-Gm-Message-State: AHQUAubmDpOq7vcpSi8bu8nRBIUM9680vXryEOWTfOK7kKgA5QBC8iZc
+	Hx9txjYLA4TeEitEPyjHs8UlAw==
+X-Google-Smtp-Source: AHgI3IYIDs6E6aamAKazMHZpABKcDc4tC2VmVx6JQGO7tggtkUlqDqDE+q/c5cDpXzBTXrAv1JUUVg==
+X-Received: by 2002:a1c:2097:: with SMTP id g145mr5141723wmg.81.1550924993508; 
+	Sat, 23 Feb 2019 04:29:53 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id n9sm3619164wmi.33.2019.02.23.04.11.19
+	by smtp.gmail.com with ESMTPSA id
+	x12sm7273496wrs.84.2019.02.23.04.29.52
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 23 Feb 2019 04:11:20 -0800 (PST)
-Message-ID: <4834854809ccfc7043b9834526bbeae76907d3e0.camel@linuxfoundation.org>
+	Sat, 23 Feb 2019 04:29:52 -0800 (PST)
+Message-ID: <6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, =?ISO-8859-1?Q?Andr=E9?= Draszik
-	<git@andred.net>
-Date: Sat, 23 Feb 2019 12:11:19 +0000
-In-Reply-To: <CAJTo0LbAe_VNjcn=-ehnD4wqJKprn5CBj2cfM9cjSUMaF=ssDQ@mail.gmail.com>
-References: <20190114125632.4780-1-git@andred.net>
-	<20190205023241.29707-1-git@andred.net>
-	<20190205023241.29707-14-git@andred.net>
-	<CAJTo0LbAe_VNjcn=-ehnD4wqJKprn5CBj2cfM9cjSUMaF=ssDQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 23 Feb 2019 12:29:51 +0000
+In-Reply-To: <20190220201026.70803-3-alex.kanavin@gmail.com>
+References: <20190220201026.70803-1-alex.kanavin@gmail.com>
+	<20190220201026.70803-3-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 13/13] util-linux: final cleanup
+Subject: Re: [PATCH 3/4] gdk-pixbuf: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,25 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 12:11:20 -0000
+X-List-Received-Date: Sat, 23 Feb 2019 12:29:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-02-21 at 21:08 +0000, Burton, Ross wrote:
-> Looks like the manpage cleanup didn't quite work:
+On Wed, 2019-02-20 at 21:10 +0100, Alexander Kanavin wrote:
+> Drop autotools-specific patches.
 > 
-> WARNING: util-linux-2.32.1-r0 do_configure: QA Issue: util-linux:
-> invalid PACKAGECONFIG: manpages [invalid-packageconfig]
+> Rework jku's thumbnailer patch into meson configuration.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-There is also:
+We've seen it before but its happened again:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/319/steps/7/logs/warnings
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/326
 
-WARNING: lib32-util-linux-2.32.1-r0 do_package: QA Issue: lib32-util-linux package lib32-util-linux-blkid - suspicious values 'e2fsprogs-blkid' in RREPLACES [multilib]
-WARNING: lib32-util-linux-2.32.1-r0 do_package: QA Issue: lib32-util-linux package lib32-util-linux-blkid - suspicious values 'e2fsprogs-blkid' in RCONFLICTS [multilib]
-
-so something isn't quite right with the mutlilib variants of the
-recipe.
+I went into the failed build directory and ran "bitbake core-image-sato 
+-c testsdkext" and it succeeded so I'm not sure sure how we're going to
+debug this one...
 
 Cheers,
 
