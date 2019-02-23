@@ -1,28 +1,58 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0248D7C708
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ED4C71BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 20:12:57 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id xdfNgnb2Ax6b6xdfOgRGar; Sat, 23 Feb 2019 20:12:58 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=CFTnQlWoA9kA:10 a=-An2I_7KAAAA:8 a=UD57Xu5YTielNQHPnhoA:9
-	a=Sq34B_EcNBM9_nrAYB9S:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1gxdfM-0007du-Nd; Sat, 23 Feb 2019 20:12:56 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Feb 2019 20:12:37 +0000
-Message-Id: <20190223201237.28957-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.20.1
+	Sat, 23 Feb 2019 22:15:43 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id a62so4895922wmh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 23 Feb 2019 14:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=W49wEjCkXV8ECHMlWqRQytDquX1wU64FkEHKR9Zq/2Q=;
+	b=ddfF3jH/GTnePvmdHfCvEgEY1hFq82DMM8ufKks7n5ZykhAONUosTF7trdqymEdha1
+	zwizt75I0c/G3oVBgn1zpaAyluImNrLMOF9Q9+i2nHMJqycPa9I7Qvln1MvBcYZn7f6P
+	LilvzQORBHK3CyhYyxgAGyv+tZRDm/ayrYDFk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=W49wEjCkXV8ECHMlWqRQytDquX1wU64FkEHKR9Zq/2Q=;
+	b=IRnAuEFO+hqeZmKBsvPMjiR9zA1fuQjuYb22ff79UqB+srmVc/K7g8U2MjPY5x74rw
+	n/0gYwkx/2A5i7W5hB64EwaszAVYho9iazokOcE91sADzHHa0jBlEjvGiCsMbkMD1igl
+	WasSGXQ5uMASOCP/5fbdLomDc/8nnsO2OWs3YmKuol/nPUXFPR+d+QlZf1OR100coYYL
+	feNxRpg9o9v+umPuEpr0KJo8CcFFG0R5LqpIkSTUn4AyQVNu2tDgnwf3/n3P3MplMQ00
+	1kceHj2CjASihxGqSdYevEZ9maqakbBa2rdqKdhI9H7XZSU2/8uOWZlrJ0+86yYNKHKo
+	jOkA==
+X-Gm-Message-State: AHQUAubt4l8divxvwjE+AY1hg4IUPOnBrg134romzH/phLsPMmw+PbTN
+	yuCVlaXA3QcEXloIdWP/qSqNKA==
+X-Google-Smtp-Source: AHgI3Iasx+Zh3qwMwOSwIHDX14tYDuunm892mKCbK+HYgXAjJhc7NmP4Wvl6X+t69DNtGb4ZwAjXAg==
+X-Received: by 2002:a1c:4d6:: with SMTP id 205mr6719983wme.66.1550960144186;
+	Sat, 23 Feb 2019 14:15:44 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e23sm4627615wme.15.2019.02.23.14.15.42
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 23 Feb 2019 14:15:43 -0800 (PST)
+Message-ID: <56e4574e38391a25e7c25d07e15cda2b8c710111.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 23 Feb 2019 22:15:41 +0000
+In-Reply-To: <CAMKF1sqcSUWyem7Yb0TeR0zjmGazNP+k0EriDq8KkK6dS5gt+Q@mail.gmail.com>
+References: <cover.1550845989.git.alex.kanavin@gmail.com>
+	<bd7acae5310c012ee39c5142fa0059c88fcc4b57.1550845989.git.alex.kanavin@gmail.com>
+	<CAMKF1sqHzK6Q8-GNLV6Yc5_QuWjKaUMWO==twypXYmRtmvGpKg@mail.gmail.com>
+	<CANNYZj8pxkyaYwp+Ob2ZzH=G2iA=F_E1PzOz-L4-q5LdC-C06g@mail.gmail.com>
+	<CAMKF1sr+UW3vBu3p+5-mWK89VU0LYVHo_O5vzopb7131bQLNBw@mail.gmail.com>
+	<b333823bfa0d9a3b34a02fa49d23002048fe12e3.camel@linuxfoundation.org>
+	<CAMKF1sqcSUWyem7Yb0TeR0zjmGazNP+k0EriDq8KkK6dS5gt+Q@mail.gmail.com>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfOL9Zd5aUHKvwfNcMvygk2NeItP0UIWa+fNaECXUlvqQyv5nBJLRtti4sOL/3YPWeuEmHeZOtf+Sn3FtO5htRq1VUHe0KiaVHrrmYNni6mE4bB1WFu0d
-	gIrLLmEYqfPjUKtJUacE7aPXD6GVXsabdiI=
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] arch-armv8a.inc: Add missing BASE_LIB tune overrides
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +65,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 20:12:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 23 Feb 2019 22:15:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-For multilib to work correctly, BASE_LIB overrides must be provided for
-each new tune added in this file.
+On Sat, 2019-02-23 at 11:57 -0800, Khem Raj wrote:
+> On Sat, Feb 23, 2019 at 10:07 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Sat, 2019-02-23 at 09:56 -0800, Khem Raj wrote:
+> > > On Fri, Feb 22, 2019 at 11:11 AM Alexander Kanavin
+> > > <alex.kanavin@gmail.com> wrote:
+> > > > Probably this is the very first time virgl is built for mips :-
+> > > > )
+> > > > 
+> > > > Note that it is useful only if you intend to run qemu on that
+> > > > platform, so I wonder if we could just blacklist it...
+> > > > 
+> > > 
+> > > I would have thought world build should have caught it on AB for
+> > > mips.
+> > > Which tells me it could be
+> > > musl+mips specific
+> > 
+> > The AB does not run world builds for everything. It does them for
+> > musl+
+> > qemux86, musl+qemux86-64, qemux86, qemux86-lsb and no-x11 if I
+> > recall
+> > correctly.
+> 
+> Thats right, I meant to say mips/glibc world builds, I think they are
+> run regularly and should have caught it if it was mips specific and
+> musl builds should have caught it if it was musl specific, so its
+> probably a combination musl+mips which causes this
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/conf/machine/include/arm/arch-armv8a.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+My list above doesn't include mips world, I don't think we test that.
+We come close with some of our big images but I don't think we test
+world.
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-index 323d0d7f0f..22064559be 100644
---- a/meta/conf/machine/include/arm/arch-armv8a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -26,3 +26,7 @@ PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
-+BASE_LIB_tune-armv8a                       = "lib64"
-+BASE_LIB_tune-armv8a-crc                   = "lib64"
-+BASE_LIB_tune-armv8a-crypto                = "lib64"
-+BASE_LIB_tune-armv8a-crc-crypto            = "lib64"
--- 
-2.20.1
+Cheers,
+
+Richard
 
 
