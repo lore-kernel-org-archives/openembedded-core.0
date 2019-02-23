@@ -1,52 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 358117CC74
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A733A7CC5F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 12:43:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o17so5169779wrw.3
+	Sat, 23 Feb 2019 12:43:50 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id i5so4177005oto.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2019 04:43:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=zbeRhyzCGC/vpQ+86mrrp2bhcZIo8Sfes0diaPlRrWg=;
-	b=ZgySXb4XkztXlhGwrf8FlpfgzKxxR++qKI9tR/IN9SG3YyAMtXU1tQG8dTSj0q1KH7
-	ST5pTsK2z5dQhwLnSpgHwLnsXxp79HgBtHfxsqYEn5tWvekWcihh6M0SFdEXjPfUI495
-	Jut+CRI7PL5LjZcYZrwYoAGr2F9x6WTSylwvs=
+	Sat, 23 Feb 2019 04:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fJdtTiBeylz1Wq8VYhDRH467sHFCWgtRdppCNEsOcSo=;
+	b=r0a1pSeYuTANhVfZJ8ve2WfIMkXohqzN5weonetOGtmFGpljKWKgj3WxqgQOCPhZp6
+	wFbJSOoLbvGbUTQusJMIlkYCIYIYUv1cmSHlVEqUD+fxCetTrsMdlBkCcVAyVg8YuTuH
+	mUyFVJAKO52OfkdbqKBJlZs9Yx2xVZRM/uCIYmeWx85+vJWe59zly1+idUp/odlZUJ5u
+	LtmIh910xaEuDggz8gSB/XOKliTNPk3lqizBwvUyBfefnCvSpU5eXn4WePTcWyRpAM0+
+	0K4wgxFL1EC/RezjjLdeRtPSjb8R1Kp77NLQgYwJ9+ZTOxHLgoJCEaj3Qy+FgC+WqrDT
+	qF7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zbeRhyzCGC/vpQ+86mrrp2bhcZIo8Sfes0diaPlRrWg=;
-	b=Jkjn9Ortb3+IwU0/aTFrR5/2+7HRHQp2GsTRg2OEgkILhh1oMuTkY+Y8qVmcXYiMIm
-	E4mc0beTf9NzJtINNa7vUhPb7JGXoac+cfxozbAul2MbJAD8oSaeF6M7/3j7D9tu6R0+
-	dn7sU5lJM9lQnIA8NZ7TQIYfw0szjD/h3XPSwkgjj/m9ckS2MEvQYYOayAwlKFYD4Ix5
-	tt605pv0pJhtqzB0cnFOj/xWMoFi9blOx6tuTZOeUkwDT4dyh8SCgufU4gZFq48nTc1A
-	Kg4jMRWkDDrkSDOhBDyUciaUKEtY6/g8VBz7Wle+TXSJf7Ie+gwkngcvZ0lWJmjKYmIT
-	MQJw==
-X-Gm-Message-State: AHQUAuYVlws0kreyZftjAvbg+z9jd4OssKSMHNK7a80D/DHMfn3A9hcd
-	7/fONIOBDa+MSvxwR8mXJ9RF0w==
-X-Google-Smtp-Source: AHgI3IYlJVvYvY9TX7MPvJ8LMEE4WyutB9+Uy/Cq1/BuJIvt8OP1Yks6YSV1s1HbX8ntkNyt5ekNnQ==
-X-Received: by 2002:a5d:6b07:: with SMTP id v7mr6242230wrw.314.1550925780890; 
-	Sat, 23 Feb 2019 04:43:00 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id a1sm5921725wrq.96.2019.02.23.04.42.59
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 23 Feb 2019 04:43:00 -0800 (PST)
-Message-ID: <10aa3afa4b558884e16f600954422435aa8a6023.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 23 Feb 2019 12:42:59 +0000
-In-Reply-To: <6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
-References: <20190220201026.70803-1-alex.kanavin@gmail.com>
-	<20190220201026.70803-3-alex.kanavin@gmail.com>
-	<6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
-User-Agent: Evolution 3.31.90-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fJdtTiBeylz1Wq8VYhDRH467sHFCWgtRdppCNEsOcSo=;
+	b=inuOsVFzN/ZXEWixL4D8fvMdC6TG4ZUHdMiaGSj1RdYNxym24W18xOgXX2K2u0Phc8
+	ObNc2Rhs3ve+JHqCKpnn0/BrWqTzrrvZF5VfvoAtEWmNPzcixBz58pEJj3l4mjMTDwxD
+	o0dqAbMUUvs/g98/gr8CL6ZsIAUCY2UluDFXqFJY7pRqVF62eImHyElElx68jqPMJcNq
+	sPnckOM1WSYIHR55SPgyzwdDIoPiBbflJzFDyCgFIonLo0sMqfoKdj7nKrcpcIQ7Yq9R
+	6PAVyHoad3da4jVa2xbdmssDgqr94cMJJOn4yetI0qixwPIX6E/RtuOlpvbcqRY2llHU
+	7gAA==
+X-Gm-Message-State: AHQUAub8b0Zg/o5P7UB5uVyBdV6gbcnd8qsjSOKF1/01dfwULhYxrury
+	7vlbERWSH9FMBTzLsaCSKMVm8LgmrBRSnv5LoHU=
+X-Google-Smtp-Source: AHgI3Ia9sLyaDTmTMJIb/GrItWCFtLEIxVSGFUOSeSehffvXStUHUFtEeoGDhWMYgGMhFvi5MS20S7g+CAX9lQtLF1g=
+X-Received: by 2002:a9d:d0e:: with SMTP id 14mr6178608oti.360.1550925831538;
+	Sat, 23 Feb 2019 04:43:51 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] gdk-pixbuf: convert from autotools to meson
+References: <20190222141650.46895-1-alex.kanavin@gmail.com>
+	<20190222141650.46895-2-alex.kanavin@gmail.com>
+	<b83e9ffe50071e4cc3cca2633c328f323e5834a6.camel@linuxfoundation.org>
+In-Reply-To: <b83e9ffe50071e4cc3cca2633c328f323e5834a6.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 23 Feb 2019 13:43:39 +0100
+Message-ID: <CANNYZj_jHdtzR6LuWMmUs6wGsNi=XTw4acPaJQAdv8nR5ANidQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] glib-2.0: restore API docs generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2019 12:43:00 -0000
+X-List-Received-Date: Sat, 23 Feb 2019 12:43:50 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-02-23 at 12:29 +0000, Richard Purdie wrote:
-> On Wed, 2019-02-20 at 21:10 +0100, Alexander Kanavin wrote:
-> > Drop autotools-specific patches.
-> > 
-> > Rework jku's thumbnailer patch into meson configuration.
-> > 
+On Sat, 23 Feb 2019 at 13:05, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> 
-> We've seen it before but its happened again:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/326
-> 
-> I went into the failed build directory and ran "bitbake core-image-
-> sato -c testsdkext" and it succeeded so I'm not sure sure how we're
-> going to debug this one...
+> > ---
+> >  meta/recipes-core/glib-2.0/glib.inc | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> > index 4d7fdeebbbd..6305f553b4a 100644
+> > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > @@ -31,6 +31,12 @@ LEAD_SONAME = "libglib-2.0.*"
+> >
+> >  inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
+> >
+> > +GTKDOC_ENABLE_FLAG = "-Dgtk_doc=true"
+> > +GTKDOC_DISABLE_FLAG = "-Dgtk_doc=false"
+> > +
+> > +EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
+> > +                                                                                     '${GTKDOC_DISABLE_FLAG}', d)} "
+> > +
+> >  # This avoids the need to depend on target python3, which in case of mingw is not even possible.
+> >  # meson's python configuration pokes into python3 configuration, so this provides the native config to it.
+> >  unset _PYTHON_SYSCONFIGDATA_NAME
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/326/steps/7/logs/step3b
 
-From staring at the log, I think do_build_target_sysroot in build-
-sysroots.bb may need to depend on do_build_native_sysroot.
+This one I was able to reproduce - patch sent.
 
-They're both running at the same time and potentially racing?
-
-Cheers,
-
-Richard
-
+Alex
 
