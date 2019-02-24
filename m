@@ -1,51 +1,53 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C74817C4C3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0829F7C998
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Feb 2019 13:38:04 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id e7so5239814oia.8
+	Sun, 24 Feb 2019 20:13:48 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id e74so6163232wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Feb 2019 05:38:06 -0800 (PST)
+	Sun, 24 Feb 2019 12:13:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yJFEnffMx9ZT7l+sF/1zCEDlJgC5yDh+OV9HBq5q4RY=;
-	b=hH/2Ekf1WbRjF3x53gGwWoqquYyDPWVqwjv+aqOdWGywrhlMF5QVCNrfz30wujwN5r
-	PAQpSOc5mmpqnriNJG8XREOeBMaQNDsl1QY/MKzOwJUXFkghf3p1AxF/j8uNaoUVw0qz
-	MgUPIOs8/wHLCRcHr00DnbziZbPvljEf+UwD8ERaSj0Vt5Uk9TJC78nf/tuyr54NVhBQ
-	vJpBHXmjtrnAglHf6RLojM/Gkd9IGde13ffFYfX5N4F6cPYuaU4H/JSbWXCqyG06PsS8
-	Aqosf355694BAp8OdoZ/C+fx3jofv1QiULVZTIIAdFGQxn4mNWpMM1WVkCLJMmivKiwR
-	kRvw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=zzXKYsmvaRiacsXqJf7YFMNqC5eSND0v9VVDiOfR++U=;
+	b=MU12ce+HMx1OwoCYn1SuTN6anrlpLUkGw2IpNheJ2pwJPSRHVfFkB0JCj2UvB/ZVrl
+	gbalFtktA3yVqQ2q84FfYCjNaZ4R9yNt9PALv6WjCSJJb94yvamkGFVkI1RHz147aVfq
+	O8hxFOANKOKdQLKEBUSQVAJw8O3odoFS1vk5CZS5LiXBpxyNnpw9Gyjd1J4dyNw/SxVL
+	8C2eIAA09ZFVp0+GQt3lEQGP0viF65Autbcv9CeNYwmmvCHO59yKWcgW+Q9IXMdaSl2A
+	00eNYtQS1qRqthvy1Tk6Xy73TuFejrY2spnO9TkhSlZHkjPgrPs3sSxhSGOE2Y2GBRty
+	b40A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=yJFEnffMx9ZT7l+sF/1zCEDlJgC5yDh+OV9HBq5q4RY=;
-	b=NoOdpS5z6f9eIkqfKrDZcd+PPMhBsuH73UMnVfbUSUM1+Ggh9KAJRiR8G7doQtCnj0
-	IgNJmBLNVfWnFTDAXMTidiq91EH9lc4SGA8y7Qyfjkm48S0TZAGAjlMqRH0Sny0NZ5WL
-	8Wb6/Zp/bwVt7DbYp9MsWnuhS4frLNjsXopx83W6eoXddU83yOumk5XQiNtlKvWKCWEM
-	uZLZJdGDgpTDMOtQ50NrMJskDCBkSBrWG/mMVbyDSQW3m18GllWeiQjn7z+nr2i5npOS
-	dFZGR4wOJ7BUktJ8zHMBEgo9W3bTI1cjdm53mR83kziUwtBzjihuuDHsUGCcTsGabWcV
-	0yYA==
-X-Gm-Message-State: AHQUAuaxXKeaxOBJg+R73t3L7Aj0zzr+SkRRmVmpKGRRDkkFyIX3C27W
-	A9d9acTf4oUre1UcijqOnnUs7wicpyhsPlizttY=
-X-Google-Smtp-Source: AHgI3IaTCx/9GwUVnvb8zo0tt3rIJO6Mjxgtu0eT6+5UYPYn947UmLsDvI44hTB7i+E7dc7iYSO6baxrjy3ULEZPqfM=
-X-Received: by 2002:aca:c3cb:: with SMTP id t194mr7921698oif.70.1551015485814; 
-	Sun, 24 Feb 2019 05:38:05 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=zzXKYsmvaRiacsXqJf7YFMNqC5eSND0v9VVDiOfR++U=;
+	b=GqO8WJuahuMzd6EQdQqIlPr6+S0EQoi74BZ1HUJ/pAQDStPlUy7VGgJKQLj7t2Himn
+	RRPgoj/Nh0Jq1jercdKvxbhkEbyJPt+7hY1s5GQRzr4Ilh0SDwin3gRvB0Hr8qb7zH5X
+	2SxCnrSpqVMJSSCBhGU30uyt3VFrCQwU5dmGOsB6k2/OPMPACfUiuD8Q7komFW+mUL68
+	3Y3RYaacARGT+wxkBDiatmBfZt3TisWkPnnfMegiseuu477VpfqqRjdlBw3jMigFyx61
+	iU4hu4X8NGmJVniSNbm8jmnToJhWQy5yy39nFE1Dolafs0ehfAcEt4dUwn3g6S71owq2
+	CAJg==
+X-Gm-Message-State: AHQUAubva+6JTwr5Pt41H1AKuLLTOSeO5w14TNRrsIBq5jU3ZSH48rU8
+	KgpZZFQ8+Y/J8rw65Mn5Lj4=
+X-Google-Smtp-Source: AHgI3Iav3vRY5+AT44Q9ampPjgEDRMBvOIT39h4fpdikHVyMToLc0u5QDCHsvFIsFyJ/WrFhYd5A3g==
+X-Received: by 2002:a1c:7809:: with SMTP id t9mr8233658wmc.78.1551039229493;
+	Sun, 24 Feb 2019 12:13:49 -0800 (PST)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id y8sm4744974wrm.8.2019.02.24.12.13.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 24 Feb 2019 12:13:48 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sun, 24 Feb 2019 21:13:51 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190224201351.GA1260@jama>
+References: <20190221221834.37807-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <cover.1550845989.git.alex.kanavin@gmail.com>
-	<bd7acae5310c012ee39c5142fa0059c88fcc4b57.1550845989.git.alex.kanavin@gmail.com>
-	<CAMKF1sqHzK6Q8-GNLV6Yc5_QuWjKaUMWO==twypXYmRtmvGpKg@mail.gmail.com>
-	<CANNYZj8pxkyaYwp+Ob2ZzH=G2iA=F_E1PzOz-L4-q5LdC-C06g@mail.gmail.com>
-	<20190223223043.GB24699@localhost>
-In-Reply-To: <20190223223043.GB24699@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 24 Feb 2019 14:37:53 +0100
-Message-ID: <CANNYZj8kkBi-D-sk2bw9FP2Nk_knoKzacc8F2rkhqciK9WGyvg@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] virglrenderer: add a recipe
+In-Reply-To: <20190221221834.37807-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gtk+3: Fix build failure with gold linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,20 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Feb 2019 13:38:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 24 Feb 2019 20:13:49 -0000
+X-Groupsio-MsgNum: 121588
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Disposition: inline
 
-On Sat, 23 Feb 2019 at 23:30, Adrian Bunk <bunk@stusta.de> wrote:
-> > Probably this is the very first time virgl is built for mips :-)
-> >...
->
-> Builds fine in Debian:
-> https://buildd.debian.org/status/package.php?p=virglrenderer
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-They don't apply special patches either:
-https://sources.debian.org/patches/virglrenderer/
+On Thu, Feb 21, 2019 at 02:18:34PM -0800, Khem Raj wrote:
+> Explicitly link in libfribidi
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../gtk+/gtk+3/link_fribidi.patch             | 19 +++++++++++++++++++
+>  meta/recipes-gnome/gtk+/gtk+3_3.24.5.bb       |  1 +
+>  2 files changed, 20 insertions(+)
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk+3/link_fribidi.patch
 
-Anyway, building it for mips is an academic exercise. There is no use case.
++1
 
-Alex
+Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXHL6/gAKCRA3VSO3ZXaA
+HLXBAKCFgtS1W4Va7ULmw/Eps8KX5TEf7wCgsBTlw+WTkE18w6B9KSRAsQn6SFU=
+=4XbU
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
