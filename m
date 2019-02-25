@@ -1,59 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE13F7CB01
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E62D17CB01
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 11:38:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 369B6183D0;
-	Mon, 25 Feb 2019 12:38:13 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id cD47QdojFMuZ; Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id B44A51813C;
-	Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A31731E088;
-	Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9772E1E087;
-	Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 8A05B5BF;
-	Mon, 25 Feb 2019 12:38:11 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 25 Feb 2019 12:38:11 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Mon, 25 Feb 2019 12:38:11 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [thud][PATCH 1/2] libaio: Extend to native
-Thread-Index: AQHUmkOgBgHXk3stzUae1W+zR8VSV6XsBqOAgAA4ZgCABIQ4wA==
-Date: Mon, 25 Feb 2019 11:38:11 +0000
-Message-ID: <14c35309c6c8464b9609f17b1c56f523@XBOX04.axis.com>
-References: <20181222221322.3768-1-pkj@axis.com>
-	<db68711ecba94d9aa3fd99ff16652e78@XBOX04.axis.com>
-	<f272c949-3c12-a35c-40e3-2c8ce5cb9fab@gmail.com>
-In-Reply-To: <f272c949-3c12-a35c-40e3-2c8ce5cb9fab@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [thud][PATCH 1/2] libaio: Extend to native
+	Mon, 25 Feb 2019 11:39:37 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id m1so7750707wml.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Feb 2019 03:39:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=dVG6AuCuqny6lJngnDdYGb1lqO3wf8yiKSTbLew7Sn4=;
+	b=bdUg8/yeM6XwHoY9lV7qdkvWQvjfRbkawZGDU9yy4xxNpyGuLvNMi37vq2vqMDtCsc
+	bZwrmKurh09unmuLGidcZaQsKRFlABsF3AGgYC4ckBiehmSD2BubgpZdmtprAGN+4AVE
+	y6fphd/XB+zcyTP+tuOsIh3LO0pani163JfFE6hZBJT5RKUGFr8OaZIdXy8L6vTfe+k5
+	Bg2MDornKKGfPG6PsOqoTssz1Qmuavzgt1HTzYOvfcb6AHGgSk29qOPCWtvHEWAcvlca
+	DgH95Z0z+Bf9jATxK1UTKB7hp56VFBXUfxe8VEPAc00nvOZkXaseSkeThKcP6ExA+xgm
+	rJxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=dVG6AuCuqny6lJngnDdYGb1lqO3wf8yiKSTbLew7Sn4=;
+	b=h6bg3+EEStxO58Q7mHVr2WxNjzwWk/nzNUeLFL7xVrlb+uMA07v4GYgELInFmHw8lv
+	oqk0zK5cFCTBya9WmrM44lHQMMYcT4Xx4yGVCUTDEPTeGvJRGhQWriq2Bm2r8gJ6C3ia
+	u6AXVzaE9RJ7nIZttAN9jJSj7j5VDoWVQECFJXZ1W07F4Y5S9YA9BYCtJOT/6HVjb+ZR
+	K40m2X1/UVgDCbLdYApEShvY8xFVhEMAqFHcUdg+T/um5obN4gjBCx/+DQLtHLSLdRY9
+	RNEp+0BoBeCtZ/43D2ul5MRn49jvKlCEGQQiFtPNpUYQ32LPK48ZHdzk+y447m0XxCUI
+	JwqA==
+X-Gm-Message-State: AHQUAuaTtUFjEYYrFmYXjhd8F/8GkjKthCdvZz16M4p352tdTxtQ6/tZ
+	9TxsLoFtUIa4LYZK5GcCAaepmMphHGU=
+X-Google-Smtp-Source: AHgI3IbE+WTfGHu7dPw+BP4XEVJ1HLCms51giBAaeWAl8OxAVtXqNjPa5XNd2TFzEqiCvwGWZrjj/Q==
+X-Received: by 2002:a1c:6442:: with SMTP id y63mr11170639wmb.31.1551094778284; 
+	Mon, 25 Feb 2019 03:39:38 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	u8sm11936231wrp.55.2019.02.25.03.39.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Feb 2019 03:39:37 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Feb 2019 11:39:30 +0000
+Message-Id: <20190225113930.26417-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libpcre: upgrade to 8.43
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,49 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 11:38:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 25 Feb 2019 11:39:38 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDIyIGZlYnJ1YXJpIDIwMTkgMTY6MjENCj4gVG86
-IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzog
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFt0aHVkXVtQQVRDSCAxLzJdIGxpYmFpbzogRXh0ZW5kIHRvIG5hdGl2ZQ0KPiAN
-Cj4gT24gMi8yMi8xOSAzOjAwIEFNLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gKnBp
-bmcqDQo+ID4NCj4gPiAvL1BldGVyDQo+IA0KPiB5b3UgbWVhbiB0aGlzPw0KPiBodHRwOi8vZ2l0
-LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC9tZXRhL3JlY2lwZXMt
-DQo+IGV4dGVuZGVkL2xpYmFpbz9oPXRodWQmaWQ9NDAzNTBiNDZkNWMwNTNiNDMzNmNjMTI4OTIy
-ZjQ0Y2U4MGU3ZGE5YQ0KDQpOby4gVGhhdCBvbmUgZXh0ZW5kZWQgdGhlIHJlY2lwZSB0byBuYXRp
-dmVzZGssIG15IHBhdGNoIGV4dGVuZHMgaXQgDQpmb3IgbmF0aXZlIGFzIHdlbGwuDQoNClRoaXMg
-aXMgdGhlIG9uZSBJIHdhbnQ6DQoNCmh0dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJlZGRlZC5vcmcv
-cGF0Y2gvMTU3MzkyLw0KDQovL1BldGVyDQoNCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCj4gPj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnDQo+IDxvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+IE9uIEJlaGFsZiBPZiBQZXRlcg0KPiBLamVsbGVyc3RlZHQNCj4gPj4gU2VudDogZGVuIDIy
-IGRlY2VtYmVyIDIwMTggMjM6MTMNCj4gPj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDogW09FLWNvcmVdIFt0aHVkXVtQQVRDSCAxLzJd
-IGxpYmFpbzogRXh0ZW5kIHRvIG5hdGl2ZQ0KPiA+Pg0KPiA+PiBGcm9tOiBQZXRlciBLamVsbGVy
-c3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPj4NCj4gPj4gbHZtMiBjdXJy
-ZW50bHkgcmVxdWlyZXMgbGliYWlvLiBTbyBidWlsZGluZyBsdm0yLW5hdGl2ZSB3aWxsIHJlc3Vs
-dA0KPiBpbg0KPiA+PiB0aGUgZm9sbG93aW5nIGVycm9yLg0KPiA+Pg0KPiA+PiAgIEVSUk9SOiBS
-ZXF1aXJlZCBidWlsZCB0YXJnZXQgJ2x2bTItbmF0aXZlJyBoYXMgbm8gYnVpbGRhYmxlDQo+IHBy
-b3ZpZGVycy4NCj4gPj4gICBNaXNzaW5nIG9yIHVuYnVpbGRhYmxlIGRlcGVuZGVuY3kgY2hhaW4g
-d2FzOiBbJ2x2bTItbmF0aXZlJywNCj4gJ2xpYmFpby1uYXRpdmUnXQ0KPiA+Pg0KPiA+PiBFeHRl
-bmQgbGliYWlvIHRvIG5hdGl2ZSB0byBmaXggdGhpcyBpc3N1ZS4NCj4gPj4NCj4gPj4gU2lnbmVk
-LW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-DQo+ID4+IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnPg0KPiA+PiAtLS0NCj4gPj4NCj4gPj4gVGhpcyBpcyBhIGJhY2twb3J0
-IGZyb20gbWFzdGVyLg0KPiA+Pg0KPiA+PiAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFpby9s
-aWJhaW9fMC4zLjExMS5iYiB8IDIgKy0NCj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL2xpYmFpby9saWJhaW9fMC4zLjExMS5iYg0KPiBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9saWJhaW8vbGliYWlvXzAuMy4xMTEuYmINCj4gPj4gaW5kZXggMDRiNTBiNjFlYy4uOGUx
-Y2QzNDlhMCAxMDA2NDQNCj4gPj4gLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFpby9s
-aWJhaW9fMC4zLjExMS5iYg0KPiA+PiArKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliYWlv
-L2xpYmFpb18wLjMuMTExLmJiDQo+ID4+IEBAIC0yMCw0ICsyMCw0IEBAIGRvX2luc3RhbGwgKCkg
-ew0KPiA+PiAgICAgIG9lX3J1bm1ha2UgaW5zdGFsbCBERVNURElSPSR7RH0NCj4gPj4gIH0NCj4g
-Pj4NCj4gPj4gLUJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlc2RrIg0KPiA+PiArQkJDTEFTU0VYVEVO
-RCA9ICJuYXRpdmUgbmF0aXZlc2RrIg0KPiA+PiAtLQ0KPiA+PiAyLjEyLjANCg0K
+Licence checksum updated because the copyright dates were changed.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libpcre/{libpcre_8.42.bb => libpcre_8.43.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre_8.42.bb => libpcre_8.43.bb} (93%)
+
+diff --git a/meta/recipes-support/libpcre/libpcre_8.42.bb b/meta/recipes-support/libpcre/libpcre_8.43.bb
+similarity index 93%
+rename from meta/recipes-support/libpcre/libpcre_8.42.bb
+rename to meta/recipes-support/libpcre/libpcre_8.43.bb
+index 3a488c00b71..d54b3941976 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.42.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.43.bb
+@@ -6,7 +6,7 @@ SUMMARY = "Perl Compatible Regular Expressions"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=fc5026403b44c868c25fc9546f7feb05"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=91bee59d1b327eb1599b4c673e2fb3d1"
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://fix-pcre-name-collision.patch \
+@@ -14,8 +14,8 @@ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
+            file://Makefile \
+ "
+ 
+-SRC_URI[md5sum] = "085b6aa253e0f91cae70b3cdbe8c1ac2"
+-SRC_URI[sha256sum] = "2cd04b7c887808be030254e8d77de11d3fe9d4505c39d4b15d2664ffe8bf9301"
++SRC_URI[md5sum] = "636222e79e392c3d95dcc545f24f98c4"
++SRC_URI[sha256sum] = "91e762520003013834ac1adb4a938d53b22a216341c061b0cf05603b290faf6b"
+ 
+ CVE_PRODUCT = "pcre"
+ 
+-- 
+2.11.0
+
 
