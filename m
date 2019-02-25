@@ -1,48 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B547CA61
+Return-Path: <i.efimov@inango-systems.com>
+Received: from mail.inango-sw.com (mail.inango-systems.com [213.136.71.184])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D59B7CA88
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 12:52:35 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id g1so7663140otj.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 04:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3G6SqeMFx3oQStb0jEnky5x4Z+eMXBg1Bh6Fspm45d4=;
-	b=P5zPVxoaKHuEGx4vMntksAAC5sYEWlOOkuKer133EgEdnyp3ic2dVQxHUPdt/CDGnP
-	hFgqMgd2Wu2yRNfTf1kBaLLDI6n4YyiGkj5/KWGC3eHPZsr6hrhZpCVOnjlD5Z1gXmAh
-	uNRJdcneiM26f94jCjTOCXEX6fLFMZjc6gKSQ4Ph2lQurKgMDSCiHOyVQudUBSD0ZhKH
-	l/dS+z3X7/BZ/acmO5Xih7kBg3Lny7xgKMuRW4mk7hmsB75a60pqhwhFnMRSZevTOKN0
-	06sPljW7ocDlP9iTLPBAlKNmirLrGnDEe82R4rNgp6TSF4p/McqCKTLM1E1n0D3cVtAn
-	OCPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3G6SqeMFx3oQStb0jEnky5x4Z+eMXBg1Bh6Fspm45d4=;
-	b=k0TZFdO+Mje1zHBDB3vX7WwZSs8N/l070VTZEdmoB6XvCt4qjTpb+OL42gwG6vQGFo
-	ZTllbO5TbITtmM21Fdza5rLj5n8Tx5hrGbVLAwZ7co+Cgmg5poDOTf4EkaHsXeIHIFq2
-	VfPTWy/rP8shkle8aQ0twWOyTHCttrQxEL82VQQJPDdADEPTPAclIr43lAraQRpwBizk
-	//2GII933TO5p8JUcgKp6TgjafNhpkghkks+VzYYAgyaJVoX8tTNjCqJqCYp9Eyxa8y/
-	T2SMPEzU2Yf051sIsILsxIH14q+DVVwCewTh19SbP5PGXVSKuvR74MyHvOCOAnCMFm78
-	nyHg==
-X-Gm-Message-State: AHQUAubWv+XUYxwATv2BbrSeXNwCATs8fFBpuaboDbCZcxwDXpdsVbO5
-	Gn5uiV/0IsnomiNHyQsSTxDyvtyZbyZ/avOfD4w=
-X-Google-Smtp-Source: AHgI3IYuwAiitNkBV5lCXqTyRdocKVztCTvWUYB0DR2Vufkyo1SblD6EoCeHO4arxontLg85OYfVoEA3n+rjaIqJTbA=
-X-Received: by 2002:a9d:7653:: with SMTP id o19mr11278271otl.12.1551099156240; 
-	Mon, 25 Feb 2019 04:52:36 -0800 (PST)
+	Mon, 25 Feb 2019 13:23:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id 0AC137A24EC;
+	Mon, 25 Feb 2019 15:23:52 +0200 (IST)
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id ckYDk-UXR7h9; Mon, 25 Feb 2019 15:23:48 +0200 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id D48297A24EE;
+	Mon, 25 Feb 2019 15:23:48 +0200 (IST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-sw.com D48297A24EE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
+	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1551101028;
+	bh=2x5sS2FALoCDENygDCNQbQOGiGOhAtdKufO7z+YqcnY=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=f8zA3DlsJizmH8Y/321QOt+25dCqgd/R4+ZB/hLFwqpTZ+XrTY3oQSn9rczOUthlR
+	mtmpHYnhO8rv41f3QwnWvVnAYUyMPkRaQ4JD9e0BrWPPtQDbFcOf28mIumnU8MkOk8
+	rkHIePIdgVXBIhzhAtN9AXLg7RC5I4J5+zNTo6PNPZdoJoB4JHeb1+r7ySCYDSCbM/
+	BbYZasmW5jiVx3fjpstVNN5atmrfOCtbUSDmhFGNh+G7XMea3GEcZtHVSaZPm5WM8k
+	3ZpOrHiaMseuDNN9q3WCe1jdrPN7Ria3/Sj8Tu9jqb3cZxqjUBBvW2Vm76hziEwAAC
+	/YxAhd5hxPejw==
+X-Virus-Scanned: amavisd-new at inango-sw.com
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id eml0o5SvgSiE; Mon, 25 Feb 2019 15:23:48 +0200 (IST)
+Received: from mail.inango-sw.com (mail.inango-sw.com [172.17.220.3])
+	by mail.inango-sw.com (Postfix) with ESMTP id ABABF7A24EC;
+	Mon, 25 Feb 2019 15:23:48 +0200 (IST)
+Date: Mon, 25 Feb 2019 15:23:47 +0200 (IST)
+From: Ivan Efimov <i.efimov@inango-systems.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <1769282208.6103.1551101027161.JavaMail.zimbra@inango-systems.com>
+In-Reply-To: <CAJTo0LaagzCJ=qLdpuVkyDQqdvT1mvz3_1TThZtkQ6mDKyGUrw@mail.gmail.com>
+References: <1928708604.1124302.1550860318265.JavaMail.zimbra@inango-systems.com>
+	<CAJTo0LaagzCJ=qLdpuVkyDQqdvT1mvz3_1TThZtkQ6mDKyGUrw@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1550845989.git.alex.kanavin@gmail.com>
-	<296658f75576781b5e8f36c95bec204a65482af7.1550845989.git.alex.kanavin@gmail.com>
-	<3cab827a44a031abbffa58de513230d100d5ebe4.camel@linuxfoundation.org>
-In-Reply-To: <3cab827a44a031abbffa58de513230d100d5ebe4.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 25 Feb 2019 13:52:25 +0100
-Message-ID: <CANNYZj-egKt=s0SYG2NN3kV2LnPqg9Jb9UQ25LOGrLjhfZVQUg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Originating-IP: [172.17.220.3]
+X-Mailer: Zimbra 8.8.9_GA_3006 (ZimbraWebClient - FF64 (Linux)/8.8.9_GA_3006)
+Thread-Topic: btrfs-tools Makefile: remove duplicated '-o $@' option from CC
+	cmdline for libbtrfsutil/ subfolder
+Thread-Index: ER4nro3AqdaKjyb0P7IGDUK8ODeOGA==
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/12] qemu: enable virglrenderer and glx options for native/nativesdk builds
+Subject: Re: [PATCH] btrfs-tools Makefile: remove duplicated '-o $@' option from CC cmdline for libbtrfsutil/ subfolder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +57,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 12:52:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Feb 2019 13:23:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 25 Feb 2019 at 12:02, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Thank you for info about https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+   I mistakenly followed guide https://wiki.yoctoproject.org/wiki/Poky_Contributions.
+
+Best regards,
+Ivan
+
+----- Original Message -----
+From: "Ross Burton" <ross.burton@intel.com>
+To: "Ivan Efimov" <i.efimov@inango-systems.com>
+Cc: "OE-core" <openembedded-core@lists.openembedded.org>
+Sent: Monday, February 25, 2019 4:24:24 PM
+Subject: Re: [OE-core] [PATCH] btrfs-tools Makefile: remove duplicated '-o $@' option from CC cmdline for libbtrfsutil/ subfolder
+
+Please don't send patches in HTML  [1].  The patch you add is also
+missing a Signed-off-by and Upstream-Status [2]  For such a trivial
+build issue, we encourage submitting the patch upstream too so we
+don't have to carry it forever.
+
+[1] https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+[2] https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+On Fri, 22 Feb 2019 at 18:32, Ivan Efimov <i.efimov@inango-systems.com> wrote:
 >
-> On Fri, 2019-02-22 at 15:33 +0100, Alexander Kanavin wrote:
-> > Except for ming32/darwin, which do not support them.
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-devtools/qemu/qemu.inc | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-
-> > devtools/qemu/qemu.inc
-> > index c127434b020..95e9e0ede77 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -74,15 +74,15 @@ PACKAGECONFIG ??= " \
-> >      fdt sdl kvm \
-> >      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-> >  "
-> > -PACKAGECONFIG_class-native ??= "fdt alsa kvm"
-> > -PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
-> > +PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
-> > +PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
-> >
-> >  # Handle distros such as CentOS 5 32-bit that do not have kvm
-> > support
-> >  PACKAGECONFIG_class-native_remove = "${@'kvm' if not
-> > os.path.exists('/usr/include/linux/kvm.h') else ''}"
-> >
-> > -# Disable kvm on targets that do not support it
-> > -PACKAGECONFIG_remove_darwin = "kvm"
-> > -PACKAGECONFIG_remove_mingw32 = "kvm"
-> > +# Disable kvm/virgl/mesa on targets that do not support it
-> > +PACKAGECONFIG_remove_darwin = "kvm virglrenderer glx gtk+"
-> > +PACKAGECONFIG_remove_mingw32 = "kvm virglrenderer glx gtk+"
+> Command line for target "libbtrfsutil/%.o" contained
+> double usage of '-o $@' option and causes compilation error:
 >
-> Sorry, I just spotted this. Please don't use _remove in OE-Core. Can we
-> rearrange this so we don't need to use remove?
+>      cc1: error: too many filenames given
 >
-> I appreciate there are other users that have crept in but I'd like to
-> see them gone too...
-
-I'm actually unsure how to override the
-PACKAGECONFIG_append_pn-qemu-native = " gtk+"
-set in local.conf without using _remove.
-
-(we do not support gtk+ on mingw, and I guess darwin too).
-
-We can rearrange this, enable/not enable gtk+ directly in the recipe,
-and drop the qemu related lines from local.conf altogether, if you're
-okay with that.
-
-Alex
+> Signed-off-by: Ivan Efimov <i.efimov@inango-systems.com>
+> ---
+>  ...01-Makefile-fix-double-o-compiler-option-using.patch | 17 +++++++++++++++++
+>  meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb |  1 +
+>  2 files changed, 18 insertions(+)
+>  create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch
+>
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-dou$
+> le-o-compiler-option-using.patch
+> new file mode 100644
+> index 0000000000..335067bc1f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch
+> @@ -0,0 +1,17 @@
+> +Command line for target "libbtrfsutil/%.o" contained double usage
+> +  of '-o $@' option and caused error:
+> +    cc1: error: too many filenames given
+> +
+> +Index: git/Makefile
+> +===================================================================
+> +--- git.orig/Makefile
+> ++++ git/Makefile
+> +@@ -414,7 +414,7 @@ libbtrfs.so.0 libbtrfs.so: libbtrfs.so.0
+> +
+> + libbtrfsutil/%.o: libbtrfsutil/%.c
+> +       @echo "    [CC]     $@"
+> +-      $(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -o $@ -c $< -o $@
+> ++      $(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -c $< -o $@
+> +
+> + libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects)
+> +       @echo "    [LD]     $@"
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
+> index 1b4f515cb6..f1c4691313 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
+> @@ -19,6 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+>             file://0001-Makefile-build-mktables-using-native-gcc.patch \
+>             file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
+>             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+> +           file://0001-Makefile-fix-double-o-compiler-option-using.patch \
+>             "
+>
+>  inherit autotools-brokensep pkgconfig manpages distutils3-base
+> --
+> 2.14.1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+[ https://inango.com/ |    ] 
+Ivan Efimov 
+Architect, Arch Group 
+i.efimov@inango-systems.com 
+T +7 343 298 0147 C +7 904 9 888 350 
+[ https://inango.com/ | inango.com ] [ https://www.linkedin.com/company/inango ]
 
