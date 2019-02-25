@@ -1,51 +1,47 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AA5417C864
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 08E957CC95
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 22:03:06 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id 32so9268722ota.12
+	Mon, 25 Feb 2019 23:12:07 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id a48so12766804qtb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 14:03:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3EtSa+8msTmBh7Wa/wwcA4syemi6V55tDSAZbeDeyrw=;
-	b=x8b2YzcRSGot067fYoQuxld2yxjUpAGmt05ltWvhjm2ixBWfN7W3oG2XEp16OZTH5T
-	Ja8e+0j3x8/qHurKw/AqLYr+Nouo6WPw2GYv+uv74Vrh1IoHV6Hfx5+kS3uc9u4a5BsK
-	MgVULuU2OfHd74Ft1RwX/5br+DYSWeFlP5ksq8ia6z2s/Hv7AvRdl2LApsJ5LiwFdWe8
-	fnB65j5YWiBwL6jYeA8geTBDCwSasiS0hIuDwDbfykdFutixR+7jnlPsJ1ShbiepQqGL
-	cAqnAQVBm1rhQp7q5hN9Iy86sj+KxUr+sOopnDMoLi3uv9TD1gJS7qCPc4WpWDbv03sG
-	Xy7g==
+	Mon, 25 Feb 2019 15:12:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pkZ/6fCOvd3OvNZbrLYgoAdVupKXW8lMwn6/qvMrTI8=;
+	b=u0vmjh22kzFIHAkv+TTLOc2gKsDHSAZ5s7yJk6AoQPFTLqzy39rHEL3PqWVG8oPLcC
+	o7wHTqcqny5Fwk/g1P9Z0ciL9lxz7U1IG9vTFnUzjNvB4KXeFdNMT688lNQBh+NU7jRm
+	SMrT21FU3S+pjeEIEc6jLsKjszaWbAM0B7RY6vADffhO7B8aq3C4gem29tzkUJZvR75H
+	xmyVoA4fxTOJwQB5ZlnetoFL9n1bS9HivcZsLt7d0Tei+SJxqwOL+DlNc0VcBQY8TIDQ
+	El4EfdNyjFdsEUa4rkwA5/8NeoEUjH6az6dA437Sf0enfdST/xZVctRWqqXW11YfFGpX
+	tW/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3EtSa+8msTmBh7Wa/wwcA4syemi6V55tDSAZbeDeyrw=;
-	b=JbObVHxmZj769ffzmQ0IEi+CVumvaleXNNTf0rhGzazXuGu5N5eEZs1z2Z0NFLHflh
-	e3pum7Ln96mU0I2J29KT2sPmkC9biO36zbJEsIoyLGcMZTr+h2TKZzAlTqbNcgWCRJiy
-	CwKFNflSSCw84BZVNQzFH8wAAQYroOnQ9rSeuK39vuRB8a8VnC1uFKFPalCZT2emidyX
-	hIhZzHi06duawSTBpBN6Er42UmHw+gthsQZpcG7hK8nG639jsblz+xKlPIQ+L5wkiSVt
-	Y0D0HRjrho47ogdjHu9I8nTUS2hqVfJmKY0uKU7mpM/nrJ3HfPUlmzxStNfN4MnFkpQw
-	QdRA==
-X-Gm-Message-State: AHQUAuY2RTwv0ToXKstxHgR7yvSkQG2T3SdrUnyQrl6vSRMZzuxc9szO
-	mVcBKXqDML02MNiRppuV6m+GaWS5ofY=
-X-Google-Smtp-Source: AHgI3IaGYcWuke/ZcTLAVFHe5kboSVldF/2GhOgjfDF3Qj6DBXB2W0NZaZGxqHYOZvZnrCpGQXc0FQ==
-X-Received: by 2002:a9d:72c2:: with SMTP id d2mr13816527otk.228.1551132187162; 
-	Mon, 25 Feb 2019 14:03:07 -0800 (PST)
-Received: from alago.cortijodelrio.net
-	(CableLink-189-218-30-19.Hosts.InterCable.net. [189.218.30.19])
-	by smtp.googlemail.com with ESMTPSA id
-	c24sm4494002otl.67.2019.02.25.14.03.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Feb 2019 14:03:06 -0800 (PST)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Feb 2019 16:02:52 -0600
-Message-Id: <20190225220252.29133-1-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 2.17.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pkZ/6fCOvd3OvNZbrLYgoAdVupKXW8lMwn6/qvMrTI8=;
+	b=TSVW6RcT0Cry1syZNk/leVWMLE0VUKRG5CS32ABAOW7KrzOsRZeMXtsqjVOJBIXvSS
+	9Xq4V98rKUgtSXe5U0JSXQxP9hYa8rDr5RGLiuqpX17N1/qtrZAIvVco3rCzb5PmHzOz
+	tpFieNlNByhWDzmZd/9rKPOGWntBAiYVwbL50xIWvt0oNsG+QeGpLvQkH/4iu4LysmqG
+	2zf2R5PhsTeVwM3l2i3BW7EBmrqiz/kL/w+k64NEugdw07T3zraPWLisaoY39We6Qc3b
+	Ge6FjeBs8D8whzEPtFqV06mzUp9gLgNJMcsQcHN/CQ9BYwkdYqJXEMTTzlrcJ537GGGm
+	N9MQ==
+X-Gm-Message-State: AHQUAubyRqdOaYs+u2VfwQp6BTX1iSZnlM91VScGVVcQfyvBz0SJmaWS
+	Xf5uq7ilPqhF+cqYCjAiinna2ItP4Y1c0gT5Tn8=
+X-Google-Smtp-Source: AHgI3IbSkf5qT/7fF10XBCyV/lXpPZ7hSV+DAIYB0sE7rfWNp5uhTyJ/aye3EyxvZ6loEAGUGa8PSomD5E3HUyH6u34=
+X-Received: by 2002:aed:3a09:: with SMTP id n9mr9662092qte.196.1551136328747; 
+	Mon, 25 Feb 2019 15:12:08 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] ltp: Add patch for string formatting security warning
+References: <20190225213911.20656-1-alistair.francis@wdc.com>
+In-Reply-To: <20190225213911.20656-1-alistair.francis@wdc.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Feb 2019 15:11:42 -0800
+Message-ID: <CAMKF1sraXaL_fMtSnhMcZyOm7SBnyWoe4Tw7wfEKJG1phZ8KGA@mail.gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Remove ChangeLog diff from patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,103 +54,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 22:03:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 25 Feb 2019 23:12:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-A revamp of the syscalls/setregid tests made to use a new
-library [LTP:7a1b4427] required a conversion to test messages.
-This test in particular did not include a formatted string,
-but a just a string element:
-  testcases/kernel/syscalls/setregid/setregid01.c
+On Mon, Feb 25, 2019 at 1:50 PM Alistair Francis
+<Alistair.Francis@wdc.com> wrote:
+>
+> To avoid conflicts with other forks of glibc remove the diff from the
+> ChangeLog.
+>
 
-This patch allows LTP to be built with -Wformat,
--Wformat-security, and -Werror=format-security.
+LGTM
 
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
----
- ...etregid01-security-string-formatting.patch | 46 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190115.bb     |  6 +--
- 2 files changed, 47 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/setregid01-security-string-formatting.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/setregid01-security-string-formatting.patch b/meta/recipes-extended/ltp/ltp/setregid01-security-string-formatting.patch
-new file mode 100644
-index 0000000000..24449148f2
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/setregid01-security-string-formatting.patch
-@@ -0,0 +1,46 @@
-+From 430e05c2169ed15aaa6d7f9459edd607603cee02 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-+Date: Mon, 25 Feb 2019 10:44:33 -0600
-+Subject: [PATCH] setregid01: Fix security warning for string formatting
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+GCC 8.2.0 complains with the following:
-+  setregid01.c: In function 'run':
-+  setregid01.c:47:3: error: format not a string literal and no format arguments [-Werror=format-security]
-+     tst_res(TFAIL | TTERRNO, tc->msg);
-+     ^~~~~~~
-+because there is no string formatting in the message. This can
-+be seen with CFLAGS set to:
-+  -Wformat -Wformat-security -Werror=format-security
-+as Yocto Project's Poky does, e.g.:
-+  http://errors.yoctoproject.org/Errors/Details/230043/
-+
-+Upstream-Status: Backport [46e1eda55f188810e6bf3a939b92d604321807ae]
-+
-+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
-+Reviewed-by: Enji Cooper <yaneurabeya@gmail.com>
-+---
-+ testcases/kernel/syscalls/setregid/setregid01.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/testcases/kernel/syscalls/setregid/setregid01.c b/testcases/kernel/syscalls/setregid/setregid01.c
-+index f2e41e134..8c9e11918 100644
-+--- a/testcases/kernel/syscalls/setregid/setregid01.c
-++++ b/testcases/kernel/syscalls/setregid/setregid01.c
-+@@ -44,9 +44,9 @@ static void run(unsigned int n)
-+ 	TEST(SETREGID(*tc->arg1, *tc->arg2));
-+ 
-+ 	if (TST_RET == -1)
-+-		tst_res(TFAIL | TTERRNO, tc->msg);
-++		tst_res(TFAIL | TTERRNO, "%s", tc->msg);
-+ 	else
-+-		tst_res(TPASS, tc->msg);
-++		tst_res(TPASS, "%s", tc->msg);
-+ }
-+ 
-+ static void setup(void)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
-index ed1cb27112..ddf97e26ce 100644
---- a/meta/recipes-extended/ltp/ltp_20190115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190115.bb
-@@ -29,11 +29,6 @@ CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
- SRCREV = "a6a5caef13632e669dda27b0461726eba546a2f3"
- 
--# ltp doesn't currently build cleanly with
--# "-Wformat -Wformat-security -Werror=format-security" in CFLAGS
--# remove this when it does
--SECURITY_STRINGFORMAT = ""
--
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0004-build-Add-option-to-select-libc-implementation.patch \
-            file://0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
-@@ -53,6 +48,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
-            file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
-+           file://setregid01-security-string-formatting.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
-
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  ...e-unsigned-Jcc-instructions-on-size-.patch | 21 +------------------
+>  1 file changed, 1 insertion(+), 20 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch b/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
+> index 1c625f63c7..1a343149c0 100644
+> --- a/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
+> +++ b/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
+> @@ -21,33 +21,14 @@ Tested on x86-64 and x32, with and without --disable-multi-arch.
+>  CVE: CVE-2019-7309
+>  Upstream-Status: Backport
+>  Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>  ---
+> - ChangeLog                                | 11 ++++
+>   sysdeps/x86_64/memcmp.S                  | 20 +++---
+>   sysdeps/x86_64/x32/Makefile              |  3 +-
+>   sysdeps/x86_64/x32/tst-size_t-memcmp-2.c | 79 ++++++++++++++++++++++++
+>   5 files changed, 111 insertions(+), 10 deletions(-)
+>   create mode 100644 sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
+>
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 29bc4451ef..a0dcdac323 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,3 +1,14 @@
+> -+2019-02-04  H.J. Lu  <hongjiu.lu@intel.com>
+> -+
+> -+      [BZ #24155]
+> -+      CVE-2019-7309
+> -+      * NEWS: Updated for CVE-2019-7309.
+> -+      * sysdeps/x86_64/memcmp.S: Use RDX_LP for size.  Clear the
+> -+      upper 32 bits of RDX register for x32.  Use unsigned Jcc
+> -+      instructions, instead of signed.
+> -+      * sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memcmp-2.
+> -+      * sysdeps/x86_64/x32/tst-size_t-memcmp-2.c: New test.
+> -+
+> - 2019-01-31  Carlos O'Donell  <carlos@redhat.com>
+> -           Torvald Riegel  <triegel@redhat.com>
+> -           Rik Prohaska  <prohaska7@gmail.com>
+>  diff --git a/sysdeps/x86_64/memcmp.S b/sysdeps/x86_64/memcmp.S
+>  index 1fc487caa5..1322bb3b92 100644
+>  --- a/sysdeps/x86_64/memcmp.S
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
