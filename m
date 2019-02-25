@@ -1,47 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E957CC95
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DE956606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 23:12:07 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id a48so12766804qtb.4
+	Mon, 25 Feb 2019 23:17:55 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id y10so5239145plp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 15:12:09 -0800 (PST)
+	Mon, 25 Feb 2019 15:17:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pkZ/6fCOvd3OvNZbrLYgoAdVupKXW8lMwn6/qvMrTI8=;
-	b=u0vmjh22kzFIHAkv+TTLOc2gKsDHSAZ5s7yJk6AoQPFTLqzy39rHEL3PqWVG8oPLcC
-	o7wHTqcqny5Fwk/g1P9Z0ciL9lxz7U1IG9vTFnUzjNvB4KXeFdNMT688lNQBh+NU7jRm
-	SMrT21FU3S+pjeEIEc6jLsKjszaWbAM0B7RY6vADffhO7B8aq3C4gem29tzkUJZvR75H
-	xmyVoA4fxTOJwQB5ZlnetoFL9n1bS9HivcZsLt7d0Tei+SJxqwOL+DlNc0VcBQY8TIDQ
-	El4EfdNyjFdsEUa4rkwA5/8NeoEUjH6az6dA437Sf0enfdST/xZVctRWqqXW11YfFGpX
-	tW/w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1Ex2SPINhIwxnmCPEJKX0ru9FWQq6LsJgAf6rfoV1xY=;
+	b=UIDY+FrqooqAGpMd2EjKVTQYIPZKNASIs4+RBiRYlww7jWxWAt+jJS4Ki/MedHGwOW
+	F8nK2L8WIl6HvpWxsBEIBRtT0m3HJijPH/Uc/rFLCPP2rGXy1Oh/UPwlVsk413xezvcf
+	bRxKinNo3LqwsXsLnW2uLrIp54RfjthdquauRxaswUzoUBP04ubKSWriqVDjnFQXi7Pu
+	TrZm6HzDi1jkjPhhy1Oed4IgK120PM5bF2l6L0MxPYCY4mq2GnFgx4hxm93/F9O+5Ftv
+	UPOOJASb3FeBr7THFHpUZJjGxuJqgJ1Ru79cbYGg0OYVQVTcjryDIbXgRq5AnLs8LOJ6
+	4j6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pkZ/6fCOvd3OvNZbrLYgoAdVupKXW8lMwn6/qvMrTI8=;
-	b=TSVW6RcT0Cry1syZNk/leVWMLE0VUKRG5CS32ABAOW7KrzOsRZeMXtsqjVOJBIXvSS
-	9Xq4V98rKUgtSXe5U0JSXQxP9hYa8rDr5RGLiuqpX17N1/qtrZAIvVco3rCzb5PmHzOz
-	tpFieNlNByhWDzmZd/9rKPOGWntBAiYVwbL50xIWvt0oNsG+QeGpLvQkH/4iu4LysmqG
-	2zf2R5PhsTeVwM3l2i3BW7EBmrqiz/kL/w+k64NEugdw07T3zraPWLisaoY39We6Qc3b
-	Ge6FjeBs8D8whzEPtFqV06mzUp9gLgNJMcsQcHN/CQ9BYwkdYqJXEMTTzlrcJ537GGGm
-	N9MQ==
-X-Gm-Message-State: AHQUAubyRqdOaYs+u2VfwQp6BTX1iSZnlM91VScGVVcQfyvBz0SJmaWS
-	Xf5uq7ilPqhF+cqYCjAiinna2ItP4Y1c0gT5Tn8=
-X-Google-Smtp-Source: AHgI3IbSkf5qT/7fF10XBCyV/lXpPZ7hSV+DAIYB0sE7rfWNp5uhTyJ/aye3EyxvZ6loEAGUGa8PSomD5E3HUyH6u34=
-X-Received: by 2002:aed:3a09:: with SMTP id n9mr9662092qte.196.1551136328747; 
-	Mon, 25 Feb 2019 15:12:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20190225213911.20656-1-alistair.francis@wdc.com>
-In-Reply-To: <20190225213911.20656-1-alistair.francis@wdc.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1Ex2SPINhIwxnmCPEJKX0ru9FWQq6LsJgAf6rfoV1xY=;
+	b=XjSFlMtbYQNdBX8rY+w9i1LAuBCdj/FpG8AyPayVtKXq+SsJAlGcjiwtNrJhiUuYhT
+	AUR/hQA9/FLi5i1IjgffdA7bi36RKtgg5XBmr4RU/9hGBkbzbWGRxlsNRCTozhgIfKBj
+	7QbSqCoaKj2xc1r6IK6skXCZAzO6EL3k5PoYetmhwbiha5QXij0ed2WZlHSqZcnv9gyJ
+	XPSCqfqvi5psqwZGJwSBqAQPIDtaQp6FSMyXZ4+YinWAkrGZOc74nLraQFCKpj1z3Ok1
+	LE+t3sqDYrOk99cktv7pMkriUT+91Ok0glg3YzZ+dlsL3AtTDZi3QjknGaG2xFpx8epv
+	e+NA==
+X-Gm-Message-State: AHQUAuby2ozrdkzD3fxmaMlVcJJAjDDZ7cywZUGdeVegiDoiA/By05Su
+	7H/T9TXplD1vMbpOmTV+6VFJgKcv
+X-Google-Smtp-Source: AHgI3IbQ/5SVt3kQLu3HEvvw8go+XeI+IOQIYeJk20MvWd3CrPa0Y4Plx+wlQEkPiZBWOqUlCUHvOQ==
+X-Received: by 2002:a17:902:9304:: with SMTP id
+	bc4mr23308205plb.81.1551136676202; 
+	Mon, 25 Feb 2019 15:17:56 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1cf2])
+	by smtp.gmail.com with ESMTPSA id 23sm14148599pfn.2.2019.02.25.15.17.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Feb 2019 15:17:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Feb 2019 15:11:42 -0800
-Message-ID: <CAMKF1sraXaL_fMtSnhMcZyOm7SBnyWoe4Tw7wfEKJG1phZ8KGA@mail.gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Remove ChangeLog diff from patch
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Feb 2019 15:17:41 -0800
+Message-Id: <20190225231742.13855-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH V2 1/2] default-distrovars: Drop DISTRO_FEATURES_LIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,68 +57,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 23:12:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Feb 2019 23:17:56 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 25, 2019 at 1:50 PM Alistair Francis
-<Alistair.Francis@wdc.com> wrote:
->
-> To avoid conflicts with other forks of glibc remove the diff from the
-> ChangeLog.
->
+After eglibc was merged into glibc, Kconfig support was also dropped so
+these libc features therefore are not effective anymore and can be
+removed
 
-LGTM
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2:
+- Add ipv4 and ipv6 to default distro features, they are not libc
+  specific anyway
+- Remove DISTRO_FEATURES_DEFAULT as this is redundant now
 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  ...e-unsigned-Jcc-instructions-on-size-.patch | 21 +------------------
->  1 file changed, 1 insertion(+), 20 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch b/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
-> index 1c625f63c7..1a343149c0 100644
-> --- a/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
-> +++ b/meta/recipes-core/glibc/glibc/0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch
-> @@ -21,33 +21,14 @@ Tested on x86-64 and x32, with and without --disable-multi-arch.
->  CVE: CVE-2019-7309
->  Upstream-Status: Backport
->  Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->  ---
-> - ChangeLog                                | 11 ++++
->   sysdeps/x86_64/memcmp.S                  | 20 +++---
->   sysdeps/x86_64/x32/Makefile              |  3 +-
->   sysdeps/x86_64/x32/tst-size_t-memcmp-2.c | 79 ++++++++++++++++++++++++
->   5 files changed, 111 insertions(+), 10 deletions(-)
->   create mode 100644 sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
->
-> -diff --git a/ChangeLog b/ChangeLog
-> -index 29bc4451ef..a0dcdac323 100644
-> ---- a/ChangeLog
-> -+++ b/ChangeLog
-> -@@ -1,3 +1,14 @@
-> -+2019-02-04  H.J. Lu  <hongjiu.lu@intel.com>
-> -+
-> -+      [BZ #24155]
-> -+      CVE-2019-7309
-> -+      * NEWS: Updated for CVE-2019-7309.
-> -+      * sysdeps/x86_64/memcmp.S: Use RDX_LP for size.  Clear the
-> -+      upper 32 bits of RDX register for x32.  Use unsigned Jcc
-> -+      instructions, instead of signed.
-> -+      * sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memcmp-2.
-> -+      * sysdeps/x86_64/x32/tst-size_t-memcmp-2.c: New test.
-> -+
-> - 2019-01-31  Carlos O'Donell  <carlos@redhat.com>
-> -           Torvald Riegel  <triegel@redhat.com>
-> -           Rik Prohaska  <prohaska7@gmail.com>
->  diff --git a/sysdeps/x86_64/memcmp.S b/sysdeps/x86_64/memcmp.S
->  index 1fc487caa5..1322bb3b92 100644
->  --- a/sysdeps/x86_64/memcmp.S
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ meta/conf/distro/include/default-distrovars.inc | 11 +----------
+ meta/conf/local.conf.sample.extended            | 16 ++--------------
+ 2 files changed, 3 insertions(+), 24 deletions(-)
+
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 76edff6480..d57329ec17 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,16 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+ 
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+-DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+-					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+-					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
+-					libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+-					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+-					libc-posix-wchar-io"
+-DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
+-DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
+-DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
++DISTRO_FEATURES ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+ 
+ IMAGE_FEATURES ?= ""
+ 
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 010bf6ca6f..0743fefece 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -24,22 +24,10 @@
+ # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+ # be appropriate for example.
+ 
+-
+-# glibc configurability is used to reduce minimal image's size.
+-# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
+-# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
+-# and DISTRO_FEATURES definitions to local.conf to enable the options.
+-#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+-#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+-#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
+-#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+-#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+-#               libc-posix-wchar-io"
+-
+-#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
++#DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 pcmcia usbgadget usbhost wifi nfs zeroconf pci"
+ 
+ # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+-#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
++#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
+ 
+ # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+ # packages at build time using qemu-native. Disabling it (by setting it to 0)
+-- 
+2.20.1
+
 
