@@ -1,59 +1,47 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 96D897C6F9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 990C07C757
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 21:13:35 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id o17so11559014wrw.3
+	Mon, 25 Feb 2019 21:14:53 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id u7so3163123qtg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 13:13:36 -0800 (PST)
+	Mon, 25 Feb 2019 13:14:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=e0G3+938WKGKrAKjuwTafUr/+FKlPf6+1wHbZlkw7ZI=;
-	b=GSH31osWd3o4x8B6w+agNN3xB99cAWehr4dBIDq/j85E0SvOTYOx6mODdkBvGfA62r
-	jlGm3ZK+3SY1pEbF8NKzmRD1mhAMAiPPOCjEJw0MNpc5DUj3Un6JaKh00RAmJqlfT/E4
-	7jbvn4OLYXm1cka2C3qbBZDzGhMLow2kvaQa2M8Q+DUkHiIvP3hnuDQF2z+/73oApBiV
-	qpFD6nYln2GIvkVLPg0uDqeYvHXBTpo4ec++VnZpJgcIgoDL45nJiRwBYj1wTkUkzJvm
-	YTdppAgB83D66H6vn6MAp4TH1qRwlwXTcgOWRxvHEjoEEJDLSfLy4DHzrkle/mDOO5co
-	Horg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=5XinwEjqMdWuQmM5vyPLCTpUORGn1cYa+hRh4B07OQE=;
+	b=sInOXQfRNSRsppU778BHj6XsVR4QV+pvWd7qCUtgOIzcXqvbGmXYXSUUzUyx/lZD5d
+	HNtsqAP7NefkV9OVex5xSdAdJuzSOvCgZcIhz86x9v7XiVssRn1IiK+F6cJFsDrU3Hf6
+	Z9dGD1MtyobmSYMFpGwO1MmBfh071BOoIogKeAGZOX3bxM7hPmmJCYXvf0CfapC1W50S
+	6SwINfys5rDTQrBloByJKXttKrnQ4PsX9AvzwX27c6njfWIfW8DG404kXSUHwbjmpKJJ
+	s3ZaWpiDT57zIEggIXicbQ7gIV4KfMZbyNIrOe4BzJ1BHzeUN7CkpHLuqjJT2yOpgH5m
+	nNfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=e0G3+938WKGKrAKjuwTafUr/+FKlPf6+1wHbZlkw7ZI=;
-	b=HEazreDuERmfRMiWwwedc1VHOP8EMy8DkwtOZvJ21fxwOMmmYyYp8EZidaAbpW7UKR
-	1pS96kh0MH7cdowVILeNfA3iz1GJA55t30Xt+zN25kgpd37D8FzTVWctwJvkFjg5lY+X
-	GX8bD85w32rN43Lb1Pf0u2HTBs67iVaI438ZMdpHrKUShMxMUPfJt8PfFCcT62Vj/t2i
-	owwLRW3lkYHixpO0ebUsysNWPV7pXHZEeTFw7i8bJU4XLK4dVnlaq1Xvb3uVts3lMghv
-	+zW3NC9HVVFhv9Jq9jkN19XeBzrIApjKZtIuxLZs3v9BQnZ0sAOeuKfG52piU9hraxFs
-	k9qQ==
-X-Gm-Message-State: AHQUAuZ/63U4uRdByHH7SNW2AHHPiwLIFbIW+qSw5JioLXf0/r+tURN+
-	Wph6UJG1Jfd0X/nGLJTH8Hc=
-X-Google-Smtp-Source: AHgI3IYvHZ6N0Ei0MNSQEh2YIq/UbZZPjU6MCT0XA/txUXg3EILyFTpF07H+fRgcpC6/IICkvrLQEg==
-X-Received: by 2002:a5d:498a:: with SMTP id r10mr14425882wrq.188.1551129216314;
-	Mon, 25 Feb 2019 13:13:36 -0800 (PST)
-Received: from x230 ([62.201.25.198])
-	by smtp.gmail.com with ESMTPSA id b8sm8920450wmj.35.2019.02.25.13.13.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 25 Feb 2019 13:13:35 -0800 (PST)
-Date: Mon, 25 Feb 2019 22:13:33 +0100
-From: Petr Vorel <petr.vorel@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190225211331.GF30805@x230>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20190115230612.18947-1-petr.vorel@gmail.com>
-	<f945d8518ac05d37fbba3a134dc09d6c89acbc7a.camel@linuxfoundation.org>
-	<CAMKF1spaQmVW_=5bgus7nkw5Q9vU+DQH+qTzMj27i8omxg1DwA@mail.gmail.com>
-	<20190116152809.GA407@x230>
-	<c2b3d2ad4287960a5805627ef550dad30e2b82d3.camel@linuxfoundation.org>
-	<CAMKF1sqWVxZwT93wT0=habRrZW6M1FAAcvVcaXnc_ZSRfY147A@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=5XinwEjqMdWuQmM5vyPLCTpUORGn1cYa+hRh4B07OQE=;
+	b=NVo1jIKnzIEsH52ojWUmwErAvZ6ajsjJPzDxIo2oOhMEjO2wKeQIQ5O4MV9K5Kwnug
+	l3yyTm5e59KDGkwCCeNmj1II0tUD3dm3W2K8dCyCmvgSNqU3leMi5q6ZjXQS7UyZMIFX
+	tXSfCEU92IZ+n2by0i2pHqgqrrrSwhrMdXumA9iNHvt3BpXoJ+BLmOxwrVy006awoprO
+	gwq5OkSZ/lE++LZpqqQa9q5SeDQLuUcXKaC9hGCX0AGw0BT/TrCqUJQiewAM+Ote094W
+	4Qfl5MNfuYavpnIUfigdwFAs8oyd42d5Djqx3SrDrhSbLR4+8wWBkZxmqd33lUlci0sR
+	n9DA==
+X-Gm-Message-State: AHQUAuZx6mhXS0/1ELjwDYgMp6xfVA9L1NjiA+UfooLGj9HPKts1qSe7
+	oaEr3QuEU8BwBPb2kyxFfKavk5HcZwEj+zpPzew=
+X-Google-Smtp-Source: AHgI3IbgujA1geuZYh7EBVxWiPAjEUwWSm9MTk5DXlXhekMxvQpmrUA5EAVQsd257S/BMH+OE/geIuPg26A1fHM/xEA=
+X-Received: by 2002:a0c:94cf:: with SMTP id k15mr15481008qvk.55.1551129294228; 
+	Mon, 25 Feb 2019 13:14:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqWVxZwT93wT0=habRrZW6M1FAAcvVcaXnc_ZSRfY147A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] ltp: Update to 20190115
+References: <20190225185954.15628-1-raj.khem@gmail.com>
+	<CAJ86T=W+9YVOKOQ28x0_Fm1RKocKZf8mPdqN1TvbveHiAN7reA@mail.gmail.com>
+In-Reply-To: <CAJ86T=W+9YVOKOQ28x0_Fm1RKocKZf8mPdqN1TvbveHiAN7reA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Feb 2019 13:14:28 -0800
+Message-ID: <CAMKF1spm7DPK7uaCrqJA0-mkJ5Jgmi1Y_6Qy48GdxudiKeM0ag@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] default-distrovars: Drop DISTRO_FEATURES_LIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,28 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 21:13:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Feb 2019 21:14:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Richard, Khem,
+On Mon, Feb 25, 2019 at 12:14 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Mon, Feb 25, 2019 at 11:00 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > After eglibc was merged into glibc, Kconfig support was also dropped so
+> > these libc features therefore are not effective anymore and can be
+> > removed
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/distro/include/default-distrovars.inc | 10 +---------
+> >  meta/conf/local.conf.sample.extended            | 16 ++--------------
+> >  2 files changed, 3 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> > index 76edff6480..35da7f10e1 100644
+> > --- a/meta/conf/distro/include/default-distrovars.inc
+> > +++ b/meta/conf/distro/include/default-distrovars.inc
+> > @@ -11,15 +11,7 @@ LOCALE_UTF8_IS_DEFAULT ?= "1"
+> >  LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+> >
+> >  DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+> > -DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+>
+> There are a lot of recipes which check the ipv6 distro feature. Those
+> recipe should probably be updated before this is merged.
+>
 
-> > security_flags.inc:SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
-> > security_flags.inc:SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+I think I will move ipv6 and ipv4 to DISTRO_FEATURES_DEFAULT
+that will avoid immediate need to address it systemwide.
 
-> > so the reproducer should be to add "-Wformat -Wformat-security
-> > -Werror=format-security" to CFLAGS when building ltp.
-
-
-> I think this must be new, we are carrying patches to fix similar
-> issues in other parts of ltp. Probably something to consider for
-> upstreaming
-> e.g.
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
-
-I was testing it, but this one was ok. Found problems with setregid01.c,
-to realize that it was already posted to LTP mailing list, so pushed it.
-
-Kind regards,
-Petr
+> > -                                       libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+> > -                                       libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
+> > -                                       libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+> > -                                       libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+> > -                                       libc-posix-wchar-io"
+> > -DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
+> > -DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
+> > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
+> > +DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+> >
+> >  IMAGE_FEATURES ?= ""
+> >
+> > diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+> > index 010bf6ca6f..91e321047f 100644
+> > --- a/meta/conf/local.conf.sample.extended
+> > +++ b/meta/conf/local.conf.sample.extended
+> > @@ -24,22 +24,10 @@
+> >  # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+> >  # be appropriate for example.
+> >
+> > -
+> > -# glibc configurability is used to reduce minimal image's size.
+> > -# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
+> > -# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
+> > -# and DISTRO_FEATURES definitions to local.conf to enable the options.
+> > -#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+> > -#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+> > -#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
+> > -#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+> > -#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+> > -#               libc-posix-wchar-io"
+> > -
+> > -#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
+> > +#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci"
+> >
+> >  # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+> > -#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
+> > +#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
+> >
+> >  # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+> >  # packages at build time using qemu-native. Disabling it (by setting it to 0)
+> > --
+> > 2.20.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
