@@ -1,46 +1,51 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 25BBA7CA98
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A06F7CA55
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 14:00:40 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id l5so7498220lje.1
+	Mon, 25 Feb 2019 14:50:15 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id q1so10251624wrp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 06:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=tFmsjRGy43086dgpxyUTf71PE16ulPbLuKnGGSTbOsE=;
-	b=Sic6HyU7MgLfccElGwNsavnuB4nClqq/HWJZmtNXRrQqpCXkL1z3xBdsZvrs69KN6t
-	60r+dBDbX03K+PWl0RzbFZEIMSQFHjTmWXsNI9xqBRsvRhVgSxcIKCMDwLfvqsF9+IZX
-	0bgelDQMEPI2klOlaPx5lcvRpEFKg3NVMLHHaxAGcfEFnfdboK2M4jiZ9/Gow1SGPh67
-	RGDq+Kr2Yy+gM6cBSKvW0I9EjHstNF1PliFxiSvJ4HwmiL5DDleCXTohcXCvp6PaCTgs
-	enZ8GCfebE4chMC3LiEbl9o2+xjDMrjixm8PzOOcIwGJOa1uRFTCzlUY0Q8md87fCFvu
-	A5Gw==
+	Mon, 25 Feb 2019 06:50:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=PCfqFT0aHQW+Ib/qiY4mo4ZOEtFXNY+1I2zaEmgTM3Y=;
+	b=JESvl+lKbxMYcRnPcGtkY2jcgmN1XloBnJ22THKmdtqW5uwQDXfYZLOzveAV1vl//c
+	4ox+yhC29i1OsQvyowwLRr3H2jH/W/NwD5ZGxkykh8gT6MYBA/8ook9OJy7tNriO3GeM
+	xbmzGzrmAnsFiwu27Cx3BGB/Xl7ATxGx7i7V4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=tFmsjRGy43086dgpxyUTf71PE16ulPbLuKnGGSTbOsE=;
-	b=pLIWJx1UkvPxwQI8Z8HzOfkmZn9jtljaiOzNA25AEihRJ//Yrmy8PF3abetDlQONe6
-	1wkT7EMfcA9FxD+DEt/BPU64pUOE4qoaEVen5m2e6b388uuvCcaT6tZIx03GPBqRGngD
-	WSNLEEybQ1u1Azg5jdt60KRYALt4ocwNJof9dbx6tDaCsdN3eUQc0ylaTrhEPHl6oIt8
-	yTogShhzHQR0Y0mYI8iN1OBC4lDROB+nw1c3ogw7NBZopRGYmgqlUnmtfYXU2l6tehPJ
-	x042MiEX43jjZEdlFo9FXMQm2gzhzDPiN+or6p13egVVDON52dodVwQkyf5fpyN5u1NI
-	psGw==
-X-Gm-Message-State: AHQUAubckAfmK1OeaVsqW8STNwR5ERbOEKSC0CJ87LnvzCoQguY/j4hq
-	k0G0zCy8GcTbrDVtle/VHpHWuyjON4lrGD/EEme4IQ==
-X-Google-Smtp-Source: AHgI3IajtwfZtVo/5vzqrqPWZnMDpfuTjdAwyejeAjDnKuSR3rbT4GPzKjB3XjKyFhRoSUrESjLRC0i8z/TYrUgbP30=
-X-Received: by 2002:a2e:21d2:: with SMTP id h79mr5867050lji.39.1551103241385; 
-	Mon, 25 Feb 2019 06:00:41 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=PCfqFT0aHQW+Ib/qiY4mo4ZOEtFXNY+1I2zaEmgTM3Y=;
+	b=bkq1+Yb0v7QK1/MMebPanRfkYERVEEgEEU2x3VRyff9YoX3uO35bVV5kqqg6/QuxuA
+	BK03Vobn2+AoXse4GHNk/G3mABOQgWjLbWE/989YsLoGrurwdyXGOl8cpQOc0w1PCzS+
+	shXQBS5LYqYrXVA70TFmirg/tS6nhDE0Aoa6T9bSUeQzzKF0FXp/i1eXkw8G6RNMTnZm
+	v3+VCu9W4Lu8VObc8T+eiYRZwReI67NoCCwsmFQVyZEChbwGEee0JVGyy8+FJ/MZyJoM
+	TIIBId7j6sNEjx1ukIwbTP8mmz6m54KMv3jeb+oifGAiGqS6eScPVS5x17n5B9G2n7B0
+	+CvA==
+X-Gm-Message-State: AHQUAuZlfYuVFYzyAfT6IwQpccj2PVDb+IaAON4Br1t32cAYiEiaT9lk
+	SXD4vh88Pn2EIJzOdFIouq3Xrg==
+X-Google-Smtp-Source: AHgI3Ia6FdDA65hET5+P6CFabEn86dvvMZY4ZS7oDocW72cqCn5SDi3lHgv/4erxvIRIUst/FN/sqQ==
+X-Received: by 2002:a5d:4843:: with SMTP id n3mr12371988wrs.209.1551106215901; 
+	Mon, 25 Feb 2019 06:50:15 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t3sm10126825wmc.20.2019.02.25.06.50.14
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 25 Feb 2019 06:50:14 -0800 (PST)
+Message-ID: <2fc2b224301582b31e6494a4b2d3df7e4f83d585.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Daniel =?ISO-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>
+Date: Mon, 25 Feb 2019 14:50:13 +0000
+In-Reply-To: <CAEUSe7_En46Ji=GjU3EmRBvocfiZz5YQO9XcOeK9+9Hf+9SCug@mail.gmail.com>
 References: <20190221182103.13174-1-daniel.diaz@linaro.org>
 	<57b7d2afe13b3038edf9c34f9106f7ea7fcf88f2.camel@linuxfoundation.org>
-In-Reply-To: <57b7d2afe13b3038edf9c34f9106f7ea7fcf88f2.camel@linuxfoundation.org>
-From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date: Mon, 25 Feb 2019 08:00:29 -0600
-Message-ID: <CAEUSe7_En46Ji=GjU3EmRBvocfiZz5YQO9XcOeK9+9Hf+9SCug@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAEUSe7_En46Ji=GjU3EmRBvocfiZz5YQO9XcOeK9+9Hf+9SCug@mail.gmail.com>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ltp: Bump to 20190115
@@ -56,47 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 14:00:41 -0000
+X-List-Received-Date: Mon, 25 Feb 2019 14:50:15 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello!
-On Sat, 23 Feb 2019 at 10:07, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-02-21 at 12:21 -0600, Daniel D=C3=ADaz wrote:
-> > This patch has been refreshed:
-> > * 0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
-> >
-> > These patches have been dropped as they have been merged:
-> > * 0001-netns_helper.sh-use-ping-6-when-ping6-is-not-avaliab.patch
-> > * 0001-setrlimit05-Use-another-method-to-get-bad-address.patch
-> > * 0001-sigwaitinfo01-recent-glibc-calls-syscall-directly.patch
-> > * 0001-statx-fix-compile-errors.patch
-> > * 0001-syscalls-fcntl-make-OFD-command-use-fcntl64-syscall-.patch
-> > * 0001-getcpu01-Rename-getcpu-to-avoid-conflict-with-glibc-.patch
-> >
-> > This patch has been added:
-> > * define-sigrtmin-and-sigrtmax-for-musl.patch
-> >
-> > Added these rdependencies:
-> > * file: for ld01, file01 and logrotate
-> > * quota: for quota_remount_test01
-> >
-> > Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
->
-> I think there was already a previous version of this upgrade which also
-> didn't work:
->
-> http://errors.yoctoproject.org/Errors/Latest/?filter=3D480efd388db578106a=
-8a2129c0382b7e56a1ee36&type=3Dcommit&limit=3D150
-> From the -Wformat-security -Werror=3Dformat-security security flags.
+On Mon, 2019-02-25 at 08:00 -0600, Daniel Díaz wrote:
+> Hello!
+> On Sat, 23 Feb 2019 at 10:07, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > I think there was already a previous version of this upgrade which
+> > also
+> > didn't work:
+> > 
+> > http://errors.yoctoproject.org/Errors/Latest/?filter=480efd388db578106a8a2129c0382b7e56a1ee36&type=commit&limit=150
+> > From the -Wformat-security -Werror=format-security security flags.
+> 
+> I thought the problems were with MUSL and Glibc 2.29 (for which I
+> built). Let me look at these problems, then.
 
-I thought the problems were with MUSL and Glibc 2.29 (for which I
-built). Let me look at these problems, then.
+Yes, thanks for looking at those.
 
-Thanks and greetings!
+For now I tweaked the recipe to disable the string security flags for
+ltp as I wanted to get the upgrade in. As soon as we get a patchset
+which builds, we can remove that workaround. I'm hoping we can get
+something upstream for this too...
 
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
+Cheers,
+
+Richard
+
 
