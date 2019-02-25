@@ -1,52 +1,51 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com
-	[209.85.219.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DE50D7CAF2
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
+	[209.85.219.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7BD7CAC5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 16:38:12 +0000 (UTC)
-Received: by mail-yb1-f195.google.com with SMTP id s5so4025277ybp.6
+	Mon, 25 Feb 2019 16:38:15 +0000 (UTC)
+Received: by mail-yb1-f194.google.com with SMTP id f196so4026255yba.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 08:38:14 -0800 (PST)
+	Mon, 25 Feb 2019 08:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=8XEd1eWzqMbCgvL8aGIh8SwxBrvHA+jFjNg8lYmD+OM=;
-	b=IGgNayBNR2zv7KhHMcvW9ra56+AjbMa6dez3bv20uYTgtMipub2x8JAzRV/FU1kb4w
-	w2GBjNnnCpwjDWqaI8TC26R2hqu/xVvuPFm2H0Ycehxjx/KmViMSvGKT+s+JONNSQ1sW
-	RLgfHLgj1tqkdWjRwTICvSjMtiCTHdJfAD22K3XeyCWGeR4BWUILf72NCNSi9YPPYjqt
-	kHsCzUchUg4iYsr1lE1Mi0FbHHrhZn/VX4GFV8omeuJpzbbdufzWB5QaF+GRBBLxOiS1
-	J0CUoRPuZhY8OfEDwpwRG+/STeOWRCpxQsjoakKfsP5Up1sTUzlABUEO5aVTJD4YlN7A
-	gOvg==
+	bh=1ny7FErjZOg1ydCh8rCV1BMQ6p7TVjDZ8bdlmKg9reg=;
+	b=q7C8ajliRYT4wODZJ4ilOPeXPhNC8xKnWJsnaRvVavS3wu0NCZyhRypRPVT2HoZKmg
+	kGYkmYmlvtN17bbuZW0GJhlrcyYVbQJyP+j5/hCbJeuST8I/5PsyAXLo42bxHzeWlw52
+	YXA+3a+/sG5YXZ1QyGTw4JhOvTwM/vJkrlbQ0mdI3jLzrlnpGyK4dBCN/8h5G2CxosBP
+	E/HjPt0lXq7RS2MgToRMY8sQ+kPruws1b889YgV0NsEKFPiiWOYuay68wz0zLz9M5bPe
+	JKEaOV08tEbAtKHqCCx8Y48MEilk+keVyvqMB1uer0ulG0uPKQoWpuMPDifNRqrDUHEr
+	r8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=8XEd1eWzqMbCgvL8aGIh8SwxBrvHA+jFjNg8lYmD+OM=;
-	b=T0TXwB17nlC45I7LDdB+FnJhfGEix80x1X2rBLifEpLkcDypOvdSdHtfbwNbd1flDw
-	oE608ibuUIuIO4pbp5+AVtIb6JqRqekxVsYhfJ9GvgtTfkj0TiE8gF0qo+wbPhs+fl8j
-	IQ89Kp/x2nfyv8S3h7tGv/cvlpXMlq7T/XIRnpX70gYSJv2Qg0k98cTWWb+MlC9h0C47
-	P3PVio9jbouH0Jci0LrY6Ux0tvaI6iDiUrxcjRw68s+7ip2gc6OqUhyrFex71+c8ZH73
-	5s0pfkQOfz0KfG/tWNPA6IBmFgyBxMieXJMPGqXJpCwE0MS/kjgWTO/lCn8ZL4/YQqLf
-	ohsA==
-X-Gm-Message-State: AHQUAubnVmWG2anUACXE9NjQjbECF1KUxmSacwgaJZL5DOJPIoHZ2e00
-	+PqKlJWkVwHJVYTS4+HBWNmc8ig=
-X-Google-Smtp-Source: AHgI3IZTtsmGAGV5XTYfeREQ4Ylb783U/MouG8WvXy+VXR4npSYHqV24uYlMXvtwLEIMMwJPLgQ9Jg==
-X-Received: by 2002:a25:4e89:: with SMTP id
-	c131mr14778784ybb.383.1551112693593; 
-	Mon, 25 Feb 2019 08:38:13 -0800 (PST)
+	bh=1ny7FErjZOg1ydCh8rCV1BMQ6p7TVjDZ8bdlmKg9reg=;
+	b=tZGrShBj+hWlpxD1zk9FngXSJZN4jrmrxeHXzv6MArq/TIfU6rC63zuz2zwkm7tlDr
+	LC/YuGSD7yYQkf/r4Y9Y1e1hEwaKIS4hevDV0QVmrzu9eGKFYjFA3PB5ziv7X+pGSSvV
+	5DSyMRxLvxrdGjXjAHaLm2AopKI2E6myxXLDhTKqvxRMAe1qM9A3cZo5JX8Q97bDE2AI
+	DUPsO3SDDX1vMxaHctjJfgQBQicag86qLde1dJAYr4lxqUx15MsszOTEcmVPEae53/V9
+	FrvgxaRHdeT5sJO+ldX/9DMb3LLJyK/EH9+1MCyCA6GP/VagEvGVRQggGylTwtzafwuV
+	gEDA==
+X-Gm-Message-State: AHQUAuYvQ9kGASLJUTOnihtKom3GoVEKeFqK4YjsH+UvfS8SLnRehh+N
+	ASRtLWrr2qqtuugWiQ5BxLrMoNI=
+X-Google-Smtp-Source: AHgI3IaZNu7HD8uBVcx69QLozBzla68ERq80aY96nisQlBhhKT9Vy2VBCK37NRC68n1Hl00lCZe3KA==
+X-Received: by 2002:a25:34d3:: with SMTP id b202mr9503150yba.188.1551112695586;
+	Mon, 25 Feb 2019 08:38:15 -0800 (PST)
 Received: from threadripper.novatech-llc.local ([216.21.169.52])
 	by smtp.gmail.com with ESMTPSA id
-	z23sm6293654ywj.36.2019.02.25.08.38.12
+	z23sm6293654ywj.36.2019.02.25.08.38.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Feb 2019 08:38:12 -0800 (PST)
+	Mon, 25 Feb 2019 08:38:15 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Feb 2019 10:37:11 -0600
-Message-Id: <e5feafbcc15e09f02383c84a24374df31c0ca5e9.1551111341.git.george.mccollister@gmail.com>
+Date: Mon, 25 Feb 2019 10:37:13 -0600
+Message-Id: <6487ed533b91c5424873283195dfb6019cbbf723.1551111341.git.george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1551111341.git.george.mccollister@gmail.com>
 References: <cover.1551111341.git.george.mccollister@gmail.com>
-Subject: [sumo][PATCH 6/8] systemd: Security fix CVE-2018-16866
+Subject: [sumo][PATCH 8/8] systemd: fix CVE-2019-6454
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +58,318 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 16:38:13 -0000
+X-List-Received-Date: Mon, 25 Feb 2019 16:38:15 -0000
 
-From: Marcus Cooper <marcus.cooper@axis.com>
+Apply patches from systemd_237-3ubuntu10.13 to fix CVE-2019-6454.
+CVE-2019-6454 is an issue in which systemd (PID1) can be crashed
+with a specially formed D-Bus message.
 
-Affects < v240
-
-Signed-off-by: Marcus Cooper <marcusc@axis.com>
-
-From v2 patch on openembedded-core@lists.openembedded.org
-Incresed file name number from 0026 to 0027.
+For information see:
+https://usn.ubuntu.com/3891-1/
+https://git.launchpad.net/ubuntu/+source/systemd/commit/?h=applied/ubuntu/bionic-updates&id=d7584b894afcaa8a4a1abb69db2a9c81a6276e80
 
 Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch | 49 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_237.bb           |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+ .../systemd/systemd/CVE-2019-6454.patch            | 210 +++++++++++++++++++++
+ ...e-receive-an-invalid-dbus-message-ignore-.patch |  61 ++++++
+ meta/recipes-core/systemd/systemd_237.bb           |   2 +
+ 3 files changed, 273 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch b/meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch b/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
 new file mode 100644
-index 0000000000..3925a4abbb
+index 0000000000..e3c67c166c
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
-@@ -0,0 +1,49 @@
-+From ebd06c37d4311db9851f4d3fdd023de3dd590de0 Mon Sep 17 00:00:00 2001
-+From: Filipe Brandenburger <filbranden@google.com>
-+Date: Thu, 10 Jan 2019 14:53:33 -0800
-+Subject: [PATCH] journal: fix out-of-bounds read CVE-2018-16866
++++ b/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+@@ -0,0 +1,210 @@
++Description: sd-bus: enforce a size limit for dbus paths, and don't allocate
++ them on the stacka
++Forwarded: no
 +
-+The original code didn't account for the fact that strchr() would match on the
-+'\0' character, making it read past the end of the buffer if no non-whitespace
-+character was present.
++Patch from: systemd_237-3ubuntu10.13
 +
-+This bug was introduced in commit ec5ff4445cca6a which was first released in
-+systemd v221 and later fixed in commit 8595102d3ddde6 which was released in
-+v240, so versions in the range [v221, v240) are affected.
++For information see:
++https://usn.ubuntu.com/3891-1/
++https://git.launchpad.net/ubuntu/+source/systemd/commit/?h=applied/ubuntu/bionic-updates&id=d7584b894afcaa8a4a1abb69db2a9c81a6276e80
 +
-+Patch backported from systemd-stable at f005e73d3723d62a39be661931fcb6347119b52b
-+also includes a change from systemd master which removes a heap buffer overflow
-+a6aadf4ae0bae185dc4c414d492a4a781c80ffe5.
-+
-+CVE: CVE-2018-16866
++CVE: CVE-2019-6454
 +Upstream-Status: Backport
-+Signed-off-by: Marcus Cooper <marcusc@axis.com>
-+---
-+ src/journal/journald-syslog.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
-+index 9dea116722..809b318c06 100644
-+--- a/src/journal/journald-syslog.c
-++++ b/src/journal/journald-syslog.c
-+@@ -194,7 +194,7 @@ size_t syslog_parse_identifier(const char **buf, char **identifier, char **pid)
-+         e = l;
-+         l--;
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++
++--- a/src/libsystemd/sd-bus/bus-internal.c
+++++ b/src/libsystemd/sd-bus/bus-internal.c
++@@ -61,7 +61,7 @@
++         if (slash)
++                 return false;
 + 
-+-        if (p[l-1] == ']') {
-++        if (l > 0 && p[l-1] == ']') {
-+                 size_t k = l-1;
++-        return true;
+++        return (q - p) <= BUS_PATH_SIZE_MAX;
++ }
 + 
-+                 for (;;) {
-+@@ -219,7 +219,7 @@ size_t syslog_parse_identifier(const char **buf, char **identifier, char **pid)
-+         if (t)
-+                 *identifier = t;
++ char* object_path_startswith(const char *a, const char *b) {
++--- a/src/libsystemd/sd-bus/bus-internal.h
+++++ b/src/libsystemd/sd-bus/bus-internal.h
++@@ -339,6 +339,10 @@
 + 
-+-        if (strchr(WHITESPACE, p[e]))
-++        if (p[e] != '\0' && strchr(WHITESPACE, p[e]))
-+                 e++;
-+         *buf = p + e;
-+         return e;
-+-- 
-+2.11.0
++ #define BUS_MESSAGE_SIZE_MAX (64*1024*1024)
++ #define BUS_AUTH_SIZE_MAX (64*1024)
+++/* Note that the D-Bus specification states that bus paths shall have no size limit. We enforce here one
+++ * anyway, since truly unbounded strings are a security problem. The limit we pick is relatively large however,
+++ * to not clash unnecessarily with real-life applications. */
+++#define BUS_PATH_SIZE_MAX (64*1024)
++ 
++ #define BUS_CONTAINER_DEPTH 128
++ 
++--- a/src/libsystemd/sd-bus/bus-objects.c
+++++ b/src/libsystemd/sd-bus/bus-objects.c
++@@ -1150,7 +1150,8 @@
++                 const char *path,
++                 sd_bus_error *error) {
++ 
++-        char *prefix;
+++        _cleanup_free_ char *prefix = NULL;
+++        size_t pl;
++         int r;
++ 
++         assert(bus);
++@@ -1166,7 +1167,12 @@
++                 return 0;
++ 
++         /* Second, add fallback vtables registered for any of the prefixes */
++-        prefix = alloca(strlen(path) + 1);
+++        pl = strlen(path);
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
+++
++         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                 r = object_manager_serialize_path(bus, reply, prefix, path, true, error);
++                 if (r < 0)
++@@ -1362,6 +1368,7 @@
++ }
++ 
++ int bus_process_object(sd_bus *bus, sd_bus_message *m) {
+++        _cleanup_free_ char *prefix = NULL;
++         int r;
++         size_t pl;
++         bool found_object = false;
++@@ -1386,9 +1393,12 @@
++         assert(m->member);
++ 
++         pl = strlen(m->path);
++-        do {
++-                char prefix[pl+1];
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
++ 
+++        do {
++                 bus->nodes_modified = false;
++ 
++                 r = object_find_and_run(bus, m, m->path, false, &found_object);
++@@ -1516,9 +1526,15 @@
++ 
++         n = hashmap_get(bus->nodes, path);
++         if (!n) {
++-                char *prefix;
+++                _cleanup_free_ char *prefix = NULL;
+++                size_t pl;
+++
+++                pl = strlen(path);
+++                assert(pl <= BUS_PATH_SIZE_MAX);
+++                prefix = new(char, pl + 1);
+++                if (!prefix)
+++                        return -ENOMEM;
++ 
++-                prefix = alloca(strlen(path) + 1);
++                 OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                         n = hashmap_get(bus->nodes, prefix);
++                         if (n)
++@@ -2108,8 +2124,9 @@
++                 char **names) {
++ 
++         BUS_DONT_DESTROY(bus);
+++        _cleanup_free_ char *prefix = NULL;
++         bool found_interface = false;
++-        char *prefix;
+++        size_t pl;
++         int r;
++ 
++         assert_return(bus, -EINVAL);
++@@ -2128,6 +2145,12 @@
++         if (names && names[0] == NULL)
++                 return 0;
++ 
+++        pl = strlen(path);
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
+++
++         do {
++                 bus->nodes_modified = false;
++ 
++@@ -2137,7 +2160,6 @@
++                 if (bus->nodes_modified)
++                         continue;
++ 
++-                prefix = alloca(strlen(path) + 1);
++                 OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                         r = emit_properties_changed_on_interface(bus, prefix, path, interface, true, &found_interface, names);
++                         if (r != 0)
++@@ -2269,7 +2291,8 @@
++ 
++ static int object_added_append_all(sd_bus *bus, sd_bus_message *m, const char *path) {
++         _cleanup_set_free_ Set *s = NULL;
++-        char *prefix;
+++        _cleanup_free_ char *prefix = NULL;
+++        size_t pl;
++         int r;
++ 
++         assert(bus);
++@@ -2314,7 +2337,12 @@
++         if (bus->nodes_modified)
++                 return 0;
++ 
++-        prefix = alloca(strlen(path) + 1);
+++        pl = strlen(path);
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
+++
++         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                 r = object_added_append_all_prefix(bus, m, s, prefix, path, true);
++                 if (r < 0)
++@@ -2453,7 +2481,8 @@
++ 
++ static int object_removed_append_all(sd_bus *bus, sd_bus_message *m, const char *path) {
++         _cleanup_set_free_ Set *s = NULL;
++-        char *prefix;
+++        _cleanup_free_ char *prefix = NULL;
+++        size_t pl;
++         int r;
++ 
++         assert(bus);
++@@ -2485,7 +2514,12 @@
++         if (bus->nodes_modified)
++                 return 0;
++ 
++-        prefix = alloca(strlen(path) + 1);
+++        pl = strlen(path);
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
+++
++         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                 r = object_removed_append_all_prefix(bus, m, s, prefix, path, true);
++                 if (r < 0)
++@@ -2635,7 +2669,8 @@
++                 const char *path,
++                 const char *interface) {
++ 
++-        char *prefix;
+++        _cleanup_free_ char *prefix = NULL;
+++        size_t pl;
++         int r;
++ 
++         assert(bus);
++@@ -2649,7 +2684,12 @@
++         if (bus->nodes_modified)
++                 return 0;
++ 
++-        prefix = alloca(strlen(path) + 1);
+++        pl = strlen(path);
+++        assert(pl <= BUS_PATH_SIZE_MAX);
+++        prefix = new(char, pl + 1);
+++        if (!prefix)
+++                return -ENOMEM;
+++
++         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
++                 r = interfaces_added_append_one_prefix(bus, m, prefix, path, interface, true);
++                 if (r != 0)
+diff --git a/meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch b/meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
+new file mode 100644
+index 0000000000..4ffa739145
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
+@@ -0,0 +1,61 @@
++Description: sd-bus: if we receive an invalid dbus message, ignore and
++ proceeed
++ .
++ dbus-daemon might have a slightly different idea of what a valid msg is
++ than us (for example regarding valid msg and field sizes). Let's hence
++ try to proceed if we can and thus drop messages rather than fail the
++ connection if we fail to validate a message.
++ .
++ Hopefully the differences in what is considered valid are not visible
++ for real-life usecases, but are specific to exploit attempts only.
++Author: Lennart Poettering <lennart@poettering.net>
++Forwarded: other,https://github.com/systemd/systemd/pull/11708/
++
++Patch from: systemd_237-3ubuntu10.13
++
++For information see:
++https://usn.ubuntu.com/3891-1/
++https://git.launchpad.net/ubuntu/+source/systemd/commit/?h=applied/ubuntu/bionic-updates&id=d7584b894afcaa8a4a1abb69db2a9c81a6276e80
++
++CVE: CVE-2019-6454
++Upstream-Status: Backport
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++
++diff --git a/src/libsystemd/sd-bus/bus-socket.c b/src/libsystemd/sd-bus/bus-socket.c
++index 30d6455b6f..441b4a816f 100644
++--- a/src/libsystemd/sd-bus/bus-socket.c
+++++ b/src/libsystemd/sd-bus/bus-socket.c
++@@ -1072,7 +1072,7 @@ static int bus_socket_read_message_need(sd_bus *bus, size_t *need) {
++ }
++
++ static int bus_socket_make_message(sd_bus *bus, size_t size) {
++-        sd_bus_message *t;
+++        sd_bus_message *t = NULL;
++         void *b;
++         int r;
++
++@@ -1097,7 +1097,9 @@ static int bus_socket_make_message(sd_bus *bus, size_t size) {
++                                     bus->fds, bus->n_fds,
++                                     NULL,
++                                     &t);
++-        if (r < 0) {
+++        if (r == -EBADMSG)
+++                log_debug_errno(r, "Received invalid message from connection %s, dropping.", strna(bus->description));
+++        else if (r < 0) {
++                 free(b);
++                 return r;
++         }
++@@ -1108,7 +1110,8 @@ static int bus_socket_make_message(sd_bus *bus, size_t size) {
++         bus->fds = NULL;
++         bus->n_fds = 0;
++
++-        bus->rqueue[bus->rqueue_size++] = t;
+++        if (t)
+++                bus->rqueue[bus->rqueue_size++] = t;
++
++         return 1;
++ }
++--
++2.17.1
 +
 diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
-index e6ef385f52..b53221896f 100644
+index 1d9fcf0bd7..3b9c4026ce 100644
 --- a/meta/recipes-core/systemd/systemd_237.bb
 +++ b/meta/recipes-core/systemd/systemd_237.bb
-@@ -60,6 +60,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0024-journald-do-not-store-the-iovec-entry-for-process-co.patch \
-            file://0025-journald-set-a-limit-on-the-number-of-fields-1k.patch \
-            file://0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch \
-+           file://0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch \
+@@ -63,6 +63,8 @@ SRC_URI += "file://touchscreen.rules \
+            file://0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch \
+            file://0001-tmpfiles-don-t-resolve-pathnames-when-traversing-rec.patch \
+            file://0002-Make-tmpfiles-safe.patch \
++           file://CVE-2019-6454.patch \
++           file://sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch \
             "
  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
  
