@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E62D17CB01
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 59B547CA61
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 11:39:37 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id m1so7750707wml.2
+	Mon, 25 Feb 2019 12:52:35 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id g1so7663140otj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 03:39:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=dVG6AuCuqny6lJngnDdYGb1lqO3wf8yiKSTbLew7Sn4=;
-	b=bdUg8/yeM6XwHoY9lV7qdkvWQvjfRbkawZGDU9yy4xxNpyGuLvNMi37vq2vqMDtCsc
-	bZwrmKurh09unmuLGidcZaQsKRFlABsF3AGgYC4ckBiehmSD2BubgpZdmtprAGN+4AVE
-	y6fphd/XB+zcyTP+tuOsIh3LO0pani163JfFE6hZBJT5RKUGFr8OaZIdXy8L6vTfe+k5
-	Bg2MDornKKGfPG6PsOqoTssz1Qmuavzgt1HTzYOvfcb6AHGgSk29qOPCWtvHEWAcvlca
-	DgH95Z0z+Bf9jATxK1UTKB7hp56VFBXUfxe8VEPAc00nvOZkXaseSkeThKcP6ExA+xgm
-	rJxw==
+	Mon, 25 Feb 2019 04:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3G6SqeMFx3oQStb0jEnky5x4Z+eMXBg1Bh6Fspm45d4=;
+	b=P5zPVxoaKHuEGx4vMntksAAC5sYEWlOOkuKer133EgEdnyp3ic2dVQxHUPdt/CDGnP
+	hFgqMgd2Wu2yRNfTf1kBaLLDI6n4YyiGkj5/KWGC3eHPZsr6hrhZpCVOnjlD5Z1gXmAh
+	uNRJdcneiM26f94jCjTOCXEX6fLFMZjc6gKSQ4Ph2lQurKgMDSCiHOyVQudUBSD0ZhKH
+	l/dS+z3X7/BZ/acmO5Xih7kBg3Lny7xgKMuRW4mk7hmsB75a60pqhwhFnMRSZevTOKN0
+	06sPljW7ocDlP9iTLPBAlKNmirLrGnDEe82R4rNgp6TSF4p/McqCKTLM1E1n0D3cVtAn
+	OCPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dVG6AuCuqny6lJngnDdYGb1lqO3wf8yiKSTbLew7Sn4=;
-	b=h6bg3+EEStxO58Q7mHVr2WxNjzwWk/nzNUeLFL7xVrlb+uMA07v4GYgELInFmHw8lv
-	oqk0zK5cFCTBya9WmrM44lHQMMYcT4Xx4yGVCUTDEPTeGvJRGhQWriq2Bm2r8gJ6C3ia
-	u6AXVzaE9RJ7nIZttAN9jJSj7j5VDoWVQECFJXZ1W07F4Y5S9YA9BYCtJOT/6HVjb+ZR
-	K40m2X1/UVgDCbLdYApEShvY8xFVhEMAqFHcUdg+T/um5obN4gjBCx/+DQLtHLSLdRY9
-	RNEp+0BoBeCtZ/43D2ul5MRn49jvKlCEGQQiFtPNpUYQ32LPK48ZHdzk+y447m0XxCUI
-	JwqA==
-X-Gm-Message-State: AHQUAuaTtUFjEYYrFmYXjhd8F/8GkjKthCdvZz16M4p352tdTxtQ6/tZ
-	9TxsLoFtUIa4LYZK5GcCAaepmMphHGU=
-X-Google-Smtp-Source: AHgI3IbE+WTfGHu7dPw+BP4XEVJ1HLCms51giBAaeWAl8OxAVtXqNjPa5XNd2TFzEqiCvwGWZrjj/Q==
-X-Received: by 2002:a1c:6442:: with SMTP id y63mr11170639wmb.31.1551094778284; 
-	Mon, 25 Feb 2019 03:39:38 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	u8sm11936231wrp.55.2019.02.25.03.39.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Feb 2019 03:39:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Feb 2019 11:39:30 +0000
-Message-Id: <20190225113930.26417-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libpcre: upgrade to 8.43
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3G6SqeMFx3oQStb0jEnky5x4Z+eMXBg1Bh6Fspm45d4=;
+	b=k0TZFdO+Mje1zHBDB3vX7WwZSs8N/l070VTZEdmoB6XvCt4qjTpb+OL42gwG6vQGFo
+	ZTllbO5TbITtmM21Fdza5rLj5n8Tx5hrGbVLAwZ7co+Cgmg5poDOTf4EkaHsXeIHIFq2
+	VfPTWy/rP8shkle8aQ0twWOyTHCttrQxEL82VQQJPDdADEPTPAclIr43lAraQRpwBizk
+	//2GII933TO5p8JUcgKp6TgjafNhpkghkks+VzYYAgyaJVoX8tTNjCqJqCYp9Eyxa8y/
+	T2SMPEzU2Yf051sIsILsxIH14q+DVVwCewTh19SbP5PGXVSKuvR74MyHvOCOAnCMFm78
+	nyHg==
+X-Gm-Message-State: AHQUAubWv+XUYxwATv2BbrSeXNwCATs8fFBpuaboDbCZcxwDXpdsVbO5
+	Gn5uiV/0IsnomiNHyQsSTxDyvtyZbyZ/avOfD4w=
+X-Google-Smtp-Source: AHgI3IYuwAiitNkBV5lCXqTyRdocKVztCTvWUYB0DR2Vufkyo1SblD6EoCeHO4arxontLg85OYfVoEA3n+rjaIqJTbA=
+X-Received: by 2002:a9d:7653:: with SMTP id o19mr11278271otl.12.1551099156240; 
+	Mon, 25 Feb 2019 04:52:36 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1550845989.git.alex.kanavin@gmail.com>
+	<296658f75576781b5e8f36c95bec204a65482af7.1550845989.git.alex.kanavin@gmail.com>
+	<3cab827a44a031abbffa58de513230d100d5ebe4.camel@linuxfoundation.org>
+In-Reply-To: <3cab827a44a031abbffa58de513230d100d5ebe4.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 25 Feb 2019 13:52:25 +0100
+Message-ID: <CANNYZj-egKt=s0SYG2NN3kV2LnPqg9Jb9UQ25LOGrLjhfZVQUg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/12] qemu: enable virglrenderer and glx options for native/nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 11:39:38 -0000
+X-List-Received-Date: Mon, 25 Feb 2019 12:52:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Licence checksum updated because the copyright dates were changed.
+On Mon, 25 Feb 2019 at 12:02, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-02-22 at 15:33 +0100, Alexander Kanavin wrote:
+> > Except for ming32/darwin, which do not support them.
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  meta/recipes-devtools/qemu/qemu.inc | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-
+> > devtools/qemu/qemu.inc
+> > index c127434b020..95e9e0ede77 100644
+> > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > @@ -74,15 +74,15 @@ PACKAGECONFIG ??= " \
+> >      fdt sdl kvm \
+> >      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+> >  "
+> > -PACKAGECONFIG_class-native ??= "fdt alsa kvm"
+> > -PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
+> > +PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
+> > +PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
+> >
+> >  # Handle distros such as CentOS 5 32-bit that do not have kvm
+> > support
+> >  PACKAGECONFIG_class-native_remove = "${@'kvm' if not
+> > os.path.exists('/usr/include/linux/kvm.h') else ''}"
+> >
+> > -# Disable kvm on targets that do not support it
+> > -PACKAGECONFIG_remove_darwin = "kvm"
+> > -PACKAGECONFIG_remove_mingw32 = "kvm"
+> > +# Disable kvm/virgl/mesa on targets that do not support it
+> > +PACKAGECONFIG_remove_darwin = "kvm virglrenderer glx gtk+"
+> > +PACKAGECONFIG_remove_mingw32 = "kvm virglrenderer glx gtk+"
+>
+> Sorry, I just spotted this. Please don't use _remove in OE-Core. Can we
+> rearrange this so we don't need to use remove?
+>
+> I appreciate there are other users that have crept in but I'd like to
+> see them gone too...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/libpcre/{libpcre_8.42.bb => libpcre_8.43.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre_8.42.bb => libpcre_8.43.bb} (93%)
+I'm actually unsure how to override the
+PACKAGECONFIG_append_pn-qemu-native = " gtk+"
+set in local.conf without using _remove.
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.42.bb b/meta/recipes-support/libpcre/libpcre_8.43.bb
-similarity index 93%
-rename from meta/recipes-support/libpcre/libpcre_8.42.bb
-rename to meta/recipes-support/libpcre/libpcre_8.43.bb
-index 3a488c00b71..d54b3941976 100644
---- a/meta/recipes-support/libpcre/libpcre_8.42.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.43.bb
-@@ -6,7 +6,7 @@ SUMMARY = "Perl Compatible Regular Expressions"
- HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=fc5026403b44c868c25fc9546f7feb05"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=91bee59d1b327eb1599b4c673e2fb3d1"
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://fix-pcre-name-collision.patch \
-@@ -14,8 +14,8 @@ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://Makefile \
- "
- 
--SRC_URI[md5sum] = "085b6aa253e0f91cae70b3cdbe8c1ac2"
--SRC_URI[sha256sum] = "2cd04b7c887808be030254e8d77de11d3fe9d4505c39d4b15d2664ffe8bf9301"
-+SRC_URI[md5sum] = "636222e79e392c3d95dcc545f24f98c4"
-+SRC_URI[sha256sum] = "91e762520003013834ac1adb4a938d53b22a216341c061b0cf05603b290faf6b"
- 
- CVE_PRODUCT = "pcre"
- 
--- 
-2.11.0
+(we do not support gtk+ on mingw, and I guess darwin too).
 
+We can rearrange this, enable/not enable gtk+ directly in the recipe,
+and drop the qemu related lines from local.conf altogether, if you're
+okay with that.
+
+Alex
 
