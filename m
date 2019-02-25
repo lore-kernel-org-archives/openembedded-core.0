@@ -1,45 +1,45 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B1AF27C60D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+	[209.85.222.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 278F16D545
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 19:41:37 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id r136so8504797iod.3
+	Mon, 25 Feb 2019 20:14:55 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id f88so9654589uaf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 11:41:39 -0800 (PST)
+	Mon, 25 Feb 2019 12:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NvME39mI+G5pQAEXwBlScKjSphg2Z2fMmmjXn7GDXSU=;
-	b=jP2gX+5e8tWndqikve2MJ6wUsKdsc+6Fwwi/fIVfyU3pp7iZr+ZsjzWildUpBOdsm8
-	IMnsohm3v023lFN3YsYHj/XuAToigb3Lf/mRy0tbWvKCEqy1qtRr7iLzPKiUkiF3TvYz
-	jjOzqL96bu0v0wC0cfoZ+G8RfogMkvP0mAgEvcqKcZipZ7OU6d/pa45KOkWLfC5ejgMm
-	43aDeGpUZTv8sWWCLHVHrNsut4XNyIJlTIm63lBN0uEk1QAtCC7veG7gQZHr6RYPhviW
-	iI1lLdZ9Eey7w9gk7HqIeRmk3GcyodFPkP3Hwf4FaDtCyV6wNzU1PJfHUAe9cXFle3ED
-	fjIw==
+	:cc; bh=qXYUev7R5mI25VTn2B4s0bfcv/HSB45eWF7IRRfpR1Y=;
+	b=RUHJPyM9jB0zridaulJvBOZi/e4AVBfQh/uZJudzdlFvJ2ntHcaht3T/rcYbNj6VxP
+	qZ0rGHW2HYhmr9JaadZH06M2p7mMQ3ZTgqqFMibF8AslKuePeyMa6aspS2/Ctth2xVRk
+	+e1gC2kntvI8EDCgHUI9wrX2xUX0IhdQWrGYZK5cdETYiMBlDpkHYvq3LculVs+vL3Aj
+	aVWk0ppdXGVFKkwR7bUBGSTrGXw4m/d7jh30MpbLHBnDW255GI47UEHZKHt1SOfS2o60
+	xfeNhRMwfMWsERyKe3aTA/tOc7OMM5txirPVyX2bvQYni1k2jToWrjJIcJh+UEcYL/mN
+	I9dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=NvME39mI+G5pQAEXwBlScKjSphg2Z2fMmmjXn7GDXSU=;
-	b=osu0GzY8h786xEpyp4HYfwWIPmHooVrZO+FRqF+W+hxkLyd6nQ3wrWQYT+AmJrD8dc
-	+WkMXSIHV/VHkx3XzsJGoC/mcO7sAZFJHjkE7hYvFoXV4q2MfUQ7mVauiBv6tQc2bZc3
-	lxwJZIrv92284DVq5u0lPKZfKyhIotEyMCgpjkiT2VIVBukZHG4f4pH1ILnYBeF1uxey
-	N6HMnN24pH0frnxK6mUMM8/SOfMIvGucilR2LU73baQe+X1hwFmaLpgbZiUKJs89YpTK
-	UldA286w8lh1laWeYV7NY30YMWJbCnXEHIBJ20F3tBcqV8XgjWUkoNe7U3tsRz1gOkZV
-	v1ww==
-X-Gm-Message-State: APjAAAW/sdAbd36y8mRVBsD+lrQqAdU+pg9rjCcwET8VovapLYUde/ua
-	AcgIUhp0CCGZ1ASP3z8yv/mVLl6PKod6jflovy8=
-X-Google-Smtp-Source: APXvYqxhP9CS193Oct8YRrYssL2si6P8ucwFccM4mHsH0ZKqeKOdf6srwaH868M6tNh7r+90TIiIpVAnFMOIbOQQ4Z8=
-X-Received: by 2002:a5e:d917:: with SMTP id n23mr5978748iop.182.1551123698608; 
-	Mon, 25 Feb 2019 11:41:38 -0800 (PST)
+	bh=qXYUev7R5mI25VTn2B4s0bfcv/HSB45eWF7IRRfpR1Y=;
+	b=r6DCmVwzc2PExSZnsl4XM2n5QeQsvR4fxbdvZ1UcICpTg/gLhaMxoFNg6JJP5dg0Dh
+	2NveDIh+jio1RI2ojmBTRocrn7Ut4sMLEJmZhCFKkKG0dtcNr8FQPKWfWlDmHWAd9Na6
+	/6lN01HDMrXOHuSVhbYIVWWVT9B2QnGn+xXhGv9Y3doqTPhzlWENnosw+BWPwdl1BO6l
+	zTxpwvlNV5SrToWmlaH/WM66P0HyAibvDy+CMOzpngbBwcP0Qbft71IStgkDayoF9Tmb
+	JupzSZ5ORTHww6Sqfg+K/hFOdksDjUJI1ZzD+udyOjKgx7epQxJsq7EOLdiH4g5gnu6D
+	HubA==
+X-Gm-Message-State: AHQUAub+KJSTIVXIJgUr1/sHHxfsFqodQ0MacUtcu9g3DPc+aTXMMKvs
+	Vegk6kDMJSO5rkkb3zi/IKbMP/ExLFMb5cu39UE=
+X-Google-Smtp-Source: AHgI3IZD+I7tUsoYBkQxxFvYAeCzEoohbOzr/K4qE+KwNTxd0qUcliWp3/Sb+0I94AhC8JvsvA2cu3uGbOmZmJ+d/Uo=
+X-Received: by 2002:ab0:4222:: with SMTP id i31mr10376460uai.47.1551125696839; 
+	Mon, 25 Feb 2019 12:14:56 -0800 (PST)
 MIME-Version: 1.0
 References: <20190225185954.15628-1-raj.khem@gmail.com>
 In-Reply-To: <20190225185954.15628-1-raj.khem@gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Mon, 25 Feb 2019 20:39:45 +0100
-Message-ID: <CAPbeDC=NPHN6RYjOOi2-YabvmbCN6UJHGAm2TZskr_ZgzkNDSg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 25 Feb 2019 12:14:45 -0800
+Message-ID: <CAJ86T=W+9YVOKOQ28x0_Fm1RKocKZf8mPdqN1TvbveHiAN7reA@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] default-distrovars: Drop DISTRO_FEATURES_LIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -53,10 +53,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2019 19:41:37 -0000
+X-List-Received-Date: Mon, 25 Feb 2019 20:14:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 25, 2019 at 8:00 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Mon, Feb 25, 2019 at 11:00 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
 > After eglibc was merged into glibc, Kconfig support was also dropped so
 > these libc features therefore are not effective anymore and can be
@@ -77,6 +77,10 @@ On Mon, Feb 25, 2019 at 8:00 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
 >  DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
 > -DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+
+There are a lot of recipes which check the ipv6 distro feature. Those
+recipe should probably be updated before this is merged.
+
 > -                                       libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
 > -                                       libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
 > -                                       libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
@@ -87,9 +91,6 @@ On Mon, Feb 25, 2019 at 8:00 PM Khem Raj <raj.khem@gmail.com> wrote:
 > -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
 > +DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
 >
-
-Maybe remove DISTRO_FEATURES_DEFAULT too ?
-
 >  IMAGE_FEATURES ?= ""
 >
 > diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
