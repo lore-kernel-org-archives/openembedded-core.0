@@ -1,47 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 61CCD7CC7E
+Return-Path: <peter@berginkonsult.se>
+X-Greylist: delayed 962 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 26 Feb 2019 08:35:50 UTC
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+	(mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+	by mail.openembedded.org (Postfix) with ESMTP id CC01D7C899
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 07:47:37 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id v83so2722492itf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2019 23:47:38 -0800 (PST)
+	Tue, 26 Feb 2019 08:35:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RdN8QQdmH3gxlDHll2S8GR20cU5kdgQesUy9rkx/PW4=;
-	b=MX657/XZ2XeO/HYwNT8565lD3U44wtW4yy3NNAZRJ+1aojoVI7O1Kpj7vvQWtlzrRI
-	pvQEcMy+RT0+5XlP//MDKEen5FEkdWMb2Wi5oxw28gPdLwKbLvHalcRwPlmZPnEKRMYw
-	KijBBHV7DUlrwe1HlGzYSSCGJokeqDf+e9xTwto4GWFjqEnWwBMZp1dyJX8By8D1IskI
-	Kl/KxRtjFfdI2uJL3pw9I1oKZh3iu6hQe05KhNT6Hpcwu/5MyAfKGu+wyyf3y400gPzL
-	AEN0UWH/WzSqjwOL+7L/H7ssoPcE8P2ETO6bECQ1mu5/8JRtYlz2WVgSEr0fCITTfhxJ
-	tjXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RdN8QQdmH3gxlDHll2S8GR20cU5kdgQesUy9rkx/PW4=;
-	b=BcREvJP4kd1j1Ggpb7DidMatsOxN8RTfLBJB/DF+qaOEufWpNqzLujiuz2VZvDLwH2
-	xhm6ujPtPg5KkO+IS0TciV/BV9YxEykQndchy6kKC6zBjZTbMKtL5+iZv8/PD2/zuD1V
-	AtbIOLARxoDIBa2whwmqSJ6Hkru6n4pUh+UNerszOmoORsgwNKUkcO/7fVOOdggxG3bH
-	BLjJw+JbuIjcTuGWEGb7hNqCMdQAPwXRhD9KmaQvHnkBIDiRRHrvZ/QxSptu3lFTnhw+
-	DrxekNKKrsObXZJk8V1c4+q8d6Wa/WQIsRvZHQWyLfwKbF2ehaAxUu6ra97YuSwT++mg
-	RWLQ==
-X-Gm-Message-State: APjAAAXuQ+cig5zEBG7NVcVnSGpkepZU81VYZsCp6cA/Yq/GAuNRab1U
-	tFmRkcmgAdRWn5rYzIvhalvbNIGCCSgJTZqJ3ASnwSDvjfI=
-X-Google-Smtp-Source: APXvYqxfPs67O5absdmzaaREdaNEn8GLoasoX0/54I2DExFEkpSIqvwt+Z8+2SfkmfCB8cjlhtaBw+uNZQrXPjzw/IQ=
-X-Received: by 2002:a24:13c4:: with SMTP id 187mr1825945itz.130.1551167258371; 
-	Mon, 25 Feb 2019 23:47:38 -0800 (PST)
+	d=berginkonsult.se; s=20140924;
+	h=content-type:mime-version:date:message-id:to:subject:from:from;
+	bh=9Zn2FAcsXP9SszQuC5sKbjaxshrwXyyRA9nEDUbcpxw=;
+	b=n901zt8GF+8h3VdoztXnLdtH7SXFSwhWgWWEG+q6pdieznN/e+7EyRccDeAxcXO3S0M1HP36x2A/i
+	SwX82ltBhL//nLh2WNllwhf/5Dd1g62Q+xkAMTgI7i56ea4g4ZKGRdJ1RIhHaaXSpq0fz8ZmykDzgU
+	MiYQJRQC6xOG/HA4=
+X-HalOne-Cookie: 738bf678ee253d2d5b7c2c2219b90bb42e87dbc7
+X-HalOne-ID: 47d3b006-399f-11e9-a597-d0431ea8bb10
+Received: from [192.168.149.52] (unknown [80.252.208.151])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 47d3b006-399f-11e9-a597-d0431ea8bb10;
+	Tue, 26 Feb 2019 08:19:48 +0000 (UTC)
+From: Peter Bergin <peter@berginkonsult.se>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <a1b8155e-20d6-485e-4880-8293f20820de@berginkonsult.se>
+Date: Tue, 26 Feb 2019 09:19:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190226060000.4210-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190226060000.4210-1-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Feb 2019 07:47:26 +0000
-Message-ID: <CAJTo0LYDxoCGTJEwzuDkLo52cNYqJ2=cvrZPUChq3n9vi4eL_A@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] wayland:Upgrade to 1.16.91
+Subject: gcc - internal compiler error: Segmentation failt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +39,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 07:47:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Feb 2019 08:35:51 -0000
+Content-Type: multipart/alternative;
+	boundary="------------95AC671A31B3FCB8A6FD1387"
+Content-Language: en-US
 
-From https://wayland.freedesktop.org/releases.html:
+--------------95AC671A31B3FCB8A6FD1387
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-"The alphas for Wayland 1.17 (version 1.16.91) and Weston 6.0 (version
-5.0.91) were released."
+Hi,
 
-We don't ship alpha releases.
+I'm working with thud branch and have run into a bug in gcc. I would 
+like help how to proceed with this.
 
-Ross
+Compiling the following C code gives Segmentation fault in gcc:
 
-On Tue, 26 Feb 2019 at 05:59, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> Upgrade wayland from 1.16.0 to 1.16.91.
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../wayland/{wayland_1.16.0.bb => wayland_1.16.91.bb}         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/wayland/{wayland_1.16.0.bb => wayland_1.16.91.bb} (92%)
->
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.16.0.bb b/meta/recipes-graphics/wayland/wayland_1.16.91.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/wayland/wayland_1.16.0.bb
-> rename to meta/recipes-graphics/wayland/wayland_1.16.91.bb
-> index 112ee1a25e..8d7a06cdde 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.16.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.16.91.bb
-> @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
->  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->            file://fixpathinpcfiles.patch \
->             "
-> -SRC_URI[md5sum] = "0c215e53de71d6fb26f7102cdc6432d3"
-> -SRC_URI[sha256sum] = "4e72c2b56109ccfb6610d776e465f4ca0af2280c9c2f7d5cc23f0ed2548752f5"
-> +SRC_URI[md5sum] = "711fea532899f2de096ebafdc54d1e3f"
-> +SRC_URI[sha256sum] = "d51b83a51034ed5474517e0b0bca2d4e7056e4c51d720ea885f0c34f243fee90"
->
->  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
->
-> --
-> 2.17.2
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
 
+int main(void)
+{
+     const int32_t BUFFER_MAX_LENGTH = 4096*1024;
+     char buffer[BUFFER_MAX_LENGTH];
+
+     if (strncmp(&buffer[8], "ABC", 3) == 0)
+         return 1;
+
+     return 0;
+}
+
+
+Error:
+
+| during RTL pass: expand
+| /work/yocto/metrum-r3/build/tmp/work/armv7at2hf-neon-poky-linux-gnueabi/compiler-test/1.0-r0/work/git/tmp/strncmp.c: In function 'main':
+| /work/yocto/metrum-r3/build/tmp/work/armv7at2hf-neon-poky-linux-gnueabi/compiler-test/1.0-r0/work/git/tmp/strncmp.c:16:6: internal compiler error: Segmentation fault
+|   if (strncmp(&buffer[8], "ABC", 3) == 0)
+|       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Please submit a full bug report,
+| with preprocessed source if appropriate.
+
+
+I would like this fixed in thud branch and took a quick look in gcc repo 
+for solutions. I had no luck finding anything useful. Anyone seeing this 
+before? Anyone having suggestion how to proceed? Shall I create a 
+bugzilla in Yocto?
+
+Thanks,
+/Peter
+
+--------------95AC671A31B3FCB8A6FD1387
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hi,<br>
+    <br>
+    I'm working with thud branch and have run into a bug in gcc. I would
+    like help how to proceed with this.<br>
+    <br>
+    Compiling the following C code gives Segmentation fault in gcc:<br>
+    <br>
+    <pre>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;</pre>
+    <pre>int main(void)
+{
+    const int32_t BUFFER_MAX_LENGTH = 4096*1024;
+    char buffer[BUFFER_MAX_LENGTH];
+
+    if (strncmp(&amp;buffer[8], "ABC", 3) == 0)
+        return 1;
+
+    return 0;
+}</pre>
+    <br>
+    Error:<br>
+    <br>
+    <pre>| during RTL pass: expand
+| /work/yocto/metrum-r3/build/tmp/work/armv7at2hf-neon-poky-linux-gnueabi/compiler-test/1.0-r0/work/git/tmp/strncmp.c: In function 'main':
+| /work/yocto/metrum-r3/build/tmp/work/armv7at2hf-neon-poky-linux-gnueabi/compiler-test/1.0-r0/work/git/tmp/strncmp.c:16:6: internal compiler error: Segmentation fault
+|   if (strncmp(&amp;buffer[8], "ABC", 3) == 0)
+|       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Please submit a full bug report,
+| with preprocessed source if appropriate.</pre>
+    <br>
+    I would like this fixed in thud branch and took a quick look in gcc
+    repo for solutions. I had no luck finding anything useful. Anyone
+    seeing this before? Anyone having suggestion how to proceed? Shall I
+    create a bugzilla in Yocto?<br>
+    <br>
+    Thanks,<br>
+    /Peter<br>
+  </body>
+</html>
+
+--------------95AC671A31B3FCB8A6FD1387--
