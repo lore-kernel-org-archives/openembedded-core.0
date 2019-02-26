@@ -1,50 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A8B27C734
+Return-Path: <chunrong.guo@nxp.com>
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr140072.outbound.protection.outlook.com [40.107.14.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 6614E7C92C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 09:00:54 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id d25so5911464pfn.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 01:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Qum1C4Upyt/9Ach3iVsOyRlN8XGBp5XwVd3QTrhxySo=;
-	b=t2qsTa5muqR2zcVsR+pp3xYxm4jJi55rIL3ETD7SLzER/iuwAwdTvrMkcuO09JaOpq
-	LCMylgd7RtIarxnfJ8J/+HNVZKgae8I2R9KxZpZyLU85KR+GnFsTaPNWtK4MTtqlWTvH
-	J+WG3X6WvKkwKeBrfkOyZ1gPcB3o4tYaSxyrzl9Zkfya9tN8q9dZAeJchg/MtwIA6QMs
-	4UDKB2oPqw6A0YEjqZKqflhkZaBX9LP94Gd0Bt2udDHYvLt7VAu8mZG5TVRhgwoU2q3N
-	iZ6Kb2Gag0Z2XAKQOpFaTtJ8nT37rCdDztT5MCaHzLNFoDY3zyfjxUTgkU5mXFOsehYt
-	053w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Qum1C4Upyt/9Ach3iVsOyRlN8XGBp5XwVd3QTrhxySo=;
-	b=LKRcWyD2NeZLCxWhLtvi6uxZj+QqpE0quHIQdlZYaB/dw48xXV7uPbIpzmyHaEYgg1
-	8YB4E3geqTx4xLjxp1D1M/pa7RWescaimXm534rV8ARBgp2VF++79TlLdpMVN2S862yn
-	9GkVHP2N35ZKwrLaISSeZJoGRpRtEtu1eXdU9tHJ4DNFUiLjezHWGiDML/eC2ZOuSGYF
-	uGqXkDUaNzJTBTHEqIhFU7X8XGq0vBFg6AV8YLKJozgu6iDoEwpBnc22+BFc2bOUcNG5
-	9+d0RDGRPh/+YBUbue6Kthm7KcazCW7UF3yM9wgG5tJwKyxdwABYg/sKEogeSTyNY0oq
-	xGtA==
-X-Gm-Message-State: AHQUAubmJUCVk8jReCK4MgDHruyOqvh3IARKcBQGbbcdcp8Yll72XaaS
-	25n4pw66nWTBnsGgnlMT+nyQDRIm
-X-Google-Smtp-Source: AHgI3IYK1rR+3y78ZLg6+wzSZTdg1wxjwxuRRBitoyop4vgDphuaAjyz5HXDEKWs3H1Q1uJktknbHg==
-X-Received: by 2002:a65:608c:: with SMTP id t12mr1354029pgu.400.1551171655535; 
-	Tue, 26 Feb 2019 01:00:55 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1cf2])
-	by smtp.gmail.com with ESMTPSA id
-	k72sm4298967pfb.122.2019.02.26.01.00.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Feb 2019 01:00:54 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Feb 2019 01:00:47 -0800
-Message-Id: <20190226090047.34817-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Tue, 26 Feb 2019 09:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=y8Zi/pwXDxHdGeLFFxP0/NCSKSBYMG5iOV1xzNy3jH8=;
+	b=uMrmBCf0/eMzXrkjSflm95yjMD66WkyrR/aaroZlPeTsr/x4aDpsB0i5Q8YmTyYokdBWNzgUxTwAwKYiVO9it8109t7aYXkpuxHSvvRaOhK0tsTRWroTbFITmkCuKQy+EBqz+9HgXFA2Zk5pk2qwrrwy5Zg4RcjbPt4gS+gInNY=
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
+	DB7PR04MB4092.eurprd04.prod.outlook.com (52.135.130.33) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1643.18; Tue, 26 Feb 2019 08:54:31 +0000
+Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::5f3:77c7:cddb:b6b4]) by DB7PR04MB5068.eurprd04.prod.outlook.com
+	([fe80::5f3:77c7:cddb:b6b4%4]) with mapi id 15.20.1643.019;
+	Tue, 26 Feb 2019 08:54:31 +0000
+From: "C.r. Guo" <chunrong.guo@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] glibc: fix multilib file install conflicts
+Thread-Index: AQHUzbDjrjKOyXLJykOte16hSDL05w==
+Date: Tue, 26 Feb 2019 08:54:31 +0000
+Message-ID: <1551171252-10385-1-git-send-email-chunrong.guo@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HK0P153CA0025.APCP153.PROD.OUTLOOK.COM
+	(2603:1096:203:17::13) To DB7PR04MB5068.eurprd04.prod.outlook.com
+	(2603:10a6:10:1c::12)
+x-mailer: git-send-email 2.7.4
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chunrong.guo@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [119.31.174.73]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 484a9d04-6b93-4374-10f3-08d69bc80587
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
+	SRVR:DB7PR04MB4092; 
+x-ms-traffictypediagnostic: DB7PR04MB4092:
+x-microsoft-exchange-diagnostics: =?iso-8859-1?Q?1; DB7PR04MB4092;
+	23:05ekdqJEqwyNrZ67t8oWk+/3s7dvIQ8oi6FedT7?=
+	=?iso-8859-1?Q?QHuHu9gMH4J1F/wDol/aUU3RhcSrWgYnlGAIXHAOvNYC1MJYG1B+jGgMGS?=
+	=?iso-8859-1?Q?Jbos0PaYtXi2cWw8vF2WoSgNkyK3OqNdOa1Wah4kp3RDgqML8aVRFWfPAg?=
+	=?iso-8859-1?Q?W5RIMUs+gzExatSuAcp6Go2lxLkC3u7CyiYi+OwAHKNdMbE2p8ywbk0kIm?=
+	=?iso-8859-1?Q?L8cx6J1edxuIczxHllYLIWCyVogFP+VKIWQXloNwAetLHn6q9S4miPnJHR?=
+	=?iso-8859-1?Q?Hf2aSN04/TuhND3kIq1df8JL6fvnya8yBE2jwL4cBWYNjhsGQVZsrAMmfS?=
+	=?iso-8859-1?Q?rF7FYBQcQnX5ITSfEFE0GJ2TxYydKpp1kuX9OnJjh0DWaXSKrvemXvdgXI?=
+	=?iso-8859-1?Q?CnQE/aO9pQWFVilpx9zfe3USZ7IkrpZh2LxMUgzKtR/gpoIYSGHGFr5Ztw?=
+	=?iso-8859-1?Q?a5XFMHCxIP+VXGo8Wf10wvi5oxWEDYBmKUXYU3FWNFSXvNgUVIN/t4q1of?=
+	=?iso-8859-1?Q?SY/5aF8oPOh9juvEe3n7X6d3Ov/NCw+GeH24GpAub0Xi/4KVahwHnpAf6Z?=
+	=?iso-8859-1?Q?sYAO16cvm/jQ4qVRL+Z8v7OfZhGaULhhuQUaQggV4sTBJ8iLVjFpWkgreT?=
+	=?iso-8859-1?Q?PV5JrnnAFpzvF4/0M6OxPDlTWMHxO0PoJwzd35OEQ3Cct6d1fwqLO9q3ly?=
+	=?iso-8859-1?Q?Om+srB1Mq2NwX8/t1I5aaTo1H0uC0+mqsn3UY95Wyk1GTLBmM61eiPNJfb?=
+	=?iso-8859-1?Q?l8bWB01Z0gwQUBM1HyaWdxaw1tJ/12s8eRKzmTb2gyFIEEmCxYahc2u7/f?=
+	=?iso-8859-1?Q?KIresQcoIEUO2wIFLla09jMiNEVi7MMk9MuxP+CIKJL+sU568dW0+niSuQ?=
+	=?iso-8859-1?Q?bmpOCq+9rZtQEOv7JhxhCA6bSaghQ30f/9M0NUrclkjslVUoSyF/+xkliS?=
+	=?iso-8859-1?Q?d4T+yqSOE3hN7q6iEjTbGKVciOc1xZSH4lsI3gquZ7VBvNnfaOf0oILgkb?=
+	=?iso-8859-1?Q?UDBKIvguT81l8YIYbw4C4q8Srwieva2P7KcSu8DIXnStHw8iVyf0qVLMX7?=
+	=?iso-8859-1?Q?LnqoUUI4VpW3xvf0hWJgkrgEjlxSqQ4kljv6Y8ZZX0eDVsQ+XAG+dnue9l?=
+	=?iso-8859-1?Q?8Wiw31m+yR5gZV9bzJUNvGp5DehmkBymCOi4v4b+J7lmj5g1ffjg+eyY5Z?=
+	=?iso-8859-1?Q?dTo3H88f8qCIIH6D4vzwkM3uASbICdbrxPM6LH/uBf9L9Aym50bVnzGfG0?=
+	=?iso-8859-1?Q?7prEG7yXwTY1zaHRTHM0ATYoH5847YPYZm8sUA9ufcb8K67FYgIPuxKMg7?=
+	=?iso-8859-1?Q?2PGCQWRvwtDkESu5VTkjB1e?=
+x-microsoft-antispam-prvs: <DB7PR04MB4092CD77A5A45C1BCF5A540D847B0@DB7PR04MB4092.eurprd04.prod.outlook.com>
+x-forefront-prvs: 096029FF66
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(979002)(376002)(346002)(396003)(136003)(366004)(39860400002)(199004)(189003)(6512007)(305945005)(7736002)(68736007)(52116002)(6436002)(486006)(2616005)(476003)(53936002)(386003)(6506007)(26005)(5640700003)(102836004)(6486002)(186003)(14454004)(478600001)(86362001)(99286004)(8676002)(81166006)(81156014)(8936002)(50226002)(5660300002)(2906002)(256004)(2501003)(25786009)(97736004)(71200400001)(71190400001)(4326008)(316002)(6116002)(36756003)(6916009)(3846002)(105586002)(66066001)(106356001)(2351001)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4092;
+	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: nKB00suzgCTIeRzpHFdZMQPO4jV4yalPRMK7B+admWGXdokDEj08+DTsTXey8OYTFrT0p9/kueWpKEreBVNrvxZNRI7UwtjwGlAQbZeWb/DTWLR/3Q2Qf6GmzMCyZWr8rW/C2c0Ibl3/V7/NHPkuWFxzNygU+dLsWWgpsLPiXjlRHunitUPmrs8Xxz6aXeqXVW6+vKlJWfvY5kNZATTtaCdQwLc44okUajWZEyjiDI+YqNmkDR2ujLNggYEI/IEXcwUkIGxIooy5MbCL4nqeZ7r+s74+rbAHEoZ/tDvYzo7QML/xNbOG+tpPEu/HwD7mz95Nl0C+k77paMNOwjNWYAUu+oPUit5G8PSr9dahDADyS41WXf3XZc+8yPtw3nSp/Ytwy1fKqy3tpDLTHODOQWOA547UqBlAax6bhhm1ezY=
 MIME-Version: 1.0
-Subject: [PATCH V3] default-distrovars: Drop DISTRO_FEATURES_LIBC
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 484a9d04-6b93-4374-10f3-08d69bc80587
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2019 08:54:29.4926 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4092
+Subject: [PATCH] glibc: fix multilib file install conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,248 +98,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 09:00:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 26 Feb 2019 09:27:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-After eglibc was merged into glibc, Kconfig support was also dropped so
-these libc features therefore are not effective anymore and can be
-removed
+From: Chunrong Guo <chunrong.guo@nxp.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Leaving bits/wordsize.h out of being multilibbed introduced a problem in bu=
+ilding the SDK for arm64:
+Error: Transaction check error:
+file /usr/include/bits/procfs-id.h conflicts between attempted installs of =
+lib64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
+file /usr/include/bits/procfs.h conflicts between attempted installs of lib=
+64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
+file /usr/include/bits/shmlba.h conflicts between attempted installs of lib=
+64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
+
+Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
 ---
-v2:
-- Add ipv4 and ipv6 to default distro features, they are not libc
-  specific anyway
-- Remove DISTRO_FEATURES_DEFAULT as this is redundant now
+ meta/recipes-core/glibc/glibc-package.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-v3:
-- Remove the use of libc-* overrides in metadata
-
- meta/classes/image.bbclass                       |  1 -
- meta/classes/libc-package.bbclass                |  5 +----
- meta/conf/bitbake.conf                           |  4 ++--
- meta/conf/distro/include/default-distrovars.inc  | 11 +----------
- meta/conf/distro/include/tclibc-glibc.inc        |  5 +----
- meta/conf/local.conf.sample.extended             | 16 ++--------------
- meta/recipes-core/glib-2.0/glib.inc              |  2 --
- meta/recipes-core/glibc/glibc_2.29.bb            |  3 +--
- meta/recipes-core/libxml/libxml2_2.9.8.bb        |  2 --
- meta/recipes-devtools/mtools/mtools_4.0.19.bb    |  2 --
- .../findutils/findutils_4.6.0.bb                 |  2 +-
- meta/recipes-extended/shadow/shadow.inc          |  2 +-
- meta/recipes-extended/shadow/shadow_4.6.bb       |  2 +-
- 13 files changed, 11 insertions(+), 46 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 11927f39f5..6baccb4bb5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -177,7 +177,6 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS').split()))}"
- 
- python () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
-         d.setVar('IMAGE_LINGUAS', '')
- }
- 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 34c9151ae9..06d4984081 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -39,10 +39,7 @@ python __anonymous () {
-                 break
- 
-     # try to fix disable charsets/locales/locale-code compile fail
--    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locales libc-locale-code', True, False, d):
--        d.setVar('PACKAGE_NO_GCONV', '0')
--    else:
--        d.setVar('PACKAGE_NO_GCONV', '1')
-+    d.setVar('PACKAGE_NO_GCONV', '0')
- }
- 
- OVERRIDES_append = ":${TARGET_ARCH}-${TARGET_OS}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 435646a946..1c5369ec98 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -123,7 +123,7 @@ TUNE_ASARGS ??= ""
- TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
- LIBCEXTENSION ??= ""
- ABIEXTENSION ??= ""
--USE_NLS ??= "${@bb.utils.contains('DISTRO_FEATURES', 'libc-locale-code', 'yes', 'no', d)}"
-+USE_NLS ??= "yes"
- SDKUSE_NLS ??= "yes"
- 
- TARGET_ARCH = "${TUNE_ARCH}"
-@@ -820,7 +820,7 @@ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- # Native distro features (will always be used for -native, even if they
- # are not enabled for target)
- DISTRO_FEATURES_NATIVE ?= "x11 ipv6 xattr"
--DISTRO_FEATURES_NATIVESDK ?= "x11 libc-charsets libc-locales libc-locale-code"
-+DISTRO_FEATURES_NATIVESDK ?= "x11"
- 
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 76edff6480..d57329ec17 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -10,16 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
- LOCALE_UTF8_IS_DEFAULT ?= "1"
- LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
- 
--DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
--DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
--					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
--					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
--					libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
--					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
--					libc-posix-wchar-io"
--DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
--DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
--DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
-+DISTRO_FEATURES ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
- 
- IMAGE_FEATURES ?= ""
- 
-diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
-index abe619aaac..253d64383e 100644
---- a/meta/conf/distro/include/tclibc-glibc.inc
-+++ b/meta/conf/distro/include/tclibc-glibc.inc
-@@ -32,7 +32,4 @@ LIBC_LOCALE_DEPENDENCIES = "\
- 	glibc-gconv-iso8859-15"
- 
- def get_libc_locales_dependencies(d):
--    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
--        return d.getVar('LIBC_LOCALE_DEPENDENCIES') or ''
--    else:
--        return ''
-+    return d.getVar('LIBC_LOCALE_DEPENDENCIES') or ''
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 010bf6ca6f..0743fefece 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -24,22 +24,10 @@
- # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
- # be appropriate for example.
- 
--
--# glibc configurability is used to reduce minimal image's size.
--# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
--# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
--# and DISTRO_FEATURES definitions to local.conf to enable the options.
--#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
--#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
--#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
--#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
--#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
--#               libc-posix-wchar-io"
--
--#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
-+#DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 pcmcia usbgadget usbhost wifi nfs zeroconf pci"
- 
- # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
--#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
-+#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
- 
- # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
- # packages at build time using qemu-native. Disabling it (by setting it to 0)
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 6305f553b4..3c2440db0e 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -41,8 +41,6 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
- # meson's python configuration pokes into python3 configuration, so this provides the native config to it.
- unset _PYTHON_SYSCONFIGDATA_NAME
- 
--REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
--
- S = "${WORKDIR}/glib-${PV}"
- 
- PACKAGECONFIG ??= "system-pcre libmount"
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index beddbffee2..bd8aa6d503 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -89,12 +89,11 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --enable-stackguard-randomization \
-                 --disable-crypt \
-                 --with-default-link \
-+                --enable-nscd \
-                 ${GLIBCPIE} \
-                 ${GLIBC_EXTRA_OECONF}"
- 
- EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
--EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
--
- 
- do_patch_append() {
-     bb.build.exec_func('do_fix_readlib_c', d)
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-index 0e2461154b..62643bc764 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-@@ -42,8 +42,6 @@ inherit autotools pkgconfig binconfig-disabled ptest distro_features_check
- 
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
- 
--REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
--
- RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell  python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
- 
- RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.19.bb b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
-index 9972762b4e..7d59d93a81 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.19.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
-@@ -39,8 +39,6 @@ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
- 
- inherit autotools texinfo distro_features_check
- 
--REQUIRED_DISTRO_FEATURES_libc-glibc = "libc-charsets libc-locale-code libc-locales"
--
- EXTRA_OECONF = "--without-x"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/findutils/findutils_4.6.0.bb b/meta/recipes-extended/findutils/findutils_4.6.0.bb
-index 5e4ca94868..3b62ed9962 100644
---- a/meta/recipes-extended/findutils/findutils_4.6.0.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.6.0.bb
-@@ -16,6 +16,6 @@ SRC_URI[md5sum] = "9936aa8009438ce185bea2694a997fc1"
- SRC_URI[sha256sum] = "ded4c9f73731cd48fec3b6bdaccce896473b6d8e337e9612e16cf1431bb1169d"
- 
- # http://savannah.gnu.org/bugs/?27299
--CACHED_CONFIGUREVARS += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', 'gl_cv_func_wcwidth_works=yes', '', d)}"
-+CACHED_CONFIGUREVARS += "gl_cv_func_wcwidth_works=yes"
- 
- EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 09c37ef8a3..2b20bdcb25 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -57,7 +57,7 @@ EXTRA_OECONF += "--without-audit \
- NSCDOPT = ""
- NSCDOPT_class-native = "--without-nscd"
- NSCDOPT_class-nativesdk = "--without-nscd"
--NSCDOPT_libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES', 'libc-spawn', '--with-nscd', '--without-nscd', d)}"
-+NSCDOPT_libc-glibc = "--with-nscd"
-           
- PAM_PLUGINS = "libpam-runtime \
-                pam-plugin-faildelay \
-diff --git a/meta/recipes-extended/shadow/shadow_4.6.bb b/meta/recipes-extended/shadow/shadow_4.6.bb
-index 5675cb8cc9..c975395ff8 100644
---- a/meta/recipes-extended/shadow/shadow_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.6.bb
-@@ -2,7 +2,7 @@ require shadow.inc
- 
- # Build falsely assumes that if --enable-libpam is set, we don't need to link against
- # libcrypt. This breaks chsh.
--BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', bb.utils.contains('DISTRO_FEATURES', 'libc-crypt',  '-lcrypt', '', d), '', d)}"
-+BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '-lcrypt', '', d)}"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.21.0
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc
+index 329732f..822ffd6 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -144,6 +144,7 @@ do_install_armmultilib () {
+ 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadty=
+pes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
+ 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h b=
+its/typesizes.h
+=20
++        oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
+ 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
+=20
+ 	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys=
+/user.h
+--=20
+2.7.4
 
 
