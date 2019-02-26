@@ -1,56 +1,49 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BAF057C861
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8771E60116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 19:55:59 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id l5so11904135lje.1
+	Tue, 26 Feb 2019 22:52:05 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id w2so15768536wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 11:56:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/A19rmzodz/PQylvI2CjFofd7kcT2IRm+uHaT+vZ5aE=;
-	b=WKMg03lybuMKPIa7gl7otE6pA8YxcNfnQsDvv72XV/C8KGfV0LJ4pxKu0cTMzL9w4d
-	QheIH72X5pKKJ7dwq7LCgj7QFKFmUFvqJtmyUrFWc6bCvrUAHjJyt1r1wh8X/kgyLMaH
-	FhicDMhOEq1pebPUT8lHIx6RtD6ACSbG0a1Diuzqt+VYBq31jazIbvuBBC8SrD1bwy9n
-	wOX6qDCOr7CRNPbP5hG98v06SjJq/nvGaMXE9B0TwlbLa08ETDHv2GgE5nSTffuWWYVg
-	3xR+irfyWCj73QRUqY23oTZ66p8hn2IotcTIHielF31GQTrOStvqKM2W6UQFn7dGcFtA
-	uqpg==
+	Tue, 26 Feb 2019 14:52:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5kIl/hbTHxrlaVW97neyA+OgisNtpbbEaSGLIERZaPY=;
+	b=Ai/3LARYIatRDz2JslS+2csmEI/32yoQnX53hb9nS4B4Ci5zQkQdTtXBLQDBV7x52f
+	+c7T48//QIbE+E+8uULdlHbNtp3WAcpo0ps2KsqJ2XKTj+VAMAtGlgZrYPWp7OrOBDFZ
+	eP736AJ09nfeaOijwO/Jb/eJ66aSAlVt2KH3M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=/A19rmzodz/PQylvI2CjFofd7kcT2IRm+uHaT+vZ5aE=;
-	b=MBtm7S5NSr6kXwfoJWmmJXw5C0xJAYFFEOQYU2cmjLPr+81wFjkHY3EYLUFmPG5isP
-	elaQxnY5c+6Wwl3W67/RinlGqvc7ygb95kelKlPZEVzNE9gQR/LnZHEhiTN8GlMwC/75
-	ZTIK7OF1ywUi0kLqouhq7Vw8nkgBF+kff1UlOkk4xmOh0VhhoXCYg841kheBNmNVr7PL
-	YFtFWX0YcHv0oEr2pjqp3+P1b9tyZu+wmQgEA1S3EtQBp6dFMbrkdpHVL+yMQXk807YU
-	ecX/3iA9iUotiERpgm2PoUA7eME79Ie9u0DhtnrIsanPxhjVUtyfIh6iFfFIUqZSH4Hr
-	viyA==
-X-Gm-Message-State: AHQUAuYeV5MEbRJVDlT/sY0TXVrP9R42wh+eV5xDZTPVCdRGl0GVyoeK
-	VEY6wDVlPs42pHclRcDUjWZwruaVYyjnJg8tJKuqDg==
-X-Google-Smtp-Source: AHgI3IYZhnkH7/RtJXLm78/XwFFV9nhBkyeWFg5prqo2zQrDBVSOXv2Z+9TmQgqcj/T0lCyhwMGxSxTQ9zxZWwpPwQs=
-X-Received: by 2002:a2e:9c97:: with SMTP id x23mr14351229lji.13.1551210960066; 
-	Tue, 26 Feb 2019 11:56:00 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5kIl/hbTHxrlaVW97neyA+OgisNtpbbEaSGLIERZaPY=;
+	b=OwAXv3pfXQOczxfp4mqRJbPik0qyofjRnbfhYTh6OVMdodBoVyzs+qlH4IsH9Bd55n
+	ka2oKKZhileyS+nuVyxSf/cZ9fFZlGSAP8bdDebwqEov9iy01nbRN76NE5S6jBklPoQ9
+	SRqMEKKyPd+ElDCaGi9BetzcwcZeCJTEFrni4dV0tp4LvYM322bBqJudayUgnVSUb+pK
+	ANPZmFyLzHtZKA9uxZpEdVLxpzRdsRw5c0jKDi+idLWvmwL/Km2GRE7PQBWOo0zaNaq2
+	nZdzf9f0shZ8KQ7bKYtc7U75yyoNY5l7fwNqwMJAIRPvlm8itvvUxD9OFawu1mG+925e
+	GouQ==
+X-Gm-Message-State: APjAAAVWOjJ7hBq8J0SoP7n3i/uqVdGqTLGsr2i/PcgJ1zt4y7+RcihM
+	yntElX/DEHaARHGEwPfkAjYzxFgVfN4=
+X-Google-Smtp-Source: APXvYqxkgG/rE1dkILLYPns1LSC8ykhAGPZXLcdWqEt6HN+jQfFxIC9ICgdcl+a/scLtaeWlIyxhtg==
+X-Received: by 2002:a5d:6543:: with SMTP id z3mr52008wrv.200.1551221525689;
+	Tue, 26 Feb 2019 14:52:05 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c17sm6900836wrs.17.2019.02.26.14.52.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Feb 2019 14:52:04 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Feb 2019 22:52:03 +0000
+Message-Id: <20190226225203.30551-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190222142333.9780-1-fabio.berton@ossystems.com.br>
-	<CAJTo0LbhhwpyLh9wP+JswymO+T9CRJ64w8hw6g8HsxUSLg9jOw@mail.gmail.com>
-	<CAJTo0LaugPSscMvBwJz+ezbp7DMF9rs59Svkr8WnFb3+oM-KwQ@mail.gmail.com>
-	<CAJTo0Lah677v4+3Q+acN8WEOF-r9bopn0OVw+icfCX5Jy7pxvQ@mail.gmail.com>
-	<CAJTo0LZsdUCjKe9nR4ypj3x_ddR7XPBEvduUHDiE9esWa=X-jg@mail.gmail.com>
-	<CAP9ODKqXDQkV8xHmTTmvs6GWUWNJrWB5XSnb37B=6-JjCci37Q@mail.gmail.com>
-	<CAMKF1sqynSYK=u_qTXkteuSk1s951JAXucnN9r=8=CVOCUD=SA@mail.gmail.com>
-	<CAP71WjyHDmhfM=zNaCL6V+YNuW_eumLfFk8iVapxC9iP+k=iiQ@mail.gmail.com>
-	<CAMKF1sqBf-W_xAadC7sMY3eGF89aGuYVf9hekgY=RTKNPRMwVw@mail.gmail.com>
-In-Reply-To: <CAMKF1sqBf-W_xAadC7sMY3eGF89aGuYVf9hekgY=RTKNPRMwVw@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 26 Feb 2019 20:55:48 +0100
-Message-ID: <CAP71WjwCRdu9eE1aErh+Gtfvgq-U70v0n4j+MdM-3020eF7g1Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH v4] mesa: Convert recipe to use meson build system
+Subject: [PATCH] lttng-tools: Disable hanging tests and other ptest fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,58 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 19:56:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Feb 2019 22:52:05 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 26, 2019 at 6:19 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Feb 26, 2019 at 7:36 AM Nicolas Dechesne
-> <nicolas.dechesne@linaro.org> wrote:
-> >
-> > On Tue, Feb 26, 2019 at 4:08 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > On Tue, Feb 26, 2019 at 4:26 AM Otavio Salvador
-> > > <otavio.salvador@ossystems.com.br> wrote:
-> > > >
-> > > > On Tue, Feb 26, 2019 at 8:58 AM Burton, Ross <ross.burton@intel.com> wrote:
-> > > > >
-> > > > > Patch has been accepted, so we need to cherry-pick the patch I mentioned.
-> > > >
-> > > > We will wait for 19.0.1 to be out to go to meson, so it will be
-> > > > applied there for sure.
-> > > >
-> > >
-> > > I am still seeing fredreno build failure with master-next
-> > > https://errors.yoctoproject.org/Errors/Details/230466/
-> >
-> > I was about to suggest that the right fix would be to get rid of that
-> > recipe, since it's been deprecated, see:
-> > http://bloggingthemonkey.blogspot.com/2016/11/a-quick-note-for-usersdistros.html
-> >
-> > So i checked the Layer index to find which layer has the recipe just
-> > to realize it's my own meta-qcom layer... oops.
-> >
-> > Are you ok, if I remove it, or do you need it for anything?
->
-> Deleting is fine
+Disable some tests which hang, blocking many other ptests.
 
-done. for both master and thud branches.
+Also add missing test artefacts to improve test pass rate and
+fix failures.
 
->
-> >
-> > >
-> > > > --
-> > > > Otavio Salvador                             O.S. Systems
-> > > > http://www.ossystems.com.br        http://code.ossystems.com.br
-> > > > Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+index 13bab9068eb..9d21fb00bfe 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+@@ -63,11 +63,11 @@ do_install_append () {
+ }
+ 
+ do_install_ptest () {
+-    for f in Makefile tests/Makefile tests/utils/utils.sh ; do
++    for f in Makefile tests/Makefile tests/utils/utils.sh tests/regression/tools/save-load/load-42*.lttng tests/regression/tools/save-load/configuration/load-42*.lttng ; do
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+     done
+ 
+-    for f in config/tap-driver.sh config/test-driver ; do
++    for f in config/tap-driver.sh config/test-driver src/common/config/session.xsd src/common/mi-lttng-3.0.xsd; do
+         install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
+     done
+ 
+@@ -141,8 +141,17 @@ do_install_ptest () {
+         -e 's#\(^test.*LDADD.=\)#disable\1#g' \
+         -i ${D}${PTEST_PATH}/tests/unit/Makefile
+ 
++    #
++    # Disable notification tools tests as currently
++    # these hang and cause the rest of the ptests to timeout
++    #
++    sed -e 's#tools/notification/test_notification_ust##g' \
++        -e 's#tools/notification/test_notification_kernel##g' \
++        -e 's#tools/notification/test_notification_multi_app##g' \
++        -i ${D}${PTEST_PATH}/tests/regression/Makefile
++
+     # Substitute links to installed binaries.
+-    for prog in lttng lttng-relayd lttng-sessiond lttng-consumerd ; do
++    for prog in lttng lttng-relayd lttng-sessiond lttng-consumerd lttng-crash; do
+         exedir="${D}${PTEST_PATH}/src/bin/${prog}"
+         install -d "$exedir"
+         case "$prog" in
+-- 
+2.20.1
+
 
