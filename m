@@ -1,24 +1,30 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA937CB31
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B31647CAC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 02:51:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1Q2obY8031747
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Feb 2019 18:50:47 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.435.0; Mon, 25 Feb 2019 18:50:26 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 26 Feb 2019 10:50:25 +0800
-Message-ID: <1551149425-254169-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 26 Feb 2019 03:17:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,413,1544457600"; d="scan'208";a="55247663"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 Feb 2019 11:17:02 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id E342047241AB
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2019 11:16:51 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 26 Feb 2019 11:17:10 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Feb 2019 11:18:16 +0800
+Message-ID: <20190226031816.18160-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-Subject: [PATCH] libdazzle: add check for GTK3DISTROFEATURES
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: E342047241AB.AA624
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] sqlite3:upgrade to 3.27.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 02:51:13 -0000
+X-List-Received-Date: Tue, 26 Feb 2019 03:17:04 -0000
 Content-Type: text/plain
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+Upgrade sqlite from 3.26.0 to 3.27.2.
 
-When do world buid, there comes below error:
-| ERROR: Nothing PROVIDES 'gtk+3' (but /build/layers/oe-core/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb DEPENDS on or otherwise requires it)
-| gtk+3 was skipped: one of 'x11 wayland' needs to be in DISTRO_FEATURES
-
-Add the check for GTK3DISTROFEATURES to make
-the world build work even without GTK3DISTROFEATURES.
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/sqlite/sqlite3_3.26.0.bb | 10 ----------
+ meta/recipes-support/sqlite/sqlite3_3.27.2.bb | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.26.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.27.2.bb
 
-diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-index 5441c10..3779b15 100644
---- a/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-+++ b/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-@@ -3,7 +3,7 @@ LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
- 
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase upstream-version-is-even vala gobject-introspection
-+inherit gnomebase upstream-version-is-even vala distro_features_check gobject-introspection
- 
- DEPENDS = "glib-2.0-native glib-2.0 gtk+3"
- 
-@@ -14,5 +14,7 @@ SRC_URI[archive.sha256sum] = "78770eae9fa15ac5acb9c733d29459330b2540affbf7293311
- GI_ENABLE_FLAG = "-Dwith_introspection=true"
- GI_DISABLE_FLAG = "-Dwith_introspection=false"
- 
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.26.0.bb b/meta/recipes-support/sqlite/sqlite3_3.26.0.bb
+deleted file mode 100644
+index a0d615bac1..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.26.0.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "\
+-  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+-  "
+-SRC_URI[md5sum] = "ac2b3b8cd3a97600e36fb8e756e8dda1"
+-SRC_URI[sha256sum] = "5daa6a3fb7d1e8c767cd59c4ded8da6e4b00c61d3b466d0685e35c4dd6d7bf5d"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+new file mode 100644
+index 0000000000..294a546ab5
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
 +
- EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
-                                                                                        '${GI_DISABLE_FLAG}', d)} "
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++
++SRC_URI = "\
++  http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  "
++SRC_URI[md5sum] = "1f72631ce6e8efa5b4a6e55a43b3bdc0"
++SRC_URI[sha256sum] = "50c39e85ea28b5ecfdb3f9e860afe9ba606381e21836b2849efca6a0bfe6ef6e"
 -- 
-2.7.4
+2.17.2
+
+
 
 
