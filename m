@@ -1,59 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 75D2E7CC96
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 271217CC7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 12:29:39 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id z19so10938541otm.2
+	Tue, 26 Feb 2019 12:57:15 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id 32so10927115ota.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 04:29:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=2QeaY+/XeLcjCiGApv2AineGe2/c/RZWcJkiT0igYN4=;
-	b=edOL4uPEoAA5kHMCL7ZqnEKPyZry/CcL9t6+DRDcsb/Ent39RqmGHG66c2f1JQuHli
-	FWbqYk59XSGwt+NXubkaTfOAwXq2Z7BOa4zJ96z9y3RQ7ZgEbvn/E8lA5Fh3vrBT9ylj
-	o2nZELx+SHmxFQKltxF+h157Lq/QgQaEeAUVmJl3FhGgwMsOcIe3AEsvyEtC45ppnlAY
-	1VlP354pXS06HYdD30EKZtwBdS12glMABaYdx5S9SEfWVNvnUZ+G9ISOTtDuVW+FAXG2
-	BlNRk0ZTHs7ojC6uOOeA53i5l8Fani3OLN7t/E2Vbhe5T4npE9P0tz2nupi9UMbr7dTI
-	pWNg==
+	Tue, 26 Feb 2019 04:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=A6aK6ejDMt0PqBmhh0z0Skly6/dC19s20X8wkzhovvM=;
+	b=KznJVhLKk5DKAr+ERzMc4SCaHPdTRzEakBzRU2SSPKT2qNwkJ4Hrq2YLicQKbzoilD
+	bukB3ddd9gLUkOWXFMuxHv+0e3OY36twM9J+BSZhEU37F7MJyWTrsNypICFTIzPo2I6M
+	p3aQFbuMRlmUmLtP37nvy9O/SkGmuuesv+J9GlWBZfrMRQkT1SnPpXDGHoxoUMB0ssdy
+	NLz0T/keu1M4rxdpYvQv0vIzcdx5PZ5qv7Cf9MdGWyQi9OcKGCEH2IWGss+wXjmK6Dlo
+	gE0jQ0EQl9Cp6lOI1xG0wmtu4/LZqIkAkzA3pnHivcV8hF7ePsLYTBmmVRzV+ryYzgrU
+	KE1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=2QeaY+/XeLcjCiGApv2AineGe2/c/RZWcJkiT0igYN4=;
-	b=F6wYLXdCNm8I3REq2p5dKXfH2aik0fkoPpNyvFO8iZS5sytem3pTAbgPv23HGaxXUo
-	1vqNDdKLolpPgzINB2Q2MfsTkhxX+4BDzmx2tGdwCkNS0ReWPOUysRVNy+LXARNgm2Eo
-	vuf0HSbyvUD7LfQBcg7zhzN79dP8aLkdvpsN4dJ9BulutbEtxkvblOuOl5avvnMTGtNG
-	wyU9SQ7eN9QDPc4BOOcvzTVCSEcb74NKE9S7hMF+Gmd1m90kwqvC3FfEUH89R/A9K3xO
-	2xy5T1XJDEz8IAKlJLuhlWLEwLxQB+KQev6TXmYYKcYPLZPboHlJDnu1Ek+tx+NGD1hL
-	YsEQ==
-X-Gm-Message-State: AHQUAubcAB+wFNo9TNkZ0OhDD7Zti7nDg4sjVj7FDxzvHICccwSTBswD
-	DAQTrIA/USUZwyu6W3mc52kXw/yfcyjHng==
-X-Google-Smtp-Source: AHgI3IYMfEHMayerohFG5mjvM5j9IdcTIH8cuTVkn5uLEDrbMW8YIAMDlwfVCthTuTDs4tmQyT5P3A==
-X-Received: by 2002:a9d:7b4e:: with SMTP id f14mr9832901oto.141.1551184179911; 
-	Tue, 26 Feb 2019 04:29:39 -0800 (PST)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com.
-	[209.85.167.171]) by smtp.gmail.com with ESMTPSA id
-	q25sm4705515otl.15.2019.02.26.04.29.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Feb 2019 04:29:39 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f171.google.com with SMTP id w66so10153882oia.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 04:29:39 -0800 (PST)
-X-Received: by 2002:aca:54c5:: with SMTP id i188mr2258690oib.16.1551184178506; 
-	Tue, 26 Feb 2019 04:29:38 -0800 (PST)
+	bh=A6aK6ejDMt0PqBmhh0z0Skly6/dC19s20X8wkzhovvM=;
+	b=QhFSNSouVcuP62iGjqjH9bdpVbGtTmXqfH5l8ooQ9GcXrkG+H51XA8C0GA1vr4BMpR
+	INOYkNb/YZtmJdi5/wu8uMS3X/d9eFRzObSmc8xa//4y9QNbFHSulNmYZu+Ept0fluJq
+	by2Nf8zW4Lwg+uOssbKA3MCruFe2XjJ5Kwu5JjJJEc+RcbPodDRxx4xJ5gYSxqpWbpUI
+	YP2m2mHeTvwnfxT0wM8deVX++BGa7rWmk88KLRIJPjdC/egdSB4kvF79Msba9TT7RMuS
+	w6nWYn/hgrFEH34iiCDaTS9SMeYhIs+HPRjzDTS7oOYuPNbcQfkk0l9n6oIN+8zlgjZq
+	qXOQ==
+X-Gm-Message-State: AHQUAuYlKN5oBxhZl/6bCC9T2z+DVya7sksvkzQiNSbNNTaDyBiC61em
+	4+1PwFGmmjB2RWsJggRnjaN4DLWANnn/WCylnRc=
+X-Google-Smtp-Source: AHgI3IYRJdhBySfbrwpqEaUNmtcTzpE6gxVkueFWnP1MSgtZ+aUk9VbVKGq1oOVMyfAwp1pWR7Ofq7HAkDsIMCR11jk=
+X-Received: by 2002:a9d:4ca:: with SMTP id 68mr15493594otm.96.1551185837015;
+	Tue, 26 Feb 2019 04:57:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20190226113559.9398-1-otavio@ossystems.com.br>
 	<CANNYZj_XPzrqbSZ7_XmqkwhLYyMgJ_L5J8AUSkkFBjPf-U80mw@mail.gmail.com>
-In-Reply-To: <CANNYZj_XPzrqbSZ7_XmqkwhLYyMgJ_L5J8AUSkkFBjPf-U80mw@mail.gmail.com>
-Date: Tue, 26 Feb 2019 09:29:26 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo8P91Ex9Go+pvnphKVUaun3QOjnXwNJTemy4Apt-9ovQ@mail.gmail.com>
-Message-ID: <CAP9ODKo8P91Ex9Go+pvnphKVUaun3QOjnXwNJTemy4Apt-9ovQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CAP9ODKo8P91Ex9Go+pvnphKVUaun3QOjnXwNJTemy4Apt-9ovQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKo8P91Ex9Go+pvnphKVUaun3QOjnXwNJTemy4Apt-9ovQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 26 Feb 2019 13:57:05 +0100
+Message-ID: <CANNYZj_X8eJ8uqMpfkCeoSG6i_9Duy08LWgWAGtUBkAMfbAbRg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] openssl: Use the c_rehash shell re-implementation for target
@@ -69,36 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 12:29:39 -0000
+X-List-Received-Date: Tue, 26 Feb 2019 12:57:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Alexander,
+On Tue, 26 Feb 2019 at 13:29, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
 
-On Tue, Feb 26, 2019 at 9:20 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
-> On Tue, 26 Feb 2019 at 12:36, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> > We had a c_rehash shell re-implementation being used for the native
-> > package and there is no reason to not use it as well for the
-> > target. This allows it to be available without the need of perl being
-> > installed.
+> > I'd rather not deviate from the upstream, and use what the upstream
+> > provides. Especially considering that perl version does have command
+> > line options that the shell version does not, and the difference might
+> > increase in the future:
+> > c_rehash [-old] [-h] [-help] [-v] [dirs...]
+> >
+> > If you really really can't afford perl runtime on the target, and want
+> > the shell version, how about making it a PACKAGECONFIG?
 >
-> I'd rather not deviate from the upstream, and use what the upstream
-> provides. Especially considering that perl version does have command
-> line options that the shell version does not, and the difference might
-> increase in the future:
-> c_rehash [-old] [-h] [-help] [-v] [dirs...]
->
-> If you really really can't afford perl runtime on the target, and want
-> the shell version, how about making it a PACKAGECONFIG?
+> Well, the c_rehash has a specific use case and this version is
+> /already/ in use on 1.0 (for both target and native) and on 1.1 for
+> native. If c_rehash is not good enough for use, we should remove it
+> from native as well.
 
-Well, the c_rehash has a specific use case and this version is
-/already/ in use on 1.0 (for both target and native) and on 1.1 for
-native. If c_rehash is not good enough for use, we should remove it
-from native as well.
+1.0 version is no longer used in either native or target, 1.1 version
+is used in both cases, as they have the same file name and would then
+clash.
+The native use case is specific and controlled - running
+update-ca-certificates. There is no guarantee that on target the
+utility will not be used from somewhere else, making assumptions that
+are true for perl version, but not true for our shell rewrite.
 
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Alex
 
