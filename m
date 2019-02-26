@@ -1,51 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B2F97C790
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 779E87C6A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 11:58:39 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id x9so10215551iog.12
+	Tue, 26 Feb 2019 12:20:06 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id z19so10917539otm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 03:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 26 Feb 2019 04:20:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0bDr3raxovd4q/uKRbNwRDKzxECj0GB74L2UK/niC7E=;
-	b=xmZn7eKHVHsT8PkfllFJaevjHQR236uV9FRpRO1ijnB+mzQ2+5k0miHeaHSa9DVCrf
-	yZKcgfn72jZE6XjIX4VixvMHa8B+iqrwKoIfC/WHeggQA8q8lqtsIj+dFDuVwZO4ZZPl
-	D2DvQ3ZaekYS1jVMr8LlZt/4Q6tqXsIeSW81NMGhd0nPUdlqJATKI+QEE7C4LKOp56Qn
-	WWfksxDM0TDJvf255NNJZCkVuMNELVajoSwOXHdB6zoD0ZwHIgucrGR02gylHl2Tvw14
-	y1dSkv/UANB3HZBmxONfVgr3WFRD1V4CdVErXL18nSL/d+85tASzN/hG3GxuT6+iQneq
-	e1xQ==
+	:cc; bh=nrrDVMhV8TIbhneMAXsKByYSCM0whQXS9tgbD2jxbpY=;
+	b=use6LziLHvIxbGHDjTORZ20+syG1mTgeIDMc7JaDYgUHSdR/yDFewhFpS5UUFlvF+F
+	YENSyG0uVv9yI/yLKZsccNHTmu6s3ZNMDQxu6AZmKp7nmV1Qmc48Rb2R1Jm2DDrDFMIL
+	MHkqtqLL9yKnpNeQ3fyNz5P/gP4LXFHxRem3Jv3BquP6ImZUR1Vst7a6KnEiD8b3Z6TW
+	y4MqF7tM6N/+DV+cqNyHi6h6T5oM0tXQlirCoTK0IR3ZRcYSBPzfTSDc0COZXwC7y4Lp
+	hl3L46I7+mU0rr70MQRLh3dBn6pdFENHypidFpuNajTmpCklSkB3bNYEtRIecAg4QN1H
+	w7nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=0bDr3raxovd4q/uKRbNwRDKzxECj0GB74L2UK/niC7E=;
-	b=fcNoNSpBIzN8XTm4IMDuUWt0/MWj4bVgri7dRlL12+omSRbzhs5Iv6JTeXdbtxiHdF
-	izc5SeAR7g7AXvZSqIfoGcIcxqqGKfs0kiR3YJXu7hu8/Gh4+wuC4MW44mlAm+pp5LL7
-	Nyps6+6qn628hXKUb1bx8vYVoTv2ALPdMravaaEnn4GIib2kIx8VEUWXBxPIIGyCBuDz
-	zxO4vLxz8x3ChpBw9M8Wunufv3DAM0VDY4WI2iSLMbW/trjhHJIrESvFQO9I4jSa1xKl
-	zWhMQ1rx4Jg8FbE2oOKfY2AA+PcLA0Q+W7HCMGi8Jy/OAMB+uLInj+vocWQ1wMNscMIG
-	8wcg==
-X-Gm-Message-State: AHQUAubk/3TffYIWwwNguu0HG4enYG5Cs+sfX+p5iiwhx2/rqw34QNCe
-	x3iOg3ovhYk+1ZoO61XfnM1/YEwWjXzbne5sWRz3u55s
-X-Google-Smtp-Source: AHgI3IYgrjinYgCPqUmZYgwlrrsjhPSo0kfuBf6NFLJYrYpzb/kNFmT6X3SEJmPeaCBQPNW8ELs/E0gdsgq740DkcXM=
-X-Received: by 2002:a5d:848b:: with SMTP id t11mr11124167iom.270.1551182321009;
-	Tue, 26 Feb 2019 03:58:41 -0800 (PST)
+	bh=nrrDVMhV8TIbhneMAXsKByYSCM0whQXS9tgbD2jxbpY=;
+	b=h6GleY7y64h4U91qlKQLaozqvmybsn5GtpUXU1om2Bty8DU6WSGW0NKJwsoVjTjD7F
+	TsEkc99IrOW6afGs2shUs/PBUYLQQKIk63epVoIMKv1GxJc5jbZXiE5U3q5ugTfnblu3
+	EAbpevpN84x6S2O/erp/ImwV/2tao+EV9LzDNCBY4n3Fq775Sy+z1cdmD4+lcMSaWDYZ
+	L41Km099s0lEcFDNfMUQfkSDT4M/t0Dc7dxft6Tfn80h2FjYwgid20QbxULXCaJeqa85
+	HxFcoLiR4a1eowIyrOHPI+X15Uex5KO9+FNQrDIes5UdBUXAYiTWoGZyHNojc+1l/6hS
+	ujvA==
+X-Gm-Message-State: AHQUAuYVMw8fhTixc7aa3H38XTLUM4I/22dq2ldVY47bcD1ojFGGd8lP
+	Pc4/+sIsLuf8V37nPZR+Tx9DSDsCqOrM3qL2aBw=
+X-Google-Smtp-Source: AHgI3IZJHm84bBlCetUHsHRZpxeTaSVe5OnPe/QbUhXkHqyOKVIdNipoTPkFlgkWOB5rdq2VWSc1sJsasdjammVJOew=
+X-Received: by 2002:a9d:7544:: with SMTP id b4mr15242159otl.326.1551183607278; 
+	Tue, 26 Feb 2019 04:20:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20190222142333.9780-1-fabio.berton@ossystems.com.br>
-	<CAJTo0LbhhwpyLh9wP+JswymO+T9CRJ64w8hw6g8HsxUSLg9jOw@mail.gmail.com>
-	<CAJTo0LaugPSscMvBwJz+ezbp7DMF9rs59Svkr8WnFb3+oM-KwQ@mail.gmail.com>
-	<CAJTo0Lah677v4+3Q+acN8WEOF-r9bopn0OVw+icfCX5Jy7pxvQ@mail.gmail.com>
-In-Reply-To: <CAJTo0Lah677v4+3Q+acN8WEOF-r9bopn0OVw+icfCX5Jy7pxvQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Feb 2019 11:58:29 +0000
-Message-ID: <CAJTo0LZsdUCjKe9nR4ypj3x_ddR7XPBEvduUHDiE9esWa=X-jg@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH v4] mesa: Convert recipe to use meson build system
+References: <20190226113559.9398-1-otavio@ossystems.com.br>
+In-Reply-To: <20190226113559.9398-1-otavio@ossystems.com.br>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 26 Feb 2019 13:19:55 +0100
+Message-ID: <CANNYZj_XPzrqbSZ7_XmqkwhLYyMgJ_L5J8AUSkkFBjPf-U80mw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Use the c_rehash shell re-implementation for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 11:58:40 -0000
+X-List-Received-Date: Tue, 26 Feb 2019 12:20:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Patch has been accepted, so we need to cherry-pick the patch I mentioned.
+On Tue, 26 Feb 2019 at 12:36, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> We had a c_rehash shell re-implementation being used for the native
+> package and there is no reason to not use it as well for the
+> target. This allows it to be available without the need of perl being
+> installed.
 
-Ross
+I'd rather not deviate from the upstream, and use what the upstream
+provides. Especially considering that perl version does have command
+line options that the shell version does not, and the difference might
+increase in the future:
+c_rehash [-old] [-h] [-help] [-v] [dirs...]
 
-On Mon, 25 Feb 2019 at 20:26, Burton, Ross <ross.burton@intel.com> wrote:
+If you really really can't afford perl runtime on the target, and want
+the shell version, how about making it a PACKAGECONFIG?
+
+Alex
+
+
+>  .../openssl/openssl_1.1.1a.bb                    | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 >
-> I'm also not convinced this was right and have submitted
-> https://lists.freedesktop.org/archives/mesa-dev/2019-February/215791.html.
-> When that is reviewed we'll know whether this change is fine, or we
-> should pick a the patch.
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> index 9f6e26bcf5..3e9e45e4a4 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> @@ -122,7 +122,13 @@ do_install () {
 >
-> Ross
+>         oe_multilib_header openssl/opensslconf.h
 >
-> On Mon, 25 Feb 2019 at 19:04, Burton, Ross <ross.burton@intel.com> wrote:
-> >
-> > So far:
-> >
-> > <dcbaker>rburton: according to this commit it's intentional:
-> > cc15460e182148292be877bec5a8a61cec57377d
-> > <dcbaker>although I'm not sure that patch was correct now, it looks
-> > like autotools has generated a 1.1.0 since 2014
-> >
-> > On Mon, 25 Feb 2019 at 18:54, Burton, Ross <ross.burton@intel.com> wrote:
-> > >
-> > > packages/corei7-64-poky-linux/mesa/libgles1-mesa: FILELIST: removed
-> > > "/usr/lib/libGLESv1_CM.so.1.1.0", added
-> > > "/usr/lib/libGLESv1_CM.so.1.0.0"
-> > >
-> > > Is that intentional?  Looks like a version mistake in the meson.build.
-> > >
-> > > Ross
+> -       # Create SSL structure for packages such as ca-certificates which
+> +       # Install a custom version of c_rehash that can handle sysroots properly.
+> +       # This version is used for example when installing ca-certificates during
+> +       # image creation.
+> +       install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+> +       sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+> +
+> +        # Create SSL structure for packages such as ca-certificates which
+>         # contain hard-coded paths to /etc/ssl. Debian does the same.
+>         install -d ${D}${sysconfdir}/ssl
+>         mv ${D}${libdir}/ssl-1.1/certs \
+> @@ -143,12 +149,6 @@ do_install_append_class-native () {
+>             SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
+>             SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
+>             OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
+> -
+> -       # Install a custom version of c_rehash that can handle sysroots properly.
+> -       # This version is used for example when installing ca-certificates during
+> -       # image creation.
+> -       install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+> -       sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+>  }
+>
+>  do_install_append_class-nativesdk () {
+> @@ -190,7 +190,7 @@ FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+>  FILES_libssl = "${libdir}/libssl${SOLIBS}"
+>  FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+>  FILES_${PN}-engines = "${libdir}/engines-1.1"
+> -FILES_${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
+> +FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
+>  FILES_${PN} =+ "${libdir}/ssl-1.1/*"
+>  FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+>
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
