@@ -1,55 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F7437CAC5
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F34897C83A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 17:19:42 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id j36so15759430qta.7
+	Tue, 26 Feb 2019 18:03:20 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id m10so6584346plt.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 09:19:43 -0800 (PST)
+	Tue, 26 Feb 2019 10:03:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=33SxZLbOq7Uls2J6vHPHwbDc6Mzg9vn+9rZSJzcC/No=;
-	b=oC0fm3lzHuQTgOdMERiW2/qefPbnS6Txu/bbJecmoyXvSd55e398BoazV/q1jgyiq2
-	TMRfy2Kf9/HgRPpfR4DETuzwOgcvjj2tGRK2EPJW3ZBTmPWL2w65SjlfHrZ6+g2AyRe/
-	KUV5KJOWSOHh9oHsl65a5+MjjkUAnVvoWRrjHnMR19Vf3iVumj/dbxc/WmetcMjTTGg9
-	j6O8lw2COWPR4odtTOGSOiio3giGiVcoQF2hrD+Rtmt0eYpoS5lG69lK/0dGOjKbvOUD
-	nWhX9fexqmjL8ikMXgr3C6hT/vvtLm7/a3xlQcEzBBs2AB4IX25exsThNa5uVRogHJbH
-	PcsA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=25XtkbMBaZEyTpfFiOwZ8X6/p5+yrPiAjJk82znohiY=;
+	b=UkswiHyE1bxBPstU4No8qUPhcZl13PPh0+OPR6LJuMwNvA7yGXkNRklWa40Z8Wtjh3
+	Y1e3HUOoM2GD4nHhwVrcv+xKk6c45Cqwe1C3qaNhJG9kYx6FQIGM7aVqtyTjdG+24EdM
+	pFwexbKo7HTbZpSv7Nl3q9LCVEzExo7VA5FKPTgsOmup+jyXTuyyTT32yWz2Iw5Q+vR1
+	TztD76+8WS0mR1PcDhzgVAquyhZYwPN8b+yxtABR04NmYVrYaoZQVnliK+lrwutBH5Ap
+	H61WMHt9FFgZCYUREb6GyjCKLY5lyUoYRJPIhGAOxJYp+jweVM80VVGCabuyyYfQw91j
+	ObIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=33SxZLbOq7Uls2J6vHPHwbDc6Mzg9vn+9rZSJzcC/No=;
-	b=PPP7xaiHKEJUn/OGLHG/ByOzCItxfnoJvPZLHNaEwRAB/0BQy/Eh1tutccbQYixWKu
-	wjfUV2OQe/gpkvMOoQ7vUgTLodWohMqTpu3J7KFChGlSyfuBs6AlB+HXI3VDJVun4LKO
-	Bx80Suu0uzcDqYE9deZXNcfTaidY9k6Qyd5HWuSdpsDv3CHvUXIRQzt0f8o0Eddz3t5b
-	vbUIsVovoncHK5pPcUZiPIdgI/ZA70QxCK96wEt5pivwOOHTGglzPexlz9k/IS/xmys3
-	GsC7wLZXpY4kG0ADB0pIDs9NqBZLt/llmhTCeQITi5nZVYCbTfyDXkCqOqtibsnkcHpq
-	yZwA==
-X-Gm-Message-State: AHQUAuYsojldeEgYGWLJhlLg3EIKm2ZE8BNTvKlqVBP/0+CcjM/Xstvx
-	6PncJI5gV7FotF5akE+5CrtEdD7YcGW+Lsw+Vv0=
-X-Google-Smtp-Source: AHgI3IapNV6WvN8uCqP4xdpV+66cdOcuStQ2cqu9W9twe1hxX8v+OvqTPutlje+gHHnsv4pLbXGNLl6yCn7OJLGyt6Y=
-X-Received: by 2002:a0c:8971:: with SMTP id 46mr18544951qvq.224.1551201582561; 
-	Tue, 26 Feb 2019 09:19:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20190222142333.9780-1-fabio.berton@ossystems.com.br>
-	<CAJTo0LbhhwpyLh9wP+JswymO+T9CRJ64w8hw6g8HsxUSLg9jOw@mail.gmail.com>
-	<CAJTo0LaugPSscMvBwJz+ezbp7DMF9rs59Svkr8WnFb3+oM-KwQ@mail.gmail.com>
-	<CAJTo0Lah677v4+3Q+acN8WEOF-r9bopn0OVw+icfCX5Jy7pxvQ@mail.gmail.com>
-	<CAJTo0LZsdUCjKe9nR4ypj3x_ddR7XPBEvduUHDiE9esWa=X-jg@mail.gmail.com>
-	<CAP9ODKqXDQkV8xHmTTmvs6GWUWNJrWB5XSnb37B=6-JjCci37Q@mail.gmail.com>
-	<CAMKF1sqynSYK=u_qTXkteuSk1s951JAXucnN9r=8=CVOCUD=SA@mail.gmail.com>
-	<CAP71WjyHDmhfM=zNaCL6V+YNuW_eumLfFk8iVapxC9iP+k=iiQ@mail.gmail.com>
-In-Reply-To: <CAP71WjyHDmhfM=zNaCL6V+YNuW_eumLfFk8iVapxC9iP+k=iiQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=25XtkbMBaZEyTpfFiOwZ8X6/p5+yrPiAjJk82znohiY=;
+	b=avNCLJR1WrngyPz/HF6iJdpwPH8dGrcFbt9ORI36iU8MdIpby91hXwvDa8ebiVpMyq
+	zI0wti/0rnlHswJXen2hT1JupSrtyRq05OqM7J63oLHCzXc2v5JWSky3RdejMgJz1ywH
+	ZjFWjTpGeF32VxaOGVhIkxzVfVq3Ry4AhGA/8vsyftoW7SZkDnPPthTnd5S4z2tC9Edx
+	/dNi1db/06PAQSz2SgQfsecx8eo0dR7bP96PPXZTXYA8NZObw+/lQDfyeQfyAtvp9d6i
+	kDhFd7qgBrnG46w0dz81gcv3O5qcCGG/UDsSxsoVHCCTmFCMXoJteXmzmeVbWVYMhy98
+	Zt3g==
+X-Gm-Message-State: AHQUAua8jyvwjnb/Xu+FGjzwg7jSpE0iBB8mPSc8lOK7BIh9ZeC8fUP9
+	MuonBQ99QOMIWe5++FPJ4axMDh5+
+X-Google-Smtp-Source: AHgI3IYyX5+h5E55uTfeVdgdbp2GKZP7NQBDgDjObruX3CH4Kwhknd0KM2ey+2GUdqzqfbxaQHP2+g==
+X-Received: by 2002:a17:902:758b:: with SMTP id
+	j11mr10003687pll.185.1551204201410; 
+	Tue, 26 Feb 2019 10:03:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::1cf2])
+	by smtp.gmail.com with ESMTPSA id
+	z1sm22809318pfi.155.2019.02.26.10.03.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Feb 2019 10:03:20 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Feb 2019 09:19:16 -0800
-Message-ID: <CAMKF1sqBf-W_xAadC7sMY3eGF89aGuYVf9hekgY=RTKNPRMwVw@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH v4] mesa: Convert recipe to use meson build system
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Feb 2019 10:03:14 -0800
+Message-Id: <20190226180314.16870-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH V4] default-distrovars: Drop DISTRO_FEATURES_LIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,53 +58,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 17:19:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Feb 2019 18:03:21 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 26, 2019 at 7:36 AM Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
->
-> On Tue, Feb 26, 2019 at 4:08 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Tue, Feb 26, 2019 at 4:26 AM Otavio Salvador
-> > <otavio.salvador@ossystems.com.br> wrote:
-> > >
-> > > On Tue, Feb 26, 2019 at 8:58 AM Burton, Ross <ross.burton@intel.com> wrote:
-> > > >
-> > > > Patch has been accepted, so we need to cherry-pick the patch I mentioned.
-> > >
-> > > We will wait for 19.0.1 to be out to go to meson, so it will be
-> > > applied there for sure.
-> > >
-> >
-> > I am still seeing fredreno build failure with master-next
-> > https://errors.yoctoproject.org/Errors/Details/230466/
->
-> I was about to suggest that the right fix would be to get rid of that
-> recipe, since it's been deprecated, see:
-> http://bloggingthemonkey.blogspot.com/2016/11/a-quick-note-for-usersdistros.html
->
-> So i checked the Layer index to find which layer has the recipe just
-> to realize it's my own meta-qcom layer... oops.
->
-> Are you ok, if I remove it, or do you need it for anything?
+After eglibc was merged into glibc, Kconfig support was also dropped so
+these libc features therefore are not effective anymore and can be
+removed
 
-Deleting is fine
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2:
+- Add ipv4 and ipv6 to default distro features, they are not libc
+  specific anyway
+- Remove DISTRO_FEATURES_DEFAULT as this is redundant now
 
->
-> >
-> > > --
-> > > Otavio Salvador                             O.S. Systems
-> > > http://www.ossystems.com.br        http://code.ossystems.com.br
-> > > Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+v3:
+- Remove the use of libc-* overrides in metadata
+
+v4:
+- Cleanup further to simplify variable assignments
+
+ meta/classes/image.bbclass                    |  5 -----
+ meta/classes/libc-package.bbclass             |  9 +++------
+ meta/conf/bitbake.conf                        |  4 ++--
+ .../distro/include/default-distrovars.inc     | 11 +----------
+ meta/conf/distro/include/tclibc-glibc.inc     | 19 +++++--------------
+ meta/conf/local.conf.sample.extended          | 16 ++--------------
+ meta/recipes-core/glib-2.0/glib.inc           |  2 --
+ meta/recipes-core/glibc/glibc_2.29.bb         |  3 +--
+ meta/recipes-core/libxml/libxml2_2.9.8.bb     |  2 --
+ meta/recipes-devtools/mtools/mtools_4.0.19.bb |  2 --
+ .../findutils/findutils_4.6.0.bb              |  2 +-
+ meta/recipes-extended/shadow/shadow.inc       |  2 +-
+ meta/recipes-extended/shadow/shadow_4.6.bb    |  2 +-
+ 13 files changed, 17 insertions(+), 62 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 11927f39f5..276d0d31f4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -176,11 +176,6 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS').split()))}"
+ 
+-python () {
+-    if not bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
+-        d.setVar('IMAGE_LINGUAS', '')
+-}
+-
+ # Prefer image, but use the fallback files for lookups if the image ones
+ # aren't yet available.
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 34c9151ae9..8859dad566 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -37,14 +37,11 @@ python __anonymous () {
+                 d.setVar("DEPENDS", depends)
+                 d.setVar("GLIBC_INTERNAL_USE_BINARY_LOCALE", "compile")
+                 break
+-
+-    # try to fix disable charsets/locales/locale-code compile fail
+-    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locales libc-locale-code', True, False, d):
+-        d.setVar('PACKAGE_NO_GCONV', '0')
+-    else:
+-        d.setVar('PACKAGE_NO_GCONV', '1')
+ }
+ 
++# try to fix disable charsets/locales/locale-code compile fail
++PACKAGE_NO_GCONV ?= "0"
++
+ OVERRIDES_append = ":${TARGET_ARCH}-${TARGET_OS}"
+ 
+ locale_base_postinst_ontarget() {
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 435646a946..1c5369ec98 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -123,7 +123,7 @@ TUNE_ASARGS ??= ""
+ TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+ LIBCEXTENSION ??= ""
+ ABIEXTENSION ??= ""
+-USE_NLS ??= "${@bb.utils.contains('DISTRO_FEATURES', 'libc-locale-code', 'yes', 'no', d)}"
++USE_NLS ??= "yes"
+ SDKUSE_NLS ??= "yes"
+ 
+ TARGET_ARCH = "${TUNE_ARCH}"
+@@ -820,7 +820,7 @@ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+ # Native distro features (will always be used for -native, even if they
+ # are not enabled for target)
+ DISTRO_FEATURES_NATIVE ?= "x11 ipv6 xattr"
+-DISTRO_FEATURES_NATIVESDK ?= "x11 libc-charsets libc-locales libc-locale-code"
++DISTRO_FEATURES_NATIVESDK ?= "x11"
+ 
+ # Normally target distro features will not be applied to native builds:
+ # Native distro features on this list will use the target feature value
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 76edff6480..d57329ec17 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,16 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+ 
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+-DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+-					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+-					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
+-					libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+-					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+-					libc-posix-wchar-io"
+-DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
+-DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
+-DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
++DISTRO_FEATURES ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+ 
+ IMAGE_FEATURES ?= ""
+ 
+diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+index abe619aaac..3246490997 100644
+--- a/meta/conf/distro/include/tclibc-glibc.inc
++++ b/meta/conf/distro/include/tclibc-glibc.inc
+@@ -22,17 +22,8 @@ LIBC_DEPENDENCIES = "libsegfault \
+ 		     glibc-dev \
+ 		     glibc-utils \
+ 		     glibc-thread-db \
+-		     ${@get_libc_locales_dependencies(d)}"
+-
+-LIBC_LOCALE_DEPENDENCIES = "\
+-	glibc-localedata-i18n \
+-	glibc-gconv-ibm850 \
+-	glibc-gconv-cp1252 \
+-	glibc-gconv-iso8859-1 \
+-	glibc-gconv-iso8859-15"
+-
+-def get_libc_locales_dependencies(d):
+-    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
+-        return d.getVar('LIBC_LOCALE_DEPENDENCIES') or ''
+-    else:
+-        return ''
++		     glibc-localedata-i18n \
++		     glibc-gconv-ibm850 \
++		     glibc-gconv-cp1252 \
++		     glibc-gconv-iso8859-1 \
++		     glibc-gconv-iso8859-15"
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 010bf6ca6f..0743fefece 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -24,22 +24,10 @@
+ # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+ # be appropriate for example.
+ 
+-
+-# glibc configurability is used to reduce minimal image's size.
+-# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
+-# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
+-# and DISTRO_FEATURES definitions to local.conf to enable the options.
+-#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+-#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+-#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
+-#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+-#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+-#               libc-posix-wchar-io"
+-
+-#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
++#DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 pcmcia usbgadget usbhost wifi nfs zeroconf pci"
+ 
+ # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+-#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
++#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
+ 
+ # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+ # packages at build time using qemu-native. Disabling it (by setting it to 0)
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 6305f553b4..3c2440db0e 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -41,8 +41,6 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
+ # meson's python configuration pokes into python3 configuration, so this provides the native config to it.
+ unset _PYTHON_SYSCONFIGDATA_NAME
+ 
+-REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+-
+ S = "${WORKDIR}/glib-${PV}"
+ 
+ PACKAGECONFIG ??= "system-pcre libmount"
+diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+index beddbffee2..bd8aa6d503 100644
+--- a/meta/recipes-core/glibc/glibc_2.29.bb
++++ b/meta/recipes-core/glibc/glibc_2.29.bb
+@@ -89,12 +89,11 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --enable-stackguard-randomization \
+                 --disable-crypt \
+                 --with-default-link \
++                --enable-nscd \
+                 ${GLIBCPIE} \
+                 ${GLIBC_EXTRA_OECONF}"
+ 
+ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
+-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
+-
+ 
+ do_patch_append() {
+     bb.build.exec_func('do_fix_readlib_c', d)
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+index 0e2461154b..62643bc764 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+@@ -42,8 +42,6 @@ inherit autotools pkgconfig binconfig-disabled ptest distro_features_check
+ 
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
+ 
+-REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+-
+ RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell  python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
+ 
+ RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.19.bb b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
+index 9972762b4e..7d59d93a81 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.19.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
+@@ -39,8 +39,6 @@ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
+ 
+ inherit autotools texinfo distro_features_check
+ 
+-REQUIRED_DISTRO_FEATURES_libc-glibc = "libc-charsets libc-locale-code libc-locales"
+-
+ EXTRA_OECONF = "--without-x"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/findutils/findutils_4.6.0.bb b/meta/recipes-extended/findutils/findutils_4.6.0.bb
+index 5e4ca94868..3b62ed9962 100644
+--- a/meta/recipes-extended/findutils/findutils_4.6.0.bb
++++ b/meta/recipes-extended/findutils/findutils_4.6.0.bb
+@@ -16,6 +16,6 @@ SRC_URI[md5sum] = "9936aa8009438ce185bea2694a997fc1"
+ SRC_URI[sha256sum] = "ded4c9f73731cd48fec3b6bdaccce896473b6d8e337e9612e16cf1431bb1169d"
+ 
+ # http://savannah.gnu.org/bugs/?27299
+-CACHED_CONFIGUREVARS += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', 'gl_cv_func_wcwidth_works=yes', '', d)}"
++CACHED_CONFIGUREVARS += "gl_cv_func_wcwidth_works=yes"
+ 
+ EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 09c37ef8a3..2b20bdcb25 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -57,7 +57,7 @@ EXTRA_OECONF += "--without-audit \
+ NSCDOPT = ""
+ NSCDOPT_class-native = "--without-nscd"
+ NSCDOPT_class-nativesdk = "--without-nscd"
+-NSCDOPT_libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES', 'libc-spawn', '--with-nscd', '--without-nscd', d)}"
++NSCDOPT_libc-glibc = "--with-nscd"
+           
+ PAM_PLUGINS = "libpam-runtime \
+                pam-plugin-faildelay \
+diff --git a/meta/recipes-extended/shadow/shadow_4.6.bb b/meta/recipes-extended/shadow/shadow_4.6.bb
+index 5675cb8cc9..c975395ff8 100644
+--- a/meta/recipes-extended/shadow/shadow_4.6.bb
++++ b/meta/recipes-extended/shadow/shadow_4.6.bb
+@@ -2,7 +2,7 @@ require shadow.inc
+ 
+ # Build falsely assumes that if --enable-libpam is set, we don't need to link against
+ # libcrypt. This breaks chsh.
+-BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', bb.utils.contains('DISTRO_FEATURES', 'libc-crypt',  '-lcrypt', '', d), '', d)}"
++BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '-lcrypt', '', d)}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.21.0
+
 
