@@ -1,59 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 881DB7CB9C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 51EDA7C64E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 01:00:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 38AA4184EE;
-	Wed, 27 Feb 2019 02:00:10 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id TtyME1fPIi_L; Wed, 27 Feb 2019 02:00:09 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 3B28518507;
-	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 14DE41E06A;
-	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 091E51E064;
-	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 27 Feb 2019 02:00:08 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id F15762258;
-	Wed, 27 Feb 2019 02:00:08 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 27 Feb 2019 02:00:08 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Wed, 27 Feb 2019 02:00:08 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Brad Bishop <bradleyb@fuzziesquirrel.com>
-Thread-Topic: [OE-core] [OE-Core][PATCH] openssl: move c_rehash pkg to avoid
-	perl	dep
-Thread-Index: AQHUrFUqeoEKavsAskmsLHhd9WEi8aXzFFSw
-Date: Wed, 27 Feb 2019 01:00:08 +0000
-Message-ID: <90b9b852a88544ce9762019e3aa98af7@XBOX04.axis.com>
-References: <20190114220433.14356-1-bradleyb@fuzziesquirrel.com>
-In-Reply-To: <20190114220433.14356-1-bradleyb@fuzziesquirrel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 27 Feb 2019 01:17:01 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id l5so16039074wrw.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2019 17:17:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=O4ykZEwhEBMrbCsjVdQUyQUgWH4pVRnfRpquUDdXFY0=;
+	b=kudvBarLL7O8x5zuuA6E5ospNnKo9Bfr5YgbEx0VPkCMXwUQtcFE0HcEC45Mremtbw
+	HkFHojKZa2P8EFFikXiU2CmS12Eha6EuddvYC99jPLCwFUIEWaQk/d5Q8+DyJa4aZDtU
+	u4/FaE+LPoA1ZeVzTcOq/q2AFSzgzRX0TRux0vdrgyk900w8H2YDZnJ+HRfYBX5qXRVl
+	VToU8iesuOIWR3xGYiZiVWZYihv9bg60ANHyxoQAnAH8bsXSTAklhjPunNLf8yz5w549
+	WrCaOn7PPXlbck9UwCQdGOjoTYv5FECPbnffg6cssWDfvDBg4G6OFLjxcDgVGzV1dQzJ
+	koUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=O4ykZEwhEBMrbCsjVdQUyQUgWH4pVRnfRpquUDdXFY0=;
+	b=ASrxZpmQtxAdhQJBN2IIEWehBJaJC+s3d5QagprKAlwTZMl8DjJtC6YVPCMlEacLJU
+	zkThU/u05KA+8KXiEdFJF24Mpe1fKGEIVCz1lOjQmZC/AI6m/FBzYysmJQ7NHSWaBOoN
+	TorLLKClBqJKKblR/T4rCDXun7vfwimJmACZZaUlJnvaFg1j2gpOBK5/gp25yCjdlMpR
+	dwz15J6l5hyrTOAwe7ZUTprcyMncU1FUTccCfnxO5/1vhGjcJf2oOtXzxcY/aD+hNZSe
+	aQww3Ms8335jVJwoWrfmtLv/YdbqKkmGBC/nZZkndGpun5wJpdnOlQSoro9fr71lu284
+	u/yg==
+X-Gm-Message-State: APjAAAUeXIuVQA6fyZIun4Z5+hIh0hBHE241MfQbjcszIilTplzbjd2G
+	PxsXo1Voso37deSmGWn6axqRgXsZOklIJrld+Ig=
+X-Google-Smtp-Source: APXvYqxc9xh+FIIeNcDwdOkcfz0ZABVP37/lyDu/XuNB9e6vZUS3AVFHRfnIpy8jgCqfnBMfgPfKQLEyEBqKyQ2UIiE=
+X-Received: by 2002:adf:fc87:: with SMTP id g7mr337133wrr.136.1551230221989;
+	Tue, 26 Feb 2019 17:17:01 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: Xulin Sun <xulin.sun@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
+References: <20190225231742.13855-1-raj.khem@gmail.com>
+	<20190225231742.13855-2-raj.khem@gmail.com>
+In-Reply-To: <20190225231742.13855-2-raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 27 Feb 2019 02:16:52 +0100
+Message-ID: <CA+chaQeG6F_D0Tv3dMqk=F8kR-2Th8-6e4Y_VRL50PkCiOpnjQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: move c_rehash pkg to avoid perl	dep
+Subject: Re: [PATCH 2/2] mesa-gl: Set PACKAGECONFIG for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,67 +55,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 01:00:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Feb 2019 01:17:01 -0000
+Content-Type: multipart/alternative; boundary="00000000000058beae0582d5ee33"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Brad Bishop
-> Sent: den 14 januari 2019 23:05
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [OE-Core][PATCH] openssl: move c_rehash pkg to avoid
-> perl dep
->=20
-> Perl and its dependencies have a decent footprint impact.  On my
-> xz compressed filesystem:
->=20
-> 634880: /usr/lib/libperl.so.5.24.4
->=20
-> Put c_rehash in the openssl-misc package so the dependency can be
-> avoided where it isn't needed.
->=20
-> Change-Id: Iae9bccabfb1c8cfa1401ca6785abc39713d3fdf0
-> Signed-off-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
+--00000000000058beae0582d5ee33
+Content-Type: text/plain; charset="UTF-8"
+
+Fixes e.g.:
+ERROR: weston-5.0.0-r0 do_prepare_recipe_sysroot: The file
+/usr/lib/libEGL.so.1.0.0 is installed by both mesa-gl and libhybris,
+aborting
+
+but there is still:
+ERROR: weston-5.0.0-r0 do_prepare_recipe_sysroot: The file
+/usr/include/KHR/khrplatform.h is installed by both mesa-gl and libhybris,
+aborting
+
+I believe this header wasn't included in mesa-gl before recent changes,
+maybe something else needs to be filtered out?
+
+On Tue, Feb 26, 2019 at 12:18 AM Khem Raj <raj.khem@gmail.com> wrote:
+
+> mesa.inc uses PACKAGECONFIG_class-target override to setup default
+> packageconfigs, which means that when we build mesa-gl for target then
+> it does no honor the ??= setting we have in mesa-gl recipe, and ends up
+> compiling egl, gles2 as well, which is not intended.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> index 5c4e69cfb7..7d26654921 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> @@ -190,14 +190,13 @@ FILES_libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
->  FILES_libssl =3D "${libdir}/libssl${SOLIBS}"
->  FILES_openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
->  FILES_${PN}-engines =3D "${libdir}/engines-1.1"
-> -FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc"
-> +FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
->  FILES_${PN} =3D+ "${libdir}/ssl-1.1/*"
->  FILES_${PN}_append_class-nativesdk =3D " ${SDKPATHNATIVE}/environment-
-> setup.d/openssl.sh"
->=20
->  CONFFILES_openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
->=20
->  RRECOMMENDS_libcrypto +=3D "openssl-conf"
-> -RDEPENDS_${PN}-bin =3D "perl"
->  RDEPENDS_${PN}-misc =3D "perl"
->  RDEPENDS_${PN}-ptest +=3D "openssl-bin perl perl-modules bash python"
-
-There is a line at the end of the recipe, which was recently=20
-added, that says:
-
-MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
-
-I believe it should now be changed to:
-
-MULTILIB_SCRIPTS =3D "${PN}-misc:${bindir}/c_rehash"
-
+>  meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+> b/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+> index 73267eb4f0..d4b1c1c454 100644
+> --- a/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+> +++ b/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+> @@ -7,3 +7,4 @@ PROVIDES = "virtual/libgl virtual/mesa"
+>  S = "${WORKDIR}/mesa-${PV}"
+>
+>  PACKAGECONFIG ??= "opengl dri ${@bb.utils.filter('DISTRO_FEATURES',
+> 'x11', d)}"
+> +PACKAGECONFIG_class-target = "opengl dri
+> ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
 > --
 > 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-//Peter
+--00000000000058beae0582d5ee33
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Fixes e.g.:<br></di=
+v><div dir=3D"ltr">ERROR: weston-5.0.0-r0 do_prepare_recipe_sysroot: The fi=
+le /usr/lib/libEGL.so.1.0.0 is installed by both mesa-gl and libhybris, abo=
+rting</div><div dir=3D"ltr"><br></div><div>but there is still:</div><div><d=
+iv>ERROR: weston-5.0.0-r0 do_prepare_recipe_sysroot: The file /usr/include/=
+KHR/khrplatform.h is installed by both mesa-gl and libhybris, aborting</div=
+></div><div><br></div><div>I believe this header wasn&#39;t included in mes=
+a-gl before recent changes, maybe something else needs to be filtered out?<=
+/div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Tue, Feb 26, 2019 at 12:18 AM Khem Raj &lt;<a href=3D"m=
+ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">mesa.inc uses=
+ PACKAGECONFIG_class-target override to setup default<br>
+packageconfigs, which means that when we build mesa-gl for target then<br>
+it does no honor the ??=3D setting we have in mesa-gl recipe, and ends up<b=
+r>
+compiling egl, gles2 as well, which is not intended.<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_18.3.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">mesa-gl_18.3.4.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_18.3.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">mesa-gl_18.3.4.bb</a> b/meta/recipes=
+-graphics/mesa/<a href=3D"http://mesa-gl_18.3.4.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">mesa-gl_18.3.4.bb</a><br>
+index 73267eb4f0..d4b1c1c454 100644<br>
+--- a/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_18.3.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">mesa-gl_18.3.4.bb</a><br>
++++ b/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_18.3.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">mesa-gl_18.3.4.bb</a><br>
+@@ -7,3 +7,4 @@ PROVIDES =3D &quot;virtual/libgl virtual/mesa&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/mesa-${PV}&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;opengl dri ${@bb.utils.filter(&#39;DISTRO_F=
+EATURES&#39;, &#39;x11&#39;, d)}&quot;<br>
++PACKAGECONFIG_class-target =3D &quot;opengl dri ${@bb.utils.filter(&#39;DI=
+STRO_FEATURES&#39;, &#39;x11&#39;, d)}&quot;<br>
+-- <br>
+2.20.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
+--00000000000058beae0582d5ee33--
