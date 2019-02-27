@@ -1,36 +1,35 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id EA6427CBD9
+Return-Path: <o.mandel@menlosystems.com>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9627CADA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 07:19:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 448Rs86YQDz6p;
-	Wed, 27 Feb 2019 08:19:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1551251997;
-	bh=W2OcxlpDgE68V32tObIDKyGAIXXyiuTD1ZkR+l6bMZs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bcNK66B93jP2q6mFm+USVbvXCPHeDTXMYgQ+QGj3Rt2XOF3e2/YleIbQfmnTa9YZ+
-	I9QKqMpYHZuefljYpcQ+a8+vuCZjAcjXjeHmVswswiCkTGkqceSSegHkEQ5iN0mteU
-	tZRIBEwaC1vTXVxKfe4w8uWYvSuby2BfsJMdWqghRo3DtzZ7Z4fEdkLU+YoLQ0U4nV
-	B4x5b5IbNGKUYAjEUpboUvON0MgCD8HZVJzHBomARjjNfyNXp2fv3ViLhgPhTFqZpR
-	3FtMyh/rUBbVtyZYZlQPX4mK5txMF92zjHL7LVYy5FwC5CNiQ4HAh/aHYwtQVibq66
-	aqTk92R68opmBPUl/YwCNgljR+vtv1YDzJ12r3Yt3G+2GQCCBE/oALUQtjlY4DsdQt
-	q5FfpSRoPSER0M+J0mc1kGh3/tMBQZ3rulwzwUQZCKVPB6ggH893sZv9S+JV6CFv/Q
-	Ss82BVh72f2xvebdGEMUmDUa82BSjSKguWJfJvjdrTlZmxYICnCO1YDUwzQc5c5aY6
-	0LXJdrgwaGWB4B4d/pDsz0cyiWRn+b6lnVmExla56CKacTtKbIbND/EtAobmeJlV1T
-	JCxfPjCYQYN1NUUzWDLdnXRDir/X5Ndbv7v4hFGjaoA2P6KM5hcWj9DtMsSBTgLdrf
-	wmSzAqOnRoVJ71g9e5jsrjv8=
-Date: Wed, 27 Feb 2019 09:19:54 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190227071954.GA20203@localhost>
-References: <20190227070420.36624-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20190227070420.36624-1-raj.khem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: Use -Og in DEBUG_OPTIMIZATION
+	Wed, 27 Feb 2019 09:11:05 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 448VKP70Rhz1rT0L;
+	Wed, 27 Feb 2019 10:11:05 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 448VKP6bndz1qswl;
+	Wed, 27 Feb 2019 10:11:05 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id 2FrOJj_nDH8M; Wed, 27 Feb 2019 10:11:05 +0100 (CET)
+X-Auth-Info: 0zyX4nC5qeVkjU+WT1OCIk5zTzBNRb8TeCXaT5DO7/57dwOnRcl/dp85RUgq42xq
+Received: from menlobldserver.menlosystems.local
+	(host-141-40-253-35.customer.izb-online.de [141.40.253.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed, 27 Feb 2019 10:11:05 +0100 (CET)
+From: Olaf Mandel <o.mandel@menlosystems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Feb 2019 09:10:55 +0000
+Message-Id: <20190227091055.19107-1-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <CAJ86T=VRke7oXB6p-7UA=OCewHC=fb0xMG4Pr+f-8qvG3yof8w@mail.gmail.com>
+References: <CAJ86T=VRke7oXB6p-7UA=OCewHC=fb0xMG4Pr+f-8qvG3yof8w@mail.gmail.com>
+Cc: Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH v2] devtool: deploy-target: support "unsafe" symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 07:19:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Feb 2019 09:11:06 -0000
 
-On Tue, Feb 26, 2019 at 11:04:20PM -0800, Khem Raj wrote:
-> -Og is for optimized debugging experience.
-> this makes this consistent across different compilers especially gcc and
-> clang, -O in clang is equal to -O2 where as in gcc its similar to -O1
-> so it was not giving consistent debugging experience across compilers
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 1c5369ec98..758e89f126 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -610,7 +610,7 @@ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
->  
->  # Disabled until the option works properly -feliminate-dwarf2-dups
->  FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
-> -DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
-> +DEBUG_OPTIMIZATION = "-Og -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
->  SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
->  SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
->  BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
->                                                            ^^
+The bosybox version of tar in sumo considers symlink targets that start
+with / or with ../ to be unsafe and refuses to unpack them unless the
+EXTRACT_UNSAFE_SYMLINKS environment variable is set to 1.
 
-Another place that might have to be updated.
+As even many core packages legitimately contain such links (e.g.
+coreutils-locale-*, dropbear, eudev, initscripts, kmod, ...), add the
+environment variable to the remote script.
+---
+ scripts/lib/devtool/deploy.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-And the ref/dev-maunuals also need updating (they document -O as default).
-
-cu
-Adrian
-
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index f345f31b7b..dc9b34e0ee 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -114,6 +114,11 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+             lines.append('rm $3')
+         lines.append('mkdir -p `dirname $manifest`')
+         lines.append('mkdir -p $2')
++        # Busybox tar v1.28.x (plus v1.27.2 with the CVE-2011-5325 patch)
++        # requires this env variable. The first release without this issue
++        # is thud.
++        # FIXME Remove once sumo goes out of support
++        lines.append('export EXTRACT_UNSAFE_SYMLINKS=1')
+         if verbose:
+             lines.append('    tar xv -C $2 -f - | tee $manifest')
+         else:
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.11.0
 
 
