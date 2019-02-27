@@ -1,55 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 364677CAF5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D07556BA10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 22:32:29 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id z84so7080764wmg.4
+	Wed, 27 Feb 2019 23:34:37 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id d2so21392916qti.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 14:32:30 -0800 (PST)
+	Wed, 27 Feb 2019 15:34:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=YzjfqMGmCbCQdB+N15NuqZPib4SyXM8+tSo8WqefghE=;
-	b=uwDnyuyE7cWWfKY+iN2v4wkfEKoD61mHaYKE8gM3Ga5rTMj95QqXap19mdEx/2G/0C
-	rZiP+Yj7hVmR5WAFo+rNwtWJ3E+hilZdsnAix/Sh0XFEat69zLZ0DZbWwwZd4o51YUDa
-	DD09y9tZ8FggSW6iGJW2D1KXEsQM/oakC0npjhOTKbXtOdzNdqkwBDfllHgxYwXr7AaE
-	BYhdl145OgNsA0qTSebLPZwXAG3vbLFHN+YRwxNSr5PYtKBrThXV2vCJFDENJZWVhsid
-	vA8DcZKARDoxIatjV0re/XpgYDpC/UmPktj5EX0jPAE1rtUyLCeglkhiZmExjZwgH6eS
-	7eBg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=rT+OnJ6ZV1fZoL7ppieidQcEN6J5ZZCquuYykfAFHI4=;
+	b=aap2qOHqZGeJMxZ7wHlZ++oaun2BUHSUfqOZSi5yyamrg8aydD7Opf3bmDsY6TLQ5Q
+	m373jEdFRS1Ip3mDNI/ohzLZbU9pTLF6Lr+6CtpPy3NmRqLWv98Kar3m34VdvuJJKb3j
+	ekk+oPZMGvId1H3eE/9mlxT2Sx5c6CRq7YEpDNt2d47h3UZoNuRdz9E+PLcLKYgh4TFu
+	ZdPloLzWP8zdvdizxCat1PKdDZO4N91vJRYIen1qS1IZdEOxKiqcFP5gM9hOFd1ELbiA
+	BpnFGotuUEKPHHbfkaQ54PSYLalQI5NICQQop3TqKtFMXuE5Z4BCD1eDppF5bud2plK2
+	Golw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=YzjfqMGmCbCQdB+N15NuqZPib4SyXM8+tSo8WqefghE=;
-	b=fQaPa/TRyMiMkLlRnwP+g5/VR58ny6s+ataAm8hgydYDoBS4sc+6o1xFttYOEV6PfL
-	Ljn63WKK28/5JZA6XpmnLzZASjsjbEG0FVioRPYc5+tSJzSegwt64p0JSP3kqXOpX5tk
-	c2OZeOtK/BFHtIHKNk/eLkPs+h8UadaTbAZirIiD+PVh4uvLrFq2odOweBfj60dhhOXi
-	f1Vhf9VBdSvWeytXON0tavEh3LkHczNXr86FZEiL3E17q4UB/R0OZGIgwd5yIvKzu6ij
-	oa3N0HOxsQepCkE8lS1Uqs1K3wVpPUiDsIDNYrGxi8KQzCFKPTM/rtHJMSGURp+7bXwb
-	TBiw==
-X-Gm-Message-State: AHQUAuaQhz7z+voGMtDVzmXcCif2Ytwh6l3FDx9va2EvlkKaUep4B7nT
-	MFOt92RlLyfqzT9HpyYykII=
-X-Google-Smtp-Source: APXvYqyS2Ou47WAzjeZVNVLJmWpBFErRvqHZoZrGHfYLRMxQOZbb8ijjFc7mQdtpr9fDo2/+bhBYlg==
-X-Received: by 2002:a1c:101:: with SMTP id 1mr892370wmb.128.1551306749750;
-	Wed, 27 Feb 2019 14:32:29 -0800 (PST)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id 12sm7910009wme.25.2019.02.27.14.32.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 27 Feb 2019 14:32:28 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 27 Feb 2019 23:32:29 +0100
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190227223229.GA1503@jama>
-References: <20190227205042.44813-1-raj.khem@gmail.com>
-	<20190227205042.44813-2-raj.khem@gmail.com>
-	<CAJ86T=WH03EBVFh-OU=pKDcsKL-YK3efEzHXDmwouGjvp7z9GQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=rT+OnJ6ZV1fZoL7ppieidQcEN6J5ZZCquuYykfAFHI4=;
+	b=pL9i1pcs1UiGOtSJDavS02Hf+dp5Fpa697C2Fq1/xSAB+ysDpmxAnjhN4THcsOZ6zq
+	bX0p2yHJM6i7z5K0gPv2yXNv0AtWAdG0krn4t/5JV7u3Vwda6w7vJJy1DplDHvBwKKdZ
+	fdwrHMQslamYdoWSYCdWYK2rDSzJ3LICVawU23XejFr+Hcps79rBMGA4liwysb/92SFX
+	dalyWdJGyTNYQF8qsfd+8lpg5YmEpOsBA5wp0v0Mq+c1P2eibDvZBTHGwd1XRfQmZdRq
+	4DsnDKGrXfAwXQb4EJNcgmHSfY295BLYTknc4npc7D729dzD0c9t7K0YK9UAs86/n/Je
+	kiDg==
+X-Gm-Message-State: APjAAAXo67wYX6X6QBwDCgyBuiuhBS6tbySDhP8494XWZH/Dp1gl/f3g
+	KSfEQeFNgvHxQjZsuHQtWpdKPnrMXJ1lf7SezOM=
+X-Google-Smtp-Source: APXvYqzyCMgB63C4i7gXxUcKVS9KJ+W4u6l++rXLrqIP7BKO63gew0IvhiahD9dI82CklsCmY8Knrn2PCe2muNGPO10=
+X-Received: by 2002:a0c:94cf:: with SMTP id k15mr4094982qvk.55.1551310478565; 
+	Wed, 27 Feb 2019 15:34:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WH03EBVFh-OU=pKDcsKL-YK3efEzHXDmwouGjvp7z9GQ@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] glibc: Disable Werror when building with debug options
+References: <20190227212951.39714-1-raj.khem@gmail.com>
+	<77eb8d4df1a4220e3f19d09e3ad1130cc60e817c.camel@linuxfoundation.org>
+In-Reply-To: <77eb8d4df1a4220e3f19d09e3ad1130cc60e817c.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2019 15:34:26 -0800
+Message-ID: <CAMKF1spa7tVDq1q4tagnf9FOLmF7zQB3+4qJG5nzK7uvmXv4Ag@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] glibc: Move common bits to gcc-common.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,120 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 22:32:29 -0000
-X-Groupsio-MsgNum: 121715
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Feb 2019 23:34:38 -0000
+Content-Type: multipart/alternative; boundary="00000000000002e7380582e89ebc"
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--00000000000002e7380582e89ebc
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 27, 2019 at 02:01:06PM -0800, Andre McCurdy wrote:
-> On Wed, Feb 27, 2019 at 12:51 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Since compiler does not optimize away a lot of stuff we end up with
-> > Werrors e.g.
-> >
-> > ./sysdeps/ieee754/flt-32/s_log1pf.c: In function '__log1pf':
-> > ../sysdeps/ieee754/flt-32/s_log1pf.c:114:22: error: 'c' may be used uni=
-nitialized in this function [-Werror=3Dmaybe-uninitialized]
-> >   114 |        + (k * ln2_lo + c))) - f);
-> >       |          ~~~~~~~~~~~~^~~~
-> >
-> > which otherwise wont happen, so lets build with warnings-as-errors
-> > disabled in debug mode
-> >
-> > given we disable werror, now we don't have to restrict user to compile
-> > without -O0
->=20
-> Did you actually test with -O0? Even if it builds, there may be issues
-> at runtime:
->=20
->   https://sourceware.org/glibc/wiki/FAQ#Why_do_I_get:.60.23error_.22glibc=
-_cannot_be_compiled_without_optimization.22.27.2C_when_trying_to_compile_GN=
-U_libc_with_GNU_CC.3F
+On Wed, Feb 27, 2019 at 1:48 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Agreed, last time I've tried it still didn't work in runtime with -O0.
+> On Wed, 2019-02-27 at 13:29 -0800, Khem Raj wrote:
+> > We have been duplicating few variables in glibc recipes which could
+> > actually be defined once, therefore move them to gcc-common.inc which
+>
+> gcc-common.inc for glibc? :)
+>
+>
+Hey thankfully it=E2=80=99s just in comments
 
-If this is the only place where it now fails, can we please work around
-it like in:
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D27c5e756a2a8495d77=
-480a103081a86c1ca9a1e8
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D4a06ceea33ecc220bb=
-fe264d8f1e74de2f04e90d
-and pending:
-https://patches-gcc.linaro.org/patch/13529/
+> Cheers,
+>
+> Richard
+>
+>
 
-> >  meta/recipes-core/glibc/glibc.inc     | 9 ---------
-> >  meta/recipes-core/glibc/glibc_2.29.bb | 1 +
-> >  2 files changed, 1 insertion(+), 9 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glib=
-c/glibc.inc
-> > index 67af396133..a382a22b73 100644
-> > --- a/meta/recipes-core/glibc/glibc.inc
-> > +++ b/meta/recipes-core/glibc/glibc.inc
-> > @@ -2,15 +2,6 @@ require glibc-common.inc
-> >  require glibc-ld.inc
-> >  require glibc-testing.inc
-> >
-> > -python () {
-> > -    opt_effective =3D "-O"
-> > -    for opt in d.getVar('SELECTED_OPTIMIZATION').split():
-> > -        if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
-> > -            opt_effective =3D opt
-> > -    if opt_effective =3D=3D "-O0":
-> > -        bb.fatal("%s can't be built with %s, try -O1 instead" % (d.get=
-Var('PN'), opt_effective))
-> > -}
-> > -
-> >  DEPENDS =3D "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-hea=
-ders"
-> >
-> >  PROVIDES =3D "virtual/libc"
-> > diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/=
-glibc/glibc_2.29.bb
-> > index bd8aa6d503..9b6fab066b 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.29.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.29.bb
-> > @@ -90,6 +90,7 @@ EXTRA_OECONF =3D "--enable-kernel=3D${OLDEST_KERNEL} \
-> >                  --disable-crypt \
-> >                  --with-default-link \
-> >                  --enable-nscd \
-> > +                ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0=
- -Og', '--disable-werror', '', d)} \
-> >                  ${GLIBCPIE} \
-> >                  ${GLIBC_EXTRA_OECONF}"
-> >
-> > --
-> > 2.21.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--00000000000002e7380582e89ebc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Feb 27, 2019 at 1:48 PM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2019-=
+02-27 at 13:29 -0800, Khem Raj wrote:<br>
+&gt; We have been duplicating few variables in glibc recipes which could<br=
+>
+&gt; actually be defined once, therefore move them to gcc-common.inc which<=
+br>
+<br>
+gcc-common.inc for glibc? :)<br>
+<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Hey thankfully i=
+t=E2=80=99s just in comments=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Chee=
+rs,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
 
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXHcP+wAKCRA3VSO3ZXaA
-HOlOAKC27Qgc1z+zkccmhD1+4kQyGmp4QgCfcJHhexDcwSX17mtz5UPr2bqF1Jo=
-=1CvL
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
+--00000000000002e7380582e89ebc--
