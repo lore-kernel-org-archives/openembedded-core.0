@@ -1,48 +1,50 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
-	[209.85.208.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0473B7CB4F;
-	Wed, 27 Feb 2019 20:16:11 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id f19so5638871eds.12;
-	Wed, 27 Feb 2019 12:16:13 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+	[209.85.210.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D016C197
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2019 20:50:51 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id q17so8562107pfh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2019 12:50:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YLBK8qxL+92pF6jEmznBvvgwu6ZyyS3/qfnTYWO5VDM=;
-	b=UDG2sRlygeP0jxua1WaokARB48EgacRK9H6FTERLqQlq3Uzh5UI6MY9J/wTRLLMTWR
-	TkKO0co4jxYpEfrZyLvrTsBRZfnW7MpfmLi159nHvxSb+YL/DXDtEc/VC4zAJFJyFUai
-	n6AagqKhdVgtvpiFGOSrYp/HtLtz3eh8KfBt9DToQq1voBQrCFgl/JP0/wKAb7ho3Jhe
-	PKsSRrI9xVOcuHp+RCmDQuZxBbkaoLmrShVOuyOFFA1nQJHmh5nstYHbsI+9FoqNt13X
-	o6Jcn5DRh37HnYOs7GXS1uwTwA1i1NypA5w/6Le47VqNbfBwSX41NeButZx1qkYE82/E
-	1LVA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=a6Ht2doan4wEB6xJCRQlZ0gT2BMTOs1Y4IndVGzKrlk=;
+	b=TdzG+HtrM18u6Ghx/zy0aShVov2E2MKQzg/YP9ALUPRaQHxCo9Mg6GcRO6P/5IK0eJ
+	7AEfdXPWAk5569IvbrIAtPS17UZFNFiL+IeCxIDAErnqjiie8jM26rvKzpGGo8XLS2Nt
+	FvGQUhrqpLRcBrtXBmADQkYR/TjP+5NXL0CG4Fcem8EcpJHMC+kNH9gFeyhiwO11Yj5f
+	Qax4W3V8xofascHqhzgb1ND7RvxwDBJez32tRDJYO8PlShjU+hNxlQKh0nWq92gNo0PR
+	BziYfwJvJ8O6SJxPDkd2iB0elEWQC+IJ1rML2vos6kJ8npwVQyHicx7Y8V4GS3K97r2q
+	+TiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YLBK8qxL+92pF6jEmznBvvgwu6ZyyS3/qfnTYWO5VDM=;
-	b=ubaHFswq5SOlhHHDAyu0ks4pg9Yw2cMTtm3U2L5y5SaDr/1opbme1AOi7SzX9eSZsh
-	pXn1fyPYuN6rrHbb5D4SSbbD7Si4PCfzvpjCkaGgN+AvOOutXYLfjSiG/7KtGK1/6rlr
-	bb9wD6sNBSzWV4qKPgl/SlFqGHnWuhyByizHxSvsDzaM1Yg3frvFjUPlTwIM7I/bgQwx
-	+EtvitNaOKy9EFE6uA98F8qqibVKwzBUrN71HlakqsA0fzQxYhisOn1Qk2J1FFJUgvCb
-	RDDHPDgTh03Y4odpNXrcr9dL/Pus6VVM/sqo+NtFR8EALpg39f9Qrj5QII2T31QTFX24
-	r4KA==
-X-Gm-Message-State: AHQUAua3WQg9xL7e5dZXFV6oFKjq6RhQPPfZlvQLAHBLvMedLs9BEvVD
-	k1xWLQiHqzwZgU5SR0CEQw7ZvZfrCRhLtaLA4Jo=
-X-Google-Smtp-Source: AHgI3IYcxiW1w78Y4jpjx4KcRbW42W/J1hnsuVyoH31mlEPwg5NKZbcSW3OZq+LHMB5ipR4368ExlzQ4HqjQ4vT8ZCc=
-X-Received: by 2002:a17:906:3719:: with SMTP id
-	d25mr2747470ejc.142.1551298572496; 
-	Wed, 27 Feb 2019 12:16:12 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=a6Ht2doan4wEB6xJCRQlZ0gT2BMTOs1Y4IndVGzKrlk=;
+	b=V1bpwV7IVK76PMWdOlTMHH7egX9v45FvtQm7RRGyU30GcrciJlsa9B/KTpuwhevN3d
+	vPsrqLNltScLNRQcAxMaTjVmDWQYQKyFJ0djAZNaMsKeiNHz3YGieRLdl92YPE2CDHbc
+	PZVHZev276uZXCww03SkWx0kkscUVMr+gTWWzjGqFa63NxzuMmUGZPibxsZ9QIYqk4db
+	gJPYWHz9dDwZYgLs/UUKylyUpkI9aU0q0EorenQIC1xCkAq9/P1R3W5RcKAAo/o5j+h3
+	7TUbvPGxspgRn4TK9E3UKBFSsj3A54nGLETBjkmSdioAYJ6LzjERfdEH+J/WLmzmPC7F
+	p+lA==
+X-Gm-Message-State: AHQUAubYShG8ltSc71+fMKFhUJhseCgzf8IUyQbwssf40miXbG8Be0NC
+	SMeRR6yDT3Z7Fm2Z8BghABElaTOE
+X-Google-Smtp-Source: AHgI3IYjzBolQyv+bI8/gdc4yOgG3yFEQGX4SO4Umt56MHFGJ0rZ19LJOWMhKxU+YAjjqr7hNw1C1A==
+X-Received: by 2002:a63:b0b:: with SMTP id 11mr4878656pgl.187.1551300652590;
+	Wed, 27 Feb 2019 12:50:52 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5fa3])
+	by smtp.gmail.com with ESMTPSA id
+	l12sm27913766pgn.83.2019.02.27.12.50.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Feb 2019 12:50:51 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Feb 2019 12:50:41 -0800
+Message-Id: <20190227205042.44813-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
-In-Reply-To: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Wed, 27 Feb 2019 12:16:01 -0800
-Message-ID: <CAFNP8OtVN5tjv3xV57q+kjiewtH24tdm3HCqHL+dMKayNcKaMg@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Information about non-traditional uses of the Yocto Project and OpenEmbedded
+Subject: [PATCH V2 1/2] bitbake.conf: Use -Og in DEBUG_OPTIMIZATION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,74 +57,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 20:16:12 -0000
-Content-Type: multipart/alternative; boundary="0000000000005ab5a60582e5d864"
+X-List-Received-Date: Wed, 27 Feb 2019 20:50:52 -0000
+Content-Transfer-Encoding: 8bit
 
---0000000000005ab5a60582e5d864
-Content-Type: text/plain; charset="UTF-8"
+-Og is for optimized debugging experience.
+this makes this consistent across different compilers especially gcc and
+clang, -O in clang is equal to -O2 where as in gcc its similar to -O1
+so it was not giving consistent debugging experience across compilers
 
-Sounds like good potential for a section or chapter in the user docs.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Change documentation to reflect the change and also build host flags
 
-Scott
+ meta/conf/bitbake.conf       | 4 ++--
+ meta/conf/documentation.conf | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-On Wed, Feb 27, 2019 at 12:01 PM Philip Balister <philip@balister.org>
-wrote:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1c5369ec98..85aab98462 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -610,10 +610,10 @@ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
+ 
+ # Disabled until the option works properly -feliminate-dwarf2-dups
+ FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+-DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
++DEBUG_OPTIMIZATION = "-Og -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+ SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+ SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
+-BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
++BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
+ BUILD_OPTIMIZATION[vardeps] += "DEBUG_BUILD"
+ 
+ ##################################################################
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 4d2a707563..c2c96ecf1e 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -125,7 +125,7 @@ D[doc] = "The destination directory."
+ DATE[doc] = "The date the build was started using YMD format."
+ DATETIME[doc] = "The date and time the build was started."
+ DEBUG_BUILD[doc] = "Specifies to build packages with debugging information. This influences the value of the SELECTED_OPTIMIZATION variable."
+-DEBUG_OPTIMIZATION[doc] = "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This variable defaults to '-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe'."
++DEBUG_OPTIMIZATION[doc] = "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This variable defaults to '-Og -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe'."
+ DEFAULT_PREFERENCE[doc] = "Specifies a weak bias for recipe selection priority."
+ DEPENDS[doc] = "Lists a recipe's build-time dependencies (i.e. other recipe files)."
+ DEPLOY_DIR[doc] = "Points to the general area that the OpenEmbedded build system uses to place images, packages, SDKs and other output files that are ready to be used outside of the build system."
+-- 
+2.21.0
 
-> During the last OpenEmbedded developer meeting, it became clear that
-> people are using the Yocto project/OpenEmbedded in spaces outside what
-> we think of as traditional embedded. Lieu Ta is working on a
-> presentation for the Linux Foundation Leadership Summit and we would
-> like to collect as many "unusual" applications are possible from
-> companies we can publicly acknowledge. Unusual is edge, containers,
-> desktop, etc. Or even really interesting embedded applications :)
->
-> Please drop me an email (off list is fine) with enough info for us to
-> add you to a slide and acknowledge your work.
->
-> Thanks,
->
-> Philip
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---0000000000005ab5a60582e5d864
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Sounds like good potential for a section or chapter i=
-n the user docs.</div><div><br></div><div>Scott<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 27, 20=
-19 at 12:01 PM Philip Balister &lt;<a href=3D"mailto:philip@balister.org">p=
-hilip@balister.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">During the last OpenEmbedded developer meeting, it became=
- clear that<br>
-people are using the Yocto project/OpenEmbedded in spaces outside what<br>
-we think of as traditional embedded. Lieu Ta is working on a<br>
-presentation for the Linux Foundation Leadership Summit and we would<br>
-like to collect as many &quot;unusual&quot; applications are possible from<=
-br>
-companies we can publicly acknowledge. Unusual is edge, containers,<br>
-desktop, etc. Or even really interesting embedded applications :)<br>
-<br>
-Please drop me an email (off list is fine) with enough info for us to<br>
-add you to a slide and acknowledge your work.<br>
-<br>
-Thanks,<br>
-<br>
-Philip<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---0000000000005ab5a60582e5d864--
