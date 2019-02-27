@@ -1,48 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B4B7CC14
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id E34A57CC48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 19:44:34 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id p48so20720926qtk.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 11:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GX3TOfwcRnr7Yy4FXMhbIEahcc/h1K5dPDLL47HPAsk=;
-	b=gufhyKcOIFgDjn6ayRvkSq/mBIz8jiEsp5sbvO7gB5x20LvtP2YeMk2YwcnqbacM5R
-	IAeoUf1BO79Mu0P3ZAQy6JMHcS9bdUpyO7ip4vXjN6xZd9fFyY+7cIV+dHgQCN+ZXMb8
-	+yODnaPlN2tLcVKsodc2FtNTlcA8oW1aSBKS8OD0VAUejlAvoHlyqxZp5RthC+3Nmhdp
-	DThtf3LMTxLdxAzK4gB+4CBiaVh6uy+KA2Y8oxJVNv3UmDEYYEcapzgZ3NA8IdEJQSwv
-	BiNvvb3pKho4ietKECfqAk/BR6keFkpv35Q1gr5YJlQpE2TKQkrHzHXRqm00xlp7fcfa
-	ysnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GX3TOfwcRnr7Yy4FXMhbIEahcc/h1K5dPDLL47HPAsk=;
-	b=ZYt4YOtNdIRdmhvnzcVX8soHY6Ob4kp5noMdoqSiR9e9dXLxYl8JH+cpd3PRJwAPAX
-	DwBlzm3TcVYCPmARDAYO6NVeok1jgOnh4aEBz3edPbKB0aby2mGGwPaHsRsDNoCdNasO
-	QJO52qZS7grvHlQDDeqqa8BbMdf22Af27YKILf48GREFJl6UQMwZ4Q20wFDQZKQsPalG
-	OsFHT6PVljzQacrvWpTms9O0DbkeTTz4czrV6rZhwx8lziG9UBAI0d7Tp1ibKBFDTbwz
-	pNrIijkd2vnsna/IZJIOt7Odz8MqZbZgaaFBX8lRGe25NSJaLSSnJ6moolkIU/TYsz28
-	Vxkw==
-X-Gm-Message-State: APjAAAWwKUR5LZ/DNddVi/z2vnGy/lNEDj6HT6bAhyPE4wBIiftMS6/H
-	GY3gr8pvkSOFrTHqdYMyvTrUYQdXpJRI+yGJ7gaqWw==
-X-Google-Smtp-Source: APXvYqw2RJ86PnUSujsCQjOi2ZbbzHE8Zhgc5os1zPnaBBtxMbr9dyLRx3b+C8GkHzsFrf9+oAHPLdU5B0gd5Trwuvw=
-X-Received: by 2002:a0c:b660:: with SMTP id q32mr3402821qvf.50.1551296675032; 
-	Wed, 27 Feb 2019 11:44:35 -0800 (PST)
+	Wed, 27 Feb 2019 20:01:17 +0000 (UTC)
+Received: (qmail 7158 invoked by uid 1003); 27 Feb 2019 20:01:18 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
+	27 Feb 2019 20:01:18 -0000
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
+Date: Wed, 27 Feb 2019 15:01:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-References: <20190227070420.36624-1-raj.khem@gmail.com>
-	<20190227071954.GA20203@localhost>
-In-Reply-To: <20190227071954.GA20203@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Feb 2019 11:44:09 -0800
-Message-ID: <CAMKF1sqWB4fFPSHdA10X+BE=Fg68v-_8gLT0_Tu6-C1_E02_ew@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: Use -Og in DEBUG_OPTIMIZATION
+Subject: Information about non-traditional uses of the Yocto Project and OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,59 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 19:44:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Feb 2019 20:01:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 26, 2019 at 11:19 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Tue, Feb 26, 2019 at 11:04:20PM -0800, Khem Raj wrote:
-> > -Og is for optimized debugging experience.
-> > this makes this consistent across different compilers especially gcc and
-> > clang, -O in clang is equal to -O2 where as in gcc its similar to -O1
-> > so it was not giving consistent debugging experience across compilers
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 1c5369ec98..758e89f126 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -610,7 +610,7 @@ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
-> >
-> >  # Disabled until the option works properly -feliminate-dwarf2-dups
-> >  FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
-> > -DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
-> > +DEBUG_OPTIMIZATION = "-Og -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
-> >  SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
-> >  SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
-> >  BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
-> >                                                            ^^
->
-> Another place that might have to be updated.
+During the last OpenEmbedded developer meeting, it became clear that
+people are using the Yocto project/OpenEmbedded in spaces outside what
+we think of as traditional embedded. Lieu Ta is working on a
+presentation for the Linux Foundation Leadership Summit and we would
+like to collect as many "unusual" applications are possible from
+companies we can publicly acknowledge. Unusual is edge, containers,
+desktop, etc. Or even really interesting embedded applications :)
 
-I did not do this intentionally, since we do not control gcc on build
-host, but rethinking it a bit I think it might be doable, if all hosts
-we support use gcc 4.8 or newer
-for gcc, which I see is the case of  centos7 uses gcc 4.8, so thats
-the oldest supported distro we list.
+Please drop me an email (off list is fine) with enough info for us to
+add you to a slide and acknowledge your work.
 
->
-> And the ref/dev-maunuals also need updating (they document -O as default).
+Thanks,
 
-yes, thats taken care of locally for next rev
-
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+Philip
 
