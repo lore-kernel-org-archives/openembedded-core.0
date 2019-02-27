@@ -1,52 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BF077C92A
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B5907C85D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 09:14:13 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id z84so4796569wmg.4
+	Wed, 27 Feb 2019 09:50:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1R9o2Ci014204
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 01:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=92bvpHb5+sqqIDvBtt64h3ylyp+TQdgfOVMUdElm6mA=;
-	b=hrRWU3ktSiJXLMPRBS2GkCgdlGaPwGqET5G9vhBmDrBP69ZDhm/KOpEZr0TIPnI7qq
-	Hwbeb8W9nBAV+PZXW2aJQseHEm6TTuQOZrbw8Or/YW56Kdc15/TGab2G4PJEZQCZAdSJ
-	RaUBN5L6r0H1ugo4qtqAajWUJVOerVGq4D7p8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=92bvpHb5+sqqIDvBtt64h3ylyp+TQdgfOVMUdElm6mA=;
-	b=tRk37C0Xeo27JpL43JNqUtZng+AeQmTPmg49NfjhrPzRxYWa4YMvI8TgbrELgpKh8l
-	ajPqavvq9bW7W4hsGNf38YoWEoLFGNFtlUYjrcuIS+x6mxiCVIIiMd+p0Gr/K5pXlalH
-	8ztqA9/F8b6YloCT4sFpNVZFOlch5/y0aHysdStCbmlyvieOu4oFYTghDUsjwyHNJOeM
-	5hMSzbwWdbpEqkVhmcEmW9xzA9ghMBfCRfk6zsI3LHEJbOJQDEG1PQV6YdM3jck/zdMA
-	M6+qUH7YtIV2Z4+SxvV2HxVCjrbeg4hk2ckI8QjxLuW1OPfnNRiTcDTP8rJ335xmzH87
-	e4oA==
-X-Gm-Message-State: AHQUAuZK+Ovgd9WdwgzNARABUiWsv7sLUqD6SFC71uujU7DuNqaRKiE2
-	Q+LKmPnLIYh/dsyUOTBpWuzZPA==
-X-Google-Smtp-Source: APXvYqx588piDI+0aXNDeZCt6uh0T2lDXTbYNm2ek448846WFZ4Z6AWOW8/gxsWFNnrbAeQNI574TQ==
-X-Received: by 2002:a05:600c:2:: with SMTP id g2mr1530223wmc.109.1551258853938;
-	Wed, 27 Feb 2019 01:14:13 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a8sm10271296wrt.79.2019.02.27.01.14.13
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 27 Feb 2019 01:14:13 -0800 (PST)
-Message-ID: <6862c155552e878fe373a4bca6320c68798194e9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Olaf Mandel <o.mandel@menlosystems.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 09:14:12 +0000
-In-Reply-To: <20190227091055.19107-1-o.mandel@menlosystems.com>
-References: <CAJ86T=VRke7oXB6p-7UA=OCewHC=fb0xMG4Pr+f-8qvG3yof8w@mail.gmail.com>
-	<20190227091055.19107-1-o.mandel@menlosystems.com>
-User-Agent: Evolution 3.31.90-1 
+	Wed, 27 Feb 2019 01:50:49 -0800
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.435.0;
+	Wed, 27 Feb 2019 01:50:35 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Feb 2019 04:50:32 -0500
+Message-ID: <20190227095032.182301-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] devtool: deploy-target: support "unsafe" symlinks
+Subject: [PATCH] util-linux: fix multilib qa issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 09:14:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Feb 2019 09:50:58 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 2019-02-27 at 09:10 +0000, Olaf Mandel wrote:
-> The bosybox version of tar in sumo considers symlink targets that
-> start
-> with / or with ../ to be unsafe and refuses to unpack them unless the
-> EXTRACT_UNSAFE_SYMLINKS environment variable is set to 1.
-> 
-> As even many core packages legitimately contain such links (e.g.
-> coreutils-locale-*, dropbear, eudev, initscripts, kmod, ...), add the
-> environment variable to the remote script.
-> ---
->  scripts/lib/devtool/deploy.py | 5 +++++
->  1 file changed, 5 insertions(+)
+From: Kai Kang <kai.kang@windriver.com>
 
-I'm tempted to suggest we backport changes to busybox in sumo to
-address this...
+Update RCONFLICTS and RREPLACES for util-linux to fix 'multilib' qa issue:
 
-Cheers,
+| ERROR: lib32-util-linux-2.32.1-r0 do_package: QA Issue: lib32-util-linux
+  package lib32-util-linux-blkid - suspicious values 'e2fsprogs-blkid' in
+  RREPLACES [multilib]
+| ERROR: lib32-util-linux-2.32.1-r0 do_package: QA Issue: lib32-util-linux
+  package lib32-util-linux-blkid - suspicious values 'e2fsprogs-blkid' in
+  RCONFLICTS [multilib]
 
-Richard
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index e30e6331fd..cce684f280 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -133,8 +133,8 @@ FILES_${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+-RCONFLICTS_${PN}-blkid = "e2fsprogs-blkid"
+-RREPLACES_${PN}-blkid = "e2fsprogs-blkid"
++RCONFLICTS_${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
++RREPLACES_${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN}_class-nativesdk = ""
+-- 
+2.20.0
 
 
