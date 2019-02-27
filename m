@@ -1,52 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EB2807CB38
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 63B4B7CC14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 18:34:01 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id n19so6824194wmi.1
+	Wed, 27 Feb 2019 19:44:34 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id p48so20720926qtk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 10:34:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=gtxDqRBj3hJEutEAjX24nXcu92GPVOq3rDegnAr4Os4=;
-	b=jei8wNeje/33Zr9LrVUrwX61/JXDSoCn1bVAapa0R+U6yV3CSPflWGybpzjHLylWrk
-	SnKX3XnH3rP0/sLMk5Zh4UOgFG1QYhDVbDx0pJ44T8NnEm5zhqyZvhg+/4ab0RKwpFSG
-	GzO98s54RIiz6xjsuajneBLYzI2EoZtiXE1Z1pmBJopb46Pu8UBqDhq6Kl7tTiOdRGAs
-	7Z2bdtwA3vor2rmu5AT4x/EfvyeR3FYgQUB62t5V+8DRxy3aEHVcpvRKqNclhxNWDHkE
-	7vyMhJhhsJwn9XqNdGB525reNT9ZI0CwZcC7EEjcwwyQzRV5Q/qRb+UNBvjeYYqHkXIA
-	nO/Q==
+	Wed, 27 Feb 2019 11:44:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GX3TOfwcRnr7Yy4FXMhbIEahcc/h1K5dPDLL47HPAsk=;
+	b=gufhyKcOIFgDjn6ayRvkSq/mBIz8jiEsp5sbvO7gB5x20LvtP2YeMk2YwcnqbacM5R
+	IAeoUf1BO79Mu0P3ZAQy6JMHcS9bdUpyO7ip4vXjN6xZd9fFyY+7cIV+dHgQCN+ZXMb8
+	+yODnaPlN2tLcVKsodc2FtNTlcA8oW1aSBKS8OD0VAUejlAvoHlyqxZp5RthC+3Nmhdp
+	DThtf3LMTxLdxAzK4gB+4CBiaVh6uy+KA2Y8oxJVNv3UmDEYYEcapzgZ3NA8IdEJQSwv
+	BiNvvb3pKho4ietKECfqAk/BR6keFkpv35Q1gr5YJlQpE2TKQkrHzHXRqm00xlp7fcfa
+	ysnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=gtxDqRBj3hJEutEAjX24nXcu92GPVOq3rDegnAr4Os4=;
-	b=MI0wWnu9OgyvFDQnSZEhK7d6UMueqQ3Z9nsQfEWs+fEhn/Q45klynLJbaucJNa/mob
-	Iybv5hOUQLXoWMKReweVlhcv1PcUT9CpCEG1eGjg/4OlzeaWD9ScGadc6I3umBdno5Ib
-	rsR+wiUGAq2FStNpY+bGsdNCuOwf4fXma0CFYWC9UWCijr+XuLTlE8cC6OKhetgh6Y1M
-	cM5DnS2lmYBRU/OUOlFN8WPEJJ20R25cPEXLX9W1jDrkIGDYgSwxqdprXZ90bF47ppyA
-	Sr3uT/RkGgLrsLhlznci6vuSVL6OAb0oGioNddYolIGgT6VspL1aaaGwjCNRbZT+mQAN
-	vXEw==
-X-Gm-Message-State: APjAAAV99xpPIqeR/Jo8ZGf1sciR8U5pb7m9jMUI8oPat9Ccnyfva/4C
-	OoywSpfI8kQ/ZJGZfHHuYp/aZuuykFM=
-X-Google-Smtp-Source: AHgI3IbsWJXgY2P6Po+qMs8yoF29d/feWRTtgU76dI41gmwNQTUwOaE1CRTgUdDjHeEfUAy8VayOZg==
-X-Received: by 2002:a7b:c38d:: with SMTP id s13mr357013wmj.151.1551292442181; 
-	Wed, 27 Feb 2019 10:34:02 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	w4sm26158366wrk.85.2019.02.27.10.34.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 10:34:01 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 18:33:55 +0000
-Message-Id: <20190227183355.19346-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190227183355.19346-1-ross.burton@intel.com>
-References: <20190227183355.19346-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] libpcre: enable JIT
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GX3TOfwcRnr7Yy4FXMhbIEahcc/h1K5dPDLL47HPAsk=;
+	b=ZYt4YOtNdIRdmhvnzcVX8soHY6Ob4kp5noMdoqSiR9e9dXLxYl8JH+cpd3PRJwAPAX
+	DwBlzm3TcVYCPmARDAYO6NVeok1jgOnh4aEBz3edPbKB0aby2mGGwPaHsRsDNoCdNasO
+	QJO52qZS7grvHlQDDeqqa8BbMdf22Af27YKILf48GREFJl6UQMwZ4Q20wFDQZKQsPalG
+	OsFHT6PVljzQacrvWpTms9O0DbkeTTz4czrV6rZhwx8lziG9UBAI0d7Tp1ibKBFDTbwz
+	pNrIijkd2vnsna/IZJIOt7Odz8MqZbZgaaFBX8lRGe25NSJaLSSnJ6moolkIU/TYsz28
+	Vxkw==
+X-Gm-Message-State: APjAAAWwKUR5LZ/DNddVi/z2vnGy/lNEDj6HT6bAhyPE4wBIiftMS6/H
+	GY3gr8pvkSOFrTHqdYMyvTrUYQdXpJRI+yGJ7gaqWw==
+X-Google-Smtp-Source: APXvYqw2RJ86PnUSujsCQjOi2ZbbzHE8Zhgc5os1zPnaBBtxMbr9dyLRx3b+C8GkHzsFrf9+oAHPLdU5B0gd5Trwuvw=
+X-Received: by 2002:a0c:b660:: with SMTP id q32mr3402821qvf.50.1551296675032; 
+	Wed, 27 Feb 2019 11:44:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20190227070420.36624-1-raj.khem@gmail.com>
+	<20190227071954.GA20203@localhost>
+In-Reply-To: <20190227071954.GA20203@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2019 11:44:09 -0800
+Message-ID: <CAMKF1sqWB4fFPSHdA10X+BE=Fg68v-_8gLT0_Tu6-C1_E02_ew@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: Use -Og in DEBUG_OPTIMIZATION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,83 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 18:34:02 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 19:44:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-PCRE has an optional JIT for performance.
+On Tue, Feb 26, 2019 at 11:19 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Tue, Feb 26, 2019 at 11:04:20PM -0800, Khem Raj wrote:
+> > -Og is for optimized debugging experience.
+> > this makes this consistent across different compilers especially gcc and
+> > clang, -O in clang is equal to -O2 where as in gcc its similar to -O1
+> > so it was not giving consistent debugging experience across compilers
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/bitbake.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 1c5369ec98..758e89f126 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -610,7 +610,7 @@ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
+> >
+> >  # Disabled until the option works properly -feliminate-dwarf2-dups
+> >  FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+> > -DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+> > +DEBUG_OPTIMIZATION = "-Og -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+> >  SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+> >  SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
+> >  BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-O -g -feliminate-unused-debug-types -fno-omit-frame-pointer', '-O2', d)} -pipe"
+> >                                                            ^^
+>
+> Another place that might have to be updated.
 
-Add a PACKAGECONFIG for this, enabled by default.
+I did not do this intentionally, since we do not control gcc on build
+host, but rethinking it a bit I think it might be doable, if all hosts
+we support use gcc 4.8 or newer
+for gcc, which I see is the case of  centos7 uses gcc 4.8, so thats
+the oldest supported distro we list.
 
-Also add a patch so that auto-detection of JIT availablity, which is required to
-enable the JIT by default, works with out-of-tree builds.
+>
+> And the ref/dev-maunuals also need updating (they document -O as default).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../libpcre/libpcre/out-of-tree.patch              | 26 ++++++++++++++++++++++
- meta/recipes-support/libpcre/libpcre_8.43.bb       |  4 +++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libpcre/libpcre/out-of-tree.patch
+yes, thats taken care of locally for next rev
 
-diff --git a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-new file mode 100644
-index 00000000000..687dcc034da
---- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-@@ -0,0 +1,26 @@
-+In out-of-tree builds the #include fails because $srcdir isn't in the include path.  Set CPPFLAGS so that it is.
-+
-+Upstream-Status: Submitted [https://bugs.exim.org/show_bug.cgi?id=2379]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+Index: configure.ac
-+===================================================================
-+--- a/configure.ac	(revision 1749)
-++++ b/configure.ac	(working copy)
-+@@ -159,6 +159,8 @@
-+ 
-+ if test "$enable_jit" = "auto"; then
-+   AC_LANG(C)
-++  SAVE_CPPFLAGS=$CPPFLAGS
-++  CPPFLAGS=-I$srcdir
-+   AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
-+   #define SLJIT_CONFIG_AUTO 1
-+   #include "sljit/sljitConfigInternal.h"
-+@@ -165,6 +167,7 @@
-+   #if (defined SLJIT_CONFIG_UNSUPPORTED && SLJIT_CONFIG_UNSUPPORTED)
-+   #error unsupported
-+   #endif]])], enable_jit=yes, enable_jit=no)
-++  CPPFLAGS=$SAVE_CPPFLAGS
-+ fi
-+ 
-+ # Handle --disable-pcregrep-jit (enabled by default)
-diff --git a/meta/recipes-support/libpcre/libpcre_8.43.bb b/meta/recipes-support/libpcre/libpcre_8.43.bb
-index e28615a8ba7..08314efb9e4 100644
---- a/meta/recipes-support/libpcre/libpcre_8.43.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.43.bb
-@@ -9,6 +9,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=91bee59d1b327eb1599b4c673e2fb3d1"
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://fix-pcre-name-collision.patch \
-+           file://out-of-tree.patch \
-            file://run-ptest \
-            file://Makefile \
- "
-@@ -23,13 +24,14 @@ S = "${WORKDIR}/pcre-${PV}"
- PROVIDES += "pcre"
- DEPENDS += "bzip2 zlib"
- 
--PACKAGECONFIG ??= "pcre8 unicode-properties"
-+PACKAGECONFIG ??= "pcre8 unicode-properties jit"
- 
- PACKAGECONFIG[pcre8] = "--enable-pcre8,--disable-pcre8"
- PACKAGECONFIG[pcre16] = "--enable-pcre16,--disable-pcre16"
- PACKAGECONFIG[pcre32] = "--enable-pcre32,--disable-pcre32"
- PACKAGECONFIG[pcretest-readline] = "--enable-pcretest-libreadline,--disable-pcretest-libreadline,readline,"
- PACKAGECONFIG[unicode-properties] = "--enable-unicode-properties,--disable-unicode-properties"
-+PACKAGECONFIG[jit] = "--enable-jit=auto,--disable-jit"
- 
- BINCONFIG = "${bindir}/pcre-config"
- 
--- 
-2.11.0
-
+>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
