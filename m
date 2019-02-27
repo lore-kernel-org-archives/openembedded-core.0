@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 334577CB20
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 94BD57CB2A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 17:47:53 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id i12so19018283wrw.0
+	Wed, 27 Feb 2019 17:47:54 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w6so15717883wrs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 09:47:54 -0800 (PST)
+	Wed, 27 Feb 2019 09:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=5284bSQzHBlXo0VMeYFdMygN9pEqzMH3d/zO3VKxcH8=;
-	b=DuM/UqMibEPqYr2YBwjacBGQO/sXaiSGZh1KkcdfFdbIiBAavgXVFJN3QTlUQ7jwXs
-	dUuZJs/CVmkFntldC9kHe0+KRmeoKKS/QQ2SllkluDON8IvS3/3fB+Fj2qv63WbLIq4w
-	MkIrVaYfZDsz/KtoQsSzjstpDusWPg0iCDiZU=
+	bh=Qr1qyBl+wEjKA6/SF0EcJoVlAmP8iglqcObPPGsgpis=;
+	b=L6zRO0UnNBfuOiOrvc8T3ctiPR12QFKMPCeW7d6gxLYINLyiW6ZYN8LiRxcIBdFFRY
+	o4qbcZY9SyCfHzaErEEKAmDgg3JT6MeRL/03uBiAB49tA/wsCq83V295nckHrPhYSCNX
+	AjxWVDNHLpGsH5LFY/v7U+izIQ3h6P1N60meo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5284bSQzHBlXo0VMeYFdMygN9pEqzMH3d/zO3VKxcH8=;
-	b=medVE9klGUEaKYV4u5N3yBCG6zG7OsHMpVKDKvZRR2NUMJde1dCMAmQjfK33Kidtma
-	1LJOox4+VLbqi7ZBxQsFSQOpVnIZFWuvECD6IkIDwYIfaBGu+/7fVWEagstrzaZCKMpS
-	1Zsefha0xo9BfztaKc2qNoKfRU7hRoaA92HH6zvZ7d7mLfk76O1zpyKceN3ShM2sCfBn
-	N7PQKGDFqjURPOXHQA6v/eaHm5EnVx1LUQwF40OHJyQ/QmWZnYZ6hZzHq00lQKNF9Yyp
-	7i3cG7FzFeReJ7R2yRMSZMKXBZhXKjAiWNji2lJ/rTV8k0vu09UCALuMAXBtnDQnynzA
-	HfXg==
-X-Gm-Message-State: APjAAAX0zhuua2cgnsUTW7ECqCTyjGJJjWkQfIFnuHZBFUZ1bCJYP0YV
-	j2sr8oPSULN76ieBXvEStfPNaP68Sjk=
-X-Google-Smtp-Source: APXvYqyE3wU0Xy+gyg8HTzY0RPUdZOKZhmv9XkcoEsoMoXD51n5GFzX0qigg9BV5lHKqcsC6CbKstg==
-X-Received: by 2002:adf:fc49:: with SMTP id e9mr3539442wrs.2.1551289673597;
-	Wed, 27 Feb 2019 09:47:53 -0800 (PST)
+	bh=Qr1qyBl+wEjKA6/SF0EcJoVlAmP8iglqcObPPGsgpis=;
+	b=D20Gu+9I+Jubn2tab2SThn2k8uJM5133xyfxgBLNImlCxsbfxS373yzfBMmOKg1KjR
+	M/v02Cq8I7JVWFzOebavirvps4fstMxCfdw/LebWGxlvCJHwstJB68Ea03oM8ewxrx0/
+	NuM3KYQk3rgzjnkwtusIAag93cTtEqVqPHM23x425Z11D929fhxBBblN+OB1/PWLZC3e
+	WqgZ+Tbhxt2KY0xrdRpS4VwRV2BcjzXjcoS+zc9/rDBIE5sNkDuiSKif4VAu0TyCCPMu
+	N6j9hql2wcpIkSniVo/kEJ2oCIwUihmnrPT8T6IzchQk2YAAZZzbg8+5j2iGKvAmZsiH
+	6k7A==
+X-Gm-Message-State: APjAAAXHTv+oaaTSD1D1bUfE9wMsOZAkkco6jlcCxa9PFzRxxLkDvYZs
+	waawmby0Ulv+y6TvjWHmvAIeTqQxsKY=
+X-Google-Smtp-Source: APXvYqwkV5JBSKsKNlAdvnyjfdWKClKhffeU7br4Q+8AKIGr1MI5tg5ryywnl3en+R46DymGSJJLjQ==
+X-Received: by 2002:adf:e647:: with SMTP id b7mr3293192wrn.260.1551289675042; 
+	Wed, 27 Feb 2019 09:47:55 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	l10sm28754659wrx.45.2019.02.27.09.47.52
+	l10sm28754659wrx.45.2019.02.27.09.47.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 09:47:52 -0800 (PST)
+	Wed, 27 Feb 2019 09:47:54 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 17:47:45 +0000
-Message-Id: <20190227174746.21127-4-richard.purdie@linuxfoundation.org>
+Date: Wed, 27 Feb 2019 17:47:46 +0000
+Message-Id: <20190227174746.21127-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190227174746.21127-1-richard.purdie@linuxfoundation.org>
 References: <20190227174746.21127-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] resulttool/report: Ensure test suites with no results show up on the report
+Subject: [PATCH 5/5] resulttool/report: Ensure ptest results are sorted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 17:47:53 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 17:47:55 -0000
 Content-Transfer-Encoding: 8bit
-
-ptest suites with no results don't show up on the reports even though we have
-a duration for them. Fix this so the fact they report no tests is visible.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/resulttool/report.py | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ scripts/lib/resulttool/template/test_report_full_text.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index 5ffe262f89b..ff1b32c7706 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -30,6 +30,14 @@ class ResultsTextReport(object):
- 
-     def handle_ptest_result(self, k, status, result):
-         if k == 'ptestresult.sections':
-+            # Ensure tests without any test results still show up on the report
-+            for suite in result['ptestresult.sections']:
-+                if suite not in self.ptests:
-+                    self.ptests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
-+                if 'duration' in result['ptestresult.sections'][suite]:
-+                    self.ptests[suite]['duration'] = result['ptestresult.sections'][suite]['duration']
-+                if 'timeout' in result['ptestresult.sections'][suite]:
-+                    self.ptests[suite]['duration'] += " T"
-             return
-         try:
-             _, suite, test = k.split(".", 2)
-@@ -48,11 +56,6 @@ class ResultsTextReport(object):
-         for tk in self.result_types:
-             if status in self.result_types[tk]:
-                 self.ptests[suite][tk] += 1
--        if 'ptestresult.sections' in result and suite in result['ptestresult.sections']:
--            if 'duration' in result['ptestresult.sections'][suite]:
--                self.ptests[suite]['duration'] = result['ptestresult.sections'][suite]['duration']
--            if 'timeout' in result['ptestresult.sections'][suite]:
--                self.ptests[suite]['duration'] += " T"
- 
-     def get_aggregated_test_result(self, logger, testresult):
-         test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
+diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
+index 5081594cf27..590f35c7dd8 100644
+--- a/scripts/lib/resulttool/template/test_report_full_text.txt
++++ b/scripts/lib/resulttool/template/test_report_full_text.txt
+@@ -16,7 +16,7 @@ PTest Result Summary
+ --------------------------------------------------------------------------------------------------------------
+ {{ 'Recipe'.ljust(maxlen['ptest']) }} | {{ 'Passed'.ljust(maxlen['passed']) }} | {{ 'Failed'.ljust(maxlen['failed']) }} | {{ 'Skipped'.ljust(maxlen['skipped']) }} | {{ 'Time(s)'.ljust(10) }}
+ --------------------------------------------------------------------------------------------------------------
+-{% for ptest in ptests %}
++{% for ptest in ptests |sort %}
+ {{ ptest.ljust(maxlen['ptest']) }} | {{ (ptests[ptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ptests[ptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ptests[ptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ptests[ptest]['duration']|string) }}
+ {% endfor %}
+ --------------------------------------------------------------------------------------------------------------
 -- 
 2.20.1
 
