@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B17A7BFD0
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F2457CB9C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 17:58:07 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id n22so8367596pfa.3
+	Wed, 27 Feb 2019 18:07:37 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id q17so8362139pfh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 09:58:09 -0800 (PST)
+	Wed, 27 Feb 2019 10:07:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=rz+bKt5p4dtlBXMBCSrn5CgqfnH7KtjS3Rhue3DJeik=;
-	b=JgJm87iQnMUhaPNqTLZRcvtoAX50uIrPHmHR0SbdA/qocmRNKI2BU6PfAxoSC6FBN3
-	Apy+i8mwFNc7njjneS+wWA3Xma9HGGXRU699rbXTVTXST8UDJijQg8Pz4hhtHnalqvgn
-	wLt5JkY/ZD2kmzX0uZi4FhCpeIUvjv8aIBZr17+mY8DOXjCFnYqwfk4mVZ8KXRux2+0p
-	8+FdX3NYwntI4s5LTkA5IZvGINFOVIudP5zFNcU2NKAPj+OswwZUQd/E1i7cOsNSZfOf
-	7M6kYzt5Y20TJWxGEIn0GFGGIVeYz2m9lQiJ5+JDXD600wa8GOoql1oYCClrz9pSEpRY
-	dG3g==
+	bh=LZ0uyMOVpeHEHDAOBK46FrBif8YEFxybF4meM3h7xd4=;
+	b=HGP+bXac9UCLRk91zakZz04igh3cnSDPx3E/n6LdO3iGn/b8DimwZ9woKXN/Mk9hgJ
+	ItjTekh0ygy/jJBX+0FoA6bASaBa++U7iI4kw3zpeoU39saJPYr7p+RxAtTVC5iv5npU
+	1slezlZNzHGpFYhva/JneSD62S5HWx/Dyt8M9DZtrz0OH33rJ3cp5JBq+iyCLN3ndgsq
+	1XmtV9DXtPJPpOKLp61/mSRkanwB4OPsTEzIJy1xtHtQ/rQ+EYhMb5V/Ez4S/N3ziuaW
+	Xf+sbV1VaqZlg4p4iuIRexdMesSJpIO8eVKrxLIE8jYnbnwxLjjjtktTiY+YutoRXAQI
+	mpwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=rz+bKt5p4dtlBXMBCSrn5CgqfnH7KtjS3Rhue3DJeik=;
-	b=Ov8ozfR1qKo3CQ3awwy2HAgZipWAfYX5vKNM5B4PqJPRGIHzSxGBtmPZPBJNaywyAY
-	a4aujjlQvoR0Ny63/NAUw6ZFBCazoD5pLzpiRx0y881/wna5VnDqYDIAMhd/phL7MnTL
-	9QPDT5bw4kq/Eb6HQdylxgU2F8A1zRTOjRn/wNpP2/qlFf/PzGnR+ldjWbFq5JK0ld69
-	bxMESeH4K8VHgISjhI9pDaXat7PDSmf0Je45KgnRfERK+2cuRKshAf9kLxEJCkP9PL11
-	tFcncMZ1xPu388lgEe1ba7m0/2n1ztEpxo/XBwA4TJX7srbei5K/w2CxwC+X9SEM5I+F
-	wU7g==
-X-Gm-Message-State: AHQUAuZsLlOCtKIwE8lhMwtWA+NMYzRBJOJCOlFDOaCQFJhXqzUKHRB5
-	u5W8n9d7XvgryIUemwGBi7Db5PDC
-X-Google-Smtp-Source: AHgI3Ib1WTh8z/JJp2XvqFiOJWxtw0ezijJKkxOW41ZOWPoBiujsOhKeE0kQG5nyJm2hz833aZTOww==
-X-Received: by 2002:a63:29c3:: with SMTP id p186mr4194420pgp.24.1551290286640; 
-	Wed, 27 Feb 2019 09:58:06 -0800 (PST)
+	bh=LZ0uyMOVpeHEHDAOBK46FrBif8YEFxybF4meM3h7xd4=;
+	b=RQF+4Li3xiRB0iF16O7TZ0/PAav381O/yTNa0gMgLis2kjSPWgbIMuI+/D+Y4RxEAa
+	Pbok8mRiFHOZIkryLZCIl+EdPZgRwqFTn0bKzzGgeXReV7uMQ8wzisdaLmPnQ6R+f+qg
+	mIPPjGNFbNqA88t055GlTx/O+Fzat29FLQsskGFPygDBdJnGfbpusspoNys+sopZNiPa
+	WgBMypFPJmdI7ZbBHg5OHNqpxp8YywF+VS4Vb7diQ2znmUFhPJ5ZcihlBesXR2fWBdO3
+	OtfTQpD7SYXYXyAZSpT9G6MRbPj4CUio7c4UX98qnbkmNQRSSzsvu8w8k7Z5L1d5tViw
+	J3tw==
+X-Gm-Message-State: AHQUAuZLtmI1dZbGqLAwaUykCRI0XU8SdZLMeHn6wyVb2te3nH+Sx91R
+	qAm9YA6Yu9Wtim+uV2U4wfSrvEoo
+X-Google-Smtp-Source: AHgI3IY2CJvydDVqyUzMdK8ovZ7GkATjLD/9wI5H+79gIwTQ5Ks6nrqUoMfzBsYp5VsIahoRlbJT4Q==
+X-Received: by 2002:a63:6a48:: with SMTP id f69mr4107232pgc.7.1551290856086;
+	Wed, 27 Feb 2019 10:07:36 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5fa3])
 	by smtp.gmail.com with ESMTPSA id
-	b8sm13724904pfi.129.2019.02.27.09.58.05
+	n75sm31863630pfb.39.2019.02.27.10.07.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 09:58:05 -0800 (PST)
+	Wed, 27 Feb 2019 10:07:35 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 09:57:53 -0800
-Message-Id: <20190227175753.36130-1-raj.khem@gmail.com>
+Date: Wed, 27 Feb 2019 10:07:25 -0800
+Message-Id: <20190227180725.21396-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Cc: Alexey Brodkin <abrodkin@synopsys.com>
-Subject: [PATCH] gcc: Update to 8.3 latest on 8.x release
+Subject: [PATCH V2] gcc: Update to 8.3 latest on 8.x release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,15 +58,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 17:58:08 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 18:07:37 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Add checksums and fix version
+
  meta/recipes-devtools/gcc/gcc-8.2.inc         | 115 -----
  ...bgcc-Add-knob-to-use-ldbl-128-on-ppc.patch | 465 ------------------
  .../gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch   |  44 --
- meta/recipes-devtools/gcc/gcc-8.3.inc         | 109 ++++
+ meta/recipes-devtools/gcc/gcc-8.3.inc         | 111 +++++
  ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  14 +-
  .../0002-gcc-poison-system-directories.patch} |  39 +-
  ...gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch} |  10 +-
@@ -117,7 +119,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...c-initial_8.2.bb => libgcc-initial_8.3.bb} |   0
  .../gcc/{libgcc_8.2.bb => libgcc_8.3.bb}      |   0
  ...{libgfortran_8.2.bb => libgfortran_8.3.bb} |   0
- 54 files changed, 462 insertions(+), 823 deletions(-)
+ 54 files changed, 464 insertions(+), 823 deletions(-)
  delete mode 100644 meta/recipes-devtools/gcc/gcc-8.2.inc
  delete mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0034-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
  delete mode 100644 meta/recipes-devtools/gcc/gcc-8.2/0041-ARC-fix-spec-gen.patch
@@ -817,10 +819,10 @@ index cbd5e41ab1..0000000000
 - #undef SUBTARGET_CPP_SPEC
 diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
 new file mode 100644
-index 0000000000..8e04f13aff
+index 0000000000..f7bf257fa6
 --- /dev/null
 +++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -0,0 +1,109 @@
+@@ -0,0 +1,111 @@
 +require gcc-common.inc
 +
 +# Third digit in PV should be incremented after a minor release
@@ -831,7 +833,7 @@ index 0000000000..8e04f13aff
 +
 +BINV = "8.3.0"
 +
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-8.2:${FILE_DIRNAME}/gcc-8.2/backport:"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-8.3:"
 +
 +DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
 +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
@@ -895,6 +897,8 @@ index 0000000000..8e04f13aff
 +           file://0039-riscv-Disable-multilib-for-OE.patch \
 +           file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
 +"
++SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
++SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
 +
 +S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
 +#S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
