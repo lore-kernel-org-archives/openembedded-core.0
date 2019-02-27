@@ -1,29 +1,30 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E73457CCAC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32FD96076F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 06:44:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x1R6iLxj026536
+	Wed, 27 Feb 2019 06:45:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1R6ip3M009723
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 22:44:21 -0800 (PST)
+	Tue, 26 Feb 2019 22:45:01 -0800
 Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Tue, 26 Feb 2019 22:44:19 -0800
+	Tue, 26 Feb 2019 22:44:40 -0800
 To: <openembedded-core@lists.openembedded.org>
-References: <CAJTo0La-p53Onb4bNXJ50XJi4XXyJe+b1p6RtfCEHo-B_7R8EA@mail.gmail.com>
-	<1547607856-350971-1-git-send-email-changqing.li@windriver.com>
-	<1547607856-350971-3-git-send-email-changqing.li@windriver.com>
+References: <CAJTo0LZKFXDNUUvo==S+7BjM1s5OZxOffq-einXho6M9A8mvyg@mail.gmail.com>
+	<1548048935-326977-1-git-send-email-changqing.li@windriver.com>
+	<e53e14ae-d634-c7a4-e04a-7b9ccf2ea033@windriver.com>
 From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <a52c7618-94bb-5d1a-3a47-0418f6bde8f0@windriver.com>
-Date: Wed, 27 Feb 2019 14:44:16 +0800
+Message-ID: <4ee25b4d-0863-ce9a-a85f-b9cd53970005@windriver.com>
+Date: Wed, 27 Feb 2019 14:44:37 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <1547607856-350971-3-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <e53e14ae-d634-c7a4-e04a-7b9ccf2ea033@windriver.com>
 X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH V2 2/2] piglit: support build piglit without x11
+Subject: Re: [PATCH V3] populate_sdk_base: provide options to set sdk type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,71 +37,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 06:44:20 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 06:45:10 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 ping
 
-On 1/16/19 11:04 AM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On 2/11/19 3:12 PM, Changqing Li wrote:
+> ping
 >
-> *  test PIGLIT_BUILD_GL_TESTS depend on glx library, so depend
->     on x11, so respect the DISTRO_FEATURES, only enable it when
->     x11 is enabled.
-> *  mesa-demos depend on libGL.so which is provide by recipe
->     mesa, but when x11 is disabled, libGL.so is not generated.
->     so we can only rdepend on this when x11 is enabled
-> *  add x11 PACKAGECONFIG to add correct config/depend/rdepend
+> On 1/21/19 1:35 PM, changqing.li@windriver.com wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> Current sdk type is tar.xz, but for mingw sdk, since we
+>> have symlink under the sdk folder, 7zip which used to
+>> extract tar.xz cannot handle it, refer 7zip upstream bug:
+>> https://sourceforge.net/p/sevenzip/discussion/45797/thread/c71d6b96/
+>> so add option for usr can select the sdk type.
+>>
+>> default type is tar.xz, and also support type zip.
+>> user want to use zip type can set SDK_ARCHIVE_TYPE to zip.
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/classes/populate_sdk_base.bbclass | 28 
+>> +++++++++++++++++++++-------
+>>   1 file changed, 21 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass 
+>> b/meta/classes/populate_sdk_base.bbclass
+>> index 677ba3c..3e7aec8 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -44,8 +44,23 @@ TOOLCHAIN_TARGET_TASK ?= 
+>> "${@multilib_pkg_extend(d, 'packagegroup-core-standalon
+>>   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+>>   TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+>>   +# Default archived SDK's suffix
+>> +SDK_ARCHIVE_TYPE ?= "tar.xz"
+>> +
+>> +# To support different sdk type according to SDK_ARCHIVE_TYPE, now 
+>> support zip and tar.xz
+>> +python () {
+>> +    if d.getVar('SDK_ARCHIVE_TYPE') == 'zip':
+>> +       d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
+>> +       # SDK_ARCHIVE_CMD used to generate archived sdk 
+>> ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir 
+>> ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
+>> +       # recommand to cd into input dir first to avoid archive with 
+>> buildpath
+>> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip 
+>> -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
+>> +    else:
+>> +       d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
+>> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar 
+>> ${SDKTAROPTS} -cf - . | xz -T 0 > 
+>> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+>> +}
+>> +
+>>   SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+>> -SDK_DEPENDS = "virtual/fakeroot-native xz-native 
+>> cross-localedef-native nativesdk-qemuwrapper-cross ${@' 
+>> '.join(["%s-qemuwrapper-cross" % m for m in 
+>> d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+>> +SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} 
+>> cross-localedef-native nativesdk-qemuwrapper-cross ${@' 
+>> '.join(["%s-qemuwrapper-cross" % m for m in 
+>> d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+>>   PATH_prepend = 
+>> "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 
+>> 'STAGING_BINDIR_CROSS').split())}:"
+>>   SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+>>   @@ -103,7 +118,7 @@ POPULATE_SDK_POST_TARGET_COMMAND_append = " 
+>> write_sdk_test_data ; "
+>>   POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " 
+>> write_target_sdk_manifest ; "
+>>   POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " 
+>> write_host_sdk_manifest; "
+>>   SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if 
+>> '${SDK_PACKAGING_FUNC}' else ''}"
+>> -SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; 
+>> tar_sdk; ${SDK_PACKAGING_COMMAND} "
+>> +SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; 
+>> archive_sdk; ${SDK_PACKAGING_COMMAND} "
+>>     def populate_sdk_common(d):
+>>       from oe.sdk import populate_sdk
+>> @@ -221,11 +236,10 @@ python check_sdk_sysroots() {
+>>     SDKTAROPTS = "--owner=root --group=root"
+>>   -fakeroot tar_sdk() {
+>> +fakeroot archive_sdk() {
+>>       # Package it up
+>>       mkdir -p ${SDKDEPLOYDIR}
+>> -    cd ${SDK_OUTPUT}/${SDKPATH}
+>> -    tar ${SDKTAROPTS} -cf - . | xz -T 0 > 
+>> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
+>> +    ${SDK_ARCHIVE_CMD}
+>>   }
+>>     TOOLCHAIN_SHAR_EXT_TMPL ?= 
+>> "${COREBASE}/meta/files/toolchain-shar-extract.sh"
+>> @@ -268,10 +282,10 @@ EOF
+>>       chmod +x ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+>>         # append the SDK tarball
+>> -    cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz >> 
+>> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+>> +    cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} 
+>> >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+>>         # delete the old tarball, we don't need it anymore
+>> -    rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
+>> +    rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}
+>>   }
+>>     populate_sdk_log_check() {
 >
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/recipes-graphics/piglit/piglit_git.bb | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-> index 622e046..0737d02 100644
-> --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> @@ -17,11 +17,12 @@ PV = "1.0+gitr${SRCPV}"
->   
->   S = "${WORKDIR}/git"
->   
-> -DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-> +X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
-> +X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
-> +
-> +DEPENDS = "libpng waffle libxkbcommon virtual/libgl python3-mako-native python3-numpy-native python3-six-native virtual/egl"
->   
->   inherit cmake pkgconfig python3native distro_features_check bash-completion
-> -# depends on virtual/libx11
-> -REQUIRED_DISTRO_FEATURES = "x11"
->   
->   # depends on virtual/libgl
->   REQUIRED_DISTRO_FEATURES += "opengl"
-> @@ -32,8 +33,10 @@ REQUIRED_DISTRO_FEATURES += "opengl"
->   export TEMP = "${B}/temp/"
->   do_compile[dirs] =+ "${B}/temp/"
->   
-> -PACKAGECONFIG ??= ""
-> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
->   PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
-> +PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
-> +
->   
->   do_configure_prepend() {
->      if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', d)}" = "no" ]; then
-> @@ -48,7 +51,7 @@ RDEPENDS_${PN} = "waffle waffle-bin python3 python3-mako python3-json \
->   	python3-misc \
->   	python3-unixadmin python3-xml python3-multiprocessing \
->   	python3-six python3-shell python3-io \
-> -	python3-netserver mesa-demos bash \
-> +	python3-netserver bash \
->   	"
->   
->   INSANE_SKIP_${PN} += "dev-so already-stripped"
-
 -- 
 BRs
 
