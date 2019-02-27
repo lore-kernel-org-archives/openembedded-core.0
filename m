@@ -1,46 +1,59 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 14DB472EB7
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 881DB7CB9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 23:12:08 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id j68so3405901vke.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2019 15:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ECrVCLkugyQyhGKRmdMohVQAoWfzn5xF03S/+1/oq7U=;
-	b=tApqM3YUPNnh+BYqyLjzxjcd4is2M4FgX8hkha2nDhiDR4kytEdo4n8b7+mJVqbOwC
-	VYtTzzsUXbTg/YUdRQAivIMWLqPYEhS8QMxChn/JOONbTMME8hJpm+C5gWll2gvbIcT8
-	XOlP4PKEhbV62BXEzNNyl79nw9hgi0Nxd4SNZe+NanwjthKZXgNuLuxGFc9ngvFNgezU
-	3ezGsma35/2T8L/K5U7oX1rHiI8KhENMlwI2IiB3BB6RDoTh9qtGyO+Aq+MV43YhdEz6
-	fmi26Q5qWQ1xpg3BZ2YYid5AtiUsDapHLO0yY1JuXovdlWmcvCepU8ThVSYHYCQlx8EA
-	++NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ECrVCLkugyQyhGKRmdMohVQAoWfzn5xF03S/+1/oq7U=;
-	b=dWlOR+UxFofJqi3xBfS66zIm6zHFR+JpdlVup+AdSUDvehhcus/A8E631LqIfsk8v9
-	JhcaKD1wsG/byYyLSCox1RYrZRej63oHjQkmshFOmhz9cjAuiTKMOUZ7StwkBEM9tvUL
-	oRZqCRHQ7dVfA9FDLi83EdS0V9fV60XR7eMVlBjL702IUdMrd2q8Mz5wjJ69ETkYd/8i
-	J4Q0ZhGagSoV5Cev+KInTdYxZ/2G3PAzpktUNDWGfS/D0mcsunAo+RCI/LIl5Dso/bQZ
-	UKGKK1Ilm7qIPNS7dMHUIeHRwk7kzOlXdDowYQTKrXKk/bWkxT/ngfpEmFZS7xfz5Tyc
-	jPtQ==
-X-Gm-Message-State: AHQUAuZ0zLJbPmC/KNm4EO61nq1z/+/0qM0oV60bFUuOMy5+tUnw0hHI
-	qBEESrlJ20YAWMB56D+x5DjzENBSxOF6DRkbd+bJj0EU
-X-Google-Smtp-Source: AHgI3IaD8eJb4NvSdU0kSXyifSTVCs3CTGopQb02sbEmD6eBzDlWierWC/CsPRUhdjM50j0+WkT/h08nj73wCkaeLUM=
-X-Received: by 2002:a1f:7f10:: with SMTP id o16mr13855490vki.31.1551222729717; 
-	Tue, 26 Feb 2019 15:12:09 -0800 (PST)
+	Wed, 27 Feb 2019 01:00:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 38AA4184EE;
+	Wed, 27 Feb 2019 02:00:10 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id TtyME1fPIi_L; Wed, 27 Feb 2019 02:00:09 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3B28518507;
+	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 14DE41E06A;
+	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 091E51E064;
+	Wed, 27 Feb 2019 02:00:09 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed, 27 Feb 2019 02:00:08 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id F15762258;
+	Wed, 27 Feb 2019 02:00:08 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 27 Feb 2019 02:00:08 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 27 Feb 2019 02:00:08 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Thread-Topic: [OE-core] [OE-Core][PATCH] openssl: move c_rehash pkg to avoid
+	perl	dep
+Thread-Index: AQHUrFUqeoEKavsAskmsLHhd9WEi8aXzFFSw
+Date: Wed, 27 Feb 2019 01:00:08 +0000
+Message-ID: <90b9b852a88544ce9762019e3aa98af7@XBOX04.axis.com>
+References: <20190114220433.14356-1-bradleyb@fuzziesquirrel.com>
+In-Reply-To: <20190114220433.14356-1-bradleyb@fuzziesquirrel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20190226093949.32671-1-o.mandel@menlosystems.com>
-In-Reply-To: <20190226093949.32671-1-o.mandel@menlosystems.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 26 Feb 2019 15:11:58 -0800
-Message-ID: <CAJ86T=VRke7oXB6p-7UA=OCewHC=fb0xMG4Pr+f-8qvG3yof8w@mail.gmail.com>
-To: Olaf Mandel <o.mandel@menlosystems.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: deploy-target: support "unsafe" symlinks
+X-TM-AS-GCONF: 00
+Cc: Xulin Sun <xulin.sun@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: move c_rehash pkg to avoid perl	dep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +66,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2019 23:12:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Feb 2019 01:00:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 26, 2019 at 1:40 AM Olaf Mandel <o.mandel@menlosystems.com> wrote:
->
-> The bosybox version of tar considers symlink targets that start with /
-> or with ../ to be unsafe and refuses to unpack them unless the
-> EXTRACT_UNSAFE_SYMLINKS environment variable is set to 1.
->
-> As even many core packages legitimately contain such links (e.g.
-> coreutils-locale-*, dropbear, eudev, initscripts, kmod, ...), add the
-> environment variable to the remote script.
-
-Upstream Busybox seems to have a different solution, so perhaps worth
-adding a comment that EXTRACT_UNSAFE_SYMLINKS is a temporary /
-version-specific fix.
-
-  https://git.busybox.net/busybox/commit/?h=1_28_stable&id=37277a23fe48b13313f5d96084d890ed21d5fd8b
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Brad Bishop
+> Sent: den 14 januari 2019 23:05
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [OE-Core][PATCH] openssl: move c_rehash pkg to avoid
+> perl dep
+>=20
+> Perl and its dependencies have a decent footprint impact.  On my
+> xz compressed filesystem:
+>=20
+> 634880: /usr/lib/libperl.so.5.24.4
+>=20
+> Put c_rehash in the openssl-misc package so the dependency can be
+> avoided where it isn't needed.
+>=20
+> Change-Id: Iae9bccabfb1c8cfa1401ca6785abc39713d3fdf0
+> Signed-off-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
 > ---
->  scripts/lib/devtool/deploy.py | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-> index f345f31b7b..9617388f90 100644
-> --- a/scripts/lib/devtool/deploy.py
-> +++ b/scripts/lib/devtool/deploy.py
-> @@ -114,6 +114,7 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
->              lines.append('rm $3')
->          lines.append('mkdir -p `dirname $manifest`')
->          lines.append('mkdir -p $2')
-> +        lines.append('export EXTRACT_UNSAFE_SYMLINKS=1')
->          if verbose:
->              lines.append('    tar xv -C $2 -f - | tee $manifest')
->          else:
+>  meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> index 5c4e69cfb7..7d26654921 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> @@ -190,14 +190,13 @@ FILES_libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
+>  FILES_libssl =3D "${libdir}/libssl${SOLIBS}"
+>  FILES_openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
+>  FILES_${PN}-engines =3D "${libdir}/engines-1.1"
+> -FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc"
+> +FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
+>  FILES_${PN} =3D+ "${libdir}/ssl-1.1/*"
+>  FILES_${PN}_append_class-nativesdk =3D " ${SDKPATHNATIVE}/environment-
+> setup.d/openssl.sh"
+>=20
+>  CONFFILES_openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
+>=20
+>  RRECOMMENDS_libcrypto +=3D "openssl-conf"
+> -RDEPENDS_${PN}-bin =3D "perl"
+>  RDEPENDS_${PN}-misc =3D "perl"
+>  RDEPENDS_${PN}-ptest +=3D "openssl-bin perl perl-modules bash python"
+
+There is a line at the end of the recipe, which was recently=20
+added, that says:
+
+MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+
+I believe it should now be changed to:
+
+MULTILIB_SCRIPTS =3D "${PN}-misc:${bindir}/c_rehash"
+
 > --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 2.20.1
+
+//Peter
+
 
