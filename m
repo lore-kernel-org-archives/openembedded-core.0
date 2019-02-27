@@ -1,49 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A15F7BFD0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 84F9F7CB20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 17:47:40 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id i16so18930680wrs.13
+	Wed, 27 Feb 2019 17:47:49 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id x7so6689854wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 09:47:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lwKQw1BstoF/+L78VfAlwJAtsZsU6D0R6DkLhadBQlI=;
-	b=UG63pPALMUD1cK4oDy1Y8mRSZnIJRVHE7Wy4gs/o8p2/zSh5B6gWP7Cbs2zjryB7g9
-	2kGAxnWVSxXuYuYCVsI70KqFmfDpN7AkAliBRglZknGNUfvlJEi6JlAEc9uqMvdcctJN
-	NQrp/VXey0NCTnDtL5OeD4kh5qTpoi71GE7lC7lnkKkH2+9hobrkfWz4s8s33zYt7y5x
-	IfUy0GR5Agl/F6H7BbZNBoLUDjsoG91RAsC3aNZHWQfmLQF/sG9vb92F/nMfZ9X2SLhB
-	qY2TBcrjZRSUyhFyggwEN6840XpNJS37CihhHN31m0oQguAqG11wv7vK0lhen2cG5it5
-	kBAg==
+	Wed, 27 Feb 2019 09:47:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=d/F6gi5jNFxNLnEjj+N25CQ1/unmQXR5Luphxi46OWQ=;
+	b=KzYQxdAgoLtv3MLNMKVsauJ77Zoaif9AhPcYUwgy22u9taDOkkcut9hK8l1fFC81+G
+	NZaxqY++kWCm5dpoCEbpPDHZWHs5AgukrdFfHgDiPl6kQ7lIqGhoI/jpL52G7XyFRtII
+	r2FN7q2O/Lqjav5PoHWso6ZZzJxOza/ZAo+YQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=lwKQw1BstoF/+L78VfAlwJAtsZsU6D0R6DkLhadBQlI=;
-	b=df6pgB+//4PF/DAx8uP3yFRVdtSUAT0bRel7Ww9qGyCPlusrPlOzpfJU0nxZ4Zwk2a
-	Mq45SJt95/QLJ6D+52xIUxBrhQHcJk7vKCtS2nMova//hES3pSbHT64gse397IKVccum
-	SU8ls2d849sxeLCiWPM/awyOk7G7e12BDPzEsSxc8AqgpEROl0+hjAV0mXtNsIc3rcbR
-	9DLDp+IF0tud+H0mx27Im2YhHiWDVq3yCp/7Jurhdhz2f+SdJSWyjrYk7ESlrexLbnHO
-	WLuvfkjKgRUw/SYh9/xEx1KL+OeRVsjflo481FWD4YrIJ8ZdCm5Suk5qLIzY97XjbgJc
-	hAUw==
-X-Gm-Message-State: APjAAAVmYWOeXC4JZzbbA9aEGn+fh8JbnpHBWAytCKjQbxB0ZAyvc2yI
-	rGbiszoNLgcTVlyMOp/M3QAow/Xl
-X-Google-Smtp-Source: APXvYqwjyOeEe5fYNz7tL6jXve2K0UefwgL01kJ3hIn7vUrjMCBI1NcXBoRQrKYJCp23ywAfiXnRMw==
-X-Received: by 2002:a5d:4841:: with SMTP id n1mr3340746wrs.85.1551289660773;
-	Wed, 27 Feb 2019 09:47:40 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id g3sm2056294wmk.32.2019.02.27.09.47.39
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=d/F6gi5jNFxNLnEjj+N25CQ1/unmQXR5Luphxi46OWQ=;
+	b=jaDFX80eTn36ikyIfbIdmS9BexiHRxS99nj/9lQpmd2WdkI/28auiK2WcZp+4wyyyn
+	SDZW0oXZERyNfklGUS+OYPlQ4iN8iBfY8d/GEdMeOv5no4TPqEaFkTV3YmonodqOQgDM
+	mdMzeS5fypBRr6WmxDC6Cdz9peo4bF7ywkygJLBzC2Ouncw8kg/74+seb7HhCgcViBta
+	CGeol46mXTDZMfthyv+qEE4/qAeM/5dg2z29qDGgj+NPMwDpyeHd6ahhO6VeBPaHLJqd
+	5tMkQeIc8dk82By55/4uUBtsBIQtITeE13MeKa1HVHE+zo8GNF3uIkEvxifkBEol3oBV
+	iZiA==
+X-Gm-Message-State: AHQUAubVolxHKWu9+Vz38DoDFA4ltY2HziMuc+dEYlti9n9ndB9uRRzt
+	LXJnqAvtHthIzTtfo8YxaFYhie6kcLI=
+X-Google-Smtp-Source: APXvYqxjtrQEGM+WKLWe+MTrfOYJKQoNLVbZzB0RViLdVNcTpb5mf7wkUEpzs65MxrSmCSOrMvnqOw==
+X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr274975wmc.43.1551289669788; 
+	Wed, 27 Feb 2019 09:47:49 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l10sm28754659wrx.45.2019.02.27.09.47.47
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 09:47:40 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Wed, 27 Feb 2019 09:47:49 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 18:47:33 +0100
-Message-Id: <20190227174733.107911-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190227174733.107911-1-alex.kanavin@gmail.com>
-References: <20190227174733.107911-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] local.conf.sample: adjust the qemu configuration to refer to qemu-system-native
+Date: Wed, 27 Feb 2019 17:47:42 +0000
+Message-Id: <20190227174746.21127-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/5] openssl: Fix ptest test output translation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 17:47:40 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 17:47:49 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+openssl-ptest was recording now results, despite most tests passing. Fix
+so that the successes/skips/failures are reported correctly.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-poky/conf/local.conf.sample | 2 +-
+ meta/recipes-connectivity/openssl/openssl/run-ptest | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index 267108d6850..9068e567dcd 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -241,7 +241,7 @@ BB_DISKMON_DIRS ??= "\
- # seen. The two lines below enable the SDL backend too. By default libsdl2-native will
- # be built, if you want to use your host's libSDL instead of the minimal libsdl built
- # by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
--PACKAGECONFIG_append_pn-qemu-native = " sdl"
-+PACKAGECONFIG_append_pn-qemu-system-native = " sdl"
- PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
- #ASSUME_PROVIDED += "libsdl2-native"
+diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+index 0a620dea74a..3fb22471f8c 100644
+--- a/meta/recipes-connectivity/openssl/openssl/run-ptest
++++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
+@@ -9,4 +9,4 @@ export TOP=.
+ # OPENSSL_ENGINES is relative from the test binaries
+ export OPENSSL_ENGINES=../engines
  
+-perl ./test/run_tests.pl $*
++perl ./test/run_tests.pl $* | perl -0pe 's#(.*) \.*.ok#PASS: \1#g; s#(.*) \.*.skipped: (.*)#SKIP: \1 (\2)#g; s#(.*) \.*.\nDubious#FAIL: \1#;'
 -- 
-2.17.1
+2.20.1
 
 
