@@ -1,50 +1,47 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 02C1F7BF09
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 22A3C60557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 13:49:47 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id c13so4474112wmb.0
+	Wed, 27 Feb 2019 14:36:55 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d17so18181373wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 05:49:49 -0800 (PST)
+	Wed, 27 Feb 2019 06:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=22sNIWBOygl5bLOIyfnxveOesXq3+3pqq41WoS6kDhM=;
-	b=CvTReBv/xLdcfEFormFETyNMQwyJLkNOTki3ujlKwldCnhBMp+yNrTTiARq35dCHeP
-	Wc9v9QBLuUMJsXpXqzouqqSse9nz+HYDtBHR3qBEMcozXRjRquX8QtHlOcyReMEYAKn5
-	DsNLOReFBgigMs7nLK0X2Wxwev2fmOjK1RbZmpeByeRHLU68eLBD0pbLhSOLO1FVjiXR
-	rpT8vkL9+oD955zs+e8kBw/zRvRaEUxp+CLl1ct7CoN+BFr0TqegZZyx9/wdu+MOHLbw
-	p176+saIGUF+Iqk0U0JlQ2STqox2bE5ky7a1b86Xy4QUXlVh2obVGxx0Yl0Gcics22zW
-	kihQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=JOfPqDJq8rR1PnZfXrbDEovakqZ6wsIikqRD5jiEse4=;
+	b=FyLBd3AUkRaQ5QQ89ID+1JwsU0BWxZmFOzAifJgHWoCWNHExp102hgFHPqoi6t+kzT
+	YrI1YgaGYPZuI/E95IZkOlTXuG0JXXfKnIQ+pj84QylCkk/1fCuiHPt4PdItEE0pgVxV
+	sEBOrTI0f9PgcoSrG0BA8yl0n+eQeAaafZIGDGfSYnxnWcpyqH959nlVdXKI3UIOpqxN
+	9WqcOAZhZzQc65DylMdztSiRS9NL7MARBWtzpR5naX4uwqZXMjXKxxBgLRuUK1ifPQby
+	bFqdsXCVrj8aoBeA6A7F2j9z/47vaaXXcFKHQIXD9n3TVZaFvJbgOOlSIQ0JcPAOq4AF
+	Ia9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=22sNIWBOygl5bLOIyfnxveOesXq3+3pqq41WoS6kDhM=;
-	b=S7q5UBAy8ZXyql8Hakiuvc3vdaDlc2C64zwKqNzmYy5SVZfZfwlsBrqCe/AyhG9pLY
-	11Fi06pTKNHcPMbG2Aa6js62eo9JuWZ3oY6GtkuPwDwRy2RDn1znVuto4Zhgeje+fbZP
-	jeKILR0vDbnbacupt52fogmKCsjUp8zDr2b4R+7djh/6R3sWRRWZPw03fCeD5+2FlU4T
-	WTSVXQ3xj2Ccp9iX4Lzm9A9mYa20IBXItHDLAall+naTx+uo5sj6itk2PWMmkpo9XgKa
-	fQQMFYjihXmA50rpr9HBvIAP91uFXViR4L7ZCMMRJL72q3HMujqlUznNXHb+jYs84WQS
-	ZXvQ==
-X-Gm-Message-State: AHQUAua5QFiLtWwDPZhq7rBa8a2MaVNymBKRlWHfyXZcUkGsV3F431jd
-	nf4EIshdZ9joghYPYR2tKwY0Pwot
-X-Google-Smtp-Source: APXvYqyirAIHaYXdj6+X5pe2nIhhtYQeSJqdeD94C7YM/I2W41oLr3sHJOPU5Vk7yt09E32qhM/s+w==
-X-Received: by 2002:a1c:7d8b:: with SMTP id y133mr2328494wmc.7.1551275388429; 
-	Wed, 27 Feb 2019 05:49:48 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=JOfPqDJq8rR1PnZfXrbDEovakqZ6wsIikqRD5jiEse4=;
+	b=Ewdhg+0UUm84/gaE4tqA0IMPkGA7H/PpMCoMIJivqmXOM978RBGnI8j03Fck0f/f7P
+	FuUwJ86cC17wgNABO0yCqgLBwlC/m0rD0zJ2IwMLcF+15J8KzmfiMb080Cp108CAb3VM
+	5ohd6R+RauuM/73TPYXA5MOB+Rv08OGIc6GvVPCrb2mo9F5rOaf3/9YCx9MJgdLoF190
+	L4oA9abXPwzzGrNabf556i58dADfE8QhXGBGtZvdf4FSS1XH8BEpiUJNfrCTel1dK2qP
+	IE8Kt/NplrNjrOc9UgYgzq1V647ygd8LYUakDFjq/xQP/JiWeWwCM/WM3VHjSMIt0LuR
+	aMpA==
+X-Gm-Message-State: APjAAAWFwpwz18ZZ1ZjE0TTmGsBujEHMB9o7iWkmPjPwtd7QX3S7hlAP
+	Kwykasek1sEJE0sf2p66vwAAaU2S
+X-Google-Smtp-Source: APXvYqwwBNYEh+yiJk7EUVm+HKPl2eYZMMslMRH9HUwfYbjvqZO05zon2N1XxSXGqeyUi8VJ1dhrbg==
+X-Received: by 2002:a5d:6810:: with SMTP id w16mr2631590wru.62.1551278215564; 
+	Wed, 27 Feb 2019 06:36:55 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	62sm13610831wra.46.2019.02.27.05.49.47
+	y13sm12016923wrw.31.2019.02.27.06.36.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 05:49:47 -0800 (PST)
+	Wed, 27 Feb 2019 06:36:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 14:49:39 +0100
-Message-Id: <20190227134939.51320-3-alex.kanavin@gmail.com>
+Date: Wed, 27 Feb 2019 15:36:48 +0100
+Message-Id: <20190227143648.120338-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190227134939.51320-1-alex.kanavin@gmail.com>
-References: <20190227134939.51320-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] local.conf.sample: adjust the qemu configuration to refer to qemu-system-native
+Subject: [PATCH] openssl: drop Python 2.x dependency in -ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 13:49:48 -0000
+X-List-Received-Date: Wed, 27 Feb 2019 14:36:55 -0000
+
+It is only needed by 95-test_external_pyca_data which is
+actually skipped on the target.
+
+[YOCTO #13204]
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta-poky/conf/local.conf.sample | 2 +-
+ meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index 98ff5c23256..eee65b5875a 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -239,7 +239,7 @@ BB_DISKMON_DIRS ??= "\
- #
- # By default qemu will build with a builtin VNC server where graphical output can be
- # seen. The two lines below enable the Gtk UI frontend.
--PACKAGECONFIG_append_pn-qemu-native = " gtk+"
-+PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
- PACKAGECONFIG_append_pn-nativesdk-qemu = " gtk+"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+index 9f6e26bcf53..02fd66910ea 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+@@ -198,7 +198,7 @@ CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
  
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-misc = "perl"
+-RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash python"
++RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash"
+ 
+ RPROVIDES_openssl-conf = "openssl10-conf"
+ RREPLACES_openssl-conf = "openssl10-conf"
 -- 
 2.17.1
 
