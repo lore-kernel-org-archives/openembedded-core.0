@@ -1,91 +1,47 @@
-Return-Path: <chunrong.guo@nxp.com>
-X-Greylist: delayed 131823 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 27 Feb 2019 16:32:19 UTC
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-	(mail-eopbgr80043.outbound.protection.outlook.com [40.107.8.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EB136D545
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C2A937CB30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 16:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=6GB8N8baWiTpNpt4irkuBqI2QYJTpSum/KQ0jFJRP8g=;
-	b=t+8K2FidfYkp9ZCV1oVA0cEq+LsNjKDlH4ZWTpZdHCFUNOa03GDw0FKyMZwTBJXtOzyBQs5EXVNpeseoK/yV91jsU/PVam5g4QpvIlo5f+AcX5XIBWyhiYklEkA1ZfHKGEB5VdMi8Uw9AYC6wtXJy5Par7gmgucorFTms1rrrSA=
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com (20.176.235.12) by
-	DB7PR04MB4713.eurprd04.prod.outlook.com (20.176.233.30) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1643.19; Wed, 27 Feb 2019 03:58:36 +0000
-Received: from DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::5f3:77c7:cddb:b6b4]) by DB7PR04MB5068.eurprd04.prod.outlook.com
-	([fe80::5f3:77c7:cddb:b6b4%4]) with mapi id 15.20.1665.015;
-	Wed, 27 Feb 2019 03:58:36 +0000
-From: "C.r. Guo" <chunrong.guo@nxp.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [v2][PATCH] glibc: fix multilib file install conflicts
-Thread-Index: AQHUzlC2GLoc2tyG/EqhTfU+857q1A==
-Date: Wed, 27 Feb 2019 03:58:36 +0000
-Message-ID: <1551239897-24094-1-git-send-email-chunrong.guo@nxp.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HK2PR0302CA0023.apcprd03.prod.outlook.com
-	(2603:1096:202::33) To DB7PR04MB5068.eurprd04.prod.outlook.com
-	(2603:10a6:10:1c::12)
-x-mailer: git-send-email 2.7.4
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chunrong.guo@nxp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [119.31.174.73]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 28de1139-a68d-4fe4-c9db-08d69c67d927
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:DB7PR04MB4713; 
-x-ms-traffictypediagnostic: DB7PR04MB4713:
-x-microsoft-exchange-diagnostics: =?iso-8859-1?Q?1; DB7PR04MB4713;
-	23:eBuzId57C+7s1RWrSrLKSvHQm309BAV2sEF0hVt?=
-	=?iso-8859-1?Q?20WXF1fwBkyaXwyuyHFcMW8WYRXck7oDSi+yvwS8MpJhn5M38FGzMjTLMH?=
-	=?iso-8859-1?Q?pRcx1dKVcWhAOdBSYOjLrhTLFVgBROSgFJRrcf5wNTUjYN8Q6tGqm8HYkT?=
-	=?iso-8859-1?Q?U9A8RsKCJE8U+0ONxQvCjP3srQ3lHjuW0VmrYAJcldkUmEcVp3QNCMkyny?=
-	=?iso-8859-1?Q?zm+v4SBiyH1hXXO/fgbeC0Sg9Ymc5evM/++EAG240CItUhVCkknBKuKHDr?=
-	=?iso-8859-1?Q?0eWRyC9EbX4cRTvCDQ8ikpWeldk9TikIFKNr+lCJyLpQKCf11uEGWRO6tz?=
-	=?iso-8859-1?Q?wcHQar7ogGz2gDP8hlA8v6B1h4jPfNHkwBaWsn7HP9oiPmqbu/c83ChWHO?=
-	=?iso-8859-1?Q?+tx1WBwS8eBlLo8UqTA2Hpo/MSEJ6iOfmMR2W0se6yj+t3ioxb/M7Z758U?=
-	=?iso-8859-1?Q?5ik6KEp6ZKDvYssBm3z+mQeTQO3UC+SUxO/qPUsqEvxD2Wi9HsnFC1F7m0?=
-	=?iso-8859-1?Q?WLMkBm/c0wjyj1yGczy4ovnoLsn+lHsfMsaCpgP/Cs4fp4bvJqirygGdw+?=
-	=?iso-8859-1?Q?dNWmeRW68XiOsJdkPLk3UEz0+n/WrGWcjXbAndqp7k2fxmy6hGu5T7SfRB?=
-	=?iso-8859-1?Q?XgCM754CxU8u30lDBTLdyvZJDyrIWRtDxRGcm2XzT2S9SRraoTJjsBScVg?=
-	=?iso-8859-1?Q?cSrguP/Ci4m1y6vdkwOCurKaFphI1neESGdFO3CGQHo5gFvTPr+94/tf+h?=
-	=?iso-8859-1?Q?yWqut+Wv61h0ehZsQOHkmwWNvvsbmV7Rv3DIyNfyZqAMMuiUXd68SGFOPL?=
-	=?iso-8859-1?Q?zpBFC3zpRYv/nvz7TBC5apBFOc2lES+VQKHZgNBglXYu2N/Ua/7RaReoLH?=
-	=?iso-8859-1?Q?MlL0NrNMdPR2Mhw6kS7bWNK4eGPIRc7Wnz9/ymZSX7hMWRbdoa6zIpKRPk?=
-	=?iso-8859-1?Q?1YJE1iIHsmu1Bp2CRYkZChR76zajYTiaejRvD0dIVkIYca+z7fhqzo7/Nx?=
-	=?iso-8859-1?Q?13kYWjbakTpm/1za8OtOQ5tfMwQmr0pS6sDxMsmyUHg0WnqEHVVJKPKK/h?=
-	=?iso-8859-1?Q?6fev4YTuwNf1U/1167lv6Nx/uS2XB3cMUdpN0saDfixhNcw2nX0bqpxpU9?=
-	=?iso-8859-1?Q?/WtDhS/QuFxxxZ4beunobE8L0YcUSxqRaHzlzkfObGsRhgaZPvwSuBa9Ka?=
-	=?iso-8859-1?Q?+Ysvcvsgp8HDaZ6nh2OrmlIiWsabvrZqA=3D=3D?=
-x-microsoft-antispam-prvs: <DB7PR04MB47137BF97FF180CBA466D67D84740@DB7PR04MB4713.eurprd04.prod.outlook.com>
-x-forefront-prvs: 0961DF5286
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(39860400002)(396003)(136003)(376002)(346002)(189003)(199004)(4326008)(25786009)(36756003)(68736007)(106356001)(476003)(486006)(2351001)(2616005)(52116002)(105586002)(8936002)(2501003)(81156014)(81166006)(316002)(8676002)(50226002)(6916009)(97736004)(99286004)(2906002)(53936002)(6506007)(478600001)(386003)(5660300002)(5640700003)(14454004)(102836004)(6512007)(256004)(66066001)(7736002)(26005)(186003)(305945005)(71190400001)(71200400001)(6436002)(6486002)(86362001)(3846002)(6116002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR04MB4713;
-	H:DB7PR04MB5068.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: fdVL9PTI+uRcByHFQ/wMKH9Vn5FBGJM39VNRVU5F1qmm3U+dph+ryxg1mZFkf957LFnmgxuhkpnr1ZEqJ0xIDGwyBd+6jRtUw7RUCvfBsTOkR81JCkwToq76dLl0yxt53psiP4fvXjJjuqv0t/Td4pMMRVYPNf3HgbUNrDe0D4FZqjwkVyonQgn0uJ+pl/ouSQWsWDBqR5biZZMZeElmUeREVsBZNxkG0VZDMJlCeF4ldGw569FTy8m2SiMlyYTAKIsF9SQ+sNQIRCSikXxGIDBya8Py3kx89Ehe6xxD8E9xnHcCaSXcSgiybPHrzqWUqe2WPdifJ7U6Ex2vcBLPVjXZeFrLV8y+FGSXe+eZpHCA8GSyiyCOQTYNhLD4L4vEKwDEI0TIrvPCWylV2VAkeXUQtKpyadvPZ6n1Kgcsyq4=
+	Wed, 27 Feb 2019 16:47:25 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id z39so19997173qtz.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2019 08:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hHMPSPbCqptyx2+E1VVuoe2HMf57/7QLhfitRLWDIdU=;
+	b=COj6+22IHCRYw1Mdn1Ho4+BfGdP/7BGLUVctcKEubeZ1I9i/0r4uryOm4y9f9lBPUp
+	OMaTAqnNmDMH0Giv7ev4cgZu7AyVYJ9cGZnx/3UAN/Um+pGfdgZ4v0MFJldTF1kWHRtL
+	T0jkDjJOPxeN3uzpt+ddwOjyZkKHpzL90ghAHmnm4gcWPvYaXuDqCXVS/CEKoZn1lMle
+	tx2ISmpIx43cASVYNqyxFczR52IA9XCrZYWEzcFoz9dbbIOcDkTextBJZLxZ+HzBFXbF
+	AsQMkZdV24LeqlYKw/oNvPCPzRVCbfSqabBFM5bONqEbzbxMNHvO38Ji4rcHKAx1bveA
+	o+sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hHMPSPbCqptyx2+E1VVuoe2HMf57/7QLhfitRLWDIdU=;
+	b=hzeVUcL3tii93I2BWioesTnNxaSitFPi0TzmDAHK9HCqeQL6U9mw7ESTte9HKlhvWt
+	l0zAjOiPh+cLbh30yWASODIRYi/g8fKUPblLOrrHXbYJtNxRmFLGecHIAY/LaJyoMUJm
+	kyNIqrmxQkU+S6rKVj1PnLF8Wj0/jXPCA3hJrcsT0y+20qemNVPnWpONALhZt4M8ywAV
+	tAwHWzEYj/P8yEbLJ6LvQXTrx6jcoeZJv6WFWMWoXtvpwtEmPUZg8Tg5/nDKzNUdrKx2
+	rAyAkvtjlwZMcbxW4rvK29G5QoAikr8bBBltB+5tZE/axtV7rwfWP4mzqN/YosCI+D5/
+	10Ng==
+X-Gm-Message-State: APjAAAVwy6NXXguHGMsIETm31WX3LX33DqUuKZPEKn43MsOuXV5z3DPr
+	rvFdYgDCMwR75kxZmWeQRG0dRq7TeCAokSX5GDY=
+X-Google-Smtp-Source: APXvYqy4IMBIWaxqJjXtFTZ7wmI2oqGbrxME9ojsB2hBW1B2sfXDuunUL8Hzt5LE7nj+uogKBUz7QFRPSq1/KwXjQio=
+X-Received: by 2002:a0c:94cf:: with SMTP id k15mr2670137qvk.55.1551286046520; 
+	Wed, 27 Feb 2019 08:47:26 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28de1139-a68d-4fe4-c9db-08d69c67d927
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2019 03:58:36.1754 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4713
-Subject: [v2][PATCH] glibc: fix multilib file install conflicts
+References: <20190227134939.51320-1-alex.kanavin@gmail.com>
+In-Reply-To: <20190227134939.51320-1-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2019 08:47:00 -0800
+Message-ID: <CAMKF1sqJbSX-4hPaYDC9o3QDdqaG2zc7-8VG05eO8mSmV_18+g@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] qemu: split the native version into usermode and system parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -98,45 +54,374 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 16:32:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Feb 2019 16:47:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Chunrong Guo <chunrong.guo@nxp.com>
+On Wed, Feb 27, 2019 at 5:50 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> The rationale is to streamline the overall build.
+>
+> The system parts are only needed to run target images, and so can be
+> built towards the end of the build process. At the same time, the
+> system parts need gtk+-native and mesa-native which add significantly
+> to the build time.
+>
+> On the other hand, the usermode parts have almost no dependencies
+> and can be built quickly. They are needed at recipes build time to
+> run target binaries, and so are required quite early in the typical
+> build process.
+>
 
-Leaving bits/procfs-id.h,bits/procfs.h,bits/shmlba.h out of being multilibb=
-ed introduced a problem in building the SDK for arm64:
-Error: Transaction check error:
-file /usr/include/bits/procfs-id.h conflicts between attempted installs of =
-lib64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
-file /usr/include/bits/procfs.h conflicts between attempted installs of lib=
-64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
-file /usr/include/bits/shmlba.h conflicts between attempted installs of lib=
-64-libc6-dev-2.29-r0.aarch64 and libc6-dev-2.29-r0.armv7ahf_neon
+this is really good patch for non-qemu machines.
 
-Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
-glibc/glibc-package.inc
-index b925961..be7fe24 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -149,6 +149,7 @@ do_install_armmultilib () {
- 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadty=
-pes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
- 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h b=
-its/typesizes.h
-=20
-+        oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
- 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
-=20
- 	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys=
-/user.h
---=20
-2.7.4
-
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/conf/distro/include/no-static-libs.inc   |  1 +
+>  .../qemu/qemu-helper-native_1.0.bb            |  4 +-
+>  meta/recipes-devtools/qemu/qemu-native.inc    | 17 ++++
+>  .../qemu/qemu-native_3.1.0.bb                 |  9 ++
+>  .../qemu/qemu-system-native_3.1.0.bb          | 23 +++++
+>  meta/recipes-devtools/qemu/qemu-targets.inc   |  6 ++
+>  meta/recipes-devtools/qemu/qemu.inc           | 97 ++++++++++++-------
+>  meta/recipes-devtools/qemu/qemu_3.1.0.bb      | 68 +++----------
+>  8 files changed, 134 insertions(+), 91 deletions(-)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu-native.inc
+>  create mode 100644 meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+>  create mode 100644 meta/recipes-devtools/qemu/qemu-system-native_3.1.0.bb
+>
+> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+> index cdc53916d07..712d858dc0d 100644
+> --- a/meta/conf/distro/include/no-static-libs.inc
+> +++ b/meta/conf/distro/include/no-static-libs.inc
+> @@ -4,6 +4,7 @@ DISABLE_STATIC ?= " --disable-static"
+>  DISABLE_STATIC_pn-qemu = ""
+>  DISABLE_STATIC_pn-qemu-native = ""
+>  DISABLE_STATIC_pn-nativesdk-qemu = ""
+> +DISABLE_STATIC_pn-qemu-system-native = ""
+>  # pciutils fails build
+>  DISABLE_STATIC_pn-pciutils = ""
+>  # libcap aborts on unrecognised option
+> diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> index d86b1551762..d9d9da0fade 100644
+> --- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> @@ -1,6 +1,6 @@
+>  SUMMARY = "Helper utilities needed by the runqemu script"
+>  LICENSE = "GPLv2"
+> -RDEPENDS_${PN} = "qemu-native"
+> +RDEPENDS_${PN} = "qemu-system-native"
+>  PR = "r1"
+>
+>  LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999"
+> @@ -20,5 +20,5 @@ do_install() {
+>         install tunctl ${D}${bindir}/
+>  }
+>
+> -DEPENDS += "qemu-native"
+> +DEPENDS += "qemu-system-native"
+>  addtask addto_recipe_sysroot after do_populate_sysroot before do_build
+> diff --git a/meta/recipes-devtools/qemu/qemu-native.inc b/meta/recipes-devtools/qemu/qemu-native.inc
+> new file mode 100644
+> index 00000000000..4373ad9e63a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu-native.inc
+> @@ -0,0 +1,17 @@
+> +inherit native
+> +
+> +require qemu.inc
+> +
+> +SRC_URI_append = " \
+> +            file://0012-fix-libcap-header-issue-on-some-distro.patch \
+> +            file://0013-cpus.c-Add-error-messages-when-qemi_cpu_kick_thread-.patch \
+> +            "
+> +EXTRA_OECONF_append = " --python=python2.7"
+> +
+> +EXTRA_OEMAKE_append = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
+> +
+> +LDFLAGS_append = " -fuse-ld=bfd"
+> +
+> +do_install_append() {
+> +     ${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'make_qemu_wrapper', '', d)}
+> +}
+> diff --git a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+> new file mode 100644
+> index 00000000000..c8acff8e196
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+> @@ -0,0 +1,9 @@
+> +BPN = "qemu"
+> +
+> +DEPENDS = "glib-2.0-native zlib-native"
+> +
+> +require qemu-native.inc
+> +
+> +EXTRA_OECONF_append = " --target-list=${@get_qemu_usermode_target_list(d)} --disable-tools --disable-blobs --disable-guest-agent"
+> +
+> +PACKAGECONFIG ??= ""
+> diff --git a/meta/recipes-devtools/qemu/qemu-system-native_3.1.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_3.1.0.bb
+> new file mode 100644
+> index 00000000000..95369d7f6a2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu-system-native_3.1.0.bb
+> @@ -0,0 +1,23 @@
+> +BPN = "qemu"
+> +
+> +require qemu-native.inc
+> +
+> +# As some of the files installed by qemu-native and qemu-system-native
+> +# are the same, we depend on qemu-native to get the full installation set
+> +# and avoid file clashes
+> +DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native"
+> +
+> +EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
+> +
+> +PACKAGECONFIG ??= "fdt alsa kvm virglrenderer glx"
+> +
+> +# Handle distros such as CentOS 5 32-bit that do not have kvm support
+> +PACKAGECONFIG_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
+> +
+> +do_install_append() {
+> +    install -Dm 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+> +
+> +    # The following is also installed by qemu-native
+> +    rm -f ${D}${datadir}/qemu/trace-events-all
+> +    rm -rf ${D}${datadir}/qemu/keymaps
+> +}
+> diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc b/meta/recipes-devtools/qemu/qemu-targets.inc
+> index a7d7b5f7084..550d6f0ab1e 100644
+> --- a/meta/recipes-devtools/qemu/qemu-targets.inc
+> +++ b/meta/recipes-devtools/qemu/qemu-targets.inc
+> @@ -20,3 +20,9 @@ def get_qemu_target_list(d):
+>      if 'linux' not in tos:
+>          return softmmuonly + ''.join([arch + "-softmmu" + "," for arch in archs]).rstrip(',')
+>      return softmmuonly + linuxuseronly + ''.join([arch + "-linux-user" + "," + arch + "-softmmu" + "," for arch in archs]).rstrip(',')
+> +
+> +def get_qemu_usermode_target_list(d):
+> +    return ",".join(filter(lambda i: "-linux-user" in i, get_qemu_target_list(d).split(',')))
+> +
+> +def get_qemu_system_target_list(d):
+> +    return ",".join(filter(lambda i: "-linux-user" not in i, get_qemu_target_list(d).split(',')))
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 9a989f00b0b..a9d28bf5a38 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -1,12 +1,59 @@
+>  SUMMARY = "Fast open source processor emulator"
+>  HOMEPAGE = "http://qemu.org"
+>  LICENSE = "GPLv2 & LGPLv2.1"
+> -DEPENDS = "glib-2.0 zlib pixman"
+> -RDEPENDS_${PN}_class-target += "bash"
+> +
+> +RDEPENDS_${PN}-ptest = "bash make"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+> +                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+> +
+> +SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+> +           file://powerpc_rom.bin \
+> +           file://0001-sdl.c-allow-user-to-disable-pointer-grabs.patch \
+> +           file://0002-qemu-Add-missing-wacom-HID-descriptor.patch \
+> +           file://0003-Add-subpackage-ptest-which-runs-all-unit-test-cases-.patch \
+> +           file://run-ptest \
+> +           file://0004-qemu-Add-addition-environment-space-to-boot-loader-q.patch \
+> +           file://0005-qemu-disable-Valgrind.patch \
+> +           file://0006-qemu-Limit-paths-searched-during-user-mode-emulation.patch \
+> +           file://0007-qemu-native-set-ld.bfd-fix-cflags-and-set-some-envir.patch \
+> +           file://0008-chardev-connect-socket-to-a-spawned-command.patch \
+> +           file://0009-apic-fixup-fallthrough-to-PIC.patch \
+> +           file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+> +           file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
+> +           file://0001-Add-a-missing-X11-include.patch \
+> +           file://0001-egl-headless-add-egl_create_context.patch \
+> +           "
+> +UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+> +
+> +SRC_URI[md5sum] = "fb687ce0b02d3bf4327e36d3b99427a8"
+> +SRC_URI[sha256sum] = "6a0508df079a0a33c2487ca936a56c12122f105b8a96a44374704bef6c69abfc"
+> +
+> +COMPATIBLE_HOST_mipsarchn32 = "null"
+> +COMPATIBLE_HOST_mipsarchn64 = "null"
+> +
+> +do_install_append() {
+> +    # Prevent QA warnings about installed ${localstatedir}/run
+> +    if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
+> +}
+> +
+> +do_compile_ptest() {
+> +       make buildtest-TESTS
+> +}
+> +
+> +do_install_ptest() {
+> +       cp -rL ${B}/tests ${D}${PTEST_PATH}
+> +       find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
+> +
+> +       cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
+> +       # Don't check the file genreated by configure
+> +       sed -i -e '/wildcard config-host.mak/d' \
+> +              -e '$ {/endif/d}' ${D}${PTEST_PATH}/tests/Makefile.include
+> +}
+> +
+>
+>  require qemu-targets.inc
+> -inherit pkgconfig bluetooth
+> -BBCLASSEXTEND = "native nativesdk"
+> +inherit pkgconfig bluetooth ptest
+>
+>  # QEMU_TARGETS is overridable variable
+>  QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc riscv32 riscv64 sh4 x86_64"
+> @@ -25,15 +72,9 @@ EXTRA_OECONF = " \
+>      --with-confsuffix=/${BPN} \
+>      --disable-strip \
+>      --disable-werror \
+> -    --target-list=${@get_qemu_target_list(d)} \
+>      --extra-cflags='${CFLAGS}' \
+>      ${PACKAGECONFIG_CONFARGS} \
+>      "
+> -EXTRA_OECONF_append_class-native = " --python=python2.7"
+> -
+> -EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
+> -
+> -LDFLAGS_append_class-native = " -fuse-ld=bfd"
+>
+>  export LIBTOOL="${HOST_SYS}-libtool"
+>
+> @@ -48,25 +89,6 @@ do_install () {
+>         oe_runmake 'DESTDIR=${D}' install
+>  }
+>
+> -make_qemu_wrapper() {
+> -        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
+> -
+> -        for tool in `ls ${D}${bindir}/qemu-system-*`; do
+> -                create_wrapper $tool \
+> -                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
+> -                        FONTCONFIG_PATH=/etc/fonts \
+> -                        GTK_THEME=Adwaita
+> -        done
+> -}
+> -
+> -do_install_append_class-native() {
+> -     ${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'make_qemu_wrapper', '', d)}
+> -}
+> -
+> -do_install_append_class-nativesdk() {
+> -     ${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'make_qemu_wrapper', '', d)}
+> -}
+> -
+>  # The following fragment will create a wrapper for qemu-mips user emulation
+>  # binary in order to work around a segmentation fault issue. Basically, by
+>  # default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
+> @@ -81,15 +103,16 @@ do_install_append() {
+>  }
+>  # END of qemu-mips workaround
+>
+> -PACKAGECONFIG ??= " \
+> -    fdt gtk+ kvm \
+> -    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+> -"
+> -PACKAGECONFIG_class-native ??= "fdt alsa kvm virglrenderer glx"
+> -PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
+> +make_qemu_wrapper() {
+> +        gdk_pixbuf_module_file=`pkg-config --variable=gdk_pixbuf_cache_file gdk-pixbuf-2.0`
+>
+> -# Handle distros such as CentOS 5 32-bit that do not have kvm support
+> -PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
+> +        for tool in `ls ${D}${bindir}/qemu-system-*`; do
+> +                create_wrapper $tool \
+> +                        GDK_PIXBUF_MODULE_FILE=$gdk_pixbuf_module_file \
+> +                        FONTCONFIG_PATH=/etc/fonts \
+> +                        GTK_THEME=Adwaita
+> +        done
+> +}
+>
+>  # Disable kvm/virgl/mesa on targets that do not support it
+>  PACKAGECONFIG_remove_darwin = "kvm virglrenderer glx gtk+"
+> diff --git a/meta/recipes-devtools/qemu/qemu_3.1.0.bb b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
+> index ea4277eddea..1f30729588c 100644
+> --- a/meta/recipes-devtools/qemu/qemu_3.1.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
+> @@ -1,58 +1,22 @@
+> +BBCLASSEXTEND = "nativesdk"
+> +
+>  require qemu.inc
+>
+> -inherit ptest
+> -
+> -RDEPENDS_${PN}-ptest = "bash make"
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+> -                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+> -
+> -SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+> -           file://powerpc_rom.bin \
+> -           file://0001-sdl.c-allow-user-to-disable-pointer-grabs.patch \
+> -           file://0002-qemu-Add-missing-wacom-HID-descriptor.patch \
+> -           file://0003-Add-subpackage-ptest-which-runs-all-unit-test-cases-.patch \
+> -           file://run-ptest \
+> -           file://0004-qemu-Add-addition-environment-space-to-boot-loader-q.patch \
+> -           file://0005-qemu-disable-Valgrind.patch \
+> -           file://0006-qemu-Limit-paths-searched-during-user-mode-emulation.patch \
+> -           file://0007-qemu-native-set-ld.bfd-fix-cflags-and-set-some-envir.patch \
+> -           file://0008-chardev-connect-socket-to-a-spawned-command.patch \
+> -           file://0009-apic-fixup-fallthrough-to-PIC.patch \
+> -           file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+> -           file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
+> -           file://0001-Add-a-missing-X11-include.patch \
+> -           file://0001-egl-headless-add-egl_create_context.patch \
+> -           "
+> -UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+> -
+> -SRC_URI_append_class-native = " \
+> -            file://0012-fix-libcap-header-issue-on-some-distro.patch \
+> -            file://0013-cpus.c-Add-error-messages-when-qemi_cpu_kick_thread-.patch \
+> -            "
+> -
+> -SRC_URI[md5sum] = "fb687ce0b02d3bf4327e36d3b99427a8"
+> -SRC_URI[sha256sum] = "6a0508df079a0a33c2487ca936a56c12122f105b8a96a44374704bef6c69abfc"
+> -
+> -COMPATIBLE_HOST_mipsarchn32 = "null"
+> -COMPATIBLE_HOST_mipsarchn64 = "null"
+> -
+> -do_install_append() {
+> -    # Prevent QA warnings about installed ${localstatedir}/run
+> -    if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
+> -    install -Dm 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+> -}
+> +DEPENDS = "glib-2.0 zlib pixman"
+>
+> -do_compile_ptest() {
+> -       make buildtest-TESTS
+> -}
+> +RDEPENDS_${PN}_class-target += "bash"
+>
+> -do_install_ptest() {
+> -       cp -rL ${B}/tests ${D}${PTEST_PATH}
+> -       find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
+> +EXTRA_OECONF_append_class-target = " --target-list=${@get_qemu_target_list(d)}"
+> +EXTRA_OECONF_append_class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
+>
+> -       cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
+> -       # Don't check the file genreated by configure
+> -       sed -i -e '/wildcard config-host.mak/d' \
+> -              -e '$ {/endif/d}' ${D}${PTEST_PATH}/tests/Makefile.include
+> +do_install_append_class-nativesdk() {
+> +     ${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'make_qemu_wrapper', '', d)}
+>  }
+> +
+> +PACKAGECONFIG ??= " \
+> +    fdt gtk+ kvm \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+> +"
+> +PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
+> +
+> +
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
