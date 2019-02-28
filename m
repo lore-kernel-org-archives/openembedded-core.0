@@ -1,49 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 1529B7CBF6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D3DA7CC08
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 13:14:00 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id v10so23339185qtp.8
+	Thu, 28 Feb 2019 13:15:15 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id c13so6607161wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 05:14:02 -0800 (PST)
+	Thu, 28 Feb 2019 05:15:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=fz6WyaJl2kmcwSesek9eQXHYz/tm1PqnoFq7lj5vIxo=;
-	b=oYzELTS5HRb5s0sHtc8wDkAjUevRR3c6RGn7GsxA9Acv4NW+0Rahe9TJFT584W1S6H
-	z6Eu58iJyW+5v149FS5qKuib22PF+rxQnNhdJH5Wng6pWkCP8sYgafQMcBl58CXHdWk9
-	LJWs8ptiXzc4GgrwHLYjwwCkqGxPT7kvMXeQd1j5YvY5j0gHoDuX/pnah/QT/P2pSeD2
-	hd8Ncr4Bofl9Hwa9hYBMNVr4lqUPXmRui5tv0rynGpschJUzLYF304az8HvoxV2d8aLj
-	eDejOGiquGFUAw0Dl16O+Joyvu07kx4rr1yV2Naqbg7MI5yiINRBCtirMhGi7YGGBc9g
-	idUA==
+	h=from:to:cc:subject:date:message-id;
+	bh=xb5CLjvh8ml8GIA2rox5/zvO5LISReUMACvsyRUhahM=;
+	b=Vb0t2y6nxOOX/gnKvaNNCxQqg1L+yH+52a006Oi5ufIU4hVqkvM7N2s5ySW68WapFt
+	rpK8be0LtVvcPrBnOG7f0rDGqrMGtDa/0VIHUZNLfyQIi6OIP4xqKXzdxxIo2dYvEirG
+	whSZZnk5gF+HozZCOI5AX+0WyMDscjMkH7MgM438hrgPn/lorru533KX0mhx8xT+jRwh
+	IZ153A6ZhWeo8ck9jYOVjAww8gIYrJgVAkK2sDQQy7bVbWUGrg3jOYu8txWMPWlLpfS6
+	4sOdCCy1yACmnXGAr9Hnfzw7LeDLlo5/ifqHozX/XnOnB/t5nX8Nxbt8UhtivO80/KvD
+	IbPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=fz6WyaJl2kmcwSesek9eQXHYz/tm1PqnoFq7lj5vIxo=;
-	b=WPgqmKl5zPd3gxuEE4O9o4+d7LSSUaLYvKGEcAXInxL6YOPoGmuOopW54AfvRMu7dy
-	sipRWYbmxWAE4hCUtWnuu142v5tMcT7hEI28zv+Q6uVV9bxLNm8Syo8rjeI0HOL5wN8h
-	DRxzV8+3l7d2eJto46d+AsO3If6Ubcp+QUzpVCbD5Z5zwdcafzq3j6ZJJdkKoi6vBRdO
-	G7N75234F+8C2VIImLC1ZWvzHD0EvYWuB1rTz7t9VoFKHAVwChCSJb8wswXVxH59tsNE
-	cxwIt/IXlc/TCXV9Pk55GzafdmU5yMFC5ArgjlLHd6mDGh+UvYcq+sRY05qgulLBN487
-	+btw==
-X-Gm-Message-State: AHQUAuZcEewGxj6OlcXbeRxLOHsd7DtDv36nV3YE/Ht0OGJE++8V0kFg
-	89sUupxovx8W1amCUxtp+ghBz7iAuCPHDDlZVZY=
-X-Google-Smtp-Source: AHgI3IbF/dfZRVwA60xI9gXts9fa5vNXQng9kbAoi36JckwZlpywMKhsDSib6WCnaqOoPOTPgw+PmsvbSVveK9DAsWg=
-X-Received: by 2002:ac8:2c51:: with SMTP id e17mr5953668qta.254.1551359641474; 
-	Thu, 28 Feb 2019 05:14:01 -0800 (PST)
-MIME-Version: 1.0
-References: <CAB2nKc9-EgbC729jBkNRbPPvewQUP=Th5WGEGaW-sK0aW=ThBg@mail.gmail.com>
-	<CAL4iiOcBT92-jWjQVKZ0vrW7Feu7Tra7ejUdCa0cmscu3sOkWQ@mail.gmail.com>
-	<CAB2nKc9MeWts0s=KFgpSpV52LQA2f=cHJuxmHY0Ez1mijpbP-g@mail.gmail.com>
-In-Reply-To: <CAB2nKc9MeWts0s=KFgpSpV52LQA2f=cHJuxmHY0Ez1mijpbP-g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Feb 2019 05:13:35 -0800
-Message-ID: <CAMKF1srWmVomzmRsFsZQNvJPe3_PvipAUxf1a3sNc1Sx+FXTBg@mail.gmail.com>
-To: Vincent Prince <vincent.prince.fr@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: GO runtime crashes
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xb5CLjvh8ml8GIA2rox5/zvO5LISReUMACvsyRUhahM=;
+	b=CxdtHTmmj1y2rgwDXZ4eTROCRvC5zZV/jUUiyVb5QSLEaJTBID+N3/CA8bHCC5nV3E
+	1z+3XYpKa2gkJ5A6ZMFIjfryy/wdcBJeabGIdfzqNy4D7lkNnkaJ5qVAwxndUbQL5xV+
+	gb83qy1J6J+zDmkKeubsTDcq7QGKVJBDRnGuzVVKqIP7oowzSeqru2QTE/i4aHvMsRtT
+	5unlEGe2lLYfbaMgWofPV2BwWhE9cKBjRzMMm0qkTf50zo9Cozw6Znsz7Jx8D83ChmYb
+	Aa3NOhl55c0J42y/w3r6LA9LK3WlGBOYEhVFi47o26/8gmMVE13FHVlKNBOxBiWPcugR
+	sIHQ==
+X-Gm-Message-State: AHQUAua1G0Zv/0+uIhw5/5IB0T8iXdbnkfwg9/ymHuZKx0JWvApIDZky
+	JhM1fgvMyhVABwSQIWfSANcSbmod
+X-Google-Smtp-Source: APXvYqwKrhMrxFQFCX2sTXSaZ3fPwb/6dTeL7MaRZWA+s3+m+9RejucE3LKVnVJHc61MA6CkbY133Q==
+X-Received: by 2002:a1c:9e97:: with SMTP id h145mr2799361wme.147.1551359716040;
+	Thu, 28 Feb 2019 05:15:16 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	c17sm13644910wrs.17.2019.02.28.05.15.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Feb 2019 05:15:15 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2019 14:15:03 +0100
+Message-Id: <20190228131510.43557-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/8] qemu: remove glx/virgl/gtk options from darwin/mingw targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 13:14:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Feb 2019 13:15:15 -0000
 
-On Thu, Feb 28, 2019 at 1:35 AM Vincent Prince
-<vincent.prince.fr@gmail.com> wrote:
->
-> Hi Damien,
->
-> With GO_LINKSHARED =3D "" it work fine.
->
+As they are not supported, and would lead to build failures.
 
-Please set
-GO_DYNLINK_x86-64 =3D "1"
-to
-GO_DYNLINK_x86-64 =3D ""
-in goarch.bbclass
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> I'm very new to Go, does it mean that there is a mixing issue in go modul=
-es from Yocto and from node_exporter vendor folder, so it links wrongly at =
-runtime?
->
-> Thanks for the quickfix,
-> Vincent
->
->
->
->
-> Le mer. 27 f=C3=A9vr. 2019 =C3=A0 23:22, Damien Riegel <damien.riegel@gma=
-il.com> a =C3=A9crit :
->>
->> On Wed, 27 Feb 2019 at 12:10, Vincent Prince
->> <vincent.prince.fr@gmail.com> wrote:
->> >
->> > Hello everyone,
->> >
->> > I'm trying to add node_exporter from Prometheus project to an Intel x8=
-6-64 machine.
->> > I made the following recipe:
->> >
->> > https://github.com/nefethael/meta-random/blob/master/recipes-connectiv=
-ity/prometheus/go-nodeexporter_0.18.0.bb
->> >
->> > node_exporter is crashing with multiple different runtime errors, so I=
- raised an issue on github:
->> > https://github.com/prometheus/node_exporter/issues/1244
->>
->> I've faced the same kind of issue with a custom application of ours.
->> The fix was to add the following line to the recipe:
->> GO_LINKSHARED =3D ""
->>
->> Let me know if that helps.
->>
->> Cheers,
->> Damien
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ebee2974d2f..985289f5426 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -122,9 +122,9 @@ make_qemu_wrapper() {
+         done
+ }
+ 
+-# Disable kvm on targets that do not support it
+-PACKAGECONFIG_remove_darwin = "kvm"
+-PACKAGECONFIG_remove_mingw32 = "kvm"
++# Disable kvm/virgl/mesa on targets that do not support it
++PACKAGECONFIG_remove_darwin = "kvm virglrenderer glx gtk+"
++PACKAGECONFIG_remove_mingw32 = "kvm virglrenderer glx gtk+"
+ 
+ PACKAGECONFIG[sdl] = "--enable-sdl --with-sdlabi=2.0,--disable-sdl,libsdl2"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+-- 
+2.17.1
+
 
