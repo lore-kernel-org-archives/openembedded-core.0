@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E5C8C7CC76
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C97777CC76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 13:15:21 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id d17so21858573wre.10
+	Thu, 28 Feb 2019 13:15:22 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id e74so9129092wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 05:15:23 -0800 (PST)
+	Thu, 28 Feb 2019 05:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yc39066Z59kogedpWcaQBpd11/jl6jgu4mbFiHRcIX8=;
-	b=Enjr4oKLR8893GFVbt7QXNASRqBDoPRO+ChKQbTq8PalYBkf0Ok4DBd3fnp4VNeN1L
-	E20SXtP3Sj3bjZT93QZs1GQIuouOZQ2rSJJbL8nVsvWX7slre7X0599eib5hyYB1gRFv
-	GbMiKXdNxZg4gncR65Xia/tP+lsnpZMsBjYydNaZOfhmTc7f0Uis0pzv9ay+j/2iMPDH
-	OD9BMSwpB19t2TqKoeKuk8RL+Q161sgMgWN/co2GaMqi9LNC2ZCcImWQ0yWwpKESAya9
-	D0KiA0yhr9M18FggdzW6q68DQvQ7lj+H7Bvs5I08rZon6h8HYy4AFDlEHZT4UviA6Usw
-	5KeQ==
+	bh=h85AzAqwSD99+81d/hKs3r+3g6vK0sJShhZLC6vU1qw=;
+	b=na7SAcCvbl4BtVtm5RT08Pr57DbCR+mlUiN3pph0lcHR2smi8dHsxxWajMzItUj0ah
+	D6VjCSZBNizApQrAuIFG3ADyX8vlvRc/0pc0Yq9aDZQ8D6I9lSwCOQX7Kz8UQwaRTrSS
+	g1KhkcJV3s7TtEdb/8z3SFvqxgWz1gAaayqLQwyMUd2fuDTPzCtv2t5yk3g7TVvfZWbV
+	y/JHcJxPwMR/AnJsIYAGI4SvWVwE4q1uJkQO7d37c/jhDu7coOe3U9oLU3FDVaMYjlat
+	pPSyv3f6JoeS/1rYZZD/Db1WaxmuTA/aT3oIAiXa8JYSpnkoAUKogX5Ls12baeLEHg9m
+	9uTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=yc39066Z59kogedpWcaQBpd11/jl6jgu4mbFiHRcIX8=;
-	b=eCOA3W9cNr/eY35HbUPa30F/TU27w5Oslrpw+Ixp19SkzGhoiagBRoK4hlkpYaslYS
-	ZQtSBGPja1IxoMV5JnskfJNMC0LymP8PWeFV41xZs/Ei6GzLDca04qmWnuRgb78YUjDK
-	LLIlVEj9lv5egq0P3R7B3aR569uYimjToDaQHkbM9o1bkYcjivfjWJyRq0E6bNOXznLh
-	4WjNZfkCq1RwzS2Cvqo56sBasJ48AsMuuucS3zUXQHFzxFx5SWCP0MAHpMjrU8sXi0Uu
-	UPF++cEh5EFlCehT1T8jfMTKpgiimmnFg4yRPjxM3ZHidkF1xFNFGIBSi9eOjpKUEy+g
-	lspw==
-X-Gm-Message-State: APjAAAXO0accnjEGXUH6azjVIE3znw31EZOo3YsSUVzwmV/C4kFJkAdK
-	6uGFkzmzDXnc4Y9wgOg2WlFy//rx
-X-Google-Smtp-Source: APXvYqwCDFie32ox3JTNIToVfBF5haqJcsCUDSiaGddw1H0TFtcbQvEkNV+P1eCAccOGCFKEmbcvvA==
-X-Received: by 2002:adf:b648:: with SMTP id i8mr6204554wre.319.1551359722468; 
-	Thu, 28 Feb 2019 05:15:22 -0800 (PST)
+	bh=h85AzAqwSD99+81d/hKs3r+3g6vK0sJShhZLC6vU1qw=;
+	b=uOM7NrpEzS0B6MLCGB7h5ND9w/x79CXQxiiCuOLkQo9auieI7Vauf2SEi0azC0o8/C
+	QHNyfjPBw9vV6BrPCX+8511XHen1RBvL3oxrFYMIbE5asPl4QX8LT48nZtftqE4zFncl
+	8sefdVeogznDldouenKcVPRcggBNuZ8xtsNuuXdfQuZMtEI/LDNmazXx/HG8kK6Iw26F
+	kUD35WRobW0zG3sNj6CMiCS5qymfq0uYk8Km0RRYhHo7H5sSZxfTYYzRzZPWxxkEPQ9w
+	Cb0AmgD7AFSLQRB4TPAfs4L89LGfFEC/ur0YIZ8XgZycsGDNInRUgpjUoaoZgaQeN24w
+	izvw==
+X-Gm-Message-State: AHQUAuZd22RF4HG5YNcS74GK/ESlpBh0bIYbrrpp9praiFrxXnb0iwEq
+	oVJJJxbJY/23yrr3dE1GjwjKKsgc
+X-Google-Smtp-Source: AHgI3IaOuKI5tvjycFmPw9CBByMNZWG5lUVvWyCMABeUllnM3DzSL39DRNAHkdrxwY8yV62xAKLqwA==
+X-Received: by 2002:a1c:cc0c:: with SMTP id h12mr3167177wmb.140.1551359723360; 
+	Thu, 28 Feb 2019 05:15:23 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c17sm13644910wrs.17.2019.02.28.05.15.21
+	c17sm13644910wrs.17.2019.02.28.05.15.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Feb 2019 05:15:21 -0800 (PST)
+	Thu, 28 Feb 2019 05:15:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 14:15:09 +0100
-Message-Id: <20190228131510.43557-7-alex.kanavin@gmail.com>
+Date: Thu, 28 Feb 2019 14:15:10 +0100
+Message-Id: <20190228131510.43557-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190228131510.43557-1-alex.kanavin@gmail.com>
 References: <20190228131510.43557-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/8] runqemu: add an option to choose the SDL frontend instead of Gtk+ default
+Subject: [PATCH 8/8] local.conf.sample: enable gtk+ frontend in addition to sdl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 13:15:22 -0000
+X-List-Received-Date: Thu, 28 Feb 2019 13:15:23 -0000
 
-When Gtk+ and SDL are both enabled, qemu defaults to Gtk+.
-This option allows to revert to the 'classic' frontend.
+As SDL was found to be buggy for virgl-based GL passthrough,
+gtk+ is enabled to allow that use case.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/runqemu | 3 +++
- 1 file changed, 3 insertions(+)
+ meta-poky/conf/local.conf.sample | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index ec6188ba4a2..bbf539a8e67 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -74,6 +74,7 @@ of the following environment variables (in any order):
-   MACHINE - the machine name (optional, autodetected from KERNEL filename if unspecified)
-   Simplified QEMU command-line options can be passed with:
-     nographic - disable video console
-+    sdl - choose the SDL frontend instead of the Gtk+ default
-     gl - enable virgl-based GL acceleration
-     gl-es - enable virgl-based GL acceleration, using OpenGL ES
-     egl-headless - enable headless EGL output; use vnc or spice to see it
-@@ -404,6 +405,8 @@ class BaseConfig(object):
-             elif arg == 'nographic':
-                 self.qemu_opt_script += ' -nographic'
-                 self.kernel_cmdline_script += ' console=ttyS0'
-+            elif arg == 'sdl':
-+                self.qemu_opt_script += ' -display sdl'
-             elif arg == 'gl':
-                 self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
-             elif arg == 'gl-es':
+diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
+index 9068e567dcd..00795ae6a3f 100644
+--- a/meta-poky/conf/local.conf.sample
++++ b/meta-poky/conf/local.conf.sample
+@@ -238,12 +238,9 @@ BB_DISKMON_DIRS ??= "\
+ # Qemu configuration
+ #
+ # By default qemu will build with a builtin VNC server where graphical output can be
+-# seen. The two lines below enable the SDL backend too. By default libsdl2-native will
+-# be built, if you want to use your host's libSDL instead of the minimal libsdl built
+-# by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
+-PACKAGECONFIG_append_pn-qemu-system-native = " sdl"
+-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+-#ASSUME_PROVIDED += "libsdl2-native"
++# seen. The two lines below enable the SDL and Gtk UI frontends as well.
++PACKAGECONFIG_append_pn-qemu-system-native = " sdl gtk+"
++PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl gtk+"
+ 
+ # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ # track the version of this file when it was generated. This can safely be ignored if
 -- 
 2.17.1
 
