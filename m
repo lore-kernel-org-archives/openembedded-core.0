@@ -1,27 +1,23 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FD997CCBE
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 14C6D7CB23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 01:52:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1S1qGCj011445
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Feb 2019 17:52:16 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Wed, 27 Feb 2019 17:52:15 -0800
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1551149425-254169-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5C774072.6070202@windriver.com>
-Date: Thu, 28 Feb 2019 09:59:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <1551149425-254169-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH] libdazzle: add check for GTK3DISTROFEATURES
+	Thu, 28 Feb 2019 02:30:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2019 18:30:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,421,1544515200"; d="scan'208";a="129948216"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga003.jf.intel.com with ESMTP; 27 Feb 2019 18:30:03 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2019 09:58:57 +0800
+Message-Id: <1551319137-80119-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] resulttool/regression: Ensure regressoin results are sorted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 01:52:16 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Feb 2019 02:30:09 -0000
 
-Ping.
+Sorted regression results to provide friendly viewing of report.
 
-Thanks,
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ scripts/lib/resulttool/regression.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On 2019年02月26日 10:50, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> When do world buid, there comes below error:
-> | ERROR: Nothing PROVIDES 'gtk+3' (but /build/layers/oe-core/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb DEPENDS on or otherwise requires it)
-> | gtk+3 was skipped: one of 'x11 wayland' needs to be in DISTRO_FEATURES
->
-> Add the check for GTK3DISTROFEATURES to make
-> the world build work even without GTK3DISTROFEATURES.
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-> index 5441c10..3779b15 100644
-> --- a/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-> +++ b/meta/recipes-gnome/libdazzle/libdazzle_3.30.2.bb
-> @@ -3,7 +3,7 @@ LICENSE = "GPLv3+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
->
->   GNOMEBASEBUILDCLASS = "meson"
-> -inherit gnomebase upstream-version-is-even vala gobject-introspection
-> +inherit gnomebase upstream-version-is-even vala distro_features_check gobject-introspection
->
->   DEPENDS = "glib-2.0-native glib-2.0 gtk+3"
->
-> @@ -14,5 +14,7 @@ SRC_URI[archive.sha256sum] = "78770eae9fa15ac5acb9c733d29459330b2540affbf7293311
->   GI_ENABLE_FLAG = "-Dwith_introspection=true"
->   GI_DISABLE_FLAG = "-Dwith_introspection=false"
->
-> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> +
->   EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
->                                                                                          '${GI_DISABLE_FLAG}', d)} "
->
+diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
+index ff77332..bdf531d 100644
+--- a/scripts/lib/resulttool/regression.py
++++ b/scripts/lib/resulttool/regression.py
+@@ -35,7 +35,7 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
+                 logger.error('Failed to retrieved base test case status: %s' % k)
+     if result:
+         resultstring = "Regression: %s\n            %s\n" % (base_name, target_name)
+-        for k in result:
++        for k in sorted(result):
+             resultstring += '    %s: %s -> %s\n' % (k, result[k]['base'], result[k]['target'])
+     else:
+         resultstring = "Match: %s\n       %s" % (base_name, target_name)
+@@ -82,9 +82,9 @@ def regression_common(args, logger, base_results, target_results):
+                         regressions.append(resstr)
+         else:
+             notfound.append("%s not found in target" % a)
+-    print("\n".join(matches))
+-    print("\n".join(regressions))
+-    print("\n".join(notfound))
++    print("\n".join(sorted(matches)))
++    print("\n".join(sorted(regressions)))
++    print("\n".join(sorted(notfound)))
+ 
+     return 0
+ 
+-- 
+2.7.4
+
 
