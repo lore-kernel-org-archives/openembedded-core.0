@@ -1,52 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CE1FB7CCBA
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 10FC47C934
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 15:21:59 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id i16so22362999wrs.13
+	Thu, 28 Feb 2019 16:59:10 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id q1so22798938wrp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 07:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=C/P2XMin9u+rigxVWA1wefZAwSJ0fMiC2Siby0auou4=;
-	b=hLqMmi+K5UdjmtmpZPIF9w89mWPU9ui3Vco1bcmyFtfLUQ4S4lyQmEhQryjW5jh+lZ
-	LM5yxkYWXvYt9PsNK/FFWkmtl7hRX5Muy0ve0gMjYgxbncUl/ixFWL5LcWFtvNi0qjuP
-	wj79wogrNAPUsA+Q/TKcDkzCk0m68jzEzujoE=
+	Thu, 28 Feb 2019 08:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=/Hst2Wg3kN08Nx2UsbfKqOvlF4AigE3ORW3gd3UHjL0=;
+	b=mMn10g7jQsoidHV4npRxcktXW08a3aHgRqhymipJooV9sz4SBtNy+zLi8CzCayn1/7
+	m+wzYg5+thx6GOZcOtqmc5iZ+UTfl6AcIlv4LxhowdNrXIVnAkYtJFh3TqpTbjpOP97+
+	LtvmiLSXjoKjNI9zhj8FIfpCtExcCKA6phlG5doGt48o5XuuEABiHCB0ZA+aLjNvXGNA
+	FVnAFg6I4agM5RpOhyDNFfzslpjY+e5psPJRly8WsJ1+UxoAKayflnKk+DPBLYSfvH/B
+	GEr4KD40LMByBDQU3HbgoRB/GuEand+c5sNcET+NeRMrFK9Qb0Qq4009zYjixva62+H9
+	lHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=C/P2XMin9u+rigxVWA1wefZAwSJ0fMiC2Siby0auou4=;
-	b=t+ipDbjMUNE+JW/Vhw+wgMwSeCRVy91rtDpnQ6vyCEu3EgGxhqttZOneuIKrVjt3Z0
-	/IxXUUqjhyLJQwACoA9qb/2aqhr63Vvugyi06P1e1LUZPa9U/aOKJPMRI3qemC1MrO0P
-	DHiAh76MOd882hqwdQYSVEqnXymNTetCzbcgssprw5db/5Jh8HujIpF0jQyqLAuJt92O
-	JGGh1dPXaQosY/i2kov3VqPLu0cCIqotV8OxIsuky+++Su1C//JVSZf/AOZoNi/IDhpo
-	P6lWO/l9eOWPa8wQfKKdPH8TFZ3eB2ZB9lkW0DaK9hxg9Gh7R9u75zg0PjYc41a3RiMu
-	XiYQ==
-X-Gm-Message-State: APjAAAWce8vIzfO/OVXmBj7pZc5uituz9ZXSvJxoCFvHJ0YcGB9+s/I0
-	gKgBe4oim4gzMOyKj7/HBSVpXQ==
-X-Google-Smtp-Source: APXvYqx0T4oxSAKxqUDJPRN5zUNbkby76IgpSmP7fyIqlSEl1LOQKva/W5UtFJChY0xtEU92jcQVKw==
-X-Received: by 2002:adf:fecd:: with SMTP id q13mr6756035wrs.3.1551367320438;
-	Thu, 28 Feb 2019 07:22:00 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f126sm5256703wmf.6.2019.02.28.07.21.58
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 28 Feb 2019 07:21:59 -0800 (PST)
-Message-ID: <13316d216954b0238c5a05b0f821bb74858c1065.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ChenQi <Qi.Chen@windriver.com>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 15:21:58 +0000
-In-Reply-To: <983e13de-1319-ca48-a022-6b00d7409569@windriver.com>
-References: <20190207003537.7135-1-raj.khem@gmail.com>
-	<983e13de-1319-ca48-a022-6b00d7409569@windriver.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/Hst2Wg3kN08Nx2UsbfKqOvlF4AigE3ORW3gd3UHjL0=;
+	b=eEJ0y4ycttDLYVd/RgHyfZZ7VsNiDgAoLXRd7sq3QyZxSJ9SAz+YVO4g9xmTP8FGuB
+	bcFOU2ARbyrVeUi9WLbWy3GetUFCa72AlIYx0gGrrcR8IJPkQcaR6WytrIIkua08xhhy
+	DFKBgE7rnUzjnn7Ubg4fliRo4Ai4itMlnwDs+VrA//JX3hoM+m35+UJLYEWpg715R8M4
+	EKNu3edcKl/16H+2e1jeQBFqoWSu5XumTjhajf5aaERYCuOKREp52Wmobzsv9EoMPsM8
+	daojTxCKPYAN0LrMukhogcyyLt9uaKs/kNrbP5QcfaKvOL9MtaPEeJl5zVeFHsi5F5oq
+	FWog==
+X-Gm-Message-State: APjAAAUxK8++uA0rnfhabcfEWsMMH5HUDVZ//nkU7qSOnLOkJp8nKO1P
+	5OvvoqE44F+R61CAzFAB4Q3mrvFH
+X-Google-Smtp-Source: APXvYqzfBOagFwp0ZCDhXH8X2DDDZm5BKY8gnwqY86CY2L5xg7RaMZIVT8paWSh/ZYjtzP4iOonD/A==
+X-Received: by 2002:adf:e48a:: with SMTP id i10mr232149wrm.257.1551373151383; 
+	Thu, 28 Feb 2019 08:59:11 -0800 (PST)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id g9sm4912294wmf.19.2019.02.28.08.59.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Feb 2019 08:59:10 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2019 17:58:59 +0100
+Message-Id: <20190228165859.58628-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] perl: apply a native-only patch only to -native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 15:22:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Feb 2019 16:59:11 -0000
 
-On Thu, 2019-02-28 at 09:53 +0800, ChenQi wrote:
-> Just to provide some feedback.
-> Even with this patch, this annoying QA issue is still there.
-> WARNING: glibc-locale-2.29-r0 do_package_qa: QA Issue: glibc-locale: 
-> /glibc-binary-localedata-wo-sn/usr/lib/locale/wo_SN/LC_CTYPE is owned
-> by 
-> uid 1001, which is the same as the user running bitbake. This may be
-> due 
-> to host contamination [host-user-contaminated]
+Otherwise some of ptests were failing on target:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13194
 
-Just seen on our autobuilder too:
+[YOCTO #13194]
 
-WARNING: glibc-locale-2.29-r0 do_package_qa: QA Issue: glibc-locale: /glibc-binary-localedata-gez-et+abegede/usr/lib/locale/gez_ET@abegede/LC_MESSAGES/SYS_LC_MESSAGES is owned by uid 6000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/perl-sanity/perl_5.28.1.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-(https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/346)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+index 1cc5480d68f..5aa7cd3ee16 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+@@ -13,13 +13,15 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
+            file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
+            file://0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch \
+-           file://perl-configpm-switch.patch \
+            file://errno_ver.diff \
+            file://native-perlinc.patch \
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://perl-dynloader.patch \
+            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
+            "
++SRC_URI_append_class-native = " \
++           file://perl-configpm-switch.patch \
++"
+ 
+ SRC_URI[perl.md5sum] = "838198c43d4f39d7af797e2f59c2bee5"
+ SRC_URI[perl.sha256sum] = "3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347"
+-- 
+2.17.1
 
 
