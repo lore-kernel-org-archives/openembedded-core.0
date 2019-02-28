@@ -1,51 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3237CCFA
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B1E7CB01
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 13:37:05 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id m1so9313722wml.2
+	Thu, 28 Feb 2019 13:42:09 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id n2so21989295wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 05:37:07 -0800 (PST)
+	Thu, 28 Feb 2019 05:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=70Zd+Q0mnIQ9u84JoPJieF2nCJ7heqxCkg5BjLbffbY=;
-	b=JaxuttxyHmhRlRTYj7AzLH/BwOyY2HnS7smx4eaCD3KCXJCe1E9AOWJBKU0l+Myc4d
-	7NirK6GFgnr6eS7W/6d2lr8qY79/WiQ+S+ufgs4I26D2b4uvj9wbLhpTnTsc/tj6oBse
-	tDTw0wBfx0/qpqaIJFSgN6Z7Z9rdfnTJK2dbU=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=SHz5xTzDBM/V1foKSoCKzohDA9QyCNqpiJzEpLmtDdk=;
+	b=erMkK8z6ND2r9r9KRNfGvQAzzxoHInYaMeGdHYLEiKrdRna+i8JiUACxObvQJezVf8
+	LEWRfN4YTeqH3WCPYiLFLyqXaPc3qN/AK4jFJL8hR2CTzQCoYaYmFfoKasYP0yJ0kqnl
+	enFp+kpxT7xVRsjDYQTydeThKgZQhHkru6c9g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=70Zd+Q0mnIQ9u84JoPJieF2nCJ7heqxCkg5BjLbffbY=;
-	b=CRgUvcHK+pzvyow+jZmt5WTnfSlndOmCPVulhf8k8TFLZPxWrhWA1Hnr8sFxN10h96
-	itQwSHP2meyd5OfOUl+Vw9ZRelLuQLRnOov+66qMz+Zt642eFXhONbu6XrS0D4LtCiE2
-	TMfB+WQZeZO6bhqSBleVXM0Fci0KLGZnRhUOlAU1UvFf+aMsY2k+fGtDChDtnnQoCBll
-	fCZxTDn3Nc3tbSRyUDG19cTg9zdNXZcvf2Pw6IxyvWEGE2iP+rH0DctC0QsWRPBGv5Mk
-	Y1Law/7MevOoXEhcAfDIfHk+PkAcH5OkYtPeffSUqjrcYnnAl27F6LHvRUQ6PaKPAlMw
-	JJyQ==
-X-Gm-Message-State: APjAAAUBJQ+I7q6IZ27Q5FIMOLv2kAUQ7TSFYiw9gOeYemrodCmz4J9q
-	7Ua8OONubw/ond+H4ok90z8TeLfncOs=
-X-Google-Smtp-Source: AHgI3IY0w7Pgn98sRllbOSh6BbEcx6mLn2lzGfS/E+uqk651p6c1T4tS0EcDnAhMalDgk52GODrgfQ==
-X-Received: by 2002:a7b:c352:: with SMTP id l18mr2849193wmj.127.1551361026506; 
-	Thu, 28 Feb 2019 05:37:06 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=SHz5xTzDBM/V1foKSoCKzohDA9QyCNqpiJzEpLmtDdk=;
+	b=mDGO13G+Asqq8Vuqa5HoOD5AFERNmEGuAPFwqypwRqyv215XDz3e89XmmnQNNgXJBc
+	7jYCrDi1QUl94dUzggA+e0YBDN+m0ELrASEOnBQNzTLjz6GCxC/Ce3OcDxwSi8oeO/rY
+	JQqhRGFwm6hQg7annsFf98soYbEbF22dHL3bykaWlP5yi48u7O7Jbih9yPUaY47xORQn
+	x5NF5S6IqxmuZ1kkXPqbUjrmsfjGokfgOXuvv2QCIHwGBXh5aV1ZjWnYKiHJgbgY755+
+	ZGFNdx8Rb+04ECeG4JsQmuYiilzKj6kIy/YxJ2eiUSQUc+gjvui0B7CQy3565C14Nw5J
+	IqSw==
+X-Gm-Message-State: APjAAAV4OZyGZq0fV8GML68e7bfHuAUlOw6+pKpzc88MLQkmeLMq3Hw8
+	h4Ojr55QS9C3wOcp/WjcdUyNIA==
+X-Google-Smtp-Source: APXvYqwf1v6zaQmSs9xto2EveyJxW7yjGEwDVv0vRkoKZquFyf1gzNsiDJgW1hJznqrmnZGFgbbUtw==
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr6206825wrw.314.1551361330125; 
+	Thu, 28 Feb 2019 05:42:10 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	k203sm4461214wmf.44.2019.02.28.05.37.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Feb 2019 05:37:05 -0800 (PST)
+	h137sm5930150wmg.41.2019.02.28.05.42.08
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 28 Feb 2019 05:42:09 -0800 (PST)
+Message-ID: <6fceeb5f5b442e341d151b1cd128f54283a84984.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 13:37:02 +0000
-Message-Id: <20190228133702.22445-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190228133702.22445-1-richard.purdie@linuxfoundation.org>
-References: <20190228133702.22445-1-richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Anuj Mittal
+	<anuj.mittal@intel.com>
+Date: Thu, 28 Feb 2019 13:42:08 +0000
+In-Reply-To: <CANNYZj-aR8SMXd+Ce0w-EEyO6Ys_6eL3mTuVydP3t1++gPfsYg@mail.gmail.com>
+References: <20190226132253.26040-1-anuj.mittal@intel.com>
+	<CANNYZj-aR8SMXd+Ce0w-EEyO6Ys_6eL3mTuVydP3t1++gPfsYg@mail.gmail.com>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: [PATCH 3/3] oeqa/utils/metadata: Add commit_count to fallback logic
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] syslinux: upgrade to 6.04-pre2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +60,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 13:37:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Feb 2019 13:42:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently if python3-git isn't installed we can get odd behaviours when the
-commit_count is absent. Avoid this set of bugs by adding a fallback here.
+On Thu, 2019-02-28 at 13:09 +0100, Alexander Kanavin wrote:
+> Shouldn't we wait until the final release? Is there a specific need
+> for the pre-release update?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/utils/metadata.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I took this on advice from Intel people that the pre release is better
+than the other version. If we get the final before release, great, if
+not this has fixes we want apparently...
 
-diff --git a/meta/lib/oeqa/utils/metadata.py b/meta/lib/oeqa/utils/metadata.py
-index b7def772240..70a27569f26 100644
---- a/meta/lib/oeqa/utils/metadata.py
-+++ b/meta/lib/oeqa/utils/metadata.py
-@@ -72,8 +72,10 @@ def git_rev_info(path):
-             info['commit'] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=path).decode('utf-8').strip()
-         except subprocess.CalledProcessError:
-             pass
--        return info
--
-+        try:
-+            info['commit_count'] = int(subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=path).decode('utf-8').strip())
-+        except subprocess.CalledProcessError:
-+            pass
-     try:
-         repo = Repo(path, search_parent_directories=True)
-     except (InvalidGitRepositoryError, NoSuchPathError):
--- 
-2.20.1
+Cheers,
+
+Richard
 
 
