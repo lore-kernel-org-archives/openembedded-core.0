@@ -1,26 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CA617CB31
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 94A7E7CC81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 01:43:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x1S1hxoe010467
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Feb 2019 17:43:59 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.435.0;
-	Wed, 27 Feb 2019 17:43:59 -0800
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190207003537.7135-1-raj.khem@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <983e13de-1319-ca48-a022-6b00d7409569@windriver.com>
-Date: Thu, 28 Feb 2019 09:53:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 28 Feb 2019 01:44:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A359F40AF7;
+	Thu, 28 Feb 2019 01:44:07 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id WlX4gqs5oKWa; Thu, 28 Feb 2019 01:44:07 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7A94040A2D;
+	Thu, 28 Feb 2019 01:44:05 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 38F7D16BA10; Wed, 27 Feb 2019 20:44:05 -0500 (EST)
+Date: Wed, 27 Feb 2019 20:44:05 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190228014405.GV19169@denix.org>
+References: <20190207062526.33944-1-raj.khem@gmail.com>
+	<20190226031951.GT19169@denix.org>
 MIME-Version: 1.0
-In-Reply-To: <20190207003537.7135-1-raj.khem@gmail.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: [PATCH] glibc-locale: Rewrite do_install using install utility instead of cp
+In-Reply-To: <20190226031951.GT19169@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl10: Fix mutliple include assumptions for bn.h in opensslconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +42,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 01:43:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Feb 2019 01:44:06 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Just to provide some feedback.
-Even with this patch, this annoying QA issue is still there.
-WARNING: glibc-locale-2.29-r0 do_package_qa: QA Issue: glibc-locale: 
-/glibc-binary-localedata-wo-sn/usr/lib/locale/wo_SN/LC_CTYPE is owned by 
-uid 1001, which is the same as the user running bitbake. This may be due 
-to host contamination [host-user-contaminated]
-
-Best Regards,
-Chen Qi
-
-On 02/07/2019 08:35 AM, Khem Raj wrote:
-> This has been a constant source of trouble for build failures due to host-user-contaminated QA
-> errors of sort
->
-> ERROR: QA Issue: glibc-locale: /glibc-binary-localedata-ca-es+valencia/usr/lib/locale/ca_ES@valencia/LC_MONETARY is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
->
-> So far we have tried to mould cp command into not carrying the build
-> user permissions into install area but it is never entirely fixed since
-> the issue keeps popping up in various scenes
->
-> This patch replaces use of cp with install utility and specifies install
-> mode for files explcitly
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/recipes-core/glibc/glibc-locale.inc | 44 ++++++++++++++----------
->   1 file changed, 25 insertions(+), 19 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-> index 6384f9cbf1..9b256a5108 100644
-> --- a/meta/recipes-core/glibc/glibc-locale.inc
-> +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> @@ -72,27 +72,33 @@ FILES_localedef = "${bindir}/localedef"
->   LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
->   
->   do_install () {
-> -	mkdir -p ${D}${bindir} ${D}${datadir}
-> -	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
-> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
-> -	fi
-> -	if [ -n "$(ls ${LOCALETREESRC}/${localedir})" ]; then
-> -		mkdir -p ${D}${localedir}
-> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${localedir}/* ${D}${localedir}
-> -	fi
-> +        install -d ${D}${bindir}
-> +        find "${LOCALETREESRC}/${bindir}" -maxdepth 1 -type f \
-> +        -exec install -m 0755 -t "${D}${bindir}" {} \;
-> +
-> +        for d in . $(find "${LOCALETREESRC}/${localedir}" -type d -printf '%P ') ; do
-> +                install -d "${D}${localedir}/$d"
-> +                find "${LOCALETREESRC}/${localedir}/$d" -maxdepth 1 -type f \
-> +                -exec install -m 0644 -t "${D}${localedir}/$d" {} \;
-> +        done
->   	if [ ${@d.getVar('PACKAGE_NO_GCONV')} -eq 0 ]; then
-> -		mkdir -p ${D}${libdir}
-> -		if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
-> -			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
-> -		fi
-> -		if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
-> -			cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
-> -		fi
-> -	fi
-> -	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
-> -		cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
-> +                for d in . $(find "${LOCALETREESRC}/${libdir}/gconv" -type d -printf '%P ') ; do
-> +                        install -d "${D}${libdir}/gconv/$d"
-> +                        find "${LOCALETREESRC}/${libdir}/gconv/$d" -maxdepth 1 -type f \
-> +                        -exec install -m 0755 -t "${D}${libdir}/gconv/$d" {} \;
-> +                done
-> +                for d in . $(find "${LOCALETREESRC}/${datadir}/i18n" -type d -printf '%P ') ; do
-> +                        install -d "${D}${datadir}/i18n/$d"
-> +                        find "${LOCALETREESRC}/${datadir}/i18n/$d" -maxdepth 1 -type f \
-> +                        -exec install -m 0644 -t "${D}${datadir}/i18n/$d" {} \;
-> +                done
->   	fi
-> -	cp -R --no-dereference --preserve=mode,links ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
-> +        for d in . $(find "${LOCALETREESRC}/${datadir}/locale" -type d -printf '%P ') ; do
-> +                install -d "${D}${datadir}/locale/$d"
-> +                find "${LOCALETREESRC}/${datadir}/locale/$d" -maxdepth 1 -type f \
-> +                -exec install -m 0644 -t "${D}${datadir}/locale/$d" {} \;
-> +        done
-> +	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
->   }
->   
->   inherit libc-package
+Ping. Any comments here? Thanks!
 
 
+On Mon, Feb 25, 2019 at 10:19:51PM -0500, Denys Dmytriyenko wrote:
+> Khem, Richard,
+> 
+> Sorry for belated reply. I haven't had time for master yet, but since this 
+> just got backported to thud, I'm seeing a similar breakage.
+> 
+> First of all, BN_LLONG not being defined does seem to be "fixed" by this 
+> patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this 
+> seems to be a new define in OpenSSL 1.1, and doesn't even exist in OpenSSL 1.0
+> Is it a pure luck that it works now? Any hidden meaning I missded?
+> 
+> And it also breaks exactly the same for DES_LONG due to a similar construct:
+> 
+> 
+> #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
+> /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
+>  * %20 speed up (longs are 8 bytes, int's are 4). */
+> #ifndef DES_LONG
+> #define DES_LONG unsigned int
+> #endif
+> #endif
+> 
+> 
+> I was going to fix it similarly as BN_LLONG, but since I don't understand how 
+> it was supposed to be fixed, I'm not sure how to fix DES_LONG not being 
+> defined. Any ideas?
+> 
+> Thanks.
+> 
+> -- 
+> Denys
+> 
+> 
+> On Wed, Feb 06, 2019 at 10:25:26PM -0800, Khem Raj wrote:
+> > After adding #pragma once to wrapper header ( opensslconf.h ) this
+> > latent issue got to bite us, where it expect bn.h to be including
+> > openssl.h to define BN_* defines, which is fragile. This patch removes
+> > the contraints for nested includes for bn.h
+> > 
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
+> >  .../openssl/openssl10_1.0.2q.bb               |  1 +
+> >  2 files changed, 34 insertions(+)
+> >  create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > 
+> > diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > new file mode 100644
+> > index 0000000000..13d39c918c
+> > --- /dev/null
+> > +++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > @@ -0,0 +1,33 @@
+> > +From 247b3188cde5f3347091cd54271127386d3aece0 Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Wed, 6 Feb 2019 22:10:33 -0800
+> > +Subject: [PATCH] Fix BN_LLONG breakage
+> > +
+> > +opensslconf.h is un-defining BN_LLONG only when included from bn.h which
+> > +is not robust at all, especially when include guards are used and
+> > +multiple inclusions of a given header is not allowed. so lets take out
+> > +the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
+> > +
+> > +Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
+> > +
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +---
+> > + crypto/opensslconf.h.in | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
+> > +index 7a1c85d..a10c10f 100644
+> > +--- a/crypto/opensslconf.h.in
+> > ++++ b/crypto/opensslconf.h.in
+> > +@@ -56,7 +56,7 @@
+> > + #endif
+> > + #endif
+> > + 
+> > +-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
+> > ++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
+> > + #define CONFIG_HEADER_BN_H
+> > + #undef BN_LLONG
+> > + 
+> > +-- 
+> > +2.20.1
+> > +
+> > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > index 809634f6c0..88aefdea4f 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > @@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+> >             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+> >             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
+> >             file://0001-allow-manpages-to-be-disabled.patch \
+> > +           file://0001-Fix-BN_LLONG-breakage.patch \
+> >             "
+> >  
+> >  SRC_URI_append_class-target = " \
+> > -- 
+> > 2.20.1
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
