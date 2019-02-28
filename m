@@ -1,52 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D4AF7CB35
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 054417CCF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 13:34:28 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n2so21961708wrw.8
+	Thu, 28 Feb 2019 13:37:03 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id m1so9313583wml.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 05:34:30 -0800 (PST)
+	Thu, 28 Feb 2019 05:37:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=QUKdFrW8H2tqX8MZLDROPFYDr9SjDsYBZI6vkrryuC4=;
-	b=d0WwtbYicqhIb9Pk4weBUjLFJu7R8dh39ZFSH6rWFhxZNnjMcPD2GFr1HCCpjBv3SJ
-	qT64se/5qsAZjo34xJPgJU+BYf51c5xSqsm+pIgk6i/odppjEnzsq7CJES9mJg0/eLT4
-	HgIms/GB/I5/WZC2IeYEWtWoXt4l0JUpHDi4E=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hDcJTNr7uGZuYowo/lOqcry9W1uATWp+ah1unliRUek=;
+	b=cTNObVUlxhOoR3YN3izFQBn1XWmCsuJyZ0Am6qk5L/iIUnyhpBAHHyatlpR40OoxUb
+	UN+2eaj758fD9HbyPClxu7sFi2Y0hp6eLLpeQO8bc+xMbdX+4k1NyoeIZLRPDINT+F2o
+	1c76waPuzYpfC+jkr6TSNRTWymAcGs4HtKrWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=QUKdFrW8H2tqX8MZLDROPFYDr9SjDsYBZI6vkrryuC4=;
-	b=UxVYGyi2aQF/dgFg22LQ9v1HY/i8a/Kn1Ztuzzj/Cq4ECMw5aYPGkHceOnG3h8XJdB
-	DipuK+yVyUnSFVgA8Hfj/UEaKQH28AJUUym9fBu4zb79V4B3xyOC/DJ10p54q3s1YXsC
-	OjIhunddNcasMDIYcThZDpdpkXNmbw6aIwwy6ZL6JOTlDOlCWbyBU+9UsbjeNxUWWJah
-	IterujdagkTNIBETiHvpFvmWfyH/sqo9pHbx8fg2XnVpmQ9Qd2eBQaAA1CtZRNq4NV1V
-	gz4GoOvq3utfdc9Y6Ay6Oew16xXEAAOz1QTZzZtZg5wGoG82KbzeLOE68hgd4gBDkrMj
-	t6Sg==
-X-Gm-Message-State: APjAAAXdOvxTpYazufbcbIz1OLEkkg/8bLfNOEmdO11AhYjsrCIqmDhY
-	qx723jY4B6HLItJFvhUH3FEY7Q==
-X-Google-Smtp-Source: APXvYqz/rM4Ptu2r5FRudiwRbtQIX7XNrTJYnoiXUv6oaQ7RyyId22WF1Gf/eS2Avgc+77sYAWo7Yw==
-X-Received: by 2002:adf:90af:: with SMTP id i44mr6260818wri.222.1551360869568; 
-	Thu, 28 Feb 2019 05:34:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hDcJTNr7uGZuYowo/lOqcry9W1uATWp+ah1unliRUek=;
+	b=k6GorTnJeCJamN/+BLPu1HeLYYQ/NKemwP0s+86AAkc1jfA0t//M1gdkBS4whAHAMA
+	Juln61zip19ALZ4rfx9QOU1LaONFO7UcDItgBoDE2Z0H2h90aQolVJ9sjRBaHfzeGPoe
+	oANim1tlDQo70OI6SVmRncmE50H7PuKMrp3jcWJL6AyvTjpA1CGOQtb28IxpK/Fsz5ET
+	sa153FXbWlVKwDiCdcujutPRsfiYhtRiWGqsUHStJZLlxSIGEQ6iPEAOPo2AWauCskqD
+	NdqrXyXvjjJxsNm/IqkAQEQuQG5ZWDaMWBiDZL3/Q10RrWpXvECUK3SOAdxxJoJee1Zt
+	QGxQ==
+X-Gm-Message-State: AHQUAuZjhnWQJl5YCYhwtxspkHcbNWHv7nG1i1PMkfRTDrZj1dxuhZ5+
+	D32DKL/KLkGxA+lugD3nA12FCmAP9dc=
+X-Google-Smtp-Source: AHgI3IYzSgviBEdgwTX8L8Z9ROjB08DEFuJzjrJCYerzYrLxyvAAkp0mebr1u9fXzq14tIDVdB6BFQ==
+X-Received: by 2002:a1c:c60b:: with SMTP id w11mr2957847wmf.39.1551361024221; 
+	Thu, 28 Feb 2019 05:37:04 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	f4sm18468836wrx.68.2019.02.28.05.34.28
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 28 Feb 2019 05:34:28 -0800 (PST)
-Message-ID: <36b91e378815475d7a1a68789c9b461db31d4df6.camel@linuxfoundation.org>
+	k203sm4461214wmf.44.2019.02.28.05.37.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Feb 2019 05:37:03 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 13:34:27 +0000
-In-Reply-To: <5C774072.6070202@windriver.com>
-References: <1551149425-254169-1-git-send-email-mingli.yu@windriver.com>
-	<5C774072.6070202@windriver.com>
-User-Agent: Evolution 3.31.90-1 
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2019 13:37:00 +0000
+Message-Id: <20190228133702.22445-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] libdazzle: add check for GTK3DISTROFEATURES
+Subject: [PATCH 1/3] scripts/wic: Be consistent about how we call bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,18 +56,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 13:34:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Feb 2019 13:37:04 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-02-28 at 09:59 +0800, Yu, Mingli wrote:
-> Ping.
+Whilst its tempting to call bitbake_main(), the script also directly executes
+bitbake. By doing both this creates all kinds of races. Therefore
+change to use subprocess execution in all cases.
 
-You sent this less than 48 hours after sending the original patch.
-Please have a little more patience!
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/wic | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/scripts/wic b/scripts/wic
+index 37dfe2dc589..b4b7212cfa0 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -35,6 +35,7 @@ import os
+ import sys
+ import argparse
+ import logging
++import subprocess
+ 
+ from collections import namedtuple
+ from distutils import spawn
+@@ -63,10 +64,7 @@ if os.environ.get('SDKTARGETSYSROOT'):
+ bitbake_exe = spawn.find_executable('bitbake')
+ if bitbake_exe:
+     bitbake_path = scriptpath.add_bitbake_lib_path()
+-    from bb import cookerdata
+-    from bb.main import bitbake_main, BitBakeConfigParameters
+-else:
+-    bitbake_main = None
++    import bb
+ 
+ from wic import WicError
+ from wic.misc import get_bitbake_var, BB_VARS
+@@ -124,7 +122,7 @@ def wic_create_subcommand(options, usage_str):
+     Command-line handling for image creation.  The real work is done
+     by image.engine.wic_create()
+     """
+-    if options.build_rootfs and not bitbake_main:
++    if options.build_rootfs and not bitbake_exe:
+         raise WicError("Can't build rootfs as bitbake is not in the $PATH")
+ 
+     if not options.image_name:
+@@ -160,9 +158,7 @@ def wic_create_subcommand(options, usage_str):
+                 argv.append("--debug")
+ 
+             logger.info("Building rootfs...\n")
+-            if bitbake_main(BitBakeConfigParameters(argv),
+-                            cookerdata.CookerConfiguration()):
+-                raise WicError("bitbake exited with error")
++            subprocess.check_call(argv)
+ 
+         rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", options.image_name)
+         kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE", options.image_name)
+@@ -179,9 +175,7 @@ def wic_create_subcommand(options, usage_str):
+ 
+     if not options.vars_dir and (not native_sysroot or not os.path.isdir(native_sysroot)):
+         logger.info("Building wic-tools...\n")
+-        if bitbake_main(BitBakeConfigParameters("bitbake wic-tools".split()),
+-                        cookerdata.CookerConfiguration()):
+-            raise WicError("bitbake wic-tools failed")
++        subprocess.check_call(["bitbake", "wic-tools"])
+         native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+ 
+     if not native_sysroot:
+-- 
+2.20.1
 
 
