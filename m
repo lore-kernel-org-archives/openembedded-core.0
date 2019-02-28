@@ -1,50 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 166A17C7F4
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
+	[209.85.221.172])
+	by mail.openembedded.org (Postfix) with ESMTP id E26EE7C7F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 00:37:35 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id q206so8790292pgq.4
+	Thu, 28 Feb 2019 00:46:49 +0000 (UTC)
+Received: by mail-vk1-f172.google.com with SMTP id v187so4336562vkf.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 16:37:37 -0800 (PST)
+	Wed, 27 Feb 2019 16:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=l1KYIip2efgXiw0fcJV5mZyUZF3v21PWJI+1zJl+68U=;
-	b=FY6aXN7EGBV/aeBJayyexVinuBxJKnwh9oMC6HdYNxDSvAhn/t5ypIb2fGhHdXUywy
-	l+AB4r/EYfWh9dWIItWQem1MltMI3ZHRk+woM3A41M6XPh7uXJmNOz1LPkVwuN5WfMRU
-	p79z0/rQW91fVSuh/QQ6CoOqupgADBzwejwKviYBa8pR8N8u6llc/1cJ5OAPVn+x1Z4B
-	q36Y3lxQkDsZWPWtgsG3SB4QHiMW43P3kUKtVX4T5p8IGACAgH2mmk1yYv3cz1ky0ZsU
-	x+Q7V1/dWq7emndJTzCLmCPYLDNLV4g+bfz7PW/OijIN3foJHEL+zn2CwbWYGK+SIYFT
-	Twaw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=eu1rEUrJ+5t1APStwUgkg92XbxWVFyI1Q+VWGKIohmY=;
+	b=E++XMm0L9kxWDhpxwZiNt95OGdhIiiNxdUmvdzxAGbPXewoeUNS4M2GV+mue6D8iFU
+	aqX6ZmHTPWHAcobWGO02XV4oPr1LkeCfUCSF/PNzLCjq5jj79PrGCYcUSApwRj/WLyJ1
+	qgFsOR/yffPgb5skfb8MF/TaXXE1fZvyrrlpW9yN6UjJk+M9Zo1zyuYRzJq2XtpNjN/k
+	/Ft3QLsLaseKC81gEuXQe7CQQ8cq10kX2d6UKO6Qc65J78fFgYaJX8OhED+CxEcP+nJC
+	l9t8WIZATmqXxtpm3I+8ufrppxekb0xLPdV6Q9LvLMNy279uljBhZsOVJr2Bu6osUzq7
+	ijPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=l1KYIip2efgXiw0fcJV5mZyUZF3v21PWJI+1zJl+68U=;
-	b=YSaYS2DNYNWBx5U8krQAu2rGEPlJY6DbzqsNKyZl3g8yiGpceM0ri4WTTk5zuK8tId
-	JP+0B2Mh3wqjS+JlL50+Ibqn/ugOpQe1ZVk/OcRv7PyJ0IHEDhP1TSXIGAfOju/9sccZ
-	kWMhgUAlx+DFzcnVQK+MOJUoRhdAHtRuWnllQyXpSY1CzniMeB4MVnJ7pdshJCDzsI26
-	3+HQ6Z0ijgAEkC29Vw+8/qNKZTH6YskU9hn9z/WrxiPyW2jBI6KSuYHeCbC4r4Nkkn8j
-	54/s6CmNA5jEQqsBctTwjAkt/LIIGjw9L1TEjwOXqDlnMnrmF0R3s/7mWyl8dz8CVsSB
-	ckZw==
-X-Gm-Message-State: AHQUAube7g4lWk/S6RH4pxOJpV9sIiFopLKkLRIzCPB62tZhTImUvIZi
-	lVhToRc31FiSVz536p5o/hGtFjfq
-X-Google-Smtp-Source: AHgI3IaPi7pWsGDkwpeVeXrNx84t73MenTWsSDADawpTj0av0TtJATZJKwy4mFBBR+O7NAmDHtyQWA==
-X-Received: by 2002:a63:4287:: with SMTP id p129mr5518432pga.84.1551314256510; 
-	Wed, 27 Feb 2019 16:37:36 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5fa3])
-	by smtp.gmail.com with ESMTPSA id
-	h3sm19137769pgv.38.2019.02.27.16.37.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Feb 2019 16:37:36 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2019 16:37:24 -0800
-Message-Id: <20190228003724.33791-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=eu1rEUrJ+5t1APStwUgkg92XbxWVFyI1Q+VWGKIohmY=;
+	b=ZKz28XWjs78pkxkNzZ/bsjqTFUADC+GcuPTecxeDTJqougR8mf4XyvkxrY0lmMbrr0
+	CqIz2RoHCWIA/gc4vQTdGV0zbDCREEJr49OxQYdPegwIZ83dXoE8BL02w/ICqPP6zEHE
+	TiQcrvv3v0V78Soa0kRNXTYI2rgS/wJM3V/HbcE1kWhhp/a1fi1Y34STKbx/SqPzgxqS
+	PAG9HZwuThP+vCPlnpDFMZMF7A7EJAnXZskvF1u84GGGHpFlxRhLJq73do2en+nNLzpT
+	ntTYLk3jHVR/R0Ku5qnWE1RLmlrOlCQXdv6WnUB7Oe2a+d567FstPm9yn36HfmYCjc6P
+	NCGg==
+X-Gm-Message-State: AHQUAuZeabYftEyNIXwTnljo0yiLrLiNivZDcrFKdETqU7hg+JB2ve0k
+	cP7ajsAVHnD9YQ+3tivNtqwPx4n2UkiGKrqvddE=
+X-Google-Smtp-Source: AHgI3IatTRCr9KaySOcodtRiJ2M1GfV4zK5sQYHJV/yFIT208i7xSXxPNEdBZIXf2cOlZ2hsn+O4NeDxSlwntBpNNS4=
+X-Received: by 2002:a1f:c00f:: with SMTP id q15mr2542479vkf.10.1551314810621; 
+	Wed, 27 Feb 2019 16:46:50 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH V2] glibc: Move common bits to glibc-common.inc
+References: <20190227205042.44813-1-raj.khem@gmail.com>
+	<20190227205042.44813-2-raj.khem@gmail.com>
+	<CAJ86T=WH03EBVFh-OU=pKDcsKL-YK3efEzHXDmwouGjvp7z9GQ@mail.gmail.com>
+	<20190227223229.GA1503@jama>
+	<CAMKF1srcmWG6m+78ZBX-hv=1ZqHPA__RtMWwr-9HLp2mvDtFww@mail.gmail.com>
+In-Reply-To: <CAMKF1srcmWG6m+78ZBX-hv=1ZqHPA__RtMWwr-9HLp2mvDtFww@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 27 Feb 2019 16:46:39 -0800
+Message-ID: <CAJ86T=U+TUnGj=CmDrp7OhrKDAgrbdwsd6Wv_7EWAp5fv2y4BQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] glibc: Disable Werror when building with debug options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,113 +57,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 00:37:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Feb 2019 00:46:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-We have been duplicating few variables in glibc recipes which could
-actually be defined once, therefore move them to glibc-common.inc which is
-included by all glibc family of recipes
+On Wed, Feb 27, 2019 at 4:31 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Wed, Feb 27, 2019 at 2:32 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+> >
+> > On Wed, Feb 27, 2019 at 02:01:06PM -0800, Andre McCurdy wrote:
+> > > On Wed, Feb 27, 2019 at 12:51 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > >
+> > > > Since compiler does not optimize away a lot of stuff we end up with
+> > > > Werrors e.g.
+> > > >
+> > > > ./sysdeps/ieee754/flt-32/s_log1pf.c: In function '__log1pf':
+> > > > ../sysdeps/ieee754/flt-32/s_log1pf.c:114:22: error: 'c' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> > > >   114 |        + (k * ln2_lo + c))) - f);
+> > > >       |          ~~~~~~~~~~~~^~~~
+> > > >
+> > > > which otherwise wont happen, so lets build with warnings-as-errors
+> > > > disabled in debug mode
+> > > >
+> > > > given we disable werror, now we don't have to restrict user to compile
+> > > > without -O0
+> > >
+> > > Did you actually test with -O0? Even if it builds, there may be issues
+> > > at runtime:
+> > >
+> > >   https://sourceware.org/glibc/wiki/FAQ#Why_do_I_get:.60.23error_.22glibc_cannot_be_compiled_without_optimization.22.27.2C_when_trying_to_compile_GNU_libc_with_GNU_CC.3F
+> >
+> > Agreed, last time I've tried it still didn't work in runtime with -O0.
+> >
+>
+> intention is not to state that it should be working with -O0, but let
+> glibc complain that it can not be compiled with out optimization which
+> it does nicely.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Correct typo gcc-common.inc -> glibc-common.inc in commit msg
+Doesn't glibc complain about -O0 regardless of --disable-werror?
 
- meta/recipes-core/glibc/glibc-collateral.inc | 18 +++---------------
- meta/recipes-core/glibc/glibc-common.inc     | 14 ++++++++++++++
- meta/recipes-core/glibc/glibc.inc            |  8 --------
- meta/recipes-core/glibc/glibc_2.29.bb        |  5 -----
- 4 files changed, 17 insertions(+), 28 deletions(-)
+If so then I don't see any advantage in specifically passing
+--disable-werror in the -O0 case.
 
-diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
-index 3379270566..52880791a7 100644
---- a/meta/recipes-core/glibc/glibc-collateral.inc
-+++ b/meta/recipes-core/glibc/glibc-collateral.inc
-@@ -1,15 +1,7 @@
--INHIBIT_DEFAULT_DEPS = "1"
--LICENSE = "GPLv2 & LGPLv2.1"
--LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6 \
--                     file://${COMMON_LICENSE_DIR}/LGPL-2.1;md5=1a6d268fd218675ffea8be556788b780"
--HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
-+require glibc-common.inc
- 
--# This needs to match with glibc.inc, otherwise glibc-scripts and glibc-locale
--# will fail to find main glibc, for details see
--# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
--ARM_INSTRUCTION_SET_armv4 = "arm"
--ARM_INSTRUCTION_SET_armv5 = "arm"
--ARM_INSTRUCTION_SET_armv6 = "arm"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6 \
-+                     file://${COMMON_LICENSE_DIR}/LGPL-2.1;md5=1a6d268fd218675ffea8be556788b780"
- 
- deltask do_fetch
- deltask do_unpack
-@@ -18,7 +10,3 @@ do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- 
- do_install[depends] += "virtual/${MLPREFIX}libc:do_stash_locale"
--
--COMPATIBLE_HOST_libc-musl_class-target = "null"
--
--PV = "2.29"
-diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/glibc/glibc-common.inc
-index b05e162f88..cded384592 100644
---- a/meta/recipes-core/glibc/glibc-common.inc
-+++ b/meta/recipes-core/glibc/glibc-common.inc
-@@ -7,4 +7,18 @@ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
-+
- CVE_PRODUCT = "glibc"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-+ARM_INSTRUCTION_SET_armv6 = "arm"
-+#
-+# We will skip parsing glibc when target system C library selection is not glibc
-+# this helps in easing out parsing for non-glibc system libraries
-+#
-+COMPATIBLE_HOST_libc-musl_class-target = "null"
-+
-+PV = "2.29"
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index a382a22b73..252fd56c13 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -25,14 +25,6 @@ CACHED_CONFIGUREVARS_append_mipsarch = " libc_cv_ld_gnu_indirect_function=no"
- 
- GLIBC_EXTRA_OECONF ?= ""
- GLIBC_EXTRA_OECONF_class-nativesdk = ""
--INHIBIT_DEFAULT_DEPS = "1"
--
--# This needs to match with glibc-collateral.inc, otherwise glibc-scripts and glibc-locale
--# will fail to find main glibc, for details see
--# http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
--ARM_INSTRUCTION_SET_armv4 = "arm"
--ARM_INSTRUCTION_SET_armv5 = "arm"
--ARM_INSTRUCTION_SET_armv6 = "arm"
- 
- # glibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
- # PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index 9b6fab066b..4577350eae 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -69,11 +69,6 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
- TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
- 
- GLIBC_BROKEN_LOCALES = ""
--#
--# We will skip parsing glibc when target system C library selection is not glibc
--# this helps in easing out parsing for non-glibc system libraries
--#
--COMPATIBLE_HOST_libc-musl_class-target = "null"
- 
- GLIBCPIE ??= ""
- 
--- 
-2.21.0
-
+> > If this is the only place where it now fails, can we please work around
+>
+> No, this is just a representative, there are several such warnings in
+> tests especially, so disabling werror is only sane here.
+>
+> > it like in:
+> > https://sourceware.org/git/?p=glibc.git;a=commit;h=27c5e756a2a8495d77480a103081a86c1ca9a1e8
+> > https://sourceware.org/git/?p=glibc.git;a=commit;h=4a06ceea33ecc220bbfe264d8f1e74de2f04e90d
+> > and pending:
+> > https://patches-gcc.linaro.org/patch/13529/
+> >
+> > > >  meta/recipes-core/glibc/glibc.inc     | 9 ---------
+> > > >  meta/recipes-core/glibc/glibc_2.29.bb | 1 +
+> > > >  2 files changed, 1 insertion(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> > > > index 67af396133..a382a22b73 100644
+> > > > --- a/meta/recipes-core/glibc/glibc.inc
+> > > > +++ b/meta/recipes-core/glibc/glibc.inc
+> > > > @@ -2,15 +2,6 @@ require glibc-common.inc
+> > > >  require glibc-ld.inc
+> > > >  require glibc-testing.inc
+> > > >
+> > > > -python () {
+> > > > -    opt_effective = "-O"
+> > > > -    for opt in d.getVar('SELECTED_OPTIMIZATION').split():
+> > > > -        if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
+> > > > -            opt_effective = opt
+> > > > -    if opt_effective == "-O0":
+> > > > -        bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN'), opt_effective))
+> > > > -}
+> > > > -
+> > > >  DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
+> > > >
+> > > >  PROVIDES = "virtual/libc"
+> > > > diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+> > > > index bd8aa6d503..9b6fab066b 100644
+> > > > --- a/meta/recipes-core/glibc/glibc_2.29.bb
+> > > > +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+> > > > @@ -90,6 +90,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+> > > >                  --disable-crypt \
+> > > >                  --with-default-link \
+> > > >                  --enable-nscd \
+> > > > +                ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -Og', '--disable-werror', '', d)} \
+> > > >                  ${GLIBCPIE} \
+> > > >                  ${GLIBC_EXTRA_OECONF}"
+> > > >
+> > > > --
+> > > > 2.21.0
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> > --
+> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
