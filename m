@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D07556BA10
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 59CE47C7F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 23:34:37 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id d2so21392916qti.11
+	Thu, 28 Feb 2019 00:30:07 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id r21so11042183qkl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2019 15:34:39 -0800 (PST)
+	Wed, 27 Feb 2019 16:30:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rT+OnJ6ZV1fZoL7ppieidQcEN6J5ZZCquuYykfAFHI4=;
-	b=aap2qOHqZGeJMxZ7wHlZ++oaun2BUHSUfqOZSi5yyamrg8aydD7Opf3bmDsY6TLQ5Q
-	m373jEdFRS1Ip3mDNI/ohzLZbU9pTLF6Lr+6CtpPy3NmRqLWv98Kar3m34VdvuJJKb3j
-	ekk+oPZMGvId1H3eE/9mlxT2Sx5c6CRq7YEpDNt2d47h3UZoNuRdz9E+PLcLKYgh4TFu
-	ZdPloLzWP8zdvdizxCat1PKdDZO4N91vJRYIen1qS1IZdEOxKiqcFP5gM9hOFd1ELbiA
-	BpnFGotuUEKPHHbfkaQ54PSYLalQI5NICQQop3TqKtFMXuE5Z4BCD1eDppF5bud2plK2
-	Golw==
+	:cc; bh=5yMZpFcFfO3Ib9G/aeHLE/vBevr1HsIOgq3wX/i4duc=;
+	b=GVbPeGjJz0O13P9rIDfAXrKmYiQihT4pbfdwrdwNY5rsE/RYEaeAoM/T8xiwHv7dL4
+	25LCHpYX0Cst7sh0JNYUOYkv8gyBaN6LPPjgTNa8Dk4GAwGaWuhP4tvGTnUubxnb3Lx/
+	BlZfhRijrauDFtpJj+FVqr7uZNP4UfH9RtMueqEWl1Cy2YV33/jiAImI6MmulXfgRhUB
+	SBoJ4JNUkqTvv/wkdRB/7KpH+drs+30lICuULOKNkz0bd4IqxTyHcs8Gf5GlljU/w9Nd
+	+4uStEaoO493uak6xs2uAdw9FoR+ezlqOYyhvJZisjoFMPHCaIw5se6GRv9XfvqjrsPA
+	Bkwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=rT+OnJ6ZV1fZoL7ppieidQcEN6J5ZZCquuYykfAFHI4=;
-	b=pL9i1pcs1UiGOtSJDavS02Hf+dp5Fpa697C2Fq1/xSAB+ysDpmxAnjhN4THcsOZ6zq
-	bX0p2yHJM6i7z5K0gPv2yXNv0AtWAdG0krn4t/5JV7u3Vwda6w7vJJy1DplDHvBwKKdZ
-	fdwrHMQslamYdoWSYCdWYK2rDSzJ3LICVawU23XejFr+Hcps79rBMGA4liwysb/92SFX
-	dalyWdJGyTNYQF8qsfd+8lpg5YmEpOsBA5wp0v0Mq+c1P2eibDvZBTHGwd1XRfQmZdRq
-	4DsnDKGrXfAwXQb4EJNcgmHSfY295BLYTknc4npc7D729dzD0c9t7K0YK9UAs86/n/Je
-	kiDg==
-X-Gm-Message-State: APjAAAXo67wYX6X6QBwDCgyBuiuhBS6tbySDhP8494XWZH/Dp1gl/f3g
-	KSfEQeFNgvHxQjZsuHQtWpdKPnrMXJ1lf7SezOM=
-X-Google-Smtp-Source: APXvYqzyCMgB63C4i7gXxUcKVS9KJ+W4u6l++rXLrqIP7BKO63gew0IvhiahD9dI82CklsCmY8Knrn2PCe2muNGPO10=
-X-Received: by 2002:a0c:94cf:: with SMTP id k15mr4094982qvk.55.1551310478565; 
-	Wed, 27 Feb 2019 15:34:38 -0800 (PST)
+	bh=5yMZpFcFfO3Ib9G/aeHLE/vBevr1HsIOgq3wX/i4duc=;
+	b=gaUDPNZFeG2NmM5A9KTTYDKdRlacfseI+glKO/NzlKD5ZE/aKtHaHvV6yadCJS9BrQ
+	8/FM6Vx5XUptxrSquUg4mKXHmFMYhWnJ/F17Lno8MXb3pIpJLGtjkJt5fISuQD54TthJ
+	EYkrHcied7vRxS70A5G23+hJS/A6WykahCpjxq52aKxnp9n/T1UyvxLles2skDZGdgD3
+	jEmeI7vvLSWG11xguCdJmbQyK3aM0oH7h8rfb+RqcIsFbbfhwC+/VIyUL3HyTU9ECAGz
+	f5Q1fkBC/zHlz45hb0LZbBPkucV+sQpAQz7LtfPJD58EeIbPqeJDqnMneOF8hvGsQRB0
+	5LRQ==
+X-Gm-Message-State: AHQUAub4WDiPd2+VmM+mRpuDBbngHt4keBgz1S0zKT/kRHYRCDdVjgxm
+	H/LtGdfxACMoGlBKOxythc7EwMDM5Ez8/WQv6NQ=
+X-Google-Smtp-Source: AHgI3IZdT33GUw0sUyRJ4YuB5AZ/d0Z0OBlHcjTK8GIha+IaVlkQH64JQaMxPES3m1zcU7RR0TnWK6ATMsEboUN20NA=
+X-Received: by 2002:a37:e10c:: with SMTP id c12mr4426886qkm.315.1551313807964; 
+	Wed, 27 Feb 2019 16:30:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20190227212951.39714-1-raj.khem@gmail.com>
-	<77eb8d4df1a4220e3f19d09e3ad1130cc60e817c.camel@linuxfoundation.org>
-In-Reply-To: <77eb8d4df1a4220e3f19d09e3ad1130cc60e817c.camel@linuxfoundation.org>
+References: <20190227205042.44813-1-raj.khem@gmail.com>
+	<20190227205042.44813-2-raj.khem@gmail.com>
+	<CAJ86T=WH03EBVFh-OU=pKDcsKL-YK3efEzHXDmwouGjvp7z9GQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=WH03EBVFh-OU=pKDcsKL-YK3efEzHXDmwouGjvp7z9GQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Feb 2019 15:34:26 -0800
-Message-ID: <CAMKF1spa7tVDq1q4tagnf9FOLmF7zQB3+4qJG5nzK7uvmXv4Ag@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glibc: Move common bits to gcc-common.inc
+Date: Wed, 27 Feb 2019 16:29:42 -0800
+Message-ID: <CAMKF1sobnnPDsZjurzqaePU46JeOuO4GPq62iM3a2Y67zcbosw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] glibc: Disable Werror when building with debug options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,55 +55,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2019 23:34:38 -0000
-Content-Type: multipart/alternative; boundary="00000000000002e7380582e89ebc"
-
---00000000000002e7380582e89ebc
+X-List-Received-Date: Thu, 28 Feb 2019 00:30:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 27, 2019 at 1:48 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Wed, Feb 27, 2019 at 2:01 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Wed, Feb 27, 2019 at 12:51 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Since compiler does not optimize away a lot of stuff we end up with
+> > Werrors e.g.
+> >
+> > ./sysdeps/ieee754/flt-32/s_log1pf.c: In function '__log1pf':
+> > ../sysdeps/ieee754/flt-32/s_log1pf.c:114:22: error: 'c' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> >   114 |        + (k * ln2_lo + c))) - f);
+> >       |          ~~~~~~~~~~~~^~~~
+> >
+> > which otherwise wont happen, so lets build with warnings-as-errors
+> > disabled in debug mode
+> >
+> > given we disable werror, now we don't have to restrict user to compile
+> > without -O0
+>
+> Did you actually test with -O0? Even if it builds, there may be issues
+> at runtime:
 
-> On Wed, 2019-02-27 at 13:29 -0800, Khem Raj wrote:
-> > We have been duplicating few variables in glibc recipes which could
-> > actually be defined once, therefore move them to gcc-common.inc which
->
-> gcc-common.inc for glibc? :)
->
->
-Hey thankfully it=E2=80=99s just in comments
+Yes I did, and it does not build with -O0 and glibc build system gives
 
-> Cheers,
->
-> Richard
->
->
 
---00000000000002e7380582e89ebc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+in file included from <command-line>:
+./../include/libc-symbols.h:75:3: error: #error "glibc cannot be
+compiled without optimization"
+   75 | # error "glibc cannot be compiled without optimization"
+      |   ^~~~~
+In file included from <command-line>:
+./../include/libc-symbols.h:75:3: error: #error "glibc cannot be
+compiled without optimization"
+   75 | # error "glibc cannot be compiled without optimization"
+      |   ^~~~~
+In file included from <command-line>:
+./../include/libc-symbols.h:75:3: error: #error "glibc cannot be
+compiled without optimization"
+   75 | # error "glibc cannot be compiled without optimization"
+      |   ^~~~~
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Feb 27, 2019 at 1:48 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2019-=
-02-27 at 13:29 -0800, Khem Raj wrote:<br>
-&gt; We have been duplicating few variables in glibc recipes which could<br=
+
+this is user friendly message, that we can rely on, there is no need
+to have code in metadata to detect it.
+
 >
-&gt; actually be defined once, therefore move them to gcc-common.inc which<=
-br>
-<br>
-gcc-common.inc for glibc? :)<br>
-<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Hey thankfully i=
-t=E2=80=99s just in comments=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Chee=
-rs,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
+>   https://sourceware.org/glibc/wiki/FAQ#Why_do_I_get:.60.23error_.22glibc_cannot_be_compiled_without_optimization.22.27.2C_when_trying_to_compile_GNU_libc_with_GNU_CC.3F
+>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc.inc     | 9 ---------
+> >  meta/recipes-core/glibc/glibc_2.29.bb | 1 +
+> >  2 files changed, 1 insertion(+), 9 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> > index 67af396133..a382a22b73 100644
+> > --- a/meta/recipes-core/glibc/glibc.inc
+> > +++ b/meta/recipes-core/glibc/glibc.inc
+> > @@ -2,15 +2,6 @@ require glibc-common.inc
+> >  require glibc-ld.inc
+> >  require glibc-testing.inc
+> >
+> > -python () {
+> > -    opt_effective = "-O"
+> > -    for opt in d.getVar('SELECTED_OPTIMIZATION').split():
+> > -        if opt in ("-O0", "-O", "-O1", "-O2", "-O3", "-Os"):
+> > -            opt_effective = opt
+> > -    if opt_effective == "-O0":
+> > -        bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN'), opt_effective))
+> > -}
+> > -
+> >  DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
+> >
+> >  PROVIDES = "virtual/libc"
+> > diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+> > index bd8aa6d503..9b6fab066b 100644
+> > --- a/meta/recipes-core/glibc/glibc_2.29.bb
+> > +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+> > @@ -90,6 +90,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+> >                  --disable-crypt \
+> >                  --with-default-link \
+> >                  --enable-nscd \
+> > +                ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -Og', '--disable-werror', '', d)} \
+> >                  ${GLIBCPIE} \
+> >                  ${GLIBC_EXTRA_OECONF}"
+> >
+> > --
+> > 2.21.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---00000000000002e7380582e89ebc--
