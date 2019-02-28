@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C5B357CC1E
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B1ABA7CC46
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 13:15:17 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o17so21933145wrw.3
+	Thu, 28 Feb 2019 13:15:18 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id l5so21910544wrw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 05:15:19 -0800 (PST)
+	Thu, 28 Feb 2019 05:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=e8sDYrj7DEDGxm5trlw1FnEJvazu8pmE+stw8xLmFf4=;
-	b=lqZy03bGZwIehpx6f9hyA5E0OV/PUTLC8j5VEcmOPW6rhu9fx1yNvuQco9aQ4VndIW
-	8/2u8xUIvZ2SefFY8TR+bD66LgXB1AFqZu1JTCdzL9f8XhN7DXj9ssoMzukX3wW5zzv4
-	cX6QEmdDvVD6F5robBF2FSAiE1KOg7+hca/MYzjtWazmAVlDYW+I0z2WhnfBOHjEg1D7
-	FwLoJi8IlK7SVeRGVcQgoRV61+lWs2yMddOv9n83UWCaq8oRmROO5jsD4PoG4paptM6l
-	NcVTtR+OyHjwZGR/hX6Vi9Jd/YDvCEatD9jqeT9nv46ScLO0WbODqk95IBFyIFQQXEk3
-	EyRg==
+	bh=giRMXPSMmt5nUfdJRMG1WF2znUVRtdXNWHWAy/eF2EQ=;
+	b=fL4gfooTpqt99NbSKyU1jdZDyUGLrYpKRZH7vbVHGPmS5e8m7MxR4kI82O5ZpDWU1c
+	Mpz2Ao5lPlYzsD4Gban4ZPZEzNcamffr7KeCVgFvxYtMQ0kSqx2PWqO76IbTQ9KF0ccO
+	iLJTcP/Z1t4DkjF+zOYVI0eaSfMFM5WuTi5t6gpc7T2S0bDU1baRv7LP3xu8a/M7OzQO
+	FXdkd0aoeK2xsCoygynvEo5FBdh9pWlUFfflQnAk+ZJC1FYV7g7O6ZgpsuUlUjrwHspn
+	+j8yFe3nEBsYo4s/IvFdyS2aeveZ/kXF1MJ/GWGKFy/kQ1a1DH7TptisvY5Vc+2vVwzb
+	O5bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=e8sDYrj7DEDGxm5trlw1FnEJvazu8pmE+stw8xLmFf4=;
-	b=X51dbUgVYKFnc11ayMr8GJiutsT5qHk2QJsbspPdG+NPo2BCGBKa/HTfMtIfWl3rch
-	yu748QBDrlQGS7ki4iT93KHRPDX15R6nS0CHinZ7tgo2bXK8vG1Ivbt4O5NgUFonRtYj
-	2B9CiG3peIIyhW/G85zO8E15/0FTzhk+1oOxv0q69S+YVYqHVb3erEPCT8cPv5synAsM
-	k4nkBnyftxHBHXZ71GolbfeIoam5ayihSam+lN5cPaxZkh3DnqtoiHmyhmRI9KjxO+3m
-	x522fPNzeiTEjmBuvCMTq7HWyVfRAkrqfGujz4XDugGYVrk/rSFcXWbJVtkJIByj/Z8D
-	sBOg==
-X-Gm-Message-State: APjAAAUpLvdci7x8evBdpNaRt093+qS8mX0tmxLK8jqJIewfBvGAGAY6
-	wYlojLmeEIVi2eprNZN0ar8El8dw
-X-Google-Smtp-Source: APXvYqwpsXBcGk1FuonwCs2DxWolNSqsFj3nFdqI7knL06a47uLClCEqWQ2gtlNJRv19WCNZusA29w==
-X-Received: by 2002:a5d:528e:: with SMTP id c14mr6568561wrv.304.1551359718160; 
-	Thu, 28 Feb 2019 05:15:18 -0800 (PST)
+	bh=giRMXPSMmt5nUfdJRMG1WF2znUVRtdXNWHWAy/eF2EQ=;
+	b=ZVp/JSf0VL+hjBbL1zkmcdkQU3Xdaj1UBvuu+HkY66fsf/iM1aK0KhLVy3lsbzqIuy
+	2TNN18O1LewTZL4mXdXaJYhHxdzfaxltTyk/o0GtZTgfstOeNQR2EChIOi926knBazoA
+	lDmmiV0MmjR49tfPXMc6G4fscLtuk77dPEonwG0hqGreRHIpbB1s74v0q+qyVrBJ9SiE
+	yQWpRzNjf2VGnnbR0lyKCBwXMAIv7SiHgQlkKg8EqT+mMffv9D5D37NvEbQXZwlYmUMA
+	s55Rw5/HyXVSweTiBgxaR++hkTVqgjykBtQALiBPTgtb/w0FRwsC6nkC8RPQDKCRsMRA
+	exCw==
+X-Gm-Message-State: APjAAAVeebjUeIHn/3SUpfVbZMqS9BPHL8SnnqV9UsxI66oO/0CKYBi9
+	A+ppLY0LFYVFXDb4cJXD1UIwJ0io
+X-Google-Smtp-Source: APXvYqw5LuLRf6Eo0tT3FY7AyY2aORcDgsfqf+yzviK2yaSvAEzK/jZ5ckl917vEv/2bAhVX52j8rw==
+X-Received: by 2002:a05:6000:14d:: with SMTP id
+	r13mr6746823wrx.231.1551359719212; 
+	Thu, 28 Feb 2019 05:15:19 -0800 (PST)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c17sm13644910wrs.17.2019.02.28.05.15.17
+	c17sm13644910wrs.17.2019.02.28.05.15.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Feb 2019 05:15:17 -0800 (PST)
+	Thu, 28 Feb 2019 05:15:18 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 14:15:05 +0100
-Message-Id: <20190228131510.43557-3-alex.kanavin@gmail.com>
+Date: Thu, 28 Feb 2019 14:15:06 +0100
+Message-Id: <20190228131510.43557-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190228131510.43557-1-alex.kanavin@gmail.com>
 References: <20190228131510.43557-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/8] qemu: add a gtk+ frontend to target builds
+Subject: [PATCH 4/8] qemu: remove sdl option from PACKAGECONFIG default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,9 +58,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 13:15:18 -0000
+X-List-Received-Date: Thu, 28 Feb 2019 13:15:19 -0000
 
-sdl frontend remains enabled and available
+This removes confusion over where qemu frontends are enabled for
+native/nativesdk builds: currently they are also set in local.conf.sample
+from poky distro, and with this change that becomes the only place.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
@@ -67,18 +70,17 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/qemu/qemu_3.1.0.bb b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-index 3c404d408d0..26a33b4d860 100644
+index 26a33b4d860..8457e2c2f87 100644
 --- a/meta/recipes-devtools/qemu/qemu_3.1.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_3.1.0.bb
-@@ -14,7 +14,7 @@ do_install_append_class-nativesdk() {
- }
- 
- PACKAGECONFIG ??= " \
--    fdt sdl kvm \
-+    fdt sdl gtk+ kvm \
+@@ -17,6 +17,6 @@ PACKAGECONFIG ??= " \
+     fdt sdl gtk+ kvm \
      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
  "
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
+-PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm virglrenderer glx"
++PACKAGECONFIG_class-nativesdk ??= "fdt kvm virglrenderer glx"
+ 
+ 
 -- 
 2.17.1
 
