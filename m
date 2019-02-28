@@ -1,34 +1,47 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 94A7E7CC81
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id DFBAE7CC81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 01:44:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A359F40AF7;
-	Thu, 28 Feb 2019 01:44:07 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id WlX4gqs5oKWa; Thu, 28 Feb 2019 01:44:07 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
-	[100.15.91.218])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7A94040A2D;
-	Thu, 28 Feb 2019 01:44:05 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 38F7D16BA10; Wed, 27 Feb 2019 20:44:05 -0500 (EST)
-Date: Wed, 27 Feb 2019 20:44:05 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190228014405.GV19169@denix.org>
+	Thu, 28 Feb 2019 01:51:48 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id s1so21774337qte.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2019 17:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8x4ziuw3kPbSf0Crk67S1ZddQLxNs9G8mSRnOXJEeb0=;
+	b=PDSmQYTJxOsemZSL1ax8H7SnYivdl+IRagIfWyJfDIjJ5K3/8T+rLNB9YyuhV8Epu1
+	VUcbcsFuOSy4kRgOIM880TtHKglj9ageron0XVeQyTe9VO1IWoWJEC7EvqnaHk1krZZX
+	X75VwxFKCcv65O0xc6u55uQ/82bhkxhvAscF2YUkFDemthG6Z7jcG3mSkj3RKqUG87S/
+	PMSOJiQ+FvATquI+Xog61vJaqVcN5EkePc7DqBSg7huRKsy8UAT/RWJBZlnfXODjFoQb
+	/M9nAsjeaDi5s3ut93xIGckrz6wD8yBaRPeoNpCOfBX0FfpBIX/NQLxbIszWvCHzLlzI
+	WORw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8x4ziuw3kPbSf0Crk67S1ZddQLxNs9G8mSRnOXJEeb0=;
+	b=Up7VdsEVfjoLkEe3VUMb6lRXDGvLS1ZO7WlEIVN83on7Fw6CF/g4gVDvcnycVyiNwp
+	IE4CrAifCY3u9tgaN6NjCgi3+n2ExCAvgk/VOxVfrwiEDMAemGv9b1MUn6dRhdIQGY0p
+	26jDxVKyBb+6CMBmfEq+/4eC3wKZDPnPytVFslsaB+W+4tms7j1OlO84RGjzyckpndjd
+	l/tuiN4R2lvtzIiaMxhw+ytdCPkqSJM32mQkLl9EaGIsubRWGXn4bwwG/sB5nF/lcvi9
+	/BGy0sr2MaJDpyLsCQyWsIXCe7I2wXEkSCzVIbW88gaB4rjHZtHmFGppDvvCJpXKRrT5
+	Tbkg==
+X-Gm-Message-State: AHQUAuaKIDeoqVfIVmg2ibmrQxvPNrco+CBT5L4We/DbmXf0R6nKQfFx
+	e9e3qJGiIBMEARN9OKxt6NZWo0vxD+t3lAlI8LA=
+X-Google-Smtp-Source: AHgI3IarA2ycDnhlRnpVGgylW8cWYYG8wHcJMtT/W9f/N6Rzx2CQuJbHeWNUC4Dr6BzhJSrCkGf4U9nC8uL7f1jAoE4=
+X-Received: by 2002:ac8:300a:: with SMTP id f10mr4210503qte.236.1551318709661; 
+	Wed, 27 Feb 2019 17:51:49 -0800 (PST)
+MIME-Version: 1.0
 References: <20190207062526.33944-1-raj.khem@gmail.com>
 	<20190226031951.GT19169@denix.org>
-MIME-Version: 1.0
 In-Reply-To: <20190226031951.GT19169@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2019 17:51:23 -0800
+Message-ID: <CAMKF1sq82RVF-NmsXzizCL7Ac3+ecthZP6v-ss-UZemoyYHLCg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] openssl10: Fix mutliple include assumptions for bn.h in opensslconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,27 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2019 01:44:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Feb 2019 01:51:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping. Any comments here? Thanks!
-
-
-On Mon, Feb 25, 2019 at 10:19:51PM -0500, Denys Dmytriyenko wrote:
+On Mon, Feb 25, 2019 at 7:19 PM Denys Dmytriyenko <denis@denix.org> wrote:
+>
 > Khem, Richard,
-> 
-> Sorry for belated reply. I haven't had time for master yet, but since this 
+>
+> Sorry for belated reply. I haven't had time for master yet, but since this
 > just got backported to thud, I'm seeing a similar breakage.
-> 
-> First of all, BN_LLONG not being defined does seem to be "fixed" by this 
-> patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this 
+>
+> First of all, BN_LLONG not being defined does seem to be "fixed" by this
+> patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this
 > seems to be a new define in OpenSSL 1.1, and doesn't even exist in OpenSSL 1.0
 > Is it a pure luck that it works now? Any hidden meaning I missded?
-> 
+>
+
+We don't have to, but then we might have uefi to compile so thats why its
+there.
+
 > And it also breaks exactly the same for DES_LONG due to a similar construct:
-> 
-> 
+
+yeah the header nesting is a nightmare in openssl 1.0, it is a bit better
+in 1.1, a lot of these recursions are fixed. but backporting then completely
+to 1.0 is not an option, so we have to do tweaks that sustains the build.
+
+>
+>
 > #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
 > /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
 >  * %20 speed up (longs are 8 bytes, int's are 4). */
@@ -70,31 +89,31 @@ On Mon, Feb 25, 2019 at 10:19:51PM -0500, Denys Dmytriyenko wrote:
 > #define DES_LONG unsigned int
 > #endif
 > #endif
-> 
-> 
-> I was going to fix it similarly as BN_LLONG, but since I don't understand how 
-> it was supposed to be fixed, I'm not sure how to fix DES_LONG not being 
+>
+>
+> I was going to fix it similarly as BN_LLONG, but since I don't understand how
+> it was supposed to be fixed, I'm not sure how to fix DES_LONG not being
 > defined. Any ideas?
-> 
+>
 > Thanks.
-> 
-> -- 
+>
+> --
 > Denys
-> 
-> 
+>
+>
 > On Wed, Feb 06, 2019 at 10:25:26PM -0800, Khem Raj wrote:
 > > After adding #pragma once to wrapper header ( opensslconf.h ) this
 > > latent issue got to bite us, where it expect bn.h to be including
 > > openssl.h to define BN_* defines, which is fragile. This patch removes
 > > the contraints for nested includes for bn.h
-> > 
+> >
 > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > > ---
 > >  .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
 > >  .../openssl/openssl10_1.0.2q.bb               |  1 +
 > >  2 files changed, 34 insertions(+)
 > >  create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-> > 
+> >
 > > diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
 > > new file mode 100644
 > > index 0000000000..13d39c918c
@@ -125,13 +144,13 @@ On Mon, Feb 25, 2019 at 10:19:51PM -0500, Denys Dmytriyenko wrote:
 > > +@@ -56,7 +56,7 @@
 > > + #endif
 > > + #endif
-> > + 
+> > +
 > > +-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
 > > ++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
 > > + #define CONFIG_HEADER_BN_H
 > > + #undef BN_LLONG
-> > + 
-> > +-- 
+> > +
+> > +--
 > > +2.20.1
 > > +
 > > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
@@ -144,19 +163,14 @@ On Mon, Feb 25, 2019 at 10:19:51PM -0500, Denys Dmytriyenko wrote:
 > >             file://0001-allow-manpages-to-be-disabled.patch \
 > > +           file://0001-Fix-BN_LLONG-breakage.patch \
 > >             "
-> >  
+> >
 > >  SRC_URI_append_class-target = " \
-> > -- 
+> > --
 > > 2.20.1
-> > 
-> > -- 
+> >
+> > --
 > > _______________________________________________
 > > Openembedded-core mailing list
 > > Openembedded-core@lists.openembedded.org
 > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
