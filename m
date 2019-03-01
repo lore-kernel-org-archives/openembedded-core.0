@@ -1,56 +1,104 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DEF867CD23
+Return-Path: <Rasmus.Villemoes@prevas.se>
+X-Greylist: delayed 75514 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 02 Mar 2019 20:12:49 UTC
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr140110.outbound.protection.outlook.com [40.107.14.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 1131F7C799
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Mar 2019 19:28:42 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id g9so1078850eds.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Mar 2019 11:28:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=vD+ybPgqIHRGsXPhjA0Eb7vQRmBvshXmSnFEHf0Kuk8=;
-	b=Li/HiU5SdlmdXtRvhjPThuHjO6WQu+dXHc0ik9k7UPhi2gpYcR+4xbeR5K4BD0DiTL
-	7KvNpfBzEB2I5ezrRMWJw5JmZ6VBqB9yqvRvgLbuYK1obUJS/yycGqLxJZie1PkOci2X
-	AovWj0gGLqXfPYLyZrITZBrsvSNOo7pFSf+iw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=vD+ybPgqIHRGsXPhjA0Eb7vQRmBvshXmSnFEHf0Kuk8=;
-	b=W3TsDw0pSchl5PjLw/uNemuToUNImHnfZa8S42VGlzvM3Wqw/CUOKi0eF+HmoipaOF
-	fokhMNonrB08+GXFg+4Hb5nm8/+fO2Na3MspI+ZQMhyTP5KMUmgqHL9MrWIAt3pvCV3b
-	uKfdzI2aJRRZzvPSNChXKfyoWQ3Z4OujTA4GkcGXB4eOoXje651Q23lvFk8cFyxBmhpC
-	xnUEtdE5U9zce4mx7kYt+Hz/iWzXHbCMCieDfu64MRLnNrjwTHmgRMrUt6oY6aIRZt5M
-	Fsz+gLHLFQSXEAUUM37zJLEo3jO+0bZ5yQwJUcJvGPvfPq39BLpPHSB0GMt82iXDKRuo
-	RawA==
-X-Gm-Message-State: APjAAAVsWxrl8d7gR9ntC4cs5l+mprUFTkv6zyJ+CuNhmTW5+bA7Kd8T
-	Mey5JqkCwQwaGlYcfr2j4+WgWS+ToNA=
-X-Google-Smtp-Source: APXvYqwI+k/84vsnVWMP9EIqyHRGlzVVYkENMOMtPdwoukeVFBmm+gd4Jow6tsIfNxUHtcx6qC+GBA==
-X-Received: by 2002:a17:906:4bc8:: with SMTP id
-	x8mr4386455ejv.114.1551554923491; 
-	Sat, 02 Mar 2019 11:28:43 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
-	[2606:a000:1401:880d:118e:86c:e9fb:6784])
-	by smtp.gmail.com with ESMTPSA id d42sm581050ede.30.2019.03.02.11.28.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Mar 2019 11:28:41 -0800 (PST)
-Date: Sat, 2 Mar 2019 14:28:37 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190302192837.GJ5026@bill-the-cat>
-References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
-	<1551479212-28944-3-git-send-email-trini@konsulko.com>
-	<e44ab9ad197708fae61fefb6b235e62ae59f0dcb.camel@linuxfoundation.org>
-	<20190302174624.GH5026@bill-the-cat>
-	<ad024f8fb7f7fb2f8bb82a6e878d75a4325565ab.camel@linuxfoundation.org>
+	Sat,  2 Mar 2019 20:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.se; s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=LgK/TMCaoPYSB8CmCfJ2RhsT/Yvdh0xeWCW4e9nedR0=;
+	b=IARPC+smLss3OOVdleQpmu3uVcUYw373Io2LjnWGz1o/vltO4kk6ejnVHDVur032cWn57rN+fQN9zfzupPV1x9xnrRJ8XDnxK+jRB/VHo0yt45pTVYeZUcukbO/GGGYkFL2BF0SnelTGxjxdHiDXi/MOxyqX+004rRveTtdAuIk=
+Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM (20.178.126.212) by
+	VI1PR10MB0511.EURPRD10.PROD.OUTLOOK.COM (10.167.201.141) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1665.16; Fri, 1 Mar 2019 11:38:32 +0000
+Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::d49:d85b:58bf:cd5b]) by VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::d49:d85b:58bf:cd5b%6]) with mapi id 15.20.1643.022;
+	Fri, 1 Mar 2019 11:38:32 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] rng-tools: Fix crazy defaults
+Thread-Index: AQHUeAhwfGhs6ATqEkamnt2ibJzjwaX3VoOA
+Date: Fri, 1 Mar 2019 11:38:32 +0000
+Message-ID: <de6d5241-13a3-b433-a7b9-396fded4c29a@prevas.dk>
+References: <1541753661-9999-1-git-send-email-hongxu.jia@windriver.com>
+In-Reply-To: <1541753661-9999-1-git-send-email-hongxu.jia@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0701CA0089.eurprd07.prod.outlook.com
+	(2603:10a6:3:64::33) To VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:803:e3::20)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [81.216.59.226]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cb5b9756-6dbe-43a8-596d-08d69e3a6e83
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR10MB0511; 
+X-MS-TrafficTypeDiagnostic: VI1PR10MB0511:|VI1PR10MB0511:|VI1PR10MB0511:
+x-microsoft-antispam-prvs: <VI1PR10MB05111F641F55116315EE168C8A760@VI1PR10MB0511.EURPRD10.PROD.OUTLOOK.COM>
+x-forefront-prvs: 09634B1196
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(396003)(39850400004)(136003)(346002)(376002)(366004)(189003)(199004)(6436002)(6512007)(229853002)(6486002)(8936002)(106356001)(105586002)(2351001)(478600001)(5640700003)(72206003)(97736004)(2906002)(8976002)(3846002)(6116002)(68736007)(6916009)(53936002)(14454004)(19627235002)(4326008)(71190400001)(71200400001)(256004)(42882007)(44832011)(446003)(476003)(25786009)(31696002)(6246003)(186003)(11346002)(2616005)(8676002)(81156014)(81166006)(486006)(36756003)(74482002)(31686004)(316002)(2501003)(102836004)(6506007)(386003)(52116002)(76176011)(26005)(5660300002)(14444005)(305945005)(7736002)(66066001)(99286004);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR10MB0511;
+	H:VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: prevas.se does not designate
+	permitted sender hosts)
+x-microsoft-exchange-diagnostics: =?utf-8?B?MTtWSTFQUjEwTUIwNTExOzIzOmhzMkJKZ29MTHh3dk0relZ3bVJVaWI3aHNH?=
+	=?utf-8?B?NFVjQXV3c0JlRE1zbnc5Z29xNHRSancyZjhQRTJiZGZFaTg5USt5L1JXSUk2?=
+	=?utf-8?B?Z0xwaTR0eHhKYmJFM2FsQmNFbVlISkkvSnNDTkNjSkoxQmkzMzNnb1k3KzZu?=
+	=?utf-8?B?LzZMMUJaa3dYbVVvcGxZZHBSTGpUZmtJUWJrQ0hOdTdiM01KNTNOZU8yQW44?=
+	=?utf-8?B?UWc3TjM3ai9rdWEzeXNZRmNOTjd5SUdBNk1KTXZOQmd5b3RVNzVzQXlacWpn?=
+	=?utf-8?B?R0ZyLzc1akVSTVFPQmFqdG1kNTVwNmJWWi9XbUVacUVxTnpkaWsvUTNNWGdV?=
+	=?utf-8?B?d1BFajJiRk9WcEVYNzdvRjBZWUlaZ213RDhhdGVpNHoyWElKMkZZQVBxdjI1?=
+	=?utf-8?B?M1JnTUJiUWtzK1BQTHNoSTdrajY1ZDlBUGd3L2c5NllGZXczeVN5S25TRHpv?=
+	=?utf-8?B?UGcxMlNoV1F5Q0c1YVl5clBodnBQMTlMNjMxRnhudUJWOU9SZ1VBVW1qM1pa?=
+	=?utf-8?B?OEJmbnpKK3dXUDZHZmhhRDExc3ZqQTVjMDVmbGpPMk5BamdPeW0wREdwV2ww?=
+	=?utf-8?B?VjIwSWZPK0NML1cyN2lzc3VweE9ZbmdzNWRveDZpU3RDK2N2VEJhdW12NWZ1?=
+	=?utf-8?B?bmtkTzJuQ1pVR25yNllxa2NYVlZraFNFd1dNMUJBUEdtMFAyZDM0TkM5elpo?=
+	=?utf-8?B?d3l6d21FUVJtRmJTNzQ2dWRNVGJsQjFFREZpck5BWXdLRUE0M1JwK0pEM2lI?=
+	=?utf-8?B?WkVOTzlURmJlWGU2ODlLeHY0L1o2c3hwWXFXcDYxTmRmd3VlMWp2V1AwbWQ2?=
+	=?utf-8?B?NDRzMDg0VjZnRVFkZk5MY1pEaWw1cFArOCtpSnBDRER1aDFjaW1WLzBJWGVX?=
+	=?utf-8?B?bVRRWFhBVm4ra0k2S0xLTS9ZZ3ByQVRGVC9mdndrejFXU0tFaU5vUEo4d3pi?=
+	=?utf-8?B?aWkyYmtKVk5zWGlrZTAwcHpCZVZDOFJzWmpoVDB3bEhXUnUxMjlJQ2xRdXFC?=
+	=?utf-8?B?bWJxVGN1L3VKekJJK015eGsvVHk0OUhGWStydDlCam1HajA1ZWRDTmYyS25k?=
+	=?utf-8?B?cklDSThBNy81dDFuNU4wbUltOU0zMWZWc0JxQ2tTWXl3L2RvVkhXTHJxT0JK?=
+	=?utf-8?B?UXIzQXNaVmhlaU9tSS9tYWQ1dUZlVU1vTS9nZk1kSEdmRmE5WWVRSk9Held3?=
+	=?utf-8?B?bmp6R3A3aDZKanUxQUIrZzFSYTkvLzF5bWxlcWNRMDRJSGE4Um9nK3BSdkdk?=
+	=?utf-8?B?T3p5ZTZJeHI2WGJpUkFPSnNFTWRvN2gxZngrRmszZlkrb0JGUlprL2cxK2tT?=
+	=?utf-8?B?SE5mdnhaeVRXYi8rR2syMDBlemdkdlJwMFBUOHh0L1g0ZUh2aFZLUmxucDJa?=
+	=?utf-8?B?QnBRQVRqK3BOanU2eWtJdG52N0hCVmNCWEdwQTZsNEsxN0UzSXZXaHRjNU83?=
+	=?utf-8?B?TllCM3JjdEppRUVnVzZtUzNpS2FLTjlOcHFuRGhZNDdtY1BzNkNmQytiTGRy?=
+	=?utf-8?B?emc3VHgzWW9aTktNYVRsSnNlYWtnM2F5MktjVmFseTVQQXEvVytpNTZxQXhh?=
+	=?utf-8?B?bU8yQlFEUDJHc25jck4zakZKQVJnTCtSK3kvNTZZRXYxKzhIdkltYWhVeHhM?=
+	=?utf-8?B?VkpIVEhIWk9WUmJUL0kxaG9sOWVsdmxMbXhlRWdWallvVjV4U0Y1ZTNjVjlv?=
+	=?utf-8?B?NFJWdU5YclVjSC9mVjAxc1BoOHpIU2lLckFsaCtob3c1OG5UdHVaUERuVU9h?=
+	=?utf-8?B?SjFiNFc2ZXVVM2lnek5KNFRrTGMvOHVoMmhyd0xTQllUa1dwUk91WXVTMnRs?=
+	=?utf-8?B?VWlaNW5pUDdKZndNSUZ2K08vcG9PQXBKZ28rd244dkNWNE9NSDQ5V1BEZHAw?=
+	=?utf-8?B?VUFmbVpaOFhrSWc4dGlQSVBKNzNuZXZ6ZjFjSGg1UnJaUTVhV2E3VWhFOWVn?=
+	=?utf-8?B?a1phUnc4Mit3PT0=?=
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: gb8/EP2dH2vcdDylKIFjQ0QrOvqddPuVTIwq0AA/cpY20Vh/fAJKKaQ/HWxw6Bems811Iz9wJkYF8Xfru5/Moa2DSnW2yeWNHzuLwqGcyr4Q2S9ZeYvrNDshPz8DY4xz4Im3WG07gg07XHt0/U1Y5igQ0hn1eS+/31XSugJVUErvIdJ+98tE8Dcg9dwjfzY88yEPUN1FNqzJqketWdjq2zQT8xB13BgWjDkWJbkLb6Hegb3LUGSrUHeX/fxsRw5OItZmDZVhkPP6U+8hfVGP6Y1KA0t4OP8UzwMG4i878hLUgGYp5x5svi7y36k7vQoREYGCFnwy7qiFup7iW/pYGkKXhh9YfsRU1Cy1e/37DH/QNPWaAP6eFILUf8NT1l8x9O0kYSJBHdOsEh/TxY61IGvUuHFc3/3JqpquJsHbW40=
 MIME-Version: 1.0
-In-Reply-To: <ad024f8fb7f7fb2f8bb82a6e878d75a4325565ab.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] inetutils: Import version 1.9.4
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb5b9756-6dbe-43a8-596d-08d69e3a6e83
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2019 11:38:31.6235 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB0511
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR10MB0511;
+	23:YDJTFG0SPAO6t1yDxMBOJPa3hNdtyJDJ3ZCXHfK1KW7PxolgXGnuyKeWfhCfU6wp1iv3zqPYWm1N2LjLvh1pPAAYRhJIM9ani5D65N6ksvFkg01+4NNLGwbeuQOFXWcwrMPDQXE7uVQ+uE8aUxjqUw==
+X-OriginatorOrg: prevas.dk
+Subject: Re: [PATCH] rng-tools: Fix crazy defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,71 +111,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2019 19:28:43 -0000
-X-Groupsio-MsgNum: 121836
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VkqCAaSJIySsbD6j"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 02 Mar 2019 20:12:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D84A783F9D882D4E890A24B8C69A7D77@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 
---VkqCAaSJIySsbD6j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+T24gMDkvMTEvMjAxOCAwOS41NCwgSG9uZ3h1IEppYSB3cm90ZToNCj4gU2luY2UgY29tbWl0IFtm
+MWRjOWFjIHJuZy10b29sczogRml4IGNyYXp5IGRlZmF1bHRzXSBmaXhlZA0KPiBpbml0IGJhc2Vk
+IG9uIHN5c3Zpbml0LCB0aGlzIGZpeCBybmdkLnNlcnZpY2UgYmFzZWQgb24gc3lzdGVtZC4NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4N
+Cj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtc3VwcG9ydC9ybmctdG9vbHMvcm5nLXRvb2xzL3JuZ2Qu
+c2VydmljZSB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3JuZy10b29s
+cy9ybmctdG9vbHMvcm5nZC5zZXJ2aWNlIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcm5nLXRvb2xz
+L3JuZy10b29scy9ybmdkLnNlcnZpY2UNCj4gaW5kZXggY2I4MTAyNC4uZjAzNTVkYiAxMDA2NDQN
+Cj4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcm5nLXRvb2xzL3JuZy10b29scy9ybmdkLnNl
+cnZpY2UNCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcm5nLXRvb2xzL3JuZy10b29scy9y
+bmdkLnNlcnZpY2UNCj4gQEAgLTUsNyArNSw3IEBAIEFmdGVyPXN5c3RlbWQtdWRldi1zZXR0bGUu
+c2VydmljZQ0KPiAgQmVmb3JlPXN5c2luaXQudGFyZ2V0DQo+ICANCj4gIFtTZXJ2aWNlXQ0KPiAt
+RXhlY1N0YXJ0PUBTQklORElSQC9ybmdkIC1mIC1yIC9kZXYvdXJhbmRvbQ0KPiArRXhlY1N0YXJ0
+PUBTQklORElSQC9ybmdkIC1mIC1yIC9kZXYvaHdybmcNCj4gIFN1Y2Nlc3NFeGl0U3RhdHVzPTY2
+DQo+ICANCj4gIFtJbnN0YWxsXQ0KPiANCg0KVGhpcyBoYXMgYmVlbiBhcHBsaWVkIHRvIG1hc3Rl
+ciwgYnV0IHBsZWFzZSBhcHBseSB0aGlzIHRvIHRodWQgYXMgd2VsbCAtDQpmZWVkaW5nIHRoZSBr
+ZXJuZWwncyBlbnRyb3B5IHBvb2wgZnJvbSB0aGF0IHNhbWUgZW50cm9weSBwb29sIGlzIG9mDQpj
+b3Vyc2UgdXR0ZXIgbm9uc2Vuc2UsIGJ1dCBzaW5jZSBybmdkIGlzIGFsc28gX2NyZWRpdGluZyB0
+aG9zZSBieXRlcw0Kd2l0aCBwcm92aWRpbmcgcmVhbCBiaXRzIG9mIGVudHJvcHlfIChpb2N0bCBS
+TkRBRERFTlRST1BZKSBtYWtlcyBpdCBhDQpzZWN1cml0eSBpc3N1ZS4NCg0KUmFzbXVzDQo=
 
-On Sat, Mar 02, 2019 at 07:25:29PM +0000, Richard Purdie wrote:
-> On Sat, 2019-03-02 at 12:46 -0500, Tom Rini wrote:
-> > On Sat, Mar 02, 2019 at 05:00:18PM +0000, Richard Purdie wrote:
-> > > On Fri, 2019-03-01 at 17:26 -0500, Tom Rini wrote:
-> > > > In order to have more robust stand-alone network tools in oe-
-> > > > core,
-> > > > bring
-> > > > in vim from meta-openembedded/meta-networking.  This imports the
-> > > > recipes
-> > > > as of git commit:
-> > > > commit 408204073e6bdcd8ac586e05d5b75213417673f2
-> > > > Author: Martin Jansa <martin.jansa@gmail.com>
-> > > > Date:   Thu Aug 16 20:39:15 2018 +0000
-> > > >=20
-> > > >     inetutils: fix build with glibc-2.28
-> > > >=20
-> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > >=20
-> > > vim and inetutils will need entries in maintainers.inc else we'll
-> > > see
-> > > selftest failures.
-> >=20
-> > Ah, OK.  Does that generally involve more than ack'ing the automatic
-> > upgrades (that one gets CC'd on I assume) and answering questions?
->=20
-> That and helping out with upgrades when new versions appear even if the
-> AUH can't handle it.
-
-Yeah, I can handle that much still :)  I'll drop myself in for v2.  I'll
-wait until Monday to give anyone else a chance to chime in on anything
-else I might have missed.  Thanks!
-
---=20
-Tom
-
---VkqCAaSJIySsbD6j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcetllAAoJEIf59jXTHXZS4UAQAIZL2hs+0TiBoWmlz0UEIist
-d8y38N7N1rAWfhTb10a9PDBgMbkaWh5XqAVUW0Tpn5v5x2a3Cd+EDOJbyJDIhHey
-BuSCF+ZEGEA8DaLIPFQDwJsMRknJku3VfRKfmq+dLywUuVpPWJTtmTrt6TfXsj6D
-JEU37q6Kdt8AcH+H9b0FG00Qf5x9n6qBvD6dZUU2pfFG5pInGXcxWboRN34mIDao
-ZxThoEs73eTqr8g8Jn6/pGZXt7xlwM8aAM68yJtx/39rh6S2PCy1kZZa7SKKk2Mj
-UvNiGF3kee/qEUg4dGsv6xcpA5YwA+JMjNAFK7iT3fQsQTCuutrLngKCmtKsObR5
-NmzqknNEk1yp79pRtQyEa3vqlc45T6MQqlFG9HFxafclx/CrVxozhgM7GiItnCFd
-2+l4UzpGwaYGFj2nOexd2AwoJM+6p6wrGnrnyVNJe0/uXP5sldyNwxuhNOAdmzY4
-xR9Sw4yCleoF4BsEGk5fteco715rWOAV2G7fHjgOAFICrrRjqK099FdmtId/Csxk
-+y+5Nq57i0ja41IVKsv8DqghuV2SUMm0Fp2LJYR1jIC2NmQ3Az5mT1blTaGDcGlV
-7ae1BA0U8NfHPAH3i9OCy5j8f5uB+RJCYmfkWe5LY+ohR9orQ0vGMJLfbSnPzDT4
-DU+OWpq6TYVacFaw00r2
-=YD8y
------END PGP SIGNATURE-----
-
---VkqCAaSJIySsbD6j--
