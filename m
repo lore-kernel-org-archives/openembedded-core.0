@@ -1,47 +1,48 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 346527CDCD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 19:42:53 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id g80so21454715ljg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2019 11:42:54 -0800 (PST)
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by mail.openembedded.org (Postfix) with ESMTP id C52187CDCE;
+	Fri,  1 Mar 2019 19:43:08 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id r123so10481979lff.6;
+	Fri, 01 Mar 2019 11:43:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4Fwi+8IF8HD0lxoNHC3Pp8Qvec5sQOuxQgFZ0ItysR4=;
-	b=Vj0ebQ2tjafEPNHitsAJQoHz2w9U0kuzxqKjL3qoVEhVTav+EAD+2362oxbTWPNIGe
-	dOREFqGrG9FBlh7Jj64W35PDwfBoH8WpmOB6ThPvvb+fjFm5HzV7AkuI7ufKA9XDfPfI
-	jydkLspMIGK6Lo/YhHR5OH5mb2r5CvFUP7eL/E/Za+MhAVTZ4XxjHofvsPJllO02W7JQ
-	JyEJ8eEqd0bKulWiaD7kP23xw1tI9ccjVQ92dad4LkmPAC4ol4lkypJ8xCfNlwJGwW6J
-	5StDGBd8eWVzyxXMS6u4GyxR5GrTuLInB/p4yASbnRUKxRuH+23a2sQ2Wi1NfWw+4/5C
-	jbYA==
+	:cc; bh=QiVydUK0lexkvctSXAfDLI4gGQN7Lzt/XaQkJUo57aI=;
+	b=OMbEyu8ZPZz60I5VfRBnvzZDKb8nZNzq4Y35M3ZXQdgsf/iK0rvLN3Zh5ifV35srYo
+	oMvul7amE/bfxMlZRoK+WcNo9wfPXzjUwGCp4CauRivC40HDhijMf3FaK2a261yaAM0W
+	6SVyVXSElpg01QL2bTvBAPxPHJf144PhdpcO2cG5mXBjoJHFoaqizlQnIKxBAlNh3pbn
+	l33+InTvJmhVQT5LbLQ+VQHeMm1e9+IURZG8U+Y3nXRy9AJRoGcpUy1r17moICyUcJEQ
+	gH6ZHgHTAiWel/X/XpmdAWPDZA73BSm/Zh2bssmp2xbdXtspwvnGLAOt4t8zykJPwntr
+	XEcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=4Fwi+8IF8HD0lxoNHC3Pp8Qvec5sQOuxQgFZ0ItysR4=;
-	b=BY95g6JksJMArGwFdbf2/8oHP0umuF36AOStFOMFXistxAV7ZVLkUZc8Dadr6KIeTv
-	RC8ja+4cok1GSFvLKRKHV1Zie/3sm0BG4VI8BzumItsiZ4G8lrdRXG9IziFsY+QrveYR
-	XUmhCmCfaTKFCs2D5CbDaPDE+eJ31XW9oao45Q7eeAyLk2yQC3+J3N5t1qOA3iB0HDGk
-	3+fYIeBcJaentjBSbqZ+CdhGK1rl1s0ZMLRhXvwlMsqX+5ZNUl+Td5Hv/SS/UEEiqbLB
-	uuBuv3V65Mo1xNR6JnKQK0ZAAXpO2dcZZhnhn5avKCRisFlqqqVdh6DwrQnsZzf11jPe
-	BPAA==
-X-Gm-Message-State: APjAAAXA305uzDd475lJr6IMLGCgwcSwVkD6VOmJvotPYmgv6xtSb0KJ
-	Ko2M89XrZsR0gkE9PeZRgMQpI50pvHRV8ZiO5bg=
-X-Google-Smtp-Source: APXvYqwsUYfrMWSYFym+V9zafgM1tbHYqKCgVNnVvQGVmhLrogrCzzvLv+pvieA6hFS/eFllk0SaRqreFqAQTjy5mtI=
-X-Received: by 2002:a2e:3018:: with SMTP id w24mr3673591ljw.7.1551469373627;
-	Fri, 01 Mar 2019 11:42:53 -0800 (PST)
+	bh=QiVydUK0lexkvctSXAfDLI4gGQN7Lzt/XaQkJUo57aI=;
+	b=du+yo4PHqOyYjtUIaWc6+oOBuDG3edpA+CA8xDG41ZRRB9Xyes1aTGQy+C2+qXTPel
+	JxP7dMBY/05qpQpYH4Nc05ZC/NTY/79jAQzPyyOHOi+srVd39QrR2IU+Dxj1v7hxSc+e
+	fo+qLBjWpYq43qLFf7MoktrFq142aAprw39hxCjf2C9yogdugGqnpqlrtqoG3fkJqwnJ
+	k5Sq2ip48WQTr5mfNRud7LXKf7if6PAwMe02op2Q578mP3tloQC+b24OIU0Ea82UT+ja
+	hLsTyWUgvruq72mQK7G6O7lbQ1sxL5ZMxWz0LeyZg36SBQ2UwCZrj1AcVTZVYMO2UNaG
+	bysA==
+X-Gm-Message-State: APjAAAU0f87DaYvnhGB6jFq/6QEWtNopqz4oflqzKNhwUPz+D3nQUdTb
+	WiQbTjIpJF6oIwZKgpIg1ZpiHxVaQa8ZdV451aA=
+X-Google-Smtp-Source: APXvYqz4dxI+ijkNQL4hdHb6H+XjryeEzJgEdUezMGIFlt+5dUjnX0nnW4AJgopIfHROrk+nucwO86dEpdSJIwmhORY=
+X-Received: by 2002:ac2:4191:: with SMTP id z17mr3963629lfh.78.1551469389192; 
+	Fri, 01 Mar 2019 11:43:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20190301193156.25878-1-alistair.francis@wdc.com>
-In-Reply-To: <20190301193156.25878-1-alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 1 Mar 2019 11:41:54 -0800
-Message-ID: <CAKmqyKPKW_dm7NOU-wRJmy2krb1LzqTw1=T1df5phbGmHZ2VHA@mail.gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] license: Add the CMU-Tex license
+References: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
+	<CAFNP8OtVN5tjv3xV57q+kjiewtH24tdm3HCqHL+dMKayNcKaMg@mail.gmail.com>
+In-Reply-To: <CAFNP8OtVN5tjv3xV57q+kjiewtH24tdm3HCqHL+dMKayNcKaMg@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Fri, 1 Mar 2019 20:42:52 +0100
+Message-ID: <CAPybu_1WtS2o=E6rpZzJMvpW6RQzPFxy29XGno=ok7bsTpW6XQ@mail.gmail.com>
+To: Scott Rifenbark <srifenbark@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+Subject: Re: Information about non-traditional uses of the Yocto Project and OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 19:42:53 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 19:43:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Never mind, drop these. I will move this into the meta-multimedia layer.
+Hi
 
-Alistair
+We (qtec.com) use yocto/oe to build industrial vision systems.
 
-On Fri, Mar 1, 2019 at 11:32 AM Alistair Francis
-<Alistair.Francis@wdc.com> wrote:
+Today is running on Potato graders, Carrot Graders, Potato 3d cameras,
+Hyperspectral cameras, Beer analysers, Checkweighers, Screw Counters,
+Hockey streamers....
+
+Let me know if you think this is interesting and I can share more detailed info.
+
+
+On Wed, Feb 27, 2019 at 9:16 PM Scott Rifenbark <srifenbark@gmail.com> wrote:
 >
-> This is based on the license here:
-> https://github.com/MycroftAI/mimic/blob/development/COPYING#L840
+> Sounds like good potential for a section or chapter in the user docs.
 >
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta/files/common-licenses/CMU-Tex | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->  create mode 100644 meta/files/common-licenses/CMU-Tex
+> Scott
 >
-> diff --git a/meta/files/common-licenses/CMU-Tex b/meta/files/common-licenses/CMU-Tex
-> new file mode 100644
-> index 0000000000..f512228523
-> --- /dev/null
-> +++ b/meta/files/common-licenses/CMU-Tex
-> @@ -0,0 +1,20 @@
-> +Copyright (C) 2001-2014 Carnegie Mellon University
-> +
-> +Permission is granted to make and distribute verbatim copies of
-> +this manual provided the copyright notice and this permission notice
-> +are preserved on all copies.
-> +
-> +Permission is granted to process this file through TeX, or otherwise and
-> +print the results, provided the printed document carries copying
-> +permission notice identical to this one except for the removal of this
-> +paragraph (this paragraph not being relevant to the printed manual).
-> +
-> +Permission is granted to copy and distribute modified versions of this
-> +manual under the conditions for verbatim copying, provided that the entire
-> +resulting derived work is distributed under the terms of a permission
-> +notice identical to this one.
-> +
-> +Permission is granted to copy and distribute translations of this manual
-> +into another language, under the above conditions for modified versions,
-> +except that this permission notice may be stated in a translation approved
-> +by the authors.
+> On Wed, Feb 27, 2019 at 12:01 PM Philip Balister <philip@balister.org> wrote:
+>>
+>> During the last OpenEmbedded developer meeting, it became clear that
+>> people are using the Yocto project/OpenEmbedded in spaces outside what
+>> we think of as traditional embedded. Lieu Ta is working on a
+>> presentation for the Linux Foundation Leadership Summit and we would
+>> like to collect as many "unusual" applications are possible from
+>> companies we can publicly acknowledge. Unusual is edge, containers,
+>> desktop, etc. Or even really interesting embedded applications :)
+>>
+>> Please drop me an email (off list is fine) with enough info for us to
+>> add you to a slide and acknowledge your work.
+>>
+>> Thanks,
+>>
+>> Philip
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 > --
-> 2.20.1
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+Ricardo Ribalda
 
