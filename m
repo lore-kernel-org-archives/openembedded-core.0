@@ -1,47 +1,42 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
-	[209.85.167.182])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF5A7C69C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 11:28:16 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id q81so19205360oic.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2019 03:28:18 -0800 (PST)
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EFE57CD75;
+	Fri,  1 Mar 2019 11:28:27 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id d24so19792256ljc.12;
+	Fri, 01 Mar 2019 03:28:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AokwMfysyS3Jof0b4l5L/lCe0t6Iy/bOd6gUVmJvcKY=;
-	b=Lz1ETQhPXGyIr0NI9j1RegwpkBIZK2y/ga7Y/zQXqfs0AeiHW8eWhhlheQE4p7rxZD
-	hfhRR6noGCvX+r9VrzP+eq72oNM2OvYKQgqnxO7ta8vFb7JduplqmeDXqMlXSADWkRjB
-	1+2tSubLyqARh8Iu0Iq9SZxtAff7EWIkzpomt6ibYBRIlJKHPhJmmnYlj7gwXxjSK8s5
-	XEsSDJ5+ZylLy+E5SMIdz6gHlRP27fZcaM4gll2rSAYuKR1jM9QDGl8jPVgBKALtiphk
-	k4DLrmd+WBNBXx/UVsJLXpgmdNleP2lRtyGpzuxGA0J/2DG4XlTnS7kp+9yidrcChsNl
-	owlw==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=bINtz8B3hTHGRyIFAYJeQ62uRhP4nu4XVaCG9F5KXvE=;
+	b=oVga1XW8esVXipz09EqHEted7/1eG/QI13n4aXC614DLCozfnIw/31TcoldgBasNpB
+	wD2U6sl3xZYB1PHKjitjccq2UinP60xFJSalOx8R6nYwcRdeDMjLKOejy0sqtDb0/HDj
+	Zi7PmCUSCgEwiQUoslxozb1lcF4N4cIV0GH6a3ieyo+zNeQ/sPtoYXRXwB6p88SErLGt
+	ckoFi/fhDLfRhzaoo2gkFveL1HBYSgfDq2gY70gSOCV3vfhKUWq/uwKQoSb4DWZ0RY79
+	kahrpR4ixFfLH5DEiNwc7SF6LmAIHpgUD3aldGdWRiR19Uw/oFPs20n7ny579AlwM5oP
+	hXqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=AokwMfysyS3Jof0b4l5L/lCe0t6Iy/bOd6gUVmJvcKY=;
-	b=setuHmcNgSCplFkr3VvXns5sjUh/NrA8JFAv4tHxefzkcJ6+RcOWF5XxL8in8IGGF+
-	Cb05TZw69koyIv7pB5rLG/zWqPE5ebuVs/aHa+kWEgwb/WziGnl9B7zliMLlcOgDtSt5
-	iN6lCZ2yekkr94xD21cHjzw1qUNUv8n9jm8WtCXNIqRUfC8mt8nmVXg0IfKURc2iy0Z+
-	2ogBGUxNkpefg9rNUZP75GvRc11UcRZuYQKWcE9Rt8lFu11v0e7hgccW+z1yCtcHF9hJ
-	v7Tb8+Gb2BUYbQln/w/BCC63uL56lue5ujmp4huuKs+BVfWQjhY0VP9CYc+VwAXYOSmF
-	GI4g==
-X-Gm-Message-State: AHQUAubrvyjfSNYSRh87SV37ipJWL7qQDEfs69PfIt01OLnqyJwUhRzy
-	NAoAUwnqWUNyqEfBU5q7voTmIvDpp9NsZZ1CsMg=
-X-Google-Smtp-Source: AHgI3IZXy2S5E1RsmRV+hlYUZ2eqcqeKzbGXwz1tk3PfhNEk6ucX3bRQ25Z62P9zkPjJXUR9E0GbCchSG1uvW3D3o1Q=
-X-Received: by 2002:aca:da43:: with SMTP id r64mr2833211oig.119.1551439697790; 
-	Fri, 01 Mar 2019 03:28:17 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=bINtz8B3hTHGRyIFAYJeQ62uRhP4nu4XVaCG9F5KXvE=;
+	b=KH518/qrXrS6/5/DKIPdfi+6plHV6Yb0SKSWKi3xZ3tjhKH4iWaGrHT08HmIkkf4u/
+	bVxRF7xZqjB9vTxtERMrTZrDCLpy+seCaaQakUEkiVraMjdApOt2G9AM3+C4bRnTst5F
+	C2ag+Kp0TL4an6TTen1o03noyzET7G1QL21g6iWnmpT7EbWXvedIhxQv9sba2vlHVuGJ
+	u/YE/csMKmO5hKbEnTLqQVUYBDBwvUhx4yarhwhPLy9f4O9Tr8e+Mr2JBOCE326iD1pJ
+	l/Keh+nEne7UxMGuju9TCIR1mpL2XYyltbwZElKNAFYuw3XWms0K4aHilECFImG2ZCyn
+	dp1A==
+X-Gm-Message-State: APjAAAWEZFLM7vFsdjlYa9VtApWvZvoXCL1lpkJTpwYmz3CW6Rmo8zcl
+	pATNTkwaMw2wnAewsaPrFXNDofcqicwIOIqXyn1VexlW
+X-Google-Smtp-Source: APXvYqye47/YKo68znnxZcTBATFwB9UrXVPWAz63l4BC9HKFu8rpk2OyKT7bxMxWp4Dv85Ln4qInFSSPn5ooHgUe6QA=
+X-Received: by 2002:a2e:84ca:: with SMTP id
+	q10-v6mr2404958ljh.65.1551439707364; 
+	Fri, 01 Mar 2019 03:28:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20190301095410.2056-1-zangrc.fnst@cn.fujitsu.com>
-	<CAJTo0LamGLpZa2o==ZjnkwEK7zjFrT8HWb88xGsR1UmjzpqHSQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LamGLpZa2o==ZjnkwEK7zjFrT8HWb88xGsR1UmjzpqHSQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 Mar 2019 12:28:06 +0100
-Message-ID: <CANNYZj9gTYAqOcDnT412HB3XKEV60O01se=-JpN6NdGJgR-fZg@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] adwaita-icon-theme: upgrade 3.30.1 -> 3.31.91
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Fri, 1 Mar 2019 12:28:11 +0100
+Message-ID: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Daniel Gomez <daniel@qtec.com>, bitbake-devel@lists.openembedded.org
+Subject: Two recipes providing the same .so... How it should not be done :)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,71 +49,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 11:28:17 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 11:28:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-You can check what the latest version is for any recipe with
+Hello
 
-devtool latest-version <recipe>
+I have a build system that supports some aarch64 machines. For most of
+the them, the only difference is the kernel configuration, kernel
+version.
 
-This will take into account any version limitations etc.
+I am using multiconfig on my build server and the build goes really
+fast thanks to all the shared binaries/artifacts.
 
-Alex
+But I have a problem adding a new machine. This machine is also
+aarch64, with a special kernel (nothing new here), but in this case
+the vendor provides a binary .so for libgl that is required to get
+hardware acceleation.
+
+I could .bbappend mesa and on the installation part replace libgl with
+the new .so. But then everything that depends on mesa needs to be
+rebuilt for that machine and I could not use multiconfig.
+
+Instead I have created a new recipe: mesa-gl-replace.bb that has the
+file. This breakes completely the design of OE, but works.
+
+Some snipsets of the "magic" to make it work:
+
+#Force that the version is allways higher than the one from mesa:
+PE = "5"
+
+#Rprovide the same as mesa
+RPROVIDES_libgl-mesa += "libgl"
+
+#Do not overwrite pkgdata of mesa
+PACKAGEFUNCS_append = " rm_pkgdata_runtime"
+rm_pkgdata_runtime() {
+rm -rf ${WORKDIR}/pkgdata/runtime/*
+rm -rf ${WORKDIR}/pkgdata/shlibs2/*
+}
+
+#Keep this on machine
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+#Make sure we are not saved as providers for libgl
+PRIVATE_LIBS = "libGL.so.1"
+
+#Avoid sanity checks
+read_subpackage_metadata () {
+}
 
 
-On Fri, 1 Mar 2019 at 11:19, Burton, Ross <ross.burton@intel.com> wrote:
->
-> Again, this is a development release.
->
-> Pretty much everything from GNOME follows the even-stable
-> odd-development scheme for the minor version number.  These recipes
-> can be identified by inheriting upstream-version-is-even, so the
-> automatic upgrade tools won't try to upgrade to those development
-> releases.
->
-> Ross
->
-> On Fri, 1 Mar 2019 at 09:54, Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
-> >
-> > upgrade from adwaita-icon-theme_3.30.1.bb to adwaita-icon-theme_3.31.91.bb
-> >
-> > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> > ---
-> >  ...ita-icon-theme_3.30.1.bb => adwaita-icon-theme_3.31.91.bb} | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.30.1.bb => adwaita-icon-theme_3.31.91.bb} (93%)
-> >
-> > diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.31.91.bb
-> > similarity index 93%
-> > rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.1.bb
-> > rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.31.91.bb
-> > index 3e9420ed9a..6c78cea4a5 100644
-> > --- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.30.1.bb
-> > +++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.31.91.bb
-> > @@ -15,8 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-> >             file://0001-Run-installation-commands-as-shell-jobs.patch \
-> >             "
-> >
-> > -SRC_URI[md5sum] = "db3fd812821d72fdd9a3c7d622a95b35"
-> > -SRC_URI[sha256sum] = "6d752a2b1bc668483956d4485c39cad1642d9358e133ff689526e43674a4e1ce"
-> > +SRC_URI[md5sum] = "e5bc34fabe11fe6680afc0c4676d3bf9"
-> > +SRC_URI[sha256sum] = "9541d2505e19f99e86e98f25ffd6786089f4505f7811b7c6c314b05dc26b7d6b"
-> >
-> >  do_install_append() {
-> >         # Build uses gtk-encode-symbolic-svg to create png versions:
-> > --
-> > 2.20.1
-> >
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+If your eyes have not fallen as this point, this means you have a lot
+of tolerance for crappy code, congrats :)
+
+Now the question. Is there a better way to do this?
+
+PS: I already tried and failed with update_alternatives
+
+
+Best regards!
+
+
+-- 
+Ricardo Ribalda
 
