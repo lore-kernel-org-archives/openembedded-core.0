@@ -1,52 +1,54 @@
 Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CE8E7CD3E
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 190767CD86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 16:36:44 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id l5so26559439wrw.6
+	Fri,  1 Mar 2019 16:37:10 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w6so23310738wrs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2019 08:36:46 -0800 (PST)
+	Fri, 01 Mar 2019 08:37:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=0lOXgxTqBtYacGEIoiFNPNZqCJz+Wf5gLUb3y6JHic4=;
-	b=uP1Rk6IyjREh9Ug/cJhdEcfBmHiQQ6VL391G0kFYQoFttF0DLUVnmfI7JBx2nSxKWS
-	xgiQf868WQ5shUKOIYLujNIlCfx0wB261YwaQixTIKMKDKCEDwLVh5EW5jo/xioGkHH1
-	oXfAgxAhAy9WOmVLUZ4sNV7E7FswEEJxkadKO2+lTJ/ZwvRlg7OhpJ1+kxtNg2lpQ0Z8
-	kYsoQULCsVkspkKS9YNQekp3Cy93aB1EdrI0NGBe2GsCD7K8BqPwD61ldsaLOrqTFzuO
-	talG7NX5ivYvNdDHPUZ/ACZMD83JeNjq/OxKJrlO5K4RBa3gNXLRjTTjExXC81ny6jb9
-	b/wQ==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version;
+	bh=jWyzQRFQxMW4wXge1sBwMDhyzpiuxO/8wTrrK1cfLSc=;
+	b=EqViOhuSY5bQgHN+DnofLsD7QOWf86xWb4rbYG4h2Ce71C/HLMATib8pBAnAEi4Msj
+	0CHoVBLQQcxCevV00nUILZrR3Mci/TVTGlWnadXTMCbx6Q27+cnPOGmWbe9GaeV9+I/a
+	VsmO44MCJDyIKfQ6hcFAsoRnXZHgq6gg5/QTVhXDLjcBYUD3d1w2LVWwQlyO6YombnJ/
+	Tyeu8rpjt/vWbX4yGkpt+rQdoPOPLmetyEsJaByoVNUa0rpKFkEkhac/fBnKw0ktHPfK
+	KItFoe+HFpnAqgDrizaYJNzStzwrP95XHGserOwaDA/kcWb1C4HtgrXAfMBsePrjC4PN
+	ePoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=0lOXgxTqBtYacGEIoiFNPNZqCJz+Wf5gLUb3y6JHic4=;
-	b=eMiasMJ/bMtrzb3sbcILkI6K361Ns4SN7ixF2MYh6RHmFNxijrsra7Fi2GiRPXvSVX
-	P0DEogyNoH3j4RpHzUJpJM2oUqu0A2xqMN//sSlo9tq/OUsjRjOH75rxV92JnKtM8op/
-	4kMZDJwsUhVmsKJtcvFBFD9p3raPHUcIxYM1jVYgy+i0Mgd5AWLfOuFz1GpRxjshleN4
-	RUagtX0L/C9bplEm5SdZY7l2IknQRGMT0tfETVgWmaEMTnsc8zYMSkUagc67aYEBqRRt
-	i3L9MOTRvdkU6C9GJw6mHFSc6J2skqFRg9p5ia0OHEozgmq1SOjHpVVL40YDxrQjKyHT
-	oOEA==
-X-Gm-Message-State: APjAAAWQiqcpKm2Z4zAItKxXz1WluQnUNYV2mXx13/ZgIQ/IEQ/yE5d6
-	NIlxghG9MHUITTBTc+Oxqp2Eaa3zEOE=
-X-Google-Smtp-Source: APXvYqz8J+2kNdTgBaBuymnOtxAOny4Rc/KIjIfaR4RGGuN3XobiEmq8DQf4eFvDuqikZWX8wfqLIw==
-X-Received: by 2002:adf:ffcd:: with SMTP id x13mr3957792wrs.20.1551458204766; 
-	Fri, 01 Mar 2019 08:36:44 -0800 (PST)
-Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version;
+	bh=jWyzQRFQxMW4wXge1sBwMDhyzpiuxO/8wTrrK1cfLSc=;
+	b=AFRi0+1Mx5BJh5yu9P/s4oaHkc3H4H+hWI+7Xl3JJyuq6T+t+FC6S0lZw7zsbrRAxo
+	blhECH5hVSAwymhPmXo0iZDdTJKBFT9q7gY0WkcQ4ahh4A54RdcOw6fhbvAyfLI0N4g8
+	c2DFiQKEB0Fh1CpY4tGhVsB1fOco3QEmbc0p8nlr6yYKukeN/E5nRDkT0WoJ6t+ncXG+
+	tOZd17DRgPqa8Er+CYs7klruxKBwSKYxClRVMWS+/RjOmDIA1QhtBulkeCTpxjRA/XVp
+	MetNirF7Tmmq34KJxhng4vS47C6H4P1BunZ5z0CsZu+yzQQTAKjUO1JSFPPo2HcuL+XU
+	EIhA==
+X-Gm-Message-State: APjAAAVI4j0qh9PtbO2A47ksbWqbZdDXZxNkDtq3lW0VMIyajR2Ww7ZI
+	0F3xWZqe3Nnh/rWdlZUm36U=
+X-Google-Smtp-Source: APXvYqw8+oq8BALi6HW3VFKTNpWxgb6LfvlA+JvMQB8ocEWs2CDEm0MXSvDw9WGxwcej2PKeqLukoQ==
+X-Received: by 2002:a5d:5386:: with SMTP id d6mr1041403wrv.104.1551458231577; 
+	Fri, 01 Mar 2019 08:37:11 -0800 (PST)
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
 	by smtp.gmail.com with ESMTPSA id
-	t14sm23187736wrr.49.2019.03.01.08.36.43
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 01 Mar 2019 08:36:44 -0800 (PST)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Mar 2019 16:36:39 +0000
-Message-Id: <20190301163639.26436-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190228142745.23630-1-luca.boccassi@gmail.com>
+	b10sm18741300wru.92.2019.03.01.08.37.10
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 01 Mar 2019 08:37:10 -0800 (PST)
+Message-ID: <ebbb814734a6bcefdf24be10c8ffc108fd6c3f65.camel@gmail.com>
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 01 Mar 2019 16:37:09 +0000
+In-Reply-To: <CAJTo0La+VEpKorv4BDBuBxyqsgBk=Ym2Z9M6-OR9d0+u7p93UQ@mail.gmail.com>
 References: <20190228142745.23630-1-luca.boccassi@gmail.com>
+	<CAJTo0La+VEpKorv4BDBuBxyqsgBk=Ym2Z9M6-OR9d0+u7p93UQ@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-Subject: [PATCH v2] swig: fix build with musl
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] swig: fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,226 +61,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 16:36:45 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 01 Mar 2019 16:37:11 -0000
+X-Groupsio-MsgNum: 121800
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-vsu5HsawS7VIXRm7IoGg"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--=-vsu5HsawS7VIXRm7IoGg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Building with musl currently fails. The fix has been committed
-upstream, so backport it.
-Note that it requires the recent change to use autoconf's do_configure
-as it modifies a bison file which is used at make-dist time, so it
-triggers an autoconf rerun which was not working previously due to the
-custom do_configure step that was removed recently by:
-a9b1f9eca963 ("swig: Fix configure failure")
+On Fri, 2019-03-01 at 13:43 +0000, Burton, Ross wrote:
+> On Thu, 28 Feb 2019 at 14:28, <luca.boccassi@gmail.com> wrote:
+> > +Origin:=20
+> > https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a8=
+9b7f6
+> > +Applied-Upstream: yes
+>=20
+> This should be:
+>=20
+> Upstream-Status: Backport
+> [
+> https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b=
+7f6
+> ]
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+>=20
+> Can you update the patch and repost?
+>=20
+> Ross
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v2: fixed upstream metadata format in patch header
+Certainly, sent v2, thanks for reviewing.
 
- ...de-for-constant-expressions-containi.patch | 179 ++++++++++++++++++
- meta/recipes-devtools/swig/swig_3.0.12.bb     |   1 +
- 2 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
+--=20
+Kind regards,
+Luca Boccassi
 
-diff --git a/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
-new file mode 100644
-index 0000000000..f4ed782a82
---- /dev/null
-+++ b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
-@@ -0,0 +1,179 @@
-+From 90ba174fcea1618af57aa594199541d47a89b7f6 Mon Sep 17 00:00:00 2001
-+From: William S Fulton <wsf@fultondesigns.co.uk>
-+Date: Sun, 17 Sep 2017 19:02:55 +0100
-+Subject: [PATCH 1/2] Fix generated code for constant expressions containing
-+ wchar_t L literals.
-+
-+Such as:
-+  # define __WCHAR_MAX    (0x7fffffff + L'\0')
-+
-+Reported on swig-user mailing list.
-+---
-+ CHANGES.current                                         | 5 +++++
-+ Examples/test-suite/csharp/preproc_constants_c_runme.cs | 3 ++-
-+ Examples/test-suite/csharp/preproc_constants_runme.cs   | 2 ++
-+ Examples/test-suite/d/preproc_constants_c_runme.1.d     | 2 ++
-+ Examples/test-suite/d/preproc_constants_c_runme.2.d     | 2 ++
-+ Examples/test-suite/d/preproc_constants_runme.1.d       | 2 ++
-+ Examples/test-suite/d/preproc_constants_runme.2.d       | 2 ++
-+ Examples/test-suite/php/preproc_constants_c_runme.php   | 2 ++
-+ Examples/test-suite/php/preproc_constants_runme.php     | 2 ++
-+ Examples/test-suite/php5/preproc_constants_c_runme.php  | 2 ++
-+ Examples/test-suite/php5/preproc_constants_runme.php    | 2 ++
-+ Examples/test-suite/preproc_constants.i                 | 3 +++
-+ Source/CParse/parser.y                                  | 2 +-
-+ 13 files changed, 29 insertions(+), 2 deletions(-)
-+
-+Upstream-Status: Backport
-+[https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b7f6]
-+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-+
-+diff --git a/Examples/test-suite/csharp/preproc_constants_c_runme.cs b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
-+index 76c684d..1c28e49 100644
-+--- a/Examples/test-suite/csharp/preproc_constants_c_runme.cs
-++++ b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
-+@@ -61,7 +61,8 @@ public class runme {
-+     assert( typeof(int) == preproc_constants_c.EXPR_LAND.GetType() );
-+     assert( typeof(int) == preproc_constants_c.EXPR_LOR.GetType() );
-+     assert( typeof(double) == preproc_constants_c.EXPR_CONDITIONAL.GetType() );
-+-
-++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MAX.GetType() );
-++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MIN.GetType() );
-+   }
-+   static void assert(bool assertion) {
-+     if (!assertion)
-+diff --git a/Examples/test-suite/csharp/preproc_constants_runme.cs b/Examples/test-suite/csharp/preproc_constants_runme.cs
-+index 9fae591..6b02e30 100644
-+--- a/Examples/test-suite/csharp/preproc_constants_runme.cs
-++++ b/Examples/test-suite/csharp/preproc_constants_runme.cs
-+@@ -60,6 +60,8 @@ public class runme {
-+     assert( typeof(bool) == preproc_constants.EXPR_LAND.GetType() );
-+     assert( typeof(bool) == preproc_constants.EXPR_LOR.GetType() );
-+     assert( typeof(double) == preproc_constants.EXPR_CONDITIONAL.GetType() );
-++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MAX.GetType() );
-++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MIN.GetType() );
-+ 
-+   }
-+   static void assert(bool assertion) {
-+diff --git a/Examples/test-suite/d/preproc_constants_c_runme.1.d b/Examples/test-suite/d/preproc_constants_c_runme.1.d
-+index d846c71..2b349af 100644
-+--- a/Examples/test-suite/d/preproc_constants_c_runme.1.d
-++++ b/Examples/test-suite/d/preproc_constants_c_runme.1.d
-+@@ -61,4 +61,6 @@ void main() {
-+   static assert(is(int == typeof(EXPR_LAND())));
-+   static assert(is(int == typeof(EXPR_LOR())));
-+   static assert(is(double == typeof(EXPR_CONDITIONAL())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
-+ }
-+diff --git a/Examples/test-suite/d/preproc_constants_c_runme.2.d b/Examples/test-suite/d/preproc_constants_c_runme.2.d
-+index 9bdbb93..1bac525 100644
-+--- a/Examples/test-suite/d/preproc_constants_c_runme.2.d
-++++ b/Examples/test-suite/d/preproc_constants_c_runme.2.d
-+@@ -61,4 +61,6 @@ void main() {
-+   static assert(is(int == typeof(EXPR_LAND())));
-+   static assert(is(int == typeof(EXPR_LOR())));
-+   static assert(is(double == typeof(EXPR_CONDITIONAL())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
-+ }
-+diff --git a/Examples/test-suite/d/preproc_constants_runme.1.d b/Examples/test-suite/d/preproc_constants_runme.1.d
-+index 009405f..f743f48 100644
-+--- a/Examples/test-suite/d/preproc_constants_runme.1.d
-++++ b/Examples/test-suite/d/preproc_constants_runme.1.d
-+@@ -60,4 +60,6 @@ void main() {
-+   static assert(is(bool == typeof(EXPR_LAND())));
-+   static assert(is(bool == typeof(EXPR_LOR())));
-+   static assert(is(double == typeof(EXPR_CONDITIONAL())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
-+ }
-+diff --git a/Examples/test-suite/d/preproc_constants_runme.2.d b/Examples/test-suite/d/preproc_constants_runme.2.d
-+index 2d92ef0..0d96c37 100644
-+--- a/Examples/test-suite/d/preproc_constants_runme.2.d
-++++ b/Examples/test-suite/d/preproc_constants_runme.2.d
-+@@ -60,4 +60,6 @@ void main() {
-+   static assert(is(bool == typeof(EXPR_LAND())));
-+   static assert(is(bool == typeof(EXPR_LOR())));
-+   static assert(is(double == typeof(EXPR_CONDITIONAL())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
-++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
-+ }
-+diff --git a/Examples/test-suite/php/preproc_constants_c_runme.php b/Examples/test-suite/php/preproc_constants_c_runme.php
-+index af9b76e..e59fe18 100644
-+--- a/Examples/test-suite/php/preproc_constants_c_runme.php
-++++ b/Examples/test-suite/php/preproc_constants_c_runme.php
-+@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
-+ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
-+ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
-+ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
-++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
-++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
-+ 
-+ ?>
-+diff --git a/Examples/test-suite/php/preproc_constants_runme.php b/Examples/test-suite/php/preproc_constants_runme.php
-+index 5c9119b..8e117ea 100644
-+--- a/Examples/test-suite/php/preproc_constants_runme.php
-++++ b/Examples/test-suite/php/preproc_constants_runme.php
-+@@ -61,5 +61,7 @@ check::equal(gettype(preproc_constants::EXPR_OR), "integer", "preproc_constants.
-+ check::equal(gettype(preproc_constants::EXPR_LAND), "boolean", "preproc_constants.EXPR_LAND has unexpected type");
-+ check::equal(gettype(preproc_constants::EXPR_LOR), "boolean", "preproc_constants.EXPR_LOR has unexpected type");
-+ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
-++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
-++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
-+ 
-+ ?>
-+diff --git a/Examples/test-suite/php5/preproc_constants_c_runme.php b/Examples/test-suite/php5/preproc_constants_c_runme.php
-+index 1ea0195..d978fab 100644
-+--- a/Examples/test-suite/php5/preproc_constants_c_runme.php
-++++ b/Examples/test-suite/php5/preproc_constants_c_runme.php
-+@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
-+ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
-+ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
-+ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
-++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
-++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
-+ 
-+ ?>
-+diff --git a/Examples/test-suite/php5/preproc_constants_runme.php b/Examples/test-suite/php5/preproc_constants_runme.php
-+index fb9ee4f..7527026 100644
-+--- a/Examples/test-suite/php5/preproc_constants_runme.php
-++++ b/Examples/test-suite/php5/preproc_constants_runme.php
-+@@ -70,5 +70,7 @@ check::equal(gettype(preproc_constants::EXPR_LAND), "integer", "preproc_constant
-+ check::equal(gettype(preproc_constants::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
-+ 
-+ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
-++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
-++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
-+ 
-+ ?>
-+diff --git a/Examples/test-suite/preproc_constants.i b/Examples/test-suite/preproc_constants.i
-+index 3a999ad..16b44c9 100644
-+--- a/Examples/test-suite/preproc_constants.i
-++++ b/Examples/test-suite/preproc_constants.i
-+@@ -87,6 +87,9 @@
-+ #define EXPR_LOR         0xFF || 1
-+ #define EXPR_CONDITIONAL true ? 2 : 2.2
-+ 
-++#define EXPR_WCHAR_MAX   (0x7fffffff + L'\0')
-++#define EXPR_WCHAR_MIN   (-EXPR_WCHAR_MAX - 1)
-++
-+ #define EXPR_CHAR_COMPOUND_ADD 'A' + 12
-+ #define EXPR_CHAR_COMPOUND_LSHIFT 'B' << 6
-+ #define H_SUPPRESS_SCALING_MAGIC (('s'<<24) | ('u'<<16) | ('p'<<8) | 'p')
-+diff --git a/Source/CParse/parser.y b/Source/CParse/parser.y
-+index 2e92cd0..273dadb 100644
-+--- a/Source/CParse/parser.y
-++++ b/Source/CParse/parser.y
-+@@ -194,7 +194,7 @@ int SWIG_cparse_template_reduce(int treduce) {
-+  * ----------------------------------------------------------------------------- */
-+ 
-+ static int promote_type(int t) {
-+-  if (t <= T_UCHAR || t == T_CHAR) return T_INT;
-++  if (t <= T_UCHAR || t == T_CHAR || t == T_WCHAR) return T_INT;
-+   return t;
-+ }
-+ 
-+-- 
-+2.9.5
-+
-diff --git a/meta/recipes-devtools/swig/swig_3.0.12.bb b/meta/recipes-devtools/swig/swig_3.0.12.bb
-index fe9d0747f2..45026c9700 100644
---- a/meta/recipes-devtools/swig/swig_3.0.12.bb
-+++ b/meta/recipes-devtools/swig/swig_3.0.12.bb
-@@ -5,6 +5,7 @@ SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.pat
-             file://0001-Add-Node-7.x-aka-V8-5.2-support.patch \
-             file://swig-3.0.12-Coverity-fix-issue-reported-for-SWIG_Python_FixMetho.patch \
-             file://Python-Fix-new-GCC8-warnings-in-generated-code.patch \
-+            file://0001-Fix-generated-code-for-constant-expressions-containi.patch \
-            "
- SRC_URI[md5sum] = "82133dfa7bba75ff9ad98a7046be687c"
- SRC_URI[sha256sum] = "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
--- 
-2.20.1
+--=-vsu5HsawS7VIXRm7IoGg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAlx5X7UACgkQSylmgFB4
+UWJYawf/X3bo9QeDjsk0o18dNYLp5xQQCZ8Zef8Lw0HKgxELv5p0czVUeUWs5no5
+JP4lImi9XYI7h6nIuNS/u2iEwvjpvhpqn9diiBDJxHJ7jPKGaDzHa3/wDVhQQ+/H
+RtEkj0lYfOq9QWLq90T2fKY4OLbWOelNU0WaAnS7GcBxEi9tmrzSnwohZL404G/U
+xI6BqkTdZgUsQdgvg9VoSMknC3TvfSfViFvdMG1CcW/1Q3AdMWjSTBdURzEKIFj9
+teiIiJ8xVQE0xpSdEDL5BCZW4ialtjm3xmZi8TPBzGBOp9Lrpm578YJh8K2lgHRm
+DEy4pjvlm3zAgpLSwW75B/+DCfdwVQ==
+=xxGt
+-----END PGP SIGNATURE-----
+
+--=-vsu5HsawS7VIXRm7IoGg--
