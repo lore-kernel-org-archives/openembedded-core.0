@@ -1,54 +1,23 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C2E0A7CD37
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C45507C929
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 05:34:33 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id f186so9528173ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 21:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=FomxVYnJI+dMCUWWJYObd5/NbgbjMsiln3Vti31a5Bg=;
-	b=KsYP3Qe68eatvoNLaVMH1Cx9A9iT+hN81D+iBJ2I1A+T/k6f78Cg3X8eCKP6lxoAmR
-	IWSkvPdUf20lagViMpcLOT8DAOZOzAmL6+K9CvcUEsQMq2JgOrY0Qk5yUGT9XlerwHpU
-	a4t5X8NgZNBb5W9tHNuZv6oxP1l7nN4j9oivah3PX+1XRaQPjRonnRcYuqQIOSI6lqNO
-	V+2uJ/KLZB5sr/QX2u4wfqYIx3AGyL34/bwZEQ7pEifyRgePnU2OmTgjN0AvkNI5C7ff
-	/2swentKcjFib3R2u2QNe0HvcnkFCu2++TMWobzviDB59aEfaq30pBiTP6/KfycG0wZB
-	AzgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=FomxVYnJI+dMCUWWJYObd5/NbgbjMsiln3Vti31a5Bg=;
-	b=cVZ9riHvoixRVFfyiXclxXQ60fw8tbPm2z5qenGa0UuO5s7/VsYlaMNZmRhrdPQ6I1
-	rRjGzYx0yUO8htB7sXfV3IOAiC1CxVg5vL7kd0PViIXYvxxWe0zGC/NYcwMzyZM6JaS5
-	h6Y1PIeMC1Ih1dIcfMZUdeo7dLBZ+Xkz0DTEESd3odGSn0oyGpi5ePpECm7QzMWbWCFR
-	WP0sfvB13tkHo4f7xhZBh2mPJWvd3clwRTep4D0KrFFlCoqXwqodzOP19LP2M+SevmMp
-	75yrChiMQ98H7LrW5BGpsdkBcpBrCwh4KxSlNaqRrmGHciu03x8LlihVh/xitCyCj6yG
-	qyNw==
-X-Gm-Message-State: APjAAAXrqqrk5zUYin+bsQh4uqYZORQvVmyH5DxzEv1BYhfkqpkRUDa1
-	mQnkcQzwS6Cxk+BH4p8hBqw=
-X-Google-Smtp-Source: APXvYqx+bov1RJuhI/MkO/nT1aT2DjfHDKTiIsR2D/UnqUCjzosPALtj4lMwI29cmGLWxaDL2gHTPw==
-X-Received: by 2002:a24:7c0b:: with SMTP id a11mr2154360itd.161.1551418474823; 
-	Thu, 28 Feb 2019 21:34:34 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195])
-	by smtp.gmail.com with ESMTPSA id k77sm3935110itb.7.2019.02.28.21.34.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Feb 2019 21:34:34 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  1 Mar 2019 00:34:26 -0500
-Message-Id: <397b5a26c0f620f4ccd3d1e610175cac0788d2de.1551418113.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1551418113.git.bruce.ashfield@gmail.com>
-References: <cover.1551418113.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] kernel: add objtool to shared workdir when CONFIG_UNWINDER_ORC is set
+	Fri,  1 Mar 2019 05:53:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2019 21:53:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,426,1544515200"; d="scan'208";a="121734963"
+Received: from optimus-prime.png.intel.com ([172.30.199.130])
+	by orsmga008.jf.intel.com with ESMTP; 28 Feb 2019 21:53:28 -0800
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Mar 2019 13:53:09 +0800
+Message-Id: <20190301055309.33755-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] parselogs.py: ignore regulatory.db load failure messages for x86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 05:34:34 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 01 Mar 2019 05:53:28 -0000
 
-From: Justin Bronder <jsbronder@cold-front.org>
+[YOCTO #13098]
 
-Based on: https://patchwork.openembedded.org/patch/148047/
-
-When x86_64 enables CONFIG_UNWINDER_ORC [ORC (Oops Rewind Capability)
-unwinder for unwinding kernel stack traces], objtool is required to
-generate the required information.
-
-If we don't copy objtool to the shared workdir, out-of-tree modules
-cannot generate object files.
-
-For instance, meta-skeleton/hello-mod fails with:
-    | make[3]: *** No rule to make target 'tools/objtool/objtool', needed by ...
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- meta/classes/kernel.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a5b1df1b0d..9da9818962 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -487,6 +487,15 @@ do_shared_workdir () {
- 		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
- 		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
- 	fi
-+
-+	if (grep -q -i -e '^CONFIG_UNWINDER_ORC=y$' $kerneldir/.config); then
-+		# With CONFIG_UNWINDER_ORC (the default in 4.14), objtool is required for
-+		# out-of-tree modules to be able to generate object files.
-+		if [ -x tools/objtool/objtool ]; then
-+			mkdir -p ${kerneldir}/tools/objtool
-+			cp tools/objtool/objtool ${kerneldir}/tools/objtool/
-+		fi
-+	fi
- }
- 
- # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index e3465ea71e..d2f0f70dcf 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -136,6 +136,8 @@ ignore_errors = {
+         '(EE) AIGLX: reverting to software rendering',
+         'dmi: Firmware registration failed.',
+         'ioremap error for 0x78',
++        'Direct firmware load for regulatory.db',
++        'failed to load regulatory.db',
+         ] + x86_common,
+     'intel-corei7-64' : [
+         'can\'t set Max Payload Size to 256',
+@@ -151,6 +153,8 @@ ignore_errors = {
+         'ttyS2 - failed to request DMA',
+         'Bluetooth: hci0: Failed to send firmware data (-38)',
+         'atkbd serio0: Failed to enable keyboard on isa0060/serio0',
++        'Direct firmware load for regulatory.db',
++        'failed to load regulatory.db',
+         ] + x86_common,
+     'genericx86' : x86_common,
+     'genericx86-64' : [
+@@ -160,6 +164,8 @@ ignore_errors = {
+         'Failed to initialize GuC',
+         'Failed to load DMC firmware',
+         'The driver is built-in, so to load the firmware you need to',
++        'Direct firmware load for regulatory.db',
++        'failed to load regulatory.db',
+         ] + x86_common,
+     'edgerouter' : [
+         'not creating \'/sys/firmware/fdt\'',
 -- 
-2.19.1
+2.17.0
 
 
