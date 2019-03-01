@@ -1,33 +1,47 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A677CD9B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A9BA7CD59
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 17:35:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id BBBEC40B37;
-	Fri,  1 Mar 2019 17:35:19 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id q2nq_08DTi4A; Fri,  1 Mar 2019 17:35:19 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
-	[100.15.91.218])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 92F2940A55;
-	Fri,  1 Mar 2019 17:35:17 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 5170516BA97; Fri,  1 Mar 2019 12:35:17 -0500 (EST)
-Date: Fri, 1 Mar 2019 12:35:17 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190301173517.GY19169@denix.org>
+	Fri,  1 Mar 2019 17:40:25 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id v10so28690540qtp.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2019 09:40:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=sqnUIYKI7YDBiQAv2KXAtznkR3uKfHQ22A5YH8RIVvA=;
+	b=JeXXEcV1c9nU6N1hPehyAhleo5CFgI6ZMdBfo3YbPYGkmvtA1SKbbaB4XkG1g/iEFd
+	7KIRZ17BO6qJXE+GwUMqYpvb+R7uzokDQqrfL/HBb9JUBpTGHkT+hfNiw/V/Cz5fkJQM
+	KwxcLnfDRhQIYOm2BdxEZSV9X0lWfiiAZ+5W+MG8gV4bQw5wF0DbPOuID72bbgMV1VSc
+	vGyi5seSVQ5AUe6WHEzCIjfsfPPHYtN0ccrEcBhhiyXnjUvLNVSfP1roV9BimtthFbEG
+	wfMA5BkNjZrOKAdRHE5VkDsSa5PZV291QvziJHUn7IU9zHPje30MSePCPJeITByprot0
+	fWQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=sqnUIYKI7YDBiQAv2KXAtznkR3uKfHQ22A5YH8RIVvA=;
+	b=GxB///de6pPJ+fkX3VAsukzcO37zmjY+cgG8K9w8BRn8FyAN108BK5f6spGgr0PI4S
+	iSc/9AmoRjaq99gR3MSfQ7oItDOfmcQy4xnwPC0EMF4pCdOrWFciWXMyIe0wsooqrdNY
+	m3mIRFv7NF9Ew1B6GPWV4+knrItSg3XOEtHkY4OITyCBUhN7liRzMfT1OV+Q/j231uHz
+	SnP6oKXVinkrIm208RADphjlAC8gI9QKR1UFgtHKtgEtFRhqQ3X7fxgRakdqJxfDVVuq
+	VRaH4qoTFq9jve3agv7pIVC4ZEIvKC14t+arUhoE3Xe8XkihQ3SCIxUGBl2MkcD8k0yW
+	/keQ==
+X-Gm-Message-State: APjAAAWNwZ/9W3lgJAUmpEu82ZZYUwAJS+/F98JE7VNO7JVTCOkDHP9n
+	Gkh4I95A553sgqsNr5TNHDswN9LMr0LSdyQnmbik4g==
+X-Google-Smtp-Source: APXvYqyVM0t6lNTNj8Kic5eV3NTkiLuF1bFX737dwCjHbx+MV7xXqXHXXAprfNg0O5Y9IS/zJ5jIW8VrIMU+MA99Lws=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr4964144qtn.253.1551462025932; 
+	Fri, 01 Mar 2019 09:40:25 -0800 (PST)
+MIME-Version: 1.0
 References: <20190207062526.33944-1-raj.khem@gmail.com>
 	<20190226031951.GT19169@denix.org>
 	<CAMKF1sq82RVF-NmsXzizCL7Ac3+ecthZP6v-ss-UZemoyYHLCg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq82RVF-NmsXzizCL7Ac3+ecthZP6v-ss-UZemoyYHLCg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20190301173517.GY19169@denix.org>
+In-Reply-To: <20190301173517.GY19169@denix.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Mar 2019 09:40:00 -0800
+Message-ID: <CAMKF1soURzewwDa8zvTe4R=pzHq4QyP6OPpzON8XcE_VewmH_w@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] openssl10: Fix mutliple include assumptions for bn.h in opensslconf.h
@@ -43,137 +57,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 17:35:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Mar 2019 17:40:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 27, 2019 at 05:51:23PM -0800, Khem Raj wrote:
-> On Mon, Feb 25, 2019 at 7:19 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> >
-> > Khem, Richard,
-> >
-> > Sorry for belated reply. I haven't had time for master yet, but since this
-> > just got backported to thud, I'm seeing a similar breakage.
-> >
-> > First of all, BN_LLONG not being defined does seem to be "fixed" by this
-> > patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this
-> > seems to be a new define in OpenSSL 1.1, and doesn't even exist in OpenSSL 1.0
-> > Is it a pure luck that it works now? Any hidden meaning I missded?
-> >
-> 
-> We don't have to, but then we might have uefi to compile so thats why its
-> there.
-
-Where is OPENSSL_SYS_UEFI supposed to be defined?
-
-There are 0 references to it in OpenSSL 1.0 code base. It appears to be 
-introduced only in OpenSSL 1.1, since there are several references there.
-
-Hence my earlier question about whether it should be used here in the patch 
-for 1.0.2q
-
-
-> > And it also breaks exactly the same for DES_LONG due to a similar construct:
-> 
-> yeah the header nesting is a nightmare in openssl 1.0, it is a bit better
-> in 1.1, a lot of these recursions are fixed. but backporting then completely
-> to 1.0 is not an option, so we have to do tweaks that sustains the build.
-> 
-> >
-> >
-> > #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
-> > /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
-> >  * %20 speed up (longs are 8 bytes, int's are 4). */
-> > #ifndef DES_LONG
-> > #define DES_LONG unsigned int
-> > #endif
-> > #endif
-
-Would you recommend doing the same change here to fix DES_LONG not being 
-defined due to nested header inclusion?
-
-
-> > I was going to fix it similarly as BN_LLONG, but since I don't understand how
-> > it was supposed to be fixed, I'm not sure how to fix DES_LONG not being
-> > defined. Any ideas?
-> >
-> > Thanks.
-> >
-> > --
-> > Denys
-> >
-> >
-> > On Wed, Feb 06, 2019 at 10:25:26PM -0800, Khem Raj wrote:
-> > > After adding #pragma once to wrapper header ( opensslconf.h ) this
-> > > latent issue got to bite us, where it expect bn.h to be including
-> > > openssl.h to define BN_* defines, which is fragile. This patch removes
-> > > the contraints for nested includes for bn.h
+On Fri, Mar 1, 2019 at 9:35 AM Denys Dmytriyenko <denis@denix.org> wrote:
+>
+> On Wed, Feb 27, 2019 at 05:51:23PM -0800, Khem Raj wrote:
+> > On Mon, Feb 25, 2019 at 7:19 PM Denys Dmytriyenko <denis@denix.org> wrote:
 > > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
-> > >  .../openssl/openssl10_1.0.2q.bb               |  1 +
-> > >  2 files changed, 34 insertions(+)
-> > >  create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > Khem, Richard,
 > > >
-> > > diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-> > > new file mode 100644
-> > > index 0000000000..13d39c918c
-> > > --- /dev/null
-> > > +++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
-> > > @@ -0,0 +1,33 @@
-> > > +From 247b3188cde5f3347091cd54271127386d3aece0 Mon Sep 17 00:00:00 2001
-> > > +From: Khem Raj <raj.khem@gmail.com>
-> > > +Date: Wed, 6 Feb 2019 22:10:33 -0800
-> > > +Subject: [PATCH] Fix BN_LLONG breakage
-> > > +
-> > > +opensslconf.h is un-defining BN_LLONG only when included from bn.h which
-> > > +is not robust at all, especially when include guards are used and
-> > > +multiple inclusions of a given header is not allowed. so lets take out
-> > > +the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
-> > > +
-> > > +Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
-> > > +
-> > > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > +---
-> > > + crypto/opensslconf.h.in | 2 +-
-> > > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > +
-> > > +diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
-> > > +index 7a1c85d..a10c10f 100644
-> > > +--- a/crypto/opensslconf.h.in
-> > > ++++ b/crypto/opensslconf.h.in
-> > > +@@ -56,7 +56,7 @@
-> > > + #endif
-> > > + #endif
-> > > +
-> > > +-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
-> > > ++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
-> > > + #define CONFIG_HEADER_BN_H
-> > > + #undef BN_LLONG
-> > > +
-> > > +--
-> > > +2.20.1
-> > > +
-> > > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> > > index 809634f6c0..88aefdea4f 100644
-> > > --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> > > +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-> > > @@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-> > >             file://0001-Fix-build-with-clang-using-external-assembler.patch \
-> > >             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
-> > >             file://0001-allow-manpages-to-be-disabled.patch \
-> > > +           file://0001-Fix-BN_LLONG-breakage.patch \
-> > >             "
+> > > Sorry for belated reply. I haven't had time for master yet, but since this
+> > > just got backported to thud, I'm seeing a similar breakage.
 > > >
-> > >  SRC_URI_append_class-target = " \
-> > > --
-> > > 2.20.1
+> > > First of all, BN_LLONG not being defined does seem to be "fixed" by this
+> > > patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this
+> > > seems to be a new define in OpenSSL 1.1, and doesn't even exist in OpenSSL 1.0
+> > > Is it a pure luck that it works now? Any hidden meaning I missded?
+> > >
+> >
+> > We don't have to, but then we might have uefi to compile so thats why its
+> > there.
+>
+> Where is OPENSSL_SYS_UEFI supposed to be defined?
+>
+
+some apps like uefi can do that.
+
+> There are 0 references to it in OpenSSL 1.0 code base. It appears to be
+> introduced only in OpenSSL 1.1, since there are several references there.
+>
+> Hence my earlier question about whether it should be used here in the patch
+> for 1.0.2q
+>
+>
+> > > And it also breaks exactly the same for DES_LONG due to a similar construct:
+> >
+> > yeah the header nesting is a nightmare in openssl 1.0, it is a bit better
+> > in 1.1, a lot of these recursions are fixed. but backporting then completely
+> > to 1.0 is not an option, so we have to do tweaks that sustains the build.
+> >
+> > >
+> > >
+> > > #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
+> > > /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
+> > >  * %20 speed up (longs are 8 bytes, int's are 4). */
+> > > #ifndef DES_LONG
+> > > #define DES_LONG unsigned int
+> > > #endif
+> > > #endif
+>
+> Would you recommend doing the same change here to fix DES_LONG not being
+> defined due to nested header inclusion?
+>
+>
+> > > I was going to fix it similarly as BN_LLONG, but since I don't understand how
+> > > it was supposed to be fixed, I'm not sure how to fix DES_LONG not being
+> > > defined. Any ideas?
+> > >
+> > > Thanks.
 > > >
 > > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+> > > Denys
+> > >
+> > >
+> > > On Wed, Feb 06, 2019 at 10:25:26PM -0800, Khem Raj wrote:
+> > > > After adding #pragma once to wrapper header ( opensslconf.h ) this
+> > > > latent issue got to bite us, where it expect bn.h to be including
+> > > > openssl.h to define BN_* defines, which is fragile. This patch removes
+> > > > the contraints for nested includes for bn.h
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >  .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
+> > > >  .../openssl/openssl10_1.0.2q.bb               |  1 +
+> > > >  2 files changed, 34 insertions(+)
+> > > >  create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > >
+> > > > diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > > new file mode 100644
+> > > > index 0000000000..13d39c918c
+> > > > --- /dev/null
+> > > > +++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > > @@ -0,0 +1,33 @@
+> > > > +From 247b3188cde5f3347091cd54271127386d3aece0 Mon Sep 17 00:00:00 2001
+> > > > +From: Khem Raj <raj.khem@gmail.com>
+> > > > +Date: Wed, 6 Feb 2019 22:10:33 -0800
+> > > > +Subject: [PATCH] Fix BN_LLONG breakage
+> > > > +
+> > > > +opensslconf.h is un-defining BN_LLONG only when included from bn.h which
+> > > > +is not robust at all, especially when include guards are used and
+> > > > +multiple inclusions of a given header is not allowed. so lets take out
+> > > > +the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
+> > > > +
+> > > > +Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
+> > > > +
+> > > > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > +---
+> > > > + crypto/opensslconf.h.in | 2 +-
+> > > > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > +
+> > > > +diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
+> > > > +index 7a1c85d..a10c10f 100644
+> > > > +--- a/crypto/opensslconf.h.in
+> > > > ++++ b/crypto/opensslconf.h.in
+> > > > +@@ -56,7 +56,7 @@
+> > > > + #endif
+> > > > + #endif
+> > > > +
+> > > > +-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
+> > > > ++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
+> > > > + #define CONFIG_HEADER_BN_H
+> > > > + #undef BN_LLONG
+> > > > +
+> > > > +--
+> > > > +2.20.1
+> > > > +
+> > > > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > > index 809634f6c0..88aefdea4f 100644
+> > > > --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > > +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > > @@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+> > > >             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+> > > >             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
+> > > >             file://0001-allow-manpages-to-be-disabled.patch \
+> > > > +           file://0001-Fix-BN_LLONG-breakage.patch \
+> > > >             "
+> > > >
+> > > >  SRC_URI_append_class-target = " \
+> > > > --
+> > > > 2.20.1
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
