@@ -1,31 +1,49 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 520847CDBD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 20:06:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 3E99A40ACD;
-	Fri,  1 Mar 2019 20:06:04 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id wT4VMwpypJfe; Fri,  1 Mar 2019 20:06:04 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
-	[100.15.91.218])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1A5DE40A2D;
-	Fri,  1 Mar 2019 20:06:02 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id BEA4A16BA93;
-	Fri,  1 Mar 2019 15:06:01 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Mar 2019 15:05:59 -0500
-Message-Id: <1551470759-401-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] openssl10: Fix mutliple include assumptions for des.h in opensslconf.h
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+	[209.85.160.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6D67CD8D;
+	Fri,  1 Mar 2019 20:29:41 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id p48so29347231qtk.2;
+	Fri, 01 Mar 2019 12:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QdqvVGNZYEkU1f18ogJRsKh2+6LqlGxkmXTOPsyEqXU=;
+	b=o+23va4wOnahoa3MZjOEbe3mYAnQ4zeXwWHyxt+Nx2PTeajRAiKfM00w37fJaCBNxN
+	tT0Sax6jP5xAIoxyse8kUclN+h0oIaPK6soCHwujihuvDEDK+hr/QWHJye2Zp7B0EodH
+	qcVbydpO6MozPR95LmU0y0Y9eiED8EFO38MZ0UmJ4H+N7xI4kfJb5cpCavtoXsbVgE+l
+	nQKtN4CLXFTxRQ5DzeaRdFuYOWuRoWVJh5vY2vN03xaENlOeL86FzcCxFu5u8ems11qy
+	6Vn1RwOvprc+MIymM0YKaWtaQwqlDCd+SSPYjpfaaOb9sBqHpwAC02iqqQ7yi7/2lrIG
+	JW2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QdqvVGNZYEkU1f18ogJRsKh2+6LqlGxkmXTOPsyEqXU=;
+	b=nlZucLiN26+yvM9B0e1HoFVIPFfWJ0WkrkOWnoyqDEaiX6rxttITWToY0IYNpRb9Z7
+	mgaHuzJczarQv/Bi0YPDqrx7Bm/5BLrAb62cegskGhchalTxTvHgYBcaKdGD0qGJEywj
+	pMuVsn7XmXanzKfXUA0fHtiER+7T4H3ffbju42Rx4QW75LLkYwbRai5Af6l4aIE0ichM
+	nxEJFT6DIvdRag9tzXm+UltqZ5OBAIjnxYX1ykG/aCg1AsGXszJ5hXRbN7p1CpEjWFb7
+	0W5wObnlXvW1YnZnOn0GhcUemn4sOa+5DWVjZe0e3XLIZGkOS33l4Vo8mhMN/FPMkRCp
+	ELCQ==
+X-Gm-Message-State: APjAAAUT8bHNoQPqaFgl8bLX3eQzj4NosRrN78shW7zAWLivNTpzqcyi
+	6KLU4QgEv2JHz0o1qOHpJv1qz3C1IZWPtex8JiM=
+X-Google-Smtp-Source: APXvYqzVvX/jbEcfvyRoX7jSzU1SJ+6Wo2kaCWmTRhnAJb0urqlDuCo0t2QLHGnWxNF83rLzRLQTvA65gFMGAFcu1gI=
+X-Received: by 2002:ac8:2c51:: with SMTP id e17mr5422202qta.254.1551472182287; 
+	Fri, 01 Mar 2019 12:29:42 -0800 (PST)
+MIME-Version: 1.0
+References: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
+	<CAFNP8OtVN5tjv3xV57q+kjiewtH24tdm3HCqHL+dMKayNcKaMg@mail.gmail.com>
+	<CAPybu_1WtS2o=E6rpZzJMvpW6RQzPFxy29XGno=ok7bsTpW6XQ@mail.gmail.com>
+In-Reply-To: <CAPybu_1WtS2o=E6rpZzJMvpW6RQzPFxy29XGno=ok7bsTpW6XQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Mar 2019 12:29:16 -0800
+Message-ID: <CAMKF1spHTw45_26gHgPgdW=9fu5zMzHegVVcQ5paLKFDLG890w@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Information about non-traditional uses of the Yocto Project and OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,75 +56,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 20:06:03 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 20:29:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Denys Dmytriyenko <denys@ti.com>
+Hi Ricardo
 
-The fix is heavily based on Khem's previous fix for bn.h/BN_LLONG breakage:
-https://git.openembedded.org/openembedded-core/commit/?id=f787b0bb9b0626ddbf2ac94cb206c76716a3773d
+This is interesting, who would not like an improved Beers :)
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-Cc: Khem Raj <raj.khem@gmail.com>
----
- .../openssl10/0001-Fix-DES_LONG-breakage.patch     | 35 ++++++++++++++++++++++
- .../openssl/openssl10_1.0.2q.bb                    |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
-
-diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
-new file mode 100644
-index 0000000..7243fb4
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
-@@ -0,0 +1,35 @@
-+From 1aec49cc45e7cf5ebc059a77081ac3ea2a5aff7b Mon Sep 17 00:00:00 2001
-+From: Denys Dmytriyenko <denys@ti.com>
-+Date: Fri, 1 Mar 2019 13:14:56 -0500
-+Subject: [PATCH] Fix DES_LONG breakage
-+
-+Mimic previous BN_LLONG fix by Khem Raj here. Re-use its description:
-+
-+opensslconf.h is defining DES_LONG only when included from des.h which
-+is not robust at all, especially when include guards are used and
-+multiple inclusions of a given header is not allowed. so lets take out
-+the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
-+
-+Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
-+
-+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-+---
-+ crypto/opensslconf.h.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
-+index a10c10f..0147a4d 100644
-+--- a/crypto/opensslconf.h.in
-++++ b/crypto/opensslconf.h.in
-+@@ -48,7 +48,7 @@
-+ #endif
-+ #endif
-+ 
-+-#if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
-++#if !defined(OPENSSL_SYS_UEFI) && !defined(DES_LONG)
-+ /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
-+  * %20 speed up (longs are 8 bytes, int's are 4). */
-+ #ifndef DES_LONG
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-index 88aefde..eacdf8b 100644
---- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-@@ -41,6 +41,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
-            file://0001-allow-manpages-to-be-disabled.patch \
-            file://0001-Fix-BN_LLONG-breakage.patch \
-+           file://0001-Fix-DES_LONG-breakage.patch \
-            "
- 
- SRC_URI_append_class-target = " \
--- 
-2.7.4
-
+On Fri, Mar 1, 2019 at 11:43 AM Ricardo Ribalda Delgado
+<ricardo.ribalda@gmail.com> wrote:
+>
+> Hi
+>
+> We (qtec.com) use yocto/oe to build industrial vision systems.
+>
+> Today is running on Potato graders, Carrot Graders, Potato 3d cameras,
+> Hyperspectral cameras, Beer analysers, Checkweighers, Screw Counters,
+> Hockey streamers....
+>
+> Let me know if you think this is interesting and I can share more detailed info.
+>
+>
+> On Wed, Feb 27, 2019 at 9:16 PM Scott Rifenbark <srifenbark@gmail.com> wrote:
+> >
+> > Sounds like good potential for a section or chapter in the user docs.
+> >
+> > Scott
+> >
+> > On Wed, Feb 27, 2019 at 12:01 PM Philip Balister <philip@balister.org> wrote:
+> >>
+> >> During the last OpenEmbedded developer meeting, it became clear that
+> >> people are using the Yocto project/OpenEmbedded in spaces outside what
+> >> we think of as traditional embedded. Lieu Ta is working on a
+> >> presentation for the Linux Foundation Leadership Summit and we would
+> >> like to collect as many "unusual" applications are possible from
+> >> companies we can publicly acknowledge. Unusual is edge, containers,
+> >> desktop, etc. Or even really interesting embedded applications :)
+> >>
+> >> Please drop me an email (off list is fine) with enough info for us to
+> >> add you to a slide and acknowledge your work.
+> >>
+> >> Thanks,
+> >>
+> >> Philip
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> Ricardo Ribalda
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
