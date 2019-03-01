@@ -1,26 +1,36 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 89B627CD7A
+	by mail.openembedded.org (Postfix) with ESMTP id 8BC827CDEA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 22:58:27 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 3C16E5C0187;
-	Fri,  1 Mar 2019 23:58:28 +0100 (CET)
+	Fri,  1 Mar 2019 23:00:59 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 4F4025C0187;
+	Sat,  2 Mar 2019 00:00:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1551481108;
+	t=1551481257;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	in-reply-to:references; bh=dUD7ycr6bx+RLJxz0RJnGhSfYcZ4LucmGxl/JB3bFEo=;
-	b=CrJCiHUsCJTn65nnDBb0AJ7GuoKHNb8rRxoa5AvSPeAB5M6DehKp23NN9ZKtUaXCxiEDiC
-	zzuf58XvwXMBitqllAwubVaMa1Lk32ftP29Em7HossAYDyqkSw4cXdPFZGVRYzHwh2y5mc
-	/aGPrBkaYZNbqo41WqSFJVb2a5Xp1n0=
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=4E7WqbyrW+DAr1Inc4tmVQxaoYS+HTZf6BdI3pgJ8OA=;
+	b=Zo2N7bbjVom2wl6Apvs9dI3sY8l+RpHuyie9Vt3ExBUK0ZLB6XLDq61I+s/n3Zc2N2KIu3
+	aX9dXpLenlI611zzI4McY6FNl6pyxg8h0V1cH8gEmNijdGXb2oQgviIcCSIm3S8gnHQ3Vi
+	1ZuE/AlhIqEoCuljn0gSsY6/MFqxizY=
+MIME-Version: 1.0
+Date: Sat, 02 Mar 2019 00:00:56 +0100
 From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Mar 2019 23:58:26 +0100
-Message-Id: <20190301225826.62963-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
-Cc: Stefan Agner <stefan.agner@toradex.com>, liu.ming50@gmail.com
-Subject: [PATCH] gdk-pixbuf: fix Meson variable names
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+In-Reply-To: <1b9a376930ad3463214f725bc203a357@agner.ch>
+References: <20190220201026.70803-1-alex.kanavin@gmail.com>
+	<20190220201026.70803-3-alex.kanavin@gmail.com>
+	<6378eef56d799e4b91da708cc8fff92c0e4bc13e.camel@linuxfoundation.org>
+	<1b9a376930ad3463214f725bc203a357@agner.ch>
+Message-ID: <423b8cd219cf67363474ea06727e1584@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] gdk-pixbuf: convert from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 22:58:27 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 23:00:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On 01.03.2019 20:15, Stefan Agner wrote:
+> On 23.02.2019 13:29, Richard Purdie wrote:
+>> On Wed, 2019-02-20 at 21:10 +0100, Alexander Kanavin wrote:
+>>> Drop autotools-specific patches.
+>>>
+>>> Rework jku's thumbnailer patch into meson configuration.
+>>>
+>>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>>
+>> We've seen it before but its happened again:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/326
+>>
+>> I went into the failed build directory and ran "bitbake core-image-sato
+>> -c testsdkext" and it succeeded so I'm not sure sure how we're going to
+>> debug this one...
+> 
+> I am not sure if it is related, but we see psplash failing with a custom
+> png recently.
+> 
+> failed to load ".../splashscreen-blue.png": Couldn’t recognize the image
+> file format for file “.../splashscreen-blue.png”
+> 
+> The psplash calls gdk-pixbuf-csource (through make-image-header.sh). We
+> only saw it failing when building in a Ubuntu 18.04 container, but then
+> reproducible.
+> 
+> I also noticed this (probably unrelated) in do_configure log:
+> 
+> DEBUG: Executing shell function do_configure
+> gtkdocize: neither configure.ac nor configure.in exist
+> NOTE: Executing meson -Denable_jpeg=true -Denable_jasper=false
+> -Denable_png=true -Denable_tiff=false -Dx11=false
+> -Dinstalled_tests=false...
+> The Meson build system
+> Version: 0.49.2
+> Source dir:
+> /workdir/oe/tmp/work/x86_64-linux/gdk-pixbuf-native/2.38.0-r0/gdk-pixbuf-2.38.0
+> Build dir:
+> /workdir/oe/tmp/work/x86_64-linux/gdk-pixbuf-native/2.38.0-r0/build
+> Build type: native build
+> WARNING: Unknown options: "enable_jasper, enable_jpeg, enable_png,
+> enable_tiff
+> ...
 
-With 2.38.0 gdk-pixbuf dopped the enable_ prefix from the Meson
-build options.
+FWIW, I sent a patch to fix this particular warning just above. However,
+my issue persists.
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The problem is definitly gdk-pixbuf related, but reverting the two
+patches from this patchset did not resolve the issue.
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-index 3a544bd8a6..448e8ab40e 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-@@ -58,10 +58,10 @@ PACKAGECONFIG ??= "${GDK_PIXBUF_LOADERS}"
- PACKAGECONFIG_linuxstdbase = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} ${GDK_PIXBUF_LOADERS}"
- PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
- 
--PACKAGECONFIG[png] = "-Denable_png=true,-Denable_png=false,libpng"
--PACKAGECONFIG[jpeg] = "-Denable_jpeg=true,-Denable_jpeg=false,jpeg"
--PACKAGECONFIG[tiff] = "-Denable_tiff=true,-Denable_tiff=false,tiff"
--PACKAGECONFIG[jpeg2000] = "-Denable_jasper=true,-Denable_jasper=false,jasper"
-+PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
-+PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
-+PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
-+PACKAGECONFIG[jpeg2000] = "-Djasper=true,-Djasper=false,jasper"
- 
- PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
- 
--- 
-2.13.6
-
+--
+Stefan
 
