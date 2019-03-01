@@ -1,42 +1,47 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EFE57CD75;
-	Fri,  1 Mar 2019 11:28:27 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id d24so19792256ljc.12;
-	Fri, 01 Mar 2019 03:28:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=bINtz8B3hTHGRyIFAYJeQ62uRhP4nu4XVaCG9F5KXvE=;
-	b=oVga1XW8esVXipz09EqHEted7/1eG/QI13n4aXC614DLCozfnIw/31TcoldgBasNpB
-	wD2U6sl3xZYB1PHKjitjccq2UinP60xFJSalOx8R6nYwcRdeDMjLKOejy0sqtDb0/HDj
-	Zi7PmCUSCgEwiQUoslxozb1lcF4N4cIV0GH6a3ieyo+zNeQ/sPtoYXRXwB6p88SErLGt
-	ckoFi/fhDLfRhzaoo2gkFveL1HBYSgfDq2gY70gSOCV3vfhKUWq/uwKQoSb4DWZ0RY79
-	kahrpR4ixFfLH5DEiNwc7SF6LmAIHpgUD3aldGdWRiR19Uw/oFPs20n7ny579AlwM5oP
-	hXqw==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 42AC57C88E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Mar 2019 13:44:07 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id e1so19602957iok.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2019 05:44:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bn92sBGVHLSUkYPYyCdiUBs1ULU7Gaa+gOsV2hD+E9Q=;
+	b=02KjkTdwxGZx87kt0juuvMAX3uYH/jBINjxR2Zetcdp/UYrkzoplGCFb6MaTCjowtx
+	pyFWX3NUlf1PZ8kd0qJyoQKMnJuQmwN396gOs425HYmOsdQXiSMAtE4hxSb23NekAeaF
+	R7T+QwdHOY6gEpdnDQt2rXUcX6K6SKHMcdA0w1wL2RMnuRv+g9m/4uaE6Bu9QzGAVJ1o
+	xfqD53ag4PiPV5sDY8c1Q3fvfWT0ZfBBcFc8wLCVihzD0jrhR4qukacNO0o6bEVJqkZe
+	qcJBHyuxdsTbb0Y12ttV22cva/9bvAyLRe5i0K+keePgFDz0fo3lzO2ZKFBI9nrap7R/
+	F3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=bINtz8B3hTHGRyIFAYJeQ62uRhP4nu4XVaCG9F5KXvE=;
-	b=KH518/qrXrS6/5/DKIPdfi+6plHV6Yb0SKSWKi3xZ3tjhKH4iWaGrHT08HmIkkf4u/
-	bVxRF7xZqjB9vTxtERMrTZrDCLpy+seCaaQakUEkiVraMjdApOt2G9AM3+C4bRnTst5F
-	C2ag+Kp0TL4an6TTen1o03noyzET7G1QL21g6iWnmpT7EbWXvedIhxQv9sba2vlHVuGJ
-	u/YE/csMKmO5hKbEnTLqQVUYBDBwvUhx4yarhwhPLy9f4O9Tr8e+Mr2JBOCE326iD1pJ
-	l/Keh+nEne7UxMGuju9TCIR1mpL2XYyltbwZElKNAFYuw3XWms0K4aHilECFImG2ZCyn
-	dp1A==
-X-Gm-Message-State: APjAAAWEZFLM7vFsdjlYa9VtApWvZvoXCL1lpkJTpwYmz3CW6Rmo8zcl
-	pATNTkwaMw2wnAewsaPrFXNDofcqicwIOIqXyn1VexlW
-X-Google-Smtp-Source: APXvYqye47/YKo68znnxZcTBATFwB9UrXVPWAz63l4BC9HKFu8rpk2OyKT7bxMxWp4Dv85Ln4qInFSSPn5ooHgUe6QA=
-X-Received: by 2002:a2e:84ca:: with SMTP id
-	q10-v6mr2404958ljh.65.1551439707364; 
-	Fri, 01 Mar 2019 03:28:27 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bn92sBGVHLSUkYPYyCdiUBs1ULU7Gaa+gOsV2hD+E9Q=;
+	b=Yi23xcUO4KXB8/Po4TAm7o61aeBXWHUlTahRnX4FeMS4BTbapoYkStzJrM12nd2DbX
+	wuLHjXzlMUxGur+Nl0mglqb6Sr+BcRkftpHZqlT3mHLj52KvcXv8SH/Vc0zj0KxVN1KP
+	20HlAfg39/7JbMUi/3VswHNT2Npb9j1l+59XLcEp5NxkEoW/T9el1oUnae6/NzJ/0UBI
+	rw4nb5vRUhC5Nboj7Z9khj+8olYtXkTeanqDigyWLqhAhkYA78zbHkXDwbMRPF3dy+mG
+	E4ec3XUlhGVrMClc9HqQe3KSCjv5QiehrAxqWV12oA5gtKakeTpnFOWsuFN63gCKF8B9
+	uHdg==
+X-Gm-Message-State: APjAAAVnWX05PYfUJs5613z5D4wL8sQMtYWtZXLp0GeoKu3vJQYKewhq
+	ebb08EiYRD7vAe0e8gwK8sigQVeKoJ1T/GR2Zumptw==
+X-Google-Smtp-Source: APXvYqzF3tYl+EIngj8DBeSarSVUzeGAYXQ/Hc3ufkhwNIGyMtbIOiY43ozGfwTWb59UHLYnhcg5FzS1El5uQ8HBgcs=
+X-Received: by 2002:a5d:848b:: with SMTP id t11mr2370684iom.270.1551447848299; 
+	Fri, 01 Mar 2019 05:44:08 -0800 (PST)
 MIME-Version: 1.0
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Fri, 1 Mar 2019 12:28:11 +0100
-Message-ID: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Daniel Gomez <daniel@qtec.com>, bitbake-devel@lists.openembedded.org
-Subject: Two recipes providing the same .so... How it should not be done :)
+References: <20190228142745.23630-1-luca.boccassi@gmail.com>
+In-Reply-To: <20190228142745.23630-1-luca.boccassi@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Mar 2019 13:43:57 +0000
+Message-ID: <CAJTo0La+VEpKorv4BDBuBxyqsgBk=Ym2Z9M6-OR9d0+u7p93UQ@mail.gmail.com>
+To: luca.boccassi@gmail.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] swig: fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,67 +54,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 11:28:27 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 13:44:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello
+On Thu, 28 Feb 2019 at 14:28, <luca.boccassi@gmail.com> wrote:
+> +Origin: https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b7f6
+> +Applied-Upstream: yes
 
-I have a build system that supports some aarch64 machines. For most of
-the them, the only difference is the kernel configuration, kernel
-version.
+This should be:
 
-I am using multiconfig on my build server and the build goes really
-fast thanks to all the shared binaries/artifacts.
+Upstream-Status: Backport
+[https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b7f6]
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 
-But I have a problem adding a new machine. This machine is also
-aarch64, with a special kernel (nothing new here), but in this case
-the vendor provides a binary .so for libgl that is required to get
-hardware acceleation.
+Can you update the patch and repost?
 
-I could .bbappend mesa and on the installation part replace libgl with
-the new .so. But then everything that depends on mesa needs to be
-rebuilt for that machine and I could not use multiconfig.
-
-Instead I have created a new recipe: mesa-gl-replace.bb that has the
-file. This breakes completely the design of OE, but works.
-
-Some snipsets of the "magic" to make it work:
-
-#Force that the version is allways higher than the one from mesa:
-PE = "5"
-
-#Rprovide the same as mesa
-RPROVIDES_libgl-mesa += "libgl"
-
-#Do not overwrite pkgdata of mesa
-PACKAGEFUNCS_append = " rm_pkgdata_runtime"
-rm_pkgdata_runtime() {
-rm -rf ${WORKDIR}/pkgdata/runtime/*
-rm -rf ${WORKDIR}/pkgdata/shlibs2/*
-}
-
-#Keep this on machine
-PACKAGE_ARCH = "${MACHINE_ARCH}"
-
-#Make sure we are not saved as providers for libgl
-PRIVATE_LIBS = "libGL.so.1"
-
-#Avoid sanity checks
-read_subpackage_metadata () {
-}
-
-
-If your eyes have not fallen as this point, this means you have a lot
-of tolerance for crappy code, congrats :)
-
-Now the question. Is there a better way to do this?
-
-PS: I already tried and failed with update_alternatives
-
-
-Best regards!
-
-
--- 
-Ricardo Ribalda
+Ross
 
