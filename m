@@ -1,53 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id EAED17CD45
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BBBFC7C85F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 03:21:23 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id m10so10743158plt.10
+	Fri,  1 Mar 2019 05:34:28 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id y13so18622285iop.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2019 19:21:25 -0800 (PST)
+	Thu, 28 Feb 2019 21:34:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=YZUujBytv4bg6vzgI91E1O1iuswu3Hf2Of0soEOI1LQ=;
-	b=OC06b4gWiebHjbYL7QVFDkuacwwYSJHxEy4dGEMnjS/peF5NtOv1F+P3XzFgN8hbtS
-	BsOjtq0IBjgPUM5Av39JvujiIo0bB3Ix//92Jvwmghc644FRmyVqLE+g9RxRTpUqw+L8
-	frB3kHAtYx5hqPeDkON9h94Ue288tcL6VFA/ZcIA0BqpP8K3TMyCsUTCtCv82rrzEsW8
-	tusDKvS/VVbEhiXwMxz0ODE+ZhDJzRcV8DgDQ9oyFtL6VaTpW+aJb9N5tgT4zqvyssIQ
-	KtC5jYIzdef1X8o9x1uyysWb1YRNgPV/lkqP39PoGUF5BTvAKBh6nsukAeL5GE4WU58B
-	W7Pg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jvDJDn4EB4oymOFT/E32CASQrHqkE8Nv42PVCc+H3WU=;
+	b=Oixvc9q4hUa3QwwT/A0vK9T2anjHvyPsthdDPIRWKCjxVbBoNF3Rlpmd2ZkeD2xmE3
+	lk1qvRJFiO9tLON+rEMb7osY8sn0xUPyhQoCtCt7tI0vmbbyxktvIkf4gNJ2Ua+bVm6f
+	Tzm2iv34+NG+PkZ7fAvizJHlvXNwYMr48L4bJMagPPE5BXzpPhIXaQbOV7q5ci+rnb1/
+	VKhk7l6D2umVgOBIAbgDdCQofSO+wr1tI6dH8/pj4YOoczmzJ3ENWPMwXgckZgkoA5O2
+	byv/HYp6B3SCmNe8fDrPnInQm9/MwLvnNWvRGSkDzXqdFutW3sj/pHbXx8vHZ+4Kzyo6
+	I+ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YZUujBytv4bg6vzgI91E1O1iuswu3Hf2Of0soEOI1LQ=;
-	b=ZAVci9I98Jq0hUzFxZj+pKwxMjrmIOAgUcMXAO/slHhrr/tAnjKU+i+1lkIr3QUUUj
-	qG5VB2PZxRm6fLuZafYkDR3N3Pn6yP9s+UsifL35Nxj9M+PIeUxvusyrLRYFrG24AQLy
-	asjBnOIN06jaV++VhxVlEXjcO71/VrjP8wTP5Jc1eJggUJK7PMaO1UEwH5b+fl60/xDJ
-	yAF2jwLfXppvhWt5nNF3fPqakeV7DfI1Lgu6EBZME7uknbsB5bHUTj6AvkpQ3eQSD06+
-	2FwCXVdnK2fvnYsgE+fkLri79Vd7FGDvquD/zVJQMwBgymrBHWUTehuVbWRjMq5MWAOL
-	hwYw==
-X-Gm-Message-State: APjAAAV3R3sMtW8WeFzbZ4NzQF8GsWydMYdvNLy/bV/fB9AF3mqnprG5
-	zbo7kSgKtkpJ+qbt4Ph/iCBc1K9V
-X-Google-Smtp-Source: APXvYqxmOEuHmTksGv0piMNIQwVpavarlVuoASsr20+GzR7YB+ckhraZaupF3g+aunPufsegPTnkZA==
-X-Received: by 2002:a17:902:7604:: with SMTP id
-	k4mr3136487pll.232.1551410484669; 
-	Thu, 28 Feb 2019 19:21:24 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5fa3])
-	by smtp.gmail.com with ESMTPSA id
-	z127sm37612096pfb.80.2019.02.28.19.21.23
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jvDJDn4EB4oymOFT/E32CASQrHqkE8Nv42PVCc+H3WU=;
+	b=bNxk8eY9uXDDN1OyqRzvD9mo79dEXHTGvvwpqjE4OR+s3TT8sSzTf7m98n3KHIUW8Y
+	IVecPFHvcOjo2FD0fmIehrSZvep9/we4lnzpLZtEx+6tzGNreN5o2ZUfWNOqBO17sKNo
+	I0Flhurv+Lj494xPH51h9Jdqh12pvqu7gKzeimTX8ja/pIwh6Za/Wy198PuVmdGB4ai1
+	YjdTxSwfbZGPENlEREw0JskPZC6xS/pLBeOXfTbfVI1NLGTpHwJLnLYVpgeM4MXPbFl2
+	zc77vUHQYnNK0bVjP0jC2QV7Oc9NKDnDDBtkSVgQa6fJ0k6uiAJJXOGIapdHq1m+kFbO
+	VGew==
+X-Gm-Message-State: APjAAAXQ6SLq1hxfW5SHSLMdgn+uhGJHZoxp32uWcUA9wYwGWHPhlCLV
+	xU/+xAB/+bpoc22ElOAzWII=
+X-Google-Smtp-Source: APXvYqz2WBh3VmX/wOqldttSU/1fhPLaxv33mnLjoIHkcR0f9AMVzTp9slnOPjRwrUem0+IeEHHeKw==
+X-Received: by 2002:a6b:ef02:: with SMTP id k2mr1573723ioh.95.1551418469276;
+	Thu, 28 Feb 2019 21:34:29 -0800 (PST)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195])
+	by smtp.gmail.com with ESMTPSA id k77sm3935110itb.7.2019.02.28.21.34.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Feb 2019 19:21:24 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2019 19:21:12 -0800
-Message-Id: <20190301032112.38191-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190301032112.38191-1-raj.khem@gmail.com>
-References: <20190301032112.38191-1-raj.khem@gmail.com>
+	Thu, 28 Feb 2019 21:34:28 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Fri,  1 Mar 2019 00:34:22 -0500
+Message-Id: <cover.1551418113.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH 5/5] musl: Fix out of bounds data access in dlopen
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/4] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,55 +59,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 03:21:24 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 05:34:29 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../musl/musl/out_of_bounds_read.patch        | 20 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/out_of_bounds_read.patch
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-diff --git a/meta/recipes-core/musl/musl/out_of_bounds_read.patch b/meta/recipes-core/musl/musl/out_of_bounds_read.patch
-new file mode 100644
-index 0000000000..a681cc284e
---- /dev/null
-+++ b/meta/recipes-core/musl/musl/out_of_bounds_read.patch
-@@ -0,0 +1,20 @@
-+Fix out of bounds read
-+
-+self->dtv hasn't been extended yet
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+diff --git a/ldso/dynlink.c b/ldso/dynlink.c
-+index e2c3259f..b23ea0df 100644
-+--- a/ldso/dynlink.c
-++++ b/ldso/dynlink.c
-+@@ -1374,7 +1376,7 @@ static void install_new_tls(void)
-+ 	}
-+ 	/* Install new dtls into the enlarged, uninstalled dtv copies. */
-+ 	for (p=head; ; p=p->next) {
-+-		if (!p->tls_id || self->dtv[p->tls_id]) continue;
-++		if (p->tls_id <= old_cnt) continue;
-+ 		unsigned char *mem = p->new_tls;
-+ 		for (j=0; j<i; j++) {
-+ 			unsigned char *new = mem;
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index f1052278c8..6a72b7d3bc 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-+           file://out_of_bounds_read.patch \
-           "
- 
- S = "${WORKDIR}/git"
+Hi all,
+
+Here's my latest consolidated pull request.
+
+These two changes are routine cleanups/tidying of configs that are no longer
+valid in the supported kernels:
+
+  linux-yocto: netfilter: Enable CONFIG_NETFILTER_XT_TARGET_LOG
+  linux-yocto/4.19: configuration cleanups
+
+This change are the integration of the qemuarm* graphics support from John
+Mason, along with a change that I made to map qemuarm -> qemuarma15 for the
+4.19 kernel. This KMACHINE mapping allows us to test the switch to qemuarma15
+as the default quemuarm without impacting any other branches or users of the
+4.19 linux-yocto kernel.
+
+  linux-yocto: qemuarm|qemuarm64: graphics support
+
+And finally, we have an objtool -> kernel shared dir fix that was posted
+some time ago, and has recently been reported as breaking exernal module
+builds.
+
+  kernel: add objtool to shared workdir when CONFIG_UNWINDER_ORC is set
+
+I grabbed the change, tweaked it a bit and it tests fine here, so I've
+included it in my series.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 4d275d97b6c572fe11668ac16d2c77c018340c7c:
+
+  perl: apply a native-only patch only to -native (2019-02-28 17:49:40 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto: netfilter: Enable CONFIG_NETFILTER_XT_TARGET_LOG
+  linux-yocto/4.19: configuration cleanups
+  linux-yocto: qemuarm|qemuarm64: graphics support
+
+Justin Bronder (1):
+  kernel: add objtool to shared workdir when CONFIG_UNWINDER_ORC is set
+
+ meta/classes/kernel.bbclass                        | 9 +++++++++
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 5 ++++-
+ 4 files changed, 15 insertions(+), 3 deletions(-)
+
 -- 
-2.21.0
+2.19.1
 
 
