@@ -1,13 +1,13 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1437CD51
+	by mail.openembedded.org (Postfix) with ESMTP id 836157CD5F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  1 Mar 2019 09:10:31 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,427,1544457600"; d="scan'208";a="55605326"
+X-IronPort-AV: E=Sophos;i="5.58,427,1544457600"; d="scan'208";a="55605328"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 01 Mar 2019 17:10:24 +0800
+	by heian.cn.fujitsu.com with ESMTP; 01 Mar 2019 17:10:25 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 59D934C53453
+	by cn.fujitsu.com (Postfix) with ESMTP id E841E4C53465
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  1 Mar 2019 17:10:11 +0800 (CST)
 Received: from localhost.local (10.167.225.84) by
@@ -15,18 +15,18 @@ Received: from localhost.local (10.167.225.84) by
 	Server (TLS) id 14.3.408.0; Fri, 1 Mar 2019 17:10:23 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Mar 2019 17:10:30 +0800
-Message-ID: <20190301091032.2745-2-zangrc.fnst@cn.fujitsu.com>
+Date: Fri, 1 Mar 2019 17:10:31 +0800
+Message-ID: <20190301091032.2745-3-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190301091032.2745-1-zangrc.fnst@cn.fujitsu.com>
 References: <20190301091032.2745-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.84]
-X-yoursite-MailScanner-ID: 59D934C53453.A53A3
+X-yoursite-MailScanner-ID: E841E4C53465.A5013
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH 1/3] atk: upgrade 2.30.0 -> 2.31.92
+Subject: [PATCH 2/3] at-spi2-core: upgrade 2.30.0 -> 2.31.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,86 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 09:10:31 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 09:10:32 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-upgrade from atk_2.30.0.bb to atk_2.31.92.bb
-
-delete atk/0001-Switch-from-filename-to-basename.patch beacuse this
-patch has been fixed
+upgrade from at-spi2-core_2.30.0.bb to at-spi2-core_2.31.2.bb
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- ...001-Switch-from-filename-to-basename.patch | 38 -------------------
- .../atk/{atk_2.30.0.bb => atk_2.31.92.bb}     |  5 +--
- 2 files changed, 2 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
- rename meta/recipes-support/atk/{atk_2.30.0.bb => atk_2.31.92.bb} (86%)
+ .../atk/{at-spi2-core_2.30.0.bb => at-spi2-core_2.31.2.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.30.0.bb => at-spi2-core_2.31.2.bb} (92%)
 
-diff --git a/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch b/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
-deleted file mode 100644
-index 047e81fb61..0000000000
---- a/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Upstream-Status: Submitted
--
--From 0330251715fee908f2f162565d4fa1df5030d0c0 Mon Sep 17 00:00:00 2001
--From: Jeremy Puhlman <jpuhlman@mvista.com>
--Date: Thu, 14 Jun 2018 17:21:49 +0000
--Subject: [PATCH] Switch from filename to basename
--
--When atk-enum-types.h is installed in to a system, the user likely has
--no access to the location where the headers were built, especially if
--the software was built in a sysroot environment. If the headers were
--built for a mulitlib environment, the build pathing may be different.
--Subsequently, if two mulitlib variants of atk are installed together the
--headers conflict for no other reason then they were built in two
--different locations. Switching from filename to basename, still should
--provide sufficient information on the providence of the enums, while not
--conflicting for really no good reason.
--
--Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-----
-- atk/atk-enum-types.h.template | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/atk/atk-enum-types.h.template b/atk/atk-enum-types.h.template
--index 7b4cec4..8321c24 100644
----- a/atk/atk-enum-types.h.template
--+++ b/atk/atk-enum-types.h.template
--@@ -14,7 +14,7 @@ G_BEGIN_DECLS
-- 
-- /*** BEGIN file-production ***/
-- 
---/* enumerations from "@filename@" */
--+/* enumerations from "@basename@" */
-- /*** END file-production ***/
-- 
-- /*** BEGIN value-header ***/
---- 
--2.14.1.459.g238e487
--
-diff --git a/meta/recipes-support/atk/atk_2.30.0.bb b/meta/recipes-support/atk/atk_2.31.92.bb
-similarity index 86%
-rename from meta/recipes-support/atk/atk_2.30.0.bb
-rename to meta/recipes-support/atk/atk_2.31.92.bb
-index 4e2dacbc4d..adec5bd980 100644
---- a/meta/recipes-support/atk/atk_2.30.0.bb
-+++ b/meta/recipes-support/atk/atk_2.31.92.bb
-@@ -30,10 +30,9 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb b/meta/recipes-support/atk/at-spi2-core_2.31.2.bb
+similarity index 92%
+rename from meta/recipes-support/atk/at-spi2-core_2.30.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.31.2.bb
+index d0b567a5e5..016074f642 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.31.2.bb
+@@ -8,8 +8,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            "
  
- SRC_URI_append = " \
-                    file://0001-meson.build-enable-introspection-for-cross-compile.patch \
--                   file://0001-Switch-from-filename-to-basename.patch \
-                    "
--SRC_URI[archive.md5sum] = "769c85005d392ad17ffbc063f2d26454"
--SRC_URI[archive.sha256sum] = "dd4d90d4217f2a0c1fee708a555596c2c19d26fef0952e1ead1938ab632c027b"
-+SRC_URI[archive.md5sum] = "45491b1a49ba01e0c522623c9ff40b28"
-+SRC_URI[archive.sha256sum] = "b06ec951d19971da8006c1bf846fc2bca2982cf6d735780e77d93c60531c5a18"
+-SRC_URI[md5sum] = "d4f22c66b3210ffe6b10d01c04e008b5"
+-SRC_URI[sha256sum] = "0175f5393d19da51f4c11462cba4ba6ef3fa042abf1611a70bdfed586b7bfb2b"
++SRC_URI[md5sum] = "4022b09961157e0a3c59d6271f65be22"
++SRC_URI[sha256sum] = "ee886d3fc52def853f73bc63e517b00c8572998419aa64788181a9a1a43cfcdb"
  
- BBCLASSEXTEND = "native nativesdk"
+ X11DEPENDS = "virtual/libx11 libxi libxtst"
  
 -- 
 2.20.1
