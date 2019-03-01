@@ -1,49 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A6D67CD8D;
-	Fri,  1 Mar 2019 20:29:41 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id p48so29347231qtk.2;
-	Fri, 01 Mar 2019 12:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QdqvVGNZYEkU1f18ogJRsKh2+6LqlGxkmXTOPsyEqXU=;
-	b=o+23va4wOnahoa3MZjOEbe3mYAnQ4zeXwWHyxt+Nx2PTeajRAiKfM00w37fJaCBNxN
-	tT0Sax6jP5xAIoxyse8kUclN+h0oIaPK6soCHwujihuvDEDK+hr/QWHJye2Zp7B0EodH
-	qcVbydpO6MozPR95LmU0y0Y9eiED8EFO38MZ0UmJ4H+N7xI4kfJb5cpCavtoXsbVgE+l
-	nQKtN4CLXFTxRQ5DzeaRdFuYOWuRoWVJh5vY2vN03xaENlOeL86FzcCxFu5u8ems11qy
-	6Vn1RwOvprc+MIymM0YKaWtaQwqlDCd+SSPYjpfaaOb9sBqHpwAC02iqqQ7yi7/2lrIG
-	JW2g==
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+	[209.85.208.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD357C6F4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Mar 2019 22:27:00 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id h58so21353729edb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2019 14:27:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QdqvVGNZYEkU1f18ogJRsKh2+6LqlGxkmXTOPsyEqXU=;
-	b=nlZucLiN26+yvM9B0e1HoFVIPFfWJ0WkrkOWnoyqDEaiX6rxttITWToY0IYNpRb9Z7
-	mgaHuzJczarQv/Bi0YPDqrx7Bm/5BLrAb62cegskGhchalTxTvHgYBcaKdGD0qGJEywj
-	pMuVsn7XmXanzKfXUA0fHtiER+7T4H3ffbju42Rx4QW75LLkYwbRai5Af6l4aIE0ichM
-	nxEJFT6DIvdRag9tzXm+UltqZ5OBAIjnxYX1ykG/aCg1AsGXszJ5hXRbN7p1CpEjWFb7
-	0W5wObnlXvW1YnZnOn0GhcUemn4sOa+5DWVjZe0e3XLIZGkOS33l4Vo8mhMN/FPMkRCp
-	ELCQ==
-X-Gm-Message-State: APjAAAUT8bHNoQPqaFgl8bLX3eQzj4NosRrN78shW7zAWLivNTpzqcyi
-	6KLU4QgEv2JHz0o1qOHpJv1qz3C1IZWPtex8JiM=
-X-Google-Smtp-Source: APXvYqzVvX/jbEcfvyRoX7jSzU1SJ+6Wo2kaCWmTRhnAJb0urqlDuCo0t2QLHGnWxNF83rLzRLQTvA65gFMGAFcu1gI=
-X-Received: by 2002:ac8:2c51:: with SMTP id e17mr5422202qta.254.1551472182287; 
-	Fri, 01 Mar 2019 12:29:42 -0800 (PST)
-MIME-Version: 1.0
-References: <accf0c0a-77f8-e86c-c0ed-3af8d5a48e3b@balister.org>
-	<CAFNP8OtVN5tjv3xV57q+kjiewtH24tdm3HCqHL+dMKayNcKaMg@mail.gmail.com>
-	<CAPybu_1WtS2o=E6rpZzJMvpW6RQzPFxy29XGno=ok7bsTpW6XQ@mail.gmail.com>
-In-Reply-To: <CAPybu_1WtS2o=E6rpZzJMvpW6RQzPFxy29XGno=ok7bsTpW6XQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Mar 2019 12:29:16 -0800
-Message-ID: <CAMKF1spHTw45_26gHgPgdW=9fu5zMzHegVVcQ5paLKFDLG890w@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Information about non-traditional uses of the Yocto Project and OpenEmbedded
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+iVBzUUN2EZ81OSWqjlqYpG5qR7kWAcgCWWvXE2assg=;
+	b=h/n3i32lmyOBydGXLm3X16NdzLyWj8GIx3KTcCXljaCEf5ceeWyJ4BtZkjGKGt1mUc
+	RUzwtCgAwP0qPHC5KOJxsBtuxWilxCFB/zF4FdxjiiXAarxisMP5jj6BrC1TbapwIFUh
+	SJ6xWkSUmTVeWYZ8nzEtYWaWaMDqeXqp+Io8+I+1o1ScXsFUrgS67QhNdIjU2b5roZEi
+	7LGACVdzroOM1FyczBpg7HazBH5xlld+I2R4FIkQshy8RPun+DTsqe6XqmETEBpvVCSX
+	Eh08wjuaxee3+a6mKg/l1p+v6yywelo7t6ZnfHW93vHCLJKdRpi8LkbQXPA1D6F19nh+
+	7s3Q==
+X-Gm-Message-State: APjAAAWfCQ0usa2l+RECbWuP5rGqv711/APdiBqNrJVVRo+E+tsZwGeF
+	PDbnf3YKktHjO1BPanABVrwmzlc=
+X-Google-Smtp-Source: APXvYqzs55LiucHy0I4UnmJ2fyoZREFJarTAJ55bVQHaskX3wWdkiEgu/5Yr0gPLdFVRy+GbjWlBLw==
+X-Received: by 2002:a50:9094:: with SMTP id c20mr5824588eda.126.1551479220682; 
+	Fri, 01 Mar 2019 14:27:00 -0800 (PST)
+Received: from bill-the-cat.local
+	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
+	[2606:a000:1401:880d:118e:86c:e9fb:6784])
+	by smtp.gmail.com with ESMTPSA id
+	x34sm6337645edm.70.2019.03.01.14.26.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Mar 2019 14:26:59 -0800 (PST)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Mar 2019 17:26:48 -0500
+Message-Id: <1551479212-28944-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/4] Introduce packagegroup-core-base-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 20:29:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Mar 2019 22:27:00 -0000
 
-Hi Ricardo
+Hey all,
 
-This is interesting, who would not like an improved Beers :)
+Over on the Yocto list[1] the topic of how to build an image without
+busybox once again came up.  As part of that discussion I said I'd been
+thinking about a packagegroup to make this easier to do as while
+virtual/base-utils and VIRTUAL-RUNTIME_base-utils exist and work and allow
+for this, the list of things we get from busybox is non-trivial.  In fact,
+this exposed that in oe-core itself we have no editor aside from busybox
+and are missing a number of common network utilities too.  To that end,
+this series migrates vim and inetutils from meta-oe to oe-core, introduces
+packagegroup-core-base-utils (and documents using it in
+local.conf.sample.extended) and finally adds a testcase of building
+(technically, making the dependency graph as that does what we need and is
+much quicker, 5s vs 3 minute) core-image-sato with busybox disabled, so
+that we can do our best to avoid introucing busybox as a hard requirement
+in the future.
 
-On Fri, Mar 1, 2019 at 11:43 AM Ricardo Ribalda Delgado
-<ricardo.ribalda@gmail.com> wrote:
->
-> Hi
->
-> We (qtec.com) use yocto/oe to build industrial vision systems.
->
-> Today is running on Potato graders, Carrot Graders, Potato 3d cameras,
-> Hyperspectral cameras, Beer analysers, Checkweighers, Screw Counters,
-> Hockey streamers....
->
-> Let me know if you think this is interesting and I can share more detailed info.
->
->
-> On Wed, Feb 27, 2019 at 9:16 PM Scott Rifenbark <srifenbark@gmail.com> wrote:
-> >
-> > Sounds like good potential for a section or chapter in the user docs.
-> >
-> > Scott
-> >
-> > On Wed, Feb 27, 2019 at 12:01 PM Philip Balister <philip@balister.org> wrote:
-> >>
-> >> During the last OpenEmbedded developer meeting, it became clear that
-> >> people are using the Yocto project/OpenEmbedded in spaces outside what
-> >> we think of as traditional embedded. Lieu Ta is working on a
-> >> presentation for the Linux Foundation Leadership Summit and we would
-> >> like to collect as many "unusual" applications are possible from
-> >> companies we can publicly acknowledge. Unusual is edge, containers,
-> >> desktop, etc. Or even really interesting embedded applications :)
-> >>
-> >> Please drop me an email (off list is fine) with enough info for us to
-> >> add you to a slide and acknowledge your work.
-> >>
-> >> Thanks,
-> >>
-> >> Philip
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Ricardo Ribalda
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+With respect to functionality, this is basically 1:1 with busybox.  I
+didn't add more "useful" utilities (which I would argue belong in
+packagegroup-core-full-cmdline which follow up to this could be enhanced to
+pull in this packagegroup and add to it).  In terms of deviation:
+- We do not have a trivial dhcp server, unless you use systemd.
+- We may have also lost a few similar trivial servers.  One may argue that
+  by default maybe busybox shouldn't be opening this stuff up.
+- busybox provides "nslookup" which at this point in time is an
+  anachronism. bind stopped shipping "nslookup" prior to oe-core replacing
+  the old monolithic layer.  We do provide host and dig and such via
+  bind-utils.
+
+[1]: https://lists.yoctoproject.org/pipermail/yocto/2019-February/044317.html
+-- 
+Tom
+
 
