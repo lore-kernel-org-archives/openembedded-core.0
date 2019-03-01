@@ -1,60 +1,52 @@
-Return-Path: <mk@mkio.de>
-X-Greylist: delayed 593 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 01 Mar 2019 15:55:02 UTC
-Received: from mail-relay.contabo.net (mail-relay.contabo.net
-	[173.212.240.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 374EC7CCDD
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CE8E7CD3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 15:55:02 +0000 (UTC)
-Received: by mail-relay.contabo.net (Postfix, from userid 103)
-	id 1161E2107C; Fri,  1 Mar 2019 16:45:10 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on vmd4985.contabo.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=4.0 tests=BAYES_00 autolearn=ham
-	autolearn_force=no version=3.4.2
-Received: from m2731.contabo.net (m2731.contabo.net [193.34.145.203])
-	by mail-relay.contabo.net (Postfix) with ESMTPS id 8777C20556
+	Fri,  1 Mar 2019 16:36:44 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id l5so26559439wrw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 16:45:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mkio.de;
-	s=default;
-	h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
-	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=EiDnKB9zTfjODGFeJFU5hsi5j9jigs5GH4uXp2tVx7g=;
-	b=Ojnc2C8SaSr2DRB/cCikuL859Y
-	hYieebeQZjnvNraeE22GqsCtNPhWWZSyQfdtruw4WDmeUQG1FRCY9pwFWLh+WpBTpcOf9VpkiZZaY
-	e/jPqnhOchThReVFFngjYscCL6/e1XmaIDp/0i+kPTliFqfC1Rq9Z+Ll5EHYLmTUgNnyWyQh62IzF
-	NSDCYxXo7O0ZTCCekA5+sOT/8Xk+eQ/niepuaOOHMJ+L9qM5ZpqhPDGZdPGCAcujNQ2DWIPu9PG+e
-	sOEZFMvB2xUKAqsg0jEpIVAKLu8dAqbwJR8r7Qnjc1xjO/aBE2C7Mb8YWPG6uXTZUaJ6LH2eGdrpm
-	vwHbwugw==;
-Received: from [95.208.211.40] (port=31323 helo=localhost)
-	by m2731.contabo.net with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.91)
-	(envelope-from <mk@mkio.de>) id 1gzkLT-00Gsfd-A2
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2019 16:45:09 +0100
-Date: Fri, 1 Mar 2019 16:45:01 +0100
-From: Markus Klotzbuecher <mk@mkio.de>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Message-ID: <20190301154501.GA24139@e460.mkio.de>
+	Fri, 01 Mar 2019 08:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=0lOXgxTqBtYacGEIoiFNPNZqCJz+Wf5gLUb3y6JHic4=;
+	b=uP1Rk6IyjREh9Ug/cJhdEcfBmHiQQ6VL391G0kFYQoFttF0DLUVnmfI7JBx2nSxKWS
+	xgiQf868WQ5shUKOIYLujNIlCfx0wB261YwaQixTIKMKDKCEDwLVh5EW5jo/xioGkHH1
+	oXfAgxAhAy9WOmVLUZ4sNV7E7FswEEJxkadKO2+lTJ/ZwvRlg7OhpJ1+kxtNg2lpQ0Z8
+	kYsoQULCsVkspkKS9YNQekp3Cy93aB1EdrI0NGBe2GsCD7K8BqPwD61ldsaLOrqTFzuO
+	talG7NX5ivYvNdDHPUZ/ACZMD83JeNjq/OxKJrlO5K4RBa3gNXLRjTTjExXC81ny6jb9
+	b/wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=0lOXgxTqBtYacGEIoiFNPNZqCJz+Wf5gLUb3y6JHic4=;
+	b=eMiasMJ/bMtrzb3sbcILkI6K361Ns4SN7ixF2MYh6RHmFNxijrsra7Fi2GiRPXvSVX
+	P0DEogyNoH3j4RpHzUJpJM2oUqu0A2xqMN//sSlo9tq/OUsjRjOH75rxV92JnKtM8op/
+	4kMZDJwsUhVmsKJtcvFBFD9p3raPHUcIxYM1jVYgy+i0Mgd5AWLfOuFz1GpRxjshleN4
+	RUagtX0L/C9bplEm5SdZY7l2IknQRGMT0tfETVgWmaEMTnsc8zYMSkUagc67aYEBqRRt
+	i3L9MOTRvdkU6C9GJw6mHFSc6J2skqFRg9p5ia0OHEozgmq1SOjHpVVL40YDxrQjKyHT
+	oOEA==
+X-Gm-Message-State: APjAAAWQiqcpKm2Z4zAItKxXz1WluQnUNYV2mXx13/ZgIQ/IEQ/yE5d6
+	NIlxghG9MHUITTBTc+Oxqp2Eaa3zEOE=
+X-Google-Smtp-Source: APXvYqz8J+2kNdTgBaBuymnOtxAOny4Rc/KIjIfaR4RGGuN3XobiEmq8DQf4eFvDuqikZWX8wfqLIw==
+X-Received: by 2002:adf:ffcd:: with SMTP id x13mr3957792wrs.20.1551458204766; 
+	Fri, 01 Mar 2019 08:36:44 -0800 (PST)
+Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
+	by smtp.gmail.com with ESMTPSA id
+	t14sm23187736wrr.49.2019.03.01.08.36.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 01 Mar 2019 08:36:44 -0800 (PST)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Mar 2019 16:36:39 +0000
+Message-Id: <20190301163639.26436-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190228142745.23630-1-luca.boccassi@gmail.com>
+References: <20190228142745.23630-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - m2731.contabo.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - mkio.de
-X-Get-Message-Sender-Via: m2731.contabo.net: authenticated_id: mk@mkio.de
-X-Authenticated-Sender: m2731.contabo.net: mk@mkio.de
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: naming of link to fitImage with initramfs
+Subject: [PATCH v2] swig: fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,47 +59,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 15:55:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Mar 2019 16:36:45 -0000
+Content-Transfer-Encoding: 8bit
 
-Hello everyone
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-After updating to thud, I noticed that the naming of the softlink to a
-fitImage with an INITRAMFS_IMAGE effectively changed from the form
+Building with musl currently fails. The fix has been committed
+upstream, so backport it.
+Note that it requires the recent change to use autoconf's do_configure
+as it modifies a bison file which is used at make-dist time, so it
+triggers an autoconf rerun which was not working previously due to the
+custom do_configure step that was removed recently by:
+a9b1f9eca963 ("swig: Fix configure failure")
 
-   fitImage-${INITRAMFS_IMAGE}-${MACHINE}.bin
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+v2: fixed upstream metadata format in patch header
 
-to 
+ ...de-for-constant-expressions-containi.patch | 179 ++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb     |   1 +
+ 2 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
 
-   fitImage-${INITRAMFS_IMAGE}-${MACHINE}-${MACHINE}
-
-This happens because the latter is constructed in
-kernel-fitimage.bbclass as
-
-      fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME} 
-
-where kernel.bbclass sets:
-      INITRAMFS_IMAGE_NAME ?= ${INITRAMFS_IMAGE}-${MACHINE}
-
-and kernel-artifact-names.bbclass defines:
-      KERNEL_FIT_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
-
-and
-      KERNEL_ARTIFACT_LINK_NAME ?= "${MACHINE}"
-
-leading ${MACHINE} being added two times.
-
-Is this intentional or am I missing something? I'm not attached to the
-old naming, but the double MACHINE in the link seems a bit odd.
-
-Thanks in advance!
-
-Best regards
-Markus
-
+diff --git a/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
+new file mode 100644
+index 0000000000..f4ed782a82
+--- /dev/null
++++ b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
+@@ -0,0 +1,179 @@
++From 90ba174fcea1618af57aa594199541d47a89b7f6 Mon Sep 17 00:00:00 2001
++From: William S Fulton <wsf@fultondesigns.co.uk>
++Date: Sun, 17 Sep 2017 19:02:55 +0100
++Subject: [PATCH 1/2] Fix generated code for constant expressions containing
++ wchar_t L literals.
++
++Such as:
++  # define __WCHAR_MAX    (0x7fffffff + L'\0')
++
++Reported on swig-user mailing list.
++---
++ CHANGES.current                                         | 5 +++++
++ Examples/test-suite/csharp/preproc_constants_c_runme.cs | 3 ++-
++ Examples/test-suite/csharp/preproc_constants_runme.cs   | 2 ++
++ Examples/test-suite/d/preproc_constants_c_runme.1.d     | 2 ++
++ Examples/test-suite/d/preproc_constants_c_runme.2.d     | 2 ++
++ Examples/test-suite/d/preproc_constants_runme.1.d       | 2 ++
++ Examples/test-suite/d/preproc_constants_runme.2.d       | 2 ++
++ Examples/test-suite/php/preproc_constants_c_runme.php   | 2 ++
++ Examples/test-suite/php/preproc_constants_runme.php     | 2 ++
++ Examples/test-suite/php5/preproc_constants_c_runme.php  | 2 ++
++ Examples/test-suite/php5/preproc_constants_runme.php    | 2 ++
++ Examples/test-suite/preproc_constants.i                 | 3 +++
++ Source/CParse/parser.y                                  | 2 +-
++ 13 files changed, 29 insertions(+), 2 deletions(-)
++
++Upstream-Status: Backport
++[https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b7f6]
++Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
++
++diff --git a/Examples/test-suite/csharp/preproc_constants_c_runme.cs b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
++index 76c684d..1c28e49 100644
++--- a/Examples/test-suite/csharp/preproc_constants_c_runme.cs
+++++ b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
++@@ -61,7 +61,8 @@ public class runme {
++     assert( typeof(int) == preproc_constants_c.EXPR_LAND.GetType() );
++     assert( typeof(int) == preproc_constants_c.EXPR_LOR.GetType() );
++     assert( typeof(double) == preproc_constants_c.EXPR_CONDITIONAL.GetType() );
++-
+++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MAX.GetType() );
+++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MIN.GetType() );
++   }
++   static void assert(bool assertion) {
++     if (!assertion)
++diff --git a/Examples/test-suite/csharp/preproc_constants_runme.cs b/Examples/test-suite/csharp/preproc_constants_runme.cs
++index 9fae591..6b02e30 100644
++--- a/Examples/test-suite/csharp/preproc_constants_runme.cs
+++++ b/Examples/test-suite/csharp/preproc_constants_runme.cs
++@@ -60,6 +60,8 @@ public class runme {
++     assert( typeof(bool) == preproc_constants.EXPR_LAND.GetType() );
++     assert( typeof(bool) == preproc_constants.EXPR_LOR.GetType() );
++     assert( typeof(double) == preproc_constants.EXPR_CONDITIONAL.GetType() );
+++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MAX.GetType() );
+++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MIN.GetType() );
++ 
++   }
++   static void assert(bool assertion) {
++diff --git a/Examples/test-suite/d/preproc_constants_c_runme.1.d b/Examples/test-suite/d/preproc_constants_c_runme.1.d
++index d846c71..2b349af 100644
++--- a/Examples/test-suite/d/preproc_constants_c_runme.1.d
+++++ b/Examples/test-suite/d/preproc_constants_c_runme.1.d
++@@ -61,4 +61,6 @@ void main() {
++   static assert(is(int == typeof(EXPR_LAND())));
++   static assert(is(int == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_c_runme.2.d b/Examples/test-suite/d/preproc_constants_c_runme.2.d
++index 9bdbb93..1bac525 100644
++--- a/Examples/test-suite/d/preproc_constants_c_runme.2.d
+++++ b/Examples/test-suite/d/preproc_constants_c_runme.2.d
++@@ -61,4 +61,6 @@ void main() {
++   static assert(is(int == typeof(EXPR_LAND())));
++   static assert(is(int == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_runme.1.d b/Examples/test-suite/d/preproc_constants_runme.1.d
++index 009405f..f743f48 100644
++--- a/Examples/test-suite/d/preproc_constants_runme.1.d
+++++ b/Examples/test-suite/d/preproc_constants_runme.1.d
++@@ -60,4 +60,6 @@ void main() {
++   static assert(is(bool == typeof(EXPR_LAND())));
++   static assert(is(bool == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_runme.2.d b/Examples/test-suite/d/preproc_constants_runme.2.d
++index 2d92ef0..0d96c37 100644
++--- a/Examples/test-suite/d/preproc_constants_runme.2.d
+++++ b/Examples/test-suite/d/preproc_constants_runme.2.d
++@@ -60,4 +60,6 @@ void main() {
++   static assert(is(bool == typeof(EXPR_LAND())));
++   static assert(is(bool == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/php/preproc_constants_c_runme.php b/Examples/test-suite/php/preproc_constants_c_runme.php
++index af9b76e..e59fe18 100644
++--- a/Examples/test-suite/php/preproc_constants_c_runme.php
+++++ b/Examples/test-suite/php/preproc_constants_c_runme.php
++@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php/preproc_constants_runme.php b/Examples/test-suite/php/preproc_constants_runme.php
++index 5c9119b..8e117ea 100644
++--- a/Examples/test-suite/php/preproc_constants_runme.php
+++++ b/Examples/test-suite/php/preproc_constants_runme.php
++@@ -61,5 +61,7 @@ check::equal(gettype(preproc_constants::EXPR_OR), "integer", "preproc_constants.
++ check::equal(gettype(preproc_constants::EXPR_LAND), "boolean", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants::EXPR_LOR), "boolean", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php5/preproc_constants_c_runme.php b/Examples/test-suite/php5/preproc_constants_c_runme.php
++index 1ea0195..d978fab 100644
++--- a/Examples/test-suite/php5/preproc_constants_c_runme.php
+++++ b/Examples/test-suite/php5/preproc_constants_c_runme.php
++@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php5/preproc_constants_runme.php b/Examples/test-suite/php5/preproc_constants_runme.php
++index fb9ee4f..7527026 100644
++--- a/Examples/test-suite/php5/preproc_constants_runme.php
+++++ b/Examples/test-suite/php5/preproc_constants_runme.php
++@@ -70,5 +70,7 @@ check::equal(gettype(preproc_constants::EXPR_LAND), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ 
++ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/preproc_constants.i b/Examples/test-suite/preproc_constants.i
++index 3a999ad..16b44c9 100644
++--- a/Examples/test-suite/preproc_constants.i
+++++ b/Examples/test-suite/preproc_constants.i
++@@ -87,6 +87,9 @@
++ #define EXPR_LOR         0xFF || 1
++ #define EXPR_CONDITIONAL true ? 2 : 2.2
++ 
+++#define EXPR_WCHAR_MAX   (0x7fffffff + L'\0')
+++#define EXPR_WCHAR_MIN   (-EXPR_WCHAR_MAX - 1)
+++
++ #define EXPR_CHAR_COMPOUND_ADD 'A' + 12
++ #define EXPR_CHAR_COMPOUND_LSHIFT 'B' << 6
++ #define H_SUPPRESS_SCALING_MAGIC (('s'<<24) | ('u'<<16) | ('p'<<8) | 'p')
++diff --git a/Source/CParse/parser.y b/Source/CParse/parser.y
++index 2e92cd0..273dadb 100644
++--- a/Source/CParse/parser.y
+++++ b/Source/CParse/parser.y
++@@ -194,7 +194,7 @@ int SWIG_cparse_template_reduce(int treduce) {
++  * ----------------------------------------------------------------------------- */
++ 
++ static int promote_type(int t) {
++-  if (t <= T_UCHAR || t == T_CHAR) return T_INT;
+++  if (t <= T_UCHAR || t == T_CHAR || t == T_WCHAR) return T_INT;
++   return t;
++ }
++ 
++-- 
++2.9.5
++
+diff --git a/meta/recipes-devtools/swig/swig_3.0.12.bb b/meta/recipes-devtools/swig/swig_3.0.12.bb
+index fe9d0747f2..45026c9700 100644
+--- a/meta/recipes-devtools/swig/swig_3.0.12.bb
++++ b/meta/recipes-devtools/swig/swig_3.0.12.bb
+@@ -5,6 +5,7 @@ SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.pat
+             file://0001-Add-Node-7.x-aka-V8-5.2-support.patch \
+             file://swig-3.0.12-Coverity-fix-issue-reported-for-SWIG_Python_FixMetho.patch \
+             file://Python-Fix-new-GCC8-warnings-in-generated-code.patch \
++            file://0001-Fix-generated-code-for-constant-expressions-containi.patch \
+            "
+ SRC_URI[md5sum] = "82133dfa7bba75ff9ad98a7046be687c"
+ SRC_URI[sha256sum] = "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
 -- 
-Markus Klotzbuecher
-Freelancer Embedded, Distributed & Real-time Systems
-Am See 28, 78465 Konstanz, Germany
+2.20.1
+
 
