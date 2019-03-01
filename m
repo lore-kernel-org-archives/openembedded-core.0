@@ -1,54 +1,36 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 190767CD86
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id D5A677CD9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Mar 2019 16:37:10 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id w6so23310738wrs.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2019 08:37:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version;
-	bh=jWyzQRFQxMW4wXge1sBwMDhyzpiuxO/8wTrrK1cfLSc=;
-	b=EqViOhuSY5bQgHN+DnofLsD7QOWf86xWb4rbYG4h2Ce71C/HLMATib8pBAnAEi4Msj
-	0CHoVBLQQcxCevV00nUILZrR3Mci/TVTGlWnadXTMCbx6Q27+cnPOGmWbe9GaeV9+I/a
-	VsmO44MCJDyIKfQ6hcFAsoRnXZHgq6gg5/QTVhXDLjcBYUD3d1w2LVWwQlyO6YombnJ/
-	Tyeu8rpjt/vWbX4yGkpt+rQdoPOPLmetyEsJaByoVNUa0rpKFkEkhac/fBnKw0ktHPfK
-	KItFoe+HFpnAqgDrizaYJNzStzwrP95XHGserOwaDA/kcWb1C4HtgrXAfMBsePrjC4PN
-	ePoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version;
-	bh=jWyzQRFQxMW4wXge1sBwMDhyzpiuxO/8wTrrK1cfLSc=;
-	b=AFRi0+1Mx5BJh5yu9P/s4oaHkc3H4H+hWI+7Xl3JJyuq6T+t+FC6S0lZw7zsbrRAxo
-	blhECH5hVSAwymhPmXo0iZDdTJKBFT9q7gY0WkcQ4ahh4A54RdcOw6fhbvAyfLI0N4g8
-	c2DFiQKEB0Fh1CpY4tGhVsB1fOco3QEmbc0p8nlr6yYKukeN/E5nRDkT0WoJ6t+ncXG+
-	tOZd17DRgPqa8Er+CYs7klruxKBwSKYxClRVMWS+/RjOmDIA1QhtBulkeCTpxjRA/XVp
-	MetNirF7Tmmq34KJxhng4vS47C6H4P1BunZ5z0CsZu+yzQQTAKjUO1JSFPPo2HcuL+XU
-	EIhA==
-X-Gm-Message-State: APjAAAVI4j0qh9PtbO2A47ksbWqbZdDXZxNkDtq3lW0VMIyajR2Ww7ZI
-	0F3xWZqe3Nnh/rWdlZUm36U=
-X-Google-Smtp-Source: APXvYqw8+oq8BALi6HW3VFKTNpWxgb6LfvlA+JvMQB8ocEWs2CDEm0MXSvDw9WGxwcej2PKeqLukoQ==
-X-Received: by 2002:a5d:5386:: with SMTP id d6mr1041403wrv.104.1551458231577; 
-	Fri, 01 Mar 2019 08:37:11 -0800 (PST)
-Received: from bluca-lenovo ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
-	by smtp.gmail.com with ESMTPSA id
-	b10sm18741300wru.92.2019.03.01.08.37.10
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 01 Mar 2019 08:37:10 -0800 (PST)
-Message-ID: <ebbb814734a6bcefdf24be10c8ffc108fd6c3f65.camel@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 01 Mar 2019 16:37:09 +0000
-In-Reply-To: <CAJTo0La+VEpKorv4BDBuBxyqsgBk=Ym2Z9M6-OR9d0+u7p93UQ@mail.gmail.com>
-References: <20190228142745.23630-1-luca.boccassi@gmail.com>
-	<CAJTo0La+VEpKorv4BDBuBxyqsgBk=Ym2Z9M6-OR9d0+u7p93UQ@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
+	Fri,  1 Mar 2019 17:35:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id BBBEC40B37;
+	Fri,  1 Mar 2019 17:35:19 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id q2nq_08DTi4A; Fri,  1 Mar 2019 17:35:19 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 92F2940A55;
+	Fri,  1 Mar 2019 17:35:17 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 5170516BA97; Fri,  1 Mar 2019 12:35:17 -0500 (EST)
+Date: Fri, 1 Mar 2019 12:35:17 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190301173517.GY19169@denix.org>
+References: <20190207062526.33944-1-raj.khem@gmail.com>
+	<20190226031951.GT19169@denix.org>
+	<CAMKF1sq82RVF-NmsXzizCL7Ac3+ecthZP6v-ss-UZemoyYHLCg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] swig: fix build with musl
+In-Reply-To: <CAMKF1sq82RVF-NmsXzizCL7Ac3+ecthZP6v-ss-UZemoyYHLCg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl10: Fix mutliple include assumptions for bn.h in opensslconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,56 +43,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 16:37:11 -0000
-X-Groupsio-MsgNum: 121800
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-vsu5HsawS7VIXRm7IoGg"
+X-List-Received-Date: Fri, 01 Mar 2019 17:35:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---=-vsu5HsawS7VIXRm7IoGg
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 27, 2019 at 05:51:23PM -0800, Khem Raj wrote:
+> On Mon, Feb 25, 2019 at 7:19 PM Denys Dmytriyenko <denis@denix.org> wrote:
+> >
+> > Khem, Richard,
+> >
+> > Sorry for belated reply. I haven't had time for master yet, but since this
+> > just got backported to thud, I'm seeing a similar breakage.
+> >
+> > First of all, BN_LLONG not being defined does seem to be "fixed" by this
+> > patch, but I'm not entirely sure why it now checks for OPENSSL_SYS_UEFI - this
+> > seems to be a new define in OpenSSL 1.1, and doesn't even exist in OpenSSL 1.0
+> > Is it a pure luck that it works now? Any hidden meaning I missded?
+> >
+> 
+> We don't have to, but then we might have uefi to compile so thats why its
+> there.
 
-On Fri, 2019-03-01 at 13:43 +0000, Burton, Ross wrote:
-> On Thu, 28 Feb 2019 at 14:28, <luca.boccassi@gmail.com> wrote:
-> > +Origin:=20
-> > https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a8=
-9b7f6
-> > +Applied-Upstream: yes
->=20
-> This should be:
->=20
-> Upstream-Status: Backport
-> [
-> https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b=
-7f6
-> ]
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
->=20
-> Can you update the patch and repost?
->=20
-> Ross
+Where is OPENSSL_SYS_UEFI supposed to be defined?
 
-Certainly, sent v2, thanks for reviewing.
+There are 0 references to it in OpenSSL 1.0 code base. It appears to be 
+introduced only in OpenSSL 1.1, since there are several references there.
 
---=20
-Kind regards,
-Luca Boccassi
+Hence my earlier question about whether it should be used here in the patch 
+for 1.0.2q
 
---=-vsu5HsawS7VIXRm7IoGg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+> > And it also breaks exactly the same for DES_LONG due to a similar construct:
+> 
+> yeah the header nesting is a nightmare in openssl 1.0, it is a bit better
+> in 1.1, a lot of these recursions are fixed. but backporting then completely
+> to 1.0 is not an option, so we have to do tweaks that sustains the build.
+> 
+> >
+> >
+> > #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
+> > /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
+> >  * %20 speed up (longs are 8 bytes, int's are 4). */
+> > #ifndef DES_LONG
+> > #define DES_LONG unsigned int
+> > #endif
+> > #endif
 
-iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAlx5X7UACgkQSylmgFB4
-UWJYawf/X3bo9QeDjsk0o18dNYLp5xQQCZ8Zef8Lw0HKgxELv5p0czVUeUWs5no5
-JP4lImi9XYI7h6nIuNS/u2iEwvjpvhpqn9diiBDJxHJ7jPKGaDzHa3/wDVhQQ+/H
-RtEkj0lYfOq9QWLq90T2fKY4OLbWOelNU0WaAnS7GcBxEi9tmrzSnwohZL404G/U
-xI6BqkTdZgUsQdgvg9VoSMknC3TvfSfViFvdMG1CcW/1Q3AdMWjSTBdURzEKIFj9
-teiIiJ8xVQE0xpSdEDL5BCZW4ialtjm3xmZi8TPBzGBOp9Lrpm578YJh8K2lgHRm
-DEy4pjvlm3zAgpLSwW75B/+DCfdwVQ==
-=xxGt
------END PGP SIGNATURE-----
+Would you recommend doing the same change here to fix DES_LONG not being 
+defined due to nested header inclusion?
 
---=-vsu5HsawS7VIXRm7IoGg--
+
+> > I was going to fix it similarly as BN_LLONG, but since I don't understand how
+> > it was supposed to be fixed, I'm not sure how to fix DES_LONG not being
+> > defined. Any ideas?
+> >
+> > Thanks.
+> >
+> > --
+> > Denys
+> >
+> >
+> > On Wed, Feb 06, 2019 at 10:25:26PM -0800, Khem Raj wrote:
+> > > After adding #pragma once to wrapper header ( opensslconf.h ) this
+> > > latent issue got to bite us, where it expect bn.h to be including
+> > > openssl.h to define BN_* defines, which is fragile. This patch removes
+> > > the contraints for nested includes for bn.h
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  .../0001-Fix-BN_LLONG-breakage.patch          | 33 +++++++++++++++++++
+> > >  .../openssl/openssl10_1.0.2q.bb               |  1 +
+> > >  2 files changed, 34 insertions(+)
+> > >  create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > >
+> > > diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > new file mode 100644
+> > > index 0000000000..13d39c918c
+> > > --- /dev/null
+> > > +++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-BN_LLONG-breakage.patch
+> > > @@ -0,0 +1,33 @@
+> > > +From 247b3188cde5f3347091cd54271127386d3aece0 Mon Sep 17 00:00:00 2001
+> > > +From: Khem Raj <raj.khem@gmail.com>
+> > > +Date: Wed, 6 Feb 2019 22:10:33 -0800
+> > > +Subject: [PATCH] Fix BN_LLONG breakage
+> > > +
+> > > +opensslconf.h is un-defining BN_LLONG only when included from bn.h which
+> > > +is not robust at all, especially when include guards are used and
+> > > +multiple inclusions of a given header is not allowed. so lets take out
+> > > +the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
+> > > +
+> > > +Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
+> > > +
+> > > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > +---
+> > > + crypto/opensslconf.h.in | 2 +-
+> > > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > +
+> > > +diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
+> > > +index 7a1c85d..a10c10f 100644
+> > > +--- a/crypto/opensslconf.h.in
+> > > ++++ b/crypto/opensslconf.h.in
+> > > +@@ -56,7 +56,7 @@
+> > > + #endif
+> > > + #endif
+> > > +
+> > > +-#if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
+> > > ++#if !defined(OPENSSL_SYS_UEFI) && !defined(CONFIG_HEADER_BN_H)
+> > > + #define CONFIG_HEADER_BN_H
+> > > + #undef BN_LLONG
+> > > +
+> > > +--
+> > > +2.20.1
+> > > +
+> > > diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > index 809634f6c0..88aefdea4f 100644
+> > > --- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > +++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+> > > @@ -40,6 +40,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+> > >             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+> > >             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
+> > >             file://0001-allow-manpages-to-be-disabled.patch \
+> > > +           file://0001-Fix-BN_LLONG-breakage.patch \
+> > >             "
+> > >
+> > >  SRC_URI_append_class-target = " \
+> > > --
+> > > 2.20.1
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
