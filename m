@@ -1,52 +1,54 @@
 Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F0BB7CD49
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A8A1F7CD63
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Mar 2019 12:36:27 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id j89so567255edb.9
+	Sat,  2 Mar 2019 12:36:38 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id g9so580460eds.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Mar 2019 04:36:28 -0800 (PST)
+	Sat, 02 Mar 2019 04:36:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=90cckOCNvmQ4ZMQHcb2q0qXxrNpiilQhnz34ZWmYsHU=;
-	b=RVpXVO9nW3kpl0lMioYiDgFZE+o5P6NnPjr5KynuuK6ugHaFBb5iYi9zUl1otxurPH
-	iBHdo/eMa7PRgYGIE4deYFNnE9FrjrmTxYcoP5CmOunRRfQYKml0nGkJhe3l+JX+NYRl
-	eBTmJXPQjAZtAm3jg5s601uy+DV7J3MK3CLAw=
+	bh=oiA+MgSUjiueBPFOH3XnzymWu+CASvub/RvHfQAHDoY=;
+	b=HovfcNVMz58vF4syJte4cvc2ogjLXXOE9MsYWrAoeocUtXynNLg3nUWO01kbaawzmO
+	1LzqKPjlrEQvLi1DT50A04AYE8H44S5c5dJWHhIDGL8m1BehJYDa/Yz9Wffe9rncPrNp
+	7mr2W2OoXrEQ2xohd4owCLCjdcFU6J2HDDZjI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=90cckOCNvmQ4ZMQHcb2q0qXxrNpiilQhnz34ZWmYsHU=;
-	b=m0o5OBlsWuu1+JOf2sOEmKY1PuPx2EnNq0JPrY5G8pUcG+zhhtF0cB+lvbOuygOQj8
-	9hvXkeLszbhlSOlhn5L7b2ire+ZZRNJe+9cR5EP8ME6+o33fq82P9N1tMNn7BzftUS4A
-	osiBmcy0igdzjaBbCxBs9DiDS3+LutqDMi/LnHqv4VAgJjao+8CvcZq2buXwCT4C7dWw
-	4sPxiHadLJTTTSWd0B3ykRPwPiC+YaeCJyCdA9FdFAC4IKA/TUBO1P15H1pvyAC58GXO
-	pNXUuRAzgpmDx61GrGbZRlzViIW5WXy4JlbIrbVd/c/kICdi1PpGWf+TImBzsICZ8KWY
-	gICg==
-X-Gm-Message-State: APjAAAU2UkEb1Jazz9Fsc28ml9sK2NdtzqRSYkjrZ2/aoK3ztNhJVpt2
-	pnvFB0SYkgb2/mGtDPqOn/rX6jxJgCs=
-X-Google-Smtp-Source: APXvYqxITzq+eTo+07JkIy6T8jhAfSeoMdBxtrazHwxDTH0ocZ21Nhu0h22gXJjVF4fCuxCQEVYM9A==
-X-Received: by 2002:a50:b8e2:: with SMTP id l89mr8256507ede.140.1551530187916; 
-	Sat, 02 Mar 2019 04:36:27 -0800 (PST)
+	bh=oiA+MgSUjiueBPFOH3XnzymWu+CASvub/RvHfQAHDoY=;
+	b=oRdmGfbIZ04WgzLd6CwG00lYrE4E0hGM/cd7M6Y/91OuSFmYtspTLBOpI8000kqudw
+	Px1KCgM5iPblZ14PcmSCXOc6myO+tljdQpIVUPZrScQTvpObT25C9p7RxYfUST4VL91W
+	X4k/nJidGeR/1N/qepv4RVK/7VJ3nULTPye9EES38NXbjN8lgf+6Tv1M7qU+uuuLQfmj
+	GXqIstKiNixUao1Cc0KZAQ6HB9o8b7x7D0rSLmUa+MuVHmDqqX+ent5CdDrQKDn2em3f
+	LiZDBNiAGc43KEJI4c5ziDct5E/s6fqfyrbCgkSzzOAO75E9krYnVG7VYZAGL9Rw0gZI
+	51sw==
+X-Gm-Message-State: APjAAAX1AiphF/4sDi2qhLAwKCEPaVJxw0TfTYfvUd0rEy1Z7ssbFQsJ
+	8fCRBooQUYfhp7bv9JmD1+RrxA==
+X-Google-Smtp-Source: APXvYqzGy3Zqm9NQ7MbIgql6WRx4AxeMl+nxWE+0OZg51KBItqd0qbLZ9ZfHb//1VVTRGzgQGnY9/w==
+X-Received: by 2002:a17:906:b30c:: with SMTP id
+	n12mr6452733ejz.49.1551530199131; 
+	Sat, 02 Mar 2019 04:36:39 -0800 (PST)
 Received: from bill-the-cat
 	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
 	[2606:a000:1401:880d:118e:86c:e9fb:6784])
-	by smtp.gmail.com with ESMTPSA id x18sm319334edd.4.2019.03.02.04.36.25
+	by smtp.gmail.com with ESMTPSA id gx5sm113658ejb.37.2019.03.02.04.36.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Mar 2019 04:36:26 -0800 (PST)
-Date: Sat, 2 Mar 2019 07:36:22 -0500
+	Sat, 02 Mar 2019 04:36:38 -0800 (PST)
+Date: Sat, 2 Mar 2019 07:36:34 -0500
 From: Tom Rini <trini@konsulko.com>
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <20190302123622.GD5026@bill-the-cat>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20190302123634.GE5026@bill-the-cat>
 References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
-	<20190302071140.GA2151@localhost>
+	<1551479212-28944-2-git-send-email-trini@konsulko.com>
+	<20190302091548.GE1503@jama>
 MIME-Version: 1.0
-In-Reply-To: <20190302071140.GA2151@localhost>
+In-Reply-To: <20190302091548.GE1503@jama>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Introduce packagegroup-core-base-utils
+Subject: Re: [PATCH 1/4] vim: Import version 8.1.0347
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2019 12:36:27 -0000
-X-Groupsio-MsgNum: 121825
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="g7w8+K/95kPelPD2"
-Content-Disposition: inline
-
---g7w8+K/95kPelPD2
+X-List-Received-Date: Sat, 02 Mar 2019 12:36:38 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 02, 2019 at 09:11:40AM +0200, Adrian Bunk wrote:
-> On Fri, Mar 01, 2019 at 05:26:48PM -0500, Tom Rini wrote:
-> >...
-> > - busybox provides "nslookup" which at this point in time is an
-> >   anachronism. bind stopped shipping "nslookup" prior to oe-core replac=
-ing
-> >   the old monolithic layer.  We do provide host and dig and such via
-> >   bind-utils.
-> >...
->=20
-> I'd say this is a bug in bind-utils.
->=20
-> nslookup was was at some point deprecated by bind upstream,
-> but it was undeprecated 15 years ago.
+On Sat, Mar 02, 2019 at 10:15:48AM +0100, Martin Jansa wrote:
+> On Fri, Mar 01, 2019 at 05:26:49PM -0500, Tom Rini wrote:
+> > In order to have a stand-alone editor in oe-core, bring in vim from
+> > meta-openembedded/meta-oe.  This imports the recipes as of git commit:
+> > commit 7b48bd2be97408107c0dd3c74b1e28f042268457
+> > Author: Ovidiu Panait <ovidiu.panait@windriver.com>
+> > Date:   Fri Feb 1 10:07:20 2019 +0200
+> > 
+> >     vim: Enable GUI support for x11 DISTRO_FEATURES
+> 
+> This isn't the latest vim commit in meta-oe, you're missing:
+> 
+> commit c4db3971ab88dc8c012256e987f73ccd4459b400 (HEAD -> jansa/master, contrib/jansa/master)
+> Author: Martin Jansa <Martin.Jansa@gmail.com>
+> Date:   Fri Feb 8 22:57:02 2019 +0000
+> 
+>     vim: use empty PACKAGECONFIG for vim-native
+> 
+> it's currently in master-next, but it should be imported as well.
 
-Interesting, OK.  It looks like Fedora puts this into bind-utils (which
-is a lot of tools) and Ubuntu/Debian into dnsutils (which is nslookup,
-nsupdate and dig).  I'll put it into our bind-utils.  Thanks!
+OK, yes, I only grabbed current master.  Yes, I can re-spin to include
+this version.
 
---=20
+-- 
 Tom
 
---g7w8+K/95kPelPD2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcenjGAAoJEIf59jXTHXZSqlsP/0th7xKdotGR2JH7BmVHJrck
-wDjPp1cyXg8tjB/Fd21uPNIKME8xCe1mFDuCwWoPDfGzfDwI6FENv07fLMcQJdGu
-jJyNJbgEZMmruMGO/qkI8KY+Y7OS1aC9HeBbCgZxuBfIxk/tggtqGgMQlOTvcNff
-rmPaXk5TVbIpy78pSkvSZD+K27UNtFXYzyxIO3bTXfaK1wvSBXGGaIJLLgZp3xlC
-8OuDvodcglCJQrgHTVO1v6vqo7Y1LxGPoQljivSTS3dAAnPSUiZJuxMJh4vvEyDq
-9V5gkXN3CzMVe840Zolu1gC3l/lkmIqkIOLrGxU7PN+dnh/KHHERxe1l+AHOYi+r
-KRdaJGK8SVYhTpdDXxrCIdHu4L0I81ywaio14HcQAn7YkKCBAWOy1P6BaFUwVy2U
-QAY2XsBu49lsd8raBdhfu7JkXdF7Xd4TelIETWIwLoP3/OkMUMFMupYIcGfyFzp2
-d5Ne1/ZMFdEfwjVQZPCZKuw/bd/CxJe7DGWrnw9auEgD+9u85ZDsJ/WMeOzGABB6
-Ep0fy0jdsEps4fXJsPWgBUBh3UVlxXFkGYpTfntaMJZSWiraHZl9sQMviKMQ2mQG
-zCxcqC56gBH1ZwS4coetosUN7ARXZwf0TlQEaFusGa1p+IQsQgRC467CklAJS2Wh
-eJl1om5GIearclA9p5Xu
-=0qvi
------END PGP SIGNATURE-----
-
---g7w8+K/95kPelPD2--
