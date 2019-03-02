@@ -1,49 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DC3A67CCC3
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C1F57CCAE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Mar 2019 17:00:19 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g12so1057359wrm.5
+	Sat,  2 Mar 2019 17:46:29 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id 10so952194eds.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Mar 2019 09:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=td4T/NHaXYAGiZwEzWbUwHZUkVwqyvViCjWcLwHCQV4=;
-	b=g3STx6x5kU7Vpo5xWWuOEApxtW/XAmIVFWAEjYzk1i2r00Je8iE1oix/RQEoZh3Qcw
-	Q7KhmTCw/SzSPYLV7NAgGNsETBbFNJlReNX8ZIfhnpdD688SU79/1YooU8UgzyZ7iGZS
-	g77qPYpNDj92UbBs8bquWhWRueyHqxRRZFoPI=
+	Sat, 02 Mar 2019 09:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=n1zp7pdtfFfyVJep9RmROOMkvXee0s3seNnzGRXNEcs=;
+	b=WhzrCHuFhqrpGCb/PGMQstJR4BBBrLBMqU6ua9etkEDE6hHXrw63HNrfSqEnfnpak2
+	a5WIl6kUnhhbQwf41vLNBbMo/yfHsByALN8Y6Ti69D2PtOD9l6hEZuUi8/O39FXJ9FoK
+	/lQ3vr6XIRfYVJvNzs6lvgNOVPUi6jvoXRaxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=td4T/NHaXYAGiZwEzWbUwHZUkVwqyvViCjWcLwHCQV4=;
-	b=MWVtfGaTtnG0k9CHEsArM6kAI4SruCHMPZ01ShIVdfwMJen0PEfHxtIjOar+Z2hdEE
-	T76O6Tdk31xHnqLYUsRqHHqRExWnTTDLEaSQElpqH9lIPmEnK563+2fqyKdPUuBBNwpZ
-	nKCnHhdR0VjFJecVG8Arlivm2R26dPZtZwUrH75ZwOT17vOfaiyQ0Kau1MeGj+9/FJsQ
-	kvRmGEpJ0/1rddF5MCvE8vpwXvmx8SkXYo25lloSCnm/JmLF3SjQsAI4K7mNPi2pKiYg
-	KKleULLI//FfEEtAwfs3PH+vEZLnGj/N78sJU6Xu/QfyylBEgEdRd4kYSTcoyILAj0ch
-	tsjA==
-X-Gm-Message-State: APjAAAWRhtEYM2s0E9ignHyAhZHQXN11NC51990UwajsgbFKsamLYZiT
-	MLw6WgcBkOQqfnMAudKa9YTxL6WNIcM=
-X-Google-Smtp-Source: APXvYqx1d4lew/NJ7S67UJ+FeyNq9kWivxtZzGPPmr31MOEOWL8dPLqg5wReM1OyA8Kn85zXbN4REw==
-X-Received: by 2002:adf:e48a:: with SMTP id i10mr7614943wrm.257.1551546020627; 
-	Sat, 02 Mar 2019 09:00:20 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id n9sm1063946wmi.33.2019.03.02.09.00.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 02 Mar 2019 09:00:19 -0800 (PST)
-Message-ID: <e44ab9ad197708fae61fefb6b235e62ae59f0dcb.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 02 Mar 2019 17:00:18 +0000
-In-Reply-To: <1551479212-28944-3-git-send-email-trini@konsulko.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=n1zp7pdtfFfyVJep9RmROOMkvXee0s3seNnzGRXNEcs=;
+	b=bAQa9RthorUt40NpwoZ13FOyE7minVGJ0oyRFo/Ps2xL2Bp37HGMf98GVNJpR492fa
+	0sN6w7V9ViIG12dOUvyDYdfnt//fMLOs43MAycgbc9At9Py71JBWIA5wGjpIbGFWfQf9
+	aDHSTyrhjUb89mImWrq1rIdJgD34U1N6J0FoO+MBCILoH1L0ix5SqgWNtlWDwuQiI24w
+	73wWSVHvUR/OGEq6kMkZl1z2txtOXixg1qlary+dRotrZysDjfigDmDja3/eJcDqSOmT
+	U70OTT4bqspxnL2E+wCmiIZJAcfO9D7ypbBHgjlxccz34hqoi+RZSkEyoxF2wKvn3CC7
+	azog==
+X-Gm-Message-State: APjAAAU2H0yMVgEqakZL5+eVjprf81tebTzZpS/8YQnvTlve3pQu3YXg
+	VS1PRMeYSmMyk7EBOiNDSKw1fA==
+X-Google-Smtp-Source: APXvYqyRUzwR3jltUlB4h3oCVUpbrPxJaStZouD+Rlq6faQVHoOIfYWAdyxVNkwxZ+3s2X/WT5o+VA==
+X-Received: by 2002:a50:9908:: with SMTP id k8mr8549466edb.246.1551548790537; 
+	Sat, 02 Mar 2019 09:46:30 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
+	[2606:a000:1401:880d:118e:86c:e9fb:6784])
+	by smtp.gmail.com with ESMTPSA id h47sm506474eda.47.2019.03.02.09.46.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Mar 2019 09:46:28 -0800 (PST)
+Date: Sat, 2 Mar 2019 12:46:24 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190302174624.GH5026@bill-the-cat>
 References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
 	<1551479212-28944-3-git-send-email-trini@konsulko.com>
-User-Agent: Evolution 3.31.90-1 
+	<e44ab9ad197708fae61fefb6b235e62ae59f0dcb.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <e44ab9ad197708fae61fefb6b235e62ae59f0dcb.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/4] inetutils: Import version 1.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,29 +60,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2019 17:00:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Mar 2019 17:46:30 -0000
+X-Groupsio-MsgNum: 121833
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zGQnqpIoxlsbsOfg"
+Content-Disposition: inline
 
-On Fri, 2019-03-01 at 17:26 -0500, Tom Rini wrote:
-> In order to have more robust stand-alone network tools in oe-core,
-> bring
-> in vim from meta-openembedded/meta-networking.  This imports the
-> recipes
-> as of git commit:
-> commit 408204073e6bdcd8ac586e05d5b75213417673f2
-> Author: Martin Jansa <martin.jansa@gmail.com>
-> Date:   Thu Aug 16 20:39:15 2018 +0000
-> 
->     inetutils: fix build with glibc-2.28
-> 
-> Signed-off-by: Tom Rini <trini@konsulko.com>
+--zGQnqpIoxlsbsOfg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-vim and inetutils will need entries in maintainers.inc else we'll see
-selftest failures.
+On Sat, Mar 02, 2019 at 05:00:18PM +0000, Richard Purdie wrote:
+> On Fri, 2019-03-01 at 17:26 -0500, Tom Rini wrote:
+> > In order to have more robust stand-alone network tools in oe-core,
+> > bring
+> > in vim from meta-openembedded/meta-networking.  This imports the
+> > recipes
+> > as of git commit:
+> > commit 408204073e6bdcd8ac586e05d5b75213417673f2
+> > Author: Martin Jansa <martin.jansa@gmail.com>
+> > Date:   Thu Aug 16 20:39:15 2018 +0000
+> >=20
+> >     inetutils: fix build with glibc-2.28
+> >=20
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+>=20
+> vim and inetutils will need entries in maintainers.inc else we'll see
+> selftest failures.
 
-Cheers,
+Ah, OK.  Does that generally involve more than ack'ing the automatic
+upgrades (that one gets CC'd on I assume) and answering questions?
 
-Richard
+--=20
+Tom
 
+--zGQnqpIoxlsbsOfg
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcesFwAAoJEIf59jXTHXZSeL4QAK1w8tsmQsv/Jzs9cFzHdeYY
+BKM+GtVJJyHsNPHABVPS107cWya41DD2BAiHO36BpiuKQm23SIKfiTzWYEfjJXr8
+l70b8Yq+9mgXjSYvw60zrFONoo7zpDdupDtdeRKBlwy41eC5xitetrgcjB0u9ipc
+cl4p7rauxiUVr+aiBs60NCGdNqv3qj3UwOvyTllMHhBK5OX38SsW/kUYhJFLlg1H
+uhOePM8vFqNoKavxsYbSiWOhIqvNHI1yx9zeEuU4S2EpMQCj/MVnltBTFURAkbSU
+TV6PJmj+0vbk1Jzt+aN+VJzcMlV7kp1s8vRNkqASwFQL6kwrTt8KMWkmILFDcuAm
+IuA/tw0uc8BYM2gJDQwUkHrt/ocGD/dpXqAR6spLQ8kEQjzaGYZrAyk8Kh6ulO/F
+QSpsldNOZuV9eitIBZmUADXa4lX9DlTFoy9v9HuRWRQaEVhlzk/fybxZgoDkHiFp
+Tx7Hn3NIwgUA6S6ROI6D13sjgf/ROO13XJCNw/x+GBmTaiqORDbawKcxehqUCKal
+/y8DZxmUmGfEfbXWbLGP2JAe5GAZFhAVfWIF3zWfmqhjs8RTFNb20d8HG+XSeQzU
+yvnWHwjd2vfR4iqH8oE4aNmqCLlFpgWcGgYjsb1nQ+uSniMVe70Qe1IKHttEyZFM
+GHTPIgkpKPGdghd2KCFN
+=wMYV
+-----END PGP SIGNATURE-----
+
+--zGQnqpIoxlsbsOfg--
