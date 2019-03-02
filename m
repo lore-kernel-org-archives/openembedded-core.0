@@ -1,54 +1,53 @@
 Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 05F907CB31
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 801C17C731
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Mar 2019 12:57:29 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id 10so594850eds.7
+	Sat,  2 Mar 2019 14:41:47 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id 10so723790eds.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Mar 2019 04:57:31 -0800 (PST)
+	Sat, 02 Mar 2019 06:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=5AVbOq8raqyNeLF26s6GaPkaclnM06B8Oojd/eJBp9U=;
-	b=pS581uTkVg+x0WsYKHpoY/0GBv2B4AfgSdJbYwnpw1RDfdF8GfjprjQm8LNDGqUDwo
-	OuPifncks8VL4IGoOzgPRYNdTeXDBuk7ZberXhM2HOcLovjUT99AVabWFxUtJvUkeGHZ
-	uC+WQqWoPa6um38sQcJCEaDQbWjaB7rv+RLBc=
+	bh=7+inHhHTu3lDtfTocE8aABSngt0u1l19ZCpFHknatKE=;
+	b=fKfzFMTmbLI/qebLd6BtiLrGH4IaByAyCyUL4VmtMDXVtK+3uEjHvql4vAbooHc7Qa
+	qM7rKHBN5V3/wDXw0kzOIWFJccrDeQFMr54vbfEeOm5VY9D+RCoqev+w1oq9xHzgSoAt
+	jPJY2x72cBOUThSHC5XFnf59E2C0bS3jfxd7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	h=x-gm-message-state:date:from:to:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=5AVbOq8raqyNeLF26s6GaPkaclnM06B8Oojd/eJBp9U=;
-	b=BXsX7Exs2/nv9kD5SIz7H1MH1pZJeC3qwsUXmN9NYry6ijC8sgc8gk1Rcjk6OjE0Xy
-	5HvktY5ui5jb2FXycxZS53Y3cNFG6wvrYe9ZZmJw4t+qjujLPIVTHRj7dnCckKMdmsLz
-	det6zgY43ym7Lx5I6xcD4PbOb32ugANrCSQvhBCe7CsKsc39jmFHNftpjr4F8G1fscfc
-	Kiq5aF6ASAzq5KnSNBsfN0m/uaNOFXtg+7SYVETBJi00Xt4NXeYDQdjiCYDSgUsViEV6
-	c7WotmHlXTp+exFgZWZwYmnYk1kOFiL6fPeZ+089egn4seAKAuiLQgcXbmnb+dGWDX6p
-	AS8w==
-X-Gm-Message-State: APjAAAUhtl8XbbCbmvWzxSWciX02C4BP4Pd32K7/xbsfiqbZ8JHzakPY
-	WRKcj8ewHx3vS5UasCsNMZGwzg==
-X-Google-Smtp-Source: APXvYqxlbD5YIS63IDQhyUTT/3e4rI6wZO8TAw9uT+a1uq7LYrC1xVw1//HEhL5rrIbLWPA8xYgTKg==
-X-Received: by 2002:a50:eb4a:: with SMTP id z10mr8125832edp.284.1551531450567; 
-	Sat, 02 Mar 2019 04:57:30 -0800 (PST)
+	bh=7+inHhHTu3lDtfTocE8aABSngt0u1l19ZCpFHknatKE=;
+	b=Kmsqb+Z2PE9gJ4Io3Ca1BGeBPuS/qxCtGgUhDrHAVbAu87wtuz95QOhtWNDqglQc0l
+	5ntxl5WYfeMuNNC7b+vF6ur6HChBBxXzf4C4OfN2Dh16UxCxdjfD1rwAlZjrtHBIAEFt
+	hv/TpoqaidZT0HI5jkx6q4LLQib56RL299318wAVcgzT3fUI7ke5zb5DeTVEZjNqGx8t
+	QON4HdEvw/5U/Mfj1gNKlAYZ6gOYC5vgONdrvPCXq7EdVQnTXG5IdGFbVHVyK3Pm7EoS
+	Kn8kcdZLpyTepFpOgHHOCUANkBNaT6VduH5k1ofFxF+yb+jySa6VtMTR12iyD+HVRFqS
+	Gubg==
+X-Gm-Message-State: APjAAAUMrCi9Ix8XqtXQ46e9xwceqKWQvfAIkJCVVOD0aRKUxdpSTEWa
+	+WlUU6xTfIIpbEOOA99P4fLBsxy93BA=
+X-Google-Smtp-Source: APXvYqzp+bHd1Xq7pYtWGE1/cFjcjwNjp+DH78avKDMJFCFVSwy0Q+ljDZOKI2ZKVvnSH/x3ZkypIg==
+X-Received: by 2002:a17:906:1ec5:: with SMTP id
+	m5mr6646008ejj.159.1551537707637; 
+	Sat, 02 Mar 2019 06:41:47 -0800 (PST)
 Received: from bill-the-cat
 	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
 	[2606:a000:1401:880d:118e:86c:e9fb:6784])
-	by smtp.gmail.com with ESMTPSA id s24sm327446edd.23.2019.03.02.04.57.27
+	by smtp.gmail.com with ESMTPSA id d19sm160482ejb.31.2019.03.02.06.41.45
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Mar 2019 04:57:28 -0800 (PST)
-Date: Sat, 2 Mar 2019 07:57:25 -0500
+	Sat, 02 Mar 2019 06:41:46 -0800 (PST)
+Date: Sat, 2 Mar 2019 09:41:42 -0500
 From: Tom Rini <trini@konsulko.com>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20190302125725.GF5026@bill-the-cat>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20190302144142.GG5026@bill-the-cat>
 References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
-	<1551479212-28944-2-git-send-email-trini@konsulko.com>
-	<20190302091548.GE1503@jama> <20190302123634.GE5026@bill-the-cat>
+	<1551479212-28944-4-git-send-email-trini@konsulko.com>
 MIME-Version: 1.0
-In-Reply-To: <20190302123634.GE5026@bill-the-cat>
+In-Reply-To: <1551479212-28944-4-git-send-email-trini@konsulko.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] vim: Import version 8.1.0347
+Subject: Re: [PATCH 3/4] packagegroup-core-base-utils: Introduce new base-utils packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,76 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2019 12:57:30 -0000
-X-Groupsio-MsgNum: 121827
+X-List-Received-Date: Sat, 02 Mar 2019 14:41:47 -0000
+X-Groupsio-MsgNum: 121828
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vmttodhTwj0NAgWp"
+	protocol="application/pgp-signature"; boundary="TeJTyD9hb8KJN2Jy"
 Content-Disposition: inline
 
---vmttodhTwj0NAgWp
+--TeJTyD9hb8KJN2Jy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 02, 2019 at 07:36:34AM -0500, Tom Rini wrote:
-> On Sat, Mar 02, 2019 at 10:15:48AM +0100, Martin Jansa wrote:
-> > On Fri, Mar 01, 2019 at 05:26:49PM -0500, Tom Rini wrote:
-> > > In order to have a stand-alone editor in oe-core, bring in vim from
-> > > meta-openembedded/meta-oe.  This imports the recipes as of git commit:
-> > > commit 7b48bd2be97408107c0dd3c74b1e28f042268457
-> > > Author: Ovidiu Panait <ovidiu.panait@windriver.com>
-> > > Date:   Fri Feb 1 10:07:20 2019 +0200
-> > >=20
-> > >     vim: Enable GUI support for x11 DISTRO_FEATURES
-> >=20
-> > This isn't the latest vim commit in meta-oe, you're missing:
-> >=20
-> > commit c4db3971ab88dc8c012256e987f73ccd4459b400 (HEAD -> jansa/master, =
-contrib/jansa/master)
-> > Author: Martin Jansa <Martin.Jansa@gmail.com>
-> > Date:   Fri Feb 8 22:57:02 2019 +0000
-> >=20
-> >     vim: use empty PACKAGECONFIG for vim-native
-> >=20
-> > it's currently in master-next, but it should be imported as well.
+On Fri, Mar 01, 2019 at 05:26:51PM -0500, Tom Rini wrote:
+
+> This packagegroup is intended to provide all of the functionality found
+> in other VIRTUAL-RUNTIME_base-utils providers through full packages
+> rather than an all-on-one package.  Document how to make use of this
+> in local.conf.sample.extended.  Introduce VIRTUAL-RUNTIME-vim and
+> default this to vim-tiny to allow for a differently features vim to be
+> used instead.
 >=20
-> OK, yes, I only grabbed current master.  Yes, I can re-spin to include
-> this version.
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+[snip]
+> +    inetutils \
 
-I see that in master-next, this is current:
-commit 41f3f8165bde3eb4f8bcf6dddbaca0d3b760c70b
-Author: Mark Hatle <mark.hatle@windriver.com>
-Date:   Thu Feb 28 09:39:19 2019 +0800
-
-    vim: remove xfce vim bbappend
-
-    Changing the behavior of a recipe by including a layer is not allowed
-    by the yocto-check-layer script.
-
-And have grabbed the vim recipe side of this as well.
+One thing I forgot to double check until now is that inetutils does not
+work as a metapackage and pull in everything else.  When I post v2 I'm
+going to add in a few more sub-packages to match what is/isn't in
+busybox.
 
 --=20
 Tom
 
---vmttodhTwj0NAgWp
+--TeJTyD9hb8KJN2Jy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iQIcBAEBAgAGBQJcen20AAoJEIf59jXTHXZSpk4P/jJBzXzYHvDyC8AbJ3ZEKQdo
-u1g/UJHfeaq/RZAjk+csQqZfnVpacXgVAiPt6x7Z7K2d/J1mqy+o2UC+PLxWMVac
-dyxstOed7P2fTzA+eTFCxLvsDPU3j4YJRtC6VY6veWvYp9IM1B7w9vYEhedN8gGP
-rN2F2eFELZQgVsoYsg1XHQihSQiyL5MkEfz7H3bVIX48byP8Nlqx6tiXevnJDQ3M
-eJMpZRrY5Y69BuMoMKTewAwKwzHxeyBJ79vSjRJuAO1RW304pc+NPXTyBLA0i11n
-JvykeDqP4QY2vTcKd8GFcByCxVJgHBpJG71JkEPIgGivyOpUgq7stLoRBXtHYcMQ
-NZ0xUO+Mt0TaCEZukKQeMSk9q9MAR409AuKolwgwUhAahPv6trwIZGyjNSfjuZ1s
-53K2h7mtT0as02rb3Qov1SXs85lHGYFvt2Pc3m9jChlXrnSMZvlIkDgrlFMPfuHz
-eDTpxLSkFda9D3CxKRWOOJrDHx0gp7x1wYbveuyGhl9mP76tJ6Xing/gQRpwUzr4
-mQlXvpyZZbv1Qd4OY1gWJy1VKk2A89nb94PffALQvHIgq7PhjR59uoG+K1mld35h
-QqtBNcWnBHyIeyW0mHBGb14ebXhQhPLMy8xBWTz1QgN+szOiW4L792YfHr7x2tpc
-xBjeeLrAsEMetEUX/DdK
-=Fqfg
+iQIcBAEBAgAGBQJcepYlAAoJEIf59jXTHXZSkoQP/3XEy2IwFJ/NMMqAPEVuVlPz
+pNi/cJRvd8bl8o2hjEOA0TcgzLDE/xspHTYfoDiesHg3Ehg4KDa0/1E6gpss9G3W
+aLgqwzDnIBvPm3Kfju/I1hP/c99d/BK5MIvBgODcsAY8HSl5yO92PPnFEDUjuhqP
+mhYmAbOdE4lKv3rV0xrQVvNp2vZ59cQeltuNg/tzcpbsat+beN39AY00SMRgvjlE
+KhQAsdt2r3vgDzu9LkfJA65ur6tlz2FTatom6QY04SnP1000awpu/AyLmVmtLWhx
+tYvha+45frvBRMQ7UEIIwBtm9w20EbQvVIiRMx7xelV9+gPx/FHnqexEPUVd2RrG
+YC1QkhZwsDmcsOTETh1GBOas2wu9cAuSMHnK+anA+HO7Pt5n3T1C/IaDggzFu9f2
+2xcAsIB3WsbvVy4AT/cHuajKpa8BEdyMaxnKwJXYmmnMTp1tV20vMVgywGkb6J1X
+S66B0gDcgvU222Bns/ijT+8kaUWK+MOQ3QLMOVKlbow5UrvcxqtI7ACNDRbESoPl
++Z6BIPU9lvzGvTYQa9IT667uVEo46Soqt3etw6KpgbmmigW9WD5ErRcxm4etTzly
+49eUygp+zNo8G6rb/7OpkdhHVfeyxCRIvaN3v6BwaFjpESzTi35ZcMKLLYpwcxzi
+eXSgArE76Gyjl+zdwT4A
+=/mjg
 -----END PGP SIGNATURE-----
 
---vmttodhTwj0NAgWp--
+--TeJTyD9hb8KJN2Jy--
