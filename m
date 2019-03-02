@@ -1,52 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D990179BC9
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0BB7CD49
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Mar 2019 12:21:57 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id w2so604698wrt.11
+	Sat,  2 Mar 2019 12:36:27 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id j89so567255edb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Mar 2019 04:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=yGPk9JFA1aC/NLU9XeAYPtbbLx9fjEH0J2l86yvy6yo=;
-	b=YdGFcrMnJ0OVwtIIeNC8YWDOMgglSCsKWk+5csPEjjxAmEm9290XAV5099Bh+hpLWx
-	2Lms25SrF9NjTLrNasVll8uQKwYCWPxGzhuRuoHgcKstokSkNGEp0606kMVUI1fncHmC
-	ukCc1B+dywhWwoLp3EM1S5ks/Dz1Abi/0UuPo=
+	Sat, 02 Mar 2019 04:36:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=90cckOCNvmQ4ZMQHcb2q0qXxrNpiilQhnz34ZWmYsHU=;
+	b=RVpXVO9nW3kpl0lMioYiDgFZE+o5P6NnPjr5KynuuK6ugHaFBb5iYi9zUl1otxurPH
+	iBHdo/eMa7PRgYGIE4deYFNnE9FrjrmTxYcoP5CmOunRRfQYKml0nGkJhe3l+JX+NYRl
+	eBTmJXPQjAZtAm3jg5s601uy+DV7J3MK3CLAw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=yGPk9JFA1aC/NLU9XeAYPtbbLx9fjEH0J2l86yvy6yo=;
-	b=oAeQYyN7syjbocJnR5aM3ewtfP50J140choD5aNhO2Xpe5p7NK72alfhCCh1EmnUxH
-	N64zUZZ/V8H9E/ac5gmf/3e5+WIRdAgyaG2k5c0HsfTcCW2sxcKbUBV4E/fjPtFtJMdp
-	liSzelxDNyicWBNOauX9OyIMPU7IoXCwwL/lWmEnWweUTb6iSPXmjtARsIN2zWOsKq6C
-	DFNpzfQchECQwymhx1s27qL6WbjHVSTWboTJ6I6A1D6Eo9oo3mEAKZ1Y1RlLWf/g17w5
-	eibwA6b+pOUhCCImXzW1i0cKS6iLwfCL0P+ar6XCTWrKo/DfD8Y6kLCXvkn/jTYkBwpW
-	bc0g==
-X-Gm-Message-State: APjAAAWRnGcI5g481msaR8uAthspiT1TP5WkE1cSbOdKbWZ8WgcfiFFP
-	RpeWJtqoOJGKzZCp3qLfCBcZ/w==
-X-Google-Smtp-Source: APXvYqyyvExda3q/S60Ogn56AWdPp1zM8mVvIkfwM2Hu8netAwCo1HpFzlg0NCvn7f9Ss248Q7Gqzg==
-X-Received: by 2002:a5d:6785:: with SMTP id v5mr7196587wru.59.1551529318559;
-	Sat, 02 Mar 2019 04:21:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c126sm2045259wma.0.2019.03.02.04.21.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 02 Mar 2019 04:21:57 -0800 (PST)
-Message-ID: <d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>,
-	Daniel Gomez <daniel@qtec.com>, bitbake-devel@lists.openembedded.org
-Date: Sat, 02 Mar 2019 12:21:53 +0000
-In-Reply-To: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
-References: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
-User-Agent: Evolution 3.31.90-1 
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=90cckOCNvmQ4ZMQHcb2q0qXxrNpiilQhnz34ZWmYsHU=;
+	b=m0o5OBlsWuu1+JOf2sOEmKY1PuPx2EnNq0JPrY5G8pUcG+zhhtF0cB+lvbOuygOQj8
+	9hvXkeLszbhlSOlhn5L7b2ire+ZZRNJe+9cR5EP8ME6+o33fq82P9N1tMNn7BzftUS4A
+	osiBmcy0igdzjaBbCxBs9DiDS3+LutqDMi/LnHqv4VAgJjao+8CvcZq2buXwCT4C7dWw
+	4sPxiHadLJTTTSWd0B3ykRPwPiC+YaeCJyCdA9FdFAC4IKA/TUBO1P15H1pvyAC58GXO
+	pNXUuRAzgpmDx61GrGbZRlzViIW5WXy4JlbIrbVd/c/kICdi1PpGWf+TImBzsICZ8KWY
+	gICg==
+X-Gm-Message-State: APjAAAU2UkEb1Jazz9Fsc28ml9sK2NdtzqRSYkjrZ2/aoK3ztNhJVpt2
+	pnvFB0SYkgb2/mGtDPqOn/rX6jxJgCs=
+X-Google-Smtp-Source: APXvYqxITzq+eTo+07JkIy6T8jhAfSeoMdBxtrazHwxDTH0ocZ21Nhu0h22gXJjVF4fCuxCQEVYM9A==
+X-Received: by 2002:a50:b8e2:: with SMTP id l89mr8256507ede.140.1551530187916; 
+	Sat, 02 Mar 2019 04:36:27 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-118E-86C-E9FB-6784.dyn6.twc.com.
+	[2606:a000:1401:880d:118e:86c:e9fb:6784])
+	by smtp.gmail.com with ESMTPSA id x18sm319334edd.4.2019.03.02.04.36.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Mar 2019 04:36:26 -0800 (PST)
+Date: Sat, 2 Mar 2019 07:36:22 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190302123622.GD5026@bill-the-cat>
+References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
+	<20190302071140.GA2151@localhost>
 MIME-Version: 1.0
-Subject: Re: Two recipes providing the same .so... How it should not be done :)
+In-Reply-To: <20190302071140.GA2151@localhost>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] Introduce packagegroup-core-base-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,79 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2019 12:21:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Mar 2019 12:36:27 -0000
+X-Groupsio-MsgNum: 121825
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="g7w8+K/95kPelPD2"
+Content-Disposition: inline
 
-On Fri, 2019-03-01 at 12:28 +0100, Ricardo Ribalda Delgado wrote:
-> Hello
-> 
-> I have a build system that supports some aarch64 machines. For most
-> of
-> the them, the only difference is the kernel configuration, kernel
-> version.
-> 
-> I am using multiconfig on my build server and the build goes really
-> fast thanks to all the shared binaries/artifacts.
-> 
-> But I have a problem adding a new machine. This machine is also
-> aarch64, with a special kernel (nothing new here), but in this case
-> the vendor provides a binary .so for libgl that is required to get
-> hardware acceleation.
-> 
-> I could .bbappend mesa and on the installation part replace libgl
-> with
-> the new .so. But then everything that depends on mesa needs to be
-> rebuilt for that machine and I could not use multiconfig.
-> 
-> Instead I have created a new recipe: mesa-gl-replace.bb that has the
-> file. This breakes completely the design of OE, but works.
-> 
-> Some snipsets of the "magic" to make it work:
-> 
-> #Force that the version is allways higher than the one from mesa:
-> PE = "5"
-> 
-> #Rprovide the same as mesa
-> RPROVIDES_libgl-mesa += "libgl"
-> 
-> #Do not overwrite pkgdata of mesa
-> PACKAGEFUNCS_append = " rm_pkgdata_runtime"
-> rm_pkgdata_runtime() {
-> rm -rf ${WORKDIR}/pkgdata/runtime/*
-> rm -rf ${WORKDIR}/pkgdata/shlibs2/*
-> }
-> 
-> #Keep this on machine
-> PACKAGE_ARCH = "${MACHINE_ARCH}"
-> 
-> #Make sure we are not saved as providers for libgl
-> PRIVATE_LIBS = "libGL.so.1"
-> 
-> #Avoid sanity checks
-> read_subpackage_metadata () {
-> }
-> 
-> 
-> If your eyes have not fallen as this point, this means you have a lot
-> of tolerance for crappy code, congrats :)
-> 
-> Now the question. Is there a better way to do this?
+--g7w8+K/95kPelPD2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'd probably let mesa build as normal but then add a recipe which
-RRPROVIDES, RREPLACES and RCONFLICTS with the specific mesa package you
-want to replace. It would create and equivalent package with the right
-contents and make it machine specific.
+On Sat, Mar 02, 2019 at 09:11:40AM +0200, Adrian Bunk wrote:
+> On Fri, Mar 01, 2019 at 05:26:48PM -0500, Tom Rini wrote:
+> >...
+> > - busybox provides "nslookup" which at this point in time is an
+> >   anachronism. bind stopped shipping "nslookup" prior to oe-core replac=
+ing
+> >   the old monolithic layer.  We do provide host and dig and such via
+> >   bind-utils.
+> >...
+>=20
+> I'd say this is a bug in bind-utils.
+>=20
+> nslookup was was at some point deprecated by bind upstream,
+> but it was undeprecated 15 years ago.
 
-There should be more variables like PRIVATE_LIBS which stop you having
-to use the more horrible hacks (INSANE_SKIP_*?).
+Interesting, OK.  It looks like Fedora puts this into bind-utils (which
+is a lot of tools) and Ubuntu/Debian into dnsutils (which is nslookup,
+nsupdate and dig).  I'll put it into our bind-utils.  Thanks!
 
-You might then only have the issue of ensuring this machine specific
-package gets installed into the images which need GL (or just install
-it in all images for that machine).
+--=20
+Tom
 
-Cheers,
+--g7w8+K/95kPelPD2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Richard
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iQIcBAEBAgAGBQJcenjGAAoJEIf59jXTHXZSqlsP/0th7xKdotGR2JH7BmVHJrck
+wDjPp1cyXg8tjB/Fd21uPNIKME8xCe1mFDuCwWoPDfGzfDwI6FENv07fLMcQJdGu
+jJyNJbgEZMmruMGO/qkI8KY+Y7OS1aC9HeBbCgZxuBfIxk/tggtqGgMQlOTvcNff
+rmPaXk5TVbIpy78pSkvSZD+K27UNtFXYzyxIO3bTXfaK1wvSBXGGaIJLLgZp3xlC
+8OuDvodcglCJQrgHTVO1v6vqo7Y1LxGPoQljivSTS3dAAnPSUiZJuxMJh4vvEyDq
+9V5gkXN3CzMVe840Zolu1gC3l/lkmIqkIOLrGxU7PN+dnh/KHHERxe1l+AHOYi+r
+KRdaJGK8SVYhTpdDXxrCIdHu4L0I81ywaio14HcQAn7YkKCBAWOy1P6BaFUwVy2U
+QAY2XsBu49lsd8raBdhfu7JkXdF7Xd4TelIETWIwLoP3/OkMUMFMupYIcGfyFzp2
+d5Ne1/ZMFdEfwjVQZPCZKuw/bd/CxJe7DGWrnw9auEgD+9u85ZDsJ/WMeOzGABB6
+Ep0fy0jdsEps4fXJsPWgBUBh3UVlxXFkGYpTfntaMJZSWiraHZl9sQMviKMQ2mQG
+zCxcqC56gBH1ZwS4coetosUN7ARXZwf0TlQEaFusGa1p+IQsQgRC467CklAJS2Wh
+eJl1om5GIearclA9p5Xu
+=0qvi
+-----END PGP SIGNATURE-----
 
+--g7w8+K/95kPelPD2--
