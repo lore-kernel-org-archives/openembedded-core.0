@@ -1,51 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 851AE7C8A8
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 316B86C4D8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2019 15:44:00 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t18so2818725wrx.2
+	Sun,  3 Mar 2019 16:53:45 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id g19so2294960edp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2019 07:44:01 -0800 (PST)
+	Sun, 03 Mar 2019 08:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=1/HkFK9o1+aBjKds6cZUrNblTyt37xU0tvdVT0RdPB8=;
-	b=KNiss0XHxuz/0TiP3eHNcxUPzlWhJk2wbbAf1C7fWKIZPYHVnQnoItLemLaDO69VDp
-	3wfWmewRQLk8X1OCkowzQckwnyPpdopNG0jQnY9S0x7hImfw7V3Us1pjF5j1YnrCzuSS
-	g+0NX32OLzipAxK2JbunXIGnGwrb3Fm+rKPfc=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=p/PaBg+A58OqazmlRLB/qKVAuvyF++a4UwOH4lwGLHY=;
+	b=f3KAxDI1yA5yuPB0crwpKcoJSCZjVODofF16lG7N61ufrXaYzzXsHg5ss8znsCPSpD
+	TVydB36Hv+WheQuY9mSl36HmgyZKw397umvGMxdlKOYRINFhOk19DODnp8Bdl6X1TdrJ
+	Qzf/3FTCnIiViH8ZJr1qAuGr+/Qn+QyZV418s26vdAsr8zrOS4F3e7Oc6ViUoksTzIbA
+	xZPCOEQazjn8QXbXWidUQ8/5QY1Bn7MDbTGD0y8Etz4sVcpV2VbLtd1/Wuclpw8ha2lF
+	0P0lSsla1mcXpjb5P1b5n5TMLGm6Ri4UUnTT4unwuVfguF8fbObYlBLIIcz1mtqOMb2A
+	TRQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=1/HkFK9o1+aBjKds6cZUrNblTyt37xU0tvdVT0RdPB8=;
-	b=U+IWW4X+JnnoLuazCc65nxZeoDaWaI7ELJ6hCZPlC31XEjxZ6qjFJorkDTQ0dCpdXA
-	PUrsFZjLk/rV32IhBO4iTkn3jVv8hLM3V9sV4C7j3//gfAqcHi2iwEiNe4vnzBQ1+M71
-	cDtor8LMrYuv57fdvl3bVENGHaIm4U0eZZP+d2TvKs/ZTTe8cApFnv8RIcUVzJBHqjtd
-	q3b/jLQDlLNKyp4UScw3nmBt+2uUJemjEjJdVsKquYM38+F3Dzs8u3kAsG7KZpfdIhqz
-	FMxGthrGDQiz9zfRFQE6IQefTkpXLpUUqjGVa6ImRABLx8Oncd90hhVEzpFPZAYNWCqP
-	IcFA==
-X-Gm-Message-State: APjAAAXO+IiZl5ai+wL0Sx+tUGdOmBSvPb33IgrF10J/DWd6h/DLuecU
-	jzZs9YBJIyX7Ke260dunMhjR8w==
-X-Google-Smtp-Source: APXvYqyUucpgCcivvAuOdGqmlTjzEKynw6qnkYuIX22iakpbab6shAQ8KDcDEdlmOt9c5b7vHnFsLg==
-X-Received: by 2002:adf:e3ce:: with SMTP id k14mr9792250wrm.179.1551627841237; 
-	Sun, 03 Mar 2019 07:44:01 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id f13sm4911715wme.4.2019.03.03.07.44.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 03 Mar 2019 07:44:00 -0800 (PST)
-Message-ID: <4872f2698533c6e38e1a15bf99bd64f1d2d4cd7d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 03 Mar 2019 15:43:59 +0000
-In-Reply-To: <96553c6e-dfe3-7074-99a0-f5770c72a4f2@gmail.com>
-References: <20190303003834.44637-1-raj.khem@gmail.com>
-	<96553c6e-dfe3-7074-99a0-f5770c72a4f2@gmail.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] grub: Enhance Waddress-of-packed-member patch to cover x86_64 testcase
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=p/PaBg+A58OqazmlRLB/qKVAuvyF++a4UwOH4lwGLHY=;
+	b=A/5k8yxvDW7xbYEMnG/AAGoEjPR5Nd1ZStcCi1NXoD8aU+cet6cavJCUgNr1JPSH66
+	1L5UgSizzQjSEZYFs/y85ari+URVo2Lys+DtG+F3XXWQz6wAF0E9d1+DTW+mdnMTS3rT
+	G8Jo2y6NH0IcUQi9OSbAh1I/xDnRe6fONHpQWwe7yYMwbH9HOtOlvEC2ULUuNdB5ZGNl
+	I+bjx3+/KOMPmyBwkGTIxSo1zCGtXYUdWX7gFHz8O47/aviOQNztnrXw3TSqq5N4oEKd
+	+TXKWny4Oj7oMmmvmyzCXmYaNwjg+05R2OPQZSNdPsf7rDY9QrskHe9RQV8m4lyurGIc
+	jbug==
+X-Gm-Message-State: APjAAAWR6c5E/ZYZTGjYaSyv+EGUzVZuhwy3czWXGNOSMklF2t2ln1Kh
+	1PFGkFTc//507bqpb5q97H/fCOgYngQ=
+X-Google-Smtp-Source: APXvYqw+PKwif5LyCKDCptTpt5kSsu2hpAYTbYnNSU8HVww/kYOGFQJadEKJKM9SlSRUg0rhip2dpA==
+X-Received: by 2002:a17:906:4044:: with SMTP id
+	y4mr9895696ejj.93.1551632026316; 
+	Sun, 03 Mar 2019 08:53:46 -0800 (PST)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	f10sm1356498edb.60.2019.03.03.08.53.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 03 Mar 2019 08:53:45 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Mar 2019 17:52:42 +0100
+Message-Id: <20190303165242.14424-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [meta-oe][PATCH] qemu-native: add dependency on dtc-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,23 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2019 15:44:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Mar 2019 16:53:46 -0000
 
-On Sat, 2019-03-02 at 17:57 -0800, akuster808 wrote:
-> 
-> On 3/2/19 4:38 PM, Khem Raj wrote:
-> > This was not compiled last time when testing aarch64
-> 
-> The subject and body have conflicting archs.
-> is it both?
+This fixes the following build error:
 
+../loader-fit.c:30:10: fatal error: libfdt.h: No such file or directory
 
-I've tweaked the commit message...
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-devtools/qemu/qemu-native_3.1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+index c8acff8e19..e3efd873ca 100644
+--- a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+@@ -1,6 +1,6 @@
+ BPN = "qemu"
+ 
+-DEPENDS = "glib-2.0-native zlib-native"
++DEPENDS = "glib-2.0-native zlib-native dtc-native"
+ 
+ require qemu-native.inc
+ 
+-- 
+2.17.1
 
 
