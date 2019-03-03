@@ -1,53 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9466B7C947
+Return-Path: <i.efimov@inango-systems.com>
+Received: from mail.inango-sw.com (mail.inango-systems.com [213.136.71.184])
+	by mail.openembedded.org (Postfix) with ESMTP id E48A76C108
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2019 17:17:02 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id i12so2981527wrw.0
+	Sun,  3 Mar 2019 17:33:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id 53E7E7A24D7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2019 09:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tGNKjDxIOFaqrOtyqAghCPjISGlI8lUIuMUNVnfAknM=;
-	b=NeqqGKi6nTRY4FQqu+gYi1U8d2gJu+b3n3NV0wHYTEdweHKZJpm9r8j1gilFqQe5LE
-	JQxREN5PhSMI8a0HIl5MA7HWwDg89l1lcOleQwizlY2kek/Hac0C1SyLmuCrM7noGo47
-	DURPuog1lvlD1rk1msSO4xuS2Iltgxp+Uo7pU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tGNKjDxIOFaqrOtyqAghCPjISGlI8lUIuMUNVnfAknM=;
-	b=QLUGSugUvtyh4RM3Ob3TGtMKsVeBRjcI9tCEqURIkD3J0Int9ztO81DRXFmdJdqbjY
-	R7THLSKl7MS6kT9s7xZovRex3d+yaGRWOVnq2VvntX0ulO5r1ddqHPa0zxm6nrm9/zcI
-	vdZP8msf373Oh3oLi5TLg+lqIdNzNgS92svsf8hVKNHdOQQVu7fEddZ/idrgLH019zyB
-	x43O2O1q97+uekFgJoxCIVx6VxGB7VG3P1nlgnaNY6y+PH6I0Hczw82vOwFQX2FkBaBl
-	Hh/kUmhvFIOjqTv/OUBS28b05ibkDobOlwcUiB83u0UGs5Icrm4mZ1rH4CA98l72W0j3
-	6Svg==
-X-Gm-Message-State: APjAAAXmr+yLfxR/ed2Ihn6YG26wXG03NjQ1mA1Vnu+5hW/tFk8IdC/+
-	Ew60LpjaOerE1blBbp0QMuWMCQ==
-X-Google-Smtp-Source: APXvYqxfdPNlavuTE0zdl2gTupsjm3lpmLacxljx33+g8eMkn3SFZsSymW20sBNXw8LhZj38BrtjyQ==
-X-Received: by 2002:a5d:4887:: with SMTP id g7mr10083756wrq.51.1551633423205; 
-	Sun, 03 Mar 2019 09:17:03 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h13sm3320087wrs.42.2019.03.03.09.17.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 03 Mar 2019 09:17:02 -0800 (PST)
-Message-ID: <c79c6a71ba004e65a4269e9aca743e3efcc3ab60.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Oleksandr Kravchuk
-	<open.source@oleksandr-kravchuk.com>
-Date: Sun, 03 Mar 2019 17:17:00 +0000
-In-Reply-To: <CANNYZj83wehnRQN_MF84Mm7TG8LHKkx1brPKtgjzfgKdQBFWnA@mail.gmail.com>
-References: <20190303165242.14424-1-open.source@oleksandr-kravchuk.com>
-	<CANNYZj83wehnRQN_MF84Mm7TG8LHKkx1brPKtgjzfgKdQBFWnA@mail.gmail.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] qemu-native: add dependency on dtc-native
+	Sun,  3 Mar 2019 19:33:43 +0200 (IST)
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id EDsNjHNd-bma; Sun,  3 Mar 2019 19:33:41 +0200 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id D97537A24D5;
+	Sun,  3 Mar 2019 19:33:40 +0200 (IST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-sw.com D97537A24D5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
+	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1551634420;
+	bh=eM2sbV8TyZr8Ey87n8cjQUe7+trOx0xjNy17SQ39J+g=;
+	h=From:To:Date:Message-Id;
+	b=QRM4shwGUcUDkdndLU6DgQv08XhEcVAU8rwoJ9b6vzl3NIP0RqGrqtkN4R+DWrl4H
+	x5dGlHEGqzBCzHF/YbUyt3GjxjnVnRKFPeYRl8jqFGODl414vTPyrZkVo/CEtL0jE5
+	ClxAJozwm/KlR5S7V1FCV2Q5Q1CIMvT953s/ee2xqPjVMqJlZQ+4QzTQ/y9UuKfVu3
+	c2aHhG4Anz+AyPLwptn5NZiW+on1UN0W+VyNSDOFGh/GHL4lnAIDT/YZ39R03fvBWK
+	eIPYiDXT4gxme+D1+86VVVui784rXgStw/T0JAuHxaF40ob/0ev37FJdwu2i6GDZwb
+	trwtBim8s64qQ==
+X-Virus-Scanned: amavisd-new at inango-sw.com
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 2c1utbHotIA1; Sun,  3 Mar 2019 19:33:40 +0200 (IST)
+Received: from ivane-1.inango-sw (unknown [194.60.247.123])
+	by mail.inango-sw.com (Postfix) with ESMTPSA id 667E97A24B9;
+	Sun,  3 Mar 2019 19:33:40 +0200 (IST)
+From: Ivan Efimov <i.efimov@inango-systems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Mar 2019 22:33:26 +0500
+Message-Id: <20190303173326.11995-1-i.efimov@inango-systems.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH v2] btrfs-tools, Makefile: remove duplicated '-o $@' option from CC cmdline for libbtrfsutil/ folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,18 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2019 17:17:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Mar 2019 17:33:43 -0000
 
-On Sun, 2019-03-03 at 18:00 +0100, Alexander Kanavin wrote:
-> This has been previously discussed: qemu doesn't properly reconfigure
-> itself when settings change. Wipe tmp/ and things should just work.
+Command line for target "libbtrfsutil/%.o" contained
+double usage of '-o $@' option and causes compilation error:
 
-or just clean qemu-native...
+     cc1: error: too many filenames given
 
-Cheers,
+Upsteam-Status: Pending
 
-Richard
+Signed-off-by: Ivan Efimov <i.efimov@inango-systems.com>
+---
+ ...01-Makefile-fix-double-o-compiler-option-using.patch | 17 +++++++++++++++++
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch
+new file mode 100644
+index 0000000000..335067bc1f
+--- /dev/null
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-fix-double-o-compiler-option-using.patch
+@@ -0,0 +1,17 @@
++Command line for target "libbtrfsutil/%.o" contained double usage
++  of '-o $@' option and caused error:
++    cc1: error: too many filenames given
++
++Index: git/Makefile
++===================================================================
++--- git.orig/Makefile
+++++ git/Makefile
++@@ -414,7 +414,7 @@ libbtrfs.so.0 libbtrfs.so: libbtrfs.so.0
++ 
++ libbtrfsutil/%.o: libbtrfsutil/%.c
++ 	@echo "    [CC]     $@"
++-	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -o $@ -c $< -o $@
+++	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) -c $< -o $@
++ 
++ libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects)
++ 	@echo "    [LD]     $@"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
+index 1b4f515cb6..f1c4691313 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
+@@ -19,6 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Makefile-build-mktables-using-native-gcc.patch \
+            file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
++           file://0001-Makefile-fix-double-o-compiler-option-using.patch \
+            "
+ 
+ inherit autotools-brokensep pkgconfig manpages distutils3-base
+-- 
+2.14.1
 
 
