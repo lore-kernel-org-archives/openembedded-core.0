@@ -1,51 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 40C276BE3A
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 66C5A79B57
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2019 09:53:36 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id i12so2270368wrw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2019 01:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ihT4SppjQ/e6kupOOx3yFiAtTE4ClQDlcTxzF0+jv0Q=;
-	b=OlGZ+QEO4hP6l3rSMZbYCdbEwoN4zaWUpf9yzo/GeG3XLDTMtSbp2HMDej5EIE5LpD
-	j0KC12DOuIItHnjWmNNeZ0Lp4QrYODc4Oc3tjgG3BeoqdRri2nvt1r2eDhgkw0hf4i8U
-	iKe0MmY2AojUp25sAEQkBVydyfvNdExfAaww0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ihT4SppjQ/e6kupOOx3yFiAtTE4ClQDlcTxzF0+jv0Q=;
-	b=S6c/MRa1ls0OUfVcc96x4GsKZjF6mmyJ7hSaKn02hny/FqgHwQdxmn/TkKVyjMxlvX
-	kjYzzDKOWuhBQ65veDeFufMUFOeZElZD8cmYF50vEzMnjTshavVrL6AhcnV6bCeqKbl0
-	FOnF0AYgV6MUqkJj1/NdMBG0XtIlSrex2fm9ardwzFMc2Sz/6i8VtNm64+TDtWxeiQiS
-	hcBHobu29q7lFSonUb+59CyL8NKEjRimhRqwK/YMHbGR+iKbJ3C9xyugq33ORKwcVaD6
-	gdQjxBRaQgAmzbPGc2YyHD8txFLYKYdVAjHbD/4CBfO+J/nm5dbH9Wfwgup1mReqHCpr
-	RPFg==
-X-Gm-Message-State: APjAAAXd/IpHzOrVphoeJFmvS7MfsiV8N0ZwPll2yk3efNyGjrVJiUBz
-	QrVdwILdFHN+Ltlp5nisW0X/nQ==
-X-Google-Smtp-Source: APXvYqyix4g3e932pEUNn5LaUrhRacglT/kpsmE/iRMWshy8wn3RHDzPmUAdt/BrasSkJSgXQk9cOQ==
-X-Received: by 2002:a5d:4585:: with SMTP id p5mr9816887wrq.178.1551606816468; 
-	Sun, 03 Mar 2019 01:53:36 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	i74sm3628238wmg.48.2019.03.03.01.53.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 03 Mar 2019 01:53:35 -0800 (PST)
-Message-ID: <251fc9a1392c1ee156baf93ae3222ae6066e9dfc.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 03 Mar 2019 09:53:33 +0000
-In-Reply-To: <20190301090350.1937-1-zangrc.fnst@cn.fujitsu.com>
-References: <20190301090350.1937-1-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Evolution 3.31.90-1 
+	Sun,  3 Mar 2019 10:31:06 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 8BC955C1C19;
+	Sun,  3 Mar 2019 11:31:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1551609066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=6JOyS2ZTHa7AwzdHBTqnODY2rxm1lPJYYrOCWSdXLRI=;
+	b=fox/3QwMOoidX5Ctbi9b1BaiCxMhcbK+KaEApe4rL+lf2peMY0fcgvc0O4pP7w4GYYkbq0
+	4r7swOobyt2elVR+Z1vpeBN0DPCST/N1x7fTOnIRaWQKhkP4aYHhYzA5AGINBgubuWdvHn
+	dayvww/MYTC2KPqCBAXamY0Dhuq7ppg=
 MIME-Version: 1.0
-Subject: Re: [PATCH] elfutils: upgrade 0.175 -> 0.176
+Date: Sun, 03 Mar 2019 11:31:06 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: liu.ming50@gmail.com
+In-Reply-To: <1551604121-5034-1-git-send-email-liu.ming50@gmail.com>
+References: <1551604121-5034-1-git-send-email-liu.ming50@gmail.com>
+Message-ID: <bccc6a89cd75d13dfe3fc76e9eb673b6@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+Cc: stefan.agner@toradex.com, luka.pivk@toradex.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gdk-pixbuf: export XDG_DATA_DIRS in wrappers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +40,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2019 09:53:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 03 Mar 2019 10:31:06 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-03-01 at 17:03 +0800, Zang Ruochen wrote:
-> upgrade from elfutils_0.175.bb to elfutils_0.176.bb
+On 03.03.2019 10:08, liu.ming50@gmail.com wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
 > 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> We need export XDG_DATA_DIRS to be ${STAGING_DATADIR} for gdk-pixbuf*
+> wrappers or else they will try to load mime from /usr/share/mime of the
+> host machine.
+
+This fixes a build issue I have seen on a Ubuntu 18.04 machine when
+building psplash with a custom png splash screen.
+
+ERROR: psplash-0.1+gitAUTOINC+2015f7073e-r15 do_compile: Error executing
+a python function in exec_python_func() autogenerated:                  
+                                                                 
+                                                                        
+                                                                        
+                                                                 
+The stack trace of python calls that resulted in this exception/failure
+was:                                                                    
+                                                                  
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module> 
+                                                                        
+                                                                 
+     0001:                                                              
+                                                                        
+                                                                 
+ *** 0002:do_compile(d)                                                 
+                                                                        
+                                                                 
+     0003:                                                              
+                                                                        
+                                                                 
+File:
+'/workdir/oe/build/conf/../../layers/meta-toradex-torizon/recipes-core/psplash/psplash_git.bbappend',
+lineno: 34, function: do_compile                                        
+                              
+     0030:    for localfile, outputfile in zip(localfiles, outputfiles):
+                                                                        
+                                                                 
+     0031:        if localfile.endswith(".png"):                        
+                                                                        
+                                                                 
+     0032:            subprocess.call([ convertscript,
+os.path.join(workdir, localfile), 'POKY' ], cwd=workdir)                
+                                                                        
+          
+     0033:            fbase = os.path.splitext(localfile)[0]            
+                                                                        
+                                                                 
+ *** 0034:            shutil.copyfile(os.path.join(workdir, "%s-img.h" %
+fbase), destfile)                                                       
+                                                                 
+     0035:        else:                                                 
+                                                                        
+                                                                 
+     0036:            shutil.copyfile(os.path.join(workdir, localfile),
+destfile)                                                               
+                                                                  
+     0037:        # For some reason just updating the header is not
+enough, we have to touch the .c                                         
+                                                                      
+     0038:        # file in order to get it to rebuild                  
+                                                                        
+                                                                 
+File: '/usr/lib/python3.6/shutil.py', lineno: 120, function: copyfile   
+                                                                        
+                                                                 
+     0116:                                                              
+                                                                        
+                                                                 
+     0117:    if not follow_symlinks and os.path.islink(src):           
+                                                                        
+                                                                 
+     0118:        os.symlink(os.readlink(src), dst)                     
+                                                                        
+                                                                 
+     0119:    else:                                                     
+                                                                        
+                                                                 
+ *** 0120:        with open(src, 'rb') as fsrc:                         
+                                                                        
+                                                                 
+     0121:            with open(dst, 'wb') as fdst:                     
+                                                                        
+                                                                 
+     0122:                copyfileobj(fsrc, fdst)                       
+                                                                        
+                                                                 
+     0123:    return dst                                                
+                                                                        
+                                                                 
+     0124:                                                              
+                                                                        
+                                                                 
+Exception: FileNotFoundError: [Errno 2] No such file or directory:
+'/workdir/oe/tmp/work/cortexa7t2hf-neon-torizon-linux-gnueabi/psplash/0.1+gitAUTOINC+2015f7073e-r15/torizon-blue-img.h'
+
+
+Note that the error is somewhat misleading since the real problem
+happened in the convert script, where the header did not get created due
+to gdk-pixbuf-csource not recognizing the png file (Couldn't recognize
+the image file format for file ..). This patch fixes the problem!
+
+Tested-by: Stefan Agner <stefan.agner@toradex.com>
+
+Thanks Ming for looking into this!
+
+--
+Stefan
+
+> 
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 > ---
->  .../elfutils/{elfutils_0.175.bb => elfutils_0.176.bb}         | 4
-> ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/elfutils/{elfutils_0.175.bb =>
-> elfutils_0.176.bb} (95%)
+>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
-> b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> similarity index 95%
-> rename from meta/recipes-devtools/elfutils/elfutils_0.175.bb
-> rename to meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> index b0b9ddc736..fd901c9c9e 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> @@ -30,8 +30,8 @@ SRC_URI = "
-> https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
->             "
->  SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-
-> for-glibc-assumptions-hel.patch"
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
+> index 3a544bd..a5bd7c6 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
+> @@ -112,19 +112,24 @@ do_install_append_class-native() {
+>  	find ${D}${libdir} -name "libpixbufloader-*.la" -exec rm \{\} \;
 >  
-> -SRC_URI[md5sum] = "9a02b0382b78cc2d515fb950275d4c02"
-> -SRC_URI[sha256sum] =
-> "f7ef925541ee32c6d15ae5cb27da5f119e01a5ccdbe9fe57bf836730d7b7a65b"
-> +SRC_URI[md5sum] = "077e4f49320cad82bf17a997068b1db9"
-> +SRC_URI[sha256sum] =
-> "eb5747c371b0af0f71e86215a5ebb88728533c3a104a43d4231963f308cd1023"
+>  	create_wrapper ${D}/${bindir}/gdk-pixbuf-csource \
+> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+>
+> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
 >  
->  inherit autotools gettext
-
-This lead to build warnings:
-
-WARNING: elfutils-native-0.176-r0 do_patch: 
-Some of the context lines in patches were ignored. This can lead to
-incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
-
-    devtool modify <recipe>
-    devtool finish --force-patch-refresh <recipe> <layer_path>
-
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored). Further information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-Details:
-Applying patch disable_werror.patch
-patching file config/eu.am
-Hunk #1 succeeded at 73 with fuzz 1.
-
-Now at patch disable_werror.patch
-
-Cheers,
-
-Richard
-
+>  	create_wrapper ${D}/${bindir}/gdk-pixbuf-pixdata \
+> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+>
+> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+>  
+>  	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
+> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+>
+> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+>  
+>  	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+>
+> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+> \
+>  		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
+>  
+>  	create_wrapper ${D}/${bindir}/gdk-pixbuf-query-loaders \
+> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+>
+> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+> \
+>  		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
+>  }
+> -- 
+> 2.7.4
 
