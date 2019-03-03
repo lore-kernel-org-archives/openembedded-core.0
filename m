@@ -1,33 +1,52 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 66C5A79B57
+Return-Path: <vincent.prince.fr@gmail.com>
+Received: from mail-it1-f182.google.com (mail-it1-f182.google.com
+	[209.85.166.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E6667C6B9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2019 10:31:06 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 8BC955C1C19;
-	Sun,  3 Mar 2019 11:31:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1551609066;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=6JOyS2ZTHa7AwzdHBTqnODY2rxm1lPJYYrOCWSdXLRI=;
-	b=fox/3QwMOoidX5Ctbi9b1BaiCxMhcbK+KaEApe4rL+lf2peMY0fcgvc0O4pP7w4GYYkbq0
-	4r7swOobyt2elVR+Z1vpeBN0DPCST/N1x7fTOnIRaWQKhkP4aYHhYzA5AGINBgubuWdvHn
-	dayvww/MYTC2KPqCBAXamY0Dhuq7ppg=
+	Sun,  3 Mar 2019 10:45:29 +0000 (UTC)
+Received: by mail-it1-f182.google.com with SMTP id f186so2541111ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 Mar 2019 02:45:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2SBVLHAVhGCCU71zkoR5W6HnZaUaZU2oSwiOYrxga4o=;
+	b=L5VWakJkJtMlpGRsSaQE9zLVQi0EaJexZGEIj2wiGDqsFvx1iZkCM5gjPFQrfE2oES
+	5bP3sV557rWEG3c40CUmhqDnbuni05vfYG54fG0KVZMyf9e1fvyRYZ17TIVprz9m2YfQ
+	yCL6oPs2AevwzwmnD3K5hS6vBZ10RwvxXbLEcGpm5j+mkMg22zleV9uk9xbO3sXn0naH
+	Dg7VXLyY3DzFAe4ft/4mtkRy2fGHkvP5p+EZjnpkH5YNK/6xZrSpZhV+0np8mj8uZq7P
+	Qfn7bdXbLRlKMnA1nbKcCHEv8HLWim8vPLEa4x1PuaAH4FS5sEbYrHByaMYGJsCEM03F
+	MEdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2SBVLHAVhGCCU71zkoR5W6HnZaUaZU2oSwiOYrxga4o=;
+	b=AmrSkdqAfP0IaatQrU2iw7nCb4lz/LcD+BjG40VsdxjL9i45fjArYABxUXXMbuNT6f
+	enoGrELWnwpHLG+TMlOnrdLTS87y9k/5CBzU+XODynWckUY9T1q00s+AaZ5qxiV7Gr+d
+	+Epr3vdihuKPD4LTjuMAIxRnb48IVUIMaSyMUSG6zs308LkorkWVChp1myRASmHGD9EG
+	q6CTy0mrNcqxn/dgnu55WNS/eGeVLk6oZ3X7rRQHzQ4/U8yyceHWYflu1suCLPmz5Cp0
+	I6S5I4+NZTUxxDO/0vjcS7ZJSw7A06hTdv7H3ojjzLOFqpY3Y//2dX7Kt7n+q0BGIhtj
+	cVdA==
+X-Gm-Message-State: AHQUAubm2LXLucZg1zCYFpF3orEw/AnMBcfhKNC6WCOUWxru08hYUIvf
+	GIXD+FKisSQrsZ7pDIA28v10yHB2uqgWggXNKPY=
+X-Google-Smtp-Source: APXvYqwJ1h+oWYe3abMbkV8CeL4H6xBO6Ph/qiZOrM9IQMLiTRJylCz7qeLjOwycOh/xln7QfKNKj/gDwR13kBUvLOM=
+X-Received: by 2002:a24:2b0e:: with SMTP id h14mr6963915ita.168.1551609930112; 
+	Sun, 03 Mar 2019 02:45:30 -0800 (PST)
 MIME-Version: 1.0
-Date: Sun, 03 Mar 2019 11:31:06 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: liu.ming50@gmail.com
-In-Reply-To: <1551604121-5034-1-git-send-email-liu.ming50@gmail.com>
-References: <1551604121-5034-1-git-send-email-liu.ming50@gmail.com>
-Message-ID: <bccc6a89cd75d13dfe3fc76e9eb673b6@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.7
-Cc: stefan.agner@toradex.com, luka.pivk@toradex.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gdk-pixbuf: export XDG_DATA_DIRS in wrappers
+References: <CAB2nKc9-EgbC729jBkNRbPPvewQUP=Th5WGEGaW-sK0aW=ThBg@mail.gmail.com>
+	<CAL4iiOcBT92-jWjQVKZ0vrW7Feu7Tra7ejUdCa0cmscu3sOkWQ@mail.gmail.com>
+	<CAB2nKc9MeWts0s=KFgpSpV52LQA2f=cHJuxmHY0Ez1mijpbP-g@mail.gmail.com>
+	<CAMKF1srWmVomzmRsFsZQNvJPe3_PvipAUxf1a3sNc1Sx+FXTBg@mail.gmail.com>
+	<CAB2nKc_F0qF4Bakg5F6Z9k5vw9u9RF7hnjeTK=SjqUS10Ykbbg@mail.gmail.com>
+	<CAL4iiOf=EGme65Z3w-2PthTdaDawxXh6=Djq4E=1muSKzYz+tg@mail.gmail.com>
+	<CAMKF1sp+Fx-K=1gdVS79zx8-j7ZgcHL12eg1FSgtJ7k2S8QKdA@mail.gmail.com>
+In-Reply-To: <CAMKF1sp+Fx-K=1gdVS79zx8-j7ZgcHL12eg1FSgtJ7k2S8QKdA@mail.gmail.com>
+From: Vincent Prince <vincent.prince.fr@gmail.com>
+Date: Sun, 3 Mar 2019 11:45:18 +0100
+Message-ID: <CAB2nKc888f44raha5KbjV_orsu+Yu+vgpiKgxMLFFF1zy4psoQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: GO runtime crashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,162 +59,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2019 10:31:06 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Mar 2019 10:45:29 -0000
+Content-Type: multipart/alternative; boundary="000000000000b6e37005832e5637"
 
-On 03.03.2019 10:08, liu.ming50@gmail.com wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
-> 
-> We need export XDG_DATA_DIRS to be ${STAGING_DATADIR} for gdk-pixbuf*
-> wrappers or else they will try to load mime from /usr/share/mime of the
-> host machine.
+--000000000000b6e37005832e5637
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes a build issue I have seen on a Ubuntu 18.04 machine when
-building psplash with a custom png splash screen.
+Khem,
 
-ERROR: psplash-0.1+gitAUTOINC+2015f7073e-r15 do_compile: Error executing
-a python function in exec_python_func() autogenerated:                  
-                                                                 
-                                                                        
-                                                                        
-                                                                 
-The stack trace of python calls that resulted in this exception/failure
-was:                                                                    
-                                                                  
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module> 
-                                                                        
-                                                                 
-     0001:                                                              
-                                                                        
-                                                                 
- *** 0002:do_compile(d)                                                 
-                                                                        
-                                                                 
-     0003:                                                              
-                                                                        
-                                                                 
-File:
-'/workdir/oe/build/conf/../../layers/meta-toradex-torizon/recipes-core/psplash/psplash_git.bbappend',
-lineno: 34, function: do_compile                                        
-                              
-     0030:    for localfile, outputfile in zip(localfiles, outputfiles):
-                                                                        
-                                                                 
-     0031:        if localfile.endswith(".png"):                        
-                                                                        
-                                                                 
-     0032:            subprocess.call([ convertscript,
-os.path.join(workdir, localfile), 'POKY' ], cwd=workdir)                
-                                                                        
-          
-     0033:            fbase = os.path.splitext(localfile)[0]            
-                                                                        
-                                                                 
- *** 0034:            shutil.copyfile(os.path.join(workdir, "%s-img.h" %
-fbase), destfile)                                                       
-                                                                 
-     0035:        else:                                                 
-                                                                        
-                                                                 
-     0036:            shutil.copyfile(os.path.join(workdir, localfile),
-destfile)                                                               
-                                                                  
-     0037:        # For some reason just updating the header is not
-enough, we have to touch the .c                                         
-                                                                      
-     0038:        # file in order to get it to rebuild                  
-                                                                        
-                                                                 
-File: '/usr/lib/python3.6/shutil.py', lineno: 120, function: copyfile   
-                                                                        
-                                                                 
-     0116:                                                              
-                                                                        
-                                                                 
-     0117:    if not follow_symlinks and os.path.islink(src):           
-                                                                        
-                                                                 
-     0118:        os.symlink(os.readlink(src), dst)                     
-                                                                        
-                                                                 
-     0119:    else:                                                     
-                                                                        
-                                                                 
- *** 0120:        with open(src, 'rb') as fsrc:                         
-                                                                        
-                                                                 
-     0121:            with open(dst, 'wb') as fdst:                     
-                                                                        
-                                                                 
-     0122:                copyfileobj(fsrc, fdst)                       
-                                                                        
-                                                                 
-     0123:    return dst                                                
-                                                                        
-                                                                 
-     0124:                                                              
-                                                                        
-                                                                 
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
-'/workdir/oe/tmp/work/cortexa7t2hf-neon-torizon-linux-gnueabi/psplash/0.1+gitAUTOINC+2015f7073e-r15/torizon-blue-img.h'
+I'm not sure if we considere this issue as closed or if we need to dig
+root-cause here?
+
+I don't have any Go stuff on my build machine nor build docker.
+Also, those random crashes came with Thud version, I didn't have any in
+Sumo, but there was a lot of changes between these two versions.
+
+Please tell me if I can help,
+Vincent
 
 
-Note that the error is somewhat misleading since the real problem
-happened in the convert script, where the header did not get created due
-to gdk-pixbuf-csource not recognizing the png file (Couldn't recognize
-the image file format for file ..). This patch fixes the problem!
+Le jeu. 28 f=C3=A9vr. 2019 =C3=A0 19:24, Khem Raj <raj.khem@gmail.com> a =
+=C3=A9crit :
 
-Tested-by: Stefan Agner <stefan.agner@toradex.com>
-
-Thanks Ming for looking into this!
-
---
-Stefan
-
-> 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> ---
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-> index 3a544bd..a5bd7c6 100644
-> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb
-> @@ -112,19 +112,24 @@ do_install_append_class-native() {
->  	find ${D}${libdir} -name "libpixbufloader-*.la" -exec rm \{\} \;
->  
->  	create_wrapper ${D}/${bindir}/gdk-pixbuf-csource \
-> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+> On Thu, Feb 28, 2019 at 10:19 AM Damien Riegel <damien.riegel@gmail.com>
+> wrote:
+> >
+> > Hi,
+> >
+> > On Thu, 28 Feb 2019 at 09:04, Vincent Prince
+> > <vincent.prince.fr@gmail.com> wrote:
+> > >
+> > > Hi Khem,
+> > >
+> > > GO_DYNLINK_x86-64 =3D "" solution works as well,
+> > >
+> > > Best regards,
+> > > Vincent
+> > >
+> > > Le jeu. 28 f=C3=A9vr. 2019 =C3=A0 14:14, Khem Raj <raj.khem@gmail.com=
+> a =C3=A9crit :
+> > >>
+> > >> On Thu, Feb 28, 2019 at 1:35 AM Vincent Prince
+> > >> <vincent.prince.fr@gmail.com> wrote:
+> > >> >
+> > >> > Hi Damien,
+> > >> >
+> > >> > With GO_LINKSHARED =3D "" it work fine.
+> > >> >
+> > >>
+> > >> Please set
+> > >> GO_DYNLINK_x86-64 =3D "1"
+> > >> to
+> > >> GO_DYNLINK_x86-64 =3D ""
+> > >> in goarch.bbclass
+> >
+> > Well, making a change in the goarch.bbclass is way more intrusive than
+> > changing the value in a single recipe, so it would be nice to (at least=
+)
+> > give some justification about this solution.
+> >
 >
-> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
->  
->  	create_wrapper ${D}/${bindir}/gdk-pixbuf-pixdata \
-> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+> this will make static binaries instead, so I wonder if its doing some
+> linking from host.
 >
-> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
->  
->  	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
-> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
+> > >>
+> > >> > I'm very new to Go, does it mean that there is a mixing issue in g=
+o
+> modules from Yocto and from node_exporter vendor folder, so it links
+> wrongly at runtime?
+> >
+> > As to why the GO_LINKSHARED =3D"" works, I cannot tell. I just noticed
+> > that our application was linked differently on my machine (where it
+> > worked) and in Yocto (where it didn't work), so I tweaked link flags
+> > until I got it to work.
+> >
+> > Cheers,
+> > Damien
 >
-> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
->  
->  	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
-> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
->
-> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
-> \
->  		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
->  
->  	create_wrapper ${D}/${bindir}/gdk-pixbuf-query-loaders \
-> +		XDG_DATA_DIRS=${STAGING_DATADIR} \
->
-> 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
-> \
->  		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
->  }
-> -- 
-> 2.7.4
 
+--000000000000b6e37005832e5637
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Khem,<div><br></div><div>I&#39;m not sure if we considere =
+this issue as closed or if we need to dig root-cause here?</div><div><br></=
+div><div>I don&#39;t have any Go stuff on my build machine nor build docker=
+.=C2=A0</div><div>Also, those random crashes came with Thud version, I didn=
+&#39;t have any in Sumo, but there was a lot of changes between these two v=
+ersions.</div><div><br></div><div>Please tell me if I can help,</div><div>V=
+incent</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 28 f=C3=A9vr. 2019 =C3=A0=C2=A019:2=
+4, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a=
+>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Thu, Feb 28, 2019 at 10:19 AM Damien Riegel &lt;<a href=3D"ma=
+ilto:damien.riegel@gmail.com" target=3D"_blank">damien.riegel@gmail.com</a>=
+&gt; wrote:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; On Thu, 28 Feb 2019 at 09:04, Vincent Prince<br>
+&gt; &lt;<a href=3D"mailto:vincent.prince.fr@gmail.com" target=3D"_blank">v=
+incent.prince.fr@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; Hi Khem,<br>
+&gt; &gt;<br>
+&gt; &gt; GO_DYNLINK_x86-64 =3D &quot;&quot; solution works as well,<br>
+&gt; &gt;<br>
+&gt; &gt; Best regards,<br>
+&gt; &gt; Vincent<br>
+&gt; &gt;<br>
+&gt; &gt; Le jeu. 28 f=C3=A9vr. 2019 =C3=A0 14:14, Khem Raj &lt;<a href=3D"=
+mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; a =
+=C3=A9crit :<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On Thu, Feb 28, 2019 at 1:35 AM Vincent Prince<br>
+&gt; &gt;&gt; &lt;<a href=3D"mailto:vincent.prince.fr@gmail.com" target=3D"=
+_blank">vincent.prince.fr@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; Hi Damien,<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; With GO_LINKSHARED =3D &quot;&quot; it work fine.<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Please set<br>
+&gt; &gt;&gt; GO_DYNLINK_x86-64 =3D &quot;1&quot;<br>
+&gt; &gt;&gt; to<br>
+&gt; &gt;&gt; GO_DYNLINK_x86-64 =3D &quot;&quot;<br>
+&gt; &gt;&gt; in goarch.bbclass<br>
+&gt;<br>
+&gt; Well, making a change in the goarch.bbclass is way more intrusive than=
+<br>
+&gt; changing the value in a single recipe, so it would be nice to (at leas=
+t)<br>
+&gt; give some justification about this solution.<br>
+&gt;<br>
+<br>
+this will make static binaries instead, so I wonder if its doing some<br>
+linking from host.<br>
+<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; &gt; I&#39;m very new to Go, does it mean that there is a mix=
+ing issue in go modules from Yocto and from node_exporter vendor folder, so=
+ it links wrongly at runtime?<br>
+&gt;<br>
+&gt; As to why the GO_LINKSHARED =3D&quot;&quot; works, I cannot tell. I ju=
+st noticed<br>
+&gt; that our application was linked differently on my machine (where it<br=
+>
+&gt; worked) and in Yocto (where it didn&#39;t work), so I tweaked link fla=
+gs<br>
+&gt; until I got it to work.<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt; Damien<br>
+</blockquote></div>
+
+--000000000000b6e37005832e5637--
