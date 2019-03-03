@@ -1,50 +1,46 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 316B86C4D8
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+	[209.85.167.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D346601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2019 16:53:45 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id g19so2294960edp.2
+	Sun,  3 Mar 2019 17:01:03 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id g16so2033582oib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2019 08:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=p/PaBg+A58OqazmlRLB/qKVAuvyF++a4UwOH4lwGLHY=;
-	b=f3KAxDI1yA5yuPB0crwpKcoJSCZjVODofF16lG7N61ufrXaYzzXsHg5ss8znsCPSpD
-	TVydB36Hv+WheQuY9mSl36HmgyZKw397umvGMxdlKOYRINFhOk19DODnp8Bdl6X1TdrJ
-	Qzf/3FTCnIiViH8ZJr1qAuGr+/Qn+QyZV418s26vdAsr8zrOS4F3e7Oc6ViUoksTzIbA
-	xZPCOEQazjn8QXbXWidUQ8/5QY1Bn7MDbTGD0y8Etz4sVcpV2VbLtd1/Wuclpw8ha2lF
-	0P0lSsla1mcXpjb5P1b5n5TMLGm6Ri4UUnTT4unwuVfguF8fbObYlBLIIcz1mtqOMb2A
-	TRQw==
+	Sun, 03 Mar 2019 09:01:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0zntGnbAS0ExVN/bhxGiqrDc5jmFbNiiw8vbR0zSMTo=;
+	b=quywXviWpPsKU2eylZ2mfW/uzU/hG2EpKf4WapovCY8MQU4mxNBilrQqcC8fKmC351
+	Zhd5FXT65rWQoFqYezAGRnyvbr0XEGLuPLDHNRuqIpJ5vZlvzUpN0SIHmcU1E3JofZWq
+	PA26gl2KhnWBAmt2dT4Yx72kD4iOEBOUXagnyZA0IHXIDLLlC6+ebg0tH1pKKspT1UI9
+	lqx1sAkK4RaCQJNmTVYJeO47oBZtIusJB2a19Dc37CUdRUYHqqjL6ZWOaB3wTncJ/NRN
+	dN3ZHbRO901ldaE5dQTqG+ylZirBw4XDZTcTusXn78rbiAs/1nGI2A14KGGp5o5sW37M
+	PXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=p/PaBg+A58OqazmlRLB/qKVAuvyF++a4UwOH4lwGLHY=;
-	b=A/5k8yxvDW7xbYEMnG/AAGoEjPR5Nd1ZStcCi1NXoD8aU+cet6cavJCUgNr1JPSH66
-	1L5UgSizzQjSEZYFs/y85ari+URVo2Lys+DtG+F3XXWQz6wAF0E9d1+DTW+mdnMTS3rT
-	G8Jo2y6NH0IcUQi9OSbAh1I/xDnRe6fONHpQWwe7yYMwbH9HOtOlvEC2ULUuNdB5ZGNl
-	I+bjx3+/KOMPmyBwkGTIxSo1zCGtXYUdWX7gFHz8O47/aviOQNztnrXw3TSqq5N4oEKd
-	+TXKWny4Oj7oMmmvmyzCXmYaNwjg+05R2OPQZSNdPsf7rDY9QrskHe9RQV8m4lyurGIc
-	jbug==
-X-Gm-Message-State: APjAAAWR6c5E/ZYZTGjYaSyv+EGUzVZuhwy3czWXGNOSMklF2t2ln1Kh
-	1PFGkFTc//507bqpb5q97H/fCOgYngQ=
-X-Google-Smtp-Source: APXvYqw+PKwif5LyCKDCptTpt5kSsu2hpAYTbYnNSU8HVww/kYOGFQJadEKJKM9SlSRUg0rhip2dpA==
-X-Received: by 2002:a17:906:4044:: with SMTP id
-	y4mr9895696ejj.93.1551632026316; 
-	Sun, 03 Mar 2019 08:53:46 -0800 (PST)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	f10sm1356498edb.60.2019.03.03.08.53.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 03 Mar 2019 08:53:45 -0800 (PST)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Mar 2019 17:52:42 +0100
-Message-Id: <20190303165242.14424-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [meta-oe][PATCH] qemu-native: add dependency on dtc-native
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0zntGnbAS0ExVN/bhxGiqrDc5jmFbNiiw8vbR0zSMTo=;
+	b=Uq8UjXn422yarL9HyVFM7gnDgb7B/iboyEKJdE7oEo5ippQvaLG8aUg/mbfoAIXAgN
+	asmEu9WVZFaxkpecAv4fM43ca75LvlL8XeFxCxXBoqmquU1KRpJtZX3DNLqkiMbsTNhH
+	9gw8/VRnihyq+UPGQYiAa/HPge1ZRCiIdrHTxZ0zYUxVf8FNJNu7IE3+HjnYEnjq6huJ
+	52kQ1ncUTPZfuOnHsLafQYlGzMcdZR1FLKpwYD57dVaVoGs7jSA6gcNnfDewY5QedyTv
+	bPtVM2J1ojUl0AXRMzytFHlg9aHUqhvL4mi8EL+i0WTVI8qbgxllUkP8Zc+3pIY7UkH0
+	sXow==
+X-Gm-Message-State: APjAAAVhBzAVGsi/moj96DSEgkH7dBbS3TpposAGlTWlJPWc7gJ+2R/N
+	JhxBKyil2HTBS2GTL9l/foF7Is+4vCbHMLuF/Q0hZA==
+X-Google-Smtp-Source: AHgI3IY5Bce/EQ6mGk2sVP9UPdMUjZridLwrYyqBH/92G4jIc8+5T15rTLp3k1fUMJnt0JFV+P1mYRc5ifVenc8q1FU=
+X-Received: by 2002:aca:4d49:: with SMTP id a70mr9687708oib.135.1551632464220; 
+	Sun, 03 Mar 2019 09:01:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20190303165242.14424-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190303165242.14424-1-open.source@oleksandr-kravchuk.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 3 Mar 2019 18:00:52 +0100
+Message-ID: <CANNYZj83wehnRQN_MF84Mm7TG8LHKkx1brPKtgjzfgKdQBFWnA@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] qemu-native: add dependency on dtc-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2019 16:53:46 -0000
+X-List-Received-Date: Sun, 03 Mar 2019 17:01:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This fixes the following build error:
+This has been previously discussed: qemu doesn't properly reconfigure
+itself when settings change. Wipe tmp/ and things should just work.
 
-../loader-fit.c:30:10: fatal error: libfdt.h: No such file or directory
+Alex
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-devtools/qemu/qemu-native_3.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
-index c8acff8e19..e3efd873ca 100644
---- a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
-@@ -1,6 +1,6 @@
- BPN = "qemu"
- 
--DEPENDS = "glib-2.0-native zlib-native"
-+DEPENDS = "glib-2.0-native zlib-native dtc-native"
- 
- require qemu-native.inc
- 
--- 
-2.17.1
-
+On Sun, 3 Mar 2019 at 17:54, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
+> This fixes the following build error:
+>
+> ../loader-fit.c:30:10: fatal error: libfdt.h: No such file or directory
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu-native_3.1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+> index c8acff8e19..e3efd873ca 100644
+> --- a/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu-native_3.1.0.bb
+> @@ -1,6 +1,6 @@
+>  BPN = "qemu"
+>
+> -DEPENDS = "glib-2.0-native zlib-native"
+> +DEPENDS = "glib-2.0-native zlib-native dtc-native"
+>
+>  require qemu-native.inc
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
