@@ -1,50 +1,26 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D7D46C1BE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C89A27C466
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 04:18:37 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id d26so2492067lfa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2019 20:18:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=NDbxfBjuKuVuVrrRhr5oZS3HUW6123ZLohMR9sfy4Q4=;
-	b=nl5SrK5Z0jcvGp2fXO91nMxo1uVPqupfEznDd4qPgL3tqK0ZPGYEgRXo5am3ljwvW1
-	F8kDeULcx12grRo2I72XSGx0N75mGKbv22tGR2sYK+SVZEQ7hkHfMKAzgZzuMlB0QYlQ
-	zka8EL9BWwW2nmnr3eGmP4rdmqHNwgUmmEIbv/0bTrHuCxHhKL3chNO1NPgSgYFKt/S9
-	IzAw3093o/MV69EfoZOnWNkQX13Yc/ZkQgnN/BmVwmsxI7wGTmaElT+Bhh0rLaue0VI+
-	X5jz9m3CruDwi4tGh+Q48D9k4utXYh2rJgsZG4ti3JCbpR4G+OoM0M676J/aqT0Ah++l
-	29Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NDbxfBjuKuVuVrrRhr5oZS3HUW6123ZLohMR9sfy4Q4=;
-	b=fME3+ZECEh1EIR1HMzqHGoAH6pV5DEd8K2jTqxg3DvsiVv1eRN5hzSe+R5aJ2OgL83
-	10lm5NMW+ocque5mqTVX5DyxVNrpHpYWK+KWeK3MAB4D5l7XZge1m+nFpTS8lPT6RyuE
-	Rj7SASqvwshF8j0s3Ca8SzAbm+fM/Fa4cvL3FJdwIrMl26oK2YhM3o6p8JK/DWuED+9d
-	yYJmAjgv+Xp0MV79VaD5oW97h57kZtieUeEDA28U208YM34XpICa1JMAvogVUDFkZtnG
-	OlHr0WLP+L7Sya7+CzldFp7egSVwLZ66byP6zW9JLOu2sgH0zBbaO5ShB6eIYNnAYLie
-	I4jA==
-X-Gm-Message-State: APjAAAXZupPZVeeqspgAbrutZZDVyYWmGqfk8G+FVsT4qn7sIH/O6pb0
-	HI7k21LoINY3ASSKgOk9ZlZpluZo8iQ=
-X-Google-Smtp-Source: APXvYqxeXbfnoN6n4d1ORLxMEU7QYpCzk1iM+SggqqqFINGyf8/zU2oeDsTfkKKCKN3nVf1G202GUQ==
-X-Received: by 2002:ac2:5607:: with SMTP id v7mr5935099lfd.50.1551673118234;
-	Sun, 03 Mar 2019 20:18:38 -0800 (PST)
-Received: from scout.office.pelagicore.net ([83.218.80.243])
-	by smtp.gmail.com with ESMTPSA id
-	m16sm1285992ljb.50.2019.03.03.20.18.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 03 Mar 2019 20:18:37 -0800 (PST)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 05:18:22 +0100
-Message-Id: <20190304041822.118083-1-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [meta-oe][thud][PATCH] target-sdk-provides-dummy: add perl-module-overload
+	Mon,  4 Mar 2019 07:45:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x247ietD021485
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 3 Mar 2019 23:45:06 -0800
+Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Sun, 3 Mar 2019 23:44:54 -0800
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20190204181314.22496-1-raj.khem@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
+Date: Mon, 4 Mar 2019 15:50:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
+MIME-Version: 1.0
+In-Reply-To: <20190204181314.22496-1-raj.khem@gmail.com>
+Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 04:18:38 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 07:45:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
----
- meta/recipes-core/meta/target-sdk-provides-dummy.bb | 1 +
- 1 file changed, 1 insertion(+)
+Hi Khem,
 
-diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-index edf07c4a23..13741f0a64 100644
---- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-+++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-@@ -26,6 +26,7 @@ DUMMYPROVIDES = "\
-     perl-module-getopt-long \
-     perl-module-io-file \
-     perl-module-posix \
-+    perl-module-overload \
-     perl-module-thread-queue \
-     perl-module-threads \
-     /bin/sh \
--- 
-2.17.1
+We have an internal error web server, this patch breaks it:
 
+You're accessing the development server over HTTPS, but it only supports HTTP
+
+So I tried to use runsslserver, but it doesn't work either since the host is
+Ubuntu 14.04 (python 2.7.6):
+
+$ python manage.py runsslserver
+
+[snip]
+     ssl_version=ssl.PROTOCOL_TLSv1_2,
+AttributeError: 'module' object has no attribute 'PROTOCOL_TLSv1_2'
+
+This is because python is old.
+
+I think that make it default to https would make the server harder to set up,
+so is it possible to:
+
+* Make it default to http, and add an option such as --https (or --ssl) for https
+
+Or:
+
+* Add an option such as --no-ssl to make it use http.
+
+I prefer the first one since https server is harder to setup than http in 
+django. I can work on it if no objections.
+
+// Robert
+
+On 2/5/19 2:13 AM, Khem Raj wrote:
+> errors.yp.org can understand https
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   scripts/send-error-report | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/send-error-report b/scripts/send-error-report
+> index 8939f5f594..3528cf93a9 100755
+> --- a/scripts/send-error-report
+> +++ b/scripts/send-error-report
+> @@ -62,7 +62,7 @@ def edit_content(json_file_path):
+>   
+>   def prepare_data(args):
+>       # attempt to get the max_log_size from the server's settings
+> -    max_log_size = getPayloadLimit("http://"+args.server+"/ClientPost/JSON")
+> +    max_log_size = getPayloadLimit("https://"+args.server+"/ClientPost/JSON")
+>   
+>       if not os.path.isfile(args.error_file):
+>           log.error("No data file found.")
+> @@ -132,9 +132,9 @@ def send_data(data, args):
+>       headers={'Content-type': 'application/json', 'User-Agent': "send-error-report/"+version}
+>   
+>       if args.json:
+> -        url = "http://"+args.server+"/ClientPost/JSON/"
+> +        url = "https://"+args.server+"/ClientPost/JSON/"
+>       else:
+> -        url = "http://"+args.server+"/ClientPost/"
+> +        url = "https://"+args.server+"/ClientPost/"
+>   
+>       req = urllib.request.Request(url, data=data, headers=headers)
+>       try:
+> 
 
