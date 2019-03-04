@@ -1,51 +1,56 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 385987C933
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C0F806B54F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 16:17:41 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id g12so6200852wrm.5
+	Mon,  4 Mar 2019 16:21:49 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id e74so5164759wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 08:17:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xAb6bBxOiJuKUfJrr9XPf7bd1IC8QvjhexTbnK41Eyk=;
-	b=Z750Q0QiLqPKxxnjlxmV3dzCYm/O0HdW/disD10ozoeDJT4Eoe9tS2sI3KwZDoo5Mk
-	3FJzSpgTwxENhBB/giafSZV/rhHOBvPtSLO6r7CcSSvTu9/O7CK6bOdUvvYC6eNEKhgP
-	wOGRhbLaItli4FMr6SJnr5Pr8HBz/AfJ0T2j9nOwy00O/KPAHQ5fvqpt8/aHthQ8K8h8
-	mbc1rxVI7NXkx9k3s0co/diXd1SpiKPiXa7yb3QmEBVqTb5mswAUmJ3oU1vz32ohMjh0
-	JKWZoODfqYcIxMA2eOteHFHf/vKp0HuzuFFyTpE/VOdtIfm+OfDTQRL+tOBGDwFrJaZ/
-	rPHA==
+	Mon, 04 Mar 2019 08:21:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=kF9nyaW4hdufLmDfHnixdtx+lURrong3wSLjicsugg4=;
+	b=fJSSDaOeCwq6adsSHmF0+oEKfXNoWXYC9wMYresuNDNk6kJUwlNEpk8ofSLIrBKPNb
+	ojfd1dpB/CTxcMDI5b/pseprLPY0IecqKpfzrH8Y9DYJgoNSTAo5viQypwKkdHo4wiz0
+	Lh3xce+f4ByOAPXz1wZ3CEDD2l9n+Pj1NFkLY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xAb6bBxOiJuKUfJrr9XPf7bd1IC8QvjhexTbnK41Eyk=;
-	b=CrYEL/Z75vm3/OdF8GrZ/4kz68jkOEGZ/+JMvybkXZeOMRKL/oaNeVU8ydq6lzfdDw
-	p878UQ3/sFQQjOEW8Kjo65FheXbGjTyZYQuNIV4PV7fmPT9kNccSXpv/GbAgBNPlKPmT
-	7gLk5Qu9oIaucVovTRE0RrDdyPRCPvtypTREtSadceTZV8mZIimH0WZbUU1c/8dyoB1z
-	nXg6xjfq6PfGEWkaoIsg4GumfwNL0gQ4jvCFkbDdFHClhawDM/vu0j8+udN0FVZiP4xZ
-	JB7BSgl0B8D+tVXbVPUXbmB/Zc4zhgSRamaPU12uUSCs3dAP0PL2DqqncZLGr8yKsCbx
-	bXXQ==
-X-Gm-Message-State: APjAAAWRjrMGOlNF0efhKYGhQGT5rQRTatYUS5VoxLY3/VIkFWytlkwc
-	toreVK3uPfS9+0ritzamz7aRCNJltKv0OopFMYg=
-X-Google-Smtp-Source: APXvYqzKFwckIaYqnRzkh/yCKRys9HrALI0bRbo1tRyBKyZA/R/4e5lJcJ4x7sms490E3futHI3aq1c2mdC6+uJ7HlU=
-X-Received: by 2002:adf:e949:: with SMTP id m9mr10145256wrn.1.1551716261863;
-	Mon, 04 Mar 2019 08:17:41 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=kF9nyaW4hdufLmDfHnixdtx+lURrong3wSLjicsugg4=;
+	b=QMZsxvhscP1JeA+5lqzLXEB6x1B3k2fxkHJmoBALh1COKP2UlmTCt94ZPzalpxFIUE
+	LFtb6Y1BX3gMkusfILp+/Ek2qvmObCUK1ovWolrVg+r6LiX/3QidoObpPRJ79iSwotJV
+	UpIjaeguNoty+9YY5HjEjg1lCwZ3Q4+H+tsWSf6uhTsOwjc4zUp5KuIMiDhrkRfmJjXy
+	FRiKevFCvf5TxRwXlf329jD9sN+esc5sNsQqVF1n4U2vprrWl1lU27oz2thNPlPEUTxL
+	gbAl0dqjLPWkPVgqbvkLAZlmDsrZEqsVDbrQ27BCLSD/GhlVSFLRuuTz6j/wFX4GH7yW
+	lWmQ==
+X-Gm-Message-State: AHQUAubbERC5WjE9ul8WYaWKc2TmlW50t82FXkc9UzEFjmk+Kkm4hPAa
+	lojbPez2aI6vhtPaXII8MSSbEQ==
+X-Google-Smtp-Source: AHgI3IYh9LG0pEOtwh4YRapgkO+zociSlrvrUvWr6/tig0WBBan7iBYfoi/vurFTNzKODRYwi1XR4A==
+X-Received: by 2002:a1c:ce06:: with SMTP id e6mr12114617wmg.41.1551716510478; 
+	Mon, 04 Mar 2019 08:21:50 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o30sm9876506wro.57.2019.03.04.08.21.49
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 04 Mar 2019 08:21:49 -0800 (PST)
+Message-ID: <c8018d5229f49e70b7ab52394196537c78e7af54.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Rini <trini@konsulko.com>
+Date: Mon, 04 Mar 2019 16:21:48 +0000
+In-Reply-To: <20190304161443.GQ5026@bill-the-cat>
 References: <20190303204731.GK5026@bill-the-cat>
 	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
 	<20190303212515.GL5026@bill-the-cat>
 	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
 	<20190304155845.GP5026@bill-the-cat>
 	<c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
-In-Reply-To: <c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 4 Mar 2019 10:17:29 -0600
-Message-ID: <CAJdd5GZP3G0vgc-E-zSXMCNw4+y95_nrMEN3YMfk=SFFJ874GQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tom Rini <trini@konsulko.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<20190304161443.GQ5026@bill-the-cat>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,99 +64,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 16:17:41 -0000
-Content-Type: multipart/alternative; boundary="00000000000094a535058347187d"
-
---00000000000094a535058347187d
+X-List-Received-Date: Mon, 04 Mar 2019 16:21:50 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 4, 2019, 10:06 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Mon, 2019-03-04 at 11:14 -0500, Tom Rini wrote:
+> On Mon, Mar 04, 2019 at 04:06:47PM +0000, Richard Purdie wrote:
+> > You mean like the BB_MIN_VERSION variable:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6
+> > 
+> > ?
+> > 
+> > :)
+> > 
+> > The changes were intended to be backwards compatible hence it
+> > wasn't
+> > bumped. Clearly something isn't playing as intended...
+> 
+> Yes, that.  I think we haven't fully used that well historically
+> since I can only ever recall *kaboom* when using too old of a bitbake
+> rather than a nice sane error message.  Looking at
+> https://wiki.yoctoproject.org/wiki/Releases and then some quick git
+> history, we also must have had that mechanism available when I last
+> ran into something like that even for the fairly ancient jumping
+> around I've had to do a time or three.
 
-> On Mon, 2019-03-04 at 10:58 -0500, Tom Rini wrote:
-> > Ah, so "poky" got me thinking this morning.  I was just on bitbake
-> > v1.40
-> > (since I usually use thud, and that's the version for that).  Moving
-> > to
-> > bitbake master/tip and I don't see the problem anymore.
-> >
-> > Is it possible to have some logic within OE to check the version of
-> > bitbake and throw an error / warning?
->
-> You mean like the BB_MIN_VERSION variable:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6
->
-> ?
->
-> :)
->
-> The changes were intended to be backwards compatible hence it wasn't
-> bumped. Clearly something isn't playing as intended...
->
+That variable has been around for a long time. It does get incremented
+when we do nasty things which we know break things. If something sneaks
+in, its more problematic. We do try and avoid API breakage.
 
-Ah, older bitbake isn't going to set BB_UNIHASH, which I bet is what breaks
-it. I bet if we add:
+> In fact, can we make BB_MIN_VERSION match the table found there?  It
+> doesn't look like we have resources / time to test things on both
+> current and min versions, so we should I think have the min match
+> what we say should be used.
 
- BB_UNIHASH ?= "${BB_TASKHASH}"
+The problem is more "test what?" on the min version. In this case its
+rm_work which triggers it, the bugs tend to be unusual corner cases
+which our test matrix, vast as it is might not catch. Case in hand, we
+don't test rm_work on the autobuilder.
 
-somewhere (bitbake.conf?) it would fix it.
+I'm torn on forcing people to update, I've had a lot of complaints
+about being being forced when they didn't need to in the past. Its also
+true that we're not as backwards compatible as we could be, i.e. using
+a modern bitbake on old metadata isn't always guaranteed either due to
+the same kinds of problems :(.
+
+By this line of argument, we'd bump the minor bitbake version for every
+bug fix and force people to it, just to "protect" them from themselves
+:/
+
+Cheers,
+
+Richard
 
 
-> Cheers,
->
-> Richard
->
->
 
---00000000000094a535058347187d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Mar 4, 2019, 10:06 AM Richard Purdie &lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
-tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 201=
-9-03-04 at 10:58 -0500, Tom Rini wrote:<br>
-&gt; Ah, so &quot;poky&quot; got me thinking this morning.=C2=A0 I was just=
- on bitbake<br>
-&gt; v1.40<br>
-&gt; (since I usually use thud, and that&#39;s the version for that).=C2=A0=
- Moving<br>
-&gt; to<br>
-&gt; bitbake master/tip and I don&#39;t see the problem anymore.<br>
-&gt; <br>
-&gt; Is it possible to have some logic within OE to check the version of<br=
->
-&gt; bitbake and throw an error / warning?<br>
-<br>
-You mean like the BB_MIN_VERSION variable:<br>
-<br>
-<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.=
-conf#n6" rel=3D"noreferrer noreferrer" target=3D"_blank">http://git.yoctopr=
-oject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6</a><br>
-<br>
-?<br>
-<br>
-:)<br>
-<br>
-The changes were intended to be backwards compatible hence it wasn&#39;t<br=
->
-bumped. Clearly something isn&#39;t playing as intended...<br></blockquote>=
-</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Ah, older bitbake=
- isn&#39;t going to set BB_UNIHASH, which I bet is what breaks it. I bet if=
- we add:</div><div dir=3D"auto"><br></div><div dir=3D"auto">=C2=A0BB_UNIHAS=
-H ?=3D &quot;${BB_TASKHASH}&quot;</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">somewhere (bitbake.conf?) it would fix it.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div></div>
 
---00000000000094a535058347187d--
