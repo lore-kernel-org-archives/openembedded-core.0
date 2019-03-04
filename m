@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B7ED57C930
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D767C930
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 17:31:53 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id c13so314802wmb.0
+	Mon,  4 Mar 2019 17:31:54 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id i16so6459486wrs.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 09:31:55 -0800 (PST)
+	Mon, 04 Mar 2019 09:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JcER/62MIusMb36RxEDqPl3BcgB/AA+50rE3qnfRakw=;
-	b=1DpBLHyDcGas+5LxngTg/HfUfrcMFKsK0ZDu9iK008XZVBkx5hDeWCjvxegryJAQrv
-	E7MYtSulyvG0RcWbTyLTHb6/3LsY2OT/6DL4PBNMb/2R68qPKwP5K8ELN+rI6W2Pm6rX
-	rfY4WVF1eCMxfnZH31wyYAltsHJec5olPS+m9P2kE+2ah7pTvJ4qgiPVOB6YcLsA/p7Q
-	Vgmuq1Ialjh6oQ8oxk67RcVLL5Y41KlE5RuW689Iiz45eY52ad6bk/ygklExplbID3qk
-	evDZVwPeOkAd0NLYyQmf4NUOiogI9KDeTrfZ3B7I4BnH5ygUmLtzuzmDx5KUGrpq7Pb3
-	npcA==
+	bh=20goqt+Z0rse72KgnS/YkA88O4svURkt3dDZC9GWwyw=;
+	b=Sf9+aLzwFUYfBBN5ZJ7nYYJZMRRbpU3bzBkc1+BYeBunogGe4vvgaxyxu6WHASLyoT
+	1/EHbwHHFg+dWm1fvR3yobG7Y5alvl8j1kSbr6SY+4MiKlFn/GjdWWHAX9H5AUMWYNfi
+	5+/QXJTve/DI4L4Qaon2QpEZKSX4LsqGKqzxhQRCETU8pkLEiS4tSJ+FfRAojROET/FX
+	8g9Av+F4dR/bKNQgJK/kCcy6IZRDcjSGT71ZPLkbTnbz29P777lsh8V+VDECnTR296wz
+	rr30o2mzhS6ruaGhgNricKYryVZsixz2PU2wuIp66TYglz19WNIvsJmt14I+6N8yCILa
+	3MJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=JcER/62MIusMb36RxEDqPl3BcgB/AA+50rE3qnfRakw=;
-	b=E1orBNAr+JY/x6zHQRItULKEqcMkbicbyHxTvbMH2fxzWJ4HPptjFYbGimpERisXQw
-	NRRO5QYSuSI2Z2x6vAapCWjDcI3/vQMoTWrVp+Nq8omGFJ4iDnVpmnvdjzI0sgiTvGmj
-	bWow39oeTWzQrxRrlmy62ObBwRmkJdZhx5tlpnrWYg99VWNKytOP1iGVhrpXijrnRnNo
-	pyulfhim9wImArhmBJUuTu8XGhuXOHorVTWQNdUXFD+rhLwcHG7SaDGxpfkGcErz3isV
-	PYJpRPshFKHYuUsvpauGBK+PD1/C/1T9jvy+JE1SkdUjTq4WRDJ6/1jeioEmG1LNa2rg
-	1a9g==
-X-Gm-Message-State: APjAAAX/Q9CO54iQwom99egwBuVaBhRxB+dw9IAEvQheu/UBeZ6WbEKG
-	n356kIGsUNYuzaJrje2qNo+DWYHvikc=
-X-Google-Smtp-Source: APXvYqxvwNU0CB6RiBJc9lCd+psytxJpqpQ4Pp+qt1D2yryckPmyc4XApn7ZYYzDjY4SY67IRyQ6TA==
-X-Received: by 2002:a1c:7e82:: with SMTP id z124mr143517wmc.43.1551720714169; 
-	Mon, 04 Mar 2019 09:31:54 -0800 (PST)
+	bh=20goqt+Z0rse72KgnS/YkA88O4svURkt3dDZC9GWwyw=;
+	b=PI9KvdMJzFqKQNBQzfV6OSvG0C5pwkd2YuDO0E1QYFZqm20JpeB/FdKmYfThxnh4ve
+	+sufzXxp1CwyuOaDVsgwiyS135tCdPoP9bvqIxsl3J+OHQ0CFiryBhQ4EKubUGp615Yf
+	kqtgFN8bIEih0SuNF+C2J9dqUGeo81P1D68/CFM1tUIjuVFit7Agz4LoWl1KYZVR0C8y
+	iUiywW9MJAFQR/gLe7rUygHARp0O7Roki2exICNv2iU32AnV1+HodCr+cDh8YUQ45RHv
+	11aUCg+U54gp14SKRhfGHWs4uPgGX2PrrK+lEKVJ/oaKKQJ1K6RvhfdToJjqjVr/Bkfw
+	bv4A==
+X-Gm-Message-State: APjAAAVoLIRY47GT7EXiev6NLwqcpNVfHrXUBwdq0frnSn+G3PsB0Vvb
+	4zC1wT1qYsXi7tNC64DKdLV1YEgOUdA=
+X-Google-Smtp-Source: APXvYqyYQsElobqu4ljCWQGXmWokUw1CFj2Ikeo4qFa9nELEcK3uqZK/94lsD64kyyc6f/peTnNrPg==
+X-Received: by 2002:adf:f487:: with SMTP id l7mr12779379wro.86.1551720715080; 
+	Mon, 04 Mar 2019 09:31:55 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	v67sm10137991wmb.9.2019.03.04.09.31.53
+	v67sm10137991wmb.9.2019.03.04.09.31.54
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 09:31:53 -0800 (PST)
+	Mon, 04 Mar 2019 09:31:54 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 17:31:43 +0000
-Message-Id: <20190304173144.25675-5-ross.burton@intel.com>
+Date: Mon,  4 Mar 2019 17:31:44 +0000
+Message-Id: <20190304173144.25675-6-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190304173144.25675-1-ross.burton@intel.com>
 References: <20190304173144.25675-1-ross.burton@intel.com>
-Subject: [PATCH 5/6] util-linux: remove spurious lzo-native dependency
+Subject: [PATCH 6/6] squashfs-tools: add PACKAGECONFIGs for all the tunables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,27 +61,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 04 Mar 2019 17:31:54 -0000
 
-This was added with no explanation in 2010 (17f3c548c) and doesn't appear to be
-needed.
+Upstream lets you control what compression algorithms are used, so add
+PACKAGECONFIGs for them all.
+
+Instead of bundling a copy of the SevenZIP SDK from 2009 (!), reuse XZ.  This
+means we can drop Public Domain from the license list.
+
+Also -e was removed from EXTRA_OEMAKE in 2016 (oe-core aeb653) so the fiddling
+to work around that can be removed.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 2 --
- 1 file changed, 2 deletions(-)
+ .../squashfs-tools/squashfs-tools_git.bb           | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index cce684f2802..18c3af240eb 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -21,8 +21,6 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
- #gtk-doc is not enabled as it requires xmlto which requires util-linux
- inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
- DEPENDS = "zlib ncurses virtual/crypt"
--DEPENDS_append_class-native = " lzo-native"
--DEPENDS_append_class-nativesdk = " lzo-native"
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index 2f412634571..e871f1cbf54 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -2,16 +2,12 @@
+ # and I don't think the kernel supports it any more.
+ SUMMARY = "Tools for manipulating SquashFS filesystems"
+ SECTION = "base"
+-LICENSE = "GPL-2 & PD"
+-LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://../../7zC.txt;beginline=12;endline=16;md5=2056cd6d919ebc3807602143c7449a7c \
+-"
+-DEPENDS = "attr zlib xz lzo lz4"
++LICENSE = "GPL-2"
++LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+ PV = "4.3+gitr${SRCPV}"
+ SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+-           http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
+            file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
+            file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
+            file://fix-compat.patch \
+@@ -23,14 +19,20 @@ SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e
+ 
+ S = "${WORKDIR}/git/squashfs-tools"
+ 
+-# EXTRA_OEMAKE is typically: -e MAKEFLAGS=
+-# the -e causes problems as CFLAGS is modified in the Makefile, so
+-# we redefine EXTRA_OEMAKE here
+-EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1 LZO_SUPPORT=1 LZ4_SUPPORT=1"
++EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
++
++PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr"
++PACKAGECONFIG[gzip] = "GZIP_SUPPORT=1,GZIP_SUPPORT=0,zlib"
++PACKAGECONFIG[xz] = "XZ_SUPPORT=1,XZ_SUPPORT=0,xz"
++PACKAGECONFIG[lzo] = "LZO_SUPPORT=1,LZO_SUPPORT=0,lzo"
++PACKAGECONFIG[lz4] = "LZ4_SUPPORT=1,LZ4_SUPPORT=0,lz4"
++PACKAGECONFIG[lzma] = "LZMA_XZ_SUPPORT=1,LZMA_XZ_SUPPORT=0,xz"
++PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
+ 
+ do_compile() {
+ 	oe_runmake mksquashfs unsquashfs
+ }
++
+ do_install () {
+ 	install -d ${D}${sbindir}
+ 	install -m 0755 mksquashfs ${D}${sbindir}/
 -- 
 2.11.0
 
