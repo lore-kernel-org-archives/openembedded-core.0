@@ -1,52 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 922A77C853
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id EE2577C760
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 21:59:05 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id i12so7244532wrw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 13:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3FDdKax+n+UUc0N1U+ZtxU7r8M9wTJu7r1+H2uu1/yk=;
-	b=hkroqHLf/d4fN0bvrnFDuuzzJZUR6ZMKaUfJ3MiyMOWJdWJ2lhxBXXoEHocX0virgJ
-	cqa9sMJMtf3QTugVk+SN7KAgaLBDJ8M3rv6JoYjb9rnITZEVXePlhcjYrDPWD+SJAfS4
-	VF/c6xQHwmk0IH5eoY4Z/tyrwRrHssJsHewb1+xAITZtjiHNkMK/anHFRvI0N9zE6tNk
-	MqFgXV+H/KNVBgsFuDet8WXZeIq5vOexE8xS7dSnSgbH6uKGrj6BSb6sFiEgJHPO/Q+N
-	f79TjugIlYN2yJlObY6wFiUm4Sk1ZnuqfbqEvJ6giPZei/OU0n0PeZmZmArsyinwqUt3
-	634w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=3FDdKax+n+UUc0N1U+ZtxU7r8M9wTJu7r1+H2uu1/yk=;
-	b=a8N3XAG5vpf9ijNRx41Bvf/JA6R6uEyuiUif1nEhLA2Gaozk/uq6EeqC7MZqjBkNNe
-	MejzWSrg+VgUWF7q6PqwZNE45cus7tF09oCxCfPNC4BGdIOg5VYn4XI/VBgSR6kr1SSy
-	zAb69+XmRh8hsWaoFeW3vbetCzefhBUbreAQWbRhORsnA4xeR4w9Itl3cQO0CbyBzfjh
-	htg5WK8bRdemLrZqiS5ubJBziMA4hUnCJQ/NN/dJrRMdH91haNm6Sdqw4ZS85dhmA0qO
-	K46OtnFpxwS6QqivESMSvWORYrPDUY4Ex0fRdqok7M23StUQM3BCN0JL6PC3W8+VEH2x
-	D4ww==
-X-Gm-Message-State: APjAAAUENmh6uQCQkzAg3PoZkCtt7Tvh+C6docDU83uwqf7GkNwmSw0a
-	udQWbpT0tcdbXb4oRHoZ1AEay4CF0zY=
-X-Google-Smtp-Source: APXvYqyg4KkG/fKDOGJhNRqq38f/H99YEJscquWRoezEcRPb+sO4FJpWdWTYuxfl/aexVLzlWMzLYw==
-X-Received: by 2002:adf:ec41:: with SMTP id w1mr14653805wrn.184.1551736746119; 
-	Mon, 04 Mar 2019 13:59:06 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a82sm20479406wmf.11.2019.03.04.13.59.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 13:59:05 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 21:59:00 +0000
-Message-Id: <20190304215900.21796-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190304215900.21796-1-ross.burton@intel.com>
-References: <20190304215900.21796-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] btrfs-tools: pass V=1 to get verbose builds
+	Mon,  4 Mar 2019 23:46:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2019 15:46:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,441,1544515200"; d="scan'208";a="139111911"
+Received: from sdhavala-mobl.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.249.73.52])
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2019 15:46:10 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Tue, 05 Mar 2019 12:46:07 +1300
+Message-ID: <1904655.CDzVhXoS6Q@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <1548445982-25182-2-git-send-email-chandana.kalluri@xilinx.com>
+References: <1548445982-25182-1-git-send-email-chandana.kalluri@xilinx.com>
+	<1548445982-25182-2-git-send-email-chandana.kalluri@xilinx.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] devtool modify: Update devtool modify to copy source from work-shared if its already downloaded.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +36,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 21:59:05 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 23:46:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Quiet builds are nice for interactive builds, but hide information we'd like in
-the logs.
+Thanks for looking into this problem - this is a tricky one. My apologies for the delay in reviewing. Comments below.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Saturday, 26 January 2019 8:53:00 AM NZDT Sai Hari Chandana Kalluri wrote:
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -717,6 +717,72 @@ def _check_preserve(config, recipename):
+>                      tf.write(line)
+>      os.rename(newfile, origfile)
+>  
+> +# Function links a file from src location to dest location
+> +def copy_file(c,dest):
+> +    import errno
+> +    destdir = os.path.dirname(dest)
+> +    if os.path.islink(c):
+> +       linkto = os.readlink(c)
+> +       if os.path.lexists(dest):
+> +            if not os.path.islink(dest):
+> +                raise OSError(errno.EEXIST, "Link %s already exists as a file" % dest, dest)
+> +            if os.readlink(dest) == linkto:
+> +                return dest
+> +            raise OSError(errno.EEXIST, "Link %s already exists to a different location? (%s vs %s)" % (dest, os.readlink(dest), linkto), dest)
+> +       os.symlink(linkto, dest)
+> +    else:
+> +       try:
+> +           os.link(c, dest)
+> +       except OSError as err:
+> +           if err.errno == errno.EXDEV:
+> +                bb.utils.copyfile(c, dest)
+> +           else:
+> +                raise
+> +
+> +# Function creates folders in a given target location
+> +def copy_dirs(root,dirs,target):
+> +    for d in dirs:
+> +        destdir =  os.path.join(target,d)
+> +        if os.path.islink(os.path.join(root,d)):
+> +             linkto = os.readlink(os.path.join(root,d))
+> +             os.symlink(linkto,destdir) 
+> +        else:
+> +             bb.utils.mkdirhier(target+d)
+> +
+> +# Function to link src dir to dest dir
+> +def copy_src_to_ws(srcdir,srctree):
+> +    target = srctree
+> +    if os.path.exists(target):
+> +        raise DevtoolError('source already in your workspace')
+> +
+> +    bb.utils.mkdirhier(target)
+> +    for root,dirs,files in os.walk(srcdir):
+> +        #convert abspath to relpath for root
+> +        destdir = root.replace(srcdir,"")
+> +        target = srctree+destdir+"/"
+> +        copy_dirs(root,dirs,target)  
+> +        for f in files:
+> +           copy_file(os.path.join(root,f),os.path.join(target,f))
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
-index a6ca71d8689..3647232dc68 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.20.1.bb
-@@ -27,6 +27,7 @@ CLEANBROKEN = "1"
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
- EXTRA_OECONF = " --disable-zstd"
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
-+EXTRA_OEMAKE = "V=1"
- 
- do_configure_prepend() {
- 	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
+We already have a function to do this - oe.path.copyhardlinktree(). I appreciate that does not symlink if it can't hard link as you're doing here, but given the side-effects if the kernel source goes away I think we'd prefer "hard link or copy" rather than "hard link or symlink".
+
+> @@ -852,10 +990,12 @@ def modify(args, config, basepath, workspace):
+>                  f.write('\ndo_patch() {\n'
+>                          '    :\n'
+>                          '}\n')
+> -                f.write('\ndo_configure_append() {\n'
+> -                        '    cp ${B}/.config ${S}/.config.baseline\n'
+> -                        '    ln -sfT ${B}/.config ${S}/.config.new\n'
+> -                        '}\n')
+> +
+> +            if rd.getVarFlag('do_menuconfig','task'):
+> +                    f.write('\ndo_configure_append() {\n'
+> +                    '    cp ${B}/.config ${S}/.config.baseline\n'
+> +                    '    ln -sfT ${B}/.config ${S}/.config.new\n'
+> +                    '}\n')
+>              if initial_rev:
+>                  f.write('\n# initial_rev: %s\n' % initial_rev)
+>                  for commit in commits:
+
+This change does not appear to be directly related to the rest of the commit, can it be split out and properly described?
+
+Thanks,
+Paul
+
 -- 
-2.11.0
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
