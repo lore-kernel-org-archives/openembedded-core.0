@@ -1,52 +1,57 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
-	[209.85.166.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F727C8E0
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+	[209.85.208.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D1DB97C8E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 16:08:27 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id 9so4351305iog.8
+	Mon,  4 Mar 2019 16:14:47 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id f2so4693737edy.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 08:08:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=bFLjWUG15Y//D8ontmRY7vI/FyivhFD+ayRqfsUm+Kw=;
-	b=t7sU1p02p1jnqoGoACItuGih8JtJfrusYYPOh2B+oQRoVfcGwTPqhuPKewEHOxJs69
-	EsgBfav2eIsdfKWsArsleM915XdSu0665XqdV4uIs0aX5cv2oXIYeYGeZhuO+Ra/BQ83
-	/H6aiwkpP9rM08ARQ5NkhJWzOuKBmhipLapGhT/Pt17L+/JIWC+V0syP7RiXm+e69YXz
-	kj4rptFPBQs1VkRqFBvq3kypMofjpc5gsCoYf0D7xTId0hqNum72saELeQu/QfCZGLtQ
-	AKBn5HRwicgg4qVHIcHNtlkrXT2SF0dRoh+WeBKR1hO+XRt3JP6nrIeaf2OgBcRg5R0B
-	d+Xg==
+	Mon, 04 Mar 2019 08:14:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hV6GvAjxdVEbl1+9jY93bS6j/IYrvRRBaKr9lVOyecc=;
+	b=bhJwBAC6l/zMHQ15FptsMK8tlZ0e3D7T2ZdaBCvRXAiRbZogH+1PiInh3FZN/b/VOA
+	+uj2D0kFqPyexAne6ZWHtxZx6aX4l8lKFiOlD3LuF8ulqbuUd+4TMid25aLyANTCmozQ
+	szjzafF56+7sZmoHIdhM+614TMuAcWv1LkA1s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=bFLjWUG15Y//D8ontmRY7vI/FyivhFD+ayRqfsUm+Kw=;
-	b=hnocr2p+E+ZribzTMRjmo1UyWPUGsqNppCqEGIDeUyJRS5torIkI+wP3C/oDiqjKGO
-	d2oapazdjapkUCVbC6EoR9aegnQjoeiYg0HOXx7ZkfaWoLF7qpE/gO0O3GBrUMKsvAQQ
-	RZsMRGtkO9dvJtqeUGWjtPlUM42r0OXlqB47P/aoF25pT3B9wpH472HKeKZsmQCT0F+n
-	1xC7b17bJbrRnJctjjBDyINoIh+An6C3TsGg0c1T3L6biEUuG8otIhL1j0lTYgGc9A9E
-	ejIVNxqez4KQtiUaeOpGXx5VP28YOUsZZAi++8qXVElRuYw3C6SvuaTE4L6IF/T8j0uV
-	6kpg==
-X-Gm-Message-State: APjAAAXPN5XmfglbWdbAAt7hygDdJEMOBV3quG1PArb6GXuniVe4BOzP
-	a3L6cVPE41gZmP/73hdf907ucgzD
-X-Google-Smtp-Source: APXvYqxgmJ0z2RTFGYeL5/0LjlRKXGrcSnPwZwSv8R6Kze7DPHk9OGNo3KLRxeLrpqE/6qeXbqRoxA==
-X-Received: by 2002:a6b:c885:: with SMTP id
-	y127mr10320016iof.220.1551715708517; 
-	Mon, 04 Mar 2019 08:08:28 -0800 (PST)
-Received: from sjolley ([209.180.132.195])
-	by smtp.gmail.com with ESMTPSA id p79sm3343651itb.7.2019.03.04.08.08.27
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hV6GvAjxdVEbl1+9jY93bS6j/IYrvRRBaKr9lVOyecc=;
+	b=e03Zhkl5k3ydRAgk7OcXqXF4EKgYuhG31p/SsIXhq2IMf6HtkNHniZ8n6gdlAiSRRR
+	2NDbe5IKdoh4QBvAWwabZJxb9cXiZCcOkKecGeliIXsXM6TYeTPfv/yHg2NL3fdjJLCZ
+	ed2Z/pnKyCK3yPz0ZdnioCmTserBMgcXOSq36c4S/8LqfyKLHIGHgCWsrcNyiBuKabwy
+	T41OyxOb/0x673DLN21nji9clTwDbGGhXHeM/5FacisGBFbpjQ4I345gqNKoKEaYjvqe
+	kdKsja7pLIn7WzcHRLqt9K314SAFuz7HfWo989CR/r5WTtxf8OWUyqLBbNZEX9wLkrXx
+	XFlg==
+X-Gm-Message-State: APjAAAXwW0sCUYpxlkfHNCrSWpBC3mpayCiMsCuIItG2mI1wJ2MTbCsT
+	GLpYkSo02jwBfupr7X86vHEt9g==
+X-Google-Smtp-Source: APXvYqyJVSJc+oATJZTwwIOeKv0l/CS+vW0/ksiy11b3l5STGs2niIvHiQdSRRx1cmhG2mT4LuDqpA==
+X-Received: by 2002:a50:9063:: with SMTP id z32mr16110002edz.164.1551716088339;
+	Mon, 04 Mar 2019 08:14:48 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
+	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
+	by smtp.gmail.com with ESMTPSA id
+	d19sm1244847ejb.31.2019.03.04.08.14.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 08:08:28 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Mar 2019 08:08:27 -0800
-Message-ID: <0ea801d4d2a4$80e667c0$82b33740$@gmail.com>
+	Mon, 04 Mar 2019 08:14:47 -0800 (PST)
+Date: Mon, 4 Mar 2019 11:14:43 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190304161443.GQ5026@bill-the-cat>
+References: <20190303204731.GK5026@bill-the-cat>
+	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
+	<20190303212515.GL5026@bill-the-cat>
+	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
+	<20190304155845.GP5026@bill-the-cat>
+	<c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdTSpDAWo0dgy7ghTNyf8c4vSoUleA==
-Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am to 8:30am on the first Tuesday (PST)
+In-Reply-To: <c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,275 +64,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 16:08:28 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0EA9_01D4D261.72C3C400"
-Content-Language: en-us
+X-List-Received-Date: Mon, 04 Mar 2019 16:14:48 -0000
+X-Groupsio-MsgNum: 121915
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="lLR1BQqf7txDtYcF"
+Content-Disposition: inline
 
-------=_NextPart_000_0EA9_01D4D261.72C3C400
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-Just a reminder we will hold the monthly Yocto Project Technical Meeting at
-8am PST tomorrow. (3/5)  
-
- 
-
-Yocto Project Technical Team Meeting: We encourage people attending the
-meeting to logon and announce themselves on the Yocto Project IRC chancel
-during the meeting (optional):
-
-Yocto IRC: http://webchat.freenode.net/?channels=#yocto
-
- 
-
-Wiki: https://www.yoctoproject.org/public-virtual-meetings/
-
- 
-
-When            Monthly from 8am to 8:30am on the first Tuesday Pacific Time
-
-Where           Zoom Meeting: https://zoom.us/j/990892712 
-
- 
-
-I will be tracking the minutes at:
-https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU
-9pg/edit?ts=5c06b22d  Please request access if you want to assist in editing
-them.  The world should have view access. 
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0EA9_01D4D261.72C3C400
-Content-Type: text/html;
-	boundary="----=_NextPart_000_00C6_01D4BC68.83DC2390";
-	charset="us-ascii"
+--lLR1BQqf7txDtYcF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal><span style=3D'color:#1F497D'>All,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>Just a reminder we will hold the monthly Yocto =
-Project Technical Meeting at 8am PST tomorrow. (3/5)&nbsp; =
-<o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span style=3D'color:#1F497D'>Yocto Project Technical =
-Team Meeting: We encourage people attending the meeting to logon and =
-announce themselves on the Yocto Project IRC chancel during the meeting =
-(optional):</span><span style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>Yocto IRC: <a =
-href=3D"http://webchat.freenode.net/?channels=3D#yocto">http://webchat.fr=
-eenode.net/?channels=3D#yocto</a></span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>Wiki: <a =
-href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
-w.yoctoproject.org/public-virtual-meetings/</a></span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 8:30am on the first Tuesday =
-Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
-New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; Zoom Meeting: <a =
-href=3D"https://zoom.us/j/990892712">https://zoom.us/j/990892712</a> =
-</span><span style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>I will be tracking the minutes at: <a =
-href=3D"https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuh=
-N_TSAfw2tdU9pg/edit?ts=3D5c06b22d">https://docs.google.com/document/d/1Y5=
-IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU9pg/edit?ts=3D5c06b22d</a>&nbsp; =
-Please request access if you want to assist in editing them.&nbsp; The =
-world should have view access. </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'color:#1F497D'>Thanks,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+On Mon, Mar 04, 2019 at 04:06:47PM +0000, Richard Purdie wrote:
+> On Mon, 2019-03-04 at 10:58 -0500, Tom Rini wrote:
+> > Ah, so "poky" got me thinking this morning.  I was just on bitbake
+> > v1.40
+> > (since I usually use thud, and that's the version for that).  Moving
+> > to
+> > bitbake master/tip and I don't see the problem anymore.
+> >=20
+> > Is it possible to have some logic within OE to check the version of
+> > bitbake and throw an error / warning?
+>=20
+> You mean like the BB_MIN_VERSION variable:
+>=20
+> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6
+>=20
+> ?
+>=20
+> :)
+>
+> The changes were intended to be backwards compatible hence it wasn't
+> bumped. Clearly something isn't playing as intended...
 
-------=_NextPart_000_0EA9_01D4D261.72C3C400--
+Yes, that.  I think we haven't fully used that well historically since I
+can only ever recall *kaboom* when using too old of a bitbake rather
+than a nice sane error message.  Looking at
+https://wiki.yoctoproject.org/wiki/Releases and then some quick git
+history, we also must have had that mechanism available when I last ran
+into something like that even for the fairly ancient jumping around I've
+had to do a time or three.
+
+In fact, can we make BB_MIN_VERSION match the table found there?  It
+doesn't look like we have resources / time to test things on both
+current and min versions, so we should I think have the min match what
+we say should be used.
+
+--=20
+Tom
+
+--lLR1BQqf7txDtYcF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcfU7zAAoJEIf59jXTHXZSkK4QAI2yfwLHtmGM4Jp7/17DwxDt
+kTu9URdtnMb88xpWsaNRYHTgwB0ofdExPKMRyGEv8jiOULmLvwW7YGvBcJkAXgJ3
+s9mrA9n6s/dosgPc2SWKYAckdLOxW2gJ8vwTWLEBti9K7WzUUFzDAtEYL44cRBi6
+98LOThXkwlgxaRTz1E1a1rkrj9QZt3vVirhdHQImS3A52RGW3GNW7Z92FNggd7BP
+JSOtHvNGF5sFxpyNPa8Z0WAaRNRLQ8KkDGr/e8LLWRBbcDtSGdoFP60i94A/hYhg
+sGfsMfGEZDA8xBLBgJaY/W+k5dcSLv5uz+u+bjWnVKywydZhTafGcYYjnZqZXI2t
+V8IHHe6HnFMM2Ww2TwSl+cEvtVV9AXH6SMutgQi5g9rfDIrRMNY1rDOMaqMH1jme
+Mzdg2+vgxEAW/kiaNanniMxgR04iwoI8IBR5/F0zrZk//ljucIlmpayGvtTXD7MB
+Phj+Mdn8+/6sdgIUiPxYIolQ9JaF/MZbjG3zXy0HNPy7me6JXz3MrzNR6O4A0/LA
+oyjZxBPKhzDuEcijcm4bQyBQQR7nku1lm1P8cJHxcPd4tVbgLc/zvR1tC6x8MaK7
+331HNkiDloK/1JH85U163EPlWQffrIJfrtvNMFU9JWnZA4CgdfUQOdWr96tAbJU1
+PcfxmJQ23a6yO2UNC3zI
+=hc/z
+-----END PGP SIGNATURE-----
+
+--lLR1BQqf7txDtYcF--
