@@ -1,48 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
-	[209.85.166.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 283317C72F
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B92AC7C705
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 11:18:10 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id 9so3660772iog.8
+	Mon,  4 Mar 2019 11:39:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x24BdgKN012019
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 03:18:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OqbAJGxL0IkvGd4woA5UnvHM7mxv9hR3OWeasidhsw8=;
-	b=YJIJXKzB5YjNPipTIEeef0ZmizUHPGLbhpRyDODJZHk/5dgehwsB1l8vcF3pIKLntk
-	2Ed6SrGR/gHlyKRLJhDk2mllkq+8RXH0yq7CMy/6h6v3Z3QWNVRO6LITFluQUjSrXTva
-	4rpRaUpgVj8/Co0j31TOXs7r4ycE34Nl91gV0pZ3pzmihH7CkUgSYKpKkOzArAOYNL12
-	zQ8aQ6MDVuzfIyS2NFx1xJwNqzluf6hmqWYGeRFjq2ATdG3BXoDOraEBPA5QYto2/hAz
-	FLyf+0sPhhUB44XdqtR/TmQD9rwJ6VRTUDNhb4H2TLkq6P8M3aQb8TT6zXFSR7Qgt89z
-	pbsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OqbAJGxL0IkvGd4woA5UnvHM7mxv9hR3OWeasidhsw8=;
-	b=LIO/7TI9uFJhDSs0P3lHgsBUKFIob9dYYAzW/RXhz5zqkRxlvY+eUbmMZ57TbgUvth
-	nAkhmQxgJhyZqAOu6/OvP9cUXIouzO8asGU4TWOBlQMeNxr/eDANnrvOKSzQ99+lXt0G
-	RixD+/hSNcSltwMryAnh30OOSvD9z+KPqGgipClKEHEkd+WJ8Ek2mKtSRR7azsDc0awu
-	+QAZBlS6g2JxdyNvj/EW+ZWl4bBNbWwj/GIsjYyRORtq3zcUxwy34yxGJ9AnvCJCXy6+
-	IbfAZhLDaznVrE8enEMeOYb11hIe9sod9anZ+rO+M7GFqWe37YuTz6Orz+TJb1R7cw4U
-	oFdw==
-X-Gm-Message-State: APjAAAW4ox49/knIyZZgvCz8y1UmU0UQ1U6MdhSxw9jWbl5g2z0uS6pl
-	CAC29j3Pp4kBEoIrByKyzckvE3w+8whY+7oegpuxCQ==
-X-Google-Smtp-Source: APXvYqxKjhguZJVQo3WTDyD36y5EgE0vwrIbTlqAgDH0FSHVhgctfpbH4mVxjXkVYxco8HjYgCPW9QH3XlbdVB+VscI=
-X-Received: by 2002:a5d:848b:: with SMTP id t11mr8481328iom.270.1551698292028; 
-	Mon, 04 Mar 2019 03:18:12 -0800 (PST)
+	Mon, 4 Mar 2019 03:39:43 -0800 (PST)
+Received: from otp-opanait-l1.corp.ad.wrs.com (128.224.124.169) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 4 Mar 2019 03:39:42 -0800
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Mar 2019 13:38:45 +0200
+Message-ID: <20190304113845.15721-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20190228142745.23630-1-luca.boccassi@gmail.com>
-	<20190304111117.16769-1-luca.boccassi@gmail.com>
-In-Reply-To: <20190304111117.16769-1-luca.boccassi@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Mar 2019 11:18:01 +0000
-Message-ID: <CAJTo0LbmxKG-CbZb+EwbnthF3Z-uLj99pPCumPwiVpatjrjaAw@mail.gmail.com>
-To: luca.boccassi@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] swig: fix build with musl
+Subject: [PATCH] openssl: Add cryptodev-linux PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,13 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 11:18:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Mar 2019 11:39:45 -0000
+Content-Type: text/plain
 
-On Mon, 4 Mar 2019 at 11:12, <luca.boccassi@gmail.com> wrote:
-> +    mkdir -p ${WORKDIR}/build/Source/CParse
+The old bsd cryptodev engine was removed in
+https://github.com/openssl/openssl/pull/3699
+and the new one added in:
+https://github.com/openssl/openssl/pull/3744
 
-Use ${B} instead of ${WORKDIR}/build.
+It can be enabled by configuring with "enable-devcryptoeng".
 
-Ross
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.1a.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+index 02fd66910e..4a626a4fcd 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+@@ -28,6 +28,12 @@ SRC_URI[sha256sum] = "fc20130f8b7cbd2fb918b2f14e2f429e109c31ddd0fb38fc5d71d9ffed
+ 
+ inherit lib_package multilib_header ptest
+ 
++PACKAGECONFIG ?= ""
++PACKAGECONFIG_class-native = ""
++PACKAGECONFIG_class-nativesdk = ""
++
++PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux"
++
+ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
+ 
+-- 
+2.20.1
+
 
