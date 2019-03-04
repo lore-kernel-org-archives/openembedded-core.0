@@ -1,47 +1,50 @@
-Return-Path: <matthias.schiffer@ew.tq-group.com>
-Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 637EA60248
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AB25F7C752
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 13:54:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,440,1544482800"; 
-   d="scan'208";a="6468865"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-	by mx1-pgp.tq-group.com with ESMTP; 04 Mar 2019 14:54:41 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-	by tq-pgp-pr1.tq-net.de (PGP Universal service);
-	Mon, 04 Mar 2019 14:54:41 +0100
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Mon, 04 Mar 2019 14:54:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-	t=1551707681; x=1583243681;
-	h=message-id:subject:from:to:cc:date:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=il1QEgZuXizhnhChi8R2wNKTuFjcvLOo8++tE6nTM3w=;
-	b=ER8Q1pzAqX5Dwq78jYPNcrZpCpEYivK6l3fPqK21J3rRvfGQ6LDmddGY
-	FNHAelK4o7B1mzJ+xJNETQxe/OtqSGIRaErnhlh56ySDo4T+YFh5SsI1Y
-	kNL+J8RN0lNTQWsfqsteOaLzbk/KNkDWLgnsdRoUZCKBmyorDOOb/M+2G
-	FNjyh/1QsQYOZ3TfDJ3R7sd1O1s5GQPpHZv9LkwZEaKna9gfGaEUG/5Dx
-	0Cvr1Vyojw0Jc0xK6jAbpUTtwD3yL+xYiUQVG5czxnrA86pOsROSainxP
-	Zx8gl5wkdHFJgOVi/vb8nwAfp1BpxKf7yNB6HlvVxdhdq4i6tRInRSbHI A==;
-X-IronPort-AV: E=Sophos;i="5.58,440,1544482800"; 
-   d="scan'208";a="6468863"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-	by mx1.tq-group.com with ESMTP; 04 Mar 2019 14:54:40 +0100
-Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
-	[10.117.49.26])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 40E51280074;
-	Mon,  4 Mar 2019 14:54:53 +0100 (CET)
-Message-ID: <56e13cae6367d883f5c07c6adb683e2c0d772889.camel@ew.tq-group.com>
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 04 Mar 2019 14:54:38 +0100
-In-Reply-To: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
-References: <20190215160356.9764-1-richard.purdie@linuxfoundation.org>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] target-sdk-provides-dummy: Extend to -dev and -src packages
+	Mon,  4 Mar 2019 15:12:30 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d17so5940109wre.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Mar 2019 07:12:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=yv1dgWi8dQlq+QRDuNag2WoFMBcAprwYQihX4uVPko4=;
+	b=bgFscf0JedcYUw90MHclTH/UuoickULjhJa9uCLt1WWUfw+pmtdNp21fKgv8UJ0gWX
+	qeCMQzY6RvWZQKBeCbRKiUiRBRT2CimuHznOweywGe4OxMYXDN6v1U5rg1FO8QwN3azJ
+	aofxfSu7TosmAmV8Z3V3QeQ7SdZ8P7ZUrwIV4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=yv1dgWi8dQlq+QRDuNag2WoFMBcAprwYQihX4uVPko4=;
+	b=F4rCxecqi0a1RrJEWxtheJML2gZYtpU38q2phKtKOCpjYXmyEIRgMs4i1BXfuJZSR7
+	W5Y3fqWRfjTON/WADhunu+9cTa8SM2wNY0d1f3gbHoex533L0mmUMSfc3EIDev5szq8C
+	eUwIeYhfMp/57DPYBp/7udRkAVsmeAMsLQ/PVaukFvQHYrGPIyefgOaKL3bINhrqRgX7
+	3OF4N6A7I0afLQ1/fIy5KQj7cWyS7AUpNQIHS2lqfUB7qhOH1Ga+AzMX+Wq44AluIysH
+	sQ80G1xMAZTHr4sdN7UfI9byInDEiiMt7FgU/eF81EnT8D+6L6EhXfgkP92ALCpZgQGI
+	0Fiw==
+X-Gm-Message-State: APjAAAVCzkDQWe7dyRaxfN6RrlfK4GWyoPUzs/iSJiqrUIdmuPrvDVZV
+	jxqZSQVP6z3fjTVF+Z8WuZapNw==
+X-Google-Smtp-Source: APXvYqxZu6PqnLd6I989bVVrsBEydrai/DxAbtRJpbcsRVZmCbquWYgB//fv/svDKBokEng5zbxcVQ==
+X-Received: by 2002:adf:9103:: with SMTP id j3mr12888714wrj.236.1551712351210; 
+	Mon, 04 Mar 2019 07:12:31 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id z8sm5576004wmi.28.2019.03.04.07.12.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 04 Mar 2019 07:12:30 -0800 (PST)
+Message-ID: <7c24c5585f8aa25ad636da1723f20610df542ce3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 04 Mar 2019 15:12:29 +0000
+In-Reply-To: <20190304115835.28288-1-ross.burton@intel.com>
+References: <20190304115835.28288-1-ross.burton@intel.com>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH] libcomps: put PV in filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,73 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 13:54:41 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 15:12:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-02-15 at 16:03 +0000, Richard Purdie wrote:
-> This avoids errors when running populate_sdk under opkg:
+On Mon, 2019-03-04 at 11:58 +0000, Ross Burton wrote:
+> This isn't a git snapshot recipe but a release that is fetched over
+> it.  For
+> clarity, put the PV in the filename.
 > 
->  * Problem 1/1:
->  *   - package busybox-dev-1.30.1-r0.core2-64 requires busybox =
-> 1.30.1-r0, but none of the providers can be installed
->  *
->  * Solution 1:
->  *   - allow deinstallation of target-sdk-provides-dummy-1.0-r0.sdk-
-> provides-dummy-target
-> 
->  * Solution 2:
->  *   - do not ask to install a package providing busybox-dev
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Hi,
-is this patch going to be backported to thud?
-
-
-Kind regards,
-Matthias
-
-
-
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  meta/recipes-core/meta/target-sdk-provides-dummy.bb | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  meta/recipes-devtools/libcomps/{libcomps_git.bb =>
+> libcomps_0.10.0.bb} | 1 -
+>  1 file changed, 1 deletion(-)
+>  rename meta/recipes-devtools/libcomps/{libcomps_git.bb =>
+> libcomps_0.10.0.bb} (98%)
 > 
-> diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> index 26716ace87b..60499f7b66a 100644
-> --- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> +++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> @@ -2,9 +2,17 @@ DUMMYARCH = "sdk-provides-dummy-target"
+> diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb
+> b/meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/libcomps/libcomps_git.bb
+> rename to meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
+> index ff6820851fe..1c4f3bde65e 100644
+> --- a/meta/recipes-devtools/libcomps/libcomps_git.bb
+> +++ b/meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
+> @@ -9,7 +9,6 @@ SRC_URI = "git://github.com/rpm-software-
+> management/libcomps.git \
+>             file://0001-Add-crc32.c-to-sources-list.patch \
+>             "
 >  
->  DUMMYPROVIDES = "\
->      busybox \
-> +    busybox-dev \
-> +    busybox-src \
->      coreutils \
-> +    coreutils-dev \
-> +    coreutils-src \
->      bash \
-> +    bash-dev \
-> +    bash-src \
->      perl \
-> +    perl-dev \
-> +    perl-src \
->      perl-module-re \
->      perl-module-strict \
->      perl-module-vars \
-> @@ -36,6 +44,8 @@ DUMMYPROVIDES = "\
->      /usr/bin/env \
->      /usr/bin/perl \
->      pkgconfig \
-> +    pkgconfig-dev \
-> +    pkgconfig-src \
->  "
->  
->  require dummy-sdk-package.inc
-> -- 
-> 2.20.1
-> 
+> -PV = "0.1.10"
+>  SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
+
+I suspect we have this issue in a few cases and having PV next to the
+SRCREV may prompt people to keep things more in sync?
+
+Cheers,
+
+Richard
+
 
 
