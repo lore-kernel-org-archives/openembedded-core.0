@@ -1,49 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E5A7C705
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+	[209.85.208.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C58777C3C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 11:59:12 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f65so2933684wma.2
+	Mon,  4 Mar 2019 12:21:48 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id h58so4077422edb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 03:59:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=HQ7A0cXg+BAZB4vhGzKwuaegWRL6e41bFPeyJA2CWSg=;
-	b=WhQo82LecbpwWqGG0vtr8+Fen9jIQDg0XZuz4LhYU5xhzP/2jKTq5xYp2HYXBkefWI
-	gVsL7D8fAUYKd/BL/We1sBfVejKmIsnTsNLJJSnq2BkBm+uIFqOd89dUKnaZbMQGRaZM
-	CBc4hoafs7vdIupyWWAIeltmxF9jit9uBOhS0o7wzIaOS0HvbwGO+R7SCzjsT82QUzcU
-	jq1vDflwNTLbDgBuG8JtV2aUrIgxa7tvUCtYvRe6GPRyq6S/DD0GqNvQBOftDStMHOp9
-	8ak67LEIAGez7VZ+TFhQe9CiYE2OVkSNNn5lXnZCcoZNvyNzZkYw4IWghvVPHpXrnXXZ
-	01xA==
+	Mon, 04 Mar 2019 04:21:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=QYm3QBG+MUBGr/fcZUwbQL7jPk82b4QP/oCgdjFLQIs=;
+	b=ZN0j68fzWnOYNvq5ZgwuY3TullheCUKTZCmTupInbCoV4jHfUWEgYnI0ats61tL9N5
+	gZYyNSdEjrobmzaboY7jTvlLCUlm9CcFPd8Bz+YHIu7IWiTPMJlbWe9RU6/omnkPc6EK
+	w6nKewpScBB0FBuDJ4L69y8/qW1cJ0YuzMTXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=HQ7A0cXg+BAZB4vhGzKwuaegWRL6e41bFPeyJA2CWSg=;
-	b=awhSKyWHY1cOzMHpU83qdg+x7CMqt3LTuae6qVF4+Myvak9/KN2d1qfFXwECJ6RBK1
-	eKTCBUY5l1qAFqoE4MG90D/d7Z/G9SvBjCAt93xegW7ndJPQH3s6sKl3Y+AP/SsOYbji
-	YJHSAUyAuBpuuhXfb0QUw+V9tfYKRA28U3d6U+EX/u+2wbu0nexHGL0s2tSSG/wosS93
-	Xy4314cCZraOoN7GZSEpGQvh4IaHb+7u8A/gqufD7tKZ99LJHib5tCyL1THKBOyCxg2z
-	ul5umj3uydCb0IocVMm6E3uuz78929iminybwYE/ChnQCNXyGZDmAuiOqayvfk4OtPM9
-	n6rg==
-X-Gm-Message-State: APjAAAWkZYAlyDmH14DR9FwxypjPkc3Y2Xn5G4Xo5+8KO1zaAUh2KL6J
-	i9r1F8j95fvo2ga5+7yZTDIFZT24yg8=
-X-Google-Smtp-Source: APXvYqwJvRcfmZze2UsQn1wfJBCtGE8eBLov4Y82WwTZYfOP2goPXJOWBXW91sNxhrrt9kI0CWGPmw==
-X-Received: by 2002:a1c:9dcc:: with SMTP id g195mr11603533wme.9.1551700753097; 
-	Mon, 04 Mar 2019 03:59:13 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	i12sm8288921wrq.21.2019.03.04.03.59.12
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=QYm3QBG+MUBGr/fcZUwbQL7jPk82b4QP/oCgdjFLQIs=;
+	b=FowCg3hy/MdglPRFXJ74gIi8w5wI+gRatGGS0IIArr2z0Un6SuYilRwcOalWnnhtCL
+	Wo7nE2B1ehEvtdMkAhh2Iuf/v7rjzbRi9AeRJxBouSetJcn6sRyohD2zvcwXgKPrALZ2
+	Rwhp/70+Nvba5suIjGSngxK3NLLYrMRfoP/PBABGxXGxFSUnOnJA708OqSiObLVKiSb+
+	wVkAQLhwwDy8nffGuogb9iIUAIWlSWV4bTw6A2sFjBNxpRkksgfTo9tLP89IRsRg0tGw
+	1mg2gOftAhDoQdVgQB6Cgl8JaU7V76g/+Rvjwy8emB0EhWrhaVCgfRJjMciNfkg1j4Xo
+	1ltA==
+X-Gm-Message-State: APjAAAWHgK8aZxdIA5GNqz3VOt7Ugbov4JF6QAhaJGXcUPPVe7vVPalw
+	0LEGrssT8i4CGukx9HlUw9MdSw==
+X-Google-Smtp-Source: APXvYqyVOEUK2ZswhtYGfBUqbkW/cTBWy7qBHRVCmmou9V8RFC2wgcafZaxsdEp90Wi9WkVz2D3ODQ==
+X-Received: by 2002:a17:906:5944:: with SMTP id
+	g4mr12655932ejr.105.1551702109105; 
+	Mon, 04 Mar 2019 04:21:49 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
+	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
+	by smtp.gmail.com with ESMTPSA id g5sm1161478ejj.42.2019.03.04.04.21.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 03:59:12 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 11:58:35 +0000
-Message-Id: <20190304115835.28288-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libcomps: put PV in filename
+	Mon, 04 Mar 2019 04:21:47 -0800 (PST)
+Date: Mon, 4 Mar 2019 07:21:42 -0500
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20190304122142.GN5026@bill-the-cat>
+References: <20190303204731.GK5026@bill-the-cat>
+	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
+	<20190303212515.GL5026@bill-the-cat>
+	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
+	<CAJdd5GaOk=asx=r1yVOEokMbiVPsk_8bdArYq1KzrNR22_LcNQ@mail.gmail.com>
+	<20190303225159.GM5026@bill-the-cat>
+	<CAJTo0LaOGr4iJh0r1s=wWOy3XA47-L+++Dq+zQOV5hD3LCD4Kw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaOGr4iJh0r1s=wWOy3XA47-L+++Dq+zQOV5hD3LCD4Kw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +65,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 11:59:13 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 12:21:49 -0000
+X-Groupsio-MsgNum: 121898
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WuT04sMzYDXq8et0"
+Content-Disposition: inline
 
-This isn't a git snapshot recipe but a release that is fetched over it.  For
-clarity, put the PV in the filename.
+--WuT04sMzYDXq8et0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.10.0.bb} | 1 -
- 1 file changed, 1 deletion(-)
- rename meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.10.0.bb} (98%)
+On Mon, Mar 04, 2019 at 10:17:21AM +0000, Burton, Ross wrote:
+> On Sun, 3 Mar 2019 at 22:52, Tom Rini <trini@konsulko.com> wrote:
+> > SSTATE_DIR =3D "${HOME}/work/OE/sstate-cache-${DISTRO_VERSION}${TARGET_=
+VENDOR}"
+>=20
+> FWIW there isn't much point in isolating sstate like that.  You'll
+> just rebuild stuff that would have been available.
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/libcomps/libcomps_git.bb
-rename to meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
-index ff6820851fe..1c4f3bde65e 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_0.10.0.bb
-@@ -9,7 +9,6 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0001-Add-crc32.c-to-sources-list.patch \
-            "
- 
--PV = "0.1.10"
- SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
- 
- S = "${WORKDIR}/git"
--- 
-2.11.0
+Martin already chimed in, but this is my "copy this to every project"
+site.conf file.  I do modify that base path a little bit for per
+project,  But easily removable state is good and important, especially
+when chasing "recipe for proprietary thing behaves badly" bugs.
 
+--=20
+Tom
 
+--WuT04sMzYDXq8et0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcfRhWAAoJEIf59jXTHXZSSVAP/jVIPR2NctdVAnEQ8lvAeEzR
+RawOlYi/HWnFsRJGPPSBwy0zeBwv3YcaL2MFmtfxYgAnLW0x/z8EMoaD8XpTY6Gl
+IKO9DPhIzCuab6tlg2+1aHSN9LGWjl0fUxNT3hintrz0fpYXmlH/w9YZ6w8jhVVR
+BeyjtSkm5sbkb1B7pKWOIgjHpWWTfgTlDhpSpnA7AumWuo7K3RY6jsjsoZI+ZSVO
+vrimJVMfshaF2V+1SS09GvGQw3p3uE0N1HsXNug5p1w9SxgrU+FTdG1CJ5aKfylR
+d0lRI4+U6o3B+j6FGL4xjRWZxEQK+btTrp8ZyOtwzPiLQ8fDCOMwchdlVT0HWGkH
+FKAMX+DXKbbx1FPWUCXN+V2LS5NQoKj+0NJlL6GghfoLG5SSbexK8gxpIGnhgRYI
+YrhfNBg4U+x/R+qd9FzBz9trVTdIP42kWwd/AS3hXPjNuJvBcQoOoWSameY3GF03
+tbaQf9YP3bE7Nnw6XRE6nPlnpUnTkrJBi5sBs/gzzx7hpdyL/As34BOyzwa2RwuD
+N6NDswu2ml42XNy3rW66lQhv5A22+3QuDPG83so6kZ5lql9J4wKlFZqfx1awbyr0
+1hOwI7hvNBU0fSeiACqNfIC2oYKamvGg+po9AltetaAK7DmLbZBKolLai8qxIWKp
++hNFk4M7SEI2+gUvhPbx
+=KHNj
+-----END PGP SIGNATURE-----
+
+--WuT04sMzYDXq8et0--
