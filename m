@@ -1,56 +1,51 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
-	[209.85.208.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D1DB97C8E0
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 385987C933
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 16:14:47 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id f2so4693737edy.13
+	Mon,  4 Mar 2019 16:17:41 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id g12so6200852wrm.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 08:14:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=hV6GvAjxdVEbl1+9jY93bS6j/IYrvRRBaKr9lVOyecc=;
-	b=bhJwBAC6l/zMHQ15FptsMK8tlZ0e3D7T2ZdaBCvRXAiRbZogH+1PiInh3FZN/b/VOA
-	+uj2D0kFqPyexAne6ZWHtxZx6aX4l8lKFiOlD3LuF8ulqbuUd+4TMid25aLyANTCmozQ
-	szjzafF56+7sZmoHIdhM+614TMuAcWv1LkA1s=
+	Mon, 04 Mar 2019 08:17:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xAb6bBxOiJuKUfJrr9XPf7bd1IC8QvjhexTbnK41Eyk=;
+	b=Z750Q0QiLqPKxxnjlxmV3dzCYm/O0HdW/disD10ozoeDJT4Eoe9tS2sI3KwZDoo5Mk
+	3FJzSpgTwxENhBB/giafSZV/rhHOBvPtSLO6r7CcSSvTu9/O7CK6bOdUvvYC6eNEKhgP
+	wOGRhbLaItli4FMr6SJnr5Pr8HBz/AfJ0T2j9nOwy00O/KPAHQ5fvqpt8/aHthQ8K8h8
+	mbc1rxVI7NXkx9k3s0co/diXd1SpiKPiXa7yb3QmEBVqTb5mswAUmJ3oU1vz32ohMjh0
+	JKWZoODfqYcIxMA2eOteHFHf/vKp0HuzuFFyTpE/VOdtIfm+OfDTQRL+tOBGDwFrJaZ/
+	rPHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=hV6GvAjxdVEbl1+9jY93bS6j/IYrvRRBaKr9lVOyecc=;
-	b=e03Zhkl5k3ydRAgk7OcXqXF4EKgYuhG31p/SsIXhq2IMf6HtkNHniZ8n6gdlAiSRRR
-	2NDbe5IKdoh4QBvAWwabZJxb9cXiZCcOkKecGeliIXsXM6TYeTPfv/yHg2NL3fdjJLCZ
-	ed2Z/pnKyCK3yPz0ZdnioCmTserBMgcXOSq36c4S/8LqfyKLHIGHgCWsrcNyiBuKabwy
-	T41OyxOb/0x673DLN21nji9clTwDbGGhXHeM/5FacisGBFbpjQ4I345gqNKoKEaYjvqe
-	kdKsja7pLIn7WzcHRLqt9K314SAFuz7HfWo989CR/r5WTtxf8OWUyqLBbNZEX9wLkrXx
-	XFlg==
-X-Gm-Message-State: APjAAAXwW0sCUYpxlkfHNCrSWpBC3mpayCiMsCuIItG2mI1wJ2MTbCsT
-	GLpYkSo02jwBfupr7X86vHEt9g==
-X-Google-Smtp-Source: APXvYqyJVSJc+oATJZTwwIOeKv0l/CS+vW0/ksiy11b3l5STGs2niIvHiQdSRRx1cmhG2mT4LuDqpA==
-X-Received: by 2002:a50:9063:: with SMTP id z32mr16110002edz.164.1551716088339;
-	Mon, 04 Mar 2019 08:14:48 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
-	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
-	by smtp.gmail.com with ESMTPSA id
-	d19sm1244847ejb.31.2019.03.04.08.14.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 08:14:47 -0800 (PST)
-Date: Mon, 4 Mar 2019 11:14:43 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190304161443.GQ5026@bill-the-cat>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xAb6bBxOiJuKUfJrr9XPf7bd1IC8QvjhexTbnK41Eyk=;
+	b=CrYEL/Z75vm3/OdF8GrZ/4kz68jkOEGZ/+JMvybkXZeOMRKL/oaNeVU8ydq6lzfdDw
+	p878UQ3/sFQQjOEW8Kjo65FheXbGjTyZYQuNIV4PV7fmPT9kNccSXpv/GbAgBNPlKPmT
+	7gLk5Qu9oIaucVovTRE0RrDdyPRCPvtypTREtSadceTZV8mZIimH0WZbUU1c/8dyoB1z
+	nXg6xjfq6PfGEWkaoIsg4GumfwNL0gQ4jvCFkbDdFHClhawDM/vu0j8+udN0FVZiP4xZ
+	JB7BSgl0B8D+tVXbVPUXbmB/Zc4zhgSRamaPU12uUSCs3dAP0PL2DqqncZLGr8yKsCbx
+	bXXQ==
+X-Gm-Message-State: APjAAAWRjrMGOlNF0efhKYGhQGT5rQRTatYUS5VoxLY3/VIkFWytlkwc
+	toreVK3uPfS9+0ritzamz7aRCNJltKv0OopFMYg=
+X-Google-Smtp-Source: APXvYqzKFwckIaYqnRzkh/yCKRys9HrALI0bRbo1tRyBKyZA/R/4e5lJcJ4x7sms490E3futHI3aq1c2mdC6+uJ7HlU=
+X-Received: by 2002:adf:e949:: with SMTP id m9mr10145256wrn.1.1551716261863;
+	Mon, 04 Mar 2019 08:17:41 -0800 (PST)
+MIME-Version: 1.0
 References: <20190303204731.GK5026@bill-the-cat>
 	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
 	<20190303212515.GL5026@bill-the-cat>
 	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
 	<20190304155845.GP5026@bill-the-cat>
 	<c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
-MIME-Version: 1.0
 In-Reply-To: <c35172f8efc2e7d16a7915037f4b0d412d1707c0.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 4 Mar 2019 10:17:29 -0600
+Message-ID: <CAJdd5GZP3G0vgc-E-zSXMCNw4+y95_nrMEN3YMfk=SFFJ874GQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Tom Rini <trini@konsulko.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -64,74 +59,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 16:14:48 -0000
-X-Groupsio-MsgNum: 121915
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="lLR1BQqf7txDtYcF"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Mar 2019 16:17:41 -0000
+Content-Type: multipart/alternative; boundary="00000000000094a535058347187d"
 
---lLR1BQqf7txDtYcF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--00000000000094a535058347187d
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 04, 2019 at 04:06:47PM +0000, Richard Purdie wrote:
+On Mon, Mar 4, 2019, 10:06 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
 > On Mon, 2019-03-04 at 10:58 -0500, Tom Rini wrote:
 > > Ah, so "poky" got me thinking this morning.  I was just on bitbake
 > > v1.40
 > > (since I usually use thud, and that's the version for that).  Moving
 > > to
 > > bitbake master/tip and I don't see the problem anymore.
-> >=20
+> >
 > > Is it possible to have some logic within OE to check the version of
 > > bitbake and throw an error / warning?
->=20
+>
 > You mean like the BB_MIN_VERSION variable:
->=20
+>
 > http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6
->=20
+>
 > ?
->=20
+>
 > :)
 >
 > The changes were intended to be backwards compatible hence it wasn't
 > bumped. Clearly something isn't playing as intended...
+>
 
-Yes, that.  I think we haven't fully used that well historically since I
-can only ever recall *kaboom* when using too old of a bitbake rather
-than a nice sane error message.  Looking at
-https://wiki.yoctoproject.org/wiki/Releases and then some quick git
-history, we also must have had that mechanism available when I last ran
-into something like that even for the fairly ancient jumping around I've
-had to do a time or three.
+Ah, older bitbake isn't going to set BB_UNIHASH, which I bet is what breaks
+it. I bet if we add:
 
-In fact, can we make BB_MIN_VERSION match the table found there?  It
-doesn't look like we have resources / time to test things on both
-current and min versions, so we should I think have the min match what
-we say should be used.
+ BB_UNIHASH ?= "${BB_TASKHASH}"
 
---=20
-Tom
+somewhere (bitbake.conf?) it would fix it.
 
---lLR1BQqf7txDtYcF
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+> Cheers,
+>
+> Richard
+>
+>
 
-iQIcBAEBAgAGBQJcfU7zAAoJEIf59jXTHXZSkK4QAI2yfwLHtmGM4Jp7/17DwxDt
-kTu9URdtnMb88xpWsaNRYHTgwB0ofdExPKMRyGEv8jiOULmLvwW7YGvBcJkAXgJ3
-s9mrA9n6s/dosgPc2SWKYAckdLOxW2gJ8vwTWLEBti9K7WzUUFzDAtEYL44cRBi6
-98LOThXkwlgxaRTz1E1a1rkrj9QZt3vVirhdHQImS3A52RGW3GNW7Z92FNggd7BP
-JSOtHvNGF5sFxpyNPa8Z0WAaRNRLQ8KkDGr/e8LLWRBbcDtSGdoFP60i94A/hYhg
-sGfsMfGEZDA8xBLBgJaY/W+k5dcSLv5uz+u+bjWnVKywydZhTafGcYYjnZqZXI2t
-V8IHHe6HnFMM2Ww2TwSl+cEvtVV9AXH6SMutgQi5g9rfDIrRMNY1rDOMaqMH1jme
-Mzdg2+vgxEAW/kiaNanniMxgR04iwoI8IBR5/F0zrZk//ljucIlmpayGvtTXD7MB
-Phj+Mdn8+/6sdgIUiPxYIolQ9JaF/MZbjG3zXy0HNPy7me6JXz3MrzNR6O4A0/LA
-oyjZxBPKhzDuEcijcm4bQyBQQR7nku1lm1P8cJHxcPd4tVbgLc/zvR1tC6x8MaK7
-331HNkiDloK/1JH85U163EPlWQffrIJfrtvNMFU9JWnZA4CgdfUQOdWr96tAbJU1
-PcfxmJQ23a6yO2UNC3zI
-=hc/z
------END PGP SIGNATURE-----
+--00000000000094a535058347187d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---lLR1BQqf7txDtYcF--
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Mar 4, 2019, 10:06 AM Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 201=
+9-03-04 at 10:58 -0500, Tom Rini wrote:<br>
+&gt; Ah, so &quot;poky&quot; got me thinking this morning.=C2=A0 I was just=
+ on bitbake<br>
+&gt; v1.40<br>
+&gt; (since I usually use thud, and that&#39;s the version for that).=C2=A0=
+ Moving<br>
+&gt; to<br>
+&gt; bitbake master/tip and I don&#39;t see the problem anymore.<br>
+&gt; <br>
+&gt; Is it possible to have some logic within OE to check the version of<br=
+>
+&gt; bitbake and throw an error / warning?<br>
+<br>
+You mean like the BB_MIN_VERSION variable:<br>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/sanity.=
+conf#n6" rel=3D"noreferrer noreferrer" target=3D"_blank">http://git.yoctopr=
+oject.org/cgit.cgi/poky/tree/meta/conf/sanity.conf#n6</a><br>
+<br>
+?<br>
+<br>
+:)<br>
+<br>
+The changes were intended to be backwards compatible hence it wasn&#39;t<br=
+>
+bumped. Clearly something isn&#39;t playing as intended...<br></blockquote>=
+</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Ah, older bitbake=
+ isn&#39;t going to set BB_UNIHASH, which I bet is what breaks it. I bet if=
+ we add:</div><div dir=3D"auto"><br></div><div dir=3D"auto">=C2=A0BB_UNIHAS=
+H ?=3D &quot;${BB_TASKHASH}&quot;</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">somewhere (bitbake.conf?) it would fix it.</div><div dir=3D"auto"=
+><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000094a535058347187d--
