@@ -1,54 +1,51 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B2EA57C8CB
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B7D077C8CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 16:41:02 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id p27so4772660edc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 08:41:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=k17dk824x7lz/std45ySUzZIrTimuD6tYdH6cRq/2J0=;
-	b=B/JZO2L5primF0ChLtFOdkNeQK5JQlgQufKajVjuedziJ8mAVUo2koXrS2TdvQVqrH
-	E5b0zX2z33dpPPmM1o/Jhm+UAJHCuTZv38wyErmNPtSi3MMcKwW+zwU6F+25Y+y86acd
-	qBzuWXLyruYu/oZAQ1u+wedQvgEz/ABCmKV6c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=k17dk824x7lz/std45ySUzZIrTimuD6tYdH6cRq/2J0=;
-	b=IDMnRlXGKShguJWH96hwlmiucLirCfxmHLBL5IyBREBDg2BzTaKEqmtZstVkradecI
-	HZuAEI6HiZ2ano6q+/pUFuPuxtQu3R5qNdthZgwceSrdZqpLvPmn9INDNbiqrCbsxhmU
-	QdMuEzwjwiDnSBK5AvtIFHsFxbd7iEPbfKRKb0crNYZaG9Vl3aD93qbCexAhyxB4RHdm
-	LPLYh4EdWcF0AxwTJWcVVY5dJXsQUT1Id9vlfQ4U1if/BWL4KMhjhfPRDgLuU+UmwGbV
-	ARs/eEKBv+e3Z3FmKuRWjpyhPWGkXf9WxeaulBa5GHkWYYimqhpnc7lB8XvipUqO1x9F
-	BJwg==
-X-Gm-Message-State: APjAAAVYvrQF7UUr59oWbwxo7aXS5tfTeCuYPPN5hAdurjFqSORZdsfw
-	53DGr+a9h72P6U2ALNa5QxOWfIPIOGo=
-X-Google-Smtp-Source: APXvYqzigbDr1pvtm6Mb4vs0h4MNgktzLF+XqOlg73dHarxrjDQ0lYxMoulIFyrLExvZ3soGMzv2xA==
-X-Received: by 2002:a17:906:c406:: with SMTP id
-	u6mr13008260ejz.95.1551717663329; 
-	Mon, 04 Mar 2019 08:41:03 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
-	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
-	by smtp.gmail.com with ESMTPSA id m10sm2224450edd.2.2019.03.04.08.41.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 08:41:02 -0800 (PST)
-Date: Mon, 4 Mar 2019 11:40:58 -0500
-From: Tom Rini <trini@konsulko.com>
-To: =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-Message-ID: <20190304164058.GT5026@bill-the-cat>
+	Mon,  4 Mar 2019 16:44:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x24Gi2Qj015544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Mar 2019 08:44:02 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 4 Mar 2019 08:44:01 -0800
+To: Tom Rini <trini@konsulko.com>, <openembedded-core@lists.openembedded.org>
 References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
-	<1551479212-28944-3-git-send-email-trini@konsulko.com>
-	<e58b385ea7debc2eedf481372bcfb5203ad61987.camel@andred.net>
+	<1551479212-28944-4-git-send-email-trini@konsulko.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <af18c06a-189c-e3ab-9e42-2597e32c0d0e@windriver.com>
+Date: Mon, 4 Mar 2019 10:44:00 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.5.2
 MIME-Version: 1.0
-In-Reply-To: <e58b385ea7debc2eedf481372bcfb5203ad61987.camel@andred.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] inetutils: Import version 1.9.4
+In-Reply-To: <1551479212-28944-4-git-send-email-trini@konsulko.com>
+Subject: Re: [PATCH 3/4] packagegroup-core-base-utils: Introduce new base-utils packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +58,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 16:41:03 -0000
-X-Groupsio-MsgNum: 121920
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dO6Thh8T/cwyDjv9"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Mar 2019 16:44:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---dO6Thh8T/cwyDjv9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/1/19 4:26 PM, Tom Rini wrote:
+> This packagegroup is intended to provide all of the functionality found
+> in other VIRTUAL-RUNTIME_base-utils providers through full packages
+> rather than an all-on-one package.  Document how to make use of this
+> in local.conf.sample.extended.  Introduce VIRTUAL-RUNTIME-vim and
+> default this to vim-tiny to allow for a differently features vim to be
+> used instead.
+> 
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+>  meta/conf/local.conf.sample.extended               |  8 ++++
+>  .../packagegroups/packagegroup-core-base-utils.bb  | 49 ++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
+>  create mode 100644 meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+> 
+> diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+> index 8062e4c5721b..d00221893ad9 100644
+> --- a/meta/conf/local.conf.sample.extended
+> +++ b/meta/conf/local.conf.sample.extended
+> @@ -384,3 +384,11 @@
+>  #VIRTUAL-RUNTIME_login_manager = "shadow-base"
+>  #VIRTUAL-RUNTIME_init_manager = "systemd"
+>  #VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+> +
+> +#
+> +# Use a full set of packages instead of busybox for base utils
+> +#
+> +#PREFERRED_PROVIDER_base-utils = "packagegroup-core-base-utils"
+> +#VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
+> +#VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
+> +#VIRTUAL-RUNTIME_base-utils-syslog = "syslog"
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+> new file mode 100644
+> index 000000000000..061dade0bc03
+> --- /dev/null
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+> @@ -0,0 +1,49 @@
+> +#
+> +# Copyright (C) 2019 Konsulko Group
+> +#
+> +
+> +SUMMARY = "Full-featured set of base utils"
+> +DESCRIPTION = "Package group bringing in packages needed to provide much of the base utils type functionality found in busybox"
+> +
+> +inherit packagegroup
+> +
+> +VIRTUAL-RUNTIME_vim ?= "vim-tiny"
+> +
+> +RDEPENDS_${PN} = "\
+> +    base-passwd \
+> +    bash \
+> +    bind-utils \
+> +    bzip2 \
+> +    coreutils \
+> +    cpio \
+> +    dhcp-client \
+> +    diffutils \
+> +    e2fsprogs \
+> +    ed \
+> +    file \
+> +    findutils \
+> +    gawk \
+> +    grep \
+> +    gzip \
+> +    inetutils \
+> +    iproute2 \
+> +    kmod \
+> +    less \
+> +    lzip \
+> +    ncurses-tools \
+> +    net-tools \
+> +    parted \
+> +    patch \
+> +    procps \
+> +    psmisc \
+> +    sed \
+> +    shadow-base \
+> +    tar \
+> +    time \
+> +    unzip \
+> +    util-linux \
+> +    ${VIRTUAL-RUNTIME_vim} \
+> +    wget \
+> +    which \
+> +    xz \
+> +    "
+> 
 
-On Mon, Mar 04, 2019 at 09:47:57AM +0000, Andr=E9 Draszik wrote:
-> On Fri, 2019-03-01 at 17:26 -0500, Tom Rini wrote:
-> > In order to have more robust stand-alone network tools in oe-core, bring
-> > in vim from meta-openembedded/meta-networking.  This imports the recipes
->      ^^^
->=20
-> vim for networking? :-)
+Sorry missed this earlier.  On note, we have a similar recipe in our local layer.
 
-Noted, fixed for next round.  Thanks!
+I figured you may want to look at it to determine if anything might be missing.
 
---=20
-Tom
+https://github.com/WindRiver-OpenSourceLabs/wrlinux/blob/master-wr/recipes-base/packagegroups/packagegroup-busybox-replacement.bb
 
---dO6Thh8T/cwyDjv9
-Content-Type: application/pgp-signature; name="signature.asc"
+The parts I see missing (when comparing them) are:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+bc
+debianutils-run-parts
+dhcp-server (likely not needed)
+dpkg-start-stop
+ifupdown
+kbd
 
-iQIcBAEBAgAGBQJcfVUaAAoJEIf59jXTHXZSkS4P/i7VrgXvAcPtLKBHWsMRymfX
-RY8acE1h0ho2/ljUr3yGOldfbMzot39vaaDzrVeUBpAbXSKsPdtUL8K2iJ17zmes
-Yc+4xollEm3cNGYsTT31Y69cclw/qHWP0c1r+CgI0V956KKJTMMZMQE8z11JEDWM
-VXna05HzeEFEd2gaf0pyqis2Il/8uog2+bY9e/Ni7TOKSZGvvvR0L2uK5rkgG6/M
-hULWhIsGmt++Dq2pdMypUF+vjcD1oqG/BAwM3I4TSaoUW1GIJopyhhhDh6f9VEBr
-YCw0102CFnpv6ppri1dXDbFpP9yCD5XNGfOTY3VnP7B7QBPffg+FejNiryUDQXuV
-KvUWHKucblLRWBF2xCF6rqmJEEOlow4kwmdu6FOlSWXJu6xgXDM8h09Laa3Ih2iG
-lkbWbz30fzkkHpBE/pmSDQ8bhy+qHUyVzIFJi8ZpPibjCtcTgrXiUOR9HBNGXGDS
-TaDiOInm0iYBqfFYzQyL29YKrzfoy05DKE5tXNmK8xL7s/7U8L2IUpaJ1TVmq3vL
-HWvyFeoEdlYw95OwBbBPQkYwobn0ek8fvPJKKZ5jEUevUQ1Az5vR7jUMCR0n8D0D
-GswD5Aqaw67InaJmESq3zetui3d/hsaIPfsm6S5sVYkeyn7W9CWl6TW3z/Mjs2T4
-vOFziY8LHMDCRxY5N+OH
-=g7Sa
------END PGP SIGNATURE-----
+In some configurations we also add "fbset, netcat, and usleep" as well... but I
+think the reasonable approach is to match the default busybox configuration to
+whatever is in this list.
 
---dO6Thh8T/cwyDjv9--
+--Mark
+
