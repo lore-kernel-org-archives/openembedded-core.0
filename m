@@ -1,50 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D76807C892
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 416276B54F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 15:36:56 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id q1so6049590wrp.7
+	Mon,  4 Mar 2019 15:58:50 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id g9so4657555eds.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 07:36:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tbaNDN4//bl+lYuFKraVYGYVQETw8RWQvSnO7HZbuzk=;
-	b=czJIO5BjX/dSGqHszk43txh4qZwhy53HtZ4zQTaZYj11f/ZSzRphX75APJUaZYuRwx
-	4ZD2cp3aq9/RYHCFP+zxR2HtzHdLTcYfPjZ3Oydv5Lpvw9lM8wpXGASJ9q8SJTkV6i02
-	VewZWpCLNcFCubnWOKrLpHlCfIZ8tQwClGKnHSqw0I4IH2lcgSjlRHJXx0mOkh6aatue
-	piQzNByAEMF2RKftG00Kwj4RLVLEUI8fcZ5Ulm6ldHk1vIyzbeIlqVHguOd4jBkiIcqs
-	1+jOM/TaiBTfz/3p4MfzO5luV/kNHXk177S7ZPuDBYlJ3r7+ucO6BFIRbHptGOc9SfQH
-	Z4cA==
+	Mon, 04 Mar 2019 07:58:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=s0QyArItyAAcuc5AmS6QjFlDETXLuW1fyWvclp4o5B0=;
+	b=D3P7Ja63MwZE5gYmH1FIzQf75fUfo2i14+uYw3MALbYfHrXShO1pXj8mwt6CfPWKtD
+	NX07A2fOvO7L64gjd9pUASQeV+hOfiznkeMsP8fktDBuAIV9XabxHi9cvOWVnKbKGbE+
+	xx/okALPD8BQf4ymL/XFBs57l9e0+4PE3xam8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=tbaNDN4//bl+lYuFKraVYGYVQETw8RWQvSnO7HZbuzk=;
-	b=E5oHnBrp2qSBrXzFIgKyAUESktTOXvm3iiTFb+iX+338EcUNb/I+DHPJiQKJaPdDy/
-	PEGXmgtMFTR2ws9ULiv8nCQRF7KbIAkYW4/TjVpTflR2rG6GmDRQRDK7311j9pjM3tus
-	GvgG62VOfFBYelc1hmHFuApt7a/KRK3CHqn0MRqLKx4j/DvPf9hJ2LMaLyt7iuSjyLi6
-	RcvE2DfKdi/s/Jio0+c/WWW+vcAgAonIinJV44YepSWOnu1z39Pwa6AZdNGTu9PE3fVD
-	mCGDEtTnz7WebOV7VI6Mq3gjFGIczABxfqik8vCBv/U4Na71/czJZu9emm6B8jf/jtzx
-	44Tw==
-X-Gm-Message-State: APjAAAVU2baizanbpFeYK2MHpEQLJg0gPpSMGXOi8D7lPVHrMSJsRjWc
-	hjuokqL/QzRJak3bdwgYtBQljxS3
-X-Google-Smtp-Source: APXvYqyQUNBDVw4Uxz6W8svVxUwMJC5DiUe0KWbUtVWoDsSH32gg1IREhqbaJlsyojH3Nu0Jiv8d7w==
-X-Received: by 2002:a05:6000:10c1:: with SMTP id
-	b1mr12529420wrx.275.1551713817253; 
-	Mon, 04 Mar 2019 07:36:57 -0800 (PST)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id s8sm5523414wrv.12.2019.03.04.07.36.56
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=s0QyArItyAAcuc5AmS6QjFlDETXLuW1fyWvclp4o5B0=;
+	b=rPmSZSNzPeDsxln5dV5rWXFO4XDeQ+HSmg/2UtJIh7UG1fB3IpaPetwN5XJspCBRSZ
+	gIOw8FGBW6AMkOB2uBNsX8RAjHK4YGNT3YvRK/bQs065dGt0hRighIvi4K46E4ymlItQ
+	rbNb5JvjjwFjsqKd9DzHNSu6sYQYACLltZT8PYDZYmpQmnI0aAJisnwTKpykIuFUOHGv
+	QUvMZ59Dvbiyd86oJETtvWNYOFnVLF8QDbgx4CA2bEA/rD6wauqkH+LZIZPruGp5y70W
+	2bHZHiO/LtO5Iw3vUxMuULO5yhkQx5NB9woPkUlOg4sk/ufCcdC29m7MTe9K5KAXiK4z
+	VbRw==
+X-Gm-Message-State: APjAAAV7uQ4cV460ROH6bd+pzeQ47Tpj9modkahMb02zx/1WS6amhvNt
+	PEXOTUg+YuvwbfzKsbsAMguUTg==
+X-Google-Smtp-Source: APXvYqysBL7cY0n34IfDuKpOveKveXkd4OBXG735DA7B8IG1w0qn364Iyu0kO25/sBGhQYAtFJvBDg==
+X-Received: by 2002:a50:9753:: with SMTP id d19mr15909510edb.143.1551715130816;
+	Mon, 04 Mar 2019 07:58:50 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
+	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
+	by smtp.gmail.com with ESMTPSA id t9sm2235237edb.13.2019.03.04.07.58.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 07:36:56 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 16:36:46 +0100
-Message-Id: <20190304153646.59135-6-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190304153646.59135-1-alex.kanavin@gmail.com>
-References: <20190304153646.59135-1-alex.kanavin@gmail.com>
-Subject: [PATCH 6/6] local.conf.sample: remove support for building against host libsdl
+	Mon, 04 Mar 2019 07:58:49 -0800 (PST)
+Date: Mon, 4 Mar 2019 10:58:45 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Message-ID: <20190304155845.GP5026@bill-the-cat>
+References: <20190303204731.GK5026@bill-the-cat>
+	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
+	<20190303212515.GL5026@bill-the-cat>
+	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +61,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 15:36:57 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 15:58:50 -0000
+X-Groupsio-MsgNum: 121911
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="95CBLwa+io9O2zXc"
+Content-Disposition: inline
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-poky/conf/local.conf.sample | 4 ----
- 1 file changed, 4 deletions(-)
+--95CBLwa+io9O2zXc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index 2775e15d748..00795ae6a3f 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -239,12 +239,8 @@ BB_DISKMON_DIRS ??= "\
- #
- # By default qemu will build with a builtin VNC server where graphical output can be
- # seen. The two lines below enable the SDL and Gtk UI frontends as well.
--#
--# By default libsdl2-native will be built, if you want to use your host's libSDL instead
--# of the minimal libsdl built by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
- PACKAGECONFIG_append_pn-qemu-system-native = " sdl gtk+"
- PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl gtk+"
--#ASSUME_PROVIDED += "libsdl2-native"
- 
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
- # track the version of this file when it was generated. This can safely be ignored if
--- 
-2.17.1
+On Sun, Mar 03, 2019 at 04:11:36PM -0600, Joshua Watt wrote:
+> On Sun, Mar 3, 2019 at 3:25 PM Tom Rini <trini@konsulko.com> wrote:
+> >
+> > On Sun, Mar 03, 2019 at 03:21:12PM -0600, Joshua Watt wrote:
+> > > On Sun, Mar 3, 2019, 2:47 PM Tom Rini <trini@konsulko.com> wrote:
+> > >
+> > > > Hey all,
+> > > >
+> > > > As part of the packagegroup-core-base-utils series I noticed that
+> > > > with rm_work enabled like I usually have, every build was starting =
+over
+> > > > with rebuilding linux-libc-headers and going down from there.  I
+> > > > finished bisecting this now and it comes down to:
+> > >
+> > > Just for reference, are you trying to use hash equivalence? It sounds=
+ like
+> > > not, but I would like to make sure.
+> >
+> > I am not.
+> >
+> > > Also, it there an AB build that uses rm_work that would have seen thi=
+s?
+> >
+> > OK, so I see I forgot a step that was clear to me, but, uh, not in the
+> > email.  What breaks is for example:
+> > bitbake core-image-minimal && bitbake core-image-minimal
+> > That second build, rather than see "nothing to do" (or at least, almost
+> > nothing to do) says "Oh, I need to build linux-libc-headers from
+> > scratch" and possibly other stuff too, but that's the first thing I
+> > notice.
+>=20
+> Ok. I've started a build to test it. Would you mind opening a Bugzilla
+> for it and assigning it to me?
+>=20
+> For posterity, the poky commit SHA is adc37721a86c
 
+Ah, so "poky" got me thinking this morning.  I was just on bitbake v1.40
+(since I usually use thud, and that's the version for that).  Moving to
+bitbake master/tip and I don't see the problem anymore.
 
+Is it possible to have some logic within OE to check the version of
+bitbake and throw an error / warning?
+
+--=20
+Tom
+
+--95CBLwa+io9O2zXc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcfUs1AAoJEIf59jXTHXZSXtIQAJ9mKtvp6VWkgDbW7cFRkbbY
+qQqgO2FrBquzVyFngDA5CN/0AyfwiBFB8tA6gLb2HwlLJLTo8O0s1xcm6gxWyKSn
+d7FPf2k1mFaWcXZuhUH9lrwMy7xj1e0mRDZDDSz0UXVnCLKx69oW7GWfqfZE5WKe
+3pDUVYCyBYktEt3PAVn2MifmSoK4jk9SEnxcBkf/Oq2NzYSqgSaWp+Gb6B6B08Mi
+T6jI94u2ZKEHPE2dyAaMusju3jYItyawutRP6iRvk9+wFsMBNt9xGJsiYYQGPuUu
++InCYBlMtlB4oTzlejoBOmYyBs2G6q+K+UPyHOsW+V5KwAbJsj/2Brvb7IK7raKb
+37YslHV9D0A1yZogBCNTvvxalz/F2PTPyp2Ux7I4VXja4eLGl8UavTwtMXKlaauu
+j+rrGGu/iYy35tPBj5oEhYbLxYbRi0+38SOWn/M79Hfo5nEQ9Mq3kb3OiLukhX9i
+KW31b95Bnj30YfO2JASBCksWKOjFZftg3+IeSSQsWJQYJDyFju4tbtmkxOLNtx3d
+MpQsraA2oQQhHz0/MhHyMo6/I9DT//aVO+Fwjqf0rRxv9WZPAD3dyflICs44WR9D
+j59PboEUYGlsGdY7Amt12Az3CcQ8AI0VQEyYiTIutuPixXByhEZtLZ8o2ZDsRPT4
+cyejlTnNBvd3VLH5udew
+=spzu
+-----END PGP SIGNATURE-----
+
+--95CBLwa+io9O2zXc--
