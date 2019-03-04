@@ -1,53 +1,53 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 227197C876
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 327257C876
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 21:36:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id w6so7181162wrs.4
+	Mon,  4 Mar 2019 21:36:33 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id o17so7197836wrw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 13:36:32 -0800 (PST)
+	Mon, 04 Mar 2019 13:36:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=UiHwnU4yd573oTzVrDPFK3n0ZE5C8O09i0WDkag11I8=;
-	b=rGUzIidmoDLYhRrXx/ZerTibmc6xz9kEmnen4RsksUyGEGbsO/jD4/d2bpv53AL/8I
-	8oyJR3fg9oKJsPEQVqDe0Tzt07n/c1QLkBZT8YL6WUqtSS539D6Ouwj3Epc6wTfey+Ic
-	qx0x54esr4qu63Afp2Cl2Y9wNXZ7Yj9K3kwybwGoWVt/eKdyQoc2QwS/oHw0XGC/IwCA
-	Pp80CdTWrGROBjSWE2+/i6ms21a4IKKi6vEfSbzrwBs/+77tdgxa+KsTh/IyvV0dCDbM
-	TmKRgJNAJQNqkWkTaWQexEXP15FKCGoFXP0OXBO+asAPG1FQkJjXZ/PcQbUlOTJAXAwP
-	enDA==
+	bh=C3tkgquslAnv3i0dxCaCMKoZroUfiA4X/GfVj/mIEK0=;
+	b=g0wmpPrP+ReQ+Y5PGMFZ0dlb/vACCYLCJsRK5yHsWbtNeph8Jp+nIPxooFi/i2wQr3
+	O8+JxUJgIihjCrw7sJcDLYR2/NbP3xla8cHFErZq++2wn40Vf4LRrPHborwPX96rL3Hp
+	ywoTemwYSXeeuddoWH9h7umsByiW+yXRzeEK/QhhVyY9CwkwRYvxm+2ZvvwJMmRCyjJ+
+	b/yvjGWBvgZPf2+vwEVrIjmZ4YaKCZMV/9vXyR0fTgTw1OWvZAyM61OlwqTpDLMIl9A3
+	sYSNFP9XhpjHOkFAVQJCda12WITV5ij6Kfuj644Pf2XTx09L5fGksZgdulmtDA62+Psm
+	q+WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=UiHwnU4yd573oTzVrDPFK3n0ZE5C8O09i0WDkag11I8=;
-	b=RcVzq02gZQv0aZFjDu2LR/x1nP3dnz1dth4F4LUBScJfZypGgSyc0uKXhsblhX0eal
-	+8pmBSj1q+/BJ/yyFtPV6ORrmoqNLYxXG8flzuQjwUQDBQETiEI/o3Q+qiXR6FGOeW5n
-	FE01HcrJKkdo2h3cFWTX9huTNw/92eXiZEREvB3aSyTpv6Ak1vqrshCDPTsBvKv/ZMpt
-	9scPB8a4t8U40sMQTkFdPw2bybg4OKXceJnBZEneAFvjgkZk3iCNR058fY3PHSihabFF
-	RFqv1qY/LcTT/l4DKuCx3EeqBscBj9eD8mvIM70O3CE/cD+g7C5KxbDR8KyG1LBOqORp
-	zIZQ==
-X-Gm-Message-State: APjAAAWNeasgcIhD1SGqab5OqrtwTuszNo1RZre8bweZxHpRe1UGQ7Fl
-	d3ZkHRzzSGUyK8EdXseyQsSeSkQu04M=
-X-Google-Smtp-Source: APXvYqwU0rQ+DnGzSjHnC3E5HLWKaT9GBvX044aymQ5YcvHImR2OQgN67DXPgyu3pJWlSl3/kzoPnQ==
-X-Received: by 2002:adf:ba12:: with SMTP id o18mr15047543wrg.326.1551735391537;
-	Mon, 04 Mar 2019 13:36:31 -0800 (PST)
+	bh=C3tkgquslAnv3i0dxCaCMKoZroUfiA4X/GfVj/mIEK0=;
+	b=sBodulU2wAv21d0DL4kmbD28lVy4Bk5iJylTuHSBze+5N0IIkl6mvCmjeWoHI0L7fI
+	gd/cmmWEspR4bnvGThBjqL5IV7udJMy6B0bupyU9dEyefzvrYMbOgBr3MKtIqkDP6hoE
+	VvGsgvJLEESW11HkXtx8afX1x077nlHNBPPYSnLikZU60FYz4ElorxloNhqljyWpaRLt
+	lSAb0GxDt64ea50ZkJvJnupeFzxafX8bbWXOEA4dgmKWPE+Yw7aIGpZUaUj/yzyiWLgK
+	Ersdrl2XVneHm8xQCO6+edegf94/Kl4zRcj9cjtaPbAhpHjXAqwjn5XceG3Y7xK1K/WJ
+	sT7A==
+X-Gm-Message-State: APjAAAWcxTQsB/46pgbkvWF4KRMsqScONQOsh8fclvPx1f8vcPJWNxy7
+	yNLU1Wdld9IoO2MV7/zrS1cCEsCSmNk=
+X-Google-Smtp-Source: APXvYqwrsABPNGp+tEHdh/PoigkS+ArBwDW7u/LMHT44IEyZQMrky5CmrxBeJuH4gEGOtMEQ/Z4h/Q==
+X-Received: by 2002:a5d:4f91:: with SMTP id d17mr15078141wru.67.1551735393653; 
+	Mon, 04 Mar 2019 13:36:33 -0800 (PST)
 Received: from ubu18-mel-builder.alm.mentorg.com (nat-lmt.mentorg.com.
 	[139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id x6sm11819411wmg.0.2019.03.04.13.36.29
+	by smtp.gmail.com with ESMTPSA id x6sm11819411wmg.0.2019.03.04.13.36.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 13:36:30 -0800 (PST)
+	Mon, 04 Mar 2019 13:36:32 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 21:36:23 +0000
-Message-Id: <dfce484de2ad4c2753e162e5bc11c7cf353275bc.1551735224.git.chris_larson@mentor.com>
+Date: Mon,  4 Mar 2019 21:36:24 +0000
+Message-Id: <eb277ce46a63c5909acc6074c66679d8922393aa.1551735224.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1551735224.git.chris_larson@mentor.com>
 References: <cover.1551735224.git.chris_larson@mentor.com>
 MIME-Version: 1.0
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/4] oe.scriptutils: enable color in a more flexible way
+Subject: [PATCH 2/4] oe.scriptutils: add logger_setup_filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 21:36:31 -0000
+X-List-Received-Date: Mon, 04 Mar 2019 21:36:33 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Rather than recreating handlers and forcing them, iterate over the handlers
-and enable color on ones we can handle. This makes it easier to handle color
-properly when we introduce the bb.msg default log filters.
+This function sets up the default bb.msg formatter and log filters, which by
+default sends ERROR messages to stderr rather than stdout.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- scripts/lib/scriptutils.py | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ scripts/lib/scriptutils.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index 3c60c3a1e6..0633c7066e 100644
+index 0633c7066e..c361d0741d 100644
 --- a/scripts/lib/scriptutils.py
 +++ b/scripts/lib/scriptutils.py
-@@ -39,12 +39,12 @@ def logger_create(name, stream=None):
+@@ -29,6 +29,7 @@ import tempfile
+ import importlib
+ from importlib import machinery
  
++
+ def logger_create(name, stream=None):
+     logger = logging.getLogger(name)
+     loggerhandler = logging.StreamHandler(stream=stream)
+@@ -37,6 +38,20 @@ def logger_create(name, stream=None):
+     logger.setLevel(logging.INFO)
+     return logger
+ 
++
++def logger_setup_filters(logger):
++    import bb.msg
++
++    console = logging.StreamHandler(sys.stdout)
++    errconsole = logging.StreamHandler(sys.stderr)
++    bb.msg.addDefaultlogFilter(console, bb.msg.BBLogFilterStdOut)
++    bb.msg.addDefaultlogFilter(errconsole, bb.msg.BBLogFilterStdErr)
++    format_str = "%(levelname)s: %(message)s"
++    console.setFormatter(bb.msg.BBLogFormatter(format_str))
++    errconsole.setFormatter(bb.msg.BBLogFormatter(format_str))
++    logger.handlers = [console, errconsole]
++
++
  def logger_setup_color(logger, color='auto'):
      from bb.msg import BBLogFormatter
--    console = logging.StreamHandler(sys.stdout)
--    formatter = BBLogFormatter("%(levelname)s: %(message)s")
--    console.setFormatter(formatter)
--    logger.handlers = [console]
--    if color == 'always' or (color=='auto' and console.stream.isatty()):
--        formatter.enable_color()
-+
-+    for handler in logger.handlers:
-+        if (isinstance(handler, logging.StreamHandler) and
-+            isinstance(handler.formatter, BBLogFormatter)):
-+            if color == 'always' or (color == 'auto' and handler.stream.isatty()):
-+                handler.formatter.enable_color()
  
- 
- def load_plugins(logger, plugins, pluginpath):
-@@ -69,6 +69,7 @@ def load_plugins(logger, plugins, pluginpath):
-                 plugin.plugin_init(plugins)
-             plugins.append(plugin)
- 
-+
- def git_convert_standalone_clone(repodir):
-     """If specified directory is a git repository, ensure it's a standalone clone"""
-     import bb.process
 -- 
 2.20.1
 
