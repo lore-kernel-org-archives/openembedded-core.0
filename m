@@ -1,29 +1,52 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C4CBB601F6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+	[209.85.166.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D1279D5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 09:57:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x249upvA025828
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Mar 2019 01:57:01 -0800
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 4 Mar 2019 01:56:40 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190204181314.22496-1-raj.khem@gmail.com>
-	<e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
-	<12b1452d894058e0a03398ae65b0f52deaeb9182.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <31ec3ae0-3d38-7725-54ab-f5c3fda864b5@windriver.com>
-Date: Mon, 4 Mar 2019 18:02:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Mon,  4 Mar 2019 10:17:31 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id p196so3537468iod.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Mar 2019 02:17:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=L6BbsIt2r/Y+n7g4XsbyJ4TnNRT+vy/GEEQKIjOR6Lw=;
+	b=efvjL5BWe20oVDomyMPPpwk51Az75R5UlirNbVSP+pE04z+zmV8omZWp5VgPVwjnpr
+	2K2pOGx/r31yrhrx311TYptOKjfIZLY5ChctJPyayR8tAk9ZAEh7OGRLV9rbmygorfA2
+	C6iA91QleGcqC4sCcij5J/1iyzlVNh9IYcZ9YC79VQmtxPQmkkvtf2igBEFr68hkeDOs
+	+0dW8QDe77MEmfEDPkOtGRcWEy+R0Y9bpu0vjq7iA9PPA/SdinXBdIpEud2Kmy+PSSxT
+	0jtcFGU6On8kngHAue0OhNY6awLtyT6tpxbWAbtYZtd8+fWVpgUpxBNFAvQ6f/RSJRPF
+	m9Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=L6BbsIt2r/Y+n7g4XsbyJ4TnNRT+vy/GEEQKIjOR6Lw=;
+	b=LTXPD0p+HWhiF6UEe6M1GX9ftGO8+RKSSKJoxH2kdIrevxF1daHXv9Fjnb8lSyo5FW
+	dI8pcaNkZ6sxXxtTu5Q40XjQy/aXuIBd3OJ0U9KNgnxhSnTOhGlmwbxeDF63Dzg5YsUC
+	xog7d9wrS4f4ton4cVYdKucTxqK3OLUN5SY9IXx5i6COL/47XeISpEzMaYSiJALcvQZ1
+	xbTIxRlKeFe9AlSNcmU+YyXO8uz0djRAxX+F6zutf/4Os0PXmc5AK6Qr+7SVf1pqC0Rl
+	cgbIjI+gEVGpo7qfrKs0w2MR3CwyY+cSm1yjaQIZqmngC6fU7j8Diox+rLPCM//umzB7
+	t+/Q==
+X-Gm-Message-State: APjAAAV5R54+/qF2Ua7r8XATvVeo7mKwQ2Ywwt8Yhlds9sjOLNSCSfst
+	CsNgtqNMkGjavDvULBPZuoZJV1YWeqcVFXnKOAqNaA==
+X-Google-Smtp-Source: APXvYqyY5JzD7BZpPSc+EtTzfiZ4yMta7dIB8tQv1QkUPG8uTfmHh3bnbnsGMm45PiERCq/OzdW64h+a2bDEwjZcHHk=
+X-Received: by 2002:a5d:848b:: with SMTP id t11mr8388095iom.270.1551694652998; 
+	Mon, 04 Mar 2019 02:17:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <12b1452d894058e0a03398ae65b0f52deaeb9182.camel@linuxfoundation.org>
-Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
+References: <20190303204731.GK5026@bill-the-cat>
+	<CAJdd5GYLLN4OB+wRsFGN10Cs2ybvKNcM_TP5pMHRdycf0M_Lsg@mail.gmail.com>
+	<20190303212515.GL5026@bill-the-cat>
+	<CAJdd5GbdpUCenci29Pk16vzhFDR=rMb_sd9CWD15pHreFPQfDw@mail.gmail.com>
+	<CAJdd5GaOk=asx=r1yVOEokMbiVPsk_8bdArYq1KzrNR22_LcNQ@mail.gmail.com>
+	<20190303225159.GM5026@bill-the-cat>
+In-Reply-To: <20190303225159.GM5026@bill-the-cat>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Mar 2019 10:17:21 +0000
+Message-ID: <CAJTo0LaOGr4iJh0r1s=wWOy3XA47-L+++Dq+zQOV5hD3LCD4Kw@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: sstate hash equivalence breaks rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +59,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 09:57:48 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Mar 2019 10:17:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi RP,
+On Sun, 3 Mar 2019 at 22:52, Tom Rini <trini@konsulko.com> wrote:
+> SSTATE_DIR = "${HOME}/work/OE/sstate-cache-${DISTRO_VERSION}${TARGET_VENDOR}"
 
-On 3/4/19 5:23 PM, Richard Purdie wrote:
-> On Mon, 2019-03-04 at 15:50 +0800, Robert Yang wrote:
->> Hi Khem,
->>
->> We have an internal error web server, this patch breaks it:
->>
->> You're accessing the development server over HTTPS, but it only
->> supports HTTP
->>
->> So I tried to use runsslserver, but it doesn't work either since the
->> host is
->> Ubuntu 14.04 (python 2.7.6):
->>
->> $ python manage.py runsslserver
->>
->> [snip]
->>       ssl_version=ssl.PROTOCOL_TLSv1_2,
->> AttributeError: 'module' object has no attribute 'PROTOCOL_TLSv1_2'
->>
->> This is because python is old.
->>
->> I think that make it default to https would make the server harder to
->> set up,
->> so is it possible to:
->>
->> * Make it default to http, and add an option such as --https (or --
->> ssl) for https
->>
->> Or:
->>
->> * Add an option such as --no-ssl to make it use http.
->>
->> I prefer the first one since https server is harder to setup than
->> http in django. I can work on it if no objections.
-> 
-> At this point the project does require python3 so python2 being old
-> shouldn't be a reason to be changing this.
+FWIW there isn't much point in isolating sstate like that.  You'll
+just rebuild stuff that would have been available.
 
-The python3 + error-report-web doesn't work for me:
-
-$ python3 manage.py runserver ip:8000
-
-And when I tried to access http://128.224.156.132:8000, it raised errors:
-
-error-report-web/Post/views.py", line 16, in <module>
-     from parser import Parser
-ImportError: cannot import name 'Parser'
-
-So I use python 2 for it. I thought that it didn't support python3, or didn't
-test well.
-
-> 
-> The project also needs to be seen to encourage secure practises so I
-> think https should be the default but adding an option to use http
-> should be ok.
-
-Thanks, I will send a patch for it.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
+Ross
 
