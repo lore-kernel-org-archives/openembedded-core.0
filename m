@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CA4EA7C752
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 47FD07C724
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 10:56:59 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id e24so6636949itl.1
+	Mon,  4 Mar 2019 11:11:22 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id o17so5071057wrw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 02:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GeMl25rbpxckrET033amX3yTq0l3XNPuxZWQucSG1ic=;
-	b=wUqainJRqN8eH9L3pT6dNxyCg7dGdV7ez7XOlAQGEH+0C6P3KN07eN2vKXeh34j5WD
-	uNSzLL2jBdlROIO9QE2K6LLqygUpbDA5ii4A1CFf6FdfP+PePzJOxvqTVVFeLDyZPrRp
-	+zqD1k5MwYQLmy1BTB0eS8sEtOr4Sn7YHfDJSIRYPDqo8Kp1jyhSzLttDHSAHpRd3WGa
-	FIj798MNIxudr3+MGxtDHyHSi7+9GDBN8LfjN8T89Yc8iTuJTE5JmrZtSXhJTWUbO7ng
-	elRIqoB+/ktDTwQf5LK29VuH3/OiFyfzkHmQvFK2Sb5mBgYceDRM4+TYC7E9gq0uU0P9
-	B3WA==
+	Mon, 04 Mar 2019 03:11:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=a7zLuEugm15m9UTACpWaScEf9XDYWtXKMAHjy3y8T24=;
+	b=jzAyHAdHclWlagc8Y2gJLXa2+ldiaDkQ5ZaWdhAbi8bWdKpEsmtjh38UX1Y8fQ4lXR
+	NQVVLjqjVaTMT1EH+jkBAVMEzCyUPvv16Qs3DB/VD3PeKvPFfIW5cX/omDeB0rWny//J
+	Jcdy23oAt1Jy5jZjrd/sAVcfnevnr2RBotFZBtbAA1l5R3UtgZ/zMnRThkxldSPlRJUp
+	PZmOSS4Da4Wc3S7MQrJ8lUZ4AtojUvq5vlaPoO3bU2Cy4ATeEvXONCeWyMPy2R2Z9a2/
+	8QfH+3f/9rC000m1mIdXt3tKlTFj11JVZJLmrSmE07d9aXrFpHs/e/ybglGq/M9aBiFe
+	QAJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GeMl25rbpxckrET033amX3yTq0l3XNPuxZWQucSG1ic=;
-	b=V+MTwnDLouZuUPH9JCaFMv+TqzEdEruT+eNX0HFnFN2iiSI1CbMc+DA8WArKdNqGz3
-	kdSqNkR9vXzCm2wUs/GS4YOBNUTEOwItrQcSsLYwLNGEa206NQT7RR6w0lEf6VX7Hku9
-	uyKvCPC7DcCKHdMNeTpqtH2YMLlYDY95bc8CNmMqnU+CgkdDMcaPnqr211cgbazgPwMY
-	rbmIuG/sMhwhpgvV2dMSU9iSmTtFR5A6oiBLe9NRXkQ7TVkU5iJWEmiltLM59jiVcqcG
-	5oVNnC4nFKhdQC44ZudyEg0hX+RTkAei3g0GtpU/jsSycbPmFlhGNtl5NKnAIsAaQhNS
-	szFA==
-X-Gm-Message-State: APjAAAVIG/G7679T0fFSLHEKdPVIxwSdOB+2+uX3dM++iBWkejaFAUrj
-	HG7WNHo0eimzcIDwDEHuQ7lT3485H4V4VKEDwVP90A==
-X-Google-Smtp-Source: AHgI3IYIk5afCfNQLTD1iZYtj8u2U7Q/X3Bm7NbhFS8wAOaDmYISCTsO5smMq1EUi2IKmTJ0BBZnvjhgnQtDGPoZueg=
-X-Received: by 2002:a24:2405:: with SMTP id f5mr11149114ita.130.1551697021056; 
-	Mon, 04 Mar 2019 02:57:01 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=a7zLuEugm15m9UTACpWaScEf9XDYWtXKMAHjy3y8T24=;
+	b=jKSMGdM0XhJ71vcgp2XoW6+z0y8G/WHY5tHDUJfrJwMxEfLjUCZVDJyW7rj678HM4d
+	Je8UoPQZI/VX1tFsOpRSWWqKtzA7UQRysXK2gRuLyU8TVjXy4WzYdOYV0BDrEsPTuHKO
+	HMGP7veAhvEe7cQzxhjp4YrWqDZitaCcPwJjJ4V35srpalhWVF5Ftrfj97di4tRyYZJ1
+	eT74yK+2XoXAIJT6gjHL0tBAYfj9FZlmoeTwb/c0NK7IaM45AgQs6w5zQkGanj45src2
+	7fT6d0wjEcQFKTA8fJSKwehA/o4GL/xG5V/Fe97xwws5qMyUiYBhVpslKvBu6/vJwEnJ
+	OEBg==
+X-Gm-Message-State: APjAAAWB8wRSMsRr2A27qmKd65+Od8cwdBi/drAPXd/3aGE5JZSJx7Zg
+	wjEzKCorstpaW9JSeSicsse5SctyI9Q=
+X-Google-Smtp-Source: APXvYqzgL6DWxl/iD7LtdZvTmPuUq+XMbIT154JNEAwdL915hmyHPnhUZw7TSKYu7SuHgA95vb9tXA==
+X-Received: by 2002:adf:90af:: with SMTP id i44mr12026699wri.222.1551697882167;
+	Mon, 04 Mar 2019 03:11:22 -0800 (PST)
+Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
+	by smtp.gmail.com with ESMTPSA id
+	m26sm4607474wmg.13.2019.03.04.03.11.21
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 04 Mar 2019 03:11:21 -0800 (PST)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Mar 2019 11:11:17 +0000
+Message-Id: <20190304111117.16769-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190228142745.23630-1-luca.boccassi@gmail.com>
+References: <20190228142745.23630-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-References: <cover.1551696484.git.liezhi.yang@windriver.com>
-	<e58863c6dfe0bfb23665568e90d34da5e9734d0e.1551696484.git.liezhi.yang@windriver.com>
-In-Reply-To: <e58863c6dfe0bfb23665568e90d34da5e9734d0e.1551696484.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Mar 2019 10:56:50 +0000
-Message-ID: <CAJTo0LbfcTw39fgyXcMCctvxcPyZc-b2xGLYSw-mJr74_JeZpg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] send-error-report: Add --no-ssl to use http protocol
+Subject: [PATCH v3] swig: fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,21 +59,252 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 10:57:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Mar 2019 11:11:22 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 4 Mar 2019 at 10:30, Robert Yang <liezhi.yang@windriver.com> wrote:
-> +    arg_parse.add_argument("--no-ssl",
-> +                           help="Use http instead of https protocol",
-> +                           action="store_true")
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-If you do this instead:
+Building with musl currently fails. The fix has been committed
+upstream, so backport it.
+Note that it requires running yacc again to regenerate the parser file,
+so a bison-native dependency is needed. Also the upstream's configure
+step creates the directory where the parser file is generated at
+make-dist time, and for some reason running through bitbake does not
+create it, so do it manually. All of this can be reverted once a new
+swig version that includes the fix is released and rebased onto.
 
-arg_parse.add_argument("--no-ssl", help="Use http instead of https protocol",
-      dest="protocol", action="store_const", const="http", default="https")
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-devtools/swig/swig.inc           |   8 +-
+ ...de-for-constant-expressions-containi.patch | 179 ++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.12.bb     |   1 +
+ 3 files changed, 187 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
 
-Then you can just use args.protocol instead of having to pass around
-the protocol name.
+diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
+index f7de40866a..2f33b07c19 100644
+--- a/meta/recipes-devtools/swig/swig.inc
++++ b/meta/recipes-devtools/swig/swig.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
+ 
+ SECTION = "devel"
+ 
+-DEPENDS = "libpcre"
++DEPENDS = "libpcre bison-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+@@ -42,6 +42,12 @@ EXTRA_AUTORECONF += "-I Tools/config"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
++# necessary together with bison dependency until a new upstream version after
++# 3.0.12 includes 0001-Fix-generated-code-for-constant-expressions-containi.patch
++do_configure_append() {
++    mkdir -p ${WORKDIR}/build/Source/CParse
++}
++
+ do_install_append_class-nativesdk() {
+     cd ${D}${bindir}
+     ln -s swig swig2.0
+diff --git a/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
+new file mode 100644
+index 0000000000..f4ed782a82
+--- /dev/null
++++ b/meta/recipes-devtools/swig/swig/0001-Fix-generated-code-for-constant-expressions-containi.patch
+@@ -0,0 +1,179 @@
++From 90ba174fcea1618af57aa594199541d47a89b7f6 Mon Sep 17 00:00:00 2001
++From: William S Fulton <wsf@fultondesigns.co.uk>
++Date: Sun, 17 Sep 2017 19:02:55 +0100
++Subject: [PATCH 1/2] Fix generated code for constant expressions containing
++ wchar_t L literals.
++
++Such as:
++  # define __WCHAR_MAX    (0x7fffffff + L'\0')
++
++Reported on swig-user mailing list.
++---
++ CHANGES.current                                         | 5 +++++
++ Examples/test-suite/csharp/preproc_constants_c_runme.cs | 3 ++-
++ Examples/test-suite/csharp/preproc_constants_runme.cs   | 2 ++
++ Examples/test-suite/d/preproc_constants_c_runme.1.d     | 2 ++
++ Examples/test-suite/d/preproc_constants_c_runme.2.d     | 2 ++
++ Examples/test-suite/d/preproc_constants_runme.1.d       | 2 ++
++ Examples/test-suite/d/preproc_constants_runme.2.d       | 2 ++
++ Examples/test-suite/php/preproc_constants_c_runme.php   | 2 ++
++ Examples/test-suite/php/preproc_constants_runme.php     | 2 ++
++ Examples/test-suite/php5/preproc_constants_c_runme.php  | 2 ++
++ Examples/test-suite/php5/preproc_constants_runme.php    | 2 ++
++ Examples/test-suite/preproc_constants.i                 | 3 +++
++ Source/CParse/parser.y                                  | 2 +-
++ 13 files changed, 29 insertions(+), 2 deletions(-)
++
++Upstream-Status: Backport
++[https://github.com/swig/swig/commit/90ba174fcea1618af57aa594199541d47a89b7f6]
++Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
++
++diff --git a/Examples/test-suite/csharp/preproc_constants_c_runme.cs b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
++index 76c684d..1c28e49 100644
++--- a/Examples/test-suite/csharp/preproc_constants_c_runme.cs
+++++ b/Examples/test-suite/csharp/preproc_constants_c_runme.cs
++@@ -61,7 +61,8 @@ public class runme {
++     assert( typeof(int) == preproc_constants_c.EXPR_LAND.GetType() );
++     assert( typeof(int) == preproc_constants_c.EXPR_LOR.GetType() );
++     assert( typeof(double) == preproc_constants_c.EXPR_CONDITIONAL.GetType() );
++-
+++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MAX.GetType() );
+++    assert( typeof(int) == preproc_constants_c.EXPR_WCHAR_MIN.GetType() );
++   }
++   static void assert(bool assertion) {
++     if (!assertion)
++diff --git a/Examples/test-suite/csharp/preproc_constants_runme.cs b/Examples/test-suite/csharp/preproc_constants_runme.cs
++index 9fae591..6b02e30 100644
++--- a/Examples/test-suite/csharp/preproc_constants_runme.cs
+++++ b/Examples/test-suite/csharp/preproc_constants_runme.cs
++@@ -60,6 +60,8 @@ public class runme {
++     assert( typeof(bool) == preproc_constants.EXPR_LAND.GetType() );
++     assert( typeof(bool) == preproc_constants.EXPR_LOR.GetType() );
++     assert( typeof(double) == preproc_constants.EXPR_CONDITIONAL.GetType() );
+++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MAX.GetType() );
+++    assert( typeof(int) == preproc_constants.EXPR_WCHAR_MIN.GetType() );
++ 
++   }
++   static void assert(bool assertion) {
++diff --git a/Examples/test-suite/d/preproc_constants_c_runme.1.d b/Examples/test-suite/d/preproc_constants_c_runme.1.d
++index d846c71..2b349af 100644
++--- a/Examples/test-suite/d/preproc_constants_c_runme.1.d
+++++ b/Examples/test-suite/d/preproc_constants_c_runme.1.d
++@@ -61,4 +61,6 @@ void main() {
++   static assert(is(int == typeof(EXPR_LAND())));
++   static assert(is(int == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_c_runme.2.d b/Examples/test-suite/d/preproc_constants_c_runme.2.d
++index 9bdbb93..1bac525 100644
++--- a/Examples/test-suite/d/preproc_constants_c_runme.2.d
+++++ b/Examples/test-suite/d/preproc_constants_c_runme.2.d
++@@ -61,4 +61,6 @@ void main() {
++   static assert(is(int == typeof(EXPR_LAND())));
++   static assert(is(int == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_runme.1.d b/Examples/test-suite/d/preproc_constants_runme.1.d
++index 009405f..f743f48 100644
++--- a/Examples/test-suite/d/preproc_constants_runme.1.d
+++++ b/Examples/test-suite/d/preproc_constants_runme.1.d
++@@ -60,4 +60,6 @@ void main() {
++   static assert(is(bool == typeof(EXPR_LAND())));
++   static assert(is(bool == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/d/preproc_constants_runme.2.d b/Examples/test-suite/d/preproc_constants_runme.2.d
++index 2d92ef0..0d96c37 100644
++--- a/Examples/test-suite/d/preproc_constants_runme.2.d
+++++ b/Examples/test-suite/d/preproc_constants_runme.2.d
++@@ -60,4 +60,6 @@ void main() {
++   static assert(is(bool == typeof(EXPR_LAND())));
++   static assert(is(bool == typeof(EXPR_LOR())));
++   static assert(is(double == typeof(EXPR_CONDITIONAL())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MAX())));
+++  static assert(is(int == typeof(EXPR_WCHAR_MIN())));
++ }
++diff --git a/Examples/test-suite/php/preproc_constants_c_runme.php b/Examples/test-suite/php/preproc_constants_c_runme.php
++index af9b76e..e59fe18 100644
++--- a/Examples/test-suite/php/preproc_constants_c_runme.php
+++++ b/Examples/test-suite/php/preproc_constants_c_runme.php
++@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php/preproc_constants_runme.php b/Examples/test-suite/php/preproc_constants_runme.php
++index 5c9119b..8e117ea 100644
++--- a/Examples/test-suite/php/preproc_constants_runme.php
+++++ b/Examples/test-suite/php/preproc_constants_runme.php
++@@ -61,5 +61,7 @@ check::equal(gettype(preproc_constants::EXPR_OR), "integer", "preproc_constants.
++ check::equal(gettype(preproc_constants::EXPR_LAND), "boolean", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants::EXPR_LOR), "boolean", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php5/preproc_constants_c_runme.php b/Examples/test-suite/php5/preproc_constants_c_runme.php
++index 1ea0195..d978fab 100644
++--- a/Examples/test-suite/php5/preproc_constants_c_runme.php
+++++ b/Examples/test-suite/php5/preproc_constants_c_runme.php
++@@ -62,5 +62,7 @@ check::equal(gettype(preproc_constants_c::EXPR_OR), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants_c::EXPR_LAND), "integer", "preproc_constants.EXPR_LAND has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ check::equal(gettype(preproc_constants_c::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants_c::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/php5/preproc_constants_runme.php b/Examples/test-suite/php5/preproc_constants_runme.php
++index fb9ee4f..7527026 100644
++--- a/Examples/test-suite/php5/preproc_constants_runme.php
+++++ b/Examples/test-suite/php5/preproc_constants_runme.php
++@@ -70,5 +70,7 @@ check::equal(gettype(preproc_constants::EXPR_LAND), "integer", "preproc_constant
++ check::equal(gettype(preproc_constants::EXPR_LOR), "integer", "preproc_constants.EXPR_LOR has unexpected type");
++ 
++ check::equal(gettype(preproc_constants::EXPR_CONDITIONAL), "double", "preproc_constants.EXPR_CONDITIONAL has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MAX), "integer", "preproc_constants.EXPR_WCHAR_MAX has unexpected type");
+++check::equal(gettype(preproc_constants::EXPR_WCHAR_MIN), "integer", "preproc_constants.EXPR_WCHAR_MIN has unexpected type");
++ 
++ ?>
++diff --git a/Examples/test-suite/preproc_constants.i b/Examples/test-suite/preproc_constants.i
++index 3a999ad..16b44c9 100644
++--- a/Examples/test-suite/preproc_constants.i
+++++ b/Examples/test-suite/preproc_constants.i
++@@ -87,6 +87,9 @@
++ #define EXPR_LOR         0xFF || 1
++ #define EXPR_CONDITIONAL true ? 2 : 2.2
++ 
+++#define EXPR_WCHAR_MAX   (0x7fffffff + L'\0')
+++#define EXPR_WCHAR_MIN   (-EXPR_WCHAR_MAX - 1)
+++
++ #define EXPR_CHAR_COMPOUND_ADD 'A' + 12
++ #define EXPR_CHAR_COMPOUND_LSHIFT 'B' << 6
++ #define H_SUPPRESS_SCALING_MAGIC (('s'<<24) | ('u'<<16) | ('p'<<8) | 'p')
++diff --git a/Source/CParse/parser.y b/Source/CParse/parser.y
++index 2e92cd0..273dadb 100644
++--- a/Source/CParse/parser.y
+++++ b/Source/CParse/parser.y
++@@ -194,7 +194,7 @@ int SWIG_cparse_template_reduce(int treduce) {
++  * ----------------------------------------------------------------------------- */
++ 
++ static int promote_type(int t) {
++-  if (t <= T_UCHAR || t == T_CHAR) return T_INT;
+++  if (t <= T_UCHAR || t == T_CHAR || t == T_WCHAR) return T_INT;
++   return t;
++ }
++ 
++-- 
++2.9.5
++
+diff --git a/meta/recipes-devtools/swig/swig_3.0.12.bb b/meta/recipes-devtools/swig/swig_3.0.12.bb
+index fe9d0747f2..45026c9700 100644
+--- a/meta/recipes-devtools/swig/swig_3.0.12.bb
++++ b/meta/recipes-devtools/swig/swig_3.0.12.bb
+@@ -5,6 +5,7 @@ SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.pat
+             file://0001-Add-Node-7.x-aka-V8-5.2-support.patch \
+             file://swig-3.0.12-Coverity-fix-issue-reported-for-SWIG_Python_FixMetho.patch \
+             file://Python-Fix-new-GCC8-warnings-in-generated-code.patch \
++            file://0001-Fix-generated-code-for-constant-expressions-containi.patch \
+            "
+ SRC_URI[md5sum] = "82133dfa7bba75ff9ad98a7046be687c"
+ SRC_URI[sha256sum] = "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
+-- 
+2.20.1
 
-Ross
 
