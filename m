@@ -1,54 +1,31 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D5C7C8C4
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 171DA7CA53
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 18:02:43 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id h58so4998163edb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 10:02:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ab+D7nr8v5C1EWInhxyExSstIO3YxPTt/z7sefYBLh0=;
-	b=emCApOBMLQ0Zl1641HPa/bxVOYMTpxNEdu970pSPFj6FM4M3kzyo/Duo578eAdP9v0
-	tHJ3VqS38Rsp3RnpJZZGfLpmkPkuo5gHva6Scwj8sjIleZA3lHUzWCaycbST9OBvGe57
-	v0cRRcJ6FTwsmz2mMBCrGuLUaxITU+KivkMKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ab+D7nr8v5C1EWInhxyExSstIO3YxPTt/z7sefYBLh0=;
-	b=WBXNV3StaRE5Ta+d89PqQ826ybEVmweN4sfytRMN8Qpb6G0WJNKV98R61H6DSakorP
-	rYWNTUK4PJuFWeozrqWNmqNT1eP3OQoT1V7bYvHH9AL9HiprPHIqKTIjiug1VXjSdBG3
-	BddU5S4+5tgRLK1QNfLdtdmlBRF7V8UMAmmPE0n54I9GYhGJqF+khdVihqeQV68yYnRH
-	+bKgZ3WdSz5fFne6DfG11BBiX6UYc8oo+Vhjr31wMzoXdygj8cuVZhciNq9QsBNcbBrC
-	PMclUoqufIogOAU06Avy1znCu/FO1Y4EJWjs7aKM5A+EYchDOevWUT96J96/EMSScTUb
-	UXpg==
-X-Gm-Message-State: APjAAAUTON7vRCDxIaTibUikCbtg/nIfA6IYj795c/znWEUiuNNLRkTM
-	AYCQpiUIedahIWVSELVFpVGMKg==
-X-Google-Smtp-Source: APXvYqygoggpcdkGIU+2T99OZVDCxooaCbyYSrAOyzbbSQM6e6tpIYQcHsMhtmHIx5UKWimlKQ0yiQ==
-X-Received: by 2002:a50:9484:: with SMTP id s4mr16670637eda.82.1551722564143; 
-	Mon, 04 Mar 2019 10:02:44 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-D0BF-27DA-BE9A-269E.dyn6.twc.com.
-	[2606:a000:1401:880d:d0bf:27da:be9a:269e])
-	by smtp.gmail.com with ESMTPSA id
-	z42sm2307477edd.29.2019.03.04.10.02.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 10:02:43 -0800 (PST)
-Date: Mon, 4 Mar 2019 13:02:38 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20190304180238.GU5026@bill-the-cat>
-References: <1551479212-28944-1-git-send-email-trini@konsulko.com>
-	<1551479212-28944-4-git-send-email-trini@konsulko.com>
-	<af18c06a-189c-e3ab-9e42-2597e32c0d0e@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <af18c06a-189c-e3ab-9e42-2597e32c0d0e@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] packagegroup-core-base-utils: Introduce new base-utils packagegroup
+	Mon,  4 Mar 2019 18:11:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 01DFC40B66;
+	Mon,  4 Mar 2019 18:11:48 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id m7ZVX7l0Pjsl; Mon,  4 Mar 2019 18:11:47 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-91-218.washdc.fios.verizon.net
+	[100.15.91.218])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C3B0440024;
+	Mon,  4 Mar 2019 18:11:43 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 1D7E216BB89;
+	Mon,  4 Mar 2019 13:11:43 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Mar 2019 13:11:13 -0500
+Message-Id: <1551723073-3036-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [thud][PATCH] openssl10: Fix mutliple include assumptions for des.h in opensslconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,175 +38,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 18:02:44 -0000
-X-Groupsio-MsgNum: 121928
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FiqEyLLt06qkB6ow"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Mar 2019 18:11:47 -0000
 
---FiqEyLLt06qkB6ow
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Denys Dmytriyenko <denys@ti.com>
 
-On Mon, Mar 04, 2019 at 10:44:00AM -0600, Mark Hatle wrote:
-> On 3/1/19 4:26 PM, Tom Rini wrote:
-> > This packagegroup is intended to provide all of the functionality found
-> > in other VIRTUAL-RUNTIME_base-utils providers through full packages
-> > rather than an all-on-one package.  Document how to make use of this
-> > in local.conf.sample.extended.  Introduce VIRTUAL-RUNTIME-vim and
-> > default this to vim-tiny to allow for a differently features vim to be
-> > used instead.
-> >=20
-> > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > ---
-> >  meta/conf/local.conf.sample.extended               |  8 ++++
-> >  .../packagegroups/packagegroup-core-base-utils.bb  | 49 ++++++++++++++=
-++++++++
-> >  2 files changed, 57 insertions(+)
-> >  create mode 100644 meta/recipes-extended/packagegroups/packagegroup-co=
-re-base-utils.bb
-> >=20
-> > diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.con=
-f.sample.extended
-> > index 8062e4c5721b..d00221893ad9 100644
-> > --- a/meta/conf/local.conf.sample.extended
-> > +++ b/meta/conf/local.conf.sample.extended
-> > @@ -384,3 +384,11 @@
-> >  #VIRTUAL-RUNTIME_login_manager =3D "shadow-base"
-> >  #VIRTUAL-RUNTIME_init_manager =3D "systemd"
-> >  #VIRTUAL-RUNTIME_initscripts =3D "systemd-compat-units"
-> > +
-> > +#
-> > +# Use a full set of packages instead of busybox for base utils
-> > +#
-> > +#PREFERRED_PROVIDER_base-utils =3D "packagegroup-core-base-utils"
-> > +#VIRTUAL-RUNTIME_base-utils =3D "packagegroup-core-base-utils"
-> > +#VIRTUAL-RUNTIME_base-utils-hwclock =3D "util-linux-hwclock"
-> > +#VIRTUAL-RUNTIME_base-utils-syslog =3D "syslog"
-> > diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-base=
--utils.bb b/meta/recipes-extended/packagegroups/packagegroup-core-base-util=
-s.bb
-> > new file mode 100644
-> > index 000000000000..061dade0bc03
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.=
-bb
-> > @@ -0,0 +1,49 @@
-> > +#
-> > +# Copyright (C) 2019 Konsulko Group
-> > +#
-> > +
-> > +SUMMARY =3D "Full-featured set of base utils"
-> > +DESCRIPTION =3D "Package group bringing in packages needed to provide =
-much of the base utils type functionality found in busybox"
-> > +
-> > +inherit packagegroup
-> > +
-> > +VIRTUAL-RUNTIME_vim ?=3D "vim-tiny"
-> > +
-> > +RDEPENDS_${PN} =3D "\
-> > +    base-passwd \
-> > +    bash \
-> > +    bind-utils \
-> > +    bzip2 \
-> > +    coreutils \
-> > +    cpio \
-> > +    dhcp-client \
-> > +    diffutils \
-> > +    e2fsprogs \
-> > +    ed \
-> > +    file \
-> > +    findutils \
-> > +    gawk \
-> > +    grep \
-> > +    gzip \
-> > +    inetutils \
-> > +    iproute2 \
-> > +    kmod \
-> > +    less \
-> > +    lzip \
-> > +    ncurses-tools \
-> > +    net-tools \
-> > +    parted \
-> > +    patch \
-> > +    procps \
-> > +    psmisc \
-> > +    sed \
-> > +    shadow-base \
-> > +    tar \
-> > +    time \
-> > +    unzip \
-> > +    util-linux \
-> > +    ${VIRTUAL-RUNTIME_vim} \
-> > +    wget \
-> > +    which \
-> > +    xz \
-> > +    "
-> >=20
->=20
-> Sorry missed this earlier.  On note, we have a similar recipe in our loca=
-l layer.
->=20
-> I figured you may want to look at it to determine if anything might be mi=
-ssing.
->=20
-> https://github.com/WindRiver-OpenSourceLabs/wrlinux/blob/master-wr/recipe=
-s-base/packagegroups/packagegroup-busybox-replacement.bb
->=20
-> The parts I see missing (when comparing them) are:
->=20
-> bc
+The fix is heavily based on Khem's previous fix for bn.h/BN_LLONG breakage:
+https://git.openembedded.org/openembedded-core/commit/?id=f787b0bb9b0626ddbf2ac94cb206c76716a3773d
 
-I had this initially but bc isn't enabled in busybox (anymore?).
+(From OE-Core rev: 914e1520bf9c45e14bce9993c9131a2c0702b9c9)
 
-> debianutils-run-parts
-> dhcp-server (likely not needed)
-> dpkg-start-stop
-> ifupdown
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ .../openssl10/0001-Fix-DES_LONG-breakage.patch     | 35 ++++++++++++++++++++++
+ .../openssl/openssl10_1.0.2q.bb                    |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
 
-These fall into the category of "Oh, I need to try without systemd".
-I'll put those in and give it a spin.
+diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
+new file mode 100644
+index 0000000..7243fb4
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl10/0001-Fix-DES_LONG-breakage.patch
+@@ -0,0 +1,35 @@
++From 1aec49cc45e7cf5ebc059a77081ac3ea2a5aff7b Mon Sep 17 00:00:00 2001
++From: Denys Dmytriyenko <denys@ti.com>
++Date: Fri, 1 Mar 2019 13:14:56 -0500
++Subject: [PATCH] Fix DES_LONG breakage
++
++Mimic previous BN_LLONG fix by Khem Raj here. Re-use its description:
++
++opensslconf.h is defining DES_LONG only when included from des.h which
++is not robust at all, especially when include guards are used and
++multiple inclusions of a given header is not allowed. so lets take out
++the nesting constraint and add OPENSSL_SYS_UEFI constraint instead
++
++Upstream-Status: Inappropriate [ fixed differently with OpenSSL 1.1+ ]
++
++Signed-off-by: Denys Dmytriyenko <denys@ti.com>
++---
++ crypto/opensslconf.h.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/crypto/opensslconf.h.in b/crypto/opensslconf.h.in
++index a10c10f..0147a4d 100644
++--- a/crypto/opensslconf.h.in
+++++ b/crypto/opensslconf.h.in
++@@ -48,7 +48,7 @@
++ #endif
++ #endif
++ 
++-#if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)
+++#if !defined(OPENSSL_SYS_UEFI) && !defined(DES_LONG)
++ /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
++  * %20 speed up (longs are 8 bytes, int's are 4). */
++ #ifndef DES_LONG
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+index 355dbdc..54af100 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
+@@ -41,6 +41,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
+            file://0001-allow-manpages-to-be-disabled.patch \
+            file://0001-Fix-BN_LLONG-breakage.patch \
++           file://0001-Fix-DES_LONG-breakage.patch \
+            "
+ 
+ SRC_URI_append_class-target = " \
+-- 
+2.7.4
 
-> kbd
 
-This is in, but via a dep rather than explicit, so I'll list it.
-
-> In some configurations we also add "fbset, netcat, and usleep" as well...=
- but I
-> think the reasonable approach is to match the default busybox configurati=
-on to
-> whatever is in this list.
-
-Ah fbset, going off on a quick tangent, I see 2.1 from 1999 is still the
-latest and greatest.  Good times!  I'm not sure if we should move fbset
-to oe-core however.  For netcat, we have netcat-openbsd in meta-oe which
-is 'nc' and would match busybox saying CONFIG_NC=3Dy and CONFIG_NETCAT=3Dn.
-For usleep, real sleep (and busybox sleep when configured) supports
-decimals so I would be inclined to say sleep is good enough.
-
---=20
-Tom
-
---FiqEyLLt06qkB6ow
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcfWg+AAoJEIf59jXTHXZSHcEQALLzMnX86CoIsawIg21h9eOe
-M9019dIdk9+T89SrDPUEQ/J7GVvWto1Zb1p21wkPZWBuWQs7TD0j1/qIYuN37EEg
-Mt/NlyryB4eUojMKvSf8sCZ5wtmJr/0YAVxQKTxYixbdtNY0c6HfsZU4NYJspsob
-qgWrYjjfPEhs3jrmjGcghmtiWjBz/ho6oi0PUNHJxW4Jx3OAMcTTMmBLfZ/o+4xi
-v10HZxMMcmpOuphiXBc1C3hVzDc4DnEOF2VdzM/vn6VG0uRf5zkuNUWvnlwXvaxC
-io4hLBapdNMY50SISeCrs09qb2KQyckFYpMSDSmHO78A1Adb5blHQgkny7EYVPsd
-cCCtnnAq1+B10BKdzX2QNUyHG4HAjgDmy0KWMmgD/aM51uULM6uh3tTxeFWgd7Xy
-Pjf1ZjQ6LzdBrArPiW04+iG5K2ill54GwgKKRO/SqHXaeUt6D+1d0U6/R2EJt2iM
-7vxC2VyYO9O0MEovy85H/y1NFuYnCYGho7NCrjfksFwm6pU6uUAH7bZ0lHxD3E1P
-XyRFgUUaREMxNfYVPQB9I+4r1Mm49l6orcc0mpoPhzebrqqtn4wTnrUi1eaG+WGw
-fgRWOTjyeBt63e/BwKIm5yOgC1VehOK4M3rCLtpLR7EqBV6FXjGHQCHM65PeDXDe
-+TK9Bt0I66g8DVfVaDHc
-=Vvfv
------END PGP SIGNATURE-----
-
---FiqEyLLt06qkB6ow--
