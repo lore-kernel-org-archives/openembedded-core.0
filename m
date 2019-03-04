@@ -1,26 +1,41 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C89A27C466
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
+	[209.85.161.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2999260107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 07:45:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x247ietD021485
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Mar 2019 23:45:06 -0800
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 3 Mar 2019 23:44:54 -0800
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190204181314.22496-1-raj.khem@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
-Date: Mon, 4 Mar 2019 15:50:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Mon,  4 Mar 2019 09:07:27 +0000 (UTC)
+Received: by mail-yw1-f68.google.com with SMTP id i204so3541655ywb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Mar 2019 01:07:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9qdIPjewQ+8/+V+akGhwLYGcYI9wQZN0qYu4hnXIZHk=;
+	b=TTfjkyxbXp5GshGg4WFZcx/ydrNdFXWyvYBpsygBfVLiLXFFeJmgoz+jo21LOPYVhg
+	ZCRkA+owFSfFlJwmXA7/1irdZCfiLHJqxhNS5lmfwW9sNepg7pDuOJ/Mr+NxgdQEqo4s
+	//NpsnD4gOzw8Us6dDEBI/rpIgvNH21eoFEPJaAphxS5vRK4Y5+oyE6ySkRx27Yq9kvu
+	4e7bbuz7QV/GfYzTmFxEhQTsmzvgA2kZ5B14mUZJxHotmR18/O7fLgLi39QqbsvYnkDC
+	GpBoPJx2ktJ7lknZFQ6XpTDo8vnIodt2T9JV8yD7LQMlAExZVsyrp3fPzgAew+SOn93f
+	aBMg==
+X-Gm-Message-State: APjAAAXzEmofZGeeyRYgTXlAwju53W7Ek9CE37AlEnIMaWj6eSnjNxG9
+	4hJ56N5SagxSa8z4ms92MhHUc/C7Pdc=
+X-Google-Smtp-Source: APXvYqxDmwE1mboikM4jimi/8T8F8dB8VF5Az5sh9AF0XtXU5s44oQfLE77roxRCePkSlcbBbRWPXg==
+X-Received: by 2002:a25:5343:: with SMTP id h64mr14081070ybb.55.1551690447830; 
+	Mon, 04 Mar 2019 01:07:27 -0800 (PST)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	n82sm2369235ywd.37.2019.03.04.01.07.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Mar 2019 01:07:26 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Mar 2019 09:07:24 +0000
+Message-Id: <20190304090724.888-1-git@andred.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190204181314.22496-1-raj.khem@gmail.com>
-Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
+Subject: [PATCH] masterimage: remove code duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 07:45:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Mar 2019 09:07:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Khem,
+From: André Draszik <andre.draszik@jci.com>
 
-We have an internal error web server, this patch breaks it:
+Two identical classes exist for SystemdbootTarget,
+introduced in commit f9a61d3400ad
+("gummiboot: Remove/change gummiboot references with systemd-boot")
+poky commit 2dce2648e3d8
 
-You're accessing the development server over HTTPS, but it only supports HTTP
+Remove the duplicated copy.
 
-So I tried to use runsslserver, but it doesn't work either since the host is
-Ubuntu 14.04 (python 2.7.6):
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+---
+ meta/lib/oeqa/controllers/masterimage.py | 40 ------------------------
+ 1 file changed, 40 deletions(-)
 
-$ python manage.py runsslserver
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index a2912fc568..f175e119da 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -197,43 +197,3 @@ class SystemdbootTarget(MasterImageHardwareTarget):
+         self.power_cycle(self.master)
+         # there are better ways than a timeout but this should work for now
+         time.sleep(120)
+-
+-
+-class SystemdbootTarget(MasterImageHardwareTarget):
+-
+-    def __init__(self, d):
+-        super(SystemdbootTarget, self).__init__(d)
+-        # this the value we need to set in the LoaderEntryOneShot EFI variable
+-        # so the system boots the 'test' bootloader label and not the default
+-        # The first four bytes are EFI bits, and the rest is an utf-16le string
+-        # (EFI vars values need to be utf-16)
+-        # $ echo -en "test\0" | iconv -f ascii -t utf-16le | hexdump -C
+-        # 00000000  74 00 65 00 73 00 74 00  00 00                    |t.e.s.t...|
+-        self.efivarvalue = r'\x07\x00\x00\x00\x74\x00\x65\x00\x73\x00\x74\x00\x00\x00'
+-        self.deploy_cmds = [
+-                'mount -L boot /boot',
+-                'mkdir -p /mnt/testrootfs',
+-                'mount -L testrootfs /mnt/testrootfs',
+-                'modprobe efivarfs',
+-                'mount -t efivarfs efivarfs /sys/firmware/efi/efivars',
+-                'cp ~/test-kernel /boot',
+-                'rm -rf /mnt/testrootfs/*',
+-                'tar xvf ~/test-rootfs.%s -C /mnt/testrootfs' % self.image_fstype,
+-                'printf "%s" > /sys/firmware/efi/efivars/LoaderEntryOneShot-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f' % self.efivarvalue
+-                ]
+-
+-    def _deploy(self):
+-        # make sure these aren't mounted
+-        self.master.run("umount /boot; umount /mnt/testrootfs; umount /sys/firmware/efi/efivars;")
+-        # from now on, every deploy cmd should return 0
+-        # else an exception will be thrown by sshcontrol
+-        self.master.ignore_status = False
+-        self.master.copy_to(self.rootfs, "~/test-rootfs." + self.image_fstype)
+-        self.master.copy_to(self.kernel, "~/test-kernel")
+-        for cmd in self.deploy_cmds:
+-            self.master.run(cmd)
+-
+-    def _start(self, params=None):
+-        self.power_cycle(self.master)
+-        # there are better ways than a timeout but this should work for now
+-        time.sleep(120)
+-- 
+2.20.1
 
-[snip]
-     ssl_version=ssl.PROTOCOL_TLSv1_2,
-AttributeError: 'module' object has no attribute 'PROTOCOL_TLSv1_2'
-
-This is because python is old.
-
-I think that make it default to https would make the server harder to set up,
-so is it possible to:
-
-* Make it default to http, and add an option such as --https (or --ssl) for https
-
-Or:
-
-* Add an option such as --no-ssl to make it use http.
-
-I prefer the first one since https server is harder to setup than http in 
-django. I can work on it if no objections.
-
-// Robert
-
-On 2/5/19 2:13 AM, Khem Raj wrote:
-> errors.yp.org can understand https
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   scripts/send-error-report | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/send-error-report b/scripts/send-error-report
-> index 8939f5f594..3528cf93a9 100755
-> --- a/scripts/send-error-report
-> +++ b/scripts/send-error-report
-> @@ -62,7 +62,7 @@ def edit_content(json_file_path):
->   
->   def prepare_data(args):
->       # attempt to get the max_log_size from the server's settings
-> -    max_log_size = getPayloadLimit("http://"+args.server+"/ClientPost/JSON")
-> +    max_log_size = getPayloadLimit("https://"+args.server+"/ClientPost/JSON")
->   
->       if not os.path.isfile(args.error_file):
->           log.error("No data file found.")
-> @@ -132,9 +132,9 @@ def send_data(data, args):
->       headers={'Content-type': 'application/json', 'User-Agent': "send-error-report/"+version}
->   
->       if args.json:
-> -        url = "http://"+args.server+"/ClientPost/JSON/"
-> +        url = "https://"+args.server+"/ClientPost/JSON/"
->       else:
-> -        url = "http://"+args.server+"/ClientPost/"
-> +        url = "https://"+args.server+"/ClientPost/"
->   
->       req = urllib.request.Request(url, data=data, headers=headers)
->       try:
-> 
 
