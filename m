@@ -1,31 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AC7536D4C6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C326A6D4C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2019 10:29:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x24ASBnb026640
+	Mon,  4 Mar 2019 10:30:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x24AUEqK009008
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Mar 2019 02:28:42 -0800
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 4 Mar 2019 02:28:06 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190204181314.22496-1-raj.khem@gmail.com>
-	<e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
-	<12b1452d894058e0a03398ae65b0f52deaeb9182.camel@linuxfoundation.org>
-	<31ec3ae0-3d38-7725-54ab-f5c3fda864b5@windriver.com>
-	<7aff7260ddd7791dde2cd381de46eaf02e937174.camel@linuxfoundation.org>
+	Mon, 4 Mar 2019 02:30:15 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 4 Mar 2019 02:30:09 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d20e93cc-f628-97d9-d414-ffe91d6d6c53@windriver.com>
-Date: Mon, 4 Mar 2019 18:33:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Mar 2019 18:49:00 +0800
+Message-ID: <e58863c6dfe0bfb23665568e90d34da5e9734d0e.1551696484.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1551696484.git.liezhi.yang@windriver.com>
+References: <cover.1551696484.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <7aff7260ddd7791dde2cd381de46eaf02e937174.camel@linuxfoundation.org>
-Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
+Subject: [PATCH 1/1] send-error-report: Add --no-ssl to use http protocol
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,84 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2019 10:29:23 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Mar 2019 10:30:15 -0000
+Content-Type: text/plain
 
+The script use https protocol by default, but the error-report-web server's
+https connection may not work (e.g., doesn't work with python 2.7.6), so add an
+option --no-ssl to make it use http.
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/send-error-report | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-On 3/4/19 6:26 PM, Richard Purdie wrote:
-> On Mon, 2019-03-04 at 18:02 +0800, Robert Yang wrote:
->> Hi RP,
->>
->> On 3/4/19 5:23 PM, Richard Purdie wrote:
->>> On Mon, 2019-03-04 at 15:50 +0800, Robert Yang wrote:
->>>> Hi Khem,
->>>>
->>>> We have an internal error web server, this patch breaks it:
->>>>
->>>> You're accessing the development server over HTTPS, but it only
->>>> supports HTTP
->>>>
->>>> So I tried to use runsslserver, but it doesn't work either since
->>>> the
->>>> host is
->>>> Ubuntu 14.04 (python 2.7.6):
->>>>
->>>> $ python manage.py runsslserver
->>>>
->>>> [snip]
->>>>        ssl_version=ssl.PROTOCOL_TLSv1_2,
->>>> AttributeError: 'module' object has no attribute
->>>> 'PROTOCOL_TLSv1_2'
->>>>
->>>> This is because python is old.
->>>>
->>>> I think that make it default to https would make the server
->>>> harder to
->>>> set up,
->>>> so is it possible to:
->>>>
->>>> * Make it default to http, and add an option such as --https (or
->>>> --
->>>> ssl) for https
->>>>
->>>> Or:
->>>>
->>>> * Add an option such as --no-ssl to make it use http.
->>>>
->>>> I prefer the first one since https server is harder to setup than
->>>> http in django. I can work on it if no objections.
->>>
->>> At this point the project does require python3 so python2 being old
->>> shouldn't be a reason to be changing this.
->>
->> The python3 + error-report-web doesn't work for me:
->>
->> $ python3 manage.py runserver ip:8000
->>
->> And when I tried to access http://128.224.156.132:8000, it raised
->> errors:
->>
->> error-report-web/Post/views.py", line 16, in <module>
->>       from parser import Parser
->> ImportError: cannot import name 'Parser'
->>
->> So I use python 2 for it. I thought that it didn't support python3,
->> or didn't
->> test well.
-> 
-> Fixing it to work with python3 would be the preferred option...
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 3528cf9..f8039b8 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -60,9 +60,9 @@ def edit_content(json_file_path):
+         return True
+     return False
+ 
+-def prepare_data(args):
++def prepare_data(args, protocol):
+     # attempt to get the max_log_size from the server's settings
+-    max_log_size = getPayloadLimit("https://"+args.server+"/ClientPost/JSON")
++    max_log_size = getPayloadLimit(protocol+args.server+"/ClientPost/JSON")
+ 
+     if not os.path.isfile(args.error_file):
+         log.error("No data file found.")
+@@ -128,13 +128,13 @@ def prepare_data(args):
+     return data.encode('utf-8')
+ 
+ 
+-def send_data(data, args):
++def send_data(data, args, protocol):
+     headers={'Content-type': 'application/json', 'User-Agent': "send-error-report/"+version}
+ 
+     if args.json:
+-        url = "https://"+args.server+"/ClientPost/JSON/"
++        url = protocol+args.server+"/ClientPost/JSON/"
+     else:
+-        url = "https://"+args.server+"/ClientPost/"
++        url = protocol+args.server+"/ClientPost/"
+ 
+     req = urllib.request.Request(url, data=data, headers=headers)
+     try:
+@@ -187,6 +187,10 @@ if __name__ == '__main__':
+                            help="Return the result in json format, silences all other output",
+                            action="store_true")
+ 
++    arg_parse.add_argument("--no-ssl",
++                           help="Use http instead of https protocol",
++                           action="store_true")
++
+ 
+ 
+     args = arg_parse.parse_args()
+@@ -194,7 +198,12 @@ if __name__ == '__main__':
+     if (args.json == False):
+         print("Preparing to send errors to: "+args.server)
+ 
+-    data = prepare_data(args)
+-    send_data(data, args)
++    if args.no_ssl:
++        protocol = "http://"
++    else:
++        protocol = "https://"
++
++    data = prepare_data(args, protocol)
++    send_data(data, args, protocol)
+ 
+     sys.exit(0)
+-- 
+2.7.4
 
-Sounds good, I will work on it.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
 
