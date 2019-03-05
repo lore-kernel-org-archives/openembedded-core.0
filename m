@@ -1,59 +1,53 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2541F7C420
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 621857C420
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 22:20:24 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id p73so6772905lfe.10
+	Tue,  5 Mar 2019 22:25:20 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id i12so11204342wrw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 14:20:26 -0800 (PST)
+	Tue, 05 Mar 2019 14:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=52twDeUuL3+ekfkGc7vR52j9iQd5joAUwMNkWBE1RcY=;
-	b=mR28whLrqNG4W0gmUraZs47WTltdfd4vY0BOA4JOtrQUCRly7zuagTOp4Yo9kxzi8r
-	qpypbxyL9AK4fQ2Gqz6l9PnBhBHV1xcJpTfcVHdD9lDQi7xBLb7rgCqjjXig5NCNyba6
-	kwERnGuF5YTR66cv1mlBAV5oyb9kEgANNGKDU4NUpLa6eeoTJBSoUP1TPLFXpbPZEybX
-	C0sdYp8Ks1qkq/tNkLIprlS1b/ROsianKNZGEHXu8hpVQlTc9wMIHtHuq2nvdXNbYXp6
-	DAMNd+BTrofnNywRMNMH0EdyMG3diDqm2gs1RxlB+eCBDKRlyqSP8dD3zicp6Gaw00Uc
-	4e0A==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=akdfRiaFuyIWPYQU8EV7KoqmvD7/bcq3LLcrpK3VyK4=;
+	b=cnytF1fRp91i8cS9ycOcGHy0bEkHpsh/uN7Hgqaseczk53X6EeZTT2m3M14I7x9AnF
+	k/lMW184+fpjb74NDr0OMgh/agUsndslPPgbdDkytAWHti10LI2Qp429ZwYHfoZ948th
+	I1x0zypgVtWOkxs9IkJmedNF3LIUny1ckTkf4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=52twDeUuL3+ekfkGc7vR52j9iQd5joAUwMNkWBE1RcY=;
-	b=pjfvfpiPyqMpsMQT1LXJ/+qdHaSKrJeiWGtC1ucWpsUM6eKj2PCQZQos5UyWIzh824
-	xXuvzOdxbFyM03TD7z8oLDgkT5VUxQejktf4iXt/tunuTRMjWK5QJ5SmF/bLTdWL0iYr
-	sPtDbnbIWaQUhmuh9bBuDvvJ1T4iOi77N3SOFYWiiHsvdOg6fZw7cOjRfNgAfWmJqDZv
-	5e4A4iNcUfN5BdgwQJ9hmE2YFydrbMGzBAYqkjFd3xSpuv3RhFATf2hb8tsgQXij/oMi
-	CiWmlrdMiki6K8Uvjh5SZ6f05hb3sz/mZmlDQQvyVMBlJi7mW1z7MB7Qmbfd38EEFV6O
-	sb9A==
-X-Gm-Message-State: APjAAAWsYzgY0+NDi/0tcNl542fZIA7Fc574dJ/mC60E4QyR9PJwXEDW
-	1CQszwdW8kqj/2rvOMpNUfY0tQ==
-X-Google-Smtp-Source: APXvYqwE5liwmZ2uTIMnlRM1oOqFzuxvibOm9Y9e4kgTPJDKg7o/GVhLc0p96rdZ6ZHxCctlQvxEQA==
-X-Received: by 2002:ac2:5294:: with SMTP id q20mr2185609lfm.12.1551824425353; 
-	Tue, 05 Mar 2019 14:20:25 -0800 (PST)
-Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	k23sm2336224ljk.69.2019.03.05.14.20.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Mar 2019 14:20:24 -0800 (PST)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
-To: akuster808 <akuster808@gmail.com>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190304041822.118083-1-oleksandr.kravchuk@pelagicore.com>
-	<37c86bee-0222-7eab-c001-97dadee76def@gmail.com>
-Message-ID: <617f87d5-2354-9b15-3980-a20b75d5fc9c@sashko.rv.ua>
-Date: Tue, 5 Mar 2019 23:20:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=akdfRiaFuyIWPYQU8EV7KoqmvD7/bcq3LLcrpK3VyK4=;
+	b=UvGf4oMK7uucQcmlVr81Nm+MNcTiHVIUTv315iimGS8yEeJpbmKGcD2g9V+qTwMRq/
+	6Sg730Rj26VW74Q0qYG+Vs0Hm1FOf9dBmB71+CTilFgRbO9UJsyxl8Sa2Kh1H0VQd1wW
+	NZzuVv0E8/6/NdbKoAnfcDlN1j/QKBkPDJX8EiofuDc98QHvfJdacWxd7kqQtR/yFDJ1
+	e1Tgok9k9LXmTEZhRb4CIblt+daZqDwQpWq8UAvhjGsg0JwxrUGO5x3JgulLGdd9YfVR
+	WOT7v69JP8f+yjzSQ+Qy7o0gTa6AQHTTcU5QyCXz3FuuJcX/MM4guJSUP0f9l29MyvqY
+	qGoQ==
+X-Gm-Message-State: APjAAAWuL01TCMgtFkwvpwWhIZ3BAUOvFesJ0DJv7Ovtn5oJotdIP07c
+	zBZ/xt+9+t7IaB+a9/Ssix0OAA==
+X-Google-Smtp-Source: APXvYqxZwViHHliPkx7Fj2hbSGpAtBGZAJ0W+FQHlkNuMAZioHGYYQhu5wJQ/sTfuXC0ZEJNesWCsg==
+X-Received: by 2002:adf:dd12:: with SMTP id a18mr684148wrm.4.1551824721069;
+	Tue, 05 Mar 2019 14:25:21 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id a22sm4958wmj.35.2019.03.05.14.25.19
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 05 Mar 2019 14:25:20 -0800 (PST)
+Message-ID: <2b95a256f053b81a43dc3f3c17c9649f1e5756f5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Hongxu Jia
+	<hongxu.jia@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Armin Kuster
+	(akuster808@gmail.com)" <akuster808@gmail.com>
+Date: Tue, 05 Mar 2019 22:25:18 +0000
+In-Reply-To: <aaee4a7c-c9ae-9f76-39af-b262324d87d6@prevas.dk>
+References: <1541753661-9999-1-git-send-email-hongxu.jia@windriver.com>
+	<aaee4a7c-c9ae-9f76-39af-b262324d87d6@prevas.dk>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-In-Reply-To: <37c86bee-0222-7eab-c001-97dadee76def@gmail.com>
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: Re: [meta-oe][thud][PATCH] target-sdk-provides-dummy: add perl-module-overload
+Subject: Re: [PATCH] rng-tools: Fix crazy defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,175 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 22:20:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5969CC83EF98B686E3D47DDE"
-Content-Language: en-US
+X-List-Received-Date: Tue, 05 Mar 2019 22:25:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---------------5969CC83EF98B686E3D47DDE
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+On Tue, 2019-03-05 at 07:03 +0000, Rasmus Villemoes wrote:
+> On 09/11/2018 09.54, Hongxu Jia wrote:
+> >  Before=sysinit.target
+> >  
+> >  [Service]
+> > -ExecStart=@SBINDIR@/rngd -f -r /dev/urandom
+> > +ExecStart=@SBINDIR@/rngd -f -r /dev/hwrng
+> >  SuccessExitStatus=66
+> >  
+> >  [Install]
+> > 
+> 
+> This has been applied to master, but please apply this to thud as
+> well -
+> feeding the kernel's entropy pool from that same entropy pool is of
+> course utter nonsense, but since rngd is also _crediting those bytes
+> with providing real bits of entropy_ (ioctl RNDADDENTROPY) makes it a
+> security issue.
 
-Apologies for skipping the commit message.
+Thanks for pointing this out, I've backported this to thud after
+discussion with Armin.
 
-It fixes the following issue:
+Cheers,
 
-Error: 
- Problem: package perl-module-overload-5.24.4-r0.corei7_64 requires
-perl-module-warnings-register, but none of the providers can be installed
-  - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target
-conflicts with perl provided by perl-5.24.4-r0.corei7_64
- 
-On 04/03/2019 16:25, akuster808 wrote:
->
-> On 3/3/19 8:18 PM, Oleksandr Kravchuk wrote:
->> Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-> is this in master? What does it fix?
->
-> - armin
->> ---
->>  meta/recipes-core/meta/target-sdk-provides-dummy.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
->> index edf07c4a23..13741f0a64 100644
->> --- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
->> +++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
->> @@ -26,6 +26,7 @@ DUMMYPROVIDES = "\
->>      perl-module-getopt-long \
->>      perl-module-io-file \
->>      perl-module-posix \
->> +    perl-module-overload \
->>      perl-module-thread-queue \
->>      perl-module-threads \
->>      /bin/sh \
+Richard
 
---------------5969CC83EF98B686E3D47DDE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial; margin-top: 0px;
-      margin-bottom: 0px;">Apologies for skipping the commit message.</div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial; margin-top: 0px;
-      margin-bottom: 0px;"><br>
-    </div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial; margin-top: 0px;
-      margin-bottom: 0px;">It fixes the following issue:</div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial; margin-top: 0px;
-      margin-bottom: 0px;"><br>
-    </div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial;">Error: </div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial;"> Problem: package
-      perl-module-overload-5.24.4-r0.corei7_64 requires
-      perl-module-warnings-register, but none of the providers can be
-      installed</div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial;"><font size="3"><span
-          style="font-size: 12pt;">  - package
-          target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target
-          conflicts with perl provided by perl-5.24.4-r0.corei7_64</span></font></div>
-    <div style="color: rgb(0, 0, 0); font-family: Calibri, Helvetica,
-      sans-serif, serif, EmojiFont; font-size: 16px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(255, 255, 255); text-decoration-style:
-      initial; text-decoration-color: initial; margin-top: 0px;
-      margin-bottom: 0px;"> </div>
-    <div class="moz-cite-prefix">On 04/03/2019 16:25, akuster808 wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:37c86bee-0222-7eab-c001-97dadee76def@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-On 3/3/19 8:18 PM, Oleksandr Kravchuk wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Signed-off-by: Oleksandr Kravchuk <a class="moz-txt-link-rfc2396E" href="mailto:oleksandr.kravchuk@pelagicore.com">&lt;oleksandr.kravchuk@pelagicore.com&gt;</a>
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-is this in master? What does it fix?
-
-- armin
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">---
- meta/recipes-core/meta/target-sdk-provides-dummy.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-index edf07c4a23..13741f0a64 100644
---- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-+++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-@@ -26,6 +26,7 @@ DUMMYPROVIDES = "\
-     perl-module-getopt-long \
-     perl-module-io-file \
-     perl-module-posix \
-+    perl-module-overload \
-     perl-module-thread-queue \
-     perl-module-threads \
-     /bin/sh \
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------5969CC83EF98B686E3D47DDE--
