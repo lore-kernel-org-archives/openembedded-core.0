@@ -1,53 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DEBFA7C629
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B52D7C629
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 09:36:22 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g12so8631112wrm.5
+	Tue,  5 Mar 2019 09:37:58 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w17so8630079wrn.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 01:36:24 -0800 (PST)
+	Tue, 05 Mar 2019 01:37:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=AQfCKF5xoYbEEoqY3XTZbxAsgqIjow2WPx3I91Mpvq0=;
-	b=Pg1fKjXUJ5F6YwG6KqFc/fFPpuhPW3+Vidr4bcZDyfkd2TlkFjiLKsF2q8sltKD2AW
-	P4FxdCQZjuNFn2imhaax3idMZbGoL2glzFV4qeKTUipdwF2FmoyJhz2OSMe2+eTBeYBm
-	kAx2xJBtg2ReKZruAokDEUvUFAlAzkkzgQunQ=
+	bh=GFc6ZN+aTviq3+BvMs0bv9tkzXEKDxe9JWmrQjTfu20=;
+	b=OC1Rc6GaGuc0VB4TVVU4V708WF9BOIGNPO2CY4dr2In1BTHd0i6DDL9ovJVybBf4mj
+	g211GsO3CNm1dcatFmKnWRvexdOIkvEPf+h9ibnrrx3JznL+P3uQae+KRsUiC5FRgvwr
+	o+2bThTsY5rFj/6voNiNBQCS8QVfmOhp+rzFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=AQfCKF5xoYbEEoqY3XTZbxAsgqIjow2WPx3I91Mpvq0=;
-	b=HaP1JPFnasp76ozQTA99B7lJ+x4jOAMMbdq4ep+yeuTPKmpbE1OvwHWM3cQxj+pZMQ
-	vIX6YO+zteDhIyqv3R4cYOrg8RW+cpf2XuC9cxXuCL6ROiunnuHxdINuZjWDgPChc+Ks
-	yaiC0WWzVRForks8Ld7hqP+pK+5S5ehXDUEn99t/4ayosCelhgl1dYMyfxFFQhaXcfyN
-	VHimPIOn/G1XHo9kFiF2XG9zNDISOyaxcgU4Wzdhn+cRLTZDoxCS06YGdIypiai02/iU
-	z8IH9atAbjTQAbBaGuuRQ8/azN5IYEAf/mTzalDI/hW9L3tEGKKHmNNiEdBzvN+7ZCR2
-	jT6g==
-X-Gm-Message-State: APjAAAXT++gxiuxvxy2HVsId6bZtWTMBiXH/U4ychXs8rLO0n7buUVva
-	TYeRnkbIq3kjiCLvBF7f67mpOw==
-X-Google-Smtp-Source: APXvYqyWtChb/BgB5XkpOE+y4jHPpwTyMQo4YwfAVKL/96UvH2RqiI/ErJb+VljflNSYtEIflRgR0Q==
-X-Received: by 2002:adf:a49c:: with SMTP id g28mr7361968wrb.147.1551778583543; 
-	Tue, 05 Mar 2019 01:36:23 -0800 (PST)
+	bh=GFc6ZN+aTviq3+BvMs0bv9tkzXEKDxe9JWmrQjTfu20=;
+	b=BxYGPxhfqZSpVOQsuTO+Rubk+ADv8nqHRhXN5y74HlcPu8x6KxFscTtiKZvTXM+Jun
+	D4sU9vExk0fUNET8X2lJkVYH6PU3GmjetzZcjcIiyS0RcQsQMkiHEzxJHMLdpH9FoRr8
+	J6hn8D9qaLsSInEun/VHII05QHxzAVQLFebYd2DMNu7SvhV0MgW2uGnlNkOKplmomecv
+	ooz5qQPs9U7+66CxG5WsQt1NGFb/kBDIPQedqIzwOwy9HooAm5WnZHm01Z+IpaaBT+8X
+	qOAPTZXYcYtWxSuVF7rqQWk6dz2S/zMKgri4ug/eMkBoUyPQEkZMMxlKMZXIxjMYKMYn
+	ROLA==
+X-Gm-Message-State: APjAAAWBXZx2bvRKU+weYILwWMK89GvOpC+aSq7tjsIuyEs2SJBd07Hs
+	rOgu8UMTvlj3O8Ffbs10iVECX2g27pk=
+X-Google-Smtp-Source: APXvYqyrARxpb8fsj+QIWKPh56Bl2zVqTZbzUSXFzGmmW9/KbF/dkKvR8tJyfOEJXanoFLnOI8g8jg==
+X-Received: by 2002:a5d:6b43:: with SMTP id x3mr16959610wrw.76.1551778678993; 
+	Tue, 05 Mar 2019 01:37:58 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	v67sm13051373wmb.9.2019.03.05.01.36.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Mar 2019 01:36:22 -0800 (PST)
-Message-ID: <2cb14ca8db048a9e6ce3eb3d6a3974f27e2402aa.camel@linuxfoundation.org>
+	y66sm7462110wmd.37.2019.03.05.01.37.58
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 05 Mar 2019 01:37:58 -0800 (PST)
+Message-ID: <69ee81d9db563ccf8d66ad9b20203fdfb827f2fd.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 05 Mar 2019 09:36:21 +0000
-In-Reply-To: <2386661.BVp9O4DdDJ@localhost.localdomain>
-References: <cover.1551735224.git.chris_larson@mentor.com>
-	<2386661.BVp9O4DdDJ@localhost.localdomain>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 05 Mar 2019 09:37:57 +0000
+In-Reply-To: <CAPybu_0YHNMucF1LPdYNRAWdBChAfZHpb1B-PdDRC2enGmGsSw@mail.gmail.com>
+References: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
+	<d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
+	<CAPybu_0YHNMucF1LPdYNRAWdBChAfZHpb1B-PdDRC2enGmGsSw@mail.gmail.com>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/4] Improve logger setup in devtool/recipetool/scriptutils
+Cc: Daniel Gomez <daniel@qtec.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Two recipes providing the same .so... How it should not be done :)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,62 +61,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 09:36:23 -0000
+X-List-Received-Date: Tue, 05 Mar 2019 09:37:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-03-05 at 16:50 +1300, Paul Eggleton wrote:
-> On Tuesday, 5 March 2019 10:36:07 AM NZDT Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> > 
-> > This improves logger setup in devtool and recipetool to send ERRORs
-> > to 
-> stderr,
-> > the way bitbake itself does, and also sends WARNINGs there, as
-> > those are
-> > essentially out of band as well. This makes it easier to script
-> > with devtool
-> > and recipetool, as any *real* subcommand output can be more easily
-> > captured
-> > without having to manually filter out the cruft.
-> > 
-> > The following changes since commit
-> > b11725db2d5549dc45d8ae36fbf94a5c8e342d69:
-> > 
-> >   xserver-xorg: Fix build errors with clang (2019-03-04 14:26:41
-> > +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git@github.com:kergoth/openembedded-core scriptutils-log-
-> > improvements
-> > 
-> > for you to fetch changes up to
-> > c4f37568236d2e3d8c40d57399d0b275ad5b7c8b:
-> > 
-> >   oe.scriptutils: also send WARNING to stderr (2019-03-04 21:31:00
-> > +0000)
-> > 
-> > ----------------------------------------------------------------
-> > Christopher Larson (4):
-> >       oe.scriptutils: enable color in a more flexible way
-> >       oe.scriptutils: add logger_setup_filters
-> >       recipetool, devtool: set up the logging filters
-> >       oe.scriptutils: also send WARNING to stderr
-> > 
+On Tue, 2019-03-05 at 09:27 +0100, Ricardo Ribalda Delgado wrote:
+> Hi Richard,
 > 
-> All of these look good to me.
+> Thanks for your reply!
 > 
-> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> I tried with the following:
+> 
+> INSANE_SKIP_${PN} = "already-stripped"
+> INSANE_SKIP_libegl-tegra = "ldflags dev-so"
+> INSANE_SKIP_libgles1-tegra = "ldflags dev-so"
+> INSANE_SKIP_libgles2-tegra = "ldflags"
+> INSANE_SKIP_libgl-tegra = "ldflags dev-so textrel"
+> 
+> RREPLACES_libgl-tegra = "libgl-mesa"
+> RREPLACES_libegl-tegra = "libegl-mesa"
+> RREPLACES_libgles1-tegra = "libgles1-mesa"
+> RREPLACES_libgles2-tegra = "libgles2-mesa"
+> 
+> RCONFLICTS_libgl-tegra = "libgl-mesa"
+> RCONFLICTS_libegl-tegra = "libegl-mesa"
+> RCONFLICTS_libgles1-tegra = "libgles1-mesa"
+> RCONFLICTS_libgles2-tegra = "libgles2-mesa"
+> 
+> RPROVIDES_libgl-tegra += "gl-proprietary libgl libgl-mesa"
+> RPROVIDES_libegl-tegra += "libegl libegl-mesa"
+> RPROVIDES_libgles2-tegra += "libgles2 libgles2-tegra"
+> RPROVIDES_libgles1-tegra += "libgles1 libgles1-tegra"
+> 
+> But then do_rootfs fails:
+> 
+> The following packages have unmet dependencies:
+>  mesa-demos : Depends: libegl-mesa (>= 18.3.4+git0+b26488dead) but it
+> is not going to be installed
+>               Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it
+> is not going to be installed
+>  qv4l2 : Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it is
+> not
+> going to be installed
+>          Depends: qtbase (>= 5.11.1+git0+74305ba470) but it is not
+> going to be installed
+> 
+> 
+> I am forcing the installation of libgl-tegra by making:
+> 
+> XSERVER += "gl-proprietary"
+> 
+> What am I doing wrong :)
 
-Unfortunately there were a couple of issues on the autobuilder in the
-devtool selftests with these applied:
+I'd forgotten that things have hard version requirements in some of
+these dependencies :(
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/297
+You'd probably need to make sure your recipe has a version (or epoch,
+PE may be easier) higher than the original recipe? I think that is what
+the package manager is saying in the error above.
 
 Cheers,
 
 Richard
-
 
 
