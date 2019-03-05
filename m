@@ -1,98 +1,49 @@
-Return-Path: <catalin-dan.udma@nxp.com>
-X-Greylist: delayed 34529 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 Mar 2019 23:11:51 UTC
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr50077.outbound.protection.outlook.com [40.107.5.77])
-	by mail.openembedded.org (Postfix) with ESMTP id 02A3F6C397
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 23:11:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=bHwgvmvACHs8OAzTeYp8yjAYGRdPOtsjVDpEltlh8CI=;
-	b=VKkKDs/9kjbtYUEAPM9V1sOnZDmhBN1dWTg2WhN6LL239v3Qr2kYiFkHdftWyCj8gQ35rPVBjnZjWfoVTGvvWbieFTgAwh8jduF3a7BTCVQPBWhDPyWR4z70KanVlbQUzHCWtteds+DDpwlwR0+zEFbhcmw/KtEZgOZ7hpl3HuE=
-Received: from VI1PR04MB5565.eurprd04.prod.outlook.com (20.178.123.19) by
-	VI1PR04MB4110.eurprd04.prod.outlook.com (52.133.14.151) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1665.19; Tue, 5 Mar 2019 13:36:19 +0000
-Received: from VI1PR04MB5565.eurprd04.prod.outlook.com
-	([fe80::59ab:7691:ef45:6982]) by
-	VI1PR04MB5565.eurprd04.prod.outlook.com
-	([fe80::59ab:7691:ef45:6982%5]) with mapi id 15.20.1665.020;
-	Tue, 5 Mar 2019 13:36:19 +0000
-From: Catalin Dan Udma <catalin-dan.udma@nxp.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] insane.bbclass: fix QA-check to consider the
-	PREFERRED_RPROVIDER for RDEPENDS
-Thread-Index: AQHU01hqHgZ7Hp2xJEeaJNrTv59NIg==
-Date: Tue, 5 Mar 2019 13:36:19 +0000
-Message-ID: <1551792970-1216-1-git-send-email-catalin-dan.udma@nxp.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.7.4
-x-clientproxiedby: VI1PR0202CA0024.eurprd02.prod.outlook.com
-	(2603:10a6:803:14::37) To VI1PR04MB5565.eurprd04.prod.outlook.com
-	(2603:10a6:803:d4::19)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=catalin-dan.udma@nxp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [86.34.165.90]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f86c3bc7-c09b-4443-2319-08d6a16f8cbd
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:VI1PR04MB4110; 
-x-ms-traffictypediagnostic: VI1PR04MB4110:
-x-microsoft-exchange-diagnostics: =?utf-8?B?MTtWSTFQUjA0TUI0MTEwOzIzOldic3JWUktXVVdsNFd6R3F5ZWU5WndUbUxx?=
-	=?utf-8?B?RjFTcU82M0szZWFqN2ZLcjUxakhHandiRXZXVVk0Z2o4Umg2SWlURytPUUdo?=
-	=?utf-8?B?WUViVXBhYkc4TWI3YkdsYjVKTHFtS0ZuTCs5MG4xL2VnUHVyVWQvTWxaV09U?=
-	=?utf-8?B?dGVGNGUrb0lvelAycXgrbjdyU3ZUNVRxNWR1TlNrRFZBRnZySmpzUUw5d1Za?=
-	=?utf-8?B?MGlrZGI1OEUyaS9ncnpGY3hURkNPSnJrUHdyMCtmVGViUE9ZdkF6SXpPSzU5?=
-	=?utf-8?B?WGZ0QWZ0bktFS2Zrd0hldzdVQkt4a21NQ1ppKzl6dlRoUmo2Z2FSTUMwS28y?=
-	=?utf-8?B?a3czdUp2ck9wY1NCWEdKN1dvZERVSVFEaDR2YVRYbEVscEIrTVFRb3RIVGlY?=
-	=?utf-8?B?b1VmRmoxaU1pZjVtRHJyaU9YL3pRNWpqMElSbXZwUS9Td3VlaXBWS29QQWhX?=
-	=?utf-8?B?MGE1citBMytNanJzd3pacS9mS3AzZi9KdjR5bDBLRkFtVzYrVnM1RUxTOUha?=
-	=?utf-8?B?Ri90Qm1lLzhrRkdXWUZxNFdVM3o3aEQzMWt3ZEloT3FaMnZORjdMbGUza29q?=
-	=?utf-8?B?SlZ4dk9GRmNiak16UmFaaHVzSEEvcE1MN0pRbDB0M3lGdVljM2ZpbjlhVUJI?=
-	=?utf-8?B?WmRwNmVvZFJadG1PYlBvdE1oQ0E3N1JPY01CMmNDdUVUTC9FL1lDbUlpY0Zo?=
-	=?utf-8?B?WXk0R3FuRDN1cmNWcDMyUmYyT3QvTHI2TzlDWlNnc2cxam1aWWxhRjA3YkxO?=
-	=?utf-8?B?bXdPNC9HMXYybmM3a0FQVW9KMGRjZ0hsYXJKcjkvN0x2NEFqRXhTOHVQKzhX?=
-	=?utf-8?B?Z1hWL1ZEcEtwMVQ2akFHcDlUTzlUT1ZLUkNubC9SMEZkOFdOK3hkQ1NIMGZT?=
-	=?utf-8?B?Yzh3ZW40cmlWUE15d0NEN20wOUVGWGZnc3ltbGpXNVpPRkVrYURCM0VMWHZz?=
-	=?utf-8?B?Sno1ZGJuOERmZXhyNGg5aHdVczZFQzBjMVJValUySDlvQno2WGhLM2QzdSt2?=
-	=?utf-8?B?bldXcFpqeW02djhVSUUwRzhFeUdoTHk2TlVQVCtsamdZMGU1MTRSMFRoamRI?=
-	=?utf-8?B?ckFaamloN2d4SkFDR28zOVprYURFUCt6c3RPcnd3ZVhlL2hmSnZWcENXZ05w?=
-	=?utf-8?B?bEo0OFp4WGNxTlZEWUgxVDJqMDkxaDhYbkh3VXkyYk1WSXVVVC9oQkZOMkpV?=
-	=?utf-8?B?N0JqWW1MYkZ5L3hNUVdTMjB4VmlzK1owSnMybWNiTy9IN0Z6VnNZa1FJbVZu?=
-	=?utf-8?B?N2xRdkRpNU9KZnFmQytodEFuT05NQWJVRk5Yb05XN2tzanowb3RmMGl3QU9O?=
-	=?utf-8?B?R3hnUytuS0Jodjh4YkQrTXpEZmQrVURHL1pCVDVVU0IrM0pKU0ZYNDIwWUVX?=
-	=?utf-8?B?VFRJQXpGRjBLMk9vU2Q5aDFYeUhLem9KcFYwTUx4aUR6VEU5SmFIUXVCU1Bm?=
-	=?utf-8?B?SkpMS1U5MEowS1FZenBjb1dBYlhqMHNHb2pIT0VlKzl4em1iMTRSWEtXbDBo?=
-	=?utf-8?B?SG9Tbjg0dVN0bUppNlNib0xOQkFRQnNJMEVtc1FnaUlLWGhkUG5aYkpuMjR1?=
-	=?utf-8?B?a1hDZHh5Y1ROM0hOSzJIc3g4Q2kwZVE9PQ==?=
-x-microsoft-antispam-prvs: <VI1PR04MB411024DA16467A11ACEFB780DA720@VI1PR04MB4110.eurprd04.prod.outlook.com>
-x-forefront-prvs: 0967749BC1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(376002)(136003)(346002)(366004)(39860400002)(396003)(199004)(189003)(102836004)(478600001)(26005)(99286004)(50226002)(256004)(186003)(14454004)(6916009)(52116002)(68736007)(8936002)(386003)(66066001)(71200400001)(6116002)(6506007)(2906002)(3846002)(5660300002)(36756003)(316002)(81156014)(81166006)(106356001)(105586002)(2351001)(6436002)(6512007)(4326008)(7736002)(25786009)(5640700003)(97736004)(8676002)(53936002)(86362001)(2616005)(6486002)(2501003)(476003)(486006)(305945005)(71190400001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB4110;
-	H:VI1PR04MB5565.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: WcwdfadwvZyux8GHgNBGHsgKYF4v4pANbWKYfyr2bbDAEE9fbf9DthGhP0tXViADoXtYfi/uiW78/eHKWRgy5gIIkjotCU1yW/UJeznQaKPvRPBHJiCOddgtxTZAUKJtGcwtF8BoQOzIuxaNpLty41Qi4jkHr9ZlTFT3H9KTsx/LlH43yHT3QndZJGVMqnA9ktwcBJYUyPGKYCXrISlLxdjM+EayNEUF6A4c8naLq6n+DbSWPEu6iYX0VALmmF2UjINW2j8+xTGjVRvTWbDnR7F/beIkURg9KRH0YbO+mKMPdNO3tII6QkF0wEXDP1kU4xemR+xZxk4eXoARiXLIaBbpX1RYXG5mQwaZk/Ej1BKjRskF6q+XiiQsI5Dqm2N4CbIyolchwZRq5UEZ0ZpMahMvGxUNEFhmNgpYP+SS5Os=
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f86c3bc7-c09b-4443-2319-08d6a16f8cbd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2019 13:36:19.6773 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4110
-Subject: [PATCH] insane.bbclass: fix QA-check to consider the PREFERRED_RPROVIDER for RDEPENDS
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E2D997C6CA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Mar 2019 23:38:17 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id o10so3188800wmc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Mar 2019 15:38:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=hYSo0raqgLduAqDksLNRfAOIlk13IVif3W6lp6bMKxk=;
+	b=UKyiz2xuJ05+5pz92q5K8eZad+MnyI6r+f9tzZ7ig9d1AE/tgev/DvFiHC1LC4LtQO
+	I0OGtluIrZm5dOkf4DE1ZOVu5kn6XZUOYmdlgCelGsH20ufl8/s0lpA+5ybHkT1tx7/t
+	3ngg/Ro6whc7Jh4+yeu2qKYulwPcC/A50YzMK2qST5hsUIqGuDYS1uPLAD8Gvbsvp5vD
+	HsB+wtOLmpiH28sTA7FPlmY5cCE3MRx3s2V0ZJKawfHFOCyWH7iBPeIlk/AQqYunLaDX
+	stab2uuaWnF01K+GkYj9eN87mBlR+J2PpDz8Mwxocogw1WnSFjd9IyAwZ+oUrqlL/eKx
+	gwdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hYSo0raqgLduAqDksLNRfAOIlk13IVif3W6lp6bMKxk=;
+	b=p8F1ZBrdpyGg1kNwwgPpfLgydDy6Xy3UdUkqiyMmaB7Wiv0UkC7z5U4EhoAC8TpTnD
+	6FA1vLM17lmuhWiMjvJJerBCmhQxIwhJhlYmUsMV64L9s3UF/TKnLQGiqES2qHb1onuq
+	KcQVdbEaJ9nRq3mW4a/Ka5Sc0pwkVWANcLSJHDntnqD+XiygYlsLWq/YMfM3B9YzAx75
+	K1W/r7Zj7X2kxU0oSc8RlFIjKNuvmztXW4+JfJv7M7uweqd9RuwPpeX79jAU0r0fMQiG
+	6Eq3u+0oc+DCt+ba/TSsD6BykkWUgJvB8Th5qdcZbDTUI+5IenFeqLOEooXDRB3T0+v2
+	fwzg==
+X-Gm-Message-State: APjAAAXJgCJ8htQKYdILGkrgPhiMjk8fJ4K/qdAVfdKon3+GBYf4iElL
+	lbhLIEsT4cz0CL0Fx4w/9A/uPPTGhgI=
+X-Google-Smtp-Source: APXvYqxpmipYAvyxUmrXLoQjfRC1dTO1OxCLGuPuNU1Tjt15sW/aTDH3ai6w2/FfOWsKLuFyogncnw==
+X-Received: by 2002:a1c:eb17:: with SMTP id j23mr524555wmh.86.1551829098249;
+	Tue, 05 Mar 2019 15:38:18 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z129sm118745wmc.33.2019.03.05.15.38.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Mar 2019 15:38:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Mar 2019 23:38:15 +0000
+Message-Id: <20190305233815.15306-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,45 +56,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 23:11:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E858414D59D45344A4D46625F6775A98@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 05 Mar 2019 23:38:18 -0000
 
-UUEtY2hlY2sgbG9va3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50byBj
-b25zaWRlcmF0aW9uIHRoYXQgYQ0Kc3BlY2lmaWMgcGFja2FnZSBtYXkgaGF2ZSBhIFBSRUZFUlJF
-RF9SUFJPVklERVIgZGVmaW5lZC4NCklmIFBSRUZFUlJFRF9SUFJPVklERVIgaXMgc2V0LCBRQS1j
-aGVjayB3aWxsIGlnbm9yZSB0aGF0IHNldHRpbmdzIGFuZCB3aWxsDQpjb25zaWRlciB0aGUgb3Jp
-Z2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoNCglFUlJPUjogZG9f
-cGFja2F0ZV9xYTogUUEgSXNzdWU6IDwuLi4+LCBidXQgbm8gcHJvdmlkZXJzIGZvdW5kIGluDQoJ
-UkRFUEVORFNfPHBhY2thZ2U+PyBbZmlsZS1yZGVwc10NClRoZSBmaXggaXMgdG8gcmVwbGFjZSB0
-aGUgb3JpZ2luYWwgcGFja2FnZSBpbiB0aGUgUUEtY2hlY2sgd2l0aCB0aGUgbmV3DQpwYWNrYWdl
-IGRlZmluZWQgaW4gUFJFRkVSUkVEX1JQUk9WSURFUiwgaWYgaXTigJlzIHNldC4NCg0KU2lnbmVk
-LW9mZi1ieTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+DQotLS0NCiBt
-ZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgfCA2ICsrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA2
-IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFz
-cyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KaW5kZXggNjQxMTg4NC4uMTY1MjMzYiAx
-MDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFz
-c2VzL2luc2FuZS5iYmNsYXNzDQpAQCAtNjg5LDYgKzY4OSw5IEBAIGRlZiBwYWNrYWdlX3FhX2No
-ZWNrX3JkZXBlbmRzKHBrZywgcGtnZGVzdCwgc2tpcCwgdGFza2RlcHMsIHBhY2thZ2VzLCBkKToN
-CiAgICAgICAgICMgTm93IGRvIHRoZSBzYW5pdHkgY2hlY2shISENCiAgICAgICAgIGlmICJidWls
-ZC1kZXBzIiBub3QgaW4gc2tpcDoNCiAgICAgICAgICAgICBmb3IgcmRlcGVuZCBpbiByZGVwZW5k
-czoNCisgICAgICAgICAgICAgICAgcHJlZl9yZGVwZW5kID0gbG9jYWxkYXRhLmdldFZhcigiUFJF
-RkVSUkVEX1JQUk9WSURFUl8lcyIgJSByZGVwZW5kKQ0KKyAgICAgICAgICAgICAgICBpZiBwcmVm
-X3JkZXBlbmQ6DQorICAgICAgICAgICAgICAgICAgICByZGVwZW5kID0gcHJlZl9yZGVwZW5kDQog
-ICAgICAgICAgICAgICAgIGlmICItZGJnIiBpbiByZGVwZW5kIGFuZCAiZGVidWctZGVwcyIgbm90
-IGluIHNraXA6DQogICAgICAgICAgICAgICAgICAgICBlcnJvcl9tc2cgPSAiJXMgcmRlcGVuZHMg
-b24gJXMiICUgKHBrZyxyZGVwZW5kKQ0KICAgICAgICAgICAgICAgICAgICAgcGFja2FnZV9xYV9o
-YW5kbGVfZXJyb3IoImRlYnVnLWRlcHMiLCBlcnJvcl9tc2csIGQpDQpAQCAtNzM5LDYgKzc0Miw5
-IEBAIGRlZiBwYWNrYWdlX3FhX2NoZWNrX3JkZXBlbmRzKHBrZywgcGtnZGVzdCwgc2tpcCwgdGFz
-a2RlcHMsIHBhY2thZ2VzLCBkKToNCiAgICAgICAgICAgICAgICAgd2hpbGUgbmV4dDoNCiAgICAg
-ICAgICAgICAgICAgICAgIG5ldyA9IFtdDQogICAgICAgICAgICAgICAgICAgICBmb3IgcmRlcCBp
-biBuZXh0Og0KKyAgICAgICAgICAgICAgICAgICAgICAgIHByZWZfcmRlcCA9IGxvY2FsZGF0YS5n
-ZXRWYXIoIlBSRUZFUlJFRF9SUFJPVklERVJfJXMiICUgcmRlcCkNCisgICAgICAgICAgICAgICAg
-ICAgICAgICBpZiBwcmVmX3JkZXA6DQorICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJkZXAg
-PSBwcmVmX3JkZXANCiAgICAgICAgICAgICAgICAgICAgICAgICByZGVwX2RhdGEgPSBvZS5wYWNr
-YWdlZGF0YS5yZWFkX3N1YnBrZ2RhdGEocmRlcCwgZCkNCiAgICAgICAgICAgICAgICAgICAgICAg
-ICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0KCJSREVQRU5EU18iICsgcmRlcCkNCiAgICAgICAg
-ICAgICAgICAgICAgICAgICBpZiBub3Qgc3ViX3JkZXBzOg0KLS0gDQoyLjcuNA0KDQo=
+CVE-2018-19876 is a backport from upstream.
+
+CVE-2019-6461 and CVE-2019-6462 are patches taken from Clear Linux.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../cairo/cairo/CVE-2018-19876.patch               | 34 ++++++++++++++++++++++
+ .../cairo/cairo/CVE-2019-6461.patch                | 19 ++++++++++++
+ .../cairo/cairo/CVE-2019-6462.patch                | 20 +++++++++++++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb        |  3 ++
+ 4 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+new file mode 100644
+index 00000000000..4252a5663b9
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+@@ -0,0 +1,34 @@
++CVE: CVE-2018-19876
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
++From: Carlos Garcia Campos <cgarcia@igalia.com>
++Date: Mon, 19 Nov 2018 12:33:07 +0100
++Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
++ cairo_ft_apply_variations
++
++Fixes a crash when using freetype >= 2.9
++---
++ src/cairo-ft-font.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
++index 325dd61b4..981973f78 100644
++--- a/src/cairo-ft-font.c
+++++ b/src/cairo-ft-font.c
++@@ -2393,7 +2393,11 @@ skip:
++ done:
++         free (coords);
++         free (current_coords);
+++#if HAVE_FT_DONE_MM_VAR
+++        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+++#else
++         free (ft_mm_var);
+++#endif
++     }
++ }
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+new file mode 100644
+index 00000000000..5232cf70c69
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+@@ -0,0 +1,19 @@
++There is a potential infinite-loop in function _arc_error_normalized().
++
++CVE: CVE-2019-6461
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++index 390397bae..f9249dbeb 100644
++--- a/src/cairo-arc.c
+++++ b/src/cairo-arc.c
++@@ -99,7 +99,7 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
++     do {
++ 	angle = M_PI / i++;
++ 	error = _arc_error_normalized (angle);
++-    } while (error > tolerance);
+++    } while (error > tolerance && error > __DBL_EPSILON__);
++ 
++     return angle;
++ }
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+new file mode 100644
+index 00000000000..4e4598c5b5d
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+@@ -0,0 +1,20 @@
++There is an assertion in function _cairo_arc_in_direction().
++
++CVE: CVE-2019-6462
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++index 390397bae..1bde774a4 100644
++--- a/src/cairo-arc.c
+++++ b/src/cairo-arc.c
++@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
++     if (cairo_status (cr))
++         return;
++ 
++-    assert (angle_max >= angle_min);
+++    if (angle_max < angle_min)
+++       return;
++ 
++     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++ 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index cdef023198f..c2628ae0ca0 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -24,6 +24,9 @@ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
++           file://CVE-2018-19876.patch \
++           file://CVE-2019-6461.patch \
++           file://CVE-2019-6462.patch \
+           "
+ 
+ SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+-- 
+2.11.0
+
 
