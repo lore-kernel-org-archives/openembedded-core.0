@@ -1,53 +1,49 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id BEB126D458
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C677279D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 15:48:21 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id q17so5991765pfh.10
+	Tue,  5 Mar 2019 16:30:08 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id d17so10167218wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 07:48:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=sELEXNYLFTA8LYAiNeYsSfbWJxY5ZuDk2rOqUjzX7f8=;
-	b=HLXmgLYsYMg+fOuSYDlm12LiZYt/ms5NWnLyZvovOYZuJnyVO3mx9Chku6mSuD3mls
-	BPhIjSX1xTvnp26BjRioLo1vbjUYgZiavhpBLakr5iGKgLGL1tMlv4JU1OnRVRm44oih
-	9FntEpt82NSoUEd9WSC7+cFnQDzjdb2Btm37Npkcodfol4iE3KKpRCpsvxH8gjR2NlrY
-	h4R6Vv1tFDk9Eq4rttxIeQsuSowA3nmdjPnIrD6hdBKzJ8jV1iLXIQo8TUIeIsBSTM+u
-	5h+SEc9LuJcECWBpzz+gBBdzhe5EapCbU9XtAWMsAGZ6tzpSt9/Ahkqwhg4RDGkjX8mO
-	mMsQ==
+	Tue, 05 Mar 2019 08:30:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=AzjwfhS2LMbD7YDU/bKz46TSQIqAQXqPz6sZcUfCJPY=;
+	b=SDRn8Sc9fUDrUFYPogTnJhiVPU74p5mYzIS5UOvck6swHK/kcROpEW4yls2OCixYAS
+	wGgsnqxESw/GXU/YtkHDmvd6QrpYhwNm2rjjSOq6DuN6Rvp2Q3LbYUgPM8ffM5XoGvvd
+	k7SIdnK6MaSbOTn4g+9X3zBMbIGznuJD1jmwVsfRAm9TQrc806n+KitocZQ48bLd2vab
+	G9p5+F8Ofi+bYCgRGxhQ9fXWtBi8KNwlXsDHp4/gp3Z6XKlOtjZ1o1IZPe01dosXAqEp
+	L/16olxj07C/N46y8ELfK3Ea3LpQqziXqJSpcTSVyYu6ksVjLZ+oB9D8xnKjoEOkE57a
+	tZEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=sELEXNYLFTA8LYAiNeYsSfbWJxY5ZuDk2rOqUjzX7f8=;
-	b=DryqYcZGfdWGlRqPcpIA1oLysAOak1OGRB5CwE1RfJ0y+4lWbSe/GuoxzPFupMxE9z
-	eHLT3fpdkoloP3qdKtABnwZOvFh1vM0RxVso9WNr9PvRJHpZURPl53MxkjELppl2u0/s
-	XIjbiPtgKtP2agVI/9SaW7zYVnxP6azBL9w2Qx7A0d4x8YwkV0Ub4byn8rERVqSc8t98
-	Jl2PaZ07Fo+d6vMxl/pt9DXw6PKotP+elE4+SdloMHWulX7SDlpeleCLfmvWcm2yaxb6
-	lPuANz/vDgpLeKf6SOuO5drf+QIzoY6jOfXCFTCHpu8m3Kc8T/+7/PyX6UgV7exGcKgB
-	C6lQ==
-X-Gm-Message-State: APjAAAV5hTn/L/POvUY4x8aoW7GTBeiKZmoObcLC0HKe9qCjo6I/HQR6
-	UamfLu6TcD2Qi5MG6+NHxoyXKwj2
-X-Google-Smtp-Source: APXvYqzO5M70GyeTDyleOpYCHzZGu+xkb+/W1dGQHBhGhZ5pjB+tAv70WJ2pwjH+yrACMJUqjgB/Rg==
-X-Received: by 2002:a17:902:4c08:: with SMTP id
-	a8mr1872873ple.294.1551800902550; 
-	Tue, 05 Mar 2019 07:48:22 -0800 (PST)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	h3sm10747457pgv.38.2019.03.05.07.48.21
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=AzjwfhS2LMbD7YDU/bKz46TSQIqAQXqPz6sZcUfCJPY=;
+	b=Fd8YlA3CZEneRElDyl0fGFnXAn9WRziE5rToMc6AfoXa29rZVhgcLfH9IYUn0wjKWb
+	S3re0z6PYzl3GTOugiUZHsUWKCCQe6nslM8DlvWGMF+bf/3x+ut0DiqDZ8uUPeUdZH8i
+	zSD5gIjP14yrv09z53CaNgH8nqlbVzAxv7Kp/JCeKEE1jk23RPY3u00dbOIETIleUWvu
+	h/D4RnuO9L0HeME4QZVcrqxaHmj0LcRBx5MRKFhIBojowLXe0Wbiv16geuFpT5jHRQB9
+	9DX+s4AXJN8CW02e7oWToh/VOmfEGhxM8n+JXUfiA8n8Jn6YYYXiOyfnLEtnuIz9aMfS
+	J54Q==
+X-Gm-Message-State: APjAAAUxCbAK6QiraGn+/o64olTZ70txqeynJ516BbZI6IwEE5TlNrwa
+	1XMhTcq37Pn3rdtfwZDDkeSYNbhoTI4=
+X-Google-Smtp-Source: APXvYqyXLm7fnTWrxbqTR08+i63Za9wCuX2FGpnThMdr6YbKJ2A4pf9ytnnZCmjGSAFK2y9IizDhXg==
+X-Received: by 2002:adf:d08d:: with SMTP id y13mr15374957wrh.99.1551803408878; 
+	Tue, 05 Mar 2019 08:30:08 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e6sm10511265wrt.14.2019.03.05.08.30.07
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Mar 2019 07:48:21 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Mar 2019 07:48:20 -0800
-Message-ID: <01a501d4d36a$dc4bdb60$94e39220$@gmail.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdTTasVDOc9xqtQiTBaCfl2KyfXNBg==
-Subject: Yocto Project Status WW10'19
+	Tue, 05 Mar 2019 08:30:08 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Mar 2019 16:29:59 +0000
+Message-Id: <20190305163003.16745-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/5] libsndfile1: update security patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,1260 +56,406 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 15:48:21 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_01A6_01D4D327.CE2A4910"
-Content-Language: en-us
+X-List-Received-Date: Tue, 05 Mar 2019 16:30:09 -0000
 
-------=_NextPart_000_01A6_01D4D327.CE2A4910
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Remove CVE-2017-14245-14246.patch, fix rejected upstream as it doesn't solve the
+underlying issue.
 
-Current Dev Position: YP 2.7 M3 (New feature Freeze has begun.)
+Instead 0001-a-ulaw-fix-multiple-buffer-overflows-432 also solves CVE-2017-14245
+and CVE-2017-14246 properly.
 
-Next Deadline: YP 2.7 M3 Cutoff was Feb. 25, 2019
+Add patches for CVE-2017-12562 and CVE-2018-19758.
 
+Refresh CVE-2018-13139.patch.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...-a-ulaw-fix-multiple-buffer-overflows-432.patch |  18 ++-
+ .../libsndfile/libsndfile1/CVE-2017-12562.patch    |  96 ++++++++++++++++
+ .../libsndfile1/CVE-2017-14245-14246.patch         | 121 ---------------------
+ .../libsndfile/libsndfile1/CVE-2018-13139.patch    |  30 ++---
+ .../libsndfile/libsndfile1/CVE-2018-19758.patch    |  34 ++++++
+ .../libsndfile/libsndfile1_1.0.28.bb               |   3 +-
+ 6 files changed, 160 insertions(+), 142 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-12562.patch
+ delete mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19758.patch
+
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
+index c3f44ca235b..a4679cef2a0 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-a-ulaw-fix-multiple-buffer-overflows-432.patch
+@@ -1,3 +1,15 @@
++This patch fixes #429 (CVE-2018-19661 CVE-2018-19662) and #344 (CVE-2017-17456
++CVE-2017-17457). As per
++https://github.com/erikd/libsndfile/issues/344#issuecomment-448504425 it also
++fixes #317 (CVE-2017-14245 CVE-2017-14246).
++
++CVE: CVE-2017-14245 CVE-2017-14246
++CVE: CVE-2017-17456 CVE-2017-17457
++CVE: CVE-2018-19661 CVE-2018-19662
++
++Upstream-Status: Backport [8ddc442d539ca775d80cdbc7af17a718634a743f]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
+ From 39453899fe1bb39b2e041fdf51a85aecd177e9c7 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Mon, 7 Jan 2019 15:55:03 +0800
+@@ -17,12 +29,6 @@ In this case, arbitrarily set the buffer value to 0.
+ This commit fixes #429 (CVE-2018-19661 and CVE-2018-19662) and
+ fixes #344 (CVE-2017-17456 and CVE-2017-17457).
  
-
-SWAT Team Rotation:
-
-*	SWAT lead is currently: Ross
-*	SWAT team rotation: Chen -> Anuj on Mar. 8, 2019
-*	SWAT team rotation: Anuj -> Armin on Mar. 15, 2019
-*	 <https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team>
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
+-Upstream-Status: Backport[https://github.com/erikd/libsndfile/
+-commit/585cc28a93be27d6938f276af0011401b9f7c0ca]
+-
+-CVE: CVE-2017-17456 CVE-2017-17457 CVE-2018-19661 CVE-2018-19662
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+ ---
+  src/alaw.c | 9 +++++++--
+  src/ulaw.c | 9 +++++++--
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-12562.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-12562.patch
+new file mode 100644
+index 00000000000..491dae31148
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-12562.patch
+@@ -0,0 +1,96 @@
++Heap-based Buffer Overflow in the psf_binheader_writef function in common.c in
++libsndfile through 1.0.28 allows remote attackers to cause a denial of service
++(application crash) or possibly have unspecified other impact.
++
++CVE: CVE-2017-12562
++Upstream-Status: Backport [cf7a8182c2642c50f1cf90dddea9ce96a8bad2e8]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From b6a9d7e95888ffa77d8c75ce3f03e6c7165587cd Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=B6rn=20Heusipp?= <osmanx@problemloesungsmaschine.de>
++Date: Wed, 14 Jun 2017 12:25:40 +0200
++Subject: [PATCH] src/common.c: Fix heap buffer overflows when writing strings
++ in binheader
++
++Fixes the following problems:
++ 1. Case 's' only enlarges the buffer by 16 bytes instead of size bytes.
++ 2. psf_binheader_writef() enlarges the header buffer (if needed) prior to the
++    big switch statement by an amount (16 bytes) which is enough for all cases
++    where only a single value gets added. Cases 's', 'S', 'p' however
++    additionally write an arbitrary length block of data and again enlarge the
++    buffer to the required amount. However, the required space calculation does
++    not take into account the size of the length field which gets output before
++    the data.
++ 3. Buffer size requirement calculation in case 'S' does not account for the
++    padding byte ("size += (size & 1) ;" happens after the calculation which
++    uses "size").
++ 4. Case 'S' can overrun the header buffer by 1 byte when no padding is
++    involved
++    ("memcpy (&(psf->header.ptr [psf->header.indx]), strptr, size + 1) ;" while
++    the buffer is only guaranteed to have "size" space available).
++ 5. "psf->header.ptr [psf->header.indx] = 0 ;" in case 'S' always writes 1 byte
++    beyond the space which is guaranteed to be allocated in the header buffer.
++ 6. Case 's' can overrun the provided source string by 1 byte if padding is
++    involved ("memcpy (&(psf->header.ptr [psf->header.indx]), strptr, size) ;"
++    where "size" is "strlen (strptr) + 1" (which includes the 0 terminator,
++    plus optionally another 1 which is padding and not guaranteed to be
++    readable via the source string pointer).
++
++Closes: https://github.com/erikd/libsndfile/issues/292
++---
++ src/common.c | 15 +++++++--------
++ 1 file changed, 7 insertions(+), 8 deletions(-)
++
++diff --git a/src/common.c b/src/common.c
++index 1a6204ca..6b2a2ee9 100644
++--- a/src/common.c
+++++ b/src/common.c
++@@ -681,16 +681,16 @@ psf_binheader_writef (SF_PRIVATE *psf, const char *format, ...)
++ 					/* Write a C string (guaranteed to have a zero terminator). */
++ 					strptr = va_arg (argptr, char *) ;
++ 					size = strlen (strptr) + 1 ;
++-					size += (size & 1) ;
++ 
++-					if (psf->header.indx + (sf_count_t) size >= psf->header.len && psf_bump_header_allocation (psf, 16))
+++					if (psf->header.indx + 4 + (sf_count_t) size + (sf_count_t) (size & 1) > psf->header.len && psf_bump_header_allocation (psf, 4 + size + (size & 1)))
++ 						return count ;
++ 
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++-						header_put_be_int (psf, size) ;
+++						header_put_be_int (psf, size + (size & 1)) ;
++ 					else
++-						header_put_le_int (psf, size) ;
+++						header_put_le_int (psf, size + (size & 1)) ;
++ 					memcpy (&(psf->header.ptr [psf->header.indx]), strptr, size) ;
+++					size += (size & 1) ;
++ 					psf->header.indx += size ;
++ 					psf->header.ptr [psf->header.indx - 1] = 0 ;
++ 					count += 4 + size ;
++@@ -703,16 +703,15 @@ psf_binheader_writef (SF_PRIVATE *psf, const char *format, ...)
++ 					*/
++ 					strptr = va_arg (argptr, char *) ;
++ 					size = strlen (strptr) ;
++-					if (psf->header.indx + (sf_count_t) size > psf->header.len && psf_bump_header_allocation (psf, size))
+++					if (psf->header.indx + 4 + (sf_count_t) size + (sf_count_t) (size & 1) > psf->header.len && psf_bump_header_allocation (psf, 4 + size + (size & 1)))
++ 						return count ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						header_put_be_int (psf, size) ;
++ 					else
++ 						header_put_le_int (psf, size) ;
++-					memcpy (&(psf->header.ptr [psf->header.indx]), strptr, size + 1) ;
+++					memcpy (&(psf->header.ptr [psf->header.indx]), strptr, size + (size & 1)) ;
++ 					size += (size & 1) ;
++ 					psf->header.indx += size ;
++-					psf->header.ptr [psf->header.indx] = 0 ;
++ 					count += 4 + size ;
++ 					break ;
++ 
++@@ -724,7 +723,7 @@ psf_binheader_writef (SF_PRIVATE *psf, const char *format, ...)
++ 					size = (size & 1) ? size : size + 1 ;
++ 					size = (size > 254) ? 254 : size ;
++ 
++-					if (psf->header.indx + (sf_count_t) size > psf->header.len && psf_bump_header_allocation (psf, size))
+++					if (psf->header.indx + 1 + (sf_count_t) size > psf->header.len && psf_bump_header_allocation (psf, 1 + size))
++ 						return count ;
++ 
++ 					header_put_byte (psf, size) ;
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
+deleted file mode 100644
+index a17ec21f986..00000000000
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-14245-14246.patch
++++ /dev/null
+@@ -1,121 +0,0 @@
+-From 2d54514a4f6437b67829717c05472d2e3300a258 Mon Sep 17 00:00:00 2001
+-From: Fabian Greffrath <fabian@greffrath.com>
+-Date: Wed, 27 Sep 2017 14:46:17 +0200
+-Subject: [PATCH] sfe_copy_data_fp: check value of "max" variable for being
+- normal
+-
+-and check elements of the data[] array for being finite.
+-
+-Both checks use functions provided by the <math.h> header as declared
+-by the C99 standard.
+-
+-Fixes #317
+-CVE: CVE-2017-14245
+-CVE: CVE-2017-14246
+-
+-Upstream-Status: Backport [https://github.com/fabiangreffrath/libsndfile/commit/2d54514a4f6437b67829717c05472d2e3300a258]
+-
+-Signed-off-by: Fabian Greffrath <fabian@greffrath.com>
+-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+----
+- programs/common.c          | 20 ++++++++++++++++----
+- programs/common.h          |  2 +-
+- programs/sndfile-convert.c |  6 +++++-
+- 3 files changed, 22 insertions(+), 6 deletions(-)
+-
+-diff --git a/programs/common.c b/programs/common.c
+-index a21e62c..a249a58 100644
+---- a/programs/common.c
+-+++ b/programs/common.c
+-@@ -36,6 +36,7 @@
+- #include <string.h>
+- #include <ctype.h>
+- #include <stdint.h>
+-+#include <math.h>
+- 
+- #include <sndfile.h>
+- 
+-@@ -45,7 +46,7 @@
+- 
+- #define	MIN(x, y)	((x) < (y) ? (x) : (y))
+- 
+--void
+-+int
+- sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize)
+- {	static double	data [BUFFER_LEN], max ;
+- 	int		frames, readcount, k ;
+-@@ -54,6 +55,8 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
+- 	readcount = frames ;
+- 
+- 	sf_command (infile, SFC_CALC_SIGNAL_MAX, &max, sizeof (max)) ;
+-+	if (!isnormal (max)) /* neither zero, subnormal, infinite, nor NaN */
+-+		return 1 ;
+- 
+- 	if (!normalize && max < 1.0)
+- 	{	while (readcount > 0)
+-@@ -67,12 +70,16 @@ sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize
+- 		while (readcount > 0)
+- 		{	readcount = sf_readf_double (infile, data, frames) ;
+- 			for (k = 0 ; k < readcount * channels ; k++)
+--				data [k] /= max ;
+-+			{	data [k] /= max ;
+-+
+-+				if (!isfinite (data [k])) /* infinite or NaN */
+-+					return 1;
+-+				}
+- 			sf_writef_double (outfile, data, readcount) ;
+- 			} ;
+- 		} ;
+- 
+--	return ;
+-+	return 0 ;
+- } /* sfe_copy_data_fp */
+- 
+- void
+-@@ -252,7 +259,12 @@ sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * in
+- 
+- 		/* If the input file is not the same as the output file, copy the data. */
+- 		if ((infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT))
+--			sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) ;
+-+		{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, SF_FALSE) != 0)
+-+			{	printf ("Error : Not able to decode input file '%s'\n", filenames [0]) ;
+-+				error_code = 1 ;
+-+				goto cleanup_exit ;
+-+				} ;
+-+			}
+- 		else
+- 			sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
+- 		} ;
+-diff --git a/programs/common.h b/programs/common.h
+-index eda2d7d..986277e 100644
+---- a/programs/common.h
+-+++ b/programs/common.h
+-@@ -62,7 +62,7 @@ typedef SF_BROADCAST_INFO_VAR (2048) SF_BROADCAST_INFO_2K ;
+- 
+- void sfe_apply_metadata_changes (const char * filenames [2], const METADATA_INFO * info) ;
+- 
+--void sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
+-+int sfe_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize) ;
+- 
+- void sfe_copy_data_int (SNDFILE *outfile, SNDFILE *infile, int channels) ;
+- 
+-diff --git a/programs/sndfile-convert.c b/programs/sndfile-convert.c
+-index dff7f79..e6de593 100644
+---- a/programs/sndfile-convert.c
+-+++ b/programs/sndfile-convert.c
+-@@ -335,7 +335,11 @@ main (int argc, char * argv [])
+- 			|| (outfileminor == SF_FORMAT_DOUBLE) || (outfileminor == SF_FORMAT_FLOAT)
+- 			|| (infileminor == SF_FORMAT_DOUBLE) || (infileminor == SF_FORMAT_FLOAT)
+- 			|| (infileminor == SF_FORMAT_VORBIS) || (outfileminor == SF_FORMAT_VORBIS))
+--		sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) ;
+-+	{	if (sfe_copy_data_fp (outfile, infile, sfinfo.channels, normalize) != 0)
+-+		{	printf ("Error : Not able to decode input file %s.\n", infilename) ;
+-+			return 1 ;
+-+			} ;
+-+		}
+- 	else
+- 		sfe_copy_data_int (outfile, infile, sfinfo.channels) ;
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-13139.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-13139.patch
+index 4ae3674df15..707373d4140 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-13139.patch
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-13139.patch
+@@ -1,23 +1,25 @@
+-From 5473aeef7875e54bd0f786fbdd259a35aaee875c Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Wed, 10 Oct 2018 08:59:30 +0800
+-Subject: [PATCH] libsndfile1: patch for CVE-2018-13139
++CVE: CVE-2018-13139
++Upstream-Status: Backport [9dc989eb89cd697e19897afa616d6ab0debe4822]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
  
-
-Key Status/Updates:
-
-*	YP 2.7 M2 rc2 is being released today Mar. 5, 2019.
-*	YP 2.7 M3 has not yet been built but progress has been made in
-resolving several issues:
-
-*	bug 13178 "X server and matchbox desktop don't start up properly on
-beaglebone" was fixed
-*	multiconfig bugs have been fixed and a test case added
-*	qemu virgl code and selftests have been added (not enabled as
-default)
-*	qemu native build was split into user and system components
-*	lttng-tools ptest timeout fixed
-*	systemd version upgrade
-*	ltp recipe version upgrade
-*	perl ptest regressions fixed
-
-*	The list of remaining potential items for M3 is:
-
-*	5.0 linux kernel (and libc headers) (Bruce)
-*	qemuarm to v7 changes (Jon)
-*	Aarch64 build host support finalization (Jon)
-*	Busybox 'full' utility replacement (Tom)
-
-*	YP 2.5.3 is nearly ready for building however the autobuilder-helper
-changes need to be resolved for the stable branches, as do the resulttool
-changes in master to move to the new QA process.
-
+-Upstream-Status: Backport [https://github.com/bwarden/libsndfile/
+-commit/df18323c622b54221ee7ace74b177cdcccc152d7]
++From 9dc989eb89cd697e19897afa616d6ab0debe4822 Mon Sep 17 00:00:00 2001
++From: "Brett T. Warden" <brett.t.warden@intel.com>
++Date: Tue, 28 Aug 2018 12:01:17 -0700
++Subject: [PATCH] Check MAX_CHANNELS in sndfile-deinterleave
  
-
-Planned Releases for YP 2.7:
-
-*	YP 2.7 M2 Released Mar. 5, 2019
-*	YP 2.7 M3 Cutoff is Feb. 25, 2019
-*	YP 2.7 M3 Release Target is Mar. 8, 2019
-*	YP 2.7 M4 Cutoff is Apr. 1, 2019
-*	YP 2.7 M4 Release Target is Apr. 26, 2019
-
+-CVE: CVE-2018-13139
++Allocated buffer has space for only 16 channels. Verify that input file
++meets this limit.
  
-
-Planned upcoming dot releases:
-
-*	YP 2.5.3 (Sumo) will be targeted after YP 2.7 M2 is done.
-*	YP 2.5.4 (Sumo) will be targeted after YP 2.7 M4 is done.
-*	YP 2.6.2 (Thud) will be targeted after YP 2.5.4 is done.
-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Fixes #397
+ ---
+- programs/sndfile-deinterleave.c | 6 ++++++
+- 1 file changed, 6 insertions(+)
++ programs/sndfile-deinterleave.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
  
-
-Tracking Metrics:
-
-*	WDD 2436 (last week 2415) (
-<https://wiki.yoctoproject.org/charts/combo.html>
-https://wiki.yoctoproject.org/charts/combo.html)
-*	Poky Patch Metrics  
-
-*	Total patches found: 1502 (last week 1516)
-*	Patches in the Pending State: 658 (44%) [last week 660 (44%)]
-
+ diff --git a/programs/sndfile-deinterleave.c b/programs/sndfile-deinterleave.c
+-index e27593e..721bee7 100644
++index e27593e2..cb497e1f 100644
+ --- a/programs/sndfile-deinterleave.c
+ +++ b/programs/sndfile-deinterleave.c
+-@@ -89,6 +89,12 @@ main (int argc, char **argv)
++@@ -89,6 +89,13 @@ main (int argc, char **argv)
+  		exit (1) ;
+  		} ;
+  
+@@ -27,9 +29,9 @@ index e27593e..721bee7 100644
+ +		exit (1) ;
+ +		} ;
+ +
+++
+  	state.channels = sfinfo.channels ;
+  	sfinfo.channels = 1 ;
+  
+ -- 
+-2.7.4
+-
++2.11.0
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19758.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19758.patch
+new file mode 100644
+index 00000000000..c3586f9dfc8
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2018-19758.patch
+@@ -0,0 +1,34 @@
++There is a heap-based buffer over-read at wav.c in wav_write_header in
++libsndfile 1.0.28 that will cause a denial of service.
++
++CVE: CVE-2018-19758
++Upstream-Status: Backport [42132c543358cee9f7c3e9e9b15bb6c1063a608e]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From c12173b0197dd0c5cfa2cd27977e982d2ae59486 Mon Sep 17 00:00:00 2001
++From: Erik de Castro Lopo <erikd@mega-nerd.com>
++Date: Tue, 1 Jan 2019 20:11:46 +1100
++Subject: [PATCH] src/wav.c: Fix heap read overflow
++
++This is CVE-2018-19758.
++
++Closes: https://github.com/erikd/libsndfile/issues/435
++---
++ src/wav.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/wav.c b/src/wav.c
++index e8405b55..6fb94ae8 100644
++--- a/src/wav.c
+++++ b/src/wav.c
++@@ -1094,6 +1094,8 @@ wav_write_header (SF_PRIVATE *psf, int calc_length)
++ 		psf_binheader_writef (psf, "44", 0, 0) ; /* SMTPE format */
++ 		psf_binheader_writef (psf, "44", psf->instrument->loop_count, 0) ;
++ 
+++		/* Loop count is signed 16 bit number so we limit it range to something sensible. */
+++		psf->instrument->loop_count &= 0x7fff ;
++ 		for (tmp = 0 ; tmp < psf->instrument->loop_count ; tmp++)
++ 		{	int type ;
++ 
++-- 
++2.11.0
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 9700f4a6e75..eb2c719d8da 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -10,11 +10,12 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-8361-8365.patch \
+            file://CVE-2017-8362.patch \
+            file://CVE-2017-8363.patch \
+-           file://CVE-2017-14245-14246.patch \
+            file://CVE-2017-14634.patch \
+            file://CVE-2018-13139.patch \
+            file://0001-a-ulaw-fix-multiple-buffer-overflows-432.patch \
+            file://CVE-2018-19432.patch \
++           file://CVE-2017-12562.patch \
++           file://CVE-2018-19758.patch \
+           "
  
-
-Key Status Links for YP:
-
- <https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status>
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status
-
- <https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule>
-https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule
-
- <https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features>
-https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features
-
- 
-
-The Status reports are now stored on the wiki at:
-<https://wiki.yoctoproject.org/wiki/Weekly_Status>
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
- 
-
-[If anyone has suggestions for other information you'd like to see on this
-weekly status update, let us know!]
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Project Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+-- 
+2.11.0
 
 
-------=_NextPart_000_01A6_01D4D327.CE2A4910
-Content-Type: text/html;
-	boundary="----=_NextPart_000_011E_01D4C829.2F0B6FC0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:540631555;
-	mso-list-template-ids:-1295196822;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:828710203;
-	mso-list-template-ids:1408278992;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:1117334010;
-	mso-list-template-ids:299823270;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:1364329115;
-	mso-list-template-ids:674246342;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4
-	{mso-list-id:1440565146;
-	mso-list-template-ids:730133928;}
-@list l4:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l4:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l4:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5
-	{mso-list-id:1536962225;
-	mso-list-template-ids:-241152408;}
-@list l5:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l5:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l5:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6
-	{mso-list-id:1568346930;
-	mso-list-template-ids:613966294;}
-@list l6:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l6:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l6:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7
-	{mso-list-id:1705906403;
-	mso-list-template-ids:793656710;}
-@list l7:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l7:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l7:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8
-	{mso-list-id:1880779589;
-	mso-list-template-ids:-362358154;}
-@list l8:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l8:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l8:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9
-	{mso-list-id:1947423152;
-	mso-list-template-ids:26767430;}
-@list l9:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l9:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l9:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
-Position: YP 2.7 M3 (New feature Freeze has =
-begun.)</span><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
-2.7 M3 Cutoff was Feb. 25, 2019</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>SWAT Team =
-Rotation:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l2 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>SWAT lead is currently: =
-Ross<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l2 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Chen -&gt; =
-Anuj on Mar. 8, 2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l2 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Anuj -&gt; =
-Armin on Mar. 15, 2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l2 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:Consolas'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"=
-><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Yocto_Build_Fa=
-ilure_Swat_Team</span></a><o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Key =
-Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M2 rc2 is being released =
-today Mar. 5, 2019.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M3 has not yet been =
-built but progress has been made in resolving several =
-issues:<o:p></o:p></span></li><ul style=3D'margin-top:0in' =
-type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>bug 13178 &#8220;X server and =
-matchbox desktop don't start up properly on beaglebone&#8221; was =
-fixed<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>multiconfig bugs have been =
-fixed and a test case added<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>qemu virgl code and selftests =
-have been added (not enabled as default)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>qemu native build was split =
-into user and system components<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>lttng-tools ptest timeout =
-fixed<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>systemd version =
-upgrade<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>ltp recipe version =
-upgrade<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>perl ptest regressions =
-fixed<o:p></o:p></span></li></ul><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>The list of remaining potential =
-items for M3 is:<o:p></o:p></span></li><ul style=3D'margin-top:0in' =
-type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>5.0 linux kernel (and libc =
-headers) (Bruce)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>qemuarm to v7 changes =
-(Jon)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Aarch64 build host support =
-finalization (Jon)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Busybox &#8216;full&#8217; =
-utility replacement (Tom)<o:p></o:p></span></li></ul><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.5.3 is nearly ready for =
-building however the autobuilder-helper changes need to be resolved for =
-the stable branches, as do the resulttool changes in master to move to =
-the new QA process.<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Planned Releases =
-for YP 2.7:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M2 Released Mar. 5, =
-2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M3 Cutoff is Feb. 25, =
-2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M3 Release Target is =
-Mar. 8, 2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M4 Cutoff is Apr. 1, =
-2019<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7 M4 Release Target is =
-Apr. 26, 2019<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
-dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.5.3 (Sumo) will be =
-targeted after YP 2.7 M2 is done.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.5.4 (Sumo) will be =
-targeted after YP 2.7 M4 is done.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.6.2 (Thud) will be =
-targeted after YP 2.5.4 is done.<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
-Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l8 level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>WDD 2436 (last week =
-2415)</span><span style=3D'font-family:Consolas'> (</span><span =
-style=3D'font-family:"Arial",sans-serif'><a =
-href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
-span></a></span><span style=3D'font-family:Consolas'>)</span><span =
-style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l8 level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Poky Patch Metrics =
-&nbsp;</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
-style=3D'margin-top:0in' type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l8 level2 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Total patches found: 1502 (last =
-week 1516)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l8 level2 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
-658 (44%) [last week 660 (44%)]</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Key Status Links =
-for YP:</span><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status"><sp=
-an =
-style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
-g/wiki/Yocto_Project_v2.7_Status</span></a><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule"><span =
-style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
-g/wiki/Yocto_2.7_Schedule</span></a><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features"><span =
-style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
-g/wiki/Yocto_2.7_Features</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
-are now stored on the wiki at: </span><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
-suggestions for other information you&#8217;d like to see on this weekly =
-status update, let us know!]</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Project Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_01A6_01D4D327.CE2A4910--
