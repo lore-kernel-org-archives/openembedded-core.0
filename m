@@ -1,102 +1,98 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id AFA8A6C3B1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 16:42:34 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id b2so5988530pgl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 08:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=sZ12lyS+nAzoprSVBfVa345HK0wWfo95A9swPaobEw0=;
-	b=lha6TkXbPbTWUochItulkNrFojKaJXS60e39nXX7LyXKs8Wiq3F1wnao9iK7IoVwzZ
-	Vss7Cth2YEsJpwOTLvaTKROkDADrbZyuGFBUWH9rASFqWZ11giXEdx21NANU3EwRV9x3
-	5tHQi1/dmJQ63I6lv2osHgQP8dnahlGGiit0ll44JZBnMCY4jvSQlvEGW3i/txQHm1HS
-	bpo93LVy0dkSmFMzDygMEcTKQlxwhPkOxOjF0usXtIlzNMXErL9YGBN3LgLRz+IrPXYa
-	Mp8BWWqVdJWIAm0xKuUyE0LBjD9PsaytcdvNvi4BIZUGbcK+YNRapxjfVkIvHhEl4OEi
-	CE/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=sZ12lyS+nAzoprSVBfVa345HK0wWfo95A9swPaobEw0=;
-	b=VHKkcjpuabvFKnD/nmbfYylFp/p3JKjC/jw2hjs8XD9oOHcPTfKJvVFvaD69QX0tGH
-	xUA7/5HhbsKd+qa372jbMIT6kjp2I/JB1gp63fFbmz5x8/rqRV8kpPPszNaWaDlnneaW
-	px5y6pYR0t4mhMsno7JBy+STPCzriXANYTxL7fdfP5iXCPx3N81slqOE+fIXfG8MXYyR
-	bFYs6ruxf4rUJrNs+zYtlPItYKfvMlqhabgnknJlbeWbKCwhZZrQupTPr7SRQWQbfoYp
-	QOTE+QuFevC8f6Zr5cYS0fXOMTaY3s4FGOG4qnTsYoAgwvM775tUcQqXDrde/Gv+xN3I
-	3frQ==
-X-Gm-Message-State: APjAAAUFfI0bIjmp4c+6+jWLa11AGN+fypsJKVOmDhC9GMNH9kbvUYAV
-	RtWvG/0IoiYtb/TKY50eQJDE9NTB
-X-Google-Smtp-Source: APXvYqzX6XSkjCp7pAT1nzocVCW3LsROayBbrZb7mrZrENtrDaHxVsZ5dAD6VWXdsZHDpQiaKPFa3Q==
-X-Received: by 2002:a62:d281:: with SMTP id c123mr2689771pfg.210.1551804155469;
-	Tue, 05 Mar 2019 08:42:35 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:c33:8538:ec23:bf2e:50c7?
-	([2601:202:4180:c33:8538:ec23:bf2e:50c7])
-	by smtp.gmail.com with ESMTPSA id
-	j68sm20179738pfc.64.2019.03.05.08.42.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Mar 2019 08:42:34 -0800 (PST)
-To: Denys Dmytriyenko <denis@denix.org>,
-	openembedded-core@lists.openembedded.org
-References: <1551723073-3036-1-git-send-email-denis@denix.org>
-	<20190305011208.GC20517@denix.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <f126683c-09b3-c86b-f6fe-b95e0f094de0@gmail.com>
-Date: Tue, 5 Mar 2019 08:42:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+Return-Path: <catalin-dan.udma@nxp.com>
+X-Greylist: delayed 10761 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 05 Mar 2019 20:50:32 UTC
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+	(mail-eopbgr80057.outbound.protection.outlook.com [40.107.8.57])
+	by mail.openembedded.org (Postfix) with ESMTP id 04BF06BCD6
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue,  5 Mar 2019 20:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=bHwgvmvACHs8OAzTeYp8yjAYGRdPOtsjVDpEltlh8CI=;
+	b=wE+TJR60q3NqodyKrOtFUYhWjL12I396WIv11IzUHj26rcF9cCEwtGtjhnVvZMD1drnk3WIFxWzAjjWoQRKjJfdAANh4/vpN8LQ8sHHaxD3ZJaQeaKs15FdrJN9amTkikPiMLJwnLnSf5QDSMrHnbl/+q3/h+5yvdomzIabeYvg=
+Received: from VI1PR04MB5565.eurprd04.prod.outlook.com (20.178.123.19) by
+	VI1PR04MB4864.eurprd04.prod.outlook.com (20.177.49.149) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1665.19; Tue, 5 Mar 2019 13:17:09 +0000
+Received: from VI1PR04MB5565.eurprd04.prod.outlook.com
+	([fe80::59ab:7691:ef45:6982]) by
+	VI1PR04MB5565.eurprd04.prod.outlook.com
+	([fe80::59ab:7691:ef45:6982%5]) with mapi id 15.20.1665.020;
+	Tue, 5 Mar 2019 13:17:09 +0000
+From: Catalin Dan Udma <catalin-dan.udma@nxp.com>
+To: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH] insane.bbclass: fix QA-check to consider the
+	PREFERRED_RPROVIDER for RDEPENDS
+Thread-Index: AQHU01W8DCPmdMeQKk++6d+btIBzdA==
+Date: Tue, 5 Mar 2019 13:17:09 +0000
+Message-ID: <1551791816-1060-1-git-send-email-catalin-dan.udma@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.7.4
+x-clientproxiedby: VI1PR07CA0204.eurprd07.prod.outlook.com
+	(2603:10a6:802:3f::28) To VI1PR04MB5565.eurprd04.prod.outlook.com
+	(2603:10a6:803:d4::19)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=catalin-dan.udma@nxp.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [86.34.165.90]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9c7248de-950c-4ff7-7d71-08d6a16cdf0f
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR04MB4864; 
+x-ms-traffictypediagnostic: VI1PR04MB4864:
+x-microsoft-exchange-diagnostics: =?utf-8?B?MTtWSTFQUjA0TUI0ODY0OzIzOmtZaG5rSjJtQVEzS1dQb0N2T09TNmpTSnhi?=
+	=?utf-8?B?UURoV2lRdU5YSU8xTGdBdVBlRkxWV3FrUWpLQU9yZnFmQlAxdWhtOHVjeHBQ?=
+	=?utf-8?B?eVJtbllEQmtCSDBic0p1YlNzYllXMm14S0RlcFJ1eGpFZHg1cThZTWxYYVkr?=
+	=?utf-8?B?QWlwUlZ1d0hoeGxvaTluNlZGeE5sK21ENFhkanRyNy9FcWJqaGJnNTM1TTNG?=
+	=?utf-8?B?T3ArRGpxa00wd3RuVlNsbEZwQXVkN2ZQdTl2YXFYZXZsT1ZreFk1V3VPU3Bn?=
+	=?utf-8?B?aUZVMzBTbHZaYkU2eU1KdjJBZXEydFlyZmRzM0s1SkswSFpiUzFzVWNjUTBr?=
+	=?utf-8?B?NVFSdUdFR242dTkwMTBiK1lPcldpRWhxME4rUXZqZUs3S3JSV1RoNm54Q3FH?=
+	=?utf-8?B?WlRGdjk1dzFFRUFJTmt0V213M2tud01MWkxYMjVLUVJvdmgyOGxtSGdvRUFH?=
+	=?utf-8?B?bFNCNWc4cVI5WlptUzdEU3pEYTJaNkgrQmR0RXJPd1RqRzZKWEppVndJSXBr?=
+	=?utf-8?B?U083NVM4cHYrT2hLYnRPM2Q0dE5DaTRVWWdDcSsvSVFnZUR2UmlRd1puRFE0?=
+	=?utf-8?B?cnpYYTNnSTJ3SWdjRDlyeVp6TmM3WktaVC9UZlFEK0VlMXVoNXh4cVMzeUZI?=
+	=?utf-8?B?dnZmK3N2QUhaaGdIUGRlWWxOZXVKNC92TGpCOThoTmNrMFovclJtWVVLY1Yr?=
+	=?utf-8?B?UWM1NlZ1WUZHU1Z0Ymh1dTYyU1BlRkxHTnpFQVNHUkdSL1lxUGFJZ0hMd0dB?=
+	=?utf-8?B?SlIybnNvQWZKRXYxRGFxdENZamk5SzhtUkVqZXMzUWlUM3FwcTlIMlVaM3hB?=
+	=?utf-8?B?QkUrK1Y0Wk40aUt4Z01zamdLdlBDVUgwdmxQQ0JCUHhhamFIRzZ1SFp6VWdO?=
+	=?utf-8?B?NzF0Rm9VclZyMWNiWng3Uk1kUjh1NTY1NXBqUTdHSHd1endPYzlIQzJ4dmQx?=
+	=?utf-8?B?cFlwMW96MUZ0TWxCVmJRcFNLUHJEQ0hsUnFCUU5oRFRDRWtJQWcwamgrU2Rq?=
+	=?utf-8?B?dzNHaUlUblIvMWpGTHNnTFlKR2dPdWoreFYralNiWTF4dDltVnhydzBtR201?=
+	=?utf-8?B?OWtzc2JWdWhvbXRFK01BSVAwUkdCT2V5US9zNTJpb0xicEVIQmtYTk5zVHlp?=
+	=?utf-8?B?RkUwR3J5Z3A2T1NLQVZmOGtOWlRXS2JhaVMyeElnTzZrYnJKemgxSTZLbFNo?=
+	=?utf-8?B?Uy85R1JUWGxmRW5kSkRvRGRLekVhdnhSRWVINzZRbys5TXNBSU8zRi9vWGNu?=
+	=?utf-8?B?VThYMWovQmprd0Q2U2JPYjRqdi9ZMmFKQkVsbGhVcldrZ25lWHpXSGtwbHdW?=
+	=?utf-8?B?dndxb0k1YXlFejlIUGRHQnVhdERnK3RwaXVQRjQwV0Z3WmFNTTNvblZkMTh6?=
+	=?utf-8?B?Mnl6VXBOSzluemVjMmxxbEdpeEJOMHUrOVZyVEMxZUl1ZGp1MjQvRjlXZHZQ?=
+	=?utf-8?B?WUhFY1B0eFh3dHNjU2RGL29pcTg0b3FNU3hsOWorZWIxZFBCNU9ZbkMxRUFE?=
+	=?utf-8?B?Rzl5N2hHUXRZNTVTT2FHeGpJSS9vRXk1OHgweXBEeHNqZThOS3llR21jdEs0?=
+	=?utf-8?B?bUdKTlNHckg4M2VieVY0aHJuMituemc9PQ==?=
+x-microsoft-antispam-prvs: <VI1PR04MB48645C4791F72873F2356D24DA720@VI1PR04MB4864.eurprd04.prod.outlook.com>
+x-forefront-prvs: 0967749BC1
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(366004)(376002)(39860400002)(136003)(396003)(346002)(189003)(199004)(2616005)(186003)(4326008)(476003)(26005)(97736004)(486006)(25786009)(6916009)(6512007)(5640700003)(6436002)(71190400001)(14454004)(316002)(71200400001)(256004)(478600001)(53936002)(81166006)(2351001)(6486002)(105586002)(106356001)(66066001)(305945005)(36756003)(81156014)(7736002)(3846002)(6116002)(52116002)(102836004)(2501003)(8676002)(6506007)(386003)(2906002)(99286004)(86362001)(5660300002)(8936002)(50226002)(68736007);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB4864;
+	H:VI1PR04MB5565.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: nPE2mQvM7A89IfeZXSTeCSOxs12T9tsEcm2VG/95fFamEGqt5T63Cty10TlWCBvX0wAHiIV9nJfxP4qBTonRFR28rae9I2kU6vtjHAAX7nZacLcMhRm6H4Z0ZnVN6HtMOZPsXw9qsI2gRKzQWl1VJBi++ERnUfaLEpHLdD09JEkfMyI1we2pheG56Kqe69xDutLKUm7+/Q5fmWlH4XiAzKrB0UBhBTuImhgM9xXbdneqk7y5TLnt/2/afECQ2XTJEfxNKaX4KOvkqYp5a/yHPCwSx6Q8pLHXp41ekGZXWbJKJ1ZVWenkQCyczXKHDRZJ9Yp2eA6IC4Z8qsjNoaTniAMEEuGT+jNz/DI5fjZWicMaKASwT6x9qsbXD3PCVJzDLhhpxVakgPDz6NaX2Zc8ZbuslxTsWLrUsOQsj/DJ9v0=
 MIME-Version: 1.0
-In-Reply-To: <20190305011208.GC20517@denix.org>
-Subject: Re: [thud][PATCH] openssl10: Fix mutliple include assumptions for des.h in opensslconf.h
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c7248de-950c-4ff7-7d71-08d6a16cdf0f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2019 13:17:09.3370 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4864
+Subject: [PATCH] insane.bbclass: fix QA-check to consider the PREFERRED_RPROVIDER for RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,22 +105,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 16:42:34 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Mar 2019 20:50:33 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E79B79C84C4D894CB1518E814F1E3F04@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-
-
-On 3/4/19 5:12 PM, Denys Dmytriyenko wrote:
-> Armin,
->
-> Not sure when would be the next batch of thud backports - as discussed 
-> earlier, I needed this fix to un-break the last set of backported updates 
-> from last Monday. Please let me know when this can be merged to thud.
-> Thanks!
-got it and is being built
-
-- armin
-
+UUEtY2hlY2sgbG9va3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50byBj
+b25zaWRlcmF0aW9uIHRoYXQgYQ0Kc3BlY2lmaWMgcGFja2FnZSBtYXkgaGF2ZSBhIFBSRUZFUlJF
+RF9SUFJPVklERVIgZGVmaW5lZC4NCklmIFBSRUZFUlJFRF9SUFJPVklERVIgaXMgc2V0LCBRQS1j
+aGVjayB3aWxsIGlnbm9yZSB0aGF0IHNldHRpbmdzIGFuZCB3aWxsDQpjb25zaWRlciB0aGUgb3Jp
+Z2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoNCglFUlJPUjogZG9f
+cGFja2F0ZV9xYTogUUEgSXNzdWU6IDwuLi4+LCBidXQgbm8gcHJvdmlkZXJzIGZvdW5kIGluDQoJ
+UkRFUEVORFNfPHBhY2thZ2U+PyBbZmlsZS1yZGVwc10NClRoZSBmaXggaXMgdG8gcmVwbGFjZSB0
+aGUgb3JpZ2luYWwgcGFja2FnZSBpbiB0aGUgUUEtY2hlY2sgd2l0aCB0aGUgbmV3DQpwYWNrYWdl
+IGRlZmluZWQgaW4gUFJFRkVSUkVEX1JQUk9WSURFUiwgaWYgaXTigJlzIHNldC4NCg0KU2lnbmVk
+LW9mZi1ieTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+DQotLS0NCiBt
+ZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgfCA2ICsrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA2
+IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFz
+cyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KaW5kZXggNjQxMTg4NC4uMTY1MjMzYiAx
+MDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFz
+c2VzL2luc2FuZS5iYmNsYXNzDQpAQCAtNjg5LDYgKzY4OSw5IEBAIGRlZiBwYWNrYWdlX3FhX2No
+ZWNrX3JkZXBlbmRzKHBrZywgcGtnZGVzdCwgc2tpcCwgdGFza2RlcHMsIHBhY2thZ2VzLCBkKToN
+CiAgICAgICAgICMgTm93IGRvIHRoZSBzYW5pdHkgY2hlY2shISENCiAgICAgICAgIGlmICJidWls
+ZC1kZXBzIiBub3QgaW4gc2tpcDoNCiAgICAgICAgICAgICBmb3IgcmRlcGVuZCBpbiByZGVwZW5k
+czoNCisgICAgICAgICAgICAgICAgcHJlZl9yZGVwZW5kID0gbG9jYWxkYXRhLmdldFZhcigiUFJF
+RkVSUkVEX1JQUk9WSURFUl8lcyIgJSByZGVwZW5kKQ0KKyAgICAgICAgICAgICAgICBpZiBwcmVm
+X3JkZXBlbmQ6DQorICAgICAgICAgICAgICAgICAgICByZGVwZW5kID0gcHJlZl9yZGVwZW5kDQog
+ICAgICAgICAgICAgICAgIGlmICItZGJnIiBpbiByZGVwZW5kIGFuZCAiZGVidWctZGVwcyIgbm90
+IGluIHNraXA6DQogICAgICAgICAgICAgICAgICAgICBlcnJvcl9tc2cgPSAiJXMgcmRlcGVuZHMg
+b24gJXMiICUgKHBrZyxyZGVwZW5kKQ0KICAgICAgICAgICAgICAgICAgICAgcGFja2FnZV9xYV9o
+YW5kbGVfZXJyb3IoImRlYnVnLWRlcHMiLCBlcnJvcl9tc2csIGQpDQpAQCAtNzM5LDYgKzc0Miw5
+IEBAIGRlZiBwYWNrYWdlX3FhX2NoZWNrX3JkZXBlbmRzKHBrZywgcGtnZGVzdCwgc2tpcCwgdGFz
+a2RlcHMsIHBhY2thZ2VzLCBkKToNCiAgICAgICAgICAgICAgICAgd2hpbGUgbmV4dDoNCiAgICAg
+ICAgICAgICAgICAgICAgIG5ldyA9IFtdDQogICAgICAgICAgICAgICAgICAgICBmb3IgcmRlcCBp
+biBuZXh0Og0KKyAgICAgICAgICAgICAgICAgICAgICAgIHByZWZfcmRlcCA9IGxvY2FsZGF0YS5n
+ZXRWYXIoIlBSRUZFUlJFRF9SUFJPVklERVJfJXMiICUgcmRlcCkNCisgICAgICAgICAgICAgICAg
+ICAgICAgICBpZiBwcmVmX3JkZXA6DQorICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJkZXAg
+PSBwcmVmX3JkZXANCiAgICAgICAgICAgICAgICAgICAgICAgICByZGVwX2RhdGEgPSBvZS5wYWNr
+YWdlZGF0YS5yZWFkX3N1YnBrZ2RhdGEocmRlcCwgZCkNCiAgICAgICAgICAgICAgICAgICAgICAg
+ICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0KCJSREVQRU5EU18iICsgcmRlcCkNCiAgICAgICAg
+ICAgICAgICAgICAgICAgICBpZiBub3Qgc3ViX3JkZXBzOg0KLS0gDQoyLjcuNA0KDQo=
 
