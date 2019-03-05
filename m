@@ -1,50 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A47727C6AB
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C2B96D147
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 04:37:07 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id q206so4706855pgq.4
+	Tue,  5 Mar 2019 05:55:11 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,442,1544457600"; d="scan'208";a="55931144"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 05 Mar 2019 13:55:11 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id B613C4C7F2B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2019 20:37:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=70z+xAF9tT4G8sWlGDX82tVPoqjhpKTrdKcuDvBkwbM=;
-	b=hF4uS68zX3hcxCvtyYKwLCcVwlxRnNzL3+y9k+GzPUwgkwAYcOfLSCzS975UyRuhEh
-	in0J+mVOFcDOrTclH4vV//TB0h6t+ikqrfi07YaVWKIQX2d+fb5kP74GWhSyRX/Z4r6B
-	GXccHb5CICimt8xArWZkThEDt1ixEARN1H4p3r/74iJ+KdSKpiC1/0QnlE/sykf+M6UO
-	EPlak3RXmskqX4cd5ySKOUZLEoprerEllpf/p05gv1dk/Ku9PKFTDupqqUN1KlqLzCWM
-	Vt0kodmkOXYWpDyFumi0Fk/lK6kq/xxHYC+aB2ImK2/uuSVNP7IEX/KbuS464WulM+iC
-	URpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=70z+xAF9tT4G8sWlGDX82tVPoqjhpKTrdKcuDvBkwbM=;
-	b=K/oJdun52nhqmEj9kVKTSdIoChYZbFXY40MOuINDXo36HtQfGkowxZaiXNkvpXwisF
-	YIcgVNygH7iACEDQJ/WPS5NJuiIqSdnWhx8g4gAqugNfs6hR7tqpi0k2XmCCiOA36I0P
-	A1SDMdb0I69Ea+tutthHLjAkglMC3RE7oBv3T489EtGvpGBwFx9neWNQGn4flY431a/P
-	jgiqZDZsyTkGS0gftNKOMCMBPIITZor1brpwzhn2+FgMsEBqfqem1PUopJxbVJ0aooKo
-	3uZSittwPYG0McKUO6saV174J0T3FifROGPwPD19CUDLe2jj8IGulpwPpZywjPuB/m+N
-	2lKA==
-X-Gm-Message-State: APjAAAVeJpq9GUSl1qU4jsbPsgFoU9fmZO01tkpnVT+aof9xW05hAfDh
-	+8KcDoyqAjmtgDGCiQirle0YPiNW
-X-Google-Smtp-Source: APXvYqwtMGLXuzn0PqLl/5y2bihDWy1QuPrauHyMvJVmZzJUIxDNBrbcPapUviK/9/zyNnwZGSrBkw==
-X-Received: by 2002:a63:fd07:: with SMTP id d7mr7383308pgh.199.1551760628325; 
-	Mon, 04 Mar 2019 20:37:08 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::caa9])
-	by smtp.gmail.com with ESMTPSA id
-	g12sm15148070pgr.76.2019.03.04.20.37.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Mar 2019 20:37:07 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2019 20:37:00 -0800
-Message-Id: <20190305043700.38645-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Tue,  5 Mar 2019 13:54:51 +0800 (CST)
+Received: from localhost.local (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 5 Mar 2019 13:55:14 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Mar 2019 13:56:30 +0800
+Message-ID: <20190305055630.32025-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] musl: Update for few bugfixes
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: B613C4C7F2B1.A80EF
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [oe][meta-oe][PATCH] tslib: upgrade to 1.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 04:37:07 -0000
+X-List-Received-Date: Tue, 05 Mar 2019 05:55:11 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-We have seen/reported few dlopen related fixes which has been fixed
-upstream, therefore upgrade
+Upgrade tslib from 1.16 to 1.17
 
-all set of changes
-
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=6516282d2adfad2c7e66d854cde3357120c75dbd..43e7efb46555f13a556d92944ac05c19b8929b60
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- .../musl/musl/out_of_bounds_read.patch        | 20 -------------------
- meta/recipes-core/musl/musl_git.bb            |  3 +--
- 2 files changed, 1 insertion(+), 22 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/out_of_bounds_read.patch
+ .../recipes-graphics/tslib/{tslib_1.16.bb => tslib_1.17.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-oe/recipes-graphics/tslib/{tslib_1.16.bb => tslib_1.17.bb} (96%)
 
-diff --git a/meta/recipes-core/musl/musl/out_of_bounds_read.patch b/meta/recipes-core/musl/musl/out_of_bounds_read.patch
-deleted file mode 100644
-index a681cc284e..0000000000
---- a/meta/recipes-core/musl/musl/out_of_bounds_read.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Fix out of bounds read
--
--self->dtv hasn't been extended yet
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--diff --git a/ldso/dynlink.c b/ldso/dynlink.c
--index e2c3259f..b23ea0df 100644
----- a/ldso/dynlink.c
--+++ b/ldso/dynlink.c
--@@ -1374,7 +1376,7 @@ static void install_new_tls(void)
-- 	}
-- 	/* Install new dtls into the enlarged, uninstalled dtv copies. */
-- 	for (p=head; ; p=p->next) {
---		if (!p->tls_id || self->dtv[p->tls_id]) continue;
--+		if (p->tls_id <= old_cnt) continue;
-- 		unsigned char *mem = p->new_tls;
-- 		for (j=0; j<i; j++) {
-- 			unsigned char *new = mem;
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 6a72b7d3bc..2d8dab90dd 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
+diff --git a/meta-oe/recipes-graphics/tslib/tslib_1.16.bb b/meta-oe/recipes-graphics/tslib/tslib_1.17.bb
+similarity index 96%
+rename from meta-oe/recipes-graphics/tslib/tslib_1.16.bb
+rename to meta-oe/recipes-graphics/tslib/tslib_1.17.bb
+index 8d23bd5eb..a095e69c6 100644
+--- a/meta-oe/recipes-graphics/tslib/tslib_1.16.bb
++++ b/meta-oe/recipes-graphics/tslib/tslib_1.17.bb
+@@ -17,8 +17,8 @@ SRC_URI = "https://github.com/kergoth/tslib/releases/download/${PV}/tslib-${PV}.
+            file://ts.conf \
+            file://tslib.sh \
+ "
+-SRC_URI[md5sum] = "254a022fc8aa89d164840fe8869c2441"
+-SRC_URI[sha256sum] = "c9a54651337a701a66b074c603c313225579995a7910e519bbc7b1dcdab9a755"
++SRC_URI[md5sum] = "048c4c14aea95ec09d61faa340a2c6c3"
++SRC_URI[sha256sum] = "9fdd33e66976bf9cc799be33824ba66672f892826e9b22de12b14df15cb0fddc"
  
--SRCREV = "6516282d2adfad2c7e66d854cde3357120c75dbd"
-+SRCREV = "43e7efb46555f13a556d92944ac05c19b8929b60"
+ UPSTREAM_CHECK_URI = "https://github.com/kergoth/tslib/releases"
  
- BASEVER = "1.1.21"
- 
-@@ -15,7 +15,6 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://out_of_bounds_read.patch \
-           "
- 
- S = "${WORKDIR}/git"
 -- 
-2.21.0
+2.20.1
+
+
 
 
