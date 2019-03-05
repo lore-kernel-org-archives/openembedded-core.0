@@ -1,48 +1,32 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4265D7C690
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 385EA7C377
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 08:27:51 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id d14so6808301ljl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 00:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=tNTi7ldIk7yfNU6x4QnCcJeF0yZXyE1+jUkIsNuIO1c=;
-	b=S4lGHnonO9aVnkwt1JI863QEg5dge74aPl5K8FMxzLChAeGFXgOyazRHTNpzgZ+u+s
-	QPvPJFD3bo4o+DXXLxJ7pXhigkPT92XB6cDcGNCLAP+uEfgPanmQm/9h4hJibTvFmTfK
-	5gEvMZYo/PmpaBgDaVcRXzflAetn1iB5evpZAEGB6MUFQh1/B5LzF3uUeaodqWqoNUaG
-	hKdQIN+Znb6Dz+fxnLDM8ISgGVhyacBbW7JvutwVlXNBBTV8VO64tlZgzuOucJUcfcav
-	xsFHBU3SB8bH8VTq3ihz98J4J5PTsIwrJhOGQLWaVshX7uj8AEKVPG9uzZhptr36jQrq
-	AmNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=tNTi7ldIk7yfNU6x4QnCcJeF0yZXyE1+jUkIsNuIO1c=;
-	b=WCLYd3Wd8UNRE5C1cHwh7ywWb0aUNgX86z49MNRSuUF4o5LKpybAr8nacc+P00SUy9
-	HIbRv5UWczwhA3ugkSWZkWlwaH+iEI5xFF4GS4Sy03jSuV97R5abCz7JjcelyrA47QVc
-	VUlKvmouoMBKngVaN8yzqH5GQGsMSgk59+5OiW4YnMUs8iDGhumFOAaIeeyGYT/F9llC
-	96oRA+AZixtw05e0ZBQfVLNi2fAMLIL1xTziGmBUDcBTosMMS4oCA1HoTfR5tawCgRQX
-	BHXpCs/WxZBilVWKgjjLTOzZmYO0d9MVWCyS7j/1DKX/cHK+TYXpLy23uwpjRI7el9KP
-	YcBQ==
-X-Gm-Message-State: APjAAAXrcSWR8MB7KnqIyO6lRl5xfIyaYmEzp5hin9aq9elX6HsY58+7
-	gBRCIOzLdD/4gUgWwy9IAa5MgQulJFYzwx9omVc=
-X-Google-Smtp-Source: APXvYqwPHIAqxFHEnItodtmEIkuApZEy/IQs+WoQNBBc57GjcO2t1O7bIf/guwjcWHtHk6RTw6hUMJvjxlOhCDTzW3I=
-X-Received: by 2002:a2e:9a95:: with SMTP id p21mr12163307lji.127.1551774471416;
-	Tue, 05 Mar 2019 00:27:51 -0800 (PST)
+	Tue,  5 Mar 2019 08:49:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x258mdXC004835
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 5 Mar 2019 00:49:16 -0800
+Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 5 Mar 2019 00:48:47 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20190204181314.22496-1-raj.khem@gmail.com>
+	<e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
+	<12b1452d894058e0a03398ae65b0f52deaeb9182.camel@linuxfoundation.org>
+	<31ec3ae0-3d38-7725-54ab-f5c3fda864b5@windriver.com>
+	<7aff7260ddd7791dde2cd381de46eaf02e937174.camel@linuxfoundation.org>
+	<d20e93cc-f628-97d9-d414-ffe91d6d6c53@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5ea5cc26-0b5a-799c-6e32-652328c52dda@windriver.com>
+Date: Tue, 5 Mar 2019 16:54:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
-	<d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
-In-Reply-To: <d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Tue, 5 Mar 2019 09:27:35 +0100
-Message-ID: <CAPybu_0YHNMucF1LPdYNRAWdBChAfZHpb1B-PdDRC2enGmGsSw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Daniel Gomez <daniel@qtec.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Two recipes providing the same .so... How it should not be done :)
+In-Reply-To: <d20e93cc-f628-97d9-d414-ffe91d6d6c53@windriver.com>
+Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,133 +39,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 08:27:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 05 Mar 2019 08:49:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Richard,
+Hi RP,
 
-Thanks for your reply!
+I've sent a patch to fix for python3:
 
-I tried with the following:
+https://lists.yoctoproject.org/pipermail/yocto/2019-March/044387.html
 
-INSANE_SKIP_${PN} = "already-stripped"
-INSANE_SKIP_libegl-tegra = "ldflags dev-so"
-INSANE_SKIP_libgles1-tegra = "ldflags dev-so"
-INSANE_SKIP_libgles2-tegra = "ldflags"
-INSANE_SKIP_libgl-tegra = "ldflags dev-so textrel"
+And CC-ed michael.g.wood@intel.com, I assumed that he is the maintainer,
+but seems that the email is not valid any more.
 
-RREPLACES_libgl-tegra = "libgl-mesa"
-RREPLACES_libegl-tegra = "libegl-mesa"
-RREPLACES_libgles1-tegra = "libgles1-mesa"
-RREPLACES_libgles2-tegra = "libgles2-mesa"
+I think that we have more work to do with error report web, e.g.:
+- The 'Similar' tag on the web isn't correct, it doesn't calculate correctly
 
-RCONFLICTS_libgl-tegra = "libgl-mesa"
-RCONFLICTS_libegl-tegra = "libegl-mesa"
-RCONFLICTS_libgles1-tegra = "libgles1-mesa"
-RCONFLICTS_libgles2-tegra = "libgles2-mesa"
+- Sometimes, there is an error like:
+   File "/buildarea/lyang1/error-report-web/Post/parser.py", line 101, in parse
+     num_similar_errors = f.get_similar_fails_count()
+UnboundLocalError: local variable 'f' referenced before assignment
 
-RPROVIDES_libgl-tegra += "gl-proprietary libgl libgl-mesa"
-RPROVIDES_libegl-tegra += "libegl libegl-mesa"
-RPROVIDES_libgles2-tegra += "libgles2 libgles2-tegra"
-RPROVIDES_libgles1-tegra += "libgles1 libgles1-tegra"
+- We can make report-error.bbclass to catch more errors such as NoProvider
+   errors, Parse errors, and so on.
 
-But then do_rootfs fails:
+I'd like to maintain it if it has no maintainers.
 
-The following packages have unmet dependencies:
- mesa-demos : Depends: libegl-mesa (>= 18.3.4+git0+b26488dead) but it
-is not going to be installed
-              Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it
-is not going to be installed
- qv4l2 : Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it is not
-going to be installed
-         Depends: qtbase (>= 5.11.1+git0+74305ba470) but it is not
-going to be installed
+// Robert
 
-
-I am forcing the installation of libgl-tegra by making:
-
-XSERVER += "gl-proprietary"
-
-What am I doing wrong :)
-
-Thanks!
-
-On Sat, Mar 2, 2019 at 1:21 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2019-03-01 at 12:28 +0100, Ricardo Ribalda Delgado wrote:
-> > Hello
-> >
-> > I have a build system that supports some aarch64 machines. For most
-> > of
-> > the them, the only difference is the kernel configuration, kernel
-> > version.
-> >
-> > I am using multiconfig on my build server and the build goes really
-> > fast thanks to all the shared binaries/artifacts.
-> >
-> > But I have a problem adding a new machine. This machine is also
-> > aarch64, with a special kernel (nothing new here), but in this case
-> > the vendor provides a binary .so for libgl that is required to get
-> > hardware acceleation.
-> >
-> > I could .bbappend mesa and on the installation part replace libgl
-> > with
-> > the new .so. But then everything that depends on mesa needs to be
-> > rebuilt for that machine and I could not use multiconfig.
-> >
-> > Instead I have created a new recipe: mesa-gl-replace.bb that has the
-> > file. This breakes completely the design of OE, but works.
-> >
-> > Some snipsets of the "magic" to make it work:
-> >
-> > #Force that the version is allways higher than the one from mesa:
-> > PE = "5"
-> >
-> > #Rprovide the same as mesa
-> > RPROVIDES_libgl-mesa += "libgl"
-> >
-> > #Do not overwrite pkgdata of mesa
-> > PACKAGEFUNCS_append = " rm_pkgdata_runtime"
-> > rm_pkgdata_runtime() {
-> > rm -rf ${WORKDIR}/pkgdata/runtime/*
-> > rm -rf ${WORKDIR}/pkgdata/shlibs2/*
-> > }
-> >
-> > #Keep this on machine
-> > PACKAGE_ARCH = "${MACHINE_ARCH}"
-> >
-> > #Make sure we are not saved as providers for libgl
-> > PRIVATE_LIBS = "libGL.so.1"
-> >
-> > #Avoid sanity checks
-> > read_subpackage_metadata () {
-> > }
-> >
-> >
-> > If your eyes have not fallen as this point, this means you have a lot
-> > of tolerance for crappy code, congrats :)
-> >
-> > Now the question. Is there a better way to do this?
->
-> I'd probably let mesa build as normal but then add a recipe which
-> RRPROVIDES, RREPLACES and RCONFLICTS with the specific mesa package you
-> want to replace. It would create and equivalent package with the right
-> contents and make it machine specific.
->
-> There should be more variables like PRIVATE_LIBS which stop you having
-> to use the more horrible hacks (INSANE_SKIP_*?).
->
-> You might then only have the issue of ensuring this machine specific
-> package gets installed into the images which need GL (or just install
-> it in all images for that machine).
->
-> Cheers,
->
-> Richard
->
-
-
--- 
-Ricardo Ribalda
+On 3/4/19 6:33 PM, Robert Yang wrote:
+> 
+> 
+> On 3/4/19 6:26 PM, Richard Purdie wrote:
+>> On Mon, 2019-03-04 at 18:02 +0800, Robert Yang wrote:
+>>> Hi RP,
+>>>
+>>> On 3/4/19 5:23 PM, Richard Purdie wrote:
+>>>> On Mon, 2019-03-04 at 15:50 +0800, Robert Yang wrote:
+>>>>> Hi Khem,
+>>>>>
+>>>>> We have an internal error web server, this patch breaks it:
+>>>>>
+>>>>> You're accessing the development server over HTTPS, but it only
+>>>>> supports HTTP
+>>>>>
+>>>>> So I tried to use runsslserver, but it doesn't work either since
+>>>>> the
+>>>>> host is
+>>>>> Ubuntu 14.04 (python 2.7.6):
+>>>>>
+>>>>> $ python manage.py runsslserver
+>>>>>
+>>>>> [snip]
+>>>>>        ssl_version=ssl.PROTOCOL_TLSv1_2,
+>>>>> AttributeError: 'module' object has no attribute
+>>>>> 'PROTOCOL_TLSv1_2'
+>>>>>
+>>>>> This is because python is old.
+>>>>>
+>>>>> I think that make it default to https would make the server
+>>>>> harder to
+>>>>> set up,
+>>>>> so is it possible to:
+>>>>>
+>>>>> * Make it default to http, and add an option such as --https (or
+>>>>> -- 
+>>>>> ssl) for https
+>>>>>
+>>>>> Or:
+>>>>>
+>>>>> * Add an option such as --no-ssl to make it use http.
+>>>>>
+>>>>> I prefer the first one since https server is harder to setup than
+>>>>> http in django. I can work on it if no objections.
+>>>>
+>>>> At this point the project does require python3 so python2 being old
+>>>> shouldn't be a reason to be changing this.
+>>>
+>>> The python3 + error-report-web doesn't work for me:
+>>>
+>>> $ python3 manage.py runserver ip:8000
+>>>
+>>> And when I tried to access http://128.224.156.132:8000, it raised
+>>> errors:
+>>>
+>>> error-report-web/Post/views.py", line 16, in <module>
+>>>       from parser import Parser
+>>> ImportError: cannot import name 'Parser'
+>>>
+>>> So I use python 2 for it. I thought that it didn't support python3,
+>>> or didn't
+>>> test well.
+>>
+>> Fixing it to work with python3 would be the preferred option...
+> 
+> Sounds good, I will work on it.
+> 
+> // Robert
+> 
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
 
