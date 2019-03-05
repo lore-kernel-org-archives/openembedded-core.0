@@ -1,25 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ED667C77E
+Return-Path: <paul.eggleton@linux.intel.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 05 Mar 2019 04:00:38 UTC
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id BA1BA6D5B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 03:11:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x253BQSt023366
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Mar 2019 19:11:26 -0800 (PST)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 4 Mar 2019 19:11:25 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Mar 2019 11:30:35 +0800
-Message-ID: <02ceb625ae6b771fdb252b2e386f833b9e045f06.1551756548.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1551756548.git.liezhi.yang@windriver.com>
-References: <cover.1551756548.git.liezhi.yang@windriver.com>
+	Tue,  5 Mar 2019 04:00:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Mar 2019 19:51:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,442,1544515200"; d="scan'208";a="304418783"
+Received: from sdhavala-mobl.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.249.73.52])
+	by orsmga005.jf.intel.com with ESMTP; 04 Mar 2019 19:51:01 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 05 Mar 2019 16:50:58 +1300
+Message-ID: <2386661.BVp9O4DdDJ@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <cover.1551735224.git.chris_larson@mentor.com>
+References: <cover.1551735224.git.chris_larson@mentor.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] send-error-report: Add --no-ssl to use http protocol
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 0/4] Improve logger setup in devtool/recipetool/scriptutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 03:11:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Mar 2019 04:00:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The script use https protocol by default, but the error-report-web server's
-https connection may not work (e.g., doesn't work with python 2.7.6), so add an
-option --no-ssl to make it use http.
+On Tuesday, 5 March 2019 10:36:07 AM NZDT Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> This improves logger setup in devtool and recipetool to send ERRORs to 
+stderr,
+> the way bitbake itself does, and also sends WARNINGs there, as those are
+> essentially out of band as well. This makes it easier to script with devtool
+> and recipetool, as any *real* subcommand output can be more easily captured
+> without having to manually filter out the cruft.
+> 
+> The following changes since commit b11725db2d5549dc45d8ae36fbf94a5c8e342d69:
+> 
+>   xserver-xorg: Fix build errors with clang (2019-03-04 14:26:41 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   git@github.com:kergoth/openembedded-core scriptutils-log-improvements
+> 
+> for you to fetch changes up to c4f37568236d2e3d8c40d57399d0b275ad5b7c8b:
+> 
+>   oe.scriptutils: also send WARNING to stderr (2019-03-04 21:31:00 +0000)
+> 
+> ----------------------------------------------------------------
+> Christopher Larson (4):
+>       oe.scriptutils: enable color in a more flexible way
+>       oe.scriptutils: add logger_setup_filters
+>       recipetool, devtool: set up the logging filters
+>       oe.scriptutils: also send WARNING to stderr
+> 
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/send-error-report | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+All of these look good to me.
 
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-index 3528cf9..0ed7cc9 100755
---- a/scripts/send-error-report
-+++ b/scripts/send-error-report
-@@ -62,7 +62,7 @@ def edit_content(json_file_path):
- 
- def prepare_data(args):
-     # attempt to get the max_log_size from the server's settings
--    max_log_size = getPayloadLimit("https://"+args.server+"/ClientPost/JSON")
-+    max_log_size = getPayloadLimit(args.protocol+args.server+"/ClientPost/JSON")
- 
-     if not os.path.isfile(args.error_file):
-         log.error("No data file found.")
-@@ -132,9 +132,9 @@ def send_data(data, args):
-     headers={'Content-type': 'application/json', 'User-Agent': "send-error-report/"+version}
- 
-     if args.json:
--        url = "https://"+args.server+"/ClientPost/JSON/"
-+        url = args.protocol+args.server+"/ClientPost/JSON/"
-     else:
--        url = "https://"+args.server+"/ClientPost/"
-+        url = args.protocol+args.server+"/ClientPost/"
- 
-     req = urllib.request.Request(url, data=data, headers=headers)
-     try:
-@@ -187,6 +187,11 @@ if __name__ == '__main__':
-                            help="Return the result in json format, silences all other output",
-                            action="store_true")
- 
-+    arg_parse.add_argument("--no-ssl",
-+                           help="Use http instead of https protocol",
-+                           dest="protocol",
-+                           action="store_const", const="http://", default="https://")
-+
- 
- 
-     args = arg_parse.parse_args()
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers
+Paul
+
+
 -- 
-2.7.4
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
