@@ -1,95 +1,48 @@
-Return-Path: <Aditya.Tayade@kpit.com>
-X-Greylist: delayed 154908 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 05 Mar 2019 06:53:09 UTC
-Received: from IND01-BO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr1390043.outbound.protection.outlook.com [40.107.139.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 395747BD8C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4265D7C690
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 06:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector2; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=M9fP9DiVw+ZbKEAWiT9JMMix1C/By+/CAdcGR8R6lQ0=;
-	b=O0OESbi2maa4fOqzIdEROuSQYnyxwjzPwkh9KOATxJ3sXSsO74W/u0fup0HApM12aDnwstfZs3BMfnXvEr1ddXozr6hm4qlrW8ztCl/MMvW3wwF5Zcbb0udl4KI0VHqirHprN+FLdIpfx4O0g0H08EyDYyFexZrG/XZQz5EIUtk=
-Received: from BMXPR01MB0854.INDPRD01.PROD.OUTLOOK.COM (10.174.216.146) by
-	BMXPR01MB3832.INDPRD01.PROD.OUTLOOK.COM (20.179.242.202) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1665.19; Tue, 5 Mar 2019 04:21:13 +0000
-Received: from BMXPR01MB0854.INDPRD01.PROD.OUTLOOK.COM
-	([fe80::fd31:8a8e:b35e:2c6]) by BMXPR01MB0854.INDPRD01.PROD.OUTLOOK.COM
-	([fe80::fd31:8a8e:b35e:2c6%6]) with mapi id 15.20.1665.019;
-	Tue, 5 Mar 2019 04:21:13 +0000
-From: Aditya Tayade <Aditya.Tayade@kpit.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [poky][meta][sumo][PATCH] run-ptest: fix testcase test-names
-	failure
-Thread-Index: AQHU0wrebPL9jRRfj0eUx6Xb6Vytng==
-Date: Tue, 5 Mar 2019 04:21:12 +0000
-Message-ID: <1551759653-8772-1-git-send-email-Aditya.Tayade@kpit.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BMXPR01CA0001.INDPRD01.PROD.OUTLOOK.COM
-	(2603:1096:b00:d::11) To BMXPR01MB0854.INDPRD01.PROD.OUTLOOK.COM
-	(2603:1096:b00:11::18)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Aditya.Tayade@kpit.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.7.4
-x-originating-ip: [43.241.126.149]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6352b509-864d-491c-e6ac-08d6a122003f
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);
-	SRVR:BMXPR01MB3832; 
-x-ms-traffictypediagnostic: BMXPR01MB3832:
-x-microsoft-exchange-diagnostics: =?iso-8859-1?Q?1; BMXPR01MB3832;
-	23:b9NHhkUhn6Lw2Ee0UtW5MS7hu9R/3zDoWFSUuWC?=
-	=?iso-8859-1?Q?7/AZD9VgYKW3jDDMnz/8VavIgVs5u7Ay8la8KE/CiKVPHLfqIuzEeuhZqt?=
-	=?iso-8859-1?Q?F9lw//InQz0vxbaq2TvFQbrYwVP6NrWFtwJdXCGPoGny5lhJgGX+X0tynh?=
-	=?iso-8859-1?Q?Lj+z3s5f6V4KPTGmY2xUu0h78e3n61Xl6Hs6n/pb7k6UU1btBg0PgsTd0l?=
-	=?iso-8859-1?Q?3p3cOUnH6VXG6AFOkr8YV4BU9fgZ4wnn5BwAhewzDmxB0T+kIiS062tHhw?=
-	=?iso-8859-1?Q?3AFxWrWMjP5FZJP8VfYCXAsqUsMjOza4Yfih6fdKm96Kp97a+DIBLY95d3?=
-	=?iso-8859-1?Q?1kKhGAziZrOjqM6gPwJtBehP3w24Yzm6PySsXpWgnBi+3YiD0BukWXZ9Fc?=
-	=?iso-8859-1?Q?lZjflErXA73W5vWjpH4zb8bzKDAD25ENARhV1V3FOc4rrwx7qIFBFz6xV5?=
-	=?iso-8859-1?Q?m5cTkOwRN3UyBizX32pOoN2A487hST+s6xSZuUR1vlYlBFiycxJP6pVFw4?=
-	=?iso-8859-1?Q?P0BcIfzmEgH/FzcXHlq9XmcGXuHK1MJtdIGSMIOnYnQoYvxMGm0RbtpjlV?=
-	=?iso-8859-1?Q?Q2Ak9VyK6aWHpMBKtm/MaBsmv2FUgp7GBSgp6/qBu1J/h+IG3lk/54L5UJ?=
-	=?iso-8859-1?Q?HRkpMFtqOZxUmv/UsfZ520SVdi2Ly1uaWAAEPkrHew20Haaz5Glf77eLgi?=
-	=?iso-8859-1?Q?wZemm4LTLKPzoE0qbNBPDR8ezIVqf1yCX1qazIr//gyp2VL9/Oa5LmmFbJ?=
-	=?iso-8859-1?Q?gKrKhV3LqNcypbpgNs/0aEFmwVTLQLAoyAVmt9Ifb2lYPr2JfWdqN4pSN/?=
-	=?iso-8859-1?Q?C1Yzj1rnp8OVTYFEjH7kzUyL6/k+Y55YA4Y1XbsrIk6Fd27iTBo0CbrYDY?=
-	=?iso-8859-1?Q?Z9oVsMNvoBd8hIyMI40IbElEwA05f7nKRBEthT4GWeTq/FeyOX0lR1UOU3?=
-	=?iso-8859-1?Q?DNgu70Vk4AYowmKc04TDE3vYu6M3sGM25y6g85bOTV2iMOu3p7f79M3hep?=
-	=?iso-8859-1?Q?aeBaZGtLU9bnBWWia9XIvB6FKZ68DD+fVcs0HCk3otf5QN59/jvnLKxGW7?=
-	=?iso-8859-1?Q?jjgbtS0KO4AwjAsgqIba+cvwzD5gJdmXaDUWFWcTlJYrYhIOVUWz5idUNu?=
-	=?iso-8859-1?Q?mekLahHCtEPnwLw/v/jJvBwnCCTrFFSXGkef71OfKr5u8ClfGiwfstKS/a?=
-	=?iso-8859-1?Q?4TdFt4wFTvfk5Fqf+MoJQG1jJHYuAGsEC+gGXELIfQ0ttBuQ3otegg5RdG?=
-	=?iso-8859-1?Q?UgLtCUmxxHkjsSTTNnzWSIWkscUL8GpBrx+qf07qztJrPFlrx6ek5/7lPp?=
-	=?iso-8859-1?Q?lI=3D?=
-x-microsoft-antispam-prvs: <BMXPR01MB3832C66F7158415F8EEBB99191720@BMXPR01MB3832.INDPRD01.PROD.OUTLOOK.COM>
-x-forefront-prvs: 0967749BC1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(346002)(366004)(396003)(136003)(39860400002)(376002)(199004)(189003)(8676002)(305945005)(72206003)(6436002)(6486002)(478600001)(14454004)(7736002)(6116002)(3846002)(99286004)(52116002)(2616005)(386003)(6506007)(486006)(26005)(102836004)(186003)(6916009)(476003)(81166006)(81156014)(2351001)(8936002)(71190400001)(105586002)(66066001)(2906002)(71200400001)(86362001)(25786009)(4326008)(107886003)(2501003)(256004)(5640700003)(36756003)(53936002)(106356001)(68736007)(14444005)(50226002)(6512007)(97736004)(5660300002)(316002)(66574012);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BMXPR01MB3832;
-	H:BMXPR01MB0854.INDPRD01.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: kpit.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jy90Ve+6R848hAhFV+FYpHrcB6k2SqlvHzqk3a83VaiXk4YQI+SVIJeY0A3Iyct1iWKN0ikNZCW5WLKmWc3aMRHV6gsbmHT3+l0sO6XYyZ1/2Iq+WivMgAg6sKKWuVCPbnUGr810SBQBB95EVAnQzoeaE7ehPP1j89O2jUIvxy/HXc+k27hakUpc8rLswMPKvorGDmLR6+vlT6GpAPxqlaGit4FaalTzEjPGmFh2jBrVkavzRKiT2KBISZnQr/j3FWv5WQfVlYkfhgH8jVF8vWqDGtGDrrqD+Y/LKNF8pFiar8Bglv595XDwITHW4qQBKY1ztnQiNTs7fHdStiO/anBElaCvXczZaMFeatWBQlFtYaxOM+baMHCWbwVnfXDSEUhHq6L2DxVCW3vAHZ+gwpBqEFJFAmwMKqXLEY4JIYA=
+	Tue,  5 Mar 2019 08:27:51 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id d14so6808301ljl.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Mar 2019 00:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tNTi7ldIk7yfNU6x4QnCcJeF0yZXyE1+jUkIsNuIO1c=;
+	b=S4lGHnonO9aVnkwt1JI863QEg5dge74aPl5K8FMxzLChAeGFXgOyazRHTNpzgZ+u+s
+	QPvPJFD3bo4o+DXXLxJ7pXhigkPT92XB6cDcGNCLAP+uEfgPanmQm/9h4hJibTvFmTfK
+	5gEvMZYo/PmpaBgDaVcRXzflAetn1iB5evpZAEGB6MUFQh1/B5LzF3uUeaodqWqoNUaG
+	hKdQIN+Znb6Dz+fxnLDM8ISgGVhyacBbW7JvutwVlXNBBTV8VO64tlZgzuOucJUcfcav
+	xsFHBU3SB8bH8VTq3ihz98J4J5PTsIwrJhOGQLWaVshX7uj8AEKVPG9uzZhptr36jQrq
+	AmNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tNTi7ldIk7yfNU6x4QnCcJeF0yZXyE1+jUkIsNuIO1c=;
+	b=WCLYd3Wd8UNRE5C1cHwh7ywWb0aUNgX86z49MNRSuUF4o5LKpybAr8nacc+P00SUy9
+	HIbRv5UWczwhA3ugkSWZkWlwaH+iEI5xFF4GS4Sy03jSuV97R5abCz7JjcelyrA47QVc
+	VUlKvmouoMBKngVaN8yzqH5GQGsMSgk59+5OiW4YnMUs8iDGhumFOAaIeeyGYT/F9llC
+	96oRA+AZixtw05e0ZBQfVLNi2fAMLIL1xTziGmBUDcBTosMMS4oCA1HoTfR5tawCgRQX
+	BHXpCs/WxZBilVWKgjjLTOzZmYO0d9MVWCyS7j/1DKX/cHK+TYXpLy23uwpjRI7el9KP
+	YcBQ==
+X-Gm-Message-State: APjAAAXrcSWR8MB7KnqIyO6lRl5xfIyaYmEzp5hin9aq9elX6HsY58+7
+	gBRCIOzLdD/4gUgWwy9IAa5MgQulJFYzwx9omVc=
+X-Google-Smtp-Source: APXvYqwPHIAqxFHEnItodtmEIkuApZEy/IQs+WoQNBBc57GjcO2t1O7bIf/guwjcWHtHk6RTw6hUMJvjxlOhCDTzW3I=
+X-Received: by 2002:a2e:9a95:: with SMTP id p21mr12163307lji.127.1551774471416;
+	Tue, 05 Mar 2019 00:27:51 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6352b509-864d-491c-e6ac-08d6a122003f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2019 04:21:12.9716 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB3832
-Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>
-Subject: [poky][meta][sumo][PATCH] run-ptest: fix testcase test-names failure
+References: <CAPybu_1GLgMMBysaCD0GDiPSmJr6jEqVptzX6+DQmU7ZBOigMA@mail.gmail.com>
+	<d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
+In-Reply-To: <d104283b569d34efec7502fe4ade89c34f2ba3c9.camel@linuxfoundation.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 5 Mar 2019 09:27:35 +0100
+Message-ID: <CAPybu_0YHNMucF1LPdYNRAWdBChAfZHpb1B-PdDRC2enGmGsSw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Daniel Gomez <daniel@qtec.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Two recipes providing the same .so... How it should not be done :)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -102,47 +55,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 06:53:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Mar 2019 08:27:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Start the dbus daemon first before executing test-names
-using dbus-launch, this will set DBUS_SESSION_BUS_ADDRESS.
+Hi Richard,
 
-ERROR:Failed to open connection to system bus: Using X11 for
-dbus-daemon autolaunch was disabled at compile time,
-set your DBUS_SESSION_BUS_ADDRESS instead
+Thanks for your reply!
 
-Upstream-Status: Pending
+I tried with the following:
 
-Signed-off-by: Aditya Tayade <Aditya.Tayade@kpit.com>
----
- meta/recipes-core/dbus/dbus/run-ptest | 1 +
- 1 file changed, 1 insertion(+)
+INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP_libegl-tegra = "ldflags dev-so"
+INSANE_SKIP_libgles1-tegra = "ldflags dev-so"
+INSANE_SKIP_libgles2-tegra = "ldflags"
+INSANE_SKIP_libgl-tegra = "ldflags dev-so textrel"
 
-diff --git a/meta/recipes-core/dbus/dbus/run-ptest b/meta/recipes-core/dbus=
-/dbus/run-ptest
-index 8a8970e..444ef4a 100755
---- a/meta/recipes-core/dbus/dbus/run-ptest
-+++ b/meta/recipes-core/dbus/dbus/run-ptest
-@@ -13,6 +13,7 @@ output() {
- export DBUS_TEST_HOMEDIR=3D./test
- export XDG_RUNTIME_DIR=3D./test
- export LD_LIBRARY_PATH=3D/usr/lib/dbus-test/ptest/test/.libs
-+export $(dbus-launch)
+RREPLACES_libgl-tegra = "libgl-mesa"
+RREPLACES_libegl-tegra = "libegl-mesa"
+RREPLACES_libgles1-tegra = "libgles1-mesa"
+RREPLACES_libgles2-tegra = "libgles2-mesa"
 
- files=3D`ls test/test-*`
+RCONFLICTS_libgl-tegra = "libgl-mesa"
+RCONFLICTS_libegl-tegra = "libegl-mesa"
+RCONFLICTS_libgles1-tegra = "libgles1-mesa"
+RCONFLICTS_libgles2-tegra = "libgles2-mesa"
 
---
-2.7.4
+RPROVIDES_libgl-tegra += "gl-proprietary libgl libgl-mesa"
+RPROVIDES_libegl-tegra += "libegl libegl-mesa"
+RPROVIDES_libgles2-tegra += "libgles2 libgles2-tegra"
+RPROVIDES_libgles1-tegra += "libgles1 libgles1-tegra"
 
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
+But then do_rootfs fails:
+
+The following packages have unmet dependencies:
+ mesa-demos : Depends: libegl-mesa (>= 18.3.4+git0+b26488dead) but it
+is not going to be installed
+              Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it
+is not going to be installed
+ qv4l2 : Depends: libgl-mesa (>= 18.3.4+git0+b26488dead) but it is not
+going to be installed
+         Depends: qtbase (>= 5.11.1+git0+74305ba470) but it is not
+going to be installed
+
+
+I am forcing the installation of libgl-tegra by making:
+
+XSERVER += "gl-proprietary"
+
+What am I doing wrong :)
+
+Thanks!
+
+On Sat, Mar 2, 2019 at 1:21 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-03-01 at 12:28 +0100, Ricardo Ribalda Delgado wrote:
+> > Hello
+> >
+> > I have a build system that supports some aarch64 machines. For most
+> > of
+> > the them, the only difference is the kernel configuration, kernel
+> > version.
+> >
+> > I am using multiconfig on my build server and the build goes really
+> > fast thanks to all the shared binaries/artifacts.
+> >
+> > But I have a problem adding a new machine. This machine is also
+> > aarch64, with a special kernel (nothing new here), but in this case
+> > the vendor provides a binary .so for libgl that is required to get
+> > hardware acceleation.
+> >
+> > I could .bbappend mesa and on the installation part replace libgl
+> > with
+> > the new .so. But then everything that depends on mesa needs to be
+> > rebuilt for that machine and I could not use multiconfig.
+> >
+> > Instead I have created a new recipe: mesa-gl-replace.bb that has the
+> > file. This breakes completely the design of OE, but works.
+> >
+> > Some snipsets of the "magic" to make it work:
+> >
+> > #Force that the version is allways higher than the one from mesa:
+> > PE = "5"
+> >
+> > #Rprovide the same as mesa
+> > RPROVIDES_libgl-mesa += "libgl"
+> >
+> > #Do not overwrite pkgdata of mesa
+> > PACKAGEFUNCS_append = " rm_pkgdata_runtime"
+> > rm_pkgdata_runtime() {
+> > rm -rf ${WORKDIR}/pkgdata/runtime/*
+> > rm -rf ${WORKDIR}/pkgdata/shlibs2/*
+> > }
+> >
+> > #Keep this on machine
+> > PACKAGE_ARCH = "${MACHINE_ARCH}"
+> >
+> > #Make sure we are not saved as providers for libgl
+> > PRIVATE_LIBS = "libGL.so.1"
+> >
+> > #Avoid sanity checks
+> > read_subpackage_metadata () {
+> > }
+> >
+> >
+> > If your eyes have not fallen as this point, this means you have a lot
+> > of tolerance for crappy code, congrats :)
+> >
+> > Now the question. Is there a better way to do this?
+>
+> I'd probably let mesa build as normal but then add a recipe which
+> RRPROVIDES, RREPLACES and RCONFLICTS with the specific mesa package you
+> want to replace. It would create and equivalent package with the right
+> contents and make it machine specific.
+>
+> There should be more variables like PRIVATE_LIBS which stop you having
+> to use the more horrible hacks (INSANE_SKIP_*?).
+>
+> You might then only have the issue of ensuring this machine specific
+> package gets installed into the images which need GL (or just install
+> it in all images for that machine).
+>
+> Cheers,
+>
+> Richard
+>
+
+
+-- 
+Ricardo Ribalda
 
