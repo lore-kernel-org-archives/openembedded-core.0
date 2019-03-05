@@ -1,32 +1,53 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 385EA7C377
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DEBFA7C629
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2019 08:49:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x258mdXC004835
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Mar 2019 00:49:16 -0800
-Received: from [128.224.163.177] (128.224.163.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 5 Mar 2019 00:48:47 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190204181314.22496-1-raj.khem@gmail.com>
-	<e0f4b1c8-54f9-63c9-b08b-147243ebe1ce@windriver.com>
-	<12b1452d894058e0a03398ae65b0f52deaeb9182.camel@linuxfoundation.org>
-	<31ec3ae0-3d38-7725-54ab-f5c3fda864b5@windriver.com>
-	<7aff7260ddd7791dde2cd381de46eaf02e937174.camel@linuxfoundation.org>
-	<d20e93cc-f628-97d9-d414-ffe91d6d6c53@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5ea5cc26-0b5a-799c-6e32-652328c52dda@windriver.com>
-Date: Tue, 5 Mar 2019 16:54:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Tue,  5 Mar 2019 09:36:22 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id g12so8631112wrm.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Mar 2019 01:36:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=AQfCKF5xoYbEEoqY3XTZbxAsgqIjow2WPx3I91Mpvq0=;
+	b=Pg1fKjXUJ5F6YwG6KqFc/fFPpuhPW3+Vidr4bcZDyfkd2TlkFjiLKsF2q8sltKD2AW
+	P4FxdCQZjuNFn2imhaax3idMZbGoL2glzFV4qeKTUipdwF2FmoyJhz2OSMe2+eTBeYBm
+	kAx2xJBtg2ReKZruAokDEUvUFAlAzkkzgQunQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=AQfCKF5xoYbEEoqY3XTZbxAsgqIjow2WPx3I91Mpvq0=;
+	b=HaP1JPFnasp76ozQTA99B7lJ+x4jOAMMbdq4ep+yeuTPKmpbE1OvwHWM3cQxj+pZMQ
+	vIX6YO+zteDhIyqv3R4cYOrg8RW+cpf2XuC9cxXuCL6ROiunnuHxdINuZjWDgPChc+Ks
+	yaiC0WWzVRForks8Ld7hqP+pK+5S5ehXDUEn99t/4ayosCelhgl1dYMyfxFFQhaXcfyN
+	VHimPIOn/G1XHo9kFiF2XG9zNDISOyaxcgU4Wzdhn+cRLTZDoxCS06YGdIypiai02/iU
+	z8IH9atAbjTQAbBaGuuRQ8/azN5IYEAf/mTzalDI/hW9L3tEGKKHmNNiEdBzvN+7ZCR2
+	jT6g==
+X-Gm-Message-State: APjAAAXT++gxiuxvxy2HVsId6bZtWTMBiXH/U4ychXs8rLO0n7buUVva
+	TYeRnkbIq3kjiCLvBF7f67mpOw==
+X-Google-Smtp-Source: APXvYqyWtChb/BgB5XkpOE+y4jHPpwTyMQo4YwfAVKL/96UvH2RqiI/ErJb+VljflNSYtEIflRgR0Q==
+X-Received: by 2002:adf:a49c:: with SMTP id g28mr7361968wrb.147.1551778583543; 
+	Tue, 05 Mar 2019 01:36:23 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v67sm13051373wmb.9.2019.03.05.01.36.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 05 Mar 2019 01:36:22 -0800 (PST)
+Message-ID: <2cb14ca8db048a9e6ce3eb3d6a3974f27e2402aa.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 05 Mar 2019 09:36:21 +0000
+In-Reply-To: <2386661.BVp9O4DdDJ@localhost.localdomain>
+References: <cover.1551735224.git.chris_larson@mentor.com>
+	<2386661.BVp9O4DdDJ@localhost.localdomain>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-In-Reply-To: <d20e93cc-f628-97d9-d414-ffe91d6d6c53@windriver.com>
-Subject: Re: [PATCH] send-error-report: Use https instead of http protocol
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 0/4] Improve logger setup in devtool/recipetool/scriptutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,109 +60,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2019 08:49:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Mar 2019 09:36:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi RP,
-
-I've sent a patch to fix for python3:
-
-https://lists.yoctoproject.org/pipermail/yocto/2019-March/044387.html
-
-And CC-ed michael.g.wood@intel.com, I assumed that he is the maintainer,
-but seems that the email is not valid any more.
-
-I think that we have more work to do with error report web, e.g.:
-- The 'Similar' tag on the web isn't correct, it doesn't calculate correctly
-
-- Sometimes, there is an error like:
-   File "/buildarea/lyang1/error-report-web/Post/parser.py", line 101, in parse
-     num_similar_errors = f.get_similar_fails_count()
-UnboundLocalError: local variable 'f' referenced before assignment
-
-- We can make report-error.bbclass to catch more errors such as NoProvider
-   errors, Parse errors, and so on.
-
-I'd like to maintain it if it has no maintainers.
-
-// Robert
-
-On 3/4/19 6:33 PM, Robert Yang wrote:
+On Tue, 2019-03-05 at 16:50 +1300, Paul Eggleton wrote:
+> On Tuesday, 5 March 2019 10:36:07 AM NZDT Christopher Larson wrote:
+> > From: Christopher Larson <chris_larson@mentor.com>
+> > 
+> > This improves logger setup in devtool and recipetool to send ERRORs
+> > to 
+> stderr,
+> > the way bitbake itself does, and also sends WARNINGs there, as
+> > those are
+> > essentially out of band as well. This makes it easier to script
+> > with devtool
+> > and recipetool, as any *real* subcommand output can be more easily
+> > captured
+> > without having to manually filter out the cruft.
+> > 
+> > The following changes since commit
+> > b11725db2d5549dc45d8ae36fbf94a5c8e342d69:
+> > 
+> >   xserver-xorg: Fix build errors with clang (2019-03-04 14:26:41
+> > +0000)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git@github.com:kergoth/openembedded-core scriptutils-log-
+> > improvements
+> > 
+> > for you to fetch changes up to
+> > c4f37568236d2e3d8c40d57399d0b275ad5b7c8b:
+> > 
+> >   oe.scriptutils: also send WARNING to stderr (2019-03-04 21:31:00
+> > +0000)
+> > 
+> > ----------------------------------------------------------------
+> > Christopher Larson (4):
+> >       oe.scriptutils: enable color in a more flexible way
+> >       oe.scriptutils: add logger_setup_filters
+> >       recipetool, devtool: set up the logging filters
+> >       oe.scriptutils: also send WARNING to stderr
+> > 
 > 
+> All of these look good to me.
 > 
-> On 3/4/19 6:26 PM, Richard Purdie wrote:
->> On Mon, 2019-03-04 at 18:02 +0800, Robert Yang wrote:
->>> Hi RP,
->>>
->>> On 3/4/19 5:23 PM, Richard Purdie wrote:
->>>> On Mon, 2019-03-04 at 15:50 +0800, Robert Yang wrote:
->>>>> Hi Khem,
->>>>>
->>>>> We have an internal error web server, this patch breaks it:
->>>>>
->>>>> You're accessing the development server over HTTPS, but it only
->>>>> supports HTTP
->>>>>
->>>>> So I tried to use runsslserver, but it doesn't work either since
->>>>> the
->>>>> host is
->>>>> Ubuntu 14.04 (python 2.7.6):
->>>>>
->>>>> $ python manage.py runsslserver
->>>>>
->>>>> [snip]
->>>>>        ssl_version=ssl.PROTOCOL_TLSv1_2,
->>>>> AttributeError: 'module' object has no attribute
->>>>> 'PROTOCOL_TLSv1_2'
->>>>>
->>>>> This is because python is old.
->>>>>
->>>>> I think that make it default to https would make the server
->>>>> harder to
->>>>> set up,
->>>>> so is it possible to:
->>>>>
->>>>> * Make it default to http, and add an option such as --https (or
->>>>> -- 
->>>>> ssl) for https
->>>>>
->>>>> Or:
->>>>>
->>>>> * Add an option such as --no-ssl to make it use http.
->>>>>
->>>>> I prefer the first one since https server is harder to setup than
->>>>> http in django. I can work on it if no objections.
->>>>
->>>> At this point the project does require python3 so python2 being old
->>>> shouldn't be a reason to be changing this.
->>>
->>> The python3 + error-report-web doesn't work for me:
->>>
->>> $ python3 manage.py runserver ip:8000
->>>
->>> And when I tried to access http://128.224.156.132:8000, it raised
->>> errors:
->>>
->>> error-report-web/Post/views.py", line 16, in <module>
->>>       from parser import Parser
->>> ImportError: cannot import name 'Parser'
->>>
->>> So I use python 2 for it. I thought that it didn't support python3,
->>> or didn't
->>> test well.
->>
->> Fixing it to work with python3 would be the preferred option...
-> 
-> Sounds good, I will work on it.
-> 
-> // Robert
-> 
->>
->> Cheers,
->>
->> Richard
->>
->>
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Unfortunately there were a couple of issues on the autobuilder in the
+devtool selftests with these applied:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/297
+
+Cheers,
+
+Richard
+
+
 
