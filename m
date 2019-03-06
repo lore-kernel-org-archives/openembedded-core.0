@@ -1,33 +1,35 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 797C47CC14
+	by mail.openembedded.org (Postfix) with ESMTP id 7A6F97CCBD
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Mar 2019 07:43:46 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Dm3P6BMtz4K
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Dm3Q299wz5Q
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 08:43:45 +0100 (CET)
+	Wed,  6 Mar 2019 08:43:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1551858226;
-	bh=ByPyNA90YZyQdfKidWZHC2sqWTtBNCZiz3bT1Kuhz1o=;
-	h=From:To:Subject:Date:From;
-	b=bcn242XL5agnmN2oimka4Zpk2ZtOBmCgNnxhg4RZmU682vKMkplxSY9x7r5SGPN6Y
-	1lTd7BgZZ3GT4Xn7FoG/RpsV3W3FB3euPrIXqYrxuPgONqAvhm3bkrJSG3MNmXjgvF
-	BDJviHwRYB4PxaT+5WiZDVr2cESTiy/ssZYKJYwXd+V+XVKZZHfow+5lEE4La9yNjU
-	snZe8s/8x2BAmqVFPgsOJQk8FFhSqW4T64gyA9xPwKt8siUQTAG/2qwf+w+mB8i9CN
-	63s4PS+Ud3GdLUex1d4YwrwBz7E9exVzQIbTFm0f2Qd7ij7KyJDBgZbN5+g54a8CcU
-	u9dQtolo/D+KCUmc6udWyW516GdNFgBOr1lIP8SyAbrhjfPHROq3aQLfDzc6Qd1JLE
-	iys5HwmtV13kBvTjxtItrEsVvG9hMVl2ycrJcnl08PoB7Bh5W0jsvvKRI4jJiSPuzZ
-	EHQnY87eToDlQ+omTtWsBh2eKQfS59RPYibWeuXZQni1govzFYQRG0GEXEYwvMwQ8O
-	15Lgm1x+YBawG+jAj3JuU7CSK2rvGVw83i9XhgRDX0K3DowfkOgl31Nq0cJ9p/6A2R
-	UR2L8Ni+ITYUfnV/WTQqQiE/AY2I2ErSGCEGQZTZ8rDWyuW/JjvCtB6TfIqm5BUYhU
-	axxChDAGAWD8p9aDnnNUpAf8=
+	bh=fqUBHQQLs526pWlgSE84S7u1e8uqnrUVz4mIGGRG3To=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=JoovO0hecy+egdhilo0hDPRbYH1HcYhZ0+OAYoNfz7QinPxZjxc9q593i1wbRhI04
+	QkvFI/xxYRV/zMuPp3a4n/Yw8hghLmnOjrBzf/7kXLaTQ4j9OlSpyqU/jJHns4LXGS
+	O5R0RUhtQ3oEYdKDySpnnoIZSorLw3xhlkSY8F9dQIpyfondxXBopbvVaCxdncHoXz
+	C5IaSf01mi8EEd9v+VGOd0voHXmDDip/G9FkZuNHMYv29jvQAH9UtDusodHGfrFPlr
+	gY6hzvsRmIlOzn2m/MNa8kZQXU91DPNiiKxMkR7LbNqB/X6nfi91uE+LqnjJR/s5FP
+	NctR6N8+BNWNBB9JDJSPzVFkwA/FMU49LEZUdA49RchDnkgLbMTuLCqOl1H0yK96Aa
+	akLRYgzq3BMnmc2F9vgN30kVvZLMihM1PerdLg0wIRgfT/IU+KkmnQKHpjfaZa/zsz
+	lS5BgOPApyp7rrLgD1CIRo4a5iue8M9LvdJg7W/1IcmDN2Q3BVVfGD3gZTlxUGbOHp
+	ZCY8v1WVhnsrxoy2dd/UjJHRuxd9092p1sdXBhHCoePPzlS0dnDGd/H08TXSZ7uRoy
+	DQ5rfKpFMKB/wQcSaOl41HynjsT5Wj5gvdwM1XwBnpz8UpcN/mZ7h7aGKhyIwUq2vJ
+	NRrcBVoAph1iPsa0tIDtQ7R8=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 09:43:43 +0200
-Message-Id: <20190306074344.11553-1-bunk@stusta.de>
+Date: Wed,  6 Mar 2019 09:43:44 +0200
+Message-Id: <20190306074344.11553-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] rng-tools: Don't depend on libgcrypt when the PACKAGECONFIG is disabled
+In-Reply-To: <20190306074344.11553-1-bunk@stusta.de>
+References: <20190306074344.11553-1-bunk@stusta.de>
+Subject: [PATCH 2/2] rng-tools: Make nistbeacon support optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +44,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Mar 2019 07:43:46 -0000
 
-PACKAGECONFIG[libgcrypt] already adds it when necessary.
+Downloading your randomness directly from the US government
+is a rare usecase but adds heavy dependencies.
+
+Make it optional and non-default.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-support/rng-tools/rng-tools_6.6.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-support/rng-tools/rng-tools_6.6.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-index 4d91216e32..d3361ae4e1 100644
+index d3361ae4e1..6796c9be9e 100644
 --- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
 +++ b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-@@ -21,7 +21,6 @@ DEPENDS = "curl \
-            libxml2 \
-            openssl \
+@@ -17,9 +17,7 @@ S = "${WORKDIR}/git"
+ 
+ inherit autotools update-rc.d systemd pkgconfig
+ 
+-DEPENDS = "curl \
+-           libxml2 \
+-           openssl \
++DEPENDS = " \
             sysfsutils \
--           libgcrypt \
            "
  
- PACKAGECONFIG ??= "libgcrypt libjitterentropy"
+@@ -28,6 +26,7 @@ PACKAGECONFIG_libc-musl = "libargp libjitterentropy"
+ PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
+ PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
+ PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
++PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
+ 
+ # Refer autogen.sh in rng-tools
+ do_configure_prepend() {
 -- 
 2.17.1
 
