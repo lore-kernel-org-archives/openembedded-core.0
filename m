@@ -1,54 +1,49 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
-	[209.85.166.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BA0CA7CDC5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A59D7CD9A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 16:37:24 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id p17so10730657iol.7
+	Wed,  6 Mar 2019 18:41:55 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id n19so6925177wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 08:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=drLqCX2lgpiQJf86GHe/stPx4CzmDz8rGh+CKDjwTR4=;
-	b=LMct5PflRQVXq20PPbrGAi9nAGkBieb15ZFwRM+LgDJ/rlQ9UkcxmO1OUn3lzeBtWS
-	meoBdrforj0PcL3G8rtzFDQjg+aZtdfTwIpgowL1yMShLYzCdIL/kG2/8vdElniyfTap
-	OlL0cxc22Z8sbeY5A2Xg+LUTaZFM1YkYBI/J+dDjGq0zfiDgJ172pyQNZtOQAEAZc9yK
-	g4HmG2T9p0m934jH7CNBGHu+jiYKI26COI859T3brJWNGPD8wdYOEgHSoNb2rJEJb1EX
-	BFRLuqPJm9+Iz0pl8C99TUj1GZ71EXPH3nryexyT3mwh5VdGnwo52lrONXocdMBdDmrC
-	fnrw==
+	Wed, 06 Mar 2019 10:41:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YrUL4mV/sAzpjceCfR5jgMW6jZSvfvFDF59U/dFDL5w=;
+	b=LkcfK5+KP/mh5VCV/MOocjvXb6VvISARkuNdqx3N5pKPfe+vKdutNqphGKPWuzJsVn
+	l66b+PjoHtVHHGACjSkHWSlOmyDUNgVpM+FsA9m1gpiSqeSvnEe93zi0xoaj5mjBF6E2
+	NoplcXPb0D9levNBO59nVvdqqCLCCPenPJLu4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=drLqCX2lgpiQJf86GHe/stPx4CzmDz8rGh+CKDjwTR4=;
-	b=QlGQGQ3AgcglPCQTk7kqiGWIimyAt5E5bfeWGEPk9+GiD5M5wLGX0Kk8T/GJcYIXjZ
-	ZzhLvU3ZXhLtwyGVbg/zW1iYxXAEeLXz5AFt1E49aLyPbPZWTsWi5NrrW8LbHdnL1DNn
-	nQxBLCQA0idjQHgS51rrFckiyF+Q1QK9d7whknWlaJ90Vd7RuEYf4ELraCOoSAHb/RQb
-	xA2/6GuFPsraB/BEZSn6Jc3T/Qa3CpwhEe/T12elL1oU4emJY1CpVd/JcEXGo5BUcJL5
-	xzyrB6527cFpRAdmbfvD36T7XEAJRcT48ZnDnVfayCtkwdhzshOIhU5Okdx6dmV5imUk
-	0oog==
-X-Gm-Message-State: APjAAAUytcRGR3JWTD0EjkYStfZOK0Bo4HTKGezFqzsKrQ6+mXDKDecq
-	B6Q9sRFT18ond2rpXg98Yx0=
-X-Google-Smtp-Source: APXvYqzeW+3zQYHaTieliFjiyGgy9UEUPDjMYx2lpYS0LksWdyQi1SWeqYLF4F7UzFwDo4KXOrJNjw==
-X-Received: by 2002:a6b:b7cf:: with SMTP id h198mr3758407iof.175.1551890245676;
-	Wed, 06 Mar 2019 08:37:25 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
-	x191sm1072550itb.8.2019.03.06.08.37.24
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YrUL4mV/sAzpjceCfR5jgMW6jZSvfvFDF59U/dFDL5w=;
+	b=Nq93KXmEQ11/a/UvgKcUyQUPIp9eZt7YHdv+Q1KFwr2fdjxNKx1TtRT0wjChiYn0Fd
+	TM6kdJSZH96RM09AsE1iy8NhGhAgz//i7hxIdLCPLCZbGTb4RWlxbAgnp1VMKTztR43l
+	wS0N2G8lc7RUPgEb4jWMI8BXUL45TwsHcnlT8UNw0et2sWsEfbV8JIcdfEkbcS3Ddqvo
+	4Yj3qYczT3ZE+N6skhKYRr9rgaSWY5oFzig1R44iyRUwg4kphsa0CroedWnMGflaOXNg
+	gcvlix8JMyzq7MIlsyutLebrKkq7CFcCXmQjMs6ojzWgx2FFKxmwHAnUBjED4gH2AboJ
+	U79Q==
+X-Gm-Message-State: APjAAAXGHiDCkizpsj3AsfqTkyGlYiiWsvHruoT0AqPX9mb+LWwZ2s8u
+	QbNA96lesDstMC/bWFPFDWaJFSaOG1o=
+X-Google-Smtp-Source: APXvYqzYYm0tw2ZNDCZjRwsC3kKyh5nsc7m15eoLZTRoK7dbQXftgXNRHqpt5iN6mJ+DTSDGYKrneg==
+X-Received: by 2002:a1c:9694:: with SMTP id y142mr3183375wmd.98.1551897715444; 
+	Wed, 06 Mar 2019 10:41:55 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	p12sm3448558wrt.4.2019.03.06.10.41.54
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 08:37:24 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Wed,  6 Mar 2019 11:37:14 -0500
-Message-Id: <d9fd94147eb9a444f2a71a191d9e11eb0f6901e1.1551889557.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1551889557.git.bruce.ashfield@gmail.com>
-References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+	Wed, 06 Mar 2019 10:41:54 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Mar 2019 18:41:54 +0000
+Message-Id: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] machine: bump preferred version to 5.0
+Subject: [PATCH] scripts: Add oe-pylint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,42 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 16:37:25 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 18:41:55 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Add an oe-pylint wrapper around pylint3 to run static analysis on our python
+codebase. For now display errors and exclude common warnings which are not
+applicable to our codebase.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+The aim is to start generating this report on the autobuilder and to
+improve our score over time.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/machine/include/x86-base.inc | 2 +-
- meta/conf/machine/qemuarm.conf         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/oe-pylint | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100755 scripts/oe-pylint
 
-diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
-index c29279209b..686f938233 100644
---- a/meta/conf/machine/include/x86-base.inc
-+++ b/meta/conf/machine/include/x86-base.inc
-@@ -18,7 +18,7 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
- # kernel-related variables
- #
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
--PREFERRED_VERSION_linux-yocto ??= "4.18%"
-+PREFERRED_VERSION_linux-yocto ??= "5.0%"
- 
- #
- # XSERVER subcomponents, used to build the XSERVER variable
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index a544312627..f3a4997491 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -17,5 +17,5 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
- QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
--PREFERRED_VERSION_linux-yocto ??= "4.18%"
-+PREFERRED_VERSION_linux-yocto ??= "5.0%"
- QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+diff --git a/scripts/oe-pylint b/scripts/oe-pylint
+new file mode 100755
+index 00000000000..74ff4b884de
+--- /dev/null
++++ b/scripts/oe-pylint
+@@ -0,0 +1,11 @@
++#!/bin/bash
++#
++# Run the pylint3 against our common python module spaces and print a report of potential issues
++#
++this_dir=$(dirname $(readlink -f $0))
++ERRORS="-E"
++IGNORELIST="$ERRORS -d logging-too-many-args -d missing-docstring -d line-too-long -d invalid-name"
++PYTHONPATH=$this_dir/../bitbake/lib/ pylint3 $IGNORELIST bb
++PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib pylint3 $IGNORELIST -d undefined-variable oe
++PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib pylint3  $IGNORELIST oeqa
++PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib:$this_dir/lib pylint3 $IGNORELIST -d undefined-variable argparse_oe buildstats  devtool recipetool scriptpath testcasemgmt build_perf checklayer resulttool  scriptutils wic
+\ No newline at end of file
 -- 
-2.19.1
+2.20.1
 
 
