@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
 	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A59D7CD9A
+	by mail.openembedded.org (Postfix) with ESMTP id CE4E17CDB1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 18:41:55 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id n19so6925177wmi.1
+	Wed,  6 Mar 2019 18:44:20 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id x7so6960536wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 10:41:56 -0800 (PST)
+	Wed, 06 Mar 2019 10:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YrUL4mV/sAzpjceCfR5jgMW6jZSvfvFDF59U/dFDL5w=;
-	b=LkcfK5+KP/mh5VCV/MOocjvXb6VvISARkuNdqx3N5pKPfe+vKdutNqphGKPWuzJsVn
-	l66b+PjoHtVHHGACjSkHWSlOmyDUNgVpM+FsA9m1gpiSqeSvnEe93zi0xoaj5mjBF6E2
-	NoplcXPb0D9levNBO59nVvdqqCLCCPenPJLu4=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=snRfkNnt4S9ALbttEiqGFMXdu9jSJeLgVDyxHWoZde4=;
+	b=DMuguVq3uZUR6mEWGFnOo7TyEXgsZxL4mvdVf/nmJq3Erv4jBFHdofDCimjaIrCv33
+	Dmlz3w6gWKR7kmmYWwh3TESCO1aqhbF+idxE7j1yVbINjVue0f16vnID1R10dZd8NJFU
+	IhMZvn7Gdaq6njuhF5RrS9O78K0nBRmqEKwPc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YrUL4mV/sAzpjceCfR5jgMW6jZSvfvFDF59U/dFDL5w=;
-	b=Nq93KXmEQ11/a/UvgKcUyQUPIp9eZt7YHdv+Q1KFwr2fdjxNKx1TtRT0wjChiYn0Fd
-	TM6kdJSZH96RM09AsE1iy8NhGhAgz//i7hxIdLCPLCZbGTb4RWlxbAgnp1VMKTztR43l
-	wS0N2G8lc7RUPgEb4jWMI8BXUL45TwsHcnlT8UNw0et2sWsEfbV8JIcdfEkbcS3Ddqvo
-	4Yj3qYczT3ZE+N6skhKYRr9rgaSWY5oFzig1R44iyRUwg4kphsa0CroedWnMGflaOXNg
-	gcvlix8JMyzq7MIlsyutLebrKkq7CFcCXmQjMs6ojzWgx2FFKxmwHAnUBjED4gH2AboJ
-	U79Q==
-X-Gm-Message-State: APjAAAXGHiDCkizpsj3AsfqTkyGlYiiWsvHruoT0AqPX9mb+LWwZ2s8u
-	QbNA96lesDstMC/bWFPFDWaJFSaOG1o=
-X-Google-Smtp-Source: APXvYqzYYm0tw2ZNDCZjRwsC3kKyh5nsc7m15eoLZTRoK7dbQXftgXNRHqpt5iN6mJ+DTSDGYKrneg==
-X-Received: by 2002:a1c:9694:: with SMTP id y142mr3183375wmd.98.1551897715444; 
-	Wed, 06 Mar 2019 10:41:55 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=snRfkNnt4S9ALbttEiqGFMXdu9jSJeLgVDyxHWoZde4=;
+	b=BpQgdm4vmb135Jcc1b3KFB3+WOidGkduXJTqLATR4ECxGuzg3G3CsIQ6GoQAZyshux
+	25DDXCi9IjvlUPRV+aveGAvEiLXxS1eoQ53b6fUK6R0PdBEcxAbMQgbW5yD0uKO/rQWV
+	fPlFiBmBPKsAhwxT4cEKlb0Puepf6RxUcc8N1qGX6LY+NxjXyvWQrpw44hc7BG1YgEh4
+	ae/3gzraP9MkmMULk9SxwvW6TZSCYdFQ7gUuPYf+ZFK/AaW2JDLF4UFSdGE47it75dUg
+	u3xeFF//OD7nmvbYhCjHBL+6jvihStsaMrlDjiYXuhh0henGgUmnm5SZ6Lzr7RokYL7S
+	klcg==
+X-Gm-Message-State: APjAAAWO50X0vMaes9Wsudiyiil1ZxZZhHKQnzgCVD3owgw27rfKkRiJ
+	U2MVolEIW/lsvktGhP6ykEHI6/FLW1Q=
+X-Google-Smtp-Source: APXvYqzvosJxZhIvqQHhuFWH5ddcQ6llY6RZQsWJWw2U4nZpSLI1GMICQkn9qTPcmRcxGq/trBXCyg==
+X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr3166548wmj.49.1551897861293; 
+	Wed, 06 Mar 2019 10:44:21 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p12sm3448558wrt.4.2019.03.06.10.41.54
+	r15sm2920653wrt.37.2019.03.06.10.44.20
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 10:41:54 -0800 (PST)
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 06 Mar 2019 10:44:20 -0800 (PST)
+Message-ID: <45942114f97bf1ddd1925de1ad8de5aa69640194.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 18:41:54 +0000
-Message-Id: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+Date: Wed, 06 Mar 2019 18:44:19 +0000
+In-Reply-To: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
+References: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: [PATCH] scripts: Add oe-pylint
+Subject: Re: [PATCH] scripts: Add oe-pylint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 18:41:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Mar 2019 18:44:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add an oe-pylint wrapper around pylint3 to run static analysis on our python
-codebase. For now display errors and exclude common warnings which are not
-applicable to our codebase.
+On Wed, 2019-03-06 at 18:41 +0000, Richard Purdie wrote:
+> Add an oe-pylint wrapper around pylint3 to run static analysis on our
+> python
+> codebase. For now display errors and exclude common warnings which
+> are not
+> applicable to our codebase.
+> 
+> The aim is to start generating this report on the autobuilder and to
+> improve our score over time.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The aim is to start generating this report on the autobuilder and to
-improve our score over time.
+The output of this is saved off as part of the autobuilder test result
+output, e.g.:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/oe-pylint | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100755 scripts/oe-pylint
+https://autobuilder.yocto.io/pub/non-release/20190306-14/testresults/oe-selftest/pylint.log
 
-diff --git a/scripts/oe-pylint b/scripts/oe-pylint
-new file mode 100755
-index 00000000000..74ff4b884de
---- /dev/null
-+++ b/scripts/oe-pylint
-@@ -0,0 +1,11 @@
-+#!/bin/bash
-+#
-+# Run the pylint3 against our common python module spaces and print a report of potential issues
-+#
-+this_dir=$(dirname $(readlink -f $0))
-+ERRORS="-E"
-+IGNORELIST="$ERRORS -d logging-too-many-args -d missing-docstring -d line-too-long -d invalid-name"
-+PYTHONPATH=$this_dir/../bitbake/lib/ pylint3 $IGNORELIST bb
-+PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib pylint3 $IGNORELIST -d undefined-variable oe
-+PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib pylint3  $IGNORELIST oeqa
-+PYTHONPATH=$this_dir/../bitbake/lib/:$this_dir/../meta/lib:$this_dir/lib pylint3 $IGNORELIST -d undefined-variable argparse_oe buildstats  devtool recipetool scriptpath testcasemgmt build_perf checklayer resulttool  scriptutils wic
-\ No newline at end of file
--- 
-2.20.1
+If anyone has some time and wants to help out cleaning things up to get
+better results, this would be a great and comparatively low learning
+curve way to get started with helping with the project!
+
+Right now we save errors only, ultimately we may be able to clean up
+warnings too.
+
+Cheers,
+
+Richard
 
 
