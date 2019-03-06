@@ -1,33 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BE6747CCB8
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+	[209.85.208.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 601957CCC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 07:59:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44DmP25ybxz4K;
-	Wed,  6 Mar 2019 08:59:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1551859143;
-	bh=oabO7gX5FxM/xvoLLE/FtL0dvBkLYFDRSNkyhL+XqKo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MAlngHcfRRF1DFVXqiAKzomlzFl+3KG4ul9o3gXJjWXvgzabF4f8YXyrh65+0jBPN
-	D/nUVu9O6y3KMRcXVGCl+y5y5zK4vkKGvufUAK63Iiv7bGpmGtgXAPYIObovIt9Pv5
-	dBsAiz6UnMW0zP6u1reRqHgpUvrb6mX4Ez8cLO6yz4B7wF2DC5w+afNPEQGOaSrti/
-	K/ZdQfSCx1FMDsQe4QzPObc7sbbcI+ks1Q/tfulsGofco2EJX4byw7DL13PbyMAuZg
-	a9emtgKffSCDkgjutYfC/FGJlez9sG3+nQ3ozIgiNpCZyOnmIOigEUlVNmunKkb689
-	Mnuklnz4jjA+htxApgIg6fNmHe6dbc0xTz410+Z0W2k0guG0S7WtVyJGGgN1u+nHUa
-	p6jR8iAIgwSkU4V/PisxdroOGJeKa9KqFiLkZyBIUhfF6sRuEDRy0iOd/ApV+yF71P
-	EZ+s56fzOtrZEhQ0ZDawZT+E5BgRCI8yh6gPAcxI7gUhqnV2qo50OCAG56k3wsyMJC
-	HLaqtLEQ3LMNFXOAQ7McrUE3KKwvmBPbcLbPMxpW8fEAgL0QJJg5qX3uKedjPWXQka
-	+4HmJX5t6V00toJxscmqxH5fjp5Pt2QIX9aJnVN+Ru08UVOBOGCetPlZKZxrf8YYou
-	xj61bXSD4nq0qbrR8g3p/wDA=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 09:59:01 +0200
-Message-Id: <20190306075901.13177-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Cc: Tom Rini <trini@konsulko.com>
-Subject: [PATCH] bind-utils: Install nslookup
+	Wed,  6 Mar 2019 12:16:15 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id f2so10137130edy.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Mar 2019 04:16:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=fFkK2ow+uR81NN58j4ZwiHRdVgqpGccPV0jiJ+s4L+I=;
+	b=pKoew/Nzp+OfjlN7BgxJtmX/iT5C4tywLmls1MQ4ZriDrmRufhe3Q8BB8FiG6I9vSb
+	EmfEskQSY59HaHyaT7THViFdsNUrO2f40WSOEgVsrziRQCQGA22W6nOjtrGdGbgOzN9t
+	2kZrYb6Z15qTkKOky3g16o6HcZHQVM5tjU/W8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=fFkK2ow+uR81NN58j4ZwiHRdVgqpGccPV0jiJ+s4L+I=;
+	b=L+oSyFYNIH8E65ucDYB3nW+tfxlvpwtRlU+qLiQfsPsFj2kONBeWI+wGFfhH6UidAy
+	MBYy/dhPL0aItlAobeoTerPZSlo2dlF/ydhPXGAk0Dc+cKPpDD2FLwpKbbbvmLabY1Yx
+	ZVdSkaOs5zYNkEN4YhNKsFUM3cxVSAcDe2dnnzXjk3szm59SdC3R5eklG3V6+omBv4vf
+	bWSzZpsp9YcqMe0fyRTvGEUP9LOeYvZqpiiWDX2CFGdWq39zXSWbMFzGRudFBwubs8mk
+	r2Ew5U+aRyYhnna+dytUk87oR1P647AV19cWG8SmubN/BzKwvkXHZvLtgzd74GN8fWZI
+	X1FQ==
+X-Gm-Message-State: APjAAAUlBn/a9YxAuuC4dvjPKDalcrnfoQNbo0htyppIA+Efunt52TL1
+	VML4R3Al8DSX285t/V9sNmfOrA8IfJMTRg==
+X-Google-Smtp-Source: APXvYqyXgXYQUHZqCDSP9zA/zhgh7e8bDetSAb3xKX05TSj3HzcJODh/W92cyiycIonqBVMLzwj7zA==
+X-Received: by 2002:a50:b699:: with SMTP id d25mr23909161ede.110.1551874575874;
+	Wed, 06 Mar 2019 04:16:15 -0800 (PST)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-880D-159-4081-9338-CA43.dyn6.twc.com.
+	[2606:a000:1401:880d:159:4081:9338:ca43])
+	by smtp.gmail.com with ESMTPSA id m30sm405190eda.84.2019.03.06.04.16.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Mar 2019 04:16:14 -0800 (PST)
+Date: Wed, 6 Mar 2019 07:16:10 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190306121610.GP5026@bill-the-cat>
+References: <20190306075901.13177-1-bunk@stusta.de>
+MIME-Version: 1.0
+In-Reply-To: <20190306075901.13177-1-bunk@stusta.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bind-utils: Install nslookup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +58,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 07:59:03 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 12:16:15 -0000
+X-Groupsio-MsgNum: 121995
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rdbbj4JunmnVtKq/"
+Content-Disposition: inline
 
-nslookup was undeprecated 15 years ago,
-and installing bind-utils should replace the busybox version.
+--rdbbj4JunmnVtKq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-connectivity/bind/bind_9.11.5.bb | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+On Wed, Mar 06, 2019 at 09:59:01AM +0200, Adrian Bunk wrote:
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.5.bb
-index 11990ee27e..67672792b1 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5.bb
-@@ -73,8 +73,6 @@ do_install_prepend() {
- 
- do_install_append() {
- 
--	rm "${D}${bindir}/nslookup"
--	rm "${D}${mandir}/man1/nslookup.1"
- 	rmdir "${D}${localstatedir}/run"
- 	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
- 	install -d -o bind "${D}${localstatedir}/cache/bind"
-@@ -118,8 +116,12 @@ CONFFILES_${PN} = " \
- 	${sysconfdir}/bind/db.root \
- 	"
- 
-+ALTERNATIVE_${PN}-utils = "nslookup"
-+ALTERNATIVE_LINK_NAME[nslookup] = "${bindir}/nslookup"
-+ALTERNATIVE_PRIORITY = "100"
-+
- PACKAGE_BEFORE_PN += "${PN}-utils"
--FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig ${bindir}/nsupdate"
-+FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig ${bindir}/nslookup ${bindir}/nsupdate"
- FILES_${PN}-dev += "${bindir}/isc-config.h"
- FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
- 
--- 
-2.17.1
+> nslookup was undeprecated 15 years ago,
+> and installing bind-utils should replace the busybox version.
+>=20
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
 
+Thanks, I have this locally too but got side-tracked so I haven't posted
+my v2 series, I should get to that today.
 
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+--=20
+Tom
+
+--rdbbj4JunmnVtKq/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcf7oKAAoJEIf59jXTHXZSQLgQALpLju4yAJvqOWwNymA3eB3/
+TUaxdEVvZS5q490TVw38D7mAdYqrlGrmfWUonzZrzdZzY6+KjQ8aCUgD+e7a0K+q
+0Rqk+7j5uMkj7h+tVUR4jdq11Y7p1YfqKmqEgQdc7VslNBdymWtJpE3uVmjqDcMK
+uG576lpH/uof6XvBMPKdkj9Hxw6rI9zNHRCUljEuV1Ncf52/iPCkmy/QpblOWwi9
+zexfSrYUjrIoj5Tt3oWOeHzIHri47ip579itMc8fRU+IxPXQheqSL1gUCpZIvYNP
+QjGV4wLRnEVC4TJTEuv9IFV6HsFuQ0P63e7X1Y73heIK+PjRlB2FWQ8vQA+pSiSY
+fxtg9N0c3daoMjRiNC/mYpBhg0lJRDb6qGhl7J8PetOa1u3U3Ni6fd65AlJ9HnKw
+MRP7AKyzJSs+dUO1Iejsgg1740gHHWeojA749nC3zg0l8ElY25zWJLxvunnKIe9D
+RJUL9iRsjQwRz3NZYJw3asdzGgldduIc9KHzuMw6tYlvosHu7wQMN7ISBbpUcZ6H
+IDyq3e3pyoc8zfirQv5nTZvxg2SMIByzoY+x2EiM1IJwX/hhOa0juy3Z/zx8XLKn
+42TWC9tGpCwEUzspcgDrYD1yaRzJL7Z21CCvLnkE1ECBa6VKm/RmsBdrI8AC4VD6
+h+Fi5j0Wvgo2SRaPTCzw
+=oLHG
+-----END PGP SIGNATURE-----
+
+--rdbbj4JunmnVtKq/--
