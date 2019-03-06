@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CA40C7CD4D
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A36717CD66
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 16:37:19 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id z131so10433743itf.5
+	Wed,  6 Mar 2019 16:37:20 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id v2so10451310ith.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 08:37:21 -0800 (PST)
+	Wed, 06 Mar 2019 08:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=XT2asHFy3sAuCedmLAIuOS0UB+gndbskrBeuWsEMyKM=;
-	b=YTPjFRgjmC5clwpNNt42EInBgedb+t7VFbRhg2hImnZnsp2GrMNTQ7MlIIRPuoBuXY
-	2ym+SKgw4z1RWBmzub/9K/dlw0muDripdgjxMAkzoI9ga5gPjgaGe3wX+YVA/OTYfxET
-	9q74yHOh81z7kM47cirQigyHemIQoqGKQZt6mHmDIF8XhK17OAGMP+GyDJvWPkaqDh1b
-	eQkV3nBb0J5cKC/vRtbEKgHXMZlioPm36PumTJAJwhwx0vrDiwmbMMnccsV0t63F0laA
-	71yPkzPrAQhtt4b3RmyVe2CAHjUz87rk7QrZRy9vkK+aKIDFDQQrub85528dK+jAOSBj
-	fYWA==
+	bh=LPhhLnNuXajp/71oCYTx5LmFp2NDjBuPs7uCuI/MaGU=;
+	b=u9cpt9Oud64unfkzS+w66KgkYQsESxzs0klHrEZdQgRD4QlEdF7OHEtIaPucPPJlZi
+	/4SYdb/OElhfRJSSFJ7j3ihlTrnknHz26Osr11e7vLYOHy6BcXZyW2r2JlRU9W6HVqH/
+	twsVKTzDWrxs3E30d7ML0nY7ZANhmquNSk5glOzLyO8ruDCMtuGUQKk+/GgvKUplQs7V
+	wBmCe9wu32pAXAAkH2C+RCIt8ow5CNte0T6yZ3OL/PPc2+ez9sjN+euCADP6eISuCxi+
+	1k87ZbQMeJPIdZTUeweTZL+j3yvUOlInD3WA0davvhWReikxf2oxzSs5dhFpVg8zR3Ta
+	pdeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=XT2asHFy3sAuCedmLAIuOS0UB+gndbskrBeuWsEMyKM=;
-	b=sfps0NSb/L9qWEObL0Wn6QRlPjbJf8SxCpWWOZhUJMyd+mn1CA+mx/pLe6i89FVchB
-	iA+xvb9luniOsYNJNXUS4zFcwYJUtGWIBtc9HDU1AEEVpNlrgofcEndByybgsk7zrT8B
-	h7j0V5h5mttPDVQTT8fIjyU15P40d6igegmBplOtgdOYGN0rrlP/SxiiyEt2lmQgA9Fs
-	5kFtJTxpHALwhtaIcZpDezTlt2KRkYF9U6OWT9cZU02AC2SV2rOLn8EmbrUbgkqjyKH/
-	mOPlaN0Y4GZifgW2v/mtHsiPG+J82Es+xgB6JaEtXzPRfUtmF74hDe3cNYg90yMg1vm8
-	annQ==
-X-Gm-Message-State: APjAAAUqilOgkL2+tBvCuv2uuaozM9Kpb6tDNQ3QzbrIBSh/HD4K8A9g
-	zcRYT/jUx3mdUAnviqQv/xiE+L9wmIs=
-X-Google-Smtp-Source: APXvYqzzqVe1Jy+4+W+Vt5IA4OdV3OlNW1Zm6GMqjfF+wUQaogikGOzjlyDf7CaM4fQ/eLopnENPHQ==
-X-Received: by 2002:a24:fc82:: with SMTP id b124mr2481709ith.153.1551890240562;
-	Wed, 06 Mar 2019 08:37:20 -0800 (PST)
+	bh=LPhhLnNuXajp/71oCYTx5LmFp2NDjBuPs7uCuI/MaGU=;
+	b=I/nU2pclcvI+7D9KCdC78RCbqqFYlYkdrdQzB66cVNns5jTf+CjwTQMkR9Fs9yTOYk
+	Atg4Wpqub4IOwGRgZdSN0zOA3zauKpU1d1eTQKMDRWFQVs76VY/AX2+GYXww3GVRJ6uD
+	VCIRYCoUKIQVq8UD2xm/vDxz+dyjMKaQTVTOzmmPsLkS2Bhc9TeM2kn3f/eK3gvwzX56
+	BwB6Q+p9yR1cRmnrjPT1CBknGX3wDidNJ8oq+PooiXVlnnRmUh8eH+ZChUb0mVHxTd+S
+	kA94Uf+GUJ68EP/aUjQKEoS7P8PlON5s6q5A8FcyESPDqwh6Z9LmYT+GYcVI6S0Gof/H
+	3CeA==
+X-Gm-Message-State: APjAAAUpiTlTKKVhokwNSRvogTuS7QYSoBfBR6Turhc6Zcd8hs2j0Kms
+	dnCnGO0QBNhyDxFd3PvST6oxVKyASMc=
+X-Google-Smtp-Source: APXvYqwZKTUSOdigFQMthRHAjoMMPewN/U5lmidNkIKujCRklNLmyV6js1/GMPVnRCJRK91gs426Ng==
+X-Received: by 2002:a24:1444:: with SMTP id 65mr2405530itg.137.1551890241589; 
+	Wed, 06 Mar 2019 08:37:21 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
-	x191sm1072550itb.8.2019.03.06.08.37.19
+	x191sm1072550itb.8.2019.03.06.08.37.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 08:37:19 -0800 (PST)
+	Wed, 06 Mar 2019 08:37:20 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed,  6 Mar 2019 11:37:10 -0500
-Message-Id: <ae97e09579b59253aec08f5b8118e739ec57c4de.1551889557.git.bruce.ashfield@gmail.com>
+Date: Wed,  6 Mar 2019 11:37:11 -0500
+Message-Id: <9ae0407206567de2b89c37be8a030aeb697ada0c.1551889557.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1551889557.git.bruce.ashfield@gmail.com>
 References: <cover.1551889557.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/6] linux-libc-headers: update to 5.x headers
+Subject: [PATCH 3/6] linux-yocto: introduce 5.0 versioned recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,523 +61,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 16:37:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 Mar 2019 16:37:21 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating the linux-libc-headers to the 5.x kernel variant to match
-the latest reference kernel in the 2.7 release.
+Introducing the 5.0 linux-yocto reference kernel, which will become
+the "latest" kernel as part of the spring yocto release.
 
-We have two patches refreshed for context changes, and three patches
-dropped since they have been merged to the mainline kernel and are
-no longer necessary.
+qemu* has been built and sanity tested against this kernel, and it
+is suitable to become the default build for the emulated references.
+
+Some minor configuration cleanup was performed, but otherwise, things
+are very similar to the 4.19 kernel config:
+
+  7fdb966db86 (HEAD -> yocto-5.0) aufs4: kbuild patch
+  c76b027a8b2 iosched: remove configs for removed legacy io schedules
+  5d1f8102244 netfilter: drop removed config options
+  8ff16f508f5 kernel-yocto: 5.0 kernel prep
+
+Feature wise, this is a match for 4.19, with yaffs2 and aufs4 being
+kept around for another release. Aufs is scheduled for removal in
+the fall release.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc   |   2 +-
- .../linux-libc-headers/linux-libc-headers.inc |   2 +
- ...kernel_clockid_t-in-uapi-net_stamp.h.patch |  49 ---
- ...d-input-and-output-files-instead-of-.patch |  11 +-
- ...ce-Fix-SVE_PT_REGS_OFFSET-definition.patch |  43 ---
- ...angle-uapi-asm-ptrace.h-from-uapi-as.patch | 289 ------------------
- ...ders_4.19.bb => linux-libc-headers_5.0.bb} |   7 +-
- 7 files changed, 10 insertions(+), 393 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.19.bb => linux-libc-headers_5.0.bb} (65%)
+ .../linux/linux-yocto-rt_5.0.bb               | 43 ++++++++++++++++
+ .../linux/linux-yocto-tiny_5.0.bb             | 32 ++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb  | 51 +++++++++++++++++++
+ 3 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.0.bb
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 5d71825889..12d3901ee1 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -23,7 +23,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.32%"
- GDBVERSION ?= "8.2%"
- GLIBCVERSION ?= "2.29%"
--LINUXLIBCVERSION ?= "4.19%"
-+LINUXLIBCVERSION ?= "5.0%"
- QEMUVERSION ?= "3.1%"
- GOVERSION ?= "1.11%"
- 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index be215af9b9..7f838f623e 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -38,6 +38,8 @@ python __anonymous () {
-         d.setVar("HEADER_FETCH_VER", "3.0")
-     elif major == "4":
-         d.setVar("HEADER_FETCH_VER", "4.x")
-+    elif major == "5":
-+        d.setVar("HEADER_FETCH_VER", "5.x")
-     else:
-         d.setVar("HEADER_FETCH_VER", "2.6")
- }
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch
-deleted file mode 100644
-index 3684cc21bf..0000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From e2c4cf7f98a519eb4d95532bfa06bcaf3562fed5 Mon Sep 17 00:00:00 2001
--From: Davide Caratti <dcaratti@redhat.com>
--Date: Mon, 17 Dec 2018 11:26:38 +0100
--Subject: [PATCH] net: Use __kernel_clockid_t in uapi net_stamp.h
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Herton reports the following error when building a userspace program that
--includes net_stamp.h:
--
-- In file included from foo.c:2:
-- /usr/include/linux/net_tstamp.h:158:2: error: unknown type name
-- ‘clockid_t’
--   clockid_t clockid; /* reference clockid */
--   ^~~~~~~~~
--
--Fix it by using __kernel_clockid_t in place of clockid_t.
--
--Fixes: 80b14dee2bea ("net: Add a new socket option for a future transmit time.")
--Cc: Timothy Redaelli <tredaelli@redhat.com>
--Reported-by: Herton R. Krzesinski <herton@redhat.com>
--Signed-off-by: Davide Caratti <dcaratti@redhat.com>
--Tested-by: Paolo Abeni <pabeni@redhat.com>
--Signed-off-by: David S. Miller <davem@davemloft.net>
-----
--Upstream-Status: Backport [https://github.com/torvalds/linux/commit/e2c4cf7f98a519eb4d95532bfa06bcaf3562fed5]
--
-- include/uapi/linux/net_tstamp.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tstamp.h
--index 97ff3c17ec4d..e5b39721c6e4 100644
----- a/include/uapi/linux/net_tstamp.h
--+++ b/include/uapi/linux/net_tstamp.h
--@@ -155,8 +155,8 @@ enum txtime_flags {
-- };
-- 
-- struct sock_txtime {
---	clockid_t	clockid;	/* reference clockid */
---	__u32		flags;		/* as defined by enum txtime_flags */
--+	__kernel_clockid_t	clockid;/* reference clockid */
--+	__u32			flags;	/* as defined by enum txtime_flags */
-- };
-- 
-- #endif /* _NET_TIMESTAMPING_H */
---- 
--2.20.1
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-index 9ba1c076e8..a5ded602e5 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
-@@ -1,8 +1,7 @@
- From 694eba7bb974f6b8bd308804cb24350150108b2b Mon Sep 17 00:00:00 2001
- From: He Zhe <zhe.he@windriver.com>
- Date: Wed, 21 Nov 2018 15:12:43 +0800
--Subject: [PATCH] scripts: Use fixed input and output files instead of pipe for
-- here-doc
-+Subject: [PATCH] scripts: Use fixed input and output files instead of pipe for here-doc
- 
- There was a bug of "as" in binutils that when it checks if the input file and
- output file are the same one, it would not check if they are on the same block
-@@ -44,14 +43,14 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
-  1 file changed, 4 insertions(+), 1 deletion(-)
- 
- diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
--index 083c526..8dfac55 100755
-+index 8b980fb22..d256a9438 100755
- --- a/scripts/gcc-goto.sh
- +++ b/scripts/gcc-goto.sh
- @@ -3,7 +3,7 @@
-  # Test for gcc 'asm goto' support
-  # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
-  
---cat << "END" | $@ -x c - -c -o /dev/null >/dev/null 2>&1 && echo "y"
-+-cat << "END" | $@ -x c - -fno-PIE -c -o /dev/null
- +cat << "END" > ./input
-  int main(void)
-  {
-@@ -61,8 +60,8 @@ index 083c526..8dfac55 100755
-  }
-  END
- +
--+$@ -x c ./input -c -o ./output && echo "y"
-++$@ -x c ./input -fno-PIE -c -o ./output
- +rm ./input ./output
- -- 
--2.7.4
-+2.19.1
- 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
-deleted file mode 100644
-index 462fdba2ed..0000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 0dede80d25ae2005f8af7235809fc09a7c47c62e Mon Sep 17 00:00:00 2001
--From: Dave Martin <Dave.Martin@arm.com>
--Date: Tue, 11 Dec 2018 19:26:46 +0000
--Subject: [PATCH 2/3] arm64/sve: ptrace: Fix SVE_PT_REGS_OFFSET definition
--
--SVE_PT_REGS_OFFSET is supposed to indicate the offset for skipping
--over the ptrace NT_ARM_SVE header (struct user_sve_header) to the
--start of the SVE register data proper.
--
--However, currently SVE_PT_REGS_OFFSET is defined in terms of struct
--sve_context, which is wrong: that structure describes the SVE
--header in the signal frame, not in the ptrace regset.
--
--This patch fixes the definition to use the ptrace header structure
--struct user_sve_header instead.
--
--By good fortune, the to structures are the same size anyway, so
--there is no functional or ABI change.
--
--Signed-off-by: Dave Martin <Dave.Martin@arm.com>
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
--Upstream-Status: Submitted [https://www.spinics.net/lists/arm-kernel/msg694800.html]
-----
-- arch/arm64/include/uapi/asm/ptrace.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
--index 98c4ce55d9c3..ad64d2c92ef5 100644
----- a/arch/arm64/include/uapi/asm/ptrace.h
--+++ b/arch/arm64/include/uapi/asm/ptrace.h
--@@ -130,7 +130,7 @@ struct user_sve_header {
-- 
-- /* Offset from the start of struct user_sve_header to the register data */
-- #define SVE_PT_REGS_OFFSET					\
---	((sizeof(struct sve_context) + (SVE_VQ_BYTES - 1))	\
--+	((sizeof(struct user_sve_header) + (SVE_VQ_BYTES - 1))	\
-- 		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
-- 
-- /*
---- 
--2.5.0
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
-deleted file mode 100644
-index 0423f0f2cc..0000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch
-+++ /dev/null
-@@ -1,289 +0,0 @@
--From 1114697c04b9699112e78dd8fc6ec849609ca1cb Mon Sep 17 00:00:00 2001
--From: Dave Martin <Dave.Martin@arm.com>
--Date: Tue, 11 Dec 2018 19:26:47 +0000
--Subject: [PATCH 3/3] arm64/sve: Disentangle <uapi/asm/ptrace.h> from
-- <uapi/asm/sigcontext.h>
--
--Currently, <uapi/asm/sigcontext.h> provides common definitions for
--describing SVE context structures that are also used by the ptrace
--definitions in <uapi/asm/ptrace.h>.
--
--For this reason, a #include of <asm/sigcontext.h> was added in
--ptrace.h, but it this turns out that this can interact badly with
--userspace code that tries to include ptrace.h on top of the libc
--headers (which may provide their own shadow definitions for
--sigcontext.h).
--
--To make the headers easier for userspace to consume, this patch
--bounces the common definitions into an __SVE_* namespace and moves
--them to a backend header <uapi/asm/sve_context.h> that can be
--included by the other headers as appropriate.  This should allow
--ptrace.h to be used alongside libc's sigcontext.h (if any) without
--ill effects.
--
--This should make the situation unambiguous: <asm/sigcontext.h> is
--the header to include for the sigframe-specific definitions, while
--<asm/ptrace.h> is the header to include for ptrace-specific
--definitions.
--
--To avoid conflicting with existing usage, <asm/sigcontext.h>
--remains the canonical way to get the common definitions for
--SVE_VQ_MIN, sve_vq_from_vl() etc., both in userspace and in the
--kernel: relying on these being defined as a side effect of
--including just <asm/ptrace.h> was never intended to be safe.
--
--Signed-off-by: Dave Martin <Dave.Martin@arm.com>
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
--Upstream-Status: Submitted [https://www.spinics.net/lists/arm-kernel/msg694800.html]
-----
-- arch/arm64/include/uapi/asm/ptrace.h      | 39 ++++++++++-----------
-- arch/arm64/include/uapi/asm/sigcontext.h  | 56 +++++++++++++++----------------
-- arch/arm64/include/uapi/asm/sve_context.h | 50 +++++++++++++++++++++++++++
-- 3 files changed, 96 insertions(+), 49 deletions(-)
-- create mode 100644 arch/arm64/include/uapi/asm/sve_context.h
--
--diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
--index ad64d2c92ef5..81547c3a95a3 100644
----- a/arch/arm64/include/uapi/asm/ptrace.h
--+++ b/arch/arm64/include/uapi/asm/ptrace.h
--@@ -23,7 +23,7 @@
-- #include <linux/types.h>
-- 
-- #include <asm/hwcap.h>
---#include <asm/sigcontext.h>
--+#include <asm/sve_context.h>
-- 
-- 
-- /*
--@@ -129,9 +129,9 @@ struct user_sve_header {
--  */
-- 
-- /* Offset from the start of struct user_sve_header to the register data */
---#define SVE_PT_REGS_OFFSET					\
---	((sizeof(struct user_sve_header) + (SVE_VQ_BYTES - 1))	\
---		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
--+#define SVE_PT_REGS_OFFSET						\
--+	((sizeof(struct user_sve_header) + (__SVE_VQ_BYTES - 1))	\
--+		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
-- 
-- /*
--  * The register data content and layout depends on the value of the
--@@ -177,39 +177,36 @@ struct user_sve_header {
--  * Additional data might be appended in the future.
--  */
-- 
---#define SVE_PT_SVE_ZREG_SIZE(vq)	SVE_SIG_ZREG_SIZE(vq)
---#define SVE_PT_SVE_PREG_SIZE(vq)	SVE_SIG_PREG_SIZE(vq)
---#define SVE_PT_SVE_FFR_SIZE(vq)		SVE_SIG_FFR_SIZE(vq)
--+#define SVE_PT_SVE_ZREG_SIZE(vq)	__SVE_ZREG_SIZE(vq)
--+#define SVE_PT_SVE_PREG_SIZE(vq)	__SVE_PREG_SIZE(vq)
--+#define SVE_PT_SVE_FFR_SIZE(vq)		__SVE_FFR_SIZE(vq)
-- #define SVE_PT_SVE_FPSR_SIZE		sizeof(__u32)
-- #define SVE_PT_SVE_FPCR_SIZE		sizeof(__u32)
-- 
---#define __SVE_SIG_TO_PT(offset) \
---	((offset) - SVE_SIG_REGS_OFFSET + SVE_PT_REGS_OFFSET)
---
-- #define SVE_PT_SVE_OFFSET		SVE_PT_REGS_OFFSET
-- 
-- #define SVE_PT_SVE_ZREGS_OFFSET \
---	__SVE_SIG_TO_PT(SVE_SIG_ZREGS_OFFSET)
--+	(SVE_PT_REGS_OFFSET + __SVE_ZREGS_OFFSET)
-- #define SVE_PT_SVE_ZREG_OFFSET(vq, n) \
---	__SVE_SIG_TO_PT(SVE_SIG_ZREG_OFFSET(vq, n))
--+	(SVE_PT_REGS_OFFSET + __SVE_ZREG_OFFSET(vq, n))
-- #define SVE_PT_SVE_ZREGS_SIZE(vq) \
---	(SVE_PT_SVE_ZREG_OFFSET(vq, SVE_NUM_ZREGS) - SVE_PT_SVE_ZREGS_OFFSET)
--+	(SVE_PT_SVE_ZREG_OFFSET(vq, __SVE_NUM_ZREGS) - SVE_PT_SVE_ZREGS_OFFSET)
-- 
-- #define SVE_PT_SVE_PREGS_OFFSET(vq) \
---	__SVE_SIG_TO_PT(SVE_SIG_PREGS_OFFSET(vq))
--+	(SVE_PT_REGS_OFFSET + __SVE_PREGS_OFFSET(vq))
-- #define SVE_PT_SVE_PREG_OFFSET(vq, n) \
---	__SVE_SIG_TO_PT(SVE_SIG_PREG_OFFSET(vq, n))
--+	(SVE_PT_REGS_OFFSET + __SVE_PREG_OFFSET(vq, n))
-- #define SVE_PT_SVE_PREGS_SIZE(vq) \
---	(SVE_PT_SVE_PREG_OFFSET(vq, SVE_NUM_PREGS) - \
--+	(SVE_PT_SVE_PREG_OFFSET(vq, __SVE_NUM_PREGS) - \
-- 		SVE_PT_SVE_PREGS_OFFSET(vq))
-- 
-- #define SVE_PT_SVE_FFR_OFFSET(vq) \
---	__SVE_SIG_TO_PT(SVE_SIG_FFR_OFFSET(vq))
--+	(SVE_PT_REGS_OFFSET + __SVE_FFR_OFFSET(vq))
-- 
-- #define SVE_PT_SVE_FPSR_OFFSET(vq)				\
-- 	((SVE_PT_SVE_FFR_OFFSET(vq) + SVE_PT_SVE_FFR_SIZE(vq) +	\
---			(SVE_VQ_BYTES - 1))			\
---		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
--+			(__SVE_VQ_BYTES - 1))			\
--+		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
-- #define SVE_PT_SVE_FPCR_OFFSET(vq) \
-- 	(SVE_PT_SVE_FPSR_OFFSET(vq) + SVE_PT_SVE_FPSR_SIZE)
-- 
--@@ -220,8 +217,8 @@ struct user_sve_header {
-- 
-- #define SVE_PT_SVE_SIZE(vq, flags)					\
-- 	((SVE_PT_SVE_FPCR_OFFSET(vq) + SVE_PT_SVE_FPCR_SIZE		\
---			- SVE_PT_SVE_OFFSET + (SVE_VQ_BYTES - 1))	\
---		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
--+			- SVE_PT_SVE_OFFSET + (__SVE_VQ_BYTES - 1))	\
--+		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
-- 
-- #define SVE_PT_SIZE(vq, flags)						\
-- 	 (((flags) & SVE_PT_REGS_MASK) == SVE_PT_REGS_SVE ?		\
--diff --git a/arch/arm64/include/uapi/asm/sigcontext.h b/arch/arm64/include/uapi/asm/sigcontext.h
--index dca8f8b5168b..5f3c0cec5af9 100644
----- a/arch/arm64/include/uapi/asm/sigcontext.h
--+++ b/arch/arm64/include/uapi/asm/sigcontext.h
--@@ -130,6 +130,8 @@ struct sve_context {
-- 
-- #endif /* !__ASSEMBLY__ */
-- 
--+#include <asm/sve_context.h>
--+
-- /*
--  * The SVE architecture leaves space for future expansion of the
--  * vector length beyond its initial architectural limit of 2048 bits
--@@ -138,21 +140,20 @@ struct sve_context {
--  * See linux/Documentation/arm64/sve.txt for a description of the VL/VQ
--  * terminology.
--  */
---#define SVE_VQ_BYTES		16	/* number of bytes per quadword */
--+#define SVE_VQ_BYTES		__SVE_VQ_BYTES	/* bytes per quadword */
-- 
---#define SVE_VQ_MIN		1
---#define SVE_VQ_MAX		512
--+#define SVE_VQ_MIN		__SVE_VQ_MIN
--+#define SVE_VQ_MAX		__SVE_VQ_MAX
-- 
---#define SVE_VL_MIN		(SVE_VQ_MIN * SVE_VQ_BYTES)
---#define SVE_VL_MAX		(SVE_VQ_MAX * SVE_VQ_BYTES)
--+#define SVE_VL_MIN		__SVE_VL_MIN
--+#define SVE_VL_MAX		__SVE_VL_MAX
-- 
---#define SVE_NUM_ZREGS		32
---#define SVE_NUM_PREGS		16
--+#define SVE_NUM_ZREGS		__SVE_NUM_ZREGS
--+#define SVE_NUM_PREGS		__SVE_NUM_PREGS
-- 
---#define sve_vl_valid(vl) \
---	((vl) % SVE_VQ_BYTES == 0 && (vl) >= SVE_VL_MIN && (vl) <= SVE_VL_MAX)
---#define sve_vq_from_vl(vl)	((vl) / SVE_VQ_BYTES)
---#define sve_vl_from_vq(vq)	((vq) * SVE_VQ_BYTES)
--+#define sve_vl_valid(vl)	__sve_vl_valid(vl)
--+#define sve_vq_from_vl(vl)	__sve_vq_from_vl(vl)
--+#define sve_vl_from_vq(vq)	__sve_vl_from_vq(vq)
-- 
-- /*
--  * If the SVE registers are currently live for the thread at signal delivery,
--@@ -205,34 +206,33 @@ struct sve_context {
--  * Additional data might be appended in the future.
--  */
-- 
---#define SVE_SIG_ZREG_SIZE(vq)	((__u32)(vq) * SVE_VQ_BYTES)
---#define SVE_SIG_PREG_SIZE(vq)	((__u32)(vq) * (SVE_VQ_BYTES / 8))
---#define SVE_SIG_FFR_SIZE(vq)	SVE_SIG_PREG_SIZE(vq)
--+#define SVE_SIG_ZREG_SIZE(vq)	__SVE_ZREG_SIZE(vq)
--+#define SVE_SIG_PREG_SIZE(vq)	__SVE_PREG_SIZE(vq)
--+#define SVE_SIG_FFR_SIZE(vq)	__SVE_FFR_SIZE(vq)
-- 
-- #define SVE_SIG_REGS_OFFSET					\
---	((sizeof(struct sve_context) + (SVE_VQ_BYTES - 1))	\
---		/ SVE_VQ_BYTES * SVE_VQ_BYTES)
--+	((sizeof(struct sve_context) + (__SVE_VQ_BYTES - 1))	\
--+		/ __SVE_VQ_BYTES * __SVE_VQ_BYTES)
-- 
---#define SVE_SIG_ZREGS_OFFSET	SVE_SIG_REGS_OFFSET
--+#define SVE_SIG_ZREGS_OFFSET \
--+		(SVE_SIG_REGS_OFFSET + __SVE_ZREGS_OFFSET)
-- #define SVE_SIG_ZREG_OFFSET(vq, n) \
---	(SVE_SIG_ZREGS_OFFSET + SVE_SIG_ZREG_SIZE(vq) * (n))
---#define SVE_SIG_ZREGS_SIZE(vq) \
---	(SVE_SIG_ZREG_OFFSET(vq, SVE_NUM_ZREGS) - SVE_SIG_ZREGS_OFFSET)
--+		(SVE_SIG_REGS_OFFSET + __SVE_ZREG_OFFSET(vq, n))
--+#define SVE_SIG_ZREGS_SIZE(vq) __SVE_ZREGS_SIZE(vq)
-- 
-- #define SVE_SIG_PREGS_OFFSET(vq) \
---	(SVE_SIG_ZREGS_OFFSET + SVE_SIG_ZREGS_SIZE(vq))
--+		(SVE_SIG_REGS_OFFSET + __SVE_PREGS_OFFSET(vq))
-- #define SVE_SIG_PREG_OFFSET(vq, n) \
---	(SVE_SIG_PREGS_OFFSET(vq) + SVE_SIG_PREG_SIZE(vq) * (n))
---#define SVE_SIG_PREGS_SIZE(vq) \
---	(SVE_SIG_PREG_OFFSET(vq, SVE_NUM_PREGS) - SVE_SIG_PREGS_OFFSET(vq))
--+		(SVE_SIG_REGS_OFFSET + __SVE_PREG_OFFSET(vq, n))
--+#define SVE_SIG_PREGS_SIZE(vq) __SVE_PREGS_SIZE(vq)
-- 
-- #define SVE_SIG_FFR_OFFSET(vq) \
---	(SVE_SIG_PREGS_OFFSET(vq) + SVE_SIG_PREGS_SIZE(vq))
--+		(SVE_SIG_REGS_OFFSET + __SVE_FFR_OFFSET(vq))
-- 
-- #define SVE_SIG_REGS_SIZE(vq) \
---	(SVE_SIG_FFR_OFFSET(vq) + SVE_SIG_FFR_SIZE(vq) - SVE_SIG_REGS_OFFSET)
---
---#define SVE_SIG_CONTEXT_SIZE(vq) (SVE_SIG_REGS_OFFSET + SVE_SIG_REGS_SIZE(vq))
--+		(__SVE_FFR_OFFSET(vq) + __SVE_FFR_SIZE(vq))
-- 
--+#define SVE_SIG_CONTEXT_SIZE(vq) \
--+		(SVE_SIG_REGS_OFFSET + SVE_SIG_REGS_SIZE(vq))
-- 
-- #endif /* _UAPI__ASM_SIGCONTEXT_H */
--diff --git a/arch/arm64/include/uapi/asm/sve_context.h b/arch/arm64/include/uapi/asm/sve_context.h
--new file mode 100644
--index 000000000000..140f14c318a5
----- /dev/null
--+++ b/arch/arm64/include/uapi/asm/sve_context.h
--@@ -0,0 +1,50 @@
--+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
--+/* Copyright (C) 2017-2018 ARM Limited */
--+
--+#if !defined(_UAPI__ASM_PTRACE_H) && !defined(_UAPI__ASM_SIGCONTEXT_H)
--+#error "Do not include this header or use its definitions directly."
--+#endif
--+
--+#ifndef _UAPI__ASM_SVE_CONTEXT_H
--+#define _UAPI__ASM_SVE_CONTEXT_H
--+
--+#define __SVE_VQ_BYTES		16	/* number of bytes per quadword */
--+
--+#define __SVE_VQ_MIN		1
--+#define __SVE_VQ_MAX		512
--+
--+#define __SVE_VL_MIN		(__SVE_VQ_MIN * __SVE_VQ_BYTES)
--+#define __SVE_VL_MAX		(__SVE_VQ_MAX * __SVE_VQ_BYTES)
--+
--+#define __SVE_NUM_ZREGS		32
--+#define __SVE_NUM_PREGS		16
--+
--+#define __sve_vl_valid(vl)			\
--+	((vl) % __SVE_VQ_BYTES == 0 &&		\
--+	 (vl) >= __SVE_VL_MIN &&		\
--+	 (vl) <= __SVE_VL_MAX)
--+
--+#define __sve_vq_from_vl(vl)	((vl) / __SVE_VQ_BYTES)
--+#define __sve_vl_from_vq(vq)	((vq) * __SVE_VQ_BYTES)
--+
--+#define __SVE_ZREG_SIZE(vq)	((__u32)(vq) * __SVE_VQ_BYTES)
--+#define __SVE_PREG_SIZE(vq)	((__u32)(vq) * (__SVE_VQ_BYTES / 8))
--+#define __SVE_FFR_SIZE(vq)	__SVE_PREG_SIZE(vq)
--+
--+#define __SVE_ZREGS_OFFSET	0
--+#define __SVE_ZREG_OFFSET(vq, n) \
--+	(__SVE_ZREGS_OFFSET + __SVE_ZREG_SIZE(vq) * (n))
--+#define __SVE_ZREGS_SIZE(vq) \
--+	(__SVE_ZREG_OFFSET(vq, __SVE_NUM_ZREGS) - __SVE_ZREGS_OFFSET)
--+
--+#define __SVE_PREGS_OFFSET(vq) \
--+	(__SVE_ZREGS_OFFSET + __SVE_ZREGS_SIZE(vq))
--+#define __SVE_PREG_OFFSET(vq, n) \
--+	(__SVE_PREGS_OFFSET(vq) + __SVE_PREG_SIZE(vq) * (n))
--+#define __SVE_PREGS_SIZE(vq) \
--+	(__SVE_PREG_OFFSET(vq, __SVE_NUM_PREGS) - __SVE_PREGS_OFFSET(vq))
--+
--+#define __SVE_FFR_OFFSET(vq) \
--+	(__SVE_PREGS_OFFSET(vq) + __SVE_PREGS_SIZE(vq))
--+
--+#endif /* ! _UAPI__ASM_SVE_CONTEXT_H */
---- 
--2.5.0
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb
-similarity index 65%
-rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
-rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb
-index 48f25ebc1a..e76120c5b8 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.19.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb
-@@ -10,12 +10,9 @@ SRC_URI_append_libc-musl = "\
-    "
- 
- SRC_URI_append = "\
--    file://0001-net-Use-__kernel_clockid_t-in-uapi-net_stamp.h.patch \
-     file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
-     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
--    file://0002-arm64-sve-ptrace-Fix-SVE_PT_REGS_OFFSET-definition.patch \
--    file://0003-arm64-sve-Disentangle-uapi-asm-ptrace.h-from-uapi-as.patch \
- "
- 
--SRC_URI[md5sum] = "740a90cf810c2105df8ee12e5d0bb900"
--SRC_URI[sha256sum] = "0c68f5655528aed4f99dae71a5b259edc93239fa899e2df79c055275c21749a1"
-+SRC_URI[md5sum] = "7381ce8aac80a01448e065ce795c19c0"
-+SRC_URI[sha256sum] = "437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+new file mode 100644
+index 0000000000..b7e0e5da23
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+@@ -0,0 +1,43 @@
++KBRANCH ?= "v5.0/standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_meta ?= "8ae7073a934d80c4f4b808bc01884777454aae8f"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "5.0"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+new file mode 100644
+index 0000000000..b95efa9306
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+@@ -0,0 +1,32 @@
++KBRANCH ?= "v5.0/standard/tiny/base"
++KBRANCH_qemuarm  ?= "v5.0/standard/tiny/arm-versatile-926ejs"
++
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++LINUX_VERSION ?= "5.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine_qemuarm ?= "6da91ac9afd3b8c144760e3ceacc6a812ddfa3f6"
++SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_meta ?= "8ae7073a934d80c4f4b808bc01884777454aae8f"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
++
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+new file mode 100644
+index 0000000000..768036e298
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+@@ -0,0 +1,51 @@
++KBRANCH ?= "v5.0/standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# board specific branches
++KBRANCH_qemuarm  ?= "v5.0/standard/arm-versatile-926ejs"
++KBRANCH_qemuarm64 ?= "v5.0/standard/qemuarm64"
++KBRANCH_qemumips ?= "v5.0/standard/mti-malta32"
++KBRANCH_qemuppc  ?= "v5.0/standard/qemuppc"
++KBRANCH_qemux86  ?= "v5.0/standard/base"
++KBRANCH_qemux86-64 ?= "v5.0/standard/base"
++KBRANCH_qemumips64 ?= "v5.0/standard/mti-malta64"
++
++SRCREV_machine_qemuarm ?= "1fbecad0e6a68b6c57b4f6ef8207e7e90ea764a3"
++SRCREV_machine_qemuarm64 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_machine_qemumips ?= "d9dd6d4cfe689efd5cb7bbacd118a3888ac7c517"
++SRCREV_machine_qemuppc ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_machine_qemux86 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_machine_qemux86-64 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_machine_qemumips64 ?= "5f072445126e6a9e44f9435a552f4fcf6fc15499"
++SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
++SRCREV_meta ?= "8ae7073a934d80c4f4b808bc01884777454aae8f"
++
++# remap qemuarm to qemuarma15 for the 5.0 kernel
++# KMACHINE_qemuarm ?= "qemuarma15"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++LINUX_VERSION ?= "5.0"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
 2.19.1
 
