@@ -1,48 +1,19 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D8527C6FA
+Return-Path: <douglas.royds@taitradio.com>
+X-Greylist: delayed 590 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 06 Mar 2019 02:09:17 UTC
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 300397C77E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 00:30:08 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id p25so11024118qtb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2019 16:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9fyW+ME9TIXlXpJuCZiwB8UVfF2CKQ6ggIRge7MtWW0=;
-	b=PVmK7VZIPLi93h8S4ue8uH74AyrEHmyrzjoMDMisg3U6GQmoBHMw11pW8xv/kuE5qn
-	OI5TY2NrTfa9oE+HzWSjwHmaQvXYjb4ll6RltOXKEV14s1GjZxzTLO1Ij8QuhZKKquZi
-	wACD9GjPorYWCJrBzw0hFqjq+JMih09v6LSd76EIS1ZYPIa236PV9JKbCd8oeFFuGgMV
-	U+cKPnz9VheZiF+KmZdL/FJSfV5kx/AY8httdaeSNmoZ76bAQ8gBTgGtp5ua3tBL4WtE
-	oK0hmVvFTxx5yn8lbJXUZcmPukKxpHyoaLdUhfEjTP6grh087FPe/S99tYNkQPqQCVqB
-	8EOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9fyW+ME9TIXlXpJuCZiwB8UVfF2CKQ6ggIRge7MtWW0=;
-	b=lQo6CLdT27Nc5BPrjJfL9euvwvS1AoCFIL6HKdm7QGkK1WUavx1YQtFQ/uFciFVkyb
-	VhyikT53G8fM1ycUptC01a7ulLbYJouQXobQKQbAMgb3Ao6xTEb5By2H/S64l5sSvpdi
-	lshTF4pO8WarAY7wLS7epsj6XzN2/9rsXpgrzcukRm0+eip85xPj8MG2bWzrXejT5L9Q
-	QwLP+OQlCpKqvlhxhUD4+sO2jMk/QsUmlNGhy0nO6W+N8jUwaFvGsjMo1f/ecbdyqqcl
-	aUK6nMkipCKTTQD97O5jHsEE9XyxNVbID/jGNXLHoJFPmiq9NNURwLGY1vocJTlFpQis
-	8KXA==
-X-Gm-Message-State: APjAAAWGOFhL+xXDPTGpLY0J0CRYlwj9bVvsRLjUfms5pnE5h9/1iq5p
-	wJ4tmoCA3JohKn93hsaT7caOZ19XG2Z2SSG+VnI=
-X-Google-Smtp-Source: APXvYqzTpUSAQ8rjTOIctytPNrkqaUPkTSVN31tlIcOsQjt91kLQTwi/lzrt8Q56xIb01pK1+nKsJMZFH8PshTS3Mt4=
-X-Received: by 2002:ac8:2562:: with SMTP id 31mr3711430qtn.253.1551832209089; 
-	Tue, 05 Mar 2019 16:30:09 -0800 (PST)
-MIME-Version: 1.0
-References: <1504585784-112682-1-git-send-email-zhixiong.chi@windriver.com>
-	<20190301225150.GB13998@joraj-alpa>
-In-Reply-To: <20190301225150.GB13998@joraj-alpa>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Mar 2019 16:29:43 -0800
-Message-ID: <CAMKF1spuzurQOVy0iOCnqdLYSBNegzT=c17eA_2nufv7aa7+Cg@mail.gmail.com>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Cc: schwab@suse.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glibc: add ld.so locks in _libc_fork
+	Wed,  6 Mar 2019 02:09:16 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 9BA311C0028;
+	Wed,  6 Mar 2019 14:59:26 +1300 (NZDT)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Mar 2019 14:59:21 +1300
+Message-Id: <20190306015921.24809-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] libpam: libpamc is licensed under its own BSD-style licence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,225 +26,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 00:30:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Mar 2019 02:09:27 -0000
 
-On Fri, Mar 1, 2019 at 2:51 PM Jonathan Rajotte-Julien
-<jonathan.rajotte-julien@efficios.com> wrote:
->
-> Hi,
->
-> One of our customer reported that lttng tracing with python (using the python
-> agent) resulted in a hang for their applications on Rocko (and up).
->
-> After a bit of investigation, it seems that it is related to the second patch
-> [1] of this patch series to be applied top of glibc. I know, we are late to the
-> party.
->
-> [1] file://0028-Bug-4578-add-ld.so-lock-while-fork.patch
->
-> Still, you will understand that by the nature of lttng-ust we depend quite a
-> bit on specific behaviours of glibc and try to do our best to comply with it.
->
-> When tracing using the lttng python agent, a python thread will end up
-> performing a dl_open, acquire the dl_locks* along the way, lttng-ust will
-> initialize (library constructor), spawn a listener thread and perform a fork to
-> modify our process-wide umask for a shm_open call. Our problem arise at the fork
-> moment since the dl_locks_* are already taken by the python thread (performing a
-> dl_open). I'll spare you the complete deadlock explanation (ust_lock and all).
->
-> We do have a patch (lttng-ust) to move all this code to the thread performing
-> the library constructor function. This should solve our issue since dl_locks_*
-> are nestable.
->
-> Anyhow, I believe that those two patches do not have their place in
-> OE-core/yocto base layer. I'm not that familiar with yocto/OE, correct me if
-> this is the wrong terminology.
->
-> The first patch reference/fix a bug [2] that was flagged as invalid by Andreas
-> Schwab (schwab) [Project steward] with, from what I understand, a valid reason.
->
-> The second patch refers again to bug [2] and also points to bug [3].
->
-> From what I understand [3] could also be invalidated for the same reason as [2]
-> based on the reproducer. This bug and its solution were never acknowledged by
-> any glibc project steward.
->
-> Also, Khem Raj asked to ping the glibc bugzilla to, I think, shakes things a bit
+Or alternatively GPL, the same as the top-level Linux-PAM COPYING.
 
-I think we should drop these patches and I have sent a patch for the
-same to master, you can post it back to release branches that you
-are interested in, these were accepted in hope that there will be some
-movement on them but clearly, they have been either rejected or stalled
-thanks for reporting the regression and analysis.
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/recipes-extended/pam/libpam_1.3.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> on Sept. 5, 2017. This was never acted upon.
->
-> I'm not exactly sure why this was merged. Can one appends to the core recipe? If
-> so, why was this merged if a customer could carry this patch in their own
-> layer/overlay? This does not seems to be a "backport" from upstream glibc or
-> something of this nature.
->
-> Thanks,
->
-> Cheers
->
-> [2] https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
-> [3] https://sourceware.org/bugzilla/show_bug.cgi?id=4578
-> [4] https://patchwork.openembedded.org/patch/143663/
->
-> > Date: Tue, 5 Sep 2017 12:29:44 +0800
-> >
-> > The patch in this Bugzilla entry was requested by a customer:
-> >   https://sourceware.org/bugzilla/show_bug.cgi?id=4578
-> >   https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
-> >
-> > If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
-> > RT_DELETE at the time another thread calls fork(), then the child exit code
-> > from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
-> > dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
-> > subsequently requires ld.so functionality before calling exec(), then the
-> > assertion will fire.
-> >
-> > The patch acquires dl_load_lock on entry to fork() and releases it on exit
-> > from the parent path.  The child path is initialized as currently done.
-> > This is essentially pthreads_atfork, but forced to be first because the
-> > acquisition of dl_load_lock must happen before malloc_atfork is active
-> > to avoid a deadlock.
-> >
-> > The __libc_fork() code reset dl_load_lock, but it also needed to reset
-> > dl_load_write_lock.
-> >
-> > Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> > ---
-> >  ...bc-reset-dl-load-write-lock-after-forking.patch | 37 ++++++++++++++
-> >  .../0028-Bug-4578-add-ld.so-lock-while-fork.patch  | 57 ++++++++++++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.26.bb              |  2 +
-> >  3 files changed, 96 insertions(+)
-> >  create mode 100644 meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
-> >  create mode 100644 meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
-> > new file mode 100644
-> > index 0000000..777b253
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
-> > @@ -0,0 +1,37 @@
-> > +From a6bb73d1cfd20a73fbbe6076008376fb87879d1b Mon Sep 17 00:00:00 2001
-> > +From: Yuanjie Huang <yuanjie.huang@windriver.com>
-> > +Date: Thu, 18 Aug 2016 17:59:13 +0800
-> > +Subject: [PATCH] reset dl_load_write_lock after forking
-> > +
-> > +The patch in this Bugzilla entry was requested by a customer:
-> > +
-> > +  https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
-> > +
-> > +The __libc_fork() code reset dl_load_lock, but it also needed to reset
-> > +dl_load_write_lock.  The patch has not yet been integrated upstream.
-> > +
-> > +Upstream-Status: Pending [ Not Author See bugzilla]
-> > +
-> > +Signed-off-by: Damodar Sonone <damodar.sonone@kpit.com>
-> > +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> > +---
-> > + sysdeps/nptl/fork.c | 3 ++-
-> > + 1 file changed, 2 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/sysdeps/nptl/fork.c b/sysdeps/nptl/fork.c
-> > +index 2b9ae4b..3d0b8da 100644
-> > +--- a/sysdeps/nptl/fork.c
-> > ++++ b/sysdeps/nptl/fork.c
-> > +@@ -174,8 +174,9 @@ __libc_fork (void)
-> > +       /* Reset locks in the I/O code.  */
-> > +       _IO_list_resetlock ();
-> > +
-> > +-      /* Reset the lock the dynamic loader uses to protect its data.  */
-> > ++      /* Reset the locks the dynamic loader uses to protect its data.  */
-> > +       __rtld_lock_initialize (GL(dl_load_lock));
-> > ++      __rtld_lock_initialize (GL(dl_load_write_lock));
-> > +
-> > +       /* Run the handlers registered for the child.  */
-> > +       while (allp != NULL)
-> > +--
-> > +1.9.1
-> > diff --git a/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
-> > new file mode 100644
-> > index 0000000..f76237a
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
-> > @@ -0,0 +1,57 @@
-> > +The patch in this Bugzilla entry was requested by a customer:
-> > +  https://sourceware.org/bugzilla/show_bug.cgi?id=4578
-> > +
-> > +If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
-> > +RT_DELETE at the time another thread calls fork(), then the child exit code
-> > +from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
-> > +dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
-> > +subsequently requires ld.so functionality before calling exec(), then the
-> > +assertion will fire.
-> > +
-> > +The patch acquires dl_load_lock on entry to fork() and releases it on exit
-> > +from the parent path.  The child path is initialized as currently done.
-> > +This is essentially pthreads_atfork, but forced to be first because the
-> > +acquisition of dl_load_lock must happen before malloc_atfork is active
-> > +to avoid a deadlock.
-> > +The patch has not yet been integrated upstream.
-> > +
-> > +Upstream-Status: Pending [ Not Author See bugzilla]
-> > +
-> > +Signed-off-by: Raghunath Lolur <Raghunath.Lolur@kpit.com>
-> > +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> > +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> > +
-> > +Index: git/sysdeps/nptl/fork.c
-> > +===================================================================
-> > +--- git.orig/sysdeps/nptl/fork.c       2017-08-03 16:02:15.674704080 +0800
-> > ++++ git/sysdeps/nptl/fork.c    2017-08-04 18:15:02.463362015 +0800
-> > +@@ -25,6 +25,7 @@
-> > + #include <tls.h>
-> > + #include <hp-timing.h>
-> > + #include <ldsodefs.h>
-> > ++#include <libc-lock.h>
-> > + #include <stdio-lock.h>
-> > + #include <atomic.h>
-> > + #include <nptl/pthreadP.h>
-> > +@@ -60,6 +61,10 @@
-> > +      but our current fork implementation is not.  */
-> > +   bool multiple_threads = THREAD_GETMEM (THREAD_SELF, header.multiple_threads);
-> > +
-> > ++  /* grab ld.so lock BEFORE switching to malloc_atfork */
-> > ++  __rtld_lock_lock_recursive (GL(dl_load_lock));
-> > ++  __rtld_lock_lock_recursive (GL(dl_load_write_lock));
-> > ++
-> > +   /* Run all the registered preparation handlers.  In reverse order.
-> > +      While doing this we build up a list of all the entries.  */
-> > +   struct fork_handler *runp;
-> > +@@ -247,6 +252,10 @@
-> > +
-> > +       allp = allp->next;
-> > +     }
-> > ++
-> > ++      /* unlock ld.so last, because we locked it first */
-> > ++      __rtld_lock_unlock_recursive (GL(dl_load_write_lock));
-> > ++      __rtld_lock_unlock_recursive (GL(dl_load_lock));
-> > +     }
-> > +
-> > +   return pid;
-> > diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-> > index d453d8f..135ec4f 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.26.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-> > @@ -41,6 +41,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-> >             file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
-> >             file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
-> >             file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
-> > +           file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
-> > +           file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
-> >  "
-> >
-> >  NATIVESDKFIXES ?= ""
->
-> --
-> Jonathan Rajotte-Julien
-> EfficiOS
+diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
+index 5c45460c3a..c124e3bb02 100644
+--- a/meta/recipes-extended/pam/libpam_1.3.0.bb
++++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
+@@ -7,7 +7,9 @@ SECTION = "base"
+ # /etc/pam.d comes from Debian libpam-runtime in 2009-11 (at that time
+ # libpam-runtime-1.0.1 is GPLv2+), by openembedded
+ LICENSE = "GPLv2+ | BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7eb5c1bf854e8881005d673599ee74d3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=7eb5c1bf854e8881005d673599ee74d3 \
++                    file://libpamc/License;md5=a4da476a14c093fdc73be3c3c9ba8fb3 \
++                    "
+ 
+ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+            file://99_pam \
+-- 
+2.17.1
+
 
