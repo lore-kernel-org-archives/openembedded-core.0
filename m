@@ -1,35 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A6F97CCBD
+	by mail.openembedded.org (Postfix) with ESMTP id EAD607C3C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 07:43:46 +0000 (UTC)
+	Wed,  6 Mar 2019 07:46:10 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Dm3Q299wz5Q
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 08:43:46 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Dm6C20lSz4K;
+	Wed,  6 Mar 2019 08:46:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1551858226;
-	bh=fqUBHQQLs526pWlgSE84S7u1e8uqnrUVz4mIGGRG3To=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JoovO0hecy+egdhilo0hDPRbYH1HcYhZ0+OAYoNfz7QinPxZjxc9q593i1wbRhI04
-	QkvFI/xxYRV/zMuPp3a4n/Yw8hghLmnOjrBzf/7kXLaTQ4j9OlSpyqU/jJHns4LXGS
-	O5R0RUhtQ3oEYdKDySpnnoIZSorLw3xhlkSY8F9dQIpyfondxXBopbvVaCxdncHoXz
-	C5IaSf01mi8EEd9v+VGOd0voHXmDDip/G9FkZuNHMYv29jvQAH9UtDusodHGfrFPlr
-	gY6hzvsRmIlOzn2m/MNa8kZQXU91DPNiiKxMkR7LbNqB/X6nfi91uE+LqnjJR/s5FP
-	NctR6N8+BNWNBB9JDJSPzVFkwA/FMU49LEZUdA49RchDnkgLbMTuLCqOl1H0yK96Aa
-	akLRYgzq3BMnmc2F9vgN30kVvZLMihM1PerdLg0wIRgfT/IU+KkmnQKHpjfaZa/zsz
-	lS5BgOPApyp7rrLgD1CIRo4a5iue8M9LvdJg7W/1IcmDN2Q3BVVfGD3gZTlxUGbOHp
-	ZCY8v1WVhnsrxoy2dd/UjJHRuxd9092p1sdXBhHCoePPzlS0dnDGd/H08TXSZ7uRoy
-	DQ5rfKpFMKB/wQcSaOl41HynjsT5Wj5gvdwM1XwBnpz8UpcN/mZ7h7aGKhyIwUq2vJ
-	NRrcBVoAph1iPsa0tIDtQ7R8=
+	s=default; t=1551858371;
+	bh=zcc9RrryED/FTLiLeaKQvM6LhwkWHL9SxIaa5/rQfPE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=C83GRoiC/uXeiMRAoOhpswUlmFq4McsA0srmj0SgPz2EAwzHSXpTNvpsJF+cyYkUf
+	qD392ZMf+mgE9Obw/sjEfgR+cE6HbnMIcJ74pLPWuugOwB2C9lZfcp2DU+S6PhM1II
+	9Hv7/yKdhr4l95F1aKK2Inij45YMKwlI1QY9+ZCXeelfkg8IgVNWRCBuEcgduMiGrR
+	WkgiCIJ7+JMHqEZCW96eaUxxaPI0JpavXaBSuU5yofM94SSdjnP6IefTO6x1/5RKtM
+	6+ApIHCFnr/OoakYaK63THqTxkbq88S6fkTodR9SA+uurKu0OEr8KnPAR2DdgMPpx4
+	YZ8DlZbjJC3eIvEYaumhJ8rlFmSZJEwUU+dDBxrd7CvF2SAwBNBAtofl5kY7lVwVkO
+	OdpsxVuOW0x6WjoaYpigk58G4Rwb1Ho+RXIOiRxIgC2d3+/+omATryTr6FC57dfiH9
+	a9Y9bj98ttE4szK8Ufr0apAGCADZ/NoWGIbg7WYVg5mq/GIyFVb6pWjd2HUpiOjait
+	lSc4v/VbWu349OIWlaRdNLk8k/l9k6DgC4crQTxxOltsUZmuHB2Ml7d3XUjlkNZRJ8
+	ro9m+8WFYP8oFmZ0e+5xametTXu7GcVdrJIF++sWkA/gaMPAWCaLqVw0fn8JvFMGIJ
+	Gq/XFZmoShmjOzmEKX7PRdk0=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 09:43:44 +0200
-Message-Id: <20190306074344.11553-2-bunk@stusta.de>
+Date: Wed,  6 Mar 2019 09:46:10 +0200
+Message-Id: <20190306074610.11691-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190306074344.11553-1-bunk@stusta.de>
-References: <20190306074344.11553-1-bunk@stusta.de>
-Subject: [PATCH 2/2] rng-tools: Make nistbeacon support optional
+Cc: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
+Subject: [PATCH] wpa-supplicant: Remove no longer required hack for libnl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 07:43:46 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 07:46:11 -0000
 
-Downloading your randomness directly from the US government
-is a rare usecase but adds heavy dependencies.
-
-Make it optional and non-default.
+Upstream already fixed this properly by using pkg-config.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-support/rng-tools/rng-tools_6.6.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-index d3361ae4e1..6796c9be9e 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-@@ -17,9 +17,7 @@ S = "${WORKDIR}/git"
- 
- inherit autotools update-rc.d systemd pkgconfig
- 
--DEPENDS = "curl \
--           libxml2 \
--           openssl \
-+DEPENDS = " \
-            sysfsutils \
-           "
- 
-@@ -28,6 +26,7 @@ PACKAGECONFIG_libc-musl = "libargp libjitterentropy"
- PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
- PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
- PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
-+PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
- 
- # Refer autogen.sh in rng-tools
- do_configure_prepend() {
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+index 6fc5cf5db7..fe5fa2b82e 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+@@ -42,8 +42,6 @@ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+ do_configure () {
+ 	${MAKE} -C wpa_supplicant clean
+ 	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
+-	echo "CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.config
+-	echo "DRV_CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.config
+ 	
+ 	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
+         	ssl=openssl
 -- 
 2.17.1
 
