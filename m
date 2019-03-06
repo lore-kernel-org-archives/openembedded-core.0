@@ -1,47 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D50D7CD24
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 679997C763
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 14:54:05 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id m137so9897990ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 06:54:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=id5xM+WRGB1RbIfZLcB8Ry7KTs6lXgwIqBVZOGcTMDg=;
-	b=1Gv5z8WyavqqeLGhu12oNjmll2VTFDXIy3kRoMbt1m0BqBDTJ02z8Qw9KPdoAdN7wC
-	d9EDe5vqEYOt/kJaYAdS6fnJIlTFAOO1SgGIam/G/NvitdCf4NSOlR+c/z0e5LvD9JgT
-	akIleVzEB9atrXok1UQv27W8eQA3E4jnFoRvGaVs4/9VIWtfcn436pSCKBfq3ZjUmxCm
-	SdxI3l901/B3GwLpIMs8VLoLtznlgMu3kri/1uxi4A89ABHoHJQA4ZYsSqaravXPxc1S
-	ONy/wZ0Om5Epb7nFo9wihM0r8O8uawCWHFsLodNfI3OSvj+Qm99GsMOdxMpLj/5wd5NM
-	ATRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=id5xM+WRGB1RbIfZLcB8Ry7KTs6lXgwIqBVZOGcTMDg=;
-	b=AkkIyqWPNlQuJF93otsk5d+bKqIjnJJYqCXFiaMUSAuQY+z+PWwpL4SVN/ihr3m9S+
-	DG5pjrzzITrettZKldy2I3aPHUP3ovsfGJU06zJOGgMUJ4JKXDq7jKFHCXHu8M8O8b3v
-	jTTaUlmXb0eNBmyMoOaxV/2eysGM5A6oU8CZJ4ELYG60l6asSw8DrYIfSYMLvb7iZcjE
-	sDQUNlLH6CubQCEw/CGtmg/0qSNgawC74om3TLMdIPyhDDujZ6kiRcMlijztfzMelKdt
-	CaWdLmlKMk/j8ifFPy+TR29z5nQMs7I1F5dvvJ1dX9+2WK3taHY9FFNLmMgkHXACkXr9
-	aiHQ==
-X-Gm-Message-State: APjAAAXS9yZumb34IXwliKBsxGVLI0s7bNWWXmxW66ebVz1D+N5R2Ev0
-	JrZgwnxXYYvPSeFO1eCA4PRo/wwZ4keUQaZ6DF9prQGQKzE=
-X-Google-Smtp-Source: APXvYqw59hP4N2C/A3Ao+JdDqs3O0O+0zefgTqFBHOWU57XhIZkz/VKb7boIxVmvCHcAowgibarDfEVxHfnZ8+drLtw=
-X-Received: by 2002:a24:2405:: with SMTP id f5mr2429807ita.130.1551884046802; 
-	Wed, 06 Mar 2019 06:54:06 -0800 (PST)
+	Wed,  6 Mar 2019 15:21:41 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id 1YMWhBtTBx6b61YMXhcheP; Wed, 06 Mar 2019 15:21:41 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=T4GiscCQ c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=NTGMnVQrEZIA:10 a=pGLkceISAAAA:8 a=mDV3o1hIAAAA:8
+	a=Q4-j1AaZAAAA:8 a=HgijVJJ8VW5OuqiRjGkA:9 a=cjAQKKF2mdm-T4HR:21
+	a=CjuIK1q_8ugA:10 a=_FVE-zBwftR9WsbkzFJk:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1h1YMW-0005yp-C8; Wed, 06 Mar 2019 15:21:40 +0000
+Date: Wed, 6 Mar 2019 15:21:40 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190306152140.ii222d4wt45qddsr@mcrowe.com>
+References: <20190227022704.5376-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <cover.1551430235.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1551430235.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 6 Mar 2019 14:53:55 +0000
-Message-ID: <CAJTo0LY1ZgcMymMwnRXsXcmvPFhSNsUXoDqCsxR2L9URJnCtLg@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Upgrade systemd to 241
+In-Reply-To: <20190227022704.5376-1-raj.khem@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-CMAE-Envelope: MS4wfEX3McME8s5dx2coa+1Rzs5lnud8Ya3M+lbWkS4uRmtEaplWrekXXLShNXIl1kcAUM7EZAjPcHPySs+cv0FB7IXFUOjaFIObwx8TYEaS5tgo7qWg5GVG
+	svmVK1pHHeazF90CW3qUCit0etsq/JagzyVKqBjlRrbh9ogaxPcLiYaI
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5] default-distrovars: Drop DISTRO_FEATURES_LIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,159 +38,329 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 14:54:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Mar 2019 15:21:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-| src/boot/efi/meson.build:63:24: ERROR:  Program or command
-'realpath' not found or not executable
+On Tuesday 26 February 2019 at 18:27:04 -0800, Khem Raj wrote:
+> After eglibc was merged into glibc, Kconfig support was also dropped so
+> these libc features therefore are not effective anymore and can be
+> removed
 
-Fails if you turn on EFI.
+This patch appears to have landed on master as
+c62b1cc06613a4cdddf53290e6203559f43fc62d. Git bisect tells me that it is
+causing glibc-package to fail to build for me in glibc-locale:do_package
+for aarch64 with usrmerge and multilib:
 
-Ross
+ DEBUG: Executing shell function do_prep_locale_tree
+ | tar: ./l*.so*: Not found in archive
+ | tar: Exiting with failure status due to previous errors
+ | WARNING:
+ .../tmp-glibc/work/aarch64-oe-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.14302:1
+ exit 2 from 'tar -xf - -C $treedir//usr/lib64 --wildcards './l*
+ .so*''
 
-On Fri, 1 Mar 2019 at 08:42, Chen Qi <Qi.Chen@windriver.com> wrote:
->
->
-> The following changes since commit 4d275d97b6c572fe11668ac16d2c77c018340c7c:
->
->   perl: apply a native-only patch only to -native (2019-02-28 17:49:40 +0000)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib ChenQi/systemd-241
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-241
->
-> Chen Qi (3):
->   systemd: upgrade to 241
->   systemd-conf: add version info in recipe name
->   systemd-boot: upgrade to 241
->
->  .../{systemd-boot_239.bb => systemd-boot_241.bb}   |  10 +-
->  .../{systemd-conf.bb => systemd-conf_241.bb}       |   0
->  meta/recipes-core/systemd/systemd.inc              |   2 +-
->  ...ck-protector-flags-to-workaround-musl-bui.patch |  33 --
->  ...t-meson-print-EFI-CC-configuration-nicely.patch |  33 ++
->  ...vert-meson-use-an-array-option-for-efi-cc.patch |  77 +++
->  ...tl.d-request-ECN-on-both-in-and-outgoing-.patch |  36 --
->  ...nv-when-secure-versions-are-not-available.patch |  21 +-
->  ...t-install-dependency-links-at-install-tim.patch |  22 +-
->  ...sive-let-s-rework-the-recursive-logic-to-.patch | 219 ---------
->  ...eserializing-state-always-use-read_line-L.patch | 250 ----------
->  ...sure-we-have-enough-space-for-the-DHCP6-o.patch |  39 --
->  ...01-do-not-disable-buffer-in-writing-files.patch | 523 +++++++++++++++++++++
->  ...arse_uid-when-unmounting-user-runtime-dir.patch | 110 -----
->  .../0001-meson-rename-Ddebug-to-Ddebug-extra.patch |  45 --
->  ...bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch | 175 -------
->  ...l-Don-t-pass-null-directive-argument-to-s.patch |  31 --
->  ...ync-changes-type-of-drift_freq-to-int64_t.patch |  49 --
->  ...Fix-use-after-free-case-in-load_from_path.patch |  43 --
->  .../0002-don-t-use-glibc-specific-qsort_r.patch    | 231 +++++----
->  ...pper-instead-of-looking-for-relative-opti.patch |  14 +-
->  ...fn_t-is-glibc-specific-use-raw-signature-.patch |  40 --
->  ...0003-implment-systemd-sysv-install-for-OE.patch |   8 +-
->  ...e.h-add-__compare_fn_t-and-comparison_fn_.patch |  61 +++
->  ...llback-parse_printf_format-implementation.patch |  33 +-
->  .../systemd/0004-rules-whitelist-hd-devices.patch  |  18 +-
->  ...5-Make-root-s-home-directory-configurable.patch |  70 ---
->  ...user-util-properly-protect-use-of-gshadow.patch |  38 --
->  ...es-watch-metadata-changes-in-ide-devices.patch} |  18 +-
->  ...sic-missing.h-check-for-missing-strndupa.patch} |  90 ++--
->  ...patch => 0006-Include-netinet-if_ether.h.patch} |  28 +-
->  .../0006-remove-nobody-user-group-checking.patch   |  63 ---
->  ...if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch} |  49 +-
->  ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 --
->  ...=> 0008-add-missing-FTW_-macros-for-musl.patch} |  29 +-
->  ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 --
->  ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  10 +-
->  ...of-__register_atfork-for-non-glibc-build.patch} |  16 +-
->  ...> 0011-Use-uintmax_t-for-handling-rlim_t.patch} |  59 ++-
->  ...issing.h-check-for-missing-__compar_fn_t-.patch |  48 --
->  ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  27 ++
->  ...xdecoct.c-Include-missing.h-for-strndupa.patch} |   8 +-
->  ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 --
->  ...c-Disable-tests-for-missing-typedefs-in-.patch} |  12 +-
->  ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  10 +-
->  ...-compatible-basename-for-non-glibc-syste.patch} |   8 +-
->  ...le-buffering-when-writing-to-oom_score_a.patch} |  10 +-
->  ...XSI-compliant-strerror_r-from-GNU-specif.patch} |  12 +-
->  ...t_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch} |  29 +-
->  ...ing_type.h-add-__compar_d_fn_t-definition.patch |  30 ++
->  ...id-redefinition-of-prctl_mm_map-structure.patch |  47 ++
->  ...se-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch |  28 --
->  ...etect-whether-struct-statx-is-defined-in-.patch | 109 -----
->  ...clude-sys-wait.h-to-avoid-compile-failure.patch |  33 ++
->  ...onf-fixes-for-the-compatibility-interface.patch |  58 ---
->  .../0023-socket-util.h-include-string.h.patch      |  30 ++
->  ...-not-store-the-iovec-entry-for-process-co.patch | 208 --------
->  .../systemd/0024-test-json.c-define-M_PIl.patch    |  33 ++
->  ...rnald-set-a-limit-on-the-number-of-fields.patch | 139 ------
->  ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch |  49 --
->  .../systemd/systemd/CVE-2019-6454.patch            | 210 ---------
->  ...e-receive-an-invalid-dbus-message-ignore-.patch |  61 ---
->  .../systemd/{systemd_239.bb => systemd_241.bb}     |  79 ++--
->  63 files changed, 1294 insertions(+), 2679 deletions(-)
->  rename meta/recipes-core/systemd/{systemd-boot_239.bb => systemd-boot_241.bb} (85%)
->  rename meta/recipes-core/systemd/{systemd-conf.bb => systemd-conf_241.bb} (100%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-meson-print-EFI-CC-configuration-nicely.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-meson-use-an-array-option-for-efi-cc.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-when-deserializing-state-always-use-read_line-L.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-do-not-disable-buffer-in-writing-files.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-login-use-parse_uid-when-unmounting-user-runtime-dir.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-rename-Ddebug-to-Ddebug-extra.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0003-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0005-Make-root-s-home-directory-configurable.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch
->  rename meta/recipes-core/systemd/systemd/{0007-rules-watch-metadata-changes-in-ide-devices.patch => 0005-rules-watch-metadata-changes-in-ide-devices.patch} (78%)
->  rename meta/recipes-core/systemd/systemd/{0006-src-basic-missing.h-check-for-missing-strndupa.patch => 0005-src-basic-missing.h-check-for-missing-strndupa.patch} (65%)
->  rename meta/recipes-core/systemd/systemd/{0007-Include-netinet-if_ether.h.patch => 0006-Include-netinet-if_ether.h.patch} (85%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0006-remove-nobody-user-group-checking.patch
->  rename meta/recipes-core/systemd/systemd/{0008-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch} (81%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
->  rename meta/recipes-core/systemd/systemd/{0009-add-missing-FTW_-macros-for-musl.patch => 0008-add-missing-FTW_-macros-for-musl.patch} (50%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0009-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
->  rename meta/recipes-core/systemd/systemd/{0010-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (80%)
->  rename meta/recipes-core/systemd/systemd/{0012-fix-missing-of-__register_atfork-for-non-glibc-build.patch => 0010-fix-missing-of-__register_atfork-for-non-glibc-build.patch} (75%)
->  rename meta/recipes-core/systemd/systemd/{0013-Use-uintmax_t-for-handling-rlim_t.patch => 0011-Use-uintmax_t-for-handling-rlim_t.patch} (62%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0011-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0012-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
->  rename meta/recipes-core/systemd/systemd/{0015-test-hexdecoct.c-Include-missing.h-for-strndupa.patch => 0013-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (78%)
->  delete mode 100644 meta/recipes-core/systemd/systemd/0014-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
->  rename meta/recipes-core/systemd/systemd/{0016-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0014-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (78%)
->  rename meta/recipes-core/systemd/systemd/{0017-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0015-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (95%)
->  rename meta/recipes-core/systemd/systemd/{0018-Define-glibc-compatible-basename-for-non-glibc-syste.patch => 0016-Define-glibc-compatible-basename-for-non-glibc-syste.patch} (82%)
->  rename meta/recipes-core/systemd/systemd/{0019-Do-not-disable-buffering-when-writing-to-oom_score_a.patch => 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch} (82%)
->  rename meta/recipes-core/systemd/systemd/{0020-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch => 0018-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch} (87%)
->  rename meta/recipes-core/systemd/systemd/{0021-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch => 0019-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch} (49%)
->  create mode 100644 meta/recipes-core/systemd/systemd/0020-missing_type.h-add-__compar_d_fn_t-definition.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0021-avoid-redefinition-of-prctl_mm_map-structure.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0022-include-sys-wait.h-to-avoid-compile-failure.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-socket-util.h-include-string.h.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
->  create mode 100644 meta/recipes-core/systemd/systemd/0024-test-json.c-define-M_PIl.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
->  delete mode 100644 meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
->  rename meta/recipes-core/systemd/{systemd_239.bb => systemd_241.bb} (89%)
->
-> --
-> 1.9.1
->
-> --
+tmp-glibc/sysroots-components/aarch64/glibc-stash-locale/usr/lib64 contains
+only the gconv directory.
+
+I thought that perhaps it had interacted badly with my:
+
+ a705c0782c863ee960d65b5109168a4587a0a7b7
+ glibc: Install AArch64 loader link correctly for usrmerge+multilib
+
+which was landed in parallel, but when I revert that (and hack around the
+resulting rmdir failure) the failure still occurs.
+
+glibc-stash-locale/usr/lib/ld-linux-aarch64.so.1 is present - there's just
+no libraries or loaders in glibc-stash-locale/usr/lib64
+
+local.conf to reproduce:
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+ DISTRO_FEATURES += "usrmerge"
+ MACHINE="qemuarm64"
+ INHERIT+="ccache"
+
+Then:
+ bitbake glibc-locale
+
+Mike.
+
+On Tuesday 26 February 2019 at 18:27:04 -0800, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2:
+> - Add ipv4 and ipv6 to default distro features, they are not libc
+>   specific anyway
+> - Remove DISTRO_FEATURES_DEFAULT as this is redundant now
+> 
+> v3:
+> - Remove the use of libc-* overrides in metadata
+> 
+> v4:
+> - Cleanup further to simplify variable assignments
+> 
+> v5:
+> - Keep DISTRO_FEATURES_DEFAULT, distros e.g. poky relies on it
+> 
+>  meta/classes/image.bbclass                    |  5 -----
+>  meta/classes/libc-package.bbclass             |  9 +++------
+>  meta/conf/bitbake.conf                        |  4 ++--
+>  .../distro/include/default-distrovars.inc     | 13 ++-----------
+>  meta/conf/distro/include/tclibc-glibc.inc     | 19 +++++--------------
+>  meta/conf/local.conf.sample.extended          | 16 ++--------------
+>  meta/recipes-core/glib-2.0/glib.inc           |  2 --
+>  meta/recipes-core/glibc/glibc_2.29.bb         |  3 +--
+>  meta/recipes-core/libxml/libxml2_2.9.8.bb     |  2 --
+>  meta/recipes-devtools/mtools/mtools_4.0.19.bb |  2 --
+>  .../findutils/findutils_4.6.0.bb              |  2 +-
+>  meta/recipes-extended/shadow/shadow.inc       |  2 +-
+>  meta/recipes-extended/shadow/shadow_4.6.bb    |  2 +-
+>  13 files changed, 18 insertions(+), 63 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 11927f39f5..276d0d31f4 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -176,11 +176,6 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+>  
+>  LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS').split()))}"
+>  
+> -python () {
+> -    if not bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
+> -        d.setVar('IMAGE_LINGUAS', '')
+> -}
+> -
+>  # Prefer image, but use the fallback files for lookups if the image ones
+>  # aren't yet available.
+>  PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+> diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+> index 34c9151ae9..8859dad566 100644
+> --- a/meta/classes/libc-package.bbclass
+> +++ b/meta/classes/libc-package.bbclass
+> @@ -37,14 +37,11 @@ python __anonymous () {
+>                  d.setVar("DEPENDS", depends)
+>                  d.setVar("GLIBC_INTERNAL_USE_BINARY_LOCALE", "compile")
+>                  break
+> -
+> -    # try to fix disable charsets/locales/locale-code compile fail
+> -    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locales libc-locale-code', True, False, d):
+> -        d.setVar('PACKAGE_NO_GCONV', '0')
+> -    else:
+> -        d.setVar('PACKAGE_NO_GCONV', '1')
+>  }
+>  
+> +# try to fix disable charsets/locales/locale-code compile fail
+> +PACKAGE_NO_GCONV ?= "0"
+> +
+>  OVERRIDES_append = ":${TARGET_ARCH}-${TARGET_OS}"
+>  
+>  locale_base_postinst_ontarget() {
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 435646a946..1c5369ec98 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -123,7 +123,7 @@ TUNE_ASARGS ??= ""
+>  TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+>  LIBCEXTENSION ??= ""
+>  ABIEXTENSION ??= ""
+> -USE_NLS ??= "${@bb.utils.contains('DISTRO_FEATURES', 'libc-locale-code', 'yes', 'no', d)}"
+> +USE_NLS ??= "yes"
+>  SDKUSE_NLS ??= "yes"
+>  
+>  TARGET_ARCH = "${TUNE_ARCH}"
+> @@ -820,7 +820,7 @@ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+>  # Native distro features (will always be used for -native, even if they
+>  # are not enabled for target)
+>  DISTRO_FEATURES_NATIVE ?= "x11 ipv6 xattr"
+> -DISTRO_FEATURES_NATIVESDK ?= "x11 libc-charsets libc-locales libc-locale-code"
+> +DISTRO_FEATURES_NATIVESDK ?= "x11"
+>  
+>  # Normally target distro features will not be applied to native builds:
+>  # Native distro features on this list will use the target feature value
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index 76edff6480..7a0baf3260 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -10,17 +10,8 @@ LOCALE_UTF8_ONLY ?= "0"
+>  LOCALE_UTF8_IS_DEFAULT ?= "1"
+>  LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+>  
+> -DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+> -DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+> -					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+> -					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
+> -					libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+> -					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+> -					libc-posix-wchar-io"
+> -DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
+> -DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
+> -DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
+> -
+> +DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+> +DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+>  IMAGE_FEATURES ?= ""
+>  
+>  WHITELIST_GPL-3.0 ?= ""
+> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+> index abe619aaac..3246490997 100644
+> --- a/meta/conf/distro/include/tclibc-glibc.inc
+> +++ b/meta/conf/distro/include/tclibc-glibc.inc
+> @@ -22,17 +22,8 @@ LIBC_DEPENDENCIES = "libsegfault \
+>  		     glibc-dev \
+>  		     glibc-utils \
+>  		     glibc-thread-db \
+> -		     ${@get_libc_locales_dependencies(d)}"
+> -
+> -LIBC_LOCALE_DEPENDENCIES = "\
+> -	glibc-localedata-i18n \
+> -	glibc-gconv-ibm850 \
+> -	glibc-gconv-cp1252 \
+> -	glibc-gconv-iso8859-1 \
+> -	glibc-gconv-iso8859-15"
+> -
+> -def get_libc_locales_dependencies(d):
+> -    if bb.utils.contains('DISTRO_FEATURES', 'libc-charsets libc-locale-code libc-locales', True, False, d):
+> -        return d.getVar('LIBC_LOCALE_DEPENDENCIES') or ''
+> -    else:
+> -        return ''
+> +		     glibc-localedata-i18n \
+> +		     glibc-gconv-ibm850 \
+> +		     glibc-gconv-cp1252 \
+> +		     glibc-gconv-iso8859-1 \
+> +		     glibc-gconv-iso8859-15"
+> diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+> index 010bf6ca6f..0743fefece 100644
+> --- a/meta/conf/local.conf.sample.extended
+> +++ b/meta/conf/local.conf.sample.extended
+> @@ -24,22 +24,10 @@
+>  # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+>  # be appropriate for example.
+>  
+> -
+> -# glibc configurability is used to reduce minimal image's size.
+> -# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
+> -# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
+> -# and DISTRO_FEATURES definitions to local.conf to enable the options.
+> -#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+> -#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+> -#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
+> -#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
+> -#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+> -#               libc-posix-wchar-io"
+> -
+> -#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
+> +#DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 pcmcia usbgadget usbhost wifi nfs zeroconf pci"
+>  
+>  # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+> -#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
+> +#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
+>  
+>  # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+>  # packages at build time using qemu-native. Disabling it (by setting it to 0)
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index 6305f553b4..3c2440db0e 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -41,8 +41,6 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
+>  # meson's python configuration pokes into python3 configuration, so this provides the native config to it.
+>  unset _PYTHON_SYSCONFIGDATA_NAME
+>  
+> -REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+> -
+>  S = "${WORKDIR}/glib-${PV}"
+>  
+>  PACKAGECONFIG ??= "system-pcre libmount"
+> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+> index beddbffee2..bd8aa6d503 100644
+> --- a/meta/recipes-core/glibc/glibc_2.29.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+> @@ -89,12 +89,11 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+>                  --enable-stackguard-randomization \
+>                  --disable-crypt \
+>                  --with-default-link \
+> +                --enable-nscd \
+>                  ${GLIBCPIE} \
+>                  ${GLIBC_EXTRA_OECONF}"
+>  
+>  EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
+> -EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
+> -
+>  
+>  do_patch_append() {
+>      bb.build.exec_func('do_fix_readlib_c', d)
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> index 0e2461154b..62643bc764 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> @@ -42,8 +42,6 @@ inherit autotools pkgconfig binconfig-disabled ptest distro_features_check
+>  
+>  inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
+>  
+> -REQUIRED_DISTRO_FEATURES_libc-glibc = "${@'libc-charsets libc-locale-code libc-locales' if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) else ''}"
+> -
+>  RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell  python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
+>  
+>  RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
+> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.19.bb b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
+> index 9972762b4e..7d59d93a81 100644
+> --- a/meta/recipes-devtools/mtools/mtools_4.0.19.bb
+> +++ b/meta/recipes-devtools/mtools/mtools_4.0.19.bb
+> @@ -39,8 +39,6 @@ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
+>  
+>  inherit autotools texinfo distro_features_check
+>  
+> -REQUIRED_DISTRO_FEATURES_libc-glibc = "libc-charsets libc-locale-code libc-locales"
+> -
+>  EXTRA_OECONF = "--without-x"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-extended/findutils/findutils_4.6.0.bb b/meta/recipes-extended/findutils/findutils_4.6.0.bb
+> index 5e4ca94868..3b62ed9962 100644
+> --- a/meta/recipes-extended/findutils/findutils_4.6.0.bb
+> +++ b/meta/recipes-extended/findutils/findutils_4.6.0.bb
+> @@ -16,6 +16,6 @@ SRC_URI[md5sum] = "9936aa8009438ce185bea2694a997fc1"
+>  SRC_URI[sha256sum] = "ded4c9f73731cd48fec3b6bdaccce896473b6d8e337e9612e16cf1431bb1169d"
+>  
+>  # http://savannah.gnu.org/bugs/?27299
+> -CACHED_CONFIGUREVARS += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', 'gl_cv_func_wcwidth_works=yes', '', d)}"
+> +CACHED_CONFIGUREVARS += "gl_cv_func_wcwidth_works=yes"
+>  
+>  EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+> index 09c37ef8a3..2b20bdcb25 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -57,7 +57,7 @@ EXTRA_OECONF += "--without-audit \
+>  NSCDOPT = ""
+>  NSCDOPT_class-native = "--without-nscd"
+>  NSCDOPT_class-nativesdk = "--without-nscd"
+> -NSCDOPT_libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES', 'libc-spawn', '--with-nscd', '--without-nscd', d)}"
+> +NSCDOPT_libc-glibc = "--with-nscd"
+>            
+>  PAM_PLUGINS = "libpam-runtime \
+>                 pam-plugin-faildelay \
+> diff --git a/meta/recipes-extended/shadow/shadow_4.6.bb b/meta/recipes-extended/shadow/shadow_4.6.bb
+> index 5675cb8cc9..c975395ff8 100644
+> --- a/meta/recipes-extended/shadow/shadow_4.6.bb
+> +++ b/meta/recipes-extended/shadow/shadow_4.6.bb
+> @@ -2,7 +2,7 @@ require shadow.inc
+>  
+>  # Build falsely assumes that if --enable-libpam is set, we don't need to link against
+>  # libcrypt. This breaks chsh.
+> -BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', bb.utils.contains('DISTRO_FEATURES', 'libc-crypt',  '-lcrypt', '', d), '', d)}"
+> +BUILD_LDFLAGS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '-lcrypt', '', d)}"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> -- 
+> 2.21.0
+> 
+> -- 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
