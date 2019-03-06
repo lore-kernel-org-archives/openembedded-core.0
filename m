@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 64BCE7CD9F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ECEFC7C3F9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 22:51:06 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id e74so7470574wmg.3
+	Wed,  6 Mar 2019 23:05:55 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id c13so5467199wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 14:51:07 -0800 (PST)
+	Wed, 06 Mar 2019 15:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=5mr9AM43uZV/VyiFBrv+3WOA8EStbjC+Bgf2B0xH2go=;
-	b=dd5tHkYxVd9Do5t8K3hbRpIUFzVbMZMl36eGNQRThd0V0w1azy7Fmtw9ZDjuSlqk0p
-	k2VGiLVhmzUr7hl1Ny5+F0aj/3PC9zHHY4g1EM5JYO5cJn+Ja1ls6kL1cegpiprNVcu1
-	K4nL4rLihJC5V8yUYxx0CJthCByVGaJz2FATecqTaYWFgVQa3CrKy8j39EnBXV/UStGc
-	79yFXNul/5C4H3Y5Lcr+Gfm81EjM259VccvlFGQ3MUvniy5xprvNjIl7+u+0niOzYL+s
-	UWDpLHn00M/lUqgz6dp1zddiaPZ/TPHuWl37mKRcGVwoVfJHamXmfhaf8lBAvFfMvMdE
-	lYuQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=KKcOs1IuEUTsxiGEg3retv5JoA6SZLoHxuQes/cTs+A=;
+	b=d5Xk8rMSXImlicqRk9WvstscYOPD+cCPIbT4lDBslp4NbMCsSsralmX/ysKCHW9lu2
+	UYUmGhnPY1XyC3ZEVHfNNhiGlUvwuGIIOLP9CZqPsjKqHz6NTI0IYu/yKf8ssUqNkqL5
+	n5CohKIAG7zPNWVX17Sy0ciP3r12hlsEJ/wg0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5mr9AM43uZV/VyiFBrv+3WOA8EStbjC+Bgf2B0xH2go=;
-	b=bl1b+58qir52Ca5h0txwlOQvL3rS6lXJ/R5fJ3ntEfeyl0p3zlm41kydViv3xQz/9R
-	JampoO89YCXd7OrWhH+lf0b1BncaSUFMKbHMsSaEXG1CMmG1zkhsqAu7UeDnabShg19M
-	m7c6Lp6lyy+8IdzotD+tFirIQHJ5DW8fLEiTQrz9bAq638UGplsBxbuUk9KBcXa3F2uC
-	SaC29bscYQ16uY+GbqlIGAaCETK8GlIeCVle2zqGtJgTLzXO9R/vDney0LDz27dCBbML
-	hlRGaz0lkVzOOCKPOmaV+KqCeaw7I5vD/52uBCSl1WODI3C9vnZLvpVObRpjKNhZpTcm
-	oHuA==
-X-Gm-Message-State: APjAAAWLfVFOu1Uq/T77JAjio05p3w6ayqhtWQ6dZdg8PfKC+HwDVdUu
-	/TxsjnP3t3hy5Ku0/NpAJJVj6XP/XCM=
-X-Google-Smtp-Source: APXvYqwkcRyY8Q+OA0hR6hEEpLC9+x3CvILpyJkS9l3e1LLQQ92lyK9BsSTHYAyZGcD3jYpK0S4QxQ==
-X-Received: by 2002:a1c:4006:: with SMTP id n6mr3924277wma.137.1551912666657; 
-	Wed, 06 Mar 2019 14:51:06 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e193sm5033176wmg.18.2019.03.06.14.51.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 14:51:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 22:51:01 +0000
-Message-Id: <20190306225101.10727-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libpcre2: fix CVE-2017-7186
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=KKcOs1IuEUTsxiGEg3retv5JoA6SZLoHxuQes/cTs+A=;
+	b=jEZ2Ee8WkRvOsWIwuLhxjY1JHG2xCKYvSsOiUHtEdZFhKWts6MB8K9Si7wxNwtl7sS
+	20zoReV9lpKtS7SAtAx+ciczR/MJdehR6dtV/N6wZDpN6XAW86OHKJDUPgep5Z2zFarL
+	cSVXakc4oXwFsD9Q1KrrghYSdIfZcLAOEtY59cBrmgd+cY8yG9iMLAbOx+mR2/4rhk2b
+	EFj3f0fPBFwuD8x5ttT88IJRhNFG/+uA7O+wc1bxwhKoowFTeKo5eNDa/3N2eBvgFUo7
+	UgqYGtDjX5ifvAYwp5i2bNq0RxW/MQ3LeBzMy1d8aMUYgDRmYfAoQ1NF2POX34mujvnl
+	QRrA==
+X-Gm-Message-State: APjAAAUkHNA7JBkrhOb/Ezh8WChdy1ocravQDQpPCFyXfXj0GeXxY25k
+	BNr6PsrV8EE6GFuAvVTwxenH7w==
+X-Google-Smtp-Source: APXvYqzhzQeVBPHH11+lkJ6VTsj+tDh9mWkf6Dp8OCQDHm61f/BeeB1OlTlzSMGQtZMCLrS7zz4XGw==
+X-Received: by 2002:a1c:e0d7:: with SMTP id x206mr3898815wmg.152.1551913556546;
+	Wed, 06 Mar 2019 15:05:56 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	m15sm1884658wrx.30.2019.03.06.15.05.55
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 06 Mar 2019 15:05:55 -0800 (PST)
+Message-ID: <088fa1a03d1ff2ec9eb08d419e2a7c7bc1ee3406.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Date: Wed, 06 Mar 2019 23:05:54 +0000
+In-Reply-To: <cover.1551889557.git.bruce.ashfield@gmail.com>
+References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] linux-yocto: consolidated pull request (5.0 kernel intro)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,117 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 22:51:06 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 23:05:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../libpcre/libpcre2/CVE-2017-7186.patch           | 83 ++++++++++++++++++++++
- meta/recipes-support/libpcre/libpcre2_10.32.bb     |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
+On Wed, 2019-03-06 at 11:37 -0500, bruce.ashfield@gmail.com wrote:
+> The -rc8 of the kernel pushed this out a week longer than I would
+> have liked, but luckily the -dev kernel has been running 5.0 for
+> quite a while, so most of the issues had been worked out already.
+> 
+> In this series we have the bump of the libc-headers to 5.0, I've
+> built all arches for both musl and glibc, with no issues popping
+> up due to the headers bump. A few patches were dropped, since they
+> are now upstream.
+> 
+> I've also introduce the 5.0 versioned recipe in this series and
+> adjusted the two machines that still have a preferred version to
+> use it. Again, this was built and booted on all arches and over
+> several image types (minimal, sato, kernel-dev).
+> 
+> As usual lttng was tweaked to work with 5.0, but I was able to
+> keep it on the same 2.10 stable branch and only pull in a few
+> pending patches that haven't been formally released yet.
+> 
+> Once we get the h/w reference boards, and reference distros moved
+> to 4.19 and 5.0, I'll send a follow up patch to remove 4.18
+> from master.
+> 
+> I'll send follow up patches to the yocto-bsps and poky as
+> appropriate, but until the last few issues are resolved, they can
+> stay out of tree.
+> 
+> I captured as many details as possible in the commit messages of
+> the individual patches.
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
-new file mode 100644
-index 00000000000..7cd7c27c6c0
---- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
-@@ -0,0 +1,83 @@
-+libpcre1 in PCRE 8.40 and libpcre2 in PCRE2 10.23 allow remote attackers to
-+cause a denial of service (segmentation violation for read access, and
-+application crash) by triggering an invalid Unicode property lookup.	
-+
-+CVE: CVE-2017-7186
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+---
-+ src/pcre2_internal.h | 15 ++++++++++++++-
-+ src/pcre2_ucd.c      | 14 ++++++++++++++
-+ 2 files changed, 28 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/pcre2_internal.h b/src/pcre2_internal.h
-+index 6a8774c..720bbc9 100644
-+--- a/src/pcre2_internal.h
-++++ b/src/pcre2_internal.h
-+@@ -1774,10 +1774,17 @@ typedef struct {
-+ /* UCD access macros */
-+ 
-+ #define UCD_BLOCK_SIZE 128
-+-#define GET_UCD(ch) (PRIV(ucd_records) + \
-++#define REAL_GET_UCD(ch) (PRIV(ucd_records) + \
-+         PRIV(ucd_stage2)[PRIV(ucd_stage1)[(int)(ch) / UCD_BLOCK_SIZE] * \
-+         UCD_BLOCK_SIZE + (int)(ch) % UCD_BLOCK_SIZE])
-+ 
-++#if PCRE2_CODE_UNIT_WIDTH == 32
-++#define GET_UCD(ch) ((ch > MAX_UTF_CODE_POINT)? \
-++  PRIV(dummy_ucd_record) : REAL_GET_UCD(ch))
-++#else
-++#define GET_UCD(ch) REAL_GET_UCD(ch)
-++#endif
-++
-+ #define UCD_CHARTYPE(ch)    GET_UCD(ch)->chartype
-+ #define UCD_SCRIPT(ch)      GET_UCD(ch)->script
-+ #define UCD_CATEGORY(ch)    PRIV(ucp_gentype)[UCD_CHARTYPE(ch)]
-+@@ -1834,6 +1841,9 @@ extern const uint8_t          PRIV(utf8_table4)[];
-+ #define _pcre2_default_compile_context PCRE2_SUFFIX(_pcre2_default_compile_context_)
-+ #define _pcre2_default_match_context   PCRE2_SUFFIX(_pcre2_default_match_context_)
-+ #define _pcre2_default_tables          PCRE2_SUFFIX(_pcre2_default_tables_)
-++#if PCRE2_CODE_UNIT_WIDTH == 32
-++#define _pcre2_dummy_ucd_record        PCRE2_SUFFIX(_pcre2_dummy_ucd_record_)
-++#endif
-+ #define _pcre2_hspace_list             PCRE2_SUFFIX(_pcre2_hspace_list_)
-+ #define _pcre2_vspace_list             PCRE2_SUFFIX(_pcre2_vspace_list_)
-+ #define _pcre2_ucd_caseless_sets       PCRE2_SUFFIX(_pcre2_ucd_caseless_sets_)
-+@@ -1858,6 +1868,9 @@ extern const uint32_t                  PRIV(hspace_list)[];
-+ extern const uint32_t                  PRIV(vspace_list)[];
-+ extern const uint32_t                  PRIV(ucd_caseless_sets)[];
-+ extern const ucd_record                PRIV(ucd_records)[];
-++#if PCRE2_CODE_UNIT_WIDTH == 32
-++extern const ucd_record                PRIV(dummy_ucd_record)[];
-++#endif
-+ extern const uint8_t                   PRIV(ucd_stage1)[];
-+ extern const uint16_t                  PRIV(ucd_stage2)[];
-+ extern const uint32_t                  PRIV(ucp_gbtable)[];
-+diff --git a/src/pcre2_ucd.c b/src/pcre2_ucd.c
-+index 116f537..56aa29d 100644
-+--- a/src/pcre2_ucd.c
-++++ b/src/pcre2_ucd.c
-+@@ -41,6 +41,20 @@ const uint32_t PRIV(ucd_caseless_sets)[] = {0};
-+ 
-+ const char *PRIV(unicode_version) = "8.0.0";
-+ 
-++/* If the 32-bit library is run in non-32-bit mode, character values
-++greater than 0x10ffff may be encountered. For these we set up a
-++special record. */
-++
-++#if PCRE2_CODE_UNIT_WIDTH == 32
-++const ucd_record PRIV(dummy_ucd_record)[] = {{
-++  ucp_Common,    /* script */
-++  ucp_Cn,        /* type unassigned */
-++  ucp_gbOther,   /* grapheme break property */
-++  0,             /* case set */
-++  0,             /* other case */
-++  }};
-++#endif
-++
-+ /* When recompiling tables with a new Unicode version, please check the
-+ types in this structure definition from pcre2_internal.h (the actual
-+ field names will be different):
-+-- 
-+2.12.1
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.32.bb b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-index 3a0aa53029f..59953626c74 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.32.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
- 
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-+           file://CVE-2017-7186.patch \
- "
- 
- SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
--- 
-2.11.0
+Thanks Bruce!
+
+Just to summarise where we're at:
+
+a) The runtime stap tests fail everywhere, we probably need systemtap 
+   patches.
+b) Issue with KMACHINE_qemuarm = "qemuarma15" not working, blocks 
+   qemuarm armv7 switch
+c) qemumips and qemuppc:
+   https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/365/steps/7/logs/step1c
+   https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/365/steps/7/logs/step1c
+   RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase 1541: FAILED 
+d) perf do_compile race seen on qemuarm64 (didn't reproduce locally):
+   https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/366/steps/7/logs/step1b
+e) qemuarm64 graphics startup issue
+
+Cheers,
+
+Richard
 
 
