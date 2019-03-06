@@ -1,43 +1,47 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 44BF77997F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D50D7CD24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 14:36:33 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id h58so10535354edb.5
+	Wed,  6 Mar 2019 14:54:05 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id m137so9897990ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 06:36:34 -0800 (PST)
+	Wed, 06 Mar 2019 06:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=id5xM+WRGB1RbIfZLcB8Ry7KTs6lXgwIqBVZOGcTMDg=;
+	b=1Gv5z8WyavqqeLGhu12oNjmll2VTFDXIy3kRoMbt1m0BqBDTJ02z8Qw9KPdoAdN7wC
+	d9EDe5vqEYOt/kJaYAdS6fnJIlTFAOO1SgGIam/G/NvitdCf4NSOlR+c/z0e5LvD9JgT
+	akIleVzEB9atrXok1UQv27W8eQA3E4jnFoRvGaVs4/9VIWtfcn436pSCKBfq3ZjUmxCm
+	SdxI3l901/B3GwLpIMs8VLoLtznlgMu3kri/1uxi4A89ABHoHJQA4ZYsSqaravXPxc1S
+	ONy/wZ0Om5Epb7nFo9wihM0r8O8uawCWHFsLodNfI3OSvj+Qm99GsMOdxMpLj/5wd5NM
+	ATRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=89joqRFNsH1iEn4PPAI0dm2cGSnar6Zp4DmpDRbDIVs=;
-	b=BvWXZHQH6R3GLRAQVNf2acSaAerG7kZEdynW30T7f08qw3V8C+cQbu84T7WQ27vqNN
-	vxW4qzEXlj7CgDK8e9/syOgNdxcU4RAMapE0dOvTVzQocz7XXsU7dcXSsxg8++pibLBX
-	Zgw1fa4trDpbOFIRSbAPiwnO7GgnnInxN1s87eMlqu7JbYPtwjmQ/1FgemufvzIq1Ru9
-	x0psMHrQnkanDgKxFs+fXaXGKoMDsSp2sKKGp0a5OCt5k4QX34rO9vk+5grPtp6Mq5r5
-	EZ39qKNtCK1LbF1qF83Huw+pursJrS/zqA7KJd8JtZFi399a0AjnODz7XWAikj4K497W
-	Q9gA==
-X-Gm-Message-State: APjAAAWscczWu3miAI2CFgtP3D1cM84LObiSszCh7aJazFfWECgJTpq9
-	V/K4D65H2Y6ucciOX7j9ox8UGYQ=
-X-Google-Smtp-Source: APXvYqw29ml4xcYhiwDRjdBRqc44bOfMqdm9YU6aD7WfTKSVovRW0eDRb8clMTCiS3AYHPdmoBXU0g==
-X-Received: by 2002:a50:b36b:: with SMTP id r40mr24619144edd.12.1551882990644; 
-	Wed, 06 Mar 2019 06:36:30 -0800 (PST)
-Received: from bill-the-cat.local
-	(cpe-2606-A000-1401-880D-159-4081-9338-CA43.dyn6.twc.com.
-	[2606:a000:1401:880d:159:4081:9338:ca43])
-	by smtp.gmail.com with ESMTPSA id i14sm363467ejy.41.2019.03.06.06.36.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Mar 2019 06:36:28 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 09:36:13 -0500
-Message-Id: <1551882973-8710-5-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1551882973-8710-1-git-send-email-trini@konsulko.com>
-References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH v2 4/4] imagefeatures: Add test to blacklist building busybox
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=id5xM+WRGB1RbIfZLcB8Ry7KTs6lXgwIqBVZOGcTMDg=;
+	b=AkkIyqWPNlQuJF93otsk5d+bKqIjnJJYqCXFiaMUSAuQY+z+PWwpL4SVN/ihr3m9S+
+	DG5pjrzzITrettZKldy2I3aPHUP3ovsfGJU06zJOGgMUJ4JKXDq7jKFHCXHu8M8O8b3v
+	jTTaUlmXb0eNBmyMoOaxV/2eysGM5A6oU8CZJ4ELYG60l6asSw8DrYIfSYMLvb7iZcjE
+	sDQUNlLH6CubQCEw/CGtmg/0qSNgawC74om3TLMdIPyhDDujZ6kiRcMlijztfzMelKdt
+	CaWdLmlKMk/j8ifFPy+TR29z5nQMs7I1F5dvvJ1dX9+2WK3taHY9FFNLmMgkHXACkXr9
+	aiHQ==
+X-Gm-Message-State: APjAAAXS9yZumb34IXwliKBsxGVLI0s7bNWWXmxW66ebVz1D+N5R2Ev0
+	JrZgwnxXYYvPSeFO1eCA4PRo/wwZ4keUQaZ6DF9prQGQKzE=
+X-Google-Smtp-Source: APXvYqw59hP4N2C/A3Ao+JdDqs3O0O+0zefgTqFBHOWU57XhIZkz/VKb7boIxVmvCHcAowgibarDfEVxHfnZ8+drLtw=
+X-Received: by 2002:a24:2405:: with SMTP id f5mr2429807ita.130.1551884046802; 
+	Wed, 06 Mar 2019 06:54:06 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1551430235.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1551430235.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 Mar 2019 14:53:55 +0000
+Message-ID: <CAJTo0LY1ZgcMymMwnRXsXcmvPFhSNsUXoDqCsxR2L9URJnCtLg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Upgrade systemd to 241
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,53 +54,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 14:36:33 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 14:54:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Now that we have a packagegroup that can be used to replace the overall
-functionality of busybox as base-utils, add a test that we can continue
-to build a fairly complex image without busybox being available.  This
-also doubles as documentation-by-test of how to do this.
+| src/boot/efi/meson.build:63:24: ERROR:  Program or command
+'realpath' not found or not executable
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Fails if you turn on EFI.
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 8c95432e00b3..aed63e5476a7 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -236,3 +236,29 @@ USERADD_GID_TABLES += "files/static-group"
- """
-         self.write_config(config)
-         bitbake("core-image-base")
-+
-+    def test_no_busybox_base_utils(self):
-+        config = """
-+# Enable x11
-+DISTRO_FEATURES_append += "x11"
-+
-+# Switch to systemd
-+DISTRO_FEATURES += "systemd"
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+VIRTUAL-RUNTIME_initscripts = ""
-+VIRTUAL-RUNTIME_syslog = ""
-+VIRTUAL-RUNTIME_login_manager = "shadow-base"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-+
-+# Replace busybox
-+PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
-+VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
-+VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
-+VIRTUAL-RUNTIME_base-utils-syslog = ""
-+
-+# Blacklist busybox
-+PNBLACKLIST[busybox] = "Don't build this"
-+"""
-+        self.write_config(config)
-+
-+        bitbake("--graphviz core-image-sato")
--- 
-2.7.4
+Ross
 
+On Fri, 1 Mar 2019 at 08:42, Chen Qi <Qi.Chen@windriver.com> wrote:
+>
+>
+> The following changes since commit 4d275d97b6c572fe11668ac16d2c77c018340c7c:
+>
+>   perl: apply a native-only patch only to -native (2019-02-28 17:49:40 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib ChenQi/systemd-241
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-241
+>
+> Chen Qi (3):
+>   systemd: upgrade to 241
+>   systemd-conf: add version info in recipe name
+>   systemd-boot: upgrade to 241
+>
+>  .../{systemd-boot_239.bb => systemd-boot_241.bb}   |  10 +-
+>  .../{systemd-conf.bb => systemd-conf_241.bb}       |   0
+>  meta/recipes-core/systemd/systemd.inc              |   2 +-
+>  ...ck-protector-flags-to-workaround-musl-bui.patch |  33 --
+>  ...t-meson-print-EFI-CC-configuration-nicely.patch |  33 ++
+>  ...vert-meson-use-an-array-option-for-efi-cc.patch |  77 +++
+>  ...tl.d-request-ECN-on-both-in-and-outgoing-.patch |  36 --
+>  ...nv-when-secure-versions-are-not-available.patch |  21 +-
+>  ...t-install-dependency-links-at-install-tim.patch |  22 +-
+>  ...sive-let-s-rework-the-recursive-logic-to-.patch | 219 ---------
+>  ...eserializing-state-always-use-read_line-L.patch | 250 ----------
+>  ...sure-we-have-enough-space-for-the-DHCP6-o.patch |  39 --
+>  ...01-do-not-disable-buffer-in-writing-files.patch | 523 +++++++++++++++++++++
+>  ...arse_uid-when-unmounting-user-runtime-dir.patch | 110 -----
+>  .../0001-meson-rename-Ddebug-to-Ddebug-extra.patch |  45 --
+>  ...bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch | 175 -------
+>  ...l-Don-t-pass-null-directive-argument-to-s.patch |  31 --
+>  ...ync-changes-type-of-drift_freq-to-int64_t.patch |  49 --
+>  ...Fix-use-after-free-case-in-load_from_path.patch |  43 --
+>  .../0002-don-t-use-glibc-specific-qsort_r.patch    | 231 +++++----
+>  ...pper-instead-of-looking-for-relative-opti.patch |  14 +-
+>  ...fn_t-is-glibc-specific-use-raw-signature-.patch |  40 --
+>  ...0003-implment-systemd-sysv-install-for-OE.patch |   8 +-
+>  ...e.h-add-__compare_fn_t-and-comparison_fn_.patch |  61 +++
+>  ...llback-parse_printf_format-implementation.patch |  33 +-
+>  .../systemd/0004-rules-whitelist-hd-devices.patch  |  18 +-
+>  ...5-Make-root-s-home-directory-configurable.patch |  70 ---
+>  ...user-util-properly-protect-use-of-gshadow.patch |  38 --
+>  ...es-watch-metadata-changes-in-ide-devices.patch} |  18 +-
+>  ...sic-missing.h-check-for-missing-strndupa.patch} |  90 ++--
+>  ...patch => 0006-Include-netinet-if_ether.h.patch} |  28 +-
+>  .../0006-remove-nobody-user-group-checking.patch   |  63 ---
+>  ...if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch} |  49 +-
+>  ...le-nss-tests-if-nss-systemd-is-not-enable.patch |  29 --
+>  ...=> 0008-add-missing-FTW_-macros-for-musl.patch} |  29 +-
+>  ...nes-Build-conditionally-when-ENABLE_MYHOS.patch |  43 --
+>  ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  10 +-
+>  ...of-__register_atfork-for-non-glibc-build.patch} |  16 +-
+>  ...> 0011-Use-uintmax_t-for-handling-rlim_t.patch} |  59 ++-
+>  ...issing.h-check-for-missing-__compar_fn_t-.patch |  48 --
+>  ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  27 ++
+>  ...xdecoct.c-Include-missing.h-for-strndupa.patch} |   8 +-
+>  ...-ULONG_LONG_MAX-definition-in-case-of-mus.patch |  30 --
+>  ...c-Disable-tests-for-missing-typedefs-in-.patch} |  12 +-
+>  ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  10 +-
+>  ...-compatible-basename-for-non-glibc-syste.patch} |   8 +-
+>  ...le-buffering-when-writing-to-oom_score_a.patch} |  10 +-
+>  ...XSI-compliant-strerror_r-from-GNU-specif.patch} |  12 +-
+>  ...t_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch} |  29 +-
+>  ...ing_type.h-add-__compar_d_fn_t-definition.patch |  30 ++
+>  ...id-redefinition-of-prctl_mm_map-structure.patch |  47 ++
+>  ...se-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch |  28 --
+>  ...etect-whether-struct-statx-is-defined-in-.patch | 109 -----
+>  ...clude-sys-wait.h-to-avoid-compile-failure.patch |  33 ++
+>  ...onf-fixes-for-the-compatibility-interface.patch |  58 ---
+>  .../0023-socket-util.h-include-string.h.patch      |  30 ++
+>  ...-not-store-the-iovec-entry-for-process-co.patch | 208 --------
+>  .../systemd/0024-test-json.c-define-M_PIl.patch    |  33 ++
+>  ...rnald-set-a-limit-on-the-number-of-fields.patch | 139 ------
+>  ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch |  49 --
+>  .../systemd/systemd/CVE-2019-6454.patch            | 210 ---------
+>  ...e-receive-an-invalid-dbus-message-ignore-.patch |  61 ---
+>  .../systemd/{systemd_239.bb => systemd_241.bb}     |  79 ++--
+>  63 files changed, 1294 insertions(+), 2679 deletions(-)
+>  rename meta/recipes-core/systemd/{systemd-boot_239.bb => systemd-boot_241.bb} (85%)
+>  rename meta/recipes-core/systemd/{systemd-conf.bb => systemd-conf_241.bb} (100%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-Remove-fstack-protector-flags-to-workaround-musl-bui.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-meson-print-EFI-CC-configuration-nicely.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-meson-use-an-array-option-for-efi-cc.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-sysctl.d-request-ECN-on-both-in-and-outgoing-.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-core-when-deserializing-state-always-use-read_line-L.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-do-not-disable-buffer-in-writing-files.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-login-use-parse_uid-when-unmounting-user-runtime-dir.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-rename-Ddebug-to-Ddebug-extra.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-sd-bus-make-BUS_DEFAULT_TIMEOUT-configurable.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-sysctl-Don-t-pass-null-directive-argument-to-s.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-timesync-changes-type-of-drift_freq-to-int64_t.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0002-core-Fix-use-after-free-case-in-load_from_path.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0003-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0005-Make-root-s-home-directory-configurable.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0005-basic-user-util-properly-protect-use-of-gshadow.patch
+>  rename meta/recipes-core/systemd/systemd/{0007-rules-watch-metadata-changes-in-ide-devices.patch => 0005-rules-watch-metadata-changes-in-ide-devices.patch} (78%)
+>  rename meta/recipes-core/systemd/systemd/{0006-src-basic-missing.h-check-for-missing-strndupa.patch => 0005-src-basic-missing.h-check-for-missing-strndupa.patch} (65%)
+>  rename meta/recipes-core/systemd/systemd/{0007-Include-netinet-if_ether.h.patch => 0006-Include-netinet-if_ether.h.patch} (85%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0006-remove-nobody-user-group-checking.patch
+>  rename meta/recipes-core/systemd/systemd/{0008-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch} (81%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0008-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch
+>  rename meta/recipes-core/systemd/systemd/{0009-add-missing-FTW_-macros-for-musl.patch => 0008-add-missing-FTW_-macros-for-musl.patch} (50%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0009-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch
+>  rename meta/recipes-core/systemd/systemd/{0010-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (80%)
+>  rename meta/recipes-core/systemd/systemd/{0012-fix-missing-of-__register_atfork-for-non-glibc-build.patch => 0010-fix-missing-of-__register_atfork-for-non-glibc-build.patch} (75%)
+>  rename meta/recipes-core/systemd/systemd/{0013-Use-uintmax_t-for-handling-rlim_t.patch => 0011-Use-uintmax_t-for-handling-rlim_t.patch} (62%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0011-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0012-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
+>  rename meta/recipes-core/systemd/systemd/{0015-test-hexdecoct.c-Include-missing.h-for-strndupa.patch => 0013-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (78%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0014-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch
+>  rename meta/recipes-core/systemd/systemd/{0016-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0014-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (78%)
+>  rename meta/recipes-core/systemd/systemd/{0017-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0015-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (95%)
+>  rename meta/recipes-core/systemd/systemd/{0018-Define-glibc-compatible-basename-for-non-glibc-syste.patch => 0016-Define-glibc-compatible-basename-for-non-glibc-syste.patch} (82%)
+>  rename meta/recipes-core/systemd/systemd/{0019-Do-not-disable-buffering-when-writing-to-oom_score_a.patch => 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch} (82%)
+>  rename meta/recipes-core/systemd/systemd/{0020-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch => 0018-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch} (87%)
+>  rename meta/recipes-core/systemd/systemd/{0021-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch => 0019-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch} (49%)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0020-missing_type.h-add-__compar_d_fn_t-definition.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0021-avoid-redefinition-of-prctl_mm_map-structure.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0022-Use-if-instead-of-ifdef-for-ENABLE_GSHADOW.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0022-build-sys-Detect-whether-struct-statx-is-defined-in-.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0022-include-sys-wait.h-to-avoid-compile-failure.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0023-resolvconf-fixes-for-the-compatibility-interface.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0023-socket-util.h-include-string.h.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+>  create mode 100644 meta/recipes-core/systemd/systemd/0024-test-json.c-define-M_PIl.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0026-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+>  delete mode 100644 meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
+>  rename meta/recipes-core/systemd/{systemd_239.bb => systemd_241.bb} (89%)
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
