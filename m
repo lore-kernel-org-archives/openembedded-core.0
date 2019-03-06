@@ -1,44 +1,54 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7917D7CDEF
+Return-Path: <jeff.dagenais@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 706B57C72F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 20:33:54 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id v10so14477548qtp.8
+	Wed,  6 Mar 2019 21:16:47 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id z39so14653627qtz.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 12:33:55 -0800 (PST)
+	Wed, 06 Mar 2019 13:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:content-transfer-encoding:mime-version:subject:date:references
+	:to:in-reply-to:message-id;
+	bh=muRrb2iIRpdiDZxeYPOf7yDfUl/eXUh0Gy6+w/7I4Pk=;
+	b=TCcfGU4V9FOhefUbIqc44Qr5sA/2/THUZ985wPJ2WT7wjGv3G0rY40Y8D2vU6dC/AH
+	hmJoRJSJf7TAe1HsrzmxEcJ6YhcKZIC5Yzumti2/mV58cLgL6+JJQNkh+7Wig2VYY7Fm
+	NFCN+D+d/XhykDQ22Bk0J8UDPL0EMGro8hBex8DlE+VSlLxpFtHeElllCa65fI7pRrT3
+	v08immSXzFi2MUa+g7BJhd7hEfyxGfN5DfUYpkLieP2gqeD6VO9Dpa5nEwjModlTwM/U
+	+HX+Us8HB4rbcJbchbIMdObvjlFKid6Ws97s87e2v8yIh90JEUkGlnmFxld4pt7eu5KD
+	f41g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=89joqRFNsH1iEn4PPAI0dm2cGSnar6Zp4DmpDRbDIVs=;
-	b=dfYqM4fCv4QPtFLkZGGDxKlTDiH+eqScaniZ+klqfS38ajmTnhQzAKofYSALS0PDRf
-	A/0cX/kn570BPoC8uInrxXo7sLDtHQlTE63p4X4yPLtJxiE4ws/hmOJCXluUI7XHrxcK
-	dGcoL/eAuR88a/wZaquAjbPd8NJvlljFIO2zHwRrl8wqtiLXD270e1ZeO38lVmCtURcj
-	KvoiIe4lCt7e7G+rEgrRqokIX/SwCQc5eNQRre31xMFHqKOYprhgajP/JEpscX7A13gj
-	83r7IAul0bisi5dE87fkki5XBjhZejijqpOndkks2EuRok9f1vJ1M8hOPfYty2jNO2Rc
-	+Wrg==
-X-Gm-Message-State: APjAAAXzplfpuDvGQGaZGNOjG0B0YCRGWzNSkjsvU8FqLeBcqikqDGvt
-	x9TUpx6ZTrvFPJhKkHOKfkAnpOI=
-X-Google-Smtp-Source: APXvYqyOFaXm6S9LLgxaLpkdBDsgYhI0CxWPjlC2HMZeMfQBXfphcFY38Lsak5Y4BnWjxfdE8tHBzQ==
-X-Received: by 2002:aed:3f05:: with SMTP id p5mr7265291qtf.114.1551904435200; 
-	Wed, 06 Mar 2019 12:33:55 -0800 (PST)
-Received: from bill-the-cat.local
-	(cpe-2606-A000-1401-880D-C8CE-3B73-783F-B0BC.dyn6.twc.com.
-	[2606:a000:1401:880d:c8ce:3b73:783f:b0bc])
-	by smtp.gmail.com with ESMTPSA id
-	x43sm1895034qtc.10.2019.03.06.12.33.54
+	h=x-gm-message-state:from:content-transfer-encoding:mime-version
+	:subject:date:references:to:in-reply-to:message-id;
+	bh=muRrb2iIRpdiDZxeYPOf7yDfUl/eXUh0Gy6+w/7I4Pk=;
+	b=i1krflWg2k0rYFVmPPBdJOnMvXye7AD2L9HOPH5q+aBm2nfpZl4yt9YTmP77oICtj1
+	zpAzQt81FPB3MIdCWjW4py76e5cP+L1iiqgrT3sjePm/eDGJJFQ+xFIi2ZqLL8I436w4
+	d+/7qeY636ZAbVLITUJxVUU5E9wQkDufUcKsBvzem/wWVuOan0ZMM+uzSTB5Fbx01Doe
+	Q9VBPh0GQ62CieUvT9LvkVsOAIt8UtCoKOQi0Eec/OE1k83jTPnmJnOfl90gHNSdu+1z
+	YiKi3y3FRyvwTtCOgIF+sUnH/gewWkFeHYbh3hI5YP8V3Hkg0ViYx7J4i67g5bg/WWwD
+	/PYA==
+X-Gm-Message-State: APjAAAXfpYfeXkAtPUoD8Auv2pz9qEFFG2FcsU4+nqxyIENf/BnWD3NP
+	81WdSRhQ2FpIyIz6nh/L/iI3h+Gr
+X-Google-Smtp-Source: APXvYqwVPf2Yepr0k8Nfb5gUrt3ZdGkOBwZ9PtK+VsEp63LKRwFyBVNXADvRsXi+9Tdj1YuoW2sljA==
+X-Received: by 2002:ac8:396b:: with SMTP id t40mr7315226qtb.159.1551907008108; 
+	Wed, 06 Mar 2019 13:16:48 -0800 (PST)
+Received: from jfdmac.sonatest.net
+	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
+	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
+	i141sm1409169qke.7.2019.03.06.13.16.47
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Mar 2019 12:33:54 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Mar 2019 13:16:47 -0800 (PST)
+From: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Date: Wed, 6 Mar 2019 16:16:46 -0500
+References: <20190306074610.11691-1-bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 15:33:47 -0500
-Message-Id: <1551904427-14661-4-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1551904427-14661-1-git-send-email-trini@konsulko.com>
-References: <1551904427-14661-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH v3 4/4] imagefeatures: Add test to blacklist building busybox
+In-Reply-To: <20190306074610.11691-1-bunk@stusta.de>
+Message-Id: <2CC5E942-0433-400E-A2B9-765E82226B30@gmail.com>
+X-Mailer: Apple Mail (2.3445.102.3)
+Subject: Re: [PATCH] wpa-supplicant: Remove no longer required hack for libnl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,53 +61,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 20:33:54 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 21:16:47 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Now that we have a packagegroup that can be used to replace the overall
-functionality of busybox as base-utils, add a test that we can continue
-to build a fairly complex image without busybox being available.  This
-also doubles as documentation-by-test of how to do this.
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 8c95432e00b3..aed63e5476a7 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -236,3 +236,29 @@ USERADD_GID_TABLES += "files/static-group"
- """
-         self.write_config(config)
-         bitbake("core-image-base")
-+
-+    def test_no_busybox_base_utils(self):
-+        config = """
-+# Enable x11
-+DISTRO_FEATURES_append += "x11"
-+
-+# Switch to systemd
-+DISTRO_FEATURES += "systemd"
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+VIRTUAL-RUNTIME_initscripts = ""
-+VIRTUAL-RUNTIME_syslog = ""
-+VIRTUAL-RUNTIME_login_manager = "shadow-base"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-+
-+# Replace busybox
-+PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
-+VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
-+VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
-+VIRTUAL-RUNTIME_base-utils-syslog = ""
-+
-+# Blacklist busybox
-+PNBLACKLIST[busybox] = "Don't build this"
-+"""
-+        self.write_config(config)
-+
-+        bitbake("--graphviz core-image-sato")
--- 
-2.7.4
+> On Mar 6, 2019, at 02:46, Adrian Bunk <bunk@stusta.de> wrote:
+>=20
+> Upstream already fixed this properly by using pkg-config.
+>=20
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Reviewed-by: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
+> ---
+> meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb | 2 --
+> 1 file changed, 2 deletions(-)
+>=20
+> diff --git =
+a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+> index 6fc5cf5db7..fe5fa2b82e 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+> @@ -42,8 +42,6 @@ CONFFILES_${PN} +=3D =
+"${sysconfdir}/wpa_supplicant.conf"
+> do_configure () {
+> 	${MAKE} -C wpa_supplicant clean
+> 	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
+> -	echo "CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> =
+wpa_supplicant/.config
+> -	echo "DRV_CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> =
+wpa_supplicant/.config
+> =09
+> 	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
+>        	ssl=3Dopenssl
+> --=20
+> 2.17.1
+>=20
 
 
