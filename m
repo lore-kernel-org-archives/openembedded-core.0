@@ -1,54 +1,49 @@
-Return-Path: <jeff.dagenais@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 706B57C72F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 64BCE7CD9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 21:16:47 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id z39so14653627qtz.0
+	Wed,  6 Mar 2019 22:51:06 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id e74so7470574wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 13:16:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:content-transfer-encoding:mime-version:subject:date:references
-	:to:in-reply-to:message-id;
-	bh=muRrb2iIRpdiDZxeYPOf7yDfUl/eXUh0Gy6+w/7I4Pk=;
-	b=TCcfGU4V9FOhefUbIqc44Qr5sA/2/THUZ985wPJ2WT7wjGv3G0rY40Y8D2vU6dC/AH
-	hmJoRJSJf7TAe1HsrzmxEcJ6YhcKZIC5Yzumti2/mV58cLgL6+JJQNkh+7Wig2VYY7Fm
-	NFCN+D+d/XhykDQ22Bk0J8UDPL0EMGro8hBex8DlE+VSlLxpFtHeElllCa65fI7pRrT3
-	v08immSXzFi2MUa+g7BJhd7hEfyxGfN5DfUYpkLieP2gqeD6VO9Dpa5nEwjModlTwM/U
-	+HX+Us8HB4rbcJbchbIMdObvjlFKid6Ws97s87e2v8yIh90JEUkGlnmFxld4pt7eu5KD
-	f41g==
+	Wed, 06 Mar 2019 14:51:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=5mr9AM43uZV/VyiFBrv+3WOA8EStbjC+Bgf2B0xH2go=;
+	b=dd5tHkYxVd9Do5t8K3hbRpIUFzVbMZMl36eGNQRThd0V0w1azy7Fmtw9ZDjuSlqk0p
+	k2VGiLVhmzUr7hl1Ny5+F0aj/3PC9zHHY4g1EM5JYO5cJn+Ja1ls6kL1cegpiprNVcu1
+	K4nL4rLihJC5V8yUYxx0CJthCByVGaJz2FATecqTaYWFgVQa3CrKy8j39EnBXV/UStGc
+	79yFXNul/5C4H3Y5Lcr+Gfm81EjM259VccvlFGQ3MUvniy5xprvNjIl7+u+0niOzYL+s
+	UWDpLHn00M/lUqgz6dp1zddiaPZ/TPHuWl37mKRcGVwoVfJHamXmfhaf8lBAvFfMvMdE
+	lYuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:content-transfer-encoding:mime-version
-	:subject:date:references:to:in-reply-to:message-id;
-	bh=muRrb2iIRpdiDZxeYPOf7yDfUl/eXUh0Gy6+w/7I4Pk=;
-	b=i1krflWg2k0rYFVmPPBdJOnMvXye7AD2L9HOPH5q+aBm2nfpZl4yt9YTmP77oICtj1
-	zpAzQt81FPB3MIdCWjW4py76e5cP+L1iiqgrT3sjePm/eDGJJFQ+xFIi2ZqLL8I436w4
-	d+/7qeY636ZAbVLITUJxVUU5E9wQkDufUcKsBvzem/wWVuOan0ZMM+uzSTB5Fbx01Doe
-	Q9VBPh0GQ62CieUvT9LvkVsOAIt8UtCoKOQi0Eec/OE1k83jTPnmJnOfl90gHNSdu+1z
-	YiKi3y3FRyvwTtCOgIF+sUnH/gewWkFeHYbh3hI5YP8V3Hkg0ViYx7J4i67g5bg/WWwD
-	/PYA==
-X-Gm-Message-State: APjAAAXfpYfeXkAtPUoD8Auv2pz9qEFFG2FcsU4+nqxyIENf/BnWD3NP
-	81WdSRhQ2FpIyIz6nh/L/iI3h+Gr
-X-Google-Smtp-Source: APXvYqwVPf2Yepr0k8Nfb5gUrt3ZdGkOBwZ9PtK+VsEp63LKRwFyBVNXADvRsXi+9Tdj1YuoW2sljA==
-X-Received: by 2002:ac8:396b:: with SMTP id t40mr7315226qtb.159.1551907008108; 
-	Wed, 06 Mar 2019 13:16:48 -0800 (PST)
-Received: from jfdmac.sonatest.net
-	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
-	i141sm1409169qke.7.2019.03.06.13.16.47
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5mr9AM43uZV/VyiFBrv+3WOA8EStbjC+Bgf2B0xH2go=;
+	b=bl1b+58qir52Ca5h0txwlOQvL3rS6lXJ/R5fJ3ntEfeyl0p3zlm41kydViv3xQz/9R
+	JampoO89YCXd7OrWhH+lf0b1BncaSUFMKbHMsSaEXG1CMmG1zkhsqAu7UeDnabShg19M
+	m7c6Lp6lyy+8IdzotD+tFirIQHJ5DW8fLEiTQrz9bAq638UGplsBxbuUk9KBcXa3F2uC
+	SaC29bscYQ16uY+GbqlIGAaCETK8GlIeCVle2zqGtJgTLzXO9R/vDney0LDz27dCBbML
+	hlRGaz0lkVzOOCKPOmaV+KqCeaw7I5vD/52uBCSl1WODI3C9vnZLvpVObRpjKNhZpTcm
+	oHuA==
+X-Gm-Message-State: APjAAAWLfVFOu1Uq/T77JAjio05p3w6ayqhtWQ6dZdg8PfKC+HwDVdUu
+	/TxsjnP3t3hy5Ku0/NpAJJVj6XP/XCM=
+X-Google-Smtp-Source: APXvYqwkcRyY8Q+OA0hR6hEEpLC9+x3CvILpyJkS9l3e1LLQQ92lyK9BsSTHYAyZGcD3jYpK0S4QxQ==
+X-Received: by 2002:a1c:4006:: with SMTP id n6mr3924277wma.137.1551912666657; 
+	Wed, 06 Mar 2019 14:51:06 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e193sm5033176wmg.18.2019.03.06.14.51.05
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 13:16:47 -0800 (PST)
-From: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
-Date: Wed, 6 Mar 2019 16:16:46 -0500
-References: <20190306074610.11691-1-bunk@stusta.de>
+	Wed, 06 Mar 2019 14:51:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-In-Reply-To: <20190306074610.11691-1-bunk@stusta.de>
-Message-Id: <2CC5E942-0433-400E-A2B9-765E82226B30@gmail.com>
-X-Mailer: Apple Mail (2.3445.102.3)
-Subject: Re: [PATCH] wpa-supplicant: Remove no longer required hack for libnl
+Date: Wed,  6 Mar 2019 22:51:01 +0000
+Message-Id: <20190306225101.10727-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libpcre2: fix CVE-2017-7186
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,42 +56,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 21:16:47 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 Mar 2019 22:51:06 -0000
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libpcre/libpcre2/CVE-2017-7186.patch           | 83 ++++++++++++++++++++++
+ meta/recipes-support/libpcre/libpcre2_10.32.bb     |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
 
-> On Mar 6, 2019, at 02:46, Adrian Bunk <bunk@stusta.de> wrote:
->=20
-> Upstream already fixed this properly by using pkg-config.
->=20
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Reviewed-by: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
-> ---
-> meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb | 2 --
-> 1 file changed, 2 deletions(-)
->=20
-> diff --git =
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb =
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-> index 6fc5cf5db7..fe5fa2b82e 100644
-> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-> @@ -42,8 +42,6 @@ CONFFILES_${PN} +=3D =
-"${sysconfdir}/wpa_supplicant.conf"
-> do_configure () {
-> 	${MAKE} -C wpa_supplicant clean
-> 	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
-> -	echo "CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> =
-wpa_supplicant/.config
-> -	echo "DRV_CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> =
-wpa_supplicant/.config
-> =09
-> 	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
->        	ssl=3Dopenssl
-> --=20
-> 2.17.1
->=20
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
+new file mode 100644
+index 00000000000..7cd7c27c6c0
+--- /dev/null
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
+@@ -0,0 +1,83 @@
++libpcre1 in PCRE 8.40 and libpcre2 in PCRE2 10.23 allow remote attackers to
++cause a denial of service (segmentation violation for read access, and
++application crash) by triggering an invalid Unicode property lookup.	
++
++CVE: CVE-2017-7186
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++---
++ src/pcre2_internal.h | 15 ++++++++++++++-
++ src/pcre2_ucd.c      | 14 ++++++++++++++
++ 2 files changed, 28 insertions(+), 1 deletion(-)
++
++diff --git a/src/pcre2_internal.h b/src/pcre2_internal.h
++index 6a8774c..720bbc9 100644
++--- a/src/pcre2_internal.h
+++++ b/src/pcre2_internal.h
++@@ -1774,10 +1774,17 @@ typedef struct {
++ /* UCD access macros */
++ 
++ #define UCD_BLOCK_SIZE 128
++-#define GET_UCD(ch) (PRIV(ucd_records) + \
+++#define REAL_GET_UCD(ch) (PRIV(ucd_records) + \
++         PRIV(ucd_stage2)[PRIV(ucd_stage1)[(int)(ch) / UCD_BLOCK_SIZE] * \
++         UCD_BLOCK_SIZE + (int)(ch) % UCD_BLOCK_SIZE])
++ 
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++#define GET_UCD(ch) ((ch > MAX_UTF_CODE_POINT)? \
+++  PRIV(dummy_ucd_record) : REAL_GET_UCD(ch))
+++#else
+++#define GET_UCD(ch) REAL_GET_UCD(ch)
+++#endif
+++
++ #define UCD_CHARTYPE(ch)    GET_UCD(ch)->chartype
++ #define UCD_SCRIPT(ch)      GET_UCD(ch)->script
++ #define UCD_CATEGORY(ch)    PRIV(ucp_gentype)[UCD_CHARTYPE(ch)]
++@@ -1834,6 +1841,9 @@ extern const uint8_t          PRIV(utf8_table4)[];
++ #define _pcre2_default_compile_context PCRE2_SUFFIX(_pcre2_default_compile_context_)
++ #define _pcre2_default_match_context   PCRE2_SUFFIX(_pcre2_default_match_context_)
++ #define _pcre2_default_tables          PCRE2_SUFFIX(_pcre2_default_tables_)
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++#define _pcre2_dummy_ucd_record        PCRE2_SUFFIX(_pcre2_dummy_ucd_record_)
+++#endif
++ #define _pcre2_hspace_list             PCRE2_SUFFIX(_pcre2_hspace_list_)
++ #define _pcre2_vspace_list             PCRE2_SUFFIX(_pcre2_vspace_list_)
++ #define _pcre2_ucd_caseless_sets       PCRE2_SUFFIX(_pcre2_ucd_caseless_sets_)
++@@ -1858,6 +1868,9 @@ extern const uint32_t                  PRIV(hspace_list)[];
++ extern const uint32_t                  PRIV(vspace_list)[];
++ extern const uint32_t                  PRIV(ucd_caseless_sets)[];
++ extern const ucd_record                PRIV(ucd_records)[];
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++extern const ucd_record                PRIV(dummy_ucd_record)[];
+++#endif
++ extern const uint8_t                   PRIV(ucd_stage1)[];
++ extern const uint16_t                  PRIV(ucd_stage2)[];
++ extern const uint32_t                  PRIV(ucp_gbtable)[];
++diff --git a/src/pcre2_ucd.c b/src/pcre2_ucd.c
++index 116f537..56aa29d 100644
++--- a/src/pcre2_ucd.c
+++++ b/src/pcre2_ucd.c
++@@ -41,6 +41,20 @@ const uint32_t PRIV(ucd_caseless_sets)[] = {0};
++ 
++ const char *PRIV(unicode_version) = "8.0.0";
++ 
+++/* If the 32-bit library is run in non-32-bit mode, character values
+++greater than 0x10ffff may be encountered. For these we set up a
+++special record. */
+++
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++const ucd_record PRIV(dummy_ucd_record)[] = {{
+++  ucp_Common,    /* script */
+++  ucp_Cn,        /* type unassigned */
+++  ucp_gbOther,   /* grapheme break property */
+++  0,             /* case set */
+++  0,             /* other case */
+++  }};
+++#endif
+++
++ /* When recompiling tables with a new Unicode version, please check the
++ types in this structure definition from pcre2_internal.h (the actual
++ field names will be different):
++-- 
++2.12.1
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.32.bb b/meta/recipes-support/libpcre/libpcre2_10.32.bb
+index 3a0aa53029f..59953626c74 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.32.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.32.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
+ 
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
++           file://CVE-2017-7186.patch \
+ "
+ 
+ SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
+-- 
+2.11.0
 
 
