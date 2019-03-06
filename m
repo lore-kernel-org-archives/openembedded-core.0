@@ -1,44 +1,43 @@
 Return-Path: <tom.rini@gmail.com>
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
-	[209.85.208.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CE3460291
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 44BF77997F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 14:36:27 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id g19so10555096edp.2
+	Wed,  6 Mar 2019 14:36:33 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id h58so10535354edb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 06:36:28 -0800 (PST)
+	Wed, 06 Mar 2019 06:36:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ugprp86ffP3J0leJD2YF/4iToZT3YJB/G2V/KqB5Kv0=;
-	b=ZtfUGaSFtMFKO7D3Pl0WwKNAG6wcbOsEXGshkVrpUG3kTUvU8wtdd6xXjb/LpWDiiW
-	nT/Oaabxi3IzVmgcEwqWglqkZKqrIii5qmqYPmoPAiGaUIZTYgTF6BDbEVxaCjAygRi/
-	w/2S19G3HQFJ3GffnMSiPdAdlW82Hp3JYsA/nvXW2FT7AV8HdOJK74Z5KctE35QHnI+J
-	9dOFAtEV93JTYUyQBZzQ5WytOULyO5t2uh7za0fnRPAbqRs7754LXCnzzzt4kMoKbbo6
-	IVVZ0N5GB7hcs/5Mo36Y3JLCIa6O+3kKrnsI6I8DkkqVfRiiTKMYY5ENjob9IwjepZMK
-	byHw==
-X-Gm-Message-State: APjAAAXYVtOc2btGGA8Y6o+ez+o7020qaFMLQJgp09x2YZNk0QVauLcb
-	CKLzn1uYAcBjHWlJl2Z65FJ+Ocg=
-X-Google-Smtp-Source: APXvYqyw6h9cjphXWWZKUB97WqV9tSctALzAorQnvHC5hXeHSTqRonkBErM0M5bVahxXlsRYBMnGSg==
-X-Received: by 2002:a05:6402:1690:: with SMTP id
-	a16mr24206164edv.16.1551882987518; 
-	Wed, 06 Mar 2019 06:36:27 -0800 (PST)
+	bh=89joqRFNsH1iEn4PPAI0dm2cGSnar6Zp4DmpDRbDIVs=;
+	b=BvWXZHQH6R3GLRAQVNf2acSaAerG7kZEdynW30T7f08qw3V8C+cQbu84T7WQ27vqNN
+	vxW4qzEXlj7CgDK8e9/syOgNdxcU4RAMapE0dOvTVzQocz7XXsU7dcXSsxg8++pibLBX
+	Zgw1fa4trDpbOFIRSbAPiwnO7GgnnInxN1s87eMlqu7JbYPtwjmQ/1FgemufvzIq1Ru9
+	x0psMHrQnkanDgKxFs+fXaXGKoMDsSp2sKKGp0a5OCt5k4QX34rO9vk+5grPtp6Mq5r5
+	EZ39qKNtCK1LbF1qF83Huw+pursJrS/zqA7KJd8JtZFi399a0AjnODz7XWAikj4K497W
+	Q9gA==
+X-Gm-Message-State: APjAAAWscczWu3miAI2CFgtP3D1cM84LObiSszCh7aJazFfWECgJTpq9
+	V/K4D65H2Y6ucciOX7j9ox8UGYQ=
+X-Google-Smtp-Source: APXvYqw29ml4xcYhiwDRjdBRqc44bOfMqdm9YU6aD7WfTKSVovRW0eDRb8clMTCiS3AYHPdmoBXU0g==
+X-Received: by 2002:a50:b36b:: with SMTP id r40mr24619144edd.12.1551882990644; 
+	Wed, 06 Mar 2019 06:36:30 -0800 (PST)
 Received: from bill-the-cat.local
 	(cpe-2606-A000-1401-880D-159-4081-9338-CA43.dyn6.twc.com.
 	[2606:a000:1401:880d:159:4081:9338:ca43])
-	by smtp.gmail.com with ESMTPSA id i14sm363467ejy.41.2019.03.06.06.36.26
+	by smtp.gmail.com with ESMTPSA id i14sm363467ejy.41.2019.03.06.06.36.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Mar 2019 06:36:26 -0800 (PST)
+	Wed, 06 Mar 2019 06:36:28 -0800 (PST)
 From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 09:36:12 -0500
-Message-Id: <1551882973-8710-4-git-send-email-trini@konsulko.com>
+Date: Wed,  6 Mar 2019 09:36:13 -0500
+Message-Id: <1551882973-8710-5-git-send-email-trini@konsulko.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1551882973-8710-1-git-send-email-trini@konsulko.com>
 References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH v2 3/4] packagegroup-core-base-utils: Introduce new base-utils packagegroup
+Subject: [PATCH v2 4/4] imagefeatures: Add test to blacklist building busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,107 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 14:36:27 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 14:36:33 -0000
 
-This packagegroup is intended to provide all of the functionality found
-in other VIRTUAL-RUNTIME_base-utils providers through full packages
-rather than an all-on-one package.  Document how to make use of this
-in local.conf.sample.extended.  Introduce VIRTUAL-RUNTIME-vim and
-default this to vim-tiny to allow for a differently features vim to be
-used instead.
+Now that we have a packagegroup that can be used to replace the overall
+functionality of busybox as base-utils, add a test that we can continue
+to build a fairly complex image without busybox being available.  This
+also doubles as documentation-by-test of how to do this.
 
 Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
-Changes in v2:
-- Add a few more inetutils packages
-- List kbd, add a few more packages specifically for non-systemd
-  systems, thanks Mark!
----
- meta/conf/local.conf.sample.extended               |  8 +++
- .../packagegroups/packagegroup-core-base-utils.bb  | 58 ++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+ meta/lib/oeqa/selftest/cases/imagefeatures.py | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 8062e4c5721b..d00221893ad9 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -384,3 +384,11 @@
- #VIRTUAL-RUNTIME_login_manager = "shadow-base"
- #VIRTUAL-RUNTIME_init_manager = "systemd"
- #VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+index 8c95432e00b3..aed63e5476a7 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -236,3 +236,29 @@ USERADD_GID_TABLES += "files/static-group"
+ """
+         self.write_config(config)
+         bitbake("core-image-base")
 +
-+#
-+# Use a full set of packages instead of busybox for base utils
-+#
-+#PREFERRED_PROVIDER_base-utils = "packagegroup-core-base-utils"
-+#VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
-+#VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
-+#VIRTUAL-RUNTIME_base-utils-syslog = "syslog"
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
-new file mode 100644
-index 000000000000..431dbb092615
---- /dev/null
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
-@@ -0,0 +1,58 @@
-+#
-+# Copyright (C) 2019 Konsulko Group
-+#
++    def test_no_busybox_base_utils(self):
++        config = """
++# Enable x11
++DISTRO_FEATURES_append += "x11"
 +
-+SUMMARY = "Full-featured set of base utils"
-+DESCRIPTION = "Package group bringing in packages needed to provide much of the base utils type functionality found in busybox"
++# Switch to systemd
++DISTRO_FEATURES += "systemd"
++VIRTUAL-RUNTIME_init_manager = "systemd"
++VIRTUAL-RUNTIME_initscripts = ""
++VIRTUAL-RUNTIME_syslog = ""
++VIRTUAL-RUNTIME_login_manager = "shadow-base"
++DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 +
-+inherit packagegroup
++# Replace busybox
++PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
++VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
++VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
++VIRTUAL-RUNTIME_base-utils-syslog = ""
 +
-+VIRTUAL-RUNTIME_vim ?= "vim-tiny"
++# Blacklist busybox
++PNBLACKLIST[busybox] = "Don't build this"
++"""
++        self.write_config(config)
 +
-+RDEPENDS_${PN} = "\
-+    base-passwd \
-+    bash \
-+    bind-utils \
-+    bzip2 \
-+    coreutils \
-+    cpio \
-+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "debianutils-run-parts", d)} \
-+    dhcp-client \
-+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "dhcp-server", d)} \
-+    diffutils \
-+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "dpkg-start-stop", d)} \
-+    e2fsprogs \
-+    ed \
-+    file \
-+    findutils \
-+    gawk \
-+    grep \
-+    gzip \
-+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "ifupdown", d)} \
-+    inetutils \
-+    inetutils-ping \
-+    inetutils-telnet \
-+    inetutils-tftp \
-+    inetutils-traceroute \
-+    iproute2 \
-+    ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)} \
-+    kmod \
-+    less \
-+    lzip \
-+    ncurses-tools \
-+    net-tools \
-+    parted \
-+    patch \
-+    procps \
-+    psmisc \
-+    sed \
-+    shadow-base \
-+    tar \
-+    time \
-+    unzip \
-+    util-linux \
-+    ${VIRTUAL-RUNTIME_vim} \
-+    wget \
-+    which \
-+    xz \
-+    "
++        bitbake("--graphviz core-image-sato")
 -- 
 2.7.4
 
