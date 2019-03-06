@@ -1,51 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4E17CDB1
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 440D67CD98
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 18:44:20 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id x7so6960536wmj.0
+	Wed,  6 Mar 2019 18:56:12 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a188so6899578wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 10:44:22 -0800 (PST)
+	Wed, 06 Mar 2019 10:56:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=snRfkNnt4S9ALbttEiqGFMXdu9jSJeLgVDyxHWoZde4=;
-	b=DMuguVq3uZUR6mEWGFnOo7TyEXgsZxL4mvdVf/nmJq3Erv4jBFHdofDCimjaIrCv33
-	Dmlz3w6gWKR7kmmYWwh3TESCO1aqhbF+idxE7j1yVbINjVue0f16vnID1R10dZd8NJFU
-	IhMZvn7Gdaq6njuhF5RrS9O78K0nBRmqEKwPc=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8iR9skYR7dHQCWNXkls8iUc/ezht+bruJwmDiv/HcnQ=;
+	b=Ex7UFdh3X+8UT7oTxJjn6AjEdAUV9+456hzdk4GulnfBH+6b0EpPK3vhzkZevdEth8
+	UnivRfho7oNa6mRWniTQ1pdBChPl+URa8XInEApxNrxh3j/Wvj1xohA/MvqjkjwMV8nC
+	6fnVA8EytTGD97kqs93QiyCnXiku7FxfrsS4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=snRfkNnt4S9ALbttEiqGFMXdu9jSJeLgVDyxHWoZde4=;
-	b=BpQgdm4vmb135Jcc1b3KFB3+WOidGkduXJTqLATR4ECxGuzg3G3CsIQ6GoQAZyshux
-	25DDXCi9IjvlUPRV+aveGAvEiLXxS1eoQ53b6fUK6R0PdBEcxAbMQgbW5yD0uKO/rQWV
-	fPlFiBmBPKsAhwxT4cEKlb0Puepf6RxUcc8N1qGX6LY+NxjXyvWQrpw44hc7BG1YgEh4
-	ae/3gzraP9MkmMULk9SxwvW6TZSCYdFQ7gUuPYf+ZFK/AaW2JDLF4UFSdGE47it75dUg
-	u3xeFF//OD7nmvbYhCjHBL+6jvihStsaMrlDjiYXuhh0henGgUmnm5SZ6Lzr7RokYL7S
-	klcg==
-X-Gm-Message-State: APjAAAWO50X0vMaes9Wsudiyiil1ZxZZhHKQnzgCVD3owgw27rfKkRiJ
-	U2MVolEIW/lsvktGhP6ykEHI6/FLW1Q=
-X-Google-Smtp-Source: APXvYqzvosJxZhIvqQHhuFWH5ddcQ6llY6RZQsWJWw2U4nZpSLI1GMICQkn9qTPcmRcxGq/trBXCyg==
-X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr3166548wmj.49.1551897861293; 
-	Wed, 06 Mar 2019 10:44:21 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8iR9skYR7dHQCWNXkls8iUc/ezht+bruJwmDiv/HcnQ=;
+	b=qsEhdu1GkA0pWshid3HiGyOjWPe+f7F1KPhGFSguiuGZgZyPA4I0DIXLBKPEDZEP5D
+	JcN0cPSbyYZ46nKDcpFlCV7GfTc5h1xkOFPex4gK0Z+WT4XvATPSAYJTB3j0eXswo1br
+	xRTKzjJ9hjV31DPNhV9ZSxuo3S6nWYkeP3BGoziLDMDWi4DTnj5WvtmfTYzdmmdRtw0z
+	DGLoRBq+OXbfIHtIkgybcQ9X7I29jJgFQK512R2PxMb6b20gxe2x9+HEzT1fkG+ysIm8
+	UEzjo9VzcXybU6AWQzjA4xpjBahE7iTvWVBe5zuQ2pk3r5PWBR+wVD6Y5bVa1s26w+74
+	Ytkw==
+X-Gm-Message-State: APjAAAXx3jVdsLCU8mC+oCA5qIlYXVA88BlPOSjbdsUT1Rqp9li78SNz
+	t1BnNXcK7LJgZccWPpgLL/urrSyw4Zw=
+X-Google-Smtp-Source: APXvYqzVRTWkaiwUn6C/yB/DWdrZmxJPqj9zhbrFtc59qDCh3s+dD+DAQ2UJtX/LknxN1U11ZRpmWQ==
+X-Received: by 2002:a7b:c38d:: with SMTP id s13mr3143395wmj.151.1551898572658; 
+	Wed, 06 Mar 2019 10:56:12 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	r15sm2920653wrt.37.2019.03.06.10.44.20
+	d206sm4573059wmc.11.2019.03.06.10.56.11
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 06 Mar 2019 10:44:20 -0800 (PST)
-Message-ID: <45942114f97bf1ddd1925de1ad8de5aa69640194.camel@linuxfoundation.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Mar 2019 10:56:12 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 06 Mar 2019 18:44:19 +0000
-In-Reply-To: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
-References: <20190306184154.11337-1-richard.purdie@linuxfoundation.org>
-User-Agent: Evolution 3.31.90-1 
+Date: Wed,  6 Mar 2019 18:56:09 +0000
+Message-Id: <20190306185609.12327-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] scripts: Add oe-pylint
+Subject: [PATCH] README: Rename to README.OE-Core so its clear where its from/belongs/is about
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 18:44:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Mar 2019 18:56:12 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-03-06 at 18:41 +0000, Richard Purdie wrote:
-> Add an oe-pylint wrapper around pylint3 to run static analysis on our
-> python
-> codebase. For now display errors and exclude common warnings which
-> are not
-> applicable to our codebase.
-> 
-> The aim is to start generating this report on the autobuilder and to
-> improve our score over time.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This means we can add it to poky and reduce delta/confusion between the
+contents.
 
-The output of this is saved off as part of the autobuilder test result
-output, e.g.:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ README => README.OE-Core | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename README => README.OE-Core (100%)
 
-https://autobuilder.yocto.io/pub/non-release/20190306-14/testresults/oe-selftest/pylint.log
-
-If anyone has some time and wants to help out cleaning things up to get
-better results, this would be a great and comparatively low learning
-curve way to get started with helping with the project!
-
-Right now we save errors only, ultimately we may be able to clean up
-warnings too.
-
-Cheers,
-
-Richard
+diff --git a/README b/README.OE-Core
+similarity index 100%
+rename from README
+rename to README.OE-Core
+-- 
+2.20.1
 
 
