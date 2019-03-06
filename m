@@ -1,47 +1,49 @@
-Return-Path: <achille.fouilleul@gadz.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF867C676
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id BC3DF7C675
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 15:33:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o17so13908377wrw.3
+	Wed,  6 Mar 2019 16:13:50 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id e74so6468676wmg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 07:33:02 -0800 (PST)
+	Wed, 06 Mar 2019 08:13:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gadz-org.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=eeuUuOH1jhWXCZCPNO1tsxOvAED7slu7kk7MCuaW8Dg=;
-	b=M2XAOjySPlYgowgOYxv3JpP35GyHA3XM4QQQxY9meti0zbLJt7JNANXj2SeYdDcSk8
-	L920pewzoNWBkyYq7EgVg805xMnFWR6YXiWUtXgpfZ08Mx0zWXkjMjuS3mf05B5KT1nt
-	Bql0qNEfacMaeeeNHuOsQfswDPjxJoN5BYbvedXg/AEuvLOutv1bovJU4P9A1niz8acE
-	4OXHq3RV3FyWJCz3zIJdSmjv75EJA9ds3ssuQGWu7mZoHyOU1EdS9v/yQRv7rBmdLTB7
-	AWjrCtuhphiIEZ8DsdBPMtYO+TNKz/xpNA/Ks6rtqUWgDn4BQ3iRj83WaUi+FnLWqm9p
-	GgOA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=B1IhEaZPsS6ajPnOytdSPWjeDmeiZu3SgbnUe80WqE4=;
+	b=UNoGCBYxIIcwbL/kH1bfyDDmC8AYUkTD+d4Q5StYmoprbP7fsXIuWg7eL5Wn0caxYN
+	qtQxKy1nnFsaqRXwIHxQTb8v4TEUAANUsOT1P9yC5YLDNJInjw61hAlk6ZSYYr1+ui7a
+	ep9BH/NwqidJMnF7RAxp7izpTVjiSrzBMut2LAkaOaQ5m7b9nhyVATDqylr0LtmEzG/4
+	BI/gGnnL1t9NPRQo7/5LyX7SJW8oIFpyGmKmuV6kwT3NeXIwl9R7Pe6Y3wuwmXrf1K4R
+	TrnZReKGU4IM8fjXrCb5zX3C2tEkCbJg/LH83MF+x/IR/XJXADlJKvWSuuOj5zM0kzOv
+	e0UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eeuUuOH1jhWXCZCPNO1tsxOvAED7slu7kk7MCuaW8Dg=;
-	b=ZLGkMtoiJRzPmzOp+meolX6PP5aIGO3ADnpRXiaw9dTehhoTLpyoIc+FRYCZsPzXMm
-	GS8pL4ZgkRUo8XCr2jRF8vFKDXrZ/pFP9TArI3q/Zpgzr6NnCBuOkw6AULlRD7jBcspj
-	qXntaGM+BWZpnsGzDIzIDhp2Tww7G0UuxJUZC+UBA98IcKUNV0AXfo4OYWzGPgNCDcSA
-	sgA6Hn/eznye/S9sk6/cUz4VMFO50AfUeCiMc2sjtptL2Q2wHEw6q8IhhdoM6UQkK5DE
-	sIWwAKpKVykKIWGyYoGEGkES6YFnApjQJqleVNohNuqqPn0cb7oET6wo+8CFre1h2Y9Z
-	A4VA==
-X-Gm-Message-State: APjAAAVegNiYTqy8nlNeoCpkfEoq8aauVfSyzjQjf8iPDQbdJidVKJ5w
-	2U4oVX+jS90+v3cQsRgG9ufSvsR4AcpKew==
-X-Google-Smtp-Source: APXvYqz+Rx56zIxzeF5Ty+BL5Dr3tg22odJfN1318D3G8Q03ZQaf8MC0c63KMmi2+SHwGqYZ6wUAMw==
-X-Received: by 2002:adf:8447:: with SMTP id 65mr3264783wrf.328.1551886381161; 
-	Wed, 06 Mar 2019 07:33:01 -0800 (PST)
-Received: from smtp.gmail.com ([37.169.76.166])
-	by smtp.gmail.com with ESMTPSA id c2sm3735519wrt.93.2019.03.06.07.32.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Mar 2019 07:33:00 -0800 (PST)
-From: Achille Fouilleul <achille.fouilleul@gadz.org>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=B1IhEaZPsS6ajPnOytdSPWjeDmeiZu3SgbnUe80WqE4=;
+	b=LJv7fBaxiM6wsDrWrw1woDIKKnnQ4If5fQS4iyZujrjhRxZwLP//OpcKaPIIWbwFbM
+	7MD7V5sEHdegwvJSz8fD/OzuKx4XGA1M7EsnL26XqunyOGEv+5UrZk2x4twJ7g03R9NZ
+	NaMqY3y9LOf5+8pyVyzCMUth/Yd+EOan4200dEZBjvJAmm2rp7+Tykh+RUd7SUji3+Vt
+	lzHcp3jbvFuB2mtxuHwNQqbP+PJtvfh0xJidHzLNBAvN7IFz4CoImyPh0sF1Y4ozfUxK
+	rcB6GsmK+5+EIa04zwNqke5U2Q7C8tT58V36EJxVisIEADy1QUy99r+HvAU3K1Rkp3Hz
+	LC3A==
+X-Gm-Message-State: APjAAAV/2+vRPC6VsC18Si5fa3wm7y0+dJ7wvjGg5q1EoaQ+EUBmF30x
+	JdcldvM3nlKScVhC1I6BEMkgTsk+QeE=
+X-Google-Smtp-Source: APXvYqztlPNGHlN5AV634cOZ5yQZwFIv8QJmzhwA4fjF7HZA/K4ILAQw9M/DVzkwF2ee4rD0haY/7A==
+X-Received: by 2002:a1c:2283:: with SMTP id i125mr2844107wmi.24.1551888831212; 
+	Wed, 06 Mar 2019 08:13:51 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id g3sm1065616wmk.32.2019.03.06.08.13.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Mar 2019 08:13:50 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2019 16:32:52 +0100
-Message-Id: <20190306153252.4372-1-achille.fouilleul@gadz.org>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] utils: Fix create_wrapper
+Date: Wed,  6 Mar 2019 16:13:48 +0000
+Message-Id: <20190306161348.24575-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] bitbake: add readlink to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 15:33:01 -0000
+X-List-Received-Date: Wed, 06 Mar 2019 16:13:51 -0000
 
-Wrappers generated by create_wrapper do not work properly:
-python, for example, looks at argv[0] to know if it is
-running from a virtualenv. Because the wrapper replaces
-argv[0] with python's canonical path, python cannot tell
-whether it has been invoked directly or from a virtualenv
-symlink.
+If systemd has EFI enabled it uses readlink.
 
-This change makes the wrapper pass the original argv[0] down
-to the real command.
-
-Signed-off-by: Achille Fouilleul <achille.fouilleul@gadz.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/utils.bbclass | 2 +-
+ meta/conf/bitbake.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 0016e5c4e6..cd3d05709e 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -264,7 +264,7 @@ create_wrapper () {
- realpath=\`readlink -fn \$0\`
- realdir=\`dirname \$realpath\`
- export $exportstring
--exec -a \`dirname \$realpath\`/$cmdname \`dirname \$realpath\`/$cmdname.real "\$@"
-+exec -a "\$0" \$realdir/$cmdname.real "\$@"
- END
- 	chmod +x $cmd
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f1540a0acf7..3d1434931d1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -485,7 +485,7 @@ HOSTTOOLS += " \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+     head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
+     mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python2 \
+-    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed seq sh sha256sum \
++    python2.7 python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh sha256sum \
+     sleep sort split stat strings strip tail tar tee test touch tr true uname \
+     uniq wc wget which xargs \
+ "
 -- 
-2.18.0
+2.11.0
 
 
