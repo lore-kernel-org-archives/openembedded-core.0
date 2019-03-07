@@ -1,27 +1,48 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A32CA7CE82
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D57867C75E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 08:42:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x278gk5E018524
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 Mar 2019 00:42:46 -0800 (PST)
-Received: from [128.224.163.141] (128.224.163.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 7 Mar 2019 00:42:46 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190306225101.10727-1-ross.burton@intel.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <587a6353-9217-5f74-18a4-613faae33399@windriver.com>
-Date: Thu, 7 Mar 2019 16:52:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu,  7 Mar 2019 09:05:56 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id z131so14078013itf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Mar 2019 01:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=uP4lBFzm+1owGmrKWXZTzbzv6SwsRrpVB77UzG4kius=;
+	b=lqCez7/kDK4J71PU2a2G2P7+gMUI/kNcGykHmTaD1ujGAdV5uKa2xGs1BnCT71qTvl
+	x/5NhKSDIFxG2oxkT9j+kNlEYWjPOyVydoFJpk7CWHh2RWeRLg4ucXQJ0ICwLbQgvSSF
+	35P8Ztnhqs7xlMiQYqB494y6csx/z/47RiHfRD0mlOBSxBQeB+7r8qoiuv1cL/yn6od8
+	/5PXd2Q1Lqbsunwx6QI5YasCBYfpYgPnwtM50gF8TQQ7C2oNbRnuQE5ZTRRONIofKmvW
+	u8qQZ3JhIb7Ew3L+Ji7U69XGV6IlKvJClwc+rT6O634c54meBDgevvIG3rX5Ah1juovP
+	nL8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=uP4lBFzm+1owGmrKWXZTzbzv6SwsRrpVB77UzG4kius=;
+	b=HRKlndcJiURpG1p40kP0ixCDbVMiodpgyW78+Jx7+BnYYtYC3Tu86le1p0iHUXNWW+
+	ghxboaymSXD0G/3n2GHsINuKJbb+eKEDsEw37Tup5CqFjCuaaZCT4i4r5mgOyn9GXD2C
+	x08sFQV6mB8ZeNO3NXjI60e9Y7Gue01sdSY5893DriXpEnqmsffCmCIUvZnfY/oZLQaO
+	O0umn8lOz0RenQXw2NoxOOtbn6AYWPoLqMgEznvjc52bFsg8NKE1JbrmfbxP6BIJXORa
+	dqVxKEql0/gVnI1twlBdGGiTpTvo+Cwx6JBnQ79WDkhyedxLae7KSpO2svY2oFEwKSTU
+	IRuQ==
+X-Gm-Message-State: APjAAAW+LYPLvzPcc5I+UX76UPKuONO/Bulgp/0AW4ps6mn6nZ92knQP
+	SKvl40WZR7VpopDl2EyrBfOLS52PEHCvCWiizqJ2Iy1C
+X-Google-Smtp-Source: APXvYqy2Xu7DPdN4Ra1uCM1O0q17uC6nFvf0ZT/uF4AqTNoSHbMZy89bLHxHQ/qudryJf21PwEZQubnBCtPEPTOpsoM=
+X-Received: by 2002:a05:6638:348:: with SMTP id
+	x8mr7064636jap.79.1551949557833; 
+	Thu, 07 Mar 2019 01:05:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20190306225101.10727-1-ross.burton@intel.com>
-X-Originating-IP: [128.224.163.141]
-Subject: Re: [PATCH] libpcre2: fix CVE-2017-7186
+References: <20190307065138.54589-1-zhixiong.chi@windriver.com>
+In-Reply-To: <20190307065138.54589-1-zhixiong.chi@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Mar 2019 09:05:46 +0000
+Message-ID: <CAJTo0LbsGET5t6AyfgfQ2L=jR01g+uM8Ec0FA5L5nxpchGd49g@mail.gmail.com>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] core-image-minimal-initramfs: add libgcc into the initramfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,125 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 08:42:46 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Mar 2019 09:05:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This patch seems to cause 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/370/steps/7/logs/errors
+Wouldn't it be better to add that dependency to the packages which need it?
 
-Best Regards,
-Chen Qi
+Ross
 
-On 03/07/2019 06:51 AM, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../libpcre/libpcre2/CVE-2017-7186.patch           | 83 ++++++++++++++++++++++
->   meta/recipes-support/libpcre/libpcre2_10.32.bb     |  1 +
->   2 files changed, 84 insertions(+)
->   create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
+On Thu, 7 Mar 2019 at 06:53, Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
 >
-> diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
-> new file mode 100644
-> index 00000000000..7cd7c27c6c0
-> --- /dev/null
-> +++ b/meta/recipes-support/libpcre/libpcre2/CVE-2017-7186.patch
-> @@ -0,0 +1,83 @@
-> +libpcre1 in PCRE 8.40 and libpcre2 in PCRE2 10.23 allow remote attackers to
-> +cause a denial of service (segmentation violation for read access, and
-> +application crash) by triggering an invalid Unicode property lookup.	
-> +
-> +CVE: CVE-2017-7186
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +---
-> + src/pcre2_internal.h | 15 ++++++++++++++-
-> + src/pcre2_ucd.c      | 14 ++++++++++++++
-> + 2 files changed, 28 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/pcre2_internal.h b/src/pcre2_internal.h
-> +index 6a8774c..720bbc9 100644
-> +--- a/src/pcre2_internal.h
-> ++++ b/src/pcre2_internal.h
-> +@@ -1774,10 +1774,17 @@ typedef struct {
-> + /* UCD access macros */
-> +
-> + #define UCD_BLOCK_SIZE 128
-> +-#define GET_UCD(ch) (PRIV(ucd_records) + \
-> ++#define REAL_GET_UCD(ch) (PRIV(ucd_records) + \
-> +         PRIV(ucd_stage2)[PRIV(ucd_stage1)[(int)(ch) / UCD_BLOCK_SIZE] * \
-> +         UCD_BLOCK_SIZE + (int)(ch) % UCD_BLOCK_SIZE])
-> +
-> ++#if PCRE2_CODE_UNIT_WIDTH == 32
-> ++#define GET_UCD(ch) ((ch > MAX_UTF_CODE_POINT)? \
-> ++  PRIV(dummy_ucd_record) : REAL_GET_UCD(ch))
-> ++#else
-> ++#define GET_UCD(ch) REAL_GET_UCD(ch)
-> ++#endif
-> ++
-> + #define UCD_CHARTYPE(ch)    GET_UCD(ch)->chartype
-> + #define UCD_SCRIPT(ch)      GET_UCD(ch)->script
-> + #define UCD_CATEGORY(ch)    PRIV(ucp_gentype)[UCD_CHARTYPE(ch)]
-> +@@ -1834,6 +1841,9 @@ extern const uint8_t          PRIV(utf8_table4)[];
-> + #define _pcre2_default_compile_context PCRE2_SUFFIX(_pcre2_default_compile_context_)
-> + #define _pcre2_default_match_context   PCRE2_SUFFIX(_pcre2_default_match_context_)
-> + #define _pcre2_default_tables          PCRE2_SUFFIX(_pcre2_default_tables_)
-> ++#if PCRE2_CODE_UNIT_WIDTH == 32
-> ++#define _pcre2_dummy_ucd_record        PCRE2_SUFFIX(_pcre2_dummy_ucd_record_)
-> ++#endif
-> + #define _pcre2_hspace_list             PCRE2_SUFFIX(_pcre2_hspace_list_)
-> + #define _pcre2_vspace_list             PCRE2_SUFFIX(_pcre2_vspace_list_)
-> + #define _pcre2_ucd_caseless_sets       PCRE2_SUFFIX(_pcre2_ucd_caseless_sets_)
-> +@@ -1858,6 +1868,9 @@ extern const uint32_t                  PRIV(hspace_list)[];
-> + extern const uint32_t                  PRIV(vspace_list)[];
-> + extern const uint32_t                  PRIV(ucd_caseless_sets)[];
-> + extern const ucd_record                PRIV(ucd_records)[];
-> ++#if PCRE2_CODE_UNIT_WIDTH == 32
-> ++extern const ucd_record                PRIV(dummy_ucd_record)[];
-> ++#endif
-> + extern const uint8_t                   PRIV(ucd_stage1)[];
-> + extern const uint16_t                  PRIV(ucd_stage2)[];
-> + extern const uint32_t                  PRIV(ucp_gbtable)[];
-> +diff --git a/src/pcre2_ucd.c b/src/pcre2_ucd.c
-> +index 116f537..56aa29d 100644
-> +--- a/src/pcre2_ucd.c
-> ++++ b/src/pcre2_ucd.c
-> +@@ -41,6 +41,20 @@ const uint32_t PRIV(ucd_caseless_sets)[] = {0};
-> +
-> + const char *PRIV(unicode_version) = "8.0.0";
-> +
-> ++/* If the 32-bit library is run in non-32-bit mode, character values
-> ++greater than 0x10ffff may be encountered. For these we set up a
-> ++special record. */
-> ++
-> ++#if PCRE2_CODE_UNIT_WIDTH == 32
-> ++const ucd_record PRIV(dummy_ucd_record)[] = {{
-> ++  ucp_Common,    /* script */
-> ++  ucp_Cn,        /* type unassigned */
-> ++  ucp_gbOther,   /* grapheme break property */
-> ++  0,             /* case set */
-> ++  0,             /* other case */
-> ++  }};
-> ++#endif
-> ++
-> + /* When recompiling tables with a new Unicode version, please check the
-> + types in this structure definition from pcre2_internal.h (the actual
-> + field names will be different):
-> +--
-> +2.12.1
-> diff --git a/meta/recipes-support/libpcre/libpcre2_10.32.bb b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-> index 3a0aa53029f..59953626c74 100644
-> --- a/meta/recipes-support/libpcre/libpcre2_10.32.bb
-> +++ b/meta/recipes-support/libpcre/libpcre2_10.32.bb
-> @@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
->   
->   SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
->              file://pcre-cross.patch \
-> +           file://CVE-2017-7186.patch \
->   "
->   
->   SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
-
-
+> Add the libgcc package into the initramfs image to avoid multithread
+> function error in the userspace(eg: pthread_cancel).
+>
+> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> ---
+>  meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> index 7df8ab1ebd..3cf2c7b01f 100644
+> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> @@ -11,7 +11,7 @@ INITRAMFS_SCRIPTS ?= "\
+>                        initramfs-module-install-efi \
+>                       "
+>
+> -PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+> +PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd libgcc ${ROOTFS_BOOTSTRAP_INSTALL}"
+>
+>  # Do not pollute the initrd image with rootfs features
+>  IMAGE_FEATURES = ""
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
