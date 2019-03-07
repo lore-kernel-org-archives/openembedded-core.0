@@ -1,52 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2710F6010D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB6D7CE89
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 12:34:00 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t18so17243253wrx.2
+	Thu,  7 Mar 2019 12:39:34 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id x9so13301452iog.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 04:34:02 -0800 (PST)
+	Thu, 07 Mar 2019 04:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=0FpqvZjECH5vO2vXvuv36MvmueI2fzY2fI++8aAyljo=;
-	b=fSZXfJ5ZwgYFsWAec5PW4wSaT6G4whhP6Ob667jfncoTe9aQqyqqnojAfkQqOIeZ8y
-	RJ6rXQTnFz8T0oo6DAhTuj2DlrhI45DVyEhiJ5qRanYDD4FuThfXDSzDF6b+EoaPaP4t
-	vcRCzPxRKZ9gw7cgSyrL/ehepJHkrLksYAcpI=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=gkPe2j53d92DgTHh31apR3ACaRCPjzCFvs5oYJpabz0=;
+	b=znfIUSuzTavh7XvPG9RVEjXQheaORasDHPRmyc++xuFM8h2v7Gv4dZ5feVPzU29igQ
+	8uqqHlGXJ0WWFuAl+tJ03ra8JcRSXjAxsKoTNqC4Ec6QU6jcMGcZC3X1kQrszxX8pCec
+	wEjCRs436bjzCzxp/5KdpyQ0bCtD8TmG5je1YBAjLOJEfKBJY7Od2ebB2LDOqSUNMiAq
+	x9LMDHjtL4v4knsS5Byii6NUkdDSkhi50CxAXix8xEEMT5zAevitaA8agdLb4KiHpkFW
+	iT7DW3ic/XGHehCYMWAAPLHE+qmwvPYG2cW/RKH9AROTbLX2sSWRHru3NLDT8gSKsfBr
+	VGrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=0FpqvZjECH5vO2vXvuv36MvmueI2fzY2fI++8aAyljo=;
-	b=Kact/QrJoHYGZSxkNSAbpuP98FLfZ2Op37jE1efRhBVnX2Av1hm/HqLfKjxmmUK5EV
-	PGhd+hUbdE4d/de7xZIw1bJm4jhWqSVsQjt7ynEHz8fv+AZWl9nB2LcZF/Qh7t0mPs77
-	GQ+jwv7ucOLyojv9TX9UY5TxH110FpRBEJacW2LFND5qrLxfFKh2+HwxxoVmeVfnq1ga
-	wykdz/VMSukfi27P1wZnZke93T60guuwnnR0sZpFSC4hfcRpD6p9mrDiyUtZ/7jgRuCm
-	BQllwsn5f8nQfm/moOwOZ1UY5Cz8QswmU7gzxkef3L9XrNot7YEqE+TdNR3MmUb9qnXC
-	xRzQ==
-X-Gm-Message-State: APjAAAXV15LU+Ip7c4PKrjsBl5SCLZsutl+1ZbxyoHrO4OngTVJt4UFJ
-	spMd08lyks8RsscIo5p5amDkkg==
-X-Google-Smtp-Source: APXvYqy9wOQiD0cDaQJlJnyuv/EjHluS9FITZrvF7AxsMgLhGoLH+6/3ZmZzXYm7VfnKYZpXKUGCJg==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr6600412wrs.170.1551962041697; 
-	Thu, 07 Mar 2019 04:34:01 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o30sm5736556wro.57.2019.03.07.04.33.59
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 07 Mar 2019 04:34:00 -0800 (PST)
-Message-ID: <8d5794a8bfe5ac118a77efbdb4b8f712d53116c6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Thu, 07 Mar 2019 12:33:59 +0000
-In-Reply-To: <eadbbfcd-6dd6-929e-1fbc-8aee74b5961b@windriver.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=gkPe2j53d92DgTHh31apR3ACaRCPjzCFvs5oYJpabz0=;
+	b=RbgnzLB7b57OGJczBpWr01m/S471PXEeW+wTTpsoeL9DmKiG/vWXvL5h9+2YmuV0M9
+	ozapU7DBuYU/Q2zHxG4zAKTIuNv2u0z14RSOYBdT2hLro0/NxGuCxk06d5fW3SX8p94E
+	J9b1o8c7gGPqSU1HJwNL09Ss7oN/rj+OphIloZ3YqMioj3L4uD9ceDgAWk4in0L4SWpN
+	OfPwhLjmoQXijLUn0ziYMnnDYWvl0BuNe5zGoWYqjlZAw1bIdDEdQ+9Nni85vOF/Qpqs
+	FDztaUj2vKkUQBbC4NLu7lcC8vVOsPMHRq5qIiacqRdVsEvpo2JSBynq80VQGKMytHaH
+	mL/Q==
+X-Gm-Message-State: APjAAAXVYYp2WofATpNd0B2wT01esv861lboyWOwjPVB512j9PGD6oA4
+	DhW0+w9JNaYZygsS5WVMRGFwBdNiZtIaUSxRwBSV1K/D
+X-Google-Smtp-Source: APXvYqz8cCRpgLCkV73PqyXLirbyfdY7psATPEMMJMo+WQSxVW1Zn3uV0NU1i8NIuKGvOGgRp5IKWphfCFhw4LfS5co=
+X-Received: by 2002:a5d:818d:: with SMTP id u13mr6055268ion.20.1551962375578; 
+	Thu, 07 Mar 2019 04:39:35 -0800 (PST)
+MIME-Version: 1.0
 References: <20190307065138.54589-1-zhixiong.chi@windriver.com>
 	<CAJTo0LbsGET5t6AyfgfQ2L=jR01g+uM8Ec0FA5L5nxpchGd49g@mail.gmail.com>
 	<eadbbfcd-6dd6-929e-1fbc-8aee74b5961b@windriver.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
+	<8d5794a8bfe5ac118a77efbdb4b8f712d53116c6.camel@linuxfoundation.org>
+In-Reply-To: <8d5794a8bfe5ac118a77efbdb4b8f712d53116c6.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Mar 2019 12:39:23 +0000
+Message-ID: <CAJTo0LZCbH6XyQrWevL0g0f1OsCV3MmvcPme6Qf8VR17uUYVNA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] core-image-minimal-initramfs: add libgcc into the initramfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,39 +57,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 12:34:01 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 12:39:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-03-07 at 18:00 +0800, Zhixiong Chi wrote:
-> It's not for dependency of the package in the initramfs image,
-> 
-> just for the multithread application while the customer use initramfs
-> image.
-> 
-> Since we use PACKAGE_INSTALL to override the rootfs in the initramfs
-> bb 
-> file,
-> 
-> so we couldn't use the IMAGE_INSTALL_append to add the package in
-> the 
-> local.conf.
-> 
-> Did you think if it should be added into the image? :-)
-> 
-> I know the initramfs is just to bootup the system. If the customer
-> want to support the multithread app, they can use the other types of
-> the image.
+On Thu, 7 Mar 2019 at 12:34, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> The customer needs to depend on libgcc in their app, or their
+> initramfs, we're not adding random dependencies to the initramfs "just
+> in case".
 
-The customer needs to depend on libgcc in their app, or their
-initramfs, we're not adding random dependencies to the initramfs "just
-in case".
+Part of the goal of my ELF parser rewrite was to make it easy to add
+libgcc dependencies on binaries that use pthread_cancel automatically.
 
-Cheers,
-
-Richard
-
-
-
-
+Ross
 
