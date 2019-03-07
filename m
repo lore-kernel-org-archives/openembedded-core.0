@@ -1,50 +1,43 @@
-Return-Path: <leon@sidebranch.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DF8957CEC4
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-yw1-f65.google.com (mail-yw1-f65.google.com
+	[209.85.161.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F3BC6BE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 15:36:38 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id m20so4732900vsq.8
+	Thu,  7 Mar 2019 15:38:48 +0000 (UTC)
+Received: by mail-yw1-f65.google.com with SMTP id u205so13670515ywe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 07:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=yzNgugB5Zl+Xd6E+QvUNQXuSj/UU7pR/0sN0lECn3e8=;
-	b=hfJu6fi7vEo+vrIcWFXcn/aS1/m9AB5bJf0yek2n+Guncxca4wC4jkIwWOObIIlxOI
-	iu+vLRLTlFP6nPn2ARDG356VBqALV3VFgBCXbmDTrFIkzypocPkM6vRFxVeg1iOv4eHK
-	WdpLfYoD5IgekZzH4VeYI8vt6WiRVGo41109z2hnpvd/wEp6Xht7eshX6kda6IfF71fA
-	6o+Eq736kewB85AsZs/hxb9+oQxY5vTBsCKbeDbQsWHr/MtBDFE3IsYXbfcTonXTD/7p
-	CKmM/75Bg/XJhHOe28wHTy2bF6ml4IqaeEJwtFeXLDdPA5vYMy1IP5XcNUzcRNyC4CAN
-	G8Ng==
+	Thu, 07 Mar 2019 07:38:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=yzNgugB5Zl+Xd6E+QvUNQXuSj/UU7pR/0sN0lECn3e8=;
-	b=CgnkrPMJ1SKPSF/iePE/YnPFgp7vKiohv1Gv1V/ltuZDSpjq5MVjyr9pAbgouZ7r8c
-	MwX31++P7DzUNUmjK9zch1FMDIlyAld03UtrBsBlsbTsd+XpenHGLB66CK6IEyPN0xZr
-	UdG+AlUP3hNiJD0RuZ5/AwXfjdzmk5Nmu4navc3ws5ZuMp1/pYBfimVPi6OsLgmvFaY8
-	tH8XnQ0To4kgv8g6jh5yHG1LW+QnL12yE5INvQxnzx1x5GNyEd7P+CVe0f8N5jRtBusJ
-	GOrRQ8gJwJ20Slx1RYcgTN+JLZQu9WARpz21dE2t8YYjKuZ6GD6V8eQovZRFQP5MZpHl
-	p7rw==
-X-Gm-Message-State: APjAAAWu6NnOVJa2Fk7GlYAUwahwZfnKEs3aq1eOogfEdqsX0cZc3z3A
-	0Ftx9FVpjiFO0ygZSXvxfOVYM4QPyJ5+FWmcP+y/ew==
-X-Google-Smtp-Source: APXvYqzYQO6pRYsOBh7RLrsP1FgOud5YE0RrLRS0cgJf0VSV34ffzkQ/o1sAhSd2uNyuWkZKZZL2DkvTi+/6+IksA3o=
-X-Received: by 2002:a67:f153:: with SMTP id t19mr7357636vsm.233.1551972999519; 
-	Thu, 07 Mar 2019 07:36:39 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=AW5Ysrsd7s/qH4pqaSFKpoOmL1M9hVCKXuKyjUlsdRI=;
+	b=ZuXupx5+JBbSc8B73SMb9TuA52aR6W1Zf146VM2PDn4Q24Jc6Wtsi/5td+ltoJt/pb
+	YrMlqbj/mkiAe8Z3B6wnKR4sEvWxYOTBapXGPPITbM8FxUtjQV6cZ1H/DDuNCG1cnoyd
+	J/o1DOyY7T75AJYFLY+7w3BwaAdMFEr6sfJ+OP6H87irsOvVVcKu4psWMqek/5ROwgOf
+	TdOFJtx30tdrspfW87gW57XLSNLltrLhphhcuqSPxTcH46fVRQHOiS5BfNomK0riaKMA
+	3UaklRpUj8Gn0iCkouzDyWb13iCRIp7PCFL3iDP5W8F2yw/xC3tJRDdYK1CzdJcdJUiN
+	4m8g==
+X-Gm-Message-State: APjAAAWyRtRYNrdLKrP7jvzMtNadr5HV9p3US/MDx7wYQ/g18OYjYl15
+	JcDrQvRf4oO8kfip1+NLAph81z3wgng=
+X-Google-Smtp-Source: APXvYqzjcGMlu+YEfWqdcRe42HNXAKDLf/AuNvEZyxCyIn182XxnCbOECtiIbPJQG0KFnf2i9+oA2Q==
+X-Received: by 2002:a0d:f344:: with SMTP id c65mr10317085ywf.77.1551973128743; 
+	Thu, 07 Mar 2019 07:38:48 -0800 (PST)
+Received: from bluvision ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
+	m67sm1760566ywe.56.2019.03.07.07.38.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 07 Mar 2019 07:38:48 -0800 (PST)
+Message-ID: <2dae498718e3aea65b65efe9fded89bcbbeae4bf.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 07 Mar 2019 15:38:46 +0000
+In-Reply-To: <20190307151827.GA16556@localhost>
 References: <20190307142709.12076-1-bunk@stusta.de>
 	<CAMjhiJg_2+jdiJaiWHumQ2oXc80apXhJ3RaiGnsWM4_-2QOMRg@mail.gmail.com>
 	<20190307151827.GA16556@localhost>
-In-Reply-To: <20190307151827.GA16556@localhost>
-From: Leon Woestenberg <leon@sidebranch.com>
-Date: Thu, 7 Mar 2019 16:36:27 +0100
-Message-ID: <CAMjhiJhJqTiPSAf+0zWS_FxadAJSXkuw0Mps00JpS3KAbaX=eA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@jci.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
+User-Agent: Evolution 3.30.5-1 
+MIME-Version: 1.0
 Subject: Re: [thud][PATCH] systemd: RDEPENDS on util-linux-umount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,42 +51,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 15:36:39 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 15:38:48 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Adrian,
-
-On Thu, Mar 7, 2019 at 4:18 PM Adrian Bunk <bunk@stusta.de> wrote:
->
+On Thu, 2019-03-07 at 17:18 +0200, Adrian Bunk wrote:
 > On Thu, Mar 07, 2019 at 03:56:33PM +0100, Leon Woestenberg wrote:
 > > On Thu, Mar 7, 2019 at 3:27 PM Adrian Bunk <bunk@stusta.de> wrote:
-> > >
-> > > From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
-> > >
+> > > From: André Draszik <andre.draszik@jci.com>
+> > > 
 > > > It looks like there is an implicit dependency on util-linux'
 > > > umount - as otherwise when using busybox' umount we see a
 > > > long delay on shutdown / reboot.
-> > >
+> > > 
 > > > [YOCTO #13058]
-> > >
+> > > 
+> > That bug number is wrong, seems only slighty related:
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13058
+> > 
+> > Following the discussions, I think this had to do with older versions
+> > of busybox not ignoring the '-c' option that systemd passes to umount.
+> > 
+> > https://github.com/systemd/systemd/issues/7786
+> > 
+> > So, systemd has a dependency on *either* util-linux-mount *or* a
+> > minimal version of busybox. Do we support minimal version dependencies
+> > in Yocto?
+> 
+> Then the patch to master didn't make sense,
+> unfixed busybox is not a problem here.
+
+Yeah, I did ask for my patch to be ignored, and there was further discussion
+confirming that it isn't needed these days. Unfortunately my patch still
+went in.
+
+http://lists.openembedded.org/pipermail/openembedded-core/2019-February/278893.html
+
+
 > If systemd needs util-linux mount/umount in master it should also
-> depend on them in older releases (both master and thud had systemd 239
+> depend on them in older releases (both master and thud had systemd 239 
 > at that point).
->
-Agreed. I was just adding info to this e-mail thread. The "looks like
-there is an implicit dependency" text was a bit too vague for me. I'ld
-like to add the root cause that was found.
+> 
+> If it does not, it should not pull in such dependencies unconditionally
+> in master.
 
-The implicit dependency was for a specific option to umount to be supported=
-.
+Care to post a patch reverting it on master?
 
-If we have the proper busybox in master, we no longer have a implicit
-dependency on util-linux-umount.
+Cheers,
+Andre'
 
-(The reason for the util-linux-mount dependency was different, AFAIK.)
+> 
+> > Regards,
+> > 
+> > Leon.
+> 
+> cu
+> Adrian
+> 
+> -- 
+> 
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+> 
 
-Regards,
-
-Leon.
 
