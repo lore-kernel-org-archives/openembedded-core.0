@@ -1,54 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C17B7CF0D
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C08E77CF0D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 21:48:02 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id w6so19200974wrs.4
+	Thu,  7 Mar 2019 21:50:51 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r5so19206475wrg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 13:48:04 -0800 (PST)
+	Thu, 07 Mar 2019 13:50:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=BnsdQMW0J7D0cwPotL9L/AKshpzpNBgz7KDn1bYpNRQ=;
-	b=T1A628vT8cVSjNmlIt1x73yOgiB7KmFHOUagMaC19+vLtAWeZ/UNrpUqTVAvkVX4ym
-	1z/KaqjzSdx8DKcT0LAnrngI6cUWOLWTtZwPI+kYvEAEAdk1RYpgfpezpi7obJEWNhW6
-	HwWrr1LrNkOkGgeR4ibIdVzaTMqdW7ykTbgYE=
+	bh=dIg84yId5oIiOWz6ut6eu/cHCvTlGU9UuWjCcw9PBKw=;
+	b=YXVnmVkHbO/+JD9z9IPQkxdrsm+FexL2WXE26g1osjmO/lml60V0Js/rtzvluQmAXV
+	sXU3kUNViKKY04h7EMrKe/1GSqrtm2EHI5/6PDNP7ly4G/paqsamhYK7r2e/+wENI735
+	TSG6wcdqGvY6YZ2tzA0LeVC6wNaD8zuATS3M8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=BnsdQMW0J7D0cwPotL9L/AKshpzpNBgz7KDn1bYpNRQ=;
-	b=HO/IM2L9IfYm+0apN9m4svA3wQc1aEILVSpR7D9Jr43q0PO78p2YeA+Jcw+wJUIxsj
-	59fLFhIM/RoP4irL4bx06UBl3WKAoS+UZuFGLhOt01QjY5+6wxBa74qcvO7M8BkBo12r
-	4zpkjbZq9x8OuWnfaKk4kcAllLZj+xJKi965RmBL5Kju4/tu6vJTHxn4qEYaIbW5LXTm
-	3ICjvwZrzPKxRTJCsY6vDNte/FHopJEQym2oaG+up96BUCvjK/51F2oyYzpmNOCA5xmi
-	pTi2rBks8sxHimd1VAgzx8BtRaNZNb6DtTDxfWwR8mvHefMsUV754urZUwCiCW90eDXL
-	XfuQ==
-X-Gm-Message-State: APjAAAXms6WdiJEb1hVT5/w8UZiWXHoXRFHY5is5MgSlw20yCv1mRdqN
-	Q47+xipbJWRcaMYlvSvCzzQoX4JL4QI=
-X-Google-Smtp-Source: APXvYqx8rLVPwMP9qZKfdJUTCf64emqvFwBbeuHMx1Cr8Ddn5qgraHz/AcWMyBdqLnjPWHvO1BW9zg==
-X-Received: by 2002:a5d:5506:: with SMTP id b6mr8092291wrv.33.1551995283650;
-	Thu, 07 Mar 2019 13:48:03 -0800 (PST)
+	bh=dIg84yId5oIiOWz6ut6eu/cHCvTlGU9UuWjCcw9PBKw=;
+	b=KbsS36WGcL9R56+njSDlX/OgcqAr7spECiv2mjOfvU1RHuTLMonlrhkHsHbdroMgY/
+	8kTy1UL1WK32eeVAI3+TEXzmL/BBzI3HALbHAwlNjIqQr2pIdnli9a2vlborjplaKVlC
+	61TvthQI34Sibn+Wp+N6I7+ltHuqTAgOeg8Ukl6xgNMcgNtCmEjag0hNO/YZLClzjif3
+	AtdzaFGY+KlBQurLRBhEc4U7hE2P/DUnhWfCVPUI6J1RXILMoVqX1voGneAJH4BO4e6n
+	Z02elzFy8OJHPTUBaswazkENYRfUtAqyZqcM+K2exsPHdCqfCCQSwNQaZuu0a1jfGI32
+	iIAA==
+X-Gm-Message-State: APjAAAWTweqyDGWoWCRjAPULUPoWA5eeRgSOYKRlyRI5cYpbdg8aHr7T
+	DmIHaAbWUbrzN51+5fI3xi0M80bXuYE=
+X-Google-Smtp-Source: APXvYqzrBCka7DSsUOLdvoVFe8bkHjEOKtZf+h0fgaB5J7Ca6VC0OkAo0xj76nRcQXMmuioN4GowXg==
+X-Received: by 2002:adf:afe3:: with SMTP id y35mr8243617wrd.318.1551995452517; 
+	Thu, 07 Mar 2019 13:50:52 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	m16sm9951082wro.78.2019.03.07.13.48.02
+	t69sm11495726wmt.16.2019.03.07.13.50.51
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 07 Mar 2019 13:48:03 -0800 (PST)
-Message-ID: <87265d8970131474709a4589cdef7015fa72b87a.camel@linuxfoundation.org>
+	Thu, 07 Mar 2019 13:50:51 -0800 (PST)
+Message-ID: <c7b91b44ea5055df61ce39287342dbf7926d970d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 07 Mar 2019 21:48:02 +0000
-In-Reply-To: <2dae498718e3aea65b65efe9fded89bcbbeae4bf.camel@andred.net>
-References: <20190307142709.12076-1-bunk@stusta.de>
-	<CAMjhiJg_2+jdiJaiWHumQ2oXc80apXhJ3RaiGnsWM4_-2QOMRg@mail.gmail.com>
-	<20190307151827.GA16556@localhost>
-	<2dae498718e3aea65b65efe9fded89bcbbeae4bf.camel@andred.net>
+To: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 07 Mar 2019 21:50:51 +0000
+In-Reply-To: <1551882973-8710-3-git-send-email-trini@konsulko.com>
+References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
+	<1551882973-8710-3-git-send-email-trini@konsulko.com>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: Re: [thud][PATCH] systemd: RDEPENDS on util-linux-umount
+Subject: Re: [PATCH v2 2/4] inetutils: Import version 1.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,68 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 21:48:03 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 21:50:52 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-03-07 at 15:38 +0000, André Draszik wrote:
-> On Thu, 2019-03-07 at 17:18 +0200, Adrian Bunk wrote:
-> > On Thu, Mar 07, 2019 at 03:56:33PM +0100, Leon Woestenberg wrote:
-> > > On Thu, Mar 7, 2019 at 3:27 PM Adrian Bunk <bunk@stusta.de>
-> > > wrote:
-> > > > From: André Draszik <andre.draszik@jci.com>
-> > > > 
-> > > > It looks like there is an implicit dependency on util-linux'
-> > > > umount - as otherwise when using busybox' umount we see a
-> > > > long delay on shutdown / reboot.
-> > > > 
-> > > > [YOCTO #13058]
-> > > > 
-> > > That bug number is wrong, seems only slighty related:
-> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13058
-> > > 
-> > > Following the discussions, I think this had to do with older
-> > > versions
-> > > of busybox not ignoring the '-c' option that systemd passes to
-> > > umount.
-> > > 
-> > > https://github.com/systemd/systemd/issues/7786
-> > > 
-> > > So, systemd has a dependency on *either* util-linux-mount *or* a
-> > > minimal version of busybox. Do we support minimal version
-> > > dependencies
-> > > in Yocto?
-> > 
-> > Then the patch to master didn't make sense,
-> > unfixed busybox is not a problem here.
+On Wed, 2019-03-06 at 09:36 -0500, Tom Rini wrote:
+> In order to have more robust stand-alone network tools in oe-core,
+> bring
+> in inetutils from meta-openembedded/meta-networking.  This imports
+> the
+> recipes as of git commit:
+> commit 408204073e6bdcd8ac586e05d5b75213417673f2
+> Author: Martin Jansa <martin.jansa@gmail.com>
+> Date:   Thu Aug 16 20:39:15 2018 +0000
 > 
-> Yeah, I did ask for my patch to be ignored, and there was further
-> discussion
-> confirming that it isn't needed these days. Unfortunately my patch
-> still
-> went in.
+>     inetutils: fix build with glibc-2.28
 > 
-> http://lists.openembedded.org/pipermail/openembedded-core/2019-February/278893.html
-> 
-> 
-> > If systemd needs util-linux mount/umount in master it should also
-> > depend on them in older releases (both master and thud had systemd
-> > 239 
-> > at that point).
-> > 
-> > If it does not, it should not pull in such dependencies
-> > unconditionally
-> > in master.
-> 
-> Care to post a patch reverting it on master?
+> Signed-off-by: Tom Rini <trini@konsulko.com>
 
-Going from memory I think there were some responses saying we should
-probably add this patch regardless since we already needed util-linux-
-mount. I didn't think it was a huge issue since mount was already there
-and it seemed to solve some problems others were having.
+Somehow in all the noise from other failures we missed:
 
-I don't have a strong preference either way, we just need a general
-consensus about what to do...
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rcp or /usr/bin/rcp.inetutils) does not exist, skipping...
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rlogin or /usr/bin/rlogin.inetutils) does not exist, skipping...
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rsh or /usr/bin/rsh.inetutils) does not exist, skipping...
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/talk or /usr/bin/talk.inetutils) does not exist, skipping...
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rcp: /usr/bin/rcp.inetutils does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rlogin: /usr/bin/rlogin.inetutils does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rsh: /usr/bin/rsh.inetutils does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rshd: /usr/sbin/in.rshd does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rlogind: /usr/sbin/in.rlogind does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/talk: /usr/bin/talk.inetutils does not exist
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rcp == /usr/bin/rcp
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rlogin == /usr/bin/rlogin
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rsh == /usr/bin/rsh
+WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/talk == /usr/bin/talk
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/374
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/375
 
 Cheers,
 
