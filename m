@@ -1,24 +1,31 @@
-Return-Path: <max+openembedded@blarg.de>
-Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 637437CEBF
+Return-Path: <richard.purdie@linuxfoundation.org>
+X-Greylist: delayed 417 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 07 Mar 2019 13:11:56 UTC
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 00FAA7CEBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 13:11:14 +0000 (UTC)
-Received: from heron.blarg.de
-	(p200300DC6F187E00529A4CFFFE3DD983.dip0.t-ipconnect.de
-	[IPv6:2003:dc:6f18:7e00:529a:4cff:fe3d:d983])
-	(Authenticated sender: max)
-	by swift.blarg.de (Postfix) with ESMTPSA id CA6A222022D;
-	Thu,  7 Mar 2019 14:04:08 +0100 (CET)
-From: Max Kellermann <max+openembedded@blarg.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2019 14:04:00 +0100
-Message-Id: <20190307130401.15700-2-max+openembedded@blarg.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190307130401.15700-1-max+openembedded@blarg.de>
-References: <20190307130401.15700-1-max+openembedded@blarg.de>
+	Thu,  7 Mar 2019 13:11:56 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	x27D4vsU011841
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 7 Mar 2019 13:04:58 GMT
+Message-ID: <533d4de952321163dbcc9115992b21229955191d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4MowcWPK_k5egUx=GY4SEVcSrOwWsey2h66KgvOHKfLOQ@mail.gmail.com>
+References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+	<088fa1a03d1ff2ec9eb08d419e2a7c7bc1ee3406.camel@linuxfoundation.org>
+	<CADkTA4NdgcGNtD2RdFSURG7=t1dUna8CC7uGU+Dv4BcHYD=yTQ@mail.gmail.com>
+	<CADkTA4MowcWPK_k5egUx=GY4SEVcSrOwWsey2h66KgvOHKfLOQ@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Max Kellermann <max.kellermann@gmail.com>
-Subject: [PATCH 2/3] useradd-staticids: print exception after parse_args() error
+Date: Thu, 07 Mar 2019 13:04:42 +0000
+User-Agent: Evolution 3.31.90-1 
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] linux-yocto: consolidated pull request (5.0 kernel intro)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 13:11:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Mar 2019 13:11:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Max Kellermann <max.kellermann@gmail.com>
+On Wed, 2019-03-06 at 23:23 -0500, Bruce Ashfield wrote:
+> On Wed, Mar 6, 2019 at 11:21 PM Bruce Ashfield <
+> bruce.ashfield@gmail.com> wrote:
+> > On Wed, Mar 6, 2019 at 6:05 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/365/steps/7/logs/step1c
+> > >    
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/365/steps/7/logs/step1c
+> > >    RESULTS - kernelmodule.KernelModuleTest.test_kernel_module -
+> > > Testcase 1541: FAILED
+> > 
+> > Fixed, patches out shortly.
+> > 
+> > > d) perf do_compile race seen on qemuarm64 (didn't reproduce
+> > > locally):
+> > >    
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/366/steps/7/logs/step1b
+> > 
+> > I can't reproduce this one either.
+> 
+> I did notice that the AB log seems to show 4.19 being built for this,
+> is that just a red herring ?
+> 
+> NOTE: recipe iptables-1.6.2-r0: task do_package_write_rpm: Succeeded
+> NOTE: recipe iptables-1.6.2-r0: task do_package_qa: Succeeded
+> NOTE: recipe ofono-1.25-r0: task do_package_write_rpm: Succeeded
+> NOTE: recipe linux-yocto-4.19.19+gitAUTOINC+41fe45f7c5_11e0e616ed-r0:
+> task do_package_write_deb: Succeeded
+> NOTE: recipe ofono-1.25-r0: task do_package_write_deb: Succeeded
+> NOTE: recipe linux-yocto-4.19.19+gitAUTOINC+41fe45f7c5_11e0e616ed-r0:
+> task do_package_write_rpm: Succeeded
 
-Without this, the user has no idea what went wrong.
+Yes, well spotted, perf is failing to build with the 4.19 kernel.
 
-Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
----
- meta/classes/useradd-staticids.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thanks for the other fixes, they improve things a lot. This brings us
+down to the above perf issue with 4.19 and:
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index 70d59e5573..3a1b5f1320 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -76,8 +76,8 @@ def update_useradd_static_config(d):
-         for param in oe.useradd.split_commands(params):
-             try:
-                 uaargs = parser.parse_args(oe.useradd.split_args(param))
--            except:
--                bb.fatal("%s: Unable to parse arguments for USERADD_PARAM_%s: '%s'" % (d.getVar('PN'), pkg, param))
-+            except Exception as e:
-+                bb.fatal("%s: Unable to parse arguments for USERADD_PARAM_%s '%s': %s" % (d.getVar('PN'), pkg, param, e))
- 
-             # Read all passwd files specified in USERADD_UID_TABLES or files/passwd
-             # Use the standard passwd layout:
-@@ -197,8 +197,8 @@ def update_useradd_static_config(d):
-             try:
-                 # If we're processing multiple lines, we could have left over values here...
-                 gaargs = parser.parse_args(oe.useradd.split_args(param))
--            except:
--                bb.fatal("%s: Unable to parse arguments for GROUPADD_PARAM_%s: '%s'" % (d.getVar('PN'), pkg, param))
-+            except Exception as e:
-+                bb.fatal("%s: Unable to parse arguments for GROUPADD_PARAM_%s '%s': %s" % (d.getVar('PN'), pkg, param, e))
- 
-             # Read all group files specified in USERADD_GID_TABLES or files/group
-             # Use the standard group layout:
--- 
-2.20.1
+a) KMACHINE_qemuarm = "qemuarma15" not working?
+
+b) qemuarm64 graphics not working with 5.0
+
+Getting there! :)
+
+Cheers,
+
+Richard
+
+
 
 
