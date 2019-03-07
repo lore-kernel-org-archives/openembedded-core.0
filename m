@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D57867C75E
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 275FB7CDEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 09:05:56 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id z131so14078013itf.5
+	Thu,  7 Mar 2019 09:10:34 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id z131so14095536itf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 01:05:58 -0800 (PST)
+	Thu, 07 Mar 2019 01:10:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uP4lBFzm+1owGmrKWXZTzbzv6SwsRrpVB77UzG4kius=;
-	b=lqCez7/kDK4J71PU2a2G2P7+gMUI/kNcGykHmTaD1ujGAdV5uKa2xGs1BnCT71qTvl
-	x/5NhKSDIFxG2oxkT9j+kNlEYWjPOyVydoFJpk7CWHh2RWeRLg4ucXQJ0ICwLbQgvSSF
-	35P8Ztnhqs7xlMiQYqB494y6csx/z/47RiHfRD0mlOBSxBQeB+7r8qoiuv1cL/yn6od8
-	/5PXd2Q1Lqbsunwx6QI5YasCBYfpYgPnwtM50gF8TQQ7C2oNbRnuQE5ZTRRONIofKmvW
-	u8qQZ3JhIb7Ew3L+Ji7U69XGV6IlKvJClwc+rT6O634c54meBDgevvIG3rX5Ah1juovP
-	nL8g==
+	:cc; bh=m8VP0D2Qo5eGuFHb+PKVNCxhTP13L4cioY+adM6xu1A=;
+	b=eVVn6akj+Q/tW2bXdf5bLD5VnR6RJFsa4+StnW4uBbxvAZibNCb6byzf1B025js0Gq
+	U09heJrZ1bSOWt4pYR42fDdX+qhay7xPF3ZYuiAzeq58KNUNI7VmmhmRQ0PqeUhH5WIE
+	XFt5TF+0J07m/TozSWkt4dZ5CI3GX4jDQRxQ/jzhOMxx8OFHMYTfkAK2psu2GEQs9j+B
+	mNrkRhv65FhdgchoYIBfD0NQ97pf6+U5dQy2liveGjdQtQQklyrphbZwtqtcfb5b+fsU
+	e2V1qVEW1XatnERwLDLRkUPArELQyQ7st9VJ4D1aViJTkQ1oFEHXolT3OdWaMNB4JLaD
+	B8dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=uP4lBFzm+1owGmrKWXZTzbzv6SwsRrpVB77UzG4kius=;
-	b=HRKlndcJiURpG1p40kP0ixCDbVMiodpgyW78+Jx7+BnYYtYC3Tu86le1p0iHUXNWW+
-	ghxboaymSXD0G/3n2GHsINuKJbb+eKEDsEw37Tup5CqFjCuaaZCT4i4r5mgOyn9GXD2C
-	x08sFQV6mB8ZeNO3NXjI60e9Y7Gue01sdSY5893DriXpEnqmsffCmCIUvZnfY/oZLQaO
-	O0umn8lOz0RenQXw2NoxOOtbn6AYWPoLqMgEznvjc52bFsg8NKE1JbrmfbxP6BIJXORa
-	dqVxKEql0/gVnI1twlBdGGiTpTvo+Cwx6JBnQ79WDkhyedxLae7KSpO2svY2oFEwKSTU
-	IRuQ==
-X-Gm-Message-State: APjAAAW+LYPLvzPcc5I+UX76UPKuONO/Bulgp/0AW4ps6mn6nZ92knQP
-	SKvl40WZR7VpopDl2EyrBfOLS52PEHCvCWiizqJ2Iy1C
-X-Google-Smtp-Source: APXvYqy2Xu7DPdN4Ra1uCM1O0q17uC6nFvf0ZT/uF4AqTNoSHbMZy89bLHxHQ/qudryJf21PwEZQubnBCtPEPTOpsoM=
-X-Received: by 2002:a05:6638:348:: with SMTP id
-	x8mr7064636jap.79.1551949557833; 
-	Thu, 07 Mar 2019 01:05:57 -0800 (PST)
+	bh=m8VP0D2Qo5eGuFHb+PKVNCxhTP13L4cioY+adM6xu1A=;
+	b=LxNTlgfw48/WtJUtRIQfaSpGn4dvHcggnTJ0Cx9OIUuzINWLZHBWAjuyRYGbX4uBpV
+	a/5CSlVyPLNsHYPYwNjeKABowy8C4lRDQ1JFBzNWGiK5y3aMTPIDC+oxofXHQR1H8zJF
+	PRAdcS8YBOjZuLv6RRBQxnQlmnM1s5idqXWDiyYYiljjoBC9nbZ8OEx1+Imk3Sx91r76
+	LZBskdyVu2c5G5ggjLGhQzfW9UwpJVGncgPUP2Gw/UwGXbuSyZknsuRWrzS00CwFpZBT
+	N/fbOSfxJGcS35wvGBHZeac/dw7lZjJ5ZiO07CdnElqEtNaisAxZQxDoo9OHODOJubnP
+	CSyg==
+X-Gm-Message-State: APjAAAW+nqHtTahfvH3taS3aiqj64tPnsOg43ma+YJjHG80rSkZkmsdO
+	6Pu4fmchMFFNcjrpy3KelxwUUhbh3YgMki5GpXpqeg==
+X-Google-Smtp-Source: APXvYqw4VZCkbqx8FCy3zPEoHOU2oH4JRfgi10ZG7issWZHG9BD4oZpJGvHXbC8joQejhNKxo5l3lHAKjX/TOu29P4w=
+X-Received: by 2002:a24:2ec2:: with SMTP id i185mr4355024ita.62.1551949836177; 
+	Thu, 07 Mar 2019 01:10:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20190307065138.54589-1-zhixiong.chi@windriver.com>
-In-Reply-To: <20190307065138.54589-1-zhixiong.chi@windriver.com>
+References: <cover.1551925158.git.Qi.Chen@windriver.com>
+	<171e7c793420f8530f7db95e4818c08fd23b44dc.1551925158.git.Qi.Chen@windriver.com>
+In-Reply-To: <171e7c793420f8530f7db95e4818c08fd23b44dc.1551925158.git.Qi.Chen@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Mar 2019 09:05:46 +0000
-Message-ID: <CAJTo0LbsGET5t6AyfgfQ2L=jR01g+uM8Ec0FA5L5nxpchGd49g@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
+Date: Thu, 7 Mar 2019 09:10:24 +0000
+Message-ID: <CAJTo0LbenssbvsH6pWcO5GKKoW7KnyZF1m_2ogBP9T==9tkyeA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] core-image-minimal-initramfs: add libgcc into the initramfs image
+Subject: Re: [PATCH 1/1] systemd: update efi PACKAGECONFIG to depend on coreutils-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 09:05:57 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 09:10:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Wouldn't it be better to add that dependency to the packages which need it?
+That's quite a hammer, I prefer adding realpath to HOSTTOOLS.
+
+(patch sent)
 
 Ross
 
-On Thu, 7 Mar 2019 at 06:53, Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
+On Thu, 7 Mar 2019 at 02:10, Chen Qi <Qi.Chen@windriver.com> wrote:
 >
-> Add the libgcc package into the initramfs image to avoid multithread
-> function error in the userspace(eg: pthread_cancel).
+> For now, if 'efi' is enabled, we get the following error:
 >
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+>   | src/boot/efi/meson.build:63:24: ERROR:  Program or command 'realpath' not found or not executable
+>
+> So update the PACKAGECONFIG setting to depend on coreutils-native.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
+>  meta/recipes-core/systemd/systemd_241.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> index 7df8ab1ebd..3cf2c7b01f 100644
-> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> @@ -11,7 +11,7 @@ INITRAMFS_SCRIPTS ?= "\
->                        initramfs-module-install-efi \
->                       "
->
-> -PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-> +PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd libgcc ${ROOTFS_BOOTSTRAP_INSTALL}"
->
->  # Do not pollute the initrd image with rootfs features
->  IMAGE_FEATURES = ""
+> diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+> index 44a132a..7478fdd 100644
+> --- a/meta/recipes-core/systemd/systemd_241.bb
+> +++ b/meta/recipes-core/systemd/systemd_241.bb
+> @@ -119,7 +119,7 @@ PACKAGECONFIG[bzip2] = "-Dbzip2=true,-Dbzip2=false,bzip2"
+>  PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
+>  PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup"
+>  PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
+> -PACKAGECONFIG[efi] = "-Defi=true,-Defi=false"
+> +PACKAGECONFIG[efi] = "-Defi=true,-Defi=false,coreutils-native"
+>  PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
+>  PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
+>  # Sign the journal for anti-tampering
 > --
-> 2.17.1
+> 1.9.1
 >
 > --
 > _______________________________________________
