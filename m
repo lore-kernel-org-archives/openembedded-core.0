@@ -1,24 +1,27 @@
-Return-Path: <jan.kiszka@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id A4EE07CE7D
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E4C0F7CDC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 09:37:32 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id x279bR7K026350
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 7 Mar 2019 10:37:27 +0100
-Received: from [139.22.38.51] ([139.22.38.51])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x279bRbL022062;
-	Thu, 7 Mar 2019 10:37:27 +0100
-To: michael.davis@essvote.com
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <46d4a7de-f19f-8fa2-63b7-f21431d3435c@siemens.com>
-Date: Thu, 7 Mar 2019 10:37:26 +0100
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
-	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+	Thu,  7 Mar 2019 09:59:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x279xeDa028606
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Mar 2019 01:59:42 -0800 (PST)
+Received: from [128.224.163.214] (128.224.163.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 7 Mar 2019 01:59:39 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190307065138.54589-1-zhixiong.chi@windriver.com>
+	<CAJTo0LbsGET5t6AyfgfQ2L=jR01g+uM8Ec0FA5L5nxpchGd49g@mail.gmail.com>
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+Message-ID: <eadbbfcd-6dd6-929e-1fbc-8aee74b5961b@windriver.com>
+Date: Thu, 7 Mar 2019 18:00:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.0
 MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbsGET5t6AyfgfQ2L=jR01g+uM8Ec0FA5L5nxpchGd49g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: npm offline build for yocto
+Subject: Re: [PATCH] core-image-minimal-initramfs: add libgcc into the initramfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 09:37:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 07 Mar 2019 09:59:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-Hi Michael,
+It's not for dependency of the package in the initramfs image,
 
-I found your progress report (and unanswered question) on that topic in 
-http://lists.openembedded.org/pipermail/openembedded-core/2018-April/268639.html. 
-Did this effort go further?
+just for the multithread application while the customer use initramfs image.
 
-I just ran into it again while updating https://github.com/siemens/meta-iot2000 
-to Node.js >v6. I also played with prefilling the cache, but likely in the wrong 
-way.
+Since we use PACKAGE_INSTALL to override the rootfs in the initramfs bb 
+file,
 
-Thanks,
-Jan
+so we couldn't use the IMAGE_INSTALL_append to add the package in the 
+local.conf.
+
+Did you think if it should be added into the image? :-)
+
+I know the initramfs is just to bootup the system. If the customer want 
+to support the
+
+multithread app, they can use the other types of the image.
+
+Thanks.
+
+
+On 2019年03月07日 17:05, Burton, Ross wrote:
+> Wouldn't it be better to add that dependency to the packages which need it?
+>
+> Ross
+>
+> On Thu, 7 Mar 2019 at 06:53, Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
+>> Add the libgcc package into the initramfs image to avoid multithread
+>> function error in the userspace(eg: pthread_cancel).
+>>
+>> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+>> ---
+>>   meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> index 7df8ab1ebd..3cf2c7b01f 100644
+>> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> @@ -11,7 +11,7 @@ INITRAMFS_SCRIPTS ?= "\
+>>                         initramfs-module-install-efi \
+>>                        "
+>>
+>> -PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+>> +PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd libgcc ${ROOTFS_BOOTSTRAP_INSTALL}"
+>>
+>>   # Do not pollute the initrd image with rootfs features
+>>   IMAGE_FEATURES = ""
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 -- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
+---------------------
+Thanks,
+Zhixiong Chi
+Tel: +86-10-8477-7036
+
 
