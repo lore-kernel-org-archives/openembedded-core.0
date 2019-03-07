@@ -1,24 +1,24 @@
 Return-Path: <max+openembedded@blarg.de>
 Received: from swift.blarg.de (swift.blarg.de [78.47.110.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 6282A7CEBD
+	by mail.openembedded.org (Postfix) with ESMTP id 637437CEBF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  7 Mar 2019 13:11:14 +0000 (UTC)
 Received: from heron.blarg.de
 	(p200300DC6F187E00529A4CFFFE3DD983.dip0.t-ipconnect.de
 	[IPv6:2003:dc:6f18:7e00:529a:4cff:fe3d:d983])
 	(Authenticated sender: max)
-	by swift.blarg.de (Postfix) with ESMTPSA id E5841220235;
-	Thu,  7 Mar 2019 14:04:09 +0100 (CET)
+	by swift.blarg.de (Postfix) with ESMTPSA id CA6A222022D;
+	Thu,  7 Mar 2019 14:04:08 +0100 (CET)
 From: Max Kellermann <max+openembedded@blarg.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2019 14:04:01 +0100
-Message-Id: <20190307130401.15700-3-max+openembedded@blarg.de>
+Date: Thu,  7 Mar 2019 14:04:00 +0100
+Message-Id: <20190307130401.15700-2-max+openembedded@blarg.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190307130401.15700-1-max+openembedded@blarg.de>
 References: <20190307130401.15700-1-max+openembedded@blarg.de>
 MIME-Version: 1.0
 Cc: Max Kellermann <max.kellermann@gmail.com>
-Subject: [PATCH 3/3] initrdscripts: merge multiple "mkdir" calls
+Subject: [PATCH 2/3] useradd-staticids: print exception after parse_args() error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +36,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Max Kellermann <max.kellermann@gmail.com>
 
-Reduce overhead.
+Without this, the user has no idea what went wrong.
 
 Signed-off-by: Max Kellermann <max.kellermann@gmail.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
- mode change 100644 => 100755 meta/recipes-core/initrdscripts/files/init-live.sh
+ meta/classes/useradd-staticids.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-old mode 100644
-new mode 100755
-index 65183d7eec..b20660b60a
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -28,8 +28,7 @@ udev_daemon() {
- _UDEV_DAEMON=`udev_daemon`
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index 70d59e5573..3a1b5f1320 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -76,8 +76,8 @@ def update_useradd_static_config(d):
+         for param in oe.useradd.split_commands(params):
+             try:
+                 uaargs = parser.parse_args(oe.useradd.split_args(param))
+-            except:
+-                bb.fatal("%s: Unable to parse arguments for USERADD_PARAM_%s: '%s'" % (d.getVar('PN'), pkg, param))
++            except Exception as e:
++                bb.fatal("%s: Unable to parse arguments for USERADD_PARAM_%s '%s': %s" % (d.getVar('PN'), pkg, param, e))
  
- early_setup() {
--    mkdir -p /proc
--    mkdir -p /sys
-+    mkdir -p /proc /sys /run /var/run
-     mount -t proc proc /proc
-     mount -t sysfs sysfs /sys
-     mount -t devtmpfs none /dev
-@@ -37,9 +36,6 @@ early_setup() {
-     # support modular kernel
-     modprobe isofs 2> /dev/null
+             # Read all passwd files specified in USERADD_UID_TABLES or files/passwd
+             # Use the standard passwd layout:
+@@ -197,8 +197,8 @@ def update_useradd_static_config(d):
+             try:
+                 # If we're processing multiple lines, we could have left over values here...
+                 gaargs = parser.parse_args(oe.useradd.split_args(param))
+-            except:
+-                bb.fatal("%s: Unable to parse arguments for GROUPADD_PARAM_%s: '%s'" % (d.getVar('PN'), pkg, param))
++            except Exception as e:
++                bb.fatal("%s: Unable to parse arguments for GROUPADD_PARAM_%s '%s': %s" % (d.getVar('PN'), pkg, param, e))
  
--    mkdir -p /run
--    mkdir -p /var/run
--
-     $_UDEV_DAEMON --daemon
-     udevadm trigger --action=add
- }
+             # Read all group files specified in USERADD_GID_TABLES or files/group
+             # Use the standard group layout:
 -- 
 2.20.1
 
