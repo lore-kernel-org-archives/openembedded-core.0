@@ -1,24 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A161C7CD88
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E45D7C7D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 02:49:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x272nQCn023560
+	Thu,  7 Mar 2019 03:22:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x273M9gx010808
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Mar 2019 18:49:37 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 6 Mar 2019 18:49:04 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Wed, 6 Mar 2019 19:22:09 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 6 Mar 2019 19:22:08 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Mar 2019 10:58:53 +0800
-Message-ID: <cover.1551927438.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Thu, 7 Mar 2019 11:41:20 +0800
+Message-ID: <cover.1551929817.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: backport patch to fix parallel build failure
+Subject: [PATCH 0/2] insane.bbclass: Fixes for do_qa_configure and qa_check_staged.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 02:49:47 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 03:22:08 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit 525c5e516323ff584f65bed3320626b1d056260d:
+The following changes since commit 0a306d4f706b55f64228c7a0a14ff1ad127d7df9:
 
-  README.poky: Add pointers to key contributions wiki guides (2019-03-06 23:12:27 +0000)
+  scripts: Add oe-pylint (2019-03-06 23:12:06 +0000)
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-parallel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-parallel
+  git://git.openembedded.org/openembedded-core-contrib rbt/qa
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qa
 
-Chen Qi (1):
-  systemd: backport patch to fix parallel build failure
+Robert Yang (2):
+  insane.bbclass: Make INSANE_SKIP work for qa pkgconfig and la
+  insane.bbclass: Add configure-unsafe and configure-gettext
 
- ...re-version.h-as-dep-for-various-targets-t.patch | 118 +++++++++++++++++++++
- meta/recipes-core/systemd/systemd_241.bb           |   1 +
- 2 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-declare-version.h-as-dep-for-various-targets-t.patch
+ meta/classes/insane.bbclass | 48 +++++++++++++++++++++++++++++++++------------
+ 1 file changed, 36 insertions(+), 12 deletions(-)
 
 -- 
-1.9.1
+2.7.4
 
 
