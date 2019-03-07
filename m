@@ -1,23 +1,33 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 73CB77CE69
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D50547CDFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 05:20:16 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Mar 2019 21:20:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,450,1544515200"; d="scan'208";a="326181491"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga005.fm.intel.com with ESMTP; 06 Mar 2019 21:20:12 -0800
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+	Thu,  7 Mar 2019 06:03:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44FKn95vTPz54
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Mar 2019 07:03:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1551938605;
+	bh=ubdjMBDdDsuRgKGJfypEMATTbijZzsU+SsvuoYcU0ZA=;
+	h=From:To:Subject:Date:From;
+	b=jD2Qm+WNOLnf246qS9jcuHv7XY6RYpdE39Keq3e8XrFq+B4mhUp2TQR489u/nzqxg
+	Hbprh7ywklJ2T5pnBdP8uBhD3J9bv72pdIM1PdFmkBbscOpRGDXspGDdO9bqpCDmkI
+	WbpUYl4oC4La9KiD4gDUtLAvl9m5Fi7sfgFvWiC0XDspk7oFFiZ+xBPaNMp/kSwIo4
+	XdOl49UgH0laOIyKpHvptvZZxhNlTrvsEHCgbfUuY+UIRE3cBSXEolP40BuO05CI8X
+	P8jTc+cY0MpO2PXs64/u79DxfGyyTQCCZun9AoymZIzkpQXKW731fUwoO0JP2/g/Ay
+	ps2HKlTtuzWrok0LkAx+X/+fECmpMWNhjucI+ul5Nx/XbYmqPdrixvSTKdBgaexh40
+	pddBNkonFgTgNtbBHANxp9GrH00/zK58J5bmI7Wzqgb3ws8850EpF2n0+724jXyRYg
+	cz6af4v34v2Hk/xM4wHab2Qs/c9T5HWSKOw+vETacq6F8D5CAkVCawsFNrOQtqnCQl
+	DIxq7kbhcLtvHe6LEpKtgPqp0Dez9q/YA413lEEzEt39oCDM5Exw7dTqMT54hVVh7h
+	E7ppCEm0T1U/Kwo45YWsQYac9OUwNMIj/i3DVnmCtonk+5iM/H7kUzEr7pEZIH2224
+	Km5DSUaCi+qxTOvcHLsxG35M=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2019 12:49:08 +0800
-Message-Id: <1551934148-80245-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] scripts/resulttool: Enable manual result store and regression
+Date: Thu,  7 Mar 2019 08:03:24 +0200
+Message-Id: <20190307060324.5488-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] sqlite3: Upgrade 3.26.0 -> 3.27.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,116 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 05:20:16 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 06:03:27 -0000
 
-To enable store for testresults.json file from manualexecution,
-add layers metadata to configuration and add "manual" map to
-resultutils.store_map.
-
-To enable regression for manual, add "manual" map to
-resultutils.regression_map. Also added compulsory configurations
-('MACHINE', 'IMAGE_BASENAME') to manualexecution.
-
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- scripts/lib/resulttool/manualexecution.py | 36 +++++++++++++++++--------------
- scripts/lib/resulttool/resultutils.py     |  9 +++++---
- 2 files changed, 26 insertions(+), 19 deletions(-)
+ meta/recipes-support/sqlite/sqlite3_3.26.0.bb | 10 ----------
+ meta/recipes-support/sqlite/sqlite3_3.27.2.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.26.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.27.2.bb
 
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index ecdc4e7..a44cc86 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -19,6 +19,7 @@ import datetime
- import re
- from oeqa.core.runner import OETestResultJSONHelper
- 
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.26.0.bb b/meta/recipes-support/sqlite/sqlite3_3.26.0.bb
+deleted file mode 100644
+index a0d615bac1..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.26.0.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "\
+-  http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+-  "
+-SRC_URI[md5sum] = "ac2b3b8cd3a97600e36fb8e756e8dda1"
+-SRC_URI[sha256sum] = "5daa6a3fb7d1e8c767cd59c4ded8da6e4b00c61d3b466d0685e35c4dd6d7bf5d"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+new file mode 100644
+index 0000000000..22fec21454
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+@@ -0,0 +1,11 @@
++require sqlite3.inc
 +
- def load_json_file(file):
-     with open(file, "r") as f:
-         return json.load(f)
-@@ -46,31 +47,34 @@ class ManualTestRunner(object):
-     def _get_input(self, config):
-         while True:
-             output = input('{} = '.format(config))
--            if re.match('^[a-zA-Z0-9_]+$', output):
-+            if re.match('^[a-zA-Z0-9_-]+$', output):
-                 break
--            print('Only alphanumeric and underscore are allowed. Please try again')
-+            print('Only alphanumeric and underscore/hyphen are allowed. Please try again')
-         return output
- 
-     def _create_config(self):
-+        from oeqa.utils.metadata import get_layers
-+        from oeqa.utils.commands import get_bb_var
-+        from resulttool.resultutils import store_map
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
 +
-+        layers = get_layers(get_bb_var('BBLAYERS'))
-         self.configuration = {}
--        while True:
--            try:
--                conf_total = int(input('\nPlease provide how many configuration you want to save \n'))
--                break
--            except ValueError:
--                print('Invalid input. Please provide input as a number not character.')
--        for i in range(conf_total):
-+        self.configuration['LAYERS'] = layers
-+        current_datetime = datetime.datetime.now()
-+        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
-+        self.configuration['STARTTIME'] = self.starttime
-+        self.configuration['TEST_TYPE'] = 'manual'
-+        self.configuration['TEST_MODULE'] = self.test_module
++SRC_URI = "\
++  http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  "
 +
-+        extra_config = set(store_map['manual']) - set(self.configuration)
-+        for config in sorted(extra_config):
-             print('---------------------------------------------')
--            print('This is configuration #%s ' % (i + 1) + '. Please provide configuration name and its value')
-+            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).'
-+                  % config)
-             print('---------------------------------------------')
--            name_conf = self._get_input('Configuration Name')
-             value_conf = self._get_input('Configuration Value')
-             print('---------------------------------------------\n')
--            self.configuration[name_conf.upper()] = value_conf
--        current_datetime = datetime.datetime.now()
--        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
--        self.configuration['STARTTIME'] = self.starttime
--        self.configuration['TEST_TYPE'] = self.test_module
-+            self.configuration[config] = value_conf
- 
-     def _create_result_id(self):
-         self.result_id = 'manual_' + self.test_module + '_' + self.starttime
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index c8ccf1b..153f2b8 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -21,19 +21,22 @@ flatten_map = {
-     "oeselftest": [],
-     "runtime": [],
-     "sdk": [],
--    "sdkext": []
-+    "sdkext": [],
-+    "manual": []
- }
- regression_map = {
-     "oeselftest": ['TEST_TYPE', 'MACHINE'],
-     "runtime": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'IMAGE_PKGTYPE', 'DISTRO'],
-     "sdk": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
--    "sdkext": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE']
-+    "sdkext": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
-+    "manual": ['TEST_TYPE', 'TEST_MODULE', 'IMAGE_BASENAME', 'MACHINE']
- }
- store_map = {
-     "oeselftest": ['TEST_TYPE'],
-     "runtime": ['TEST_TYPE', 'DISTRO', 'MACHINE', 'IMAGE_BASENAME'],
-     "sdk": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
--    "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME']
-+    "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
-+    "manual": ['TEST_TYPE', 'TEST_MODULE', 'MACHINE', 'IMAGE_BASENAME']
- }
- 
- #
++SRC_URI[md5sum] = "1f72631ce6e8efa5b4a6e55a43b3bdc0"
++SRC_URI[sha256sum] = "50c39e85ea28b5ecfdb3f9e860afe9ba606381e21836b2849efca6a0bfe6ef6e"
 -- 
-2.7.4
+2.17.1
 
 
