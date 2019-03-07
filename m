@@ -1,46 +1,17 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 75C037CEFE
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 2D95F7CEBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 18:51:33 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id j7so10543132uak.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 10:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8zM3JbYt3+EvxkuwuHZ3MeuI3FlVinopkf0SmHlCsCM=;
-	b=QJ31PoTRMn44g8c+1Pj5eZ2iEi7z/mulTZgYyxbadF03deBIqP2hMP8ESpvoafZgTa
-	ZL2dMOgEDVEQtb1SdJ+FhdlEFveHuqlzeHvSTm2vhd+nD4KbPax7vb09a1hqjsBLofHh
-	vytBZfA2TK7xDurGHzZxWFA7PxijZNmYMUIaEnpe3X8GaAVy60hz8J0SAJkLq2Vvb1n0
-	+K6kHxt7DZD7k+KfIpVTPCqI4f4O2fzn8npl1ajVmauKyujcsOFLD5oUCU3M8jYCyJ+K
-	twRbrSDnt3F1N/V3PfbA5Rp/ugz9rUBfRyc9PbDskksf0n/GETNptNgfGM8GlX4Hr45+
-	iqWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8zM3JbYt3+EvxkuwuHZ3MeuI3FlVinopkf0SmHlCsCM=;
-	b=LMAvxNeqg+533ExJH+QGiqenqCvSFjCFpN11zFxXW3zJJ9TtzwXAc6Xg142r1BPVkK
-	q2BGnX28TWfw1qx6MRqvV7ww0UYgKWCriNGsm2pYrhuW9ZHb4wQjXvB+bhRWOW1OVe4z
-	keI0rhiCi52Jaiv6gttKmf9cysq463/qcDJbShyn+jE6vaLklb4pBstB9/GQXRiyUIh1
-	FLrKVVFPstKP5Ve7rGbJekSojngBr9zhXu/YD7v+GwkOCqhhJ/DIb6llDxQO1oJ/iZSy
-	MUfBXrQBplV0DT7LPHyiCcH//drRR4AtyKoltdarnY4NEyMaxs8uIuHgdeeTLGPcVXBX
-	lK4g==
-X-Gm-Message-State: APjAAAWOYpeZiJyKYz4ljKalBElwGiVwpVth1rslctrlbis01zxiTKL5
-	G610TqTHblFy04zkYoVPYFd25ZGh4jcfWa4I25g=
-X-Google-Smtp-Source: APXvYqzMgxavROinPG5OuCVmfg8SW0jrcH1HEyfTKUb+OZEgKYmVzqoOKZ+u0/qF1w6G/MeuVptXk6DPqgvDg64W3xY=
-X-Received: by 2002:ab0:4a1:: with SMTP id 30mr7629023uaw.86.1551984694230;
-	Thu, 07 Mar 2019 10:51:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20190306161348.24575-1-ross.burton@intel.com>
-In-Reply-To: <20190306161348.24575-1-ross.burton@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 7 Mar 2019 10:51:22 -0800
-Message-ID: <CAJ86T=UHWFbP4-=LzkXkRu3jew9OL5EdGCL5Qp2SYJD_aawuDw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake: add readlink to HOSTTOOLS
+	Thu,  7 Mar 2019 20:29:11 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id E2FC41C001F;
+	Fri,  8 Mar 2019 09:29:10 +1300 (NZDT)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Mar 2019 09:29:06 +1300
+Message-Id: <20190307202906.7421-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] icecc: Slightly more verbose log messages in the success case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +24,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 18:51:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Mar 2019 20:29:12 -0000
 
-On Wed, Mar 6, 2019 at 8:14 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> If systemd has EFI enabled it uses readlink.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index f1540a0acf7..3d1434931d1 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -485,7 +485,7 @@ HOSTTOOLS += " \
->      fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
->      head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
->      mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python2 \
-> -    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed seq sh sha256sum \
-> +    python2.7 python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh sha256sum \
+The path containing the symlinks to icecc itself.
+The path to the build env tarball.
 
-Comments mention "readlink" but patch adds "realpath" ?
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/classes/icecc.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->      sleep sort split stat strings strip tail tar tee test touch tr true uname \
->      uniq wc wget which xargs \
->  "
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index aebcc44667..6d003dccef 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -405,7 +405,8 @@ set_icecc_env() {
+     export ICECC_VERSION ICECC_CC ICECC_CXX
+     export PATH="$ICE_PATH:$PATH"
+ 
+-    bbnote "Using icecc"
++    bbnote "Using icecc path: $ICE_PATH"
++    bbnote "Using icecc tarball: $ICECC_VERSION"
+ }
+ 
+ do_configure_prepend() {
+-- 
+2.17.1
+
 
