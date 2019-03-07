@@ -1,47 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8F17C4C3
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D802A79BA6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 04:07:34 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id e131so3390093vkf.10
+	Thu,  7 Mar 2019 04:21:42 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id q128so12935086ljb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 20:07:36 -0800 (PST)
+	Wed, 06 Mar 2019 20:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=66t7r+mlIPyhBBChz3Ks0fqyDs1JZXVLNlkjjsX6qng=;
-	b=ngFZEBGg6PwGeISViBAU1OHV5mA/Vv3XzOawE8KoCSgCPvwUoEaJdtIA+iov15MIIG
-	/zNIXj7HJPZ1BsxRoilUMH2hc87ErHN/jiIIDzE/iGsJb49k2S7L2FRp8nd3qKCAoToF
-	hpBhEeQFtmhXNvrrA3KP0ydGimP5lnaECNON11aGGMGdTpf0/MKyQ08yJ842T/G63JPF
-	vjOAOP8Ysch8jwKHFtY3dQaggQcnD0n4RHISw3w1gBAxcEQauZ9mkirdoqUgiVuCWnEC
-	LwXMYF54QhV/zgav/PIlN49OaUhTyKP5IplKtMS3K9depKzYsYaJ7C11V6M0igc0iI3Y
-	CWGw==
+	:cc; bh=j+hu+k91s2Y0PEOL3G93nAGrFrjJY6he+4zZBh6rqUs=;
+	b=MvDaJj86LK9DOiPfAfRrMT9Zrum31hySkwrLYUS5479yPpbj/NmkvdX9+48kYw2Zat
+	/j/0MBrMegycPTeL3Tj/UQgyatYHYhxQmOJm8kATzYlxwohvcYTKT7qXK6FZqFIxKn/j
+	QEikVh5DG6ZHrUUIqxNJtYGvXVZeplkVCKsiuy4p5W6ZyaqYhr/hvY50Pq8t10FXAtga
+	/Gpe43KaWp9mkKckwYnvgKTSk6hBDaMpuQ+/GrHH2wiGCG4GcnV21rQ4B6ZnRPB/2lgE
+	xsdnkpSsom01xa9Q6Zp2NFlg9F+yuXPSHQ+4ICRHo+N9yhDZF+5vFebXlOByDXiSsL1x
+	ER4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=66t7r+mlIPyhBBChz3Ks0fqyDs1JZXVLNlkjjsX6qng=;
-	b=nWkMi9i0RRCZ9l8QKWEVBPAiMZgJ63/gSwYwBsAJG5n+rdWPl/zDJO+a1mAl0n8SU5
-	uj1eYlcYXqjkGvLhNpMGjmFj0QbFGS2+iDz+vopTaZ9dvRMpOCIBfu691k2XutSTIdNB
-	zEECJuMDnX9FsotuGDw5ewpS+Rz6JHTs+aZRZ58raFwql713kRPxLj0hqrDmbIIz3xkV
-	xvgZFQlG/Lkg62utg+zIb3ZnKYfqnnLrCDQUN3j9KmGVXY2eBBYeLAqbyZr5RnoqgH/m
-	EbGWK9Lu0oSnVzidSgCf6sWt1UUKExVe7mcrAYt7d+ekGhPQy5l+kvecmhh5CS6Fids7
-	aOZQ==
-X-Gm-Message-State: APjAAAW/kcSgxCWOt95bs4stXXpYkSUqbyAPDCiiygZ/uQrEPXb2JIHe
-	qFGB7FgEspQIrRztiT0J3jK3QCvy7ir98JZ3Kc4=
-X-Google-Smtp-Source: APXvYqzV0W2K5xZnsYBmJ26zMZlOs4P3QvO87yyJIiJxka07wBezSWLNus9f/dP1YwSqZ1WbbiGWIm9hGz6SXkVT9MI=
-X-Received: by 2002:a1f:c00f:: with SMTP id q15mr5433864vkf.10.1551931655343; 
-	Wed, 06 Mar 2019 20:07:35 -0800 (PST)
+	bh=j+hu+k91s2Y0PEOL3G93nAGrFrjJY6he+4zZBh6rqUs=;
+	b=lStYidLVF5LJUWPRvKQBwtM/4MLh0QT5FiFpPwMmPxSS5RYvUmbNSArXCfBsEldksl
+	MWAfI4DE7WbJOkYuTxiBVL8J2+PuWfsMW3qLl5k1u8R5iOOCOTC2EaA0U/gNdXOP6IHv
+	yACBpdk3GjNPg9rTpPGu4CoKxwlKkRDbG7e1KQpKfNot5KAtIHaZlOVSUEjPECuP6qOu
+	tNbg8j8uYuaYKKYmc8B2Mol0hzjr5XltbjB7IdzqFTNcKy7ooXZGqrVcM86vNQio6zck
+	BeXOg6kBAiH07Cae083gRJ8dIdsGRxUAYyX1/Ylpp5XhSQO4wqFV8Meb5p9b6MO5weka
+	fmGg==
+X-Gm-Message-State: APjAAAWWguWe4iWPpJYkyfNKYvf9VJAMTI0dDBg6+TFkeB1+5l7OtrZn
+	1vfTiw0mWpPVT9v+rtU6cIdNUgypS14cwNlv8u8=
+X-Google-Smtp-Source: APXvYqxt4T65Ceok0yjcYe1hu0XBHrdM2rpMGO34m3beRxDPGagvO2vGAmAKUotubbcMxkOEL5Cu+tE8vLaZonSXVNg=
+X-Received: by 2002:a2e:6309:: with SMTP id x9mr4290257ljb.75.1551932502996;
+	Wed, 06 Mar 2019 20:21:42 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1551929817.git.liezhi.yang@windriver.com>
-	<c0f7327fe54df3dd65b7650175968e8231f712f1.1551929817.git.liezhi.yang@windriver.com>
-In-Reply-To: <c0f7327fe54df3dd65b7650175968e8231f712f1.1551929817.git.liezhi.yang@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 6 Mar 2019 20:07:24 -0800
-Message-ID: <CAJ86T=VJugTGbTfWT8jJuh5E-vHxR-oiaurZKfbji_Y7q0ekZA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] insane.bbclass: Make INSANE_SKIP work for qa pkgconfig and la
+References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+	<088fa1a03d1ff2ec9eb08d419e2a7c7bc1ee3406.camel@linuxfoundation.org>
+In-Reply-To: <088fa1a03d1ff2ec9eb08d419e2a7c7bc1ee3406.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 6 Mar 2019 23:21:31 -0500
+Message-ID: <CADkTA4NdgcGNtD2RdFSURG7=t1dUna8CC7uGU+Dv4BcHYD=yTQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] linux-yocto: consolidated pull request (5.0 kernel intro)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,86 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 04:07:34 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 04:21:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 6, 2019 at 7:22 PM Robert Yang <liezhi.yang@windriver.com> wrote:
+On Wed, Mar 6, 2019 at 6:05 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> The INSANE_SKIP = "pkgconfig" or "la" didn't work, this patch fixes the problem.
+> On Wed, 2019-03-06 at 11:37 -0500, bruce.ashfield@gmail.com wrote:
+> > The -rc8 of the kernel pushed this out a week longer than I would
+> > have liked, but luckily the -dev kernel has been running 5.0 for
+> > quite a while, so most of the issues had been worked out already.
+> >
+> > In this series we have the bump of the libc-headers to 5.0, I've
+> > built all arches for both musl and glibc, with no issues popping
+> > up due to the headers bump. A few patches were dropped, since they
+> > are now upstream.
+> >
+> > I've also introduce the 5.0 versioned recipe in this series and
+> > adjusted the two machines that still have a preferred version to
+> > use it. Again, this was built and booted on all arches and over
+> > several image types (minimal, sato, kernel-dev).
+> >
+> > As usual lttng was tweaked to work with 5.0, but I was able to
+> > keep it on the same 2.10 stable branch and only pull in a few
+> > pending patches that haven't been formally released yet.
+> >
+> > Once we get the h/w reference boards, and reference distros moved
+> > to 4.19 and 5.0, I'll send a follow up patch to remove 4.18
+> > from master.
+> >
+> > I'll send follow up patches to the yocto-bsps and poky as
+> > appropriate, but until the last few issues are resolved, they can
+> > stay out of tree.
+> >
+> > I captured as many details as possible in the commit messages of
+> > the individual patches.
 >
-> [YOCTO #13087]
+> Thanks Bruce!
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/insane.bbclass | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+> Just to summarise where we're at:
 >
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 6411884..fd9c5f0 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -570,7 +570,7 @@ python populate_lic_qa_checksum() {
->          bb.fatal("Fatal QA errors found, failing task.")
->  }
->
-> -def package_qa_check_staged(path,d):
-> +def qa_check_staged(path,d):
->      """
->      Check staged la and pc files for common problems like references to the work
->      directory.
-> @@ -589,20 +589,31 @@ def package_qa_check_staged(path,d):
->      else:
->          pkgconfigcheck = tmpdir
->
-> +    skip = (d.getVar('INSANE_SKIP') or "").split()
-> +    skip_la = False
-> +    if 'la' in skip:
-> +        bb.note("Recipe %s skipping qa chekcing: la" % d.getVar('PN'))
+> a) The runtime stap tests fail everywhere, we probably need systemtap
+>    patches.
 
-Typo (copied and pasted in various other places too).
+Fixes. Patches out shortly.
 
-> +        skip_la = True
-> +
-> +    skip_pkgconfig = False
-> +    if 'pkgconfig' in skip:
-> +        bb.note("Recipe %s skipping qa chekcing: pkgconfig" % d.getVar('PN'))
-> +        skip_pkgconfig = True
-> +
->      # find all .la and .pc files
->      # read the content
->      # and check for stuff that looks wrong
->      for root, dirs, files in os.walk(path):
->          for file in files:
->              path = os.path.join(root,file)
-> -            if file.endswith(".la"):
-> +            if file.endswith(".la") and not skip_la:
->                  with open(path) as f:
->                      file_content = f.read()
->                      file_content = file_content.replace(recipesysroot, "")
->                      if workdir in file_content:
->                          error_msg = "%s failed sanity test (workdir) in path %s" % (file,root)
->                          sane &= package_qa_handle_error("la", error_msg, d)
-> -            elif file.endswith(".pc"):
-> +            elif file.endswith(".pc") and not skip_pkgconfig:
->                  with open(path) as f:
->                      file_content = f.read()
->                      file_content = file_content.replace(recipesysroot, "")
-> @@ -1034,8 +1045,7 @@ addtask do_package_qa_setscene
+> b) Issue with KMACHINE_qemuarm = "qemuarma15" not working, blocks
+>    qemuarm armv7 switch
+
+I can have a look at this on Thursday.
+
+> c) qemumips and qemuppc:
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/365/steps/7/logs/step1c
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/365/steps/7/logs/step1c
+>    RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase 1541: FAILED
+
+Fixed, patches out shortly.
+
+> d) perf do_compile race seen on qemuarm64 (didn't reproduce locally):
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/366/steps/7/logs/step1b
+
+I can't reproduce this one either.
+
+> e) qemuarm64 graphics startup issue
 >
->  python do_qa_staging() {
->      bb.note("QA checking staging")
-> -
-> -    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${libdir}'), d):
-> +    if not qa_check_staged(d.expand('${SYSROOT_DESTDIR}${libdir}'), d):
->          bb.fatal("QA staging was broken by the package built above")
->  }
+
+Not sure on this one.
+
+Bruce
+
+> Cheers,
 >
-> --
-> 2.7.4
+> Richard
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
