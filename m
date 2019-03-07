@@ -1,49 +1,50 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BC2E97CED7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D3767CCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 16:56:49 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id d24so14840109ljc.12
+	Thu,  7 Mar 2019 17:32:30 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id r124so11800524pgr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 08:56:51 -0800 (PST)
+	Thu, 07 Mar 2019 09:32:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=uQTA9Rc4H85qBnRrb7vJGEftOT6LYFjJ1YMZ7IdlJ6s=;
-	b=puMj6rVx+y8o4SRakTbLaIRHwkcncAGQCV9buxqawqK1LFdyTUIC79TUKXAqFY1dag
-	UP4w8ArPV69392/Y4+IYu+1UmRBcLyxLdRrpC+yiRwClUBqY8rqsvKSg4SFdRcKIHeXl
-	94h/8WzpzpAkPKpcimcLFgsqQXBaz64V4+v70EstvT1ChGjY5Zv2KUnoRzNb3OT1mA81
-	IC5S/kuhvAUKl7IBT+R35DQ9mUmbCyVWRgU0BzSxtiHSSHtJQppoVqXdsp6GQ1tZC0Tu
-	+SJJfzg3fAtp92CKOzuJwvg27O64S6BGJDplXHZBkqrUkEDcgpiSpSVUry/xj+Juwsyz
-	57Sg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jQ83BXbk4v7gihUCNyaEOSN08m5NPeisbPQWXJrACqw=;
+	b=pTjfFoBQFWPWfKCYA9PyGXkWtl+Wo/oLJJdysVptMB06sEoW9RyvE64z48fOyUETO6
+	sodYIuXNQ4dq55h6m7kEtuoiRi1+IbzXRQcZMxyQb1IDocwCknSmTWh9CQZtF8JqUJO+
+	2ZctmJjuz1XuqB2cxP13r4XUrb7hwEx6QBrXMEIC27CId0cGyfpuV42huE9b6+gDqNUG
+	R5tGw2nxOovikXXL140CXn01wX2lK6iOil/16zQfcLotgyhkWB78nqvbKoJ2GYYOaC73
+	YUSVPqYJuvnjPbbOTQUaXJpBVrv1EEindxHbWk/3HImX/1mkBrSo340ma9UpwcSLeU5h
+	ASJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uQTA9Rc4H85qBnRrb7vJGEftOT6LYFjJ1YMZ7IdlJ6s=;
-	b=VHlHKTni9eTvyy1+nnYT0spHC8gBqBC/ywxS+lDgYZefJIh0crXLkQ/7xjZ95nJfRM
-	SOS7JxaBWZpQ7bZ866e3Jvk3ZMW6YWESl50wyBbsrKrTwmm8k81wXE5ApG/XP86QyfVk
-	MLo1XY2WcuLxw6rf7RftYLPEofJmnAwzeQhdOm+4CccJte9PeAgznRHgTHb8PzuLlhTD
-	8Zig9TqIZSqTouGN4wUFk2M1sDLhoc7z3Mju16pkniz2ppqFRXRLL7Nzkc4jI7kt9GTH
-	cks5WGFbGUFib/CZlinDD7yWRZZ309A+LJXJABK/zxtZ3M8AtetksYnFrOLFE5Hp7/Uq
-	nXVw==
-X-Gm-Message-State: APjAAAUcBcHmb2MTwkRtx13193+lqRTmM35vIR++nxci4fQt4sgXvtGo
-	izaNVlwFCfJLFP0HL3XTIGoS2qk7WEGVvw==
-X-Google-Smtp-Source: APXvYqxZfkzRs83A3WfT2ryhiW2sZyhRY1qPDgwYGqyV5DEhRDKhYJ4eDrcaxfBIgFKhAqCpJILDgA==
-X-Received: by 2002:a2e:7f17:: with SMTP id a23mr6204486ljd.175.1551977809863; 
-	Thu, 07 Mar 2019 08:56:49 -0800 (PST)
-Received: from peterliu-Precision-M4800.lan
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id m16sm913419ljb.50.2019.03.07.08.56.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Mar 2019 08:56:49 -0800 (PST)
-From: liu.ming50@gmail.com
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jQ83BXbk4v7gihUCNyaEOSN08m5NPeisbPQWXJrACqw=;
+	b=cVwAcN214mL45dmUsp1h9hgdtwZIkwLYBo6gNM/VxTCMlhno3v5Zw/bmzO0422zWac
+	t7vaLA0hkrXJZMpyqMiO7MKAvIQUjclZ9wNOkuOSXuHxE99TFCfcf1sZYrsMy93jrGaB
+	g0S1/KyeT23FX+cALUDLEc9qkKivzEyy0chrQ9+7oofvEd/cOZsLWvMXGeTvhRwf+8Fp
+	DdX0K89q5X357crYwjDpJ2suTmvUv1HF7fAnx3ZjDhCFrh8fWJ/OWR1KNIhvaEsnM6uU
+	N05T1Ec+qckY7DsQPbaTo+K5a83rPKIQALtvjBkDmau0V1T+A5VZI5Mh3AfeJLy1aeEZ
+	wv6A==
+X-Gm-Message-State: APjAAAUftZXLRFNFse/c4iW9F4ZYaASwtAFY7hD+AqhsxMWFvVdZCyIk
+	Xg8OqqpEgUViyQFtKIG7KdgS9Wbz
+X-Google-Smtp-Source: APXvYqwk5thgD/SGwha5CukNUJS15oEvcq8jtPwQ5IIz/nZom9IZouBfKvsy5GuBMGak/yfBOhsHYA==
+X-Received: by 2002:a63:8b42:: with SMTP id j63mr12110421pge.79.1551979950761; 
+	Thu, 07 Mar 2019 09:32:30 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::3401])
+	by smtp.gmail.com with ESMTPSA id
+	c127sm12794775pfg.133.2019.03.07.09.32.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Mar 2019 09:32:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2019 17:56:46 +0100
-Message-Id: <1551977806-7623-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: luka.pivk@toradex.com, stefan.agner@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] rm_work: sort the value of do_build dependencies
+Date: Thu,  7 Mar 2019 09:32:15 -0800
+Message-Id: <20190307173215.18765-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH] inetutils: Fix build on RISC-V
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 16:56:50 -0000
+X-List-Received-Date: Thu, 07 Mar 2019 17:32:30 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Ming Liu <liu.ming50@gmail.com>
-
-This fixes some 'basehash changed' errors when rm_work is being
-inherited.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/rm_work.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 10e134b..c478f4a 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -164,8 +164,7 @@ python inject_rm_work() {
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+index a27dbae2e6..453f485d1c 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+@@ -54,6 +54,8 @@ EXTRA_OECONF_append_libc-musl = " --disable-rsh --disable-rcp --disable-rlogin "
+ do_configure_prepend () {
+     export HELP2MAN='true'
+     cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${S}/build-aux/config.rpath
++    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
++    install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
+     rm -f ${S}/glob/configure*
+ }
  
-     # Determine what do_build depends upon, without including do_build
-     # itself or our own special do_rm_work_all.
--    deps = set(bb.build.preceedtask('do_build', True, d))
--    deps.difference_update(('do_build', 'do_rm_work_all'))
-+    deps = sorted((set(bb.build.preceedtask('do_build', True, d))).difference(('do_build', 'do_rm_work_all')) or "")
- 
-     # deps can be empty if do_build doesn't exist, e.g. *-inital recipes
-     if not deps:
 -- 
-2.7.4
+2.21.0
 
 
