@@ -1,53 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E94A27CE5F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E6AC7CE41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2019 23:49:26 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id f14so15365244wrg.1
+	Thu,  7 Mar 2019 02:09:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2729pxK003148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 15:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=OaBkVRvIx2NLL09v5CJxygApz+WutxVQM/4DC/BznE8=;
-	b=RH5PlbO/pM6offiNVJlCUdNRMId+/1bxu5QVLzcTCo17n9YDIHWhr1lDrg4LSueoc3
-	Ik8/RFrjUwb0UBvB0pUmZrOcgPIXQ/O6QxYOvDIHll3z9Z8ohBJqKflAwTyLb3T8221D
-	uewl/RlNTUS12i46mPQaX9HALIQUIGc8WN8Cg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=OaBkVRvIx2NLL09v5CJxygApz+WutxVQM/4DC/BznE8=;
-	b=Knw6RhrMWk16T+OMAsgy923rur94cC1+g86RlLfx5WXBQu+aZE3mlqoNVrX5AZO1K9
-	9YsRsgM9dC6Pt2tRmzxcjFFLyOqIdGQheif+lKfgSg3OMxJzuARQNeQN0GYxQ0nX3OXW
-	I7WUMEmLQ0WsaKPUAItRBZtTJQ1huDQJlWxDdagg2DtFFKMpTQGjaw9Nq1yoeFfLHyg1
-	DTo1YHAIOZts9hOpqaLmuLSFssWvgGHVdovuzlkZuY5d+yytP4XBOvw44ERHsqtORty8
-	0q9FKogRBS3ED6OHxkaBPI/bBxIzLjGyFyQayb3/q6IsM6ue1vbvRlGwgq1vVZ48WqH4
-	XWaw==
-X-Gm-Message-State: APjAAAXEecGj/iF2br2o0JwLybjjKLfzn6KrGaB9DE3esF7QOLQw5g0W
-	LBi829xjQoAEkItlsrNYHr+h2g==
-X-Google-Smtp-Source: APXvYqw4pfnzxjhLtG1pLl6zv7y+KmJCCZ84IZJNv3YCwUpLvIrLxssrRaVC4X2Exz8Dl09nP72FFQ==
-X-Received: by 2002:adf:f40d:: with SMTP id g13mr4649725wro.18.1551916167557; 
-	Wed, 06 Mar 2019 15:49:27 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y20sm4183418wra.51.2019.03.06.15.49.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 06 Mar 2019 15:49:26 -0800 (PST)
-Message-ID: <94370fe68d31d9ed07a3cc0619d619a50d03d06c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Aditya Tayade <Aditya.Tayade@kpit.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 06 Mar 2019 23:49:25 +0000
-In-Reply-To: <1551723659-4522-1-git-send-email-Aditya.Tayade@kpit.com>
-References: <1551723659-4522-1-git-send-email-Aditya.Tayade@kpit.com>
-User-Agent: Evolution 3.31.90-1 
+	Wed, 6 Mar 2019 18:09:51 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 6 Mar 2019 18:09:50 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Mar 2019 10:19:39 +0800
+Message-ID: <cover.1551925158.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>
-Subject: Re: [poky][meta][sumo][PATCH] lighttpd: added ptest
+Subject: [PATCH 0/1] systemd: update efi PACKAGECONFIG to depend on coreutils-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2019 23:49:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Mar 2019 02:09:50 -0000
+Content-Type: text/plain
 
-On Mon, 2019-03-04 at 18:21 +0000, Aditya Tayade wrote:
-> Reused lighttpd internal tests and did minimal patching to fix paths.
-> 
-> Upstream-Status: Pending
-> 
-> Signed-off-by: Aditya Tayade <Aditya.Tayade@kpit.com>
-> ---
->  ...-use-standard-sbin-and-lib-path-for-ptest.patch | 37 ++++++++++++
->  meta/recipes-extended/lighttpd/lighttpd/run-ptest  |  4 ++
->  meta/recipes-extended/lighttpd/lighttpd_1.4.48.bb  | 66
-> +++++++++++++++++++++-
->  3 files changed, 106 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0002-use-
-> standard-sbin-and-lib-path-for-ptest.patch
->  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/run-ptest
+*** BLURB HERE ***
+The following changes since commit 525c5e516323ff584f65bed3320626b1d056260d:
 
-I like the idea of adding these ptests but we need to do this against
-master before we can do this in older releases like thud or sumo.
+  README.poky: Add pointers to key contributions wiki guides (2019-03-06 23:12:27 +0000)
 
-Would you be able to provide a version for master (which has a
-different newer version of lighttpd?
+are available in the git repository at:
 
-Cheers,
+  git://git.pokylinux.org/poky-contrib ChenQi/efi-realpath
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/efi-realpath
 
-Richard
+Chen Qi (1):
+  systemd: update efi PACKAGECONFIG to depend on coreutils-native
+
+ meta/recipes-core/systemd/systemd_241.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.9.1
 
 
