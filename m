@@ -1,54 +1,23 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 01BB37CE63
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 73CB77CE69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Mar 2019 05:00:23 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id l139so13829813ita.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Mar 2019 21:00:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=FHCju3XKRsVbbIWPSE8dYCodo3hFJO4dkwdmPj7LO5k=;
-	b=jaiSQn41zx3OJz/B2jz9JTOv/sw0Y6fxjgvwUkIUEkzCOJzpMwl12Bpw4XR4xTSX+k
-	R4NVgfP/WY6gOp2Vg7ITAkxruyhn+CTFd1Pi3e2s3nf/FroQUZwi+ElM0YRlSQ4bm6pX
-	sKBDztKQHAqLk0Z4dUfMLz4xKVbUFPLqPsE+EG9MiPNos+0uV3Kb0pp2fo2e115xjCbo
-	GHw6iFwGZTBryS3bv3qP3gcGwJ1J/hb3Txf3pbnN+rKWMj3W8OQSsyEsd5W1wbWOqTB8
-	XFVY1NV0BT1qu+AX+SJWP2qqf/xGkKunurBv65o2ibQt1Zi0P4TQG3lunbeU2Kk/tHtz
-	BJug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=FHCju3XKRsVbbIWPSE8dYCodo3hFJO4dkwdmPj7LO5k=;
-	b=qJ+4RNbIX3NCxTMQNNj4tPHKk+8+sxdID9FzbBvpapuEQj6YAAV9hbh1eu2GU+p69Q
-	9KhMdXsfhFdHTe+eq5BUs6ByU0ptPwHYSBV/pef62DMlfmRTxHK/7EXDqlg9DtXZQpNT
-	SgrfOBg00W97fzZrzkzdRdfDaW97H0Me/JAUcaBeeErGP/GggynicFJl62rjmohaJyVU
-	UU5o3MxMFi3oaOBDeUcRvZfXfaPUy0+qvv8kL8P2XhqhCwuN+cEn3vCMYy8mPaYwdDKL
-	Rb9F74HGuyLowDXkz8hwiwg8KS/0aUg3BmeDACxjmnsnwptiwfxUHqFavbbw+Hh9nX1V
-	r2EA==
-X-Gm-Message-State: APjAAAWrUQF2gfy5n0VUc0dTYhL+NbvO3hqkBdiVhBNMMWJZZVhzk0tT
-	ZsHkE2StMfIoJfQduuq4QqA=
-X-Google-Smtp-Source: APXvYqxDyxKlBtrBO31/Nu2V9g3ySSzF2CoiZWElrj79/WOzwVXbdsQABq1EIZdzAx2P2tnVagDs3A==
-X-Received: by 2002:a24:7a48:: with SMTP id a69mr4457383itc.142.1551934824844; 
-	Wed, 06 Mar 2019 21:00:24 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
-	o141sm1811451ito.14.2019.03.06.21.00.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2019 21:00:23 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Thu,  7 Mar 2019 00:00:19 -0500
-Message-Id: <20190307050019.23389-3-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190307050019.23389-1-bruce.ashfield@gmail.com>
-References: <20190307050019.23389-1-bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kernel-devsrc: add files required for on-target build with 5.x
+	Thu,  7 Mar 2019 05:20:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Mar 2019 21:20:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,450,1544515200"; d="scan'208";a="326181491"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga005.fm.intel.com with ESMTP; 06 Mar 2019 21:20:12 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Mar 2019 12:49:08 +0800
+Message-Id: <1551934148-80245-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] scripts/resulttool: Enable manual result store and regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,50 +30,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2019 05:00:24 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Mar 2019 05:20:16 -0000
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To enable store for testresults.json file from manualexecution,
+add layers metadata to configuration and add "manual" map to
+resultutils.store_map.
 
-Both powerpc and mips require a few new files for the scripts
-and prepare targets to work with a 5.0 kernel. We add the required
-files to the architecture specific blocks, with appropriate
-backwards compatibility considerations.
+To enable regression for manual, add "manual" map to
+resultutils.regression_map. Also added compulsory configurations
+('MACHINE', 'IMAGE_BASENAME') to manualexecution.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ scripts/lib/resulttool/manualexecution.py | 36 +++++++++++++++++--------------
+ scripts/lib/resulttool/resultutils.py     |  9 +++++---
+ 2 files changed, 26 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 8fc0ffdbb3..cf2b476051 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -150,6 +150,13 @@ do_install() {
-             cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/
- 	fi
+diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
+index ecdc4e7..a44cc86 100755
+--- a/scripts/lib/resulttool/manualexecution.py
++++ b/scripts/lib/resulttool/manualexecution.py
+@@ -19,6 +19,7 @@ import datetime
+ import re
+ from oeqa.core.runner import OETestResultJSONHelper
  
-+	if [ "${ARCH}" = "powerpc" ]; then
-+	    # 5.0 needs these files, but don't error if they aren't present in the source
-+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscall.tbl $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscalltbl.sh $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscallhdr.sh $kerneldir/build/ 2>/dev/null || :
-+	fi
 +
- 	# include the machine specific headers for ARM variants, if available.
- 	if [ "${ARCH}" = "arm" ]; then
- 	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
-@@ -214,6 +221,9 @@ do_install() {
- 	    cp -a --parents kernel/time/timeconst.bc $kerneldir/build
- 	    cp -a --parents kernel/bounds.c $kerneldir/build
- 	    cp -a --parents Kbuild $kerneldir/build
-+	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build
-+	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build
-+	    cp -a --parents arch/mips/tools/elf-entry.c $kerneldir/build 2>/dev/null || :
- 	fi
+ def load_json_file(file):
+     with open(file, "r") as f:
+         return json.load(f)
+@@ -46,31 +47,34 @@ class ManualTestRunner(object):
+     def _get_input(self, config):
+         while True:
+             output = input('{} = '.format(config))
+-            if re.match('^[a-zA-Z0-9_]+$', output):
++            if re.match('^[a-zA-Z0-9_-]+$', output):
+                 break
+-            print('Only alphanumeric and underscore are allowed. Please try again')
++            print('Only alphanumeric and underscore/hyphen are allowed. Please try again')
+         return output
  
-         # required to build scripts/selinux/genheaders/genheaders
+     def _create_config(self):
++        from oeqa.utils.metadata import get_layers
++        from oeqa.utils.commands import get_bb_var
++        from resulttool.resultutils import store_map
++
++        layers = get_layers(get_bb_var('BBLAYERS'))
+         self.configuration = {}
+-        while True:
+-            try:
+-                conf_total = int(input('\nPlease provide how many configuration you want to save \n'))
+-                break
+-            except ValueError:
+-                print('Invalid input. Please provide input as a number not character.')
+-        for i in range(conf_total):
++        self.configuration['LAYERS'] = layers
++        current_datetime = datetime.datetime.now()
++        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
++        self.configuration['STARTTIME'] = self.starttime
++        self.configuration['TEST_TYPE'] = 'manual'
++        self.configuration['TEST_MODULE'] = self.test_module
++
++        extra_config = set(store_map['manual']) - set(self.configuration)
++        for config in sorted(extra_config):
+             print('---------------------------------------------')
+-            print('This is configuration #%s ' % (i + 1) + '. Please provide configuration name and its value')
++            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).'
++                  % config)
+             print('---------------------------------------------')
+-            name_conf = self._get_input('Configuration Name')
+             value_conf = self._get_input('Configuration Value')
+             print('---------------------------------------------\n')
+-            self.configuration[name_conf.upper()] = value_conf
+-        current_datetime = datetime.datetime.now()
+-        self.starttime = current_datetime.strftime('%Y%m%d%H%M%S')
+-        self.configuration['STARTTIME'] = self.starttime
+-        self.configuration['TEST_TYPE'] = self.test_module
++            self.configuration[config] = value_conf
+ 
+     def _create_result_id(self):
+         self.result_id = 'manual_' + self.test_module + '_' + self.starttime
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index c8ccf1b..153f2b8 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -21,19 +21,22 @@ flatten_map = {
+     "oeselftest": [],
+     "runtime": [],
+     "sdk": [],
+-    "sdkext": []
++    "sdkext": [],
++    "manual": []
+ }
+ regression_map = {
+     "oeselftest": ['TEST_TYPE', 'MACHINE'],
+     "runtime": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'IMAGE_PKGTYPE', 'DISTRO'],
+     "sdk": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
+-    "sdkext": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE']
++    "sdkext": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
++    "manual": ['TEST_TYPE', 'TEST_MODULE', 'IMAGE_BASENAME', 'MACHINE']
+ }
+ store_map = {
+     "oeselftest": ['TEST_TYPE'],
+     "runtime": ['TEST_TYPE', 'DISTRO', 'MACHINE', 'IMAGE_BASENAME'],
+     "sdk": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
+-    "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME']
++    "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
++    "manual": ['TEST_TYPE', 'TEST_MODULE', 'MACHINE', 'IMAGE_BASENAME']
+ }
+ 
+ #
 -- 
-2.19.1
+2.7.4
 
 
