@@ -1,52 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id ABAFE6C3B6
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B49A6C3B6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 19:31:50 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id z124so23007589itc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 11:31:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=u99w5iViXhBPvVJnFh5Py9JkDG8vEI9uNr/0T0EUmXo=;
-	b=s/eNyZBSKK5vgWJwAKkgu9CyjxG9fVJEINGYFEHlNbfkvBJYgHM2/SsZY6FUgpPCht
-	yW2CZHQPyV19GKlTTBbft4NRDoUJyrT0hXddsLQNTJRK6tJZvtCPHZsrmwBystokRF38
-	+gkrybWRp0/X0JJABUybd5Otg9RdYnK+6jMwnj6ha9tmoT/A+vEtM+i03JZlBCRBcvEL
-	W2a+VzZNJ3k9b4nQfIcLbJ6a702MUOvi2xWXCrXN76nHAW2M1eMtj1ICHeN4BdUh+tYi
-	ul3cr+1u+p1fopFRDlbNspsNWCsk2+9P9Cfo4q9/k0UlLGjbu39sWinG7cm1oeaQOMdT
-	Jnxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=u99w5iViXhBPvVJnFh5Py9JkDG8vEI9uNr/0T0EUmXo=;
-	b=QJM2Mc4Op10954RvYgNeMQVtLBUklCAy65FRIjMc4XZZjbY3Mrzy1Azgq9JPSgxcEV
-	nAbcpy7WNZ+YGf7XLeu02MdCfh1XnUBXNLVo3IdDiF6YoKHDnZe3tFkG0vvlw5PYGIHO
-	KbziXD/pLfNaCS6mTOFvuSbiikj/jLf2G3SqX4MbNfUsmfVgtRG3jUmlxcOfH89q9byw
-	5Y431BhoSHM++6BEUA8jksVd0w1LkkIqYDSC3WffjtEUhZ0JOGs4Wr2IkyQptaIt8e90
-	SRptHPyUc8tabZ+qPz/UFaTpBldr7xvWqu2jZyrX5HMc7kwOtJWt1VUTaW9ip0sNP2ds
-	DKag==
-X-Gm-Message-State: APjAAAXEd4bN7f8phylIAf1FUBV1OGiT7WMO4OO81f6feqVj4bRkdRbn
-	Eeao8XafibdnGWhFn5rCJBg=
-X-Google-Smtp-Source: APXvYqzDrP8L1whjsFVhthfVpGOpHrDVmQ0FPugrRxLu40u+CO8tXZiMA6cV1u2gjWC+6ARjCsTGBA==
-X-Received: by 2002:a24:1cc9:: with SMTP id c192mr9316988itc.80.1552073511384; 
-	Fri, 08 Mar 2019 11:31:51 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
-	a18sm3480869iol.68.2019.03.08.11.31.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Mar 2019 11:31:50 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  8 Mar 2019 14:31:48 -0500
-Message-Id: <20190308193148.24082-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+	Fri,  8 Mar 2019 19:38:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44GHqR11yyz4x;
+	Fri,  8 Mar 2019 20:38:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1552073923;
+	bh=fAiE3Y7VM8Mb6upA0RsiduQC+zX2ML2iCqnrtPiWPm8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nyE8UEeTW6Rt2p0NDc3dFrvbKWemX3h+oDCC1GumOeaDhcxElWAxajTvw9hKc1GMR
+	AdsDKbBgm6prhw21Wa/BqxUX4D0ECR5CHjv2JTAV2+jSbzqxAN5WFa8qmz0YNnPoQs
+	fU1J8/YNyws/yuRfIrAUxa7BE02xvmKd999aa4IIyxh6xeRNgJiiZYR97DOWPT2au4
+	wgcvcYDDkDF5aygYMC0O9Yszq1IOGSyHPHqszqXn44CbS5XQ/wJp7plRVn5KioV0GJ
+	g6MJYV6nmsHX32bFdIel5n/sgfzgQi6qj5E6NGByUQrcxNFXvaNNosx2/HwR5ylrbO
+	NCpE7mufLRUBALpk6hrH0sRMTyNDrTX3AXgiCVTfjZIhKWTGRWfXhLD/AZ7kX2zpcA
+	ddB2BD3iAZJ29BJkAlZX+EtQRDc/TyF+0JhZIimQVvKBBLMfzknNKjncI7tYmzSb3Y
+	H5Y+OnsGodLIZsQA/FH1h5VfJ8rtFENlI9Omrezk/PZffOQepPrqjUaTWddx5zpbZ0
+	Af64/XEiDb01mD4CwQ9lCm8ip8LcHHTUiqSpYBJRN0nvOMwvSXYg74F9BwErCWpLPj
+	7dXIAfJz5dH5/imqE/RAkiF91MJJQOzpfI/nyygOvHw2LfIX2xifqCrsZpSKShoGOS
+	yRoIdlFDv5hnQ3ugktY5VGa8=
+Date: Fri, 8 Mar 2019 21:38:41 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20190308193841.GA13393@localhost>
+References: <20190308184939.22937-1-bunk@stusta.de>
+	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/5.0: fix systemtap for arm
+In-Reply-To: <CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,69 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 19:31:50 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Mar 2019 19:38:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Fri, Mar 08, 2019 at 10:15:42PM +0300, Alexander Kanavin wrote:
+> This is premature. Plenty of recipes outside of oe-core still rely on
+> openssl10,
+>...
 
-We need to enable the arm unwinder for systemtap to work out of the
-box:
+How many and which recipes actually?
 
-  root@qemuarm:~# stap --disable-cache -DSTP_NO_VERREL_CHECK ./hello.stp
-  [ 1600.955262] stap_2097: loading out-of-tree module taints kernel.
-  hello world
+The upcoming releases of Debian and Ubuntu ship without OpenSSL 1.0.
 
-This option is useful for much more than systemtap, so it is a good
-idea to have on in the base configs. It make the image slightly larger,
-but has no performance impacts.
+> Alex
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+cu
+Adrian
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index a757945f8d..2350973fef 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
--SRCREV_meta ?= "be627e4e38626c5e949de04c814ebd2487d5dd98"
-+SRCREV_meta ?= "4faa4419884d2bbe65f637befd71a1e95629eaae"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index 57aada3f62..e0a6801446 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "6da91ac9afd3b8c144760e3ceacc6a812ddfa3f6"
- SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
--SRCREV_meta ?= "be627e4e38626c5e949de04c814ebd2487d5dd98"
-+SRCREV_meta ?= "4faa4419884d2bbe65f637befd71a1e95629eaae"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index a56e9a19d8..f2c066a150 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
- SRCREV_machine_qemux86-64 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
- SRCREV_machine_qemumips64 ?= "5f072445126e6a9e44f9435a552f4fcf6fc15499"
- SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
--SRCREV_meta ?= "be627e4e38626c5e949de04c814ebd2487d5dd98"
-+SRCREV_meta ?= "4faa4419884d2bbe65f637befd71a1e95629eaae"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.19.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
