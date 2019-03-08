@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C53897CE79
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 29FF27CE79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 14:21:06 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id f14so21551727wrg.1
+	Fri,  8 Mar 2019 14:21:07 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id c13so9065994wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 06:21:07 -0800 (PST)
+	Fri, 08 Mar 2019 06:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=745Qp80k9DOder22E97nkb24Ne5RT8RAe2P/Btq73kw=;
-	b=RosPIwY7jla4I14bW1ZcNkSX1+bVFGkPbvHVCu2gcEZ5AJQ9ZDtGw462mZdSQ0CPfG
-	iZoyZpczYTQed2VWxuNdAexFMGKxYpIDUVtGR+vE7XfFJVGbvoyogzA2gZlZcdxzkOde
-	KVpQ3JFtIZWnnrXv61M4eKxWkQYj6Y9L1ob+dC66hlJ3VIRt/OXXuDGd77OpE8aSjAKy
-	NOOIg+J8phpDIe6AcbLRYIqnDzqQi/AKJwmmQbXIANDLTQEGQQL6J2UmpAWtKGkx2l9a
-	DYIP6EgKkVonjxcIVItWhx03juOJ5CJilsCrzwBLNpoYaE44TGFxRyIrA0x9SlvjmxVK
-	qh7A==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=L5KEsfiriW36KMzUWB2CH1IbHxYsVsRAr9OQGCu1T7k=;
+	b=H5jlE4cpHBKZn/PBUrEqTQfxzqd3tOZS0DejlkHVmyew5GidUUX+IoZ2GLPYTmzc+1
+	3NGkn71+FayAQpRWRpoZp33krIn7CB25axXrlw5cJaIuaapua7n6r70NEpUdAcQtzOkz
+	v/X7bFU6iH8TwVNDJM8yX7NxT5GAcdIUNN6OekGKN+hQX2w8ux3VGPcm/FpPeqD6lZ9H
+	aCq0fSezgXza/s9y9YG1PEUXNVjzoadf7Za/u4ByHFXX+GunNlXK/iH4xMm6+0I7WU1b
+	bvaYoiBAvpQaonOPDsXSwZh645IcM8xaV8Ro0w9OpXaMv2n7uxyAaN9sFbcG6ujookrJ
+	Zy/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=745Qp80k9DOder22E97nkb24Ne5RT8RAe2P/Btq73kw=;
-	b=nZYVqqDneUmyvMYqj5LQaAru6My3IjjT9QQq0hyXgqUIawcgwsxe1lffSlPp11BiEj
-	1LkkD9AbghH+Cee7jZhMTjxN6feFuFbJc7j7GPFFoaOFwt0kem10C4w99+128znxDHjv
-	0QIdTa76OCGEccLkUtNxfba/CJTKoTxIKXUaQg+JOK4hLQi4fA44w/BUab59lnu6eiXL
-	cm7dVTz2BCNK6rCPTEZDV1sAt9kA3D/l+l7UnlvImqF5Ef39lNHGmzz/zloTiNbM9XAc
-	jr4CizFjV95oSXhf6lpdJLLMhxr1SKQMXu/7u+u+WXYlIo0tZ4Dif167yWntzjXZmXru
-	2x3g==
-X-Gm-Message-State: APjAAAXZupOXY031PeZR7wl+zPHaSHwdHFwZ3+CqsQs++3bTP9Dcq6E6
-	6OPpDosZGFGg8FBUYRIMXmkj2xmWuVE=
-X-Google-Smtp-Source: APXvYqzKLCiTmysEO+YPiGPxRAg8ZVP1yh7lqt9OtZ6W4w9uuRkh4qhSPwdKCaXceKF8ZT44IUo4gQ==
-X-Received: by 2002:adf:ee4d:: with SMTP id w13mr11364601wro.16.1552054866543; 
-	Fri, 08 Mar 2019 06:21:06 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=L5KEsfiriW36KMzUWB2CH1IbHxYsVsRAr9OQGCu1T7k=;
+	b=YwX9z9liED2vUzrIrb31z5yKV8zF2LVkRomPrjyTk/WimekQLDpQjBbcHsRQIAczGL
+	VUq777Yt8dEbAe+ygRSqnITG2EyCyAeoM5Iq01dFHBwn3rnRmyBfsBmYxNPe9b8TVycG
+	/H4MgG8FzqVR7zmnWSkrL3oaVddSvZeiwDjXH27eq1LmVU/KBhf0pPy+uFnmoBDK1to6
+	4yyQNPr8odreRARN1WV//l4Kp2CGZB6VS85P43oepcPsfxOzybbaYlYR3isNGpc9z/+l
+	n9WRDvWnBh5x4Fica7BR5dscEZL8ZrE3/DiqXWxylePcFSP6YaNKzimdEcRB2mhwqBjQ
+	VU6w==
+X-Gm-Message-State: APjAAAVWk7xP2sSu1dF5X0TxFmtXFshLW3QbW2atuw16pZGIsXFRJIjA
+	5E/+3yvrCUUucBFJbvX6h5fViXqG1oI=
+X-Google-Smtp-Source: APXvYqx8Vt78D6SG1fLwKDCxi9CkBzC0xV4xDNCN9vSRm0J5nK7OJCagssRMMB+uSWCQq/z99LEzzA==
+X-Received: by 2002:a1c:6a18:: with SMTP id f24mr9355182wmc.115.1552054867506; 
+	Fri, 08 Mar 2019 06:21:07 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id x24sm4131279wmi.5.2019.03.08.06.21.05
+	by smtp.gmail.com with ESMTPSA id x24sm4131279wmi.5.2019.03.08.06.21.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Mar 2019 06:21:05 -0800 (PST)
+	Fri, 08 Mar 2019 06:21:06 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2019 14:20:59 +0000
-Message-Id: <20190308142101.10299-1-ross.burton@intel.com>
+Date: Fri,  8 Mar 2019 14:21:00 +0000
+Message-Id: <20190308142101.10299-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/3] libid3tag: actually apply 10_utf16
+In-Reply-To: <20190308142101.10299-1-ross.burton@intel.com>
+References: <20190308142101.10299-1-ross.burton@intel.com>
+Subject: [PATCH 2/3] gstreamer1.0-plugins-ugly: remove redundant libid3tag dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +61,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Mar 2019 14:21:07 -0000
 
-do_patch() doesn't apply files called .dpatch, so rename it to .patch.
-
-Fixes CVE-2004-2779.
+The use of this library was removed in 2012.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libid3tag/libid3tag/{10_utf16.dpatch => 10_utf16.patch}             | 0
- meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb                  | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libid3tag/libid3tag/{10_utf16.dpatch => 10_utf16.patch} (100%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
-similarity index 100%
-rename from meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
-rename to meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index fe316461071..43edd3fe6a9 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -13,7 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
-            file://addpkgconfig.patch \
-            file://obsolete_automake_macros.patch \
-            file://0001-Fix-gperf-3.1-incompatibility.patch \
--           file://10_utf16.dpatch \
-+           file://10_utf16.patch \
-            "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
- UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb
+index c59ba1de51b..168e64d84cf 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "ac02d837f166c35ff6ce0738e281680d0b90052cfb1f0255dcf6aaca5f
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+-DEPENDS += "gstreamer1.0-plugins-base libid3tag"
++DEPENDS += "gstreamer1.0-plugins-base"
+ 
+ inherit gettext
+ 
 -- 
 2.11.0
 
