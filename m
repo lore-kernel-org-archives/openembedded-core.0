@@ -1,48 +1,40 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 74C477CE79
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D38797CE79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 14:37:27 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id s22so14304063pfh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 06:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=7Bt9l77DrV8U6AmswKK1KNzTxYszkFZuL6tcyfde1rs=;
-	b=DvbacLozB8ctoeaXWNGkfRZPtVr3Mu/xLH/Qfs4VN7R/sPYqxpecsUD+smSPXcOQH7
-	5V0RLlu2BqPEnOnnozf0kBlBeQuPYefN5hRnazKgyc3jCM1pYY7AAsMPxZYM+PJvNtfn
-	lhWxEyOrsEdTkciXs72oTpIxBbIPjpSA9T4djg17DNC/8xp/CX7SBSV6fAAzpU3Norrs
-	FKqEIURffDxaEFO0pJyFy6Ib2E4kHC5o4WGktnWXkciWluge3T6eiNoMipLfD1VAC2rS
-	RWBv22cOBDTBhHIAdyYQ7bs4vOWF1lCM7TAEgyFIPxJLwCHzGnGyp9W6rwafpLcWZ2No
-	bPLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7Bt9l77DrV8U6AmswKK1KNzTxYszkFZuL6tcyfde1rs=;
-	b=WAEJu7lRFZXefGBqlJOFyvea0wvQrRKmkrMqMXJFwYjT6nu79IfeB6KhYcKi5IxvNV
-	tGgShJNSPw1u0A9q44ILkFn4lDP4wwLDcGNv7nWJ4ziXPOw+3L0K6HRbEMmtYj+uZPZN
-	RlvWJyeYdkY0RKknbymGnaGKiDngO0VEtoF5UfMVh7nwQ66evgWI4aRXZybBCl19zHeQ
-	9gvbyPvOCnFmJnOChG6XgvRKNbP0eTqtfJpmMppwucfrVV8dsHqA+A1GNO5eFFEZiTEn
-	cBjIyWvHd7PoAQ3RLhX71PAm89hZurE+XXBgLVmBktKonqUY26m4yxc2Sk57VoFS8qQf
-	UZZg==
-X-Gm-Message-State: APjAAAWrjOwG2hJlvnnn+5zGejDhFxBbBtBJ069je0Z5xzkUR4xQKlqa
-	pgOil0juv6qc0AhqierdNcu49+Hv
-X-Google-Smtp-Source: APXvYqytnlDl/6Zra/pVJ00A7QPsBuNQzGCce/7ujCyqRBtw/hBfy4L0FyxNy9I41ivEGecBmEJFMw==
-X-Received: by 2002:a62:4815:: with SMTP id v21mr18414259pfa.167.1552055848227;
-	Fri, 08 Mar 2019 06:37:28 -0800 (PST)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	j14sm12649777pfn.77.2019.03.08.06.37.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Mar 2019 06:37:27 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2019 06:37:26 -0800
-Message-Id: <20190308143726.5252-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python: time.tzset missing
+	Fri,  8 Mar 2019 14:48:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44G9NB56Z3z3h;
+	Fri,  8 Mar 2019 15:48:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1552056491;
+	bh=lq8cSCeIN3YKllcJGgyfc+V+y926Ra8IDE4lLRyFld4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pCFnpq308oK7RCIAMOhivxuca354wHsYxd+/TvKUESv+M2l/cTD7S5ODboAM4iZ6u
+	8FfsAxJN+mX1uxswwIOWoqaukGNyyn+gjyQogUAW+ExAhzQn3bOmzwQpCsGME++taa
+	C0ojQxenCgFWBW6mB5veK7BOdetwl78xmsHXn/aJpOw3kmPbP8XvhdY4VvFIBFfMwQ
+	T8t+sTEKmTLBWdVkwn6sHLd3TwQSOL/LUlURJcQ3XQiMTZwlYjYlZROoqSsaTP7ePx
+	rO2w+zoNKjIpNxmtVvKEbTThFWdCxdWnTWAh4BHTqWl10UM63yY5BiXvl06vc9lHod
+	BTZ+5iYl9auJvrh0/yJ7cCxi3atJWviZPcqh5Ws6SlDlsZ4J0xd1z7VZCq+UFMVUMh
+	atqHKHRMt4UfoOOIdjKSzFemPhC7C+lFfYR3VIQ5oOlNN8pJnvC+Su4N61HQuQGVkT
+	QEKJqha6177CmZuIcR1eAqxlCRr0KajRnEYf9IPzrh5AJUsy6oURiuBXb/NMg5BFo6
+	SmGWe1vBOq5qaDDzLoupKZo/rKhhZC+biu81nzGshBxqXWg9JGV4YIA+ABZR0NU5q/
+	MHXI2iSPPXwknZxZlbicmQmGkab79UoHMshrkYJgdWJWa8yxLnp6SFllj1+yTjSZEY
+	KF8BVRdiibzMvtywrZ8a/Ewo=
+Date: Fri, 8 Mar 2019 16:48:08 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190308144808.GA22638@localhost>
+References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+	<ae97e09579b59253aec08f5b8118e739ec57c4de.1551889557.git.bruce.ashfield@gmail.com>
+	<CAMKF1squopTO1P=cN2ky2pEeH_kGqkW-HxLj=nm4QsvBhv6Tqg@mail.gmail.com>
+	<CAMKF1soy7Uh+kXRXgsya9+qwJxfjHpT0VW3+bBFCU76VoZ-YKw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1soy7Uh+kXRXgsya9+qwJxfjHpT0VW3+bBFCU76VoZ-YKw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] linux-libc-headers: update to 5.x headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 14:37:27 -0000
+X-List-Received-Date: Fri, 08 Mar 2019 14:48:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-import time
-time.tzset()
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-AttributeError: module 'time' has no attribute 'tzset'
+On Thu, Mar 07, 2019 at 07:20:15AM -0800, Khem Raj wrote:
+> another one I forgot
+> https://errors.yoctoproject.org/Errors/Details/231924/
 
-enable tzset in both python versions
+The two commits from
+https://github.com/miniupnp/miniupnp/issues/346
+should fix this (untested).
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-devtools/python/python3_3.7.2.bb | 1 +
- meta/recipes-devtools/python/python_2.7.15.bb | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+cu
+Adrian
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
-index 9626ee546b..4d10986f3b 100644
---- a/meta/recipes-devtools/python/python3_3.7.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.2.bb
-@@ -65,6 +65,7 @@ EXTRANATIVEPATH += "python3-native"
- CACHED_CONFIGUREVARS = " \
-                 ac_cv_file__dev_ptmx=yes \
-                 ac_cv_file__dev_ptc=no \
-+                ac_cv_working_tzset=yes \
- "
- 
- PACKAGECONFIG_class-target ??= "readline ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'pgo', '', d)}"
-diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index 8df1dfd1ba..3e1af4baf6 100644
---- a/meta/recipes-devtools/python/python_2.7.15.bb
-+++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -42,7 +42,7 @@ inherit autotools multilib_header python-dir pythonnative ptest
- 
- CONFIGUREOPTS += " --with-system-ffi "
- 
--EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
-+EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no ac_cv_working_tzset=yes"
- 
- PACKAGECONFIG ??= "bdb"
- PACKAGECONFIG[bdb] = ",,db"
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
