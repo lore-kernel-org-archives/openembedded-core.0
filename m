@@ -1,47 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 529A37CCD8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C53897CE79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 13:52:36 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id x7so12633522wmj.0
+	Fri,  8 Mar 2019 14:21:06 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id f14so21551727wrg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 05:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zFPaNIKByMzLHsfmMcCh+zOGBAy9Nx2C6cGxuYyyLdg=;
-	b=cbhTVOahN9Eg5r+T3UALzwNXeTwrggUT1AOJqjqpfNR0LpexaOnp9g3xyQ6MZE9GIZ
-	de657pAhyxA6fU5ffELHtgkiG1XNMjyCXhvnELoKDcrHNTGtNC6Lyei1QLe0mykAs2Zo
-	lS85ZEsMFWRRKIjo+BiBVr1ipu6+WWQ35yUA7OQA/Zv5OI1ee1PhsxJMLXAVOBekF42y
-	PMIRVnLOeSIeQfRbZ5HRGQWJmqfdQH/Yd3EZKHh9w133FHCEWRMz/5Ks4wIH+3SSTxZV
-	BX3m4diETkUnk3Kt2pcAJ5ZXN8J0MFd4nzxYRX53rh+Axpd7FZJ7Te06OXHb+CcJ5YSK
-	bjYg==
+	Fri, 08 Mar 2019 06:21:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=745Qp80k9DOder22E97nkb24Ne5RT8RAe2P/Btq73kw=;
+	b=RosPIwY7jla4I14bW1ZcNkSX1+bVFGkPbvHVCu2gcEZ5AJQ9ZDtGw462mZdSQ0CPfG
+	iZoyZpczYTQed2VWxuNdAexFMGKxYpIDUVtGR+vE7XfFJVGbvoyogzA2gZlZcdxzkOde
+	KVpQ3JFtIZWnnrXv61M4eKxWkQYj6Y9L1ob+dC66hlJ3VIRt/OXXuDGd77OpE8aSjAKy
+	NOOIg+J8phpDIe6AcbLRYIqnDzqQi/AKJwmmQbXIANDLTQEGQQL6J2UmpAWtKGkx2l9a
+	DYIP6EgKkVonjxcIVItWhx03juOJ5CJilsCrzwBLNpoYaE44TGFxRyIrA0x9SlvjmxVK
+	qh7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zFPaNIKByMzLHsfmMcCh+zOGBAy9Nx2C6cGxuYyyLdg=;
-	b=Sv03BwmwPLuGaui8D9tTMgV+Ba92TF4LQFUkYVuiMwl9wWHRw8Myd/6uuK6DSvsXpx
-	A5/vhANzKPMstNjdQjWAZ0CqGBytNVaxrxBwwU+d52uuAsAs/ZovrWzB7p1x3k17hIkU
-	TJOepLP1WDFb3OKNAB7EzJlkxNJwgEdzC7OEXmCFc2PW06HgImQ6Cm0/lyQncfWjusOV
-	cd2zrXGnIlP+UBz9X+jZDBdyNqF2jD9FBrYk233im+u0pSUVEfagdf0A68wYCOv15z8P
-	N6yKmslKCb6ugY+EwyKI/sUiml5AHyDm++myr7DriRSk5VQKQ6Di39dRzlKxu8fo2hU1
-	pNJA==
-X-Gm-Message-State: APjAAAXIc0YmgtSrrwwDiP1BloG04xqTd1e5seWXkVFPFoSdPV8ihhMZ
-	9L48egj85G4XT10cT5dnHgAAaXsNg4abmbk9tF8=
-X-Google-Smtp-Source: APXvYqyCSWlKChjQlOY6d6BP5W8WLeH2eIzscGgd9uiuFupVhuHbKzNr20XDcz7JeRDqPFU3Voh02EjOh7UF/naPSdg=
-X-Received: by 2002:a1c:e1c4:: with SMTP id y187mr9567811wmg.50.1552053156848; 
-	Fri, 08 Mar 2019 05:52:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20190226005221.27806-1-ross.burton@intel.com>
-In-Reply-To: <20190226005221.27806-1-ross.burton@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 8 Mar 2019 14:52:26 +0100
-Message-ID: <CA+chaQeB=K=+C6bRJVgxfAYVo9oHLAKmB2t=9PtxBTSVj9HJiQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][thud] mesa: ship /etc/drirc in mesa-megadriver
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=745Qp80k9DOder22E97nkb24Ne5RT8RAe2P/Btq73kw=;
+	b=nZYVqqDneUmyvMYqj5LQaAru6My3IjjT9QQq0hyXgqUIawcgwsxe1lffSlPp11BiEj
+	1LkkD9AbghH+Cee7jZhMTjxN6feFuFbJc7j7GPFFoaOFwt0kem10C4w99+128znxDHjv
+	0QIdTa76OCGEccLkUtNxfba/CJTKoTxIKXUaQg+JOK4hLQi4fA44w/BUab59lnu6eiXL
+	cm7dVTz2BCNK6rCPTEZDV1sAt9kA3D/l+l7UnlvImqF5Ef39lNHGmzz/zloTiNbM9XAc
+	jr4CizFjV95oSXhf6lpdJLLMhxr1SKQMXu/7u+u+WXYlIo0tZ4Dif167yWntzjXZmXru
+	2x3g==
+X-Gm-Message-State: APjAAAXZupOXY031PeZR7wl+zPHaSHwdHFwZ3+CqsQs++3bTP9Dcq6E6
+	6OPpDosZGFGg8FBUYRIMXmkj2xmWuVE=
+X-Google-Smtp-Source: APXvYqzKLCiTmysEO+YPiGPxRAg8ZVP1yh7lqt9OtZ6W4w9uuRkh4qhSPwdKCaXceKF8ZT44IUo4gQ==
+X-Received: by 2002:adf:ee4d:: with SMTP id w13mr11364601wro.16.1552054866543; 
+	Fri, 08 Mar 2019 06:21:06 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id x24sm4131279wmi.5.2019.03.08.06.21.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Mar 2019 06:21:05 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Mar 2019 14:20:59 +0000
+Message-Id: <20190308142101.10299-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] libid3tag: actually apply 10_utf16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,130 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 13:52:36 -0000
-Content-Type: multipart/alternative; boundary="000000000000162ad4058395891f"
+X-List-Received-Date: Fri, 08 Mar 2019 14:21:07 -0000
 
---000000000000162ad4058395891f
-Content-Type: text/plain; charset="UTF-8"
+do_patch() doesn't apply files called .dpatch, so rename it to .patch.
 
-Interesting side-effect of this is that mesa package used to ship empty
-/etc directory before, now it's empty and not created.
+Fixes CVE-2004-2779.
 
-So be aware that if you had image/packagegroup installing mesa package for
-whatever reason (by mistake most likely), you'll need to adjust that in
-thud.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libid3tag/libid3tag/{10_utf16.dpatch => 10_utf16.patch}             | 0
+ meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb                  | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libid3tag/libid3tag/{10_utf16.dpatch => 10_utf16.patch} (100%)
 
-On Tue, Feb 26, 2019 at 1:52 AM Ross Burton <ross.burton@intel.com> wrote:
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
+similarity index 100%
+rename from meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.dpatch
+rename to meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+index fe316461071..43edd3fe6a9 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
++++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
+            file://addpkgconfig.patch \
+            file://obsolete_automake_macros.patch \
+            file://0001-Fix-gperf-3.1-incompatibility.patch \
+-           file://10_utf16.dpatch \
++           file://10_utf16.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
+ UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
+-- 
+2.11.0
 
-> Many years not shipping the stub drirc seemed like a good idea,
-> but now it has content and is essential for some applications to run.
->
-> Following patches in master, ship this file in mesa-megadriver.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index 0cc0a82de49..f47f1aa20d8 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -141,8 +141,6 @@ do_install_append () {
->      rm -f ${D}${libdir}/gallium-pipe/*.la
->      rm -f ${D}${libdir}/gbm/*.la
->
-> -    # it was packaged in libdricore9.1.3-1 and preventing upgrades when
-> debian.bbclass was used
-> -    rm -f ${D}${sysconfdir}/drirc
->      chrpath --delete ${D}${libdir}/dri/*_dri.so || true
->
->      # libwayland-egl has been moved to wayland 1.15+
-> @@ -209,8 +207,8 @@ PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
->
->  PACKAGES_DYNAMIC += "^mesa-driver-.*"
->
-> -FILES_${PN} += "${sysconfdir}/drirc"
-> -FILES_mesa-megadriver = "${libdir}/dri/*"
-> +FILES_${PN} = ""
-> +FILES_mesa-megadriver = "${libdir}/dri/* ${sysconfdir}"
->  FILES_mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
->  FILES_libegl-mesa = "${libdir}/libEGL.so.*"
->  FILES_libgbm = "${libdir}/libgbm.so.*"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---000000000000162ad4058395891f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Interesting side-effect of this is that mesa package used =
-to ship empty /etc directory before, now it&#39;s empty and not created.<di=
-v><br></div><div>So be aware that if you had image/packagegroup installing =
-mesa package for whatever reason (by mistake most likely), you&#39;ll need =
-to adjust that in thud.</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Feb 26, 2019 at 1:52 AM Ross Burton &=
-lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Many years=
- not shipping the stub drirc seemed like a good idea,<br>
-but now it has content and is essential for some applications to run.<br>
-<br>
-Following patches in master, ship this file in mesa-megadriver.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/mesa/mesa.inc | 6 ++----<br>
-=C2=A01 file changed, 2 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
-sa/mesa.inc<br>
-index 0cc0a82de49..f47f1aa20d8 100644<br>
---- a/meta/recipes-graphics/mesa/mesa.inc<br>
-+++ b/meta/recipes-graphics/mesa/mesa.inc<br>
-@@ -141,8 +141,6 @@ do_install_append () {<br>
-=C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/gallium-pipe/*.la<br>
-=C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/gbm/*.la<br>
-<br>
--=C2=A0 =C2=A0 # it was packaged in libdricore9.1.3-1 and preventing upgrad=
-es when debian.bbclass was used <br>
--=C2=A0 =C2=A0 rm -f ${D}${sysconfdir}/drirc<br>
-=C2=A0 =C2=A0 =C2=A0chrpath --delete ${D}${libdir}/dri/*_dri.so || true<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# libwayland-egl has been moved to wayland 1.15+<br>
-@@ -209,8 +207,8 @@ PACKAGESPLITFUNCS_prepend =3D &quot;mesa_populate_packa=
-ges &quot;<br>
-<br>
-=C2=A0PACKAGES_DYNAMIC +=3D &quot;^mesa-driver-.*&quot;<br>
-<br>
--FILES_${PN} +=3D &quot;${sysconfdir}/drirc&quot;<br>
--FILES_mesa-megadriver =3D &quot;${libdir}/dri/*&quot;<br>
-+FILES_${PN} =3D &quot;&quot;<br>
-+FILES_mesa-megadriver =3D &quot;${libdir}/dri/* ${sysconfdir}&quot;<br>
-=C2=A0FILES_mesa-vulkan-drivers =3D &quot;${libdir}/libvulkan_*.so ${datadi=
-r}/vulkan&quot;<br>
-=C2=A0FILES_libegl-mesa =3D &quot;${libdir}/libEGL.so.*&quot;<br>
-=C2=A0FILES_libgbm =3D &quot;${libdir}/libgbm.so.*&quot;<br>
--- <br>
-2.11.0<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000162ad4058395891f--
