@@ -1,48 +1,52 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FA9E6BA22
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DE9517CF51
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 13:32:11 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id g12so14262317lfb.13
+	Fri,  8 Mar 2019 13:46:11 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id x9so16700703iog.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 05:32:12 -0800 (PST)
+	Fri, 08 Mar 2019 05:46:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ge5nVfnDx21gi31NOL/UFK6UHghTtzcWuf+7T/DJdo4=;
-	b=Bao+XcLVLoMQ2Y5tpZestPcPpW7L5EAklIOpSKj6Fagv3dkriDJn+r5S/mwCpIMUHw
-	MziKY9XEtXqGIhXdyeePYVCXnX8S8isjVYePsw7v2ZrQKXEAbXSWUmutEWDTAuCgcsFN
-	zwEnNb4sRycxFLGzIMYvJuCqnsxcQoQi6FQ9FDuKRATJS5PQByCZWrDEMrXEsUu69xj1
-	uOjKy0NCz6TOBMdRQ3pvmSf4RdhiOkOrIl8T1J5lt9PLFm1VOHTxaeSHGx06jLjxCACC
-	0sqwK68Td+yD3gbENSKzA43tnOxw/duPtv6P68A6YrVTOxRphV7mlFcQYWSjl/ca5s7Q
-	tWKQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OA7qJhP30jtA81LAbJqatBBLAeQp4C1nOSyaNxsmDrQ=;
+	b=mLiaUsUG+bEBbCs+ZQQv3MCCrM/JXOUxG04KEfNbuIRAqJscopxXahhbjo9yUEdS69
+	aarxEYT6v0r0AfL6xKm5NQ35KAK7K5MALuL2fPRmzy6QReF6f0J1TJZ4BtXxP6/qoDxR
+	Qcb5JB9ymKUR4xekGGIA0TTdRIaJMlM/vtqjhRgwman6Wxw5336ORrHPN0UM4K/XjLGl
+	tWbup3B9tA7atXb5F8mLy/VMmJuldbd1yEaHgFgn5MQa/lHrc0qNvmRAI1F38asHFzdp
+	l/FiET0N/TGoKrpyBsoc/Xd6MdRwAagzUU74guCxhGl3HlBcuO9Lre+R/1P+hWL12zDQ
+	th9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ge5nVfnDx21gi31NOL/UFK6UHghTtzcWuf+7T/DJdo4=;
-	b=OSWeklzSP77iaiAAS0pKwgtY4QL38wS8RtykRE7xyf/0T7m1nNBmhbelXEF77H4qGd
-	yIPMeNTzkGf8yLzr+1gwiDabCuYE175ZV8dYrqaxZTVBg14QVjj0Oc9YBQIlPRUdLFQx
-	raxqI3GAYq4QfAt+nqZaNQmznsJHM2buBbnZAKhVYvzakiWtOhZl5H1xuC4CVJy/Vbhd
-	VYyQBzuoDef1C9jMU4rEXCyzesezqSw9ojiijaewaOsCcwtV5E8mJe1EUFIKf7Jd3odM
-	doWgsoo0N13wQoAMfF2mx+MHHK8xG7nTGa8DBn6YtF8C3V2AASw+giXMapsM9FpGbuYg
-	Owog==
-X-Gm-Message-State: APjAAAXTWApkp2Pm3+jIYqZruln250rzJkwcHz9IxHa3rubta+6RpiPJ
-	C3NBALy4NJL+Z0H/iMk0SxfMNUx/snMb66lpnUM=
-X-Google-Smtp-Source: APXvYqxJWrU3wI5eO8SSIZc82Hi6vzyesZ78xIpVfoHsKSRgR3bsQKvGRQlX2W79Mq3q7UTSNP8aDm+xSPTJrGVWZKE=
-X-Received: by 2002:a19:2bc8:: with SMTP id r191mr10848971lfr.41.1552051930502;
-	Fri, 08 Mar 2019 05:32:10 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OA7qJhP30jtA81LAbJqatBBLAeQp4C1nOSyaNxsmDrQ=;
+	b=FDB+QaZTFZE8BSjV/UbaU80Ke32z0jOACZqUhoK3c5yywAIwFOCWU9TbnhznsUl+oX
+	E/xHx/s6k1B4WtIFhDK54pWGZBP+5WcnhsVUE4wSjdQQNpN3P3w97S0EIiHwN/RIuaf/
+	bH05is4WIdk6pkP8dYiM5cT1vleu1ecJ1bNQgWDYKM5R9v0Rt2TGEukWXNReIrvVGC/u
+	C3+NjOTs9xL22t70JcphcK8Fd/NqRmTVgcgj9jsUOMnJLd0lW8kPsL5alJNk68Y01QvU
+	HlRMwVYUg7FriQAq7Rpc8wRQM3/GOEJwVYp4Cmg8YPuC/yPeebqjs95O6WflV+aEq4aC
+	yd4g==
+X-Gm-Message-State: APjAAAUGHfmhTNmS2tO30ANOxMJ7/2KFn3CZegPw+BxEC9UUnrv4A+Mx
+	bDBv1mt3HOT4lW2J/ARViNw=
+X-Google-Smtp-Source: APXvYqx1k6doquzwIhw0lVlnNS4fnJyA90BhAq6bxqEL2U/FBiQrxf6R47jtXMvl7r+PZ+VCSnosyQ==
+X-Received: by 2002:a6b:fd04:: with SMTP id c4mr10095232ioi.290.1552052772735; 
+	Fri, 08 Mar 2019 05:46:12 -0800 (PST)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
+	b21sm3975957itd.37.2019.03.08.05.46.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Mar 2019 05:46:12 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Fri,  8 Mar 2019 08:46:10 -0500
+Message-Id: <20190308134610.48557-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190308063557.3712-1-bruce.ashfield@gmail.com>
-	<CA+chaQeSYxNfq8VOhiZr5=C2Z0ArzHsdAOuTLVrHV4SqrkZ38w@mail.gmail.com>
-In-Reply-To: <CA+chaQeSYxNfq8VOhiZr5=C2Z0ArzHsdAOuTLVrHV4SqrkZ38w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 8 Mar 2019 08:31:59 -0500
-Message-ID: <CADkTA4MFc7Gxv1vB1E_yN-B-EWrd+tjzV1=L958G6E3biAM3GA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: synchronize unistd.h between libc-headers and perf source
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] perf: synchronize unistd.h between libc-headers and perf source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,97 +59,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 13:32:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Mar 2019 13:46:12 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 8, 2019 at 1:38 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> Why not use STAGING_INCDIR ?
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-No reason. Except that it was almost 2am and I was chasing this for 6
-hours (and of course, a one line fix!!).
+During the build for some architectures, perf generates a program
+which executes on the host to dump the syscall table.
 
-I'll do a v2 with STAGING_INCDIR, I just built up that path from
-components that I knew and knew would
-fix it, but the incdir variable is better for future proofing.
+The generation of that program uses the cross compiler + sysroot
+to expand unistd.h. As such, we are getting the contents of that
+file from linux-libc-headers.
 
-I'm doing a build test now and will resend when it passes.
+The compilation of that generated program uses the host compiler
+and a restricted include path to the perf source code. In the
+perf source there is a captured unistd.h, as such it will be used
+when compiling the host executable. The perf source code is copied
+from the kernel version that is being built .. so we have a
+mismatch between the generation and the compilation of the host
+program.
 
-Bruce
+Normally this mismatch is fine, but if the libc-headers are
+newer than the kernel, we'll have syscalls (and their syscall
+numbers) that are not defined in the perf source code. This
+leads to a compiler error and a cascading failure of the perf
+build due to a missing generated file.
 
->
-> On Fri, Mar 8, 2019 at 7:36 AM <bruce.ashfield@gmail.com> wrote:
->>
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>
->> During the build for some architectures, perf generates a program
->> which executes on the host to dump the syscall table.
->>
->> The generation of that program uses the cross compiler + sysroot
->> to expand unistd.h. As such, we are getting the contents of that
->> file from linux-libc-headers.
->>
->> The compilation of that generated program uses the host compiler
->> and a restricted include path to the perf source code. In the
->> perf source there is a captured unistd.h, as such it will be used
->> when compiling the host executable. The perf source code is copied
->> from the kernel version that is being built .. so we have a
->> mismatch between the generation and the compilation of the host
->> program.
->>
->> Normally this mismatch is fine, but if the libc-headers are
->> newer than the kernel, we'll have syscalls (and their syscall
->> numbers) that are not defined in the perf source code. This
->> leads to a compiler error and a cascading failure of the perf
->> build due to a missing generated file.
->>
->> To fix this, we can copy unistd.h from the recipe-sysroot
->> into the perf source code and they will always be in sync.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> ---
->>
->> Richard,
->>
->> This should fix the perf build failure with 4.19 and the 5.0
->> libc-headers.
->>
->> It also builds fine in the other combinations I was able to
->> test. No sense sitting on this, it can use some AB combinations
->> for more testing.
->>
->> Bruce
->>
->>  meta/recipes-kernel/perf/perf.bb | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
->> index 9120766858..2f85006ee1 100644
->> --- a/meta/recipes-kernel/perf/perf.bb
->> +++ b/meta/recipes-kernel/perf/perf.bb
->> @@ -235,6 +235,9 @@ do_configure_prepend () {
->>      for s in `find ${S}/tools/perf/scripts/python/ -name '*.py'`; do
->>          sed -i 's,/usr/bin/python2,/usr/bin/env python,' "${s}"
->>      done
->> +
->> +    # cp from the sysroot unistd.h to the perf unistd.h
->> +    cp ${RECIPE_SYSROOT}/usr/include/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
->>  }
->>
->>  python do_package_prepend() {
->> --
->> 2.19.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+To fix this, we can copy unistd.h from the recipe-sysroot
+into the perf source code and they will always be in sync.
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
 
+v2:
 
+As suggested by Martin, STAGING_INCDIR can be used instead of RECIPE_SYSROOT
+
+ meta/recipes-kernel/perf/perf.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 9120766858..5acdcfb9f0 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -235,6 +235,10 @@ do_configure_prepend () {
+     for s in `find ${S}/tools/perf/scripts/python/ -name '*.py'`; do
+         sed -i 's,/usr/bin/python2,/usr/bin/env python,' "${s}"
+     done
++
++    # unistd.h can be out of sync between libc-headers and the captured version in the perf source
++    # so we copy it from the sysroot unistd.h to the perf unistd.h
++    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
+ }
+ 
+ python do_package_prepend() {
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.19.1
+
 
