@@ -1,57 +1,96 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E2B3F7C377
+Return-Path: <bassem.boubaker@actia.fr>
+X-Greylist: delayed 22055 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 08 Mar 2019 23:23:57 UTC
+Received: from FRA01-MR2-obe.outbound.protection.outlook.com
+	(mail-eopbgr90083.outbound.protection.outlook.com [40.107.9.83])
+	by mail.openembedded.org (Postfix) with ESMTP id A99797CE60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 21:47:04 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id d12so33852edp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 13:47:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=7ozpfiFsIr6WAKOZMWxS9908/ng7OYhLC12s8ZGWDR0=;
-	b=e7zX11whNJvf3167KT5nty7lg+RiWA5cvOVKimnz7la+mE22pqKFagWgbXi/MCVLv0
-	k/3WbkAUJep7OM3t6INtUS0vzecLbuW1PzdtcaRsEjCCSwJcvJBskH0SpSvvBQ/ALfBP
-	owKsQN7ouDiQWxSjIgL0dtTzUaLYP/icsD2PM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=7ozpfiFsIr6WAKOZMWxS9908/ng7OYhLC12s8ZGWDR0=;
-	b=Icsq7bWNzxxCWR2d9pno5VXecDFjifjyt22bOkUPoWhef1kf+GSG4BX/7Zb++lHbsO
-	Oj6vycdEKtczrAnaU33f62re/vpKdJsZvaFC7tQ4OBMjBtyUmOdR3HUmGpKqroRYB24o
-	255fqftNPRjftpPsI3RZnQKcMVyY8EYLbmtHqBDZW5aihs2V1y4ozSebO8/sqFKMLhdH
-	Tewld+qWClgHLeD8TDFsbXpgbj9PQRCEmFJrtdv6DyVjsY66eDMDPUT8LPxkABjBcIm4
-	6SrZyy+0U3ueTxVXbzpwuuRJ7OU7LjIWWFywVjNX/SrUiUstbwI4jyOOErkz/7zRkyjx
-	FA9w==
-X-Gm-Message-State: APjAAAUYRMh26ieGGzjzKHnNm6JrELUHouzBQ2YfJXTP1wByqrhY2zoS
-	zJPnF6qX4C6c6YpY1gSPVCUTlg==
-X-Google-Smtp-Source: APXvYqynX1HrB/ZDrlyZpfuNd2WF6Vr6JTqc7BGxmWDcH2TLQQg7lxs4saG7gONkTp0EJqhZ9tsCSA==
-X-Received: by 2002:a17:906:5849:: with SMTP id
-	h9mr13115897ejs.118.1552081625252; 
-	Fri, 08 Mar 2019 13:47:05 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-7CB9-B9A6-302C-FF10.dyn6.twc.com.
-	[2606:a000:1401:880d:7cb9:b9a6:302c:ff10])
-	by smtp.gmail.com with ESMTPSA id 57sm2518241eds.14.2019.03.08.13.47.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Mar 2019 13:47:03 -0800 (PST)
-Date: Fri, 8 Mar 2019 16:46:59 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190308214659.GL5026@bill-the-cat>
-References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
-	<1551882973-8710-3-git-send-email-trini@konsulko.com>
-	<c7b91b44ea5055df61ce39287342dbf7926d970d.camel@linuxfoundation.org>
-	<20190308042042.GA5026@bill-the-cat>
-	<eba93c1f-c398-8759-9660-8fecefcb8238@gmail.com>
-	<20190308121233.GB5026@bill-the-cat>
+	Fri,  8 Mar 2019 23:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=actia.fr; s=selector2; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=gM02DPdkXFzlx+uHQqSQqqsJSYuQABTQPNtTY9nrpfg=;
+	b=ApBqz/Utw2S12ej5hP3bYq69d+3EQJ9o9FsdPwPNcDJl99AZIiaU3LDt1O68fDMncxQTuYF/xabxQcqzlRpTRXJe/R+jgC57CaZ4v3GpkPu72l4Zv/rIF7S/3NRMPVR6HKPEHOu8f5v6QKkDMjwvGI3GawLCZcFdQ7PfsEUyoTI=
+Received: from MR2P264MB0196.FRAP264.PROD.OUTLOOK.COM (52.134.38.15) by
+	MR2P264MB0737.FRAP264.PROD.OUTLOOK.COM (52.134.33.13) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1686.18; Fri, 8 Mar 2019 16:43:54 +0000
+Received: from MR2P264MB0196.FRAP264.PROD.OUTLOOK.COM
+	([fe80::4124:2bff:600f:6fe2]) by MR2P264MB0196.FRAP264.PROD.OUTLOOK.COM
+	([fe80::4124:2bff:600f:6fe2%5]) with mapi id 15.20.1686.018;
+	Fri, 8 Mar 2019 16:43:53 +0000
+From: BOUBAKER Bassem <bassem.boubaker@actia.fr>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH]     cpulimit: introduce support for this package
+Thread-Index: AQHU1c4dw726YN3wr025HVSl5KARTA==
+Date: Fri, 8 Mar 2019 16:43:53 +0000
+Message-ID: <1552063426-25272-1-git-send-email-bassem.boubaker@actia.fr>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MRXP264CA0046.FRAP264.PROD.OUTLOOK.COM
+	(2603:10a6:500:14::34) To MR2P264MB0196.FRAP264.PROD.OUTLOOK.COM
+	(2603:10a6:500:c::15)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=bassem.boubaker@actia.fr; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.7.4
+x-originating-ip: [89.118.102.227]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a6279e7f-4e9f-4e8d-6fa5-08d6a3e54003
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(2017052603328)(7153060)(7193020);
+	SRVR:MR2P264MB0737; 
+X-MS-TrafficTypeDiagnostic: MR2P264MB0737:|MR2P264MB0737:|MR2P264MB0737:|MR2P264MB0737:|MR2P264MB0737:
+x-ms-exchange-purlcount: 1
+x-microsoft-exchange-diagnostics: =?iso-8859-1?Q?1; MR2P264MB0737;
+	23:/JtytA1IVDnNk57LptNpLU+L0wCGMg1s/oaMj0A?=
+	=?iso-8859-1?Q?XQ+ilmFnaBP6z+jJpHLLl9fzrm42pHR3Ssv9qJu+VzSTPx1vhn9vvLq/Fa?=
+	=?iso-8859-1?Q?zvTy9Zu4Ll/skpu2xe2gejxfHiZOrv8vsAz+i3SIzRpte+BE8I4XF6RyGw?=
+	=?iso-8859-1?Q?bX8yWflIKYpuQ0uAixCocEnn4C/y2QRqinZQGH3OJ34/vO0gXBfWl0MAUz?=
+	=?iso-8859-1?Q?5HevKk7dP/gBR/PAzcLG5L5QODtn8RwJWTycLz2r2r1qnFKbedmEkI3LuR?=
+	=?iso-8859-1?Q?wwL+Kyfx7gPQb+/83+0uc3YF4fHZa0H5ykHu0XPpf8TSXt1IFoAca/Tkxu?=
+	=?iso-8859-1?Q?AFfh16RQXvnjpNBvqEYNThzi6iNogInY71GOecaBc7M6Iezrk4lsidzUDS?=
+	=?iso-8859-1?Q?MCgnowY+ya9n3U7CVqAcdfKbE51HtBiZFNWbBS5vvsT2GRQwCa/nPCkPOC?=
+	=?iso-8859-1?Q?INq6SbJZ1WJxtCkz+nfFyuzjV3Buvgn0N5sGvLGCevO4vL78tT+LKbArs4?=
+	=?iso-8859-1?Q?CkRgOki8gHL2w1zeC76SsCnKiSKtdtiEBh3zforEz0mFXwsurO6E5muCN4?=
+	=?iso-8859-1?Q?B6SsQEhZUWcYLm+D94y7C2ocu3BUYSQT0ImtwXEPKHBq2RklKTEZwIlfVI?=
+	=?iso-8859-1?Q?kdN8KPZA4t5AiXt7LaueNo3425EN8VIFW79bgQZ6KZRkQ6ka1xNuBDCMrO?=
+	=?iso-8859-1?Q?Nbg9b3o3hm6dFlCXPiS3obJ8fr3LDxUGO8bVhjnkP3fbOKFMxINRljiPGE?=
+	=?iso-8859-1?Q?zthQf55EAFNCge4IK0e16BqwROQLLl42HhlWqjZox/S6Yg3L0oxB2nRciw?=
+	=?iso-8859-1?Q?Qi3RW4iE345DFoE9sHJMgB0ukZ7jRge5C8yM7Xec1LmaNUUpeP9axk7Lw5?=
+	=?iso-8859-1?Q?WHKczR/NbtEt+Z1hPY34Mbf5QUZ1C/ofSFf5s9s06BvMaFDkFlRcTpaTfA?=
+	=?iso-8859-1?Q?uGI8A6ddsmadUDMVnq1INzAENIfSYyf7gogQEzPDXxzWkb39UQB+bl+mS9?=
+	=?iso-8859-1?Q?6w2bpGXeyVzBSYJQuvvV17Mr5Gv/ivtiSuxCj6DOD9M3ZN4a81c6XlcySB?=
+	=?iso-8859-1?Q?GxscwIryZNpouMMSBqEhWf5kpqixV33zYimDZyErdmqerC08bBNqeCXJPU?=
+	=?iso-8859-1?Q?ao1YTinZbLZvXXI9D086RxXb2wL3YB1Tvdwzh5XALPHI2uiYNIyydujNBN?=
+	=?iso-8859-1?Q?nOgA/g4mobWmao5rZkOD9+oARLK5WO+2jZfgKrTy9S469AzDqdD9dELioE?=
+	=?iso-8859-1?Q?/z+ECbrk2PaJWZMb+hDEmXqkoVCTRtSfcaw7jfd9wPqN69CdpIzFiOdLzS?=
+	=?iso-8859-1?Q?Ri6O4MNX/85axmWBE7abCXm?=
+x-microsoft-antispam-prvs: <MR2P264MB0737580398193429E5C687629C4D0@MR2P264MB0737.FRAP264.PROD.OUTLOOK.COM>
+x-forefront-prvs: 0970508454
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(346002)(39850400004)(396003)(136003)(376002)(366004)(199004)(189003)(107886003)(102836004)(81156014)(71200400001)(71190400001)(478600001)(14454004)(305945005)(105586002)(2351001)(316002)(68736007)(106356001)(74482002)(7736002)(3846002)(8676002)(86362001)(2501003)(50226002)(66066001)(54906003)(8936002)(81166006)(186003)(52116002)(386003)(99286004)(6506007)(97736004)(6116002)(256004)(476003)(2616005)(26005)(6436002)(486006)(14444005)(25786009)(6486002)(6916009)(6512007)(5640700003)(36756003)(5660300002)(4326008)(2906002)(53936002)(6306002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MR2P264MB0737;
+	H:MR2P264MB0196.FRAP264.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: actia.fr does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: pZlDIQeJJyWLUQ4je2qVn67tA2SS1Ul48D5M8cN5xZb1VmHGJvfChtP2E7M/Au2HDYFNDN3J7jQe6ndtTDx6E/Su5ckgufvSTi7kpvLdRR5+YHnjQ43f9b7aJsIOqNAWgsiwRS0G88FV99RqeU62tS0vyPtEfjRnBuOIPqOWm6C46WBtEwN8x02ZV5jW1vl5JGfJNnqeOHvC2+4cQzBGw8yAP+ivMPUp7Ku+h/OBQCcGlrzs3VCXH6SggwcQVjcNOoRvuiP/znPKUNwzUO3vdDWdkOMQuI0FoUmIia6/aWScZ+4K7fONjNCfu+uHXYVBovTlLp24C0UXVgabcB9JGAe7Kb7X6UoOetRCigWfxhpqoHQqvdXCzu0jOZUB6GRU3Fl8afHdcCCU0Dkol0ih2Os4oQFeVVGYUQM0ewEuUjc=
 MIME-Version: 1.0
-In-Reply-To: <20190308121233.GB5026@bill-the-cat>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/4] inetutils: Import version 1.9.4
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6279e7f-4e9f-4e8d-6fa5-08d6a3e54003
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2019 16:43:53.8490 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 86314f06-03e8-4460-82f3-a44f992a19c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR2P264MB0737
+X-Microsoft-Exchange-Diagnostics: 1; MR2P264MB0737;
+	23:ZK89DiAmcrPEnQhEQMCkX3f9yArA7eKY0yJU4SBgSXOSWFhR6jvf7Y8n52wb3J05NICEXFZwUGmLgDWvSElmIxzNuzu6eN+QDmSvWA0QChW18/AJZwnSD+Hw/Y0+Q3VbceQ08xnGzSRQpptLd66mFA==
+X-OriginatorOrg: actia.fr
+Cc: SAMMOUDA Ahmed <ahmed.sammouda@actia.fr>
+Subject: [PATCH] cpulimit: introduce support for this package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,110 +103,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 21:47:05 -0000
-X-Groupsio-MsgNum: 122121
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="heQF7/FOvX7GgW47"
-Content-Disposition: inline
-
---heQF7/FOvX7GgW47
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Mar 2019 23:23:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 08, 2019 at 07:12:33AM -0500, Tom Rini wrote:
-> On Thu, Mar 07, 2019 at 08:31:01PM -0800, Khem Raj wrote:
-> >=20
-> >=20
-> > On 3/7/19 8:20 PM, Tom Rini wrote:
-> > >On Thu, Mar 07, 2019 at 09:50:51PM +0000, Richard Purdie wrote:
-> > >>On Wed, 2019-03-06 at 09:36 -0500, Tom Rini wrote:
-> > >>>In order to have more robust stand-alone network tools in oe-core,
-> > >>>bring
-> > >>>in inetutils from meta-openembedded/meta-networking.  This imports
-> > >>>the
-> > >>>recipes as of git commit:
-> > >>>commit 408204073e6bdcd8ac586e05d5b75213417673f2
-> > >>>Author: Martin Jansa <martin.jansa@gmail.com>
-> > >>>Date:   Thu Aug 16 20:39:15 2018 +0000
-> > >>>
-> > >>>     inetutils: fix build with glibc-2.28
-> > >>>
-> > >>>Signed-off-by: Tom Rini <trini@konsulko.com>
-> > >>
-> > >>Somehow in all the noise from other failures we missed:
-> > >>
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target=
- (/usr/bin/rcp or /usr/bin/rcp.inetutils) does not exist, skipping...
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target=
- (/usr/bin/rlogin or /usr/bin/rlogin.inetutils) does not exist, skipping...
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target=
- (/usr/bin/rsh or /usr/bin/rsh.inetutils) does not exist, skipping...
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target=
- (/usr/bin/talk or /usr/bin/talk.inetutils) does not exist, skipping...
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/bin/rcp: /usr/bin/rcp.inetutils does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/bin/rlogin: /usr/bin/rlogin.inetutils does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/bin/rsh: /usr/bin/rsh.inetutils does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/sbin/rshd: /usr/sbin/in.rshd does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/sbin/rlogind: /usr/sbin/in.rlogind does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alterna=
-tive provide /usr/bin/talk: /usr/bin/talk.inetutils does not exist
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link =3D=3D al=
-t_target: /usr/bin/rcp =3D=3D /usr/bin/rcp
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link =3D=3D al=
-t_target: /usr/bin/rlogin =3D=3D /usr/bin/rlogin
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link =3D=3D al=
-t_target: /usr/bin/rsh =3D=3D /usr/bin/rsh
-> > >>WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link =3D=3D al=
-t_target: /usr/bin/talk =3D=3D /usr/bin/talk
-> > >>
-> > >>https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/374
-> > >>https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/375
-> > >>
-> > >
-> > >Hurk.   Which self-test do I need to run to see that?
-> > >
-> >=20
-> > I see these errors in build logs when I use poky distro or yoe distro, I
-> > guess you need to enable additional QA errors +  warnings e.g. see
-> >=20
-> > https://github.com/YoeDistro/meta-yoe/blob/master/conf/distro/yoe.inc#L=
-53-L58
->=20
-> Ah, yes.  I only build with oe-core.  I'll toss that in my site.conf for
-> now, thanks!
+    * Now, cpulimit recipe is put under recipes-support. Binary will be ins=
+talled by the recipe under /usr/sbin
 
-OK, I had to do a bit more to make it happen.  It's not just adding the
-classes, it only seems to happen on musl too.  Now that I've reproduced
-it, I'll take a look, thanks!
+	# cpulimit -h
+	Usage: cpulimit [OPTIONS...] TARGET
+		OPTIONS
+		-l, --limit=3DN          percentage of cpu allowed from 0 to 100 (require=
+d)
+		-v, --verbose          show control statistics
+		-z, --lazy             exit if there is no target process, or if it dies
+		-i, --include-children limit also the children processes
+		-h, --help             display this help and exit
+		TARGET must be exactly one of these:
+		-p, --pid=3DN            pid of the process (implies -z)
+		-e, --exe=3DFILE         name of the executable program file or path name
+		COMMAND [ARGS]         run this command and limit it (implies -z)
 
+		Report bugs to <marlonx80@hotmail.com>.
+
+Signed-off-by: Bassem Boubaker <bassem.boubaker@actia.fr>
+---
+ meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb | 22 ++++++++++++++++++++=
+++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb
+
+diff --git a/meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb b/meta-oe/rec=
+ipes-support/cpulimit/cpulimit_0.2.bb
+new file mode 100644
+index 0000000..d0c524e
+--- /dev/null
++++ b/meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION =3D "cpulimit is a tool which limits the CPU usage of a proces=
+s from bash prespective"
++HOMEPAGE =3D "http://cpulimit.sourceforge.net/"
++LICENSE =3D "GPLv2"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86c1c0d961a437e529db93aa3bb32dc=
+4"
++
++PR =3D "r0"
++
++SRCREV ?=3D "f4d2682804931e7aea02a869137344bb5452a3cd"
++
++SRC_URI =3D "git://git@github.com/opsengine/cpulimit.git;protocol=3Dhttps"
++
++SRC_URI[md5sum] =3D "4f805fe26c8cf28e8251d64d0ace21d4"
++SRC_URI[sha256sum] =3D "544516d0d80c685b1df1344a71c900e845270551cf210300fa=
+4d13876e10817a"
++
++inherit autotools
++
++S =3D "${WORKDIR}/git"
++
++do_install() {
++        install -d ${D}${sbindir}
++        install -m 0755 ${S}/src/${PN} ${D}${sbindir}/
++}
+\ No newline at end of file
 --=20
-Tom
+2.7.4
 
---heQF7/FOvX7GgW47
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcguLTAAoJEIf59jXTHXZSHNYP/0O3D5hjDP8ebK+UnEbzSqGj
-eQofYlk4jkiSBZf/EoZu5xDBh9rWONTNAJ9TrBoW4x/RO9sRNj7GW9dtDIZRsMjc
-8jwskOuGbWXO1oV/y9ubcj3EDPy0Kr1BYZcBRLM+XjB5S5LgDP+bUULSTydH1wCN
-KG8HbU5qzqDUJdZEyHUc2pI4DxGI0HsDNq4htYS8lziJUV7mZ6/nnThCKCG7PPGL
-Rbr8A4xm1N1df78MLeOkkZSLh6ZbhbH/IB6FGHheqgYDZM2gWAX/7aaTdhfJFp85
-VorrB7kdU9qB+O7GrMUXHr6/y2S8cXxgjCXOXyEbyK2uTokwN2Ap5DYlya/an2D5
-LunvQjUrWlf8lrqcxO+KSptRr9bQGQRfaZ9LJTfSGg9fPOZIAO5nlf9LOyXao6q7
-GChQwLnIIDzo3Pim9Xk9VnhNyaS7Hj4zcFt44oph78asrkIdMqgN1tNFfeQlIYsq
-+EiqB2nAlibP4Y9dVBIXitioS9nMTV/05MHoxYo237ufacLrmKWCnmL+JTdnpWhd
-VZE19NcLr39lQwKbdIXBYcsjXyY0uWiDp3nKMsP1xhSPbWc9RdoJFydRZj1SAX/G
-l3wgdwadIX1RgTXUZdJgRi/nkwktWLQlpldSAIVfcd+8UsXhg3A6PZX4POkRXW4B
-s8dwCVEslN4g4Rby0L6B
-=K3cq
------END PGP SIGNATURE-----
-
---heQF7/FOvX7GgW47--
