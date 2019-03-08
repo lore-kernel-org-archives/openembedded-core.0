@@ -1,40 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D38797CE79
+Return-Path: <rosbrookn@gmail.com>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+	[209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4AC71CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 14:48:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44G9NB56Z3z3h;
-	Fri,  8 Mar 2019 15:48:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1552056491;
-	bh=lq8cSCeIN3YKllcJGgyfc+V+y926Ra8IDE4lLRyFld4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pCFnpq308oK7RCIAMOhivxuca354wHsYxd+/TvKUESv+M2l/cTD7S5ODboAM4iZ6u
-	8FfsAxJN+mX1uxswwIOWoqaukGNyyn+gjyQogUAW+ExAhzQn3bOmzwQpCsGME++taa
-	C0ojQxenCgFWBW6mB5veK7BOdetwl78xmsHXn/aJpOw3kmPbP8XvhdY4VvFIBFfMwQ
-	T8t+sTEKmTLBWdVkwn6sHLd3TwQSOL/LUlURJcQ3XQiMTZwlYjYlZROoqSsaTP7ePx
-	rO2w+zoNKjIpNxmtVvKEbTThFWdCxdWnTWAh4BHTqWl10UM63yY5BiXvl06vc9lHod
-	BTZ+5iYl9auJvrh0/yJ7cCxi3atJWviZPcqh5Ws6SlDlsZ4J0xd1z7VZCq+UFMVUMh
-	atqHKHRMt4UfoOOIdjKSzFemPhC7C+lFfYR3VIQ5oOlNN8pJnvC+Su4N61HQuQGVkT
-	QEKJqha6177CmZuIcR1eAqxlCRr0KajRnEYf9IPzrh5AJUsy6oURiuBXb/NMg5BFo6
-	SmGWe1vBOq5qaDDzLoupKZo/rKhhZC+biu81nzGshBxqXWg9JGV4YIA+ABZR0NU5q/
-	MHXI2iSPPXwknZxZlbicmQmGkab79UoHMshrkYJgdWJWa8yxLnp6SFllj1+yTjSZEY
-	KF8BVRdiibzMvtywrZ8a/Ewo=
-Date: Fri, 8 Mar 2019 16:48:08 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190308144808.GA22638@localhost>
-References: <cover.1551889557.git.bruce.ashfield@gmail.com>
-	<ae97e09579b59253aec08f5b8118e739ec57c4de.1551889557.git.bruce.ashfield@gmail.com>
-	<CAMKF1squopTO1P=cN2ky2pEeH_kGqkW-HxLj=nm4QsvBhv6Tqg@mail.gmail.com>
-	<CAMKF1soy7Uh+kXRXgsya9+qwJxfjHpT0VW3+bBFCU76VoZ-YKw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soy7Uh+kXRXgsya9+qwJxfjHpT0VW3+bBFCU76VoZ-YKw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] linux-libc-headers: update to 5.x headers
+	Fri,  8 Mar 2019 15:08:46 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id a48so21527682qtb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Mar 2019 07:08:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=GAXDVACQqjGYRCGWXKQpsLkdEpBkQzK6VseBOH4dSBI=;
+	b=m5X5nhpnUw6AWruFeGqsLe9908MIlVd5heEP38ta6wNTpB5aEkEI2oGSj6OY+ucjmj
+	z5IVXbgHbtBpVow1Y94oMC29mJDL+/ApBjelfuC3gHftlouhsottYo3+rAeARSTjufTA
+	/mOST1XLGed3QcyklByT9fOZ4Lh6PhJWqcpPsL62pNUxdApTfgySi63Bbb0xuuTVXa4C
+	laG93qoBT+ArVaYTFnGo7d64G0aNyxWbDmslTZKbOSrO0KNv63oYl2AHPJk4v/ht0r3F
+	9YzqOvSYXg1jm19C0TFKA//fmWVIH8VcHPSXsj/+7uCcNq52zJKMxqn2RXY+9Ebo+eP7
+	N8ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=GAXDVACQqjGYRCGWXKQpsLkdEpBkQzK6VseBOH4dSBI=;
+	b=RdcBGNVz5JEc086WcApSwbyx3ytTCkYFmAhsMbI9/YJisFQCwUARyGZFt++JgETTwK
+	S6Romw5sRFtJnvs8dE57/v7LN31ChSOOiE+CCJZ6dZSlYkky/CGZuFc7gHbxqEkvdjYg
+	iPByxhM6QiFrVTkE9+BNZYSzmP8Ef247mH9W2bDrauU84RSjeMs6HM4OUt2GM7ZdckP6
+	MaDiAJ5ltMrw2PdNUT3rx1XelA6hV0+PH53QIIPKxkcgwJ0TiK+GbFZklJ7eLeaG2bJo
+	wQzTUgOJSdIbmf2LBjvJmpFVeCiEbuplukLm4pb3rYYmxX9grgtDFXbRlEmXfMl8GNSK
+	dmHw==
+X-Gm-Message-State: APjAAAW4U/SdnoBNU3MqyQmHxvsNhZ5arl3xx1Nn74xYFCdTu/+4McYp
+	hANKzu2WA3HO4EifWuraK/EzjDiu
+X-Google-Smtp-Source: APXvYqzBcI4LpPhDAXezNIdiIBWIqeJD65VQ+y4PVTuQQXaj6a0dVAf93V2KoxnWjtTRLFVnwW8xrQ==
+X-Received: by 2002:aed:3ac9:: with SMTP id o67mr2222638qte.64.1552057727420; 
+	Fri, 08 Mar 2019 07:08:47 -0800 (PST)
+Received: from localhost.localdomain (209-217-208-226.northland.net.
+	[209.217.208.226]) by smtp.gmail.com with ESMTPSA id
+	j17sm1739368qtj.61.2019.03.08.07.08.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Mar 2019 07:08:46 -0800 (PST)
+From: Nick Rosbrook <rosbrookn@gmail.com>
+X-Google-Original-From: Nick Rosbrook <rosbrookn@ainfosec.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Mar 2019 10:08:35 -0500
+Message-Id: <cover.1551991645.git.rosbrookn@ainfosec.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/1] adwaita-icon-theme: use scalable symbolic icons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,26 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 14:48:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Mar 2019 15:08:47 -0000
 
-On Thu, Mar 07, 2019 at 07:20:15AM -0800, Khem Raj wrote:
-> another one I forgot
-> https://errors.yoctoproject.org/Errors/Details/231924/
+The following changes since commit cd8aedc408afa4f8589f79e4d85befc7cac76ac6:
 
-The two commits from
-https://github.com/miniupnp/miniupnp/issues/346
-should fix this (untested).
+  metadata.py: return info after fallback methods (2019-03-07 12:59:22 +0000)
 
-cu
-Adrian
+are available in the Git repository at:
+
+  git://github.com/enr0n/openembedded-core adwaita-icon-update
+  https://github.com/enr0n/openembedded-core/tree/adwaita-icon-update
+
+Nick Rosbrook (1):
+  adwaita-icon-theme: use scalable symbolic icons
+
+ .../gnome/adwaita-icon-theme_3.30.1.bb            | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
