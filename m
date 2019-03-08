@@ -1,52 +1,59 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 008867CE5E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C9037CDF0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 04:20:47 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id x7so15321462eds.8
+	Fri,  8 Mar 2019 04:31:03 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id i19so13180137pfd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 20:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=vmrSz3Il1MJ1FA/uo/RuItqpwCEc+eTP4uG728T+InY=;
-	b=h6Flzylhk+X0k6nkowkBhDJKdhwBMNDZ674osTpyEMyhG1bBV1q1zUMDJfOx9RnjOK
-	2hi0MJi8+ez8R25uu/dl4ayeImfM2dfNlt0wiLy+D9g6KJr+mWGRhgFEPC3vBJqxrPUg
-	CVQkChkFIUXdL/fuCILz8EaAeYTjiI86i2NEQ=
+	Thu, 07 Mar 2019 20:31:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=09XM1tii1d0z6G/jNIaVQAzWniigwlmfgnEo2WY3+Fo=;
+	b=cIVImZz356/qc7BOKX/Z3or3OfMio0FkzFJNBsjplVJCDT2COO1+2LXh4zGczO2+VX
+	kXo0qC3x6p3R4wnM6XsuipwiUzKVx5+Hbd5GS8lYMPQb0OicgT65s6F0uGl9mvBkBZWO
+	7XHjW04MM7ZgzKFfIKA7BBS7Wc4lXGvBW+Y1J19/+yVW5xXEcggTkYpLcxI3K8GmxTrk
+	gXFuRgHO++KNcfIL1fyxCTNnwWJX0to3orhjy1/3o/VcS1T4QAchVVMWnFMoQI5hJQUc
+	7w0JhWOMaIcS4t9HJqpO7tilQTfb0phqzqEJu8UwrHhCRdwhlhVf4L0HiXs4oYDJkjc/
+	cLqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=vmrSz3Il1MJ1FA/uo/RuItqpwCEc+eTP4uG728T+InY=;
-	b=s7NHDJPmtv3YCw5kbbavc38q3/wjiTqYaJ5bKBp80AfWYd5E7LsNTKaRdvpulfBI5R
-	db3cLZuFlxqkdwWij4kARvtQqNjKTx2ZhQXbkMrbeMJl/QkbyQE2p1nyN4YjTwE83ZxE
-	JRkyAWk5UE6t+vmGMoPMldJdr18Y8DXxUnRwG717VdtDsZxPDFrFLrPMDQYlqlBY9OOt
-	ag1IiwSuswdHFyDPliznQQKgWt9ccmvglJGQgzUo5P3AM+Eo7tkpAKp9mPypn2457CEH
-	IZBu7ViaYU2HtjP0Ada2yuRb4aYmRUABXG6yS/ncj0V+v2EtF40Jyh3sVUbSWz11W07p
-	EXpw==
-X-Gm-Message-State: APjAAAVKmCpy3qKhrFo+y60BPru7pfy6t3b8eZQ/l/IKiJa6Rbby7jqY
-	puRTO+NdCsk4Uh1q4wg3tycpJw==
-X-Google-Smtp-Source: APXvYqwaCRae7D7c7Sc5TWLz1PW0L8WAQzEWil0YJfGjuX44b9GnQsFgkDDVNp4vFG1PGgCVXyq4Kw==
-X-Received: by 2002:aa7:da0f:: with SMTP id r15mr30924566eds.34.1552018848500; 
-	Thu, 07 Mar 2019 20:20:48 -0800 (PST)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-880D-606A-AF5B-88B1-B23A.dyn6.twc.com.
-	[2606:a000:1401:880d:606a:af5b:88b1:b23a])
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=09XM1tii1d0z6G/jNIaVQAzWniigwlmfgnEo2WY3+Fo=;
+	b=pwZ6/62aR6nlpwefVjBQq2cDgIT8N2SyPE8mApn1MYfb7wGyg8ndtc6zkOhfe+cCB/
+	xR3QSugwFWLIvxarGlXbWvmG9jNOuLMOFl3194R65hoN6IyySGHg28T0Ot33hl5AVtSh
+	f694xLixJtYSYS/rz8OlGMVzYmVX5VAYe7RgD53/OOOtWYjIo0Es8TqC0sucPdK+5HTJ
+	A278DQXtSnPYQWL30r15LRnMbxRhK1sdAd3SVG5852C9wGW61SAtV/ciUWsHD7QCyPYz
+	4s48PVzUG31diJH8rMROBz2Fs2JAQNcfK0Nzt7FYjDE4uptnliGjCj+/+6XznAWEpGg9
+	1l3A==
+X-Gm-Message-State: APjAAAW1H4SvzMfXcbIRnyQDIUSNnKaZJPmxdWlCfLr3u85N57Qtzlgy
+	7f8rhRIJpwp0ZywJo7JhYcmuWCFG
+X-Google-Smtp-Source: APXvYqxIBfXaF5UmI4RTph2ARCMjr59RsPxLKbleLImJGYjuxbl0tfKDp108UBP92FcGTpeTZoM0DQ==
+X-Received: by 2002:a62:46cc:: with SMTP id o73mr16872486pfi.182.1552019463309;
+	Thu, 07 Mar 2019 20:31:03 -0800 (PST)
+Received: from hermes.local ([2601:646:8500:6bc6:b833:ede1:aa51:1d40])
 	by smtp.gmail.com with ESMTPSA id
-	c50sm1897128edc.81.2019.03.07.20.20.46
+	k3sm15657836pfc.59.2019.03.07.20.31.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Mar 2019 20:20:47 -0800 (PST)
-Date: Thu, 7 Mar 2019 23:20:42 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190308042042.GA5026@bill-the-cat>
+	Thu, 07 Mar 2019 20:31:02 -0800 (PST)
+To: Tom Rini <trini@konsulko.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
 	<1551882973-8710-3-git-send-email-trini@konsulko.com>
 	<c7b91b44ea5055df61ce39287342dbf7926d970d.camel@linuxfoundation.org>
+	<20190308042042.GA5026@bill-the-cat>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <eba93c1f-c398-8759-9660-8fecefcb8238@gmail.com>
+Date: Thu, 7 Mar 2019 20:31:01 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0)
+	Gecko/20100101 Thunderbird/66.0
 MIME-Version: 1.0
-In-Reply-To: <c7b91b44ea5055df61ce39287342dbf7926d970d.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190308042042.GA5026@bill-the-cat>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2 2/4] inetutils: Import version 1.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,48 +68,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 04:20:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Mar 2019 04:31:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 07, 2019 at 09:50:51PM +0000, Richard Purdie wrote:
-> On Wed, 2019-03-06 at 09:36 -0500, Tom Rini wrote:
-> > In order to have more robust stand-alone network tools in oe-core,
-> > bring
-> > in inetutils from meta-openembedded/meta-networking.  This imports
-> > the
-> > recipes as of git commit:
-> > commit 408204073e6bdcd8ac586e05d5b75213417673f2
-> > Author: Martin Jansa <martin.jansa@gmail.com>
-> > Date:   Thu Aug 16 20:39:15 2018 +0000
-> > 
-> >     inetutils: fix build with glibc-2.28
-> > 
-> > Signed-off-by: Tom Rini <trini@konsulko.com>
+
+
+On 3/7/19 8:20 PM, Tom Rini wrote:
+> On Thu, Mar 07, 2019 at 09:50:51PM +0000, Richard Purdie wrote:
+>> On Wed, 2019-03-06 at 09:36 -0500, Tom Rini wrote:
+>>> In order to have more robust stand-alone network tools in oe-core,
+>>> bring
+>>> in inetutils from meta-openembedded/meta-networking.  This imports
+>>> the
+>>> recipes as of git commit:
+>>> commit 408204073e6bdcd8ac586e05d5b75213417673f2
+>>> Author: Martin Jansa <martin.jansa@gmail.com>
+>>> Date:   Thu Aug 16 20:39:15 2018 +0000
+>>>
+>>>      inetutils: fix build with glibc-2.28
+>>>
+>>> Signed-off-by: Tom Rini <trini@konsulko.com>
+>>
+>> Somehow in all the noise from other failures we missed:
+>>
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rcp or /usr/bin/rcp.inetutils) does not exist, skipping...
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rlogin or /usr/bin/rlogin.inetutils) does not exist, skipping...
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rsh or /usr/bin/rsh.inetutils) does not exist, skipping...
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/talk or /usr/bin/talk.inetutils) does not exist, skipping...
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rcp: /usr/bin/rcp.inetutils does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rlogin: /usr/bin/rlogin.inetutils does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rsh: /usr/bin/rsh.inetutils does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rshd: /usr/sbin/in.rshd does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rlogind: /usr/sbin/in.rlogind does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/talk: /usr/bin/talk.inetutils does not exist
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rcp == /usr/bin/rcp
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rlogin == /usr/bin/rlogin
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rsh == /usr/bin/rsh
+>> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/talk == /usr/bin/talk
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/374
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/375
+>>
 > 
-> Somehow in all the noise from other failures we missed:
-> 
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rcp or /usr/bin/rcp.inetutils) does not exist, skipping...
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rlogin or /usr/bin/rlogin.inetutils) does not exist, skipping...
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rsh or /usr/bin/rsh.inetutils) does not exist, skipping...
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/talk or /usr/bin/talk.inetutils) does not exist, skipping...
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rcp: /usr/bin/rcp.inetutils does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rlogin: /usr/bin/rlogin.inetutils does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rsh: /usr/bin/rsh.inetutils does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rshd: /usr/sbin/in.rshd does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rlogind: /usr/sbin/in.rlogind does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/talk: /usr/bin/talk.inetutils does not exist
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rcp == /usr/bin/rcp
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rlogin == /usr/bin/rlogin
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rsh == /usr/bin/rsh
-> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/talk == /usr/bin/talk
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/374
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/375
+> Hurk.   Which self-test do I need to run to see that?
 > 
 
-Hurk.   Which self-test do I need to run to see that?
+I see these errors in build logs when I use poky distro or yoe distro, I 
+guess you need to enable additional QA errors +  warnings e.g. see
 
--- 
-Tom
+https://github.com/YoeDistro/meta-yoe/blob/master/conf/distro/yoe.inc#L53-L58
 
