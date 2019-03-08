@@ -1,52 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DE9517CF51
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 529A37CCD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 13:46:11 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id x9so16700703iog.12
+	Fri,  8 Mar 2019 13:52:36 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id x7so12633522wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 05:46:13 -0800 (PST)
+	Fri, 08 Mar 2019 05:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OA7qJhP30jtA81LAbJqatBBLAeQp4C1nOSyaNxsmDrQ=;
-	b=mLiaUsUG+bEBbCs+ZQQv3MCCrM/JXOUxG04KEfNbuIRAqJscopxXahhbjo9yUEdS69
-	aarxEYT6v0r0AfL6xKm5NQ35KAK7K5MALuL2fPRmzy6QReF6f0J1TJZ4BtXxP6/qoDxR
-	Qcb5JB9ymKUR4xekGGIA0TTdRIaJMlM/vtqjhRgwman6Wxw5336ORrHPN0UM4K/XjLGl
-	tWbup3B9tA7atXb5F8mLy/VMmJuldbd1yEaHgFgn5MQa/lHrc0qNvmRAI1F38asHFzdp
-	l/FiET0N/TGoKrpyBsoc/Xd6MdRwAagzUU74guCxhGl3HlBcuO9Lre+R/1P+hWL12zDQ
-	th9w==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zFPaNIKByMzLHsfmMcCh+zOGBAy9Nx2C6cGxuYyyLdg=;
+	b=cbhTVOahN9Eg5r+T3UALzwNXeTwrggUT1AOJqjqpfNR0LpexaOnp9g3xyQ6MZE9GIZ
+	de657pAhyxA6fU5ffELHtgkiG1XNMjyCXhvnELoKDcrHNTGtNC6Lyei1QLe0mykAs2Zo
+	lS85ZEsMFWRRKIjo+BiBVr1ipu6+WWQ35yUA7OQA/Zv5OI1ee1PhsxJMLXAVOBekF42y
+	PMIRVnLOeSIeQfRbZ5HRGQWJmqfdQH/Yd3EZKHh9w133FHCEWRMz/5Ks4wIH+3SSTxZV
+	BX3m4diETkUnk3Kt2pcAJ5ZXN8J0MFd4nzxYRX53rh+Axpd7FZJ7Te06OXHb+CcJ5YSK
+	bjYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OA7qJhP30jtA81LAbJqatBBLAeQp4C1nOSyaNxsmDrQ=;
-	b=FDB+QaZTFZE8BSjV/UbaU80Ke32z0jOACZqUhoK3c5yywAIwFOCWU9TbnhznsUl+oX
-	E/xHx/s6k1B4WtIFhDK54pWGZBP+5WcnhsVUE4wSjdQQNpN3P3w97S0EIiHwN/RIuaf/
-	bH05is4WIdk6pkP8dYiM5cT1vleu1ecJ1bNQgWDYKM5R9v0Rt2TGEukWXNReIrvVGC/u
-	C3+NjOTs9xL22t70JcphcK8Fd/NqRmTVgcgj9jsUOMnJLd0lW8kPsL5alJNk68Y01QvU
-	HlRMwVYUg7FriQAq7Rpc8wRQM3/GOEJwVYp4Cmg8YPuC/yPeebqjs95O6WflV+aEq4aC
-	yd4g==
-X-Gm-Message-State: APjAAAUGHfmhTNmS2tO30ANOxMJ7/2KFn3CZegPw+BxEC9UUnrv4A+Mx
-	bDBv1mt3HOT4lW2J/ARViNw=
-X-Google-Smtp-Source: APXvYqx1k6doquzwIhw0lVlnNS4fnJyA90BhAq6bxqEL2U/FBiQrxf6R47jtXMvl7r+PZ+VCSnosyQ==
-X-Received: by 2002:a6b:fd04:: with SMTP id c4mr10095232ioi.290.1552052772735; 
-	Fri, 08 Mar 2019 05:46:12 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
-	b21sm3975957itd.37.2019.03.08.05.46.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Mar 2019 05:46:12 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  8 Mar 2019 08:46:10 -0500
-Message-Id: <20190308134610.48557-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zFPaNIKByMzLHsfmMcCh+zOGBAy9Nx2C6cGxuYyyLdg=;
+	b=Sv03BwmwPLuGaui8D9tTMgV+Ba92TF4LQFUkYVuiMwl9wWHRw8Myd/6uuK6DSvsXpx
+	A5/vhANzKPMstNjdQjWAZ0CqGBytNVaxrxBwwU+d52uuAsAs/ZovrWzB7p1x3k17hIkU
+	TJOepLP1WDFb3OKNAB7EzJlkxNJwgEdzC7OEXmCFc2PW06HgImQ6Cm0/lyQncfWjusOV
+	cd2zrXGnIlP+UBz9X+jZDBdyNqF2jD9FBrYk233im+u0pSUVEfagdf0A68wYCOv15z8P
+	N6yKmslKCb6ugY+EwyKI/sUiml5AHyDm++myr7DriRSk5VQKQ6Di39dRzlKxu8fo2hU1
+	pNJA==
+X-Gm-Message-State: APjAAAXIc0YmgtSrrwwDiP1BloG04xqTd1e5seWXkVFPFoSdPV8ihhMZ
+	9L48egj85G4XT10cT5dnHgAAaXsNg4abmbk9tF8=
+X-Google-Smtp-Source: APXvYqyCSWlKChjQlOY6d6BP5W8WLeH2eIzscGgd9uiuFupVhuHbKzNr20XDcz7JeRDqPFU3Voh02EjOh7UF/naPSdg=
+X-Received: by 2002:a1c:e1c4:: with SMTP id y187mr9567811wmg.50.1552053156848; 
+	Fri, 08 Mar 2019 05:52:36 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] perf: synchronize unistd.h between libc-headers and perf source
+References: <20190226005221.27806-1-ross.burton@intel.com>
+In-Reply-To: <20190226005221.27806-1-ross.burton@intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 8 Mar 2019 14:52:26 +0100
+Message-ID: <CA+chaQeB=K=+C6bRJVgxfAYVo9oHLAKmB2t=9PtxBTSVj9HJiQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][thud] mesa: ship /etc/drirc in mesa-megadriver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +54,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 13:46:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Mar 2019 13:52:36 -0000
+Content-Type: multipart/alternative; boundary="000000000000162ad4058395891f"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--000000000000162ad4058395891f
+Content-Type: text/plain; charset="UTF-8"
 
-During the build for some architectures, perf generates a program
-which executes on the host to dump the syscall table.
+Interesting side-effect of this is that mesa package used to ship empty
+/etc directory before, now it's empty and not created.
 
-The generation of that program uses the cross compiler + sysroot
-to expand unistd.h. As such, we are getting the contents of that
-file from linux-libc-headers.
+So be aware that if you had image/packagegroup installing mesa package for
+whatever reason (by mistake most likely), you'll need to adjust that in
+thud.
 
-The compilation of that generated program uses the host compiler
-and a restricted include path to the perf source code. In the
-perf source there is a captured unistd.h, as such it will be used
-when compiling the host executable. The perf source code is copied
-from the kernel version that is being built .. so we have a
-mismatch between the generation and the compilation of the host
-program.
+On Tue, Feb 26, 2019 at 1:52 AM Ross Burton <ross.burton@intel.com> wrote:
 
-Normally this mismatch is fine, but if the libc-headers are
-newer than the kernel, we'll have syscalls (and their syscall
-numbers) that are not defined in the perf source code. This
-leads to a compiler error and a cascading failure of the perf
-build due to a missing generated file.
+> Many years not shipping the stub drirc seemed like a good idea,
+> but now it has content and is essential for some applications to run.
+>
+> Following patches in master, ship this file in mesa-megadriver.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index 0cc0a82de49..f47f1aa20d8 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -141,8 +141,6 @@ do_install_append () {
+>      rm -f ${D}${libdir}/gallium-pipe/*.la
+>      rm -f ${D}${libdir}/gbm/*.la
+>
+> -    # it was packaged in libdricore9.1.3-1 and preventing upgrades when
+> debian.bbclass was used
+> -    rm -f ${D}${sysconfdir}/drirc
+>      chrpath --delete ${D}${libdir}/dri/*_dri.so || true
+>
+>      # libwayland-egl has been moved to wayland 1.15+
+> @@ -209,8 +207,8 @@ PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
+>
+>  PACKAGES_DYNAMIC += "^mesa-driver-.*"
+>
+> -FILES_${PN} += "${sysconfdir}/drirc"
+> -FILES_mesa-megadriver = "${libdir}/dri/*"
+> +FILES_${PN} = ""
+> +FILES_mesa-megadriver = "${libdir}/dri/* ${sysconfdir}"
+>  FILES_mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
+>  FILES_libegl-mesa = "${libdir}/libEGL.so.*"
+>  FILES_libgbm = "${libdir}/libgbm.so.*"
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-To fix this, we can copy unistd.h from the recipe-sysroot
-into the perf source code and they will always be in sync.
+--000000000000162ad4058395891f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
+<div dir=3D"ltr">Interesting side-effect of this is that mesa package used =
+to ship empty /etc directory before, now it&#39;s empty and not created.<di=
+v><br></div><div>So be aware that if you had image/packagegroup installing =
+mesa package for whatever reason (by mistake most likely), you&#39;ll need =
+to adjust that in thud.</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Feb 26, 2019 at 1:52 AM Ross Burton &=
+lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Many years=
+ not shipping the stub drirc seemed like a good idea,<br>
+but now it has content and is essential for some applications to run.<br>
+<br>
+Following patches in master, ship this file in mesa-megadriver.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
+get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc | 6 ++----<br>
+=C2=A01 file changed, 2 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc<br>
+index 0cc0a82de49..f47f1aa20d8 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -141,8 +141,6 @@ do_install_append () {<br>
+=C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/gallium-pipe/*.la<br>
+=C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/gbm/*.la<br>
+<br>
+-=C2=A0 =C2=A0 # it was packaged in libdricore9.1.3-1 and preventing upgrad=
+es when debian.bbclass was used <br>
+-=C2=A0 =C2=A0 rm -f ${D}${sysconfdir}/drirc<br>
+=C2=A0 =C2=A0 =C2=A0chrpath --delete ${D}${libdir}/dri/*_dri.so || true<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# libwayland-egl has been moved to wayland 1.15+<br>
+@@ -209,8 +207,8 @@ PACKAGESPLITFUNCS_prepend =3D &quot;mesa_populate_packa=
+ges &quot;<br>
+<br>
+=C2=A0PACKAGES_DYNAMIC +=3D &quot;^mesa-driver-.*&quot;<br>
+<br>
+-FILES_${PN} +=3D &quot;${sysconfdir}/drirc&quot;<br>
+-FILES_mesa-megadriver =3D &quot;${libdir}/dri/*&quot;<br>
++FILES_${PN} =3D &quot;&quot;<br>
++FILES_mesa-megadriver =3D &quot;${libdir}/dri/* ${sysconfdir}&quot;<br>
+=C2=A0FILES_mesa-vulkan-drivers =3D &quot;${libdir}/libvulkan_*.so ${datadi=
+r}/vulkan&quot;<br>
+=C2=A0FILES_libegl-mesa =3D &quot;${libdir}/libEGL.so.*&quot;<br>
+=C2=A0FILES_libgbm =3D &quot;${libdir}/libgbm.so.*&quot;<br>
+-- <br>
+2.11.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-v2:
-
-As suggested by Martin, STAGING_INCDIR can be used instead of RECIPE_SYSROOT
-
- meta/recipes-kernel/perf/perf.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 9120766858..5acdcfb9f0 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -235,6 +235,10 @@ do_configure_prepend () {
-     for s in `find ${S}/tools/perf/scripts/python/ -name '*.py'`; do
-         sed -i 's,/usr/bin/python2,/usr/bin/env python,' "${s}"
-     done
-+
-+    # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-+    # so we copy it from the sysroot unistd.h to the perf unistd.h
-+    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
- }
- 
- python do_package_prepend() {
--- 
-2.19.1
-
-
+--000000000000162ad4058395891f--
