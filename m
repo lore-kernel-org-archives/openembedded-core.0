@@ -1,61 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C9037CDF0
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 30CA57CB31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Mar 2019 04:31:03 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id i19so13180137pfd.0
+	Fri,  8 Mar 2019 06:02:25 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id r124so13261537pgr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2019 20:31:04 -0800 (PST)
+	Thu, 07 Mar 2019 22:02:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=09XM1tii1d0z6G/jNIaVQAzWniigwlmfgnEo2WY3+Fo=;
-	b=cIVImZz356/qc7BOKX/Z3or3OfMio0FkzFJNBsjplVJCDT2COO1+2LXh4zGczO2+VX
-	kXo0qC3x6p3R4wnM6XsuipwiUzKVx5+Hbd5GS8lYMPQb0OicgT65s6F0uGl9mvBkBZWO
-	7XHjW04MM7ZgzKFfIKA7BBS7Wc4lXGvBW+Y1J19/+yVW5xXEcggTkYpLcxI3K8GmxTrk
-	gXFuRgHO++KNcfIL1fyxCTNnwWJX0to3orhjy1/3o/VcS1T4QAchVVMWnFMoQI5hJQUc
-	7w0JhWOMaIcS4t9HJqpO7tilQTfb0phqzqEJu8UwrHhCRdwhlhVf4L0HiXs4oYDJkjc/
-	cLqA==
+	bh=wEkHFIciOzG9yk0AvBC0qcb/eAd+AwxzfgSzAMIT4hw=;
+	b=BcjkZQkG66nwDsj0JDZGwIrIQgRWctus47FhdWxKQvkQ3cvfsSBsJNAwEQac5xA7Kt
+	1q2EZwIJUlAhvvKbZgtjjA7W47Z9qqwwSMj5aE+r1ov4FqpDHOD7i9llU4ZcK0V939dA
+	syIs7V04XJLZrkd6PCrIGgDZM3P3QDmjsoNVK2EiCOZ+s7nK8lcUNvC2BlSBKL/5BBxc
+	KmPkyrXcFxDFGEdY8uVmgDdercSfK3gE88j3Tq0gzlnFrDl/j8C0g0NhLAv7TqIKh8ol
+	IlL32eGQtSNCEjeoy0cvXgWssqzFyiUQ4pP+z2iLFnCw2uo+1JZetAwbUtPSnzGBmZFk
+	L70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=09XM1tii1d0z6G/jNIaVQAzWniigwlmfgnEo2WY3+Fo=;
-	b=pwZ6/62aR6nlpwefVjBQq2cDgIT8N2SyPE8mApn1MYfb7wGyg8ndtc6zkOhfe+cCB/
-	xR3QSugwFWLIvxarGlXbWvmG9jNOuLMOFl3194R65hoN6IyySGHg28T0Ot33hl5AVtSh
-	f694xLixJtYSYS/rz8OlGMVzYmVX5VAYe7RgD53/OOOtWYjIo0Es8TqC0sucPdK+5HTJ
-	A278DQXtSnPYQWL30r15LRnMbxRhK1sdAd3SVG5852C9wGW61SAtV/ciUWsHD7QCyPYz
-	4s48PVzUG31diJH8rMROBz2Fs2JAQNcfK0Nzt7FYjDE4uptnliGjCj+/+6XznAWEpGg9
-	1l3A==
-X-Gm-Message-State: APjAAAW1H4SvzMfXcbIRnyQDIUSNnKaZJPmxdWlCfLr3u85N57Qtzlgy
-	7f8rhRIJpwp0ZywJo7JhYcmuWCFG
-X-Google-Smtp-Source: APXvYqxIBfXaF5UmI4RTph2ARCMjr59RsPxLKbleLImJGYjuxbl0tfKDp108UBP92FcGTpeTZoM0DQ==
-X-Received: by 2002:a62:46cc:: with SMTP id o73mr16872486pfi.182.1552019463309;
-	Thu, 07 Mar 2019 20:31:03 -0800 (PST)
-Received: from hermes.local ([2601:646:8500:6bc6:b833:ede1:aa51:1d40])
-	by smtp.gmail.com with ESMTPSA id
-	k3sm15657836pfc.59.2019.03.07.20.31.02
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wEkHFIciOzG9yk0AvBC0qcb/eAd+AwxzfgSzAMIT4hw=;
+	b=V2c3gaZP6Vx8P4SwzkUxcr99upNS2B5R18voW3bie0GLk6gZuWDBows/sB+e4YslO3
+	Uudxikm7KUstmD1ngGCfT+d5nJEpDasjk1K0ZPc43kmiN76dtrVnOjp/USuXRy34Najq
+	Pjprx6PKyA3435Uwb75jxUcjV2ukhmByUrjDV4qxEy25FBbY0ervAVioPixnm7TbkL1d
+	jwQiC7uBA60DsmZv9pf2Q2K0p1Y/fIokZ0mY0yaqi3JUwlwILiUu6O5wLCS+To5fEUOs
+	Kt1YvD4EEbYWZzvcUCnjQBGWMX3cMDoyphXP7P4Z/pydFvwPDwuxydoJYYYRO2w+uW//
+	rY/g==
+X-Gm-Message-State: APjAAAXm/HNi3P1byVEbTzgy0r5Vn110KhvXMY1gH0SkRs+STrlbpPVW
+	i2kMrhI3WU6v6j3LenDHMsGBtPzC
+X-Google-Smtp-Source: APXvYqzJK675wQR2yo59LrIkYNw+4wTOyF7uHCG74xx0umjzhWkzlQPRBXiIm4vg5rRXLqRvaLLgwQ==
+X-Received: by 2002:a65:5281:: with SMTP id y1mr15409703pgp.59.1552024945030; 
+	Thu, 07 Mar 2019 22:02:25 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::3401])
+	by smtp.gmail.com with ESMTPSA id m3sm7851246pgp.85.2019.03.07.22.02.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Mar 2019 20:31:02 -0800 (PST)
-To: Tom Rini <trini@konsulko.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1551882973-8710-1-git-send-email-trini@konsulko.com>
-	<1551882973-8710-3-git-send-email-trini@konsulko.com>
-	<c7b91b44ea5055df61ce39287342dbf7926d970d.camel@linuxfoundation.org>
-	<20190308042042.GA5026@bill-the-cat>
+	Thu, 07 Mar 2019 22:02:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <eba93c1f-c398-8759-9660-8fecefcb8238@gmail.com>
-Date: Thu, 7 Mar 2019 20:31:01 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0)
-	Gecko/20100101 Thunderbird/66.0
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Mar 2019 22:02:16 -0800
+Message-Id: <20190308060216.21801-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190308042042.GA5026@bill-the-cat>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/4] inetutils: Import version 1.9.4
+Subject: [PATCH] puzzles: Fix build with gcc9 on risc-v
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,55 +56,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 04:31:03 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Mar 2019 06:02:25 -0000
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-string-lenght-parameter-to-be-size_.patch | 33 +++++++++++++++++++
+ meta/recipes-sato/puzzles/puzzles_git.bb      |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
 
+diff --git a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
+new file mode 100644
+index 0000000000..9ac62015d8
+--- /dev/null
++++ b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
+@@ -0,0 +1,33 @@
++From 035467aa0abfbc0de7e5d24543d4aab37301593c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 7 Mar 2019 21:56:57 -0800
++Subject: [PATCH] pattern.c: Change string lenght parameter to be size_t in
++ do_row()
++
++This fixes below error on some architectures e.g. RISC-V
++
++pattern.c:455:9: error: 'memset' specified size between 18446744071562067968 and 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overflow=]                                                                     455 |         memset(deduced, DOT, (size_t)len);                                                                                   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ pattern.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pattern.c b/pattern.c
++index 45b1b0c..f73a4c2 100644
++--- a/pattern.c
+++++ b/pattern.c
++@@ -428,7 +428,7 @@ static int do_row(unsigned char *known, unsigned char *deduced,
++                   unsigned char *row,
++                   unsigned char *minpos_done, unsigned char *maxpos_done,
++ 		  unsigned char *minpos_ok, unsigned char *maxpos_ok,
++-                  unsigned char *start, int len, int step, int *data,
+++                  unsigned char *start, size_t len, int step, int *data,
++ 		  unsigned int *changed
++ #ifdef STANDALONE_SOLVER
++ 		  , const char *rowcol, int index, int cluewid
++-- 
++2.21.0
++
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 7d08b964f8..0766bd4ff1 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            file://0001-Use-labs-instead-of-abs.patch \
+            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
+            file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
++           file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
+            "
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+-- 
+2.21.0
 
-On 3/7/19 8:20 PM, Tom Rini wrote:
-> On Thu, Mar 07, 2019 at 09:50:51PM +0000, Richard Purdie wrote:
->> On Wed, 2019-03-06 at 09:36 -0500, Tom Rini wrote:
->>> In order to have more robust stand-alone network tools in oe-core,
->>> bring
->>> in inetutils from meta-openembedded/meta-networking.  This imports
->>> the
->>> recipes as of git commit:
->>> commit 408204073e6bdcd8ac586e05d5b75213417673f2
->>> Author: Martin Jansa <martin.jansa@gmail.com>
->>> Date:   Thu Aug 16 20:39:15 2018 +0000
->>>
->>>      inetutils: fix build with glibc-2.28
->>>
->>> Signed-off-by: Tom Rini <trini@konsulko.com>
->>
->> Somehow in all the noise from other failures we missed:
->>
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rcp or /usr/bin/rcp.inetutils) does not exist, skipping...
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rlogin or /usr/bin/rlogin.inetutils) does not exist, skipping...
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/rsh or /usr/bin/rsh.inetutils) does not exist, skipping...
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alternative target (/usr/bin/talk or /usr/bin/talk.inetutils) does not exist, skipping...
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rcp: /usr/bin/rcp.inetutils does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rlogin: /usr/bin/rlogin.inetutils does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/rsh: /usr/bin/rsh.inetutils does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rshd: /usr/sbin/in.rshd does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/sbin/rlogind: /usr/sbin/in.rlogind does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: NOT adding alternative provide /usr/bin/talk: /usr/bin/talk.inetutils does not exist
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rcp == /usr/bin/rcp
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rlogin == /usr/bin/rlogin
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/rsh == /usr/bin/rsh
->> WARNING: inetutils-1.9.4-r0 do_package: inetutils: alt_link == alt_target: /usr/bin/talk == /usr/bin/talk
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/374
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/375
->>
-> 
-> Hurk.   Which self-test do I need to run to see that?
-> 
-
-I see these errors in build logs when I use poky distro or yoe distro, I 
-guess you need to enable additional QA errors +  warnings e.g. see
-
-https://github.com/YoeDistro/meta-yoe/blob/master/conf/distro/yoe.inc#L53-L58
 
