@@ -1,48 +1,52 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
-	[209.85.221.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 730317CF3B
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F2E337CE8C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Mar 2019 00:01:01 +0000 (UTC)
-Received: by mail-vk1-f171.google.com with SMTP id b6so4985613vkf.8
+	Sat,  9 Mar 2019 00:25:16 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id x9so18218761iog.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2019 16:01:02 -0800 (PST)
+	Fri, 08 Mar 2019 16:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SUuPrmezNhRKQ8QCaidhK/DDXvlvvewsmXUPVJ1u4vE=;
-	b=rjW24jbDGwzKLJjMBHu/iWO4DQ2LC/YUfAjHV7JIgJ7lhNqi7gfZ6biQWS982rAqoC
-	jLx1GV7eXLeIyXHXdxvhQU0zOvyMYK25A+8eg4X87uK4qDXD2oja+EuetErlce9LUUGj
-	Sw0z+qT+mOIsjlt/xtisfkHY11HbdBjrKqTA0E9uSKilLO/inbBr5Bx5YoCh0M6OFu0U
-	haiiYxwaEcme6KyRfC4IJr5113AhZVwMDv55h50ndvWEtYvqZg9X8Mrg4TkBDzCAyFER
-	Wtoxx9BHbD0LBLieA6EF/781YHuHWoWQxc/ZGcgzrpY1ddhIXC21/5gmvi9gm956kkQP
-	y84A==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zZOdrMStwdUGKHuOyJY4yXljo0xTKRc7WgixlAQxYvw=;
+	b=Qax2yh7lRHWQUQAk1XdzfP6qJuWCGSUnIVvBhQKTDh4zxSSLd55rjlF4QS9vdQRz2B
+	qGosFUpnmqfQpiugsLx+apLERBBwutNc0/yWslvYyJzvl7pwHzij4w1E1htSx2ztABBx
+	UmOKHtgfZvFkiemHfuMhIrUHnZXdAbAcOjTLydB+lKI7rga9BmqY4NHHEKRETUEjBGPR
+	EBXjk7X85FbnV/g86adeo5tTD+wmaInqHKd906Ln/Cxh9Q6fqJKLT/IM+y9tuvpGMYtg
+	qFfRaEwqXlJh8623Em9M0kwVqVTYRKvGOMNNUNEOLRej6awNTSH/4eoLB6wTA099m1ut
+	YwBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=SUuPrmezNhRKQ8QCaidhK/DDXvlvvewsmXUPVJ1u4vE=;
-	b=fx//EciLdPctCpoePdWT3hIBB+SBD1hu0avFTddhhSO5EB7JMEAiYZNYELizeL3IxH
-	joVN0Jqy4vhlEqTwpQQcfEVuh5IwBUdIBXQ+sijQeVv/kV97ylz7DNLS07IXw8thvzFb
-	JKbUEMhQzAqlXmBb2Ihk1gpfVz/7mDwz2iXJcK5l4GNRZ3YZp/WJeZJYsyUHfCMzzQru
-	0rDMJmLdQw+n/VMDbXPRX4VhPmAbX0vrwKaT/1NPmpJ0VjWS1+cXB7g3dXxvq6AbDjig
-	UbPd4lFCzizj0VRJjV9z35xOxY6TeBjVmU2ZnxcEKNFcKY4m3oSfd5rseWncMUPl+567
-	aq4g==
-X-Gm-Message-State: APjAAAVVbpzJvATE9w2tM6kjc2nIHi6+O/rRd1W3VVYt5pf6XMhcIOAn
-	AXjnJ/PTkasCQu0DOQP7Pc0MPW0GRXMmfsr5xV0xwlqa
-X-Google-Smtp-Source: APXvYqypXLnsT2aEqyl1+tC/+LDwRHLkRcqf+PYPVUx0GBcUztxNAqTufPps+cYyBmGrBpj8z+oVtyyl6ZoAoyTtkRA=
-X-Received: by 2002:a1f:c00f:: with SMTP id q15mr11294477vkf.10.1552089662046; 
-	Fri, 08 Mar 2019 16:01:02 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zZOdrMStwdUGKHuOyJY4yXljo0xTKRc7WgixlAQxYvw=;
+	b=gxLs7r0XNlMXdU/s886o+H3XZNvHf54fz0dsivWniUX3pnK5pVH/SsXV3bEv+KpFyb
+	MDLKH8uLEIMKr/ngmJJX5kQwTlbHBkda3VlpWK8Mx65NfZWSJe8eMrHfNo7lcxbrpeXL
+	ZMxdGiMyri2A+x6aLu5wSxgZVMxBEAUnSkSZiO+MCzDxBnHWTpQJewUJxZgZ4raG4UE5
+	K6mcQ+PyXTlwTIYSo0DpKQ/GH654di9GvjIWPkstyWAPLeZIoJyG87TISeJKhrNF7E02
+	8bt+Ocpl46GHCWUIy4lzvWppS7b/oVFWGOdrByjyFnOOIw5ITHiW8N8xhJsFvGunifWr
+	pk4g==
+X-Gm-Message-State: APjAAAUlRsYFTzN4QkLKTXpr3GcR14Pw0PStl0tTm47m2rPUXt3nLZ5F
+	VCfvafVHk2bo4IeYH7DCPrGQc/mCsqA=
+X-Google-Smtp-Source: APXvYqy6heXVdzMizvxtobuOOIHMEvhRALUtxwitxt6weMHf5xg7QG+UL6oPPMllY+k4T8zb5BY44Q==
+X-Received: by 2002:a5e:8c07:: with SMTP id n7mr3633904ioj.301.1552091117737; 
+	Fri, 08 Mar 2019 16:25:17 -0800 (PST)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
+	t62sm4728635ita.35.2019.03.08.16.25.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Mar 2019 16:25:16 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Fri,  8 Mar 2019 19:25:15 -0500
+Message-Id: <20190309002515.12754-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <1552063426-25272-1-git-send-email-bassem.boubaker@actia.fr>
-In-Reply-To: <1552063426-25272-1-git-send-email-bassem.boubaker@actia.fr>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 8 Mar 2019 16:00:50 -0800
-Message-ID: <CAJ86T=WNSoY4rHiLoUcP9_4vYwXxrCwaCxLosibf_pCEYQfpvA@mail.gmail.com>
-To: BOUBAKER Bassem <bassem.boubaker@actia.fr>
-Cc: SAMMOUDA Ahmed <ahmed.sammouda@actia.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cpulimit: introduce support for this package
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-devsrc: make mips devsrc files backward compatbile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,92 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Mar 2019 00:01:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 09 Mar 2019 00:25:17 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 8, 2019 at 3:24 PM BOUBAKER Bassem via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
->
->     * Now, cpulimit recipe is put under recipes-support. Binary will be installed by the recipe under /usr/sbin
->
->         # cpulimit -h
->         Usage: cpulimit [OPTIONS...] TARGET
->                 OPTIONS
->                 -l, --limit=N          percentage of cpu allowed from 0 to 100 (required)
->                 -v, --verbose          show control statistics
->                 -z, --lazy             exit if there is no target process, or if it dies
->                 -i, --include-children limit also the children processes
->                 -h, --help             display this help and exit
->                 TARGET must be exactly one of these:
->                 -p, --pid=N            pid of the process (implies -z)
->                 -e, --exe=FILE         name of the executable program file or path name
->                 COMMAND [ARGS]         run this command and limit it (implies -z)
->
->                 Report bugs to <marlonx80@hotmail.com>.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-A few review comments to address before resubmitting to meta-oe.
+The additions done to devsrc to support the 5.0 kernel should have
+had a graceful failure mode, since the files/directories won't be
+present on older (or different) kernel versions.
 
-> Signed-off-by: Bassem Boubaker <bassem.boubaker@actia.fr>
-> ---
->  meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->  create mode 100644 meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb
->
-> diff --git a/meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb b/meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb
-> new file mode 100644
-> index 0000000..d0c524e
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/cpulimit/cpulimit_0.2.bb
-> @@ -0,0 +1,22 @@
-> +DESCRIPTION = "cpulimit is a tool which limits the CPU usage of a process from bash prespective"
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Typo (or two typos?).
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index cf2b476051..6daeea4f7a 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -221,8 +221,8 @@ do_install() {
+ 	    cp -a --parents kernel/time/timeconst.bc $kerneldir/build
+ 	    cp -a --parents kernel/bounds.c $kerneldir/build
+ 	    cp -a --parents Kbuild $kerneldir/build
+-	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build
+-	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build
++	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
++	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
+ 	    cp -a --parents arch/mips/tools/elf-entry.c $kerneldir/build 2>/dev/null || :
+ 	fi
+ 
+-- 
+2.19.1
 
-> +HOMEPAGE = "http://cpulimit.sourceforge.net/"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=86c1c0d961a437e529db93aa3bb32dc4"
-> +
-> +PR = "r0"
-
-No need to set PR to its default.
-
-> +SRCREV ?= "f4d2682804931e7aea02a869137344bb5452a3cd"
-> +
-> +SRC_URI = "git://git@github.com/opsengine/cpulimit.git;protocol=https"
-> +
-> +SRC_URI[md5sum] = "4f805fe26c8cf28e8251d64d0ace21d4"
-> +SRC_URI[sha256sum] = "544516d0d80c685b1df1344a71c900e845270551cf210300fa4d13876e10817a"
-
-No need for SRC_URI hashes when SRC_URI fetches from git.
-
-> +inherit autotools
-> +
-> +S = "${WORKDIR}/git"
-
-By convention S should be set before "inherit autotools". Try to stick
-to the OE Styleguide unless there's a clear reason to deviate.
-
-  http://www.openembedded.org/wiki/Styleguide
-
-> +do_install() {
-> +        install -d ${D}${sbindir}
-> +        install -m 0755 ${S}/src/${PN} ${D}${sbindir}/
-
-Even though ${S} and ${B} may be the same directory, conceptually it
-makes more sense to install binaries from ${B} (ie the build
-directory), rather than ${S} (ie the source directory).
-
-> +}
-> \ No newline at end of file
-
-Should be fixed.
-
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
