@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 82C717CE79
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 09FA27CE8F
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 10 Mar 2019 18:07:49 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id i20so1973476pfo.6
+Received: by mail-pg1-f194.google.com with SMTP id a22so2202493pgg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 11:07:50 -0700 (PDT)
+	Sun, 10 Mar 2019 11:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=0wXgyce9yyL3Q8bsAU0GpklfEI9Wh9hrCLmZC9E2A4M=;
-	b=uS3yvCDMoEP86uHd2TvAo/gqPCcQWqscZkwD7QgmrK+fZrFNqUaEMgCNZqMVtCjL2Y
-	IlYmjCDNu0qdKxGt9kZ5NxNUPR8/SDLx2PKP0zI1z6oWQDEigiXCyvzXUAMxlHVHTWes
-	OwIQvVu1j1VGK2ubjoTCF0oj3G7y0qrPjJkTTibdspLPB+tskssofs48SwpkpZ1xgt5q
-	WAonhgFN3h1zSokvDtYL78LCs/qcsIb5prMtBvHx555hooSGIlW+H/NQuXWcV06+0PFp
-	xckvJHcPAK8MvKUvWBnSrKfPtN1XSD6UqFDj0/YV3Ve9E0M4V4xZ/3DDZQXPbQEbLOqu
-	6fKQ==
+	bh=1A61YyoFm60T6f+77rm1NnuoEnh68HK3ppAGQc8C5Ig=;
+	b=FrSyhspo0lbfdvYbj45qWxFWLF7aWyY8aCSiua0FZDaDJB5hvRsirO8WzGWkqxua9W
+	oLT/InYGTpvRTAmcZ2nXCBnLQIV+Gv+3JFNCcHOoAhH9lNWc+iCs+G4Oxi0EZC8Tn3jG
+	9QMXHuFEEZn7cTlod3ri5af8xTjY8cjP2ItZBMIOPwICRtjEewbhPDIKCsoHJbnR+4ft
+	YaerdETsi8wLlw3e224gWQMqwII9mBGGc9KoAwfFp3Ic/NRc+UIRle5QqibP5zT+q/nj
+	LIAdiCIvAP+p79+3Jo/hb/4v9624CEPXxWBkE2YhOGL8Xsq9L2cPYWY7SjeO3Q46fhcW
+	VQzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=0wXgyce9yyL3Q8bsAU0GpklfEI9Wh9hrCLmZC9E2A4M=;
-	b=t1QWjjSaBxHbNkJbAgvoXTEcmNS9p+LQDGONVKKx0tApqLr32mj5vxVG0wuMZ4zZpZ
-	veNUQR9cOuYpliKxMUIT4hE/uhGOznYbBFQJP5Ig7umzxNkaPETWyvqoXUzZdGyHhEPJ
-	XgXz5NF3+uB4XpZeu4KB9qykX5S3ZaYC6NbVhHef3lpz2Ln7ZuZWzoEUMlpu/OQGQwdf
-	abhIvDihEvv4HYKAahChVe202mt1f+aFyBR8Sv9SsmeM3Kgc9C+C+Fjxx/s+ZJlqz/EK
-	/R36IwPqKYipZO1BrvtO87VtBVOkMBnU+x4CAWaOnFdia9rMqWfNJRskfh44jd0+hkIC
-	NMWw==
-X-Gm-Message-State: APjAAAWtPRabMvhLGJgymMkLsOKQCjo0zNlzJ1Gg/B3wk2xbTjoChtbg
-	pIieQoWj2yNnIVK+bCB46eaAaHuP
-X-Google-Smtp-Source: APXvYqz2TlQ2vf83MRytSD5l3VzOvw9G88X5kXFtG/X18rLtpOj0Yrzx9eOAeObToQqVwixctfjS5A==
-X-Received: by 2002:a65:64c4:: with SMTP id t4mr26544609pgv.152.1552241270218; 
+	bh=1A61YyoFm60T6f+77rm1NnuoEnh68HK3ppAGQc8C5Ig=;
+	b=HuDHB1+CcxiQGGD0VPIZxfjAxFNHExxlfGYoCoXGjbKJdTvyunotvdjsuqPfzbJkGn
+	WjZjSejNryi7tP2vgHXruuQTYYIJcCmJP5tybZ/BoahW7P4MqZICR4eBSABLMJzhDwex
+	QlngP7iHvNumgDXwT2lyhDOVQwevKh1i+dlhjUdLTKK24C1ei9o/Y0lKxXcn3yPbeY7B
+	OtqqZ9Sv3xZsjEugTbec8pFgPHBjJXVzWwjXYJeXiU8Pzbpmf0f0fjykg2kl5XS0tsy9
+	QIT0Nn+zuRmGHtgdDZsk8TjYoKj5b3tV6tvm07WIFHTKbjdK2XnvsuC6ulWO5EqaIHz3
+	5n0A==
+X-Gm-Message-State: APjAAAW4UBvECC++NesueTs8YzeR6Jm0gSr7X9emWmFXMmoynXLYlM0Q
+	Z/gwWTaGPIsgwZ4jAZetZJ5jyAOy
+X-Google-Smtp-Source: APXvYqykZeaNEVfghwL3+cpVbzWhHbi538fs8AVHMFxTCck0i51cOisWlOoowlFJRXIhKWPcdepaaQ==
+X-Received: by 2002:a62:be08:: with SMTP id l8mr28899575pff.162.1552241270945; 
 	Sun, 10 Mar 2019 11:07:50 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:18fc:c150:6496:1a0d])
-	by smtp.gmail.com with ESMTPSA id y6sm5999607pfy.87.2019.03.10.11.07.49
+	by smtp.gmail.com with ESMTPSA id y6sm5999607pfy.87.2019.03.10.11.07.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Mar 2019 11:07:49 -0700 (PDT)
+	Sun, 10 Mar 2019 11:07:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Mar 2019 11:07:38 -0700
-Message-Id: <1552241263-26116-7-git-send-email-akuster808@gmail.com>
+Date: Sun, 10 Mar 2019 11:07:39 -0700
+Message-Id: <1552241263-26116-8-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
 References: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 07/12] xev: update to 1.2.3
+Subject: [PATCH 08/12] kexec-tools: update 2.0.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,163 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Mar 2019 18:07:49 -0000
-
-refactor diet-x11 patch
-
-LIC_FILES_CHKSUM changed to do merging of copyright/license notices
-https://gitlab.freedesktop.org/xorg/app/mkfontscale/commit/8609ad731b9c9c670a815c915055ae416d2396d8
+X-List-Received-Date: Sun, 10 Mar 2019 18:07:50 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-app/xev/diet-x11.patch  | 79 ++++++++++++----------
- .../xorg-app/{xev_1.2.2.bb => xev_1.2.3.bb}        |  4 +-
- 2 files changed, 46 insertions(+), 37 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xev_1.2.2.bb => xev_1.2.3.bb} (77%)
+ .../kexec/{kexec-tools_2.0.18.bb => kexec-tools_2.0.19.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.18.bb => kexec-tools_2.0.19.bb} (95%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
-index 6130959..b4415e3 100644
---- a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
-+++ b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
-@@ -4,79 +4,88 @@ Upstream-Status: Inappropriate [disable feature]
-  xev.c |   16 ++++++++--------
-  1 file changed, 8 insertions(+), 8 deletions(-)
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.18.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+similarity index 95%
+rename from meta/recipes-kernel/kexec/kexec-tools_2.0.18.bb
+rename to meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+index b06c343..f65cd9f 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.18.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+@@ -20,8 +20,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
+            file://0001-Disable-PIE-during-link.patch \
+            "
  
--Index: xev-1.2.0/xev.c
-+Index: xev-1.2.3/xev.c
- ===================================================================
----- xev-1.2.0.orig/xev.c
--+++ xev-1.2.0/xev.c
--@@ -116,7 +116,7 @@ do_KeyPress (XEvent *eventp)
--     nbytes = XLookupString (e, str, 256, &ks, NULL);
-+--- xev-1.2.3.orig/xev.c
-++++ xev-1.2.3/xev.c
-+@@ -125,7 +125,7 @@ do_KeyPress(XEvent *eventp)
-+     nbytes = XLookupString(e, str, 256, &ks, NULL);
-  
-      /* not supposed to call XmbLookupString on a key release event */
- -    if (e->type == KeyPress && xic) {
- +    /*if (e->type == KeyPress && xic) {
-          do {
--             nmbbytes = XmbLookupString (xic, e, buf, bsize - 1, &ks, &status);
-+             nmbbytes = XmbLookupString(xic, e, buf, bsize - 1, &ks, &status);
-              buf[nmbbytes] = '\0';
--@@ -126,7 +126,7 @@ do_KeyPress (XEvent *eventp)
--                 buf = realloc (buf, bsize);
-+@@ -135,7 +135,7 @@ do_KeyPress(XEvent *eventp)
-+                 buf = realloc(buf, bsize);
-              }
-          } while (status == XBufferOverflow);
- -    }
- +    }*/
-  
-      if (ks == NoSymbol)
-- 	ksname = "NoSymbol";
--@@ -156,7 +156,7 @@ do_KeyPress (XEvent *eventp)
-+         ksname = "NoSymbol";
-+@@ -168,7 +168,7 @@ do_KeyPress(XEvent *eventp)
-      }
-  
-      /* not supposed to call XmbLookupString on a key release event */
- -    if (e->type == KeyPress && xic) {
--+    /*if (e->type == KeyPress && xic) {
--         printf ("    XmbLookupString gives %d bytes: ", nmbbytes);
-++    /* if (e->type == KeyPress && xic) {
-+         printf("    XmbLookupString gives %d bytes: ", nmbbytes);
-          if (nmbbytes > 0) {
--            dump (buf, nmbbytes);
--@@ -164,7 +164,7 @@ do_KeyPress (XEvent *eventp)
--         } else {
--     	   printf ("\n");
-+             dump(buf, nmbbytes);
-+@@ -177,7 +177,7 @@ do_KeyPress(XEvent *eventp)
-+         else {
-+             printf("\n");
-          }
- -    }
- +    } */
-  
--     printf ("    XFilterEvent returns: %s\n",
-- 	    XFilterEvent (eventp, e->window) ? "True" : "False");
--@@ -1015,7 +1015,7 @@ main (int argc, char **argv)
--         fprintf (stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
-+     printf("    XFilterEvent returns: %s\n",
-+            XFilterEvent(eventp, e->window) ? "True" : "False");
-+@@ -1141,7 +1141,7 @@ parse_event_mask(const char *s, long eve
-+             if (s)
-+                 return True;
-+         }
-+-    }
-++	}*/
-+ 
-+     if (s != NULL)
-+         fprintf(stderr, "%s: unrecognized event mask '%s'\n", ProgramName, s);
-+@@ -1288,7 +1288,7 @@ main(int argc, char **argv)
-+         fprintf(stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
-      }
-  
---    xim = XOpenIM (dpy, NULL, NULL, NULL);
--+    /*xim = XOpenIM (dpy, NULL, NULL, NULL);
-+-    xim = XOpenIM(dpy, NULL, NULL, NULL);
-++    /*xim = XOpenIM(dpy, NULL, NULL, NULL);
-      if (xim == NULL) {
--         fprintf (stderr, "%s:  XOpenIM failed\n", ProgramName);
-+         fprintf(stderr, "%s:  XOpenIM failed\n", ProgramName);
-      }
--@@ -1042,7 +1042,7 @@ main (int argc, char **argv)
-+@@ -1317,7 +1317,7 @@ main(int argc, char **argv)
-              }
--             XFree (xim_styles);
-+             XFree(xim_styles);
-          }
- -    }
--+	}*/
-++    }*/
-  
--     screen = DefaultScreen (dpy);
-+     screen = DefaultScreen(dpy);
-  
--@@ -1109,7 +1109,7 @@ main (int argc, char **argv)
-- 	printf ("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
-+@@ -1373,7 +1373,7 @@ main(int argc, char **argv)
-+         printf("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
-      }
-  
- -    if (xim && xim_style) {
- +    /*if (xim && xim_style) {
--         xic = XCreateIC (xim,
--                          XNInputStyle, xim_style,
--                          XNClientWindow, w,
--@@ -1119,7 +1119,7 @@ main (int argc, char **argv)
-+         xic = XCreateIC(xim,
-+                         XNInputStyle, xim_style,
-+                         XNClientWindow, w, XNFocusWindow, w, NULL);
-+@@ -1381,7 +1381,7 @@ main(int argc, char **argv)
-          if (xic == NULL) {
--             fprintf (stderr, "XCreateIC failed\n");
-+             fprintf(stderr, "XCreateIC failed\n");
-          }
- -    }
- +    }*/
-  
--     have_rr = XRRQueryExtension (dpy, &rr_event_base, &rr_error_base);
-+     have_rr = XRRQueryExtension(dpy, &rr_event_base, &rr_error_base);
-      if (have_rr) {
-diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb b/meta/recipes-graphics/xorg-app/xev_1.2.3.bb
-similarity index 77%
-rename from meta/recipes-graphics/xorg-app/xev_1.2.2.bb
-rename to meta/recipes-graphics/xorg-app/xev_1.2.3.bb
-index 0705b7f..6a69e74 100644
---- a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb
-+++ b/meta/recipes-graphics/xorg-app/xev_1.2.3.bb
-@@ -14,5 +14,5 @@ DEPENDS += "libxrandr xorgproto"
+-SRC_URI[md5sum] = "43845327af54b002aaebd5b8076c7bd7"
+-SRC_URI[sha256sum] = "594ac13ea437c70b0d5f0eaf5075b93422b05c23c2a5e21991d2442bbd202d86"
++SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
++SRC_URI[sha256sum] = "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
  
- SRC_URI += "file://diet-x11.patch"
+ inherit autotools update-rc.d systemd
  
--SRC_URI[md5sum] = "249bdde90f01c0d861af52dc8fec379e"
--SRC_URI[sha256sum] = "d94ae62a6c1af56c2961d71f5782076ac4116f0fa4e401420ac7e0db33dc314f"
-+SRC_URI[md5sum] = "eec82a5d4b599736f0fa637e96136746"
-+SRC_URI[sha256sum] = "66bc4f1cfa1946d62612737815c34164e4ce40fcebd2c9e1d7e7a1117ad3ad09"
 -- 
 2.7.4
 
