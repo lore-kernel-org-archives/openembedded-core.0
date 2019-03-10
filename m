@@ -1,48 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 74EC07C6F1
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA1E7CE6C
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 10 Mar 2019 18:07:45 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id r124so2225991pgr.3
+Received: by mail-pg1-f170.google.com with SMTP id m2so2220434pgl.5
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 10 Mar 2019 11:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=ON7CEHfvI0RyUn/jMJEixqmXzw70McC28uBhjex40Ws=;
-	b=S2RIuP4g0VqyodeSlailUGx1zM6alnXBkwHXtNTN4NtmlmaIg0pld1/sAoOT6tutAm
-	f8sVU4GDh3NuTqYYih+2D/SeWEYbMSbEQA4dOpJfwr+ygDd8xahf2GEvums8ZMdg+5mI
-	wofA0c4Ydmwn2RGOISAD9yGkCj2tlKWJ/9VnvQimpn2DNC4gYvRCrisBLkP53Tp5y+VL
-	Qvs2D046LLxx7kIzJ7LsZH+VbDsVFrbc47YZgZ+u86JtiFrLnqvK2Iwa0H9T8gZcTs8F
-	dgpX3RuTEtZKVsPdLn6QuxEU+fengwzqZ6G5Pdw16zIONOhQRuSgLLuCcW5TJt0xUetA
-	YyBQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=ngNmhlz4CRMcS5inI4jUBp6Qe5cqpI2yGmCeG2UuHi0=;
+	b=kv4PQSF/CCV6Z9aBt9DpwQWwj/GjuPklS5V8gSKToszzIyA91PyeYMha/23/v82F67
+	Enfg6Qso0+SuyLNRw98vcY4RQhdueBhzFX/VhRQ5dKzCg4jWy0lv6l8csxvNh2jaZ1G9
+	U6P8tDviKx2O+VdTD9pue1ne9wbffrat0irzoYcDZrKFEgqHBGCdvL77feyO5b5wQHJP
+	61Pwmb07m4zEMgkBRDBeEkVXWazhQ6YbIcRsMEz8oUi+u50m/LuJWkE+YRWY41bKchC2
+	Flm7BZgOGDWZa9U3gAYYRxO2OwTSUQgOe1QKPORn5z+gznp6tBjy7WaDnewyH/j6WRzB
+	35bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ON7CEHfvI0RyUn/jMJEixqmXzw70McC28uBhjex40Ws=;
-	b=qx9M/KOLx1sbEe9IXGUq2eGas6kmhIVfECUevxF4tcWcoqCF+G/B0XhIJlX08aiYnl
-	qyahGBOmf2yY8Wa6/ET37BQaCNGAgC7HAxT17BKxfFM2KIrWhtqtUUwjxsTWO64P1wXr
-	gTwwd8SObpczxFkrQTjZgqVtBFi1CxlOtVQ4caDk7SxgGKmSx7TpyPNmV0FD69fOPBgc
-	S8kCDVWG6TxMG8lrqWUh7x+i2TEREiROlp/QPyeRwP3T7Dt0xfyW83Ov/ZAfdAgPz0IO
-	ae1H5/dZAaWbC2k8O/OFscWbfb6nyrXFEnJd+Nh9/HrWMBARqYFpy7j6TCTuBOuvrgek
-	bCqg==
-X-Gm-Message-State: APjAAAXJ6vUuEOwXEN1hnIU/i7nfrdueuosNocF50BU0HAeSgVKv24FL
-	BPs+SQI4ensUIikvYKWXCkEBGB/r
-X-Google-Smtp-Source: APXvYqyvitzi60Dbm5gv8PbkGtUw1hzJ+rRkMeizW8emds3BtP9wwGYfZLiZs4MYvzL2Z6HczVTpQA==
-X-Received: by 2002:a63:5149:: with SMTP id r9mr838276pgl.142.1552241265476;
-	Sun, 10 Mar 2019 11:07:45 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=ngNmhlz4CRMcS5inI4jUBp6Qe5cqpI2yGmCeG2UuHi0=;
+	b=RL2K0F2F8bMNU6BiJniM3jqhjPW7SiZCg4rmxAVRRGtOQP9wLsQgnvaSSmCYuC75Ow
+	mjCOt5ICGt/kqcl1SGxFhp30pfwLcAQ67Kv66sTMGnp29TvunS4WwcBfCdxc2DDghHE8
+	L4/HRELetwWZu3YvYZIgrWI2VOQUIQ2IjNe6RghTy8TFepbD1yY/2jcStLUsPJWNzpq7
+	TsjFAe54Xzvmr0OX+l5Rs3kpY2iNMucewus/VV5K3Ic5I3udS8Qy77SxDlNmU9aJTAXL
+	4/wIrXTGuW3ZyK/HPAqrr/Hvb+jKxIzQCA/vwR7XgRpfN7OxnM0xTgx5pRky2h54uC2a
+	bIQw==
+X-Gm-Message-State: APjAAAX/jKGI15jrIuJf74SIVYuVJ38mncM339iNQd7NYocdybGywH1T
+	OGfNmrVENeJYvucuunslNe1eVcaU
+X-Google-Smtp-Source: APXvYqxzajFWbVXCfdaKwfk/0vwrG2QonifcJWcjqvb15iY1iekxzQSM7CCjewAuNI6qp/2F3ldCbA==
+X-Received: by 2002:a17:902:7082:: with SMTP id
+	z2mr29129797plk.251.1552241266341; 
+	Sun, 10 Mar 2019 11:07:46 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:18fc:c150:6496:1a0d])
-	by smtp.gmail.com with ESMTPSA id y6sm5999607pfy.87.2019.03.10.11.07.44
+	by smtp.gmail.com with ESMTPSA id y6sm5999607pfy.87.2019.03.10.11.07.45
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Mar 2019 11:07:44 -0700 (PDT)
+	Sun, 10 Mar 2019 11:07:45 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Mar 2019 11:07:32 -0700
-Message-Id: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 10 Mar 2019 11:07:33 -0700
+Message-Id: <1552241263-26116-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 01/12] xhost: update to 1.0.8
+In-Reply-To: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
+References: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH 02/12] libxkbcommon: update to 0.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +63,28 @@ X-List-Received-Date: Sun, 10 Mar 2019 18:07:45 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-app/{xhost_1.0.7.bb => xhost_1.0.8.bb} | 4 ++--
+ .../xorg-lib/{libxkbcommon_0.8.3.bb => libxkbcommon_0.8.4.bb}         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xhost_1.0.7.bb => xhost_1.0.8.bb} (83%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.8.3.bb => libxkbcommon_0.8.4.bb} (83%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb b/meta/recipes-graphics/xorg-app/xhost_1.0.8.bb
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.4.bb
 similarity index 83%
-rename from meta/recipes-graphics/xorg-app/xhost_1.0.7.bb
-rename to meta/recipes-graphics/xorg-app/xhost_1.0.8.bb
-index 77490f5..26bec3f 100644
---- a/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb
-+++ b/meta/recipes-graphics/xorg-app/xhost_1.0.8.bb
-@@ -13,8 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8fbed71dddf48541818cef8079124199"
- DEPENDS += "libxmu libxau"
- PE = "1"
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.4.bb
+index ff0f069..8fcae12 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.4.bb
+@@ -9,8 +9,8 @@ DEPENDS = "util-macros flex-native bison-native"
  
--SRC_URI[md5sum] = "f5d490738b148cb7f2fe760f40f92516"
--SRC_URI[sha256sum] = "93e619ee15471f576cfb30c663e18f5bc70aca577a63d2c2c03f006a7837c29a"
-+SRC_URI[md5sum] = "a48c72954ae6665e0616f6653636da8c"
-+SRC_URI[sha256sum] = "a2dc3c579e13674947395ef8ccc1b3763f89012a216c2cc6277096489aadc396"
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-SRC_URI[md5sum] = "8225a206e00c4146d2e06f5e688b28e7"
+-SRC_URI[sha256sum] = "b855c629849a97ab9835a4ad99d6b749a636f70d38a03f070c6ef72024825540"
++SRC_URI[md5sum] = "3c4409058dfd203f641a563358e0187d"
++SRC_URI[sha256sum] = "60ddcff932b7fd352752d51a5c4f04f3d0403230a584df9a2e0d5ed87c486c8b"
+ 
+ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
+ 
 -- 
 2.7.4
 
