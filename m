@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B8FA7CF75
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CF1E87CF71
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Mar 2019 05:16:44 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id e17so3128771pgd.2
+Received: by mail-pg1-f181.google.com with SMTP id h8so3118722pgp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 22:16:45 -0700 (PDT)
+	Sun, 10 Mar 2019 22:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ZIZqbZ5Z24hIKdN53aNVmNfMnXrr/JI869mFZAQLi6M=;
-	b=rGF1vib0U8a7B7ItY07elauY4q6o5ftPZueROh9o4fcHUQjHsX2GIVavcFqFsQmWtH
-	aZu9y47A71ls6UAq6jiTVPSu8cseFISNjiqpLViNO+Xn5h1UVy3fbYs528pmm6hsU6Wg
-	TLMCbt/XCg5pasndZZZtnEQO5ilWd+oNrw/XTqZiCQru0TvbHYcIibItK84mh1esqZkl
-	pATegpn8pCYB9J9onKM+SREK98E8WEPZh6G9frcW9JXXu6emYyH2tlWiZRxUaX6li5/x
-	D/+cidUUw/HZHUWOoA3q9J5nypN/x3TD9mRbzJMPMpm1eS5sVoCoMgVtwkPKOljNO+PU
-	6fFA==
+	bh=2MWEreaZPieiUH4e8VEdtPUCxdmnqOb5lPR/tEyXLnY=;
+	b=lpKuFZHTEYbqzBZv5gSEdKrzQa0hHLzwy+lJEu7BiNq4xrk9GGgmiVnk+LG/r75pRb
+	z8aX7GNUCaf+9yZazavoVaOrxFBRBBf/o1vtoGLyTODPXbG2sXTp6m+6L6zKiNqMcGtu
+	zDacEl2G+8iFh4QoCRJuQLnWtYd6djrnw9YXZFBnNqKbY2pOn0VoudAm3UgX0YfqKY3D
+	vueN4rt9OHwbIbSFSC3gtnSRH3yfoOIdOdRE9Y0JCtHEr+g5xPNwM37uqN3d5EIy87is
+	vRNOT7hI9AL1lTpjQEgI5PweW1IRdIa91C3tli4b9ppkYTMefAc8rcPHmq0BxnYZXoFD
+	m0cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZIZqbZ5Z24hIKdN53aNVmNfMnXrr/JI869mFZAQLi6M=;
-	b=SZdcskz5M+NbLfI6snpwl5KyiRZgacCtkzyZCzfxum47a+hQYFA2IM0Fih5MzYrggt
-	mF+e9fPm60ooHVqq35Ir1RAUNRJpGD1sxTbR2bzkqGScTzeJhhvTrhdNwtwyCYF+nvck
-	Qmjf/ohcgbARZ59xuFgHYa4BXmsr658DSJjnbWl7mQiESqzlc0ud78L4jXCSbM++9899
-	BZSwsaHv03DSgFsoP2P7KZRAs0aKFdFaw2n0Kxyg5Lb6tVKjycuO91Kwsg+ynesikyx8
-	qMKYdouXBDLDtVLCvyMDM0mJKD0LoBYbHtFt0KpvdMDKdYu/MPWnvLHVDhswxw5PJunx
-	vfHQ==
-X-Gm-Message-State: APjAAAVekIknzRZEqcdGIevHoBJDfVswGm9dSn72sfhacue2nK0fdvi7
-	w4T2BiBFD3qsbH0YnXS1kd4kxPiT
-X-Google-Smtp-Source: APXvYqxx0R3mGdlJ+Uq50RNQeqL73BFvg4QfGbyYrLZSdC3mU1g/Yh4UDwqrOfqouL1ujUF5tm/aLQ==
-X-Received: by 2002:a62:4ec5:: with SMTP id
-	c188mr31587647pfb.230.1552281405158; 
+	bh=2MWEreaZPieiUH4e8VEdtPUCxdmnqOb5lPR/tEyXLnY=;
+	b=dapLB8zLW3OBG2Aa0pq7FEQCF4N9WvhqmqU4Cxq/m0qyr2lfRutZcII2Srz0WQuXqN
+	0FJ9tjkHCVAVoZ7BsI0EyThIq6+8mG1M55rZrh0L/LfQ0qSFgbEH7wf7jYP4rM3Pjg2q
+	auk68R1mzIKEjthcayQaesjoBKo8msELiWTQSLJnGLv6tdYMvFwOwisggGo1VsF5kn6t
+	HWwmqoZNg/g7zXi5tKdvnAR3N49BeoSrlS20SgtCflT/9t/ppSJg46w50XtaKKHG59P6
+	4k0m6QxRRCSHOd5E/FZrNsMd4bcblwabeTZI+T3fY0pud+YgUyww/SFjnTIhZdEqynLk
+	YjLQ==
+X-Gm-Message-State: APjAAAVqi/KyIDJunanFecEXPW0sM6hZBlcR8jBunQJ6eZquOJzPZx99
+	ujFBv+D/8LftpaIQa75/h9Gah+pr
+X-Google-Smtp-Source: APXvYqzZ8wJ1/uFfhB+4M7ufllg5ww6GN7+L0YrU9vSYLvxpe6kavQqk4wVz94T6V+h0Dl81MPV83Q==
+X-Received: by 2002:a62:f54d:: with SMTP id n74mr30868769pfh.98.1552281405880; 
 	Sun, 10 Mar 2019 22:16:45 -0700 (PDT)
 Received: from localhost.localdomain
 	(50-196-139-177-static.hfc.comcastbusiness.net. [50.196.139.177])
-	by smtp.gmail.com with ESMTPSA id s6sm6215239pgm.90.2019.03.10.22.16.44
+	by smtp.gmail.com with ESMTPSA id s6sm6215239pgm.90.2019.03.10.22.16.45
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Mar 2019 22:16:44 -0700 (PDT)
+	Sun, 10 Mar 2019 22:16:45 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Mar 2019 22:16:42 -0700
-Message-Id: <1552281403-31669-2-git-send-email-akuster808@gmail.com>
+Date: Sun, 10 Mar 2019 22:16:43 -0700
+Message-Id: <1552281403-31669-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1552281403-31669-1-git-send-email-akuster808@gmail.com>
 References: <1552281403-31669-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/3] libxcursor: update 1.2.0
+Subject: [PATCH 3/3] libxdamage: update to 1.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 05:16:44 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 05:16:45 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../xorg-lib/{libxcursor_1.1.15.bb => libxcursor_1.2.0.bb}         | 7 ++++---
+ .../xorg-lib/{libxdamage_1.1.4.bb => libxdamage_1.1.5.bb}          | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxcursor_1.1.15.bb => libxcursor_1.2.0.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{libxdamage_1.1.4.bb => libxdamage_1.1.5.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.15.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb
-similarity index 80%
-rename from meta/recipes-graphics/xorg-lib/libxcursor_1.1.15.bb
-rename to meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb
-index dc9af23..2df7a3a 100644
---- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.15.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb
-@@ -12,11 +12,12 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
+diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb
+similarity index 87%
+rename from meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+rename to meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb
+index 530da05..b201124 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb
+@@ -18,11 +18,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
  
- DEPENDS += "libxrender libxfixes"
+ DEPENDS += "virtual/libx11 xorgproto libxfixes"
+ PROVIDES = "xdamage"
 -BBCLASSEXTEND = "native nativesdk"
  
  PE = "1"
  
- XORG_PN = "libXcursor"
+ XORG_PN = "libXdamage"
  
--SRC_URI[md5sum] = "58fe3514e1e7135cf364101e714d1a14"
--SRC_URI[sha256sum] = "294e670dd37cd23995e69aae626629d4a2dfe5708851bbc13d032401b7a3df6b"
-+SRC_URI[md5sum] = "9b9be0e289130fb820aedf67705fc549"
-+SRC_URI[sha256sum] = "3ad3e9f8251094af6fe8cb4afcf63e28df504d46bfa5a5529db74a505d628782"
+-SRC_URI[md5sum] = "0cf292de2a9fa2e9a939aefde68fd34f"
+-SRC_URI[sha256sum] = "7c3fe7c657e83547f4822bfde30a90d84524efb56365448768409b77f05355ad"
++SRC_URI[md5sum] = "e3f554267a7a04b042dc1f6352bd6d99"
++SRC_URI[sha256sum] = "b734068643cac3b5f3d2c8279dd366b5bf28c7219d9e9d8717e1383995e0ea45"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
