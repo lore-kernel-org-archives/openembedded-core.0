@@ -1,52 +1,48 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 71CAD751D2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C33717C34B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 19:58:46 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id a22so4838997pgg.13
+	Mon, 11 Mar 2019 21:28:53 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id h1so184974pfo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 12:58:47 -0700 (PDT)
+	Mon, 11 Mar 2019 14:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=KFgaJauumbwl+UvELjgNxqEMyndT114JRwRqThj46og=;
-	b=MthttkvK7/ZSJwi+BYkwTmOuyEh4WgZPFqZV3CBTnevw+0DsMXs4FK0o1zwUFXGgFs
-	G4Il5ACA5m4STGpSv2daByZcH0taaBFqO8ny+8J3pf3QCqrBcrcoDNUZ+9q/CsxzAHxT
-	PpI32GyBeX19IC45Lb4OwdGIXDNIVP+itkHwsB4TfORDibEKcdD6sAJp3mYK6GsBW+ZF
-	67WUksy+fGz4AyljjQ9T4OlIeFZxLIrCT8+klpJHirqAd26brubtwoOALmi388H4skfh
-	TsoV1mBLmAoqH5vKW69ctRnManiRm+uG08TsYeK6gM+d+HwZAKc+ZBhgJV1dkT3iqHij
-	+gXA==
+	h=from:to:subject:date:message-id;
+	bh=wFK6+8GIKN2EmMSTd9kwUzZ7rj8WlnRjbyV+B2JuM+c=;
+	b=dzCjVo+lW8r5g8h05Yb9JEH8M/RhRtLTmx8H91WscdARPfhCxattZji29j4aHoKzTl
+	SRAeRFYd7QrnmoxDTDWPKeh55keB4ZgP4oD6FImG0TrDWK4fzkDeOcEO+YI34jOotmL4
+	wlcWN2bc55Hvtk029s14AAforHICBArz+eCM8xJsR3oiiwOsj9n64aiGJNxnHh8Le1Ef
+	rfXgLMDRXpCTSEqG06MGYega0KOJnmkReTG12bOseG8SK59IiMCt1TgwFHeUVGT4No5P
+	h59aroUwb4EmrK9VyvHFNRFngAXUy4fUbd8Z7wIoi1OLjnw0QNrF1ZTXcwp5EkxjJuGk
+	yUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=KFgaJauumbwl+UvELjgNxqEMyndT114JRwRqThj46og=;
-	b=F7dnpXV0wTcZUZirxFwG/OLE2kWzULSt3s0dCCFIhRyonKz1yvf9c2KXQWkQw5AC86
-	X3FGmzhGzy9FwWLjNQXnvwZ5LOmhWyFQYzyuuTRkDP7iqgqcw029wc8WDMJ99IG5F/+Q
-	yhz5QqZ6XBteLbfbEHoKRX8K2b2Bu0zUU1xf3UK/FJsMxN3xb7tFkAfLyBEQpcC9buLG
-	7uxVAykczBgoHNu6ZUs/ijzs7Zkxmp5NI7wwKhch8B7gupFIfFJh5dCVr8zQ+caoO04g
-	7XLUlymfIr3fSYgEwRcyjy6820QKsIB8Rwjp2ANg9IHgkeIDNmEKtXxb/R8H0TG/sDlE
-	/uzg==
-X-Gm-Message-State: APjAAAXjfGVjb1d/30mvdI2klOEqKGy59GLYjeG8/ftFH0+omP65se7p
-	YMeE+LLWQdf2mLh5HV06zupVfhZU
-X-Google-Smtp-Source: APXvYqwYtWfsCbJxRyJVW1+IzX2BPfprmbJMXkRCAvW0tsEB5XLvCM0pBSEgzili6Xo12ugU814Hpg==
-X-Received: by 2002:a63:445e:: with SMTP id t30mr10478480pgk.27.1552334327122; 
-	Mon, 11 Mar 2019 12:58:47 -0700 (PDT)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	p34sm12957303pgb.18.2019.03.11.12.58.46
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wFK6+8GIKN2EmMSTd9kwUzZ7rj8WlnRjbyV+B2JuM+c=;
+	b=fzSMyL/+/Tt3ECOZfY4lKEOrw67yqjYgH8FVaMSz+ZUUT2ZLLj0xgsTPxeaD9QN5e1
+	2kD06vPaQoEu2oh0yudMkgVu957ATK6Ou4jcIHZIHR470gnYCoCLj1y+yj4nQG75M9TH
+	0x7JHdGyKPALlMQeUpVf6CMnaLNFfg47vbz8u/8rHZ7k3femuR8i8Pp/XYUte9N70QO/
+	0zkve6gqNi7g0dQbVKJVOowWi/ALEQ9z/9WCL25tv5ZJLluR56GcZZ23BHQYOOjjEqin
+	jpZLk/Zm5IF1w3b3Q2Qk/28RDu4KBN2S+unyQMNIND20t+bG5ybVgTXMxRCbrJBEsyxP
+	x1Sw==
+X-Gm-Message-State: APjAAAUn/NamACbp0OKY9ZUDAYEfPYtKNezMJbax2IPD9KdtPgAUpLq5
+	+Fa5bvOTPM0I3BqaD/Cf7BN333xo
+X-Google-Smtp-Source: APXvYqyuektqIAJ2sTKkyjAFhZOwCewhmtoQezPP6DMHMBrHa4K9+0lkQbsN6fN5z8NJ/9gsVYuhPg==
+X-Received: by 2002:a65:50cc:: with SMTP id s12mr31499954pgp.130.1552339734679;
+	Mon, 11 Mar 2019 14:28:54 -0700 (PDT)
+Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
+	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
+	k74sm16750633pfb.172.2019.03.11.14.28.53
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Mar 2019 12:58:46 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Mar 2019 12:58:45 -0700
-Message-ID: <000401d4d844$d6323f60$8296be20$@gmail.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQMJX5pF7h6Sas+G8GBvCbx15i4ktQ==
-Subject: Yocto Project Unassigned Bugs - Help Needed
+	Mon, 11 Mar 2019 14:28:54 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2019 14:28:53 -0700
+Message-Id: <20190311212853.18354-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [V2][PATCH] xev: update to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,272 +55,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 19:58:46 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0005_01D4D80A.29D36760"
-Content-Language: en-us
+X-List-Received-Date: Mon, 11 Mar 2019 21:28:55 -0000
 
-------=_NextPart_000_0005_01D4D80A.29D36760
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+refactor diet-x11 patch
 
-All,
+LIC_FILES_CHKSUM changed to do merging of copyright/license notices
 
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+
+V2] Fix musl build fix
+---
+ .../xorg-app/xev/diet-x11.patch               | 133 +++++++++++-------
+ .../xorg-app/{xev_1.2.2.bb => xev_1.2.3.bb}   |   4 +-
+ 2 files changed, 82 insertions(+), 55 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xev_1.2.2.bb => xev_1.2.3.bb} (77%)
+
+diff --git a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+index 6130959f86..53c0ac2e61 100644
+--- a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
++++ b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+@@ -4,79 +4,106 @@ Upstream-Status: Inappropriate [disable feature]
+  xev.c |   16 ++++++++--------
+  1 file changed, 8 insertions(+), 8 deletions(-)
  
-
-The triage team meets weekly and does its best to handle the bugs reported
-into the Bugzilla. The number of people attending that meeting has fallen,
-as have the number of people available to help fix bugs. One of the things
-we hear users report is they don't know how to help. We (the triage team)
-are therefore going to start reporting out the currently 295 unassigned
-bugs.
-
+-Index: xev-1.2.0/xev.c
++Index: xev-1.2.3/xev.c
+ ===================================================================
+---- xev-1.2.0.orig/xev.c
+-+++ xev-1.2.0/xev.c
+-@@ -116,7 +116,7 @@ do_KeyPress (XEvent *eventp)
+-     nbytes = XLookupString (e, str, 256, &ks, NULL);
++--- xev-1.2.3.orig/xev.c
+++++ xev-1.2.3/xev.c
++@@ -125,17 +125,6 @@ do_KeyPress(XEvent *eventp)
++     nbytes = XLookupString(e, str, 256, &ks, NULL);
+  
+      /* not supposed to call XmbLookupString on a key release event */
+ -    if (e->type == KeyPress && xic) {
+-+    /*if (e->type == KeyPress && xic) {
+-         do {
+-             nmbbytes = XmbLookupString (xic, e, buf, bsize - 1, &ks, &status);
+-             buf[nmbbytes] = '\0';
+-@@ -126,7 +126,7 @@ do_KeyPress (XEvent *eventp)
+-                 buf = realloc (buf, bsize);
+-             }
+-         } while (status == XBufferOverflow);
++-        do {
++-            nmbbytes = XmbLookupString(xic, e, buf, bsize - 1, &ks, &status);
++-            buf[nmbbytes] = '\0';
++-
++-            if (status == XBufferOverflow) {
++-                bsize = nmbbytes + 1;
++-                buf = realloc(buf, bsize);
++-            }
++-        } while (status == XBufferOverflow);
+ -    }
+-+    }*/
+  
+      if (ks == NoSymbol)
+- 	ksname = "NoSymbol";
+-@@ -156,7 +156,7 @@ do_KeyPress (XEvent *eventp)
++         ksname = "NoSymbol";
++@@ -168,16 +157,6 @@ do_KeyPress(XEvent *eventp)
+      }
+  
+      /* not supposed to call XmbLookupString on a key release event */
+ -    if (e->type == KeyPress && xic) {
+-+    /*if (e->type == KeyPress && xic) {
+-         printf ("    XmbLookupString gives %d bytes: ", nmbbytes);
+-         if (nmbbytes > 0) {
+-            dump (buf, nmbbytes);
+-@@ -164,7 +164,7 @@ do_KeyPress (XEvent *eventp)
+-         } else {
+-     	   printf ("\n");
++-        printf("    XmbLookupString gives %d bytes: ", nmbbytes);
++-        if (nmbbytes > 0) {
++-            dump(buf, nmbbytes);
++-            printf(" \"%s\"\n", buf);
++-        }
++-        else {
++-            printf("\n");
++-        }
++-    }
++ 
++     printf("    XFilterEvent returns: %s\n",
++            XFilterEvent(eventp, e->window) ? "True" : "False");
++@@ -1141,7 +1120,7 @@ parse_event_mask(const char *s, long eve
++             if (s)
++                 return True;
+          }
+ -    }
+-+    } */
+++	}
+  
+-     printf ("    XFilterEvent returns: %s\n",
+- 	    XFilterEvent (eventp, e->window) ? "True" : "False");
+-@@ -1015,7 +1015,7 @@ main (int argc, char **argv)
+-         fprintf (stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
++     if (s != NULL)
++         fprintf(stderr, "%s: unrecognized event mask '%s'\n", ProgramName, s);
++@@ -1288,37 +1267,6 @@ main(int argc, char **argv)
++         fprintf(stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
+      }
+  
+--    xim = XOpenIM (dpy, NULL, NULL, NULL);
+-+    /*xim = XOpenIM (dpy, NULL, NULL, NULL);
+-     if (xim == NULL) {
+-         fprintf (stderr, "%s:  XOpenIM failed\n", ProgramName);
+-     }
+-@@ -1042,7 +1042,7 @@ main (int argc, char **argv)
+-             }
+-             XFree (xim_styles);
+-         }
++-    xim = XOpenIM(dpy, NULL, NULL, NULL);
++-    if (xim == NULL) {
++-        fprintf(stderr, "%s:  XOpenIM failed\n", ProgramName);
+ -    }
+-+	}*/
+- 
+-     screen = DefaultScreen (dpy);
++-
++-    if (xim) {
++-        imvalret = XGetIMValues(xim, XNQueryInputStyle, &xim_styles, NULL);
++-        if (imvalret != NULL || xim_styles == NULL) {
++-            fprintf(stderr, "%s:  input method doesn't support any styles\n",
++-                    ProgramName);
++-        }
++-
++-        if (xim_styles) {
++-            xim_style = 0;
++-            for (i = 0; i < xim_styles->count_styles; i++) {
++-                if (xim_styles->supported_styles[i] ==
++-                    (XIMPreeditNothing | XIMStatusNothing)) {
++-                    xim_style = xim_styles->supported_styles[i];
++-                    break;
++-                }
++-            }
++-
++-            if (xim_style == 0) {
++-                fprintf(stderr,
++-                        "%s: input method doesn't support the style we support\n",
++-                        ProgramName);
++-            }
++-            XFree(xim_styles);
++-        }
++-    }
++-
++     screen = DefaultScreen(dpy);
+  
+-@@ -1109,7 +1109,7 @@ main (int argc, char **argv)
+- 	printf ("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
++     attr.event_mask = event_masks[EVENT_MASK_INDEX_CORE];
++@@ -1373,16 +1321,6 @@ main(int argc, char **argv)
++         printf("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
+      }
+  
+ -    if (xim && xim_style) {
+-+    /*if (xim && xim_style) {
+-         xic = XCreateIC (xim,
+-                          XNInputStyle, xim_style,
+-                          XNClientWindow, w,
+-@@ -1119,7 +1119,7 @@ main (int argc, char **argv)
+-         if (xic == NULL) {
+-             fprintf (stderr, "XCreateIC failed\n");
+-         }
++-        xic = XCreateIC(xim,
++-                        XNInputStyle, xim_style,
++-                        XNClientWindow, w, XNFocusWindow, w, NULL);
++-
++-        if (xic == NULL) {
++-            fprintf(stderr, "XCreateIC failed\n");
++-        }
+ -    }
+-+    }*/
+- 
+-     have_rr = XRRQueryExtension (dpy, &rr_event_base, &rr_error_base);
++-
++     have_rr = XRRQueryExtension(dpy, &rr_event_base, &rr_error_base);
+      if (have_rr) {
++         int rr_major, rr_minor;
+diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb b/meta/recipes-graphics/xorg-app/xev_1.2.3.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-app/xev_1.2.2.bb
+rename to meta/recipes-graphics/xorg-app/xev_1.2.3.bb
+index 0705b7f7f1..6a69e747a6 100644
+--- a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-app/xev_1.2.3.bb
+@@ -14,5 +14,5 @@ DEPENDS += "libxrandr xorgproto"
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.
-
+ SRC_URI += "file://diet-x11.patch"
  
-
-Bugs are split into two types, "true bugs" where things don't work as they
-should and "enhancements" which are features we'd want to add to the system.
-
- 
-
-There are also roughly four different "priority" classes right now, "2.7",
-"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7"
-and then "2.8".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me
-(Stephen.k.jolley@intel.com <mailto:Stephen.k.jolley@intel.com> ) an e-mail
-with the bug number you would like and I will assign it to you (please make
-sure you have a Bugzilla account).
-
- 
-
-The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
- 
+-SRC_URI[md5sum] = "249bdde90f01c0d861af52dc8fec379e"
+-SRC_URI[sha256sum] = "d94ae62a6c1af56c2961d71f5782076ac4116f0fa4e401420ac7e0db33dc314f"
++SRC_URI[md5sum] = "eec82a5d4b599736f0fa637e96136746"
++SRC_URI[sha256sum] = "66bc4f1cfa1946d62612737815c34164e4ce40fcebd2c9e1d7e7a1117ad3ad09"
+-- 
+2.17.1
 
 
-------=_NextPart_000_0005_01D4D80A.29D36760
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0E95_01D4D260.69597230";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team meets weekly and does its best to handle the bugs reported =
-into the Bugzilla. The number of people attending that meeting has =
-fallen, as have the number of people available to help fix bugs. One of =
-the things we hear users report is they don't know how to help. We (the =
-triage team) are therefore going to start reporting out the currently =
-295 unassigned bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Bugs =
-are split into two types, &quot;true bugs&quot; where things don't work =
-as they should and &quot;enhancements&quot; which are features we'd want =
-to add to the system.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
-are also roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com</a>=
-) an e-mail with the bug number you would like and I will assign it to =
-you (please make sure you have a Bugzilla account).<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs">ht=
-tps://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
-p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0005_01D4D80A.29D36760--
