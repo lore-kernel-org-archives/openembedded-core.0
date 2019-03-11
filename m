@@ -1,28 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 077916B11A
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D88E7C704
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 12:12:54 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	x2BCCkb7030396
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 11 Mar 2019 12:12:49 GMT
-Message-ID: <4dacf2835bc4af256257c7b9455b15bc1e2b6f15.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Khem Raj <raj.khem@gmail.com>, Victor Kamensky <kamensky@cisco.com>
-In-Reply-To: <CAMKF1sp9pjSGOgdv_+k-sqA-sghbxyixK3rb513aRCa5GEtiXA@mail.gmail.com>
-References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
-	<20190311031230.21497-4-richard.purdie@linuxfoundation.org>
-	<CAMKF1sp9pjSGOgdv_+k-sqA-sghbxyixK3rb513aRCa5GEtiXA@mail.gmail.com>
+	Mon, 11 Mar 2019 12:21:43 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id z84so4062218wmg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2019 05:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9DjnNtk5xoU6eryrAOwqa1C8X0d7VyVEWdviRoSYzvc=;
+	b=aO1Lg7pvprpBFsTjGSBXVdWSFMqAUtLvPMCRf7eXGsmBiHZvhOsma8wym550HXsHd4
+	7kdKV3e8l6UMtJrMGjcNLP9eqoFj5B3ap1nX8D4/mv+t57PXROz1eg35u/bcoXrkk9vP
+	ozOddaRGU1FDUT3kDloZ1aPibIJ3o/b6PvTCCu4QNCtC8Y3JaCi/O0xfubX6PVuvqBv6
+	yObpYfo5t2RzN6jhwOLkA8bF8wP0rA2kMqXY3KSobeUDrU86p2jGUWkFCz4O6QYcSKv6
+	l1hYnvaBcwU27soBbgiLDr7OAapzM4RKA6Fto8JtDmhfsrFvR6kA1emN8y83x/eI/kLp
+	VijQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9DjnNtk5xoU6eryrAOwqa1C8X0d7VyVEWdviRoSYzvc=;
+	b=e1yREJVIc+GwRe0vDq8Io3RA0g7Q09CSf0hYapAfkQEV2QaXQvXfySfIXT6332FtRg
+	qx8H0yvgMKa547aDKtZfbibI6H3C19HwxOBFwEqQ8J8NHsd2r26XwWolZaYU3ZpGHf6S
+	Ai9zlnD/HJBccEJXaYv0ZhFd5SIVILQn56eRCy40UQHswRr1GsjU6F0VMmB4YfTsfGgg
+	QEmUSci/yvh8hB/xIvIXbV6mK3klabl1L1/ltCcmvNBIydHAcbD9fA3Tb/5BKsPC3gE3
+	QY/TNgDIF+2Y4q+B+242En7uv5Dk1diwn6Y+83bN7DneTyzf6k5HCEoAp9KNdS5TFHMo
+	TCKQ==
+X-Gm-Message-State: APjAAAW/6H/COmcDF7zISYiQWg5DFjMLwf8crqi+Wp8Gt7Qdm+wfuWx5
+	T4m1RkOHtTieuEfi7y0PExrbMHQDku2uxQ==
+X-Google-Smtp-Source: APXvYqxooNHBxEGFK2qhszu9RmTbh1cspj4tGMbQ3SpzVNCpHb9R40/FPRuvEw6taFTU+EtJsee8dw==
+X-Received: by 2002:a1c:be11:: with SMTP id o17mr17299736wmf.141.1552306903654;
+	Mon, 11 Mar 2019 05:21:43 -0700 (PDT)
+Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
+	by smtp.gmail.com with ESMTPSA id
+	k20sm6834589wre.41.2019.03.11.05.21.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 11 Mar 2019 05:21:42 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2019 12:21:29 +0000
+Message-Id: <20190311122129.32387-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Date: Mon, 11 Mar 2019 12:12:39 +0000
-User-Agent: Evolution 3.31.90-1 
-X-Virus-Scanned: clamav-milter 0.100.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] linux-yocto: Fix systemtap issue on armv7
+Subject: [PATCH] systemd: do not disable SELinux with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 12:12:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Mar 2019 12:21:43 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2019-03-10 at 21:27 -0700, Khem Raj wrote:
-> On Sun, Mar 10, 2019 at 8:13 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Testing stap on armv7 machines was failing due to intermixing of
-> > thumb/arm
-> > instructions. Patch the kernel to always use the v7 march options
-> > since
-> > we know our gcc versions support it to avoid the failure and allow
-> > systemtap to work.
-> > 
-> > [YOCTO #13153]
-> > 
-> 
-> please use the fix that Victor submitted upstream, that way we dont
-> need workaround.
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-March/637809.html
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-I have a feeling that patch may get some discussion upstream. I was
-going to say that the version we're working with is simpler and easier
-to work with until upstream decide what the right approach is. Victor
-as already pointed out that even then I messed it up slightly!
+Building and running SELinux with musl works fine these days,
+so don't disable it in the systemd bitbake file.
 
-I certainly appreciate getting something upstream and that is the right
-thing to do, I think a simpler workaround for us is fine until that
-gets sorted out though.
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/systemd/systemd_241.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-I'm particularly conscious that we've not built M3 yet and that Bruce
-has limited availability due to travel so we have a few constraints
-here.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index 47492c9512..e4534ab8af 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -101,7 +101,6 @@ PACKAGECONFIG_remove_libc-musl = " \
+     nss-mymachines \
+     nss-resolve \
+     resolved \
+-    selinux \
+     smack \
+     sysusers \
+     utmp \
+-- 
+2.20.1
 
 
