@@ -1,26 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 337E87CF09
+Return-Path: <yann.cardaillac@smile.fr>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CC2E160721
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 09:58:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2B9vlmN020278
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 11 Mar 2019 12:08:38 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t6so4791299wrw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 02:58:03 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 11 Mar 2019 02:57:58 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Mar 2019 18:16:55 +0800
-Message-ID: <e3265c111497596f7731b2c65dd502e83e3b6c50.1552299354.git.liezhi.yang@windriver.com>
+	Mon, 11 Mar 2019 05:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=smile-fr.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=17uIGR5YHKUdvNno88NwHh4NOPTtdoKg0x2AH5vKZYA=;
+	b=SneVeGCNH5xv6AtwZhia/7odMXlxWhC80eii5xjfZqiLJ5UlNei/3P5p88QGhXmnTR
+	0FSbzXxXrpD2LFoxt6FXGe06KPvkOnskLTZXKQUf8SfQ2D7RpqCuhh+dt6fTXQPnywVn
+	h2nsZ/EC8lJa4jCWN7CNY324CiNAN+o1Bu1CecKWNPAbYDBZ2OCa0juo1EsAfWzH1sFB
+	+PZpisF/o9FtaUvSsVhNU61RXpG4EtXmmYet1n12tnJwzKJxFVORoqMaZ8Soxbp4xi7n
+	f59dWIk30Pm4bzFzgvDyFz8vThCkR39PFSRcv7nadcwbenOhKdNyCepvO0c/by96Tyln
+	a3+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=17uIGR5YHKUdvNno88NwHh4NOPTtdoKg0x2AH5vKZYA=;
+	b=bMRW2WOn/vee85Unkb21rzpV2YD8GEUwfMR3hvB9akOyjFlKHlo14cCqm89rE/CMYF
+	D6B+rifqM/ORkXccMn2V4pJzXamVqQIY8PKc7javpmcBkgMlifN0aWaIRN/uH7iybuKd
+	I8rLr2ppVDk01qe6KGAlLhhNQrad6u2H3gaSAs77Uws3n9lKLU8GO7sx7Guv8Y4zMf4n
+	J6vNdVtNr6PJjc/wrVN2jS+3R63pKDOGLdD4z7KW3n6CKkL3LAlrEAfV0dZgO4OMCYuQ
+	OOn1KCJZ4j0E/Nf5fh18QYoDPc/wUc4c+BeqDmUf+1SGpoG3At61AvKUNc1Wjq98K5nk
+	uqOg==
+X-Gm-Message-State: APjAAAXb0DKo1d3wmn8UAqnN4avkf3BssUOviimX86D18t/pgGAsS3JQ
+	JBIjxhMzT/ZnhT/UaSSurrp/sithmyY=
+X-Google-Smtp-Source: APXvYqw3S+khizr6EXfDtGsfg+hF1d+WaM+JmV+XQelleRpqBbhcYZf0/9DS0wiRthc9mC0i4DiGtA==
+X-Received: by 2002:a5d:538a:: with SMTP id d10mr19829127wrv.121.1552306119408;
+	Mon, 11 Mar 2019 05:08:39 -0700 (PDT)
+Received: from P-ASN-Panpan.dhcp.idf.intranet
+	(static-css-ccs-204145.business.bouyguestelecom.com.
+	[176.157.204.145]) by smtp.gmail.com with ESMTPSA id
+	d15sm15966080wrw.36.2019.03.11.05.08.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Mar 2019 05:08:39 -0700 (PDT)
+From: Yann CARDAILLAC <yann.cardaillac@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2019 13:08:37 +0100
+Message-Id: <1552306117-28437-1-git-send-email-yann.cardaillac@smile.fr>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1552299354.git.liezhi.yang@windriver.com>
-References: <cover.1552299354.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] oe-init-build-env: Error out when failed to locate cwd
+Subject: [PATCH] correct do_patch for kernel bbappend in sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 09:58:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Mar 2019 12:08:39 -0000
 
-Ubuntu's /bin/sh symlinks to /bin/dash by default, so
-subprocess.check_call(oe-init-build-env, cwd=builddir) would be failed since
-pwd is builddir, and there is no $builddir/oe-init-build-env, this would
-lead to other confusing errors, check and error it out earlier to make it
-easier to locate the problem.
+do_patch rule of SDK's workspace/appends/linux-*.bbhappend may fail if script are not written in Python
 
-We don't meet the problem when manually run ". oe-init-build-env" is because
-Ubuntu's default login shell is bash, but subprocess.check_call() doesn't
-respect to login shell, so the error only happens in situations like
-subprocess.check_call().
+that was the case with Phytec's BSP, the fix was to replace the do_patch rule with :
 
-And also print errors to stderr as oe-buildenv-internal does.
+do_patch[noexec]="1" when the file was generated in scripts/lib/devtool/standard.py
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Yann CARDAILLAC <yann.cardaillac@smile.fr>
 ---
- oe-init-build-env | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/oe-init-build-env b/oe-init-build-env
-index e813230..861c3e0 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -31,13 +31,18 @@ elif [ -n "$ZSH_NAME" ]; then
-     THIS_SCRIPT=$0
- else
-     THIS_SCRIPT="$(pwd)/oe-init-build-env"
-+    if [ ! -e "$THIS_SCRIPT" ]; then
-+        echo "Error: $THIS_SCRIPT doesn't exist!" >&2
-+        echo "Please run this script in oe-init-build-env's directory." >&2
-+        exit 1
-+    fi
- fi
- if [ -n "$BBSERVER" ]; then
-     unset BBSERVER
- fi
- 
- if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
--    echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'"
-+    echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'" >&2
-     exit 1
- fi
- 
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index beea0d4..810d12f 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -761,9 +761,7 @@ def modify(args, config, basepath, workspace):
+             if bb.data.inherits_class('kernel', rd):
+                 f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
+                         'do_fetch do_unpack do_kernel_configme do_kernel_configcheck"\n')
+-                f.write('\ndo_patch() {\n'
+-                        '    :\n'
+-                        '}\n')
++                f.write('\ndo_patch[noexec] = "1"\n')
+                 f.write('\ndo_configure_append() {\n'
+                         '    cp ${B}/.config ${S}/.config.baseline\n'
+                         '    ln -sfT ${B}/.config ${S}/.config.new\n'
 -- 
 2.7.4
 
