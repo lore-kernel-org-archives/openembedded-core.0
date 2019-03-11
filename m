@@ -1,25 +1,23 @@
 Return-Path: <mazliana.mohamad@intel.com>
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 0034E7CE7C
+	by mail.openembedded.org (Postfix) with ESMTP id 402587CF09
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 09:11:00 +0000 (UTC)
+	Mon, 11 Mar 2019 09:11:08 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Mar 2019 02:01:40 -0700
+	11 Mar 2019 02:01:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,467,1544515200"; d="scan'208";a="140931335"
+X-IronPort-AV: E=Sophos;i="5.58,467,1544515200"; d="scan'208";a="140931330"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga002.jf.intel.com with ESMTP; 11 Mar 2019 02:01:39 -0700
+	by orsmga002.jf.intel.com with ESMTP; 11 Mar 2019 02:01:38 -0700
 From: mazliana.mohamad@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2019 16:30:34 +0800
-Message-Id: <1552293034-65821-2-git-send-email-mazliana.mohamad@intel.com>
+Date: Mon, 11 Mar 2019 16:30:33 +0800
+Message-Id: <1552293034-65821-1-git-send-email-mazliana.mohamad@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1552293034-65821-1-git-send-email-mazliana.mohamad@intel.com>
-References: <1552293034-65821-1-git-send-email-mazliana.mohamad@intel.com>
-Subject: [PATCH] scripts/resulttool: Enhance retrieving test cases value
+Subject: [PATCH] resulttool/manualexecution: To output right test case id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 09:11:01 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 09:11:08 -0000
 
 From: Mazliana <mazliana.mohamad@intel.com>
 
