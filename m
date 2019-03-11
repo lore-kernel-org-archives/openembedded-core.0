@@ -1,47 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 089E9605BE
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 35CFE605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 03:12:31 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id a22so2891755pgg.13
+	Mon, 11 Mar 2019 03:12:32 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id u9so2902466pgo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 20:12:33 -0700 (PDT)
+	Sun, 10 Mar 2019 20:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pDEtJmlwiiANVNOvm+sagEaiFFBn7+9WQPOnhuDkFMo=;
-	b=f2X5+OM/OC4BjMvbQ3eplE6VR4kuE/ZFa3OaehRGBcikcWUcDlt4EUwMJejk/ZG2iR
-	akGsi3612JpN1GWOjWy03Q6zmxzgfULQhJg1G5PnNDdf4hDxmmywYd4mfdurvMvb0KZx
-	QEts8XQfTlT3aNvyRoB0Vdal85L+PCGkZmHUc=
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=4M1ipKOmZiyMJzlWjcnMNeXEVWVTdPEzZeqx12Ilk5M=;
+	b=PJgfo9EeQZk0FPsQ+aZTch9fv8PsQ4r+vr+NTHNSn3LxsGmkYOfzd3Y94PJ4jgwD5k
+	2SOA1lIgDybZU/YXVyi73D/bCf1hhgfbhOkFyGii1KmvOj7PxhAGvkDPRct8NzK/sM3A
+	ufcj2pE8+/FQ69xQuHXQ5gJxpohR6kUA1/diA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pDEtJmlwiiANVNOvm+sagEaiFFBn7+9WQPOnhuDkFMo=;
-	b=XNKTVh5+/bw94sr6Qonr/6a3NGw7g0dQen8uwGbOAJ8DyklujbamJSPGcafy1qmfYy
-	J8WNBw6DZ0TJySD2Sf5tqoOQmb0p0P9Q89gIpR1VZ7SAhmrOuUZXqgzSBdQ40oj78eat
-	w+U0IGb4Rofq+zr8ltHxbMY8/xrATbFrqHcstfXYRGpFu+E/Yeq9pk/s0DQpAFepvhwA
-	PVcVBKPU5yDPgVGGPs70uRxnd1Kb917Xp5aJK1JEt9Zh+YyKD8IYGggSputUtl26BQFP
-	vcdYH9tmAyDFr53zunnELXOQi0N7ljbiJrseEsx/hynaWRRvCTK71lqrImj+wGBbinH3
-	Bc4g==
-X-Gm-Message-State: APjAAAW83XFLrU8nLgyxYyfxj5V93qwDEHNA/uVQrrE0jBCvxYyhgqoJ
-	Osma3WSR/ax7LolqUVa9EVzlUlGobc+4+w==
-X-Google-Smtp-Source: APXvYqyVpsWTzgppGh6Mc8VFL2QFqHYs9+gpAWgQEICc0Wy3ImpgbeX4mGUzQcqAKiinlwluluk//Q==
-X-Received: by 2002:a65:5286:: with SMTP id y6mr10940329pgp.310.1552273952427; 
-	Sun, 10 Mar 2019 20:12:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=4M1ipKOmZiyMJzlWjcnMNeXEVWVTdPEzZeqx12Ilk5M=;
+	b=B3W1yCWlf53eDkjFyDfRqfL0tnvMQB8XEYpu482V8vP78yKwdM1Qg+AJnClvt3aDml
+	3Pw3KjLbgt/XiMbiYicAsHnjm8rh8mtpEG8J4s/xooaW5NI1EVXsfq4OjzVRwt9nSZmn
+	cM435VPs7UXTgImBC9oQEKK13AXHh6T0RmlXdoOV953BQ8o96QQCcowI//SgYdm09mFG
+	vgHZNr8wcvmYdd8UVaBQsorFYz+adbYTHcVgNn0XQ2UanYJv6vcNDokrHVIG0Ysd20wh
+	6v+24MAiCocCsK1wL9GlwNu9fHeiJxqCOI8yKLCM5xke1LcURBG6ivPDL4ekjst8avtP
+	cy1g==
+X-Gm-Message-State: APjAAAW8sX0F5FQHi/318qvGDPsd/UASlmRiDE4gQERq8u1RYgBLqRzI
+	3Y6XzcVh3Ax5cdkliJwT/8ZLrIq2FfkjIQ==
+X-Google-Smtp-Source: APXvYqxAqAghaXbbcNxxS9Km/AmT+exUww8ftImKNEBBU85v348iGLtgYkKcaNh50Aj8iLsVnJgUhQ==
+X-Received: by 2002:a63:d449:: with SMTP id i9mr28421649pgj.449.1552273953817; 
+	Sun, 10 Mar 2019 20:12:33 -0700 (PDT)
 Received: from hex.int.rpsys.net ([12.27.65.221])
-	by smtp.gmail.com with ESMTPSA id l2sm6166861pgj.64.2019.03.10.20.12.31
+	by smtp.gmail.com with ESMTPSA id l2sm6166861pgj.64.2019.03.10.20.12.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Mar 2019 20:12:31 -0700 (PDT)
+	Sun, 10 Mar 2019 20:12:32 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2019 03:12:26 +0000
-Message-Id: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+Date: Mon, 11 Mar 2019 03:12:27 +0000
+Message-Id: <20190311031230.21497-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] qemuarm: Swap for an arm7ve (A15) configuration
+Subject: [PATCH 2/5] machine: bump preferred version to 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,189 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 03:12:32 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 03:12:33 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Jon Mason <jdmason@kudzu.us>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Add new QEMU BSP for a Arm Cortex-A15 system and use this as qemuarm,
-moving the old armv5te Versatile PB based machine to qemuarmv5.
-
-The new machine uses the QEMU virt machine type, which should be
-faster to emulate and updates the qemuarm support to a modern
-architecture.
-
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/conf/machine/qemuarm.conf                | 34 +++++++++++++------
- meta/conf/machine/qemuarmv5.conf              | 23 +++++++++++++
- .../linux/linux-yocto-rt_4.19.bb              |  2 +-
- .../linux/linux-yocto-rt_5.0.bb               |  2 +-
- .../linux/linux-yocto-tiny_4.19.bb            |  2 +-
- .../linux/linux-yocto-tiny_5.0.bb             |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb  |  2 +-
- 8 files changed, 52 insertions(+), 17 deletions(-)
- create mode 100644 meta/conf/machine/qemuarmv5.conf
+ meta/conf/machine/include/x86-base.inc | 2 +-
+ meta/conf/machine/qemuarm64.conf       | 2 --
+ meta/conf/machine/qemuarmv5.conf       | 2 +-
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index a5443126273..95550461899 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -1,21 +1,33 @@
- #@TYPE: Machine
--#@NAME: arm_versatile_926ejs
--#@DESCRIPTION: arm_versatile_926ejs
-+#@NAME: generic Arm Cortex-A15 machine
-+#@DESCRIPTION: Machine configuration for running a generic armv7
+diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
+index c29279209b7..686f9382338 100644
+--- a/meta/conf/machine/include/x86-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -18,7 +18,7 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
+ # kernel-related variables
+ #
+ PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ??= "4.18%"
++PREFERRED_VERSION_linux-yocto ??= "5.0%"
  
-+require conf/machine/include/tune-cortexa15.inc
- require conf/machine/include/qemu.inc
--require conf/machine/include/tune-arm926ejs.inc
--#require conf/machine/include/tune-arm1136jf-s.inc
- 
- KERNEL_IMAGETYPE = "zImage"
- 
--SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
-+SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
- 
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-arm"
--QB_MACHINE = "-machine versatilepb"
--QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
--QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
--# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
-+QB_MEM = "-m 512"
-+QB_MACHINE = "-machine virt"
-+QB_CPU = "-cpu cortex-a15"
-+# Standard Serial console
-+QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
-+# For graphics to work we need to define the VGA device as well as the necessary USB devices
-+QB_OPT_APPEND = "-show-cursor -device VGA,edid=on"
-+QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
-+# Add the virtio RNG
+ #
+ # XSERVER subcomponents, used to build the XSERVER variable
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index e17245a0f71..92c61cb2438 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -29,5 +29,3 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
+ # Virtio serial console
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+ QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+-
+-PREFERRED_VERSION_linux-yocto ?= "4.19%"
+diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+index 5f90accc242..e3948a25da1 100644
+--- a/meta/conf/machine/qemuarmv5.conf
++++ b/meta/conf/machine/qemuarmv5.conf
+@@ -17,7 +17,7 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
+ QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
  QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
 -PREFERRED_VERSION_linux-yocto ??= "4.18%"
--QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
-+# Virtio Networking support
-+QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
-+QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
-+# Virtio block device
-+QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
-+# Virtio serial console
-+QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-+
-+KMACHINE_qemuarm = "qemuarma15"
-diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
-new file mode 100644
-index 00000000000..5f90accc242
---- /dev/null
-+++ b/meta/conf/machine/qemuarmv5.conf
-@@ -0,0 +1,23 @@
-+#@TYPE: Machine
-+#@NAME: arm_versatile_926ejs
-+#@DESCRIPTION: arm_versatile_926ejs
-+
-+require conf/machine/include/qemu.inc
-+require conf/machine/include/tune-arm926ejs.inc
-+#require conf/machine/include/tune-arm1136jf-s.inc
-+
-+KERNEL_IMAGETYPE = "zImage"
-+
-+SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
-+
-+# For runqemu
-+QB_SYSTEM_NAME = "qemu-system-arm"
-+QB_MACHINE = "-machine versatilepb"
-+QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
-+QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
-+# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
-+QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
-+PREFERRED_VERSION_linux-yocto ??= "4.18%"
-+QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
-+
-+KMACHINE_qemuarmv5 = "qemuarm"
++PREFERRED_VERSION_linux-yocto ??= "5.0%"
+ QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+ 
+ KMACHINE_qemuarmv5 = "qemuarm"
 \ No newline at end of file
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index 07dc5b77a14..36761b99437 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
- 
- KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index 2350973fef2..52c289903be 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
- 
- KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index c6d1594a828..52dbabd7a47 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
- 
--COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarma15"
- 
- # Functionality flags
- KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index e0a68014461..b6401199a41 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
- 
--COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
- 
- # Functionality flags
- KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index 8a4355ee833..3ef26a12baa 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -37,7 +37,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
- 
--COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarm|qemuarma15|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index f2c066a1503..ae6e80c0108 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -40,7 +40,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
- 
--COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 -- 
 2.20.1
 
