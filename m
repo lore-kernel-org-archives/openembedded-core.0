@@ -1,50 +1,49 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
-	[209.85.208.182])
-	by mail.openembedded.org (Postfix) with ESMTP id EF17E607A4
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 69621607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 03:14:29 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id g80so2682906ljg.6
+	Mon, 11 Mar 2019 03:16:36 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id z7so2701493lji.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 20:14:31 -0700 (PDT)
+	Sun, 10 Mar 2019 20:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wwv6IwBj9qTSs4+MsozTIpgLW/1ZT8vyLSY/JCCrzjE=;
-	b=r+WteIlO0J+AKzR/2ULKiKn0SC0Rgj2V6kpSBoVrd6ItkO5h07doGxBnn+dNJxw6SL
-	zvJDORv2K6TFyHksBHuwYcVU85lzVXWusU6bynZPuTNPWRx6z5AsjhJXrgKt7neoupdG
-	f2b7MZ0/D1kUO/Xd3vxXK3XQrd0ZAjq2L8eEQEur7JHRUyHmnUAIjW84uj5YwgKNYbVi
-	uCgxWVSO1715aMUynQKavVUP4xalLLrYJjJFoXh3UnO45Znb9bTOcMAIIQhh5BoddPCM
-	ei8D5cWORxCOKWxTVIYKIu43jfOFiFQOJGrOFXl1bgr9GupThBExQ1N7dUwiKgYEvRqd
-	Stvg==
+	:cc:content-transfer-encoding;
+	bh=BuRtgLYcPut8T21op4ZuvdLF8emify5FQoquaWsqa2E=;
+	b=hiV4hdJzU1AIsPivexyBBOpNpGYT/zwed7Bw8Yo0f6ou34WAOx2g4dOQj7HkchWkmk
+	TzXkd2X+58oUclTjUlS+OOnOej5m2LMzvj3J4AmFOSEHGGYAV4t1Z61nM7h7sVawAJgx
+	FDMDgTmmKjrrmr6WAgKtUcBL91pbE+HMrloaPi8encfek//mgAAlVMs7dUzjLIm1BcMO
+	AduJP7qNZyuLKkP3qAi3oK+G4+xiq8xF7C+QMERvhvKGMhRK5kg3beK4C4iMrPU7Mkzn
+	wqZzuWIHTH2FJjxKDCiD0mnfhqeHRuB+BnthlK1BY406ZL58ou7ml60Cm0KVj5sGsJh0
+	Fd6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wwv6IwBj9qTSs4+MsozTIpgLW/1ZT8vyLSY/JCCrzjE=;
-	b=UIk744Voni7fr00bzcopRPlxZbIAoQc12X/h5IJLU+/GF/sm0f0nkrK5Q6wZmD3tuz
-	iY5cioveQBP4H74gBkjJeW+4uI0jcItWyD6/NxIgQDnLd5GQuVIQ0Om5IEU7DG/XH+mZ
-	aFu1SoYN9YHV+9G6YWCvdfiyTCLFlUzL7ByoalW9Eeri+tZZuW9Uupjf90Y+KVU7wNJT
-	nH32eC9iUlNBBlqnJ4FhrTwFDMN8FvktGELhFJdxBUvO0LPliN1GlNkq/H2TcZdALNy6
-	oHYfO/muFe/QBjHOFwU6QuNEYgEdcdRnZ2l12AdGq7Bffeby4imznNLcOe8FPP1/NuNp
-	YX4Q==
-X-Gm-Message-State: APjAAAVEEmVqJ60aHEE0BDMiL7sw417GDx+yUL9tC8XL004kTQK8Unbj
-	PtEyuCNojRyufBsXmab+Ju6vjfz7BLbC5JZTfrI=
-X-Google-Smtp-Source: APXvYqw7oDEzfgRodnKc4o8uw3Q34UIYnz9WDs7BGeqALc3B/v3f5OaKf1VVPAVe0U0H2N36ofyxabwevbecEKKmyKw=
-X-Received: by 2002:a2e:98c8:: with SMTP id s8mr15380765ljj.84.1552274070104; 
-	Sun, 10 Mar 2019 20:14:30 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=BuRtgLYcPut8T21op4ZuvdLF8emify5FQoquaWsqa2E=;
+	b=ixpxheIYvWTl68XspRdHa92b4UtqXlUN0COydjJYg4RFhhw+wg9W1R1JXpzJ7TCvJT
+	nunW/XuJX4N6dH5l93pRd2NbFzV95Bw3NYrwpGAIWrHEg4YKdSQGH6hVxRV+cRJcr9NZ
+	4tkHAjZGt7bLKiq0vF3D1IG9PyUdFW4UGmtVJ3hpIr8ORp40T8ZZdvJ0PMyKtJ/FF5De
+	6MR5t9qaQKoqxEGjO49dsVh5mbt/G5WGg2pURXoFj0i0+SM2ZVVersAkWuB5ELjsl62J
+	2BFG+AMbCoyMP+4Rw/PbD/vK22+u1xBiEBN3W+3CBeXLybgpegtr+Cd7O/A1wNkwRZSv
+	0YBQ==
+X-Gm-Message-State: APjAAAUgv+D9WzmBOr11+0kqtoaCRPOkU3kvEY8IHm4B8OYAa5sYQ6LP
+	Gl7/9t72LsHWgS+TDpW2T8o7GdfYLp1O9DkBkiE=
+X-Google-Smtp-Source: APXvYqzqVUlYa90I1o7D/Z6tVGdFkvMFUxv32sFUeEngZ9omnqpk8G9Vb4D2SrmGkfNKgsXN0m+E0Mf52vFbCO04sGE=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr15234467ljj.191.1552274196752;
+	Sun, 10 Mar 2019 20:16:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1551889557.git.bruce.ashfield@gmail.com>
-	<05adfd2c8d029ee397c9d2046ebb11aec8d3e952.1551889557.git.bruce.ashfield@gmail.com>
-	<751a6405-4e20-89d6-daf5-664ec775bb7d@betafive.co.uk>
-	<CADkTA4OjYBPDUkzY=GHGSMfZmKW5=Hg6nrjikwD2vxBCb01hqQ@mail.gmail.com>
-In-Reply-To: <CADkTA4OjYBPDUkzY=GHGSMfZmKW5=Hg6nrjikwD2vxBCb01hqQ@mail.gmail.com>
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+	<20190311031230.21497-4-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20190311031230.21497-4-richard.purdie@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 10 Mar 2019 23:14:19 -0400
-Message-ID: <CADkTA4O+Cu0H38xqHoaXWtJE_MGoZg-sRsacQN4YHthzXA3S1A@mail.gmail.com>
-To: Paul Barker <paul@betafive.co.uk>
+Date: Sun, 10 Mar 2019 23:16:19 -0400
+Message-ID: <CADkTA4OmYCRtLMPHQRbJooso23g62GD01+yhC45=0hBUDadXGg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] kernel-yocto: allow kernel-meta repositories to be patched
+Subject: Re: [PATCH 4/5] linux-yocto: Fix systemtap issue on armv7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,146 +56,324 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 03:14:30 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 03:16:36 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 10, 2019 at 10:35 PM Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
+On Sun, Mar 10, 2019 at 11:12 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Sat, Mar 9, 2019 at 5:10 PM Paul Barker <paul@betafive.co.uk> wrote:
-> >
-> > On 06/03/2019 16:37, bruce.ashfield@gmail.com wrote:
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > For testing purposes, it is often easier to patch a fragment
-> > > in a kernel-meta repository versus needing to make a copy or
-> > > modify the source repository.
-> > >
-> > > We can allow this sort of patching when a patchdir of kernel-meta
-> > > is passed (to indicate the nested kernel-meta repository).
-> > >
-> > > Also note that we must patch the meta data before they are
-> > > processed/gathered, since migrated copies to the kernel source
-> > > directory will be used later.
-> > >
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > ---
-> > >   meta/classes/kernel-yocto.bbclass | 29 +++++++++++++++++++++++++----
-> > >   1 file changed, 25 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> > > index 496c8a7f68..d2b194dd55 100644
-> > > --- a/meta/classes/kernel-yocto.bbclass
-> > > +++ b/meta/classes/kernel-yocto.bbclass
-> > > @@ -5,12 +5,21 @@ PATCH_GIT_USER_NAME ?= "OpenEmbedded"
-> > >
-> > >   # returns local (absolute) path names for all valid patches in the
-> > >   # src_uri
-> > > -def find_patches(d):
-> > > +def find_patches(d,subdir):
-> > >       patches = src_patches(d)
-> > >       patch_list=[]
-> > >       for p in patches:
-> > > -        _, _, local, _, _, _ = bb.fetch.decodeurl(p)
-> > > -        patch_list.append(local)
-> > > +        _, _, local, _, _, parm = bb.fetch.decodeurl(p)
-> > > +        # if patchdir has been passed, we won't be able to apply it so skip
-> > > +        # the patch for now, and special processing happens later
-> > > +        patchdir = ''
-> > > +        if "patchdir" in parm:
-> > > +            patchdir = parm["patchdir"]
-> > > +        if patchdir:
-> >
-> > Did you mean 'if subdir:' here?
->
-> Nope. I did mean if patchdir: here, that doesn't mean it is working perfectly,
-> but I did definitely mean patchdir.
->
-> >
-> > I'm seeing duplicate attempts to apply a patch listed on SRC_URI in the
-> > linux-raspberrypi_4.14.bb recipe from meta-raspberrypi. The first
-> > attempt is in do_kernel_metadata and this succeeds, the second is in
-> > do_patch and this fails as the patch has already been applied.
->
-> Hmm. The only thing that should be patchable in the meta data
-> gathering is the meta data. Not the kernel source tree. It is just
-> there as a rough debug / devel trigger. kernel-meta is a separate
-> repo, so patches are only applied there.
->
-> Something that triggers in do_patch can't be patching that same
-> repo, since the kernel tree is separate ..
->
-> Is the raspberrypi recipe using the upstream kernel-cache repo
-> or is it doing something else ?
->
-> Is it also using patches with patchdir specified in the src_uri ?
-> If it isn't, I can't see how any of this is triggering.
->
-> I'm out of the office this week, but this is something I can sort
-> out .. can you send me the exact set of layers (and any
-> local.conf I'd need) to trigger this ? I'll have some time tomorrow
-> night to poke at it a bit.
+> Testing stap on armv7 machines was failing due to intermixing of thumb/ar=
+m
+> instructions. Patch the kernel to always use the v7 march options since
+> we know our gcc versions support it to avoid the failure and allow
+> systemtap to work.
 
-I just did a build with meta-raspberrypi and did recreate the issue,
-I'll have a look at see what I can do. I'll need to test some other
-use cases against any changes I make, so it'll be a bit touchy :P
+I'd rather just merge this into the kernel directly. I can do a quick
+merge and bump
+of the SRCREV. If you send the patch against linux-yocto, that makes it eas=
+ier
+for me to grab and integrate it, versus having to dig it out of here
+(since my access
+is pretty limited at the moment).
 
 Bruce
 
 >
-> Bruce
+> [YOCTO #13153]
 >
-> >
-> > In this case, patchdir = '' as there is no patchdir set for this in the
-> > recipe. The patch is still picked up when find_patches() is called with
-> > subdir='kernel-meta' since the test here is false and the comparison
-> > below is not performed.
-> >
-> > > +            if subdir == patchdir:
-> > > +                patch_list.append(local)
-> > > +        else:
-> > > +            patch_list.append(local)
-> > >
-> > >       return patch_list
-> > >
-> > > @@ -119,8 +128,20 @@ do_kernel_metadata() {
-> > >               fi
-> > >       fi
-> > >
-> > > +     # was anyone trying to patch the kernel meta data ?, we need to do
-> > > +     # this here, since the scc commands migrate the .cfg fragments to the
-> > > +     # kernel source tree, where they'll be used later.
-> > > +     check_git_config
-> > > +     patches="${@" ".join(find_patches(d,'kernel-meta'))}"
-> > > +     for p in $patches; do
-> > > +         (
-> > > +             cd ${WORKDIR}/kernel-meta
-> > > +             git am -s $p
-> > > +         )
-> > > +     done
-> > > +
-> > >       sccs_from_src_uri="${@" ".join(find_sccs(d))}"
-> > > -     patches="${@" ".join(find_patches(d))}"
-> > > +     patches="${@" ".join(find_patches(d,''))}"
-> > >       feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
-> > >
-> > >       # a quick check to make sure we don't have duplicate defconfigs
-> > >
-> >
-> > --
-> > Paul Barker
-> > Beta Five Ltd
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  ...0001-arm-Makefile-Fix-systemtap-4.19.patch | 60 +++++++++++++++++++
+>  .../0001-arm-Makefile-Fix-systemtap.patch     | 60 +++++++++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_4.19.bb |  3 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.0.bb  |  3 +-
+>  4 files changed, 124 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefi=
+le-Fix-systemtap-4.19.patch
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefi=
+le-Fix-systemtap.patch
 >
+> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-Fix-=
+systemtap-4.19.patch b/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makef=
+ile-Fix-systemtap-4.19.patch
+> new file mode 100644
+> index 00000000000..53bd53b276c
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-Fix-systemt=
+ap-4.19.patch
+> @@ -0,0 +1,60 @@
+> +From c2995494e311c113177db50ff140cebd94fd4011 Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Sun, 10 Mar 2019 06:43:15 +0000
+> +Subject: [PATCH] arm/Makefile: Fix systemtap
+> +
+> +Currently systemtap fails to operate correctly on armv7 systems such as =
+beaglebone and
+> +soon, qemuarm.
+> +
+> +
+> +root@qemuarm:/usr/src/kernel# env -uARCH -uKBUILD_EXTMOD -uCROSS_COMPILE=
+ -uKBUILD_IMAGE -uKCONFIG_CONFIG -uINSTALL_PATH -uLD_LIBRARY_PATH PATH=3D/u=
+sr/bin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin ma=
+ke -C /lib/modules/4.19.19-yocto-standard/build M=3D/tmp/staptcNU6M modules=
+ CONFIG_DEBUG_INFO=3D CONFIG_STACK_VALIDATION=3D ARCH=3Darm stap_4321_src.i=
+ --no-print-directory -j2 V=3D1
+> +test -e include/generated/autoconf.h -a -e include/config/auto.conf || (=
+               \
+> +echo >&2;                                                      \
+> +echo >&2 "  ERROR: Kernel configuration is invalid.";          \
+> +echo >&2 "         include/generated/autoconf.h or include/config/auto.c=
+onf are missing.";\
+> +echo >&2 "         Run 'make oldconfig && make prepare' on kernel src to=
+ fix it.";     \
+> +echo >&2 ;                                                     \
+> +/bin/false)
+> +mkdir -p /tmp/staptcNU6M/.tmp_versions ; rm -f /tmp/staptcNU6M/.tmp_vers=
+ions/*
+> +make -f ./scripts/Makefile.build obj=3D/tmp/staptcNU6M
+> +(cat /dev/null;   echo kernel//tmp/staptcNU6M/stap_4321.ko;) > /tmp/stap=
+tcNU6M/modules.order
+> +  gcc -Wp,-MD,/tmp/staptcNU6M/.stap_4321_src.o.d  -nostdinc -isystem /us=
+r/lib/gcc/arm-poky-linux-gnueabi/8.3.0/include -I./arch/arm/include -I./arc=
+h/arm/include/generated  -I./include -I./arch/arm/include/uapi -I./arch/arm=
+/include/generated/uapi -I./include/uapi -I./include/generated/uapi -includ=
+e ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__K=
+ERNEL__ -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -f=
+no-strict-aliasing -fno-common -fshort-wchar -Werror-implicit-function-decl=
+aration -Wno-format-security -std=3Dgnu89 -fno-PIE -DCC_HAVE_ASM_GOTO -fno-=
+dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -fno-ipa-sr=
+a -mabi=3Daapcs-linux -mfpu=3Dvfp -funwind-tables -marm -Wa,-mno-warn-depre=
+cated -D__LINUX_ARM_ARCH__=3D7 -march=3Darmv5t -Wa,-march=3Darmv7-a -msoft-=
+float -Uarm -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-=
+truncation -Wno-format-overflow -Wno-int-in-bool-context -Os -Wno-maybe-uni=
+nitialized --param=3Dallow-store-data-races=3D0 -Wframe-larger-than=3D1024 =
+-fstack-protector-strong -Wno-unused-but-set-variable -Wno-unused-const-var=
+iable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking=
+-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -Wno-strin=
+gop-truncation -fno-strict-overflow -fno-merge-all-constants -fmerge-consta=
+nts -fno-stack-check -fconserve-stack -Werror=3Dimplicit-int -Werror=3Dstri=
+ct-prototypes -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wer=
+ror=3Ddesignated-init -fmacro-prefix-map=3D./=3D -Wno-packed-not-aligned -I=
+include2/asm/mach-default -I/lib/modules/4.19.19-yocto-standard/build -incl=
+ude /tmp/staptcNU6M/stapconf_4321.h -D "STP_NO_VELREL_CHECK" -freorder-bloc=
+ks -fasynchronous-unwind-tables -Wframe-larger-than=3D512 -fno-ipa-icf -Wno=
+-unused -Wno-tautological-compare -Werror -I/usr/share/systemtap/runtime  -=
+DMODULE  -DKBUILD_BASENAME=3D'"stap_4321_src"' -DKBUILD_MODNAME=3D'"stap_43=
+21"' -c -o /tmp/staptcNU6M/stap_4321_src.o /tmp/staptcNU6M/stap_4321_src.c
+> +/tmp/ccaE9CMG.s: Assembler messages:
+> +/tmp/ccaE9CMG.s:49: Error: selected processor does not support `dmb ish'=
+ in ARM mode
+> +/tmp/ccaE9CMG.s:52: Error: architectural extension `mp' is not allowed f=
+or the current b
+> +
+> +(which was from running the stap command with -v -v -v -k and then being=
+ able to run the command individually)
+> +
+> +Note that it says armv5t above.
+> +
+> +That comes from the code this patch changes
+> +
+> +root@qemuarm:/usr/src/kernel# gcc -march=3Darmv7-a /tmp/staptcNU6M/stap_=
+4321_aux_0.c
+> +cc1: error: -mfloat-abi=3Dhard: selected processor lacks an FPU
+> +
+> +which makes me wonder if cc-option fails unless -mfpu-vfp is on the comm=
+andline too.
+> +
+> +Since we have a gcc which accepts the armv7-a arch, just remove the cc-o=
+ption
+> +wrapper unconditionally here.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +---
+> + arch/arm/Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+> +index ecb99f7ac613..8513ba79ea04 100644
+> +--- a/arch/arm/Makefile
+> ++++ b/arch/arm/Makefile
+> +@@ -64,7 +64,7 @@ KBUILD_CFLAGS        +=3D $(call cc-option,-fno-ipa-sr=
+a)
+> + # macro, but instead defines a whole series of macros which makes
+> + # testing for a specific architecture or later rather impossible.
+> + arch-$(CONFIG_CPU_32v7M)      =3D-D__LINUX_ARM_ARCH__=3D7 -march=3Darmv=
+7-m -Wa,-march=3Darmv7-m
+> +-arch-$(CONFIG_CPU_32v7)               =3D-D__LINUX_ARM_ARCH__=3D7 $(cal=
+l cc-option,-march=3Darmv7-a,-march=3Darmv5t -Wa$(comma)-march=3Darmv7-a)
+> ++arch-$(CONFIG_CPU_32v7)               =3D-D__LINUX_ARM_ARCH__=3D7 -marc=
+h=3Darmv7-a -Wa$(comma)-march=3Darmv7-a
+> + arch-$(CONFIG_CPU_32v6)               =3D-D__LINUX_ARM_ARCH__=3D6 $(cal=
+l cc-option,-march=3Darmv6,-march=3Darmv5t -Wa$(comma)-march=3Darmv6)
+> + # Only override the compiler option if ARMv6. The ARMv6K extensions are
+> + # always available in ARMv7
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-Fix-=
+systemtap.patch b/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-F=
+ix-systemtap.patch
+> new file mode 100644
+> index 00000000000..53bd53b276c
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-Fix-systemt=
+ap.patch
+> @@ -0,0 +1,60 @@
+> +From c2995494e311c113177db50ff140cebd94fd4011 Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Sun, 10 Mar 2019 06:43:15 +0000
+> +Subject: [PATCH] arm/Makefile: Fix systemtap
+> +
+> +Currently systemtap fails to operate correctly on armv7 systems such as =
+beaglebone and
+> +soon, qemuarm.
+> +
+> +
+> +root@qemuarm:/usr/src/kernel# env -uARCH -uKBUILD_EXTMOD -uCROSS_COMPILE=
+ -uKBUILD_IMAGE -uKCONFIG_CONFIG -uINSTALL_PATH -uLD_LIBRARY_PATH PATH=3D/u=
+sr/bin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin ma=
+ke -C /lib/modules/4.19.19-yocto-standard/build M=3D/tmp/staptcNU6M modules=
+ CONFIG_DEBUG_INFO=3D CONFIG_STACK_VALIDATION=3D ARCH=3Darm stap_4321_src.i=
+ --no-print-directory -j2 V=3D1
+> +test -e include/generated/autoconf.h -a -e include/config/auto.conf || (=
+               \
+> +echo >&2;                                                      \
+> +echo >&2 "  ERROR: Kernel configuration is invalid.";          \
+> +echo >&2 "         include/generated/autoconf.h or include/config/auto.c=
+onf are missing.";\
+> +echo >&2 "         Run 'make oldconfig && make prepare' on kernel src to=
+ fix it.";     \
+> +echo >&2 ;                                                     \
+> +/bin/false)
+> +mkdir -p /tmp/staptcNU6M/.tmp_versions ; rm -f /tmp/staptcNU6M/.tmp_vers=
+ions/*
+> +make -f ./scripts/Makefile.build obj=3D/tmp/staptcNU6M
+> +(cat /dev/null;   echo kernel//tmp/staptcNU6M/stap_4321.ko;) > /tmp/stap=
+tcNU6M/modules.order
+> +  gcc -Wp,-MD,/tmp/staptcNU6M/.stap_4321_src.o.d  -nostdinc -isystem /us=
+r/lib/gcc/arm-poky-linux-gnueabi/8.3.0/include -I./arch/arm/include -I./arc=
+h/arm/include/generated  -I./include -I./arch/arm/include/uapi -I./arch/arm=
+/include/generated/uapi -I./include/uapi -I./include/generated/uapi -includ=
+e ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__K=
+ERNEL__ -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -f=
+no-strict-aliasing -fno-common -fshort-wchar -Werror-implicit-function-decl=
+aration -Wno-format-security -std=3Dgnu89 -fno-PIE -DCC_HAVE_ASM_GOTO -fno-=
+dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -fno-ipa-sr=
+a -mabi=3Daapcs-linux -mfpu=3Dvfp -funwind-tables -marm -Wa,-mno-warn-depre=
+cated -D__LINUX_ARM_ARCH__=3D7 -march=3Darmv5t -Wa,-march=3Darmv7-a -msoft-=
+float -Uarm -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-=
+truncation -Wno-format-overflow -Wno-int-in-bool-context -Os -Wno-maybe-uni=
+nitialized --param=3Dallow-store-data-races=3D0 -Wframe-larger-than=3D1024 =
+-fstack-protector-strong -Wno-unused-but-set-variable -Wno-unused-const-var=
+iable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking=
+-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -Wno-strin=
+gop-truncation -fno-strict-overflow -fno-merge-all-constants -fmerge-consta=
+nts -fno-stack-check -fconserve-stack -Werror=3Dimplicit-int -Werror=3Dstri=
+ct-prototypes -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wer=
+ror=3Ddesignated-init -fmacro-prefix-map=3D./=3D -Wno-packed-not-aligned -I=
+include2/asm/mach-default -I/lib/modules/4.19.19-yocto-standard/build -incl=
+ude /tmp/staptcNU6M/stapconf_4321.h -D "STP_NO_VELREL_CHECK" -freorder-bloc=
+ks -fasynchronous-unwind-tables -Wframe-larger-than=3D512 -fno-ipa-icf -Wno=
+-unused -Wno-tautological-compare -Werror -I/usr/share/systemtap/runtime  -=
+DMODULE  -DKBUILD_BASENAME=3D'"stap_4321_src"' -DKBUILD_MODNAME=3D'"stap_43=
+21"' -c -o /tmp/staptcNU6M/stap_4321_src.o /tmp/staptcNU6M/stap_4321_src.c
+> +/tmp/ccaE9CMG.s: Assembler messages:
+> +/tmp/ccaE9CMG.s:49: Error: selected processor does not support `dmb ish'=
+ in ARM mode
+> +/tmp/ccaE9CMG.s:52: Error: architectural extension `mp' is not allowed f=
+or the current b
+> +
+> +(which was from running the stap command with -v -v -v -k and then being=
+ able to run the command individually)
+> +
+> +Note that it says armv5t above.
+> +
+> +That comes from the code this patch changes
+> +
+> +root@qemuarm:/usr/src/kernel# gcc -march=3Darmv7-a /tmp/staptcNU6M/stap_=
+4321_aux_0.c
+> +cc1: error: -mfloat-abi=3Dhard: selected processor lacks an FPU
+> +
+> +which makes me wonder if cc-option fails unless -mfpu-vfp is on the comm=
+andline too.
+> +
+> +Since we have a gcc which accepts the armv7-a arch, just remove the cc-o=
+ption
+> +wrapper unconditionally here.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +---
+> + arch/arm/Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+> +index ecb99f7ac613..8513ba79ea04 100644
+> +--- a/arch/arm/Makefile
+> ++++ b/arch/arm/Makefile
+> +@@ -64,7 +64,7 @@ KBUILD_CFLAGS        +=3D $(call cc-option,-fno-ipa-sr=
+a)
+> + # macro, but instead defines a whole series of macros which makes
+> + # testing for a specific architecture or later rather impossible.
+> + arch-$(CONFIG_CPU_32v7M)      =3D-D__LINUX_ARM_ARCH__=3D7 -march=3Darmv=
+7-m -Wa,-march=3Darmv7-m
+> +-arch-$(CONFIG_CPU_32v7)               =3D-D__LINUX_ARM_ARCH__=3D7 $(cal=
+l cc-option,-march=3Darmv7-a,-march=3Darmv5t -Wa$(comma)-march=3Darmv7-a)
+> ++arch-$(CONFIG_CPU_32v7)               =3D-D__LINUX_ARM_ARCH__=3D7 -marc=
+h=3Darmv7-a -Wa$(comma)-march=3Darmv7-a
+> + arch-$(CONFIG_CPU_32v6)               =3D-D__LINUX_ARM_ARCH__=3D6 $(cal=
+l cc-option,-march=3Darmv6,-march=3Darmv5t -Wa$(comma)-march=3Darmv6)
+> + # Only override the compiler option if ARMv6. The ARMv6K extensions are
+> + # always available in ARMv7
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes=
+-kernel/linux/linux-yocto_4.19.bb
+> index 3ef26a12baa..aca9f15404e 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> @@ -22,7 +22,8 @@ SRCREV_machine ?=3D "11e0e616ed095bb8012e1b4a231254c965=
+6a0193"
+>  SRCREV_meta ?=3D "41fe45f7c5e69f6ec26c657fea16c459544042cf"
 >
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;b=
+ranch=3D${KBRANCH}; \
+> -           git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-4.19;destsuffix=3D${KMETA}"
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-4.19;destsuffix=3D${KMETA} \
+> +           file://0001-arm-Makefile-Fix-systemtap-4.19.patch"
 >
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbbea815ee2795b2f4230826c0c6b8=
+814"
+>  LINUX_VERSION ?=3D "4.19.19"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-=
+kernel/linux/linux-yocto_5.0.bb
+> index ae6e80c0108..198fed43411 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> @@ -25,7 +25,8 @@ SRCREV_meta ?=3D "4faa4419884d2bbe65f637befd71a1e95629e=
+aae"
+>  # KMACHINE_qemuarm ?=3D "qemuarma15"
+>
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;b=
+ranch=3D${KBRANCH}; \
+> -           git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-5.0;destsuffix=3D${KMETA}"
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-5.0;destsuffix=3D${KMETA} \
+> +           file://0001-arm-Makefile-Fix-systemtap.patch"
+>
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbbea815ee2795b2f4230826c0c6b8=
+814"
+>  LINUX_VERSION ?=3D "5.0"
 > --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> 2.20.1
+>
 
 
-
--- 
+--=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
