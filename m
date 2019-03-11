@@ -1,51 +1,50 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D88E7C704
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 710C47CE4E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 12:21:43 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id z84so4062218wmg.4
+	Mon, 11 Mar 2019 12:40:47 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id z25so3890812ljk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 05:21:44 -0700 (PDT)
+	Mon, 11 Mar 2019 05:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9DjnNtk5xoU6eryrAOwqa1C8X0d7VyVEWdviRoSYzvc=;
-	b=aO1Lg7pvprpBFsTjGSBXVdWSFMqAUtLvPMCRf7eXGsmBiHZvhOsma8wym550HXsHd4
-	7kdKV3e8l6UMtJrMGjcNLP9eqoFj5B3ap1nX8D4/mv+t57PXROz1eg35u/bcoXrkk9vP
-	ozOddaRGU1FDUT3kDloZ1aPibIJ3o/b6PvTCCu4QNCtC8Y3JaCi/O0xfubX6PVuvqBv6
-	yObpYfo5t2RzN6jhwOLkA8bF8wP0rA2kMqXY3KSobeUDrU86p2jGUWkFCz4O6QYcSKv6
-	l1hYnvaBcwU27soBbgiLDr7OAapzM4RKA6Fto8JtDmhfsrFvR6kA1emN8y83x/eI/kLp
-	VijQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=sYNDH5oETONa/16ACPkHfRnFNRP6nIRokZ6zSPK44Is=;
+	b=ECNO6TOBCI2bnjPJMEIM0Tg9Frf7AczDoWZFgTsjNSIA+BQvhydEuDcpGREFkOfttJ
+	6c9ABE3g2HYRIdopRYuNxJwZ9uWyryOA/jowbIpP7dx2N9Ch1dhJBWk3ALQ2PARA1zWA
+	5xVnKaXkKSaCxOWno8eoKPy+x/zF3Fl0jOMDLIjUZto41Jwr3QmvH2L9dtuzscuZSdeQ
+	rtxsIlmmTJDKS9WSOvIEndGZf2AN/4c1q34+bEpeTwQeX7uJU0UhorIuiWzamYSoy8/o
+	ctzs9+tDy3kuMa5L78WYIvp6urfGV3XH9w0bnlD4C+z42JEIDJpySeMrZ1G92z9S+A5C
+	WXKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9DjnNtk5xoU6eryrAOwqa1C8X0d7VyVEWdviRoSYzvc=;
-	b=e1yREJVIc+GwRe0vDq8Io3RA0g7Q09CSf0hYapAfkQEV2QaXQvXfySfIXT6332FtRg
-	qx8H0yvgMKa547aDKtZfbibI6H3C19HwxOBFwEqQ8J8NHsd2r26XwWolZaYU3ZpGHf6S
-	Ai9zlnD/HJBccEJXaYv0ZhFd5SIVILQn56eRCy40UQHswRr1GsjU6F0VMmB4YfTsfGgg
-	QEmUSci/yvh8hB/xIvIXbV6mK3klabl1L1/ltCcmvNBIydHAcbD9fA3Tb/5BKsPC3gE3
-	QY/TNgDIF+2Y4q+B+242En7uv5Dk1diwn6Y+83bN7DneTyzf6k5HCEoAp9KNdS5TFHMo
-	TCKQ==
-X-Gm-Message-State: APjAAAW/6H/COmcDF7zISYiQWg5DFjMLwf8crqi+Wp8Gt7Qdm+wfuWx5
-	T4m1RkOHtTieuEfi7y0PExrbMHQDku2uxQ==
-X-Google-Smtp-Source: APXvYqxooNHBxEGFK2qhszu9RmTbh1cspj4tGMbQ3SpzVNCpHb9R40/FPRuvEw6taFTU+EtJsee8dw==
-X-Received: by 2002:a1c:be11:: with SMTP id o17mr17299736wmf.141.1552306903654;
-	Mon, 11 Mar 2019 05:21:43 -0700 (PDT)
-Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
-	by smtp.gmail.com with ESMTPSA id
-	k20sm6834589wre.41.2019.03.11.05.21.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 11 Mar 2019 05:21:42 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2019 12:21:29 +0000
-Message-Id: <20190311122129.32387-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=sYNDH5oETONa/16ACPkHfRnFNRP6nIRokZ6zSPK44Is=;
+	b=NwvqXnu3a5TZCwFjVNm7TiXMUzJsDhZ4zMLLOtpUGHu8jbyo56UmBHlwSHpTNlQjii
+	BpjeeGe8azkhrojP/G/xlhqm1Xm8yHXOc/mlJm/nYlmHPjui1Zaw8t/Yqz/5CWzfPlNV
+	SxO7RVFyUSG78u8CLGlWJzn5EDoki5TKuOYD05f68mq+I7Cg0Ed0i5+6dUGDhYiSOTwZ
+	1DpA48Ze2z3DRoxe9+kPDQcTfuF1nJk6SpJGdors1PrNUMpBrabLjkL9oAwldMfCLvFo
+	bp31QCSPXkb+8A0zUgOdQuk7i4jdqeVmoP6fIAp2sWaWg9H56i+7K0xMz2n6hgPbiW0b
+	lJvA==
+X-Gm-Message-State: APjAAAUdWWngB7l+SI6jU/zZVyqndvE8fMHcb7IpFWG4bMH3WGQxnRyC
+	U83Uiur7HrwoqVrz5AZqWaL4SXKKo6vNhDOFXy0=
+X-Google-Smtp-Source: APXvYqxLgc3WW2WpqH279iuhl6kV53YEdNN8DJP2bOSppHnW+ZfOVH6ZSgDNHauLKRpFO1+Ti+J9OhLXUANLc+CMoA4=
+X-Received: by 2002:a2e:6309:: with SMTP id x9mr16083001ljb.75.1552308047715; 
+	Mon, 11 Mar 2019 05:40:47 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] systemd: do not disable SELinux with musl
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+	<20190311031230.21497-4-richard.purdie@linuxfoundation.org>
+	<CAMKF1sp9pjSGOgdv_+k-sqA-sghbxyixK3rb513aRCa5GEtiXA@mail.gmail.com>
+	<4dacf2835bc4af256257c7b9455b15bc1e2b6f15.camel@linuxfoundation.org>
+In-Reply-To: <4dacf2835bc4af256257c7b9455b15bc1e2b6f15.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 11 Mar 2019 08:40:38 -0400
+Message-ID: <CADkTA4OeWzsbVZMES-pWiY=EXL9saqqrtYuF1vC16NCcREtcKQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] linux-yocto: Fix systemtap issue on armv7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 12:21:43 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Mar 2019 12:40:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+On Mon, Mar 11, 2019 at 8:13 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2019-03-10 at 21:27 -0700, Khem Raj wrote:
+> > On Sun, Mar 10, 2019 at 8:13 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > Testing stap on armv7 machines was failing due to intermixing of
+> > > thumb/arm
+> > > instructions. Patch the kernel to always use the v7 march options
+> > > since
+> > > we know our gcc versions support it to avoid the failure and allow
+> > > systemtap to work.
+> > >
+> > > [YOCTO #13153]
+> > >
+> >
+> > please use the fix that Victor submitted upstream, that way we dont
+> > need workaround.
+> > http://lists.infradead.org/pipermail/linux-arm-kernel/2019-March/637809.html
+>
+> I have a feeling that patch may get some discussion upstream. I was
+> going to say that the version we're working with is simpler and easier
+> to work with until upstream decide what the right approach is. Victor
+> as already pointed out that even then I messed it up slightly!
+>
+> I certainly appreciate getting something upstream and that is the right
+> thing to do, I think a simpler workaround for us is fine until that
+> gets sorted out though.
+>
+> I'm particularly conscious that we've not built M3 yet and that Bruce
+> has limited availability due to travel so we have a few constraints
+> here.
 
-Building and running SELinux with musl works fine these days,
-so don't disable it in the systemd bitbake file.
+I'm of the same mind. Until the upstream patch is actually queued,
+we can easily just stick with the current patch.  That way I can log
+the permanent upstream git hash in a revert and update ..  which
+is no different than I'd do if I merged the posted patch and then it
+eventually merges (or if it needs changes, etc).
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-core/systemd/systemd_241.bb | 1 -
- 1 file changed, 1 deletion(-)
+So as long as what we merged doesn't break anything, there's no
+need to change anything (it isn't a mystery that there's an
+upstream fix, even I noticed it last night when scanning my upstream
+lists and I'm on vacation :D.
 
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index 47492c9512..e4534ab8af 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -101,7 +101,6 @@ PACKAGECONFIG_remove_libc-musl = " \
-     nss-mymachines \
-     nss-resolve \
-     resolved \
--    selinux \
-     smack \
-     sysusers \
-     utmp \
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-2.20.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
