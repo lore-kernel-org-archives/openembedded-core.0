@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E0B7CC0C
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC737CC0C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 05:16:31 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id s23so736627pfe.13
+	Mon, 11 Mar 2019 05:16:32 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id q206so3126668pgq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 22:16:33 -0700 (PDT)
+	Sun, 10 Mar 2019 22:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=YdI7sNNaZLt+z+LYikEUWHGrFURRHwNZweyJfDkUbjo=;
-	b=jeksqgtR5dMHCaYBaKJgdgoQHDLo/QSPxKpQ9ymbuIgLceDWb07pZkKT7vLCwWs0Xc
-	mreNZdkMKf7ws9Y9xfXY4Ncj83+HPABpE2HFHVgmut0aHzr3vRwtXmOta9/U0Lr5Z7aO
-	m9CQ6kDVLKB0EVsHYXlsG+NWUu5as7ahtQqgJt34pznR/hx+rRx8UbZTpWfPWN/B1JO3
-	iFU5n4RKiuCc9xPUILJPnirGHrQ89ZTP6BLMQqLwie5zyZTJo6Z2UPS1KcxPDibO14G0
-	dxWq7/GtgEWV1mT6QsLO1pGACencF+YXEc1RfsEyd/afM+i3qb5y49Ax+WYnsYIq7CRg
-	NbUA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=WG3o6Xq1sBbEGo6R9slFRQ6syU5P05rRRcid2GADzZo=;
+	b=E3WBm60f47DVUUx+qXYvfVgv52ahC3lgXhyy8/rQDQnTyD5bxW1ujiB7cOMFY7yOKJ
+	8bGwV+eMngtJ2MyzZiuKmuQVHAYg6RWM+UNUZGjFdfAKaA768hMWg05zvosng75PnIuf
+	XdnsvVCaJBntq8SRT+9DRP4u6mnI+ZDU1c4iRqDQfCwskQzYhuLnufYEZeLQzBz7dfVl
+	5t06/dy9G4huPFjA5+aCvQpx0kmlxJgta/lH1/HE9nkbT8wKbAQREMj6GVqW4z5RCKot
+	10s9iVSpHUgdJyyQJPK4xBE44lVNe1Sw++7o+UzlFzLcDMAulisTYZR0i86+USibiS5M
+	TN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=YdI7sNNaZLt+z+LYikEUWHGrFURRHwNZweyJfDkUbjo=;
-	b=LHnp69IBUNLA4Jpltke84epbo0Oh4fyqcbitasWR3ecboe3mXO+tml+cuOb14KlcUg
-	dERxx0qcYMkh+gTvrVo6XsAhlJmq5jQdmCQmyZHxg+AyMxdLHRXeP47Hq1WTU9SmPY/S
-	IQKVWKnln3UOe07tYFsgHjeVa3aaBmIRJAxWrAvqspWw6dahhb74Xc8pVlSIc5bGBsHP
-	4NX+2k9stLS32H5oCHDea+2gcRhpfU6VxIjQTPFWzMoYCMzA/5jPEIe5i8CCAT4iVOsu
-	m4Uwz63BalH2JNJpa4CAHmUlkgoBJ9DQuZ6oW55nUBKVSvAMMDkRioiHdn1C//FGIVtE
-	39TA==
-X-Gm-Message-State: APjAAAWARWJ4rc4CRbM+56oOmiNtaDV/dQLitRcRFYx/gYqfQUQWNiK6
-	SEYmPuNh2t9C/PCImTyzMLlmqo6e
-X-Google-Smtp-Source: APXvYqyLJQZacM6wqbF6Mx2hOLUA8QZ2U8LA8tTgNsIV7mOPg/Pi4PdKg2JrgFKfTHZdTmX9mUa8kg==
-X-Received: by 2002:a63:4650:: with SMTP id v16mr572609pgk.329.1552281392973; 
-	Sun, 10 Mar 2019 22:16:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=WG3o6Xq1sBbEGo6R9slFRQ6syU5P05rRRcid2GADzZo=;
+	b=dkGLTmXik4+5r/jjUNxflI8IvAEh22D4BHdEzEQG5zF7H5dfYDVrH1oagZIdQL65HZ
+	nGGfAb1+ko9UvC180cJ8XrU3seFPNtZoTR+01B0sSIhF3S3PjAlE0ArmvCdfSII3T9o1
+	dOfx/EIktYlk9QFJH/J8z3/a6Usq0iFLRQPO58ygER6FxOeaBMJ3mIPhjp0R4zdrVSU1
+	ac2TxXDU7xSYC2nVOTiitLDANnAi7kFATSHw5SxT82evDYZYJRt2CerPWUKm2TnBQM5/
+	MDnfCEQI17kSRcDzlCGPq+lhxMpSIO5s5AJZhVpIxiWkxcHzb/wTA2/nhFsZ9MB3h5qV
+	w/SQ==
+X-Gm-Message-State: APjAAAXTTFjT3IU4I2+6+Ir8+gT365u7K5wQHvQxbdupMAZ5wGkDUKYe
+	npLMQf2IN1Q32ea1CPYFcWqIkEOz
+X-Google-Smtp-Source: APXvYqx6LpHsoCL16LJ4SCzZGVnizzRpELsvlnqBQslGNd6vpQikVgXtOjyNyTalwUoc1DGRoQQk6Q==
+X-Received: by 2002:a62:5e46:: with SMTP id s67mr31278572pfb.126.1552281394006;
+	Sun, 10 Mar 2019 22:16:34 -0700 (PDT)
 Received: from localhost.localdomain
 	(50-196-139-177-static.hfc.comcastbusiness.net. [50.196.139.177])
-	by smtp.gmail.com with ESMTPSA id k9sm7512565pfc.57.2019.03.10.22.16.32
+	by smtp.gmail.com with ESMTPSA id k9sm7512565pfc.57.2019.03.10.22.16.33
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Mar 2019 22:16:32 -0700 (PDT)
+	Sun, 10 Mar 2019 22:16:33 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Mar 2019 22:16:20 -0700
-Message-Id: <1552281391-31620-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 10 Mar 2019 22:16:21 -0700
+Message-Id: <1552281391-31620-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 01/12] xvinfo: update to 1.1.4
+In-Reply-To: <1552281391-31620-1-git-send-email-akuster808@gmail.com>
+References: <1552281391-31620-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH 02/12] xmodmap: update to 1.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 05:16:32 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 05:16:33 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-app/{xvinfo_1.1.3.bb => xvinfo_1.1.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xvinfo_1.1.3.bb => xvinfo_1.1.4.bb} (71%)
+ .../xorg-app/{xmodmap_1.0.9.bb => xmodmap_1.0.10.bb}                 | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xmodmap_1.0.9.bb => xmodmap_1.0.10.bb} (78%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xvinfo_1.1.3.bb b/meta/recipes-graphics/xorg-app/xvinfo_1.1.4.bb
-similarity index 71%
-rename from meta/recipes-graphics/xorg-app/xvinfo_1.1.3.bb
-rename to meta/recipes-graphics/xorg-app/xvinfo_1.1.4.bb
-index 2965ef7..a913ae1 100644
---- a/meta/recipes-graphics/xorg-app/xvinfo_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-app/xvinfo_1.1.4.bb
-@@ -10,5 +10,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b664101ad7a1dc758a4c4109bf978e68"
- DEPENDS += " libxv"
- PE = "1"
+diff --git a/meta/recipes-graphics/xorg-app/xmodmap_1.0.9.bb b/meta/recipes-graphics/xorg-app/xmodmap_1.0.10.bb
+similarity index 78%
+rename from meta/recipes-graphics/xorg-app/xmodmap_1.0.9.bb
+rename to meta/recipes-graphics/xorg-app/xmodmap_1.0.10.bb
+index 2deac6a..7dedb03 100644
+--- a/meta/recipes-graphics/xorg-app/xmodmap_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-app/xmodmap_1.0.10.bb
+@@ -12,6 +12,5 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=272c17e96370e1e74773fa22d9989621"
  
--SRC_URI[md5sum] = "558360176b718dee3c39bc0648c0d10c"
--SRC_URI[sha256sum] = "9fba8b68daf53863e66d5004fa9c703fcecf69db4d151ea2d3d885d621e6e5eb"
-+SRC_URI[md5sum] = "b13afec137b9b331814a9824ab03ec80"
-+SRC_URI[sha256sum] = "0353220d6606077ba42363db65f50410759f9815352f77adc799e2adfa76e73f"
+ PE = "1"
+-
+-SRC_URI[md5sum] = "723f02d3a5f98450554556205f0a9497"
+-SRC_URI[sha256sum] = "b7b0e5cc5f10d0fb6d2d6ea4f00c77e8ac0e847cc5a73be94cd86139ac4ac478"
++SRC_URI[md5sum] = "51f1d30a525e9903280ffeea2744b1f6"
++SRC_URI[sha256sum] = "473f0941d7439d501bb895ff358832b936ec34c749b9704c37a15e11c318487c"
 -- 
 2.7.4
 
