@@ -1,49 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
-	[209.85.167.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 403167CA61
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 089E9605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 02:36:07 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id g12so2200988lfb.13
+	Mon, 11 Mar 2019 03:12:31 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id a22so2891755pgg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Mar 2019 19:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=U04i4fTiGQKYcPmNWmSxGSmDOE2nkKb2W6sseGuNmEI=;
-	b=XKo8rgLRraJ+0BefuQpzoO6kct81xUwGQk2HcwUaMQXkhZ4AFUvTVSyhEqQc0G5jXf
-	5ChE72hmcgfF6dWqc+0f84eJ62y0ISuki//sYrTiRSK1VDeywZbYVTCaFzJWtv3JSYVz
-	GcWHu36IbEUBAxILI8D9cnmOvJw25gTZey1nnzFpijUha8r5RZCR1jo5Qdc55jWiTym4
-	Y29aKENMos71dhNg6qSCzp9g0pOtubALmdKZxILRQOYzbzNyB5q9rKuzSqkOMHU0wixn
-	ctxvpEym2+E3W3Ndnl38BDNs2CmQTcq7GEGo73r2GsILEaTEp/5vOCbHIzHT3tv+wgnO
-	ZB3A==
+	Sun, 10 Mar 2019 20:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pDEtJmlwiiANVNOvm+sagEaiFFBn7+9WQPOnhuDkFMo=;
+	b=f2X5+OM/OC4BjMvbQ3eplE6VR4kuE/ZFa3OaehRGBcikcWUcDlt4EUwMJejk/ZG2iR
+	akGsi3612JpN1GWOjWy03Q6zmxzgfULQhJg1G5PnNDdf4hDxmmywYd4mfdurvMvb0KZx
+	QEts8XQfTlT3aNvyRoB0Vdal85L+PCGkZmHUc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=U04i4fTiGQKYcPmNWmSxGSmDOE2nkKb2W6sseGuNmEI=;
-	b=GdzwE6v27qVnE1PvRlWQJrvqN1MJimNYcy1sW733VkKBL2tB00wLheT05hTto4C7Yf
-	C+2gOMu1c8/4UJz8IW2fdutGqP1O9CYQ7osJEqV7/UbHnvpzv76A/cY543KFopljMoBg
-	VCDFDU12QSWkHleRJUF8HgzR5Ytkjv/yr891qz4gLPuvEaPge//+u7ID0BHHDbbFKmdj
-	p/cHEGXK7/nt0lLv8Gts6s64Aq3Eg4BAqLLe8IaO4AI/TJNsrH+yDl5xwDQyon16X76/
-	6gvkHw7wyuuGApPOkn+Uopb3dGj3jo9D7po90SqlwNnf0PR9cm/82gfXV4/66gQFehtB
-	XGSg==
-X-Gm-Message-State: APjAAAXY8KWdvPIGID4e5Vr6/LghZ9QBSu5LonbZv0t5UJu5hDuc8Rik
-	bNKwTOIyqq8/vr+0MkDHU4+qFmR/DPzxAcHmv9vRRMjx
-X-Google-Smtp-Source: APXvYqxclhyeJNOvahOHu2MfbQfH3sRib6hIOk8VwwNVGrjUXtHNKaDHyQUQLVDQiDSiU0qJ5Uh99Koekl3+0JsH49A=
-X-Received: by 2002:a19:da1a:: with SMTP id r26mr14409790lfg.2.1552271767477; 
-	Sun, 10 Mar 2019 19:36:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pDEtJmlwiiANVNOvm+sagEaiFFBn7+9WQPOnhuDkFMo=;
+	b=XNKTVh5+/bw94sr6Qonr/6a3NGw7g0dQen8uwGbOAJ8DyklujbamJSPGcafy1qmfYy
+	J8WNBw6DZ0TJySD2Sf5tqoOQmb0p0P9Q89gIpR1VZ7SAhmrOuUZXqgzSBdQ40oj78eat
+	w+U0IGb4Rofq+zr8ltHxbMY8/xrATbFrqHcstfXYRGpFu+E/Yeq9pk/s0DQpAFepvhwA
+	PVcVBKPU5yDPgVGGPs70uRxnd1Kb917Xp5aJK1JEt9Zh+YyKD8IYGggSputUtl26BQFP
+	vcdYH9tmAyDFr53zunnELXOQi0N7ljbiJrseEsx/hynaWRRvCTK71lqrImj+wGBbinH3
+	Bc4g==
+X-Gm-Message-State: APjAAAW83XFLrU8nLgyxYyfxj5V93qwDEHNA/uVQrrE0jBCvxYyhgqoJ
+	Osma3WSR/ax7LolqUVa9EVzlUlGobc+4+w==
+X-Google-Smtp-Source: APXvYqyVpsWTzgppGh6Mc8VFL2QFqHYs9+gpAWgQEICc0Wy3ImpgbeX4mGUzQcqAKiinlwluluk//Q==
+X-Received: by 2002:a65:5286:: with SMTP id y6mr10940329pgp.310.1552273952427; 
+	Sun, 10 Mar 2019 20:12:32 -0700 (PDT)
+Received: from hex.int.rpsys.net ([12.27.65.221])
+	by smtp.gmail.com with ESMTPSA id l2sm6166861pgj.64.2019.03.10.20.12.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 10 Mar 2019 20:12:31 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2019 03:12:26 +0000
+Message-Id: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1551889557.git.bruce.ashfield@gmail.com>
-	<05adfd2c8d029ee397c9d2046ebb11aec8d3e952.1551889557.git.bruce.ashfield@gmail.com>
-	<751a6405-4e20-89d6-daf5-664ec775bb7d@betafive.co.uk>
-In-Reply-To: <751a6405-4e20-89d6-daf5-664ec775bb7d@betafive.co.uk>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 10 Mar 2019 22:35:56 -0400
-Message-ID: <CADkTA4OjYBPDUkzY=GHGSMfZmKW5=Hg6nrjikwD2vxBCb01hqQ@mail.gmail.com>
-To: Paul Barker <paul@betafive.co.uk>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] kernel-yocto: allow kernel-meta repositories to be patched
+Subject: [PATCH 1/5] qemuarm: Swap for an arm7ve (A15) configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,130 +54,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 02:36:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Mar 2019 03:12:32 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 9, 2019 at 5:10 PM Paul Barker <paul@betafive.co.uk> wrote:
->
-> On 06/03/2019 16:37, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > For testing purposes, it is often easier to patch a fragment
-> > in a kernel-meta repository versus needing to make a copy or
-> > modify the source repository.
-> >
-> > We can allow this sort of patching when a patchdir of kernel-meta
-> > is passed (to indicate the nested kernel-meta repository).
-> >
-> > Also note that we must patch the meta data before they are
-> > processed/gathered, since migrated copies to the kernel source
-> > directory will be used later.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >   meta/classes/kernel-yocto.bbclass | 29 +++++++++++++++++++++++++----
-> >   1 file changed, 25 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> > index 496c8a7f68..d2b194dd55 100644
-> > --- a/meta/classes/kernel-yocto.bbclass
-> > +++ b/meta/classes/kernel-yocto.bbclass
-> > @@ -5,12 +5,21 @@ PATCH_GIT_USER_NAME ?= "OpenEmbedded"
-> >
-> >   # returns local (absolute) path names for all valid patches in the
-> >   # src_uri
-> > -def find_patches(d):
-> > +def find_patches(d,subdir):
-> >       patches = src_patches(d)
-> >       patch_list=[]
-> >       for p in patches:
-> > -        _, _, local, _, _, _ = bb.fetch.decodeurl(p)
-> > -        patch_list.append(local)
-> > +        _, _, local, _, _, parm = bb.fetch.decodeurl(p)
-> > +        # if patchdir has been passed, we won't be able to apply it so skip
-> > +        # the patch for now, and special processing happens later
-> > +        patchdir = ''
-> > +        if "patchdir" in parm:
-> > +            patchdir = parm["patchdir"]
-> > +        if patchdir:
->
-> Did you mean 'if subdir:' here?
+From: Jon Mason <jdmason@kudzu.us>
 
-Nope. I did mean if patchdir: here, that doesn't mean it is working perfectly,
-but I did definitely mean patchdir.
+Add new QEMU BSP for a Arm Cortex-A15 system and use this as qemuarm,
+moving the old armv5te Versatile PB based machine to qemuarmv5.
 
->
-> I'm seeing duplicate attempts to apply a patch listed on SRC_URI in the
-> linux-raspberrypi_4.14.bb recipe from meta-raspberrypi. The first
-> attempt is in do_kernel_metadata and this succeeds, the second is in
-> do_patch and this fails as the patch has already been applied.
+The new machine uses the QEMU virt machine type, which should be
+faster to emulate and updates the qemuarm support to a modern
+architecture.
 
-Hmm. The only thing that should be patchable in the meta data
-gathering is the meta data. Not the kernel source tree. It is just
-there as a rough debug / devel trigger. kernel-meta is a separate
-repo, so patches are only applied there.
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/machine/qemuarm.conf                | 34 +++++++++++++------
+ meta/conf/machine/qemuarmv5.conf              | 23 +++++++++++++
+ .../linux/linux-yocto-rt_4.19.bb              |  2 +-
+ .../linux/linux-yocto-rt_5.0.bb               |  2 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |  2 +-
+ .../linux/linux-yocto-tiny_5.0.bb             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb  |  2 +-
+ 8 files changed, 52 insertions(+), 17 deletions(-)
+ create mode 100644 meta/conf/machine/qemuarmv5.conf
 
-Something that triggers in do_patch can't be patching that same
-repo, since the kernel tree is separate ..
-
-Is the raspberrypi recipe using the upstream kernel-cache repo
-or is it doing something else ?
-
-Is it also using patches with patchdir specified in the src_uri ?
-If it isn't, I can't see how any of this is triggering.
-
-I'm out of the office this week, but this is something I can sort
-out .. can you send me the exact set of layers (and any
-local.conf I'd need) to trigger this ? I'll have some time tomorrow
-night to poke at it a bit.
-
-Bruce
-
->
-> In this case, patchdir = '' as there is no patchdir set for this in the
-> recipe. The patch is still picked up when find_patches() is called with
-> subdir='kernel-meta' since the test here is false and the comparison
-> below is not performed.
->
-> > +            if subdir == patchdir:
-> > +                patch_list.append(local)
-> > +        else:
-> > +            patch_list.append(local)
-> >
-> >       return patch_list
-> >
-> > @@ -119,8 +128,20 @@ do_kernel_metadata() {
-> >               fi
-> >       fi
-> >
-> > +     # was anyone trying to patch the kernel meta data ?, we need to do
-> > +     # this here, since the scc commands migrate the .cfg fragments to the
-> > +     # kernel source tree, where they'll be used later.
-> > +     check_git_config
-> > +     patches="${@" ".join(find_patches(d,'kernel-meta'))}"
-> > +     for p in $patches; do
-> > +         (
-> > +             cd ${WORKDIR}/kernel-meta
-> > +             git am -s $p
-> > +         )
-> > +     done
-> > +
-> >       sccs_from_src_uri="${@" ".join(find_sccs(d))}"
-> > -     patches="${@" ".join(find_patches(d))}"
-> > +     patches="${@" ".join(find_patches(d,''))}"
-> >       feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
-> >
-> >       # a quick check to make sure we don't have duplicate defconfigs
-> >
->
-> --
-> Paul Barker
-> Beta Five Ltd
-
-
-
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index a5443126273..95550461899 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -1,21 +1,33 @@
+ #@TYPE: Machine
+-#@NAME: arm_versatile_926ejs
+-#@DESCRIPTION: arm_versatile_926ejs
++#@NAME: generic Arm Cortex-A15 machine
++#@DESCRIPTION: Machine configuration for running a generic armv7
+ 
++require conf/machine/include/tune-cortexa15.inc
+ require conf/machine/include/qemu.inc
+-require conf/machine/include/tune-arm926ejs.inc
+-#require conf/machine/include/tune-arm1136jf-s.inc
+ 
+ KERNEL_IMAGETYPE = "zImage"
+ 
+-SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
++SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-arm"
+-QB_MACHINE = "-machine versatilepb"
+-QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
+-QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_MEM = "-m 512"
++QB_MACHINE = "-machine virt"
++QB_CPU = "-cpu cortex-a15"
++# Standard Serial console
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
++# For graphics to work we need to define the VGA device as well as the necessary USB devices
++QB_OPT_APPEND = "-show-cursor -device VGA,edid=on"
++QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
++# Add the virtio RNG
+ QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+-PREFERRED_VERSION_linux-yocto ??= "4.18%"
+-QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
++# Virtio Networking support
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
++QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
++# Virtio block device
++QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
++# Virtio serial console
++QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
++QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
++
++KMACHINE_qemuarm = "qemuarma15"
+diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+new file mode 100644
+index 00000000000..5f90accc242
+--- /dev/null
++++ b/meta/conf/machine/qemuarmv5.conf
+@@ -0,0 +1,23 @@
++#@TYPE: Machine
++#@NAME: arm_versatile_926ejs
++#@DESCRIPTION: arm_versatile_926ejs
++
++require conf/machine/include/qemu.inc
++require conf/machine/include/tune-arm926ejs.inc
++#require conf/machine/include/tune-arm1136jf-s.inc
++
++KERNEL_IMAGETYPE = "zImage"
++
++SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
++
++# For runqemu
++QB_SYSTEM_NAME = "qemu-system-arm"
++QB_MACHINE = "-machine versatilepb"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
++QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
++PREFERRED_VERSION_linux-yocto ??= "4.18%"
++QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
++
++KMACHINE_qemuarmv5 = "qemuarm"
+\ No newline at end of file
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+index 07dc5b77a14..36761b99437 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+-COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+index 2350973fef2..52c289903be 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+-COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarm64|qemuppc|qemumips)"
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+index c6d1594a828..52dbabd7a47 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+ 
+-COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarma15"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+index e0a68014461..b6401199a41 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
+ 
+-COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm"
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+index 8a4355ee833..3ef26a12baa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+@@ -37,7 +37,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+-COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++COMPATIBLE_MACHINE = "qemuarm|qemuarma15|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+index f2c066a1503..ae6e80c0108 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+@@ -40,7 +40,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+-COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.20.1
+
 
