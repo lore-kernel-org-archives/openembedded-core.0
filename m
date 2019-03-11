@@ -1,38 +1,49 @@
-Return-Path: <steven.hung@mediatek.com>
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 82E147CE4A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+	[209.85.167.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 403167CA61
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 02:29:54 +0000 (UTC)
-X-UUID: ae220c06c7ed4b459ef920a67dd47b79-20190311
-X-UUID: ae220c06c7ed4b459ef920a67dd47b79-20190311
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
-	mailgw02.mediatek.com (envelope-from <steven.hung@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 1364130653; Mon, 11 Mar 2019 10:24:52 +0800
-Received: from MTKMBS06N2.mediatek.inc (172.21.101.130) by
-	mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Mon, 11 Mar 2019 10:24:51 +0800
-Received: from MTKMBS06N1.mediatek.inc (172.21.101.129) by
-	mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Mon, 11 Mar 2019 10:24:50 +0800
-Received: from MTKMBS06N1.mediatek.inc ([fe80::893a:dede:6681:ca4b]) by
-	mtkmbs06n1.mediatek.inc ([fe80::893a:dede:6681:ca4b%18]) with mapi id
-	15.00.1395.000; Mon, 11 Mar 2019 10:24:50 +0800
-From: =?big5?B?U3RldmVuIEh1bmcgKKx4pF+lySk=?= <Steven.Hung@mediatek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 2/2] tune-cortexa*: Add missing BASE_LIB tune overrides
-Thread-Index: AdTXsY7OSdCmb1JWS8iwZ0Fr8Q/MnQ==
-Date: Mon, 11 Mar 2019 02:24:50 +0000
-Message-ID: <c63b971483dd48b1bed2b5b709a38188@mtkmbs06n1.mediatek.inc>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [172.21.101.239]
-x-tm-snts-smtp: 18FBF5789B11616DD77B9B287455605D98FF4965B514AA1422790E89438744022000:8
+	Mon, 11 Mar 2019 02:36:07 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id g12so2200988lfb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Mar 2019 19:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=U04i4fTiGQKYcPmNWmSxGSmDOE2nkKb2W6sseGuNmEI=;
+	b=XKo8rgLRraJ+0BefuQpzoO6kct81xUwGQk2HcwUaMQXkhZ4AFUvTVSyhEqQc0G5jXf
+	5ChE72hmcgfF6dWqc+0f84eJ62y0ISuki//sYrTiRSK1VDeywZbYVTCaFzJWtv3JSYVz
+	GcWHu36IbEUBAxILI8D9cnmOvJw25gTZey1nnzFpijUha8r5RZCR1jo5Qdc55jWiTym4
+	Y29aKENMos71dhNg6qSCzp9g0pOtubALmdKZxILRQOYzbzNyB5q9rKuzSqkOMHU0wixn
+	ctxvpEym2+E3W3Ndnl38BDNs2CmQTcq7GEGo73r2GsILEaTEp/5vOCbHIzHT3tv+wgnO
+	ZB3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=U04i4fTiGQKYcPmNWmSxGSmDOE2nkKb2W6sseGuNmEI=;
+	b=GdzwE6v27qVnE1PvRlWQJrvqN1MJimNYcy1sW733VkKBL2tB00wLheT05hTto4C7Yf
+	C+2gOMu1c8/4UJz8IW2fdutGqP1O9CYQ7osJEqV7/UbHnvpzv76A/cY543KFopljMoBg
+	VCDFDU12QSWkHleRJUF8HgzR5Ytkjv/yr891qz4gLPuvEaPge//+u7ID0BHHDbbFKmdj
+	p/cHEGXK7/nt0lLv8Gts6s64Aq3Eg4BAqLLe8IaO4AI/TJNsrH+yDl5xwDQyon16X76/
+	6gvkHw7wyuuGApPOkn+Uopb3dGj3jo9D7po90SqlwNnf0PR9cm/82gfXV4/66gQFehtB
+	XGSg==
+X-Gm-Message-State: APjAAAXY8KWdvPIGID4e5Vr6/LghZ9QBSu5LonbZv0t5UJu5hDuc8Rik
+	bNKwTOIyqq8/vr+0MkDHU4+qFmR/DPzxAcHmv9vRRMjx
+X-Google-Smtp-Source: APXvYqxclhyeJNOvahOHu2MfbQfH3sRib6hIOk8VwwNVGrjUXtHNKaDHyQUQLVDQiDSiU0qJ5Uh99Koekl3+0JsH49A=
+X-Received: by 2002:a19:da1a:: with SMTP id r26mr14409790lfg.2.1552271767477; 
+	Sun, 10 Mar 2019 19:36:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] tune-cortexa*: Add missing BASE_LIB tune overrides
+References: <cover.1551889557.git.bruce.ashfield@gmail.com>
+	<05adfd2c8d029ee397c9d2046ebb11aec8d3e952.1551889557.git.bruce.ashfield@gmail.com>
+	<751a6405-4e20-89d6-daf5-664ec775bb7d@betafive.co.uk>
+In-Reply-To: <751a6405-4e20-89d6-daf5-664ec775bb7d@betafive.co.uk>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 10 Mar 2019 22:35:56 -0400
+Message-ID: <CADkTA4OjYBPDUkzY=GHGSMfZmKW5=Hg6nrjikwD2vxBCb01hqQ@mail.gmail.com>
+To: Paul Barker <paul@betafive.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/6] kernel-yocto: allow kernel-meta repositories to be patched
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,187 +56,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 02:29:55 -0000
-Content-Language: zh-TW
-Content-Transfer-Encoding: base64
-Content-Type: multipart/related;
-	boundary="__=_Part_Boundary_008_1308263682.721012652"
+X-List-Received-Date: Mon, 11 Mar 2019 02:36:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---__=_Part_Boundary_008_1308263682.721012652
-Content-Transfer-Encoding: base64
-Content-Type: multipart/alternative;
-	boundary="__=_Part_Boundary_009_1032027535.1037211253"
+On Sat, Mar 9, 2019 at 5:10 PM Paul Barker <paul@betafive.co.uk> wrote:
+>
+> On 06/03/2019 16:37, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > For testing purposes, it is often easier to patch a fragment
+> > in a kernel-meta repository versus needing to make a copy or
+> > modify the source repository.
+> >
+> > We can allow this sort of patching when a patchdir of kernel-meta
+> > is passed (to indicate the nested kernel-meta repository).
+> >
+> > Also note that we must patch the meta data before they are
+> > processed/gathered, since migrated copies to the kernel source
+> > directory will be used later.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >   meta/classes/kernel-yocto.bbclass | 29 +++++++++++++++++++++++++----
+> >   1 file changed, 25 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> > index 496c8a7f68..d2b194dd55 100644
+> > --- a/meta/classes/kernel-yocto.bbclass
+> > +++ b/meta/classes/kernel-yocto.bbclass
+> > @@ -5,12 +5,21 @@ PATCH_GIT_USER_NAME ?= "OpenEmbedded"
+> >
+> >   # returns local (absolute) path names for all valid patches in the
+> >   # src_uri
+> > -def find_patches(d):
+> > +def find_patches(d,subdir):
+> >       patches = src_patches(d)
+> >       patch_list=[]
+> >       for p in patches:
+> > -        _, _, local, _, _, _ = bb.fetch.decodeurl(p)
+> > -        patch_list.append(local)
+> > +        _, _, local, _, _, parm = bb.fetch.decodeurl(p)
+> > +        # if patchdir has been passed, we won't be able to apply it so skip
+> > +        # the patch for now, and special processing happens later
+> > +        patchdir = ''
+> > +        if "patchdir" in parm:
+> > +            patchdir = parm["patchdir"]
+> > +        if patchdir:
+>
+> Did you mean 'if subdir:' here?
 
---__=_Part_Boundary_009_1032027535.1037211253
-Content-Type: text/html
-Content-Transfer-Encoding: base64
+Nope. I did mean if patchdir: here, that doesn't mean it is working perfectly,
+but I did definitely mean patchdir.
 
-PHByZT4NCkZvciYjMzI7bXVsdGlsaWImIzMyO3RvJiMzMjt3b3JrJiMzMjtjb3JyZWN0bHksJiMz
-MjtCQVNFX0xJQiYjMzI7b3ZlcnJpZGVzJiMzMjttdXN0JiMzMjtiZSYjMzI7cHJvdmlkZWQuDQoN
-ClNpZ25lZC1vZmYtYnk6JiMzMjtTdGV2ZW4mIzMyO1l1LVl1JiMzMjtIdW5nJiMzMjsmbHQ7U3Rl
-dmVuLkh1bmdAbWVkaWF0ZWsuY29tJmd0Ow0KLS0tDQomIzMyO21ldGEvY29uZi9tYWNoaW5lL2lu
-Y2x1ZGUvdHVuZS1jb3J0ZXhhMzIuaW5jJiMzMjt8JiMzMjsyJiMzMjsrKyYjMzI7JiMzMjttZXRh
-L2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTM1LmluYyYjMzI7fCYjMzI7MiYjMzI7
-KysmIzMyOyYjMzI7bWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE1My5pbmMm
-IzMyO3wmIzMyOzImIzMyOysrJiMzMjsmIzMyO21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVu
-ZS1jb3J0ZXhhNzIuaW5jJiMzMjt8JiMzMjsxJiMzMjsrDQomIzMyOzQmIzMyO2ZpbGVzJiMzMjtj
-aGFuZ2VkLCYjMzI7NyYjMzI7aW5zZXJ0aW9ucygrKQ0KDQpkaWZmJiMzMjstLWdpdCYjMzI7YS9t
-ZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTMyLmluYyYjMzI7Yi9tZXRhL2Nv
-bmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTMyLmluYw0KaW5kZXgmIzMyO2I2NmZmNTVl
-OWEuLjRiZjdmNzc0ZTEmIzMyOzEwMDY0NA0KLS0tJiMzMjthL21ldGEvY29uZi9tYWNoaW5lL2lu
-Y2x1ZGUvdHVuZS1jb3J0ZXhhMzIuaW5jDQorKysmIzMyO2IvbWV0YS9jb25mL21hY2hpbmUvaW5j
-bHVkZS90dW5lLWNvcnRleGEzMi5pbmMNCkBAJiMzMjstMTQsMyYjMzI7KzE0LDUmIzMyO0BAJiMz
-MjtUVU5FX0ZFQVRVUkVTX3R1bmUtY29ydGV4YTMyJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9JiMzMjsmcXVvdDthYXJjaDY0JiMzMjtjb3J0ZXhhMzIm
-IzMyO3NpbWQmIzMyO2NyYyZxdW90Ow0KJiMzMjtUVU5FX0ZFQVRVUkVTX3R1bmUtY29ydGV4YTMy
-LWNyeXB0byYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2FhcmNoNjQmIzMyO2NvcnRleGEzMiYj
-MzI7c2ltZCYjMzI7Y3JjJiMzMjtjcnlwdG8mcXVvdDsNCiYjMzI7UEFDS0FHRV9FWFRSQV9BUkNI
-U190dW5lLWNvcnRleGEzMiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7PSYjMzI7JnF1b3Q7JiMzNjt7UEFDS0FHRV9FWFRSQV9B
-UkNIU190dW5lLWFybXY4YS1jcmN9JiMzMjtjb3J0ZXhhMzImcXVvdDsNCiYjMzI7UEFDS0FHRV9F
-WFRSQV9BUkNIU190dW5lLWNvcnRleGEzMi1jcnlwdG8mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjs9JiMzMjsmcXVvdDsmIzM2O3tQQUNLQUdFX0VYVFJBX0FSQ0hTX3R1bmUtYXJtdjhhLWNy
-Yy1jcnlwdG99JiMzMjtjb3J0ZXhhMzImIzMyO2NvcnRleGEzMi1jcnlwdG8mcXVvdDsNCitCQVNF
-X0xJQl90dW5lLWNvcnRleGEzMiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2xpYjY0JnF1
-b3Q7DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhMzItY3J5cHRvJiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2xpYjY0JnF1b3Q7DQpkaWZmJiMzMjstLWdp
-dCYjMzI7YS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTM1LmluYyYjMzI7
-Yi9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTM1LmluYw0KaW5kZXgmIzMy
-Ozg5MjBmOGU2YTguLjZlY2U4MTA3NTMmIzMyOzEwMDY0NA0KLS0tJiMzMjthL21ldGEvY29uZi9t
-YWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhMzUuaW5jDQorKysmIzMyO2IvbWV0YS9jb25mL21h
-Y2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGEzNS5pbmMNCkBAJiMzMjstMTMsMyYjMzI7KzEzLDUm
-IzMyO0BAJiMzMjtUVU5FX0ZFQVRVUkVTX3R1bmUtY29ydGV4YTM1JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9JiMzMjsmcXVvdDthYXJjaDY0JiMzMjtj
-b3J0ZXhhMzUmIzMyO3NpbWQmIzMyO2NyYyZxdW90Ow0KJiMzMjtUVU5FX0ZFQVRVUkVTX3R1bmUt
-Y29ydGV4YTM1LWNyeXB0byYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2FhcmNoNjQmIzMyO2Nv
-cnRleGEzNSYjMzI7c2ltZCYjMzI7Y3JjJiMzMjtjcnlwdG8mcXVvdDsNCiYjMzI7UEFDS0FHRV9F
-WFRSQV9BUkNIU190dW5lLWNvcnRleGEzNSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7PSYjMzI7JnF1b3Q7JiMzNjt7UEFDS0FH
-RV9FWFRSQV9BUkNIU190dW5lLWFybXY4YS1jcmN9JiMzMjtjb3J0ZXhhMzUmcXVvdDsNCiYjMzI7
-UEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGEzNS1jcnlwdG8mIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjs9JiMzMjsmcXVvdDsmIzM2O3tQQUNLQUdFX0VYVFJBX0FSQ0hTX3R1bmUt
-YXJtdjhhLWNyYy1jcnlwdG99JiMzMjtjb3J0ZXhhMzUmIzMyO2NvcnRleGEzNS1jcnlwdG8mcXVv
-dDsNCitCQVNFX0xJQl90dW5lLWNvcnRleGEzNSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90
-O2xpYjY0JnF1b3Q7DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhMzUtY3J5cHRvJiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2xpYjY0JnF1b3Q7DQpkaWZm
-JiMzMjstLWdpdCYjMzI7YS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTUz
-LmluYyYjMzI7Yi9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTUzLmluYw0K
-aW5kZXgmIzMyO2E5ZDljZGQxZjUuLjlmYjM3ZmY2MzkmIzMyOzEwMDY0NA0KLS0tJiMzMjthL21l
-dGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhNTMuaW5jDQorKysmIzMyO2IvbWV0
-YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE1My5pbmMNCkBAJiMzMjstMTMsMyYj
-MzI7KzEzLDUmIzMyO0BAJiMzMjtUVU5FX0ZFQVRVUkVTX3R1bmUtY29ydGV4YTUzJiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9JiMzMjsmcXVvdDthYXJj
-aDY0JiMzMjtjb3J0ZXhhNTMmIzMyO3NpbWQmIzMyO2NyYyZxdW90Ow0KJiMzMjtUVU5FX0ZFQVRV
-UkVTX3R1bmUtY29ydGV4YTUzLWNyeXB0byYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2FhcmNo
-NjQmIzMyO2NvcnRleGE1MyYjMzI7c2ltZCYjMzI7Y3JjJiMzMjtjcnlwdG8mcXVvdDsNCiYjMzI7
-UEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGE1MyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7PSYjMzI7JnF1b3Q7JiMz
-Njt7UEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWFybXY4YS1jcmN9JiMzMjtjb3J0ZXhhNTMmcXVv
-dDsNCiYjMzI7UEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGE1My1jcnlwdG8mIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9JiMzMjsmcXVvdDsmIzM2O3tQQUNLQUdFX0VYVFJBX0FS
-Q0hTX3R1bmUtYXJtdjhhLWNyYy1jcnlwdG99JiMzMjtjb3J0ZXhhNTMmIzMyO2NvcnRleGE1My1j
-cnlwdG8mcXVvdDsNCitCQVNFX0xJQl90dW5lLWNvcnRleGE1MyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0m
-IzMyOyZxdW90O2xpYjY0JnF1b3Q7DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhNTMtY3J5cHRvJiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0mIzMyOyZxdW90O2xpYjY0JnF1
-b3Q7DQpkaWZmJiMzMjstLWdpdCYjMzI7YS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUt
-Y29ydGV4YTcyLmluYyYjMzI7Yi9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4
-YTcyLmluYw0KaW5kZXgmIzMyO2Y1YTUyNGZhMDQuLjRjMjMwNmM0ZmQmIzMyOzEwMDY0NA0KLS0t
-JiMzMjthL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhNzIuaW5jDQorKysm
-IzMyO2IvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE3Mi5pbmMNCkBAJiMz
-MjstMTAsMyYjMzI7KzEwLDQmIzMyO0BAJiMzMjtBVkFJTFRVTkVTJiMzMjsrPSYjMzI7JnF1b3Q7
-Y29ydGV4YTcyJnF1b3Q7DQomIzMyO0FSTVBLR0FSQ0hfdHVuZS1jb3J0ZXhhNzImIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0m
-IzMyOyZxdW90O2NvcnRleGE3MiZxdW90Ow0KJiMzMjtUVU5FX0ZFQVRVUkVTX3R1bmUtY29ydGV4
-YTcyJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9JiMz
-MjsmcXVvdDthYXJjaDY0JiMzMjtjb3J0ZXhhNzImIzMyO3NpbWQmIzMyO2NyYyYjMzI7Y3J5cHRv
-JnF1b3Q7DQomIzMyO1BBQ0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1jb3J0ZXhhNzImIzMyOyYjMzI7
-JiMzMjsmIzMyOz0mIzMyOyZxdW90OyYjMzY7e1BBQ0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1hcm12
-OGEtY3JjLWNyeXB0b30mIzMyO2NvcnRleGE3MiZxdW90Ow0KK0JBU0VfTElCX3R1bmUtY29ydGV4
-YTcyJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7PSYjMzI7JnF1b3Q7bGliNjQmcXVvdDsNCi0tDQoyLjE4LjAN
-Cg0KDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBF
-bWFpbCBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5m
-b3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkg
-DQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVn
-ZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxl
-IGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWdu
-YXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9u
-LCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGlu
-ZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0
-bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGlu
-dGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhh
-dmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRl
-ciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkg
-YW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50
-cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2Yg
-dGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91ITwvcHJlPjwhLS19LS0+
+>
+> I'm seeing duplicate attempts to apply a patch listed on SRC_URI in the
+> linux-raspberrypi_4.14.bb recipe from meta-raspberrypi. The first
+> attempt is in do_kernel_metadata and this succeeds, the second is in
+> do_patch and this fails as the patch has already been applied.
 
---__=_Part_Boundary_009_1032027535.1037211253
-Content-Type: text/plain;
-	charset="big5"
-Content-Transfer-Encoding: base64
+Hmm. The only thing that should be patchable in the meta data
+gathering is the meta data. Not the kernel source tree. It is just
+there as a rough debug / devel trigger. kernel-meta is a separate
+repo, so patches are only applied there.
 
-Rm9yIG11bHRpbGliIHRvIHdvcmsgY29ycmVjdGx5LCBCQVNFX0xJQiBvdmVycmlkZXMgbXVzdCBi
-ZSBwcm92aWRlZC4NCg0KU2lnbmVkLW9mZi1ieTogU3RldmVuIFl1LVl1IEh1bmcgPFN0ZXZlbi5I
-dW5nQG1lZGlhdGVrLmNvbT4NCi0tLQ0KIG1ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1j
-b3J0ZXhhMzIuaW5jIHwgMiArKyAgbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRl
-eGEzNS5pbmMgfCAyICsrICBtZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29ydGV4YTUz
-LmluYyB8IDIgKysgIG1ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhNzIuaW5j
-IHwgMSArDQogNCBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBh
-L21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhMzIuaW5jIGIvbWV0YS9jb25m
-L21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGEzMi5pbmMNCmluZGV4IGI2NmZmNTVlOWEuLjRi
-ZjdmNzc0ZTEgMTAwNjQ0DQotLS0gYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29y
-dGV4YTMyLmluYw0KKysrIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGEz
-Mi5pbmMNCkBAIC0xNCwzICsxNCw1IEBAIFRVTkVfRkVBVFVSRVNfdHVuZS1jb3J0ZXhhMzIgICAg
-ICAgICAgPSAiYWFyY2g2NCBjb3J0ZXhhMzIgc2ltZCBjcmMiDQogVFVORV9GRUFUVVJFU190dW5l
-LWNvcnRleGEzMi1jcnlwdG8gICA9ICJhYXJjaDY0IGNvcnRleGEzMiBzaW1kIGNyYyBjcnlwdG8i
-DQogUEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGEzMiAgICAgICAgICAgICA9ICIke1BB
-Q0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1hcm12OGEtY3JjfSBjb3J0ZXhhMzIiDQogUEFDS0FHRV9F
-WFRSQV9BUkNIU190dW5lLWNvcnRleGEzMi1jcnlwdG8gICAgICA9ICIke1BBQ0tBR0VfRVhUUkFf
-QVJDSFNfdHVuZS1hcm12OGEtY3JjLWNyeXB0b30gY29ydGV4YTMyIGNvcnRleGEzMi1jcnlwdG8i
-DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhMzIgICAgICAgICAgICAgICA9ICJsaWI2NCINCitCQVNF
-X0xJQl90dW5lLWNvcnRleGEzMi1jcnlwdG8gICAgICAgID0gImxpYjY0Ig0KZGlmZiAtLWdpdCBh
-L21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhMzUuaW5jIGIvbWV0YS9jb25m
-L21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGEzNS5pbmMNCmluZGV4IDg5MjBmOGU2YTguLjZl
-Y2U4MTA3NTMgMTAwNjQ0DQotLS0gYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29y
-dGV4YTM1LmluYw0KKysrIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGEz
-NS5pbmMNCkBAIC0xMywzICsxMyw1IEBAIFRVTkVfRkVBVFVSRVNfdHVuZS1jb3J0ZXhhMzUgICAg
-ICAgICAgPSAiYWFyY2g2NCBjb3J0ZXhhMzUgc2ltZCBjcmMiDQogVFVORV9GRUFUVVJFU190dW5l
-LWNvcnRleGEzNS1jcnlwdG8gICA9ICJhYXJjaDY0IGNvcnRleGEzNSBzaW1kIGNyYyBjcnlwdG8i
-DQogUEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGEzNSAgICAgICAgICAgICA9ICIke1BB
-Q0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1hcm12OGEtY3JjfSBjb3J0ZXhhMzUiDQogUEFDS0FHRV9F
-WFRSQV9BUkNIU190dW5lLWNvcnRleGEzNS1jcnlwdG8gICAgICA9ICIke1BBQ0tBR0VfRVhUUkFf
-QVJDSFNfdHVuZS1hcm12OGEtY3JjLWNyeXB0b30gY29ydGV4YTM1IGNvcnRleGEzNS1jcnlwdG8i
-DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhMzUgICAgICAgICAgICAgICA9ICJsaWI2NCINCitCQVNF
-X0xJQl90dW5lLWNvcnRleGEzNS1jcnlwdG8gICAgICAgID0gImxpYjY0Ig0KZGlmZiAtLWdpdCBh
-L21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhNTMuaW5jIGIvbWV0YS9jb25m
-L21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE1My5pbmMNCmluZGV4IGE5ZDljZGQxZjUuLjlm
-YjM3ZmY2MzkgMTAwNjQ0DQotLS0gYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29y
-dGV4YTUzLmluYw0KKysrIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE1
-My5pbmMNCkBAIC0xMywzICsxMyw1IEBAIFRVTkVfRkVBVFVSRVNfdHVuZS1jb3J0ZXhhNTMgICAg
-ICAgICAgPSAiYWFyY2g2NCBjb3J0ZXhhNTMgc2ltZCBjcmMiDQogVFVORV9GRUFUVVJFU190dW5l
-LWNvcnRleGE1My1jcnlwdG8gICA9ICJhYXJjaDY0IGNvcnRleGE1MyBzaW1kIGNyYyBjcnlwdG8i
-DQogUEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWNvcnRleGE1MyAgICAgICAgICAgICA9ICIke1BB
-Q0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1hcm12OGEtY3JjfSBjb3J0ZXhhNTMiDQogUEFDS0FHRV9F
-WFRSQV9BUkNIU190dW5lLWNvcnRleGE1My1jcnlwdG8gICAgICA9ICIke1BBQ0tBR0VfRVhUUkFf
-QVJDSFNfdHVuZS1hcm12OGEtY3JjLWNyeXB0b30gY29ydGV4YTUzIGNvcnRleGE1My1jcnlwdG8i
-DQorQkFTRV9MSUJfdHVuZS1jb3J0ZXhhNTMgICAgICAgICAgICAgICA9ICJsaWI2NCINCitCQVNF
-X0xJQl90dW5lLWNvcnRleGE1My1jcnlwdG8gICAgICAgID0gImxpYjY0Ig0KZGlmZiAtLWdpdCBh
-L21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS1jb3J0ZXhhNzIuaW5jIGIvbWV0YS9jb25m
-L21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE3Mi5pbmMNCmluZGV4IGY1YTUyNGZhMDQuLjRj
-MjMwNmM0ZmQgMTAwNjQ0DQotLS0gYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtY29y
-dGV4YTcyLmluYw0KKysrIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLWNvcnRleGE3
-Mi5pbmMNCkBAIC0xMCwzICsxMCw0IEBAIEFWQUlMVFVORVMgKz0gImNvcnRleGE3MiINCiBBUk1Q
-S0dBUkNIX3R1bmUtY29ydGV4YTcyICAgICAgICAgICAgID0gImNvcnRleGE3MiINCiBUVU5FX0ZF
-QVRVUkVTX3R1bmUtY29ydGV4YTcyICAgICAgICAgID0gImFhcmNoNjQgY29ydGV4YTcyIHNpbWQg
-Y3JjIGNyeXB0byINCiBQQUNLQUdFX0VYVFJBX0FSQ0hTX3R1bmUtY29ydGV4YTcyICAgID0gIiR7
-UEFDS0FHRV9FWFRSQV9BUkNIU190dW5lLWFybXY4YS1jcmMtY3J5cHRvfSBjb3J0ZXhhNzIiDQor
-QkFTRV9MSUJfdHVuZS1jb3J0ZXhhNzIgICAgICAgICAgICAgICA9ICJsaWI2NCINCi0tDQoyLjE4
-LjANCg0KDQo=
+Something that triggers in do_patch can't be patching that same
+repo, since the kernel tree is separate ..
 
---__=_Part_Boundary_009_1032027535.1037211253--
+Is the raspberrypi recipe using the upstream kernel-cache repo
+or is it doing something else ?
 
---__=_Part_Boundary_008_1308263682.721012652--
+Is it also using patches with patchdir specified in the src_uri ?
+If it isn't, I can't see how any of this is triggering.
+
+I'm out of the office this week, but this is something I can sort
+out .. can you send me the exact set of layers (and any
+local.conf I'd need) to trigger this ? I'll have some time tomorrow
+night to poke at it a bit.
+
+Bruce
+
+>
+> In this case, patchdir = '' as there is no patchdir set for this in the
+> recipe. The patch is still picked up when find_patches() is called with
+> subdir='kernel-meta' since the test here is false and the comparison
+> below is not performed.
+>
+> > +            if subdir == patchdir:
+> > +                patch_list.append(local)
+> > +        else:
+> > +            patch_list.append(local)
+> >
+> >       return patch_list
+> >
+> > @@ -119,8 +128,20 @@ do_kernel_metadata() {
+> >               fi
+> >       fi
+> >
+> > +     # was anyone trying to patch the kernel meta data ?, we need to do
+> > +     # this here, since the scc commands migrate the .cfg fragments to the
+> > +     # kernel source tree, where they'll be used later.
+> > +     check_git_config
+> > +     patches="${@" ".join(find_patches(d,'kernel-meta'))}"
+> > +     for p in $patches; do
+> > +         (
+> > +             cd ${WORKDIR}/kernel-meta
+> > +             git am -s $p
+> > +         )
+> > +     done
+> > +
+> >       sccs_from_src_uri="${@" ".join(find_sccs(d))}"
+> > -     patches="${@" ".join(find_patches(d))}"
+> > +     patches="${@" ".join(find_patches(d,''))}"
+> >       feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
+> >
+> >       # a quick check to make sure we don't have duplicate defconfigs
+> >
+>
+> --
+> Paul Barker
+> Beta Five Ltd
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
