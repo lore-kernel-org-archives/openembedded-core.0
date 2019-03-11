@@ -1,49 +1,28 @@
-Return-Path: <yann.cardaillac@smile.fr>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CC2E160721
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 077916B11A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 12:08:38 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t6so4791299wrw.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 05:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=smile-fr.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=17uIGR5YHKUdvNno88NwHh4NOPTtdoKg0x2AH5vKZYA=;
-	b=SneVeGCNH5xv6AtwZhia/7odMXlxWhC80eii5xjfZqiLJ5UlNei/3P5p88QGhXmnTR
-	0FSbzXxXrpD2LFoxt6FXGe06KPvkOnskLTZXKQUf8SfQ2D7RpqCuhh+dt6fTXQPnywVn
-	h2nsZ/EC8lJa4jCWN7CNY324CiNAN+o1Bu1CecKWNPAbYDBZ2OCa0juo1EsAfWzH1sFB
-	+PZpisF/o9FtaUvSsVhNU61RXpG4EtXmmYet1n12tnJwzKJxFVORoqMaZ8Soxbp4xi7n
-	f59dWIk30Pm4bzFzgvDyFz8vThCkR39PFSRcv7nadcwbenOhKdNyCepvO0c/by96Tyln
-	a3+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=17uIGR5YHKUdvNno88NwHh4NOPTtdoKg0x2AH5vKZYA=;
-	b=bMRW2WOn/vee85Unkb21rzpV2YD8GEUwfMR3hvB9akOyjFlKHlo14cCqm89rE/CMYF
-	D6B+rifqM/ORkXccMn2V4pJzXamVqQIY8PKc7javpmcBkgMlifN0aWaIRN/uH7iybuKd
-	I8rLr2ppVDk01qe6KGAlLhhNQrad6u2H3gaSAs77Uws3n9lKLU8GO7sx7Guv8Y4zMf4n
-	J6vNdVtNr6PJjc/wrVN2jS+3R63pKDOGLdD4z7KW3n6CKkL3LAlrEAfV0dZgO4OMCYuQ
-	OOn1KCJZ4j0E/Nf5fh18QYoDPc/wUc4c+BeqDmUf+1SGpoG3At61AvKUNc1Wjq98K5nk
-	uqOg==
-X-Gm-Message-State: APjAAAXb0DKo1d3wmn8UAqnN4avkf3BssUOviimX86D18t/pgGAsS3JQ
-	JBIjxhMzT/ZnhT/UaSSurrp/sithmyY=
-X-Google-Smtp-Source: APXvYqw3S+khizr6EXfDtGsfg+hF1d+WaM+JmV+XQelleRpqBbhcYZf0/9DS0wiRthc9mC0i4DiGtA==
-X-Received: by 2002:a5d:538a:: with SMTP id d10mr19829127wrv.121.1552306119408;
-	Mon, 11 Mar 2019 05:08:39 -0700 (PDT)
-Received: from P-ASN-Panpan.dhcp.idf.intranet
-	(static-css-ccs-204145.business.bouyguestelecom.com.
-	[176.157.204.145]) by smtp.gmail.com with ESMTPSA id
-	d15sm15966080wrw.36.2019.03.11.05.08.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Mar 2019 05:08:39 -0700 (PDT)
-From: Yann CARDAILLAC <yann.cardaillac@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2019 13:08:37 +0100
-Message-Id: <1552306117-28437-1-git-send-email-yann.cardaillac@smile.fr>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] correct do_patch for kernel bbappend in sdk
+	Mon, 11 Mar 2019 12:12:54 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
+	x2BCCkb7030396
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 11 Mar 2019 12:12:49 GMT
+Message-ID: <4dacf2835bc4af256257c7b9455b15bc1e2b6f15.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Khem Raj <raj.khem@gmail.com>, Victor Kamensky <kamensky@cisco.com>
+In-Reply-To: <CAMKF1sp9pjSGOgdv_+k-sqA-sghbxyixK3rb513aRCa5GEtiXA@mail.gmail.com>
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+	<20190311031230.21497-4-richard.purdie@linuxfoundation.org>
+	<CAMKF1sp9pjSGOgdv_+k-sqA-sghbxyixK3rb513aRCa5GEtiXA@mail.gmail.com>
+MIME-Version: 1.0
+Date: Mon, 11 Mar 2019 12:12:39 +0000
+User-Agent: Evolution 3.31.90-1 
+X-Virus-Scanned: clamav-milter 0.100.2 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] linux-yocto: Fix systemtap issue on armv7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 12:08:39 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 12:12:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-do_patch rule of SDK's workspace/appends/linux-*.bbhappend may fail if script are not written in Python
+On Sun, 2019-03-10 at 21:27 -0700, Khem Raj wrote:
+> On Sun, Mar 10, 2019 at 8:13 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Testing stap on armv7 machines was failing due to intermixing of
+> > thumb/arm
+> > instructions. Patch the kernel to always use the v7 march options
+> > since
+> > we know our gcc versions support it to avoid the failure and allow
+> > systemtap to work.
+> > 
+> > [YOCTO #13153]
+> > 
+> 
+> please use the fix that Victor submitted upstream, that way we dont
+> need workaround.
+> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-March/637809.html
 
-that was the case with Phytec's BSP, the fix was to replace the do_patch rule with :
+I have a feeling that patch may get some discussion upstream. I was
+going to say that the version we're working with is simpler and easier
+to work with until upstream decide what the right approach is. Victor
+as already pointed out that even then I messed it up slightly!
 
-do_patch[noexec]="1" when the file was generated in scripts/lib/devtool/standard.py
+I certainly appreciate getting something upstream and that is the right
+thing to do, I think a simpler workaround for us is fine until that
+gets sorted out though.
 
-Signed-off-by: Yann CARDAILLAC <yann.cardaillac@smile.fr>
----
- scripts/lib/devtool/standard.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I'm particularly conscious that we've not built M3 yet and that Bruce
+has limited availability due to travel so we have a few constraints
+here.
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index beea0d4..810d12f 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -761,9 +761,7 @@ def modify(args, config, basepath, workspace):
-             if bb.data.inherits_class('kernel', rd):
-                 f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
-                         'do_fetch do_unpack do_kernel_configme do_kernel_configcheck"\n')
--                f.write('\ndo_patch() {\n'
--                        '    :\n'
--                        '}\n')
-+                f.write('\ndo_patch[noexec] = "1"\n')
-                 f.write('\ndo_configure_append() {\n'
-                         '    cp ${B}/.config ${S}/.config.baseline\n'
-                         '    ln -sfT ${B}/.config ${S}/.config.new\n'
--- 
-2.7.4
+Cheers,
+
+Richard
 
 
