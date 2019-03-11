@@ -1,37 +1,43 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5747C6E8
+Return-Path: <mazliana.mohamad@intel.com>
+X-Greylist: delayed 325 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 11 Mar 2019 09:07:03 UTC
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A9DEA7CE64
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 08:04:52 +0000 (UTC)
+	Mon, 11 Mar 2019 09:07:03 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Mar 2019 01:04:53 -0700
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Mar 2019 02:03:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,467,1544515200"; d="scan'208";a="327419038"
-Received: from pgsmsx107.gar.corp.intel.com ([10.221.44.105])
-	by fmsmga005.fm.intel.com with ESMTP; 11 Mar 2019 01:04:52 -0700
+X-IronPort-AV: E=Sophos;i="5.58,467,1544515200"; d="scan'208";a="327448981"
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by fmsmga005.fm.intel.com with ESMTP; 11 Mar 2019 02:03:55 -0700
 Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.121]) by
-	PGSMSX107.gar.corp.intel.com ([169.254.7.60]) with mapi id
-	14.03.0415.000; Mon, 11 Mar 2019 16:04:51 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
+	PGSMSX104.gar.corp.intel.com ([169.254.3.40]) with mapi id
+	14.03.0415.000; Mon, 11 Mar 2019 17:03:54 +0800
+From: "Mohamad, Mazliana" <mazliana.mohamad@intel.com>
 To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
-	<akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH 07/12] xev: update to 1.2.3
-Thread-Index: AQHU12xbufay7+wuVEqcdFDnBEMSq6YFjT2A
-Date: Mon, 11 Mar 2019 08:04:51 +0000
-Message-ID: <38a64e3113ab878066dab3c2dea49573a12b80be.camel@intel.com>
-References: <1552241263-26116-1-git-send-email-akuster808@gmail.com>
-	<1552241263-26116-7-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1552241263-26116-7-git-send-email-akuster808@gmail.com>
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] scripts/resulttool: Enhance retrieving test cases value
+Thread-Index: AQHU1+kZjoOkLBG+kke0NrxMbpdSwaYGIrqw
+Date: Mon, 11 Mar 2019 09:03:54 +0000
+Message-ID: <A974252CAD7AF945AB1D34185A2045050293D861@PGSMSX105.gar.corp.intel.com>
+References: <1552293034-65821-1-git-send-email-mazliana.mohamad@intel.com>
+	<1552293034-65821-2-git-send-email-mazliana.mohamad@intel.com>
+In-Reply-To: <1552293034-65821-2-git-send-email-mazliana.mohamad@intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.22.38]
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM3ZmYyNDctOWY5NS00MzhmLTgxYjItM2YyOWUzMDQwZGVlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoidE1sME5wN0s1WFVITUlcL2VvTFpuenNzMjBMRk1cL1pkUnhwN1BENnh1QzZIcklDQWoxRjl5c1UyNlBOaE1kNmJrIn0=
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Subject: Re: [PATCH 07/12] xev: update to 1.2.3
+Subject: Re: [PATCH] scripts/resulttool: Enhance retrieving test cases value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,128 +50,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 08:04:53 -0000
+X-List-Received-Date: Mon, 11 Mar 2019 09:07:03 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <200A7F8F740E7E44B4D7CC98ACB0D9E6@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-TG9va3MgbGlrZSB0aGlzIGlzIGZhaWxpbmcgd2l0aCBtdXNsOg0KDQpodHRwczovL2Vycm9ycy55
-b2N0b3Byb2plY3Qub3JnL0Vycm9ycy9EZXRhaWxzLzIzMjQzNS8NCg0KT24gU3VuLCAyMDE5LTAz
-LTEwIGF0IDExOjA3IC0wNzAwLCBBcm1pbiBLdXN0ZXIgd3JvdGU6DQo+IHJlZmFjdG9yIGRpZXQt
-eDExIHBhdGNoDQo+IA0KPiBMSUNfRklMRVNfQ0hLU1VNIGNoYW5nZWQgdG8gZG8gbWVyZ2luZyBv
-ZiBjb3B5cmlnaHQvbGljZW5zZSBub3RpY2VzDQo+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9w
-Lm9yZy94b3JnL2FwcC9ta2ZvbnRzY2FsZS9jb21taXQvODYwOWFkNzMxYjljOWM2NzBhODE1Yzkx
-NTA1NWFlNDE2ZDIzOTZkOA0KPiANCj4gU2lnbmVkLW9mZi1ieTogQXJtaW4gS3VzdGVyIDxha3Vz
-dGVyODA4QGdtYWlsLmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1h
-cHAveGV2L2RpZXQteDExLnBhdGNoICB8IDc5DQo+ICsrKysrKysrKysrKy0tLS0tLS0tLS0NCj4g
-IC4uLi94b3JnLWFwcC97eGV2XzEuMi4yLmJiID0+IHhldl8xLjIuMy5iYn0gICAgICAgIHwgIDQg
-Ky0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKSwgMzcgZGVsZXRpb25zKC0p
-DQo+ICByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3t4ZXZfMS4yLjIuYmIg
-PT4geGV2XzEuMi4zLmJifQ0KPiAoNzclKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy94b3JnLWFwcC94ZXYvZGlldC14MTEucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MveG9yZy1hcHAveGV2L2RpZXQteDExLnBhdGNoDQo+IGluZGV4IDYxMzA5NTkuLmI0
-NDE1ZTMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZXYv
-ZGlldC14MTEucGF0Y2gNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hl
-di9kaWV0LXgxMS5wYXRjaA0KPiBAQCAtNCw3OSArNCw4OCBAQCBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUgW2Rpc2FibGUgZmVhdHVyZV0NCj4gICB4ZXYuYyB8ICAgMTYgKysrKysrKyst
-LS0tLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25z
-KC0pDQo+ICANCj4gLUluZGV4OiB4ZXYtMS4yLjAveGV2LmMNCj4gK0luZGV4OiB4ZXYtMS4yLjMv
-eGV2LmMNCj4gID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0NCj4gLS0tLSB4ZXYtMS4yLjAub3JpZy94ZXYuYw0KPiAtKysr
-IHhldi0xLjIuMC94ZXYuYw0KPiAtQEAgLTExNiw3ICsxMTYsNyBAQCBkb19LZXlQcmVzcyAoWEV2
-ZW50ICpldmVudHApDQo+IC0gICAgIG5ieXRlcyA9IFhMb29rdXBTdHJpbmcgKGUsIHN0ciwgMjU2
-LCAma3MsIE5VTEwpOw0KPiArLS0tIHhldi0xLjIuMy5vcmlnL3hldi5jDQo+ICsrKysgeGV2LTEu
-Mi4zL3hldi5jDQo+ICtAQCAtMTI1LDcgKzEyNSw3IEBAIGRvX0tleVByZXNzKFhFdmVudCAqZXZl
-bnRwKQ0KPiArICAgICBuYnl0ZXMgPSBYTG9va3VwU3RyaW5nKGUsIHN0ciwgMjU2LCAma3MsIE5V
-TEwpOw0KPiAgIA0KPiAgICAgICAvKiBub3Qgc3VwcG9zZWQgdG8gY2FsbCBYbWJMb29rdXBTdHJp
-bmcgb24gYSBrZXkgcmVsZWFzZSBldmVudA0KPiAqLw0KPiAgLSAgICBpZiAoZS0+dHlwZSA9PSBL
-ZXlQcmVzcyAmJiB4aWMpIHsNCj4gICsgICAgLyppZiAoZS0+dHlwZSA9PSBLZXlQcmVzcyAmJiB4
-aWMpIHsNCj4gICAgICAgICAgIGRvIHsNCj4gLSAgICAgICAgICAgICBubWJieXRlcyA9IFhtYkxv
-b2t1cFN0cmluZyAoeGljLCBlLCBidWYsIGJzaXplIC0gMSwNCj4gJmtzLCAmc3RhdHVzKTsNCj4g
-KyAgICAgICAgICAgICBubWJieXRlcyA9IFhtYkxvb2t1cFN0cmluZyh4aWMsIGUsIGJ1ZiwgYnNp
-emUgLSAxLCAma3MsDQo+ICZzdGF0dXMpOw0KPiAgICAgICAgICAgICAgIGJ1ZltubWJieXRlc10g
-PSAnXDAnOw0KPiAtQEAgLTEyNiw3ICsxMjYsNyBAQCBkb19LZXlQcmVzcyAoWEV2ZW50ICpldmVu
-dHApDQo+IC0gICAgICAgICAgICAgICAgIGJ1ZiA9IHJlYWxsb2MgKGJ1ZiwgYnNpemUpOw0KPiAr
-QEAgLTEzNSw3ICsxMzUsNyBAQCBkb19LZXlQcmVzcyhYRXZlbnQgKmV2ZW50cCkNCj4gKyAgICAg
-ICAgICAgICAgICAgYnVmID0gcmVhbGxvYyhidWYsIGJzaXplKTsNCj4gICAgICAgICAgICAgICB9
-DQo+ICAgICAgICAgICB9IHdoaWxlIChzdGF0dXMgPT0gWEJ1ZmZlck92ZXJmbG93KTsNCj4gIC0g
-ICAgfQ0KPiAgKyAgICB9Ki8NCj4gICANCj4gICAgICAgaWYgKGtzID09IE5vU3ltYm9sKQ0KPiAt
-IAlrc25hbWUgPSAiTm9TeW1ib2wiOw0KPiAtQEAgLTE1Niw3ICsxNTYsNyBAQCBkb19LZXlQcmVz
-cyAoWEV2ZW50ICpldmVudHApDQo+ICsgICAgICAgICBrc25hbWUgPSAiTm9TeW1ib2wiOw0KPiAr
-QEAgLTE2OCw3ICsxNjgsNyBAQCBkb19LZXlQcmVzcyhYRXZlbnQgKmV2ZW50cCkNCj4gICAgICAg
-fQ0KPiAgIA0KPiAgICAgICAvKiBub3Qgc3VwcG9zZWQgdG8gY2FsbCBYbWJMb29rdXBTdHJpbmcg
-b24gYSBrZXkgcmVsZWFzZSBldmVudA0KPiAqLw0KPiAgLSAgICBpZiAoZS0+dHlwZSA9PSBLZXlQ
-cmVzcyAmJiB4aWMpIHsNCj4gLSsgICAgLyppZiAoZS0+dHlwZSA9PSBLZXlQcmVzcyAmJiB4aWMp
-IHsNCj4gLSAgICAgICAgIHByaW50ZiAoIiAgICBYbWJMb29rdXBTdHJpbmcgZ2l2ZXMgJWQgYnl0
-ZXM6ICIsIG5tYmJ5dGVzKTsNCj4gKysgICAgLyogaWYgKGUtPnR5cGUgPT0gS2V5UHJlc3MgJiYg
-eGljKSB7DQo+ICsgICAgICAgICBwcmludGYoIiAgICBYbWJMb29rdXBTdHJpbmcgZ2l2ZXMgJWQg
-Ynl0ZXM6ICIsIG5tYmJ5dGVzKTsNCj4gICAgICAgICAgIGlmIChubWJieXRlcyA+IDApIHsNCj4g
-LSAgICAgICAgICAgIGR1bXAgKGJ1Ziwgbm1iYnl0ZXMpOw0KPiAtQEAgLTE2NCw3ICsxNjQsNyBA
-QCBkb19LZXlQcmVzcyAoWEV2ZW50ICpldmVudHApDQo+IC0gICAgICAgICB9IGVsc2Ugew0KPiAt
-ICAgICAJICAgcHJpbnRmICgiXG4iKTsNCj4gKyAgICAgICAgICAgICBkdW1wKGJ1Ziwgbm1iYnl0
-ZXMpOw0KPiArQEAgLTE3Nyw3ICsxNzcsNyBAQCBkb19LZXlQcmVzcyhYRXZlbnQgKmV2ZW50cCkN
-Cj4gKyAgICAgICAgIGVsc2Ugew0KPiArICAgICAgICAgICAgIHByaW50ZigiXG4iKTsNCj4gICAg
-ICAgICAgIH0NCj4gIC0gICAgfQ0KPiAgKyAgICB9ICovDQo+ICAgDQo+IC0gICAgIHByaW50ZiAo
-IiAgICBYRmlsdGVyRXZlbnQgcmV0dXJuczogJXNcbiIsDQo+IC0gCSAgICBYRmlsdGVyRXZlbnQg
-KGV2ZW50cCwgZS0+d2luZG93KSA/ICJUcnVlIiA6ICJGYWxzZSIpOw0KPiAtQEAgLTEwMTUsNyAr
-MTAxNSw3IEBAIG1haW4gKGludCBhcmdjLCBjaGFyICoqYXJndikNCj4gLSAgICAgICAgIGZwcmlu
-dGYgKHN0ZGVyciwgIiVzOiAgWFNldExvY2FsZU1vZGlmaWVycyBmYWlsZWRcbiIsDQo+IFByb2dy
-YW1OYW1lKTsNCj4gKyAgICAgcHJpbnRmKCIgICAgWEZpbHRlckV2ZW50IHJldHVybnM6ICVzXG4i
-LA0KPiArICAgICAgICAgICAgWEZpbHRlckV2ZW50KGV2ZW50cCwgZS0+d2luZG93KSA/ICJUcnVl
-IiA6ICJGYWxzZSIpOw0KPiArQEAgLTExNDEsNyArMTE0MSw3IEBAIHBhcnNlX2V2ZW50X21hc2so
-Y29uc3QgY2hhciAqcywgbG9uZyBldmUNCj4gKyAgICAgICAgICAgICBpZiAocykNCj4gKyAgICAg
-ICAgICAgICAgICAgcmV0dXJuIFRydWU7DQo+ICsgICAgICAgICB9DQo+ICstICAgIH0NCj4gKysJ
-fSovDQo+ICsgDQo+ICsgICAgIGlmIChzICE9IE5VTEwpDQo+ICsgICAgICAgICBmcHJpbnRmKHN0
-ZGVyciwgIiVzOiB1bnJlY29nbml6ZWQgZXZlbnQgbWFzayAnJXMnXG4iLA0KPiBQcm9ncmFtTmFt
-ZSwgcyk7DQo+ICtAQCAtMTI4OCw3ICsxMjg4LDcgQEAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFy
-Z3YpDQo+ICsgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgIiVzOiAgWFNldExvY2FsZU1vZGlmaWVy
-cyBmYWlsZWRcbiIsDQo+IFByb2dyYW1OYW1lKTsNCj4gICAgICAgfQ0KPiAgIA0KPiAtLSAgICB4
-aW0gPSBYT3BlbklNIChkcHksIE5VTEwsIE5VTEwsIE5VTEwpOw0KPiAtKyAgICAvKnhpbSA9IFhP
-cGVuSU0gKGRweSwgTlVMTCwgTlVMTCwgTlVMTCk7DQo+ICstICAgIHhpbSA9IFhPcGVuSU0oZHB5
-LCBOVUxMLCBOVUxMLCBOVUxMKTsNCj4gKysgICAgLyp4aW0gPSBYT3BlbklNKGRweSwgTlVMTCwg
-TlVMTCwgTlVMTCk7DQo+ICAgICAgIGlmICh4aW0gPT0gTlVMTCkgew0KPiAtICAgICAgICAgZnBy
-aW50ZiAoc3RkZXJyLCAiJXM6ICBYT3BlbklNIGZhaWxlZFxuIiwgUHJvZ3JhbU5hbWUpOw0KPiAr
-ICAgICAgICAgZnByaW50ZihzdGRlcnIsICIlczogIFhPcGVuSU0gZmFpbGVkXG4iLCBQcm9ncmFt
-TmFtZSk7DQo+ICAgICAgIH0NCj4gLUBAIC0xMDQyLDcgKzEwNDIsNyBAQCBtYWluIChpbnQgYXJn
-YywgY2hhciAqKmFyZ3YpDQo+ICtAQCAtMTMxNyw3ICsxMzE3LDcgQEAgbWFpbihpbnQgYXJnYywg
-Y2hhciAqKmFyZ3YpDQo+ICAgICAgICAgICAgICAgfQ0KPiAtICAgICAgICAgICAgIFhGcmVlICh4
-aW1fc3R5bGVzKTsNCj4gKyAgICAgICAgICAgICBYRnJlZSh4aW1fc3R5bGVzKTsNCj4gICAgICAg
-ICAgIH0NCj4gIC0gICAgfQ0KPiAtKwl9Ki8NCj4gKysgICAgfSovDQo+ICAgDQo+IC0gICAgIHNj
-cmVlbiA9IERlZmF1bHRTY3JlZW4gKGRweSk7DQo+ICsgICAgIHNjcmVlbiA9IERlZmF1bHRTY3Jl
-ZW4oZHB5KTsNCj4gICANCj4gLUBAIC0xMTA5LDcgKzExMDksNyBAQCBtYWluIChpbnQgYXJnYywg
-Y2hhciAqKmFyZ3YpDQo+IC0gCXByaW50ZiAoIk91dGVyIHdpbmRvdyBpcyAweCVseCwgaW5uZXIg
-d2luZG93IGlzIDB4JWx4XG4iLCB3LA0KPiBzdWJ3KTsNCj4gK0BAIC0xMzczLDcgKzEzNzMsNyBA
-QCBtYWluKGludCBhcmdjLCBjaGFyICoqYXJndikNCj4gKyAgICAgICAgIHByaW50ZigiT3V0ZXIg
-d2luZG93IGlzIDB4JWx4LCBpbm5lciB3aW5kb3cgaXMgMHglbHhcbiIsIHcsDQo+IHN1YncpOw0K
-PiAgICAgICB9DQo+ICAgDQo+ICAtICAgIGlmICh4aW0gJiYgeGltX3N0eWxlKSB7DQo+ICArICAg
-IC8qaWYgKHhpbSAmJiB4aW1fc3R5bGUpIHsNCj4gLSAgICAgICAgIHhpYyA9IFhDcmVhdGVJQyAo
-eGltLA0KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICBYTklucHV0U3R5bGUsIHhpbV9zdHls
-ZSwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgWE5DbGllbnRXaW5kb3csIHcsDQo+IC1A
-QCAtMTExOSw3ICsxMTE5LDcgQEAgbWFpbiAoaW50IGFyZ2MsIGNoYXIgKiphcmd2KQ0KPiArICAg
-ICAgICAgeGljID0gWENyZWF0ZUlDKHhpbSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICBY
-TklucHV0U3R5bGUsIHhpbV9zdHlsZSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICBYTkNs
-aWVudFdpbmRvdywgdywgWE5Gb2N1c1dpbmRvdywgdywgTlVMTCk7DQo+ICtAQCAtMTM4MSw3ICsx
-MzgxLDcgQEAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpDQo+ICAgICAgICAgICBpZiAoeGlj
-ID09IE5VTEwpIHsNCj4gLSAgICAgICAgICAgICBmcHJpbnRmIChzdGRlcnIsICJYQ3JlYXRlSUMg
-ZmFpbGVkXG4iKTsNCj4gKyAgICAgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgIlhDcmVhdGVJQyBm
-YWlsZWRcbiIpOw0KPiAgICAgICAgICAgfQ0KPiAgLSAgICB9DQo+ICArICAgIH0qLw0KPiAgIA0K
-PiAtICAgICBoYXZlX3JyID0gWFJSUXVlcnlFeHRlbnNpb24gKGRweSwgJnJyX2V2ZW50X2Jhc2Us
-DQo+ICZycl9lcnJvcl9iYXNlKTsNCj4gKyAgICAgaGF2ZV9yciA9IFhSUlF1ZXJ5RXh0ZW5zaW9u
-KGRweSwgJnJyX2V2ZW50X2Jhc2UsDQo+ICZycl9lcnJvcl9iYXNlKTsNCj4gICAgICAgaWYgKGhh
-dmVfcnIpIHsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94
-ZXZfMS4yLjIuYmINCj4gYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGV2XzEuMi4z
-LmJiDQo+IHNpbWlsYXJpdHkgaW5kZXggNzclDQo+IHJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWFwcC94ZXZfMS4yLjIuYmINCj4gcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWFwcC94ZXZfMS4yLjMuYmINCj4gaW5kZXggMDcwNWI3Zi4uNmE2OWU3NCAx
-MDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hldl8xLjIuMi5i
-Yg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGV2XzEuMi4zLmJiDQo+
-IEBAIC0xNCw1ICsxNCw1IEBAIERFUEVORFMgKz0gImxpYnhyYW5kciB4b3JncHJvdG8iDQo+ICAN
-Cj4gIFNSQ19VUkkgKz0gImZpbGU6Ly9kaWV0LXgxMS5wYXRjaCINCj4gIA0KPiAtU1JDX1VSSVtt
-ZDVzdW1dID0gIjI0OWJkZGU5MGYwMWMwZDg2MWFmNTJkYzhmZWMzNzllIg0KPiAtU1JDX1VSSVtz
-aGEyNTZzdW1dID0NCj4gImQ5NGFlNjJhNmMxYWY1NmMyOTYxZDcxZjU3ODIwNzZhYzQxMTZmMGZh
-NGU0MDE0MjBhYzdlMGRiMzNkYzMxNGYiDQo+ICtTUkNfVVJJW21kNXN1bV0gPSAiZWVjODJhNWQ0
-YjU5OTczNmYwZmE2MzdlOTYxMzY3NDYiDQo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiNjZi
-YzRmMWNmYTE5NDZkNjI2MTI3Mzc4MTVjMzQxNjRlNGNlNDBmY2ViZDJjOWUxZDdlN2ExMTE3YWQz
-YWQwOSINCj4gLS0gDQo+IDIuNy40DQo+IA0KDQo=
+Apologize, please ignore this email
+
+-----Original Message-----
+From: Mohamad, Mazliana=20
+Sent: Monday, March 11, 2019 4:31 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Mohamad, Mazliana <mazliana.mohamad@intel.com>; Yeoh, Ee Peng <ee.peng.=
+yeoh@intel.com>
+Subject: [PATCH] scripts/resulttool: Enhance retrieving test cases value
+
+From: Mazliana <mazliana.mohamad@intel.com>
+
+We found that manualexecution does not capture test suite values correctly =
+if there are more than one test suite in test cases.
+After verification has made we found out we should retrieved full test case=
+s value <test_module.test_suite.test_case> from oeqa/manual/ json file rath=
+er than split it them into new variables test_suite and test_cases.
+
+Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
+---
+ scripts/lib/resulttool/manualexecution.py | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/result=
+tool/manualexecution.py
+index a44cc86..6487cd9 100755
+--- a/scripts/lib/resulttool/manualexecution.py
++++ b/scripts/lib/resulttool/manualexecution.py
+@@ -29,8 +29,7 @@ class ManualTestRunner(object):
+     def __init__(self):
+         self.jdata =3D ''
+         self.test_module =3D ''
+-        self.test_suite =3D ''
+-        self.test_cases =3D ''
++        self.test_cases_id =3D ''
+         self.configuration =3D ''
+         self.starttime =3D ''
+         self.result_id =3D ''
+@@ -38,11 +37,10 @@ class ManualTestRunner(object):
+=20
+     def _get_testcases(self, file):
+         self.jdata =3D load_json_file(file)
+-        self.test_cases =3D []
++        self.test_cases_id =3D []
+         self.test_module =3D self.jdata[0]['test']['@alias'].split('.', 2)=
+[0]
+-        self.test_suite =3D self.jdata[0]['test']['@alias'].split('.', 2)[=
+1]
+         for i in self.jdata:
+-            self.test_cases.append(i['test']['@alias'].split('.', 2)[2])
++            self.test_cases_id.append(i['test']['@alias'])
+    =20
+     def _get_input(self, config):
+         while True:
+@@ -81,10 +79,9 @@ class ManualTestRunner(object):
+=20
+     def _execute_test_steps(self, test_id):
+         test_result =3D {}
+-        testcase_id =3D self.test_module + '.' + self.test_suite + '.' + s=
+elf.test_cases[test_id]
+         total_steps =3D len(self.jdata[test_id]['test']['execution'].keys(=
+))
+         print('-----------------------------------------------------------=
+-------------')
+-        print('Executing test case:' + '' '' + self.test_cases[test_id])
++        print('Executing test case:' + '' '' +=20
++ self.test_cases_id[test_id])
+         print('-----------------------------------------------------------=
+-------------')
+         print('You have total ' + str(total_steps) + ' test steps to be ex=
+ecuted.')
+         print('-----------------------------------------------------------=
+-------------\n')
+@@ -105,9 +102,9 @@ class ManualTestRunner(object):
+                         res =3D result_types[r]
+                         if res =3D=3D 'FAILED':
+                             log_input =3D input('\nPlease enter the error =
+and the description of the log: (Ex:log:211 Error Bitbake)\n')
+-                            test_result.update({testcase_id: {'status': '%=
+s' % res, 'log': '%s' % log_input}})
++                           =20
++ test_result.update({self.test_cases_id[test_id]: {'status': '%s' %=20
++ res, 'log': '%s' % log_input}})
+                         else:
+-                            test_result.update({testcase_id: {'status': '%=
+s' % res}})
++                           =20
++ test_result.update({self.test_cases_id[test_id]: {'status': '%s' %=20
++ res}})
+                 break
+             print('Invalid input!')
+         return test_result
+--
+2.7.4
+
 
