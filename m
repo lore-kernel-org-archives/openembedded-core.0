@@ -1,55 +1,52 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 621106B7C2
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 886797CF3E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2019 04:20:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id D30B0182CB;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id dTP8TWr_4BlY; Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 5FF5718242;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4552C1A05B;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3A1631A058;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by seth.se.axis.com (Postfix) with ESMTP id 2E2D62D53;
-	Mon, 11 Mar 2019 05:20:28 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 11 Mar 2019 05:20:28 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Mon, 11 Mar 2019 05:20:27 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Khem Raj (raj.khem@gmail.com)" <raj.khem@gmail.com>
-Thread-Topic: Can't build product that uses DEFAULTTUNE="arm926ejs"
-Thread-Index: AdTXwGozNpZtoMkdRIy3RTSRsKSVkQ==
-Date: Mon, 11 Mar 2019 04:20:27 +0000
-Message-ID: <d33eaa8904924405a9a5870faac183e0@XBOX04.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 11 Mar 2019 04:20:52 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id p17so2819249iol.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Mar 2019 21:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1HvKtwzpHPvNgbLGf5IWGNr0GJIC3GuCf+kyv7S06i4=;
+	b=lXykoxQs6AfUk0C9BP+a93ehXLDuk4aw6NXE1spwjcRto55A1XzfDp5EopZXvB9qnM
+	MiFr7oaUFSbvvnqk29PKLmlJk7XMHPGrPucn7fnY2dkAN59qDEatIWpwCRYZNqP8fAAn
+	iqmVfPFnEVa/qzNXwzcIYfHrT6oVEU2/vtX3C8qnFGSZlUZcmnP1o6ZnuLoFEomhWpgN
+	WpPcKHd8TB/M8/7gToEN7CzEMZ1t9koZyIhUZ3GeaN7mSG/JERl8owDiQGwXazlgHNaf
+	7qPLCbb2jmnWkH04tTj4+8UU5es48aT1sHJgUTTUs1R2LZmSk1ND+eTBd4nKD15aEDwx
+	FvxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1HvKtwzpHPvNgbLGf5IWGNr0GJIC3GuCf+kyv7S06i4=;
+	b=QIMY6w1aaIRAunL4Xhhp3hlfdgVjVqHcigvepJrtC4/TLj98IB4s44QxWWbu+QXJJJ
+	Res3gDh3kgZaKFWb7gNAsd5mfrI86DsBoeGXzSneOkGegausITXoss8kGG4/+2g2CmoA
+	m3YFBzseIB4TRm5t5sl5XlRZBUnF1R1ATYv2orDCHfwwxJOF52KEKifwk5xxDDATPBue
+	yJhsdSyrSqE7xvnDVXpYL7A2XRbsg6eQBs2mAXJgYpCeX1+Z5L2q/gU1XWdOYBw0YRiM
+	l6uX8oJwrSNy+QS/5DorRGudJ0mAK4nrnepYv78T1ep0+Qd54KL56MqWu4r8fcDYFYgI
+	Ij2Q==
+X-Gm-Message-State: APjAAAUVMm/uqbHKM74lQXhkbxBY68TcCKfC0N3xxhXbkWqK+91hZ583
+	cA8jUqIilTLRwDlNIhbrvMs=
+X-Google-Smtp-Source: APXvYqwkSwJXeTgqqs7hKogfkzGSv9CKbDmw0fv2mKQf0CjYANQ5asvoMBv+daBzLLzufCmd7AhUHA==
+X-Received: by 2002:a6b:f319:: with SMTP id m25mr1219315ioh.161.1552278053234; 
+	Sun, 10 Mar 2019 21:20:53 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195]) by smtp.gmail.com with ESMTPSA id
+	i198sm7622003iti.18.2019.03.10.21.20.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 10 Mar 2019 21:20:52 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 11 Mar 2019 00:20:51 -0400
+Message-Id: <20190311042051.61762-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Can't build product that uses DEFAULTTUNE="arm926ejs"
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto: fix SRC_URI patching with unified repos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2019 04:20:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Mar 2019 04:20:52 -0000
+Content-Transfer-Encoding: 8bit
 
-I'm trying to build with master of OE-core and one of our products now=20
-fails with:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-ERROR:  OE-core's config sanity checker detected a potential misconfigurati=
-on.
-    Either fix the cause of this error or at your own risk disable the chec=
-ker=20
-    (see sanity.conf). Following is the list of potential problems / adviso=
-ries:
+As reported by Paul Barker, my attempt to allow the patching
+of kernel meta data broke other repository configurations, since
+the meta data patch routing was matching too broadly and the
+same repo would end up being patched twice.
 
-    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t armv=
-5=20
-    armv5t armv5e armv5te arm926ejste arm926ejse <BSP name withheld>) for=20
-    DEFAULTTUNE (arm926ejs) does not contain TUNE_PKGARCH (arm926ejst).
+Using his suggested fix, we are up and running with both types
+of repos again.
 
-I believe this is due to commit ac83d22e (arm-tunes: Remove -march option i=
-f=20
-mcpu is already added). If I build with Thud, TUNE_PKGARCH is "arm926ejste"=
-.
-The  lack of the "e" at the end when building with master seems to be due t=
-o=20
-the definition of ARMPKGSFX_DSP as=20
-"${@bb.utils.contains('TUNE_FEATURES', [ 'armv5', 'dsp' ], 'e', '', d)}" an=
-d=20
-the fact that after commit ac83d22e, TUNE_FEATURES no longer contains 'armv=
-5'.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-//Peter
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index bd7a957583..ed9bcfa57c 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -15,7 +15,7 @@ def find_patches(d,subdir):
+         patchdir = ''
+         if "patchdir" in parm:
+             patchdir = parm["patchdir"]
+-        if patchdir:
++        if subdir:
+             if subdir == patchdir:
+                 patch_list.append(local)
+         else:
+-- 
+2.19.1
 
 
