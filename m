@@ -1,44 +1,42 @@
 Return-Path: <jonathan.rajotte-julien@efficios.com>
 Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id AF6797C69B
+	by mail.openembedded.org (Postfix) with ESMTP id 212627C6AB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2019 21:13:45 +0000 (UTC)
+	Tue, 12 Mar 2019 21:14:10 +0000 (UTC)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 01EAB134F31;
-	Tue, 12 Mar 2019 17:13:47 -0400 (EDT)
+	by mail.efficios.com (Postfix) with ESMTP id 53079134F66;
+	Tue, 12 Mar 2019 17:14:11 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id Yy3POleEdesJ; Tue, 12 Mar 2019 17:13:46 -0400 (EDT)
+	with ESMTP id Rz9D8zxDw2Nd; Tue, 12 Mar 2019 17:14:11 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id A17BC134F2A;
-	Tue, 12 Mar 2019 17:13:46 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com A17BC134F2A
+	by mail.efficios.com (Postfix) with ESMTP id 02989134F62;
+	Tue, 12 Mar 2019 17:14:11 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 02989134F62
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1552425226;
-	bh=s3oyO+oIVbjgJCk3Pw1n35qX4xF2vsvMFjpWNFTXaPE=;
+	s=default; t=1552425251;
+	bh=R6ls3jHF4t08WwwppVRlGeKdTrpizemu1/oiISkSfRI=;
 	h=From:To:Date:Message-Id;
-	b=ZOnT+ExgZQxHvd2+74g3xiZE8YyDO4lANLGrOYQtEWzIv6gQdoymGh/PHIZqAJAjz
-	LmKdWefKJobGKpzDDaTQ6Ey9Dc8KOz2vT3aYhpFkjauX6T0B9HyST9WREDCZ4F0EQC
-	SuPWvDmwknNEhVJbdQ3ZE6xr9/sldXIvEfrIA2DOgNC5cLJclJUGTIxqzhxWb7An6c
-	kXcUmGcyZiaQxBxsaKt/JOyMbHWi9Q0j3wKQPJhhDf3RT36ylKo92vTLZoF1++Lpkk
-	rzcC093jMq2CSogSHa2199oDn1f3NmCfi+nMT/8OVzUe7N06jJ/6zniI9XQsMesL+p
-	Jt32dtKlbx4ng==
+	b=eY5hDNH7jk5/eaEEq04HsY5k3h5hndiF7umppuW2t6dIZUUOJ8ZY1QHgkydgkb29P
+	q9CnXk9FLWhrST+vs2CoFi2P0d+0QxEulzIthUXb+sYVvJZ1SWVO3CDgPGoS57NuL1
+	tXDBzGaZjeoPMn9smPTuHekyDEpl/ESFc+pdHoF2gPJBJyEVfNafu4JtgalH+Q+8av
+	tKd8F4IPz2Uecsb6qv5IfvbI3MBTlW2+jsffOiUDVAaDZjgC8lp8/MNYyN0SM7vtQ0
+	dYpHvpSNhYth0nlgvBIDh38vrXhs1zEXZlWGqkz4C88BPWQ7LpuBdr5xx+NhuX6f4h
+	T36RyRAvRtp4Q==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id 2KFGMUwMrQhW; Tue, 12 Mar 2019 17:13:46 -0400 (EDT)
+	with ESMTP id ejSbQ33eA2He; Tue, 12 Mar 2019 17:14:10 -0400 (EDT)
 Received: from joraj-yocto-dev.internal.efficios.com
 	(192-222-157-41.qc.cable.ebox.net [192.222.157.41])
-	by mail.efficios.com (Postfix) with ESMTPSA id 7DAD1134F25;
-	Tue, 12 Mar 2019 17:13:46 -0400 (EDT)
+	by mail.efficios.com (Postfix) with ESMTPSA id D8543134F5D;
+	Tue, 12 Mar 2019 17:14:10 -0400 (EDT)
 From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2019 21:13:30 +0000
-Message-Id: <20190312211330.30850-2-jonathan.rajotte-julien@efficios.com>
+Date: Tue, 12 Mar 2019 21:14:05 +0000
+Message-Id: <20190312211405.6569-1-jonathan.rajotte-julien@efficios.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
-References: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
-Subject: [PATCH 2/2] lttng-tools ptest: fix test_ust-dl
+Subject: [PATCH] lttng-ust: add python3-agent feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2019 21:13:46 -0000
+X-List-Received-Date: Tue, 12 Mar 2019 21:14:10 -0000
+
+Enable users to use lttng as an event sink for python3.
+
+For more details: https://lttng.org/docs/v2.10/#doc-python-application
 
 Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
 ---
- .../lttng/lttng-tools_2.10.6.bb               | 21 ++++++++++---------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index 3324959cc3..37b6161cda 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -87,6 +87,9 @@ do_install_ptest () {
-         install -d "${D}${PTEST_PATH}/tests/$d"
-         find "${B}/tests/$d" -maxdepth 1 -executable -type f \
-             -exec install -t "${D}${PTEST_PATH}/tests/$d" {} +
-+        # Take all .py scripts for tests using the python bindings.
-+        find "${B}/tests/$d" -maxdepth 1 -type f -name "*.py" \
-+            -exec install -t "${D}${PTEST_PATH}/tests/$d" {} +
-         test -r "${B}/tests/$d/Makefile" && \
-             install -t "${D}${PTEST_PATH}/tests/$d" "${B}/tests/$d/Makefile"
-     done
-@@ -98,11 +101,19 @@ do_install_ptest () {
-                 *.so)
-                     install -d ${D}${PTEST_PATH}/tests/$d/
-                     ln -s  ../$f ${D}${PTEST_PATH}/tests/$d/$f
-+                    # Remove any rpath/runpath to pass QA check.
-+                    chrpath --delete ${D}${PTEST_PATH}/tests/$d/$f
-                     ;;
-             esac
-         done
-     done
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+index b5c43200d6..c0f408eeec 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+@@ -8,7 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+                     file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+                     file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
  
-+    #
-+    # Use the versioned libs of liblttng-ust-dl.
-+    #
-+    sed -i -e 's!:liblttng-ust-dl.so!:liblttng-ust-dl.so.0!' \
-+        "${D}${PTEST_PATH}/tests/regression/ust/ust-dl/test_ust-dl.py"
+-inherit autotools lib_package manpages
++PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
++                 am_cv_python_pythondir='${PYTHON_SITEPACKAGES_DIR}' \
++                 PYTHON_INCLUDE='-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}${PYTHON_ABI}' \
++"
 +
-     install ${B}/tests/unit/ini_config/sample.ini ${D}${PTEST_PATH}/tests/unit/ini_config/
++inherit autotools lib_package manpages python3native
  
-     # We shouldn't need to build anything in tests/regression/tools
-@@ -119,16 +130,6 @@ do_install_ptest () {
-         -e 's/^all-am:.*/all-am:/' \
-         {} +
+ DEPENDS = "liburcu util-linux"
+ RDEPENDS_${PN}-bin = "python3-core"
+@@ -29,6 +34,11 @@ SRC_URI[sha256sum] = "9e8420f90d5f963f7aa32bc6d44adc1e491136f687c69ffb7a3075d33b
+ CVE_PRODUCT = "ust"
  
--    # These objects trigger [rpaths] QA checks; the test harness
--    # skips the associated tests if they're missing, so delete
--    # them.
--    objs=""
--    objs="$objs regression/ust/ust-dl/libbar.so"
--    objs="$objs regression/ust/ust-dl/libfoo.so"
--    for obj in $objs ; do
--        rm -f "${D}${PTEST_PATH}/tests/${obj}"
--    done
--
-     find "${D}${PTEST_PATH}" -name Makefile -type f -exec \
-         touch -r "${B}/Makefile" {} +
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
++PACKAGECONFIG[python3-agent] = "--enable-python-agent ${PYTHON_OPTION}, --disable-python-agent, python3, python3"
++
++FILES_${PN} += " ${PYTHON_SITEPACKAGES_DIR}/*"
++FILES_${PN}-staticdev += " ${PYTHON_SITEPACKAGES_DIR}/*.a"
++FILES_${PN}-dev += " ${PYTHON_SITEPACKAGES_DIR}/*.la"
  
+ do_install_append() {
+         # Patch python tools to use Python 3; they should be source compatible, but
 -- 
 2.17.1
 
