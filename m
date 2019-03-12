@@ -1,19 +1,23 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 7D69E6C4CE
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EA4A6C4CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2019 05:38:48 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id B81101C067F;
-	Tue, 12 Mar 2019 18:38:48 +1300 (NZDT)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2019 18:38:47 +1300
-Message-Id: <20190312053847.11170-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190311055151.31185-1-douglas.royds@taitradio.com>
-References: <20190311055151.31185-1-douglas.royds@taitradio.com>
-Subject: [PATCH v3] cmake: Reduce verbosity for make invocation
+	Tue, 12 Mar 2019 05:40:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2C5eQsU000388
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2019 22:40:26 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 11 Mar 2019 22:40:25 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Mar 2019 13:40:24 +0800
+Message-ID: <1552369224-447803-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] glibc: fix do_populate_sdk fail when multilib used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,47 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2019 05:38:48 -0000
+X-List-Received-Date: Tue, 12 Mar 2019 05:40:29 -0000
+Content-Type: text/plain
 
-New variable OECMAKE_VERBOSE_MAKEFILE defaults to True.
+From: Changqing Li <changqing.li@windriver.com>
 
-Since the dawn of time, we have set CMAKE_VERBOSE_MAKEFILE=1 (True) in cmake.bbclass.
-Back in 2016, we also explicitly set VERBOSE=1 in cmake_do_compile(),
-to ensure that make (and ninja) output were verbose in log.do_compile.
+fix below error:
 
-Setting OECMAKE_VERBOSE_MAKEFILE to False means that make (or ninja)
-invocations from the command-line are non-verbose,
-giving CMake's default human-readable output on the terminal instead.
-The user can still invoke VERBOSE=1 make if they do want verbose output.
-This has no effect on the verbose output that goes into the logs.
+file /usr/include/bits/procfs-id.h conflicts between attempted installs of lib32-libc6-dev-2.29-r0.armv7vet2hf_vfp and libc6-dev-2.29-r0.aarch64
+file /usr/include/bits/procfs.h conflicts between attempted installs of lib32-libc6-dev-2.29-r0.armv7vet2hf_vfp and libc6-dev-2.29-r0.aarch64
+file /usr/include/bits/shmlba.h conflicts between attempted installs of lib32-libc6-dev-2.29-r0.armv7vet2hf_vfp and libc6-dev-2.29-r0.aarch64
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/cmake.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-package.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index fa7f68c99b..0d44a74046 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -62,6 +62,7 @@ EXTRA_OECMAKE_BUILD_prepend_task-install = "${PARALLEL_MAKEINST} "
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index b925961..b7c64a0 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -148,6 +148,7 @@ do_install_armmultilib () {
+ 	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
+ 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
+ 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
++	oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
  
- OECMAKE_TARGET_COMPILE ?= "all"
- OECMAKE_TARGET_INSTALL ?= "install"
-+OECMAKE_VERBOSE_MAKEFILE ?= "True"
+ 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
  
- # CMake expects target architectures in the format of uname(2),
- # which do not always match TARGET_ARCH, so all the necessary
-@@ -164,7 +165,7 @@ cmake_do_configure() {
- 	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix'))} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
--	  -DCMAKE_VERBOSE_MAKEFILE=1 \
-+	  -DCMAKE_VERBOSE_MAKEFILE=${OECMAKE_VERBOSE_MAKEFILE} \
- 	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
- 	  ${EXTRA_OECMAKE} \
- 	  -Wno-dev
 -- 
-2.17.1
+2.7.4
 
 
