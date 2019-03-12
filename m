@@ -1,34 +1,45 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 746B37CD17
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+	[209.85.208.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A6BB26B11A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2019 01:41:19 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Mar 2019 18:41:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,468,1544515200"; d="scan'208";a="133264093"
-Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
-	by orsmga003.jf.intel.com with ESMTP; 11 Mar 2019 18:41:19 -0700
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.121]) by
-	KMSMSX154.gar.corp.intel.com ([169.254.12.175]) with mapi id
-	14.03.0415.000; Tue, 12 Mar 2019 09:41:18 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
-Thread-Topic: [OE-core] [PATCH] linux-yocto/5.0: fix system tap for arm
-Thread-Index: AQHU17zva7+l6f7fpUGCH+UJEdSBeKYGs8cA
-Date: Tue, 12 Mar 2019 01:41:18 +0000
-Message-ID: <682c60768727b20cd0ff14a2765dc60775116243.camel@intel.com>
-References: <20190311034537.7190-1-bruce.ashfield@gmail.com>
-In-Reply-To: <20190311034537.7190-1-bruce.ashfield@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.22.38]
+	Tue, 12 Mar 2019 02:21:07 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id z25so866975ljk.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2019 19:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=WTWNC3qqmDaMYCbO3KBy/JxrJYU039LqA5Xm38yyhKw=;
+	b=CrqIITsel2aNNUvbZetL7GJmFYtfe58p0PzmEvOdg5RE/VWpq1SrwfB+k+w8vqCPME
+	Y2nvFpWIJX2Q0sfoMoSjEQS6sKgfyrxnscg7dzAdUGS4c1pVNduFsXf7TN0+zReekQkE
+	04tj/nD3gbRVZ2K+PvGRwr0RjZj1OHzP9lLGLk2fewLmBFtZ68Xu0qfazo3pnnzjV5iZ
+	Le8IkuiBVUIhakDB9EknXNjna0lb/olnhSR2iAaS8AO/JPh/KOYUal8JwhlMkboGkNRZ
+	C3NcCmsHojdS0D3aZtqwjhpVQ3ff0BET6c7ioSfuzDy7UL3S+rM/Rfcr46Lh5a2MeFm+
+	9/PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=WTWNC3qqmDaMYCbO3KBy/JxrJYU039LqA5Xm38yyhKw=;
+	b=A3r0K3L/aTuJsBTPHZgIU1w5wVMX60v4P/b6u/5R9XEl0nGyNeR19NB1od4klpnU/+
+	hQoYS2wqFh6GPSVDJhUXpUx4MJTv0GAEMXCKUUR62+g8vaRwvfQiqbdnvfkb3MXT6Sls
+	pHuOlJbpphzFyCvEJOfNEHChAXkSQAaiJxDuoI/+x+g7/sblMyyfbmQOs1Prh8pW0lAy
+	+qhc9uFu/azhFccN13pBd+KCMaiGyq7AFr0eZKqp/PKd69rWM/7d4zBgOMts2zI95HCZ
+	Rjk6c8+7nvQc6qCM10diVvGqy+HOVp5t4aIKNZ7oXDBqTrjGdJT/hLO3kUdrNAfFJu5g
+	4SVQ==
+X-Gm-Message-State: APjAAAU72CS9Zc8WOAHzXEaGNy/Eyw0WhlQnwBZSg+V6WB6BED/dO4JF
+	aQXrZKsJTBvxwXCSE9HfLlrai1pvJVi6WMgDASg=
+X-Google-Smtp-Source: APXvYqyqw01yhp6/t8Ytqh/m6Mhu1bx7bqNnUudcPlWgpdwShaS5/d357C5VKfLc+0dK+oNiww7yEMC22JSbPcHiokc=
+X-Received: by 2002:a2e:9b15:: with SMTP id u21mr18234059lji.82.1552357267850; 
+	Mon, 11 Mar 2019 19:21:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190311034537.7190-1-bruce.ashfield@gmail.com>
+	<682c60768727b20cd0ff14a2765dc60775116243.camel@intel.com>
+In-Reply-To: <682c60768727b20cd0ff14a2765dc60775116243.camel@intel.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 11 Mar 2019 22:20:57 -0400
+Message-ID: <CADkTA4O_fwU9OJM_fBLkW1x4iYNi5ZBz5W1-HWGwT0UQscKXwg@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] linux-yocto/5.0: fix system tap for arm
@@ -44,38 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2019 01:41:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FC4A2451B7C80F46AFD6E2175CB48C42@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 12 Mar 2019 02:21:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gU3VuLCAyMDE5LTAzLTEwIGF0IDIzOjQ1IC0wNDAwLCBicnVjZS5hc2hmaWVsZEBnbWFpbC5j
-b20gd3JvdGU6DQo+IC1TUkNSRVZfbWFjaGluZV9xZW11YXJtID89ICIxZmJlY2FkMGU2YTY4YjZj
-NTdiNGY2ZWY4MjA3ZTdlOTBlYTc2NGEzIg0KPiAtU1JDUkVWX21hY2hpbmVfcWVtdWFybTY0ID89
-DQo+ICIxYTBkYTdlNTBiNzdjODI4NDFlZmI1MDFjNjQ4ZGJhY2E2OTllYWMyIg0KPiAtU1JDUkVW
-X21hY2hpbmVfcWVtdW1pcHMgPz0NCj4gImQ5ZGQ2ZDRjZmU2ODllZmQ1Y2I3YmJhY2QxMThhMzg4
-OGFjN2M1MTciDQo+IC1TUkNSRVZfbWFjaGluZV9xZW11cHBjID89ICIxYTBkYTdlNTBiNzdjODI4
-NDFlZmI1MDFjNjQ4ZGJhY2E2OTllYWMyIg0KPiAtU1JDUkVWX21hY2hpbmVfcWVtdXg4NiA/PSAi
-MWEwZGE3ZTUwYjc3YzgyODQxZWZiNTAxYzY0OGRiYWNhNjk5ZWFjMiINCj4gLVNSQ1JFVl9tYWNo
-aW5lX3FlbXV4ODYtNjQgPz0NCj4gIjFhMGRhN2U1MGI3N2M4Mjg0MWVmYjUwMWM2NDhkYmFjYTY5
-OWVhYzIiDQo+IC1TUkNSRVZfbWFjaGluZV9xZW11bWlwczY0ID89DQo+ICI1ZjA3MjQ0NTEyNmU2
-YTllNDRmOTQzNWE1NTJmNGZjZjZmYzE1NDk5Ig0KPiAtU1JDUkVWX21hY2hpbmUgPz0gIjFhMGRh
-N2U1MGI3N2M4Mjg0MWVmYjUwMWM2NDhkYmFjYTY5OWVhYzIiDQo+IC1TUkNSRVZfbWV0YSA/PSAi
-NGZhYTQ0MTk4ODRkMmJiZTY1ZjYzN2JlZmQ3MWExZTk1NjI5ZWFhZSINCj4gK1NSQ1JFVl9tYWNo
-aW5lX3FlbXVhcm0gPz0gIjIzYjUzODA3M2ZkYzgwM2IwYTc0OWRlNzc2Nzc1MDg2NzFlMjQ2YWYi
-DQo+ICtTUkNSRVZfbWFjaGluZV9xZW11YXJtNjQgPz0NCj4gIjM3YzhmMmEzZGYxZTMxNTQwODc1
-MzhhMjcyMjhmYWQwYzZlMTcyYzUiDQo+ICtTUkNSRVZfbWFjaGluZV9xZW11bWlwcyA/PQ0KPiAi
-NTBiNWI3MDlhYzZiMWQxNGFjODE1ZjlhMDAyYzUwYTE5NjMwNmIwMiINCj4gK1NSQ1JFVl9tYWNo
-aW5lX3FlbXVwcGMgPz0gIjM3YzhmMmEzZGYxZTMxNTQwODc1MzhhMjcyMjhmYWQwYzZlMTcyYzUi
-DQo+ICtTUkNSRVZfbWFjaGluZV9xZW11eDg2ID89ICIzN2M4ZjJhM2RmMWUzMTU0MDg3NTM4YTI3
-MjI4ZmFkMGM2ZTE3MmM1Ig0KPiArU1JDUkVWX21hY2hpbmVfcWVtdXg4Ni02NCA/PQ0KPiAiMzdj
-OGYyYTNkZjFlMzE1NDA4NzUzOGEyNzIyOGZhZDBjNmUxNzJjNSINCj4gK1NSQ1JFVl9tYWNoaW5l
-X3FlbXVtaXBzNjQgPz0NCj4gIjgzMjI1MTViYTdhODU4YzQ3Mzg2Yjk1YzZlNzIwMWM4YTNhNDEx
-NzUiDQo+ICtTUkNSRVZfbWFjaGluZSA/PSAiMzdjOGYyYTNkZjFlMzE1NDA4NzUzOGEyNzIyOGZh
-ZDBjNmUxNzJjNSINCj4gK1NSQ1JFVl9tZXRhID89ICI4ZmJkMTE5YmQ5NTQ0NDNiMWNhZTQ5NmQ3
-Nzk3YzQ1OGZhYTAyNDk1Ig0KDQpMb29rcyBsaWtlIHRoZXNlIGNvbW1pdHMgd2VyZW4ndCBhY3R1
-YWxseSBwdXNoZWQuDQoNCkkgc3RpbGwgc2VlIDFhMGRhN2U1MCBhcyB0aGUgbGF0ZXN0IG9uIHY1
-LjAvc3RhbmRhcmQvYmFzZSBhbmQgdGhpcyBpcw0KcmVzdWx0aW5nIGluIGZhaWx1cmVzIGZvciBt
-YXN0ZXItbmV4dCBvbiBhdXRvYnVpbGRlciAuLi4NCg0KVGhhbmtzLA0KQW51ag0K
+On Mon, Mar 11, 2019 at 9:41 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Sun, 2019-03-10 at 23:45 -0400, bruce.ashfield@gmail.com wrote:
+> > -SRCREV_machine_qemuarm ?= "1fbecad0e6a68b6c57b4f6ef8207e7e90ea764a3"
+> > -SRCREV_machine_qemuarm64 ?=
+> > "1a0da7e50b77c82841efb501c648dbaca699eac2"
+> > -SRCREV_machine_qemumips ?=
+> > "d9dd6d4cfe689efd5cb7bbacd118a3888ac7c517"
+> > -SRCREV_machine_qemuppc ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
+> > -SRCREV_machine_qemux86 ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
+> > -SRCREV_machine_qemux86-64 ?=
+> > "1a0da7e50b77c82841efb501c648dbaca699eac2"
+> > -SRCREV_machine_qemumips64 ?=
+> > "5f072445126e6a9e44f9435a552f4fcf6fc15499"
+> > -SRCREV_machine ?= "1a0da7e50b77c82841efb501c648dbaca699eac2"
+> > -SRCREV_meta ?= "4faa4419884d2bbe65f637befd71a1e95629eaae"
+> > +SRCREV_machine_qemuarm ?= "23b538073fdc803b0a749de77677508671e246af"
+> > +SRCREV_machine_qemuarm64 ?=
+> > "37c8f2a3df1e3154087538a27228fad0c6e172c5"
+> > +SRCREV_machine_qemumips ?=
+> > "50b5b709ac6b1d14ac815f9a002c50a196306b02"
+> > +SRCREV_machine_qemuppc ?= "37c8f2a3df1e3154087538a27228fad0c6e172c5"
+> > +SRCREV_machine_qemux86 ?= "37c8f2a3df1e3154087538a27228fad0c6e172c5"
+> > +SRCREV_machine_qemux86-64 ?=
+> > "37c8f2a3df1e3154087538a27228fad0c6e172c5"
+> > +SRCREV_machine_qemumips64 ?=
+> > "8322515ba7a858c47386b95c6e7201c8a3a41175"
+> > +SRCREV_machine ?= "37c8f2a3df1e3154087538a27228fad0c6e172c5"
+> > +SRCREV_meta ?= "8fbd119bd954443b1cae496d7797c458faa02495"
+>
+> Looks like these commits weren't actually pushed.
+>
+> I still see 1a0da7e50 as the latest on v5.0/standard/base and this is
+> resulting in failures for master-next on autobuilder ...
+
+I just double checked my builder and they were pushed, at least the machine
+branches. I did just explicitly push standard/base, hopefully the build issues
+are cleared up now.
+
+Bruce
+
+>
+> Thanks,
+> Anuj
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
