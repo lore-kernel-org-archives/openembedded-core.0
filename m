@@ -1,19 +1,23 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id A7696748D5
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 62A877C741
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2019 05:32:31 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id B7CF21C067F;
-	Tue, 12 Mar 2019 18:32:31 +1300 (NZDT)
-From: Douglas Royds <douglas.royds@taitradio.com>
+	Tue, 12 Mar 2019 05:36:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Mar 2019 22:36:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,469,1544515200"; d="scan'208";a="154177546"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2019 22:36:31 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2019 18:32:27 +1300
-Message-Id: <20190312053227.11008-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190311055151.31185-1-douglas.royds@taitradio.com>
-References: <20190311055151.31185-1-douglas.royds@taitradio.com>
-Subject: [PATCH v2] cmake: Reduce verbosity for make invocation
+Date: Tue, 12 Mar 2019 13:05:28 +0800
+Message-Id: <1552367128-85252-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] resulttool/report: Enable roll-up report for a commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,45 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2019 05:32:32 -0000
+X-List-Received-Date: Tue, 12 Mar 2019 05:36:31 -0000
 
-New variable OECMAKE_VERBOSE_MAKEFILE defaults to True.
+Enable roll-up all test results belong to a commit
+and to provide a roll-up report.
 
-Since the dawn of time, we have set CMAKE_VERBOSE_MAKEFILE=1 (True) in cmake.bbclass.
-Back in 2016, we also explicitly set VERBOSE=1 in cmake_do_compile(),
-to ensure that make (and ninja) output were verbose in log.do_compile.
-
-Setting OECMAKE_VERBOSE_MAKEFILE to False means that make (or ninja)
-invocations from the command-line are non-verbose,
-giving CMake's default human-readable output on the terminal instead.
-The user can still invoke VERBOSE=1 make if they do want verbose output.
-This has no effect on the verbose output that goes into the logs.
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/classes/cmake.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/resulttool/report.py | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index fa7f68c99b..0d44a74046 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -62,6 +62,7 @@ EXTRA_OECMAKE_BUILD_prepend_task-install = "${PARALLEL_MAKEINST} "
+diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
+index ff1b32c..9008620 100644
+--- a/scripts/lib/resulttool/report.py
++++ b/scripts/lib/resulttool/report.py
+@@ -107,9 +107,17 @@ class ResultsTextReport(object):
+                                  maxlen=maxlen)
+         print(output)
  
- OECMAKE_TARGET_COMPILE ?= "all"
- OECMAKE_TARGET_INSTALL ?= "install"
-+OECMAKE_VERBOSE_MAKEFILE ?= "True"
+-    def view_test_report(self, logger, source_dir, tag):
++    def view_test_report(self, logger, source_dir, branch, commit, tag):
+         test_count_reports = []
+-        if tag:
++        if commit:
++            if tag:
++                logger.warning("Ignoring --tag as --commit was specified")
++            tag_name = "{branch}/{commit_number}-g{commit}/{tag_number}"
++            repo = GitRepo(source_dir)
++            revs = gitarchive.get_test_revs(logger, repo, tag_name, branch=branch)
++            rev_index = gitarchive.rev_find(revs, 'commit', commit)
++            testresults = resultutils.git_get_result(repo, revs[rev_index][2])
++        elif tag:
+             repo = GitRepo(source_dir)
+             testresults = resultutils.git_get_result(repo, [tag])
+         else:
+@@ -125,7 +133,7 @@ class ResultsTextReport(object):
  
- # CMake expects target architectures in the format of uname(2),
- # which do not always match TARGET_ARCH, so all the necessary
-@@ -164,7 +165,7 @@ cmake_do_configure() {
- 	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix'))} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
--	  -DCMAKE_VERBOSE_MAKEFILE=1 \
-+	  -DCMAKE_VERBOSE_MAKEFILE=${OECMAKE_VERBOSE_MAKEFILE} \
- 	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
- 	  ${EXTRA_OECMAKE} \
- 	  -Wno-dev
+ def report(args, logger):
+     report = ResultsTextReport()
+-    report.view_test_report(logger, args.source_dir, args.tag)
++    report.view_test_report(logger, args.source_dir, args.branch, args.commit, args.tag)
+     return 0
+ 
+ def register_commands(subparsers):
+@@ -136,5 +144,7 @@ def register_commands(subparsers):
+     parser_build.set_defaults(func=report)
+     parser_build.add_argument('source_dir',
+                               help='source file/directory that contain the test result files to summarise')
++    parser_build.add_argument('--branch', '-B', default='master', help="Branch to find commit in")
++    parser_build.add_argument('--commit', help="Revision to report")
+     parser_build.add_argument('-t', '--tag', default='',
+                               help='source_dir is a git repository, report on the tag specified from that repository')
 -- 
-2.17.1
+2.7.4
 
 
