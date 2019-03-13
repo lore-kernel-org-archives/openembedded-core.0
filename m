@@ -1,42 +1,42 @@
 Return-Path: <jonathan.rajotte-julien@efficios.com>
 Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id BB1C16D56C
+	by mail.openembedded.org (Postfix) with ESMTP id 3C78760291
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2019 15:21:13 +0000 (UTC)
+	Wed, 13 Mar 2019 15:26:06 +0000 (UTC)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id C0B14AE66C;
-	Wed, 13 Mar 2019 11:21:14 -0400 (EDT)
+	by mail.efficios.com (Postfix) with ESMTP id 32AC3AE820;
+	Wed, 13 Mar 2019 11:26:08 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id O7qJ-dELE1ym; Wed, 13 Mar 2019 11:21:14 -0400 (EDT)
+	with ESMTP id F4_LLDjlTc67; Wed, 13 Mar 2019 11:26:07 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 1D829AE665;
-	Wed, 13 Mar 2019 11:21:14 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 1D829AE665
+	by mail.efficios.com (Postfix) with ESMTP id 9E678AE818;
+	Wed, 13 Mar 2019 11:26:07 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 9E678AE818
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1552490474;
-	bh=eJ8+G0FReqVOvpJl4n3gtSWg4etHM/vjMvaucIPkLKM=;
+	s=default; t=1552490767;
+	bh=DTDBX01dUFSZL9VnI3OxgL23JHhWM+AxokGfPabybkk=;
 	h=From:To:Date:Message-Id;
-	b=KETEBefJWyOahC7W2ka3O5OUUVD7hQavGibze0w4geYVewh0i9Dn/lP0uBeckL8WL
-	tYEcIEmxzPZKe3HI1bxOSmoaU2cm9n4HGMETHvOVFWE6KqedUJ8SKgV/qZeL2B7b7O
-	BDA3Djz+Lhe9opx1cZvKbW6oM0dRdajsGvZ+nrQC83K3dtHPR2xYl3PovbOAiOVWyM
-	AR4G0DOI/J6Ur15QCGGyMjcaAnjgFbvK2I8fkcPF6ufZUtT3uM6dGdAL9WT/JzpB3E
-	B952XQEkTnfWWyxpLooLDwwveUA1s9oVUvTp8iyj+dBAI1tsrKemdsfT6mGfu1Re9m
-	nigDWTW/PbGLg==
+	b=jDXG+xYKWS55ZTJ4G96izjCjz/fd3OXiXLyZ4wUH5KgJlkipc5mswC0fesEl0IrCq
+	6CNnDiWvoVNKAP6YNAHq/ZGgt5NoktmJPKCi0zvfjb2/b9TAHaUtEiv/Uj0UBX3WTV
+	4d++Lvvth/Tnuf/69CVJJZ5+K6oy8NiECxQhswnZVaToRibevNLAeAnYY8c8pfgvyY
+	HnqMEb/6K7K8Drswo7BcPsEt+Vwbr2NWQuDLmmp773jyS9HSdnLG+Ijlj/QELwxZ3l
+	hy29bHtNCGhrvFHQIGN8kJ/9sZYDaAtWVGVrIifqibuXXunz0FP3227SeO6J7fEP75
+	bM6yIE20nikQQ==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id UBGgqfdQ3TlV; Wed, 13 Mar 2019 11:21:14 -0400 (EDT)
+	with ESMTP id OAu3qoBeCr4Y; Wed, 13 Mar 2019 11:26:07 -0400 (EDT)
 Received: from joraj-yocto-dev.internal.efficios.com
 	(192-222-157-41.qc.cable.ebox.net [192.222.157.41])
-	by mail.efficios.com (Postfix) with ESMTPSA id E678FAE65E;
-	Wed, 13 Mar 2019 11:21:13 -0400 (EDT)
+	by mail.efficios.com (Postfix) with ESMTPSA id 6F554AE804;
+	Wed, 13 Mar 2019 11:26:07 -0400 (EDT)
 From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Mar 2019 15:20:57 +0000
-Message-Id: <20190313152057.16336-1-jonathan.rajotte-julien@efficios.com>
+Date: Wed, 13 Mar 2019 15:25:58 +0000
+Message-Id: <20190313152558.16408-1-jonathan.rajotte-julien@efficios.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [Sumo][PATCH] glibc: Drop upstream rejected patches
+Subject: [Thud][PATCH] glibc: Drop upstream rejected patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,7 +49,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2019 15:21:15 -0000
+X-List-Received-Date: Wed, 13 Mar 2019 15:26:07 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
@@ -58,7 +58,7 @@ upstream but they have been rejected, I think its best that they are
 dropped so we can avoid novel unintended behaviours that no other
 distros will be seeing
 
-(From OE-Core: 54550aa42378ce4b215bccbfd95e5e650b0d2efa)
+(From OE-Core rev:54550aa42378ce4b215bccbfd95e5e650b0d2efa)
 
 Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
@@ -68,28 +68,28 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 As a remainder, these glibc patches led to deadlock for the lttng-ust
 python agent.
 
-For a base test, I builded a core-image-sato, played around a bit in it.
+For a base test, I builded a core-image-sato and played around a bit in it.
 
-Cheer.
+Cheer
 
 ---
- ...set-dl_load_write_lock-after-forking.patch | 40 -----------
- ...ck-before-switching-to-malloc_atfork.patch | 70 -------------------
- meta/recipes-core/glibc/glibc_2.27.bb         |  2 -
- 3 files changed, 112 deletions(-)
+ ...set-dl_load_write_lock-after-forking.patch | 37 -----------
+ ...ck-before-switching-to-malloc_atfork.patch | 65 -------------------
+ meta/recipes-core/glibc/glibc_2.28.bb         |  2 -
+ 3 files changed, 104 deletions(-)
  delete mode 100644 meta/recipes-core/glibc/glibc/0026-reset-dl_load_write_lock-after-forking.patch
  delete mode 100644 meta/recipes-core/glibc/glibc/0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch
 
 diff --git a/meta/recipes-core/glibc/glibc/0026-reset-dl_load_write_lock-after-forking.patch b/meta/recipes-core/glibc/glibc/0026-reset-dl_load_write_lock-after-forking.patch
 deleted file mode 100644
-index eca1193dd3..0000000000
+index 71ddc1234b..0000000000
 --- a/meta/recipes-core/glibc/glibc/0026-reset-dl_load_write_lock-after-forking.patch
 +++ /dev/null
-@@ -1,40 +0,0 @@
--From 847d37d5a34e4bf294de4ba98de3668950e28bc7 Mon Sep 17 00:00:00 2001
+@@ -1,37 +0,0 @@
+-From efb0fca7db742f4195e1771d8ba4c7fba4938819 Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
 -Date: Sat, 27 Jan 2018 10:05:07 -0800
--Subject: [PATCH 26/27] reset dl_load_write_lock after forking
+-Subject: [PATCH] reset dl_load_write_lock after forking
 -
 -The patch in this Bugzilla entry was requested by a customer:
 -
@@ -108,10 +108,10 @@ index eca1193dd3..0000000000
 - 1 file changed, 2 insertions(+), 2 deletions(-)
 -
 -diff --git a/sysdeps/nptl/fork.c b/sysdeps/nptl/fork.c
--index 846fa49ef2..f87506f398 100644
+-index ec56a827eb..0f48933ff1 100644
 ---- a/sysdeps/nptl/fork.c
 -+++ b/sysdeps/nptl/fork.c
--@@ -194,9 +194,9 @@ __libc_fork (void)
+-@@ -130,9 +130,9 @@ __libc_fork (void)
 - 	  _IO_list_resetlock ();
 - 	}
 - 
@@ -121,21 +121,18 @@ index eca1193dd3..0000000000
 --
 -+      __rtld_lock_initialize (GL(dl_load_write_lock));
 -       /* Run the handlers registered for the child.  */
--       while (allp != NULL)
-- 	{
---- 
--2.16.1
--
+-       __run_fork_handlers (atfork_run_child);
+-     }
 diff --git a/meta/recipes-core/glibc/glibc/0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch b/meta/recipes-core/glibc/glibc/0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch
 deleted file mode 100644
-index 9ec234bd51..0000000000
+index dd37f2cd4d..0000000000
 --- a/meta/recipes-core/glibc/glibc/0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch
 +++ /dev/null
-@@ -1,70 +0,0 @@
--From 94225ab4bcc1613531558a632270b5edce779bc9 Mon Sep 17 00:00:00 2001
+@@ -1,65 +0,0 @@
+-From 6ea962e0946da7564a774b08dd3eda28d64e9e56 Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
 -Date: Sat, 27 Jan 2018 10:08:04 -0800
--Subject: [PATCH 27/27] Acquire ld.so lock before switching to malloc_atfork
+-Subject: [PATCH] Acquire ld.so lock before switching to malloc_atfork
 -
 -The patch is from
 -  https://sourceware.org/bugzilla/show_bug.cgi?id=4578
@@ -162,11 +159,11 @@ index 9ec234bd51..0000000000
 -Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- sysdeps/nptl/fork.c | 9 +++++++++
-- 1 file changed, 9 insertions(+)
+- sysdeps/nptl/fork.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
 -
 -diff --git a/sysdeps/nptl/fork.c b/sysdeps/nptl/fork.c
--index f87506f398..225e7b51f8 100644
+-index 0f48933ff1..eef3f9669b 100644
 ---- a/sysdeps/nptl/fork.c
 -+++ b/sysdeps/nptl/fork.c
 -@@ -25,6 +25,7 @@
@@ -177,35 +174,30 @@ index 9ec234bd51..0000000000
 - #include <stdio-lock.h>
 - #include <atomic.h>
 - #include <nptl/pthreadP.h>
--@@ -60,6 +61,10 @@ __libc_fork (void)
--      but our current fork implementation is not.  */
+-@@ -56,6 +57,9 @@ __libc_fork (void)
 -   bool multiple_threads = THREAD_GETMEM (THREAD_SELF, header.multiple_threads);
 - 
+-   __run_fork_handlers (atfork_run_prepare);
 -+  /* grab ld.so lock BEFORE switching to malloc_atfork */
 -+  __rtld_lock_lock_recursive (GL(dl_load_lock));
 -+  __rtld_lock_lock_recursive (GL(dl_load_write_lock));
--+
--   /* Run all the registered preparation handlers.  In reverse order.
--      While doing this we build up a list of all the entries.  */
--   struct fork_handler *runp;
--@@ -246,6 +251,10 @@ __libc_fork (void)
 - 
-- 	  allp = allp->next;
-- 	}
--+
+-   /* If we are not running multiple threads, we do not have to
+-      preserve lock state.  If fork runs from a signal handler, only
+-@@ -150,6 +154,9 @@ __libc_fork (void)
+- 
+-       /* Run the handlers registered for the parent.  */
+-       __run_fork_handlers (atfork_run_parent);
 -+      /* unlock ld.so last, because we locked it first */
 -+      __rtld_lock_unlock_recursive (GL(dl_load_write_lock));
 -+      __rtld_lock_unlock_recursive (GL(dl_load_lock));
 -     }
 - 
 -   return pid;
---- 
--2.16.1
--
-diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
-index adee494c2e..650de727b4 100644
---- a/meta/recipes-core/glibc/glibc_2.27.bb
-+++ b/meta/recipes-core/glibc/glibc_2.27.bb
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index d072939254..72cee04d9a 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
 @@ -40,8 +40,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
             file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
@@ -213,8 +205,8 @@ index adee494c2e..650de727b4 100644
 -           file://0026-reset-dl_load_write_lock-after-forking.patch \
 -           file://0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch \
             file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
-            file://0029-Replace-strncpy-with-memccpy-to-fix-Wstringop-trunca.patch \
-            file://0030-plural_c_no_preprocessor_lines.patch \
+            file://0029-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
+            file://0030-intl-Emit-no-lines-in-bison-generated-files.patch \
 -- 
 2.17.1
 
