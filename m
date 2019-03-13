@@ -1,27 +1,42 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BEBBF7C699
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 491676BE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2019 20:16:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2DKGjYq025942
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Mar 2019 13:16:46 -0700 (PDT)
-Received: from yow-masselst-lx1.localnet (128.224.60.174) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 13 Mar 2019 13:16:45 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 13 Mar 2019 16:16:44 -0400
-Message-ID: <5276363.2J0VhtYBXH@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CABcZANmQp3PNhqGMwekPmiaq=prZBBwtPftzJvzeTYJFYfDRDA@mail.gmail.com>
-References: <1552499826-26884-1-git-send-email-mark.asselstine@windriver.com>
-	<CABcZANmQp3PNhqGMwekPmiaq=prZBBwtPftzJvzeTYJFYfDRDA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] go.bbclass: Export GOARM
+	Wed, 13 Mar 2019 20:53:48 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id A6F49ABEFA;
+	Wed, 13 Mar 2019 16:53:48 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id Z4omJ2Rymq8p; Wed, 13 Mar 2019 16:53:48 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 056AFABEF3;
+	Wed, 13 Mar 2019 16:53:48 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 056AFABEF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1552510428;
+	bh=OsZQ99+jXFx8sf3YTKCWlS8qH1o0PgThhETmWwOmgyg=;
+	h=From:To:Date:Message-Id;
+	b=rJBcu9oUMD/4HFsS1htleNj1A79gMssh695NmWwYU3OR5PTbUfNn/+hyNT8wIm2dA
+	JdAP7g6zTQv+4CL4HcHcNar+YpZoDLwkypn11mjluBxZ9qtfVRG2iGAWUQvMFGNHrG
+	xntjr8RC1IttRCONb3546QRq1gr8B20OlBxdlDjywjZneAOHnldWNVGglaowbE+KDU
+	s2LhjIR2lQVsuYWeHUtqhlwFvwp95b7fd2D/8m7PtHrtKHXItk1ylztvSpika2Jk8U
+	zR343E4fW+2AcdO53+RDe4E3yWpRj/BPQ8zLdpjFzGBqKGcv/05hNWIk+ypWz4QX+W
+	3q5lkUJiBiulQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id Mmt9UhtZT415; Wed, 13 Mar 2019 16:53:47 -0400 (EDT)
+Received: from joraj-yocto-dev.internal.efficios.com
+	(192-222-157-41.qc.cable.ebox.net [192.222.157.41])
+	by mail.efficios.com (Postfix) with ESMTPSA id D0E97ABEEE;
+	Wed, 13 Mar 2019 16:53:47 -0400 (EDT)
+From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Mar 2019 20:53:30 +0000
+Message-Id: <20190313205332.9674-1-jonathan.rajotte-julien@efficios.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [Sumo][PATCH 1/3] lttng-ust: update to 2.10.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,93 +49,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2019 20:16:46 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Mar 2019 20:53:48 -0000
 
-On Wednesday, March 13, 2019 3:40:18 PM EDT Christopher Larson wrote:
-> How would bitbake respond to an =E2=80=98export=E2=80=99 line with the em=
-pty string? I.e.
-> can you do an actual conditional export the way we do conditional inherit=
-s,
-> so it still is only exported for arm, even if the value is set to the emp=
-ty
-> string for others?
+Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+---
+ .../lttng/{lttng-ust_2.10.1.bb => lttng-ust_2.10.3.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.10.1.bb => lttng-ust_2.10.3.bb} (90%)
 
-I thought about doing this but did not attempt it. I will give it a go and =
-see=20
-how it looks and works. I am still curious to hear from Richard on this as =
-if=20
-it is deterministic it is the simplistic and easiest to read approach.
-
-MarkA
-
->=20
-> On Wed, Mar 13, 2019 at 10:57 AM Mark Asselstine <
->=20
-> mark.asselstine@windriver.com> wrote:
-> > When building GO packages for ARM (v5, v6, v7) it is expected that the
-> > GOARM env variable is set during the build. Not having GOARM exported
-> > will result in GO binaries which can't be executed on the target
-> > (terminate with segfault). Per https://github.com/golang/go/wiki/GoArm
-> >=20
-> > We already have the logic in goarch.bbclass to determine the correct
-> > value of GOARM (see GOARM_TARGET), but currently this is only used to
-> > build go itself (go-cross_1.*.bb requires go-cross.inc --> export
-> > GOARM =3D "${TARGET_GOARM}").
-> >=20
-> > Here we export GOARM but we do it such that it is only exported if we
-> > are building for 'arm' and only when recipes requiring/inheriting
-> > go.bbclass are be used to build for the target.
-> >=20
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> >=20
-> > Richard,
-> >=20
-> > MarkH and I were debating this one some. He was suggesting I add
-> > 'GOARM ?=3D ""' so as not to leave things undefined for non-arm target
-> > builds. I however, like the behavior of this as submitted here as
-> > non-arm target builds don't get polluted with a useless export in
-> > their do_compile scripts and such. The question is as presented here
-> > is the behavior deterministic?
-> >=20
-> >=20
-> > meta/classes/go.bbclass | 3 +++
-> >=20
-> >  1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> > index af331f8..72e2c29 100644
-> > --- a/meta/classes/go.bbclass
-> > +++ b/meta/classes/go.bbclass
-> > @@ -8,6 +8,9 @@ GOROOT =3D "${STAGING_LIBDIR}/go"
-> >=20
-> >  export GOROOT
-> >  export GOROOT_FINAL =3D "${libdir}/go"
-> >=20
-> > +GOARM_arm_class-target =3D "${TARGET_GOARM}"
-> > +export GOARM
-> > +
-> >=20
-> >  DEPENDS_GOLANG_class-target =3D "virtual/${TUNE_PKGARCH}-go
-> >=20
-> > virtual/${TARGET_PREFIX}go-runtime"
-> >=20
-> >  DEPENDS_GOLANG_class-native =3D "go-native"
-> >  DEPENDS_GOLANG_class-nativesdk =3D "virtual/${TARGET_PREFIX}go-crosssdk
-> >=20
-> > virtual/${TARGET_PREFIX}go-runtime"
-> > --
-> > 2.7.4
-> >=20
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+similarity index 90%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+index d79a47931c..b5c43200d6 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.10.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+@@ -23,8 +23,8 @@ PE = "2"
+ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+            file://lttng-ust-doc-examples-disable.patch \
+           "
+-SRC_URI[md5sum] = "4863cc2f9f0a070b42438bb646bbba06"
+-SRC_URI[sha256sum] = "07cc3c0b71e7b77f1913d5b7f340a78a9af414440e4662712aef2d635b88ee9d"
++SRC_URI[md5sum] = "ffcfa8c1ba9a52f002d240e936e9afa2"
++SRC_URI[sha256sum] = "9e8420f90d5f963f7aa32bc6d44adc1e491136f687c69ffb7a3075d33b40852b"
+ 
+ CVE_PRODUCT = "ust"
+ 
+-- 
+2.17.1
 
 
