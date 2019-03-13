@@ -1,46 +1,28 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 0456960290
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EDECC6D50C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2019 00:47:04 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id k136so161716lfg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2019 17:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1/RGcjcqf6So2MD0LUANi2mcgdiRN2xGtOc8cJs4nLc=;
-	b=gSue6KII6IwWvdf+WORaaoTSxxT1yNZ3QCHe2REWypDzZjL3jcz35HFnDvs4SAB785
-	hDfk8VSxVwpRoO9AE3+R5IvPItHX9mUweTX1+TiSQFGOJ/lwEtNoQaniIJT/Bcbp866r
-	GaYeLceC/eWOEffKbfIwJzhREloUyrCoOZUOJVZ97lAEuun+9UD8DTufe5ihSk25dIgX
-	y8ymnjD+qBlpeaYXZ2j/alzSzkEZB4ZN8JpRiOdiY0uVzHB+gjxDFFa/UOpnmIVzFJp9
-	1RYafwN+DQv51xucRMRn6oxOmUe6bGuLhM7x6zzJm6GuJ2+AWxpgpPUZSSYDCZ1wXgGm
-	vdPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1/RGcjcqf6So2MD0LUANi2mcgdiRN2xGtOc8cJs4nLc=;
-	b=n327CxmRMOYGkzC4XNg64kVrzTuluBZpQzgcmY2nNjnwUSHu325Ls0A5DQBVqWS96e
-	isZnVVHTCLT22DTKIOBs3p6VLYPxpjulTjIrqM9iTLtwOZmz/S0GKF97gjQPIu0Ug/Gv
-	ycawjLCoKoV2TJtD5/ALOhABfT7ydZ8y9vATxHFNZN373pjEU7NKbfJnCFvL2rkdHMqX
-	ODmQ5R3qEDWHqaSW1uGZADubCpnV+5cVb9rMjZcX+MH6ilxYzfSvm6r0i3xfjyoGN0lu
-	odGbbwTPIkWAKOgH2uAGR5YVHEGrVBd3lpI6AKhy3mtiKvKiV7qy5nuTDyAhEwh4vF7k
-	qGQQ==
-X-Gm-Message-State: APjAAAWWJhuBZ2KF/WjMqz9jw1xMw5K2G+mz8wWBGIoJ4/CTwSNPV4LH
-	8JiLDwGy/1ExJAFm6Yxv6PpjsX1eUoOHRcymTN4=
-X-Google-Smtp-Source: APXvYqy7xFPX749iG3yJU+wM3rms1olTJH19yNtx0n4N9PxMGyJ1SrcKpPcX0t16yHWOSJHiWQcfn8XuZ/Del/UN648=
-X-Received: by 2002:a19:f51a:: with SMTP id j26mr1177119lfb.5.1552438025322;
-	Tue, 12 Mar 2019 17:47:05 -0700 (PDT)
+	Wed, 13 Mar 2019 01:46:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2D1ja5F017308
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Mar 2019 18:46:12 -0700
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Tue, 12 Mar 2019 18:45:41 -0700
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <1551846256-166265-1-git-send-email-mingli.yu@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5C886242.2060008@windriver.com>
+Date: Wed, 13 Mar 2019 09:52:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-References: <20190312165150.GB25992@joraj-alpa>
-In-Reply-To: <20190312165150.GB25992@joraj-alpa>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 12 Mar 2019 20:46:55 -0400
-Message-ID: <CADkTA4OEvrYpyk4A4VHRh+mHrN+dFTZp4oKYw_U6PzPaWdSF-w@mail.gmail.com>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Cc: OpenEmbedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] lttng: add 5.x fixup patches to 2.10.8 release
+In-Reply-To: <1551846256-166265-1-git-send-email-mingli.yu@windriver.com>
+X-Originating-IP: [128.224.162.194]
+Subject: Re: [PATCH] gcc-sanitizers: fix the build with -fno-omit-frame-pointer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2019 00:47:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Mar 2019 01:46:38 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 12, 2019 at 12:51 PM Jonathan Rajotte-Julien
-<jonathan.rajotte-julien@efficios.com> wrote:
+Ping.
+
+Thanks,
+
+On 2019年03月06日 12:24, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
 >
-> Hi Bruce,
+> Fix the below build issue for gcc-sanitizers when
+> both -mthumb and -fno-omit-frame-pointer configured
+> for arm.
+> | ../../../../libsanitizer/sanitizer_common/sanitizer_linux.cc: In function 'sanitizer::uptr sanitizer::internal_clone(int (*)(void*), void*, int, void*, int*, void*, int*)':
+> | ../../../../libsanitizer/sanitizer_common/sanitizer_linux.cc:1540:1: error: r7 cannot be used in asm here
+> }
 >
-> We just release LTTng-modules 2.10.9 that should remove the need for most if not
-> all of this patches. Could you try it out?
-
-Thanks for letting me know. I'll take it for a spin and send an update
-early next week.
-
-Bruce
-
+> Reference: https://reviews.llvm.org/D50180
 >
-> Cheers
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-sanitizers_8.2.bb | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> --
-> Jonathan Rajotte-Julien
-> EfficiOS
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_8.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_8.2.bb
+> index f3c7058..2f89c86 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers_8.2.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers_8.2.bb
+> @@ -5,3 +5,4 @@ require gcc-sanitizers.inc
+>   # sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
+>   ARM_INSTRUCTION_SET_armv4 = "arm"
+>   ARM_INSTRUCTION_SET_armv5 = "arm"
+> +TARGET_CFLAGS_remove_arm = "${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fno-omit-frame-pointer', '', d)}"
+>
 
