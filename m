@@ -1,37 +1,51 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 45A046B90D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B805E60745
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2019 08:46:00 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,474,1544457600"; d="scan'208";a="56657150"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Mar 2019 16:46:00 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1C72C4C8B03B;
-	Wed, 13 Mar 2019 16:45:37 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0415.000; Wed, 13 Mar 2019 16:46:10 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] createrepo-c: fix for do_package_qa
-Thread-Index: AQHU2IBWWm4UnWnCg06wxF4GX0DL2KYHRhqAgAH61RA=
-Date: Wed, 13 Mar 2019 08:46:06 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1BEB946@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1552046342-45875-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CAJTo0LZw_kKeyQarwrKwRUpHUd0_FFDHFDxMXYFBQeOP_0vokA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZw_kKeyQarwrKwRUpHUd0_FFDHFDxMXYFBQeOP_0vokA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Wed, 13 Mar 2019 12:27:20 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id h34so1392110pgh.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Mar 2019 05:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=jCFCjHTqMdS6g1dt0y84OAVtf9SxSgn1aabJycu81ns=;
+	b=gfJ9clNsAPLyUb5xhGKzwbT24zqHuV4lt7LBE8ysplZhtdKp882tR/LUdgqkoJP96w
+	MyQb+f0KYGgAicaE5zqDJ87J7NXqLFpREWMLF7MLSmemxjGaJatX5Fq2I7V13AR4JZmv
+	ZTL9+lPVoMElpNswRVb/RLWXKtfWjn4WTdJNc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=jCFCjHTqMdS6g1dt0y84OAVtf9SxSgn1aabJycu81ns=;
+	b=ljqtuOOBq6kMwIUw9ibTgWz3DaxyOo9t0fsGfAGqQlTx57GgbqSrmyVHUemYbgydaa
+	S8kKfxlvl1AK1XGQ45r3byI9stGfxP0HmZXd9+Gm6GLLamA7Md30KPYqcbKu5HoYP8Tc
+	aydJA0HiWWQSzlWM3CkpifDgFb5Rc8e9s2ULam6lmbV8P+7dLTPrjWU8CrdwTiRj/DW/
+	SxFbE8SoIDriXyilRT+cktBnRvo3NigaDNhAovqet45/N9qjG5LiaCnfJpZHWXcnPBX3
+	NaYMnhnUgRGV3nIOgWQ4zudfJJjphmR+aRXfoJRLmPlCNPvxbhqhfw1KPNwhHNGj009Q
+	CtBg==
+X-Gm-Message-State: APjAAAUHo7nhcCpckp2UIbqzWtqtQblph7HU2G7+s7t0JE95ii624wVi
+	E/+2I0oMZCMPkpBFvXhD7a0SXoE1Ok8=
+X-Google-Smtp-Source: APXvYqyT91peDZFYf4UYyubiWHw/gi4q3YCyblCmZCpBcShv6lTT3dqvMP8GEObl/+C2fxtzsH2l9Q==
+X-Received: by 2002:a17:902:403:: with SMTP id 3mr45570552ple.48.1552480041747;
+	Wed, 13 Mar 2019 05:27:21 -0700 (PDT)
+Received: from hex ([12.27.65.221]) by smtp.gmail.com with ESMTPSA id
+	17sm16813597pfj.80.2019.03.13.05.27.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 13 Mar 2019 05:27:20 -0700 (PDT)
+Message-ID: <524bb11ff49ed73f6d0f32536e31f00ca8c241bf.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?UTF-8?Q?=C5=81ukasz_=C5=81aguna?= <lukasz.laguna@3mdeb.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Mar 2019 05:27:17 -0700
+In-Reply-To: <20190312101856.32280-1-lukasz.laguna@3mdeb.com>
+References: <20190312101856.32280-1-lukasz.laguna@3mdeb.com>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 1C72C4C8B03B.AB0F8
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] createrepo-c: fix for do_package_qa
+Cc: maciej.pijanowski@3mdeb.com
+Subject: Re: [PATCH][pyro] bmap-tools_3.2.bb: add lacking packages in RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2019 08:46:01 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 13 Mar 2019 12:27:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-SGkgUm9zc++8mg0KDQpKdXN0IHdvcmsgYXJvdW5kLg0KTm93IEkgZG9uJ3Qg
-a25vdyB3aHkgZG9lcyBjcmVhdGVyZXBvLWMgZGVwZW5kIG9uIHB5dGhvbjMt
-ZGV2Lg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGlu
-dGVsLmNvbV0NCj4gU2VudDogVHVlc2RheSwgTWFyY2ggMTIsIDIwMTkgNjoz
-MCBQTQ0KPiBUbzogWmhlbmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKmIDx6aGVuZ3Jx
-LmZuc3RAY24uZnVqaXRzdS5jb20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gY3JlYXRlcmVwby1jOiBmaXggZm9y
-IGRvX3BhY2thZ2VfcWENCj4gDQo+IE9uIFR1ZSwgMTIgTWFyIDIwMTkgYXQg
-MDM6MDUsIFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3Uu
-Y29tPiB3cm90ZToNCj4gPiBGaXggdGhlIGZvbGxvd2luZyBRQSBJc3N1ZToN
-Cj4gPg0KPiA+IEVSUk9SOiBuYXRpdmVzZGstY3JlYXRlcmVwby1jLTAuMTIu
-MS1yMCBkb19wYWNrYWdlX3FhOiBRQSBJc3N1ZTogbmF0aXZlc2RrLQ0KPiBj
-cmVhdGVyZXBvLWMgcmRlcGVuZHMgb24gbmF0aXZlc2RrLXB5dGhvbjMtZGV2
-IFtkZXYtZGVwc10NCj4gPiBFUlJPUjogbmF0aXZlc2RrLWNyZWF0ZXJlcG8t
-Yy0wLjEyLjEtcjAgZG9fcGFja2FnZV9xYTogUUEgcnVuIGZvdW5kIGZhdGFs
-DQo+IGVycm9ycy4gUGxlYXNlIGNvbnNpZGVyIGZpeGluZyB0aGVtLg0KPiAN
-Cj4gRml4aW5nIG9yIHdvcmtpbmcgYXJvdW5kPyAgV2h5IGRvZXMgY3JlYXRl
-cmVwby1jIGRlcGVuZCBvbiBweXRob24zLWRldj8NCj4gDQo+IFJvc3MNCj4g
-DQoNCgoK
+On Tue, 2019-03-12 at 11:18 +0100, Łukasz Łaguna wrote:
+> ---
+>  meta/recipes-support/bmap-tools/bmap-tools_3.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+> b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+> index e10f5fd341d2..099fa998acf9 100644
+> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+> @@ -13,7 +13,7 @@ SRC_URI = "
+> ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tgz"
+>  SRC_URI[md5sum] = "92cdad1cb4dfa0cca7176c8e22752616"
+>  SRC_URI[sha256sum] =
+> "cc6c7f7dc0a37e2a32deb127308e24e6c4b80bfb54f3803c308efab02bf2d434"
+>  
+> -RDEPENDS_${PN} = "python-core python-compression"
+> +RDEPENDS_${PN} = "python-core python-compression python-mmap python-
+> setuptools python-fcntl python-argparse python-xml"
+>  
+>  inherit setuptools
+
+pyro is outside stable maintenance at this point. This patch also has
+no Signed-off-by line and no indication of whether the patch was fixed
+in later versions (or which versions those are).
+
+Cheers,
+
+Richard
+
+
 
