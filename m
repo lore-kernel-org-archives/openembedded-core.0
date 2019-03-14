@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CC48E6D545
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 371896D147
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 20:34:08 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id i8so7328492wrm.0
+	Thu, 14 Mar 2019 21:42:53 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id f11so7905364qti.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 13:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=3VRclwCuDH3mW4T61mnMcGH8yFQ8Vao0xqOMw6miFuc=;
-	b=x6RoJxaqH+vqis3dCDv2SmJjylKbHTYvmB4x3ob2FdM9zPtHrUTjGyjw9dqtSOJsM3
-	SFZ4Knd9Lsl5SKQ265+ReDs8xEpl7IzaQHn6wHLPpJKb9b5aLf81IobgtKni7jKMBWnt
-	7bEFEEmmA5aTEFKMq1uYR+Xzbohv2r0i7MLBnmii3qFh7S60jMNs/XkI6ktDYpxDqaHj
-	RyOzuXxD02j98+kxNBRF5lmyZ+jj2V393HqgeFno6r3/TAmKlXQS/V40+C3wkaNjLapK
-	viN3YIyVQgwe6BCL8nJRE83XUvCGCPrODZARv0qtJN5p9km1Ur41YjbcTY44IWgF+wkZ
-	nFgw==
+	Thu, 14 Mar 2019 14:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ghz2CJUO1+Zi9CR759jOdWdmxf/Ew+rRr0VYPp0kZJI=;
+	b=DHpnTX4Qu+I7LDX7F7+uU0z09r3Mge5nHORrh2jC5wxuVlk2dLjnG9xy6ATZBzTh9g
+	WCOLCPFtI00Rog7UO49znVYGSxqEpTeKdGHFrB18r/zoCgsKPi59Bn85A95VnF9E/Jrp
+	r9LhDrm535lFaA3ZjBEQ33bYgM5rSET/FL5EnGxs/o7v4xUglLk93mYWYBUjVGSuSrnF
+	8xzlpZj8AdzDHmpDhovzChVg1zYjQ3SGy4HNOMaCsr5nqjMzCp8Yge2t//9aUcNQrcug
+	D1Vj+MVPrS2DnL6iMnN3wvm+Lh4DasXR65O8NdJ0BatN2FtD/o/x75Y+d6RP/97wEw7n
+	2QSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3VRclwCuDH3mW4T61mnMcGH8yFQ8Vao0xqOMw6miFuc=;
-	b=ZAN6Je4vymvBNWVFo4cycdX3ErPz+mP4DgCZYSQobk2/sbcLbk2gGWo7YIl6e4lg2t
-	h8qZ0pEkI1T/bzDtF8m9HSn7In/JKVU9Kufas67I4/c8YpbfPP+aU7w18lQ43+bUht1E
-	aFExxcvY9hcrx44sYKO+3kJaHcUqMY0p0hSpOjFxVB9TRW+AVNYajQgcjuCbC9qwCiNm
-	wGU+qa/3vIQNrrgEJaXnp1FhPMqXZz8lCIjh0BIc9kfsjMQYX5MhsZe4YJ9Uq8E4b02o
-	e9OQNbgLhygfWIZGtQ7Bbki8qlIn5ye8b5Mi0kPLLtiqTPIY6dKn3LkmfeoCBWIVBXzy
-	q0rA==
-X-Gm-Message-State: APjAAAV84AgxPazKfd9rGQyRa+0hiuMmcBYM6XKiOUdELKdAGH6M9Gzs
-	RNRQI4SoCZg8XobOAldgRkxvUa+jC6A=
-X-Google-Smtp-Source: APXvYqzdJWpCfZ+1UPid1V8E+Kwqc2exiVkajp6OF9cGLhsaab32a6OQII3nKOtNrTMY7hXm0VFflw==
-X-Received: by 2002:adf:f5cf:: with SMTP id k15mr14953945wrp.218.1552595648875;
-	Thu, 14 Mar 2019 13:34:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o9sm10357824wrw.85.2019.03.14.13.34.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Mar 2019 13:34:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2019 20:34:04 +0000
-Message-Id: <20190314203404.22208-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] openssl: fix CVE-2019-1543
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ghz2CJUO1+Zi9CR759jOdWdmxf/Ew+rRr0VYPp0kZJI=;
+	b=cuzxlNewrZRLPgFg70MewKeQ4h/BJqzB+3bS+lnKIgGKIBVSkUhLVu7Z9sUVDolCUd
+	Bl6TlWP3uSf2OJzCMPgLdPU8HjaEVJKLW0M7ad17f1w48WQOzwbV27mZKu5r4i5h9/V9
+	jB6/oReEatn9KWHRVjZKJzLzO9m9gb0ymuWy5nVhh6mY8ndp4j4ASX/Eb5qQqWcQNLOU
+	tz2mMdlqhiQSHvRnvXazbn6Z2U2an3EFDapqd/TtWqxmiq2l6mHxz5nltFzUYrX1tCKj
+	tm+2i+d+Vvzox4Ea+O9OKFLV/dwlGZsuhflCT+f79u7k1DpjlJXvBSEI0p+YvjwPBiWq
+	t+oQ==
+X-Gm-Message-State: APjAAAULD0hcFMa6qNPxJatEZphxfpGOo/A9vlJQhSws8SeuzVrQYEXU
+	tMNCTZVcqHirBFShyiWDOCM/hNygmKPmWeXEWso=
+X-Google-Smtp-Source: APXvYqyYf+8fCd8FIVaAL1bL+QvQAPlUpiEJQ7fzWEpe9ZS/d1t2OOKm+ThvS4oqj/sqQmPjTjtWqFOrotsg15o7fvs=
+X-Received: by 2002:ac8:2562:: with SMTP id 31mr215369qtn.253.1552599774710;
+	Thu, 14 Mar 2019 14:42:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <1552592626-25569-1-git-send-email-rbilovol@cisco.com>
+In-Reply-To: <1552592626-25569-1-git-send-email-rbilovol@cisco.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Mar 2019 14:42:43 -0700
+Message-ID: <CAMKF1sp1JRLepD130zWkGgk1=Dx5q2+Fb=2HTwzH0RnEUMWZaQ@mail.gmail.com>
+To: Ruslan Bilovol <rbilovol@cisco.com>
+Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libnss-nisplus: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,103 +53,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2019 20:34:09 -0000
+X-List-Received-Date: Thu, 14 Mar 2019 21:42:54 -0000
+Content-Type: multipart/alternative; boundary="0000000000000cd246058414ce9d"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../openssl/openssl/CVE-2019-1543.patch            | 69 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.1.1a.bb |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
+--0000000000000cd246058414ce9d
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
-new file mode 100644
-index 00000000000..59a92f06e42
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
-@@ -0,0 +1,69 @@
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/f426625b6ae9a7831010750490a5f0ad689c5ba3]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From f426625b6ae9a7831010750490a5f0ad689c5ba3 Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Tue, 5 Mar 2019 14:39:15 +0000
-+Subject: [PATCH] Prevent over long nonces in ChaCha20-Poly1305
-+
-+ChaCha20-Poly1305 is an AEAD cipher, and requires a unique nonce input for
-+every encryption operation. RFC 7539 specifies that the nonce value (IV)
-+should be 96 bits (12 bytes). OpenSSL allows a variable nonce length and
-+front pads the nonce with 0 bytes if it is less than 12 bytes. However it
-+also incorrectly allows a nonce to be set of up to 16 bytes. In this case
-+only the last 12 bytes are significant and any additional leading bytes are
-+ignored.
-+
-+It is a requirement of using this cipher that nonce values are unique.
-+Messages encrypted using a reused nonce value are susceptible to serious
-+confidentiality and integrity attacks. If an application changes the
-+default nonce length to be longer than 12 bytes and then makes a change to
-+the leading bytes of the nonce expecting the new value to be a new unique
-+nonce then such an application could inadvertently encrypt messages with a
-+reused nonce.
-+
-+Additionally the ignored bytes in a long nonce are not covered by the
-+integrity guarantee of this cipher. Any application that relies on the
-+integrity of these ignored leading bytes of a long nonce may be further
-+affected.
-+
-+Any OpenSSL internal use of this cipher, including in SSL/TLS, is safe
-+because no such use sets such a long nonce value. However user
-+applications that use this cipher directly and set a non-default nonce
-+length to be longer than 12 bytes may be vulnerable.
-+
-+CVE-2019-1543
-+
-+Fixes #8345
-+
-+Reviewed-by: Paul Dale <paul.dale@oracle.com>
-+Reviewed-by: Richard Levitte <levitte@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/8406)
-+
-+(cherry picked from commit 2a3d0ee9d59156c48973592331404471aca886d6)
-+---
-+ crypto/evp/e_chacha20_poly1305.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/crypto/evp/e_chacha20_poly1305.c b/crypto/evp/e_chacha20_poly1305.c
-+index c1917bb86a6..d3e2c622a1b 100644
-+--- a/crypto/evp/e_chacha20_poly1305.c
-++++ b/crypto/evp/e_chacha20_poly1305.c
-+@@ -30,6 +30,8 @@ typedef struct {
-+ 
-+ #define data(ctx)   ((EVP_CHACHA_KEY *)(ctx)->cipher_data)
-+ 
-++#define CHACHA20_POLY1305_MAX_IVLEN     12
-++
-+ static int chacha_init_key(EVP_CIPHER_CTX *ctx,
-+                            const unsigned char user_key[CHACHA_KEY_SIZE],
-+                            const unsigned char iv[CHACHA_CTR_SIZE], int enc)
-+@@ -533,7 +535,7 @@ static int chacha20_poly1305_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg,
-+         return 1;
-+ 
-+     case EVP_CTRL_AEAD_SET_IVLEN:
-+-        if (arg <= 0 || arg > CHACHA_CTR_SIZE)
-++        if (arg <= 0 || arg > CHACHA20_POLY1305_MAX_IVLEN)
-+             return 0;
-+         actx->nonce_len = arg;
-+         return 1;
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-index 30e0e7a19a0..0046c25554c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-skip-test_symbol_presence.patch \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-+           file://CVE-2019-1543.patch \
-            "
- 
- SRC_URI_append_class-nativesdk = " \
--- 
-2.11.0
+On Thu, Mar 14, 2019 at 12:43 PM Ruslan Bilovol <rbilovol@cisco.com> wrote:
+
+> Same as with libnss-nis - this will substitute
+> the glibc nisplus module which has been removed
+>
+> SRCREV points to 1.3 release plus patch on top which
+> allows to build with recent glibc versions
 
 
+This looks okay but not
+An Oe core candidate to me
+
+>
+>
+> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+> ---
+>  .../libnss-nisplus/libnss-nisplus.bb               | 31
+> ++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+>
+> diff --git a/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+> b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+> new file mode 100644
+> index 0000000..2dbeee7
+> --- /dev/null
+> +++ b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+> @@ -0,0 +1,31 @@
+> +# Copyright (C) 2019 Ruslan Bilovol <rbilovol@cisco.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +SUMMARY = "NSS module for glibc, to provide NIS+ support for glibc"
+> +
+> +DESCRIPTION = "This package contains the NSS NIS+ plugin for glibc.\
+> +This code was formerly part of glibc, but is now standalone to\
+> +be able to link against TI-RPC for IPv6 support."
+> +
+> +HOMEPAGE = "https://github.com/thkukuk/libnss_nisplus"
+> +LICENSE = "LGPL-2.1"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +SECTION = "libs"
+> +DEPENDS += "libtirpc libnsl2"
+> +
+> +PV = "1.3+git${SRCPV}"
+> +
+> +SRCREV = "c6934373c7bac91499ff7bbe7d2439599325ca63"
+> +
+> +SRC_URI = "git://github.com/thkukuk/libnss_nisplus \
+> +          "
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools pkgconfig
+> +
+> +BBCLASSEXTEND += "native nativesdk"
+> +#
+> +# We will skip parsing this packagegeoup for non-glibc systems
+> +#
+> +COMPATIBLE_HOST_libc-musl = 'null'
+> --
+> 1.9.1
+>
+>
+
+--0000000000000cd246058414ce9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Mar 14, 2019 at 12:43 PM Ruslan Bilovol &lt;<a href=
+=3D"mailto:rbilovol@cisco.com">rbilovol@cisco.com</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">Same as with libnss-nis - this will substitut=
+e<br>
+the glibc nisplus module which has been removed<br>
+<br>
+SRCREV points to 1.3 release plus patch on top which<br>
+allows to build with recent glibc versions</blockquote><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">This looks okay but not</div><div dir=3D"auto">An=
+ Oe core candidate to me=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+Signed-off-by: Ruslan Bilovol &lt;<a href=3D"mailto:rbilovol@cisco.com" tar=
+get=3D"_blank">rbilovol@cisco.com</a>&gt;<br>
+---<br>
+=C2=A0.../libnss-nisplus/<a href=3D"http://libnss-nisplus.bb" rel=3D"norefe=
+rrer" target=3D"_blank">libnss-nisplus.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 ++++++++++++++++++++++<br>
+=C2=A01 file changed, 31 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-extended/libnss-nisplus/<a href=3D"ht=
+tp://libnss-nisplus.bb" rel=3D"noreferrer" target=3D"_blank">libnss-nisplus=
+.bb</a><br>
+<br>
+diff --git a/meta/recipes-extended/libnss-nisplus/<a href=3D"http://libnss-=
+nisplus.bb" rel=3D"noreferrer" target=3D"_blank">libnss-nisplus.bb</a> b/me=
+ta/recipes-extended/libnss-nisplus/<a href=3D"http://libnss-nisplus.bb" rel=
+=3D"noreferrer" target=3D"_blank">libnss-nisplus.bb</a><br>
+new file mode 100644<br>
+index 0000000..2dbeee7<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/libnss-nisplus/<a href=3D"http://libnss-nisplus=
+.bb" rel=3D"noreferrer" target=3D"_blank">libnss-nisplus.bb</a><br>
+@@ -0,0 +1,31 @@<br>
++# Copyright (C) 2019 Ruslan Bilovol &lt;<a href=3D"mailto:rbilovol@cisco.c=
+om" target=3D"_blank">rbilovol@cisco.com</a>&gt;<br>
++# Released under the MIT license (see COPYING.MIT for the terms)<br>
++<br>
++SUMMARY =3D &quot;NSS module for glibc, to provide NIS+ support for glibc&=
+quot;<br>
++<br>
++DESCRIPTION =3D &quot;This package contains the NSS NIS+ plugin for glibc.=
+\<br>
++This code was formerly part of glibc, but is now standalone to\<br>
++be able to link against TI-RPC for IPv6 support.&quot;<br>
++<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/thkukuk/libnss_nisplus" r=
+el=3D"noreferrer" target=3D"_blank">https://github.com/thkukuk/libnss_nispl=
+us</a>&quot;<br>
++LICENSE =3D &quot;LGPL-2.1&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4fbd65380cdd255951079008b3=
+64516c&quot;<br>
++SECTION =3D &quot;libs&quot;<br>
++DEPENDS +=3D &quot;libtirpc libnsl2&quot;<br>
++<br>
++PV =3D &quot;1.3+git${SRCPV}&quot;<br>
++<br>
++SRCREV =3D &quot;c6934373c7bac91499ff7bbe7d2439599325ca63&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://github.com/thkukuk/libnss_nisplu=
+s" rel=3D"noreferrer" target=3D"_blank">github.com/thkukuk/libnss_nisplus</=
+a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++inherit autotools pkgconfig<br>
++<br>
++BBCLASSEXTEND +=3D &quot;native nativesdk&quot;<br>
++#<br>
++# We will skip parsing this packagegeoup for non-glibc systems<br>
++#<br>
++COMPATIBLE_HOST_libc-musl =3D &#39;null&#39;<br>
+-- <br>
+1.9.1<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000cd246058414ce9d--
