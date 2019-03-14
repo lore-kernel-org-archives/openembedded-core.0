@@ -1,23 +1,25 @@
 Return-Path: <sangeeta.jain@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 632616D4E4
+X-Greylist: delayed 570 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 14 Mar 2019 05:54:59 UTC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id D6BB46C1CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 05:02:36 +0000 (UTC)
+	Thu, 14 Mar 2019 05:54:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Mar 2019 22:02:37 -0700
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Mar 2019 22:45:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,477,1544515200"; d="scan'208";a="152192442"
+X-IronPort-AV: E=Sophos;i="5.58,477,1544515200"; d="scan'208";a="152201478"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2019 22:02:36 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2019 22:45:29 -0700
 From: sangeeta.jain@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2019 12:31:17 +0800
-Message-Id: <1552537877-28856-1-git-send-email-sangeeta.jain@intel.com>
+Date: Thu, 14 Mar 2019 13:14:18 +0800
+Message-Id: <1552540458-37928-1-git-send-email-sangeeta.jain@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oeqa/manual/compliance-test.json: test id updated and missing test cases added
+Subject: [PATCH] oeqa/manual/kernel-dev.json: test id updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,126 +32,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2019 05:02:36 -0000
+X-List-Received-Date: Thu, 14 Mar 2019 05:55:00 -0000
 
 From: sangeeta jain <sangeeta.jain@intel.com>
 
-Two changes made in oeqa/manual/compliance-test.json:
-
-1. All test id (eg. @alias) inside manual testcase file shall follow the same test id
+All test id (eg. @alias) inside manual testcase file shall follow the same test id
 naming convention from oeqa automated tests (eg. selftest, runtime, sdk, etc), where
 the test id consists of  <test_module>.<test_suite>.<test_function>. Furthermore,
 there shall be only 1 unique test_module per each manual testcases file.
 
-This file was using more than 1 unique test_module for testcases. Furthermore, some of
-the testcases were defined using different test_suite where it was not needed. This patch
-fix the manual testcases file to have only 1 unique test_module as well as test_suite to
-simplify test id naming.
-
-2. Added 2 missing test cases for Beaglebone Stress Test.
+This file was using more than 1 unique test_module for testcases. Furthermore,
+some of the testcases were defined using different test_suite where it was not needed.
+This patch fix the manual testcases file to have only 1 unique test_module
+as well as test_suite to simplify test id naming.
 
 Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
 ---
- meta/lib/oeqa/manual/compliance-test.json | 60 ++++++++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/manual/kernel-dev.json | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/compliance-test.json b/meta/lib/oeqa/manual/compliance-test.json
-index 7adf8a1..982f0b4 100644
---- a/meta/lib/oeqa/manual/compliance-test.json
-+++ b/meta/lib/oeqa/manual/compliance-test.json
+diff --git a/meta/lib/oeqa/manual/kernel-dev.json b/meta/lib/oeqa/manual/kernel-dev.json
+index c93b4dd..0dd9919 100644
+--- a/meta/lib/oeqa/manual/kernel-dev.json
++++ b/meta/lib/oeqa/manual/kernel-dev.json
 @@ -1,7 +1,7 @@
  [
      {
          "test": {
--            "@alias": "configuration.configuration.LTP_subset_test_suite",
-+            "@alias": "compliance-test.compliance-test.LTP_subset_test_suite",
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_defconfig",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_defconfig",
              "author": [
                  {
-                     "email": "corneliux.stoicescu@intel.com",
-@@ -43,7 +43,7 @@
-     },
-     {
-         "test": {
--            "@alias": "configuration.configuration.POSIX_subset_test_suite",
-+            "@alias": "compliance-test.compliance-test.POSIX_subset_test_suite",
-             "author": [
-                 {
-                     "email": "corneliux.stoicescu@intel.com",
-@@ -89,7 +89,7 @@
-     },
-     {
-         "test": {
--            "@alias": "configuration.configuration.LSB_subset_test_suite",
-+            "@alias": "compliance-test.compliance-test.LSB_subset_test_suite",
-             "author": [
-                 {
-                     "email": "corneliux.stoicescu@intel.com",
-@@ -119,7 +119,7 @@
-     },
-     {
-         "test": {
--            "@alias": "General_Runtime.General_Runtime.stress_test_-_Genericx86-64",
-+            "@alias": "compliance-test.compliance-test.stress_test_-_Genericx86-64",
-             "author": [
-                 {
-                     "email": "corneliux.stoicescu@intel.com",
-@@ -138,5 +138,57 @@
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -18,12 +18,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_7"
+                 }
              },
-             "summary": "stress_test_-_Genericx86-64"
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_defconfig"
++            "summary": "Kernel_dev_defconfig"
          }
-+    },
-+     {
-+    "test": {
-+      "@alias": "compliance-test.compliance-test.stress_test_-_- crashme_-_-Beaglebone",
-+      "author": [
-+        {
-+          "email": "corneliux.stoicescu@intel.com",
-+          "name": "corneliux.stoicescu@intel.com"
-+        }
-+      ],
-+      "execution": {
-+        "1": {
-+          "action": " Get crashme from http://people.delphiforums.com/gjc/crashme.html",
-+          "expected_results": ""
-+        },
-+        "2": {
-+          "action": "Follow the setup steps on above URL, build crashme in target",
-+          "expected_results": ""
-+        },
-+        "3": {
-+          "action": " Run crashme for 24 hours",
-+          "expected_results": "Target should not crash with the program."
-+        }
-+      },
-+      "summary": "stress_test_-_crashme_-Beaglebone"
-+    }
-+  },
-+  {
-+    "test": {
-+      "@alias": "compliance-test.compliance-test.stress_test_-_ltp_-Beaglebone",
-+      "author": [
-+        {
-+          "email": "corneliux.stoicescu@intel.com",
-+          "name": "corneliux.stoicescu@intel.com"
-+        }
-+      ],
-+      "execution": {
-+        "1": {
-+          "action": "Build LTP with toolchain or in sdk image",
-+          "expected_results": ""
-+        },
-+        "2": {
-+          "action": "Copy LTP folder into target, for example, /opt/ltp. Modify script,  testscripts/ltpstress.sh, set Iostat=1, NO_NETWORK=1",
-+          "expected_results": ""
-+        },
-+        "3": {
-+          "action": "cd testscripts/ && ./ltpstress.sh",
-+          "expected_results": "This stress case will run for 24 hours Check the result\ntarget should not crash with the program "
-+        }
-+      },
-+      "summary": "stress_test_-_-ltp_-Beaglebone"
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_defconfig+fragments",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_defconfig+fragments",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -40,12 +40,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_8"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_defconfig+fragments"
++            "summary": "Kernel_dev_defconfig+fragments"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_Applying_patches",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_Applying_patches",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -62,12 +62,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_Applying_patches"
++            "summary": "Kernel_dev_Applying_patches"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_linux-yocto-local-source",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_linux-yocto-local-source",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -84,12 +84,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_2"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_linux-yocto-local-source"
++            "summary": "Kernel_dev_linux-yocto-local-source"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_linux-yocto-custom-local-source",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_linux-yocto-custom-local-source",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -106,12 +106,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_3"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_linux-yocto-custom-local-source"
++            "summary": "Kernel_dev_linux-yocto-custom-local-source"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_recipe-space_meta",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_recipe-space_meta",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -128,12 +128,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_5"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_recipe-space_meta"
++            "summary": "Kernel_dev_recipe-space_meta"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_External_source",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_External_source",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -150,12 +150,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_6"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_External_source"
++            "summary": "Kernel_dev_External_source"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_building_external_modules(hello-mod)",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_building_external_modules(hello-mod)",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -172,12 +172,12 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_10"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_building_external_modules(hello-mod)"
++            "summary": "Kernel_dev_building_external_modules(hello-mod)"
+         }
+     },
+     {
+         "test": {
+-            "@alias": "kernel-configuration.kernel-configuration.TCTEMP_2.3_MANUAL_Kernel_dev_local_parallel_meta",
++            "@alias": "kernel-dev.kernel-dev.Kernel_dev_local_parallel_meta",
+             "author": [
+                 {
+                     "email": "ee.peng.yeoh@intel.com",
+@@ -194,7 +194,7 @@
+                     "expected_results": "Review expected results on thethe \"Kernel Development Test Cases\"wiki. https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases#Expected_Results_4"
+                 }
+             },
+-            "summary": "TCTEMP_2.3_MANUAL_Kernel_dev_local_parallel_meta"
++            "summary": "Kernel_dev_local_parallel_meta"
+         }
      }
-+  }
  ]
 \ No newline at end of file
 -- 
