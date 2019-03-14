@@ -1,47 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f178.google.com (mail-it1-f178.google.com
-	[209.85.166.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A7C6D56C
+Return-Path: <rbilovol@cisco.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 14 Mar 2019 19:50:53 UTC
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A786C1D5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 19:25:26 +0000 (UTC)
-Received: by mail-it1-f178.google.com with SMTP id h9so6924756itl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 12:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XuiIDAjXEiIi+afSr60p4Eqw1K2GqgSc2AbgDUrA6bk=;
-	b=yKdvgcrpgkar7Ysfr6sy0Qj/dv1XxQvZ58Y4HIrNXWQRs2mqfHwPhiMOD+cG/hP6op
-	rgAtGof9JPvJU+2hI5ENdECuTuWMmVLXhCaRjQM7OqOAf5cucJGPueXJOLmaREY4zYIF
-	It5DTbe7WYCBI7rnbwuKFWkgzgE+NTvcLMQI1W6R4FFKSI+F/ufe219FoWPC/ZF6uNzV
-	S9jWC7cNChyvJUFg3HRHNIP72Qt9rwcOXn/EtELogw7tUr6d3C/2UC2eiCLB8vqGTusa
-	ZX2pUzfk+F+FXUl6doZlocWlMX3bnTOQAZ8lLYCkV2PKZ7S/XZPkXaUkxTAQrf0C19xI
-	tDgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=XuiIDAjXEiIi+afSr60p4Eqw1K2GqgSc2AbgDUrA6bk=;
-	b=kZ9IRt5dqH/KElKlRQQKyj3K+R0t3BF/NmJXH443Ra/KS4jN3fzqSv6zajo1hK4Q8R
-	HBDxVetheDPJv221/H1EboZmL8yVA0JE3JUUqWZAnEgXRAC4AafXwYaO8gPWq9MXmGhV
-	m4VwgOOC1zWHLfQYJg/GcygGJqHhQvB0ZPGKSVvchLmYAxG5M+vl4epdWjA8LSoWQ2h7
-	R/KiToj7t2kiykZeWx/M81TMYbkzAI3ROcdogFD3yMnIHeRLbvp4hU+CMMMsPhKdt2gz
-	aVslZqBvHk/J0ZwzjEZLc8McXHhjKx+OSFmL/CDZmwNmdDjmy1us0mMBNPF95y798SbR
-	BSJQ==
-X-Gm-Message-State: APjAAAXgsgnetlVIBiXQZpT7AifInAd0nd/xGZ5Q1yDdB9tn4fMO2hng
-	vjJFIkjEKFqq4JthDr8OgqG+4dn5ihPx5BjBKyXxaZJS
-X-Google-Smtp-Source: APXvYqwTbVF5lGcPdfLcFbpIB5i1j69L/e0ceSngxFiZRES18SUFQY45OGl1JiFVrTAGwnftJ9Y73xgiYc5j+485hQQ=
-X-Received: by 2002:a24:9642:: with SMTP id z63mr89118itd.62.1552591527488;
-	Thu, 14 Mar 2019 12:25:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190314191924.44162-1-joe.slater@windriver.com>
-In-Reply-To: <20190314191924.44162-1-joe.slater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Mar 2019 19:25:16 +0000
-Message-ID: <CAJTo0LafGyAEuh8hbQoXNQCR5bJ9YBmMDJV-idGZ0OPMkTGQoQ@mail.gmail.com>
-To: Joe Slater <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] puzzles: fix uninitialized variable compiler error
+	Thu, 14 Mar 2019 19:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1696; q=dns/txt; s=iport;
+	t=1552593055; x=1553802655;
+	h=from:to:cc:subject:date:message-id;
+	bh=zN7DoMN/PXTtwXl3lSmKxEQ0RJfFWK9gH7L2e9lvEAc=;
+	b=FHiHiTBJV0zKrcRymmwIuHIO0cjtx0vjFyqCd+euHndttA3y906vGBv/
+	afIsjnMh0j0HD6wNcw6EfcRlvlb7XKx0NG/QPm3WkEi29p/8xYJkmgqWd
+	djUHntO6dzDEs9KSIY0WiUNEsu6W67o8UnFP3IcvIPmfHmo3g52A6hEPk E=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AFAAB6ropc/xbLJq1kGgEBAQEBAgE?=
+	=?us-ascii?q?BAQEHAgEBAQGBUQUBAQEBCwGCd1AhEieMJ1+LaJkYFIFnDSOESYR0NAkNAQE?=
+	=?us-ascii?q?DAQEJAQMCbRwMhkqBPgESgyIBgXUPrmmFRoRuFIEbAYZlhF6BQD+BEYYwAoE?=
+	=?us-ascii?q?mI4V5A6RACYdYi0cCF4JVkHYBin+FL0SNHYFHOIFWMxoIGxWDJwmCDhaCJoE?=
+	=?us-ascii?q?lilU9AzCQRwEB?=
+X-IronPort-AV: E=Sophos;i="5.58,479,1544486400"; d="scan'208";a="10749432"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	14 Mar 2019 19:43:46 +0000
+Received: from localhost ([10.63.15.135])
+	by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id x2EJhkie017440;
+	Thu, 14 Mar 2019 19:43:46 GMT
+From: Ruslan Bilovol <rbilovol@cisco.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 14 Mar 2019 21:43:46 +0200
+Message-Id: <1552592626-25569-1-git-send-email-rbilovol@cisco.com>
+X-Mailer: git-send-email 1.9.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.63.15.135, [10.63.15.135]
+X-Outbound-Node: aer-core-4.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] libnss-nisplus: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +50,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2019 19:25:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Mar 2019 19:50:54 -0000
 
-Can we *please* start sending these upstream.  It's not like the
-maintainer isn't responsive.
+Same as with libnss-nis - this will substitute
+the glibc nisplus module which has been removed
 
-Ross
+SRCREV points to 1.3 release plus patch on top which
+allows to build with recent glibc versions
 
-On Thu, 14 Mar 2019 at 19:20, Joe Slater <joe.slater@windriver.com> wrote:
->
-> In tree234.c, change a while() loop to a for() loop so
-> that the compiler will realize we loop at least once.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  .../puzzles/files/fix-ki-uninitialized.patch       | 25 ++++++++++++++++++++++
->  meta/recipes-sato/puzzles/puzzles_git.bb           |  1 +
->  2 files changed, 26 insertions(+)
->  create mode 100644 meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
->
-> diff --git a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-> new file mode 100644
-> index 0000000..7218d62
-> --- /dev/null
-> +++ b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-> @@ -0,0 +1,25 @@
-> +puzzles: avoid compiler unitialized variable error
-> +
-> +The compiler does not realize that we must go through the while()
-> +loop at least once, so we replace it with a for() loop.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +--- a/tree234.c
-> ++++ b/tree234.c
-> +@@ -326,8 +326,11 @@ static void *add234_internal(tree234 *t,
-> +       return orig_e;
-> +     }
-> +
-> +-    n = t->root;
-> +-    while (n) {
-> ++    /*
-> ++     * We know t->root is not NULL.  The logic
-> ++     * to break out of this is at the end of the loop.
-> ++     */
-> ++    for (n = t->root;;) {
-> +       LOG(("  node %p: %p/%d \"%s\" %p/%d \"%s\" %p/%d \"%s\" %p/%d\n",
-> +            n,
-> +            n->kids[0], n->counts[0], n->elems[0],
-> diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-> index 0766bd4..59b9525 100644
-> --- a/meta/recipes-sato/puzzles/puzzles_git.bb
-> +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-> @@ -14,6 +14,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
->             file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
->             file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
->             file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
-> +           file://fix-ki-uninitialized.patch \
->             "
->
->  UPSTREAM_CHECK_COMMITS = "1"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+---
+ .../libnss-nisplus/libnss-nisplus.bb               | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+
+diff --git a/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+new file mode 100644
+index 0000000..2dbeee7
+--- /dev/null
++++ b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+@@ -0,0 +1,31 @@
++# Copyright (C) 2019 Ruslan Bilovol <rbilovol@cisco.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "NSS module for glibc, to provide NIS+ support for glibc"
++
++DESCRIPTION = "This package contains the NSS NIS+ plugin for glibc.\
++This code was formerly part of glibc, but is now standalone to\
++be able to link against TI-RPC for IPv6 support."
++
++HOMEPAGE = "https://github.com/thkukuk/libnss_nisplus"
++LICENSE = "LGPL-2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++SECTION = "libs"
++DEPENDS += "libtirpc libnsl2"
++
++PV = "1.3+git${SRCPV}"
++
++SRCREV = "c6934373c7bac91499ff7bbe7d2439599325ca63"
++
++SRC_URI = "git://github.com/thkukuk/libnss_nisplus \
++          "
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
++
++BBCLASSEXTEND += "native nativesdk"
++#
++# We will skip parsing this packagegeoup for non-glibc systems
++#
++COMPATIBLE_HOST_libc-musl = 'null'
+-- 
+1.9.1
+
 
