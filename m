@@ -1,51 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A608A6BA9D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 215D87C66B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 06:29:09 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id v64so5603329pfb.1
+	Fri, 15 Mar 2019 08:01:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2F814Lk002764
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 23:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4msJlUY+so7fiwr6q4EWFFHZQkyZld7JpIO6XDwS17g=;
-	b=qm6/ncHXAyKONLFktiW+azC82vvsV5ZSnJHulk504DO6bEjAAKxJxNSP/iYUs1RdFv
-	Oqv6CTxXV/PCHas7Jvg0UdOwuaQfRH0Lanh0Dos8dRXbGKhCHJvnuonZqKQOQVVNlw/f
-	p1I+hG4uypcL77Jzy8mKFqNAsul7FszPHimmxQ45HbtQg9JoFvAhxdTKW3uYp9rE6ZIw
-	72oMTd4Lk40bqh+VRfiI0GY5zbO8ZtA+kkJm1zolQluuakF8au6Tc2ZK36rmGpZhuchl
-	GtjiwQ518VXzPwZyRCDwGAip239i4W8t89sXujQaufaVQgGAjbgeLhoemlKF28zRbs5J
-	HnXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4msJlUY+so7fiwr6q4EWFFHZQkyZld7JpIO6XDwS17g=;
-	b=NXXX/MGG6goucxp1KMGOYAPmvrEjNsIoCiTlY7NpmjF4JEWoeQWUYvbA1xim7qVH28
-	8YyrfFlOoDRCQwtiw9xzK76iMM42toCqDro1FTxLpY7PLgYMyGnYWYKA03U7U0PhiKW0
-	eRe6mFVJmS7ftbDxEPl0B90yAVFvRVbP+sb1/k2fbZ6pHiEzIX5FHFHf0k8tvuqxerMo
-	BpstvkhX9x0BkOmqVusWNkt+cjsZG4Z/Snte5//ySuKwPpgSM9VCe329nO1JvlbnqulB
-	xAJzAZM4RxtSLkfVHhrBE2ztmVeHDciFP1Q6dhtuZc1LcK1SP2YNKDKuL+aRaAoDhBds
-	J8Nw==
-X-Gm-Message-State: APjAAAWqAtnX8jAB31tErz9O50Ci1JeFFskU1Ill/xo1bpmQkah6T9+H
-	RJgKkwz8m8yADPa6jlKs82LGly8x
-X-Google-Smtp-Source: APXvYqwPheuyqKf3AAMNmrj8IVzDnAtovudwGGKSNHYDDil8/zMNyL7qrW3FKEvkFVKrhI37APVAHA==
-X-Received: by 2002:a17:902:15a8:: with SMTP id
-	m37mr2517077pla.178.1552631350313; 
-	Thu, 14 Mar 2019 23:29:10 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b8f7])
-	by smtp.gmail.com with ESMTPSA id
-	v12sm1369041pfn.25.2019.03.14.23.29.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Mar 2019 23:29:09 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2019 23:29:03 -0700
-Message-Id: <20190315062903.1431-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Fri, 15 Mar 2019 01:01:35 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 15 Mar 2019 01:01:22 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Mar 2019 04:01:18 -0400
+Message-ID: <20190315080119.49804-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Subject: [PATCH] cross-canadian.bbclass: Do not override LIBCOVERRIDE with SDK libc override
+Subject: [PATCH 0/1] Backport patches to fix qemu cves
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +31,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 06:29:09 -0000
+X-List-Received-Date: Fri, 15 Mar 2019 08:01:44 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-cross-canadian tools are supposed to generate code for target and if we
-override the libc override then needed overrides do not get applied when
-building gcc cross canadian e.g. for baremetal, which causes build
-failures during compile
+From: Kai Kang <kai.kang@windriver.com>
 
-e.g. https://github.com/riscv/meta-riscv/issues/117
 
-Not override libc override helps us fix this issue
+Kai Kang (1):
+  qemu: backport patches to fix cves
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/cross-canadian.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   6 +
+ .../qemu/qemu/0014-fix-CVE-2018-16872.patch   |  85 +++++++++++++
+ .../qemu/qemu/0015-fix-CVE-2018-20124.patch   |  60 ++++++++++
+ .../qemu/qemu/0016-fix-CVE-2018-20125.patch   |  54 +++++++++
+ .../qemu/qemu/0017-fix-CVE-2018-20126.patch   | 113 ++++++++++++++++++
+ .../qemu/qemu/0018-fix-CVE-2018-20191.patch   |  47 ++++++++
+ .../qemu/qemu/0019-fix-CVE-2018-20216.patch   |  85 +++++++++++++
+ 7 files changed, 450 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0014-fix-CVE-2018-16872.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0016-fix-CVE-2018-20125.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0017-fix-CVE-2018-20126.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0018-fix-CVE-2018-20191.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0019-fix-CVE-2018-20216.patch
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index f5c9f61595..ee53faad79 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -9,7 +9,6 @@
- # or indirectly via dependency.  No need to be in 'world'.
- EXCLUDE_FROM_WORLD = "1"
- NATIVESDKLIBC ?= "libc-glibc"
--LIBCOVERRIDE = ":${NATIVESDKLIBC}"
- CLASSOVERRIDE = "class-cross-canadian"
- STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}:${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+
+Following are the differences of 0015-fix-CVE-2018-20124.patch and
+0017-fix-CVE-2018-20126.patch compare to the original patches:
+
+diff --git a/meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch b/meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch
+index 48b2aa6560..ad846958a7 100644
+--- a/meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch
++++ b/meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch
+@@ -26,32 +26,32 @@ Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+  1 file changed, 6 insertions(+), 6 deletions(-)
  
+ diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+-index ae1e4dcb29..bd4710d16f 100644
++index d7a4bbd9..7f8028f8 100644
+ --- a/hw/rdma/rdma_backend.c
+ +++ b/hw/rdma/rdma_backend.c
+-@@ -476,9 +476,9 @@ void rdma_backend_post_send(RdmaBackendDev *backend_dev,
++@@ -311,9 +311,9 @@ void rdma_backend_post_send(RdmaBackendDev *backend_dev,
+      }
+  
+      pr_dbg("num_sge=%d\n", num_sge);
+ -    if (!num_sge) {
+ -        pr_dbg("num_sge=0\n");
+--        complete_work(IBV_WC_GENERAL_ERR, VENDOR_ERR_NO_SGE, ctx);
++-        comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_NO_SGE, ctx);
+ +    if (!num_sge || num_sge > MAX_SGE) {
+ +        pr_dbg("invalid num_sge=%d\n", num_sge);
+-+        complete_work(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
+++        comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
+          return;
+      }
+  
+-@@ -603,9 +603,9 @@ void rdma_backend_post_recv(RdmaBackendDev *backend_dev,
++@@ -390,9 +390,9 @@ void rdma_backend_post_recv(RdmaBackendDev *backend_dev,
+      }
+  
+      pr_dbg("num_sge=%d\n", num_sge);
+ -    if (!num_sge) {
+ -        pr_dbg("num_sge=0\n");
+--        complete_work(IBV_WC_GENERAL_ERR, VENDOR_ERR_NO_SGE, ctx);
++-        comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_NO_SGE, ctx);
+ +    if (!num_sge || num_sge > MAX_SGE) {
+ +        pr_dbg("invalid num_sge=%d\n", num_sge);
+-+        complete_work(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
+++        comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
+          return;
+      }
+  
+diff --git a/meta/recipes-devtools/qemu/qemu/0017-fix-CVE-2018-20126.patch b/meta/recipes-devtools/qemu/qemu/0017-fix-CVE-2018-20126.patch
+index 054ae8513a..8329f2cfd0 100644
+--- a/meta/recipes-devtools/qemu/qemu/0017-fix-CVE-2018-20126.patch
++++ b/meta/recipes-devtools/qemu/qemu/0017-fix-CVE-2018-20126.patch
+@@ -18,14 +18,14 @@ Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+ Reviewed-by: Yuval Shaia <yuval.shaia@oracle.com>
+ Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+ ---
+- hw/rdma/vmw/pvrdma_cmd.c | 37 ++++++++++++++++++++++++++-----------
+- 1 file changed, 26 insertions(+), 11 deletions(-)
++ hw/rdma/vmw/pvrdma_cmd.c | 41 ++++++++++++++++++++++++++++++-----------
++ 1 file changed, 30 insertions(+), 11 deletions(-)
+ 
+ diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
+-index f236ac4795..89920887bf 100644
++index 4faeb21..9b6796f 100644
+ --- a/hw/rdma/vmw/pvrdma_cmd.c
+ +++ b/hw/rdma/vmw/pvrdma_cmd.c
+-@@ -313,6 +313,14 @@ out:
++@@ -310,6 +310,14 @@ out:
+      return rc;
+  }
+  
+@@ -40,17 +40,17 @@ index f236ac4795..89920887bf 100644
+  static int create_cq(PVRDMADev *dev, union pvrdma_cmd_req *req,
+                       union pvrdma_cmd_resp *rsp)
+  {
+-@@ -335,6 +343,10 @@ static int create_cq(PVRDMADev *dev, union pvrdma_cmd_req *req,
++@@ -333,6 +341,10 @@ static int create_cq(PVRDMADev *dev, union pvrdma_cmd_req *req,
+  
+-     rc = rdma_rm_alloc_cq(&dev->rdma_dev_res, &dev->backend_dev, cmd->cqe,
+-                           &resp->cq_handle, ring);
+-+    if (rc) {
++     resp->hdr.err = rdma_rm_alloc_cq(&dev->rdma_dev_res, &dev->backend_dev,
++                                      cmd->cqe, &resp->cq_handle, ring);
+++    if (resp->hdr.err) {
+ +        destroy_cq_ring(ring);
+ +    }
+ +
+      resp->cqe = cmd->cqe;
+  
+-     return rc;
++ out:
+ @@ -356,10 +368,7 @@ static int destroy_cq(PVRDMADev *dev, union pvrdma_cmd_req *req,
+      }
+  
+@@ -63,7 +63,7 @@ index f236ac4795..89920887bf 100644
+  
+      rdma_rm_dealloc_cq(&dev->rdma_dev_res, cmd->cq_handle);
+  
+-@@ -457,6 +466,17 @@ out:
++@@ -451,6 +460,17 @@ out:
+      return rc;
+  }
+  
+@@ -81,15 +81,19 @@ index f236ac4795..89920887bf 100644
+  static int create_qp(PVRDMADev *dev, union pvrdma_cmd_req *req,
+                       union pvrdma_cmd_resp *rsp)
+  {
+-@@ -486,6 +506,7 @@ static int create_qp(PVRDMADev *dev, union pvrdma_cmd_req *req,
+-                           cmd->max_recv_sge, cmd->recv_cq_handle, rings,
+-                           &resp->qpn);
+-     if (rc) {
+-+        destroy_qp_rings(rings);
+-         return rc;
+-     }
++@@ -482,6 +502,11 @@ static int create_qp(PVRDMADev *dev, union pvrdma_cmd_req *req,
++                                      cmd->max_recv_wr, cmd->max_recv_sge,
++                                      cmd->recv_cq_handle, rings, &resp->qpn);
+  
+-@@ -558,13 +579,7 @@ static int destroy_qp(PVRDMADev *dev, union pvrdma_cmd_req *req,
+++    if (resp->hdr.err) {
+++        destroy_qp_rings(rings);
+++        return resp->hdr.err;
+++    }
+++
++     resp->max_send_wr = cmd->max_send_wr;
++     resp->max_recv_wr = cmd->max_recv_wr;
++     resp->max_send_sge = cmd->max_send_sge;
++@@ -555,13 +580,7 @@ static int destroy_qp(PVRDMADev *dev, union pvrdma_cmd_req *req,
+      rdma_rm_dealloc_qp(&dev->rdma_dev_res, cmd->qp_handle);
+  
+      ring = (PvrdmaRing *)qp->opaque;
+
+
 -- 
-2.21.0
+2.20.0
 
 
