@@ -1,28 +1,49 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD6B6D470
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FCD3606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 13:29:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2FDSSQJ011615
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 15 Mar 2019 06:28:38 -0700
-Received: from yow-masselst-lx1.localnet (128.224.22.17) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 15 Mar 2019 06:28:17 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 15 Mar 2019 09:28:16 -0400
-Message-ID: <1934985.lny8BXKYyr@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CAJ86T=WWWxg3aLGWUQtFn+CD7ruoBh9HFoBWebafQm4MK+2RbA@mail.gmail.com>
-References: <1552593854-14059-1-git-send-email-mark.asselstine@windriver.com>
-	<1552593854-14059-2-git-send-email-mark.asselstine@windriver.com>
-	<CAJ86T=WWWxg3aLGWUQtFn+CD7ruoBh9HFoBWebafQm4MK+2RbA@mail.gmail.com>
+	Fri, 15 Mar 2019 14:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2715; q=dns/txt; s=iport;
+	t=1552659259; x=1553868859;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=SiQpFLgNvNY7WJGHJk4FY8n8fPvGAAn9FX3jB0ydJHM=;
+	b=PksNtu1itdahVb1BpGnN9rkCLlH2iBiY0CBMa5dItG9+Jlp6LDuQIgsN
+	o3jw6YSZCtzS2kidz16ABrh+0cZmloJZyGe59Sgdt8tcCSlbfg8T/lIg4
+	i/tkBRDbGWPdKDEzMqvgYghtaf8rxbHJmvFahO5DYo/b9JyvviJbNX3+b M=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ADAADBsotc/xbLJq1kGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAQGBUQQBAQEBAQsBgndQMyeEC4gcX4tnOy2YMRSBZwsBASO?=
+	=?us-ascii?q?ESQKEcjQJDQEBAwEBCQEDAm0cDIVLAQUjDwEFQRAJAhgCAiMDAgJGEQYNBgI?=
+	=?us-ascii?q?BAYMeAYF1D5AJm2aBL4VGhHAUdyQBi0mBQD+BESeCa4MTCwKBJiMYgwqCVwO?=
+	=?us-ascii?q?kSgmHW4tCBhmCVog2iESQNkSNAAIRFYFHOIFWMxoIGxWDJwmCDhaCJoElilU?=
+	=?us-ascii?q?9AzCOewEB?=
+X-IronPort-AV: E=Sophos;i="5.58,482,1544486400"; d="scan'208";a="10709121"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	15 Mar 2019 14:14:17 +0000
+Received: from [10.63.15.135] ([10.63.15.135]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.15.2/8.15.2) with ESMTPSA id x2FEEGBh018832
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 15 Mar 2019 14:14:17 GMT
+To: Khem Raj <raj.khem@gmail.com>
+References: <1552592626-25569-1-git-send-email-rbilovol@cisco.com>
+	<CAMKF1sp1JRLepD130zWkGgk1=Dx5q2+Fb=2HTwzH0RnEUMWZaQ@mail.gmail.com>
+From: Ruslan Bilovol <rbilovol@cisco.com>
+Message-ID: <4da417cb-276e-eede-b8aa-1f7ad138c6a2@cisco.com>
+Date: Fri, 15 Mar 2019 16:14:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2][PATCH 2/2] goarch.bbclass: set TARGET_GOARM as '7' for valid cortexa* targets
+In-Reply-To: <CAMKF1sp1JRLepD130zWkGgk1=Dx5q2+Fb=2HTwzH0RnEUMWZaQ@mail.gmail.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: rbilovol
+X-Outbound-SMTP-Client: 10.63.15.135, [10.63.15.135]
+X-Outbound-Node: aer-core-2.cisco.com
+Cc: xe-linux-external@cisco.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libnss-nisplus: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,102 +56,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 13:29:20 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 15 Mar 2019 14:14:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Thursday, March 14, 2019 7:44:36 PM EDT Andre McCurdy wrote:
-> On Thu, Mar 14, 2019 at 1:05 PM Mark Asselstine
+On 3/14/19 11:42 PM, Khem Raj wrote:
 > 
-> <mark.asselstine@windriver.com> wrote:
-> > Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
-> > building for ARMv5, ARMv6 and ARMv7. The current code in go_map_arm()
-> > does not account for the Cortex* TUNINGs and as such misses several
-> > Cortex variants which implement ARMv7. Here we add an additional check
-> > that will include Cortex-A5 through Cortex-A17 as ARMv7 variants
-> > (ie. GOARM='7'). The Cortex-R and Cortex-M variants are also captured
-> > even though there are no tunings for these currently (lack MMU support
-> > so not supported).
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> > V2
-> > * Cover all ARMv7 Cortex* variants
 > 
-> Still worried this might not be complete. It's basically fixing the
-> fallout from Khem's patches to remove -march options from the CPU
-> specific ARM machine includes, right? 
-
-Although this came in via meta-virtualization, which I usually review most 
-changes, I wasn't involved in the original implementation or discussion of 
-go_map_arm() and since I was simply extending the existing framework I didn't 
-go back and look into the history.
-
-Looking now I don't see any specific discussions as to why TUNE_FEATURES were 
-used instead of something else, such as the overrides. My guess is it had to 
-be something and the original implementation was incorrectly oversimplified so 
-the level of complexity was equivalent to any other choice.
-
-At any rate I will review if changing to something else such as overrides 
-would simplify the now more complex logic but until I investigate I would 
-hesitate to say that the approach will be any less prone to breaking.
-
-> If so then any ARM machine with
-> CPU specific tuning (other than cortex) is still going to be affected.
+> On Thu, Mar 14, 2019 at 12:43 PM Ruslan Bilovol <rbilovol@cisco.com 
+> <mailto:rbilovol@cisco.com>> wrote:
 > 
-> What's the reason for parsing TUNE_FEATURES to detect the ARM
-> architecture level?
+>     Same as with libnss-nis - this will substitute
+>     the glibc nisplus module which has been removed
+> 
+>     SRCREV points to 1.3 release plus patch on top which
+>     allows to build with recent glibc versions
+> 
+> 
+> This looks okay but not
+> An Oe core candidate to me
 
-That's just what was in place when I started to work on this.
+This recipe is very similar to libnss-nis which is a part
+of OE-Core. Do you mean we need to move both out of
+OE-Core (to meta-oe?)
 
-> Couldn't GOARM be set correctly just by using of
-> the _armv5, _armv6, _armv7a and _armv7ve over-rides?
-
-At a quick glance I would say yes, but again I need to poke around to see if 
-this is just swapping one thing for another with no real gains.
+Thanks,
+Ruslan
 
 > 
->   https://github.com/golang/go/wiki/GoArm
-
-I already reference this in my commit log. Is there a reason you are 
-highlighting this again?
-
-MarkA
-
 > 
-> >  meta/classes/goarch.bbclass | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-> > index 39fea5e..84977a5 100644
-> > --- a/meta/classes/goarch.bbclass
-> > +++ b/meta/classes/goarch.bbclass
-> > 
-> > @@ -74,6 +74,10 @@ def go_map_arch(a, d):
-> >  def go_map_arm(a, f, d):
-> >      import re
-> > 
-> >      if re.match('arm.*', a):
-> > +        for el in f.split():
-> > +            m = re.match("cortex[arm](\d.*)", el)
-> > +            if m and int(m.group(1)) < 32:
-> > +               return '7'
-> > 
-> >          if 'armv7' in f:
-> >              return '7'
-> >          
-> >          elif 'armv6' in f:
-> > --
-> > 2.7.4
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
-
+> 
+>     Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com
+>     <mailto:rbilovol@cisco.com>>
+>     ---
+>       .../libnss-nisplus/libnss-nisplus.bb <http://libnss-nisplus.bb>   
+>                 | 31 ++++++++++++++++++++++
+>       1 file changed, 31 insertions(+)
+>       create mode 100644
+>     meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+>     <http://libnss-nisplus.bb>
+> 
+>     diff --git a/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+>     <http://libnss-nisplus.bb>
+>     b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+>     <http://libnss-nisplus.bb>
+>     new file mode 100644
+>     index 0000000..2dbeee7
+>     --- /dev/null
+>     +++ b/meta/recipes-extended/libnss-nisplus/libnss-nisplus.bb
+>     <http://libnss-nisplus.bb>
+>     @@ -0,0 +1,31 @@
+>     +# Copyright (C) 2019 Ruslan Bilovol <rbilovol@cisco.com
+>     <mailto:rbilovol@cisco.com>>
+>     +# Released under the MIT license (see COPYING.MIT for the terms)
+>     +
+>     +SUMMARY = "NSS module for glibc, to provide NIS+ support for glibc"
+>     +
+>     +DESCRIPTION = "This package contains the NSS NIS+ plugin for glibc.\
+>     +This code was formerly part of glibc, but is now standalone to\
+>     +be able to link against TI-RPC for IPv6 support."
+>     +
+>     +HOMEPAGE = "https://github.com/thkukuk/libnss_nisplus"
+>     +LICENSE = "LGPL-2.1"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+>     +SECTION = "libs"
+>     +DEPENDS += "libtirpc libnsl2"
+>     +
+>     +PV = "1.3+git${SRCPV}"
+>     +
+>     +SRCREV = "c6934373c7bac91499ff7bbe7d2439599325ca63"
+>     +
+>     +SRC_URI = "git://github.com/thkukuk/libnss_nisplus
+>     <http://github.com/thkukuk/libnss_nisplus> \
+>     +          "
+>     +
+>     +S = "${WORKDIR}/git"
+>     +
+>     +inherit autotools pkgconfig
+>     +
+>     +BBCLASSEXTEND += "native nativesdk"
+>     +#
+>     +# We will skip parsing this packagegeoup for non-glibc systems
+>     +#
+>     +COMPATIBLE_HOST_libc-musl = 'null'
+>     -- 
+>     1.9.1
+> 
 
