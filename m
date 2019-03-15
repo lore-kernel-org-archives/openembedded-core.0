@@ -1,46 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
-	[209.85.208.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A82E86C1D5;
-	Fri, 15 Mar 2019 14:32:55 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id j25so1711903lji.1;
-	Fri, 15 Mar 2019 07:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=Mt9XT371MDU8TXkoMQmgxyMrRbWLVKNV0HfNfkOHL9I=;
-	b=bPUKYsB+Lo/hohgMXxMJMOeok/nDZa/Ne3Q7pNja99UqCKdoVXAHSJ9T5otxOkjy0d
-	K7CM1PGM3nXzHJ5uxW0Ejun5dKSRNqabTEdrKvlSID8lm8xam24LuXykjb5jFQZxH1cY
-	jt2yPRVQiUnyQktvHCXUWFIBfySmUhivlT7uClaC7EiavafKs2uNUa7QHR3yaO+4eNcf
-	5TE5o2fGsOwl0lwQ+Ex9b7jYaqm9cqqAVcdfq1hFk8GDJ/szkHxwPgPprR61XJOhAQb+
-	mKwiddRugu7QohWAktyNGMYst2U5s5eP8Q1ymcnZPQrLfXRxmEVfA39VeAaJ3Jt9jxHn
-	Ribw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=Mt9XT371MDU8TXkoMQmgxyMrRbWLVKNV0HfNfkOHL9I=;
-	b=drc4pPHSEvhPXpSi16co4nIK97SJk4OGrKkdkzdJiTt1KV1c0SoWHQxFtywwD0ZJ2X
-	gidYfhWRVqqLLk5KxGyf10ROgLfQVgd495swL0f1bYsaL+ABhkVukYu6vuTrgTOh0VD0
-	EszrPpwXmx051of8XhhKPa9CceEVPEd9wVIzJLEChAUGkHno1qKTWH0Ot8yS0WDwQ9WD
-	PwmT0NfGY3cvb+Sfd4047MKgNG97zKhttHfEZFhFUL8AJ2yVFeYIfZ5erh0j+F+vI7Ka
-	Hm76yUDTsQsR36M2RYBUKwfZSNw+xMl2e9w6pybpZR1chMwCfJUdLBCMxufIZgr48TsG
-	eI3Q==
-X-Gm-Message-State: APjAAAXSjeE2rwF24MOyfOzaEOtcv/huuokUcVrM2Kh8zVhQl++yzKkn
-	pQIn5tQtOH1cLtc/D3EplFNntzVoaidrHNEVSo8=
-X-Google-Smtp-Source: APXvYqw2tFB62ExNJdsMYI9ImQu1AyIT/LMuJVDK9meUYoocDvN8cqXCEMNED56BfkMvwdaPeJzwNQNWn9ggtG3bj/8=
-X-Received: by 2002:a2e:3810:: with SMTP id f16mr2329966lja.119.1552660376131; 
-	Fri, 15 Mar 2019 07:32:56 -0700 (PDT)
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id F20677C730
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Mar 2019 14:41:00 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 8612B1C78BB;
+	Fri, 15 Mar 2019 10:41:01 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id wrXM7SHQJPu5; Fri, 15 Mar 2019 10:41:01 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 479C11C78B8;
+	Fri, 15 Mar 2019 10:41:01 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 479C11C78B8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1552660861;
+	bh=w8D+JOqkxGQ3tUvZEcg26DMuXu0A/q1zQnZEQkfrrFA=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=DMFhaqufo/c5UVMCM/uPE8vDSrT6LdVmIxfTMWUdBqm07YqtYZTX/C25LbhM2FaY8
+	X4TnZ9sqAPpTyAM2ppK1cq/37x11atLEPu6OQhvrFkSf93Cs7kZIi9cquMvB4vbCzw
+	Lbv1bpEyFKOPMy20MqSgh59o8iKh04ksv+Txv/M2fUudo7XZ7248OoajCvs3oj87Up
+	L8M+qX+ClY/8OcYUvQtTZSmwu7XH+fY9xHKIqDDzE45qmH8zK5DvTcs4C18R2ODlc8
+	38IdZ+p3JbIZfSZ4DnDQIcULBe8GL2EgDgT7XIwGWhbMchzHhL0yKqCHHofVRokQUp
+	CU8qM1r/4gasA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id LXJIYTXSxvNR; Fri, 15 Mar 2019 10:41:01 -0400 (EDT)
+Received: from joraj-alpa (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
+	by mail.efficios.com (Postfix) with ESMTPSA id 1DA2F1C78AE;
+	Fri, 15 Mar 2019 10:41:01 -0400 (EDT)
+Date: Fri, 15 Mar 2019 10:40:58 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190315144058.GA6994@joraj-alpa>
+References: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
+	<8b7a2720fbfc7333bc4f5186e00dd5d8b1bc0a37.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20190315142753.GA10387@linux-uys3>
-In-Reply-To: <20190315142753.GA10387@linux-uys3>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Fri, 15 Mar 2019 10:32:44 -0400
-Message-ID: <CAHUNapStG=ZLWwJ9o1n4piceS3ffspW=9uyZBDxf19-=r_93Cw@mail.gmail.com>
-To: Yocto discussion list <yocto@yoctoproject.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: OE Summit report from SCaLE17x
+In-Reply-To: <8b7a2720fbfc7333bc4f5186e00dd5d8b1bc0a37.camel@linuxfoundation.org>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] lttng-tools ptest: add missing dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 14:32:56 -0000
-Content-Type: multipart/alternative; boundary="0000000000002d1b5e058422ea35"
+X-List-Received-Date: Fri, 15 Mar 2019 14:41:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---0000000000002d1b5e058422ea35
-Content-Type: text/plain; charset="UTF-8"
+> Firstly, I wanted to say thanks for looking at this, there are some
+> really great fixes in here.
+> 
+> It failed in automated testing as glibc-utils is glibc specific and
+> musl builds couldn't cope with that.
+> 
+> We can certainly do:
+> 
+> RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
 
-On Fri, Mar 15, 2019 at 10:27 AM Trevor Woerner <twoerner@gmail.com> wrote:
+Sure, since we mostly need getconf from glibc-utils, we can use musl-utils
+to provide it when building with musl.
 
-> I'd like to thank the OE Board of Directors who
-> gave me permission to create and run a mini-conference on their behalf.
->
+RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
 
-... and provided funding!! (without which this event would never have been
-able to happen) So thanks to the Board for the funding, and to everyone who
-has contributed financially to OE who provide this funding.
+Also, I saw that lttng-ust is removed from PACKAGECONFIG when using musl, not
+sure why the commit history is not particularly verbose regarding why it was a
+problem. Still, it seems to build fine but we are seeing issue regarding musl.
+We checked with Alpine since they also use musl and see similar problem. I'm
+investigating on that front. I'll let you know what I find.
 
---0000000000002d1b5e058422ea35
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Side note, gdb simply segfault (at start) for me on a core-image-minirmnal build using musl.
+How would someone open the corefile generated on the build system with the
+proper libs and all?
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, Mar 15, 2019 at 10:27 AM Trevor Woerner &lt;<a href=3D"mailt=
-o:twoerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">I&#39;d like to thank the OE Board =
-of Directors who<br>
-gave me permission to create and run a mini-conference on their behalf.<br>=
-</blockquote><div><br></div><div>... and provided funding!! (without which =
-this event would never have been able to happen) So thanks to the Board for=
- the funding, and to everyone who has contributed financially to OE who pro=
-vide this funding. <br></div></div></div>
+Thanks!
 
---0000000000002d1b5e058422ea35--
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
+
