@@ -1,36 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 65E286010B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
+	[209.85.166.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E5196BD08
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 11:50:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44LP5d1ldVzBp;
-	Fri, 15 Mar 2019 12:50:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1552650613;
-	bh=mXnMifPRjS/6MmUFZ+htxszXsZ5E5bnH5z9V0F8iI7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NQKKTQYHN33xiMPHyG9euZkamqko9ctRGVRypbukmIuRTBtnhVCYgr7971nUBM1e/
-	NZJiU6L0rKqHEdetRsidh4c1kX5lIVrgtrsfPixjCDL15J/2+C6nRRo8JcIO1oIOrT
-	iTuxCxtaHpR1eDw8NXvTnkl1WgMkIVW9CfVgNdmE8lsYpS9tiqkPchZRJNaHQxGzeb
-	Gxa3MZPt67VSJezpAm5OV0pU6rA2lBaErigK5jm0Mw4hpMGS72uQ8b5sS00Fhg12hW
-	kpvBavkRdrYzb+/emTwsmgUL/c/qbAXOMvmjjBcN8h6OKCEL0RWCW1ywpD1bi73AUE
-	GxEMW2ziN7NSdcd7l3RFtuGFbMj9rBoDbmaQeWKdI4fzd0VYxz76O3RYnAdie1yElp
-	s0xBS/HM+5JgLoZ4eXIWkQheFsM3Y0uC2CHTUuJNgFQWOnApM2czGM9/67TsJWF+Zv
-	vSlQJQZXjIF9Jn9UWTj7NxREebLzl79Q+RmiVvKrnHewb0skMcjIBzOar36PjPxoq/
-	tvug5MVLQ10l5c0/gfb6UrJpZwtXtZ64sxrJDK1KcjwiamjZVFkPm/eXMMKXUcaAgx
-	UyfCg8MHATc3F2qEpY5FYiBxyKoMaMXFqYLtE9frJRjWIpY60yr83eDDyRVR6oyMEG
-	y7kXme727ODWrVsTgk9/5564=
-Date: Fri, 15 Mar 2019 13:50:10 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20190315115010.GA29190@localhost>
+	Fri, 15 Mar 2019 12:04:07 +0000 (UTC)
+Received: by mail-it1-f176.google.com with SMTP id g17so9763211ita.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Mar 2019 05:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0Og+eLV8yNGX8W++/6yEoDy/1x0C/k1m/Ob5kLnyxHc=;
+	b=DGDhS4e1Nhgjhq97L+XOtxM7712hEP7kC1sltNBBXNXFFi7dU2upV/AqiRlQyqBSpg
+	1N8YZZIgZkXgNvQefE6bpdX7bZ4M+cedMGiE461ktQu0Pk4KNTTOvm9N6ZRP2AAzC9SA
+	b9p+O7jLGDu+tt1SQCwlw6qCoyoKYr+4yxlDunTmWPRtTGeJr5WBUCj5WjBNiV6mFOG9
+	iWWxLmLOeskqzbgg7oxxmgoweqhpre/UOwqoTbJwkrhW4+f8gziHxwcbbmqsxEil2i2H
+	/WgUbwHoyOlO2gtQbMqE9or1WEGd6ks+dMCgY1cuwEvdCvbKy/6RTreQvrds/R1eIl1m
+	s/YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0Og+eLV8yNGX8W++/6yEoDy/1x0C/k1m/Ob5kLnyxHc=;
+	b=Qi1ZhRugk9wbkISdJisycpxK5WcITJ4hFf3Kj++7QkIaQUdaTGEiOXHTGfJXEakW1N
+	wTpmgTYJW+5aZkcES8b1DuHP2DfOowMA3CkSH7D+s+NBP6N/TS+xvVL/pTcwstPvtH7T
+	6vvQTYh5exmVqa88oZnJLJXh88JaxTdjfEVdzpG9jToq8vY3655L96BUhNHkCXS31xou
+	S8tUO7+v1AgzZfNwOiIIiZCY+4Q917AMhpCGXSsZjODObuLVF2IhAzVvGKi1MuG/U5zg
+	ymI7HQ3hYTTVyCQjvaq6oGU8bgHwMazZD8NMxHTfcgVwUscNJZFk4U8VMF8Yu7rqzpnP
+	4W0Q==
+X-Gm-Message-State: APjAAAWokjUpe9dwXxbJLXFNTbqonCkG4uBlgLMTx5gnqTPQo+2b8bNl
+	qTC6YGrsYE9cazACi6JxtiwnVEx2Akoj0Owwt3Yig31y
+X-Google-Smtp-Source: APXvYqxIl60RdQuoSw8/ZE4ItMkfbE9Mw2WFEU6KIF+zYfxgmA+U8AKHvP8VwR+bhuNhoNDTh6IbRd+SZg1JRbk22vg=
+X-Received: by 2002:a24:7294:: with SMTP id x142mr1664940itc.26.1552651448438; 
+	Fri, 15 Mar 2019 05:04:08 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190314191924.44162-1-joe.slater@windriver.com>
 	<CAJTo0LafGyAEuh8hbQoXNQCR5bJ9YBmMDJV-idGZ0OPMkTGQoQ@mail.gmail.com>
-	<20190315104306.GA14180@localhost>
-MIME-Version: 1.0
-In-Reply-To: <20190315104306.GA14180@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20190315104306.GA14180@localhost> <20190315115010.GA29190@localhost>
+In-Reply-To: <20190315115010.GA29190@localhost>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 15 Mar 2019 12:03:56 +0000
+Message-ID: <CAJTo0LZzUx+nPMaGzXi=3QuyK9ECmJSmxwxfQznMZTtdoOOFhg@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] puzzles: fix uninitialized variable compiler error
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,27 +56,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 11:50:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 15 Mar 2019 12:04:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 15, 2019 at 12:43:06PM +0200, Adrian Bunk wrote:
->...
-> but when I try to reproduce the problem on amd64 it happens
-> only with -Og (due to puzzles upstream building with -Werror).
->...
+On Fri, 15 Mar 2019 at 11:50, Adrian Bunk <bunk@stusta.de> wrote:
+> For the root cause I filed
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=89723
 
-For the root cause I filed
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=89723
+Cookie for Mr Bunk!  Thanks.
 
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Ross
 
