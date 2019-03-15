@@ -1,47 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
-	[209.85.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7221F6D7A2
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A86D37C6F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 05:41:58 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id k2so8897001qtm.1
+	Fri, 15 Mar 2019 05:43:20 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id s1so8860440qte.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2019 22:41:59 -0700 (PDT)
+	Thu, 14 Mar 2019 22:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oonsKdCCwBz95VRzIMltnCTn1Z2mOqnKnn+EsgdCIKY=;
-	b=X1xHhZsYvDd1mVL0h1TBhQqmRwf8r+EnnLnZp1BM/RYMTemJtUz1oL9aVZn3ScPTz5
-	kT7ODWU4UJeH4nqubE4Nm0tTaQCakG/d4RGOMgyhDZgM9SUba6mSLluHpPv3mHFdLMCe
-	TVlcHwCwT+TyS56Ni0ePFahI/+FGddtn3w4hxJIqJ+nH20FJB1DIBNvv0WygH9Kp7JG2
-	KkB+1ZCK4dYGilqc3YfjiCAFt13f3VwKUZ4ghMyKCfnidHuGM7U+HspakLlZuXw2alFt
-	pyO7lOGyD/Grt2i/eY+agg50FE5c1GoUzcPNyawpzaZwCX4XxbSccfouYJ1LaP7d0Y7q
-	BGOg==
+	:cc; bh=qqQfrSGwm7Mb3S/tPOF2lEhe8V9CchOXu7+mqww3d1A=;
+	b=eKpx5svoxkPqga6LghwZNDnxnPrr/AWUpWBnA8rk5rLXbllIkVSPjpgCbp2ptuRECi
+	79WIFC2TNpjDqHgatoPGIlbyLGFa0ydYam7qN58DIqCI/35HGG+uWYwYwP8RiOz3T6VK
+	o8USqsdn50hHK5lXVwB4hGHmhUtZdLhQ9njMnGIMNnjU1DGO2bhP5Flk3Eo6/A8bM0f1
+	emMbz5elmb5OUCfDv8yQsFehyw6Xcmwjp9Yl5XDXN7r7WWEgekfzzN1yW+fIF9kNMPxe
+	gCM7+yF4BaaIW2WkC2A1Y8Yb7HH6DbN4UYb9ZYVJX5ZWHk3U9zNc/luWec7V90L/rE6U
+	wURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=oonsKdCCwBz95VRzIMltnCTn1Z2mOqnKnn+EsgdCIKY=;
-	b=KLCXLfVrkK8Up1C2MOlqNQ7MhBdjLHUm1kbT1nPleGcbGjCRjuCSZ9ra7HFlMBS0ox
-	cvQV70Cx42fnmu2CJOnkX9ArNXYIDktjaM26gcZ+MouYVYqTTwyY3ILliT6nzKDZLnb+
-	c63kx/Zzifc+FPUZ8DjTsP302+zTGuyAtd7M/1QmuM6w+QCbLrGUsmu51jPTJ6R+M6vH
-	3FdQbPo3BXTNkt74+9NnlHN2pz9wMU54VWldJduMvPtNvkkiAFFjqqJ4LR1uPQXJKyTf
-	Gte4iqq+7a1tjtoGQ/raStZyHErA7CexX9XRNrgMPfHP7hfgvmgVBvzZKcQGpc5DLUtV
-	Ikqw==
-X-Gm-Message-State: APjAAAUMeBS56eCKG0xR3xzfeCn8ddNsrtC0QEiccQqvptS2EaHnW7We
-	nq1mphIZ5CTodwBRFr4RplnHsKrqXQXVS6NIURoGb8Ej
-X-Google-Smtp-Source: APXvYqx1cSYqNOEY3kQmB3xwEPZOfMkly9q9iWRK94CeVHz19/at+qS69/7HxyDfPLkf4gQVledXzlxELH5lsLaAsDY=
-X-Received: by 2002:ac8:2c51:: with SMTP id e17mr1371516qta.254.1552628519145; 
-	Thu, 14 Mar 2019 22:41:59 -0700 (PDT)
+	bh=qqQfrSGwm7Mb3S/tPOF2lEhe8V9CchOXu7+mqww3d1A=;
+	b=n9X7NhCxEaEN3BBZCoH5NiCf2bosCCvRfigleOWwfMhyxt0YDh2BS9fLO5cWzXjV/s
+	UkPNtL5vaVHVhIomUMUcdqXZgyxwALzt37smESBmZC8oE2feN3J8yDZAcXWR7gTiU/Ur
+	h5TdW5g7R0csXdW35/4gUZGeixMwYc3/xWa1HMotZvdILd2/+zpG4LIHQy0Y/IBO7QBq
+	A3999zyzlgjW/NtDTfTSuW/sC4EX76We3ooxoLkTgZz16tTaEgzt+d63esRNgOqakX1O
+	d7lgxQWYov/GSOhLYcaC+FDlgGFSiK7pulpRl3hIJaVwG9CWkZhsupTlSfYlwCZL/TiD
+	mWyg==
+X-Gm-Message-State: APjAAAXz+6/c41XcgSH36V+lAK2ifQ/qpjLn9bam1IWL2mwJgzeNLAYY
+	cIaxjDvBto3xj3FOOv50T6lEQjcBKVZO0/cGiyU=
+X-Google-Smtp-Source: APXvYqwviTTvYlcf7hLQiYYWFbwOawSfNMn4KBCPOPxfdJvA1Yp+grIyBXtN05BqrfFPq2TZlJRBRAaX/9syD/ezDgE=
+X-Received: by 2002:aed:3a09:: with SMTP id n9mr1395803qte.196.1552628601398; 
+	Thu, 14 Mar 2019 22:43:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190314191924.44162-1-joe.slater@windriver.com>
-In-Reply-To: <20190314191924.44162-1-joe.slater@windriver.com>
+References: <1552499826-26884-1-git-send-email-mark.asselstine@windriver.com>
+	<1552499826-26884-2-git-send-email-mark.asselstine@windriver.com>
+	<CAJ86T=U2oLy-10Y-OGVHC5r8bzEQBh_M1mAaZNK5SznQcLJqSQ@mail.gmail.com>
+	<1756056.MITzs3jtI9@yow-masselst-lx1>
+In-Reply-To: <1756056.MITzs3jtI9@yow-masselst-lx1>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Mar 2019 22:41:33 -0700
-Message-ID: <CAMKF1sq-TLT=+TTMFiYP0SvsRoMkud8z8CFsMdf8V-2futbt9A@mail.gmail.com>
-To: Joe Slater <joe.slater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] puzzles: fix uninitialized variable compiler error
+Date: Thu, 14 Mar 2019 22:42:55 -0700
+Message-ID: <CAMKF1sox3QV+OzT9kKmrpF7pt-fa4yBGUhCeAkBXdAY8a8AKFg@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] goarch.bbclass: set TARGET_GOARM as '7' for cortexa7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,69 +56,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 05:41:58 -0000
+X-List-Received-Date: Fri, 15 Mar 2019 05:43:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 14, 2019 at 12:20 PM Joe Slater <joe.slater@windriver.com> wrote:
+On Wed, Mar 13, 2019 at 1:04 PM Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
 >
-> In tree234.c, change a while() loop to a for() loop so
-> that the compiler will realize we loop at least once.
+> On Wednesday, March 13, 2019 3:56:10 PM EDT Andre McCurdy wrote:
+> > On Wed, Mar 13, 2019 at 10:57 AM Mark Asselstine
+> >
+> > <mark.asselstine@windriver.com> wrote:
+> > > The cortexa7 tunings use 'cortexa7' in their tunings and do not
+> > > include 'arm7' so we need to look for both when setting TARGET_GOARM.
+> >
+> > Is cortexa7 a special case? Or will the same issue be there for
+> > cortexa5, cortexa9, cortexa15, etc?
 >
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  .../puzzles/files/fix-ki-uninitialized.patch       | 25 ++++++++++++++++++++++
->  meta/recipes-sato/puzzles/puzzles_git.bb           |  1 +
->  2 files changed, 26 insertions(+)
->  create mode 100644 meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
->
-> diff --git a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-> new file mode 100644
-> index 0000000..7218d62
-> --- /dev/null
-> +++ b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-> @@ -0,0 +1,25 @@
-> +puzzles: avoid compiler unitialized variable error
-> +
-> +The compiler does not realize that we must go through the while()
-> +loop at least once, so we replace it with a for() loop.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +--- a/tree234.c
-> ++++ b/tree234.c
-> +@@ -326,8 +326,11 @@ static void *add234_internal(tree234 *t,
-> +       return orig_e;
-> +     }
-> +
-> +-    n = t->root;
-> +-    while (n) {
-> ++    /*
-> ++     * We know t->root is not NULL.  The logic
-> ++     * to break out of this is at the end of the loop.
-> ++     */
-> ++    for (n = t->root;;) {
+> Damn, was too fucused on the 1/2 patch of this RR I had my blinders on. Yes I
+> should be looking for cortexa* as I believe they all fall in to the "7"
 
-may do .. while () is better
+keep in mind we might have cortex-a53 etc which are v8
 
-> +       LOG(("  node %p: %p/%d \"%s\" %p/%d \"%s\" %p/%d \"%s\" %p/%d\n",
-> +            n,
-> +            n->kids[0], n->counts[0], n->elems[0],
-> diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-> index 0766bd4..59b9525 100644
-> --- a/meta/recipes-sato/puzzles/puzzles_git.bb
-> +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-> @@ -14,6 +14,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
->             file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
->             file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
->             file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
-> +           file://fix-ki-uninitialized.patch \
->             "
+> bucket. I will redo this and after we sort out 1/2 I will send a v2.
 >
->  UPSTREAM_CHECK_COMMITS = "1"
-> --
-> 2.7.4
+> MarkA
+>
+> >
+> > > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> > > ---
+> > >
+> > >  meta/classes/goarch.bbclass | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> > > index 39fea5e..077c967 100644
+> > > --- a/meta/classes/goarch.bbclass
+> > > +++ b/meta/classes/goarch.bbclass
+> > >
+> > > @@ -74,7 +74,7 @@ def go_map_arch(a, d):
+> > >  def go_map_arm(a, f, d):
+> > >      import re
+> > >
+> > >      if re.match('arm.*', a):
+> > > -        if 'armv7' in f:
+> > >
+> > > +        if 'armv7' or 'cortexa7' in f:
+> > >              return '7'
+> > >
+> > >          elif 'armv6' in f:
+> > >              return '6'
+> > >
+> > > --
+> > > 2.7.4
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 >
 > --
 > _______________________________________________
