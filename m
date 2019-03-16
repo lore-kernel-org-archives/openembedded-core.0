@@ -1,53 +1,60 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
-	[209.85.222.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 70D777CB90
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 646EF6BF3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 21:22:55 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id g1so2176154qki.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2019 14:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:organization
-	:content-transfer-encoding;
-	bh=5QslCSxA0qNYN8k2Hl+1z0e40+pE8I4gRtPXiHDzYJY=;
-	b=1CicyzcRBclOJg/Q6UckisPK5ue9wasVA6Mq+BrBGKY7yCCsezHkeEYcsdICUDmJxk
-	nR4h+ho9B5boOz+wq1pRcTyookh84u/m6x29g93NKOqaJd3p4VcvojO1cVK9UxkNGUza
-	sNUGnuqkt4zMS+dzP2tRPe/QN4Md3CsoBxP5IGmte5BaZXMiBNJcC93HZQoDo8DzxABJ
-	XRRHHBh4CV4RcwxUfaZ5v0qJXtfkU7icDZ2dgjXYO/l+VSG0KeCNlVPMhDb4OAeLG5Nh
-	jrTrTG0lMHiflAMG6gNlSIFG1PHOWtnQXWIoegV1mEKnSEiVZ60cfyKGEpCH3AWCXcvV
-	DTCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=5QslCSxA0qNYN8k2Hl+1z0e40+pE8I4gRtPXiHDzYJY=;
-	b=jnuB71YKYKzctAI9gUw/2RpbzI+LIS+XEFEa9xqTGbZGiVPh+H5jqWkzSHxCFoBBxc
-	bX1fVDhFTeCDrMN0asGk6kQl+IOHoYpVyzNGdrV++CcbAP+RbDmSztYPQirgupvi7gnA
-	ahvS79OACwr7IQ6TDxuqpmaDjHrqw5o14E4gTir22J3kZpvMolULriFEsn+uHjBcK1p3
-	FvEkgisiJcJ5UUSMZ+h2wlpoOT0haBX9Ot5OCw70bQouAVdN4LMnRG5ZaqMpTmfAXt1c
-	8tanHPFPSqh+F85+eiQggE9S7ROyORWo9cAzeJji9JqTqbmmACz+rCDMg9MfDUSGUJi+
-	5Iyg==
-X-Gm-Message-State: APjAAAXGNDOuhPcHu4AHGKb+1hGteaHEOu68WwSvaX7ZnAyJXSQOJP9k
-	XiZLWMD8hLdB/kHbouQiai+pTXl5fSLkQw==
-X-Google-Smtp-Source: APXvYqweyEfxdk1sB/DU1g9UzvGZSr9ahlJoVQ+WDh5tB7lFBNMdi7LYuD5birEvGHXXxMRr1K+QjQ==
-X-Received: by 2002:a37:c6d0:: with SMTP id s77mr4613652qkl.116.1552684976243; 
-	Fri, 15 Mar 2019 14:22:56 -0700 (PDT)
-Received: from centrium.lab.ossystems ([177.194.204.148])
-	by smtp.gmail.com with ESMTPSA id
-	t184sm1776396qkh.35.2019.03.15.14.22.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Mar 2019 14:22:55 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Mar 2019 18:22:45 -0300
-Message-Id: <20190315212245.28375-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.20.1
+	Sat, 16 Mar 2019 09:21:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id AF156183D0;
+	Sat, 16 Mar 2019 10:21:58 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Cxl-oa4IenuX; Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id AB87518347;
+	Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 97ABD1E084;
+	Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8BFF61E081;
+	Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 7D9B72F9C;
+	Sat, 16 Mar 2019 10:21:57 +0100 (CET)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Sat, 16 Mar 2019 10:21:57 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Sat, 16 Mar 2019 10:21:57 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: Can't build product that uses DEFAULTTUNE="arm926ejs"
+Thread-Index: AdTXwGozNpZtoMkdRIy3RTSRsKSVkf//8tAA//9TFpCABwLhAP/+Hurg
+Date: Sat, 16 Mar 2019 09:21:57 +0000
+Message-ID: <395432d08f074e08aafc06ed5d2e4610@XBOX04.axis.com>
+References: <d33eaa8904924405a9a5870faac183e0@XBOX04.axis.com>
+	<CAMKF1souJ1e1GG6qHvSsSYi6v84FriBjwP3Fifp10e8Z2mK-_g@mail.gmail.com>
+	<56f123443c35462c81076bffe4f7fb5c@XBOX04.axis.com>
+	<CAMKF1spb01NPYDa04X30oiVoY_GyrVKcXYyfUWaNkcduTNdr+A@mail.gmail.com>
+In-Reply-To: <CAMKF1spb01NPYDa04X30oiVoY_GyrVKcXYyfUWaNkcduTNdr+A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] linux-firmware: Bump revision to 7bc2464
+X-TM-AS-GCONF: 00
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Can't build product that uses DEFAULTTUNE="arm926ejs"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,70 +67,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 21:22:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 16 Mar 2019 09:21:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-License-Update:
-      - WHENCE: New firmware files additions and version updates
-                Add qca/nvm_00440302.bin and qca/rampatch_00440302.bin
-
-This commit includes the following changes:
-
-    - 7bc2464 Merge branch 'for-upstream' of git://git.chelsio.net/pub/git/linux-firmware
-    - 283373f cxgb4: update firmware to revision 1.23.3.0
-    - efd2c1c linux-firmware: Update firmware file for Intel Bluetooth 8265
-    - 046d108 linux-firmware: Update firmware file for Intel Bluetooth 9260
-    - 1f5641c linux-firmware: Update firmware file for Intel Bluetooth 9560
-    - b0d9583 (tag: 20190312) drm/amdgpu: update picasso to latest from 18.50 branch
-    - 4041a80 drm/amdgpu: update polaris12 to latest from 18.50 branch
-    - 4b04ce5 drm/amdgpu: update vega20 to latest from 18.50 branch
-    - f85841b rtw88: RTL8822C: update rtw8822c_fw.bin to v5.0
-    - 3531f69 Merge https://github.com/bgodavar/qca6174_bt_fw
-    - 9936d81 Merge git://git.marvell.com/mwifiex-firmware
-    - 052a246 Merge commit '450632bb7822f0be09474066f4fee2147acbd055' of
-      https://github.com/Netronome/linux-firmware
-    - 04e7764 rtl_bt: Update firmware for BT part of RTL8822C
-    - 78d2b16 linux-firmware: update Marvell 8787/8801/8887 firmware images
-    - 1a5773c linux-firmware: update Marvell 8897/8997 firmware images
-    - 450632b nfp: update Agilio SmartNIC firmware to rev 2.1.16.1
-    - c99beda QCA: Add the fw files for BT Chip QCA6174.
-    - 9ee52be linux-firmware: Add AMD SEV firmware
-    - 54b0a74 WHENCE: Correct errant entries
-    - fe0a7d4 Merge https://github.com/bgodavar/qca_bt_wcn3990_fw
-    - 07cb4ff amdgpu: update raven2 rlc firmware
-    - 64302ea amdgpu: drop raven2_sdma1.bin
-    - 30b9314 linux-firmware: Update firmware file for Intel Bluetooth,9560
-    - 55fa1fb linux-firmware: Update firmware file for Intel Bluetooth,9260
-    - f859d9f qca: Add firmware files for BT chip wcn3990.
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index fdf8f19490..ad7babf7aa 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -122,7 +122,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=66abf0fb69b09d6f3d2db6088594c808 \
-+    file://WHENCE;md5=ef36d3383becd18f36ce32d84109386f \
- "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -188,7 +188,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
--SRCREV = "710963fe53ee3f227556d36839df3858daf6e232"
-+SRCREV = "7bc246451318b3536d9bfd3c4e46d541a9831b33"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
--- 
-2.20.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTUgbWFycyAyMDE5IDA2OjA5DQo+IFRvOiBQZXRlciBL
+amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gQ2M6IE9FIENvcmUg
+KG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcpIDxvcGVuZW1iZWRkZWQt
+DQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gU3ViamVjdDogUmU6IENhbid0IGJ1
+aWxkIHByb2R1Y3QgdGhhdCB1c2VzIERFRkFVTFRUVU5FPSJhcm05MjZlanMiDQo+IA0KPiBPbiBN
+b24sIE1hciAxMSwgMjAxOSBhdCA2OjQ5IEFNIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIu
+a2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+
+ID4gPiBTZW50OiBkZW4gMTEgbWFycyAyMDE5IDA1OjI0DQo+ID4gPiBUbzogUGV0ZXIgS2plbGxl
+cnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gPiBDYzogT0UgQ29yZSAo
+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZykNCj4gPG9wZW5lbWJlZGRl
+ZC0NCj4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gPiA+IFN1YmplY3Q6IFJl
+OiBDYW4ndCBidWlsZCBwcm9kdWN0IHRoYXQgdXNlcyBERUZBVUxUVFVORT0iYXJtOTI2ZWpzIg0K
+PiA+ID4NCj4gPiA+IE9uIFN1biwgTWFyIDEwLCAyMDE5IGF0IDk6MjAgUE0gUGV0ZXIgS2plbGxl
+cnN0ZWR0DQo+ID4gPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiA+
+ID4NCj4gPiA+ID4gSSdtIHRyeWluZyB0byBidWlsZCB3aXRoIG1hc3RlciBvZiBPRS1jb3JlIGFu
+ZCBvbmUgb2Ygb3VyDQo+IHByb2R1Y3RzDQo+ID4gPiA+IG5vdyBmYWlscyB3aXRoOg0KPiA+ID4g
+Pg0KPiA+ID4gPiBFUlJPUjogIE9FLWNvcmUncyBjb25maWcgc2FuaXR5IGNoZWNrZXIgZGV0ZWN0
+ZWQgYSBwb3RlbnRpYWwNCj4gbWlzY29uZmlndXJhdGlvbi4NCj4gPiA+ID4gICAgIEVpdGhlciBm
+aXggdGhlIGNhdXNlIG9mIHRoaXMgZXJyb3Igb3IgYXQgeW91ciBvd24gcmlzaw0KPiBkaXNhYmxl
+IHRoZSBjaGVja2VyDQo+ID4gPiA+ICAgICAoc2VlIHNhbml0eS5jb25mKS4gRm9sbG93aW5nIGlz
+IHRoZSBsaXN0IG9mIHBvdGVudGlhbA0KPiBwcm9ibGVtcyAvIGFkdmlzb3JpZXM6DQo+ID4gPiA+
+DQo+ID4gPiA+ICAgICBFcnJvciwgdGhlIFBBQ0tBR0VfQVJDSFMgdmFyaWFibGUgKGFsbCBhbnkg
+bm9hcmNoIGFybSBhcm12NA0KPiBhcm12NHQgYXJtdjUNCj4gPiA+ID4gICAgIGFybXY1dCBhcm12
+NWUgYXJtdjV0ZSBhcm05MjZlanN0ZSBhcm05MjZlanNlIDxCU1AgbmFtZQ0KPiB3aXRoaGVsZD4p
+IGZvcg0KPiA+ID4gPiAgICAgREVGQVVMVFRVTkUgKGFybTkyNmVqcykgZG9lcyBub3QgY29udGFp
+biBUVU5FX1BLR0FSQ0gNCj4gKGFybTkyNmVqc3QpLg0KPiA+ID4gPg0KPiA+ID4gPiBJIGJlbGll
+dmUgdGhpcyBpcyBkdWUgdG8gY29tbWl0IGFjODNkMjJlIChhcm0tdHVuZXM6IFJlbW92ZSAtDQo+
+IG1hcmNoDQo+ID4gPiA+IG9wdGlvbiBpZiBtY3B1IGlzIGFscmVhZHkgYWRkZWQpLiBJZiBJIGJ1
+aWxkIHdpdGggVGh1ZCwNCj4gVFVORV9QS0dBUkNIDQo+ID4gPiA+IGlzICJhcm05MjZlanN0ZSIu
+IFRoZSAgbGFjayBvZiB0aGUgImUiIGF0IHRoZSBlbmQgd2hlbiBidWlsZGluZw0KPiB3aXRoDQo+
+ID4gPiA+IG1hc3RlciBzZWVtcyB0byBiZSBkdWUgdG8gdGhlIGRlZmluaXRpb24gb2YgQVJNUEtH
+U0ZYX0RTUCBhcw0KPiA+ID4gPiAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1RVTkVfRkVBVFVSRVMn
+LCBbICdhcm12NScsICdkc3AnIF0sICdlJywNCj4gJycsIGQpfSINCj4gPiA+ID4gYW5kIHRoZSBm
+YWN0IHRoYXQgYWZ0ZXIgY29tbWl0IGFjODNkMjJlLCBUVU5FX0ZFQVRVUkVTIG5vIGxvbmdlcg0K
+PiA+ID4gPiBjb250YWlucyAnYXJtdjUnLg0KPiA+ID4NCj4gPiA+IHJpZ2h0IHRoaXMgc2hvdWxk
+IG5vdyBjaGVjayBmb3IgYXJtdjV0DQo+ID4NCj4gPiBUaGVyZSBpcyBubyBhcm12NXQgdG8gY2hl
+Y2sgZm9yLg0KPiA+DQo+ID4gPiBhcm12NSBoYXMgYmVlbiByZW1vdmVkIGZyb20gdXBzdHJlYW0g
+Z2NjIGFzIHdlbGwuIFNvIHdlIG9ubHkNCj4gc3VwcG9ydA0KPiA+ID4gYXJtdjV0IHZhcmlhbnRz
+Lg0KPiA+ID4NCj4gPiA+ID4gLy9QZXRlcg0KPiA+DQo+ID4gSSBhbSBieSBubyBtZWFucyBhbnkg
+ZXhwZXJ0IG9uIHRoZSB0dW5pbmcgZmlsZXMgKGFjdHVhbGx5IHRoZXkgbW9zdGx5DQo+ID4gc2Vl
+bSBsaWtlIGJsYWNrIG1hZ2ljKSwgYnV0IEkgZGV2aXNlZCBhbiBhbHRlcm5hdGl2ZSBzb2x1dGlv
+biBmb3INCj4gPiBwcmVmZXJyaW5nIC1tY3B1IG92ZXIgLW1hcmNoIHRoYXQgSSB0aGluayBpcyBs
+ZXNzIGludmFzaXZlIGFuZCB3aXRob3V0DQo+ID4gdW53YW50ZWQgc2lkZSBlZmZlY3RzLiBJIHdp
+bGwgcHVibGlzaCBpdCBzaG9ydGx5Lg0KPiANCj4gSSBzYXcgeW91IHNlbnQgY291cGxlIG9mIHBh
+dGNoIHRvIGFkZHJlc3MgdGhpcywgaG93ZXZlciBJIHRoaW5rIGl0IGNhbg0KPiBiZSBhZGRyZXNz
+ZWQgYSBiaXQgZGlmZmVyZW50bHkgYW5kIHBhdGNoIGNvdWxkIGJlIHNpbXBsZS4gSSB3b3VsZCBi
+ZSANCj4ga2VlbiBpZiB5b3UgdHJ5IGl0IG91dCBhbmQgc2VlIGlmIHRoYXQgZml4ZXMgeW91ciBw
+cm9ibGVtDQo+IA0KPiBodHRwczovL3BhdGNod29yay5vcGVuZW1iZWRkZWQub3JnL3BhdGNoLzE1
+OTU5MS8NCj4gDQo+ID4gLy9QZXRlcg0KDQpXaGlsZSBJIGFncmVlIHRoYXQgeW91ciBwYXRjaCB3
+aWxsIHNvbHZlIHRoZSBwcm9ibGVtIHdpdGggYXJtOTI2ZWpzLCBJIA0KYmVsaWV2ZSB0aGVyZSBh
+cmUgYWR2YW50YWdlcyBpbiBhcHBseWluZyBteSBwYXRjaGVzIGluc3RlYWQuIEluIGFkZGl0aW9u
+IA0KdG8gZml4aW5nIHRoZSBwcm9ibGVtIHdpdGggYXJtOTI2ZWpzLCBteSBwYXRjaGVzIChwYXRj
+aCBzZXQgNCwgbm90IHBhdGNoIA0Kc2V0IDIgdGhhdCBpcyBjdXJyZW50bHkgb24gbWFzdGVyLW5l
+eHQpIGFsc286DQoNCiogbWFrZSBpdCBzbyB0aGF0IHRoZXJlIGlzIG5vIGNoYW5nZSB0byBUVU5F
+X0ZFQVRVUkVTLA0KKiBtYWtlIGl0IGV4cGxpY2l0IHdoZXRoZXIgLW1jcHUgb3IgLW1hcmNoIGlz
+IHVzZWQsIGFuZA0KKiBtYWtlIHRoZSBleHRyYSBhcmd1bWVudHMgYWRkZWQgdG8gLW1jcHUgb3Ig
+LW1hcmNoIGZvciBhcm12OCBleHBsaWNpdC4NCg0KVGhhdCBsYXN0IHBvaW50IHdhcyBzb21ldGhp
+bmcgdGhhdCBjb25mdXNlZCBtZSB3aGVuIEkgcmVhZCB0aGUgb3JpZ2luYWwgDQp0dW5lIGZpbGVz
+LiBJIGRpZCBub3QgcmVhbGl6ZSB0aGF0IHRob3NlIGV4dHJhIGZlYXR1cmVzIHdlcmUgYWRkZWQg
+dG8gDQp3aGF0ZXZlciAtbWNwdSBvciAtbWFyY2ggaGFwcGVuZWQgdG8gYmUgYWRkZWQgdG8gVFVO
+RV9DQ0FSR1MgYmVmb3JlIHRoZSANCmFyY2gtYXJtdjhhLmluYyBmaWxlIHdhcyBpbmNsdWRlZCAo
+ZXNwZWNpYWxseSBhcyBpdCB3YXMgd3JpdHRlbiB0byBtYWtlIA0KaXQgbG9vayBhcyB0aGV5IHdl
+cmUgb25seSBhZGRlZCB0byB0aGUgLW1hcmNoIG9wdGlvbikuDQoNCi8vUGV0ZXINCg0K
 
