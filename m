@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B165E7C51E
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C39C97C4EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 16:26:13 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id v12so9719916pgq.1
+	Sun, 17 Mar 2019 16:26:44 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id h34so9665012pgh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 09:26:15 -0700 (PDT)
+	Sun, 17 Mar 2019 09:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:references:to:from:openpgp:autocrypt:message-id:date
+	h=subject:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=o1zHGqEIYC7bU3cjT1zL3vhjBR3hZdYBNjw/WGZVK3w=;
-	b=qqpGM0s+uYeMO127Wjw/x/QVL/ECKo63JTM37qUjxyHfWhahOSbojdd7N8ysmLJ3G6
-	ehzzTHgU/0BfoRnDnfpPq1S2l26BsbwFHDKF+uiNBrrC84A3FJntz+ovSTmhs6ifANAR
-	fY1rAaVP1IFAqjwUoHS7JkaIU+4mSVE13jdfvt2C13bGWVVZjSfdPXfqzkvgEq4YTWiC
-	TQXAEK+IfbRciHLyTrwG25rylt7cTJiiIyw02nXmts1EzI9xswJxg3s4QJZ9+Rs8SHSP
-	Gyk+ALJwBvrQvemeyuT4V3LUzKwCndWUZp6oobtZEwJ3f5EPPvzZFvuKKgWI5+nkEtZX
-	qNJg==
+	bh=+fyPApY0WwhDOyzZE34somCOhMw6jkPzE/mwnYjShWU=;
+	b=SNg241dQzSm8jaM8alw4xUyeiJGW1+2cfFUae+HOdlbJ/sYkc9ZUGURFkFezTD74IC
+	aSocfnir8d4h0MhNbwp72kngSsGok3DMDxycdTmLp4cfQtSS/bTNlinZY6awlntuPyYM
+	UweyfdvoNfx2AKVYaSEVfB8kQAOu7V7sIWNTw7Nb/tO2e9vqVcnif0Ck0dhfjmEoTIa5
+	C4a2eqhOmtEX4xccB9ChKdNaepRobOIuJdzjgfG9PLfmVcfyisNnZp/bG3rAkeAuF16Q
+	Do69EkjRRhTN2VFhpZb3TWtzTEkDk+cbHlwSnrJxxX9GzHwKeGHJl+Sh49CFNqtWzuec
+	Bcgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:references:to:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=o1zHGqEIYC7bU3cjT1zL3vhjBR3hZdYBNjw/WGZVK3w=;
-	b=fJw+Lqr34kwziM9yCxXylxRPoBfkpcUgiC4pzUnnCwsxWIvl1r01ZHh9zVDtPpWTFo
-	7xwKSXf2oOctCTQ1qu1rv5XVi/Tmf3bARP/ZKEgLF/LxQG5jXrxQ4kdvhcOY9/7POOHI
-	OQ1rcoPopJbfvI071ottW6FeSzd4kRdrOKrvflAvcgUYF2cSJT4dN2FMx7oV5Ksu45df
-	Ef9flTcF0KeSZDYS1/B3rim4DyrKxXfuGHTP06Iy89fzTT430uUxHdAwo3ZVYw74+3nV
-	rSUd2DoV1Y7pcBX7GPs0s/Z/mzVgVxMjuuhNPfuCjJPJVrbLZSFD9MEix66mPFAGMb0A
-	eCBA==
-X-Gm-Message-State: APjAAAVvOn2Vi3zmMaHQ8wWQQhi1O3wmYw/suH19qchPCs7FYqNZ4RGd
-	Fp0NgyVHuTSpRN1cXgoJTFv0mxhV
-X-Google-Smtp-Source: APXvYqy29+rKak7H9rHpv8UxaaooQ/eSW+Wa4CfhmUpYc8lJwaBKBO1E81lOT7uB5YZOdjD8sIY/iQ==
-X-Received: by 2002:a65:5c01:: with SMTP id u1mr13563121pgr.197.1552839974550; 
-	Sun, 17 Mar 2019 09:26:14 -0700 (PDT)
+	bh=+fyPApY0WwhDOyzZE34somCOhMw6jkPzE/mwnYjShWU=;
+	b=Ts93qi9ASf0uOyXlYsPVp8+xpmoPPPQwc/tL84C+Ji3Lil0y6nmk8vbZxmddbpHwT4
+	QjnyTFgNHO9WdHxcyf5EX8XqUoE3djgPk4sl3yRLYHYSPZbfWRXDhyAb3JyIAVBmuYfG
+	dn5BQJFK1pAOR1li8w1Fi+bRz0N9ztTZFfgY5icA4ry4CA0KNkOVa61iFVoRHC6Y2UVJ
+	bUrSGHznZHiuu3Uiwb9xw6yS/pNPo4cuzCA3INUcPOU6r/3XSOAWybtEz8S01VHCLFc1
+	rSKf3fozf1qxBWQy/TWx7Kq0ti3FRalNZCLtE03PuNhX+Bq/uBv7E8w5LGn/4A0fEtUH
+	ibOA==
+X-Gm-Message-State: APjAAAUwLn4revLbSgYmv4aMzSSuCIrkPwmb2gbhvZfhlii7Oyu3uxSz
+	+LqIbJtRhDqb6NYBowbhUVW02sJS
+X-Google-Smtp-Source: APXvYqwftHWczVRGC24jUTky+SE8YBq5kYOl+9EOCO+mMwENiy+Mh2F6OuHjuKy3/pJmnQTYDU8d1Q==
+X-Received: by 2002:a65:6105:: with SMTP id z5mr13631901pgu.434.1552840005876; 
+	Sun, 17 Mar 2019 09:26:45 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:c33:55ff:5980:c3cd:d28e?
 	([2601:202:4180:c33:55ff:5980:c3cd:d28e])
 	by smtp.gmail.com with ESMTPSA id
-	a13sm9152691pgw.91.2019.03.17.09.26.13
+	k7sm10563838pgo.60.2019.03.17.09.26.45
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Mar 2019 09:26:13 -0700 (PDT)
-References: <20190317113300.403CC440003@auh.yoctoproject.org>
-To: openembedded-core@lists.openembedded.org
+	Sun, 17 Mar 2019 09:26:45 -0700 (PDT)
+Cc: openembedded-core@lists.openembedded.org
+References: <20190317113300.7CD0B440001@auh.yoctoproject.org>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +89,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <a2801b3d-73a7-2870-1c44-17c139b8cf85@gmail.com>
-Date: Sun, 17 Mar 2019 09:26:13 -0700
+Message-ID: <a41821d1-701a-53db-12db-d559a1ce984f@gmail.com>
+Date: Sun, 17 Mar 2019 09:26:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <20190317113300.403CC440003@auh.yoctoproject.org>
-Subject: Re: [AUH] xev: upgrading to 1.2.3 FAILED
+In-Reply-To: <20190317113300.7CD0B440001@auh.yoctoproject.org>
+Subject: Re: [AUH] gnutls: upgrading to 3.6.6 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,7 +108,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Mar 2019 16:26:13 -0000
+X-List-Received-Date: Sun, 17 Mar 2019 16:26:44 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -119,98 +119,29 @@ On 3/17/19 4:33 AM, auh@auh.yoctoproject.org wrote:
 > Hello,
 >
 > You are receiving this email because you are the maintainer
-> of *xev* recipe and this is to let you know that the automatic attempt
-> to upgrade the recipe to *1.2.3* has Failed (devtool error).
+> of *gnutls* recipe and this is to let you know that the automatic attempt
+> to upgrade the recipe to *3.6.6* has Failed(do_compile).
 >
 > Detailed error information:
+>
+> do_compile failed
+v2 needs to be sent out.
 
-in master-next.
-
 
 >
-> Running 'devtool upgrade' for recipe xev failed.
-> NOTE: Starting bitbake server...
-> NOTE: Bitbake server didn't start within 5 seconds, waiting for 90
-> WARNING: Layer workspacelayer should set LAYERSERIES_COMPAT_workspacelayer in its conf/layer.conf file to list the core layer names it is compatible with.
-> Loading cache...done.
-> INFO: Extracting current version source...
-> Loaded 1303 entries from dependency cache.
->
-> Summary: There was 1 WARNING message shown.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           = "1.40.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "i586-poky-linux"
-> MACHINE              = "qemux86"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "2.6+snapshot-20190317"
-> TUNE_FEATURES        = "m32 i586"
-> TARGET_FPU           = ""
-> meta                 
-> meta-poky            
-> meta-yocto-bsp       = "tmp-auh-upgrades:9fba148a53f70ffa1ec93098be636ef1fe3aa6de"
-> workspace            = "<unknown>:<unknown>"
->
-> Initialising tasks...done.
-> NOTE: Executing RunQueue Tasks
-> NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-> NOTE: Writing buildhistory
-> INFO: Extracting upgraded version source...
-> INFO: Fetching http://xorg.freedesktop.org/releases/individual/app/xev-1.2.3.tar.bz2...
-> Loading cache...done.
-> Loaded 1303 entries from dependency cache.
-> Parsing recipes...done.
-> Parsing of 786 .bb files complete (784 cached, 2 parsed). 1304 targets, 35 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           = "1.40.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "i586-poky-linux"
-> MACHINE              = "qemux86"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "2.6+snapshot-20190317"
-> TUNE_FEATURES        = "m32 i586"
-> TARGET_FPU           = ""
-> meta                 
-> meta-poky            
-> meta-yocto-bsp       = "tmp-auh-upgrades:9fba148a53f70ffa1ec93098be636ef1fe3aa6de"
-> workspace            = "<unknown>:<unknown>"
->
-> Initialising tasks...done.
-> NOTE: Executing RunQueue Tasks
-> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-> NOTE: Writing buildhistory
-> DEBUG 5 [Errno 25] Inappropriate ioctl for device
-> Adding changed files:   0% |                                   | ETA:  --:--:--
-> Adding changed files:   0% |                                   | ETA:  --:--:--
-> Adding changed files: 100% |####################################| Time: 0:00:00
-> WARNING: Command 'git rebase c7c29d114756ad26881755b75dfc839ac37692ab' failed:
-> First, rewinding head to replay your work on top of it...
-> Applying: Add xev
-> Using index info to reconstruct a base tree...
-> M	xev.c
-> Falling back to patching base and 3-way merge...
-> Auto-merging xev.c
-> CONFLICT (content): Merge conflict in xev.c
-> error: Failed to merge in the changes.
-> Patch failed at 0001 Add xev
-> The copy of the patch that failed is found in: .git/rebase-apply/patch
->
-> When you have resolved this problem, run "git rebase --continue".
-> If you prefer to skip this patch, run "git rebase --skip" instead.
-> To check out the original branch and stop rebasing, run "git rebase --abort".
->
-> You will need to resolve conflicts in order to complete the upgrade.
-> INFO: Upgraded source extracted to /home/auh/build/workspace/sources/xev
-> INFO: New recipe is /home/auh/build/workspace/recipes/xev/xev_1.2.3.bb
 >
 >
+> Next steps:
+>     - apply the patch: git am 0001-gnutls-upgrade-3.6.5-3.6.6.patch
+>     - check the changes to upstream patches and summarize them in the commit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --amend
+>     - send it to the appropriate mailing list
 >
+> Alternatively, if you believe the recipe should not be upgraded at this time,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
 >
 > Please review the attached files for further information and build/update failures.
 > Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
