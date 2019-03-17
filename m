@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C39C97C4EA
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ADE379E63
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 16:26:44 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id h34so9665012pgh.11
+	Sun, 17 Mar 2019 16:28:20 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id k11so9676470pgb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 09:26:46 -0700 (PDT)
+	Sun, 17 Mar 2019 09:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:cc:references:from:openpgp:autocrypt:message-id:date
+	h=subject:references:to:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=+fyPApY0WwhDOyzZE34somCOhMw6jkPzE/mwnYjShWU=;
-	b=SNg241dQzSm8jaM8alw4xUyeiJGW1+2cfFUae+HOdlbJ/sYkc9ZUGURFkFezTD74IC
-	aSocfnir8d4h0MhNbwp72kngSsGok3DMDxycdTmLp4cfQtSS/bTNlinZY6awlntuPyYM
-	UweyfdvoNfx2AKVYaSEVfB8kQAOu7V7sIWNTw7Nb/tO2e9vqVcnif0Ck0dhfjmEoTIa5
-	C4a2eqhOmtEX4xccB9ChKdNaepRobOIuJdzjgfG9PLfmVcfyisNnZp/bG3rAkeAuF16Q
-	Do69EkjRRhTN2VFhpZb3TWtzTEkDk+cbHlwSnrJxxX9GzHwKeGHJl+Sh49CFNqtWzuec
-	Bcgw==
+	bh=cmi25b5JukO6XYVF8MRgTORPDJNx5qE/PqUyzftJLmw=;
+	b=RHgCz7Cld9R9nY7HDU7+QiuuLTAza1xaACC/nde9ggfNMFjq65AbtgyQQGIxwmxocr
+	Pir04uJzHyiazfXiGcJ/zsFnNs+XjXm4ktMrGEHzNpLucxrFij+igs0nRkqClXPFXUsa
+	TXBu4WahfSQsuIWmOji0EcGneeoa9DncLDk/OiuKOYI38IZy4DhsgiUPFP+I1nxexaIA
+	9mgUyCoz3o+XYU01m6O81pySVqWMdKfZ12ZcmcG1uToBbYzUMVE8sKU0pg/UYYguyXvF
+	Hv2voxI5Yurx4aO0bM5XwkFSuYzgUZtR/p065Ks+VpN7HRQCw5iZl0sXi/EQD3BGJZR0
+	kMEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:cc:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:references:to:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=+fyPApY0WwhDOyzZE34somCOhMw6jkPzE/mwnYjShWU=;
-	b=Ts93qi9ASf0uOyXlYsPVp8+xpmoPPPQwc/tL84C+Ji3Lil0y6nmk8vbZxmddbpHwT4
-	QjnyTFgNHO9WdHxcyf5EX8XqUoE3djgPk4sl3yRLYHYSPZbfWRXDhyAb3JyIAVBmuYfG
-	dn5BQJFK1pAOR1li8w1Fi+bRz0N9ztTZFfgY5icA4ry4CA0KNkOVa61iFVoRHC6Y2UVJ
-	bUrSGHznZHiuu3Uiwb9xw6yS/pNPo4cuzCA3INUcPOU6r/3XSOAWybtEz8S01VHCLFc1
-	rSKf3fozf1qxBWQy/TWx7Kq0ti3FRalNZCLtE03PuNhX+Bq/uBv7E8w5LGn/4A0fEtUH
-	ibOA==
-X-Gm-Message-State: APjAAAUwLn4revLbSgYmv4aMzSSuCIrkPwmb2gbhvZfhlii7Oyu3uxSz
-	+LqIbJtRhDqb6NYBowbhUVW02sJS
-X-Google-Smtp-Source: APXvYqwftHWczVRGC24jUTky+SE8YBq5kYOl+9EOCO+mMwENiy+Mh2F6OuHjuKy3/pJmnQTYDU8d1Q==
-X-Received: by 2002:a65:6105:: with SMTP id z5mr13631901pgu.434.1552840005876; 
-	Sun, 17 Mar 2019 09:26:45 -0700 (PDT)
+	bh=cmi25b5JukO6XYVF8MRgTORPDJNx5qE/PqUyzftJLmw=;
+	b=nrAHdhIfE2LbPibZdWdrLMHa2NhKYV9Ubc+3bu56fHoEuvC2jkrm7J9zBMCBc2b4sm
+	o+3MYb/DywZ54u1sKWHEHgYG+MzN5v2cKGq+vW8UnDWAFLEsqHMUPux+i3k32Vzt9W5B
+	zdrBDKeRusF+lYhFo1vqBdgem8G+v2uMAWUfuVDFGbQnPP7S+QuPLoX061rsm33eTWKB
+	p7FsxxXNjKyXvOCl1E6VnqOdbl5vqRYcCu+9rmopJH19lVLiutfhu3j7CWYqGnuSlamD
+	zlo3kWQtLJ7xtmsP7R6eAQGh/vTLrRJPkIUQSU8Qc3jMAJFeYJKXMhjfA8+aHBz8XU9n
+	hG+Q==
+X-Gm-Message-State: APjAAAUqkSap5EEpM1j7INI1ODyZAFRRW0WNaoKwP/IrK0GwBc8Ant2X
+	vnsMnjktsY7igReM36B9RDW9/3rm
+X-Google-Smtp-Source: APXvYqxKfEeY9KTViKz9znRuwuDMFBBXOGCX80FfOI+hhHC28OncOtIbhWQXjyg5fYoA3PGvcPDagg==
+X-Received: by 2002:aa7:83ca:: with SMTP id j10mr14862811pfn.50.1552840101295; 
+	Sun, 17 Mar 2019 09:28:21 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:c33:55ff:5980:c3cd:d28e?
 	([2601:202:4180:c33:55ff:5980:c3cd:d28e])
 	by smtp.gmail.com with ESMTPSA id
-	k7sm10563838pgo.60.2019.03.17.09.26.45
+	p6sm12685670pfn.63.2019.03.17.09.28.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Mar 2019 09:26:45 -0700 (PDT)
-Cc: openembedded-core@lists.openembedded.org
-References: <20190317113300.7CD0B440001@auh.yoctoproject.org>
+	Sun, 17 Mar 2019 09:28:20 -0700 (PDT)
+References: <20190317113300.32ADA440002@auh.yoctoproject.org>
+To: openembedded-core@lists.openembedded.org
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +89,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <a41821d1-701a-53db-12db-d559a1ce984f@gmail.com>
-Date: Sun, 17 Mar 2019 09:26:43 -0700
+Message-ID: <9bceaaea-7f80-3eb1-ba8f-6ba61eb71e9b@gmail.com>
+Date: Sun, 17 Mar 2019 09:28:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <20190317113300.7CD0B440001@auh.yoctoproject.org>
-Subject: Re: [AUH] gnutls: upgrading to 3.6.6 FAILED
+In-Reply-To: <20190317113300.32ADA440002@auh.yoctoproject.org>
+Subject: Re: [AUH] mkfontscale: upgrading to 1.2.0 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,7 +108,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Mar 2019 16:26:44 -0000
+X-List-Received-Date: Sun, 17 Mar 2019 16:28:20 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -119,20 +119,21 @@ On 3/17/19 4:33 AM, auh@auh.yoctoproject.org wrote:
 > Hello,
 >
 > You are receiving this email because you are the maintainer
-> of *gnutls* recipe and this is to let you know that the automatic attempt
-> to upgrade the recipe to *3.6.6* has Failed(do_compile).
+> of *mkfontscale* recipe and this is to let you know that the automatic attempt
+> to upgrade the recipe to *1.2.0* has Failed(do_compile).
 >
 > Detailed error information:
 >
 > do_compile failed
-v2 needs to be sent out.
+
+I am aware of the failure, just havent had time to track down.
 
 
 >
 >
 >
 > Next steps:
->     - apply the patch: git am 0001-gnutls-upgrade-3.6.5-3.6.6.patch
+>     - apply the patch: git am 0001-mkfontscale-upgrade-1.1.3-1.2.0.patch
 >     - check the changes to upstream patches and summarize them in the commit message,
 >     - compile an image that contains the package
 >     - perform some basic sanity tests
