@@ -1,49 +1,57 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADE379E63
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6507C4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 16:28:20 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id k11so9676470pgb.8
+	Sun, 17 Mar 2019 16:40:04 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id a3so9592444pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Mar 2019 09:28:21 -0700 (PDT)
+	Sun, 17 Mar 2019 09:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:references:to:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=cmi25b5JukO6XYVF8MRgTORPDJNx5qE/PqUyzftJLmw=;
-	b=RHgCz7Cld9R9nY7HDU7+QiuuLTAza1xaACC/nde9ggfNMFjq65AbtgyQQGIxwmxocr
-	Pir04uJzHyiazfXiGcJ/zsFnNs+XjXm4ktMrGEHzNpLucxrFij+igs0nRkqClXPFXUsa
-	TXBu4WahfSQsuIWmOji0EcGneeoa9DncLDk/OiuKOYI38IZy4DhsgiUPFP+I1nxexaIA
-	9mgUyCoz3o+XYU01m6O81pySVqWMdKfZ12ZcmcG1uToBbYzUMVE8sKU0pg/UYYguyXvF
-	Hv2voxI5Yurx4aO0bM5XwkFSuYzgUZtR/p065Ks+VpN7HRQCw5iZl0sXi/EQD3BGJZR0
-	kMEw==
+	bh=oq/e2PsE1Dp6PxAH/n6GcDy4vYZTW+ZFdJIq5uCSf5k=;
+	b=MXCqcCkG/3M5px7f2pLxQxB5pbE99CuHIzLLiKtLc8AM2EYdDxKEoi5aqbKytvvl0E
+	f9eUvuVmS0Rc3voTKLzmrHFmJbiKWpqCJvagT4dD63QMrWxu3+JdxppY0qWwrdLti8gl
+	rGKpfBQgfXiSgYmx1LPBLWVc02cCrIFQ7H4DMChdYgdMKpWqbRUi4EDj8kaUUUtK8EXZ
+	NCp8TMD8D/dSkEUF88EAENfX71bHSI7wc9wiQxbt6zoHP4izfnS04irYcAJpNXGdRj/1
+	jhfAE3UMEBmd4mtxaf8Z9dyKV2fDbTNl/OpMhWe7+AeyD3XPWvCZZ7FaoM6UuGg0Rwd6
+	pl6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:references:to:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=cmi25b5JukO6XYVF8MRgTORPDJNx5qE/PqUyzftJLmw=;
-	b=nrAHdhIfE2LbPibZdWdrLMHa2NhKYV9Ubc+3bu56fHoEuvC2jkrm7J9zBMCBc2b4sm
-	o+3MYb/DywZ54u1sKWHEHgYG+MzN5v2cKGq+vW8UnDWAFLEsqHMUPux+i3k32Vzt9W5B
-	zdrBDKeRusF+lYhFo1vqBdgem8G+v2uMAWUfuVDFGbQnPP7S+QuPLoX061rsm33eTWKB
-	p7FsxxXNjKyXvOCl1E6VnqOdbl5vqRYcCu+9rmopJH19lVLiutfhu3j7CWYqGnuSlamD
-	zlo3kWQtLJ7xtmsP7R6eAQGh/vTLrRJPkIUQSU8Qc3jMAJFeYJKXMhjfA8+aHBz8XU9n
-	hG+Q==
-X-Gm-Message-State: APjAAAUqkSap5EEpM1j7INI1ODyZAFRRW0WNaoKwP/IrK0GwBc8Ant2X
-	vnsMnjktsY7igReM36B9RDW9/3rm
-X-Google-Smtp-Source: APXvYqxKfEeY9KTViKz9znRuwuDMFBBXOGCX80FfOI+hhHC28OncOtIbhWQXjyg5fYoA3PGvcPDagg==
-X-Received: by 2002:aa7:83ca:: with SMTP id j10mr14862811pfn.50.1552840101295; 
-	Sun, 17 Mar 2019 09:28:21 -0700 (PDT)
+	bh=oq/e2PsE1Dp6PxAH/n6GcDy4vYZTW+ZFdJIq5uCSf5k=;
+	b=fjIxK3zvp6DpnvMHDylH8tAZaHNAosQzSCyyvqevvxXSg3vrJ82ENk4n3htd+i33o3
+	oyt7twVSuUEzUdr54JIad+TlzHQYHgtkc+0AIkTMTDnu+Zoyg3iS0Rqont+JrDACItyf
+	pvIano7r7udLNXiqYTdZWUcCr+O+9UbwQDaOtdD5CEm3Zx+PsKRFunzi7MeowLtC8PMA
+	Nxpzcs2SDbALwgriw7Iq+Opby8vxF1oAwdohrdbwsQ9R+SmOQZvUM6BNMiIdQQJdcbQs
+	iMYMd+jj1zr0s0PmcNL1uN2x8l7Vvv/zSjRQZe0N5Xl19XtxcprZk+sTcW9cw+JCLUK/
+	f6nA==
+X-Gm-Message-State: APjAAAWCa4S4WDyqg34NJk3p7pJ9qfxJgQjAZvm2E+wJHcjjwb9+dKeN
+	ON6wFgsjdCVhj3L7B6e1T8oxwc8I
+X-Google-Smtp-Source: APXvYqwCbTIj9lw7zNNqtHGn4XJf2JWcxVoU9PhqGu7N1bElG70ClNtD9BEku5T+M2ZW6lX1vBB2QA==
+X-Received: by 2002:a17:902:8a84:: with SMTP id
+	p4mr15192390plo.2.1552840805567; 
+	Sun, 17 Mar 2019 09:40:05 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:c33:55ff:5980:c3cd:d28e?
 	([2601:202:4180:c33:55ff:5980:c3cd:d28e])
 	by smtp.gmail.com with ESMTPSA id
-	p6sm12685670pfn.63.2019.03.17.09.28.20
-	for <openembedded-core@lists.openembedded.org>
+	s6sm10487316pgm.90.2019.03.17.09.40.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Mar 2019 09:28:20 -0700 (PDT)
-References: <20190317113300.32ADA440002@auh.yoctoproject.org>
-To: openembedded-core@lists.openembedded.org
+	Sun, 17 Mar 2019 09:40:04 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <154947113576.452.14618413373824638023@git.openembedded.org>
+	<CALbNGRRLfW_ih43gr8n_rG5YcLQizAs4Mhi0rU_TVjoCCyw1Ag@mail.gmail.com>
+	<CALbNGRR0PjTSJWT=FARJrLNn4BPPV+XkS_RL2CiqSiOnj4Tfbg@mail.gmail.com>
+	<d897cca3-2471-ecfa-c99a-da0df5649d37@gmail.com>
+	<CALbNGRQBHySVaqLXNNTbM5xvo5fOh-UxzogyjC6Rm1_6_WETcw@mail.gmail.com>
+	<ed62bdd5-c9ad-1796-2330-960d6072317d@gmail.com>
+	<20190317130836.GA3809@localhost>
+	<45f8b8f1-95b5-3b76-b955-91be44f5a99e@gmail.com>
+	<20190317162555.GB3809@localhost>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +97,15 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <9bceaaea-7f80-3eb1-ba8f-6ba61eb71e9b@gmail.com>
-Date: Sun, 17 Mar 2019 09:28:19 -0700
+Message-ID: <e141da53-fe24-8420-03ae-a281bd348893@gmail.com>
+Date: Sun, 17 Mar 2019 09:40:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <20190317113300.32ADA440002@auh.yoctoproject.org>
-Subject: Re: [AUH] mkfontscale: upgrading to 1.2.0 FAILED
+In-Reply-To: <20190317162555.GB3809@localhost>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] branch thud updated (ad0a553 -> 748f946)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,46 +118,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Mar 2019 16:28:20 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Mar 2019 16:40:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 
 
 
-On 3/17/19 4:33 AM, auh@auh.yoctoproject.org wrote:
-> Hello,
+On 3/17/19 9:25 AM, Adrian Bunk wrote:
+> On Sun, Mar 17, 2019 at 08:38:20AM -0700, akuster808 wrote:
+>>
+>> On 3/17/19 6:08 AM, Adrian Bunk wrote:
+>>> On Sat, Mar 16, 2019 at 08:50:13AM -0700, akuster808 wrote:
+>>>> On 3/16/19 5:20 AM, Andreas M=C3=BCller wrote:
+>>>> ...
+>>>>> 2. This was applied on Feb 6th which is not 3 month back exactly.
+>>>> then its worst than I thought, I can't remember what my thought proc=
+ess
+>>>> was back to Feb 6th.
+>>>>> [1] https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance#Po=
+int_release
+>>>> I am glad you are bringing these things up, it helps me revisit my o=
+wn
+>>>> processes and help me improve.
+>>>>
+>>>> We are planning on revising the maintenance guidelines soon so I hop=
+e to
+>>>> get your input.
+>>> Was the boost upgrade in thud sent to the mailing list for review?
+>> That series did not, the previous ones and several Sumo request have.
+>>
+>> So you are the second person to mention the update, is it causing a
+>> problem?
+> You were requesting input.
 >
-> You are receiving this email because you are the maintainer
-> of *mkfontscale* recipe and this is to let you know that the automatic attempt
-> to upgrade the recipe to *1.2.0* has Failed(do_compile).
+> I am not using boost on Yocto, but in Debian it is pretty normal
+> that several packages stop building each time boost gets updated.
 >
-> Detailed error information:
+> "Drop signals library as upstream has removed it" in the backported
+> commit shows the tip of this iceberg.
 >
-> do_compile failed
+> What went wrong that even the removal of a library from boost
+> did not prevent this change from entering a stable branch?
 
-I am aware of the failure, just havent had time to track down.
+Like I said before, I don't recall the thought process when that series
+was put together.
 
+>
+>>> My reading of the "Requesting a fix in a stable branch" section=20
+>>> would be that this is already a mandatory part of the process.
+>> That is not under the "Maintainers procedure" so it does not apply.
+>>
+>> I have taken requests via IRC and a simple "please add this to stable
+>> branch X" emails so I have not been enforcing the letter of the law.=C2=
+=A0
+>> ...
+>> Like I have mentioned already, the processes mentioned in
+>> "Stable_branch_maintenance" are under review.
+> One problem is that changes to master are getting better reviewed than =
+
+> changes to stable branches.
+>
+> Upgrading boost in a stable branch wouldn't have survived a mailing
+> list review.
+I would hope so.
 
 >
+> A possible improvement would be to always use thud-next, and each time =
+
+> commits are added to thud-next an email thread with all new commits get=
+s=20
+> sent to the mailing list (similar to the review threads for new upstrea=
+m=20
+> stable kernels, see [1] for an example).
+That is what I do for meta-openembedded and then I send a pull request.
+
+- Armin
 >
+>> regards,
+>> Armin
+> cu
+> Adrian
 >
-> Next steps:
->     - apply the patch: git am 0001-mkfontscale-upgrade-1.1.3-1.2.0.patch
->     - check the changes to upstream patches and summarize them in the commit message,
->     - compile an image that contains the package
->     - perform some basic sanity tests
->     - amend the patch and sign it off: git commit -s --reset-author --amend
->     - send it to the appropriate mailing list
+> [1] https://lkml.org/lkml/2019/3/12/1290
 >
-> Alternatively, if you believe the recipe should not be upgraded at this time,
-> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-> automatic upgrades would no longer be attempted.
->
-> Please review the attached files for further information and build/update failures.
-> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
->
-> Regards,
-> The Upgrade Helper
+
 
 
