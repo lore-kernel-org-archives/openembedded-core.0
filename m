@@ -1,48 +1,51 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 11C037C678
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+	[209.85.210.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8904A7C752
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 16:47:50 +0000 (UTC)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 173A71A2ED4;
-	Mon, 18 Mar 2019 12:47:52 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id o8Tme0_7G01V; Mon, 18 Mar 2019 12:47:51 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 6E5021A2EC5;
-	Mon, 18 Mar 2019 12:47:51 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6E5021A2EC5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1552927671;
-	bh=MvhtEraCEAu5NApffu0s42xeIJ3ddQ9lP20vybCWxIw=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=EBG9/t9MSu7U6T12z9mVTEon5JYcEYUnY0ninW7JbgTmeDN0BLE0mhvjPiUv72uyu
-	irD/NMCc8hol8U/Ch5LFS/OFfKbpKDAUJWWxrIhlfsmApy2CTMOVPbh9TnHQz8JORd
-	bGsNvELfgGbpdyAWopFBsy1Kn1QBDypNJ136TA5L9Z0Ypm6BBwsygi3vdaYVQ0uALh
-	gkiwceU2nAYxL3sWdayZPP3lYCWfXDwk1a5HEbowRRNR0e2JMxGppL4MiqXz5rGIEA
-	tDZ0MWBwHUGvRyY8iTDK+36QThS6VNUwg2aahCDFj5ogYhUfDa5rjek9GJr39ebpb4
-	PftK/aweSzhAw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id wHEa70NFflLl; Mon, 18 Mar 2019 12:47:51 -0400 (EDT)
-Received: from joraj-alpa (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
-	by mail.efficios.com (Postfix) with ESMTPSA id 4D8191A2EBF;
-	Mon, 18 Mar 2019 12:47:51 -0400 (EDT)
-Date: Mon, 18 Mar 2019 12:47:51 -0400
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190318164751.GB25848@joraj-alpa>
-References: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
-	<8b7a2720fbfc7333bc4f5186e00dd5d8b1bc0a37.camel@linuxfoundation.org>
-	<20190315144058.GA6994@joraj-alpa>
-	<e23a55b1a840f9a55ae1bf7aa5037fca2d54fe27.camel@linuxfoundation.org>
+	Mon, 18 Mar 2019 16:58:12 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id v21so11651707pfm.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 09:58:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ug1n5Hw3Zt9YAzIIshXn4b9lCTTls3TDjRuvcNYmCI4=;
+	b=e8CtpPmSzLRsoPyATmBKfCfApY3ZN99NnCnjvRnCxT26JIid5I28zlrnYm5/AHmnBm
+	9exNPYrpqx3TlabVhpCQ/CC4Y0d9vOq4jbWbPHWtCziAVlSl7Vu9z3o7s0evkrIC9GMV
+	+Wla+uz5Hj0tE//7xPjQrCybptlUe+LeXin0i0GOVGm9r8CjriPerHzGFftfAULoIYLO
+	O4LKuB6ZKY3cpRRnmTsw61LaTfdKz7X6MU1ynkR17eE/JAa3ESLIsZvezonRRKQUn4nL
+	/AbSVvcGQpNs7wqcNfLBwXCzYZ3/UarKMMeRtVwcMPf0gxmQsuVCDH4x9Y5/fNZPH9lx
+	DExw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ug1n5Hw3Zt9YAzIIshXn4b9lCTTls3TDjRuvcNYmCI4=;
+	b=NiKrxSGoGDN2Wj2r7VCPTcX+SvxTnO3ASGchfBCUvLD46Cjv/0MpLVZKhc45CfBf/8
+	ATydY3X4KxqWnJ7TALvHAgBXahSubt/yODqaeGiKRK/0j+rLxaPZlRIqD7tT/4zfUv/Z
+	6cXu1/g9D7tf+BQcFmBMCF5LHy0I3NIxRh63D3n6OO5aP+jKxjCpZtEtBMUovCNKKTUC
+	mVjUbvYDGxx6iNkfbRtff/bDQZm3LYOVE2gfQz0h7BVN/soD4dMocXYoP+3S8nsA2hXX
+	n6ilEzPdHsHoD+DUpa5KFUkOEA8o1fqlxO8ZrHf/xZmOTXMSG+pyykX7b+K5BOdDnuDa
+	lH6w==
+X-Gm-Message-State: APjAAAX4DQqvd/d21ssp+sL4gOxRSsncye6XrEvNtpIpMeCJ+Lyq2yNX
+	MvL4xcellax3/3EbDZym2y1XzxWY
+X-Google-Smtp-Source: APXvYqwUxMMoNosuU39ISKmpBk+qqRO7VQsp1RuC/WTlisEaE174pJLWthTR7TQYxu6pr7+W72DgIA==
+X-Received: by 2002:a63:68c9:: with SMTP id
+	d192mr18976178pgc.264.1552928293056; 
+	Mon, 18 Mar 2019 09:58:13 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b8f7])
+	by smtp.gmail.com with ESMTPSA id
+	n82sm4595910pfi.63.2019.03.18.09.58.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Mar 2019 09:58:12 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Mar 2019 09:58:01 -0700
+Message-Id: <20190318165803.10375-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <e23a55b1a840f9a55ae1bf7aa5037fca2d54fe27.camel@linuxfoundation.org>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] lttng-tools ptest: add missing dependencies
+Subject: [PATCH 1/3] lttng: Enable on musl and riscv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 16:47:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Mar 2019 16:58:12 -0000
+Content-Transfer-Encoding: 8bit
 
-> Since the patches with a couple of fixes were passing the tests, I've
-> merged the patches with the glibc/muslc tweak and also a tweak to make
-> disabled ust work. I'd normally wait for v2 resubmission but I wanted
-> to get this fix into M3 and the M3 build is already behind schedule.
+Latest version compiles on musl as well as on risv64 now
 
-Sounds good.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb | 2 +-
+ meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb   | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-> 
-> I was at a conference last week so a bit distracted, just catching up
-> now.
-> 
-> > Also, I saw that lttng-ust is removed from PACKAGECONFIG when using
-> > musl, not sure why the commit history is not particularly verbose
-> > regarding why it was a problem. Still, it seems to build fine but we
-> > are seeing issue regarding musl.
-> 
-> I think when we originally merged musl, lttng didn't build with it or
-> there were some kind of issues. I suspect lttng-ust still doesn't work
-> on all the architectures we build for so we likely need to be able to
-> optionally disable it. I'd be happy to see patches enabling it where it
-> does work though.
-
-Well lttng-ust does work on musl as long as users do not fiddle with
-sched_affinity... I cc'ed you on the musl thread about this [1].
-
-[1] https://www.openwall.com/lists/musl/2019/03/15/5
-
-For now we can leave the disable statement there. We will revisit when musl is
-fixed and/or when lttng-ust have a fallback (most likely to happen) when using
-musl.
-
-> 
-> 
-> > We checked with Alpine since they also use musl and see similar
-> > problem. I'm investigating on that front. I'll let you know what I
-> > find.
-
-See [1].
-
-We also found a dynamic linker problem on our side for the notification test.
-We will upstream it in the following weeks.
-
-> > 
-> > Side note, gdb simply segfault (at start) for me on a core-image-
-> > minirmnal build using musl.
-> > How would someone open the corefile generated on the build system
-> > with the proper libs and all?
-> 
-> I saw other discussion about this so it looks like you're making
-> progress on this front. If not, Khem would be the person to ask about
-> this as our musl expert...
-
-Do you have a link to said discussion? I ended up debugging using print
-statement since even on Alpine gdb is "broken" (not working as expected). 
-I'm not sure how much time I can use on this. Will let you know if any progress
-is made to at least get a backtrace for the gdb coredump.
-
-Thanks again!
-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
+index 086254d3d3..15e75e51c9 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3 \
+ 
+ inherit module
+ 
+-COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
++COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ 
+ #https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+index 151e35e3c3..d544f8e206 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+@@ -26,9 +26,7 @@ PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python3 swig
+ PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
+ PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+-PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+ PACKAGECONFIG_remove_arc = "lttng-ust"
+-PACKAGECONFIG_remove_riscv64 = "lttng-ust"
+ 
+ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://x32.patch \
 -- 
-Jonathan Rajotte-Julien
-EfficiOS
+2.21.0
+
 
