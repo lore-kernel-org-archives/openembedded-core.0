@@ -1,64 +1,56 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 768D56D728
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E56236C4F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 22:03:03 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7D8FD22F4C;
-	Mon, 18 Mar 2019 18:03:04 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Mon, 18 Mar 2019 18:03:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:cc:subject:content-type; s=fm1; bh=QdlZ3xrStRtMxSNHS5gcx8aBYHxG
-	1TSpFTiIbbdktIQ=; b=n/5yu/iabKy02h7H8VGLvGi4HPf8hKEnQM94mx3GWzTZ
-	eCJwFtcqzsoRbAX/Qgs8/JnmBC3xlqrw8Y36w3x2d0K/TBM30+BOUQ6YrBPvT3eq
-	r4vLtWS83AKM0j22gU0N9bVkwi4Pn4f+ISgYCO2ifytCM5IhwvDRqu9FyMkhaMHe
-	I1uy0qotCmXjYjPkEiZbqUufa4H4X3n0atMz2M5IkKhFs24FOjL2Lvm79Bf0Hyu/
-	qTXU9UeXA3z5x+DZm/PsRDcRcbwON80RVv40DOWGBBL/dG30ivigs6YRI5r4Q8G9
-	KVVTVytZxt5KtHUsuPR7aZBqCj2I6Exn5ez75op1TQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QdlZ3x
-	rStRtMxSNHS5gcx8aBYHxG1TSpFTiIbbdktIQ=; b=LUJvkxcpFBq3aKNygE+/gm
-	NAWj2wDWVMLOWuUCYPBGu1pPEGo6UkVlG1VrQdUshkhQ4K4uVZMlZ57ECIPbJuoB
-	fm3DlPG8PwVLKKvVdL3lgkc3MzhnnNkMdrjK/Y9BXSxazqejFOpUyZGZ6phYSNsB
-	9i5jvymYbGmNk4KNOfRFYtjsVNY41IQzcwcybtPTB+uXCG2NGiWUkMJNLwjYnhpY
-	LsFF5BIfqXxvOhXlN7zXyggaNg+6eNC63JjW1dBu6HazGMZ/XWdGMjXMUnftSXzH
-	YiYrBEkSaRlKMzJOFaBLTr9+tJtNfZykjBXVEUczNhYUrW6K6FntuLrBZ67aUqgg
-	==
-X-ME-Sender: <xms:lxWQXLdk1Yl38komIgmeR_sxo0ZwWQ8TvpTofOBngfiOGpgzfakXqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddriedugdduheekucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfrrghu
-	lhcuuegrrhhkvghrfdcuoehprghulhessggvthgrfhhivhgvrdgtohdruhhkqeenucfrrg
-	hrrghmpehmrghilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucev
-	lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:lxWQXI-O3s2BUgfoCOjzhbw6aCzTclBEL5pK_EMnFCdesUQJ0KvfsA>
-	<xmx:lxWQXJicvmCkyGYmom6qsquDyxm-BkSurXmvy_klVuCPwV2oKSKyZQ>
-	<xmx:lxWQXE_3zZ8vMLrka1gS4ZPQccb9cQC4lnIA3zvggE_YLujzp-AexQ>
-	<xmx:mBWQXAvvwDqE762oITkW0cHSEFt3L7g9cL6G7RgvEtWSwVC39KJ9pQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A8D097C651; Mon, 18 Mar 2019 18:03:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.5-976-g376b1f3-fmstable-20190314v3
-Mime-Version: 1.0
-X-Me-Personality: 84186096
-Message-Id: <10f0828c-9b4b-489d-8716-e3088393b80d@www.fastmail.com>
-In-Reply-To: <CAJTo0LbaDk0044OMOE1m=Zy4sp0KmmHZ=gkPC4ri8QxSPN-PzQ@mail.gmail.com>
-References: <20190318165138.30402-1-paul@betafive.co.uk>
-	<CAJTo0Lbbcaexxy-PXpbmZhicdrR0z1pfi7Qu0St6N7CNT0VgEA@mail.gmail.com>
-	<6d2b4813-483b-477e-8c20-5ebc2195a73d@www.fastmail.com>
-	<CAJTo0LbaDk0044OMOE1m=Zy4sp0KmmHZ=gkPC4ri8QxSPN-PzQ@mail.gmail.com>
-Date: Mon, 18 Mar 2019 18:03:03 -0400
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Ross Burton" <ross.burton@intel.com>,
-	"Otavio Salvador" <otavio.salvador@ossystems.com.br>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzdata: Add tzdata-all package
+	Mon, 18 Mar 2019 23:18:19 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id e74so14715321wmg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 16:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=cBxfWP9JVP4L+uAdZkoU6gCelS45nhi58sQ/J4gZRPk=;
+	b=Jlka4eCwo/awSZfWCGrw7us2VhfpeoxhPGuDwfG39kZ0bxCc+vFvywXhLgJVDxNSMS
+	y1NTOfhm/PZCS+Jzv/O9lrR3Hx7zduMcrBIQ/A/GdDOW7arnmcG1bCtI2DIHgradkAde
+	9bAkyg9fPj3I5U2nlRwYEDu9bz8Bzai9nJOtA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=cBxfWP9JVP4L+uAdZkoU6gCelS45nhi58sQ/J4gZRPk=;
+	b=jXGK4HBksOb7Bt+dpCgNZL1qC9jcqh8JKqLciUmwwYpRgoOs87LLc/7nVaq3PmbUxA
+	7Rbe8kH+WAldnFk3m88uVXXlDGgYJdYzhTmHNb7O2YQKLvFYzGnVeRL9TTSPrtNX76lZ
+	jyL6tORv5ALVT4WO0W+P6s7CqJSW2dJYVr6ST1ow996k6JnsxWEkDIcgKXz7fU7eHCsf
+	WLh7Zt4PlojIakb5BbFdul9ZeAphFi35HxLIDMVOXD88jGc20JmaeqyERc9EWtNJo7cU
+	VVsgbiaKZIc2aMxuKNxpmrKQ5dQQ1Iwpgqn8hH2+an/Qni1wnSN9KwY3Z2AuJvXNpGYg
+	s5iA==
+X-Gm-Message-State: APjAAAU5uygpVvF0vg3Yemst4eTszDUMLXrQOofi5HdgJFzYmXvLst0J
+	HdXtQSRwrMGia7oSiwdfhN8pbA==
+X-Google-Smtp-Source: APXvYqz94B5uJztBvdf/5GWq/IJ9PwqeGBuUsiMxS0SDWgdFuInW/w2i8dXx4zIXfa5fqOK+T+9jxw==
+X-Received: by 2002:a1c:4b18:: with SMTP id y24mr939453wma.111.1552951100642; 
+	Mon, 18 Mar 2019 16:18:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y140sm2079533wmd.18.2019.03.18.16.18.19
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 18 Mar 2019 16:18:19 -0700 (PDT)
+Message-ID: <1fb71bec0195779b572ef9870d2efbb2bea40abd.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+Date: Mon, 18 Mar 2019 23:18:18 +0000
+In-Reply-To: <81AEDE73-7DD8-4F69-BF8D-BC2BF92FFC06@gmail.com>
+References: <20190318133618.4022-1-otavio@ossystems.com.br>
+	<166926B2-31F9-4290-A4B8-1EC6486C7357@gmail.com>
+	<CAP9ODKq_bxdcX8DijCz0WFXBKMmAfxE8AhnPDhGk1t01axXnEg@mail.gmail.com>
+	<81AEDE73-7DD8-4F69-BF8D-BC2BF92FFC06@gmail.com>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: [PATCH v2] openssl: Use the c_rehash shell re-implementation for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,30 +63,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 22:03:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Mar 2019 23:18:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 18 Mar 2019, at 21:30, Burton, Ross wrote:
-> On Mon, 18 Mar 2019 at 17:10, Paul Barker <paul@betafive.co.uk> wrote:
-> > That is a good argument. I just checked the difference in image sizes though (from buildhistory):
-> >
-> > core-image-minimal + tzdata = 8,868 kB
-> > core-image-minimal + tzdata-all = 15,788 kB
-> >
-> > So it's probably not an appropriate change for everyone.
-> 
-> Agreed, and I didn't suggest that we switch to installing all of the
-> tzdata by default for that reason.
-> 
+I was asked for my views on this thread.
 
-My concern is for recipes defined outside oe-core that pull in "tzdata". Do we just mention this in the release notes and leave people to manually update their dependencies if they require a minimal image size?
+OE is primarily targeting embedded systems and removing a perl
+dependency from target is something we do care about and a significant
+win. 
 
-If we go this route we should define a new "tzdata-minimal" package which contains what's currently in "tzdata".
+As such I'm tempted to merge this patch in for that reason. The fact
+we're successfully using it at rootfs time is a good sign.
 
-I also think Otavio has the right idea on calculating the dependency list dynamically so we don't have to update it for any future change to PACKAGES in this recipe.
+I was also made aware that on target ca-certificates is currently
+broken by the last change in this area and this patch does in fact fix
+that again. This tells us nobody uses it that heavily on target as
+nobody noticed. It also means we could do with some better tests :/.
 
--- 
-Paul Barker
-Managing Director & Principal Engineer
-Beta Five Ltd
+I think the commit message could use some work but IMO this patch
+probably is worth it for OE.
+
+I also note with interest that upstream are writing a C version as that
+would solve much of this debate once and for all meaning we might not
+have to carry this change forever. It would be good if the new upstream
+version cared about sysroot style usage...
+
+Cheers,
+
+Richard
+
+
 
