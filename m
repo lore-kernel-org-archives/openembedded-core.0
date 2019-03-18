@@ -1,30 +1,46 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 50A836C0EE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+	[209.85.210.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4626C0EE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 01:20:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,491,1544457600"; d="scan'208";a="57008402"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Mar 2019 09:20:39 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id F28054C8B6E8
+	Mon, 18 Mar 2019 08:52:24 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id e80so8596026ote.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 09:20:09 +0800 (CST)
-Received: from localhost.local (10.167.225.47) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Mon, 18 Mar 2019 09:20:44 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Mar 2019 09:22:12 +0800
-Message-ID: <20190318012212.16295-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 18 Mar 2019 01:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GJUVc8EMm3Y3tr5UF8nq/nLuOaQRs1huu+B3i9eFgiU=;
+	b=auwylT04Yp7+V68L7viwbSwhX2+XWcgF0/iGtcQRxW2fBlLrMppbrz7cHjw6qG0eR1
+	0nqd/tY3tDWr1CP+PehxkBSuFFNnmrmVL1H00CwzEQWH4SkSyDJJZAU+Pl4j8jSvGMhf
+	CLMu6qr3JgtmwtxSVGhsNADh+uO6yd7bmnGRO8QePGM4sBjSYiyz/aOh2RzPwQUZb/e2
+	qzhLH15kR+LRoKTc6CanXH6XMtx1cBZgQpETxUiEYUoLvfqVHvOEKFzj33u/VmKhbtU1
+	/h0sOiIcTIezpiAZXP8G4ShT4R9vF1IJnSO8vttOKEmhDalABHnrshVGEh7GxK1tuVVK
+	A8HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GJUVc8EMm3Y3tr5UF8nq/nLuOaQRs1huu+B3i9eFgiU=;
+	b=Ahq+Hw67i3Z//V6ypdf6iZyyrbbLhaERKeQDeYhAnsX3/BebAgxZDj3pWbdURJcRo9
+	GazzvQ29s9rvrmXdA1jffsbRoCw3bsXsaw+q4Hzkt/V0TaFc5OnhXz/BeT1GBQc7Xq7W
+	ZmYIWTF/ERuEMSvQMODvV40LWg8H5FBUzuIET5YcT9f4mxfWRmiHB3osUwk4u5UQiWfF
+	4Qn9QcWAk29v4FgoZ4Z0faX59kC7NXhlPuEqTVBvqfC/MzE1UsW2b0xPW/fBkzZiKv4i
+	PVooB6QtuPYPvhF6eSsVA1YTjbwfB1dlLFHCn8gyIuImAdPp615copRTrC6fWRd2WON/
+	grZA==
+X-Gm-Message-State: APjAAAXYEGce5I65O4I9eqRis7N7rcchVQAqwOK5WSkgxeRXb5UjjV3E
+	yN67CtAXigNDgIZeK1CL1PxO/dGvyJhl2YEpjok=
+X-Google-Smtp-Source: APXvYqxx3yq4uoOp9/U1J50HJ45Vlr8JaiWVm9ippa4iCcoS0Ukn4I67GVoxAsvG1P1bFFIXv8KPZfE+LCd9ud7bp6s=
+X-Received: by 2002:a9d:630f:: with SMTP id q15mr10081461otk.153.1552899145109;
+	Mon, 18 Mar 2019 01:52:25 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.47]
-X-yoursite-MailScanner-ID: F28054C8B6E8.A9B3F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] openssl:upgrade to 1.1.1b
+References: <20190318012212.16295-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190318012212.16295-1-hongl.fnst@cn.fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 18 Mar 2019 09:52:14 +0100
+Message-ID: <CANNYZj8PcEf0Dg61Bhzzo=+_typNMk6NSmAtK=YZGaLGs0ndPg@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [PATCH] openssl:upgrade to 1.1.1b
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +53,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 01:20:39 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Mar 2019 08:52:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upgrade openssl from 1.1.1a to 1.1.1b
+On Mon, 18 Mar 2019 at 02:20, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- .../openssl/{openssl_1.1.1a.bb => openssl_1.1.1b.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1a.bb => openssl_1.1.1b.bb} (97%)
+You need to explain what changed (in the commit message).
+Try 'devtool upgrade openssl', it will make a diff of the two licenses for you.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-index 02fd66910e..d68fa237b0 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-@@ -7,7 +7,7 @@ SECTION = "libs/network"
- # "openssl" here actually means both OpenSSL and SSLeay licenses apply
- # (see meta/files/common-licenses/OpenSSL to which "openssl" is SPDXLICENSEMAPped)
- LICENSE = "openssl"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
- 
- DEPENDS = "hostperl-runtime-native"
- 
-@@ -23,8 +23,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[md5sum] = "963deb2272d6be7d4c2458afd2517b73"
--SRC_URI[sha256sum] = "fc20130f8b7cbd2fb918b2f14e2f429e109c31ddd0fb38fc5d71d9ffed3f9f41"
-+SRC_URI[md5sum] = "4532712e7bcc9414f5bce995e4e13930"
-+SRC_URI[sha256sum] = "5c557b023230413dfb0756f3137a13e6d726838ccd1430888ad15bfb2b43ea4b"
- 
- inherit lib_package multilib_header ptest
- 
--- 
-2.20.1
+Also, openssl10 needs a similar upgrade.
 
-
-
+Alex
 
