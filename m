@@ -1,52 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD137C762
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F2579BC9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 14:00:46 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id s15so1815252wra.12
+	Mon, 18 Mar 2019 14:12:04 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w2so17191321wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 07:00:47 -0700 (PDT)
+	Mon, 18 Mar 2019 07:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=9tgfNE8nq1vNB2r6Uw4b21/Fe4K4KTuTAmO/WfBuow0=;
-	b=h+XRW2ZYI3hlVTg/TxMsgavFypvwIN10wNOmOBigFgoM/uaZYpb3aFPOf6Nk8V/7jf
-	bNDD7+WJpMy1V31de1q6coi2kok9QiDoWVsFUt0ta0MkXEa1SB+5q9uDtEukCZjoFcR1
-	ypHRi5XKluNylwxY2BJv1hk36xkq5iVzd81nI=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=8WZOV9E/Fy8BUB+feLDrkb7TC/K0AWpJ9kk/VFlNQMg=;
+	b=dSWG4k+AZe+Q5xum6q4FPu4RmgSFJcEUPWuCvY/qaezcP8GT+13Oc5mmvIAjQvJ4Wy
+	ZZkgCPrp/TPe+P7JJwOsLZFliLHCixuyHu8hBZsKlP3hUN8qMMi5S/sW8TnSHx5jOXVT
+	9+le0MLAtXUmUfLFL9XsLa7hBzCab07YA9CI0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=9tgfNE8nq1vNB2r6Uw4b21/Fe4K4KTuTAmO/WfBuow0=;
-	b=gVgqmI5UCI9FOrGxWIsvHbLyGrlPBC8poJU5ubHEOkzcqbEEXGOGBM1ufD4ovLkPWR
-	94fPqA7i+/vAhXdHyscdx7a49R5S37gu7rtisb78vKuVE9LLKGsU2+4xFjHN3yP/K+6F
-	ZJ//2pqegzKVLp4hUZqsIvrS4lU6L/O1Fcw7tPW9PpCX0bPTvJUsIcuigCLFFxgho4s3
-	9HiWrT0Bfhajr3i5csvDae8FC0mczAPl2XDWhPQHCz/iXgbBPUH39PSFrr4SVLtAWJiD
-	GJ19dWfAQnbRuZ7+qNfDxpf78xsMFoQQKbskF8MijP6HtZIhU86925k/XmSkSpE3Rl6p
-	5zDg==
-X-Gm-Message-State: APjAAAV3AXmaIxlTjCLs++PpjIyUFmiekdjjMjz3SbSZdMBL3P9V0JTC
-	bb0U/yFETOfomK7jj5g8Bubtug==
-X-Google-Smtp-Source: APXvYqz34h7Esy8QSAv8DrRpRgjXoRoFHIzL673ihE945PugYb4W9D+hSyYoQVEJYQUyT/eMdy88+Q==
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr10596477wrn.242.1552917647297;
-	Mon, 18 Mar 2019 07:00:47 -0700 (PDT)
+	bh=8WZOV9E/Fy8BUB+feLDrkb7TC/K0AWpJ9kk/VFlNQMg=;
+	b=tFjSyo0Mu3yWR3Mvfd8Q4K3D+GR3jWa1aqrLhKXh9pIV4VS7ym8iqCOwGY8+yUo4s/
+	Nb/KO6irkWy8RuNJKToWfjr3MczrcBoUFz/6c/XYiZW0nuI9EiyqkL3sJqAGyXILX3QO
+	brN4dj/tv3kABL51/wM+HwBOhhdChOveCxLW/ZjbeRZOVlUxfa3H0F0BfOacI+3BY0AA
+	S9Yq/q/atQHDi1cpxdGqD3WZYGYqBz6MfKAgF8XHTTIeB1BRrYSmW4azWq8+zXFXYxth
+	Vohcmn/ZWZCpLg9fTpH5np5JZlOvlG/xGnlMCbfNbPekDn2g6EaqxLDtnaRG+miRoWYO
+	e77A==
+X-Gm-Message-State: APjAAAVpT40ia1Z0i1e+uwCoNO1U2LCmErG4qzSYHTGKg5Cb/izjpxXU
+	mRDWKXQltm48ZrBvT6SmtjwLDw==
+X-Google-Smtp-Source: APXvYqxbkm+k3ILexiFDjs60aJPZmFLH6+E4WeO4fwqGhNfKKT7DS/OpFABveDVLdais5qWtn3Xw+w==
+X-Received: by 2002:adf:e692:: with SMTP id r18mr2870345wrm.231.1552918325561; 
+	Mon, 18 Mar 2019 07:12:05 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	q10sm8403329wrr.75.2019.03.18.07.00.45
+	by smtp.gmail.com with ESMTPSA id r6sm9790170wrx.48.2019.03.18.07.12.04
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 18 Mar 2019 07:00:46 -0700 (PDT)
-Message-ID: <a4bbe97737049688cff93e4da243c112e6e79052.camel@linuxfoundation.org>
+	Mon, 18 Mar 2019 07:12:04 -0700 (PDT)
+Message-ID: <3a10d22c5fd11fc3304e7f7da7a03c3899bd759d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fabio Berton <fabio.berton@ossystems.com.br>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 18 Mar 2019 14:00:45 +0000
-In-Reply-To: <20190315212140.9597-1-fabio.berton@ossystems.com.br>
-References: <20190315212140.9597-1-fabio.berton@ossystems.com.br>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 18 Mar 2019 14:12:03 +0000
+In-Reply-To: <20190315062903.1431-1-raj.khem@gmail.com>
+References: <20190315062903.1431-1-raj.khem@gmail.com>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Cc: Eric Engestrom <eric.engestrom@intel.com>, Matt Turner <mattst88@gmail.com>
-Subject: Re: [PATCH 1/2] mesa: Update 18.3.4 -> 19.0.0
+Subject: Re: [PATCH] cross-canadian.bbclass: Do not override LIBCOVERRIDE with SDK libc override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 14:00:46 -0000
+X-List-Received-Date: Mon, 18 Mar 2019 14:12:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-03-15 at 18:21 -0300, Fabio Berton wrote:
->   - Patch 0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
->     was applied on commit e68777c87ceed02ab199b32f941778c3cf97c794.
->   - Refresh all patches
->   - mesa 19.0.0 deprecated the use of autotools and we need to add
->     --enable-autotools flag. For details see mesa commit:
->     e68777c87ceed02ab199b32f941778c3cf97c794
+On Thu, 2019-03-14 at 23:29 -0700, Khem Raj wrote:
+> cross-canadian tools are supposed to generate code for target and if
+> we
+> override the libc override then needed overrides do not get applied
+> when
+> building gcc cross canadian e.g. for baremetal, which causes build
+> failures during compile
 > 
->   The complete change log can be found here:
->     https://www.mesa3d.org/relnotes/19.0.0.html
+> e.g. https://github.com/riscv/meta-riscv/issues/117
+> 
+> Not override libc override helps us fix this issue
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/cross-canadian.bbclass | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/meta/classes/cross-canadian.bbclass
+> b/meta/classes/cross-canadian.bbclass
+> index f5c9f61595..ee53faad79 100644
+> --- a/meta/classes/cross-canadian.bbclass
+> +++ b/meta/classes/cross-canadian.bbclass
+> @@ -9,7 +9,6 @@
+>  # or indirectly via dependency.  No need to be in 'world'.
+>  EXCLUDE_FROM_WORLD = "1"
+>  NATIVESDKLIBC ?= "libc-glibc"
+> -LIBCOVERRIDE = ":${NATIVESDKLIBC}"
+>  CLASSOVERRIDE = "class-cross-canadian"
+>  STAGING_BINDIR_TOOLCHAIN =
+> "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-
+> ${SDK_OS}:${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGE
+> T_VENDOR}-${TARGET_OS}"
 
-This failed pretty much everywhere, e.g.:
+Whilst I understand the problem, we need to be cautious here.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/407
+*-cross-canadian-* runs on nativesdk and for example often use glibc
+even when the target uses musl. This change is partly reverting fixes
+made to ensure that nativesdk worked as glibc (and glibc overrides were
+applied correctly) even when the target system used musl.
 
-I think it will be too late to get this into 2.7.
+I think this issue may need more investigation unfortunately...
 
 Cheers,
 
 Richard
-
-
 
 
