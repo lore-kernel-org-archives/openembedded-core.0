@@ -1,55 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A1D67C617
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 476877CB4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 17:27:28 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t5so18007739wri.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 10:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=wZdPtHeussYVMtzo1txYrxVVPyYKYRspj85zXUQYUCs=;
-	b=VbgrOpg1ApBq/O7yqYKxO51mw5UfuyElg7+jy/FRPjUyBXmGCtk9KRf3g+m5lykgeN
-	qhP46BK/FBDXoPqz6K3/FbO0dIEIvyWK+xn3jqsoYGIQk7TK0O2O0XSNaQvpGTlx5UDG
-	CqIGhf1ZJ4qJM0BTyU464zM2oR0tJbJzodWfE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=wZdPtHeussYVMtzo1txYrxVVPyYKYRspj85zXUQYUCs=;
-	b=Qb5MiPjK9b5enjtc3QL2HmUlNyku3MHntRnq1Gn1kLBQU+jdFrWiQXeMXH5Lk6KYw6
-	O1vtVc7/EJNMG3q/qx/BnFVUCLAa76E6Z5E78dOJrCoVojWI5Qny6kRsEOPU/n5F8FPr
-	KVSZTq+kX4xoyYJKx6YcEsbwf9G7jhKCmL3y3QX7UcA+Ap2GXeqsD39JE+S7c4at0xQG
-	6frXv499wqHFosNuR3/3km8LdTzDMbGLirKMN7IOPvceXdw2x61ShAXD+xFA8Y09X7cP
-	wbxRadkxQsIdu5e7o98piSsU0ZRC63bT0AhRJygeAMu4/SqxcVmFQ3hW2LigzJLrIbMw
-	54tw==
-X-Gm-Message-State: APjAAAVVYn9Qu/RwvxEymCYWGxUZvQSA1Et940tBSxNtO+8TTJHWFD/w
-	42C7utL4xw1DDteFuEf+3RfIWA==
-X-Google-Smtp-Source: APXvYqx8G8RzqsG/CyCUR5eLqGF5r8gex46WL1JaOcw5WPJqvbP0OTSMuPdpQPHwIiA9hW+4LytTIw==
-X-Received: by 2002:adf:d845:: with SMTP id k5mr13227422wrl.145.1552930049205; 
-	Mon, 18 Mar 2019 10:27:29 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l5sm10634608wmi.24.2019.03.18.10.27.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 18 Mar 2019 10:27:27 -0700 (PDT)
-Message-ID: <8aecccd04285b7247f08747bc687b04dbccfb1ed.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Date: Mon, 18 Mar 2019 17:27:26 +0000
-In-Reply-To: <20190318164751.GB25848@joraj-alpa>
-References: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
-	<8b7a2720fbfc7333bc4f5186e00dd5d8b1bc0a37.camel@linuxfoundation.org>
-	<20190315144058.GA6994@joraj-alpa>
-	<e23a55b1a840f9a55ae1bf7aa5037fca2d54fe27.camel@linuxfoundation.org>
-	<20190318164751.GB25848@joraj-alpa>
-User-Agent: Evolution 3.31.90-1 
+	Mon, 18 Mar 2019 17:50:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2IHnoi5022702
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Mar 2019 10:50:00 -0700
+Received: from yow-masselst-lx1.localnet (128.224.22.2) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 18 Mar 2019 10:49:39 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 18 Mar 2019 13:49:38 -0400
+Message-ID: <5395233.36Y4EdQobu@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <20190318164028.GD1994@jama>
+References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
+	<1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
+	<20190318164028.GD1994@jama>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] lttng-tools ptest: add missing dependencies
+Subject: Re: [v3][PATCH 2/2] goarch.bbclass: use MACHINEOVERRIDES and simplify go_map_arm()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,87 +35,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 17:27:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Mar 2019 17:50:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2019-03-18 at 12:47 -0400, Jonathan Rajotte-Julien wrote:
-> > Since the patches with a couple of fixes were passing the tests,
-> > I've
-> > merged the patches with the glibc/muslc tweak and also a tweak to
-> > make
-> > disabled ust work. I'd normally wait for v2 resubmission but I
-> > wanted
-> > to get this fix into M3 and the M3 build is already behind
-> > schedule.
-> 
-> Sounds good.
-
-I should have done this before merging but for various reasons I
-didn't. Your patches sounded good and fixed various problematic things
-so wouldn't seem to make anything worse.
-
-We have some ptest results numbers from a build and it shows before:
-
-Recipe             | Passed      | Failed   | Skipped   | Time(s)   
-lttng-tools        | 4431        | 7        | 391       | 549
-
-After recent patches:
-
-Recipe             | Passed      | Failed   | Skipped   | Time(s)   
-lttng-tools        | 3994        | 5        | 0         | 684 T
-
-So we're down on failures but its now not running all the tests and the
-"T" means the ptest timed out and was killed.
-
-I'm comparing:
-
-https://autobuilder.yocto.io/pub/non-release/20190228-9/testresults/
-testresult-report.txt 
-
-with the report that will appear at:
-
-https://autobuilder.yocto.io/pub/non-release/20190318-7/testresults/
-
-Any idea what happened?
-
-> Well lttng-ust does work on musl as long as users do not fiddle with
-> sched_affinity... I cc'ed you on the musl thread about this [1].
-> 
-> [1] https://www.openwall.com/lists/musl/2019/03/15/5
-> 
-> For now we can leave the disable statement there. We will revisit
-> when musl is fixed and/or when lttng-ust have a fallback (most likely
-> to happen) when using musl.
-
-Thanks, this is the discussion I was referring to before and I was
-assuming it was leading to some of the problem you were seeing.
-
-> > > Side note, gdb simply segfault (at start) for me on a core-image-
-> > > minirmnal build using musl.
-> > > How would someone open the corefile generated on the build system
-> > > with the proper libs and all?
+On Monday, March 18, 2019 12:40:28 PM EDT Martin Jansa wrote:
+> On Mon, Mar 18, 2019 at 11:21:53AM -0400, Mark Asselstine wrote:
+> > Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
+> > cross building for ARMv5, ARMv6 and ARMv7. The current approach of
+> > using TUNE_FEATURES can be error prone, as we can see today when
+> > attempting to build for Cortex-A7 which results in GOARM=''.
 > > 
-> > I saw other discussion about this so it looks like you're making
-> > progress on this front. If not, Khem would be the person to ask
-> > about
-> > this as our musl expert...
+> > Since the value of MACHINEOVERRIDES already consolidates the values of
+> > TUNE_FEATURES into something more consistent we can use the overrides
+> > mechanism to set GOARM, leaving just a little bit of logic in
+> > go_map_arm() to trigger off the arch (basically target vs host)
+> > for the setting of GOARM.
+> > 
+> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> > ---
+> > 
+> > V2
+> > * Cover all ARMv7 Cortex* variants
+> > 
+> > V3
+> > * Switch to using MACHINEOVERRIDES/overrides mechanism
+> > 
+> >  meta/classes/goarch.bbclass | 19 +++++++++++--------
+> >  1 file changed, 11 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> > index 39fea5e..8fdb443 100644
+> > --- a/meta/classes/goarch.bbclass
+> > +++ b/meta/classes/goarch.bbclass
+> > @@ -3,18 +3,26 @@ BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH'),
+> > d)}"> 
+> >  BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
+> >  HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
+> >  HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
+> > 
+> > -HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'),
+> > d.getVar('TUNE_FEATURES'), d)}" +HOST_GOARM =
+> > "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('BASE_GOARM'), d)}"> 
+> >  HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'),
+> >  d.getVar('TUNE_FEATURES'), d)}" HOST_GOMIPS =
+> >  "${@go_map_mips(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+> >  HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
+> >  TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
+> >  TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
+> > 
+> > -TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'),
+> > d.getVar('TUNE_FEATURES'), d)}" +TARGET_GOARM =
+> > "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('BASE_GOARM'), d)}"> 
+> >  TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'),
+> >  d.getVar('TUNE_FEATURES'), d)}" TARGET_GOMIPS =
+> >  "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+> >  TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
+> >  GO_BUILD_BINDIR =
+> >  "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') ==
+> >  d.getVar('HOST_GOTUPLE')]}"> 
+> > +# Use the MACHINEOVERRIDES to map ARM CPU architecture passed to GO via
+> > GOARM. +# This is combined with *_ARCH to set HOST_GOARM and
+> > TARGET_GOARM. +BASE_GOARM = ''
+> > +BASE_GOARM_armv7ve = '7'
+> > +BASE_GOARM_armv7a = '7'
+> > +BASE_GOARM_armv6 = '6'
+> > +BASE_GOARM_armv5 = '5'
+> > +
+> > 
+> >  # Go supports dynamic linking on a limited set of architectures.
+> >  # See the supportsDynlink function in
+> >  go/src/cmd/compile/internal/gc/main.go GO_DYNLINK = ""
+> > 
+> > @@ -74,12 +82,7 @@ def go_map_arch(a, d):
+> >  def go_map_arm(a, f, d):
+> >      import re
+> > 
+> >      if re.match('arm.*', a):
+> > -        if 'armv7' in f:
+> > -            return '7'
+> > -        elif 'armv6' in f:
+> > -            return '6'
+> > -        elif 'armv5' in f:
+> > -            return '5'
+> > +        return f
+> > 
+> >      return ''
 > 
-> Do you have a link to said discussion? I ended up debugging using
-> print
-> statement since even on Alpine gdb is "broken" (not working as
-> expected). 
-> I'm not sure how much time I can use on this. Will let you know if
-> any progress
-> is made to at least get a backtrace for the gdb coredump.
+> Is this function still useful? Cannot you set TARGET_GOARM and
+> HOST_GOARM with arm override (to simulate the effect of "re.match('arm.*',
+> a)")?
 
-Khem is the one to talk to about this. I'm a little worried that gdb is
-broken, that is something we need to investigate and clearly better
-test too...
+No. Attempting to use the override will not result in the same result for 
+HOST_GOARM. The overrides will represent the target and not the host. Unless 
+you have an implementation to backup your suggestion and I am just not seeing 
+it.
 
-Cheers,
+MarkA
 
-Richard
+> 
+> Regards,
+> 
+> >  def go_map_386(a, f, d):
+
 
 
 
