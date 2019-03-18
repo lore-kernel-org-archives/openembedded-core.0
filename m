@@ -1,51 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E5EF97C6E5
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C0347C6B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 11:15:37 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g12so16557703wrm.5
+	Mon, 18 Mar 2019 12:37:56 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id d17so16842012wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 04:15:39 -0700 (PDT)
+	Mon, 18 Mar 2019 05:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=T7dfznsk5zKq0162yEoVGZ/5nlaT7XPW7+nrUiLe24E=;
-	b=aYgYKJj8YmoRth+SizxDaAK4hcuSuILnB+ETDBNrNwjlcDFzhlNmlYV6v4dolCI26I
-	kBzeL2BE91wvC77N7tryH9zrL9hbEzWN9drk7yW/K7MIAOhD4pzjsSOrfZL9gU0n2Ycz
-	gQq7b70sDiTLiKQVFSA5BcFjGJG/psmUBX8x0=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=u0GSKbFmUXYPiVkQ4r7H9PNXJ0aIbAvLTB7SPxE3LcQ=;
+	b=JWO7DHxw56fa9B4j7gMJe3HW5OYBEokIRWW7ImZs2Wse1W04kTUn7Jy+QzuZmgVsbF
+	Ho7WylzCgS4EIfQiT0xvrqkCGjtccorzZXtj7AEu8iYTS/YPpT07Ch/ZiA6Km52Z62he
+	4XoQWJ5VaaoxD8GItOZOqORTKBVpmdBQWTWcY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=T7dfznsk5zKq0162yEoVGZ/5nlaT7XPW7+nrUiLe24E=;
-	b=TQgruzVk7uhMvA5rFlK7h79TpjhTpDo3XQrndKtbqP2gl6j8WPyBgu/1GDvKyYUqci
-	Vti+qiScREbwdKkr3qHaf30MU8zz6QkGmLfdSJeiuoONiy5HQlQoGuGOAiY94nT0Aras
-	hWk9eI/58f7WRypALkwZc5bhWxt/AWc87mVmPCPq5Hgrm0st6/ISaoQiT/8P/D3lBt/o
-	q8UWZSYisGTy9sJhDjAjR9FoPQRwkDzMBrKSvyYlDAf0t0gaduyM94NSN5dILtUSkcfo
-	3x2sCbAaRbtNWbGbyzr5D69tSWuIvhU5HzucqLqk+X+25XLiG1WYGcFw3m4j9uVqtF5M
-	JVzA==
-X-Gm-Message-State: APjAAAWhlW7qUPA26AyjR6VigWmiNNlLxiqCBpG/gB6yQlMR3/MaDpn8
-	QYZdzPjce/SY/afStuyhxv94YpXTtn0+/Q==
-X-Google-Smtp-Source: APXvYqz4+klMvCm2GJJ1+nVs4ThTgCSlhYxVT+uQMpPuIEYMCXDh6Caxa+KOCzp0fcaTggoXRDrtZQ==
-X-Received: by 2002:a5d:46c9:: with SMTP id g9mr5263066wrs.211.1552907738686; 
-	Mon, 18 Mar 2019 04:15:38 -0700 (PDT)
+	bh=u0GSKbFmUXYPiVkQ4r7H9PNXJ0aIbAvLTB7SPxE3LcQ=;
+	b=a6kDPqFR+MDAY+i6SgKtqrgpqNpOuMLG/TxsWdgv8GN5ZHRhhP7Pu6YqndThh+Gk8q
+	QFi//C8lBhzXpmJigme74cqq/ztSRz9JxFmrU0rD4cpUh1DVP5HVz05nre3yowz70zbr
+	iJLPcSNbqSqE+Q0TrUh/8YttsEl0q0JSVRiB+apWo6qSsfpGYSw8hoG5GB6rUFfhWKDl
+	hnklIxMcAHmVH/9BV8ox1TuknhFZV7NYAF5hYhk9Dv6SuPnSetIRy3XnE63YHGIpA98s
+	aamTU6F9NQYIXW61O+9Rb8MT3ZW8XnIjrccOwtyp2hR21TAlE6fmt56VPxQt9bH1Y70u
+	grSQ==
+X-Gm-Message-State: APjAAAViYaMrlyrn6I9NOwK4UEJokmucObUXpmWoN7AzH6vnaWCIj+PU
+	UFhpLJ+1RbrD8u4YIQt0wjXm9cXgruE4Tw==
+X-Google-Smtp-Source: APXvYqydYckLGtIaIUT0rP+K3iSJK8aCCT4EKVDyi5zmPbK8TGVe82RjpbjHoa3o7uj91wxKZgxHGg==
+X-Received: by 2002:a5d:464e:: with SMTP id j14mr12670830wrs.109.1552912676775;
+	Mon, 18 Mar 2019 05:37:56 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u134sm10195406wmf.22.2019.03.18.04.15.37
+	u134sm10571296wmf.22.2019.03.18.05.37.55
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 18 Mar 2019 04:15:37 -0700 (PDT)
-Message-ID: <3c87f366b69756abc62d37aac4e4683d75237c79.camel@linuxfoundation.org>
+	Mon, 18 Mar 2019 05:37:55 -0700 (PDT)
+Message-ID: <e23a55b1a840f9a55ae1bf7aa5037fca2d54fe27.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Mar 2019 11:15:36 +0000
-In-Reply-To: <c7b19826-0eb6-2e9d-1369-9d407895826b@topic.nl>
-References: <c7b19826-0eb6-2e9d-1369-9d407895826b@topic.nl>
+To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+Date: Mon, 18 Mar 2019 12:37:54 +0000
+In-Reply-To: <20190315144058.GA6994@joraj-alpa>
+References: <20190312211330.30850-1-jonathan.rajotte-julien@efficios.com>
+	<8b7a2720fbfc7333bc4f5186e00dd5d8b1bc0a37.camel@linuxfoundation.org>
+	<20190315144058.GA6994@joraj-alpa>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: Re: Cannot get bitbake multiconfig to work
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] lttng-tools ptest: add missing dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +60,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 11:15:38 -0000
+X-List-Received-Date: Mon, 18 Mar 2019 12:37:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-03-13 at 10:03 +0000, Mike Looijmans wrote:
-> I think I've done everything, but cannot figure out what step I
-> missed.
+On Fri, 2019-03-15 at 10:40 -0400, Jonathan Rajotte-Julien wrote:
+> > Firstly, I wanted to say thanks for looking at this, there are some
+> > really great fixes in here.
+> > 
+> > It failed in automated testing as glibc-utils is glibc specific and
+> > musl builds couldn't cope with that.
+> > 
+> > We can certainly do:
+> > 
+> > RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
 > 
-> I am using yesterday's "thud" branches:
+> Sure, since we mostly need getconf from glibc-utils, we can use musl-
+> utils to provide it when building with musl.
 > 
-> BB_VERSION           = "1.40.0"
-> BUILD_SYS            = "x86_64-linux"
-> meta                 =
-> "HEAD:fbb688ab3eeca1bbfbaaaaffd8c81fd8052bcc68"
-> meta-oe
-> meta-multimedia
-> meta-networking
-> meta-python          =
-> "HEAD:6ef9657068492d4644079c88f2adee9c3cac9543"
-> 
-> 
-> I created a conf/multiconf directory with a "pmu.conf" file (and
-> others)
-> 
-> $ cat conf/multiconfig/pmu.conf
-> MACHINE="zynqmp-pmu"
-> DISTRO="xilinx-standalone"
-> GCCVERSION="7.%"
-> TMPDIR="${TOPDIR}/pmutmp"
-> 
-> I added to my local.conf (and removed the MACHINE setting there):
-> 
-> BBMULTICONFIG = "pmu ..."
-> 
-> Now when I invoke bitbake with the multiconfig syntax, it completely
-> ignores that:
-> 
-> $ bitbake multiconfig:pmu:pmu-firmware
-> ERROR:  OE-core's config sanity checker detected a potential
-> misconfiguration.
->      Either fix the cause of this error or at your own risk disable
-> the 
-> checker (see sanity.conf).
->      Following is the list of potential problems / advisories:
-> 
->      Please set a MACHINE in your local.conf or environment
-> 
-> 
-> Apparently, bitbake doesn't even care about the "multiconfig:"
-> syntax, I get 
-> the same response when I type:
-> $ bitbake multiconfig:blah:pmu-firmware
-> $ bitbake multiconfig:blah:blah
-> $ bitbake blah:blah:blah
-> 
-> I can add a "MACHINE?=" to local.conf, which results in a build for
-> that 
-> machine and nothing from the pmu.conf gets ever used at all.
-> 
-> So what step did I miss?
+> RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
+
+Thanks for confirmation of that.
+
+Since the patches with a couple of fixes were passing the tests, I've
+merged the patches with the glibc/muslc tweak and also a tweak to make
+disabled ust work. I'd normally wait for v2 resubmission but I wanted
+to get this fix into M3 and the M3 build is already behind schedule.
+
+I was at a conference last week so a bit distracted, just catching up
+now.
+
+> Also, I saw that lttng-ust is removed from PACKAGECONFIG when using
+> musl, not sure why the commit history is not particularly verbose
+> regarding why it was a problem. Still, it seems to build fine but we
+> are seeing issue regarding musl.
+
+I think when we originally merged musl, lttng didn't build with it or
+there were some kind of issues. I suspect lttng-ust still doesn't work
+on all the architectures we build for so we likely need to be able to
+optionally disable it. I'd be happy to see patches enabling it where it
+does work though.
 
 
-The piece most people miss when thinking about multiconfig is that
-local.conf still needs to be valid as one of the configurations. Did
-you try setting MACHINE to something valid in local.conf and then
-building the pmu multiconfig?
+> We checked with Alpine since they also use musl and see similar
+> problem. I'm investigating on that front. I'll let you know what I
+> find.
+> 
+> Side note, gdb simply segfault (at start) for me on a core-image-
+> minirmnal build using musl.
+> How would someone open the corefile generated on the build system
+> with the proper libs and all?
+
+I saw other discussion about this so it looks like you're making
+progress on this front. If not, Khem would be the person to ask about
+this as our musl expert...
 
 Cheers,
 
