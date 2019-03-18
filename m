@@ -1,43 +1,42 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
-	[209.85.160.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C42467C6B5
+Return-Path: <m.a.b.researcher.yocto@gmail.com>
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+	[209.85.210.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E5827BF7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 13:36:24 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id w5so9566963qtb.11
+	Mon, 18 Mar 2019 13:38:48 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id i12so14385341otp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 06:36:26 -0700 (PDT)
+	Mon, 18 Mar 2019 06:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=s6YxybIUf2it4rsFbCCt/aGZYempBSZf9wcVHaa1mYs=;
+	b=vbq+aWanBoUTF99YQlJJobFpdANAUaSvgkkEg0E2MHSt1PoHa5mJtLMsOym49ULkEz
+	gWQ8FabIv945V5jnmC90DrK5oL/hSfo7P8JjNm3SZQZ75kmr0S8wwOdd4m7yf71BePWZ
+	cdwMrPok7UbNoWj4TZr3yEVUrzjLHTokVHZ72BVt+seXIXXpipGYSUTlZJX6CZkbw89j
+	iUGyMQJTVElaBNVFG37TjJcV0ZFf6tR3uptoFpdUrPwsOfL12IbtOF3ZiIKw8IWWz828
+	Yf1AIrD+ADab3jsVYkzpWWwwoMqeyFk2bPafoVDoSBztAxkBj7GQ1MpTKh9PcUobITux
+	LRFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=hEpdXwDhyyhQzB6dvW6INRUa7vJbopqgNp8oXs2OR6c=;
-	b=Bz5shw3RgvQjVk+KqS8SheKOT/IjTANBCi+DSYx7Potqx5S74k1MJABGEGINufGggM
-	gIwsbESXmGU8V0ubVJvl53CltE2qQt1u3CrJ+B7knnvbKpy89amjIB5lNga8XFUk1Bq9
-	ZRCZP5EHAoGGoV3exXerGYNYfkdk39RGSYKfkgwsWiMLzCGD2RBnY1sYDKCV4tylTePZ
-	UsiUyIMfj+P8jBo3qnnKL4RuB1d1w0ktf7KE4lPSUiBouUF9eebAEY8fRO0PqCNWctH/
-	fXSzSlzI9kNfusxR9J6Fn55Hq9AHGDJwDHgaYkpnCle6nbww0nMMnHjti8SL636TZ0dn
-	2sOA==
-X-Gm-Message-State: APjAAAWqYlJozqGzhfM+bjNZiOD7jXGsHSFAeDR5nOD8j2XTZanGXoxs
-	+mNDtIjYqCFQSWuPUy5Yyu6cJWUk
-X-Google-Smtp-Source: APXvYqyandWoncKxihtFxDL/X8D/WpD367r3eEGcVt+zpQnFc1QwMJCyOR3uJDIWNdTt4sImmkaa9A==
-X-Received: by 2002:ac8:2697:: with SMTP id 23mr13525134qto.71.1552916185116; 
-	Mon, 18 Mar 2019 06:36:25 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.204.148])
-	by smtp.gmail.com with ESMTPSA id 55sm6720401qtq.25.2019.03.18.06.36.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 18 Mar 2019 06:36:23 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 18 Mar 2019 10:36:19 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Mar 2019 10:36:18 -0300
-Message-Id: <20190318133618.4022-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.21.0
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=s6YxybIUf2it4rsFbCCt/aGZYempBSZf9wcVHaa1mYs=;
+	b=UJBbcGXpOF/mZevgwknYJph//vL9XZAOOR3sj2D3Ta0haqhUzIcB9Ks4dbSXr2ghw1
+	T+UqZPMqiCUqxc+joOhlkwsN9xYDsT/LF10uff/MEW33ep17nBPLuQzc7q7jOTqbDQfo
+	JM7Cy9fvr4USTnoxWHTJnAeMy+MrCkdG44oHTxnQMp+Iw9QRxH4Q/eXI/VB8DzYSV5AS
+	w4Mzr+uPXbe//zqPlkYUyyTqdqogtYx8k3PjYVrx1EQdOZtTAXn5ql90rRMC2rJFL38T
+	/pihEd1fYLA5GYnDX3B25Yg5MSxDORaE3xXcVdkxar4AjH/gGctBfW2MxhUoMj7cRKrD
+	K64A==
+X-Gm-Message-State: APjAAAW6UIrXdTQkncnkmEecKadaxET8T0Lj5ycZAWYXfj5Uh6sspgrt
+	T8RSg4YUT8MsVyHhiLMHHA48JStoNaD6PrETQ5Ycr+Wuk/WCWg==
+X-Google-Smtp-Source: APXvYqy3l2DCuh4gw9TfAoz8v5bPSQ9gXGg11AAWM8+N1lRgwMGAa3fPwiNzm/CBDYY5OJL4rH+MSldNjyU/6iX/U50=
+X-Received: by 2002:a9d:5889:: with SMTP id x9mr10288276otg.109.1552916329732; 
+	Mon, 18 Mar 2019 06:38:49 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] openssl: Use the c_rehash shell re-implementation for target
+From: Mohammad Ali Boroumand <m.a.b.researcher.yocto@gmail.com>
+Date: Mon, 18 Mar 2019 17:08:38 +0330
+Message-ID: <CA+ESJVjUaSTmuyLzO7R9AsdgF1DuXJrBhhRhwT9ik3gwwe4ihQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Error in compiling meta-toolchain-qt5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,97 +49,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 13:36:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Mar 2019 13:38:49 -0000
+Content-Type: multipart/alternative; boundary="000000000000331fa205845e8233"
 
-We had a c_rehash shell re-implementation being used for the native
-package and there is no reason to not use it as well for the
-target. This allows it to be available without the need of perl being
-installed.
+--000000000000331fa205845e8233
+Content-Type: text/plain; charset="UTF-8"
 
-This partially reverts OE-Core:d2b1a889ef (openssl: move c_rehash pkg
-to avoid perl dep) but still allows the removal of perl
-dependency.
+Hi
+I tried to compile meta-toolchain-qt5 for Raspberry Pi Zero since I need Qt
+SDK for app developing, but I saw This error:
 
-The respective re-implementation was already in use here at OE-Core by
-the OpenSSL 1.0 recipe (since 2016) and were removed from the target
-recipe during the upgrade to the 1.1 release. So it now aligns the
-native and target recipes.
+me@MAB-PC:~/Programs/poky/Builds/RP0$ bitbake meta-toolchain-qt5
+Parsing recipes: 100%
+|#################################################################################################################|
+Time: 0:00:23
+Parsing of 2296 .bb files complete (0 cached, 2296 parsed). 3358 targets,
+124 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-,----
-| Author: Otavio Salvador <otavio@ossystems.com.br>
-| Date:   Mon May 23 17:45:25 2016 -0300
-|
-|     openssl: Add Shell-Script based c_rehash utility
-|
-|     The PLD Linux distribution has ported the c_rehash[1] utility from
-|     Perl to Shell-Script, allowing it to be shipped by default.
-|
-|     1. https://git.pld-linux.org/?p=packages/openssl.git;a=blob;f=openssl-c_rehash.sh;h=0ea22637ee6dbce845a9e2caf62540aaaf5d0761
-|
-|     The OpenSSL upstream intends[2] to convert the utility for C
-|     however did not yet finished the conversion.
-|
-|     2. https://rt.openssl.org/Ticket/Display.html?id=2324
-|
-|     This patch adds this script and thus removed the Perl requirement
-|     for it.
-|
-|     Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-|     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-`----
+Build Configuration:
+BB_VERSION           = "1.40.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "ubuntu-18.04"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "raspberrypi0"
+DISTRO               = "poky"
+DISTRO_VERSION       = "2.6+snapshot-20190318"
+TUNE_FEATURES        = "arm armv6 vfp arm1176jzfs callconvention-hard"
+TARGET_FPU           = "hard"
+meta
+meta-poky
+meta-yocto-bsp       = "master:47eb3d00e9d6a66aee1283dab29af8117a006d6d"
+meta-oe
+meta-multimedia
+meta-networking
+meta-python          = "master:423828d894a5c78ebe5fc527e9aeca66ac1838b1"
+meta-raspberrypi     = "master:09c00164d6ad978d444749a89e0a0a3d77a1735e"
+meta-qt5             = "master:fb71293f257c6fd02ccc06765a96dbf11d4569a0"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Initialising tasks: 100%
+|##############################################################################################################|
+Time: 0:00:01
+Sstate summary: Wanted 1902 Found 0 Missed 1902 Current 0 (0% match, 0%
+complete)
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: qtwayland-5.12.0+gitAUTOINC+1dc85b95ab-r0 do_prepare_recipe_sysroot:
+The file /usr/lib/libGLESv2.so.2.0.0 is installed by both mesa-gl and
+userland, aborting
+ERROR: qtwayland-5.12.0+gitAUTOINC+1dc85b95ab-r0 do_prepare_recipe_sysroot:
+ERROR: qtwayland-5.12.0+gitAUTOINC+1dc85b95ab-r0 do_prepare_recipe_sysroot:
+Function failed: extend_recipe_sysroot
+ERROR: Logfile of failure stored in:
+/home/me/Programs/poky/Builds/RP0/tmp/work/arm1176jzfshf-vfp-poky-linux-gnueabi/qtwayland/5.12.0+gitAUTOINC+1dc85b95ab-r0/temp/log.do_prepare_recipe_sysroot.690
+ERROR: Task
+(/home/me/Programs/poky/meta-qt5/recipes-qt/qt5/qtwayland_git.bb:do_prepare_recipe_sysroot)
+failed with exit code '1'
+NOTE: Tasks Summary: Attempted 5085 tasks of which 0 didn't need to be
+rerun and 1 failed.
 
-Changes in v2:
-- updated commit log
+Summary: 1 task failed:
+  /home/me/Programs/poky/meta-qt5/recipes-qt/qt5/qtwayland_git.bb:
+do_prepare_recipe_sysroot
+Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
 
- .../openssl/openssl_1.1.1a.bb                    | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+I don't know how to solve this error. Could anyone have an Idea?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-index 4a626a4fcd..a6f920e15b 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-@@ -128,7 +128,13 @@ do_install () {
- 
- 	oe_multilib_header openssl/opensslconf.h
- 
--	# Create SSL structure for packages such as ca-certificates which
-+	# Install a custom version of c_rehash that can handle sysroots properly.
-+	# This version is used for example when installing ca-certificates during
-+	# image creation.
-+	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
-+	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
-+
-+        # Create SSL structure for packages such as ca-certificates which
- 	# contain hard-coded paths to /etc/ssl. Debian does the same.
- 	install -d ${D}${sysconfdir}/ssl
- 	mv ${D}${libdir}/ssl-1.1/certs \
-@@ -149,12 +155,6 @@ do_install_append_class-native () {
- 	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
- 	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
- 	    OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
--
--	# Install a custom version of c_rehash that can handle sysroots properly.
--	# This version is used for example when installing ca-certificates during
--	# image creation.
--	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
--	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
- }
- 
- do_install_append_class-nativesdk () {
-@@ -196,7 +196,7 @@ FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
- FILES_libssl = "${libdir}/libssl${SOLIBS}"
- FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
- FILES_${PN}-engines = "${libdir}/engines-1.1"
--FILES_${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
-+FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
- FILES_${PN} =+ "${libdir}/ssl-1.1/*"
- FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
- 
--- 
-2.21.0
+--000000000000331fa205845e8233
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Hi</div><div>I trie=
+d to compile meta-toolchain-qt5 for Raspberry Pi Zero since I need Qt SDK f=
+or app developing, but I saw This error:</div><div><br></div><div> me@MAB-P=
+C:~/Programs/poky/Builds/RP0$ bitbake meta-toolchain-qt5<br>Parsing recipes=
+: 100% |###################################################################=
+##############################################| Time: 0:00:23<br>Parsing of=
+ 2296 .bb files complete (0 cached, 2296 parsed). 3358 targets, 124 skipped=
+, 0 masked, 0 errors.<br>NOTE: Resolving any missing task queue dependencie=
+s<br><br>Build Configuration:<br>BB_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;1.40.0&quot;<br>BUILD_SYS=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;x86_64-=
+linux&quot;<br>NATIVELSBSTRING=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;ubun=
+tu-18.04&quot;<br>TARGET_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =3D &quot;arm-poky-linux-gnueabi&quot;<br>MACHINE=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &=
+quot;raspberrypi0&quot;<br>DISTRO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;poky&quot;<br>DISTRO_V=
+ERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;2.6+snapshot-20190318&=
+quot;<br>TUNE_FEATURES=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;=
+arm armv6 vfp arm1176jzfs callconvention-hard&quot;<br>TARGET_FPU=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;hard&quot;<br=
+>meta=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>meta-poky=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>meta-yocto-bsp=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =3D &quot;master:47eb3d00e9d6a66aee1283dab29af8117a006d6d&q=
+uot;<br>meta-oe=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 <br>meta-multimedia=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>me=
+ta-networking=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>meta-python=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;master:423828d894a5c78ebe=
+5fc527e9aeca66ac1838b1&quot;<br>meta-raspberrypi=C2=A0=C2=A0=C2=A0=C2=A0 =
+=3D &quot;master:09c00164d6ad978d444749a89e0a0a3d77a1735e&quot;<br>meta-qt5=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+=3D &quot;master:fb71293f257c6fd02ccc06765a96dbf11d4569a0&quot;<br><br>Init=
+ialising tasks: 100% |#####################################################=
+#########################################################| Time: 0:00:01<br=
+>Sstate summary: Wanted 1902 Found 0 Missed 1902 Current 0 (0% match, 0% co=
+mplete)<br>NOTE: Executing SetScene Tasks<br>NOTE: Executing RunQueue Tasks=
+<br>ERROR: qtwayland-5.12.0+gitAUTOINC+1dc85b95ab-r0
+ do_prepare_recipe_sysroot: The file /usr/lib/libGLESv2.so.2.0.0 is=20
+installed by both mesa-gl and userland, aborting<br>ERROR: qtwayland-5.12.0=
++gitAUTOINC+1dc85b95ab-r0 do_prepare_recipe_sysroot: <br>ERROR: qtwayland-5=
+.12.0+gitAUTOINC+1dc85b95ab-r0 do_prepare_recipe_sysroot: Function failed: =
+extend_recipe_sysroot<br>ERROR: Logfile of failure stored in: /home/me/Prog=
+rams/poky/Builds/RP0/tmp/work/arm1176jzfshf-vfp-poky-linux-gnueabi/qtwaylan=
+d/5.12.0+gitAUTOINC+1dc85b95ab-r0/temp/log.do_prepare_recipe_sysroot.690<br=
+>ERROR: Task (/home/me/Programs/poky/meta-qt5/recipes-qt/qt5/qtwayland_git.=
+bb:do_prepare_recipe_sysroot) failed with exit code &#39;1&#39;<br>NOTE: Ta=
+sks Summary: Attempted 5085 tasks of which 0 didn&#39;t need to be rerun an=
+d 1 failed.<br><br>Summary: 1 task failed:<br>=C2=A0 /home/me/Programs/poky=
+/meta-qt5/recipes-qt/qt5/qtwayland_git.bb:do_prepare_recipe_sysroot<br>Summ=
+ary: There were 3 ERROR messages shown, returning a non-zero exit code.<br>=
+</div><div><br></div><div>I don&#39;t know how to solve this error. Could a=
+nyone have an Idea?<div class=3D"gmail-adL"><br></div></div></div></div></d=
+iv>
 
+--000000000000331fa205845e8233--
