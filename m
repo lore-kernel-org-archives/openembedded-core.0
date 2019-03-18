@@ -1,52 +1,43 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
-	[209.85.210.181])
-	by mail.openembedded.org (Postfix) with ESMTP id ED9037BED6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BD7026C455
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 19:30:48 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id a3so11934953pff.11
+	Mon, 18 Mar 2019 20:04:18 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id o129so10453465qke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 12:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=9WXZO6+4WbKzCfFJXzu6KfT6kXvDRSXzUStYwDKFIDE=;
-	b=JEmWUIwo0F2LhOGAbMusRZl/+ILwI2trLfwIV7tzh19e6sgAtSZtBK1Lt/OLz3S3xT
-	37ydBVmCcKlgWzj72t4xbEu0vFa7Oah4nk1tEW+2rEXbCFlwx+qw75WVD+L6DbDfeA4k
-	S/+PtAQZ9tq29XqVM7SJTVJ0j4B5JX1ygUebNd8eBYimqhK0ml4ZTzIB6w9USbFrNIKX
-	Lza6CgqdMMlaAt5ECpyEH6keiAK7fOkNIGdYr3x2+4u34aP6hHnmUmeoSINVStsn6d0P
-	hKUTGLh2WCor6kpwVTSkY6tB5dgSYUc+OHkWG1toqNMSHFPwvHkGCuiHs8xh8FX6l2E6
-	9pEA==
+	Mon, 18 Mar 2019 13:04:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=9WXZO6+4WbKzCfFJXzu6KfT6kXvDRSXzUStYwDKFIDE=;
-	b=FFSPHaGGyWiyNwgjiPyb4pOI4jYeMEmYBePH5XTr7SK6f+A/lbyXCjTC2RHwLWN9Hc
-	GzcoC/ocFFolTtq9BoOj0tXhewUGwH5/8v+0o5auZCbNVcA3Rha1LBHIMUeUGwr+j8DT
-	gqmMGqyqZoHtVEKkqRAXYCnpqX4kSMqzLMend0/R8Z/H3r7/dXosFlnp5T8vk8nWCJuz
-	aT7mdEk6j3+Tj6ADH+Fy2u8h3kfWglaXxSwOhEZ94AB0JOedZ+SvsujdMZlASQA6kvUA
-	93NMgLjHpm29DrHnehEIINkVWBbZtwgkB/dkj6IHeEbEw61FiZ4iYRd6LXweqCpa/kD+
-	mqkA==
-X-Gm-Message-State: APjAAAWVgpmDhBiyKCBazAXCKXgeAGOv0364GLs6Di/qMa+A+lFAfylE
-	qYI7o3Q4+k+Xe8V1XZq1ZC6K/wBP
-X-Google-Smtp-Source: APXvYqxMI8ga+Lex8fHXjJzTkJYarlRMNC83HuhRs9IGEqWNh5HNjjvqLzlUCPNCdDeQi5o9+8hScw==
-X-Received: by 2002:a63:3d0e:: with SMTP id k14mr19451473pga.302.1552937449848;
-	Mon, 18 Mar 2019 12:30:49 -0700 (PDT)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	u62sm954053pfa.124.2019.03.18.12.30.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Mar 2019 12:30:48 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Mar 2019 12:30:47 -0700
-Message-ID: <022001d4ddc1$1713fec0$453bfc40$@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=oRVw2KMU1efQhhFEp75tIpg4FWDpYZWZGm1uZZ4b3sM=;
+	b=dOJXX+a99V896OU24f+/rm42BgBnVh3QpywMcp/+O7XiDDvfGgMNgZQ1MqshMq3Guy
+	afk0vODLyerChAmY3F+vLePpEmZXsry6WWG923svLljodExmZv3wYK7qo26w/2fJL+BS
+	vWJHC8nafqatpnBs2Rt2UtMN/v2tAIw7ZhclsNQhuGNhYgKXxBSo0EIyCEqNwIBNGRpk
+	XgweAksz0PW52055LfE/8sTYXNu1orQ717l4Jo5kPWuE6Sj6GPSfV4zTSE2SqSxw6/gu
+	8mKU9K7aBX8/ka/V14dfyU70J9DBVZT11X9U/imT5/6/yleWxyXD9sfh1MCpTc2Mse2L
+	Zh7g==
+X-Gm-Message-State: APjAAAWKstN/wwE/YexUhCSHvtjJB7Lw1sh423lW9j9nVkU2m7lOx7Wm
+	GMDa4my0OMo3s5ZmFTNqyHTlqY/P
+X-Google-Smtp-Source: APXvYqwJ90IY2efJYxwaB/d0uTwTm9YzFolgPZKuPLUt4iQHkZYzrdo88qSniCrNtYhq7t/XVPUIzw==
+X-Received: by 2002:a37:c99c:: with SMTP id m28mr14273716qkl.3.1552939459222; 
+	Mon, 18 Mar 2019 13:04:19 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id v52sm1943977qth.4.2019.03.18.13.04.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 18 Mar 2019 13:04:17 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 18 Mar 2019 17:04:12 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Mar 2019 17:04:10 -0300
+Message-Id: <20190318200410.24956-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGepEPlH1LTz8RKNupi6wh2asBd0g==
-Subject: Yocto Project Unassigned Bugs - Help Needed
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] systemd: Update to systemd-stable v241-stable release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,272 +50,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 19:30:49 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0221_01D4DD86.6AB5EA10"
-Content-Language: en-us
+X-List-Received-Date: Mon, 18 Mar 2019 20:04:18 -0000
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_0221_01D4DD86.6AB5EA10
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+This changes the repository to use the systemd-stable, and update to
+the latest release from v241-stable branch.
 
-All,
+Following changes are included:
 
+c1f8ff8d0d login: mark nomodeset fb devices as master-of-seat
+59f2213e45 login: HyperV requires master-of-seat to be set
+a09c170122 Allocate temporary strings to hold dbus paths on the heap
+4f54afd5a1 Refuse dbus message paths longer than BUS_PATH_SIZE_MAX limit.
+b22a96ef2f NEWS: add entry about 'udevadm trigger --wait-daemon'
+bada94eb3e NEWS: fix release date
+e9f930b2f5 udev-event: make subst_format_var() always provide null-terminated string on success
+66320aec80 sd-device: also store properties read from udev database to sd_device::properties_db
+dffc22c833 udev-rules: update log messages about OWNER= or GROUP= settings on --resolve=names=never
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ meta/recipes-core/systemd/systemd.inc         |   8 +-
+ .../systemd/systemd/CVE-2019-6454.patch       | 216 ------------------
+ meta/recipes-core/systemd/systemd_241.bb      |   1 -
+ 3 files changed, 5 insertions(+), 220 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 8ca3ece441..5bd88ed6ed 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,8 +14,10 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
-
-The triage team meets weekly and does its best to handle the bugs reported
-into the Bugzilla. The number of people attending that meeting has fallen,
-as have the number of people available to help fix bugs. One of the things
-we hear users report is they don't know how to help. We (the triage team)
-are therefore going to start reporting out the currently 296 unassigned
-bugs.
-
+-SRCREV = "e62a7fea757f259eb330da5b6d3ab4ede46400a2"
+-
+-SRC_URI = "git://github.com/systemd/systemd.git;protocol=git"
++SRCREV = "c1f8ff8d0de7e303b8004b02a0a47d4cc103a7f8"
++SRCBRANCH = "v241-stable"
++SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.
-
+ S = "${WORKDIR}/git"
++
++PV_append = "+${SRCPV}"
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch b/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+deleted file mode 100644
+index b84809ef17..0000000000
+--- a/meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
++++ /dev/null
+@@ -1,216 +0,0 @@
+-Description: sd-bus: enforce a size limit for dbus paths, and don't allocate
+- them on the stacka
+-Forwarded: no
+-
+-Patch from: systemd_239-7ubuntu10.8
+-
+-For information see:
+-https://usn.ubuntu.com/3891-1/
+-https://git.launchpad.net/ubuntu/+source/systemd/commit/?id=f8e75d5634904c8e672658856508c3a02f349adb
+-
+-CVE: CVE-2019-6454
+-Upstream-Status: Backport
+-
+-Signed-off-by: George McCollister <george.mccollister@gmail.com>
+-
+-diff --git a/src/libsystemd/sd-bus/bus-internal.c b/src/libsystemd/sd-bus/bus-internal.c
+-index 40acae2133..598b7f110c 100644
+---- a/src/libsystemd/sd-bus/bus-internal.c
+-+++ b/src/libsystemd/sd-bus/bus-internal.c
+-@@ -43,7 +43,7 @@ bool object_path_is_valid(const char *p) {
+-         if (slash)
+-                 return false;
+- 
+--        return true;
+-+        return (q - p) <= BUS_PATH_SIZE_MAX;
+- }
+- 
+- char* object_path_startswith(const char *a, const char *b) {
+-diff --git a/src/libsystemd/sd-bus/bus-internal.h b/src/libsystemd/sd-bus/bus-internal.h
+-index f208b294d8..a8d61bf72a 100644
+---- a/src/libsystemd/sd-bus/bus-internal.h
+-+++ b/src/libsystemd/sd-bus/bus-internal.h
+-@@ -332,6 +332,10 @@ struct sd_bus {
+- 
+- #define BUS_MESSAGE_SIZE_MAX (128*1024*1024)
+- #define BUS_AUTH_SIZE_MAX (64*1024)
+-+/* Note that the D-Bus specification states that bus paths shall have no size limit. We enforce here one
+-+ * anyway, since truly unbounded strings are a security problem. The limit we pick is relatively large however,
+-+ * to not clash unnecessarily with real-life applications. */
+-+#define BUS_PATH_SIZE_MAX (64*1024)
+- 
+- #define BUS_CONTAINER_DEPTH 128
+- 
+-diff --git a/src/libsystemd/sd-bus/bus-objects.c b/src/libsystemd/sd-bus/bus-objects.c
+-index 58329f3fe7..54b977418e 100644
+---- a/src/libsystemd/sd-bus/bus-objects.c
+-+++ b/src/libsystemd/sd-bus/bus-objects.c
+-@@ -1133,7 +1133,8 @@ static int object_manager_serialize_path_and_fallbacks(
+-                 const char *path,
+-                 sd_bus_error *error) {
+- 
+--        char *prefix;
+-+        _cleanup_free_ char *prefix = NULL;
+-+        size_t pl;
+-         int r;
+- 
+-         assert(bus);
+-@@ -1149,7 +1150,12 @@ static int object_manager_serialize_path_and_fallbacks(
+-                 return 0;
+- 
+-         /* Second, add fallback vtables registered for any of the prefixes */
+--        prefix = newa(char, strlen(path) + 1);
+-+        pl = strlen(path);
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+-+
+-         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                 r = object_manager_serialize_path(bus, reply, prefix, path, true, error);
+-                 if (r < 0)
+-@@ -1345,6 +1351,7 @@ static int object_find_and_run(
+- }
+- 
+- int bus_process_object(sd_bus *bus, sd_bus_message *m) {
+-+        _cleanup_free_ char *prefix = NULL;
+-         int r;
+-         size_t pl;
+-         bool found_object = false;
+-@@ -1369,9 +1376,12 @@ int bus_process_object(sd_bus *bus, sd_bus_message *m) {
+-         assert(m->member);
+- 
+-         pl = strlen(m->path);
+--        do {
+--                char prefix[pl+1];
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+- 
+-+        do {
+-                 bus->nodes_modified = false;
+- 
+-                 r = object_find_and_run(bus, m, m->path, false, &found_object);
+-@@ -1498,9 +1508,15 @@ static int bus_find_parent_object_manager(sd_bus *bus, struct node **out, const
+- 
+-         n = hashmap_get(bus->nodes, path);
+-         if (!n) {
+--                char *prefix;
+-+                _cleanup_free_ char *prefix = NULL;
+-+                size_t pl;
+-+
+-+                pl = strlen(path);
+-+                assert(pl <= BUS_PATH_SIZE_MAX);
+-+                prefix = new(char, pl + 1);
+-+                if (!prefix)
+-+                        return -ENOMEM;
+- 
+--                prefix = newa(char, strlen(path) + 1);
+-                 OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                         n = hashmap_get(bus->nodes, prefix);
+-                         if (n)
+-@@ -2083,8 +2099,9 @@ _public_ int sd_bus_emit_properties_changed_strv(
+-                 const char *interface,
+-                 char **names) {
+- 
+-+        _cleanup_free_ char *prefix = NULL;
+-         bool found_interface = false;
+--        char *prefix;
+-+        size_t pl;
+-         int r;
+- 
+-         assert_return(bus, -EINVAL);
+-@@ -2105,6 +2122,12 @@ _public_ int sd_bus_emit_properties_changed_strv(
+- 
+-         BUS_DONT_DESTROY(bus);
+- 
+-+        pl = strlen(path);
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+-+
+-         do {
+-                 bus->nodes_modified = false;
+- 
+-@@ -2114,7 +2137,6 @@ _public_ int sd_bus_emit_properties_changed_strv(
+-                 if (bus->nodes_modified)
+-                         continue;
+- 
+--                prefix = newa(char, strlen(path) + 1);
+-                 OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                         r = emit_properties_changed_on_interface(bus, prefix, path, interface, true, &found_interface, names);
+-                         if (r != 0)
+-@@ -2246,7 +2268,8 @@ static int object_added_append_all_prefix(
+- 
+- static int object_added_append_all(sd_bus *bus, sd_bus_message *m, const char *path) {
+-         _cleanup_set_free_ Set *s = NULL;
+--        char *prefix;
+-+        _cleanup_free_ char *prefix = NULL;
+-+        size_t pl;
+-         int r;
+- 
+-         assert(bus);
+-@@ -2291,7 +2314,12 @@ static int object_added_append_all(sd_bus *bus, sd_bus_message *m, const char *p
+-         if (bus->nodes_modified)
+-                 return 0;
+- 
+--        prefix = newa(char, strlen(path) + 1);
+-+        pl = strlen(path);
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+-+
+-         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                 r = object_added_append_all_prefix(bus, m, s, prefix, path, true);
+-                 if (r < 0)
+-@@ -2430,7 +2458,8 @@ static int object_removed_append_all_prefix(
+- 
+- static int object_removed_append_all(sd_bus *bus, sd_bus_message *m, const char *path) {
+-         _cleanup_set_free_ Set *s = NULL;
+--        char *prefix;
+-+        _cleanup_free_ char *prefix = NULL;
+-+        size_t pl;
+-         int r;
+- 
+-         assert(bus);
+-@@ -2462,7 +2491,12 @@ static int object_removed_append_all(sd_bus *bus, sd_bus_message *m, const char
+-         if (bus->nodes_modified)
+-                 return 0;
+- 
+--        prefix = newa(char, strlen(path) + 1);
+-+        pl = strlen(path);
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+-+
+-         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                 r = object_removed_append_all_prefix(bus, m, s, prefix, path, true);
+-                 if (r < 0)
+-@@ -2612,7 +2646,8 @@ static int interfaces_added_append_one(
+-                 const char *path,
+-                 const char *interface) {
+- 
+--        char *prefix;
+-+        _cleanup_free_ char *prefix = NULL;
+-+        size_t pl;
+-         int r;
+- 
+-         assert(bus);
+-@@ -2626,7 +2661,12 @@ static int interfaces_added_append_one(
+-         if (bus->nodes_modified)
+-                 return 0;
+- 
+--        prefix = newa(char, strlen(path) + 1);
+-+        pl = strlen(path);
+-+        assert(pl <= BUS_PATH_SIZE_MAX);
+-+        prefix = new(char, pl + 1);
+-+        if (!prefix)
+-+                return -ENOMEM;
+-+
+-         OBJECT_PATH_FOREACH_PREFIX(prefix, path) {
+-                 r = interfaces_added_append_one_prefix(bus, m, prefix, path, interface, true);
+-                 if (r != 0)
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index 5d09e5d5fb..6532a58cf8 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -24,7 +24,6 @@ SRC_URI += "file://touchscreen.rules \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://0001-meson-declare-version.h-as-dep-for-various-targets-t.patch \
+            file://0001-meson-declare-version.h-as-dependency-for-systemd.patch \
+-           file://CVE-2019-6454.patch \
+            "
  
-
-Bugs are split into two types, "true bugs" where things don't work as they
-should and "enhancements" which are features we'd want to add to the system.
-
- 
-
-There are also roughly four different "priority" classes right now, "2.7",
-"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7"
-and then "2.8".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me
-(Stephen.k.jolley@intel.com <mailto:Stephen.k.jolley@intel.com> ) an e-mail
-with the bug number you would like and I will assign it to you (please make
-sure you have a Bugzilla account).
-
- 
-
-The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
- 
+ # patches needed by musl
+-- 
+2.21.0
 
 
-------=_NextPart_000_0221_01D4DD86.6AB5EA10
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0005_01D4D80A.29D36760";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team meets weekly and does its best to handle the bugs reported =
-into the Bugzilla. The number of people attending that meeting has =
-fallen, as have the number of people available to help fix bugs. One of =
-the things we hear users report is they don't know how to help. We (the =
-triage team) are therefore going to start reporting out the currently =
-296 unassigned bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Bugs =
-are split into two types, &quot;true bugs&quot; where things don't work =
-as they should and &quot;enhancements&quot; which are features we'd want =
-to add to the system.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
-are also roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com</a>=
-) an e-mail with the bug number you would like and I will assign it to =
-you (please make sure you have a Bugzilla account).<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs">ht=
-tps://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
-p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0221_01D4DD86.6AB5EA10--
