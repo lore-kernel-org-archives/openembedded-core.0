@@ -1,25 +1,64 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E81257CB4F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C102E7C4E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 15:22:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2IFM1FS002138
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Mar 2019 08:22:01 -0700 (PDT)
-Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 18 Mar 2019 08:22:00 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 18 Mar 2019 11:21:53 -0400
-Message-ID: <1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
-References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
+	Mon, 18 Mar 2019 16:01:11 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id r19so14909826otn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 09:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=xKNPneWX9DmZtvzb53m3cSerUL+eXqxAYrj9GcT/8TM=;
+	b=PISmCfQHcDgPphpGl8nIojQa44YeObkAqyaJ6xx/RuogHPMeU246VlSPayOkSvwei1
+	g8TBkX3VbkynbBpYhIvpblZ6NzXEui1qZQi3sqTbTU0AZbF8eT5QqGXgZP9vEaR/Et4E
+	6x89N6ndRx2+SnIXocc1BXIsvsIGbmJTUlzwlqE85/CEeuKhSnBWKLfS4PBnC7ptxCkO
+	utcaOcDIIkO62KuKt6UU2spfcCFGQDULo9UYwczuV8w9qQBbU65r+WmaeZ+imavTH4bo
+	98yq9C2NSx8Ec4OM96xDoVWZT6PDCSQBSACDBp0v3TZGwZ13lsgsjaI4FwKSRQYVB35R
+	/4XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=xKNPneWX9DmZtvzb53m3cSerUL+eXqxAYrj9GcT/8TM=;
+	b=eShUp00v6GnamhAL3jCOJYPgEdXi6DUfguPA8Q2qlTT3jV5hLi0hfp8ZY2nc2vBLgD
+	lvMYUyEqVAUIvYc+fUapHnrzIHespVTTNqo2N+uvv794FS856dXk2pikoXcKiokL+ht8
+	pYGlcS+46cAPzc1E7OQbVo3m7nqhWM0w31xpV5PlEAerFZsUCn1BBxbt7NRhIX+udt66
+	HW9oIGfNRtPXKBrbmQ36C8OAUSqI006uDLNQhGzdyoi/RbVHJXdw82ZOWgig83+9FWFp
+	1mdw7J8sZNrCK2X/+a3pMolgLSRhD9KhlvXT2wUb5i99HItxm16QYw9453WKJMbNNLhS
+	XYjw==
+X-Gm-Message-State: APjAAAX/wvdvLE2N7cryKudXLVFwQpKKHjJMPVZLv38aiPzxltSXHi4d
+	UlmIqw83/Z+5GlyR4I51a2WKiRCK10ZHRw==
+X-Google-Smtp-Source: APXvYqyA2+ZSR0sLT07g7QYkFBbkSIlIqnLid26PAuQ5ptsry7Z/O1xCMHmUcQ1X7sn+IIv/Rc7zMg==
+X-Received: by 2002:a9d:7b4d:: with SMTP id f13mr10343692oto.256.1552924872067;
+	Mon, 18 Mar 2019 09:01:12 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com.
+	[209.85.167.178]) by smtp.gmail.com with ESMTPSA id
+	m125sm4380341oib.49.2019.03.18.09.01.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Mar 2019 09:01:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi1-f178.google.com with SMTP id x188so1249279oia.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 09:01:11 -0700 (PDT)
+X-Received: by 2002:aca:ac45:: with SMTP id v66mr9642626oie.134.1552924870652; 
+	Mon, 18 Mar 2019 09:01:10 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [v3][PATCH 2/2] goarch.bbclass: use MACHINEOVERRIDES and simplify go_map_arm()
+References: <20190318133618.4022-1-otavio@ossystems.com.br>
+	<166926B2-31F9-4290-A4B8-1EC6486C7357@gmail.com>
+In-Reply-To: <166926B2-31F9-4290-A4B8-1EC6486C7357@gmail.com>
+Date: Mon, 18 Mar 2019 13:00:58 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq_bxdcX8DijCz0WFXBKMmAfxE8AhnPDhGk1t01axXnEg@mail.gmail.com>
+Message-ID: <CAP9ODKq_bxdcX8DijCz0WFXBKMmAfxE8AhnPDhGk1t01axXnEg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>, "Burton,
+	Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] openssl: Use the c_rehash shell re-implementation for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,80 +71,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 15:22:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Mar 2019 16:01:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
-cross building for ARMv5, ARMv6 and ARMv7. The current approach of
-using TUNE_FEATURES can be error prone, as we can see today when
-attempting to build for Cortex-A7 which results in GOARM=''.
+Hello Alexander,
 
-Since the value of MACHINEOVERRIDES already consolidates the values of
-TUNE_FEATURES into something more consistent we can use the overrides
-mechanism to set GOARM, leaving just a little bit of logic in
-go_map_arm() to trigger off the arch (basically target vs host)
-for the setting of GOARM.
+On Mon, Mar 18, 2019 at 11:53 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Apologies, but I still have to veto this. The concerns I expressed previously still stand.
+>
+> The best course of action would be to work with the OpenSSL upstream to replace the utility with either C or shell version.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
+I understand your concerns about this however, those also stands for
+the native recipe. So we have two possible routes which seem to align
+with those concerns:
 
-V2
-* Cover all ARMv7 Cortex* variants
+1) assume the c_rehash in shell script is good enough and adopt it
+2) drop c_rehash from openssl recipe
 
-V3
-* Switch to using MACHINEOVERRIDES/overrides mechanism
+either work. The use of a different version for target and native does
+not seem consistent either correct.
 
- meta/classes/goarch.bbclass | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+As mentioned, this has been in use in multiple devices for years
+without concerns and this has been changed under the hood when moving
+to OpenSSL 1.1. Also, the ca-certificate is broken for installation on
+target now (as it uses c_rehash) and this is still unnoticed.
 
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 39fea5e..8fdb443 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -3,18 +3,26 @@ BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH'), d)}"
- BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
- HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
- HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
--HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-+HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('BASE_GOARM'), d)}"
- HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- HOST_GOMIPS = "${@go_map_mips(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
- TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
- TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
--TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-+TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('BASE_GOARM'), d)}"
- TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- TARGET_GOMIPS = "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
- GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
- 
-+# Use the MACHINEOVERRIDES to map ARM CPU architecture passed to GO via GOARM.
-+# This is combined with *_ARCH to set HOST_GOARM and TARGET_GOARM.
-+BASE_GOARM = ''
-+BASE_GOARM_armv7ve = '7'
-+BASE_GOARM_armv7a = '7'
-+BASE_GOARM_armv6 = '6'
-+BASE_GOARM_armv5 = '5'
-+
- # Go supports dynamic linking on a limited set of architectures.
- # See the supportsDynlink function in go/src/cmd/compile/internal/gc/main.go
- GO_DYNLINK = ""
-@@ -74,12 +82,7 @@ def go_map_arch(a, d):
- def go_map_arm(a, f, d):
-     import re
-     if re.match('arm.*', a):
--        if 'armv7' in f:
--            return '7'
--        elif 'armv6' in f:
--            return '6'
--        elif 'armv5' in f:
--            return '5'
-+        return f
-     return ''
- 
- def go_map_386(a, f, d):
+So I know your view on this. I'd like to know the view of other team
+members as well...
+
+
 -- 
-2.7.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
