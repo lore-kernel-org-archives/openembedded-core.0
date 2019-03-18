@@ -1,57 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C546360272
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+	[209.85.210.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 91F416BBE6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 09:37:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DFCD01836F;
-	Mon, 18 Mar 2019 10:37:15 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id RFnYYdvuuZN5; Mon, 18 Mar 2019 10:37:15 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2B54518242;
-	Mon, 18 Mar 2019 10:37:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DDC521E077;
-	Mon, 18 Mar 2019 10:37:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D01421E07D;
-	Mon, 18 Mar 2019 10:37:14 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon, 18 Mar 2019 10:37:14 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id C36ED303B;
-	Mon, 18 Mar 2019 10:37:14 +0100 (CET)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 18 Mar 2019 10:37:14 +0100
-Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Mon, 18 Mar 2019 10:37:14 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Mon, 18 Mar 2019 10:37:14 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: Where are the mails from patchwork (was: RE: [OE-core] [PATCH]
-	[PATCH] openssl:upgrade to 1.1.1b)
-Thread-Index: AdTdbinqx4Vm9KjWRnavTaRdpz6Dbg==
-Date: Mon, 18 Mar 2019 09:37:14 +0000
-Message-ID: <ec5b47cb57324ee89e4f18785264d97e@XBOX04.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 18 Mar 2019 09:45:46 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id e80so8712241ote.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 02:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=nKrksMtLX3cRX2APBJ5kvRK9OPsa10mAQ2MLjbu1Nms=;
+	b=R2zvG37pKiOXPSphTl8gdtyPUukZSPmxfoirKUIVJG2jN7JbeYV5gbW7qowHJGvGE6
+	8MoFlRht2VagdUzcXCI6WB7Mpv4V3dKUUPWxoRsUUnFwbyqjyC5gOrPOj2wCPLg2Xb4O
+	Ggx7kLqva837m0qqMasYXgX62wKi79SgwF8VbQ7R3Jf6tGwBt+kb4uMj6HKDAv/SwHoz
+	xNAFCoXmOHgYFZBmM6xDJm85vUyRqpKaDPB6IRVZhJo9JYrqIbfj/zTpoPtlFqA+KcIs
+	r31UwVH/NkQ7VP3Wf/7Krma3tAfZjV14V9cFS1QwC4HuS4Y4idUd0Cp2SbrXMUsHxgB2
+	NP8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=nKrksMtLX3cRX2APBJ5kvRK9OPsa10mAQ2MLjbu1Nms=;
+	b=MfpwrsFUKrSsXwxOAP6sHkdaHQTXoqPOI6PeRPTsKvtww4pEMO2SouCOSic8umWyVu
+	nHbmYbfUslLZYc12YTy//PywjwwktSagna3dZ1JJaQJFFva6enDTV2SWbu30G36nzlIY
+	G4QXhFmv23qUpSR0b4kFdmdxsTSYgcdpHPLiUrob6J9mTTGL4hLNb3cCcNyGMHwR4QnM
+	jP+UEOcrTeVHX8SPKImXxWmlgqgXzBN6Ih22Mm0Qxw1Y56f8lW6XbZXwi1FEXY2BbJQS
+	lBhcY0xdLmTBlJga9A5LeoUmrp8AvTw6KmeezuqY8O47nnSAdAAx5EV7pz5cmFrJo5Ua
+	hwjg==
+X-Gm-Message-State: APjAAAWwZMozhpgLAQhRfGiKchzcoedhMLp+Qlz8sV7JLcEzCLENpUsb
+	r6rdp8jhXrfPr5J2oXY1CihHba2uwCVqT6BIfg0=
+X-Google-Smtp-Source: APXvYqyb8yYbIaGZ7LfdbttxSccwnadFWaaBCGZ70/3JnDEpbQXevRTG+CchbsHP9Ql0yD0fZp2C57PpURdaIAKKPFo=
+X-Received: by 2002:a9d:6c0b:: with SMTP id f11mr10604198otq.293.1552902347525;
+	Mon, 18 Mar 2019 02:45:47 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Where are the mails from patchwork (was: RE: [PATCH] [PATCH] openssl:upgrade to 1.1.1b)
+References: <ec5b47cb57324ee89e4f18785264d97e@XBOX04.axis.com>
+In-Reply-To: <ec5b47cb57324ee89e4f18785264d97e@XBOX04.axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 18 Mar 2019 10:45:36 +0100
+Message-ID: <CANNYZj8he2xQbDLksx-qqPJSie9mW3=ttvxAxpD_9ANLJtBO8A@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Where are the mails from patchwork (was: RE: [PATCH] [PATCH] openssl:upgrade to 1.1.1b)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,43 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 09:37:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Mar 2019 09:45:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> Sent: den 18 mars 2019 09:52
-> To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> Cc: OE-core <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] [PATCH] [PATCH] openssl:upgrade to 1.1.1b
->=20
-> On Mon, 18 Mar 2019 at 02:20, Hong Liu <hongl.fnst@cn.fujitsu.com>
-> wrote:
-> > -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd57d511030c9d66ef5f5966bee5=
-a7eff"
-> > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd343e62fc9c833710bbbed25f27=
-364c8"
->=20
-> You need to explain what changed (in the commit message).
-> Try 'devtool upgrade openssl', it will make a diff of the two licenses
-> for you.
->=20
-> Also, openssl10 needs a similar upgrade.
->=20
-> Alex
+On Mon, 18 Mar 2019 at 10:37, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
 
-Whatever happened to the mails from patchwork that used to=20
-automatically complain about things like this with:
+> Whatever happened to the mails from patchwork that used to
+> automatically complain about things like this with:
+>
+> * Issue             LIC_FILES_CHKSUM changed on target openssl but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned]
+>   Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+>   Current checksum file://LICENCE;md5=d57d511030c9d66ef5f5966bee5a7eff
+>   New checksum     file://LICENCE;md5=d343e62fc9c833710bbbed25f27364c8
 
-* Issue             LIC_FILES_CHKSUM changed on target openssl but there is=
- no "License-Update" tag in commit message [test_lic_files_chksum_modified_=
-not_mentioned]=20
-  Suggested fix    Include "License-Update: <description>" into the commit =
-message with a brief description
-  Current checksum file://LICENCE;md5=3Dd57d511030c9d66ef5f5966bee5a7eff
-  New checksum     file://LICENCE;md5=3Dd343e62fc9c833710bbbed25f27364c8
+Anibal, can you check this please?
 
+Alex
 
