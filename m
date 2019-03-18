@@ -1,28 +1,52 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 476877CB4F
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ED9037BED6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 17:50:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2IHnoi5022702
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Mar 2019 10:50:00 -0700
-Received: from yow-masselst-lx1.localnet (128.224.22.2) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 18 Mar 2019 10:49:39 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 18 Mar 2019 13:49:38 -0400
-Message-ID: <5395233.36Y4EdQobu@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <20190318164028.GD1994@jama>
-References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
-	<1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
-	<20190318164028.GD1994@jama>
+	Mon, 18 Mar 2019 19:30:48 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id a3so11934953pff.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 12:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=9WXZO6+4WbKzCfFJXzu6KfT6kXvDRSXzUStYwDKFIDE=;
+	b=JEmWUIwo0F2LhOGAbMusRZl/+ILwI2trLfwIV7tzh19e6sgAtSZtBK1Lt/OLz3S3xT
+	37ydBVmCcKlgWzj72t4xbEu0vFa7Oah4nk1tEW+2rEXbCFlwx+qw75WVD+L6DbDfeA4k
+	S/+PtAQZ9tq29XqVM7SJTVJ0j4B5JX1ygUebNd8eBYimqhK0ml4ZTzIB6w9USbFrNIKX
+	Lza6CgqdMMlaAt5ECpyEH6keiAK7fOkNIGdYr3x2+4u34aP6hHnmUmeoSINVStsn6d0P
+	hKUTGLh2WCor6kpwVTSkY6tB5dgSYUc+OHkWG1toqNMSHFPwvHkGCuiHs8xh8FX6l2E6
+	9pEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:thread-index:content-language;
+	bh=9WXZO6+4WbKzCfFJXzu6KfT6kXvDRSXzUStYwDKFIDE=;
+	b=FFSPHaGGyWiyNwgjiPyb4pOI4jYeMEmYBePH5XTr7SK6f+A/lbyXCjTC2RHwLWN9Hc
+	GzcoC/ocFFolTtq9BoOj0tXhewUGwH5/8v+0o5auZCbNVcA3Rha1LBHIMUeUGwr+j8DT
+	gqmMGqyqZoHtVEKkqRAXYCnpqX4kSMqzLMend0/R8Z/H3r7/dXosFlnp5T8vk8nWCJuz
+	aT7mdEk6j3+Tj6ADH+Fy2u8h3kfWglaXxSwOhEZ94AB0JOedZ+SvsujdMZlASQA6kvUA
+	93NMgLjHpm29DrHnehEIINkVWBbZtwgkB/dkj6IHeEbEw61FiZ4iYRd6LXweqCpa/kD+
+	mqkA==
+X-Gm-Message-State: APjAAAWVgpmDhBiyKCBazAXCKXgeAGOv0364GLs6Di/qMa+A+lFAfylE
+	qYI7o3Q4+k+Xe8V1XZq1ZC6K/wBP
+X-Google-Smtp-Source: APXvYqxMI8ga+Lex8fHXjJzTkJYarlRMNC83HuhRs9IGEqWNh5HNjjvqLzlUCPNCdDeQi5o9+8hScw==
+X-Received: by 2002:a63:3d0e:: with SMTP id k14mr19451473pga.302.1552937449848;
+	Mon, 18 Mar 2019 12:30:49 -0700 (PDT)
+Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	u62sm954053pfa.124.2019.03.18.12.30.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Mar 2019 12:30:48 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Mar 2019 12:30:47 -0700
+Message-ID: <022001d4ddc1$1713fec0$453bfc40$@gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [v3][PATCH 2/2] goarch.bbclass: use MACHINEOVERRIDES and simplify go_map_arm()
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGepEPlH1LTz8RKNupi6wh2asBd0g==
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,110 +59,272 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 17:50:44 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Mar 2019 19:30:49 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0221_01D4DD86.6AB5EA10"
+Content-Language: en-us
 
-On Monday, March 18, 2019 12:40:28 PM EDT Martin Jansa wrote:
-> On Mon, Mar 18, 2019 at 11:21:53AM -0400, Mark Asselstine wrote:
-> > Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
-> > cross building for ARMv5, ARMv6 and ARMv7. The current approach of
-> > using TUNE_FEATURES can be error prone, as we can see today when
-> > attempting to build for Cortex-A7 which results in GOARM=''.
-> > 
-> > Since the value of MACHINEOVERRIDES already consolidates the values of
-> > TUNE_FEATURES into something more consistent we can use the overrides
-> > mechanism to set GOARM, leaving just a little bit of logic in
-> > go_map_arm() to trigger off the arch (basically target vs host)
-> > for the setting of GOARM.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> > V2
-> > * Cover all ARMv7 Cortex* variants
-> > 
-> > V3
-> > * Switch to using MACHINEOVERRIDES/overrides mechanism
-> > 
-> >  meta/classes/goarch.bbclass | 19 +++++++++++--------
-> >  1 file changed, 11 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-> > index 39fea5e..8fdb443 100644
-> > --- a/meta/classes/goarch.bbclass
-> > +++ b/meta/classes/goarch.bbclass
-> > @@ -3,18 +3,26 @@ BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH'),
-> > d)}"> 
-> >  BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
-> >  HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
-> >  HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
-> > 
-> > -HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'),
-> > d.getVar('TUNE_FEATURES'), d)}" +HOST_GOARM =
-> > "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('BASE_GOARM'), d)}"> 
-> >  HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'),
-> >  d.getVar('TUNE_FEATURES'), d)}" HOST_GOMIPS =
-> >  "${@go_map_mips(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-> >  HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
-> >  TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
-> >  TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
-> > 
-> > -TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'),
-> > d.getVar('TUNE_FEATURES'), d)}" +TARGET_GOARM =
-> > "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('BASE_GOARM'), d)}"> 
-> >  TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'),
-> >  d.getVar('TUNE_FEATURES'), d)}" TARGET_GOMIPS =
-> >  "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
-> >  TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
-> >  GO_BUILD_BINDIR =
-> >  "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') ==
-> >  d.getVar('HOST_GOTUPLE')]}"> 
-> > +# Use the MACHINEOVERRIDES to map ARM CPU architecture passed to GO via
-> > GOARM. +# This is combined with *_ARCH to set HOST_GOARM and
-> > TARGET_GOARM. +BASE_GOARM = ''
-> > +BASE_GOARM_armv7ve = '7'
-> > +BASE_GOARM_armv7a = '7'
-> > +BASE_GOARM_armv6 = '6'
-> > +BASE_GOARM_armv5 = '5'
-> > +
-> > 
-> >  # Go supports dynamic linking on a limited set of architectures.
-> >  # See the supportsDynlink function in
-> >  go/src/cmd/compile/internal/gc/main.go GO_DYNLINK = ""
-> > 
-> > @@ -74,12 +82,7 @@ def go_map_arch(a, d):
-> >  def go_map_arm(a, f, d):
-> >      import re
-> > 
-> >      if re.match('arm.*', a):
-> > -        if 'armv7' in f:
-> > -            return '7'
-> > -        elif 'armv6' in f:
-> > -            return '6'
-> > -        elif 'armv5' in f:
-> > -            return '5'
-> > +        return f
-> > 
-> >      return ''
-> 
-> Is this function still useful? Cannot you set TARGET_GOARM and
-> HOST_GOARM with arm override (to simulate the effect of "re.match('arm.*',
-> a)")?
+------=_NextPart_000_0221_01D4DD86.6AB5EA10
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-No. Attempting to use the override will not result in the same result for 
-HOST_GOARM. The overrides will represent the target and not the host. Unless 
-you have an implementation to backup your suggestion and I am just not seeing 
-it.
+All,
 
-MarkA
+ 
 
-> 
-> Regards,
-> 
-> >  def go_map_386(a, f, d):
+The triage team meets weekly and does its best to handle the bugs reported
+into the Bugzilla. The number of people attending that meeting has fallen,
+as have the number of people available to help fix bugs. One of the things
+we hear users report is they don't know how to help. We (the triage team)
+are therefore going to start reporting out the currently 296 unassigned
+bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.
+
+ 
+
+Bugs are split into two types, "true bugs" where things don't work as they
+should and "enhancements" which are features we'd want to add to the system.
+
+ 
+
+There are also roughly four different "priority" classes right now, "2.7",
+"2.8", "2.99" and "Future", the more pressing/urgent issues being in "2.7"
+and then "2.8".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me
+(Stephen.k.jolley@intel.com <mailto:Stephen.k.jolley@intel.com> ) an e-mail
+with the bug number you would like and I will assign it to you (please make
+sure you have a Bugzilla account).
+
+ 
+
+The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+ 
 
 
+------=_NextPart_000_0221_01D4DD86.6AB5EA10
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0005_01D4D80A.29D36760";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
+xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
+xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
+xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
+xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
+xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
+xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
+xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
+xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
+xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
+xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
+xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
+xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
+xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
+xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
+xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
+xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
+xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
+xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
+xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
+xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
+xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
+xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
+ xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
+xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
+xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
+xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
+xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
+xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
+xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
+xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
+xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
+xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
+xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
+nature" =
+xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
+" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
+ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
+xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
+ =
+xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
+es" =
+xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
+" =
+xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
+lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
+xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle20
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoPlainText>All,<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+triage team meets weekly and does its best to handle the bugs reported =
+into the Bugzilla. The number of people attending that meeting has =
+fallen, as have the number of people available to help fix bugs. One of =
+the things we hear users report is they don't know how to help. We (the =
+triage team) are therefore going to start reporting out the currently =
+296 unassigned bugs.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
+hoping people may be able to spare some time now and again to help out =
+with these.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Bugs =
+are split into two types, &quot;true bugs&quot; where things don't work =
+as they should and &quot;enhancements&quot; which are features we'd want =
+to add to the system.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
+are also roughly four different &quot;priority&quot; classes right now, =
+&#8220;2.7&#8221;, &#8220;2.8&#8221;, &quot;2.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
+review this link and if a bug is something you would be able to help =
+with either take ownership of the bug, or send me (<a =
+href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com</a>=
+) an e-mail with the bug number you would like and I will assign it to =
+you (please make sure you have a Bugzilla account).<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs">ht=
+tps://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
+/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
+p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-
+------=_NextPart_000_0221_01D4DD86.6AB5EA10--
