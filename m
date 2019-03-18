@@ -1,56 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C2271E5A
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E5EF97C6E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 10:50:30 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id t124so12192970wma.4
+	Mon, 18 Mar 2019 11:15:37 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id g12so16557703wrm.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 03:50:31 -0700 (PDT)
+	Mon, 18 Mar 2019 04:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=UlgieGaWMIxKApsMO/+cugMvmetvoDuJ8L47bMZXbB0=;
-	b=eIIXcJqsgIs2cDCrIpaD7Fn4/GsvnPamGYnkUTWn/IlFUlltpI+0gbukrpt+5DeEox
-	+v6Wxk3TqnEIndDpRbm9pzvYEvD4WMkV2W6fCv6UeMA0oAjqfaYiaFIqja+bYLTs0sRT
-	CA+ER34lUwPUeMcCHYseHFVT6xMZetnuD+kk8=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=T7dfznsk5zKq0162yEoVGZ/5nlaT7XPW7+nrUiLe24E=;
+	b=aYgYKJj8YmoRth+SizxDaAK4hcuSuILnB+ETDBNrNwjlcDFzhlNmlYV6v4dolCI26I
+	kBzeL2BE91wvC77N7tryH9zrL9hbEzWN9drk7yW/K7MIAOhD4pzjsSOrfZL9gU0n2Ycz
+	gQq7b70sDiTLiKQVFSA5BcFjGJG/psmUBX8x0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=UlgieGaWMIxKApsMO/+cugMvmetvoDuJ8L47bMZXbB0=;
-	b=i3UtcMsT6ShLxkkyBeTpt9gGF9lAXv17d5E7o2UR5wySITfg0/jSXo/IN5GxtzMnWv
-	1QidkSp895I9Tj092XiN8LZAXwIV4g6+J/ZxhaUPGYVyexS1tM4rnUG1cHplBPR0WvQM
-	4tcWM94Yf2DUmcrJR7pAkkZTkcVnqQ5lijU8B3Bx2oOyAOyMGPvyzIqF9xlTQHAfRA4F
-	X7gVcymQ3EYc5bwZpFChiZMAPqiCgRZwdjz/PdLyOIcsAzuwnJ6k1i0UBmBvfvLuXmlQ
-	k7Ofv0saRo8fbbCQhEHOAm4b1vlotCLTpn19JK1CMwezj050E1JXZfUijVvG7mG8RR8a
-	bwIA==
-X-Gm-Message-State: APjAAAWOxpDokKDMo5+Xn81Vdl2LwVQhEQIMeuwx7ejwiqoCho0Xq06F
-	c9xxznW8tBlRZw5mN1KR8alWig==
-X-Google-Smtp-Source: APXvYqy0SbLRMEZkVXlHxkTSJZmQ1Z3N+k3T53VrYrpUjSFt2X/rpKDgQugVl2WAw6HWZJC+aJXUQw==
-X-Received: by 2002:a1c:4d08:: with SMTP id o8mr10923431wmh.18.1552906231298; 
-	Mon, 18 Mar 2019 03:50:31 -0700 (PDT)
+	bh=T7dfznsk5zKq0162yEoVGZ/5nlaT7XPW7+nrUiLe24E=;
+	b=TQgruzVk7uhMvA5rFlK7h79TpjhTpDo3XQrndKtbqP2gl6j8WPyBgu/1GDvKyYUqci
+	Vti+qiScREbwdKkr3qHaf30MU8zz6QkGmLfdSJeiuoONiy5HQlQoGuGOAiY94nT0Aras
+	hWk9eI/58f7WRypALkwZc5bhWxt/AWc87mVmPCPq5Hgrm0st6/ISaoQiT/8P/D3lBt/o
+	q8UWZSYisGTy9sJhDjAjR9FoPQRwkDzMBrKSvyYlDAf0t0gaduyM94NSN5dILtUSkcfo
+	3x2sCbAaRbtNWbGbyzr5D69tSWuIvhU5HzucqLqk+X+25XLiG1WYGcFw3m4j9uVqtF5M
+	JVzA==
+X-Gm-Message-State: APjAAAWhlW7qUPA26AyjR6VigWmiNNlLxiqCBpG/gB6yQlMR3/MaDpn8
+	QYZdzPjce/SY/afStuyhxv94YpXTtn0+/Q==
+X-Google-Smtp-Source: APXvYqz4+klMvCm2GJJ1+nVs4ThTgCSlhYxVT+uQMpPuIEYMCXDh6Caxa+KOCzp0fcaTggoXRDrtZQ==
+X-Received: by 2002:a5d:46c9:: with SMTP id g9mr5263066wrs.211.1552907738686; 
+	Mon, 18 Mar 2019 04:15:38 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id a2sm8737607wrr.60.2019.03.18.03.50.30
+	by smtp.gmail.com with ESMTPSA id
+	u134sm10195406wmf.22.2019.03.18.04.15.37
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 18 Mar 2019 03:50:30 -0700 (PDT)
-Message-ID: <507b5142dffe5d03bf21cc3bb0192c45a7203881.camel@linuxfoundation.org>
+	Mon, 18 Mar 2019 04:15:37 -0700 (PDT)
+Message-ID: <3c87f366b69756abc62d37aac4e4683d75237c79.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>, =?ISO-8859-1?Q?An=EDbal_Lim=F3n?=
-	<limon.anibal@gmail.com>, Leonardo Sandoval
-	<leonardo.sandoval.gonzalez@linux.intel.com>, "Paul Eggleton
-	(paul.eggleton@linux.intel.com)" <paul.eggleton@linux.intel.com>
-Date: Mon, 18 Mar 2019 10:50:29 +0000
-In-Reply-To: <CANNYZj-=F+Gu8ndkPyZc_Xm0u5NbtQKPpFQFhknxo16tB2=ppA@mail.gmail.com>
-References: <ec5b47cb57324ee89e4f18785264d97e@XBOX04.axis.com>
-	<CANNYZj8he2xQbDLksx-qqPJSie9mW3=ttvxAxpD_9ANLJtBO8A@mail.gmail.com>
-	<CANNYZj-=F+Gu8ndkPyZc_Xm0u5NbtQKPpFQFhknxo16tB2=ppA@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Mar 2019 11:15:36 +0000
+In-Reply-To: <c7b19826-0eb6-2e9d-1369-9d407895826b@topic.nl>
+References: <c7b19826-0eb6-2e9d-1369-9d407895826b@topic.nl>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Where are the mails from patchwork (was: RE: [PATCH] [PATCH] openssl:upgrade to 1.1.1b)
+Subject: Re: Cannot get bitbake multiconfig to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,30 +58,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 10:50:31 -0000
+X-List-Received-Date: Mon, 18 Mar 2019 11:15:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-03-18 at 10:52 +0100, Alexander Kanavin wrote:
-> Sorry, Leonardo is the correct person, and if not him, then Paul.
+On Wed, 2019-03-13 at 10:03 +0000, Mike Looijmans wrote:
+> I think I've done everything, but cannot figure out what step I
+> missed.
+> 
+> I am using yesterday's "thud" branches:
+> 
+> BB_VERSION           = "1.40.0"
+> BUILD_SYS            = "x86_64-linux"
+> meta                 =
+> "HEAD:fbb688ab3eeca1bbfbaaaaffd8c81fd8052bcc68"
+> meta-oe
+> meta-multimedia
+> meta-networking
+> meta-python          =
+> "HEAD:6ef9657068492d4644079c88f2adee9c3cac9543"
+> 
+> 
+> I created a conf/multiconf directory with a "pmu.conf" file (and
+> others)
+> 
+> $ cat conf/multiconfig/pmu.conf
+> MACHINE="zynqmp-pmu"
+> DISTRO="xilinx-standalone"
+> GCCVERSION="7.%"
+> TMPDIR="${TOPDIR}/pmutmp"
+> 
+> I added to my local.conf (and removed the MACHINE setting there):
+> 
+> BBMULTICONFIG = "pmu ..."
+> 
+> Now when I invoke bitbake with the multiconfig syntax, it completely
+> ignores that:
+> 
+> $ bitbake multiconfig:pmu:pmu-firmware
+> ERROR:  OE-core's config sanity checker detected a potential
+> misconfiguration.
+>      Either fix the cause of this error or at your own risk disable
+> the 
+> checker (see sanity.conf).
+>      Following is the list of potential problems / advisories:
+> 
+>      Please set a MACHINE in your local.conf or environment
+> 
+> 
+> Apparently, bitbake doesn't even care about the "multiconfig:"
+> syntax, I get 
+> the same response when I type:
+> $ bitbake multiconfig:blah:pmu-firmware
+> $ bitbake multiconfig:blah:blah
+> $ bitbake blah:blah:blah
+> 
+> I can add a "MACHINE?=" to local.conf, which results in a build for
+> that 
+> machine and nothing from the pmu.conf gets ever used at all.
+> 
+> So what step did I miss?
 
-I did notice this had gone missing a while ago and asked Michael to
-look into it. It appears the system is running and sending out mails
-but those mails don't arrive back to the mailing lists or patch
-senders. Michael has other distractions right now which have priority
-over this.
 
-Anibal/Leo no longer work on this and we're struggling for maintainers
-for various subsections of the project, this is one of them which
-compounds the problem. Having tests of this would be ideal but those
-take time investment to develop.
-
-Its not a good situation but we will get to figuring this out, I
-suspect just not as soon as would be ideal.
+The piece most people miss when thinking about multiconfig is that
+local.conf still needs to be valid as one of the configurations. Did
+you try setting MACHINE to something valid in local.conf and then
+building the pmu multiconfig?
 
 Cheers,
 
 Richard
-
 
 
