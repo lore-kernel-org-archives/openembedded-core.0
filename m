@@ -1,57 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B65F7C629
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E59B27C64E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 16:09:17 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 81so6155480wme.0
+	Mon, 18 Mar 2019 16:40:27 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id w1so11891524wrp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 09:09:18 -0700 (PDT)
+	Mon, 18 Mar 2019 09:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=76jbovdLk1asrth4nmjbnbFB5+z/bHgR2GWxGyE9MGo=;
-	b=j/PXjgSm1OZuLMukCFYm6wavBNY4WuptBWkGY2nJZhxUuHLhT9HKEmaHClRS+o2ETJ
-	i7wgzkDXDi9733WuTI2KnzvA2EEy4IBAINeMwGTMJaMmVATp9NYBhCMwrFz0gaiIRYNi
-	FJIFu7DpRS8BuL6p8NHo7Wtc729BPCUCpUse1tE2bWRD90devsW9vrgr+rjO9fHhNCGR
-	BfNkJ5x3TU7wKGJCJ40qWlrEEiht7WRcP+IcTrVjo8Mu5EVOcu0KAndNk3TQeLeSXzzV
-	mRi+zkYe8yV0Z6MISvRQrKhsLU5tHzaKUvqvPPhJnvt0LdRrxASI9xZ18t+L8qv7fMm7
-	Rl9A==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=kWQbit85uRIfgN7DBbDM0RkVBdUWAirS0oKfp9ya/ew=;
+	b=QEIJEdf6q8UcRJfnH6Ps0Q1ONHMhKBuo9eAgRCOjJuuDqbEwAWjlYMbN5OkrvKezu2
+	ZyXmxEudNEfhua8azOfz7SqQ4gwhzM6q/qHqxdnVg8LKSCtQQ2BRnmk1kukNynZLx+gd
+	mIT4GANKQTK8tNgL5jtnBiiUzsYx7O4xmrJT9PgYuTRVG7t6GQ0gt/Ldr70lyUBu1zNC
+	znSI6fqGgJ+DswhwcHu3TYkxew3kJvuHjrks6OEBtq/Nns4PeGWoLs1n+gWPEGh0cGi9
+	2AnJge3zpy18/Ie0Rmwl5x8fUUFEKdfHdBAUc9E+Te0Jv88gh+7G/BDkXBRP1mdqez6W
+	q6ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=76jbovdLk1asrth4nmjbnbFB5+z/bHgR2GWxGyE9MGo=;
-	b=gxvdiBfd6f4GERbTLL8YpGMTdRJ8dWxLsBfz7w8Kuke2KoYPqWyAOOlDE38Ht8R0Aq
-	Rt5IcWzePqWI51r4rRunMG1NVxikZm6a1pdrc8oi5lR2oI6hVLDm+5E8rkgT9Se/b6nr
-	7xYNo4I8Dv0sySmXe/RittZbn3R1SrNXB4KyCbEeg5uH3br4Yply/uNYk9DwI2rPRJca
-	G+k2Xwk/+KBpAcYFMmy8bR+YatLWYsu/7GYZy3/RkoKAb/REcdnXDwIUc16l8z+5LqnT
-	oBlyXcLbI0XIXFu1xdi5l9kEBSFQiXw0Bn7NBXIvKWedqrMkkM/ACTaIYpU1CXkDXt3u
-	FZiw==
-X-Gm-Message-State: APjAAAX0tK47AVqgwrChLsY1+I1dPYhevuFPxcHospio+/uYP2W9R+Zw
-	biLiPe8Q8a/0j7e/0mTzD/4=
-X-Google-Smtp-Source: APXvYqyphYd/7XIERyFflc+W00K2zRKLLdT3bQY9whE/oU80pTBKCDIRIRl8ypObKK76/fqpIQ6/2Q==
-X-Received: by 2002:a05:600c:20e:: with SMTP id
-	14mr12771077wmi.144.1552925358209; 
-	Mon, 18 Mar 2019 09:09:18 -0700 (PDT)
-Received: from [172.18.182.189] ([46.183.103.8])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=kWQbit85uRIfgN7DBbDM0RkVBdUWAirS0oKfp9ya/ew=;
+	b=kq8nXfgPw/moVVCDN1msKuHgphw7j6Vb9h0kLshqBEC5XEVTqGmL6h+e1DwbmbtPWO
+	r+WGtJLS8TKQkC2SLFbkBQI8HLHUX+5MI57hVE+hE3kC4rKnj3Za5POTx8DKwRtslY26
+	X7FIZDhuAad3AyZvfWvq78FxUNNd7PPG0KyhSC4+Uva5f2zHtKFiYCIXPyEINE9yu8uP
+	aZmVhJgnk69psw53P+SQVeNRG2z3eqnCwz5l1RpL9efQh6fmPw2+zZpVzgOKvWPwfsYK
+	pf4Tt2bCY/ZgsoL6dCafVdk7xQQP+1IiasFrG29cjFmQ1fS7HAij49hpars7EC5wQuNg
+	q2dg==
+X-Gm-Message-State: APjAAAXHSkbPWfm5TUVOPCyTaueCY/qYOBRSjMD0mA9HQTkobI5B+V8A
+	1IfdwUj7+85yZHDTCqsBrt0=
+X-Google-Smtp-Source: APXvYqz1a8eIwcZCMKvt0VjZ/MsCQf3G7XCUHfOSqOMrpv7Gy14jGTq2OsbHDBJvXr8liMyp1qvwrQ==
+X-Received: by 2002:adf:cf0c:: with SMTP id o12mr12952356wrj.16.1552927228570; 
+	Mon, 18 Mar 2019 09:40:28 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	j64sm12483517wmb.36.2019.03.18.09.09.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Mar 2019 09:09:17 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <CAP9ODKq_bxdcX8DijCz0WFXBKMmAfxE8AhnPDhGk1t01axXnEg@mail.gmail.com>
-Date: Mon, 18 Mar 2019 17:09:16 +0100
-Message-Id: <81AEDE73-7DD8-4F69-BF8D-BC2BF92FFC06@gmail.com>
-References: <20190318133618.4022-1-otavio@ossystems.com.br>
-	<166926B2-31F9-4290-A4B8-1EC6486C7357@gmail.com>
-	<CAP9ODKq_bxdcX8DijCz0WFXBKMmAfxE8AhnPDhGk1t01axXnEg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH v2] openssl: Use the c_rehash shell re-implementation for target
+	11sm11888702wmg.27.2019.03.18.09.40.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 18 Mar 2019 09:40:26 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 18 Mar 2019 17:40:28 +0100
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Message-ID: <20190318164028.GD1994@jama>
+References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
+	<1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [v3][PATCH 2/2] goarch.bbclass: use MACHINEOVERRIDES and simplify go_map_arm()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,58 +62,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2019 16:09:17 -0000
-Content-Type: text/plain;
-	charset=utf-8
+X-List-Received-Date: Mon, 18 Mar 2019 16:40:28 -0000
+X-Groupsio-MsgNum: 122348
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
+Content-Disposition: inline
+
+--P+33d92oIH25kiaB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-It=E2=80=99s fine to use the shell rewrite in the native case, as it=E2=80=99=
-s only used from one place under our control. This is not the case for the t=
-arget where we have no idea where and how the script can be used. So you can=
-=E2=80=99t argue that native has the same issues as target does, and therefo=
-re they must be the same. The reason we use shell rewrite for native is that=
- it handles sysroots properly from what I remember.
+On Mon, Mar 18, 2019 at 11:21:53AM -0400, Mark Asselstine wrote:
+> Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
+> cross building for ARMv5, ARMv6 and ARMv7. The current approach of
+> using TUNE_FEATURES can be error prone, as we can see today when
+> attempting to build for Cortex-A7 which results in GOARM=3D''.
+>=20
+> Since the value of MACHINEOVERRIDES already consolidates the values of
+> TUNE_FEATURES into something more consistent we can use the overrides
+> mechanism to set GOARM, leaving just a little bit of logic in
+> go_map_arm() to trigger off the arch (basically target vs host)
+> for the setting of GOARM.
+>=20
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>=20
+> V2
+> * Cover all ARMv7 Cortex* variants
+>=20
+> V3
+> * Switch to using MACHINEOVERRIDES/overrides mechanism
+>=20
+>  meta/classes/goarch.bbclass | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index 39fea5e..8fdb443 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -3,18 +3,26 @@ BUILD_GOARCH =3D "${@go_map_arch(d.getVar('BUILD_ARCH')=
+, d)}"
+>  BUILD_GOTUPLE =3D "${BUILD_GOOS}_${BUILD_GOARCH}"
+>  HOST_GOOS =3D "${@go_map_os(d.getVar('HOST_OS'), d)}"
+>  HOST_GOARCH =3D "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
+> -HOST_GOARM =3D "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEAT=
+URES'), d)}"
+> +HOST_GOARM =3D "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('BASE_GOAR=
+M'), d)}"
+>  HOST_GO386 =3D "${@go_map_386(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEAT=
+URES'), d)}"
+>  HOST_GOMIPS =3D "${@go_map_mips(d.getVar('HOST_ARCH'), d.getVar('TUNE_FE=
+ATURES'), d)}"
+>  HOST_GOTUPLE =3D "${HOST_GOOS}_${HOST_GOARCH}"
+>  TARGET_GOOS =3D "${@go_map_os(d.getVar('TARGET_OS'), d)}"
+>  TARGET_GOARCH =3D "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
+> -TARGET_GOARM =3D "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_=
+FEATURES'), d)}"
+> +TARGET_GOARM =3D "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('BASE_=
+GOARM'), d)}"
+>  TARGET_GO386 =3D "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_=
+FEATURES'), d)}"
+>  TARGET_GOMIPS =3D "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUN=
+E_FEATURES'), d)}"
+>  TARGET_GOTUPLE =3D "${TARGET_GOOS}_${TARGET_GOARCH}"
+>  GO_BUILD_BINDIR =3D "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GO=
+TUPLE') =3D=3D d.getVar('HOST_GOTUPLE')]}"
+> =20
+> +# Use the MACHINEOVERRIDES to map ARM CPU architecture passed to GO via =
+GOARM.
+> +# This is combined with *_ARCH to set HOST_GOARM and TARGET_GOARM.
+> +BASE_GOARM =3D ''
+> +BASE_GOARM_armv7ve =3D '7'
+> +BASE_GOARM_armv7a =3D '7'
+> +BASE_GOARM_armv6 =3D '6'
+> +BASE_GOARM_armv5 =3D '5'
+> +
+>  # Go supports dynamic linking on a limited set of architectures.
+>  # See the supportsDynlink function in go/src/cmd/compile/internal/gc/mai=
+n.go
+>  GO_DYNLINK =3D ""
+> @@ -74,12 +82,7 @@ def go_map_arch(a, d):
+>  def go_map_arm(a, f, d):
+>      import re
+>      if re.match('arm.*', a):
+> -        if 'armv7' in f:
+> -            return '7'
+> -        elif 'armv6' in f:
+> -            return '6'
+> -        elif 'armv5' in f:
+> -            return '5'
+> +        return f
+>      return ''
 
-If something is broken, please describe the steps to reproduce and I can loo=
-k into it
+Is this function still useful? Cannot you set TARGET_GOARM and
+HOST_GOARM with arm override (to simulate the effect of "re.match('arm.*', =
+a)")?
 
-Alex
+Regards,
 
-> On 18 Mar 2019, at 17.00, Otavio Salvador <otavio.salvador@ossystems.com.b=
-r> wrote:
->=20
-> Hello Alexander,
->=20
-> On Mon, Mar 18, 2019 at 11:53 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
->>=20
->> Apologies, but I still have to veto this. The concerns I expressed previo=
-usly still stand.
->>=20
->> The best course of action would be to work with the OpenSSL upstream to r=
-eplace the utility with either C or shell version.
->=20
-> I understand your concerns about this however, those also stands for
-> the native recipe. So we have two possible routes which seem to align
-> with those concerns:
->=20
-> 1) assume the c_rehash in shell script is good enough and adopt it
-> 2) drop c_rehash from openssl recipe
->=20
-> either work. The use of a different version for target and native does
-> not seem consistent either correct.
->=20
-> As mentioned, this has been in use in multiple devices for years
-> without concerns and this has been changed under the hood when moving
-> to OpenSSL 1.1. Also, the ca-certificate is broken for installation on
-> target now (as it uses c_rehash) and this is still unnoticed.
->=20
-> So I know your view on this. I'd like to know the view of other team
-> members as well...
->=20
+> =20
+>  def go_map_386(a, f, d):
+> --=20
+> 2.7.4
 >=20
 > --=20
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--P+33d92oIH25kiaB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXI/J/AAKCRA3VSO3ZXaA
+HF6SAKCQLwDhCpUgCb49UJz6mc8NKBDOSACeP5LllrNsc5d3hbhdGGBu+/l7yWc=
+=PkZB
+-----END PGP SIGNATURE-----
+
+--P+33d92oIH25kiaB--
