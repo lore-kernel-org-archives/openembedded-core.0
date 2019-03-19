@@ -1,29 +1,50 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 753A67CB4F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C8FB47CB4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 02:04:04 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,496,1544457600"; d="scan'208";a="57098549"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Mar 2019 10:04:04 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1EA204C8B6EC;
-	Tue, 19 Mar 2019 10:03:33 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.47) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 19 Mar 2019 10:04:10 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Mar 2019 10:05:34 +0800
-Message-ID: <20190319020534.17278-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.47]
-X-yoursite-MailScanner-ID: 1EA204C8B6EC.A7C94
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] ofono: upgrade to 1.28
+	Tue, 19 Mar 2019 02:14:17 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id v64so12591721pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2019 19:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=EojyyJxU3BNbme7lqeKsuacLrbkU0z/6eLnhkCv3tds=;
+	b=RH8M8frObcQiSkpXP3nDVlByFQZYSfnU0YdGQijVFTV2GDHjnFFbFjWWLKC0QyG/6p
+	8ebn74rdBLee/zlpfNy4zsf7201sQctN3ydIfMFRuAKRau4DEPK97Rv1MLSiWgrS1Jrg
+	++5m/F1kyL+AT4gGcOJwhGo2XHpWsLq4DeH2kr2K1WbVxa0CkCapsVwXtUl1XK5G7sp5
+	Cb7rFFD0ucAHAWznPaH6+D8rmrrKfgu3q0Sc0+KiC+z89gJtyTWjeVThrIVv5qZlKb4V
+	JaIbnmdZMBABVzK7x5vaBYCenp2cukpIve2iQoQsg6chxm5j9V/BufCOGQ0YtIaH+hPd
+	701g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EojyyJxU3BNbme7lqeKsuacLrbkU0z/6eLnhkCv3tds=;
+	b=PzMlRmxxLBBDiWnLEedLD6pxg1/+/zouIUX8crn/bl8UNwlWpKoK+QPaQmTFgDgyEL
+	6cQevicYBK3d+bFW8TdP/bB+NscOfX+OfdpO2R0WOD2sn+ECP5K4aCvfB8GeobOzKrrm
+	AK5EBYutQKIMw5lbHVQXKyrMS1yO9nJ1Yhf9sTlG2LfRkpp2LITrBwJ8Y4N9dLldUxOx
+	x/lXTLKc2X+3lkE5NyR8oqvKYPfzp21XaA8WKExVBiwNAr/Mso4uEjVIgBFyOewWTWTP
+	8gX9CQYGCtKJ/sAmDwvp3aPTFhuBh07GsS7TmDXQfAXiMlobxt06QqYXKxLhXN1lV6Et
+	VHfw==
+X-Gm-Message-State: APjAAAVx3wPrpe8NdyTpKE0BPU/a2DcUAXVAa5bFfvtRj5yLXWm5sO/w
+	URauYdfbYAUjS2/jZeo5TOTtmrkB
+X-Google-Smtp-Source: APXvYqz9qCDDlpDoh42iyvOhFoSpiltFCJdporM3U+PwwTMoSmR4Axm70HEy0LdcQuCqo3DLHppVTQ==
+X-Received: by 2002:a17:902:8203:: with SMTP id
+	x3mr22983201pln.159.1552961658689; 
+	Mon, 18 Mar 2019 19:14:18 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:97d:e5a7:4938:a8fe])
+	by smtp.gmail.com with ESMTPSA id
+	j1sm14015595pgp.84.2019.03.18.19.14.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 Mar 2019 19:14:17 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Mar 2019 19:13:53 -0700
+Message-Id: <cover.1552960566.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/13] Sumo patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,89 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 02:04:04 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Mar 2019 02:14:17 -0000
 
-1.Upgrade ofono from 1.25 to 1.28.
+Responses should be made by Wed March 20th 21:00:00 UTC 2019
 
-2.use-python3.patch has been merged.
+The following changes since commit b28f5672ab55ea303727e9f03bc594c7774d597e:
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- .../ofono/ofono/use-python3.patch             | 27 -------------------
- meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
- meta/recipes-connectivity/ofono/ofono_1.28.bb |  8 ++++++
- 3 files changed, 8 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-python3.patch
- delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
- create mode 100644 meta/recipes-connectivity/ofono/ofono_1.28.bb
+  bitbake: COW: Fix StopIteration warning (2019-03-13 14:38:56 -0700)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/use-python3.patch b/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-deleted file mode 100644
-index 7b84075257..0000000000
---- a/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--set-ddr should use Python3 like all the other tests.
--
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 17b69cd1da4c5c5f732acb38ca1602446c567ee7 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Mon, 29 Jan 2018 11:31:25 +0000
--Subject: [PATCH] test/setddr: use Python 3
--
--All the other tests use Python 3, so this should to.
-----
-- test/set-ddr | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/test/set-ddr b/test/set-ddr
--index 5d061b95..33631f31 100755
----- a/test/set-ddr
--+++ b/test/set-ddr
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/python3
-- 
-- import sys
-- import dbus
---- 
--2.11.0
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.25.bb b/meta/recipes-connectivity/ofono/ofono_1.25.bb
-deleted file mode 100644
-index 3688b9d2fc..0000000000
---- a/meta/recipes-connectivity/ofono/ofono_1.25.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require ofono.inc
--
--SRC_URI  = "\
--  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
--  file://ofono \
--  file://use-python3.patch \
--"
--SRC_URI[md5sum] = "31450cabdd8dbbf3f808ea2f2f066863"
--SRC_URI[sha256sum] = "eb011fcd3080e93f3a56f96be60350b6595a8b5f36b61646312ba41b0bcb0d75"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.28.bb b/meta/recipes-connectivity/ofono/ofono_1.28.bb
-new file mode 100644
-index 0000000000..48bf2d3edc
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono_1.28.bb
-@@ -0,0 +1,8 @@
-+require ofono.inc
-+
-+SRC_URI  = "\
-+  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-+  file://ofono \
-+"
-+SRC_URI[md5sum] = "3a5406565b552b16602610619b034967"
-+SRC_URI[sha256sum] = "93bb2cedef54f897dd5200e22b072a6e38b5d9b44be57eebbbe8d513f0beb0e4"
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib stable/sumo-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stable/sumo-next
+
+Bruce Ashfield (1):
+  linux-yocto/4.14: configuration cleanups
+
+Chen Qi (2):
+  systemd: fix CVE-2018-15686
+  systemd: fix CVE-2018-15688
+
+George McCollister (5):
+  systemd: fix CVE-2018-15687
+  systemd: Security fix CVE-2018-16864
+  systemd: Security fix CVE-2018-16865
+  systemd: fix CVE-2018-6954
+  systemd: fix CVE-2019-6454
+
+Marcus Cooper (1):
+  systemd: Security fix CVE-2018-16866
+
+Mingli Yu (1):
+  logrotate.py: restore /etc/logrotate.d/wtmp
+
+ROGEZ Matthieu (1):
+  systemd: Fix typo in root home variable.
+
+Richard Purdie (1):
+  oeqa/runtime/dnf: Fix test error when static libs are enabled
+
+Stefan Agner (1):
+  run-postinsts: for dpkg/opkg, do not rely on /etc/*-postinsts
+
+ meta/lib/oeqa/runtime/cases/dnf.py                 |    2 +-
+ meta/lib/oeqa/runtime/cases/logrotate.py           |    6 +-
+ ...sive-let-s-rework-the-recursive-logic-to-.patch |  252 +++
+ ...eserializing-state-always-use-read_line-L.patch |  250 +++
+ ...sure-we-have-enough-space-for-the-DHCP6-o.patch |   39 +
+ ...n-t-resolve-pathnames-when-traversing-rec.patch |  643 +++++++
+ .../systemd/systemd/0002-Make-tmpfiles-safe.patch  | 1828 ++++++++++++++++++++
+ ...-not-store-the-iovec-entry-for-process-co.patch |  193 +++
+ ...ld-set-a-limit-on-the-number-of-fields-1k.patch |   60 +
+ ...ote-set-a-limit-on-the-number-of-fields-i.patch |   79 +
+ ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch |   49 +
+ .../systemd/systemd/CVE-2019-6454.patch            |  210 +++
+ ...e-receive-an-invalid-dbus-message-ignore-.patch |   61 +
+ meta/recipes-core/systemd/systemd_237.bb           |   13 +-
+ .../run-postinsts/run-postinsts/run-postinsts      |   21 +-
+ .../run-postinsts/run-postinsts.service            |    1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      |    2 +-
+ 19 files changed, 3697 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-core-when-deserializing-state-always-use-read_line-L.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles-don-t-resolve-pathnames-when-traversing-rec.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-Make-tmpfiles-safe.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
+
 -- 
-2.20.1
-
-
+2.7.4
 
 
