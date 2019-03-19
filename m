@@ -1,59 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E4F137CE4F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
+	[209.85.222.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 631687CE41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 18:11:03 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id c18so18555777otl.13
+	Tue, 19 Mar 2019 18:13:52 +0000 (UTC)
+Received: by mail-ua1-f65.google.com with SMTP id e15so6778184uam.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 11:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=IKgyjntzAHyExij0sjNqDEYzCZo0Icf5n0czhfFBjE0=;
-	b=S8MBER8xPo3TRpCI3Hc9eIEkg/358KEavZVh7gtAWszTo34emSL7PTLswOaxJUC3KG
-	yd37eyMdvljGW0at1eKumtNMQJPWlW+/MSzPo9IAbHYwwYrQ/yTvbhEyH8nhfxEotJIz
-	fwZdOyf46VYL0LvxW2mQD1P/M2XkLRM8SFsrNAADLjERddIwvmCoyvm+UMQ/sFSJZ9oD
-	8vYwBIws9wOLFKnyPBis5DaXod+FcvLvRbD5IXwm83j2iuR02HZj9kVk505M3U9aXo9K
-	QHxIWm4QflDNfvP/+gYm7JA3UuaBk+WnvP35l/+/8YuaBZPyTSOVChFG654Yy/YADW2P
-	gQ2g==
+	Tue, 19 Mar 2019 11:13:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=C3vvKIYbaUdJosZQ27+GmVklLvFASFh9TAo/xSSJFrk=;
+	b=usOASOJBf09qceVoNaRTE3jYVDQshAImXZrzxI6UvnSAp3ZtmwspzL6p3y09taEAD2
+	njW7F8PcR3M4t/g3zj6yT6NWbK10qB3wEf/szItbf7OKptc029+BF7xOoMwabp59YP7e
+	sn0WafMydEMXNLooSjwSbsEaaH0h7+IsbmiOsvugb1QU/Btavci3XhFPaINnXOPexoIY
+	s0MTqRiCxc2QjxVvKxrbSOIocyKHNJeVSMPtG1j8Jf0AuB+j2GAYD726WnF2glK6rJd6
+	vREaREjpuASOsfId9kWbULmuqpcTWIKJg6GKJjoTbsL/jbCL+sxLWtt4DGrKl5i2uIJQ
+	0o0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=IKgyjntzAHyExij0sjNqDEYzCZo0Icf5n0czhfFBjE0=;
-	b=IUbOmaqrVVYubpca8T8t0s1/WUO9uR8q85Xs2XhrSk8AqBQ1nmHppPgdC9AsjPJVqe
-	WLMvgPAb4nDnOQhMKTYgzQRzX0HyIwHgsWI5o5yJeFJV6q0C1sMl2L1x/9sFkP417c6r
-	AKCNJwTlvmzRUfpmNmiLGPV3/Q1bcdx1ZohmsRDyHjDd/Q3FgSqSboR4mEXvWZNFgx/Y
-	wFDH0zMeYEUT37wPS9xDgLriptrr7lty+lBYSnVzbXMM7QR7o4rJzin4QLopUQkv8r+G
-	MbQWWIRAPbwCBxNaH1SZNr1y71CIy4Ep7DwXGIXDEaheh1Hba63C/pJY3nMGxoxJYT2z
-	NADQ==
-X-Gm-Message-State: APjAAAUUKu2riU1VRqEFxt0Q3kOuuR9RUHqBABC42jmKpsLpim7ey7GT
-	nNjPZoLWer6L6DXxIz6CgNl0MVWgBgewRQ==
-X-Google-Smtp-Source: APXvYqweegnyi6kzPEp4Sbho25YOq5LEl+ETFg4oHCSdMhsIqYCvRhjFzmnsAgploqfSW8PPzI0+rw==
-X-Received: by 2002:a9d:704c:: with SMTP id x12mr2759863otj.28.1553019064357; 
-	Tue, 19 Mar 2019 11:11:04 -0700 (PDT)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com.
-	[209.85.167.177]) by smtp.gmail.com with ESMTPSA id
-	m65sm5494539oia.15.2019.03.19.11.11.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Mar 2019 11:11:03 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f177.google.com with SMTP id y84so4379407oia.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 11:11:03 -0700 (PDT)
-X-Received: by 2002:aca:ac45:: with SMTP id v66mr2170386oie.134.1553019062907; 
-	Tue, 19 Mar 2019 11:11:02 -0700 (PDT)
+	bh=C3vvKIYbaUdJosZQ27+GmVklLvFASFh9TAo/xSSJFrk=;
+	b=BO8bCdK23ctcYysthrfglt6ffqLX7SCgyiyxUeqTN6dIjDUYEOZ4XM7PV2B6s82VLx
+	yihaoymqeJ/zVyacO72sUGXqPmMVqtDTZbto4wJub01Ooi1eOUSSvSNccS93IivVQ+5i
+	s+qv+zkWrA0HswEOol6HfmQ1vL5Jk4pcTA7Be3km3dkPQmDa3xgQHPa55IK6PottFvTg
+	v3DTnISKQNc/j9nY45Rkuz37tzLfjVPgrhyFWaS39BHyVMVxECqT+99oEocS9b0rgMSh
+	gZZPUrOfB4m4lMEjVoomxlJQmVj0am/q8ydrFlFylwLNm15dRsQFWiDnTKkynM4+OTEo
+	kkog==
+X-Gm-Message-State: APjAAAWnVlJtI672ngYdIg3LWgPb1L/LES4ASZLDdFTfeFML9mgUKoaG
+	XIbv1AB8Ffi/4afZmWszYYh360Z36jfBrnzTiei/Ug==
+X-Google-Smtp-Source: APXvYqwzWJBl30Aggl0OGhzmeotPL1dLMUm0sidXwsmVYGHAgcRioph0ecfsBGNvzucHDzuXEqmosH9AYWc+TQbflfc=
+X-Received: by 2002:ab0:164a:: with SMTP id l10mr2063530uae.116.1553019233084; 
+	Tue, 19 Mar 2019 11:13:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190319135727.31246-1-otavio@ossystems.com.br>
 	<CAJ86T=XEpJ2AB_3azYJi9+Lm=RnVxQMHTrOg4NL941850zcH3w@mail.gmail.com>
-In-Reply-To: <CAJ86T=XEpJ2AB_3azYJi9+Lm=RnVxQMHTrOg4NL941850zcH3w@mail.gmail.com>
-Date: Tue, 19 Mar 2019 15:10:51 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrcLgW5UBxzyw5g=PsnzfV4HJiwDn1FL6ck1Z5yfKRCAQ@mail.gmail.com>
-Message-ID: <CAP9ODKrcLgW5UBxzyw5g=PsnzfV4HJiwDn1FL6ck1Z5yfKRCAQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CAP9ODKrcLgW5UBxzyw5g=PsnzfV4HJiwDn1FL6ck1Z5yfKRCAQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKrcLgW5UBxzyw5g=PsnzfV4HJiwDn1FL6ck1Z5yfKRCAQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 19 Mar 2019 11:13:41 -0700
+Message-ID: <CAJ86T=WNXpW8U87T7f9tCwhixm-TcCQ7tYwMhgP7ucTSeLkTGw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v4 1/2] openssl: Remove the c_rehash shell re-implementation
@@ -69,32 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 18:11:04 -0000
+X-List-Received-Date: Tue, 19 Mar 2019 18:13:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 19, 2019 at 2:38 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+On Tue, Mar 19, 2019 at 11:11 AM Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
 >
-> On Tue, Mar 19, 2019 at 6:57 AM Otavio Salvador <otavio@ossystems.com.br> wrote:
+> On Tue, Mar 19, 2019 at 2:38 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 > >
-> > We had a c_rehash shell re-implementation being used for the native
-> > package however the ca-certificates now uses the openssl rehash
-> > internal application so there is no use for the c_rehash anymore.
+> > On Tue, Mar 19, 2019 at 6:57 AM Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > >
+> > > We had a c_rehash shell re-implementation being used for the native
+> > > package however the ca-certificates now uses the openssl rehash
+> > > internal application so there is no use for the c_rehash anymore.
+> > >
+> > > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > > ---
+> > >
+> > > Changes in v4:
+> > > - remove perlnative requirement
 > >
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > ---
-> >
-> > Changes in v4:
-> > - remove perlnative requirement
+> > You actually removed hostperl-runtime-native, not perl-native. It's
+> > not really correct though - the hostperl-runtime-native dependency is
+> > there to ensure we can run the openssl Configure script, not because
+> > of c_rehash.
 >
-> You actually removed hostperl-runtime-native, not perl-native. It's
-> not really correct though - the hostperl-runtime-native dependency is
-> there to ensure we can run the openssl Configure script, not because
-> of c_rehash.
+> Yes; this was fixed on v5.
 
-Yes; this was fixed on v5.
+Yes, I saw that right after posting :-) Sorry for the noise...
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
