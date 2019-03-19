@@ -1,57 +1,53 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4317D65CF3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+	[209.85.208.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AEA07CE27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 15:44:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id AEA24180E5;
-	Tue, 19 Mar 2019 16:44:50 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 0j3M8jYOI08z; Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 52B9718407;
-	Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 30A2A1E06E;
-	Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 23C781E06A;
-	Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 17B8019CA;
-	Tue, 19 Mar 2019 16:44:49 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 19 Mar 2019 16:44:48 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Tue, 19 Mar 2019 16:44:48 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v4 1/2] openssl: Remove the c_rehash shell
-	re-implementation
-Thread-Index: AQHU3lvDgB1bmopig0+OwxfujxpnzqYTF6ng
-Date: Tue, 19 Mar 2019 15:44:48 +0000
-Message-ID: <be5b31d22d21458dbafc7cf1c7b5a14a@XBOX04.axis.com>
-References: <20190319135727.31246-1-otavio@ossystems.com.br>
-In-Reply-To: <20190319135727.31246-1-otavio@ossystems.com.br>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH v4 1/2] openssl: Remove the c_rehash shell	re-implementation
+	Tue, 19 Mar 2019 15:48:03 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id d6so16456231eds.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2019 08:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=+Ac2GiqIyZ9ksoRFxqrjZNHYpIHrzRaJ3Su4IneBsk8=;
+	b=NRNoZFeu79aNOPf1uYppdPPwAOZPFI7QjkJFqr2wYBG26ZURJtDDqrQ0/uJuKCwFDr
+	mENQ+Yfntr1Gw43UcTEu9TZkJtvY0HnGNF5laqMY0uDWqJGZjBVYAgWQXS3qRS8nQ4FW
+	m0c3Wbk3atedvkCaz0RaJkX7lbHv7fZ89KKlbBIKE2u1isbkcQyKYM+USUz0g6xd8XIt
+	qp1WHEIPlVQezL+PKuzQMyqiy3cD2Su0yKY001Pi2ASq2Gz15nrYeJyhkYrVKq4wV26W
+	0m40qVE56Wn0z5W+prys07XdXAwkVZ46xrYaPifFjviqLOunSryXRY1CwpwA63W7vyDv
+	k6XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=+Ac2GiqIyZ9ksoRFxqrjZNHYpIHrzRaJ3Su4IneBsk8=;
+	b=CPHxlZrbkv3nG5MMpcTIBHNF5HM5qsaVm8GJCItL4SuVfXPZgr1WxU+Q7KHAMT9msZ
+	xhqskzVTER2/rg+UM+RwiWdmy79qMy4RR95qt7IQX7KgNCgREe0Z6LfmaQYD2s/3iZ+I
+	n5OBON3IZIEv0vlq7EkzXv/B6FZ5HUOWnulqu+jH8o4SRFke572DU1ziIBLg2yfgYStr
+	Ab7+JGJJ37LMIXO1nJPVsZNTsrFK22xkdSYaa0AV3/cQSSPRHztVNspo7KWQHRU/Sq6U
+	3RHMwIIqL4UjXBn4RVJcKjoMJQL3ZR/YfiQslEOONYo8vt7rI4OVWMVKCCZD65wZWXGp
+	kGqw==
+X-Gm-Message-State: APjAAAX51/Q2s0l3A1DTmO6ZeFRKlGm0++snsC7+ZPsZWsbKZO3bnI8D
+	Srj0jQDhT6ObY6lHTsRLOmVqh2Pg2Ak=
+X-Google-Smtp-Source: APXvYqxJvBeIGgn/9eJWmIuCdbH7IS7ObsIriglbwDuvhsf3qSiKTBPHiNbfnJDf3fyAAymCq6xH5g==
+X-Received: by 2002:aa7:dd0a:: with SMTP id i10mr6864716edv.35.1553010484168; 
+	Tue, 19 Mar 2019 08:48:04 -0700 (PDT)
+Received: from [192.168.44.177] (vpn30.hotsplots.net. [185.46.137.15])
+	by smtp.gmail.com with ESMTPSA id
+	ay13sm3145643ejb.66.2019.03.19.08.48.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Mar 2019 08:48:03 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16D57)
+In-Reply-To: <20190319135347.27444-1-otavio@ossystems.com.br>
+Date: Tue, 19 Mar 2019 16:48:02 +0100
+Message-Id: <AC4C6292-ED8A-4C78-AFD9-578EAFA37326@gmail.com>
+References: <20190319135347.27444-1-otavio@ossystems.com.br>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Upgrade 1.1.1a -> 1.1.1b
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,132 +60,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 15:44:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 19 Mar 2019 15:48:03 -0000
+Content-Type: text/plain;
+	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Otavio Salvador
-> Sent: den 19 mars 2019 14:57
-> To: OpenEmbedded Core Mailing List <openembedded-
-> core@lists.openembedded.org>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Subject: [OE-core] [PATCH v4 1/2] openssl: Remove the c_rehash shell
-> re-implementation
+Openssl10 needs a similar update, can you do it please?
+
+Alex
+
+> On 19 Mar 2019, at 14.53, Otavio Salvador <otavio@ossystems.com.br> wrote:=
+
 >=20
-> We had a c_rehash shell re-implementation being used for the native
-> package however the ca-certificates now uses the openssl rehash
-> internal application so there is no use for the c_rehash anymore.
->=20
+> License-Update: copyright years updated
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
 >=20
-> Changes in v4:
-> - remove perlnative requirement
+> .../openssl/{openssl_1.1.1a.bb =3D> openssl_1.1.1b.bb}        | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+> rename meta/recipes-connectivity/openssl/{openssl_1.1.1a.bb =3D> openssl_1=
+.1.1b.bb} (96%)
 >=20
-> Changes in v3:
-> - remove c_rehash completely
-> - fix ca-certificates recipe comment
->=20
-> Changes in v2:
-> - updated commit log
->=20
->  .../openssl/openssl/openssl-c_rehash.sh       | 222 ------------------
->  .../openssl/openssl_1.1.1a.bb                 |  15 +-
->  .../ca-certificates_20190110.bb               |   2 +-
->  3 files changed, 2 insertions(+), 237 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-c_r=
-ehash.sh
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.s=
-h b/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
-> deleted file mode 100644
-> index 6620fdcb53..0000000000
-> --- a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
-> +++ /dev/null
-> @@ -1,222 +0,0 @@
-
-[cut]
-
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/r=
-ecipes-connectivity/openssl/openssl_1.1.1a.bb
-> index 4a626a4fcd..c5900ad536 100644
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/re=
+cipes-connectivity/openssl/openssl_1.1.1b.bb
+> similarity index 96%
+> rename from meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+> rename to meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+> index d03a225df8..57026596fa 100644
 > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> @@ -9,11 +9,8 @@ SECTION =3D "libs/network"
->  LICENSE =3D "openssl"
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd57d511030c9d66ef5f5966bee5a7=
-eff"
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+> @@ -7,7 +7,7 @@ SECTION =3D "libs/network"
+> # "openssl" here actually means both OpenSSL and SSLeay licenses apply
+> # (see meta/files/common-licenses/OpenSSL to which "openssl" is SPDXLICENS=
+EMAPped)
+> LICENSE =3D "openssl"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd57d511030c9d66ef5f5966bee5a7e=
+ff"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd343e62fc9c833710bbbed25f27364=
+c8"
 >=20
-> -DEPENDS =3D "hostperl-runtime-native"
-> -
->  SRC_URI =3D "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             file://run-ptest \
-> -           file://openssl-c_rehash.sh \
->             file://0001-skip-test_symbol_presence.patch \
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
--co.patch \
->             file://afalg.patch \
-> @@ -149,12 +146,6 @@ do_install_append_class-native () {
->  	    SSL_CERT_DIR=3D${libdir}/ssl-1.1/certs \
->  	    SSL_CERT_FILE=3D${libdir}/ssl-1.1/cert.pem \
->  	    OPENSSL_ENGINES=3D${libdir}/ssl-1.1/engines
-> -
-> -	# Install a custom version of c_rehash that can handle sysroots properl=
-y.
-> -	# This version is used for example when installing ca-certificates duri=
-ng
-> -	# image creation.
-> -	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
-> -	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
->  }
+> DEPENDS =3D "hostperl-runtime-native"
 >=20
->  do_install_append_class-nativesdk () {
-> @@ -196,7 +187,7 @@ FILES_libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
->  FILES_libssl =3D "${libdir}/libssl${SOLIBS}"
->  FILES_openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
->  FILES_${PN}-engines =3D "${libdir}/engines-1.1"
-> -FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
-> +FILES_${PN}-misc =3D "${libdir}/ssl-1.1/misc"
->  FILES_${PN} =3D+ "${libdir}/ssl-1.1/*"
->  FILES_${PN}_append_class-nativesdk =3D " ${SDKPATHNATIVE}/environment-se=
-tup.d/openssl.sh"
+> @@ -22,8 +22,8 @@ SRC_URI_append_class-nativesdk =3D " \
+>            file://environment.d-openssl.sh \
+>            "
 >=20
-
-You should remove the following line too:
-
-RDEPENDS_${PN}-misc =3D "perl"
-
-so we actually get rid of the perl dependency.
-
-> @@ -211,7 +202,3 @@ RREPLACES_openssl-conf =3D "openssl10-conf"
->  RCONFLICTS_openssl-conf =3D "openssl10-conf"
+> -SRC_URI[md5sum] =3D "963deb2272d6be7d4c2458afd2517b73"
+> -SRC_URI[sha256sum] =3D "fc20130f8b7cbd2fb918b2f14e2f429e109c31ddd0fb38fc5=
+d71d9ffed3f9f41"
+> +SRC_URI[md5sum] =3D "4532712e7bcc9414f5bce995e4e13930"
+> +SRC_URI[sha256sum] =3D "5c557b023230413dfb0756f3137a13e6d726838ccd1430888=
+ad15bfb2b43ea4b"
 >=20
->  BBCLASSEXTEND =3D "native nativesdk"
-> -
-> -inherit multilib_script
-> -
-> -MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_2019011=
-0.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> index b9f57900c8..4c0425302f 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://debian/copyright;md5=3Daeb=
-420429b1659507e0a5a1b123e8308
->  DEPENDS =3D ""
->  DEPENDS_class-native =3D "openssl-native"
->  DEPENDS_class-nativesdk =3D "openssl-native"
-> -# Need c_rehash from openssl and run-parts from debianutils
-> +# Need rehash from openssl and run-parts from debianutils
->  PACKAGE_WRITE_DEPS +=3D "openssl-native debianutils-native"
+> inherit lib_package multilib_header ptest
 >=20
->  SRCREV =3D "c28799b138b044c963d24c4a69659b6e5486e3be"
-> --
+> --=20
 > 2.21.0
-
-//Peter
-
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
