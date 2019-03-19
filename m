@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AD56A6C17F
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 378276C17F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 04:42:05 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id p6so146083pgh.9
+	Tue, 19 Mar 2019 04:42:06 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id a3so12815733pff.11
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 18 Mar 2019 21:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=VhgEfQf9Mox4hJO9asKfZljxPdtyywDUFG1n3vhbuxg=;
-	b=nf7GFlcSbZF2wAW1oF6w9f5s7EW1XBPBeA0ZnWIOmGaedzqBZuurCCJtzXYzMrNbF5
-	e8i3QTCKMPHIZmDM+pUM69GxHQeG8LuhzaRgyc9bisGUdfqCRIwTSWrKZ0yjmaYtqOoU
-	LoHeL6jfAH9fmbQ5p1a9Iz+L7/5yB7alphdnrij5ol7Ql8sDigcgtpawVRvBJLz+wdnG
-	dqO0HFFNh/Sop4DO39vaLkEjAU5N+wsapt2uiD0cVxkyuU8sfMD5HxHvQLDs0offUCAQ
-	wCFq9eA7Y0G9486hIN+pfghsLQZY9QsJQ2vfdL21YCJChdJZSjXbtBE9KdBp96Ifv1pK
-	mhPw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=IXNVNO0ddOQbJrU5ymGU3oFE4Gap5Yi8jXBe2Xj71ao=;
+	b=o02J21uNswiHn8JqoR5xF+PrkTS82W+A1E8Aw/VKFmZUZ769bqBLtJqyP4vXqq5mHU
+	ZEu5YULfr1ddPhtLM/BmfdOSOto4T8qhJKdPQRqS/25vbVU3rp27JqKpKNzLrcuO+kMk
+	Dl2C4UvIr6isuXPNvWLwXcsI1Yhe36tn8xB8rQu+9qEDnkmVULN/sPLSSjwPL+27VJqG
+	af6o8DnFdufdcz6+auh0ETyD0VAGRvadYZMDrCIqeq36jJ6DaQny6XU+UfxWyy4ylTbd
+	urpsLncilA1zloHIOuySqCBAmbrJGl2+CHopQeYOOpPdbLhHpjp3fp+/kxF+iah817eE
+	4J2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=VhgEfQf9Mox4hJO9asKfZljxPdtyywDUFG1n3vhbuxg=;
-	b=ElhwMOs6X7jcRmTvvxIs930h5EUvAHxdyakNGDNCpa7iB3kZVsLX1ENtjEhnDLm/5K
-	7fn0EOHXHg0URxzj3E3vAkbaAQHpwRylkow+7EMdxoF0ilKQSW92IOS13Ser9rNpheUc
-	3Y+dTOMvg4nmV4brH6KfrXf5M4yDhDUvu8XED99x+xxKLSjbteUxEHePUywBZj/njLMP
-	Ni0WDjuVFQq6SBsOepG6qTZx0HAX8XYOrfXJfFrXTs9d/DZLu/ec/7vxHMghuOAGp18R
-	GxtFtC2oTdCobSWGYxmaKUCZd5KR0niMmkwcc8dd6AweKqgrhpv9hhMF3lIsKnvDwBvx
-	O+2g==
-X-Gm-Message-State: APjAAAW9JbWXFCudXrunpEE0q0e2/IoIEnYicdY5lVwOzV2AZ15u8AaH
-	8p3vgCdvMcORb3E5ZbY543w9hr8J
-X-Google-Smtp-Source: APXvYqzmh30m8DRqFL8prUyAu0gTjrLXmCwupQJHi/2BEVRHIh2hsq7js1HIN4/jwYoJcT1ekftO1Q==
-X-Received: by 2002:a17:902:2989:: with SMTP id
-	h9mr23721664plb.26.1552970526042; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=IXNVNO0ddOQbJrU5ymGU3oFE4Gap5Yi8jXBe2Xj71ao=;
+	b=SyND/6IRRnlqjCRPzD5Fh2GHC8SzFkYI97sd0rDrFclqsaroEplT5joRu0+vvrmpB3
+	Jiq39Vb4zyGL1wU9NTufmjN7gR4Xsz3TfQZNZYlVolVUzY6aR8X/pZ4jJRT4QM+24M4z
+	uuAL6h7Vnk8207DetuhQt5FTU0o9H1CCiCSBkymMEnhwTS4IcIA2RjQSrzVwfyebItoz
+	//eHlI+nTFdrCvjAckOqhO1nqLA/LItIv5MHnA4IwaojgJrb3oDSQJRdx6aCPiNI/nxy
+	rbSaGl0DJRQBd1UB7CC4XE6hyemWH7O2yp1JbvOFlN8+K1jR9TXhTtvOxiFVixgV2bKj
+	THuw==
+X-Gm-Message-State: APjAAAU3Zik/LD2wmJNRnhjaA8fIThBDcgNec9feLuvxRvrl90fKsqVv
+	SUy7K1Nd9vlh0dmmnNH7YACpL2CR
+X-Google-Smtp-Source: APXvYqwEmddN6EJg7yBf5gi47Uwx5Wbk1w4RBLSn6eCCEAOmZ66fffyYo5DERf5aSEP1ace4LXXGQw==
+X-Received: by 2002:aa7:8a92:: with SMTP id a18mr64pfc.218.1552970526918;
 	Mon, 18 Mar 2019 21:42:06 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b8f7])
 	by smtp.gmail.com with ESMTPSA id
-	m67sm19131742pfj.70.2019.03.18.21.42.05
+	m67sm19131742pfj.70.2019.03.18.21.42.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Mar 2019 21:42:05 -0700 (PDT)
+	Mon, 18 Mar 2019 21:42:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Mar 2019 21:41:57 -0700
-Message-Id: <20190319044159.27902-1-raj.khem@gmail.com>
+Date: Mon, 18 Mar 2019 21:41:58 -0700
+Message-Id: <20190319044159.27902-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190319044159.27902-1-raj.khem@gmail.com>
+References: <20190319044159.27902-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/3] lttng: Enable tools and modules on riscv
+Subject: [PATCH 2/3] packagegroup-core-tools-profile: Do not remove lttng-ust for musl and risc-v
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,45 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 04:42:05 -0000
+X-List-Received-Date: Tue, 19 Mar 2019 04:42:06 -0000
 Content-Transfer-Encoding: 8bit
-
-Latest version compiles on risv64 now
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Cc: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
 ---
-v2: Keep it disabled on musl for now
+v2: Rebased
 
- meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb | 2 +-
- meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb   | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ .../packagegroups/packagegroup-core-tools-profile.bb           | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
-index 086254d3d3..15e75e51c9 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.8.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3 \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 762c046636..3d8e0c2ed7 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -39,16 +39,13 @@ SYSTEMTAP_riscv64 = ""
+ LTTNGUST = "lttng-ust"
+ LTTNGUST_libc-musl = ""
+ LTTNGUST_arc = ""
+-LTTNGUST_riscv64 = ""
  
- inherit module
+ LTTNGTOOLS = "lttng-tools"
+ LTTNGTOOLS_libc-musl = ""
+ LTTNGTOOLS_arc = ""
+-LTTNGTOOLS_riscv64 = ""
  
--COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ LTTNGMODULES = "lttng-modules"
+ LTTNGMODULES_arc = ""
+-LTTNGMODULES_riscv64 = ""
  
- #https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index 151e35e3c3..86418f14c0 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -28,7 +28,6 @@ PACKAGECONFIG[kmod] = "--with-kmod, --without-kmod, kmod"
- PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- PACKAGECONFIG_remove_libc-musl = "lttng-ust"
- PACKAGECONFIG_remove_arc = "lttng-ust"
--PACKAGECONFIG_remove_riscv64 = "lttng-ust"
+ BABELTRACE = "babeltrace"
  
- SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://x32.patch \
 -- 
 2.21.0
 
