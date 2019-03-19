@@ -1,33 +1,53 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 572CA7CD7D
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E5916BA11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 11:45:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44NrpT1lvgz5v
+	Tue, 19 Mar 2019 12:24:58 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id h39so21815479qte.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 12:45:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1552995937;
-	bh=UbUf+9Q1C508jA1LYa93GtidjaWi35G/gZIJsp2OXTE=;
-	h=From:To:Subject:Date:From;
-	b=Q5O25QIE2VDLgA0PUnqYUvZm9CkGzq08/SD/7gSbLe9t4trHSq1buu3OCGtAC9JAf
-	Qf40vT1ang5+eQTAhQ65IoX8fHmrga/A0WsJc7Q176U5Qp4eAZn5SNVfwdjjcAGJj/
-	Y6YkFiAdk0ijLB74oSm6kiHAhIz6ulLwKb8rKnNblnCv6XUo+emaInseX3Ikv8KH7l
-	1edyZRCTkiqzPse7p/vSuoxL7yh+zBmhKfDnG+O8VCbH0PzugXdFnuBuVwTVmyE8xv
-	B0wIrxom+qnj2PnZwisWQIvoU8AeUi4qo/BxtN9G/OoNzrsrLGgxknE4mZRx1ZsPzE
-	AkVfw+J6kTnekOSmv0qSI4hLUajFc7f0vfGBvznqwc/ottbfnh9hNbvCcCp5pi7s7A
-	DJw1RiL1Li+WlIQROCPH2GdkWEQvp1X/xJSCWuyC2Z0rK/7mmmniDKm4xGgdb3LRvc
-	8I5KXroMPhPC6CUQV/bux4HjYscal4CjLuzbv2HDD6fgh3h/X++g/W5Uf6srETn4oi
-	PoZb4OjDH+4NQnPjRYpvTv6o/MjtV0UaxaJ3rdoPNky0dzRKv3h1Ylw8iFRjntsz6m
-	iNhY1HMVY43kxG2WQDAENJPg22JM/+ixRjv0fIbcJoHhZqLcAa2ux0pTkWReqIU0KU
-	gtJFfsqec9NkxvTwgkjY4DHw=
-From: Adrian Bunk <bunk@stusta.de>
+	Tue, 19 Mar 2019 05:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=TMmHDW7Kn02GwSwI8MpPV44xk5pyZ/iSel2fckuManc=;
+	b=qF85tb5fxP8+cObIH6PEhM4kKMX01NcWRHHCyoRbaWukGl03LT/2r83ObLGztwec8B
+	+c7XYm12uUHk1UdwY43BcxFMNmyNpVHox4gylmnoPvfSS9UzlxzX51OTDsO0Qm9stGoW
+	lPq8X3+hl5DN7q4CyPEkeB9V8R15VR7ysgz32BkihIcDBmmcT/BZz0YrjdsSJeb5ldNV
+	AaaWS2bIhImrsfz/cibAPjOK7hUKgtDYKy7/A5PrgqIvFaRDo4xd7TDAV6SG9czKS9Cw
+	w+XLQJuzM1MKxtE7Y4LGXTd49KkWuHEXpay7F+cgg5Itx+dX+V1FQbrZFoLHEHLPXs/E
+	FuGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=TMmHDW7Kn02GwSwI8MpPV44xk5pyZ/iSel2fckuManc=;
+	b=k7ZqrTpbiCFlGOWaoAWYnmG9poT13z6Zdx0TFFMSAeJ/gwVteM5c8LiB0eNTvkoPPD
+	eRq7xiIXpyCBdWo8vwiH7Uk2ruPQ6KHOp0yaESLQb04tsWBTjHGKPTUJ7ZyaM6MRbSBs
+	dzqJEB3VA8BQiDND2WdY1/iZN/YNGRJu5UEAfLhSdbI3xln5k8EK9bdZM21dSPNjg4Yw
+	qydT+Cyh/3GgHVEGa7TMAbsxFFwR12RSUBB+r8vLk3JH2GgwrMIskEt8yO5Yn8mVx3F1
+	3Z7Is7gJ7dx+b+O8kavMPCI+PxCN0mWsKzAupROMxigGqQNF7b0tPKql9n8o56RngzWE
+	C8Zg==
+X-Gm-Message-State: APjAAAXCh+ni7IMcl4rb4LGM/UMMih0UpMU/iRC8xsZZpQ6HjimFZjh8
+	zgMRk+X0l5gktA8NneDo2ApQXA9FBlW3GA==
+X-Google-Smtp-Source: APXvYqw4fWdnnbv6tDtmC2HYGA1o9pcvshmVa91/as3Jluki7NZ2l3Vv6S/qQxhUkBqiyqEx65O3rA==
+X-Received: by 2002:aed:23c8:: with SMTP id k8mr1661933qtc.101.1552998298703; 
+	Tue, 19 Mar 2019 05:24:58 -0700 (PDT)
+Received: from centrium.lab.ossystems ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id
+	x28sm3015933qtx.71.2019.03.19.05.24.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Mar 2019 05:24:57 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Mar 2019 13:45:36 +0200
-Message-Id: <20190319114536.2925-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] Remove the simd tune for armv8a
+Date: Tue, 19 Mar 2019 09:24:43 -0300
+Message-Id: <20190319122444.22605-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Eric Engestrom <eric.engestrom@intel.com>, Matt Turner <mattst88@gmail.com>
+Subject: [PATCH v3 1/2] mesa: Update 18.3.4 -> 19.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,106 +60,298 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 11:45:37 -0000
+X-List-Received-Date: Tue, 19 Mar 2019 12:24:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-SIMD instructions are a mandatory part of armv8a
-(they were optional in armv7a), and the gcc docs
-also say that they are always enabled.
+  - Patch 0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+    was applied on commit e68777c87ceed02ab199b32f941778c3cf97c794.
+  - Refresh all patches
+  - mesa 19.0.0 deprecated the use of autotools and we need to add
+    --enable-autotools flag. For details see mesa commit:
+    e68777c87ceed02ab199b32f941778c3cf97c794
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+  The complete change log can be found here:
+    https://www.mesa3d.org/relnotes/19.0.0.html
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 ---
- meta/conf/machine/include/arm/arch-armv8a.inc | 6 ++----
- meta/conf/machine/include/tune-cortexa32.inc  | 4 ++--
- meta/conf/machine/include/tune-cortexa35.inc  | 4 ++--
- meta/conf/machine/include/tune-cortexa53.inc  | 4 ++--
- meta/conf/machine/include/tune-cortexa72.inc  | 2 +-
- 5 files changed, 9 insertions(+), 11 deletions(-)
+ ...0001-Simplify-wayland-scanner-lookup.patch | 20 ++++----
+ ...-winsys-svga-drm-Include-sys-types.h.patch |  7 +--
+ ...M-version-when-using-LLVM-Git-releas.patch | 13 ++---
+ ...R-for-defining-WAYLAND_PROTOCOLS_DAT.patch | 11 +++--
+ ...sing-include-stddef.h-in-egldevice.h.patch | 49 -------------------
+ .../{mesa-gl_18.3.4.bb => mesa-gl_19.0.0.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc           |  4 +-
+ .../mesa/{mesa_18.3.4.bb => mesa_19.0.0.bb}   |  5 +-
+ 8 files changed, 34 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_18.3.4.bb => mesa-gl_19.0.0.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_18.3.4.bb => mesa_19.0.0.bb} (78%)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-index 22064559be..44d0ca4557 100644
---- a/meta/conf/machine/include/arm/arch-armv8a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -2,8 +2,6 @@ DEFAULTTUNE ?= "armv8a-crc"
+diff --git a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
+index 1c2ded0e60..d065e2285c 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Simplify-wayland-scanner-lookup.patch
+@@ -1,7 +1,7 @@
+-From 81bcaa1aeecf1e66b4d94181e9a827d68e970b03 Mon Sep 17 00:00:00 2001
++From e53837ad7b01364f34a533b95f4817c1795789de Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Wed, 20 Feb 2019 16:17:00 -0300
+-Subject: [PATCH 1/5] Simplify wayland-scanner lookup
++Subject: [PATCH 1/4] Simplify wayland-scanner lookup
+ Organization: O.S. Systems Software LTDA.
  
- TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
--TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
- TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
- TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
-@@ -18,11 +16,11 @@ ARMPKGARCH_tune-armv8a                    ?= "armv8a"
- ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
- ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
- ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
--TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
-+TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a"
- TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
- TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
- TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
--PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
- PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
-diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
-index 4bf7f774e1..9c948f1766 100644
---- a/meta/conf/machine/include/tune-cortexa32.inc
-+++ b/meta/conf/machine/include/tune-cortexa32.inc
-@@ -10,8 +10,8 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa32 cortexa32-crypto"
- ARMPKGARCH_tune-cortexa32             = "cortexa32"
- ARMPKGARCH_tune-cortexa32-crypto      = "cortexa32"
--TUNE_FEATURES_tune-cortexa32          = "aarch64 cortexa32 simd crc"
--TUNE_FEATURES_tune-cortexa32-crypto   = "aarch64 cortexa32 simd crc crypto"
-+TUNE_FEATURES_tune-cortexa32          = "aarch64 cortexa32 crc"
-+TUNE_FEATURES_tune-cortexa32-crypto   = "aarch64 cortexa32 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
- PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
- BASE_LIB_tune-cortexa32               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/tune-cortexa35.inc
-index 6ece810753..d6df6cd6bd 100644
---- a/meta/conf/machine/include/tune-cortexa35.inc
-+++ b/meta/conf/machine/include/tune-cortexa35.inc
-@@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa35 cortexa35-crypto"
- ARMPKGARCH_tune-cortexa35             = "cortexa35"
- ARMPKGARCH_tune-cortexa35-crypto      = "cortexa35"
--TUNE_FEATURES_tune-cortexa35          = "aarch64 cortexa35 simd crc"
--TUNE_FEATURES_tune-cortexa35-crypto   = "aarch64 cortexa35 simd crc crypto"
-+TUNE_FEATURES_tune-cortexa35          = "aarch64 cortexa35 crc"
-+TUNE_FEATURES_tune-cortexa35-crypto   = "aarch64 cortexa35 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa35             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa35"
- PACKAGE_EXTRA_ARCHS_tune-cortexa35-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa35 cortexa35-crypto"
- BASE_LIB_tune-cortexa35               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
-index 9fb37ff639..6c0b443eaf 100644
---- a/meta/conf/machine/include/tune-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa53 cortexa53-crypto"
- ARMPKGARCH_tune-cortexa53             = "cortexa53"
- ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53"
--TUNE_FEATURES_tune-cortexa53          = "aarch64 cortexa53 simd crc"
--TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 simd crc crypto"
-+TUNE_FEATURES_tune-cortexa53          = "aarch64 cortexa53 crc"
-+TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
- BASE_LIB_tune-cortexa53               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
-index 4c2306c4fd..00f7745a22 100644
---- a/meta/conf/machine/include/tune-cortexa72.inc
-+++ b/meta/conf/machine/include/tune-cortexa72.inc
-@@ -8,6 +8,6 @@ require conf/machine/include/arm/arch-armv8a.inc
- # Little Endian base configs
- AVAILTUNES += "cortexa72"
- ARMPKGARCH_tune-cortexa72             = "cortexa72"
--TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 simd crc crypto"
-+TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
- BASE_LIB_tune-cortexa72               = "lib64"
+ Don't use pkg-config to lookup the path of a binary that's in the path.
+@@ -12,31 +12,33 @@ PKG_CONFIG_SYSROOT_DIR.
+ Upstream-Status: Pending
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ ---
+  configure.ac | 7 +------
+  1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index cd9ff259fad..402b4a91946 100644
++index 1ef68fe68e6..1816a4cd475 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1841,16 +1841,11 @@ for plat in $platforms; do
++@@ -1854,16 +1854,11 @@ for plat in $platforms; do
+          fi
+          WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+-
++ 
+ -        PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
+ -                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
+ -                          WAYLAND_SCANNER='')
+          PKG_CHECK_EXISTS([wayland-scanner >= 1.15],
+                            AC_SUBST(SCANNER_ARG, 'private-code'),
+                            AC_SUBST(SCANNER_ARG, 'code'))
+-
++ 
+ -        if test "x$WAYLAND_SCANNER" = x; then
+ -            AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+ -        fi
+ +        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+-
++ 
+          if test "x$WAYLAND_SCANNER" = "x:"; then
+                  AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
+---
+-2.20.1
++-- 
++2.21.0
++
+diff --git a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+index 12dca61e19..aaeb0f11ba 100644
+--- a/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
++++ b/meta/recipes-graphics/mesa/files/0002-winsys-svga-drm-Include-sys-types.h.patch
+@@ -1,7 +1,7 @@
+-From 34c3d07b67e6c08f555473a86ff158951abb6000 Mon Sep 17 00:00:00 2001
++From f212b6bed4bf265aec069c21cdc4b7c2d9cb32df Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 16 Aug 2017 18:58:20 -0700
+-Subject: [PATCH 2/5] winsys/svga/drm: Include sys/types.h
++Subject: [PATCH 2/4] winsys/svga/drm: Include sys/types.h
+ Organization: O.S. Systems Software LTDA.
+ 
+ vmw_screen.h uses dev_t which is defines in sys/types.h
+@@ -13,6 +13,7 @@ system headers
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Backport [7dfdfbf8c37e52e7b9b09f7d1d434edad3ebc864]
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ ---
+  src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
+  1 file changed, 1 insertion(+)
+@@ -30,5 +31,5 @@ index a87c087d9c5..cb34fec48e7 100644
+  #define VMW_GMR_POOL_SIZE (16*1024*1024)
+  #define VMW_QUERY_POOL_SIZE (8192)
+ -- 
+-2.20.1
++2.21.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch b/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+index 59b118d9f4..96edc2172b 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+@@ -1,7 +1,7 @@
+-From c5b5bf6c31be1823be1d0317eabe16558a4f0762 Mon Sep 17 00:00:00 2001
++From ce7b9ff6517fda089f296b2af2c1c49604872514 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Tue, 5 Jun 2018 11:11:10 -0300
+-Subject: [PATCH 3/5] Properly get LLVM version when using LLVM Git releases
++Subject: [PATCH 3/4] Properly get LLVM version when using LLVM Git releases
+ Organization: O.S. Systems Software LTDA.
+ 
+ $ llvm-config-host --version
+@@ -13,15 +13,16 @@ doing
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ ---
+  configure.ac | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index cbc455e130f..0065376f4b7 100644
++index 1816a4cd475..13fed9daf59 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1111,7 +1111,7 @@ strip_unwanted_llvm_flags() {
++@@ -1124,7 +1124,7 @@ strip_unwanted_llvm_flags() {
+  
+  llvm_set_environment_variables() {
+      if test "x$LLVM_CONFIG" != xno; then
+@@ -30,7 +31,7 @@ index cbc455e130f..0065376f4b7 100644
+          LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
+          LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
+          LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
+-@@ -2860,7 +2860,7 @@ detect_old_buggy_llvm() {
++@@ -2870,7 +2870,7 @@ detect_old_buggy_llvm() {
+      dnl ourselves.
+      dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
+      dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
+@@ -40,5 +41,5 @@ index cbc455e130f..0065376f4b7 100644
+  
+      if test "x$llvm_have_one_so" = xyes; then
+ -- 
+-2.20.1
++2.21.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch b/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+index 8c91790249..45bcd466a3 100644
+--- a/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
++++ b/meta/recipes-graphics/mesa/files/0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+@@ -1,7 +1,7 @@
+-From f48b8f073f921ce5be859130313e9d392ef3e78e Mon Sep 17 00:00:00 2001
++From 5489e1d22e18740a1924628c5c97096d48dcfbf8 Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Fri, 15 Feb 2019 10:57:06 -0200
+-Subject: [PATCH 4/5] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
++Subject: [PATCH 4/4] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
+ Organization: O.S. Systems Software LTDA.
+ 
+ This allows to override the wayland-protocols pkgdatadir with the
+@@ -21,10 +21,10 @@ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 0065376f4b7..b21fb2210c6 100644
++index 13fed9daf59..6cff8afb7cf 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1839,7 +1839,7 @@ for plat in $platforms; do
++@@ -1852,7 +1852,7 @@ for plat in $platforms; do
+          if test "x$enable_egl" = xyes; then
+            PKG_CHECK_MODULES([WAYLAND_EGL], [wayland-egl-backend >= $WAYLAND_EGL_BACKEND_REQUIRED])
+          fi
+@@ -33,3 +33,6 @@ index 0065376f4b7..b21fb2210c6 100644
+  
+          PKG_CHECK_EXISTS([wayland-scanner >= 1.15],
+                            AC_SUBST(SCANNER_ARG, 'private-code'),
++-- 
++2.21.0
++
+diff --git a/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch b/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
+deleted file mode 100644
+index 1782576db2..0000000000
+--- a/meta/recipes-graphics/mesa/files/0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From f452e30ab664fe608acc107cc03d2efa8731d938 Mon Sep 17 00:00:00 2001
+-From: Gurchetan Singh <gurchetansingh@chromium.org>
+-Date: Wed, 28 Nov 2018 08:39:34 -0800
+-Subject: [PATCH 5/5] egl: add missing #include <stddef.h> in egldevice.h
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-Organization: O.S. Systems Software LTDA.
+-
+-Otherwise, I get this error:
+-
+-main/egldevice.h:54:13: error: ‘NULL’ undeclared (first use in this function)
+-       dev = NULL;
+-             ^~~~
+-with this config:
+-
+-./autogen.sh --enable-gles1 --enable-gles2 --with-platforms='surfaceless' --disable-glx
+-             --with-dri-drivers="i965" --with-gallium-drivers="" --enable-gbm
+-
+-v3: Use stddef.h (Matt)
+-v4: Modify commit message (Eric)
+-
+-Reviewed-by: Matt Turner <mattst88@gmail.com>
+-Reviewed-by: Eric Engestrom <eric.engestrom@intel.com>
+-
+-Upstream-Status: Backport [https://cgit.freedesktop.org/mesa/mesa/commit/?id=eb44c36cf1729e7e200b77cf8ea755dff72d1639]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- src/egl/main/egldevice.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/egl/main/egldevice.h b/src/egl/main/egldevice.h
+-index ddcdcd17f5a..83a47d5eacc 100644
+---- a/src/egl/main/egldevice.h
+-+++ b/src/egl/main/egldevice.h
+-@@ -31,9 +31,9 @@
+- 
+- 
+- #include <stdbool.h>
+-+#include <stddef.h>
+- #include "egltypedefs.h"
+- 
+--
+- #ifdef __cplusplus
+- extern "C" {
+- #endif
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb b/meta/recipes-graphics/mesa/mesa-gl_19.0.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_18.3.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.0.0.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 59e8a204c7..54818d7e0d 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -42,7 +42,9 @@ EXTRA_OECONF = "--enable-shared-glapi \
+                 --enable-glx-read-only-text \
+                 PYTHON2=python2 \
+                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
+-                --with-platforms='${PLATFORMS}'"
++                --with-platforms='${PLATFORMS}' \
++                --enable-autotools \
++"
+ 
+ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+diff --git a/meta/recipes-graphics/mesa/mesa_18.3.4.bb b/meta/recipes-graphics/mesa/mesa_19.0.0.bb
+similarity index 78%
+rename from meta/recipes-graphics/mesa/mesa_18.3.4.bb
+rename to meta/recipes-graphics/mesa/mesa_19.0.0.bb
+index 27f4f0241f..024acdad0b 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.3.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.0.0.bb
+@@ -5,11 +5,10 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-winsys-svga-drm-Include-sys-types.h.patch \
+            file://0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
+            file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+-           file://0005-egl-add-missing-include-stddef.h-in-egldevice.h.patch \
+ "
+ 
+-SRC_URI[md5sum] = "6f2a5e01dd5cb91d05a9534f5a80c35d"
+-SRC_URI[sha256sum] = "32314da4365d37f80d84f599bd9625b00161c273c39600ba63b45002d500bb07"
++SRC_URI[md5sum] = "d0d76cd8b00bc1308e37985d4a45d3c5"
++SRC_URI[sha256sum] = "5a549dfb40ec31e5c36c47aadac04554cb2e2a8d144a046a378fc16da57e38f8"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
-2.17.1
+2.20.1
 
 
