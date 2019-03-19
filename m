@@ -1,53 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AEA07CE27
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BB94D65CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 15:48:03 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id d6so16456231eds.2
+	Tue, 19 Mar 2019 15:50:44 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id e13so8022867ioq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 08:48:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=+Ac2GiqIyZ9ksoRFxqrjZNHYpIHrzRaJ3Su4IneBsk8=;
-	b=NRNoZFeu79aNOPf1uYppdPPwAOZPFI7QjkJFqr2wYBG26ZURJtDDqrQ0/uJuKCwFDr
-	mENQ+Yfntr1Gw43UcTEu9TZkJtvY0HnGNF5laqMY0uDWqJGZjBVYAgWQXS3qRS8nQ4FW
-	m0c3Wbk3atedvkCaz0RaJkX7lbHv7fZ89KKlbBIKE2u1isbkcQyKYM+USUz0g6xd8XIt
-	qp1WHEIPlVQezL+PKuzQMyqiy3cD2Su0yKY001Pi2ASq2Gz15nrYeJyhkYrVKq4wV26W
-	0m40qVE56Wn0z5W+prys07XdXAwkVZ46xrYaPifFjviqLOunSryXRY1CwpwA63W7vyDv
-	k6XA==
+	Tue, 19 Mar 2019 08:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BnsMMF7wMjOZiYDekWqbRwLaIuI9gU8/J9NrN86X0Ss=;
+	b=L5/H3+0Omyq315OLI+OW8q63Uioz/RM+2VhyqGrpLO/Z1Fz1SES1rU9CRzAzk+KMDm
+	PsRBngqTAXhM1fqI9GHaTcSid4MxhyN/uASec1tk60Eh2oubYPsBUNvynAx5ieHLbVPX
+	xGAcWxmI3ZV4dsKOx8esdrx7lqbC7d3uuVeIw0nv0rvHsOrGNa3h5vez6Aacr0gloZta
+	B6mebs/E2jgyzo4lQglbzPE05XaFsmyzv8UzVaXPreb61TySXAST+TTLIcZ7ZoVsCd7q
+	AAogK2UDufHeASquVtAks4Hgn9oZe6fYx88pUvfRXmn2p7bj0Jz4CZ1hTic/nXx+pvsZ
+	VIwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=+Ac2GiqIyZ9ksoRFxqrjZNHYpIHrzRaJ3Su4IneBsk8=;
-	b=CPHxlZrbkv3nG5MMpcTIBHNF5HM5qsaVm8GJCItL4SuVfXPZgr1WxU+Q7KHAMT9msZ
-	xhqskzVTER2/rg+UM+RwiWdmy79qMy4RR95qt7IQX7KgNCgREe0Z6LfmaQYD2s/3iZ+I
-	n5OBON3IZIEv0vlq7EkzXv/B6FZ5HUOWnulqu+jH8o4SRFke572DU1ziIBLg2yfgYStr
-	Ab7+JGJJ37LMIXO1nJPVsZNTsrFK22xkdSYaa0AV3/cQSSPRHztVNspo7KWQHRU/Sq6U
-	3RHMwIIqL4UjXBn4RVJcKjoMJQL3ZR/YfiQslEOONYo8vt7rI4OVWMVKCCZD65wZWXGp
-	kGqw==
-X-Gm-Message-State: APjAAAX51/Q2s0l3A1DTmO6ZeFRKlGm0++snsC7+ZPsZWsbKZO3bnI8D
-	Srj0jQDhT6ObY6lHTsRLOmVqh2Pg2Ak=
-X-Google-Smtp-Source: APXvYqxJvBeIGgn/9eJWmIuCdbH7IS7ObsIriglbwDuvhsf3qSiKTBPHiNbfnJDf3fyAAymCq6xH5g==
-X-Received: by 2002:aa7:dd0a:: with SMTP id i10mr6864716edv.35.1553010484168; 
-	Tue, 19 Mar 2019 08:48:04 -0700 (PDT)
-Received: from [192.168.44.177] (vpn30.hotsplots.net. [185.46.137.15])
-	by smtp.gmail.com with ESMTPSA id
-	ay13sm3145643ejb.66.2019.03.19.08.48.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Mar 2019 08:48:03 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <20190319135347.27444-1-otavio@ossystems.com.br>
-Date: Tue, 19 Mar 2019 16:48:02 +0100
-Message-Id: <AC4C6292-ED8A-4C78-AFD9-578EAFA37326@gmail.com>
-References: <20190319135347.27444-1-otavio@ossystems.com.br>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Upgrade 1.1.1a -> 1.1.1b
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BnsMMF7wMjOZiYDekWqbRwLaIuI9gU8/J9NrN86X0Ss=;
+	b=GEasnvCKmTzjZALhEeMBkjZzvkJ1WCfaGuSnjJkxuupCqodRixQT1pFLNEcDO9QzZu
+	vUfOd7agU0NFX/D68rr3vjPQQaYtrb3qK+uJ97lKBL3PwhdA7TT5MVL4rNvQaKGk3RBP
+	9u6RsFO9McgTcEt69gTt1xVXqm/onBWHzajNdojJ5crn6EEpC/87fdw6udefndUeduaT
+	MLPno9trUNfK+Sm9hF7QV/jBARpLSapf79/bjGWdRPIWSt2qQYu128qpAVdNj1V2kIKO
+	y4CilGdH97syGZw1sFlpXowdECaTm/sIP4+OkYE8A+oBSqQJgYCz7ib5WkXJ7RH31Ten
+	65gA==
+X-Gm-Message-State: APjAAAUGbDqBeDyJpJXXut5uNlWTdV0+fHgCeVvP/WTF/K7s0H2RelQc
+	+wxXNc+GxnwIhfLevKH625mlHWhY2SdjjTosAHZOnA==
+X-Google-Smtp-Source: APXvYqzf5DJmOH8Gj/SSJEPPNA906b1D7WKQ5SzRn8xO1mEAzt3o8Erb5WuC2Dj9nSb2VV03uabAaAzqj+rIobrD+9Q=
+X-Received: by 2002:a5d:8795:: with SMTP id f21mr1883118ion.20.1553010645785; 
+	Tue, 19 Mar 2019 08:50:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190319075451.18823-1-lu.jiang@windriver.com>
+	<20190319075451.18823-3-lu.jiang@windriver.com>
+	<613c27767a004365b122b1352321d88e@XBOX04.axis.com>
+In-Reply-To: <613c27767a004365b122b1352321d88e@XBOX04.axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Mar 2019 15:50:34 +0000
+Message-ID: <CAJTo0LbRdu2fvjeUBt42gYn30Ks+Qb42j55=uW7c+tgaQZ-5Hg@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-core 2/2] glib-networking:enable glib-networking complie as native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 15:48:03 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Mar 2019 15:50:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Openssl10 needs a similar update, can you do it please?
+On Tue, 19 Mar 2019 at 15:37, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> > +do_install_append_class-native () {
+> > +    for _pc in ${D}${libdir}/pkgconfig/*.pc; do
+> > +        case $_pc in
+> > +            *'*.pc') rm -fr ${D}${libdir}/pkgconfig;;
+> > +            *.pc)    break;;
+> > +        esac
+> > +    done
+>
+> Why complicate things? Just remove the directory if it exists
+> and is empty:
+>
+>         rmdir ${D}${libdir}/pkgconfig 2>/dev/null || :
 
-Alex
+Bikeshed!  Or
 
-> On 19 Mar 2019, at 14.53, Otavio Salvador <otavio@ossystems.com.br> wrote:=
+rmdir --ignore-fail-on-non-empty ${D}${libdir}/pkgconfig
 
->=20
-> License-Update: copyright years updated
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->=20
-> .../openssl/{openssl_1.1.1a.bb =3D> openssl_1.1.1b.bb}        | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
-> rename meta/recipes-connectivity/openssl/{openssl_1.1.1a.bb =3D> openssl_1=
-.1.1b.bb} (96%)
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/re=
-cipes-connectivity/openssl/openssl_1.1.1b.bb
-> similarity index 96%
-> rename from meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> rename to meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-> index d03a225df8..57026596fa 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-> @@ -7,7 +7,7 @@ SECTION =3D "libs/network"
-> # "openssl" here actually means both OpenSSL and SSLeay licenses apply
-> # (see meta/files/common-licenses/OpenSSL to which "openssl" is SPDXLICENS=
-EMAPped)
-> LICENSE =3D "openssl"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd57d511030c9d66ef5f5966bee5a7e=
-ff"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd343e62fc9c833710bbbed25f27364=
-c8"
->=20
-> DEPENDS =3D "hostperl-runtime-native"
->=20
-> @@ -22,8 +22,8 @@ SRC_URI_append_class-nativesdk =3D " \
->            file://environment.d-openssl.sh \
->            "
->=20
-> -SRC_URI[md5sum] =3D "963deb2272d6be7d4c2458afd2517b73"
-> -SRC_URI[sha256sum] =3D "fc20130f8b7cbd2fb918b2f14e2f429e109c31ddd0fb38fc5=
-d71d9ffed3f9f41"
-> +SRC_URI[md5sum] =3D "4532712e7bcc9414f5bce995e4e13930"
-> +SRC_URI[sha256sum] =3D "5c557b023230413dfb0756f3137a13e6d726838ccd1430888=
-ad15bfb2b43ea4b"
->=20
-> inherit lib_package multilib_header ptest
->=20
-> --=20
-> 2.21.0
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
