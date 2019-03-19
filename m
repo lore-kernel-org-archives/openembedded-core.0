@@ -1,58 +1,43 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
-	[209.85.208.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 255F47CE22
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 18FBE6BF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 16:31:53 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id e4so17177760edi.3
+	Tue, 19 Mar 2019 16:36:59 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id w30so17546246qta.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 09:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=R0JwLs5nAkrTVDKc2iwcdHeAyVwoV7kTq6gq8hOjUiU=;
-	b=DE3MUldzDQmYY2l9jr3sXTc+RAFlw06iI0NTId+ZNmgPOiFAgc9KHrInvjWUSllq2/
-	u/zRDsAWPkh6GpSXcPEbb0AtguImttDauPh/n3G/SWbWNumgk/yRN3TgSUWype2i5Sez
-	f1j+tMxSlWPoI2W+IsRsRtMgUZXmOUMfJFFBQEKX6kRUQm7IVYKkAxyO1UY4MMtOA9Tp
-	L6HfLJ27JCOFVFa6hrHSXkmhRGAAA6EsdNdTGBbFdpxZZZAsTbqOGxtH/4AB5MJ6aGPG
-	VzLk9UUNcidpxvAWHxRiJr8c35xDUrmfKhYaDm+UJ1niugV0O0mMj0s41ueeBAd8MYHr
-	vVRQ==
+	Tue, 19 Mar 2019 09:37:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=R0JwLs5nAkrTVDKc2iwcdHeAyVwoV7kTq6gq8hOjUiU=;
-	b=nbtvjyptJbdBNuClU/e9MYk/JMmGwibMPGwPAnCyjuZdx9I+uqNQTurhMmhkvFN04g
-	rUtZGF5wisftQ02EWp2lnTel8sRwM+UBuL3nglDMDb+zpigINEr5O64359jWWdtRbTYw
-	kWKTt1oU6BR88ei6c6llYVQ29MEyJqiFfb+H8sTLhjs28O7jOZ2IaG9h4JJ0QHldKLjz
-	mXzGejaDSe1bDLP4vhmWZRRZyhj4JR3edGzB/9Nq/J7L+IcBykznnXjrwWgAuje7rXJi
-	TQLAOPzD6oxK7+fURNWhbyaTp8hlZK5Vy0bYVp6QYYre+2UmYZTpF3nY9NmZziQFx9B1
-	rLEw==
-X-Gm-Message-State: APjAAAUOHTgyPpzUBTtIzEXkaxW12LpbdNFSID3p8wXgA45UgbWEe7xb
-	ClN1YKUmqgMvx1KKxIr0LHA=
-X-Google-Smtp-Source: APXvYqzqCez9k5sYSxwAmeKfQVQxz9qHSllGsGX2Gw/ooqP0r2Pd01IMOJXScBsArffwB+4PMbMmhw==
-X-Received: by 2002:a50:b493:: with SMTP id w19mr18086681edd.11.1553013113930; 
-	Tue, 19 Mar 2019 09:31:53 -0700 (PDT)
-Received: from [192.168.44.177] (vpn30.hotsplots.net. [185.46.137.15])
-	by smtp.gmail.com with ESMTPSA id
-	z17sm3969420edi.67.2019.03.19.09.31.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Mar 2019 09:31:53 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <20190319135538.GH1994@jama>
-Date: Tue, 19 Mar 2019 17:31:52 +0100
-Message-Id: <8ECD4C1B-CF62-4D11-9757-F3176AEA4B50@gmail.com>
-References: <cover.1552962581.git.akuster808@gmail.com>
-	<20190319085532.GF1994@jama>
-	<D3413079-663B-47D2-8550-658159790D3B@gmail.com>
-	<20190319104001.GG1994@jama>
-	<22BB06E0-D9DD-4070-960B-53D03755B65A@gmail.com>
-	<20190319135538.GH1994@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/26] thud patch review
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=VEvYrQKpfs4pdXfw8rQJTF+Awi1q84fMu0mKnMp438E=;
+	b=UEivKuEH4Z1I8qmpaCFZMsvu+YugQ2L3atYIlI3qOqiApGumzril8asWTsKjzvz/aG
+	cJOHGhTBSx04xB7eDhX5j/neTDYR/YX3ferZVt4yRCOOvA21waSb/NrqBJxev4og54Ov
+	OYlOeREJjafLGN/bTtYk41VA6Se+wnTgtRhvN5Z/EN2ahvGatNmIr/IOlflj+Y0sul3P
+	sxWiHQew0JJnb1oeviz/kgbPfk1q5lPkkFS8qiXVrwuDwdBfzWV91BOn1VBYy3U1L19b
+	lMPBio16GPAAGI1xl9L1O2umE0yOHMeboMlBgukr+WDG4l8zL+bkfqjI4fWmCZe7sKOy
+	qaUA==
+X-Gm-Message-State: APjAAAVrTVkTHEW/27ngwrCozGFmrPsh8SvGro4O4TPN3nje6WbHye5Y
+	Tc9BvllSciooRtjwbRU6HuKPM4+4
+X-Google-Smtp-Source: APXvYqxlvdiSCGnaGwwDYMM9yjHTDj7hqyozfBdiUTN122AVwFInrrlIW2kxDQuolCiBsY+Btu3xew==
+X-Received: by 2002:ac8:1a25:: with SMTP id v34mr2745727qtj.337.1553013419576; 
+	Tue, 19 Mar 2019 09:36:59 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id i6sm7799684qkk.54.2019.03.19.09.36.56
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 19 Mar 2019 09:36:58 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 19 Mar 2019 13:36:54 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Mar 2019 13:36:50 -0300
+Message-Id: <20190319163652.24216-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v5 1/3] openssl: Remove the c_rehash shell re-implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,87 +50,326 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 16:31:53 -0000
-Content-Type: multipart/alternative;
-	boundary=Apple-Mail-E3D763AE-93A0-4493-8E0E-8BF370BC2830
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Mar 2019 16:36:59 -0000
+Content-Transfer-Encoding: 8bit
 
---Apple-Mail-E3D763AE-93A0-4493-8E0E-8BF370BC2830
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+We had a c_rehash shell re-implementation being used for the native
+package however the ca-certificates now uses the openssl rehash
+internal application so there is no use for the c_rehash anymore.
 
-For what it=E2=80=99s worth, OpenSSL is also being relicensed to Apache 2.0,=
- so backporting their fixes may not be an option either.=20
-https://license.openssl.org/
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Please be careful with your language: I=E2=80=99m sure you know that recipe m=
-aintenance is a tedious, thankless task. Having it belittled doesn=E2=80=99t=
- help.
+Changes in v5:
+- add perlnative and drop perl from rdepends on misc package
 
-Alex
+Changes in v4:
+- remove perlnative requirement
 
-> On 19 Mar 2019, at 14.55, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
->> On Tue, Mar 19, 2019 at 12:35:59PM +0100, Alexander Kanavin wrote:
->> Just to remind once more, all upstream support for OpenSSL 1.0.2 ceases i=
-n 9 months, so shipping products with it may not be the best idea.
->=20
-> Just to remind once more, shipping products isn't as easy as building
-> the few recipes included in oe-core.
->=20
-> For example:
-> Believe it or not, some projects need to use old Qt 5.6 due to license
-> change in newer version and 5.6 doesn't support openssl 1.1,
-> backporting the necessary changes would violate the license as well.
-> Providing clean room re-implementation is also difficult, because there
-> aren't many other options how to implement this than how it was done in
-> newer qt already, see:
->=20
-> https://bugreports.qt.io/browse/QTBUG-71623
-> https://development.qt-project.narkive.com/RW4wxYXY/openssl-1-1-x-support-=
-on-qt-5-6-5-9
->=20
-> Yes, it's not the best idea, but even backporting security fixes to old
-> openssl might be cheaper than buying commercial qt license...
->=20
-> Cheeers,
+Changes in v3:
+- remove c_rehash completely
+- fix ca-certificates recipe comment
 
---Apple-Mail-E3D763AE-93A0-4493-8E0E-8BF370BC2830
-Content-Type: text/html;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Changes in v2:
+- updated commit log
 
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
-utf-8"></head><body dir=3D"auto">For what it=E2=80=99s worth, OpenSSL is als=
-o being relicensed to Apache 2.0, so backporting their fixes may not be an o=
-ption either.&nbsp;<div><a href=3D"https://license.openssl.org/">https://lic=
-ense.openssl.org/</a></div><div><br></div><div>Please be careful with your l=
-anguage: I=E2=80=99m sure you know that recipe maintenance is a tedious, tha=
-nkless task. Having it belittled doesn=E2=80=99t help.<br><br><div id=3D"App=
-leMailSignature" dir=3D"ltr">Alex</div><div dir=3D"ltr"><br>On 19 Mar 2019, a=
-t 14.55, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.j=
-ansa@gmail.com</a>&gt; wrote:<br><br></div><blockquote type=3D"cite"><div di=
-r=3D"ltr"><span>On Tue, Mar 19, 2019 at 12:35:59PM +0100, Alexander Kanavin w=
-rote:</span><br><blockquote type=3D"cite"><span>Just to remind once more, al=
-l upstream support for OpenSSL 1.0.2 ceases in 9 months, so shipping product=
-s with it may not be the best idea.</span><br></blockquote><span></span><br>=
-<span>Just to remind once more, shipping products isn't as easy as building<=
-/span><br><span>the few recipes included in oe-core.</span><br><span></span>=
-<br><span>For example:</span><br><span>Believe it or not, some projects need=
- to use old Qt 5.6 due to license</span><br><span>change in newer version an=
-d 5.6 doesn't support openssl 1.1,</span><br><span>backporting the necessary=
- changes would violate the license as well.</span><br><span>Providing clean r=
-oom re-implementation is also difficult, because there</span><br><span>aren'=
-t many other options how to implement this than how it was done in</span><br=
-><span>newer qt already, see:</span><br><span></span><br><span><a href=3D"ht=
-tps://bugreports.qt.io/browse/QTBUG-71623">https://bugreports.qt.io/browse/Q=
-TBUG-71623</a></span><br><span><a href=3D"https://development.qt-project.nar=
-kive.com/RW4wxYXY/openssl-1-1-x-support-on-qt-5-6-5-9">https://development.q=
-t-project.narkive.com/RW4wxYXY/openssl-1-1-x-support-on-qt-5-6-5-9</a></span=
-><br><span></span><br><span>Yes, it's not the best idea, but even backportin=
-g security fixes to old</span><br><span>openssl might be cheaper than buying=
- commercial qt license...</span><br><span></span><br><span>Cheeers,</span><b=
-r></div></blockquote></div></body></html>=
+ .../openssl/openssl/openssl-c_rehash.sh       | 222 ------------------
+ .../openssl/openssl_1.1.1a.bb                 |  14 +-
+ .../ca-certificates_20190110.bb               |   2 +-
+ 3 files changed, 2 insertions(+), 236 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
 
---Apple-Mail-E3D763AE-93A0-4493-8E0E-8BF370BC2830--
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh b/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
+deleted file mode 100644
+index 6620fdcb53..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
++++ /dev/null
+@@ -1,222 +0,0 @@
+-#!/bin/sh
+-#
+-# Ben Secrest <blsecres@gmail.com>
+-#
+-# sh c_rehash script, scan all files in a directory
+-# and add symbolic links to their hash values.
+-#
+-# based on the c_rehash perl script distributed with openssl
+-#
+-# LICENSE: See OpenSSL license
+-# ^^acceptable?^^
+-#
+-
+-# default certificate location
+-DIR=/etc/openssl
+-
+-# for filetype bitfield
+-IS_CERT=$(( 1 << 0 ))
+-IS_CRL=$(( 1 << 1 ))
+-
+-
+-# check to see if a file is a certificate file or a CRL file
+-# arguments:
+-#       1. the filename to be scanned
+-# returns:
+-#       bitfield of file type; uses ${IS_CERT} and ${IS_CRL}
+-#
+-check_file()
+-{
+-    local IS_TYPE=0
+-
+-    # make IFS a newline so we can process grep output line by line
+-    local OLDIFS=${IFS}
+-    IFS=$( printf "\n" )
+-
+-    # XXX: could be more efficient to have two 'grep -m' but is -m portable?
+-    for LINE in $( grep '^-----BEGIN .*-----' ${1} )
+-    do
+-	if echo ${LINE} \
+-	    | grep -q -E '^-----BEGIN (X509 |TRUSTED )?CERTIFICATE-----'
+-	then
+-	    IS_TYPE=$(( ${IS_TYPE} | ${IS_CERT} ))
+-
+-	    if [ $(( ${IS_TYPE} & ${IS_CRL} )) -ne 0 ]
+-	    then
+-	    	break
+-	    fi
+-	elif echo ${LINE} | grep -q '^-----BEGIN X509 CRL-----'
+-	then
+-	    IS_TYPE=$(( ${IS_TYPE} | ${IS_CRL} ))
+-
+-	    if [ $(( ${IS_TYPE} & ${IS_CERT} )) -ne 0 ]
+-	    then
+-	    	break
+-	    fi
+-	fi
+-    done
+-
+-    # restore IFS
+-    IFS=${OLDIFS}
+-
+-    return ${IS_TYPE}
+-}
+-
+-
+-#
+-# use openssl to fingerprint a file
+-#    arguments:
+-#	1. the filename to fingerprint
+-#	2. the method to use (x509, crl)
+-#    returns:
+-#	none
+-#    assumptions:
+-#	user will capture output from last stage of pipeline
+-#
+-fingerprint()
+-{
+-    ${SSL_CMD} ${2} -fingerprint -noout -in ${1} | sed 's/^.*=//' | tr -d ':'
+-}
+-
+-
+-#
+-# link_hash - create links to certificate files
+-#    arguments:
+-#       1. the filename to create a link for
+-#	2. the type of certificate being linked (x509, crl)
+-#    returns:
+-#	0 on success, 1 otherwise
+-#
+-link_hash()
+-{
+-    local FINGERPRINT=$( fingerprint ${1} ${2} )
+-    local HASH=$( ${SSL_CMD} ${2} -hash -noout -in ${1} )
+-    local SUFFIX=0
+-    local LINKFILE=''
+-    local TAG=''
+-
+-    if [ ${2} = "crl" ]
+-    then
+-    	TAG='r'
+-    fi
+-
+-    LINKFILE=${HASH}.${TAG}${SUFFIX}
+-
+-    while [ -f ${LINKFILE} ]
+-    do
+-	if [ ${FINGERPRINT} = $( fingerprint ${LINKFILE} ${2} ) ]
+-	then
+-	    echo "NOTE: Skipping duplicate file ${1}" >&2
+-	    return 1
+-	fi	
+-
+-	SUFFIX=$(( ${SUFFIX} + 1 ))
+-	LINKFILE=${HASH}.${TAG}${SUFFIX}
+-    done
+-
+-    echo "${3} => ${LINKFILE}"
+-
+-    # assume any system with a POSIX shell will either support symlinks or
+-    # do something to handle this gracefully
+-    ln -s ${3} ${LINKFILE}
+-
+-    return 0
+-}
+-
+-
+-# hash_dir create hash links in a given directory
+-hash_dir()
+-{
+-    echo "Doing ${1}"
+-
+-    cd ${1}
+-
+-    ls -1 * 2>/dev/null | while read FILE
+-    do
+-        if echo ${FILE} | grep -q -E '^[[:xdigit:]]{8}\.r?[[:digit:]]+$' \
+-	    	&& [ -h "${FILE}" ]
+-        then
+-            rm ${FILE}
+-        fi
+-    done
+-
+-    ls -1 *.pem *.cer *.crt *.crl 2>/dev/null | while read FILE
+-    do
+-	REAL_FILE=${FILE}
+-	# if we run on build host then get to the real files in rootfs
+-	if [ -n "${SYSROOT}" -a -h ${FILE} ]
+-	then
+-	    FILE=$( readlink ${FILE} )
+-	    # check the symlink is absolute (or dangling in other word)
+-	    if [ "x/" = "x$( echo ${FILE} | cut -c1 -)" ]
+-	    then
+-		REAL_FILE=${SYSROOT}/${FILE}
+-	    fi
+-	fi
+-
+-	check_file ${REAL_FILE}
+-        local FILE_TYPE=${?}
+-	local TYPE_STR=''
+-
+-        if [ $(( ${FILE_TYPE} & ${IS_CERT} )) -ne 0 ]
+-        then
+-            TYPE_STR='x509'
+-        elif [ $(( ${FILE_TYPE} & ${IS_CRL} )) -ne 0 ]
+-        then
+-            TYPE_STR='crl'
+-        else
+-            echo "NOTE: ${FILE} does not contain a certificate or CRL: skipping" >&2
+-	    continue
+-        fi
+-
+-	link_hash ${REAL_FILE} ${TYPE_STR} ${FILE}
+-    done
+-}
+-
+-
+-# choose the name of an ssl application
+-if [ -n "${OPENSSL}" ]
+-then
+-    SSL_CMD=$(which ${OPENSSL} 2>/dev/null)
+-else
+-    SSL_CMD=/usr/bin/openssl
+-    OPENSSL=${SSL_CMD}
+-    export OPENSSL
+-fi
+-
+-# fix paths
+-PATH=${PATH}:${DIR}/bin
+-export PATH
+-
+-# confirm existance/executability of ssl command
+-if ! [ -x ${SSL_CMD} ]
+-then
+-    echo "${0}: rehashing skipped ('openssl' program not available)" >&2
+-    exit 0
+-fi
+-
+-# determine which directories to process
+-old_IFS=$IFS
+-if [ ${#} -gt 0 ]
+-then
+-    IFS=':'
+-    DIRLIST=${*}
+-elif [ -n "${SSL_CERT_DIR}" ]
+-then
+-    DIRLIST=$SSL_CERT_DIR
+-else
+-    DIRLIST=${DIR}/certs
+-fi
+-
+-IFS=':'
+-
+-# process directories
+-for CERT_DIR in ${DIRLIST}
+-do
+-    if [ -d ${CERT_DIR} -a -w ${CERT_DIR} ]
+-    then
+-        IFS=$old_IFS
+-        hash_dir ${CERT_DIR}
+-        IFS=':'
+-    fi
+-done
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+index 4a626a4fcd..506d6d378c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1a.bb
+@@ -13,7 +13,6 @@ DEPENDS = "hostperl-runtime-native"
+ 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+-           file://openssl-c_rehash.sh \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+@@ -149,12 +148,6 @@ do_install_append_class-native () {
+ 	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
+ 	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
+ 	    OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
+-
+-	# Install a custom version of c_rehash that can handle sysroots properly.
+-	# This version is used for example when installing ca-certificates during
+-	# image creation.
+-	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+-	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+ }
+ 
+ do_install_append_class-nativesdk () {
+@@ -196,14 +189,13 @@ FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl${SOLIBS}"
+ FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ FILES_${PN}-engines = "${libdir}/engines-1.1"
+-FILES_${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
++FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
+ FILES_${PN} =+ "${libdir}/ssl-1.1/*"
+ FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+ 
+ CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ 
+ RRECOMMENDS_libcrypto += "openssl-conf"
+-RDEPENDS_${PN}-misc = "perl"
+ RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash"
+ 
+ RPROVIDES_openssl-conf = "openssl10-conf"
+@@ -211,7 +203,3 @@ RREPLACES_openssl-conf = "openssl10-conf"
+ RCONFLICTS_openssl-conf = "openssl10-conf"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-
+-inherit multilib_script
+-
+-MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+index b9f57900c8..4c0425302f 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308
+ DEPENDS = ""
+ DEPENDS_class-native = "openssl-native"
+ DEPENDS_class-nativesdk = "openssl-native"
+-# Need c_rehash from openssl and run-parts from debianutils
++# Need rehash from openssl and run-parts from debianutils
+ PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
+ 
+ SRCREV = "c28799b138b044c963d24c4a69659b6e5486e3be"
+-- 
+2.21.0
+
+
