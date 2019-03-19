@@ -1,51 +1,47 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 02AF97CE60
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 314426BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 18:15:46 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id u10so15045388wmj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 11:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4NK3OzTEi4oqMudwxHB7OrDF0Xsj7hiFu20fdKTesn0=;
-	b=A6gyiOsfFFWZQh/+3ic0JR4fbvMXZVmdnTmbZ6NQjpfr99lr3Z7nJZlWYTms+LoFFm
-	GEoTWTWt6Xlm2+KjOjTcTG1ZbloOyQXLz1fqMh+y2cZgzB9DtBP/7NeDZ4+Tjfz16cWP
-	ideqPKuKS0TYdPoH4bEAaxDiJHb1W9XUJCd3vbZW4FiowLok6i68ODlVS8MNYbbSWOkJ
-	Nnjgak81eR8aZZrEb7pPH3odMHCitwnCRjRimIRZKfUyPmROsCN0+iDR7fLlHk25hgUj
-	3WMADKsoOj0J5UgXUHxoLm+WNZsdzSv6DXonZzGF3nzTK/zLi8R3Wzi/J5K326AYrs+E
-	k/JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4NK3OzTEi4oqMudwxHB7OrDF0Xsj7hiFu20fdKTesn0=;
-	b=abf1YsqBBUeaBEWQd+CEQtSVnUn7ZyyGDi9qViYhprqYmH9SGJxJfJ5ImVwqV3t7pt
-	RoMw8sGN1pwD0bLZjKthqlH4rXVROQx5HxzFg901Pzj+xaLIfzRkYRnUqjIEieL8mcAu
-	W5/+ZTSatl0HOLpSW4RuNtzUe3P+D8kOkEBVaFhivy6MRg5pYNbBP68334NYXPLsWla1
-	5YnwGBOVDOG5jDWHUlYb9mn/TkKPJBsPhyenpmgM6C4iSVHg8i62u2R9Oit1+U4qP8Rq
-	N3fQ11utuP8/ZB/NT7kenHo9nTL1cqHU082AVeIKjsJevahc0mjoSSAu+8FPwZ/xcoTu
-	x2Mg==
-X-Gm-Message-State: APjAAAWVc/VXD32Kc5R/UKAAHh5PYfpwl64abVnuyS5b2trCNS+oenRD
-	bfUZa9KOrZwbzSp215kRgdi9P2D3aOk=
-X-Google-Smtp-Source: APXvYqx6kAzCK/zua5+OOl8fAh/dUsJiBo/Le/Iy4WkViDosnm4ZUhxMuThNyNdzcbJzyZbaf/PIEg==
-X-Received: by 2002:a1c:f10f:: with SMTP id p15mr4769691wmh.27.1553019347183; 
-	Tue, 19 Mar 2019 11:15:47 -0700 (PDT)
-Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
-	by smtp.gmail.com with ESMTPSA id
-	l3sm15209964wrt.62.2019.03.19.11.15.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 19 Mar 2019 11:15:45 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Mar 2019 18:15:44 +0000
-Message-Id: <20190319181544.314-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 19 Mar 2019 20:37:40 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id D8B291CACB6;
+	Tue, 19 Mar 2019 16:37:41 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id YAsj9lsNoWW1; Tue, 19 Mar 2019 16:37:41 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 296C61CACB2;
+	Tue, 19 Mar 2019 16:37:41 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 296C61CACB2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1553027861;
+	bh=UsDffY9B5xpr+xCtlfj6FANr5oWwoLCYw4497UtypXo=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=D5O+VXskqaCHccqW2A/B/aZJGYaKcFcbWSr/LRTV/KV+lPgUPXHJu2QPKqsq6w+bg
+	dZJohipSVjuF/DCQKJ0QNWTdDweLouDBRRBR2RrRIw0A5D3+h1VZLaKqut9gaZFV0v
+	3LLCJNXt5wHhT7YnFDcyEWEv+kg+2r9qb+XEagubnrGV8rflIh5IWPil3QeGw6tXPu
+	tf9p6TL41dVdWumYVR6R11fxu4bVTtzHcbo4lQ3sxDlujmUsCMCfRxRtMqnhwnzKue
+	WKwVd2Uxy7ZS/ZAc3jCLHJ4tIP7ZZnAMX/YvkWaGzqWhnW+OQzPBiNm++eibVnX8tm
+	9JNbArFlitypA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id ekMbbRzWIsab; Tue, 19 Mar 2019 16:37:41 -0400 (EDT)
+Received: from joraj-alpa (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
+	by mail.efficios.com (Postfix) with ESMTPSA id 74A281CACA8;
+	Tue, 19 Mar 2019 16:37:40 -0400 (EDT)
+Date: Tue, 19 Mar 2019 16:37:34 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190319203734.GA5754@joraj-alpa>
+References: <20190318165803.10375-1-raj.khem@gmail.com>
+	<20190318165803.10375-3-raj.khem@gmail.com>
+	<20190318171109.GA5144@joraj-alpa>
 MIME-Version: 1.0
-Subject: [PATCH] u-boot: install dumpimage and fit_check_sign in u-boot-tools
+In-Reply-To: <20190318171109.GA5144@joraj-alpa>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] gdb: Do not disable lttng-ust on risc-v
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +54,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 18:15:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Mar 2019 20:37:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+Hi Khem,
 
-Dumpimage and fit_check_sign can be used to extract kernel and ramdisk from
-a FIT file, verify them and kexec for a faster reboot.
+On Mon, Mar 18, 2019 at 01:11:19PM -0400, Jonathan Rajotte-Julien wrote:
+> On Mon, Mar 18, 2019 at 09:58:03AM -0700, Khem Raj wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-devtools/gdb/gdb-common.inc | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+> > index 57bc0dc773..a07625bb8d 100644
+> > --- a/meta/recipes-devtools/gdb/gdb-common.inc
+> > +++ b/meta/recipes-devtools/gdb/gdb-common.inc
+> > @@ -6,7 +6,6 @@ DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
+> >  LTTNGUST = "lttng-ust"
+> 
+> I did not know that gdb depends on lttng-ust, I know gdb can depend on
+> libbabeltrace*. I'll check that a bit more.
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Gdb can indeed depend on lttng-ust for gdbserver for tracpoint.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-index ff26e32482..c487849bb2 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-@@ -45,6 +45,14 @@ do_install () {
- 	# mkenvimage
- 	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
- 	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
-+
-+	# dumpimage
-+	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
-+	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
-+
-+	# fit_check_sign
-+	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
-+	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
- }
- 
- ALLOW_EMPTY_${PN} = "1"
+This answer my question.
+
+> 
+> Cheers.
+> 
+> >  LTTNGUST_arc = ""
+> >  LTTNGUST_aarch64 = ""
+> > -LTTNGUST_riscv64 = ""
+> >  LTTNGUST_mipsarch = ""
+> >  LTTNGUST_sh4 = ""
+> >  LTTNGUST_libc-musl = ""
+> > -- 
+> > 2.21.0
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> -- 
+> Jonathan Rajotte-Julien
+> EfficiOS
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 -- 
-2.20.1
-
+Jonathan Rajotte-Julien
+EfficiOS
 
