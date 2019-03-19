@@ -1,52 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B93B7CDBA
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F556745D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 04:42:07 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id c207so3834790pfc.7
+	Tue, 19 Mar 2019 07:41:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.58,497,1544457600"; d="scan'208";a="57123920"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Mar 2019 15:41:47 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 25B1E4CD447A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2019 21:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=3v8Ii49FqjkOlZOkwoEK8CBVZOqHMRr/NUmLeQU0k/Q=;
-	b=sVGUzN8x7I7MAr92W6RNhTy1bfg379gJ2im7dlppguwcwbjivd8128KHRwyp2wvsu2
-	W7cLlTolXsU5xB/Jtb/x6cuRzF9xciYMvbLkOVEjlBpT1L2kJIiAGQaB+0zLrTQciBD9
-	Dxury4UrzQRFzb03UT+5nTo4r6uG5vI9NHCecuXFnhz27v9thIFw8H3UjEQJfxPaeURn
-	Rp+r9RHt8ghLC/eoSdVXc0XEtHwgcrioiE8DSwx/m0M74KJwGI4cpDwTonmvmCAR2PCh
-	o37HEdWDH1MdtNzBjUmYzbycvsy7uhuK1B0cT2pnvejvweS+MypcvAYsMa0/AjfUi5Uj
-	Fo6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=3v8Ii49FqjkOlZOkwoEK8CBVZOqHMRr/NUmLeQU0k/Q=;
-	b=nydaFsDqQof2Xg71NSCKAt++JTVnQpvrMjwXKEiQ1yEk0SFpdd7kaa7R/5yYHQuZO0
-	1drmynrkDcejo4JdVs2Q9bj/QnSUSlD/nMQLY8LkLnI0FYEJDksPiVu2AYj9xvlSmki8
-	xqbVyLceak2aFGpifstXcMxvT30bb/KaJh0FTkmn69u/Cx5tGVzjXRnXRUjIdgn7udFS
-	yEdMT4HkLw81AFGodX2MhAqX16jP9kGbEVaVOV0PiguArnaCyKGszZ2z6rWMFlqlmq6Q
-	wSEnyEwit3dTRGj/vlVm64aBsXGDZJHVmq6ZM09zkGRmV05ZK9InEdDF74LGuYQjPDzK
-	qRAA==
-X-Gm-Message-State: APjAAAWHtGvnDEk94+YbhGRDWKfcQvPsExgJS22fqs1L2V1z/wcUDfTa
-	5WTfCBOR8kReF5qTjRx3reH+fAyy
-X-Google-Smtp-Source: APXvYqyp7f6M2nObBuh8O5wjDdA6rE8Kc102AL5U7xSq/ySB1wJ9a+LbeKXFHlK8aC24nxVHqBl62g==
-X-Received: by 2002:a63:2a86:: with SMTP id q128mr428105pgq.424.1552970527898; 
-	Mon, 18 Mar 2019 21:42:07 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::b8f7])
-	by smtp.gmail.com with ESMTPSA id
-	m67sm19131742pfj.70.2019.03.18.21.42.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Mar 2019 21:42:07 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Mar 2019 21:41:59 -0700
-Message-Id: <20190319044159.27902-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190319044159.27902-1-raj.khem@gmail.com>
-References: <20190319044159.27902-1-raj.khem@gmail.com>
+	Tue, 19 Mar 2019 15:41:18 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 19 Mar 2019 15:41:54 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Mar 2019 15:43:19 +0800
+Message-ID: <20190319074319.3955-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 3/3] gdb: Do not disable lttng-ust on risc-v
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: 25B1E4CD447A.A7800
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] nss:upgrade to 3.43
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 04:42:07 -0000
+X-List-Received-Date: Tue, 19 Mar 2019 07:41:48 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+1.Upgrade nss from 3.42.1 to 3.43.
+
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
-v2: Rebased
+ meta/recipes-support/nss/{nss_3.42.1.bb => nss_3.43.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.42.1.bb => nss_3.43.bb} (98%)
 
- meta/recipes-devtools/gdb/gdb-common.inc | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 57bc0dc773..a07625bb8d 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -6,7 +6,6 @@ DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
- LTTNGUST = "lttng-ust"
- LTTNGUST_arc = ""
- LTTNGUST_aarch64 = ""
--LTTNGUST_riscv64 = ""
- LTTNGUST_mipsarch = ""
- LTTNGUST_sh4 = ""
- LTTNGUST_libc-musl = ""
+diff --git a/meta/recipes-support/nss/nss_3.42.1.bb b/meta/recipes-support/nss/nss_3.43.bb
+similarity index 98%
+rename from meta/recipes-support/nss/nss_3.42.1.bb
+rename to meta/recipes-support/nss/nss_3.43.bb
+index b6bbd800fc..14a17335a2 100644
+--- a/meta/recipes-support/nss/nss_3.42.1.bb
++++ b/meta/recipes-support/nss/nss_3.43.bb
+@@ -30,8 +30,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://system-pkcs11.txt \
+            "
+ 
+-SRC_URI[md5sum] = "1f6cc6c702379478a3a72298caaef0a7"
+-SRC_URI[sha256sum] = "087db37d38fd49dfd584dd2a8b5baa7fc88de7c9bd97c0c2d5be4abcafc61fc6"
++SRC_URI[md5sum] = "67c8fa282c32cb56117fdd530dd77001"
++SRC_URI[sha256sum] = "f30bc1b7330887b75de9fec37dbc173001758dc43fb095ffbc45dac4093fe2ca"
+ 
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
 -- 
-2.21.0
+2.20.1
+
+
 
 
