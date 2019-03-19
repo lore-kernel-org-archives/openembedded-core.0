@@ -1,62 +1,55 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E6665CF3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BB43A6D7C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 15:37:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 4570618510;
-	Tue, 19 Mar 2019 16:37:01 +0100 (CET)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id I8_7ksyGubZY; Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4D0F91810B;
-	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3B1D31A084;
-	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2FE5C1A040;
-	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 23B481952;
-	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 19 Mar 2019 16:36:58 +0100
-Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 19 Mar 2019 16:36:58 +0100
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Tue, 19 Mar 2019 16:36:58 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jiang Lu <lu.jiang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [oe-core 2/2] glib-networking:enable glib-networking
-	complie as native package
-Thread-Index: AQHU3ilnjq2fW+Df6kCE28s+8vdF+6YTFbRQ
-Date: Tue, 19 Mar 2019 15:36:58 +0000
-Message-ID: <613c27767a004365b122b1352321d88e@XBOX04.axis.com>
-References: <20190319075451.18823-1-lu.jiang@windriver.com>
-	<20190319075451.18823-3-lu.jiang@windriver.com>
-In-Reply-To: <20190319075451.18823-3-lu.jiang@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [oe-core 2/2] glib-networking:enable glib-networking	complie as native package
+	Tue, 19 Mar 2019 15:40:19 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id a25so9793634edc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2019 08:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ON7MqdpOjndgDKyKnKfuRmXXvWbZ8MMg+AwNiXn9VSA=;
+	b=HAo5j65+fDh0VDlkrutu63zTBZi2luMdt/c+ofLB+kuCSw8N5cRa7kBnBVhThvdXP6
+	L+DhbwkJnpI3Qyv8fVGQPYKM8FPbCgJKv5y1Y9AvThjDU6ebvw0A45EPPDQIJgcPlkDV
+	Krsac6sAKntUYU+EvKsgGlY6wRhi0Belcpn1kPDpDXPdRP1t3l94iRHDV45tmoLPIc4w
+	p45czJ8F/XpJttLCnJTQfeLaZWke2BazXclZlSaFKjeFzLo/XXG6jcTXUMysJtjYKnUy
+	KqPfc8nsLKXz01tg/yMA/iZiQ5BKDDFnkbEHHMg7hsAyB2zg5zei7PHDJUU6T0LtP8cv
+	DQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ON7MqdpOjndgDKyKnKfuRmXXvWbZ8MMg+AwNiXn9VSA=;
+	b=aG37uRdbsXIL+Wd1EUWcKrcHw4l88I1YLluqI8y05iY4hrImAFaPi3Al7gl8KOoddC
+	oV3hl1jrGaOe464iVDINuXljrw8mj3/L+XOFDiLMO7jPz4HwMQ0E8lMpuw6XLysl5lGN
+	UoRYUbq6mjWEJswRZUa8jAze83TMDd5n/oBD1srPcH1oQwAbC7zd7Ey5Xx8j/N26X8Yy
+	9P3Lw/KB2zH9esmWkXI4+hJwNwHRsRthg9HmaUws3b0FNPe8YONlG7AgysXhYlF8FtYv
+	ZdqNDz7U4ZxgQZSpmPfpPtbypOikES0rOTLtOMfVQlIqwwsPHdMkD8smGEVafZSY+kpb
+	OvPw==
+X-Gm-Message-State: APjAAAWe5C/pwVZjD/IbphjXIpz/xFMHFQvx5oJ8FOJp4vMA/6hMYl5B
+	PFSkKB6SwzW4UtGRknRUk0U=
+X-Google-Smtp-Source: APXvYqzrKmJuFWQMn4r2vOUdcz1icrqvAaBzqlGRrFgfpGT8bjRalJjXMkO8d4OGD9/GkwR99brd3A==
+X-Received: by 2002:a50:9956:: with SMTP id l22mr9372555edb.170.1553010020444; 
+	Tue, 19 Mar 2019 08:40:20 -0700 (PDT)
+Received: from [192.168.44.177] (vpn30.hotsplots.net. [185.46.137.15])
+	by smtp.gmail.com with ESMTPSA id
+	l42sm1711984eda.60.2019.03.19.08.40.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Mar 2019 08:40:19 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16D57)
+In-Reply-To: <cc444886-066d-6cf9-f309-7d35702ae065@gmail.com>
+Date: Tue, 19 Mar 2019 16:40:18 +0100
+Message-Id: <818D1EAD-451D-4D77-B14A-953EC54CAF23@gmail.com>
+References: <cover.1552962581.git.akuster808@gmail.com>
+	<20190319085532.GF1994@jama>
+	<cc444886-066d-6cf9-f309-7d35702ae065@gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/26] thud patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,82 +62,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 15:37:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 19 Mar 2019 15:40:20 -0000
+Content-Type: text/plain;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Jiang Lu
-> Sent: den 19 mars 2019 08:55
-> To: lu.jiang@windriver.com; openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [oe-core 2/2] glib-networking:enable glib-networking
-> complie as native package
+Nope, we determined that it=E2=80=99s actually ok.
+
+Alex
+
+> On 19 Mar 2019, at 15.52, akuster808 <akuster808@gmail.com> wrote:
 >=20
-> Enable glib-networking compile as a native package, for it is depended
-> by
-> libsoup.
 >=20
-> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> ---
->  .../glib-networking/glib-networking_2.58.0.bb | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
 >=20
-> diff --git a/meta/recipes-core/glib-networking/glib-
-> networking_2.58.0.bb b/meta/recipes-core/glib-networking/glib-
-> networking_2.58.0.bb
-> index f3190e1cae..35b4a3fa76 100644
-> --- a/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> +++ b/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> @@ -29,3 +29,34 @@ FILES_${PN} +=3D "\
->                  "
->  FILES_${PN}-dev +=3D "${libdir}/gio/modules/libgio*.la"
->  FILES_${PN}-staticdev +=3D "${libdir}/gio/modules/libgio*.a"
-> +
-> +# Make sure we compile with ca-certificates support enabled.
-> +PACKAGECONFIG_append =3D " ca-certificates"
-> +
-> +DEPENDS +=3D "ca-certificates"
-> +RDEPENDS_${PN} +=3D "ca-certificates"
-> +
-> +# We need native version for ostree-/flatpak-native.
-> +BBCLASSEXTEND =3D "native"
-> +# OE-core's relocatable.bbclass assumes that every package which
-> +# ends up creating a ${libdir}/pkgconfig directory in its sysroot
-> +# will always also install .pc-files there and tries to uncondi-
-> +# tionally update paths in those files using globbing that fails
-> +# if no such files are present. This presumption is not true for
-> +# glib-networking which happens to create a directory by dereferencing
-> +# a GIO pkgconfig variable which in turn is defined relative to
-> +# the pkgconfig directory (${pcfiledir}/../...), causing pkgconfig
-> +# to get created.
-
-How about fixing relocatable_native_pcfiles() in relocatable.bbclass=20
-instead so that it ignores empty pkgconfig directories?
-
-> +#
-> +# Could be worked around in the upatream recipe but since that
-> +# does not provide/create native versions of the package and since
-> +# this problem is related to native packages, we work around it here.
-> +#
-> +do_install_append_class-native () {
-> +    for _pc in ${D}${libdir}/pkgconfig/*.pc; do
-> +        case $_pc in
-> +            *'*.pc') rm -fr ${D}${libdir}/pkgconfig;;
-> +            *.pc)    break;;
-> +        esac
-> +    done
-
-Why complicate things? Just remove the directory if it exists=20
-and is empty:
-
-	rmdir ${D}${libdir}/pkgconfig 2>/dev/null || :
-
-> +}
-> --
-> 2.17.1
-
-//Peter
-
+>> On 3/19/19 1:55 AM, Martin Jansa wrote:
+>>> On Mon, Mar 18, 2019 at 07:36:29PM -0700, Armin Kuster wrote:
+>>> Responses should be made by Wed March 20th 22:00:00 UTC 2019
+>>>=20
+>>> The following changes since commit f5a57e939e626a5b7c6de5b51799ca602ed35=
+5ed:
+>>>=20
+>>>  mesa: ship /etc/drirc in mesa-megadriver (2019-03-05 22:24:13 +0000)
+>>>=20
+>>> are available in the git repository at:
+>>>=20
+>>>  git://git.yoctoproject.org/poky-contrib stable/thud-next
+>>>  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dstable/thud-=
+next
+>>>=20
+>>> Alexander Kanavin (1):
+>>>  ca-certificates: upgrade 20180409 -> 20190110
+> then this gets dropped
+>> This depends on openssl >=3D 1.1.1 since:
+>> https://salsa.debian.org/debian/ca-certificates/commit/d5e425c8405448e503=
+4d1e16ca52be6a10cb3334
+>> some people might not use new openssl with thud.
+>>=20
+>> More detail in:
+>> http://lists.openembedded.org/pipermail/openembedded-core/2019-March/2802=
+34.html
+>>=20
+>> Cheers,
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
