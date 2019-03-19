@@ -1,30 +1,23 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F556745D9
+Return-Path: <Lu.Jiang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2646C6C497
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 07:41:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.58,497,1544457600"; d="scan'208";a="57123920"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Mar 2019 15:41:47 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 25B1E4CD447A
+	Tue, 19 Mar 2019 07:56:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2J7uvBJ010172
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 15:41:18 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.47) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 19 Mar 2019 15:41:54 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Mar 2019 15:43:19 +0800
-Message-ID: <20190319074319.3955-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 19 Mar 2019 00:56:58 -0700 (PDT)
+Received: from ljiang0-OptiPlex-9020.wrs.com (128.224.162.158) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 19 Mar 2019 00:56:56 -0700
+From: Jiang Lu <lu.jiang@windriver.com>
+To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Mar 2019 15:54:49 +0800
+Message-ID: <20190319075451.18823-1-lu.jiang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.47]
-X-yoursite-MailScanner-ID: 25B1E4CD447A.A7800
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] [PATCH] nss:upgrade to 3.43
+Subject: libsoup:add a new routine & build as native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +30,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 07:41:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Mar 2019 07:56:57 -0000
 Content-Type: text/plain
 
-1.Upgrade nss from 3.42.1 to 3.43.
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- meta/recipes-support/nss/{nss_3.42.1.bb => nss_3.43.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/nss/{nss_3.42.1.bb => nss_3.43.bb} (98%)
+Hi all,
 
-diff --git a/meta/recipes-support/nss/nss_3.42.1.bb b/meta/recipes-support/nss/nss_3.43.bb
-similarity index 98%
-rename from meta/recipes-support/nss/nss_3.42.1.bb
-rename to meta/recipes-support/nss/nss_3.43.bb
-index b6bbd800fc..14a17335a2 100644
---- a/meta/recipes-support/nss/nss_3.42.1.bb
-+++ b/meta/recipes-support/nss/nss_3.43.bb
-@@ -30,8 +30,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://system-pkcs11.txt \
-            "
- 
--SRC_URI[md5sum] = "1f6cc6c702379478a3a72298caaef0a7"
--SRC_URI[sha256sum] = "087db37d38fd49dfd584dd2a8b5baa7fc88de7c9bd97c0c2d5be4abcafc61fc6"
-+SRC_URI[md5sum] = "67c8fa282c32cb56117fdd530dd77001"
-+SRC_URI[sha256sum] = "f30bc1b7330887b75de9fec37dbc173001758dc43fb095ffbc45dac4093fe2ca"
- 
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
--- 
-2.20.1
+This rr including 2 patch:
+1.add a new routine for libsoup with name soup_uri_to_string_with_password()
+and make libsoup compiled as a native package.
+2.make glib-networking compiled as a native package.
 
+Make this change for ostree utilies, which needs libsoup when building ostree image
+on host.
 
+Thanks
+Jiang Lu
 
 
