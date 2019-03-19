@@ -1,45 +1,62 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
-	[209.85.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AE127CE5A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+	[209.85.167.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A2EBB6BF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 16:37:09 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id v32so22852789qtc.10
+	Tue, 19 Mar 2019 16:37:49 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id w137so4484984oiw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 09:37:11 -0700 (PDT)
+	Tue, 19 Mar 2019 09:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=duq6JrOCUiw8qU0OTH0G5J7GzW2FBV5JNnrP0W9i2CA=;
+	b=SWn85Sv7jeG5+UUdoLesE98EE1/DEf2bqJ9AY8TbMu553mtV9dod6xfmMroJSscExw
+	Q0GPV7Mk7zwYNyL+R7xB1Ot6MDFwuVTYLFHJ7x08X2WsygHgPaOeqiQ8m4DxsmNJC/j4
+	cH0vaP8JPI6dpxLLC4JRKc+wZIjLm5VGhzWLITy3fRQ5VSXUxON1atAhl/7KN62klxxB
+	tZfV0QwijqzszJa3CrBcIYq2I3u8aSBX70Kxf0/E7UtHLjVsDytUk+CZWTWgcQbI8BVN
+	fn5R/YfPk8CpJ9xo9gdxovxTKIJbZPtuxeyVDdhySLQebpLAk9jVjGCj+R/VnlCk8IU4
+	I/kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:organization:content-transfer-encoding;
-	bh=PLABV/EGZCpGiBNBiMA5Uo0S6A8eEKjN1x7jA0QEiI0=;
-	b=rkHAw/olkUWO26/zIYy2/JCo4DIJbsFzNRkNibQP8CiVs+Ac4o3wVCcSPLKc+MGjAJ
-	lclnPCZ+bJQ53xgLzr4MspZ+HxjZSyVDVsntV9ySJtAaqzhy/vYE8HklBaGFtEjPAKFo
-	E+MxW2M9EjJnbNYpoQ2rfI/p7ONZmfEKBmwOHFmSA9ELDtJc93TrV0D94dBWIQBeprrs
-	0RtS3xEUHEQ9yrq3U8aIjkZ+hBFl8XMqupZN3D1P6/5gfGwZ9K6Bry1V9VY9Z3TN/lm5
-	U4/koUOoNNkUk3Lw7fRwv0CrQjq932O2G8l1iTKJqCXjnjpr79QC0m1Q70YX93c3U3NB
-	+l6A==
-X-Gm-Message-State: APjAAAW73QUFFSfySu1NmxJa6ROt0KGp0IzsfsiBvtdWVgEzRW1tcNVn
-	ssqpFnu6f+uI8/wcAI90X2GLYAz1
-X-Google-Smtp-Source: APXvYqyR78OsnPjl97mWVu+APvWJyY98k8rCnBwCxFDpzFz99TqdqBQZxYFBXODV0hMdvLYh8jq6iw==
-X-Received: by 2002:a0c:b758:: with SMTP id q24mr2635962qve.149.1553013430261; 
-	Tue, 19 Mar 2019 09:37:10 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.204.148])
-	by smtp.gmail.com with ESMTPSA id e6sm7526002qkb.77.2019.03.19.09.37.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 19 Mar 2019 09:37:09 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 19 Mar 2019 13:37:05 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Mar 2019 13:36:52 -0300
-Message-Id: <20190319163652.24216-3-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190319163652.24216-1-otavio@ossystems.com.br>
-References: <20190319163652.24216-1-otavio@ossystems.com.br>
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=duq6JrOCUiw8qU0OTH0G5J7GzW2FBV5JNnrP0W9i2CA=;
+	b=EzKtesA2ox4mJ32Gk2tijn47XnjOZ/45h+odzMABBP9gPmkJNU5dqM//wuhYayp+td
+	yEQtnxBoxQZnelo9WNm9TawGMQE39NyVa4/Ys6Fn4dPYvn7wLx9PQbBO7WgVbJqU6tWO
+	CjO+7gkwMVBXoOD/Mp0wdszJMNzWNJ4rjWZyZ2YcGnvq0HgI8MzCKuHR6xnZyy/iKo4I
+	ErGcWj5A4LctwdZJz+x7mlPfyS/xp38X/jBaT1hbbAAcgFX+eVg/7qygADqhkyQL2ddl
+	biokZdp6yr/CoKQFhpSAgUHtN1YftJ9L8YCAXeCEdOywa0zt4DrcTAGZk+h9Bql4x2Zw
+	XUCg==
+X-Gm-Message-State: APjAAAXDTc9WPJf0zHEkXlwwE44I+PZcVh/An5f7xkGXLMHb938djqYW
+	JvJNnaFS+A9TQnqHeL6fVEBjoUvxL16pMg==
+X-Google-Smtp-Source: APXvYqxWM5yEwHR3mdPk4L7oV9/4CwngWlZMch48p4xIbc1BY6glhdbI9aL+YmOdLVleM7Y7R50Mcg==
+X-Received: by 2002:aca:6cc9:: with SMTP id h192mr2128611oic.161.1553013470206;
+	Tue, 19 Mar 2019 09:37:50 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com.
+	[209.85.210.47]) by smtp.gmail.com with ESMTPSA id
+	j206sm618378oif.52.2019.03.19.09.37.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Mar 2019 09:37:49 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f47.google.com with SMTP id e80so13186906ote.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2019 09:37:48 -0700 (PDT)
+X-Received: by 2002:a9d:3988:: with SMTP id y8mr2358456otb.231.1553013468342; 
+	Tue, 19 Mar 2019 09:37:48 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v5 3/3] openssl10: Upgrade 1.0.2q -> 1.0.2r
+References: <20190319135727.31246-1-otavio@ossystems.com.br>
+	<be5b31d22d21458dbafc7cf1c7b5a14a@XBOX04.axis.com>
+In-Reply-To: <be5b31d22d21458dbafc7cf1c7b5a14a@XBOX04.axis.com>
+Date: Tue, 19 Mar 2019 13:37:37 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq4BDDD8Fj6VSfyTv0WHNu-R3730pbOts_+NfFm0aYUWQ@mail.gmail.com>
+Message-ID: <CAP9ODKq4BDDD8Fj6VSfyTv0WHNu-R3730pbOts_+NfFm0aYUWQ@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 1/2] openssl: Remove the c_rehash shell re-implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,42 +69,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 16:37:09 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Mar 2019 16:37:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On Tue, Mar 19, 2019 at 12:44 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+...
+> You should remove the following line too:
+>
+> RDEPENDS_${PN}-misc = "perl"
+>
+> so we actually get rid of the perl dependency.
 
-Changes in v5:
-- new patch
+Fixed on v5; thanks for catching that.
 
-Changes in v4: None
-Changes in v3: None
-Changes in v2: None
 
- .../openssl/{openssl10_1.0.2q.bb => openssl10_1.0.2r.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl10_1.0.2q.bb => openssl10_1.0.2r.bb} (98%)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2r.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-rename to meta/recipes-connectivity/openssl/openssl10_1.0.2r.bb
-index eacdf8b86e..87df4f517a 100644
---- a/meta/recipes-connectivity/openssl/openssl10_1.0.2q.bb
-+++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2r.bb
-@@ -53,8 +53,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[md5sum] = "7563e1ce046cb21948eeb6ba1a0eb71c"
--SRC_URI[sha256sum] = "5744cfcbcec2b1b48629f7354203bc1e5e9b5466998bbccc5b5fcde3b18eb684"
-+SRC_URI[md5sum] = "0d2baaf04c56d542f6cc757b9c2a2aac"
-+SRC_URI[sha256sum] = "ae51d08bba8a83958e894946f15303ff894d75c2b8bbd44a852b64e3fe11d0d6"
- 
- S = "${WORKDIR}/openssl-${PV}"
- 
 -- 
-2.21.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
