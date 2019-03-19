@@ -1,101 +1,62 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B8D077CD77
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C5E6665CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 15:13:46 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id p6so1234971pgh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2019 08:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=r0b4RXc+W/l4dxh04IeBTKld734wDI65hZKWfbqCfHM=;
-	b=HC0C+st1k15sqzMmlWhjwv9l3TVFfCsvOpYx61RI/2Vn5icIL8dnv5xJya617hrPE1
-	Ymh8ccfXRyLoBtd/BlTLC75VdVDugTCq77axz7U9HHtw6TQrBc3McX+7CcvbFdv0CRpg
-	lHH6XPFZO/DtZkDqGLJ0OBhej1QyfMXyiVbGMq+utq8z4hLUKsII8bbu/Y+kZ/ARfrXI
-	jsd6i8CN6cqIdJCOqFIhOcqbyXJM3+IQJszjRC8nhsvBgli83xUWRf2yL06OjuBVW0Nm
-	6l1ko0rjRRxHCXqHlJZfs4fiFQDJXlvfz01hNDVkEW512hcDFdYKkbYM6YVvC2CkqFJm
-	tWCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=r0b4RXc+W/l4dxh04IeBTKld734wDI65hZKWfbqCfHM=;
-	b=Gv4w6ZKPLQLBzwy44rrYMckNlSivy813Lu018YKMkrvM58/C3Z3vlfWdDKfM5+zubp
-	QO1gCE33hWhPyFRlPGtlOzg2YIakmi7MawqMXWxZzTSejgreVLQ/e/1IM9ySWjWKD/Gl
-	UYXRfBEIW/LS/9KvPMaDQ6ZCXz8WanYajwhfwZSk3ewGW++78/nYAkseEBG1+nOz5EUa
-	/k0EgS9yjaR0LffgmWPeC4uJFOT5xb1G1AYVkG8tM2uYZnJnLrsAGYMj4+H/flBVholI
-	iRQbmUQadw39BbOLTGXYCNWtIxNmAnl9oC3mTs8G2v4wj9cAL/mJk68hBfV81ffoTcCd
-	KC2Q==
-X-Gm-Message-State: APjAAAW85rkQPQEThf2I5quJmyezZsDgfjYg2RRvpx9NrN/6gjemCybb
-	w4nBYpOrxcT3+S61nwjzaEsr4CTN
-X-Google-Smtp-Source: APXvYqz0C4RUjpbcbpsst1tJsmUTAYDX5y+1c5RiGdSuqYDX+nc0engGS6JfMyoQN4x5I9PmLz7JoA==
-X-Received: by 2002:a65:5289:: with SMTP id y9mr2669784pgp.404.1553008427695; 
-	Tue, 19 Mar 2019 08:13:47 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:d1a0:fa36:18e7:9b05?
-	([2601:202:4180:c33:d1a0:fa36:18e7:9b05])
-	by smtp.gmail.com with ESMTPSA id
-	e14sm23975706pga.61.2019.03.19.08.13.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Mar 2019 08:13:46 -0700 (PDT)
-To: =?UTF-8?Q?Stefan_M=c3=bcller-Klieser?= <s.mueller-klieser@phytec.de>,
-	openembedded-core@lists.openembedded.org
-References: <20190314154330.1427-1-s.mueller-klieser@phytec.de>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <760b9e00-9649-76ac-a93d-229d394de223@gmail.com>
-Date: Tue, 19 Mar 2019 08:13:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Tue, 19 Mar 2019 15:37:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4570618510;
+	Tue, 19 Mar 2019 16:37:01 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id I8_7ksyGubZY; Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4D0F91810B;
+	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B1D31A084;
+	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2FE5C1A040;
+	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 23B481952;
+	Tue, 19 Mar 2019 16:36:59 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 19 Mar 2019 16:36:58 +0100
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 19 Mar 2019 16:36:58 +0100
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Tue, 19 Mar 2019 16:36:58 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Jiang Lu <lu.jiang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core 2/2] glib-networking:enable glib-networking
+	complie as native package
+Thread-Index: AQHU3ilnjq2fW+Df6kCE28s+8vdF+6YTFbRQ
+Date: Tue, 19 Mar 2019 15:36:58 +0000
+Message-ID: <613c27767a004365b122b1352321d88e@XBOX04.axis.com>
+References: <20190319075451.18823-1-lu.jiang@windriver.com>
+	<20190319075451.18823-3-lu.jiang@windriver.com>
+In-Reply-To: <20190319075451.18823-3-lu.jiang@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20190314154330.1427-1-s.mueller-klieser@phytec.de>
-Subject: Re: [sumo][PATCH] coreutils: 8.29: fix native build
+X-TM-AS-GCONF: 00
+Subject: Re: [oe-core 2/2] glib-networking:enable glib-networking	complie as native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,432 +69,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2019 15:13:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Mar 2019 15:37:01 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 3/14/19 8:43 AM, Stefan Müller-Klieser wrote:
-> This fixes the native build on glibc 2.28 hosts, by backporting two
-> gnulib patches from master.
-This will need to be done for Thud too.
-- armin
->
-> Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Jiang Lu
+> Sent: den 19 mars 2019 08:55
+> To: lu.jiang@windriver.com; openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [oe-core 2/2] glib-networking:enable glib-networking
+> complie as native package
+>=20
+> Enable glib-networking compile as a native package, for it is depended
+> by
+> libsoup.
+>=20
+> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
 > ---
->  ...adjust-to-glibc-2.28-libio.h-removal.patch | 193 ++++++++++++++++++
->  ...e-more-paranoid-about-libio.h-change.patch | 187 +++++++++++++++++
->  meta/recipes-core/coreutils/coreutils_8.29.bb |   2 +
->  3 files changed, 382 insertions(+)
->  create mode 100644 meta/recipes-core/coreutils/coreutils/0001-fflush-adjust-to-glibc-2.28-libio.h-removal.patch
->  create mode 100644 meta/recipes-core/coreutils/coreutils/0002-fflush-be-more-paranoid-about-libio.h-change.patch
->
-> diff --git a/meta/recipes-core/coreutils/coreutils/0001-fflush-adjust-to-glibc-2.28-libio.h-removal.patch b/meta/recipes-core/coreutils/coreutils/0001-fflush-adjust-to-glibc-2.28-libio.h-removal.patch
-> new file mode 100644
-> index 000000000000..110b34372db1
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils/0001-fflush-adjust-to-glibc-2.28-libio.h-removal.patch
-> @@ -0,0 +1,193 @@
-> +From 269a8987224ec62b7a9aa6202772b07d5be424d2 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-> +Date: Mon, 11 Mar 2019 16:00:33 +0100
-> +Subject: [PATCH 1/2] fflush: adjust to glibc 2.28 libio.h removal
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
+>  .../glib-networking/glib-networking_2.58.0.bb | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/glib-networking/glib-
+> networking_2.58.0.bb b/meta/recipes-core/glib-networking/glib-
+> networking_2.58.0.bb
+> index f3190e1cae..35b4a3fa76 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
+> @@ -29,3 +29,34 @@ FILES_${PN} +=3D "\
+>                  "
+>  FILES_${PN}-dev +=3D "${libdir}/gio/modules/libgio*.la"
+>  FILES_${PN}-staticdev +=3D "${libdir}/gio/modules/libgio*.a"
 > +
-> +Backport of patch:
-> +4af4a4a71827c0bc5e0ec67af23edef4f15cee8e
-> +Paul Eggert <eggert@cs.ucla.edu>
-> +fflush: adjust to glibc 2.28 libio.h removal
+> +# Make sure we compile with ca-certificates support enabled.
+> +PACKAGECONFIG_append =3D " ca-certificates"
 > +
-> +Upstream-Status: Backport [master]
+> +DEPENDS +=3D "ca-certificates"
+> +RDEPENDS_${PN} +=3D "ca-certificates"
 > +
-> +Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
-> +---
-> + lib/fflush.c     | 6 +++---
-> + lib/fpending.c   | 2 +-
-> + lib/fpurge.c     | 2 +-
-> + lib/freadahead.c | 2 +-
-> + lib/freading.c   | 2 +-
-> + lib/freadptr.c   | 2 +-
-> + lib/freadseek.c  | 2 +-
-> + lib/fseeko.c     | 4 ++--
-> + lib/fseterr.c    | 2 +-
-> + lib/stdio-impl.h | 6 ++++++
-> + 10 files changed, 18 insertions(+), 12 deletions(-)
-> +
-> +diff --git a/lib/fflush.c b/lib/fflush.c
-> +index 4e65692644b1..c16da5fdcf23 100644
-> +--- a/lib/fflush.c
-> ++++ b/lib/fflush.c
-> +@@ -33,7 +33,7 @@
-> + #undef fflush
-> + 
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> + /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
-> + static void
-> +@@ -72,7 +72,7 @@ clear_ungetc_buffer (FILE *fp)
-> + 
-> + #endif
-> + 
-> +-#if ! (defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-> ++#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-> + 
-> + # if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
-> + /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +@@ -148,7 +148,7 @@ rpl_fflush (FILE *stream)
-> +   if (stream == NULL || ! freading (stream))
-> +     return fflush (stream);
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> +   clear_ungetc_buffer_preserving_position (stream);
-> + 
-> +diff --git a/lib/fpending.c b/lib/fpending.c
-> +index 5811a4a74750..9e21a165e220 100644
-> +--- a/lib/fpending.c
-> ++++ b/lib/fpending.c
-> +@@ -32,7 +32,7 @@ __fpending (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return fp->_IO_write_ptr - fp->_IO_write_base;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +diff --git a/lib/fpurge.c b/lib/fpurge.c
-> +index 408b8fcbb3b8..3a160004d49d 100644
-> +--- a/lib/fpurge.c
-> ++++ b/lib/fpurge.c
-> +@@ -62,7 +62,7 @@ fpurge (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_IO_read_end = fp->_IO_read_ptr;
-> +   fp->_IO_write_ptr = fp->_IO_write_base;
-> +   /* Avoid memory leak when there is an active ungetc buffer.  */
-> +diff --git a/lib/freadahead.c b/lib/freadahead.c
-> +index f335f041ee5e..e7cb77b6722b 100644
-> +--- a/lib/freadahead.c
-> ++++ b/lib/freadahead.c
-> +@@ -30,7 +30,7 @@ extern size_t __sreadahead (FILE *);
-> + size_t
-> + freadahead (FILE *fp)
-> + {
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_write_ptr > fp->_IO_write_base)
-> +     return 0;
-> +   return (fp->_IO_read_end - fp->_IO_read_ptr)
-> +diff --git a/lib/freading.c b/lib/freading.c
-> +index 78140d27bfef..c9d33449e948 100644
-> +--- a/lib/freading.c
-> ++++ b/lib/freading.c
-> +@@ -31,7 +31,7 @@ freading (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return ((fp->_flags & _IO_NO_WRITES) != 0
-> +           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
-> +               && fp->_IO_read_base != NULL));
-> +diff --git a/lib/freadptr.c b/lib/freadptr.c
-> +index e4cc0b02fba2..aba8dd5964fc 100644
-> +--- a/lib/freadptr.c
-> ++++ b/lib/freadptr.c
-> +@@ -29,7 +29,7 @@ freadptr (FILE *fp, size_t *sizep)
-> +   size_t size;
-> + 
-> +   /* Keep this code in sync with freadahead!  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_write_ptr > fp->_IO_write_base)
-> +     return NULL;
-> +   size = fp->_IO_read_end - fp->_IO_read_ptr;
-> +diff --git a/lib/freadseek.c b/lib/freadseek.c
-> +index fcecba6829c5..98726f845f88 100644
-> +--- a/lib/freadseek.c
-> ++++ b/lib/freadseek.c
-> +@@ -36,7 +36,7 @@ freadptrinc (FILE *fp, size_t increment)
-> +   /* Keep this code in sync with freadptr!  */
-> + #if HAVE___FREADPTRINC              /* musl libc */
-> +   __freadptrinc (fp, increment);
-> +-#elif defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#elif defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_IO_read_ptr += increment;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +diff --git a/lib/fseeko.c b/lib/fseeko.c
-> +index d0f24d8a838f..0ae2b153cff5 100644
-> +--- a/lib/fseeko.c
-> ++++ b/lib/fseeko.c
-> +@@ -47,7 +47,7 @@ fseeko (FILE *fp, off_t offset, int whence)
-> + #endif
-> + 
-> +   /* These tests are based on fpurge.c.  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_read_end == fp->_IO_read_ptr
-> +       && fp->_IO_write_ptr == fp->_IO_write_base
-> +       && fp->_IO_save_base == NULL)
-> +@@ -123,7 +123,7 @@ fseeko (FILE *fp, off_t offset, int whence)
-> +           return -1;
-> +         }
-> + 
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +       fp->_flags &= ~_IO_EOF_SEEN;
-> +       fp->_offset = pos;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +diff --git a/lib/fseterr.c b/lib/fseterr.c
-> +index 739e5453d04e..d998619771f3 100644
-> +--- a/lib/fseterr.c
-> ++++ b/lib/fseterr.c
-> +@@ -29,7 +29,7 @@ fseterr (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_flags |= _IO_ERR_SEEN;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +diff --git a/lib/stdio-impl.h b/lib/stdio-impl.h
-> +index 329801ad23b0..eeaabab66b2f 100644
-> +--- a/lib/stdio-impl.h
-> ++++ b/lib/stdio-impl.h
-> +@@ -18,6 +18,12 @@
-> +    the same implementation of stdio extension API, except that some fields
-> +    have different naming conventions, or their access requires some casts.  */
-> + 
-> ++/* Glibc 2.28 made _IO_IN_BACKUP private.  For now, work around this
-> ++   problem by defining it ourselves.  FIXME: Do not rely on glibc
-> ++   internals.  */
-> ++#if !defined _IO_IN_BACKUP && defined _IO_EOF_SEEN
-> ++# define _IO_IN_BACKUP 0x100
-> ++#endif
-> + 
-> + /* BSD stdio derived implementations.  */
-> + 
-> +-- 
-> +2.20.1
-> +
-> diff --git a/meta/recipes-core/coreutils/coreutils/0002-fflush-be-more-paranoid-about-libio.h-change.patch b/meta/recipes-core/coreutils/coreutils/0002-fflush-be-more-paranoid-about-libio.h-change.patch
-> new file mode 100644
-> index 000000000000..8cc7d6377947
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils/0002-fflush-be-more-paranoid-about-libio.h-change.patch
-> @@ -0,0 +1,187 @@
-> +From 72a2dae68c9101d80abdce8c4e41f7e562bd2399 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-> +Date: Wed, 13 Mar 2019 14:09:39 +0100
-> +Subject: [PATCH 2/2] fflush: be more paranoid about libio.h change
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Backport of patch:
-> +74d9d6a293d7462dea8f83e7fc5ac792e956a0ad
-> +Paul Eggert <eggert@cs.ucla.edu>
-> +fflush: be more paranoid about libio.h change
-> +
-> +Upstream-Status: Backport [master]
-> +
-> +Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
-> +---
-> + lib/fflush.c     | 9 ++++++---
-> + lib/fpending.c   | 3 ++-
-> + lib/fpurge.c     | 3 ++-
-> + lib/freadahead.c | 3 ++-
-> + lib/freading.c   | 3 ++-
-> + lib/freadptr.c   | 3 ++-
-> + lib/freadseek.c  | 3 ++-
-> + lib/fseeko.c     | 6 ++++--
-> + lib/fseterr.c    | 3 ++-
-> + 9 files changed, 24 insertions(+), 12 deletions(-)
-> +
-> +diff --git a/lib/fflush.c b/lib/fflush.c
-> +index c16da5fdcf23..b69206296e9a 100644
-> +--- a/lib/fflush.c
-> ++++ b/lib/fflush.c
-> +@@ -33,7 +33,8 @@
-> + #undef fflush
-> + 
-> + 
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++/* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> + /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
-> + static void
-> +@@ -72,7 +73,8 @@ clear_ungetc_buffer (FILE *fp)
-> + 
-> + #endif
-> + 
-> +-#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-> ++#if ! (defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1)
-> ++/* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> + # if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
-> + /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +@@ -148,7 +150,8 @@ rpl_fflush (FILE *stream)
-> +   if (stream == NULL || ! freading (stream))
-> +     return fflush (stream);
-> + 
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> + 
-> +   clear_ungetc_buffer_preserving_position (stream);
-> + 
-> +diff --git a/lib/fpending.c b/lib/fpending.c
-> +index 9e21a165e220..0c3b931dba9a 100644
-> +--- a/lib/fpending.c
-> ++++ b/lib/fpending.c
-> +@@ -32,7 +32,8 @@ __fpending (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return fp->_IO_write_ptr - fp->_IO_write_base;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +diff --git a/lib/fpurge.c b/lib/fpurge.c
-> +index 3a160004d49d..4558ab9a0783 100644
-> +--- a/lib/fpurge.c
-> ++++ b/lib/fpurge.c
-> +@@ -62,7 +62,8 @@ fpurge (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_IO_read_end = fp->_IO_read_ptr;
-> +   fp->_IO_write_ptr = fp->_IO_write_base;
-> +   /* Avoid memory leak when there is an active ungetc buffer.  */
-> +diff --git a/lib/freadahead.c b/lib/freadahead.c
-> +index e7cb77b6722b..496686042d1e 100644
-> +--- a/lib/freadahead.c
-> ++++ b/lib/freadahead.c
-> +@@ -30,7 +30,8 @@ extern size_t __sreadahead (FILE *);
-> + size_t
-> + freadahead (FILE *fp)
-> + {
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_write_ptr > fp->_IO_write_base)
-> +     return 0;
-> +   return (fp->_IO_read_end - fp->_IO_read_ptr)
-> +diff --git a/lib/freading.c b/lib/freading.c
-> +index c9d33449e948..5e66df1dc7dd 100644
-> +--- a/lib/freading.c
-> ++++ b/lib/freading.c
-> +@@ -31,7 +31,8 @@ freading (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++# if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   return ((fp->_flags & _IO_NO_WRITES) != 0
-> +           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
-> +               && fp->_IO_read_base != NULL));
-> +diff --git a/lib/freadptr.c b/lib/freadptr.c
-> +index aba8dd5964fc..e82b41e3f4d9 100644
-> +--- a/lib/freadptr.c
-> ++++ b/lib/freadptr.c
-> +@@ -29,7 +29,8 @@ freadptr (FILE *fp, size_t *sizep)
-> +   size_t size;
-> + 
-> +   /* Keep this code in sync with freadahead!  */
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_write_ptr > fp->_IO_write_base)
-> +     return NULL;
-> +   size = fp->_IO_read_end - fp->_IO_read_ptr;
-> +diff --git a/lib/freadseek.c b/lib/freadseek.c
-> +index 98726f845f88..f547bfd4257b 100644
-> +--- a/lib/freadseek.c
-> ++++ b/lib/freadseek.c
-> +@@ -36,7 +36,8 @@ freadptrinc (FILE *fp, size_t increment)
-> +   /* Keep this code in sync with freadptr!  */
-> + #if HAVE___FREADPTRINC              /* musl libc */
-> +   __freadptrinc (fp, increment);
-> +-#elif defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#elif defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_IO_read_ptr += increment;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +diff --git a/lib/fseeko.c b/lib/fseeko.c
-> +index 0ae2b153cff5..ee8efa49ac34 100644
-> +--- a/lib/fseeko.c
-> ++++ b/lib/fseeko.c
-> +@@ -47,7 +47,8 @@ fseeko (FILE *fp, off_t offset, int whence)
-> + #endif
-> + 
-> +   /* These tests are based on fpurge.c.  */
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   if (fp->_IO_read_end == fp->_IO_read_ptr
-> +       && fp->_IO_write_ptr == fp->_IO_write_base
-> +       && fp->_IO_save_base == NULL)
-> +@@ -123,7 +124,8 @@ fseeko (FILE *fp, off_t offset, int whence)
-> +           return -1;
-> +         }
-> + 
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++      /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +       fp->_flags &= ~_IO_EOF_SEEN;
-> +       fp->_offset = pos;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +diff --git a/lib/fseterr.c b/lib/fseterr.c
-> +index d998619771f3..23f4e3593800 100644
-> +--- a/lib/fseterr.c
-> ++++ b/lib/fseterr.c
-> +@@ -29,7 +29,8 @@ fseterr (FILE *fp)
-> +   /* Most systems provide FILE as a struct and the necessary bitmask in
-> +      <stdio.h>, because they need it for implementing getc() and putc() as
-> +      fast macros.  */
-> +-#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-> ++#if defined _IO_EOF_SEEN || defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1
-> ++  /* GNU libc, BeOS, Haiku, Linux libc5 */
-> +   fp->_flags |= _IO_ERR_SEEN;
-> + #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-> +   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
-> +-- 
-> +2.20.1
-> +
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.29.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
-> index b0572afdc001..3c72bdd75023 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.29.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
-> @@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
->             file://0001-local.mk-fix-cross-compiling-problem.patch \
->             file://CVE-2017-18018-1.patch \
->             file://CVE-2017-18018-2.patch \
-> +           file://0001-fflush-adjust-to-glibc-2.28-libio.h-removal.patch \
-> +           file://0002-fflush-be-more-paranoid-about-libio.h-change.patch \
->            "
->  
->  SRC_URI[md5sum] = "960cfe75a42c9907c71439f8eb436303"
+> +# We need native version for ostree-/flatpak-native.
+> +BBCLASSEXTEND =3D "native"
+> +# OE-core's relocatable.bbclass assumes that every package which
+> +# ends up creating a ${libdir}/pkgconfig directory in its sysroot
+> +# will always also install .pc-files there and tries to uncondi-
+> +# tionally update paths in those files using globbing that fails
+> +# if no such files are present. This presumption is not true for
+> +# glib-networking which happens to create a directory by dereferencing
+> +# a GIO pkgconfig variable which in turn is defined relative to
+> +# the pkgconfig directory (${pcfiledir}/../...), causing pkgconfig
+> +# to get created.
+
+How about fixing relocatable_native_pcfiles() in relocatable.bbclass=20
+instead so that it ignores empty pkgconfig directories?
+
+> +#
+> +# Could be worked around in the upatream recipe but since that
+> +# does not provide/create native versions of the package and since
+> +# this problem is related to native packages, we work around it here.
+> +#
+> +do_install_append_class-native () {
+> +    for _pc in ${D}${libdir}/pkgconfig/*.pc; do
+> +        case $_pc in
+> +            *'*.pc') rm -fr ${D}${libdir}/pkgconfig;;
+> +            *.pc)    break;;
+> +        esac
+> +    done
+
+Why complicate things? Just remove the directory if it exists=20
+and is empty:
+
+	rmdir ${D}${libdir}/pkgconfig 2>/dev/null || :
+
+> +}
+> --
+> 2.17.1
+
+//Peter
 
 
