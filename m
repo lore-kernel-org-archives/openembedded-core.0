@@ -1,39 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 471F37CE6C
+Return-Path: <alexey.brodkin@synopsys.com>
+X-Greylist: delayed 501 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 Mar 2019 07:50:40 UTC
+Received: from smtprelay.synopsys.com (smtprelay4.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A3BD7CD91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 05:21:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44PJDY37y5z6m;
-	Wed, 20 Mar 2019 06:21:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553059278;
-	bh=I0oOS0rTHk1A0rm2/tT1Z9DZ5IgiJnDcQowcSNE9nB8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YQUx9Ml9a2Rsc3d8+9EFLwco5frH1UcKSh7f9uWweTZ39SSn6l443VvK0wvqFZduy
-	/5KQR2WZieCJoQfM3WB0iEOhMkRL2p/gYZVUNyycWtpbdwxG0feNo9p/ay1jXMBHC6
-	cya9TUFvwsmZXKeKB+EUJRU3wrTUivsa3ErcOGUd8k/E163PwlMNCkcZ1zVjxVAeu3
-	QpGLtz8IK4xJS8gUsm9ATDjPfZCEAYSjhtydy+0KM+N8aC5wUdCAKMKoawL0pxdLdN
-	wa9XVe+DN8n/YQwSJPYAeuuimWa+X5dr5iCVRPPII/v/4QkzFnVLhRBOWwVhR7fi2J
-	bwQOrgUqHktEHtioKz55mp7SzfqPYqOCd1ady1OGQpCwG6UenrK55K0xqfS8aJFy4u
-	gQrAm9Y8SzOX/Qq1FUBueMAkXQevC2fms4dcOkNhR5Tk2VpQVYUvYvAuW3VjfjEXFm
-	khDXgSC1P3TsAoVNf3juGuX66TMZB8OyO6DUjtQ/00VMpdv6wDIaVp5oJVMjzWWFbO
-	qv6aPLhtXO5dzN5N6Rb403BAzvqDAs4xaR6sDde6ozI4IO6zH1WJTHidfXai5fSYK7
-	+v88NOI62+oQ00xiCx9Bz+1pO36zmZgvEFWj1RoAP6575+fe0b1vIe5DVzJxATCpSq
-	ZMlTpVkE0BjDU5KNwL5anBeM=
-Date: Wed, 20 Mar 2019 07:21:15 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190320052115.GA25499@localhost>
-References: <1552383718-62708-1-git-send-email-changqing.li@windriver.com>
-	<20190315104552.GB14180@localhost>
-	<CAMKF1spft7gbJ983GtbyVtjXO5hECMuTqg6TM1bV2ozu0Np_CQ@mail.gmail.com>
+	Wed, 20 Mar 2019 07:50:40 +0000 (UTC)
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+	[10.192.0.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtprelay.synopsys.com (Postfix) with ESMTPS id 7E0F224E06C5;
+	Wed, 20 Mar 2019 00:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1553067740; bh=LR1ZNU9hNmqWrCTSVLqPpYb24RdMy9USr3MvWplaRm0=;
+	h=From:To:CC:Subject:Date:From;
+	b=OV9s1Npi+t8gM7VLLpVx9kzvZV0Pc/cnUMvjfE1LZ7C2dqv796tMjEU3mhDiIGu7S
+	AIMtCFTesDKPhIW9R7lBuLMm6qoHIkyuy3FEFfQ2umSgdLRbd45lGMFAd7Hrnxk8gA
+	tComKNnVYneU3n7U9wDRQvknNCt2X8/Bh70lmLzGX0DNDwdPWMF9oQ2kAC0/QDJqdc
+	ft6I3f5H7QZ/BaLGcR2e3hChi5Qnyptl5QId2Ob8ur8RWt0f4Cnv81xg73WQX43xju
+	GFg6jJ4OBz/z0zdcChoPiJnhdH87iktkYX6gM75zndoWIzWKzny8XQQV/PtjY/JLxP
+	Ncp6+o6n2M15w==
+Received: from US01WEHTC3.internal.synopsys.com
+	(us01wehtc3.internal.synopsys.com [10.15.84.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mailhost.synopsys.com (Postfix) with ESMTPS id 19EB7A0079;
+	Wed, 20 Mar 2019 07:42:19 +0000 (UTC)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+	US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 20 Mar 2019 00:42:19 -0700
+Received: from DE02WEMBXA.internal.synopsys.com ([fe80::a014:7216:77d:d55c])
+	by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id 14.03.0415.000;
+	Wed, 20 Mar 2019 08:42:17 +0100
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: Kai Kang <kai.kang@windriver.com>
+Thread-Topic: qemu: backport patches to fix cves breaks qemu-system-native
+Thread-Index: AdTe7+qwmvsUURxbRQOHAa7d7YdYyQ==
+Date: Wed, 20 Mar 2019 07:42:16 +0000
+Message-ID: <4881796E12491D4BB15146FE0209CE6468224B73@de02wembxa.internal.synopsys.com>
+Accept-Language: en-US, ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.225.15.89]
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spft7gbJ983GtbyVtjXO5hECMuTqg6TM1bV2ozu0Np_CQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mdadm: fix gcc8 maybe-uninitialized/format-overflow warning
+Subject: qemu: backport patches to fix cves breaks qemu-system-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,67 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 05:21:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Mar 2019 07:50:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 19, 2019 at 11:51:47PM -0400, Khem Raj wrote:
-> On Fri, Mar 15, 2019 at 6:45 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Tue, Mar 12, 2019 at 05:41:58PM +0800, changqing.li@windriver.com wrote:
-> > > From: Changqing Li <changqing.li@windriver.com>
-> > >
-> > > while compiled with -Werror=maybe-uninitialized/-Werror=format-overflow=,
-> > > it failed
-> > >
-> > > [snip]
-> > > | Incremental.c: In function 'Incremental_container':
-> > > | Incremental.c:1593:3: error: 'mdfd' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > > | close(mdfd);
-> > > | ^~~~~~~~~~~
-> > >
-> > > [snip]
-> > > super-intel.c: In function 'apply_takeover_update':
-> > > | super-intel.c:9615:15: error: '%d' directive writing between 1 and 11 bytes into a region of size 7 [-Werror=format-overflow=]
-> > > | " MISSING_%d", du->index);
-> > > | ^~
-> > >...
-> >
-> > I am seeing these warnings only with -Og, are you also seeing them with
-> > -Og (DEBUG_OPTIMIZATION) only?
-> >
-> > If this is true, I would consider
-> > https://sources.debian.org/src/mdadm/4.1-2/debian/patches/debian-no-Werror.diff/
-> > a better workaround.
-> >
-> This seems a broader brush, I really dont like to relegate Werror if
-> we dont have to, because it will force us
-> to fix the code.
+Hello Kai Kang,
 
-How are we getting such fixes properly reviewed?
+You recent changes in QEMU [1] lead to build failure:
+-------------------------------------->8-----------------------------------=
+--
+# bitbake qemu-system-native
+...
+| .../build/tmp-glibc/work/x86_64-linux/qemu-system-native/3.1.0-r0/qemu-3.=
+1.0/hw/rdma/rdma_backend.c:316:42: error: 'VENDOR_ERR_INV_NUM_SGE' undeclar=
+ed (first use in this function)
+|          comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
+|                                           ^
+-------------------------------------->8-----------------------------------=
+--
 
-What actually happens is that the easiest change that silences a warning 
-gets applied.
+That's obviously because of meta/recipes-devtools/qemu/qemu/0015-fix-CVE-20=
+18-20124.patch.
 
-And for such bogus -Og only warnings there was no problem in the code,
-meaning regression risks by OE/Yocto-only patches without fixing anything.
+I'm wondering if you tried to build QEMU yourself?
 
-> However, I am seeing it fail with clang now
-> 
-> https://errors.yoctoproject.org/Errors/Details/233618/
+[1] https://github.com/openembedded/openembedded-core/commit/489ece1aa90d8f=
+76b4c1f009d837f82e38e11ba9
 
-This is caused by the "fix" for the -Og gcc warning.
-
-Which looks bogus, and might be harmful.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+-Alexey
 
