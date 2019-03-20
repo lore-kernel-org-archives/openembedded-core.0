@@ -1,28 +1,29 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E1A96BA72
+Return-Path: <Lu.Jiang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EDC86C4F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 08:28:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2K8RaCR016313
+	Wed, 20 Mar 2019 09:30:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2K9U24N025766
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Mar 2019 01:27:47 -0700
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	Wed, 20 Mar 2019 02:30:03 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 20 Mar 2019 01:27:24 -0700
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>
-References: <4881796E12491D4BB15146FE0209CE6468224B73@de02wembxa.internal.synopsys.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <5a4cb86b-1669-7dae-42e0-38dfcabc7bd5@windriver.com>
-Date: Wed, 20 Mar 2019 16:25:47 +0800
+	Wed, 20 Mar 2019 02:29:59 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20190319075451.18823-1-lu.jiang@windriver.com>
+	<20190319075451.18823-3-lu.jiang@windriver.com>
+	<613c27767a004365b122b1352321d88e@XBOX04.axis.com>
+From: Jiang <Lu.Jiang@windriver.com>
+Message-ID: <ea94ad94-8789-f718-a789-d366f570a2a4@windriver.com>
+Date: Wed, 20 Mar 2019 17:27:55 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <4881796E12491D4BB15146FE0209CE6468224B73@de02wembxa.internal.synopsys.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu: backport patches to fix cves breaks qemu-system-native
+In-Reply-To: <613c27767a004365b122b1352321d88e@XBOX04.axis.com>
+Subject: Re: [oe-core 2/2] glib-networking:enable glib-networking complie as native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +36,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 08:28:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 20 Mar 2019 09:30:11 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-On 2019/3/20 下午3:42, Alexey Brodkin wrote:
-> Hello Kai Kang,
->
-> You recent changes in QEMU [1] lead to build failure:
-> -------------------------------------->8-------------------------------------
-> # bitbake qemu-system-native
-> ...
-> | .../build/tmp-glibc/work/x86_64-linux/qemu-system-native/3.1.0-r0/qemu-3.1.0/hw/rdma/rdma_backend.c:316:42: error: 'VENDOR_ERR_INV_NUM_SGE' undeclared (first use in this function)
-> |          comp_handler(IBV_WC_GENERAL_ERR, VENDOR_ERR_INV_NUM_SGE, ctx);
-> |                                           ^
-> -------------------------------------->8-------------------------------------
->
-> That's obviously because of meta/recipes-devtools/qemu/qemu/0015-fix-CVE-2018-20124.patch.
->
-> I'm wondering if you tried to build QEMU yourself?
 
-My fault. qemu & qemu-native has been verified but qemu-system-native 
-not. I'll send fix ASAP.
+在 2019/3/19 下午11:36, Peter Kjellerstedt 写道:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+>> core-bounces@lists.openembedded.org> On Behalf Of Jiang Lu
+>> Sent: den 19 mars 2019 08:55
+>> To: lu.jiang@windriver.com; openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [oe-core 2/2] glib-networking:enable glib-networking
+>> complie as native package
+>>
+>> Enable glib-networking compile as a native package, for it is depended
+>> by
+>> libsoup.
+>>
+>> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+>> ---
+>>   .../glib-networking/glib-networking_2.58.0.bb | 31 +++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
+>>
+>> diff --git a/meta/recipes-core/glib-networking/glib-
+>> networking_2.58.0.bb b/meta/recipes-core/glib-networking/glib-
+>> networking_2.58.0.bb
+>> index f3190e1cae..35b4a3fa76 100644
+>> --- a/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
+>> +++ b/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
+>> @@ -29,3 +29,34 @@ FILES_${PN} += "\
+>>                   "
+>>   FILES_${PN}-dev += "${libdir}/gio/modules/libgio*.la"
+>>   FILES_${PN}-staticdev += "${libdir}/gio/modules/libgio*.a"
+>> +
+>> +# Make sure we compile with ca-certificates support enabled.
+>> +PACKAGECONFIG_append = " ca-certificates"
+>> +
+>> +DEPENDS += "ca-certificates"
+>> +RDEPENDS_${PN} += "ca-certificates"
+>> +
+>> +# We need native version for ostree-/flatpak-native.
+>> +BBCLASSEXTEND = "native"
+>> +# OE-core's relocatable.bbclass assumes that every package which
+>> +# ends up creating a ${libdir}/pkgconfig directory in its sysroot
+>> +# will always also install .pc-files there and tries to uncondi-
+>> +# tionally update paths in those files using globbing that fails
+>> +# if no such files are present. This presumption is not true for
+>> +# glib-networking which happens to create a directory by dereferencing
+>> +# a GIO pkgconfig variable which in turn is defined relative to
+>> +# the pkgconfig directory (${pcfiledir}/../...), causing pkgconfig
+>> +# to get created.
+> How about fixing relocatable_native_pcfiles() in relocatable.bbclass
+> instead so that it ignores empty pkgconfig directories?
 
-Regards,
-Kai
 
+Thanks,
+
+I prefer add a .pc file existence checking in relocatable_native_pcfiles()
+
+-       if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
++       filecnt=`ls -l ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc 
+2>/dev/null | wc -l`
++       if [ $filecnt -gt 0 ]; then
+
+Thanks
+
+Jiang Lu
 
 >
-> [1] https://github.com/openembedded/openembedded-core/commit/489ece1aa90d8f76b4c1f009d837f82e38e11ba9
+>> +#
+>> +# Could be worked around in the upatream recipe but since that
+>> +# does not provide/create native versions of the package and since
+>> +# this problem is related to native packages, we work around it here.
+>> +#
+>> +do_install_append_class-native () {
+>> +    for _pc in ${D}${libdir}/pkgconfig/*.pc; do
+>> +        case $_pc in
+>> +            *'*.pc') rm -fr ${D}${libdir}/pkgconfig;;
+>> +            *.pc)    break;;
+>> +        esac
+>> +    done
+> Why complicate things? Just remove the directory if it exists
+> and is empty:
 >
-> -Alexey
+> 	rmdir ${D}${libdir}/pkgconfig 2>/dev/null || :
 >
-
--- 
-Kai Kang
-
+>> +}
+>> --
+>> 2.17.1
+> //Peter
+>
+>
 
