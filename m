@@ -1,26 +1,48 @@
-Return-Path: <Lu.Jiang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2598E7CEC4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1662B7CE5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 09:42:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2K9fnIn017919
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Mar 2019 02:42:09 -0700
-Received: from ljiang0-OptiPlex-9020.wrs.com (128.224.162.158) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 20 Mar 2019 02:42:03 -0700
-From: Jiang Lu <lu.jiang@windriver.com>
-To: <lu.jiang@windriver.com>, <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Wed, 20 Mar 2019 17:39:27 +0800
-Message-ID: <20190320093929.28688-3-lu.jiang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190320093929.28688-1-lu.jiang@windriver.com>
-References: <20190320093929.28688-1-lu.jiang@windriver.com>
+	Wed, 20 Mar 2019 10:15:13 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id n11so1448964ioh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Mar 2019 03:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wbiSQpdqZkTO2gJf3OfgkTUaSJedvrxQRI8CrDzlU1U=;
+	b=cXq0Mu4amSTRIt+0AC43qSclNgepJOTLOTbwaLHT6GziQji/DFHXso2JKAQ/Vpdvwd
+	0vEZrQ8mYvd6shgl1c+BvDA8R3YrIEtoL5nEQyZcIRT25TloRtacP/QyBVu58rAc+xMI
+	K1M6gDG4svwYvLS2VikQ5o8qa4SRi0/lChXBKWDjJinMoYoz0LjmOExtsRqW6hSwPVMU
+	5202OsclzvJVWJNU8iwSIdYI3iCf8fIq5ExMglCMsgtz7VGFoE70Ze1NdB8IBKaoqRXx
+	qKtKACZRNd2ED9hh2oeBVNwUPXRjB0ZHR5ItqRfRsnFDiV6bdi0tCzI51IA6POG1H+Pv
+	zHtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wbiSQpdqZkTO2gJf3OfgkTUaSJedvrxQRI8CrDzlU1U=;
+	b=JyojqgiF39CCGXWtlC2J5aQHLXfzB0crF0TvtluLuaob3DglrGaH8YgX2S3DNvnK+T
+	djKphvVslMawn8F2Zrc8UBGscowQDvvPJpU7e/Met7Mrrf4AJIdyones58xZiCUgXLrP
+	BQ4BlpSwXFHYd9F2aayJDfyW69HoxctczbnkopjbGY9/my2p5faArLkyNVY64W7HHYwB
+	Q4YtsBZCpLCJPO2/QhCa60nKwx0DHZyiF48XWL2Sh94VjzcfJ2VK434ndnTIOIk+9HLF
+	cuM8YS/FFaJGylfpWHk8UQxuSnKWb41XH4Ck6llyrcmwBAWLvszR164taadtUAEFBT/U
+	xZHQ==
+X-Gm-Message-State: APjAAAWSbFFvYLWQRbzRWATZCpZI+QUAHWGT41nVJ40ogaCiHTTfKPD3
+	0GmXCBltHVQP5FK3W/O5psk4o4v0QyFVbC4xNXtmHw==
+X-Google-Smtp-Source: APXvYqxUstmC1GahH1AlsYux7ubUMiGzrViDdWQBTDS3ktZDFhVnrbEl7A29l+D/aiWGIucmrV21G5kdRngfLV+ljf8=
+X-Received: by 2002:a5d:8795:: with SMTP id f21mr4455247ion.20.1553076915006; 
+	Wed, 20 Mar 2019 03:15:15 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/4] libsoup:enable libsoup build as native package
+References: <20190320093929.28688-1-lu.jiang@windriver.com>
+	<20190320093929.28688-2-lu.jiang@windriver.com>
+In-Reply-To: <20190320093929.28688-2-lu.jiang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 Mar 2019 10:15:03 +0000
+Message-ID: <CAJTo0LYBFgsLQX-+2YC_3Y+=NoKXfAMQso2ikkhSSE-G7_J1aw@mail.gmail.com>
+To: Jiang Lu <lu.jiang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] libsoup:add soup_uri_to_string_with_password
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 09:42:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Mar 2019 10:15:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Enable libsoup build as a native package, for it may invoked by
-other native package, such as ostree.
+On Wed, 20 Mar 2019 at 09:43, Jiang Lu <lu.jiang@windriver.com> wrote:
+> +The existed soup_uri_to_string does not have password, add a
+> +function to support it.
+> +
+> +Upstream-Status: Pending
 
-Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
----
- meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Why are you adding this function?  Have you submitted it upstream?
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-index a123818cf3..c2284c0458 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-@@ -50,3 +50,5 @@ DEBIAN_NOAUTONAME_${PN} = "1"
- 
- # glib-networking is needed for SSL, proxies, etc.
- DEPENDS += "glib-networking"
-+
-+BBCLASSEXTEND = "native"
--- 
-2.17.1
+>  # glib-networking is needed for SSL, proxies, etc.
+> -RRECOMMENDS_${PN} = "glib-networking"
+> +DEPENDS += "glib-networking"
 
+Apart from not being explained in the commit message, this also seems
+plain wrong.
+
+Ross
 
