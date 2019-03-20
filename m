@@ -1,41 +1,104 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 583F96C1BD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 701DF605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 15:00:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44PY4k5QcDz5c;
-	Wed, 20 Mar 2019 16:00:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553094023;
-	bh=vyFrb68FwHBSRSSjCsywwPeVwQXWCMMIYUUy4/5vUQk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R0QNxKVFSwIUjKJnQyISq8D1dBsi9CjNYPr2Y6w2cZg7tcd6umVqhvSC0k/BSTVxh
-	jZjWVgpL4yYOGqobK2masu+T25SiBrw257BOTj1+OguCGMRUp14L5PgIrW7wno5o/D
-	wjdUTcNcyRZfCuJmWUZeHIlYKj17Ebns0yUyIgvtAXm9/1olNswmgvRJkxoZgZw/TT
-	EBw32mSxDPfsQMdQMeMQ4ICz16glV3TlifKJxODFhB5QEiKSDHALVFKWwz0fTe3oAH
-	7YcLoAapZkyV6mRnHPdbQUDreHDilosO/JmalcTZD/Z2MBpx/HE2JW3udHSJlxth2L
-	of6OiKoT5CXaIvgbrTRr4p9/NG/8JWkuUweh4LBixNqzJDozUMyDxVQmdmEQaHoNiW
-	6t4APfW7b+yC25SefktFsBlE/IC6gpjaR/LjC5yk6rHRacn0/5esGD3tyYohcOKg65
-	V5AwHLAhnBJr67yXWlTFFv2bgvQtCfmm+wkLbjsdedZ8/nFMK/l/hqe+DBh1CaEuvp
-	VRZ2sulWej2bGow1YmPL8lB4l6fgX1ufCnKDsDPJ34ZykkL7lbdxnyE+8URzlhWKdk
-	LiIeVqoB5Vm763+BwI1RJGShBauXzhkaYHflI6utQye5YMMsGc0q5fI1HfYfxRyOs6
-	5I7YMRBk+WEJiIeKzkCNLTIk=
-Date: Wed, 20 Mar 2019 17:00:21 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190320150021.GB31018@localhost>
-References: <1552383718-62708-1-git-send-email-changqing.li@windriver.com>
-	<20190315104552.GB14180@localhost>
-	<CAMKF1spft7gbJ983GtbyVtjXO5hECMuTqg6TM1bV2ozu0Np_CQ@mail.gmail.com>
-	<20190320052115.GA25499@localhost>
-	<CAMKF1soQbssBdHEgmdGmeNFPWWQH+FdRbdzBuPDo_TOdnY0oRA@mail.gmail.com>
+	Wed, 20 Mar 2019 15:21:32 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id l11so2021266pgq.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Mar 2019 08:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=200X9MHZDICsPAu+10+bkKWUJjhulSFVWQpYOf/oSdg=;
+	b=R8+N0ioOQEuC67+5eqxNDukleMagpWa+ijfO5o3HSCSQ316ViHw1Qr0HfiUJAXAxiZ
+	8uTylE+M3+c4Xf5VnJLpxDs6Q8iDwYNFLpANp8BIbtm6sGMPAQ+vmYnV5O2R/UDvUG7t
+	zKJCi3i/4gQ91fxLuKcFjCvP85/+1Qi5mYmLDF8j+2n26eaHSYNSvudQPjZNkMIf9mzg
+	WgANgaPMNQNGvbQqTVPMFfQovXLG2Jloa6t1zPdTvDHLy5a1alONa7LE//DoTLkjLITg
+	3lmtUyHxGkkDWvHd0vwdfaAWw+XQH2mBsJM6oFhN9HOHae9MchaoqVbU0IbTN4Nwqu7C
+	rE2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=200X9MHZDICsPAu+10+bkKWUJjhulSFVWQpYOf/oSdg=;
+	b=mPj3CdhAuAYGoMKgQP6G+3DcxZW5lCSNnou43EgCc44KC61/r58soGoIIOz01kY/Ke
+	yj6mUNr7Z8oW203/984BYT07sqy/Fj3IInwC0q60chIGj08uLaPxouljlaEVddfTSCNM
+	fa0OS0qAkiSbaAwGJ55jtRXs8GggaMXx65ItVD0xv2HJeybeZhWbV25t5nIkYZyrMHUW
+	ChIsHQHz7XhaVKiHRkzzKpxaI+3x2ZKh1EkBxvOx9MgtfoioENzj2+CRgIWmNC1qrp9s
+	xFTi3hJHQhPVwybAk+9S8HKaUHvhr6Q17Vc9IUdrnGkA3coOex2tL5TYZqx+PrFLo22T
+	LlLw==
+X-Gm-Message-State: APjAAAUg4HG6wNMTo4ap97uwkDQ/QUHsf+ZmtZVhRDXNsbmQYi67FEuK
+	usL4k+88OvbWuJSUyEdg0Wa1gIvz
+X-Google-Smtp-Source: APXvYqxge2dhQSLVj6pNTprGC4HHcDDdWlBQGyggA/Mh5HbWWXyL27ceS8QW2lBDyMmwe4daO5eP+w==
+X-Received: by 2002:a17:902:2d01:: with SMTP id
+	o1mr9098354plb.155.1553095293213; 
+	Wed, 20 Mar 2019 08:21:33 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:9d5b:fb53:b464:877c?
+	([2601:202:4180:c33:9d5b:fb53:b464:877c])
+	by smtp.gmail.com with ESMTPSA id
+	i126sm3142442pfb.15.2019.03.20.08.21.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Mar 2019 08:21:32 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190320140929.24410-1-bunk@stusta.de>
+	<6682ab95-b029-e881-43ee-59d3f7cfc174@gmail.com>
+	<20190320145650.GA31018@localhost>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <6251ba28-7d83-e490-c564-7e20cdb8b04f@gmail.com>
+Date: Wed, 20 Mar 2019 08:21:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soQbssBdHEgmdGmeNFPWWQH+FdRbdzBuPDo_TOdnY0oRA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mdadm: fix gcc8 maybe-uninitialized/format-overflow warning
+In-Reply-To: <20190320145650.GA31018@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bind: Upgrade 9.11.5 -> 9.11.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,69 +111,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 15:00:23 -0000
+X-List-Received-Date: Wed, 20 Mar 2019 15:21:32 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-On Wed, Mar 20, 2019 at 08:59:39AM -0400, Khem Raj wrote:
-> On Wed, Mar 20, 2019 at 1:21 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Tue, Mar 19, 2019 at 11:51:47PM -0400, Khem Raj wrote:
-> > > On Fri, Mar 15, 2019 at 6:45 AM Adrian Bunk <bunk@stusta.de> wrote:
-> > > >
-> > > > On Tue, Mar 12, 2019 at 05:41:58PM +0800, changqing.li@windriver.com wrote:
-> > > > > From: Changqing Li <changqing.li@windriver.com>
-> > > > >
-> > > > > while compiled with -Werror=maybe-uninitialized/-Werror=format-overflow=,
-> > > > > it failed
-> > > > >
-> > > > > [snip]
-> > > > > | Incremental.c: In function 'Incremental_container':
-> > > > > | Incremental.c:1593:3: error: 'mdfd' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > > > > | close(mdfd);
-> > > > > | ^~~~~~~~~~~
-> > > > >
-> > > > > [snip]
-> > > > > super-intel.c: In function 'apply_takeover_update':
-> > > > > | super-intel.c:9615:15: error: '%d' directive writing between 1 and 11 bytes into a region of size 7 [-Werror=format-overflow=]
-> > > > > | " MISSING_%d", du->index);
-> > > > > | ^~
-> > > > >...
-> > > >
-> > > > I am seeing these warnings only with -Og, are you also seeing them with
-> > > > -Og (DEBUG_OPTIMIZATION) only?
-> > > >
-> > > > If this is true, I would consider
-> > > > https://sources.debian.org/src/mdadm/4.1-2/debian/patches/debian-no-Werror.diff/
-> > > > a better workaround.
-> > > >
-> > > This seems a broader brush, I really dont like to relegate Werror if
-> > > we dont have to, because it will force us
-> > > to fix the code.
-> >
-> > How are we getting such fixes properly reviewed?
-> >
-> > What actually happens is that the easiest change that silences a warning
-> > gets applied.
-> >
-> > And for such bogus -Og only warnings there was no problem in the code,
-> 
-> so then probably a better fix is to add -Wno-error to DEBUG_FLAGS
-> which will limit it to -Og case, and revert the original fix.
 
-For mdadm this might work, for puzzles it would not.
 
-Order matters, and upstream can insert your flags before or after
-the -Werror. So unfortunately this would not cover all recipes.
+On 3/20/19 7:56 AM, Adrian Bunk wrote:
+> On Wed, Mar 20, 2019 at 07:35:53AM -0700, akuster808 wrote:
+>>
+>> On 3/20/19 7:09 AM, Adrian Bunk wrote:
+>>> Copyright hash changed to to year change.
+>> =C2=A0You are missing one of the more important bits of info that woul=
+d help
+>> make the decision if this gets into M4 or waits until after 2.7 releas=
+es.
+>>
+>> Go look at the 9.11.5-p4 release notes.
+> What part of the release notes are you referring to?
+>
+> And why are you talking about release notes for a version
+> that is neither of the two versions in this upgrade?
 
-cu
-Adrian
+Ah, because the 9.11.5 has patch level updates from -p1 to -p5 that are
+not the current 9.11.5 and those changes=C2=A0 are included in 9.11.6.
 
--- 
+Also, nowhere was it mentioned this is a bugfix only update. This helps
+me in deciding if this is a back port candidate.
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Keywords to look for: Bugfix only, CVE's, ABI changes, dependency
+changes, depreciated functions and new features.
+
+I are hoping a little do-diligence in being applied to package updates
+otherwise automation will save us all a bunch of time.
+
+Thanks,
+Armin
+>
+>> Did you double check this is in line with DHCP?
+> What kind of breakage exactly do you fear?
+>
+> dhcp still builds and I am staying on an LTS branch of bind.
+>
+>> - Armin
+> cu
+> Adrian
+>
+
 
 
