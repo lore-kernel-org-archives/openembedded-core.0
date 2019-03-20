@@ -1,56 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7517B6C45B
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 47FA47C410
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 13:49:28 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id g12so2860701wrm.5
+	Wed, 20 Mar 2019 14:09:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44PWy21zXSz5c
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 06:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=JqfSS5HMapyubErMKRoQkvAjP2xk/20bpJoRn2EM75g=;
-	b=b0Znl7VvxEwkWo65bgjIwxvedcDme4JCu6CWDBDYvvGEgn2mQIbr42aWTJTkTuYaZp
-	cVYPwl5JHdVdsqci1JX0dCpU04536sAU1Q6G4g6udASxIEFa2mvitcI3wDXK5NQY374t
-	Ep8fNOCpWBkamDIM3RIIWg+xKuOlpdzV25e4k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=JqfSS5HMapyubErMKRoQkvAjP2xk/20bpJoRn2EM75g=;
-	b=sw4vq3pC+KE25hBY7LduxrEQI7RZuFoaBFBQPtkKNKv/L9feId7xnON0ccEnWvvyjh
-	1N3TezZH+xu8v5LOh+OZvRgpNAGmgEReODgZpanqVzf3FC3Z3inTCo3sw2/xlQNAWKnJ
-	BKdxYeuNQQ9vn/UZaDE4sRgJRo0aXgqqXfauwK/hhEz1Fwz4rRwySGdH8TSXsuKi9rQd
-	VGPhIju0eabenxhjz3ZDLN2gNpD8OdAg8kEqMdm4pHYDVmjgDhZjM5oSljVqL2ng+dgG
-	UXibNoCKbifAIS+yKqgMNLtCBy/dQ/4DozG1Mok2cP64sHN9vIHC3nZxdKsz0Li9s5XE
-	+WfQ==
-X-Gm-Message-State: APjAAAXFuf/NOKfHIk0aYSJTbAWK4Jdy3euelmKJFRYR6txKmtNdhyIb
-	flOyIdq9izLZumd+GzhPSXP3fA==
-X-Google-Smtp-Source: APXvYqxYZQ0wZC646E+N6/oj3FbdzFC3J49oal2USPljGT9vokA+A91kL6QqEKrhivMk+XH88Ry60g==
-X-Received: by 2002:a5d:48ca:: with SMTP id p10mr23340015wrs.141.1553089769120;
-	Wed, 20 Mar 2019 06:49:29 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 3sm2593777wrk.68.2019.03.20.06.49.27
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 20 Mar 2019 06:49:28 -0700 (PDT)
-Message-ID: <403158219480ee625c2c964a13e34e86d39d75d7.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mike Looijmans <mike.looijmans@topicproducts.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Mar 2019 13:49:24 +0000
-In-Reply-To: <DB7PR04MB5260B9653799DEC3007746D696410@DB7PR04MB5260.eurprd04.prod.outlook.com>
-References: <c7b19826-0eb6-2e9d-1369-9d407895826b@topic.nl>
-	,<3c87f366b69756abc62d37aac4e4683d75237c79.camel@linuxfoundation.org>
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.a99fb5d8-cc6c-4a3e-a4ad-a9061f2e0005.dc07b4be-8b33-4a3d-b939-cd4cc47c7fd5@emailsignatures365.codetwo.com>
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.763ce73e-6205-4019-bec9-01cad35df181.df7353f9-1420-4af9-920c-af948b3280d2@emailsignatures365.codetwo.com>
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.820697f9-bebc-4872-bcbe-1b38e7cfdfbf.9c5c634b-6d16-4185-8819-dc9672664807@emailsignatures365.codetwo.com>
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.8b4a2dd3-a699-45a1-848d-b428d186e5a5.c66ff264-ed5d-41a9-af29-2418ad1b8346@emailsignatures365.codetwo.com>
-	<DB7PR04MB5260B9653799DEC3007746D696410@DB7PR04MB5260.eurprd04.prod.outlook.com>
-User-Agent: Evolution 3.31.90-1 
-MIME-Version: 1.0
-Subject: Re: Cannot get bitbake multiconfig to work
+	Wed, 20 Mar 2019 15:09:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1553090970;
+	bh=xooJjCZegRPA51DyzoQ7v+8EKTDYE+Y8ElVSkf4WOgY=;
+	h=From:To:Subject:Date:From;
+	b=B1dSJTHWQGmx0YDhDetCfrCutVE7VgkwVi78wsDuEea1X5GDflx/OplrsFKnWbbyD
+	YyXyBSU2daGmoL7OcYJJbTRsFegiFDp7fiyPBu3CGOELvcxVbziWAeZ2D7ZFrde9fV
+	5av7wpaIftX14Mrnm9T2oriFjV4HuzkyFyTjWwKk4/cYhmXR7iHMWN5jVtKQU5s7J0
+	ynlMvA8MYyxefQDxRYeS/7sYWoYkzFc6oozlkHLCDshVxlmyzXTcNetkkXgo1htRmn
+	xLBwCe+kB0t3rEyW+qp5pIjLMuVRJGbpZGmZYEhS1A90dBKFESFvG0YF5FWCvBeZNb
+	n46nkRJxyAqadGHP+QUxDHlTAKHi/ClvD7BqSIJ7n4MqLgB55/k+8VQM46AhlByCuZ
+	93kFcdjkIQ75Iju0e5+n7UQquCWnFyDbMzTVEd2T1ydsrlvkN7WYii2pzcglzaHL9g
+	GydTCqhrbFRm4reSm+PJnBWx4wkCB85mD3S5rklYvqkpPxCXPfp9GEB1oZYHkSK4FY
+	xbIHwZeOkYsKhdJQA3qo715quEldzqkYbbOQN+bEuY7HUIvQUVNJ89gKcUOiHdbigc
+	aSBcptdpzJx95TrrDL+ArIAsnnoBtshLV+wygebTSAmbXVARwDJ71nHzr9zAPVxvIn
+	iUgFuI4/OrTiEE1juGE8IxWE=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Mar 2019 16:09:29 +0200
+Message-Id: <20190320140929.24410-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bind: Upgrade 9.11.5 -> 9.11.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,40 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 13:49:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Mar 2019 14:09:30 -0000
 
-On Wed, 2019-03-20 at 13:44 +0000, Mike Looijmans wrote:
-> I tried providing MACHINE in local.conf, which just resulted in a
-> build for that machine, and whatever multiconfig I passed on the
-> commandline still got completely ignored. I even put "garbage" into
-> the pmu.conf file and it was happy with that too.
+Copyright hash changed to to year change.
 
-Its hard for me to know what to say to that.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ ...0001-configure.in-remove-useless-L-use_openssl-lib.patch | 4 ++--
+ ...nd-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
+ .../bind/{bind_9.11.5.bb => bind_9.11.6.bb}                 | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.5.bb => bind_9.11.6.bb} (96%)
 
-We have a test for multiconfig now:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d9018a3d9c828551c465b68b27920ec4681524ae
-
-If you configure a multiconfig and then try and build it with something
-like "bitbake multiconfig:pmu:XXX" then it should build XXX for the
-MACHINE set in the pmu multiconfig. You are hard setting things like
-the MACHINE in the pmu.conf?
-
-Does:
-
-bitbake -e -b multiconfig:pmu:bash | grep MACHINE=
-
-show what you'd expect?
-
-If its still not working we need to be able to replicate the
-configuration that isn't working or at least see the local.conf and
-pmu.conf that don't work. We simply don't have enough info other than
-to speculate on what might be wrong.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch b/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+index 871bb2a5f6..92a84a206c 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+@@ -16,8 +16,8 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ 
+ diff --git a/configure.in b/configure.in
+ index 54efc55..76ac0eb 100644
+---- a/configure.in
+-+++ b/configure.in
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -1691,7 +1691,7 @@ If you don't want OpenSSL, use --without-openssl])
+  				fi
+  				;;
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 37e210e6da..f686862d3d 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -33,8 +33,8 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ 
+ Index: bind-9.11.3/configure.in
+ ===================================================================
+---- bind-9.11.3.orig/configure.in
+-+++ bind-9.11.3/configure.in
++--- bind-9.11.3.orig/configure.ac
+++++ bind-9.11.3/configure.ca
+ @@ -2574,7 +2574,7 @@ case "$use_libjson" in
+  		libjson_libs=""
+  		;;
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.6.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.11.5.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.6.bb
+index 67672792b1..36c3425cfe 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.6.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6ba7c9fe0c888a943c79c93e6de744fb"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
+ 
+ DEPENDS = "openssl libcap zlib"
+ 
+@@ -22,8 +22,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+ "
+ 
+-SRC_URI[md5sum] = "17a0d02102117c9a221e857cf2cc8157"
+-SRC_URI[sha256sum] = "a4cae11dad954bdd4eb592178f875bfec09fcc7e29fe0f6b7a4e5b5c6bc61322"
++SRC_URI[md5sum] = "4882bd3eeef779e05b515b32354cc081"
++SRC_URI[sha256sum] = "4499007f3a6b8bba84fc757053caeabf36466d6f7d278baccef9fd109beac6d4"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+-- 
+2.17.1
 
 
