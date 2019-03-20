@@ -1,41 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id DA2F26006E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 05F997CEA2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 17:05:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44PbsP0pmyz4x;
-	Wed, 20 Mar 2019 18:05:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553101545;
-	bh=a3ImdxlPcWbtdYF1fzXjKyOPX+9KvNdQWfDLCQY2jjk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QaiOIPG46ArNBbMGUOMpMPx8mGftsXiEF/GSr+qhDIutPFOO7ybusGMTYDbXb1g/Z
-	KDIwIooosUO6QRdXpNVqGt+SHF376RgMlgZ7uWy+a9U1//J8r/6TlHDD4YTJLIhv0j
-	Tw9NRc1mcw1HoexAePvcbyHqNVEJM4p34ZEvx3B8hBa3adjcjB9rYoq/x17y6J5t7e
-	BftgSf8G5vPuYbXIUG5K31GEr7qVhlaJNc65HBz8dMmwIOrQU216tKF7wl9AVyQXEi
-	gaPwsVo3g6nhVPM0GuZY2GPA8BNY51g6+0HDHlkjBwoML92Aft/8qxEnuImOwDtkC2
-	eh5YVU1+kzLyCjf8j5sPQ/miA7WFre9D042g6tzWzezdXr6kLz4GHtrlOyV/xJW5EH
-	1xjA0n5+whe5TPOg0qHiZv8zJ59YOwMOtWIwUnTPVnSWWvGr5UgR/xgce6U+W1KRK4
-	ILkCFvpj2aEQIrfogCFtmUkrIAcqngZlm8s85mODEPIrpRZcR2DL4LXJmne2D7cxa3
-	SLWCd2t1F7DMIqvT++d9cuNWSMoXeMwCYBZgDF6+4c7UHUb59uHseA34c07aVey6ly
-	MoVMbZkcuwJufuSNLQstaiu4L8hHJ1bPjCMzWAGdcJI1XbP1mpP1Ha4eEO3rvq5SEG
-	o8aD0hDye9Dew7Zk0d93T4Js=
-Date: Wed, 20 Mar 2019 19:05:43 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190320170543.GA3358@localhost>
-References: <20190320140929.24410-1-bunk@stusta.de>
-	<6682ab95-b029-e881-43ee-59d3f7cfc174@gmail.com>
-	<20190320145650.GA31018@localhost>
-	<6251ba28-7d83-e490-c564-7e20cdb8b04f@gmail.com>
-	<20190320155530.GA1365@localhost>
-	<bed849b4-7b7c-89f4-40ca-1581a1e87023@gmail.com>
+	Wed, 20 Mar 2019 17:06:30 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id o129so14576835qke.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Mar 2019 10:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=saw4Rpeu5WnwNPIjoiD7CR/3G/TO55Ae3jyE0gZO39E=;
+	b=ZrrIrf0dlM+OIfbtLuBq21KkiBtedpcE4umW84vSKZIfMN8/fbppKtJhuddHtpUNQi
+	+Zh5avH/VvpW4VIbtHomUCoZS/ZV0R/ZaoPZEMb6JdB6Njw1CJKFSA2FapTnBxx0qeCS
+	pnr2ed7MwL8fo20w1rtvuOIIo8HXoT+doJQqHFgNBGYgYfGUVBDi1YZW9gaJnhkLqJNc
+	kMH0jUYAHoaH+DmDhK8RrwMbJDgJ2Xr3+8/ry4MkkyM06FZ/vx6Xoezxk7Y010gkS0Vz
+	z/nSiAlPA6AjmVPZ472Inguf+8AmZLlM2bSOPAYkCGlEQanlFVp25wsBabHawCzNneSi
+	bq+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=saw4Rpeu5WnwNPIjoiD7CR/3G/TO55Ae3jyE0gZO39E=;
+	b=BKRaN30aQHTnq0bfdQiWAFm3bYtx6OHlKFIns5vsQbS/BAa3DKHeF8KB9YDS6OrbIy
+	+YLjFlOGbU9QzWKNZgo+Cm6sRYJ2+wrjttkWlb+/yXZHdLV+QWpbDauR0XoqnHNdg30F
+	3TFfVTPYD7raoSqYzl6Tv8rX3/LSEIwQ0E4kt+8E0yrhMqJfrFCuScUqURyTk8phw1SB
+	cZfswjYeRr35yI86sDqOHSkB9exsRMIzbJhO8LXoGJ7DsHPbpuIxnbiKwuHhxy6Lv7RQ
+	/E4CmqaxDbUv6SSw9kssBmvTgP/VUQg2BtPLtJpAILdE102YIxBo7J/EKt2RW/q4ohYt
+	EcHg==
+X-Gm-Message-State: APjAAAVsOpmmnsJTDyDQk87TcolUxZNuoD2B7EOT0yuTreK+qC3cqTCT
+	WELTfsVdPk2avscvYUtaxka5gtwsVFHiCpTposw=
+X-Google-Smtp-Source: APXvYqzXwoglKIU5Fpho6QQ8AJQj0bG2QPaFqZWr+1snuRCvMXSY/a7KUru3+AbahY2dbjsDppXlilJ6vcxtUBd2/AI=
+X-Received: by 2002:a37:c89b:: with SMTP id t27mr7421484qkl.223.1553101591659; 
+	Wed, 20 Mar 2019 10:06:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bed849b4-7b7c-89f4-40ca-1581a1e87023@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bind: Upgrade 9.11.5 -> 9.11.6
+References: <1552383718-62708-1-git-send-email-changqing.li@windriver.com>
+	<20190315104552.GB14180@localhost>
+	<CAMKF1spft7gbJ983GtbyVtjXO5hECMuTqg6TM1bV2ozu0Np_CQ@mail.gmail.com>
+	<20190320052115.GA25499@localhost>
+	<CAMKF1soQbssBdHEgmdGmeNFPWWQH+FdRbdzBuPDo_TOdnY0oRA@mail.gmail.com>
+	<20190320150021.GB31018@localhost>
+In-Reply-To: <20190320150021.GB31018@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Mar 2019 13:06:05 -0400
+Message-ID: <CAMKF1sqFpCwy6vYqBdEuMi2dxUU32_DD3XbGt4t-VXoU6x_qYA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mdadm: fix gcc8 maybe-uninitialized/format-overflow warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,98 +59,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 17:05:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Mar 2019 17:06:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 20, 2019 at 09:33:56AM -0700, akuster808 wrote:
-> 
-> 
-> On 3/20/19 8:55 AM, Adrian Bunk wrote:
-> > On Wed, Mar 20, 2019 at 08:21:31AM -0700, akuster808 wrote:
-> >> On 3/20/19 7:56 AM, Adrian Bunk wrote:
-> >>> On Wed, Mar 20, 2019 at 07:35:53AM -0700, akuster808 wrote:
-> >>>> On 3/20/19 7:09 AM, Adrian Bunk wrote:
-> >>>>> Copyright hash changed to to year change.
-> >>>>  You are missing one of the more important bits of info that would help
-> >>>> make the decision if this gets into M4 or waits until after 2.7 releases.
-> >>>>
-> >>>> Go look at the 9.11.5-p4 release notes.
-> >>> What part of the release notes are you referring to?
-> >>>
-> >>> And why are you talking about release notes for a version
-> >>> that is neither of the two versions in this upgrade?
-> >> Ah, because the 9.11.5 has patch level updates from -p1 to -p5 that are
-> >> not the current 9.11.5 and those changes  are included in 9.11.6.
-> > Most items in the 9.11.6 release notes are also in the 9.11.5
-> > release notes.
-> 
-> 9.11.5-P4 
-> 
->   * CVE-2018-5744: A specially crafted packet can cause named to leak
->     memory
->     <https://lists.isc.org/pipermail/bind-announce/2019-February/001115.html> 
->     /Michael McNally /
->   * CVE-2018-5745: An assertion failure can occur if a trust anchor
->     rolls over to an unsupported key algorithm when using managed-keys
->     <https://lists.isc.org/pipermail/bind-announce/2019-February/001116.html> 
->     /Michael McNally /
->   * CVE-2019-6465: Controls for zone transfers might not be properly
->     applied to Dynamically Loadable Zones (DLZs) if the zones are
->     writable.
->     <https://lists.isc.org/pipermail/bind-announce/2019-February/001117.html> 
->     /Michael McNally /
-> 
-> 
-> please add just the CVE references to the commit message.
+On Wed, Mar 20, 2019 at 11:00 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Wed, Mar 20, 2019 at 08:59:39AM -0400, Khem Raj wrote:
+> > On Wed, Mar 20, 2019 at 1:21 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > > On Tue, Mar 19, 2019 at 11:51:47PM -0400, Khem Raj wrote:
+> > > > On Fri, Mar 15, 2019 at 6:45 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > > > >
+> > > > > On Tue, Mar 12, 2019 at 05:41:58PM +0800, changqing.li@windriver.com wrote:
+> > > > > > From: Changqing Li <changqing.li@windriver.com>
+> > > > > >
+> > > > > > while compiled with -Werror=maybe-uninitialized/-Werror=format-overflow=,
+> > > > > > it failed
+> > > > > >
+> > > > > > [snip]
+> > > > > > | Incremental.c: In function 'Incremental_container':
+> > > > > > | Incremental.c:1593:3: error: 'mdfd' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> > > > > > | close(mdfd);
+> > > > > > | ^~~~~~~~~~~
+> > > > > >
+> > > > > > [snip]
+> > > > > > super-intel.c: In function 'apply_takeover_update':
+> > > > > > | super-intel.c:9615:15: error: '%d' directive writing between 1 and 11 bytes into a region of size 7 [-Werror=format-overflow=]
+> > > > > > | " MISSING_%d", du->index);
+> > > > > > | ^~
+> > > > > >...
+> > > > >
+> > > > > I am seeing these warnings only with -Og, are you also seeing them with
+> > > > > -Og (DEBUG_OPTIMIZATION) only?
+> > > > >
+> > > > > If this is true, I would consider
+> > > > > https://sources.debian.org/src/mdadm/4.1-2/debian/patches/debian-no-Werror.diff/
+> > > > > a better workaround.
+> > > > >
+> > > > This seems a broader brush, I really dont like to relegate Werror if
+> > > > we dont have to, because it will force us
+> > > > to fix the code.
+> > >
+> > > How are we getting such fixes properly reviewed?
+> > >
+> > > What actually happens is that the easiest change that silences a warning
+> > > gets applied.
+> > >
+> > > And for such bogus -Og only warnings there was no problem in the code,
+> >
+> > so then probably a better fix is to add -Wno-error to DEBUG_FLAGS
+> > which will limit it to -Og case, and revert the original fix.
+>
+> For mdadm this might work, for puzzles it would not.
+>
+> Order matters, and upstream can insert your flags before or after
+> the -Werror. So unfortunately this would not cover all recipes.
+>
 
-Precedent in master seems to be to not list CVEs fixed in new upstream,
-only when CVE fixes get backported.
+suggestion was not global, but just for this recipe. I still would
+suggest that we disable it only where needed
 
-Justifying my patch with CVE numbers would also be wrong since for only 
-these CVE fixes 9.11.5-p4 would be better than 9.11.6.
-
-> >> Also, nowhere was it mentioned this is a bugfix only update.
-> > It is not a bugfix only update.
-> 
-> The 9.11 series is a Extended Supported Version. (ESV) release.  Use the
-> software for Production Environments needing infrequent upgrades and no
-> new features.
-> 
-> https://www.isc.org/downloads/software-support-policy/version-numbering/
-
-I am not disputing that it is an LTS series.
-
-But 9.11.5 -> 9.11.6 is not a bugfix only update.
-
-> >> This helps
-> >> me in deciding if this is a back port candidate.
-> > You are saying you were threatening to veto inclusion into 2.7 because
-> > you aren't able to decide whether it should be backported to 2.6?
-> 
-> Not at all. We have entered 2.7 M3 which includes freezing package
-> updates. The ones that have the best chance of getting in are ones that
-> are bugfixes and or include CVE fixes. Without any information, the
-> chance on being included goes down. Having more info in the commit
-> message helps Richard and Ross to decide if they should include it.
->...
-> I am the package maintainer and I appreciate folks helping me support
-> the packages I maintain with in updates and fixes.
-
-Do whatever you want to do, it's best to end the discussion at this point.
-
-> regards,
-> Armin
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
