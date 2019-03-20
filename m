@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1662B7CE5D
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D2D67CEA2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 10:15:13 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id n11so1448964ioh.1
+	Wed, 20 Mar 2019 10:15:39 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id z124so31636406itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 03:15:15 -0700 (PDT)
+	Wed, 20 Mar 2019 03:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wbiSQpdqZkTO2gJf3OfgkTUaSJedvrxQRI8CrDzlU1U=;
-	b=cXq0Mu4amSTRIt+0AC43qSclNgepJOTLOTbwaLHT6GziQji/DFHXso2JKAQ/Vpdvwd
-	0vEZrQ8mYvd6shgl1c+BvDA8R3YrIEtoL5nEQyZcIRT25TloRtacP/QyBVu58rAc+xMI
-	K1M6gDG4svwYvLS2VikQ5o8qa4SRi0/lChXBKWDjJinMoYoz0LjmOExtsRqW6hSwPVMU
-	5202OsclzvJVWJNU8iwSIdYI3iCf8fIq5ExMglCMsgtz7VGFoE70Ze1NdB8IBKaoqRXx
-	qKtKACZRNd2ED9hh2oeBVNwUPXRjB0ZHR5ItqRfRsnFDiV6bdi0tCzI51IA6POG1H+Pv
-	zHtQ==
+	:cc; bh=BOEDiwK1mOSVUDYP6Zr7+QPlGGMRZX9Q13nTnOkhPkk=;
+	b=2Nq1z6a8wzMMxSBNAScfvNP0a4OOyQ5svo7u/WpPeKt7NagYKueT4lng7G4yWYhTSK
+	AqvFxSJ77SEfyS1v5mLi3m0XK+4j4m6LFaZOL4dlCQ2cT/f+a6RTaqcoDf3QtF0rGCjo
+	WBuFYfX7YJJzn3cd4vRYwobKbR06VNNcqI4OuEJo69QBr2K7jpyVuTuZhory77e5fIV1
+	mDkauFDa/sTutcLNikUkSVxe2Kw/nENmMA2EnfV8VuZiiFrXfmYf5oM2v8A96WXR0+aq
+	FHZCL9B4XbABR0BlZAE45E9N9uGTUYXVRpjGDzTwL+1iU7T8OHz9pnehVoF1SNynLoNz
+	CKTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=wbiSQpdqZkTO2gJf3OfgkTUaSJedvrxQRI8CrDzlU1U=;
-	b=JyojqgiF39CCGXWtlC2J5aQHLXfzB0crF0TvtluLuaob3DglrGaH8YgX2S3DNvnK+T
-	djKphvVslMawn8F2Zrc8UBGscowQDvvPJpU7e/Met7Mrrf4AJIdyones58xZiCUgXLrP
-	BQ4BlpSwXFHYd9F2aayJDfyW69HoxctczbnkopjbGY9/my2p5faArLkyNVY64W7HHYwB
-	Q4YtsBZCpLCJPO2/QhCa60nKwx0DHZyiF48XWL2Sh94VjzcfJ2VK434ndnTIOIk+9HLF
-	cuM8YS/FFaJGylfpWHk8UQxuSnKWb41XH4Ck6llyrcmwBAWLvszR164taadtUAEFBT/U
-	xZHQ==
-X-Gm-Message-State: APjAAAWSbFFvYLWQRbzRWATZCpZI+QUAHWGT41nVJ40ogaCiHTTfKPD3
-	0GmXCBltHVQP5FK3W/O5psk4o4v0QyFVbC4xNXtmHw==
-X-Google-Smtp-Source: APXvYqxUstmC1GahH1AlsYux7ubUMiGzrViDdWQBTDS3ktZDFhVnrbEl7A29l+D/aiWGIucmrV21G5kdRngfLV+ljf8=
-X-Received: by 2002:a5d:8795:: with SMTP id f21mr4455247ion.20.1553076915006; 
-	Wed, 20 Mar 2019 03:15:15 -0700 (PDT)
+	bh=BOEDiwK1mOSVUDYP6Zr7+QPlGGMRZX9Q13nTnOkhPkk=;
+	b=Ek/3wL2cYQiroSGeeV2zJX0wH4X5efDNwhc4b6umm02nNeQHJrKWJuGN2+9paBMzmn
+	a0YXzDuWSSkQjNElZAAnYkjhL+TfY90wEnCHlCN9T5mNT2wcTwFRpYyBSZMWgqalI2ms
+	a/uLLufTEG2ZsHwjTz1aDAFrb08UdWKGLQTFC5WS+G8DTauLcWC9QttxE2uqqAdqJRsc
+	+OTkrCTThIMd1Dz4UlF3QSbJpxDulpITW7r+FFyDdYPvFYrM2VW+z5ssFDXZwlyhmM5h
+	mnOLx01uIhSBe5YRNkRN+kEs9/aTIyNawSNqtRCMKCFp758mteNqervO2jYfoJAUaGcD
+	RxXg==
+X-Gm-Message-State: APjAAAUbSKRrrHWK0NybL9Q6r7rgp1kaX/t1uYNhTNyoWRUeeUHLjVOQ
+	3kP0IXbZF2cKEIxL4nqjKTkMYI2E48wff1ALR2ywdg==
+X-Google-Smtp-Source: APXvYqwx5WYHPiDkWUCXSYlOduEDZBD4qBmH9/roRUcyNto50ZabhKAN9nyWkPXrnZXo1Vp7VmSsS10YT90KaiQ4k1Y=
+X-Received: by 2002:a24:2405:: with SMTP id f5mr4520531ita.130.1553076940325; 
+	Wed, 20 Mar 2019 03:15:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190320093929.28688-1-lu.jiang@windriver.com>
-	<20190320093929.28688-2-lu.jiang@windriver.com>
-In-Reply-To: <20190320093929.28688-2-lu.jiang@windriver.com>
+	<20190320093929.28688-3-lu.jiang@windriver.com>
+In-Reply-To: <20190320093929.28688-3-lu.jiang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 Mar 2019 10:15:03 +0000
-Message-ID: <CAJTo0LYBFgsLQX-+2YC_3Y+=NoKXfAMQso2ikkhSSE-G7_J1aw@mail.gmail.com>
+Date: Wed, 20 Mar 2019 10:15:29 +0000
+Message-ID: <CAJTo0LaLGSYRXyB_id+wFvTT6fSNjn109rqQhaOOKuUQ_M9hiQ@mail.gmail.com>
 To: Jiang Lu <lu.jiang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] libsoup:add soup_uri_to_string_with_password
+Subject: Re: [PATCH 2/4] libsoup:enable libsoup build as native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +55,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 10:15:14 -0000
+X-List-Received-Date: Wed, 20 Mar 2019 10:15:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 20 Mar 2019 at 09:43, Jiang Lu <lu.jiang@windriver.com> wrote:
-> +The existed soup_uri_to_string does not have password, add a
-> +function to support it.
-> +
-> +Upstream-Status: Pending
+> +BBCLASSEXTEND = "native"
 
-Why are you adding this function?  Have you submitted it upstream?
-
->  # glib-networking is needed for SSL, proxies, etc.
-> -RRECOMMENDS_${PN} = "glib-networking"
-> +DEPENDS += "glib-networking"
-
-Apart from not being explained in the commit message, this also seems
-plain wrong.
+Can you test a nativesdk build too, might as well add both.
 
 Ross
 
