@@ -1,51 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EFEFE7CFAF
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D3BB27CF1F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 23:32:29 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s15so366784wra.12
+	Thu, 21 Mar 2019 23:48:20 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id p1so412267wrs.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 16:32:31 -0700 (PDT)
+	Thu, 21 Mar 2019 16:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=R1MYFdIgR+KQkUR7l22rjo9F2Uw5iNPwePHdf9jsypg=;
-	b=bzRM37MvWkmJzTrqoxq4lwmMc8UrsBjNzvy6rrD7KVwrAqhRt8yiNWY7SoitiqnOyh
-	zaeW28lIIl3uaCpEnwlW4gIAodKvY0VjmcXhpT7US8qewoUBvg+sjZfO6sOVSMEpIaRm
-	hyJgd2Z68XEFrdWcz1XjivqqrPNERMcPRT3hg=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=IwCB1x7aQSBr5BUEuqWVyomHRu4rMWDYIBqhb5/rzNI=;
+	b=HrVswmpAXFZ5isKL1hrhW3DTPdN04opZ7KGazEgkAL/GfHxQ1l4dfV3reFGRoX15pc
+	D8MoQQuUoVTWR690ay8hC56iK1QLme1Hh/R81yuk2l2vR2fpvRe8j2Ge0mbm9cgcoZ6M
+	Ti6ng16cqToVdgGGAdTi3dh+34sQTKc6ayDHg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=R1MYFdIgR+KQkUR7l22rjo9F2Uw5iNPwePHdf9jsypg=;
-	b=o2P+DzBsVfPujjmVF3fRwJCeZChGwitV0DEMhCEq9Lc9anXNW69opZUCCGVN3KdYKj
-	yRtcSuQ1hKkLfOjUbQzopT8HaHQO8cvf1F1ZCYyvGxEG9c8327SAky/DUgjyMdHYPiAj
-	k/sxCpJitXeqlCnn0jcjEy05RHXR/QSS9xMMDG8LUikYzj82qQElRDXnoDMvxstSiEsQ
-	+eLKoHLimvVV+6bG8NQJQ5Qs8mZe1c0PWjxU7Bk+KbKBcloi5QwycQgIuHFePRTxQ739
-	8chp52zOwFVkHQnoUXI/AFcin1/C13jSeGishuv7pj39w4IZw/YbU4MgjtKj9aVicTt9
-	UHCQ==
-X-Gm-Message-State: APjAAAXx3/IzQV68RQuhwSu1CaRfREUjtoWuXNWpnQrKTWT8oCe7BKX+
-	B0sVQHzAqq3Fn6LzsDJXhw8+PtN1QcAGdg==
-X-Google-Smtp-Source: APXvYqwm7Zm0LOEpHh8ZbEICA9T5tTxA6Zy2IQClzMaug21+pu11eKD6PAXeDIOED+VL5akze2ZigQ==
-X-Received: by 2002:a5d:6682:: with SMTP id l2mr4099128wru.33.1553211150681;
-	Thu, 21 Mar 2019 16:32:30 -0700 (PDT)
+	bh=IwCB1x7aQSBr5BUEuqWVyomHRu4rMWDYIBqhb5/rzNI=;
+	b=fJmfgtjmrR/Q+E0vMyyvWmMNcP3X8FiyF61V3sphN1z0PEE+zG1xpGdwEQ6+jNmL++
+	lxJjKo3bjiap2XW+gmdXvHfQjhk/I19RbXDNT0eFuKipxLm0aKe1FM6WpOSYMkb2ISqB
+	2f0TDg+LbxbW/f9StZym9xcYOBSn/G50aeg4AFyIos8DnbVx0eBqKwniEp/6M6OuI3CH
+	jAQKi3pbjBPC3IZDjK94mETniCI0YKlVNOjmXRwuFGh8iGjs68G4nPEvAbFzxx8phV5J
+	08rhkfBJnrDZPgezJUZUoAmc9QBikpyhHYf1pAWUFH0mwpRm0LLhIyX0PF3HBV74Cjhl
+	Bz1w==
+X-Gm-Message-State: APjAAAVs0E7Ld+o0SKlY4nuNTHz80s9Ijr0sNWN7foUO9+r9gW064VQr
+	28iVicFEaJCBonCC5Qjth4V9PbAA762KGA==
+X-Google-Smtp-Source: APXvYqyjgMvLNcU9IACN0hSublNXYuD23RLgTuu7CGxIugvkgZrmXegBTi/LT2Mn6rc+682wODcG/Q==
+X-Received: by 2002:a5d:6987:: with SMTP id g7mr4247341wru.61.1553212101581;
+	Thu, 21 Mar 2019 16:48:21 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y2sm7639062wmy.38.2019.03.21.16.32.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Mar 2019 16:32:29 -0700 (PDT)
-Message-ID: <5b0bba9dde47bff3dec243a7a3d39e12c6efc2a8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Liwei Song <liwei.song@windriver.com>, oe-core
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Mar 2019 23:32:28 +0000
-In-Reply-To: <1553138356-85237-9-git-send-email-liwei.song@windriver.com>
-References: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
-	<1553138356-85237-9-git-send-email-liwei.song@windriver.com>
+	by smtp.gmail.com with ESMTPSA id h1sm5706607wmb.5.2019.03.21.16.48.20
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 21 Mar 2019 16:48:20 -0700 (PDT)
+Message-ID: <610124108e316ad695639fff74fde6a35606c998.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Thu, 21 Mar 2019 23:48:18 +0000
+In-Reply-To: <20190321203529.GB16294@denix.org>
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+	<20190320002240.GF11946@denix.org>
+	<fd87289ca64fd8c35bcb2b70ea7cbf78cce8e131.camel@linuxfoundation.org>
+	<20190321203529.GB16294@denix.org>
 User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] oe-core: add ledmon to support Intel VROC
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/5] qemuarm: Swap for an arm7ve (A15) configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +60,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 23:32:30 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 23:48:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-03-20 at 23:19 -0400, Liwei Song wrote:
-> This add ledmon demon to control Intel VROC's SSD disk led.
+On Thu, 2019-03-21 at 16:35 -0400, Denys Dmytriyenko wrote:
+> On Wed, Mar 20, 2019 at 12:25:02AM +0000, 
+> richard.purdie@linuxfoundation.org wrote:
+> > On Tue, 2019-03-19 at 20:22 -0400, Denys Dmytriyenko wrote:
+> > > On Mon, Mar 11, 2019 at 03:12:26AM +0000, Richard Purdie wrote:
+> > > > From: Jon Mason <jdmason@kudzu.us>
+> > > > 
+> > > > Add new QEMU BSP for a Arm Cortex-A15 system and use this as
+> > > > qemuarm,
+> > > > moving the old armv5te Versatile PB based machine to qemuarmv5.
+> > > > 
+> > > > The new machine uses the QEMU virt machine type, which should
+> > > > be
+> > > > faster to emulate and updates the qemuarm support to a modern
+> > > > architecture.
+> > > > 
+> > > > Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> > > > Signed-off-by: Richard Purdie <
+> > > > richard.purdie@linuxfoundation.org>
+> > > > ---
+> > > >  meta/conf/machine/qemuarm.conf                | 34
+> > > > +++++++++++++
+> > > > ------
+> > > >  meta/conf/machine/qemuarmv5.conf              | 23
+> > > > +++++++++++++
+> > > >  .../linux/linux-yocto-rt_4.19.bb              |  2 +-
+> > > >  .../linux/linux-yocto-rt_5.0.bb               |  2 +-
+> > > >  .../linux/linux-yocto-tiny_4.19.bb            |  2 +-
+> > > >  .../linux/linux-yocto-tiny_5.0.bb             |  2 +-
+> > > >  meta/recipes-kernel/linux/linux-yocto_4.19.bb |  2 +-
+> > > >  meta/recipes-kernel/linux/linux-yocto_5.0.bb  |  2 +-
+> > > >  8 files changed, 52 insertions(+), 17 deletions(-)
+> > > >  create mode 100644 meta/conf/machine/qemuarmv5.conf
+> > > > 
+> > > > diff --git a/meta/conf/machine/qemuarm.conf
+> > > > b/meta/conf/machine/qemuarm.conf
+> > > > index a5443126273..95550461899 100644
+> > > > --- a/meta/conf/machine/qemuarm.conf
+> > > > +++ b/meta/conf/machine/qemuarm.conf
+> > > ...
+> > > > +KMACHINE_qemuarmv5 = "qemuarm"
+> > > > \ No newline at end of file
+> > > > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > > b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > > index 07dc5b77a14..36761b99437 100644
+> > > > --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > > @@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+> > > >  
+> > > >  LINUX_KERNEL_TYPE = "preempt-rt"
+> > > >  
+> > > > -COMPATIBLE_MACHINE = "(qemux86|qemux86-
+> > > > 64|qemuarm|qemuarm64|qemuppc|qemumips)"
+> > > > +COMPATIBLE_MACHINE = "(qemux86|qemux86-
+> > > > 64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
+> > > 
+> > > Did you mean to list here "qemuarmv5" instead of "qemuarma15"?
+> > 
+> > Yes!
+> > 
+> > > > @@ -40,7 +40,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+> > > >  
+> > > >  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> > > >  
+> > > > -COMPATIBLE_MACHINE =
+> > > > "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-
+> > > > 64"
+> > > > +COMPATIBLE_MACHINE =
+> > > > "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips6
+> > > > 4|qe
+> > > > mux86-64"
+> > > 
+> > > Ok, "qemuarmv5" - I see a pattern here! Was it a challenge? :)
+> > 
+> > It definitely was a challenge, perhaps not the way you mean it
+> > though!
+> > :)
+> > 
+> > Patches to fix up the mess I made of this gratefully received, or
+> > I'll
+> > sort it out tomorrow, thanks for highlighting it.
 > 
-> Signed-off-by: Liwei Song <liwei.song@windriver.com>
-> ---
->  meta/recipes-extended/ledmon/ledmon_git.bb | 32 ++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->  create mode 100644 meta/recipes-extended/ledmon/ledmon_git.bb
+> Submitted a patch last night:
+> http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280345.html
 > 
-> diff --git a/meta/recipes-extended/ledmon/ledmon_git.bb b/meta/recipes-extended/ledmon/ledmon_git.bb
-> new file mode 100644
-> index 000000000000..77a620860cab
-> --- /dev/null
-> +++ b/meta/recipes-extended/ledmon/ledmon_git.bb
-> @@ -0,0 +1,32 @@
-> +SUMMARY = "Intel(R) Enclosure LED Utilities"
-> +
-> +DESCRIPTION = "The utilities are designed primarily to be used on storage servers \
-> + utilizing MD devices (aka Linux Software RAID) for RAID arrays.\
-> +"
-> +HOMEPAGE = "https://github.com/intel/ledmon"
-> 
+> Not sure if you got to it sooner and fixed it yourself (don't see it
+> in git yet). Either way is fine. Let me know if you need anything
+> else. Thanks.
 
-I'm not sure many of our systems have this. Would this not be more
-appropriate in meta-intel or in some other layer? it does seem a bit of
-a specialist use case?
+Looks good, thanks. I'm struggling a bit after some travel
+unfortunately but doing my best to keep the patches moving. Its testing
+in -next now.
 
 Cheers,
 
