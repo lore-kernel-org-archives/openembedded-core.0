@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AA0B77CEA2
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 79EB27CE64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 12:31:38 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id h18so2509898wml.1
+	Thu, 21 Mar 2019 12:31:55 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id q1so6408052wrp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 05:31:40 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=R4qNOEVoiI75ayWRVQC/gC4e1zrzMHr2O9X7394eP6I=;
-	b=GOVRAoUQTp+Kf/Vp8dTQ3RdKqeZBwgzMG3KwchHHmCrp25GQ3oHvsl2DAS64Oxhvfx
-	Ur161wT/lPfWb0wW0hLUQPbjkGutB6IotIU/Mlk8V2SEBZb5rhzwrrqxCBtMrB3a7x3M
-	cbc83Kps9GX7vqTxUlLQMY9qK0UY4jaTL/Cx6vYLwgA9rLOGCzn3lB7qpLbV8SOdlIYO
-	TqLQe3cIBMRFkDUQ/fSC3/lcPFAn4FZMIqV0mV/R1xAY/YDwyV76BEqk26JgEprxyOMw
-	AE1DSKIz/ngkYo/OlVO2QGif4o0zgmOwoji8suyYYGwJQMlrDhI+Ap+1Za2QbylLdpSo
-	klpw==
+	bh=0gUGPTBDnDc/fdYxg/9v2OEiYyg9NfpZl4ePC/Ue5+k=;
+	b=ZihF3fAmA/N7hwynPpAZmtjAyTRPwbX9bpc8NaqYEpCGenN+tHPQpDXhMJ5LzoWvC9
+	Q6B3pwd9BGNoQtYhmY72wTr1Dgrbi0CMRfjCkO7xCdQ9XTZE/zarRUO4mSOsuKEUR4CI
+	Kll67QAO9/mFOVmVwBrn/T02kYID/d8HK8ua1EdDUxk+Cn8S3tKBbi12bjrRH9u6iDZU
+	1HK+6Wz2zO2OWHFswjqk34e+h3UJg+athfbXkAEzd2YRSz3t4d4sIbt0C085tQCWEPuF
+	NRlQUqDfLRGjy0TQybKOHuF9XcjcN1rYl4GJGwJbc082Anf4DpmbS7iPmLNKeWP2pY0a
+	+woA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=R4qNOEVoiI75ayWRVQC/gC4e1zrzMHr2O9X7394eP6I=;
-	b=UfLBZsQ0Wmnl2I3nK7v3toPYSBh66vxwZDwiSyfJHkkKz+9qUukELNZVCHF57YG4CN
-	VihxfFzKNFXSd+jIn7rN4By8RqgwypAC/uyRz8VNeSL8WuZW7hnwyIkGt+KtCvGSJYbf
-	sPXExZZMA8QM/NHE1cjbLia3zM7pqs+OmyhwUWd9nBTLgbRXkzSHHedLxIo8ROpQu/YK
-	OFZTWWM4dBt/ZwjhdvQKoedBEenf3M1Xp4s8HrQRgQn3fBy8Y7/MP+m8oovache/iE0m
-	g5v/VpFevBEYBoqZdN/TGTxOCRE7FiLRsNUk5PTbILPdxJgr2MbCMgY4IjBGnwrCVhgI
-	wYRQ==
-X-Gm-Message-State: APjAAAVz7ursZb92qvSPG/i4j7po/5mmqKN1+7rY7YsyBdJvIIB9baXA
-	q7qdg7SXhYKQXIeoXBObNYBRn8YFMH0=
-X-Google-Smtp-Source: APXvYqxnNYJzm6XOeqc46rNWA/ysPdRP1pAZWbBdbv4nupEY6HqUa+ijHcvtNNi7daAqwDgO2xP7wg==
-X-Received: by 2002:a7b:c92b:: with SMTP id h11mr2331192wml.33.1553171499193; 
-	Thu, 21 Mar 2019 05:31:39 -0700 (PDT)
+	bh=0gUGPTBDnDc/fdYxg/9v2OEiYyg9NfpZl4ePC/Ue5+k=;
+	b=jcz9tf7ljzfAA74uy/8aEtYT4nCd8tSLd4u4znCyRzGUrGDH5ZDL1o0juWJpThgpnK
+	fCrbMLB3hZYhYQsxo93qTulbk/pxmDhn8hjvc75X4gSEWmOpsOVmiZqZ2tbjlYQ4w7e8
+	C467BOPWJYxU33rqb3vmBkTEcanbDZ0Za/6DB/yyKefEP2dGBgG/gDlN6ZhN/dJcJ2px
+	n+NC0C294QvP1Um2WW0ln44wfNIsyqLWbRS9aVsOG4wjzhutBxg0lhid03+FH/6ugnG7
+	gakZ2gkoUATSmDSkimJ2zWfQYx0HAyNyagPHLpvIWt7tl3djzD8X1JKj8MNQT0+hhQQx
+	eQyg==
+X-Gm-Message-State: APjAAAXfKRByOPcTgEWTy3wnN4TzyaVx4CSrbHZEBorVwd+I6Shy6GKW
+	ibwbd/CV0zaPE7TLwXqh8IA9WY/lYrk=
+X-Google-Smtp-Source: APXvYqwh6SYcUfChHRx9NSU2VtVqMPBganvE0EHmyiMAAuaRb9PumvAgWIPn2sY63mkmxryhI0r4HA==
+X-Received: by 2002:adf:fd04:: with SMTP id e4mr2524946wrr.190.1553171516086; 
+	Thu, 21 Mar 2019 05:31:56 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d11sm3732939wmb.19.2019.03.21.05.31.38
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id y5sm1193969wrw.23.2019.03.21.05.31.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Mar 2019 05:31:38 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:55 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 12:31:36 +0000
-Message-Id: <20190321123136.3178-1-ross.burton@intel.com>
+Date: Thu, 21 Mar 2019 12:31:52 +0000
+Message-Id: <20190321123152.3238-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libcroco: fix CVE-2017-7961
+Subject: [PATCH] python: fix CVE-2018-14647 in python-native too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 12:31:38 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 12:31:55 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libcroco/libcroco/CVE-2017-7961.patch          | 45 ++++++++++++++++++++++
- meta/recipes-support/libcroco/libcroco_0.6.12.bb   |  4 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
+ meta/recipes-devtools/python/python-native_2.7.15.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
-new file mode 100644
-index 00000000000..35471ec7ee3
---- /dev/null
-+++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-7961.patch
-@@ -0,0 +1,45 @@
-+CVE: CVE-2017-7961
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 9ad72875e9f08e4c519ef63d44cdbd94aa9504f7 Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Sun, 16 Apr 2017 13:56:09 +0200
-+Subject: [PATCH] tknzr: support only max long rgb values
-+
-+This fixes a possible out of bound when reading rgbs which
-+are longer than the support MAXLONG
-+---
-+ src/cr-tknzr.c | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/src/cr-tknzr.c b/src/cr-tknzr.c
-+index 1a7cfeb..1548c35 100644
-+--- a/src/cr-tknzr.c
-++++ b/src/cr-tknzr.c
-+@@ -1279,6 +1279,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
-+         status = cr_tknzr_parse_num (a_this, &num);
-+         ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
-+ 
-++        if (num->val > G_MAXLONG) {
-++                status = CR_PARSING_ERROR;
-++                goto error;
-++        }
-++
-+         red = num->val;
-+         cr_num_destroy (num);
-+         num = NULL;
-+@@ -1298,6 +1303,11 @@ cr_tknzr_parse_rgb (CRTknzr * a_this, CRRgb ** a_rgb)
-+                 status = cr_tknzr_parse_num (a_this, &num);
-+                 ENSURE_PARSING_COND ((status == CR_OK) && (num != NULL));
-+ 
-++                if (num->val > G_MAXLONG) {
-++                        status = CR_PARSING_ERROR;
-++                        goto error;
-++                }
-++
-+                 PEEK_BYTE (a_this, 1, &next_bytes[0]);
-+                 if (next_bytes[0] == '%') {
-+                         SKIP_CHARS (a_this, 1);
-+-- 
-+2.18.1
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-index 5b962ee738d..f95a583134c 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-@@ -16,7 +16,9 @@ BINCONFIG = "${bindir}/croco-0.6-config"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.15.bb b/meta/recipes-devtools/python/python-native_2.7.15.bb
+index f00153f0eea..26d67df6b83 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.15.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.15.bb
+@@ -17,6 +17,7 @@ SRC_URI += "\
+             file://parallel-makeinst-create-bindir.patch \
+             file://revert_use_of_sysconfigdata.patch \
+             file://0001-python-native-fix-one-do_populate_sysroot-warning.patch \
++            file://0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch \
+            "
  
- inherit gnomebase gtk-doc binconfig-disabled
- 
--SRC_URI += "file://CVE-2017-7960.patch"
-+SRC_URI += "file://CVE-2017-7960.patch \
-+            file://CVE-2017-7961.patch \
-+            "
- 
- SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
- SRC_URI[archive.sha256sum] = "ddc4b5546c9fb4280a5017e2707fbd4839034ed1aba5b7d4372212f34f84f860"
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.11.0
 
