@@ -1,48 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EE4E07CF75
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ABAB57CF8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 18:48:06 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id z16so6389940qtn.4
+	Thu, 21 Mar 2019 19:30:11 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id g187so395921vsc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 11:48:08 -0700 (PDT)
+	Thu, 21 Mar 2019 12:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AUjMVUu0X3hGdnCyoEchsTApuPfTu9kx74D2v4rMT88=;
-	b=Y9frtPbfpZFMuN3lbOxwFqgvfyv7EtpbVHJmFtXgsmJmwVd5hauyxtbLVvcOKo8DHG
-	rSrtSVcG3Dz7O9Ezfk5CsLpYO3mkgGmzqGWdHBvWxdU7U7LoWZ38ZMA4HUQuZAv3ahfc
-	vZo2CIesEfh9FTYlBQI/sqBwuavRndFSeH3VaAFaFQPs13Lg4thCj/rs+O3oj7jI5933
-	SK6I2M8XJeaR8cPU1sw+aZ2PbHVt+qkaHFPOGuXwiK/OsZeHYSCAkhrM91l09Cy6Q4Ti
-	NoT9ij1C25rYAuexZOyJiPfWrJRSUIiLLlhD0KMq1WeyyLuF7kQV4lxPL8fmJghSXnDE
-	NrRg==
+	:cc; bh=nQfeE5TXt3NHLzQXFcNTP5qUXBIzEqsIt+ApixlbQu8=;
+	b=qQozddfTDyaZrlZo87eYauEW5itSyBvkca1Vdy7kTZ/5HLYRH5N5PFsWL11tA13TgX
+	+woL5S0aW/IEIxrkTVo3TmvXX7UMIkMuuHDSTyV/YdCHXrAxaI+HRYhyUN2p5o1jB5+/
+	3mNIKfFNrBhkGBGI2ehQML5ysGfkONGYiwdv4fsmvmr82QaZe9/DzMd1gi907c+Sufp/
+	Jx+yxYG0arj6MLnKaAiOSzC92pX2hF7wZEaFL5zqFZipIR8KeXLL2W64M2yl+qAKmoPC
+	Ic1Lmfv7UxTpwdNtj676wCButDpXbCx7shPPy2pVjjzucpfUeQtt1HkW50uZ218t7qzS
+	1TUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=AUjMVUu0X3hGdnCyoEchsTApuPfTu9kx74D2v4rMT88=;
-	b=YO5ctlOlvAdKhYR2ECQFLTP0aHLud0AtNxfMFtBM372mlKvA0sf6BMBsyDFdfAhO1P
-	nnJ0lxMryqKL0P01xp1WTu+evdZPwP2JFyvGG7xqz+eiNpxBsZ/udfwvYiEYiABc7LLm
-	8wVH3pHkG2/keT/l+ZBuh5cQKrxa2m0BiFmrF+tBafyCSHtMLIAljWkICICdNYecOPnx
-	MYTD10pQRb9Y/IdfXBByFxEPEuROIsGfkv3ZqBXn0b6pMXwcwbrtBSZei9zquWxzJUjR
-	uNNyuY7RH50bdCbLHZnrb3jfPTG2VVa8+b2xhf4QphWymEkdtQp/fDoe5jIWTiZIWyS/
-	DbuQ==
-X-Gm-Message-State: APjAAAU0dEZnW1ETvZmU13fQhdEzQKiJ1yhCIfB5H/w8Cf1tmwi9+ik+
-	7EPu1j3Fx/FmApg8MuFHhWY9R79wl/bpf4dQ11dN6g==
-X-Google-Smtp-Source: APXvYqyQMhie73UXVOxNo/nykf/wxV4cDuAnO5AV79DfZVlwW4GpZSBIV1dtKLAX2fowUDf3In/sNJgJaPBPyaabEHc=
-X-Received: by 2002:a0c:b660:: with SMTP id q32mr4550887qvf.50.1553194087631; 
-	Thu, 21 Mar 2019 11:48:07 -0700 (PDT)
+	bh=nQfeE5TXt3NHLzQXFcNTP5qUXBIzEqsIt+ApixlbQu8=;
+	b=jYHV9EuJFpiVUGhFoGX3JoM0Kl6DjoHFtR1yr7Mt+ZnGBkEALkHduyGOoXSLG+bUQq
+	xWrsyfmVAiJ0XCMDq2lEsoKH9EUAyIptNVM1M8BfRFv112sxMImdHQxy7pJ+zSKwrjJn
+	WF4HAFWUwAbaCoLODniBclcsKGmM+gu5rmtagA+igAsEkF67tRGu/7FXr6pFTyYFNR6+
+	5TbnMFeM0iXdQc7uzUdKog8N/iTDkZqGzWpmLaVbJyIQVYizqiNzahjKMBMMMnQdbqe4
+	SaAq+VV1yNFVi0OtlX+tIcZQO8QTmmRID3QcBm7XyVioklO6vPlAMPIVnDjh/mSDBMLO
+	iqQQ==
+X-Gm-Message-State: APjAAAWaWkeqY8j/uzZmPxvELvwdL34KQLNOIEa8eydTnU1zky+FMdGL
+	OEKgJ1ItaNnWfsIhtes2jpN02VXMMmpJ97S3ktE=
+X-Google-Smtp-Source: APXvYqzAMY9YdOOuRP5OKIRotcw0Qz378xi9/y48KfV0HP7SlZuk/XhaFqhRmMURVDjsnW3/a3ECUhHhizwt727zAtk=
+X-Received: by 2002:a67:7a14:: with SMTP id v20mr3326671vsc.197.1553196612504; 
+	Thu, 21 Mar 2019 12:30:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190320005410.254810-1-joe.slater@windriver.com>
-	<20190320005410.254810-2-joe.slater@windriver.com>
-In-Reply-To: <20190320005410.254810-2-joe.slater@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Mar 2019 11:47:41 -0700
-Message-ID: <CAMKF1soyqhXnEH9vSqHPwu0PuC=aenaQoRB0B7qwP8N4mZ4_PA@mail.gmail.com>
-To: Joe Slater <joe.slater@windriver.com>
+References: <20190319181544.314-1-luca.boccassi@gmail.com>
+	<20190321183541.31260-1-luca.boccassi@gmail.com>
+In-Reply-To: <20190321183541.31260-1-luca.boccassi@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 21 Mar 2019 19:30:01 +0000
+Message-ID: <CAO5Uq5Q8APL0y3+VPt6Z2b=02ZdNkjUi9oG6gh-XS7gQOr_r0g@mail.gmail.com>
+To: luca.boccassi@gmail.com
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips64: change tune to mips64r2
+Subject: Re: [PATCH v2] u-boot: install dumpimage and fit_check_sign in u-boot-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +55,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 18:48:07 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 19:30:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 19, 2019 at 5:54 PM Joe Slater <joe.slater@windriver.com> wrote:
+On Thu, Mar 21, 2019 at 6:36 PM <luca.boccassi@gmail.com> wrote:
 >
-> Allows for mips32 multilib to be mips32r2, like qemumips.
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
 >
-
-This looks fine.
-
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> Dumpimage and fit_check_sign can be used to extract kernel and ramdisk from
+> a FIT file, verify them and kexec for a faster reboot.
+>
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/conf/machine/qemumips64.conf | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> v2: add dumpimage and fit_check_sign to FILES_${PN}-mkimage to fix build.
+>     Not sure if it's preferable to do this or to add a new package, please
+>     advise if the other is better.
 >
-> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
-> index a166a10..970c0ce 100644
-> --- a/meta/conf/machine/qemumips64.conf
-> +++ b/meta/conf/machine/qemumips64.conf
-> @@ -3,9 +3,11 @@
->  #@DESCRIPTION: mti-malta64-be
+>  meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 >
->  require conf/machine/include/qemu.inc
-> -require conf/machine/include/tune-mips64.inc
-> +require conf/machine/include/tune-mips64r2.inc
->  require conf/machine/include/qemuboot-mips.inc
->
-> +QB_CPU = "-cpu MIPS64R2-generic"
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> index ff26e32482..b72033a566 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> @@ -45,11 +45,19 @@ do_install () {
+>         # mkenvimage
+>         install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
+>         ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
 > +
->  KERNEL_IMAGETYPE = "vmlinux"
->  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+> +       # dumpimage
+> +       install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
+> +       ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
+> +
+> +       # fit_check_sign
+> +       install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
+> +       ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
+>  }
 >
-> --
-> 2.7.4
+>  ALLOW_EMPTY_${PN} = "1"
+>  FILES_${PN} = ""
+> -FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage"
+> +FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage
+> {bindir}/uboot-dumpimage ${bindir}/dumpimage
+
+There's no $ here
+
+> {bindir}/uboot-fit_check_sign ${bindir}/fit_check_sign"
+
+or here
+
+>  FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  RDEPENDS_${PN}-mkimage += "dtc"
+
+-- 
+Alex Kiernan
 
