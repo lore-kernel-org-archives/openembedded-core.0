@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 61D656C248
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BD22F7CE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 12:30:44 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t5so6343849wri.7
+	Thu, 21 Mar 2019 12:31:07 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w10so4891311wrm.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 05:30:45 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=sq8ioZ5XLuTr+J/pP4z1uPQ7odfRhr/0cMlrHc4zel8=;
-	b=c33aqqdhPzmOdPMCDjo//QPIKmwh0qgyKRsTZLheYOzcAATlfeDas1QWq+Ui/OLGT/
-	QqD1I73xCV4srN2NbxnXd9gzcnTByKE2gtjDbxokmmE5q3ytcXMOhmB20/DWfjt1n7nq
-	KEBvZKGCBeqRxU8TsTnvE6VlxGg3k6STlvgGePzNsDUTqHPBmZfZGk84Sy1PtREY6MkT
-	a5YlwxnnO6MV2+AMTMMUSXVsEEg9zRUpgHeViwcnq2kF/aX2WjSfDSuBYVMguwJgE3K6
-	n+OnsT36Zp5Bio72Qe1/7J/TW3669vkXDRvwy7hVrF0Oj5LCuzDLjVX/PKwiiQht9mUG
-	OZZA==
+	bh=jZPXDua4sxYMqYXfISzFg0gxUpMdDSA8N45HdYoApFg=;
+	b=Uy8MnC/GHfNO3w1T4kzbDftBClZZWlIrdmsZDR/x9Ov6K+8twhS6EgSmx0DNLRvNhq
+	DJoR0FWXcR27tWGnGGyyRN3xdvxrK2mvV/xAi1kszem+kuurzzsBu73Lg3K17DOO+mkx
+	9U4XgWiRG0LKQdKwysa/DDpc1KKONCk9EeD+ppxS/ILF0te+9RTqEqlG8H/LoNDqrrrI
+	esh4KB5h5i5+H574V+xt65sHh0ehP3b+IXfs+Q9KEOOPFPwyb1iWckbzAVco69bOo+vE
+	+kf4Nrt96cMZ6t+MTvkB02XVoDowU5N9FV8qGuEOkZgbVZGC97K/EGv8WZOFIaz/H+5V
+	HS+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sq8ioZ5XLuTr+J/pP4z1uPQ7odfRhr/0cMlrHc4zel8=;
-	b=YcZPqVsfWsTDdzizvXRa9tevemE9qx6kt3vxDt97MdxeAGQ03LjkGikrVMd2AsXiMd
-	Kq4DwigjHFsRhxLfjTLkl9jYB9GNbH8M4lfWTZDAUtg8RiBJn0P7pFbK2rfNCeXEMmWn
-	FLSGBFsVAbwZ9pIKMY+O0hZAKo8rG66jdmft0AOdHum1YN6N5NjVYS+6ETZjWK0FqYq1
-	mfMiCSrRJXD1EHnfzQMEOZC0MYSDr94bpc334pQkbz9oL52xE9mgFYqHhrFAQAmb0KZz
-	P6VqXtDbRSEUo9654iPttfwr8XkZ2JjsFpNe4jvAeBqFNqy8BotPEscfwizjIw2wqWXk
-	1M5Q==
-X-Gm-Message-State: APjAAAXbnO+uX022K2QQPFbnV7VKONxIT3vqu8gT0aUVMxam5jIirrEA
-	GIH95zK4ArdEPyAxXLjKkY+ijcXr+3I=
-X-Google-Smtp-Source: APXvYqwWM1+BgaqB1Q//7iHyjkbjV2RetPNHdlHv9RGAOlkAJv/Xdhm77FQJuBu3DVuYJXXlU1PoNg==
-X-Received: by 2002:a5d:53c9:: with SMTP id a9mr2607889wrw.59.1553171444744;
-	Thu, 21 Mar 2019 05:30:44 -0700 (PDT)
+	bh=jZPXDua4sxYMqYXfISzFg0gxUpMdDSA8N45HdYoApFg=;
+	b=soVU+ezVIUOflQOLfrC2C0BYyNPo3KtHu/JEwMiSMEa1m5lsoT12VWX1PvrXhYlQ0o
+	vol/pki32XCA3Qai6aYaf328qV5ibNtcNi6YvaCFyXT8g+IXpN9HtyWTWeDd97amEYls
+	KhkVACH1rV+Gcny1Lei61LHexn1/e/88Ofc0b+CBme7+OxDrwwlBz85u3mtaMfbdFzY/
+	Vr5zp7KsVOgdZICsTspV0/W7cybmcYF+qmq3DwvJP6BvonXljZ0Tdf7Jww/r9bBlg9Io
+	w/cTxdbyBbwNUe14TQtFBSsUD/Pu1fsSfoCCu9xhRPaAAsKp/NINQt8ZINAwaC7UazeP
+	a79w==
+X-Gm-Message-State: APjAAAVdVuvmMi2GGHXhApG8+qCB4Tifr6drw6kO4mETDuZk3CCVz3zx
+	t3hRh8G1JydVuhardVrL28IRplsg990=
+X-Google-Smtp-Source: APXvYqx+khv/Cd/w1l7WRBAGt81yPhrzqBHiCJjKUXlKJ9AoFaljNxKvJ5r37FitKtD/2hNglrieeQ==
+X-Received: by 2002:adf:81a1:: with SMTP id 30mr2612215wra.285.1553171468224; 
+	Thu, 21 Mar 2019 05:31:08 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o133sm4923788wmb.18.2019.03.21.05.30.43
+	u14sm4297353wrr.42.2019.03.21.05.31.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Mar 2019 05:30:43 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:07 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 12:30:42 +0000
-Message-Id: <20190321123042.2947-1-ross.burton@intel.com>
+Date: Thu, 21 Mar 2019 12:31:05 +0000
+Message-Id: <20190321123105.3020-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] insane: improve license checksumming logic
+Subject: [PATCH] libpcre: update patch status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,127 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 12:30:44 -0000
-
-Instead of opening files as bytes and battling decoding to UTF-8 which can throw
-exceptions, open directly as strings and replace invalid codepoints.  This
-handles licenses in encodings which are not UTF-8 but are based on ASCII much
-better.
-
-Also instead of extracting the license lines, writing them to a file, and then
-hashing the file, hash the lines directly.
+X-List-Received-Date: Thu, 21 Mar 2019 12:31:07 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/insane.bbclass | 81 ++++++++++++++++++---------------------------
- 1 file changed, 32 insertions(+), 49 deletions(-)
+ meta/recipes-support/libpcre/libpcre/out-of-tree.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index a2adfee835e..37b8bb0032d 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -458,7 +458,6 @@ python populate_lic_qa_checksum() {
-     """
-     Check for changes in the license files.
-     """
--    import tempfile
-     sane = True
+diff --git a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
+index 687dcc034da..d56789615fc 100644
+--- a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
++++ b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
+@@ -1,6 +1,6 @@
+ In out-of-tree builds the #include fails because $srcdir isn't in the include path.  Set CPPFLAGS so that it is.
  
-     lic_files = d.getVar('LIC_FILES_CHKSUM') or ''
-@@ -496,61 +495,45 @@ python populate_lic_qa_checksum() {
+-Upstream-Status: Submitted [https://bugs.exim.org/show_bug.cgi?id=2379]
++Upstream-Status: Backport [r1750]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
-         if (not beginline) and (not endline):
-             md5chksum = bb.utils.md5_file(srclicfile)
--            with open(srclicfile, 'rb') as f:
--                license = f.read()
-+            with open(srclicfile, 'r', errors='replace') as f:
-+                license = f.read().splitlines()
-         else:
--            fi = open(srclicfile, 'rb')
--            fo = tempfile.NamedTemporaryFile(mode='wb', prefix='poky.', suffix='.tmp', delete=False)
--            tmplicfile = fo.name;
--            lineno = 0
--            linesout = 0
--            license = []
--            for line in fi:
--                lineno += 1
--                if (lineno >= beginline):
--                    if ((lineno <= endline) or not endline):
--                        fo.write(line)
--                        license.append(line)
--                        linesout += 1
--                    else:
--                        break
--            fo.flush()
--            fo.close()
--            fi.close()
--            md5chksum = bb.utils.md5_file(tmplicfile)
--            license = b''.join(license)
--            os.unlink(tmplicfile)
--
-+            with open(srclicfile, 'rb') as f:
-+                import hashlib
-+                lineno = 0
-+                license = []
-+                m = hashlib.md5()
-+                for line in f:
-+                    lineno += 1
-+                    if (lineno >= beginline):
-+                        if ((lineno <= endline) or not endline):
-+                            m.update(line)
-+                            license.append(line.decode('utf-8', errors='replace').rstrip())
-+                        else:
-+                            break
-+                md5chksum = m.hexdigest()
-         if recipemd5 == md5chksum:
-             bb.note (pn + ": md5 checksum matched for ", url)
-         else:
-             if recipemd5:
-                 msg = pn + ": The LIC_FILES_CHKSUM does not match for " + url
-                 msg = msg + "\n" + pn + ": The new md5 checksum is " + md5chksum
--                try:
--                    license_lines = license.decode('utf-8').split('\n')
--                except:
--                    # License text might not be valid UTF-8, in which
--                    # case we don't know how to include it in our output
--                    # and have to skip it.
--                    pass
--                else:
--                    max_lines = int(d.getVar('QA_MAX_LICENSE_LINES') or 20)
--                    if not license_lines or license_lines[-1] != '':
--                        # Ensure that our license text ends with a line break
--                        # (will be added with join() below).
--                        license_lines.append('')
--                    remove = len(license_lines) - max_lines
--                    if remove > 0:
--                        start = max_lines // 2
--                        end = start + remove - 1
--                        del license_lines[start:end]
--                        license_lines.insert(start, '...')
--                    msg = msg + "\n" + pn + ": Here is the selected license text:" + \
--                          "\n" + \
--                          "{:v^70}".format(" beginline=%d " % beginline if beginline else "") + \
--                          "\n" + "\n".join(license_lines) + \
--                          "{:^^70}".format(" endline=%d " % endline if endline else "")
-+                max_lines = int(d.getVar('QA_MAX_LICENSE_LINES') or 20)
-+                if not license or license[-1] != '':
-+                    # Ensure that our license text ends with a line break
-+                    # (will be added with join() below).
-+                    license.append('')
-+                remove = len(license) - max_lines
-+                if remove > 0:
-+                    start = max_lines // 2
-+                    end = start + remove - 1
-+                    del license[start:end]
-+                    license.insert(start, '...')
-+                msg = msg + "\n" + pn + ": Here is the selected license text:" + \
-+                        "\n" + \
-+                        "{:v^70}".format(" beginline=%d " % beginline if beginline else "") + \
-+                        "\n" + "\n".join(license) + \
-+                        "{:^^70}".format(" endline=%d " % endline if endline else "")
-                 if beginline:
-                     if endline:
-                         srcfiledesc = "%s (lines %d through to %d)" % (srclicfile, beginline, endline)
+ Index: configure.ac
 -- 
 2.11.0
 
