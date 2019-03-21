@@ -1,52 +1,54 @@
-Return-Path: <guslees@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D0BB6011C
+Return-Path: <alexey.brodkin@synopsys.com>
+Received: from smtprelay.synopsys.com (smtprelay.synopsys.com [198.182.47.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A347CE89
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 05:49:36 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id i19so3610672pfd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 22:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=aZJYUvyhAj3gS7zgibMF0MIlI2oVhp9BfGpkFPWxwMQ=;
-	b=i2dqcfP1gSq7wMei3qBnL9RKy/HSntnk7dLOxh36he+KytzfzdI7AN9hpXArv7gD4H
-	tNSvb8Zi688ExzVkFYqgdzGT7VUAiCkQK1H2uNMA8Ha4gmeCsadGXV3C1riFQ0EgUN01
-	cmb7xQjyDg3Xg0/MCElECfU6VtpowvQA8HW+JXi5E/XgnzTzJrEjZiZjGPQgkLrxYwf4
-	IVV2DcYK4MzeXaokJSgb5SEmL5kcZt3o4FN2GOxQVJd7Ka3X+LOms+nhfmZonDnw1ceY
-	PnJbsCPuhi4p7A157tJmPJLhRYPqG/GqqhDkFvLomMHxehwtQy6dr97+gadjtujQNHcN
-	nBBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=aZJYUvyhAj3gS7zgibMF0MIlI2oVhp9BfGpkFPWxwMQ=;
-	b=eyVJ+fv8TONSC6t6acKZGlNgxQ6JhumvRJ567HNaZeLOAyc/Lrp0aTP03oYB7Cj9HN
-	Wkf+TV9CQEX+yH0MSntUSRtXUNKnP7vcpjHxRD9beIjCD4Y4wWtsnS1+3JRXosiU8YHw
-	bH7k83LMKLQFRXiFwaCHeD8aM/AVeJHJFBZwjyStEUNd1tDz00m1gc0JOhvx6FM9Lukn
-	r2CWUZv0Gbib2LVCIZ9kugrseONH9pBlkeC4tguTfVLF20KUO0d9mtWisQlfUtov+PSx
-	I7Xrdy7y+uGGOePXmxtyyPNpCXkHn8CQf9CwUIzGf5b6wO99RIwsPkMUOQ3PdDepepOY
-	6BUw==
-X-Gm-Message-State: APjAAAUvDWQj0OnsypABw7rQJFBUkjzXO5zbcKNcIEsWRICF2zVLXpjd
-	/GAZEaTv+fYhHsvyIyYNEMhni2H0mJc=
-X-Google-Smtp-Source: APXvYqwDAyjUNdwIdVRx6at+y6k09NbFsHYqW6KNR0hFiNXoiKbyEh58SuIIC/bZTSEP3p103hmtZg==
-X-Received: by 2002:a17:902:ab82:: with SMTP id
-	f2mr1714337plr.93.1553147377054; 
-	Wed, 20 Mar 2019 22:49:37 -0700 (PDT)
-Received: from roachbait.lan
-	(2001-44b8-3185-9c00-ea2a-eaff-fe60-e749.static.ipv6.internode.on.net.
-	[2001:44b8:3185:9c00:ea2a:eaff:fe60:e749])
-	by smtp.gmail.com with ESMTPSA id
-	16sm6851593pfz.106.2019.03.20.22.49.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Mar 2019 22:49:36 -0700 (PDT)
-Sender: Angus Lees <guslees@gmail.com>
-From: Angus Lees <gus@inodes.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 16:46:05 +1100
-Message-Id: <20190321054605.902-1-gus@inodes.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Angus Lees <gus@inodes.org>
-Subject: [PATCH] Revert "wic: Set a miniumum FAT16 volume size."
+	Thu, 21 Mar 2019 05:53:09 +0000 (UTC)
+Received: from mailhost.synopsys.com (dc8-mailhost2.synopsys.com
+	[10.13.135.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtprelay.synopsys.com (Postfix) with ESMTPS id 48DE124E2607;
+	Wed, 20 Mar 2019 22:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1553147590; bh=UXRiLRISc3Xav8EnLsA5VhCJ6S2bM4Ab34sOR1vRkC0=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=c2ZDXFSKKcfOJ8CRJzwGRbYfExkumxNdWtvlnd2RLR4YxvuOGYdWMh7IFNT5ubORT
+	6onA6NQT0v1DS5s6/GBBdQ+0BUAA2CWIuPcFcdoCqTNHeZSa+KBsnXCZGcawgoSt9f
+	Gs5kNicRtOjKd5n5SSzA1xdI27EU7tDlAzMZmSRWYWSlmuatSFpv3KQKt5dKYXQS/g
+	Sahxc7C5DNvTpNMht1RKU9D14+bu+EasLD3jPrIBQtrTWHP87l+7Gq4eb/5nkYRA0b
+	UKmtDYnUBVlcSHkdUPV7exGhPJJ3/yz15t/K0DPiNcaQw0mve2xqFxALMC2yJVdJ03
+	cQyxyMkfKts+A==
+Received: from us01wehtc1.internal.synopsys.com
+	(us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mailhost.synopsys.com (Postfix) with ESMTPS id C93C3A0062;
+	Thu, 21 Mar 2019 05:53:09 +0000 (UTC)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+	us01wehtc1.internal.synopsys.com (10.12.239.231) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 20 Mar 2019 22:53:09 -0700
+Received: from DE02WEMBXA.internal.synopsys.com ([fe80::a014:7216:77d:d55c])
+	by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id 14.03.0415.000;
+	Thu, 21 Mar 2019 06:53:07 +0100
+From: Alexey Brodkin <alexey.brodkin@synopsys.com>
+To: Kang Kai <Kai.Kang@windriver.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [PATCH] fixup! qemu: backport patches to fix cves
+Thread-Index: AQHU3x8jRtvSCqvhbUCLMs21tZ0OsaYVCkEwgABSk4CAADhDQA==
+Date: Thu, 21 Mar 2019 05:53:06 +0000
+Message-ID: <4881796E12491D4BB15146FE0209CE6468225ACB@de02wembxa.internal.synopsys.com>
+References: <20190320131619.58439-1-kai.kang@windriver.com>
+	<4881796E12491D4BB15146FE0209CE6468225794@de02wembxa.internal.synopsys.com>
+	<d6711f3c-f4d6-d469-3aa3-47691d02b605@windriver.com>
+In-Reply-To: <d6711f3c-f4d6-d469-3aa3-47691d02b605@windriver.com>
+Accept-Language: en-US, ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.225.15.89]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] fixup! qemu: backport patches to fix cves
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +61,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 05:49:37 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 05:53:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This reverts commit f7dfb4d43247d3c13a4e0a3853007d63b9512b83.
-
-FAT16 volumes do not have a minimum size of 8250 blocks
-(== slightly over 4MB).  Exhibit A: floppy disks.
-
-The original commit message suggests this was a workaround for a bug in
-parted - in which case we should fix it there, or use the wic
-`--fixed-size` option to pass down an enforced minimum from a more
-context-aware point in the callstack.
----
-(This should also be backported to sumo)
-
- scripts/lib/wic/partition.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 3fe5c4e26c..2178321404 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -322,7 +322,7 @@ class Partition():
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
--                     max(8250, rootfs_size))
-+                     rootfs_size)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
--- 
-2.11.0
-
+SGkgS2FpLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEthbmcgS2Fp
+IDxLYWkuS2FuZ0B3aW5kcml2ZXIuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgTWFyY2ggMjEsIDIw
+MTkgNjoyNyBBTQ0KPiBUbzogQWxleGV5IEJyb2RraW4gPGFsZXhleS5icm9ka2luQHN5bm9wc3lz
+LmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IHJp
+Y2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSF0g
+Zml4dXAhIHFlbXU6IGJhY2twb3J0IHBhdGNoZXMgdG8gZml4IGN2ZXMNCj4gDQo+IE9uIDIwMTkv
+My8yMSDkuIrljYg1OjM0LCBBbGV4ZXkgQnJvZGtpbiB3cm90ZToNCj4gPiBIaSBLYWkgS2FuZywN
+Cj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBrYWkua2Fu
+Z0B3aW5kcml2ZXIuY29tIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPg0KPiA+PiBTZW50OiBXZWRu
+ZXNkYXksIE1hcmNoIDIwLCAyMDE5IDQ6MTYgUE0NCj4gPj4gVG86IHJpY2hhcmQucHVyZGllQGxp
+bnV4Zm91bmRhdGlvbi5vcmcNCj4gPj4gQ2M6IGFsZXhleS5icm9ka2luQHN5bm9wc3lzLmNvbTsg
+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiBTdWJqZWN0OiBb
+UEFUQ0hdIGZpeHVwISBxZW11OiBiYWNrcG9ydCBwYXRjaGVzIHRvIGZpeCBjdmVzDQo+ID4gSnVz
+dCB3b25kZXJpbmcgaWYgeW91IHdlcmUgYWJsZSB0byByZXByb2R1Y2UgbWVudGlvbmVkIHByb2Js
+ZW0NCj4gPiBvbiB5b3VyIHNpZGUgYmVmb3JlIGZpeGluZyBpdD8NCj4gPg0KPiA+IEdpdmVuIFJp
+Y2hhcmQncyBpbnB1dCB0aGlzIHByb2JsZW0gd2FzIHN1cHBvc2VkIHRvIGJlIGNhdWdodA0KPiA+
+IGJlZm9yZSB5b3VyIHByZXZpb3VzIGNvbW1pdCBoaXQgT0UgbWFzdGVyIGJyYW5jaCBidXQgc29t
+ZWhvdyBpdA0KPiA+IHNsaXBwZWQgdGhyb3VnaCB0aGUgY3JhY2tzLi4uDQo+ID4NCj4gPiBPciBv
+dGhlcndpc2UgbXkgc2V0dXAgc2hvdWxkIGJlIHNvbWVob3cgdmVyeSBzcGVjaWFsIGlmIGl0IG9u
+bHkNCj4gPiBoYXBwZW5zIGZvciBtZS4NCj4gDQo+IEkgY2FuIHJlcHJvZHVjZSB0aGUgYnVpbGQg
+ZmFpbHVyZSB3aXRoIGRlZmF1bHQgY29uZmlndXJlOg0KPiANCj4gJCAuIHBva3kvb2UtaW5pdC1i
+dWlsZC1lbnYNCj4gJCBiaXRiYWtlIHFlbXUtc3lzdGVtLW5hdGl2ZQ0KPiANCj4gSXQgc2hvdWxk
+IGJlIGNvdmVyZWQgYnkgYXV0b2J1aWxkZXIuIDooDQo+IA0KPiBBbmQgdGhlcmUgaXMgbm8gZXJy
+b3IgdG8gYnVpbGQgcWVtdSBhbmQgcWVtdS1uYXRpdmXCoCB0aGF0DQo+IGh3L3JkbWEvcmRtYV9i
+YWNrZW5kLmMgaXMgbm90IGV2ZW4gY29tcGlsZWQgYmVjYXVzZToNCj4gDQo+ICogQ09ORklHX1BD
+SSBpcyBub3Qgc2V0IGZvciBxZW11LW5hdGl2ZQ0KPiAqIENPTkZJR19QVlJETUEgaXMgbm90IHNl
+dCBmb3IgcWVtdQ0KDQpUaGFua3MgZm9yIGNvbmZpcm1hdGlvbiENCg0KUmljaGFyZCwgRldJVyBJ
+IGhpdCB0aGlzIGlzc3VlIGJ1aWxkaW5nICJidWlsZC1hcHBsaWFuY2UtaW1hZ2UiDQp3aGljaCBJ
+IHVzZSBmb3Igc21va2UtdGVzdGluZyBhcyB0aGVyZSdyZSBxdWl0ZSBhIGZldyBwYWNrYWdlcw0K
+YmVpbmcgYnVpbHQuDQoNCi1BbGV4ZXkNCg==
 
