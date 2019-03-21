@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BD22F7CE5C
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 312877CF44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 12:31:07 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w10so4891311wrm.4
+	Thu, 21 Mar 2019 12:31:18 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id f3so2533759wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 05:31:09 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=jZPXDua4sxYMqYXfISzFg0gxUpMdDSA8N45HdYoApFg=;
-	b=Uy8MnC/GHfNO3w1T4kzbDftBClZZWlIrdmsZDR/x9Ov6K+8twhS6EgSmx0DNLRvNhq
-	DJoR0FWXcR27tWGnGGyyRN3xdvxrK2mvV/xAi1kszem+kuurzzsBu73Lg3K17DOO+mkx
-	9U4XgWiRG0LKQdKwysa/DDpc1KKONCk9EeD+ppxS/ILF0te+9RTqEqlG8H/LoNDqrrrI
-	esh4KB5h5i5+H574V+xt65sHh0ehP3b+IXfs+Q9KEOOPFPwyb1iWckbzAVco69bOo+vE
-	+kf4Nrt96cMZ6t+MTvkB02XVoDowU5N9FV8qGuEOkZgbVZGC97K/EGv8WZOFIaz/H+5V
-	HS+Q==
+	bh=zj9vcaUs+6p6hQQDYDuGfPqGj1o9vdDJH02J+058srw=;
+	b=Vxft811AqxZ397qSK5MPrJUKQmPU7CW8fqrd1losxZ1QWYtypJsivNcX+6tY8yoX6r
+	xFV1w81yf6u4tYDtpaxckymjpiWacm2FV8XAxIQ5g5gCZJh8NIiGyRoiff7TzsBUQ8Zo
+	PmLEk0R9Pzm6S6tYxmp6bPqAmp1BE07zxJwlmm7SaZOtnZifCnhjw13qOsnuXY4extnm
+	OH9UVMfAhTv0nzTCvI8e3Aiyoe/mO31AksaBP7Jd8idUP83QP+QucQErq6nbwY3cEPYC
+	dRQpsVo9unnacJSkJkAichWlarKymUxx8qexVHK8sRnZIOLV/cjyYRc+q2+8RwjpYlML
+	uhxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=jZPXDua4sxYMqYXfISzFg0gxUpMdDSA8N45HdYoApFg=;
-	b=soVU+ezVIUOflQOLfrC2C0BYyNPo3KtHu/JEwMiSMEa1m5lsoT12VWX1PvrXhYlQ0o
-	vol/pki32XCA3Qai6aYaf328qV5ibNtcNi6YvaCFyXT8g+IXpN9HtyWTWeDd97amEYls
-	KhkVACH1rV+Gcny1Lei61LHexn1/e/88Ofc0b+CBme7+OxDrwwlBz85u3mtaMfbdFzY/
-	Vr5zp7KsVOgdZICsTspV0/W7cybmcYF+qmq3DwvJP6BvonXljZ0Tdf7Jww/r9bBlg9Io
-	w/cTxdbyBbwNUe14TQtFBSsUD/Pu1fsSfoCCu9xhRPaAAsKp/NINQt8ZINAwaC7UazeP
-	a79w==
-X-Gm-Message-State: APjAAAVdVuvmMi2GGHXhApG8+qCB4Tifr6drw6kO4mETDuZk3CCVz3zx
-	t3hRh8G1JydVuhardVrL28IRplsg990=
-X-Google-Smtp-Source: APXvYqx+khv/Cd/w1l7WRBAGt81yPhrzqBHiCJjKUXlKJ9AoFaljNxKvJ5r37FitKtD/2hNglrieeQ==
-X-Received: by 2002:adf:81a1:: with SMTP id 30mr2612215wra.285.1553171468224; 
-	Thu, 21 Mar 2019 05:31:08 -0700 (PDT)
+	bh=zj9vcaUs+6p6hQQDYDuGfPqGj1o9vdDJH02J+058srw=;
+	b=B9vFfdzXseU8SeuWrVrEkpHrzCtS+5UI9XVhdu9z4Ax52WN1FhxZf6Nc9mSzwg9G4K
+	VJvFhl85ZJhtfFxWKY9DMePxrF9PNqgqJUZ9dzrYwyy+e6ONz30P5ZUUrMwfpPpXkihg
+	ZtLDxzumArQDUWGO6R0ZthfBsBVgMYJ+xlLkWNx/xg25WwvHSjgvULWsJtvJccjCstrq
+	c33ZHUfAT4/f5Qv0FiBCsBc0hH8SFP0oIpy/ieflQDrS5tZzUHWOrXAw3RdZzzmMAynD
+	lTtVsaqT3rv8al955GqHiA/Ob1h3jIkbyabDswUEyAG/UbYLSGZSVVc+eTcmHK84FqeU
+	F5FQ==
+X-Gm-Message-State: APjAAAX6/gUexgTGWA5E3KVF6o6GpoPubHnLoqelqcR/atw/MzRKcfHm
+	hbYgqdY76E6WXA/pg9esld4ajr5yZEA=
+X-Google-Smtp-Source: APXvYqydxY+XkA+iW+ef/Um1klA5FFUiGpAtDIQd+GvdVnoAYiGM2jUw6lTD4faCzJteO3Id1tSq1A==
+X-Received: by 2002:a1c:f10f:: with SMTP id p15mr2382063wmh.27.1553171478689; 
+	Thu, 21 Mar 2019 05:31:18 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	u14sm4297353wrr.42.2019.03.21.05.31.07
+	j13sm6191131wrx.74.2019.03.21.05.31.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Mar 2019 05:31:07 -0700 (PDT)
+	Thu, 21 Mar 2019 05:31:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 12:31:05 +0000
-Message-Id: <20190321123105.3020-1-ross.burton@intel.com>
+Date: Thu, 21 Mar 2019 12:31:12 +0000
+Message-Id: <20190321123112.3075-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libpcre: update patch status
+Subject: [PATCH] glibc: fix CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 12:31:07 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 12:31:18 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/libpcre/libpcre/out-of-tree.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 36 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.29.bb             |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-index 687dcc034da..d56789615fc 100644
---- a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-+++ b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-@@ -1,6 +1,6 @@
- In out-of-tree builds the #include fails because $srcdir isn't in the include path.  Set CPPFLAGS so that it is.
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+new file mode 100644
+index 00000000000..bc40361c5d7
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+@@ -0,0 +1,36 @@
++CVE: CVE-2019-9169
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 21 Jan 2019 11:08:13 -0800
++Subject: [PATCH] regex: fix read overrun [BZ #24114]
++
++Problem found by AddressSanitizer, reported by Hongxu Chen in:
++https://debbugs.gnu.org/34140
++* posix/regexec.c (proceed_next_node):
++Do not read past end of input buffer.
++---
++ posix/regexec.c |  6 ++++--
++ 2 files changed, 13 insertions(+), 3 deletions(-)
++
++diff --git a/posix/regexec.c b/posix/regexec.c
++index 91d5a79..084b122 100644
++--- a/posix/regexec.c
+++++ b/posix/regexec.c
++@@ -1293,8 +1293,10 @@ proceed_next_node (const re_match_context_t *mctx, Idx nregs, regmatch_t *regs,
++ 	      else if (naccepted)
++ 		{
++ 		  char *buf = (char *) re_string_get_buffer (&mctx->input);
++-		  if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
++-			      naccepted) != 0)
+++		  if (mctx->input.valid_len - *pidx < naccepted
+++		      || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+++				  naccepted)
+++			  != 0))
++ 		    return -1;
++ 		}
++ 	    }
++-- 
++2.9.3
+diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+index db856c70adb..9184c5932cc 100644
+--- a/meta/recipes-core/glibc/glibc_2.29.bb
++++ b/meta/recipes-core/glibc/glibc_2.29.bb
+@@ -55,6 +55,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0029-inject-file-assembly-directives.patch \
+            file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch \
++           file://CVE-2019-9169.patch \
+ "
  
--Upstream-Status: Submitted [https://bugs.exim.org/show_bug.cgi?id=2379]
-+Upstream-Status: Backport [r1750]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- Index: configure.ac
+ S = "${WORKDIR}/git"
 -- 
 2.11.0
 
