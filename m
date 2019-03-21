@@ -1,46 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CE91601F2
+Return-Path: <Liwei.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 73D4D6BA22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 23:56:55 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id w5so4724466qtb.11
+	Thu, 21 Mar 2019 03:20:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2L3Ktbl018629
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 16:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PsBiLg9p7fC8rbFcWA30O7tJUbCvS7XslpLv1pU+Pug=;
-	b=rJwlgPQBdoooKPUNcI8tFXWUJJluTTwj1RhF8bXYHUmsARA5rqFlfCZEso1WjJumhl
-	Dcxavrj8LPocOyxjTl2phkgbzmd+jIyGKI6yxuUsPBuoEImjSVa2SGsCRAiibMkaACEH
-	LY12sCWt4/Plob631NCmEaFhmtDGPHzisYcNIahJ1p5GCdahtcK1o3olX1cqmT55M6Z+
-	kWSQdX0rPXdCtQiD6zBwa1Rhd0KTckMRX+hpErjq8fmJyOoWlU5mSYYwYXUcX4pr0CaK
-	0cnMVtyhZosYa5G8eFzwErb8cejoIW2FlttOPKS4n/e0VhkzX9xig8vmYn2TCRPvx8Wh
-	6YfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PsBiLg9p7fC8rbFcWA30O7tJUbCvS7XslpLv1pU+Pug=;
-	b=LQsNz7vat/fXqmtyeZ7XnWaf264Wc0fH+/+4s6xQcx9NgpoLfGNOz7vHH3H0lPQ9pn
-	xxpC4OOT4peaE1eFx/DjrEKqZq4AHbaSZuZ0NVDNstdF/W5gcetkleuFzaQfIwI3AO4F
-	wnNeY14YOl32frgyNd6XyVM4fLA/FqeDhA/k/LndAkCjkcRuIPUReNj4U4W9j93ggMsx
-	2GqWPr+2D8SBpGza2QtRyBnRCNPEk2ofRj7g1FI6agBXPfNdEphTWkxR0EHxinYjASGV
-	Ayj8pi1AGhBaBG42CSEEq7MBlJBrYaEBxbmlGNt5Y6oonrTKtyl1hDflhpSLeKPPIujK
-	W8qA==
-X-Gm-Message-State: APjAAAVTCueLBvMwrI1tt1NjBug7t4mICkVlGgiK2ak1nolKduy8bc7Q
-	Boy18jGtUAm8jRF81yUhMGfHqN52dJ9g9MFqlfdBoGoy
-X-Google-Smtp-Source: APXvYqx0G9+aKNJMqEGeOZCJ51kxv+56QV078FWVQQ3f6WcqM3RH0/WMlIpiBL05S/WledZsGaAc/Gta8yiJDu7eBWI=
-X-Received: by 2002:a0c:9561:: with SMTP id m30mr662095qvm.224.1553126216037; 
-	Wed, 20 Mar 2019 16:56:56 -0700 (PDT)
+	Wed, 20 Mar 2019 20:20:55 -0700 (PDT)
+Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 20 Mar 2019 20:20:52 -0700
+From: Liwei Song <liwei.song@windriver.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Mar 2019 23:19:10 -0400
+Message-ID: <1553138356-85237-3-git-send-email-liwei.song@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
+References: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
 MIME-Version: 1.0
-References: <20190319114536.2925-1-bunk@stusta.de>
-In-Reply-To: <20190319114536.2925-1-bunk@stusta.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Mar 2019 19:56:45 -0400
-Message-ID: <CAMKF1soK74hWae1h+C9+23Shre2EBaUSp+HiK7q8GCPZcTeXLA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Remove the simd tune for armv8a
+Subject: [PATCH 2/8] mdadm: add udev rules to create by-partuuid for MD devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,351 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 23:56:55 -0000
-Content-Type: multipart/alternative; boundary="00000000000065f90f05848f606e"
+X-List-Received-Date: Thu, 21 Mar 2019 03:20:56 -0000
+Content-Type: text/plain
 
---00000000000065f90f05848f606e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+installer use partuuid for boot and swap partition,
+But the udev rules for MD devices do not have rules to create
+by-partuuid under /dev/disk/, this will take 90s to wait until failed
+add the rules to create by-partuuid to support boot from raid
+disk with "root=PARTUUID=XXX"
 
-On Tue, Mar 19, 2019 at 4:45 AM Adrian Bunk <bunk@stusta.de> wrote:
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
+---
+ ...ev.rules-create-by-partuuid-for-md-device.patch | 29 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-udev.rules-create-by-partuuid-for-md-device.patch
 
-> SIMD instructions are a mandatory part of armv8a
-> (they were optional in armv7a), and the gcc docs
-> also say that they are always enabled.
+diff --git a/meta/recipes-extended/mdadm/files/0001-udev.rules-create-by-partuuid-for-md-device.patch b/meta/recipes-extended/mdadm/files/0001-udev.rules-create-by-partuuid-for-md-device.patch
+new file mode 100644
+index 000000000000..c1f7b1cf8736
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-udev.rules-create-by-partuuid-for-md-device.patch
+@@ -0,0 +1,29 @@
++From 7d1fa6afba936edb3e211f0ccdb58b1472b4bbf4 Mon Sep 17 00:00:00 2001
++From: Liwei Song <liwei.song@windriver.com>
++Date: Tue, 26 Feb 2019 07:05:42 +0000
++Subject: [PATCH] udev.rules: create by-partuuid for md device
++
++Create by-partuuid for every md devices.
++
++Upstream-Status: sent to linux-raid@vger.kernel.org(https://www.spinics.net/lists/raid/msg62373.html)
++
++Signed-off-by: Liwei Song <liwei.song@windriver.com>
++---
++ udev-md-raid-arrays.rules | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/udev-md-raid-arrays.rules b/udev-md-raid-arrays.rules
++index c95ec7b1e4a9..e326414efcbc 100644
++--- a/udev-md-raid-arrays.rules
+++++ b/udev-md-raid-arrays.rules
++@@ -30,6 +30,7 @@ IMPORT{builtin}="blkid"
++ OPTIONS+="link_priority=100"
++ OPTIONS+="watch"
++ ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{ID_FS_UUID_ENC}=="?*", SYMLINK+="disk/by-uuid/$env{ID_FS_UUID_ENC}"
+++ENV{ID_FS_USAGE}=="filesystem|other", ENV{ID_PART_ENTRY_UUID}=="?*", SYMLINK+="disk/by-partuuid/$env{ID_PART_ENTRY_UUID}"
++ ENV{ID_FS_USAGE}=="filesystem|other", ENV{ID_FS_LABEL_ENC}=="?*", SYMLINK+="disk/by-label/$env{ID_FS_LABEL_ENC}"
++ 
++ ENV{MD_LEVEL}=="raid[1-9]*", ENV{SYSTEMD_WANTS}+="mdmonitor.service"
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 6b32f08abee1..db2b0b3c7873 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+ 	   file://mdadm.init \
+ 	   file://mdmonitor.service \
+            file://0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch \
++	   file://0001-udev.rules-create-by-partuuid-for-md-device.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+-- 
+2.7.4
 
 
-This should be ok but please cite the reference to arch specs where it=E2=
-=80=99s
-mentioned and if someone
-Has need to turn it off then they should chime back
-Since removing this just removes a detail which we can actually keep
-without much effort
-
->
->
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  meta/conf/machine/include/arm/arch-armv8a.inc | 6 ++----
->  meta/conf/machine/include/tune-cortexa32.inc  | 4 ++--
->  meta/conf/machine/include/tune-cortexa35.inc  | 4 ++--
->  meta/conf/machine/include/tune-cortexa53.inc  | 4 ++--
->  meta/conf/machine/include/tune-cortexa72.inc  | 2 +-
->  5 files changed, 9 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc
-> b/meta/conf/machine/include/arm/arch-armv8a.inc
-> index 22064559be..44d0ca4557 100644
-> --- a/meta/conf/machine/include/arm/arch-armv8a.inc
-> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-> @@ -2,8 +2,6 @@ DEFAULTTUNE ?=3D "armv8a-crc"
->
->  TUNEVALID[armv8a] =3D "Enable instructions for ARMv8-a"
->  TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', '
-> -march=3Darmv8-a', '', d)}"
-> -TUNEVALID[simd] =3D "Enable instructions for ARMv8-a Advanced SIMD and
-> floating-point"
-> -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd',
-> '', d)}"
->  TUNEVALID[crc] =3D "Enable instructions for ARMv8-a Cyclic Redundancy Ch=
-eck
-> (CRC)"
->  TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '=
-',
-> d)}"
->  TUNEVALID[crypto] =3D "Enable instructions for ARMv8-a cryptographic"
-> @@ -18,11 +16,11 @@ ARMPKGARCH_tune-armv8a                    ?=3D "armv8=
-a"
->  ARMPKGARCH_tune-armv8a-crc                ?=3D "armv8a"
->  ARMPKGARCH_tune-armv8a-crypto             ?=3D "armv8a"
->  ARMPKGARCH_tune-armv8a-crc-crypto         ?=3D "armv8a"
-> -TUNE_FEATURES_tune-armv8a                  =3D "aarch64 armv8a simd"
-> +TUNE_FEATURES_tune-armv8a                  =3D "aarch64 armv8a"
->  TUNE_FEATURES_tune-armv8a-crc              =3D
-> "${TUNE_FEATURES_tune-armv8a} crc"
->  TUNE_FEATURES_tune-armv8a-crypto           =3D
-> "${TUNE_FEATURES_tune-armv8a} crypto"
->  TUNE_FEATURES_tune-armv8a-crc-crypto       =3D
-> "${TUNE_FEATURES_tune-armv8a-crc} crypto"
-> -PACKAGE_EXTRA_ARCHS_tune-armv8a            =3D "aarch64 armv8a simd"
-> +PACKAGE_EXTRA_ARCHS_tune-armv8a            =3D "aarch64 armv8a"
->  PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
->  PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
->  PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
-> diff --git a/meta/conf/machine/include/tune-cortexa32.inc
-> b/meta/conf/machine/include/tune-cortexa32.inc
-> index 4bf7f774e1..9c948f1766 100644
-> --- a/meta/conf/machine/include/tune-cortexa32.inc
-> +++ b/meta/conf/machine/include/tune-cortexa32.inc
-> @@ -10,8 +10,8 @@ require conf/machine/include/arm/arch-armv8a.inc
->  AVAILTUNES +=3D "cortexa32 cortexa32-crypto"
->  ARMPKGARCH_tune-cortexa32             =3D "cortexa32"
->  ARMPKGARCH_tune-cortexa32-crypto      =3D "cortexa32"
-> -TUNE_FEATURES_tune-cortexa32          =3D "aarch64 cortexa32 simd crc"
-> -TUNE_FEATURES_tune-cortexa32-crypto   =3D "aarch64 cortexa32 simd crc
-> crypto"
-> +TUNE_FEATURES_tune-cortexa32          =3D "aarch64 cortexa32 crc"
-> +TUNE_FEATURES_tune-cortexa32-crypto   =3D "aarch64 cortexa32 crc crypto"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa32             =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto=
-"
->  BASE_LIB_tune-cortexa32               =3D "lib64"
-> diff --git a/meta/conf/machine/include/tune-cortexa35.inc
-> b/meta/conf/machine/include/tune-cortexa35.inc
-> index 6ece810753..d6df6cd6bd 100644
-> --- a/meta/conf/machine/include/tune-cortexa35.inc
-> +++ b/meta/conf/machine/include/tune-cortexa35.inc
-> @@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc
->  AVAILTUNES +=3D "cortexa35 cortexa35-crypto"
->  ARMPKGARCH_tune-cortexa35             =3D "cortexa35"
->  ARMPKGARCH_tune-cortexa35-crypto      =3D "cortexa35"
-> -TUNE_FEATURES_tune-cortexa35          =3D "aarch64 cortexa35 simd crc"
-> -TUNE_FEATURES_tune-cortexa35-crypto   =3D "aarch64 cortexa35 simd crc
-> crypto"
-> +TUNE_FEATURES_tune-cortexa35          =3D "aarch64 cortexa35 crc"
-> +TUNE_FEATURES_tune-cortexa35-crypto   =3D "aarch64 cortexa35 crc crypto"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa35             =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa35"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa35-crypto      =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa35 cortexa35-crypto=
-"
->  BASE_LIB_tune-cortexa35               =3D "lib64"
-> diff --git a/meta/conf/machine/include/tune-cortexa53.inc
-> b/meta/conf/machine/include/tune-cortexa53.inc
-> index 9fb37ff639..6c0b443eaf 100644
-> --- a/meta/conf/machine/include/tune-cortexa53.inc
-> +++ b/meta/conf/machine/include/tune-cortexa53.inc
-> @@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc
->  AVAILTUNES +=3D "cortexa53 cortexa53-crypto"
->  ARMPKGARCH_tune-cortexa53             =3D "cortexa53"
->  ARMPKGARCH_tune-cortexa53-crypto      =3D "cortexa53"
-> -TUNE_FEATURES_tune-cortexa53          =3D "aarch64 cortexa53 simd crc"
-> -TUNE_FEATURES_tune-cortexa53-crypto   =3D "aarch64 cortexa53 simd crc
-> crypto"
-> +TUNE_FEATURES_tune-cortexa53          =3D "aarch64 cortexa53 crc"
-> +TUNE_FEATURES_tune-cortexa53-crypto   =3D "aarch64 cortexa53 crc crypto"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa53             =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto=
-"
->  BASE_LIB_tune-cortexa53               =3D "lib64"
-> diff --git a/meta/conf/machine/include/tune-cortexa72.inc
-> b/meta/conf/machine/include/tune-cortexa72.inc
-> index 4c2306c4fd..00f7745a22 100644
-> --- a/meta/conf/machine/include/tune-cortexa72.inc
-> +++ b/meta/conf/machine/include/tune-cortexa72.inc
-> @@ -8,6 +8,6 @@ require conf/machine/include/arm/arch-armv8a.inc
->  # Little Endian base configs
->  AVAILTUNES +=3D "cortexa72"
->  ARMPKGARCH_tune-cortexa72             =3D "cortexa72"
-> -TUNE_FEATURES_tune-cortexa72          =3D "aarch64 cortexa72 simd crc
-> crypto"
-> +TUNE_FEATURES_tune-cortexa72          =3D "aarch64 cortexa72 crc crypto"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa72    =3D
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
->  BASE_LIB_tune-cortexa72               =3D "lib64"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---00000000000065f90f05848f606e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Mar 19, 2019 at 4:45 AM Adrian Bunk &lt;<a href=3D"=
-mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">SIMD instructions are a mandatory part of armv8a<br>
-(they were optional in armv7a), and the gcc docs<br>
-also say that they are always enabled.</blockquote><div dir=3D"auto"><br></=
-div><div dir=3D"auto">This should be ok but please cite the reference to ar=
-ch specs where it=E2=80=99s mentioned and if someone</div><div dir=3D"auto"=
->Has need to turn it off then they should chime back=C2=A0</div><div dir=3D=
-"auto">Since removing this just removes a detail which we can actually keep=
- without much effort</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-Signed-off-by: Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de" target=3D"=
-_blank">bunk@stusta.de</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/include/arm/arch-armv8a.inc | 6 ++----<br>
-=C2=A0meta/conf/machine/include/tune-cortexa32.inc=C2=A0 | 4 ++--<br>
-=C2=A0meta/conf/machine/include/tune-cortexa35.inc=C2=A0 | 4 ++--<br>
-=C2=A0meta/conf/machine/include/tune-cortexa53.inc=C2=A0 | 4 ++--<br>
-=C2=A0meta/conf/machine/include/tune-cortexa72.inc=C2=A0 | 2 +-<br>
-=C2=A05 files changed, 9 insertions(+), 11 deletions(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/mach=
-ine/include/arm/arch-armv8a.inc<br>
-index 22064559be..44d0ca4557 100644<br>
---- a/meta/conf/machine/include/arm/arch-armv8a.inc<br>
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc<br>
-@@ -2,8 +2,6 @@ DEFAULTTUNE ?=3D &quot;armv8a-crc&quot;<br>
-<br>
-=C2=A0TUNEVALID[armv8a] =3D &quot;Enable instructions for ARMv8-a&quot;<br>
-=C2=A0TUNE_CCARGS .=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, =
-&#39;armv8a&#39;, &#39; -march=3Darmv8-a&#39;, &#39;&#39;, d)}&quot;<br>
--TUNEVALID[simd] =3D &quot;Enable instructions for ARMv8-a Advanced SIMD an=
-d floating-point&quot;<br>
--TUNE_CCARGS .=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39;=
-simd&#39;, &#39;+simd&#39;, &#39;&#39;, d)}&quot;<br>
-=C2=A0TUNEVALID[crc] =3D &quot;Enable instructions for ARMv8-a Cyclic Redun=
-dancy Check (CRC)&quot;<br>
-=C2=A0TUNE_CCARGS .=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, =
-&#39;crc&#39;, &#39;+crc&#39;, &#39;&#39;, d)}&quot;<br>
-=C2=A0TUNEVALID[crypto] =3D &quot;Enable instructions for ARMv8-a cryptogra=
-phic&quot;<br>
-@@ -18,11 +16,11 @@ ARMPKGARCH_tune-armv8a=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ?=3D &quot;armv8a&quot;<br>
-=C2=A0ARMPKGARCH_tune-armv8a-crc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 ?=3D &quot;armv8a&quot;<br>
-=C2=A0ARMPKGARCH_tune-armv8a-crypto=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0?=3D &quot;armv8a&quot;<br>
-=C2=A0ARMPKGARCH_tune-armv8a-crc-crypto=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0?=
-=3D &quot;armv8a&quot;<br>
--TUNE_FEATURES_tune-armv8a=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =3D &quot;aarch64 armv8a simd&quot;<br>
-+TUNE_FEATURES_tune-armv8a=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =3D &quot;aarch64 armv8a&quot;<br>
-=C2=A0TUNE_FEATURES_tune-armv8a-crc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =3D &quot;${TUNE_FEATURES_tune-armv8a} crc&quot;<br>
-=C2=A0TUNE_FEATURES_tune-armv8a-crypto=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;${TUNE_FEATURES_tune-armv8a} crypto&quot;<br>
-=C2=A0TUNE_FEATURES_tune-armv8a-crc-crypto=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &q=
-uot;${TUNE_FEATURES_tune-armv8a-crc} crypto&quot;<br>
--PACKAGE_EXTRA_ARCHS_tune-armv8a=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D &quot;aarch64 armv8a simd&quot;<br>
-+PACKAGE_EXTRA_ARCHS_tune-armv8a=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D &quot;aarch64 armv8a&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-armv8a-crc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &q=
-uot;${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto=C2=A0 =C2=A0 =C2=A0=3D &quot;$=
-{PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto =3D &quot;${PACKAGE_EXTRA_=
-ARCHS_tune-armv8a-crc} crypto&quot;<br>
-diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machi=
-ne/include/tune-cortexa32.inc<br>
-index 4bf7f774e1..9c948f1766 100644<br>
---- a/meta/conf/machine/include/tune-cortexa32.inc<br>
-+++ b/meta/conf/machine/include/tune-cortexa32.inc<br>
-@@ -10,8 +10,8 @@ require conf/machine/include/arm/arch-armv8a.inc<br>
-=C2=A0AVAILTUNES +=3D &quot;cortexa32 cortexa32-crypto&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa32=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;cortexa32&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa32-crypto=C2=A0 =C2=A0 =C2=A0 =3D &quot;cortex=
-a32&quot;<br>
--TUNE_FEATURES_tune-cortexa32=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa32 simd crc&quot;<br>
--TUNE_FEATURES_tune-cortexa32-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa3=
-2 simd crc crypto&quot;<br>
-+TUNE_FEATURES_tune-cortexa32=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa32 crc&quot;<br>
-+TUNE_FEATURES_tune-cortexa32-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa3=
-2 crc crypto&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa32=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=3D &quot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32&quo=
-t;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto=C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto=
-&quot;<br>
-=C2=A0BASE_LIB_tune-cortexa32=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;lib64&quot;<br>
-diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machi=
-ne/include/tune-cortexa35.inc<br>
-index 6ece810753..d6df6cd6bd 100644<br>
---- a/meta/conf/machine/include/tune-cortexa35.inc<br>
-+++ b/meta/conf/machine/include/tune-cortexa35.inc<br>
-@@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc<br>
-=C2=A0AVAILTUNES +=3D &quot;cortexa35 cortexa35-crypto&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa35=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;cortexa35&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa35-crypto=C2=A0 =C2=A0 =C2=A0 =3D &quot;cortex=
-a35&quot;<br>
--TUNE_FEATURES_tune-cortexa35=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa35 simd crc&quot;<br>
--TUNE_FEATURES_tune-cortexa35-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa3=
-5 simd crc crypto&quot;<br>
-+TUNE_FEATURES_tune-cortexa35=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa35 crc&quot;<br>
-+TUNE_FEATURES_tune-cortexa35-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa3=
-5 crc crypto&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa35=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=3D &quot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa35&quo=
-t;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa35-crypto=C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa35 cortexa35-crypto=
-&quot;<br>
-=C2=A0BASE_LIB_tune-cortexa35=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;lib64&quot;<br>
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machi=
-ne/include/tune-cortexa53.inc<br>
-index 9fb37ff639..6c0b443eaf 100644<br>
---- a/meta/conf/machine/include/tune-cortexa53.inc<br>
-+++ b/meta/conf/machine/include/tune-cortexa53.inc<br>
-@@ -9,8 +9,8 @@ require conf/machine/include/arm/arch-armv8a.inc<br>
-=C2=A0AVAILTUNES +=3D &quot;cortexa53 cortexa53-crypto&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa53=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;cortexa53&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa53-crypto=C2=A0 =C2=A0 =C2=A0 =3D &quot;cortex=
-a53&quot;<br>
--TUNE_FEATURES_tune-cortexa53=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa53 simd crc&quot;<br>
--TUNE_FEATURES_tune-cortexa53-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa5=
-3 simd crc crypto&quot;<br>
-+TUNE_FEATURES_tune-cortexa53=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa53 crc&quot;<br>
-+TUNE_FEATURES_tune-cortexa53-crypto=C2=A0 =C2=A0=3D &quot;aarch64 cortexa5=
-3 crc crypto&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa53=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=3D &quot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53&quo=
-t;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto=C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto=
-&quot;<br>
-=C2=A0BASE_LIB_tune-cortexa53=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;lib64&quot;<br>
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machi=
-ne/include/tune-cortexa72.inc<br>
-index 4c2306c4fd..00f7745a22 100644<br>
---- a/meta/conf/machine/include/tune-cortexa72.inc<br>
-+++ b/meta/conf/machine/include/tune-cortexa72.inc<br>
-@@ -8,6 +8,6 @@ require conf/machine/include/arm/arch-armv8a.inc<br>
-=C2=A0# Little Endian base configs<br>
-=C2=A0AVAILTUNES +=3D &quot;cortexa72&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;cortexa72&quot;<br>
--TUNE_FEATURES_tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa72 simd crc crypto&quot;<br>
-+TUNE_FEATURES_tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;a=
-arch64 cortexa72 crc crypto&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa72=C2=A0 =C2=A0 =3D &quot;${PACKAGE_E=
-XTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72&quot;<br>
-=C2=A0BASE_LIB_tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;lib64&quot;<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---00000000000065f90f05848f606e--
