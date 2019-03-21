@@ -1,58 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
-	[209.85.166.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AFC07CE6D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CADB86067C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 09:57:43 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id x4so4723635ion.2
+	Thu, 21 Mar 2019 11:44:14 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id q16so2364138wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 02:57:44 -0700 (PDT)
+	Thu, 21 Mar 2019 04:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=LJQJyENlSZfzbTpdPnDhUR1XbfTx2x2WZ13kY9BTccg=;
-	b=ZwY4WTdKhomO+VrTjsf8+fMceRqhXyg/F5d37F8Wer3sE2ZSFK8uIP/ojOiFKL4Q5/
-	dRmNl2qAFa9EwplrI49NgK3l+yBQK/rAIjtqP22VRIXHJlAf/Yk0+XacdAJKRlfDLd/l
-	i84ZFL18Kcv4Td8YjlnUHaSOL7AuqDIcEkUpU8jYSX2Pep+Iyd4SZUWNKs4k+TDRPwaG
-	9ZnT/znGdV9REK6G+/5fsp7eUMjO7uurzNWcIXuHr/fRf0HNP9QDIflG0+4CzTdSZK6y
-	+AtZQtmJi75zUmOhOGqJAIBG6mZCRrcMhC91bFU+33mWopIEAdhejUixwyZGmcNonv8E
-	dqhQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=wsqZ+Gkt41x6fPT/Ahb2+hnzALIY/979ZuVBgEPfP00=;
+	b=Mo5e4ORj62AVCKaGNddiHLYR4Q73bBpbDEffhoLOBcbbpi+H9gD3uBkDIjmQ7R52C1
+	EYyyzw9WREPU/SlhmqWCMoX3KuCBswSLOgK8o0wJNloHU1wmyB9xRZ2iQIK/64Ejrmo1
+	KkC2u8Ih0BIPfsJt3Wce5d/mRY1DiMY5CXVns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=LJQJyENlSZfzbTpdPnDhUR1XbfTx2x2WZ13kY9BTccg=;
-	b=Pba+6uWV2p85xluHa+nQc0Fnuw1rzstSXis2/eJUNVb/QWvn8mNwZeliRVCLJ5IXFb
-	hpdV8VH6XwoE9UBy2xWKkJPHVlzadLWNHkC4Dv6w9h8muKy4IG4tgIpfn9/4QYMn9WKb
-	8/6xCFy6yg0QH1QXaAWJjquL1WWvy1Podzf/RwOomoHVYCIiIIeOIzTlQm7WJiv/Fj9k
-	/yneCkZTiEPSqF4fqx3hmygkJrJcDQ8IPq4sUSe12wwRJ8D3dNpSO7eW2BsOEiEeCBCr
-	4QWuEYfcd+W0fG+cYV8aQ0U2ZluXuYWJCVzrDK/H6NEGv/dUtL+6YBk1x4QKQeIVPu43
-	GZEg==
-X-Gm-Message-State: APjAAAUDA0Z3/UGcNVqSN2t1VbUupEm8jCwT9f6x3ctCwnH3Ucen1+gc
-	xiLWmt/ZeNz3Lgwy39LGBxzgxa1LliYBifToRiUIuA==
-X-Google-Smtp-Source: APXvYqxdhm24J1S0E1Y1m6pqRnPsN6n0uqrK5Du6nViqZ/K/5dkJJP9VljLlJy4i1nxXrz8PLy5sWXmFJbSeacYADw0=
-X-Received: by 2002:a5d:8795:: with SMTP id f21mr1956659ion.20.1553162264191; 
-	Thu, 21 Mar 2019 02:57:44 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=wsqZ+Gkt41x6fPT/Ahb2+hnzALIY/979ZuVBgEPfP00=;
+	b=sMg4HfS9+NIaqnzbSwQS5s/MCbvzI0BiQuLln6JheAILWGVDAAoJjb/yASL/epe1Ia
+	+Wmoh3dZ9rPuwvrihGyWUMobOf6dle1jbwz8M3Ia4hLjW3SGzGoprk42Ah14fFUtZbL8
+	2ar9zvhD+5QNWKiZbACR2xN5MwvdJtvSy7sJeDgPGt21JG3GfbeusDDbc98mtUjEp0ZL
+	JXGCYuBnJfM9kqiLdoZ/ZP9azg2V+shkhARN8m1/bZ9EgUNKFVT8UqDFduuC285CUq/c
+	qocANlfgx2jDhsRK1iM//v71Vk148MH40azGHZGCgYvtErZ2Y1AxL9s4rE9GK2EkHncf
+	k5eg==
+X-Gm-Message-State: APjAAAVqvoEbstqxDjC/QmxHQWGxdJGCF7mnS7at8TFD3W4U4hsfrSQs
+	L5JBwoDpozXHSwmpDm40xtfQHg==
+X-Google-Smtp-Source: APXvYqwQvmvKiqaCYdwq7fM3DI42AbPh2KGQKMZscpr82CJ8rVFs5Pm1VtuBtaK0kv6rfXitHIdy5Q==
+X-Received: by 2002:a1c:d189:: with SMTP id i131mr2206459wmg.151.1553168655473;
+	Thu, 21 Mar 2019 04:44:15 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a130sm6660064wma.14.2019.03.21.04.44.14
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 21 Mar 2019 04:44:14 -0700 (PDT)
+Message-ID: <6b2ad2e463f5ba0f3513e6d9755aa755828686e4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 21 Mar 2019 11:44:13 +0000
+In-Reply-To: <20190319181544.314-1-luca.boccassi@gmail.com>
+References: <20190319181544.314-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.31.90-1 
 MIME-Version: 1.0
-References: <CAJTo0Lb9Aspc0Nu+H3eRzbQcOLDevn40hJ5Jnib1DKo8k4R2cA@mail.gmail.com>
-	<20734cff-3215-7a9d-8bc1-87d7238876fb@windriver.com>
-	<6F7B3258-B781-465F-AF58-E4E8EBA88012@gmail.com>
-	<6673aa01794a9a5466969fa4a39d28b46649173d.camel@linuxfoundation.org>
-	<4C429FC4-E68A-4AFC-B8D6-61DFF45CE2AA@gmail.com>
-	<255f8e465f5495754319c372b39b5f94293a8d5d.camel@linuxfoundation.org>
-	<9A802DA0-0509-4D9F-ADEB-B5EF17717806@gmail.com>
-In-Reply-To: <9A802DA0-0509-4D9F-ADEB-B5EF17717806@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Mar 2019 09:57:32 +0000
-Message-ID: <CAJTo0LY5jxs86XaEWRY=aUK+uzVjZ_u0Y=OZ-tsAEyQLXpR-qg@mail.gmail.com>
-To: Rich Persaud <persaur@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Incorporating deploy artefacts from one multiconfig in another multiconfig
+Cc: Tom Rini <trini@konsulko.com>
+Subject: Re: [PATCH] u-boot: install dumpimage and fit_check_sign in u-boot-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,22 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 09:57:43 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 11:44:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, 21 Mar 2019 at 06:48, Rich Persaud <persaur@gmail.com> wrote:
-> Is it possible to avoid duplicate builds of packages which are used in mu=
-ltiple VM images? Could multiconfig replace a dozen serial instances of bit=
-bake with a single parsing instance, or would it use a dozen parallel insta=
-nces?  If the latter, is this a constraint in bitbake architecture, recipe =
-DSL, or time/resources?
+On Tue, 2019-03-19 at 18:15 +0000, luca.boccassi@gmail.com wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> Dumpimage and fit_check_sign can be used to extract kernel and
+> ramdisk from
+> a FIT file, verify them and kexec for a faster reboot.
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> index ff26e32482..c487849bb2 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+> @@ -45,6 +45,14 @@ do_install () {
+>  	# mkenvimage
+>  	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
+>  	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+> +
+> +	# dumpimage
+> +	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
+> +	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
+> +
+> +	# fit_check_sign
+> +	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-
+> fit_check_sign
+> +	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
+>  }
+>  
+>  ALLOW_EMPTY_${PN} = "1"
 
-If the packages are the same and sstate cache would be used, then you
-can build one on its own first to populate the cache and then build
-the rest using the sstate.  Currently if the sstate isn't present at
-startup bitbake schedules the same build twice, which obviously isn't
-ideal but also *should* be fixable with enough effort.
 
-Ross
+Fails on musl:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/420
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/421
+no-x11:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/419
+qemux86-world:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/412
+
+so basically it looks like any world build fails with this.
+
+Cheers,
+
+Richard
+
+
 
