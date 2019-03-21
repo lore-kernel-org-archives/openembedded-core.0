@@ -1,47 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 19FEA7CEAB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+	[209.85.222.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 20CAD6D147
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 14:40:38 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id n11so5433580ioh.1
+	Thu, 21 Mar 2019 18:35:45 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id k130so16952685qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 07:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=DQNhQS3hDEhNk74iPrfIKqb3OTFQJza3l97/PMnHhZo=;
-	b=XRlu36OPI8WPgufGHCCZ6BCRbisBdQHyaSUMHiCh6SYkdOdNYh5cJOAbLfiCjx2+ey
-	23s2QnYllwxM4ju0g6c0tp8vpQI7C4TDJJLYlYOFSfmS6tRqKVCmof+jW6UGiLKJTARv
-	XyoOmK1w4QmdMvj6UQFT9Pmbq0Lvi+JbNbGhpZNP8sV62dxCwo7qWicboDZNtq5YhxC/
-	wck2xzvR4eCmi9bFjyfQ3lfM6obVt14ynJ+7DKUhtzhn5+yBJ2gjX4+jvcRIKbDlfjdq
-	2lU+OxFuMKK48Q+DL8Yc/01Aihs4E0imDVyNLAm10ci8dJc/VHj0QCPgdyn8iI80LFS6
-	HtYw==
+	Thu, 21 Mar 2019 11:35:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=DQNhQS3hDEhNk74iPrfIKqb3OTFQJza3l97/PMnHhZo=;
-	b=KrFW6UgStvecttNf6YsryP8BnbghB7O2FlNADFOt9b4Hb5+mRY9+LNIzYtpnQsokqY
-	yp07r+ige/G60kzRef1RV6hXJcblg/5NPLaHItvARhfumNut802sBDMYJRu94tNbeuhK
-	dt36D7A16rbhQsoQs+1t7nLVLbINDNLSLGRq3WkcBmF9EAAuKR8VWGoTEaB9c0FdaMpY
-	tyoPfPBnRZVvjagerJ4p6LIzC+yDvW/e9YlTKK2XX1hU8KZgXh9Ho+bBqL5F3NsBLz9y
-	SQ5IzNo/ChcXF9kN3O13e7VZ7DuRWYRKDBsRtXDFNkae80uqN9uTY07AHQvYEFZXKlEo
-	qOZQ==
-X-Gm-Message-State: APjAAAVGXKQOUlm+eBo15j+fTv9Phg5o9nnyQ2YRWZlwtvXfD81IK0d4
-	VN5Gol0ExTufs8pgpO2f030jb4y1pw9J3MWzFDSUiA==
-X-Google-Smtp-Source: APXvYqwubnwZ4IrjI/3+zB5EGesi0cYInbaj/Q4pVAkMz+/hpCL5qwNzklgLUJeO+8mQ/nxlUZRKGr6h756ZAHbdwG4=
-X-Received: by 2002:a5d:8795:: with SMTP id f21mr2924384ion.20.1553179238972; 
-	Thu, 21 Mar 2019 07:40:38 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=1/5HlXeRnzj5BdD5Au6KVlE6f/NtBZNBo6+EnEjPz4s=;
+	b=AJuoiTDwEfJKehu/BgwVVHBVyfMjAcnxWB9lJ9meNnIMo8eomgksMzS/0rhxME3VtL
+	kTXYS6epNRU5jTsnJUPUmx1KThIiYxXpiN5OhbrRehx7gNandEa1eprNwRAcsWoG0J05
+	hpyxolezD2cwLsD0u+adjIE0w//HXwG9WrHsNdl3Hcx3m5iyhBCSU1gPArtsdDd+CwYu
+	nGJA/8JjTLlc2Bec1pOBNwpWfX+auJ+/74OFa+/J63n+7rajJnW0rUkM6t0m0ymkAX7+
+	qvFoM1evaOeenOKbuwSNJLFVBG9VraMA/8ekGwxj88fQzu8swZVvSt2a47UPA3Utro9R
+	mbhw==
+X-Gm-Message-State: APjAAAUK9GcEt7DDYYIiFNBwtAVQN82FkwjCbDsdX2X0JIpyGjjuf+Cj
+	yLywfr03z+fEtUT1VPTW23vapbxM
+X-Google-Smtp-Source: APXvYqyiJIZqjWjhR+Mjf0lki4xy22tYeHp3Q8V7zyyshp1v4Qex4GOF32kjgQGahvtM222tCMxZQA==
+X-Received: by 2002:a37:a557:: with SMTP id o84mr4005783qke.277.1553193346672; 
+	Thu, 21 Mar 2019 11:35:46 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.204.148])
+	by smtp.gmail.com with ESMTPSA id
+	d21sm1328250qtc.91.2019.03.21.11.35.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 21 Mar 2019 11:35:45 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Thu, 21 Mar 2019 15:35:40 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Mar 2019 15:35:39 -0300
+Message-Id: <20190321183539.18863-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190319020534.17278-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190319020534.17278-1-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Mar 2019 14:40:26 +0000
-Message-ID: <CAJTo0LYx69peDMOYoApJxGJe6qDKgEYjpt7=BRe4eMsJqbZL3w@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] ofono: upgrade to 1.28
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] llvm: Enable RTTI support in preparation for new mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,96 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 14:40:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Mar 2019 18:35:46 -0000
+Content-Transfer-Encoding: 8bit
 
-Test, please.
+The mesa 19.0.0 release requires RTTI to allow the build of Nouveau
+driver, which is enabled by default when building for x86 and x86-64
+target.
 
-| Makefile:5722: recipe for target 'ell/ell.h' failed
+This commit enables RTTI support so it prepares the toolchain for the
+upcoming change.
 
-Ross
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-On Tue, 19 Mar 2019 at 02:04, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->
-> 1.Upgrade ofono from 1.25 to 1.28.
->
-> 2.use-python3.patch has been merged.
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../ofono/ofono/use-python3.patch             | 27 -------------------
->  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
->  meta/recipes-connectivity/ofono/ofono_1.28.bb |  8 ++++++
->  3 files changed, 8 insertions(+), 36 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-python3.patch
->  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
->  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.28.bb
->
-> diff --git a/meta/recipes-connectivity/ofono/ofono/use-python3.patch b/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-> deleted file mode 100644
-> index 7b84075257..0000000000
-> --- a/meta/recipes-connectivity/ofono/ofono/use-python3.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -set-ddr should use Python3 like all the other tests.
-> -
-> -Upstream-Status: Submitted
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 17b69cd1da4c5c5f732acb38ca1602446c567ee7 Mon Sep 17 00:00:00 2001
-> -From: Ross Burton <ross.burton@intel.com>
-> -Date: Mon, 29 Jan 2018 11:31:25 +0000
-> -Subject: [PATCH] test/setddr: use Python 3
-> -
-> -All the other tests use Python 3, so this should to.
-> ----
-> - test/set-ddr | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/test/set-ddr b/test/set-ddr
-> -index 5d061b95..33631f31 100755
-> ---- a/test/set-ddr
-> -+++ b/test/set-ddr
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/python
-> -+#!/usr/bin/python3
-> -
-> - import sys
-> - import dbus
-> ---
-> -2.11.0
-> diff --git a/meta/recipes-connectivity/ofono/ofono_1.25.bb b/meta/recipes-connectivity/ofono/ofono_1.25.bb
-> deleted file mode 100644
-> index 3688b9d2fc..0000000000
-> --- a/meta/recipes-connectivity/ofono/ofono_1.25.bb
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -require ofono.inc
-> -
-> -SRC_URI  = "\
-> -  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-> -  file://ofono \
-> -  file://use-python3.patch \
-> -"
-> -SRC_URI[md5sum] = "31450cabdd8dbbf3f808ea2f2f066863"
-> -SRC_URI[sha256sum] = "eb011fcd3080e93f3a56f96be60350b6595a8b5f36b61646312ba41b0bcb0d75"
-> diff --git a/meta/recipes-connectivity/ofono/ofono_1.28.bb b/meta/recipes-connectivity/ofono/ofono_1.28.bb
-> new file mode 100644
-> index 0000000000..48bf2d3edc
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/ofono/ofono_1.28.bb
-> @@ -0,0 +1,8 @@
-> +require ofono.inc
-> +
-> +SRC_URI  = "\
-> +  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-> +  file://ofono \
-> +"
-> +SRC_URI[md5sum] = "3a5406565b552b16602610619b034967"
-> +SRC_URI[sha256sum] = "93bb2cedef54f897dd5200e22b072a6e38b5d9b44be57eebbbe8d513f0beb0e4"
-> --
-> 2.20.1
->
->
->
+ meta/recipes-devtools/llvm/llvm_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index c68512cc63..d2ea927651 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -70,6 +70,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DLLVM_BINDINGS_LIST='' \
+                   -DLLVM_LINK_LLVM_DYLIB=ON \
+                   -DLLVM_ENABLE_FFI=ON \
++                  -DLLVM_ENABLE_RTTI=ON \
+                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+                   -DLLVM_OPTIMIZED_TABLEGEN=ON \
+                   -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
+-- 
+2.21.0
+
 
