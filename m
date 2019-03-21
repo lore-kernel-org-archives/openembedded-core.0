@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f172.google.com (mail-it1-f172.google.com
-	[209.85.166.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CAE57CE73
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+	[209.85.222.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A85E7CF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 13:16:03 +0000 (UTC)
-Received: by mail-it1-f172.google.com with SMTP id w18so4122921itj.4
+	Thu, 21 Mar 2019 13:41:19 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id z13so16284694qki.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 06:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 21 Mar 2019 06:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=4HkYv8ZoQdkiz/Pf5UgjafkfeMJ/b1Eh1Bb8Xl44Ywk=;
-	b=MViLRFOSqXkZMlyDCzW8tbDcfb6PddX5uUD0lOEtkyu9xaES7Ss5/uRMaxvVzL2TBP
-	BuFEFyxj4cr/zB9Az5rhmg9RyXYTGGCn14rBclLE6czM9v41E9GgyciYUiXGFnttCyQa
-	JBvFXpurgbaqGXNoV9Yo8ELI0bJKImHaJwOiEh720qDdxeqU3zFz/1ROrARL65c4G5l6
-	/T7mCl7HgHkBiER3jCBTEPWbvdORy/QDtw9CUKXwomm3Ql15yWEKH8IUoZ8UAnuf9DI1
-	9rONHcIoA1uVl1R356IvnSscVokksWK8xV8daN3dTUwwpHLDi5+xg8b/giUuw43QLDoJ
-	cK4w==
+	:cc; bh=VwbVjF5Yd8ODWrr3xJ/+ybiH+BU8qb+/kwVAuF8b6NU=;
+	b=AZVaTtNMCBGvUTMQZmVcm62KhGY5x+ztU7EBIpMhYwGhIRbsyMEN2YFaC05aKFIbzm
+	nbKwd2tipHnHP1OaK9TaBEdg7N2hM9v3rF28JyXtE263HkSgyaqWcKaORH6l3TE+vU+P
+	bCSddJz7e69yk9GFrnwFejdaF5n6XfuronOe9IQAqLcu/lLiRXlSuqL4xygTxYwukrhi
+	Iy/5DfuS2DxCeK76iQMzyibxlpN0Xhr5Ix0GuqCI8kUYOLHjaDpkaex+Gqd67AAEsIE5
+	vVC+of+MITjLYjIJQQP9rD/wMzVTwLPS8qUyqBzDjv3DjOKgdXt1AoZwvfQtAMTk7w2o
+	/nYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=4HkYv8ZoQdkiz/Pf5UgjafkfeMJ/b1Eh1Bb8Xl44Ywk=;
-	b=Sq49lruocnpnTlgT2RdFfVL5xOYsLXlNmGzBt1eSNU02don7vBHDMBxBPWQ4xXs8/o
-	i1RZ2OQSK7qGO1JP1bPDWojnUceYs3YdCgMzrg/vYqzl4/QsIBf9VXgiKfK9GhmWoX8C
-	HXT0AnNLjP/CRhB6QsvaPZkjP5cIDpYAJ09kBT3meKBwzKY4i0L2D+PUZGFrSJYIJDVx
-	B4Z9TsHN0lomskV8e0D6GOMjywHKhc4LRbpiXwdnisYbuWvgh843x9/PUB8xc4l4H7yZ
-	T4DzkMPFOMHTzu2pUY1Ys+aSB2ldTGKlHxyCwt64t6hTUjc9LyVZQyj6aYMuoB/uuyEZ
-	Np8A==
-X-Gm-Message-State: APjAAAUomst3lOxc9l9BwHW9g6bLyQxq6NGan/Olvhjys1s7raN5IPe9
-	DGLud7NG85OgCHC1CiciwMg5FKwbrQK2sgUqxr2AKA==
-X-Google-Smtp-Source: APXvYqzD0SZyb/n42RYKaVDZUVgboMyHZ+B7DfJf/gnGqXbebIFRZduRMAOpdxIdldMZw9lDY4yQrsh78R0sE5UdbXM=
-X-Received: by 2002:a02:960a:: with SMTP id c10mr2718674jai.31.1553174163110; 
-	Thu, 21 Mar 2019 06:16:03 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=VwbVjF5Yd8ODWrr3xJ/+ybiH+BU8qb+/kwVAuF8b6NU=;
+	b=sxR84IcmjQCMkl3Odsjz+IVNQnfAJIC5ILEVzIpk/BCvX7ptfMmIwBxtaA2zubDrix
+	EmVVxN9Zfk4Wn5vZQoADe36VNz5PDduboXe+poTEZt33z/9KMrOdwMYZGJJhR0A84dT+
+	1UR093BYLQMZQvYRv27jyvqsyTShB+WfKynuPfYc+bRGe5SPvpDJS3/qF6c5JhYFNoLI
+	3gNnFgr3r1OctDkvHVb8sQl4c7WqiSDoKDilgvxjo48oyP9yyx/DluS/GPZYNWNSh9Pr
+	ZBmaQjsSp6SCiLJCJH0zb4wg15z2y7MALXIDpS7iqZRb3w3X7qJTOECY7Uv5fCZDTF62
+	N8Ow==
+X-Gm-Message-State: APjAAAXdlwhXZreyYrmfxLMNyHw8fibVYKX8RKXlZ7quNx7JDbKizOZe
+	5xPsps/ETjs4BkhDrY2IrynaTCTw6cwJT1YgeYk=
+X-Google-Smtp-Source: APXvYqx+4nmkI75UiOJnRZpAWpDcb5ULJFub+ZOwlCA5YYbw2w0WuLWx3oZ694779dbo9AhK4R7MBVFMPKx8Ro613aI=
+X-Received: by 2002:a37:451:: with SMTP id 78mr2769043qke.315.1553175679860;
+	Thu, 21 Mar 2019 06:41:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190321130812.7452-1-schnitzeltony@gmail.com>
-In-Reply-To: <20190321130812.7452-1-schnitzeltony@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Mar 2019 13:15:51 +0000
-Message-ID: <CAJTo0LZx=DUC2EaTUEsu-_a=+gvJAP9o1wZL=A6wbbV3Y88KSg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glew: Fix build errors at recipes depending on glew
+References: <20190321123112.3075-1-ross.burton@intel.com>
+In-Reply-To: <20190321123112.3075-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Mar 2019 06:40:53 -0700
+Message-ID: <CAMKF1srUfoLwqdNvB1owDxrVk=C9hv8h4=M0yexbSkH3v3OxTA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: fix CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,142 +54,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 13:16:03 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 13:41:19 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-The patch itself is missing your SOB.
+LGTM
 
-Ross
-
-On Thu, 21 Mar 2019 at 13:08, Andreas M=C3=BCller <schnitzeltony@gmail.com>=
- wrote:
+On Thu, Mar 21, 2019 at 5:31 AM Ross Burton <ross.burton@intel.com> wrote:
 >
-> Glew headers override mesa headers by setting mesa's include guards. This
-> stopped working since mesa renamed them.
->
-> Fixes errors like this in depending recipes:
->
-> | <...>/recipe-sysroot/usr/include/GL/glext.h:12066:105: error: conflicti=
-ng declaration 'typedef void (* PFNGLFRAGMENTLIGHTFVSGIXPROC)(GLenum, GLenu=
-m, const GLfloat*)'
-> |  typedef void (APIENTRYP PFNGLFRAGMENTLIGHTFVSGIXPROC) (GLenum light, G=
-Lenum pname, const GLfloat *params);
-> |                                                                        =
-                                  ^
->
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  ...mpilation-with-current-mesa-versions.patch | 71 +++++++++++++++++++
->  meta/recipes-graphics/glew/glew_2.1.0.bb      |  3 +-
->  2 files changed, 73 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/glew/glew/0001-Fixed-compilatio=
-n-with-current-mesa-versions.patch
+>  meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 36 +++++++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.29.bb             |  1 +
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
 >
-> diff --git a/meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-=
-current-mesa-versions.patch b/meta/recipes-graphics/glew/glew/0001-Fixed-co=
-mpilation-with-current-mesa-versions.patch
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
 > new file mode 100644
-> index 0000000000..6ab1794fd1
+> index 00000000000..bc40361c5d7
 > --- /dev/null
-> +++ b/meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-current=
--mesa-versions.patch
-> @@ -0,0 +1,71 @@
-> +From 7f65a36866f4e24dd1446fe1c9d21424f28bcabd Mon Sep 17 00:00:00 2001
-> +From: Deve <deveee@gmail.com>
-> +Date: Wed, 14 Nov 2018 21:07:29 +0100
-> +Subject: [PATCH] Fixed compilation with current mesa versions.
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+> @@ -0,0 +1,36 @@
+> +CVE: CVE-2019-9169
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
 > +
-> +As you can see in
-> +https://cgit.freedesktop.org/mesa/mesa/tree/include/GL/glext.h
-> +now the file uses __gl_glext_h_ instead of __glext_h_
-> +It's precisely caused by commit f7d42ee7d319256608ad60778f6787c140badada
+> +From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
+> +From: Paul Eggert <eggert@cs.ucla.edu>
+> +Date: Mon, 21 Jan 2019 11:08:13 -0800
+> +Subject: [PATCH] regex: fix read overrun [BZ #24114]
 > +
-> +Backoprt notes:
-> +
-> +* The original patch adjusts auto/src/glew_head.h only
-> +* include/GL/glew.h is not part of git repo and gets created on tarball
-> +  creation
-> +
-> +=3D> patch include/GL/glew.h either to cause the desired fix
-> +
-> +Upstream-Status: Backport [1]
-> +
-> +[1] https://github.com/nigels-com/glew/commit/7f65a36866f4e24dd1446fe1c9=
-d21424f28bcabd
+> +Problem found by AddressSanitizer, reported by Hongxu Chen in:
+> +https://debbugs.gnu.org/34140
+> +* posix/regexec.c (proceed_next_node):
+> +Do not read past end of input buffer.
 > +---
-> + auto/src/glew_head.h | 3 ++-
-> + include/GL/glew.h    | 3 ++-
-> + 2 files changed, 4 insertions(+), 2 deletions(-)
+> + posix/regexec.c |  6 ++++--
+> + 2 files changed, 13 insertions(+), 3 deletions(-)
 > +
-> +diff --git a/auto/src/glew_head.h b/auto/src/glew_head.h
-> +index c19cefb..8f313d9 100644
-> +--- a/auto/src/glew_head.h
-> ++++ b/auto/src/glew_head.h
-> +@@ -14,7 +14,7 @@
-> + #if defined(__REGAL_H__)
-> + #error Regal.h included before glew.h
-> + #endif
-> +-#if defined(__glext_h_) || defined(__GLEXT_H_)
-> ++#if defined(__glext_h_) || defined(__GLEXT_H_) || defined(__gl_glext_h_=
-)
-> + #error glext.h included before glew.h
-> + #endif
-> + #if defined(__gl_ATI_h_)
-> +@@ -30,6 +30,7 @@
-> + #define __X_GL_H
-> + #define __glext_h_
-> + #define __GLEXT_H_
-> ++#define __gl_glext_h_
-> + #define __gl_ATI_h_
-> +
-> + #if defined(_WIN32)
-> +diff --git a/include/GL/glew.h b/include/GL/glew.h
-> +index b5b6987..a9f9e4b 100644
-> +--- a/include/GL/glew.h
-> ++++ b/include/GL/glew.h
-> +@@ -93,7 +93,7 @@
-> + #if defined(__REGAL_H__)
-> + #error Regal.h included before glew.h
-> + #endif
-> +-#if defined(__glext_h_) || defined(__GLEXT_H_)
-> ++#if defined(__glext_h_) || defined(__GLEXT_H_) || defined(__gl_glext_h_=
-)
-> + #error glext.h included before glew.h
-> + #endif
-> + #if defined(__gl_ATI_h_)
-> +@@ -109,6 +109,7 @@
-> + #define __X_GL_H
-> + #define __glext_h_
-> + #define __GLEXT_H_
-> ++#define __gl_glext_h_
-> + #define __gl_ATI_h_
-> +
-> + #if defined(_WIN32)
+> +diff --git a/posix/regexec.c b/posix/regexec.c
+> +index 91d5a79..084b122 100644
+> +--- a/posix/regexec.c
+> ++++ b/posix/regexec.c
+> +@@ -1293,8 +1293,10 @@ proceed_next_node (const re_match_context_t *mctx, Idx nregs, regmatch_t *regs,
+> +             else if (naccepted)
+> +               {
+> +                 char *buf = (char *) re_string_get_buffer (&mctx->input);
+> +-                if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+> +-                            naccepted) != 0)
+> ++                if (mctx->input.valid_len - *pidx < naccepted
+> ++                    || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+> ++                                naccepted)
+> ++                        != 0))
+> +                   return -1;
+> +               }
+> +           }
 > +--
-> +2.20.1
-> +
-> diff --git a/meta/recipes-graphics/glew/glew_2.1.0.bb b/meta/recipes-grap=
-hics/glew/glew_2.1.0.bb
-> index be725e0530..18e6909aa7 100644
-> --- a/meta/recipes-graphics/glew/glew_2.1.0.bb
-> +++ b/meta/recipes-graphics/glew/glew_2.1.0.bb
-> @@ -6,7 +6,8 @@ LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D2ac251558de685c6b9478d89b=
-e3149c2"
+> +2.9.3
+> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+> index db856c70adb..9184c5932cc 100644
+> --- a/meta/recipes-core/glibc/glibc_2.29.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+> @@ -55,6 +55,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0029-inject-file-assembly-directives.patch \
+>             file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+>             file://0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch \
+> +           file://CVE-2019-9169.patch \
+>  "
 >
->  SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tg=
-z \
-> -           file://no-strip.patch"
-> +           file://no-strip.patch \
-> +           file://0001-Fixed-compilation-with-current-mesa-versions.patc=
-h"
->
->  SRC_URI[md5sum] =3D "b2ab12331033ddfaa50dc39345343980"
->  SRC_URI[sha256sum] =3D "04de91e7e6763039bc11940095cd9c7f880baba82196a776=
-5f727ac05a993c95"
+>  S = "${WORKDIR}/git"
 > --
-> 2.20.1
+> 2.11.0
 >
 > --
 > _______________________________________________
