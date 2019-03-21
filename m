@@ -1,51 +1,47 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id DCE947CF75
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 19FEA7CEAB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 14:05:44 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id t124so2835113wma.4
+	Thu, 21 Mar 2019 14:40:38 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id n11so5433580ioh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 07:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1/V8dDFMeQzL26cgfgSkXojupbKDL14psKdspa8h0k4=;
-	b=PFO9Mu5fVv8P6ZQdkUnGlibCEVrC063Q9II8pg+Ui+AVA+g8AWOrhGLE6EcsnmLcKr
-	ld6l1ZIswsfcxc9nADWgKhdWdkLUVuU1GKLkLyMhCN1/61nfQ+5gt1Y7QP/4b6C8fjbi
-	HkvtY8Q1dF+TQ5/WpRc13Wl6m2N9+yCnfLrz+8s86oNmhM4cyfNmkz5QzFBNLapS9yha
-	GVBlef4SQHzv3uNl7satG7Em9a2vYlG+Rp62vNWQ+1zy6qKEOzgjyQfjfLxdO0yIlCS5
-	p+rueDdB+tSmW6ygw2W1kAR7EsFdQoJF4CUXVW9ge7zIwAJE/PNXvH33iui2Gw8y+6nz
-	kiJA==
+	Thu, 21 Mar 2019 07:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=DQNhQS3hDEhNk74iPrfIKqb3OTFQJza3l97/PMnHhZo=;
+	b=XRlu36OPI8WPgufGHCCZ6BCRbisBdQHyaSUMHiCh6SYkdOdNYh5cJOAbLfiCjx2+ey
+	23s2QnYllwxM4ju0g6c0tp8vpQI7C4TDJJLYlYOFSfmS6tRqKVCmof+jW6UGiLKJTARv
+	XyoOmK1w4QmdMvj6UQFT9Pmbq0Lvi+JbNbGhpZNP8sV62dxCwo7qWicboDZNtq5YhxC/
+	wck2xzvR4eCmi9bFjyfQ3lfM6obVt14ynJ+7DKUhtzhn5+yBJ2gjX4+jvcRIKbDlfjdq
+	2lU+OxFuMKK48Q+DL8Yc/01Aihs4E0imDVyNLAm10ci8dJc/VHj0QCPgdyn8iI80LFS6
+	HtYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1/V8dDFMeQzL26cgfgSkXojupbKDL14psKdspa8h0k4=;
-	b=ePgyQ0j07tvKWYlAkyBQ//Almmta8km22fkhW4Y78MXbTYjz5rYb9S4/av0JZJrnNs
-	YN0JqzFpOr3fnp2s0WemCRG5StoPb8yN/s/T+jlTgXSSk8XNMPRC5xHhlhBk/TevAPAp
-	rGFR13/bfafGwOBmKM39ynorvy9mifxv1akoKuMCvc9NSYpdARwNLwL481hAm0af6poE
-	sAajhk3i3yXO4jzq6/ZzweApdzJWmksqdOeOGMb16LXV776nLCen9bRcoH21vJv5UEzp
-	zjrYprDu1tiY91dlfCwTot1bkfuOTYqBusmso9WGb65ezVRNhCz6jel11UcicdPhmCz7
-	cYWQ==
-X-Gm-Message-State: APjAAAUUHG1R4l88BfpgaOzhOnax3qAhYAQp4wLhlTmHRLamMjINsJiz
-	cMsfnV/OM2mf9C6nQEGkmnuzdXz4
-X-Google-Smtp-Source: APXvYqzLZU8CKcdL9uZM2ID/SAP3KsAVUoQKnWJzfS4eyXw7cd/9Xso8KQ/w59qZsHLHS90XDWEczA==
-X-Received: by 2002:a1c:eb17:: with SMTP id j23mr2573407wmh.86.1553177145346; 
-	Thu, 21 Mar 2019 07:05:45 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	j11sm6826106wrw.85.2019.03.21.07.05.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Mar 2019 07:05:44 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 15:05:32 +0100
-Message-Id: <20190321140532.27536-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=DQNhQS3hDEhNk74iPrfIKqb3OTFQJza3l97/PMnHhZo=;
+	b=KrFW6UgStvecttNf6YsryP8BnbghB7O2FlNADFOt9b4Hb5+mRY9+LNIzYtpnQsokqY
+	yp07r+ige/G60kzRef1RV6hXJcblg/5NPLaHItvARhfumNut802sBDMYJRu94tNbeuhK
+	dt36D7A16rbhQsoQs+1t7nLVLbINDNLSLGRq3WkcBmF9EAAuKR8VWGoTEaB9c0FdaMpY
+	tyoPfPBnRZVvjagerJ4p6LIzC+yDvW/e9YlTKK2XX1hU8KZgXh9Ho+bBqL5F3NsBLz9y
+	SQ5IzNo/ChcXF9kN3O13e7VZ7DuRWYRKDBsRtXDFNkae80uqN9uTY07AHQvYEFZXKlEo
+	qOZQ==
+X-Gm-Message-State: APjAAAVGXKQOUlm+eBo15j+fTv9Phg5o9nnyQ2YRWZlwtvXfD81IK0d4
+	VN5Gol0ExTufs8pgpO2f030jb4y1pw9J3MWzFDSUiA==
+X-Google-Smtp-Source: APXvYqwubnwZ4IrjI/3+zB5EGesi0cYInbaj/Q4pVAkMz+/hpCL5qwNzklgLUJeO+8mQ/nxlUZRKGr6h756ZAHbdwG4=
+X-Received: by 2002:a5d:8795:: with SMTP id f21mr2924384ion.20.1553179238972; 
+	Thu, 21 Mar 2019 07:40:38 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH][v2] glew: Fix build errors at recipes depending on glew
+References: <20190319020534.17278-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190319020534.17278-1-hongl.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Mar 2019 14:40:26 +0000
+Message-ID: <CAJTo0LYx69peDMOYoApJxGJe6qDKgEYjpt7=BRe4eMsJqbZL3w@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [PATCH] ofono: upgrade to 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,120 +54,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 14:05:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Mar 2019 14:40:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Glew headers override mesa headers by setting mesa's include guards. This
-stopped working since mesa renamed them.
+Test, please.
 
-Fixes errors like this in depending recipes:
+| Makefile:5722: recipe for target 'ell/ell.h' failed
 
-| <...>/recipe-sysroot/usr/include/GL/glext.h:12066:105: error: conflicting declaration 'typedef void (* PFNGLFRAGMENTLIGHTFVSGIXPROC)(GLenum, GLenum, const GLfloat*)'
-|  typedef void (APIENTRYP PFNGLFRAGMENTLIGHTFVSGIXPROC) (GLenum light, GLenum pname, const GLfloat *params);
-|                                                                                                          ^
+Ross
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- ...mpilation-with-current-mesa-versions.patch | 73 +++++++++++++++++++
- meta/recipes-graphics/glew/glew_2.1.0.bb      |  3 +-
- 2 files changed, 75 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-current-mesa-versions.patch
-
-diff --git a/meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-current-mesa-versions.patch b/meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-current-mesa-versions.patch
-new file mode 100644
-index 0000000000..64f3e2fd9b
---- /dev/null
-+++ b/meta/recipes-graphics/glew/glew/0001-Fixed-compilation-with-current-mesa-versions.patch
-@@ -0,0 +1,73 @@
-+From 7f65a36866f4e24dd1446fe1c9d21424f28bcabd Mon Sep 17 00:00:00 2001
-+From: Deve <deveee@gmail.com>
-+Date: Wed, 14 Nov 2018 21:07:29 +0100
-+Subject: [PATCH] Fixed compilation with current mesa versions.
-+
-+As you can see in
-+https://cgit.freedesktop.org/mesa/mesa/tree/include/GL/glext.h
-+now the file uses __gl_glext_h_ instead of __glext_h_
-+It's precisely caused by commit f7d42ee7d319256608ad60778f6787c140badada
-+
-+Backoprt notes: 
-+
-+* The original patch adjusts auto/src/glew_head.h only
-+* include/GL/glew.h is not part of git repo and gets created on tarball
-+  creation
-+
-+=> patch include/GL/glew.h either to cause the desired fix
-+
-+Upstream-Status: Backport [1]
-+
-+[1] https://github.com/nigels-com/glew/commit/7f65a36866f4e24dd1446fe1c9d21424f28bcabd
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ auto/src/glew_head.h | 3 ++-
-+ include/GL/glew.h    | 3 ++-
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/auto/src/glew_head.h b/auto/src/glew_head.h
-+index c19cefb..8f313d9 100644
-+--- a/auto/src/glew_head.h
-++++ b/auto/src/glew_head.h
-+@@ -14,7 +14,7 @@
-+ #if defined(__REGAL_H__)
-+ #error Regal.h included before glew.h
-+ #endif
-+-#if defined(__glext_h_) || defined(__GLEXT_H_)
-++#if defined(__glext_h_) || defined(__GLEXT_H_) || defined(__gl_glext_h_)
-+ #error glext.h included before glew.h
-+ #endif
-+ #if defined(__gl_ATI_h_)
-+@@ -30,6 +30,7 @@
-+ #define __X_GL_H
-+ #define __glext_h_
-+ #define __GLEXT_H_
-++#define __gl_glext_h_
-+ #define __gl_ATI_h_
-+ 
-+ #if defined(_WIN32)
-+diff --git a/include/GL/glew.h b/include/GL/glew.h
-+index b5b6987..a9f9e4b 100644
-+--- a/include/GL/glew.h
-++++ b/include/GL/glew.h
-+@@ -93,7 +93,7 @@
-+ #if defined(__REGAL_H__)
-+ #error Regal.h included before glew.h
-+ #endif
-+-#if defined(__glext_h_) || defined(__GLEXT_H_)
-++#if defined(__glext_h_) || defined(__GLEXT_H_) || defined(__gl_glext_h_)
-+ #error glext.h included before glew.h
-+ #endif
-+ #if defined(__gl_ATI_h_)
-+@@ -109,6 +109,7 @@
-+ #define __X_GL_H
-+ #define __glext_h_
-+ #define __GLEXT_H_
-++#define __gl_glext_h_
-+ #define __gl_ATI_h_
-+ 
-+ #if defined(_WIN32)
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/glew/glew_2.1.0.bb b/meta/recipes-graphics/glew/glew_2.1.0.bb
-index be725e0530..18e6909aa7 100644
---- a/meta/recipes-graphics/glew/glew_2.1.0.bb
-+++ b/meta/recipes-graphics/glew/glew_2.1.0.bb
-@@ -6,7 +6,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
--           file://no-strip.patch"
-+           file://no-strip.patch \
-+           file://0001-Fixed-compilation-with-current-mesa-versions.patch"
- 
- SRC_URI[md5sum] = "b2ab12331033ddfaa50dc39345343980"
- SRC_URI[sha256sum] = "04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a993c95"
--- 
-2.20.1
-
+On Tue, 19 Mar 2019 at 02:04, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+>
+> 1.Upgrade ofono from 1.25 to 1.28.
+>
+> 2.use-python3.patch has been merged.
+>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  .../ofono/ofono/use-python3.patch             | 27 -------------------
+>  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
+>  meta/recipes-connectivity/ofono/ofono_1.28.bb |  8 ++++++
+>  3 files changed, 8 insertions(+), 36 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-python3.patch
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
+>  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.28.bb
+>
+> diff --git a/meta/recipes-connectivity/ofono/ofono/use-python3.patch b/meta/recipes-connectivity/ofono/ofono/use-python3.patch
+> deleted file mode 100644
+> index 7b84075257..0000000000
+> --- a/meta/recipes-connectivity/ofono/ofono/use-python3.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -set-ddr should use Python3 like all the other tests.
+> -
+> -Upstream-Status: Submitted
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 17b69cd1da4c5c5f732acb38ca1602446c567ee7 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Mon, 29 Jan 2018 11:31:25 +0000
+> -Subject: [PATCH] test/setddr: use Python 3
+> -
+> -All the other tests use Python 3, so this should to.
+> ----
+> - test/set-ddr | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/test/set-ddr b/test/set-ddr
+> -index 5d061b95..33631f31 100755
+> ---- a/test/set-ddr
+> -+++ b/test/set-ddr
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/python
+> -+#!/usr/bin/python3
+> -
+> - import sys
+> - import dbus
+> ---
+> -2.11.0
+> diff --git a/meta/recipes-connectivity/ofono/ofono_1.25.bb b/meta/recipes-connectivity/ofono/ofono_1.25.bb
+> deleted file mode 100644
+> index 3688b9d2fc..0000000000
+> --- a/meta/recipes-connectivity/ofono/ofono_1.25.bb
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -require ofono.inc
+> -
+> -SRC_URI  = "\
+> -  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+> -  file://ofono \
+> -  file://use-python3.patch \
+> -"
+> -SRC_URI[md5sum] = "31450cabdd8dbbf3f808ea2f2f066863"
+> -SRC_URI[sha256sum] = "eb011fcd3080e93f3a56f96be60350b6595a8b5f36b61646312ba41b0bcb0d75"
+> diff --git a/meta/recipes-connectivity/ofono/ofono_1.28.bb b/meta/recipes-connectivity/ofono/ofono_1.28.bb
+> new file mode 100644
+> index 0000000000..48bf2d3edc
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/ofono/ofono_1.28.bb
+> @@ -0,0 +1,8 @@
+> +require ofono.inc
+> +
+> +SRC_URI  = "\
+> +  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+> +  file://ofono \
+> +"
+> +SRC_URI[md5sum] = "3a5406565b552b16602610619b034967"
+> +SRC_URI[sha256sum] = "93bb2cedef54f897dd5200e22b072a6e38b5d9b44be57eebbbe8d513f0beb0e4"
+> --
+> 2.20.1
+>
+>
+>
 
