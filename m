@@ -1,56 +1,35 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C5587CF9A
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 864AE7CDA7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 19:49:31 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f3so4067236wmj.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 12:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=rHFxG/LfDpPg3HzGSPIFE6ZgN+0PxDFlJVRPVSiDpKk=;
-	b=B+mPOI+Cid0FJoI7koDUxqSMdAJ4Sa15T7k6H3cBQa5qvLIiXd7TDZmd/TkXXomCzx
-	iQGg9OElLdv/1zM9cRRyZE/EnDapu4ZIABdsDDXtG88q4p5zpQ38E7hA7UY2mEIzr0j6
-	Zeo13BquB8zEMtdOGVer94KM7lZCr18beQ+F4o6fRz+kNqkFEsFQ9oBKYEv4+OOKm0mC
-	64gM0IlBb/h0nCY+FvENnUC6eiL8hx0siyq7eMmEehT3zx5mrQhmKbZqsPKno/wwJqiT
-	CrZAxLaTSMXhfxhkgm5qL/c9pITiTzSKLo4o22B5QZULtBLUM08kUUrldBe+YO358ptw
-	Tu3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rHFxG/LfDpPg3HzGSPIFE6ZgN+0PxDFlJVRPVSiDpKk=;
-	b=nO+h2R+z8PtlkvxUoCDOfgroEjC8FbRtUxs4XonXkX1KO11gEqGzhoy2ddwLzuLiFU
-	8jV4MXs2whQqOQ7qV3v8c11G4p9orLgXv+0La+/0HvCUV5QU+HRJdd1GpTOla2GZUYzr
-	LDb4Sw9RvPLgAYe5LHRHZ18XMG+u7rKIlCpsj9XPltgoZKUFpB4tyQ43bqJ8H+V50k/0
-	k5lvHjQ6EEdkTy3Kn4hceKNT7+kpyuj0KFHlZh650BuuTYct/fNM8zdBgabmnkMNpLVF
-	Ezmx+e04QwCP56qxmgwN7W2rL7uElWw8ACGedpqrZO3rNcuw4EdwZ8E4+jxjSpYnNq/n
-	uxcw==
-X-Gm-Message-State: APjAAAWCxb6uEdTNcw0o9dfhRChMwul8yv5FOm4J1Tan8eo17pILCCXd
-	u09XHyI9UwQFhSGsWOadER4=
-X-Google-Smtp-Source: APXvYqzfuTMrUavSMRqF70+5tkpXO1PmiKefg65/R+dUZc8bcottffI2iITgG7qtBbY/TmJZQb9hPg==
-X-Received: by 2002:a05:600c:2143:: with SMTP id
-	v3mr619604wml.14.1553197772020; 
-	Thu, 21 Mar 2019 12:49:32 -0700 (PDT)
-Received: from bluca-lenovo ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
-	by smtp.gmail.com with ESMTPSA id f9sm7194444wmb.36.2019.03.21.12.49.30
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 21 Mar 2019 12:49:30 -0700 (PDT)
-Message-ID: <d4ddb7e8c130bab720ff3266701930f8616122b9.camel@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 21 Mar 2019 19:49:30 +0000
-In-Reply-To: <CAO5Uq5Q8APL0y3+VPt6Z2b=02ZdNkjUi9oG6gh-XS7gQOr_r0g@mail.gmail.com>
-References: <20190319181544.314-1-luca.boccassi@gmail.com>
-	<20190321183541.31260-1-luca.boccassi@gmail.com>
-	<CAO5Uq5Q8APL0y3+VPt6Z2b=02ZdNkjUi9oG6gh-XS7gQOr_r0g@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
+	Thu, 21 Mar 2019 20:35:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4A7A640B37;
+	Thu, 21 Mar 2019 20:35:31 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id CQNKwz2d05-p; Thu, 21 Mar 2019 20:35:31 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-81-231.washdc.fios.verizon.net
+	[100.15.81.231])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2A93C40ADE;
+	Thu, 21 Mar 2019 20:35:30 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 7FAAB16D02E; Thu, 21 Mar 2019 16:35:29 -0400 (EDT)
+Date: Thu, 21 Mar 2019 16:35:29 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190321203529.GB16294@denix.org>
+References: <20190311031230.21497-1-richard.purdie@linuxfoundation.org>
+	<20190320002240.GF11946@denix.org>
+	<fd87289ca64fd8c35bcb2b70ea7cbf78cce8e131.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot: install dumpimage and fit_check_sign in u-boot-tools
+In-Reply-To: <fd87289ca64fd8c35bcb2b70ea7cbf78cce8e131.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/5] qemuarm: Swap for an arm7ve (A15) configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,73 +42,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 19:49:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Mar 2019 20:35:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2019-03-21 at 19:30 +0000, Alex Kiernan wrote:
-> On Thu, Mar 21, 2019 at 6:36 PM <luca.boccassi@gmail.com> wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+On Wed, Mar 20, 2019 at 12:25:02AM +0000, richard.purdie@linuxfoundation.org wrote:
+> On Tue, 2019-03-19 at 20:22 -0400, Denys Dmytriyenko wrote:
+> > On Mon, Mar 11, 2019 at 03:12:26AM +0000, Richard Purdie wrote:
+> > > From: Jon Mason <jdmason@kudzu.us>
+> > > 
+> > > Add new QEMU BSP for a Arm Cortex-A15 system and use this as
+> > > qemuarm,
+> > > moving the old armv5te Versatile PB based machine to qemuarmv5.
+> > > 
+> > > The new machine uses the QEMU virt machine type, which should be
+> > > faster to emulate and updates the qemuarm support to a modern
+> > > architecture.
+> > > 
+> > > Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > ---
+> > >  meta/conf/machine/qemuarm.conf                | 34 +++++++++++++
+> > > ------
+> > >  meta/conf/machine/qemuarmv5.conf              | 23 +++++++++++++
+> > >  .../linux/linux-yocto-rt_4.19.bb              |  2 +-
+> > >  .../linux/linux-yocto-rt_5.0.bb               |  2 +-
+> > >  .../linux/linux-yocto-tiny_4.19.bb            |  2 +-
+> > >  .../linux/linux-yocto-tiny_5.0.bb             |  2 +-
+> > >  meta/recipes-kernel/linux/linux-yocto_4.19.bb |  2 +-
+> > >  meta/recipes-kernel/linux/linux-yocto_5.0.bb  |  2 +-
+> > >  8 files changed, 52 insertions(+), 17 deletions(-)
+> > >  create mode 100644 meta/conf/machine/qemuarmv5.conf
+> > > 
+> > > diff --git a/meta/conf/machine/qemuarm.conf
+> > > b/meta/conf/machine/qemuarm.conf
+> > > index a5443126273..95550461899 100644
+> > > --- a/meta/conf/machine/qemuarm.conf
+> > > +++ b/meta/conf/machine/qemuarm.conf
+> > ...
+> > > +KMACHINE_qemuarmv5 = "qemuarm"
+> > > \ No newline at end of file
+> > > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > index 07dc5b77a14..36761b99437 100644
+> > > --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > > @@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+> > >  
+> > >  LINUX_KERNEL_TYPE = "preempt-rt"
+> > >  
+> > > -COMPATIBLE_MACHINE = "(qemux86|qemux86-
+> > > 64|qemuarm|qemuarm64|qemuppc|qemumips)"
+> > > +COMPATIBLE_MACHINE = "(qemux86|qemux86-
+> > > 64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
 > > 
-> > Dumpimage and fit_check_sign can be used to extract kernel and
-> > ramdisk from
-> > a FIT file, verify them and kexec for a faster reboot.
-> > 
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > v2: add dumpimage and fit_check_sign to FILES_${PN}-mkimage to fix
-> > build.
-> >     Not sure if it's preferable to do this or to add a new package,
-> > please
-> >     advise if the other is better.
-> > 
-> >  meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> > b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> > index ff26e32482..b72033a566 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> > @@ -45,11 +45,19 @@ do_install () {
-> >         # mkenvimage
-> >         install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-
-> > mkenvimage
-> >         ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
-> > +
-> > +       # dumpimage
-> > +       install -m 0755 tools/dumpimage ${D}${bindir}/uboot-
-> > dumpimage
-> > +       ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
-> > +
-> > +       # fit_check_sign
-> > +       install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-
-> > fit_check_sign
-> > +       ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
-> >  }
-> > 
-> >  ALLOW_EMPTY_${PN} = "1"
-> >  FILES_${PN} = ""
-> > -FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage"
-> > +FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage
-> > {bindir}/uboot-dumpimage ${bindir}/dumpimage
+> > Did you mean to list here "qemuarmv5" instead of "qemuarma15"?
 > 
-> There's no $ here
+> Yes!
 > 
-> > {bindir}/uboot-fit_check_sign ${bindir}/fit_check_sign"
-> 
-> or here
-> 
-> >  FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage
-> > ${bindir}/mkenvimage"
+> > > @@ -40,7 +40,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+> > >  
+> > >  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> > >  
+> > > -COMPATIBLE_MACHINE =
+> > > "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+> > > +COMPATIBLE_MACHINE =
+> > > "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qe
+> > > mux86-64"
 > > 
-> >  RDEPENDS_${PN}-mkimage += "dtc"
+> > Ok, "qemuarmv5" - I see a pattern here! Was it a challenge? :)
+> 
+> It definitely was a challenge, perhaps not the way you mean it though!
+> :)
+> 
+> Patches to fix up the mess I made of this gratefully received, or I'll
+> sort it out tomorrow, thanks for highlighting it.
 
-D'oh, copypasta! Thanks, fixed in v3
+Submitted a patch last night:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280345.html
+
+Not sure if you got to it sooner and fixed it yourself (don't see it in git 
+yet). Either way is fine. Let me know if you need anything else. Thanks.
 
 -- 
-Kind regards,
-Luca Boccassi
-
+Denys
 
