@@ -1,25 +1,25 @@
 Return-Path: <Liwei.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 48D1B7CE73
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A4F107CE79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 03:21:19 +0000 (UTC)
+	Thu, 21 Mar 2019 03:21:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2L3LK4e018661
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2L3LM7n007287
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2019 20:21:20 -0700 (PDT)
+	Wed, 20 Mar 2019 20:21:22 -0700 (PDT)
 Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 20 Mar 2019 20:21:17 -0700
+	Wed, 20 Mar 2019 20:21:19 -0700
 From: Liwei Song <liwei.song@windriver.com>
 To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Mar 2019 23:19:13 -0400
-Message-ID: <1553138356-85237-6-git-send-email-liwei.song@windriver.com>
+Date: Wed, 20 Mar 2019 23:19:14 -0400
+Message-ID: <1553138356-85237-7-git-send-email-liwei.song@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
 References: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] initramfs-framework: add lvm module
+Subject: [PATCH 6/8] init-install: add support for install image to Intel VROC raid disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,76 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 03:21:19 -0000
+X-List-Received-Date: Thu, 21 Mar 2019 03:21:20 -0000
 Content-Type: text/plain
 
-lvm module will initial lvm volume to support boot from
-Logical Volume.
+Intel VROC raid device named as /dev/mdXX, now it only can boot with
+initramfs method because it need mdadm to do initial work in it, so do
+not remove initrd for such kind device.
+
+It also use "p" as partition prefix, adjust it to aviod use a wrong device name
+durning install.
 
 Signed-off-by: Liwei Song <liwei.song@windriver.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/lvm    | 13 +++++++++++++
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb |  9 +++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/lvm
+ .../initrdscripts/files/init-install-efi.sh        | 23 ++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/lvm b/meta/recipes-core/initrdscripts/initramfs-framework/lvm
-new file mode 100644
-index 000000000000..7deeccb9a29e
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/lvm
-@@ -0,0 +1,13 @@
-+#!/bin/sh
-+
-+lvm_enabled() {
-+	if ! lvscan |grep -i -w "inactive" &>/dev/null;then
-+		return 1
-+	fi
-+	return 0
-+}
-+
-+lvm_run() {
-+	lvm pvscan --cache --activate ay
-+	udevadm trigger --action=add
-+}
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 660343eafa23..c53a0c03ae6c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -17,6 +17,7 @@ SRC_URI = "file://init \
-            file://udev \
-            file://e2fs \
-            file://debug \
-+           file://lvm \
-           "
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index b6855b5aac0f..c23132ae632d 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -44,9 +44,10 @@ echo "Searching for hard drives ..."
  
- S = "${WORKDIR}"
-@@ -45,6 +46,9 @@ do_install() {
-     # debug
-     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
+ # Some eMMC devices have special sub devices such as mmcblk0boot0 etc
+ # we're currently only interested in the root device so pick them wisely
+-devices=`ls /sys/block/ | grep -v mmcblk` || true
++devices=`ls /sys/block/ | grep -v "mmcblk\|md\|dm"` || true
+ mmc_devices=`ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"` || true
+-devices="$devices $mmc_devices"
++md_devices=`cat /proc/mdstat  |grep -w active |awk -F":" '{print $1}'` || true
++devices="$devices $mmc_devices $md_devices"
  
-+    # lvm
-+    install -m 0755 ${WORKDIR}/lvm ${D}/init.d/09-lvm
-+
-     # Create device nodes expected by some kernels in initramfs
-     # before even executing /init.
-     install -d ${D}/dev
-@@ -59,6 +63,7 @@ PACKAGES = "${PN}-base \
-             initramfs-module-nfsrootfs \
-             initramfs-module-rootfs \
-             initramfs-module-debug \
-+            initramfs-module-lvm \
-            "
+ for device in $devices; do
+     case $device in
+@@ -165,6 +166,14 @@ if [ ! "${device#/dev/mmcblk}" = "${device}" ] || \
+     rootwait="rootwait"
+ fi
  
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
-@@ -98,3 +103,7 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
- SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
- RDEPENDS_initramfs-module-debug = "${PN}-base"
- FILES_initramfs-module-debug = "/init.d/00-debug"
++# MD raid device use partition prefix charater 'p'
++# and it need a larger capacity to store initrd,
++# considering some debug purpose, enlarge it to 1G.
++if [ ! "${device#/dev/md}" = "${device}" ]; then
++    part_prefix="p"
++    boot_size=1024
++fi
 +
-+SUMMARY_initramfs-module-lvm = "initramfs lvm rootfs support"
-+RDEPENDS_initramfs-module-lvm = "${PN}-base"
-+FILES_initramfs-module-lvm = "/init.d/09-lvm"
+ # USB devices also require rootwait
+ if [ -n `readlink /dev/disk/by-id/usb* | grep $TARGET_DEVICE_NAME` ]; then
+     rootwait="rootwait"
+@@ -251,8 +260,14 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+     # Update grub config for the installed image
+     # Delete the install entry
+     sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
+-    # Delete the initrd lines
+-    sed -i "/initrd /d" $GRUBCFG
++    # initrd is necessary to boot from MD device
++    if [ ! "${device#/dev/md}" = "${device}" ]; then
++       cp /run/media/$1/initrd /boot
++       cp /run/media/$1/startup.nsh /boot
++    else
++       # Delete the initrd lines
++       sed -i "/initrd /d" $GRUBCFG
++    fi
+     # Delete any LABEL= strings
+     sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
+     # Replace root= and add additional standard boot options
 -- 
 2.7.4
 
