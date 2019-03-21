@@ -1,28 +1,31 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB326BA22
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 5353A6D74B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 03:28:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2L3SVo6019225
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Mar 2019 20:28:31 -0700 (PDT)
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 20 Mar 2019 20:28:28 -0700
-To: Alexey Brodkin <alexey.brodkin@synopsys.com>
-References: <20190320131619.58439-1-kai.kang@windriver.com>
-	<4881796E12491D4BB15146FE0209CE6468225794@de02wembxa.internal.synopsys.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <d6711f3c-f4d6-d469-3aa3-47691d02b605@windriver.com>
-Date: Thu, 21 Mar 2019 11:26:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <4881796E12491D4BB15146FE0209CE6468225794@de02wembxa.internal.synopsys.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fixup! qemu: backport patches to fix cves
+	Thu, 21 Mar 2019 04:50:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2E04440A58;
+	Thu, 21 Mar 2019 04:50:58 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Np5Q0LhfsERR; Thu, 21 Mar 2019 04:50:58 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-81-231.washdc.fios.verizon.net
+	[100.15.81.231])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 098E9409E0;
+	Thu, 21 Mar 2019 04:50:55 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 4AAA016C6EB;
+	Thu, 21 Mar 2019 00:50:55 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Mar 2019 00:50:52 -0400
+Message-Id: <1553143852-41839-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] linux-yocto: fix wrongfully used qemuarma15 in place of qemuarmv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,57 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 03:28:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 21 Mar 2019 04:50:57 -0000
 
-On 2019/3/21 上午5:34, Alexey Brodkin wrote:
-> Hi Kai Kang,
->
->> -----Original Message-----
->> From: kai.kang@windriver.com <kai.kang@windriver.com>
->> Sent: Wednesday, March 20, 2019 4:16 PM
->> To: richard.purdie@linuxfoundation.org
->> Cc: alexey.brodkin@synopsys.com; openembedded-core@lists.openembedded.org
->> Subject: [PATCH] fixup! qemu: backport patches to fix cves
-> Just wondering if you were able to reproduce mentioned problem
-> on your side before fixing it?
->
-> Given Richard's input this problem was supposed to be caught
-> before your previous commit hit OE master branch but somehow it
-> slipped through the cracks...
->
-> Or otherwise my setup should be somehow very special if it only
-> happens for me.
+From: Denys Dmytriyenko <denys@ti.com>
 
-I can reproduce the build failure with default configure:
+Commit 6fc70eb4f3494bee2be10ee24fe3ea1c8b5ff988 changes "qemuarm" machine from
+old ARMv5 to a newer Cortex-A15, moving the old platform under "qemuarmv5" name.
+When adding this new "old" platform name to COMPATIBLE_MACHINE in linux-yocto
+recipes, mistakes were made referring it by "qemuarma15", as discussed in [1].
+This change fixes those mistakes.
 
-$ . poky/oe-init-build-env
-$ bitbake qemu-system-native
+[1]http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280292.html
 
-It should be covered by autobuilder. :(
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-And there is no error to build qemu and qemu-native  that 
-hw/rdma/rdma_backend.c is not even compiled because:
-
-* CONFIG_PCI is not set for qemu-native
-
-* CONFIG_PVRDMA is not set for qemu
-
-
-Regards,
-Kai
-
-
-
-
->
-> -Alexey
->
->
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+index 36761b9..c3f9d5f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+@@ -31,7 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+-COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarma15|qemuarm64|qemuppc|qemumips)"
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+index 52dbabd..2d85817 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+@@ -24,7 +24,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+ 
+-COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarma15"
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+index aca9f15..340e950 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+@@ -38,7 +38,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+-COMPATIBLE_MACHINE = "qemuarm|qemuarma15|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 -- 
-Kai Kang
+2.7.4
 
 
