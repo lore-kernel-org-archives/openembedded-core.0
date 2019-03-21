@@ -1,44 +1,52 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
-	[209.85.222.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 20CAD6D147
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 93BF26D147
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 18:35:45 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id k130so16952685qke.3
+	Thu, 21 Mar 2019 18:35:46 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id v14so3798572wmf.2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 21 Mar 2019 11:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=IfE4h26zsNrUemKuarbznyWep8c4FG91s+axqPuPY68=;
+	b=iaZszSCT+BSimSxWEZUjM8U6l6KVns1JtWjl5FcIs63o9TcVloUcSN6QzxjE7qa4fY
+	8grmgnT9SRE+wQaujCBA6nCbwVsNcSNvXyq5PWqfctcB2kGi1AtTvRJYd2DrY5gEbHFo
+	puN4aqRoNtD77AUtPzznDaM2nDTkRNvduR7QG3eCplCXFjO3sKlJVJZCYpRiwbeKut8Z
+	JKgGnNrlCTCcuySzawyalJoRIrgpeTgqFhF6lw09Ct5krHcfMPGnizTHuvMWtKFQK7M/
+	RRiBtaVreLiZadWg6jXnmONHj0e/ACBMOW8VwX3/GGIrFKAWn4sOPp5zhf6YTsEOPxdf
+	oxuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=1/5HlXeRnzj5BdD5Au6KVlE6f/NtBZNBo6+EnEjPz4s=;
-	b=AJuoiTDwEfJKehu/BgwVVHBVyfMjAcnxWB9lJ9meNnIMo8eomgksMzS/0rhxME3VtL
-	kTXYS6epNRU5jTsnJUPUmx1KThIiYxXpiN5OhbrRehx7gNandEa1eprNwRAcsWoG0J05
-	hpyxolezD2cwLsD0u+adjIE0w//HXwG9WrHsNdl3Hcx3m5iyhBCSU1gPArtsdDd+CwYu
-	nGJA/8JjTLlc2Bec1pOBNwpWfX+auJ+/74OFa+/J63n+7rajJnW0rUkM6t0m0ymkAX7+
-	qvFoM1evaOeenOKbuwSNJLFVBG9VraMA/8ekGwxj88fQzu8swZVvSt2a47UPA3Utro9R
-	mbhw==
-X-Gm-Message-State: APjAAAUK9GcEt7DDYYIiFNBwtAVQN82FkwjCbDsdX2X0JIpyGjjuf+Cj
-	yLywfr03z+fEtUT1VPTW23vapbxM
-X-Google-Smtp-Source: APXvYqyiJIZqjWjhR+Mjf0lki4xy22tYeHp3Q8V7zyyshp1v4Qex4GOF32kjgQGahvtM222tCMxZQA==
-X-Received: by 2002:a37:a557:: with SMTP id o84mr4005783qke.277.1553193346672; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=IfE4h26zsNrUemKuarbznyWep8c4FG91s+axqPuPY68=;
+	b=mU9io2O488vgXIEWmV9vdLdyFVAFjNiN00+3Hzz1xogOthpCDm6wkK4cx8JcfilKYI
+	xndZS4jJ3Ow5C1tP77kRFhJClDrowofCIdx95J6s0LkeLWv00NqTw8J0wdrT7EJbJlZC
+	mdV5f1iM9xkjz3mojx1UHSZUdwgzz67XjzsCKhRtmJ8QqZ4K7ZqnobaHizQ/LaPKYBZh
+	H7FYlZuEGKdZOPqhvtHOTW9LGxRa4hPcwQbg9p54bNlmAh7s7nz3yAhvYjjhOkmjKZ4v
+	Gme8Jrks7MACYfPpTkeAALzCk/YTweA47NbMKSormnCtU42eAZ8K7PcJyjOtQBRZecTn
+	wNfQ==
+X-Gm-Message-State: APjAAAVZqqI3lF7iYYIhnZ8Iwr+ILgoRbvA9wpzXCBAKXNrogX0isOHW
+	HdvjnULEP/Z+Z1+G/vVj7Gb7jrW+/T8=
+X-Google-Smtp-Source: APXvYqwHBxru45VWCWjcKlrcBh6h4arNyeIGxcgcQgE1+rz8CFZ4IdSDQm3lfNTPUy+fYuBdlG4y8g==
+X-Received: by 2002:a1c:c287:: with SMTP id s129mr425671wmf.63.1553193346814; 
 	Thu, 21 Mar 2019 11:35:46 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.204.148])
+Received: from localhost ([2a01:4b00:f419:6f00:b00c:66c8:99df:336])
 	by smtp.gmail.com with ESMTPSA id
-	d21sm1328250qtc.91.2019.03.21.11.35.43
+	t202sm11150375wmt.0.2019.03.21.11.35.45
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Thu, 21 Mar 2019 11:35:45 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 21 Mar 2019 15:35:40 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Mar 2019 15:35:39 -0300
-Message-Id: <20190321183539.18863-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.21.0
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Mar 2019 18:35:41 +0000
+Message-Id: <20190321183541.31260-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190319181544.314-1-luca.boccassi@gmail.com>
+References: <20190319181544.314-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] llvm: Enable RTTI support in preparation for new mesa
+Subject: [PATCH v2] u-boot: install dumpimage and fit_check_sign in u-boot-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +62,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 21 Mar 2019 18:35:46 -0000
 Content-Transfer-Encoding: 8bit
 
-The mesa 19.0.0 release requires RTTI to allow the build of Nouveau
-driver, which is enabled by default when building for x86 and x86-64
-target.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-This commit enables RTTI support so it prepares the toolchain for the
-upcoming change.
+Dumpimage and fit_check_sign can be used to extract kernel and ramdisk from
+a FIT file, verify them and kexec for a faster reboot.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+v2: add dumpimage and fit_check_sign to FILES_${PN}-mkimage to fix build.
+    Not sure if it's preferable to do this or to add a new package, please
+    advise if the other is better.
 
- meta/recipes-devtools/llvm/llvm_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index c68512cc63..d2ea927651 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -70,6 +70,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_BINDINGS_LIST='' \
-                   -DLLVM_LINK_LLVM_DYLIB=ON \
-                   -DLLVM_ENABLE_FFI=ON \
-+                  -DLLVM_ENABLE_RTTI=ON \
-                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-                   -DLLVM_OPTIMIZED_TABLEGEN=ON \
-                   -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+index ff26e32482..b72033a566 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
+@@ -45,11 +45,19 @@ do_install () {
+ 	# mkenvimage
+ 	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
+ 	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
++
++	# dumpimage
++	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
++	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
++
++	# fit_check_sign
++	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
++	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
+ }
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ FILES_${PN} = ""
+-FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage"
++FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage {bindir}/uboot-dumpimage ${bindir}/dumpimage {bindir}/uboot-fit_check_sign ${bindir}/fit_check_sign"
+ FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
+ 
+ RDEPENDS_${PN}-mkimage += "dtc"
 -- 
-2.21.0
+2.20.1
 
 
