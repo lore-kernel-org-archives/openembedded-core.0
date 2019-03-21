@@ -1,51 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CADB86067C
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-yw1-f50.google.com (mail-yw1-f50.google.com
+	[209.85.161.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D88C7CE5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 11:44:14 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id q16so2364138wmj.3
+	Thu, 21 Mar 2019 12:18:32 +0000 (UTC)
+Received: by mail-yw1-f50.google.com with SMTP id q128so4559172ywg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Mar 2019 04:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=wsqZ+Gkt41x6fPT/Ahb2+hnzALIY/979ZuVBgEPfP00=;
-	b=Mo5e4ORj62AVCKaGNddiHLYR4Q73bBpbDEffhoLOBcbbpi+H9gD3uBkDIjmQ7R52C1
-	EYyyzw9WREPU/SlhmqWCMoX3KuCBswSLOgK8o0wJNloHU1wmyB9xRZ2iQIK/64Ejrmo1
-	KkC2u8Ih0BIPfsJt3Wce5d/mRY1DiMY5CXVns=
+	Thu, 21 Mar 2019 05:18:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=wsqZ+Gkt41x6fPT/Ahb2+hnzALIY/979ZuVBgEPfP00=;
-	b=sMg4HfS9+NIaqnzbSwQS5s/MCbvzI0BiQuLln6JheAILWGVDAAoJjb/yASL/epe1Ia
-	+Wmoh3dZ9rPuwvrihGyWUMobOf6dle1jbwz8M3Ia4hLjW3SGzGoprk42Ah14fFUtZbL8
-	2ar9zvhD+5QNWKiZbACR2xN5MwvdJtvSy7sJeDgPGt21JG3GfbeusDDbc98mtUjEp0ZL
-	JXGCYuBnJfM9kqiLdoZ/ZP9azg2V+shkhARN8m1/bZ9EgUNKFVT8UqDFduuC285CUq/c
-	qocANlfgx2jDhsRK1iM//v71Vk148MH40azGHZGCgYvtErZ2Y1AxL9s4rE9GK2EkHncf
-	k5eg==
-X-Gm-Message-State: APjAAAVqvoEbstqxDjC/QmxHQWGxdJGCF7mnS7at8TFD3W4U4hsfrSQs
-	L5JBwoDpozXHSwmpDm40xtfQHg==
-X-Google-Smtp-Source: APXvYqwQvmvKiqaCYdwq7fM3DI42AbPh2KGQKMZscpr82CJ8rVFs5Pm1VtuBtaK0kv6rfXitHIdy5Q==
-X-Received: by 2002:a1c:d189:: with SMTP id i131mr2206459wmg.151.1553168655473;
-	Thu, 21 Mar 2019 04:44:15 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a130sm6660064wma.14.2019.03.21.04.44.14
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Mar 2019 04:44:14 -0700 (PDT)
-Message-ID: <6b2ad2e463f5ba0f3513e6d9755aa755828686e4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 11:44:13 +0000
-In-Reply-To: <20190319181544.314-1-luca.boccassi@gmail.com>
-References: <20190319181544.314-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.31.90-1 
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=a/Rf/qXp8R0NcDpAikGWE20Vg0EAn+tMyIW962xD6Fo=;
+	b=K/wbDXhvsrRaDtGENCJ0VprI3EJCBCVdmYewmqeErnU5PUNCLv5yrzhB6Q7wX5R1BN
+	RhYbgur5tVCq0yzrzV9ui43z2lwQOs6Th3NCM3HbuklnHtGPpj4cqVUtnJQrCH7DV3MG
+	pkn8/KLXOaluGJI17hJN9JkwMRlBFY58KWChD1kJQN1HfMAa71I8cwjchaEWiRimO1nm
+	7/fmnf5mtviBhEkfYXUfTW44RoHgGxpX9PIiIZAltbEBYh2zsjcdPhqZVkIwvdLcnoWp
+	6Nn4K+UnCwGfGZ9iDtMpv3rTEkGIXdLpCNRjfzPCIbPxfdANDHHdtNzV41Mod+Cusisl
+	Ll6w==
+X-Gm-Message-State: APjAAAW29kJPqW6TQnog3jy+FXyg0lqFzOm3QLq7hEs579GzUKX/kC0T
+	guWkqsc+T4KHKsWFOWjBRcy7yy3M3uM=
+X-Google-Smtp-Source: APXvYqx6LsWlnK3hi1vN7JUwVaLAXmyX+uRLq/JUpi6tcvVskUK51DACtd3xi1pH693quyNPCNWhaw==
+X-Received: by 2002:a25:8751:: with SMTP id e17mr2531542ybn.160.1553170712912; 
+	Thu, 21 Mar 2019 05:18:32 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id d9sm1559028ywd.82.2019.03.21.05.18.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Mar 2019 05:18:30 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Mar 2019 12:18:28 +0000
+Message-Id: <20190321121828.11445-1-git@andred.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Tom Rini <trini@konsulko.com>
-Subject: Re: [PATCH] u-boot: install dumpimage and fit_check_sign in u-boot-tools
+Subject: [RFC][PATCH] package.bbclass: allow additional implementations for dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,58 +47,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2019 11:44:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Mar 2019 12:18:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-03-19 at 18:15 +0000, luca.boccassi@gmail.com wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> Dumpimage and fit_check_sign can be used to extract kernel and
-> ramdisk from
-> a FIT file, verify them and kexec for a faster reboot.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> index ff26e32482..c487849bb2 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.01.bb
-> @@ -45,6 +45,14 @@ do_install () {
->  	# mkenvimage
->  	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
->  	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
-> +
-> +	# dumpimage
-> +	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
-> +	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
-> +
-> +	# fit_check_sign
-> +	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-
-> fit_check_sign
-> +	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
->  }
->  
->  ALLOW_EMPTY_${PN} = "1"
+From: André Draszik <andre.draszik@jci.com>
 
+The existing code in here is pretty much hard-coded to
+extract package RDEPENDS based on information obtained
+from elf files, i.e. by looking at the NEEDED entries,
+and it appears pretty much impossible to extend this.
 
-Fails on musl:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/420
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/421
-no-x11:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/419
-qemux86-world:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/412
+There are use-cases, where automatic inter-package
+and recipe dependency tracking is useful for other types
+of files, e.g. in Java world one could parse the .jar
+files' MANIFEST.MF to extract information very similar
+to that extracted from elf files, and then create the
+packages with that information applied. JAR files are
+simply another form of shared library.
 
-so basically it looks like any world build fails with this.
+Currently, it is rather hard to impossible to add
+such functionality to be executed at the right time,
+i.e. before read_shlibdeps() is executed (which itself
+adds that information to each package's RDEPENDS).
 
-Cheers,
+Introduce the infrastructure to be able to do so. The
+expectation is that some filetype specific additional
+bbclass (e.g. a Java JAR file specific one to stay with
+above example) extends PACKAGE_DEP_FUNCS with a function
+to ultimately create files with layout/contents similar
+to what is already done in existing files matching
+PACKAGE_LIBDEPS_EXTENSIONS during the package build
+process - based on the interdependency information from
+that specific filetype, e.g. JAR - and store that in a
+new file in the same directory as existing .shlibdeps,
+.pcdeps, etc. (pkgdest) and whose suffix is to be added to
+PACKAGE_LIBDEPS_EXTENSIONS.
 
-Richard
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+---
+ meta/classes/package.bbclass | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4c0a859536..0af282fbef 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1970,12 +1970,13 @@ python package_do_pkgconfig () {
+             fd.close()
+ }
+ 
++PACKAGE_LIBDEPS_EXTENSIONS ?= ".shlibdeps .pcdeps .clilibdeps"
+ def read_libdep_files(d):
+     pkglibdeps = {}
+     packages = d.getVar('PACKAGES').split()
+     for pkg in packages:
+         pkglibdeps[pkg] = {}
+-        for extension in ".shlibdeps", ".pcdeps", ".clilibdeps":
++        for extension in d.getVar('PACKAGE_LIBDEPS_EXTENSIONS').split():
+             depsfile = d.expand("${PKGDEST}/" + pkg + extension)
+             if os.access(depsfile, os.R_OK):
+                 fd = open(depsfile)
+@@ -2156,13 +2157,19 @@ PACKAGEBUILDPKGD ?= " \
+ PACKAGESPLITFUNCS ?= " \
+                 package_do_split_locales \
+                 populate_packages"
++# Functions that generate dependencies based on
++# elf NEEDED, pkgconfig, etc. This can be extended
++# to handle other file types.
++PACKAGE_DEP_FUNCS ?= " \
++                package_do_filedeps \
++                package_do_shlibs \
++                package_do_pkgconfig \
++                "
+ # Functions which process metadata based on split packages
+ PACKAGEFUNCS += " \
+                 package_fixsymlinks \
+                 package_name_hook \
+-                package_do_filedeps \
+-                package_do_shlibs \
+-                package_do_pkgconfig \
++                ${PACKAGE_DEP_FUNCS} \
+                 read_shlibdeps \
+                 package_depchains \
+                 emit_pkgdata"
+-- 
+2.20.1
 
 
