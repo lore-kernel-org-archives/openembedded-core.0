@@ -1,49 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 99E517D005
+Return-Path: <takondra@cisco.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Mar 2019 23:33:36 UTC
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA146C13D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 22:20:44 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id k189so2194699qkc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 15:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=ZmVOKojgsIFocwxRu4zBwz65lI3s1+v+NpljEpPHgxs=;
-	b=AKr4KLG+bnxoPPF5VfyjLgrP7N6ej9VW0OgJQ805GUYpMRVc/U6HfJzTO7NQd2asON
-	HglpYt2M5lUmpKS59NAh2aeEaAk4qkNoZ76Xy+dd8isAK7cbhJTax9SAhb4nChFlnkxZ
-	hK+JUyOLOmAcSMy1DLDKi2mjKLw4tq4VkxZeQhFQeaLYMrwRhlAhRLnJFa9tD3ls/ahN
-	dnKEWOdjtloyLPfKJDpBspMSIIH0NFyF/fgDAq5ntJsp1rTknFsLXoQyxNbYRmv1Xtqb
-	F5wcrgoJUtDbqOqy/JClHqjzQ8I2O9xwLbInTFT39apJukbVFA66hxyyA7dTcnqlcL36
-	83yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ZmVOKojgsIFocwxRu4zBwz65lI3s1+v+NpljEpPHgxs=;
-	b=fNyBxm4gAxaPJra/I29ZdaGaWUyNK48Y+/Buf3bVIA/mSlRI546MuVWH/lVbGRNuSi
-	/zNa53owCKvaibUTKkY/DLywZa3JBBJkEjBekE5R3ky3m08pgn0XgERAexy08GhHLmBU
-	ZhD8ck43qsHan9plWoHIbUE0Zen1i9m+Qz3r8O1MIp1nhtLHkS9gaeI8CZkxyma7NKE8
-	G03vpU2D5chqB8ht1fuymljGirzXhQ2Fmyp1+HTnmlFTywjPghTHzU/IA3caiCGc99nn
-	NrL9qHpDBFG9HEJz+7hxV4eC+RFWkcb3ulIWXirOVNGwaJy1JQprtXW7hwXIqfVWz6hf
-	tnSQ==
-X-Gm-Message-State: APjAAAWmyDB2Igck0hhhV1dcou0uKh0ccFDU7Z7dwQbOAjZLo1ZSV6zy
-	disiinhBOPcoUW1q2EUVUKW/PCe1aWgqJymofLOBaA==
-X-Google-Smtp-Source: APXvYqx9ZUtYuLpcqB4cBrTVtQVzeAHqKcbujpvz5TlwxysUEswfFlZGGjsDl7NQ+6M4XCRBeN2T645Vlht8wzb/uAw=
-X-Received: by 2002:a37:451:: with SMTP id 78mr9862542qke.315.1553293245365;
-	Fri, 22 Mar 2019 15:20:45 -0700 (PDT)
+	Fri, 22 Mar 2019 23:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1127; q=dns/txt; s=iport;
+	t=1553297617; x=1554507217;
+	h=mime-version:content-transfer-encoding:to:from:
+	in-reply-to:cc:references:message-id:subject:date;
+	bh=fulvtYDTzcsxi+4cv+oOxqyk7R1DkZqSMm8scEIzumA=;
+	b=H6xpUJrKOhCpDuNcEEJMDDS7srXzQ8oC18fJMsKI1FjuCGk8yHZvVkMz
+	3vqXqeGs6C/ubfqN7hmSIh5wamYtgIIh/9Ne64h9jjiozzz/DmkFIT+i4
+	xKWxGYsSvlan4X8irKDux4kTl14O9KItw5nDyQ32bm8tTZ+t5ooJTlW1n 0=;
+X-IronPort-AV: E=Sophos;i="5.60,256,1549929600"; d="scan'208";a="538557249"
+Received: from alln-core-2.cisco.com ([173.36.13.135])
+	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	22 Mar 2019 23:26:30 +0000
+Received: from localhost ([10.156.154.76])
+	by alln-core-2.cisco.com (8.15.2/8.15.2) with ESMTP id x2MNQU2g027564; 
+	Fri, 22 Mar 2019 23:26:30 GMT
 MIME-Version: 1.0
-References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
-	<20190322200306.GB14099@localhost>
-In-Reply-To: <20190322200306.GB14099@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Mar 2019 15:20:19 -0700
-Message-ID: <CAMKF1sqJe3G3rC4U8S-gZHDCrjuBgBPpXh-hohWJH2PL_+i-ww@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: musl thoughts
+To: "Burton, Ross" <ross.burton@intel.com>, rbilovol@cisco.com
+From: Taras Kondratiuk <takondra@cisco.com>
+In-Reply-To: <CAJTo0Lb=O0kLdbv9qYZLVXnfNd5Np=4HY8d7ASXSM5TiE33Ayg@mail.gmail.com>
+References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
+	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
+	<f347f66c-0a6d-9f49-98f2-a66f735a653e@cisco.com>
+	<CAJTo0Lb=O0kLdbv9qYZLVXnfNd5Np=4HY8d7ASXSM5TiE33Ayg@mail.gmail.com>
+Message-ID: <155329719078.6500.854973581146180677@takondra-t460s>
+User-Agent: alot/0.6
+Date: Fri, 22 Mar 2019 16:26:30 -0700
+X-Outbound-SMTP-Client: 10.156.154.76, [10.156.154.76]
+X-Outbound-Node: alln-core-2.cisco.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Why openembedded-core mailing list is now author of some patches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2019 22:20:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 22 Mar 2019 23:33:36 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 22, 2019 at 1:03 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Fri, Mar 22, 2019 at 02:11:35AM +0100, Andreas M=C3=BCller wrote:
-> >...
-> > 3. Change our musl slightly: Many patches we currently have are
-> > trivial. Missing headers or #defines for missing functions... So if we
-> > add few headers
-> >   * Empty chunks for e.g <net/ethernet.h>
-> >...
-> > Some other ideas?
->
-> Not upstreamable hacks aren't a long-term sustainable way,
-> no matter where you do the patching.
->
-> net/ethernet.h header problems are requiring 2 patches in NM.
->
-> It would be good to get whatever is the actual root cause fixed properly,
-> and that fix upstreamed.
->
-> E.g. I wonder whether this was supposed to be fixed by
-> 0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
->
-> Or is this patch in linux-libc-headers even the cause of the problem?
->
-> linux-libc-headers applying 6 patches just for musl is not a good sign
-> in any case.
-> Is that much patching also done by other distributions that use musl?
-> Why are these patches Upstream-Status: Pending/Submitted for a  long
-> time without having been applied upstream?
->
-> Long-term it would be less work if everything would get fixed properly
-> with fixes reviewed and applied by upstream.
->
+Quoting Burton, Ross (2018-10-12 07:04:38)
+> On Fri, 12 Oct 2018 at 15:03, Ruslan Bilovol <rbilovol@cisco.com> wrote:
+> > > This is basically due to SPF, and people sending email from
+> > > non-authoritive hosts.  Concrete example: Richard Purdie's mail comes
+> > > from a machine which the linuxfoundation.org SPF records doesn't
+> > > recognise as an authorised sender.
+> >
+> > Hmm.. I've just sent an email from rbilovol@cisco.com to another Gmail
+> > address, and Gmail says SPF checks passed:
+> >   SPF:  PASS with IP 173.38.203.51
+> >   DKIM: 'PASS' with domain cisco.com
+> >   DMARC:        'PASS'
+> >
+> > Does it mean oe-core mailing list's software is incorrectly configured,
+> > or there is something else missing on @cisco.com side?
+> =
 
-agreed, meanwhile we have to also ensure that musl users keep going and mak=
-e it
-possible, if OE devs are fixing musl related issues in upstream
-packages then it is also
-good reputation for the project. The real thing is to find time and
-propose the patches upstream
-more than often they get accepted.
+> CCing yet more people, specifically Michael Halstead who admins the
+> machines and actually knows what he is talking about (unlike me).
 
-> > Andreas
-> >...
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+The issue seems to be still there. It doesn't seem to be cisco.com
+specific. I see actia.fr and globallogic.com too:
+https://patchwork.openembedded.org/patch/159446/
+https://patchwork.openembedded.org/patch/157540/
 
