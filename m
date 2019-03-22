@@ -1,44 +1,43 @@
-Return-Path: <takondra@cisco.com>
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
-	by mail.openembedded.org (Postfix) with ESMTP id E87897CFE5
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+	[209.85.166.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 103DE7CFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 00:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2606; q=dns/txt; s=iport;
-	t=1553216221; x=1554425821;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=kbXiDCS56sIcB+QWt1HmGyk+iBFcki5zB4yngYLoVwk=;
-	b=YzdIXXjznciD9l38lwaRsyuhzQoar/E2ThL7rHsdfvey00gkO8pmLNPB
-	w0gmxRitzNO6IZ4K3SYtBarDG3RpDflAIWKffmJAUfJhsPecr1sYpG3T2
-	BdmqhCPYGXLp7QyW3c/RCby0hMmCYi8nxGCaqo1HJLohza2ozV0x1abcZ A=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AFAABKMpRc/4MNJK1jGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAQGBUQQBAQEBAQsBghBogQMnjCqWcY50gXsNAQEbhFEChHQ?=
-	=?us-ascii?q?iNAkNAQEDAQEJAQMCbRwMhUsGeRBRVxmDIgGBaA2sCYVGhGsUgRsBhmmESBe?=
-	=?us-ascii?q?BQD+EYYURhRQDkiySXQmHY4tVAheCXJEYnjkCERWBTTiBVnAVgycJi1SFDh8?=
-	=?us-ascii?q?DMItuKoIjAQE?=
-X-IronPort-AV: E=Sophos;i="5.60,254,1549929600"; d="scan'208";a="248248457"
-Received: from alln-core-1.cisco.com ([173.36.13.131])
-	by alln-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
-	22 Mar 2019 00:57:00 +0000
-Received: from takondra-t460s.cisco.com ([10.156.154.76])
-	(authenticated bits=0)
-	by alln-core-1.cisco.com (8.15.2/8.15.2) with ESMTPSA id x2M0uxcT015419
-	(version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NO);
-	Fri, 22 Mar 2019 00:57:00 GMT
-From: Taras Kondratiuk <takondra@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Mar 2019 17:56:59 -0700
-Message-Id: <1553216219-16681-1-git-send-email-takondra@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <7654089.vcRqMmA28I@localhost.localdomain>
-References: <7654089.vcRqMmA28I@localhost.localdomain>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: takondra@cisco.com
-X-Outbound-SMTP-Client: 10.156.154.76, [10.156.154.76]
-X-Outbound-Node: alln-core-1.cisco.com
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, xe-linux-external@cisco.com
-Subject: [PATCH v2] devtool: prevent starting git gc in background
+	Fri, 22 Mar 2019 01:11:46 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id s7so388587iom.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Mar 2019 18:11:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=lLPB+cYQ6KSNxqR2585/ouYUTwTKtE71tEhNKzG3Jvc=;
+	b=V9llxQQfSFfXPJkgOyF2oMp7gm2biE0E5ztFwAuWlJje/FqK5FcRAgqWOOyZzuYZys
+	bSdy1WfF5qF8g2ZmpApq2nMSPqFa6WDiwF6SbZaB9nGx+Zscofl73CpRptnCBTLp/pu7
+	LPL0j5VpmpK3TO9rpMA+BZ2nL+hirI0U6Ys9GCCuH82gxOZH/VUJkc1iMa/eYkRmCq+N
+	hPJWWPIHf4spRKbBd3G6zpHcGM1AB9FsL4q/I0r3wE5f2roDmJPpVbZ2ZN1D6m4bFZXE
+	TDJ15d7C+ZJnkO31NE1uCYN4SDnwlGlWj5raNJHGZ3zG6duqli0B9QK6/Vz06JC5c3Vl
+	Co5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=lLPB+cYQ6KSNxqR2585/ouYUTwTKtE71tEhNKzG3Jvc=;
+	b=DUjYv/R0y2RRzENOqdZA2Fm4KtrwSJhX3dFAGPoQfkiVWx6jTLNfIs5BXNdVS51qL2
+	ZsKl0eLU+r/WyC02ftUuW5l3TJLjwgwfYcHO3Sk+VNQucIQEOWknwmekPoTW+4/VFzmL
+	/Wo4M7obisTIRoUoMncRNI5dIP0dX20tTblnS3rXECsnrQqGnNaU1f4AiRFrIb4QXzqu
+	mvBGtBEiDu1ComTVmaAlz3Q8q4n/fv6CdlnxP4wQ60k/YuumB6SakS35iQRBgS7SOwBk
+	QcFTwBMNr4wU63Age4SwC+MVlEng7UJyVqGv4XC1wnmMLz0g82FKzOyQ8B4UEpHLvpwo
+	hrgw==
+X-Gm-Message-State: APjAAAVLJfuu9dioLEQGxzdICZRQemmYq9Fat6CvIe5+TNWUxeqEEU7a
+	eNBHubAr2c56VkCwA0Pez0yIQ9BlAmU4AFfpoPTjzw==
+X-Google-Smtp-Source: APXvYqxc0ST5o/wEtWZz2e2sdJ7TgT9XOdF66T003+3wnWCuQCcgTnQRaLY7UQ3rCMhZnV+Cuf4kErnuKBQM2lDannY=
+X-Received: by 2002:a5d:9a08:: with SMTP id s8mr4420159iol.99.1553217107040;
+	Thu, 21 Mar 2019 18:11:47 -0700 (PDT)
+MIME-Version: 1.0
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 22 Mar 2019 02:11:35 +0100
+Message-ID: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Subject: musl thoughts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,56 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2019 00:57:00 -0000
+X-List-Received-Date: Fri, 22 Mar 2019 01:11:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Devtool creates a git repository for extracted sources in a temporary
-directory and then moves it to a final destination after patching is
-done. Unfortunately devtool is not aware that some of its git operations
-may have caused git garbage collector to start in background. If timing
-is just right a repository move fails because GC is removing git objects
-while they are being moved.
+Just prepared meta-networking/networkmanager update and spent hours to
+get musl patches applied. Have no idea if musl will build and
+currently all my machines are building.
 
-The issue was hit on Krogoth release, but the code that moves created
-git repository is still the same.
+For me - not using musl and looking forward to have a beer with Khem
+explaining me why I should want musl [1] - it is just useless effort
+and patches are rejected often due to failures on musl build.
 
-Disable gc.autodetach to make GC run synchronously and block git until
-it is done.
+So on my way home I though about the options I see to handle musl specifics:
 
-Traceback (most recent call last):
-  File "<snip>/openembedded-core/scripts/devtool", line 342, in <module>
-    ret = main()
-  File "<snip>/openembedded-core/scripts/devtool", line 329, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "<snip>/openembedded-core/scripts/lib/devtool/standard.py", line 352, in extract
-    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, rd)
-  File "<snip>/openembedded-core/scripts/lib/devtool/standard.py", line 644, in _extract_source
-    shutil.move(srcsubdir, srctree)
-  File "/usr/lib/python2.7/shutil.py", line 299, in move
-    copytree(src, real_dst, symlinks=True)
-  File "/usr/lib/python2.7/shutil.py", line 208, in copytree
-    raise Error, errors
-Error: [('/tmp/devtool5RXkuX/workdir/grpc-1.2.5/.git/objects/5e', '<snip>/build/grpc/grpc_src/.git/objects/5e', "[Errno 2] No such file or directory: '/tmp/devtool5RXkuX/workdir/grpc-1.2.5/.git/objects/5e'"), ('/tmp/devtool5RXkuX/workdir/grpc-1.2.5/.git/objects/57', '<snip>/build/grpc/grpc_src/.git/objects/57', "[Errno 2] No such file or directory: '/tmp/devtool5RXkuX/workdir/grpc-1.2.5/.git/objects/57'"), many git objects ... ]
+1. Continue as we do - patch recipe-wise: This is lots of efforts and
+requires resources we don't have. Most patches are created by Khem and
+it would be better for all of us to save his time for other tasks.
+2. Sending musl related patches upstream: Surely the cleanest approach
+but even more effort because upstream maintainers all have different
+thoughts. Some of them might hear of musl for the first time and are
+possibly not keen on patches they do not see a need for.
+3. Change our musl slightly: Many patches we currently have are
+trivial. Missing headers or #defines for missing functions... So if we
+add few headers
+  * Empty chunks for e.g <net/ethernet.h>
+  * Add defines as #define strndupa(x,s) strncpy(alloca(strlen(x)+1),x,s)
+  * ...
 
-Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
----
-v2: Added "--local".
+As you might guess I'd prefer 3 because:
++ Many patches can go and don't need maintenance on upstream refactoring anymore
++ Burden for people sending patches would be reduced
++ Recipes not building with musl currently might work without further
+modification
++ Just in case musl stops (we have seen this before with others e.g
+ulibc) the cleanup would be reduced
 
- scripts/lib/devtool/__init__.py | 1 +
- 1 file changed, 1 insertion(+)
+Of course there are disadvantages:
+- We turn musl into glibc direction. Posix-purists do not like that.
+- Configuration scripts already aware of musl and deciding upon the
+existence of headers missing in musl might do the wrong thing
+- ?
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 89f098a912a6..8fc7fffcd672 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -205,6 +205,7 @@ def setup_git_repo(repodir, version, devbranch, basetag='devtool-base', d=None):
-     import oe.patch
-     if not os.path.exists(os.path.join(repodir, '.git')):
-         bb.process.run('git init', cwd=repodir)
-+        bb.process.run('git config --local gc.autodetach 0', cwd=repodir)
-         bb.process.run('git add .', cwd=repodir)
-         commit_cmd = ['git']
-         oe.patch.GitApplyTree.gitCommandUserOptions(commit_cmd, d=d)
--- 
-2.7.4
+Some other ideas?
 
+Andreas
+
+[1] http://lists.openembedded.org/pipermail/openembedded-devel/2018-March/193521.html
 
