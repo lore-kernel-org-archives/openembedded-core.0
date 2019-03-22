@@ -1,45 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C6C76BE0C
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E517D005
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 22:18:27 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id y36so4339130qtb.3
+	Fri, 22 Mar 2019 22:20:44 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id k189so2194699qkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 15:18:28 -0700 (PDT)
+	Fri, 22 Mar 2019 15:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=h+W3q+Mz/eA69kaBpE0T35xtcOyWi6p5IZYUBO74OkQ=;
-	b=BpUZ1K33QE2vSziB2S5LjInSUjf8+XjI7GsR5lEfM4qRS/fQLEK578ZnIqV05pjjA+
-	ID/CPMHwz/nXnpp5vFjTzdTBDk71LKg6zxA4dZ3pHCNDvco9k1fBnTDYKtMa4FoTeyBI
-	JKtctrS6P48G1gO1UKAEFBgrkzvA77BlKQdzZcu46n5QZCLBVS0GBRQhLOIgxhKOkzyF
-	eaG6jd50XW5tJ/dCD3nZNxewJER6hqx3FQ0z+STRoPK50YPQT5h8uDO2CErrLmqmSlRI
-	URjNzRaCcQEvGXUOoTZPsPgQ8M/Y+eGnyJsz9uBPQAA75L5ZLkAUMkb4j1PRyJqMfVaX
-	CQ+Q==
+	bh=ZmVOKojgsIFocwxRu4zBwz65lI3s1+v+NpljEpPHgxs=;
+	b=AKr4KLG+bnxoPPF5VfyjLgrP7N6ej9VW0OgJQ805GUYpMRVc/U6HfJzTO7NQd2asON
+	HglpYt2M5lUmpKS59NAh2aeEaAk4qkNoZ76Xy+dd8isAK7cbhJTax9SAhb4nChFlnkxZ
+	hK+JUyOLOmAcSMy1DLDKi2mjKLw4tq4VkxZeQhFQeaLYMrwRhlAhRLnJFa9tD3ls/ahN
+	dnKEWOdjtloyLPfKJDpBspMSIIH0NFyF/fgDAq5ntJsp1rTknFsLXoQyxNbYRmv1Xtqb
+	F5wcrgoJUtDbqOqy/JClHqjzQ8I2O9xwLbInTFT39apJukbVFA66hxyyA7dTcnqlcL36
+	83yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=h+W3q+Mz/eA69kaBpE0T35xtcOyWi6p5IZYUBO74OkQ=;
-	b=P1Ym9BEjc+87Vny+jAnsVw4OgCA41JftjI3PrqpFHLS9ZTagxhMxJcbFAIFHQxmHb3
-	4pKw48h09ZMnxGB9KNHswp13X9f0IqYrNNdqRC1FM+z6cH1tQCTW9f5B9jcbQS7NsHN6
-	lr+CUK/km4lLRQeKT2cKjZNK+pM9/0R2RRHVLlXYQv+yzuBWKA956OuRkfQ2YK4GIXZV
-	C1jL6niLgXDokH27MS18LgFA0mtCzLT1/nCZfggjeRzG/bG7cjaWbBc0kN8GHSiOD9TR
-	pvSxxWH+58Z0qJT7kORzJGalBvJWJ7i5WwWKHYAQq5JDn3tjm5+X7dNpQO0GJ8WlouN+
-	N6vA==
-X-Gm-Message-State: APjAAAWy18O8VnM1+MvmUcHxclpvHdO93HCameHNJBQq6TKk39LSiTBH
-	BUCKiF+wOCvmEzbt9fmvnxyguphJ4nREtNDNr4E=
-X-Google-Smtp-Source: APXvYqxfzd8ZohldkPD6z6Y4+qmkw78cbKKd1fugNxC7DxIlNicjwj4EccybSWPKVPxVUs0xir+5JoUsklpF9G79H/M=
-X-Received: by 2002:aed:2321:: with SMTP id h30mr10523887qtc.253.1553293107680;
-	Fri, 22 Mar 2019 15:18:27 -0700 (PDT)
+	bh=ZmVOKojgsIFocwxRu4zBwz65lI3s1+v+NpljEpPHgxs=;
+	b=fNyBxm4gAxaPJra/I29ZdaGaWUyNK48Y+/Buf3bVIA/mSlRI546MuVWH/lVbGRNuSi
+	/zNa53owCKvaibUTKkY/DLywZa3JBBJkEjBekE5R3ky3m08pgn0XgERAexy08GhHLmBU
+	ZhD8ck43qsHan9plWoHIbUE0Zen1i9m+Qz3r8O1MIp1nhtLHkS9gaeI8CZkxyma7NKE8
+	G03vpU2D5chqB8ht1fuymljGirzXhQ2Fmyp1+HTnmlFTywjPghTHzU/IA3caiCGc99nn
+	NrL9qHpDBFG9HEJz+7hxV4eC+RFWkcb3ulIWXirOVNGwaJy1JQprtXW7hwXIqfVWz6hf
+	tnSQ==
+X-Gm-Message-State: APjAAAWmyDB2Igck0hhhV1dcou0uKh0ccFDU7Z7dwQbOAjZLo1ZSV6zy
+	disiinhBOPcoUW1q2EUVUKW/PCe1aWgqJymofLOBaA==
+X-Google-Smtp-Source: APXvYqx9ZUtYuLpcqB4cBrTVtQVzeAHqKcbujpvz5TlwxysUEswfFlZGGjsDl7NQ+6M4XCRBeN2T645Vlht8wzb/uAw=
+X-Received: by 2002:a37:451:: with SMTP id 78mr9862542qke.315.1553293245365;
+	Fri, 22 Mar 2019 15:20:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
-In-Reply-To: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
+	<20190322200306.GB14099@localhost>
+In-Reply-To: <20190322200306.GB14099@localhost>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Mar 2019 15:18:01 -0700
-Message-ID: <CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 22 Mar 2019 15:20:19 -0700
+Message-ID: <CAMKF1sqJe3G3rC4U8S-gZHDCrjuBgBPpXh-hohWJH2PL_+i-ww@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: musl thoughts
@@ -55,93 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2019 22:18:27 -0000
+X-List-Received-Date: Fri, 22 Mar 2019 22:20:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 21, 2019 at 6:11 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
+On Fri, Mar 22, 2019 at 1:03 PM Adrian Bunk <bunk@stusta.de> wrote:
 >
-> Just prepared meta-networking/networkmanager update and spent hours to
-> get musl patches applied. Have no idea if musl will build and
-> currently all my machines are building.
+> On Fri, Mar 22, 2019 at 02:11:35AM +0100, Andreas M=C3=BCller wrote:
+> >...
+> > 3. Change our musl slightly: Many patches we currently have are
+> > trivial. Missing headers or #defines for missing functions... So if we
+> > add few headers
+> >   * Empty chunks for e.g <net/ethernet.h>
+> >...
+> > Some other ideas?
 >
-> For me - not using musl and looking forward to have a beer with Khem
-
-you will have to be sober, because I will show you data that you need
-to understand :)
-
-> explaining me why I should want musl [1] - it is just useless effort
-> and patches are rejected often due to failures on musl build.
+> Not upstreamable hacks aren't a long-term sustainable way,
+> no matter where you do the patching.
 >
-
-If you make a valid case, and seek others to chime in then it could be
-considered.
-but its desired to keep our musl port to be healthy.
-
-> So on my way home I though about the options I see to handle musl specifi=
-cs:
+> net/ethernet.h header problems are requiring 2 patches in NM.
 >
-> 1. Continue as we do - patch recipe-wise: This is lots of efforts and
-> requires resources we don't have. Most patches are created by Khem and
-> it would be better for all of us to save his time for other tasks.
-> 2. Sending musl related patches upstream: Surely the cleanest approach
-> but even more effort because upstream maintainers all have different
-> thoughts. Some of them might hear of musl for the first time and are
-> possibly not keen on patches they do not see a need for.
-> 3. Change our musl slightly: Many patches we currently have are
-> trivial. Missing headers or #defines for missing functions... So if we
-> add few headers
->   * Empty chunks for e.g <net/ethernet.h>
->   * Add defines as #define strndupa(x,s) strncpy(alloca(strlen(x)+1),x,s)
->   * ...
+> It would be good to get whatever is the actual root cause fixed properly,
+> and that fix upstreamed.
+>
+> E.g. I wonder whether this was supposed to be fixed by
+> 0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
+>
+> Or is this patch in linux-libc-headers even the cause of the problem?
+>
+> linux-libc-headers applying 6 patches just for musl is not a good sign
+> in any case.
+> Is that much patching also done by other distributions that use musl?
+> Why are these patches Upstream-Status: Pending/Submitted for a  long
+> time without having been applied upstream?
+>
+> Long-term it would be less work if everything would get fixed properly
+> with fixes reviewed and applied by upstream.
 >
 
-There are certain design aspects of musl which are actually turning
-out to be good
-e.g. there is no __MUSL__ define, so non-portable code can not be
-hidden which is a good
-thing, similarly, adding these defines to musl itself would probably
-be not serving the purpose
-of cleaning up the apps and making them portable. The fact they do
-exist as patches is a reminder
-to clean the application code or rethink to fix it differently. This
-has actually resulted in cleaning up
-many packages, several of musl initialed patches regarding portability
-has been accepted in upstream
-and some are not, and some are not proposed. While the eyes may hurt
-to see them, it does serve a
-good reminder of whats needed for a given package.
+agreed, meanwhile we have to also ensure that musl users keep going and mak=
+e it
+possible, if OE devs are fixing musl related issues in upstream
+packages then it is also
+good reputation for the project. The real thing is to find time and
+propose the patches upstream
+more than often they get accepted.
 
-> As you might guess I'd prefer 3 because:
-> + Many patches can go and don't need maintenance on upstream refactoring =
-anymore
-> + Burden for people sending patches would be reduced
-> + Recipes not building with musl currently might work without further
-> modification
-> + Just in case musl stops (we have seen this before with others e.g
-> ulibc) the cleanup would be reduced
+> > Andreas
+> >...
 >
-
-this points to the above as I said. Musl stays or goes cleaning them
-up would be good regardless
-
-> Of course there are disadvantages:
-> - We turn musl into glibc direction. Posix-purists do not like that.
-
-right. and IMO its valuable for apps to be a bit portable.
-
-> - Configuration scripts already aware of musl and deciding upon the
-> existence of headers missing in musl might do the wrong thing
-> - ?
+> cu
+> Adrian
 >
-> Some other ideas?
+> --
 >
-
-I think we should propose the fixes upstream and see what is acceptable.
-
-> Andreas
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
 >
-> [1] http://lists.openembedded.org/pipermail/openembedded-devel/2018-March=
-/193521.html
 
