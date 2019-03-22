@@ -1,37 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B78E76BCDC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+	[209.85.222.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF3360125
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 20:03:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44QvjB3Zp0z5c;
-	Fri, 22 Mar 2019 21:03:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553284991;
-	bh=pXjO/XgdinOaymgAFJA9WZLs1dMBhAiQSuRxgVxbCYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VY4VoGRZF1T2iDcEpArC41pmeUG0CbS0rfKvFQ9BAUJlxcrq87a+lDmanQZ2TE3gl
-	f41Tn84iNwfLlH1Gx8YJpCk3tuD5y7woOmwFgd41UsZNymNLQVKp5j3NXJgJ/7hnak
-	59wOjxYQUFdMVrOHi+Nf2qqzdQqcyE8xTLDxeK+rI2qfR7yR8WdaXhw9dYqza0O1Yz
-	G3aUiAiALfCwB9i27EOXjidW3QpaCFAnuvSlopOmSnHtk+GO58staVqOb8bGkGlnd0
-	+VOls10HziYKrExDrbBOQZGEP4cqjKlTY0aLQCZo7sv3drr+VJ9RrjjjEazG/JfOmf
-	4rn+ooEKwcSV51EmV30IuHlKqg73yyYNXqXcps16g3uE5lyytfwolK+26Y9mAcfOzu
-	mV4my2eLt18tpeD4HlEw/1hEWuQxBnAoAS5OJItiYHutB3BkKJPreJHRAMQd7JkqHg
-	aONOKzXascmw39r5KqRERZ4XogddBQuW8i/sb7KGATWbIp8oTSw9dsQZDiQCUGeiI/
-	Ld+vOEa0LMvjyuHmaTCXEfWHgm7n3pqhnbn8cngqFnjWVMjoVkSIQzjzVq911wh/RH
-	rpAyYoSo4tA8ww+X+B+a3wvlpr+n5qUprsg14xU2/ke+DRpqSnqSqVnjxT+HROA3GY
-	J9twiaVDaoX0CJRjKbDcvlTI=
-Date: Fri, 22 Mar 2019 22:03:06 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Andreas =?utf-8?Q?M=C3=BCller?= <schnitzeltony@gmail.com>
-Message-ID: <20190322200306.GB14099@localhost>
-References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
+	Fri, 22 Mar 2019 21:51:45 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id c189so2135581qke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Mar 2019 14:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Cpc8HVb0WJXfrurbsDsWBZ6PbYc3B7bJ+PnmUwN+WaE=;
+	b=T+ixhuZsQXeHRGU04lp4sXiqOWe0C6FND2aJVagaW1vlRmYV3vhZoKKnMdAmdPALAV
+	01Ax7KP3xII9VNiV+uTIO1jBR3Vn3F/MQqSerOSC5BIJpbTvRS0+YPmYP9rXyUhmNE3a
+	cI46HPKflx3FBeMs+6Y8amKNZnVS4GD6hqKq/CqdBYNW78mRRCt1l9pNcGFooT/jbXnz
+	OiBL9LCUf4L0U6ZGIefGFIWbA0azU31tc/qSrGkpuR8aEnbn/Yugi4huAcpU6JaEnoXu
+	61vSew5voElQ+C6rpubolC7jvFRGev+yohNP8erthbDum98AbSbpWT6QkCy1DvVN1QM/
+	A5nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Cpc8HVb0WJXfrurbsDsWBZ6PbYc3B7bJ+PnmUwN+WaE=;
+	b=nAQZV0wpepmulX1Kr+M+k4f2zjFSwFFeRSEzpZIXEKIXU6XlNGbm9BuuwZofda9ieA
+	enGtzEpiANf47doNR328yq7do5GMNhijbV+P+jrMToSRr4u7JzY1hY4DbvFtvB2CO15d
+	jZuoZmrUiu2UmUeILDIDdComQC4Sl51ijxXpj3JrgI5YoQZWS28pLeyeq44/zoE/Pn4x
+	7nPWIKaKHby6C1W0Uz+M23eTVi26JgY3JBM4qOJYgjnQOtKTVmRvN6RaR1abXS/Jm8p9
+	SwWZ1rh1YCRRjqvdmzdrddPxLSm7XhK0WT3BvOqO6m3UbniOnfJ/Fn0ptt2sInk6C1Bn
+	jHzw==
+X-Gm-Message-State: APjAAAWh9GZFfIG6EdOyyQlMOrOLN/ibXEiH7jJhm+g6VNuMyViC1Ex3
+	ALPKe3Hi88NhPV9e7AzqlvWQeE5+vO6NjTeTC18=
+X-Google-Smtp-Source: APXvYqxhrI4LnACnqVcPAefAWnH21/sTvqY783guMz3p9dFd3eSCR5JEi+hIE5Bopep5onbnqCl95Bvd7uUxtxGXH+s=
+X-Received: by 2002:ae9:f44a:: with SMTP id z10mr3835464qkl.223.1553291506748; 
+	Fri, 22 Mar 2019 14:51:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190320230557.7094-1-open.source@oleksandr-kravchuk.com>
+	<d42f9e5f5f57a33eb445c083017da4a9aabd1010.camel@linuxfoundation.org>
+In-Reply-To: <d42f9e5f5f57a33eb445c083017da4a9aabd1010.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Mar 2019 14:51:20 -0700
+Message-ID: <CAMKF1spV_jnyW354ic24sT5EJND1k-8b2W_GesDm70tW29fqVA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: musl thoughts
+	<openembedded-core@lists.openembedded.org>,
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: Re: [PATCH] ninja: upate to 1.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2019 20:03:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Mar 2019 21:51:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 22, 2019 at 02:11:35AM +0100, Andreas Müller wrote:
->...
-> 3. Change our musl slightly: Many patches we currently have are
-> trivial. Missing headers or #defines for missing functions... So if we
-> add few headers
->   * Empty chunks for e.g <net/ethernet.h>
->...
-> Some other ideas?
+On Fri, Mar 22, 2019 at 4:44 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2019-03-21 at 00:05 +0100, Oleksandr Kravchuk wrote:
+> > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com
+> > >
+> > ---
+> >  meta/recipes-devtools/ninja/{ninja_1.8.2.bb => ninja_1.9.0.bb} | 2
+> > +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/ninja/{ninja_1.8.2.bb =>
+> > ninja_1.9.0.bb} (92%)
+>
+> Fails to build on musl:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/423
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/424
+>
 
-Not upstreamable hacks aren't a long-term sustainable way,
-no matter where you do the patching.
+doxygen fails too
 
-net/ethernet.h header problems are requiring 2 patches in NM.
+https://errors.yoctoproject.org/Errors/Details/234025/
 
-It would be good to get whatever is the actual root cause fixed properly,
-and that fix upstreamed.
-
-E.g. I wonder whether this was supposed to be fixed by
-0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
-
-Or is this patch in linux-libc-headers even the cause of the problem?
-
-linux-libc-headers applying 6 patches just for musl is not a good sign 
-in any case.
-Is that much patching also done by other distributions that use musl?
-Why are these patches Upstream-Status: Pending/Submitted for a  long 
-time without having been applied upstream?
-
-Long-term it would be less work if everything would get fixed properly
-with fixes reviewed and applied by upstream.
-
-> Andreas
->...
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
