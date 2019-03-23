@@ -1,50 +1,56 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C038B6C0C0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 817DB6BCA9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2019 02:13:33 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id r15so2678526pfn.9
+	Sat, 23 Mar 2019 10:25:14 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id t124so4360897wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2019 19:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=QQ03yYFZCnHzjzp5a5YpYg9+X0nOm3HBxgUDDcjPKLI=;
-	b=T6WXYTYOQI+EtQLROjqxCaYGO4765U+ASKZUe8d+2uXs70DQi1HG0uvwW95WDKmhNb
-	VdSV4P01HlfV0/BB7j7Mj0AVxT5Iz5v+IjMHEAH7/j5S7Ou+1VWJvuud6oDzuUGB/ukl
-	/Mnpi6OlkDtEAw8WpkKg6Egwd/bD9EWlmEHai+U300GjydZCW6bU4GpjD7SF7o5Wp3xi
-	kAxMClFjj1E1NcGO00bY0ccgggx50BRLIAA78OkPr28uEWSVnE/gsCvaxuvy0KogiW8C
-	hLJXKXBqEJR1tNHXgNDF/pY9HUkwJ3nAR2dWqXxv5SDr9OgCgI8NKMVAef+yPQHv4WzE
-	NV5w==
+	Sat, 23 Mar 2019 03:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=p83lCzFhw53OvdrvyOuYR/biwjOtNRkvmfWSae0A5gE=;
+	b=dglN+urqmyIHR6VuKuYxxod4DA5Gnm8U4SHhUn6dVRJ6owTg7dZhAE31Zs+M80mNcD
+	nCDdcArEQwFQb3TTAqx5EdSFIIs+I5Ev8bF+o1mETqdjZYb36JTPQCw0z03wHg7TPxH4
+	GexYtCXtSqtRaMv082lWak5pj6NKEdZi6Dbik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QQ03yYFZCnHzjzp5a5YpYg9+X0nOm3HBxgUDDcjPKLI=;
-	b=XQ3NA4IKrxR7RamERF+RPVkdkfEgcgRBK4N728JM8z9mDL2NyavGsT9j6Pk238PPZe
-	QVbO9TJ7yXzvpYmnhAg+LUakE5uD4fcOLRvlQDHBD+xP9KRD3K2Kbl87inbfulXGXvBA
-	qzv/KxpBjSY0/rkDDXkunREcDONUKL8bPGzSXXlUE0murQO6UrdiK4v4JcDpbj2EexhL
-	6ejJ0ENIS+SgOFkpfWqnJIPmclHZ38NGttllK9CumlULGnJHpqrq05o203YUUnewtcug
-	MBPzmur8mrf5FGg/58i+5f4W6gPeI8aAgnssgiQtDH3gOPPjUfT819e/R8RPw2eW8cFK
-	oqRQ==
-X-Gm-Message-State: APjAAAWUC84wyJR3VwYWbXGevI358WXa4qFnGyBwQPFjKJ+L9nbu4rOn
-	mZWOnrAFamGPPG60cLTu4f1hp1tI
-X-Google-Smtp-Source: APXvYqx+NsUY76VnRIG/pWVKW3rnHwYMOqDIaDP+CR+Uitx6sVlUmd6Utv1yOOR3pO9AkL85P6TjJw==
-X-Received: by 2002:a17:902:a98c:: with SMTP id
-	bh12mr12458993plb.289.1553307214512; 
-	Fri, 22 Mar 2019 19:13:34 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:45a8:35fd:6c1a:9e02])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=p83lCzFhw53OvdrvyOuYR/biwjOtNRkvmfWSae0A5gE=;
+	b=emGVFMzBfDlOJGA0YDydusEcvEUxzNV85ne+rOl+Ax+93Tz7/f0Hjc6egKWMcFl00/
+	5k/AaGkcQ0745LtvLbN71jPwgf8YZ5afZEwIqeRVOXKhHnHyZ/N4rQJwqztteYLrD0xB
+	T67cwWEPc+XafN6QoC9hgV75yTaDPUvqC4vgg8YkQCaiLEso37t5on4RGrXIQTyJ8Tbm
+	zd7kfS+CwaDRwoYL9C9xpdyG7Qqi0vsnfgJs5YlH/ZEL6KfcrhDLIn+HL8iRMd9iO/m7
+	IlpZFvlhixDXaUcN7rwRhO/fcmVxe2eXAF5rnP/Ri7ZI+ovBTKqUf4DbwA+tKdY6R5Gl
+	s6gg==
+X-Gm-Message-State: APjAAAVSdJIekWcq6IyimJfymXl+nLRM4DlTCmOKUSACLsZTtEkXEGPN
+	F8og7f++zL8RA3l/b+zvpE2TZQ==
+X-Google-Smtp-Source: APXvYqwTbyzjdjDESBEjnl/j+NTKpo0Skw83X+csj4biftKX00B2H1ACf2BUTei6aiuowoi+bRdbcQ==
+X-Received: by 2002:a1c:f011:: with SMTP id a17mr265252wmb.89.1553336715258;
+	Sat, 23 Mar 2019 03:25:15 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a13sm9870889pgw.91.2019.03.22.19.13.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Mar 2019 19:13:33 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2019 19:13:18 -0700
-Message-Id: <cover.1553306877.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/12] Sumo pull request
+	d6sm10870113wrx.62.2019.03.23.03.25.14
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 23 Mar 2019 03:25:14 -0700 (PDT)
+Message-ID: <8db32a05a6f93737792b95ce73b70b335ab06e8e.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Taras Kondratiuk <takondra@cisco.com>, "Burton, Ross"
+	<ross.burton@intel.com>, rbilovol@cisco.com
+Date: Sat, 23 Mar 2019 10:25:12 +0000
+In-Reply-To: <155329719078.6500.854973581146180677@takondra-t460s>
+References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
+	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
+	<f347f66c-0a6d-9f49-98f2-a66f735a653e@cisco.com>
+	<CAJTo0Lb=O0kLdbv9qYZLVXnfNd5Np=4HY8d7ASXSM5TiE33Ayg@mail.gmail.com>
+	<155329719078.6500.854973581146180677@takondra-t460s>
+User-Agent: Evolution 3.31.90-1 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Why openembedded-core mailing list is now author of some patches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,75 +63,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Mar 2019 02:13:33 -0000
+X-List-Received-Date: Sat, 23 Mar 2019 10:25:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Please consider this for the next sumo update
+On Fri, 2019-03-22 at 16:26 -0700, Taras Kondratiuk wrote:
+> Quoting Burton, Ross (2018-10-12 07:04:38)
+> > On Fri, 12 Oct 2018 at 15:03, Ruslan Bilovol <rbilovol@cisco.com>
+> > wrote:
+> > > > This is basically due to SPF, and people sending email from
+> > > > non-authoritive hosts.  Concrete example: Richard Purdie's mail
+> > > > comes
+> > > > from a machine which the linuxfoundation.org SPF records
+> > > > doesn't
+> > > > recognise as an authorised sender.
+> > > 
+> > > Hmm.. I've just sent an email from rbilovol@cisco.com to another
+> > > Gmail
+> > > address, and Gmail says SPF checks passed:
+> > >   SPF:  PASS with IP 173.38.203.51
+> > >   DKIM: 'PASS' with domain cisco.com
+> > >   DMARC:        'PASS'
+> > > 
+> > > Does it mean oe-core mailing list's software is incorrectly
+> > > configured,
+> > > or there is something else missing on @cisco.com side?
+> > 
+> > CCing yet more people, specifically Michael Halstead who admins the
+> > machines and actually knows what he is talking about (unlike me).
+> 
+> The issue seems to be still there. It doesn't seem to be cisco.com
+> specific. I see actia.fr and globallogic.com too:
+> https://patchwork.openembedded.org/patch/159446/
+> https://patchwork.openembedded.org/patch/157540/
 
-The following changes since commit 6d56e912fbbaa22830b4da5ab230586a3d15b23e:
+The cause is the same though, the senders are sending from addresses
+which the SPF records at those domains say shouldn't be sending emails.
 
-  package_rpm/archiver: Apply bandaid to src.rpm creation (2019-02-25 22:13:08 +0000)
+I'm trying to catch these and fix them up in before committing them. I
+thought I had local hooks which would not allow them, clearly the hooks
+need more work as things are getting through those filters.
 
-are available in the git repository at:
+We are looking at a different email list hosting solution which may
+help. Adding "From:" lines directly in the patches where the domains
+are problematic would also help. We could also in theory teach mailman
+how to do that for patches but its a question of people/time/resources.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/sumo-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/sumo-next
+Cheers,
 
-Chen Qi (2):
-  systemd: fix CVE-2018-15686
-  systemd: fix CVE-2018-15688
-
-George McCollister (5):
-  systemd: fix CVE-2018-15687
-  systemd: Security fix CVE-2018-16864
-  systemd: Security fix CVE-2018-16865
-  systemd: fix CVE-2018-6954
-  systemd: fix CVE-2019-6454
-
-Marcus Cooper (1):
-  systemd: Security fix CVE-2018-16866
-
-Mingli Yu (1):
-  logrotate.py: restore /etc/logrotate.d/wtmp
-
-ROGEZ Matthieu (1):
-  systemd: Fix typo in root home variable.
-
-Richard Purdie (1):
-  oeqa/runtime/dnf: Fix test error when static libs are enabled
-
-Stefan Agner (1):
-  run-postinsts: for dpkg/opkg, do not rely on /etc/*-postinsts
-
- meta/lib/oeqa/runtime/cases/dnf.py                 |    2 +-
- meta/lib/oeqa/runtime/cases/logrotate.py           |    6 +-
- ...sive-let-s-rework-the-recursive-logic-to-.patch |  252 +++
- ...eserializing-state-always-use-read_line-L.patch |  250 +++
- ...sure-we-have-enough-space-for-the-DHCP6-o.patch |   39 +
- ...n-t-resolve-pathnames-when-traversing-rec.patch |  643 +++++++
- .../systemd/systemd/0002-Make-tmpfiles-safe.patch  | 1828 ++++++++++++++++++++
- ...-not-store-the-iovec-entry-for-process-co.patch |  193 +++
- ...ld-set-a-limit-on-the-number-of-fields-1k.patch |   60 +
- ...ote-set-a-limit-on-the-number-of-fields-i.patch |   79 +
- ...nal-fix-out-of-bounds-read-CVE-2018-16866.patch |   49 +
- .../systemd/systemd/CVE-2019-6454.patch            |  210 +++
- ...e-receive-an-invalid-dbus-message-ignore-.patch |   61 +
- meta/recipes-core/systemd/systemd_237.bb           |   13 +-
- .../run-postinsts/run-postinsts/run-postinsts      |   21 +-
- .../run-postinsts/run-postinsts.service            |    1 -
- 16 files changed, 3694 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-chown-recursive-let-s-rework-the-recursive-logic-to-.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-core-when-deserializing-state-always-use-read_line-L.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-dhcp6-make-sure-we-have-enough-space-for-the-DHCP6-o.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles-don-t-resolve-pathnames-when-traversing-rec.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-Make-tmpfiles-safe.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0024-journald-do-not-store-the-iovec-entry-for-process-co.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0025-journald-set-a-limit-on-the-number-of-fields-1k.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0026-journal-remote-set-a-limit-on-the-number-of-fields-i.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0027-journal-fix-out-of-bounds-read-CVE-2018-16866.patch
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2019-6454.patch
- create mode 100644 meta/recipes-core/systemd/systemd/sd-bus-if-we-receive-an-invalid-dbus-message-ignore-.patch
-
--- 
-2.7.4
+Richard
 
 
