@@ -1,49 +1,39 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 765C27CF8A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id CF4E46D56C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2019 16:40:25 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id 10so3350450lfr.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2019 09:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=dKE6d9Pd2y1FNyUCKrjunf9/KGt6HXuybgqBMlKYvGk=;
-	b=WaIrssZessc0jxOImrvdKbyW/DDkoHInB3JcRhu0f1z2lzQFe6+wCxe1gmIfWyFcWR
-	WMe3NVwHggmGZ8NECEtiqyykQvfqiRwfbAfoaMlpxZxMgrPhfYnYFNeUf54QcYceDXWD
-	DznM1jC2ANPcAvK6BIILLHeHIwwNrh129yWTbJWLWHthi4doazUF38p1g+HYxO8q3PRo
-	17tq7GyFdRd6Lhpshjq/vwSxPGoKszNjFDYYlt2GGxPyzKV8dUM8c33WLqsGiPQEgzfb
-	7YvE0VXd/qbcSF/0twwU9pMvi4W0i7ULmUwssVOHElVQjpNdFqPoyoAKaWVhP1pjLw59
-	7IIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dKE6d9Pd2y1FNyUCKrjunf9/KGt6HXuybgqBMlKYvGk=;
-	b=ULErblovARr4XOT7hKrBUMjLjBygdnnzIjBJ1980nnBL7pHjGh5FNA2zqGVjgEC3r5
-	o+GjR/g925ygNFDVRfh6WwM4HZekYpsYTsaXyFq/khJCVSJ7+Fm+9BaiOtyljDmqJphn
-	1P902dCTMQkRS7L7JN8jXWDFRcC3he37Hx4gn4VzISx59d+hQsmKhPDia/c738xomZ5y
-	kpWgzqoe5vknF30w0HknHf22N6rXLRHoDc7z8+/jN/pQp453c4eUKWOzqrf7ib4PW2IU
-	BDTxzlQTXGjBIsTNJZbPXaYyFGxZT1AFCGbdt/r2Qd5ahstw/Co/PqVTUPJdKhoFBh7k
-	5sYA==
-X-Gm-Message-State: APjAAAVQ9bN8gatVF2FVaqM9Ivg4tcMeGMrql1ELYxxmkyy/twk+g2fj
-	Ol7soPf0H0byKNVgF6LLU9HBwtKIz90=
-X-Google-Smtp-Source: APXvYqxvvbp4CSWG8sT9k6ddF7cs4/wmtzq8cFAvS8oVOfdexIak158o8z19qTD6kbZBBR5btl2Yng==
-X-Received: by 2002:ac2:44a2:: with SMTP id c2mr7865815lfm.155.1553359225769; 
-	Sat, 23 Mar 2019 09:40:25 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	s24sm1048717ljs.30.2019.03.23.09.40.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 23 Mar 2019 09:40:25 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Mar 2019 17:40:10 +0100
-Message-Id: <20190323164010.18632-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v3] ninja: update to 1.9.0
+	Sat, 23 Mar 2019 17:30:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44RSGG14Ccz6m;
+	Sat, 23 Mar 2019 18:30:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1553362214;
+	bh=YWcMj5Ua9d0aUV9RdWZRtiOwnzY1y4bURuIm2JnUMMg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aBQIel4kG+c1JNPnQFxj1/g8RT+V6QAopwMc8Fvf14WGOBEgGjcsEA3ScuWcipeuG
+	Ep/XgpKuR41Xz3ciVjSUVbXcs6uY6r8OWwZzKtn5qOfQLbbpV1MGI7WKUyW6ol4Ia6
+	6Pw9DwMnqCq2cesspdNM7O0EL1x8aeayjuQm6SGWl3EGTxkMR1JIg0cz7hZjI9LSLK
+	dnVteCSRplqJbvpNBqIfvg7wcNBl5iDvbj09FOAexuGLpjo1cm4wH+gNCbQtKpl4/p
+	Cif+ZJliTpLaqGtLMTAIEyd+smABkbTUbFBQsv2/D7j3IXO16cajRZktKJBHb+d37X
+	/Tc4Myh+moyjVj/ivHQVgqvuCzrRDaJF5WISa/RikaLLnCbhy0ce+3JxNd10MnGb2M
+	27b5+vtQa3tudRSoHLne4Hhu1uF4LLYGlyFNmCshr4LdTkjI/r8YbtR516pgK33R9e
+	f1UbSpNJXCLv6WfCJg8POL/yplUilRlABRhbJ7FCjDJ31C+oTTVAGZ30813EbuSlbh
+	b8wm0oK4qWcVKbQjt46ulOq9YfTsrULi0gaWWrks2vQQDTBnh84ljc1zfyJeQP9Jhk
+	nHBSu2QC/zSV6w4VA+H0OOkhBVgOLKlGUYc/Z+WuVPTAm6g39KTeMmaqDjB9uUj1Eh
+	dS5nKuY1ztBvi8TdnQEsBuaU=
+Date: Sat, 23 Mar 2019 19:30:11 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190323173011.GA10315@localhost>
+References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
+	<20190322200306.GB14099@localhost>
+	<CAMKF1sqJe3G3rC4U8S-gZHDCrjuBgBPpXh-hohWJH2PL_+i-ww@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sqJe3G3rC4U8S-gZHDCrjuBgBPpXh-hohWJH2PL_+i-ww@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: musl thoughts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,83 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Mar 2019 16:40:25 -0000
+X-List-Received-Date: Sat, 23 Mar 2019 17:30:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../ninja/ninja/fix-musl.patch                | 39 +++++++++++++++++++
- .../ninja/{ninja_1.8.2.bb => ninja_1.9.0.bb}  |  6 ++-
- 2 files changed, 43 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/ninja/ninja/fix-musl.patch
- rename meta/recipes-devtools/ninja/{ninja_1.8.2.bb => ninja_1.9.0.bb} (87%)
+On Fri, Mar 22, 2019 at 03:20:19PM -0700, Khem Raj wrote:
+> On Fri, Mar 22, 2019 at 1:03 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Fri, Mar 22, 2019 at 02:11:35AM +0100, Andreas Müller wrote:
+> > >...
+> > > 3. Change our musl slightly: Many patches we currently have are
+> > > trivial. Missing headers or #defines for missing functions... So if we
+> > > add few headers
+> > >   * Empty chunks for e.g <net/ethernet.h>
+> > >...
+> > > Some other ideas?
+> >
+> > Not upstreamable hacks aren't a long-term sustainable way,
+> > no matter where you do the patching.
+> >
+> > net/ethernet.h header problems are requiring 2 patches in NM.
+> >
+> > It would be good to get whatever is the actual root cause fixed properly,
+> > and that fix upstreamed.
+> >
+> > E.g. I wonder whether this was supposed to be fixed by
+> > 0001-if_ether-move-muslc-ethhdr-protection-to-uapi-file.patch
+> >
+> > Or is this patch in linux-libc-headers even the cause of the problem?
+> >
+> > linux-libc-headers applying 6 patches just for musl is not a good sign
+> > in any case.
+> > Is that much patching also done by other distributions that use musl?
+> > Why are these patches Upstream-Status: Pending/Submitted for a  long
+> > time without having been applied upstream?
+> >
+> > Long-term it would be less work if everything would get fixed properly
+> > with fixes reviewed and applied by upstream.
+> 
+> agreed, meanwhile we have to also ensure that musl users keep going and make it
+> possible, if OE devs are fixing musl related issues in upstream
+> packages then it is also good reputation for the project.
+>...
 
-diff --git a/meta/recipes-devtools/ninja/ninja/fix-musl.patch b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-new file mode 100644
-index 0000000000..543d4f1c48
---- /dev/null
-+++ b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-@@ -0,0 +1,39 @@
-+2ff54ad7478a90bd75c91e434236a Mon Sep 17 00:00:00 2001
-+From: makepost <makepost@firemail.cc>
-+Date: Mon, 24 Dec 2018 03:13:16 +0200
-+Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
-+
-+In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
-+compatibility macro. Should help avoid hardcoding platform detection.
-+---
-+ src/disk_interface.cc | 14 ++++----------
-+ 1 file changed, 4 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/disk_interface.cc b/src/disk_interface.cc
-+index d4c2fb087..dc297c449 100644
-+--- src/disk_interface.cc
-++++ /src/disk_interface.cc
-+@@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-+   // that it doesn't exist.
-+   if (st.st_mtime == 0)
-+     return 1;
-+-#if defined(__APPLE__) && !defined(_POSIX_C_SOURCE)
-++#if defined(_AIX)
-++  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-++#elif defined(__APPLE__)
-+   return ((int64_t)st.st_mtimespec.tv_sec * 1000000000LL +
-+           st.st_mtimespec.tv_nsec);
-+-#elif (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700 || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
-+-       defined(__BIONIC__) || (defined (__SVR4) && defined (__sun)) || defined(__FreeBSD__))
-+-  // For glibc, see "Timestamp files" in the Notes of http://www.kernel.org/doc/man-pages/online/pages/man2/stat.2.html
-+-  // newlib, uClibc and musl follow the kernel (or Cygwin) headers and define the right macro values above.
-+-  // For bsd, see https://github.com/freebsd/freebsd/blob/master/sys/sys/stat.h and similar
-+-  // For bionic, C and POSIX API is always enabled.
-+-  // For solaris, see https://docs.oracle.com/cd/E88353_01/html/E37841/stat-2.html.
-++#elif defined(st_mtime) // A macro, so we're likely on modern POSIX.
-+   return (int64_t)st.st_mtim.tv_sec * 1000000000LL + st.st_mtim.tv_nsec;
-+-#elif defined(_AIX)
-+-  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-+ #else
-+   return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-+ #endif
-diff --git a/meta/recipes-devtools/ninja/ninja_1.8.2.bb b/meta/recipes-devtools/ninja/ninja_1.9.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/ninja/ninja_1.8.2.bb
-rename to meta/recipes-devtools/ninja/ninja_1.9.0.bb
-index c6fcfef3dd..1b06328961 100644
---- a/meta/recipes-devtools/ninja/ninja_1.8.2.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.9.0.bb
-@@ -5,9 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
- 
- DEPENDS = "re2c-native ninja-native"
- 
--SRCREV = "253e94c1fa511704baeb61cf69995bbf09ba435e"
-+SRCREV = "b25c08bda4949192c69cea4cee057887341a2ffc"
- 
--SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release"
-+SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release \
-+           file://fix-musl.patch \
-+"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- S = "${WORKDIR}/git"
+Some of the NM patches are obviously just quick hacks to workaround bugs 
+that are elsewhere. Trying to push such stuff upstream would not exactly
+improve the reputation.
+
+A problem with a "keep going" approach is that you might end up spending 
+much work on working around symptoms, or even working around OE-specific 
+bugs without noticing that they are OE-specific.
+
+Building an image (with things like NM included) for musl builds for me, 
+and it also builds for me with all 6 musl patches not applied to the 
+kernel headers.
+
+Are these patches still required at all?
+Could they be the cause of other musl related issues in OE?
+
+Patching leaf packages can create a huge mess if the core packages are 
+not in a good state.
+
+cu
+Adrian
+
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
