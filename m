@@ -1,37 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B89B7D010
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 594397D042
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 22:53:15 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id k8so6136362lja.8
+	Sun, 24 Mar 2019 23:37:28 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id z16so8384784qtn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 15:53:16 -0700 (PDT)
+	Sun, 24 Mar 2019 16:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hdVNtBtkdftdO4lEFutfHCFi49FatG+HhHFBiz61yDk=;
-	b=kq1i1fFLE/baINeVqI1ymFZ7t6XoChwoAEqVamsjZ3FmUXK8O2/0XxYJK8Lnot6MLP
-	OKTezsEaZ3IzSd9HaQe4mCgMjkgtnrOtfkb8Q6IW7ngqCsU4Rf7lewbVuy0UTX+l6zaV
-	Trj5lOx5agh0n5hfOJf0f3PdBYyO2lTMuNV1WdW1sztOtVHq24vM6cqQSVmz1qVmVzy/
-	Xt8XBg5SaCBx+IMsRG6V+VwAfFpBuDlhYcc10D0Oj76Z6Oqs5TKHGru5qkl5jVAVcZii
-	jpX27FFROrIgzmvemjT3pUonVwuyi2/xpH/GdxAI2pkdy04Ai+/COh87fxE+5Kkj+aa9
-	R9lA==
+	:cc; bh=xu/0DotD7nf/xP+VeDT99DnXWO2YZJNT3CylbAKZqcU=;
+	b=I5cBtsLJGVOhtPrcUMEQlTnSFrjNXRsbAoBZfnXXFDyom5F8ApZp4vZMQ8yrHMK7Yo
+	oz95PVyVAl0XY+CGbv2BVy19AVhst7VXhuSOpebyAHIqAgkAl+6e2nU3OSUXLh0xBk7M
+	ktXt1QyQ7hGe+9tbccOGkRDKAriSKkl/EYjoQ//4cD5u8S7c/I2OvvYgq+ULb7qwV+Nr
+	D2Pv2RJ9fLUIz3MBKi4tcl+AKgo4lrgVpje5IkohfrHWyQYbPWIYB/lJtJT7sBoqNtAl
+	QAgISTb+v2burRpCJdefetmhvOMgyO++BMBE9Y01kSPbXBPUb2aHXDPmql9PhjadxozQ
+	Gv/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hdVNtBtkdftdO4lEFutfHCFi49FatG+HhHFBiz61yDk=;
-	b=kcXjRlf0jE9jmAL89tHGxsisB7XQ3YplD5VSJ1bAsPezKtAPJhc1Q5GjgjEkE7Uxmu
-	G9KCkHs12wshrNB6BViZKiomdyOSH9xG5n0zGYlmnJ+KpU/9gZrU2UXCS+4M7SB3T2Ei
-	EepqRCkZeluvoSZE07ZrEr6CV6kIaYUcP7Zn4czMH2CQUu8sYtkVYLLCEoxBtvxynFQI
-	uCSGVLE6dd9yKHmwAkT/YL2w0YobxaSIbZpAFtu8R4nrfz/YUsRSeWSxwxDPq7XS2iVN
-	iPap46xB6ZKUXJ/ycoeNzv5pdVF3itM25rgfedQFsbZAdOce+yd1M7HrxffIaeftsPvg
-	OwOA==
-X-Gm-Message-State: APjAAAW6zvNBgOeRPxNTduKEiTSPJIkbcw2jyEndar/EB4s+EJNFGnh4
-	pEgV0vxEAO9fdZ95HaaXhoze5dxFhP0+HEgEcc0=
-X-Google-Smtp-Source: APXvYqx6IwzGwFjkgQPFCJbob3YhC3jCMxr8S3mTN+Nwv/DKCCV3W3q8QI9xzm8iplTUsLgl9MjhI9ohz0kA819V65M=
-X-Received: by 2002:a2e:9a49:: with SMTP id k9mr11635123ljj.84.1553467995489; 
-	Sun, 24 Mar 2019 15:53:15 -0700 (PDT)
+	bh=xu/0DotD7nf/xP+VeDT99DnXWO2YZJNT3CylbAKZqcU=;
+	b=iFfOzhG7rbACzMaGvJpe14nb0aOVToPpPdJiIcLHTNVVrgFCG7YvVY8m4oGbn2ELXw
+	y7/jReUPqKsoaF7eebToP1jI8dmHQGlizIx4td3MwCPauVPUR06b2Z0AgQBwQJpYuYq6
+	9Jq24sx1eNG3A5DFQjc2yv+PwLQ3RxIP42HFUxfG0XhveuKKMuMX65mB5LJcWo4Gc7hi
+	1+vCBHqIfDTDgfhisMbD4NAlZ+jhsEG00fH9ZPz9J7769hO1OCkoYuo9ut3+faSO4uh3
+	B54D0IY34tY7RcYiMfnDKuKxQubSFmHS9PkHS7dFMPn/jJG6eFK0SlgV84kH1vRNUXqd
+	JqIw==
+X-Gm-Message-State: APjAAAVJP4Zwrp2HWsCjvJXSUDpLzRe4ReLTB8931fOy2RtL71jWoMcN
+	ZN7shWjbrrYiRUSHUdv7E1lZpSluMseFdQDt/+4=
+X-Google-Smtp-Source: APXvYqx6dxMh4EF6kGyNuZrylFCnjgBe5gFNzKfxMtggR1dhb9pSs1JIlaYClm+guvBZsS8Zo8EQ4ttlTw3jOsWKw34=
+X-Received: by 2002:a0c:ba1d:: with SMTP id w29mr18051938qvf.228.1553470648905;
+	Sun, 24 Mar 2019 16:37:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
 	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
@@ -42,9 +42,9 @@ References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
 	<CAEg-Je8F0cVBd5=gW=Wo=fr_GmEa=gSxrmKLuyyGoJnyXHyniw@mail.gmail.com>
 	<dd82a561e377d27c9b749229b2bf547ca12afe31.camel@linuxfoundation.org>
 In-Reply-To: <dd82a561e377d27c9b749229b2bf547ca12afe31.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 24 Mar 2019 18:53:04 -0400
-Message-ID: <CADkTA4M5vU8sDW8W_mJ5U9zBA8Tj9xuwy4X=AC7Pfeh=4-+Zfg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 24 Mar 2019 16:37:02 -0700
+Message-ID: <CAMKF1soUuwzsrwqe9qR40YZYj2zXk+XMadFWJra9Qw3HPQqK2g@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Pierre-Yves Chibon <pingou@pingoured.fr>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -61,10 +61,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Mar 2019 22:53:15 -0000
+X-List-Received-Date: Sun, 24 Mar 2019 23:37:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Mar 24, 2019 at 7:29 AM <richard.purdie@linuxfoundation.org> wrote:
+On Sun, Mar 24, 2019 at 4:29 AM <richard.purdie@linuxfoundation.org> wrote:
 >
 > On Sun, 2019-03-24 at 01:41 -0400, Neal Gompa wrote:
 > > Has anyone considered the (perhaps radical?) idea that the sending
@@ -100,27 +100,25 @@ On Sun, Mar 24, 2019 at 7:29 AM <richard.purdie@linuxfoundation.org> wrote:
 > barrier there to that, or that would be the outcome. I do agree it may
 > be a barrier to occasional submitters unfortunately though.
 >
+
+I believe if there are no occasional submitters than eventually there are less
+regular contributors. So in a way having it easy for occasional contributors
+is a way for increasing chances of making more regular contributors.
+
+several projects are thriving without using mailing lists for patches these days
+some of them are full distros too.
+
+Mailing lists were only way to share before these infrastructures existed
+but aren't necessarily a better workflow than others as of today. It does have
+a automation problem, where human hand is needed more than some of
+these new tools, where automation is quite good in the whole workflow.
+
 > Also, keep in mind these pull models work well for cases where you have
 > a small number of reviewers. The mailing list model works better where
 > you have a wider team looking at review. I suspect if we switched to
 > something which didn't have a mail interface, we'd probably lose much
 > of the review we currently get and mean that we'd rely on a small
 > number of peope for all the review.
-
-This is my main concern as well. Really, the patch quantity in the oe
-lists isn't much compared to most of the projects that I monitor, so the
-patches being sent isn't much of an issue.
-
-Once things go to the background/backend of pull requests, without
-a patch set being sent as well, a lot of eyes on changes tend to be
-lost. But of course mixes of the various approaches can make sense,
-it isn't like many of us don't push to our contrib branch, send the pull
-request and broadcast the patches .. hence both are already in play.
-
-Cheers,
-
-Bruce
-
 >
 > Obviously this is all my personal opinion and I'm very mindful of that,
 > I don't want to be seen to be shutting down ideas and impacting
@@ -136,11 +134,4 @@ Bruce
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
