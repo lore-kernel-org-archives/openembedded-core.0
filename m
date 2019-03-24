@@ -1,57 +1,56 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 836B16BDE3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 724327D066
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 11:29:21 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p10so6997824wrq.1
+	Sun, 24 Mar 2019 18:01:14 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id w1so7597130wrp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 04:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ecsRgm7PbjbVu7gKjfmjCKKJ98TYv/IuTuiMCrwLEsI=;
-	b=GvTHrKqvSkS4q1n3WkOkZjrFjPGGLWrwt+X2y0tEYsv/xI8e6SLI7lFVgFlwTab8d4
-	HR1Mr0ttXiKyslykSLjvMOYEzs3OOgCdz82n7W/AYC2Sl9xA4+IMVlZNWh6q6wp6DiGi
-	gnSL51s/XBaMpiZAJ1Km2LYB88ThqoC7PM+6o=
+	Sun, 24 Mar 2019 11:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=u5m3m9Wi0oTMl6znpxcFhDVPVsZ64H+EaOGpbJu10Us=;
+	b=oXc45BbEKS7XwpJYFbX6mhGz3k+zo5nLamd1QpzprqDc0HxCdQ0nwSzEVbzFsVqu6l
+	/ODoVSHWzuyIKQ4A2PSDtpvwGkmn4I8DO0im6w4QWxy0Rl9idXZHt8fs5L2OiEV6fh4p
+	4o5yhSZ/aNVHwICSHNYx/leegBKM2GHMN2NH1TiIac6BL43ps25zvQGalQXCaAXJX6/9
+	DAGbG6hVcHD1XjO5TKPN0SY1dYAuHyGOEcKHBr6NXrp4q0DTJm62woZ7h6bE/8MRqQ72
+	N+BbPTzSvzWgi3XA3WBKKJP53lmqQ8A8CpgwkREDqlkJJSWErwVCpfHLezTcb03TOlsO
+	Vhmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ecsRgm7PbjbVu7gKjfmjCKKJ98TYv/IuTuiMCrwLEsI=;
-	b=P45BcJ2LDk1pfIi6epnM8NyVVHNDWiGOs2hbwvDqdiJ9qgjRXDyqOAF50hyX2+BmI4
-	+l9yDY58PI1Fr5tFct2hibteqLMcsHYvcbA4jOHf2bKRrxPZ1K9JUPZiIFoOGmeI0OjU
-	PZcneArfeNLYOtO3ThwLp5sKFqVcLYRFaxgDjoRXvgzMS5+iWp5MYP6GZpfHarv7y17E
-	FftuNVbBXlb6ywza6HNgSpQnpry1Mlp58JvSDDvdpNsUpo3x6FoJEhvs8IkPxbvNvMyD
-	s6mbmfdczQ7OJqeogLgo7QX9950fCvCD+tge2Qa0CW2NN8/eHRtKVV/9nVCsawYHTAkX
-	5TZw==
-X-Gm-Message-State: APjAAAUA5Xvc2X+CB3+n987XwEOV6bWET5AD8laJug5gYLSc8LtsJUZM
-	NUGwqBSSbhjJb5ElTB/iYvVvRg==
-X-Google-Smtp-Source: APXvYqxoHssV19oh7fTKegW3gRtjMmb7ymLCXw/ZOon5onI5zVr79i9xkU8d7PTR4pp0UFZOsusYOg==
-X-Received: by 2002:adf:e510:: with SMTP id j16mr11772494wrm.259.1553426962486;
-	Sun, 24 Mar 2019 04:29:22 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id d9sm10592771wmb.8.2019.03.24.04.29.20
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 24 Mar 2019 04:29:21 -0700 (PDT)
-Message-ID: <dd82a561e377d27c9b749229b2bf547ca12afe31.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Neal Gompa <ngompa13@gmail.com>
-Date: Sun, 24 Mar 2019 11:29:19 +0000
-In-Reply-To: <CAEg-Je8F0cVBd5=gW=Wo=fr_GmEa=gSxrmKLuyyGoJnyXHyniw@mail.gmail.com>
-References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
-	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
-	<f347f66c-0a6d-9f49-98f2-a66f735a653e@cisco.com>
-	<CAJTo0Lb=O0kLdbv9qYZLVXnfNd5Np=4HY8d7ASXSM5TiE33Ayg@mail.gmail.com>
-	<155329719078.6500.854973581146180677@takondra-t460s>
-	<8db32a05a6f93737792b95ce73b70b335ab06e8e.camel@linuxfoundation.org>
-	<CAEg-Je8F0cVBd5=gW=Wo=fr_GmEa=gSxrmKLuyyGoJnyXHyniw@mail.gmail.com>
-User-Agent: Evolution 3.32.0-1 
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=u5m3m9Wi0oTMl6znpxcFhDVPVsZ64H+EaOGpbJu10Us=;
+	b=BLXL3Q/7TWMTFsG6i6bcXyIUim5+yFj0pQHUDIYgYpGGn3bPbPER2jzUyPlQ14PnEw
+	KooMqqsO3UnFvsOVz3SEQBmZUBzly83Z8OqBR18dq9v5ESeigV+Z/pYE39c9KU8EVcRX
+	AWEq0+JkG3fnutMi25UReIo2Lp1n+ddGy7TvZn1LtskdsSfG2a3rL96fXAXnS9ou4rtH
+	Y9rpIQOLBcfwg4ilWhWKXKb76Vvgb31MEh/xMmvdjjsbze/oY1MKThC+a7vGLrxUjWVn
+	TbCRy/he/pmzzrmFBkq40ISZCvO7JCuKfbEMnDHRxzTFl0+cTT5/9++fF6LoeurmQjkH
+	L10w==
+X-Gm-Message-State: APjAAAXNklD7adIwAXybnoURs8ZxbEoZq+KKxaadHQWYAfSSD3H9SrSq
+	M+GA+LNQfqgAvAL/HAeEhHQ=
+X-Google-Smtp-Source: APXvYqzMGwj5DJHYpDlqNQnmfRGLB9FBT0bMQ75bJe6/s3Fpf2YV6tMi2cB5qGyl/N2vKhctqbYeZQ==
+X-Received: by 2002:a5d:698b:: with SMTP id g11mr10252093wru.65.1553450475149; 
+	Sun, 24 Mar 2019 11:01:15 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	l8sm12495613wrv.45.2019.03.24.11.01.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 24 Mar 2019 11:01:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sun, 24 Mar 2019 19:01:13 +0100
+To: Mikko.Rapeli@bmw.de
+Message-ID: <20190324180113.GA1947@jama>
+References: <1552927535-19740-1-git-send-email-akuster808@gmail.com>
+	<CALbNGRT1_qD8LYEP7X7JexnEOW7AsC84ceatZ3BLgECoo7vixQ@mail.gmail.com>
+	<20190319075206.GK20077@hiutale>
 MIME-Version: 1.0
-Cc: Pierre-Yves Chibon <pingou@pingoured.fr>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Why openembedded-core mailing list is now author of some patches?
+In-Reply-To: <20190319075206.GK20077@hiutale>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [thud][PATCH] Revert "boost: update to 1.69.0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,58 +63,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Mar 2019 11:29:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 24 Mar 2019 18:01:14 -0000
+X-Groupsio-MsgNum: 122554
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
+Content-Disposition: inline
 
-On Sun, 2019-03-24 at 01:41 -0400, Neal Gompa wrote:
-> Has anyone considered the (perhaps radical?) idea that the sending
-> changes as an email patch series should be replaced? For example, if
-> git.openembedded.org and git.yoctoproject.org were overlaid with
-> Pagure[0] frontends (it uses Gitolite internally, so you can have
-> multiple frontends in place for the same Git repos), it would be easy
-> enough to support pull requests, even from external Git servers. And
-> with that model, OE/Yocto can use CI properly (e.g. using Jenkins,
-> Zuul, or something else) rather than building more hacks on top of
-> emails.
+--qMm9M+Fa2AknHoGS
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Using alternatives does get discussed periodically.
+On Tue, Mar 19, 2019 at 07:52:06AM +0000, Mikko.Rapeli@bmw.de wrote:
+> On Mon, Mar 18, 2019 at 06:03:05PM +0100, Andreas M=FCller wrote:
+> > On Mon, Mar 18, 2019 at 5:45 PM Armin Kuster <akuster808@gmail.com> wro=
+te:
+> > >
+> > > This reverts commit a384248938ea9db096866bf4ec8678d35ca62a12.
+> > >
+> > > This package update slipped in doing the maint process. Removing it.
+> <snip>
+> > Just my opinion - don't consider this as NAK.
+> >=20
+> > * I already fixed the recipes that failed for me. For at least one the
+> > change is no more compatible to 1.68.0.
+> > * This makes PV going backwards
+> >=20
+> > Thanks for addressing - what do others think?
+>=20
+> I'm not using thud yet, but updating boost in stable branch would break
+> too many things and I would have to revert that change in our trees. Some=
+ boost
+> updates are in the end quite trivial and just require recompiling
+> everything but still, I would prefer that boost is not updated in stable
+> branches unless there is a huge security/stability issue with the old ver=
+sion.
 
-It depends which problem(s) we're trying to solve really. I don't
-believe that pagure/github/gitlab/etc would solve a CI problem since
-our real CI challenge is we can't run our test matrix in a time frame
-which allows testing of every patch.
+Agreed.
 
-If you mean patchtest/patchwork testing, that is a small subset of CI
-and has to be carefully designed as its effectively remote code
-injection. I appreciate the likes of travis also have ways of
-mitigating potential issues there, there are a lot of ways it could be
-done, patchtest was the way some people had time to make it work.
+I care less for PV going backwards nowadays, it's probably less annoying th=
+an
+bumping PE first in master and then backporting PE bump to thud.
 
-I'd note that pagure also has an issue tracking system so it isn't just
-a front end to gitolite, its also looking to replace bugzilla.
-
-I actually think our main issue is people with time to help work on
-things. If you're saying that switching to pagure will mean we then
-have number of new developers with time to help us on the project then
-we should seriously consider it. I'm not convinced that is the main
-barrier there to that, or that would be the outcome. I do agree it may
-be a barrier to occasional submitters unfortunately though.
-
-Also, keep in mind these pull models work well for cases where you have
-a small number of reviewers. The mailing list model works better where
-you have a wider team looking at review. I suspect if we switched to
-something which didn't have a mail interface, we'd probably lose much
-of the review we currently get and mean that we'd rely on a small
-number of peope for all the review.
-
-Obviously this is all my personal opinion and I'm very mindful of that,
-I don't want to be seen to be shutting down ideas and impacting
-innovation. We do also need to be mindful of what we have where it is
-working too though.
+People with build issues related to boost upgrade probably never
+built whole image to push it as an upgrade to end devices.
 
 Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Richard
+--qMm9M+Fa2AknHoGS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXJfF6AAKCRA3VSO3ZXaA
+HKOyAJ0eeX3AUI+N8kSEoRDwy1ksPwa2nwCguujaw/Wjej3Sg2mMCSDTMZHWQYo=
+=4dtq
+-----END PGP SIGNATURE-----
+
+--qMm9M+Fa2AknHoGS--
