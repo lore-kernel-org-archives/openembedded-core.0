@@ -1,46 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4EA7C64E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id ADC067CDAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 17:44:53 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id k2so11366740qtm.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 10:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hm93MdMyL8NiN5e+ixpsk1GJWL7qQz5fbjXunFEWg34=;
-	b=mA/9EqnEdzhvQ8qiQWApSkxbFTlUJQ7+KZW4flTHxLlAWR/u3Z3SlqQ3bLN0xJ9hX2
-	ykcJnKzUmk/7yjhJlTW6AGM9pkblnLMO+BpTDJGMAa6nnP0kcm03KlYYyoQNPDQfj7MJ
-	jIGV4SEk92Z3VWa0URwDbc/54ZP2Dg09x4J9m607cfj90rLES2KxfSVfk1d64JAhhdCV
-	3TvLl/SfTSuO5Z5BLUF3/DI9zCtcPAHz3D5KpzO8EFYrxBbUq9AS61YyrWySm0sis4d+
-	izgVDtX8gUdCryT7yp6pSQYC9TXcWw4SmycEnoQ3jcX4f9oe8WO1g7l/0TgiZlRckOaj
-	AE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hm93MdMyL8NiN5e+ixpsk1GJWL7qQz5fbjXunFEWg34=;
-	b=EOcj7VLEygvlapUkXitnESKq9dyOcTVBkJw4L/X3C2Kr4b954sq+VAJVKvjoCo8sIV
-	iiSuGbCq352mvYlQao912223BqeMWmc01yRJMR5pLEA9ywpwqBfrcPiVOVA2pjxc+TYw
-	/cnD0OiRL+uloFsc9zzdy0M5dXssQu34eRhhW0ExGhgZoXhYIgLEXqliDPwyOuISJMVu
-	sS32t9IJml0JjwjvQmtcp/6F1XpM87HxBALEC8tyZ7vwHnw42QNESJh0xkMR+3NG0Ed8
-	Jqx0J1z8fiKNAAqq+nPO9oQhGRuksI1ZPQipn13EdpftH/88aKWsH/SQGoKZ6Jv2Qy/Q
-	Zz/w==
-X-Gm-Message-State: APjAAAU/d8nSXaLRbhpP3VeeuBkJZgtKhhfooIiL77uzceHlcjYelCiC
-	a7DT61ay+2yi59+2diqb2MOSU/Izf1cEiVFv450=
-X-Google-Smtp-Source: APXvYqwz6hnKPFM73QGJHnPq0100lZAmijoxNK5M6BGD1gkXoC2ZySK9C1KHVlVwvMAwE+YNWjJqp8U44PKhF6V6kak=
-X-Received: by 2002:aed:3a09:: with SMTP id n9mr20923725qte.196.1553535894513; 
-	Mon, 25 Mar 2019 10:44:54 -0700 (PDT)
-MIME-Version: 1.0
+	Mon, 25 Mar 2019 17:46:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44ShX74VX6z60;
+	Mon, 25 Mar 2019 18:46:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1553535991;
+	bh=+Rd/s6HlpIKMFbsiIgJAqkSrZbOBV4/bUwpcMzfIiNM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KKXOs7PhFY3ir1is/TREe9aWGhSx69HeUriTASch9LwZFsJClSw1KPVy/GqjbALh9
+	xc/MdgVUJ/FZQTBbIpnsxmVbs3DTdoqUdgZo4jr0w2khdsPMX57hYJuz1PujKMCzHJ
+	tptj9NtARKpJ+Nd/lNnyy87thIBOLBlsTILrytPYENJOUPDTFQHKyI3qGwZ/KxpGq0
+	UGMLWV+wmJCB/KnJUZo/HQHySybyTrjerE+4dLTqtNleXJZTCnEF2yusgM8tfWrWBQ
+	IXHDTgky5++tnhMUfALmmnyufaDAXmcRbZSyYsESxfZK5TDeungWvJApixbx4tCR3I
+	e8wdSlFalGkpR/rNR/5p6YJc9Ppe3mSD+8Rz7rMNXixfvuUZVoFLAX2jqIiZ4/cOEL
+	8IZEOCKtOSgVa5OqO6EBuqpYgH5kZDnotuowjHoeH64oBCxK+7+PvmjsFeIpNc3aZV
+	EwLuEMMk80XYUpndGMIcOmDa1M6hfmplTcvgSrfnRfChwdMcLq67d83/7ZI79FgC0p
+	1i62HqaZknBRUmNXYV/7L+NRBvmSXCu984XTopEgZKKwZK6AX+eDlKriFZKy4SkHDQ
+	l25EPnSB9Uqu6+32DvMvFcfzilpw4SH5+AMtDnBUaFbaf9JyElYv44ckskQDcqUPH0
+	SX/crGLfFFPgocQANgnzwFuQ=
+Date: Mon, 25 Mar 2019 19:46:29 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Andreas =?utf-8?Q?M=C3=BCller?= <schnitzeltony@gmail.com>
+Message-ID: <20190325174629.GA5805@localhost>
 References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
 	<CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
 	<20190323211604.GA20793@localhost>
-In-Reply-To: <20190323211604.GA20793@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Mar 2019 10:44:28 -0700
-Message-ID: <CAMKF1sq=pwuZ6YZKPT3YqCQP-BHfYmxg5rKSMbOn3pi6iNJLww@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
+	<CALbNGRQPtnNLSVhDzXgnvn-2VNPPMfQTY5vDdwM3xr5iVcGofg@mail.gmail.com>
+	<20190323215336.GA22469@localhost>
+	<CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
+	<CAAQYJAsLQFn3VrB7gSTkytA8Rm-1GkKLBLHHpVzonpqykrHnRg@mail.gmail.com>
+	<20190325161004.GB484@localhost>
+	<CALbNGRSgkQrjKrhEywJb3DhvKv3gkobZvv7YG_DxE039SAqJaw@mail.gmail.com>
+	<CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: musl thoughts
@@ -56,77 +53,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 17:44:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Mar 2019 17:46:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 23, 2019 at 2:16 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Fri, Mar 22, 2019 at 03:18:01PM -0700, Khem Raj wrote:
-> >...
-> > There are certain design aspects of musl which are actually turning
-> > out to be good
-> > e.g. there is no __MUSL__ define, so non-portable code can not be
-> > hidden which is a good thing,
-> >...
->
-> Please take a closer look at some of the musl changes to NM that made
-> upgrading NM so hard for Andreas.
->
-> +#if defined(__GLIBC__)
->  #include <net/ethernet.h>
-> +#else /* musl libc */
-> +#define ETH_ALEN       6               /* Octets in one ethernet addr   */
-> +#endif
->
-> Using __GLIBC__ in workarounds for bugs in musl is wrong,
-> and cannot be upstreamed since it would do the wrong thing
-> on other non-broken C libraries.
+On Mon, Mar 25, 2019 at 06:15:40PM +0100, Andreas Müller wrote:
+>...
+> Looked into this. Found an old musl build failure of networkmanager
+> [1] but I think the issue has not changed:
+> 
+> | In file included from
+> TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/recipe-sysroot/usr/include/net/ethernet.h:10,
+> |                  from ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c:28:
+> | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/recipe-sysroot/usr/include/netinet/if_ether.h:111:8:
+> error: redefinition of 'struct ethhdr'
+> |  struct ethhdr {
+> |         ^~~~~~
+> | In file included from ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c:26:
+> | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/recipe-sysroot/usr/include/linux/if_ether.h:167:8:
+> note: originally defined here
+> | struct ethhdr {
+> |         ^~~~~~
+> 
+> glibc does not fail because it does include linux header
+> | /* Get definitions from kernel header file.  */
+> | #include <linux/if_ether.h>
+> and does not define struct ethhdr
+> 
+> linux/if_ether.h says:
+> /* allow libcs like musl to deactivate this, glibc does not implement this. */
+> #ifndef __UAPI_DEF_ETHHDR
+> #define __UAPI_DEF_ETHHDR        1
+> #endif
+> 
+> #if __UAPI_DEF_ETHHDR
+> struct ethhdr {
+>     unsigned char    h_dest[ETH_ALEN];    /* destination eth addr    */
+>     unsigned char    h_source[ETH_ALEN];    /* source ether addr    */
+>     __be16        h_proto;        /* packet type ID field    */
+> } __attribute__((packed));
+> #endif
+> 
+> musl does not include linux header but defines which is differen from
+> what linux does:
+> struct ethhdr {
+>     uint8_t h_dest[ETH_ALEN];
+>     uint8_t h_source[ETH_ALEN];
+>     uint16_t h_proto;
+> };
+> and later
+> #define __UAPI_DEF_ETHHDR       0
+> 
+> So for networkmanager there is either some wrong sequence or it
+> includes linux headers.
 
-yes, not everything that fixed builds for musl are golden, and some
-are workarounds
-as above which obviously can't be upstreamed, my comments were from
-overall perspective
-not specific to network manager patches
+musl headers providing own different definitions of kernel interfaces
+is a problem in musl.
 
->
-> > While the eyes may hurt
-> > to see them, it does serve a
-> > good reminder of whats needed for a given package.
-> >...
->
-> Who is responsible for fixing the root causes of such bugs in musl,
+After reading [1] I think that this is musl upstream having made the 
+decision of not even trying to work properly with the kernel headers.
 
-your concluded its a bug in musl, probably based on the patch but its
-one sided view
-musl is calling out namespace collisions etc. see
+OE adding a not upstreamable patch that removes one of the two 
+definitions in musl builds might be the best available solution.
 
-https://www.openwall.com/lists/musl/2012/10/11/4
+> And I am still not confident that it is our job to teach umpteen
+> projects written for linux how to write portable code (oe-core has 147
+> musl related patches and meta-openembedded has 140)...
+>...
 
-so obviously, we need to make sure that kernel headers are not written
-with an assumption
-that glibc is only options when it comes to C libraries, but there are
-such assumptions as well unfortunately
+This is not about writing portable code, this is about problems with musl.
 
-> so that the workaround patches can be dropped from packages like NM?
+Using the Linux userspace headers is obviously not portable to non-Linux,
+but many packages like NetworkManager are anyways Linux-only no matter 
+what you do.
 
-I think the right approach is to fix the problem where it belongs, and
-generally making changes to headers
-is a long term approach but is right one until then live with
-temporary solutions. there has been changes in
-kernel headers which fixes such assumptions broken by musl e.g. see
+> Andreas
 
-https://patchwork.kernel.org/cover/10724549/
+cu
+Adrian
 
-We have to take more portable approach and I think its better for everyone.
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+[1] https://wiki.musl-libc.org/faq.html#Q:-Why-am-I-getting-
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
