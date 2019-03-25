@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
 	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 827037D074
+	by mail.openembedded.org (Postfix) with ESMTP id D07887D044
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 03:12:07 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id g17so11861762ita.2
+	Mon, 25 Mar 2019 03:12:08 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id u65so2394887itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 20:12:08 -0700 (PDT)
+	Sun, 24 Mar 2019 20:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=02g/v21VDy0VDiK39TU4niaLkyGzoGBYdXLz5ias3OU=;
-	b=nbWYsl8b/G5rNjbuuUCaOhrC9fjfNYWi1XbloPVqHvroKyuNMu7WXA+pwIJOBhAji8
-	GIaQcPT/a3b9lG1BPFUJGteO8b0HJbaDF/J+4EPJWdv2CKrJt6h30NnBk1jBd4GEoVLS
-	9wTdDB+5m9OZuNlzNgSAvkQF60SSi15OtqqQKrNxFOn7zat/u5SxC7geS1qEsr0nEfLn
-	rsT0qFj/aY54btqHZT3fVm4C1Qf+Ni9jh8U8Os3EKKmiT58SEeHsZLVM2NtqLYMyv+Fm
-	DcRE9hBOSG6hVaO4LjWckQ7QEvXn9WdMh486jgqNPSOu69N1KkUTkvZlH2xAmZKSxJdq
-	6BEQ==
+	bh=aWpoItA+inLbjWbeK6hNBBQDnbOhfiWX5R4sXdWTAGA=;
+	b=Y0iIYB1l+gFRE5IcaoA7BelOQQxIXgTl+dTwlhycUWblE2eafdpYrXIZkH/8L/Zdbm
+	RD6+2eSm5FsO8ig5Tm8l40kILkO1WKe5wuokqmCDI99/Thc2D2aoyilqMTGR6uAUvTaa
+	keCSn8udvIBC8vANXcz2n/EjCzPY5ntbz6jDYG2ksRAlzalozNKfHzbMdNr6qGK8AqDZ
+	ru2nqRd7rObXwDsbBg4QfHvhPkMJfapIQanIuuTXxNBQKrdqWo3YqbK8cXDeqlqYwY2/
+	M40F2isV7KyAaVlllxZfBRI8R6gEoD9LJntDNG7+bLF4bH1NyyDT84HGQDGQ+qcmFrvI
+	psqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=02g/v21VDy0VDiK39TU4niaLkyGzoGBYdXLz5ias3OU=;
-	b=ij7Xmfm+TAB6pxzsrA/ObPWrc7vr7SRlKtgLA0yW7w1Xg0kFhi1Y8vko2WX2kpI6D4
-	vWY3Qp9xo9sF2w88bAVXva14y4+TBR5g9iz+HSMy6dSuJa4QaqjFUeErW9carr0o1gbV
-	bIte9bHwPamany3trJ1e4PVu3Iwig9DHSP+x82+JoenfoIPtQ9Baitz/2A01JefcSNTo
-	dUS1nbiXA/+OQC5WGzGILPBqwhA7scyuQwm4njJXa+AjGFdrfBmrtkpKEbPO3jx66Spt
-	ZPcePCs/pJH2jf4fgzMio/yLCccV7DdXhEfu2ra5JUZ021XM8NgWLuNjrpkJ1mvbCJyt
-	0cwQ==
-X-Gm-Message-State: APjAAAWGOQXb6H0hinHM2xyT34e08Djt7Z8MMVAAJR6pZVyp+Ow1JnWQ
-	8irjtYSiiENeUKK+bV4XFD4=
-X-Google-Smtp-Source: APXvYqywF+S2NAkCn87S1N0fnBVcuu+JXwJun+mUHKwo3u5sFBjPMw0ugHgBqQF9wVXRuu87Xehj+g==
-X-Received: by 2002:a02:499c:: with SMTP id p28mr16062345jad.118.1553483528498;
-	Sun, 24 Mar 2019 20:12:08 -0700 (PDT)
+	bh=aWpoItA+inLbjWbeK6hNBBQDnbOhfiWX5R4sXdWTAGA=;
+	b=qQK4J4WnaA/8yJ4a71uRC/PhS+cfncIVrrgy9aX89fu5iQOp5oQOAJaJ4M0XSU+OLU
+	XpYxXaXU0R0DEzLcl5l1mt8b7Fzcd4txEI+Joa5UzjRoyJUzZYWRAAyJShZxMaFakmWO
+	UifN1kHwlPQb5Tc+Onx1T4O8nBYTGklkkpDdpELGiI42lZBNopBaJla1lGh5S3NkVRmC
+	nsnc6JgpDkL+3Y4ljBUwav6v+L9WpdSEOxd7c4qhYUJjhZ+unxz9vlrxlIDYQk/FOJl+
+	h5Mml8Xq9wS5T9KFr0TW3owlB1IZSh2oUmRg2FMtk7r9hQu5btVUO8huDh+rp1dHuiRR
+	fMbQ==
+X-Gm-Message-State: APjAAAWEeTnlzieKu9KxhRKHDfQA1ciSv+42ngdNMTJkp8pn2C0aednT
+	8M7COUhyyU8Kvd1hi8G1U5g=
+X-Google-Smtp-Source: APXvYqzJE0qdnO6MnAI5yorFN4atSG/Bmtp/KOYwOvk6YTcTmYjQh2LTSJ2z5OLRBI23kQOeMWcXWg==
+X-Received: by 2002:a24:a50c:: with SMTP id k12mr10315136itf.6.1553483529705; 
+	Sun, 24 Mar 2019 20:12:09 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.116.254.195])
-	by smtp.gmail.com with ESMTPSA id l8sm5443416itl.26.2019.03.24.20.12.07
+	by smtp.gmail.com with ESMTPSA id l8sm5443416itl.26.2019.03.24.20.12.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 24 Mar 2019 20:12:07 -0700 (PDT)
+	Sun, 24 Mar 2019 20:12:08 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 24 Mar 2019 23:11:56 -0400
-Message-Id: <eb0f282dcbb9e99d57471d8ae414bc585cbd00ae.1553483380.git.bruce.ashfield@gmail.com>
+Date: Sun, 24 Mar 2019 23:11:57 -0400
+Message-Id: <d7ddced1d64e906b8e6bfd12401249e770f26807.1553483380.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1553483380.git.bruce.ashfield@gmail.com>
 References: <cover.1553483380.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/8] linux-yocto/5.0: x86/resctrl: Rename INTEL_RDT to RESCTRL
+Subject: [PATCH 8/8] linux-yocto-rt/4.19: update to -rt16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,62 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 03:12:07 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 03:12:09 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-    The following upstream commits have renamed INTEL_RDT to RESCTRL.
-    6fe07ce35e8a ("x86/resctrl: Rename the config option INTEL_RDT to RESCTRL")
-    e6d429313ea5 ("x86/resctrl: Avoid confusion over the new X86_RESCTRL config")
+Integrating the latest 4.19-rt to the preempt-rt branches, the -rt
+release announcements summarize the changes:
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+    Changes since v4.19.25-rt15:
+
+      - The "preserve task state" change in cpu_chill() in the previous
+        release is responsible for missing a wake up. Reported by Mike
+        Galbraith.
+
+      - The x86-32 lazy preempt code was broken. Reported by Andri Yngvason.
+
+    Changes since v4.19.23-rt13:
+
+      - Use the specified preempt mask in should_resched() on x86.  Otherwise
+        a scheduling opportunity of non RT tasks could be missed.
+
+      - Preserve the task state in cpu_chill()
+
+      - Add two more cases to consider before warning about pending
+        softirqs.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index 204f70030a..65c3698495 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -12,7 +12,7 @@ python () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+index fdf7ce1435..dc64e38dd2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
- SRCREV_machine ?= "06e1ff79ea9efef052404ee1989cae038b28e954"
--SRCREV_meta ?= "806a4922a78c0f447e3d0f61fe6b3cce1e2c0acb"
-+SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
+-SRCREV_machine ?= "264e7ef1dcc8ae753f36a7d13c8570690d28e3f9"
++SRCREV_machine ?= "2c6e44e476bd297d65d5cb1b5f5538d303fc05a0"
+ SRCREV_meta ?= "d85f07e03c980eca5ffd5ba058985d6ed3a83801"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index 105273ff7c..dc60548c6f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "b0477279877bb2b5cca6ec49c64e931901ff2022"
- SRCREV_machine ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
--SRCREV_meta ?= "806a4922a78c0f447e3d0f61fe6b3cce1e2c0acb"
-+SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index c7e288c4f8..be5dbaedc1 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
- SRCREV_machine_qemux86-64 ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
- SRCREV_machine_qemumips64 ?= "2468c20c15477ebe5ecd73c0e0162d7432149318"
- SRCREV_machine ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
--SRCREV_meta ?= "806a4922a78c0f447e3d0f61fe6b3cce1e2c0acb"
-+SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
 2.19.1
 
