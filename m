@@ -1,54 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 594397D042
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2612A7CFDF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 23:37:28 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id z16so8384784qtn.4
+	Mon, 25 Mar 2019 03:11:59 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id w18so11840826itj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2019 16:37:29 -0700 (PDT)
+	Sun, 24 Mar 2019 20:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xu/0DotD7nf/xP+VeDT99DnXWO2YZJNT3CylbAKZqcU=;
-	b=I5cBtsLJGVOhtPrcUMEQlTnSFrjNXRsbAoBZfnXXFDyom5F8ApZp4vZMQ8yrHMK7Yo
-	oz95PVyVAl0XY+CGbv2BVy19AVhst7VXhuSOpebyAHIqAgkAl+6e2nU3OSUXLh0xBk7M
-	ktXt1QyQ7hGe+9tbccOGkRDKAriSKkl/EYjoQ//4cD5u8S7c/I2OvvYgq+ULb7qwV+Nr
-	D2Pv2RJ9fLUIz3MBKi4tcl+AKgo4lrgVpje5IkohfrHWyQYbPWIYB/lJtJT7sBoqNtAl
-	QAgISTb+v2burRpCJdefetmhvOMgyO++BMBE9Y01kSPbXBPUb2aHXDPmql9PhjadxozQ
-	Gv/w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5tCkjlAtLDczTOcZa+XfNjnIP58aZQowIDTeO2JxSBw=;
+	b=kEYojaiA1lNPl9UkUMNkloqLavZk3SMlcUDGR6NyWkXRzepGvXRQ2OteJX8Lze/j4E
+	sdNBW9IfrZqiymj7UdOaPoP5QQWP5dTl+vh/x+xHtsNxTkc94YbKvyIFPxls484jts4Q
+	GEqAZCkn/x+vKnyvg7hT3Mr2tvlRkyrEY71g2rhowPsNUEAK3aSRCOQdrOjmgffHLaKX
+	2HOW4cOfNpHy9md81Ic9t27PkcI5jUV/tbi91dDnx1vqe7zx37J42yMyauamRaX6GR8R
+	uOgDkX+NX1WeXyUBTA/Lc27VP0O5ekLUXJOKL97kLyJY+LV4gdGxjdWXtTLOD+7rfIgb
+	TGOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xu/0DotD7nf/xP+VeDT99DnXWO2YZJNT3CylbAKZqcU=;
-	b=iFfOzhG7rbACzMaGvJpe14nb0aOVToPpPdJiIcLHTNVVrgFCG7YvVY8m4oGbn2ELXw
-	y7/jReUPqKsoaF7eebToP1jI8dmHQGlizIx4td3MwCPauVPUR06b2Z0AgQBwQJpYuYq6
-	9Jq24sx1eNG3A5DFQjc2yv+PwLQ3RxIP42HFUxfG0XhveuKKMuMX65mB5LJcWo4Gc7hi
-	1+vCBHqIfDTDgfhisMbD4NAlZ+jhsEG00fH9ZPz9J7769hO1OCkoYuo9ut3+faSO4uh3
-	B54D0IY34tY7RcYiMfnDKuKxQubSFmHS9PkHS7dFMPn/jJG6eFK0SlgV84kH1vRNUXqd
-	JqIw==
-X-Gm-Message-State: APjAAAVJP4Zwrp2HWsCjvJXSUDpLzRe4ReLTB8931fOy2RtL71jWoMcN
-	ZN7shWjbrrYiRUSHUdv7E1lZpSluMseFdQDt/+4=
-X-Google-Smtp-Source: APXvYqx6dxMh4EF6kGyNuZrylFCnjgBe5gFNzKfxMtggR1dhb9pSs1JIlaYClm+guvBZsS8Zo8EQ4ttlTw3jOsWKw34=
-X-Received: by 2002:a0c:ba1d:: with SMTP id w29mr18051938qvf.228.1553470648905;
-	Sun, 24 Mar 2019 16:37:28 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5tCkjlAtLDczTOcZa+XfNjnIP58aZQowIDTeO2JxSBw=;
+	b=P0GrdXnF6HCi9Kry32hpjKX/3aGVrjCFTFSUJ22ehe4Anwb3oVFQ8+SGdDdVj5iRqi
+	RUpSDraBy9sqmKD6Ps3/m7t/5quwPh6iDGrbHOs3xO3S2bYxhyqcatrgs5mXiWIo4Aoi
+	MSd2ilSeSPncej0ns6o9mY/xe25p+blsgUpknFwyhXo5olShl1vhVtw3qzP1dvvAJxZ9
+	J5q+1SrjajnwQo1BN/MrXLm7mrzuuMqzskVCUD1bGLem4VGDY7qqcIz2VsYYyy5GqhTK
+	LZIx8Xd75jHYmfuXvMHLP3asV7aSxFceMq7bScHLnYcYFSHulLAb3c/HbSJkbgsk04V1
+	Tu6w==
+X-Gm-Message-State: APjAAAWd68lZFg8+ChJuEWMgWcYV+FpWdYjQRsHAQT/PfQbHL+Dxh4Of
+	bGL2ICDXUbZ/C2h0pMLo31E=
+X-Google-Smtp-Source: APXvYqw85p86HQtrAnaVhbr45o8mLRWqRwjQg43/ERXlNrdFse/JMnYGQPY4jZ2Iyc3Ub6L+bm8M+g==
+X-Received: by 2002:a05:660c:490:: with SMTP id
+	a16mr6443241itk.141.1553483519618; 
+	Sun, 24 Mar 2019 20:11:59 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.116.254.195])
+	by smtp.gmail.com with ESMTPSA id l8sm5443416itl.26.2019.03.24.20.11.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 24 Mar 2019 20:11:58 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Sun, 24 Mar 2019 23:11:49 -0400
+Message-Id: <cover.1553483380.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <27c741f4-1ac3-c837-df65-60a46712888a@cisco.com>
-	<CAJTo0LYQCmNA9PppMauoPzn5HBVgzLfHAxfPyVZOTcTtdzgMRw@mail.gmail.com>
-	<f347f66c-0a6d-9f49-98f2-a66f735a653e@cisco.com>
-	<CAJTo0Lb=O0kLdbv9qYZLVXnfNd5Np=4HY8d7ASXSM5TiE33Ayg@mail.gmail.com>
-	<155329719078.6500.854973581146180677@takondra-t460s>
-	<8db32a05a6f93737792b95ce73b70b335ab06e8e.camel@linuxfoundation.org>
-	<CAEg-Je8F0cVBd5=gW=Wo=fr_GmEa=gSxrmKLuyyGoJnyXHyniw@mail.gmail.com>
-	<dd82a561e377d27c9b749229b2bf547ca12afe31.camel@linuxfoundation.org>
-In-Reply-To: <dd82a561e377d27c9b749229b2bf547ca12afe31.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 24 Mar 2019 16:37:02 -0700
-Message-ID: <CAMKF1soUuwzsrwqe9qR40YZYj2zXk+XMadFWJra9Qw3HPQqK2g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Pierre-Yves Chibon <pingou@pingoured.fr>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Why openembedded-core mailing list is now author of some patches?
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/8] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,77 +60,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Mar 2019 23:37:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Mar 2019 03:11:59 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 24, 2019 at 4:29 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2019-03-24 at 01:41 -0400, Neal Gompa wrote:
-> > Has anyone considered the (perhaps radical?) idea that the sending
-> > changes as an email patch series should be replaced? For example, if
-> > git.openembedded.org and git.yoctoproject.org were overlaid with
-> > Pagure[0] frontends (it uses Gitolite internally, so you can have
-> > multiple frontends in place for the same Git repos), it would be easy
-> > enough to support pull requests, even from external Git servers. And
-> > with that model, OE/Yocto can use CI properly (e.g. using Jenkins,
-> > Zuul, or something else) rather than building more hacks on top of
-> > emails.
->
-> Using alternatives does get discussed periodically.
->
-> It depends which problem(s) we're trying to solve really. I don't
-> believe that pagure/github/gitlab/etc would solve a CI problem since
-> our real CI challenge is we can't run our test matrix in a time frame
-> which allows testing of every patch.
->
-> If you mean patchtest/patchwork testing, that is a small subset of CI
-> and has to be carefully designed as its effectively remote code
-> injection. I appreciate the likes of travis also have ways of
-> mitigating potential issues there, there are a lot of ways it could be
-> done, patchtest was the way some people had time to make it work.
->
-> I'd note that pagure also has an issue tracking system so it isn't just
-> a front end to gitolite, its also looking to replace bugzilla.
->
-> I actually think our main issue is people with time to help work on
-> things. If you're saying that switching to pagure will mean we then
-> have number of new developers with time to help us on the project then
-> we should seriously consider it. I'm not convinced that is the main
-> barrier there to that, or that would be the outcome. I do agree it may
-> be a barrier to occasional submitters unfortunately though.
->
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I believe if there are no occasional submitters than eventually there are less
-regular contributors. So in a way having it easy for occasional contributors
-is a way for increasing chances of making more regular contributors.
+Hi all,
 
-several projects are thriving without using mailing lists for patches these days
-some of them are full distros too.
+Here is the latest consolidated pull request of the changes I've collected
+during M2/M3.
 
-Mailing lists were only way to share before these infrastructures existed
-but aren't necessarily a better workflow than others as of today. It does have
-a automation problem, where human hand is needed more than some of
-these new tools, where automation is quite good in the whole workflow.
+I was able to build and boot all architectures with these changes, and there's
+nothing out of the ordinary in this series. But of course, I'm sure someone,
+somewhere will find a combination that I wasn't able to test :D
 
-> Also, keep in mind these pull models work well for cases where you have
-> a small number of reviewers. The mailing list model works better where
-> you have a wider team looking at review. I suspect if we switched to
-> something which didn't have a mail interface, we'd probably lose much
-> of the review we currently get and mean that we'd rely on a small
-> number of peope for all the review.
->
-> Obviously this is all my personal opinion and I'm very mindful of that,
-> I don't want to be seen to be shutting down ideas and impacting
-> innovation. We do also need to be mindful of what we have where it is
-> working too though.
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Bruce
+
+The following changes since commit 753e2a0ede4449917c75353b57f13bbafe70fac8:
+
+  build-appliance-image: Update to master head revision (2019-03-19 23:56:29 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto: sound: Re-enable ENS1370 support
+  linux-yocto: pinctrl config change for cannonlake
+  linux-yocto/4.19: integrate arm systemtap fix
+  linux-yocto/4.19: update to v4.19.30
+  linux-yocto/5.0: update to v5.0.3
+  linux-yocto-rt: import 5.0 -rt patches
+  linux-yocto/5.0: x86/resctrl: Rename INTEL_RDT to RESCTRL
+  linux-yocto-rt/4.19: update to -rt16
+
+ .../linux/linux-yocto-rt_4.19.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.0.bb               |  6 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |  8 +--
+ .../linux/linux-yocto-tiny_5.0.bb             |  8 +--
+ ...0001-arm-Makefile-Fix-systemtap-4.19.patch | 62 -------------------
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb | 22 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb  | 20 +++---
+ 7 files changed, 35 insertions(+), 97 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-arm-Makefile-Fix-systemtap-4.19.patch
+
+-- 
+2.19.1
+
 
