@@ -1,53 +1,99 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id AE12C7D0D1
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BA0FD7D0B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 23:21:12 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id y13so12188397wrd.3
+	Mon, 25 Mar 2019 23:28:21 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id z9so1025507pgu.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 16:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2qSHE/aYFHJrz634e55LJG6G/SV51x7I0H7EB9OYyYg=;
-	b=sz2XBfm7mbIEKwM/ZJLuldOh9BC0Rbt8FJxQ90F0PtX5tGE8/lE4rc9ew9e/6pXFK7
-	q0C2M64RIq4M12Vq08d34D3JlUuHmuQ5qIwVljoBC0nqstsx+rBA/ViNMgV175Ng7ehf
-	7HR3TG87vIXa9+OFVmg3PvXeKLg2P0OsMpcYOgT4BjEPwWHI4XiL9k5vUO+Mj+9CNXD6
-	2c9RYbQe+Z+Q0iV5Yt9qRJCRVXySi1l+mSdCURxiZun8+OdGbgfO598g+/6InGB+TQ9L
-	51n9c6g/UDmJf3GXCeINQmDEAPRoLga7NGtwCuAs3crxI1wPC0FWIeA0DSyKLyW2aOUA
-	o8/w==
+	Mon, 25 Mar 2019 16:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=SxqpEcT+/1FP99wlyUFkrpSxDF50gJkXITDiVX5JNrs=;
+	b=YHBiTytDWLzFKJCcezy/fbM75Yn54txLzYjOEtDMyrqwNUjkGBVEd7XdXg5MA+8rFZ
+	fEXGsNx4sqQcsKRnI8XBv4hHzFtxhnjupRiaFULJByyKxQr2tVV4nwSdHMnS8m5CDxIG
+	42AjinCa9OOD3r22K+nF50iXEftjrVIcEi1Euafl22hnmI9DT6oshfyppqVpdHQKy2Xj
+	mn0Ua9vninOxkwfh9ddysrtpWEskEcuzXnVHedD/2C6SCPFIRQdPDp2ZqnBo5QEgcwoQ
+	iIUFENPlOWCaWL295xGYm5Y/fq65AUKr1reh6kLOpUVnRW1kGBB/gbkzwgnnV/PGfKPw
+	LBhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=2qSHE/aYFHJrz634e55LJG6G/SV51x7I0H7EB9OYyYg=;
-	b=m7AFhzN1x5qdkZITejXyOsjX24vMfLV1pprNAaAxBQPJJbylZLRuYqXYnTyzN1+Epn
-	stWRLmB4v3kuARZq6+6vmouhlZmh8UXfimBizmM5JzM7GCKxpPRYY/QL+Sd+sUSqwvaV
-	tp1X+WugqSIbGLfnckwL0pnZcslnAnQuQR3FhpkTh6p2akqcCBPkn91eCk7Gd2tU+BFG
-	QPu0eXbLVzJmD5ht+jP57QHhxektfusdHqCS/MviioX5tC6TES2QdXA40n07usB9M5ew
-	Vlj24kUi1MKOzyH/Z7I7GrurxLDgH1o50XWk23fPzVH7eo30Ioy6PBSgSMANF2c6ztz/
-	B06g==
-X-Gm-Message-State: APjAAAVwxN30ngB8vnn5S3WQauV3tOtmLveKipc9uQ2A9euZKbCvmdGI
-	y60Lh4fLxFsWqEgfn3//xRRRLi5Ia2s=
-X-Google-Smtp-Source: APXvYqz1JYxZ3FMbgUoQ6Ct6HGrPz7rIhIUvz72oPJBKnYK582NZczRBoODjaAATjVCR3IJ04Vs8uQ==
-X-Received: by 2002:a05:6000:1292:: with SMTP id
-	f18mr17828738wrx.115.1553556073269; 
-	Mon, 25 Mar 2019 16:21:13 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o2sm10795461wrs.89.2019.03.25.16.21.12
+	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:content-transfer-encoding
+	:content-language;
+	bh=SxqpEcT+/1FP99wlyUFkrpSxDF50gJkXITDiVX5JNrs=;
+	b=bNY0AxVAtDMs0hhl7odMtl+HShhPe8SQY+7mq4XR1WQkQpRS76E1+oWZ2F2u35g/xC
+	X+q5N4V0V7Mg4HQ/abfFDuOPLp856xtcRpPbdY6h6DVjZMD7B0GcbomgxHdxmawpjY3C
+	3KxWKu4W9Iylmda966rxG6JKG1E2fN7LoHv2vieY+NCoJKuWMtGbjzytgkAbtvxMO0nL
+	wlRGtvy/4oxPR4fC9uKgVBXJnpWwZrZ8HW1gLguJGA0KgDs1O9z2sLszi7MiD8+GA0Lo
+	EDasTLCNLwte3HuHKsuBRUvlw/6HEROXx/TScDquXt3E+RBYnyLaT+erFpi6caeCU8rM
+	l25g==
+X-Gm-Message-State: APjAAAUsCkho+BuTN/8qJZ8Aoo7ZPDoY1P53uV8c8pQrWaZ8yQeZs1qS
+	N41oEr8RcvXsrbm2FhUaxml/48kZ
+X-Google-Smtp-Source: APXvYqxONBk1rOXyiu5dO2rgvS+nU5DT+tud//9jErwixKFkEjT/Da5PIXH4qJoDiorVzbLBbc5aHg==
+X-Received: by 2002:aa7:80c8:: with SMTP id a8mr27134749pfn.193.1553556502676; 
+	Mon, 25 Mar 2019 16:28:22 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:3dea:ddac:f0ad:db91?
+	([2601:202:4180:c33:3dea:ddac:f0ad:db91])
+	by smtp.gmail.com with ESMTPSA id
+	u15sm25359510pfm.163.2019.03.25.16.28.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Mar 2019 16:21:12 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 23:21:08 +0000
-Message-Id: <20190325232108.10002-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190325232108.10002-1-ross.burton@intel.com>
-References: <20190325232108.10002-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] libsndfile1: fix CVE-2019-3832
+	Mon, 25 Mar 2019 16:28:21 -0700 (PDT)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <8332bd4b-0c7e-bb71-2a7f-16446676f728@gmail.com>
+Date: Mon, 25 Mar 2019 16:28:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
+MIME-Version: 1.0
+Subject: sumo][Pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,74 +106,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 23:21:13 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 23:28:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-The previous fix for CVE-2018-19758 wasn't complete, so backport another patch
-to solve it properly.
+Please consider these changes for the next sumo release.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../libsndfile/libsndfile1/CVE-2019-3832.patch     | 37 ++++++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.28.bb               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
-new file mode 100644
-index 00000000000..ab37211399f
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
-@@ -0,0 +1,37 @@
-+From 43886efc408c21e1e329086ef70c88860310f25b Mon Sep 17 00:00:00 2001
-+From: Emilio Pozuelo Monfort <pochu27@gmail.com>
-+Date: Tue, 5 Mar 2019 11:27:17 +0100
-+Subject: [PATCH] wav_write_header: don't read past the array end
-+
-+CVE-2018-19758 wasn't entirely fixed in the fix, so fix it harder.
-+
-+CVE: CVE-2019-3832
-+Upstream-Status: Backport [7408c4c788ce047d4e652b60a04e7796bcd7267e]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+If loop_count is bigger than the array, truncate it to the array
-+length (and not to 32k).
-+
-+CVE-2019-3832
-+
-+---
-+ src/wav.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/wav.c b/src/wav.c
-+index daae3cc..8851549 100644
-+--- a/src/wav.c
-++++ b/src/wav.c
-+@@ -1094,8 +1094,10 @@ wav_write_header (SF_PRIVATE *psf, int calc_length)
-+ 		psf_binheader_writef (psf, "44", 0, 0) ; /* SMTPE format */
-+ 		psf_binheader_writef (psf, "44", psf->instrument->loop_count, 0) ;
-+ 
-+-		/* Loop count is signed 16 bit number so we limit it range to something sensible. */
-+-		psf->instrument->loop_count &= 0x7fff ;
-++		/* Make sure we don't read past the loops array end. */
-++		if (psf->instrument->loop_count > ARRAY_LEN (psf->instrument->loops))
-++			psf->instrument->loop_count = ARRAY_LEN (psf->instrument->loops) ;
-++
-+ 		for (tmp = 0 ; tmp < psf->instrument->loop_count ; tmp++)
-+ 		{	int type ;
-+ 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index eb2c719d8da..77393db8470 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
-            file://CVE-2018-19432.patch \
-            file://CVE-2017-12562.patch \
-            file://CVE-2018-19758.patch \
-+           file://CVE-2019-3832.patch \
-           "
- 
- SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
--- 
-2.11.0
+The following changes since commit 4af5a794497746629a35726ce515556b53d40da9:
+
+  lttng-tools: update to 2.9.11 (2019-03-24 18:39:35 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core sumo-next
+
+for you to fetch changes up to 94a3ca85d30fc957f8f01a216a75342be49f9143:
+
+  oe-build-perf-report/gitarchive: Move common useful functions to
+library (2019-03-25 23:12:08 +0000)
+
+----------------------------------------------------------------
+Mazliana (2):
+      scripts/resulttool: enable manual execution and result creation
+      resulttool/manualexecution: To output right test case id
+
+Richard Purdie (13):
+      resulttool: Improvements to allow integration to the autobuilder
+      resulttool/resultutils: Avoids tracebacks for missing logs
+      resulttool/store: Handle results files for multiple revisions
+      resulttool/report: Handle missing metadata sections more cleanly
+      resulttool/report: Ensure test suites with no results show up on
+the report
+      resulttool/report: Ensure ptest results are sorted
+      resulttool/store: Fix missing variable causing testresult corruption
+      oe-build-perf-report: Allow branch without hostname
+      oe-build-perf-report: Allow commits from different branches
+      oe-build-perf-report: Improve branch comparision handling
+      oe-build-perf-report: Fix missing buildstats comparisions
+      scripts/oe-git-archive: Separate out functionality to library function
+      oe-build-perf-report/gitarchive: Move common useful functions to
+library
+
+Yeoh Ee Peng (4):
+      resulttool: enable merge, store, report and regression analysis
+      resulttool/regression: Ensure regressoin results are sorted
+      scripts/resulttool: Enable manual result store and regression
+      resulttool/report: Enable roll-up report for a commit
+
+ meta/lib/oeqa/files/testresults/testresults.json   |  40 ++++
+ meta/lib/oeqa/selftest/cases/resulttooltests.py    |  94 ++++++++
+ meta/lib/oeqa/utils/gitarchive.py                  | 244
++++++++++++++++++++++
+ scripts/lib/resulttool/__init__.py                 |   0
+ scripts/lib/resulttool/manualexecution.py          | 142 ++++++++++++
+ scripts/lib/resulttool/merge.py                    |  42 ++++
+ scripts/lib/resulttool/regression.py               | 192 ++++++++++++++++
+ scripts/lib/resulttool/report.py                   | 150 +++++++++++++
+ scripts/lib/resulttool/resultutils.py              | 131 +++++++++++
+ scripts/lib/resulttool/store.py                    |  99 +++++++++
+ .../resulttool/template/test_report_full_text.txt  |  44 ++++
+ scripts/oe-build-perf-report                       | 124 ++++-------
+ scripts/oe-git-archive                             | 166 +-------------
+ scripts/resulttool                                 |  93 ++++++++
+ 14 files changed, 1314 insertions(+), 247 deletions(-)
+ create mode 100644 meta/lib/oeqa/files/testresults/testresults.json
+ create mode 100644 meta/lib/oeqa/selftest/cases/resulttooltests.py
+ create mode 100644 meta/lib/oeqa/utils/gitarchive.py
+ create mode 100644 scripts/lib/resulttool/__init__.py
+ create mode 100755 scripts/lib/resulttool/manualexecution.py
+ create mode 100644 scripts/lib/resulttool/merge.py
+ create mode 100644 scripts/lib/resulttool/regression.py
+ create mode 100644 scripts/lib/resulttool/report.py
+ create mode 100644 scripts/lib/resulttool/resultutils.py
+ create mode 100644 scripts/lib/resulttool/store.py
+ create mode 100644
+scripts/lib/resulttool/template/test_report_full_text.txt
+ create mode 100755 scripts/resulttool
 
 
