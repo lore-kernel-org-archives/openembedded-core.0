@@ -1,37 +1,55 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FEAC60721
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 97A3779CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 18:23:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44SjM45R78z5m;
-	Mon, 25 Mar 2019 19:23:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553538225;
-	bh=1FZY0sADK7hbW/AyAiTkTSlha5j2PiueUMoZlaCl0mM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QTiGPorqOFCSDYnj3gR/y2Emd2WUKcqVqeY5minXiAgibOA4bGSWq3+LRd/cgKeh9
-	LOrXsZ5majnbB3E1azfD6ODHLpM+6JaXeHibMSHwlxP6h6PO0jZ285UfuipZWldRlJ
-	UMCjoA+HzJsExRErJ2oEd/VN1X7/fM9qPAvNg1HKf4/AMf0qoj14Ze/NNgXl7itTge
-	ovyunP+UysbDgd2KgDSzKMy6A0JYtyZiue8KJ5+mtfx3efMbs+Vy8Q0D91wJySaX/P
-	wzc6l9uqrGAKGpdg/f1MK6JEHaSqGCMpOg8v+7PrDw8bUyPb5xYIUVeNXUXcRogUL4
-	gvCBL9QeSuc2/Tytg0QM/SI1BwSXkfetvIuj+O6JzECicPRfQWblnTPWM/oWcFt8q+
-	qI4YDfgXUXZZAO4g5Psm8xFBfsaeivB2Ci0KXu8HcEN+KJGeXA9fEtytCJyP+jMbrf
-	iGp9XGMh9nbGDLX++lYX5F3ASJu1gh8p0YSfewmae/rRsZmk7XJRPeJgQ/ZRla2THA
-	xBjR68Ro1QRJHreMOuDBNipG1IFjD4ejk+GEm5LjpW5poYauBQItl/GsY++Luq93H2
-	i/NRguTZJy5ehDlLwE08+ON7nHKAC4fEQYA31ZiKd3qAGEUe7X7Y6snDTq8gSoHreL
-	L8OlWhL6VfX59eUKtBxuHr60=
-Date: Mon, 25 Mar 2019 20:23:42 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190325182342.GA7457@localhost>
-References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
-	<CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
-	<20190323211604.GA20793@localhost>
-	<CAMKF1sq=pwuZ6YZKPT3YqCQP-BHfYmxg5rKSMbOn3pi6iNJLww@mail.gmail.com>
+	Mon, 25 Mar 2019 19:47:00 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id g17so15870708ita.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2019 12:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=S9CRFVAnz99eYnGdIi0G+ofKkxHU4tZob7jBLv5p0H4=;
+	b=DjTXZWvm3JJUlRKdEMjKfKgQrW/8P4Oc4YtToTLseEI9Wqf+aWrlehGGaAmhYEecWR
+	xv6OgSlG0vCe9Amlzy9LTzIbNu1IeR9c7Ouax/njOgBmqSbZV4itj4kRYJwhnQ99Ua97
+	f4eP2AVxPyN7cZTS3GZPSZBvKFJfwpa6tXqb7C+BjU6f94B3mViPNywg/HtuxJDfaV8H
+	d8hQ3RD5PNLC1Qyph0Gd9Eakgl2d+8bjUNAmce7YCY4/taSnkBgfdBnS3USrgPBzG277
+	IbPxJquXVP2IRwjZcAfTtQB4fl8NdM5gBSL7jn0tPHQ+DH3u+IyIQciSzg9iN3K5Nwvt
+	YyTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=S9CRFVAnz99eYnGdIi0G+ofKkxHU4tZob7jBLv5p0H4=;
+	b=sFizs8OvVC4OEMN9wQrofL2glBvNYOnWeZn7yqsptzFw9ycTzCj1DRV8V3v3OIpvib
+	iwWQoWakimJJVEjmdycssDS3TktNUpK3YRlcWCXuqZ3sy/7Zt2saTvOX3E2u3Ms6RtqO
+	IX5n6Jj1HpuimB5t32VFVmcDC6MGLw1SKp2bLJUKo2j2xQ51459cpQQigPfq2v/pmBzW
+	UuzHbjJTyqRy0O+4gNWMPC8KNZ2adU7T7Rk6mj87mGqQwce2/ROAq01hWC/sEZPcTSP7
+	D9zER/96eGCETZUDYgb+2+ccT55x3rhQyGg9heO4q5dU0ryT7qnTA8v03MqjyoPkM17i
+	UcKA==
+X-Gm-Message-State: APjAAAWFmBHv88/6j9nNsaAPLnah0RVHBbd91knoROa3cQLH46t5M8S4
+	fHzyiZ8zW4WZxtPaoG/AEcygpWY8EHZo/QIAHl8=
+X-Google-Smtp-Source: APXvYqxRVwqpZ/7i48h4kgIJ+MLo4MMX5Gh8f52saZp3++6qcGCUkroOmhCClJVbjw+8e6sQEr/U0BmF7qa+BF2ge64=
+X-Received: by 2002:a24:7d84:: with SMTP id b126mr579242itc.58.1553543221681; 
+	Mon, 25 Mar 2019 12:47:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq=pwuZ6YZKPT3YqCQP-BHfYmxg5rKSMbOn3pi6iNJLww@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
+	<20190323211604.GA20793@localhost>
+	<CALbNGRQPtnNLSVhDzXgnvn-2VNPPMfQTY5vDdwM3xr5iVcGofg@mail.gmail.com>
+	<20190323215336.GA22469@localhost>
+	<CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
+	<CAAQYJAsLQFn3VrB7gSTkytA8Rm-1GkKLBLHHpVzonpqykrHnRg@mail.gmail.com>
+	<20190325161004.GB484@localhost>
+	<CALbNGRSgkQrjKrhEywJb3DhvKv3gkobZvv7YG_DxE039SAqJaw@mail.gmail.com>
+	<CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
+	<CALbNGRSSXNWW4-Xn=aa2zVe4u=cT5AE50AKy+URSZXcTJfHRsw@mail.gmail.com>
+	<20190325180307.GB5805@localhost>
+In-Reply-To: <20190325180307.GB5805@localhost>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 25 Mar 2019 20:46:49 +0100
+Message-ID: <CALbNGRTkmOVPDWCyFRBdTG5voqQqvPv6KxXRnMYimO_Vf5ay-A@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: musl thoughts
@@ -47,38 +65,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 18:23:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Mar 2019 19:47:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2019 at 10:44:28AM -0700, Khem Raj wrote:
-> On Sat, Mar 23, 2019 at 2:16 PM Adrian Bunk <bunk@stusta.de> wrote:
->...
-> > so that the workaround patches can be dropped from packages like NM?
-> 
-> I think the right approach is to fix the problem where it belongs, and
-> generally making changes to headers
-> is a long term approach but is right one until then live with
-> temporary solutions.
->...
+On Mon, Mar 25, 2019 at 7:03 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Mon, Mar 25, 2019 at 06:36:19PM +0100, Andreas M=C3=BCller wrote:
+> >...
+> > Something to add - haven't yet looked into networkmanger:
+> >
+> > Do we have the chance to change the sequence of paths headers are searc=
+hed for
+> >
+> > 1. musl
+> > 2. linux
+> >
+> > That might fix some issues
+>
+> It would not.
+>
+> The headers are in different namespaces, order is defined solely
+> by the order of #include statements in source and header files.
 
-Many of the musl-specific header ordering restrictions could 
-alternatively be resolved if there would be an #if defined(__MUSL__)
-in the linux/libc-compat.h kernel header to reliably disable conflicting 
-declarations in the kernel headers.
+Yes I should have skipped that:
 
-I wonder whether there is a better temporary solution by doing something
-like that in OE instead of having workaround hacks in various packages
-like NetworkManager.
+* I missed my bus for writing it
+* it does not make sense
 
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Andreas
+>
+> > Andreas
+>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
