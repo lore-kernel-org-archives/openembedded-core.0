@@ -1,53 +1,45 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BFDB7C64E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CE4EA7C64E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 17:36:29 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id x7so8355478ioh.4
+	Mon, 25 Mar 2019 17:44:53 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id k2so11366740qtm.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 10:36:30 -0700 (PDT)
+	Mon, 25 Mar 2019 10:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=8lrDkVGABba4uxg7H9ok9cK/QuShsvtVAN/1J7SNC5Q=;
-	b=FAUl3atywoNkxEqoLgHt4o9qWmwVwL7K+9eQcXIiLdVs2jjzK7w0vWe82aZ7M5pN9G
-	6nzu5UWouoBpBGOzsfvIbQupO4lyZXcD9YfYhRZrpaeNq+elZ1uif04lBHyJneQeOkyP
-	lCsJHeh6KSr9lKXH+cbvvqzlaasb820GaNg0PIBq7PWgQU81APBQwuGKdpBrleqFqgt5
-	CPAM6/0aDxs6aP3eM8twTRtBs2R9ajMSxu3fGT3G2uaM8bEANmOZuCxPdH/FMJ9idG8Q
-	+heWGVN/ZPDPX0+Ac99kzfqL/Sl8RIeCZs62kPw/VpJ+mNdQT4ctkzkI/snkajY4En+Q
-	1RmA==
+	:cc; bh=hm93MdMyL8NiN5e+ixpsk1GJWL7qQz5fbjXunFEWg34=;
+	b=mA/9EqnEdzhvQ8qiQWApSkxbFTlUJQ7+KZW4flTHxLlAWR/u3Z3SlqQ3bLN0xJ9hX2
+	ykcJnKzUmk/7yjhJlTW6AGM9pkblnLMO+BpTDJGMAa6nnP0kcm03KlYYyoQNPDQfj7MJ
+	jIGV4SEk92Z3VWa0URwDbc/54ZP2Dg09x4J9m607cfj90rLES2KxfSVfk1d64JAhhdCV
+	3TvLl/SfTSuO5Z5BLUF3/DI9zCtcPAHz3D5KpzO8EFYrxBbUq9AS61YyrWySm0sis4d+
+	izgVDtX8gUdCryT7yp6pSQYC9TXcWw4SmycEnoQ3jcX4f9oe8WO1g7l/0TgiZlRckOaj
+	AE7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8lrDkVGABba4uxg7H9ok9cK/QuShsvtVAN/1J7SNC5Q=;
-	b=KGXYfZrVrjwTkKHDyj0RZj0dQGwbmSM6msLdy3NmEo/bqc+UmZ6wDAl/odFlje4jzS
-	EVtNpZjQAwaz92zR74THoC504UwuNA8HO9FYJHE9LNB4sGTDtTJtz6TwhnJyv+29SokB
-	fTrpj7E6USVzvnK2A1RyZ14TqnqBm+QnRrhAqqhokYIy4iI9Wsni15troe4qhg4eMa1i
-	ArGJNLCS6vNmteEAcgqZ7hAlVf2n5prfbdACYyVCtLXX6LizX7rzWI3baUcU2bFstSjH
-	7pSNRllnuYTYEvQ7u59xK5PqcouhRnrR428jKQUSd93rgSg4zVgvETdMRgfMfwPQdft7
-	q/GQ==
-X-Gm-Message-State: APjAAAVyOu6ZZ3EDw9+4gOlbPyQjWG5HwsFoD2vT2K4GSTqPs6IUX7/o
-	vLSngLcaIBE+8aQgBOpB4XkF8HoA42INlq4dQhc=
-X-Google-Smtp-Source: APXvYqxfrEnCDh/dCKdmnVmLZJJCOxpLo/3+ZhDQEzWV/6/QS+g6v+UfmYuNUXdK3dR+X1Jjpm5ix28BWc6r/3mA61Y=
-X-Received: by 2002:a5e:c249:: with SMTP id w9mr17660417iop.284.1553535390575; 
-	Mon, 25 Mar 2019 10:36:30 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=hm93MdMyL8NiN5e+ixpsk1GJWL7qQz5fbjXunFEWg34=;
+	b=EOcj7VLEygvlapUkXitnESKq9dyOcTVBkJw4L/X3C2Kr4b954sq+VAJVKvjoCo8sIV
+	iiSuGbCq352mvYlQao912223BqeMWmc01yRJMR5pLEA9ywpwqBfrcPiVOVA2pjxc+TYw
+	/cnD0OiRL+uloFsc9zzdy0M5dXssQu34eRhhW0ExGhgZoXhYIgLEXqliDPwyOuISJMVu
+	sS32t9IJml0JjwjvQmtcp/6F1XpM87HxBALEC8tyZ7vwHnw42QNESJh0xkMR+3NG0Ed8
+	Jqx0J1z8fiKNAAqq+nPO9oQhGRuksI1ZPQipn13EdpftH/88aKWsH/SQGoKZ6Jv2Qy/Q
+	Zz/w==
+X-Gm-Message-State: APjAAAU/d8nSXaLRbhpP3VeeuBkJZgtKhhfooIiL77uzceHlcjYelCiC
+	a7DT61ay+2yi59+2diqb2MOSU/Izf1cEiVFv450=
+X-Google-Smtp-Source: APXvYqwz6hnKPFM73QGJHnPq0100lZAmijoxNK5M6BGD1gkXoC2ZySK9C1KHVlVwvMAwE+YNWjJqp8U44PKhF6V6kak=
+X-Received: by 2002:aed:3a09:: with SMTP id n9mr20923725qte.196.1553535894513; 
+	Mon, 25 Mar 2019 10:44:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
 	<CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
 	<20190323211604.GA20793@localhost>
-	<CALbNGRQPtnNLSVhDzXgnvn-2VNPPMfQTY5vDdwM3xr5iVcGofg@mail.gmail.com>
-	<20190323215336.GA22469@localhost>
-	<CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
-	<CAAQYJAsLQFn3VrB7gSTkytA8Rm-1GkKLBLHHpVzonpqykrHnRg@mail.gmail.com>
-	<20190325161004.GB484@localhost>
-	<CALbNGRSgkQrjKrhEywJb3DhvKv3gkobZvv7YG_DxE039SAqJaw@mail.gmail.com>
-	<CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
-In-Reply-To: <CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 25 Mar 2019 18:36:19 +0100
-Message-ID: <CALbNGRSSXNWW4-Xn=aa2zVe4u=cT5AE50AKy+URSZXcTJfHRsw@mail.gmail.com>
+In-Reply-To: <20190323211604.GA20793@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Mar 2019 10:44:28 -0700
+Message-ID: <CAMKF1sq=pwuZ6YZKPT3YqCQP-BHfYmxg5rKSMbOn3pi6iNJLww@mail.gmail.com>
 To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -64,149 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 17:36:29 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 17:44:55 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2019 at 6:15 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
+On Sat, Mar 23, 2019 at 2:16 PM Adrian Bunk <bunk@stusta.de> wrote:
 >
-> On Mon, Mar 25, 2019 at 5:26 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
-com> wrote:
-> >
-> > On Mon, Mar 25, 2019 at 5:10 PM Adrian Bunk <bunk@stusta.de> wrote:
-> > >
-> > > On Mon, Mar 25, 2019 at 04:36:44PM +0100, Andrea Adami wrote:
-> > > > On Sat, Mar 23, 2019 at 11:00 PM Andreas M=C3=BCller <schnitzeltony=
-@gmail.com> wrote:
-> > > > >
-> > > > > On Sat, Mar 23, 2019 at 10:53 PM Adrian Bunk <bunk@stusta.de> wro=
-te:
-> > > > > >
-> > > > > > On Sat, Mar 23, 2019 at 10:22:15PM +0100, Andreas M=C3=BCller w=
-rote:
-> > > > > > > On Sat, Mar 23, 2019 at 10:16 PM Adrian Bunk <bunk@stusta.de>=
- wrote:
-> > > > > > > >
-> > > > > > > > On Fri, Mar 22, 2019 at 03:18:01PM -0700, Khem Raj wrote:
-> > > > > > > > >...
-> > > > > > > > > There are certain design aspects of musl which are actual=
-ly turning
-> > > > > > > > > out to be good
-> > > > > > > > > e.g. there is no __MUSL__ define, so non-portable code ca=
-n not be
-> > > > > > > > > hidden which is a good thing,
-> > > > > > > > >...
-> > > > > > > >
-> > > > > > > > Please take a closer look at some of the musl changes to NM=
- that made
-> > > > > > > > upgrading NM so hard for Andreas.
-> > > > > > > >
-> > > > > > > > +#if defined(__GLIBC__)
-> > > > > > > >  #include <net/ethernet.h>
-> > > > > > > > +#else /* musl libc */
-> > > > > > > > +#define ETH_ALEN       6               /* Octets in one et=
-hernet addr   */
-> > > > > > > > +#endif
-> > > >...
-> > > >
-> > > > Hi,
-> > >
-> > > Hi Andrea,
-> > >
-> > > > I am jumping in a little late to take side with Khem :)
-> > > >
-> > > > What happens now is that more 'bad' sources (written to suit glibc =
-and
-> > > > thus not portable) are discovered by the wider base of developers a=
-nd
-> > > > autobuilders.
-> > > >...
-> > >
-> > > but this does not apply to this example, which is a problem between
-> > > musl itself and the kernel headers.
-> > >
-> > > Code can expect #include <foo.h> to work for any headers, and with an=
-y
-> > > order of these headers. If it does not, the 'bad' sources are whateve=
-r
-> > > sources provide the headers in question.
-> > >
-> > > musl does provide net/ethernet.h, but including it causes a compile
-> > > error here.
-> > Out of curiosity: you have some log?
-> >
-> Looked into this. Found an old musl build failure of networkmanager
-> [1] but I think the issue has not changed:
+> On Fri, Mar 22, 2019 at 03:18:01PM -0700, Khem Raj wrote:
+> >...
+> > There are certain design aspects of musl which are actually turning
+> > out to be good
+> > e.g. there is no __MUSL__ define, so non-portable code can not be
+> > hidden which is a good thing,
+> >...
 >
-> | In file included from
-> TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/re=
-cipe-sysroot/usr/include/net/ethernet.h:10,
-> |                  from ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c=
-:28:
-> | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/=
-recipe-sysroot/usr/include/netinet/if_ether.h:111:8:
-> error: redefinition of 'struct ethhdr'
-> |  struct ethhdr {
-> |         ^~~~~~
-> | In file included from ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c=
-:26:
-> | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/=
-recipe-sysroot/usr/include/linux/if_ether.h:167:8:
-> note: originally defined here
-> | struct ethhdr {
-> |         ^~~~~~
+> Please take a closer look at some of the musl changes to NM that made
+> upgrading NM so hard for Andreas.
 >
-> glibc does not fail because it does include linux header
-> | /* Get definitions from kernel header file.  */
-> | #include <linux/if_ether.h>
-> and does not define struct ethhdr
+> +#if defined(__GLIBC__)
+>  #include <net/ethernet.h>
+> +#else /* musl libc */
+> +#define ETH_ALEN       6               /* Octets in one ethernet addr   */
+> +#endif
 >
-> linux/if_ether.h says:
-> /* allow libcs like musl to deactivate this, glibc does not implement thi=
-s. */
-> #ifndef __UAPI_DEF_ETHHDR
-> #define __UAPI_DEF_ETHHDR        1
-> #endif
->
-> #if __UAPI_DEF_ETHHDR
-> struct ethhdr {
->     unsigned char    h_dest[ETH_ALEN];    /* destination eth addr    */
->     unsigned char    h_source[ETH_ALEN];    /* source ether addr    */
->     __be16        h_proto;        /* packet type ID field    */
-> } __attribute__((packed));
-> #endif
->
-> musl does not include linux header but defines which is differen from
-> what linux does:
-> struct ethhdr {
->     uint8_t h_dest[ETH_ALEN];
->     uint8_t h_source[ETH_ALEN];
->     uint16_t h_proto;
-> };
-> and later
-> #define __UAPI_DEF_ETHHDR       0
->
-> So for networkmanager there is either some wrong sequence or it
-> includes linux headers.
->
-> And I am still not confident that it is our job to teach umpteen
-> projects written for linux how to write portable code (oe-core has 147
-> musl related patches and meta-openembedded has 140)...
->
-> [1] http://errors.yoctoproject.org/Errors/Details/198239/
->
-Something to add - haven't yet looked into networkmanger:
+> Using __GLIBC__ in workarounds for bugs in musl is wrong,
+> and cannot be upstreamed since it would do the wrong thing
+> on other non-broken C libraries.
 
-Do we have the chance to change the sequence of paths headers are searched =
-for
+yes, not everything that fixed builds for musl are golden, and some
+are workarounds
+as above which obviously can't be upstreamed, my comments were from
+overall perspective
+not specific to network manager patches
 
-1. musl
-2. linux
+>
+> > While the eyes may hurt
+> > to see them, it does serve a
+> > good reminder of whats needed for a given package.
+> >...
+>
+> Who is responsible for fixing the root causes of such bugs in musl,
 
-That might fix some issues
+your concluded its a bug in musl, probably based on the patch but its
+one sided view
+musl is calling out namespace collisions etc. see
 
-Andreas
+https://www.openwall.com/lists/musl/2012/10/11/4
 
-> Andreas
+so obviously, we need to make sure that kernel headers are not written
+with an assumption
+that glibc is only options when it comes to C libraries, but there are
+such assumptions as well unfortunately
+
+> so that the workaround patches can be dropped from packages like NM?
+
+I think the right approach is to fix the problem where it belongs, and
+generally making changes to headers
+is a long term approach but is right one until then live with
+temporary solutions. there has been changes in
+kernel headers which fixes such assumptions broken by musl e.g. see
+
+https://patchwork.kernel.org/cover/10724549/
+
+We have to take more portable approach and I think its better for everyone.
+>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
