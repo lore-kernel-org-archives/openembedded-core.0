@@ -1,47 +1,50 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F04CE7D08E
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C1FB7D09F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 13:27:32 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id z24so5789322wmi.5
+	Mon, 25 Mar 2019 13:28:12 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q1so10169997wrp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 06:27:34 -0700 (PDT)
+	Mon, 25 Mar 2019 06:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZwqG+1vLaOz/0zlOufC2Tppa+ECgUaJvoZgoWTSsl5E=;
-	b=pvft5weEM4i6+WR/4eEKuOme0cFXe344jXQFmc+5ANizCArknQ43z5mwtrpAnCxdnu
-	b+mAmTLMOgdsyNV4XdKz38ccCsBr9rZRzO1wa8NkjxloRbEqKb8pZUoGy6bz92+6kvwH
-	HUrUiPFNwv7OemZ9I13jxsWyyeoADxz6d/a6v1G45nAXHhJ9p3K4BeHY/J6xYtWQfOOF
-	wFfkHFkT/nli0L7M8Ct5BITk64XsPmJrYURysH+NDQBPaRbb8lLoCq8AUmsBUkjByWmd
-	BkJzYUF31VuSg9E++V+VSsEwskZlQqT/w8yXCLwyHWTN0TwgOwFCHzipy5alPcXoMjTk
-	zIsA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=lbt9su3kfB29bISuDqg95ggnu9O6K7dwPcSgOUitNm4=;
+	b=tnuoiLXPat5HhpoQ8Y3wGSLpCNac+qQrKzMxRo0yBAYhS03CMbuH2heR3/6RNIbDfe
+	FhGgvt1q+Un2FmEMn0bwpYZ1GS9t+fMiZB6W5YkVAqijtGmCACh6sklAPOTEi0FJgbSZ
+	Bvhpcskym2tT83vkY2w2+Hbfu5xcdoyBfTjRyboQsIGG5aY6haD7eS2W7n4g9HNDU17S
+	fSZ/cUmaWpLWwQ2Lv6ZQfdigM2wGQ6lWFJvenqNxyYPRIYYgzHh7Ogg55plaUgCv910a
+	OkQ51zKpVARgonrut+qqFzlXQxaTAE9mJkolc32Kcenye4lZU3PdbqMDww5L9UUOQtmm
+	NEpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZwqG+1vLaOz/0zlOufC2Tppa+ECgUaJvoZgoWTSsl5E=;
-	b=YeB2UIJR/g7NZaIj3If1TWU+6LG4b3FQSqp491kj9UMLO8+uvc2uVK9106VwTCaOX3
-	o0YDmBkKcxFZn03zL/2zbIAol1Q1oQ3/p34MYZoi5JXz7CvRb6HodJru0sDixb6YzyqT
-	wxFuaIUWGTp/h8bY9g32a3naHy1SnqI2KJZbEdTz2O0DvdskAy95jovp4yNc8c8zhEnk
-	P3TxfNNB4FMH5iLLMnjmButyovlxq2rxcYS9WgFm1j5PzvyeizfY+m0HM7iSSn+nHj5D
-	/12DK1O6zfo89hCfzis4YUm6uoOW5n9Q79SXPKjUhOvbOLEb9Q14DDT5uyxCnHDU6F2H
-	xdPQ==
-X-Gm-Message-State: APjAAAX8CffeQUf6iJ1ZhRl15HbCyCwnMFEzeKb2H7RvhKgk+3cKm75L
-	EGUrzEKC5/ysNcTL7KcG3GwfsaZw9NE=
-X-Google-Smtp-Source: APXvYqzgwaB0ub7spI2cJlnK3FxRVz5oveFXq7jGXd2f9Qn5do1TTwRnfXUMlHUX6g4pVI9PYdRCRg==
-X-Received: by 2002:a1c:f906:: with SMTP id x6mr5662712wmh.126.1553520452987; 
-	Mon, 25 Mar 2019 06:27:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=lbt9su3kfB29bISuDqg95ggnu9O6K7dwPcSgOUitNm4=;
+	b=pbrirs+44O5W68q50nu0s1/5yTjUTAu3pC6Oi/cAUmW/vTQNzRl+ZgNCQc1loPKyx9
+	147slk5N1O4FLUQinh1RAr2/hSR3hUKw7O34B3sEVUihPHK1d8Z7sqIAzW3RzkIZg2VM
+	AYZCrpaVHWLf9HH8tImFf05BnPnI6k0Ep8sEdrd9KPkSTRTwzLAgnVmfVCrpF1ciPlWZ
+	7Zg1EKHsqjIPMF0qZs3EYc4dJnIWPP9CD8Lvc/JPBarC2bf28HtCe821MhndlYU89ODF
+	cIPcbMmkL5BS30Lf9MiaLasXTvhY/GFfb9BX3bBuaVdmuLIUgV9r8ONq4OajijzJZb20
+	pG4w==
+X-Gm-Message-State: APjAAAVikXYAyDih3WHEdQDhWoi+3KUrAme5ckHQRJb+xXymY1WesPA7
+	g3SuQLki169PDVeEyQX/uyKGh5jBYnM=
+X-Google-Smtp-Source: APXvYqyTNA7kfA8oiIzgujvh7FiCbwZCCamb8OqKl64yPnCO/g4BNYbeuwAdqIS+3o6jL+LzK0nArQ==
+X-Received: by 2002:a5d:6a08:: with SMTP id m8mr15397817wru.30.1553520492717; 
+	Mon, 25 Mar 2019 06:28:12 -0700 (PDT)
 Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
 	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	e135sm26563321wmg.24.2019.03.25.06.27.31
+	e135sm26563321wmg.24.2019.03.25.06.28.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Mar 2019 06:27:31 -0700 (PDT)
+	Mon, 25 Mar 2019 06:28:12 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 13:27:27 +0000
-Message-Id: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
+Date: Mon, 25 Mar 2019 13:27:28 +0000
+Message-Id: <1553520448-12901-2-git-send-email-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3 1/2] libpsl: Extend with native, nativesdk
+In-Reply-To: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
+References: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
+Subject: [PATCH v3 2/2] wget: Convert EXTRA_OECONF to PACKAGECONFIG, extend PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 13:27:33 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 13:28:12 -0000
 
-To allow wget with libpsl to build native/nativesdk versions we need
-those variants here.
+Convert existing EXTRA_OECONF and DEPENDS to PACKAGECONFIG, fill out
+remaining PACKAGECONFIG options. When building without libpsl we pass in
+--without-libpsl, which we didn't previously, but all this actually ends
+up doing is silencing a warning from the configure script, the code
+still uses an internal implemention when using this option.
+
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
-Changes in v3: None
+Changes in v3:
+- add explicit with/without/enable/disable for all PACKAGECONFIGs
+
 Changes in v2:
-- new
+- drop ac_cv_header_uuid_uuid_h hack
 
- meta/recipes-support/libpsl/libpsl_0.20.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/wget/wget.inc | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/libpsl/libpsl_0.20.2.bb b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-index 89a87b67c744..5cb20d46bc48 100644
---- a/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-+++ b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
-@@ -16,3 +16,5 @@ inherit autotools gettext gtk-doc manpages pkgconfig lib_package
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index 3cff656a68d9..07e8d8e8718f 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -3,12 +3,11 @@ HOMEPAGE = "https://www.gnu.org/software/wget/"
+ SECTION = "console/network"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
+-DEPENDS = "gnutls zlib libpcre"
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[manpages] = "--enable-man,--disable-man,libxslt-native"
-+
-+BBCLASSEXTEND = "native nativesdk"
+ inherit autotools gettext texinfo update-alternatives pkgconfig
+ 
+-EXTRA_OECONF = "--with-ssl=gnutls --disable-rpath --disable-iri \
+-                --without-libgnutls-prefix ac_cv_header_uuid_uuid_h=no"
++EXTRA_OECONF = "--without-libgnutls-prefix --without-libssl-prefix \
++                --disable-rpath"
+ 
+ EXTRA_OEMAKE += 'TOOLCHAIN_OPTIONS="${TOOLCHAIN_OPTIONS}" \
+                  DEBUG_PREFIX_MAP="${DEBUG_PREFIX_MAP}"'
+@@ -21,9 +20,17 @@ RRECOMMENDS_${PN} += "ca-certificates"
+ 
+ BBCLASSEXTEND = "nativesdk"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
++PACKAGECONFIG ??= "gnutls pcre zlib \
++                   ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
++PACKAGECONFIG[ares] = "--with-cares,--without-cares,c-ares"
++PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[iri] = "--enable-iri,--disable-iri,libidn2"
++PACKAGECONFIG[libpsl] = "--with-libpsl,--without-libpsl,libpsl"
++PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux"
++PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
++PACKAGECONFIG[pcre] = "--enable-pcre,--disable-pcre,libpcre"
++PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+ 
+ # Let aclocal use the relative path for the m4 file rather than
+ # absolute, otherwise there might be an "Argument list too long" error
 -- 
 2.7.4
 
