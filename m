@@ -1,48 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 718DC7D08F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9524B7D034
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 11:41:53 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id x7so7313367ioh.4
+	Mon, 25 Mar 2019 11:55:53 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id o10so1360823wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 04:41:54 -0700 (PDT)
+	Mon, 25 Mar 2019 04:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8+CGgBX4AlKx3ayWE/8tTN5tTp/5EZvqrDv+AcYHpr0=;
-	b=HHHEdk13yPXZM5WR2ZRUP1KHf7eM5Qo8uHXqSzBf4YTFIw1VXOAIGqcni6WC9aQype
-	hmaFHpv3o/aQVec/sQST5f/9Tb4Uy4D+vRfY4KpZGgWAVDqQJMoKTUrCwnpEoNsFS6n8
-	tTjOpVny1Fmuly7BD28CWFGcHsT0CZcyzbH2ADjPvJZFOYKo4XoupnS6kQwGl1E8Dggd
-	0WVJR36vPjen8mijlHB4dO3etKkQyzIQIKXxZuhJ44atu6wNf5KNM3lzeOAJqgS+wAqJ
-	U6e33qkq5RvcsWQ9YukJHpQIpOPfaOJFiwLcVQvY0qS0wWpXV+lJnZfn4eRqoHjgNhvC
-	Ga3Q==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=9h/YUuZMGUzQtQ/TGGB+McYrgmQuqK5tlgM2toRPCJU=;
+	b=EmjndD7hQnhEi7xwBQAe4xZRQUqI9Xy+5qvPh/+cIEJHGvh8LOlanbpoLQKdE7Is2F
+	LhCuWlB3Lk136nBjQNwRz2P1jeUk6YaMvXFRhuGwb1P73jNRoDeaeUlIwlI0Xu2443zq
+	47hj4e5qmbOXl316W7oPknvB5Xvpq1c3w/PUo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8+CGgBX4AlKx3ayWE/8tTN5tTp/5EZvqrDv+AcYHpr0=;
-	b=PMM76XpZmsuJ5+WTgzreprimNAGeRq11mGrIWWjJ6c/fmc9nsycLK0KkaqbM136HtW
-	C5TilGpNhbD1j01UW7bTinuyfRtSed7uDA+G4CWF9/WelTwWWUouV2ACNytWw2h9JOHu
-	V2QqZHPsIW0FsVaoqhZsp4mUaCcbzd59vn2qx41gg/4UbLFwM8k8UBdKfS5tNuBGvFGS
-	1Bmaf27nDktDSV5zwYvpTuRhFF+J7sucZ3gUHagCJHz0ZFaBmrPmxGywk99K9K96MvOg
-	g9CbkuyrJbk9P0QSM4ahbJ9ZbqOuHJqctWi8E3ZLF00Uz0iC/DPtP6uC+3oA0nM/37OZ
-	PuPQ==
-X-Gm-Message-State: APjAAAWGd04H2EnEIeKZUO4tYfqFxev6DW+xiKDzigGi1OF4DGUwWPTr
-	8Y1TEE5hW7q+3l6yRe2SWxPz1sY6M+CN1omLE7ISxg==
-X-Google-Smtp-Source: APXvYqyvTr6xfhqyFxJnVZJ+ByCfAAxntcsYRkMKuJcXpjpmmIkNjREJrI87imqzurJDys0Z45stzVVA01J8bVF2O4o=
-X-Received: by 2002:a5d:859a:: with SMTP id f26mr3926198ioj.270.1553514114494; 
-	Mon, 25 Mar 2019 04:41:54 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=9h/YUuZMGUzQtQ/TGGB+McYrgmQuqK5tlgM2toRPCJU=;
+	b=CVrXwyd+a0qIeQjj6cBdIeaN4gZAVXbD637h6YXgjPDQACZJcHK3FPBUQT6Y+r8MO7
+	SmGX484B99IkzC0MLrHJvi/EuusiG15KN8sWy9Os5ccixnSRy/if5H+BBFZgNw7Y08WT
+	R9TsHbBV3JXKZpLMxFF4phVRWL0sZk70d7GXQh9Fhr5HOSPodlkxds+VM7lGqJcKLhee
+	26+hmf9BbtQmOAQPH2qufVgYKBieyWctsSBgkGo8V2NqwX4XC2f2vlGKn79pORuyjoCR
+	QOiJM1e2XOKujs4ry57YSDyjSAP9Zjyxt5amP3nEUQbRuoZ/6ZHhNr44Xts0D6ouCFKZ
+	JWLg==
+X-Gm-Message-State: APjAAAUi/S7BRTQG63AtdrMM+kNwISG444m8/t0rt7cRsj7vYF7MJZCm
+	d7/7SdApwdXnWlzBw2iuRQvZdQ==
+X-Google-Smtp-Source: APXvYqy+lqpJk+otk56FMGFJto8hOfoRCwFBDE746nNPvznZbFR1xxcWY/CBxaIR8DTU/YScQ6XN6g==
+X-Received: by 2002:a1c:b702:: with SMTP id h2mr4934978wmf.94.1553514954266;
+	Mon, 25 Mar 2019 04:55:54 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 3sm20924464wrk.68.2019.03.25.04.55.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 25 Mar 2019 04:55:52 -0700 (PDT)
+Message-ID: <d0fe7249917de2139a9d8d577984a8476b1ce395.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Liwei Song <liwei.song@windriver.com>, oe-core
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Mar 2019 11:55:51 +0000
+In-Reply-To: <1553138356-85237-3-git-send-email-liwei.song@windriver.com>
+References: <1553138356-85237-1-git-send-email-liwei.song@windriver.com>
+	<1553138356-85237-3-git-send-email-liwei.song@windriver.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-References: <1553506675-11519-1-git-send-email-alex.kiernan@gmail.com>
-	<1553506675-11519-2-git-send-email-alex.kiernan@gmail.com>
-In-Reply-To: <1553506675-11519-2-git-send-email-alex.kiernan@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 25 Mar 2019 11:41:43 +0000
-Message-ID: <CAJTo0LaJju+ngUWCCgQpGotpBt4TdDUU8eXQ6fmR+8ppx1S4TA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] wget: Convert EXTRA_OECONF to PACKAGECONFIG, extend PACKAGECONFIG
+Subject: Re: [PATCH 2/8] mdadm: add udev rules to create by-partuuid for MD devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,22 +58,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 11:41:53 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 11:55:53 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 25 Mar 2019 at 09:38, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> +PACKAGECONFIG[ares] = "--with-cares,,c-ares"
-> +PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
->  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-> +PACKAGECONFIG[iri] = ",--disable-iri,libidn2"
-> +PACKAGECONFIG[libpsl] = ",--without-libpsl,libpsl"
-> +PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux"
-> +PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
-> +PACKAGECONFIG[pcre] = ",--disable-pcre,libpcre"
-> +PACKAGECONFIG[zlib] = ",--without-zlib,zlib"
+On Wed, 2019-03-20 at 23:19 -0400, Liwei Song wrote:
+> installer use partuuid for boot and swap partition,
+> But the udev rules for MD devices do not have rules to create
+> by-partuuid under /dev/disk/, this will take 90s to wait until failed
+> add the rules to create by-partuuid to support boot from raid
+> disk with "root=PARTUUID=XXX"
+> 
+> Signed-off-by: Liwei Song <liwei.song@windriver.com>
+> ---
+>  ...ev.rules-create-by-partuuid-for-md-device.patch | 29
+> ++++++++++++++++++++++
+>  meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-extended/mdadm/files/0001-
+> udev.rules-create-by-partuuid-for-md-device.patch
+> 
+> diff --git a/meta/recipes-extended/mdadm/files/0001-udev.rules-
+> create-by-partuuid-for-md-device.patch b/meta/recipes-
+> extended/mdadm/files/0001-udev.rules-create-by-partuuid-for-md-
+> device.patch
+> new file mode 100644
+> index 000000000000..c1f7b1cf8736
+> --- /dev/null
+> +++ b/meta/recipes-extended/mdadm/files/0001-udev.rules-create-by-
+> partuuid-for-md-device.patch
+> @@ -0,0 +1,29 @@
+> +From 7d1fa6afba936edb3e211f0ccdb58b1472b4bbf4 Mon Sep 17 00:00:00
+> 2001
+> +From: Liwei Song <liwei.song@windriver.com>
+> +Date: Tue, 26 Feb 2019 07:05:42 +0000
+> +Subject: [PATCH] udev.rules: create by-partuuid for md device
+> +
+> +Create by-partuuid for every md devices.
+> +
+> +Upstream-Status: sent to linux-raid@vger.kernel.org(
+> https://www.spinics.net/lists/raid/msg62373.html)
+> +
+> +Signed-off-by: Liwei Song <liwei.song@windriver.com>
+> +---
+> + udev-md-raid-arrays.rules | 1 +
+> + 1 file changed, 1 insertion(+)
 
-Defaults can and do change, so please be explicit here: always pass
----with-foo and --without-foo.
+It looks like upstream had concerns about this so I'd like to hold off
+on this until those are resolved.
 
-Ross
+https://www.spinics.net/lists/raid/msg62376.html
+
+Cheers,
+
+Richard
+
 
