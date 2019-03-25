@@ -1,58 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AD3D56BC19
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 438FC60248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 22:38:23 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id o129so6423945qke.8
+	Mon, 25 Mar 2019 23:07:39 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id q206so7301297pgq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 15:38:25 -0700 (PDT)
+	Mon, 25 Mar 2019 16:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1SDpx4bnytW/S3+oDxssOGlXbHyjykJVy6uEFvH6vdw=;
-	b=ivmJUhVICPcbZrCErwW3X/Y8usgbXl/FRwrHzSAp1hguAmmO/eOQBMwOIXI2qX/h10
-	plJEITduxomeHEpRJIaIc7eAOa4BYM0VqpTsW+00i+9czL9iqI2kEFal/ypqLodkYMzg
-	JDMIFIsrPk+f401kZGUk2O8Gqp9SOYrQxI+91442G0cKVRtcKnETO5oVlQj3rjgv/fMV
-	vN2T92b+y2uKbWlQc8Pgwca1zaygkTzjL5nvZWdQOq3MNk6nzqRLr1fADP+c9FuGsk0B
-	1hI5PRE4A9i4Gp5t/py04bdOP+t4Gilr/85GYrZ9Mw1yoeGmJWZgp9DBu6ZZmjJQd0/Z
-	6JRw==
+	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=y1ErJaVsShfMbzN96+hWNICtjUUo7gCGzU2UGTvo1yE=;
+	b=aEmV1MmbLEoy6k9b3hLwyb1UGh/z6Ftx5PmGEHngMavT+pUFfigSY4stgPTz9hJxdo
+	TL/drXZckTv64yR8eorx1IK283vzzGvT1W53uFz3+KWb8fIKXE3SIdmyScNwsaplMRgU
+	LA6Rkfb242YX0PHy/YbWL37jIqMYbsF6UwLl3PTd7Hqd9u5u87LiyDz6xt4Fkl0qqx0W
+	zf/Xln1e9cvsWcf7cdwnT4f/Eydjos3HaGuWAEwawhZ3vsSP2LliPGm2LUBPIrWAaZm1
+	tTOJYmoftbYYmgyGGJhjoiEys9hn92eCDaTz+H8YLFywzUTmgEthvGj3ImN3Wd2azz6l
+	Cgmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1SDpx4bnytW/S3+oDxssOGlXbHyjykJVy6uEFvH6vdw=;
-	b=BjTe0Dq2QdvfCpCVlRliL2GBrUJH4zNYNrprR0vdgK+gjV0XlRv7I8qEc85YQEVbV0
-	iXdpUKwPppHpuGGIAmHJo9yNjWFSgpqd4b+EvKYjlcHe4F8WT9cC4+qDjNu4GW/Vzwb6
-	dB5Az/OfW6XgskccEhJgPYRPaojM1j5Ex2beCCMMWGZh+xqZ1VJvahvRT4EYmUPnCW2r
-	eZeD8gPqW0yT5KruatChJhLqWuKyiwO2neQY9yiLwwh88jgzlhH3jULp2xssh400w2EH
-	lzVp4O5eUYYVBESrjiOy9vMdv/UTBjs6tQCPnWVlw0IKzz4ZUlndckTFoR5azJdKchAd
-	NSUQ==
-X-Gm-Message-State: APjAAAXphYPFemBNVm6Z7AjLLESpKlJjbh15sRECJwQUbjms14DRXIBe
-	sCg/I9S0iaHBUL2S92T3MtdszvzApXOd1QWWVQQ=
-X-Google-Smtp-Source: APXvYqz+X3M9M8/h48MwOQL10IbSweyqxV3xZD9kqagQWDS3viZ1FHJw3VM5D7kwmU5D1NsimhmF7dkrMnbz+39jGmI=
-X-Received: by 2002:ae9:f44a:: with SMTP id z10mr15513601qkl.223.1553553504117;
-	Mon, 25 Mar 2019 15:38:24 -0700 (PDT)
+	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:content-transfer-encoding
+	:content-language;
+	bh=y1ErJaVsShfMbzN96+hWNICtjUUo7gCGzU2UGTvo1yE=;
+	b=pvoWw2HKzJP4dbyJy1AMNk9dFPYrakGPrlZY9/11SueCbB2842GvQJcfZ1zNvE4/wm
+	Vxox6oWP97oxwsdEFBAzc8OSRgdaYmFOawSDUNi0st2shRZKRtJuV2be1YV2CN4jZ5yk
+	+Y5dcxMU5PHIGDfKEiuMjcoXAV28dfAK/92jVrAgS66+7JbZ2kOxQcTuJLj3w7cx15ET
+	jK0ed1u1F+1kEyR//M/ElgVVpKi/Y1fMouiB/swi2Nn/rLeLKqGHPZkTaJ1DQwxKQlEX
+	nU1IpVPMP28NTj6HlGCc18m7QVxzOEKmFlzS17tQTJ3ZaHsh807/st02ao3MG+lcrryj
+	dJ0g==
+X-Gm-Message-State: APjAAAUt14ZloVMBbhhs/2t8ihoQ97yCjJGoUmNAH2nqDe+2gsXj2S5Z
+	7rEIdXBXzJ8m2sAQwKoYH0szUOC5
+X-Google-Smtp-Source: APXvYqzC3OaVkivin1My1M30nd4VTBSNPGDTspD+Acv6xKZqx/GtBngRL+Ejx9OCRoLYAM01bsLxvQ==
+X-Received: by 2002:a62:4d45:: with SMTP id a66mr629746pfb.250.1553555260033; 
+	Mon, 25 Mar 2019 16:07:40 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:3dea:ddac:f0ad:db91?
+	([2601:202:4180:c33:3dea:ddac:f0ad:db91])
+	by smtp.gmail.com with ESMTPSA id
+	k1sm15341862pfo.121.2019.03.25.16.07.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Mar 2019 16:07:35 -0700 (PDT)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <c0e7c451-8e86-bab9-3b19-185dbaae486d@gmail.com>
+Date: Mon, 25 Mar 2019 16:07:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
-	<CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
-	<20190323211604.GA20793@localhost>
-	<CALbNGRQPtnNLSVhDzXgnvn-2VNPPMfQTY5vDdwM3xr5iVcGofg@mail.gmail.com>
-	<20190323215336.GA22469@localhost>
-	<CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
-	<CAAQYJAsLQFn3VrB7gSTkytA8Rm-1GkKLBLHHpVzonpqykrHnRg@mail.gmail.com>
-	<20190325161004.GB484@localhost>
-	<CALbNGRSgkQrjKrhEywJb3DhvKv3gkobZvv7YG_DxE039SAqJaw@mail.gmail.com>
-	<CALbNGRThou+6CNKotr-hduJoKNPgg+F2i8PQdgjBGcGRZeOKdw@mail.gmail.com>
-	<20190325174629.GA5805@localhost>
-	<CALbNGRTqm3nOXqvZnX=LBQ_6=28jUs4kAhk=sjbNjdM=MFZjNw@mail.gmail.com>
-In-Reply-To: <CALbNGRTqm3nOXqvZnX=LBQ_6=28jUs4kAhk=sjbNjdM=MFZjNw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Mar 2019 15:38:12 -0700
-Message-ID: <CAMKF1srTvh6HfZDwbUV1QvtOppnEPhWHSm8kkhik+bzq_Mbbsg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
-Subject: Re: musl thoughts
+Subject: thud][Pull request]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,338 +106,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 22:38:23 -0000
-Content-Type: multipart/alternative; boundary="000000000000c0a9ad0584f2dc74"
+X-List-Received-Date: Mon, 25 Mar 2019 23:07:39 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---000000000000c0a9ad0584f2dc74
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 25, 2019 at 2:12 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m>
-wrote:
-
-> On Mon, Mar 25, 2019 at 6:46 PM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Mon, Mar 25, 2019 at 06:15:40PM +0100, Andreas M=C3=BCller wrote:
-> > >...
-> > > Looked into this. Found an old musl build failure of networkmanager
-> > > [1] but I think the issue has not changed:
-> > >
-> > > | In file included from
-> > >
-> TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/re=
-cipe-sysroot/usr/include/net/ethernet.h:10,
-> > > |                  from
-> ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c:28:
-> > > |
-> TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/re=
-cipe-sysroot/usr/include/netinet/if_ether.h:111:8:
-> > > error: redefinition of 'struct ethhdr'
-> > > |  struct ethhdr {
-> > > |         ^~~~~~
-> > > | In file included from
-> ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c:26:
-> > > |
-> TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14.4-r0/re=
-cipe-sysroot/usr/include/linux/if_ether.h:167:8:
-> > > note: originally defined here
-> > > | struct ethhdr {
-> > > |         ^~~~~~
-> > >
-> > > glibc does not fail because it does include linux header
-> > > | /* Get definitions from kernel header file.  */
-> > > | #include <linux/if_ether.h>
-> > > and does not define struct ethhdr
-> > >
-> > > linux/if_ether.h says:
-> > > /* allow libcs like musl to deactivate this, glibc does not implement
-> this. */
-> > > #ifndef __UAPI_DEF_ETHHDR
-> > > #define __UAPI_DEF_ETHHDR        1
-> > > #endif
-> > >
-> > > #if __UAPI_DEF_ETHHDR
-> > > struct ethhdr {
-> > >     unsigned char    h_dest[ETH_ALEN];    /* destination eth addr    =
-*/
-> > >     unsigned char    h_source[ETH_ALEN];    /* source ether addr    *=
-/
-> > >     __be16        h_proto;        /* packet type ID field    */
-> > > } __attribute__((packed));
-> > > #endif
-> > >
-> > > musl does not include linux header but defines which is differen from
-> > > what linux does:
-> > > struct ethhdr {
-> > >     uint8_t h_dest[ETH_ALEN];
-> > >     uint8_t h_source[ETH_ALEN];
-> > >     uint16_t h_proto;
-> > > };
-> > > and later
-> > > #define __UAPI_DEF_ETHHDR       0
-> > >
-> > > So for networkmanager there is either some wrong sequence or it
-> > > includes linux headers.
-> >
-> > musl headers providing own different definitions of kernel interfaces
-> > is a problem in musl.
-> >
-> > After reading [1] I think that this is musl upstream having made the
-> > decision of not even trying to work properly with the kernel headers.
-> >
-> > OE adding a not upstreamable patch that removes one of the two
-> > definitions in musl builds might be the best available solution.
-> >
-> > > And I am still not confident that it is our job to teach umpteen
-> > > projects written for linux how to write portable code (oe-core has 14=
-7
-> > > musl related patches and meta-openembedded has 140)...
-> > >...
-> >
-> > This is not about writing portable code, this is about problems with
-> musl.
-> >
-> > Using the Linux userspace headers is obviously not portable to non-Linu=
-x,
-> > but many packages like NetworkManager are anyways Linux-only no matter
-> > what you do.
-> >
-> > > Andreas
-> >
-> > cu
-> > Adrian
-> >
-> > [1] https://wiki.musl-libc.org/faq.html#Q:-Why-am-I-getting-
-> >
-> Have looked into some papers at musl page and the link above: The more
-> I read from them the less I am interested in wasting my time on it.
-> There is too often this 'the world is full of idiots - and it is just
-> us doing the right thing' between the lines. Starts that they call
-> musl 'correct' - while their own performance charts are - for my use
-> case - unacceptable (ok outdated - maybe things changed). One could
-> say: Go and give it a try but there is just a little problem: I think
-> it'll take weeks to get images with contents I interested in.
->
-> Looked into networkmanager: There are dozen places where linux headers
-> are used - I don't see a clean solution we could offer upstream.
->
-> What bugs me most: Silently a rule was introduced that patches failing
-> for musl are not accepted - or did I miss something. A project
-> considering itself as center of the world blocks resources here in
-> times these are limited.
+Please consider these for the next thud release.
 
 
-No there is no rule like that it=E2=80=99s who shows up with interest and r=
-eports
-problems I understand your usecase might not involve musl and that=E2=80=99=
-s how
-everyone is they have interest in some parts of project but they cooperate
-with the things which don=E2=80=99t interest them so when I ask it=E2=80=99=
-s breaking musl
-I am trying to nudge them to help fixing it since I do the same when
-someone approaches my patches and reports issues that could be fixed in
-that and sometimes I express my helplessness and sometimes I do help if I
-have knleoledge and time so I expect others to do same
+The following changes since commit b79bd7c77635ed45509dfc288c2ca7a2dcf1cc67:
 
->
->
-> Just to add that I spent past three weekends to wipe after patches
-> being removed / 'bit-rottened' stuff was removed from a layer I
-> maintain right before next release. Ahh maintainer means take care /
-> answer user questions take / complaints when something does not work -
-> but when it comes to decisions: Please keep you mouth shut.
+  libpam: libpamc is licensed under its own BSD-style licence
+(2019-03-22 14:40:46 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core thud-next
+
+for you to fetch changes up to c48c37a436b3ebfe4d8ca5d12e97a0cdff0e20a1:
+
+  scripts/wic: Be consistent about how we call bitbake (2019-03-24
+22:49:54 +0000)
+
+----------------------------------------------------------------
+Mazliana (2):
+      scripts/resulttool: enable manual execution and result creation
+      resulttool/manualexecution: To output right test case id
+
+Richard Purdie (9):
+      resulttool: Improvements to allow integration to the autobuilder
+      resulttool/resultutils: Avoids tracebacks for missing logs
+      resulttool/store: Handle results files for multiple revisions
+      resulttool/report: Handle missing metadata sections more cleanly
+      resulttool/report: Ensure test suites with no results show up on
+the report
+      resulttool/report: Ensure ptest results are sorted
+      resulttool/store: Fix missing variable causing testresult corruption
+      oeqa/utils/gitarchive: Handle case where parent is only on origin
+      scripts/wic: Be consistent about how we call bitbake
+
+Yeoh Ee Peng (4):
+      resulttool: enable merge, store, report and regression analysis
+      resulttool/regression: Ensure regressoin results are sorted
+      scripts/resulttool: Enable manual result store and regression
+      resulttool/report: Enable roll-up report for a commit
+
+ meta/lib/oeqa/files/testresults/testresults.json   |  40 +++++
+ meta/lib/oeqa/selftest/cases/resulttooltests.py    |  94 ++++++++++
+ meta/lib/oeqa/utils/gitarchive.py                  |   4 +-
+ scripts/lib/resulttool/__init__.py                 |   0
+ scripts/lib/resulttool/manualexecution.py          | 142 +++++++++++++++
+ scripts/lib/resulttool/merge.py                    |  42 +++++
+ scripts/lib/resulttool/regression.py               | 192
++++++++++++++++++++++
+ scripts/lib/resulttool/report.py                   | 150 ++++++++++++++++
+ scripts/lib/resulttool/resultutils.py              | 131 ++++++++++++++
+ scripts/lib/resulttool/store.py                    |  99 +++++++++++
+ .../resulttool/template/test_report_full_text.txt  |  44 +++++
+ scripts/resulttool                                 |  93 ++++++++++
+ scripts/wic                                        |  16 +-
+ 13 files changed, 1034 insertions(+), 13 deletions(-)
+ create mode 100644 meta/lib/oeqa/files/testresults/testresults.json
+ create mode 100644 meta/lib/oeqa/selftest/cases/resulttooltests.py
+ create mode 100644 scripts/lib/resulttool/__init__.py
+ create mode 100755 scripts/lib/resulttool/manualexecution.py
+ create mode 100644 scripts/lib/resulttool/merge.py
+ create mode 100644 scripts/lib/resulttool/regression.py
+ create mode 100644 scripts/lib/resulttool/report.py
+ create mode 100644 scripts/lib/resulttool/resultutils.py
+ create mode 100644 scripts/lib/resulttool/store.py
+ create mode 100644
+scripts/lib/resulttool/template/test_report_full_text.txt
+ create mode 100755 scripts/resulttool
 
 
-You can be direct and cite the case and may be it can be discussed further
-if you are talking about gstreamer 0.10 then I thought you agreed for
-removal since that=E2=80=99s what your email said but if it=E2=80=99s a dif=
-ferent case then
-I encourage you to bring it forward and discuss
-
-I usually report my problems and of possible I send a fix and if something
-of my interest is affected I try to help this works well in most cases
-
->
->
-> it is enough
->
-> Andreas
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000c0a9ad0584f2dc74
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Mar 25, 2019 at 2:12 PM Andreas M=C3=BCller &lt;<a =
-href=3D"mailto:schnitzeltony@gmail.com">schnitzeltony@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">On Mon, Mar 25, 2019 at 6:46 PM=
- Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de" target=3D"_blank">bunk@s=
-tusta.de</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, Mar 25, 2019 at 06:15:40PM +0100, Andreas M=C3=BCller wrote:<b=
-r>
-&gt; &gt;...<br>
-&gt; &gt; Looked into this. Found an old musl build failure of networkmanag=
-er<br>
-&gt; &gt; [1] but I think the issue has not changed:<br>
-&gt; &gt;<br>
-&gt; &gt; | In file included from<br>
-&gt; &gt; TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.14=
-.4-r0/recipe-sysroot/usr/include/net/ethernet.h:10,<br>
-&gt; &gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
-rom ../NetworkManager-1.14.4/shared/n-acd/src/n-acd.c:28:<br>
-&gt; &gt; | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.=
-14.4-r0/recipe-sysroot/usr/include/netinet/if_ether.h:111:8:<br>
-&gt; &gt; error: redefinition of &#39;struct ethhdr&#39;<br>
-&gt; &gt; |=C2=A0 struct ethhdr {<br>
-&gt; &gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~<br>
-&gt; &gt; | In file included from ../NetworkManager-1.14.4/shared/n-acd/src=
-/n-acd.c:26:<br>
-&gt; &gt; | TOPDIR/build/tmp/work/mips32r2-yoe-linux-musl/networkmanager/1.=
-14.4-r0/recipe-sysroot/usr/include/linux/if_ether.h:167:8:<br>
-&gt; &gt; note: originally defined here<br>
-&gt; &gt; | struct ethhdr {<br>
-&gt; &gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~<br>
-&gt; &gt;<br>
-&gt; &gt; glibc does not fail because it does include linux header<br>
-&gt; &gt; | /* Get definitions from kernel header file.=C2=A0 */<br>
-&gt; &gt; | #include &lt;linux/if_ether.h&gt;<br>
-&gt; &gt; and does not define struct ethhdr<br>
-&gt; &gt;<br>
-&gt; &gt; linux/if_ether.h says:<br>
-&gt; &gt; /* allow libcs like musl to deactivate this, glibc does not imple=
-ment this. */<br>
-&gt; &gt; #ifndef __UAPI_DEF_ETHHDR<br>
-&gt; &gt; #define __UAPI_DEF_ETHHDR=C2=A0 =C2=A0 =C2=A0 =C2=A0 1<br>
-&gt; &gt; #endif<br>
-&gt; &gt;<br>
-&gt; &gt; #if __UAPI_DEF_ETHHDR<br>
-&gt; &gt; struct ethhdr {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0unsigned char=C2=A0 =C2=A0 h_dest[ETH_ALEN];=
-=C2=A0 =C2=A0 /* destination eth addr=C2=A0 =C2=A0 */<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0unsigned char=C2=A0 =C2=A0 h_source[ETH_ALEN];=
-=C2=A0 =C2=A0 /* source ether addr=C2=A0 =C2=A0 */<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0__be16=C2=A0 =C2=A0 =C2=A0 =C2=A0 h_proto;=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 /* packet type ID field=C2=A0 =C2=A0 */<br>
-&gt; &gt; } __attribute__((packed));<br>
-&gt; &gt; #endif<br>
-&gt; &gt;<br>
-&gt; &gt; musl does not include linux header but defines which is differen =
-from<br>
-&gt; &gt; what linux does:<br>
-&gt; &gt; struct ethhdr {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0uint8_t h_dest[ETH_ALEN];<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0uint8_t h_source[ETH_ALEN];<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0uint16_t h_proto;<br>
-&gt; &gt; };<br>
-&gt; &gt; and later<br>
-&gt; &gt; #define __UAPI_DEF_ETHHDR=C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
-&gt; &gt;<br>
-&gt; &gt; So for networkmanager there is either some wrong sequence or it<b=
-r>
-&gt; &gt; includes linux headers.<br>
-&gt;<br>
-&gt; musl headers providing own different definitions of kernel interfaces<=
-br>
-&gt; is a problem in musl.<br>
-&gt;<br>
-&gt; After reading [1] I think that this is musl upstream having made the<b=
-r>
-&gt; decision of not even trying to work properly with the kernel headers.<=
-br>
-&gt;<br>
-&gt; OE adding a not upstreamable patch that removes one of the two<br>
-&gt; definitions in musl builds might be the best available solution.<br>
-&gt;<br>
-&gt; &gt; And I am still not confident that it is our job to teach umpteen<=
-br>
-&gt; &gt; projects written for linux how to write portable code (oe-core ha=
-s 147<br>
-&gt; &gt; musl related patches and meta-openembedded has 140)...<br>
-&gt; &gt;...<br>
-&gt;<br>
-&gt; This is not about writing portable code, this is about problems with m=
-usl.<br>
-&gt;<br>
-&gt; Using the Linux userspace headers is obviously not portable to non-Lin=
-ux,<br>
-&gt; but many packages like NetworkManager are anyways Linux-only no matter=
-<br>
-&gt; what you do.<br>
-&gt;<br>
-&gt; &gt; Andreas<br>
-&gt;<br>
-&gt; cu<br>
-&gt; Adrian<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://wiki.musl-libc.org/faq.html#Q:-Why-am-I-getting=
--" rel=3D"noreferrer" target=3D"_blank">https://wiki.musl-libc.org/faq.html=
-#Q:-Why-am-I-getting-</a><br>
-&gt;<br>
-Have looked into some papers at musl page and the link above: The more<br>
-I read from them the less I am interested in wasting my time on it.<br>
-There is too often this &#39;the world is full of idiots - and it is just<b=
-r>
-us doing the right thing&#39; between the lines. Starts that they call<br>
-musl &#39;correct&#39; - while their own performance charts are - for my us=
-e<br>
-case - unacceptable (ok outdated - maybe things changed). One could<br>
-say: Go and give it a try but there is just a little problem: I think<br>
-it&#39;ll take weeks to get images with contents I interested in.<br>
-<br>
-Looked into networkmanager: There are dozen places where linux headers<br>
-are used - I don&#39;t see a clean solution we could offer upstream.<br>
-<br>
-What bugs me most: Silently a rule was introduced that patches failing<br>
-for musl are not accepted - or did I miss something. A project<br>
-considering itself as center of the world blocks resources here in<br>
-times these are limited.</blockquote><div dir=3D"auto"><br></div><div dir=
-=3D"auto">No there is no rule like that it=E2=80=99s who shows up with inte=
-rest and reports problems I understand your usecase might not involve musl =
-and that=E2=80=99s how everyone is they have interest in some parts of proj=
-ect but they cooperate with the things which don=E2=80=99t interest them so=
- when I ask it=E2=80=99s breaking musl</div><div dir=3D"auto">I am trying t=
-o nudge them to help fixing it since I do the same when someone approaches =
-my patches and reports issues that could be fixed in that and sometimes I e=
-xpress my helplessness and sometimes I do help if I have knleoledge and tim=
-e so I expect others to do same=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-br>
-<br>
-Just to add that I spent past three weekends to wipe after patches<br>
-being removed / &#39;bit-rottened&#39; stuff was removed from a layer I<br>
-maintain right before next release. Ahh maintainer means take care /<br>
-answer user questions take / complaints when something does not work -<br>
-but when it comes to decisions: Please keep you mouth shut.</blockquote><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">You can be direct and cite the c=
-ase and may be it can be discussed further if you are talking about gstream=
-er 0.10 then I thought you agreed for removal since that=E2=80=99s what you=
-r email said but if it=E2=80=99s a different case then I encourage you to b=
-ring it forward and discuss</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to">I usually report my problems and of possible I send a fix and if someth=
-ing of my interest is affected I try to help this works well in most cases=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-it is enough<br>
-<br>
-Andreas<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000c0a9ad0584f2dc74--
