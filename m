@@ -1,47 +1,48 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 272C46C3A3
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D4CE27CDEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 09:34:51 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id q1so9262083wrp.0
+	Mon, 25 Mar 2019 09:37:57 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id z11so8157397wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 02:34:53 -0700 (PDT)
+	Mon, 25 Mar 2019 02:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=TIKrDos2jPEjliWhCNffs8TIZ3C66TdahlwTZFHJ5xs=;
-	b=keihT8tctbX1kPVs7MBNIwOGUmOC4Q+JfC8GzNC7jDARsSuyKdYKlWVYiSvhDkr95m
-	uAdcaJyllRTNj4Pgznul41SlEnncq7psjm3UTwW2u+dhebA5VBidjCXE2+ngJATI56xA
-	3VaMqh4UsP3iYbLXihBbL5OGMVXQ956o8ZvYqLWCDwh1pu9RJfgyEROclkVBVPe4CiF9
-	CpPlxXkGJWX0VHCVZ90LR1DCblYQCu4zrFmWQmI75ayzkVrLUy4PrkPLFNbKeZSbp/xg
-	0dkn/wqlnGu6ig2cUqwaF1y6rLfuFetkP1eUCUSnxisn17NoeODJftPGG05KNk3BfMKr
-	pJ+g==
+	bh=zy1OEL4em2hUS3qDu+gmVPiKHY9oUV6qjffelsFwtt8=;
+	b=odshv0mpZCGHbA4aQjgGIBPwtf68b6cTTF5n2h7X2IDEgX0pCx/nqHIdfawlBBuF9Y
+	FE9GWvfOMZ5fWcbNYaQ6zXI64CSx7lZnYsU7rA7mP/MAureiH839jCfQgT6GvEGQKO/I
+	KautZolWJwuUgVE61tTYt5fIZ723xza2yx3p5g1TRqn9ABJzIn7xT3Fur4NfS+efMxoH
+	zx50a1FT31a4JGotLaO6M60EsqvvAkKNJvpPI6ztx6zZuDOC74rfsZwr1+X/JUyHoSht
+	HRf7KFVKxk1yFzZK2RnsPjt5nYB3kYoUPQqoouMEqMR39tVzEbJ4lNo5tZGnuXNHrkdT
+	lhwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TIKrDos2jPEjliWhCNffs8TIZ3C66TdahlwTZFHJ5xs=;
-	b=qOy89sHvCXZ6xgua9V/mH31DQZAYPnHJjlwSirWLSrbAYr69aiR9WPc8seemTiCOlF
-	OLxGikQBSn7/ZHs8mRnfhaVLFS9XVIUDR45sAJZsb2h3tqpS7FKTF4itgjqmgg4CxJUg
-	inccwHOO4/rcJJn1C7rTFbPbwbsTe55205mFUdOp+vMGVlgO52qLYq0XALw4tHraeVrg
-	jQGBS9YVduhwtaYpPntIkx5GgIh6cX/VT2mUzhrxLeza1XI4Tj8pdivDVBTY4HiKEF0o
-	dFkAd987sIPID8akqqZTcXb78J7bI1jGT0K3KSta5IaBmZvDC1pS8mXXoZRMQAXQT0SV
-	80kg==
-X-Gm-Message-State: APjAAAUxbTS3wqIzCRkXu1gESPcXSq0DWS8L5Z8sKQCKsUGgeMp1R29n
-	A5M6zr9BRYCSbqlAolKDAb0KKuW0C3Q=
-X-Google-Smtp-Source: APXvYqxy8TJ65QERTFMB+wr8ogkp6iYl28Q3+KDQt+s2ni85ATVFjnc5M8wW0o9fWt/2pNlw9iXZ6A==
-X-Received: by 2002:adf:e443:: with SMTP id t3mr15868602wrm.257.1553506492289; 
-	Mon, 25 Mar 2019 02:34:52 -0700 (PDT)
+	bh=zy1OEL4em2hUS3qDu+gmVPiKHY9oUV6qjffelsFwtt8=;
+	b=giT5xWTyhBM2GOC/0nTd08/64EkHa+cPb3uXtWhHdoufQmYtV2LnlnaLHgwqcxTocW
+	AQhknXa7scsflaVzIsbMiFzlZUVs/A8l/H5Tyw18yEaQGCZmJ+WVQoxq/E67Zrj6MoP6
+	LzltVTuQWcCpjPC7QrRgWyW5OU2IOR2NjPpmHY3UqgwHntWms35wLHxbHxo3ko6avLN2
+	QdCEYbejFcQ0JR0KTR6+zSfXclpa+XyyshMlQeuLAA4C5hl6dDmnXHlUbjZY1nFQ8ZHZ
+	psPEvoYLIJE1W8ZqPOvyxtbnAvEzaD7RbflcL9ZiGmJTHKC27GupZKPaM++J0FBd30P9
+	+crQ==
+X-Gm-Message-State: APjAAAXSo+k4VI/uJtnMIx9dqVtsJLxK9uw3rjENX0yXkqgWSa4Ta9X5
+	oAdbA7SPo1XgKIOqNUjQ+q7YTXxa7ZQ=
+X-Google-Smtp-Source: APXvYqxarSbeVE0M+xyQ8DVkBqZPxW05Mw0MgyG2JIGOtmnI/+9hW6hZi3nyhthn79EyMnUdXBrFyA==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+	u21mr10289692wmm.12.1553506678425; 
+	Mon, 25 Mar 2019 02:37:58 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
 	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	f11sm20387266wrm.30.2019.03.25.02.34.51
+	d14sm12249776wro.79.2019.03.25.02.37.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Mar 2019 02:34:51 -0700 (PDT)
+	Mon, 25 Mar 2019 02:37:57 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 09:34:49 +0000
-Message-Id: <1553506489-11218-1-git-send-email-alex.kiernan@gmail.com>
+Date: Mon, 25 Mar 2019 09:37:54 +0000
+Message-Id: <1553506675-11519-1-git-send-email-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] systemd: Add PACKAGECONFIG for openssl
+Subject: [PATCH v2 1/2] libpsl: Extend with native, nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,26 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 09:34:52 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 09:37:58 -0000
 
+To allow wget with libpsl to build native/nativesdk versions we need
+those variants here.
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-core/systemd/systemd_241.bb | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+- new
 
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index 6532a58cf8c5..a12b9abee8b8 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -149,6 +149,7 @@ PACKAGECONFIG[networkd] = "-Dnetworkd=true,-Dnetworkd=false"
- PACKAGECONFIG[nss] = "-Dnss-systemd=true,-Dnss-systemd=false"
- PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
- PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
-+PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
- PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
+ meta/recipes-support/libpsl/libpsl_0.20.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/libpsl/libpsl_0.20.2.bb b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
+index 89a87b67c744..5cb20d46bc48 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.20.2.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
+@@ -16,3 +16,5 @@ inherit autotools gettext gtk-doc manpages pkgconfig lib_package
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[manpages] = "--enable-man,--disable-man,libxslt-native"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.7.4
 
