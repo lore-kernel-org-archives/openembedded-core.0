@@ -1,50 +1,53 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C1FB7D09F
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E7DEE7CFDF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 13:28:12 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id q1so10169997wrp.0
+	Mon, 25 Mar 2019 15:36:54 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id i17so6628720pfo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 06:28:13 -0700 (PDT)
+	Mon, 25 Mar 2019 08:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lbt9su3kfB29bISuDqg95ggnu9O6K7dwPcSgOUitNm4=;
-	b=tnuoiLXPat5HhpoQ8Y3wGSLpCNac+qQrKzMxRo0yBAYhS03CMbuH2heR3/6RNIbDfe
-	FhGgvt1q+Un2FmEMn0bwpYZ1GS9t+fMiZB6W5YkVAqijtGmCACh6sklAPOTEi0FJgbSZ
-	Bvhpcskym2tT83vkY2w2+Hbfu5xcdoyBfTjRyboQsIGG5aY6haD7eS2W7n4g9HNDU17S
-	fSZ/cUmaWpLWwQ2Lv6ZQfdigM2wGQ6lWFJvenqNxyYPRIYYgzHh7Ogg55plaUgCv910a
-	OkQ51zKpVARgonrut+qqFzlXQxaTAE9mJkolc32Kcenye4lZU3PdbqMDww5L9UUOQtmm
-	NEpA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=mlA3srJPcmjNPAEssLniQ2t3K70BnmPxImjhsDuLg4c=;
+	b=m/JYQIzYF/lFzYJFTTFy0yIPMF8FAHlhMRB4XoBScsscnF8dtS9+z8WRSemA/bVtDw
+	qufjj0USL6/aXgZoTNdh+hlwkhTIXukcQDHzFJAsh1GyhmVUojHONm8Guupd54fnOVJF
+	hMkmrVdNB5wn+edEXHhq9bRImBX1aJy7Tbxl61qSyJ3SeHi5uJAlyVr+OFRhDAZCchsW
+	GxglYW16FwUsab2i8tzz85BnSs7fxkjeuLlIP7FVe9Su6t6aCF8FsZbJjq9JSU+xq3kh
+	P6OqenYvwDmbr0jVh9hyWsF6IBDW1FmxgfyZ0ZiX6tnQKK1jhBwSUZ2PtfbZ1dExMOPr
+	TF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=lbt9su3kfB29bISuDqg95ggnu9O6K7dwPcSgOUitNm4=;
-	b=pbrirs+44O5W68q50nu0s1/5yTjUTAu3pC6Oi/cAUmW/vTQNzRl+ZgNCQc1loPKyx9
-	147slk5N1O4FLUQinh1RAr2/hSR3hUKw7O34B3sEVUihPHK1d8Z7sqIAzW3RzkIZg2VM
-	AYZCrpaVHWLf9HH8tImFf05BnPnI6k0Ep8sEdrd9KPkSTRTwzLAgnVmfVCrpF1ciPlWZ
-	7Zg1EKHsqjIPMF0qZs3EYc4dJnIWPP9CD8Lvc/JPBarC2bf28HtCe821MhndlYU89ODF
-	cIPcbMmkL5BS30Lf9MiaLasXTvhY/GFfb9BX3bBuaVdmuLIUgV9r8ONq4OajijzJZb20
-	pG4w==
-X-Gm-Message-State: APjAAAVikXYAyDih3WHEdQDhWoi+3KUrAme5ckHQRJb+xXymY1WesPA7
-	g3SuQLki169PDVeEyQX/uyKGh5jBYnM=
-X-Google-Smtp-Source: APXvYqyTNA7kfA8oiIzgujvh7FiCbwZCCamb8OqKl64yPnCO/g4BNYbeuwAdqIS+3o6jL+LzK0nArQ==
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr15397817wru.30.1553520492717; 
-	Mon, 25 Mar 2019 06:28:12 -0700 (PDT)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	e135sm26563321wmg.24.2019.03.25.06.28.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Mar 2019 06:28:12 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 13:27:28 +0000
-Message-Id: <1553520448-12901-2-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
-References: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
-Subject: [PATCH v3 2/2] wget: Convert EXTRA_OECONF to PACKAGECONFIG, extend PACKAGECONFIG
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=mlA3srJPcmjNPAEssLniQ2t3K70BnmPxImjhsDuLg4c=;
+	b=Abqoo2VptfkcU4GNyB4h92IHzMDNWbyppENUNpT2E5FgFYVSY2ok8aYwC/eNHQ8Q7T
+	ii9GifIsV0QASgsWQsMS4oGsF8iYhUEcFK2YbvlPaqXE5WOo1V/k5OhwlXDOe4xuwtt9
+	o/Si56/cjMwGT3Nd63fcjp6V6iNeVdXN5SbaF4ncPPbjd/Jfr2K1hZpSTt1oTqDs14Bh
+	+KOU45vv2CJTS3rH4vtF+b5kMgcE2UFjgY1l8Q5aRxyiGqjMTlZbBWZWBsDI0vvHsB/7
+	k8V6X3/UNNGP/sK4BVMS3RTmK0vig/t2FB/Do161UcOffY4b7TzTBDXKGmi2KIjiJTmI
+	MlhQ==
+X-Gm-Message-State: APjAAAWV2Dx0jsplcJn6G71dMcUznLE0PjHm5nOvU8oMTyIxTa8pWZze
+	h3QBz+XN3LQ36aCWqbA+9JDnY5tW/yBmaLcddnk=
+X-Google-Smtp-Source: APXvYqyXuOLvxESd8RbCz24R1YXb/g/WS5j7Yohfatzj7BsMZXWzhBteNXddWnnctnC+LnQRPRzJXCCPIIpOo9HPyY8=
+X-Received: by 2002:a65:5c4b:: with SMTP id v11mr23421171pgr.411.1553528216124;
+	Mon, 25 Mar 2019 08:36:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <CALbNGRRm1QAgY2MHbTUA_Ly9L_Kt6ZzkR55jArkCE53G=ts8tA@mail.gmail.com>
+	<CAMKF1sri_7L8sb95L5BjD3d2iMJq4PnqK+pD0XnTibUpwogpsQ@mail.gmail.com>
+	<20190323211604.GA20793@localhost>
+	<CALbNGRQPtnNLSVhDzXgnvn-2VNPPMfQTY5vDdwM3xr5iVcGofg@mail.gmail.com>
+	<20190323215336.GA22469@localhost>
+	<CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
+In-Reply-To: <CALbNGRScKq9gCQWbU2wchSvQ3cf2aRNnn5601fOATuKMdVOFCA@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Mon, 25 Mar 2019 16:36:44 +0100
+Message-ID: <CAAQYJAsLQFn3VrB7gSTkytA8Rm-1GkKLBLHHpVzonpqykrHnRg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
+Subject: Re: musl thoughts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,66 +60,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 13:28:12 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 15:36:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert existing EXTRA_OECONF and DEPENDS to PACKAGECONFIG, fill out
-remaining PACKAGECONFIG options. When building without libpsl we pass in
---without-libpsl, which we didn't previously, but all this actually ends
-up doing is silencing a warning from the configure script, the code
-still uses an internal implemention when using this option.
+On Sat, Mar 23, 2019 at 11:00 PM Andreas M=C3=BCller <schnitzeltony@gmail.c=
+om> wrote:
+>
+> On Sat, Mar 23, 2019 at 10:53 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Sat, Mar 23, 2019 at 10:22:15PM +0100, Andreas M=C3=BCller wrote:
+> > > On Sat, Mar 23, 2019 at 10:16 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > > >
+> > > > On Fri, Mar 22, 2019 at 03:18:01PM -0700, Khem Raj wrote:
+> > > > >...
+> > > > > There are certain design aspects of musl which are actually turni=
+ng
+> > > > > out to be good
+> > > > > e.g. there is no __MUSL__ define, so non-portable code can not be
+> > > > > hidden which is a good thing,
+> > > > >...
+> > > >
+> > > > Please take a closer look at some of the musl changes to NM that ma=
+de
+> > > > upgrading NM so hard for Andreas.
+> > > >
+> > > > +#if defined(__GLIBC__)
+> > > >  #include <net/ethernet.h>
+> > > > +#else /* musl libc */
+> > > > +#define ETH_ALEN       6               /* Octets in one ethernet a=
+ddr   */
+> > > > +#endif
+> > > >
+> > > > Using __GLIBC__ in workarounds for bugs in musl is wrong,
+> > > > and cannot be upstreamed since it would do the wrong thing
+> > > > on other non-broken C libraries.
+> > > >
+> > > > > While the eyes may hurt
+> > > > > to see them, it does serve a
+> > > > > good reminder of whats needed for a given package.
+> > > > >...
+> > > >
+> > > > Who is responsible for fixing the root causes of such bugs in musl,
+> > > > so that the workaround patches can be dropped from packages like NM=
+?
+> > > >
+> > > > cu
+> > > > Adrian
+> > > If I am not mistaken nobody is responsible. It is recipe wise: Sendin=
+g
+> > > out a patch that fails for musl is rejected usually.
+> >
+> > As you have experienced, it does create a huge technical debt to ship
+> > workaround patches in several recipes instead of fixing the bug in musl=
+.
+> >
+> > > The last example could be fixed easily at musl shipping a ethernet.h =
+containing
+> > > #define ETH_ALEN       6
+> > >...
+> >
+> > That's already shipped by musl.
+> >
+> > But there seems to be some incompatibility between musl and the
+> > kernel headers used by musl.
+> >
+> > This has to be sorted out in musl and/or the kernel headers.
+> >
+> Although I did not want to I'll start a musl build to create a cleanup
+> for NM (and maybe) other musl patches.
+>
+> Andreas
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Hi,
 
-Changes in v3:
-- add explicit with/without/enable/disable for all PACKAGECONFIGs
+I am jumping in a little late to take side with Khem :)
 
-Changes in v2:
-- drop ac_cv_header_uuid_uuid_h hack
+What happens now is that more 'bad' sources (written to suit glibc and
+thus not portable) are discovered by the wider base of developers and
+autobuilders.
 
- meta/recipes-extended/wget/wget.inc | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+I myself did struggle in the years to maintain a few packages deeply
+bound to the kernel (mtd-utils, kexec tools) 'compatible' with klibc
+so I know the pain.
+As Khem said, this just needs time and efforts to clean up and
+upstream the patches.
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 3cff656a68d9..07e8d8e8718f 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -3,12 +3,11 @@ HOMEPAGE = "https://www.gnu.org/software/wget/"
- SECTION = "console/network"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
--DEPENDS = "gnutls zlib libpcre"
- 
- inherit autotools gettext texinfo update-alternatives pkgconfig
- 
--EXTRA_OECONF = "--with-ssl=gnutls --disable-rpath --disable-iri \
--                --without-libgnutls-prefix ac_cv_header_uuid_uuid_h=no"
-+EXTRA_OECONF = "--without-libgnutls-prefix --without-libssl-prefix \
-+                --disable-rpath"
- 
- EXTRA_OEMAKE += 'TOOLCHAIN_OPTIONS="${TOOLCHAIN_OPTIONS}" \
-                  DEBUG_PREFIX_MAP="${DEBUG_PREFIX_MAP}"'
-@@ -21,9 +20,17 @@ RRECOMMENDS_${PN} += "ca-certificates"
- 
- BBCLASSEXTEND = "nativesdk"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
--PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
-+PACKAGECONFIG ??= "gnutls pcre zlib \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
-+PACKAGECONFIG[ares] = "--with-cares,--without-cares,c-ares"
-+PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+PACKAGECONFIG[iri] = "--enable-iri,--disable-iri,libidn2"
-+PACKAGECONFIG[libpsl] = "--with-libpsl,--without-libpsl,libpsl"
-+PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux"
-+PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
-+PACKAGECONFIG[pcre] = "--enable-pcre,--disable-pcre,libpcre"
-+PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
- 
- # Let aclocal use the relative path for the m4 file rather than
- # absolute, otherwise there might be an "Argument list too long" error
--- 
-2.7.4
-
+Cheers
+Andrea
 
