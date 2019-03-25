@@ -1,99 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 438FC60248
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC147D0D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 23:07:39 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id q206so7301297pgq.4
+	Mon, 25 Mar 2019 23:21:11 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 4so10698198wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 16:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=y1ErJaVsShfMbzN96+hWNICtjUUo7gCGzU2UGTvo1yE=;
-	b=aEmV1MmbLEoy6k9b3hLwyb1UGh/z6Ftx5PmGEHngMavT+pUFfigSY4stgPTz9hJxdo
-	TL/drXZckTv64yR8eorx1IK283vzzGvT1W53uFz3+KWb8fIKXE3SIdmyScNwsaplMRgU
-	LA6Rkfb242YX0PHy/YbWL37jIqMYbsF6UwLl3PTd7Hqd9u5u87LiyDz6xt4Fkl0qqx0W
-	zf/Xln1e9cvsWcf7cdwnT4f/Eydjos3HaGuWAEwawhZ3vsSP2LliPGm2LUBPIrWAaZm1
-	tTOJYmoftbYYmgyGGJhjoiEys9hn92eCDaTz+H8YLFywzUTmgEthvGj3ImN3Wd2azz6l
-	Cgmw==
+	Mon, 25 Mar 2019 16:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=eKeyc6IOqN3gFtT2ZcCaFlFKdQ5ICoXt0nUBlO4wcs4=;
+	b=oZMyehHxGBYID1Kgs35GzMELrqf66fUa70BcE5NnGVljQXtCtWktI6S1g01PRP7183
+	QEkWESSlEBonML9Zj0p6J/5KOsdpbHIzZT5TxCkFyKclAZDEzLjLEdzMErufsvdfmiY+
+	d2pm7X3EYgFXfs6/bREkH6Y8xbWej3qlbi6wfFqwWeZkJQwkx5zkJogs2GX4gCIu9Ncf
+	AwyNo8rjj7eZ8pwW2qmB0jwhs9tZOHbaHtm4YMuEd2kdiagTPNcVZZPLVFwvDxFLd5yZ
+	UikddYb8ITZUeJkJyXM2jsvPd3vPSaM13ENH0f9LBnqhsT7aNixKkxp/zUfxsWALTrAN
+	7VeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=y1ErJaVsShfMbzN96+hWNICtjUUo7gCGzU2UGTvo1yE=;
-	b=pvoWw2HKzJP4dbyJy1AMNk9dFPYrakGPrlZY9/11SueCbB2842GvQJcfZ1zNvE4/wm
-	Vxox6oWP97oxwsdEFBAzc8OSRgdaYmFOawSDUNi0st2shRZKRtJuV2be1YV2CN4jZ5yk
-	+Y5dcxMU5PHIGDfKEiuMjcoXAV28dfAK/92jVrAgS66+7JbZ2kOxQcTuJLj3w7cx15ET
-	jK0ed1u1F+1kEyR//M/ElgVVpKi/Y1fMouiB/swi2Nn/rLeLKqGHPZkTaJ1DQwxKQlEX
-	nU1IpVPMP28NTj6HlGCc18m7QVxzOEKmFlzS17tQTJ3ZaHsh807/st02ao3MG+lcrryj
-	dJ0g==
-X-Gm-Message-State: APjAAAUt14ZloVMBbhhs/2t8ihoQ97yCjJGoUmNAH2nqDe+2gsXj2S5Z
-	7rEIdXBXzJ8m2sAQwKoYH0szUOC5
-X-Google-Smtp-Source: APXvYqzC3OaVkivin1My1M30nd4VTBSNPGDTspD+Acv6xKZqx/GtBngRL+Ejx9OCRoLYAM01bsLxvQ==
-X-Received: by 2002:a62:4d45:: with SMTP id a66mr629746pfb.250.1553555260033; 
-	Mon, 25 Mar 2019 16:07:40 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:3dea:ddac:f0ad:db91?
-	([2601:202:4180:c33:3dea:ddac:f0ad:db91])
-	by smtp.gmail.com with ESMTPSA id
-	k1sm15341862pfo.121.2019.03.25.16.07.34
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=eKeyc6IOqN3gFtT2ZcCaFlFKdQ5ICoXt0nUBlO4wcs4=;
+	b=M2OPdFJk1FmgTik++InjS8Rc/lJVV5mXpN44EBTKbkdRAYFMrNaQYOFQA9cJBvDLZY
+	KEaWO3/ZJDf5elds3ztwW+WRLbd1de+85tmJXv1Ah/qBTebNZCGb00ChTyyQgqDE692m
+	y2Y5RI1kWRRCPFm2w4/zthozaque6SIzRrmK/ZGm3IXYT44M3hFleWc9wzPI2VPaqN7+
+	JLSVJzBoyTLG+ghzq38RzWL7+ljVuchO/w7KWI9GIx8GBcxctR08nATDt+Yl1YwC6fMv
+	/MeWKyggvrePN6FiWMdVcwVS8NopMMxna3Wz/THQkxXeo1XcHL+4MY+Cw91sXSPBhgmb
+	TB+g==
+X-Gm-Message-State: APjAAAXOefogBc9nUdxlmvPNJg6IzpPkERVi2Xsm/sHWpiXxtTzxka3N
+	Tebc+tKTS2x1aio4Wf+eLo09x/ZCuck=
+X-Google-Smtp-Source: APXvYqwkW5X3CRe1eFAwN/AdxtrYK4cMD6OriUQCl7Albsmlu/JGHsERazRVV1QD+aHSWBzqJ+Oa0Q==
+X-Received: by 2002:a1c:6042:: with SMTP id u63mr13046705wmb.92.1553556072093; 
+	Mon, 25 Mar 2019 16:21:12 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o2sm10795461wrs.89.2019.03.25.16.21.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Mar 2019 16:07:35 -0700 (PDT)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <c0e7c451-8e86-bab9-3b19-185dbaae486d@gmail.com>
-Date: Mon, 25 Mar 2019 16:07:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
-MIME-Version: 1.0
-Subject: thud][Pull request]
+	Mon, 25 Mar 2019 16:21:11 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Mar 2019 23:21:07 +0000
+Message-Id: <20190325232108.10002-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] bluez5: fix CVE-2018-10910
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,77 +56,742 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 23:07:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 25 Mar 2019 23:21:12 -0000
 
-Please consider these for the next thud release.
+Fix this CVE (Bluetooth discoverability may be enabled with no agents to handle
+requests) by backporting a number of patches from upstream.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   1 +
+ .../bluez5/bluez5/CVE-2018-10910.patch             | 705 +++++++++++++++++++++
+ 2 files changed, 706 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2018-10910.patch
 
-The following changes since commit b79bd7c77635ed45509dfc288c2ca7a2dcf1cc67:
-
-  libpam: libpamc is licensed under its own BSD-style licence
-(2019-03-22 14:40:46 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core thud-next
-
-for you to fetch changes up to c48c37a436b3ebfe4d8ca5d12e97a0cdff0e20a1:
-
-  scripts/wic: Be consistent about how we call bitbake (2019-03-24
-22:49:54 +0000)
-
-----------------------------------------------------------------
-Mazliana (2):
-      scripts/resulttool: enable manual execution and result creation
-      resulttool/manualexecution: To output right test case id
-
-Richard Purdie (9):
-      resulttool: Improvements to allow integration to the autobuilder
-      resulttool/resultutils: Avoids tracebacks for missing logs
-      resulttool/store: Handle results files for multiple revisions
-      resulttool/report: Handle missing metadata sections more cleanly
-      resulttool/report: Ensure test suites with no results show up on
-the report
-      resulttool/report: Ensure ptest results are sorted
-      resulttool/store: Fix missing variable causing testresult corruption
-      oeqa/utils/gitarchive: Handle case where parent is only on origin
-      scripts/wic: Be consistent about how we call bitbake
-
-Yeoh Ee Peng (4):
-      resulttool: enable merge, store, report and regression analysis
-      resulttool/regression: Ensure regressoin results are sorted
-      scripts/resulttool: Enable manual result store and regression
-      resulttool/report: Enable roll-up report for a commit
-
- meta/lib/oeqa/files/testresults/testresults.json   |  40 +++++
- meta/lib/oeqa/selftest/cases/resulttooltests.py    |  94 ++++++++++
- meta/lib/oeqa/utils/gitarchive.py                  |   4 +-
- scripts/lib/resulttool/__init__.py                 |   0
- scripts/lib/resulttool/manualexecution.py          | 142 +++++++++++++++
- scripts/lib/resulttool/merge.py                    |  42 +++++
- scripts/lib/resulttool/regression.py               | 192
-+++++++++++++++++++++
- scripts/lib/resulttool/report.py                   | 150 ++++++++++++++++
- scripts/lib/resulttool/resultutils.py              | 131 ++++++++++++++
- scripts/lib/resulttool/store.py                    |  99 +++++++++++
- .../resulttool/template/test_report_full_text.txt  |  44 +++++
- scripts/resulttool                                 |  93 ++++++++++
- scripts/wic                                        |  16 +-
- 13 files changed, 1034 insertions(+), 13 deletions(-)
- create mode 100644 meta/lib/oeqa/files/testresults/testresults.json
- create mode 100644 meta/lib/oeqa/selftest/cases/resulttooltests.py
- create mode 100644 scripts/lib/resulttool/__init__.py
- create mode 100755 scripts/lib/resulttool/manualexecution.py
- create mode 100644 scripts/lib/resulttool/merge.py
- create mode 100644 scripts/lib/resulttool/regression.py
- create mode 100644 scripts/lib/resulttool/report.py
- create mode 100644 scripts/lib/resulttool/resultutils.py
- create mode 100644 scripts/lib/resulttool/store.py
- create mode 100644
-scripts/lib/resulttool/template/test_report_full_text.txt
- create mode 100755 scripts/resulttool
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 6d62f524591..aaf2af975d0 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -53,6 +53,7 @@ SRC_URI = "\
+     file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+     file://0001-test-gatt-Fix-hung-issue.patch \
+     file://0001-Makefile.am-Fix-a-race-issue-for-tools.patch \
++    file://CVE-2018-10910.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2018-10910.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2018-10910.patch
+new file mode 100644
+index 00000000000..b4b1846c45b
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2018-10910.patch
+@@ -0,0 +1,705 @@
++A bug in Bluez may allow for the Bluetooth Discoverable state being set to on
++when no Bluetooth agent is registered with the system. This situation could
++lead to the unauthorized pairing of certain Bluetooth devices without any
++form of authentication.
++
++CVE: CVE-2018-10910
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++Subject:    [PATCH BlueZ 1/4] client: Add discoverable-timeout command
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-25 10:20:32
++Message-ID: 20180725102035.19439-1-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This adds discoverable-timeout command which can be used to get/set
++DiscoverableTimeout property:
++
++[bluetooth]# discoverable-timeout 180
++Changing discoverable-timeout 180 succeeded
++---
++ client/main.c | 43 +++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 43 insertions(+)
++
++diff --git a/client/main.c b/client/main.c
++index 87323d8f7..59820c6d9 100644
++--- a/client/main.c
+++++ b/client/main.c
++@@ -1061,6 +1061,47 @@ static void cmd_discoverable(int argc, char *argv[])
++ 	return bt_shell_noninteractive_quit(EXIT_FAILURE);
++ }
++ 
+++static void cmd_discoverable_timeout(int argc, char *argv[])
+++{
+++	uint32_t value;
+++	char *endptr = NULL;
+++	char *str;
+++
+++	if (argc < 2) {
+++		DBusMessageIter iter;
+++
+++		if (!g_dbus_proxy_get_property(default_ctrl->proxy,
+++					"DiscoverableTimeout", &iter)) {
+++			bt_shell_printf("Unable to get DiscoverableTimeout\n");
+++			return bt_shell_noninteractive_quit(EXIT_FAILURE);
+++		}
+++
+++		dbus_message_iter_get_basic(&iter, &value);
+++
+++		bt_shell_printf("DiscoverableTimeout: %d seconds\n", value);
+++
+++		return;
+++	}
+++
+++	value = strtol(argv[1], &endptr, 0);
+++	if (!endptr || *endptr != '\0' || value > UINT32_MAX) {
+++		bt_shell_printf("Invalid argument\n");
+++		return bt_shell_noninteractive_quit(EXIT_FAILURE);
+++	}
+++
+++	str = g_strdup_printf("discoverable-timeout %d", value);
+++
+++	if (g_dbus_proxy_set_property_basic(default_ctrl->proxy,
+++					"DiscoverableTimeout",
+++					DBUS_TYPE_UINT32, &value,
+++					generic_callback, str, g_free))
+++		return;
+++
+++	g_free(str);
+++
+++	return bt_shell_noninteractive_quit(EXIT_FAILURE);
+++}
+++
++ static void cmd_agent(int argc, char *argv[])
++ {
++ 	dbus_bool_t enable;
++@@ -2549,6 +2590,8 @@ static const struct bt_shell_menu main_menu = {
++ 	{ "discoverable", "<on/off>", cmd_discoverable,
++ 					"Set controller discoverable mode",
++ 							NULL },
+++	{ "discoverable-timeout", "[value]", cmd_discoverable_timeout,
+++					"Set discoverable timeout", NULL },
++ 	{ "agent",        "<on/off/capability>", cmd_agent,
++ 				"Enable/disable agent with given capability",
++ 							capability_generator},
++-- 
++2.17.1
++
++Subject:    [PATCH BlueZ 2/4] client: Make show command print DiscoverableTimeout
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-25 10:20:33
++Message-ID: 20180725102035.19439-2-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++Controller XX:XX:XX:XX:XX:XX (public)
++	Name: Vudentz's T460s
++	Alias: Intel-1
++	Class: 0x004c010c
++	Powered: yes
++	Discoverable: no
++	DiscoverableTimeout: 0x00000000
++	Pairable: yes
++	UUID: Headset AG                (00001112-0000-1000-8000-00805f9b34fb)
++	UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
++	UUID: A/V Remote Control        (0000110e-0000-1000-8000-00805f9b34fb)
++	UUID: SIM Access                (0000112d-0000-1000-8000-00805f9b34fb)
++	UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
++	UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
++	UUID: A/V Remote Control Target (0000110c-0000-1000-8000-00805f9b34fb)
++	UUID: Audio Source              (0000110a-0000-1000-8000-00805f9b34fb)
++	UUID: Audio Sink                (0000110b-0000-1000-8000-00805f9b34fb)
++	UUID: Headset                   (00001108-0000-1000-8000-00805f9b34fb)
++	Modalias: usb:v1D6Bp0246d0532
++	Discovering: no
++---
++ client/main.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/client/main.c b/client/main.c
++index 59820c6d9..6f472d050 100644
++--- a/client/main.c
+++++ b/client/main.c
++@@ -877,6 +877,7 @@ static void cmd_show(int argc, char *argv[])
++ 	print_property(proxy, "Class");
++ 	print_property(proxy, "Powered");
++ 	print_property(proxy, "Discoverable");
+++	print_property(proxy, "DiscoverableTimeout");
++ 	print_property(proxy, "Pairable");
++ 	print_uuids(proxy);
++ 	print_property(proxy, "Modalias");
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 3/4] adapter: Track pending settings
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-25 10:20:34
++Message-ID: 20180725102035.19439-3-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This tracks settings being changed and in case the settings is already
++pending considered it to be done.
++---
++ src/adapter.c | 30 ++++++++++++++++++++++++++++--
++ 1 file changed, 28 insertions(+), 2 deletions(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index af340fd6e..20c20f9e9 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -196,6 +196,7 @@ struct btd_adapter {
++ 	char *name;			/* controller device name */
++ 	char *short_name;		/* controller short name */
++ 	uint32_t supported_settings;	/* controller supported settings */
+++	uint32_t pending_settings;	/* pending controller settings */
++ 	uint32_t current_settings;	/* current controller settings */
++ 
++ 	char *path;			/* adapter object path */
++@@ -509,8 +510,10 @@ static void settings_changed(struct btd_adapter *adapter, uint32_t settings)
++ 	changed_mask = adapter->current_settings ^ settings;
++ 
++ 	adapter->current_settings = settings;
+++	adapter->pending_settings &= ~changed_mask;
++ 
++ 	DBG("Changed settings: 0x%08x", changed_mask);
+++	DBG("Pending settings: 0x%08x", adapter->pending_settings);
++ 
++ 	if (changed_mask & MGMT_SETTING_POWERED) {
++ 	        g_dbus_emit_property_changed(dbus_conn, adapter->path,
++@@ -596,10 +599,31 @@ static bool set_mode(struct btd_adapter *adapter, uint16_t opcode,
++ 							uint8_t mode)
++ {
++ 	struct mgmt_mode cp;
+++	uint32_t setting = 0;
++ 
++ 	memset(&cp, 0, sizeof(cp));
++ 	cp.val = mode;
++ 
+++	switch (mode) {
+++	case MGMT_OP_SET_POWERED:
+++		setting = MGMT_SETTING_POWERED;
+++		break;
+++	case MGMT_OP_SET_CONNECTABLE:
+++		setting = MGMT_SETTING_CONNECTABLE;
+++		break;
+++	case MGMT_OP_SET_FAST_CONNECTABLE:
+++		setting = MGMT_SETTING_FAST_CONNECTABLE;
+++		break;
+++	case MGMT_OP_SET_DISCOVERABLE:
+++		setting = MGMT_SETTING_DISCOVERABLE;
+++		break;
+++	case MGMT_OP_SET_BONDABLE:
+++		setting = MGMT_SETTING_DISCOVERABLE;
+++		break;
+++	}
+++
+++	adapter->pending_settings |= setting;
+++
++ 	DBG("sending set mode command for index %u", adapter->dev_id);
++ 
++ 	if (mgmt_send(adapter->mgmt, opcode,
++@@ -2739,13 +2763,15 @@ static void property_set_mode(struct btd_adapter *adapter, uint32_t setting,
++ 	else
++ 		current_enable = FALSE;
++ 
++-	if (enable == current_enable) {
+++	if (enable == current_enable || adapter->pending_settings & setting) {
++ 		g_dbus_pending_property_success(id);
++ 		return;
++ 	}
++ 
++ 	mode = (enable == TRUE) ? 0x01 : 0x00;
++ 
+++	adapter->pending_settings |= setting;
+++
++ 	switch (setting) {
++ 	case MGMT_SETTING_POWERED:
++ 		opcode = MGMT_OP_SET_POWERED;
++@@ -2798,7 +2824,7 @@ static void property_set_mode(struct btd_adapter *adapter, uint32_t setting,
++ 	data->id = id;
++ 
++ 	if (mgmt_send(adapter->mgmt, opcode, adapter->dev_id, len, param,
++-				property_set_mode_complete, data, g_free) > 0)
+++			property_set_mode_complete, data, g_free) > 0)
++ 		return;
++ 
++ 	g_free(data);
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 4/4] adapter: Check pending when setting DiscoverableTimeout
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-25 10:20:35
++Message-ID: 20180725102035.19439-4-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This makes DiscoverableTimeout check if discoverable is already pending
++and don't attempt to set it once again which may cause discoverable to
++be re-enabled when in fact the application just want to set the timeout
++alone.
++---
++ src/adapter.c | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index 20c20f9e9..f92c897c7 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -2901,6 +2901,7 @@ static void property_set_discoverable_timeout(
++ 				GDBusPendingPropertySet id, void *user_data)
++ {
++ 	struct btd_adapter *adapter = user_data;
+++	bool enabled;
++ 	dbus_uint32_t value;
++ 
++ 	dbus_message_iter_get_basic(iter, &value);
++@@ -2914,8 +2915,19 @@ static void property_set_discoverable_timeout(
++ 	g_dbus_emit_property_changed(dbus_conn, adapter->path,
++ 				ADAPTER_INTERFACE, "DiscoverableTimeout");
++ 
+++	if (adapter->pending_settings & MGMT_SETTING_DISCOVERABLE) {
+++		if (adapter->current_settings & MGMT_SETTING_DISCOVERABLE)
+++			enabled = false;
+++		else
+++			enabled = true;
+++	} else {
+++		if (adapter->current_settings & MGMT_SETTING_DISCOVERABLE)
+++			enabled = true;
+++		else
+++			enabled = false;
+++	}
++ 
++-	if (adapter->current_settings & MGMT_SETTING_DISCOVERABLE)
+++	if (enabled)
++ 		set_discoverable(adapter, 0x01, adapter->discoverable_timeout);
++ }
++ 
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 1/5] doc/adapter-api: Add Discoverable option to SetDiscoveryFilter
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-26 14:17:19
++Message-ID: 20180726141723.20199-1-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This enables the client to set its discoverable setting while
++discovering which is very typical situation as usually the setings
++application would allow incoming pairing request while scanning, so
++this would reduce the number of calls setting Discoverable and
++DiscoverableTimeout and restoring after done with discovery.
++---
++ doc/adapter-api.txt | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/doc/adapter-api.txt b/doc/adapter-api.txt
++index d14d0ca50..4791af2c7 100644
++--- a/doc/adapter-api.txt
+++++ b/doc/adapter-api.txt
++@@ -113,6 +113,12 @@ Methods		void StartDiscovery()
++ 				generated for either ManufacturerData and
++ 				ServiceData everytime they are discovered.
++ 
+++			bool Discoverable (Default: false)
+++
+++				Make adapter discoverable while discovering,
+++				if the adapter is already discoverable this
+++				setting this filter won't do anything.
+++
++ 			When discovery filter is set, Device objects will be
++ 			created as new devices with matching criteria are
++ 			discovered regardless of they are connectable or
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 2/5] adapter: Discovery filter discoverable
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-26 14:17:20
++Message-ID: 20180726141723.20199-2-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This implements the discovery filter discoverable and tracks which
++clients had enabled it and restores the settings when the last client
++enabling it exits.
++---
++ src/adapter.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++--
++ 1 file changed, 54 insertions(+), 2 deletions(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index f92c897c7..bd9edddc6 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -157,6 +157,7 @@ struct discovery_filter {
++ 	int16_t rssi;
++ 	GSList *uuids;
++ 	bool duplicate;
+++	bool discoverable;
++ };
++ 
++ struct watch_client {
++@@ -214,6 +215,7 @@ struct btd_adapter {
++ 
++ 	bool discovering;		/* discovering property state */
++ 	bool filtered_discovery;	/* we are doing filtered discovery */
+++	bool filtered_discoverable;	/* we are doing filtered discovery */
++ 	bool no_scan_restart_delay;	/* when this flag is set, restart scan
++ 					 * without delay */
++ 	uint8_t discovery_type;		/* current active discovery type */
++@@ -1842,6 +1844,16 @@ static void discovery_free(void *user_data)
++ 	g_free(client);
++ }
++ 
+++static bool set_filtered_discoverable(struct btd_adapter *adapter, bool enable)
+++{
+++	if (adapter->filtered_discoverable == enable)
+++		return true;
+++
+++	adapter->filtered_discoverable = enable;
+++
+++	return set_discoverable(adapter, enable, 0);
+++}
+++
++ static void discovery_remove(struct watch_client *client)
++ {
++ 	struct btd_adapter *adapter = client->adapter;
++@@ -1854,6 +1866,22 @@ static void discovery_remove(struct watch_client *client)
++ 	adapter->discovery_list = g_slist_remove(adapter->discovery_list,
++ 								client);
++ 
+++	if (adapter->filtered_discoverable &&
+++			client->discovery_filter->discoverable) {
+++		GSList *l;
+++
+++		for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
+++			struct watch_client *client = l->data;
+++
+++			if (client->discovery_filter->discoverable)
+++				break;
+++		}
+++
+++		/* Disable filtered discoverable if there are no clients */
+++		if (!l)
+++			set_filtered_discoverable(adapter, false);
+++	}
+++
++ 	discovery_free(client);
++ 
++ 	/*
++@@ -2224,6 +2252,15 @@ static DBusMessage *start_discovery(DBusConnection *conn,
++ 					     adapter->set_filter_list, client);
++ 		adapter->discovery_list = g_slist_prepend(
++ 					      adapter->discovery_list, client);
+++
+++		/* Reset discoverable filter if already set */
+++		if (adapter->current_settings & MGMT_OP_SET_DISCOVERABLE)
+++			goto done;
+++
+++		/* Set discoverable if filter requires and it*/
+++		if (client->discovery_filter->discoverable)
+++			set_filtered_discoverable(adapter, true);
+++
++ 		goto done;
++ 	}
++ 
++@@ -2348,6 +2385,17 @@ static bool parse_duplicate_data(DBusMessageIter *value,
++ 	return true;
++ }
++ 
+++static bool parse_discoverable(DBusMessageIter *value,
+++					struct discovery_filter *filter)
+++{
+++	if (dbus_message_iter_get_arg_type(value) != DBUS_TYPE_BOOLEAN)
+++		return false;
+++
+++	dbus_message_iter_get_basic(value, &filter->discoverable);
+++
+++	return true;
+++}
+++
++ struct filter_parser {
++ 	const char *name;
++ 	bool (*func)(DBusMessageIter *iter, struct discovery_filter *filter);
++@@ -2357,6 +2405,7 @@ struct filter_parser {
++ 	{ "Pathloss", parse_pathloss },
++ 	{ "Transport", parse_transport },
++ 	{ "DuplicateData", parse_duplicate_data },
+++	{ "Discoverable", parse_discoverable },
++ 	{ }
++ };
++ 
++@@ -2396,6 +2445,7 @@ static bool parse_discovery_filter_dict(struct btd_adapter *adapter,
++ 	(*filter)->rssi = DISTANCE_VAL_INVALID;
++ 	(*filter)->type = get_scan_type(adapter);
++ 	(*filter)->duplicate = false;
+++	(*filter)->discoverable = false;
++ 
++ 	dbus_message_iter_init(msg, &iter);
++ 	if (dbus_message_iter_get_arg_type(&iter) != DBUS_TYPE_ARRAY ||
++@@ -2441,8 +2491,10 @@ static bool parse_discovery_filter_dict(struct btd_adapter *adapter,
++ 		goto invalid_args;
++ 
++ 	DBG("filtered discovery params: transport: %d rssi: %d pathloss: %d "
++-		" duplicate data: %s ", (*filter)->type, (*filter)->rssi,
++-		(*filter)->pathloss, (*filter)->duplicate ? "true" : "false");
+++		" duplicate data: %s discoverable %s", (*filter)->type,
+++		(*filter)->rssi, (*filter)->pathloss,
+++		(*filter)->duplicate ? "true" : "false",
+++		(*filter)->discoverable ? "true" : "false");
++ 
++ 	return true;
++ 
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 3/5] client: Add scan.discoverable command
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-26 14:17:21
++Message-ID: 20180726141723.20199-3-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This adds discoverable command to scan menu which can be used to set
++if adapter should become discoverable while scanning:
++
++[bluetooth]# scan.discoverable on
++[bluetooth]# scan on
++SetDiscoveryFilter success
++[CHG] Controller XX:XX:XX:XX:XX:XX Discoverable: yes
++Discovery started
++[CHG] Controller XX:XX:XX:XX:XX:XX Discovering: yes
++[bluetooth]# scan off
++Discovery stopped
++[CHG] Controller XX:XX:XX:XX:XX:XX Discoverable: no
++---
++ client/main.c | 29 +++++++++++++++++++++++++++++
++ 1 file changed, 29 insertions(+)
++
++diff --git a/client/main.c b/client/main.c
++index 6f472d050..6e6f6d2fb 100644
++--- a/client/main.c
+++++ b/client/main.c
++@@ -1166,6 +1166,7 @@ static struct set_discovery_filter_args {
++ 	char **uuids;
++ 	size_t uuids_len;
++ 	dbus_bool_t duplicate;
+++	dbus_bool_t discoverable;
++ 	bool set;
++ } filter = {
++ 	.rssi = DISTANCE_VAL_INVALID,
++@@ -1205,6 +1206,11 @@ static void set_discovery_filter_setup(DBusMessageIter *iter, void *user_data)
++ 						DBUS_TYPE_BOOLEAN,
++ 						&args->duplicate);
++ 
+++	if (args->discoverable)
+++		g_dbus_dict_append_entry(&dict, "Discoverable",
+++						DBUS_TYPE_BOOLEAN,
+++						&args->discoverable);
+++
++ 	dbus_message_iter_close_container(iter, &dict);
++ }
++ 
++@@ -1362,6 +1368,26 @@ static void cmd_scan_filter_duplicate_data(int argc, char *argv[])
++ 	filter.set = false;
++ }
++ 
+++static void cmd_scan_filter_discoverable(int argc, char *argv[])
+++{
+++	if (argc < 2 || !strlen(argv[1])) {
+++		bt_shell_printf("Discoverable: %s\n",
+++				filter.discoverable ? "on" : "off");
+++		return bt_shell_noninteractive_quit(EXIT_SUCCESS);
+++	}
+++
+++	if (!strcmp(argv[1], "on"))
+++		filter.discoverable = true;
+++	else if (!strcmp(argv[1], "off"))
+++		filter.discoverable = false;
+++	else {
+++		bt_shell_printf("Invalid option: %s\n", argv[1]);
+++		return bt_shell_noninteractive_quit(EXIT_FAILURE);
+++	}
+++
+++	filter.set = false;
+++}
+++
++ static void filter_clear_uuids(void)
++ {
++ 	g_strfreev(filter.uuids);
++@@ -2510,6 +2536,9 @@ static const struct bt_shell_menu scan_menu = {
++ 	{ "duplicate-data", "[on/off]", cmd_scan_filter_duplicate_data,
++ 				"Set/Get duplicate data filter",
++ 				NULL },
+++	{ "discoverable", "[on/off]", cmd_scan_filter_discoverable,
+++				"Set/Get discoverable filter",
+++				NULL },
++ 	{ "clear", "[uuids/rssi/pathloss/transport/duplicate-data]",
++ 				cmd_scan_filter_clear,
++ 				"Clears discovery filter.",
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 4/5] client: Add scan.clear discoverable
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-26 14:17:22
++Message-ID: 20180726141723.20199-4-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++This implements scan.clear for discoverable filter.
++---
++ client/main.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/client/main.c b/client/main.c
++index 6e6f6d2fb..1a66a3ab4 100644
++--- a/client/main.c
+++++ b/client/main.c
++@@ -1416,6 +1416,11 @@ static void filter_clear_duplicate(void)
++ 	filter.duplicate = false;
++ }
++ 
+++static void filter_clear_discoverable(void)
+++{
+++	filter.discoverable = false;
+++}
+++
++ struct clear_entry {
++ 	const char *name;
++ 	void (*clear) (void);
++@@ -1427,6 +1432,7 @@ static const struct clear_entry filter_clear[] = {
++ 	{ "pathloss", filter_clear_pathloss },
++ 	{ "transport", filter_clear_transport },
++ 	{ "duplicate-data", filter_clear_duplicate },
+++	{ "discoverable", filter_clear_discoverable },
++ 	{}
++ };
++ 
++@@ -2539,7 +2545,8 @@ static const struct bt_shell_menu scan_menu = {
++ 	{ "discoverable", "[on/off]", cmd_scan_filter_discoverable,
++ 				"Set/Get discoverable filter",
++ 				NULL },
++-	{ "clear", "[uuids/rssi/pathloss/transport/duplicate-data]",
+++	{ "clear",
+++		"[uuids/rssi/pathloss/transport/duplicate-data/discoverable]",
++ 				cmd_scan_filter_clear,
++ 				"Clears discovery filter.",
++ 				filter_clear_generator },
++-- 
++2.17.1
++Subject:    [PATCH BlueZ 5/5] adapter: Fix not keeping discovery filters
++From:       Luiz Augusto von Dentz <luiz.dentz () gmail ! com>
++Date:       2018-07-26 14:17:23
++Message-ID: 20180726141723.20199-5-luiz.dentz () gmail ! com
++[Download RAW message or body]
++
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++
++If the discovery has been stopped and the client has set filters those
++should be put back into filter list since the client may still be
++interested in using them the next time it start a scanning.
++---
++ src/adapter.c | 25 ++++++++++++++++---------
++ 1 file changed, 16 insertions(+), 9 deletions(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index bd9edddc6..822bd3472 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -1854,7 +1854,7 @@ static bool set_filtered_discoverable(struct btd_adapter *adapter, bool enable)
++ 	return set_discoverable(adapter, enable, 0);
++ }
++ 
++-static void discovery_remove(struct watch_client *client)
+++static void discovery_remove(struct watch_client *client, bool exit)
++ {
++ 	struct btd_adapter *adapter = client->adapter;
++ 
++@@ -1882,7 +1882,11 @@ static void discovery_remove(struct watch_client *client)
++ 			set_filtered_discoverable(adapter, false);
++ 	}
++ 
++-	discovery_free(client);
+++	if (!exit && client->discovery_filter)
+++		adapter->set_filter_list = g_slist_prepend(
+++					adapter->set_filter_list, client);
+++	else
+++		discovery_free(client);
++ 
++ 	/*
++ 	 * If there are other client discoveries in progress, then leave
++@@ -1911,8 +1915,11 @@ static void stop_discovery_complete(uint8_t status, uint16_t length,
++ 		goto done;
++ 	}
++ 
++-	if (client->msg)
+++	if (client->msg) {
++ 		g_dbus_send_reply(dbus_conn, client->msg, DBUS_TYPE_INVALID);
+++		dbus_message_unref(client->msg);
+++		client->msg = NULL;
+++	}
++ 
++ 	adapter->discovery_type = 0x00;
++ 	adapter->discovery_enable = 0x00;
++@@ -1925,7 +1932,7 @@ static void stop_discovery_complete(uint8_t status, uint16_t length,
++ 	trigger_passive_scanning(adapter);
++ 
++ done:
++-	discovery_remove(client);
+++	discovery_remove(client, false);
++ }
++ 
++ static int compare_sender(gconstpointer a, gconstpointer b)
++@@ -2146,14 +2153,14 @@ static int update_discovery_filter(struct btd_adapter *adapter)
++ 	return -EINPROGRESS;
++ }
++ 
++-static int discovery_stop(struct watch_client *client)
+++static int discovery_stop(struct watch_client *client, bool exit)
++ {
++ 	struct btd_adapter *adapter = client->adapter;
++ 	struct mgmt_cp_stop_discovery cp;
++ 
++ 	/* Check if there are more client discovering */
++ 	if (g_slist_next(adapter->discovery_list)) {
++-		discovery_remove(client);
+++		discovery_remove(client, exit);
++ 		update_discovery_filter(adapter);
++ 		return 0;
++ 	}
++@@ -2163,7 +2170,7 @@ static int discovery_stop(struct watch_client *client)
++ 	 * and so it is enough to send out the signal and just return.
++ 	 */
++ 	if (adapter->discovery_enable == 0x00) {
++-		discovery_remove(client);
+++		discovery_remove(client, exit);
++ 		adapter->discovering = false;
++ 		g_dbus_emit_property_changed(dbus_conn, adapter->path,
++ 					ADAPTER_INTERFACE, "Discovering");
++@@ -2188,7 +2195,7 @@ static void discovery_disconnect(DBusConnection *conn, void *user_data)
++ 
++ 	DBG("owner %s", client->owner);
++ 
++-	discovery_stop(client);
+++	discovery_stop(client, true);
++ }
++ 
++ /*
++@@ -2586,7 +2593,7 @@ static DBusMessage *stop_discovery(DBusConnection *conn,
++ 	if (client->msg)
++ 		return btd_error_busy(msg);
++ 
++-	err = discovery_stop(client);
+++	err = discovery_stop(client, false);
++ 	switch (err) {
++ 	case 0:
++ 		return dbus_message_new_method_return(msg);
++-- 
++2.17.1
+-- 
+2.11.0
 
 
