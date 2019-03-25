@@ -1,49 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DFA47D095
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id F04CE7D08E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 11:58:36 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id k17so1833226wrx.10
+	Mon, 25 Mar 2019 13:27:32 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id z24so5789322wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 04:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wwbSRTlbJTUKLVk9XxBU7Udc+Q0bdSaCQ+/2VVRodnM=;
-	b=Uxt3L6pofFpGFJP4KIEKtdSRLNkNJFnMv+CUfpPbXK0BDgnlc3LmU1goUdiQBc35YU
-	/okQ2FYNKQaTke85wV6DGQjxNJe8RnLKk/ETGJBy5p9G7SngQXbikOclM1uSjo3II/Q0
-	2o0bAHHSqOHgCjVMAfcf6P8kMjf0u/E3bd7nY=
+	Mon, 25 Mar 2019 06:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=ZwqG+1vLaOz/0zlOufC2Tppa+ECgUaJvoZgoWTSsl5E=;
+	b=pvft5weEM4i6+WR/4eEKuOme0cFXe344jXQFmc+5ANizCArknQ43z5mwtrpAnCxdnu
+	b+mAmTLMOgdsyNV4XdKz38ccCsBr9rZRzO1wa8NkjxloRbEqKb8pZUoGy6bz92+6kvwH
+	HUrUiPFNwv7OemZ9I13jxsWyyeoADxz6d/a6v1G45nAXHhJ9p3K4BeHY/J6xYtWQfOOF
+	wFfkHFkT/nli0L7M8Ct5BITk64XsPmJrYURysH+NDQBPaRbb8lLoCq8AUmsBUkjByWmd
+	BkJzYUF31VuSg9E++V+VSsEwskZlQqT/w8yXCLwyHWTN0TwgOwFCHzipy5alPcXoMjTk
+	zIsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wwbSRTlbJTUKLVk9XxBU7Udc+Q0bdSaCQ+/2VVRodnM=;
-	b=AyZAzw1HX/t6pHhDpmm/ODdDj3xfq9qrG6R0I5PT/0VE6He9L3psES3jAhtMq4y98N
-	0GOUlUPjOXxdApTX+cKbv+eWpl3HQto8S7Z3ouQveSV9PzOyzQM+1TsoS+QqALt6bJRC
-	0FZhKrzP6kQunzv5px+y/4MPe8uDAPjVFLYDbbGyg+B6zcwkYXAcB0X8ivZJDviXn/4J
-	HzXTRt7vg2wNVmHWrBkQ1oTbd8U06AQ2aPqlr2ziHpG8sDw2IIWqZSm0lWGrKNA6rSgo
-	wAiJN1q7CYmmZbyRjcx97VHOkvLYhFuWHc7BPHad/0aMFArG7/YqC1YlhIiXOFaA4pAl
-	hAew==
-X-Gm-Message-State: APjAAAXGGwijrH8SMy3jfzV8n5KhCAbKMFL9NPfoNAoiUCO3cbpPWGMs
-	Q9l0oE4hNIJSgNXrx0jn6+CVWg3xgnjMQQ==
-X-Google-Smtp-Source: APXvYqw+VwiXjD2C0glf6Bpf/4wXbpiomNrkR9Mfcve/ocUdZy+9feITBgiJTUoAFH949dkR4w8dBQ==
-X-Received: by 2002:adf:de07:: with SMTP id b7mr14483502wrm.196.1553515117560; 
-	Mon, 25 Mar 2019 04:58:37 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o10sm12139827wru.54.2019.03.25.04.58.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Mar 2019 04:58:36 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZwqG+1vLaOz/0zlOufC2Tppa+ECgUaJvoZgoWTSsl5E=;
+	b=YeB2UIJR/g7NZaIj3If1TWU+6LG4b3FQSqp491kj9UMLO8+uvc2uVK9106VwTCaOX3
+	o0YDmBkKcxFZn03zL/2zbIAol1Q1oQ3/p34MYZoi5JXz7CvRb6HodJru0sDixb6YzyqT
+	wxFuaIUWGTp/h8bY9g32a3naHy1SnqI2KJZbEdTz2O0DvdskAy95jovp4yNc8c8zhEnk
+	P3TxfNNB4FMH5iLLMnjmButyovlxq2rxcYS9WgFm1j5PzvyeizfY+m0HM7iSSn+nHj5D
+	/12DK1O6zfo89hCfzis4YUm6uoOW5n9Q79SXPKjUhOvbOLEb9Q14DDT5uyxCnHDU6F2H
+	xdPQ==
+X-Gm-Message-State: APjAAAX8CffeQUf6iJ1ZhRl15HbCyCwnMFEzeKb2H7RvhKgk+3cKm75L
+	EGUrzEKC5/ysNcTL7KcG3GwfsaZw9NE=
+X-Google-Smtp-Source: APXvYqzgwaB0ub7spI2cJlnK3FxRVz5oveFXq7jGXd2f9Qn5do1TTwRnfXUMlHUX6g4pVI9PYdRCRg==
+X-Received: by 2002:a1c:f906:: with SMTP id x6mr5662712wmh.126.1553520452987; 
+	Mon, 25 Mar 2019 06:27:32 -0700 (PDT)
+Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
+	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
+	e135sm26563321wmg.24.2019.03.25.06.27.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Mar 2019 06:27:31 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 11:58:36 +0000
-Message-Id: <20190325115836.28534-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] oeqa/qemurunner: Dont mix binary and non-binary strings
+Date: Mon, 25 Mar 2019 13:27:27 +0000
+Message-Id: <1553520448-12901-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v3 1/2] libpsl: Extend with native, nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 11:58:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 25 Mar 2019 13:27:33 -0000
 
-self.msg is a str(), bootlog is b'' so this code clearly doesn't work. Add
-in a decode since its being used as a string.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+To allow wget with libpsl to build native/nativesdk versions we need
+those variants here.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 7ef506b60a2..49020c1e636 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -329,6 +329,7 @@ class QemuRunner:
-                 self.logger.debug("Target didn't reach login banner in %d seconds (%s)" %
-                                   (self.boottime, time.strftime("%D %H:%M:%S")))
-             tail = lambda l: "\n".join(l.splitlines()[-25:])
-+            bootlog = boolog.decode("utf-8")
-             # in case bootlog is empty, use tail qemu log store at self.msg
-             lines = tail(bootlog if bootlog else self.msg)
-             self.logger.debug("Last 25 lines of text:\n%s" % lines)
+Changes in v3: None
+Changes in v2:
+- new
+
+ meta/recipes-support/libpsl/libpsl_0.20.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/libpsl/libpsl_0.20.2.bb b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
+index 89a87b67c744..5cb20d46bc48 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.20.2.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.20.2.bb
+@@ -16,3 +16,5 @@ inherit autotools gettext gtk-doc manpages pkgconfig lib_package
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[manpages] = "--enable-man,--disable-man,libxslt-native"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.20.1
+2.7.4
 
 
