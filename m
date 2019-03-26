@@ -1,101 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7600C6D4E4
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D11647D109
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 19:14:47 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id c207so8517281pfc.7
+	Tue, 26 Mar 2019 19:41:32 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id n14so8373395vsp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 12:14:48 -0700 (PDT)
+	Tue, 26 Mar 2019 12:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=JrbAqgNXWrK1siw6Dir3QqwvJDvwnUYQ3ikknBwqoCA=;
-	b=drshw6B+f/h/uDWSVcWepVqLFHKgsFZfFj4LFwQ9NVZg30XHwntwuaIf6ohagXozgc
-	CH54D4hWT0S0hNI3/Ya2qQeft8BvTJj1cSel/8lxmpjE0fcwCxJF+CB8mciICShhA0GO
-	uk6TdRQx/My6qP2eiiqrFLFbAYyHpmCwWoCeTzkUid8xOVo/6rd98hdiui/c0nMtCgns
-	Xz2PxsDcoyJaPIk8gwZCvGPTpuykf6A5sMsFNcEK4JBnB+ITtpsaaaik6K1wJSrtfA5s
-	/zZxCLJNqqniyYHfj/q9mAo2wAHsN0dCJbTcFxFopyJXxiJ3o7F39vIp2D+C1YR4vDq2
-	nUMA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9ZInCgCCourEl+csScFvQL14MLPgDYAwFlh7Y77I2XI=;
+	b=YDysQ/V5nRkKiA7A5q7zu/GG2pjD+Qvm9DOHRZlFeWS64WVG5qdGpEmMJYEroMbPLF
+	G9l2DCNG1vd/xvCIY8PrT3OIxFbAQ16UQNMQ8DfBTmL65GLeVBfywFQfMtaj2xmywTwG
+	U+4rP9rQ7ZP7xhawintPcFiVrD1ZJ+aNkgOmMQdNPJLFlMRUkhw/BrfxPTB1+HOEevhQ
+	q8VKjH2aC43FqoPFU//cn5xgckbDDybTFD16Zt0Y3C97f+vJCso0SKJWwGW7Gyua6nnS
+	VKfFRRq1w4wRr44WQ2Wj3QfuelTRNgmij3WScgOeF+FmZDi5pIPvVDRBJcRVqk5kR66B
+	w6Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=JrbAqgNXWrK1siw6Dir3QqwvJDvwnUYQ3ikknBwqoCA=;
-	b=b/GPQIncIILo0gxSzmaIuABeHVXvWAyjLrjArjehZOyPdJPqn6X0NSOO4TrQpUOJSk
-	I44FpAwmgClzeSsIFE8q6ngL67IsgsiVDde81CR8IdzqqUxmU/r4aOsXTvReDJyphWtA
-	wi2Rs/zneZdN9vEk8toIkWchQf7Hh+nIpHBqcWwPAJqidaT4UTtNGdTAirKQfTsUco5L
-	7j/xOrfwzTXJIlNmhkQzV/dMvf74Vb8kyd6hyhqL3ZkVUhe08fu2UZ67lmowIvQuRQ1S
-	pMdkRGR53PY5VWKr+Vq89Ng0u2JsFcHCcJ8z6k6Ggm+LbidKJccFUZyrkanAEKlnC1i3
-	r8FQ==
-X-Gm-Message-State: APjAAAXRowmwgHjYwy+mHJll2NQCJf49C6M4E9lhB3FcOpgXB75s1TeG
-	2ynBD2ZBEapQ4jrMr9VUs1yhG4Se
-X-Google-Smtp-Source: APXvYqzKIEW+C7t3udP/tArK/J/QuR/beeZ4TJgKkBOnbBYyW3W8xDd6P39pIVFzf9MB/wdMcYT0dQ==
-X-Received: by 2002:a63:e303:: with SMTP id f3mr30276008pgh.374.1553627688275; 
-	Tue, 26 Mar 2019 12:14:48 -0700 (PDT)
-Received: from [10.20.245.5] ([45.19.219.178])
-	by smtp.gmail.com with ESMTPSA id
-	d69sm19024291pfg.26.2019.03.26.12.14.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Mar 2019 12:14:47 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1553616791-19212-1-git-send-email-akuster808@gmail.com>
-	<71c9baa46366314e747138cccb57aeed6aec1419.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <06ed1f5c-9467-3532-cc14-1a4fa989d513@gmail.com>
-Date: Tue, 26 Mar 2019 12:14:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9ZInCgCCourEl+csScFvQL14MLPgDYAwFlh7Y77I2XI=;
+	b=Bb1M34X52sr6KD0YgRKbfiKBAH0sl8yEm/RTDS1iqvb5CXj/dFiyH9saGIQRqluG8Q
+	IWCBwfKfmQ21j4MNsmGUUjony6D/G2cpQJPw8K+7urbHK/gz/Dt5yO011XqT+JfMhgcH
+	p0ynApphZoqfSdXoXPJ8aAowhEtKtOcPeYYAZMDkBG4ygmPa33ybKNMiOfhZfcZppAhq
+	1OyiZRTC9f8/3NXS78FFUfaHHoNgjJFqsFCSGilTR+gPBuJ5A8p3Z1KVzlPwGPEqPGiN
+	TX+oky8KshmYSBI+bRUDOcA6moXM0gKjT6qUMbyD4W15x9u0gHlu+XMU6IWUIuuu75Yv
+	JsEA==
+X-Gm-Message-State: APjAAAU7yf9y+JTJYiypvR1EY304HYEFcSQoWP/T1/TjrYd2a0q+JZUA
+	/dsdX/Ma7X8OqLi8htdGpnmaLm7H7ZNsxCHqRxA=
+X-Google-Smtp-Source: APXvYqyO0RQRYGnoVYVLBSmAqNi5NtgzLUY2/nrC5CTIi1BkLvBJGmSuDljE3C6A8hVVJ49JWbjVhD4KDFjXbTGrTZ8=
+X-Received: by 2002:a67:6983:: with SMTP id
+	e125mr19019788vsc.222.1553629293455; 
+	Tue, 26 Mar 2019 12:41:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <71c9baa46366314e747138cccb57aeed6aec1419.camel@linuxfoundation.org>
-Subject: Re: [PATCH] timezone: update to 2009a
+References: <20190326120157.4397-1-ross.burton@intel.com>
+	<CAMKF1sprxcvAtLQsu-dueRZtvPXvo+ozg9HZ+w+yU417sU3AfQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sprxcvAtLQsu-dueRZtvPXvo+ozg9HZ+w+yU417sU3AfQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 26 Mar 2019 12:41:21 -0700
+Message-ID: <CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib: set glib-specific cross properties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,25 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2019 19:14:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 26 Mar 2019 19:41:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 3/26/19 9:56 AM, Richard Purdie wrote:
-> On Tue, 2019-03-26 at 09:13 -0700, Armin Kuster wrote:
->> The 2019a release of the tz code and data is available. It reflects
->> the following changes, which were either circulated on the tz mailing
->> list or are relatively minor technical or administrative changes:
-> I tweaked the shortlog when merging to -next :)
-ok. thanks,
-Armin
+On Tue, Mar 26, 2019 at 11:08 AM Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Mar 26, 2019 at 5:02 AM Ross Burton <ross.burton@intel.com> wrote:
+> >
+> > GLib wants to execute code to identify several properties of the system, for
+> > example is vsprintf() broken and what direction does the stack grow. In
+> > cross-compiled environments these fallback to the default values which are not
+> > always correct (our vsprintf() is fine, but the test assumes it isn't) so set
+> > these properties explicitly.
+> >
+> > Ideally this happens magically by meson.bbclass using the same logic as
+> > siteinfo.bbclass, but we need to fix glib now.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >  meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross | 6 ++++++
+> >  meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb        | 1 +
+> >  meta/recipes-core/glib-2.0/glib.inc                  | 1 +
+> >  3 files changed, 8 insertions(+)
+> >  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+> >
+> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+> > new file mode 100644
+> > index 00000000000..8420f9874e1
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+> > @@ -0,0 +1,6 @@
+> > +[properties]
+> > +have_c99_vsnprintf = true
+> > +have_c99_snprintf = true
+> > +have_unix98_printf = true
+> > +va_val_copy = true
+> > +growing_stack = false
 >
-> Cheers,
->
-> Richard
->
+> this is mostly true for arches we support but maybe a comment
+> to check it when doing explicit arch ports ( e.g. arm can grown both ways)
 
+Not on EABI or any other ARM ABI which could possibly be targeted by
+OE... unless you have evidence to prove otherwise?
+
+> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+> > index 2de2affa51a..c872c749202 100644
+> > --- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+> > +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+> > @@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+> >             file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
+> >             file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+> >             file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+> > +           file://glib-meson.cross \
+> >             "
+> >
+> >  SRC_URI_append_class-native = " file://relocate-modules.patch"
+> > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> > index 6f0ec1ad2e9..574bb38557b 100644
+> > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > @@ -53,6 +53,7 @@ PACKAGECONFIG[libelf] = ",,elfutils"
+> >  PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false,dbus"
+> >
+> >  EXTRA_OEMESON = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
+> > +EXTRA_OEMESON_append_class-target = " --cross-file ${WORKDIR}/glib-meson.cross"
+> >
+> >  do_configure_prepend() {
+> >         sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+> > --
+> > 2.11.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
