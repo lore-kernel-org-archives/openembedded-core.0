@@ -1,27 +1,47 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 696236C3A9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4163C6C3A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 01:31:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2Q1Va9b015194
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Mar 2019 18:31:36 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 25 Mar 2019 18:31:35 -0700
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5C998246.6050506@windriver.com>
-Date: Tue, 26 Mar 2019 09:37:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Tue, 26 Mar 2019 01:39:38 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id k130so6661050qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2019 18:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=cLpiRj/QfT1jRtU7x7x13nLUzQ7aQwmNmyNX4wXYaMs=;
+	b=ShGsA65f4dQnLwI6ZrVm+YSprYwNDfZaU3T3L23ZWpEjW8gnBzjVibqiM5Baz0bS0v
+	2Ys30Gdqt9SPNgyM7Cv//AOtCyJnxquvslkTmqsYH2D6I2PpC34EjyfTK+F4PeUpzhM+
+	wF1YBOiWXGSPxkGecPlUekLzGPF0VO02pFmhU2LAJ1flFPgxUpX+iDnTe243uhE68YP1
+	iDYNQHW5GUVai9GSbS6TrCtE5mMeHo7BAMF2LhGBWknrKfsvUaX90gmhbodBBtXqs6h2
+	gmyojByzupeNitL8JSlAUooivVOOyPYV090/8VNU90CPLMy58STroSo+9snSOHtBk+vB
+	ArfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=cLpiRj/QfT1jRtU7x7x13nLUzQ7aQwmNmyNX4wXYaMs=;
+	b=LjT/P20CSKNzh7430YItMHG52Kx0g/SdF/HTokwA/hsOzCNo9RUE+T60tGCb2khSCz
+	4UOD3rMUin8RNFlWfoa1E5HgzU/jvZ82HstcBbAsiJhz+Xt45tpwNFayX5Ug9mvtdbRD
+	m3vZ1Khlh2//2oE+dAmn3hWuOeIL4imEGsLzoqAhV9ovODgd6UZMzIAWK2UiPvTEFvey
+	XIiX7/3MqCNRZ0i0GyV8PgCJOebh3tH9Z3ZUNSMJg/njcq1+Texbn4dnQ0y5h+qkDWgH
+	sB46jceP1hK0FR/GjNcbHL0xHUzH4/wxKd1L19BvUVz5tEGkC0WGZDNbHW3N3ksUZAt2
+	EzAw==
+X-Gm-Message-State: APjAAAVI2u18d5wSmZpMvqckEnsDjPdiLMOeAzAhZc6jDNs2IoizwQTx
+	5eKoCW7PYyMtfnhWRGL9EMkgwKTuKuNKG5PC6MtK6/YX
+X-Google-Smtp-Source: APXvYqxNycYdQenp5VFR6jUdoHa8oqN+yUkiLJTwCOWZcNZoPPSHPDKotzjCcYRIaVLYSofnknhzSyT4ehYDT4ZGBLs=
+X-Received: by 2002:a37:99c7:: with SMTP id b190mr17948856qke.2.1553564379725; 
+	Mon, 25 Mar 2019 18:39:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+References: <20190325234413.12652-1-ross.burton@intel.com>
+In-Reply-To: <20190325234413.12652-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Mar 2019 18:39:13 -0700
+Message-ID: <CAMKF1soRmnRPFzUDs93Y=fx9VJ3DWrArxX-BRHSES4sSR5xhWA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libcomps: put PV in filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,82 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2019 01:31:37 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 26 Mar 2019 01:39:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping.
+On Mon, Mar 25, 2019 at 4:44 PM Ross Burton <ross.burton@intel.com> wrote:
+>
+> This isn't a git snapshot recipe but a release that is fetched over it.  For
+> clarity, put the PV in the filename.
 
-Thanks,
+I think its better to keep it as it is. since its easy to trace git log history.
 
-On 2019年03月19日 16:44, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
 >
-> When DEBUG_BUILD = "1" added in local.conf, there
-> comes below build error when "bitbake gcc-sanitizers":
-> | ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-> | ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> |   return S_ISLNK (st.st_mode);
->
-> Initialize st_mode member to fix the above issue.
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->   meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
->   .../0041-elf.c-initialize-st_mode-member.patch     | 33 ++++++++++++++++++++++
->   2 files changed, 34 insertions(+)
->   create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
+>  meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.1.10.bb} | 1 -
+>  1 file changed, 1 deletion(-)
+>  rename meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.1.10.bb} (98%)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-> index f7bf257..3501325 100644
-> --- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-> @@ -71,6 +71,7 @@ SRC_URI = "\
->              file://0038-Re-introduce-spe-commandline-options.patch \
->              file://0039-riscv-Disable-multilib-for-OE.patch \
->              file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
-> +           file://0041-elf.c-initialize-st_mode-member.patch \
->   "
->   SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
->   SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
-> new file mode 100644
-> index 0000000..8e80c4e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
-> @@ -0,0 +1,33 @@
-> +From 960f3e1f104192ceb80a97e665fadffda5285aab Mon Sep 17 00:00:00 2001
-> +From: Mingli Yu <Mingli.Yu@windriver.com>
-> +Date: Tue, 19 Mar 2019 16:23:04 +0800
-> +Subject: [PATCH] elf.c: initialize st_mode member
-> +
-> +Initialize st_mode member to fix the below
-> +build failure when -Og included in compiler flag.
-> +| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-> +| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> +   return S_ISLNK (st.st_mode);
-> +
-> +Upstream-Status: Submitted[https://gcc.gnu.org/ml/gcc-patches/2019-03/msg00900.html]
-> +
-> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> +---
-> + libbacktrace/elf.c | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/libbacktrace/elf.c b/libbacktrace/elf.c
-> +index f4863f0..561bdc2 100644
-> +--- a/libbacktrace/elf.c
-> ++++ b/libbacktrace/elf.c
-> +@@ -766,6 +766,7 @@ static int
-> + elf_is_symlink (const char *filename)
-> + {
-> +   struct stat st;
-> ++  st.st_mode = 0;
-> +
-> +   if (lstat (filename, &st) < 0)
-> +     return 0;
-> +--
-> +2.7.4
-> +
+> diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/libcomps/libcomps_git.bb
+> rename to meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+> index ff6820851fe..1c4f3bde65e 100644
+> --- a/meta/recipes-devtools/libcomps/libcomps_git.bb
+> +++ b/meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+> @@ -9,7 +9,6 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
+>             file://0001-Add-crc32.c-to-sources-list.patch \
+>             "
 >
+> -PV = "0.1.10"
+>  SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
+>
+>  S = "${WORKDIR}/git"
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
