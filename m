@@ -1,53 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5474A6D548
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 131356011C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 11:06:38 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id n11so10393438ioh.1
+	Tue, 26 Mar 2019 12:01:59 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id h18so12624995wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 04:06:39 -0700 (PDT)
+	Tue, 26 Mar 2019 05:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7w5ZROSwvbtHg6sYtP5C+BIdaUF+Yf5C7hUcB+hgMjs=;
-	b=OPQOolncJbE9nZtrGoH47ggVw8NuUATp66yVyj1ts2KJOMfrLdAK1vBMSvc6XdOdzh
-	PBLVnQX8w3t30OJyYjAh0bNFxXIoCFg3Ixl+Vn8vqwlqrKHej1ucQTaCJLtkB9Y+Pofb
-	fYDLkl0SpTRHoTF+z0COBD33Io0tFNWfNh4AkAQVAeOG758/vOQ6vwO4sjHaOlAAgNY9
-	rnFc68v4ld35xhjUHftG5A7ItOzr3h7OaBhhMIr99f/pevQ1n8ne6Oc3UvoNgUVbM/xN
-	RyQLziKmJ8zlkg9XhBTKWmcwzoJDxkJ11tgKXhReKVOmna01qe2p6t1iGEPIanMCKHtT
-	ybfw==
+	h=from:to:subject:date:message-id;
+	bh=583+lgY5CD7TlpjJRDI6/jmzBYbwlGLd2VjL+EZLYo0=;
+	b=C1qIcJOn9rjo2KGV+ej7/mAkEx9uKM5NZO3cXQoMIqxJX+PpkI3w9zQjC18WhjamSF
+	UQ/OFTMhXgnW+YTIknaS2NjKS3Ujdsx3Sq0/Ev1iYk6KBYAFKvxXFjHwgJXM8YhpjZK5
+	qSJkzvCGqZEsp0O6HSjLvR5qbYnyJeIQCofogONDLnV6rzEc+BN0BDHBnyvPEF+3CPSl
+	XSXkzmUQZHsDtmA05LUB0NMNRMAO4RvNC8MTr760bYp5Cwcku7emBwM8zubz5n9XPS9A
+	v12EO7Sit9Pvcl3EVH5GRNB4FPr8mxjsGhZXjpHzwsLfVa/3IGEraQ0/uu7pPH7vZNIt
+	zhew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7w5ZROSwvbtHg6sYtP5C+BIdaUF+Yf5C7hUcB+hgMjs=;
-	b=XJCNx5wj2CTdE0Tf6hKQTdM0i03m7+AeOqZkOT1+qM2sGwpD0aABDTmn+YCLuwYIJp
-	Lawz09Q078WW4U6cExtSKV1Eb5r2LH4hK1ppojEWvghJUbbTldyJRkJXt9b/uB8pE3b+
-	GR+4fzlWUHMiReWRPjGJuZd4N+kvitPHBt8IZeg3LcvPFsRsE2VeNRSNOnUtyJ7eoHUF
-	b2yx1xk05BmvltzBbTFsl/zjfBYPfio/pfNgoJ4csAMOB2nvoGcZat7fBc/it3vIRJhw
-	EBEV/3GpKiklcUrQkZ4JRmHe+B7nOR9eZgpJ5DvFnPXitCdNXpFjVJji9rTOYyp91Dw2
-	0PoQ==
-X-Gm-Message-State: APjAAAXOpda7ScYRMyWbocyDPzVKILRrmUgReqv+5ydW8DY+JeEt9uqI
-	HvUTtJSUE0MTKyC9UQdcTTbDe0JsqKq+UuA6X83b3g==
-X-Google-Smtp-Source: APXvYqyCepCspApp+w/xex3C+KVbHvlJ3PJ8i6xaENawfuTC3rW7y4a7iA5t0lEWF25bpJebNBQFWRlieF3lL4mATPA=
-X-Received: by 2002:a6b:1495:: with SMTP id 143mr19487731iou.201.1553598398073;
-	Tue, 26 Mar 2019 04:06:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190325234413.12652-1-ross.burton@intel.com>
-	<CAMKF1soRmnRPFzUDs93Y=fx9VJ3DWrArxX-BRHSES4sSR5xhWA@mail.gmail.com>
-	<CAJTo0LbPb05xLRjvyaRLVKZR1qQx5QiC-eh3XZSiAokCnvXUwg@mail.gmail.com>
-	<20190326102017.GA1929@jama>
-	<CAJTo0LaFy7s7gjzxxB9yBn6613wCz=Jp=LtVbz8UsDxk1Ls58A@mail.gmail.com>
-	<20190326110158.GB1929@jama>
-In-Reply-To: <20190326110158.GB1929@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Mar 2019 11:06:26 +0000
-Message-ID: <CAJTo0LaMM7pSnivmdH=mSNdMfM-V6m=dcOm09XXAmtZtoQwc_Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps: put PV in filename
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=583+lgY5CD7TlpjJRDI6/jmzBYbwlGLd2VjL+EZLYo0=;
+	b=RPIuk8A/PZIWbXa3vPIGZZhdqZmqUSdC2zx/f7poymc88mRM0Pg1JeXle9NJ3+Cbnc
+	KQx8pCbnWwDHnvmjEYzL2E3Ui6q5pZPq0lHIxLr8ALBKjK1BGatu9pH0aLU09EmDXRGz
+	dDOU2PvQDaz/H0zVZUbMIUgeLPIemjo4yibxWdAg67W/4XUT9cj+zibEZ8ArV73A4er8
+	dJhg71cMq2fLoCwO8woRrZTTecXmXFlHXVuD4fZISy2R5SLM06assQeVENReAh+pSIVG
+	M2b9gCs/z81qUQ2O/0r3hec/2+3eQ55fHA6a4vwBPSqk2gRJkmBpQ8u6GScug+w6lh+t
+	YNyQ==
+X-Gm-Message-State: APjAAAUtiepcOAJuZwaRvf+wW3AWSGjcv2QMOHCw3YQzRFi3QB0O2e7+
+	eR2o9+dwN+9/epWCpER8XSRGNgnfe3Q=
+X-Google-Smtp-Source: APXvYqwRMeGYPhhoyZfSQPAmHKmTh83nsKoho46e9ZNM7KkDMJSAG58swaB+13y26rkuKYwVGoJakw==
+X-Received: by 2002:a1c:e90f:: with SMTP id q15mr8515387wmc.112.1553601720589; 
+	Tue, 26 Mar 2019 05:02:00 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z20sm20630201wma.9.2019.03.26.05.01.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Mar 2019 05:01:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Mar 2019 12:01:57 +0000
+Message-Id: <20190326120157.4397-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] glib: set glib-specific cross properties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2019 11:06:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Mar 2019 12:02:00 -0000
 
-On Tue, 26 Mar 2019 at 11:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> git fetcher fetches whatever SRCREV is defined in the recipe, no matter
-> what PV says, I've seen enough recipe upgrades which just renamed the
-> recipe to have new version in filename updating SRCREV and even claimed
-> that the upgrade was properly tested, because nothing got broken :).
->
-> In webOS we got a bit further and PV+SRCREV are defined in one variable
-> WEBOS_VERSION and do_fetch qa check tests that the SRCREV points to
-> matching annotated version tag in the component.
+GLib wants to execute code to identify several properties of the system, for
+example is vsprintf() broken and what direction does the stack grow. In
+cross-compiled environments these fallback to the default values which are not
+always correct (our vsprintf() is fine, but the test assumes it isn't) so set
+these properties explicitly.
 
-Agreed that is a genuine problem and is definitely something patchtest
-should be catching these days.
+Ideally this happens magically by meson.bbclass using the same logic as
+siteinfo.bbclass, but we need to fix glib now.
 
-> Next time someone needs to include few bugfixes from stable branch
-> included just after the release, should he update the SRCREV or add them
-> as .patch files?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross | 6 ++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb        | 1 +
+ meta/recipes-core/glib-2.0/glib.inc                  | 1 +
+ 3 files changed, 8 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
 
-Patches ideally, as we can pick them without other unintended changes.
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+new file mode 100644
+index 00000000000..8420f9874e1
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+@@ -0,0 +1,6 @@
++[properties]
++have_c99_vsnprintf = true
++have_c99_snprintf = true
++have_unix98_printf = true
++va_val_copy = true
++growing_stack = false
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+index 2de2affa51a..c872c749202 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
++           file://glib-meson.cross \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 6f0ec1ad2e9..574bb38557b 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -53,6 +53,7 @@ PACKAGECONFIG[libelf] = ",,elfutils"
+ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false,dbus"
+ 
+ EXTRA_OEMESON = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=false"
++EXTRA_OEMESON_append_class-target = " --cross-file ${WORKDIR}/glib-meson.cross"
+ 
+ do_configure_prepend() {
+ 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+-- 
+2.11.0
 
-> FWIW: in webOS we don't use any version in filename, most recipes are
-> called just PN.bb and it works fine as well for us, less renames and
-> version consistently defined inside the recipes.
-
-That makes complete sense, PV in filename is pretty much legacy from
-the old days, along with recipes split into a bb/inc where there's
-only one recipe.
-
-Ross
 
