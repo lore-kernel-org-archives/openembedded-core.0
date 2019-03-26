@@ -1,48 +1,27 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D2C7D109
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 696236C3A9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 23:50:12 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id r15so7169838pfn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2019 16:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=i4P9te0Nt/ne2O9Z8yBl+FWqQKeM6tZ9W5q5+x1qNPU=;
-	b=vErh5WQnsColIEE1VC2Ct3Dho6ou67qXagKmk5Y8jMhBLQ0RY+6lzQJYMY/bGucgU0
-	0CUw2ihw9Ss7hG87gVkhXLuyeJ4Z9Ld54GUkZHXt3aDs9vPlxcWVqDvfs1a4/Er2ZWGG
-	6aARo5snEwoJEiVHaOdlQ0MyTAFsOUtKR6MwQ8mpqF2uqUX9n3to81acjuEumKO5t+hK
-	HCfvqzP0W3ZrhU4BX4QcdAbbs7ANboWkerg8LtnFrO/fFVIZrVZriow9tij8LfKJ+7Lo
-	2YcIrbRIfPSQY4wkrYIaKF57phWu39k2fUI0TBrROEvlyrDi0y+Xu0vSFX3KYF9yzkrZ
-	p+Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=i4P9te0Nt/ne2O9Z8yBl+FWqQKeM6tZ9W5q5+x1qNPU=;
-	b=OUZAtNTKFHfM1dTHwEHhbmbjIOEwTv26pqPlR7qAJB8zPB0PWUBBhITzNWoTSfYQ62
-	czjLHJJh/K/BcZeMak1Y2ky6JmO8Ert3haWgTp2zEacvNEWQB0YhPe3osXXGJRnwsbYF
-	aOKEjpyq6KMylug3d4FuR6FopdzKWm1k8LSMyXkPJ2w18WTGPynaTm7eOTkUr5xClhyM
-	fNpk9w6HyeuhxNMThy7qYdFHehXtAfsXlUGMy5hZCTLumBf50lyv308rvzNGZltETxY2
-	ZpalP3Z8TVd9xkT4KoAyPt6bjUc0StjBFdPQ9+u2os8SwcDnS5UF/Wq9DZ6hfD76lRB2
-	UIvQ==
-X-Gm-Message-State: APjAAAWAMvT9fahoH2xJ38aM4ZNjZXkwOnOInWqQ2m+pHGCZlibPxY37
-	spYZeE1/mZxCPdzv2wJOxIxTosPr
-X-Google-Smtp-Source: APXvYqzU80leEzCTz8YkCeQi2wHsil2shfru+ET4YLUlzhtD86/Ehj04hGlIcX6Gvyja8BGKouMe2w==
-X-Received: by 2002:a63:ad4b:: with SMTP id y11mr12216771pgo.405.1553557813692;
-	Mon, 25 Mar 2019 16:50:13 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:3dea:ddac:f0ad:db91])
-	by smtp.gmail.com with ESMTPSA id
-	j71sm35206203pfc.6.2019.03.25.16.50.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Mar 2019 16:50:13 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2019 16:50:11 -0700
-Message-Id: <1553557811-5488-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [sumo][PATCH] yocto-uninative: Update to 2.4
+	Tue, 26 Mar 2019 01:31:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2Q1Va9b015194
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Mar 2019 18:31:36 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 25 Mar 2019 18:31:35 -0700
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5C998246.6050506@windriver.com>
+Date: Tue, 26 Mar 2019 09:37:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
+X-Originating-IP: [128.224.162.194]
+Subject: Re: [PATCH] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 23:50:12 -0000
+X-List-Received-Date: Tue, 26 Mar 2019 01:31:37 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Ping.
 
-This supports glibc 2.29 which is appearing in distros like Ubuntu 19.04
+Thanks,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Fixed up for Sumo context; no aarch64]
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/distro/include/yocto-uninative.inc | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index c5b0556..64e71d9 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,8 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.28"
--
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.3/"
--UNINATIVE_CHECKSUM[i686] ?= "44253cddbf629082568cea4fff59419106871a0cf81b4845b5d34e7014887b20"
--UNINATIVE_CHECKSUM[x86_64] ?= "c6954563dad3c95608117c6fc328099036c832bbd924ebf5fdccb622fc0a8684"
-+UNINATIVE_MAXGLIBCVERSION = "2.29"
- 
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.4/"
-+UNINATIVE_CHECKSUM[i686] ?= "fafacfc537a6ce2bd122bd16c146881ab5ac69bd575abf6cb68a0dd33fa70ea2"
-+UNINATIVE_CHECKSUM[x86_64] ?= "06f91685b782f2ccfedf3070b3ba0fe4a5ba2f0766dad5c9d1642dccf95accd0"
--- 
-2.7.4
-
+On 2019年03月19日 16:44, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+>
+> When DEBUG_BUILD = "1" added in local.conf, there
+> comes below build error when "bitbake gcc-sanitizers":
+> | ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
+> | ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> |   return S_ISLNK (st.st_mode);
+>
+> Initialize st_mode member to fix the above issue.
+>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
+>   .../0041-elf.c-initialize-st_mode-member.patch     | 33 ++++++++++++++++++++++
+>   2 files changed, 34 insertions(+)
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+> index f7bf257..3501325 100644
+> --- a/meta/recipes-devtools/gcc/gcc-8.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+> @@ -71,6 +71,7 @@ SRC_URI = "\
+>              file://0038-Re-introduce-spe-commandline-options.patch \
+>              file://0039-riscv-Disable-multilib-for-OE.patch \
+>              file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
+> +           file://0041-elf.c-initialize-st_mode-member.patch \
+>   "
+>   SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+>   SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+> diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
+> new file mode 100644
+> index 0000000..8e80c4e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
+> @@ -0,0 +1,33 @@
+> +From 960f3e1f104192ceb80a97e665fadffda5285aab Mon Sep 17 00:00:00 2001
+> +From: Mingli Yu <Mingli.Yu@windriver.com>
+> +Date: Tue, 19 Mar 2019 16:23:04 +0800
+> +Subject: [PATCH] elf.c: initialize st_mode member
+> +
+> +Initialize st_mode member to fix the below
+> +build failure when -Og included in compiler flag.
+> +| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
+> +| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +   return S_ISLNK (st.st_mode);
+> +
+> +Upstream-Status: Submitted[https://gcc.gnu.org/ml/gcc-patches/2019-03/msg00900.html]
+> +
+> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> +---
+> + libbacktrace/elf.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/libbacktrace/elf.c b/libbacktrace/elf.c
+> +index f4863f0..561bdc2 100644
+> +--- a/libbacktrace/elf.c
+> ++++ b/libbacktrace/elf.c
+> +@@ -766,6 +766,7 @@ static int
+> + elf_is_symlink (const char *filename)
+> + {
+> +   struct stat st;
+> ++  st.st_mode = 0;
+> +
+> +   if (lstat (filename, &st) < 0)
+> +     return 0;
+> +--
+> +2.7.4
+> +
+>
 
