@@ -1,57 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E54F6D5B1
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 15A0F6D5B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 10:20:19 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id k11so6215538wro.5
+	Tue, 26 Mar 2019 10:29:37 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id y7so9543821wrn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 03:20:20 -0700 (PDT)
+	Tue, 26 Mar 2019 03:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=iet3Rx28fuL9NAis4cx51eZKnDF7QgbK9a2Ym7XQEDE=;
-	b=R8kpBmjs0tl+KUAAwLTxHtb1drrGbGd4vbOsCbLxBB3hdVJ3Pl29yvJ5amUlAteyTL
-	j1ujaNUwSx8NS+dq3STPe3QmNy/OuTUaPglCLp6pfE4Kp300xXHf0nKHqRFyaaDQhqxh
-	bJEea2vESzKd1bXviyJdpgVTZ0rnGjEZLY1ZK98GbwvqxVM066fRef59N2zSkrVpOvzE
-	LC+ZGfkjYz0yRudCD3cwVWU0aSidhLOAO9BWYCnRzWO+AF8mL7AXpyUk3BIVgpc4XPqC
-	ouPZfUdfq2YoIktnMPY2FnhlkBkWj9vvw/JFeHdz+oiNXj8JYNrWeZvnN9y4cvM/Zhqv
-	BdwA==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y7GtPF+uVpnOD9oV1F16QOQQ3gBTEHPcVTHn+MXBcEQ=;
+	b=Puo34LCOsJ54Owu0saHbUI2bftwQFtUQYU10lmyx+9mmYHDDJO410KtzOc2NErdSc7
+	qcLeVPhNV4jhCdz8HeizwKGSQDa0nZk/QWf51qYFQ57sHbWifXXQARlHMjlvrC4HSZiW
+	dImrgFaq56jmQr4DOMCjIt6e6VKn4tij8jxj4U4ERgWE4DGiFyPDxDb74lMIlp7fPmun
+	H83C8w5LsZvfo/USVUDALLXAZB+dbhOyGMa3niZKgRpQ7+S3vs1zvRDHlCktizGciQz5
+	AxbydUTkOUqrz0/+1L7z784ldHDTFZoGkT0UOD5c3X1kzcOgoKh7stinLe86vx8hyIKK
+	0fWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=iet3Rx28fuL9NAis4cx51eZKnDF7QgbK9a2Ym7XQEDE=;
-	b=WyEeChc+DnIy2TDo4tLL0WiXSYfVNpSV8ANmPcGCw/l0VYwpEvcTFtgtQp7dxrFslg
-	B2MaSukDySd/bpIPE6xcQW6Z+T5/oD4pQiK0ft0vCiGZyMTRFVi1fFHo2QUmM2SoPWX5
-	Iu0k9/lyZx7ppkNij9fLosSFG/GGrrqJg/E7IwB0yKSgMsWgJ/vYc9yp7w2vlXKe3OGH
-	LNaUe8VIGYCAuw1P2Yiy5bO3JqG99yy9/vjrWH9iQVHjAaC8kge/jpkERgF5T/itfRj0
-	hdndHcRJJiewqspGclVWhJxAG8BHpF8hbti9aDE/LGA3RMVH7POiaFxCR7PB/0Sm2bTV
-	UsFQ==
-X-Gm-Message-State: APjAAAXzyqzJNXYiWFYSGavp9PeHKj4c3jDlpRy+6tTFmHRazkV5X+TN
-	oySK8OdtCDGRqvpuuiMzUkk=
-X-Google-Smtp-Source: APXvYqz4aRU+Gw/y94Xf9VMWelEm8Pkr6kA1e5EtZL9uJ+UvBgse7llEpkfmPisndPdpprZdSf199A==
-X-Received: by 2002:adf:fc0b:: with SMTP id i11mr19323923wrr.145.1553595619961;
-	Tue, 26 Mar 2019 03:20:19 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	s12sm18668155wmj.42.2019.03.26.03.20.18
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y7GtPF+uVpnOD9oV1F16QOQQ3gBTEHPcVTHn+MXBcEQ=;
+	b=a3OfTwUqLufb7R1VDuRyd88O1dRISqFR7lZX/7+OPuU7UdPA2bFysMhgl1Ue9yHlDO
+	sgh/ScphPxR5NJ3lwXbK0A8nWIHzmpCUIRAcCSFT016jUKBNnAVz2SUtqlBPe2cW7ATW
+	Ze8jtHXsiio3q93K4ATtiNn152PKKu5xdzSu+oT5w8P3JBmCrPVcrAmBbU2vUie0PoFu
+	i45EjLznRm+7+rJXVf3/VKxRxvaPfNfyh5O0DmHdByIiS9TRPwlrwjYD1QJhn24H33lo
+	pY/kLnXPNMJcKFMZq93VjcP9nh9Sb5yrFgnN65bdJIYmwI8Qvap2pU64WciNLV1nCWMt
+	Yygw==
+X-Gm-Message-State: APjAAAVjzZ1lFAZrsscRknXFBVIYM7vl3v8INk2bty2237wlyIBqTNZF
+	bMt1MwXS4W3zlMPHj0DRZH6ggj4M
+X-Google-Smtp-Source: APXvYqygRznIBzppKWVO73LUyqGixCVXuThM7pnQd1Q9KveOxe4jvMAm6mMmK5BeFM5NVZ+Qe2r1Hg==
+X-Received: by 2002:adf:e506:: with SMTP id j6mr11421430wrm.41.1553596178321; 
+	Tue, 26 Mar 2019 03:29:38 -0700 (PDT)
+Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
+	[80.151.55.163])
+	by smtp.gmail.com with ESMTPSA id b9sm25912593wmc.9.2019.03.26.03.29.37
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 26 Mar 2019 03:20:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 26 Mar 2019 11:20:17 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20190326102017.GA1929@jama>
-References: <20190325234413.12652-1-ross.burton@intel.com>
-	<CAMKF1soRmnRPFzUDs93Y=fx9VJ3DWrArxX-BRHSES4sSR5xhWA@mail.gmail.com>
-	<CAJTo0LbPb05xLRjvyaRLVKZR1qQx5QiC-eh3XZSiAokCnvXUwg@mail.gmail.com>
+	Tue, 26 Mar 2019 03:29:37 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Mar 2019 11:29:19 +0100
+Message-Id: <20190326102919.7348-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbPb05xLRjvyaRLVKZR1qQx5QiC-eh3XZSiAokCnvXUwg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps: put PV in filename
+Subject: [PATCH] gtk+3: add librsvg to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,61 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2019 10:20:19 -0000
-X-Groupsio-MsgNum: 122609
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 26 Mar 2019 10:29:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+adwaita-icon-themes failes to create symbolic icons. In log.do_install when
+calling gtk-encode-symbolic-svg there many complaints
 
-On Tue, Mar 26, 2019 at 10:00:52AM +0000, Burton, Ross wrote:
-> On Tue, 26 Mar 2019 at 01:39, Khem Raj <raj.khem@gmail.com> wrote:
-> > > This isn't a git snapshot recipe but a release that is fetched over i=
-t.  For
-> > > clarity, put the PV in the filename.
-> >
-> > I think its better to keep it as it is. since its easy to trace git log=
- history.
->=20
-> So should I be renaming gcc-8.3.bb to gcc_http.bb?  If the argument is
-> that the filename should contain the transport protocol and PV is
-> embedded in the recipe so that git log is easier, we should be
-> applying that rule consistently.
+| Can't load file: Unrecognized image file format
 
-FWIW: I agree with Khem.
+We fail her now due to:
 
-http fetcher won't (usually) fetch different version just by changing 1
-variable inside the recipe and vice versa, renaming the recipe won't
-fetch different SRCREV with git.
+commit 7f6c57635ff4e1edf7a46c49af34846ad0a4bf73
+Author: Alexander Kanavin <alex.kanavin@gmail.com>
+Date:   Wed Jan 30 11:59:25 2019 +0100
 
-If someone wants to update SRCREV in libcoms to be 10 commits behind
-0.1.10, is he expected to rename the recipe back to libcomps_git.bb and
-re-add the PV variable (with new +git${SRCPV} suffix)?
+gtk+3: remove the gtk-icon-utils-native recipe
 
-I got used to "+git${SRCPV}" being dropped when the SRCREV matches
-exactly the git tag, but renaming the recipe and removing the PV seems
-too much, what is the benefit of doing that? It's not for clarity or
-easier maintenance (at least for me), because PV next to SRCREV makes
-much more sense to me (and helps people not to forget updating both at
-the same time).
+gtk-icon-utils-native had librsvg in its DEPENDS. We do not add librsvg-native
+because same issue would occure for gtk-encode-symbolic-svg on target.
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 77b6c31536..b58641a470 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://www.gtk.org"
+ BUGTRACKER = "https://bugzilla.gnome.org/"
+ SECTION = "libs"
+ 
+-DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
++DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf librsvg \
+            gdk-pixbuf-native"
+ 
+ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+-- 
+2.20.1
 
------BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXJn84AAKCRA3VSO3ZXaA
-HH7UAJoD0RhGH98kDSL6FITpxjOKTRnARQCeMRMynkFcvmrJT5xiYuzIjpsTSE4=
-=+ZZu
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
