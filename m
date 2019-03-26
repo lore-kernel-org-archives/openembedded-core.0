@@ -1,37 +1,56 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 985977D0FA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 55E226BE2D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2019 10:42:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44T74751zDz2Q;
-	Tue, 26 Mar 2019 11:42:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1553596936;
-	bh=srW7gfoyEpURYfO3t36B7tDEPbQTuYIBQtZxP/tqQLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gewldcfsRswZl2P3A9E6dr3QrTJB2E/q7cJ9xejwuMjvxjZcMBD3sNDa9Bstcmarc
-	/rIw/e3NWWJK9+fAiJDvZmFbAwdXn5hIPw+LlEBBcSQqWyJAZ2X9b11OrCg1BDu/L6
-	WnK66S43ruTcQvEXW4durGMWciOiyNFI7Tuo2txIaEMLIdrhQ785JFoLlYdyxsoIgV
-	WJrqfSC0gNIm8vdXrIX3XHT/cxUmr0YYZeB4neK5u4VexKd+GcmIZf/P4dMiepJ6Aa
-	ecyemo8CcFvzyep2foN/TB1za/Cdw7M4FfDfprzeh8g3y7hzbjUr1rqw7ulv2Ao4ZK
-	ty8y0qBWPTDZB0SlYuNLGw7VlAifPChE9uD55efvkgngKAJTNvvuon5dQQd/aEwEqV
-	irorC869/vH/l0Dc7qmRjnyaSvszzxPkBnXPSVQMq7vu5pgzc3G6z9H9DBkt43eAzv
-	nszrPlJokvhq2yVYd9E1EQWHh529WpFLX/QM58bYs45m72f0BClt0WcxzYKx/Zl0ag
-	/5ie4gNgPU4k5XxHrN52sMm1BwSLUL8KqickdI38w1tlXFk2dg0KmSKFXLfNtfLEKe
-	LxL4NjNa2eQEOc6C60yU9br5wJaKv1W75p7NrIhqqiM2LSCUL/9F2URpAmZY1l1sUa
-	MnnMwYUHH6JavRI4rBpAxbwc=
-Date: Tue, 26 Mar 2019 12:42:12 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20190326104212.GB19885@localhost>
+	Tue, 26 Mar 2019 11:02:00 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t124so12336382wma.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2019 04:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=2RBSiITndhjtIVkGNK0xcsksJsmFCwGcfukoDsu74t8=;
+	b=s0zSSlDE9g5fg3oQs4d5Zvq6W8HOQJVYiHnA4qzmkpu66MtKD3wrOrrljICq90qQLl
+	Zzr1ctBO7aOqQxgKnHGez67nXd9dquAgvQ/xo9y4Go2FhBks/A0vYpowR6hxvY96wkBK
+	43c/QaHgWnSZ9J7Fnwgh42xS1r3TONqSbxrvfkcLjO2MrPZd70GwCTNI3VhD2+Oe1G2W
+	8YhasxXfT3A0OOpn44Ir+qjIbTd+nGvyntL5ae+oPSCYFB0fDvH8cd/0k5cpSzYZzwjt
+	J4K1wu1FGzq7iVMDQIVH1zqT76FJHOWDsyAxdWr1sXtrJmcHWYJnkJeS6pDJdvCo3x8A
+	mOwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=2RBSiITndhjtIVkGNK0xcsksJsmFCwGcfukoDsu74t8=;
+	b=dqmzyV5Q44b0MS7HXwN+28jz+IqUpZo16GBmWvJp06qBabXpVlBug+nEATu+w8orEG
+	ihDPFPmU+0UNoVM/XA4J58j9IJbru4nB6RP4lLS8jEcorFVRkXYK/Eno5MPhhMZ3fgUT
+	d8xB03dpm0PAW/y3rCcq6BwBe2rU6n44wKhaaOld0/CVWzverekc4UGykhGWQ1Ln4JFv
+	uASuumw5caAuCpEjanrcV0vDIOeJBtdsKEhu519YLef5SlPQB3cOdWFYt+0/XHlq7g+q
+	YU+B45QHRZXi9ahcpKkmc/Mk2P6CA8VdBze98yQfdU8Y10+//AJe11arsX4ohwIo/dyG
+	LpLQ==
+X-Gm-Message-State: APjAAAXqD71zmB2w7FXUKf0GxVZR8Z6sf2J8FbVx7bBq2fODbuo7g8rC
+	ZgyBeKHnr14hSPlWW2S2fHg=
+X-Google-Smtp-Source: APXvYqzpvsYD3B9PP/b9o1EpYwDA1/KmEwsLpfwngJLVPNcLPFTXC4Gpc2agUP4vkljSpFMze1eqQw==
+X-Received: by 2002:a1c:4e19:: with SMTP id g25mr15544444wmh.9.1553598121023; 
+	Tue, 26 Mar 2019 04:02:01 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	m17sm13913755wrx.3.2019.03.26.04.02.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 26 Mar 2019 04:02:00 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 26 Mar 2019 12:01:58 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20190326110158.GB1929@jama>
 References: <20190325234413.12652-1-ross.burton@intel.com>
 	<CAMKF1soRmnRPFzUDs93Y=fx9VJ3DWrArxX-BRHSES4sSR5xhWA@mail.gmail.com>
 	<CAJTo0LbPb05xLRjvyaRLVKZR1qQx5QiC-eh3XZSiAokCnvXUwg@mail.gmail.com>
 	<20190326102017.GA1929@jama>
+	<CAJTo0LaFy7s7gjzxxB9yBn6613wCz=Jp=LtVbz8UsDxk1Ls58A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190326102017.GA1929@jama>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAJTo0LaFy7s7gjzxxB9yBn6613wCz=Jp=LtVbz8UsDxk1Ls58A@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libcomps: put PV in filename
@@ -47,72 +66,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2019 10:42:17 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 26 Mar 2019 11:02:01 -0000
+X-Groupsio-MsgNum: 122613
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="4SFOXa2GPu3tIq4H"
 Content-Disposition: inline
 
-On Tue, Mar 26, 2019 at 11:20:17AM +0100, Martin Jansa wrote:
-> On Tue, Mar 26, 2019 at 10:00:52AM +0000, Burton, Ross wrote:
-> > On Tue, 26 Mar 2019 at 01:39, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > This isn't a git snapshot recipe but a release that is fetched over it.  For
-> > > > clarity, put the PV in the filename.
-> > >
-> > > I think its better to keep it as it is. since its easy to trace git log history.
-> > 
-> > So should I be renaming gcc-8.3.bb to gcc_http.bb?  If the argument is
-> > that the filename should contain the transport protocol and PV is
-> > embedded in the recipe so that git log is easier, we should be
-> > applying that rule consistently.
-> 
-> FWIW: I agree with Khem.
-> 
-> http fetcher won't (usually) fetch different version just by changing 1
-> variable inside the recipe and vice versa, renaming the recipe won't
-> fetch different SRCREV with git.
+--4SFOXa2GPu3tIq4H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Why should the name of the recipe depend on whatever fetcher is 
-currently used?
+On Tue, Mar 26, 2019 at 10:32:07AM +0000, Burton, Ross wrote:
+> On Tue, 26 Mar 2019 at 10:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > http fetcher won't (usually) fetch different version just by changing 1
+> > variable inside the recipe and vice versa, renaming the recipe won't
+> > fetch different SRCREV with git.
+>=20
+> Sure it will.  gcc_http.bb sets PV=3D8.3.0 in the recipe, and SRC_URI
+> uses ${PV}.  The only catch is that http fetches have a secondary
+> layer of transport checksums that git doesn't have.
 
-If the same gcc release would be fetched from the upstream SVN,
-would you argue that the recipe has to be renamed to gcc_svn.bb?
+I'm sorry, that's not what I meant.
 
-> If someone wants to update SRCREV in libcoms to be 10 commits behind
-> 0.1.10, is he expected to rename the recipe back to libcomps_git.bb and
-> re-add the PV variable (with new +git${SRCPV} suffix)?
-> 
-> I got used to "+git${SRCPV}" being dropped when the SRCREV matches
-> exactly the git tag, but renaming the recipe and removing the PV seems
-> too much, what is the benefit of doing that?
+git fetcher fetches whatever SRCREV is defined in the recipe, no matter
+what PV says, I've seen enough recipe upgrades which just renamed the
+recipe to have new version in filename updating SRCREV and even claimed
+that the upgrade was properly tested, because nothing got broken :).
 
-Is it actually a benefit to make it easy to switch from a release to 
-some random git snapshot?
+In webOS we got a bit further and PV+SRCREV are defined in one variable
+WEBOS_VERSION and do_fetch qa check tests that the SRCREV points to
+matching annotated version tag in the component.
 
-This is not something that should happen frequently.
+> > If someone wants to update SRCREV in libcoms to be 10 commits behind
+> > 0.1.10, is he expected to rename the recipe back to libcomps_git.bb and
+> > re-add the PV variable (with new +git${SRCPV} suffix)?
+>=20
+> Yes.  The recipe ships a release.  If the recipe is changed from
+> shipping a tested and maintainer approved release to a git snapshot,
+> that definitely should not be trivial.
 
-> It's not for clarity or
-> easier maintenance (at least for me), because PV next to SRCREV makes
-> much more sense to me (and helps people not to forget updating both at
-> the same time).
+Next time someone needs to include few bugfixes from stable branch
+included just after the release, should he update the SRCREV or add them
+as .patch files?
 
-There are not only developers, but also users.
+> > I got used to "+git${SRCPV}" being dropped when the SRCREV matches
+> > exactly the git tag, but renaming the recipe and removing the PV seems
+> > too much, what is the benefit of doing that? It's not for clarity or
+> > easier maintenance (at least for me), because PV next to SRCREV makes
+> > much more sense to me (and helps people not to forget updating both at
+> > the same time).
+>=20
+> For clarity and consistency: by convention recipes that ship releases
+> put the PV in the filename.
 
-It is valuable to see from the filename whether it is a release
-(and which release it is) or some VCS snapshot.
+FWIW: in webOS we don't use any version in filename, most recipes are
+called just PN.bb and it works fine as well for us, less renames and
+version consistently defined inside the recipes.
 
-Not having the release there also loses the ability to use either
-gcc_%.bbappend or gcc_8.3.0.bbappend, which are suitable for
-different situations.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Regards,
+--4SFOXa2GPu3tIq4H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-cu
-Adrian
+-----BEGIN PGP SIGNATURE-----
 
--- 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXJoGpQAKCRA3VSO3ZXaA
+HJe5AJ9+zrJ7OCwkT1rbeJ+/bpRwYRDJdwCfZkKP1JHe5m09lzPRqY/XLAkrlK4=
+=CLU8
+-----END PGP SIGNATURE-----
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
-
+--4SFOXa2GPu3tIq4H--
