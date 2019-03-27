@@ -1,48 +1,47 @@
 Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2449260116
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C7CC360125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 12:47:12 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id h18so16666907wml.1
+	Wed, 27 Mar 2019 12:59:26 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id z11so16176763wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 05:47:13 -0700 (PDT)
+	Wed, 27 Mar 2019 05:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=NoRjEBsw6JD511ao/UMfstQqLZOC9/Gy9/Pwy26j+qU=;
-	b=DIERSuk+g3bAxcRCOZMf5v4pb/IETIPpFzFkf4YM8tx4RY/z6vwbLm0MpVyYBCCDnh
-	WLXbWLX2vyzQI6HlhhUIMtoD/ZarsdWcSsbVPeJfkHCes1nH4bvEM2O1DRr7uT78b44A
-	5WhRNqbvKvBHmeqyyrT/k7bfxnvBxc1CaT5onUJ7uHhpGZ6vaBy6TIs5w+/RWKzksjqE
-	XgQe4/E+Xkd0INnzRvTQKUT1Qbj9f3kLt5OAnwgIKG41myhqsL064uSEXTVXQ4B4VKvz
-	j9oH435ytUzWDcx/lowYm3zMj3wJRC+gV7mc2BYKw0x/LuYAajJbGPf3TyAN6VGgDcWb
-	txMw==
+	bh=Ke6LSH+CyB3Bm/u381j9hKq80LSUnq/dSJcKHQiOCR4=;
+	b=OAbFVxtoH/lLTYMxmJOHxpVfFRmDYNUd5ZbCQC5lLSpM+wZHKVT1qU0f72jh3cxAQU
+	SDdXPQR8lbnKbhPHoDNpNLxp0FvDqhe4fQ+fZTdJAS8kUmJDKz6Yj6zXrCxzP+IMYGwG
+	/dCiyhatjoc+RHrxy6AmVNz0v18EMtjHToBY8D1sSFrbAX7gsMpRwy5R6UOON5CmGI2V
+	YOG8aMRntbmYIWyLMrr2DSLnAKfFOea7CVLccI/WikodtjCTLS/cwpQH3MSMxOdwTiir
+	n72fYEVBUZRx5+fUEoVmybOY8fp9OsBCPbsb/sJGaqxb8ppxQMVWBbx9f93ws+gKrK3Q
+	qupw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NoRjEBsw6JD511ao/UMfstQqLZOC9/Gy9/Pwy26j+qU=;
-	b=MLOzxgUQSm2E78AcGhg7e+JWteMVIxFr0sIil6+M9H5gn61g1hP1k1QSKbauDf4vti
-	n0zRTAqL96Vzj3U65W6Bfbq40L4F/fsOSdmi8kMlaZNNa1GL967zAmBddC1XYisCceMi
-	t2R9lyABuuqnjY4Pznc4V6CqodPuJfWz7faSrAQRyUWmpNVCPUlMWcoUvWxGVexAN6oV
-	ywQEWEKujPMt/mtKWmqCcDgOBgxJOpY83ZIfI7iVqedjVHhkFpxrr5VqmRqJt3J6hc3E
-	QGei2BGWoiUy7S06LaWSSXcCtMeLm+blR5PisqgKKR13oNnMHhG28A32SZsqPw0fjUuo
-	OTsA==
-X-Gm-Message-State: APjAAAUYim7s+XTlcd90Yn2REpPvmopGjo3sjrviv8ezwvyNqeKYtvUz
-	jzGY1ebuDGVHQl3ZYOm4N+xdj4B/
-X-Google-Smtp-Source: APXvYqzzO4zu9fjmAVn8vTRvhh3FWX9zCMIetDb72Ubw34zwlNA3KdVAKsY0P28taTZFkTgv0N+jUw==
-X-Received: by 2002:a1c:c18d:: with SMTP id
-	r135mr17896648wmf.112.1553690832393; 
-	Wed, 27 Mar 2019 05:47:12 -0700 (PDT)
+	bh=Ke6LSH+CyB3Bm/u381j9hKq80LSUnq/dSJcKHQiOCR4=;
+	b=Q3U3LNUsloZ1JvNy62iMGc4st9EorRaUmHQxa6P0DkXj0eXIlKXV4dl2KL7lwYGGLR
+	bqzYJ39ENUae9t45tLFIbvZVKR8Vq3USXfF8kxSXmHqM84KSG/jmHxdmNkGULuSjrzGJ
+	QetsUpTTDDQ9FEc+xHkdgX/fdoph97bIXfl1pQaB9khd6kSEl3FOeg0LenuWY+OULMJ3
+	BbibkCPjxbJ6vZ0OpynGuaOAwQniKC2mpLRrClpEc4gXj3DdKy1IgFvnZ5aFdbfoCBnf
+	1C8FauWtNQiZZFtkUZF/U1raFtCnOcYqEuZ8fGat5a3qWUAPdxR7krUfDdNF9iKO2Qou
+	i30w==
+X-Gm-Message-State: APjAAAX3jWoRmOH+GtYSANPJmPDD3E7CHgjtje6YAZWws8t+qVejQ8CX
+	duNyqgY6wAdmJBmTKwEBJeOf434W
+X-Google-Smtp-Source: APXvYqxyyhTTBj1OFy/Z5EMM4LKFSZIExfNY+VZLOstwQ1LUUNfSODMLyTiZFnZXIuofdo6r3ZkLjg==
+X-Received: by 2002:a1c:7611:: with SMTP id r17mr5267212wmc.98.1553691567227; 
+	Wed, 27 Mar 2019 05:59:27 -0700 (PDT)
 Received: from VM-VPR.corporate.saft.org ([80.215.2.55])
 	by smtp.gmail.com with ESMTPSA id
-	e9sm19395179wrp.35.2019.03.27.05.47.11
+	x14sm12419412wmj.3.2019.03.27.05.59.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Mar 2019 05:47:11 -0700 (PDT)
+	Wed, 27 Mar 2019 05:59:26 -0700 (PDT)
 From: Vincent Prince <vincent.prince.fr@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Mar 2019 13:46:51 +0100
-Message-Id: <1553690811-26575-1-git-send-email-vincent.prince.fr@gmail.com>
+Date: Wed, 27 Mar 2019 13:59:23 +0100
+Message-Id: <1553691563-28778-1-git-send-email-vincent.prince.fr@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] Systemd: Add pattern matching support to PACKAGECONFIG
+Subject: [PATCH] target-sdk-provides-dummy: add more perl modules to avoid populate_sdk failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 12:47:12 -0000
-
-libpcre2 is needed to enable grep option to journalctl.
+X-List-Received-Date: Wed, 27 Mar 2019 12:59:27 -0000
 
 Signed-off-by: Vincent Prince <vincent.prince.fr@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_241.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/meta/target-sdk-provides-dummy.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index a12b9ab..9e05944 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
- PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
- PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
-+PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=true,libpcre2"
- PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
- PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
- PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
+diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+index 60499f7..85472a8 100644
+--- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+@@ -20,6 +20,7 @@ DUMMYPROVIDES = "\
+     libxml-parser-perl \
+     perl-module-bytes \
+     perl-module-carp \
++    perl-module-config \
+     perl-module-constant \
+     perl-module-data-dumper \
+     perl-module-errno \
+@@ -35,10 +36,12 @@ DUMMYPROVIDES = "\
+     perl-module-getopt-long \
+     perl-module-io-file \
+     perl-module-overload \
++    perl-module-overloading \
+     perl-module-posix \
+     perl-module-thread-queue \
+     perl-module-threads \
+     perl-module-warnings \
++    perl-module-warnings-register \
+     /bin/sh \
+     /bin/bash \
+     /usr/bin/env \
 -- 
 2.7.4
 
