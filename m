@@ -1,24 +1,24 @@
 Return-Path: <Yongxin.Liu@windriver.com>
-Received: from mail5.wrs.com (unknown [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97C8A60720
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 315736BF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 10:38:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2RAblYI012011
+	Wed, 27 Mar 2019 11:06:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2RB6DML013010
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 03:38:08 -0700
+	Wed, 27 Mar 2019 04:06:23 -0700
 Received: from localhost.localdomain.com (128.224.162.177) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 27 Mar 2019 03:37:52 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 27 Mar 2019 04:06:03 -0700
 From: Yongxin Liu <yongxin.liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Mar 2019 18:37:42 +0800
-Message-ID: <1553683062-24444-1-git-send-email-yongxin.liu@windriver.com>
+Date: Wed, 27 Mar 2019 19:05:50 +0800
+Message-ID: <1553684750-15225-1-git-send-email-yongxin.liu@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH] wic/bootimg-efi.py: add new source parameter "initrd_rename"
+Subject: [PATCH] init-install-efi.sh: don't assume the fixed location of efi loader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 10:38:23 -0000
+X-List-Received-Date: Wed, 27 Mar 2019 11:06:33 -0000
 Content-Type: text/plain
 
-When using initrd in bootloader configuration file, we may want
-the name of initrd to be fixed. However, the actual name of initrd
-may change and depend on distro/machine's name. "initrd_rename"
-gives user a chance to rename initrd in final wic image.
+Currently, it is true that efi loader is in the same device as the
+rootfs image. But the script doesn't work when efi loader and rootfs
+image are in different live devices. This change makes the script work
+in this situation.
 
 Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ .../initrdscripts/files/init-install-efi.sh        | 29 ++++++++++++++++------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 83a7e18..852ed88 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -69,7 +69,11 @@ class BootimgEFIPlugin(SourcePlugin):
-             if not bootimg_dir:
-                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index b6855b5..922f97b 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -241,13 +241,28 @@ echo "Preparing boot partition..."
  
--            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-+            initrd_rename = source_params.get('initrd_rename')
-+            if initrd_rename:
-+                cp_cmd = "cp %s/%s %s/%s" % (bootimg_dir, initrd, hdddir, initrd_rename)
-+            else:
-+                cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-             exec_cmd(cp_cmd, True)
-         else:
-             logger.debug("Ignoring missing initrd")
-@@ -126,7 +130,11 @@ class BootimgEFIPlugin(SourcePlugin):
-             if not bootimg_dir:
-                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ EFIDIR="/boot/EFI/BOOT"
+ mkdir -p $EFIDIR
+-# Copy the efi loader
+-cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
  
--            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-+            initrd_rename = source_params.get('initrd_rename')
-+            if initrd_rename:
-+                cp_cmd = "cp %s/%s %s/%s" % (bootimg_dir, initrd, hdddir, initrd_rename)
-+            else:
-+                cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-             exec_cmd(cp_cmd, True)
-         else:
-             logger.debug("Ignoring missing initrd")
+-if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
++src_boot=""
++
++for i in `ls /dev/${live_dev_name}*`; do
++    i=${i#\/dev/}
++    if [ -f /run/media/$i/EFI/BOOT/*.efi ]; then
++        # Copy the efi loader
++        cp /run/media/$i/EFI/BOOT/*.efi $EFIDIR
++        src_boot=$i
++        break
++    fi
++done
++
++if [ -z "$src_boot" ]; then
++echo "No EFI bootloader found. Installation aborted."
++exit 1
++fi
++
++if [ -f /run/media/$src_boot/EFI/BOOT/grub.cfg ]; then
+     root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+     GRUBCFG="$EFIDIR/grub.cfg"
+-    cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
++    cp /run/media/$src_boot/EFI/BOOT/grub.cfg $GRUBCFG
+     # Update grub config for the installed image
+     # Delete the install entry
+     sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
+@@ -260,11 +275,11 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+     sed -i "s/ root=[^ ]*/ root=PARTUUID=$root_part_uuid rw $rootwait quiet /g" $GRUBCFG
+ fi
+ 
+-if [ -d /run/media/$1/loader ]; then
++if [ -d /run/media/$src_boot/loader ]; then
+     rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
+     SYSTEMDBOOT_CFGS="/boot/loader/entries/*.conf"
+     # copy config files for systemd-boot
+-    cp -dr /run/media/$1/loader /boot
++    cp -dr /run/media/$src_boot/loader /boot
+     # delete the install entry
+     rm -f /boot/loader/entries/install.conf
+     # delete the initrd lines
+@@ -282,7 +297,7 @@ umount /tgt_root
+ # Copy kernel artifacts. To add more artifacts just add to types
+ # For now just support kernel types already being used by something in OE-core
+ for types in bzImage zImage vmlinux vmlinuz fitImage; do
+-    for kernel in `find /run/media/$1/ -name $types*`; do
++    for kernel in `find /run/media/$src_boot/ -name $types*`; do
+         cp $kernel /boot
+     done
+ done
 -- 
 1.8.3.1
 
