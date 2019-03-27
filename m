@@ -1,46 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CE52C7D13A
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C0EEC7D140
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 15:04:59 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q1so19024241wrp.0
+	Wed, 27 Mar 2019 15:05:15 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id e80so15193687ote.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 08:05:01 -0700 (PDT)
+	Wed, 27 Mar 2019 08:05:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tZX5ONIRrzvaiDUmrem8UReObg3hTwItM31ceFhotLo=;
-	b=CGIlmL4xcfR5IEnRwK1I0YWe+dEOtq7Av2l98ZHXpt3ZcXdRha8lRjYXiCyupbXSVd
-	fYBc9q5y+dxjc5elR0evO/Gomg/bteuoGJLuyr9VeEdfRwEuUnwcR95lVEg0YNMp0fHQ
-	Ezx5Wle8yiE3D801FBBBXJ4HFwAxP9mFVtDjHCHyLiu40HrIJwhqqPDdLUDHiTGkBzBf
-	i44xB/JU9txtq6GEiQY/Yi9VUfaS5hVBJJkxIz/oXNmjTC6Pc49cvtaf/YoQfP6MNBIh
-	UNAQrHeKgEWIrPtaANyQ3nXhvzGogJXwyurFuzPI/gUv34JPukAWY3KCtkbYITAx0FgL
-	PSUg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=eahEo/ffyfaDK5iZ0vTJBEkFBWVbQnEtbbrK9bkEJq4=;
+	b=AGYfsm6rRPpppTTtIdNnXChtwbCVncTUXbS2kIuO24ujv1xLeQ0/EShfho8jVhcoIm
+	HQF4nkagaG0zVH0NhXhKAbubrrH9hIENN//BskqysoanwUSd9b+p3x2oy+ZzPBkWUwkS
+	fOFt7q9Q9pcQL3lGq9NBNdslxgrnK+eVdnVUIT99Nc8u0V4MMFHOXzYXxayymupid+Up
+	H0ewQS90JuRgSN2a+cIwl359jknPdF/6umduaABn+8AJFgtXCfjtGrU3OdYj8VwXjINQ
+	0a0YzKJ7LAEX4ZTUpWeqiTBjTqztskKiGl9M77hQkK2OuNzDlr4Z1Z99x7NxvK0Y3YYW
+	A6Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tZX5ONIRrzvaiDUmrem8UReObg3hTwItM31ceFhotLo=;
-	b=ao5JiNN1qC2/sUowWJ4NFjoUrCZz4ZSHCPKLJ/RixvaNJ2cUZWnvHFA7WE1JV3j+6e
-	+/zupfvEGIlnlAexOv28cG/w88FcEeECSN6Ph+KAkxa3/IB1NBvxehGfeMRSnjvqjuyp
-	quHHXS6o6vUwioC2iE8yXzNSQzjHkJqQZURalP+OJbTYcgeqjxm27lA0Du7YGcOZUQZX
-	G7OtyvhrDPbz9RBNWDNecBrj4n3TvvMZBRzyUZLmDKW5LwSMrVNRb9cJbsxmSwn8VvGl
-	U1cajUHZhgEqYNd7k3EveldScJ6ot0ggBxOsqe88zR+e90ArhrSyEpfXw8ryvUyHpL2p
-	3+9g==
-X-Gm-Message-State: APjAAAUuLsEtHpGklOy/fzjHRCE67OVX1KL7vC585d8n62J4l7tjbJmF
-	sfrooagVYpfO7ZxVgAgVkrOkfXuQ
-X-Google-Smtp-Source: APXvYqxOEr8I/MenP4YyjdWZnAMyUP0EUt7pQXDaP4gdmQUm3eG/FBZVMBCHNnI4N89X6o5FruADFQ==
-X-Received: by 2002:adf:eb0c:: with SMTP id s12mr6277418wrn.229.1553699100386; 
-	Wed, 27 Mar 2019 08:05:00 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id h7sm118998wmb.41.2019.03.27.08.04.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Mar 2019 08:04:59 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=eahEo/ffyfaDK5iZ0vTJBEkFBWVbQnEtbbrK9bkEJq4=;
+	b=EgU1vLj7ZoY2bo7e6//qvyGHTgSQ91K4jfBpD6NTjELTJUMoRsXWJmZYq9cGwgBuC7
+	Uozp2K4M8qETzKnsU6wvw7m6FCAxj0qvn+oME/cCgxSe4sf0xiTGhiD1PLCXghtjSrMB
+	9BGJbfg4Mwu8OtU3dC3MfcfbhmiA60Z2N4l1smydB+m20Bbu0cfLLpxx/ZZsgiJkjfgC
+	X7Jp6VX76QDRCQWJrhFTEgmmTVFSjQwrm9qmxGnYl/wv8P9OmARg3N8m7oAAOYBuIiXZ
+	2iV7vATtclPkjOwsENYp+RK9YjNsrEXGlrNT+qfwxAyrJZzVqbXcsnMa8F2EASNGjwRw
+	TQwQ==
+X-Gm-Message-State: APjAAAVO7OT47KH4mpWYd965IuWdKs6JQa3+o/NHcgQ7sc5KDzDqhVtD
+	sfyiw2hGpzDQGd3mHYJmC1Qm7yAvIr4sgbZiszp+Ag==
+X-Google-Smtp-Source: APXvYqxerZ59AH2/tDCgfPUDsE0/FqBUOGvAy781c/7F1FprMKGa5VgCaei4FGP5JEhjzxEhSEpZg1tbQihz4T80B8o=
+X-Received: by 2002:a05:6830:1c5:: with SMTP id
+	r5mr15772647ota.360.1553699116747; 
+	Wed, 27 Mar 2019 08:05:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190327140922.109867-1-alex.kanavin@gmail.com>
+	<20190327140922.109867-3-alex.kanavin@gmail.com>
+	<20190327145110.GA23257@localhost>
+In-Reply-To: <20190327145110.GA23257@localhost>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Mar 2019 16:04:55 +0100
-Message-Id: <20190327150455.46537-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] blktool: remove a duplicate patch
+Date: Wed, 27 Mar 2019 16:05:05 +0100
+Message-ID: <CANNYZj__QaM7e7=E1JdSM5vAMTErDpaQq7zyenwefyt5FOmPZQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/8] blktool: update to 4-7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 15:05:00 -0000
+X-List-Received-Date: Wed, 27 Mar 2019 15:05:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-blktool-gnulib-makedev.patch is actually doing the same
-thing as 0004-fix-ftbfs-glibc-2.28.patch, so we end up
-including the same file twice.
+Right, I have sent a followup removing the duplicate.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../blktool/blktool-gnulib-makedev.patch      | 23 -------------------
- .../recipes-extended/blktool/blktool_4-7.1.bb |  1 -
- 2 files changed, 24 deletions(-)
- delete mode 100644 meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
+Alex
 
-diff --git a/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch b/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
-deleted file mode 100644
-index 6eea608b291..00000000000
---- a/meta/recipes-extended/blktool/blktool/blktool-gnulib-makedev.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--include <sys/sysmacros.h> for major/minor defintions
--
--Fixes
--
--| ../blktool-4.orig/blktool.c: In function 'detect_dev_class':
--| ../blktool-4.orig/blktool.c:295:10: warning: implicit declaration of function 'major' [-Wimplicit-function-declaration]
--|   switch (major(st_rdev)) {
--|           ^~~~~
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Index: blktool-4.orig/blktool.c
--===================================================================
----- blktool-4.orig.orig/blktool.c
--+++ blktool-4.orig/blktool.c
--@@ -27,6 +27,7 @@
-- #include <linux/cdrom.h>
-- #include <linux/major.h>
-- #include <scsi/scsi.h>
--+#include <sys/sysmacros.h>
-- 
-- #include "blktool.h"
-- 
-diff --git a/meta/recipes-extended/blktool/blktool_4-7.1.bb b/meta/recipes-extended/blktool/blktool_4-7.1.bb
-index cc24d3cdb24..ff2eaa5352b 100644
---- a/meta/recipes-extended/blktool/blktool_4-7.1.bb
-+++ b/meta/recipes-extended/blktool/blktool_4-7.1.bb
-@@ -14,7 +14,6 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/
-            file://0002-fix-string-error.patch \
-            file://0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch \
-            file://0004-fix-ftbfs-glibc-2.28.patch \
--           file://blktool-gnulib-makedev.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "62edc09c9908107e69391c87f4f3fd40"
--- 
-2.17.1
 
+On Wed, 27 Mar 2019 at 15:51, Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Wed, Mar 27, 2019 at 03:09:17PM +0100, Alexander Kanavin wrote:
+> > This update adds a patch from Debian to match the latest version there.
+> >...
+> > +           file://0004-fix-ftbfs-glibc-2.28.patch \
+> >             file://blktool-gnulib-makedev.patch \
+> >...
+>
+> That's 2 patches adding the same #include.
+>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
