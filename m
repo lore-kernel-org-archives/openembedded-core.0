@@ -1,32 +1,24 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B0D7D0CB
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AE427CE5A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 08:18:23 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,276,1549900800"; d="scan'208";a="57813515"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 27 Mar 2019 16:18:22 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id F038C4CD5BDF
+	Wed, 27 Mar 2019 08:36:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2R8ZX7g008684
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 16:18:17 +0800 (CST)
-Received: from localhost.local (10.167.225.84) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 27 Mar 2019 16:18:20 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Wed, 27 Mar 2019 01:35:54 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.190) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 27 Mar 2019 01:35:29 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Mar 2019 16:18:51 +0800
-Message-ID: <20190327081852.20155-3-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190327081852.20155-1-zangrc.fnst@cn.fujitsu.com>
-References: <20190327081852.20155-1-zangrc.fnst@cn.fujitsu.com>
+Date: Wed, 27 Mar 2019 16:45:50 +0800
+Message-ID: <cover.1553676312.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.84]
-X-yoursite-MailScanner-ID: F038C4CD5BDF.AC0BD
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH 2/3] at-spi2-core:upgrade 2.30.0 -> 2.32.0
+Subject: [PATCH 0/1] libarchive: fix up CVE IDs in patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 08:18:24 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 27 Mar 2019 08:36:03 -0000
 Content-Type: text/plain
 
-upgrade from at-spi2-core_2.30.0.bb to at-spi2-core_2.32.0.bb
+*** BLURB HERE ***
+The following changes since commit 35742c10f531ba451c06a4e360fecfb55f358b35:
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../atk/{at-spi2-core_2.30.0.bb => at-spi2-core_2.32.0.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.30.0.bb => at-spi2-core_2.32.0.bb} (92%)
+  ref-manual: Removed DISK_DESCRIPTION variable from glossary (2019-03-26 15:38:56 +0000)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb b/meta/recipes-support/atk/at-spi2-core_2.32.0.bb
-similarity index 92%
-rename from meta/recipes-support/atk/at-spi2-core_2.30.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.32.0.bb
-index d0b567a5e5..0eaa7b55c5 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.32.0.bb
-@@ -8,8 +8,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            "
- 
--SRC_URI[md5sum] = "d4f22c66b3210ffe6b10d01c04e008b5"
--SRC_URI[sha256sum] = "0175f5393d19da51f4c11462cba4ba6ef3fa042abf1611a70bdfed586b7bfb2b"
-+SRC_URI[md5sum] = "57269004541646c4c5cf0bcb7c99bb5b"
-+SRC_URI[sha256sum] = "43a435d213f8d4b55e8ac83a46ae976948dc511bb4a515b69637cb36cf0e7220"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
- 
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/libarchive-fixup
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/libarchive-fixup
+
+Chen Qi (1):
+  libarchive: fix up CVE IDs in patches
+
+ meta/recipes-extended/libarchive/libarchive/CVE-2019-1000019.patch | 2 +-
+ meta/recipes-extended/libarchive/libarchive/CVE-2019-1000020.patch | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-2.20.1
-
-
+1.9.1
 
 
