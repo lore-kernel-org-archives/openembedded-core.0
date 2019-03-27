@@ -1,48 +1,49 @@
 Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
-	[209.85.166.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0185A7D088
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FBA67D088
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 15:42:30 +0000 (UTC)
-Received: by mail-it1-f169.google.com with SMTP id z126so818490itd.5
+	Wed, 27 Mar 2019 15:45:18 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id w15so584198wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 08:42:32 -0700 (PDT)
+	Wed, 27 Mar 2019 08:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9S2KIyrWceKTnbwDq9CWY1rqBNC0zWA7cCe2TcOIKyQ=;
-	b=txwJrsWSrXdbOPzMzJ639WzpSBYJm5OZgtU7n7Qz/f3R7bV3JsOhNK1yzokF1fCVpY
-	6C4gvNzCR69HNJPyMig4gPN2TZzmvpg1AcL+Bdeuhu+lSC6gn0sAjJdmpAcRx5GwPyB0
-	W93y2/CALOFQRfHRAj4Pia7IZwpv8V9fH5FMEGcGYimq8A5DHwmv9RtgF3DRj4mRv1NG
-	l0/z+vVGgpcpEGEwRueYoY0utXZB8acpn4TjZG+5p8MutvWq+mevv0AZtV+a+m7JLL+M
-	wyl5aJmj58/rN8L5NlWp1YFsUXOIK6cqMfIoad15TBItroxuYi0b4XNRPcT+5PYzF+Nb
-	OPRw==
+	h=from:to:cc:subject:date:message-id;
+	bh=23D8KDjWtzE06FUHMoJ+RgL8hmgoQN67i2CiHAeb2Rg=;
+	b=c6q5vnNs9ByuIm+TTIlwVgo4p3hcSgkjTqkZyF+QEoDEruUoqF8qjt8C0hkSQFEKzD
+	Vc8KTlenj3OjOkkVCcjDVAvizhBoB2sOHqfTFqhMA0gKPp6vTaIkUAWabyo1FHWHCeW4
+	3SJsiKVbcF3f3O7NNB+z2QTBk7TMN9Mtg/V1FpT7UyR9oaJ2CdMsvV2zcLat57hO/TvP
+	5PbKrlIeuRy92fhNq66i/8hIrSZ8uUeGnRyAJ8OoDZIx+jjxJTVmVLKQgMONIejZO7f+
+	nD2ZjCDefOeVMZmf66RnxCEkPAqGqnlbaTZZEnbm/MdPNcq7RTgFyQ+EE49jqmlpA22J
+	+zKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9S2KIyrWceKTnbwDq9CWY1rqBNC0zWA7cCe2TcOIKyQ=;
-	b=QTp2onQq8IGfCWFlW3H26NdM4htHyW9pTBfRYc+dttvphaUYWHuwxo0JUitZJwDmqD
-	g1OQ6WFLQ4r+UpOENYxatAB7q7LKbVUpa7bz2o2z6kFvzJliLbcin55BSejCOLj9ZSH3
-	G/OWXKJ9YLy3HkF+bPrTm+OnxNxM5N659JC0U6RFstmRLnHsz6H7EWWO7MARSyUr294X
-	UiN15UOGObQD44z40mdRJl05qCteieTq50C7hcqLZlKy6anQBCW9baL0/Xx3ju4SGeWN
-	rY+Qc4TE+VlguULjfYakSzTq9l4IwANPbrdKoiJv/+8CcDqtoVdVQdD+QNwiWAsLEFnE
-	kg0Q==
-X-Gm-Message-State: APjAAAXKDW2FfUdE/I7LoQ2i0AicwuvSbo951/2OV/JNVlswoE4oqK8n
-	0fn2TUNu+Ielmpx63qhzB6wv4Dd0uSymaND8hL4=
-X-Google-Smtp-Source: APXvYqxG9fMCll9FsB+bXSAVjnZM06pKN6L/gHAA3LDyAINtEGbOjHTihLnrYulBU9Yi+jD1zPI84Jei6y+bG6OQlwY=
-X-Received: by 2002:a24:1394:: with SMTP id 142mr4417166itz.54.1553701351840; 
-	Wed, 27 Mar 2019 08:42:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <1553690811-26575-1-git-send-email-vincent.prince.fr@gmail.com>
-	<CAO5Uq5TudhS3=eZGYS_M++VqV1kWc0sLhNccumu7VCQhn_Ht7w@mail.gmail.com>
-In-Reply-To: <CAO5Uq5TudhS3=eZGYS_M++VqV1kWc0sLhNccumu7VCQhn_Ht7w@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=23D8KDjWtzE06FUHMoJ+RgL8hmgoQN67i2CiHAeb2Rg=;
+	b=paFGZiabUjr0XNkpo5JcAbybpa7KGujW830krESszhiqwcUT+0sSkfoUYvg4pjOGdh
+	QwsUynD3MO1Hh6RmVZl0VUaGnNNuifU5tcEkdGPDGJl+WQbhmEWEypXJpRjQ2OL/+TUZ
+	Lq7CGyLkX0hBJ4Jdd6wI3vHNvxjSEfowzG4d8GyVtaROVWvjiHCDTPxZ2hyJfwb2ow/b
+	RnSfxB+O5yWeKOpeF4F/EPnlpHDPYwL8emXsp2Hm1T7JNcMfPK0v122xv9V8f5xsWKWy
+	8fXSp5MlZ/o5JKJ7WGntU/V4HJYgx+URNB8XvDnxy1LRjCzsAd7rxxaA87wDn5I0+Y2u
+	Mxkg==
+X-Gm-Message-State: APjAAAXn7d+1aCauJFAcwgDZ1vHB6dYccThZQUMxyqMeYlpX7shRRmCN
+	wZmaMTsgzKoMGhlNwRsl6WkGWKb4
+X-Google-Smtp-Source: APXvYqyytuOO8ZhtuVY7JtGSavuv41DbBfsC7ck4Kn4qk+djFufc34z3wYlkzJ1Ghoox8q1esq+W/A==
+X-Received: by 2002:a1c:b702:: with SMTP id h2mr12106207wmf.94.1553701519243; 
+	Wed, 27 Mar 2019 08:45:19 -0700 (PDT)
+Received: from VM-VPR.corporate.saft.org
+	([2a04:cec0:1095:d009:ce8:edec:2e63:c571])
+	by smtp.gmail.com with ESMTPSA id
+	k4sm15593396wro.33.2019.03.27.08.45.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Mar 2019 08:45:18 -0700 (PDT)
 From: Vincent Prince <vincent.prince.fr@gmail.com>
-Date: Wed, 27 Mar 2019 16:42:20 +0100
-Message-ID: <CAB2nKc9Jj=Q+RHSXOyjaRtm34nwhN1htiEJYJaA6RNY7s5g5HA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Systemd: Add pattern matching support to PACKAGECONFIG
+To: openembedded-core@lists.openembedded.org,
+	alex.kiernan@gmail.com
+Date: Wed, 27 Mar 2019 16:45:11 +0100
+Message-Id: <1553701511-32475-1-git-send-email-vincent.prince.fr@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] Systemd: Add pattern matching support to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,133 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 15:42:31 -0000
-Content-Type: multipart/alternative; boundary="00000000000029e23705851549ed"
+X-List-Received-Date: Wed, 27 Mar 2019 15:45:19 -0000
 
---00000000000029e23705851549ed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+libpcre2 is needed to enable grep option to journalctl.
 
-Ouch :/
-Thanks Alex, sending V2.
+Changes in v2:
+- Fix false case option
 
-Le mer. 27 mars 2019 =C3=A0 16:26, Alex Kiernan <alex.kiernan@gmail.com> a
-=C3=A9crit :
+Signed-off-by: Vincent Prince <vincent.prince.fr@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_241.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> On Wed, Mar 27, 2019 at 12:47 PM Vincent Prince
-> <vincent.prince.fr@gmail.com> wrote:
-> >
-> > libpcre2 is needed to enable grep option to journalctl.
-> >
-> > Signed-off-by: Vincent Prince <vincent.prince.fr@gmail.com>
-> > ---
-> >  meta/recipes-core/systemd/systemd_241.bb | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/recipes-core/systemd/systemd_241.bb
-> b/meta/recipes-core/systemd/systemd_241.bb
-> > index a12b9ab..9e05944 100644
-> > --- a/meta/recipes-core/systemd/systemd_241.bb
-> > +++ b/meta/recipes-core/systemd/systemd_241.bb
-> > @@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] =3D
-> "-Dnss-mymachines=3Dtrue,-Dnss-mymachines=3Dfalse"
-> >  PACKAGECONFIG[nss-resolve] =3D "-Dnss-resolve=3Dtrue,-Dnss-resolve=3Df=
-alse"
-> >  PACKAGECONFIG[openssl] =3D "-Dopenssl=3Dtrue,-Dopenssl=3Dfalse,openssl=
-"
-> >  PACKAGECONFIG[pam] =3D "-Dpam=3Dtrue,-Dpam=3Dfalse,libpam,${PAM_PLUGIN=
-S}"
-> > +PACKAGECONFIG[pcre2] =3D "-Dpcre2=3Dtrue,-Dpcre2=3Dtrue,libpcre2"
->
-> You've got "pcre2=3Dtrue" in both arms of the PACKAGECONFIG.
->
-> >  PACKAGECONFIG[polkit] =3D "-Dpolkit=3Dtrue,-Dpolkit=3Dfalse"
-> >  PACKAGECONFIG[portabled] =3D "-Dportabled=3Dtrue,-Dportabled=3Dfalse"
-> >  PACKAGECONFIG[qrencode] =3D "-Dqrencode=3Dtrue,-Dqrencode=3Dfalse,qren=
-code"
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Alex Kiernan
->
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index a12b9ab..bfbfc81 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
+ PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
+ PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
+ PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
++PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=false,libpcre2"
+ PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
+ PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
+ PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
+-- 
+2.7.4
 
---00000000000029e23705851549ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Ouch :/</div><div>Thanks Alex, sending V2.</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=
-=A0mer. 27 mars 2019 =C3=A0=C2=A016:26, Alex Kiernan &lt;<a href=3D"mailto:=
-alex.kiernan@gmail.com">alex.kiernan@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Mar 27, =
-2019 at 12:47 PM Vincent Prince<br>
-&lt;<a href=3D"mailto:vincent.prince.fr@gmail.com" target=3D"_blank">vincen=
-t.prince.fr@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; libpcre2 is needed to enable grep option to journalctl.<br>
-&gt;<br>
-&gt; Signed-off-by: Vincent Prince &lt;<a href=3D"mailto:vincent.prince.fr@=
-gmail.com" target=3D"_blank">vincent.prince.fr@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_241.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_241.bb</a> | 1 +<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_241.b=
-b" rel=3D"noreferrer" target=3D"_blank">systemd_241.bb</a> b/meta/recipes-c=
-ore/systemd/<a href=3D"http://systemd_241.bb" rel=3D"noreferrer" target=3D"=
-_blank">systemd_241.bb</a><br>
-&gt; index a12b9ab..9e05944 100644<br>
-&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_241.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_241.bb</a><br>
-&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_241.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_241.bb</a><br>
-&gt; @@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] =3D &quot;-Dnss-myma=
-chines=3Dtrue,-Dnss-mymachines=3Dfalse&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[nss-resolve] =3D &quot;-Dnss-resolve=3Dtrue,-Dnss-=
-resolve=3Dfalse&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[openssl] =3D &quot;-Dopenssl=3Dtrue,-Dopenssl=3Dfa=
-lse,openssl&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[pam] =3D &quot;-Dpam=3Dtrue,-Dpam=3Dfalse,libpam,$=
-{PAM_PLUGINS}&quot;<br>
-&gt; +PACKAGECONFIG[pcre2] =3D &quot;-Dpcre2=3Dtrue,-Dpcre2=3Dtrue,libpcre2=
-&quot;<br>
-<br>
-You&#39;ve got &quot;pcre2=3Dtrue&quot; in both arms of the PACKAGECONFIG.<=
-br>
-<br>
-&gt;=C2=A0 PACKAGECONFIG[polkit] =3D &quot;-Dpolkit=3Dtrue,-Dpolkit=3Dfalse=
-&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[portabled] =3D &quot;-Dportabled=3Dtrue,-Dportable=
-d=3Dfalse&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[qrencode] =3D &quot;-Dqrencode=3Dtrue,-Dqrencode=
-=3Dfalse,qrencode&quot;<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-<br>
-<br>
-<br>
--- <br>
-Alex Kiernan<br>
-</blockquote></div>
-
---00000000000029e23705851549ed--
