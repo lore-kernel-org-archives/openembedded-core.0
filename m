@@ -1,57 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C1A87D0FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6651C65CE9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 13:33:15 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id k11so11198718wro.5
+	Wed, 27 Mar 2019 13:40:40 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h4so2997244wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 06:33:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=fmxOaWqSWFNcPp/KxLkyMEQSLYw/rexuZRVCEcZfSz0=;
-	b=Di179WshwX1pfb81j8eYPgvCRTilmtGGZm6Ijq7pwYjpBGX1zLwnXZrcQ/f8GIpk9I
-	PR733YsjB+Gq2xAI8PrNxw+h4yqXY8Kwkv3R7zJRLv8kvFLM/G6UWOAmxvCdSeVnZY0T
-	Xm4RLOe/VY2fkcqBssJZFkg3KZjcDs30f1VKjBynNA1WNBG3wwCsa8tKv0iEwXc+cn7Q
-	bnbFGGp1A7sWXaYt2Q7TzqicoVGoAAB+SgqVzZha23VLfohsZpGGuALKCUQtOSYG17H+
-	g3B3szjJCuZmySR4Ng4pPcTm344CCoBxqqDc4HH3neUUJGwiYSBjNPyAbCFlH66kb0wf
-	BlQw==
+	Wed, 27 Mar 2019 06:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=LULkSiSmJWwEIQk3sXyis1Xd9tv1CZ1dfGWE4bprtIE=;
+	b=pkMFBraC8xqpKv2cqx0z5oda9YEFtNtTn/tgVR90EzJWlSJKv7P+BORocprYKYb61N
+	RB8kawTqIQkZpH5uGkro+bBrWOgBA5aGWVMV4fonETGJgqnxNe004UBe5dSJ2GLHkTJP
+	cNnPEJyeGoQumFsBzoP+L3R6+UnHlClmjmTKQt2uyEUdgoRXlUhKyqhtGskWyVZrGGzZ
+	L8zRhIn7k3EUKj/V3ot9J/o6m93MBP6MIbEFJtkkh3JE2sPkChvjEeDlcitij9eCypJ6
+	Qmi2anK2H37S/zqL8GPMlNkW1i8cPuPAWX2gqI46u96ZHpvkdkUcK+ZRGVwSwvq/gksy
+	8fpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=fmxOaWqSWFNcPp/KxLkyMEQSLYw/rexuZRVCEcZfSz0=;
-	b=IAOn3dscC+UTh8mqVIyGkJ07RKbf4efJrNZZPn99KQU72vEAZTanUQOd59ggNgtmZr
-	oj2qSw9MFjcbXQWg9su9KlZ4Z67N7l5n1VszKWsbR9FbMkjn6QR/9cCwBL3xrdO3Fxdv
-	lcPeEH3ZDxg/vKzGVxNfD8CHzu27ljFBBoJqJfVVfkYX5gaF5bsUxBSjO1UtMue77AeL
-	txJpyg1M5geDlD53kJXvFP04/kUQUI/t7/r1VyRlyyyi3XyGF0V24kMsbF0FUjt6fIhR
-	GcMnCwcZ0QVR4jmDtCV2SO4zjnW4E/2CkW7tVKfxRIS49e1y6+S2hds+4UCqK9E1gm7X
-	xEGw==
-X-Gm-Message-State: APjAAAX2HUX0im1a4gI6Gb6knXLqdPnJce3PY8sB/cYlUilkzhLsFA/a
-	OA9fTEXah5CD+4hc/OhIwqU=
-X-Google-Smtp-Source: APXvYqzqz+w627oa7oaL/Fc/iwIXCytRVLTuAsdJAr5AdzzPfahdaJIRPXM2X8DwleHZZbRSEk8b4w==
-X-Received: by 2002:adf:f050:: with SMTP id t16mr23291640wro.198.1553693596271;
-	Wed, 27 Mar 2019 06:33:16 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id h9sm22577wmb.5.2019.03.27.06.33.13
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 27 Mar 2019 06:33:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 27 Mar 2019 14:33:14 +0100
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <20190327133314.GA1598@jama>
-References: <20190325234413.12652-1-ross.burton@intel.com>
-	<CAMKF1soRmnRPFzUDs93Y=fx9VJ3DWrArxX-BRHSES4sSR5xhWA@mail.gmail.com>
-	<CAJTo0LbPb05xLRjvyaRLVKZR1qQx5QiC-eh3XZSiAokCnvXUwg@mail.gmail.com>
-	<20190326102017.GA1929@jama> <20190326104212.GB19885@localhost>
-MIME-Version: 1.0
-In-Reply-To: <20190326104212.GB19885@localhost>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps: put PV in filename
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=LULkSiSmJWwEIQk3sXyis1Xd9tv1CZ1dfGWE4bprtIE=;
+	b=kCyB0aTwRpCLUsYRdROb4QlQbXdi4MdStNpB1aaeKGqq2eafykIhy82exYargJWuXl
+	fufbxhyZYPxhpxtr+a8Wn1X7qG36bkPozA0y5cJFyjGPCMUU7xALJuWUthehG6U8dRON
+	bt3Qa/RidWtvb/NPhiM5AjPsYs5BxwZHxPZ6jPaqDrjvU38he1JJXAqU8fp8/uiDI+7S
+	S8It7NEd39+yJGAHuyYl94TcC3hCdaKylAS7zC1Ycoii4PTgE2tkIuB46mVNiMY9B3MP
+	QTpTRUBDxj0h9BpHcbrr3bOOz6X2BQIprLIy/3w0s2Uz65MRxyuW0K41+JtLuy7T/YYt
+	A3fA==
+X-Gm-Message-State: APjAAAV+wDPB7DEfFCa4V+Ad+puUyTsG+s6uFlKrtuh6i2fCY2Qc9sou
+	sb4b0hH2EsB6VPybgSTDxIPWjIjEzyU=
+X-Google-Smtp-Source: APXvYqz56F7z3XN5n8C0Xqd4Z1P1k87vOjm08/fGXu+FoEsOzKf8MKInZbt+2iUzV9nBIKFVCrjbig==
+X-Received: by 2002:adf:f285:: with SMTP id k5mr4450245wro.110.1553694040651; 
+	Wed, 27 Mar 2019 06:40:40 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h10sm32310477wrs.27.2019.03.27.06.40.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Mar 2019 06:40:39 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Mar 2019 13:40:38 +0000
+Message-Id: <20190327134038.1450-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libexif: fix CVE-2016-6328 and CVE-2018-20030
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,107 +56,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 13:33:16 -0000
-X-Groupsio-MsgNum: 122649
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Mar 2019 13:40:40 -0000
 
---2oS5YaxWCcQjTEyO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libexif/libexif/CVE-2016-6328.patch            |  64 ++++++++++++
+ .../libexif/libexif/CVE-2018-20030.patch           | 115 +++++++++++++++++++++
+ meta/recipes-support/libexif/libexif_0.6.21.bb     |   4 +-
+ 3 files changed, 182 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libexif/libexif/CVE-2016-6328.patch
+ create mode 100644 meta/recipes-support/libexif/libexif/CVE-2018-20030.patch
 
-On Tue, Mar 26, 2019 at 12:42:12PM +0200, Adrian Bunk wrote:
-> On Tue, Mar 26, 2019 at 11:20:17AM +0100, Martin Jansa wrote:
-> > On Tue, Mar 26, 2019 at 10:00:52AM +0000, Burton, Ross wrote:
-> > > On Tue, 26 Mar 2019 at 01:39, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > This isn't a git snapshot recipe but a release that is fetched ov=
-er it.  For
-> > > > > clarity, put the PV in the filename.
-> > > >
-> > > > I think its better to keep it as it is. since its easy to trace git=
- log history.
-> > >=20
-> > > So should I be renaming gcc-8.3.bb to gcc_http.bb?  If the argument is
-> > > that the filename should contain the transport protocol and PV is
-> > > embedded in the recipe so that git log is easier, we should be
-> > > applying that rule consistently.
-> >=20
-> > FWIW: I agree with Khem.
-> >=20
-> > http fetcher won't (usually) fetch different version just by changing 1
-> > variable inside the recipe and vice versa, renaming the recipe won't
-> > fetch different SRCREV with git.
->=20
-> Why should the name of the recipe depend on whatever fetcher is=20
-> currently used?
->=20
-> If the same gcc release would be fetched from the upstream SVN,
-> would you argue that the recipe has to be renamed to gcc_svn.bb?
+diff --git a/meta/recipes-support/libexif/libexif/CVE-2016-6328.patch b/meta/recipes-support/libexif/libexif/CVE-2016-6328.patch
+new file mode 100644
+index 00000000000..a6f307439bf
+--- /dev/null
++++ b/meta/recipes-support/libexif/libexif/CVE-2016-6328.patch
+@@ -0,0 +1,64 @@
++CVE: CVE-2016-6328
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 41bd04234b104312f54d25822f68738ba8d7133d Mon Sep 17 00:00:00 2001
++From: Marcus Meissner <marcus@jet.franken.de>
++Date: Tue, 25 Jul 2017 23:44:44 +0200
++Subject: [PATCH] fixes some (not all) buffer overreads during decoding pentax
++ makernote entries.
++
++This should fix:
++https://sourceforge.net/p/libexif/bugs/125/ CVE-2016-6328
++---
++ libexif/pentax/mnote-pentax-entry.c | 16 +++++++++++++---
++ 1 file changed, 13 insertions(+), 3 deletions(-)
++
++diff --git a/libexif/pentax/mnote-pentax-entry.c b/libexif/pentax/mnote-pentax-entry.c
++index d03d159..ea0429a 100644
++--- a/libexif/pentax/mnote-pentax-entry.c
+++++ b/libexif/pentax/mnote-pentax-entry.c
++@@ -425,24 +425,34 @@ mnote_pentax_entry_get_value (MnotePentaxEntry *entry,
++ 		case EXIF_FORMAT_SHORT:
++ 		  {
++ 			const unsigned char *data = entry->data;
++-		  	size_t k, len = strlen(val);
+++		  	size_t k, len = strlen(val), sizeleft;
+++
+++			sizeleft = entry->size;
++ 		  	for(k=0; k<entry->components; k++) {
+++				if (sizeleft < 2)
+++					break;
++ 				vs = exif_get_short (data, entry->order);
++ 				snprintf (val+len, maxlen-len, "%i ", vs);
++ 				len = strlen(val);
++ 				data += 2;
+++				sizeleft -= 2;
++ 			}
++ 		  }
++ 		  break;
++ 		case EXIF_FORMAT_LONG:
++ 		  {
++ 			const unsigned char *data = entry->data;
++-		  	size_t k, len = strlen(val);
+++		  	size_t k, len = strlen(val), sizeleft;
+++
+++			sizeleft = entry->size;
++ 		  	for(k=0; k<entry->components; k++) {
+++				if (sizeleft < 4)
+++					break;
++ 				vl = exif_get_long (data, entry->order);
++ 				snprintf (val+len, maxlen-len, "%li", (long int) vl);
++ 				len = strlen(val);
++ 				data += 4;
+++				sizeleft -= 4;
++ 			}
++ 		  }
++ 		  break;
++@@ -455,5 +465,5 @@ mnote_pentax_entry_get_value (MnotePentaxEntry *entry,
++ 		break;
++ 	}
++ 
++-	return (val);
+++	return val;
++ }
+diff --git a/meta/recipes-support/libexif/libexif/CVE-2018-20030.patch b/meta/recipes-support/libexif/libexif/CVE-2018-20030.patch
+new file mode 100644
+index 00000000000..76233e6dc9b
+--- /dev/null
++++ b/meta/recipes-support/libexif/libexif/CVE-2018-20030.patch
+@@ -0,0 +1,115 @@
++CVE: CVE-2018-20030
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 6aa11df549114ebda520dde4cdaea2f9357b2c89 Mon Sep 17 00:00:00 2001
++From: Dan Fandrich <dan@coneharvesters.com>
++Date: Fri, 12 Oct 2018 16:01:45 +0200
++Subject: [PATCH] Improve deep recursion detection in
++ exif_data_load_data_content.
++
++The existing detection was still vulnerable to pathological cases
++causing DoS by wasting CPU. The new algorithm takes the number of tags
++into account to make it harder to abuse by cases using shallow recursion
++but with a very large number of tags.  This improves on commit 5d28011c
++which wasn't sufficient to counter this kind of case.
++
++The limitation in the previous fix was discovered by Laurent Delosieres,
++Secunia Research at Flexera (Secunia Advisory SA84652) and is assigned
++the identifier CVE-2018-20030.
++
++diff --git a/libexif/exif-data.c b/libexif/exif-data.c
++index 67df4db..8d9897e 100644
++--- a/libexif/exif-data.c
+++++ b/libexif/exif-data.c
++@@ -35,6 +35,7 @@
++ #include <libexif/olympus/exif-mnote-data-olympus.h>
++ #include <libexif/pentax/exif-mnote-data-pentax.h>
++ 
+++#include <math.h>
++ #include <stdlib.h>
++ #include <stdio.h>
++ #include <string.h>
++@@ -344,6 +345,20 @@ if (data->ifd[(i)]->count) {				\
++ 	break;						\
++ }
++ 
+++/*! Calculate the recursion cost added by one level of IFD loading.
+++ *
+++ * The work performed is related to the cost in the exponential relation
+++ *   work=1.1**cost
+++ */
+++static unsigned int
+++level_cost(unsigned int n)
+++{
+++    static const double log_1_1 = 0.09531017980432493;
+++
+++	/* Adding 0.1 protects against the case where n==1 */
+++	return ceil(log(n + 0.1)/log_1_1);
+++}
+++
++ /*! Load data for an IFD.
++  *
++  * \param[in,out] data #ExifData
++@@ -351,13 +366,13 @@ if (data->ifd[(i)]->count) {				\
++  * \param[in] d pointer to buffer containing raw IFD data
++  * \param[in] ds size of raw data in buffer at \c d
++  * \param[in] offset offset into buffer at \c d at which IFD starts
++- * \param[in] recursion_depth number of times this function has been
++- * recursively called without returning
+++ * \param[in] recursion_cost factor indicating how expensive this recursive
+++ * call could be
++  */
++ static void
++ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
++ 			     const unsigned char *d,
++-			     unsigned int ds, unsigned int offset, unsigned int recursion_depth)
+++			     unsigned int ds, unsigned int offset, unsigned int recursion_cost)
++ {
++ 	ExifLong o, thumbnail_offset = 0, thumbnail_length = 0;
++ 	ExifShort n;
++@@ -372,9 +387,20 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
++ 	if ((((int)ifd) < 0) || ( ((int)ifd) >= EXIF_IFD_COUNT))
++ 	  return;
++ 
++-	if (recursion_depth > 30) {
+++	if (recursion_cost > 170) {
+++		/*
+++		 * recursion_cost is a logarithmic-scale indicator of how expensive this
+++		 * recursive call might end up being. It is an indicator of the depth of
+++		 * recursion as well as the potential for worst-case future recursive
+++		 * calls. Since it's difficult to tell ahead of time how often recursion
+++		 * will occur, this assumes the worst by assuming every tag could end up
+++		 * causing recursion.
+++		 * The value of 170 was chosen to limit typical EXIF structures to a
+++		 * recursive depth of about 6, but pathological ones (those with very
+++		 * many tags) to only 2.
+++		 */
++ 		exif_log (data->priv->log, EXIF_LOG_CODE_CORRUPT_DATA, "ExifData",
++-			  "Deep recursion detected!");
+++			  "Deep/expensive recursion detected!");
++ 		return;
++ 	}
++ 
++@@ -416,15 +442,18 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
++ 			switch (tag) {
++ 			case EXIF_TAG_EXIF_IFD_POINTER:
++ 				CHECK_REC (EXIF_IFD_EXIF);
++-				exif_data_load_data_content (data, EXIF_IFD_EXIF, d, ds, o, recursion_depth + 1);
+++				exif_data_load_data_content (data, EXIF_IFD_EXIF, d, ds, o,
+++					recursion_cost + level_cost(n));
++ 				break;
++ 			case EXIF_TAG_GPS_INFO_IFD_POINTER:
++ 				CHECK_REC (EXIF_IFD_GPS);
++-				exif_data_load_data_content (data, EXIF_IFD_GPS, d, ds, o, recursion_depth + 1);
+++				exif_data_load_data_content (data, EXIF_IFD_GPS, d, ds, o,
+++					recursion_cost + level_cost(n));
++ 				break;
++ 			case EXIF_TAG_INTEROPERABILITY_IFD_POINTER:
++ 				CHECK_REC (EXIF_IFD_INTEROPERABILITY);
++-				exif_data_load_data_content (data, EXIF_IFD_INTEROPERABILITY, d, ds, o, recursion_depth + 1);
+++				exif_data_load_data_content (data, EXIF_IFD_INTEROPERABILITY, d, ds, o,
+++					recursion_cost + level_cost(n));
++ 				break;
++ 			case EXIF_TAG_JPEG_INTERCHANGE_FORMAT:
++ 				thumbnail_offset = o;
+diff --git a/meta/recipes-support/libexif/libexif_0.6.21.bb b/meta/recipes-support/libexif/libexif_0.6.21.bb
+index a6c9c647c89..d847beab185 100644
+--- a/meta/recipes-support/libexif/libexif_0.6.21.bb
++++ b/meta/recipes-support/libexif/libexif_0.6.21.bb
+@@ -5,7 +5,9 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libexif/libexif-${PV}.tar.bz2 \
+-           file://CVE-2017-7544.patch"
++           file://CVE-2017-7544.patch \
++           file://CVE-2016-6328.patch \
++           file://CVE-2018-20030.patch"
+ 
+ SRC_URI[md5sum] = "27339b89850f28c8f1c237f233e05b27"
+ SRC_URI[sha256sum] = "16cdaeb62eb3e6dfab2435f7d7bccd2f37438d21c5218ec4e58efa9157d4d41a"
+-- 
+2.11.0
 
-It's quite common use case to override SRCREV outside the recipe (at
-least during the development) to newer SRCREV or even AUTOREV.
 
-Using _git or _svn in recipe filename was good indicator that this might
-be happening.
-
-With e.g. http fetcher the PV is usually used in SRC_URI, so it's less
-likely to be inconsistent between what version the recipe (and enduser
-visible packages) say and what is actually downloaded and built.
-
-> > If someone wants to update SRCREV in libcoms to be 10 commits behind
-> > 0.1.10, is he expected to rename the recipe back to libcomps_git.bb and
-> > re-add the PV variable (with new +git${SRCPV} suffix)?
-> >=20
-> > I got used to "+git${SRCPV}" being dropped when the SRCREV matches
-> > exactly the git tag, but renaming the recipe and removing the PV seems
-> > too much, what is the benefit of doing that?
->=20
-> Is it actually a benefit to make it easy to switch from a release to=20
-> some random git snapshot?
->=20
-> This is not something that should happen frequently.
-
-It's not about easy switching, it's about making sure that SRCREV is
-updated at the same time as PV. Which is easier to notice when the 2
-variables are set next to each other, than when PV is taken from the
-recipe filename and SRCREV (which is the only one which matters when
-downloading the source) is set inside the renamed recipe file.
-
-> > It's not for clarity or
-> > easier maintenance (at least for me), because PV next to SRCREV makes
-> > much more sense to me (and helps people not to forget updating both at
-> > the same time).
->=20
-> There are not only developers, but also users.
->=20
-> It is valuable to see from the filename whether it is a release
-> (and which release it is) or some VCS snapshot.
-
-That's why bitbake shows not only the filename (which isn't really
-important for users) but also the PV set in the recipe (either through
-the recipe filename or through PV variable set inside the recipe).
-
-> Not having the release there also loses the ability to use either
-> gcc_%.bbappend or gcc_8.3.0.bbappend, which are suitable for
-> different situations.
-
-There is usually just one version per recipe and even with _git.bb
-suffix you can easily do gcc_7+git.bb and gcc_8+git.bb if you need to.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---2oS5YaxWCcQjTEyO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXJt7mQAKCRA3VSO3ZXaA
-HM+eAJ0cxqQ+tfY6Y0KzCxCAI/x1/jOw3wCeKtVKDZ2o2QqcRovBhE0zastJepA=
-=Cqrg
------END PGP SIGNATURE-----
-
---2oS5YaxWCcQjTEyO--
