@@ -1,49 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C0EEC7D140
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7758B7D132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 15:05:15 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id e80so15193687ote.5
+	Wed, 27 Mar 2019 15:26:09 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id k64so3737263vke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 08:05:17 -0700 (PDT)
+	Wed, 27 Mar 2019 08:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=eahEo/ffyfaDK5iZ0vTJBEkFBWVbQnEtbbrK9bkEJq4=;
-	b=AGYfsm6rRPpppTTtIdNnXChtwbCVncTUXbS2kIuO24ujv1xLeQ0/EShfho8jVhcoIm
-	HQF4nkagaG0zVH0NhXhKAbubrrH9hIENN//BskqysoanwUSd9b+p3x2oy+ZzPBkWUwkS
-	fOFt7q9Q9pcQL3lGq9NBNdslxgrnK+eVdnVUIT99Nc8u0V4MMFHOXzYXxayymupid+Up
-	H0ewQS90JuRgSN2a+cIwl359jknPdF/6umduaABn+8AJFgtXCfjtGrU3OdYj8VwXjINQ
-	0a0YzKJ7LAEX4ZTUpWeqiTBjTqztskKiGl9M77hQkK2OuNzDlr4Z1Z99x7NxvK0Y3YYW
-	A6Ug==
+	:cc; bh=OcdImPrwElSANWLerS9UGye6iYJKMY0UFLJsan3HtPE=;
+	b=ry3j6HWYmOU3hbI8hBwpH6QtUStCmov7LB0n0a4Y2a08/9aXiRsUHvICuOwqOgARne
+	BlSRm+Fp62/8cjsq+zq7WQcXZjAvOCv9u24voWDIU9NmAzRszJ7ck6veD86Qv2C+78hD
+	FlTxGKwEFj9wrc1iHV+0qwGeDm1AkW9a7Qi49pVRTFCnqUW2on+Cuq9CryDBEVWO2jtO
+	q/H2K0va3eDBQTPGgS3ZKRxgRiAZzOrBiTzVWrgmMwc5nUOGWlDYIr4cMzCDiY0Z2tDd
+	SSjlvRiyk7MMocgeRybn/YAGsBy/txiuMtQnMGkCZ8tihtqyO7iJVOL7FUYKCOAsUcia
+	QuJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=eahEo/ffyfaDK5iZ0vTJBEkFBWVbQnEtbbrK9bkEJq4=;
-	b=EgU1vLj7ZoY2bo7e6//qvyGHTgSQ91K4jfBpD6NTjELTJUMoRsXWJmZYq9cGwgBuC7
-	Uozp2K4M8qETzKnsU6wvw7m6FCAxj0qvn+oME/cCgxSe4sf0xiTGhiD1PLCXghtjSrMB
-	9BGJbfg4Mwu8OtU3dC3MfcfbhmiA60Z2N4l1smydB+m20Bbu0cfLLpxx/ZZsgiJkjfgC
-	X7Jp6VX76QDRCQWJrhFTEgmmTVFSjQwrm9qmxGnYl/wv8P9OmARg3N8m7oAAOYBuIiXZ
-	2iV7vATtclPkjOwsENYp+RK9YjNsrEXGlrNT+qfwxAyrJZzVqbXcsnMa8F2EASNGjwRw
-	TQwQ==
-X-Gm-Message-State: APjAAAVO7OT47KH4mpWYd965IuWdKs6JQa3+o/NHcgQ7sc5KDzDqhVtD
-	sfyiw2hGpzDQGd3mHYJmC1Qm7yAvIr4sgbZiszp+Ag==
-X-Google-Smtp-Source: APXvYqxerZ59AH2/tDCgfPUDsE0/FqBUOGvAy781c/7F1FprMKGa5VgCaei4FGP5JEhjzxEhSEpZg1tbQihz4T80B8o=
-X-Received: by 2002:a05:6830:1c5:: with SMTP id
-	r5mr15772647ota.360.1553699116747; 
-	Wed, 27 Mar 2019 08:05:16 -0700 (PDT)
+	bh=OcdImPrwElSANWLerS9UGye6iYJKMY0UFLJsan3HtPE=;
+	b=E3aVnExFtU8s3wwrJjH1PN57uXrKdJlAgzy9R2nDZdYuMaMSlgmP0MUUEbVD7DjjUE
+	aYqxIfAQW04Tp2SdZoKzUEW+CXl0PtNcPxqSATEP1snQHBHYP85zNxUWVkZ+KlrK7yJE
+	/dzYrXvoAY8Rua8zJg+UL3UKZwC/xnZNi7vyt+wEqvzEfYCsPahJXEN2yQCNMBNrKAq+
+	8jW6asTL7jk62pTjN5NdNFYSrt+dArrXSTsAFxuWi7c62KZo0zcJq9L0s3jNulJDjuVP
+	PYhTFlUvhikX2iFRa9q3Ms/FEC8TEbqjW0onLW0bCN98Nbumm12qagZwDCsSD3V/F+FI
+	mqJw==
+X-Gm-Message-State: APjAAAUSrBxkfsidmouf25i+JHzLcNDuqMrcgEuAfV8stoXqqEBzlNDC
+	FsCubML1nI9ygSee8A9q+Xg+l60uAeVMqGKsBG8=
+X-Google-Smtp-Source: APXvYqzVmP5O6wPmVytF4gnMFtUmtu7EDOqMj595BXRXIrVPWVBCacbBAhXz9lVmU4oeHpGFwj+OnGPTJBMtCJA9CvI=
+X-Received: by 2002:a1f:8052:: with SMTP id b79mr22749637vkd.46.1553700370516; 
+	Wed, 27 Mar 2019 08:26:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190327140922.109867-1-alex.kanavin@gmail.com>
-	<20190327140922.109867-3-alex.kanavin@gmail.com>
-	<20190327145110.GA23257@localhost>
-In-Reply-To: <20190327145110.GA23257@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Mar 2019 16:05:05 +0100
-Message-ID: <CANNYZj__QaM7e7=E1JdSM5vAMTErDpaQq7zyenwefyt5FOmPZQ@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] blktool: update to 4-7.1
+References: <1553690811-26575-1-git-send-email-vincent.prince.fr@gmail.com>
+In-Reply-To: <1553690811-26575-1-git-send-email-vincent.prince.fr@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 27 Mar 2019 15:25:59 +0000
+Message-ID: <CAO5Uq5TudhS3=eZGYS_M++VqV1kWc0sLhNccumu7VCQhn_Ht7w@mail.gmail.com>
+To: Vincent Prince <vincent.prince.fr@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Systemd: Add pattern matching support to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 15:05:15 -0000
+X-List-Received-Date: Wed, 27 Mar 2019 15:26:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Right, I have sent a followup removing the duplicate.
-
-Alex
-
-
-On Wed, 27 Mar 2019 at 15:51, Adrian Bunk <bunk@stusta.de> wrote:
+On Wed, Mar 27, 2019 at 12:47 PM Vincent Prince
+<vincent.prince.fr@gmail.com> wrote:
 >
-> On Wed, Mar 27, 2019 at 03:09:17PM +0100, Alexander Kanavin wrote:
-> > This update adds a patch from Debian to match the latest version there.
-> >...
-> > +           file://0004-fix-ftbfs-glibc-2.28.patch \
-> >             file://blktool-gnulib-makedev.patch \
-> >...
+> libpcre2 is needed to enable grep option to journalctl.
 >
-> That's 2 patches adding the same #include.
+> Signed-off-by: Vincent Prince <vincent.prince.fr@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd_241.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> cu
-> Adrian
+> diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+> index a12b9ab..9e05944 100644
+> --- a/meta/recipes-core/systemd/systemd_241.bb
+> +++ b/meta/recipes-core/systemd/systemd_241.bb
+> @@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
+>  PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
+>  PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
+>  PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
+> +PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=true,libpcre2"
+
+You've got "pcre2=true" in both arms of the PACKAGECONFIG.
+
+>  PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
+>  PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
+>  PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
+> --
+> 2.7.4
 >
 > --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+Alex Kiernan
 
