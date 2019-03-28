@@ -1,52 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id BBD2B7D117
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3991C60079
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 23:07:15 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id f3so1639283wmj.4
+	Thu, 28 Mar 2019 01:13:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,278,1549900800"; d="scan'208";a="57874416"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 Mar 2019 09:13:32 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id CB03C4CD5D1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2019 16:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=G/APcy7LtmHCCP9x+MRH+xyqvE+AktnCujV0AxqIc+A=;
-	b=S2esQ7Mkfpn12r7y1fhOAa0oa89oNH2S59ozzrcFD1bN2Wj6TdgsYwQTld6CGd4qOV
-	KP/StEW2rjWkw218ZrKAiUa887rqnCZU5SF9LMQqkq1k65WTF+Oxyxpsky32QXl4HXoW
-	okmV9vwE8m7GoShoMK9HUVRXXk8S9sidHUz6FEJnwNyL9g4B+dPYxw+SN18pLezHEhYq
-	74NnS6tJkrWdqyoEeNy4/hQhSkI7k3RqBwBgQ3Pfg/BEGYmLyVH2BrFMdlPB4rUxP7py
-	QE7ZDm8vUl/5EVwNzexROmu2Lirj3AjykM21rzTA6BNIQ9ov0+BeQswbTuWxUFQOIXAk
-	b+8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=G/APcy7LtmHCCP9x+MRH+xyqvE+AktnCujV0AxqIc+A=;
-	b=XSG8bwmBcSSx+YrpIDyiazE3Dt1EYTGZ9bcMjNSxi/ch8Sjmquq3KWASM+vyfBMipz
-	qyfwCw1YRVSlBIipuuKtAsbXLp/aU2g7gq6syUKh70t6qnL0S/XMgZQa8raSBaRn1N74
-	QKM9AfYzitkLgrzJ93sFJ8zQrJxKxoOvkGUHQOlD6AdYuxliWgEKReisJSBsGvABQACL
-	rAXJLw5EMClZR3nUR4SOlOZHkoKy2sfUVsKkwVaeABrWaz1wNlys28b7M3kgJvgQzbv2
-	9NazkSJHymbkDhglbWgH7uN+ECr7XvSsetJyd4ZwqhwpwXwzCy/U09oEATZKdPyQf3Ea
-	Ak1w==
-X-Gm-Message-State: APjAAAWfgpkbOEZLOte55u+n5rPj3xMEf2+bOKCL2/mcJZvmbWEAJFwM
-	hquCbmsqAYdFRkHXUIEHHn2LYGkeGvo=
-X-Google-Smtp-Source: APXvYqwhVXiz5tdK3TQQAYBwGGRMd9Zva6eI2qF2Tf7u5ezinrXsIRc7TbsQukMgF260xbB62MtnGA==
-X-Received: by 2002:a1c:16:: with SMTP id 22mr13037408wma.91.1553728036368;
-	Wed, 27 Mar 2019 16:07:16 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t24sm1263617wmi.10.2019.03.27.16.07.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Mar 2019 16:07:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Mar 2019 23:07:12 +0000
-Message-Id: <20190327230712.4930-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190327230712.4930-1-ross.burton@intel.com>
-References: <20190327230712.4930-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] llvm: don't inherit perlnative
+	Thu, 28 Mar 2019 09:13:29 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 28 Mar 2019 09:13:29 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Mar 2019 09:14:05 +0800
+Message-ID: <20190328011405.13868-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: CB03C4CD5D1F.AB4E1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] coreutils:upgrade 8.30 -> 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2019 23:07:16 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 01:13:33 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This doesn't appear to be required at all.
+Upgrade from coreutils_8.30.bb to coreutils_8.31.bb
+Change the md5 of file://src/ls.c beacuse of the date change in the file
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../coreutils/{coreutils_8.30.bb => coreutils_8.31.bb}      | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (95%)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 31abadcace5..2a8cd4a3e4e 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
+diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+similarity index 95%
+rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+index 8f4ee55712..d171ec93a9 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.30.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
++                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
  
- RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+@@ -20,8 +20,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+           "
  
--inherit perlnative cmake pkgconfig
-+inherit cmake pkgconfig
+-SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+-SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
++SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
++SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
  
- PROVIDES += "llvm${PV}"
- 
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
 -- 
-2.11.0
+2.20.1
+
+
 
 
