@@ -1,28 +1,48 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D4837CE73
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D0F27D186
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 12:06:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2SC6Ukw024548
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Mar 2019 05:06:30 -0700 (PDT)
-Received: from [128.224.162.190] (128.224.162.190) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 28 Mar 2019 05:06:30 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190327140922.109867-1-alex.kanavin@gmail.com>
-	<20190327140922.109867-6-alex.kanavin@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <21d76d15-fb59-6b0c-cad6-814236b66616@windriver.com>
-Date: Thu, 28 Mar 2019 20:16:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 28 Mar 2019 12:07:00 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id u15so18016885otq.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Mar 2019 05:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3HsrfMCOZ5UZgb662JimX8x4KMangY6nYEyo8UZuEjc=;
+	b=enKUW2AcRxBpmLW/jXVZ6Xojoa4eUdkfN7u6WeMNcUSSzww4lw8wvTUhHoRsp7b7tb
+	BIKPWY46j6oKATYy0B3kz2OQXmth+VI82+jtZubcSFmkgLPGwKt2YNkSXfTCEfjyFFbj
+	Y8hXIpxIdShkh92PJS52hdw1RVhELnIfViBUucIal7fpLsuv32ojC44gQuCIvXMDnobJ
+	t4cSMfsyHe59KWRDjqhdHo3mu1MZv7fe5/BersSxSHNkE/DOy4oxhnKLt6jJwGcFwgjC
+	bfTBvwTfqb511ztRqeUtpCcSBmg93pSPr1M+KXXOIICA6CDHMCF8Ost0YMrJ4Llk35gC
+	w2Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3HsrfMCOZ5UZgb662JimX8x4KMangY6nYEyo8UZuEjc=;
+	b=BUaI/zUPH+fTmFcQtj4OgsPoA55x0XDghd1wEEgb1QELsDAj/k6FDBmH1kacNFJnsW
+	Do4/uV6KX+MMxJ0w7bO2VDi/7I/wkKs47x9WrW+LK6+Hy1sBjRyu8WnGeCJnKdgtJk+2
+	OjjO/Ys1f2dBScxkNbtIGJacliUPLCRpwwtatUBmEbWbjBm1MD9bB7OsyBf4V+gIeIab
+	aDBsWfxJ5P5DJ+KrVvJexgLEeXZkVQbWWl5gJzN2rxDSqt8ErifRrg+AoDPd1I0KGSth
+	l/qRQKABKAKiMi1NO/UWwCg/HJOu311o/X7DMFMaw3tuJ6qrVRjRuGtDW6pKrFEGmI8x
+	ITqQ==
+X-Gm-Message-State: APjAAAV2aIcrgUjCwKodkzroYvty/WM37NXSsPD2s2NFVqbqWO1P3znW
+	dzosIFIi11v+6fp3YmprPQKITqtmGlFS73J/9m/g2PU9
+X-Google-Smtp-Source: APXvYqyh5bzN92hN7gRdCRuNahYa/tpjwIFpPp4Qd0B05h1pXx8miTQ12CxlV4b5Ra0pF5kgc3O49FRvrOVxDtEBKqk=
+X-Received: by 2002:a05:6830:1c5:: with SMTP id
+	r5mr19298841ota.360.1553774821522; 
+	Thu, 28 Mar 2019 05:07:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190327140922.109867-6-alex.kanavin@gmail.com>
-X-Originating-IP: [128.224.162.190]
-Subject: Re: [PATCH 6/8] binutils: fix upstream version check
+References: <cover.1553775186.git.Qi.Chen@windriver.com>
+	<a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
+In-Reply-To: <a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 28 Mar 2019 13:06:49 +0100
+Message-ID: <CANNYZj_xbMheU=FEenRYkccJwxG10mJPHSqmwekt+EqAV=FumA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] binutils: fix PV to respect upstream tag and also cve database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,40 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 12:06:30 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Mar 2019 12:07:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alexander,
+On Thu, 28 Mar 2019 at 13:03, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Setting PV to "2.32.0" results in cve checking tools failing to
+> report the actual unfixed CVEs. We need to change it to "2.32".
+> After the change, when `bitbake -c cve_check binutils-native', we have:
 
-I just sent out a patch to change the PV to "2.32".
-If it's 2.32, does this var still needs to be set?
+I sent a related patch yesterday:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280511.html
 
-Best Regards,
-Chen Qi
+The problem with setting PV properly, is that 2.32 is less than 2.32.0
+and will cause the 'version going backwards' problem. But if RP/Khem
+are fine with it, I would prefer your patch.
 
-On 03/27/2019 10:09 PM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   meta/recipes-devtools/binutils/binutils-2.32.inc | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
-> index 74239868151..15406441241 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.32.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
-> @@ -14,6 +14,11 @@ def binutils_branch_version(d):
->       pvsplit = d.getVar('PV').split('.')
->       return pvsplit[0] + "_" + pvsplit[1]
->   
-> +# Actual upstream version is 2.32 (without the .0), so we have to set
-> +# UPSTREAM_VERSION_UNKNOWN to avoid the version check failure. The line can
-> +# be removed when a new version of binutils is released (if the PV is then
-> +# correctly set to match the upstream version tag).
-> +UPSTREAM_VERSION_UNKNOWN = "1"
->   PV = "2.32.0"
->   BINUPV = "${@binutils_branch_version(d)}"
->   #BRANCH = "binutils-${BINUPV}-branch"
-
-
+Alex
 
