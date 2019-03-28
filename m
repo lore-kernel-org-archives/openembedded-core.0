@@ -1,25 +1,46 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D76617D165
+	by mail.openembedded.org (Postfix) with ESMTP id 7C1A96BCD6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 05:25:35 +0000 (UTC)
+	Thu, 28 Mar 2019 05:37:00 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2019 22:25:37 -0700
+	27 Mar 2019 22:37:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,278,1549958400"; d="scan'208";a="129330446"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga008.jf.intel.com with ESMTP; 27 Mar 2019 22:25:35 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Mar 2019 12:54:33 +0800
-Message-Id: <1553748873-50143-2-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1553748873-50143-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1553748873-50143-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH] resulttool/merge: Merge files from folders and control add testseries
+X-IronPort-AV: E=Sophos;i="5.60,278,1549958400"; d="scan'208";a="135454751"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by fmsmga008.fm.intel.com with ESMTP; 27 Mar 2019 22:37:00 -0700
+Received: from pgsmsx110.gar.corp.intel.com (10.221.44.111) by
+	PGSMSX111.gar.corp.intel.com (10.108.55.200) with Microsoft SMTP Server
+	(TLS) id 14.3.408.0; Thu, 28 Mar 2019 13:36:59 +0800
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.173]) by
+	PGSMSX110.gar.corp.intel.com ([169.254.13.245]) with mapi id
+	14.03.0415.000; Thu, 28 Mar 2019 13:36:59 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] resulttool/merge: Enable merge results to
+	one file
+Thread-Index: AQHU49LA5GVLdjX390yKSUhc1UNphKYghiJA
+Date: Thu, 28 Mar 2019 05:36:58 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D043481A1595@PGSMSX109.gar.corp.intel.com>
+References: <1553565748-76030-1-git-send-email-ee.peng.yeoh@intel.com>
+	<f1db72a0555ba84e47dd3200627bad70a6062435.camel@linuxfoundation.org>
+In-Reply-To: <f1db72a0555ba84e47dd3200627bad70a6062435.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYzk0MGUzYmItYjdhMC00NTZjLWE2ODYtZjNmODdiNTM5ZTFlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiOUttcmpsbFdMQk1kXC83MzIrcWpnelppc3lqczU0VURVakhBcUJBUHdwU1V3OEdOcWdRbXJoaGl4U25lWmNEaTQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
+MIME-Version: 1.0
+Subject: Re: [PATCH] resulttool/merge: Enable merge results to one file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,371 +53,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 05:25:36 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 05:37:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-QA team execute extra testing that create multiple test result files,
-where these test result files need to be merged under various use cases.
-Furthermore, during results merging, user need control over the
-testseries configuration creation as this configuration has important
-implication to report and regression.
-
-Current merge do not support merge results where both base and target
-are directory.
-
-Traceback (most recent call last):
-  File "/home/poky/scripts/resulttool", line 93, in <module>
-    sys.exit(main())
-  File "/home/poky/scripts/resulttool", line 87, in main
-    ret = args.func(args, logger)
-  File "/home/poky/scripts/lib/resulttool/merge.py", line 22, in merge
-    resultutils.append_resultsdata(results, args.base_results, configmap=resultutils.store_map)
-  File "/home/poky/scripts/lib/resulttool/resultutils.py", line 47, in append_resultsdata
-    with open(f, "r") as filedata:
-IsADirectoryError: [Errno 21] Is a directory: '<path_to_base_results>'
-
-This patches enable merge for both base and target as directory.
-Also, enable control the creation of testseries configuration.
-
-Previously the append_resultsdata function only allow append
-the results data to the map_results data (where map_results data
-wrapped the results data with configuration map as the key).
-Initially, we tried to implement an extra function where it will
-enable append one map_results to another map_results data. But
-we abandoned this alternative as this new append function will be
-pretty much a duplicated function to the original append_resultsdata,
-and these will create two append functions which they might be both
-hard to maintain and confusing. Thus, we tried to refactor the
-append function to enable a single append function to be used
-in all the situation. Futhermore, since the map_results were
-only needed by report and regression, we pulled the instructions
-used to turn results data to map_results data to another function.
-Finally, we renamed the functions and arguments to clearly
-seperated the functions using results data from the one using
-map_results data.
-
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/selftest/cases/resulttooltests.py |  16 ++--
- scripts/lib/resulttool/merge.py                 |  29 ++++--
- scripts/lib/resulttool/regression.py            |  10 +-
- scripts/lib/resulttool/report.py                |   6 +-
- scripts/lib/resulttool/resultutils.py           | 118 +++++++++++++++---------
- scripts/lib/resulttool/store.py                 |   5 +-
- 6 files changed, 112 insertions(+), 72 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/resulttooltests.py b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-index 0a089c0..ea7d02e 100644
---- a/meta/lib/oeqa/selftest/cases/resulttooltests.py
-+++ b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-@@ -60,10 +60,11 @@ class ResultToolTests(OESelftestTestCase):
-     def test_regression_can_get_regression_base_target_pair(self):
- 
-         results = {}
--        resultutils.append_resultsdata(results, ResultToolTests.base_results_data)
--        resultutils.append_resultsdata(results, ResultToolTests.target_results_data)
--        self.assertTrue('target_result1' in results['runtime/mydistro/qemux86/image'], msg="Pair not correct:%s" % results)
--        self.assertTrue('target_result3' in results['runtime/mydistro/qemux86-64/image'], msg="Pair not correct:%s" % results)
-+        resultutils.append_results(results, ResultToolTests.base_results_data)
-+        resultutils.append_results(results, ResultToolTests.target_results_data)
-+        map_results = resultutils.get_map_results(results)
-+        self.assertTrue('target_result1' in map_results['runtime/mydistro/qemux86/image'], msg="Pair not correct:%s" % map_results)
-+        self.assertTrue('target_result3' in map_results['runtime/mydistro/qemux86-64/image'], msg="Pair not correct:%s" % map_results)
- 
-     def test_regrresion_can_get_regression_result(self):
-         base_result_data = {'result': {'test1': {'status': 'PASSED'},
-@@ -88,7 +89,8 @@ class ResultToolTests(OESelftestTestCase):
- 
-     def test_merge_can_merged_results(self):
-         results = {}
--        resultutils.append_resultsdata(results, ResultToolTests.base_results_data, configmap=resultutils.flatten_map)
--        resultutils.append_resultsdata(results, ResultToolTests.target_results_data, configmap=resultutils.flatten_map)
--        self.assertEqual(len(results[''].keys()), 5, msg="Flattened results not correct %s" % str(results))
-+        resultutils.append_results(results, ResultToolTests.base_results_data)
-+        resultutils.append_results(results, ResultToolTests.target_results_data)
-+        map_results = resultutils.get_map_results(results, configmap=resultutils.flatten_map)
-+        self.assertEqual(len(map_results[''].keys()), 5, msg="Flattened results not correct %s" % str(map_results))
- 
-diff --git a/scripts/lib/resulttool/merge.py b/scripts/lib/resulttool/merge.py
-index 3e4b7a3..fd698f2 100644
---- a/scripts/lib/resulttool/merge.py
-+++ b/scripts/lib/resulttool/merge.py
-@@ -17,16 +17,18 @@ import json
- import resulttool.resultutils as resultutils
- 
- def merge(args, logger):
--    if os.path.isdir(args.target_results):
--        results = resultutils.load_resultsdata(args.target_results, configmap=resultutils.store_map)
--        resultutils.append_resultsdata(results, args.base_results, configmap=resultutils.store_map)
--        resultutils.save_resultsdata(results, args.target_results)
--    else:
--        results = resultutils.load_resultsdata(args.base_results, configmap=resultutils.flatten_map)
--        if os.path.exists(args.target_results):
--            resultutils.append_resultsdata(results, args.target_results, configmap=resultutils.flatten_map)
--        resultutils.save_resultsdata(results, os.path.dirname(args.target_results), fn=os.path.basename(args.target_results))
--
-+    target_results = resultutils.load_results(args.target_results, add_testseries=args.add_testseries)
-+    base_results = resultutils.load_results(args.base_results, add_testseries=args.add_testseries)
-+    resultutils.append_results(target_results, base_results)
-+    configmap = resultutils.store_map
-+    if args.merge_flat:
-+        configmap = resultutils.flatten_map
-+    merge_dir = os.path.dirname(args.target_results)
-+    if args.merge_dir:
-+        merge_dir = args.merge_dir
-+    map_results = resultutils.get_map_results(target_results, configmap)
-+    resultutils.save_map_results(map_results, merge_dir)
-+    logger.info('Merged results to %s' % merge_dir)
-     return 0
- 
- def register_commands(subparsers):
-@@ -39,4 +41,11 @@ def register_commands(subparsers):
-                               help='the results file/directory to import')
-     parser_build.add_argument('target_results',
-                               help='the target file or directory to merge the base_results with')
-+    parser_build.add_argument('-a', '--add-testseries', action='store_true',
-+                              help='add testseries configuration to results')
-+    parser_build.add_argument('-f', '--merge-flat', action='store_true',
-+                              help='merge results into one flat file only')
-+    parser_build.add_argument('-d', '--merge-dir', default='',
-+                              help='target directory to merge results, default directory was based on '
-+                                   'target_results directory')
- 
-diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index bdf531d..e47a0df 100644
---- a/scripts/lib/resulttool/regression.py
-+++ b/scripts/lib/resulttool/regression.py
-@@ -42,7 +42,7 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
-     return result, resultstring
- 
- def get_results(logger, source):
--    return resultutils.load_resultsdata(source, configmap=resultutils.regression_map)
-+    return resultutils.load_map_results(source, configmap=resultutils.regression_map, add_testseries=True)
- 
- def regression(args, logger):
-     base_results = get_results(logger, args.base_result)
-@@ -52,9 +52,9 @@ def regression(args, logger):
- 
- def regression_common(args, logger, base_results, target_results):
-     if args.base_result_id:
--        base_results = resultutils.filter_resultsdata(base_results, args.base_result_id)
-+        base_results = resultutils.filter_map_results(base_results, args.base_result_id)
-     if args.target_result_id:
--        target_results = resultutils.filter_resultsdata(target_results, args.target_result_id)
-+        target_results = resultutils.filter_map_results(target_results, args.target_result_id)
- 
-     matches = []
-     regressions = []
-@@ -146,8 +146,8 @@ def regression_git(args, logger):
- 
-     logger.info("Comparing:\n%s\nto\n%s\n" % (revs[index1], revs[index2]))
- 
--    base_results = resultutils.git_get_result(repo, revs[index1][2])
--    target_results = resultutils.git_get_result(repo, revs[index2][2])
-+    base_results = resultutils.git_get_map_results(repo, revs[index1][2])
-+    target_results = resultutils.git_get_map_results(repo, revs[index2][2])
- 
-     regression_common(args, logger, base_results, target_results)
- 
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index 9008620..a4debc4 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -116,12 +116,12 @@ class ResultsTextReport(object):
-             repo = GitRepo(source_dir)
-             revs = gitarchive.get_test_revs(logger, repo, tag_name, branch=branch)
-             rev_index = gitarchive.rev_find(revs, 'commit', commit)
--            testresults = resultutils.git_get_result(repo, revs[rev_index][2])
-+            testresults = resultutils.git_get_map_results(repo, revs[rev_index][2])
-         elif tag:
-             repo = GitRepo(source_dir)
--            testresults = resultutils.git_get_result(repo, [tag])
-+            testresults = resultutils.git_get_map_results(repo, [tag])
-         else:
--            testresults = resultutils.load_resultsdata(source_dir)
-+            testresults = resultutils.load_map_results(source_dir, add_testseries=True)
-         for testsuite in testresults:
-             for resultid in testresults[testsuite]:
-                 result = testresults[testsuite][resultid]
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 153f2b8..8c3501b 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -39,71 +39,99 @@ store_map = {
-     "manual": ['TEST_TYPE', 'TEST_MODULE', 'MACHINE', 'IMAGE_BASENAME']
- }
- 
--#
--# Load the json file and append the results data into the provided results dict
--#
--def append_resultsdata(results, f, configmap=store_map):
-+def load_json_data(f):
-     if type(f) is str:
-         with open(f, "r") as filedata:
--            data = json.load(filedata)
-+            return json.load(filedata)
-     else:
--        data = f
-+        return f
-+
-+def validate_result(result):
-+    if "configuration" not in result or "result" not in result:
-+        raise ValueError("Test results data without configuration or result section?")
-+
-+def delete_extra_ptest_data(result):
-+    if 'ptestresult.rawlogs' in result['result']:
-+        del result['result']['ptestresult.rawlogs']
-+    if 'ptestresult.sections' in result['result']:
-+        for i in result['result']['ptestresult.sections']:
-+            if 'log' in result['result']['ptestresult.sections'][i]:
-+                del result['result']['ptestresult.sections'][i]['log']
-+
-+def add_testseries_config(result, f):
-+    if "TESTSERIES" not in result["configuration"]:
-+        result["configuration"]["TESTSERIES"] = os.path.basename(os.path.dirname(f))
-+
-+def get_testresults_files(source):
-+    testresults_files = []
-+    for root, dirs, files in os.walk(source):
-+        for name in files:
-+            f = os.path.join(root, name)
-+            if name == "testresults.json":
-+                testresults_files.append(f)
-+    return testresults_files
-+
-+def append_results(results, f, add_testseries=False):
-+    data = load_json_data(f)
-     for res in data:
--        if "configuration" not in data[res] or "result" not in data[res]:
--            raise ValueError("Test results data without configuration or result section?")
--        if "TESTSERIES" not in data[res]["configuration"]:
--            data[res]["configuration"]["TESTSERIES"] = os.path.basename(os.path.dirname(f))
--        testtype = data[res]["configuration"].get("TEST_TYPE")
-+        validate_result(data[res])
-+        delete_extra_ptest_data(data[res])
-+        if add_testseries:
-+            add_testseries_config(data[res], f)
-+        results[res] = data[res]
-+
-+def load_results(source, add_testseries=False):
-+    results = {}
-+    if os.path.isfile(source):
-+        append_results(results, source, add_testseries)
-+        return results
-+    for f in get_testresults_files(source):
-+        append_results(results, f, add_testseries)
-+    return results
-+
-+def make_directory_and_write_json_file(dst, results):
-+    os.makedirs(os.path.dirname(dst), exist_ok=True)
-+    with open(dst, 'w') as f:
-+        f.write(json.dumps(results, sort_keys=True, indent=4))
-+
-+def get_map_results(results, configmap=store_map):
-+    map_results = {}
-+    for res in results:
-+        testtype = results[res]["configuration"].get("TEST_TYPE")
-         if testtype not in configmap:
-             raise ValueError("Unknown test type %s" % testtype)
--        configvars = configmap[testtype]
--        testpath = "/".join(data[res]["configuration"].get(i) for i in configmap[testtype])
--        if testpath not in results:
--            results[testpath] = {}
--        if 'ptestresult.rawlogs' in data[res]['result']:
--            del data[res]['result']['ptestresult.rawlogs']
--        if 'ptestresult.sections' in data[res]['result']:
--            for i in data[res]['result']['ptestresult.sections']:
--                if 'log' in data[res]['result']['ptestresult.sections'][i]:
--                    del data[res]['result']['ptestresult.sections'][i]['log']
--        results[testpath][res] = data[res]
-+        testpath = "/".join(results[res]["configuration"].get(i) for i in configmap[testtype])
-+        if testpath not in map_results:
-+            map_results[testpath] = {}
-+        map_results[testpath][res] = results[res]
-+    return map_results
- 
- #
- # Walk a directory and find/load results data
- # or load directly from a file
- #
--def load_resultsdata(source, configmap=store_map):
--    results = {}
--    if os.path.isfile(source):
--        append_resultsdata(results, source, configmap)
--        return results
--    for root, dirs, files in os.walk(source):
--        for name in files:
--            f = os.path.join(root, name)
--            if name == "testresults.json":
--                append_resultsdata(results, f, configmap)
--    return results
-+def load_map_results(source, configmap=store_map, add_testseries=False):
-+    results = load_results(source, add_testseries)
-+    return get_map_results(results, configmap)
- 
--def filter_resultsdata(results, resultid):
-+def filter_map_results(map_results, resultid):
-     newresults = {}
--    for r in results:
--        for i in results[r]:
-+    for r in map_results:
-+        for i in map_results[r]:
-             if i == resultsid:
-                  newresults[r] = {}
--                 newresults[r][i] = results[r][i]
-+                 newresults[r][i] = map_results[r][i]
-     return newresults
- 
--def save_resultsdata(results, destdir, fn="testresults.json"):
--    for res in results:
-+def save_map_results(map_results, destdir, fn="testresults.json"):
-+    for res in map_results:
-         if res:
-             dst = destdir + "/" + res + "/" + fn
-         else:
-             dst = destdir + "/" + fn
--        os.makedirs(os.path.dirname(dst), exist_ok=True)
--        with open(dst, 'w') as f:
--            f.write(json.dumps(results[res], sort_keys=True, indent=4))
-+        make_directory_and_write_json_file(dst, map_results[res])
- 
--def git_get_result(repo, tags):
-+def git_get_map_results(repo, tags):
-     git_objs = []
-     for tag in tags:
-         files = repo.run_cmd(['ls-tree', "--name-only", "-r", tag]).splitlines()
-@@ -126,6 +154,6 @@ def git_get_result(repo, tags):
-     # Optimize by reading all data with one git command
-     results = {}
-     for obj in parse_json_stream(repo.run_cmd(['show'] + git_objs + ['--'])):
--        append_resultsdata(results, obj)
-+        append_results(results, obj, add_testseries=True)
- 
--    return results
-+    return get_map_results(results)
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index 5e33716..8055110 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -33,7 +33,8 @@ def store(args, logger):
-             for name in files:
-                 f = os.path.join(root, name)
-                 if name == "testresults.json":
--                    resultutils.append_resultsdata(results, f)
-+                    resultutils.append_results(results, f, add_testseries=True)
-+                    results = resultutils.get_map_results(results)
-                 elif args.all:
-                     dst = f.replace(args.source, tempdir + "/")
-                     os.makedirs(os.path.dirname(dst), exist_ok=True)
-@@ -65,7 +66,7 @@ def store(args, logger):
-             results = revisions[r]
-             keywords = {'commit': r[0], 'branch': r[1], "commit_count": r[2]}
-             subprocess.check_call(["find", tempdir, "!", "-path", "./.git/*", "-delete"])
--            resultutils.save_resultsdata(results, tempdir)
-+            resultutils.save_map_results(results, tempdir)
- 
-             logger.info('Storing test result into git repository %s' % args.git_dir)
- 
--- 
-2.7.4
-
+SGkgUlAsDQoNClllcywgeW91IGFyZSByaWdodCwgSSBtaXNzZWQgdGhlIGN1cnJlbnQgZmVhdHVy
+ZSB0byBtZXJnZSB0byBmbGF0IGZpbGUuIFRoYW5rcyBmb3IgeW91ciBpbnB1dHMgYW5kIHNoYXJp
+bmcuIA0KDQpBZnRlciB3ZSB0ZXN0ZWQgdGhlIG1lcmdlIHRvIGZsYXQgZmlsZSBmZWF0dXJlcywg
+dGhlc2UgYXJlIG91ciBmaW5kaW5ncy4gDQoxKSBFeGlzdGluZyBtZXJnZSBjb3VsZCBub3Qgc3Vw
+cG9ydCB1c2UgY2FzZSB3aGVyZSBib3RoIGJhc2UgYW5kIHRhcmdldCBhcmUgZGlyZWN0b3J5LiAN
+ClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToNCiAgRmlsZSAiL2hvbWUvcG9reS9z
+Y3JpcHRzL3Jlc3VsdHRvb2wiLCBsaW5lIDkzLCBpbiA8bW9kdWxlPg0KICAgIHN5cy5leGl0KG1h
+aW4oKSkNCiAgRmlsZSAiL2hvbWUvcG9reS9zY3JpcHRzL3Jlc3VsdHRvb2wiLCBsaW5lIDg3LCBp
+biBtYWluDQogICAgcmV0ID0gYXJncy5mdW5jKGFyZ3MsIGxvZ2dlcikNCiAgRmlsZSAiL2hvbWUv
+cG9reS9zY3JpcHRzL2xpYi9yZXN1bHR0b29sL21lcmdlLnB5IiwgbGluZSAyMiwgaW4gbWVyZ2UN
+CiAgICByZXN1bHR1dGlscy5hcHBlbmRfcmVzdWx0c2RhdGEocmVzdWx0cywgYXJncy5iYXNlX3Jl
+c3VsdHMsIGNvbmZpZ21hcD1yZXN1bHR1dGlscy5zdG9yZV9tYXApDQogIEZpbGUgIi9ob21lL3Bv
+a3kvc2NyaXB0cy9saWIvcmVzdWx0dG9vbC9yZXN1bHR1dGlscy5weSIsIGxpbmUgNDcsIGluIGFw
+cGVuZF9yZXN1bHRzZGF0YQ0KICAgIHdpdGggb3BlbihmLCAiciIpIGFzIGZpbGVkYXRhOg0KSXNB
+RGlyZWN0b3J5RXJyb3I6IFtFcnJubyAyMV0gSXMgYSBkaXJlY3Rvcnk6ICc8cGF0aF90b19iYXNl
+X3Jlc3VsdHM+Jw0KDQoyKSBFeGlzdGluZyBtZXJnZSB3aWxsIGFsd2F5cyBjcmVhdGUgdGVzdHNl
+cmllcyBjb25maWd1cmF0aW9uIHdoZXJlIHRoaXMgY29uZmlndXJhdGlvbiBoYXMgaW1wb3J0YW50
+IGltcGxpY2F0aW9uIHRvIHJlcG9ydCBhbmQgcmVncmVzc2lvbi4gDQoNCkZvciBjdXJyZW50IFFB
+IHByb2Nlc3MsIHdlIG5lZWQgdGhlIG1lcmdlIHRvIGJlIG1vcmUgZmxleGlibGUgd2hlcmUgaXQg
+d2lsbCBhbGxvdyBtZXJnZSB3aGVyZSBib3RoIGJhc2UgYW5kIHRhcmdldCBhcmUgZGlyZWN0b3J5
+LCBmdXJ0aGVybW9yZSB3ZSBuZWVkIGNvbnRyb2wgb3ZlciB3aGVuIHdlIHdhbnQgdG8gY3JlYXRl
+IHRoZSB0ZXN0c2VyaWVzIGNvbmZpZ3VyYXRpb24uIA0KDQpUbyBmdWxmaWxsIGJvdGggb2YgdGhl
+c2UgcmVxdWlyZW1lbnRzLCB3ZSB0cmllZCB0aGUgYmVsb3c6IA0KDQpQcmV2aW91c2x5IHRoZSBh
+cHBlbmRfcmVzdWx0c2RhdGEgZnVuY3Rpb24gb25seSBhbGxvdyBhcHBlbmQgdGhlIHJlc3VsdHMg
+ZGF0YSB0byB0aGUgbWFwX3Jlc3VsdHMgZGF0YSAod2hlcmUgbWFwX3Jlc3VsdHMgZGF0YSB3cmFw
+cGVkIHRoZSByZXN1bHRzIGRhdGEgd2l0aCBjb25maWd1cmF0aW9uIG1hcCBhcyB0aGUga2V5KS4N
+CiANCkluaXRpYWxseSwgd2UgdHJpZWQgdG8gaW1wbGVtZW50IGFuIGV4dHJhIGZ1bmN0aW9uIHdo
+ZXJlIGl0IHdpbGwgZW5hYmxlIGFwcGVuZCBvbmUgbWFwX3Jlc3VsdHMgdG8gYW5vdGhlciBtYXBf
+cmVzdWx0cyBkYXRhLiBCdXQgd2UgYWJhbmRvbmVkIHRoaXMgYWx0ZXJuYXRpdmUgYXMgdGhpcyBu
+ZXcgYXBwZW5kIGZ1bmN0aW9uIHdpbGwgYmUgcHJldHR5IG11Y2ggYSBkdXBsaWNhdGVkIGZ1bmN0
+aW9uIHRvIHRoZSBvcmlnaW5hbCBhcHBlbmRfcmVzdWx0c2RhdGEsIGFuZCB0aGVzZSB3aWxsIGNy
+ZWF0ZSB0d28gYXBwZW5kIGZ1bmN0aW9ucyB3aGljaCB0aGV5IG1pZ2h0IGJlIGJvdGggaGFyZCB0
+byBtYWludGFpbiBhbmQgY29uZnVzaW5nLiBUaHVzLCB3ZSB0cmllZCB0byByZWZhY3RvciB0aGUg
+YXBwZW5kIGZ1bmN0aW9uIHRvIGVuYWJsZSBhIHNpbmdsZSBhcHBlbmQgZnVuY3Rpb24gdG8gYmUg
+dXNlZCAgZm9yIG1vc3Qgb2YgdGhlIHNpdHVhdGlvbi4gRnVydGhlcm1vcmUsIHNpbmNlIHRoZSBt
+YXBfcmVzdWx0cyB3ZXJlDQpvbmx5IG5lZWRlZCBieSByZXBvcnQgYW5kIHJlZ3Jlc3Npb24sIHdl
+IHB1bGxlZCB0aGUgaW5zdHJ1Y3Rpb25zIHVzZWQgdG8gdHVybiByZXN1bHRzIGRhdGEgdG8gbWFw
+X3Jlc3VsdHMgZGF0YSB0byBhbm90aGVyIGZ1bmN0aW9uLiBGaW5hbGx5LCB3ZSByZW5hbWVkIHRo
+ZSBmdW5jdGlvbnMgYW5kIGFyZ3VtZW50cyB0byBjbGVhcmx5IHNlcGVyYXRlZCB0aGUgZnVuY3Rp
+b25zIHVzaW5nIHJlc3VsdHMgZGF0YSBmcm9tIHRoZSBvbmUgdXNpbmcgbWFwX3Jlc3VsdHMgZGF0
+YS4NCg0KVGhlIG5ldyBwYXRjaGVzIGFyZSBhdCBiZWxvdzoNCmh0dHA6Ly9saXN0cy5vcGVuZW1i
+ZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LU1hcmNoLzI4MDU0Ny5o
+dG1sDQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVk
+LWNvcmUvMjAxOS1NYXJjaC8yODA1NDguaHRtbA0KDQpQbGVhc2UgbGV0IHVzIGtub3cgaWYgeW91
+IGhhdmUgYW55IG1vcmUgaW5wdXRzIG9yIHF1ZXN0aW9ucy4gVGhhbmsgeW91IHZlcnkgbXVjaCBm
+b3IgeW91ciBhdHRlbnRpb24gYW5kIGhlbHAhDQoNCkJlc3QgcmVnYXJkcywNClllb2ggRWUgUGVu
+ZyANCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIFtt
+YWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBUdWVzZGF5
+LCBNYXJjaCAyNiwgMjAxOSA4OjUyIFBNDQpUbzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9o
+QGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSByZXN1bHR0b29sL21lcmdlOiBFbmFibGUgbWVy
+Z2UgcmVzdWx0cyB0byBvbmUgZmlsZQ0KDQpPbiBUdWUsIDIwMTktMDMtMjYgYXQgMTA6MDIgKzA4
+MDAsIFllb2ggRWUgUGVuZyB3cm90ZToNCj4gUUEgdGVhbSBleGVjdXRlIGV4dHJhIHRlc3Rpbmcg
+dGhhdCBjcmVhdGUgbXVsdGlwbGUgdGVzdCByZXN1bHQgZmlsZXMsIA0KPiB3aGVyZSB0aGVzZSB0
+ZXN0IHJlc3VsdCBmaWxlcyBuZWVkIHRvIGJlIG1lcmdlZCBpbnRvIGEgc2luZ2xlIGZpbGUgDQo+
+IHVuZGVyIGNlcnRhaW4gdXNlIGNhc2UuDQo+IA0KPiBFbmFibGUgbWVyZ2UgdG8gYWxsb3cgbWVy
+Z2luZyByZXN1bHRzIGludG8gYSBzaW5nbGUgdGVzdCByZXN1bHQgZmlsZS4NCj4gDQo+IFNpZ25l
+ZC1vZmYtYnk6IFllb2ggRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT4NCj4gLS0tDQo+
+ICBzY3JpcHRzL2xpYi9yZXN1bHR0b29sL21lcmdlLnB5ICAgICAgIHwgMjkgKysrKysrKysrKysr
+LQ0KPiAgc2NyaXB0cy9saWIvcmVzdWx0dG9vbC9yZXN1bHR1dGlscy5weSB8IDc2IA0KPiArKysr
+KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA4MiBp
+bnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9zY3JpcHRz
+L2xpYi9yZXN1bHR0b29sL21lcmdlLnB5IA0KPiBiL3NjcmlwdHMvbGliL3Jlc3VsdHRvb2wvbWVy
+Z2UucHkgaW5kZXggM2U0YjdhMy4uOTBiM2NiMyAxMDA2NDQNCj4gLS0tIGEvc2NyaXB0cy9saWIv
+cmVzdWx0dG9vbC9tZXJnZS5weQ0KPiArKysgYi9zY3JpcHRzL2xpYi9yZXN1bHR0b29sL21lcmdl
+LnB5DQo+IEBAIC0xNyw2ICsxNywyNiBAQCBpbXBvcnQganNvbg0KPiAgaW1wb3J0IHJlc3VsdHRv
+b2wucmVzdWx0dXRpbHMgYXMgcmVzdWx0dXRpbHMNCj4gIA0KPiAgZGVmIG1lcmdlKGFyZ3MsIGxv
+Z2dlcik6DQo+ICsgICAgaWYgYXJncy5tZXJnZV90b19vbmU6DQo+ICsgICAgICAgIGlmIG9zLnBh
+dGguaXNkaXIoYXJncy50YXJnZXRfcmVzdWx0cyk6DQo+ICsgICAgICAgICAgICB0YXJnZXRfcmVz
+dWx0cyA9IHJlc3VsdHV0aWxzLmxvYWRfcmVzdWx0cyhhcmdzLnRhcmdldF9yZXN1bHRzKQ0KPiAr
+ICAgICAgICBlbHNlOg0KPiArICAgICAgICAgICAgdGFyZ2V0X3Jlc3VsdHMgPSByZXN1bHR1dGls
+cy5hcHBlbmRfcmVzdWx0cyh7fSwgDQo+ICsgYXJncy50YXJnZXRfcmVzdWx0cykNCg0KTG9va2lu
+ZyBhdCBsb2FkX3Jlc3VsdHNkYXRhOg0KDQpkZWYgbG9hZF9yZXN1bHRzZGF0YShzb3VyY2UsIGNv
+bmZpZ21hcD1zdG9yZV9tYXApOg0KICAgIHJlc3VsdHMgPSB7fQ0KICAgIGlmIG9zLnBhdGguaXNm
+aWxlKHNvdXJjZSk6DQogICAgICAgIGFwcGVuZF9yZXN1bHRzZGF0YShyZXN1bHRzLCBzb3VyY2Us
+IGNvbmZpZ21hcCkNCiAgICAgICAgcmV0dXJuIHJlc3VsdHMNCg0KVGhlIGNvZGUgYWJvdmUgY2Fu
+IHRoZXJlZm9yZSBiZSBzaW1wbGlmaWVkIHRvOg0KDQp0YXJnZXRfcmVzdWx0cyA9IHJlc3VsdHV0
+aWxzLmxvYWRfcmVzdWx0cyhhcmdzLnRhcmdldF9yZXN1bHRzKQ0KDQo/DQoNCj4gKyAgICAgICAg
+aWYgb3MucGF0aC5pc2RpcihhcmdzLmJhc2VfcmVzdWx0cyk6DQo+ICsgICAgICAgICAgICBiYXNl
+X3Jlc3VsdHMgPSByZXN1bHR1dGlscy5sb2FkX3Jlc3VsdHMoYXJncy5iYXNlX3Jlc3VsdHMpDQo+
+ICsgICAgICAgICAgICByZXN1bHRzID0gcmVzdWx0dXRpbHMuYXBwZW5kX3Jlc3VsdHModGFyZ2V0
+X3Jlc3VsdHMsIGJhc2VfcmVzdWx0cykNCj4gKyAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAg
+IHJlc3VsdHMgPSByZXN1bHR1dGlscy5hcHBlbmRfcmVzdWx0cyh0YXJnZXRfcmVzdWx0cywgDQo+
+ICsgYXJncy5iYXNlX3Jlc3VsdHMpDQoNCg0KQWdhaW4sIEknbSBub3Qgc3VyZSB5b3UgbmVlZCB0
+byBkaWZmZXJlbnRpYXRlIGJldHdlZW4gYSBmaWxlIGFuZCBhIGRpcmVjdG9yeSBnaXZlbiB0aGUg
+d2F5IHRoZSBjb2RlIHdvcmtzIGludGVybmFsbHk/DQoNCj4gKw0KPiArICAgICAgICB0YXJnZXRf
+ZmlsZV9kaXIgPSBvcy5wYXRoLmpvaW4ob3MucGF0aC5kaXJuYW1lKGFyZ3MudGFyZ2V0X3Jlc3Vs
+dHMpLCAnbWVyZ2VkX3Jlc3VsdHMvdGVzdHJlc3VsdHMuanNvbicpDQo+ICsgICAgICAgIGlmIG9z
+LnBhdGguaXNkaXIoYXJncy50YXJnZXRfcmVzdWx0cyk6DQo+ICsgICAgICAgICAgICB0YXJnZXRf
+ZmlsZV9kaXIgPSBvcy5wYXRoLmpvaW4oYXJncy50YXJnZXRfcmVzdWx0cywgJ21lcmdlZF9yZXN1
+bHRzL3Rlc3RyZXN1bHRzLmpzb24nKQ0KPiArICAgICAgICBpZiBhcmdzLm1lcmdlX3RvX29uZV9k
+aXI6DQo+ICsgICAgICAgICAgICB0YXJnZXRfZmlsZV9kaXIgPSBvcy5wYXRoLmpvaW4oYXJncy5t
+ZXJnZV90b19vbmVfZGlyLCAndGVzdHJlc3VsdHMuanNvbicpDQo+ICsgICAgICAgIHJlc3VsdHV0
+aWxzLm1ha2VfZGlyZWN0b3J5X2FuZF93cml0ZV9qc29uX2ZpbGUodGFyZ2V0X2ZpbGVfZGlyLCBy
+ZXN1bHRzKQ0KPiArICAgICAgICBsb2dnZXIuaW5mbygnTWVyZ2VkIHJlc3VsdHMgdG8gJXMnICUg
+dGFyZ2V0X2ZpbGVfZGlyKQ0KPiArICAgICAgICByZXR1cm4gMA0KDQpJc24ndCB0aGlzIHNpbWls
+YXIgdG8gY2FsbGluZyBsb2FkX3Jlc3VsdHNkYXRhIHdpdGggdGhlICdmbGF0dGVuJw0KbWFwcGlu
+ZywgaS5lLiByZXN1bHR1dGlscy5mbGF0dGVuX21hcD8NCg0KVGhhdCB3b3VsZCBtYXRjaCB0aGUg
+Y29kZSBhbHJlYWR5IGluIHRoZSBtZXJnZSBjb21tYW5kOg0KDQogICAgICAgIHJlc3VsdHMgPSBy
+ZXN1bHR1dGlscy5sb2FkX3Jlc3VsdHNkYXRhKGFyZ3MuYmFzZV9yZXN1bHRzLCBjb25maWdtYXA9
+cmVzdWx0dXRpbHMuZmxhdHRlbl9tYXApDQogICAgICAgIGlmIG9zLnBhdGguZXhpc3RzKGFyZ3Mu
+dGFyZ2V0X3Jlc3VsdHMpOg0KICAgICAgICAgICAgcmVzdWx0dXRpbHMuYXBwZW5kX3Jlc3VsdHNk
+YXRhKHJlc3VsdHMsIGFyZ3MudGFyZ2V0X3Jlc3VsdHMsIGNvbmZpZ21hcD1yZXN1bHR1dGlscy5m
+bGF0dGVuX21hcCkNCiAgICAgICAgcmVzdWx0dXRpbHMuc2F2ZV9yZXN1bHRzZGF0YShyZXN1bHRz
+LCBvcy5wYXRoLmRpcm5hbWUoYXJncy50YXJnZXRfcmVzdWx0cyksIGZuPW9zLnBhdGguYmFzZW5h
+bWUoYXJncy50YXJnZXRfcmVzdWx0cykpDQoNCmkuZS4gaWYgeW91IGNhbGw6DQoNCiJyZXN1bHR0
+b29sIG1lcmdlIFhYWFggbWVyZ2VkX3Jlc3VsdHMvdGVzdHJlc3VsdHMuanNvbiINCg0KaXQgc2hv
+dWxkIG1lcmdlIHRoZSByZXN1bHRzIGZyb20gWFhYWCBpbnRvIHRoZSByZXN1bHRzIGZpbGUgc3Bl
+Y2lmaWVkPw0KDQpJbiBvdGhlciB3b3JkcywgZG9lc24ndCB0aGUgdG9vbCBhbHJlYWR5IHN1cHBv
+cnQgdGhpcz8NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg0KDQo=
 
