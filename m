@@ -1,50 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6797F60272
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C0D87D195
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 07:42:54 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id t124so2715916wma.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 00:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=EBiij6hg3pkwWMpTuBoSU3PIFlfvrJBuL7bfob7H0qA=;
-	b=dLOYhmJjBiKNtaOjPQG2tMuzWfT+mVkzhr7yQ+fxjrX6UsiwbjepFJuTOBm4iOrF5t
-	7mHxP8xViIJhguqEYf2CelXmpbpiVMH2USoRokmwfMltXYOn5QOwxsEzrmEhzh+vp6Cz
-	QspfFr7U/8q3pKHlKmEBLxWYydHlUlmwOTGoM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=EBiij6hg3pkwWMpTuBoSU3PIFlfvrJBuL7bfob7H0qA=;
-	b=bNGZtRulFQotRKIWgAygYyzP4Axg9isjq4CAcXboqRNwNrjfjyM/ap9yxxpNFGyQdN
-	XqlCpt6EuCoCpV9I0VjBgFEf4Z7YmMHmQ+UqWQ1t6kQEaIA4heVDKwD/7Uu9gvkHz7cB
-	k+Bx+6Sr7vSel78skPBkJo85Sob7XutE77cX6ej1upiqO6l6DHPTTna7kBWq8/h48jbK
-	1d1fEkqNseBWyIWRAhfXSJU4aYuUDwxeHJrS/Uo8did8g9ZLxhb3B6b82OBm+x2wmjwy
-	Mjoqw99Hp3De4LjwA9aBpmePfRLSVgX8BzJrI4hysSPL7uoscPvl4cahBw2ank90rvTD
-	OqCQ==
-X-Gm-Message-State: APjAAAV4J2fmIWf01wf2l86/CoZO4u30M8L/ZeaHXUj4LEYKJ/CI1ujC
-	1SpLVaJZWjRHs9dRzrmTmHhbHw==
-X-Google-Smtp-Source: APXvYqx0F4yjTuIf9/aRLRtx2pYSRy6xvyOjxKKBx58F7v4ruiZOA7HEt4mbrD6foMUkgHlwLwpFUw==
-X-Received: by 2002:a1c:7008:: with SMTP id l8mr20057975wmc.63.1553758974958; 
-	Thu, 28 Mar 2019 00:42:54 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v184sm3865219wma.6.2019.03.28.00.42.53
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 28 Mar 2019 00:42:54 -0700 (PDT)
-Message-ID: <a1157af237b851841bd93b55465bedc08e9103c3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Mar 2019 07:42:52 +0000
-In-Reply-To: <1553748873-50143-2-git-send-email-ee.peng.yeoh@intel.com>
+	Thu, 28 Mar 2019 07:56:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Mar 2019 00:56:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,278,1549958400"; d="scan'208";a="144549270"
+Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2019 00:56:08 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.173]) by
+	PGSMSX106.gar.corp.intel.com ([169.254.9.12]) with mapi id
+	14.03.0415.000; Thu, 28 Mar 2019 15:56:07 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] resulttool/merge: Merge files from folders
+	and control add testseries
+Thread-Index: AQHU5Tn4Dhm2B9W5jEWaY5PcmamaBKYgrJ1A
+Date: Thu, 28 Mar 2019 07:56:06 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D043481A17EA@PGSMSX109.gar.corp.intel.com>
 References: <1553748873-50143-1-git-send-email-ee.peng.yeoh@intel.com>
 	<1553748873-50143-2-git-send-email-ee.peng.yeoh@intel.com>
-User-Agent: Evolution 3.32.0-1 
+	<a1157af237b851841bd93b55465bedc08e9103c3.camel@linuxfoundation.org>
+In-Reply-To: <a1157af237b851841bd93b55465bedc08e9103c3.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMmZjMTg0YWQtMmVjNC00Y2NhLWFkOTEtMmU4Mjg4ZDZkYWYzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUJKMUpxOTdleU9VQWJnMFwvNitERmJsXC9PVmJCUjhhaDlDRGVrUVl2YVwvT0RcL0lYS044QzBnYnZIREtoMFNtZ0EifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
 Subject: Re: [PATCH] resulttool/merge: Merge files from folders and control add testseries
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,84 +51,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 07:42:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Mar 2019 07:56:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Ee Peng,
-
-This patch isn't really in a form where it can be easily reviewed or
-accepted. A given patch needs to do one specific thing, so for example
-if you're renaming/refactoring a function that would belong in its own
-patch. If you're changing functionality, that would also be best in its
-own patch.
-
-In the patch below you make various refactoring changes as well as
-making functionality changes meaning its very hard to separate the real
-functionality change from the rest of the "noise" of the renaming and
-refactoring. This makes review extremely difficult.
-
-I'm not even sure I agree with some of the renaming/refactoring, e.g.
-make_directory_and_write_json_file is a horrible name for a function
-and it only appears to be called once? There are probably other issues
-but its really hard to tell.
-
-Could you split up this series, ideally showing the functionality
-change in its own patch please. I'm not promising it would all be
-accepted but it would at least allow review and allow the changes to be
-understood.
-
-Cheers,
-
-Richard
-
-On Thu, 2019-03-28 at 12:54 +0800, Yeoh Ee Peng wrote:
-> QA team execute extra testing that create multiple test result files,
-> where these test result files need to be merged under various use
-> cases.
-> Furthermore, during results merging, user need control over the
-> testseries configuration creation as this configuration has important
-> implication to report and regression.
-> 
-> Current merge do not support merge results where both base and target
-> are directory.
-> 
-> Traceback (most recent call last):
->   File "/home/poky/scripts/resulttool", line 93, in <module>
->     sys.exit(main())
->   File "/home/poky/scripts/resulttool", line 87, in main
->     ret = args.func(args, logger)
->   File "/home/poky/scripts/lib/resulttool/merge.py", line 22, in
-> merge
->     resultutils.append_resultsdata(results, args.base_results,
-> configmap=resultutils.store_map)
->   File "/home/poky/scripts/lib/resulttool/resultutils.py", line 47,
-> in append_resultsdata
->     with open(f, "r") as filedata:
-> IsADirectoryError: [Errno 21] Is a directory:
-> '<path_to_base_results>'
-> 
-> This patches enable merge for both base and target as directory.
-> Also, enable control the creation of testseries configuration.
-> 
-> Previously the append_resultsdata function only allow append
-> the results data to the map_results data (where map_results data
-> wrapped the results data with configuration map as the key).
-> Initially, we tried to implement an extra function where it will
-> enable append one map_results to another map_results data. But
-> we abandoned this alternative as this new append function will be
-> pretty much a duplicated function to the original append_resultsdata,
-> and these will create two append functions which they might be both
-> hard to maintain and confusing. Thus, we tried to refactor the
-> append function to enable a single append function to be used
-> in all the situation. Futhermore, since the map_results were
-> only needed by report and regression, we pulled the instructions
-> used to turn results data to map_results data to another function.
-> Finally, we renamed the functions and arguments to clearly
-> seperated the functions using results data from the one using
-> map_results data.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> 
-
+SGkgUlAsDQoNClllcywgd2Ugd2lsbCBzZXBhcmF0ZSB0aGUgY2hhbmdlcyBpbnRvIGRpZmZlcmVu
+dCBwYXRjaGVzIGFzIHN1Z2dlc3RlZC4NClRoYW5rIHlvdSBmb3IgeW91ciBpbnB1dHMuIA0KDQpU
+aGFua3MsDQpFZSBQZW5nIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmlj
+aGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSAN
+ClNlbnQ6IFRodXJzZGF5LCBNYXJjaCAyOCwgMjAxOSAzOjQzIFBNDQpUbzogWWVvaCwgRWUgUGVu
+ZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSByZXN1bHR0b29sL21l
+cmdlOiBNZXJnZSBmaWxlcyBmcm9tIGZvbGRlcnMgYW5kIGNvbnRyb2wgYWRkIHRlc3RzZXJpZXMN
+Cg0KSGkgRWUgUGVuZywNCg0KVGhpcyBwYXRjaCBpc24ndCByZWFsbHkgaW4gYSBmb3JtIHdoZXJl
+IGl0IGNhbiBiZSBlYXNpbHkgcmV2aWV3ZWQgb3IgYWNjZXB0ZWQuIEEgZ2l2ZW4gcGF0Y2ggbmVl
+ZHMgdG8gZG8gb25lIHNwZWNpZmljIHRoaW5nLCBzbyBmb3IgZXhhbXBsZSBpZiB5b3UncmUgcmVu
+YW1pbmcvcmVmYWN0b3JpbmcgYSBmdW5jdGlvbiB0aGF0IHdvdWxkIGJlbG9uZyBpbiBpdHMgb3du
+IHBhdGNoLiBJZiB5b3UncmUgY2hhbmdpbmcgZnVuY3Rpb25hbGl0eSwgdGhhdCB3b3VsZCBhbHNv
+IGJlIGJlc3QgaW4gaXRzIG93biBwYXRjaC4NCg0KSW4gdGhlIHBhdGNoIGJlbG93IHlvdSBtYWtl
+IHZhcmlvdXMgcmVmYWN0b3JpbmcgY2hhbmdlcyBhcyB3ZWxsIGFzIG1ha2luZyBmdW5jdGlvbmFs
+aXR5IGNoYW5nZXMgbWVhbmluZyBpdHMgdmVyeSBoYXJkIHRvIHNlcGFyYXRlIHRoZSByZWFsIGZ1
+bmN0aW9uYWxpdHkgY2hhbmdlIGZyb20gdGhlIHJlc3Qgb2YgdGhlICJub2lzZSIgb2YgdGhlIHJl
+bmFtaW5nIGFuZCByZWZhY3RvcmluZy4gVGhpcyBtYWtlcyByZXZpZXcgZXh0cmVtZWx5IGRpZmZp
+Y3VsdC4NCg0KSSdtIG5vdCBldmVuIHN1cmUgSSBhZ3JlZSB3aXRoIHNvbWUgb2YgdGhlIHJlbmFt
+aW5nL3JlZmFjdG9yaW5nLCBlLmcuDQptYWtlX2RpcmVjdG9yeV9hbmRfd3JpdGVfanNvbl9maWxl
+IGlzIGEgaG9ycmlibGUgbmFtZSBmb3IgYSBmdW5jdGlvbiBhbmQgaXQgb25seSBhcHBlYXJzIHRv
+IGJlIGNhbGxlZCBvbmNlPyBUaGVyZSBhcmUgcHJvYmFibHkgb3RoZXIgaXNzdWVzIGJ1dCBpdHMg
+cmVhbGx5IGhhcmQgdG8gdGVsbC4NCg0KQ291bGQgeW91IHNwbGl0IHVwIHRoaXMgc2VyaWVzLCBp
+ZGVhbGx5IHNob3dpbmcgdGhlIGZ1bmN0aW9uYWxpdHkgY2hhbmdlIGluIGl0cyBvd24gcGF0Y2gg
+cGxlYXNlLiBJJ20gbm90IHByb21pc2luZyBpdCB3b3VsZCBhbGwgYmUgYWNjZXB0ZWQgYnV0IGl0
+IHdvdWxkIGF0IGxlYXN0IGFsbG93IHJldmlldyBhbmQgYWxsb3cgdGhlIGNoYW5nZXMgdG8gYmUg
+dW5kZXJzdG9vZC4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCk9uIFRodSwgMjAxOS0wMy0yOCBh
+dCAxMjo1NCArMDgwMCwgWWVvaCBFZSBQZW5nIHdyb3RlOg0KPiBRQSB0ZWFtIGV4ZWN1dGUgZXh0
+cmEgdGVzdGluZyB0aGF0IGNyZWF0ZSBtdWx0aXBsZSB0ZXN0IHJlc3VsdCBmaWxlcywgDQo+IHdo
+ZXJlIHRoZXNlIHRlc3QgcmVzdWx0IGZpbGVzIG5lZWQgdG8gYmUgbWVyZ2VkIHVuZGVyIHZhcmlv
+dXMgdXNlIA0KPiBjYXNlcy4NCj4gRnVydGhlcm1vcmUsIGR1cmluZyByZXN1bHRzIG1lcmdpbmcs
+IHVzZXIgbmVlZCBjb250cm9sIG92ZXIgdGhlIA0KPiB0ZXN0c2VyaWVzIGNvbmZpZ3VyYXRpb24g
+Y3JlYXRpb24gYXMgdGhpcyBjb25maWd1cmF0aW9uIGhhcyBpbXBvcnRhbnQgDQo+IGltcGxpY2F0
+aW9uIHRvIHJlcG9ydCBhbmQgcmVncmVzc2lvbi4NCj4gDQo+IEN1cnJlbnQgbWVyZ2UgZG8gbm90
+IHN1cHBvcnQgbWVyZ2UgcmVzdWx0cyB3aGVyZSBib3RoIGJhc2UgYW5kIHRhcmdldCANCj4gYXJl
+IGRpcmVjdG9yeS4NCj4gDQo+IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToNCj4g
+ICBGaWxlICIvaG9tZS9wb2t5L3NjcmlwdHMvcmVzdWx0dG9vbCIsIGxpbmUgOTMsIGluIDxtb2R1
+bGU+DQo+ICAgICBzeXMuZXhpdChtYWluKCkpDQo+ICAgRmlsZSAiL2hvbWUvcG9reS9zY3JpcHRz
+L3Jlc3VsdHRvb2wiLCBsaW5lIDg3LCBpbiBtYWluDQo+ICAgICByZXQgPSBhcmdzLmZ1bmMoYXJn
+cywgbG9nZ2VyKQ0KPiAgIEZpbGUgIi9ob21lL3Bva3kvc2NyaXB0cy9saWIvcmVzdWx0dG9vbC9t
+ZXJnZS5weSIsIGxpbmUgMjIsIGluIG1lcmdlDQo+ICAgICByZXN1bHR1dGlscy5hcHBlbmRfcmVz
+dWx0c2RhdGEocmVzdWx0cywgYXJncy5iYXNlX3Jlc3VsdHMsDQo+IGNvbmZpZ21hcD1yZXN1bHR1
+dGlscy5zdG9yZV9tYXApDQo+ICAgRmlsZSAiL2hvbWUvcG9reS9zY3JpcHRzL2xpYi9yZXN1bHR0
+b29sL3Jlc3VsdHV0aWxzLnB5IiwgbGluZSA0NywgaW4gDQo+IGFwcGVuZF9yZXN1bHRzZGF0YQ0K
+PiAgICAgd2l0aCBvcGVuKGYsICJyIikgYXMgZmlsZWRhdGE6DQo+IElzQURpcmVjdG9yeUVycm9y
+OiBbRXJybm8gMjFdIElzIGEgZGlyZWN0b3J5Og0KPiAnPHBhdGhfdG9fYmFzZV9yZXN1bHRzPicN
+Cj4gDQo+IFRoaXMgcGF0Y2hlcyBlbmFibGUgbWVyZ2UgZm9yIGJvdGggYmFzZSBhbmQgdGFyZ2V0
+IGFzIGRpcmVjdG9yeS4NCj4gQWxzbywgZW5hYmxlIGNvbnRyb2wgdGhlIGNyZWF0aW9uIG9mIHRl
+c3RzZXJpZXMgY29uZmlndXJhdGlvbi4NCj4gDQo+IFByZXZpb3VzbHkgdGhlIGFwcGVuZF9yZXN1
+bHRzZGF0YSBmdW5jdGlvbiBvbmx5IGFsbG93IGFwcGVuZCB0aGUgDQo+IHJlc3VsdHMgZGF0YSB0
+byB0aGUgbWFwX3Jlc3VsdHMgZGF0YSAod2hlcmUgbWFwX3Jlc3VsdHMgZGF0YSB3cmFwcGVkIA0K
+PiB0aGUgcmVzdWx0cyBkYXRhIHdpdGggY29uZmlndXJhdGlvbiBtYXAgYXMgdGhlIGtleSkuDQo+
+IEluaXRpYWxseSwgd2UgdHJpZWQgdG8gaW1wbGVtZW50IGFuIGV4dHJhIGZ1bmN0aW9uIHdoZXJl
+IGl0IHdpbGwgDQo+IGVuYWJsZSBhcHBlbmQgb25lIG1hcF9yZXN1bHRzIHRvIGFub3RoZXIgbWFw
+X3Jlc3VsdHMgZGF0YS4gQnV0IHdlIA0KPiBhYmFuZG9uZWQgdGhpcyBhbHRlcm5hdGl2ZSBhcyB0
+aGlzIG5ldyBhcHBlbmQgZnVuY3Rpb24gd2lsbCBiZSBwcmV0dHkgDQo+IG11Y2ggYSBkdXBsaWNh
+dGVkIGZ1bmN0aW9uIHRvIHRoZSBvcmlnaW5hbCBhcHBlbmRfcmVzdWx0c2RhdGEsIGFuZCANCj4g
+dGhlc2Ugd2lsbCBjcmVhdGUgdHdvIGFwcGVuZCBmdW5jdGlvbnMgd2hpY2ggdGhleSBtaWdodCBi
+ZSBib3RoIGhhcmQgDQo+IHRvIG1haW50YWluIGFuZCBjb25mdXNpbmcuIFRodXMsIHdlIHRyaWVk
+IHRvIHJlZmFjdG9yIHRoZSBhcHBlbmQgDQo+IGZ1bmN0aW9uIHRvIGVuYWJsZSBhIHNpbmdsZSBh
+cHBlbmQgZnVuY3Rpb24gdG8gYmUgdXNlZCBpbiBhbGwgdGhlIA0KPiBzaXR1YXRpb24uIEZ1dGhl
+cm1vcmUsIHNpbmNlIHRoZSBtYXBfcmVzdWx0cyB3ZXJlIG9ubHkgbmVlZGVkIGJ5IA0KPiByZXBv
+cnQgYW5kIHJlZ3Jlc3Npb24sIHdlIHB1bGxlZCB0aGUgaW5zdHJ1Y3Rpb25zIHVzZWQgdG8gdHVy
+biByZXN1bHRzIA0KPiBkYXRhIHRvIG1hcF9yZXN1bHRzIGRhdGEgdG8gYW5vdGhlciBmdW5jdGlv
+bi4NCj4gRmluYWxseSwgd2UgcmVuYW1lZCB0aGUgZnVuY3Rpb25zIGFuZCBhcmd1bWVudHMgdG8g
+Y2xlYXJseSBzZXBlcmF0ZWQgDQo+IHRoZSBmdW5jdGlvbnMgdXNpbmcgcmVzdWx0cyBkYXRhIGZy
+b20gdGhlIG9uZSB1c2luZyBtYXBfcmVzdWx0cyBkYXRhLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
+WWVvaCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPg0KPiANCg0K
 
