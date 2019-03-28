@@ -1,38 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
-	[209.85.210.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B6377D1A2
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+	[209.85.208.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CABF7D1AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 14:08:10 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id c16so18434079otn.4
+	Thu, 28 Mar 2019 14:25:27 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id h22so17382028edw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 07:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YhscvmLH0OIYws/abV8JGFlCNVNuXNwQhQEYcH/o6t4=;
-	b=TDYiYB5kzCYW2/LGtW/uQq37RA0z04nQTOiBOrodRSAqsKADZkxRrsyHvI6a8lduTK
-	YL3H45PpY2PUHLex+urL6qJvaT2KAFKUJjHiN1usaLUPPnT/pzhFNHA4n5rzJuSMiX8N
-	KiuZFMJmjF61cOb+QhfprfQGCLBTF9qbd5VD7dcE6py+DX6vQ+JRfG42UD9IXhTevNfb
-	6FuB3seYl0w9zvbELNggCK823qsAt7xCu/mZy48kLrj9JYNRBaMji4i2HiTCIwIuMLcu
-	FEcsNT7ly88WUA8dCCff8xRa/bc1e4//K91pa5IiNyh8a+0fffEoiCr/27gQNuBFh1DP
-	iSAQ==
+	Thu, 28 Mar 2019 07:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=SPPRfHzWkvBW/HiouYi9fWcoC11+vHDLBCOixraUdQQ=;
+	b=VLq5VTtZ2hjwtpoK0MjDiQSXNpObj9onQLtitj7yADk+3OcFWwS//TNloEmuuPrdLT
+	cwT7Oapji7axt996naFreEjBKXs87+uRznyusjHCeSlzGt/0m7MkhhX4Rd+0nqOyZi5z
+	AZ/qFzsP604hHwnz+4KCfuz2l0Z4H/+SHEnWg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YhscvmLH0OIYws/abV8JGFlCNVNuXNwQhQEYcH/o6t4=;
-	b=buUx+/zhyKcEwDOLmmLUIPs7Qo/G4sHABmgswg2KBkPXvJsd1m47KZX9YbPpgIj7H7
-	KtrkREG8n4+Bj2FceJPHFRI2r34lIupq7fEaW/ZEqM+KyZCTxAD0rM7b6vzI/Y4Z9Nr5
-	54ZozU+5+M0yy/kl224OKJR8R7594AA/TMDy7q6tXwh9/aWh3wr/sBfRt2UhutWLbDei
-	QFMsaytSLBJjyEWDYWD/R+dzvQUPvIKduxZSoV3huFRbe3NFZZA3ywNyXv5Ll46wdtBR
-	l2Izl5HyZPCxNldy/PQaoanizCFKOJkSgsWauAhOBqqIW1IZBEekikijuDMvYM1uKg1X
-	ZILg==
-X-Gm-Message-State: APjAAAWd0U/Gxh9HCQkwJRLNHXyQqn+YhiTXu4xKp6HiM4yr/UQDXHr5
-	rdFMV1xI4/+ILky0zM7cUun+rnpcyrIc2L8yrXk=
-X-Google-Smtp-Source: APXvYqzB1f3Gq5gDC4qbfVCydxKPMH/TVGslwEEajhwpT09BPASVc5dS94AM0ws9NbINkUHYqJAa7yCk4iLnnlbZwBA=
-X-Received: by 2002:a9d:68ce:: with SMTP id i14mr5242372oto.293.1553782091663; 
-	Thu, 28 Mar 2019 07:08:11 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=SPPRfHzWkvBW/HiouYi9fWcoC11+vHDLBCOixraUdQQ=;
+	b=qWtfP5uEl8iOV6ge1O5nyAkECfH9ovsuxoyt9fXgJ/ZMMQDJsQ4LyK1RAKwAMFgisW
+	R3mdAYYuJQby2dRJiy+MojfghQ6PxgX/bGZUlMRm9mvWZ1eLa2NZambDqti0X52BWXsM
+	clC3p9fgN5IQ8049ewZ1oTAHOO7PcSYY/diMICjKP35zUyf6JZZemCXVKSHGo+TeFyBg
+	nNogHoDxC557WMSBEqU6W+7XYnIPtB7wghBY8lh1ZZPylUIqW4NmYdwOf54m4UKntrHC
+	NGKlqpGgX+ZEs0hksLHVnLh3FXfUjBOU6utdEU3vQKstx8xdRxXwQDBo87FgEy+NdpMc
+	50sQ==
+X-Gm-Message-State: APjAAAWhjFTtL5cQ+qTH0KPnmwDL57bSPGNFEwwSoVhU3AI7lexr/7vv
+	9GYSLlsQGQHAhsJd1igDB+V1Jw==
+X-Google-Smtp-Source: APXvYqz4E6Fhx5RJwqE7W2YjNmX1r8PwtJzEtfMCH6ObgigRarPzEx3mJYoi7ZSxJ5tCYSMbRUXj7Q==
+X-Received: by 2002:a17:906:b80e:: with SMTP id
+	dv14mr15305938ejb.157.1553783128786; 
+	Thu, 28 Mar 2019 07:25:28 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
+	[65.184.134.105])
+	by smtp.gmail.com with ESMTPSA id p3sm7751857edp.44.2019.03.28.07.25.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Mar 2019 07:25:27 -0700 (PDT)
+Date: Thu, 28 Mar 2019 10:25:24 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20190328142524.GM18421@bill-the-cat>
 References: <cover.1553775186.git.Qi.Chen@windriver.com>
 	<a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
 	<CANNYZj_xbMheU=FEenRYkccJwxG10mJPHSqmwekt+EqAV=FumA@mail.gmail.com>
@@ -40,13 +47,11 @@ References: <cover.1553775186.git.Qi.Chen@windriver.com>
 	<CAJTo0LYwZ0WNNsA0Wm+uzAsuAHHiRzKOE=aGZZOkRfa56Furpg@mail.gmail.com>
 	<20190328134644.GK18421@bill-the-cat>
 	<CAJTo0LYw1UPfhZy0oJZ5+D=nL0THTaFF4M-1gR8YdqGykB-JmQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYw1UPfhZy0oJZ5+D=nL0THTaFF4M-1gR8YdqGykB-JmQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Mar 2019 15:08:00 +0100
-Message-ID: <CANNYZj-qn9M=hrJoAh-U7SpiUqZ5v2ctC5AzBKM0yoDkT8q6pw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Tom Rini <trini@konsulko.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<CANNYZj-qn9M=hrJoAh-U7SpiUqZ5v2ctC5AzBKM0yoDkT8q6pw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj-qn9M=hrJoAh-U7SpiUqZ5v2ctC5AzBKM0yoDkT8q6pw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] binutils: fix PV to respect upstream tag and also cve database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,17 +65,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 14:08:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Mar 2019 14:25:28 -0000
+X-Groupsio-MsgNum: 122723
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="5irP38Gi3mZ60aXr"
+Content-Disposition: inline
 
-On Thu, 28 Mar 2019 at 14:51, Burton, Ross <ross.burton@intel.com> wrote:
+--5irP38Gi3mZ60aXr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Bumping PE is even worse as a PE never goes away.  I say we leave it
-> as it is, and ask upstream nicely if they'll match the tag/version in
-> the future.
+On Thu, Mar 28, 2019 at 03:08:00PM +0100, Alexander Kanavin wrote:
+> On Thu, 28 Mar 2019 at 14:51, Burton, Ross <ross.burton@intel.com> wrote:
+>=20
+> > Bumping PE is even worse as a PE never goes away.  I say we leave it
+> > as it is, and ask upstream nicely if they'll match the tag/version in
+> > the future.
+>=20
+> The tag and version upstream are both 2.32. It's Khem who declared PV
+> to be 2.32.0 :)
 
-The tag and version upstream are both 2.32. It's Khem who declared PV
-to be 2.32.0 :)
+Bumping PE is what this is for too, to not break package feeds after
+we've done something wrong in PV.  So lets bump PE and not break feeds.
+Especially since this is so that CVE check starts to see and correctly
+complain about issues that will result in "lets move this from master to
+=2E.." and so break feeds.
 
-Alex
+--=20
+Tom
 
+--5irP38Gi3mZ60aXr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcnNlTAAoJEIf59jXTHXZSiyMP/izG3pPQ0B31QNut2VXDwl+w
+dXxp+YRzCF3Eku2JeQkQvfkkm4n6RcnU5FHuAZF+pZ21XaVY2mPr/Air4LR0cA3X
+xfNDBQsZqg3BnSpkzwH2iLhkmIwGqi0Mawk2Hjmq0olRA26QLIV+COsznc3kWYP7
+H/JCSamiKrELJmuI8CY66Wl5/501CaZK5pv/t5IdB57A+rsOIyTMpL0kRwRNjphu
+tin47RwCYKBQHOjLVb9UY5E7JT9GRnxpfd8YzexPxU7UWm2KTN3AJOebRhqT3aH3
+wPKcFMPCFi2M9LVU1rY+d3XSqrSdHYcbGnkQHuxpsgVhrb62COH0T+6lCelZMVad
+MxgDS0e7gO4JbyMReTRKNx7Bl/yHV9f8GYtHdjDlG2L66e5jPMit3tbnFpx8FXdq
+vc1coyBaJYRGJPq2fuNlhmKqb1fxnDlt9kmz3prHykbej/+gElCCNf5gt4kbFbZY
+LWQXl/21AhB2qa++8elUBPLmMw9jN2cJ2q4X+BHyr6R0QEJyfiSyszuSbKhcmfvP
+56f917+QLWQDM+Svw/CyBKGmjsaU+bTw4XkanQdm+6cPr6BdZ9mDksN+9xCcVowV
+vrGK6hHM/T2iWOIsirg+fkWG6RoRiYLomuGzFI+QVnWD68AZPGhIxIz0UESogc88
+I9tMIAxb2gPh4gyQCn4Y
+=IGgR
+-----END PGP SIGNATURE-----
+
+--5irP38Gi3mZ60aXr--
