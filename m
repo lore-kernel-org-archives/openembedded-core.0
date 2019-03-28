@@ -1,50 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 312557CD89
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ED507D14F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 13:58:39 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id d1so17287038edd.13
+	Thu, 28 Mar 2019 14:04:30 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q16so3716804wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 06:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ZxVpfWcFbbNzCHUWY6o/W+hc0La+G+fBMMh8WiU8yAo=;
-	b=oTFoAwqBXoVpV65TbR+VLVZWH1/5pR7p3wwerE1msP0co8R2Lc++J3nlSxAoP9GQoq
-	DtDAKAb7c/Rvc2eHQHONT/FQBQE4iWMlLsAyNZG2iZeceOw124b0IDedjsI4FgDryrra
-	pWQ7kjQ1b4urR6e1P2F3dEp2TbojCoRF60bME=
+	Thu, 28 Mar 2019 07:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=0czuIJ7eolfQAymFBwDLzdVyRma5eUWHqjOOHYUyrj0=;
+	b=aXQatDX33hKXiur4aLArbUWnmFvt55Fg1DgY01s1cumctbSpYtrzXb+0h+fx4nF908
+	VsDjsG9i6CwBfVbaE1hMasJiSUPirPpLYpXMSHAY7sBZfLy92OapA8ZOahehuWYdSlNK
+	PgWmKH28GBa5ReFWvSvTDx5+Bzzgz+KQt6GEPOVshhfR8+U9stVSgILaPW4MEMben5d4
+	JW+JrttyidlqTsAu371PoGGzDmwyLr658VB0s3eg2Uea2DAcranr8Apb+I6D9fraN0yJ
+	sMJEEMMGyeJmHRyG5lWfi3nBHxKBD3fr8G8Wy4Q3kHkHPbtorml8+1pFk6CBm6HMhKkO
+	S8sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ZxVpfWcFbbNzCHUWY6o/W+hc0La+G+fBMMh8WiU8yAo=;
-	b=omlMDwUmbqCGAuudG0yHwvuvQwMQM96XmmYuifsVSzWhrjsLH6AmbnFnbKaseKLqVV
-	TTV+p8jqUp2Lp7dx1VvjPJJHdOVKBaV7ZnS1Tky1A/u63srmJ/hgRSiI+OLQaR49nhAC
-	nYC+7YgsWoIHnpO5hTt6xtJcOC7JRpZDtEsLGnX1NPdtDy+F94mSYxFbQY2phDRtXla2
-	1dp+Q9fLu4CUwBdWuUQGVtYG9LvEDyTM5Pjc78st1rfJsijY4RtOfXftC5WlM3+ebXGt
-	R4lEBnJXCPNJq1xiM/Ka0saFCsT5yT4/LrVQp0CHjrW0w55JvDxSrOhhBY40xdXGjKz6
-	fOcQ==
-X-Gm-Message-State: APjAAAXHyid0ly70cOG4c6AxMHqM/lqQYP5BqeYTGoc+DFejWwd1EVmO
-	+S8y7dqRj6n1cJtPbQYvLapWDg==
-X-Google-Smtp-Source: APXvYqwCYNzffEBWto7qf1VF9Po0zWttD0DHQcmPRYoBALKFo4ncqPHvrrtPfUU6bBqewVFMnvSS4w==
-X-Received: by 2002:a50:bdcc:: with SMTP id z12mr5847712edh.138.1553781519914; 
-	Thu, 28 Mar 2019 06:58:39 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
-	[65.184.134.105])
-	by smtp.gmail.com with ESMTPSA id i6sm4272743edn.16.2019.03.28.06.58.37
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0czuIJ7eolfQAymFBwDLzdVyRma5eUWHqjOOHYUyrj0=;
+	b=J+v5/dStabvhirmB4xWLmsoCG2tlTzB8YQpW5MBv2NT+rIYxJPyCFjO67uolXfgNLS
+	sbIIvlpDSjBiR38XJRU5z2z/rf6vbIFuMa/QPmfdBYWsIN4Ax+gWy5vYNKOk2Isb43SU
+	vwc7vOgcZjFBx75a5TBiNSHQxuDkhFZ0pmwLSGoLQDL1EJtboAsKnSZcCsXRQiW2F+6H
+	kZRNdbiz0uZUO+WGYfZjTajAUCfENxHFA+4CqGXPjTfHiAjIguHrkXyz1IDFbC52Y9oX
+	9zwmyYMvN+071K4Qf//o8MJWl0MpAdo+SbNS0SBjpzo2mU5fEdQyPWv76dpYRsR/HPav
+	xqgg==
+X-Gm-Message-State: APjAAAVZGTqDnPxArCmQiVifmplsECyCztn2kSFzSe2k/iuSI3SSOInK
+	ntdAs5WQhC/nxF4pT7ivtD6UKHY2
+X-Google-Smtp-Source: APXvYqxqGsdAvmExzHzM1AlMEDyvF2TciO1m9gi7U8e47BczCll1PHpE9uh7WsVzrp8ZuWUaiRSQRA==
+X-Received: by 2002:a1c:b403:: with SMTP id d3mr91973wmf.85.1553781870803;
+	Thu, 28 Mar 2019 07:04:30 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	a10sm33951881wrs.19.2019.03.28.07.04.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Mar 2019 06:58:38 -0700 (PDT)
-Date: Thu, 28 Mar 2019 09:58:34 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Yongxin Liu <yongxin.liu@windriver.com>
-Message-ID: <20190328135834.GL18421@bill-the-cat>
-References: <1553683062-24444-1-git-send-email-yongxin.liu@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <1553683062-24444-1-git-send-email-yongxin.liu@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic/bootimg-efi.py: add new source parameter "initrd_rename"
+	Thu, 28 Mar 2019 07:04:29 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Mar 2019 15:04:23 +0100
+Message-Id: <20190328140423.522-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] llvm: fix more places where '8.0' version of llvm was hardcoded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,53 +54,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 13:58:39 -0000
-X-Groupsio-MsgNum: 122720
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WHpPn4mHPEwODgSf"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Mar 2019 14:04:30 -0000
 
---WHpPn4mHPEwODgSf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So that it says '8.0.0' to reflect the recent PV change.
 
-On Wed, Mar 27, 2019 at 06:37:42PM +0800, Yongxin Liu wrote:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/classes/meson.bbclass                     |  2 +-
+ ...2-llvm-allow-env-override-of-exe-path.patch | 18 +++++++++---------
+ meta/recipes-graphics/mesa/mesa.inc            |  2 +-
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-> When using initrd in bootloader configuration file, we may want
-> the name of initrd to be fixed. However, the actual name of initrd
-> may change and depend on distro/machine's name. "initrd_rename"
-> gives user a chance to rename initrd in final wic image.
->=20
-> Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index aaf873cad2d..115d1aedcb1 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -89,7 +89,7 @@ ld = ${@meson_array('LD', d)}
+ strip = ${@meson_array('STRIP', d)}
+ readelf = ${@meson_array('READELF', d)}
+ pkgconfig = 'pkg-config'
+-llvm-config = 'llvm-config8.0'
++llvm-config = 'llvm-config8.0.0'
+ 
+ [properties]
+ needs_exe_wrapper = true
+diff --git a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
+index 2970b0827bd..1369bcf78c7 100644
+--- a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
++++ b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
+@@ -51,7 +51,7 @@ index bec89fef98c..91b4d6e4c43 100644
+      ActiveObjRoot = LLVM_OBJ_ROOT;
+    } else if (sys::fs::equivalent(CurrentExecPrefix,
+ -                                 Twine(LLVM_OBJ_ROOT) + "/bin")) {
+-+                                 Twine(LLVM_OBJ_ROOT) + "/bin/llvm8.0")) {
+++                                 Twine(LLVM_OBJ_ROOT) + "/bin/llvm8.0.0")) {
+      IsInDevelopmentTree = true;
+      DevelopmentTreeLayout = CMakeBuildModeStyle;
+      ActiveObjRoot = LLVM_OBJ_ROOT;
+@@ -63,12 +63,12 @@ index bec89fef98c..91b4d6e4c43 100644
+ +  // llvm-config from within a target sysroot.
+ +  std::string Multilibdir = std::getenv("YOCTO_ALTERNATE_MULTILIB_NAME");
+ +  if (Multilibdir.empty()) {
+-+    Multilibdir = "/lib/llvm8.0" LLVM_LIBDIR_SUFFIX;
+++    Multilibdir = "/lib/llvm8.0.0" LLVM_LIBDIR_SUFFIX;
+ +  }
+ +
+    if (IsInDevelopmentTree) {
+ -    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
+-+    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm8.0";
+++    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm8.0.0";
+      ActivePrefix = CurrentExecPrefix;
+  
+      // CMake organizes the products differently than a normal prefix style
+@@ -78,17 +78,17 @@ index bec89fef98c..91b4d6e4c43 100644
+      case CMakeStyle:
+ -      ActiveBinDir = ActiveObjRoot + "/bin";
+ -      ActiveLibDir = ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX;
+-+      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0";
+-+      ActiveLibDir = ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX;
+++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0.0";
+++      ActiveLibDir = ActiveObjRoot + "/lib/llvm8.0.0" + LLVM_LIBDIR_SUFFIX;
+        ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
+        break;
+      case CMakeBuildModeStyle:
+        ActivePrefix = ActiveObjRoot;
+ -      ActiveBinDir = ActiveObjRoot + "/bin/" + build_mode;
+-+      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0/" + build_mode;
+++      ActiveBinDir = ActiveObjRoot + "/bin/llvm8.0.0/" + build_mode;
+        ActiveLibDir =
+ -          ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
+-+          ActiveObjRoot + "/lib/llvm8.0" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
+++          ActiveObjRoot + "/lib/llvm8.0.0" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
+        ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
+        break;
+      }
+@@ -96,11 +96,11 @@ index bec89fef98c..91b4d6e4c43 100644
+      // We need to include files from both the source and object trees.
+      ActiveIncludeOption =
+ -        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
+-+        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm8.0");
+++        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm8.0.0");
+    } else {
+      ActivePrefix = CurrentExecPrefix;
+ -    ActiveIncludeDir = ActivePrefix + "/include";
+-+    ActiveIncludeDir = ActivePrefix + "/include/llvm8.0";
+++    ActiveIncludeDir = ActivePrefix + "/include/llvm8.0.0";
+      SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
+      sys::fs::make_absolute(ActivePrefix, path);
+      ActiveBinDir = path.str();
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 54818d7e0d2..ece74974b51 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -106,7 +106,7 @@ GALLIUMDRIVERS_append = ",virgl"
+ 
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium] = "--with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+-MESA_LLVM_RELEASE ?= "8.0"
++MESA_LLVM_RELEASE ?= "8.0.0"
+ PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+-- 
+2.17.1
 
-I'm not nak'ing this patch, but I've long fixed this by just not using
-the "efi" plugin to make an EFI system and instead IMAGE_BOOT_FILES to
-say what goes where.  There's a lot of cases bootimg-efi doesn't cover
-but are handled easily with IMAGE_BOOT_FILES.
 
---=20
-Tom
-
---WHpPn4mHPEwODgSf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcnNMKAAoJEIf59jXTHXZSSuMP/0YJ5zviMWaI1Im8ynKEcWcE
-mvWVl0gnpYMdxoPbT9BX9kOiihd1bITi7QTgeVsYwbpQ7E50blqF9Tc5O2ccr4By
-wxTdEX8HkjJqoVcgScOSOU5YhuR7UpxGG59GdnWWimMQryjEANPxqjFyR/ynS6Nh
-wYs8rU311alW+Sib8VrYiu7thDTddtWGIAZC7xlYTd8MO7TEqHbAub1buO3lKySx
-YSNtNg9VJhaMGvHfgOkwF3GhUqdJgQFCyoOFpUtNMHrBcYhXcwEUdayTAjK+tLex
-lUVLSBI96+jN76Rh0DkvvWj+r8rEo3yZm/F7fPAI2+RXm1MPagFU6PwHT+7fapz/
-86ROff46YJMSxPiBlWBiJBs7eVUnoud+2xOMfX7iiigvLUCxJ9/wInshFkQcIpHH
-8aVXyRkdhzzTJnHtN7eEj2SLfhbcoiPahqctqpxUa4kCXT/iNu4ffmH8BJbUaT1f
-Eec8KbGmez6jBfbkZ/EnxtE33eyhO1S7ZBCrOvNg+mq88gTTVWYS2OCaMVs07hHm
-A1gFVtUtNPGdwzynFHyfswzXc/Qh5Jq9AXf+lPD9Mj6MTH+GOL6u98uWPl6I0pRQ
-CuDg5Dv1fvKpUEDKWFo0MLWRiff03NgIhPNsl7EPNFhy6CC64R8x8UCcRVZVd4MW
-4C0l6jLcOLdsy9h4uXPL
-=ZiRU
------END PGP SIGNATURE-----
-
---WHpPn4mHPEwODgSf--
