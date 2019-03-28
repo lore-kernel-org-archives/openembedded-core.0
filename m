@@ -1,30 +1,30 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB6760079
+	by mail.openembedded.org (Postfix) with ESMTP id 522B560079
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 01:18:37 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,278,1549900800"; d="scan'208";a="57874791"
+	Thu, 28 Mar 2019 01:25:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,278,1549900800"; d="scan'208";a="57875335"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 28 Mar 2019 09:18:38 +0800
+	by heian.cn.fujitsu.com with ESMTP; 28 Mar 2019 09:25:32 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8582C4CD5D20
+	by cn.fujitsu.com (Postfix) with ESMTP id 0A1E14CD5D22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 09:18:36 +0800 (CST)
+	Thu, 28 Mar 2019 09:25:30 +0800 (CST)
 Received: from localhost.local (10.167.225.84) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 28 Mar 2019 09:18:36 +0800
+	Server (TLS) id 14.3.439.0; Thu, 28 Mar 2019 09:25:30 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Mar 2019 09:19:12 +0800
-Message-ID: <20190328011912.14287-1-zangrc.fnst@cn.fujitsu.com>
+Date: Thu, 28 Mar 2019 09:26:06 +0800
+Message-ID: <20190328012606.18550-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.84]
-X-yoursite-MailScanner-ID: 8582C4CD5D20.A8BE8
+X-yoursite-MailScanner-ID: 0A1E14CD5D22.A9FEE
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] cups:upgrade 2.2.10 -> 2.2.11
+Subject: [PATCH] ethtool:upgrade 4.19 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 01:18:38 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 01:25:33 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Upgrade from cups_2.2.10.bb to cups_2.2.11.bb
+Upgrade from ethtool_4.19.bb to ethtool_5.0.bb
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-extended/cups/cups_2.2.10.bb | 6 ------
- meta/recipes-extended/cups/cups_2.2.11.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-extended/cups/cups_2.2.10.bb
- create mode 100644 meta/recipes-extended/cups/cups_2.2.11.bb
+ .../ethtool/{ethtool_4.19.bb => ethtool_5.0.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_4.19.bb => ethtool_5.0.bb} (88%)
 
-diff --git a/meta/recipes-extended/cups/cups_2.2.10.bb b/meta/recipes-extended/cups/cups_2.2.10.bb
-deleted file mode 100644
-index 490c84e2f4..0000000000
---- a/meta/recipes-extended/cups/cups_2.2.10.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require cups.inc
--
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
--
--SRC_URI[md5sum] = "3d22d747403ec5dcd0b66d1332564816"
--SRC_URI[sha256sum] = "77c8b2b3bb7fe8b5fbfffc307f2c817b2d7ec67b657f261a1dd1c61ab81205bb"
-diff --git a/meta/recipes-extended/cups/cups_2.2.11.bb b/meta/recipes-extended/cups/cups_2.2.11.bb
-new file mode 100644
-index 0000000000..aeb2e14e3b
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups_2.2.11.bb
-@@ -0,0 +1,6 @@
-+require cups.inc
-+
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
-+
-+SRC_URI[md5sum] = "7afbbcd2497e7d742583c492f6de40cd"
-+SRC_URI[sha256sum] = "f58010813fd6903f690cdb0c0b91e4d1bc9e5b9570c28734229ba3ed2908b76c"
+diff --git a/meta/recipes-extended/ethtool/ethtool_4.19.bb b/meta/recipes-extended/ethtool/ethtool_5.0.bb
+similarity index 88%
+rename from meta/recipes-extended/ethtool/ethtool_4.19.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.0.bb
+index 74e255c24b..76cdf9c4e7 100644
+--- a/meta/recipes-extended/ethtool/ethtool_4.19.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.0.bb
+@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[md5sum] = "a533db1d202724822c4ef297643fac12"
+-SRC_URI[sha256sum] = "e8e88f5a79c78e542cd84fee60b67dbf29cee63e4760e8d61544fea74c761ad1"
++SRC_URI[md5sum] = "8998c9eb7e491b0aec420a807ce52ba6"
++SRC_URI[sha256sum] = "cc53a6d4d5643f8993ef20d6b638f88d9035529a9e777e222073c3a5b9237178"
+ 
+ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
 -- 
 2.20.1
 
