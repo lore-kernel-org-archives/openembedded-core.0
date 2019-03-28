@@ -1,26 +1,28 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED127CF88
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D4837CE73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 12:03:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2SC3NON018309
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 05:03:33 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.190) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 28 Mar 2019 05:03:13 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Mar 2019 20:13:35 +0800
-Message-ID: <a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1553775186.git.Qi.Chen@windriver.com>
-References: <cover.1553775186.git.Qi.Chen@windriver.com>
+	Thu, 28 Mar 2019 12:06:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2SC6Ukw024548
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Mar 2019 05:06:30 -0700 (PDT)
+Received: from [128.224.162.190] (128.224.162.190) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Thu, 28 Mar 2019 05:06:30 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190327140922.109867-1-alex.kanavin@gmail.com>
+	<20190327140922.109867-6-alex.kanavin@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <21d76d15-fb59-6b0c-cad6-814236b66616@windriver.com>
+Date: Thu, 28 Mar 2019 20:16:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] binutils: fix PV to respect upstream tag and also cve database
+In-Reply-To: <20190327140922.109867-6-alex.kanavin@gmail.com>
+X-Originating-IP: [128.224.162.190]
+Subject: Re: [PATCH 6/8] binutils: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 12:03:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Mar 2019 12:06:30 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Setting PV to "2.32.0" results in cve checking tools failing to
-report the actual unfixed CVEs. We need to change it to "2.32".
-After the change, when `bitbake -c cve_check binutils-native', we have:
+Hi Alexander,
 
-  binutils-native-2.32-r0 do_cve_check: Found unpatched CVE (CVE-2018-1000876 CVE-2019-9070 CVE-2019-9071 CVE-2019-9072 CVE-2019-9073 CVE-2019-9074 CVE-2019-9075 CVE-2019-9076 CVE-2019-9077)
+I just sent out a patch to change the PV to "2.32".
+If it's 2.32, does this var still needs to be set?
 
-Checking the upstream repo, it has tags like:
-binutils-2_29
-binutils-2_29_1
-binutils-2_29_1.1
-binutils-2_30
-binutils-2_31
-binutils-2_31_1
-binutils-2_32
+Best Regards,
+Chen Qi
 
-So we'd better respect both upstream tags and cve database and use '2.32'.
-If binutils 2.32.1 is released some day, we then change the PV to '2.32.1'.
+On 03/27/2019 10:09 PM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/recipes-devtools/binutils/binutils-2.32.inc | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+> index 74239868151..15406441241 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.32.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+> @@ -14,6 +14,11 @@ def binutils_branch_version(d):
+>       pvsplit = d.getVar('PV').split('.')
+>       return pvsplit[0] + "_" + pvsplit[1]
+>   
+> +# Actual upstream version is 2.32 (without the .0), so we have to set
+> +# UPSTREAM_VERSION_UNKNOWN to avoid the version check failure. The line can
+> +# be removed when a new version of binutils is released (if the PV is then
+> +# correctly set to match the upstream version tag).
+> +UPSTREAM_VERSION_UNKNOWN = "1"
+>   PV = "2.32.0"
+>   BINUPV = "${@binutils_branch_version(d)}"
+>   #BRANCH = "binutils-${BINUPV}-branch"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.32.inc | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
-index 7423986..b728c4e 100644
---- a/meta/recipes-devtools/binutils/binutils-2.32.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
-@@ -10,13 +10,7 @@ LIC_FILES_CHKSUM="\
-     file://bfd/COPYING;md5=d32239bcb673463ab874e80d47fae504\
-     "
- 
--def binutils_branch_version(d):
--    pvsplit = d.getVar('PV').split('.')
--    return pvsplit[0] + "_" + pvsplit[1]
--
--PV = "2.32.0"
--BINUPV = "${@binutils_branch_version(d)}"
--#BRANCH = "binutils-${BINUPV}-branch"
-+PV = "2.32"
- BRANCH ?= "binutils-2_32-branch"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
--- 
-1.9.1
 
 
