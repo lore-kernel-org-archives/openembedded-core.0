@@ -1,50 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 455B67D17B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+	[209.85.166.54])
+	by mail.openembedded.org (Postfix) with ESMTP id BB3DA7D139
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 15:26:53 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id a25so17585320edc.8
+	Thu, 28 Mar 2019 15:37:24 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id c4so17587380ioh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 08:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Y9mmfg66LAgibh0la9k4cSOQAAF1UikSpREP1uR0ob0=;
-	b=riccm+FWIs80LbmZ/1sXZvQdgqHYLDZSwqRh24dBC1GC0ud0b+QkQfNnac28DBFtF6
-	z3YYcmQ6sYeHM4l9j84Bo+cLB9Kq6hYiqElFOSApO5ngMpLE+5GIhEdZerP4AAgo38NP
-	vGVRj2yD7uoQ5nn73jgKPFG6hTPRe7gbN2xo4=
+	Thu, 28 Mar 2019 08:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=AnmbRdUXFU5/2+kS5AYZ0A/ABnPhC6YniNSktLgHgyA=;
+	b=aR/gDdUf7rhq6X3xPNBWN6ec7n+ed8CeowH6sIfA84Iw3bjyb2NGASqjylNIFX06Qn
+	3LAgNxg360xgCs6Kf8TEa55dsPzITGh3Z01o90X604GhGuIcvQ3qRgFQ7EdX9bInQSrv
+	ULclXAqSltyLisUJy7BrZHb1KBMWyRllGuMN2RWHJi8K/1jUq3dKiMsCQ0dCp8hMeO9h
+	ykU7Y3tnnGl3zCADbG8rjYSt2pNV3/U5jVWtnxM3/M31bG8YHK0+cx+Bjre/Ua4RYcOg
+	6S+vqZF7/PLlLkr0rGjsoAkMMq9H0rkZa8qwsprrdacqI1UVFuzNlcm6imS08NnlNF5s
+	7KkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Y9mmfg66LAgibh0la9k4cSOQAAF1UikSpREP1uR0ob0=;
-	b=g+3kbTeR/+zLL5hSic6vE5Ad4KI9C3QQWcg95a4zkYMJTCIx1750bKMysDgSSZkzrr
-	6nixhKxRO2ch9uIqgHEpuGkZzszYduIz66UtygwaZSgAjt3TlE0RMZIepHgVa8PNv573
-	YLM9kVxPSTK39AlgbyokL5xpuKyaU/msVz8tr55GRl17GDweUz0PHw7+VjNHu8TZLGbL
-	KtvqUKSedDoGvl+noJYB7bSNxCtIW9K0tRsrHwq1pf7J1OSadz4CISdD6/E3ln/ccQXn
-	cE4tZr7w+nMSZ+QF4gV0DxdV3V0N+Vc2rRq4Hhf0n1jwbNS4MvLXHLDBPmTAGENcLjaT
-	MUkg==
-X-Gm-Message-State: APjAAAUhAPZ2Yx45bb2grOPSw/UmyKY+sXK3U7UepMIUCPdxSGl+qWo5
-	lFG9QzLlr62gy/d7CosiICwpsw==
-X-Google-Smtp-Source: APXvYqxzzpSj46d9+TeYfMZVSOD59YwBcHLvdqh0FoihZLGxMN2Kp/yCeA0682aCA+7+GYBvUiDY1Q==
-X-Received: by 2002:a50:b7b6:: with SMTP id h51mr27067350ede.277.1553786813958;
-	Thu, 28 Mar 2019 08:26:53 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
-	[65.184.134.105]) by smtp.gmail.com with ESMTPSA id
-	h34sm8354478edb.13.2019.03.28.08.26.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Mar 2019 08:26:52 -0700 (PDT)
-Date: Thu, 28 Mar 2019 11:26:49 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20190328152649.GO18421@bill-the-cat>
-References: <20190328144105.31018-1-ross.burton@intel.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=AnmbRdUXFU5/2+kS5AYZ0A/ABnPhC6YniNSktLgHgyA=;
+	b=FTEnlmjNHN3HXbZqFSYLroPYrgyh0weaPpG4eMoMOQYrUPOolmzIe6tXxlwAzbbIIm
+	acCGQtOgaYsbl40t98cXGF4g3eYgWDliOiBBgkz+Xn9NEyoaGoMdCWt4dFrKWeRFDlwf
+	d6jalJJjfDTwdWK6zBlF/dGg+TBBJT40bNMmRFgxDK37VC8m/pptOzhxc2qTsvlkvHWa
+	yosWwXPbq0tpd+HWjpii7k82w0hYKW82I7X9xqlRTuCCZ1Y/y0I1rL5a4aF1Sd7JLkpy
+	xq823PCol8X5iD3OHx0UzGdnOj6BuMqbqy28rTFlloy0sE9qW7Vc9qdCCw8dUYJBxX6G
+	Nb5w==
+X-Gm-Message-State: APjAAAVzmeUaolvU6DECQVE/PVhQ6iFvnvPxhAgn4v4yl/q64WXJUJOu
+	Pi6oQBMwVfCe5eTq0HHlU3HPazfb9ejKSQm9o9ViH3pD4+4=
+X-Google-Smtp-Source: APXvYqwfjGpamd5cc2yRHbpk/CQZtypYeeefZRMSZANu1gZGCiDy9PBWntAy83fQXdH+HobW3Fw0+XODplJV74hu0ug=
+X-Received: by 2002:a6b:1495:: with SMTP id 143mr28738659iou.201.1553787445780;
+	Thu, 28 Mar 2019 08:37:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190328144105.31018-1-ross.burton@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] binutils: set CVE_VERSION
+References: <20190328033340.18022-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190328033340.18022-1-zangrc.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Mar 2019 15:37:14 +0000
+Message-ID: <CAJTo0LZyL1GdHMGe9XHTkfSwc1jzRTu0a-BL1N+RHAp06DBUeA@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf:upgrade 2.38.0 -> 2.38.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,53 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 15:26:53 -0000
-X-Groupsio-MsgNum: 122729
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uSq2Gy3oURbCATAm"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Mar 2019 15:37:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---uSq2Gy3oURbCATAm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 28 Mar 2019 at 03:33, Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+> -Upgrade from gdk-pixbuf_2.38.0.bb to gdk-pixbuf_2.38.1.bb.
+>
+> -Delete gdk-pixbuf/0001-Fix-a-couple-of-decisions-around-cross-compilation.patch beacuse this patch has been fixed.
+>
+> -Delete gdk-pixbuf/0001-loaders.cache-depend-on-loaders-being-fully-build.patch beacuse this patch has been fixed.
 
-On Thu, Mar 28, 2019 at 02:41:05PM +0000, Ross Burton wrote:
+packages/corei7-64-poky-linux/gdk-pixbuf/gdk-pixbuf-bin: FILELIST:
+removed "/usr/share/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer
+/usr/bin/gdk-pixbuf-thumbnailer"
 
-> PV is 2.32.0 even though the actual release upstream is 2.32.  To a human=
- this
-> is insignificant, but to automated tooling it matters.  Specifically,
-> cve-check-tool can't identify CVEs that are in 2.32.
->=20
-> Set CVE_VERSION for now, which should be removed when PV and the upstream
-> version match again.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Why?
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+packages/corei7-64-poky-linux/gdk-pixbuf/gdk-pixbuf-dev: FILELIST:
+removed "/usr/bin/gdk-pixbuf-print-mime-types"
 
---=20
-Tom
+Why?
 
---uSq2Gy3oURbCATAm
-Content-Type: application/pgp-signature; name="signature.asc"
+packages/corei7-64-poky-linux/gdk-pixbuf/gdk-pixbuf-ptest: PKGSIZE
+changed from 17746564 to 52 (-100%)
+packages/corei7-64-poky-linux/gdk-pixbuf/gdk-pixbuf-ptest: FILELIST:
+removed "/usr/libexec/installed-tests/gdk-pixbuf/large.png
+/usr/libexec/installed-tests/gdk-pixbuf/pixbuf-stream
+/usr/libexec/installed-tests/gdk-pixbuf/aero.gif
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/tga/gtk-logo-gray-8bpp-top-right.tga.ref.png
+/usr/share/installed-tests/gdk-pixbuf/pixbuf-jpeg.test
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/tga/gtk-logo-24bpp-top-right.tga.ref.png
+/usr/share/installed-tests/gdk-pixbuf/pixbuf-randomly-modified.test
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/tga/gtk-logo-cmap.ref.png
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/tga/gtk-logo-rle-24bpp-bottom-right.tga
+/usr/libexec/installed-tests/gdk-pixbuf/bug775229.pixdata
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/tga/gtk-logo-cmap-rle-8bpp-top-right.tga.ref.png
+/usr/libexec/installed-tests/gdk-pixbuf/test-images/reftests/bug696331.png
+...
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Where's the test suite gone?
 
-iQIcBAEBAgAGBQJcnOe4AAoJEIf59jXTHXZSjFgP/ipzo5/V+uMWILMem3lk3eCL
-gQWlqYgfw5m0Vu6bTIHwK/fl3qogZdSfKJbElBK6Pc6GQkPaDHFNyj63+E6bJAhi
-oIr2EGc2WEmU2dv14risxTzt+gpKeTd1wccBbH1I7KKY2rWWkgarwQ/pP7TuLJne
-APqly+Tj8AKMLnXYaBbhZ9RS7qga5BxwA7GpSkUhihKImXCnrZHuWL/XtwvVth5H
-jVXFC60eBpe14mbPHn2+UKkAV8OU8lzHmJ/peB6HZZV+bfI/EE7y4xtkIkQk5MFo
-2RGNAW3xU6n1el0THMnNalWJGPajS+wJlaQsHSq+oUWd250Dve+47XlnhdUUmhZC
-OctkOeFZ6AV9VL09ISEHSCO1hx3uL3Eq4LsZZqg/WBbw7Vv8jjuyHfvyjtSsOuHL
-pQaDpT13ESfCMGw5ojUDUF9VqUMk53Pau5+2WQQ/ZzBRySsFt6ZGzPiXDUXBIC0y
-BkZQGvZE+RZLYqQvKSec987WYWLkgVykUj80HqXTf6dVPzWYl4pFKkYDikHae0dm
-/B4jaEYSpDnpfNPtDyJ1RMFx0SnNxD65WWGvOx7XEMOFteh8nQRWgsweZoUefJ0i
-wUvJIYISXdPg5toiYDQhumVANYUc54j1eLkofTf45WPDA7m4C/z62CVaKvrhYlqo
-9D2WtQ4LJG1ewv5GO4pk
-=MzuT
------END PGP SIGNATURE-----
+Ross
 
---uSq2Gy3oURbCATAm--
