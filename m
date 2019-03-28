@@ -1,48 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
-	[209.85.210.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D9667CDE4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 04FEE7D186
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 12:08:14 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id e80so18066278ote.5
+	Thu, 28 Mar 2019 12:35:30 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id n25so1054991wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 05:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fFCsWPmKXhb2l3R/oNnsyA17ob7HYJCG4dMyze2MuME=;
-	b=TcZFnwjBRTJsytJRxI+6gR9/h5gRvvYZZMRMfbEsvWH0aYTu5BhWb7hn6V+ygEOCcS
-	QB9Fpu1P1bn5XXGBEqbJ8s61aXZb5XmCEo93uxiFmt4CN3mA5aZNGJx1Bj59x8t9uvGM
-	HXWAlr0McwAaE4ggwhua+vYbFQHFM3Jiom9h+rAdvNXKjfpTJOpstghvJjZgfnukcKnV
-	fVSv3FwtzprqfwM/f4wi5ffRstJhTokwyIcGqZPQ76lxdzVl/mDN2qMBG32nV++XSOL0
-	2BKLfJrJHZoeE9+NjUx5plRMestQJr9yZd7olkYzR7MwAs/16hhsqsqIoNJF0K3BpdqJ
-	zW6A==
+	Thu, 28 Mar 2019 05:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=+Tzzb6o8RwCQqXWNLmWaZxCM0v6xHoyS2GNY7vmu5wc=;
+	b=V9XtsXwV8u2U/8Su6Gp7ChWdMmZEkn4jg64Uhq6anzEG2OPcu5aqlmmxLHGGznRSOL
+	dYqApQObqcdZe7xfuDT0+KZwyqDkxmvL3Hf0ai3PKOKCp2ENIQd40AOB+A30vsyrpe/6
+	AQ5z5dvCVeucTQnejtZ82EUlsY0sGjcbF9cPXDyy/SQXFbGS49/V2iWDI8PnwE+vn1DS
+	rRbt2mBf5axkj2sHAe+gOh72QuUT5Nv0yvRC/Wo5IkDJNjhPcB+ZuinUpTHOZ865fmSy
+	ZCCYfiq1Ud7paXDlnBQRgzAOBZjoQXdk+g/an3XFUMgJ98AWksGmt+rSQray9YoEnaJh
+	zAIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fFCsWPmKXhb2l3R/oNnsyA17ob7HYJCG4dMyze2MuME=;
-	b=k1M7j/TQCf9xE34Tx79BPB3k1/YS6L1lfOrZmZtNkqnEO4dMEjIKWkHzy7IdP2n+Dd
-	oqvLjfA/eLxA/4SvdQ4wsnJLAAVH0Zi3hj80NuPvm/5lScP9Ktyg3NdJddXC/6FXTv1E
-	RpYcYVBoBagKKLGHtObv/Da4NcJfTQif5kIPSMjgsmj8Q1loVY9e4Gu58+tXw6PQwpDE
-	VhkXvyh4SSq6Gwo6nfc5Tyq3pymipyHRhGQTxosdoPGCxpQsbvNMHOJ8vFHQN4BQJyja
-	QYROUS8Ae/i9X2NZjc1xATvBfzqGB7IPdYdGuZnOLyBN4GNTXEqBE2nQ8ekF5di8SVSy
-	RKzg==
-X-Gm-Message-State: APjAAAWH8DWTSctpk3fePGoxYLFwL7mQbOgn5P0d+XUyh3iRzi6LD7a6
-	NXv8bgkqhWUPd9IcBLJ2h3YKCjKv07sby6iXW2OWP/Oa
-X-Google-Smtp-Source: APXvYqyTTpC9aLCITmCUULq5S/kz2z8dqADlkiztk78SirgXdjGZx+vinE6NGr0hBw4NWeQFD+KiqTVxI4TAHok2QSg=
-X-Received: by 2002:a9d:4a9c:: with SMTP id i28mr14037579otf.326.1553774895953;
-	Thu, 28 Mar 2019 05:08:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190327140922.109867-1-alex.kanavin@gmail.com>
-	<20190327140922.109867-6-alex.kanavin@gmail.com>
-	<21d76d15-fb59-6b0c-cad6-814236b66616@windriver.com>
-In-Reply-To: <21d76d15-fb59-6b0c-cad6-814236b66616@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Mar 2019 13:08:04 +0100
-Message-ID: <CANNYZj8dG=S-k3g_G_7wiU6D5ZzCs4iug2spToPMDFv9yzmefQ@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] binutils: fix upstream version check
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+Tzzb6o8RwCQqXWNLmWaZxCM0v6xHoyS2GNY7vmu5wc=;
+	b=oaW6BK8UaafKkb0lCL5UXlm55GpZnjRdLZ7livsYEINwgobCwZyfExrzOKqwOh0nGG
+	HvBdN7GmO8QXPrldLLwGpTy3a1UD5nxuTTAOcBJcrm6Kiw90o0MigC6jNDRYCQgVYEY2
+	xaEXP4OmdEHPsAjGQ5hnV0lnX7It3LjnpVu1XSBcsWf2Q+XQakrFFFbYDslUhfq7kQYG
+	RVElFt7hI1O1zA+yXVA7nYnKcJAUQE+ydr/eZ3/FKlZVcPOy+Ybjb8eXYaw1KdsArL7r
+	z5dgWHzVP32wEZljgIc/qRrQCP0gAkIAao1ZBu/JcpezpUt/VWVY/JU8okSVMMcYHAFP
+	uDeA==
+X-Gm-Message-State: APjAAAVTOfQq+2baRbeGkJ+SvkGToODOU/QVxIMpodBwdzdxWX3bb4IY
+	C1bMdmv8NqhWm3I7+Kkf4VWauijRNWo=
+X-Google-Smtp-Source: APXvYqxNSSYwCKPSV9gIQiTVRrXaC2TUiNiwdLNtS1uMnBMsQyZzgGScb6+tmE+ntIv87iEiz//i9w==
+X-Received: by 2002:a7b:c04c:: with SMTP id u12mr22891434wmc.71.1553776531515; 
+	Thu, 28 Mar 2019 05:35:31 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id w2sm1030038wrm.74.2019.03.28.05.35.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Mar 2019 05:35:30 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Mar 2019 12:35:29 +0000
+Message-Id: <20190328123529.10475-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] llvm: support older toolchains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,15 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 12:08:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Mar 2019 12:35:31 -0000
 
-On Thu, 28 Mar 2019 at 13:06, ChenQi <Qi.Chen@windriver.com> wrote:
-> I just sent out a patch to change the PV to "2.32".
-> If it's 2.32, does this var still needs to be set?
+LLVM is now warning if your host compiler is gcc <5.1, and some of our supported
+operating systems still only have 4.8.5.  Set
+LLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN so those builds continue to work, hopefully
+we retire the old operating systems before LLVM requires 5.1+.
 
-No, it does not need to be set then, but changing PV to 2.32 is
-otherwise problematic - see my other email I just sent.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/llvm/llvm_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Alex
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 01a7da8ebdc..7832441482e 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -70,6 +70,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+                   -DLLVM_OPTIMIZED_TABLEGEN=ON \
+                   -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
++                  -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON \
+                   -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python2 \
+                   -G Ninja"
+ 
+-- 
+2.11.0
+
 
