@@ -1,50 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
-	[209.85.160.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 147C97D19E
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B2B67D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 13:46:09 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id s15so7417649qtn.3
+	Thu, 28 Mar 2019 13:46:48 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id q14so17252873edr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 06:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=go+ZUEN+v0GBWmMkBiNK2LBbETNqNmraf0crTQTbKr4=;
-	b=D03S75LQs1KT9Ze7l5JL25zZJDGjtuGW88o9jCxN0BG08kaElRSnjEPyHI5c7lOvMh
-	h+Q61/HYCxL1ZlGiWMnGS+CKFogFyA2p314sTBlAtVaYJWx0suFb3GbY1ysOKOC1nxic
-	9iTiSP6NlmOMRlTK1is+yKzbj2eNgfB09LleIM6kQ8JlXHQNkw1W0rQG+TK8NEhM4Vmw
-	i1VcVtYyES3Yp8BThkc60SnQ8pME2TOC954QpJYkwDfTsFJA8J6/PIaPe4qJPLGG29vi
-	/+oRWxEnpeU8BhdUMs7SBD9hWUl0FVCLWdSQq40anZY+SkKI9mpzrfLjGWfHY3tmC53m
-	tNaw==
+	Thu, 28 Mar 2019 06:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=6KarvtuymF3A255eouocsa5kBTZ7yfCZ2UcwdJ9dQx4=;
+	b=f2Gv5UmDwu3Jtp0YXzPyuOJbmpaf43on2NZavdwPAujZxCfOlfGbqTwZRmlCJhBacV
+	6hd6UAyKbfEgVgZgwz46o7sGp3npqyorXRhsxLHDitWA0DaSrF4QwexXPr7LCkRIhOy8
+	RLGQ1vqXoCE/2tM72nu848kAiciucOWMFPAMM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=go+ZUEN+v0GBWmMkBiNK2LBbETNqNmraf0crTQTbKr4=;
-	b=jj/sV8pTU22TeGzkP1XcNMHTjk7hGItyMoj+tpox8vggUu3iivDwUujzQ3FG6HFA5g
-	Eth8fKED+IP2NE8ye7bQHX7YSxATxpZZ6yVP1ZUGoqKgNUlv04+9RMeIUinClWN7W5mZ
-	uhkjjioLU3s5KoHmV4vPxVs2W35jBdH9pLGdVGphD0fq/PzbWYqckuI3gMQIjv/3UYLb
-	nO73bSVeqlyCKgKKWpty4e7bwoAM9fboL1dliLnbGhbly0/EcRRRh296ayQFBnUUarIg
-	43UDi3DrtMp/z6xpOFz7hARoU4+nyn5lUKSqNZUZ+4gRKFGywQGz1NAX0ZTPuVCnJ7GP
-	zCPA==
-X-Gm-Message-State: APjAAAVF0fnOTxpsaBfFfkJrAAMKPT2Al/eNImFNiLynQODLmufioA1Z
-	bqn3xGu2xId7Vijja3ce76beNJq+x7l8oZTEaxI=
-X-Google-Smtp-Source: APXvYqwKDKkkQgwqMdESq0jOPe5Rk5uueU5NCisPOvTdPB9++011iuIsqNQBJmN/trTamswlWoJQBcDcU+kLLE5XtEA=
-X-Received: by 2002:ac8:2f10:: with SMTP id j16mr36752607qta.29.1553780770612; 
-	Thu, 28 Mar 2019 06:46:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190326120157.4397-1-ross.burton@intel.com>
-	<CAMKF1sprxcvAtLQsu-dueRZtvPXvo+ozg9HZ+w+yU417sU3AfQ@mail.gmail.com>
-	<CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
-	<CAJTo0LbEU7BUHyYYCOi7rvEFmyPq5te1fJhPiW4yTYbtHVpGZA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbEU7BUHyYYCOi7rvEFmyPq5te1fJhPiW4yTYbtHVpGZA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Mar 2019 06:45:58 -0700
-Message-ID: <CAMKF1soXDhAXL0vOyJUDBEjhzajnfMouZqsUcF01CEnu4aQZUQ@mail.gmail.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=6KarvtuymF3A255eouocsa5kBTZ7yfCZ2UcwdJ9dQx4=;
+	b=SqUJtx5phvZ2evUjLKudcHxquAKttr/4+DS4To5g6IA+XW0gI67QNkqPp3S2Yti3jF
+	s3AQBqLLg7sdg03Wgog3OCl2ODPomRfzlWaBI9vijn7jo69EsC5fnyx0fMKYBR61KzOm
+	q4dONjJctpfnnyW1EO5fqrcZ4icjj5GstztcFaROqq/f4kSwHT7iHxiO9bg2l7qKQYWQ
+	fU0MeLa6plMrrBto0riUlK82KB88ChRBo7iEqH6cjnyCkjmFG6fvdccwd16pol0+e9/f
+	FZMvYTXUqGH3gwpEVAmio5p8udiy4qCg0orLo5gEFLkacKOeCm/t5LEsaZJFA8rxndCO
+	NNZA==
+X-Gm-Message-State: APjAAAVL9q4XohGQyYPqOABEV8Wylhz/O7X7VE5RKFsdhrcna4lOy7Vr
+	H5naDltKXDjTBFSS8dNTCm8wMg==
+X-Google-Smtp-Source: APXvYqyrs9XMJZ8s0SfJrl8eFah8xjVffjlt7oJmDqGfmPyuL8NwqVhBVNHOsEk6yomAXrW1vuY5jA==
+X-Received: by 2002:a17:906:48c8:: with SMTP id
+	d8mr24087075ejt.208.1553780809078; 
+	Thu, 28 Mar 2019 06:46:49 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
+	[65.184.134.105])
+	by smtp.gmail.com with ESMTPSA id k3sm7896606edi.65.2019.03.28.06.46.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Mar 2019 06:46:47 -0700 (PDT)
+Date: Thu, 28 Mar 2019 09:46:44 -0400
+From: Tom Rini <trini@konsulko.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib: set glib-specific cross properties
+Message-ID: <20190328134644.GK18421@bill-the-cat>
+References: <cover.1553775186.git.Qi.Chen@windriver.com>
+	<a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
+	<CANNYZj_xbMheU=FEenRYkccJwxG10mJPHSqmwekt+EqAV=FumA@mail.gmail.com>
+	<CAJTo0La3fza0yn=dcWYWjSh00oJD1NQg8UMDOYSN0w_y4qODXw@mail.gmail.com>
+	<CAJTo0LYwZ0WNNsA0Wm+uzAsuAHHiRzKOE=aGZZOkRfa56Furpg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYwZ0WNNsA0Wm+uzAsuAHHiRzKOE=aGZZOkRfa56Furpg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] binutils: fix PV to respect upstream tag and also cve database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,135 +62,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 13:46:10 -0000
-Content-Type: multipart/alternative; boundary="000000000000e42d59058527c61b"
+X-List-Received-Date: Thu, 28 Mar 2019 13:46:48 -0000
+X-Groupsio-MsgNum: 122718
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EGjwyTcQXITbA3JU"
+Content-Disposition: inline
 
---000000000000e42d59058527c61b
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Mar 28, 2019 at 5:48 AM Burton, Ross <ross.burton@intel.com> wrote:
-
-> On Tue, 26 Mar 2019 at 19:41, Andre McCurdy <armccurdy@gmail.com> wrote:
-> > > > +growing_stack = false
-> > >
-> > > this is mostly true for arches we support but maybe a comment
-> > > to check it when doing explicit arch ports ( e.g. arm can grown both
-> ways)
-> >
-> > Not on EABI or any other ARM ABI which could possibly be targeted by
-> > OE... unless you have evidence to prove otherwise?
->
-> Evidence, no.  Anecdotally:
->
-> $ grep glib_cv_stack_grows *
-> arc-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> arm-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> arm-darwin:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> arm-darwin8:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> ix86-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> microblaze-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> nios2-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> powerpc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> riscv32-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> riscv64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> sh-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> sparc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-> x86_64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
->
-> Yes, this technique needs to be extended and generalised so it can be
-> overridden on a per-platform basis, but for now it appears that
-> everything we care about has the same values.
-
-
-All I asked was to add a comment about it
-So if someone is porting OE to new architecture then this will be a great
-hint to check for
-
-
->
-> Ross
->
-
---000000000000e42d59058527c61b
-Content-Type: text/html; charset="UTF-8"
+--EGjwyTcQXITbA3JU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Mar 28, 2019 at 5:48 AM Burton, Ross &lt;<a href=3D=
-"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On Tue, 26 Mar 2019 at 19:41, Andre McCurd=
-y &lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gm=
-ail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; +growing_stack =3D false<br>
-&gt; &gt;<br>
-&gt; &gt; this is mostly true for arches we support but maybe a comment<br>
-&gt; &gt; to check it when doing explicit arch ports ( e.g. arm can grown b=
-oth ways)<br>
-&gt;<br>
-&gt; Not on EABI or any other ARM ABI which could possibly be targeted by<b=
-r>
-&gt; OE... unless you have evidence to prove otherwise?<br>
-<br>
-Evidence, no.=C2=A0 Anecdotally:<br>
-<br>
-$ grep glib_cv_stack_grows *<br>
-arc-common:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-arm-common:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-arm-darwin:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-arm-darwin8:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-ix86-common:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-microblaze-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips64el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips64el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips64-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips64-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsel-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsel-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa32r6el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa32r6el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa32r6-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa32r6-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa64r6el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa64r6el-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa64r6-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mipsisa64r6-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-mips-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-nios2-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-powerpc-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-riscv32-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-riscv64-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-sh-common:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-sparc-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-x86_64-linux:glib_cv_stack_grows=3D${glib_cv_stack_grows=3Dno}<br>
-<br>
-Yes, this technique needs to be extended and generalised so it can be<br>
-overridden on a per-platform basis, but for now it appears that<br>
-everything we care about has the same values.</blockquote><div dir=3D"auto"=
-><br></div><div dir=3D"auto">All I asked was to add a comment about it</div=
-><div dir=3D"auto">So if someone is porting OE to new architecture then thi=
-s will be a great hint to check for=C2=A0</div><div dir=3D"auto"><br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><br>
-<br>
-Ross<br>
-</blockquote></div></div>
+On Thu, Mar 28, 2019 at 01:17:11PM +0000, Burton, Ross wrote:
+> On Thu, 28 Mar 2019 at 13:15, Burton, Ross <ross.burton@intel.com> wrote:
+> > On Thu, 28 Mar 2019 at 12:07, Alexander Kanavin <alex.kanavin@gmail.com=
+> wrote:
+> > > The problem with setting PV properly, is that 2.32 is less than 2.32.0
+> > > and will cause the 'version going backwards' problem. But if RP/Khem
+> > > are fine with it, I would prefer your patch.
+> >
+> > I just had a look at the code in bitbake and yes, it actually even
+> > tests that 1 < 1.0.  I'd say that there's an argument for handling .0
+> > releases specially and considering 2.32 =3D=3D 2.32.0.
+>=20
+> Of course that test exists for people using feeds, and at least dpkg
+> thinks 2.32 < 2.32.0, so even if we changed the test the feed would
+> still be broken.
 
---000000000000e42d59058527c61b--
+Breaking feeds on purpose is bad, so this is a case to pump PE?
+
+--=20
+Tom
+
+--EGjwyTcQXITbA3JU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcnNBEAAoJEIf59jXTHXZSr/cP/0DknvLBPIWl0uMxJV8OJTlF
+rSrS3ryB1cjVwi5PrzIavwYYUtFSarrpCEGizeMWyszHhCTzwHw5mqrQcDfPRiKp
+i61kwwb8aN60XIhOzkkS0nKfhaU95DO+l3TqbFNl+PdxgXLFCqPvBaviQYzUq5O4
+RlGNdYOnH3K0rrQYHTLzqBxV3pzj1iL+cqFj9eGTsM3Y7oNZequp3dc0tU0luqnL
+n8kSnwfaCH9DNnVM7zuglVab0ypUGHIaJ+K09DqTjNQlu2ul1/4ln8VmfZLmBV2m
+liE8zxvTadvPWfBTEwofx3JEB3lGJ2xE03oEGgTIhxRMB4OsT7GC4sjxOwq2DHs5
+6Ew/vZZ7MitZcjk1sbw/uZn0A2cJj8l+eDsYKH7xAKcGndd1jCrn5tNB+5nmqQdI
+gEXqnanRQRWyRqjJN4fPqE0Phq6qf5A+2r8DKbkrYW0H78l0cTb7ahCvf05A72vE
+hsKE9TnVNhxPkAK5ii69s6RYgbvW8CzhoXnGLWaTEyoYmetL1sJYbfBXTMdmYglQ
+R38ySb15afeIPJniLA/yUnbajcIM6tyzNtfF+iIBCN8QYB6A5AZS7NMrFQEpm+vX
+DonZYj7gwd+9e/OSEqfLPTXhtKZlyvKnyuxN8mGAelbsct13KJ57Ce9DPRyiPYOf
+pIr9nssIDsD2qTfOkZxM
+=XKsG
+-----END PGP SIGNATURE-----
+
+--EGjwyTcQXITbA3JU--
