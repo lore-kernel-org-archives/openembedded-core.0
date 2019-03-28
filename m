@@ -1,49 +1,48 @@
-Return-Path: <vincent.prince.fr@gmail.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 7444A60107
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D26F7C8B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 10:20:22 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id g3so18650709wrx.9
+	Thu, 28 Mar 2019 10:21:38 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id v14so3325509wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 03:20:23 -0700 (PDT)
+	Thu, 28 Mar 2019 03:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=MOmETW3hwU9c7KpAvklVCFma9iHgug+UevDF5CwIew4=;
-	b=Zo2xHMJetsSBB5n1GrqhfKqkzfcP492cvyG96XrFvL4qu5P/3sq7x+FBinme/kBcNY
-	xSw5MUg+PhwwPgU3mBAAj5ea7Pd17bH0MJSxJeAneAijYjmg9GP6AqlI7sc+eXmnabZZ
-	Jkf4QKnrfLnb9hU/9uj9Bf+9RrhVrRLa2DMUa2h+sPeJdXWbTz596/MRS5TOBUG+cfct
-	G8Kjmd1sDfWBPEF/hMFs87Mhtcd31PhizY6PcJba/G2weEhjUZzWbiRbWcDo7NMD1ocD
-	x2xbT9fHj2+fIcFvNe8hNnXqmj2fdXJRfe2h9aQET0Armz9tQJZDeebsY23FinzhVTIo
-	HtUw==
+	bh=qw3+Sh5TFJZ6xQI3yVaaQCixXlsKkRL/xah5nWNWCr8=;
+	b=LhJLyopNgfIMprCTfVNwOXT0W9jTKS4jqXZHX7XrIfDcxZShLvpEKaMgHHwW8szx/B
+	eYhJ7GjdSCgfZDoqiSGnb09kwupaEt3lDzRaSrpOA1OAV3aCSDYUutiJoncWPg8yd/G6
+	kdBmpiz6KGDtJoXAlF7mAEQktuUijwak9R+sWM3qiZu9QMViD9Ey7ncS6ymePtpfTWTV
+	sl3fppghN6SyQGmhQtIXQIhg539Pc8BfUH8Chto6N+FhUeyw6RrVTs7VN2vC4Mhqh4qv
+	Mh6aCvICJTFoIsJklc/JneizH3HVO2Ikf0/envG7d5/R8fq1rytFBa0nD8oJUwXgJXpy
+	0vzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=MOmETW3hwU9c7KpAvklVCFma9iHgug+UevDF5CwIew4=;
-	b=LOkJbgvQHcEJeXq/6eQNgYZ1O6PCAbtZUuZCNke8LI2BkCWN3VFwggWWf3o7qSQeXJ
-	tLfkAH6nDjY8kR4CAt0l3apagPJm+ZT4pTLo54MVonKk+NBouHVCpOn3eOopIoJdbMN1
-	IiX+HLNlaz1d8vusnlK0FvbL2Hmno7qphvHa4SCpBXSpn54QOtyrBeVMsLFLtWEFblN2
-	uy1SKUc35lLEwituQSgYcMjbwBDu5u+JOHUoYWYI873HgRanD4QedW1xJOdGryRtvqLK
-	P/pbr0MZ64H1z+m0wPJrQzreJojerkEiZY0Gcti+IrNYpIipq3yxBF/SnWkk/jPvVTKB
-	aqLg==
-X-Gm-Message-State: APjAAAUETjrjmhx3SPcG7vPQXKituX24iG/pZ8yYsLJcZNn/sPjMd9ZH
-	Nah5MplUzqIjPTLZVxBHbl4g+vw+YeM=
-X-Google-Smtp-Source: APXvYqxQO7D9HQASDzQQwNocB8y3QMeCTiPmOp66qqS7k1WFFtSmKknylJ164BBkn6Y0TyHpv8a7CA==
-X-Received: by 2002:adf:e889:: with SMTP id d9mr2698015wrm.162.1553768422853; 
-	Thu, 28 Mar 2019 03:20:22 -0700 (PDT)
-Received: from VM-VPR.corporate.saft.org
-	([2a04:cec0:1083:9625:11a2:46f1:124a:8a32])
+	bh=qw3+Sh5TFJZ6xQI3yVaaQCixXlsKkRL/xah5nWNWCr8=;
+	b=VUhM3ei40CUWY2Izd39maOBA8I5r1KyF7Gdi1UM2feFDyMnw1FPBEqzK+/IpYCEs7m
+	gCQRptdmpdPiqwOAAq2OagQQD7MGpQoTi8V+Nj0KbGXbj13M13wy3ZoDwzcuy35phcY9
+	SlwOxZyCmSYzcVx3HVrY+tsK+CjagnP+kTSwc078Pyii691GJhHpjYoCbtu2qzthRQA7
+	43aa/Mcm2QQzzMfTQWCSC3yDb8Oc+7rE5q9eSwYvWzjJeoZ6vYUj3AXMYIsuJsLBc0Lv
+	NLVwaY+LDRXDOUsbfVFxBiUUW/mhC1kX40Ke/igpHmlusjT5kuo2St/997oSS9OqZJUg
+	YpqA==
+X-Gm-Message-State: APjAAAXzJOMRhM107ELYbjekT/XFyispd8lh1RqQEwBLFftmNmIarw76
+	/rDt5Jf7wirj35QF0QfkkAOnB4Lu
+X-Google-Smtp-Source: APXvYqzuKYm6QR10ihvKmGgmxKIkpEwg/E26uweqJBkjmZyTj6FeXGloMANiSkXpYrNousWjQywK6g==
+X-Received: by 2002:a1c:f610:: with SMTP id w16mr2596775wmc.42.1553768498888; 
+	Thu, 28 Mar 2019 03:21:38 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	b204sm3598518wmh.29.2019.03.28.03.20.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Mar 2019 03:20:22 -0700 (PDT)
-From: Vincent Prince <vincent.prince.fr@gmail.com>
-To: openembedded-core@lists.openembedded.org, alex.kiernan@gmail.com,
-	texier.pj2@gmail.com
-Date: Thu, 28 Mar 2019 11:20:17 +0100
-Message-Id: <1553768417-9355-1-git-send-email-vincent.prince.fr@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3] Systemd: Add pattern matching support to PACKAGECONFIG
+	l12sm27482659wrt.31.2019.03.28.03.21.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 28 Mar 2019 03:21:38 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Mar 2019 10:21:39 +0000
+Message-Id: <20190328102139.23427-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] glibc: always use bfd linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 10:20:22 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 10:21:38 -0000
 
-libpcre2 is needed to enable grep option to journalctl.
+* Work around broken ld-2.29.so when gold is used
+  causing qemu-arm to segfault during e.g. gobject-introspection
+  or postinst at do_rootfs time, more details in:
+  http://lists.openembedded.org/pipermail/openembedded-devel/2019-March/198937.html
+  https://sourceware.org/bugzilla/show_bug.cgi?id=24148
+  https://sourceware.org/bugzilla/show_bug.cgi?id=10937
+  https://sourceware.org/bugzilla/show_bug.cgi?id=18103
 
-Signed-off-by: Vincent Prince <vincent.prince.fr@gmail.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v3:
-- Reformat commit message
-
-Changes in v2:
-- Fix false case option
-
-
- meta/recipes-core/systemd/systemd_241.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index a12b9ab..bfbfc81 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -151,6 +151,7 @@ PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
- PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
- PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
-+PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=false,libpcre2"
- PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
- PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
- PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
+diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+index 9184c5932c..073d1533e3 100644
+--- a/meta/recipes-core/glibc/glibc_2.29.bb
++++ b/meta/recipes-core/glibc/glibc_2.29.bb
+@@ -110,7 +110,7 @@ do_configure () {
+ 
+ do_compile () {
+ 	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
+-	unset LDFLAGS
++	LDFLAGS="-fuse-ld=bfd"
+ 	base_do_compile
+ 	echo "Adjust ldd script"
+ 	if [ -n "${RTLDLIST}" ]
 -- 
-2.7.4
+2.17.1
 
 
