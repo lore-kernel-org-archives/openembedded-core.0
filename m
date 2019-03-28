@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 04FEE7D186
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 766947CE73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 12:35:30 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id n25so1054991wmk.4
+	Thu, 28 Mar 2019 12:48:21 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id e24so5768630itl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 05:35:32 -0700 (PDT)
+	Thu, 28 Mar 2019 05:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=+Tzzb6o8RwCQqXWNLmWaZxCM0v6xHoyS2GNY7vmu5wc=;
-	b=V9XtsXwV8u2U/8Su6Gp7ChWdMmZEkn4jg64Uhq6anzEG2OPcu5aqlmmxLHGGznRSOL
-	dYqApQObqcdZe7xfuDT0+KZwyqDkxmvL3Hf0ai3PKOKCp2ENIQd40AOB+A30vsyrpe/6
-	AQ5z5dvCVeucTQnejtZ82EUlsY0sGjcbF9cPXDyy/SQXFbGS49/V2iWDI8PnwE+vn1DS
-	rRbt2mBf5axkj2sHAe+gOh72QuUT5Nv0yvRC/Wo5IkDJNjhPcB+ZuinUpTHOZ865fmSy
-	ZCCYfiq1Ud7paXDlnBQRgzAOBZjoQXdk+g/an3XFUMgJ98AWksGmt+rSQray9YoEnaJh
-	zAIQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=66PQHj2+8lAKsFdXpENENz9vfsY2zCCgO7nmOljCSDk=;
+	b=fe/ik3Hu6d/rDtCdkY7QK77186TJC/+eN58pyjw/kgjyBipS6Tn8bpYirPpMEVYKVN
+	1OFeEGSzx82n6wCXJFxmAZEn+UMnR9I1bqkrNqFo3M6dLpNtSxn3ruvFopUVMF9bE4gT
+	rt4hDKYd69QoL5fykaaxUxbwsKcYyOyEns8slpgzVo8z+al5ICvSMMOh6Flf8EiIKg0B
+	yd9y+rGK5jxj73Bfn/ep8iOCoRwXkppDPgS/bYR6kZZAhOFVoyJCCajjymlyOqjXaz0T
+	RP3oJI0ia+djIzzSruK5PP3pcSadMBSMIoremJ3yLC2Awm6aC/SnQFgaE+Am3g247VgC
+	x9vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+Tzzb6o8RwCQqXWNLmWaZxCM0v6xHoyS2GNY7vmu5wc=;
-	b=oaW6BK8UaafKkb0lCL5UXlm55GpZnjRdLZ7livsYEINwgobCwZyfExrzOKqwOh0nGG
-	HvBdN7GmO8QXPrldLLwGpTy3a1UD5nxuTTAOcBJcrm6Kiw90o0MigC6jNDRYCQgVYEY2
-	xaEXP4OmdEHPsAjGQ5hnV0lnX7It3LjnpVu1XSBcsWf2Q+XQakrFFFbYDslUhfq7kQYG
-	RVElFt7hI1O1zA+yXVA7nYnKcJAUQE+ydr/eZ3/FKlZVcPOy+Ybjb8eXYaw1KdsArL7r
-	z5dgWHzVP32wEZljgIc/qRrQCP0gAkIAao1ZBu/JcpezpUt/VWVY/JU8okSVMMcYHAFP
-	uDeA==
-X-Gm-Message-State: APjAAAVTOfQq+2baRbeGkJ+SvkGToODOU/QVxIMpodBwdzdxWX3bb4IY
-	C1bMdmv8NqhWm3I7+Kkf4VWauijRNWo=
-X-Google-Smtp-Source: APXvYqxNSSYwCKPSV9gIQiTVRrXaC2TUiNiwdLNtS1uMnBMsQyZzgGScb6+tmE+ntIv87iEiz//i9w==
-X-Received: by 2002:a7b:c04c:: with SMTP id u12mr22891434wmc.71.1553776531515; 
-	Thu, 28 Mar 2019 05:35:31 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w2sm1030038wrm.74.2019.03.28.05.35.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Mar 2019 05:35:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Mar 2019 12:35:29 +0000
-Message-Id: <20190328123529.10475-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] llvm: support older toolchains
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=66PQHj2+8lAKsFdXpENENz9vfsY2zCCgO7nmOljCSDk=;
+	b=NHSL6GvgCBUNm9xJvb3UNyYNHhPGlIIn00TnShIiE+Ql8WUNG2tI1In5Ewo6fXE1w4
+	OVPc6uPkGMAuyM8ShizBOk3ySA3RwA/cQBiBrtrsewKhu04BYBLefYaXQieJIXugnrus
+	N9uy33PAWk5xhK6VwH/mJhWu7VjNRVZrS+6Bmhb3GUw97NkuOcPchjRaI5s6tgQ/QcRM
+	CnusgaOeKID41b3mFYrkdA63nrICc0/QxE/GXHrjGx7aGEis12nDneN0tYYWSZHVRlfz
+	dq+ZZ5TxNAIx/bn5toTb8sFqDIurW/7txVMPJ6DcXQkAaKMNgqYfdoXoX1X42YPWJihv
+	Cn+w==
+X-Gm-Message-State: APjAAAW65YhmA5TvKg8mjvBFW5lZ+BBBrQjTT7Q+zNWCC49/LK+kOp8U
+	UQYFTPdfNRjWIQYeYNGfkvwDkXT9iL05/g5zSHqSXQ==
+X-Google-Smtp-Source: APXvYqzuK0o5SXMYG/BhiM3g1syR9YEl/PcO9oheHGlf7WOPga/X4nPZWk7dxp3KkNMkdAPnsBl3hwajMIhCs874zyA=
+X-Received: by 2002:a05:660c:111:: with SMTP id
+	w17mr7265462itj.62.1553777302501; 
+	Thu, 28 Mar 2019 05:48:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190326120157.4397-1-ross.burton@intel.com>
+	<CAMKF1sprxcvAtLQsu-dueRZtvPXvo+ozg9HZ+w+yU417sU3AfQ@mail.gmail.com>
+	<CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Mar 2019 12:48:11 +0000
+Message-ID: <CAJTo0LbEU7BUHyYYCOi7rvEFmyPq5te1fJhPiW4yTYbtHVpGZA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib: set glib-specific cross properties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +58,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 12:35:31 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 12:48:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-LLVM is now warning if your host compiler is gcc <5.1, and some of our supported
-operating systems still only have 4.8.5.  Set
-LLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN so those builds continue to work, hopefully
-we retire the old operating systems before LLVM requires 5.1+.
+On Tue, 26 Mar 2019 at 19:41, Andre McCurdy <armccurdy@gmail.com> wrote:
+> > > +growing_stack = false
+> >
+> > this is mostly true for arches we support but maybe a comment
+> > to check it when doing explicit arch ports ( e.g. arm can grown both ways)
+>
+> Not on EABI or any other ARM ABI which could possibly be targeted by
+> OE... unless you have evidence to prove otherwise?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/llvm/llvm_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+Evidence, no.  Anecdotally:
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 01a7da8ebdc..7832441482e 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -70,6 +70,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-                   -DLLVM_OPTIMIZED_TABLEGEN=ON \
-                   -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
-+                  -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON \
-                   -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python2 \
-                   -G Ninja"
- 
--- 
-2.11.0
+$ grep glib_cv_stack_grows *
+arc-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+arm-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+arm-darwin:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+arm-darwin8:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ix86-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+microblaze-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+nios2-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+powerpc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+riscv32-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+riscv64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+sh-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+sparc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
+x86_64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
 
+Yes, this technique needs to be extended and generalised so it can be
+overridden on a per-platform basis, but for now it appears that
+everything we care about has the same values.
+
+Ross
 
