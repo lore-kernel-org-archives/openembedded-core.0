@@ -1,51 +1,49 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
 	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 766947CE73
+	by mail.openembedded.org (Postfix) with ESMTP id 37B1D7CD89
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 12:48:21 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id e24so5768630itl.1
+	Thu, 28 Mar 2019 13:15:19 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id l4so8310792ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 05:48:22 -0700 (PDT)
+	Thu, 28 Mar 2019 06:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=66PQHj2+8lAKsFdXpENENz9vfsY2zCCgO7nmOljCSDk=;
-	b=fe/ik3Hu6d/rDtCdkY7QK77186TJC/+eN58pyjw/kgjyBipS6Tn8bpYirPpMEVYKVN
-	1OFeEGSzx82n6wCXJFxmAZEn+UMnR9I1bqkrNqFo3M6dLpNtSxn3ruvFopUVMF9bE4gT
-	rt4hDKYd69QoL5fykaaxUxbwsKcYyOyEns8slpgzVo8z+al5ICvSMMOh6Flf8EiIKg0B
-	yd9y+rGK5jxj73Bfn/ep8iOCoRwXkppDPgS/bYR6kZZAhOFVoyJCCajjymlyOqjXaz0T
-	RP3oJI0ia+djIzzSruK5PP3pcSadMBSMIoremJ3yLC2Awm6aC/SnQFgaE+Am3g247VgC
-	x9vw==
+	:cc; bh=G5HQZi6S8iEJqm7FgK+yVD/bcSMZMgw8BqxxmuU0Ob8=;
+	b=lh41W6NpQJIvQsA+Wpk1zdHf02XvUrop1lUgKRvPEv2dS8oyV5eeY6uq6II0VYj+WH
+	ie2mKlHKNJS397WGgFinqWaA6ctD2+WZp+jcnucMz27wkzvuySbKtfobWM1/2ThpXdpA
+	o4fjUY4canRI5zTt2f+tnFVN8UHhs74HTEDvLjCzQ9quGRYM+g1U5aeFdELAHJ83Zc3r
+	u6Jg0Fnm5lXh9Qj67Xuih9EfdX8l8cjqSE910ptOOjtVFANEf0jcFfu31hY30nSO39Rg
+	82DkSvUrl83H5757BOj/mCOxzH8us3FKCMK/WF3Dot4G3R9xa3AzAzzJbJ0d5JDNCGzn
+	t/3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=66PQHj2+8lAKsFdXpENENz9vfsY2zCCgO7nmOljCSDk=;
-	b=NHSL6GvgCBUNm9xJvb3UNyYNHhPGlIIn00TnShIiE+Ql8WUNG2tI1In5Ewo6fXE1w4
-	OVPc6uPkGMAuyM8ShizBOk3ySA3RwA/cQBiBrtrsewKhu04BYBLefYaXQieJIXugnrus
-	N9uy33PAWk5xhK6VwH/mJhWu7VjNRVZrS+6Bmhb3GUw97NkuOcPchjRaI5s6tgQ/QcRM
-	CnusgaOeKID41b3mFYrkdA63nrICc0/QxE/GXHrjGx7aGEis12nDneN0tYYWSZHVRlfz
-	dq+ZZ5TxNAIx/bn5toTb8sFqDIurW/7txVMPJ6DcXQkAaKMNgqYfdoXoX1X42YPWJihv
-	Cn+w==
-X-Gm-Message-State: APjAAAW65YhmA5TvKg8mjvBFW5lZ+BBBrQjTT7Q+zNWCC49/LK+kOp8U
-	UQYFTPdfNRjWIQYeYNGfkvwDkXT9iL05/g5zSHqSXQ==
-X-Google-Smtp-Source: APXvYqzuK0o5SXMYG/BhiM3g1syR9YEl/PcO9oheHGlf7WOPga/X4nPZWk7dxp3KkNMkdAPnsBl3hwajMIhCs874zyA=
-X-Received: by 2002:a05:660c:111:: with SMTP id
-	w17mr7265462itj.62.1553777302501; 
-	Thu, 28 Mar 2019 05:48:22 -0700 (PDT)
+	bh=G5HQZi6S8iEJqm7FgK+yVD/bcSMZMgw8BqxxmuU0Ob8=;
+	b=VrgTRGpbNWdC+byqCsin+1RPPU14asqn7v7gu2ry4+RtZrknUsrY6SiHXXHL4w0kw+
+	WU41ThWQumDD2oh92qUsHKeIs8yRyKb7+2SiCETr6UQJMVuF7LPia9GXmYK8ty2J66gU
+	R5doavwldWF8VNPE5bdaVI09GLhKibtcvi8YKsVr1ghaZxTe/C3QqGTLWbVbMIP9eoCU
+	vICHs6qXRvTYZoz8JL7c2sdBzsji5/cRNqd594xgYNoprE8lNxEq/yX1BcmvXfzK5KXf
+	zvbAMxpXnfhBXcfNxAv/+FKbBfYSiX3NNy1NWdozn3TNrwg1JqXnpRaf7rasRprYNZ0A
+	HO7w==
+X-Gm-Message-State: APjAAAVFos1ERuDnYpq1JyS2kwGs9u/6bCEc7hcb1IT8KNfk8wMCpQjz
+	mplDDotbGNe0uLTzR0A1zB+XgwWTa7uArPIxTuZ6SQ==
+X-Google-Smtp-Source: APXvYqxmEG9D2ky16fhahMXCv6FV6jmegMH2ueKN7PvKTJS0biEjcURlkroX2WIVPe6n17roDWjBJBSUkYjeCkfNK5A=
+X-Received: by 2002:a02:7654:: with SMTP id z81mr31696761jab.79.1553778921153; 
+	Thu, 28 Mar 2019 06:15:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190326120157.4397-1-ross.burton@intel.com>
-	<CAMKF1sprxcvAtLQsu-dueRZtvPXvo+ozg9HZ+w+yU417sU3AfQ@mail.gmail.com>
-	<CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=VZpLxYwh2Su+HLFCJFvbEm043fyiaBf4Dezo66O-h=aQ@mail.gmail.com>
+References: <cover.1553775186.git.Qi.Chen@windriver.com>
+	<a1544536fd186e7326faec46f7e35c6a1d33e45e.1553775186.git.Qi.Chen@windriver.com>
+	<CANNYZj_xbMheU=FEenRYkccJwxG10mJPHSqmwekt+EqAV=FumA@mail.gmail.com>
+In-Reply-To: <CANNYZj_xbMheU=FEenRYkccJwxG10mJPHSqmwekt+EqAV=FumA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Mar 2019 12:48:11 +0000
-Message-ID: <CAJTo0LbEU7BUHyYYCOi7rvEFmyPq5te1fJhPiW4yTYbtHVpGZA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib: set glib-specific cross properties
+Date: Thu, 28 Mar 2019 13:15:09 +0000
+Message-ID: <CAJTo0La3fza0yn=dcWYWjSh00oJD1NQg8UMDOYSN0w_y4qODXw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] binutils: fix PV to respect upstream tag and also cve database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +56,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 12:48:21 -0000
+X-List-Received-Date: Thu, 28 Mar 2019 13:15:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 26 Mar 2019 at 19:41, Andre McCurdy <armccurdy@gmail.com> wrote:
-> > > +growing_stack = false
-> >
-> > this is mostly true for arches we support but maybe a comment
-> > to check it when doing explicit arch ports ( e.g. arm can grown both ways)
->
-> Not on EABI or any other ARM ABI which could possibly be targeted by
-> OE... unless you have evidence to prove otherwise?
+On Thu, 28 Mar 2019 at 12:07, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> The problem with setting PV properly, is that 2.32 is less than 2.32.0
+> and will cause the 'version going backwards' problem. But if RP/Khem
+> are fine with it, I would prefer your patch.
 
-Evidence, no.  Anecdotally:
-
-$ grep glib_cv_stack_grows *
-arc-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-arm-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-arm-darwin:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-arm-darwin8:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-ix86-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-microblaze-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips64el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsel-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa32r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa32r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa64r6el-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mipsisa64r6-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-mips-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-nios2-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-powerpc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-riscv32-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-riscv64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-sh-common:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-sparc-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-x86_64-linux:glib_cv_stack_grows=${glib_cv_stack_grows=no}
-
-Yes, this technique needs to be extended and generalised so it can be
-overridden on a per-platform basis, but for now it appears that
-everything we care about has the same values.
+I just had a look at the code in bitbake and yes, it actually even
+tests that 1 < 1.0.  I'd say that there's an argument for handling .0
+releases specially and considering 2.32 == 2.32.0.
 
 Ross
 
