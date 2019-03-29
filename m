@@ -1,21 +1,21 @@
 Return-Path: <Changqing.Li@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CE616BE39
+	by mail.openembedded.org (Postfix) with ESMTP id ACAA76BE39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 06:40:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2T6e0dd013325
+	Fri, 29 Mar 2019 06:41:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2T6fP7r013356
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 23:40:10 -0700
+	Thu, 28 Mar 2019 23:41:40 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 28 Mar 2019 23:39:49 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 28 Mar 2019 23:41:24 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Mar 2019 14:39:48 +0800
-Message-ID: <1553841588-296038-1-git-send-email-changqing.li@windriver.com>
+Date: Fri, 29 Mar 2019 14:41:23 +0800
+Message-ID: <1553841683-296665-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Subject: [PATCH] gdk-pixbuf: fix run query-loaders fail
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 06:40:20 -0000
+X-List-Received-Date: Fri, 29 Mar 2019 06:41:49 -0000
 Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
