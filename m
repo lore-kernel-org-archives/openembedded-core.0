@@ -1,56 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
-	[209.85.166.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EBCB6B512
+Return-Path: <zboszor@pr.hu>
+X-Greylist: delayed 1079 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 29 Mar 2019 19:03:11 UTC
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 592DF6D4C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 17:01:32 +0000 (UTC)
-Received: by mail-it1-f174.google.com with SMTP id y10so3033813itc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 10:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=K78mFvmthVnBMtgjfeiVUUHPD01wK4AMdoHAdueDH1A=;
-	b=Z4/R7uTqIKDLLGu8QEPK7McxdC4ozVcqbmQ3RJh0NgWOAN0LAPvPmJlbFTgIFYTChL
-	CVFpvzpd65CKgE4ht/rBJKHqp3Wuo2AVe7H7fIcGAF0PBUdVKCZiIXRiQVRpWxhBZX5N
-	r1letdw8MlSWmIMzUmME6thKgWfpeSlhqazM8Fx3ht6sDibF7W6nYCRvXHRHgISIUtF/
-	XYaNZpaUTGcr48phR6+ws007exi92ShJjmrG22tLTWi048mRbqd3NUZgT/86e9RDfTZm
-	CE2XdFhd2sOcwGzDl38YVxDa5sladHwKiyqZgL/7bZ9aiXdQaWZlzGLjZUc1tontR766
-	C6Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=K78mFvmthVnBMtgjfeiVUUHPD01wK4AMdoHAdueDH1A=;
-	b=m7yyvw+RrOL+UyE3JbiagE3HrEvtf+xwr7xooL16kdt+cDPG0TXiqSxlkdIs3HgqJw
-	6GdRv0hUFsPdTXUT5kEv32a+ckTsefVcdvrjIY/ALQ+QG6CYWNdh9TBCYgkdq+hAlXuX
-	7RvLiOkPIYAEcWAIdcfkePd5x9GoBlzV2vwtI4JobAGMuDpmTGkPVg/n3TC6BTwVrfbJ
-	Ze5JDXoD6SA1Js0HbCNiVnB5iKKqYWMFzcD9t6LfDlOelV3tEDhDi6lgWNcIke4duH+G
-	9Y1E1rWknuAfchHW7Sqk+UprlUsptMl4lcWa1UrmoyrlGELepG0vYu1e1nJ84z22Rs/G
-	fp4A==
-X-Gm-Message-State: APjAAAXdrZVG9KemIVy1Kx0QxOb0akT6/KSyuVblzUQyIxOV0DA5bfKs
-	6RknQAW3HymZkVaMnFDacx33S7QiUbG+FEtp9qT6pA==
-X-Google-Smtp-Source: APXvYqyd3RtXMb8BDQzeS9wS94FKhIbtQKUItLQMYKLTQUdXQSFzaYCCJJ29Mus6bnr/Ghcs7ynDQS7z+UuJ3f73maU=
-X-Received: by 2002:a24:ad2:: with SMTP id 201mr5032995itw.26.1553878893538;
-	Fri, 29 Mar 2019 10:01:33 -0700 (PDT)
+	Fri, 29 Mar 2019 19:03:11 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1h9wWg-0006Mt-1u; Fri, 29 Mar 2019 19:46:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:References:To:From:Subject:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=JLqSiY65+/4sAc5NH0rrQ7dXpnuj0c5NfX28TRBuDM4=;
+	b=Pvd205PD8tSqn/pjcvvPaQTn9a
+	LgL4I5PFmQuDz22zCU6OWDLGXXJODNkHOF1LZKia82XxOsaG9sGz3g0D0rraQb7glsBXfVV3bu7Ri
+	i6meEczvrrj3wVA5xjdG+LVrIDT3niIwjAlmlSKINd0pBRkeXtHVssewwt/W4k+HEtckE1JcUxgIg
+	TEI5FWNkZtXuZCjyujewro0c5WGwrdewpWnRYm1VWGysVhwjYBDR9sfLM4RNg6vvz/jQRWnoEcJQX
+	CR4J9ZQDV1s+4+0NAIyAw78YyelUs50m38FnSJgQMk39TT4hGdvyD1wF/SmketwR5a6cc90nLVCeM
+	LXaR74wg==;
+Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
+	helo=localhost.localdomain)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1h9wWc-000647-1C; Fri, 29 Mar 2019 19:46:47 +0100
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190325234413.12652-1-ross.burton@intel.com>
+	<81187d94-e706-91ed-c23b-b3bba5122152@pr.hu>
+Message-ID: <c9d547a6-b3d5-b645-57af-11309d9ea00f@pr.hu>
+Date: Fri, 29 Mar 2019 19:46:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.0
 MIME-Version: 1.0
-References: <20190326102919.7348-1-schnitzeltony@gmail.com>
-	<CAJTo0La2G+3qUPzXOC6B0Mjwr70ygPuttHuNzfV85GRy3pZYpQ@mail.gmail.com>
-	<CANNYZj8Ds1A5o-C7tQspQgWc=7rT1FaMD1ALpPMKmi51pMn5ag@mail.gmail.com>
-	<CAJTo0Laq_H-C+-S5zNU+4c5urQ5Y2Hy4oSe63EoQZotnLkFsDw@mail.gmail.com>
-	<CALbNGRTJYpi90K4VYtSfTq7kJj1Fukvu_iGGx=D-n6hDrNH7Pg@mail.gmail.com>
-	<CAJTo0LYQHcaAg=ikVDWSQjBTgTOwTTRmtpKnNUvbuK0UjRuJWA@mail.gmail.com>
-	<CALbNGRRu-VFXsZVLU9HeQx232-oDPxRVDKG4EjCvaXhLe87QSA@mail.gmail.com>
-	<CAJTo0Lar4HWEaQVZFiUCcvBnnjcam8smPsnR0MrLWgHaSsXFCA@mail.gmail.com>
-	<CALbNGRQU1CUfv=R3M1YJKHsdZn6Khsifnw46-9EjTifQoRapDw@mail.gmail.com>
-In-Reply-To: <CALbNGRQU1CUfv=R3M1YJKHsdZn6Khsifnw46-9EjTifQoRapDw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 29 Mar 2019 17:01:22 +0000
-Message-ID: <CAJTo0LbFHZrKrgrEh86oL=D4EQ-rH7ywft26wRMMNrMbZmttyw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gtk+3: add librsvg to DEPENDS
+In-Reply-To: <81187d94-e706-91ed-c23b-b3bba5122152@pr.hu>
+X-Spam-Score: -1.4 (-)
+X-Scan-Signature: 02d3abc61471e6dd9f9388029c518d83
+X-Spam-Tracer: backend.mail.pr.hu -1.4 20190329184647Z
+Subject: Re: [PATCH] libcomps: put PV in filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,18 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 17:01:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Mar 2019 19:03:12 -0000
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Fri, 29 Mar 2019 at 15:33, Andreas M=C3=BCller <schnitzeltony@gmail.com>=
- wrote:
-> Hope adwaita-icon packs remain complete / have librsvg from elsewhere
-> in my images.
+2019. 03. 29. 19:45 keltezéssel, Böszörményi Zoltán írta:
+> 2019. 03. 26. 0:44 keltezéssel, Ross Burton írta:
+>> This isn't a git snapshot recipe but a release that is fetched over it.  For
+>> clarity, put the PV in the filename.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>   meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.1.10.bb} | 1 -
+>>   1 file changed, 1 deletion(-)
+>>   rename meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.1.10.bb} (98%)
+>>
+>> diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb 
+>> b/meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+>> similarity index 98%
+>> rename from meta/recipes-devtools/libcomps/libcomps_git.bb
+>> rename to meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+>> index ff6820851fe..1c4f3bde65e 100644
+>> --- a/meta/recipes-devtools/libcomps/libcomps_git.bb
+>> +++ b/meta/recipes-devtools/libcomps/libcomps_0.1.10.bb
+>> @@ -9,7 +9,6 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
+>>              file://0001-Add-crc32.c-to-sources-list.patch \
+>>              "
+>> -PV = "0.1.10"
+> 
+> # opkg compare-version git "<=" 0.1.10 ; echo $?
+> 1
+> # opkg compare-version git "<=" 1:0.1.10 ; echo $?
+> 0
+> 
+> You need to increase PE to be able to upgrade the new recipe
+> in case you publish this package in a repository.
 
-The theme itself doesn't mean pulling in librsvg.  Whatever is using
-the icons is responsible for that, so if you're using something GNOMEy
-then that's gdk-pixbuf + librsvg.
+Sorry, dumb comment, ignore it. PV was overridden inside the recipe.
 
-Ross
+> 
+> Best regards,
+> Zoltán Böszörményi
+> 
+>>   SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
+>>   S = "${WORKDIR}/git"
+>>
+> 
+
 
