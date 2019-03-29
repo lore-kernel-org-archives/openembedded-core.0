@@ -1,53 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E0F7D256
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FE807D256
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 14:29:10 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id h4so2847877wre.7
+	Fri, 29 Mar 2019 14:29:38 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id x7so1907058ioh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 07:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=UoxSFwcfGXbbOOOOW1uWu0i+PdksxDvxDp2WQf6v3LQ=;
-	b=nf6ClSfDHTzYUhC7xaR0FznRos53GBmWA0u1M7TnCUaOOT6NB6DefXchmJnllRs6sE
-	GcqwAG5PK32sfIOyhJ3pI7DrUTI+cwYNNxFNxuT2wO1TLTSJVI95HudLEbLAUxet0sQV
-	zCFb9M5aAxqqKFQLpaS/8fvldoqTqUkH1tdM2vCm9kj2UFWldj0LNH9DwoD1AhW2XAil
-	I7xFxDB5e60uhZQ6PZ2wPUJDnyf8VOTdDr/IdPPfd85a4cNuVX4JSaZH3RIkOKk1HXhb
-	auepVN7HKUENZprWD8kPLLtBGjGgncFioEXsQmwQPEJl3S7dL4brIIG/Lxk4dRarBeZ7
-	SThg==
+	Fri, 29 Mar 2019 07:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2ZajZdXmLvo7fb2wv+pkwnaRh01aM+Lb+YRWCl39Sbw=;
+	b=ndo/9M3AmTfPMrm0mOhvuPZilJ26hoEe/FYCmNn5pEtI7PwSJMaLoGABX+nJasphaR
+	ufgstUx1J40+13GuNbwX66MvcNJ4OQer0BzEHE/omn1knY1a2kJ0hS24W3FfO4vjH5Ah
+	7U73Y5OytOJI6BNwagAEUEyFHVsye5h1kxOgxspbyyjOSjkjOE+piGf6S9YbYOJxGmVE
+	0rtuCFTN3rotKflvmeZBqCRPPmocV0DR3cSv02tGjsAhikoNBpWrt0p4Xr2ozeO7ZzWF
+	bLpv0IHUshXwMNE7gNOai7/0LtOI9Lo5b6AnitMNc+VqDjWxw3ikQ6XkGtGiWNE4h2XN
+	z1Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=UoxSFwcfGXbbOOOOW1uWu0i+PdksxDvxDp2WQf6v3LQ=;
-	b=B/fCrxgL4Z0akn6R/GJfDULdSlkqIVnbMvBFrITGinn8qGMBamO1BFS4w5gegUq2aT
-	COSCPC0fkNRLF7KHqlIXvfoFxfXVS9Q/ZrL88Ys/MYZ97EVes7CAASumkMays4O5zwbA
-	2CW8YdtMazudwyqVJaYXWTbNrxVXxBX6QymOp/KlfX4gCcLoRVrBq5Er/aEfUP53CH0B
-	voOnGRzadt1A9uapYD6nvBysWHn7SeacZixCuOXDtsXZs7tS3/GI9ZbFojL+Y3xnT+58
-	9NMMTAK1vuYC5MrwL/R5Y/GDvqfwXjCjqvcnaE8XV7wLnUrSdHgC69B/SqUJeNcZLH2B
-	Rj6g==
-X-Gm-Message-State: APjAAAWPYkng3Ih13JQ1hcGZg7hGIXFanSijsSMnJCFyDJyQB+gjauBl
-	wBjQOVb7KcVBzRei3kOxU1xrIwKrAyc=
-X-Google-Smtp-Source: APXvYqx28/kXeMJOHl5J0ovUeILh3+7jLlTg6YG3CQ7XX9wy5ji4xoNFiyZyDU+Ld70O6cAfgEaoDg==
-X-Received: by 2002:a05:6000:14a:: with SMTP id
-	r10mr5222049wrx.107.1553869751443; 
-	Fri, 29 Mar 2019 07:29:11 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e193sm4358537wmg.18.2019.03.29.07.29.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 29 Mar 2019 07:29:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Mar 2019 14:29:05 +0000
-Message-Id: <20190329142905.20123-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190329142905.20123-1-ross.burton@intel.com>
-References: <20190329142905.20123-1-ross.burton@intel.com>
-Subject: [PATCH 3/3] gtk-icon-cache: clean up DEPENDS
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2ZajZdXmLvo7fb2wv+pkwnaRh01aM+Lb+YRWCl39Sbw=;
+	b=JhkW52NpKcDHqpeky+LhwxuWNJQtSr8QFzSfDiKsh5G7rpYzswb28Y41QaVhNcEUFu
+	TglOwgbiCT018Po7IqL9TwV8fpUelvRyytSlEEkDOWzY3nIauVAxLNKL68qWQYVzFxhZ
+	NFHX3uL8JlQlQB+ek0F1sCVlr3knsJu45AKUmIwwgdbR37emRAw67dar92CDmgxjqLit
+	Iqslp7/2sT8ti83zUBtIhUOjQVa2gpKeXvD9raN2/jEj4hcly26YwSeRY0cmhPSPs9iF
+	yzA+RiYzFvwn4WhwXgWt0BvKfEWKRjW9PELT5uLiMAdl4bsdjukIXrJGUr9Vd8t0YeDB
+	jbLA==
+X-Gm-Message-State: APjAAAXajKM3h8fwkMBrteus35J5Pls9BrF9c6qHaJnJyGTW/aHmyuLF
+	ZItKnpLVZs/r3sclSVx9ZC7L6JN/9KTSBf9d65c=
+X-Google-Smtp-Source: APXvYqyAQ5HAZP8rrO6hRPxzsyQdQc44znq9NRnszMbPdvR/dvKch0p6wKZKLTDA1V7y78WPwVgbivLsjsWSKRbHbqg=
+X-Received: by 2002:a6b:f909:: with SMTP id j9mr9629664iog.272.1553869779508; 
+	Fri, 29 Mar 2019 07:29:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190326102919.7348-1-schnitzeltony@gmail.com>
+	<CAJTo0La2G+3qUPzXOC6B0Mjwr70ygPuttHuNzfV85GRy3pZYpQ@mail.gmail.com>
+	<CANNYZj8Ds1A5o-C7tQspQgWc=7rT1FaMD1ALpPMKmi51pMn5ag@mail.gmail.com>
+	<CAJTo0Laq_H-C+-S5zNU+4c5urQ5Y2Hy4oSe63EoQZotnLkFsDw@mail.gmail.com>
+In-Reply-To: <CAJTo0Laq_H-C+-S5zNU+4c5urQ5Y2Hy4oSe63EoQZotnLkFsDw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 29 Mar 2019 15:29:26 +0100
+Message-ID: <CALbNGRTJYpi90K4VYtSfTq7kJj1Fukvu_iGGx=D-n6hDrNH7Pg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gtk+3: add librsvg to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 14:29:11 -0000
+X-List-Received-Date: Fri, 29 Mar 2019 14:29:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Instead of using DEPENDS += use _append to ensure that these additions can't get
-overwritten.
+On Fri, Mar 29, 2019 at 2:31 PM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Fri, 29 Mar 2019 at 12:11, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> >
+> > On Fri, 29 Mar 2019 at 13:04, Burton, Ross <ross.burton@intel.com> wrote:
+> > >
+> > > But GTK+ doesn't depend on librsvg at all, and this is a failure in
+> > > adwaita-icon-theme.  Why doesn't the dependency belong on
+> > > adwaita-icon-theme?
+> >
+> > I believe adwaita runs some utility that gtk provides?
+>
+> Sure, but gtk+ doesn't link to librsvg, so a DEPENDS isn't the correct fix.
+>
+> Patch incoming.
+>
+Thought same. Are you sure that does not link - or can you explain how
+DEPENDs fixed adwaita: If it does not link: How comes that librsvg
+makes it into adwaita's native sysroot?
 
-Also use gtk+3-native instead gtk-icon-utils-native as that recipe no longer
-exists and is provided by gtk+3-native for compatibility.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/gtk-icon-cache.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index d87167aec09..3572f62ebb6 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -1,8 +1,8 @@
- FILES_${PN} += "${datadir}/icons/hicolor"
- 
--DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk-icon-utils-native"
-+DEPENDS_append = " ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+3-native"
- 
--PACKAGE_WRITE_DEPS += "gtk-icon-utils-native gdk-pixbuf-native"
-+PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
- 
- gtk_icon_cache_postinst() {
- if [ "x$D" != "x" ]; then
--- 
-2.11.0
-
+Andreas
 
