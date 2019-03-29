@@ -1,49 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 146427D20D
+Return-Path: <Yongxin.Liu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B26857D1A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 23:30:13 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id h18so689078wml.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 16:30:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=9SnboO7yVwQ6NI5jlMTt74ebetK2DT19OpolJLgnTEc=;
-	b=IRQQMGR2470+7/M6wX6Qpn+H9AtXlColIk23ObbnqLYA4ejhhjKZ+kFpsALbH+MNtI
-	CVaM6HopLgX1qTsN/cjeHF9l+sGJ/kmv3FM7gvlEUXAooHtjOR9JH1bVeOutWi0rnFI9
-	lslFwWSiptpVveJSaObbJqQqHt0DcgEUnVwXThY6ppx+gqxK3At2GuyFNy8ZfI2m+vQE
-	g9Q5Kul6avMo7LzkwrqQERxgR0kelmvmrBkZDEAxGCnIATOzPyG7gCPLfZKhf6ct8G37
-	dKHjZ6L/FL5ktaN2nq9SaMB4pAGEERoFltPRNaCyZJ96EJ5HvyDO5C66WTOrMajow4bm
-	gAJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=9SnboO7yVwQ6NI5jlMTt74ebetK2DT19OpolJLgnTEc=;
-	b=QVCBfTNMHE8FBgequkUkaefcOcLqFNuF6Osm2iqR3l+r30661S840HWDI+rnW3+zCa
-	jhDH/FrVdMkCQ3ejDgKv7fkYf7cU2ju/sWGAQrk5DoOSkJjjSYSlqj+oLpey7ILZ9bRw
-	zrb4grUwo98A9M7ON97mZhppQF1wlygxuiQEURTd9oc58NhuTFGHSHQtwjzNJ2EipYAY
-	cTFSarKVihLfqBoSiwPpf1Lc9ojGShw/pTaHGeRiEB02rUAZ4AZx/PqiVugydS/ksQVe
-	9/2ONSTvl8zuEDEZULZzL6JqPyego+miMpXLr+Ea60Lt3Ed0PWkoZM17vRGjMJJwMmvN
-	mevQ==
-X-Gm-Message-State: APjAAAXXUpVVOH9pRzzlRhQjM/E2T6cSw5v6QD70TUGb1fhPONAoVRkt
-	f4N4R7iSF4GrjOYvbxyOYyYwg73eGcg=
-X-Google-Smtp-Source: APXvYqwGSHK/31wL8542q70tN1xCwKEmRD2pe89tZIC7D38LXSBinyoJCwmS3VQb9SqmHMYDefjL9A==
-X-Received: by 2002:a1c:658a:: with SMTP id z132mr1642041wmb.92.1553815814487; 
-	Thu, 28 Mar 2019 16:30:14 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id e16sm794972wrs.0.2019.03.28.16.30.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Mar 2019 16:30:13 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Mar 2019 23:30:11 +0000
-Message-Id: <20190328233011.6977-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bitbake.conf: don't build api-documentation for native and nativesdk
+	Fri, 29 Mar 2019 00:08:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2T081tK004681
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Mar 2019 17:08:17 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.68]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0439.000;
+	Thu, 28 Mar 2019 17:08:00 -0700
+From: "Liu, Yongxin" <Yongxin.Liu@windriver.com>
+To: Tom Rini <trini@konsulko.com>
+Thread-Topic: [OE-core] [PATCH] wic/bootimg-efi.py: add new source parameter
+	"initrd_rename"
+Thread-Index: AQHU5W5gMLUAz2phl0S7lZzdsSrBwaYhuz1Q
+Date: Fri, 29 Mar 2019 00:07:59 +0000
+Message-ID: <597B109EC20B76429F71A8A97770610D12A8A698@ALA-MBD.corp.ad.wrs.com>
+References: <1553683062-24444-1-git-send-email-yongxin.liu@windriver.com>
+	<20190328135834.GL18421@bill-the-cat>
+In-Reply-To: <20190328135834.GL18421@bill-the-cat>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.171]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic/bootimg-efi.py: add new source parameter "initrd_rename"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2019 23:30:14 -0000
+X-List-Received-Date: Fri, 29 Mar 2019 00:08:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="koi8-r"
+Content-Transfer-Encoding: quoted-printable
 
-DISTRO_FEATURES for native and nativesdk is filtered to contain a subset of the
-features for the target DISTRO_FEATURES.  api-documentation was a feature that
-was allowed into the native/nativesdk features if it was in the target, but
-having API documentation for native recipes isn't really useful.
+> -----Original Message-----
+> From: Tom Rini [mailto:trini@konsulko.com]
+> Sent: Thursday, March 28, 2019 21:59
+> To: Liu, Yongxin
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] wic/bootimg-efi.py: add new source
+> parameter "initrd_rename"
+>=20
+> On Wed, Mar 27, 2019 at 06:37:42PM +0800, Yongxin Liu wrote:
+>=20
+> > When using initrd in bootloader configuration file, we may want the
+> > name of initrd to be fixed. However, the actual name of initrd may
+> > change and depend on distro/machine's name. "initrd_rename"
+> > gives user a chance to rename initrd in final wic image.
+> >
+> > Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>=20
+> I'm not nak'ing this patch, but I've long fixed this by just not using
+> the "efi" plugin to make an EFI system and instead IMAGE_BOOT_FILES to
+> say what goes where.  There's a lot of cases bootimg-efi doesn't cover
+> but are handled easily with IMAGE_BOOT_FILES.
 
-As building this documentation takes time, remove it from native/nativesdk
-builds so that we only build the api-documentation for target recipes.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks Tom for your input.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7f8b043cc45..86a9e4b8281 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -833,8 +833,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
- 
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
--DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
--DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
-+DISTRO_FEATURES_FILTER_NATIVE ?= ""
-+DISTRO_FEATURES_FILTER_NATIVESDK ?= ""
- 
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
--- 
-2.11.0
+What I want to do is to copy "${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_F=
+STYPES}"
+to EFI boot partition and rename it to be "initrd", like
 
+   /boot
+    =86=80=80 bzImage
+    =86=80=80 EFI
+    =81   =84=80=80 BOOT
+    =81       =86=80=80 bootx64.efi
+    =81       =84=80=80 grub.cfg
+    =86=80=80 initrd
+
+"IMAGE_BOOT_FILES" is good to provide such function.
+How about porting "IMAGE_BOOT_FILES" to bootimg-efi.py?
+
+
+Thanks,
+Yongxin
+
+>=20
+> --
+> Tom
 
