@@ -1,53 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 155897D1A4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 815C76B06C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 00:27:22 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id v20so429547qtv.12
+	Fri, 29 Mar 2019 04:22:17 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id c20so609853qkc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2019 17:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=6Ye2kRxNFFYDHlX6I1eOivWpQlUsc5UU3p2gAsih5MQ=;
-	b=rpbcckJ2Y29kOfE9Q0qQHvGIfL3wkgd4ytZtlsxsba4VcaHmneIU9MvrQbMBNrpWNk
-	xlw8+5nzkYHc+FKlTPXjGuK/Xzt/OPArOoqmDOlXHwKakH9VKmB70oZk8ELSTKI0PClS
-	XNAxxWtHCW214oJm90H5ts1IcT8Q1/jyBBPtY=
+	Thu, 28 Mar 2019 21:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=keWxmiCoVmNqqNVmuECfKGD4uNkoO9tu/1OaVqu7/ds=;
+	b=cDc1ZDWU7XMG2jweXIEGPgH3XzG6o/UBqMjwgjC+NruTD3W4C5fwQJqSBA9/dbzm22
+	6XSJRdnnxmLIyDntGw24OKsxzOKfw0n+zcHVwwIe6eTXMbzNB4xVn/Zsl2MiS3r6ryW3
+	iFnXbioTJfMSdgSwbE//I2HvjpBYOPo/yVZ9s2rolQnZlakTVr0Xt8S11CRZnt45mQz3
+	aOTQ0UNx3aLXcWr9YkQjznQMHbwUDRzHPxLG7gtEy4zsV34dXuAudByPCCx+KwXanWLv
+	DsEDYP5hkR+fnj2rgmiaMWXKTh/lpaxect+dc9Pu2FgorIhhF8M5HhP83vsPvS92dNYa
+	AxLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=6Ye2kRxNFFYDHlX6I1eOivWpQlUsc5UU3p2gAsih5MQ=;
-	b=l68Gq87MaEp3/OiTGZzXEyh3o/ia9Y/EveVGqnTf2OYZGbhOZ7GPSNj51mQVUNo1au
-	egs4dJDXdZL5WDeaRCjJRVxmVYKMolc1bqcaMOJHzs/ORel+FRI1lzVZuos1vrJLIgXv
-	kboYrYqsbJr20Cm/BhQdg1Vode/7UQrFNxgVjv0ikm2tCCRuSZH6O2zuIs4zasfqoPQU
-	DAA0H0dOjUXsq8ZvNQ5GXF6Eu/76/EBWmPxZq3kfwcztXQX2g7NVDylMOtmUXijsdscA
-	2WRWMXvSxawwdYTuaJ1Tb4q0OUrT5Lfo0dTmq2RFpteod3wilz9OYJxAvtOYnpK4JPCS
-	T/fQ==
-X-Gm-Message-State: APjAAAWjHu35aP4MrpN/PT3+I4Zk/8VWsBhgsSooLcJ++OOex1nzE2EW
-	ybyj55dN2JBE/1YNTfIDh+Se5A==
-X-Google-Smtp-Source: APXvYqw9uRcIJ+nLEdTrRc/yB/2rOBNk56SAZYXpKcfPBN0aI1G20QpTKdE3u+adw0Q1Emq6C3A4Wg==
-X-Received: by 2002:ac8:fb0:: with SMTP id b45mr38985662qtk.293.1553819243882; 
-	Thu, 28 Mar 2019 17:27:23 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
-	[65.184.134.105])
-	by smtp.gmail.com with ESMTPSA id i63sm305266qkd.82.2019.03.28.17.27.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Mar 2019 17:27:22 -0700 (PDT)
-Date: Thu, 28 Mar 2019 20:27:20 -0400
-From: Tom Rini <trini@konsulko.com>
-To: "Liu, Yongxin" <Yongxin.Liu@windriver.com>
-Message-ID: <20190329002720.GQ18421@bill-the-cat>
-References: <1553683062-24444-1-git-send-email-yongxin.liu@windriver.com>
-	<20190328135834.GL18421@bill-the-cat>
-	<597B109EC20B76429F71A8A97770610D12A8A698@ALA-MBD.corp.ad.wrs.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=keWxmiCoVmNqqNVmuECfKGD4uNkoO9tu/1OaVqu7/ds=;
+	b=PDLePMd3A8dFtp+B7fY1GqnfYNlaFdH7MLxQleu13Hko6U3/VeBgSJWXFWl0ZUPldJ
+	xVxBiSupG22xmAgWtjfddre9ixtwza9wnP2plF5u3w+oU3NnHRuXVK78WIqPqa7u4+cL
+	mLObg1MzVjldcruHDRwXqx1AUIp4jZkI0JFhEaNP8Zu9HA9o81h6YW/mB5UoNuxmdd7h
+	mxbHTqGI2fhZM3R63XHxG2WdbxBPgzaKh0dsB6+VA7bfNrIaTXk8bhAyByPj1WjBCiMn
+	WHZiPSKDQdAqsrv4+2A4wqjaq/dPkQjYWvyj9dgfQH5uYvpfltPG1NoVm4mTcFoICIF6
+	Vthg==
+X-Gm-Message-State: APjAAAWUKpUuvAmLy8Kp+mGwcg7gfX15ukVDQJuLlMQEIsl/QhFOX8YA
+	HFSsOnIERAiv+Ej98LYgR/lBxIf+Fk8Vr3skfzk=
+X-Google-Smtp-Source: APXvYqwMu2sRqeqdZKQddXHJIUKGCUwiqF6dgHxD5KClpEVy2jAFXTn/q4/4d52q3fc8Ee0KGQcVe+aBKzphjVhPvWU=
+X-Received: by 2002:a37:6814:: with SMTP id d20mr38182021qkc.102.1553833338037;
+	Thu, 28 Mar 2019 21:22:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <597B109EC20B76429F71A8A97770610D12A8A698@ALA-MBD.corp.ad.wrs.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: "openembedded-core@lists.openembedded.org"
+References: <20190327230712.4930-1-ross.burton@intel.com>
+In-Reply-To: <20190327230712.4930-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 28 Mar 2019 21:21:51 -0700
+Message-ID: <CAMKF1soD0A=B3BoZnK9QCo_0oHDpy9zcc+hG19F4fRwvANHm5A@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic/bootimg-efi.py: add new source parameter "initrd_rename"
+Subject: Re: [PATCH 1/2] llvm: doesn't actually need pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,87 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 00:27:23 -0000
-X-Groupsio-MsgNum: 122739
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W60oSYBmhtt1VEXL"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 29 Mar 2019 04:22:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---W60oSYBmhtt1VEXL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Mar 27, 2019 at 4:07 PM Ross Burton <ross.burton@intel.com> wrote:
+>
+> LLVM doesn't actually need pythonnative, the host Python2 is sufficient but
+> cmake's executable searching currently isn't reliable in cross-compilations.
+>
+> Convince cmake by setting PYTHON_EXECUTABLE to point at python2 in the HOSTTOOLS
+> directory.  Note that currently LLVM *needs* python2 currently:
+>
 
-On Fri, Mar 29, 2019 at 12:07:59AM +0000, Liu, Yongxin wrote:
-> > -----Original Message-----
-> > From: Tom Rini [mailto:trini@konsulko.com]
-> > Sent: Thursday, March 28, 2019 21:59
-> > To: Liu, Yongxin
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] wic/bootimg-efi.py: add new source
-> > parameter "initrd_rename"
-> >=20
-> > On Wed, Mar 27, 2019 at 06:37:42PM +0800, Yongxin Liu wrote:
-> >=20
-> > > When using initrd in bootloader configuration file, we may want the
-> > > name of initrd to be fixed. However, the actual name of initrd may
-> > > change and depend on distro/machine's name. "initrd_rename"
-> > > gives user a chance to rename initrd in final wic image.
-> > >
-> > > Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
-> >=20
-> > I'm not nak'ing this patch, but I've long fixed this by just not using
-> > the "efi" plugin to make an EFI system and instead IMAGE_BOOT_FILES to
-> > say what goes where.  There's a lot of cases bootimg-efi doesn't cover
-> > but are handled easily with IMAGE_BOOT_FILES.
->=20
->=20
-> Thanks Tom for your input.
->=20
-> What I want to do is to copy "${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS=
-_FSTYPES}"
-> to EFI boot partition and rename it to be "initrd", like
->=20
->    /boot
->     =E2=94=9C=E2=94=80=E2=94=80 bzImage
->     =E2=94=9C=E2=94=80=E2=94=80 EFI
->     =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 BOOT
->     =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 bootx64.efi
->     =E2=94=82       =E2=94=94=E2=94=80=E2=94=80 grub.cfg
->     =E2=94=9C=E2=94=80=E2=94=80 initrd
->=20
-> "IMAGE_BOOT_FILES" is good to provide such function.
-> How about porting "IMAGE_BOOT_FILES" to bootimg-efi.py?
+this should be ok
 
-The only thing that bootimg-efi.py provides, in my mind, is
-auto-generation of a simplistic grub/systemd-boot config file.  I also
-don't ever want that and just list the config files under
-IMAGE_BOOT_FILES as well.  I really think we could drop bootimg-efi.py
-aside from the case where we don't have a config file for some reason
-(Stand-alone wic?)
+> https://github.com/llvm-mirror/llvm/blob/master/CMakeLists.txt#L670
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/llvm/llvm_git.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+> index d2ea927651d..31abadcace5 100644
+> --- a/meta/recipes-devtools/llvm/llvm_git.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_git.bb
+> @@ -12,7 +12,7 @@ DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
+>
+>  RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+>
+> -inherit perlnative pythonnative cmake pkgconfig
+> +inherit perlnative cmake pkgconfig
+>
+>  PROVIDES += "llvm${PV}"
+>
+> @@ -74,6 +74,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+>                    -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+>                    -DLLVM_OPTIMIZED_TABLEGEN=ON \
+>                    -DLLVM_TARGETS_TO_BUILD='${LLVM_TARGETS}' \
+> +                  -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python2 \
+>                    -G Ninja"
+>
+>  EXTRA_OECMAKE_append_class-target = "\
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Tom
-
---W60oSYBmhtt1VEXL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcnWZoAAoJEIf59jXTHXZSV4IQAIMDkkWANvx2/hhjIqPb6Sym
-vDOVLCKiDt1wLz/1q7EU0Qv2mUt5rF5KY4senoV24KUkk+lp6W3BwPikBgwl+w9h
-IsEyJCxy9Ck6Brn/9zNx30WQn1uxTHWZNB5psVFlMKLdxthXrUP8Di4DS9ag0IRl
-ChwAO6Th2Rf+GWKMAsid8LIJbP7ECRa38XHaAgv9oa+FvvlZVLT+4xqea24jvMww
-UYw8Bsdlq5aM1Nf4Xh2Rre+netNdVgkRWk1634Ih6y2yIwKPrrK6eGGnxwB+IQO5
-fpB7gmfOOmLfEBCfP6Wp04dhXYv/piTndj3tNOIqNGNohHGL7vleHNHuA7Cuq3sa
-Ewfud6MCwhhr9GvzsYuVCS3sqzqyDBuv+8ah+0YXr/gUYuzXemxJfpC+VXRgyEr8
-X00o+nV5+qUO7bc1PDvU5OG1E6I9/eGqkElaS31c/Xf/gcmcJqMqZRtQQQdSs0jg
-j8JrznLGmLaiz8CELZqRCaSlYlUkRBp2fyyLpIq7R8hSKAPCFJJ6SKwh8rC1skAX
-zB3Mrv5Jv8hcoGWqGd5+f7Apf87OC6Vr7a3pnq5mIjbso884DBLVT8v74aeV/YhK
-DOcozyAAKpzZ4BpBGSU+NbmBKnia/NZ1ttqAbEJs/7yXM0jhtbKX53jHNK2irWed
-Xpf9wp5U3Jjah5InEGUb
-=LliO
------END PGP SIGNATURE-----
-
---W60oSYBmhtt1VEXL--
