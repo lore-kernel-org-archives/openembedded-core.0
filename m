@@ -1,45 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
-	[209.85.210.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D47D57D0AE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BF7F74813
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 12:11:23 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id o74so1882335ota.3
+	Fri, 29 Mar 2019 13:31:32 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id y63so3811072itb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 05:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 29 Mar 2019 06:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=X3s5tfL37qL6HHvJTPMVVNex6G75+rgWmP8WeiZHO9Q=;
-	b=g+CDdZKsk1ZedvJnFcO/mqXUdP3Madd5z5ktaqjnMrEBV47SicICVvmP8OhxjpkDAW
-	7n78ZaeRB85SLX1kKRoi5/Hy+YzJ6a7QENSZImSAps+aNlZPS2FYTJmLpn8pmzVKsk/G
-	IDmlw6d0QGkCjPhRXvej2uJfIvjoWXwimGmQ0WI61AjnviL86sQ1mo4WLyMbO00lEsFv
-	7nueSRLhZ9JjZRNzCBeyN1hY8tUpo4fPR92SyibiQUAAkcINfoVzPOfJUFmO/DXg+m5x
-	qMjc6dK8pfx6qZVgWR+bUKimR4VO23I2SYLCvC89jp0q3HJflHoOnSn4YRmqvkm50F2o
-	X0lA==
+	:cc; bh=SFg9OSCxidm2iBx8FPIJkmEja9yPypAhILz33KYv5Vc=;
+	b=qOqbKoPAX49kn4ms1KHepXF7cGA5V3pElQ/IBuIBxARa2LgahzD0iNQUBpBWblNC2z
+	hUWCDOVKIloXXv5sppOBWD/9iRP6JxooWcjSQtmTsWwZ9uIqvmvkFM0QUZI8z852cS8L
+	37BnLenCzjha+Z6y4EEwvPBNC8gGaigYUIkEIJqtK6MbUzLSdj6AbhMifzYPLEQdQPsX
+	FA1SynFbAvNTnxpPMsJu4bdTtJmvIKFMG8L9Esb9p+J3PG+fIONb0/ojIQx8VzDkHh1f
+	8gZedlrf37I7GXMES67WIzXLlQZEsu/iRaiyChTEki5exjHk8PYvWyTbcDc8Ya9Xr63j
+	MGyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=X3s5tfL37qL6HHvJTPMVVNex6G75+rgWmP8WeiZHO9Q=;
-	b=SUp4MbkPkUJUqnHZgouQP0YFOOx7UuPxpsesg1Fxui7hOglr7/WOi0yN6+XUio52t4
-	Qqkq0b1hzsMfr8yIKOB0iD/mxwSVVTzIgtRPRLTaRtA2HbVFlFIlBFlw08ic3qi+4qEb
-	OwwdBMsorA9ZSMo3OhXU3uUAOB/DGp9av6fE1NrkJ6vj1PMS4EySqnyTeddKoUPSrXtC
-	0xqiDSZaxl+ZfFZeQiLqIqn1C+QPIHFsclf3JL3N3HGK19WXPMkQPJuRbuWJowsFcZMf
-	DGG+xbWgtiaDa8Y76u7CYnSuFapYerePV9BljM3yvmpIQZ/B+D4Akys/q/F0QR6W9h2U
-	speA==
-X-Gm-Message-State: APjAAAUi56OJFhU2N4UdHY7TV2d7o0QyNY0jt0kuE6UieY93EBzOPqO4
-	DlncWMNFT2ztagvg6om10CV0dVgTN517VD531Cc=
-X-Google-Smtp-Source: APXvYqzrEt6uiCkqWTwtxyk/v4ySD8wqgu9/w0X0zbqHp9Vf1Hgmu1DCkysGxcwv5hIzX1VQRgR8OFVjixPr/UgJ6/U=
-X-Received: by 2002:a9d:32f5:: with SMTP id u108mr1350684otb.153.1553861484702;
-	Fri, 29 Mar 2019 05:11:24 -0700 (PDT)
+	bh=SFg9OSCxidm2iBx8FPIJkmEja9yPypAhILz33KYv5Vc=;
+	b=gtoq5/ODb3xY0hz1+gYh66BMj9EelPfLEZ7yVaRNGqhGBQeLMWT2jJxw1/bh+1YhH6
+	vnGkyxRT5uHwAsxyzKk9WhmRyDt9vWZ8st4tp5UeuzuN3BgGC9I3UeyYOORE9PTQW0v6
+	wF+8PlvbZrziN9ukKNiP78vPFMn/CPlMkxmnbpK0K9u25t/A9zFv8xL6J4jMKdUBkWij
+	nciR6G7iU50DfV3fvpL5PQd2lML7DfcFkl5SjUBhWYc6kQJMzHv57d/9DAudYl+AZ8U1
+	/9HP5rphnxP+6HTlhdVTw4E3hpMSTgNYLBztJP/si6yPdRg3up+ywr01t8rZ9dTelFqr
+	h0cg==
+X-Gm-Message-State: APjAAAWdld9G+MW3FyhFr23J05eQEYrtjhdACvnbeh1t3KN2XD5K1UtD
+	Vr90dUKZ4egHjnJ9uoZRaxwcJUFFEyR2MfeJE3hZ6Q==
+X-Google-Smtp-Source: APXvYqyqRgmw+65dDB9vywN+gB+pLSBZHvQop2xq4XrRYnJMytfTg8yvgOpMJWBuaraidhsANdXkTsoubBs5+vU/wGA=
+X-Received: by 2002:a24:52c5:: with SMTP id d188mr4690381itb.130.1553866293235;
+	Fri, 29 Mar 2019 06:31:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190326102919.7348-1-schnitzeltony@gmail.com>
 	<CAJTo0La2G+3qUPzXOC6B0Mjwr70ygPuttHuNzfV85GRy3pZYpQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La2G+3qUPzXOC6B0Mjwr70ygPuttHuNzfV85GRy3pZYpQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 29 Mar 2019 13:11:13 +0100
-Message-ID: <CANNYZj8Ds1A5o-C7tQspQgWc=7rT1FaMD1ALpPMKmi51pMn5ag@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CANNYZj8Ds1A5o-C7tQspQgWc=7rT1FaMD1ALpPMKmi51pMn5ag@mail.gmail.com>
+In-Reply-To: <CANNYZj8Ds1A5o-C7tQspQgWc=7rT1FaMD1ALpPMKmi51pMn5ag@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 29 Mar 2019 13:31:22 +0000
+Message-ID: <CAJTo0Laq_H-C+-S5zNU+4c5urQ5Y2Hy4oSe63EoQZotnLkFsDw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gtk+3: add librsvg to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,16 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 12:11:24 -0000
+X-List-Received-Date: Fri, 29 Mar 2019 13:31:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 29 Mar 2019 at 13:04, Burton, Ross <ross.burton@intel.com> wrote:
+On Fri, 29 Mar 2019 at 12:11, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> But GTK+ doesn't depend on librsvg at all, and this is a failure in
-> adwaita-icon-theme.  Why doesn't the dependency belong on
-> adwaita-icon-theme?
+> On Fri, 29 Mar 2019 at 13:04, Burton, Ross <ross.burton@intel.com> wrote:
+> >
+> > But GTK+ doesn't depend on librsvg at all, and this is a failure in
+> > adwaita-icon-theme.  Why doesn't the dependency belong on
+> > adwaita-icon-theme?
+>
+> I believe adwaita runs some utility that gtk provides?
 
-I believe adwaita runs some utility that gtk provides?
+Sure, but gtk+ doesn't link to librsvg, so a DEPENDS isn't the correct fix.
 
-Alex
+Patch incoming.
+
+Ross
 
