@@ -1,70 +1,49 @@
-Return-Path: <hnje@triax.com>
-X-Greylist: delayed 3631 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 29 Mar 2019 21:46:21 UTC
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr70113.outbound.protection.outlook.com [40.107.7.113])
-	by mail.openembedded.org (Postfix) with ESMTP id CAC8C6D409
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4807E7D19A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 21:46:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triax.onmicrosoft.com; 
-	s=selector1-triax-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=uAMSf0U3flPPH2Vsz0v8Wzi8wIX6A3n6gC0JBUR2MPo=;
-	b=O6OGzRm844K/5tpVxIzTdn3jxZfR8hVYI1Wr3CpHfzz7pypi+nThWXVczPo7w8iULz1lEgpeK4V/rGD5Uf+190ESJFLRsGoje1LvkH3l0UOiOci+kk7foVMJ1xM9WWD59BuWhW/7M9fnwz4uAjEgGYOhtid/uXHLpC6STZ2MZBA=
-Received: from AM0PR09MB2626.eurprd09.prod.outlook.com (20.177.110.218) by
-	AM0PR09MB3428.eurprd09.prod.outlook.com (20.179.254.209) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1750.15; Fri, 29 Mar 2019 19:14:00 +0000
-Received: from AM0PR09MB2626.eurprd09.prod.outlook.com
-	([fe80::b8ba:e7f4:be2e:f400]) by
-	AM0PR09MB2626.eurprd09.prod.outlook.com
-	([fe80::b8ba:e7f4:be2e:f400%5]) with mapi id 15.20.1730.019;
-	Fri, 29 Mar 2019 19:14:00 +0000
-From: "Henrik Nymann Jensen (HNJE)" <hnje@triax.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kernel-devsrc: fix /usr/src/kernel symlink to also work
-	for SDK
-Thread-Index: AQHU5mOQrc9yntVe0UahnxsqTw1sDA==
-Date: Fri, 29 Mar 2019 19:14:00 +0000
-Message-ID: <20190329191348.9272-1-hnje@triax.com>
-Accept-Language: en-150, da-DK, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0202CA0028.eurprd02.prod.outlook.com
-	(2603:10a6:3:e4::14) To AM0PR09MB2626.eurprd09.prod.outlook.com
-	(2603:10a6:208:e2::26)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=hnje@triax.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [193.106.123.182]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 78008aaf-ffda-4fc1-2cad-08d6b47ab300
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(2017052603328)(7153060)(7193020);
-	SRVR:AM0PR09MB3428; 
-x-ms-traffictypediagnostic: AM0PR09MB3428:
-x-microsoft-antispam-prvs: <AM0PR09MB34285C538F6BA1CD3EE77A84CA5A0@AM0PR09MB3428.eurprd09.prod.outlook.com>
-x-forefront-prvs: 0991CAB7B3
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(366004)(376002)(396003)(39850400004)(346002)(136003)(189003)(199004)(71200400001)(14454004)(107886003)(6486002)(53936002)(5640700003)(305945005)(316002)(66066001)(99286004)(2351001)(81166006)(7736002)(186003)(6512007)(68736007)(8676002)(6436002)(81156014)(256004)(1076003)(52116002)(8936002)(50226002)(71190400001)(478600001)(6116002)(4744005)(2616005)(86362001)(476003)(2906002)(6916009)(26005)(14444005)(5660300002)(105586002)(36756003)(6506007)(97736004)(4326008)(2501003)(3846002)(106356001)(25786009)(386003)(486006)(102836004);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR09MB3428;
-	H:AM0PR09MB2626.eurprd09.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: triax.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 02hhN41C9+GM7poASS2YmL43qAGQAIFUKAU2YbdI6Vvzq+/hloyiZoptF6tdj9HpA439SnzLbRVNglnp6sbIKPcvGNEW/JfrHTMIdf0G8LkywbTMMC9sFAiQKHXf9khrKOw8BmPAwZEhsjj6+fUZBBLeLsK78VAKZv6noSyE+kbwK8WHmSe9uxCuA8d9g4rftdZUqpaxmRdW4ExOmRbeBuGQbHWYXNLOD3xxue6ucdLrv7zjhiDWHlIRbBP0sAb4IpWscPQdRE5FVr6WqumfenmTZz1u2JIPXbDl8CLIltADfAr2XUHk0jV8IhSHhYJ7GBuspVi/G5TIY39nP622+Xl7PBr70MtLMEl74rWCmNDYTYjeYSGg7Oargf0tOwkA6Lw5OLMpWt1crd1fPqMBxDAmYJWR2Z4SNzUWkWjtuug=
-MIME-Version: 1.0
-X-OriginatorOrg: triax.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78008aaf-ffda-4fc1-2cad-08d6b47ab300
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2019 19:14:00.4568 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0e4fd38b-2bbd-4850-8e60-c136d92e69d6
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3428
-Subject: [PATCH] kernel-devsrc: fix /usr/src/kernel symlink to also work for SDK
+	Fri, 29 Mar 2019 22:49:08 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w1so4451860wrp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Mar 2019 15:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=DHOiLZbH4df3r9sen3VX5o1N8uNoZoWuJ+ruIl74BZ4=;
+	b=XXdD++OhbnXF3GdK8rmoDxQzozgYB0p8dHcBxxPw5vai/988xYfeoNDw2Azh1qHFzV
+	O1x8GeHalCXipWH0JgFwEA4ljTnzlcOyvClj8uQgFpraeFPSX0ewmX0qjRrjLik5AECQ
+	j9K5Z2V3TBBQsVlL2PFZRmEW14Xs/Q7Ka/jn0QuxEeJ/ZCIchFDFZq3n1BI1ht9flrRL
+	akf9tRN3bor2oMOxd6iKHcuMyfO0ELafHVIbtIANQvujEDN7scKx7hufPc2q/6l1+as/
+	rY0+HzQYA6O6dsH8kiVsG13wFB3SXbXdKNKsC00ERS1f9xiR/L9uSD2gxHGmrygPChoj
+	i84g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DHOiLZbH4df3r9sen3VX5o1N8uNoZoWuJ+ruIl74BZ4=;
+	b=qq93waqP6wCuw9UCoCOKEks9c4sNceP+ZR1s4bRVN613HHIm90JI8arW9L2ynv2pmy
+	NM+7DLraUWRWlzIQbPebGHmCq1JrGWdT6wdnD5Hiy9fMWkQEhTo10RQ7r+g0HR6bUGOE
+	CtvYGt69qOgf5MGwC0LDcudgE51Ksqu/UYrC+A9zXXAUSTatPx86pAdoL2N48i46YdTU
+	kYFg9NSF+2Of62qkV9/yEeMSZgKfrjWE3PbkxNrptp8V9jo7rg4xahHDUBgq8Asu/nBC
+	gbTeyIWGl4CyDBSC4goNcAT9uO+Bq3Er8GZpWNKVXViUpcgvkixVEowPC9bWFP7NAbuN
+	fCGQ==
+X-Gm-Message-State: APjAAAXIjBsMuozlzOG2zFAR0AXSO5ZuQEpsJRiG5GfXlMzPFlZr6c2l
+	FvFTh4fP2FrLX6wfVKOKWft6FNCQUnw=
+X-Google-Smtp-Source: APXvYqx46Cc8Z2XO1zkpNWV5cY8ehOPhgETQDGCNNFfg25aw5m3PiMssYvmThcjADhocUnnqk+4FOQ==
+X-Received: by 2002:a5d:6a12:: with SMTP id m18mr14830480wru.325.1553899748883;
+	Fri, 29 Mar 2019 15:49:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id g8sm6484881wro.77.2019.03.29.15.49.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 29 Mar 2019 15:49:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Mar 2019 22:49:04 +0000
+Message-Id: <20190329224904.27359-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] python: improve ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,38 +56,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2019 21:46:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Mar 2019 22:49:09 -0000
 
-If kernel-devsrc is used in a SDK context, the symlink from usr/src/kernel
-points to an absolute path '/lib/modules/${KERNEL_VERSION}/build',
-which ends up pointing to the local machine's build directory.
+Add missing runtime dependencies: the test suite needs proper chmod from
+coreutils, and the Europe/Minsk timezone.
 
-To address this issue change the symlink to be realtive to
-${D}/lib/modules/${KERNEL_VERSION}/build.
+Also change run-ptest to use -W (run verbosely on failure) instead of -v (always
+verbose) to hopefully reduce the noise in the ptest reports.
 
-Signed-off-by: Henrik Nymann Jensen <hnje@triax.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python/run-ptest  | 2 +-
+ meta/recipes-devtools/python/python3/run-ptest | 2 +-
+ meta/recipes-devtools/python/python3_3.7.2.bb  | 2 +-
+ meta/recipes-devtools/python/python_2.7.15.bb  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kern=
-el/linux/kernel-devsrc.bb
-index 6daeea4f7a..69a8eaef81 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -48,7 +48,7 @@ do_install() {
-     mkdir -p ${D}/usr/src
-     (
- 	cd ${D}/usr/src
--	ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
-+	lnr ${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
-     )
-=20
-     # for on target purposes, we unify build and source
---=20
-2.20.1
+diff --git a/meta/recipes-devtools/python/python/run-ptest b/meta/recipes-devtools/python/python/run-ptest
+index 832551a1244..13dfc99efd5 100644
+--- a/meta/recipes-devtools/python/python/run-ptest
++++ b/meta/recipes-devtools/python/python/run-ptest
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+ 
+-python -m test.regrtest -v | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
++python -mtest -W | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
+diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipes-devtools/python/python3/run-ptest
+index 3863c6d314f..20c9274dfa7 100644
+--- a/meta/recipes-devtools/python/python3/run-ptest
++++ b/meta/recipes-devtools/python/python3/run-ptest
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+ 
+-python3 -m test -v | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
++python3 -m test -W | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
+diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
+index 4d10986f3b7..5c64bc8aa2a 100644
+--- a/meta/recipes-devtools/python/python3_3.7.2.bb
++++ b/meta/recipes-devtools/python/python3_3.7.2.bb
+@@ -284,7 +284,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+ 
+-RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc"
++RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
+ RDEPENDS_${PN}-dev = ""
+ 
+diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
+index 3e1af4baf63..c459af06f10 100644
+--- a/meta/recipes-devtools/python/python_2.7.15.bb
++++ b/meta/recipes-devtools/python/python_2.7.15.bb
+@@ -176,7 +176,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+ RDEPENDS_${PN}-modules += "${PN}-misc"
+ 
+ # ptest
+-RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip"
++RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip tzdata-europe coreutils"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
+ # catch manpage
+ PACKAGES += "${PN}-man"
+-- 
+2.11.0
 
 
