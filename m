@@ -1,47 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C4E697C64B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+	[209.85.167.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC626C13D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Mar 2019 02:00:54 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id v20so4571300qtv.12
+	Sat, 30 Mar 2019 11:26:26 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id l203so3056793oia.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2019 19:00:56 -0700 (PDT)
+	Sat, 30 Mar 2019 04:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=y3Z2hl+LjTxAvnzVtzSMEv7xhvElNyq/mvTAKk3ydQs=;
-	b=YPXAfRHUN7+3xIhuUKbNDmZhN68CsJRMhJwJiokyRavRW6rGNPJ3dTWa1uOrlX/Hmj
-	W2aELIJZkw+0Y+v8ftiQ46SxUYt2FqFa14OgF+aOHzv/KqqnpTBw9DKffVhtSuB+SJ5N
-	CQqVexpqv7shbSQeOPytrm2VbOTPe40TgducT4JXEvYeaAvH9xwzk7c2iquP3BwIhARg
-	GiuRP4XdtRq6kSH0W7eaTja3TECprR2bzcVXFlvEKmsmHhkCYEIHTkJGlEKXKgh+1Pdb
-	SzBtHEpe8UGq6iADAgVtUi1VWmGVBWnOgJA12CDdedPK9jZm7WSe8KnK/t9jqZxSTRD2
-	zynQ==
+	:cc; bh=AihrX/KaOWzZ9NIvfkjdaEj95IO6s7shXr8LwYfLuaQ=;
+	b=fNmWD9+CBjOsrArNmrFHQwkmZ36P/Ksjhtp21FV2jRnxijXNrID9HyaXJSgOyTNTJ3
+	vh5TmQRHp+jGhgVj0VBT3+4Wmk4nnqArKEwFEf2DKjzuExXDZm4FxRd/hl3whn1Yj48a
+	J0Fkr/iAbbgYrrYBiASOzVIsAkUhbbHu8XiaZ4/UWLC8+A/kNEvSeeWSTyxrrd0Sp+OZ
+	p84pusYNFA0gZYRYSQZBs8tXSf6dj3Wu80z9iBjpLBKUpGomnLr7/VebpnbfqH4sJcG9
+	5b3vClWcsXJX60zhmrUhEZ9QqPILdNWEvi9Vy5yLBGCGhkv5lqY3GYjocWvyuaFlB+yo
+	ExUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=y3Z2hl+LjTxAvnzVtzSMEv7xhvElNyq/mvTAKk3ydQs=;
-	b=t43whz9tUuX3j7mwQs1k5JDHyzYvc2ceHojhesKoPsddgfha2bsDCYdi+wRBW695Ia
-	D3XSTXitWsPwMeqNMwxVP2KaT55PhWVQHSmIiVpfZ13sSlYI4KwgntNoKzqny7IaXmtd
-	r5InQE83TX0nWsq2cqQgCDmMnl2zM/rkRaFVZkrd4j/MIMft5e0e0N5QrsmWaaK8J/uR
-	e0tpNrwHMYuR1ADkHZrBWhkRYe0COkN1k88/zsHrSN6r5Z8lMQKJJ9kpGICZC5FlOpZK
-	Hw+kF0WlMinrIXXgVFfr3SADYvwCLvAw/N3cavzjVo502RpFG8wvcGLNxuudAH0xbZX5
-	OHhw==
-X-Gm-Message-State: APjAAAWzp6bva2UsumMD3s8DeCp6zPRcHYR9jEaOGsUICybRPNJ9/U0i
-	8367nTDKyi/lmwPT3lyhILnAxI4P9eckLfeMDKg=
-X-Google-Smtp-Source: APXvYqxaL81eAAF935ARA0EfriBZHCVWdnA70ASKCgy0i6eHJUUF1muN8ZDUuPPyTLNrFsArApZ6ZAL/7/T3mJEmXTw=
-X-Received: by 2002:aed:3a09:: with SMTP id n9mr42342792qte.196.1553911255368; 
-	Fri, 29 Mar 2019 19:00:55 -0700 (PDT)
+	bh=AihrX/KaOWzZ9NIvfkjdaEj95IO6s7shXr8LwYfLuaQ=;
+	b=j/a5+Zsb3K+gCoBR86LW/DEuUNUecamrTvuFYcYPQ/MRa0FFDgDiEKU3NLV58exarV
+	wUeWOgFoBOolawGfeCXKC/DzT7+W0ea+F8zpGkzXoNMbsQjfYiANffKmiwjMODNv2u0U
+	+WH7kVSvgdAd/gD18Mj1g4r8PhsvjrF3SgEICMCrUkFfEz6e/NiWxD/0ob8rNj5hp0fS
+	Yga9RnLiwj7+IKU4ewQKDjCuF70GuszK3bHTrjpmHuB+Z8b0Ro6HHxP0LuzjDGZWI1d+
+	88llvrjUq8g6l1rbWnWMU941pZ2uBi08UsaKshSQg0KtcqQ52Wf2VbLvvUIYrcnMsg67
+	fkUw==
+X-Gm-Message-State: APjAAAWw5wSMg7Mn81AHtHvIvGjrSTg2AH+hNCnaF61D8N9zfILrg1kK
+	GmafO4PqS+FmOuEP2K42KIjfK1kbQYCrfUeoIhY=
+X-Google-Smtp-Source: APXvYqxyutH0YbxQ8nGvBs7B82q5iLF+tbzvsZnxFvfzPzHlSsNMT6wPlhWCzZE2vJ6tc8R+DJZm5w6uWvVP9lAcack=
+X-Received: by 2002:aca:ed88:: with SMTP id l130mr6469472oih.70.1553945186921; 
+	Sat, 30 Mar 2019 04:26:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190327142005.17453-1-ross.burton@intel.com>
-In-Reply-To: <20190327142005.17453-1-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 29 Mar 2019 19:00:29 -0700
-Message-ID: <CAMKF1sosOJ6_Dk-CAiyz38iyBpV3ty4df5Ya5e4m=ccGxLyRSQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] asciidoc: use Python 3 port
+References: <1553904350-30074-1-git-send-email-denis@denix.org>
+In-Reply-To: <1553904350-30074-1-git-send-email-denis@denix.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 30 Mar 2019 12:26:15 +0100
+Message-ID: <CANNYZj9QLvJzcyeuAa-p=-+WO8_zfXeMU8GsOrTPUnv0FzY3-g@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: upgrade 5.0.0 -> 6.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,73 +54,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Mar 2019 02:00:55 -0000
+X-List-Received-Date: Sat, 30 Mar 2019 11:26:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 27, 2019 at 7:20 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> There's a sort-of-official port of asciidoc to Python 3.  Whilst the official
-> replacement is asciidoctor which is rewritten in Ruby, this is a fairly trivial
-> swap and removes Python 2 from core-image-sato builds entirely.
->
-> Moving forward we should evaluate asciidoctor, but that can wait.
->
-> Change the RDEPENDS so that python3 is only a dependency for target and
-> nativesdk builds, for native this can use the host python3.
->
-> Remove redundant DESTDIR export that isn't needed.
->
+On Sat, 30 Mar 2019 at 01:06, Denys Dmytriyenko <denis@denix.org> wrote:
+> 6.0.0 is the last one to support autotools (needs explicit configure option),
+> newer versions will only support meson.
 
-its failing on my archlinux builder, ideas ?
+Thanks, would you be able to prepare the meson conversion patch just
+after Warrior is out?
 
-https://errors.yoctoproject.org/Errors/Details/234833/
-https://errors.yoctoproject.org/Errors/Details/234829/
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> index 38164d55735..d0d15171ac4 100644
-> --- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> @@ -8,17 +8,20 @@ LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
->                      file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
->
-> -SRC_URI = "http://downloads.sourceforge.net/project/${BPN}/${BPN}/${PV}/${BP}.tar.gz"
-> -SRC_URI[md5sum] = "c59018f105be8d022714b826b0be130a"
-> -SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323cab4e1f0"
-> +SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
-> +SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
-> +PV .= "+py3-git${SRCPV}"
->
-> -UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/asciidoc/files/"
-> +DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native"
->
-> +S = "${WORKDIR}/git"
-> +
-> +# Not using automake
->  inherit autotools-brokensep
-> +CLEANBROKEN = "1"
->
-> -export DESTDIR = "${D}"
-> -DEPENDS_class-native = "docbook-xml-dtd4-native"
-> -RDEPENDS_${PN} += "python"
-> -BBCLASSEXTEND = "native"
-> +# target and nativesdk needs python3, but for native we can use the host.
-> +RDEPENDS_${PN} += "python3"
-> +RDEPENDS_remove_class-native = "python3"
->
-> -CLEANBROKEN = "1"
-> +BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
