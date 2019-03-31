@@ -1,46 +1,46 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C1A3748D5
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 227AC7CFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 20:39:11 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 188so3479101pfd.8
+	Sun, 31 Mar 2019 20:44:51 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 8so3489630pfr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 13:39:12 -0700 (PDT)
+	Sun, 31 Mar 2019 13:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=5L47WlG2HvGON5ML/K/bI1IdkMaEzUULyUf8Hrejl/k=;
-	b=bjWVibve+tr1lj8P4fVF3Vk+OfayRmTqiyHFzvSHXZWedmKM1pirtqWpvWnLN/08vR
-	0H5Jqlk5Y15W4Yc+v/6tCH8r0KdtY68t9umgNca8L2p79VhXkaMAt2vIUIyt+Zvfnemd
-	9oVQH6CMtCL/zhrEMo8HPE3fkxfZKInuR8+hwNk16HnCDuOUNIOYQZJXbWrnGl89FqQd
-	0bFHHaoeh1jyMjmrdepzHDv/zLW41puW2aUzWeEeiUS7DpotNbTQXgrF+GmusXETXYEy
-	piPie0ZP7pZXbZefQq2o2o3rL6IF8gUrJ+NAXKmZMwaOR/rW8N1R8eSY4/sAz88Sp0ob
-	sBAw==
+	bh=90LkBrVJLT/1RLfsM7VMkg1tlqT2OgMt4DCuwV/8pHw=;
+	b=WFtftof3xTFH6lnU1z++kadb3NW5gEPFY8dLGeTQZ2wHnkrSPNIdgd/WgarO2dSluO
+	+h/MCXz9gcKp28H9kb6Fs/0F05jkBehFlHMoeXC/zCnF1jern12GZh5n02mgCJB4Gtiu
+	NnDVirhJks/GEPg1a7vP8EaRLX2OPPje1M6NrIBvWyt8g6HCZfLBNxalmGVZiTdB0Qen
+	OnKWv8vzbhCr2oxcBkbvWnz/8D+u2K/Rjmcyj6Tg2qHeileFLaHWXjgChCwn9w3v81O6
+	D7EW9eQgAydFGwJMf7gwubxdOYijhrqokdLewvby5FMiFScFTtjJACg1BUNYBelEKZrG
+	EaDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=5L47WlG2HvGON5ML/K/bI1IdkMaEzUULyUf8Hrejl/k=;
-	b=XgX0+BJaXd4Yh878JT+r2dfkEYJ3LktUnTz1KJxDxkJhI2ZZo3aD+VByu0kK+m1c2X
-	Upkv85hDGNQ5UtWvn4hZG3j/pK8ebt9ks9K/jqVkOmLUos5dOsKHip4pRDIuewicM9TM
-	rrziSQvVVEb3FpxhBBNs1fGNmmb0o0gcSZbLb3CQW8uxuqg1Ar1caf/h3sWqvW3zkcnp
-	h+kRCp+u7REPAAmWSRS7zlPkTwVKa2iW0WGt5q+Kuhf+YG26q1NA0Wwuj6Eil5kpG3c4
-	nsxcshhEIRGt1kdGtYn5xVoonrb0gyuT9v2Mazfa4I+Yv1X7tEDN3cLpTK3yxxbL8WBd
-	1niw==
-X-Gm-Message-State: APjAAAUfVdHk+eLSJnNvQsC6/E4aFR174aIalN5q95mgdjKpo7WX+vC5
-	c8PFc+kcsrddlY1Zg8keXnwLOtxp
-X-Google-Smtp-Source: APXvYqyOxqKooaq91P0LvK0gISdYQD1r1JF1NJEAdQ3iKqJP7vpHKTJc6D4JALjZJPzXarGT6eYSng==
-X-Received: by 2002:a63:4612:: with SMTP id t18mr57118970pga.56.1554064751923; 
-	Sun, 31 Mar 2019 13:39:11 -0700 (PDT)
+	bh=90LkBrVJLT/1RLfsM7VMkg1tlqT2OgMt4DCuwV/8pHw=;
+	b=Y9euV/q3RzmWcWKl2cyPDXlEPCInR7dIK1AL0l+nLBnclvgsnyRfGYRLrPYf+kwUsZ
+	Gg3vh1lEkR2skFnXFsE8Z92ihuMppz2cG1qzc0+gk8bYQOmnEDLlvc1IbLo0kHH25oJN
+	hGAbPpe3tTGSyzPvXUBSyDBqeLPm1pNyOxDCfMjjLvGL6td9B5WeWUEbDNJPp9IzbNK5
+	ZlJeIk9E6l5jUEMrFs0TmPKZ0jFBHgwaW6qO/cuTuM2y6xzaZ3A2tmNm5RWd1cQk2aop
+	gHXWwZI4MP6zmDe4jhmDtRqgfplZmHrS+Nr5T7XCTFBmAL6VYQPxeIfISCgaWcxVEygt
+	2dBQ==
+X-Gm-Message-State: APjAAAVcylQyPIH44pNluyR4CsIVeN3Z8xXVAMTQusWoHUJPDhG0ZUIQ
+	f7zHEPikKH2r2bmKUc0+TAzqqhtT
+X-Google-Smtp-Source: APXvYqzjIoQa0lCr6JJiqNgqRwKY0IuwJGTHXifjUkqMHDoO5nzhWylaBnCUPl0Oo/5MgHNnhkPEYQ==
+X-Received: by 2002:aa7:8282:: with SMTP id s2mr40993419pfm.7.1554065091892;
+	Sun, 31 Mar 2019 13:44:51 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:c33:6515:3c15:208f:c5eb?
 	([2601:202:4180:c33:6515:3c15:208f:c5eb])
 	by smtp.gmail.com with ESMTPSA id
-	q81sm15459608pfi.102.2019.03.31.13.39.10
+	p3sm15387395pfn.167.2019.03.31.13.44.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 13:39:10 -0700 (PDT)
+	Sun, 31 Mar 2019 13:44:51 -0700 (PDT)
 To: =?UTF-8?Q?Stefan_M=c3=bcller-Klieser?= <s.mueller-klieser@phytec.de>,
 	openembedded-core@lists.openembedded.org
 References: <20190314154330.1427-1-s.mueller-klieser@phytec.de>
@@ -91,8 +91,8 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <34777456-3dff-a1f6-d984-e4bde00c5af9@gmail.com>
-Date: Sun, 31 Mar 2019 13:39:09 -0700
+Message-ID: <4573ad8b-be35-1e72-f44b-db969cf81f50@gmail.com>
+Date: Sun, 31 Mar 2019 13:44:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.5.1
 MIME-Version: 1.0
@@ -110,7 +110,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Mar 2019 20:39:11 -0000
+X-List-Received-Date: Sun, 31 Mar 2019 20:44:51 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -124,13 +124,15 @@ On 3/29/19 1:44 AM, Stefan Müller-Klieser wrote:
 >> On 3/14/19 8:43 AM, Stefan Müller-Klieser wrote:
 >>> This fixes the native build on glibc 2.28 hosts, by backporting two
 >>> gnulib patches from master.
->> This will need to be done for Thud too.
+patch in sumo proper
+https://git.openembedded.org/openembedded-core/commit/?h=sumo&id=fe7c33cd470d7466be48391b11ea703746812014
 
+thanks
+Armin
+>> This will need to be done for Thud too.
 >> - armin
 >
 > coreutils 8.30 in thud already carries those patches.
-thanks.
-- armin
 > Stefan
 >
 >>>
