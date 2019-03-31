@@ -1,49 +1,46 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
-	[209.85.167.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CCEF97CF0C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+	[209.85.167.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E0586C3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 15:14:54 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id u2so4449553lfd.4
+	Sun, 31 Mar 2019 15:32:34 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id i21so5256614oib.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 08:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=EHZxnZLaqn9prT4n9PQt/hntv+HvtrRH40qvASRU2QE=;
-	b=WUTwaBU4t/YmrYvAfiAeTPCI+97kYcFxNZ27xMtRFZseiMj55C1w33CRUlSc00ic1P
-	2g7YPjEp0hvxgmlgl/XVedNY4o9hV0tmmG3ySwYnHFax7EKBzSZerJQQ4Ue07IEdJQXi
-	l0Qitkst1wCgvK1FlwhbKV+LZwuMOGs3tqW5fsBhYR4jfVBhJwkNFbgAWe8umdJKRunw
-	Hg30H6+iuIV//yNqjrJ5EIynb6loI2llIAkN3Dl4UzYHNBdJk/NBHWZQCAa/ffVExX98
-	NLGkVbUBvC24UU79MNw/wMNQm12ywGgi8d850cT8FJRQSGQ+soT/wGgHQtfseUk3WEay
-	ClUg==
+	Sun, 31 Mar 2019 08:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OzTKrBik2ak9/BEnTujZnCZ9C7TK8zdCfDYFl53Xl8s=;
+	b=bKBuSSM/deu+cOrl6ueV4/wNA+0EqcqfyGVHLGfH+cl03/NP4t3Vwa8jLEqjiCHZhp
+	edSpOKVQMNxlMeGGVIvhcJ1THoCKfgfsr3aZbZoO9VaLR4GOPQIEi0QiV2WEO3r+jmq9
+	cWz49dd/HxwE4w8+PtGvY4yFE0+YZUbHReBsOrMbmaGoCk9WgqTsRdpcE7wfZ6GaiOPR
+	PDHeUFGMeq+1Um+KgupBJSStPL7lrn7JUlzRytd2quRB1NI04K3ZfX1ZWX3MTHo3DR9Q
+	uwwfXtYzEAZ/04aK8zgaCFWatZBXR7KFanx8soxGYZFc/54zFxdjZXELDkgomWW85mOi
+	0GLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EHZxnZLaqn9prT4n9PQt/hntv+HvtrRH40qvASRU2QE=;
-	b=SUAO8lJS85gSvtV7D1OvP/p87v/M5TY3GDGUEFm3ATTYTsfSXG9LR2zVTOgU1J6/r8
-	8hvBHyWZCNwUsJn947A2fWNCMIeqB5azzXsAh4BSb5j4ef0YtnkyqfBPgBsJDxyRs3Q/
-	u2yseOG4pSUj3ClJ/x8zU91giQQjv0nr65qcLOIPDg/J90cH8ZEJyecV7AyERMZbI8j0
-	wEg7roeNSDXIlce6cqtvs/zteNHDA9GEvkp9Kr49IJ6VDRWCkoOTHlgvArpM0E+0p1lb
-	JQYJhj/j7kYiorlpbGQhDtZMXmNV8QCEWX30Sb/4MXZnSnAj7oCk8TMTfwnUIQmIimY4
-	mvZw==
-X-Gm-Message-State: APjAAAUuX2uCbT7eSGCmQuynI0gR0YbavptFammMYSmh/KUDK3L0k90M
-	hIhrUt8u5TaP6KVyxLETT59OXGZUfIY=
-X-Google-Smtp-Source: APXvYqzS5MEiP8aFa+cHLJvJbuFdc2VCzVQCcyyjeJFdkohTLPi3DT4Cz8wUwvQ9lwRqi+bkE/ogoQ==
-X-Received: by 2002:a19:5506:: with SMTP id n6mr18101130lfe.119.1554045294148; 
-	Sun, 31 Mar 2019 08:14:54 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	b26sm1340406lfa.47.2019.03.31.08.14.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 08:14:53 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 31 Mar 2019 17:14:39 +0200
-Message-Id: <20190331151439.25283-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] vim: update to 8.1.1097
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OzTKrBik2ak9/BEnTujZnCZ9C7TK8zdCfDYFl53Xl8s=;
+	b=jKy6BZwkGLA8NMHkIbbbltUz/rdryipceafkFJRbQ0VGRULCDGNidkQMFtYf8WWID6
+	90a/F5FPF70l8of8M4cAYi+FgPymazVqDB5q295oY+8T3aE8Vzlmn/MurHpGMZQXbtUt
+	W/e+Et/6IqQdE+puencSZFKk/bw8ooulY70HbBAOlKvQb/M3fyllQKw47dyhwoGpgO3n
+	FSdLVk56BuUZGhqJmUXBVLkvoHy0suG6HxYhq36AfEORpxROAdxbOzn3B9LjgrRM70NT
+	1Qle4tqzme6eYz/RaS/PZ5SxVfXPR/+qhwykflwIe7XJJd9c3FadkC7lSJ6TV+4NKhfi
+	9C/w==
+X-Gm-Message-State: APjAAAWDUYeuhj7lCKk2/PDn4l3sNWHI0CHDU8W07DbRGwMPQ8mn6Y1s
+	Dou+EHqufptOwogKOcgkKAiwwKG1cjBXZvZxQu6hKQ==
+X-Google-Smtp-Source: APXvYqyqvxgrItmgGXIGQvU62dZZlOHPh+j7oliOacyrxozyiWJ1KBNgPTbgAYAsZ9HvPPl/95nAkBbbp7NwhspM70o=
+X-Received: by 2002:aca:cc86:: with SMTP id c128mr9610734oig.119.1554046355912;
+	Sun, 31 Mar 2019 08:32:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190331151439.25283-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190331151439.25283-1-open.source@oleksandr-kravchuk.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 31 Mar 2019 17:32:24 +0200
+Message-ID: <CANNYZj93TpC4REvozSQ2HYaWSQoS1pnnROiqUgUSoCe2mXrawg@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vim: update to 8.1.1097
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Mar 2019 15:14:55 -0000
+X-List-Received-Date: Sun, 31 Mar 2019 15:32:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1097.bb}            | 0
- meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1097.bb}     | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1097.bb} (100%)
- rename meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1097.bb} (100%)
+The tarball cheskums or SRCREV haven't changed?
 
-diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb b/meta/recipes-support/vim/vim-tiny_8.1.1097.bb
-similarity index 100%
-rename from meta/recipes-support/vim/vim-tiny_8.1.1017.bb
-rename to meta/recipes-support/vim/vim-tiny_8.1.1097.bb
-diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-support/vim/vim_8.1.1097.bb
-similarity index 100%
-rename from meta/recipes-support/vim/vim_8.1.1017.bb
-rename to meta/recipes-support/vim/vim_8.1.1097.bb
--- 
-2.17.1
+Alex
 
+On Sun, 31 Mar 2019 at 17:15, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  .../vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1097.bb}            | 0
+>  meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1097.bb}     | 0
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1097.bb} (100%)
+>  rename meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1097.bb} (100%)
+>
+> diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb b/meta/recipes-support/vim/vim-tiny_8.1.1097.bb
+> similarity index 100%
+> rename from meta/recipes-support/vim/vim-tiny_8.1.1017.bb
+> rename to meta/recipes-support/vim/vim-tiny_8.1.1097.bb
+> diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-support/vim/vim_8.1.1097.bb
+> similarity index 100%
+> rename from meta/recipes-support/vim/vim_8.1.1017.bb
+> rename to meta/recipes-support/vim/vim_8.1.1097.bb
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
