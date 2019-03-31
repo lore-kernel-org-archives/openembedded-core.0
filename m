@@ -1,52 +1,64 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AA41F748D5
+Return-Path: <paul@betafive.co.uk>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+	[66.111.4.27])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BC6560273
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 20:56:16 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id t28so8548215qte.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 13:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=COWWYSMtjwRtFCOuA1LFHkspKgzse+fNDRVGn10CNIg=;
-	b=E3NwDUFQBapTG2tTkAfG5D42BEq1wOkL1ktst3XVgxmZC4dznMPZaZpL1hQUWLNR1t
-	BsLG0ECMMtvZEhG06cnp1Qz8jzJf8JKooXgsO+CDDie+n9LZ2e+dGUdrIa9NUIz1pFOO
-	iIAiWa3mJ6BLd+I+Z9cLotv+T4UNF4fHHZU2c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=COWWYSMtjwRtFCOuA1LFHkspKgzse+fNDRVGn10CNIg=;
-	b=JVuHOmpsSI959OhtLFhOGckzYFczdfm8B2oi6F1Kmu1rTkLt/Tz76WzdZLrAWRoCz2
-	jNJMIxbB6QYua7cazwjv5B3jVuL5T4xNFMT0WTHgYoQoeIVFFaJt0hxjBdKddSuR1Ggu
-	l74edyAKJl9lNSaYVpBLsdoWJKAkZl6Cb/bi6KUJENxTHwAE5sY3YJbaXHgcTF8D75XH
-	Qg+J/kdbJR9IOcNxYF8y3W30DgH79t1Okaw0+F1A0Ts4up42TA29jbZH/oz7biT7Xqom
-	y9zFHd+OoD9xRplD9fhRMKpIATXLd1cIBwSxw2CLyudQuTs0MutgRgnO1DY2YkizES3T
-	RG8w==
-X-Gm-Message-State: APjAAAUv3pWbl3kkibqhJOEAlRZNSEcYXTZwci5DbZFLHsf0xWnI20JL
-	OYoBnnL+smzjT+OU9q/7b+IU5A==
-X-Google-Smtp-Source: APXvYqws1bPuNTU5ZD/IoPATdD8Tb7OwltnC57AkAyZfv9PrK2fDAPL0kVRncmmm93qtEzl5WFIoMQ==
-X-Received: by 2002:a0c:b585:: with SMTP id g5mr2562789qve.220.1554065777303; 
-	Sun, 31 Mar 2019 13:56:17 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
-	[65.184.134.105])
-	by smtp.gmail.com with ESMTPSA id l6sm4293022qke.65.2019.03.31.13.56.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 13:56:15 -0700 (PDT)
-Date: Sun, 31 Mar 2019 16:56:13 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190331205613.GA4664@bill-the-cat>
+	Sun, 31 Mar 2019 22:28:31 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 90CAF20840;
+	Sun, 31 Mar 2019 18:28:30 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute1.internal (MEProxy); Sun, 31 Mar 2019 18:28:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=mime-version:message-id:in-reply-to:references:date:from:to
+	:cc:subject:content-type; s=fm1; bh=089QQ/EPcC4jhLIUK/hU+O08fNo6
+	4kHHGRsDBr4I630=; b=aMINYsVnDAT4hqhyW1XRCwP0IAcf+NrSpJmQgzY/EUE9
+	Immio4A3xeIX1zZHGMB/xaUq9Qi65z/sFV0qknzuUk/uQE7VShQnaLZqpHkI9lsR
+	XbeUjLHJBZXyXjIrTcyMYMlIq1LM+NPvmNahpgcWd8HpHCbzxoSUQD6TFnkEfjKi
+	CeXugfRyt2/zijUMCArnLF7xU6Nr2zJrluFa622H3XqsLz6p7OJNl8TZIXNJKffi
+	ATVt+4Nmxjsm/zZevllaMTwQnw9E6FVF25PmuLxBpl1MFQ6kS2YKkicatUsV+u+i
+	HULp2w5w9Sd596SStCvNUWEhFb0GhjXS1JVpy0b3fw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=089QQ/
+	EPcC4jhLIUK/hU+O08fNo64kHHGRsDBr4I630=; b=8dhsziza1s+FLhDmaRvDrD
+	0ZFK6ssi6CN9nm8fqee6M3Zm6bocVOmetfR58zmmsB8gcQFW/XZFmpooFe9KjrH3
+	XW1NeioaLYazYkgl4CRoBm7qSJnzRznXqobPNY5BcYruVwRY/TRHsg6KvOBnQ24t
+	6T5+XC/yJndMxIjg06mWExsxprUyzsMgWA8xbe1jC6bCXV1ip8Xk1FnO2Dp7rIvk
+	qr2+yVdoR0C93EEL6FgO29e61teZ89+V8p06RQENQ8vUdzZVW/iKSXRqidwNnbHX
+	UZvRbrWqWuQDhOmlRrnKAI1W0psnPX5Hj0vtB/d/DKW+awi7d58yCp7V4YH7fNgw
+	==
+X-ME-Sender: <xms:DT-hXHrBrdEqAdxwBueXBYPGKC4rX5h9VYzJSu2Ep2v_lL2fGVWISg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrleefgddutdcutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfrfgruhhl
+	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecurfgrrh
+	grmhepmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehl
+	uhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:DT-hXADnud55ElY2JIuYlF2K_db3m6C4PXY28TRL_-y5GUOSJi9WxQ>
+	<xmx:DT-hXAMUHUoC7fr7ObWEWH1qXWWVTCUGqdZ-S3AZQ_v8LmvbNbyIig>
+	<xmx:DT-hXODNe3tRmXHkGpV2KeAjKNYjMtAln6zwjOcAa3rWydgWlU29Dw>
+	<xmx:Dj-hXDVL8FsLY3A7O1OHgnNOq7lxAEuSh2W4KdQFMfKTfBIntx7eaQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id D7CC97C1B9; Sun, 31 Mar 2019 18:28:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-329-gf4aae99-fmstable-20190329v1
+Mime-Version: 1.0
+X-Me-Personality: 84186096
+Message-Id: <05e3208a-24a2-4a6d-ba33-a23f00ffe41f@www.fastmail.com>
+In-Reply-To: <20190331205613.GA4664@bill-the-cat>
 References: <20190331155012.3085-1-open.source@oleksandr-kravchuk.com>
 	<20190331201141.GH18421@bill-the-cat>
 	<CANNYZj9QeaLU8AC03CmtczcVJ_jbuaL7gQEQ6HQVnDB82z+taw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj9QeaLU8AC03CmtczcVJ_jbuaL7gQEQ6HQVnDB82z+taw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	<20190331205613.GA4664@bill-the-cat>
+Date: Sun, 31 Mar 2019 18:28:31 -0400
+From: "Paul Barker" <paul@betafive.co.uk>
+To: "Tom Rini" <trini@konsulko.com>,
+	"Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
+	OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] vim: update to 8.1.1097
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,55 +72,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Mar 2019 20:56:16 -0000
-X-Groupsio-MsgNum: 122804
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 31 Mar 2019 22:28:31 -0000
+Content-Type: text/plain
 
---pf9I7BMVVzbSWLtt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 31 Mar 2019, at 21:56, Tom Rini wrote:
+> On Sun, Mar 31, 2019 at 10:19:51PM +0200, Alexander Kanavin wrote:
+> > On Sun, 31 Mar 2019 at 22:12, Tom Rini <trini@konsulko.com> wrote:
+> > > Looks better, thanks. Is there a particular fix / change you're doing
+> > > this for? I ask since every commit is a version bump we might want to
+> > > set a guideline of once a month or so for bumping vim to the latest.
+> > 
+> > It's a bit insane upstream is doing that.
+> > Should we set PV to something like PV = "8.1+git${SRCPV}"? That way
+> > devtool/AUH/RRS will not be reporting a new version for each commit,
+> > and will only do that when 8.2 is out.
+> 
+> No, we should follow what upstream does for version numbers, it's what
+> other distros do. And on the related topic of "is it a stable branch?",
+> it does seem like yes, it is. We should just remember to not update it
+> more often than say the first of the month, without a specific reason.
 
-On Sun, Mar 31, 2019 at 10:19:51PM +0200, Alexander Kanavin wrote:
-> On Sun, 31 Mar 2019 at 22:12, Tom Rini <trini@konsulko.com> wrote:
-> > Looks better, thanks.  Is there a particular fix / change you're doing
-> > this for?  I ask since every commit is a version bump we might want to
-> > set a guideline of once a month or so for bumping vim to the latest.
->=20
-> It's a bit insane upstream is doing that.
-> Should we set PV to something like PV =3D "8.1+git${SRCPV}"? That way
-> devtool/AUH/RRS will not be reporting a new version for each commit,
-> and will only do that when 8.2 is out.
+When I've done vim updates in the past I aimed for once every 3 months. I also looked at Debian/Fedora/etc to find a version that someone else has already tested in a distribution - with vim having so many "releases" you have the same issue you'd get from picking a random commit off the master branch from another project. Matching against a version used somewhere else gives us something to compare to when we hit a bug.
 
-No, we should follow what upstream does for version numbers, it's what
-other distros do.  And on the related topic of "is it a stable branch?",
-it does seem like yes, it is.  We should just remember to not update it
-more often than say the first of the month, without a specific reason.
+Thanks,
 
---=20
-Tom
+-- 
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
---pf9I7BMVVzbSWLtt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJcoSltAAoJEIf59jXTHXZSIt8QAL/oAocbI8t8eCKceE55LBFB
-31I9SBMVOghvFGdikTzw3eGBli7b8/B3pYN6oz/Oec2RwItgOCu44Ol555Ufyv1l
-iiL7pst81bSMKrrvS/8e5bnAPUoP4LASprlz90Qj6mXbvxSzXlbCsRRJwZjq/v8r
-+zDN9ih7QEjP+V8EA0iadwGrsMzubNvI9MHcy5I6pGIm3+XG6YloPnzOIb5mhJ9/
-V7BiOFGLouL2CfwMBE1z7X+cp5FRh4BY3wwlFwPRah50n9QKXHP8SmvIkXTb1trz
-EJ4/8rqlCsFc50SgzGxQzDzT2+XGDsfx/M1ICnWW8/05x5t7a3CbB5Zhx1PeVUmd
-EMawRZqqJXzMmhwuiA/gVaZTVHGFYLMl/MvXIOV5TFXnEUebx6VfUL7lY1xe3fFE
-PBY0ib8sMArRiqlf8HI190Tach1WAnAMnE7j0a+q/A9ld9190Ml1Wes96FwEFMEy
-vpVo3jft/rx7DHNTf+Hk3Y7r/ivm52cmm9NMLiYcMdv470cjnymeTHrPv/0WHYSL
-ZBn433xmwrVdSsir/gOLpINol2d7XkPNQAhQd/DRJWVaw0SQt0RoCqvMC7aa3anL
-3sDk/Ts6lpmy8qw4d7h3FZK5N8K9iY+kUU9IEmBO78ZPEzguIaRo8CgLia7r5tfh
-PbUyW1yutN4nzGcXtic8
-=Jjlw
------END PGP SIGNATURE-----
-
---pf9I7BMVVzbSWLtt--
