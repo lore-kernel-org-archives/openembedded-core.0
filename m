@@ -1,56 +1,51 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B7867CFDD
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CCC16011C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 17:03:13 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id y6so5934590ljd.12
+	Sun, 31 Mar 2019 20:11:46 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id q14so6357899edr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 10:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=42Xny3nY4+E12Q6gcEZzOWYeKO/paDhy7lzL8xqHJHw=;
-	b=rQhoDfDkgT42xDOfL4+5E9yAbYzS2PxCqy6Nk7+nEdKDIXTgWvzfuGz2lHtF2Q/2TQ
-	5tAYapx/8OJQQ72/uthzZh7epAW5xNRShimCyuQXQgltraCxjvXcqiqUJnHMhBKHOfTr
-	hnUYq7f2YAg/kG8bi4df9xIPK/LjE1MqyRohaC5jxKXKV2YDsazyT8d3XwSqRoK6zR5t
-	gVIlAOluzvpxIgxv5vuwMpoX3lukm35xVtTtAe3er84HpFqQscv5gqCVuZpilLxj6Y1q
-	8GJbGtnsWA2aor0K1UNLTQxadLSS3NnnNdPK4lwHZBFuWhKZXvnxqbZUv8nnApoPlNO1
-	dQWA==
+	Sun, 31 Mar 2019 13:11:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=43WrMqsdPDWQPrJZGoT9hhPG7bBfBuqVmCYSr9b1cLI=;
+	b=G4dhsQIr8kKm9KP+s9mdp1vuT8lM18iqXK7KvkgYPY21qqhriCO/FI/YkySnGo2hGj
+	aIyLpfoRYhz7TtlNbar6a8YheJ8F5lAXz8lJYOqnsjrmAUOVsXFUfvA8JojCWUkzYsnZ
+	f3v3r2/Ks0nFnpf2FF1R+IvLXuL+02+oJmjyY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=42Xny3nY4+E12Q6gcEZzOWYeKO/paDhy7lzL8xqHJHw=;
-	b=pkGaGRw2iwj4GcZXONrEC7OsztfpJqpD1iLN6xDx/BJNC1/QcZMYGZpl/3nmZIxXzU
-	tH75Nd1pnICCNZ6KhfTaxNUMdXS5kuUhN9vQj5zLP1O7Od/LA/HfpMGbHNDaVA+pNmsC
-	xh0UFYrCaX8wmu6UbjKXGH0GR0+UMX5WwDd56Py79Nr7lgveFx8f3PtvT53OWC9ghujf
-	o8/h6lX8pmM+R4jYplhBUSzEa/5vWijZnMV11m42sy6VdhvmPb5zKkGI+Q25GKxbTYx/
-	5nyrh89+fsAWtlemK12JaZw8NjjiMiY8O3OsE3n/T7ePucAVe5pDmiHWsP+cYYJy3NO+
-	kMAg==
-X-Gm-Message-State: APjAAAX/Hb6CPc98byVWkSMYsLgKbEW5rlb9X3NzRxHF6FJondr3dZb+
-	mfAnJWJFvVjadS5X5AwhPUMq3I45+lU=
-X-Google-Smtp-Source: APXvYqy8BVhNOf+aH71VTPGl0DNFlvBsnabw+gSOuvw62DzMWDhwfFVgHu8WyuQzSwqw4WpiKrzYDQ==
-X-Received: by 2002:a2e:978b:: with SMTP id y11mr13746432lji.190.1554051794184;
-	Sun, 31 Mar 2019 10:03:14 -0700 (PDT)
-Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	e20sm1569696ljl.95.2019.03.31.10.03.13
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=43WrMqsdPDWQPrJZGoT9hhPG7bBfBuqVmCYSr9b1cLI=;
+	b=cCI0iwuVj7+xtz9qiianTCktxL6R+GxbQOmGdapMcO5vmUO8ZZXLPkaKwKp6U4QOsI
+	adLauAvV3n4IQgt62yMyc3yw6mF4egued/qLXP8Tc9vSnT1XZYvG7wjSeDyC9q5c54Ep
+	YaK6pMXfNESsztvaBySvrN8OL8nxzaz7b/DHBtGbluKlHNrMxPmbwPWLpGgXYRCTvCmX
+	wYwAYMIs8BI7ABUnHtLxWT0Z8OyGw/SYUnIseAm/D9nk7kVBu1BKXQM/RlfgMw8/S3q9
+	PwLfy5SPjy7/LcxntiHo+kdq2dK15WgYLQjVbrEU8PHoDvPGmfN/w8yV5kg0/KEtwmfX
+	UnGQ==
+X-Gm-Message-State: APjAAAWoXosPnLM6D/DVXUnM+zwqPUbRefi31m34L2I1Q1kZUqehUCeh
+	2ZZObpyZEKWn3xx2H50AEGfYQQ==
+X-Google-Smtp-Source: APXvYqyqBu0X928EdL/BNDChrbvnBAjw8ddHltl/06Rd2mcMMT3CNT6N+dBXPiPuf30tSzB5Z+ZLdA==
+X-Received: by 2002:a17:906:d20e:: with SMTP id
+	w14mr33564127ejz.160.1554063106812; 
+	Sun, 31 Mar 2019 13:11:46 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
+	[65.184.134.105])
+	by smtp.gmail.com with ESMTPSA id g3sm1501443ejp.31.2019.03.31.13.11.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 10:03:13 -0700 (PDT)
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20190331162956.3066-1-open.source@oleksandr-kravchuk.com>
-	<31add999-92a5-c7a3-f912-04eb3ca895bd@gmail.com>
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Message-ID: <8eb28e4a-be22-5d57-9eca-8cd4067fd0e9@oleksandr-kravchuk.com>
-Date: Sun, 31 Mar 2019 19:03:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Sun, 31 Mar 2019 13:11:45 -0700 (PDT)
+Date: Sun, 31 Mar 2019 16:11:41 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Message-ID: <20190331201141.GH18421@bill-the-cat>
+References: <20190331155012.3085-1-open.source@oleksandr-kravchuk.com>
 MIME-Version: 1.0
-In-Reply-To: <31add999-92a5-c7a3-f912-04eb3ca895bd@gmail.com>
-Subject: Re: [PATCH] curl: update to 7.64.1
+In-Reply-To: <20190331155012.3085-1-open.source@oleksandr-kravchuk.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] vim: update to 8.1.1097
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,39 +58,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Mar 2019 17:03:14 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 31 Mar 2019 20:11:46 -0000
+X-Groupsio-MsgNum: 122800
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="m8BvB8WNsQtskLOK"
+Content-Disposition: inline
 
-Not only big fixes, but mostly: https://curl.haxx.se/changes.html#7_64_1
+--m8BvB8WNsQtskLOK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 31/03/2019 19:00, akuster808 wrote:
-> is this a bug fix only update?
->
-> On 3/31/19 9:29 AM, Oleksandr Kravchuk wrote:
->> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
->> ---
->>  meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>  rename meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} (95%)
->>
->> diff --git a/meta/recipes-support/curl/curl_7.64.0.bb b/meta/recipes-support/curl/curl_7.64.1.bb
->> similarity index 95%
->> rename from meta/recipes-support/curl/curl_7.64.0.bb
->> rename to meta/recipes-support/curl/curl_7.64.1.bb
->> index a1b5e7d579..47c28beff6 100644
->> --- a/meta/recipes-support/curl/curl_7.64.0.bb
->> +++ b/meta/recipes-support/curl/curl_7.64.1.bb
->> @@ -9,8 +9,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->>             file://0001-replace-krb5-config-with-pkg-config.patch \
->>  "
->>  
->> -SRC_URI[md5sum] = "d0bcc586873cfef08b4b9594e5395a33"
->> -SRC_URI[sha256sum] = "d573ba1c2d1cf9d8533fadcce480d778417964e8d04ccddcc76e591d544cf2eb"
->> +SRC_URI[md5sum] = "790c101927845208a9d7e8c429ddd1b2"
->> +SRC_URI[sha256sum] = "4cc7c738b35250d0680f29e93e0820c4cb40035f43514ea3ec8d60322d41a45d"
->>  
->>  CVE_PRODUCT = "curl libcurl"
->>  inherit autotools pkgconfig binconfig multilib_header
+On Sun, Mar 31, 2019 at 05:50:12PM +0200, Oleksandr Kravchuk wrote:
 
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  .../vim/{vim-tiny_8.1.1017.bb =3D> vim-tiny_8.1.1097.bb}          | 0
+>  meta/recipes-support/vim/{vim_8.1.1017.bb =3D> vim_8.1.1097.bb}   | 2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =3D> vim-tiny_8.1.=
+1097.bb} (100%)
+>  rename meta/recipes-support/vim/{vim_8.1.1017.bb =3D> vim_8.1.1097.bb} (=
+98%)
+>=20
+> diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb b/meta/recipes=
+-support/vim/vim-tiny_8.1.1097.bb
+> similarity index 100%
+> rename from meta/recipes-support/vim/vim-tiny_8.1.1017.bb
+> rename to meta/recipes-support/vim/vim-tiny_8.1.1097.bb
+> diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-supp=
+ort/vim/vim_8.1.1097.bb
+> similarity index 98%
+> rename from meta/recipes-support/vim/vim_8.1.1017.bb
+> rename to meta/recipes-support/vim/vim_8.1.1097.bb
+> index 7627d2844b..4de1bc3807 100644
+> --- a/meta/recipes-support/vim/vim_8.1.1017.bb
+> +++ b/meta/recipes-support/vim/vim_8.1.1097.bb
+> @@ -13,7 +13,7 @@ SRC_URI =3D "git://github.com/vim/vim.git \
+>             file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=
+=3D.. \
+>             file://0001-src-Makefile-improve-reproducibility.patch;patchd=
+ir=3D.. \
+>  "
+> -SRCREV =3D "493fbe4abee660d30b4f2aef87b754b0a720213c"
+> +SRCREV =3D "4fc8e2f8bb3eb42df0f72cfcc1f8f8e567e7ce4f"
+> =20
+>  S =3D "${WORKDIR}/git/src"
+
+Looks better, thanks.  Is there a particular fix / change you're doing
+this for?  I ask since every commit is a version bump we might want to
+set a guideline of once a month or so for bumping vim to the latest.
+
+--=20
+Tom
+
+--m8BvB8WNsQtskLOK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcoR79AAoJEIf59jXTHXZSag0P/24xfPMVuuLYFzd0oC3+G9yI
+N6Hibb8L55GfUxwKPuNF2aCq1CG0QhZKspFulYe3pw0etpzSYkuOUZ59v79kEE3Q
+q30KNp029011ARhM5rYh581NQE+G7rVXLbypyIApu0WGanM0JfPIUfFyQGYgL1Rr
+IGJmaYUiIGSrIIoJFCB8tF/U1wqk2PtGJDKm2Etr891vFm0O5O4PRagRyvwu9wtC
+gyxpuJ005Pq6VJ5oF/eZOt2pEOPbS78MCg99zbxurIkjvvgVRTMRMFdJr0Mtqh0i
+ZuGw769GktXJjBc/DH9101Wxorq2WM0ximM3WTwLI2hA+YE7BvCHaEMj5Ft10N/7
+d1dqtrWa1f57mbdyvUzN3iTGyE1LzcFagwHQ94Wi9bcyCarcTbS6JkMyn5tnS7W7
+jBvZ1to0oM3s1UCMiUYwK44peoxLdE3CkuKG2z7da0KQbN04tPIlTpG7MMlxpU2i
+UUcBxOpQUDP7sDCsQnvs2IUAplQvCEU2I5mdxMhEkFHhGmcGBIxrbMfhdIb1M3lr
+tTJTp0BRpq0bgfrNDBDpxk32rOUGGdK/JaQpHaNxhE0KhaUV7PYpTWUadqK2JoSP
+pVtO8iNqpg7jaNtsiMAZsGizAws/5M4MOXqp4PzVu3hvLTYjXH/AmXLVf6+D0XAz
+UToGlz71zIYtaAgXDs+z
+=kCGF
+-----END PGP SIGNATURE-----
+
+--m8BvB8WNsQtskLOK--
