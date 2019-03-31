@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 14CB26C376
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 36AA17CFDE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 16:29:58 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id h16so5896804ljg.11
+	Sun, 31 Mar 2019 16:37:32 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id u21so4559809lfu.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 09:30:00 -0700 (PDT)
+	Sun, 31 Mar 2019 09:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=blXjqJCZzWrC6/lVmHMJa2+XU3WTBFSNrmrkbqc4HeI=;
-	b=Kf8pJauagmEPXg5iTH9UM9igdO7HEkXugamwEozFAyjhJh3OWE1IVQHA2w5iE1KRHO
-	qAF91U7fxwBLPC8gHPCZm2euinYGbdlNFJcosd53Z3tgiC8nuufFMPEFLc/PIYWVvtJ+
-	iTkjNvD1aKciM4IRhfdYW0tA3Eq9aYNOFSsx7eKi2hFe6wwNflfiZE8QWls5jLHDG5dx
-	Yg9fqEraAP5KWiFlaYipw/owOSF/t6h6rqeS5CU4Jc10e5eXjsoI9A5pVN+DKUsP1pcP
-	UClNjrx7U+vPC7SfCx4mU6LwDrbkXclLquSMyURhHZV8Tl/1K4YKLQANUGrfy8YOzejg
-	s6Pw==
+	bh=KpEf/Dd79vuBKLA1LYsUjb6e0ZNUO+UEA0Tds3hSM0c=;
+	b=qIbpNCsVHjZI+omr8cxpF1BmwYpmHUQUK7MptfPVhykeTbsmj544BCq6Og+kE9qF1b
+	5QAcMgkZJ0DVKvWDIgDyCz5LFxewR+DHOUrf1F3u7n6dIoITjemlNA9ByYCAwIDgVRz5
+	JWrNiXEbPNQpVhCJMuNBPqNoKjGmRp/Ml2Y9NdUeVAnMB2lIl+WTPow3Mt7aNGTPDm8F
+	eKRGPqTUN4kEd7/R0ntKvyHb/FHekNSZ0C+DJlVFOlbFvLVH0IlFJmjTh0B5DNQAPQxS
+	qQBNlVVR3cO80O5MGOZMx2L5YM32J1/foC8BTM+si/4Uqa0CgVNFnEA6ikfsbmrK0R4c
+	5/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=blXjqJCZzWrC6/lVmHMJa2+XU3WTBFSNrmrkbqc4HeI=;
-	b=LoP8jUr+zf4rGJnNB9o4Q7u/3LNiRLhqxCvzmyIat+p2JwtaUAnFCKog9aIcmHjdnc
-	+JegGAIPIrKv/mV6L8MQht8f2kyFMDxFQTZDh72vWFwOr/XngWNMazR0INivk3UrqAFB
-	oNnMddQEVU5MjLiFCo8gfrw0oah1O1SC4ogxjbj7s6Ku2IFVZrxX9OQYo0J0JjzgXgf8
-	QSlpg7YfiaBJqby6gLLE+hd8IloEM0SACVOR97G8p+pPgPeFg5Z28UMRoGCMUiRL1Dus
-	cIUeZEwA3o4jTI1Nw5kH0FwB0HT8CB9Xzf4JyT5Ey5GnVIbF5BmPdL75LYJhjpxFvVLK
-	9gtw==
-X-Gm-Message-State: APjAAAXG4qT42ap1oHed5PFO43dlG/SY7s28f8RhOE7j7Q+bmIWKtIRp
-	8USOJ8QDsVnqYf3b7rUlGHUbHE7LSN4=
-X-Google-Smtp-Source: APXvYqyUbqeSl7rFOnuoDaWFOjt219Rb7cBLBL1Cn61zcsc9Z7Wv1ldGRrO1OXc2eEMzueUxa/LgoA==
-X-Received: by 2002:a2e:454:: with SMTP id 81mr23967084lje.23.1554049799176;
-	Sun, 31 Mar 2019 09:29:59 -0700 (PDT)
+	bh=KpEf/Dd79vuBKLA1LYsUjb6e0ZNUO+UEA0Tds3hSM0c=;
+	b=TyubSrQzetAN7Lp2itSbzqvtoBkB8ZDWEiVNCwJEWnsa9mGwtEju3vHvCmEWgvGlYB
+	cDo3PdZj+7CtrvbFJGy4btUvEX9594zrpt/jKYWTFPIc5fRLaTyDPH88j6rrux3FaI1x
+	l8KRBxC58iri/ZgXklNz0B8Jp/kauQy0LHeXsloels7aq08Mp7bldZ2yj5SAmXhknr9h
+	9O4UCSv4c+L9uFKKS+z2Z+mSArsI3bPvBksONnvK6PCNiMLScTlgHVzq9lJ2gzHK6bcU
+	0isMB3sJVkjkNX7a4jNHoPTjbqinLkBGo+100oLt62fRhxTWKQE45e/q3tN3VGQaaLRH
+	yeMA==
+X-Gm-Message-State: APjAAAUmA+ALcBxj/v7Q58BiO2aSmJmLlNz0DgKozXtkpYmHQ8oXXihG
+	h30HahXQWXFQJTL8CRAB66NC6676Ty8=
+X-Google-Smtp-Source: APXvYqzhNk1gk5Bk4HTf5nra/DcHDUukaMKgYLV1HSoUwXiSFYrIW/bHzGghXD9pzXgjtxoQ8s0QDQ==
+X-Received: by 2002:a19:c204:: with SMTP id l4mr29802047lfc.143.1554050252825; 
+	Sun, 31 Mar 2019 09:37:32 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id r1sm1373908lfm.7.2019.03.31.09.29.58
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	z83sm1549664ljb.48.2019.03.31.09.37.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 09:29:58 -0700 (PDT)
+	Sun, 31 Mar 2019 09:37:32 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 31 Mar 2019 18:29:56 +0200
-Message-Id: <20190331162956.3066-1-open.source@oleksandr-kravchuk.com>
+Date: Sun, 31 Mar 2019 18:37:27 +0200
+Message-Id: <20190331163727.5058-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] curl: update to 7.64.1
+Subject: [PATCH] ffmpeg: update to 4.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Mar 2019 16:29:59 -0000
+X-List-Received-Date: Sun, 31 Mar 2019 16:37:33 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} | 4 ++--
+ .../ffmpeg/{ffmpeg_4.1.1.bb => ffmpeg_4.1.2.bb}               | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} (95%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.1.1.bb => ffmpeg_4.1.2.bb} (97%)
 
-diff --git a/meta/recipes-support/curl/curl_7.64.0.bb b/meta/recipes-support/curl/curl_7.64.1.bb
-similarity index 95%
-rename from meta/recipes-support/curl/curl_7.64.0.bb
-rename to meta/recipes-support/curl/curl_7.64.1.bb
-index a1b5e7d579..47c28beff6 100644
---- a/meta/recipes-support/curl/curl_7.64.0.bb
-+++ b/meta/recipes-support/curl/curl_7.64.1.bb
-@@ -9,8 +9,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
- "
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb
+index 749b3d0dd8..e76fe7cbbf 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb
+@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            "
+-SRC_URI[md5sum] = "720fc84617a2c38aeae79aff3689a567"
+-SRC_URI[sha256sum] = "373749824dfd334d84e55dff406729edfd1606575ee44dd485d97d45ea4d2d86"
++SRC_URI[md5sum] = "8f7f0a6c5d81ff20d9d65d000a6b419d"
++SRC_URI[sha256sum] = "b95f0ae44798ab1434155ac7f81f30a7e9760a02282e4b5898372c22a335347b"
  
--SRC_URI[md5sum] = "d0bcc586873cfef08b4b9594e5395a33"
--SRC_URI[sha256sum] = "d573ba1c2d1cf9d8533fadcce480d778417964e8d04ccddcc76e591d544cf2eb"
-+SRC_URI[md5sum] = "790c101927845208a9d7e8c429ddd1b2"
-+SRC_URI[sha256sum] = "4cc7c738b35250d0680f29e93e0820c4cb40035f43514ea3ec8d60322d41a45d"
- 
- CVE_PRODUCT = "curl libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET_armv4 = "arm"
 -- 
 2.17.1
 
