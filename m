@@ -1,30 +1,30 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EE56B7CF88
+	by mail.openembedded.org (Postfix) with ESMTP id 37AA06C1BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 03:16:45 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,295,1549900800"; d="scan'208";a="58170609"
+	Mon,  1 Apr 2019 03:27:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,295,1549900800"; d="scan'208";a="58171509"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 01 Apr 2019 11:16:45 +0800
+	by heian.cn.fujitsu.com with ESMTP; 01 Apr 2019 11:27:46 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id A85454CD451D
+	by cn.fujitsu.com (Postfix) with ESMTP id 6D8F74CD6C91
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 11:16:45 +0800 (CST)
+	Mon,  1 Apr 2019 11:27:46 +0800 (CST)
 Received: from localhost.local (10.167.225.84) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 1 Apr 2019 11:16:52 +0800
+	Server (TLS) id 14.3.439.0; Mon, 1 Apr 2019 11:27:53 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Apr 2019 11:17:21 +0800
-Message-ID: <20190401031721.12936-1-zangrc.fnst@cn.fujitsu.com>
+Date: Mon, 1 Apr 2019 11:28:22 +0800
+Message-ID: <20190401032822.27272-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.84]
-X-yoursite-MailScanner-ID: A85454CD451D.A8541
+X-yoursite-MailScanner-ID: 6D8F74CD6C91.AB400
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libxft:upgrade 2.3.2 -> 2.3.3
+Subject: [PATCH] libxxf86dga:upgrade 1.1.4 -> 1.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 03:16:46 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 03:27:46 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
--Upgrade from libxft_2.3.2.bb to libxft_2.3.3.bb.
+-Upgrade from libxxf86dga_1.1.4.bb to libxxf86dga_1.1.5.bb.
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb}             | 4 ++--
+ .../xorg-lib/{libxxf86dga_1.1.4.bb => libxxf86dga_1.1.5.bb}   | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb} (88%)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86dga_1.1.4.bb => libxxf86dga_1.1.5.bb} (77%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
-index 4565ae2626..65bd9ae494 100644
---- a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
-@@ -20,8 +20,8 @@ PROVIDES = "xft"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+rename to meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
+index 626199e09c..e1cb345658 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
+@@ -13,7 +13,7 @@ DEPENDS += "libxext"
  
  PE = "1"
  
--SRC_URI[md5sum] = "331b3a2a3a1a78b5b44cfbd43f86fcfe"
--SRC_URI[sha256sum] = "f5a3c824761df351ca91827ac221090943ef28b248573486050de89f4bfcdc4c"
-+SRC_URI[md5sum] = "4a433c24627b4ff60a4dd403a0990796"
-+SRC_URI[sha256sum] = "225c68e616dd29dbb27809e45e9eadf18e4d74c50be43020ef20015274529216"
+-SRC_URI[md5sum] = "d7dd9b9df336b7dd4028b6b56542ff2c"
+-SRC_URI[sha256sum] = "8eecd4b6c1df9a3704c04733c2f4fa93ef469b55028af5510b25818e2456c77e"
++SRC_URI[md5sum] = "0ddeafc13b33086357cfa96fae41ee8e"
++SRC_URI[sha256sum] = "2b98bc5f506c6140d4eddd3990842d30f5dae733b64f198a504f07461bdb7203"
  
- XORG_PN = "libXft"
- 
+ XORG_PN = "libXxf86dga"
 -- 
 2.20.1
 
