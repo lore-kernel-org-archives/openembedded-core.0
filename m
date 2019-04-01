@@ -1,51 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A53E7D01A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+	[209.85.167.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 76BD97D01A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 16:05:00 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id s7so8178714iom.12
+	Mon,  1 Apr 2019 16:10:38 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id v84so7745160oif.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 09:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 01 Apr 2019 09:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=e6lO9HcqtUtX6CQ95MBzW2Ix06mlkXj0P25Fh1pjA98=;
-	b=tmr2gi/VCFgfBcTIcnNh3nrlzM/6zXshY+IgpaVe0ZNAEps6fFXX4SdssQi1IH23PD
-	Nj/+Up1JVt0AAbuChVQbfWxhu5IC0vJNPmDFRH89oleDwbdimVqrKeEgLQpeYnM3IDFK
-	tYIs+RffmGNWRvJ59Uwx+UyNl0z38+IsyTmx+prfPnYzLL7FhyqPsSqu7ySP+E4e+w7d
-	zbYRH9iD5Xe3r+G1WcZF3Y9e1cDt+xxmIVg1DrW0LgFyen4yFt8h/0nUfOH4WZLZvTN0
-	uhwR3WX6MgHUJTIklIuFiURLF2fAMD3ORa6BLwc+5LP5vCKkyShWudCqMzof7lxHp4zE
-	TuXA==
+	:cc:content-transfer-encoding;
+	bh=DUpwwCLFBvHJv91n9SW6LlZk1+dsXmpsXkI6DsfeHH8=;
+	b=EzXNr4ThSYtDitjORYdgWJvwsoxnEy2Te3NYK35uI33bmoK2kxL9BOZR6bCwSLyE1x
+	re0wS1hUF468h6iECfznD/WLac+RsB8Ey6NEgN86sKDY4EtnDm2HJVLnY5G8dHoyuB9i
+	26cwt6lzGsKYd+iK3pA/9mhIhnQOPJs6v/kiWTsMVr+lH2au/OoJm0PYDrXzWTiye5I2
+	e1iFaXKU08IjJnuU2UADCv/7OFSfTrAkfRq2fw/GbLYrqKtsf4WOeWuMziZvUdK5PYON
+	P8g78Chkk+kBbwd/+GUgndix+9/PPbzU1n5Ru7b9N744JvxxPD3fxqQ8rhN1SkXNpawH
+	jouQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=e6lO9HcqtUtX6CQ95MBzW2Ix06mlkXj0P25Fh1pjA98=;
-	b=LFM4S5MyeGHLe/R0+/AaC4uOC1SJSJwYYaXYXdTo2rk93Pj3pKaAIpMTBdWoJV8VjF
-	WJWrYC2px6cr/ReNui/yyrhpGUL5dFObjh7ceCqiEKTdna8jlS76boOzcvbqvr8vGpjo
-	AcRAnoPDjvt0jH4hfV3lUHGHSv+gTtnB4VZ9enhaTzF6ue24FowLiWavsxcPd1xvV9BX
-	qODxk20EKgCeLqMhmcjh0FZR1dXitBBtJLkv2JmfKtXvhpPVLtvN12O7FcicbQbNNGu0
-	zu094h+PvpVRWPiBJHJBD00Tcbh5dBA7/a8gxLDuo6NMSFM0cOCWZI8/V/YOf2Y5iDkG
-	I5UQ==
-X-Gm-Message-State: APjAAAUVe4B0fCU4bqZt1DjsioQNWXQwCEUiFOCTb4Rl2M9kdzTTJYIq
-	lyqzUSjysjZpItBfH7dtdKM40+3OfQ2KNnZ+5DVcXg==
-X-Google-Smtp-Source: APXvYqyp7YbkRBbHFhJ1UO235RPrdFfHBwBOV51z+MbD7ckyoDiJxynChOCGyYCirCZ8b3zPqIjOqKADaynU4hyiQHo=
-X-Received: by 2002:a5d:9b15:: with SMTP id y21mr28981149ion.167.1554134701977;
-	Mon, 01 Apr 2019 09:05:01 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=DUpwwCLFBvHJv91n9SW6LlZk1+dsXmpsXkI6DsfeHH8=;
+	b=k5mcgdy7fz7Z4yquwMiBrQ1DDgD+HGPsARrI5Tx36F5lLcjbS1fzbbaq6633svtbNm
+	WcTsOj2AoJvEapa57JOfkKm0Rkd+Cc7YZFiUD3s+cKKZhQBfihALhCP0vhdC9zhpn7Kl
+	mNwZfVenkdY/uf6f1MMx+/UdbG6gPRk+zKZa4VH+/MUHjkVlijIyBsXyBGijBwuFSW6Y
+	+1YB7F/cJsBv7oSy8TztS+/zWUbvdYvCJiMce4Gl6Asjf+WDJhRDulBjNnoEj/axDLLJ
+	SXvTlO6mHM1wBHm1BDi3zfWkzLC2i+H/mlzX+JMiLGxlZbqqmiAHgbDsmwdkXpNlQ3Lw
+	AgeQ==
+X-Gm-Message-State: APjAAAWuhBJxRL1L+v+t6L2LyeiQF9uW6J8/ciq0noBg0BazNt24rQ6H
+	PpJMqIpOfj9O8rGiLOTTujqMCIdu+c2XPzzF59Q=
+X-Google-Smtp-Source: APXvYqy9qhflnAf3pqOtBXZUUs0gDA+5wo2/A+hqbtu9uOSX4J0W5JCJxl2gMj1XR0N1xzUflQg8VOSVaTc1TR1j7lA=
+X-Received: by 2002:aca:ac94:: with SMTP id
+	v142mr13438645oie.135.1554135039490; 
+	Mon, 01 Apr 2019 09:10:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
-	<25e816bb8ab33d104be3feec92080bda3ee60f99.camel@linuxfoundation.org>
-	<09ee1ada-c90a-c04d-5032-dcd94e7bb864@oleksandr-kravchuk.com>
-	<CANNYZj9rmK_hmgT9gS_tbZpOdMepq_F58=ux_N5F1oY7zwy_KA@mail.gmail.com>
-In-Reply-To: <CANNYZj9rmK_hmgT9gS_tbZpOdMepq_F58=ux_N5F1oY7zwy_KA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 17:04:48 +0100
-Message-ID: <CAJTo0LY-zE3PaRRs0gguBJJtacOBAM716GDWLchgVD-dFpNrQg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: Re: [PATCH] ofono: update to 1.28
+References: <20190401160106.22928-1-schnitzeltony@gmail.com>
+In-Reply-To: <20190401160106.22928-1-schnitzeltony@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Apr 2019 18:10:28 +0200
+Message-ID: <CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,25 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 16:05:01 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 16:10:38 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 1 Apr 2019 at 16:58, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> It does not look like a hard dependency.
+On Mon, 1 Apr 2019 at 18:01, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
+wrote:
+> +# Auto enable/disable based on GI_DATA_ENABLED
+>  EXTRA_OECONF_prepend_class-target =3D "${@bb.utils.contains('GI_DATA_ENA=
+BLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
+> +EXTRA_OEMESON_prepend_class-target =3D "-D${GIR_MESON_OPTION}=3D${@bb.ut=
+ils.contains('GI_DATA_ENABLED', 'True', 'true', 'false', d)} "
+
+Thanks, may I also ask that you go over the recipes in oe-core that
+inherit meson, and tweak them to use this option? (there is not a lot,
+and some don't use g-i at all).
+
+>  # When building native recipes, disable introspection, as it is not nece=
+ssary,
+>  # pulls in additional dependencies, and makes build times longer
+>  EXTRA_OECONF_prepend_class-native =3D "--disable-introspection "
+>  EXTRA_OECONF_prepend_class-nativesdk =3D "--disable-introspection "
+> +EXTRA_OEMESON_prepend_class-native =3D "-D${GIR_MESON_OPTION}=3DFalse "
+> +EXTRA_OEMESON_prepend_class-nativesdk =3D "-D${GIR_MESON_OPTION}=3DFalse=
+ "
 >
-> configure.ac has:
-> AC_ARG_ENABLE([external_ell], AC_HELP_STRING([--enable-external-ell],
->
-> So you can make it a PACKAGECONFIG option, disabled by default. It's
-> fine to have oe-core packages conditionally depend on things in
-> meta-oe, if the condition defaults to disable.
+> -UNKNOWN_CONFIGURE_WHITELIST_append =3D " --enable-introspection --disabl=
+e-introspection"
+> +# Avoid triggering configure QA
+> +UNKNOWN_CONFIGURE_WHITELIST_append =3D " ${@["", "--enable-introspection=
+ --disable-introspection"][(bb.data.inherits_class('autotools', d))]}"
+> +UNKNOWN_CONFIGURE_WHITELIST_append =3D " ${@["", "${GIR_MESON_OPTION}"][=
+(bb.data.inherits_class('meson', d))]}"
 
-That's not right: that's the toggle between "a system-provided ell" or
-"you have checked out ell into the source tree".
+I honestly don't remember why the whitelisting was considered a good
+idea, but I think it would be better to drop it altogether? That way
+there will be no silent regressions (when upstream decides to rename
+the option, for example, which does happen).
 
-https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=8452a7f34907472c5e21c334673afd10df409eef
-
-We'll need to bring ell.bb into oe-core too.
-
-Ross
+Alex
 
