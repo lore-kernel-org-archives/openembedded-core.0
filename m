@@ -1,51 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A5C47D101
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+	[209.85.210.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D01897D06F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 14:17:36 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id h4so12259899wre.7
+	Mon,  1 Apr 2019 14:50:20 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id e80so8825586ote.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 07:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ivKEErz96b3mBCPasY83UV0slB+6mGzLt6OT2b4tsFA=;
-	b=BwtCujB9weOSwjfbS9wIH8Zh4KVtRRVdqVE25CGJ0jHNSGq5tNqeQHAaV/mwBOBvJA
-	q5cPURoknI6KD6mULN2oQE7nKBXN7vvrgIujz84YddRHJGtecrYdSZwCpyuuv/Dtn6rq
-	jrF7F7yFEmnnL8ATEantDkFwGfTVR16/SO3PQ=
+	Mon, 01 Apr 2019 07:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1YH8PS60NgTaIKYXedieqsfZmImRDsjghVB+FLD+uuI=;
+	b=fJgtvcSjXrV0R4ITnwFQaibSRCVEPQMSpeL/s0gt1Xh5cHSRCxAn02TJRyHDSRpcg2
+	4Yc5NtZrtFp0cvCTb+PpzyuYu6XeP30l1zLRg2413HUW8lLXyHLgJ8JpK7U3Zvw61Z7D
+	UUGEkdwyysUprQ2n1oMgQGVQswY6rPKpp3c0mOlnueoorg/hEDW95M1sFWxcH1wT5vrN
+	iZJOnyCXEXw7wSFodvJ6b+tViAV/7X4u0OmkJH4bEdQM5uwc51umXirn8fZOfpi/HFT2
+	cEeI6aefzqEGVIUSg1j4BcVgzM0gpQG0HL6D9nFo9nKo8g1atRm3owqddr0vCzfj78Y2
+	8qTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ivKEErz96b3mBCPasY83UV0slB+6mGzLt6OT2b4tsFA=;
-	b=YTna/T7Jom30K2qkVLm2+YlvykJ1YNIisH/QYY9eY3IOyyMjBOq1I4CBE1LqdKTMnk
-	42vn/tXg5kQ2NtahfP63xhza1uojuQlUM7CiKe5E2j42hX/g4aGQYEMeq4nuc5/jvtf5
-	W3veMMjejsgam6V6fhIiFI86m5kndxzV4R7aXDq1k8T5ZHeQ0ut+nQ3PXmMciw2bKO49
-	7gL2uZjOL63I1sFkuoczYvYxBM49MaAilVZbx7ToQUeBej5HmTFLfVoNj3KxGW/yUv5t
-	H1Nn8iKNWoMv26Ce0e6gyM+77qEz6A6zkIgF1qsi7VG5SHB1P6od7oCllWkD8p2UbCnB
-	zULA==
-X-Gm-Message-State: APjAAAVGLEN/uAk+B0PX8biRO9zDd2isX4+m1b6VqVV+4wg8WPSPNZY0
-	MX9xo727v6GuiM66Y0xl3v49Nn+N2Mt44w==
-X-Google-Smtp-Source: APXvYqydGDJEwC2xFyweI8nltrdLWH5SVOJA9kTNY3qiOJL6eAPt5YfWhqrUsn9a4b21yFC560lMng==
-X-Received: by 2002:adf:ee50:: with SMTP id w16mr448398wro.293.1554128257080; 
-	Mon, 01 Apr 2019 07:17:37 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f10sm12120072wrs.17.2019.04.01.07.17.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 01 Apr 2019 07:17:36 -0700 (PDT)
-Message-ID: <a23f92e9535e3c674a0fd8e7e5563302c222ea0d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 01 Apr 2019 15:17:35 +0100
-In-Reply-To: <20190331161757.12888-1-open.source@oleksandr-kravchuk.com>
-References: <20190331161757.12888-1-open.source@oleksandr-kravchuk.com>
-User-Agent: Evolution 3.32.0-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1YH8PS60NgTaIKYXedieqsfZmImRDsjghVB+FLD+uuI=;
+	b=Ntcv1181SVHr/nzGLws0R93PhAzkZRCedkk7MQYXR6xdlTMR/HaM/Vjj/Dc6DiBL+U
+	BI1hwzwa25tN077XzyKth6E/yFrDXjJdVP+ATyEsFYDg7FXAlim0u6+xW6s+Jpqj0ccA
+	El8lkUE94MDVXAiUcyFsJMx8Tsn5DxDJQtz4L41xXKLoiqwlJxLqYFrxJqQFqlh636Jc
+	PoxM9Hf5dTsuGKdTdnqnW0IFuRoi+udDit2g8ose9isB+3tgOGL6lrzMRo8QFYzGb3zW
+	hmY/Wo3vFQNp5u5SG09WHzp3P72ievbP8FfGED3KL1MABigqFmQKmcH0EIKkv2hmNCGK
+	/obw==
+X-Gm-Message-State: APjAAAUtiNpgjO6XoSN7UvwxuKZb68uhuwX3b9ONMlxDP1WdnEo+JGB3
+	Rmt/m9f0cpyUruRF+rDHijq+oxgeCHG7NziwHRw=
+X-Google-Smtp-Source: APXvYqzFbAtGV2xkloob9gFEQG6cNRbclb6uOH3bIBSethj12d2JNmkz2YL20kGrKY+GoBdoTVClivLkIjn4f59y5pM=
+X-Received: by 2002:a9d:4a9c:: with SMTP id i28mr30124534otf.326.1554130221856;
+	Mon, 01 Apr 2019 07:50:21 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] quote: update to 4.05
+References: <cover.1554106752.git.xavier.berger@bio-logic.net>
+In-Reply-To: <cover.1554106752.git.xavier.berger@bio-logic.net>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Apr 2019 16:50:10 +0200
+Message-ID: <CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
+To: Xavier Berger <xavier.berger@bio-logic.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PULL][PATCH 0/2] Implement debian packages GPG signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +53,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 14:17:36 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 14:50:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2019-03-31 at 18:17 +0200, Oleksandr Kravchuk wrote:
-> License checksum from quota.c was removed since according to the
-> project, copyrighted code in question has been replaced with own
-> implementation (see @bcbc0d08e5cd).
-> 
-> Removed patch has been upstreamed.
-> 
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com
-> >
-> ---
->  .../quota/quota/remove_non_posix_types.patch  | 198 ----------------
-> --
->  .../quota/{quota_4.04.bb => quota_4.05.bb}    |   8 +-
->  2 files changed, 3 insertions(+), 203 deletions(-)
->  delete mode 100644 meta/recipes-
-> extended/quota/quota/remove_non_posix_types.patch
->  rename meta/recipes-extended/quota/{quota_4.04.bb => quota_4.05.bb}
-> (80%)
+On Mon, 1 Apr 2019 at 15:57, Xavier Berger <xavier.berger@bio-logic.net> wrote:
+> Xavier Berger (2):
+>   gpg-sign: Add parameters to gpg signature function
+>   package_manager: sign DEB package feeds
+>
+>  meta/lib/oe/gpg_sign.py        |  6 +++++-
+>  meta/lib/oe/package_manager.py | 19 ++++++++++++++++---
 
-Typo in the shortlog (quote -> quota) and also:
+How do we make sure this does not regress? Can you add a test case
+similar to one for rpm feed signing?
 
-WARNING: quota-4.05-r0 do_patch: 
-Some of the context lines in patches were ignored. This can lead to
-incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
-
-    devtool modify <recipe>
-    devtool finish --force-patch-refresh <recipe> <layer_path>
-
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored). Further information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-Details:
-Applying patch fcntl.patch
-patching file quota.h
-Hunk #1 succeeded at 182 (offset 17 lines).
-patching file quotacheck.c
-patching file quotaio.c
-patching file dqblk_v2.h
-Hunk #1 succeeded at 7 with fuzz 2.
-patching file rquota_client.c
-
-Now at patch fcntl.patch
-
-Cheers,
-
-Richard
-
+Alex
 
