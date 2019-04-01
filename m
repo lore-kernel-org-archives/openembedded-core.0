@@ -1,49 +1,30 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BB226BE2A
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 164807CFEE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 01:15:11 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id r25so4982724lfn.13
+	Mon,  1 Apr 2019 01:43:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,294,1549900800"; d="scan'208";a="58163078"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 01 Apr 2019 09:43:48 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 8AC404CD6546
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 18:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=mEsNrXoJDGtKi317iSndcU3zg4T6YETc4FNqwTyNEv8=;
-	b=vw9CSt2ziFBUdJrjaIzyY6Jl3o/b9i0JIpdSsKwTm/2ZP4WoliWKOebKPvxjy24ilU
-	/FfaOSKjaK/NHkdeL1gVgCnVRjGAAKNDYYPBgCSwvEkhT58EUXNoO6Ctz4+A/l7/Es2Z
-	F3igj0mGh6nz6J9Y0nFnNZkMmKZxX8el84rOhNekINiCJ/wmXK9e3iKFVffqaSH70yZN
-	rmHGBx423vAzmLrDieV1t9Z2D3Hgc4HJ7FR39yRP+GewFpJK4G6Ww+k+7ESlR+xXHtda
-	H26kEdKgNkZgRtduH81LUAeyeNGo4+6YghgiTizh2xcK4kDtt446qmH99mcAqHPuVwl1
-	zH7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mEsNrXoJDGtKi317iSndcU3zg4T6YETc4FNqwTyNEv8=;
-	b=Mgn1EwBuayTmio53yy+ml4sSns7MFfB8VQQfXvCzgIWLCXfy6Zr63Ck9RTqCgcYSPH
-	xgHfTT13y/t8Xgto8wjPgYNbLTbbu3TkSQ/qZ2/Ntbb7mX7lh2+FO7CbSO3X8ERDzQOF
-	qNKrkoTwk7wGtRvee3Na27+6cLuy0aek1GQ21wfgzOYaZAlc/lK9HYOfNd8a2+msV5zL
-	YbB8gi2xa/30TynoXgc+ZFhUSPerqV5OzzlwnoDWmYbWnwVRXZMSsTjZJU7euw2B/Aea
-	bQNuWU80J8Mg00tUBgU/XdNoSBya6Fr7k+AY9f0HDpE3ZQRq0UXFCplfq6JocaqmbapS
-	qBjQ==
-X-Gm-Message-State: APjAAAV/IWECnJa0/3gWhg2Fz6Jj8PyWfF77cgpE7rpVesfPHHkyFlKA
-	XJL/u1ShBUM965gINp9EpI6SjhWEUS4=
-X-Google-Smtp-Source: APXvYqzQsyuuDP/qOPUEFGIrTrAfEkf4xbPvuQT3EcpoP28SWgClgojmaXLCd2Jft5+aFTKQHeo3xw==
-X-Received: by 2002:ac2:44a2:: with SMTP id c2mr30618177lfm.155.1554081311443; 
-	Sun, 31 Mar 2019 18:15:11 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	j27sm1555686lfk.97.2019.03.31.18.15.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 18:15:10 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 03:15:09 +0200
-Message-Id: <20190401011509.8624-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libxrandr: update to 1.5.2
+	Mon,  1 Apr 2019 09:43:50 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 1 Apr 2019 09:43:52 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Apr 2019 09:44:26 +0800
+Message-ID: <20190401014426.7094-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: 8AC404CD6546.A7A13
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libatomic-ops:upgrade 7.6.8 -> 7.6.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 01:15:11 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 01:43:49 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+-Upgrade from libatomic-ops_7.6.8.bb to libatomic-ops_7.6.10.bb.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../xorg-lib/{libxrandr_1.5.1.bb => libxrandr_1.5.2.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxrandr_1.5.1.bb => libxrandr_1.5.2.bb} (81%)
+ .../libatomic-ops/libatomic-ops_7.6.10.bb     | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb
-similarity index 81%
-rename from meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb
-index b90ebc6232..53a8335d64 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb
-@@ -19,5 +19,5 @@ XORG_PN = "libXrandr"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "28e486f1d491b757173dd85ba34ee884"
--SRC_URI[sha256sum] = "1ff9e7fa0e4adea912b16a5f0cfa7c1d35b0dcda0e216831f7715c8a3abcf51a"
-+SRC_URI[md5sum] = "18f3b20d522f45e4dadd34afb5bea048"
-+SRC_URI[sha256sum] = "8aea0ebe403d62330bb741ed595b53741acf45033d3bda1792f1d4cc3daee023"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
+new file mode 100644
+index 0000000000..7628eedb1b
+--- /dev/null
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
+@@ -0,0 +1,22 @@
++SUMMARY = "A library for atomic integer operations"
++HOMEPAGE = "https://github.com/ivmai/libatomic_ops/"
++SECTION = "optional"
++PROVIDES += "libatomics-ops"
++LICENSE = "GPLv2 & MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
++                    "
++
++SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
++UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases"
++
++SRC_URI[md5sum] = "90a78a84d9c28ce11f331c25289bfbd0"
++SRC_URI[sha256sum] = "587edf60817f56daf1e1ab38a4b3c729b8e846ff67b4f62a6157183708f099af"
++
++S = "${WORKDIR}/libatomic_ops-${PV}"
++
++ALLOW_EMPTY_${PN} = "1"
++
++inherit autotools pkgconfig
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+2.20.1
+
+
 
 
