@@ -1,47 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id AD933606B2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A60657BF09
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 10:31:40 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id b9so7238911iot.13
+	Mon,  1 Apr 2019 10:44:49 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r4so11337544wrq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 03:31:42 -0700 (PDT)
+	Mon, 01 Apr 2019 03:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nQAYmJ9axARuAWkCBH/2gXi/bmoIMmS++Iek/D8gzCg=;
-	b=XdhUpgIBMKBItu4/HH/ebOW4mell+wGZRgLsIdB1Iodj6u3vdOBMa5MeaweOCzIZQa
-	4WbbDifGWpPNiGZ7MBIHHlGJJYUSJNENVTsfG+o3KhOkrPgLpXXZ5PMj08hfyK0OkWsI
-	osvgWvLMaMun5Ro67LUCwvpqqQZrjiH7e+5rJOe1ZlVx0mkPMEFH37idQ1h6DZD/11g4
-	QUZQ53K/nJLuLnplTy3uZ6GtgEBnQdPdXQdLKmiqV8126cmAvgvR4JWMDyuk1P3wyRno
-	PnbV1oFxqmgs/dYfVf9DhAUKcCwlT4z63XIzwSc5yRwoAyydkPL0s9FfQAkTPoOaD1wq
-	NB8A==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=YLUMM+frJcIFH3pl/ZSwygW4iXCwXZdjQrKRxkqJecE=;
+	b=SoYV7Sxva7+tKZ53gKLIrrmQqctHlt0Ai0L9Wb1DhTTh2sgAohcHuHRC2jY6E3TC2h
+	MJ0FHXfpEaCv1ZyJCmzzYE8xNQLIH9iYaqRLSiooAUXr2fB6NLl5QenoSzsy/UeKXLN2
+	KtBjC1QlmDraqrzCn7LX/r1LQ/ZnAdE8IFbDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=nQAYmJ9axARuAWkCBH/2gXi/bmoIMmS++Iek/D8gzCg=;
-	b=ScHBTFmoUyRLmutzWnczoYJK7cg8NDEoFI6t6O/mYjjR5S68CYchuJn7RRxPYNCYr/
-	OrcS0ALbdBOjHOwbt0mlXpfGnbLX7TzsRSlAl9btPUhHhfTz8vvVfCF6CR1bAXR0XrT1
-	KTqZ+htnnQ6rArVxbV0n+75qZ3AT9UthlyymZXcHbjfOEEsL300faH8bVZAtjHMo+TSS
-	eaoHNu7lY2myHeDoldhta+Tsw5CkgIucj9MM9qsYq7jcs6YmEoxjWY+Uco6Lg4XjfT9J
-	2MUm4ZRPxWb+gTcOCbfe45vm5vEA1NoSv6NYrGe9FrbIicFWp5eaccjp/5PhCh0S9Rwj
-	wbAQ==
-X-Gm-Message-State: APjAAAVVVpNSlLP0KldXc72tCXK15WDU0ChtZck5mmvXuW0BNf3627hy
-	Sd7HgO3gCxOsfE1k3SOHZVzi/3EXmN2VRiscxOs/BBpb
-X-Google-Smtp-Source: APXvYqzXIr0TH7sqUohAY4wF+s9q0cCyOLOIF4j21GLxRkntiJNkFmNEr4o2fka0l26f+VrtmjH/YiPUDw9ZWRZIWpY=
-X-Received: by 2002:a5d:8795:: with SMTP id f21mr42378216ion.20.1554114701717; 
-	Mon, 01 Apr 2019 03:31:41 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=YLUMM+frJcIFH3pl/ZSwygW4iXCwXZdjQrKRxkqJecE=;
+	b=W6IwVRqQLiah/OB7ufTPdRyzTCZYZo8iIaX/nItstXRyNf9wWg80E/hhK/BYjJ8gdz
+	2wwNVttlg0iQdG3v+Ojbq9NimPGHK+xNlyWoDcPtaQZrx0V0MASU+g6sg05YbXbFuoMD
+	T/I7WaB2kYvojYMREjHt9d1hMDwqkk+d7CGwu5pGjmFzt8DRFy40eJSll3zyPzN4zvBm
+	r4rbLzyZ0BMMDSkskkWbakc7dN8RPQjJNiqzo0CVPJL8lIiZBp/3f7cK/H9MEdrulfnT
+	5xOBOmMuPnRn2pfYvkoV47YxlxHxfCF1zCEYm6vuoALSIKffVm3BUBzieaUOs+PT3aD+
+	oDxA==
+X-Gm-Message-State: APjAAAVvV7U1ckzeRp2bhF8nDV5mZPPGBvrJ7X7/NjjRaebVNhQv7bnz
+	L2Up6LN40/aeHELCEONZArRxAw==
+X-Google-Smtp-Source: APXvYqxx/lvCCHJ5P4K86hshLzpVH/kZX8YiU01FKlhaU2NI4QLcAxyOS7lzf8VSOSh5RXPDYFWNSA==
+X-Received: by 2002:adf:fa86:: with SMTP id h6mr33242489wrr.67.1554115490340; 
+	Mon, 01 Apr 2019 03:44:50 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o130sm15219470wmo.43.2019.04.01.03.44.49
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 01 Apr 2019 03:44:49 -0700 (PDT)
+Message-ID: <b8022f1a28c2bf5c32ddcbb498bf9a3ede0dc181.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 01 Apr 2019 11:44:48 +0100
+In-Reply-To: <20190329142905.20123-3-ross.burton@intel.com>
+References: <20190329142905.20123-1-ross.burton@intel.com>
+	<20190329142905.20123-3-ross.burton@intel.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-References: <20190331010109.8941-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20190331010109.8941-1-open.source@oleksandr-kravchuk.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 10:31:30 +0000
-Message-ID: <CAJTo0LYRH-ME6XTfsZXCkkth5xGG5AtyT4=_Cf0GWRY7O6qUMw@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fontconfig: update to 2.13.1
+Subject: Re: [PATCH 3/3] gtk-icon-cache: clean up DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +59,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 10:31:40 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 10:44:49 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Please remember to explain what you're doing.
+On Fri, 2019-03-29 at 14:29 +0000, Ross Burton wrote:
+> Instead of using DEPENDS += use _append to ensure that these additions can't get
+> overwritten.
+> 
+> Also use gtk+3-native instead gtk-icon-utils-native as that recipe no longer
+> exists and is provided by gtk+3-native for compatibility.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/gtk-icon-cache.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+> index d87167aec09..3572f62ebb6 100644
+> --- a/meta/classes/gtk-icon-cache.bbclass
+> +++ b/meta/classes/gtk-icon-cache.bbclass
+> @@ -1,8 +1,8 @@
+>  FILES_${PN} += "${datadir}/icons/hicolor"
+>  
+> -DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk-icon-utils-native"
+> +DEPENDS_append = " ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+3-native"
 
-On Sun, 31 Mar 2019 at 02:01, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->  LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
->                      file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
-> -                    file://src/fccache.c;beginline=1367;endline=1382;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
-> +                    file://src/fccache.c;beginline=1671;endline=1686;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
+I don't mind the changes themselves but I do have a bit of an issue
+with changing to use DEPENDS_append.
 
-Why?
+In general recipes should be doing DEPENDS += "xxx", unless its at the
+start of the recipe before any inherits (and even then += is fine).
 
-> -DEPENDS = "expat freetype zlib gperf-native"
-> +DEPENDS = "expat freetype zlib gperf-native util-linux"
+_append is much harder to override and whilst it can be needed (e.g.
+the hoops base.bbclass has to jump through), I'd much prefer to
+encourage people to use +=.
 
-What is this for?
+I appreciate its a style thing and there is no "right" answer but its
+one do have a fairly strong preference over, mainly for the
+overridability. Our _append/_remove/_prepend operators are operators of
+last resort to me.
 
-> -           file://0001-src-fcxml.c-avoid-double-free-of-filename.patch \
-> -           file://0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch \
+Cheers,
 
-As one of these was a backport and the other submitted I guess these
-were merged in this release, but please say so.
+Richard
 
-> -FILES_${PN} =+ "${datadir}/xml/*"
-> +FILES_${PN} =+ "${datadir}/xml/* ${datadir}/gettext/*"
 
-These files are for development purposes so should be in PN-dev.
 
-> -inherit autotools pkgconfig relative_symlinks
-> +inherit autotools pkgconfig relative_symlinks gettext
-
-What is this inherit for?  The point of the inherit is so that a
-recipe can disable NLS (set USE_NLS='no') so does this work, or is
-there actually a hard requirement on gettext-native (in which case
-don't use the class).
-
-Ross
 
